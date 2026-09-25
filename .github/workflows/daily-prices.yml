@@ -1,0 +1,130 @@
+# Daily refresh of the Energy Research Warehouse (ERW) price tables.
+#
+# Modeled on the IRW's metadata-pipeline.yml (github.com/ben-domingue/irw):
+# one scheduled job, the full log kept as an artifact, and an issue opened when
+# the job fails. The steps themselves live in warehouse/run_daily.sh so a local
+# run and this job cannot drift apart; this file adds only setup and the commit.
+#
+# What it does, every day at 14:00 UTC (and on manual dispatch):
+#   1. runs the merge tests (tests/), so a broken idempotent write never runs
+#   2. runs every ISO connector for the last 3 complete operating days. Each
+#      market merges into its file in warehouse/output: new intervals are
+#      appended, intervals already present for the same (entity, variable,
+#      ts_utc) are replaced, nothing is duplicated. A market that is not
+#      complete writes nothing and is named in the commit message.
+#   3. runs erw_validate on every output. A blocked table fails the job and
+#      nothing is committed.
+#   4. commits the updated CSVs and run logs directly to main.
+#      Raw source files (warehouse/raw/) are gitignored and never committed.
+#
+# Why this commits to main directly, unlike the IRW's weekly pull request:
+# the job only records what the ISOs published, the validator is the gate, and
+# every row carries its own provenance. Nothing here publishes to Redivis; that
+# stays a human action (CLAUDE.md).
+#
+# Python 3.12, not the 3.14 used locally: gridstatus 0.36.0 pins lxml~=5.3,
+# which has wheels for 3.12, so requirements.txt installs as written.
+name: daily prices
+
+on:
+  schedule:
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: daily-prices
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    # SPP serves large files slowly; a day without its daily file is read from
+    # 288 interval files. Three days usually finish well inside this.
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+
+      - name: Merge tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Pull and validate
+        env:
+          PYTHON: python
+          DAYS: "3"
+        run: |
+          set -o pipefail
+          bash warehouse/run_daily.sh 2>&1 | tee daily.log
+
+      - name: Keep the full log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-prices-log
+          path: |
+            daily.log
+            runs/
+          retention-days: 90
+
+      - name: Commit the updated tables
+        run: |
+          set -euo pipefail
+          date="$(date -u +%F)"
+          ok="$(awk '$2=="ok"{print $1}' runs/daily_status.txt | tr '\n' ' ' | sed 's/ $//')"
+          failed="$(grep ' failed' runs/daily_status.txt | sed 's/ failed: /: /' | paste -sd ';' - | sed 's/;/; /g' || true)"
+          {
+            echo "### ERW daily prices, $date"
+            echo
+            echo '```'
+            cat runs/daily_status.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$failed" ]; then
+            echo "::warning::markets not written today: $failed"
+          fi
+          # Only the tracked outputs; warehouse/raw/ is gitignored and stays out.
+          git add -- warehouse/output
+          if git diff --cached --quiet; then
+            echo "No table changed today; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Daily prices $date: ok: ${ok:-none}; failed: ${failed:-none}" \
+                     -m "Automated run of .github/workflows/daily-prices.yml (last 3 operating days, merged by entity, variable, ts_utc). All tables passed erw_validate."
+          # main may have moved while the job ran
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Report a failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          {
+            echo "The ERW daily price refresh failed, so nothing was committed today."
+            echo "A validator failure lands here, as does a failed test or install."
+            echo "A single market that was incomplete does not fail the job; it is"
+            echo "named in the day's commit message instead."
+            echo
+            echo "Run: $run_url"
+            echo
+            echo '```'
+            tail -c 40000 daily.log 2>/dev/null || echo "(no log produced)"
+            echo '```'
+          } > issue.md
+          gh issue create --title "ERW daily prices $(date -u +%F) [FAILED]" --body-file issue.md

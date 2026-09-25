@@ -1,0 +1,11 @@
+# Test fixture for tests/test_merge.py: the first 8 data rows of warehouse/output/ercot_dam_hub_prices.csv
+# as committed in session 2 (commit 7b4b517), unchanged. Real ERCOT NP4-190-CD values; see source_url per row.
+entity,variable,ts_utc,value,unit,freq,geo,market,node,source,source_url,retrieved_at,vintage
+ercot:HB_BUSAVG,spp_dam,2026-08-26T05:00:00Z,28.18,USD/MWh,PT1H,US-TX,ercot_dam,HB_BUSAVG,ercot:NP4-190-CD,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949,2026-09-25T06:37:51Z,2026-08-25T17:42:39Z
+ercot:HB_BUSAVG,spp_dam,2026-08-26T06:00:00Z,26.49,USD/MWh,PT1H,US-TX,ercot_dam,HB_BUSAVG,ercot:NP4-190-CD,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949,2026-09-25T06:37:51Z,2026-08-25T17:42:39Z
+ercot:HB_BUSAVG,spp_dam,2026-08-26T07:00:00Z,26.7,USD/MWh,PT1H,US-TX,ercot_dam,HB_BUSAVG,ercot:NP4-190-CD,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949,2026-09-25T06:37:51Z,2026-08-25T17:42:39Z
+ercot:HB_BUSAVG,spp_dam,2026-08-26T08:00:00Z,28.83,USD/MWh,PT1H,US-TX,ercot_dam,HB_BUSAVG,ercot:NP4-190-CD,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949,2026-09-25T06:37:51Z,2026-08-25T17:42:39Z
+ercot:HB_BUSAVG,spp_dam,2026-08-26T09:00:00Z,30.27,USD/MWh,PT1H,US-TX,ercot_dam,HB_BUSAVG,ercot:NP4-190-CD,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949,2026-09-25T06:37:51Z,2026-08-25T17:42:39Z
+ercot:HB_BUSAVG,spp_dam,2026-08-26T10:00:00Z,33.35,USD/MWh,PT1H,US-TX,ercot_dam,HB_BUSAVG,ercot:NP4-190-CD,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949,2026-09-25T06:37:51Z,2026-08-25T17:42:39Z
+ercot:HB_BUSAVG,spp_dam,2026-08-26T11:00:00Z,36.18,USD/MWh,PT1H,US-TX,ercot_dam,HB_BUSAVG,ercot:NP4-190-CD,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949,2026-09-25T06:37:51Z,2026-08-25T17:42:39Z
+ercot:HB_BUSAVG,spp_dam,2026-08-26T12:00:00Z,33.82,USD/MWh,PT1H,US-TX,ercot_dam,HB_BUSAVG,ercot:NP4-190-CD,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949,2026-09-25T06:37:51Z,2026-08-25T17:42:39Z

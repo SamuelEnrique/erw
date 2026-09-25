@@ -299,18 +299,71 @@ def to_series(rows, iso, variable, freq, market, geo):
     return s.sort_values(["entity", "ts_utc"]).reset_index(drop=True)[SERIES_COLS]
 
 
+SERIES_KEY = ["entity", "variable", "ts_utc"]
+
+
+def read_series(path):
+    """An existing output file as a frame (header comment lines skipped)."""
+    with open(path, encoding="utf-8") as f:
+        n = 0
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    old = pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False, na_values=[])
+    if list(old.columns) != SERIES_COLS:
+        raise RuntimeError(f"{path} has columns {list(old.columns)}, expected {SERIES_COLS}; "
+                           "not merging into a file of another shape")
+    old["value"] = pd.to_numeric(old["value"], errors="raise")
+    return old
+
+
+def merge_series(old, new):
+    """Idempotent merge: new rows replace old rows with the same key, others are kept.
+
+    Key is (entity, variable, ts_utc). Running the same pull twice gives the
+    same file; a pull that overlaps an earlier one never duplicates a row.
+    """
+    if new.duplicated(SERIES_KEY).any():
+        raise RuntimeError("new rows repeat an (entity, variable, ts_utc) key; refusing to merge")
+    new = new.sort_values(SERIES_KEY).reset_index(drop=True)[SERIES_COLS]
+    if old is None or old.empty:
+        return new, {"kept": 0, "replaced": 0, "added": len(new)}
+    old_keys = pd.MultiIndex.from_frame(old[SERIES_KEY])
+    new_keys = pd.MultiIndex.from_frame(new[SERIES_KEY])
+    replaced = old_keys.isin(new_keys)
+    kept = old[~replaced]
+    merged = pd.concat([kept, new], ignore_index=True)
+    merged = merged.sort_values(SERIES_KEY).reset_index(drop=True)[SERIES_COLS]
+    if merged.duplicated(SERIES_KEY).any():
+        raise RuntimeError("merge produced duplicate keys")
+    stats = {"kept": len(kept), "replaced": int(replaced.sum()),
+             "added": len(new) - int(replaced.sum())}
+    return merged, stats
+
+
 def write_csv(series, name, header_lines, log):
+    """Write a series table, merging into any existing file of the same name."""
     path = os.path.join(OUT_DIR, name + ".csv")
+    old = read_series(path) if os.path.exists(path) else None
+    merged, st = merge_series(old, series)
+    merge_line = (f"File holds {len(merged)} rows, {merged['ts_utc'].min()} to "
+                  f"{merged['ts_utc'].max()}. This run wrote {len(series)} rows: {st['added']} new, "
+                  f"{st['replaced']} replacing earlier rows with the same (entity, variable, "
+                  f"ts_utc); {st['kept']} rows are kept from earlier runs. Per row, source, "
+                  "source_url, retrieved_at and vintage say where it came from; earlier run logs "
+                  "are in warehouse/output/logs/.")
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8", newline="") as f:
-        for line in header_lines:
+        for line in list(header_lines) + [merge_line]:
             f.write("# " + line + "\n")
-        series.to_csv(f, index=False, lineterminator="\n")
+        merged.to_csv(f, index=False, lineterminator="\n")
     os.replace(tmp, path)
-    v = series["value"]
-    summary = (f"{name}.csv: rows={len(series)} "
-               f"range={series['ts_utc'].min()}..{series['ts_utc'].max()} "
-               f"nodes={','.join(sorted(series['node'].unique()))} "
+    v = merged["value"]
+    summary = (f"{name}.csv: rows={len(merged)} (this run {len(series)}: {st['added']} new, "
+               f"{st['replaced']} replaced, {st['kept']} kept) "
+               f"range={merged['ts_utc'].min()}..{merged['ts_utc'].max()} "
+               f"nodes={','.join(sorted(merged['node'].unique()))} "
                f"min={v.min():.2f} max={v.max():.2f} USD/MWh")
     print(summary)
     log("  " + summary)
@@ -337,11 +390,17 @@ def header(iso_label, title, run_id, iso, start, end, tz, sources, notes, fwd=()
     return lines
 
 
+class SourceGap(RuntimeError):
+    """The source confirms the data is not there (e.g. HTTP 404). Not retried."""
+
+
 def with_retries(what, fn, log, attempts=RETRIES, wait=5):
     last = None
     for attempt in range(attempts):
         try:
             return fn()
+        except SourceGap:
+            raise
         except Exception as exc:
             last = exc
             log(f"    retry {attempt + 1}/{attempts} for {what}: {exc!r}")
@@ -960,7 +1019,13 @@ def pull_miso(ctx):
         except Exception as exc:
             if "404" not in repr(exc):
                 raise
-            df = m.get_lmp(date=day, market=Markets.REAL_TIME_HOURLY_PRELIM, locations="ALL")
+            try:
+                df = m.get_lmp(date=day, market=Markets.REAL_TIME_HOURLY_PRELIM, locations="ALL")
+            except Exception as exc2:
+                if "404" in repr(exc2):
+                    raise SourceGap(f"MISO has published neither the final nor the prelim "
+                                    f"real-time LMP file for {day.date()} (HTTP 404)") from exc2
+                raise
             df["_source"] = "miso:rt_lmp_prelim"
         return df
 
@@ -1016,8 +1081,18 @@ def pull_spp(ctx):
             if "404" not in repr(exc):
                 raise
         stamps = pd.date_range(day, day + pd.Timedelta(days=1), freq="5min", inclusive="left")
-        parts = [with_retries(f"SPP RTBM interval {t}", lambda t=t: s.get_lmp_real_time_5_min_by_location(
-            date=t, location_type="Hub"), ctx["log"]) for t in stamps]
+        parts = []
+        for t in stamps:
+            # the portal sometimes answers an existing file with an empty 200, so a
+            # few retries; a file still absent after them is a gap at SPP, and the
+            # day fails at once instead of being re-fetched as a whole
+            try:
+                parts.append(with_retries(f"SPP RTBM interval {t}",
+                                          lambda t=t: s.get_lmp_real_time_5_min_by_location(
+                                              date=t, location_type="Hub"), ctx["log"]))
+            except RuntimeError as exc:
+                raise SourceGap(f"SPP has no daily RTBM file for {day.date()} and its interval "
+                                f"file for {t} is missing: {exc}") from exc
         return pd.concat(parts, ignore_index=True)
 
     ctx["reports"] = {

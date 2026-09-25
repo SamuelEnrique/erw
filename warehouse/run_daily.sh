@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# Energy Research Warehouse (ERW) daily price refresh.
+#
+# The exact sequence .github/workflows/daily-prices.yml runs, kept in one
+# script so that a local run and the scheduled run cannot drift apart
+# (ARCHITECTURE.md, rule 2). The workflow adds only the commit and push.
+#
+#   bash warehouse/run_daily.sh                 # all ISOs, last 3 operating days
+#   DAYS=30 bash warehouse/run_daily.sh
+#   PYTHON=.venv/Scripts/python bash warehouse/run_daily.sh
+#
+# Steps:
+#   1. every ISO connector for the last $DAYS complete operating days. Each
+#      market is written only if complete, and merges into its existing file:
+#      new intervals are appended, intervals already present for the same
+#      (entity, variable, ts_utc) are replaced, nothing is duplicated.
+#      A failed market is recorded and the run continues with the others.
+#   2. erw_validate on every file in warehouse/output. Any blocked file ends
+#      the run with exit 1, before anything is committed.
+#
+# Writes runs/daily_status.txt (gitignored): one line per ISO, used by the
+# workflow for its commit message.
+
+set -uo pipefail
+
+PYTHON="${PYTHON:-python}"
+DAYS="${DAYS:-3}"
+ISOS="${ISOS:-ercot caiso nyiso miso spp isone}"
+
+cd "$(dirname "$0")/.."
+mkdir -p runs
+status=runs/daily_status.txt
+: > "$status"
+
+echo "== ERW daily refresh $(date -u +%FT%TZ): ISOs: $ISOS; days: $DAYS"
+for iso in $ISOS; do
+  out="runs/daily_${iso}.out"
+  "$PYTHON" warehouse/connectors/iso_prices.py "$iso" --days "$DAYS" > "$out" 2>&1
+  rc=$?
+  grep -E "\.csv: rows=|FAILED|run log:" "$out" | grep -vE " - (INFO|DEBUG|WARNING) - "
+  failed=$(grep -oE "^${iso} (DAM|RTM) FAILED" "$out" | awk '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ $//')
+  if [ "$rc" -eq 0 ]; then
+    echo "$iso ok" >> "$status"
+  elif [ -n "$failed" ]; then
+    echo "$iso failed: $failed" >> "$status"
+  else
+    echo "$iso failed: connector exit $rc" >> "$status"
+    tail -20 "$out"
+  fi
+done
+echo "== connector status"
+cat "$status"
+
+echo "== validator"
+"$PYTHON" warehouse/validate/erw_validate.py warehouse/output/*.csv
+vrc=$?
+if [ "$vrc" -ne 0 ]; then
+  echo "erw_validate exit $vrc: at least one table is blocked; stopping before commit"
+  exit 1
+fi
+
+echo "== done"
