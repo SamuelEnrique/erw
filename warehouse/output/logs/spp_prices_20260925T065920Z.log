@@ -1,0 +1,169 @@
+ERW spp_prices run 20260925T065920Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 30 operating days, 2026-08-26 00:00:00-05:00 to 2026-09-25 00:00:00-05:00 (exclusive), UTC [2026-08-26T05:00:00Z, 2026-09-25T05:00:00Z)
+raw files: warehouse\raw\spp\20260925T065920Z
+DAM: SPP DA-LMP-SL via SPP.get_lmp_day_ahead_hourly(Hub)
+  DAM 2026-08-26: 48 rows from 1 file(s)
+    20260925T065956.412178Z_00004_da-lmp-by-settlement-location_path_2026_08_By_Day_DA-LMP-SL-202608260100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/08/By_Day/DA-LMP-SL-202608260100.csv last-modified=
+  DAM 2026-08-27: 48 rows from 1 file(s)
+    20260925T065958.825877Z_00006_da-lmp-by-settlement-location_path_2026_08_By_Day_DA-LMP-SL-202608270100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/08/By_Day/DA-LMP-SL-202608270100.csv last-modified=
+  DAM 2026-08-28: 48 rows from 1 file(s)
+    20260925T065954.176159Z_00003_da-lmp-by-settlement-location_path_2026_08_By_Day_DA-LMP-SL-202608280100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/08/By_Day/DA-LMP-SL-202608280100.csv last-modified=
+  DAM 2026-08-29: 48 rows from 1 file(s)
+    20260925T065953.990788Z_00002_da-lmp-by-settlement-location_path_2026_08_By_Day_DA-LMP-SL-202608290100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/08/By_Day/DA-LMP-SL-202608290100.csv last-modified=
+  DAM 2026-08-30: 48 rows from 1 file(s)
+    20260925T065957.467684Z_00005_da-lmp-by-settlement-location_path_2026_08_By_Day_DA-LMP-SL-202608300100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/08/By_Day/DA-LMP-SL-202608300100.csv last-modified=
+  DAM 2026-08-31: 48 rows from 1 file(s)
+    20260925T065951.299729Z_00001_da-lmp-by-settlement-location_path_2026_08_By_Day_DA-LMP-SL-202608310100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/08/By_Day/DA-LMP-SL-202608310100.csv last-modified=
+  DAM 2026-09-01: 48 rows from 1 file(s)
+    20260925T070029.182290Z_00009_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609010100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609010100.csv last-modified=
+  DAM 2026-09-02: 48 rows from 1 file(s)
+    20260925T070028.704263Z_00008_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609020100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609020100.csv last-modified=
+  DAM 2026-09-03: 48 rows from 1 file(s)
+    20260925T070027.749189Z_00007_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609030100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609030100.csv last-modified=
+  DAM 2026-09-04: 48 rows from 1 file(s)
+    20260925T070032.867585Z_00012_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609040100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609040100.csv last-modified=
+  DAM 2026-09-05: 48 rows from 1 file(s)
+    20260925T070032.510863Z_00011_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609050100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609050100.csv last-modified=
+  DAM 2026-09-06: 48 rows from 1 file(s)
+    20260925T070031.699028Z_00010_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609060100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609060100.csv last-modified=
+  DAM 2026-09-07: 48 rows from 1 file(s)
+    20260925T070108.533640Z_00013_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609070100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609070100.csv last-modified=
+  DAM 2026-09-08: 48 rows from 1 file(s)
+    20260925T070111.322965Z_00014_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609080100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609080100.csv last-modified=
+  DAM 2026-09-09: 48 rows from 1 file(s)
+    20260925T070111.997415Z_00015_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609090100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609090100.csv last-modified=
+  DAM 2026-09-10: 48 rows from 1 file(s)
+    20260925T070112.348480Z_00016_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609100100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609100100.csv last-modified=
+  DAM 2026-09-11: 48 rows from 1 file(s)
+    20260925T070118.724001Z_00017_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609110100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609110100.csv last-modified=
+  DAM 2026-09-12: 48 rows from 1 file(s)
+    20260925T070122.294603Z_00018_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609120100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609120100.csv last-modified=
+  DAM 2026-09-13: 48 rows from 1 file(s)
+    20260925T070141.079718Z_00019_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609130100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609130100.csv last-modified=
+  DAM 2026-09-14: 48 rows from 1 file(s)
+    20260925T070148.723139Z_00022_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609140100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609140100.csv last-modified=
+  DAM 2026-09-15: 48 rows from 1 file(s)
+    20260925T070145.764622Z_00020_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609150100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609150100.csv last-modified=
+  DAM 2026-09-16: 48 rows from 1 file(s)
+    20260925T070148.304101Z_00021_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609160100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609160100.csv last-modified=
+  DAM 2026-09-17: 48 rows from 1 file(s)
+    20260925T070153.147436Z_00023_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609170100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609170100.csv last-modified=
+  DAM 2026-09-18: 48 rows from 1 file(s)
+    20260925T070154.784006Z_00024_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609180100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609180100.csv last-modified=
+  DAM 2026-09-19: 48 rows from 1 file(s)
+    20260925T070218.837574Z_00025_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609190100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609190100.csv last-modified=
+  DAM 2026-09-20: 48 rows from 1 file(s)
+    20260925T070222.186555Z_00026_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609200100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609200100.csv last-modified=
+  DAM 2026-09-21: 48 rows from 1 file(s)
+    20260925T070226.273981Z_00027_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609210100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609210100.csv last-modified=
+  DAM 2026-09-22: 48 rows from 1 file(s)
+    20260925T070228.654106Z_00028_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609220100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609220100.csv last-modified=
+  DAM 2026-09-23: 48 rows from 1 file(s)
+    20260925T070234.894968Z_00029_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609230100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609230100.csv last-modified=
+  DAM 2026-09-24: 48 rows from 1 file(s)
+    20260925T070236.344134Z_00030_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609240100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609240100.csv last-modified=
+  DAM forward 2026-09-25: 48 rows from 1 file(s)
+    20260925T070315.310140Z_00031_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609250100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609250100.csv last-modified=
+  DAM forward 2026-09-26: not available (HTTPError: HTTP Error 404: ), skipped
+  forward DAM day 2026-09-25: complete, included (48 rows)
+  interval length: all 1440 rows are 60 minutes
+  complete: 2 nodes x 720 intervals
+  distinct source_url values: 31
+  spp_dam_hub_prices.csv: rows=1488 range=2026-08-26T05:00:00Z..2026-09-26T04:00:00Z nodes=SPPNORTH_HUB,SPPSOUTH_HUB min=-7.83 max=228.31 USD/MWh
+RTM: SPP RTBM-LMP-SL via SPP.get_lmp_real_time_5_min_by_location(Hub), aggregated to 15-minute means
+    retry 1/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 1/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 1/4 for RTM 2026-09-22: RuntimeError("SPP RTBM interval 2026-09-22 14:05:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')")
+    retry 1/4 for RTM 2026-09-21: RuntimeError("SPP RTBM interval 2026-09-21 15:15:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')")
+    retry 1/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 1/4 for RTM 2026-09-23: RuntimeError("SPP RTBM interval 2026-09-23 16:20:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')")
+    retry 1/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 1/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 2/4 for RTM 2026-09-22: RuntimeError("SPP RTBM interval 2026-09-22 14:05:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')")
+    retry 4/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 2/4 for RTM 2026-09-21: RuntimeError("SPP RTBM interval 2026-09-21 15:15:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')")
+    retry 1/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 2/4 for RTM 2026-09-23: RuntimeError("SPP RTBM interval 2026-09-23 16:20:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')")
+    retry 1/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 3/4 for RTM 2026-09-22: RuntimeError("SPP RTBM interval 2026-09-22 14:05:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')")
+    retry 1/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 3/4 for RTM 2026-09-21: RuntimeError("SPP RTBM interval 2026-09-21 15:15:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')")
+    retry 1/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 3/4 for RTM 2026-09-23: RuntimeError("SPP RTBM interval 2026-09-23 16:20:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')")
+    retry 1/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 4/4 for RTM 2026-09-22: RuntimeError("SPP RTBM interval 2026-09-22 14:05:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')")
+    retry 1/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-21 15:15:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')
+    retry 4/4 for RTM 2026-09-21: RuntimeError("SPP RTBM interval 2026-09-21 15:15:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')")
+    retry 1/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 4/4 for RTM 2026-09-23: RuntimeError("SPP RTBM interval 2026-09-23 16:20:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')")
+RTM FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 540, in run_iso
+    optional=True, what=spec["name"] + " forward",
+    ^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 503, in run_market
+    log(f"  aggregated {len(rows)} 5-minute rows to {len(agg)} 15-minute means")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return agg[["node", "interval_start", "value", "source", "source_url", "retrieved_at", "vintage"]]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 368, in pull_days
+    try:
+    
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 645, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 312, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 359, in one
+    mistaken for the source; when exactly one data file supplied the day,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 338, in with_retries
+RuntimeError: RTM 2026-09-21 failed after 4 attempts: RuntimeError("SPP RTBM interval 2026-09-21 15:15:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/21/RTBM-LMP-SL-202609211520.csv')")
+
+done, failures=1

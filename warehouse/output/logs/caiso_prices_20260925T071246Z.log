@@ -1,0 +1,140 @@
+ERW caiso_prices run 20260925T071246Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 30 operating days, 2026-08-26 00:00:00-07:00 to 2026-09-25 00:00:00-07:00 (exclusive), UTC [2026-08-26T07:00:00Z, 2026-09-25T07:00:00Z)
+raw files: warehouse\raw\caiso\20260925T071246Z
+DAM: CAISO OASIS PRC_LMP via CAISO.get_lmp(DAY_AHEAD_HOURLY)
+  DAM 2026-08-26: 72 rows from 1 data file(s) (1 responses)
+    20260925T071246.638869Z_00001_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260826T07:00-0000&enddatetime=20260827T07:00-0000 last-modified=
+  DAM 2026-08-27: 72 rows from 1 data file(s) (1 responses)
+    20260925T071252.216034Z_00002_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260827T07:00-0000&enddatetime=20260828T07:00-0000 last-modified=
+  DAM 2026-08-28: 72 rows from 1 data file(s) (1 responses)
+    20260925T071257.681324Z_00003_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260828T07:00-0000&enddatetime=20260829T07:00-0000 last-modified=
+  DAM 2026-08-29: 72 rows from 1 data file(s) (1 responses)
+    20260925T071303.064873Z_00004_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260829T07:00-0000&enddatetime=20260830T07:00-0000 last-modified=
+  DAM 2026-08-30: 72 rows from 1 data file(s) (1 responses)
+    20260925T071308.482231Z_00005_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260830T07:00-0000&enddatetime=20260831T07:00-0000 last-modified=
+  DAM 2026-08-31: 72 rows from 1 data file(s) (1 responses)
+    20260925T071313.888896Z_00006_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260831T07:00-0000&enddatetime=20260901T07:00-0000 last-modified=
+  DAM 2026-09-01: 72 rows from 1 data file(s) (1 responses)
+    20260925T071319.227508Z_00007_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260901T07:00-0000&enddatetime=20260902T07:00-0000 last-modified=
+  DAM 2026-09-02: 72 rows from 1 data file(s) (1 responses)
+    20260925T071324.612704Z_00008_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260902T07:00-0000&enddatetime=20260903T07:00-0000 last-modified=
+  DAM 2026-09-03: 72 rows from 1 data file(s) (1 responses)
+    20260925T071330.007066Z_00009_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260903T07:00-0000&enddatetime=20260904T07:00-0000 last-modified=
+  DAM 2026-09-04: 72 rows from 1 data file(s) (1 responses)
+    20260925T071335.413352Z_00010_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260904T07:00-0000&enddatetime=20260905T07:00-0000 last-modified=
+  DAM 2026-09-05: 72 rows from 1 data file(s) (1 responses)
+    20260925T071340.859651Z_00011_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260905T07:00-0000&enddatetime=20260906T07:00-0000 last-modified=
+  DAM 2026-09-06: 72 rows from 1 data file(s) (1 responses)
+    20260925T071346.277797Z_00012_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260906T07:00-0000&enddatetime=20260907T07:00-0000 last-modified=
+  DAM 2026-09-07: 72 rows from 1 data file(s) (1 responses)
+    20260925T071351.689418Z_00013_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260907T07:00-0000&enddatetime=20260908T07:00-0000 last-modified=
+  DAM 2026-09-08: 72 rows from 1 data file(s) (1 responses)
+    20260925T071357.218337Z_00014_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260908T07:00-0000&enddatetime=20260909T07:00-0000 last-modified=
+  DAM 2026-09-09: 72 rows from 1 data file(s) (1 responses)
+    20260925T071402.667899Z_00015_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260909T07:00-0000&enddatetime=20260910T07:00-0000 last-modified=
+  DAM 2026-09-10: 72 rows from 1 data file(s) (1 responses)
+    20260925T071408.153117Z_00016_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260910T07:00-0000&enddatetime=20260911T07:00-0000 last-modified=
+  DAM 2026-09-11: 72 rows from 1 data file(s) (1 responses)
+    20260925T071413.605172Z_00017_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260911T07:00-0000&enddatetime=20260912T07:00-0000 last-modified=
+  DAM 2026-09-12: 72 rows from 1 data file(s) (1 responses)
+    20260925T071419.084610Z_00018_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260912T07:00-0000&enddatetime=20260913T07:00-0000 last-modified=
+  DAM 2026-09-13: 72 rows from 1 data file(s) (1 responses)
+    20260925T071424.535306Z_00019_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260913T07:00-0000&enddatetime=20260914T07:00-0000 last-modified=
+  DAM 2026-09-14: 72 rows from 1 data file(s) (1 responses)
+    20260925T071429.988313Z_00020_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260914T07:00-0000&enddatetime=20260915T07:00-0000 last-modified=
+  DAM 2026-09-15: 72 rows from 1 data file(s) (1 responses)
+    20260925T071435.438052Z_00021_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260915T07:00-0000&enddatetime=20260916T07:00-0000 last-modified=
+  DAM 2026-09-16: 72 rows from 1 data file(s) (1 responses)
+    20260925T071440.898372Z_00022_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260916T07:00-0000&enddatetime=20260917T07:00-0000 last-modified=
+  DAM 2026-09-17: 72 rows from 1 data file(s) (1 responses)
+    20260925T071446.310821Z_00023_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260917T07:00-0000&enddatetime=20260918T07:00-0000 last-modified=
+  DAM 2026-09-18: 72 rows from 1 data file(s) (1 responses)
+    20260925T071451.702060Z_00024_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260918T07:00-0000&enddatetime=20260919T07:00-0000 last-modified=
+  DAM 2026-09-19: 72 rows from 1 data file(s) (1 responses)
+    20260925T071457.530623Z_00025_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260919T07:00-0000&enddatetime=20260920T07:00-0000 last-modified=
+  DAM 2026-09-20: 72 rows from 1 data file(s) (1 responses)
+    20260925T071502.975834Z_00026_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260920T07:00-0000&enddatetime=20260921T07:00-0000 last-modified=
+  DAM 2026-09-21: 72 rows from 1 data file(s) (1 responses)
+    20260925T071508.363956Z_00027_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260921T07:00-0000&enddatetime=20260922T07:00-0000 last-modified=
+  DAM 2026-09-22: 72 rows from 1 data file(s) (1 responses)
+    20260925T071513.729612Z_00028_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260922T07:00-0000&enddatetime=20260923T07:00-0000 last-modified=
+  DAM 2026-09-23: 72 rows from 1 data file(s) (1 responses)
+    20260925T071519.071923Z_00029_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260923T07:00-0000&enddatetime=20260924T07:00-0000 last-modified=
+  DAM 2026-09-24: 72 rows from 1 data file(s) (1 responses)
+    20260925T071524.533694Z_00030_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260924T07:00-0000&enddatetime=20260925T07:00-0000 last-modified=
+  DAM forward 2026-09-25: 72 rows from 1 data file(s) (1 responses)
+    20260925T071530.243311Z_00031_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260925T07:00-0000&enddatetime=20260926T07:00-0000 last-modified=
+  DAM forward 2026-09-26: not available (ValueError: No objects to concatenate), skipped
+  forward DAM day 2026-09-25: complete, included (72 rows)
+  interval length: all 2160 rows are 60 minutes
+  complete: 3 nodes x 720 intervals
+  distinct source_url values: 31
+  caiso_dam_hub_prices.csv: rows=2232 range=2026-08-26T07:00:00Z..2026-09-26T06:00:00Z nodes=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND min=-0.62 max=201.00 USD/MWh
+RTM: CAISO OASIS PRC_INTVL_LMP via CAISO.get_lmp(REAL_TIME_5_MIN), aggregated to 15-minute means
+  RTM 2026-08-26: 864 rows from 1 data file(s) (1 responses)
+    20260925T071541.876921Z_00033_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260826T07:00-0000&enddatetime=20260827T07:00-0000 last-modified=
+  RTM 2026-08-27: 864 rows from 1 data file(s) (1 responses)
+    20260925T071548.224702Z_00034_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260827T07:00-0000&enddatetime=20260828T07:00-0000 last-modified=
+  RTM 2026-08-28: 864 rows from 1 data file(s) (1 responses)
+    20260925T071554.562448Z_00035_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260828T07:00-0000&enddatetime=20260829T07:00-0000 last-modified=
+  RTM 2026-08-29: 864 rows from 1 data file(s) (1 responses)
+    20260925T071601.577781Z_00036_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260829T07:00-0000&enddatetime=20260830T07:00-0000 last-modified=
+  RTM 2026-08-30: 864 rows from 1 data file(s) (1 responses)
+    20260925T071609.115172Z_00037_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260830T07:00-0000&enddatetime=20260831T07:00-0000 last-modified=
+  RTM 2026-08-31: 864 rows from 1 data file(s) (1 responses)
+    20260925T071616.754609Z_00038_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260831T07:00-0000&enddatetime=20260901T07:00-0000 last-modified=
+  RTM 2026-09-01: 864 rows from 1 data file(s) (1 responses)
+    20260925T071624.791911Z_00039_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260901T07:00-0000&enddatetime=20260902T07:00-0000 last-modified=
+  RTM 2026-09-02: 864 rows from 1 data file(s) (1 responses)
+    20260925T071632.771007Z_00040_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260902T07:00-0000&enddatetime=20260903T07:00-0000 last-modified=
+  RTM 2026-09-03: 864 rows from 1 data file(s) (1 responses)
+    20260925T071640.666857Z_00041_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260903T07:00-0000&enddatetime=20260904T07:00-0000 last-modified=
+  RTM 2026-09-04: 864 rows from 1 data file(s) (1 responses)
+    20260925T071648.277830Z_00042_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260904T07:00-0000&enddatetime=20260905T07:00-0000 last-modified=
+  RTM 2026-09-05: 864 rows from 1 data file(s) (1 responses)
+    20260925T071655.837984Z_00043_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260905T07:00-0000&enddatetime=20260906T07:00-0000 last-modified=
+  RTM 2026-09-06: 864 rows from 1 data file(s) (1 responses)
+    20260925T071703.952946Z_00044_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260906T07:00-0000&enddatetime=20260907T07:00-0000 last-modified=
+  RTM 2026-09-07: 864 rows from 1 data file(s) (1 responses)
+    20260925T071711.970684Z_00045_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260907T07:00-0000&enddatetime=20260908T07:00-0000 last-modified=
+  RTM 2026-09-08: 864 rows from 1 data file(s) (1 responses)
+    20260925T071718.617792Z_00046_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260908T07:00-0000&enddatetime=20260909T07:00-0000 last-modified=
+  RTM 2026-09-09: 864 rows from 1 data file(s) (1 responses)
+    20260925T071724.923505Z_00047_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260909T07:00-0000&enddatetime=20260910T07:00-0000 last-modified=
+  RTM 2026-09-10: 864 rows from 1 data file(s) (1 responses)
+    20260925T071731.156953Z_00048_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260910T07:00-0000&enddatetime=20260911T07:00-0000 last-modified=
+  RTM 2026-09-11: 864 rows from 1 data file(s) (1 responses)
+    20260925T071737.629469Z_00049_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260911T07:00-0000&enddatetime=20260912T07:00-0000 last-modified=
+  RTM 2026-09-12: 864 rows from 1 data file(s) (1 responses)
+    20260925T071743.904105Z_00050_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260912T07:00-0000&enddatetime=20260913T07:00-0000 last-modified=
+  RTM 2026-09-13: 864 rows from 1 data file(s) (1 responses)
+    20260925T071750.126683Z_00051_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260913T07:00-0000&enddatetime=20260914T07:00-0000 last-modified=
+  RTM 2026-09-14: 864 rows from 1 data file(s) (1 responses)
+    20260925T071756.323660Z_00052_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260914T07:00-0000&enddatetime=20260915T07:00-0000 last-modified=
+  RTM 2026-09-15: 864 rows from 1 data file(s) (1 responses)
+    20260925T071802.447374Z_00053_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260915T07:00-0000&enddatetime=20260916T07:00-0000 last-modified=
+  RTM 2026-09-16: 864 rows from 1 data file(s) (1 responses)
+    20260925T071808.573775Z_00054_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260916T07:00-0000&enddatetime=20260917T07:00-0000 last-modified=
+  RTM 2026-09-17: 864 rows from 1 data file(s) (1 responses)
+    20260925T071814.745924Z_00055_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260917T07:00-0000&enddatetime=20260918T07:00-0000 last-modified=
+  RTM 2026-09-18: 864 rows from 1 data file(s) (1 responses)
+    20260925T071820.933407Z_00056_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260918T07:00-0000&enddatetime=20260919T07:00-0000 last-modified=
+  RTM 2026-09-19: 864 rows from 1 data file(s) (1 responses)
+    20260925T071827.173158Z_00057_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260919T07:00-0000&enddatetime=20260920T07:00-0000 last-modified=
+  RTM 2026-09-20: 864 rows from 1 data file(s) (1 responses)
+    20260925T071833.560711Z_00058_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260920T07:00-0000&enddatetime=20260921T07:00-0000 last-modified=
+  RTM 2026-09-21: 864 rows from 1 data file(s) (1 responses)
+    20260925T071839.770676Z_00059_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260921T07:00-0000&enddatetime=20260922T07:00-0000 last-modified=
+  RTM 2026-09-22: 864 rows from 1 data file(s) (1 responses)
+    20260925T071845.960988Z_00060_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260922T07:00-0000&enddatetime=20260923T07:00-0000 last-modified=
+  RTM 2026-09-23: 864 rows from 1 data file(s) (1 responses)
+    20260925T071852.026545Z_00061_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260923T07:00-0000&enddatetime=20260924T07:00-0000 last-modified=
+  RTM 2026-09-24: 864 rows from 1 data file(s) (1 responses)
+    20260925T071858.114813Z_00062_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260924T07:00-0000&enddatetime=20260925T07:00-0000 last-modified=
+  interval length: all 25920 rows are 5 minutes
+  aggregated 25920 5-minute rows to 8640 15-minute means
+  complete: 3 nodes x 2880 intervals
+  distinct source_url values: 30
+  caiso_rtm_hub_prices.csv: rows=8640 range=2026-08-26T07:00:00Z..2026-09-25T06:45:00Z nodes=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND min=-46.93 max=1172.61 USD/MWh
+done, failures=0

@@ -1,0 +1,462 @@
+ERW isone_prices run 20260925T065920Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 30 operating days, 2026-08-26 00:00:00-04:00 to 2026-09-25 00:00:00-04:00 (exclusive), UTC [2026-08-26T04:00:00Z, 2026-09-25T04:00:00Z)
+raw files: warehouse\raw\isone\20260925T065920Z
+DAM: ISO-NE DA hourly LMP via ISONE.get_lmp(DAY_AHEAD_HOURLY)
+  DAM 2026-08-26: 216 rows from 3 file(s)
+    20260925T065921.346748Z_00001_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065922.114758Z_00002_WW_DALMP_ISO_20260826.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260826.csv last-modified=Tue, 25 Aug 2026 16:42:05 GMT
+    20260925T065922.114758Z_00002_WW_DALMP_ISO_20260826.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260826.csv last-modified=Tue, 25 Aug 2026 16:42:05 GMT
+  DAM 2026-08-27: 216 rows from 3 file(s)
+    20260925T065924.471162Z_00004_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065925.314690Z_00005_WW_DALMP_ISO_20260827.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260827.csv last-modified=Wed, 26 Aug 2026 16:27:38 GMT
+    20260925T065925.314690Z_00005_WW_DALMP_ISO_20260827.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260827.csv last-modified=Wed, 26 Aug 2026 16:27:38 GMT
+  DAM 2026-08-28: 216 rows from 3 file(s)
+    20260925T065927.820255Z_00007_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065928.539883Z_00008_WW_DALMP_ISO_20260828.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260828.csv last-modified=Thu, 27 Aug 2026 16:12:04 GMT
+    20260925T065928.539883Z_00008_WW_DALMP_ISO_20260828.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260828.csv last-modified=Thu, 27 Aug 2026 16:12:04 GMT
+  DAM 2026-08-29: 216 rows from 3 file(s)
+    20260925T065930.949007Z_00010_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065931.663352Z_00011_WW_DALMP_ISO_20260829.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260829.csv last-modified=Fri, 28 Aug 2026 16:57:13 GMT
+    20260925T065931.663352Z_00011_WW_DALMP_ISO_20260829.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260829.csv last-modified=Fri, 28 Aug 2026 16:57:13 GMT
+  DAM 2026-08-30: 216 rows from 3 file(s)
+    20260925T065934.026067Z_00013_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065934.268224Z_00014_WW_DALMP_ISO_20260830.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260830.csv last-modified=Sat, 29 Aug 2026 16:22:15 GMT
+    20260925T065934.268224Z_00014_WW_DALMP_ISO_20260830.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260830.csv last-modified=Sat, 29 Aug 2026 16:22:15 GMT
+  DAM 2026-08-31: 216 rows from 3 file(s)
+    20260925T065938.054126Z_00016_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065938.293841Z_00017_WW_DALMP_ISO_20260831.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260831.csv last-modified=Sun, 30 Aug 2026 16:42:03 GMT
+    20260925T065938.293841Z_00017_WW_DALMP_ISO_20260831.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260831.csv last-modified=Sun, 30 Aug 2026 16:42:03 GMT
+  DAM 2026-09-01: 216 rows from 3 file(s)
+    20260925T065940.660031Z_00019_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065940.891649Z_00020_WW_DALMP_ISO_20260901.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260901.csv last-modified=Mon, 31 Aug 2026 16:47:13 GMT
+    20260925T065940.891649Z_00020_WW_DALMP_ISO_20260901.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260901.csv last-modified=Mon, 31 Aug 2026 16:47:13 GMT
+  DAM 2026-09-02: 216 rows from 3 file(s)
+    20260925T065943.530974Z_00022_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065944.246231Z_00023_WW_DALMP_ISO_20260902.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260902.csv last-modified=Tue, 01 Sep 2026 16:42:04 GMT
+    20260925T065944.246231Z_00023_WW_DALMP_ISO_20260902.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260902.csv last-modified=Tue, 01 Sep 2026 16:42:04 GMT
+  DAM 2026-09-03: 216 rows from 3 file(s)
+    20260925T065946.447335Z_00025_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065947.149575Z_00026_WW_DALMP_ISO_20260903.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260903.csv last-modified=Wed, 02 Sep 2026 16:53:31 GMT
+    20260925T065947.149575Z_00026_WW_DALMP_ISO_20260903.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260903.csv last-modified=Wed, 02 Sep 2026 16:53:31 GMT
+  DAM 2026-09-04: 216 rows from 3 file(s)
+    20260925T065949.385303Z_00028_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065950.098773Z_00029_WW_DALMP_ISO_20260904.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260904.csv last-modified=Thu, 03 Sep 2026 16:37:13 GMT
+    20260925T065950.098773Z_00029_WW_DALMP_ISO_20260904.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260904.csv last-modified=Thu, 03 Sep 2026 16:37:13 GMT
+  DAM 2026-09-05: 216 rows from 3 file(s)
+    20260925T065952.447769Z_00031_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065952.694861Z_00032_WW_DALMP_ISO_20260905.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260905.csv last-modified=Fri, 04 Sep 2026 17:02:25 GMT
+    20260925T065952.694861Z_00032_WW_DALMP_ISO_20260905.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260905.csv last-modified=Fri, 04 Sep 2026 17:02:25 GMT
+  DAM 2026-09-06: 216 rows from 3 file(s)
+    20260925T065955.209121Z_00034_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065955.918603Z_00035_WW_DALMP_ISO_20260906.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260906.csv last-modified=Sat, 05 Sep 2026 17:02:24 GMT
+    20260925T065955.918603Z_00035_WW_DALMP_ISO_20260906.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260906.csv last-modified=Sat, 05 Sep 2026 17:02:24 GMT
+  DAM 2026-09-07: 216 rows from 3 file(s)
+    20260925T065958.117740Z_00037_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065958.966454Z_00038_WW_DALMP_ISO_20260907.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260907.csv last-modified=Sun, 06 Sep 2026 16:42:14 GMT
+    20260925T065958.966454Z_00038_WW_DALMP_ISO_20260907.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260907.csv last-modified=Sun, 06 Sep 2026 16:42:14 GMT
+  DAM 2026-09-08: 216 rows from 3 file(s)
+    20260925T070001.689419Z_00040_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070002.406911Z_00041_WW_DALMP_ISO_20260908.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260908.csv last-modified=Mon, 07 Sep 2026 17:02:25 GMT
+    20260925T070002.406911Z_00041_WW_DALMP_ISO_20260908.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260908.csv last-modified=Mon, 07 Sep 2026 17:02:25 GMT
+  DAM 2026-09-09: 216 rows from 3 file(s)
+    20260925T070004.544457Z_00043_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070004.800363Z_00044_WW_DALMP_ISO_20260909.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260909.csv last-modified=Tue, 08 Sep 2026 16:57:14 GMT
+    20260925T070004.800363Z_00044_WW_DALMP_ISO_20260909.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260909.csv last-modified=Tue, 08 Sep 2026 16:57:14 GMT
+  DAM 2026-09-10: 216 rows from 3 file(s)
+    20260925T070007.401055Z_00046_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070008.135569Z_00047_WW_DALMP_ISO_20260910.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260910.csv last-modified=Wed, 09 Sep 2026 17:17:15 GMT
+    20260925T070008.135569Z_00047_WW_DALMP_ISO_20260910.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260910.csv last-modified=Wed, 09 Sep 2026 17:17:15 GMT
+  DAM 2026-09-11: 216 rows from 3 file(s)
+    20260925T070010.859872Z_00049_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070011.568953Z_00050_WW_DALMP_ISO_20260911.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260911.csv last-modified=Thu, 10 Sep 2026 17:02:43 GMT
+    20260925T070011.568953Z_00050_WW_DALMP_ISO_20260911.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260911.csv last-modified=Thu, 10 Sep 2026 17:02:43 GMT
+  DAM 2026-09-12: 216 rows from 3 file(s)
+    20260925T070014.089956Z_00052_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070014.894961Z_00053_WW_DALMP_ISO_20260912.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260912.csv last-modified=Fri, 11 Sep 2026 16:47:23 GMT
+    20260925T070014.894961Z_00053_WW_DALMP_ISO_20260912.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260912.csv last-modified=Fri, 11 Sep 2026 16:47:23 GMT
+  DAM 2026-09-13: 216 rows from 3 file(s)
+    20260925T070017.514048Z_00055_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070017.776375Z_00056_WW_DALMP_ISO_20260913.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260913.csv last-modified=Sat, 12 Sep 2026 16:42:17 GMT
+    20260925T070017.776375Z_00056_WW_DALMP_ISO_20260913.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260913.csv last-modified=Sat, 12 Sep 2026 16:42:17 GMT
+  DAM 2026-09-14: 216 rows from 3 file(s)
+    20260925T070020.280622Z_00058_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070020.536051Z_00059_WW_DALMP_ISO_20260914.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260914.csv last-modified=Sun, 13 Sep 2026 17:22:32 GMT
+    20260925T070020.536051Z_00059_WW_DALMP_ISO_20260914.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260914.csv last-modified=Sun, 13 Sep 2026 17:22:32 GMT
+  DAM 2026-09-15: 216 rows from 3 file(s)
+    20260925T070023.091164Z_00061_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070023.813168Z_00062_WW_DALMP_ISO_20260915.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260915.csv last-modified=Mon, 14 Sep 2026 18:42:07 GMT
+    20260925T070023.813168Z_00062_WW_DALMP_ISO_20260915.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260915.csv last-modified=Mon, 14 Sep 2026 18:42:07 GMT
+  DAM 2026-09-16: 216 rows from 3 file(s)
+    20260925T070026.115006Z_00064_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070026.824628Z_00065_WW_DALMP_ISO_20260916.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260916.csv last-modified=Tue, 15 Sep 2026 17:02:37 GMT
+    20260925T070026.824628Z_00065_WW_DALMP_ISO_20260916.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260916.csv last-modified=Tue, 15 Sep 2026 17:02:37 GMT
+  DAM 2026-09-17: 216 rows from 3 file(s)
+    20260925T070029.109901Z_00067_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070029.511872Z_00068_WW_DALMP_ISO_20260917.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260917.csv last-modified=Wed, 16 Sep 2026 16:57:35 GMT
+    20260925T070029.511872Z_00068_WW_DALMP_ISO_20260917.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260917.csv last-modified=Wed, 16 Sep 2026 16:57:35 GMT
+  DAM 2026-09-18: 216 rows from 3 file(s)
+    20260925T070031.844773Z_00070_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070032.093740Z_00071_WW_DALMP_ISO_20260918.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260918.csv last-modified=Thu, 17 Sep 2026 17:22:26 GMT
+    20260925T070032.093740Z_00071_WW_DALMP_ISO_20260918.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260918.csv last-modified=Thu, 17 Sep 2026 17:22:26 GMT
+  DAM 2026-09-19: 216 rows from 3 file(s)
+    20260925T070034.691165Z_00073_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070035.415322Z_00074_WW_DALMP_ISO_20260919.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260919.csv last-modified=Fri, 18 Sep 2026 17:27:36 GMT
+    20260925T070035.415322Z_00074_WW_DALMP_ISO_20260919.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260919.csv last-modified=Fri, 18 Sep 2026 17:27:36 GMT
+  DAM 2026-09-20: 216 rows from 3 file(s)
+    20260925T070037.831715Z_00076_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070038.527466Z_00077_WW_DALMP_ISO_20260920.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260920.csv last-modified=Sat, 19 Sep 2026 17:07:55 GMT
+    20260925T070038.527466Z_00077_WW_DALMP_ISO_20260920.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260920.csv last-modified=Sat, 19 Sep 2026 17:07:55 GMT
+  DAM 2026-09-21: 216 rows from 3 file(s)
+    20260925T070040.773093Z_00079_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070041.494863Z_00080_WW_DALMP_ISO_20260921.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260921.csv last-modified=Sun, 20 Sep 2026 16:52:45 GMT
+    20260925T070041.494863Z_00080_WW_DALMP_ISO_20260921.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260921.csv last-modified=Sun, 20 Sep 2026 16:52:45 GMT
+  DAM 2026-09-22: 216 rows from 3 file(s)
+    20260925T070043.763062Z_00082_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070044.483172Z_00083_WW_DALMP_ISO_20260922.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260922.csv last-modified=Mon, 21 Sep 2026 17:02:25 GMT
+    20260925T070044.483172Z_00083_WW_DALMP_ISO_20260922.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260922.csv last-modified=Mon, 21 Sep 2026 17:02:25 GMT
+  DAM 2026-09-23: 216 rows from 3 file(s)
+    20260925T070046.736102Z_00085_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070046.989089Z_00086_WW_DALMP_ISO_20260923.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260923.csv last-modified=Tue, 22 Sep 2026 16:47:14 GMT
+    20260925T070046.989089Z_00086_WW_DALMP_ISO_20260923.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260923.csv last-modified=Tue, 22 Sep 2026 16:47:14 GMT
+  DAM 2026-09-24: 216 rows from 3 file(s)
+    20260925T070049.211995Z_00088_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070049.916795Z_00089_WW_DALMP_ISO_20260924.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260924.csv last-modified=Wed, 23 Sep 2026 17:02:36 GMT
+    20260925T070049.916795Z_00089_WW_DALMP_ISO_20260924.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260924.csv last-modified=Wed, 23 Sep 2026 17:02:36 GMT
+  DAM forward 2026-09-25: 216 rows from 3 file(s)
+    20260925T070052.768099Z_00091_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070053.492793Z_00092_WW_DALMP_ISO_20260925.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260925.csv last-modified=Thu, 24 Sep 2026 17:02:35 GMT
+    20260925T070053.492793Z_00092_WW_DALMP_ISO_20260925.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260925.csv last-modified=Thu, 24 Sep 2026 17:02:35 GMT
+  DAM forward 2026-09-26: not available (EmptyDataError: No columns to parse from file), skipped
+  forward DAM day 2026-09-25: complete, included (216 rows)
+  interval length: all 6480 rows are 60 minutes
+  complete: 9 nodes x 720 intervals
+  distinct source_url values: 1
+  isone_dam_zone_prices.csv: rows=6696 range=2026-08-26T04:00:00Z..2026-09-26T03:00:00Z nodes=.H.INTERNAL_HUB,.Z.CONNECTICUT,.Z.MAINE,.Z.NEMASSBOST,.Z.NEWHAMPSHIRE,.Z.RHODEISLAND,.Z.SEMASS,.Z.VERMONT,.Z.WCMASS min=12.98 max=75.72 USD/MWh
+RTM: ISO-NE RT 5-minute LMP via ISONE.get_lmp(REAL_TIME_5_MIN), aggregated to 15-minute means
+  RTM 2026-08-26: 2592 rows from 9 file(s)
+    20260925T070056.704886Z_00096_lmp_5min_20260826_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260826_00-04.csv last-modified=Wed, 26 Aug 2026 08:00:18 GMT
+    20260925T070057.727948Z_00097_lmp_5min_20260826_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260826_04-08.csv last-modified=Wed, 26 Aug 2026 12:00:15 GMT
+    20260925T070059.025064Z_00098_lmp_5min_20260826_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260826_08-12.csv last-modified=Wed, 26 Aug 2026 16:00:08 GMT
+    20260925T070059.972868Z_00099_lmp_5min_20260826_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260826_12-16.csv last-modified=Wed, 26 Aug 2026 20:00:08 GMT
+    20260925T070101.425743Z_00100_lmp_5min_20260826_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260826_16-20.csv last-modified=Thu, 27 Aug 2026 00:00:07 GMT
+    20260925T070102.337000Z_00101_lmp_5min_20260826_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260826_20-24.csv last-modified=Thu, 27 Aug 2026 04:00:12 GMT
+    20260925T070106.126380Z_00102_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065922.114758Z_00002_WW_DALMP_ISO_20260826.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260826.csv last-modified=Tue, 25 Aug 2026 16:42:05 GMT
+    20260925T065922.114758Z_00002_WW_DALMP_ISO_20260826.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260826.csv last-modified=Tue, 25 Aug 2026 16:42:05 GMT
+  RTM 2026-08-27: 2592 rows from 9 file(s)
+    20260925T070109.479429Z_00105_lmp_5min_20260827_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260827_00-04.csv last-modified=Thu, 27 Aug 2026 08:00:40 GMT
+    20260925T070110.468488Z_00106_lmp_5min_20260827_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260827_04-08.csv last-modified=Thu, 27 Aug 2026 12:00:07 GMT
+    20260925T070111.577843Z_00107_lmp_5min_20260827_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260827_08-12.csv last-modified=Thu, 27 Aug 2026 16:00:23 GMT
+    20260925T070112.615138Z_00108_lmp_5min_20260827_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260827_12-16.csv last-modified=Thu, 27 Aug 2026 20:00:07 GMT
+    20260925T070113.596791Z_00109_lmp_5min_20260827_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260827_16-20.csv last-modified=Fri, 28 Aug 2026 00:00:20 GMT
+    20260925T070114.542205Z_00110_lmp_5min_20260827_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260827_20-24.csv last-modified=Fri, 28 Aug 2026 04:00:13 GMT
+    20260925T070118.245769Z_00111_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065925.314690Z_00005_WW_DALMP_ISO_20260827.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260827.csv last-modified=Wed, 26 Aug 2026 16:27:38 GMT
+    20260925T065925.314690Z_00005_WW_DALMP_ISO_20260827.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260827.csv last-modified=Wed, 26 Aug 2026 16:27:38 GMT
+  RTM 2026-08-28: 2592 rows from 9 file(s)
+    20260925T070121.772351Z_00114_lmp_5min_20260828_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260828_00-04.csv last-modified=Fri, 28 Aug 2026 08:00:08 GMT
+    20260925T070122.863598Z_00115_lmp_5min_20260828_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260828_04-08.csv last-modified=Fri, 28 Aug 2026 12:00:08 GMT
+    20260925T070123.739768Z_00116_lmp_5min_20260828_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260828_08-12.csv last-modified=Fri, 28 Aug 2026 16:00:23 GMT
+    20260925T070124.776503Z_00117_lmp_5min_20260828_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260828_12-16.csv last-modified=Fri, 28 Aug 2026 20:00:07 GMT
+    20260925T070125.680058Z_00118_lmp_5min_20260828_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260828_16-20.csv last-modified=Sat, 29 Aug 2026 00:00:13 GMT
+    20260925T070126.595140Z_00119_lmp_5min_20260828_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260828_20-24.csv last-modified=Sat, 29 Aug 2026 04:00:11 GMT
+    20260925T070130.161313Z_00120_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065928.539883Z_00008_WW_DALMP_ISO_20260828.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260828.csv last-modified=Thu, 27 Aug 2026 16:12:04 GMT
+    20260925T065928.539883Z_00008_WW_DALMP_ISO_20260828.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260828.csv last-modified=Thu, 27 Aug 2026 16:12:04 GMT
+  RTM 2026-08-29: 2592 rows from 9 file(s)
+    20260925T070133.577924Z_00123_lmp_5min_20260829_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260829_00-04.csv last-modified=Sat, 29 Aug 2026 08:00:14 GMT
+    20260925T070134.601834Z_00124_lmp_5min_20260829_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260829_04-08.csv last-modified=Sat, 29 Aug 2026 12:00:09 GMT
+    20260925T070135.634189Z_00125_lmp_5min_20260829_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260829_08-12.csv last-modified=Sat, 29 Aug 2026 16:00:08 GMT
+    20260925T070136.607649Z_00126_lmp_5min_20260829_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260829_12-16.csv last-modified=Sat, 29 Aug 2026 20:00:08 GMT
+    20260925T070137.597245Z_00127_lmp_5min_20260829_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260829_16-20.csv last-modified=Sun, 30 Aug 2026 00:00:21 GMT
+    20260925T070138.578122Z_00128_lmp_5min_20260829_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260829_20-24.csv last-modified=Sun, 30 Aug 2026 04:00:37 GMT
+    20260925T070142.530118Z_00129_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065931.663352Z_00011_WW_DALMP_ISO_20260829.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260829.csv last-modified=Fri, 28 Aug 2026 16:57:13 GMT
+    20260925T065931.663352Z_00011_WW_DALMP_ISO_20260829.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260829.csv last-modified=Fri, 28 Aug 2026 16:57:13 GMT
+  RTM 2026-08-30: 2592 rows from 9 file(s)
+    20260925T070145.940444Z_00132_lmp_5min_20260830_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260830_00-04.csv last-modified=Sun, 30 Aug 2026 08:00:07 GMT
+    20260925T070146.979698Z_00133_lmp_5min_20260830_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260830_04-08.csv last-modified=Sun, 30 Aug 2026 12:00:12 GMT
+    20260925T070148.065119Z_00134_lmp_5min_20260830_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260830_08-12.csv last-modified=Sun, 30 Aug 2026 16:00:12 GMT
+    20260925T070149.195117Z_00135_lmp_5min_20260830_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260830_12-16.csv last-modified=Sun, 30 Aug 2026 20:00:12 GMT
+    20260925T070150.725436Z_00136_lmp_5min_20260830_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260830_16-20.csv last-modified=Mon, 31 Aug 2026 00:00:33 GMT
+    20260925T070151.843303Z_00137_lmp_5min_20260830_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260830_20-24.csv last-modified=Mon, 31 Aug 2026 04:00:42 GMT
+    20260925T070156.456372Z_00138_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065934.268224Z_00014_WW_DALMP_ISO_20260830.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260830.csv last-modified=Sat, 29 Aug 2026 16:22:15 GMT
+    20260925T065934.268224Z_00014_WW_DALMP_ISO_20260830.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260830.csv last-modified=Sat, 29 Aug 2026 16:22:15 GMT
+  RTM 2026-08-31: 2592 rows from 9 file(s)
+    20260925T070200.330500Z_00141_lmp_5min_20260831_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260831_00-04.csv last-modified=Mon, 31 Aug 2026 08:00:07 GMT
+    20260925T070201.526543Z_00142_lmp_5min_20260831_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260831_04-08.csv last-modified=Mon, 31 Aug 2026 12:00:15 GMT
+    20260925T070202.580570Z_00143_lmp_5min_20260831_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260831_08-12.csv last-modified=Mon, 31 Aug 2026 16:00:09 GMT
+    20260925T070204.320387Z_00144_lmp_5min_20260831_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260831_12-16.csv last-modified=Mon, 31 Aug 2026 20:00:08 GMT
+    20260925T070206.071284Z_00145_lmp_5min_20260831_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260831_16-20.csv last-modified=Tue, 01 Sep 2026 00:00:12 GMT
+    20260925T070207.561766Z_00146_lmp_5min_20260831_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260831_20-24.csv last-modified=Tue, 01 Sep 2026 04:00:44 GMT
+    20260925T070212.053599Z_00147_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065938.293841Z_00017_WW_DALMP_ISO_20260831.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260831.csv last-modified=Sun, 30 Aug 2026 16:42:03 GMT
+    20260925T065938.293841Z_00017_WW_DALMP_ISO_20260831.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260831.csv last-modified=Sun, 30 Aug 2026 16:42:03 GMT
+  RTM 2026-09-01: 2592 rows from 9 file(s)
+    20260925T070215.261362Z_00150_lmp_5min_20260901_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260901_00-04.csv last-modified=Tue, 01 Sep 2026 08:00:53 GMT
+    20260925T070216.380907Z_00151_lmp_5min_20260901_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260901_04-08.csv last-modified=Tue, 01 Sep 2026 12:00:07 GMT
+    20260925T070217.440496Z_00152_lmp_5min_20260901_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260901_08-12.csv last-modified=Tue, 01 Sep 2026 16:00:08 GMT
+    20260925T070218.583276Z_00153_lmp_5min_20260901_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260901_12-16.csv last-modified=Tue, 01 Sep 2026 20:00:08 GMT
+    20260925T070219.850491Z_00154_lmp_5min_20260901_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260901_16-20.csv last-modified=Wed, 02 Sep 2026 00:00:20 GMT
+    20260925T070220.926388Z_00155_lmp_5min_20260901_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260901_20-24.csv last-modified=Wed, 02 Sep 2026 04:00:10 GMT
+    20260925T070225.146187Z_00156_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065940.891649Z_00020_WW_DALMP_ISO_20260901.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260901.csv last-modified=Mon, 31 Aug 2026 16:47:13 GMT
+    20260925T065940.891649Z_00020_WW_DALMP_ISO_20260901.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260901.csv last-modified=Mon, 31 Aug 2026 16:47:13 GMT
+  RTM 2026-09-02: 2583 rows from 9 file(s)
+    20260925T070228.767546Z_00159_lmp_5min_20260902_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260902_00-04.csv last-modified=Wed, 02 Sep 2026 08:00:08 GMT
+    20260925T070229.882560Z_00160_lmp_5min_20260902_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260902_04-08.csv last-modified=Wed, 02 Sep 2026 12:00:23 GMT
+    20260925T070230.950120Z_00161_lmp_5min_20260902_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260902_08-12.csv last-modified=Wed, 02 Sep 2026 16:00:08 GMT
+    20260925T070231.913818Z_00162_lmp_5min_20260902_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260902_12-16.csv last-modified=Wed, 02 Sep 2026 20:00:09 GMT
+    20260925T070232.926630Z_00163_lmp_5min_20260902_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260902_16-20.csv last-modified=Thu, 03 Sep 2026 00:00:11 GMT
+    20260925T070234.066927Z_00164_lmp_5min_20260902_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260902_20-24.csv last-modified=Thu, 03 Sep 2026 04:00:09 GMT
+    20260925T070238.136637Z_00165_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065944.246231Z_00023_WW_DALMP_ISO_20260902.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260902.csv last-modified=Tue, 01 Sep 2026 16:42:04 GMT
+    20260925T065944.246231Z_00023_WW_DALMP_ISO_20260902.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260902.csv last-modified=Tue, 01 Sep 2026 16:42:04 GMT
+  RTM 2026-09-03: 2592 rows from 9 file(s)
+    20260925T070242.028031Z_00168_lmp_5min_20260903_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260903_00-04.csv last-modified=Thu, 03 Sep 2026 08:00:12 GMT
+    20260925T070243.257453Z_00169_lmp_5min_20260903_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260903_04-08.csv last-modified=Thu, 03 Sep 2026 12:00:09 GMT
+    20260925T070244.514390Z_00170_lmp_5min_20260903_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260903_08-12.csv last-modified=Thu, 03 Sep 2026 16:00:10 GMT
+    20260925T070245.677525Z_00171_lmp_5min_20260903_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260903_12-16.csv last-modified=Thu, 03 Sep 2026 20:00:10 GMT
+    20260925T070246.847559Z_00172_lmp_5min_20260903_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260903_16-20.csv last-modified=Fri, 04 Sep 2026 00:00:08 GMT
+    20260925T070247.967747Z_00173_lmp_5min_20260903_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260903_20-24.csv last-modified=Fri, 04 Sep 2026 04:00:20 GMT
+    20260925T070252.552893Z_00174_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065947.149575Z_00026_WW_DALMP_ISO_20260903.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260903.csv last-modified=Wed, 02 Sep 2026 16:53:31 GMT
+    20260925T065947.149575Z_00026_WW_DALMP_ISO_20260903.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260903.csv last-modified=Wed, 02 Sep 2026 16:53:31 GMT
+  RTM 2026-09-04: 2592 rows from 9 file(s)
+    20260925T070255.937933Z_00177_lmp_5min_20260904_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260904_00-04.csv last-modified=Fri, 04 Sep 2026 08:00:10 GMT
+    20260925T070257.240328Z_00178_lmp_5min_20260904_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260904_04-08.csv last-modified=Fri, 04 Sep 2026 12:00:31 GMT
+    20260925T070258.342300Z_00179_lmp_5min_20260904_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260904_08-12.csv last-modified=Fri, 04 Sep 2026 16:00:08 GMT
+    20260925T070259.973138Z_00180_lmp_5min_20260904_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260904_12-16.csv last-modified=Fri, 04 Sep 2026 20:00:31 GMT
+    20260925T070301.181499Z_00181_lmp_5min_20260904_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260904_16-20.csv last-modified=Sat, 05 Sep 2026 00:00:20 GMT
+    20260925T070302.397424Z_00182_lmp_5min_20260904_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260904_20-24.csv last-modified=Sat, 05 Sep 2026 04:00:10 GMT
+    20260925T070306.852474Z_00183_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065950.098773Z_00029_WW_DALMP_ISO_20260904.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260904.csv last-modified=Thu, 03 Sep 2026 16:37:13 GMT
+    20260925T065950.098773Z_00029_WW_DALMP_ISO_20260904.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260904.csv last-modified=Thu, 03 Sep 2026 16:37:13 GMT
+  RTM 2026-09-05: 2592 rows from 9 file(s)
+    20260925T070310.423087Z_00186_lmp_5min_20260905_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260905_00-04.csv last-modified=Sat, 05 Sep 2026 08:00:12 GMT
+    20260925T070311.581689Z_00187_lmp_5min_20260905_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260905_04-08.csv last-modified=Sat, 05 Sep 2026 12:00:21 GMT
+    20260925T070312.766216Z_00188_lmp_5min_20260905_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260905_08-12.csv last-modified=Sat, 05 Sep 2026 16:00:36 GMT
+    20260925T070313.967264Z_00189_lmp_5min_20260905_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260905_12-16.csv last-modified=Sat, 05 Sep 2026 20:00:11 GMT
+    20260925T070315.140342Z_00190_lmp_5min_20260905_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260905_16-20.csv last-modified=Sun, 06 Sep 2026 00:00:18 GMT
+    20260925T070316.388598Z_00191_lmp_5min_20260905_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260905_20-24.csv last-modified=Sun, 06 Sep 2026 04:00:09 GMT
+    20260925T070320.095079Z_00192_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065952.694861Z_00032_WW_DALMP_ISO_20260905.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260905.csv last-modified=Fri, 04 Sep 2026 17:02:25 GMT
+    20260925T065952.694861Z_00032_WW_DALMP_ISO_20260905.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260905.csv last-modified=Fri, 04 Sep 2026 17:02:25 GMT
+  RTM 2026-09-06: 2592 rows from 9 file(s)
+    20260925T070323.373282Z_00195_lmp_5min_20260906_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260906_00-04.csv last-modified=Sun, 06 Sep 2026 08:00:13 GMT
+    20260925T070324.362665Z_00196_lmp_5min_20260906_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260906_04-08.csv last-modified=Sun, 06 Sep 2026 12:00:09 GMT
+    20260925T070325.616593Z_00197_lmp_5min_20260906_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260906_08-12.csv last-modified=Sun, 06 Sep 2026 16:00:19 GMT
+    20260925T070326.770225Z_00198_lmp_5min_20260906_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260906_12-16.csv last-modified=Sun, 06 Sep 2026 20:00:08 GMT
+    20260925T070327.852353Z_00199_lmp_5min_20260906_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260906_16-20.csv last-modified=Mon, 07 Sep 2026 00:00:26 GMT
+    20260925T070328.828700Z_00200_lmp_5min_20260906_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260906_20-24.csv last-modified=Mon, 07 Sep 2026 04:00:10 GMT
+    20260925T070332.551822Z_00201_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065955.918603Z_00035_WW_DALMP_ISO_20260906.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260906.csv last-modified=Sat, 05 Sep 2026 17:02:24 GMT
+    20260925T065955.918603Z_00035_WW_DALMP_ISO_20260906.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260906.csv last-modified=Sat, 05 Sep 2026 17:02:24 GMT
+  RTM 2026-09-07: 2592 rows from 9 file(s)
+    20260925T070335.715964Z_00204_lmp_5min_20260907_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260907_00-04.csv last-modified=Mon, 07 Sep 2026 08:00:14 GMT
+    20260925T070336.600816Z_00205_lmp_5min_20260907_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260907_04-08.csv last-modified=Mon, 07 Sep 2026 12:00:07 GMT
+    20260925T070337.709275Z_00206_lmp_5min_20260907_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260907_08-12.csv last-modified=Mon, 07 Sep 2026 16:00:13 GMT
+    20260925T070338.963725Z_00207_lmp_5min_20260907_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260907_12-16.csv last-modified=Mon, 07 Sep 2026 20:00:09 GMT
+    20260925T070340.010583Z_00208_lmp_5min_20260907_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260907_16-20.csv last-modified=Tue, 08 Sep 2026 00:00:22 GMT
+    20260925T070341.196001Z_00209_lmp_5min_20260907_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260907_20-24.csv last-modified=Tue, 08 Sep 2026 04:00:10 GMT
+    20260925T070345.728023Z_00210_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T065958.966454Z_00038_WW_DALMP_ISO_20260907.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260907.csv last-modified=Sun, 06 Sep 2026 16:42:14 GMT
+    20260925T065958.966454Z_00038_WW_DALMP_ISO_20260907.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260907.csv last-modified=Sun, 06 Sep 2026 16:42:14 GMT
+  RTM 2026-09-08: 2592 rows from 9 file(s)
+    20260925T070348.999927Z_00213_lmp_5min_20260908_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260908_00-04.csv last-modified=Tue, 08 Sep 2026 08:00:17 GMT
+    20260925T070350.056260Z_00214_lmp_5min_20260908_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260908_04-08.csv last-modified=Tue, 08 Sep 2026 12:00:10 GMT
+    20260925T070351.226773Z_00215_lmp_5min_20260908_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260908_08-12.csv last-modified=Tue, 08 Sep 2026 16:00:16 GMT
+    20260925T070352.434255Z_00216_lmp_5min_20260908_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260908_12-16.csv last-modified=Tue, 08 Sep 2026 20:00:28 GMT
+    20260925T070353.674998Z_00217_lmp_5min_20260908_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260908_16-20.csv last-modified=Wed, 09 Sep 2026 00:00:33 GMT
+    20260925T070354.821868Z_00218_lmp_5min_20260908_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260908_20-24.csv last-modified=Wed, 09 Sep 2026 04:00:09 GMT
+    20260925T070358.527648Z_00219_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070002.406911Z_00041_WW_DALMP_ISO_20260908.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260908.csv last-modified=Mon, 07 Sep 2026 17:02:25 GMT
+    20260925T070002.406911Z_00041_WW_DALMP_ISO_20260908.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260908.csv last-modified=Mon, 07 Sep 2026 17:02:25 GMT
+  RTM 2026-09-09: 2592 rows from 9 file(s)
+    20260925T070401.561629Z_00222_lmp_5min_20260909_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260909_00-04.csv last-modified=Wed, 09 Sep 2026 08:00:15 GMT
+    20260925T070402.597826Z_00223_lmp_5min_20260909_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260909_04-08.csv last-modified=Wed, 09 Sep 2026 12:00:09 GMT
+    20260925T070403.696957Z_00224_lmp_5min_20260909_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260909_08-12.csv last-modified=Wed, 09 Sep 2026 16:00:07 GMT
+    20260925T070404.939657Z_00225_lmp_5min_20260909_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260909_12-16.csv last-modified=Wed, 09 Sep 2026 20:00:28 GMT
+    20260925T070405.958601Z_00226_lmp_5min_20260909_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260909_16-20.csv last-modified=Thu, 10 Sep 2026 00:00:27 GMT
+    20260925T070407.136948Z_00227_lmp_5min_20260909_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260909_20-24.csv last-modified=Thu, 10 Sep 2026 04:00:10 GMT
+    20260925T070411.137368Z_00228_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070004.800363Z_00044_WW_DALMP_ISO_20260909.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260909.csv last-modified=Tue, 08 Sep 2026 16:57:14 GMT
+    20260925T070004.800363Z_00044_WW_DALMP_ISO_20260909.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260909.csv last-modified=Tue, 08 Sep 2026 16:57:14 GMT
+  RTM 2026-09-10: 2592 rows from 9 file(s)
+    20260925T070414.501624Z_00231_lmp_5min_20260910_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260910_00-04.csv last-modified=Thu, 10 Sep 2026 08:00:16 GMT
+    20260925T070415.602049Z_00232_lmp_5min_20260910_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260910_04-08.csv last-modified=Thu, 10 Sep 2026 12:00:13 GMT
+    20260925T070416.812025Z_00233_lmp_5min_20260910_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260910_08-12.csv last-modified=Thu, 10 Sep 2026 16:00:14 GMT
+    20260925T070417.816501Z_00234_lmp_5min_20260910_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260910_12-16.csv last-modified=Thu, 10 Sep 2026 20:00:11 GMT
+    20260925T070418.869136Z_00235_lmp_5min_20260910_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260910_16-20.csv last-modified=Fri, 11 Sep 2026 00:00:19 GMT
+    20260925T070419.987370Z_00236_lmp_5min_20260910_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260910_20-24.csv last-modified=Fri, 11 Sep 2026 04:00:12 GMT
+    20260925T070424.723706Z_00237_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070008.135569Z_00047_WW_DALMP_ISO_20260910.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260910.csv last-modified=Wed, 09 Sep 2026 17:17:15 GMT
+    20260925T070008.135569Z_00047_WW_DALMP_ISO_20260910.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260910.csv last-modified=Wed, 09 Sep 2026 17:17:15 GMT
+  RTM 2026-09-11: 2583 rows from 9 file(s)
+    20260925T070428.181345Z_00240_lmp_5min_20260911_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260911_00-04.csv last-modified=Fri, 11 Sep 2026 08:00:08 GMT
+    20260925T070429.535213Z_00241_lmp_5min_20260911_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260911_04-08.csv last-modified=Fri, 11 Sep 2026 12:00:16 GMT
+    20260925T070430.599028Z_00242_lmp_5min_20260911_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260911_08-12.csv last-modified=Fri, 11 Sep 2026 16:00:10 GMT
+    20260925T070431.374440Z_00243_lmp_5min_20260911_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260911_12-16.csv last-modified=Fri, 11 Sep 2026 20:01:02 GMT
+    20260925T070432.388903Z_00244_lmp_5min_20260911_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260911_16-20.csv last-modified=Sat, 12 Sep 2026 00:00:10 GMT
+    20260925T070433.393621Z_00245_lmp_5min_20260911_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260911_20-24.csv last-modified=Sat, 12 Sep 2026 04:00:09 GMT
+    20260925T070437.194884Z_00246_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070011.568953Z_00050_WW_DALMP_ISO_20260911.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260911.csv last-modified=Thu, 10 Sep 2026 17:02:43 GMT
+    20260925T070011.568953Z_00050_WW_DALMP_ISO_20260911.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260911.csv last-modified=Thu, 10 Sep 2026 17:02:43 GMT
+  RTM 2026-09-12: 2574 rows from 9 file(s)
+    20260925T070440.391837Z_00249_lmp_5min_20260912_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260912_00-04.csv last-modified=Sat, 12 Sep 2026 08:00:07 GMT
+    20260925T070441.443084Z_00250_lmp_5min_20260912_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260912_04-08.csv last-modified=Sat, 12 Sep 2026 12:00:17 GMT
+    20260925T070442.789739Z_00251_lmp_5min_20260912_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260912_08-12.csv last-modified=Sat, 12 Sep 2026 16:00:16 GMT
+    20260925T070443.916021Z_00252_lmp_5min_20260912_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260912_12-16.csv last-modified=Sat, 12 Sep 2026 20:00:16 GMT
+    20260925T070444.973911Z_00253_lmp_5min_20260912_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260912_16-20.csv last-modified=Sun, 13 Sep 2026 00:00:21 GMT
+    20260925T070446.130769Z_00254_lmp_5min_20260912_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260912_20-24.csv last-modified=Sun, 13 Sep 2026 04:00:15 GMT
+    20260925T070449.995995Z_00255_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070014.894961Z_00053_WW_DALMP_ISO_20260912.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260912.csv last-modified=Fri, 11 Sep 2026 16:47:23 GMT
+    20260925T070014.894961Z_00053_WW_DALMP_ISO_20260912.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260912.csv last-modified=Fri, 11 Sep 2026 16:47:23 GMT
+  RTM 2026-09-13: 2556 rows from 9 file(s)
+    20260925T070454.620014Z_00258_lmp_5min_20260913_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260913_00-04.csv last-modified=Sun, 13 Sep 2026 08:00:09 GMT
+    20260925T070455.646879Z_00259_lmp_5min_20260913_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260913_04-08.csv last-modified=Sun, 13 Sep 2026 12:00:07 GMT
+    20260925T070456.694738Z_00260_lmp_5min_20260913_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260913_08-12.csv last-modified=Sun, 13 Sep 2026 16:00:14 GMT
+    20260925T070457.869698Z_00261_lmp_5min_20260913_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260913_12-16.csv last-modified=Sun, 13 Sep 2026 20:00:15 GMT
+    20260925T070458.779621Z_00262_lmp_5min_20260913_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260913_16-20.csv last-modified=Mon, 14 Sep 2026 00:00:18 GMT
+    20260925T070459.657068Z_00263_lmp_5min_20260913_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260913_20-24.csv last-modified=Mon, 14 Sep 2026 04:00:12 GMT
+    20260925T070503.684322Z_00264_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070017.776375Z_00056_WW_DALMP_ISO_20260913.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260913.csv last-modified=Sat, 12 Sep 2026 16:42:17 GMT
+    20260925T070017.776375Z_00056_WW_DALMP_ISO_20260913.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260913.csv last-modified=Sat, 12 Sep 2026 16:42:17 GMT
+  RTM 2026-09-14: 2592 rows from 9 file(s)
+    20260925T070507.096996Z_00267_lmp_5min_20260914_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260914_00-04.csv last-modified=Mon, 14 Sep 2026 08:00:11 GMT
+    20260925T070508.278055Z_00268_lmp_5min_20260914_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260914_04-08.csv last-modified=Mon, 14 Sep 2026 12:00:15 GMT
+    20260925T070509.425785Z_00269_lmp_5min_20260914_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260914_08-12.csv last-modified=Mon, 14 Sep 2026 16:00:20 GMT
+    20260925T070510.667959Z_00270_lmp_5min_20260914_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260914_12-16.csv last-modified=Mon, 14 Sep 2026 20:00:16 GMT
+    20260925T070511.811027Z_00271_lmp_5min_20260914_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260914_16-20.csv last-modified=Tue, 15 Sep 2026 00:00:19 GMT
+    20260925T070513.000037Z_00272_lmp_5min_20260914_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260914_20-24.csv last-modified=Tue, 15 Sep 2026 04:00:37 GMT
+    20260925T070517.274475Z_00273_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070020.536051Z_00059_WW_DALMP_ISO_20260914.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260914.csv last-modified=Sun, 13 Sep 2026 17:22:32 GMT
+    20260925T070020.536051Z_00059_WW_DALMP_ISO_20260914.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260914.csv last-modified=Sun, 13 Sep 2026 17:22:32 GMT
+  RTM 2026-09-15: 2394 rows from 9 file(s)
+    20260925T070520.522173Z_00276_lmp_5min_20260915_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260915_00-04.csv last-modified=Tue, 15 Sep 2026 08:00:07 GMT
+    20260925T070521.527414Z_00277_lmp_5min_20260915_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260915_04-08.csv last-modified=Tue, 15 Sep 2026 12:00:21 GMT
+    20260925T070522.661092Z_00278_lmp_5min_20260915_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260915_08-12.csv last-modified=Tue, 15 Sep 2026 16:00:09 GMT
+    20260925T070523.751511Z_00279_lmp_5min_20260915_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260915_12-16.csv last-modified=Tue, 15 Sep 2026 20:00:15 GMT
+    20260925T070524.469975Z_00280_lmp_5min_20260915_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260915_16-20.csv last-modified=Wed, 16 Sep 2026 00:00:29 GMT
+    20260925T070525.655540Z_00281_lmp_5min_20260915_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260915_20-24.csv last-modified=Wed, 16 Sep 2026 04:00:41 GMT
+    20260925T070529.883630Z_00282_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070023.813168Z_00062_WW_DALMP_ISO_20260915.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260915.csv last-modified=Mon, 14 Sep 2026 18:42:07 GMT
+    20260925T070023.813168Z_00062_WW_DALMP_ISO_20260915.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260915.csv last-modified=Mon, 14 Sep 2026 18:42:07 GMT
+  RTM 2026-09-16: 2592 rows from 9 file(s)
+    20260925T070533.231229Z_00285_lmp_5min_20260916_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260916_00-04.csv last-modified=Wed, 16 Sep 2026 08:00:09 GMT
+    20260925T070534.966145Z_00286_lmp_5min_20260916_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260916_04-08.csv last-modified=Wed, 16 Sep 2026 12:00:08 GMT
+    20260925T070536.158404Z_00287_lmp_5min_20260916_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260916_08-12.csv last-modified=Wed, 16 Sep 2026 16:00:08 GMT
+    20260925T070537.341854Z_00288_lmp_5min_20260916_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260916_12-16.csv last-modified=Wed, 16 Sep 2026 20:00:09 GMT
+    20260925T070538.524079Z_00289_lmp_5min_20260916_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260916_16-20.csv last-modified=Thu, 17 Sep 2026 00:00:21 GMT
+    20260925T070539.711388Z_00290_lmp_5min_20260916_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260916_20-24.csv last-modified=Thu, 17 Sep 2026 04:00:34 GMT
+    20260925T070543.724597Z_00291_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070026.824628Z_00065_WW_DALMP_ISO_20260916.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260916.csv last-modified=Tue, 15 Sep 2026 17:02:37 GMT
+    20260925T070026.824628Z_00065_WW_DALMP_ISO_20260916.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260916.csv last-modified=Tue, 15 Sep 2026 17:02:37 GMT
+  RTM 2026-09-17: 2592 rows from 9 file(s)
+    20260925T070546.968957Z_00294_lmp_5min_20260917_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260917_00-04.csv last-modified=Thu, 17 Sep 2026 08:00:08 GMT
+    20260925T070548.043719Z_00295_lmp_5min_20260917_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260917_04-08.csv last-modified=Thu, 17 Sep 2026 12:00:27 GMT
+    20260925T070549.198411Z_00296_lmp_5min_20260917_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260917_08-12.csv last-modified=Thu, 17 Sep 2026 16:00:29 GMT
+    20260925T070550.310946Z_00297_lmp_5min_20260917_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260917_12-16.csv last-modified=Thu, 17 Sep 2026 20:00:23 GMT
+    20260925T070551.486800Z_00298_lmp_5min_20260917_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260917_16-20.csv last-modified=Fri, 18 Sep 2026 00:00:21 GMT
+    20260925T070552.651155Z_00299_lmp_5min_20260917_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260917_20-24.csv last-modified=Fri, 18 Sep 2026 04:00:10 GMT
+    20260925T070556.405288Z_00300_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070029.511872Z_00068_WW_DALMP_ISO_20260917.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260917.csv last-modified=Wed, 16 Sep 2026 16:57:35 GMT
+    20260925T070029.511872Z_00068_WW_DALMP_ISO_20260917.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260917.csv last-modified=Wed, 16 Sep 2026 16:57:35 GMT
+  RTM 2026-09-18: 2592 rows from 9 file(s)
+    20260925T070559.801575Z_00303_lmp_5min_20260918_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260918_00-04.csv last-modified=Fri, 18 Sep 2026 08:00:08 GMT
+    20260925T070601.011682Z_00304_lmp_5min_20260918_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260918_04-08.csv last-modified=Fri, 18 Sep 2026 12:00:14 GMT
+    20260925T070602.171176Z_00305_lmp_5min_20260918_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260918_08-12.csv last-modified=Fri, 18 Sep 2026 16:00:21 GMT
+    20260925T070603.557479Z_00306_lmp_5min_20260918_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260918_12-16.csv last-modified=Fri, 18 Sep 2026 20:00:09 GMT
+    20260925T070605.174711Z_00307_lmp_5min_20260918_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260918_16-20.csv last-modified=Sat, 19 Sep 2026 00:00:23 GMT
+    20260925T070606.210539Z_00308_lmp_5min_20260918_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260918_20-24.csv last-modified=Sat, 19 Sep 2026 04:00:53 GMT
+    20260925T070610.044014Z_00309_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070032.093740Z_00071_WW_DALMP_ISO_20260918.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260918.csv last-modified=Thu, 17 Sep 2026 17:22:26 GMT
+    20260925T070032.093740Z_00071_WW_DALMP_ISO_20260918.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260918.csv last-modified=Thu, 17 Sep 2026 17:22:26 GMT
+  RTM 2026-09-19: 2592 rows from 9 file(s)
+    20260925T070613.324667Z_00312_lmp_5min_20260919_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260919_00-04.csv last-modified=Sat, 19 Sep 2026 08:00:15 GMT
+    20260925T070614.259362Z_00313_lmp_5min_20260919_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260919_04-08.csv last-modified=Sat, 19 Sep 2026 12:00:13 GMT
+    20260925T070615.201594Z_00314_lmp_5min_20260919_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260919_08-12.csv last-modified=Sat, 19 Sep 2026 16:00:24 GMT
+    20260925T070616.334685Z_00315_lmp_5min_20260919_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260919_12-16.csv last-modified=Sat, 19 Sep 2026 20:00:24 GMT
+    20260925T070617.356145Z_00316_lmp_5min_20260919_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260919_16-20.csv last-modified=Sun, 20 Sep 2026 00:00:13 GMT
+    20260925T070618.615977Z_00317_lmp_5min_20260919_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260919_20-24.csv last-modified=Sun, 20 Sep 2026 04:00:09 GMT
+    20260925T070623.475259Z_00318_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070035.415322Z_00074_WW_DALMP_ISO_20260919.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260919.csv last-modified=Fri, 18 Sep 2026 17:27:36 GMT
+    20260925T070035.415322Z_00074_WW_DALMP_ISO_20260919.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260919.csv last-modified=Fri, 18 Sep 2026 17:27:36 GMT
+  RTM 2026-09-20: 2592 rows from 9 file(s)
+    20260925T070626.588781Z_00321_lmp_5min_20260920_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260920_00-04.csv last-modified=Sun, 20 Sep 2026 08:00:08 GMT
+    20260925T070628.259010Z_00322_lmp_5min_20260920_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260920_04-08.csv last-modified=Sun, 20 Sep 2026 12:00:14 GMT
+    20260925T070629.765537Z_00323_lmp_5min_20260920_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260920_08-12.csv last-modified=Sun, 20 Sep 2026 16:00:09 GMT
+    20260925T070631.281979Z_00324_lmp_5min_20260920_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260920_12-16.csv last-modified=Sun, 20 Sep 2026 20:00:07 GMT
+    20260925T070632.587740Z_00325_lmp_5min_20260920_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260920_16-20.csv last-modified=Mon, 21 Sep 2026 00:00:29 GMT
+    20260925T070633.874223Z_00326_lmp_5min_20260920_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260920_20-24.csv last-modified=Mon, 21 Sep 2026 04:00:10 GMT
+    20260925T070638.121034Z_00327_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070038.527466Z_00077_WW_DALMP_ISO_20260920.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260920.csv last-modified=Sat, 19 Sep 2026 17:07:55 GMT
+    20260925T070038.527466Z_00077_WW_DALMP_ISO_20260920.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260920.csv last-modified=Sat, 19 Sep 2026 17:07:55 GMT
+  RTM 2026-09-21: 2592 rows from 9 file(s)
+    20260925T070641.112486Z_00330_lmp_5min_20260921_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260921_00-04.csv last-modified=Mon, 21 Sep 2026 08:00:32 GMT
+    20260925T070641.975652Z_00331_lmp_5min_20260921_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260921_04-08.csv last-modified=Mon, 21 Sep 2026 12:00:12 GMT
+    20260925T070643.205086Z_00332_lmp_5min_20260921_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260921_08-12.csv last-modified=Mon, 21 Sep 2026 16:00:07 GMT
+    20260925T070644.329301Z_00333_lmp_5min_20260921_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260921_12-16.csv last-modified=Mon, 21 Sep 2026 20:00:13 GMT
+    20260925T070645.175500Z_00334_lmp_5min_20260921_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260921_16-20.csv last-modified=Tue, 22 Sep 2026 00:00:22 GMT
+    20260925T070646.097345Z_00335_lmp_5min_20260921_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260921_20-24.csv last-modified=Tue, 22 Sep 2026 04:00:37 GMT
+    20260925T070650.100606Z_00336_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070041.494863Z_00080_WW_DALMP_ISO_20260921.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260921.csv last-modified=Sun, 20 Sep 2026 16:52:45 GMT
+    20260925T070041.494863Z_00080_WW_DALMP_ISO_20260921.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260921.csv last-modified=Sun, 20 Sep 2026 16:52:45 GMT
+  RTM 2026-09-22: 2592 rows from 9 file(s)
+    20260925T070653.649383Z_00339_lmp_5min_20260922_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_00-04.csv last-modified=Tue, 22 Sep 2026 08:00:14 GMT
+    20260925T070654.790052Z_00340_lmp_5min_20260922_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_04-08.csv last-modified=Tue, 22 Sep 2026 12:00:14 GMT
+    20260925T070655.879209Z_00341_lmp_5min_20260922_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_08-12.csv last-modified=Tue, 22 Sep 2026 16:00:18 GMT
+    20260925T070656.865248Z_00342_lmp_5min_20260922_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_12-16.csv last-modified=Tue, 22 Sep 2026 20:00:20 GMT
+    20260925T070657.890090Z_00343_lmp_5min_20260922_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_16-20.csv last-modified=Wed, 23 Sep 2026 00:00:20 GMT
+    20260925T070658.859968Z_00344_lmp_5min_20260922_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_20-24.csv last-modified=Wed, 23 Sep 2026 04:00:14 GMT
+    20260925T070703.459094Z_00345_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070044.483172Z_00083_WW_DALMP_ISO_20260922.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260922.csv last-modified=Mon, 21 Sep 2026 17:02:25 GMT
+    20260925T070044.483172Z_00083_WW_DALMP_ISO_20260922.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260922.csv last-modified=Mon, 21 Sep 2026 17:02:25 GMT
+  RTM 2026-09-23: 2592 rows from 9 file(s)
+    20260925T070706.815476Z_00348_lmp_5min_20260923_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_00-04.csv last-modified=Wed, 23 Sep 2026 08:00:15 GMT
+    20260925T070708.164527Z_00349_lmp_5min_20260923_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_04-08.csv last-modified=Wed, 23 Sep 2026 12:00:16 GMT
+    20260925T070709.160531Z_00350_lmp_5min_20260923_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_08-12.csv last-modified=Wed, 23 Sep 2026 16:00:08 GMT
+    20260925T070710.071736Z_00351_lmp_5min_20260923_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_12-16.csv last-modified=Wed, 23 Sep 2026 20:00:19 GMT
+    20260925T070711.105915Z_00352_lmp_5min_20260923_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_16-20.csv last-modified=Thu, 24 Sep 2026 00:00:19 GMT
+    20260925T070712.242276Z_00353_lmp_5min_20260923_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_20-24.csv last-modified=Thu, 24 Sep 2026 04:00:09 GMT
+    20260925T070716.678081Z_00354_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070046.989089Z_00086_WW_DALMP_ISO_20260923.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260923.csv last-modified=Tue, 22 Sep 2026 16:47:14 GMT
+    20260925T070046.989089Z_00086_WW_DALMP_ISO_20260923.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260923.csv last-modified=Tue, 22 Sep 2026 16:47:14 GMT
+  RTM 2026-09-24: 2592 rows from 9 file(s)
+    20260925T070719.891535Z_00357_lmp_5min_20260924_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_00-04.csv last-modified=Thu, 24 Sep 2026 08:00:11 GMT
+    20260925T070721.136600Z_00358_lmp_5min_20260924_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_04-08.csv last-modified=Thu, 24 Sep 2026 12:00:08 GMT
+    20260925T070722.525307Z_00359_lmp_5min_20260924_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_08-12.csv last-modified=Thu, 24 Sep 2026 16:00:20 GMT
+    20260925T070723.705769Z_00360_lmp_5min_20260924_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_12-16.csv last-modified=Thu, 24 Sep 2026 20:00:19 GMT
+    20260925T070724.957475Z_00361_lmp_5min_20260924_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_16-20.csv last-modified=Fri, 25 Sep 2026 00:00:07 GMT
+    20260925T070726.393897Z_00362_lmp_5min_20260924_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_20-24.csv last-modified=Fri, 25 Sep 2026 04:00:20 GMT
+    20260925T070731.056640Z_00363_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T070049.916795Z_00089_WW_DALMP_ISO_20260924.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260924.csv last-modified=Wed, 23 Sep 2026 17:02:36 GMT
+    20260925T070049.916795Z_00089_WW_DALMP_ISO_20260924.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260924.csv last-modified=Wed, 23 Sep 2026 17:02:36 GMT
+  interval length: all 77490 rows are 5 minutes
+  15-minute buckets not fully covered: 54 (dropped; completeness check decides): [{'node': '.H.INTERNAL_HUB', 'q': Timestamp('2026-09-03 03:45:00+0000', tz='UTC'), 'n': 2, 'secs': 600.0}, {'node': '.H.INTERNAL_HUB', 'q': Timestamp('2026-09-12 03:45:00+0000', tz='UTC'), 'n': 2, 'secs': 600.0}, {'node': '.H.INTERNAL_HUB', 'q': Timestamp('2026-09-12 04:15:00+0000', tz='UTC'), 'n': 1, 'secs': 300.0}, {'node': '.H.INTERNAL_HUB', 'q': Timestamp('2026-09-13 04:00:00+0000', tz='UTC'), 'n': 2, 'secs': 600.0}, {'node': '.H.INTERNAL_HUB', 'q': Timestamp('2026-09-15 18:00:00+0000', tz='UTC'), 'n': 1, 'secs': 300.0}, {'node': '.H.INTERNAL_HUB', 'q': Timestamp('2026-09-15 19:45:00+0000', tz='UTC'), 'n': 1, 'secs': 300.0}, {'node': '.Z.CONNECTICUT', 'q': Timestamp('2026-09-03 03:45:00+0000', tz='UTC'), 'n': 2, 'secs': 600.0}, {'node': '.Z.CONNECTICUT', 'q': Timestamp('2026-09-12 03:45:00+0000', tz='UTC'), 'n': 2, 'secs': 600.0}, {'node': '.Z.CONNECTICUT', 'q': Timestamp('2026-09-12 04:15:00+0000', tz='UTC'), 'n': 1, 'secs': 300.0}, {'node': '.Z.CONNECTICUT', 'q': Timestamp('2026-09-13 04:00:00+0000', tz='UTC'), 'n': 2, 'secs': 600.0}]
+  aggregated 77490 5-minute rows to 25803 15-minute means
+  INCOMPLETE .H.INTERNAL_HUB: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0
+  INCOMPLETE .Z.CONNECTICUT: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0
+  INCOMPLETE .Z.MAINE: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0
+  INCOMPLETE .Z.NEMASSBOST: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0
+  INCOMPLETE .Z.NEWHAMPSHIRE: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0
+  INCOMPLETE .Z.RHODEISLAND: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0
+  INCOMPLETE .Z.SEMASS: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0
+  INCOMPLETE .Z.VERMONT: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0
+  INCOMPLETE .Z.WCMASS: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0
+RTM FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 540, in run_iso
+    run_market(ctx, spec)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 524, in run_market
+    check_complete(rows, nodes, start, end, spec["step"], log)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 245, in check_complete
+    raise RuntimeError("incomplete data, no file written: " + "; ".join(problems[:5])
+                       + (f"; and {len(problems) - 5} more nodes" if len(problems) > 5 else ""))
+RuntimeError: incomplete data, no file written: .H.INTERNAL_HUB: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0; .Z.CONNECTICUT: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0; .Z.MAINE: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0; .Z.NEMASSBOST: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0; .Z.NEWHAMPSHIRE: 2867 rows, expected 2880, missing 13 (first ['2026-09-03T03:45:00Z', '2026-09-12T03:45:00Z', '2026-09-12T04:15:00Z', '2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0; and 4 more nodes
+
+done, failures=1

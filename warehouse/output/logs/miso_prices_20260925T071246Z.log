@@ -1,0 +1,115 @@
+ERW miso_prices run 20260925T071246Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 30 operating days, 2026-08-26 00:00:00-05:00 to 2026-09-25 00:00:00-05:00 (exclusive), UTC [2026-08-26T05:00:00Z, 2026-09-25T05:00:00Z)
+raw files: warehouse\raw\miso\20260925T071246Z
+DAM: MISO DA ex-post LMP via MISO.get_lmp(DAY_AHEAD_HOURLY)
+  DAM 2026-08-26: 192 rows from 1 data file(s) (1 responses)
+    20260925T071247.346456Z_00001_20260826_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260826_da_expost_lmp.csv last-modified=Tue, 25 Aug 2026 18:04:40 GMT
+  DAM 2026-08-27: 192 rows from 1 data file(s) (1 responses)
+    20260925T071249.278591Z_00002_20260827_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260827_da_expost_lmp.csv last-modified=Wed, 26 Aug 2026 18:04:42 GMT
+  DAM 2026-08-28: 192 rows from 1 data file(s) (1 responses)
+    20260925T071251.845377Z_00003_20260828_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260828_da_expost_lmp.csv last-modified=Thu, 27 Aug 2026 18:19:42 GMT
+  DAM 2026-08-29: 192 rows from 1 data file(s) (1 responses)
+    20260925T071254.208009Z_00004_20260829_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260829_da_expost_lmp.csv last-modified=Fri, 28 Aug 2026 18:04:47 GMT
+  DAM 2026-08-30: 192 rows from 1 data file(s) (1 responses)
+    20260925T071256.313548Z_00005_20260830_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260830_da_expost_lmp.csv last-modified=Sat, 29 Aug 2026 18:04:45 GMT
+  DAM 2026-08-31: 192 rows from 1 data file(s) (1 responses)
+    20260925T071258.644673Z_00006_20260831_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260831_da_expost_lmp.csv last-modified=Sun, 30 Aug 2026 18:04:38 GMT
+  DAM 2026-09-01: 192 rows from 1 data file(s) (1 responses)
+    20260925T071300.906320Z_00007_20260901_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260901_da_expost_lmp.csv last-modified=Mon, 31 Aug 2026 18:04:39 GMT
+  DAM 2026-09-02: 192 rows from 1 data file(s) (1 responses)
+    20260925T071303.422339Z_00008_20260902_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260902_da_expost_lmp.csv last-modified=Tue, 01 Sep 2026 18:04:45 GMT
+  DAM 2026-09-03: 192 rows from 1 data file(s) (1 responses)
+    20260925T071305.527255Z_00009_20260903_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260903_da_expost_lmp.csv last-modified=Wed, 02 Sep 2026 18:04:44 GMT
+  DAM 2026-09-04: 192 rows from 1 data file(s) (1 responses)
+    20260925T071307.649099Z_00010_20260904_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260904_da_expost_lmp.csv last-modified=Thu, 03 Sep 2026 18:04:44 GMT
+  DAM 2026-09-05: 192 rows from 1 data file(s) (1 responses)
+    20260925T071309.786653Z_00011_20260905_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260905_da_expost_lmp.csv last-modified=Fri, 04 Sep 2026 18:04:42 GMT
+  DAM 2026-09-06: 192 rows from 1 data file(s) (1 responses)
+    20260925T071311.948121Z_00012_20260906_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260906_da_expost_lmp.csv last-modified=Sat, 05 Sep 2026 18:04:48 GMT
+  DAM 2026-09-07: 192 rows from 1 data file(s) (1 responses)
+    20260925T071314.003000Z_00013_20260907_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260907_da_expost_lmp.csv last-modified=Sun, 06 Sep 2026 18:04:38 GMT
+  DAM 2026-09-08: 192 rows from 1 data file(s) (1 responses)
+    20260925T071316.155407Z_00014_20260908_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260908_da_expost_lmp.csv last-modified=Mon, 07 Sep 2026 18:04:46 GMT
+  DAM 2026-09-09: 192 rows from 1 data file(s) (1 responses)
+    20260925T071317.884509Z_00015_20260909_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260909_da_expost_lmp.csv last-modified=Tue, 08 Sep 2026 18:04:47 GMT
+  DAM 2026-09-10: 192 rows from 1 data file(s) (1 responses)
+    20260925T071319.888105Z_00016_20260910_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260910_da_expost_lmp.csv last-modified=Wed, 09 Sep 2026 18:04:44 GMT
+  DAM 2026-09-11: 192 rows from 1 data file(s) (1 responses)
+    20260925T071322.026893Z_00017_20260911_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260911_da_expost_lmp.csv last-modified=Thu, 10 Sep 2026 18:05:05 GMT
+  DAM 2026-09-12: 192 rows from 1 data file(s) (1 responses)
+    20260925T071324.113715Z_00018_20260912_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260912_da_expost_lmp.csv last-modified=Fri, 11 Sep 2026 18:04:43 GMT
+  DAM 2026-09-13: 192 rows from 1 data file(s) (1 responses)
+    20260925T071326.156029Z_00019_20260913_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260913_da_expost_lmp.csv last-modified=Sat, 12 Sep 2026 18:04:42 GMT
+  DAM 2026-09-14: 192 rows from 1 data file(s) (1 responses)
+    20260925T071328.168987Z_00020_20260914_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260914_da_expost_lmp.csv last-modified=Sun, 13 Sep 2026 18:04:40 GMT
+  DAM 2026-09-15: 192 rows from 1 data file(s) (1 responses)
+    20260925T071330.323655Z_00021_20260915_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260915_da_expost_lmp.csv last-modified=Mon, 14 Sep 2026 18:19:39 GMT
+  DAM 2026-09-16: 192 rows from 1 data file(s) (1 responses)
+    20260925T071332.503732Z_00022_20260916_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260916_da_expost_lmp.csv last-modified=Tue, 15 Sep 2026 18:19:41 GMT
+  DAM 2026-09-17: 192 rows from 1 data file(s) (1 responses)
+    20260925T071334.897220Z_00023_20260917_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260917_da_expost_lmp.csv last-modified=Wed, 16 Sep 2026 18:19:46 GMT
+  DAM 2026-09-18: 192 rows from 1 data file(s) (1 responses)
+    20260925T071336.996538Z_00024_20260918_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260918_da_expost_lmp.csv last-modified=Thu, 17 Sep 2026 18:19:44 GMT
+  DAM 2026-09-19: 192 rows from 1 data file(s) (1 responses)
+    20260925T071339.069302Z_00025_20260919_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260919_da_expost_lmp.csv last-modified=Fri, 18 Sep 2026 19:04:48 GMT
+  DAM 2026-09-20: 192 rows from 1 data file(s) (1 responses)
+    20260925T071341.164230Z_00026_20260920_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260920_da_expost_lmp.csv last-modified=Sat, 19 Sep 2026 18:19:44 GMT
+  DAM 2026-09-21: 192 rows from 1 data file(s) (1 responses)
+    20260925T071343.236011Z_00027_20260921_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260921_da_expost_lmp.csv last-modified=Sun, 20 Sep 2026 18:34:45 GMT
+  DAM 2026-09-22: 192 rows from 1 data file(s) (1 responses)
+    20260925T071345.459011Z_00028_20260922_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260922_da_expost_lmp.csv last-modified=Mon, 21 Sep 2026 18:19:44 GMT
+  DAM 2026-09-23: 192 rows from 1 data file(s) (1 responses)
+    20260925T071347.787042Z_00029_20260923_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260923_da_expost_lmp.csv last-modified=Tue, 22 Sep 2026 18:19:43 GMT
+  DAM 2026-09-24: 192 rows from 1 data file(s) (1 responses)
+    20260925T071349.994610Z_00030_20260924_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260924_da_expost_lmp.csv last-modified=Wed, 23 Sep 2026 18:19:44 GMT
+  DAM forward 2026-09-25: 192 rows from 1 data file(s) (1 responses)
+    20260925T071352.872479Z_00031_20260925_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260925_da_expost_lmp.csv last-modified=Thu, 24 Sep 2026 18:19:42 GMT
+  DAM forward 2026-09-26: not available (HTTPError: HTTP Error 404: The specified blob does not exist.), skipped
+  forward DAM day 2026-09-25: complete, included (192 rows)
+  interval length: all 5760 rows are 60 minutes
+  complete: 8 nodes x 720 intervals
+  distinct source_url values: 31
+  miso_dam_hub_prices.csv: rows=5952 range=2026-08-26T05:00:00Z..2026-09-26T04:00:00Z nodes=ARKANSAS.HUB,ILLINOIS.HUB,INDIANA.HUB,LOUISIANA.HUB,MICHIGAN.HUB,MINN.HUB,MS.HUB,TEXAS.HUB min=6.83 max=719.54 USD/MWh
+RTM: MISO RT ex-post hourly LMP via MISO.get_lmp(REAL_TIME_HOURLY_FINAL, else REAL_TIME_HOURLY_PRELIM)
+    retry 1/4 for RTM 2026-09-24: <HTTPError 404: 'The specified blob does not exist.'>
+    retry 2/4 for RTM 2026-09-24: <HTTPError 404: 'The specified blob does not exist.'>
+    retry 3/4 for RTM 2026-09-24: <HTTPError 404: 'The specified blob does not exist.'>
+    retry 4/4 for RTM 2026-09-24: <HTTPError 404: 'The specified blob does not exist.'>
+RTM FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 571, in run_iso
+    run_market(ctx, spec)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 532, in run_market
+    rows, _ = pull_days(days, spec["fetch"], nodes, spec["source"], spec["page"], log,
+              ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        workers=spec.get("workers", 1), what=spec["name"],
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        data_url=ctx.get("data_url"))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 382, in pull_days
+    results = list(pool.map(one, days))
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 645, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 312, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 373, in one
+    df, recs = with_retries(f"{what} {day.date()}", call, log)
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 349, in with_retries
+    raise RuntimeError(f"{what} failed after {attempts} attempts: {last!r}")
+RuntimeError: RTM 2026-09-24 failed after 4 attempts: <HTTPError 404: 'The specified blob does not exist.'>
+
+done, failures=1

@@ -137,12 +137,23 @@ _orig_send = requests.Session.send
 _orig_urlopen = urllib.request.urlopen
 
 
+_send_depth = threading.local()
+
+
 def _send(self, request, **kwargs):
-    resp = _orig_send(self, request, **kwargs)
+    # requests re-enters Session.send to follow redirects and the outer call
+    # returns the same final response, so record at the outermost call only
+    depth = getattr(_send_depth, "n", 0)
+    _send_depth.n = depth + 1
     try:
-        RAW.record(resp.url, resp.status_code, resp.content, resp.headers)
-    except Exception as exc:  # capture must never hide the data call's own result
-        sys.stderr.write(f"raw capture failed for {request.url}: {exc!r}\n")
+        resp = _orig_send(self, request, **kwargs)
+    finally:
+        _send_depth.n = depth
+    if depth == 0:
+        try:
+            RAW.record(resp.url, resp.status_code, resp.content, resp.headers)
+        except Exception as exc:  # capture must never hide the data call's own result
+            sys.stderr.write(f"raw capture failed for {request.url}: {exc!r}\n")
     return resp
 
 
@@ -339,11 +350,14 @@ def with_retries(what, fn, log, attempts=RETRIES, wait=5):
 
 
 def pull_days(days, fetch, nodes, source, report_page, log, workers=1,
-              optional=False, what=""):
+              optional=False, what="", data_url=None):
     """Call fetch(day) per operating day, keep `nodes`, attach provenance.
 
     fetch returns a gridstatus frame with Location, Interval Start, Interval
-    End and LMP. A day that fails raises, unless `optional` (forward DAM days,
+    End and LMP. `data_url` is a regex naming the ISO's data files, so that
+    helper requests (a cookie page, a latest-interval lookup) are not
+    mistaken for the source; when exactly one data file supplied the day,
+    rows cite it and take its Last-Modified as vintage. A day that fails raises, unless `optional` (forward DAM days,
     which may simply not be published yet): those are logged and skipped.
     """
     def one(day):
@@ -371,9 +385,10 @@ def pull_days(days, fetch, nodes, source, report_page, log, workers=1,
             log(f"  {what} {day.date()}: not available ({type(exc).__name__}: {str(exc)[:160]}), skipped")
             continue
         ok = [r for r in recs if str(r["status"]).startswith("2")]
+        data = [r for r in ok if data_url is None or re.search(data_url, r["url"])]
         d = df[df["Location"].astype(str).isin(nodes)]
-        single = ok[0] if len(ok) == 1 else None
-        last = ok[-1] if ok else None
+        single = data[0] if len(data) == 1 else None
+        last = data[-1] if data else (ok[-1] if ok else None)
         out.append(pd.DataFrame({
             "node": d["Location"].astype(str).values,
             "interval_start": pd.to_datetime(d["Interval Start"], utc=True).values,
@@ -386,7 +401,8 @@ def pull_days(days, fetch, nodes, source, report_page, log, workers=1,
             "vintage": vintage_of(single),
         }))
         used.append((day, ok, len(d)))
-        log(f"  {what} {day.date()}: {len(d)} rows from {len(ok)} file(s)")
+        log(f"  {what} {day.date()}: {len(d)} rows from {len(data)} data file(s) "
+            f"({len(ok)} responses)")
         for r in ok:
             log(f"    {r['file']} {r['url']} last-modified={r['last_modified'] or ''}")
     if not out:
@@ -407,21 +423,78 @@ def check_interval_length(rows, minutes, log):
     log(f"  interval length: all {len(rows)} rows are {minutes} minutes")
 
 
+def rebuild_irregular_intervals(rows, start, end, nodes, log):
+    """NYISO: intervals run from the previous time stamp to this one.
+
+    NYISO's real-time file stamps each price at its interval end and adds
+    extra dispatch intervals at irregular times (e.g. 09:47:51) between the
+    regular 5-minute stamps; gridstatus labels every row as 5 minutes long,
+    which makes those rows overlap. Rebuild each interval as (previous stamp,
+    this stamp]. A regular stamp is sometimes published a few seconds late
+    (12:10:03 for 12:10). Completeness stays strict: no interval may be longer
+    than 5 minutes, so a missing stamp can never be bridged by stretching a
+    price over the gap, and every quarter hour must still be fully covered.
+    """
+    r = rows.sort_values(["node", "interval_end"]).copy()
+    prev = r.groupby("node")["interval_end"].shift(1)
+    r["interval_start"] = prev.fillna(r["interval_end"] - pd.Timedelta(minutes=5))
+    secs = (r["interval_end"] - r["interval_start"]).dt.total_seconds()
+    too_long = r[secs > 300]
+    if len(too_long):
+        for _, t in too_long.head(20).iterrows():
+            log(f"  INCOMPLETE {t['node']}: gap from {utc_iso(t['interval_start'])} to "
+                f"{utc_iso(t['interval_end'])} ({(t['interval_end'] - t['interval_start']).total_seconds():.0f} s)")
+        raise RuntimeError(f"incomplete data, no file written: {len(too_long)} intervals longer "
+                           f"than 5 minutes (a missing time stamp), first at "
+                           f"{too_long.iloc[0]['node']} {utc_iso(too_long.iloc[0]['interval_end'])}")
+    grid = pd.date_range(start.tz_convert("UTC") + pd.Timedelta(minutes=5), end.tz_convert("UTC"),
+                         freq="5min")
+    offgrid = int((~r["interval_end"].isin(grid)).sum())
+    log(f"  irregular intervals: {len(r)} intervals for {len(nodes)} nodes, {offgrid} stamped off "
+        f"the regular 5-minute grid; none longer than 5 minutes; weighted by length")
+    return r
+
+
+def split_at_quarters(rows):
+    """Split any interval that crosses a quarter-hour boundary into two pieces."""
+    q_end = rows["interval_start"].dt.floor("15min") + pd.Timedelta(minutes=15)
+    cross = rows["interval_end"] > q_end
+    if not cross.any():
+        return rows
+    a = rows[cross].copy()
+    b = rows[cross].copy()
+    a["interval_end"] = q_end[cross]
+    b["interval_start"] = q_end[cross]
+    return pd.concat([rows[~cross], a, b], ignore_index=True)
+
+
 def to_15min_means(rows, log):
-    """Mean of exactly three 5-minute prices per node and quarter hour."""
+    """Time-weighted mean price per node and quarter hour, full coverage required.
+
+    With regular 5-minute intervals this is the plain mean of exactly three
+    prices. A quarter hour counts only if its intervals cover all 900 seconds
+    and none crosses the quarter-hour boundary.
+    """
     r = rows.copy()
     r["q"] = r["interval_start"].dt.floor("15min")
+    r["secs"] = (r["interval_end"] - r["interval_start"]).dt.total_seconds()
+    r["crosses"] = r["interval_end"] > r["q"] + pd.Timedelta(minutes=15)
+    r["wv"] = r["value"] * r["secs"]
     g = r.groupby(["node", "q"])
-    agg = g.agg(value=("value", "mean"), n=("value", "size"),
+    agg = g.agg(wv=("wv", "sum"), secs=("secs", "sum"), n=("value", "size"),
+                crosses=("crosses", "any"),
                 source=("source", "first"), retrieved_at=("retrieved_at", "max"),
                 vintage=("vintage", "max"), n_urls=("source_url", "nunique"),
                 source_url=("source_url", "first")).reset_index()
-    short = agg[agg["n"] != 3]
-    if len(short):
-        log(f"  15-minute buckets without exactly three 5-minute prices: {len(short)} (dropped; "
-            f"completeness check decides): {short[['node', 'q', 'n']].head(10).to_dict('records')}")
-    agg = agg[agg["n"] == 3].copy()
-    agg["value"] = agg["value"].round(MEAN_DECIMALS)
+    bad = agg[(agg["secs"] != 900) | agg["crosses"]]
+    if len(bad):
+        log(f"  15-minute buckets not fully covered: {len(bad)} (dropped; completeness check "
+            f"decides): {bad[['node', 'q', 'n', 'secs']].head(10).to_dict('records')}")
+    agg = agg[(agg["secs"] == 900) & ~agg["crosses"]].copy()
+    irregular = int((agg["n"] != 3).sum())
+    if irregular:
+        log(f"  {irregular} quarter hours hold other than three intervals (time-weighted)")
+    agg["value"] = (agg["wv"] / agg["secs"]).round(MEAN_DECIMALS)
     multi = agg["n_urls"] > 1
     if multi.any():
         # quarter hour spans two source files (a day boundary cannot, so this is rare)
@@ -457,19 +530,24 @@ def run_market(ctx, spec):
     log(f"{spec['name']}: {spec['describe']}")
     days = list(pd.date_range(start, end, freq="D", inclusive="left"))
     rows, _ = pull_days(days, spec["fetch"], nodes, spec["source"], spec["page"], log,
-                        workers=spec.get("workers", 1), what=spec["name"])
+                        workers=spec.get("workers", 1), what=spec["name"],
+                        data_url=ctx.get("data_url"))
     fwd_rows, fwd = rows.iloc[0:0], []
     if spec.get("forward"):
         now_local = pd.Timestamp.now(tz=tz)
         fdays = list(pd.date_range(end, now_local.normalize() + pd.Timedelta(days=1), freq="D"))
         f, _ = pull_days(fdays, spec["fetch"], nodes, spec["source"], spec["page"], log,
-                         optional=True, what=spec["name"] + " forward")
+                         optional=True, what=spec["name"] + " forward",
+                         data_url=ctx.get("data_url"))
         if len(f):
             f = latest_per_key(f[f["interval_start"] >= end], log)
             fwd_rows, fwd = forward_days(f, nodes, end, tz, spec["step"], log)
     rows = rows[(rows["interval_start"] >= start) & (rows["interval_start"] < end)]
     rows = latest_per_key(rows, log)
-    if spec.get("five_min"):
+    if spec.get("irregular"):
+        rows = rebuild_irregular_intervals(rows, start, end, nodes, log)
+        rows = to_15min_means(split_at_quarters(rows), log)
+    elif spec.get("five_min"):
         check_interval_length(rows, 5, log)
         rows = to_15min_means(rows, log)
     elif "minutes" in spec:
@@ -504,6 +582,14 @@ FIVE_MIN_NOTE = ("RTM values are 15-minute means of the ISO's 5-minute real-time
                  "arithmetic mean of exactly three 5-minute LMPs (interval starts :00, :05, :10 of the "
                  f"quarter hour), rounded to {MEAN_DECIMALS} decimals. A quarter hour missing any "
                  "5-minute price is incomplete and fails the file.")
+NYISO_RT_NOTE = ("RTM values are 15-minute time-weighted means of NYISO's real-time (RTD) LBMPs. NYISO "
+                 "stamps each price at its interval end and adds extra RTD intervals at irregular times "
+                 "between the regular 5-minute stamps; each price is weighted by its interval length "
+                 "(previous stamp to this stamp), and an interval crossing a quarter-hour boundary is "
+                 "split at it. No interval may exceed 5 minutes (a missing stamp is never bridged) and "
+                 "each quarter hour must be fully covered, otherwise the file is not written. Where a quarter hour "
+                 "holds exactly the three regular intervals this equals their arithmetic mean. Rounded "
+                 f"to {MEAN_DECIMALS} decimals.")
 
 
 # ---------------------------------------------------------------------------
@@ -770,7 +856,7 @@ CAISO_OASIS = "https://oasis.caiso.com/mrioasis/logon.do"
 def pull_caiso(ctx):
     """CAISO trading hubs via OASIS PRC_LMP (DAM) and PRC_INTVL_LMP (RTD, 5-minute)."""
     c = gridstatus.CAISO()
-    tz = ctx["tz"]
+    ctx["data_url"] = r"oasisapi/SingleZip"
 
     def fetch(market):
         return lambda day: c.get_lmp(date=day, end=day + pd.Timedelta(days=1), market=market,
@@ -808,6 +894,9 @@ NYISO_PAGE = "https://www.nyiso.com/energy-market-operational-data"
 def pull_nyiso(ctx):
     """NYISO 11 load zones: damlbmp (DAM, hourly) and realtime (RTD, 5-minute)."""
     n = gridstatus.NYISO()
+    # daily csv or monthly zip; not realtime_zone_lbmp.csv, the latest-interval
+    # file gridstatus reads only to label 5- versus 15-minute rows
+    ctx["data_url"] = r"/\d{8}(realtime|damlbmp)_zone"
 
     def fetch(market):
         def f(day):
@@ -833,8 +922,8 @@ def pull_nyiso(ctx):
         dict(name="RTM", describe="NYISO realtime zone via NYISO.get_lmp(REAL_TIME_5_MIN), "
              "aggregated to 15-minute means", fetch=fetch(Markets.REAL_TIME_5_MIN),
              nodes=NYISO_ZONES, source="nyiso:realtime", page=ctx["reports"]["nyiso:realtime"][1],
-             step="15min", five_min=True, variable="lmp_rtm_15m_mean", freq="PT15M",
-             market="nyiso_rtm", file="nyiso_rtm_zone_prices", notes=[FIVE_MIN_NOTE],
+             step="15min", five_min=True, irregular=True, variable="lmp_rtm_15m_mean",
+             freq="PT15M", market="nyiso_rtm", file="nyiso_rtm_zone_prices", notes=[NYISO_RT_NOTE],
              title="NYISO real-time (RTD) LBMPs, 11 load zones, 15-minute means of 5-minute prices"),
     ]
     return run_iso(ctx, specs)
@@ -859,6 +948,7 @@ def pull_miso(ctx):
     the final report where published, the preliminary report otherwise.
     """
     m = gridstatus.MISO()
+    ctx["data_url"] = r"marketreports/\d{8}_"
 
     def dam(day):
         return m.get_lmp(date=day, market=Markets.DAY_AHEAD_HOURLY, locations="ALL")
@@ -913,6 +1003,7 @@ def pull_spp(ctx):
     not posted yet is read from its 288 five-minute interval files instead.
     """
     s = gridstatus.SPP()
+    ctx["data_url"] = r"file-browser-api/download"
 
     def dam(day):
         return s.get_lmp_day_ahead_hourly(date=day, location_type="Hub")
@@ -962,6 +1053,7 @@ ISONE_RTM_PAGE = "https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/l
 def pull_isone(ctx):
     """ISO-NE 8 load zones and the Hub: DA hourly LMP and RT 5-minute LMP."""
     i = gridstatus.ISONE()
+    ctx["data_url"] = r"histRpts|static-transform"
 
     def fetch(market):
         return lambda day: i.get_lmp(date=day, market=market)
@@ -1032,7 +1124,15 @@ def main(argv=None):
     ap.add_argument("iso", choices=sorted(ISOS) + ["all"],
                     help="ISO to pull (pjm is not supported: it needs an API key)")
     ap.add_argument("--days", type=int, default=30, help="complete operating days (default 30)")
+    ap.add_argument("--out-dir", help="write CSVs, logs and raw files under this directory "
+                    "instead of the repository (for trial runs)")
     args = ap.parse_args(argv)
+    if args.out_dir:
+        global OUT_DIR, LOG_DIR, RAW_DIR
+        OUT_DIR = os.path.abspath(args.out_dir)
+        LOG_DIR = os.path.join(OUT_DIR, "logs")
+        RAW_DIR = os.path.join(OUT_DIR, "raw")
+        os.makedirs(OUT_DIR, exist_ok=True)
     isos = sorted(ISOS) if args.iso == "all" else [args.iso]
     failures = sum(run(i, args.days) for i in isos)
     return 1 if failures else 0

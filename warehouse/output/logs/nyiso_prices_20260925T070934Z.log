@@ -1,0 +1,171 @@
+ERW nyiso_prices run 20260925T070934Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 30 operating days, 2026-08-26 00:00:00-04:00 to 2026-09-25 00:00:00-04:00 (exclusive), UTC [2026-08-26T04:00:00Z, 2026-09-25T04:00:00Z)
+raw files: warehouse\raw\nyiso\20260925T070934Z
+DAM: NYISO damlbmp zone via NYISO.get_lmp(DAY_AHEAD_HOURLY)
+  DAM 2026-08-26: 264 rows from 1 file(s)
+    20260925T070934.496343Z_00001_20260801damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260801damlbmp_zone_csv.zip last-modified=Sun, 30 Aug 2026 13:33:05 GMT
+  DAM 2026-08-27: 264 rows from 1 file(s)
+    20260925T070934.496343Z_00001_20260801damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260801damlbmp_zone_csv.zip last-modified=Sun, 30 Aug 2026 13:33:05 GMT
+  DAM 2026-08-28: 264 rows from 1 file(s)
+    20260925T070934.496343Z_00001_20260801damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260801damlbmp_zone_csv.zip last-modified=Sun, 30 Aug 2026 13:33:05 GMT
+  DAM 2026-08-29: 264 rows from 1 file(s)
+    20260925T070934.496343Z_00001_20260801damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260801damlbmp_zone_csv.zip last-modified=Sun, 30 Aug 2026 13:33:05 GMT
+  DAM 2026-08-30: 264 rows from 1 file(s)
+    20260925T070934.496343Z_00001_20260801damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260801damlbmp_zone_csv.zip last-modified=Sun, 30 Aug 2026 13:33:05 GMT
+  DAM 2026-08-31: 264 rows from 1 file(s)
+    20260925T070934.496343Z_00001_20260801damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260801damlbmp_zone_csv.zip last-modified=Sun, 30 Aug 2026 13:33:05 GMT
+  DAM 2026-09-01: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-02: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-03: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-04: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-05: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-06: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-07: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-08: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-09: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-10: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-11: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-12: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-13: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-14: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-15: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-16: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-17: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-18: 264 rows from 1 file(s)
+    20260925T070937.659716Z_00007_20260901damlbmp_zone_csv.zip http://mis.nyiso.com/public/csv/damlbmp/20260901damlbmp_zone_csv.zip last-modified=Thu, 24 Sep 2026 13:33:02 GMT
+  DAM 2026-09-19: 264 rows from 1 file(s)
+    20260925T070947.934458Z_00025_20260919damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260919damlbmp_zone.csv last-modified=Fri, 18 Sep 2026 13:32:03 GMT
+  DAM 2026-09-20: 264 rows from 1 file(s)
+    20260925T070948.286766Z_00026_20260920damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260920damlbmp_zone.csv last-modified=Sat, 19 Sep 2026 13:32:04 GMT
+  DAM 2026-09-21: 264 rows from 1 file(s)
+    20260925T070948.636240Z_00027_20260921damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260921damlbmp_zone.csv last-modified=Sun, 20 Sep 2026 13:33:02 GMT
+  DAM 2026-09-22: 264 rows from 1 file(s)
+    20260925T070948.994192Z_00028_20260922damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260922damlbmp_zone.csv last-modified=Mon, 21 Sep 2026 13:32:03 GMT
+  DAM 2026-09-23: 264 rows from 1 file(s)
+    20260925T070949.323921Z_00029_20260923damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260923damlbmp_zone.csv last-modified=Tue, 22 Sep 2026 13:32:02 GMT
+  DAM 2026-09-24: 264 rows from 1 file(s)
+    20260925T070949.665840Z_00030_20260924damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260924damlbmp_zone.csv last-modified=Wed, 23 Sep 2026 13:32:01 GMT
+  DAM forward 2026-09-25: 264 rows from 1 file(s)
+    20260925T070950.562244Z_00031_20260925damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260925damlbmp_zone.csv last-modified=Thu, 24 Sep 2026 13:33:01 GMT
+  DAM forward 2026-09-26: not available (HTTPError: HTTP Error 404: Not Found), skipped
+  forward DAM day 2026-09-25: complete, included (264 rows)
+  interval length: all 7920 rows are 60 minutes
+  complete: 11 nodes x 720 intervals
+  distinct source_url values: 9
+  nyiso_dam_zone_prices.csv: rows=8184 range=2026-08-26T04:00:00Z..2026-09-26T03:00:00Z nodes=CAPITL,CENTRL,DUNWOD,GENESE,HUD VL,LONGIL,MHK VL,MILLWD,N.Y.C.,NORTH,WEST min=23.34 max=142.18 USD/MWh
+RTM: NYISO realtime zone via NYISO.get_lmp(REAL_TIME_5_MIN), aggregated to 15-minute means
+  RTM 2026-08-26: 3256 rows from 2 file(s)
+    20260925T070953.144709Z_00032_20260801realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260801realtime_zone_csv.zip last-modified=Tue, 01 Sep 2026 03:57:09 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-08-27: 3333 rows from 2 file(s)
+    20260925T070953.144709Z_00032_20260801realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260801realtime_zone_csv.zip last-modified=Tue, 01 Sep 2026 03:57:09 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-08-28: 3212 rows from 2 file(s)
+    20260925T070953.144709Z_00032_20260801realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260801realtime_zone_csv.zip last-modified=Tue, 01 Sep 2026 03:57:09 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-08-29: 3190 rows from 2 file(s)
+    20260925T070953.144709Z_00032_20260801realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260801realtime_zone_csv.zip last-modified=Tue, 01 Sep 2026 03:57:09 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-08-30: 3190 rows from 2 file(s)
+    20260925T070953.144709Z_00032_20260801realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260801realtime_zone_csv.zip last-modified=Tue, 01 Sep 2026 03:57:09 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-08-31: 3234 rows from 2 file(s)
+    20260925T070953.144709Z_00032_20260801realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260801realtime_zone_csv.zip last-modified=Tue, 01 Sep 2026 03:57:09 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-01: 3278 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-02: 3267 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-03: 3168 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-04: 3201 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-05: 3168 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-06: 3190 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-07: 3168 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-08: 3300 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-09: 3278 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-10: 3333 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-11: 3234 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-12: 3168 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-13: 3212 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-14: 3223 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-15: 3256 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-16: 3245 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-17: 3245 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-18: 3190 rows from 2 file(s)
+    20260925T071002.667185Z_00044_20260901realtime_zone_csv.zip http://mis.nyiso.com/public/csv/realtime/20260901realtime_zone_csv.zip last-modified=Fri, 25 Sep 2026 07:07:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-19: 3256 rows from 2 file(s)
+    20260925T071028.177776Z_00080_20260919realtime_zone.csv http://mis.nyiso.com/public/csv/realtime/20260919realtime_zone.csv last-modified=Sun, 20 Sep 2026 03:57:09 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-20: 3223 rows from 2 file(s)
+    20260925T071029.164581Z_00082_20260920realtime_zone.csv http://mis.nyiso.com/public/csv/realtime/20260920realtime_zone.csv last-modified=Mon, 21 Sep 2026 03:57:06 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-21: 3234 rows from 2 file(s)
+    20260925T071030.158036Z_00084_20260921realtime_zone.csv http://mis.nyiso.com/public/csv/realtime/20260921realtime_zone.csv last-modified=Thu, 24 Sep 2026 15:01:04 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-22: 3234 rows from 2 file(s)
+    20260925T071031.005544Z_00086_20260922realtime_zone.csv http://mis.nyiso.com/public/csv/realtime/20260922realtime_zone.csv last-modified=Wed, 23 Sep 2026 03:57:03 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-23: 3223 rows from 2 file(s)
+    20260925T071032.051792Z_00088_20260923realtime_zone.csv http://mis.nyiso.com/public/csv/realtime/20260923realtime_zone.csv last-modified=Thu, 24 Sep 2026 03:57:02 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  RTM 2026-09-24: 3234 rows from 2 file(s)
+    20260925T071033.098293Z_00090_20260924realtime_zone.csv http://mis.nyiso.com/public/csv/realtime/20260924realtime_zone.csv last-modified=Fri, 25 Sep 2026 03:57:02 GMT
+    20260925T070953.609669Z_00033_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 07:07:03 GMT
+  irregular intervals: 96943 intervals for 11 nodes, 1914 stamped off the regular 5-minute grid; none longer than 5 minutes; weighted by length
+  968 quarter hours hold other than three intervals (time-weighted)
+  aggregated 96943 5-minute rows to 31680 15-minute means
+  complete: 11 nodes x 2880 intervals
+  distinct source_url values: 1
+  nyiso_rtm_zone_prices.csv: rows=31680 range=2026-08-26T04:00:00Z..2026-09-25T03:45:00Z nodes=CAPITL,CENTRL,DUNWOD,GENESE,HUD VL,LONGIL,MHK VL,MILLWD,N.Y.C.,NORTH,WEST min=-47.47 max=694.99 USD/MWh
+done, failures=0
