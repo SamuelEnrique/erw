@@ -82,7 +82,7 @@ One row per deal, filing, or announcement.
 | Column | Required | Type | Rules |
 |---|---|---|---|
 | `event_id` | yes | string | `namespace:native_id` when the source has an id (a docket number); otherwise a stable hash documented by the connector |
-| `event_date` | yes | date | Date the event happened or was announced (say which in the connector) |
+| `event_date` | yes | date or UTC time | `YYYY-MM-DD`, or `YYYY-MM-DDTHH:MM:SSZ` when the time matters (news publish time). Date the event happened or was announced (say which in the connector) |
 | `event_type` | yes | string | `ppa`, `interconnection_request`, `filing`, `announcement`, `acquisition`, `financing` |
 | `parties` | no | string | Parties as named by the source, separated by `;` |
 | `entity_ids` | no | string | `entities.entity_id` values involved, separated by `;` |
@@ -126,10 +126,12 @@ What was chosen, and why:
 
 14. **EIA-930: a gappy per-fuel series is dropped, not the table** (session 6 human ruling a). In an EIA-930 table, `demand_mw`, `demand_forecast_mw` and `net_generation_mw` must be complete for the window or the table is not written. A `net_generation_<fuel>_mw` series missing any hour is dropped for that run, named in the table header and in `warehouse/metadata/run_status.csv` (status `ok`, detail `dropped series: ...`), and rows for it from earlier complete runs are kept. Reason: one sporadic fuel series (for example EIA's unknown-storage category) should not withhold complete demand and generation data.
 
+15. **News stories in the events shape, and validator checks for events** (session 6). `news_stories` holds one row per story: the events columns in order, then `title`, `summary` (at most 500 characters; never an article body), `feed`, `feed_sector`, `feed_region` (the feed's beat, from `warehouse/news/feeds.yaml`), `retrieved_at`, and the model's scores `significance`, `ai_power_relevance` (0 to 10), `sector`, `region`, `price_mentioned`, `why`, `cluster_id`, `model_id`, `scored_at`; the model's `mw` and `parties` fill the standard columns. `event_date` may carry a time: `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM:SSZ` (UTC), because a news brief needs the publish time. An events table is named `domain_product` with at least two parts (it has no market; series keep `source_market_product`). Third-party news text is `internal` in the source registry: stored for scoring and linking, not republished. The validator now enforces the events shape: standard columns first and in order, unique non-empty `event_id`, `event_date` format, `source` and an http(s) `source_url` present, numeric `mw`, `price` and scores (scores 0 to 10), ISO 4217 `currency`. Reason: news is the first events source, and a shape without checks would drift.
+
 Deferred to a later version:
 
 - A controlled vocabulary for `variable`, `entity_type`, `event_type` and `status`, enforced by the validator the way the IRW enforces its tag vocabulary.
-- Validator checks for `entities` and `events`.
+- Validator checks for `entities` (events checks exist since session 6).
 - An entity crosswalk between namespaces (the same plant in EIA-860 and in an ISO queue).
 - Revision history as a first-class concept, and a rule for which vintage the live layer serves.
 - Parquet alongside CSV for large tables, and a size limit that forces it.

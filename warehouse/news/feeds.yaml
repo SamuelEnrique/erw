@@ -1,0 +1,235 @@
+# News feeds of the Energy Research Warehouse (ERW), read by warehouse/news/ingest.py.
+#
+# One entry per feed: name, url, sector, region, via.
+#   sector: power, gas, oil, lng, nuclear, renewables, storage, transmission, datacenter,
+#           policy, capital, general (the feed's beat; the model scores each story's own sector)
+#   region: us or global
+#   via:    direct               the outlet's own RSS or Atom feed
+#           google_news_site     a Google News RSS search limited to the outlet's site, used
+#                                because the outlet offers no working public feed
+#           google_news_catchall a Google News RSS search of a paywalled outlet's energy desk
+#   For Google News entries, the originating outlet is read from each item's <source>.
+# Every URL was checked to return entries on 2026-09-25 (session 6); titles, summaries and
+# links only are stored, never article bodies.
+
+feeds:
+  - name: "Utility Dive"
+    url: "https://www.utilitydive.com/feeds/news/"
+    sector: power
+    region: us
+    via: direct
+  - name: "Canary Media"
+    url: "https://www.canarymedia.com/rss.rss"
+    sector: renewables
+    region: us
+    via: direct
+  - name: "Latitude Media"
+    url: "https://www.latitudemedia.com/rss"
+    sector: power
+    region: us
+    via: direct
+  - name: "Heatmap News"
+    url: "https://heatmap.news/feeds/feed.rss"
+    sector: general
+    region: us
+    via: direct
+  - name: "POWER Magazine"
+    url: "https://www.powermag.com/feed/"
+    sector: power
+    region: us
+    via: direct
+  - name: "pv magazine USA"
+    url: "https://pv-magazine-usa.com/feed/"
+    sector: renewables
+    region: us
+    via: direct
+  - name: "Energy-Storage.news"
+    url: "https://www.energy-storage.news/feed/"
+    sector: storage
+    region: global
+    via: direct
+  - name: "T&D World"
+    url: "https://www.tdworld.com/__rss/website-scheduled-content.xml?input=%7B%22sectionAlias%22%3A%22home%22%7D"
+    sector: transmission
+    region: us
+    via: direct
+  - name: "World Nuclear News"
+    url: "https://www.world-nuclear-news.org/rss"
+    sector: nuclear
+    region: global
+    via: direct
+  - name: "ANS Nuclear Newswire"
+    url: "https://www.ans.org/news/feed/"
+    sector: nuclear
+    region: us
+    via: direct
+  - name: "Hydrogen Insight"
+    url: "https://news.google.com/rss/search?q=site%3Ahydrogeninsight.com+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: general
+    region: global
+    via: google_news_site
+  - name: "Electrek"
+    url: "https://electrek.co/feed/"
+    sector: renewables
+    region: global
+    via: direct
+  - name: "OilPrice.com"
+    url: "https://oilprice.com/rss/main"
+    sector: oil
+    region: global
+    via: direct
+  - name: "Rigzone"
+    url: "https://www.rigzone.com/news/rss/rigzone_latest.aspx"
+    sector: oil
+    region: global
+    via: direct
+  - name: "World Oil"
+    url: "https://www.worldoil.com/rss?feed=news"
+    sector: oil
+    region: global
+    via: direct
+  - name: "Hart Energy"
+    url: "https://news.google.com/rss/search?q=site%3Ahartenergy.com+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: oil
+    region: us
+    via: google_news_site
+  - name: "JPT (SPE)"
+    url: "https://news.google.com/rss/search?q=site%3Ajpt.spe.org+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: oil
+    region: global
+    via: google_news_site
+  - name: "Natural Gas Intelligence"
+    url: "https://www.naturalgasintel.com/feed/"
+    sector: gas
+    region: us
+    via: direct
+  - name: "LNG Prime"
+    url: "https://lngprime.com/feed/"
+    sector: lng
+    region: global
+    via: direct
+  - name: "Data Center Dynamics"
+    url: "https://www.datacenterdynamics.com/en/rss/"
+    sector: datacenter
+    region: global
+    via: direct
+  - name: "Data Center Frontier"
+    url: "https://www.datacenterfrontier.com/__rss/website-scheduled-content.xml?input=%7B%22sectionAlias%22%3A%22home%22%7D"
+    sector: datacenter
+    region: us
+    via: direct
+  - name: "Data Center Knowledge"
+    url: "https://www.datacenterknowledge.com/rss.xml"
+    sector: datacenter
+    region: global
+    via: direct
+  - name: "EIA Today in Energy"
+    url: "https://www.eia.gov/rss/todayinenergy.xml"
+    sector: general
+    region: us
+    via: direct
+  - name: "EIA This Week in Petroleum"
+    url: "https://www.eia.gov/petroleum/weekly/includes/week_in_petroleum_rss.xml"
+    sector: oil
+    region: us
+    via: direct
+  - name: "FERC news"
+    url: "https://news.google.com/rss/search?q=site%3Aferc.gov+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: policy
+    region: us
+    via: google_news_site
+  - name: "NRC news"
+    url: "https://www.nrc.gov/public-involve/rss?feed=news"
+    sector: nuclear
+    region: us
+    via: direct
+  - name: "DOE newsroom"
+    url: "https://www.energy.gov/rss/newsroom.xml"
+    sector: policy
+    region: us
+    via: direct
+  - name: "EPA news"
+    url: "https://news.google.com/rss/search?q=site%3Aepa.gov+%28energy+OR+power+OR+emissions+OR+methane+OR+%22power+plant%22%29+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: policy
+    region: us
+    via: google_news_site
+  - name: "OPEC press releases"
+    url: "https://news.google.com/rss/search?q=site%3Aopec.org+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: oil
+    region: global
+    via: google_news_site
+  - name: "IEA news"
+    url: "https://news.google.com/rss/search?q=site%3Aiea.org+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: general
+    region: global
+    via: google_news_site
+  - name: "ERCOT newsroom"
+    url: "https://news.google.com/rss/search?q=site%3Aercot.com+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: power
+    region: us
+    via: google_news_site
+  - name: "CAISO newsroom"
+    url: "https://news.google.com/rss/search?q=site%3Acaiso.com+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: power
+    region: us
+    via: google_news_site
+  - name: "NYISO newsroom"
+    url: "https://news.google.com/rss/search?q=site%3Anyiso.com+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: power
+    region: us
+    via: google_news_site
+  - name: "MISO newsroom"
+    url: "https://news.google.com/rss/search?q=site%3Amisoenergy.org+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: power
+    region: us
+    via: google_news_site
+  - name: "SPP newsroom"
+    url: "https://news.google.com/rss/search?q=site%3Aspp.org+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: power
+    region: us
+    via: google_news_site
+  - name: "ISO-NE newsroom"
+    url: "https://isonewswire.com/feed/"
+    sector: power
+    region: us
+    via: direct
+  - name: "PJM newsroom"
+    url: "https://insidelines.pjm.com/feed/"
+    sector: power
+    region: us
+    via: direct
+  - name: "Texas PUC news"
+    url: "https://news.google.com/rss/search?q=site%3Apuc.texas.gov+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: policy
+    region: us
+    via: google_news_site
+  - name: "CPUC news"
+    url: "https://news.google.com/rss/search?q=site%3Acpuc.ca.gov+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: policy
+    region: us
+    via: google_news_site
+  - name: "CTVC"
+    url: "https://www.ctvc.co/rss/"
+    sector: capital
+    region: global
+    via: direct
+  - name: "Reuters energy (via Google News)"
+    url: "https://news.google.com/rss/search?q=site%3Areuters.com+%28energy+OR+oil+OR+gas+OR+power+OR+electricity%29+when%3A1d&hl=en-US&gl=US&ceid=US:en"
+    sector: general
+    region: global
+    via: google_news_catchall
+  - name: "Bloomberg energy (via Google News)"
+    url: "https://news.google.com/rss/search?q=site%3Abloomberg.com+%28energy+OR+oil+OR+gas+OR+power+OR+electricity%29+when%3A1d&hl=en-US&gl=US&ceid=US:en"
+    sector: general
+    region: global
+    via: google_news_catchall
+  - name: "WSJ energy (via Google News)"
+    url: "https://news.google.com/rss/search?q=site%3Awsj.com+%28energy+OR+oil+OR+gas+OR+power+OR+electricity%29+when%3A1d&hl=en-US&gl=US&ceid=US:en"
+    sector: general
+    region: global
+    via: google_news_catchall
+  - name: "FT energy (via Google News)"
+    url: "https://news.google.com/rss/search?q=site%3Aft.com+%28energy+OR+oil+OR+gas+OR+power+OR+electricity%29+when%3A1d&hl=en-US&gl=US&ceid=US:en"
+    sector: general
+    region: global
+    via: google_news_catchall

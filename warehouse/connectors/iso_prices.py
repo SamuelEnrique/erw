@@ -110,7 +110,8 @@ def update_sources(entries):
         reg.loc[sid] = {
             "source": sid, "publisher": e.get("publisher", ""), "report": e.get("report", ""),
             "report_url": e.get("report_url", ""), "document_list": e.get("document_list", ""),
-            "license": license_of(sid), "tables": ";".join(sorted(tables)),
+            # an entry may state its license (third-party news text is internal); else the rule
+            "license": e.get("license") or license_of(sid), "tables": ";".join(sorted(tables)),
             "first_seen": first, "last_seen": today}
     reg = reg.sort_index()[SOURCE_COLS]
     tmp = path + ".tmp"
@@ -455,8 +456,12 @@ def to_series(rows, iso, variable, freq, market, geo):
 SERIES_KEY = ["entity", "variable", "ts_utc"]
 
 
-def read_series(path):
-    """An existing output file as a frame (header comment lines skipped)."""
+def read_series(path, cols=None):
+    """An existing output file as a frame (header comment lines skipped).
+
+    cols: the columns the file must have, in order (default: the series shape).
+    """
+    cols = SERIES_COLS if cols is None else cols
     with open(path, encoding="utf-8") as f:
         n = 0
         for line in f:
@@ -464,47 +469,57 @@ def read_series(path):
                 break
             n += 1
     old = pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False, na_values=[])
-    if list(old.columns) != SERIES_COLS:
-        raise RuntimeError(f"{path} has columns {list(old.columns)}, expected {SERIES_COLS}; "
+    if list(old.columns) != cols:
+        raise RuntimeError(f"{path} has columns {list(old.columns)}, expected {cols}; "
                            "not merging into a file of another shape")
-    old["value"] = pd.to_numeric(old["value"], errors="raise")
+    if "value" in old.columns:
+        old["value"] = pd.to_numeric(old["value"], errors="raise")
     return old
 
 
-def merge_series(old, new):
+def merge_series(old, new, key=None, cols=None):
     """Idempotent merge: new rows replace old rows with the same key, others are kept.
 
-    Key is (entity, variable, ts_utc). Running the same pull twice gives the
-    same file; a pull that overlaps an earlier one never duplicates a row.
+    Key is (entity, variable, ts_utc) for the series shape, or the given key
+    (event_id for events). Running the same pull twice gives the same file; a
+    pull that overlaps an earlier one never duplicates a row.
     """
-    if new.duplicated(SERIES_KEY).any():
-        raise RuntimeError("new rows repeat an (entity, variable, ts_utc) key; refusing to merge")
-    new = new.sort_values(SERIES_KEY).reset_index(drop=True)[SERIES_COLS]
+    key = SERIES_KEY if key is None else key
+    cols = SERIES_COLS if cols is None else cols
+    if new.duplicated(key).any():
+        raise RuntimeError(f"new rows repeat a {tuple(key)} key; refusing to merge")
+    new = new.sort_values(key).reset_index(drop=True)[cols]
     if old is None or old.empty:
         return new, {"kept": 0, "replaced": 0, "added": len(new)}
-    old_keys = pd.MultiIndex.from_frame(old[SERIES_KEY])
-    new_keys = pd.MultiIndex.from_frame(new[SERIES_KEY])
+    old_keys = pd.MultiIndex.from_frame(old[key])
+    new_keys = pd.MultiIndex.from_frame(new[key])
     replaced = old_keys.isin(new_keys)
     kept = old[~replaced]
     merged = pd.concat([kept, new], ignore_index=True)
-    merged = merged.sort_values(SERIES_KEY).reset_index(drop=True)[SERIES_COLS]
-    if merged.duplicated(SERIES_KEY).any():
+    merged = merged.sort_values(key).reset_index(drop=True)[cols]
+    if merged.duplicated(key).any():
         raise RuntimeError("merge produced duplicate keys")
     stats = {"kept": len(kept), "replaced": int(replaced.sum()),
              "added": len(new) - int(replaced.sum())}
     return merged, stats
 
 
-def write_csv(series, name, header_lines, log):
-    """Write a series table, merging into any existing file of the same name."""
+def write_csv(series, name, header_lines, log, cols=None, key=None, time_col="ts_utc"):
+    """Write a table, merging into any existing file of the same name.
+
+    Defaults are the series shape; the events shape passes its own columns,
+    key (event_id) and time column (event_date).
+    """
+    cols = SERIES_COLS if cols is None else cols
+    key = SERIES_KEY if key is None else key
     path = os.path.join(OUT_DIR, name + ".csv")
-    old = read_series(path) if os.path.exists(path) else None
-    merged, st = merge_series(old, series)
-    merge_line = (f"File holds {len(merged)} rows, {merged['ts_utc'].min()} to "
-                  f"{merged['ts_utc'].max()}. This run wrote {len(series)} rows: {st['added']} new, "
-                  f"{st['replaced']} replacing earlier rows with the same (entity, variable, "
-                  f"ts_utc); {st['kept']} rows are kept from earlier runs. Per row, source, "
-                  "source_url, retrieved_at and vintage say where it came from; earlier run logs "
+    old = read_series(path, cols) if os.path.exists(path) else None
+    merged, st = merge_series(old, series, key, cols)
+    merge_line = (f"File holds {len(merged)} rows, {merged[time_col].min()} to "
+                  f"{merged[time_col].max()}. This run wrote {len(series)} rows: {st['added']} new, "
+                  f"{st['replaced']} replacing earlier rows with the same ({', '.join(key)}); "
+                  f"{st['kept']} rows are kept from earlier runs. Per row, source, "
+                  "source_url and retrieved_at say where it came from; earlier run logs "
                   "are in warehouse/output/logs/.")
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8", newline="") as f:
@@ -512,6 +527,13 @@ def write_csv(series, name, header_lines, log):
             f.write("# " + line + "\n")
         merged.to_csv(f, index=False, lineterminator="\n")
     os.replace(tmp, path)
+    if "value" not in merged.columns:  # events: no value, no node
+        summary = (f"{name}.csv: rows={len(merged)} (this run {len(series)}: {st['added']} new, "
+                   f"{st['replaced']} replaced, {st['kept']} kept) "
+                   f"range={merged[time_col].min()}..{merged[time_col].max()}")
+        print(summary)
+        log("  " + summary)
+        return path
     v = merged["value"]
     nodes = sorted(n for n in merged["node"].unique() if n) or sorted(merged["entity"].unique())
     summary = (f"{name}.csv: rows={len(merged)} (this run {len(series)}: {st['added']} new, "

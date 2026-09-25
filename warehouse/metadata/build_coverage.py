@@ -71,8 +71,33 @@ def last_run(header):
     return ""
 
 
+def events_row(path, header, df, licenses, status):
+    """Coverage for an events table (session 6): times from event_date, counts of sources."""
+    table = os.path.splitext(os.path.basename(path))[0]
+    d = df["event_date"].where(df["event_date"].str.contains("T"), df["event_date"] + "T00:00:00Z")
+    ts = pd.to_datetime(d, format=erw_validate.TS_FMT, utc=True)
+    sources = sorted(df["source"].unique())
+    unknown = [s for s in sources if s not in licenses]
+    if unknown:
+        raise ValueError(f"{table}: sources {unknown[:5]} are not in {SOURCES}; cannot set its license")
+    license_ = "internal" if any(licenses[s] == "internal" for s in sources) else "public"
+    return {
+        "table": table, "iso": "none", "market": "", "n_nodes": len(sources), "interval": "event",
+        "ts_min": ts.min().strftime("%Y-%m-%dT%H:%M:%SZ"), "ts_max": ts.max().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "n_rows": len(df), "source_report": f"{len(sources)} outlets", "last_run": last_run(header),
+        "validator_status": status, "license": license_,
+        "_variable": "events: " + ", ".join(sorted(df["event_type"].unique())),
+        "_nodes": f"{len(sources)} sources",
+    }
+
+
 def table_row(path, licenses):
     header, df = erw_validate.read(path)
+    if "event_id" in df.columns:
+        report = erw_validate.validate(path)
+        n_err, n_warn = len(report["errors"]), len(report["warnings"])
+        status = "pass" if not n_err else f"blocked ({n_err} errors)"
+        return events_row(path, header, df, licenses, status + (f", {n_warn} warnings" if n_warn else ""))
     report = erw_validate.validate(path)
     n_err, n_warn = len(report["errors"]), len(report["warnings"])
     status = "pass" if not n_err else f"blocked ({n_err} errors)"

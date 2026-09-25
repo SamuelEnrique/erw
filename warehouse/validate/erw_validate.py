@@ -39,6 +39,79 @@ ENTITY_RE = re.compile(r"^[a-z0-9_]+:.+$")
 GEO_RE = re.compile(r"^[A-Z]{2}(-[A-Z0-9]{1,3})?$")
 
 
+EVENTS_NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+)+$")
+EVENTS_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price",
+               "currency", "status", "source", "source_url"]
+EVENTS_REQUIRED = ["event_id", "event_date", "event_type", "source", "source_url"]
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+CURRENCY_RE = re.compile(r"^[A-Z]{3}$")
+SCORE_COLS = ["significance", "ai_power_relevance"]  # news scores, 0 to 10 (Decision 15)
+
+
+def validate_events(df, header, err, warn, info):
+    """The events shape of docs/datastandard.md (session 6)."""
+    cols = list(df.columns)
+    if not header:
+        warn("provenance_header", "no '#' provenance header lines; connector output must have them")
+    missing = [c for c in EVENTS_REQUIRED if c not in cols]
+    if missing:
+        err("required_columns", f"missing required events column(s): {', '.join(missing)}")
+        return
+    present = [c for c in cols if c in EVENTS_COLS]
+    if present != [c for c in EVENTS_COLS if c in cols] or cols[:len(present)] != present:
+        err("required_order", f"events standard columns must come first, in the order "
+            f"{EVENTS_COLS}; got {cols[:len(EVENTS_COLS)]}")
+    if len(set(cols)) != len(cols):
+        err("duplicate_columns", "a column name appears more than once")
+    if len(df) == 0:
+        err("empty", "no data rows")
+        return
+    blank_id = df["event_id"].str.strip() == ""
+    if blank_id.any():
+        err("event_id_missing", f"{int(blank_id.sum())} empty event_id value(s)")
+    dup = df["event_id"].duplicated(keep=False) & ~blank_id
+    if dup.any():
+        err("duplicate_key", f"{int(dup.sum())} rows share an event_id, e.g. "
+            f"{examples(df.loc[dup, 'event_id'].unique())}")
+    d = df["event_date"]
+    bad = d[~(d.str.match(DATE_RE) | d.str.match(TS_RE))]
+    if len(bad):
+        err("event_date_format", f"{len(bad)} value(s) neither YYYY-MM-DD nor "
+            f"YYYY-MM-DDTHH:MM:SSZ: {examples(bad.unique())}")
+    else:
+        parsed = pd.to_datetime(d.where(d.str.match(TS_RE), d + "T00:00:00Z"), format=TS_FMT,
+                                utc=True, errors="coerce")
+        if parsed.isna().any():
+            err("event_date_parse", f"{int(parsed.isna().sum())} value(s) are not real dates")
+        else:
+            info.append(f"event_date {parsed.min():%Y-%m-%dT%H:%M:%SZ} .. {parsed.max():%Y-%m-%dT%H:%M:%SZ}")
+    for c in ("event_type", "source", "source_url"):
+        blank = df[c].str.strip() == ""
+        if blank.any():
+            err(f"{c}_present", f"{int(blank.sum())} row(s) with empty '{c}'")
+    not_http = df["source_url"][~df["source_url"].str.match(r"^https?://") & (df["source_url"] != "")]
+    if len(not_http):
+        err("source_url_format", f"{len(not_http)} source_url value(s) not http(s): "
+            f"{examples(not_http.unique())}")
+    for c in ("mw", "price") + tuple(c for c in SCORE_COLS if c in cols):
+        if c not in cols:
+            continue
+        v = df[c][df[c].str.strip() != ""]
+        num = pd.to_numeric(v, errors="coerce")
+        if num.isna().any():
+            err(f"{c}_numeric", f"{int(num.isna().sum())} non-numeric {c} value(s): "
+                f"{examples(v[num.isna()].unique())}")
+        if c in SCORE_COLS and ((num < 0) | (num > 10)).any():
+            err(f"{c}_range", f"{int(((num < 0) | (num > 10)).sum())} {c} value(s) outside 0 to 10")
+    if "currency" in cols:
+        v = df["currency"][df["currency"].str.strip() != ""]
+        bad = v[~v.str.match(CURRENCY_RE)]
+        if len(bad):
+            err("currency_format", f"{len(bad)} currency value(s) not ISO 4217: {examples(bad.unique())}")
+    info.append(f"events={len(df)} event_types={sorted(df['event_type'].unique())} "
+                f"sources={df['source'].nunique()}")
+
+
 class BadInput(Exception):
     pass
 
@@ -85,13 +158,21 @@ def validate(path):
         err("file_extension", f"expected .csv, got {ext or 'none'}")
     if len(stem) > NAME_MAX:
         err("file_name_length", f"'{stem}' is {len(stem)} characters, max {NAME_MAX}")
-    if not NAME_RE.match(stem):
-        err("file_name_pattern", f"'{stem}' is not source_market_product "
-            "(lowercase letters, digits, underscores, at least three parts)")
 
     header, df = read(path)
     cols = list(df.columns)
     info.append(f"rows={len(df)} columns={len(cols)} header_comment_lines={len(header)}")
+
+    if "event_id" in cols:  # the events shape (session 6)
+        if not EVENTS_NAME_RE.match(stem):
+            err("file_name_pattern", f"'{stem}' is not domain_product (lowercase letters, digits, "
+                "underscores, at least two parts; events tables have no market)")
+        validate_events(df, header, err, warn, info)
+        return {"file": path, "standard": STANDARD, "shape": "events",
+                "errors": errors, "warnings": warnings, "info": info}
+    if not NAME_RE.match(stem):
+        err("file_name_pattern", f"'{stem}' is not source_market_product "
+            "(lowercase letters, digits, underscores, at least three parts)")
 
     if not header:
         warn("provenance_header", "no '#' provenance header lines; connector output must have them")
@@ -246,7 +327,7 @@ def main(argv=None):
             if r["verdict"] == "bad input":
                 print(f"  BAD INPUT: {r['detail']}")
                 continue
-            print(f"  {STANDARD}, shape series: {r['verdict'].upper()} "
+            print(f"  {STANDARD}, shape {r['shape']}: {r['verdict'].upper()} "
                   f"({len(r['errors'])} error(s), {len(r['warnings'])} warning(s))")
             for i in r["info"]:
                 print(f"  info  {i}")

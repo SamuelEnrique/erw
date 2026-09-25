@@ -46,3 +46,5 @@ xlrd==2.0.2
 xmltodict==0.15.1
 zipp==3.23.1
 python-dotenv==1.2.3
+feedparser==6.0.14
+PyYAML==6.0.3
