@@ -103,7 +103,7 @@ jobs:
             echo "::warning::markets not written today: $failed"
           fi
           # Only the tracked outputs; warehouse/raw/ is gitignored and stays out.
-          git add -- warehouse/output docs/coverage.md warehouse/metadata/coverage.csv
+          git add -- warehouse/output docs/coverage.md warehouse/metadata/coverage.csv                      warehouse/metadata/run_status.csv warehouse/metadata/sources.csv
           if git diff --cached --quiet; then
             echo "No table changed today; nothing to commit."
             exit 0
@@ -115,6 +115,34 @@ jobs:
           # main may have moved while the job ran
           git pull --rebase origin main
           git push origin HEAD:main
+
+      - name: Open an issue for a market failing three daily runs in a row
+        # Session 5 ruling. Counts scheduled runs only (runner github), so a
+        # local test run does not start or break a streak. One issue per
+        # market: an open issue with the same title is not duplicated.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python warehouse/metadata/run_status.py streaks --n 3 --runner github             --out runs/failure_streaks_github.txt
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            market="${line%%:*}"
+            title="ERW market failing 3 daily runs: $market"
+            open=$(gh issue list --state open --search "in:title \"$title\"" --json title                      --jq "map(select(.title == \"$title\")) | length")
+            if [ "$open" -gt 0 ]; then
+              echo "issue already open: $title"
+              continue
+            fi
+            {
+              echo "$line"
+              echo
+              echo "The market has not been written for three scheduled runs. Its run log"
+              echo "in warehouse/output/logs/ and warehouse/metadata/run_status.csv say why."
+              echo "Nothing partial was written. Close this issue when the market is back."
+            } > streak_issue.md
+            gh issue create --title "$title" --body-file streak_issue.md
+          done < runs/failure_streaks_github.txt
 
       - name: Report a failure
         if: failure()

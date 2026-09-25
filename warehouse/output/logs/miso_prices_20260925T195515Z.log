@@ -1,0 +1,33 @@
+ERW miso_prices run 20260925T195515Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 3 operating days, 2026-09-22 00:00:00-05:00 to 2026-09-25 00:00:00-05:00 (exclusive), UTC [2026-09-22T05:00:00Z, 2026-09-25T05:00:00Z)
+raw files: warehouse\raw\miso\20260925T195515Z
+DAM: MISO DA ex-post LMP via MISO.get_lmp(DAY_AHEAD_HOURLY)
+  DAM 2026-09-22: 192 rows from 1 data file(s) (1 responses)
+    20260925T195516.471480Z_00001_20260922_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260922_da_expost_lmp.csv last-modified=Mon, 21 Sep 2026 18:19:44 GMT
+  DAM 2026-09-23: 192 rows from 1 data file(s) (1 responses)
+    20260925T195518.476038Z_00002_20260923_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260923_da_expost_lmp.csv last-modified=Tue, 22 Sep 2026 18:19:43 GMT
+  DAM 2026-09-24: 192 rows from 1 data file(s) (1 responses)
+    20260925T195520.501992Z_00003_20260924_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260924_da_expost_lmp.csv last-modified=Wed, 23 Sep 2026 18:19:44 GMT
+  DAM forward 2026-09-25: 192 rows from 1 data file(s) (1 responses)
+    20260925T195522.548262Z_00004_20260925_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260925_da_expost_lmp.csv last-modified=Thu, 24 Sep 2026 18:19:42 GMT
+  DAM forward 2026-09-26: 192 rows from 1 data file(s) (1 responses)
+    20260925T195524.479411Z_00005_20260926_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260926_da_expost_lmp.csv last-modified=Fri, 25 Sep 2026 18:19:38 GMT
+  forward DAM day 2026-09-25: complete, included (192 rows)
+  forward DAM day 2026-09-26: complete, included (192 rows)
+  interval length: all 576 rows are 60 minutes
+  complete: 8 nodes x 72 intervals
+  distinct source_url values: 5
+  miso_dam_hub_prices.csv: rows=6144 (this run 960: 192 new, 768 replaced, 5184 kept) range=2026-08-26T05:00:00Z..2026-09-27T04:00:00Z nodes=ARKANSAS.HUB,ILLINOIS.HUB,INDIANA.HUB,LOUISIANA.HUB,MICHIGAN.HUB,MINN.HUB,MS.HUB,TEXAS.HUB min=6.83 max=719.54 USD/MWh
+RTM: MISO RT ex-post hourly LMP via MISO.get_lmp(REAL_TIME_HOURLY_FINAL, else REAL_TIME_HOURLY_PRELIM)
+  RTM 2026-09-22: 192 rows from 1 data file(s) (1 responses)
+    20260925T195527.336064Z_00006_20260922_rt_lmp_prelim.csv https://docs.misoenergy.org/marketreports/20260922_rt_lmp_prelim.csv last-modified=Wed, 23 Sep 2026 11:19:41 GMT
+  RTM 2026-09-23: 192 rows from 1 data file(s) (1 responses)
+    20260925T195530.026340Z_00007_20260923_rt_lmp_prelim.csv https://docs.misoenergy.org/marketreports/20260923_rt_lmp_prelim.csv last-modified=Thu, 24 Sep 2026 11:19:41 GMT
+  RTM 2026-09-24: 192 rows from 1 data file(s) (1 responses)
+    20260925T195532.349132Z_00008_20260924_rt_lmp_prelim.csv https://docs.misoenergy.org/marketreports/20260924_rt_lmp_prelim.csv last-modified=Fri, 25 Sep 2026 11:19:41 GMT
+  interval length: all 576 rows are 60 minutes
+  complete: 8 nodes x 72 intervals
+  distinct source_url values: 3
+  miso_rtm_hub_prices.csv: rows=576 (this run 576: 576 new, 0 replaced, 0 kept) range=2026-09-22T05:00:00Z..2026-09-25T04:00:00Z nodes=ARKANSAS.HUB,ILLINOIS.HUB,INDIANA.HUB,LOUISIANA.HUB,MICHIGAN.HUB,MINN.HUB,MS.HUB,TEXAS.HUB min=12.91 max=228.81 USD/MWh
+done, failures=0

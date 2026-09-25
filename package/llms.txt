@@ -1,8 +1,10 @@
 # Energy Research Warehouse (ERW): briefing for AI assistants
 
 The Energy Research Warehouse (ERW) is an open, harmonized warehouse of US
-power market data: day-ahead and real-time prices from six ISOs, reshaped into
-one long table format, every row traceable to the ISO report it came from.
+power market data: day-ahead and real-time prices from six ISOs, hourly demand
+and generation by fuel for the seven ISOs and the US Lower 48 (EIA-930), and
+daily Henry Hub, WTI and Brent spot prices (EIA). One long table format, every
+row traceable to the report it came from.
 (In sustainability writing "ERW" also means enhanced rock weathering. Not here.)
 This briefing is modeled on the IRW's llms.txt (itemresponsewarehouse.org). It
 tells an assistant what the data are, how to read them with the `erw` Python
@@ -29,25 +31,28 @@ Do not answer from memory or from this file: tables are added and extended daily
 
 ## 1. The data standard (series shape)
 
-Every table is one row per observation: one price, for one node, in one interval.
+Every table is one row per observation: one value, for one entity, in one interval.
 
 | column | meaning |
 |---|---|
-| entity | `iso:NODE`, e.g. `ercot:HB_NORTH`, `nyiso:N.Y.C.` |
-| variable | what the value is, e.g. `spp_dam`, `lmp_dam`, `lmp_rtm_15m_mean` |
+| entity | `iso:NODE` (`ercot:HB_NORTH`), `eia930:BA` (`eia930:CISO`), `eia:henry_hub` |
+| variable | e.g. `spp_dam`, `lmp_dam`, `lmp_rtm_15m_mean`, `demand_mw`, `net_generation_solar_mw`, `spot_price` |
 | ts_utc | START of the interval, UTC (erw.fetch returns tz-aware timestamps) |
-| value | the price, float, USD/MWh |
-| unit | `USD/MWh` for every price table today |
-| freq | interval length, ISO 8601: `PT1H`, `PT15M` |
+| value | float, in `unit` |
+| unit | `USD/MWh` (power prices), `MW` (EIA-930), `USD/MMBtu` (Henry Hub), `USD/bbl` (WTI, Brent) |
+| freq | interval length, ISO 8601: `PT1H`, `PT15M`, `P1D` |
 | geo | ISO 3166-2 code(s): `US-TX`, or a comma-separated list for multi-state ISOs |
-| market | `<iso>_dam` or `<iso>_rtm` |
-| node | the ISO's own node name, unchanged |
+| market | `<iso>_dam` or `<iso>_rtm`; empty for EIA tables |
+| node | the ISO's own node name, unchanged; empty for EIA tables (use entity) |
 | source | `iso:report` the value came from, e.g. `ercot:NP4-190-CD` |
 | source_url | the exact file, or the report page when several files supplied a day |
 | retrieved_at | when the ERW downloaded it (UTC) |
 | vintage | when the ISO published it, where the ISO says (can be empty) |
 
 Key: (entity, variable, ts_utc) is unique in every table.
+License: every table is `public` or `internal` (`erw.coverage()["license"]`).
+PJM data are licensed for internal use only; never publish or redistribute an
+`internal` table, and use `erw.filter(license="public")` for anything public.
 Table names: `<iso>_<market>_<product>`, e.g. `caiso_rtm_hub_prices`.
 Each CSV starts with `#` provenance lines; `erw.fetch` parses them into
 `df.attrs["erw"]` (title, window, forward_dam_days, sources, run_log, notes).
@@ -60,12 +65,16 @@ If you read a CSV without the package, skip those lines by count. Never use
 1. **ts_utc is the interval START, not the end.** ISOs label hours as "hour
    ending 1" (00:00 to 01:00). The ERW has converted: HE1 on a Central day is
    `05:00Z` in summer. Do not shift it again. To get the end, add `freq`.
+   EIA-930 labels hours by their END in UTC; the ERW subtracted one hour.
+   Daily series (`P1D`, fuel prices) use the trading DATE at `00:00Z`: it is a
+   date, not an instant; do not convert it to a local time zone.
 
 2. **Operating days are local, ts_utc is UTC.** An ERCOT operating day runs
    05:00Z to 05:00Z (CDT) or 06:00Z to 06:00Z (CST). Group by day only after
    `df["ts_utc"].dt.tz_convert(tz)`: ERCOT and SPP America/Chicago, CAISO
    America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO fixed EST (no
    daylight saving, all year). Grouping by the UTC date splits every day in two.
+   EIA-930 tables are pulled in whole UTC days, not local operating days.
 
 3. **Real-time values are not all the same kind of number.**
    - `lmp_rtm_15m_mean` (CAISO, NYISO, ISO-NE, SPP when present) is DERIVED:
@@ -76,6 +85,10 @@ If you read a CSV without the package, skip those lines by count. Never use
    - `spp_rtm` (ERCOT) is ERCOT's own 15-minute settlement point price, as published.
    - NYISO's real-time data has extra intervals at irregular times; the means
      weight them by length. Do not try to rebuild 5-minute prices from the means.
+   - `lmp_rtm` (MISO, and ISO-NE's `isone_rtm_zone_prices_hourly`) is the ISO's
+     own HOURLY real-time price, final report where published, prelim
+     otherwise (named per row in `source`). Hourly, not 15-minute: do not
+     compare it interval by interval with a `_15m_mean` table.
    - ERCOT uses "settlement point price" (`spp_*`), the other ISOs "LMP"
      (`lmp_*`). Both are USD/MWh prices at the node, but not the same
      concept: ERCOT's real-time SPP includes its reserve price adders, and a
@@ -89,12 +102,15 @@ If you read a CSV without the package, skip those lines by count. Never use
 
 5. **Markets are missing, and a missing table is not zero.** Check
    `erw.coverage()` and `erw.filter(...)`. At the time of writing:
-   - no MISO or SPP real-time table (the ISOs had not published complete data
-     for the window: MISO's prelim for the latest day, SPP daily and interval
-     files);
-   - ISO-NE real-time starts later than its day-ahead table (earlier weeks had
-     gaps in ISO-NE's preliminary 5-minute files);
-   - no PJM table at all (its API needs a key the ERW does not have).
+   - no MISO or SPP real-time price table yet (the ISOs had not published
+     complete data for the window);
+   - ISO-NE's 15-minute real-time table starts later than its day-ahead table
+     (gaps in ISO-NE's preliminary 5-minute files); its hourly final table
+     covers the full window;
+   - some EIA-930 tables are missing because EIA's own series have gaps (a
+     day of demand forecast, hours of one fuel type);
+   - no PJM price table at all (its API needs a key the ERW does not have).
+   `warehouse/metadata/run_status.csv` records every run's outcome and why.
    A table is written only when every node has every interval, so the ERW
    never contains a partial market. Absence means "not complete yet".
 
@@ -116,16 +132,19 @@ If you read a CSV without the package, skip those lines by count. Never use
 
     import erw
     erw.info()                      # warehouse summary (dict; prints unless quiet=True)
-    erw.info("caiso_dam_hub_prices")# one table: rows, nodes, span, freq, sources
+    erw.info("caiso_dam_hub_prices")# one table: rows, nodes, span, freq, sources, license
     erw.list_tables()               # every table name
     erw.coverage()                  # one row per table: iso, market, n_nodes, interval,
                                     #   ts_min, ts_max, n_rows, source_report, last_run,
-                                    #   validator_status
+                                    #   validator_status, license
     erw.fetch("nyiso_rtm_zone_prices")          # DataFrame; provenance in .attrs["erw"]
+    erw.fetch("ercot_rtm_hub_prices", start="2026-09-01", end="2026-09-08",
+              node="HB_NORTH")                  # subset rows: [start, end), node or entity
     erw.fetch(["ercot_dam_hub_prices", "ercot_rtm_hub_prices"])   # dict name -> DataFrame
     erw.filter(iso="ERCOT", market="rtm")       # table names; all arguments optional
     erw.filter(node="HB_NORTH", start="2026-09-01", end="2026-09-08")
     erw.filter(variable="lmp_rtm_15m_mean")
+    erw.filter(license="public")                # what may be shown publicly
     erw.sources("ercot_rtm_hub_prices")         # reports, report pages, every file URL
     erw.cite("ercot_dam_hub_prices")            # citation string (see section 7)
     erw.version()                               # git commit of the data directory
@@ -133,8 +152,9 @@ If you read a CSV without the package, skip those lines by count. Never use
 `filter` arguments: iso ("ERCOT" or "ercot"; "ISO-NE" or "isone"), market
 ("dam", "rtm" or a full id like "caiso_rtm"), variable, node (a node name or an
 `iso:NODE` entity), start and end (the table has an interval starting in
-[start, end); naive times are UTC). Lists mean "any of". `filter()` with no
-arguments returns every table.
+[start, end); naive times are UTC), license ("public" or "internal"). Lists
+mean "any of". `filter()` with no arguments returns every table. EIA-930 tables
+answer to their ISO too: `erw.filter(iso="CAISO")` includes `eia930_ciso_*`.
 
 Data location: ERW_DATA_DIR (default: the repository's warehouse/output). The
 functions read through `erw.get_backend()`; `erw.set_backend(path)` switches
@@ -201,6 +221,6 @@ the ERW table and data commit as the route by which you obtained it:
 names the publisher, report id and title, report page, retrieval date, table,
 and data commit. For a result that must be reproducible, also give
 `erw.version()["data_commit"]`: tables are updated daily, and the commit is the
-only thing that pins which rows you used. Where `erw.sources()` lists a report
-with no title (rows kept from an earlier run), its id is still exact; the
-earlier run log in warehouse/output/logs/ names the documents.
+only thing that pins which rows you used. Report titles and pages come from
+the source registry (warehouse/metadata/sources.csv), which keeps every report
+any run used, so a citation never loses a report used only by earlier runs.

@@ -274,9 +274,13 @@ def main(argv=None):
                 log(f"{name} FAILED, no output file written:\n{tb}")
                 print(f"eia930 {name} FAILED, no output file written: {last}", file=sys.stderr)
                 results.append(dict(table=name, market=fam, status="failed", detail=last[:300]))
+    ok = [x["table"] for x in results if x["status"] == "ok"]
+    feeds = {  # which tables each route feeds: region-data all, fuel-type-data generation only
+        "eia:electricity/rto/region-data": ok,
+        "eia:electricity/rto/fuel-type-data": [t for t in ok if t.endswith("_generation")],
+    }
     ip.update_sources([dict(source=s, publisher="U.S. Energy Information Administration (EIA)",
-                            report=r[0], report_url=r[1], document_list=r[2],
-                            tables=[x["table"] for x in results if x["status"] == "ok"])
+                            report=r[0], report_url=r[1], document_list=r[2], tables=feeds[s])
                        for s, r in REPORTS.items()])
     ip.write_status("eia930", run_id, results)
     failures = sum(r["status"] != "ok" for r in results)

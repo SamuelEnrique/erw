@@ -118,6 +118,37 @@ def update_sources(entries):
     os.replace(tmp, path)
 
 
+ISO_PUBLISHERS = {
+    "ercot": "Electric Reliability Council of Texas (ERCOT)",
+    "caiso": "California Independent System Operator (CAISO)",
+    "nyiso": "New York Independent System Operator (NYISO)",
+    "miso": "Midcontinent Independent System Operator (MISO)",
+    "spp": "Southwest Power Pool (SPP)",
+    "isone": "ISO New England (ISO-NE)",
+    "pjm": "PJM Interconnection (PJM)",
+}
+
+
+def register_sources(ctx):
+    """Every report an ISO connector may use, with the tables it feeds, into sources.csv."""
+    # which tables a report feeds is read from the tables' own `source` column,
+    # so the registry records what the data contain, not what a spec could use
+    present = {}
+    for spec in ctx["specs"]:
+        path = os.path.join(OUT_DIR, spec["file"] + ".csv")
+        if os.path.exists(path):
+            for sid in set(read_series(path)["source"]):
+                present.setdefault(sid, set()).add(spec["file"])
+    entries = []
+    for sid, (name, page) in ctx["reports"].items():
+        tables = sorted(present.get(sid, set()))
+        entries.append(dict(source=sid, publisher=ISO_PUBLISHERS.get(sid.split(":")[0], ""),
+                            report=name, report_url=page,
+                            document_list=ctx.get("document_lists", {}).get(sid, ""), tables=tables))
+    if entries:
+        update_sources(entries)
+
+
 def write_status(connector, run_id, results):
     """Record this run's per-table outcome for warehouse/metadata/run_status.py to append."""
     import json
@@ -748,15 +779,20 @@ def run_market(ctx, spec):
 
 def run_iso(ctx, specs):
     failures = 0
+    ctx["specs"] = specs
     for spec in specs:
         try:
             run_market(ctx, spec)
+            ctx["results"].append(dict(table=spec["file"], market=spec["name"], status="ok", detail=""))
         except Exception:
             failures += 1
             tb = traceback.format_exc()
+            last = tb.strip().splitlines()[-1]
             ctx["log"](f"{spec['name']} FAILED, no output file written:\n{tb}")
-            print(f"{ctx['iso']} {spec['name']} FAILED, no output file written: "
-                  f"{tb.strip().splitlines()[-1]}", file=sys.stderr)
+            print(f"{ctx['iso']} {spec['name']} FAILED, no output file written: {last}",
+                  file=sys.stderr)
+            ctx["results"].append(dict(table=spec["file"], market=spec["name"], status="failed",
+                                       detail=last[:300]))
     return failures
 
 
@@ -1015,15 +1051,25 @@ def _ercot_rtm(ctx):
 def pull_ercot(ctx):
     """ERCOT: DAM NP4-190-CD; RTM NP6-785-ER archive plus NP6-905-CD live."""
     failures = 0
-    for name, fn in (("DAM", _ercot_dam), ("RTM", _ercot_rtm)):
+    ctx["reports"] = {f"ercot:{rid}": (name, ERCOT_PAGE.format(rid))
+                      for rid, (name, _rtid) in ERCOT_REPORTS.items()}
+    ctx["document_lists"] = {f"ercot:{rid}": ERCOT_DOC_LIST.format(rtid)
+                             for rid, (_name, rtid) in ERCOT_REPORTS.items()}
+    ctx["specs"] = [dict(name="DAM", file="ercot_dam_hub_prices", sources=["ercot:NP4-190-CD"]),
+                    dict(name="RTM", file="ercot_rtm_hub_prices",
+                         sources=["ercot:NP6-785-ER", "ercot:NP6-905-CD"])]
+    for (name, fn), spec in zip((("DAM", _ercot_dam), ("RTM", _ercot_rtm)), ctx["specs"]):
         try:
             fn(ctx)
+            ctx["results"].append(dict(table=spec["file"], market=name, status="ok", detail=""))
         except Exception:
             failures += 1
             tb = traceback.format_exc()
+            last = tb.strip().splitlines()[-1]
             ctx["log"](f"{name} FAILED, no output file written:\n{tb}")
-            print(f"ercot {name} FAILED, no output file written: {tb.strip().splitlines()[-1]}",
-                  file=sys.stderr)
+            print(f"ercot {name} FAILED, no output file written: {last}", file=sys.stderr)
+            ctx["results"].append(dict(table=spec["file"], market=name, status="failed",
+                                       detail=last[:300]))
     return failures
 
 
@@ -1164,7 +1210,8 @@ def pull_miso(ctx):
              file="miso_dam_hub_prices", title="MISO day-ahead market ex-post LMPs, 8 trading hubs"),
         dict(name="RTM", describe="MISO RT ex-post hourly LMP via MISO.get_lmp("
              "REAL_TIME_HOURLY_FINAL, else REAL_TIME_HOURLY_PRELIM)", fetch=rtm, nodes=MISO_HUBS,
-             source="miso:rt_lmp_final", page=MISO_PAGE, step="1h", minutes=60,
+             source="miso:rt_lmp_final", sources=["miso:rt_lmp_final", "miso:rt_lmp_prelim"],
+             page=MISO_PAGE, step="1h", minutes=60,
              variable="lmp_rtm", freq="PT1H", market="miso_rtm", file="miso_rtm_hub_prices",
              title="MISO real-time market ex-post LMPs, 8 trading hubs, hourly",
              notes=["Hourly, not 15-minute: MISO 5-minute real-time LMPs for the whole window are "
@@ -1246,18 +1293,57 @@ ISONE_NODES = [".H.INTERNAL_HUB", ".Z.CONNECTICUT", ".Z.MAINE", ".Z.NEMASSBOST",
                ".Z.NEWHAMPSHIRE", ".Z.RHODEISLAND", ".Z.SEMASS", ".Z.VERMONT", ".Z.WCMASS"]
 ISONE_DAM_PAGE = "https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-da-hourly"
 ISONE_RTM_PAGE = "https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-rt-five-min-final"
+ISONE_RTH_PAGE = "https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-rt-hourly-final"
+ISONE_RTH_URL = "https://www.iso-ne.com/static-transform/csv/histRpts/rt-lmp/lmp_rt_{kind}_{day}.csv"
 
 
 def pull_isone(ctx):
-    """ISO-NE 8 load zones and the Hub: DA hourly LMP and RT 5-minute LMP."""
+    """ISO-NE 8 load zones and the Hub: DA hourly LMP, RT 5-minute LMP, RT hourly final LMP.
+
+    The hourly real-time table (session 5 ruling) reads ISO-NE's FINAL hourly
+    report. gridstatus 0.36.0 reads only the preliminary one, and its parser
+    fails on the final file (which already carries location names and types,
+    so its location merge duplicates columns), so the final file is fetched
+    here with requests (still captured as a raw file) and parsed with
+    gridstatus's own hour-ending helper and DST handling. A day with no final
+    file yet falls back to gridstatus's preliminary read, named per row in
+    `source`.
+    """
     i = gridstatus.ISONE()
     ctx["data_url"] = r"histRpts|static-transform"
 
     def fetch(market):
         return lambda day: i.get_lmp(date=day, market=market)
+
+    def rtm_hourly(day):
+        url = ISONE_RTH_URL.format(kind="final", day=day.strftime("%Y%m%d"))
+        with requests.Session() as s:
+            s.get("https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix",
+                  timeout=120)  # sets the cookies ISO-NE requires, as gridstatus does
+            r = s.get(url, timeout=120)
+        if r.status_code == 404:
+            df = i.get_lmp(date=day, market=Markets.REAL_TIME_HOURLY)
+            df["_source"] = "isone:rt_lmp_hourly_prelim"
+            return df
+        if r.status_code != 200 or "csv" not in r.headers.get("Content-Type", ""):
+            raise RuntimeError(f"ISO-NE final hourly LMP for {day.date()}: HTTP {r.status_code}, "
+                               f"{r.headers.get('Content-Type')}")
+        data = pd.read_csv(io.StringIO(r.content.decode("utf8")), skiprows=[0, 1, 2, 3, 5],
+                           skipfooter=1, engine="python")
+        data = data.rename(columns={"Location Name": "Location", "Locational Marginal Price": "LMP"})
+        data = i._create_interval_start_from_hour_start(data)
+        data["Interval Start"] = data.groupby("Location")["Interval Start"].transform(
+            lambda x: pd.to_datetime(x).dt.tz_localize(i.default_timezone, ambiguous="infer"))
+        data["Interval End"] = data["Interval Start"] + pd.Timedelta(hours=1)
+        data["_source"] = "isone:rt_lmp_hourly_final"
+        return data
+
     ctx["reports"] = {
         "isone:da_lmp_hourly": ("Day-Ahead Energy Market Hourly LMPs", ISONE_DAM_PAGE),
         "isone:rt_lmp_5min": ("Real-Time Energy Market Five-Minute LMPs", ISONE_RTM_PAGE),
+        "isone:rt_lmp_hourly_final": ("Real-Time Energy Market Hourly LMPs, final", ISONE_RTH_PAGE),
+        "isone:rt_lmp_hourly_prelim": ("Real-Time Energy Market Hourly LMPs, preliminary",
+                                       ISONE_RTH_PAGE),
     }
     specs = [
         dict(name="DAM", describe="ISO-NE DA hourly LMP via ISONE.get_lmp(DAY_AHEAD_HOURLY)",
@@ -1273,6 +1359,17 @@ def pull_isone(ctx):
              file="isone_rtm_zone_prices", notes=[FIVE_MIN_NOTE],
              title="ISO-NE real-time market LMPs, 8 load zones and the Internal Hub, "
                    "15-minute means of 5-minute prices"),
+        dict(name="RTM_HOURLY", describe="ISO-NE RT hourly final LMP (lmp_rt_final_<date>.csv), "
+             "prelim where no final is posted", fetch=rtm_hourly, nodes=ISONE_NODES,
+             source="isone:rt_lmp_hourly_final",
+             sources=["isone:rt_lmp_hourly_final", "isone:rt_lmp_hourly_prelim"],
+             page=ISONE_RTH_PAGE, step="1h", minutes=60, variable="lmp_rtm", freq="PT1H",
+             market="isone_rtm", file="isone_rtm_zone_prices_hourly",
+             title="ISO-NE real-time market hourly LMPs (final), 8 load zones and the Internal Hub",
+             notes=["ISO-NE's own hourly real-time LMPs, final report; rows from the preliminary "
+                    "report, used only where no final is posted yet, have source "
+                    "isone:rt_lmp_hourly_prelim. Kept alongside isone_rtm_zone_prices (15-minute "
+                    "means of 5-minute prices), which is written only when complete."]),
     ]
     return run_iso(ctx, specs)
 
@@ -1309,8 +1406,10 @@ def run(iso, days):
         f"UTC [{utc_iso(start)}, {utc_iso(end)})")
     log(f"raw files: {os.path.relpath(RAW.dir, ROOT)}")
     ctx = dict(iso=iso, label=label, tz=tz, geo=geo, start=start, end=end, run_id=run_id,
-               log=log, reports={})
+               log=log, reports={}, results=[], specs=[])
     failures = fn(ctx)
+    register_sources(ctx)
+    write_status(iso, run_id, ctx["results"])
     log(f"done, failures={failures}")
     log.close()
     print(f"{iso} run log: {os.path.relpath(log.path, ROOT)}")
@@ -1326,11 +1425,7 @@ def main(argv=None):
                     "instead of the repository (for trial runs)")
     args = ap.parse_args(argv)
     if args.out_dir:
-        global OUT_DIR, LOG_DIR, RAW_DIR
-        OUT_DIR = os.path.abspath(args.out_dir)
-        LOG_DIR = os.path.join(OUT_DIR, "logs")
-        RAW_DIR = os.path.join(OUT_DIR, "raw")
-        os.makedirs(OUT_DIR, exist_ok=True)
+        set_out_dir(args.out_dir)
     isos = sorted(ISOS) if args.iso == "all" else [args.iso]
     failures = sum(run(i, args.days) for i in isos)
     return 1 if failures else 0

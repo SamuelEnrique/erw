@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Energy Research Warehouse (ERW) daily price refresh.
+# Energy Research Warehouse (ERW) daily refresh: ISO prices, EIA-930, EIA fuels.
 #
 # The exact sequence .github/workflows/daily-prices.yml runs, kept in one
 # script so that a local run and the scheduled run cannot drift apart
@@ -10,7 +10,8 @@
 #   PYTHON=.venv/Scripts/python bash warehouse/run_daily.sh
 #
 # Steps:
-#   1. every ISO connector for the last $DAYS complete operating days. Each
+#   1. every connector (ISO prices, EIA-930 demand and generation, EIA fuel
+#      prices) for the last $DAYS complete operating days. Each
 #      market is written only if complete, and merges into its existing file:
 #      new intervals are appended, intervals already present for the same
 #      (entity, variable, ts_utc) are replaced, nothing is duplicated.
@@ -19,6 +20,11 @@
 #      the run with exit 1, before coverage is rebuilt or anything committed.
 #   3. warehouse/metadata/build_coverage.py regenerates docs/coverage.md and
 #      warehouse/metadata/coverage.csv.
+#   Also, from the session 5 rulings: each connector's per-table status is
+#   appended to the tracked warehouse/metadata/run_status.csv (before the
+#   validator, so a failing day is still on record); markets that failed the
+#   last 3 runs are listed in runs/failure_streaks.txt for the workflow to open
+#   an issue; raw files older than 14 days are pruned (manifests kept).
 #
 # Writes runs/daily_status.txt (gitignored): one line per ISO, used by the
 # workflow for its commit message.
@@ -33,6 +39,7 @@ cd "$(dirname "$0")/.."
 mkdir -p runs
 status=runs/daily_status.txt
 : > "$status"
+rm -f runs/status/*.json runs/failure_streaks.txt  # this run's status only
 
 echo "== ERW daily refresh $(date -u +%FT%TZ): ISOs: $ISOS; days: $DAYS"
 for iso in $ISOS; do
@@ -40,7 +47,7 @@ for iso in $ISOS; do
   "$PYTHON" warehouse/connectors/iso_prices.py "$iso" --days "$DAYS" > "$out" 2>&1
   rc=$?
   grep -E "\.csv: rows=|FAILED|run log:" "$out" | grep -vE " - (INFO|DEBUG|WARNING) - "
-  failed=$(grep -oE "^${iso} (DAM|RTM) FAILED" "$out" | awk '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ $//')
+  failed=$(grep -oE "^${iso} (DAM|RTM|RTM_HOURLY) FAILED" "$out" | awk '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ $//')
   if [ "$rc" -eq 0 ]; then
     echo "$iso ok" >> "$status"
   elif [ -n "$failed" ]; then
@@ -74,6 +81,7 @@ run_other eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
 
 echo "== connector status"
 cat "$status"
+"$PYTHON" warehouse/metadata/run_status.py record || exit 1
 
 echo "== validator"
 "$PYTHON" warehouse/validate/erw_validate.py warehouse/output/*.csv
@@ -85,5 +93,11 @@ fi
 
 echo "== coverage"
 "$PYTHON" warehouse/metadata/build_coverage.py || exit 1
+
+echo "== failure streaks (3 runs in a row)"
+"$PYTHON" warehouse/metadata/run_status.py streaks --n 3 || exit 1
+
+echo "== prune raw files older than 14 days (manifests kept)"
+"$PYTHON" warehouse/prune_raw.py --days 14 || exit 1
 
 echo "== done"

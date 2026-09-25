@@ -16,6 +16,8 @@ PUBLISHERS = {
     "miso": "Midcontinent Independent System Operator (MISO)",
     "spp": "Southwest Power Pool (SPP)",
     "isone": "ISO New England (ISO-NE)",
+    "pjm": "PJM Interconnection (PJM)",
+    "eia": "U.S. Energy Information Administration (EIA)",
 }
 
 

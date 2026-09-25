@@ -51,7 +51,8 @@ def test_coverage_has_one_row_per_table_and_the_documented_columns():
     cov = erw.coverage()
     assert list(cov.columns) == ["table", "iso", "market", "n_nodes", "interval", "ts_min",
                                  "ts_max", "n_rows", "source_report", "last_run",
-                                 "validator_status"]
+                                 "validator_status", "license"]
+    assert set(cov["license"]) <= {"public", "internal"}
     assert sorted(cov["table"]) == TABLES
     assert str(cov["ts_min"].dtype).startswith("datetime64") and cov["ts_min"].dt.tz is not None
     assert (cov["validator_status"] == "pass").all()
@@ -102,11 +103,17 @@ def test_filter_by_iso_market_variable_node_and_time():
     assert erw.filter(market="ercot_rtm") == ["ercot_rtm_hub_prices"]
     assert set(erw.filter(market="rtm")) == set(cov.loc[cov["market"].str.endswith("_rtm"), "table"])
     assert erw.filter(variable="spp_rtm") == ["ercot_rtm_hub_prices"]
-    assert erw.filter(node="HB_NORTH") == ercot
-    assert erw.filter(node="ercot:HB_NORTH") == ercot
+    ercot_prices = sorted(cov.loc[cov["market"].str.startswith("ercot_"), "table"])
+    assert erw.filter(node="HB_NORTH") == ercot_prices
+    assert erw.filter(node="ercot:HB_NORTH") == ercot_prices
     assert erw.filter(iso=["ERCOT", "NYISO"], node="N.Y.C.") == sorted(
-        cov.loc[cov["iso"] == "NYISO", "table"])
-    assert erw.filter(start="2000-01-01", end="2000-01-02") == []
+        cov.loc[cov["market"].str.startswith("nyiso_"), "table"])
+    eia_ciso = sorted(t for t in TABLES if t.startswith("eia930_ciso_"))
+    assert erw.filter(node="eia930:CISO") == eia_ciso
+    assert set(eia_ciso) <= set(erw.filter(iso="caiso"))
+    if "eia_fuel_spot_prices" in TABLES:
+        assert erw.filter(variable="spot_price") == ["eia_fuel_spot_prices"]
+    assert erw.filter(start="1980-01-01", end="1980-01-02") == []  # before any table starts
     last = cov["ts_max"].max()
     assert set(erw.filter(start=last)) == set(cov.loc[cov["ts_max"] >= last, "table"])
     assert erw.filter() == TABLES
@@ -129,7 +136,9 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
     org = name.split("_")[0]
     publisher = {"ercot": "Electric Reliability Council of Texas", "caiso": "California",
                  "nyiso": "New York", "miso": "Midcontinent", "spp": "Southwest Power Pool",
-                 "isone": "ISO New England"}[org]
+                 "isone": "ISO New England", "pjm": "PJM",
+                 "eia930": "Energy Information Administration",
+                 "eia": "Energy Information Administration"}[org]
     assert publisher in c and name in c and "Energy Research Warehouse (ERW)" in c
     commit = erw.version()["data_commit"]
     assert commit and commit[:12] in c
@@ -184,6 +193,10 @@ def test_public_functions_only_use_the_backend_interface():
             calls.append("coverage")
             return self.inner.coverage()
 
+        def source_registry(self):
+            calls.append("source_registry")
+            return self.inner.source_registry()
+
         def version(self):
             calls.append("version")
             return {"backend": self.name, "data_commit": None}
@@ -199,4 +212,51 @@ def test_public_functions_only_use_the_backend_interface():
     assert erw.sources(name)["table"] == name
     assert "Energy Research Warehouse (ERW)" in erw.cite(name)
     assert erw.version()["backend"] == "wrapped"
-    assert {"list_tables", "read_table", "coverage", "version"} <= set(calls)
+    assert {"list_tables", "read_table", "coverage", "version", "source_registry"} <= set(calls)
+
+
+# --- session 5 rulings -------------------------------------------------------
+
+def test_fetch_subsets_rows_by_time_and_node():
+    full = erw.fetch("ercot_rtm_hub_prices")
+    t0 = full["ts_utc"].min() + pd.Timedelta(days=2)
+    t1 = t0 + pd.Timedelta(days=1)
+    sub = erw.fetch("ercot_rtm_hub_prices", start=t0, end=t1, node="HB_NORTH")
+    expected = full[(full["ts_utc"] >= t0) & (full["ts_utc"] < t1) & (full["node"] == "HB_NORTH")]
+    assert len(sub) == len(expected) == 96  # one day of 15-minute intervals, one hub
+    assert set(sub["node"]) == {"HB_NORTH"}
+    assert sub.attrs["erw"]["subset"]["node"] == ["HB_NORTH"]
+    both = erw.fetch("ercot_rtm_hub_prices", node=["ercot:HB_NORTH", "HB_WEST"])
+    assert set(both["node"]) == {"HB_NORTH", "HB_WEST"}
+    naive = erw.fetch("ercot_rtm_hub_prices", start=t0.tz_convert(None), end=t1.tz_convert(None))
+    assert len(naive) == len(full[(full["ts_utc"] >= t0) & (full["ts_utc"] < t1)])
+    many = erw.fetch(["ercot_dam_hub_prices", "ercot_rtm_hub_prices"], node="HB_WEST")
+    assert all(set(d["node"]) == {"HB_WEST"} for d in many.values())
+
+
+def test_license_column_and_filter():
+    cov = erw.coverage()
+    public = sorted(cov.loc[cov["license"] == "public", "table"])
+    internal = sorted(cov.loc[cov["license"] == "internal", "table"])
+    assert erw.filter(license="public") == public
+    assert erw.filter(license="internal") == internal
+    assert all(not t.startswith("pjm_") for t in public)
+    assert all(t.startswith("pjm_") for t in internal)
+
+
+def test_source_registry_covers_every_source_in_every_table():
+    reg = erw.get_backend().source_registry()
+    assert reg["source"].is_unique
+    registered = set(reg["source"])
+    for name in TABLES:
+        assert set(erw.fetch(name)["source"]) <= registered, name
+
+
+def test_cite_names_every_report_even_from_earlier_runs():
+    """The gap session 4 found: rows kept from an earlier run keep their report's title."""
+    df = erw.fetch("ercot_rtm_hub_prices")
+    reg = erw.get_backend().source_registry().set_index("source")
+    c = erw.cite("ercot_rtm_hub_prices")
+    for sid in set(df["source"]):
+        assert reg.loc[sid, "report"] and reg.loc[sid, "report"] in c
+    assert all(r["report"] for r in erw.sources("ercot_rtm_hub_prices")["reports"])

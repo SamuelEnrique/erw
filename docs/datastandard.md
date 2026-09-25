@@ -19,6 +19,7 @@ Modeled on the Item Response Warehouse (IRW) data standard (`datastandard.md` in
 - **Dates** (no time of day) are ISO 8601 `YYYY-MM-DD`. In a `series` table with a daily or longer `freq` (`P1D`), `ts_utc` is the date at `00:00:00Z`: it names the date the source reports (a trading date, for example), not an instant.
 - **Units.** Power in MW, energy in MWh, prices in USD per MWh, money in USD, unless a `unit` column (or the field definition) says otherwise. Unit strings come from a closed vocabulary, enforced by the validator: `MW`, `MWh`, `USD/MWh`, `USD`, `USD/MMBtu` (natural gas), `USD/bbl` (crude oil), `degF`, `pct`. A new unit is added here and to the validator together.
 - **Missing values** are empty cells. No sentinel codes (`-999`, `NA`, `null`). In `series`, a missing observation is an omitted row, not a row with an empty `value`.
+- **License.** Every source has a license in `warehouse/metadata/sources.csv`, the source registry: `internal` (licensed for internal use only; never shown on the public site or redistributed) or `public`. PJM data are `internal`; every other source is `public`. A table is `internal` if any of its sources is. The table-level value is the `license` column of `warehouse/metadata/coverage.csv`, which `erw.coverage()` exposes so the public site can filter on it. The rule's one home in code is `license_of` in `warehouse/connectors/iso_prices.py`.
 - **No invented numbers.** Every value comes from a source named in the file. Nothing is interpolated, imputed, or filled. A derived value (an average, a spread) is its own `variable` with its method documented in the connector, never a silent fill.
 
 ## File naming
@@ -110,6 +111,18 @@ What was chosen, and why:
 10. **Units are a closed vocabulary, and `USD/MMBtu` and `USD/bbl` join it** (session 5, error `unit_vocabulary`). Reason: EIA fuel prices arrive as `$/MMBTU` and `$/BBL`; without a vocabulary each connector would spell units its own way and nothing would catch it.
 11. **A daily or longer `freq` puts `ts_utc` at `00:00:00Z` of the reported date** (session 5, error `ts_freq_alignment` extended). Reason: EIA daily spot prices are trading dates, not instants; one fixed convention keeps daily series joinable and stops a local-midnight conversion from shifting a date.
 12. **Completeness for trading-day series** (session 5, connector rule, not a validator check). A calendar-day completeness rule cannot apply to prices published on trading days only, so for such series every date the source lists must carry a number, a date listed without a value is an omitted observation (and is logged), and the series must be current (the connector sets the staleness limit).
+13. **Human rulings, session 5**, each applied where noted:
+    - A market failing three scheduled daily runs in a row opens a GitHub issue (`warehouse/metadata/run_status.py streaks`, run by the workflow).
+    - No retention window: tables keep their full history; history moves to Redivis later.
+    - Each run's per-connector, per-table status is appended to the tracked `warehouse/metadata/run_status.csv`.
+    - The source registry `warehouse/metadata/sources.csv` is merged like the tables (never loses a report), and `erw.cite()` reads it.
+    - CAISO real-time stays on RTD 15-minute means for now.
+    - ISO-NE also gets its hourly final real-time LMPs as `isone_rtm_zone_prices_hourly` (variable `lmp_rtm`); the 5-minute-derived `isone_rtm_zone_prices` is kept and written when complete.
+    - The `erw` package stays installable from the repository only until Redivis exists.
+    - `erw.fetch` takes optional `start`, `end` and `node` arguments that subset rows.
+    - Raw files stay local; runs older than 14 days are pruned, every `manifest.csv` kept (`warehouse/prune_raw.py`).
+    - The geo footprint lists and the SPP footprint are checked by the human separately.
+    - PJM data are licensed for internal use only: the `license` column above. A PJM connector is throttled to at most 5 requests per minute (not built yet: no PJM key).
 
 Deferred to a later version:
 

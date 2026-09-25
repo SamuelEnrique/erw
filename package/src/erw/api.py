@@ -17,7 +17,10 @@ _backend: Optional[Backend] = None
 
 TS_FMT = "%Y-%m-%dT%H:%M:%SZ"
 ISO_ALIASES = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MISO",
-               "spp": "SPP", "isone": "ISO-NE", "iso-ne": "ISO-NE", "isne": "ISO-NE"}
+               "spp": "SPP", "isone": "ISO-NE", "iso-ne": "ISO-NE", "isne": "ISO-NE",
+               "pjm": "PJM", "us48": "US48",
+               # EIA-930 balancing authority codes
+               "ciso": "CAISO", "erco": "ERCOT", "nyis": "NYISO", "swpp": "SPP"}
 
 
 def get_backend() -> Backend:
@@ -77,7 +80,7 @@ def coverage() -> pd.DataFrame:
 
 def _read(name: str) -> pd.DataFrame:
     header, df = get_backend().read_table(name)
-    df["value"] = pd.to_numeric(df["value"], errors="raise")
+    df["value"] = pd.to_numeric(df["value"], errors="raise").astype(float)  # MW tables hold whole numbers
     df["ts_utc"] = pd.to_datetime(df["ts_utc"], format=TS_FMT, utc=True)
     meta = parse_header(header)
     meta["table"] = name
@@ -86,7 +89,26 @@ def _read(name: str) -> pd.DataFrame:
     return df
 
 
-def fetch(name: Union[str, Iterable[str]]) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
+def _subset(df: pd.DataFrame, start=None, end=None, node=None) -> pd.DataFrame:
+    attrs = df.attrs
+    keep = pd.Series(True, index=df.index)
+    if start is not None:
+        keep &= df["ts_utc"] >= _utc(start)
+    if end is not None:
+        keep &= df["ts_utc"] < _utc(end)
+    nodes = _as_list(node)
+    if nodes:
+        keep &= df["node"].isin(nodes) | df["entity"].isin(nodes)
+    out = df[keep].reset_index(drop=True)
+    out.attrs = attrs
+    if start is not None or end is not None or nodes:
+        out.attrs["erw"] = dict(attrs["erw"], subset={"start": start, "end": end, "node": nodes})
+    return out
+
+
+def fetch(name: Union[str, Iterable[str]], start=None, end=None,
+          node: Union[str, Iterable[str], None] = None
+          ) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
     """Fetch one table as a DataFrame, or several as a dict of name -> DataFrame.
 
     `value` is float and `ts_utc` a timezone-aware UTC timestamp marking the
@@ -95,11 +117,17 @@ def fetch(name: Union[str, Iterable[str]]) -> Union[pd.DataFrame, Dict[str, pd.D
     window, forward_dam_days, retrieved, run_log, raw_files, file_summary,
     sources (report, report_url, document_list), notes, and the verbatim
     header lines. An unknown name raises ERWDataNotFound.
+
+    Optional subsetting of rows (session 5 ruling):
+    start, end : keep intervals starting in [start, end); strings or
+                 timestamps, naive values read as UTC.
+    node       : keep these nodes (as the ISO writes them) or entities
+                 (``"ercot:HB_NORTH"``, ``"eia930:CISO"``); a string or a list.
+    The subset is recorded in ``df.attrs["erw"]["subset"]``.
     """
     if isinstance(name, str):
-        return _read(name)
-    names = list(name)
-    return {n: _read(n) for n in names}
+        return _subset(_read(name), start, end, node)
+    return {n: _subset(_read(n), start, end, node) for n in list(name)}
 
 
 def _table_facts(name: str) -> Dict:
@@ -113,7 +141,7 @@ def filter(iso: Union[str, Iterable[str], None] = None,
            market: Union[str, Iterable[str], None] = None,
            variable: Union[str, Iterable[str], None] = None,
            node: Union[str, Iterable[str], None] = None,
-           start=None, end=None) -> List[str]:
+           start=None, end=None, license: Optional[str] = None) -> List[str]:
     """Names of the tables that match every argument given.
 
     iso      : "ERCOT", "ercot", "ISO-NE", "isone", ... (any of a list)
@@ -123,9 +151,12 @@ def filter(iso: Union[str, Iterable[str], None] = None,
                or a namespaced entity ("ercot:HB_NORTH")
     start, end : the table has at least one interval starting in [start, end).
                Strings or timestamps; naive values are read as UTC.
+    license  : "public" or "internal" (the public site filters on "public")
     """
     cov = coverage()
     keep = pd.Series(True, index=cov.index)
+    if license is not None:
+        keep &= cov["license"] == license
     isos = _as_list(iso)
     if isos:
         wanted = {ISO_ALIASES.get(i.lower(), i.upper()) for i in isos}
@@ -162,11 +193,22 @@ def sources(name: str) -> Dict:
     """
     df = _read(name)
     meta = df.attrs["erw"]
-    reports = [dict(s) for s in meta["sources"]]
-    known = {r["source"] for r in reports}
-    for sid in sorted(set(df["source"]) - known):
-        # rows kept from an earlier run can name a report this run's header does not
-        reports.append({"source": sid, "report": None, "report_url": None})
+    # the durable registry (warehouse/metadata/sources.csv) first: it keeps every
+    # report any run used, which a merged file's latest header may not describe
+    reg = get_backend().source_registry().set_index("source")
+    header = {s["source"]: s for s in meta["sources"]}
+    reports = []
+    for sid in sorted(set(df["source"]) | set(header)):
+        if sid in reg.index:
+            r = reg.loc[sid]
+            reports.append({"source": sid, "publisher": r["publisher"] or None,
+                            "report": r["report"] or None, "report_url": r["report_url"] or None,
+                            "document_list": r["document_list"] or None, "license": r["license"]})
+        else:
+            h = header.get(sid, {})
+            reports.append({"source": sid, "publisher": None, "report": h.get("report"),
+                            "report_url": h.get("report_url"),
+                            "document_list": h.get("document_list"), "license": None})
     urls = sorted(set(df["source_url"]))
     return {"table": name, "reports": reports, "source_urls": urls, "n_source_urls": len(urls),
             "retrieved": meta["retrieved"], "run_log": meta["run_log"],
@@ -186,7 +228,7 @@ def cite(name: str) -> str:
     for r in src["reports"]:
         org = r["source"].split(":", 1)[0]
         report_id = r["source"].split(":", 1)[1]
-        publisher = PUBLISHERS.get(org, org.upper())
+        publisher = r.get("publisher") or PUBLISHERS.get(org, org.upper())
         title = f"{report_id}{': ' + r['report'] if r.get('report') else ''}"
         url = f" {r['report_url']}." if r.get("report_url") else ""
         parts.append(f"{publisher}. {title}.{url}")
@@ -218,7 +260,9 @@ def info(name: Optional[str] = None, quiet: bool = False) -> Dict:
         df = fetch(name)
         meta = df.attrs["erw"]
         d = {"table": name, "title": meta["title"], "rows": len(df),
-             "variables": sorted(set(df["variable"])), "nodes": sorted(set(df["node"])),
+             "variables": sorted(set(df["variable"])),
+             "nodes": sorted(n for n in set(df["node"]) if n) or sorted(set(df["entity"])),
+             "license": coverage().set_index("table").loc[name, "license"],
              "ts_min": df["ts_utc"].min(), "ts_max": df["ts_utc"].max(),
              "freq": sorted(set(df["freq"])), "unit": sorted(set(df["unit"])),
              "sources": [s["source"] for s in meta["sources"]],

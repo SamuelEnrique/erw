@@ -131,3 +131,26 @@ Stop and say so, rather than working around it, when:
 - **Headers.** Never read an output with `comment="#"`: it truncates URLs.
   Skip the leading `#` lines by count.
 - **Em dashes** are banned in every file. Check new files before committing.
+- **Keys go through `load_key`, never around it** (session 5). It reads the
+  environment or `.env` with python-dotenv and registers the key so `redact()`
+  removes it from every log line, stored URL, raw file name and `source_url`.
+  EIA takes its key as a URL parameter; without redaction it would be written
+  into the tables. Before committing, grep every new output, log and raw file
+  for a fragment of the key. A key pasted with leading dots (`...`) is
+  invalid; `load_key` drops them and warns.
+- **Check an hourly convention against data, not only documents** (session 5).
+  EIA's hourly `period` is the hour END: EIA NYISO demand matched NYISO's own
+  load over the hour before `period` (57.5 MW mean difference), not the hour
+  after (405.7 MW). Do such a check for every new hourly source.
+- **Every connector writes status and registers its sources** (session 5):
+  `ip.write_status(connector, run_id, results)` for run_status.csv and the
+  three-failures issue rule, and `ip.update_sources(...)` (or
+  `register_sources(ctx)`) so `erw.cite()` can always name the report. A source
+  whose organization is licensed for internal use only (PJM) is marked
+  `internal` by `license_of`; add new such organizations there.
+- **gridstatus may not read the report the ruling asks for.** It reads ISO-NE's
+  preliminary hourly real-time LMPs only, and its parser fails on the final
+  file. Fetch the right report with `requests` (still captured as raw) and reuse
+  gridstatus's parsing helpers.
+- **Trading-day series** (fuel prices) cannot use calendar completeness; see
+  `docs/datastandard.md` Decision 12.

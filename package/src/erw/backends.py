@@ -17,7 +17,9 @@ from typing import Dict, List, Optional, Tuple
 import pandas as pd
 
 COVERAGE_COLS = ["table", "iso", "market", "n_nodes", "interval", "ts_min", "ts_max",
-                 "n_rows", "source_report", "last_run", "validator_status"]
+                 "n_rows", "source_report", "last_run", "validator_status", "license"]
+SOURCE_COLS = ["source", "publisher", "report", "report_url", "document_list", "license",
+               "tables", "first_seen", "last_seen"]
 
 
 class ERWDataNotFound(FileNotFoundError):
@@ -45,6 +47,10 @@ class Backend(ABC):
     @abstractmethod
     def coverage(self) -> pd.DataFrame:
         """One row per table, columns COVERAGE_COLS."""
+
+    @abstractmethod
+    def source_registry(self) -> pd.DataFrame:
+        """One row per source report ever used, columns SOURCE_COLS (the durable registry)."""
 
     @abstractmethod
     def version(self) -> Dict[str, Optional[str]]:
@@ -128,7 +134,11 @@ class LocalBackend(Backend):
     def coverage(self) -> pd.DataFrame:
         path = self._coverage_csv()
         if path.is_file():
-            cov = pd.read_csv(path, dtype={"table": str})
+            # text as written: an empty market is "", not NaN; counts become integers
+            cov = pd.read_csv(path, dtype=str, keep_default_na=False)
+            for c in ("n_nodes", "n_rows"):
+                if c in cov.columns:
+                    cov[c] = cov[c].astype(int)
             missing = [c for c in COVERAGE_COLS if c not in cov.columns]
             if missing:
                 raise ValueError(f"{path} lacks coverage columns {missing}")
@@ -136,6 +146,18 @@ class LocalBackend(Backend):
         raise ERWDataNotFound(
             f"No coverage table at {path}. Build it with "
             "`python warehouse/metadata/build_coverage.py`, or set ERW_COVERAGE_CSV.")
+
+    def source_registry(self) -> pd.DataFrame:
+        env = os.environ.get("ERW_SOURCES_CSV")
+        path = Path(env) if env else self.data_dir.parent / "metadata" / "sources.csv"
+        if not path.is_file():
+            raise ERWDataNotFound(f"No source registry at {path}; the connectors write it, or set "
+                                  "ERW_SOURCES_CSV.")
+        reg = pd.read_csv(path, dtype=str, keep_default_na=False)
+        missing = [c for c in SOURCE_COLS if c not in reg.columns]
+        if missing:
+            raise ValueError(f"{path} lacks registry columns {missing}")
+        return reg[SOURCE_COLS]
 
     def _git(self, *args: str) -> Optional[str]:
         try:

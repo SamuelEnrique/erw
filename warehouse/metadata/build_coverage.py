@@ -10,7 +10,13 @@ workflow runs this after the validator.
     python warehouse/metadata/build_coverage.py
 
 coverage.csv columns: table, iso, market, n_nodes, interval, ts_min, ts_max,
-n_rows, source_report, last_run, validator_status.
+n_rows, source_report, last_run, validator_status, license.
+
+license (session 5 ruling) is "internal" if any of the table's sources is
+licensed for internal use only, otherwise "public". Per-source licenses come
+from warehouse/metadata/sources.csv, the source registry the connectors keep;
+the rule itself is stated in docs/datastandard.md. A table whose source is not
+in the registry fails the build rather than being guessed public.
 """
 
 import glob
@@ -28,11 +34,31 @@ import erw_validate  # noqa: E402
 OUT = os.path.join(ROOT, "warehouse", "output")
 DOC = os.path.join(ROOT, "docs", "coverage.md")
 CSV = os.path.join(HERE, "coverage.csv")
+SOURCES = os.path.join(HERE, "sources.csv")
 
 ISO_LABEL = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MISO",
-             "spp": "SPP", "isone": "ISO-NE"}
+             "spp": "SPP", "isone": "ISO-NE", "pjm": "PJM"}
+# EIA-930 balancing authority codes, labelled by the ISO they are
+BA_LABEL = {"ciso": "CAISO", "erco": "ERCOT", "isne": "ISO-NE", "miso": "MISO", "nyis": "NYISO",
+            "pjm": "PJM", "swpp": "SPP", "us48": "US48"}
 CSV_COLS = ["table", "iso", "market", "n_nodes", "interval", "ts_min", "ts_max", "n_rows",
-            "source_report", "last_run", "validator_status"]
+            "source_report", "last_run", "validator_status", "license"]
+
+
+def load_licenses():
+    if not os.path.exists(SOURCES):
+        raise FileNotFoundError(f"{SOURCES} is missing; the connectors write it")
+    reg = pd.read_csv(SOURCES, dtype=str, keep_default_na=False)
+    return dict(zip(reg["source"], reg["license"]))
+
+
+def iso_of(table):
+    parts = table.split("_")
+    if parts[0] == "eia930":
+        return BA_LABEL.get(parts[1], parts[1].upper())
+    if parts[0] == "eia":
+        return "none"  # not an ISO series ("n/a" would read back as missing)
+    return ISO_LABEL.get(parts[0], parts[0])
 
 
 def last_run(header):
@@ -45,7 +71,7 @@ def last_run(header):
     return ""
 
 
-def table_row(path):
+def table_row(path, licenses):
     header, df = erw_validate.read(path)
     report = erw_validate.validate(path)
     n_err, n_warn = len(report["errors"]), len(report["warnings"])
@@ -53,13 +79,18 @@ def table_row(path):
     if n_warn:
         status += f", {n_warn} warnings"
     table = os.path.splitext(os.path.basename(path))[0]
-    iso = table.split("_")[0]
     ts = pd.to_datetime(df["ts_utc"], format=erw_validate.TS_FMT, utc=True)
+    sources = sorted(df["source"].unique())
+    unknown = [s for s in sources if s not in licenses]
+    if unknown:
+        raise ValueError(f"{table}: sources {unknown} are not in {SOURCES}; cannot set its license")
+    license_ = "internal" if any(licenses[s] == "internal" for s in sources) else "public"
+    nodes = sorted(n for n in df["node"].unique() if n) if "node" in df else []
     return {
         "table": table,
-        "iso": ISO_LABEL.get(iso, iso),
-        "market": ";".join(sorted(df["market"].unique())) if "market" in df else "",
-        "n_nodes": int(df["node"].nunique()) if "node" in df else int(df["entity"].nunique()),
+        "iso": iso_of(table),
+        "market": ";".join(sorted(m for m in df["market"].unique() if m)) if "market" in df else "",
+        "n_nodes": len(nodes) if nodes else int(df["entity"].nunique()),
         "interval": ";".join(sorted(df["freq"].unique())) if "freq" in df else "",
         "ts_min": ts.min().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "ts_max": ts.max().strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -67,19 +98,21 @@ def table_row(path):
         "source_report": ";".join(sorted(df["source"].unique())),
         "last_run": last_run(header),
         "validator_status": status,
+        "license": license_,
         # for the markdown only
         "_variable": ", ".join(sorted(df["variable"].unique())),
-        "_nodes": ", ".join(sorted(df["node"].unique())) if "node" in df else "",
+        "_nodes": ", ".join(nodes) if nodes else ", ".join(sorted(df["entity"].unique())),
     }
 
 
 def main():
-    rows = [table_row(p) for p in sorted(glob.glob(os.path.join(OUT, "*.csv")))]
+    licenses = load_licenses()
+    rows = [table_row(p, licenses) for p in sorted(glob.glob(os.path.join(OUT, "*.csv")))]
     pd.DataFrame(rows, columns=CSV_COLS).to_csv(CSV, index=False, lineterminator="\n")
 
     md_cols = ["Table", "ISO", "Market", "Variable", "Nodes", "Interval",
                "First interval (UTC)", "Last interval (UTC)", "Rows", "Source report",
-               "Last run (UTC)", "Validator"]
+               "Last run (UTC)", "Validator", "License"]
     lines = [
         "# ERW coverage",
         "",
@@ -92,7 +125,8 @@ def main():
         "`python warehouse/metadata/build_coverage.py`. Every value comes from the table's own "
         "rows, its provenance header, or `erw_validate.py`. Interval timestamps are interval "
         "starts; day-ahead tables can run past today because a published next-day auction is "
-        "included.",
+        "included. `License` is `public` or `internal` (internal: licensed for internal use "
+        "only, such as PJM data; never shown on the public site).",
         "",
         "| " + " | ".join(md_cols) + " |",
         "|" + "|".join("---" for _ in md_cols) + "|",
@@ -102,13 +136,15 @@ def main():
                  f"{r['n_nodes']}: {r['_nodes']}", r["interval"],
                  r["ts_min"].replace("T", " ").rstrip("Z"), r["ts_max"].replace("T", " ").rstrip("Z"),
                  f"{r['n_rows']:,}", r["source_report"].replace(";", "; "),
-                 r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"]]
+                 r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"]]
         lines.append("| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |")
     missing = [f"{label} {m.upper()}" for iso, label in ISO_LABEL.items() for m in ("dam", "rtm")
                if not glob.glob(os.path.join(OUT, f"{iso}_{m}_*.csv"))]
-    lines += ["", "Markets with no table: " + (", ".join(missing) if missing else "none") +
-              ". PJM is not covered: its data API needs a key the ERW does not have yet. Why a "
-              "market is missing is in the latest session report and the ISO's run log in "
+    missing += [f"EIA-930 {BA_LABEL[b]} {fam}" for b in BA_LABEL for fam in ("demand", "generation")
+                if not os.path.exists(os.path.join(OUT, f"eia930_{b}_{fam}.csv"))]
+    lines += ["", "Markets and series with no table: " + (", ".join(missing) if missing else "none") +
+              ". PJM prices need a PJM API key, which the ERW does not have yet. Why anything else "
+              "is missing is in `warehouse/metadata/run_status.csv` and the connector's run log in "
               "`warehouse/output/logs/`.", ""]
     with open(DOC, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines))
