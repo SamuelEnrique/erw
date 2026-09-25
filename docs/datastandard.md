@@ -124,6 +124,8 @@ What was chosen, and why:
     - The geo footprint lists and the SPP footprint are checked by the human separately.
     - PJM data are licensed for internal use only: the `license` column above. A PJM connector is throttled to at most 5 requests per minute (not built yet: no PJM key).
 
+14. **EIA-930: a gappy per-fuel series is dropped, not the table** (session 6 human ruling a). In an EIA-930 table, `demand_mw`, `demand_forecast_mw` and `net_generation_mw` must be complete for the window or the table is not written. A `net_generation_<fuel>_mw` series missing any hour is dropped for that run, named in the table header and in `warehouse/metadata/run_status.csv` (status `ok`, detail `dropped series: ...`), and rows for it from earlier complete runs are kept. Reason: one sporadic fuel series (for example EIA's unknown-storage category) should not withhold complete demand and generation data.
+
 Deferred to a later version:
 
 - A controlled vocabulary for `variable`, `entity_type`, `event_type` and `status`, enforced by the validator the way the IRW enforces its tag vocabulary.

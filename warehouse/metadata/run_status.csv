@@ -49,3 +49,19 @@ run_id,runner,connector,table,market,status,detail
 20260925T200855Z,local,eia930,eia930_us48_demand,demand,ok,
 20260925T200855Z,local,eia930,eia930_us48_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_us48_generation: net_generation_unknown_storage_mw: 55 of 72 hours (17 missing, 0 published as null; first missing ['2026-09-24T07:00:00Z', '2026-09-24T08:00:00Z', '2026-09-24T09:00:00Z'])"
 20260925T200928Z,local,eia_fuels,eia_fuel_spot_prices,daily,ok,
+20260925T204835Z,local,eia930,eia930_ciso_demand,demand,ok,
+20260925T204835Z,local,eia930,eia930_ciso_generation,generation,ok,
+20260925T204835Z,local,eia930,eia930_erco_demand,demand,failed,"RuntimeError: incomplete data, no file written for eia930_erco_demand: demand_forecast_mw: 696 of 720 hours (24 missing, 0 published as null; first missing ['2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z', '2026-09-04T07:00:00Z'])"
+20260925T204835Z,local,eia930,eia930_erco_generation,generation,ok,
+20260925T204835Z,local,eia930,eia930_isne_demand,demand,ok,
+20260925T204835Z,local,eia930,eia930_isne_generation,generation,ok,"dropped series: net_generation_oil_mw: 480 of 720 hours (240 missing, 0 published as null; first missing ['2026-09-04T04:00:00Z', '2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z'])"
+20260925T204835Z,local,eia930,eia930_miso_demand,demand,ok,
+20260925T204835Z,local,eia930,eia930_miso_generation,generation,ok,
+20260925T204835Z,local,eia930,eia930_nyis_demand,demand,failed,"RuntimeError: incomplete data, no file written for eia930_nyis_demand: demand_forecast_mw: 696 of 720 hours (24 missing, 0 published as null; first missing ['2026-09-04T04:00:00Z', '2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z'])"
+20260925T204835Z,local,eia930,eia930_nyis_generation,generation,ok,
+20260925T204835Z,local,eia930,eia930_pjm_demand,demand,ok,
+20260925T204835Z,local,eia930,eia930_pjm_generation,generation,ok,
+20260925T204835Z,local,eia930,eia930_swpp_demand,demand,ok,
+20260925T204835Z,local,eia930,eia930_swpp_generation,generation,ok,
+20260925T204835Z,local,eia930,eia930_us48_demand,demand,ok,
+20260925T204835Z,local,eia930,eia930_us48_generation,generation,ok,"dropped series: net_generation_unknown_storage_mw: 703 of 720 hours (17 missing, 0 published as null; first missing ['2026-09-24T07:00:00Z', '2026-09-24T08:00:00Z', '2026-09-24T09:00:00Z'])"

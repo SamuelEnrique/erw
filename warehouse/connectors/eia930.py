@@ -27,10 +27,13 @@ interval start, as docs/datastandard.md requires.
 Window: the last N complete UTC days before today. EIA-930 is published in UTC
 hours, so UTC days are used rather than each BA's local operating day.
 
-Completeness (the ERW rule): a table is written only if every variable it
-holds has a value for every hour of the window. A fuel type the BA does not
-report at all is not a variable of that table; one reported for some hours
-and not others makes the table incomplete, and nothing is written for it.
+Completeness (the ERW rule, with session 6 ruling a): demand_mw,
+demand_forecast_mw and net_generation_mw must have a value for every hour of
+the window, or the table is not written. A per-fuel series
+(net_generation_<fuel>_mw) with any hour missing is dropped for that run and
+named in the table header and in warehouse/metadata/run_status.csv, rather
+than failing the whole table. A fuel type the BA does not report at all is
+simply not a variable of that table.
 Values are MW as EIA publishes them (net generation of storage can be
 negative). The key comes from EIA_API_KEY (environment or .env).
 """
@@ -139,22 +142,24 @@ def to_rows(df, route, variable_of, code_col):
     return out
 
 
-def check_complete(rows, start, end, log, what):
+# Session 6 ruling (a): these must be complete or the table is not written;
+# a per-fuel series that is not complete is dropped for the run instead.
+CORE = {"demand_mw", "demand_forecast_mw", "net_generation_mw"}
+
+
+def incomplete_variables(rows, start, end):
+    """{variable: description} for every variable missing any hour of the window."""
     expected = pd.date_range(start, end, freq="1h", inclusive="left")
-    problems = []
+    problems = {}
     for var, g in rows.groupby("variable"):
         have = pd.DatetimeIndex(g.loc[g["value"].notna(), "interval_start"])
         missing = expected.difference(have)
         nulls = int(g["value"].isna().sum())
         if len(missing) or have.has_duplicates:
-            problems.append(f"{var}: {len(have)} of {len(expected)} hours "
-                            f"({len(missing)} missing, {nulls} published as null; first missing "
-                            f"{[ip.utc_iso(t) for t in missing[:3]]})")
-    if problems:
-        for p in problems:
-            log(f"  INCOMPLETE {what} {p}")
-        raise RuntimeError(f"incomplete data, no file written for {what}: " + "; ".join(problems[:4]))
-    log(f"  complete: {what}: {rows['variable'].nunique()} variables x {len(expected)} hours")
+            problems[var] = (f"{var}: {len(have)} of {len(expected)} hours "
+                             f"({len(missing)} missing, {nulls} published as null; first missing "
+                             f"{[ip.utc_iso(t) for t in missing[:3]]})")
+    return problems, len(expected)
 
 
 def build_table(rows, code, start, end, log, name, title, run_id, days):
@@ -163,7 +168,19 @@ def build_table(rows, code, start, end, log, name, title, run_id, days):
     dup = rows.duplicated(["variable", "interval_start"], keep=False)
     if dup.any():
         raise RuntimeError(f"{name}: {int(dup.sum())} rows repeat a (variable, hour) key")
-    check_complete(rows, start, end, log, name)
+    problems, n_hours = incomplete_variables(rows, start, end)
+    core_bad = {v: d for v, d in problems.items() if v in CORE}
+    for d in problems.values():
+        log(f"  INCOMPLETE {name} {d}")
+    if core_bad:
+        raise RuntimeError(f"incomplete data, no file written for {name}: " + "; ".join(core_bad.values()))
+    if not (set(rows["variable"]) & CORE):
+        raise RuntimeError(f"{name}: none of {sorted(CORE)} present; not writing a fuel-only table")
+    dropped = sorted(problems)  # every one is a per-fuel series here
+    if dropped:
+        rows = rows[~rows["variable"].isin(dropped)]
+        log(f"  dropped for this run (ruling a): {', '.join(dropped)}")
+    log(f"  complete: {name}: {rows['variable'].nunique()} variables x {n_hours} hours")
     s = pd.DataFrame({
         "entity": f"eia930:{respondent}",
         "variable": rows["variable"].values,
@@ -196,7 +213,11 @@ def build_table(rows, code, start, end, log, name, title, run_id, days):
     header.append(f"Respondent {respondent}. Variables: {', '.join(sorted(set(s['variable'])))}. "
                   "vintage is empty: EIA does not publish a release time per value, and EIA-930 "
                   "values are revised; the latest retrieval replaces earlier ones.")
-    return ip.write_csv(s, name, header, log)
+    if dropped:
+        header.append("Dropped for this run, incomplete in EIA's data (session 6 ruling a; earlier "
+                      "runs' rows for them are kept): " + "; ".join(problems[v] for v in dropped))
+    ip.write_csv(s, name, header, log)
+    return [problems[v] for v in dropped]
 
 
 def main(argv=None):
@@ -266,8 +287,9 @@ def main(argv=None):
             try:
                 if rows.empty:
                     raise ip.SourceGap(f"EIA returned no {fam} rows for {respondent}")
-                build_table(rows, code, start, end, log, name, title, run_id, args.days)
-                results.append(dict(table=name, market=fam, status="ok", detail=""))
+                dropped = build_table(rows, code, start, end, log, name, title, run_id, args.days)
+                results.append(dict(table=name, market=fam, status="ok",
+                                    detail=("dropped series: " + "; ".join(dropped))[:300] if dropped else ""))
             except Exception:
                 tb = ip.redact(traceback.format_exc())
                 last = tb.strip().splitlines()[-1]
