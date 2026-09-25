@@ -1,0 +1,32 @@
+[build-system]
+# setuptools>=77 for PEP 639 license metadata, as in the IRW's Python package.
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "erw"
+version = "0.1.0"
+description = "Python client for the Energy Research Warehouse (ERW)"
+readme = "README.md"
+requires-python = ">=3.9"
+# pandas is the only hard dependency. The local backend needs nothing else;
+# git is used, if present, only to report which commit the data came from.
+dependencies = ["pandas>=1.5"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

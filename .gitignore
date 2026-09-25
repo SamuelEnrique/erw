@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 runs/
 warehouse/raw/
+*.egg-info/
+.pytest_cache/
