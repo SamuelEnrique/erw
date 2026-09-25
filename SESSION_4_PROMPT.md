@@ -1,0 +1,13 @@
+Session 4 of the Energy Research Warehouse (ERW). Read CLAUDE.md, ARCHITECTURE.md, docs/datastandard.md, docs/coverage.md, SESSION_2_REPORT.md and SESSION_3_REPORT.md first. Same non-negotiables: real data only, fail loudly, no em dashes in any file, never delete existing files, commit after each task, do not push, do not stop to ask questions.
+
+Build the erw Python client package, modeled on the IRW's Python package. All new code goes in a new folder package/ at the repo root. Do not modify anything under warehouse/ or docs/ except to add a link to the package in README.md.
+
+TASK 1. Shallow clone github.com/itemresponsewarehouse/Python-pkg into ../irw-python-reference (outside this repo, not committed) and read its README, pyproject.toml, the src/irw/ modules, and any llms.txt it ships.
+
+TASK 2. Create a pip-installable package named erw under package/ (src layout, pyproject.toml, pandas as the only hard dependency) with these functions, mirroring the IRW's names where they fit: erw.info(), erw.list_tables(), erw.coverage() (the coverage table as a DataFrame), erw.fetch(name) returning a DataFrame with the provenance header parsed into DataFrame.attrs, erw.fetch(list_of_names) returning a dict, erw.filter(iso=, market=, variable=, node=, start=, end=) returning table names, erw.sources(name) returning the source report and URLs, and erw.cite(name) returning a citation string for the ISO report. Implement one storage backend that reads warehouse/output (configurable via the ERW_DATA_DIR environment variable, defaulting to the repo's warehouse/output), behind a small backend interface so a Redivis backend can be added later without changing the public functions. Include erw.version() that reports the git commit of the data directory.
+
+TASK 3. Tests with pytest against the real files in warehouse/output: every public function, plus a test that fetch on every table returns exactly the row count listed for it in docs/coverage.md. Run the tests and record the result.
+
+TASK 4. Write package/llms.txt for the ERW, modeled on the IRW's llms.txt briefing for AI assistants: the data standard, the API, the defaults and pitfalls an assistant would get wrong (interval start not end, local operating days versus UTC, 15-minute means versus native intervals, forward day-ahead days, the missing real-time markets), and a runnable first example using a real table. Under 300 lines.
+
+TASK 5. package/README.md with install instructions and a five-line example, and SESSION_4_REPORT.md at the repo root: what was built, decisions, errors, how to run the tests, and what the Redivis backend will need. Final commit.
