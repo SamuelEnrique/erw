@@ -1,0 +1,13 @@
+fred_daily_spot_prices:
+  DCOILWTICO: 9507 values, 1986-01-02 to 2026-09-22, 1117 dates without a value omitted; USD/bbl; Public Domain: Citation Requested
+  DCOILBRENTEU: 9092 values, 1987-05-20 to 2026-09-22, 1173 dates without a value omitted; USD/bbl; Public Domain: Citation Requested
+  DHHNGSP: 5692 values, 1997-01-07 to 2026-09-22, 2059 dates without a value omitted; USD/MMBtu; Public Domain: Citation Requested
+  fred_daily_spot_prices.csv: rows=24291 (this run 24291: 0 new, 24291 replaced, 0 kept) range=1986-01-02T00:00:00Z..2026-09-22T00:00:00Z nodes=fred:DCOILBRENTEU,fred:DCOILWTICO,fred:DHHNGSP min=-36.98 max=145.31 USD/MMBtu/USD/bbl
+fred_imf_commodity_prices:
+  PNGASEUUSDM: 415 values, 1992-01-01 to 2026-07-01, 0 dates without a value omitted; USD/MMBtu; Copyrighted: Citation Required
+  PNGASJPUSDM: 415 values, 1992-01-01 to 2026-07-01, 0 dates without a value omitted; USD/MMBtu; Copyrighted: Citation Required
+  PCOALAUUSDM: 415 values, 1992-01-01 to 2026-07-01, 0 dates without a value omitted; USD/t; Copyrighted: Citation Required
+  PURANUSDM: 415 values, 1992-01-01 to 2026-07-01, 0 dates without a value omitted; USD/lb; Copyrighted: Citation Required
+  PNICKUSDM: 415 values, 1992-01-01 to 2026-07-01, 0 dates without a value omitted; USD/t; Copyrighted: Citation Required
+  fred_imf_commodity_prices.csv: rows=2075 (this run 2075: 0 new, 2075 replaced, 0 kept) range=1992-01-01T00:00:00Z..2026-07-01T00:00:00Z nodes=fred:PCOALAUUSDM,fred:PNGASEUUSDM,fred:PNGASJPUSDM,fred:PNICKUSDM,fred:PURANUSDM min=1.46 max=51783.33 USD/MMBtu/USD/lb/USD/t
+done, failures=0

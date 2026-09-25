@@ -1,0 +1,4 @@
+GET https://www.pjm.com/-/media/DotCom/markets-ops/rpm/rpm-auction-info/rpm-auctions-resource-clearing-price-summary.xlsx: 26293 bytes
+  parsed 234 BRA headline prices, delivery years 2007/2008 to 2028/2029, 18 LDA columns
+  pjm_rpm_capacity_prices.csv: rows=234 (this run 234: 0 new, 234 replaced, 0 kept) range=2007-06-01T00:00:00Z..2028-06-01T00:00:00Z nodes=ATSI,ATSI-CLEVELAND,BGE,COMED,DAYTON,DEOK,DOM,DPL SOUTH,EMAAC,JCPL,MAAC,MAAC + APS,PEPCO,PL,PS,PS NORTH,RTO,SWMAAC min=16.46 max=466.35 USD/MW-day
+done, failures=0

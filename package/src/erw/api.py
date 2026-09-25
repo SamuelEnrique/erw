@@ -13,6 +13,9 @@ import pandas as pd
 from .backends import Backend, LocalBackend
 from .provenance import PUBLISHERS, parse_header
 
+SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
+           "metals", "equities", "news"]
+
 _backend: Optional[Backend] = None
 
 TS_FMT = "%Y-%m-%dT%H:%M:%SZ"
@@ -69,7 +72,7 @@ def coverage() -> pd.DataFrame:
     """The coverage table: one row per table (the ERW's metadata.csv).
 
     Columns: table, iso, market, n_nodes, interval, ts_min, ts_max, n_rows,
-    source_report, last_run, validator_status. ts_min and ts_max are the first
+    source_report, last_run, validator_status, license, sector. ts_min and ts_max are the first
     and last interval starts in UTC.
     """
     cov = get_backend().coverage().copy()
@@ -157,7 +160,8 @@ def filter(iso: Union[str, Iterable[str], None] = None,
            market: Union[str, Iterable[str], None] = None,
            variable: Union[str, Iterable[str], None] = None,
            node: Union[str, Iterable[str], None] = None,
-           start=None, end=None, license: Optional[str] = None) -> List[str]:
+           start=None, end=None, license: Optional[str] = None,
+           sector: Union[str, Iterable[str], None] = None) -> List[str]:
     """Names of the tables that match every argument given.
 
     iso      : "ERCOT", "ercot", "ISO-NE", "isone", ... (any of a list)
@@ -168,11 +172,20 @@ def filter(iso: Union[str, Iterable[str], None] = None,
     start, end : the table has at least one interval starting in [start, end).
                Strings or timestamps; naive values are read as UTC.
     license  : "public" or "internal" (the public site filters on "public")
+    sector   : any of power, gas, oil, products, lng, coal, uranium, carbon,
+               capacity, metals, equities, news (coverage.csv column sector; a
+               table can have several). An unknown sector raises ValueError.
     """
     cov = coverage()
     keep = pd.Series(True, index=cov.index)
     if license is not None:
         keep &= cov["license"] == license
+    sectors = [s.lower() for s in _as_list(sector) or []]
+    if sectors:
+        unknown = sorted(set(sectors) - set(SECTORS))
+        if unknown:
+            raise ValueError(f"unknown sector {unknown}; sectors are {SECTORS}")
+        keep &= cov["sector"].map(lambda v: bool(set(v.split(";")) & set(sectors)))
     isos = _as_list(iso)
     if isos:
         wanted = {ISO_ALIASES.get(i.lower(), i.upper()) for i in isos}

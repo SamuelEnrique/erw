@@ -10,7 +10,11 @@ workflow runs this after the validator.
     python warehouse/metadata/build_coverage.py
 
 coverage.csv columns: table, iso, market, n_nodes, interval, ts_min, ts_max,
-n_rows, source_report, last_run, validator_status, license.
+n_rows, source_report, last_run, validator_status, license, sector.
+
+sector (session 7) is one or more of SECTORS, ";"-separated, set per table by
+the first matching rule in SECTOR_RULES. A table no rule matches fails the build:
+every new table gets a sector on purpose, not by default.
 
 license (session 5 ruling) is "internal" if any of the table's sources is
 licensed for internal use only, otherwise "public". Per-source licenses come
@@ -42,7 +46,25 @@ ISO_LABEL = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MISO
 BA_LABEL = {"ciso": "CAISO", "erco": "ERCOT", "isne": "ISO-NE", "miso": "MISO", "nyis": "NYISO",
             "pjm": "PJM", "swpp": "SPP", "us48": "US48"}
 CSV_COLS = ["table", "iso", "market", "n_nodes", "interval", "ts_min", "ts_max", "n_rows",
-            "source_report", "last_run", "validator_status", "license"]
+            "source_report", "last_run", "validator_status", "license", "sector"]
+# erw.filter(sector=...) vocabulary (session 7)
+SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
+           "metals", "equities", "news"]
+# (table name pattern, sectors), first match wins
+SECTOR_RULES = [
+    (r"^(caiso|ercot|isone|miso|nyiso|spp)_(dam|rtm)_", "power"),
+    (r"^pjm_(dam|rtm)_", "power"),
+    (r"^eia930_", "power"),
+    (r"^pjm_rpm_capacity_prices$", "capacity"),
+    (r"^eia_fuel_spot_prices$", "oil;gas"),
+    (r"^eia_(product_spot|retail_fuel)_prices$", "products"),
+    (r"^eia_petroleum_(trade|stocks)_weekly$", "oil;products"),
+    (r"^eia_lng_exports_monthly$", "lng"),
+    (r"^(carb|rggi)_auction_allowance_prices$", "carbon"),
+    (r"^fred_daily_spot_prices$", "oil;gas"),
+    (r"^fred_imf_commodity_prices$", "gas;lng;coal;uranium;metals"),
+    (r"^news_", "news"),
+]
 
 
 def load_licenses():
@@ -56,9 +78,19 @@ def iso_of(table):
     parts = table.split("_")
     if parts[0] == "eia930":
         return BA_LABEL.get(parts[1], parts[1].upper())
-    if parts[0] == "eia":
+    if parts[0] in ("eia", "carb", "rggi", "fred"):
         return "none"  # not an ISO series ("n/a" would read back as missing)
     return ISO_LABEL.get(parts[0], parts[0])
+
+
+def sector_of(table):
+    for pat, sectors in SECTOR_RULES:
+        if re.match(pat, table):
+            bad = [s for s in sectors.split(";") if s not in SECTORS]
+            if bad:
+                raise ValueError(f"{table}: sectors {bad} are not in {SECTORS}")
+            return sectors
+    raise ValueError(f"{table}: no sector rule in build_coverage.SECTOR_RULES matches; add one")
 
 
 def declared_license(header):
@@ -97,7 +129,7 @@ def events_row(path, header, df, licenses, status):
         "table": table, "iso": "none", "market": "", "n_nodes": len(sources), "interval": "event",
         "ts_min": ts.min().strftime("%Y-%m-%dT%H:%M:%SZ"), "ts_max": ts.max().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "n_rows": len(df), "source_report": f"{len(sources)} outlets", "last_run": last_run(header),
-        "validator_status": status, "license": license_,
+        "validator_status": status, "license": license_, "sector": sector_of(table),
         "_variable": "events: " + ", ".join(sorted(df["event_type"].unique())),
         "_nodes": f"{len(sources)} sources",
     }
@@ -137,6 +169,7 @@ def table_row(path, licenses):
         "last_run": last_run(header),
         "validator_status": status,
         "license": license_,
+        "sector": sector_of(table),
         # for the markdown only
         "_variable": ", ".join(sorted(df["variable"].unique())),
         "_nodes": ", ".join(nodes) if nodes else ", ".join(sorted(df["entity"].unique())),
@@ -150,7 +183,7 @@ def main():
 
     md_cols = ["Table", "ISO", "Market", "Variable", "Nodes", "Interval",
                "First interval (UTC)", "Last interval (UTC)", "Rows", "Source report",
-               "Last run (UTC)", "Validator", "License"]
+               "Last run (UTC)", "Validator", "License", "Sector"]
     lines = [
         "# ERW coverage",
         "",
@@ -164,7 +197,9 @@ def main():
         "rows, its provenance header, or `erw_validate.py`. Interval timestamps are interval "
         "starts; day-ahead tables can run past today because a published next-day auction is "
         "included. `License` is `public` or `internal` (internal: licensed for internal use "
-        "only, such as PJM data; never shown on the public site).",
+        "only, such as PJM data; never shown on the public site). `Sector` is what "
+        "`erw.filter(sector=...)` matches: power, gas, oil, products, lng, coal, uranium, "
+        "carbon, capacity, metals, equities, news.",
         "",
         "| " + " | ".join(md_cols) + " |",
         "|" + "|".join("---" for _ in md_cols) + "|",
@@ -174,7 +209,7 @@ def main():
                  f"{r['n_nodes']}: {r['_nodes']}", r["interval"],
                  r["ts_min"].replace("T", " ").rstrip("Z"), r["ts_max"].replace("T", " ").rstrip("Z"),
                  f"{r['n_rows']:,}", r["source_report"].replace(";", "; "),
-                 r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"]]
+                 r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"], r["sector"].replace(";", ", ")]
         lines.append("| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |")
     missing = [f"{label} {m.upper()}" for iso, label in ISO_LABEL.items() for m in ("dam", "rtm")
                if not glob.glob(os.path.join(OUT, f"{iso}_{m}_*.csv"))]

@@ -128,8 +128,8 @@ def build(name, cfg, run_id, log):
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/fred_series.py (FRED graph CSV, no key)",
         f"Run log: warehouse/output/logs/fred_series_{run_id}.log",
         f"Raw files: warehouse/raw/fred_series/{run_id}/ (not in git)",
-        "Source: Federal Reserve Bank of St. Louis, FRED, https://fred.stlouisfed.org/ ; series: "
-        + "; ".join(f"{k} = {names[k]}" for k in cfg["series"]),
+        "Publisher: Federal Reserve Bank of St. Louis, FRED (https://fred.stlouisfed.org/)",
+        *[f"Source: fred:{k} {names[k]}, {PAGE.format(k)}" for k in cfg["series"]],
         f"FRED rights line on every series page: {cfg['rights']}. Dates without a value omitted: "
         f"{sum(omitted.values())}.",
         f"License: {cfg['license']}."

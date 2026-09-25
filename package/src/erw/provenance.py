@@ -18,6 +18,9 @@ PUBLISHERS = {
     "isone": "ISO New England (ISO-NE)",
     "pjm": "PJM Interconnection (PJM)",
     "eia": "U.S. Energy Information Administration (EIA)",
+    "carb": "California Air Resources Board (CARB)",
+    "rggi": "Regional Greenhouse Gas Initiative (RGGI, Inc.)",
+    "fred": "Federal Reserve Bank of St. Louis (FRED)",
 }
 
 

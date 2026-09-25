@@ -132,8 +132,8 @@ def carb(run_id, log):
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/carbon_auctions.py",
         f"Run log: warehouse/output/logs/carbon_auctions_{run_id}.log",
         f"Raw files: warehouse/raw/carbon_auctions/{run_id}/ (not in git)",
-        f"Source: California Air Resources Board, Summary of Joint Auction Settlement Prices and Results "
-        f"(PDF, {updated or 'no update line'}), {CARB_URL}, linked from {CARB_PAGE}",
+        f"Source: carb:auction-results-summary California Air Resources Board, Summary of Joint Auction "
+        f"Settlement Prices and Results (PDF, {updated or 'no update line'}; linked from {CARB_PAGE}), {CARB_URL}",
         "Prices in USD per metric ton of CO2e; allowances in allowances (1 allowance = 1 metric ton).",
         "License: internal. CARB terms for this summary are unconfirmed.",
     ]
@@ -181,7 +181,7 @@ def rggi(run_id, log):
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/carbon_auctions.py",
         f"Run log: warehouse/output/logs/carbon_auctions_{run_id}.log",
         f"Raw files: warehouse/raw/carbon_auctions/{run_id}/ (not in git)",
-        f"Source: Regional Greenhouse Gas Initiative (RGGI, Inc.), Allowance Prices and Volumes, {RGGI_URL}",
+        f"Source: rggi:prices-volumes Regional Greenhouse Gas Initiative (RGGI, Inc.), Allowance Prices and Volumes, {RGGI_URL}",
         "Prices in USD per short ton of CO2; allowances in allowances (1 allowance = 1 short ton).",
         "License: internal. The page says only '(c) RGGI'; terms unconfirmed.",
     ]

@@ -154,3 +154,23 @@ Stop and say so, rather than working around it, when:
   gridstatus's parsing helpers.
 - **Trading-day series** (fuel prices) cannot use calendar completeness; see
   `docs/datastandard.md` Decision 12.
+- **Non-ISO sources** (session 7) follow `warehouse/connectors/eia_series.py`,
+  `capacity_prices.py`, `carbon_auctions.py` or `fred_series.py`: one script,
+  `ip.RAW.open`, `ip.write_csv`, `ip.update_sources` (pass `license` when the
+  terms are unconfirmed or third-party), `ip.write_status`, a line in
+  `run_daily.sh`, and a rule in `SECTOR_RULES` in
+  `warehouse/metadata/build_coverage.py` (the build fails without one).
+- **The header's `Source:` line has a fixed form**: `Source: <source id>
+  <report title>, <url>`, URL last, one line per source. The erw package
+  parses it; a free-text line made `erw.fetch` cite "california:Air".
+- **Check the license column against docs/price-sources.md before building.**
+  Paid or permission-only sources are skipped and reported; unconfirmed terms
+  and third-party data (FRED "Copyrighted", CARB, RGGI) are built `internal`.
+- **Some servers stall a browser User-Agent.** FRED answered at once with the
+  requests default headers and not at all with a Chrome string. Baker Hughes
+  never answered either way. Use a timeout; report a source that never answers.
+- **`pd.NA`/`NaN` is truthy.** `x if match.group else y` on an extracted
+  pandas column put every RGGI auction under "future". Use `pd.notna`.
+- **Auction tables**: ts_utc is the auction date (or the first of the month
+  when only the month is published), freq `P3M` or `P1Y`; cells a publisher
+  marks as not a price ("**", "--") are omitted, never filled from a parent.

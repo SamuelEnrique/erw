@@ -63,7 +63,7 @@ def test_coverage_has_one_row_per_table_and_the_documented_columns():
     cov = erw.coverage()
     assert list(cov.columns) == ["table", "iso", "market", "n_nodes", "interval", "ts_min",
                                  "ts_max", "n_rows", "source_report", "last_run",
-                                 "validator_status", "license"]
+                                 "validator_status", "license", "sector"]
     assert set(cov["license"]) <= {"public", "internal"}
     assert sorted(cov["table"]) == TABLES
     assert str(cov["ts_min"].dtype).startswith("datetime64") and cov["ts_min"].dt.tz is not None
@@ -123,8 +123,10 @@ def test_filter_by_iso_market_variable_node_and_time():
     eia_ciso = sorted(t for t in TABLES if t.startswith("eia930_ciso_"))
     assert erw.filter(node="eia930:CISO") == eia_ciso
     assert set(eia_ciso) <= set(erw.filter(iso="caiso"))
-    if "eia_fuel_spot_prices" in TABLES:
-        assert erw.filter(variable="spot_price") == ["eia_fuel_spot_prices"]
+    spot = [t for t in ("eia_fuel_spot_prices", "eia_product_spot_prices", "fred_daily_spot_prices")
+            if t in TABLES]
+    if spot:
+        assert erw.filter(variable="spot_price") == spot
     assert erw.filter(start="1980-01-01", end="1980-01-02") == []  # before any table starts
     last = cov["ts_max"].max()
     assert set(erw.filter(start=last)) == set(cov.loc[cov["ts_max"] >= last, "table"])
@@ -150,7 +152,10 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
                  "nyiso": "New York", "miso": "Midcontinent", "spp": "Southwest Power Pool",
                  "isone": "ISO New England", "pjm": "PJM",
                  "eia930": "Energy Information Administration",
-                 "eia": "Energy Information Administration"}[org]
+                 "eia": "Energy Information Administration",
+                 "carb": "California Air Resources Board",
+                 "rggi": "Regional Greenhouse Gas Initiative",
+                 "fred": "Federal Reserve Bank of St. Louis"}[org]
     assert publisher in c and name in c and "Energy Research Warehouse (ERW)" in c
     commit = erw.version()["data_commit"]
     assert commit and commit[:12] in c
@@ -308,3 +313,76 @@ def test_cite_names_every_report_even_from_earlier_runs():
     for sid in set(df["source"]):
         assert reg.loc[sid, "report"] and reg.loc[sid, "report"] in c
     assert all(r["report"] for r in erw.sources("ercot_rtm_hub_prices")["reports"])
+
+
+# --- session 7: the price board ---------------------------------------------
+
+SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
+           "metals", "equities", "news"]
+
+# table -> (units, freqs, license, sectors, entity prefix); every session 7 table
+PRICE_BOARD = {
+    "eia_product_spot_prices": ({"USD/gal"}, {"P1D"}, "public", "products", "eia:EER_"),
+    "eia_retail_fuel_prices": ({"USD/gal"}, {"P1W"}, "public", "products", "eia:EM"),
+    "eia_petroleum_trade_weekly": ({"kbbl/d"}, {"P1W"}, "public", "oil;products", "eia:W"),
+    "eia_petroleum_stocks_weekly": ({"kbbl"}, {"P1W"}, "public", "oil;products", "eia:W"),
+    "eia_lng_exports_monthly": ({"MMcf", "USD/Mcf"}, {"P1M"}, "public", "lng", "eia:NGM_EPG0_"),
+    "pjm_rpm_capacity_prices": ({"USD/MW-day"}, {"P1Y"}, "internal", "capacity", "pjm:"),
+    "carb_auction_allowance_prices": ({"USD/tCO2", "count"}, {"P3M"}, "internal", "carbon", "carb:"),
+    "rggi_auction_allowance_prices": ({"USD/short_ton", "count"}, {"P3M"}, "internal", "carbon", "rggi:"),
+    "fred_daily_spot_prices": ({"USD/bbl", "USD/MMBtu"}, {"P1D"}, "public", "oil;gas", "fred:"),
+    "fred_imf_commodity_prices": ({"USD/MMBtu", "USD/t", "USD/lb"}, {"P1M"}, "internal",
+                                  "gas;lng;coal;uranium;metals", "fred:"),
+}
+
+
+def test_every_price_board_table_is_present():
+    assert set(PRICE_BOARD) <= set(TABLES)
+
+
+@pytest.mark.parametrize("name", sorted(PRICE_BOARD))
+def test_price_board_table_units_freq_license_sector(name):
+    units, freqs, license_, sectors, prefix = PRICE_BOARD[name]
+    df = erw.fetch(name)
+    assert set(df["unit"]) == units
+    assert set(df["freq"]) == freqs
+    assert df["entity"].str.startswith(prefix).all()
+    assert (df["ts_utc"].dt.strftime("%H:%M:%S") == "00:00:00").all()
+    row = erw.coverage().set_index("table").loc[name]
+    assert row["license"] == license_ and row["sector"] == sectors
+    assert name in erw.filter(sector=sectors.split(";")[0])
+
+
+def test_price_board_spot_checks_against_the_sources():
+    """Values read by hand from the source files on 2026-09-25."""
+    def one(name, entity, variable, ts):
+        df = erw.fetch(name)
+        v = df[(df["entity"] == entity) & (df["variable"] == variable)
+               & (df["ts_utc"] == pd.Timestamp(ts, tz="UTC"))]["value"]
+        assert len(v) == 1, (name, entity, ts)
+        return float(v.iloc[0])
+    if "pjm_rpm_capacity_prices" in TABLES:  # PJM workbook: RTO 2007/08 $40.80, 2028/29 $325.00
+        assert one("pjm_rpm_capacity_prices", "pjm:RTO", "capacity_price_usd_per_mw_day", "2007-06-01") == 40.8
+        assert one("pjm_rpm_capacity_prices", "pjm:RTO", "capacity_price_usd_per_mw_day", "2028-06-01") == 325.0
+    if "rggi_auction_allowance_prices" in TABLES:  # RGGI: Auction 1 $3.07, Auction 73 $37.65
+        assert one("rggi_auction_allowance_prices", "rggi:current_auction", "clearing_price", "2008-09-25") == 3.07
+        assert one("rggi_auction_allowance_prices", "rggi:current_auction", "clearing_price", "2026-09-09") == 37.65
+    if "carb_auction_allowance_prices" in TABLES:  # CARB PDF: August 2026 current $32.48, advance $32.75
+        assert one("carb_auction_allowance_prices", "carb:current_auction", "settlement_price", "2026-08-01") == 32.48
+        assert one("carb_auction_allowance_prices", "carb:advance_auction", "settlement_price", "2026-08-01") == 32.75
+
+
+def test_sector_filter():
+    cov = erw.coverage()
+    assert all(set(v.split(";")) <= set(SECTORS) for v in cov["sector"])
+    for s in SECTORS:
+        want = sorted(cov.loc[cov["sector"].map(lambda v: s in v.split(";")), "table"])
+        assert erw.filter(sector=s) == want, s
+    assert erw.filter(sector=["carbon", "capacity"]) == sorted(
+        erw.filter(sector="carbon") + erw.filter(sector="capacity"))
+    iso_prices = [t for t in TABLES if re.match(r"^[a-z]+_(dam|rtm)_", t)]
+    assert set(iso_prices) <= set(erw.filter(sector="power"))
+    assert erw.filter(sector="news") == [t for t in TABLES if t.startswith("news_")]
+    assert erw.filter(sector="equities") == []  # no equities table yet (SESSION_7_REPORT.md)
+    with pytest.raises(ValueError):
+        erw.filter(sector="crypto")

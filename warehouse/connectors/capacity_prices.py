@@ -143,7 +143,7 @@ def main():
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/capacity_prices.py",
             f"Run log: warehouse/output/logs/capacity_prices_{run_id}.log",
             f"Raw files: warehouse/raw/capacity_prices/{run_id}/ (not in git)",
-            f"Source: PJM Interconnection, {REPORT}, {URL} (linked from {PAGE})",
+            f"Source: {SOURCE} PJM Interconnection, {REPORT} (linked from {PAGE}), {URL}",
             "License: internal. PJM data terms bar non-members from republishing.",
         ]
         ip.write_csv(s[ip.SERIES_COLS], NAME, header, log)
