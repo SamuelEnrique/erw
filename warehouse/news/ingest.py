@@ -76,6 +76,8 @@ def canonical(url):
 
 def clean(text, limit=None):
     text = html.unescape(re.sub(r"<[^>]+>", " ", text or ""))
+    # the ERW writes no em dashes in any file (CLAUDE.md): an outlet's em dash becomes " - "
+    text = text.replace("—", " - ")
     text = re.sub(r"\s+", " ", text).strip()
     if limit and len(text) > limit:
         text = text[:limit].rsplit(" ", 1)[0] + " ..."

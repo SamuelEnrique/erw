@@ -241,13 +241,21 @@ def cite(name: str) -> str:
     ver = version()
     cov = coverage().set_index("table")
     parts = []
+    outlets = []
     for r in src["reports"]:
+        if ":" not in r["source"]:
+            # a news outlet (events tables): cited by name, listed once below
+            outlets.append(r.get("publisher") or r["source"])
+            continue
         org = r["source"].split(":", 1)[0]
         report_id = r["source"].split(":", 1)[1]
         publisher = r.get("publisher") or PUBLISHERS.get(org, org.upper())
         title = f"{report_id}{': ' + r['report'] if r.get('report') else ''}"
         url = f" {r['report_url']}." if r.get("report_url") else ""
         parts.append(f"{publisher}. {title}.{url}")
+    if outlets:
+        parts.append(f"News stories from {len(outlets)} outlets: {', '.join(sorted(set(outlets)))}; "
+                     "each row links its story.")
     retrieved = ""
     if name in cov.index and pd.notna(cov.loc[name, "last_run"]):
         retrieved = f" Retrieved {cov.loc[name, 'last_run']:%Y-%m-%d}"

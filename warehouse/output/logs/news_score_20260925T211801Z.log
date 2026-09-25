@@ -1,0 +1,31 @@
+models list: 12 models: claude-opus-5-5, claude-fable-5-1, claude-opus-5, claude-sonnet-5, claude-fable-5, claude-opus-4-8, claude-opus-4-7, claude-sonnet-4-6, claude-opus-4-6, claude-opus-4-5-20251101, claude-haiku-4-5-20251001, claude-sonnet-4-5-20250929
+chosen model: claude-sonnet-5 (newest Sonnet-class by created_at 2026-06-29 00:00:00+00:00)
+stories: 632 stored, 632 unscored since 2026-09-22T21:18:02Z to score
+batches: 24 of up to 27 stories
+  model claude-sonnet-5 rejects temperature (HTTP 400: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CfQrVDQKHY2Pemh6ZjLrT'}); continuing without it, output constrained by the JSON schema
+  call 1: 27 stories, 27 scored, 0 missing; tokens in 4338 out 3349 cache_read 0; request req_011CfQrVEw6P3c83hhJv3fqx
+  call 2: 27 stories, 27 scored, 0 missing; tokens in 5626 out 3651 cache_read 1563; request req_011CfQrXVm884Ri3mV8f2MLr
+  call 3: 27 stories, 27 scored, 0 missing; tokens in 7003 out 3432 cache_read 1563; request req_011CfQra1SNfhaW2t3zyF3gC
+  call 4: 27 stories, 27 scored, 0 missing; tokens in 7577 out 3457 cache_read 1563; request req_011CfQrcKVsu4ZHzinJmJm8v
+  call 5: 27 stories, 27 scored, 0 missing; tokens in 8607 out 3416 cache_read 1563; request req_011CfQreeGnyNhWuuTbNYtzS
+  call 6: 27 stories, 27 scored, 0 missing; tokens in 9370 out 3342 cache_read 1563; request req_011CfQrgxxkLsJhR5xX4hQHY
+  call 7: 27 stories, 27 scored, 0 missing; tokens in 10496 out 3230 cache_read 1563; request req_011CfQrjM3qLv59ArS5DRoY1
+  call 8: 27 stories, 27 scored, 0 missing; tokens in 11613 out 3171 cache_read 1563; request req_011CfQrmWRhkU1qGLS7g3MKG
+  call 9: 27 stories, 27 scored, 0 missing; tokens in 12668 out 3234 cache_read 1563; request req_011CfQrocvBcKP4RXaYCFXd6
+  call 10: 27 stories, 27 scored, 0 missing; tokens in 13988 out 3311 cache_read 1563; request req_011CfQrqkMU8r7XUfcT24weV
+  call 11: 27 stories, 27 scored, 0 missing; tokens in 15259 out 3309 cache_read 1563; request req_011CfQrt6CcpWUKPhdUrXtXC
+  call 12: 27 stories, 27 scored, 0 missing; tokens in 16082 out 3325 cache_read 1563; request req_011CfQrvJrBpkFidFdM9NfNQ
+  call 13: 27 stories, 27 scored, 0 missing; tokens in 17927 out 3453 cache_read 1563; request req_011CfQrxWmMFnwmkYYw9PVZE
+  call 14: 27 stories, 27 scored, 0 missing; tokens in 18553 out 3457 cache_read 1563; request req_011CfQrzw4Q7BTVG46tcQ9NN
+  call 15: 27 stories, 27 scored, 0 missing; tokens in 20382 out 3362 cache_read 1563; request req_011CfQs3KeFtA3x6Uv3TiGWc
+  call 16: 27 stories, 27 scored, 0 missing; tokens in 21709 out 3444 cache_read 1563; request req_011CfQs5hSz83xf1fEkWm9Q7
+  call 17: 27 stories, 27 scored, 0 missing; tokens in 21515 out 3528 cache_read 1563; request req_011CfQs83otpG5fx5MPJmpt4
+  call 18: 27 stories, 27 scored, 0 missing; tokens in 21299 out 3318 cache_read 1563; request req_011CfQsAa4sD8PxAYK2LZjtj
+  call 19: 27 stories, 27 scored, 0 missing; tokens in 21226 out 4136 cache_read 1563; request req_011CfQsCoy69qBEBUMYfedYc
+  call 20: 27 stories, 27 scored, 0 missing; tokens in 21016 out 3188 cache_read 1563; request req_011CfQsFfG3dZr1js77nUW3p
+  call 21: 27 stories, 27 scored, 0 missing; tokens in 21543 out 3391 cache_read 1563; request req_011CfQsHjNABxDsJQPZd4H1B
+  call 22: 27 stories, 27 scored, 0 missing; tokens in 21445 out 3520 cache_read 1563; request req_011CfQsL6Ln9cSyTnQ3o6nCZ
+  call 23: 27 stories, 27 scored, 0 missing; tokens in 21128 out 3386 cache_read 1563; request req_011CfQsNaAuXZoU5GB5J4npW
+  call 24: 11 stories, 11 scored, 0 missing; tokens in 18815 out 1383 cache_read 1563; request req_011CfQsQxC2et3fwT92CVqFT
+RUN model claude-sonnet-5; calls 24 (0 failed); stories scored 632 of 632; tokens input 369185, output 79793, cache write 1563, cache read 35949; cost USD 1.5474; duplicate links rejected 0; clusters 570 among 632 scored stories; temperature not accepted by model
+  news_stories.csv: rows=632 (this run 632: 0 new, 632 replaced, 0 kept) range=2026-09-23T21:16:42Z..2026-09-25T20:53:00Z

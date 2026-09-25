@@ -48,7 +48,7 @@ sys.path.insert(0, os.path.join(ROOT, "package", "src"))
 import erw  # noqa: E402
 import iso_prices as ip  # noqa: E402
 from ingest import NAME, NEWS_COLS  # noqa: E402
-from score import PRICES, pick_model  # noqa: E402
+from score import PRICES, nodash, pick_model  # noqa: E402
 
 DIGEST_DIR = os.path.join(ROOT, "docs", "digest")
 GROUPS = {
@@ -123,7 +123,7 @@ def headlines(client, model, clusters, log):
         raise RuntimeError(f"headline call stop_reason {resp.stop_reason}")
     out = json.loads(next(b.text for b in resp.content if b.type == "text"))["headlines"]
     u = resp.usage
-    return {h["cluster_id"]: " ".join(h["headline"].split()) for h in out}, u, calls
+    return {h["cluster_id"]: nodash(h["headline"]) for h in out}, u, calls
 
 
 def link_text(links):

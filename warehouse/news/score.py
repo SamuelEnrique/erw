@@ -93,6 +93,11 @@ SCHEMA = {
 }
 
 
+def nodash(text):
+    """The ERW writes no em dashes in any file (CLAUDE.md); model text is normalised."""
+    return " ".join(str(text).replace("—", " - ").split()) if text else text
+
+
 def pick_model(client, log):
     models = list(client.models.list())
     log(f"models list: {len(models)} models: {', '.join(m.id for m in models)}")
@@ -107,7 +112,7 @@ def pick_model(client, log):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW news scoring")
     ap.add_argument("--days", type=int, default=3, help="score unscored stories from the last N days")
-    ap.add_argument("--max-calls", type=int, default=24, help="at most this many scoring calls")
+    ap.add_argument("--max-calls", type=int, default=23, help="at most this many scoring calls (plus one temperature probe, which a model may reject: 24 requests at most)")
     ap.add_argument("--limit", type=int, help="score at most N stories (trial runs)")
     ap.add_argument("--out-dir", help="read and write under this directory instead (trial runs)")
     args = ap.parse_args(argv)
@@ -214,10 +219,10 @@ def main(argv=None):
             cluster[eid] = cluster.get(dup, dup) if dup else eid
             upd.loc[eid, ["significance", "ai_power_relevance", "sector", "region", "price_mentioned",
                           "why", "model_id", "scored_at", "cluster_id"]] = [
-                str(sig), str(ai), r["sector"], r["region"], r["price_mentioned"] or "",
-                " ".join(r["one_line_why"].split()), model, now, cluster[eid]]
+                str(sig), str(ai), r["sector"], nodash(r["region"]), nodash(r["price_mentioned"] or ""),
+                nodash(" ".join(r["one_line_why"].split())), model, now, cluster[eid]]
             upd.loc[eid, "mw"] = "" if r["mw_mentioned"] is None else f"{float(r['mw_mentioned']):g}"
-            upd.loc[eid, "parties"] = "; ".join(p.replace(";", ",") for p in r["parties"])
+            upd.loc[eid, "parties"] = nodash("; ".join(p.replace(";", ",") for p in r["parties"]))
         upd = upd.reset_index()
         scored = upd["scored_at"] != ""
         changed = upd[upd["event_id"].isin(results.keys())]

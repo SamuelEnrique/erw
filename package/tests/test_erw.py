@@ -32,6 +32,18 @@ def coverage_md_rows():
 
 
 TABLES = sorted(p.stem for p in OUTPUT.glob("*.csv"))
+
+
+def _is_events(name):
+    with open(OUTPUT / f"{name}.csv", encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                return line.startswith("event_id,")
+    return False
+
+
+EVENT_TABLES = [t for t in TABLES if _is_events(t)]
+SERIES_TABLES = [t for t in TABLES if t not in EVENT_TABLES]
 MD_ROWS = coverage_md_rows()
 
 
@@ -68,7 +80,7 @@ def test_fetch_row_count_matches_coverage_md(name):
     assert len(df) == MD_ROWS[name]
 
 
-@pytest.mark.parametrize("name", TABLES)
+@pytest.mark.parametrize("name", SERIES_TABLES)
 def test_fetch_types_and_provenance(name):
     df = erw.fetch(name)
     assert list(df.columns[:4]) == ["entity", "variable", "ts_utc", "value"]
@@ -130,7 +142,7 @@ def test_sources_names_reports_and_every_row_url(name):
     assert all(u.startswith("http") for u in s["source_urls"])
 
 
-@pytest.mark.parametrize("name", TABLES)
+@pytest.mark.parametrize("name", SERIES_TABLES)
 def test_cite_names_the_iso_the_table_and_the_commit(name):
     c = erw.cite(name)
     org = name.split("_")[0]
@@ -240,8 +252,36 @@ def test_license_column_and_filter():
     internal = sorted(cov.loc[cov["license"] == "internal", "table"])
     assert erw.filter(license="public") == public
     assert erw.filter(license="internal") == internal
+    # the rule: a table is internal exactly when one of its sources is internal
+    reg = erw.get_backend().source_registry().set_index("source")["license"]
+    for t in TABLES:
+        srcs = set(erw.fetch(t)["source"])
+        expect = "internal" if any(reg[s] == "internal" for s in srcs) else "public"
+        assert cov.set_index("table").loc[t, "license"] == expect, t
     assert all(not t.startswith("pjm_") for t in public)
-    assert all(t.startswith("pjm_") for t in internal)
+
+
+@pytest.mark.parametrize("name", EVENT_TABLES)
+def test_events_table_types_subset_and_provenance(name):
+    df = erw.fetch(name)
+    assert list(df.columns[:3]) == ["event_id", "event_date", "event_type"]
+    assert str(df["event_date"].dtype) == "datetime64[ns, UTC]"
+    assert df["event_id"].is_unique
+    assert df["source_url"].str.startswith("http").all()
+    meta = df.attrs["erw"]
+    assert meta["header"][0].startswith("Energy Research Warehouse (ERW):") and meta["run_log"]
+    t1 = df["event_date"].max()
+    t0 = t1 - pd.Timedelta(hours=6)
+    sub = erw.fetch(name, start=t0, end=t1 + pd.Timedelta(seconds=1))
+    assert len(sub) == ((df["event_date"] >= t0) & (df["event_date"] <= t1)).sum()
+    outlet = df["source"].iloc[0]
+    assert set(erw.fetch(name, node=outlet)["source"]) == {outlet}
+    assert name in erw.filter(variable=df["event_type"].iloc[0])
+    if "significance" in df.columns:
+        s = df["significance"].dropna()
+        assert s.between(0, 10).all()
+    c = erw.cite(name)
+    assert "Energy Research Warehouse (ERW)" in c and name in c
 
 
 def test_source_registry_covers_every_source_in_every_table():
