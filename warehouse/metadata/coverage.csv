@@ -1,0 +1,10 @@
+table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status
+caiso_dam_hub_prices,CAISO,caiso_dam,3,PT1H,2026-08-26T07:00:00Z,2026-09-26T06:00:00Z,2232,caiso:PRC_LMP,2026-09-25T07:12:46Z,pass
+caiso_rtm_hub_prices,CAISO,caiso_rtm,3,PT15M,2026-08-26T07:00:00Z,2026-09-25T06:45:00Z,8640,caiso:PRC_INTVL_LMP,2026-09-25T07:12:46Z,pass
+ercot_dam_hub_prices,ERCOT,ercot_dam,5,PT1H,2026-08-26T05:00:00Z,2026-09-26T04:00:00Z,3720,ercot:NP4-190-CD,2026-09-25T06:37:20Z,pass
+ercot_rtm_hub_prices,ERCOT,ercot_rtm,5,PT15M,2026-08-26T05:00:00Z,2026-09-25T04:45:00Z,14400,ercot:NP6-785-ER;ercot:NP6-905-CD,2026-09-25T06:37:20Z,pass
+isone_dam_zone_prices,ISO-NE,isone_dam,9,PT1H,2026-08-26T04:00:00Z,2026-09-26T03:00:00Z,6696,isone:da_lmp_hourly,2026-09-25T07:12:46Z,pass
+miso_dam_hub_prices,MISO,miso_dam,8,PT1H,2026-08-26T05:00:00Z,2026-09-26T04:00:00Z,5952,miso:da_expost_lmp,2026-09-25T07:12:46Z,pass
+nyiso_dam_zone_prices,NYISO,nyiso_dam,11,PT1H,2026-08-26T04:00:00Z,2026-09-26T03:00:00Z,8184,nyiso:damlbmp,2026-09-25T07:12:46Z,pass
+nyiso_rtm_zone_prices,NYISO,nyiso_rtm,11,PT15M,2026-08-26T04:00:00Z,2026-09-25T03:45:00Z,31680,nyiso:realtime,2026-09-25T07:12:46Z,pass
+spp_dam_hub_prices,SPP,spp_dam,2,PT1H,2026-08-26T05:00:00Z,2026-09-26T04:00:00Z,1488,spp:DA-LMP-SL,2026-09-25T06:59:20Z,pass

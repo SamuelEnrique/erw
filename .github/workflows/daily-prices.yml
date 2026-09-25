@@ -14,7 +14,8 @@
 #      complete writes nothing and is named in the commit message.
 #   3. runs erw_validate on every output. A blocked table fails the job and
 #      nothing is committed.
-#   4. commits the updated CSVs and run logs directly to main.
+#   4. regenerates docs/coverage.md and warehouse/metadata/coverage.csv
+#   5. commits the updated CSVs, run logs and coverage directly to main.
 #      Raw source files (warehouse/raw/) are gitignored and never committed.
 #
 # Why this commits to main directly, unlike the IRW's weekly pull request:
@@ -61,7 +62,7 @@ jobs:
       - name: Merge tests
         run: python -m unittest discover -s tests -v
 
-      - name: Pull and validate
+      - name: Pull, validate, rebuild coverage
         env:
           PYTHON: python
           DAYS: "3"
@@ -96,7 +97,7 @@ jobs:
             echo "::warning::markets not written today: $failed"
           fi
           # Only the tracked outputs; warehouse/raw/ is gitignored and stays out.
-          git add -- warehouse/output
+          git add -- warehouse/output docs/coverage.md warehouse/metadata/coverage.csv
           if git diff --cached --quiet; then
             echo "No table changed today; nothing to commit."
             exit 0

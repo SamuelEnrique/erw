@@ -16,7 +16,9 @@
 #      (entity, variable, ts_utc) are replaced, nothing is duplicated.
 #      A failed market is recorded and the run continues with the others.
 #   2. erw_validate on every file in warehouse/output. Any blocked file ends
-#      the run with exit 1, before anything is committed.
+#      the run with exit 1, before coverage is rebuilt or anything committed.
+#   3. warehouse/metadata/build_coverage.py regenerates docs/coverage.md and
+#      warehouse/metadata/coverage.csv.
 #
 # Writes runs/daily_status.txt (gitignored): one line per ISO, used by the
 # workflow for its commit message.
@@ -55,8 +57,11 @@ echo "== validator"
 "$PYTHON" warehouse/validate/erw_validate.py warehouse/output/*.csv
 vrc=$?
 if [ "$vrc" -ne 0 ]; then
-  echo "erw_validate exit $vrc: at least one table is blocked; stopping before commit"
+  echo "erw_validate exit $vrc: at least one table is blocked; stopping before coverage and commit"
   exit 1
 fi
+
+echo "== coverage"
+"$PYTHON" warehouse/metadata/build_coverage.py || exit 1
 
 echo "== done"
