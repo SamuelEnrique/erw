@@ -1,0 +1,18 @@
+GET https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf: 136879 bytes
+  CARB: 56 auctions, 2012-11 to 2026-08; Last updated August 2026
+  carb_auction_allowance_prices.csv: rows=336 (this run 336: 336 new, 0 replaced, 0 kept) range=2012-11-01T00:00:00Z..2026-08-01T00:00:00Z nodes=Auction #1,Auction #2,Auction #3,Auction #4,Auction #5,Auction #6,Auction #7,Auction #8,Joint Auction #1,Joint Auction #10,Joint Auction #11,Joint Auction #12,Joint Auction #13,Joint Auction #14,Joint Auction #15,Joint Auction #16,Joint Auction #17,Joint Auction #18,Joint Auction #19,Joint Auction #2,Joint Auction #20,Joint Auction #21,Joint Auction #22,Joint Auction #23,Joint Auction #24,Joint Auction #25,Joint Auction #26,Joint Auction #27,Joint Auction #28,Joint Auction #29,Joint Auction #3,Joint Auction #30,Joint Auction #31,Joint Auction #32,Joint Auction #33,Joint Auction #34,Joint Auction #35,Joint Auction #36,Joint Auction #37,Joint Auction #38,Joint Auction #39,Joint Auction #4,Joint Auction #40,Joint Auction #41,Joint Auction #42,Joint Auction #43,Joint Auction #44,Joint Auction #45,Joint Auction #46,Joint Auction #47,Joint Auction #48,Joint Auction #5,Joint Auction #6,Joint Auction #7,Joint Auction #8,Joint Auction #9 min=10.00 max=98215920.00 USD/tCO2/count
+GET https://www.rggi.org/auctions/auction-results/prices-volumes: 153783 bytes
+  RGGI: 85 auctions, 2008-09-25 to 2026-09-09
+rggi_auction_allowance_prices FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\carbon_auctions.py", line 213, in main
+    ip.write_csv(s[ip.SERIES_COLS].sort_values(["entity", "variable", "ts_utc"]), name, header, log)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 520, in write_csv
+    merged, st = merge_series(old, series, key, cols)
+                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 493, in merge_series
+    raise RuntimeError(f"new rows repeat a {tuple(key)} key; refusing to merge")
+RuntimeError: new rows repeat a ('entity', 'variable', 'ts_utc') key; refusing to merge
+
+done, failures=1

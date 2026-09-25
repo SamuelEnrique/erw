@@ -11,3 +11,6 @@ python-dotenv>=1.0
 feedparser>=6.0
 pyyaml>=6.0
 anthropic>=1.8
+pdfplumber>=0.11   # CARB auction PDF (session 7)
+openpyxl>=3.1      # PJM capacity workbook (session 7)
+lxml>=5.3          # RGGI HTML table via pandas.read_html (session 7)

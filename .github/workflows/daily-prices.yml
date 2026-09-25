@@ -12,6 +12,9 @@
 #      appended, intervals already present for the same (entity, variable,
 #      ts_utc) are replaced, nothing is duplicated. A market that is not
 #      complete writes nothing and is named in the commit message.
+#      Then the non-ISO connectors: EIA-930, EIA fuel spot prices, the EIA
+#      petroleum, retail, stocks and LNG series, PJM capacity prices, CARB and
+#      RGGI carbon auctions and FRED (session 7), each over its full history.
 #   3. runs erw_validate on every output. A blocked table fails the job and
 #      nothing is committed.
 #   4. regenerates docs/coverage.md and warehouse/metadata/coverage.csv, then

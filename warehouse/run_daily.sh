@@ -81,6 +81,16 @@ run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
 # EIA daily fuel spot prices, full history each run (small)
 run_other eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
 
+# EIA refined products, retail fuels, weekly trade and stocks, LNG exports by terminal
+# (session 7), full history each run
+run_other eia_series "$PYTHON" warehouse/connectors/eia_series.py
+
+# Session 7 price board: PJM RPM capacity prices (internal), CARB and RGGI carbon
+# auctions (internal), FRED series without a key (public domain daily; IMF monthly internal)
+run_other capacity_prices "$PYTHON" warehouse/connectors/capacity_prices.py
+run_other carbon_auctions "$PYTHON" warehouse/connectors/carbon_auctions.py
+run_other fred_series "$PYTHON" warehouse/connectors/fred_series.py
+
 # News (session 6): ingest the feeds, then score new stories with the Claude API
 # (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.
 run_other news_ingest "$PYTHON" warehouse/news/ingest.py
