@@ -34,6 +34,7 @@ TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 TS_FMT = "%Y-%m-%dT%H:%M:%SZ"
 FREQ_RE = re.compile(r"^P(\d+[YMWD])*(T(\d+H)?(\d+M)?(\d+S)?)?$")
 ENTITY_RE = re.compile(r"^[a-z0-9_]+:.+$")
+GEO_RE = re.compile(r"^[A-Z]{2}(-[A-Z0-9]{1,3})?$")
 
 
 class BadInput(Exception):
@@ -172,6 +173,28 @@ def validate(path):
         bad = s[~s.str.match(FREQ_RE)]
         if len(bad):
             warn("freq_format", f"{len(bad)} value(s) not an ISO 8601 duration: {examples(bad.unique())}")
+    if "freq" in cols and "ts_utc" in cols:
+        # a fixed sub-daily freq must match the timestamps' grid (session 2)
+        m = df["freq"].str.extract(r"^PT(?:(\d+)H)?(?:(\d+)M)?$")
+        step = m[0].astype(float).fillna(0) * 60 + m[1].astype(float).fillna(0)
+        ts = pd.to_datetime(df["ts_utc"], format=TS_FMT, utc=True, errors="coerce")
+        has = (step > 0) & ts.notna()
+        if has.any():
+            mins = (ts[has].dt.hour * 60 + ts[has].dt.minute).astype(int)
+            bad = (mins % step[has].astype(int) != 0) | (ts[has].dt.second != 0)
+            off = pd.Series(False, index=df.index)
+            off.loc[has] = bad.to_numpy(dtype=bool)
+            if off.any():
+                err("ts_freq_alignment", f"{int(off.sum())} ts_utc value(s) not on the grid of "
+                    f"their freq: {examples((df.loc[off, 'freq'] + ' ' + df.loc[off, 'ts_utc']).unique())}")
+    if "geo" in cols:
+        # one ISO 3166-2 code, or a comma-separated list of them (session 2)
+        s = df["geo"][df["geo"].str.strip() != ""]
+        ok = s.str.split(",").map(lambda parts: all(GEO_RE.match(p) for p in parts))
+        bad = s[~ok]
+        if len(bad):
+            err("geo_format", f"{len(bad)} value(s) not ISO 3166-2 codes separated by commas "
+                f"(no spaces): {examples(bad.unique())}")
 
     return {"file": path, "standard": STANDARD, "shape": "series",
             "errors": errors, "warnings": warnings, "info": info}

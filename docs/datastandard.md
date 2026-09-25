@@ -46,7 +46,7 @@ One row per observation of one variable, for one entity, at one time.
 | `value` | yes | float | The number, in `unit`. Never empty |
 | `unit` | reserved | string | Required by the validator in v0. `USD/MWh`, `MW`, `MWh` |
 | `freq` | reserved | string | Interval length as an ISO 8601 duration: `PT5M`, `PT15M`, `PT1H`, `P1D`, `P1M` |
-| `geo` | reserved | string | ISO 3166-2 code for the smallest region that contains the entity: `US-TX` |
+| `geo` | reserved | string | ISO 3166-2 code for the smallest region that contains the entity: `US-TX`. Where no single code applies, a comma-separated list with no spaces: `US-CT,US-MA,US-ME`. Checked by the validator |
 | `market` | reserved | string | Market the value belongs to, lowercase: `ercot_dam`, `ercot_rtm` |
 | `node` | reserved | string | Pricing node, hub or zone name exactly as the source writes it: `HB_NORTH` |
 | `source` | reserved | string | Required by the validator in v0. `organization:report_id`: `ercot:NP4-190-CD` |
@@ -104,6 +104,9 @@ What was chosen, and why:
 4. **`unit` and `source` are optional in the schema but required by the validator.** They are listed as reserved optional columns because a future table may carry the unit in its variable definition. In v0 every table carries both, and the validator blocks a table without them.
 5. **One row per revision only when the table says so.** v0 tables keep the value the connector retrieved and record the publication time in `vintage`. Keeping full revision history is deferred.
 6. **Provenance is both per file and per row.** The header comment names the report and retrieval time for a reader of the file; `source`, `source_url`, `retrieved_at` and `vintage` let a row survive being copied out of its file.
+7. **`geo` may be a comma-separated list of ISO 3166-2 codes, and the validator checks it** (session 2, error `geo_format`). Reason: multi-state ISOs (MISO, SPP, ISO-NE) have no single code, and an unchecked free-text `geo` would drift.
+8. **`ts_utc` must sit on the grid its `freq` declares, for fixed sub-daily `freq`** (session 2, error `ts_freq_alignment`). Reason: NYISO publishes real-time prices at irregular off-grid times (for example 09:47:51), and a table passing them through under `PT5M` would misstate its own frequency.
+9. **A 15-minute mean of 5-minute prices is its own variable, `<variable>_15m_mean`** (session 2, for example `lmp_rtm_15m_mean`), per the no-invented-numbers rule that a derived value is never labeled as a published one. Not a validator check.
 
 Deferred to a later version:
 
