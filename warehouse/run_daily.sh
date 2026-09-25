@@ -50,6 +50,25 @@ for iso in $ISOS; do
     tail -20 "$out"
   fi
 done
+run_other() {
+  # run_other <name> <command...>: a non-ISO connector, recorded like an ISO
+  local name="$1"; shift
+  local out="runs/daily_${name}.out"
+  "$@" > "$out" 2>&1
+  local rc=$?
+  grep -E "\.csv: rows=|FAILED|run log:" "$out" | grep -vE " - (INFO|DEBUG|WARNING) - "
+  if [ "$rc" -eq 0 ]; then
+    echo "$name ok" >> "$status"
+  else
+    failed=$(grep -oE "^${name} [a-z0-9_]+ FAILED" "$out" | awk '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ $//')
+    echo "$name failed: ${failed:-connector exit $rc}" >> "$status"
+    [ -z "$failed" ] && tail -20 "$out"
+  fi
+}
+
+# EIA-930 hourly demand and generation (EIA_API_KEY from the environment or .env)
+run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
+
 echo "== connector status"
 cat "$status"
 

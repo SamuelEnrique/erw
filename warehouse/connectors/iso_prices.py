@@ -55,6 +55,78 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT_DIR = os.path.join(ROOT, "warehouse", "output")
 LOG_DIR = os.path.join(OUT_DIR, "logs")
 RAW_DIR = os.path.join(ROOT, "warehouse", "raw")
+METADATA_DIR = os.path.join(ROOT, "warehouse", "metadata")  # sources.csv lives here
+STATUS_DIR = os.path.join(ROOT, "runs", "status")  # per-connector status of the latest run
+
+
+def set_out_dir(path):
+    """Redirect every output of a trial run (CSVs, logs, raw, registry, status) under path."""
+    global OUT_DIR, LOG_DIR, RAW_DIR, METADATA_DIR, STATUS_DIR
+    OUT_DIR = os.path.abspath(path)
+    LOG_DIR = os.path.join(OUT_DIR, "logs")
+    RAW_DIR = os.path.join(OUT_DIR, "raw")
+    METADATA_DIR = os.path.join(OUT_DIR, "metadata")
+    STATUS_DIR = os.path.join(OUT_DIR, "status")
+    os.makedirs(OUT_DIR, exist_ok=True)
+
+
+# ---------------------------------------------------------------------------
+# Source registry and run status (session 5 rulings)
+# ---------------------------------------------------------------------------
+
+SOURCE_COLS = ["source", "publisher", "report", "report_url", "document_list", "license",
+               "tables", "first_seen", "last_seen"]
+# The one place the license rule lives in code (docs/datastandard.md states it):
+# PJM data are licensed for internal use only; every other source is public.
+INTERNAL_ORGS = {"pjm"}
+
+
+def license_of(source):
+    return "internal" if source.split(":", 1)[0].lower() in INTERNAL_ORGS else "public"
+
+
+def update_sources(entries):
+    """Merge report descriptions into warehouse/metadata/sources.csv, keyed by source.
+
+    Like the tables, the registry only grows: a later run updates a report's
+    description and last_seen and adds tables, never removes an entry, so
+    erw.cite() can always name a report used by any earlier run.
+    """
+    os.makedirs(METADATA_DIR, exist_ok=True)
+    path = os.path.join(METADATA_DIR, "sources.csv")
+    today = pd.Timestamp.now(tz="UTC").strftime("%Y-%m-%d")
+    reg = (pd.read_csv(path, dtype=str, keep_default_na=False) if os.path.exists(path)
+           else pd.DataFrame(columns=SOURCE_COLS))
+    reg = reg.set_index("source", drop=False)
+    for e in entries:
+        sid = e["source"]
+        tables = set(t for t in e.get("tables", []) if t)
+        if sid in reg.index:
+            old = reg.loc[sid]
+            tables |= set(t for t in str(old["tables"]).split(";") if t)
+            first = old["first_seen"] or today
+        else:
+            first = today
+        reg.loc[sid] = {
+            "source": sid, "publisher": e.get("publisher", ""), "report": e.get("report", ""),
+            "report_url": e.get("report_url", ""), "document_list": e.get("document_list", ""),
+            "license": license_of(sid), "tables": ";".join(sorted(tables)),
+            "first_seen": first, "last_seen": today}
+    reg = reg.sort_index()[SOURCE_COLS]
+    tmp = path + ".tmp"
+    reg.to_csv(tmp, index=False, lineterminator="\n")
+    os.replace(tmp, path)
+
+
+def write_status(connector, run_id, results):
+    """Record this run's per-table outcome for warehouse/metadata/run_status.py to append."""
+    import json
+    os.makedirs(STATUS_DIR, exist_ok=True)
+    runner = "github" if os.environ.get("GITHUB_ACTIONS") == "true" else "local"
+    with open(os.path.join(STATUS_DIR, f"{connector}.json"), "w", encoding="utf-8") as f:
+        json.dump({"connector": connector, "run_id": run_id, "runner": runner,
+                   "results": [{k: redact(v) if isinstance(v, str) else v for k, v in r.items()}
+                               for r in results]}, f, indent=1)
 
 SERIES_COLS = ["entity", "variable", "ts_utc", "value", "unit", "freq", "geo",
                "market", "node", "source", "source_url", "retrieved_at", "vintage"]
@@ -65,6 +137,55 @@ RETRIES = 4
 
 def utc_iso(ts):
     return pd.Timestamp(ts).tz_convert("UTC").strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+# ---------------------------------------------------------------------------
+# Secrets: API keys come from the environment or the repository's .env (never
+# committed). Every key loaded is registered so that no log line, stored URL,
+# raw file name or output row can contain it.
+# ---------------------------------------------------------------------------
+
+SECRETS = set()
+_KEY_PARAM = re.compile(r"((?:api_key|apikey|api-key|key|token)=)[^&#\s\"']+", re.I)
+
+
+def redact(text):
+    """Remove every registered secret and any key-like URL parameter from text."""
+    if text is None:
+        return text
+    text = str(text)
+    for s in SECRETS:
+        text = text.replace(s, "REDACTED")
+    return _KEY_PARAM.sub(r"\1REDACTED", text)
+
+
+def load_key(name, log=None):
+    """An API key from the environment or ROOT/.env, or None when empty.
+
+    A key pasted with leading dots ('...') is a copy artifact seen in session
+    5; those characters are dropped and a warning names the variable, never
+    the value.
+    """
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(os.path.join(ROOT, ".env"), override=False)
+    except ImportError:
+        pass  # CI passes keys as environment variables; python-dotenv is optional there
+    raw = os.environ.get(name, "")
+    key = raw.strip()
+    if key.startswith("."):
+        key = key.lstrip(".")
+        msg = (f"WARNING: {name} starts with '.' characters, which no API key contains; they "
+               f"were ignored. Fix the value in .env or the {name} secret.")
+        sys.stderr.write(msg + "\n")
+        if log:
+            log(msg)
+    if not key:
+        return None
+    SECRETS.add(key)
+    if raw and raw != key:
+        SECRETS.add(raw)
+    return key
 
 
 # ---------------------------------------------------------------------------
@@ -92,6 +213,7 @@ class RawStore:
     def record(self, url, status, content, headers):
         if self.dir is None:
             return None
+        url = redact(url)  # never write a key into a manifest, a file name or a row
         now = pd.Timestamp.now(tz="UTC")
         digest = hashlib.sha256(content).hexdigest()
         lm = headers.get("Last-Modified") if headers is not None else None
@@ -204,7 +326,7 @@ class Log:
 
     def __call__(self, msg):
         with self.lock:
-            self.f.write(msg + "\n")
+            self.f.write(redact(msg) + "\n")
             self.f.flush()
 
     def close(self):
@@ -360,11 +482,12 @@ def write_csv(series, name, header_lines, log):
         merged.to_csv(f, index=False, lineterminator="\n")
     os.replace(tmp, path)
     v = merged["value"]
+    nodes = sorted(n for n in merged["node"].unique() if n) or sorted(merged["entity"].unique())
     summary = (f"{name}.csv: rows={len(merged)} (this run {len(series)}: {st['added']} new, "
                f"{st['replaced']} replaced, {st['kept']} kept) "
                f"range={merged['ts_utc'].min()}..{merged['ts_utc'].max()} "
-               f"nodes={','.join(sorted(merged['node'].unique()))} "
-               f"min={v.min():.2f} max={v.max():.2f} USD/MWh")
+               f"nodes={','.join(nodes)} "
+               f"min={v.min():.2f} max={v.max():.2f} {'/'.join(sorted(merged['unit'].unique()))}")
     print(summary)
     log("  " + summary)
     return path

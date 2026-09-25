@@ -1,0 +1,110 @@
+WARNING: EIA_API_KEY starts with '.' characters, which no API key contains; they were ignored. Fix the value in .env or the EIA_API_KEY secret.
+ERW eia930 run 20260925T191500Z; window [2026-08-26T00:00:00Z, 2026-09-25T00:00:00Z); BAs ['ciso', 'erco', 'isne', 'miso', 'nyis', 'pjm', 'swpp', 'us48']
+  electricity/rto/region-data offset 0: 5000 rows (total 17232) https://api.eia.gov/v2/electricity/rto/region-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48&facets%5Btype%5D%5B%5D=D&facets%5Btype%5D%5B%5D=DF&facets%5Btype%5D%5B%5D=NG
+  electricity/rto/region-data offset 5000: 5000 rows (total 17232) https://api.eia.gov/v2/electricity/rto/region-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=5000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48&facets%5Btype%5D%5B%5D=D&facets%5Btype%5D%5B%5D=DF&facets%5Btype%5D%5B%5D=NG
+  electricity/rto/region-data offset 10000: 5000 rows (total 17232) https://api.eia.gov/v2/electricity/rto/region-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=10000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48&facets%5Btype%5D%5B%5D=D&facets%5Btype%5D%5B%5D=DF&facets%5Btype%5D%5B%5D=NG
+  electricity/rto/region-data offset 15000: 2232 rows (total 17232) https://api.eia.gov/v2/electricity/rto/region-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=15000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48&facets%5Btype%5D%5B%5D=D&facets%5Btype%5D%5B%5D=DF&facets%5Btype%5D%5B%5D=NG
+  electricity/rto/fuel-type-data offset 0: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=0&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 5000: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=5000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 10000: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=10000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 15000: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=15000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 20000: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=20000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 25000: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=25000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 30000: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=30000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 35000: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=35000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 40000: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=40000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 45000: 5000 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=45000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+  electricity/rto/fuel-type-data offset 50000: 4463 rows (total 54463) https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/?api_key=REDACTED&frequency=hourly&data%5B0%5D=value&start=2026-08-26T01&end=2026-09-25T00&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bcolumn%5D=respondent&sort%5B1%5D%5Bdirection%5D=asc&offset=50000&length=5000&facets%5Brespondent%5D%5B%5D=CISO&facets%5Brespondent%5D%5B%5D=ERCO&facets%5Brespondent%5D%5B%5D=ISNE&facets%5Brespondent%5D%5B%5D=MISO&facets%5Brespondent%5D%5B%5D=NYIS&facets%5Brespondent%5D%5B%5D=PJM&facets%5Brespondent%5D%5B%5D=SWPP&facets%5Brespondent%5D%5B%5D=US48
+eia930_ciso_demand:
+  complete: eia930_ciso_demand: 2 variables x 720 hours
+  eia930_ciso_demand.csv: rows=1440 (this run 1440: 1440 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:CISO min=19855.00 max=49959.00 MW
+eia930_ciso_generation:
+  complete: eia930_ciso_generation: 10 variables x 720 hours
+  eia930_ciso_generation.csv: rows=7200 (this run 7200: 7200 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:CISO min=-9830.00 max=44050.00 MW
+eia930_erco_demand:
+  INCOMPLETE eia930_erco_demand demand_forecast_mw: 696 of 720 hours (24 missing, 0 published as null; first missing ['2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z', '2026-09-04T07:00:00Z'])
+eia930_erco_demand FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 269, in main
+    build_table(rows, code, start, end, log, name, title, run_id, args.days)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 166, in build_table
+    check_complete(rows, start, end, log, name)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 156, in check_complete
+    raise RuntimeError(f"incomplete data, no file written for {what}: " + "; ".join(problems[:4]))
+RuntimeError: incomplete data, no file written for eia930_erco_demand: demand_forecast_mw: 696 of 720 hours (24 missing, 0 published as null; first missing ['2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z', '2026-09-04T07:00:00Z'])
+
+eia930_erco_generation:
+  complete: eia930_erco_generation: 9 variables x 720 hours
+  eia930_erco_generation.csv: rows=6480 (this run 6480: 6480 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:ERCO min=-11553.00 max=90811.00 MW
+eia930_isne_demand:
+  complete: eia930_isne_demand: 2 variables x 720 hours
+  eia930_isne_demand.csv: rows=1440 (this run 1440: 1440 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:ISNE min=7330.00 max=19017.00 MW
+eia930_isne_generation:
+  INCOMPLETE eia930_isne_generation net_generation_oil_mw: 480 of 720 hours (240 missing, 0 published as null; first missing ['2026-09-04T04:00:00Z', '2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z'])
+eia930_isne_generation FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 269, in main
+    build_table(rows, code, start, end, log, name, title, run_id, args.days)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 166, in build_table
+    check_complete(rows, start, end, log, name)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 156, in check_complete
+    raise RuntimeError(f"incomplete data, no file written for {what}: " + "; ".join(problems[:4]))
+RuntimeError: incomplete data, no file written for eia930_isne_generation: net_generation_oil_mw: 480 of 720 hours (240 missing, 0 published as null; first missing ['2026-09-04T04:00:00Z', '2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z'])
+
+eia930_miso_demand:
+  complete: eia930_miso_demand: 2 variables x 720 hours
+  eia930_miso_demand.csv: rows=1440 (this run 1440: 1440 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:MISO min=65426.00 max=119442.00 MW
+eia930_miso_generation:
+  complete: eia930_miso_generation: 9 variables x 720 hours
+  eia930_miso_generation.csv: rows=6480 (this run 6480: 6480 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:MISO min=-814.00 max=117295.00 MW
+eia930_nyis_demand:
+  INCOMPLETE eia930_nyis_demand demand_forecast_mw: 696 of 720 hours (24 missing, 0 published as null; first missing ['2026-09-04T04:00:00Z', '2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z'])
+eia930_nyis_demand FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 269, in main
+    build_table(rows, code, start, end, log, name, title, run_id, args.days)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 166, in build_table
+    check_complete(rows, start, end, log, name)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 156, in check_complete
+    raise RuntimeError(f"incomplete data, no file written for {what}: " + "; ".join(problems[:4]))
+RuntimeError: incomplete data, no file written for eia930_nyis_demand: demand_forecast_mw: 696 of 720 hours (24 missing, 0 published as null; first missing ['2026-09-04T04:00:00Z', '2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z'])
+
+eia930_nyis_generation:
+  complete: eia930_nyis_generation: 9 variables x 720 hours
+  eia930_nyis_generation.csv: rows=6480 (this run 6480: 6480 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:NYIS min=0.00 max=21148.00 MW
+eia930_pjm_demand:
+  complete: eia930_pjm_demand: 2 variables x 720 hours
+  eia930_pjm_demand.csv: rows=1440 (this run 1440: 1440 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:PJM min=73546.00 max=153100.00 MW
+eia930_pjm_generation:
+  complete: eia930_pjm_generation: 9 variables x 720 hours
+  eia930_pjm_generation.csv: rows=6480 (this run 6480: 6480 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:PJM min=0.00 max=159024.00 MW
+eia930_swpp_demand:
+  complete: eia930_swpp_demand: 2 variables x 720 hours
+  eia930_swpp_demand.csv: rows=1440 (this run 1440: 1440 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:SWPP min=28627.00 max=61327.00 MW
+eia930_swpp_generation:
+  complete: eia930_swpp_generation: 10 variables x 720 hours
+  eia930_swpp_generation.csv: rows=7200 (this run 7200: 7200 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:SWPP min=0.00 max=59628.00 MW
+eia930_us48_demand:
+  complete: eia930_us48_demand: 2 variables x 720 hours
+  eia930_us48_demand.csv: rows=1440 (this run 1440: 1440 new, 0 replaced, 0 kept) range=2026-08-26T00:00:00Z..2026-09-24T23:00:00Z nodes=eia930:US48 min=414223.00 max=735095.00 MW
+eia930_us48_generation:
+  INCOMPLETE eia930_us48_generation net_generation_unknown_storage_mw: 703 of 720 hours (17 missing, 0 published as null; first missing ['2026-09-24T07:00:00Z', '2026-09-24T08:00:00Z', '2026-09-24T09:00:00Z'])
+eia930_us48_generation FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 269, in main
+    build_table(rows, code, start, end, log, name, title, run_id, args.days)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 166, in build_table
+    check_complete(rows, start, end, log, name)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\eia930.py", line 156, in check_complete
+    raise RuntimeError(f"incomplete data, no file written for {what}: " + "; ".join(problems[:4]))
+RuntimeError: incomplete data, no file written for eia930_us48_generation: net_generation_unknown_storage_mw: 703 of 720 hours (17 missing, 0 published as null; first missing ['2026-09-24T07:00:00Z', '2026-09-24T08:00:00Z', '2026-09-24T09:00:00Z'])
+
+done, failures=4
