@@ -1,0 +1,36 @@
+ERW nyiso_prices run 20260925T083711Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 3 operating days, 2026-09-22 00:00:00-04:00 to 2026-09-25 00:00:00-04:00 (exclusive), UTC [2026-09-22T04:00:00Z, 2026-09-25T04:00:00Z)
+raw files: warehouse\raw\nyiso\20260925T083711Z
+DAM: NYISO damlbmp zone via NYISO.get_lmp(DAY_AHEAD_HOURLY)
+  DAM 2026-09-22: 264 rows from 1 data file(s) (1 responses)
+    20260925T083711.684324Z_00001_20260922damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260922damlbmp_zone.csv last-modified=Mon, 21 Sep 2026 13:32:03 GMT
+  DAM 2026-09-23: 264 rows from 1 data file(s) (1 responses)
+    20260925T083712.090137Z_00002_20260923damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260923damlbmp_zone.csv last-modified=Tue, 22 Sep 2026 13:32:02 GMT
+  DAM 2026-09-24: 264 rows from 1 data file(s) (1 responses)
+    20260925T083712.485298Z_00003_20260924damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260924damlbmp_zone.csv last-modified=Wed, 23 Sep 2026 13:32:01 GMT
+  DAM forward 2026-09-25: 264 rows from 1 data file(s) (1 responses)
+    20260925T083712.884504Z_00004_20260925damlbmp_zone.csv http://mis.nyiso.com/public/csv/damlbmp/20260925damlbmp_zone.csv last-modified=Thu, 24 Sep 2026 13:33:01 GMT
+  DAM forward 2026-09-26: not available (HTTPError: HTTP Error 404: Not Found), skipped
+  forward DAM day 2026-09-25: complete, included (264 rows)
+  interval length: all 792 rows are 60 minutes
+  complete: 11 nodes x 72 intervals
+  distinct source_url values: 4
+  nyiso_dam_zone_prices.csv: rows=8184 (this run 1056: 0 new, 1056 replaced, 7128 kept) range=2026-08-26T04:00:00Z..2026-09-26T03:00:00Z nodes=CAPITL,CENTRL,DUNWOD,GENESE,HUD VL,LONGIL,MHK VL,MILLWD,N.Y.C.,NORTH,WEST min=23.34 max=142.18 USD/MWh
+RTM: NYISO realtime zone via NYISO.get_lmp(REAL_TIME_5_MIN), aggregated to 15-minute means
+  RTM 2026-09-22: 3234 rows from 1 data file(s) (2 responses)
+    20260925T083714.606457Z_00005_20260922realtime_zone.csv http://mis.nyiso.com/public/csv/realtime/20260922realtime_zone.csv last-modified=Wed, 23 Sep 2026 03:57:03 GMT
+    20260925T083715.034431Z_00006_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 08:37:02 GMT
+  RTM 2026-09-23: 3223 rows from 1 data file(s) (2 responses)
+    20260925T083716.022702Z_00007_20260923realtime_zone.csv http://mis.nyiso.com/public/csv/realtime/20260923realtime_zone.csv last-modified=Thu, 24 Sep 2026 03:57:02 GMT
+    20260925T083715.034431Z_00006_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 08:37:02 GMT
+  RTM 2026-09-24: 3234 rows from 1 data file(s) (2 responses)
+    20260925T083717.574178Z_00009_20260924realtime_zone.csv http://mis.nyiso.com/public/csv/realtime/20260924realtime_zone.csv last-modified=Fri, 25 Sep 2026 03:57:02 GMT
+    20260925T083715.034431Z_00006_realtime_zone_lbmp.csv https://mis.nyiso.com/public/realtime/realtime_zone_lbmp.csv last-modified=Fri, 25 Sep 2026 08:37:02 GMT
+  irregular intervals: 9691 intervals for 11 nodes, 187 stamped off the regular 5-minute grid; none longer than 5 minutes; weighted by length
+  88 quarter hours hold other than three intervals (time-weighted)
+  aggregated 9691 5-minute rows to 3168 15-minute means
+  complete: 11 nodes x 288 intervals
+  distinct source_url values: 3
+  nyiso_rtm_zone_prices.csv: rows=31680 (this run 3168: 0 new, 3168 replaced, 28512 kept) range=2026-08-26T04:00:00Z..2026-09-25T03:45:00Z nodes=CAPITL,CENTRL,DUNWOD,GENESE,HUD VL,LONGIL,MHK VL,MILLWD,N.Y.C.,NORTH,WEST min=-47.47 max=694.99 USD/MWh
+done, failures=0

@@ -1,0 +1,186 @@
+ERW miso_prices run 20260925T082018Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 3 operating days, 2026-09-22 00:00:00-05:00 to 2026-09-25 00:00:00-05:00 (exclusive), UTC [2026-09-22T05:00:00Z, 2026-09-25T05:00:00Z)
+raw files: warehouse\raw\miso\20260925T082018Z
+DAM: MISO DA ex-post LMP via MISO.get_lmp(DAY_AHEAD_HOURLY)
+  DAM 2026-09-22: 192 rows from 1 data file(s) (1 responses)
+    20260925T082019.434604Z_00001_20260922_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260922_da_expost_lmp.csv last-modified=Mon, 21 Sep 2026 18:19:44 GMT
+  DAM 2026-09-23: 192 rows from 1 data file(s) (1 responses)
+    20260925T082021.834278Z_00002_20260923_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260923_da_expost_lmp.csv last-modified=Tue, 22 Sep 2026 18:19:43 GMT
+  DAM 2026-09-24: 192 rows from 1 data file(s) (1 responses)
+    20260925T082024.252123Z_00003_20260924_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260924_da_expost_lmp.csv last-modified=Wed, 23 Sep 2026 18:19:44 GMT
+  DAM forward 2026-09-25: 192 rows from 1 data file(s) (1 responses)
+    20260925T082026.265782Z_00004_20260925_da_expost_lmp.csv https://docs.misoenergy.org/marketreports/20260925_da_expost_lmp.csv last-modified=Thu, 24 Sep 2026 18:19:42 GMT
+  DAM forward 2026-09-26: not available (HTTPError: HTTP Error 404: The specified blob does not exist.), skipped
+  forward DAM day 2026-09-25: complete, included (192 rows)
+  interval length: all 576 rows are 60 minutes
+  complete: 8 nodes x 72 intervals
+  distinct source_url values: 4
+  miso_dam_hub_prices.csv: rows=5952 (this run 768: 0 new, 768 replaced, 5184 kept) range=2026-08-26T05:00:00Z..2026-09-26T04:00:00Z nodes=ARKANSAS.HUB,ILLINOIS.HUB,INDIANA.HUB,LOUISIANA.HUB,MICHIGAN.HUB,MINN.HUB,MS.HUB,TEXAS.HUB min=6.83 max=719.54 USD/MWh
+RTM: MISO RT ex-post hourly LMP via MISO.get_lmp(REAL_TIME_HOURLY_FINAL, else REAL_TIME_HOURLY_PRELIM)
+RTM FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 1017, in rtm
+    df = m.get_lmp(date=day, market=Markets.REAL_TIME_HOURLY_FINAL, locations="ALL")
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\lmp_config.py", line 24, in wrapper
+    return self._class_method_wrapper(func, bound_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\lmp_config.py", line 63, in _class_method_wrapper
+    return func(*instance_args, **instance_kwargs)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\decorators.py", line 173, in wrapped_f
+    df = inner_f(**args_dict)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\miso.py", line 674, in get_lmp
+    raw_data = pd.read_csv(url, skiprows=4)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ~~~~~~~~~~^
+        f,
+        ^^
+    ...<6 lines>...
+        storage_options=self.options.get("storage_options", None),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\common.py", line 728, in get_handle
+    ioargs = _get_filepath_or_buffer(
+        path_or_buf,
+    ...<3 lines>...
+        storage_options=storage_options,
+    )
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\common.py", line 384, in _get_filepath_or_buffer
+    with urlopen(req_info) as req:
+         ~~~~~~~^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\common.py", line 289, in urlopen
+    return urllib.request.urlopen(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 173, in _urlopen
+    r = _orig_urlopen(*args, **kwargs)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 493, in open
+    response = meth(req, response)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 602, in http_response
+    response = self.parent.error(
+        'http', request, response, code, msg, hdrs)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 531, in error
+    return self._call_chain(*args)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 464, in _call_chain
+    result = func(*args)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 611, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 404: The specified blob does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 1023, in rtm
+    df = m.get_lmp(date=day, market=Markets.REAL_TIME_HOURLY_PRELIM, locations="ALL")
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\lmp_config.py", line 24, in wrapper
+    return self._class_method_wrapper(func, bound_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\lmp_config.py", line 63, in _class_method_wrapper
+    return func(*instance_args, **instance_kwargs)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\decorators.py", line 173, in wrapped_f
+    df = inner_f(**args_dict)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\miso.py", line 674, in get_lmp
+    raw_data = pd.read_csv(url, skiprows=4)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ~~~~~~~~~~^
+        f,
+        ^^
+    ...<6 lines>...
+        storage_options=self.options.get("storage_options", None),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\common.py", line 728, in get_handle
+    ioargs = _get_filepath_or_buffer(
+        path_or_buf,
+    ...<3 lines>...
+        storage_options=storage_options,
+    )
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\common.py", line 384, in _get_filepath_or_buffer
+    with urlopen(req_info) as req:
+         ~~~~~~~^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\io\common.py", line 289, in urlopen
+    return urllib.request.urlopen(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 173, in _urlopen
+    r = _orig_urlopen(*args, **kwargs)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 493, in open
+    response = meth(req, response)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 602, in http_response
+    response = self.parent.error(
+        'http', request, response, code, msg, hdrs)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 531, in error
+    return self._call_chain(*args)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 464, in _call_chain
+    result = func(*args)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 611, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 404: The specified blob does not exist.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 630, in run_iso
+    run_market(ctx, spec)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 591, in run_market
+    rows, _ = pull_days(days, spec["fetch"], nodes, spec["source"], spec["page"], log,
+              ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        workers=spec.get("workers", 1), what=spec["name"],
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        data_url=ctx.get("data_url"))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 441, in pull_days
+    results = list(pool.map(one, days))
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 645, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 312, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 432, in one
+    df, recs = with_retries(f"{what} {day.date()}", call, log)
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 401, in with_retries
+    return fn()
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 425, in call
+    df = fetch(day)
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 1026, in rtm
+    raise SourceGap(f"MISO has published neither the final nor the prelim "
+                    f"real-time LMP file for {day.date()} (HTTP 404)") from exc2
+SourceGap: MISO has published neither the final nor the prelim real-time LMP file for 2026-09-24 (HTTP 404)
+
+done, failures=1

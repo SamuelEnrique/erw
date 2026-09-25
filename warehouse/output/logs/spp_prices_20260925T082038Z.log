@@ -1,0 +1,84 @@
+ERW spp_prices run 20260925T082038Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 3 operating days, 2026-09-22 00:00:00-05:00 to 2026-09-25 00:00:00-05:00 (exclusive), UTC [2026-09-22T05:00:00Z, 2026-09-25T05:00:00Z)
+raw files: warehouse\raw\spp\20260925T082038Z
+DAM: SPP DA-LMP-SL via SPP.get_lmp_day_ahead_hourly(Hub)
+  DAM 2026-09-22: 48 rows from 1 data file(s) (1 responses)
+    20260925T082116.331389Z_00003_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609220100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609220100.csv last-modified=
+  DAM 2026-09-23: 48 rows from 1 data file(s) (1 responses)
+    20260925T082048.203376Z_00001_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609230100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609230100.csv last-modified=
+  DAM 2026-09-24: 48 rows from 1 data file(s) (1 responses)
+    20260925T082048.234626Z_00002_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609240100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609240100.csv last-modified=
+  DAM forward 2026-09-25: 48 rows from 1 data file(s) (1 responses)
+    20260925T082146.834616Z_00004_da-lmp-by-settlement-location_path_2026_09_By_Day_DA-LMP-SL-202609250100.csv https://portal.spp.org/file-browser-api/download/da-lmp-by-settlement-location?path=/2026/09/By_Day/DA-LMP-SL-202609250100.csv last-modified=
+  DAM forward 2026-09-26: not available (HTTPError: HTTP Error 404: ), skipped
+  forward DAM day 2026-09-25: complete, included (48 rows)
+  interval length: all 144 rows are 60 minutes
+  complete: 2 nodes x 72 intervals
+  distinct source_url values: 4
+  spp_dam_hub_prices.csv: rows=1488 (this run 192: 0 new, 192 replaced, 1296 kept) range=2026-08-26T05:00:00Z..2026-09-26T04:00:00Z nodes=SPPNORTH_HUB,SPPSOUTH_HUB min=-7.83 max=228.31 USD/MWh
+RTM: SPP RTBM-LMP-SL via SPP.get_lmp_real_time_5_min_by_location(Hub), aggregated to 15-minute means
+    retry 1/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-22 14:05:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+    retry 1/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 2/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 3/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+    retry 4/4 for SPP RTBM interval 2026-09-23 16:20:00-05:00: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/23/RTBM-LMP-SL-202609231625.csv')
+RTM FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 1090, in rtm
+    parts.append(with_retries(f"SPP RTBM interval {t}",
+                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              lambda t=t: s.get_lmp_real_time_5_min_by_location(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                  date=t, location_type="Hub"), ctx["log"]))
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 408, in with_retries
+    raise RuntimeError(f"{what} failed after {attempts} attempts: {last!r}")
+RuntimeError: SPP RTBM interval 2026-09-22 14:05:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 630, in run_iso
+    run_market(ctx, spec)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 591, in run_market
+    rows, _ = pull_days(days, spec["fetch"], nodes, spec["source"], spec["page"], log,
+              ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        workers=spec.get("workers", 1), what=spec["name"],
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        data_url=ctx.get("data_url"))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 441, in pull_days
+    results = list(pool.map(one, days))
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 645, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 312, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 396, in __get_result
+    raise self._exception
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\samen\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 432, in one
+    df, recs = with_retries(f"{what} {day.date()}", call, log)
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 401, in with_retries
+    return fn()
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 425, in call
+    df = fetch(day)
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\iso_prices.py", line 1094, in rtm
+    raise SourceGap(f"SPP has no daily RTBM file for {day.date()} and its interval "
+                    f"file for {t} is missing: {exc}") from exc
+SourceGap: SPP has no daily RTBM file for 2026-09-22 and its interval file for 2026-09-22 14:05:00-05:00 is missing: SPP RTBM interval 2026-09-22 14:05:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path=/2026/09/By_Interval/22/RTBM-LMP-SL-202609221410.csv')
+
+done, failures=1
