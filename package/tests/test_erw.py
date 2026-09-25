@@ -252,12 +252,20 @@ def test_license_column_and_filter():
     internal = sorted(cov.loc[cov["license"] == "internal", "table"])
     assert erw.filter(license="public") == public
     assert erw.filter(license="internal") == internal
-    # the rule: a table is internal exactly when one of its sources is internal
+    # the rule: a license the table declares in its header ("License: public|internal")
+    # wins; otherwise a table is internal exactly when one of its sources is internal
     reg = erw.get_backend().source_registry().set_index("source")["license"]
     for t in TABLES:
-        srcs = set(erw.fetch(t)["source"])
-        expect = "internal" if any(reg[s] == "internal" for s in srcs) else "public"
+        df = erw.fetch(t)
+        declared = [h.split(":", 1)[1].strip().split(".")[0].split()[0]
+                    for h in df.attrs["erw"]["header"] if h.startswith("License:")]
+        srcs = set(df["source"])
+        expect = declared[0] if declared else (
+            "internal" if any(reg[s] == "internal" for s in srcs) else "public")
         assert cov.set_index("table").loc[t, "license"] == expect, t
+    if "news_index" in TABLES:
+        assert cov.set_index("table").loc["news_index", "license"] == "public"
+        assert cov.set_index("table").loc["news_stories", "license"] == "internal"
     assert all(not t.startswith("pjm_") for t in public)
 
 

@@ -95,25 +95,28 @@ def update_sources(entries):
     os.makedirs(METADATA_DIR, exist_ok=True)
     path = os.path.join(METADATA_DIR, "sources.csv")
     today = pd.Timestamp.now(tz="UTC").strftime("%Y-%m-%d")
-    reg = (pd.read_csv(path, dtype=str, keep_default_na=False) if os.path.exists(path)
-           else pd.DataFrame(columns=SOURCE_COLS))
-    reg = reg.set_index("source", drop=False)
+    old_reg = (pd.read_csv(path, dtype=str, keep_default_na=False) if os.path.exists(path)
+               else pd.DataFrame(columns=SOURCE_COLS))
+    # plain dicts, one DataFrame at the end: growing a DataFrame row by row with .loc while
+    # testing membership in its index crashed pandas 2.3.3 on Python 3.14 (access violation,
+    # session 7)
+    rows = {r["source"]: dict(r) for r in old_reg.to_dict("records")}
     for e in entries:
         sid = e["source"]
         tables = set(t for t in e.get("tables", []) if t)
-        if sid in reg.index:
-            old = reg.loc[sid]
+        old = rows.get(sid)
+        if old is not None:
             tables |= set(t for t in str(old["tables"]).split(";") if t)
             first = old["first_seen"] or today
         else:
             first = today
-        reg.loc[sid] = {
+        rows[sid] = {
             "source": sid, "publisher": e.get("publisher", ""), "report": e.get("report", ""),
             "report_url": e.get("report_url", ""), "document_list": e.get("document_list", ""),
             # an entry may state its license (third-party news text is internal); else the rule
             "license": e.get("license") or license_of(sid), "tables": ";".join(sorted(tables)),
             "first_seen": first, "last_seen": today}
-    reg = reg.sort_index()[SOURCE_COLS]
+    reg = pd.DataFrame([rows[k] for k in sorted(rows)], columns=SOURCE_COLS)
     tmp = path + ".tmp"
     reg.to_csv(tmp, index=False, lineterminator="\n")
     os.replace(tmp, path)

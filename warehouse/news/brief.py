@@ -74,8 +74,9 @@ FUELS = [("Henry Hub natural gas", "eia:henry_hub"), ("WTI Cushing crude", "eia:
 HEADLINE_SYSTEM = """You write plain news headlines for the Energy Digest of the Energy Research Warehouse (ERW).
 For each cluster, write one headline of at most 14 words that states what happened, in plain words, no hype, no
 clickbait, no question marks. Use only facts and words present in the cluster's titles and summaries; do not add
-numbers, names, descriptors or claims (if a title is only an identifier, say only what it literally is). Return every
-cluster id exactly once."""
+numbers, names, descriptors or claims (if a title is only an identifier, say only what it literally is). Do not
+mention AI, artificial intelligence, datacenters, data centers or compute unless the cluster's own titles or
+summaries do. Return every cluster id exactly once."""
 HEADLINE_SCHEMA = {
     "type": "object",
     "properties": {"headlines": {"type": "array", "items": {

@@ -27,6 +27,11 @@ after lowercasing and removing an appended " - Outlet"), against both this run
 and stories already stored. The first copy seen is kept, direct feeds before
 Google News. A story already stored is never rewritten here, so scores survive.
 Raw feed responses are saved under warehouse/raw/news/<run_id>/.
+
+Google News links (session 7 ruling 3): each story's link is followed once;
+if it lands on the outlet, source_url becomes the outlet URL and the Google
+link moves to google_news_url; otherwise the Google link stays and
+url_resolved says why ("no: ..."). Tried once per story, cached in the row.
 """
 
 import argparse
@@ -62,7 +67,12 @@ NEWS_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "m
              "currency", "status", "source", "source_url",
              "title", "summary", "feed", "feed_sector", "feed_region", "retrieved_at",
              "significance", "ai_power_relevance", "sector", "region", "price_mentioned", "why",
-             "cluster_id", "model_id", "scored_at"]
+             "cluster_id", "model_id", "scored_at",
+             # session 7: the model's per-story headline (public in news_index), and Google News
+             # link resolution (ruling 3), cached in the row
+             "headline", "google_news_url", "url_resolved"]
+OLD_COLS_S6 = NEWS_COLS[:NEWS_COLS.index("headline")]
+GOOGLE_HOST = "news.google.com"
 KEY = ["event_id"]
 TRACKING = re.compile(r"^(utm_|fbclid$|gclid$|mc_cid$|mc_eid$|cmpid$|ref$|src$|_hsenc$|_hsmi$)", re.I)
 
@@ -89,6 +99,72 @@ def norm_title(title, outlet):
     if outlet and t.endswith(" - " + outlet):
         t = t[: -len(" - " + outlet)]
     return re.sub(r"[^a-z0-9 ]+", "", t.lower()).strip()
+
+
+def resolve_google(url):
+    """Follow a Google News link's redirect once. Returns (outlet_url or None, note).
+
+    Session 7 ruling 3. Google answers with a 302 to another news.google.com
+    page that decodes the outlet link in JavaScript through an undocumented
+    call; the ERW does not use that call. So a link that still ends on
+    news.google.com after the redirect is kept, and the row is flagged.
+    """
+    try:
+        r = requests.get(url, headers=UA, timeout=30, allow_redirects=True)
+    except Exception as exc:
+        return None, f"no: request failed ({type(exc).__name__})"
+    host = urlsplit(r.url).netloc.lower()
+    if r.status_code == 200 and host and GOOGLE_HOST not in host:
+        return r.url, "yes"
+    if r.status_code != 200:
+        return None, f"no: HTTP {r.status_code}"
+    return None, "no: Google served its own page, no redirect to the outlet"
+
+
+def resolve_rows(df, log):
+    """Resolve Google News links not tried before; each row is tried once and cached."""
+    todo = df.index[(df["google_news_url"] == "") & df["source_url"].str.contains(GOOGLE_HOST)
+                    & (df["url_resolved"] == "")]
+    if len(todo) == 0:
+        return df, 0, 0
+    df = df.copy()
+
+    def one(i):
+        return i, resolve_google(df.at[i, "source_url"])
+    with ThreadPoolExecutor(4) as pool:
+        res = list(pool.map(one, todo))
+    ok = 0
+    for i, (url, note) in res:
+        df.at[i, "google_news_url"] = df.at[i, "source_url"]
+        df.at[i, "url_resolved"] = note
+        if url:
+            df.at[i, "source_url"] = url
+            ok += 1
+    notes = pd.Series([n for _, (_, n) in res]).value_counts().to_dict()
+    log(f"  Google News links: {len(todo)} tried, {ok} resolved to the outlet; outcomes {notes}")
+    return df, len(todo), ok
+
+
+def read_stored(path):
+    """The stored table, migrating a session 6 file (without the session 7 columns) once."""
+    with open(path, encoding="utf-8") as f:
+        first = next(l for l in f if not l.startswith("#")).strip().split(",")
+    if first == OLD_COLS_S6:
+        old = ip.read_series(path, OLD_COLS_S6)
+        for c in NEWS_COLS[len(OLD_COLS_S6):]:
+            old[c] = ""
+        old = old[NEWS_COLS]
+        # rewrite the stored file once in the new layout (header kept, rows unchanged), so the
+        # merge writer, which refuses a file of another shape, can merge into it afterwards
+        with open(path, encoding="utf-8") as f:
+            header = [l for l in f if l.startswith("#")]
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8", newline="") as f:
+            f.writelines(h.rstrip("\r\n") + "\n" for h in header)
+            old.to_csv(f, index=False, lineterminator="\n")
+        os.replace(tmp, path)
+        return old, True
+    return ip.read_series(path, NEWS_COLS), False
 
 
 def fetch_feed(feed, log):
@@ -164,7 +240,13 @@ def main(argv=None):
                                 detail="" if n else "feed returned no entries"))
 
     path = os.path.join(ip.OUT_DIR, NAME + ".csv")
-    old = ip.read_series(path, NEWS_COLS) if os.path.exists(path) else pd.DataFrame(columns=NEWS_COLS)
+    migrated = False
+    if os.path.exists(path):
+        old, migrated = read_stored(path)
+    else:
+        old = pd.DataFrame(columns=NEWS_COLS)
+    if migrated:
+        log("  migrated news_stories.csv to the session 7 columns (headline, google_news_url, url_resolved)")
     seen_ids = set(old["event_id"])
     seen_titles = [norm_title(t, s) for t, s in zip(old["title"], old["source"])]
     order = {"direct": 0, "google_news_site": 1, "google_news_catchall": 2}
@@ -205,12 +287,20 @@ def main(argv=None):
         "linking, not for republication. Scores are written by warehouse/news/score.py.",
     ]
     df = pd.DataFrame(new, columns=NEWS_COLS)
-    if len(df) or not os.path.exists(path):
-        ip.write_csv(df, NAME, header, log, cols=NEWS_COLS, key=KEY, time_col="event_date")
+    # ruling 3: resolve Google News links once per story, new rows and stored rows not yet tried
+    df, n_try_new, n_ok_new = resolve_rows(df, log)
+    old_res, n_try_old, n_ok_old = resolve_rows(old, log) if len(old) else (old, 0, 0)
+    changed_old = old_res[(old_res["url_resolved"] != old["url_resolved"])] if len(old) else old
+    write = pd.concat([df, changed_old], ignore_index=True)
+    if migrated:  # every stored row gains the new columns
+        write = pd.concat([df, old_res], ignore_index=True).drop_duplicates("event_id")
+    if len(write) or not os.path.exists(path):
+        ip.write_csv(write, NAME, header, log, cols=NEWS_COLS, key=KEY, time_col="event_date")
     else:
         log("  no new stories; file unchanged")
         print(f"{NAME}.csv: no new stories")
-    outlets = sorted(set(pd.concat([old["source"], df["source"]])) if len(old) else set(df["source"]))
+    # every outlet present in the stored table is registered (not only this run's)
+    outlets = sorted(set(ip.read_series(path, NEWS_COLS)["source"])) if os.path.exists(path) else []
     feed_of = {}
     for st in got:
         feed_of.setdefault(st["source"], st)

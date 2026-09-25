@@ -68,3 +68,6 @@ run_id,runner,connector,table,market,status,detail
 20260925T211620Z,local,news_ingest,news_stories,feed:Utility Dive,ok,
 20260925T211801Z,local,news_score,news_stories,scoring,ok,"model claude-sonnet-5; calls 24 (0 failed); stories scored 632 of 632; tokens input 369185, output 79793, cache write 1563, cache read 35949; cost USD 1.5474; duplicate links rejected 0; clusters 570 among 632 scored stories; temperature not accepted by model"
 20260925T213104Z,local,news_brief,digest,brief,ok,"465 stories, 417 clusters, 2 call(s), tokens in 2588 out 801, cost USD 0.0132"
+20260925T215612Z,local,news_ingest,news_stories,feed:Utility Dive,ok,
+20260925T215646Z,local,news_score,news_stories,scoring,ok,"model claude-sonnet-5; calls 1 (0 failed); stories scored 5 of 5; tokens input 17914, output 661, cache write 0, cache read 1818; cost USD 0.0428; duplicate links rejected 0; clusters 593 among 655 scored stories; temperature not accepted by model"
+20260925T215716Z,local,news_brief,digest,brief,ok,"471 stories, 423 clusters, 2 call(s), tokens in 2632 out 826, cost USD 0.0135"

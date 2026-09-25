@@ -49,6 +49,7 @@ SECTORS = ["oil", "gas", "lng", "power_prices", "generation", "nuclear", "renewa
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
 PRICES = {"claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}
 REFERENCE_MAX = 400  # earlier stories offered as is_duplicate_of candidates per call
+MIN_BATCH = 25  # stories per call, unless fewer remain
 
 SYSTEM = f"""You score energy news stories for the Energy Research Warehouse (ERW), the live, citable record of the US energy system.
 
@@ -64,10 +65,11 @@ For each story in the request, return one result with:
 - mw_mentioned: a capacity in MW stated in the title or summary, as a number (convert GW to MW), else null
 - price_mentioned: a price or dollar amount stated in the title or summary, verbatim, else null
 - parties: companies, agencies or governments named as parties to the story (may be empty)
+- headline: a plain headline of at most 14 words stating what happened, no hype, no question marks
 - one_line_why: under 25 words, why an energy professional should care; plain, no hype
 - is_duplicate_of: the id of an EARLIER story (from the reference list, or earlier in this request) about the same event, else null
 
-Use only what the title and summary say. Do not invent numbers or parties. Return every story exactly once."""
+Use only what the title and summary say. Do not invent numbers or parties. The headline and one_line_why must not mention AI, artificial intelligence, datacenters, data centers or compute unless the story's own title or summary does; judge and describe the energy consequences. Return every story exactly once."""
 
 SCHEMA = {
     "type": "object",
@@ -82,11 +84,12 @@ SCHEMA = {
             "mw_mentioned": {"anyOf": [{"type": "number"}, {"type": "null"}]},
             "price_mentioned": {"anyOf": [{"type": "string"}, {"type": "null"}]},
             "parties": {"type": "array", "items": {"type": "string"}},
+            "headline": {"type": "string"},
             "one_line_why": {"type": "string"},
             "is_duplicate_of": {"anyOf": [{"type": "string"}, {"type": "null"}]},
         },
         "required": ["id", "significance", "ai_power_relevance", "sector", "region", "mw_mentioned",
-                     "price_mentioned", "parties", "one_line_why", "is_duplicate_of"],
+                     "price_mentioned", "parties", "headline", "one_line_why", "is_duplicate_of"],
         "additionalProperties": False}}},
     "required": ["results"],
     "additionalProperties": False,
@@ -146,7 +149,9 @@ def main(argv=None):
             ip.write_status("news_score", run_id, [status])
             log.close()
             return 0
-        size = math.ceil(len(todo) / args.max_calls)
+        # at least MIN_BATCH stories per call: each call carries the reference list, so tiny
+        # batches waste tokens (18 one-story calls cost USD 0.67 on 2026-09-25)
+        size = max(math.ceil(len(todo) / args.max_calls), MIN_BATCH)
         batches = [todo.iloc[i:i + size] for i in range(0, len(todo), size)]
         log(f"batches: {len(batches)} of up to {size} stories")
         reference = df[(df["scored_at"] != "") & (when >= cutoff - pd.Timedelta(days=2))]
@@ -223,6 +228,7 @@ def main(argv=None):
                 nodash(" ".join(r["one_line_why"].split())), model, now, cluster[eid]]
             upd.loc[eid, "mw"] = "" if r["mw_mentioned"] is None else f"{float(r['mw_mentioned']):g}"
             upd.loc[eid, "parties"] = nodash("; ".join(p.replace(";", ",") for p in r["parties"]))
+            upd.loc[eid, "headline"] = nodash(r["headline"])
         upd = upd.reset_index()
         scored = upd["scored_at"] != ""
         changed = upd[upd["event_id"].isin(results.keys())]

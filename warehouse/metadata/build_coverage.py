@@ -61,6 +61,17 @@ def iso_of(table):
     return ISO_LABEL.get(parts[0], parts[0])
 
 
+def declared_license(header):
+    """A table may declare its own license in a 'License: public|internal' header line
+    (session 7: news_index is public although its outlets' text is internal)."""
+    for h in header:
+        h = h.lstrip("#").strip()  # header lines arrive with their leading '# '
+        m = re.match(r"\s*License: (public|internal)[.\s]", h + " ")
+        if m:
+            return m.group(1)
+    return None
+
+
 def last_run(header):
     """Run id of the run that last wrote the file, from its 'Retrieved:' line, as ISO UTC."""
     for h in header:
@@ -80,7 +91,8 @@ def events_row(path, header, df, licenses, status):
     unknown = [s for s in sources if s not in licenses]
     if unknown:
         raise ValueError(f"{table}: sources {unknown[:5]} are not in {SOURCES}; cannot set its license")
-    license_ = "internal" if any(licenses[s] == "internal" for s in sources) else "public"
+    license_ = declared_license(header) or (
+        "internal" if any(licenses[s] == "internal" for s in sources) else "public")
     return {
         "table": table, "iso": "none", "market": "", "n_nodes": len(sources), "interval": "event",
         "ts_min": ts.min().strftime("%Y-%m-%dT%H:%M:%SZ"), "ts_max": ts.max().strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -109,7 +121,8 @@ def table_row(path, licenses):
     unknown = [s for s in sources if s not in licenses]
     if unknown:
         raise ValueError(f"{table}: sources {unknown} are not in {SOURCES}; cannot set its license")
-    license_ = "internal" if any(licenses[s] == "internal" for s in sources) else "public"
+    license_ = declared_license(header) or (
+        "internal" if any(licenses[s] == "internal" for s in sources) else "public")
     nodes = sorted(n for n in df["node"].unique() if n) if "node" in df else []
     return {
         "table": table,

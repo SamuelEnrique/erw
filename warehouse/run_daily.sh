@@ -85,6 +85,7 @@ run_other eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
 # (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.
 run_other news_ingest "$PYTHON" warehouse/news/ingest.py
 run_other news_score "$PYTHON" warehouse/news/score.py
+run_other news_index "$PYTHON" warehouse/news/index.py   # public companion table (session 7)
 
 echo "== connector status"
 cat "$status"

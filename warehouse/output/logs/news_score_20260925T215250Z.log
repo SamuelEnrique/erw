@@ -1,0 +1,25 @@
+models list: 12 models: claude-opus-5-5, claude-fable-5-1, claude-opus-5, claude-sonnet-5, claude-fable-5, claude-opus-4-8, claude-opus-4-7, claude-sonnet-4-6, claude-opus-4-6, claude-opus-4-5-20251101, claude-haiku-4-5-20251001, claude-sonnet-4-5-20250929
+chosen model: claude-sonnet-5 (newest Sonnet-class by created_at 2026-06-29 00:00:00+00:00)
+stories: 650 stored, 18 unscored since 2026-09-22T21:52:51Z to score
+batches: 18 of up to 1 stories
+  model claude-sonnet-5 rejects temperature (HTTP 400: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CfQu9EMuUufP7L5Jx1kLY'}); continuing without it, output constrained by the JSON schema
+  call 1: 1 stories, 1 scored, 0 missing; tokens in 17487 out 147 cache_read 0; request req_011CfQu9FiGcUFYitnKdXg9H
+  call 2: 1 stories, 1 scored, 0 missing; tokens in 17467 out 132 cache_read 1818; request req_011CfQu9aLhBicHqwLbL1UQs
+  call 3: 1 stories, 1 scored, 0 missing; tokens in 17453 out 142 cache_read 1818; request req_011CfQu9jcoD56THUb4SdYfe
+  call 4: 1 stories, 1 scored, 0 missing; tokens in 17470 out 157 cache_read 1818; request req_011CfQu9xZR9BRhSoMrtUEB4
+  call 5: 1 stories, 1 scored, 0 missing; tokens in 17484 out 149 cache_read 1818; request req_011CfQuAEY6iT3sb5NtdAv3P
+  call 6: 1 stories, 1 scored, 0 missing; tokens in 17450 out 141 cache_read 1818; request req_011CfQuASHnXjcM5QM6Gyv5d
+  call 7: 1 stories, 1 scored, 0 missing; tokens in 17447 out 158 cache_read 1818; request req_011CfQuAek8zTKTpzAry5cim
+  call 8: 1 stories, 1 scored, 0 missing; tokens in 17454 out 141 cache_read 1818; request req_011CfQuAvcsEdR3ZoS18cYXv
+  call 9: 1 stories, 1 scored, 0 missing; tokens in 17454 out 154 cache_read 1818; request req_011CfQuB8zG9bDwLhNoRhnbU
+  call 10: 1 stories, 1 scored, 0 missing; tokens in 17447 out 177 cache_read 1818; request req_011CfQuBNU7xho5kb5rbs5Xr
+  call 11: 1 stories, 1 scored, 0 missing; tokens in 17417 out 123 cache_read 1818; request req_011CfQuBaxDBCtM1yq1Mjr4y
+  call 12: 1 stories, 1 scored, 0 missing; tokens in 17434 out 136 cache_read 1818; request req_011CfQuBkKXPrWGjFZoTmQiL
+  call 13: 1 stories, 1 scored, 0 missing; tokens in 17416 out 140 cache_read 1818; request req_011CfQuBuwxxL19t3MgFF7ZJ
+  call 14: 1 stories, 1 scored, 0 missing; tokens in 17447 out 152 cache_read 1818; request req_011CfQuC9ERQcKkp4Jt3HQ2k
+  call 15: 1 stories, 1 scored, 0 missing; tokens in 17445 out 184 cache_read 1818; request req_011CfQuCL91DSLnHojyJn8ha
+  call 16: 1 stories, 1 scored, 0 missing; tokens in 17444 out 170 cache_read 1818; request req_011CfQuCZ9b9nwqoazYCEQFg
+  call 17: 1 stories, 1 scored, 0 missing; tokens in 17486 out 150 cache_read 1818; request req_011CfQuCjvV9DnVtTxpyyZj1
+  call 18: 1 stories, 1 scored, 0 missing; tokens in 17438 out 148 cache_read 1818; request req_011CfQuCxaFWXm6rX6iqVCp8
+RUN model claude-sonnet-5; calls 18 (0 failed); stories scored 18 of 18; tokens input 314140, output 2701, cache write 1818, cache read 30906; cost USD 0.6660; duplicate links rejected 0; clusters 588 among 650 scored stories; temperature not accepted by model
+  news_stories.csv: rows=650 (this run 18: 0 new, 18 replaced, 632 kept) range=2026-09-23T21:16:42Z..2026-09-25T21:20:34Z

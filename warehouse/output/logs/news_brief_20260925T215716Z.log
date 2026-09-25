@@ -1,0 +1,6 @@
+digest 2026-09-25: 471 scored energy stories in the last 24 hours
+models list: 12 models: claude-opus-5-5, claude-fable-5-1, claude-opus-5, claude-sonnet-5, claude-fable-5, claude-opus-4-8, claude-opus-4-7, claude-sonnet-4-6, claude-opus-4-6, claude-opus-4-5-20251101, claude-haiku-4-5-20251001, claude-sonnet-4-5-20250929
+chosen model: claude-sonnet-5 (newest Sonnet-class by created_at 2026-06-29 00:00:00+00:00)
+  claude-sonnet-5 rejects temperature (Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated f); retrying without it
+  headlines: 15 from claude-sonnet-5; 2 call(s); tokens in 2632 out 826; cost USD 0.0135
+wrote docs\digest\2026-09-25.md and latest.md; 471 stories, 423 clusters, 2 call(s), tokens in 2632 out 826, cost USD 0.0135
