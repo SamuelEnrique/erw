@@ -1,6 +1,8 @@
 # ERW: project map
 
-The map of the Energy Research Warehouse (ERW) for someone who has read nothing else: how a dataset travels, which document to trust when two disagree, and where things go. Modeled on the `ARCHITECTURE.md` of the Item Response Warehouse (IRW, github.com/ben-domingue/irw), including its two rules at the end.
+The Energy Research Warehouse (ERW) is the live, citable record of the US energy system: prices, flows, projects, deals and policy across power, natural gas, oil, nuclear, renewables, storage and transmission, with the global prices and events that move US markets included. AI's demand for power is the sharpest current lens on that system, not its boundary. Coverage is US first, world later.
+
+This is the map of the ERW for someone who has read nothing else: how a dataset travels, which document to trust when two disagree, and where things go. Modeled on the `ARCHITECTURE.md` of the Item Response Warehouse (IRW, github.com/ben-domingue/irw), including its two rules at the end.
 
 This file is deliberately thin. Where a fact is recorded somewhere else, this file links to it rather than repeating it.
 

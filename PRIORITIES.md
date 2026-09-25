@@ -35,7 +35,7 @@ If any of these change, re-rank:
 
 | | |
 |---|---|
-| Role | The ERW is the shared data layer of a 20-tool energy intelligence platform focused on power as the constraint on AI |
+| Role | The ERW is the live, citable record of the US energy system (prices, flows, projects, deals and policy across power, natural gas, oil, nuclear, renewables, storage and transmission, plus the global prices and events that move US markets), and the shared data layer of a 20-tool energy intelligence platform. AI's demand for power is the sharpest current lens on that system, not its boundary. US first, world later |
 | Labour | Claude Code agents with human review. Nothing publishes to Redivis without a human |
 | Lenses | Trust first, then reach, then coverage |
 

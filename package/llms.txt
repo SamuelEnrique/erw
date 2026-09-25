@@ -1,7 +1,11 @@
 # Energy Research Warehouse (ERW): briefing for AI assistants
 
-The Energy Research Warehouse (ERW) is an open, harmonized warehouse of US
-power market data: day-ahead and real-time prices from six ISOs, hourly demand
+The Energy Research Warehouse (ERW) is the live, citable record of the US
+energy system: prices, flows, projects, deals and policy across power, natural
+gas, oil, nuclear, renewables, storage and transmission, with the global prices
+and events that move US markets included. AI's demand for power is the sharpest
+current lens on that system, not its boundary. Coverage is US first, world
+later. Today it holds day-ahead and real-time prices from six ISOs, hourly demand
 and generation by fuel for the seven ISOs and the US Lower 48 (EIA-930), and
 daily Henry Hub, WTI and Brent spot prices (EIA). One long table format, every
 row traceable to the report it came from.
