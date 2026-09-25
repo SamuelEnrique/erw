@@ -80,8 +80,16 @@ def coverage() -> pd.DataFrame:
 
 def _read(name: str) -> pd.DataFrame:
     header, df = get_backend().read_table(name)
-    df["value"] = pd.to_numeric(df["value"], errors="raise").astype(float)  # MW tables hold whole numbers
-    df["ts_utc"] = pd.to_datetime(df["ts_utc"], format=TS_FMT, utc=True)
+    if "event_id" in df.columns:  # events shape: event_date may be a date or a UTC time
+        d = df["event_date"]
+        df["event_date"] = pd.to_datetime(d.where(d.str.contains("T"), d + "T00:00:00Z"),
+                                          format=TS_FMT, utc=True)
+        for c in ("mw", "price", "significance", "ai_power_relevance"):
+            if c in df.columns:
+                df[c] = pd.to_numeric(df[c].replace("", None), errors="coerce")
+    else:
+        df["value"] = pd.to_numeric(df["value"], errors="raise").astype(float)  # MW tables hold whole numbers
+        df["ts_utc"] = pd.to_datetime(df["ts_utc"], format=TS_FMT, utc=True)
     meta = parse_header(header)
     meta["table"] = name
     meta["backend"] = get_backend().describe()
@@ -91,14 +99,16 @@ def _read(name: str) -> pd.DataFrame:
 
 def _subset(df: pd.DataFrame, start=None, end=None, node=None) -> pd.DataFrame:
     attrs = df.attrs
+    events = "event_id" in df.columns
+    t = df["event_date"] if events else df["ts_utc"]
     keep = pd.Series(True, index=df.index)
     if start is not None:
-        keep &= df["ts_utc"] >= _utc(start)
+        keep &= t >= _utc(start)
     if end is not None:
-        keep &= df["ts_utc"] < _utc(end)
+        keep &= t < _utc(end)
     nodes = _as_list(node)
     if nodes:
-        keep &= df["node"].isin(nodes) | df["entity"].isin(nodes)
+        keep &= df["source"].isin(nodes) if events else (df["node"].isin(nodes) | df["entity"].isin(nodes))
     out = df[keep].reset_index(drop=True)
     out.attrs = attrs
     if start is not None or end is not None or nodes:
@@ -111,8 +121,11 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
           ) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
     """Fetch one table as a DataFrame, or several as a dict of name -> DataFrame.
 
-    `value` is float and `ts_utc` a timezone-aware UTC timestamp marking the
-    START of each interval. Every other column is a string, as written. The
+    Series tables: `value` is float and `ts_utc` a timezone-aware UTC timestamp
+    marking the START of each interval. Events tables (e.g. news_stories):
+    `event_date` is a UTC timestamp (a bare date becomes midnight UTC) and
+    `mw`, `price`, `significance`, `ai_power_relevance` are numbers (NaN when
+    empty). Every other column is a string, as written. The
     table's provenance header is parsed into ``df.attrs["erw"]``: title,
     window, forward_dam_days, retrieved, run_log, raw_files, file_summary,
     sources (report, report_url, document_list), notes, and the verbatim
@@ -123,6 +136,7 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
                  timestamps, naive values read as UTC.
     node       : keep these nodes (as the ISO writes them) or entities
                  (``"ercot:HB_NORTH"``, ``"eia930:CISO"``); a string or a list.
+                 For an events table, these sources (outlets).
     The subset is recorded in ``df.attrs["erw"]["subset"]``.
     """
     if isinstance(name, str):
@@ -132,6 +146,8 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
 
 def _table_facts(name: str) -> Dict:
     df = _read(name)
+    if "event_id" in df.columns:
+        return {"variables": set(df["event_type"]), "nodes": set(df["source"]), "entities": set()}
     return {"variables": set(df["variable"]),
             "nodes": set(df["node"]) if "node" in df else set(df["entity"]),
             "entities": set(df["entity"])}
@@ -259,6 +275,16 @@ def info(name: Optional[str] = None, quiet: bool = False) -> Dict:
     if name is not None:
         df = fetch(name)
         meta = df.attrs["erw"]
+        if "event_id" in df.columns:
+            d = {"table": name, "title": meta["title"], "rows": len(df), "shape": "events",
+                 "event_types": sorted(set(df["event_type"])), "sources": sorted(set(df["source"])),
+                 "event_date_min": df["event_date"].min(), "event_date_max": df["event_date"].max(),
+                 "license": coverage().set_index("table").loc[name, "license"], "notes": meta["notes"]}
+            if not quiet:
+                print(f"{name}: {d['title']}")
+                print(f"  {d['rows']} events from {len(d['sources'])} sources, "
+                      f"{d['event_date_min']} to {d['event_date_max']} (UTC), license {d['license']}")
+            return d
         d = {"table": name, "title": meta["title"], "rows": len(df),
              "variables": sorted(set(df["variable"])),
              "nodes": sorted(n for n in set(df["node"]) if n) or sorted(set(df["entity"])),

@@ -14,7 +14,8 @@
 #      complete writes nothing and is named in the commit message.
 #   3. runs erw_validate on every output. A blocked table fails the job and
 #      nothing is committed.
-#   4. regenerates docs/coverage.md and warehouse/metadata/coverage.csv
+#   4. regenerates docs/coverage.md and warehouse/metadata/coverage.csv, then
+#      ingests and scores news and writes the Energy Digest (docs/digest/)
 #   5. commits the updated CSVs, run logs and coverage directly to main.
 #      Raw source files (warehouse/raw/) are gitignored and never committed.
 #
@@ -103,7 +104,7 @@ jobs:
             echo "::warning::markets not written today: $failed"
           fi
           # Only the tracked outputs; warehouse/raw/ is gitignored and stays out.
-          git add -- warehouse/output docs/coverage.md warehouse/metadata/coverage.csv                      warehouse/metadata/run_status.csv warehouse/metadata/sources.csv
+          git add -- warehouse/output docs/coverage.md warehouse/metadata/coverage.csv                      warehouse/metadata/run_status.csv warehouse/metadata/sources.csv docs/digest
           if git diff --cached --quiet; then
             echo "No table changed today; nothing to commit."
             exit 0

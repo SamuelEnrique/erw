@@ -11,7 +11,8 @@
 #
 # Steps:
 #   1. every connector (ISO prices, EIA-930 demand and generation, EIA fuel
-#      prices) for the last $DAYS complete operating days. Each
+#      prices), then news ingest and scoring, for the last $DAYS complete
+#      operating days (news: the last 2 days of stories). Each
 #      market is written only if complete, and merges into its existing file:
 #      new intervals are appended, intervals already present for the same
 #      (entity, variable, ts_utc) are replaced, nothing is duplicated.
@@ -19,7 +20,8 @@
 #   2. erw_validate on every file in warehouse/output. Any blocked file ends
 #      the run with exit 1, before coverage is rebuilt or anything committed.
 #   3. warehouse/metadata/build_coverage.py regenerates docs/coverage.md and
-#      warehouse/metadata/coverage.csv.
+#      warehouse/metadata/coverage.csv; then warehouse/news/brief.py writes the
+#      Energy Digest to docs/digest/<date>.md and docs/digest/latest.md.
 #   Also, from the session 5 rulings: each connector's per-table status is
 #   appended to the tracked warehouse/metadata/run_status.csv (before the
 #   validator, so a failing day is still on record); markets that failed the
@@ -79,6 +81,11 @@ run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
 # EIA daily fuel spot prices, full history each run (small)
 run_other eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
 
+# News (session 6): ingest the feeds, then score new stories with the Claude API
+# (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.
+run_other news_ingest "$PYTHON" warehouse/news/ingest.py
+run_other news_score "$PYTHON" warehouse/news/score.py
+
 echo "== connector status"
 cat "$status"
 "$PYTHON" warehouse/metadata/run_status.py record || exit 1
@@ -93,6 +100,10 @@ fi
 
 echo "== coverage"
 "$PYTHON" warehouse/metadata/build_coverage.py || exit 1
+
+echo "== Energy Digest (docs/digest/)"
+run_other news_brief "$PYTHON" warehouse/news/brief.py
+"$PYTHON" warehouse/metadata/run_status.py record || exit 1
 
 echo "== failure streaks (3 runs in a row)"
 "$PYTHON" warehouse/metadata/run_status.py streaks --n 3 || exit 1
