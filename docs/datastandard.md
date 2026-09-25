@@ -13,7 +13,7 @@ Modeled on the Item Response Warehouse (IRW) data standard (`datastandard.md` in
 ## General rules (all shapes)
 
 - **CSV, UTF-8, comma separated, one header row.** Long format: one row per observation, thing, or event.
-- **Provenance header.** A file may begin with comment lines starting with `#`. Every file a connector writes **must** have them, naming at least: the source organization, the source report or product and its identifier, the source URL, the retrieval timestamp in UTC, and the connector that wrote it. Readers skip these lines (`pandas.read_csv(path, comment="#")`).
+- **Provenance header.** A file may begin with comment lines starting with `#`. Every file a connector writes **must** have them, naming at least: the source organization, the source report or product and its identifier, the source URL, the retrieval timestamp in UTC, and the connector that wrote it. Comment lines appear only before the header row. Readers skip them by counting them (`pandas.read_csv(path, skiprows=n)`); do not use `comment="#"`, which would also cut any value containing `#`, such as a URL.
 - **Column names** are lowercase `snake_case`. Required columns come first, in the order given below. Optional columns use the reserved names below exactly; never invent a variant such as `timestamp` or `price_usd`. Source-specific extra columns go after the reserved ones and are prefixed `x_`.
 - **Timestamps are UTC**, ISO 8601, with a trailing `Z`: `2026-09-01T05:00:00Z`. A timestamp for an interval marks the **start** of the interval. Local market time is never stored; convert it, handling daylight saving explicitly.
 - **Dates** (no time of day) are ISO 8601 `YYYY-MM-DD`.
