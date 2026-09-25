@@ -1,0 +1,83 @@
+ERW ercot_prices run 20260925T041353Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+hubs: HB_NORTH, HB_SOUTH, HB_WEST, HB_HOUSTON, HB_BUSAVG
+window: 2026-08-25 00:00:00-05:00 to 2026-09-24 00:00:00-05:00 (exclusive), UTC [2026-08-25T05:00:00Z, 2026-09-24T05:00:00Z)
+DAM: ERCOT NP4-190-CD via Ercot.get_spp(market=DAY_AHEAD_HOURLY)
+  documents read: 31; hub rows in window: 3600
+  complete: 5 hubs x 720 intervals
+  cross-check vs gridstatus return: 18000 keys, 0 absent from return, max abs diff 53.86
+  source documents used: 30
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260824.131127433.DAMSPNP4190_csv.zip published 2026-08-24T18:11:26Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266152547
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260825.124240444.DAMSPNP4190_csv.zip published 2026-08-25T17:42:39Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266561949
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260826.124146450.DAMSPNP4190_csv.zip published 2026-08-26T17:41:45Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1266957722
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260827.132014399.DAMSPNP4190_csv.zip published 2026-08-27T18:20:13Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1267361150
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260828.123358511.DAMSPNP4190_csv.zip published 2026-08-28T17:33:57Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1267748284
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260829.125211717.DAMSPNP4190_csv.zip published 2026-08-29T17:52:11Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1268138600
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260830.130100790.DAMSPNP4190_csv.zip published 2026-08-30T18:00:59Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1268525450
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260831.123352469.DAMSPNP4190_csv.zip published 2026-08-31T17:33:51Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1268915317
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260901.124912898.DAMSPNP4190_csv.zip published 2026-09-01T17:49:12Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1269328607
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260902.123717637.DAMSPNP4190_csv.zip published 2026-09-02T17:37:16Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1269724005
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260903.123254637.DAMSPNP4190_csv.zip published 2026-09-03T17:32:53Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1270120604
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260904.123241619.DAMSPNP4190_csv.zip published 2026-09-04T17:32:40Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1270519007
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260905.123239636.DAMSPNP4190_csv.zip published 2026-09-05T17:32:38Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1270910083
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260906.123242511.DAMSPNP4190_csv.zip published 2026-09-06T17:32:41Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1271299081
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260907.123253456.DAMSPNP4190_csv.zip published 2026-09-07T17:32:52Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1271688868
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260908.123316421.DAMSPNP4190_csv.zip published 2026-09-08T17:33:15Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1272093341
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260909.125740474.DAMSPNP4190_csv.zip published 2026-09-09T17:57:39Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1272509790
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260910.123327623.DAMSPNP4190_csv.zip published 2026-09-10T17:33:26Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1272916697
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260911.130911021.DAMSPNP4190_csv.zip published 2026-09-11T18:09:10Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1273328216
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260912.124126394.DAMSPNP4190_csv.zip published 2026-09-12T17:41:25Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1273705666
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260913.125722358.DAMSPNP4190_csv.zip published 2026-09-13T17:57:21Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1274092364
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260914.130112447.DAMSPNP4190_csv.zip published 2026-09-14T18:01:11Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1274489923
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260915.135015174.DAMSPNP4190_csv.zip published 2026-09-15T18:50:14Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1274910529
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260916.123607281.DAMSPNP4190_csv.zip published 2026-09-16T17:36:06Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1275287943
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260917.123345183.DAMSPNP4190_csv.zip published 2026-09-17T17:33:44Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1275678653
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260918.123253500.DAMSPNP4190_csv.zip published 2026-09-18T17:32:52Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1276076285
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260919.123508286.DAMSPNP4190_csv.zip published 2026-09-19T17:35:07Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1276470243
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260920.130058234.DAMSPNP4190_csv.zip published 2026-09-20T18:00:57Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1276864315
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260921.123245623.DAMSPNP4190_csv.zip published 2026-09-21T17:32:44Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1277258060
+    ercot:NP4-190-CD cdr.00012331.0000000000000000.20260922.124551202.DAMSPNP4190_csv.zip published 2026-09-22T17:45:50Z rows 120 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1277674202
+  ercot_dam_hub_prices.csv: rows=3600 range=2026-08-25T05:00:00Z..2026-09-24T04:00:00Z hubs=HB_BUSAVG,HB_HOUSTON,HB_NORTH,HB_SOUTH,HB_WEST min=2.36 max=158.93 USD/MWh
+RTM: ERCOT NP6-785-ER via Ercot.get_rtm_spp(year), then NP6-905-CD via Ercot.get_spp(market=REAL_TIME_15_MIN)
+RTM FAILED, no output file written:
+Traceback (most recent call last):
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\ercot_prices.py", line 361, in main
+    log(f"window: {start} to {end} (exclusive), UTC [{utc_iso(start)}, {utc_iso(end)})")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\warehouse\connectors\ercot_prices.py", line 257, in pull_rtm
+    df = e.get_rtm_spp(year=year)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\ercot.py", line 1469, in get_rtm_spp
+    df = self.parse_doc(df, verbose=verbose)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\gridstatus\ercot.py", line 5949, in parse_doc
+    + doc["HourBeginning"].astype("timedelta64[h]")
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\core\generic.py", line 6665, in astype
+    new_data = self._mgr.astype(dtype=dtype, copy=copy, errors=errors)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\core\internals\managers.py", line 449, in astype
+    return self.apply(
+           ~~~~~~~~~~^
+        "astype",
+        ^^^^^^^^^
+    ...<3 lines>...
+        using_cow=using_copy_on_write(),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\core\internals\managers.py", line 363, in apply
+    applied = getattr(b, f)(**kwargs)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\core\internals\blocks.py", line 784, in astype
+    new_values = astype_array_safe(values, dtype, copy=copy, errors=errors)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\core\dtypes\astype.py", line 237, in astype_array_safe
+    new_values = astype_array(values, dtype, copy=copy)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\core\dtypes\astype.py", line 182, in astype_array
+    values = _astype_nansafe(values, dtype, copy=copy)
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\core\dtypes\astype.py", line 122, in _astype_nansafe
+    return tda.astype(dtype, copy=False)._ndarray
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\samen\Documents\erw\.venv\Lib\site-packages\pandas\core\arrays\timedeltas.py", line 358, in astype
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Cannot convert from timedelta64[ns] to timedelta64[h]. Supported resolutions are 's', 'ms', 'us', 'ns'
+
+done, failures=1
