@@ -1,0 +1,27 @@
+You are building session 1 of the Energy Research Warehouse (ERW), an open, harmonized energy data warehouse modeled on the Item Response Warehouse (IRW, github.com/ben-domingue/irw), whose owner has explicitly allowed us to copy its infrastructure and documents. The repo and the project are called erw, short for Energy Research Warehouse; use that name everywhere, and spell it out in full once in every document because ERW also means enhanced rock weathering in sustainability circles. The ERW is the shared data layer of a 20-tool energy intelligence platform focused on power as the constraint on AI. Work autonomously and finish everything below. Do not stop to ask questions; make a reasonable decision, write it down in SESSION_1_REPORT.md, and continue.
+
+NON-NEGOTIABLES
+1. Real data only. Never generate, fabricate, or fill in placeholder numbers. If a data pull fails, fail loudly, log the exact error, and continue with the other tasks.
+2. Never use em dashes in any file you write. Use commas, periods, or colons.
+3. Do not delete or overwrite any file already in this repo. Read existing files first and extend them.
+4. Commit after each numbered task below with a clear message. Do not push.
+5. Every number in the ERCOT file must trace to the ERCOT source it came from, recorded in the file's header comment and in the run log.
+
+TASK 1. Reference copy of the IRW.
+Shallow clone github.com/ben-domingue/irw into a sibling folder ../irw-reference (outside this repo, not committed). Read its README.md, CLAUDE.md, ARCHITECTURE.md, PRIORITIES.md, datastandard.md, irw_validate/README.md, red_up/README.md, and .claude/skills/irw-site-update/SKILL.md. Do not copy any data files.
+
+TASK 2. Repo skeleton and governing documents.
+Create these folders if missing: warehouse/connectors, warehouse/output, warehouse/validate, docs, .claude/skills. Then write, adapting the IRW originals to energy and citing the IRW as the model in each:
+- CLAUDE.md: what the ERW is, the stack (Python 3 ingestion, Redivis as the warehouse of record, Supabase Postgres and a Next.js site on Vercel as the live layer, GitHub Actions for schedules, Claude API for scoring and chat), the non-negotiables above, repo layout, and the rule that nothing publishes to Redivis without a human.
+- ARCHITECTURE.md: how a dataset travels from source to connector to warehouse/output to Redivis draft to release to the live layer; which document wins when two disagree; where things go inside a directory. Keep it short and follow the IRW's two rules: a fact lives in one place, and prefer rules that cannot go stale.
+- docs/datastandard.md: the ERW data standard v0. The IRW's id/item/resp does not fit energy, so define three table shapes. (a) series: one row per observation with required columns entity, variable, ts_utc, value and reserved optional columns unit, freq, geo, market, node, source, source_url, retrieved_at, vintage. (b) entities: one row per physical or corporate thing (plant, project, datacenter, counterparty) with entity_id, entity_type, name, geo, lat, lon, capacity_mw, status, status_date, operator, source. (c) events: one row per deal, filing, or announcement with event_id, event_date, event_type, parties, entity_ids, mw, price, currency, status, source, source_url. Specify types, units conventions (UTC timestamps, MW and USD per MWh unless stated), naming rules for table files (source_market_product, lowercase, 40 characters max), and a section titled Decisions in v0 explaining what you chose and what is deferred. Mark clearly that v0 will change as sources are added.
+- PRIORITIES.md: adapt the IRW's ranking (corpus trust, gates, reach, volume, not now) to the ERW in one page.
+
+TASK 3. First connector: ERCOT prices.
+Install gridstatus (pip install gridstatus) and use its Ercot class to pull day-ahead and real-time settlement point prices for the trading hubs (HB_NORTH, HB_SOUTH, HB_WEST, HB_HOUSTON, HB_BUSAVG) for the last 30 days. Write warehouse/connectors/ercot_prices.py that pulls the data, reshapes it into the series standard from Task 2, and writes warehouse/output/ercot_dam_hub_prices.csv and warehouse/output/ercot_rtm_hub_prices.csv. Header comment must state the ERCOT report each came from and the retrieval timestamp. Print a summary line per file: rows, date range, hubs, min and max price. If gridstatus cannot reach ERCOT, log the full error in SESSION_1_REPORT.md and leave no output file rather than a partial or synthetic one. Add a requirements.txt.
+
+TASK 4. Validator v0.
+Write warehouse/validate/erw_validate.py, modeled on the IRW's irw_validate: a command line tool that reads a CSV and checks it against the series standard (required columns present and first in order, ts_utc parses as UTC, value numeric, no duplicate entity-variable-ts_utc rows, unit present, source present, file name rule). Exit code 0 pass, 1 blocked, 2 bad input. Run it on both ERCOT files and record the output in the report.
+
+TASK 5. Report.
+Write SESSION_1_REPORT.md: what was built, every decision made, every error hit, exact commands to rerun the connector and validator, and a short list of open questions for the human. Keep it plain and under two pages. Final commit.
