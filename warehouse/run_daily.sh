@@ -69,6 +69,9 @@ run_other() {
 # EIA-930 hourly demand and generation (EIA_API_KEY from the environment or .env)
 run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
 
+# EIA daily fuel spot prices, full history each run (small)
+run_other eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
+
 echo "== connector status"
 cat "$status"
 

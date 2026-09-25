@@ -28,6 +28,8 @@ REQUIRED = ["entity", "variable", "ts_utc", "value"]
 RESERVED = ["unit", "freq", "geo", "market", "node", "source", "source_url",
             "retrieved_at", "vintage"]
 REQUIRED_BY_VALIDATOR = ["unit", "source"]
+# docs/datastandard.md "Units" states these; this set is what enforces them
+UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "pct"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
@@ -187,6 +189,21 @@ def validate(path):
             if off.any():
                 err("ts_freq_alignment", f"{int(off.sum())} ts_utc value(s) not on the grid of "
                     f"their freq: {examples((df.loc[off, 'freq'] + ' ' + df.loc[off, 'ts_utc']).unique())}")
+        # a daily or longer freq names a date: ts_utc must be that date at 00:00:00Z (session 5)
+        dated = df["freq"].str.match(r"^P\d+[DWMY]$") & ts.notna()
+        if dated.any():
+            t = ts[dated]
+            off = (t.dt.hour != 0) | (t.dt.minute != 0) | (t.dt.second != 0)
+            if off.any():
+                err("ts_freq_alignment", f"{int(off.sum())} ts_utc value(s) with a daily or longer "
+                    f"freq are not at 00:00:00Z: {examples(df.loc[off[off].index, 'ts_utc'].unique())}")
+    if "unit" in cols:
+        # unit strings from a closed vocabulary (session 5)
+        s = df["unit"][df["unit"].str.strip() != ""]
+        bad = s[~s.isin(UNITS)]
+        if len(bad):
+            err("unit_vocabulary", f"{len(bad)} value(s) not in the unit vocabulary "
+                f"{sorted(UNITS)}: {examples(bad.unique())}")
     if "geo" in cols:
         # one ISO 3166-2 code, or a comma-separated list of them (session 2)
         s = df["geo"][df["geo"].str.strip() != ""]
