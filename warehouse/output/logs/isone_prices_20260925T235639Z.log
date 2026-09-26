@@ -1,0 +1,74 @@
+ERW isone_prices run 20260925T235639Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.14.7
+window: 3 operating days, 2026-09-22 00:00:00-04:00 to 2026-09-25 00:00:00-04:00 (exclusive), UTC [2026-09-22T04:00:00Z, 2026-09-25T04:00:00Z)
+raw files: warehouse\raw\isone\20260925T235639Z
+DAM: ISO-NE DA hourly LMP via ISONE.get_lmp(DAY_AHEAD_HOURLY)
+  DAM 2026-09-22: 216 rows from 1 data file(s) (2 responses)
+    20260925T235639.695994Z_00001_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235640.531044Z_00002_WW_DALMP_ISO_20260922.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260922.csv last-modified=Mon, 21 Sep 2026 17:02:25 GMT
+  DAM 2026-09-23: 216 rows from 1 data file(s) (2 responses)
+    20260925T235641.836522Z_00003_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235642.095081Z_00004_WW_DALMP_ISO_20260923.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260923.csv last-modified=Tue, 22 Sep 2026 16:47:14 GMT
+  DAM 2026-09-24: 216 rows from 1 data file(s) (2 responses)
+    20260925T235643.327974Z_00005_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235644.027748Z_00006_WW_DALMP_ISO_20260924.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260924.csv last-modified=Wed, 23 Sep 2026 17:02:36 GMT
+  DAM forward 2026-09-25: 216 rows from 1 data file(s) (2 responses)
+    20260925T235645.416824Z_00007_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235645.660064Z_00008_WW_DALMP_ISO_20260925.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260925.csv last-modified=Thu, 24 Sep 2026 17:02:35 GMT
+  DAM forward 2026-09-26: 216 rows from 1 data file(s) (2 responses)
+    20260925T235646.901658Z_00009_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235647.604095Z_00010_WW_DALMP_ISO_20260926.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260926.csv last-modified=Fri, 25 Sep 2026 16:57:15 GMT
+  forward DAM day 2026-09-25: complete, included (216 rows)
+  forward DAM day 2026-09-26: complete, included (216 rows)
+  interval length: all 648 rows are 60 minutes
+  complete: 9 nodes x 72 intervals
+  distinct source_url values: 5
+  isone_dam_zone_prices.csv: rows=6912 (this run 1080: 0 new, 1080 replaced, 5832 kept) range=2026-08-26T04:00:00Z..2026-09-27T03:00:00Z nodes=.H.INTERNAL_HUB,.Z.CONNECTICUT,.Z.MAINE,.Z.NEMASSBOST,.Z.NEWHAMPSHIRE,.Z.RHODEISLAND,.Z.SEMASS,.Z.VERMONT,.Z.WCMASS min=12.98 max=75.72 USD/MWh
+RTM: ISO-NE RT 5-minute LMP via ISONE.get_lmp(REAL_TIME_5_MIN), aggregated to 15-minute means
+  RTM 2026-09-22: 2592 rows from 7 data file(s) (8 responses)
+    20260925T235649.223926Z_00011_lmp_5min_20260922_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_00-04.csv last-modified=Tue, 22 Sep 2026 08:00:14 GMT
+    20260925T235650.053092Z_00012_lmp_5min_20260922_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_04-08.csv last-modified=Tue, 22 Sep 2026 12:00:14 GMT
+    20260925T235650.752143Z_00013_lmp_5min_20260922_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_08-12.csv last-modified=Tue, 22 Sep 2026 16:00:18 GMT
+    20260925T235651.409052Z_00014_lmp_5min_20260922_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_12-16.csv last-modified=Tue, 22 Sep 2026 20:00:20 GMT
+    20260925T235652.078680Z_00015_lmp_5min_20260922_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_16-20.csv last-modified=Wed, 23 Sep 2026 00:00:20 GMT
+    20260925T235652.766571Z_00016_lmp_5min_20260922_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260922_20-24.csv last-modified=Wed, 23 Sep 2026 04:00:14 GMT
+    20260925T235654.765485Z_00017_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235640.531044Z_00002_WW_DALMP_ISO_20260922.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260922.csv last-modified=Mon, 21 Sep 2026 17:02:25 GMT
+  RTM 2026-09-23: 2592 rows from 7 data file(s) (8 responses)
+    20260925T235656.779112Z_00019_lmp_5min_20260923_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_00-04.csv last-modified=Wed, 23 Sep 2026 08:00:15 GMT
+    20260925T235657.463485Z_00020_lmp_5min_20260923_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_04-08.csv last-modified=Wed, 23 Sep 2026 12:00:16 GMT
+    20260925T235658.182524Z_00021_lmp_5min_20260923_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_08-12.csv last-modified=Wed, 23 Sep 2026 16:00:08 GMT
+    20260925T235658.838149Z_00022_lmp_5min_20260923_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_12-16.csv last-modified=Wed, 23 Sep 2026 20:00:19 GMT
+    20260925T235659.516301Z_00023_lmp_5min_20260923_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_16-20.csv last-modified=Thu, 24 Sep 2026 00:00:19 GMT
+    20260925T235700.169772Z_00024_lmp_5min_20260923_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260923_20-24.csv last-modified=Thu, 24 Sep 2026 04:00:09 GMT
+    20260925T235702.142263Z_00025_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235642.095081Z_00004_WW_DALMP_ISO_20260923.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260923.csv last-modified=Tue, 22 Sep 2026 16:47:14 GMT
+  RTM 2026-09-24: 2592 rows from 7 data file(s) (8 responses)
+    20260925T235704.199229Z_00027_lmp_5min_20260924_00-04.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_00-04.csv last-modified=Thu, 24 Sep 2026 08:00:11 GMT
+    20260925T235704.874427Z_00028_lmp_5min_20260924_04-08.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_04-08.csv last-modified=Thu, 24 Sep 2026 12:00:08 GMT
+    20260925T235705.530152Z_00029_lmp_5min_20260924_08-12.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_08-12.csv last-modified=Thu, 24 Sep 2026 16:00:20 GMT
+    20260925T235706.265084Z_00030_lmp_5min_20260924_12-16.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_12-16.csv last-modified=Thu, 24 Sep 2026 20:00:19 GMT
+    20260925T235707.004516Z_00031_lmp_5min_20260924_16-20.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_16-20.csv last-modified=Fri, 25 Sep 2026 00:00:07 GMT
+    20260925T235707.635247Z_00032_lmp_5min_20260924_20-24.csv https://www.iso-ne.com/histRpts/5min-rt-prelim/lmp_5min_20260924_20-24.csv last-modified=Fri, 25 Sep 2026 04:00:20 GMT
+    20260925T235709.745386Z_00033_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235644.027748Z_00006_WW_DALMP_ISO_20260924.csv https://www.iso-ne.com/histRpts/da-lmp/WW_DALMP_ISO_20260924.csv last-modified=Wed, 23 Sep 2026 17:02:36 GMT
+  interval length: all 7776 rows are 5 minutes
+  aggregated 7776 5-minute rows to 2592 15-minute means
+  complete: 9 nodes x 288 intervals
+  distinct source_url values: 1
+  isone_rtm_zone_prices.csv: rows=2592 (this run 2592: 0 new, 2592 replaced, 0 kept) range=2026-09-22T04:00:00Z..2026-09-25T03:45:00Z nodes=.H.INTERNAL_HUB,.Z.CONNECTICUT,.Z.MAINE,.Z.NEMASSBOST,.Z.NEWHAMPSHIRE,.Z.RHODEISLAND,.Z.SEMASS,.Z.VERMONT,.Z.WCMASS min=-36.47 max=53.44 USD/MWh
+RTM_HOURLY: ISO-NE RT hourly final LMP (lmp_rt_final_<date>.csv), prelim where no final is posted
+  RTM_HOURLY 2026-09-22: 216 rows from 1 data file(s) (2 responses)
+    20260925T235712.551218Z_00035_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235713.255843Z_00036_lmp_rt_final_20260922.csv https://www.iso-ne.com/histRpts/rt-lmp/lmp_rt_final_20260922.csv last-modified=Wed, 23 Sep 2026 17:14:12 GMT
+  RTM_HOURLY 2026-09-23: 216 rows from 1 data file(s) (2 responses)
+    20260925T235714.494810Z_00037_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235715.207172Z_00038_lmp_rt_final_20260923.csv https://www.iso-ne.com/histRpts/rt-lmp/lmp_rt_final_20260923.csv last-modified=Thu, 24 Sep 2026 16:08:00 GMT
+  RTM_HOURLY 2026-09-24: 216 rows from 1 data file(s) (2 responses)
+    20260925T235716.428470Z_00039_gen-fuel-mix https://www.iso-ne.com/isoexpress/web/reports/operations/-/tree/gen-fuel-mix last-modified=
+    20260925T235716.675820Z_00040_lmp_rt_final_20260924.csv https://www.iso-ne.com/histRpts/rt-lmp/lmp_rt_final_20260924.csv last-modified=Fri, 25 Sep 2026 17:22:12 GMT
+  interval length: all 648 rows are 60 minutes
+  complete: 9 nodes x 72 intervals
+  distinct source_url values: 3
+  isone_rtm_zone_prices_hourly.csv: rows=6480 (this run 648: 0 new, 648 replaced, 5832 kept) range=2026-08-26T04:00:00Z..2026-09-25T03:00:00Z nodes=.H.INTERNAL_HUB,.Z.CONNECTICUT,.Z.MAINE,.Z.NEMASSBOST,.Z.NEWHAMPSHIRE,.Z.RHODEISLAND,.Z.SEMASS,.Z.VERMONT,.Z.WCMASS min=-59.20 max=105.40 USD/MWh
+done, failures=0

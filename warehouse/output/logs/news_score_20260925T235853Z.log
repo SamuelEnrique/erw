@@ -1,0 +1,10 @@
+models list: 12 models: claude-opus-5-5, claude-fable-5-1, claude-opus-5, claude-sonnet-5, claude-fable-5, claude-opus-4-8, claude-opus-4-7, claude-sonnet-4-6, claude-opus-4-6, claude-opus-4-5-20251101, claude-haiku-4-5-20251001, claude-sonnet-4-5-20250929
+chosen model: claude-sonnet-5 (newest Sonnet-class by created_at 2026-06-29 00:00:00+00:00)
+stories: 714 stored, 59 unscored since 2026-09-22T23:58:53Z to score
+batches: 3 of up to 25 stories
+  model claude-sonnet-5 rejects temperature (HTTP 400: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CfR4kgADBUFZFdbtQar7s'}); continuing without it, output constrained by the JSON schema
+  call 1: 25 stories, 25 scored, 0 missing; tokens in 20726 out 3489 cache_read 0; request req_011CfR4kieHTcTRVdqYgKc6Y
+  call 2: 25 stories, 25 scored, 0 missing; tokens in 20724 out 3412 cache_read 1818; request req_011CfR4o51CZNz6a73RaRfSi
+  call 3: 9 stories, 9 scored, 0 missing; tokens in 18727 out 1328 cache_read 1818; request req_011CfR4qMG3yVMWUxf5y1DYY
+RUN model claude-sonnet-5; calls 3 (0 failed); stories scored 59 of 59; tokens input 60177, output 8229, cache write 1818, cache read 3636; cost USD 0.2079; duplicate links rejected 0; clusters 646 among 714 scored stories; temperature not accepted by model
+  news_stories.csv: rows=714 (this run 59: 0 new, 59 replaced, 655 kept) range=2026-09-23T21:16:42Z..2026-09-25T22:58:28Z

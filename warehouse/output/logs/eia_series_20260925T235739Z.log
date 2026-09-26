@@ -1,0 +1,38 @@
+eia_lng_exports_monthly (natural-gas/move/poe2, monthly, 18 series):
+  natural-gas/move/poe2 offset 0: 1254 rows (total 1254)
+  dates EIA lists without a value (omitted): {'NGM_EPG0_PNG_YCAM-Z00_DMCF': 31, 'NGM_EPG0_PNG_YCPT-Z00_DMCF': 36, 'NGM_EPG0_PNG_YCRP-Z00_DMCF': 36, 'NGM_EPG0_PNG_YELBA-Z00_DMCF': 18, 'NGM_EPG0_PNG_YFPT-Z00_DMCF': 28, 'NGM_EPG0_PNG_YGPT-Z00_DMCF': 3, 'NGM_EPG0_PNG_YSPL-Z00_DMCF': 36}
+  eia_lng_exports_monthly.csv: rows=1066 (this run 1066: 0 new, 1066 replaced, 0 kept) range=2013-11-01T00:00:00Z..2026-06-01T00:00:00Z nodes=eia:NGM_EPG0_ENG_YCAM-Z00_MMCF,eia:NGM_EPG0_ENG_YCCPL-Z00_MMCF,eia:NGM_EPG0_ENG_YCPT-Z00_MMCF,eia:NGM_EPG0_ENG_YCRP-Z00_MMCF,eia:NGM_EPG0_ENG_YELBA-Z00_MMCF,eia:NGM_EPG0_ENG_YFPT-Z00_MMCF,eia:NGM_EPG0_ENG_YGPT-Z00_MMCF,eia:NGM_EPG0_ENG_YPLAQ-Z00_MMCF,eia:NGM_EPG0_ENG_YSPL-Z00_MMCF,eia:NGM_EPG0_PNG_YCAM-Z00_DMCF,eia:NGM_EPG0_PNG_YCCPL-Z00_DMCF,eia:NGM_EPG0_PNG_YCPT-Z00_DMCF,eia:NGM_EPG0_PNG_YCRP-Z00_DMCF,eia:NGM_EPG0_PNG_YELBA-Z00_DMCF,eia:NGM_EPG0_PNG_YFPT-Z00_DMCF,eia:NGM_EPG0_PNG_YPLAQ-Z00_DMCF,eia:NGM_EPG0_PNG_YSPL-Z00_DMCF min=2.49 max=141519.00 MMcf/USD/Mcf
+eia_petroleum_stocks_weekly (petroleum/stoc/wstk, weekly, 8 series):
+  petroleum/stoc/wstk offset 0: 5000 rows (total 16799)
+  petroleum/stoc/wstk offset 5000: 5000 rows (total 16799)
+  petroleum/stoc/wstk offset 10000: 5000 rows (total 16799)
+  petroleum/stoc/wstk offset 15000: 1799 rows (total 16799)
+  eia_petroleum_stocks_weekly.csv: rows=16799 (this run 16799: 0 new, 16799 replaced, 0 kept) range=1982-08-20T00:00:00Z..2026-09-18T00:00:00Z nodes=eia:WCESTUS1,eia:WCRSTUS1,eia:WCSSTUS1,eia:WDISTUS1,eia:WGTSTUS1,eia:WKJSTUS1,eia:WPRSTUS1,eia:WTTSTUS1 min=18167.00 max=2117643.00 kbbl
+eia_petroleum_trade_weekly (petroleum/move/wkly, weekly, 7 series):
+  petroleum/move/wkly offset 0: 5000 rows (total 12565)
+  petroleum/move/wkly offset 5000: 5000 rows (total 12565)
+  petroleum/move/wkly offset 10000: 2565 rows (total 12565)
+  eia_petroleum_trade_weekly.csv: rows=12565 (this run 12565: 0 new, 12565 replaced, 0 kept) range=1990-01-05T00:00:00Z..2026-09-18T00:00:00Z nodes=eia:WCREXUS2,eia:WCRIMUS2,eia:WCRNTUS2,eia:WRPEXUS2,eia:WRPIMUS2,eia:WTTEXUS2,eia:WTTIMUS2 min=-688.00 max=15217.00 kbbl/d
+eia_product_spot_prices (petroleum/pri/spt, daily, 9 series):
+  petroleum/pri/spt offset 0: 5000 rows (total 71908)
+  petroleum/pri/spt offset 5000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 10000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 15000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 20000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 25000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 30000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 35000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 40000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 45000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 50000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 55000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 60000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 65000: 5000 rows (total 71908)
+  petroleum/pri/spt offset 70000: 1908 rows (total 71908)
+  eia_product_spot_prices.csv: rows=71908 (this run 71908: 0 new, 71908 replaced, 0 kept) range=1986-06-02T00:00:00Z..2026-09-22T00:00:00Z nodes=eia:EER_EPD2DC_PF4_Y05LA_DPG,eia:EER_EPD2DXL0_PF4_RGC_DPG,eia:EER_EPD2DXL0_PF4_Y35NY_DPG,eia:EER_EPD2F_PF4_Y35NY_DPG,eia:EER_EPJK_PF4_RGC_DPG,eia:EER_EPLLPA_PF4_Y44MB_DPG,eia:EER_EPMRR_PF4_Y05LA_DPG,eia:EER_EPMRU_PF4_RGC_DPG,eia:EER_EPMRU_PF4_Y35NY_DPG min=0.20 max=5.52 USD/gal
+eia_retail_fuel_prices (petroleum/pri/gnd, weekly, 3 series):
+  petroleum/pri/gnd offset 0: 5000 rows (total 5328)
+  petroleum/pri/gnd offset 5000: 328 rows (total 5328)
+  dates EIA lists without a value (omitted): {'EMM_EPMR_PTE_NUS_DPG': 6}
+  eia_retail_fuel_prices.csv: rows=5322 (this run 5322: 0 new, 5322 replaced, 0 kept) range=1990-08-20T00:00:00Z..2026-09-21T00:00:00Z nodes=eia:EMD_EPD2D_PTE_NUS_DPG,eia:EMM_EPM0_PTE_NUS_DPG,eia:EMM_EPMR_PTE_NUS_DPG min=0.91 max=6.53 USD/gal
+done, failures=0
