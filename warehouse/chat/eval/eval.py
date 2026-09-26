@@ -54,8 +54,10 @@ def score(q, rec):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW question-answering evaluation")
     ap.add_argument("--only", nargs="*", help="question ids to run")
+    ap.add_argument("--questions", default=os.path.join(HERE, "questions.yaml"),
+                    help="the question set to run (default questions.yaml)")
     args = ap.parse_args(argv)
-    spec = yaml.safe_load(open(os.path.join(HERE, "questions.yaml"), encoding="utf-8"))
+    spec = yaml.safe_load(open(args.questions, encoding="utf-8"))
     qs = [q for q in spec["questions"] if not args.only or q["id"] in args.only]
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(os.path.join(HERE, "results"), exist_ok=True)
