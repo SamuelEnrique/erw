@@ -27,6 +27,13 @@
 #   validator, so a failing day is still on record); markets that failed the
 #   last 3 runs are listed in runs/failure_streaks.txt for the workflow to open
 #   an issue; raw files older than 14 days are pruned (manifests kept).
+#   Session 10: (0) with RESTORE_FROM_REDIVIS=1 (the workflow sets it), the
+#   rolling-window tables missing locally are first restored from the Redivis
+#   draft, so a fresh CI checkout merges into the full tables; a failed restore
+#   stops the run. (4) After the validator and coverage, the Supabase live set is
+#   loaded (warehouse/supabase/load.py). (5) Last, the tables this run changed
+#   are uploaded to the Redivis draft (warehouse/redivis/upload.py --changed);
+#   nothing is ever released.
 #
 # Writes runs/daily_status.txt (gitignored): one line per ISO, used by the
 # workflow for its commit message.
@@ -44,6 +51,13 @@ status=runs/daily_status.txt
 rm -f runs/status/*.json runs/failure_streaks.txt  # this run's status only
 
 echo "== ERW daily refresh $(date -u +%FT%TZ): ISOs: $ISOS; days: $DAYS"
+if [ "${RESTORE_FROM_REDIVIS:-0}" = "1" ]; then
+  echo "== restore rolling-window tables from the Redivis draft (session 10)"
+  "$PYTHON" warehouse/redivis/upload.py --restore || {
+    echo "restore from Redivis failed: stopping, so a partial window is never uploaded over a full one"
+    exit 1
+  }
+fi
 for iso in $ISOS; do
   out="runs/daily_${iso}.out"
   "$PYTHON" warehouse/connectors/iso_prices.py "$iso" --days "$DAYS" > "$out" 2>&1
@@ -133,6 +147,9 @@ fi
 echo "== coverage"
 "$PYTHON" warehouse/metadata/build_coverage.py || exit 1
 
+echo "== Supabase live set (session 10; warehouse/supabase/live_set.yaml)"
+run_other supabase_load "$PYTHON" warehouse/supabase/load.py
+
 echo "== Energy Digest (docs/digest/)"
 run_other news_brief "$PYTHON" warehouse/news/brief.py
 "$PYTHON" warehouse/metadata/run_status.py record || exit 1
@@ -142,5 +159,8 @@ echo "== failure streaks (3 runs in a row)"
 
 echo "== prune raw files older than 14 days (manifests kept)"
 "$PYTHON" warehouse/prune_raw.py --days 14 || exit 1
+
+echo "== Redivis: upload the tables this run changed, to the draft only (session 10)"
+run_other redivis_upload "$PYTHON" warehouse/redivis/upload.py --changed
 
 echo "== done"

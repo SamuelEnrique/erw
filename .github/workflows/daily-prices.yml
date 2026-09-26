@@ -23,6 +23,9 @@
 #      nothing is committed.
 #   4. regenerates docs/coverage.md and warehouse/metadata/coverage.csv, then
 #      ingests and scores news and writes the Energy Digest (docs/digest/)
+#   Session 10: first restores the rolling-window tables from the Redivis draft
+#   (the runner has no tables); after coverage, loads the Supabase live set; last,
+#   uploads the tables it changed to the Redivis draft (never released).
 #   5. commits metadata (coverage, sources, run status), docs, the digests and
 #      news_stories.csv (session 10 ruling 3) directly to main. Derived scripts
 #      whose inputs are absent on the runner skip with a warning. No other
@@ -84,6 +87,13 @@ jobs:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PJM_API_KEY: ${{ secrets.PJM_API_KEY }}
+          # Session 10: Redivis (store of record, draft only) and Supabase (live set)
+          REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
+          REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          # the runner has no tables (not in git): restore the rolling windows first
+          RESTORE_FROM_REDIVIS: "1"
         run: |
           set -o pipefail
           bash warehouse/run_daily.sh 2>&1 | tee daily.log
@@ -118,7 +128,7 @@ jobs:
           # (tables, run logs) or warehouse/raw/. Session 10 ruling 3: the one exception is
           # warehouse/output/news_stories.csv, kept in git so the next run does not
           # re-ingest and re-score stories it already has.
-          git add -- docs/coverage.md docs/digest warehouse/metadata/coverage.csv warehouse/metadata/run_status.csv warehouse/metadata/sources.csv warehouse/output/news_stories.csv
+          git add -- docs/coverage.md docs/digest warehouse/metadata/coverage.csv warehouse/metadata/run_status.csv warehouse/metadata/sources.csv warehouse/metadata/redivis_uploads.csv warehouse/output/news_stories.csv
           if git diff --cached --quiet; then
             echo "No table changed today; nothing to commit."
             exit 0

@@ -1,0 +1,37 @@
+# Energy Research Warehouse (ERW): Redivis identifiers.
+#
+# The single place that names the Redivis owner and dataset (session 10). Every
+# script that talks to Redivis reads this file; none restates the names. Modeled
+# on the IRW's metadata/redivis_config.R.
+#
+# The owner is read from REDIVIS_OWNER in .env (or the repository secret of the
+# same name), so the account can move without a code change. The write token is
+# REDIVIS_API_TOKEN, read the same way and never printed.
+
+owner_env: REDIVIS_OWNER
+owner_kind: user            # REDIVIS_OWNER is a Redivis user account (redivis.user), not an organization
+dataset: energy_research_warehouse
+token_env: REDIVIS_API_TOKEN
+
+# Metadata tables added to the dataset beside the ERW tables, from warehouse/metadata.
+metadata_tables:
+  erw_coverage: warehouse/metadata/coverage.csv
+  erw_sources: warehouse/metadata/sources.csv
+
+# Column types: Redivis infers them on upload (it accepts an explicit schema only for
+# streaming uploads). ts_utc and retrieved_at arrive as dateTime (UTC), value as float,
+# codes and ids as string. --restore writes them back in the ERW's text form.
+
+# Tables the daily run MERGES into (a rolling window: rows from earlier runs are
+# kept). The CI runner starts without the tables (they are not in git, session 9),
+# so before the connectors run it restores these from the Redivis draft; otherwise
+# a 3-day window would be uploaded over the 30-day table. Regular expressions on
+# the table name. Full-history tables (rewritten whole every run), snapshots and
+# the yearly ERCOT history are not restored.
+restore_before_run:
+  - '^(caiso|ercot|isone|miso|nyiso|spp|pjm)_(dam|rtm)_(hub|zone)_prices(_hourly)?$'
+  - '^eia930_[a-z0-9]+_(demand|generation)$'
+
+# Record of the last upload of each table (sha256 of its data rows), used to upload
+# only the tables a run changed. Tracked in git with the other metadata.
+manifest: warehouse/metadata/redivis_uploads.csv

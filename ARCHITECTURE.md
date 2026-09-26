@@ -21,19 +21,20 @@ warehouse/output/<table>.csv               standard shape, provenance header
 warehouse/validate/erw_validate.py         exit 0 or the table does not move
       |
       v
-Redivis, as a DRAFT version                 written by an uploader (not built yet)
+Redivis, as a DRAFT version                 warehouse/redivis/upload.py (session 10), every table
       |
       v
    released by hand on Redivis              the ERW's warehouse of record
       |
       v
 live layer: Supabase Postgres  --> Next.js site on Vercel, platform tools, Claude API
+            (a small live set only: warehouse/supabase/live_set.yaml)
 ```
 
 Three things about this are easy to get wrong:
 
 - **Nothing publishes without a human.** An upload only ever writes a Redivis draft. Releasing it is a human click after reading the diff. No scheduled job releases anything.
-- **Until the version is released, the upload has not happened.** The live layer loads from released Redivis versions only, so a successful upload and a matching row count describe the draft and nothing else.
+- **Until the version is released, the upload has not happened.** A successful upload and a matching row count describe the draft and nothing else. Session 10 ruling: Redivis, Stanford-owned and free, is the store of record for every table, updated daily as a draft. The Supabase free tier holds only a small live set (under 300 MB), loaded after the validator from the validated tables (`warehouse/supabase/load.py`), not from a released Redivis version.
 - **The live layer is derived, never edited.** If Supabase and Redivis disagree, Redivis is right and Supabase is rebuilt. Nobody writes corrections into Postgres by hand.
 
 Everything on a clock is a GitHub Action. There is no crontab on any machine. As with the IRW, a late addition may wait for the next batched release; a released table that gives a *wrong* answer is fixed and released as soon as the fix lands.
