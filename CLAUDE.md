@@ -17,10 +17,11 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 | Layer | Tool | Role |
 |---|---|---|
 | Ingestion | Python 3 | One connector per source in `warehouse/connectors/`, writing standard CSVs to `warehouse/output/` |
-| Warehouse of record | Redivis | The published, versioned copy of every table. What Redivis has released is what the ERW says |
-| Live layer | Supabase Postgres, and a Next.js site on Vercel | Fast reads for the platform tools and the public site. Derived from the warehouse, never the other way round |
-| Schedules | GitHub Actions | Everything that runs on a clock. No crontabs on anyone's machine |
-| Scoring and chat | Claude API | Scoring, classification and the chat surface over the warehouse |
+| Warehouse of record | Redivis | The published, versioned copy of every table (`warehouse/redivis/`). Uploads write a draft; what Redivis has released is what the ERW says |
+| Live layer | Supabase Postgres | A small live set (`warehouse/supabase/`): public reads through row-level security. Derived from the warehouse, never the other way round |
+| Public site | Next.js on Vercel (`site/`) | Price board, prices, digest, data and methods, the ERCOT peak-premium explorer, and `/ask`. Reads Supabase with the anon key only |
+| Schedules | GitHub Actions | Everything that runs on a clock (`.github/workflows/`: the daily run and the 15-minute latest prices). No crontabs on anyone's machine |
+| Scoring and chat | Claude API | News scoring and the digest (`warehouse/news/`), and question answering over the warehouse (`warehouse/chat/`, `/ask`) |
 
 ## Non-negotiables
 
@@ -36,9 +37,17 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 | Path | Contents |
 |---|---|
 | `warehouse/connectors/` | One self-contained Python script per source. Each pulls, reshapes to the data standard, and writes to `warehouse/output/` |
-| `warehouse/output/` | Standard-shaped CSVs, each with a provenance header comment. Everything here should pass the validator |
+| `warehouse/output/` | Standard-shaped CSVs, each with a provenance header comment. Everything here should pass the validator. Not in git (session 9) except the news tables; backed up in Redivis |
 | `warehouse/validate/` | `erw_validate.py`, the one validator. It is the gate a table passes before upload |
+| `warehouse/derived/` | Tables the ERW computes from other ERW tables (the ERCOT peak premium), each with a method in `docs/methods/` |
+| `warehouse/news/` | News ingest, scoring (rubric in `rubric.md`) and the daily Energy Digest (`docs/digest/`) |
+| `warehouse/metadata/` | `coverage.csv` (generated), `sources.csv` (the source registry and licenses), `run_status.csv` (every run and every gap) |
+| `warehouse/redivis/`, `warehouse/supabase/` | The uploader to the Redivis draft, and the Supabase migrations, live set and loader |
+| `warehouse/chat/` | Question answering: four tools over the `erw` package, the loop with its number check, and the evaluation set |
+| `package/` | The `erw` Python client (local, Redivis and Supabase backends) and `llms.txt`, the briefing for AI assistants |
+| `site/` | The public Next.js site; its README has the Vercel steps |
 | `docs/datastandard.md` | The ERW data standard. Single source of truth for table shapes, column names, units and file naming |
+| `docs/coverage.md`, `docs/platform-tools.md` | What the warehouse holds (generated), and the status of each of the 20 platform tools |
 | `.claude/skills/` | Claude Code skills for repeatable ERW workflows |
 | `PRIORITIES.md` | What kind of work to do next |
 | `SESSION_*_REPORT.md` | Per-session logs: what was built, decisions, errors, open questions |
@@ -47,8 +56,11 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 
 ```bash
 pip install -r requirements.txt
-python warehouse/connectors/ercot_prices.py
+bash warehouse/run_daily.sh                               # the full daily sequence, as the workflow runs it
 python warehouse/validate/erw_validate.py warehouse/output/*.csv
+python warehouse/supabase/load.py                         # the live set (writes only what changed)
+python warehouse/chat/ask.py "question"                   # ask the warehouse
+cd site && npm install && npm run build && npm start      # the public site
 ```
 
 Validator exit codes: `0` pass, `1` blocked, `2` bad input.

@@ -10,11 +10,14 @@
   },
   "package": {
     "install": [
+      "pip install \"git+https://github.com/SamuelEnrique/erw.git#subdirectory=package\""
+    ],
+    "readme": "https://github.com/SamuelEnrique/erw/blob/main/package/README.md",
+    "note": "An install from GitHub reads the data through a backend: ERW_BACKEND=supabase (the live set behind this site) or ERW_BACKEND=redivis (every table), with the package[supabase] or package[redivis] extra; a clone reads its own warehouse/output. pandas is the only required dependency.",
+    "clone_install": [
       "git clone https://github.com/SamuelEnrique/erw.git",
       "cd erw",
       "python -m pip install -e package"
-    ],
-    "readme": "https://github.com/SamuelEnrique/erw/blob/main/package/README.md",
-    "note": "pandas is the only dependency. Extras: package[supabase] reads this site's live set, package[redivis] the store of record."
+    ]
   }
 }

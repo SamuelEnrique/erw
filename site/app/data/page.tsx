@@ -95,6 +95,8 @@ export default async function Data() {
             <p className="mt-2 text-xs text-muted">
               {site.package.note} <a href={site.package.readme}>Package README</a>.
             </p>
+            <p className="mt-2 text-xs text-muted">From a clone, which reads the clone&apos;s own tables:</p>
+            <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{site.package.clone_install.join("\n")}</pre>
           </div>
         </div>
       </Section>

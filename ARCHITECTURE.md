@@ -27,9 +27,20 @@ Redivis, as a DRAFT version                 warehouse/redivis/upload.py (session
    released by hand on Redivis              the ERW's warehouse of record
       |
       v
-live layer: Supabase Postgres  --> Next.js site on Vercel, platform tools, Claude API
-            (a small live set only: warehouse/supabase/live_set.yaml)
+live layer: Supabase Postgres              warehouse/supabase/load.py, after the validator:
+      |     (a small live set only:        writes only rows that changed; public rows readable
+      |      warehouse/supabase/           with the anon key (row-level security)
+      |      live_set.yaml)
+      |     + latest_prices                warehouse/connectors/latest_prices.py, every 15 minutes
+      v
+Next.js site on Vercel (site/)             pages read Supabase with the anon key only
+      |
+      v
+/ask and warehouse/chat/                   Claude API with four read-only tools; every number in
+                                           an answer must appear in a tool result
 ```
+
+The chat has two front ends over one definition: `warehouse/chat/ask.py` (Python, over the `erw` package, any backend) and the site's `/api/ask` route (TypeScript, over Supabase). `ask.py` holds the one definition (the system prompt, which is `package/llms.txt` plus the rules, the tools and the limits), and `ask.py --export-spec` writes it to `site/lib/chat/spec.json` for the site, so the two cannot drift apart. Regenerate it whenever `llms.txt`, `ask.py` or `tools.py` changes.
 
 Three things about this are easy to get wrong:
 
@@ -49,6 +60,9 @@ Everything on a clock is a GitHub Action. There is no crontab on any machine. As
 | Stack, non-negotiables, repo layout | [`CLAUDE.md`](CLAUDE.md) |
 | What kind of work to do next | [`PRIORITIES.md`](PRIORITIES.md). Advisory; a human overrules it |
 | What happened in a session and why | That session's `SESSION_*_REPORT.md`. A record, not a plan |
+| What the warehouse holds today | `warehouse/metadata/coverage.csv` and `docs/coverage.md`, generated on every run |
+| How an AI assistant should read the warehouse | [`package/llms.txt`](package/llms.txt), which is also the chat's system briefing |
+| What each platform tool can do today | [`docs/platform-tools.md`](docs/platform-tools.md) |
 
 `docs/datastandard.md` beats `CLAUDE.md` on output format. When a rule could plausibly belong to two documents, name its owner in this table.
 

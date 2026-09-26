@@ -1,16 +1,26 @@
 # `erw`: a Python client for the Energy Research Warehouse (ERW)
 
-`erw` reads the tables of the Energy Research Warehouse (ERW): harmonized
-day-ahead and real-time power prices from US ISOs, EIA-930 hourly demand and
-generation, and EIA daily fuel spot prices, every row traceable to the report
-it came from. Installable from this repository only, until the Redivis
-backend exists. It is modeled on the IRW's Python package
+`erw` reads the tables of the Energy Research Warehouse (ERW): day-ahead and
+real-time power prices from six US ISOs (ERCOT back to 2015), EIA-930 hourly
+demand and generation, EIA petroleum, gas and retail series, generator and
+interconnection-queue entities, news events and derived tables, every row
+traceable to the report it came from. It is modeled on the IRW's Python package
 ([itemresponsewarehouse/Python-pkg](https://github.com/itemresponsewarehouse/Python-pkg)).
 For AI assistants, read [`llms.txt`](llms.txt) first.
 
 ## Install
 
-From a clone of the erw repository:
+The repository is public, so the package installs straight from GitHub:
+
+```bash
+pip install "git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"
+pip install "erw[redivis] @ git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"   # with a backend extra
+```
+
+An install from GitHub has the code but not the tables: point it at data with
+`ERW_BACKEND=redivis` or `ERW_BACKEND=supabase` (below), or with `ERW_DATA_DIR`.
+
+From a clone of the erw repository, which reads the clone's tables:
 
 ```bash
 python -m pip install -e package          # pandas is the only dependency

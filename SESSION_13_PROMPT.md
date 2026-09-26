@@ -1,0 +1,13 @@
+Session 13 of the Energy Research Warehouse (ERW). Read CLAUDE.md, docs/platform-tools.md, docs/coverage.md, package/llms.txt, SESSION_11_REPORT.md and SESSION_12_REPORT.md first. Same non-negotiables: real data only, fail loudly, no em dashes, never delete existing files, commit after each task, do not push, do not stop to ask questions.
+
+Human rulings on sessions 11 and 12: the repository is public; update the briefing (this is documentation, not tuning); the post-check stays as is for now, and a narrower v1 will be designed against a fresh question set later; label CAISO's latest price lmp_rtm_15min; add a per-table content hash to the Supabase loader; extend the thin real-time windows where the source allows.
+
+TASK 1. Briefings and docs. Rewrite package/llms.txt so it describes the warehouse as it is today: every shape, every table family (ISO prices live and yearly history, derived peak premium, EIA-930, EIA petroleum and gas series, FRED, capacity and carbon, entities from EIA-860M and the queues, news events), the backends, the license rule, the pitfalls, and which table to use for which question (history questions go to the yearly and derived tables). Under 350 lines. Update CLAUDE.md, ARCHITECTURE.md and docs/platform-tools.md to the current state including the site and the chat, and mark tools 1, 2, 5, 15 and 20 with their real status. Add a git+https install line to package/README.md and site/data/site.json now that the repository is public. Commit.
+
+TASK 2. Fixes. CAISO latest-price variable to lmp_rtm_15min with the reason in the header. Per-table SHA-256 of the selected rows in load.py so unchanged tables are skipped. For MISO and ISO-NE 15-minute real-time and for EIA-930 ERCO and NYIS demand, attempt a 30-day backfill day by day, writing whatever complete days exist and recording gaps per day in run_status.csv instead of failing the table; keep the completeness rule per day. Rerun the affected connectors, the validator, coverage and the Supabase load. Commit.
+
+TASK 3. Re-run the chat evaluation once with the new briefing, on the same 30 questions, and report the result beside the session 12 baseline without changing any code in the loop or the check. Commit the results.
+
+TASK 4. Digest check. Run today's ingest, score and brief, and report the top 10 with each story's sector and ai_power_relevance so the human can see whether the rubric change from session 7 has taken hold.
+
+TASK 5. SESSION_13_REPORT.md in the usual format. Final commit.
