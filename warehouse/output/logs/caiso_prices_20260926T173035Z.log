@@ -1,0 +1,32 @@
+ERW caiso_prices run 20260926T173035Z
+gridstatus 0.36.0, pandas 2.3.3, python 3.12.14
+window: 3 operating days, 2026-09-23 00:00:00-07:00 to 2026-09-26 00:00:00-07:00 (exclusive), UTC [2026-09-23T07:00:00Z, 2026-09-26T07:00:00Z)
+raw files: warehouse/raw/caiso/20260926T173035Z
+DAM: CAISO OASIS PRC_LMP via CAISO.get_lmp(DAY_AHEAD_HOURLY)
+  DAM 2026-09-23: 72 rows from 1 data file(s) (1 responses)
+    20260926T173035.571093Z_00001_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260923T07:00-0000&enddatetime=20260924T07:00-0000 last-modified=
+  DAM 2026-09-24: 72 rows from 1 data file(s) (1 responses)
+    20260926T173040.978851Z_00002_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260924T07:00-0000&enddatetime=20260925T07:00-0000 last-modified=
+  DAM 2026-09-25: 72 rows from 1 data file(s) (1 responses)
+    20260926T173046.419246Z_00003_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260925T07:00-0000&enddatetime=20260926T07:00-0000 last-modified=
+  DAM forward 2026-09-26: 72 rows from 1 data file(s) (1 responses)
+    20260926T173051.783543Z_00004_SingleZip_resultformat_6_queryname_PRC_LMP_version_12_market_run_id_DA https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_LMP&version=12&market_run_id=DAM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260926T07:00-0000&enddatetime=20260927T07:00-0000 last-modified=
+  DAM forward 2026-09-27: not available (ValueError: No objects to concatenate), skipped
+  forward DAM day 2026-09-26: complete, included (72 rows)
+  interval length: all 216 rows are 60 minutes
+  complete: 3 nodes x 72 intervals
+  distinct source_url values: 4
+  caiso_dam_hub_prices.csv: rows=2304 (this run 288: 0 new, 288 replaced, 2016 kept) range=2026-08-26T07:00:00Z..2026-09-27T06:00:00Z nodes=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND min=-0.62 max=201.00 USD/MWh
+RTM: CAISO OASIS PRC_INTVL_LMP via CAISO.get_lmp(REAL_TIME_5_MIN), aggregated to 15-minute means
+  RTM 2026-09-23: 864 rows from 1 data file(s) (1 responses)
+    20260926T173103.340004Z_00006_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260923T07:00-0000&enddatetime=20260924T07:00-0000 last-modified=
+  RTM 2026-09-24: 864 rows from 1 data file(s) (1 responses)
+    20260926T173109.395242Z_00007_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260924T07:00-0000&enddatetime=20260925T07:00-0000 last-modified=
+  RTM 2026-09-25: 864 rows from 1 data file(s) (1 responses)
+    20260926T173115.339324Z_00008_SingleZip_resultformat_6_queryname_PRC_INTVL_LMP_version_3_market_run_ https://oasis.caiso.com/oasisapi/SingleZip?resultformat=6&queryname=PRC_INTVL_LMP&version=3&market_run_id=RTM&node=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND&startdatetime=20260925T07:00-0000&enddatetime=20260926T07:00-0000 last-modified=
+  interval length: all 2592 rows are 5 minutes
+  aggregated 2592 5-minute rows to 864 15-minute means
+  complete: 3 nodes x 288 intervals
+  distinct source_url values: 3
+  caiso_rtm_hub_prices.csv: rows=8928 (this run 864: 288 new, 576 replaced, 8064 kept) range=2026-08-26T07:00:00Z..2026-09-26T06:45:00Z nodes=TH_NP15_GEN-APND,TH_SP15_GEN-APND,TH_ZP26_GEN-APND min=-46.93 max=1172.61 USD/MWh
+done, failures=0

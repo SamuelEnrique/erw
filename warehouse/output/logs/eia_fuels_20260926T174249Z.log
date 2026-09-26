@@ -1,0 +1,17 @@
+ERW eia_fuels run 20260926T174249Z: full daily history
+eia:henry_hub (natural-gas/pri/fut RNGWHHD):
+  RNGWHHD offset 0: 5000 rows (total 7466) https://api.eia.gov/v2/natural-gas/pri/fut/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=RNGWHHD&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000
+  RNGWHHD offset 5000: 2466 rows (total 7466) https://api.eia.gov/v2/natural-gas/pri/fut/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=RNGWHHD&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=5000&length=5000
+  RNGWHHD 2018-01-05: EIA lists the date with no value; omitted (not published)
+  7465 dates 1997-01-07 to 2026-09-22, 1 listed without a value
+eia:wti_cushing (petroleum/pri/spt RWTC):
+  RWTC offset 0: 5000 rows (total 10254) https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=RWTC&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000
+  RWTC offset 5000: 5000 rows (total 10254) https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=RWTC&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=5000&length=5000
+  RWTC offset 10000: 254 rows (total 10254) https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=RWTC&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=10000&length=5000
+  10254 dates 1986-01-02 to 2026-09-22, 0 listed without a value
+eia:brent (petroleum/pri/spt RBRTE):
+  RBRTE offset 0: 5000 rows (total 9983) https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=RBRTE&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000
+  RBRTE offset 5000: 4983 rows (total 9983) https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=REDACTED&frequency=daily&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=RBRTE&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=5000&length=5000
+  9983 dates 1987-05-20 to 2026-09-22, 0 listed without a value
+  eia_fuel_spot_prices.csv: rows=27702 (this run 27702: 0 new, 27702 replaced, 0 kept) range=1986-01-02T00:00:00Z..2026-09-22T00:00:00Z nodes=eia:brent,eia:henry_hub,eia:wti_cushing min=-36.98 max=145.31 USD/MMBtu/USD/bbl
+done, status=ok

@@ -49,3 +49,33 @@ run_id,runner,connector,table,market,status,detail
 20260925T200855Z,local,eia930,eia930_us48_demand,demand,ok,
 20260925T200855Z,local,eia930,eia930_us48_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_us48_generation: net_generation_unknown_storage_mw: 55 of 72 hours (17 missing, 0 published as null; first missing ['2026-09-24T07:00:00Z', '2026-09-24T08:00:00Z', '2026-09-24T09:00:00Z'])"
 20260925T200928Z,local,eia_fuels,eia_fuel_spot_prices,daily,ok,
+20260926T172813Z,github,ercot,ercot_dam_hub_prices,DAM,ok,
+20260926T172813Z,github,ercot,ercot_rtm_hub_prices,RTM,ok,
+20260926T173035Z,github,caiso,caiso_dam_hub_prices,DAM,ok,
+20260926T173035Z,github,caiso,caiso_rtm_hub_prices,RTM,ok,
+20260926T173121Z,github,nyiso,nyiso_dam_zone_prices,DAM,ok,
+20260926T173121Z,github,nyiso,nyiso_rtm_zone_prices,RTM,ok,
+20260926T173127Z,github,miso,miso_dam_hub_prices,DAM,ok,
+20260926T173127Z,github,miso,miso_rtm_hub_prices,RTM,ok,
+20260926T173132Z,github,spp,spp_dam_hub_prices,DAM,ok,
+20260926T173132Z,github,spp,spp_rtm_hub_prices,RTM,failed,SourceGap: SPP has no daily RTBM file for 2026-09-23 and its interval file for 2026-09-23 16:20:00-05:00 is missing: SPP RTBM interval 2026-09-23 16:20:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path
+20260926T174127Z,github,isone,isone_dam_zone_prices,DAM,ok,
+20260926T174127Z,github,isone,isone_rtm_zone_prices,RTM,failed,"RuntimeError: incomplete data, no file written: .H.INTERNAL_HUB: 287 rows, expected 288, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.CONNECTICUT: 287 rows, expected 288, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.MAINE: 287 rows, expected 288, missing 1 (first ['2026-09-25T1"
+20260926T174127Z,github,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY,failed,RuntimeError: RTM_HOURLY 2026-09-25 failed after 4 attempts: EmptyDataError('No columns to parse from file')
+20260926T174243Z,github,eia930,eia930_ciso_demand,demand,ok,
+20260926T174243Z,github,eia930,eia930_ciso_generation,generation,ok,
+20260926T174243Z,github,eia930,eia930_erco_demand,demand,ok,
+20260926T174243Z,github,eia930,eia930_erco_generation,generation,ok,
+20260926T174243Z,github,eia930,eia930_isne_demand,demand,ok,
+20260926T174243Z,github,eia930,eia930_isne_generation,generation,ok,
+20260926T174243Z,github,eia930,eia930_miso_demand,demand,ok,
+20260926T174243Z,github,eia930,eia930_miso_generation,generation,ok,
+20260926T174243Z,github,eia930,eia930_nyis_demand,demand,ok,
+20260926T174243Z,github,eia930,eia930_nyis_generation,generation,ok,
+20260926T174243Z,github,eia930,eia930_pjm_demand,demand,ok,
+20260926T174243Z,github,eia930,eia930_pjm_generation,generation,ok,
+20260926T174243Z,github,eia930,eia930_swpp_demand,demand,ok,
+20260926T174243Z,github,eia930,eia930_swpp_generation,generation,ok,
+20260926T174243Z,github,eia930,eia930_us48_demand,demand,ok,
+20260926T174243Z,github,eia930,eia930_us48_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_us48_generation: net_generation_unknown_storage_mw: 48 of 72 hours (24 missing, 0 published as null; first missing ['2026-09-24T07:00:00Z', '2026-09-24T08:00:00Z', '2026-09-24T09:00:00Z'])"
+20260926T174249Z,github,eia_fuels,eia_fuel_spot_prices,daily,ok,
