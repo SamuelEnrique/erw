@@ -185,8 +185,7 @@ def main(argv=None):
     for name in selected:
         path = os.path.join(OUT, name + ".csv")
         with open(path, encoding="utf-8") as f:
-            lines = [ln.rstrip("
-")[1:].strip() for ln in f if ln.startswith("#")]
+            lines = [ln.rstrip("\r\n")[1:].strip() for ln in f if ln.startswith("#")]
         hdr += [{"table_name": name, "line_no": i, "line": ln, "license": lic[name]}
                 for i, ln in enumerate(lines, 1)]
     client.table("headers").delete().neq("table_name", "").execute()
