@@ -24,5 +24,5 @@ Status: **yes** = the tables the tool needs exist and refresh daily; **partial**
 | 16 | Cost-of-power model | series: power prices, fuel prices, generation mix; entities: plant heat rates and costs | **partial**: prices, fuels, mix; no plant entities |
 | 17 | Economic forecasting tool: tax and jobs impact of energy projects | entities: projects; series: economic and tax data | **no** |
 | 18 | Predictive and scenario layer | long history of every series | **partial**: 30 days of power data, fuel prices since 1986-1997 |
-| 19 | Data and API products | Redivis (warehouse of record), Supabase live layer, `erw` package | **partial**: package reads local files; Redivis and Supabase not built |
+| 19 | Data and API products | Redivis (warehouse of record), Supabase live layer, `erw` package | **partial**: package reads local files, the Redivis draft and the Supabase live set (session 10); Supabase applied and loaded, and the public site (`site/`) reads it with the anon key (session 11). No Redivis version released yet; no public API |
 | 20 | AI chat over the warehouse | `erw` package, `package/llms.txt`, Claude API | **partial**: package and briefing exist; no chat service |
