@@ -16,6 +16,18 @@ domain (credit: U.S. Energy Information Administration).
 | eia_petroleum_trade_weekly   | petroleum/move/wkly    | weekly  | kbbl/d    |
 | eia_petroleum_stocks_weekly  | petroleum/stoc/wstk    | weekly  | kbbl      |
 | eia_lng_exports_monthly      | natural-gas/move/poe2  | monthly | MMcf, USD/Mcf |
+| eia_crude_first_purchase_prices | petroleum/pri/dfp2, dfp1 | monthly | USD/bbl (session 8) |
+| eia_crude_imports_by_country | petroleum/move/impcus  | monthly | kbbl/d (session 8) |
+| eia_padd_crude_pipeline_flows | petroleum/move/pipe   | monthly | kbbl (session 8) |
+| eia_retail_electricity_prices | electricity/retail-sales | monthly | USD/MWh, from cents/kWh x 10 (session 8) |
+
+Session 8 tables select series by facet where the set changes over time
+(imports: every country EIA lists, product EPC0, process IM0, the MBBL/D
+series only; pipeline flows: every crude series in petroleum/move/pipe, the
+pipeline-only route, where docs/price-sources.md named petroleum/move/ptb,
+which combines pipeline, tanker, barge and rail). Retail prices have no
+series id; the entity is eia:retail_price:<stateid>:<sectorid>, geo the
+state (US for the nation, empty for EIA's census-division rows).
 
 Every series id below was checked against the API on 2026-09-25 (session 7).
 Entities are the EIA series ids unchanged (`eia:<series id>`); the header
@@ -36,6 +48,7 @@ revisions are picked up. The key comes from EIA_API_KEY.
 import argparse
 import datetime as dt
 import os
+import re
 import sys
 import time
 import traceback
@@ -49,7 +62,10 @@ import iso_prices as ip  # noqa: E402
 API = "https://api.eia.gov/v2/"
 PAGE = 5000
 # EIA unit string -> ERW unit (docs/datastandard.md unit vocabulary)
-UNITS = {"$/GAL": "USD/gal", "MBBL/D": "kbbl/d", "MBBL": "kbbl", "MMCF": "MMcf", "$/MCF": "USD/Mcf"}
+UNITS = {"$/GAL": "USD/gal", "MBBL/D": "kbbl/d", "MBBL": "kbbl", "MMCF": "MMcf", "$/MCF": "USD/Mcf",
+         "$/BBL": "USD/bbl", "cents per kilowatt-hour": "USD/MWh"}
+# a unit EIA reports that the ERW converts: value * factor (1 cent/kWh = 10 USD/MWh)
+SCALE = {"cents per kilowatt-hour": 10.0}
 STALE = {"daily": 10, "weekly": 21, "monthly": 150}
 FREQ = {"daily": "P1D", "weekly": "P1W", "monthly": "P1M"}
 LNG_TERMINALS = ["SPL", "CRP", "CAM", "FPT", "CCPL", "PLAQ", "CPT", "ELBA", "GPT"]
@@ -94,18 +110,56 @@ TABLES = {
         variable=lambda unit: "export_volume" if unit == "MMcf" else "export_price",
         series=[f"NGM_EPG0_ENG_Y{t}-Z00_MMCF" for t in LNG_TERMINALS]
         + [f"NGM_EPG0_PNG_Y{t}-Z00_DMCF" for t in LNG_TERMINALS]),
+    # session 8 (docs/price-sources.md sections 1, 7 and 8): monthly series
+    "eia_crude_first_purchase_prices": dict(
+        parts=[dict(route="petroleum/pri/dfp2", series=["F003075793"]),
+               dict(route="petroleum/pri/dfp1", series=["F002038__3"])],
+        freq="monthly", geo="US",
+        title="EIA crude oil first purchase prices: Mars blend, North Dakota (a Bakken proxy), monthly",
+        report="Domestic Crude Oil First Purchase Prices (by stream; by area)",
+        page="https://www.eia.gov/dnav/pet/pet_pri_dfp2_k_m.htm",
+        variable=lambda unit: "first_purchase_price"),
+    "eia_crude_imports_by_country": dict(
+        parts=[dict(route="petroleum/move/impcus", facets=[("product", "EPC0"), ("process", "IM0")],
+                    keep_units=["MBBL/D"])],
+        freq="monthly", geo="US",
+        title="EIA US crude oil imports by country of origin, monthly, thousand barrels per day",
+        report="U.S. Imports by Country of Origin (crude oil)",
+        page="https://www.eia.gov/dnav/pet/pet_move_impcus_a2_nus_ep00_im0_mbbl_m.htm",
+        variable=lambda unit: "imports"),
+    "eia_padd_crude_pipeline_flows": dict(
+        parts=[dict(route="petroleum/move/pipe", facets=[("product", "EPC0")])],
+        freq="monthly", geo="US",
+        title="EIA crude oil movements by pipeline between PAD districts, monthly",
+        report="Movements by Pipeline between PAD Districts (crude oil)",
+        page="https://www.eia.gov/dnav/pet/pet_move_pipe_dc_r10-r20_mbbl_m.htm",
+        variable=lambda unit: "pipeline_receipts"),
+    "eia_retail_electricity_prices": dict(
+        parts=[dict(route="electricity/retail-sales", data="price", facets=[],
+                    series_of=lambda r: f"retail_price:{r['stateid']}:{r['sectorid']}",
+                    describe=lambda r: f"{r['stateDescription']}, {r['sectorName']}",
+                    units_col="price-units")],
+        freq="monthly", geo=None,
+        title="EIA average retail price of electricity by state and sector, monthly, in USD/MWh",
+        report="Electric Power Monthly: average retail price of electricity (retail-sales)",
+        page="https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a",
+        variable=lambda unit: "retail_price",
+        note="Conversion: EIA reports cents per kilowatt-hour; value = EIA price x 10 "
+             "(1 cent/kWh = 10 USD/MWh), exact."),
 }
 
 
-def fetch(route, freq, sids, key, log):
-    """All rows for these series ids, paged; each row keeps its page URL (key removed)."""
+def fetch(route, freq, sids, key, log, facets=(), data="value", sort=("series",)):
+    """All rows for these series ids (or facets), paged; each row keeps its page URL (key removed)."""
     out, offset = [], 0
     while True:
-        params = [("api_key", key), ("frequency", freq), ("data[0]", "value"),
-                  ("sort[0][column]", "period"), ("sort[0][direction]", "asc"),
-                  ("sort[1][column]", "series"), ("sort[1][direction]", "asc"),
-                  ("offset", str(offset)), ("length", str(PAGE))]
+        params = [("api_key", key), ("frequency", freq), ("data[0]", data),
+                  ("sort[0][column]", "period"), ("sort[0][direction]", "asc")]
+        for i, c in enumerate(sort, 1):
+            params += [(f"sort[{i}][column]", c), (f"sort[{i}][direction]", "asc")]
+        params += [("offset", str(offset)), ("length", str(PAGE))]
         params += [("facets[series][]", s) for s in sids]
+        params += [(f"facets[{f}][]", v) for f, v in facets]
 
         def call():
             r = requests.get(API + route + "/data/", params=params, timeout=120)
@@ -136,12 +190,35 @@ def ts_of(period, freq):
     return pd.to_datetime(period, format="%Y-%m-%d").dt.strftime("%Y-%m-%dT00:00:00Z")
 
 
+def fetch_parts(name, cfg, key, log):
+    """One frame (series, series-description, period, value, units, route, _url, _retrieved)
+    from every part of a table: one route, or several."""
+    parts = cfg.get("parts") or [dict(route=cfg["route"], series=cfg["series"])]
+    frames = []
+    for p in parts:
+        sids, facets, data = p.get("series", []), p.get("facets", []), p.get("data", "value")
+        sort = ("stateid", "sectorid") if "series_of" in p else ("series",)
+        log(f"{name}: {p['route']} ({cfg['freq']}, {len(sids) or 'all'} series, facets {facets})")
+        df = fetch(p["route"], cfg["freq"], sids, key, log, facets=facets, data=data, sort=sort)
+        if df.empty:
+            raise RuntimeError(f"{name}: EIA returned no rows for {p['route']}")
+        if "series_of" in p:
+            df["series"] = df.apply(p["series_of"], axis=1)
+            df["series-description"] = df.apply(p["describe"], axis=1)
+        df = df.rename(columns={data: "value", p.get("units_col", "units"): "units"})
+        if "keep_units" in p:
+            df = df[df["units"].isin(p["keep_units"])]
+        missing = sorted(set(sids) - set(df["series"]))
+        if missing:
+            raise RuntimeError(f"{name}: EIA returned nothing for {missing}")
+        df["route"] = p["route"]
+        frames.append(df[["series", "series-description", "period", "value", "units", "route",
+                          "_url", "_retrieved"]])
+    return pd.concat(frames, ignore_index=True)
+
+
 def build(name, cfg, key, run_id, log):
-    log(f"{name} ({cfg['route']}, {cfg['freq']}, {len(cfg['series'])} series):")
-    df = fetch(cfg["route"], cfg["freq"], cfg["series"], key, log)
-    missing = sorted(set(cfg["series"]) - set(df["series"]))
-    if missing:
-        raise RuntimeError(f"{name}: EIA returned nothing for {missing}")
+    df = fetch_parts(name, cfg, key, log)
     bad_units = sorted(set(df["units"]) - set(UNITS))
     if bad_units:
         raise RuntimeError(f"{name}: unexpected EIA units {bad_units}")
@@ -159,16 +236,22 @@ def build(name, cfg, key, run_id, log):
     keep = value.notna()
     d = df[keep].copy()
     d["unit"] = d["units"].map(UNITS)
+    scale = d["units"].map(SCALE).fillna(1.0).values
+    if cfg["geo"] is None:  # retail prices: the state; "US" for the nation; none for census regions
+        st = d["series"].str.split(":").str[1]
+        geo = st.map(lambda x: "US" if x == "US" else (f"US-{x}" if re.fullmatch(r"[A-Z]{2}", x) else "")).values
+    else:
+        geo = cfg["geo"]
     s = pd.DataFrame({
         "entity": "eia:" + d["series"],
         "variable": d["unit"].map(cfg["variable"]),
         "ts_utc": ts_of(d["period"], cfg["freq"]).values,
-        "value": value[keep].values,
+        "value": (value[keep].values * scale).round(6),
         "unit": d["unit"].values,
         "freq": FREQ[cfg["freq"]],
-        "geo": cfg["geo"],
+        "geo": geo,
         "market": "", "node": "",
-        "source": f"eia:{cfg['route']}",
+        "source": ("eia:" + d["route"]).values,
         "source_url": d["_url"].values,
         "retrieved_at": d["_retrieved"].values,
         "vintage": "",
@@ -179,6 +262,8 @@ def build(name, cfg, key, run_id, log):
         raise RuntimeError(f"{name}: newest date {newest.date()} is {age} days old (limit "
                            f"{STALE[cfg['freq']]}); not writing a stale table")
     names = df.drop_duplicates("series").set_index("series")["series-description"].to_dict()
+    routes = list(dict.fromkeys(df["route"]))
+    series_list = cfg.get("series") or [sid for p in cfg["parts"] for sid in p.get("series", [])] or sorted(names)
     header = [
         f"Energy Research Warehouse (ERW): {cfg['title']}",
         f"Shape: series (docs/datastandard.md v0). freq {FREQ[cfg['freq']]}: ts_utc is the date EIA "
@@ -187,16 +272,15 @@ def build(name, cfg, key, run_id, log):
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia_series.py via the EIA API v2",
         f"Run log: warehouse/output/logs/eia_series_{run_id}.log (every API request, key removed)",
         f"Raw files: warehouse/raw/eia_series/{run_id}/ (not in git; manifest.csv lists each file and URL)",
-        f"Source: eia:{cfg['route']} {cfg['report']}, {cfg['page']}",
-        f"  document list: {API}{cfg['route']}/",
-        "Series: " + "; ".join(f"{k} = {names.get(k, '')}" for k in cfg["series"]),
+        *[f"Source: eia:{r} {cfg['report']}, {cfg['page']}" for r in routes],
+        *[f"  document list: {API}{r}/" for r in routes],
+        "Series: " + "; ".join(f"{k} = {names.get(k, '')}" for k in series_list),
         f"Dates EIA lists without a value, omitted: {int(len(empty))}. License: public domain (EIA).",
-    ]
+    ] + ([cfg["note"]] if cfg.get("note") else [])
     ip.write_csv(s[ip.SERIES_COLS], name, header, log)
-    ip.update_sources([dict(source=f"eia:{cfg['route']}",
-                            publisher="U.S. Energy Information Administration (EIA)",
+    ip.update_sources([dict(source=f"eia:{r}", publisher="U.S. Energy Information Administration (EIA)",
                             report=cfg["report"], report_url=cfg["page"],
-                            document_list=f"{API}{cfg['route']}/", tables=[name])])
+                            document_list=f"{API}{r}/", tables=[name]) for r in routes])
 
 
 def main(argv=None):

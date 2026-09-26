@@ -90,6 +90,8 @@ run_other eia_series "$PYTHON" warehouse/connectors/eia_series.py
 run_other capacity_prices "$PYTHON" warehouse/connectors/capacity_prices.py
 run_other carbon_auctions "$PYTHON" warehouse/connectors/carbon_auctions.py
 run_other fred_series "$PYTHON" warehouse/connectors/fred_series.py
+# IMF PortWatch daily chokepoint transits (session 8; internal until terms are confirmed)
+run_other portwatch "$PYTHON" warehouse/connectors/portwatch.py
 
 # Session 8 entities. EIA-860M generator inventory: runs every day, writes only when EIA's
 # newest published monthly vintage differs from the one in the tables (a monthly cadence).

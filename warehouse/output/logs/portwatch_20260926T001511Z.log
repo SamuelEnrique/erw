@@ -1,0 +1,17 @@
+Strait of Hormuz (chokepoint6):
+  chokepoint6 offset 0: 1000 rows
+  chokepoint6 offset 1000: 1000 rows
+  chokepoint6 offset 2000: 820 rows
+  2820 days, 2019-01-01 to 2026-09-20, no gaps
+Suez Canal (chokepoint1):
+  chokepoint1 offset 0: 1000 rows
+  chokepoint1 offset 1000: 1000 rows
+  chokepoint1 offset 2000: 820 rows
+  2820 days, 2019-01-01 to 2026-09-20, no gaps
+Panama Canal (chokepoint2):
+  chokepoint2 offset 0: 1000 rows
+  chokepoint2 offset 1000: 1000 rows
+  chokepoint2 offset 2000: 820 rows
+  2820 days, 2019-01-01 to 2026-09-20, no gaps
+  portwatch_chokepoint_transits.csv: rows=118440 (this run 118440: 118440 new, 0 replaced, 0 kept) range=2019-01-01T00:00:00Z..2026-09-20T00:00:00Z nodes=Panama Canal,Strait of Hormuz,Suez Canal min=0.00 max=6621255.00 count/dwt
+done, failures=0
