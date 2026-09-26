@@ -49,8 +49,8 @@ Energy Research Warehouse (ERW), session 13, run 2026-09-26 (UTC). The human's r
 - **`docs/platform-tools.md`, the real status of tools 1, 2, 5, 15 and 20:**
   - built and run locally, not deployed;
   - the Redivis dataset is an unreleased draft;
-  - **the public GitHub repository is still at the session 5 commit `1615d1d`**, checked with `git ls-remote`. So the daily and 15-minute workflows are not running on GitHub, and the public package is session 5's until a human pushes.
-- **Install line:** `pip install "git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"` is in `package/README.md` (with the backend extras) and `site/data/site.json`, and `/data` shows it. Tested with `pip download`: it builds from the public repository (the session 5 copy until a push). The README says a GitHub install needs `ERW_BACKEND` or `ERW_DATA_DIR`, because the tables are not in the package.
+  - **the public GitHub repository was at the session 5 commit `1615d1d`**, checked with `git ls-remote` during the session. *Corrected after the session:* that check showed which code was public, not whether workflows ran. The session 5 daily workflow was in fact running on GitHub, and it committed a data commit (`f049433`) at 17:43 UTC the same day. `main` was pushed after the session (`f5168e4`), so session 13's code and workflows are now on GitHub (see "Correction after the push" at the end).
+- **Install line:** `pip install "git+https://github.com/SamuelEnrique/erw.git#subdirectory=package"` is in `package/README.md` (with the backend extras) and `site/data/site.json`, and `/data` shows it. Tested with `pip download`: it builds from the public repository (then the session 5 copy; session 13's since the push). The README says a GitHub install needs `ERW_BACKEND` or `ERW_DATA_DIR`, because the tables are not in the package.
 
 ## Task 2: fixes
 
@@ -248,10 +248,39 @@ python warehouse/news/brief.py --out docs/digest/checks/<time>.md
 ## Open questions for the human
 
 1. **CAISO label:** confirm that `lmp_rtm_5min` stands, given the evidence above, or overrule it knowing that it is a 5-minute price.
-2. **Push to GitHub.** The public repository is at session 5. Until a push:
-   - the `git+https` install gives session 5's package;
-   - the workflows (daily run, 15-minute latest prices) are not running;
-   - Vercel cannot deploy the site.
+2. **Push to GitHub.** *Done after the session* (`f5168e4`; see the correction below). Still open: the repository secrets both workflows now need.
 3. **ISO-NE's hourly real-time table** failed its 30-day run on an empty file for 2026-09-25. Should it get per-day completeness too? The ruling named only the 15-minute table.
 4. **Two datacenter stories** in the 00:00 digest scored 7 and 8 without the MW or dollar consequences the rubric asks for (Task 4). Tighten the rubric, or accept them?
 5. **Rerun the evaluation after the tz fix?** It would measure the fixed tools; this session ran it once, as asked. The fresh question set for a narrower post-check (ruling) is still to be designed.
+
+## Correction after the push (2026-09-26, after the session)
+
+At the human's request, `main` was pushed after this report was committed.
+
+**Two statements above were wrong, and are corrected where they stand:**
+- that the public repository being at session 5 meant "the daily and 15-minute workflows are not running on GitHub";
+- the same claim in `docs/platform-tools.md`.
+
+**What was actually true:** the session 5 version of `.github/workflows/daily-prices.yml` had kept running on GitHub. At 17:43 UTC on 2026-09-26 it committed `f049433`: refreshed price tables, eight run logs, and updates to `coverage.csv`, `run_status.csv` and `sources.csv`. Its commit message records its results: ok for ercot, caiso, nyiso, miso and eia_fuels; failed for spp RTM, isone RTM and RTM_HOURLY, and eia930_us48_generation.
+
+**How it was integrated:**
+- **The conflict:** every file in that commit conflicts with sessions 6 to 13, because since session 9 the tables and logs are not tracked. An ordinary merge would also have overwritten the local, git-ignored tables with the session 5 workflow's versions, including this session's backfills.
+- **The merge:** at the human's direction, `origin/main` was merged with `git merge -s ours` (`f5168e4`). The bot's commit stays in history and the tree is the local one. The SHA-256 of four local data and metadata files was the same before and after the merge, and the pushed tree is identical to `ebc2d19`.
+- **Not carried into the tree:** the rows that GitHub run added to `run_status.csv`. They remain in `f049433`.
+- **The push** was a fast-forward, with no force.
+
+**What is live on GitHub now:**
+- session 13's code;
+- `daily-prices.yml`, at 14:00 UTC: the connectors, news, digest, validator, coverage, the Redivis draft upload and the Supabase load;
+- `latest-prices.yml`, every 15 minutes: the Supabase `latest_prices` board.
+
+**Repository secrets they read:**
+
+| Workflow | Secrets |
+|---|---|
+| `daily-prices.yml` | `EIA_API_KEY`, `ANTHROPIC_API_KEY`, `PJM_API_KEY`, `REDIVIS_API_TOKEN`, `REDIVIS_OWNER`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` |
+| `latest-prices.yml` | `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` |
+
+A missing secret makes its step fail. Missing Supabase secrets make `latest-prices.yml` fail on every 15-minute run. Which secrets are set could not be checked from this machine (no `gh` CLI).
+
+**Large files:** GitHub warned about large files on the push (`GH001`). They are data CSVs committed in sessions 6 to 8, before session 9 took the tables out of git. They are no longer in the tree but remain in the history. Removing them would rewrite published history, so they were left.
