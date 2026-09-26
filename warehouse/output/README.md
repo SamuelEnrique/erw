@@ -22,6 +22,16 @@ git show bfed5a2:warehouse/output/<table>.csv > warehouse/output/<table>.csv
 
 The scheduled workflow (`.github/workflows/daily-prices.yml`) starts from a fresh checkout. It rebuilds each table's recent window, validates it and commits only metadata, docs and digests. Its tables are kept for 90 days as the run's log artifact (`runs/`, `daily.log`), not as a table store.
 
+## Backups
+
+Session 10 ruling (2): back up first. The whole folder was zipped outside the repository. Every member was then checked two ways: a CRC check, and a SHA-256 match against the file on disk.
+
+| Date | File | Files | Source bytes | Zip bytes |
+|---|---|---|---|---|
+| 2026-09-25 | `C:\Users\samen\Documents\erw-backups\output-2026-09-25.zip` | 165 (81 CSV) | 997,445,296 | 26,692,300 |
+
+From session 10 on, Redivis is the store of record for every table (`warehouse/redivis/README.md`).
+
 ## How to regenerate every table
 
 From the repository root, with the environment in `requirements.txt` (Python 3.14: `pip install --no-deps -r requirements-py314.txt`). Keys go in `.env`: `EIA_API_KEY` and `ANTHROPIC_API_KEY`, plus `PJM_API_KEY` for PJM.
