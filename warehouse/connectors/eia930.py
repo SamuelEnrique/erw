@@ -34,6 +34,11 @@ the window, or the table is not written. A per-fuel series
 named in the table header and in warehouse/metadata/run_status.csv, rather
 than failing the whole table. A fuel type the BA does not report at all is
 simply not a variable of that table.
+Per-day completeness (session 13): for the tables in PER_DAY (ERCO and NYIS
+demand, where EIA's day-ahead forecast series has missing days), the rule above
+is applied to each UTC day instead of the whole window. Complete days are
+written; a day with any core hour missing is not, earlier runs' rows for it are
+kept, and it is recorded in warehouse/metadata/run_status.csv as a "gap" row.
 Values are MW as EIA publishes them (net generation of storage can be
 negative). The key comes from EIA_API_KEY (environment or .env).
 """
@@ -145,6 +150,8 @@ def to_rows(df, route, variable_of, code_col):
 # Session 6 ruling (a): these must be complete or the table is not written;
 # a per-fuel series that is not complete is dropped for the run instead.
 CORE = {"demand_mw", "demand_forecast_mw", "net_generation_mw"}
+# Session 13: tables whose completeness is checked per UTC day (see the docstring).
+PER_DAY = {"eia930_erco_demand", "eia930_nyis_demand"}
 
 
 def incomplete_variables(rows, start, end):
@@ -162,13 +169,41 @@ def incomplete_variables(rows, start, end):
     return problems, len(expected)
 
 
+def complete_days(rows, start, end, log, name):
+    """Per-day completeness: (rows of the complete UTC days, [(day, reason)] for the others)."""
+    keep, gaps = [], []
+    for d0 in pd.date_range(start, end, freq="1D", inclusive="left"):
+        d1 = d0 + pd.Timedelta(days=1)
+        part = rows[(rows["interval_start"] >= d0) & (rows["interval_start"] < d1)]
+        problems, _ = incomplete_variables(part, d0, d1)
+        core_bad = [problems[v] for v in problems if v in CORE]
+        present = set(part["variable"]) & CORE
+        if core_bad or not present:
+            reason = "; ".join(core_bad) if core_bad else "no rows for the core variables"
+            gaps.append((str(d0.date()), reason[:250]))
+            log(f"  GAP {name} {d0.date()}: not written ({reason[:200]})")
+        else:
+            keep.append(part)
+    if not keep:
+        raise RuntimeError(f"incomplete data, no file written for {name}: no complete UTC day; "
+                           + "; ".join(f"{d}: {r}" for d, r in gaps[:3]))
+    log(f"  per-day completeness: {name}: {len(keep)} complete days written, {len(gaps)} not")
+    return pd.concat(keep, ignore_index=True), gaps
+
+
 def build_table(rows, code, start, end, log, name, title, run_id, days):
     respondent, geo = BAS[code]
     rows = rows[(rows["interval_start"] >= start) & (rows["interval_start"] < end)]
     dup = rows.duplicated(["variable", "interval_start"], keep=False)
     if dup.any():
         raise RuntimeError(f"{name}: {int(dup.sum())} rows repeat a (variable, hour) key")
-    problems, n_hours = incomplete_variables(rows, start, end)
+    gaps = []
+    if name in PER_DAY:
+        # every day kept is complete in each core variable; demand tables have no per-fuel series
+        rows, gaps = complete_days(rows, start, end, log, name)
+        problems, n_hours = {}, rows["interval_start"].nunique()
+    else:
+        problems, n_hours = incomplete_variables(rows, start, end)
     core_bad = {v: d for v, d in problems.items() if v in CORE}
     for d in problems.values():
         log(f"  INCOMPLETE {name} {d}")
@@ -216,8 +251,14 @@ def build_table(rows, code, start, end, log, name, title, run_id, days):
     if dropped:
         header.append("Dropped for this run, incomplete in EIA's data (session 6 ruling a; earlier "
                       "runs' rows for them are kept): " + "; ".join(problems[v] for v in dropped))
+    if name in PER_DAY:
+        header.append(f"Completeness is checked per UTC day (session 13): this run wrote "
+                      f"{s['ts_utc'].str[:10].nunique()} complete days of {days}"
+                      + ("; days not written, which keep any rows from earlier runs: "
+                         + "; ".join(f"{d} ({r[:120]})" for d, r in gaps) if gaps else "")
+                      + ". Each day not written is a gap row in warehouse/metadata/run_status.csv.")
     ip.write_csv(s, name, header, log)
-    return [problems[v] for v in dropped]
+    return [problems[v] for v in dropped], gaps
 
 
 def main(argv=None):
@@ -287,9 +328,13 @@ def main(argv=None):
             try:
                 if rows.empty:
                     raise ip.SourceGap(f"EIA returned no {fam} rows for {respondent}")
-                dropped = build_table(rows, code, start, end, log, name, title, run_id, args.days)
-                results.append(dict(table=name, market=fam, status="ok",
-                                    detail=("dropped series: " + "; ".join(dropped))[:300] if dropped else ""))
+                dropped, gaps = build_table(rows, code, start, end, log, name, title, run_id, args.days)
+                detail = ("dropped series: " + "; ".join(dropped)) if dropped else ""
+                if gaps:
+                    detail = (detail + "; " if detail else "") + f"{len(gaps)} days not complete, not written"
+                results.append(dict(table=name, market=fam, status="ok", detail=detail[:300]))
+                for day, reason in gaps:
+                    results.append(dict(table=name, market=f"{fam} {day}", status="gap", detail=reason))
             except Exception:
                 tb = ip.redact(traceback.format_exc())
                 last = tb.strip().splitlines()[-1]
@@ -305,7 +350,7 @@ def main(argv=None):
                             report=r[0], report_url=r[1], document_list=r[2], tables=feeds[s])
                        for s, r in REPORTS.items()])
     ip.write_status("eia930", run_id, results)
-    failures = sum(r["status"] != "ok" for r in results)
+    failures = sum(r["status"] == "failed" for r in results)
     log(f"done, failures={failures}")
     log.close()
     print(f"eia930 run log: {os.path.relpath(log.path, ip.ROOT)}")

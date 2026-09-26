@@ -20,6 +20,9 @@ row-level security; the key is never printed). For each table:
 - rows Supabase holds that the selection no longer has (older than the window,
   or gone from the source) are deleted;
 - count(*) in Supabase for that table_name must equal the selected CSV rows.
+Session 13: a table whose selected rows hash (SHA-256, with its license) to the
+value stored in catalogue.rows_sha256 by the last successful load is skipped
+without reading it back; its count is still reconciled.
 Session 11: the session 10 loader upserted every row on every run. Postgres keeps
 the old copy of an updated row until a vacuum, so each full rewrite added the
 size of the live set again (219 MB after the first load, 339 MB after the
@@ -30,6 +33,7 @@ run fails. Exit 1 on any failure.
 
 import argparse
 import datetime as dt
+import hashlib
 import json
 import math
 import os
@@ -222,6 +226,14 @@ def sync_table(client, name, df, shape, license_, loaded_at, days, now):
     return len(write), deleted
 
 
+def rows_sha256(df, license_):
+    """SHA-256 of a table's selected rows: its license, then the rows as CSV."""
+    h = hashlib.sha256()
+    h.update(f"license={license_}\n".encode("utf-8"))
+    h.update(df.to_csv(index=False, lineterminator="\n").encode("utf-8"))
+    return h.hexdigest()
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW Supabase live-set loader")
     ap.add_argument("--dry-run", action="store_true", help="select and count only, no network")
@@ -254,6 +266,13 @@ def main(argv=None):
             raise SystemExit(f"FAILED: Supabase table {t} is not reachable ({type(exc).__name__}: "
                              f"{str(exc)[:200]}). Apply the migrations first: warehouse/supabase/apply.py")
 
+    try:  # the hashes of the last successful load of each table (migration 004)
+        prev = {r["table_name"]: r.get("rows_sha256")
+                for r in client.table("catalogue").select("table_name,rows_sha256").execute().data}
+    except Exception as exc:
+        prev = {}
+        print(f"no stored row hashes ({type(exc).__name__}: {str(exc)[:150]}); every table is compared row by row")
+    hashes = {}
     failed = []
     recon = []
     for name, (df, shape) in selected.items():
@@ -261,18 +280,25 @@ def main(argv=None):
         try:
             if name not in lic:
                 raise RuntimeError("not in coverage.csv")
-            written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now)
+            digest = rows_sha256(df, lic[name])
+            unchanged = prev.get(name) == digest
+            if unchanged:
+                written = deleted = 0
+            else:
+                written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now)
             n = client.table(shape).select("table_name", count="exact", head=True) \
                 .eq("table_name", name).execute().count
             ok = n == len(df)
-            recon.append((name, shape, len(df), n, "match" if ok else "MISMATCH", written, deleted))
+            if ok:
+                hashes[name] = digest
+            recon.append((name, shape, len(df), n, "match" if ok else "MISMATCH", written, deleted, unchanged))
             print(f"{'match   ' if ok else 'MISMATCH'} {name}: CSV (filtered) {len(df):,}, Supabase {n:,}; "
-                  f"written {written:,}, deleted {deleted:,}")
+                  + ("unchanged (same SHA-256), skipped" if unchanged else f"written {written:,}, deleted {deleted:,}"))
             if not ok:
                 failed.append(name)
         except Exception as exc:
             failed.append(name)
-            recon.append((name, shape, len(df), None, f"FAILED {type(exc).__name__}", None, None))
+            recon.append((name, shape, len(df), None, f"FAILED {type(exc).__name__}", None, None, False))
             print(f"FAILED {name}: {type(exc).__name__}: {str(exc)[:300]}")
 
     # provenance headers of every live-set table
@@ -297,6 +323,7 @@ def main(argv=None):
         row["in_live_set"] = "yes" if r["table"] in live_names else "no"
         # the table's own columns, in CSV order (migration 003), so a reader returns exactly them
         row["columns"] = json.dumps(list(selected[r["table"]][0].columns)) if r["table"] in live_names else None
+        row["rows_sha256"] = hashes.get(r["table"])  # null after a failed load, so the next run retries
         cat.append(row)
     client.table("catalogue").upsert(cat, on_conflict="table_name").execute()
     client.table("catalogue").delete().not_.in_("table_name", list(cov["table"])).execute()
@@ -307,7 +334,7 @@ def main(argv=None):
     for t, want in (("catalogue", len(cat)), ("sources", len(srcs))):
         n = client.table(t).select("*", count="exact", head=True).execute().count
         ok = n == want
-        recon.append((t, "meta", want, n, "match" if ok else "MISMATCH", want, None))
+        recon.append((t, "meta", want, n, "match" if ok else "MISMATCH", want, None, False))
         print(f"{'match   ' if ok else 'MISMATCH'} {t}: CSV {want:,}, Supabase {n:,}")
         if not ok:
             failed.append(t)
@@ -317,7 +344,7 @@ def main(argv=None):
     print(f"pg_database_size: {int(size):,} bytes ({mb:.1f} MB); limit {LIVE['max_mb']} MB")
     os.makedirs(os.path.join(ROOT, "runs"), exist_ok=True)
     pd.DataFrame(recon, columns=["table", "shape", "csv_rows", "supabase_rows", "result", "written",
-                                 "deleted"]).to_csv(
+                                 "deleted", "unchanged"]).to_csv(
         os.path.join(ROOT, "runs", "supabase_reconcile.csv"), index=False)
     with open(os.path.join(ROOT, "runs", "supabase_size.json"), "w", encoding="utf-8") as f:
         json.dump({"bytes": int(size), "mb": round(mb, 1), "at": loaded_at}, f)

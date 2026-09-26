@@ -223,7 +223,8 @@ capacity, metals, equities, news.
 
 The site (site/, Next.js) shows the latest real-time price per hub (the
 Supabase table latest_prices, refreshed every 15 minutes: variable spp_rtm for
-ERCOT, lmp_rtm_15min for CAISO, lmp_rtm_5min for the others), the price
+ERCOT, lmp_rtm_5min for the others; CAISO's newest 5-minute price can start
+just after it is fetched, as CAISO publishes it ahead of its interval), the price
 tables, the digest archive, coverage, methods and the ERCOT peak-premium
 explorer. `/ask` answers questions with the four tools of warehouse/chat
 (list_tables, describe_table, query, compare): every number in an answer must

@@ -177,7 +177,7 @@ async function describeTable(a: { table: string }): Promise<Json> {
   };
   if (shape === "series") {
     const rows = await rest<{ entity: string; node: string | null; variable: string; unit: string; freq: string }>(
-      "series", { ...base, select: "entity,node,variable,unit,freq" }, HOURLY, MAX_ROWS);
+      "series", { ...base, select: "entity,node,variable,unit,freq", order: "entity,variable,ts_utc" }, HOURLY, MAX_ROWS);
     const uniq = (xs: (string | null)[]) => Array.from(new Set(xs.filter((x): x is string => !!x))).sort();
     const ents = uniq(rows.map((r) => r.entity));
     Object.assign(out, {
@@ -189,7 +189,7 @@ async function describeTable(a: { table: string }): Promise<Json> {
   } else {
     // Unlike the Python tool, which counts every value, this lists the values seen in a
     // sample of rows (reading a whole generator table per question would be too slow here).
-    const sample = await rest<Json>(shape, { ...base, select: "*" }, HOURLY, 2000);
+    const sample = await rest<Json>(shape, { ...base, select: "*", order: shape === "entities" ? "entity_id" : "event_id" }, HOURLY, 2000);
     const vals: Record<string, Set<string>> = {};
     for (const r of sample) {
       const flat = { ...r, ...((r.extra as Json) ?? {}) };

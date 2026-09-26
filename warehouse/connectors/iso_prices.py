@@ -830,13 +830,76 @@ def run_market(ctx, spec):
                             source_lines(rows, ctx["reports"]), spec.get("notes", []), fwd), log)
 
 
+def run_market_per_day(ctx, spec):
+    """Pull, check and write one ISO market one operating day at a time (session 13).
+
+    For markets whose sources leave occasional holes (a missing 5-minute file, a
+    day with neither a final nor a preliminary report), the completeness rule is
+    applied per operating day instead of to the whole window: each day is
+    fetched, checked (interval length, 15-minute coverage, every node and
+    interval) and kept only if complete. Complete days are merged into the table;
+    a day that fails is not written, and earlier runs' rows for it are kept.
+    Returns [(day, reason)] for the days not written; raises if no day is complete.
+    """
+    log = ctx["log"]
+    iso, tz, geo = ctx["iso"], ctx["tz"], ctx["geo"]
+    start, end = ctx["start"], ctx["end"]
+    nodes = spec["nodes"]
+    log(f"{spec['name']}: {spec['describe']} (per-day completeness)")
+    parts, gaps = [], []
+    for day in pd.date_range(start, end, freq="D", inclusive="left"):
+        d0 = pd.Timestamp(day.date()).tz_localize(tz)
+        d1 = pd.Timestamp(day.date() + dt.timedelta(days=1)).tz_localize(tz)
+        try:
+            rows, _ = pull_days([day], spec["fetch"], nodes, spec["source"], spec["page"], log,
+                                what=spec["name"], data_url=ctx.get("data_url"))
+            rows = rows[(rows["interval_start"] >= d0) & (rows["interval_start"] < d1)]
+            rows = latest_per_key(rows, log)
+            if spec.get("five_min"):
+                check_interval_length(rows, 5, log)
+                rows = to_15min_means(rows, log)
+            elif "minutes" in spec:
+                check_interval_length(rows, spec["minutes"], log)
+            check_complete(rows, nodes, d0, d1, spec["step"], log)
+            parts.append(rows[["node", "interval_start", "value", "source", "source_url",
+                               "retrieved_at", "vintage"]])
+        except Exception as exc:
+            reason = " ".join(str(exc).split()).replace("incomplete data, no file written: ", "day incomplete: ")[:250]
+            gaps.append((str(day.date()), reason))
+            log(f"  GAP {spec['name']} {day.date()}: not written ({reason})")
+    if not parts:
+        raise RuntimeError(f"no complete operating day in the window; gaps: "
+                           + "; ".join(f"{d}: {r}" for d, r in gaps[:3]))
+    rows = pd.concat(parts, ignore_index=True)
+    log(f"  per-day completeness: {len(parts)} complete days written, {len(gaps)} not")
+    log_sources(rows, log)
+    notes = list(spec.get("notes", [])) + [
+        f"Completeness is checked per operating day (session 13): this run wrote {len(parts)} complete "
+        f"days of {len(parts) + len(gaps)}; days not written keep any rows from earlier runs"
+        + (": " + "; ".join(f"{d} ({r[:120]})" for d, r in gaps) if gaps else "")
+        + ". Each day not written is a gap row in warehouse/metadata/run_status.csv."]
+    s = to_series(rows, iso, spec["variable"], spec["freq"], spec["market"], geo)
+    write_csv(s, spec["file"],
+              header(ctx["label"], spec["title"], ctx["run_id"], iso, start, end, tz,
+                     source_lines(rows, ctx["reports"]), notes), log)
+    return gaps
+
+
 def run_iso(ctx, specs):
     failures = 0
     ctx["specs"] = specs
     for spec in specs:
         try:
-            run_market(ctx, spec)
-            ctx["results"].append(dict(table=spec["file"], market=spec["name"], status="ok", detail=""))
+            if spec.get("per_day"):
+                gaps = run_market_per_day(ctx, spec)
+                ctx["results"].append(dict(table=spec["file"], market=spec["name"], status="ok",
+                                           detail=f"{len(gaps)} days not complete, not written" if gaps else ""))
+                for day, reason in gaps:
+                    ctx["results"].append(dict(table=spec["file"], market=f"{spec['name']} {day}",
+                                               status="gap", detail=reason))
+            else:
+                run_market(ctx, spec)
+                ctx["results"].append(dict(table=spec["file"], market=spec["name"], status="ok", detail=""))
         except Exception:
             failures += 1
             tb = traceback.format_exc()
@@ -1266,7 +1329,7 @@ def pull_miso(ctx):
         dict(name="RTM", describe="MISO RT ex-post hourly LMP via MISO.get_lmp("
              "REAL_TIME_HOURLY_FINAL, else REAL_TIME_HOURLY_PRELIM)", fetch=rtm, nodes=MISO_HUBS,
              source="miso:rt_lmp_final", sources=["miso:rt_lmp_final", "miso:rt_lmp_prelim"],
-             page=MISO_PAGE, step="1h", minutes=60,
+             page=MISO_PAGE, step="1h", minutes=60, per_day=True,
              variable="lmp_rtm", freq="PT1H", market="miso_rtm", file="miso_rtm_hub_prices",
              title="MISO real-time market ex-post LMPs, 8 trading hubs, hourly",
              notes=["Hourly, not 15-minute: MISO 5-minute real-time LMPs for the whole window are "
@@ -1410,7 +1473,7 @@ def pull_isone(ctx):
         dict(name="RTM", describe="ISO-NE RT 5-minute LMP via ISONE.get_lmp(REAL_TIME_5_MIN), "
              "aggregated to 15-minute means", fetch=fetch(Markets.REAL_TIME_5_MIN),
              nodes=ISONE_NODES, source="isone:rt_lmp_5min", page=ISONE_RTM_PAGE, step="15min",
-             five_min=True, variable="lmp_rtm_15m_mean", freq="PT15M", market="isone_rtm",
+             five_min=True, per_day=True, variable="lmp_rtm_15m_mean", freq="PT15M", market="isone_rtm",
              file="isone_rtm_zone_prices", notes=[FIVE_MIN_NOTE],
              title="ISO-NE real-time market LMPs, 8 load zones and the Internal Hub, "
                    "15-minute means of 5-minute prices"),

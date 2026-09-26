@@ -11,7 +11,10 @@ failed three daily runs in a row.
 `record` reads the runs/status/<connector>.json files the connectors write
 (one per connector, the latest run) and appends one row per table:
 run_id, runner, connector, table, market, status, detail. It is idempotent:
-a (run_id, connector, table) already recorded is not appended again.
+a (run_id, connector, table, market) already recorded is not appended again.
+Session 13: a connector that checks completeness per day records each day it
+could not write as its own row, status "gap", market "<market> <day>"; gap rows
+never count toward a failure streak (the table itself was written).
 
 `streaks` prints one line per (connector, table) whose last N recorded runs
 all failed, and writes them to runs/failure_streaks.txt for the workflow.
@@ -40,13 +43,13 @@ def load(path=CSV):
 
 def record(status_dir=STATUS_DIR, path=CSV):
     hist = load(path)
-    seen = set(zip(hist["run_id"], hist["connector"], hist["table"]))
+    seen = set(zip(hist["run_id"], hist["connector"], hist["table"], hist["market"]))
     new = []
     for f in sorted(glob.glob(os.path.join(status_dir, "*.json"))):
         with open(f, encoding="utf-8") as fh:
             s = json.load(fh)
         for r in s["results"]:
-            key = (s["run_id"], s["connector"], r["table"])
+            key = (s["run_id"], s["connector"], r["table"], r.get("market", ""))
             if key in seen:
                 continue
             new.append({"run_id": s["run_id"], "runner": s.get("runner", ""),
@@ -70,6 +73,7 @@ def streaks(n=3, path=CSV, runner=None):
     if runner:
         hist = hist[hist["runner"] == runner]
     out = []
+    hist = hist[hist["status"] != "gap"]  # a gap day is not a failed run of the table
     for (conn, table), g in hist.groupby(["connector", "table"]):
         last = g.sort_values("run_id").tail(n)
         if len(last) == n and (last["status"] == "failed").all():

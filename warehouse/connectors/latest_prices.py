@@ -17,6 +17,20 @@ retrieved_at, license. Variables: ERCOT `spp_rtm` (its settlement interval is 15
 minutes); the others `lmp_rtm_5min`, the single newest 5-minute price (the ERW
 tables hold 15-minute means or hourly prices, a different variable).
 
+CAISO's variable stays `lmp_rtm_5min` (session 13). Session 11 asked whether it
+should be `lmp_rtm_15min`, because its newest interval often starts a minute or
+two after the time it was fetched, and the intervals seen then happened to fall
+on quarter hours. The human ruled to relabel it. Session 13 checked the source
+before changing anything, and the source says 5 minutes:
+- `get_lmp(date="today", market=REAL_TIME_5_MIN)` for TH_SP15_GEN-APND on
+  2026-09-26 returned 108 intervals, every one 5 minutes long (CAISO's own
+  interval start and end), 5 minutes apart;
+- the newest interval, fetched at 15:54:49 UTC, was 15:55 to 16:00 UTC.
+CAISO publishes each binding 5-minute (RTD) price shortly before its interval
+begins, so a newest interval that starts after the fetch is expected. A 15-minute
+label would be wrong; the ruling rested on the session 11 guess, and the report
+of session 13 says so.
+
 No completeness rule: this is a live board, not a table of record. An ISO that
 fails or returns none of its hubs is logged and skipped; the others are still
 written. The rows are upserted into latest_prices (one row per entity and

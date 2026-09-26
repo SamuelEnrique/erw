@@ -172,12 +172,21 @@ class SupabaseBackend(Backend):
     def describe(self) -> str:
         return f"Supabase live set at {self.url} ({self.role} key)"
 
+    # Each table's key, the order pages are read in (session 13): without an ORDER BY,
+    # Postgres does not promise the same row order on every request, so paging by range
+    # could repeat some rows and skip others (seen as a flaky 27,702-row fetch).
+    ORDER = {"series": ["entity", "variable", "ts_utc"], "entities": ["entity_id"],
+             "events": ["event_id"], "catalogue": ["table_name"], "sources": ["source"],
+             "headers": ["line_no"], "latest_prices": ["entity", "variable"]}
+
     def _select(self, table: str, **eq) -> List[dict]:
         rows, start = [], 0
         while True:
             q = self.client.table(table).select("*")
             for k, v in eq.items():
                 q = q.eq(k, v)
+            for c in self.ORDER.get(table, []):
+                q = q.order(c)
             batch = q.range(start, start + self.PAGE - 1).execute().data
             rows += batch
             if len(batch) < self.PAGE:
