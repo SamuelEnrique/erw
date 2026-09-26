@@ -1,11 +1,13 @@
 // Energy Research Warehouse (ERW) site: full-page screenshots of every page, in a headless browser.
 //
 //   npm run build && npm start            (in another terminal: the site on http://localhost:3000)
-//   node scripts/screenshots.mjs [base-url]
+//   node scripts/screenshots.mjs [base-url] [--only name,name] [--ask "question"]
 //
 // Starts headless Chrome (CHROME_PATH, or the usual Windows, macOS and Linux locations) with the
 // DevTools protocol, loads each page at desktop width (1280) and phone width (390), waits for the
 // charts to draw, and writes screenshots/<name>-desktop.png and screenshots/<name>-mobile.png.
+// --only captures the named pages. --ask also types the question into /ask, submits it (one
+// real model call, on the server), waits for the answer and captures ask-answer-desktop.png.
 // Uses Node's built-in WebSocket (Node 22 or later); no other dependency.
 import { spawn } from "node:child_process";
 import fs from "node:fs";
@@ -13,7 +15,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const base = process.argv[2] ?? "http://localhost:3000";
+const argv = process.argv.slice(2);
+const flag = (f) => (argv.includes(f) ? argv[argv.indexOf(f) + 1] : undefined);
+const base = argv[0] && !argv[0].startsWith("--") ? argv[0] : "http://localhost:3000";
+const only = flag("--only")?.split(",");
+const askQuestion = flag("--ask");
 const outDir = path.join(here, "..", "screenshots");
 const PORT = 9333;
 const MAX_HEIGHT = 12000; // CSS px; taller pages (the data standard) are cut at this height, and the list says so
@@ -29,6 +35,7 @@ const PAGES = [
   ["data-method", "/data/methods/ercot_peak_premium"],
   ["explorer-ercot-peak-premium", "/explorer/ercot-peak-premium"],
   ["about", "/about"],
+  ["ask", "/ask"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],
@@ -104,7 +111,7 @@ async function main() {
   await page.send("Page.enable");
   const written = [];
   try {
-    for (const [name, route] of PAGES) {
+    for (const [name, route] of PAGES.filter(([n]) => !only || only.includes(n))) {
       for (const [label, width, scale] of WIDTHS) {
         await page.send("Emulation.setDeviceMetricsOverride", { width, height: 900, deviceScaleFactor: scale, mobile: label === "mobile" });
         const loaded = page.once("Page.loadEventFired");
@@ -124,6 +131,28 @@ async function main() {
         fs.writeFileSync(file, Buffer.from(shot.data, "base64"));
         written.push(`${path.basename(file)} (${width} x ${height} CSS px${full > height ? `, page is ${full} px, cut` : ""}) ${route}`);
       }
+    }
+    if (askQuestion) {
+      await page.send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+      const loaded = page.once("Page.loadEventFired");
+      await page.send("Page.navigate", { url: base + "/ask" });
+      await withTimeout(30000, loaded, "load /ask");
+      await sleep(1000);
+      // set the input the way React sees it, then submit the form
+      await page.send("Runtime.evaluate", { expression: `(() => { const i = document.getElementById("q"); const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set; set.call(i, ${JSON.stringify(askQuestion)}); i.dispatchEvent(new Event("input", { bubbles: true })); setTimeout(() => i.form.requestSubmit(), 100); })()` });
+      let done = false;
+      for (let i = 0; i < 180 && !done; i++) {
+        await sleep(1000);
+        const r = await page.send("Runtime.evaluate", { expression: "!!document.querySelector('section[aria-live]') || !!document.querySelector('[role=status]')", returnByValue: true });
+        done = r.result.value === true;
+      }
+      if (!done) throw new Error("no answer on /ask within 180 s");
+      await sleep(500);
+      const { cssContentSize } = await page.send("Page.getLayoutMetrics");
+      const height = Math.min(Math.ceil(cssContentSize.height), MAX_HEIGHT);
+      const shot = await withTimeout(30000, page.send("Page.captureScreenshot", { format: "png", captureBeyondViewport: true, clip: { x: 0, y: 0, width: 1280, height, scale: 1 } }), "ask answer");
+      fs.writeFileSync(path.join(outDir, "ask-answer-desktop.png"), Buffer.from(shot.data, "base64"));
+      written.push(`ask-answer-desktop.png (1280 x ${height} CSS px) /ask, after asking: ${askQuestion}`);
     }
   } finally {
     page.close();

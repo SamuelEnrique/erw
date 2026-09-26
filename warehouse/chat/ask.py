@@ -138,6 +138,10 @@ def unverified(answer, sources):
 
 # ------------------------------------------------------------------ the loop
 
+def nodash(text):
+    return text.replace(chr(0x2014), " - ").replace("  -  ", " - ")
+
+
 def pick_model(client):
     models = list(client.models.list())
     sonnets = [m for m in models if "sonnet" in m.id.lower()]
@@ -263,6 +267,11 @@ class Asker:
             record["second_answer"] = draft["answer"]
             break
         record.update(final)
+        # the ERW writes no em dashes in any file (CLAUDE.md): model text is normalised, as in
+        # warehouse/news/score.py; the numbers and every other character are unchanged
+        for k in ("answer", "first_answer", "second_answer"):
+            if isinstance(record.get(k), str):
+                record[k] = nodash(record[k])
         record.update({"tool_calls": len(calls), "calls": calls, "usage": usage,
                        "cost_usd": cost_usd(self.model, usage), "seconds": round(time.time() - t0, 1)})
         return record

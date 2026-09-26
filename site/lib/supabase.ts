@@ -59,6 +59,21 @@ export async function rest<T>(
   return rows;
 }
 
+/** The number of rows matching `query`, without reading them (PostgREST exact count). */
+export async function restCount(table: string, query: Record<string, string>, revalidate: number): Promise<number> {
+  const { base, key } = config();
+  const qs = new URLSearchParams({ ...query, limit: "1" });
+  const res = await fetch(`${base}/rest/v1/${table}?${qs}`, {
+    headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: "count=exact" },
+    next: { revalidate, tags: [table] },
+  });
+  if (!res.ok) throw new DataError(`Supabase ${table}: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+  const range = res.headers.get("content-range") ?? "";
+  const n = Number(range.split("/")[1]);
+  if (!Number.isFinite(n)) throw new DataError(`Supabase ${table}: no count in the response`);
+  return n;
+}
+
 /** Run a read and turn a failure into a reason, so a page section can say why it has no data. */
 export async function attempt<T>(f: () => Promise<T>): Promise<{ ok: true; data: T } | { ok: false; reason: string }> {
   try {

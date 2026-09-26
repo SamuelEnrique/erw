@@ -16,6 +16,7 @@ const NAV = [
   { href: "/digest", label: "Digest" },
   { href: "/explorer/ercot-peak-premium", label: "Explorer" },
   { href: "/data", label: "Data" },
+  { href: "/ask", label: "Ask" },
   { href: "/about", label: "About" },
 ];
 
