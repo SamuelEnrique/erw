@@ -1,0 +1,45 @@
+# Energy Research Warehouse (ERW): the 15-minute latest-prices loop (session 10).
+#
+# Runs only warehouse/connectors/latest_prices.py: the newest real-time interval
+# for each ISO hub and zone already in the ERW, upserted into Supabase's
+# latest_prices table (one row per entity and variable). No completeness rule and
+# no commit: nothing here writes to git or to Redivis. A missing ISO is logged and
+# skipped; the job fails only if no ISO returned a price or the upsert failed.
+#
+# GitHub runs scheduled workflows on a best-effort basis; a 15-minute cron can
+# start late or be skipped under load. The site shows each row's ts_utc and
+# retrieved_at, so a late run is visible, never hidden.
+name: latest prices
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: latest-prices
+  cancel-in-progress: true
+
+jobs:
+  latest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+
+      - name: Latest real-time prices to Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/connectors/latest_prices.py
