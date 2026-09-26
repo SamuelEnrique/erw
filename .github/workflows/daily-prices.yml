@@ -62,6 +62,32 @@ jobs:
     # 288 interval files. Three days usually finish well inside this.
     timeout-minutes: 180
     steps:
+      # Session 14: the first run on GitHub stopped 50 seconds in, at the Redivis restore,
+      # because REDIVIS_OWNER (and SUPABASE_URL, SUPABASE_SERVICE_KEY) were empty. Check
+      # every secret the run needs before doing any work, and name each missing one.
+      # PJM_API_KEY is not required: no step uses it yet (PJM prices need it later).
+      - name: Check required secrets
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
+          REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          missing=""
+          for name in EIA_API_KEY ANTHROPIC_API_KEY REDIVIS_API_TOKEN REDIVIS_OWNER SUPABASE_URL SUPABASE_SERVICE_KEY; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error title=Missing repository secret::$name is empty or not set (Settings, Secrets and variables, Actions, Repository secrets)"
+              missing="$missing $name"
+            fi
+          done
+          if [ -n "$missing" ]; then
+            echo "Missing repository secrets:$missing. Nothing was run."
+            exit 1
+          fi
+          echo "All 6 required secrets are set."
+
       - uses: actions/checkout@v4
         with:
           ref: main

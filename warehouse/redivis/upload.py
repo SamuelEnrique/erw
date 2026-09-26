@@ -331,6 +331,8 @@ def main(argv=None):
     g.add_argument("--reconcile", action="store_true")
     g.add_argument("--restore", action="store_true")
     ap.add_argument("--out-dir", help="--restore only: write here instead of warehouse/output (tests)")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="list the tables that would be uploaded, upload nothing (session 14, CI tests)")
     args = ap.parse_args(argv)
     if args.reconcile:
         return reconcile()
@@ -346,6 +348,10 @@ def main(argv=None):
         missing = [n for n in names if not os.path.exists(os.path.join(OUT, n + ".csv"))]
         if missing or not names:
             ap.error(f"no such table(s) in warehouse/output: {missing or 'none given'}")
+    if args.dry_run:
+        log(f"dry run, nothing uploaded; would upload {len(names)} tables"
+            + (f" and the metadata tables: {chr(44).join(names)}" if names else ""))
+        return 0
     return run_upload(names, include_metadata=bool(names) or args.all)
 
 

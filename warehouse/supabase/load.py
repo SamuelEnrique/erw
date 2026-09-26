@@ -309,23 +309,37 @@ def main(argv=None):
             lines = [ln.rstrip("\r\n")[1:].strip() for ln in f if ln.startswith("#")]
         hdr += [{"table_name": name, "line_no": i, "line": ln, "license": lic[name]}
                 for i, ln in enumerate(lines, 1)]
-    client.table("headers").delete().neq("table_name", "").execute()
+    # session 14: replace the headers of this run's tables only. A machine that holds some
+    # tables (the CI runner restores only the rolling windows) must not erase the others'.
+    names = list(selected)
+    for i in range(0, len(names), 50):
+        client.table("headers").delete().in_("table_name", names[i:i + 50]).execute()
     for i in range(0, len(hdr), BATCH):
         client.table("headers").insert(hdr[i:i + BATCH]).execute()
 
     # catalogue (coverage.csv) and sources, loaded whole
     live_names = set(selected)
-    cat = []
+    # session 14: a table in coverage.csv whose CSV is not on this machine (carried over by
+    # build_coverage.py on the CI runner) keeps its live-set fields as Supabase has them
+    on_disk = {os.path.splitext(f)[0] for f in os.listdir(OUT) if f.endswith(".csv")}
+    cat, cat_absent = [], []
     for r in cov.to_dict("records"):
         row = {("table_name" if k == "table" else k): (None if v == "" else v) for k, v in r.items()}
         for k in CAT_NUMERIC:
             row[k] = None if row.get(k) is None else int(row[k])
+        if r["table"] not in on_disk:
+            cat_absent.append(row)  # coverage fields only; in_live_set, columns, rows_sha256 kept
+            continue
         row["in_live_set"] = "yes" if r["table"] in live_names else "no"
         # the table's own columns, in CSV order (migration 003), so a reader returns exactly them
         row["columns"] = json.dumps(list(selected[r["table"]][0].columns)) if r["table"] in live_names else None
         row["rows_sha256"] = hashes.get(r["table"])  # null after a failed load, so the next run retries
         cat.append(row)
     client.table("catalogue").upsert(cat, on_conflict="table_name").execute()
+    if cat_absent:
+        client.table("catalogue").upsert(cat_absent, on_conflict="table_name").execute()
+        print(f"catalogue: {len(cat_absent)} tables not on this machine kept their live-set fields")
+    cat = cat + cat_absent
     client.table("catalogue").delete().not_.in_("table_name", list(cov["table"])).execute()
     reg = pd.read_csv(os.path.join(ROOT, LIVE["sources"]), dtype=str, keep_default_na=False)
     srcs = [{k: (None if v == "" else v) for k, v in r.items()} for r in reg.to_dict("records")]

@@ -34,6 +34,9 @@
 #   loaded (warehouse/supabase/load.py). (5) Last, the tables this run changed
 #   are uploaded to the Redivis draft (warehouse/redivis/upload.py --changed);
 #   nothing is ever released.
+#   Session 14: DRY_STORES=1 runs the same sequence but writes to no shared store:
+#   the Supabase load runs with --dry-run and the Redivis upload lists what it
+#   would upload. For testing the workflow logic in a fresh clone; CI never sets it.
 #
 # Writes runs/daily_status.txt (gitignored): one line per ISO, used by the
 # workflow for its commit message.
@@ -148,7 +151,11 @@ echo "== coverage"
 "$PYTHON" warehouse/metadata/build_coverage.py || exit 1
 
 echo "== Supabase live set (session 10; warehouse/supabase/live_set.yaml)"
-run_other supabase_load "$PYTHON" warehouse/supabase/load.py
+if [ "${DRY_STORES:-0}" = "1" ]; then
+  run_other supabase_load "$PYTHON" warehouse/supabase/load.py --dry-run
+else
+  run_other supabase_load "$PYTHON" warehouse/supabase/load.py
+fi
 
 echo "== Energy Digest (docs/digest/)"
 run_other news_brief "$PYTHON" warehouse/news/brief.py
@@ -161,6 +168,10 @@ echo "== prune raw files older than 14 days (manifests kept)"
 "$PYTHON" warehouse/prune_raw.py --days 14 || exit 1
 
 echo "== Redivis: upload the tables this run changed, to the draft only (session 10)"
-run_other redivis_upload "$PYTHON" warehouse/redivis/upload.py --changed
+if [ "${DRY_STORES:-0}" = "1" ]; then
+  run_other redivis_upload "$PYTHON" warehouse/redivis/upload.py --changed --dry-run
+else
+  run_other redivis_upload "$PYTHON" warehouse/redivis/upload.py --changed
+fi
 
 echo "== done"

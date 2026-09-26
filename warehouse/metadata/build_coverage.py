@@ -21,6 +21,15 @@ sector (session 7) is one or more of SECTORS, ";"-separated, set per table by
 the first matching rule in SECTOR_RULES. A table no rule matches fails the build:
 every new table gets a sector on purpose, not by default.
 
+Tables not on this machine (session 14): coverage describes the warehouse, and
+Redivis holds every table, but a machine may hold only some of them. The CI
+runner starts without the tables (they left git in session 9) and restores only
+the rolling-window ones, so the ERCOT yearly history, the derived tables and, on
+most days, the queues are absent there. A table that is in the previous
+coverage.csv but not in warehouse/output is carried over unchanged (its CSV row
+and its line in docs/coverage.md, with its own last_run), and named in a note
+under the table; it is never dropped. Retiring a table is a human edit.
+
 license (session 5 ruling) is "internal" if any of the table's sources is
 licensed for internal use only, otherwise "public". Per-source licenses come
 from warehouse/metadata/sources.csv, the source registry the connectors keep;
@@ -246,10 +255,35 @@ def apply_derived(rows):
     return rows
 
 
+def carried_over(present):
+    """Rows of the previous coverage for tables not in warehouse/output on this machine:
+    (CSV rows, {table: its line in docs/coverage.md})."""
+    if not os.path.exists(CSV):
+        return [], {}
+    prev = pd.read_csv(CSV, dtype=str, keep_default_na=False)
+    gone = prev[~prev["table"].isin(present)].to_dict("records")
+    md = {}
+    if os.path.exists(DOC):
+        with open(DOC, encoding="utf-8") as f:
+            for line in f:
+                m = re.match(r"^\| `([a-z0-9_]+)` \|", line)
+                if m:
+                    md[m.group(1)] = line.rstrip("\n")
+    lost = [r["table"] for r in gone if r["table"] not in md]
+    if lost:
+        raise ValueError(f"cannot carry over {lost}: no line for them in {os.path.relpath(DOC, ROOT)}")
+    return gone, md
+
+
 def main():
     licenses = load_licenses()
     rows = apply_derived([table_row(p, licenses) for p in sorted(glob.glob(os.path.join(OUT, "*.csv")))])
-    pd.DataFrame(rows, columns=CSV_COLS).to_csv(CSV, index=False, lineterminator="\n")
+    carried, carried_md = carried_over({r["table"] for r in rows})
+    if carried:
+        print(f"carried over from the previous coverage (not in warehouse/output here): "
+              f"{len(carried)} tables: {', '.join(r['table'] for r in carried)}")
+    out_rows = sorted([{c: r[c] for c in CSV_COLS} for r in rows] + carried, key=lambda r: r["table"])
+    pd.DataFrame(out_rows, columns=CSV_COLS).to_csv(CSV, index=False, lineterminator="\n")
 
     md_cols = ["Table", "ISO", "Market", "Variable", "Nodes", "Interval",
                "First interval (UTC)", "Last interval (UTC)", "Rows", "Source report",
@@ -275,7 +309,12 @@ def main():
         "| " + " | ".join(md_cols) + " |",
         "|" + "|".join("---" for _ in md_cols) + "|",
     ]
-    for r in rows:
+    built = {r["table"]: r for r in rows}
+    for name in sorted(list(built) + [r["table"] for r in carried]):
+        if name not in built:
+            lines.append(carried_md[name])
+            continue
+        r = built[name]
         cells = [f"`{r['table']}`", r["iso"], r["market"], r["_variable"],
                  f"{r['n_nodes']}: {r['_nodes']}", r["interval"],
                  r["ts_min"].replace("T", " ").rstrip("Z"), r["ts_max"].replace("T", " ").rstrip("Z"),
@@ -286,13 +325,19 @@ def main():
                if not glob.glob(os.path.join(OUT, f"{iso}_{m}_*.csv"))]
     missing += [f"EIA-930 {BA_LABEL[b]} {fam}" for b in BA_LABEL for fam in ("demand", "generation")
                 if not os.path.exists(os.path.join(OUT, f"eia930_{b}_{fam}.csv"))]
+    if carried:
+        lines += ["", f"Carried over unchanged from the previous coverage, because this run's "
+                  f"`warehouse/output/` does not hold them (the daily CI runner restores only the "
+                  f"rolling-window tables; every table is on Redivis): {len(carried)} tables, "
+                  + ", ".join(f"`{r['table']}`" for r in carried) + "."]
     lines += ["", "Markets and series with no table: " + (", ".join(missing) if missing else "none") +
               ". PJM prices need a PJM API key, which the ERW does not have yet. Why anything else "
               "is missing is in `warehouse/metadata/run_status.csv` and the connector's run log in "
               "`warehouse/output/logs/`.", ""]
     with open(DOC, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines))
-    print(f"wrote {os.path.relpath(DOC, ROOT)} and {os.path.relpath(CSV, ROOT)}: {len(rows)} tables")
+    print(f"wrote {os.path.relpath(DOC, ROOT)} and {os.path.relpath(CSV, ROOT)}: {len(out_rows)} tables "
+          f"({len(rows)} built here, {len(carried)} carried over)")
 
 
 if __name__ == "__main__":
