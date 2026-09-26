@@ -70,7 +70,7 @@ One row per physical or corporate thing: a plant, a project, a datacenter, a cou
 | `lat` | no | float | WGS84 decimal degrees |
 | `lon` | no | float | WGS84 decimal degrees |
 | `capacity_mw` | no | float | Nameplate capacity in MW, as the source states it (say which rating in the connector) |
-| `status` | no | string | Source status, lowercased: `operating`, `planned`, `under_construction`, `retired`, `withdrawn` |
+| `status` | no | string | One of `operating`, `planned`, `under_construction`, `retired`, `withdrawn`, `active`, `completed`, `suspended` (Decision 20). The source's own status goes in its own column (`eia_status`, `iso_status`) |
 | `status_date` | no | date | Date the status took effect, or was reported if the effective date is unknown (say which in the connector) |
 | `operator` | no | string | Operator or owner name as the source writes it. An `entity_id` when the operator is itself in an entities table |
 | `source` | yes | string | `organization:report_id` |
@@ -147,10 +147,23 @@ What was chosen, and why:
 
 19. **Table names on the price board** (session 7). The session 7 prompt asked for a table `capacity_prices`; the naming rule needs three parts and a publisher first, so PJM's is `pjm_rpm_capacity_prices` with the variable the prompt names (`capacity_price_usd_per_mw_day`) and entity `iso:zone` (`pjm:RTO`, `pjm:COMED`). ISO-NE and MISO would get `isone_fca_capacity_prices` and `miso_pra_capacity_prices` with the same variable. Series freq for auctions: `P1Y` (capacity, ts_utc at the delivery year's first day) and `P3M` (quarterly carbon auctions, ts_utc at the auction date, or the first of the month where only the month is published).
 
+20. **Entities: first tables and validator checks** (session 8). `eia860m_*_generators` (EIA-860M) and `<iso>_interconnection_queue` (gridstatus) are the first `entities` tables. The validator now enforces the shape:
+    - the standard columns first, in order; `entity_id`, `entity_type` and `source` never empty; `name` may be empty only where the source gives no name (MISO and SPP queues), and the count is reported;
+    - `entity_id` is `namespace:id` and unique; `entity_type` is in the vocabulary above;
+    - `geo` is ISO 3166; `lat` in [-90, 90] and `lon` in [-180, 180], numeric, and both or neither;
+    - `capacity_mw` and every `*_mw` column numeric. A negative value is reported, not blocked: ISO queues list repowering requests as a net reduction (ERCOT `18INR0064`, -7.2 MW), and the ERW keeps what the source states;
+    - `status` in the vocabulary `operating`, `planned`, `under_construction`, `retired`, `withdrawn`, `active`, `completed`, `suspended`; empty where the source gives none (34 SPP affected-system requests);
+    - `status_date` and every `*_date` column `YYYY-MM-DD` and a real date; `source_url` http(s).
+    Tables are named `source_product` with at least two parts (like events), since they have no market.
+    Reason: the queue harmonization the session 8 prompt asks for (active, withdrawn, completed, suspended) needs the last three statuses; `operating` and `planned` alone cannot say that a queue position was withdrawn or finished.
+
+21. **Entities tables are snapshots** (session 8). An inventory or a queue is one vintage of the source: a new vintage replaces the table's rows (`iso_prices.write_snapshot`) instead of merging, because a generator that retired or a queue position that was withdrawn must leave the table it left at the source. Earlier vintages remain in git history and the raw files. Each row carries `vintage` (EIA-860M: the inventory month; queues: the retrieval date) and `retrieved_at`. EIA-860M runs daily but writes only when EIA's newest published vintage changes; the queues run weekly (Mondays, UTC).
+
+22. **Units for session 8.** `dwt` (deadweight tonnage, metric tons) joins the unit vocabulary for IMF PortWatch transit capacity. `USD/MWh` is reused for EIA retail electricity prices, converted from EIA's cents per kilowatt-hour by x10 (stated in the table header).
+
 Deferred to a later version:
 
 - A controlled vocabulary for `variable`, `entity_type`, `event_type` and `status`, enforced by the validator the way the IRW enforces its tag vocabulary.
-- Validator checks for `entities` (events checks exist since session 6).
 - An entity crosswalk between namespaces (the same plant in EIA-860 and in an ISO queue).
 - Revision history as a first-class concept, and a rule for which vintage the live layer serves.
 - Parquet alongside CSV for large tables, and a size limit that forces it.

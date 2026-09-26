@@ -1,0 +1,7 @@
+  skip 2026-12: a future month, https://www.eia.gov/electricity/data/eia860m/xls/december_generator2026.xlsx
+  skip 2026-11: a future month, https://www.eia.gov/electricity/data/eia860m/archive/xls/november_generator2026.xlsx
+  skip 2026-10: a future month, https://www.eia.gov/electricity/data/eia860m/xls/october_generator2026.xlsx
+  2026-09 not published yet: HTTP 200, text/html; charset=UTF-8, https://www.eia.gov/electricity/data/eia860m/archive/xls/september_generator2026.xlsx
+  newest published vintage 2026-08: https://www.eia.gov/electricity/data/eia860m/xls/august_generator2026.xlsx (13955142 bytes, last-modified Wed, 23 Sep 2026 22:24:21 GMT)
+vintage 2026-08 already in the tables; nothing written
+done, failures=0

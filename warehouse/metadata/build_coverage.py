@@ -64,6 +64,13 @@ SECTOR_RULES = [
     (r"^fred_daily_spot_prices$", "oil;gas"),
     (r"^fred_imf_commodity_prices$", "gas;lng;coal;uranium;metals"),
     (r"^news_", "news"),
+    # session 8
+    (r"^eia860m_(operating|planned|retired)_generators$", "power"),
+    (r"^[a-z]+_interconnection_queue$", "power"),
+    (r"^eia_retail_electricity_prices$", "power"),
+    (r"^eia_crude_(first_purchase_prices|imports_by_country)$", "oil"),
+    (r"^eia_padd_crude_pipeline_flows$", "oil"),
+    (r"^portwatch_chokepoint_transits$", "oil;lng"),
 ]
 
 
@@ -78,7 +85,7 @@ def iso_of(table):
     parts = table.split("_")
     if parts[0] == "eia930":
         return BA_LABEL.get(parts[1], parts[1].upper())
-    if parts[0] in ("eia", "carb", "rggi", "fred"):
+    if parts[0] in ("eia", "carb", "rggi", "fred", "eia860m", "portwatch"):
         return "none"  # not an ISO series ("n/a" would read back as missing)
     return ISO_LABEL.get(parts[0], parts[0])
 
@@ -135,8 +142,37 @@ def events_row(path, header, df, licenses, status):
     }
 
 
+def entities_row(path, header, df, licenses, status):
+    """Coverage for an entities table (session 8): a snapshot, so ts_min and ts_max are the
+    retrieval time of the snapshot; n_nodes counts entities."""
+    table = os.path.splitext(os.path.basename(path))[0]
+    got = pd.to_datetime(df["retrieved_at"], format=erw_validate.TS_FMT, utc=True)
+    sources = sorted(df["source"].unique())
+    unknown = [s for s in sources if s not in licenses]
+    if unknown:
+        raise ValueError(f"{table}: sources {unknown} are not in {SOURCES}; cannot set its license")
+    license_ = declared_license(header) or (
+        "internal" if any(licenses[s] == "internal" for s in sources) else "public")
+    vint = sorted(df["vintage"].unique()) if "vintage" in df else []
+    return {
+        "table": table, "iso": iso_of(table), "market": "", "n_nodes": int(df["entity_id"].nunique()),
+        "interval": "snapshot", "ts_min": got.min().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "ts_max": got.max().strftime("%Y-%m-%dT%H:%M:%SZ"), "n_rows": len(df),
+        "source_report": ";".join(sources), "last_run": last_run(header),
+        "validator_status": status, "license": license_, "sector": sector_of(table),
+        "_variable": "entities: " + ", ".join(sorted(df["entity_type"].unique()))
+                     + (f"; vintage {', '.join(vint)}" if vint else ""),
+        "_nodes": f"{df['entity_id'].nunique()} entities",
+    }
+
+
 def table_row(path, licenses):
     header, df = erw_validate.read(path)
+    if list(df.columns[:2]) == ["entity_id", "entity_type"]:
+        report = erw_validate.validate(path)
+        n_err, n_warn = len(report["errors"]), len(report["warnings"])
+        status = "pass" if not n_err else f"blocked ({n_err} errors)"
+        return entities_row(path, header, df, licenses, status + (f", {n_warn} warnings" if n_warn else ""))
     if "event_id" in df.columns:
         report = erw_validate.validate(path)
         n_err, n_warn = len(report["errors"]), len(report["warnings"])

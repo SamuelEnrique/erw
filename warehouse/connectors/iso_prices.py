@@ -549,6 +549,34 @@ def write_csv(series, name, header_lines, log, cols=None, key=None, time_col="ts
     return path
 
 
+def write_snapshot(table, name, header_lines, log, cols):
+    """Write a snapshot table (session 8, entities): the whole table is one vintage of the
+    source, so a new vintage replaces the rows instead of merging with them. A thing the
+    source dropped (a generator that retired, a withdrawn queue position) must leave the
+    table. Earlier snapshots stay in git history and in the raw files."""
+    if list(table.columns) != cols:
+        raise RuntimeError(f"{name}: columns {list(table.columns)} are not {cols}")
+    if table.empty:
+        raise RuntimeError(f"{name}: an empty snapshot is not written")
+    path = os.path.join(OUT_DIR, name + ".csv")
+    before = 0
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            before = sum(1 for line in f if not line.startswith("#")) - 1
+    line = (f"File holds {len(table)} rows, one snapshot; the previous file held {before} rows. "
+            "Per row, source, source_url and retrieved_at say where it came from.")
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8", newline="") as f:
+        for h in list(header_lines) + [line]:
+            f.write("# " + h + "\n")
+        table.to_csv(f, index=False, lineterminator="\n")
+    os.replace(tmp, path)
+    summary = f"{name}.csv: rows={len(table)} (snapshot; previous file {before} rows)"
+    print(summary)
+    log("  " + summary)
+    return path
+
+
 def header(iso_label, title, run_id, iso, start, end, tz, sources, notes, fwd=()):
     lines = [
         f"Energy Research Warehouse (ERW): {title}",

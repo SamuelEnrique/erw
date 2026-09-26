@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """erw_validate: the Energy Research Warehouse (ERW) format validator, v0.
 
-Checks a CSV against the `series` shape of docs/datastandard.md (v0). Modeled
+Checks a CSV against the `series`, `events` (session 6) or `entities` (session 8)
+shape of docs/datastandard.md (v0). Modeled
 on the IRW's irw_validate (github.com/ben-domingue/irw): one validator, a
 command line, and an exit code that a pipeline can gate on.
 
@@ -32,7 +33,8 @@ REQUIRED_BY_VALIDATOR = ["unit", "source"]
 UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "pct",
          # session 7 price board (docs/datastandard.md Decision 17)
          "USD/gal", "USD/short_ton", "USD/t", "USD/lb", "USD/MW-day", "USD/tCO2", "USD/Mcf",
-         "count", "kbbl", "kbbl/d", "MMcf", "bcf", "bcf/d"}
+         "count", "kbbl", "kbbl/d", "MMcf", "bcf", "bcf/d",
+         "dwt"}  # session 8: IMF PortWatch deadweight tonnage (Decision 22)
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
@@ -115,6 +117,102 @@ def validate_events(df, header, err, warn, info):
                 f"sources={df['source'].nunique()}")
 
 
+ENTITIES_COLS = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacity_mw", "status",
+                 "status_date", "operator", "source"]
+ENTITIES_REQUIRED = ["entity_id", "entity_type", "name", "source"]
+ENTITY_TYPES = {"plant", "generator", "project", "datacenter", "substation", "utility", "company",
+                "counterparty"}
+# docs/datastandard.md shape (b) and Decision 20: the source's own status stays in its own column
+ENTITY_STATUS = {"operating", "planned", "under_construction", "retired", "withdrawn", "active",
+                 "completed", "suspended"}
+
+
+def validate_entities(df, header, err, warn, info):
+    """The entities shape of docs/datastandard.md (session 8)."""
+    cols = list(df.columns)
+    if not header:
+        warn("provenance_header", "no '#' provenance header lines; connector output must have them")
+    missing = [c for c in ENTITIES_REQUIRED if c not in cols]
+    if missing:
+        err("required_columns", f"missing required entities column(s): {', '.join(missing)}")
+        return
+    present = [c for c in cols if c in ENTITIES_COLS]
+    if present != [c for c in ENTITIES_COLS if c in cols] or cols[:len(present)] != present:
+        err("required_order", f"entities standard columns must come first, in the order "
+            f"{ENTITIES_COLS}; got {cols[:len(ENTITIES_COLS)]}")
+    if len(set(cols)) != len(cols):
+        err("duplicate_columns", "a column name appears more than once")
+    if len(df) == 0:
+        err("empty", "no data rows")
+        return
+    for c in ENTITIES_REQUIRED:
+        if c == "name":
+            continue  # a source may list a thing without a name (queue positions); counted below
+        blank = df[c].str.strip() == ""
+        if blank.any():
+            err(f"{c}_present", f"{int(blank.sum())} row(s) with empty '{c}'")
+    unnamed = int((df["name"].str.strip() == "").sum())
+    if unnamed:
+        info.append(f"rows without a name (the source gives none): {unnamed}")
+    bad = df["entity_id"][~df["entity_id"].str.match(ENTITY_RE)]
+    if len(bad):
+        err("entity_id_format", f"{len(bad)} entity_id value(s) not namespace:id: {examples(bad.unique())}")
+    dup = df["entity_id"].duplicated(keep=False)
+    if dup.any():
+        err("duplicate_key", f"{int(dup.sum())} rows share an entity_id, e.g. "
+            f"{examples(df.loc[dup, 'entity_id'].unique())}")
+    bad = df["entity_type"][~df["entity_type"].isin(ENTITY_TYPES)]
+    if len(bad):
+        err("entity_type_vocabulary", f"{len(bad)} entity_type value(s) not in {sorted(ENTITY_TYPES)}: "
+            f"{examples(bad.unique())}")
+    if "geo" in cols:
+        g = df["geo"][df["geo"].str.strip() != ""]
+        bad = g[~g.str.match(GEO_RE)]
+        if len(bad):
+            err("geo_format", f"{len(bad)} geo value(s) not ISO 3166: {examples(bad.unique())}")
+    for c, lo, hi in (("lat", -90, 90), ("lon", -180, 180)):
+        if c not in cols:
+            continue
+        v = df[c][df[c].str.strip() != ""]
+        num = pd.to_numeric(v, errors="coerce")
+        if num.isna().any():
+            err(f"{c}_numeric", f"{int(num.isna().sum())} non-numeric {c} value(s): {examples(v[num.isna()].unique())}")
+        out = num[(num < lo) | (num > hi)]
+        if len(out):
+            err(f"{c}_range", f"{len(out)} {c} value(s) outside [{lo}, {hi}]: {examples(out.unique())}")
+    if "lat" in cols and "lon" in cols:
+        half = (df["lat"].str.strip() == "") != (df["lon"].str.strip() == "")
+        if half.any():
+            err("lat_lon_pair", f"{int(half.sum())} row(s) with lat or lon but not both")
+    for c in [c for c in cols if c == "capacity_mw" or c.endswith("_mw")]:
+        v = df[c][df[c].str.strip() != ""]
+        num = pd.to_numeric(v, errors="coerce")
+        if num.isna().any():
+            err(f"{c}_numeric", f"{int(num.isna().sum())} non-numeric {c} value(s): {examples(v[num.isna()].unique())}")
+        if (num < 0).any():  # real: queue requests for a net reduction (repowering), as the ISO states them
+            info.append(f"{c}: {int((num < 0).sum())} negative value(s), kept as the source states them")
+    if "status" in cols:
+        s = df["status"][df["status"].str.strip() != ""]
+        bad = s[~s.isin(ENTITY_STATUS)]
+        if len(bad):
+            err("status_vocabulary", f"{len(bad)} status value(s) not in {sorted(ENTITY_STATUS)}: "
+                f"{examples(bad.unique())}")
+    for c in [c for c in cols if c == "status_date" or c.endswith("_date")]:
+        v = df[c][df[c].str.strip() != ""]
+        bad = v[~v.str.match(DATE_RE)]
+        if len(bad):
+            err(f"{c}_format", f"{len(bad)} {c} value(s) not YYYY-MM-DD: {examples(bad.unique())}")
+        elif len(v) and pd.to_datetime(v, format="%Y-%m-%d", errors="coerce").isna().any():
+            err(f"{c}_parse", f"{c} holds impossible dates")
+    if "source_url" in cols:
+        not_http = df["source_url"][~df["source_url"].str.match(r"^https?://")]
+        if len(not_http):
+            err("source_url_format", f"{len(not_http)} source_url value(s) not http(s): "
+                f"{examples(not_http.unique())}")
+    info.append(f"entities={len(df)} entity_types={sorted(df['entity_type'].unique())} "
+                f"status={dict(df['status'].value_counts()) if 'status' in cols else {}}")
+
+
 class BadInput(Exception):
     pass
 
@@ -166,6 +264,13 @@ def validate(path):
     cols = list(df.columns)
     info.append(f"rows={len(df)} columns={len(cols)} header_comment_lines={len(header)}")
 
+    if cols[:2] == ["entity_id", "entity_type"]:  # the entities shape (session 8)
+        if not EVENTS_NAME_RE.match(stem):
+            err("file_name_pattern", f"'{stem}' is not source_product (lowercase letters, digits, "
+                "underscores, at least two parts)")
+        validate_entities(df, header, err, warn, info)
+        return {"file": path, "standard": STANDARD, "shape": "entities",
+                "errors": errors, "warnings": warnings, "info": info}
     if "event_id" in cols:  # the events shape (session 6)
         if not EVENTS_NAME_RE.match(stem):
             err("file_name_pattern", f"'{stem}' is not domain_product (lowercase letters, digits, "

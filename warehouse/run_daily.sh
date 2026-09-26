@@ -91,6 +91,16 @@ run_other capacity_prices "$PYTHON" warehouse/connectors/capacity_prices.py
 run_other carbon_auctions "$PYTHON" warehouse/connectors/carbon_auctions.py
 run_other fred_series "$PYTHON" warehouse/connectors/fred_series.py
 
+# Session 8 entities. EIA-860M generator inventory: runs every day, writes only when EIA's
+# newest published monthly vintage differs from the one in the tables (a monthly cadence).
+run_other eia860 "$PYTHON" warehouse/connectors/eia860.py
+# ISO interconnection queues: weekly, on Mondays (UTC), or any day with QUEUES=1
+if [ "$(date -u +%u)" = "1" ] || [ "${QUEUES:-0}" = "1" ]; then
+  run_other iso_queues "$PYTHON" warehouse/connectors/iso_queues.py
+else
+  echo "iso_queues: weekly (Mondays UTC); skipped today, QUEUES=1 to force"
+fi
+
 # News (session 6): ingest the feeds, then score new stories with the Claude API
 # (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.
 run_other news_ingest "$PYTHON" warehouse/news/ingest.py

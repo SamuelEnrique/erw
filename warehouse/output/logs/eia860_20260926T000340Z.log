@@ -1,0 +1,19 @@
+  skip 2026-12: a future month, https://www.eia.gov/electricity/data/eia860m/xls/december_generator2026.xlsx
+  skip 2026-11: a future month, https://www.eia.gov/electricity/data/eia860m/archive/xls/november_generator2026.xlsx
+  skip 2026-10: a future month, https://www.eia.gov/electricity/data/eia860m/xls/october_generator2026.xlsx
+  2026-09 not published yet: HTTP 200, text/html; charset=UTF-8, https://www.eia.gov/electricity/data/eia860m/archive/xls/september_generator2026.xlsx
+  newest published vintage 2026-08: https://www.eia.gov/electricity/data/eia860m/xls/august_generator2026.xlsx (13955142 bytes, last-modified Wed, 23 Sep 2026 22:24:21 GMT)
+eia860m_operating_generators:
+  Operating: 28377 generators (Inventory of Operating Generators as of August 2026)
+  Operating_PR: 228 generators (Inventory of Operating Generators as of August 2026 - Puerto Rico)
+  eia860m_operating_generators.csv: rows=28605 (snapshot; previous file 0 rows)
+eia860m_planned_generators:
+  Planned: 2311 generators (Inventory of Planned Generators as of August 2026)
+  Planned_PR: 5 generators (Inventory of Planned Generators as of August 2026 - Puerto Rico)
+  eia860m_planned_generators.csv: rows=2316 (snapshot; previous file 0 rows)
+eia860m_retired_generators:
+  Retired: 7324 generators (Inventory of Retired Generators as of August 2026)
+  Retired_PR: 10 generators (Inventory of Retired Generators as of August 2026 - Puerto Rico)
+  retired: 249 of 7334 retired in 2025 or 2026
+  eia860m_retired_generators.csv: rows=249 (snapshot; previous file 0 rows)
+done, failures=0
