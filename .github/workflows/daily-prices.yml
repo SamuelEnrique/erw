@@ -23,8 +23,10 @@
 #      nothing is committed.
 #   4. regenerates docs/coverage.md and warehouse/metadata/coverage.csv, then
 #      ingests and scores news and writes the Energy Digest (docs/digest/)
-#   5. commits the updated CSVs, run logs and coverage directly to main.
-#      Raw source files (warehouse/raw/) are gitignored and never committed.
+#   5. commits metadata (coverage, sources, run status), docs and the digests
+#      directly to main. Never outputs (session 9 ruling): the tables in
+#      warehouse/output, their run logs and the raw source files stay out of
+#      git; a hosted Postgres becomes the live store (warehouse/output/README.md).
 #
 # Why this commits to main directly, unlike the IRW's weekly pull request:
 # the job only records what the ISOs published, the validator is the gate, and
@@ -94,7 +96,7 @@ jobs:
             runs/
           retention-days: 90
 
-      - name: Commit the updated tables
+      - name: Commit metadata, docs and digests (never outputs)
         run: |
           set -euo pipefail
           date="$(date -u +%F)"
@@ -110,8 +112,9 @@ jobs:
           if [ -n "$failed" ]; then
             echo "::warning::markets not written today: $failed"
           fi
-          # Only the tracked outputs; warehouse/raw/ is gitignored and stays out.
-          git add -- warehouse/output docs/coverage.md warehouse/metadata/coverage.csv                      warehouse/metadata/run_status.csv warehouse/metadata/sources.csv docs/digest
+          # Session 9 ruling: metadata, docs and digests only; never warehouse/output
+          # (tables, run logs) or warehouse/raw/.
+          git add -- docs/coverage.md docs/digest warehouse/metadata/coverage.csv                      warehouse/metadata/run_status.csv warehouse/metadata/sources.csv
           if git diff --cached --quiet; then
             echo "No table changed today; nothing to commit."
             exit 0
@@ -119,7 +122,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Daily prices $date: ok: ${ok:-none}; failed: ${failed:-none}" \
-                     -m "Automated run of .github/workflows/daily-prices.yml (last 3 operating days, merged by entity, variable, ts_utc). All tables passed erw_validate."
+                     -m "Automated run of .github/workflows/daily-prices.yml. Metadata, docs and digests only; the tables stay out of git (session 9). All tables passed erw_validate."
           # main may have moved while the job ran
           git pull --rebase origin main
           git push origin HEAD:main
