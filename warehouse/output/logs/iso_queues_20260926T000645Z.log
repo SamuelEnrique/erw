@@ -1,0 +1,32 @@
+ercot_interconnection_queue: gridstatus Ercot.get_interconnection_queue()
+  fetched 200 https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId=15933&_1790381205 -> raw 20260926T000646.296300Z_00001_IceDocListJsonWS_reportTypeId_15933__1790381205
+  fetched 200 https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1269363208 -> raw 20260926T000647.398116Z_00002_mirDownload_doclookupId_1269363208
+  1778 queue positions: active 1198, completed 580
+  ercot_interconnection_queue.csv: rows=1778 (snapshot; previous file 0 rows)
+caiso_interconnection_queue: gridstatus CAISO.get_interconnection_queue()
+  fetched 200 https://www.caiso.com/documents/publicqueuereport.xlsx -> raw 20260926T000648.624127Z_00003_publicqueuereport.xlsx
+  2278 queue positions: withdrawn 1764, active 262, completed 252
+  caiso_interconnection_queue.csv: rows=2278 (snapshot; previous file 0 rows)
+nyiso_interconnection_queue: gridstatus NYISO.get_interconnection_queue()
+  fetched 200 https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx -> raw 20260926T000650.564659Z_00004_NYISO-Interconnection-Queue.xlsx
+  1350 rows with no queue id and no data dropped (blank source rows)
+  4 rows share 2 queue ids; ids get :<n> in the ISO's row order
+  1814 queue positions: withdrawn 1453, active 210, completed 151
+  nyiso_interconnection_queue.csv: rows=1814 (snapshot; previous file 0 rows)
+miso_interconnection_queue: gridstatus MISO.get_interconnection_queue()
+  fetched 200 https://www.misoenergy.org/api/giqueue/getprojects -> raw 20260926T000651.827086Z_00005_getprojects
+  2 rows share 1 queue ids; ids get :<n> in the ISO's row order
+  3870 queue positions: withdrawn 2148, active 1165, completed 557
+  miso_interconnection_queue.csv: rows=3870 (snapshot; previous file 0 rows)
+spp_interconnection_queue: gridstatus SPP.get_interconnection_queue()
+  fetched 200 https://opsportal.spp.org/Studies/GenerateSummaryCSV -> raw 20260926T000653.066683Z_00006_GenerateSummaryCSV
+  34 rows have no status in the ISO's file; status left empty, e.g. ['ASGI-2024-024', 'ASGI-2024-023', 'ASGI-2024-020', 'ASGI-2024-019', 'ASGI-2024-018']
+  3076 queue positions: withdrawn 2053, active 629, completed 336,  34, suspended 24
+  spp_interconnection_queue.csv: rows=3076 (snapshot; previous file 0 rows)
+isone_interconnection_queue: gridstatus ISONE.get_interconnection_queue()
+  fetched 200 https://irtt.iso-ne.com/reports/external?AspxAutoDetectCookieSupport=1 -> raw 20260926T000729.103479Z_00007_external_AspxAutoDetectCookieSupport_1
+  242 rows share 92 queue ids; ids get :<n> in the ISO's row order
+  1751 queue positions: withdrawn 1329, completed 363, active 59
+  isone_interconnection_queue.csv: rows=1751 (snapshot; previous file 0 rows)
+pjm: PJM_API_KEY is empty; PJM queue skipped
+done, failures=0
