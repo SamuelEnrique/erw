@@ -17,7 +17,8 @@ from typing import Dict, List, Optional, Tuple
 import pandas as pd
 
 COVERAGE_COLS = ["table", "iso", "market", "n_nodes", "interval", "ts_min", "ts_max",
-                 "n_rows", "source_report", "last_run", "validator_status", "license", "sector"]
+                 "n_rows", "source_report", "last_run", "validator_status", "license", "sector",
+                 "derived"]
 SOURCE_COLS = ["source", "publisher", "report", "report_url", "document_list", "license",
                "tables", "first_seen", "last_seen"]
 

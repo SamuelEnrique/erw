@@ -74,7 +74,7 @@ def test_coverage_has_one_row_per_table_and_the_documented_columns():
     cov = erw.coverage()
     assert list(cov.columns) == ["table", "iso", "market", "n_nodes", "interval", "ts_min",
                                  "ts_max", "n_rows", "source_report", "last_run",
-                                 "validator_status", "license", "sector"]
+                                 "validator_status", "license", "sector", "derived"]
     assert set(cov["license"]) <= {"public", "internal"}
     assert sorted(cov["table"]) == TABLES
     assert str(cov["ts_min"].dtype).startswith("datetime64") and cov["ts_min"].dt.tz is not None
@@ -123,7 +123,8 @@ def test_filter_by_iso_market_variable_node_and_time():
     ercot = sorted(cov.loc[cov["iso"] == "ERCOT", "table"])
     assert erw.filter(iso="ercot") == ercot
     assert erw.filter(iso="ERCOT", market="dam") == ERCOT_DAM  # live table and yearly history
-    assert erw.filter(market="ercot_rtm") == ERCOT_RTM
+    # the live table, the yearly history and the derived peak-premium tables (session 9)
+    assert erw.filter(market="ercot_rtm") == sorted(ERCOT_RTM + [t for t in TABLES if t.startswith("ercot_peak_premium_")])
     assert set(erw.filter(market="rtm")) == set(cov.loc[cov["market"].str.endswith("_rtm"), "table"])
     assert erw.filter(variable="spp_rtm") == ERCOT_RTM
     ercot_prices = sorted(cov.loc[cov["market"].str.startswith("ercot_"), "table"])
@@ -168,6 +169,8 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
                  "rggi": "Regional Greenhouse Gas Initiative",
                  "fred": "Federal Reserve Bank of St. Louis",
                  "portwatch": "International Monetary Fund"}[org]
+    if name.startswith("ercot_peak_premium_"):  # derived (session 9): the ERW is the publisher
+        publisher = "Energy Research Warehouse (ERW), derived"
     assert publisher in c and name in c and "Energy Research Warehouse (ERW)" in c
     commit = erw.version()["data_commit"]
     assert commit and commit[:12] in c
@@ -491,3 +494,59 @@ def test_ercot_history_tables_are_complete_years():
                 assert df["ts_utc"].max() < live["ts_utc"].min()
                 step = pd.Timedelta("15min" if m == "rtm" else "1h")
                 assert df["ts_utc"].max() + step == live["ts_utc"].min()
+
+
+# --- session 9: derived tables -----------------------------------------------
+
+DERIVED = ["ercot_peak_premium_annual", "ercot_peak_premium_monthly"]
+# the human's thesis values for HB_HUBAVG (SESSION_9_PROMPT.md), 2015 and 2025
+THESIS = {"all_median": (20.49, 25.68), "all_p999": (583.96, 311.80),
+          "peak_iqr": (7.64, 34.12), "midday_min": (-3.98, -18.25)}
+
+
+def test_derived_tables_flag_license_and_inputs():
+    cov = erw.coverage().set_index("table")
+    assert set(cov["derived"]) <= {"yes", "no"}
+    assert sorted(cov.index[cov["derived"] == "yes"]) == DERIVED
+    for name in DERIVED:
+        df = erw.fetch(name)
+        header = df.attrs["erw"]["header"]
+        inputs = [t.strip() for h in header if h.startswith("Derived from:")
+                  for t in h.split(":", 1)[1].split(";")]
+        assert "ercot_rtm_hub_prices" in inputs and "ercot_rtm_hub_prices_2015" in inputs
+        want = "internal" if any(cov.loc[t, "license"] == "internal" for t in inputs) else "public"
+        assert cov.loc[name, "license"] == want == "public"
+        assert set(df["source"]) == {"erw:ercot_peak_premium"}
+        assert df["source_url"].str.endswith("docs/methods/ercot_peak_premium.md").all()
+        assert set(df["entity"]) == {f"ercot:{h}" for h in ("HB_NORTH", "HB_SOUTH", "HB_WEST",
+                                                              "HB_HOUSTON", "HB_BUSAVG", "HB_HUBAVG")}
+        assert "Energy Research Warehouse (ERW), derived" in erw.cite(name)
+
+
+def test_peak_premium_reproduces_the_thesis_values():
+    df = erw.fetch("ercot_peak_premium_annual", node="HB_HUBAVG")
+    for var, (v2015, v2025) in THESIS.items():
+        for year, want in ((2015, v2015), (2025, v2025)):
+            got = df[(df["variable"] == var) & (df["ts_utc"] == pd.Timestamp(f"{year}-01-01", tz="UTC"))]["value"]
+            assert len(got) == 1 and round(float(got.iloc[0]), 2) == want, (var, year, got.tolist())
+
+
+def test_peak_premium_structure():
+    a = erw.fetch("ercot_peak_premium_annual")
+    m = erw.fetch("ercot_peak_premium_monthly")
+    assert set(a["freq"]) == {"P1Y"} and set(m["freq"]) == {"P1M"}
+    assert set(a["unit"]) == {"USD/MWh", "ratio", "count"}
+    years = sorted(a["ts_utc"].dt.year.unique())
+    assert years[0] == 2015 and years == list(range(2015, years[-1] + 1))
+    n = a[(a["variable"] == "n_intervals") & (a["ts_utc"].dt.year < years[-1])]
+    leap = n["ts_utc"].dt.year.map(lambda y: y % 4 == 0)
+    assert (n["value"] == leap.map({True: 35136.0, False: 35040.0})).all()
+    # the worst-interval multiple is p99.9 over median, as the method doc defines it
+    w = a.pivot_table(index=["entity", "ts_utc"], columns="variable", values="value")
+    assert ((w["worst_interval_multiple"] - w["all_p999"] / w["all_median"]).abs() < 1e-4).all()
+    assert ((w["peak_iqr"] - (w["peak_q3"] - w["peak_q1"])).abs() < 1e-4).all()
+    # monthly intervals add up to the annual count for every complete year
+    mm = m[m["variable"] == "n_intervals"].assign(year=lambda d: d["ts_utc"].dt.year)
+    tot = mm.groupby(["entity", "year"])["value"].sum()
+    for (ent, ts), v in n.set_index(["entity", "ts_utc"])["value"].items():
+        assert tot[(ent, ts.year)] == v

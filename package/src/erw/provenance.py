@@ -21,6 +21,7 @@ PUBLISHERS = {
     "carb": "California Air Resources Board (CARB)",
     "rggi": "Regional Greenhouse Gas Initiative (RGGI, Inc.)",
     "fred": "Federal Reserve Bank of St. Louis (FRED)",
+    "erw": "Energy Research Warehouse (ERW), derived",
 }
 
 
