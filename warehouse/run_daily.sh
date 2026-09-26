@@ -65,8 +65,11 @@ run_other() {
   local out="runs/daily_${name}.out"
   "$@" > "$out" 2>&1
   local rc=$?
-  grep -E "\.csv: rows=|FAILED|run log:" "$out" | grep -vE " - (INFO|DEBUG|WARNING) - "
-  if [ "$rc" -eq 0 ]; then
+  grep -E "\.csv: rows=|FAILED|SKIPPED|run log:" "$out" | grep -vE " - (INFO|DEBUG|WARNING) - "
+  if [ "$rc" -eq 0 ] && grep -q "^${name} SKIPPED" "$out"; then
+    # session 10 ruling 3: a derived script without its inputs in CI skips with a warning
+    echo "$name skipped: $(grep -m1 "^${name} SKIPPED" "$out" | sed "s/^${name} SKIPPED: //")" >> "$status"
+  elif [ "$rc" -eq 0 ]; then
     echo "$name ok" >> "$status"
   else
     failed=$(grep -oE "^${name} [a-z0-9_]+ FAILED" "$out" | awk '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ $//')
@@ -77,8 +80,8 @@ run_other() {
 
 # Derived (session 9): ERCOT peak premium metrics from the ERCOT real-time history and live
 # tables, right after the ERCOT connector (docs/methods/ercot_peak_premium.md). It needs the
-# yearly history tables, which are not in git (warehouse/output/README.md): without them it
-# fails loudly and writes nothing.
+# yearly history tables, which are not in git (warehouse/output/README.md). In CI they are
+# absent, so it skips with a warning (session 10 ruling 3); locally, missing inputs fail loudly.
 run_other ercot_peak_premium "$PYTHON" warehouse/derived/ercot_peak_premium.py
 
 # EIA-930 hourly demand and generation (EIA_API_KEY from the environment or .env)

@@ -23,8 +23,10 @@
 #      nothing is committed.
 #   4. regenerates docs/coverage.md and warehouse/metadata/coverage.csv, then
 #      ingests and scores news and writes the Energy Digest (docs/digest/)
-#   5. commits metadata (coverage, sources, run status), docs and the digests
-#      directly to main. Never outputs (session 9 ruling): the tables in
+#   5. commits metadata (coverage, sources, run status), docs, the digests and
+#      news_stories.csv (session 10 ruling 3) directly to main. Derived scripts
+#      whose inputs are absent on the runner skip with a warning. No other
+#      outputs (session 9 ruling): the tables in
 #      warehouse/output, their run logs and the raw source files stay out of
 #      git; a hosted Postgres becomes the live store (warehouse/output/README.md).
 #
@@ -113,8 +115,10 @@ jobs:
             echo "::warning::markets not written today: $failed"
           fi
           # Session 9 ruling: metadata, docs and digests only; never warehouse/output
-          # (tables, run logs) or warehouse/raw/.
-          git add -- docs/coverage.md docs/digest warehouse/metadata/coverage.csv                      warehouse/metadata/run_status.csv warehouse/metadata/sources.csv
+          # (tables, run logs) or warehouse/raw/. Session 10 ruling 3: the one exception is
+          # warehouse/output/news_stories.csv, kept in git so the next run does not
+          # re-ingest and re-score stories it already has.
+          git add -- docs/coverage.md docs/digest warehouse/metadata/coverage.csv warehouse/metadata/run_status.csv warehouse/metadata/sources.csv warehouse/output/news_stories.csv
           if git diff --cached --quiet; then
             echo "No table changed today; nothing to commit."
             exit 0

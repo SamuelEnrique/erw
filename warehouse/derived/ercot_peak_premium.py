@@ -22,6 +22,12 @@ period), or nothing is written. The current year and month are partial;
 n_intervals says how many intervals they hold. License: a derived table
 inherits the most restrictive license of its inputs (docs/datastandard.md
 Decision 23), read from warehouse/metadata/sources.csv.
+
+In CI (GITHUB_ACTIONS=true) the yearly ERCOT history tables are not present,
+because tables are not in git (session 9). Session 10 ruling (3): there the
+script skips with a warning, writes nothing, records status "skipped" (which
+does not count toward a failure streak) and exits 0. Anywhere else, missing
+inputs still fail loudly.
 """
 
 import datetime as dt
@@ -181,11 +187,32 @@ def frame(rows, freq, run_id):
     }).sort_values(["entity", "variable", "ts_utc"])[ip.SERIES_COLS]
 
 
+TABLES = ("ercot_peak_premium_annual", "ercot_peak_premium_monthly")
+
+
+def missing_inputs():
+    """Years from FIRST_YEAR to last year whose history table is absent, plus the live table."""
+    this_year = pd.Timestamp.now(tz=TZ).year
+    want = [f"ercot_rtm_hub_prices_{y}" for y in range(FIRST_YEAR, this_year + 1)] + ["ercot_rtm_hub_prices"]
+    return [n for n in want if not os.path.exists(os.path.join(ip.OUT_DIR, n + ".csv"))]
+
+
 def main():
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"ercot_peak_premium_{run_id}.log"))
     results = []
+    absent = missing_inputs()
+    if absent and os.environ.get("GITHUB_ACTIONS") == "true":
+        msg = (f"inputs absent in CI ({len(absent)} tables, e.g. {', '.join(absent[:3])}); "
+               "derived tables not written (session 10 ruling 3)")
+        log(f"SKIPPED: {msg}")
+        print(f"::warning::ercot_peak_premium SKIPPED: {msg}")
+        print(f"ercot_peak_premium SKIPPED: {msg}")
+        ip.write_status("ercot_peak_premium", run_id,
+                        [dict(table=t, market="", status="skipped", detail=msg) for t in TABLES])
+        log.close()
+        return 0
     try:
         log(f"ERW ercot_peak_premium {run_id}: method {METHOD}")
         d, names = load(log)
