@@ -42,8 +42,19 @@ def _is_events(name):
     return False
 
 
+def _is_entities(name):
+    with open(OUTPUT / f"{name}.csv", encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                return line.startswith("entity_id,entity_type,")
+    return False
+
+
 EVENT_TABLES = [t for t in TABLES if _is_events(t)]
-SERIES_TABLES = [t for t in TABLES if t not in EVENT_TABLES]
+ENTITY_TABLES = [t for t in TABLES if _is_entities(t)]
+SERIES_TABLES = [t for t in TABLES if t not in EVENT_TABLES and t not in ENTITY_TABLES]
+ERCOT_DAM = sorted(t for t in TABLES if t.startswith("ercot_dam_hub_prices"))
+ERCOT_RTM = sorted(t for t in TABLES if t.startswith("ercot_rtm_hub_prices"))
 MD_ROWS = coverage_md_rows()
 
 
@@ -111,10 +122,10 @@ def test_filter_by_iso_market_variable_node_and_time():
     cov = erw.coverage()
     ercot = sorted(cov.loc[cov["iso"] == "ERCOT", "table"])
     assert erw.filter(iso="ercot") == ercot
-    assert erw.filter(iso="ERCOT", market="dam") == ["ercot_dam_hub_prices"]
-    assert erw.filter(market="ercot_rtm") == ["ercot_rtm_hub_prices"]
+    assert erw.filter(iso="ERCOT", market="dam") == ERCOT_DAM  # live table and yearly history
+    assert erw.filter(market="ercot_rtm") == ERCOT_RTM
     assert set(erw.filter(market="rtm")) == set(cov.loc[cov["market"].str.endswith("_rtm"), "table"])
-    assert erw.filter(variable="spp_rtm") == ["ercot_rtm_hub_prices"]
+    assert erw.filter(variable="spp_rtm") == ERCOT_RTM
     ercot_prices = sorted(cov.loc[cov["market"].str.startswith("ercot_"), "table"])
     assert erw.filter(node="HB_NORTH") == ercot_prices
     assert erw.filter(node="ercot:HB_NORTH") == ercot_prices
@@ -127,7 +138,7 @@ def test_filter_by_iso_market_variable_node_and_time():
             if t in TABLES]
     if spot:
         assert erw.filter(variable="spot_price") == spot
-    assert erw.filter(start="1980-01-01", end="1980-01-02") == []  # before any table starts
+    assert erw.filter(start="1900-01-01", end="1900-01-02") == []  # before any table starts (imports: 1920)
     last = cov["ts_max"].max()
     assert set(erw.filter(start=last)) == set(cov.loc[cov["ts_max"] >= last, "table"])
     assert erw.filter() == TABLES
@@ -155,7 +166,8 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
                  "eia": "Energy Information Administration",
                  "carb": "California Air Resources Board",
                  "rggi": "Regional Greenhouse Gas Initiative",
-                 "fred": "Federal Reserve Bank of St. Louis"}[org]
+                 "fred": "Federal Reserve Bank of St. Louis",
+                 "portwatch": "International Monetary Fund"}[org]
     assert publisher in c and name in c and "Energy Research Warehouse (ERW)" in c
     commit = erw.version()["data_commit"]
     assert commit and commit[:12] in c
@@ -333,6 +345,12 @@ PRICE_BOARD = {
     "fred_daily_spot_prices": ({"USD/bbl", "USD/MMBtu"}, {"P1D"}, "public", "oil;gas", "fred:"),
     "fred_imf_commodity_prices": ({"USD/MMBtu", "USD/t", "USD/lb"}, {"P1M"}, "internal",
                                   "gas;lng;coal;uranium;metals", "fred:"),
+    # session 8
+    "eia_crude_first_purchase_prices": ({"USD/bbl"}, {"P1M"}, "public", "oil", "eia:F00"),
+    "eia_crude_imports_by_country": ({"kbbl/d"}, {"P1M"}, "public", "oil", "eia:"),
+    "eia_padd_crude_pipeline_flows": ({"kbbl"}, {"P1M"}, "public", "oil", "eia:MCRMP"),
+    "eia_retail_electricity_prices": ({"USD/MWh"}, {"P1M"}, "public", "power", "eia:retail_price:"),
+    "portwatch_chokepoint_transits": ({"count", "dwt"}, {"P1D"}, "internal", "oil;lng", "portwatch:chokepoint"),
 }
 
 
@@ -386,3 +404,90 @@ def test_sector_filter():
     assert erw.filter(sector="equities") == []  # no equities table yet (SESSION_7_REPORT.md)
     with pytest.raises(ValueError):
         erw.filter(sector="crypto")
+
+
+# --- session 8: entities, ERCOT history, monthly series ----------------------
+
+ENTITY_STATUS = {"operating", "planned", "under_construction", "retired", "withdrawn", "active",
+                 "completed", "suspended", ""}
+QUEUES = {"ercot", "caiso", "nyiso", "miso", "spp", "isone"}
+
+
+def test_every_session8_entities_table_is_present():
+    want = {"eia860m_operating_generators", "eia860m_planned_generators", "eia860m_retired_generators"}
+    want |= {f"{i}_interconnection_queue" for i in QUEUES}
+    assert want <= set(ENTITY_TABLES)
+
+
+@pytest.mark.parametrize("name", ENTITY_TABLES)
+def test_entities_table_types_provenance_and_rules(name):
+    df = erw.fetch(name)
+    assert list(df.columns[:2]) == ["entity_id", "entity_type"]
+    assert df["entity_id"].is_unique and df["entity_id"].str.contains(":").all()
+    assert len(df) == MD_ROWS[name]
+    assert df["lat"].dtype == float and df["capacity_mw"].dtype == float
+    assert df["lat"].dropna().between(-90, 90).all() and df["lon"].dropna().between(-180, 180).all()
+    assert str(df["status_date"].dtype).startswith("datetime64")
+    assert set(df["status"].fillna("")) <= ENTITY_STATUS
+    assert df["source_url"].str.startswith("http").all()
+    meta = df.attrs["erw"]
+    assert meta["header"][0].startswith("Energy Research Warehouse (ERW):") and meta["run_log"]
+    row = erw.coverage().set_index("table").loc[name]
+    assert row["interval"] == "snapshot" and row["sector"] == "power" and row["license"] == "public"
+    assert name in erw.filter(sector="power")
+    one = df["entity_id"].iloc[0]
+    assert erw.fetch(name, node=one)["entity_id"].tolist() == [one]
+    c = erw.cite(name)
+    assert "Energy Research Warehouse (ERW)" in c and name in c
+    assert erw.info(name, quiet=True)["shape"] == "entities"
+
+
+def test_eia860m_tables_one_vintage_and_the_right_statuses():
+    op, pl, rt = (erw.fetch(f"eia860m_{k}_generators") for k in ("operating", "planned", "retired"))
+    vintages = set(op["vintage"]) | set(pl["vintage"]) | set(rt["vintage"])
+    assert len(vintages) == 1 and re.fullmatch(r"\d{4}-\d{2}", vintages.pop())
+    assert set(op["status"]) == {"operating"} and set(op["eia_status"]) <= {"OP", "SB", "OA", "OS"}
+    assert set(pl["status"]) <= {"planned", "under_construction"}
+    assert set(rt["status"]) == {"retired"}
+    year = int(op["vintage"].iloc[0][:4])
+    assert set(rt["retirement_date"].dt.year) <= {year, year - 1}
+    assert (op["entity_type"] == "generator").all()
+    assert not (set(op["entity_id"]) & set(pl["entity_id"]))  # a generator is in one inventory
+    # a label wherever EIA gives the code (EIA leaves a few technologies blank)
+    for code, label in (("technology", "technology_group"), ("prime_mover", "prime_mover_label"),
+                        ("energy_source", "energy_source_label")):
+        assert ((op[code] == "") | (op[label] != "")).all(), code
+
+
+@pytest.mark.parametrize("iso", sorted(QUEUES))
+def test_queue_harmonized_status_keeps_the_iso_status(iso):
+    df = erw.fetch(f"{iso}_interconnection_queue")
+    assert set(df["status"].fillna("")) <= {"active", "withdrawn", "completed", "suspended", ""}
+    # the ISO's own status is kept beside the harmonized one, and maps one way
+    pairs = df.groupby("iso_status")["status"].nunique()
+    assert (pairs <= 1).all()
+    assert len(df) > 1000
+    # a withdrawn position's status_date is its withdrawn date, where the ISO gives one
+    w = df[(df["status"] == "withdrawn") & df["withdrawn_date"].notna()]
+    assert (w["status_date"] == w["withdrawn_date"]).all()
+
+
+def test_ercot_history_tables_are_complete_years():
+    """35,040 quarter hours per hub per year (35,136 in a leap year); 8,760 or 8,784 hours."""
+    hubs = {"HB_NORTH", "HB_SOUTH", "HB_WEST", "HB_HOUSTON", "HB_BUSAVG", "HB_HUBAVG"}
+    this_year = pd.Timestamp.now(tz="America/Chicago").year
+    years = sorted(int(t[-4:]) for t in TABLES if re.fullmatch(r"ercot_rtm_hub_prices_\d{4}", t))
+    assert years and years[0] == 2015
+    for y in years:
+        leap = y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
+        for m, n in (("rtm", 35136 if leap else 35040), ("dam", 8784 if leap else 8760)):
+            df = erw.fetch(f"ercot_{m}_hub_prices_{y}")
+            per = df.groupby("node").size()
+            assert set(per.index) == hubs
+            if y < this_year:
+                assert (per == n).all(), (m, y, per.to_dict())
+            else:  # the current year stops where the live table starts
+                live = erw.fetch(f"ercot_{m}_hub_prices")
+                assert df["ts_utc"].max() < live["ts_utc"].min()
+                step = pd.Timedelta("15min" if m == "rtm" else "1h")
+                assert df["ts_utc"].max() + step == live["ts_utc"].min()

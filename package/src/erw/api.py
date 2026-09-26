@@ -81,9 +81,20 @@ def coverage() -> pd.DataFrame:
     return cov
 
 
+def _is_entities(df: pd.DataFrame) -> bool:
+    return list(df.columns[:2]) == ["entity_id", "entity_type"]
+
+
 def _read(name: str) -> pd.DataFrame:
     header, df = get_backend().read_table(name)
-    if "event_id" in df.columns:  # events shape: event_date may be a date or a UTC time
+    if _is_entities(df):  # entities shape (session 8): numbers and dates typed, the rest strings
+        for c in [c for c in df.columns if c in ("lat", "lon", "capacity_mw") or c.endswith("_mw")]:
+            df[c] = pd.to_numeric(df[c].replace("", None), errors="raise").astype(float)
+        for c in [c for c in df.columns if c == "status_date" or c.endswith("_date")]:
+            df[c] = pd.to_datetime(df[c].replace("", None), format="%Y-%m-%d", errors="raise")
+        if "retrieved_at" in df.columns:
+            df["retrieved_at"] = pd.to_datetime(df["retrieved_at"], format=TS_FMT, utc=True)
+    elif "event_id" in df.columns:  # events shape: event_date may be a date or a UTC time
         d = df["event_date"]
         df["event_date"] = pd.to_datetime(d.where(d.str.contains("T"), d + "T00:00:00Z"),
                                           format=TS_FMT, utc=True)
@@ -103,6 +114,8 @@ def _read(name: str) -> pd.DataFrame:
 def _subset(df: pd.DataFrame, start=None, end=None, node=None) -> pd.DataFrame:
     attrs = df.attrs
     events = "event_id" in df.columns
+    if _is_entities(df):
+        return _subset_entities(df, start, end, node)
     t = df["event_date"] if events else df["ts_utc"]
     keep = pd.Series(True, index=df.index)
     if start is not None:
@@ -119,6 +132,26 @@ def _subset(df: pd.DataFrame, start=None, end=None, node=None) -> pd.DataFrame:
     return out
 
 
+def _subset_entities(df: pd.DataFrame, start=None, end=None, node=None) -> pd.DataFrame:
+    """Entities: start/end select on status_date (rows without one are dropped when either
+    is given); node selects entity_id values (or names, as the source writes them)."""
+    attrs = df.attrs
+    keep = pd.Series(True, index=df.index)
+    d = df["status_date"].dt.tz_localize("UTC") if "status_date" in df else None
+    if start is not None:
+        keep &= d.notna() & (d >= _utc(start)) if d is not None else False
+    if end is not None:
+        keep &= d.notna() & (d < _utc(end)) if d is not None else False
+    nodes = _as_list(node)
+    if nodes:
+        keep &= df["entity_id"].isin(nodes) | df["name"].isin(nodes)
+    out = df[keep].reset_index(drop=True)
+    out.attrs = attrs
+    if start is not None or end is not None or nodes:
+        out.attrs["erw"] = dict(attrs["erw"], subset={"start": start, "end": end, "node": nodes})
+    return out
+
+
 def fetch(name: Union[str, Iterable[str]], start=None, end=None,
           node: Union[str, Iterable[str], None] = None
           ) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
@@ -128,7 +161,10 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
     marking the START of each interval. Events tables (e.g. news_stories):
     `event_date` is a UTC timestamp (a bare date becomes midnight UTC) and
     `mw`, `price`, `significance`, `ai_power_relevance` are numbers (NaN when
-    empty). Every other column is a string, as written. The
+    empty). Entities tables (session 8: EIA-860M generators, ISO queues):
+    `lat`, `lon`, `capacity_mw` and every `*_mw` column are floats (NaN when
+    empty), `status_date` and every `*_date` column a date (NaT when empty),
+    `retrieved_at` a UTC timestamp. Every other column is a string, as written. The
     table's provenance header is parsed into ``df.attrs["erw"]``: title,
     window, forward_dam_days, retrieved, run_log, raw_files, file_summary,
     sources (report, report_url, document_list), notes, and the verbatim
@@ -139,7 +175,9 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
                  timestamps, naive values read as UTC.
     node       : keep these nodes (as the ISO writes them) or entities
                  (``"ercot:HB_NORTH"``, ``"eia930:CISO"``); a string or a list.
-                 For an events table, these sources (outlets).
+                 For an events table, these sources (outlets). For an entities
+                 table, these entity_id values or names; start and end then
+                 select on status_date.
     The subset is recorded in ``df.attrs["erw"]["subset"]``.
     """
     if isinstance(name, str):
@@ -149,6 +187,9 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
 
 def _table_facts(name: str) -> Dict:
     df = _read(name)
+    if _is_entities(df):  # variable matches entity_type or status; node an entity_id or name
+        return {"variables": set(df["entity_type"]) | set(df["status"].dropna()) if "status" in df
+                else set(df["entity_type"]), "nodes": set(df["name"]), "entities": set(df["entity_id"])}
     if "event_id" in df.columns:
         return {"variables": set(df["event_type"]), "nodes": set(df["source"]), "entities": set()}
     return {"variables": set(df["variable"]),
@@ -296,6 +337,19 @@ def info(name: Optional[str] = None, quiet: bool = False) -> Dict:
     if name is not None:
         df = fetch(name)
         meta = df.attrs["erw"]
+        if _is_entities(df):
+            d = {"table": name, "title": meta["title"], "rows": len(df), "shape": "entities",
+                 "entity_types": sorted(set(df["entity_type"])),
+                 "status": {k: int(v) for k, v in df["status"].value_counts().items()} if "status" in df else {},
+                 "capacity_mw": float(df["capacity_mw"].sum()) if "capacity_mw" in df else None,
+                 "vintage": sorted(set(df["vintage"])) if "vintage" in df else [],
+                 "sources": sorted(set(df["source"])),
+                 "license": coverage().set_index("table").loc[name, "license"], "notes": meta["notes"]}
+            if not quiet:
+                print(f"{name}: {d['title']}")
+                print(f"  {d['rows']} entities ({', '.join(d['entity_types'])}), vintage "
+                      f"{', '.join(d['vintage'])}, license {d['license']}")
+            return d
         if "event_id" in df.columns:
             d = {"table": name, "title": meta["title"], "rows": len(df), "shape": "events",
                  "event_types": sorted(set(df["event_type"])), "sources": sorted(set(df["source"])),

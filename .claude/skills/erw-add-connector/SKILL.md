@@ -174,3 +174,22 @@ Stop and say so, rather than working around it, when:
 - **Auction tables**: ts_utc is the auction date (or the first of the month
   when only the month is published), freq `P3M` or `P1Y`; cells a publisher
   marks as not a price ("**", "--") are omitted, never filled from a parent.
+- **Entities tables** (session 8) follow `warehouse/connectors/eia860.py` or
+  `iso_queues.py`: the entities columns first (docs/datastandard.md shape b),
+  then source_url, retrieved_at, vintage and the source's own fields; keep the
+  source's codes and status in their own columns (`eia_status`, `iso_status`)
+  and map `status` to the vocabulary with a table that fails on an unknown
+  value. Write with `ip.write_snapshot`, not `write_csv`: a snapshot replaces
+  the rows, so something the source dropped leaves the table.
+- **Pages link files that do not exist yet.** EIA's 860M page links months
+  still to come; they serve an HTML page with HTTP 200. Check the bytes (an
+  xlsx starts with `PK`), not only the status.
+- **Redirects change the URL you match on.** CAISO's queue URL redirects to a
+  lowercase path; match captured URLs case-insensitively.
+- **Large history goes in yearly tables.** GitHub refuses files over 100 MB and
+  the daily job commits every table it rewrites. ERCOT's 2015 on history is
+  `ercot_{rtm,dam}_hub_prices_<year>` (about 48 MB and 12 MB a year), written
+  once by `iso_prices.py ercot --backfill-from 2015`; the live tables keep the
+  rolling window.
+- **A path for `--out-dir` from Git Bash** must be a Windows path
+  (`C:/Users/...`), or Windows Python writes to `C:\c\Users\...`.

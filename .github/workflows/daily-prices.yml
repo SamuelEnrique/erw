@@ -15,6 +15,10 @@
 #      Then the non-ISO connectors: EIA-930, EIA fuel spot prices, the EIA
 #      petroleum, retail, stocks and LNG series, PJM capacity prices, CARB and
 #      RGGI carbon auctions and FRED (session 7), each over its full history.
+#      Session 8: EIA monthly crude, imports, PADD pipeline and retail
+#      electricity series, IMF PortWatch transits, the EIA-860M generator
+#      inventory (written only when EIA publishes a new month) and, on
+#      Mondays, the ISO interconnection queues (entities snapshots).
 #   3. runs erw_validate on every output. A blocked table fails the job and
 #      nothing is committed.
 #   4. regenerates docs/coverage.md and warehouse/metadata/coverage.csv, then
