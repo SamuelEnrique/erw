@@ -75,6 +75,12 @@ run_other() {
   fi
 }
 
+# Derived (session 9): ERCOT peak premium metrics from the ERCOT real-time history and live
+# tables, right after the ERCOT connector (docs/methods/ercot_peak_premium.md). It needs the
+# yearly history tables, which are not in git (warehouse/output/README.md): without them it
+# fails loudly and writes nothing.
+run_other ercot_peak_premium "$PYTHON" warehouse/derived/ercot_peak_premium.py
+
 # EIA-930 hourly demand and generation (EIA_API_KEY from the environment or .env)
 run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
 

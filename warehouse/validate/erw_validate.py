@@ -34,7 +34,8 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "pct",
          # session 7 price board (docs/datastandard.md Decision 17)
          "USD/gal", "USD/short_ton", "USD/t", "USD/lb", "USD/MW-day", "USD/tCO2", "USD/Mcf",
          "count", "kbbl", "kbbl/d", "MMcf", "bcf", "bcf/d",
-         "dwt"}  # session 8: IMF PortWatch deadweight tonnage (Decision 22)
+         "dwt",  # session 8: IMF PortWatch deadweight tonnage (Decision 22)
+         "ratio"}  # session 9: a dimensionless ratio, e.g. the worst-interval multiple (Decision 23)
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")

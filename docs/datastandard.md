@@ -161,6 +161,15 @@ What was chosen, and why:
 
 22. **Units for session 8.** `dwt` (deadweight tonnage, metric tons) joins the unit vocabulary for IMF PortWatch transit capacity. `USD/MWh` is reused for EIA retail electricity prices, converted from EIA's cents per kilowatt-hour by x10 (stated in the table header).
 
+23. **Derived tables** (session 9). A derived table is computed by the ERW from other ERW tables, never from a source directly. Its code lives in `warehouse/derived/`, and its method is written out in `docs/methods/`. Rules:
+    - It is an ordinary table of its shape (here `series`) and passes the same validator.
+    - `source` is `erw:<method>` and `source_url` links the method doc.
+    - The header names every input table on a `Derived from:` line. `coverage.csv` marks it `derived` = `yes`.
+    - **License:** a derived table inherits the most restrictive license of its inputs (internal if any input source is internal, else public). The script writes it into the header and the registry, and `build_coverage.py` recomputes it from the input tables and fails if the two disagree.
+    - It is written through the merge writer; a past period must be complete, and the current period is marked partial by an `n_intervals` variable.
+    - The unit `ratio` (dimensionless) joins the vocabulary for metrics such as the worst-interval multiple.
+    First derived tables: `ercot_peak_premium_annual` and `ercot_peak_premium_monthly` (`docs/methods/ercot_peak_premium.md`).
+
 Deferred to a later version:
 
 - A controlled vocabulary for `variable`, `entity_type`, `event_type` and `status`, enforced by the validator the way the IRW enforces its tag vocabulary.
