@@ -49,14 +49,14 @@ QUERY_PROPS = {
     "table": {"type": "string", "description": "ERW table name, exactly as list_tables gives it."},
     "entity": {"type": "string", "description": "Series: an entity (\"ercot:HB_NORTH\", \"eia:henry_hub\") or a node as the ISO writes it (\"HB_NORTH\", \"N.Y.C.\"). Entities tables: an entity_id or name. Exact string."},
     "variable": {"type": "string", "description": "Series only: the variable (\"spp_dam\", \"lmp_rtm_15m_mean\", \"spot_price\", \"demand_mw\", \"peak_iqr\"). Exact string."},
-    "start": {"type": "string", "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); naive is UTC. Series: ts_utc (interval start); events: event_date; entities: status_date."},
+    "start": {"type": "string", "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); a date or a time without Z or an offset is read in tz (default UTC), so start 2026-09-25 with tz America/Chicago is 05:00Z. Series: ts_utc (interval start); events: event_date; entities: status_date."},
     "end": {"type": "string", "description": "Keep rows whose time is before this (exclusive), same rules as start."},
     "where": {"type": "object", "description": "Exact-match filters on the table's own columns, {column: value} or {column: [values]}, for example {\"state\": \"TX\", \"technology_group\": \"natural_gas\", \"status\": \"operating\"}. Use describe_table to see columns and values.", "additionalProperties": {"anyOf": [{"type": "string"}, {"type": "array", "items": {"type": "string"}}]}},
     "aggregation": {"type": "string", "enum": AGGREGATIONS, "description": "latest: the newest row (per group). count: number of rows. The others apply to value_column."},
     "percentile": {"type": "number", "description": "Required when aggregation is percentile: 0 to 100 (numpy linear interpolation)."},
     "value_column": {"type": "string", "description": "Numeric column to aggregate. Default: value (series), capacity_mw (entities). For EIA-860M, nameplate_mw is the nameplate capacity."},
     "group_by": {"type": "string", "description": "One of year, month, day, hour (of the row time, in tz), entity, or one of the table's own text columns (for example state, technology_group, status, sector). Omit for one overall result."},
-    "tz": {"type": "string", "description": "IANA time zone for year/month/day/hour grouping and for day boundaries, default UTC. ISO operating days are local: ERCOT and SPP America/Chicago, CAISO America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO EST (use Etc/GMT+5)."},
+    "tz": {"type": "string", "description": "IANA time zone, default UTC: for year/month/day/hour grouping, and for reading a start or end given without Z or an offset (a local operating day is start and end dates with its tz). ISO operating days are local: ERCOT and SPP America/Chicago, CAISO America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO EST (use Etc/GMT+5)."},
 }
 
 TOOLS = [
@@ -274,7 +274,7 @@ def describe_table(table):
 
 # ---------------------------------------------------------------------- query
 
-def _select(df, shape, entity, variable, start, end, where):
+def _select(df, shape, entity, variable, start, end, where, tz="UTC"):
     keep = pd.Series(True, index=df.index)
     if entity:
         if shape == "series":
@@ -300,7 +300,14 @@ def _select(df, shape, entity, variable, start, end, where):
                     b = pd.Timestamp(bound)
                 except ValueError:
                     raise ToolError(f"cannot read the time {bound!r}; use ISO 8601")
-                b = b.tz_localize("UTC") if b.tzinfo is None else b.tz_convert("UTC")
+                # session 13: a bound without Z or an offset is read in tz (it was always read as
+                # UTC, although tz was described as setting day boundaries: local-day questions
+                # got the UTC day)
+                try:
+                    b = (b.tz_localize(tz, ambiguous=False, nonexistent="shift_forward") if b.tzinfo is None
+                         else b).tz_convert("UTC")
+                except Exception:
+                    raise ToolError(f"unknown time zone {tz!r}; use an IANA name such as America/Chicago")
                 keep &= (t >= b) if op == "ge" else (t < b)
     for col, val in (where or {}).items():
         if col not in df.columns:
@@ -374,7 +381,7 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
         raise ToolError(f"aggregation must be one of {AGGREGATIONS}")
     df = _table(table)
     shape = _shape(df)
-    sel, tcol = _select(df, shape, entity, variable, start, end, where)
+    sel, tcol = _select(df, shape, entity, variable, start, end, where, tz or "UTC")
     vcol = value_column or {"series": "value", "entities": "capacity_mw", "events": "mw"}[shape]
     if aggregation not in ("count",) and vcol not in df.columns:
         raise ToolError(f"no column {vcol!r}; numeric columns: "
@@ -383,7 +390,7 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
         raise ToolError(f"column {vcol!r} is not numeric")
     out = {"aggregation": aggregation, "value_column": None if aggregation == "count" else vcol,
            "filters": {k: v for k, v in dict(entity=entity, variable=variable, start=start, end=end,
-                                              where=where, percentile=percentile, tz=tz if group_by in TIME_GROUPS else None).items() if v},
+                                              where=where, percentile=percentile, tz=tz if (group_by in TIME_GROUPS or start or end) and tz != "UTC" else None).items() if v},
            "rows_matched": int(len(sel))}
     if shape == "series" and len(sel):
         out["units"] = sorted(sel["unit"].unique())

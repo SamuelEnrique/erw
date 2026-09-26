@@ -78,11 +78,36 @@ function isoTs(v: unknown): string | null {
   return Number.isNaN(d.getTime()) ? s : d.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
-function parseTime(v: string): string {
-  const s = /^\d{4}-\d{2}-\d{2}$/.test(v) ? `${v}T00:00:00Z` : /[zZ]|[+-]\d{2}:?\d{2}$/.test(v) ? v : `${v}Z`;
-  const d = new Date(s);
-  if (Number.isNaN(d.getTime())) throw new ToolError(`cannot read the time ${JSON.stringify(v)}; use ISO 8601`);
-  return d.toISOString();
+/** Offset of a time zone from UTC at a UTC instant, in milliseconds. */
+function tzOffsetMs(utcMs: number, tz: string): number {
+  let parts: Intl.DateTimeFormatPart[];
+  try {
+    parts = new Intl.DateTimeFormat("en-US", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23" }).formatToParts(new Date(utcMs));
+  } catch {
+    throw new ToolError(`unknown time zone ${JSON.stringify(tz)}; use an IANA name such as America/Chicago`);
+  }
+  const p = Object.fromEntries(parts.map((x) => [x.type, x.value]));
+  return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - utcMs;
+}
+
+/**
+ * A start or end bound as an ISO UTC time. A time with Z or an offset is taken as given; a date
+ * or a time without one is read in tz (session 13, as warehouse/chat/tools.py: it was always read
+ * as UTC, so local-day questions got the UTC day).
+ */
+function parseTime(v: string, tz: string): string {
+  if (/([zZ]|[+-]\d{2}:?\d{2})$/.test(v)) {
+    const d = new Date(v);
+    if (Number.isNaN(d.getTime())) throw new ToolError(`cannot read the time ${JSON.stringify(v)}; use ISO 8601`);
+    return d.toISOString();
+  }
+  const m = v.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?$/);
+  if (!m) throw new ToolError(`cannot read the time ${JSON.stringify(v)}; use ISO 8601`);
+  const wall = Date.UTC(+m[1], +m[2] - 1, +m[3], +(m[4] ?? 0), +(m[5] ?? 0), +(m[6] ?? 0));
+  let utc = wall - tzOffsetMs(wall, tz);
+  const second = wall - tzOffsetMs(utc, tz); // across a daylight saving change, the offset at the result wins
+  if (second !== utc) utc = second;
+  return new Date(utc).toISOString();
 }
 
 /** numpy.percentile(x, p) with the default linear method. */
@@ -291,8 +316,8 @@ async function query(a: QueryArgs): Promise<Json> {
     q.variable = `eq.${a.variable}`;
   }
   const bounds: string[] = [];
-  if (a.start) bounds.push(`${tcol}.gte.${parseTime(a.start)}`);
-  if (a.end) bounds.push(`${tcol}.lt.${parseTime(a.end)}`);
+  if (a.start) bounds.push(`${tcol}.gte.${parseTime(a.start, tz)}`);
+  if (a.end) bounds.push(`${tcol}.lt.${parseTime(a.end, tz)}`);
   if (bounds.length) q.and = `(${bounds.join(",")})`;
   for (const [col, val] of Object.entries(a.where ?? {})) {
     if (!columns.includes(col)) throw new ToolError(`no column ${JSON.stringify(col)} in this table; columns: ${columns.join(", ")}`);
@@ -315,7 +340,7 @@ async function query(a: QueryArgs): Promise<Json> {
   const out: Json = {
     aggregation: a.aggregation,
     value_column: a.aggregation === "count" ? null : vcol,
-    filters: Object.fromEntries(Object.entries({ entity: a.entity, variable: a.variable, start: a.start, end: a.end, where: a.where, percentile: a.percentile, tz: g && TIME_GROUPS.includes(g) ? tz : undefined }).filter(([, v]) => v !== undefined)),
+    filters: Object.fromEntries(Object.entries({ entity: a.entity, variable: a.variable, start: a.start, end: a.end, where: a.where, percentile: a.percentile, tz: ((g && TIME_GROUPS.includes(g)) || a.start || a.end) && tz !== "UTC" ? tz : undefined }).filter(([, v]) => v !== undefined)),
     rows_matched: rows.length,
   };
   if (shape === "series" && rows.length) {

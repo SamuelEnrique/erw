@@ -79,7 +79,7 @@
      },
      "start": {
       "type": "string",
-      "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); naive is UTC. Series: ts_utc (interval start); events: event_date; entities: status_date."
+      "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); a date or a time without Z or an offset is read in tz (default UTC), so start 2026-09-25 with tz America/Chicago is 05:00Z. Series: ts_utc (interval start); events: event_date; entities: status_date."
      },
      "end": {
       "type": "string",
@@ -130,7 +130,7 @@
      },
      "tz": {
       "type": "string",
-      "description": "IANA time zone for year/month/day/hour grouping and for day boundaries, default UTC. ISO operating days are local: ERCOT and SPP America/Chicago, CAISO America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO EST (use Etc/GMT+5)."
+      "description": "IANA time zone, default UTC: for year/month/day/hour grouping, and for reading a start or end given without Z or an offset (a local operating day is start and end dates with its tz). ISO operating days are local: ERCOT and SPP America/Chicago, CAISO America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO EST (use Etc/GMT+5)."
      }
     },
     "required": [
@@ -163,7 +163,7 @@
        },
        "start": {
         "type": "string",
-        "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); naive is UTC. Series: ts_utc (interval start); events: event_date; entities: status_date."
+        "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); a date or a time without Z or an offset is read in tz (default UTC), so start 2026-09-25 with tz America/Chicago is 05:00Z. Series: ts_utc (interval start); events: event_date; entities: status_date."
        },
        "end": {
         "type": "string",
@@ -214,7 +214,7 @@
        },
        "tz": {
         "type": "string",
-        "description": "IANA time zone for year/month/day/hour grouping and for day boundaries, default UTC. ISO operating days are local: ERCOT and SPP America/Chicago, CAISO America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO EST (use Etc/GMT+5)."
+        "description": "IANA time zone, default UTC: for year/month/day/hour grouping, and for reading a start or end given without Z or an offset (a local operating day is start and end dates with its tz). ISO operating days are local: ERCOT and SPP America/Chicago, CAISO America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO EST (use Etc/GMT+5)."
        }
       },
       "required": [
@@ -240,7 +240,7 @@
        },
        "start": {
         "type": "string",
-        "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); naive is UTC. Series: ts_utc (interval start); events: event_date; entities: status_date."
+        "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); a date or a time without Z or an offset is read in tz (default UTC), so start 2026-09-25 with tz America/Chicago is 05:00Z. Series: ts_utc (interval start); events: event_date; entities: status_date."
        },
        "end": {
         "type": "string",
@@ -291,7 +291,7 @@
        },
        "tz": {
         "type": "string",
-        "description": "IANA time zone for year/month/day/hour grouping and for day boundaries, default UTC. ISO operating days are local: ERCOT and SPP America/Chicago, CAISO America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO EST (use Etc/GMT+5)."
+        "description": "IANA time zone, default UTC: for year/month/day/hour grouping, and for reading a start or end given without Z or an offset (a local operating day is start and end dates with its tz). ISO operating days are local: ERCOT and SPP America/Chicago, CAISO America/Los_Angeles, NYISO and ISO-NE America/New_York, MISO EST (use Etc/GMT+5)."
        }
       },
       "required": [
