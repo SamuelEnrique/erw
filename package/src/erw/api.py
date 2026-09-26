@@ -42,7 +42,9 @@ def set_backend(backend: Union[Backend, str, None] = None) -> Backend:
     """
     global _backend
     if backend is None:
-        _backend = LocalBackend()
+        # session 10: ERW_BACKEND=redivis or supabase selects a remote backend
+        from .remote import backend_from_env
+        _backend = backend_from_env() or LocalBackend()
     elif isinstance(backend, str):
         _backend = LocalBackend(backend)
     else:

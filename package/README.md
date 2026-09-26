@@ -52,9 +52,12 @@ print(erw.cite("ercot_dam_hub_prices"))      # cite the ISO report, and the ERW 
 ## Storage backends
 
 Every function reads through `erw.get_backend()`. Today that is
-`erw.LocalBackend` (CSV files on disk). A Redivis backend can be added by
-subclassing `erw.Backend` and calling `erw.set_backend(...)`; the public
-functions do not change. `erw.set_backend("/path/to/output")` points the local
+`erw.LocalBackend` (CSV files on disk) and, since session 10:
+
+- **`erw.RedivisBackend`** reads the Redivis dataset `energy_research_warehouse` (every table). It needs `REDIVIS_API_TOKEN` and `REDIVIS_OWNER` (`pip install -e "package[redivis]"`).
+- **`erw.SupabaseBackend`** reads the Supabase live set (`warehouse/supabase/live_set.yaml`). It needs `SUPABASE_URL` with `SUPABASE_SERVICE_KEY`. With `SUPABASE_ANON_KEY` and `ERW_SUPABASE_ROLE=anon`, it reads public rows only (`pip install -e "package[supabase]"`).
+
+`ERW_BACKEND=local|redivis|supabase` picks one for `erw.set_backend()`. Any other backend subclasses `erw.Backend` and is passed to `erw.set_backend(...)`. The public functions do not change. `erw.set_backend("/path/to/output")` points the local
 backend at another directory.
 
 ## Tests

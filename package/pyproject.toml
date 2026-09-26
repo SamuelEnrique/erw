@@ -21,6 +21,9 @@ classifiers = [
 
 [project.optional-dependencies]
 test = ["pytest>=7"]
+# session 10: remote backends (ERW_BACKEND=redivis or supabase)
+redivis = ["redivis>=0.20", "python-dotenv>=1.0"]
+supabase = ["supabase>=2.31", "python-dotenv>=1.0"]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
