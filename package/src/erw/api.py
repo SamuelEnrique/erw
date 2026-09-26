@@ -244,8 +244,13 @@ def filter(iso: Union[str, Iterable[str], None] = None,
     names = cov.loc[keep, "table"].tolist()
     variables, nodes = _as_list(variable), _as_list(node)
     if variables or nodes:
+        # matching on variables or nodes reads each table, so only tables this backend
+        # holds are considered (the Supabase live set holds a subset of the catalogue)
+        held = set(get_backend().list_tables())
         out = []
         for n in names:
+            if n not in held:
+                continue
             facts = _table_facts(n)
             if variables and not facts["variables"] & set(variables):
                 continue

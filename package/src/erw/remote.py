@@ -16,6 +16,7 @@ YYYY-MM-DDTHH:MM:SSZ, dates as YYYY-MM-DD, nulls as ""). Provenance headers come
 from the erw_headers table (Redivis) or the headers table (Supabase).
 """
 
+import json
 import os
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -202,11 +203,19 @@ class SupabaseBackend(Backend):
             interval = self._catalogue().set_index("table_name").loc[name, "interval"]
             shape = "entities" if interval == "snapshot" else ("events" if interval == "event" else "series")
             rows = self._select(shape, table_name=name)
-            df = pd.DataFrame(rows)
             cols = self.SHAPE_COLS[shape]
+            # a live-set table can hold no rows (an ERCOT yearly table outside the 90-day window)
+            df = pd.DataFrame(rows) if rows else pd.DataFrame(columns=cols + ["extra"])
             extra = pd.DataFrame(df["extra"].tolist()) if "extra" in df and len(df) else pd.DataFrame(index=df.index)
             body = _as_text(df[cols], self.TYPES)
-            self._cache[name] = pd.concat([body, extra.fillna("").astype(str)], axis=1)
+            full = pd.concat([body, extra.fillna("").astype(str)], axis=1)
+            # exactly the table's own columns in CSV order (catalogue.columns, migration 003):
+            # drops standard columns the table does not use, restores its empty own columns
+            cols_json = self._catalogue().set_index("table_name").get("columns", pd.Series(dtype=object)).get(name)
+            if isinstance(cols_json, str) and cols_json:
+                order = json.loads(cols_json)
+                full = full.reindex(columns=order, fill_value="")
+            self._cache[name] = full
         hdr = pd.DataFrame(self._select("headers", table_name=name))
         header = hdr.sort_values("line_no")["line"].tolist() if len(hdr) else []
         return header, self._cache[name].copy()

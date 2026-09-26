@@ -13,10 +13,17 @@ warehouse/supabase/migrations/, applied by warehouse/supabase/apply.py.
 Writes with SUPABASE_URL and SUPABASE_SERVICE_KEY (the service role bypasses
 row-level security; the key is never printed). For each table:
 - the live-set rows are selected from the CSV (whole, or the last N days);
-- they are upserted in batches, stamped with this run's loaded_at;
-- the table's rows with an older loaded_at are deleted, so rows that left the
-  source or the window leave Supabase too;
+- the rows Supabase already holds for that table are read and compared with
+  them, column by column (session 11);
+- only rows that are new or changed are upserted, stamped with this run's
+  loaded_at (so loaded_at is the run that last wrote a row);
+- rows Supabase holds that the selection no longer has (older than the window,
+  or gone from the source) are deleted;
 - count(*) in Supabase for that table_name must equal the selected CSV rows.
+Session 11: the session 10 loader upserted every row on every run. Postgres keeps
+the old copy of an updated row until a vacuum, so each full rewrite added the
+size of the live set again (219 MB after the first load, 339 MB after the
+second). Writing only what changed keeps a daily run's churn to the new days.
 Then pg_database_size (function erw_db_size) must be under max_mb (300), or the
 run fails. Exit 1 on any failure.
 """
@@ -125,6 +132,96 @@ def records(name, df, shape, license_, loaded_at):
     return out
 
 
+def _ts(v):
+    try:
+        t = pd.Timestamp(v)
+        t = t.tz_localize("UTC") if t.tzinfo is None else t.tz_convert("UTC")
+        return t.strftime(TS_FMT)
+    except (ValueError, TypeError):
+        return str(v)
+
+
+def canon(r, shape):
+    """A row (a record written by this loader, or one read back from Supabase) in one
+    comparable form: key tuple, value tuple."""
+    cols, key = SHAPES[shape]
+    vals = {}
+    for c in cols:
+        v = r.get(c)
+        if v is None or v == "":
+            vals[c] = None
+        elif c in NUMERIC:
+            vals[c] = float(v)
+        elif c in TIMESTAMP:
+            vals[c] = _ts(v)
+        elif c == "status_date":
+            vals[c] = str(v)[:10]
+        else:
+            vals[c] = str(v)
+    k = (r["table_name"],) + tuple(vals[c] for c in key[1:])
+    body = tuple(vals[c] for c in cols) + (r["license"],)
+    if shape != "series":
+        body += (json.dumps(r.get("extra") or {}, sort_keys=True),)
+    return k, body
+
+
+def existing_rows(client, shape, name):
+    """Every row Supabase holds for one ERW table, paged in key order."""
+    cols, key = SHAPES[shape]
+    fields = ",".join(["table_name"] + cols + ["license"] + (["extra"] if shape != "series" else []))
+    rows, start = [], 0
+    while True:
+        q = client.table(shape).select(fields).eq("table_name", name)
+        for c in key[1:]:
+            q = q.order(c)
+        batch = q.range(start, start + BATCH - 1).execute().data
+        rows += batch
+        if len(batch) < BATCH:
+            return rows
+        start += BATCH
+
+
+def sync_table(client, name, df, shape, license_, loaded_at, days, now):
+    """Make Supabase hold exactly the selected rows of one table, writing only the
+    difference. Returns (written, deleted)."""
+    cols, key = SHAPES[shape]
+    recs = records(name, df, shape, license_, loaded_at)
+    want = {}
+    for r in recs:
+        k, body = canon(r, shape)
+        want[k] = (body, r)
+    have = {}
+    for r in existing_rows(client, shape, name):
+        k, body = canon(r, shape)
+        have[k] = body
+    write = [r for k, (body, r) in want.items() if have.get(k) != body]
+    gone = [k for k in have if k not in want]
+    for i in range(0, len(write), BATCH):
+        client.table(shape).upsert(write[i:i + BATCH], on_conflict=",".join(key)).execute()
+    deleted = 0
+    if days is not None:  # the rolling window: one delete for everything older than the cut
+        cut = (now - pd.Timedelta(days=days)).strftime(TS_FMT)
+        old = [k for k in gone if k[3] < cut]
+        if old:
+            client.table(shape).delete().eq("table_name", name).lt("ts_utc", cut).execute()
+            deleted += len(old)
+        gone = [k for k in gone if k[3] >= cut]
+    if shape == "series":  # anything else, grouped by entity and variable
+        groups = {}
+        for k in gone:
+            groups.setdefault((k[1], k[2]), []).append(k[3])
+        for (ent, var), tss in groups.items():
+            for i in range(0, len(tss), 100):
+                client.table(shape).delete().eq("table_name", name).eq("entity", ent) \
+                    .eq("variable", var).in_("ts_utc", tss[i:i + 100]).execute()
+    else:
+        ids = [k[1] for k in gone]
+        for i in range(0, len(ids), 100):
+            client.table(shape).delete().eq("table_name", name).in_(key[1], ids[i:i + 100]).execute()
+    deleted += len(gone)
+    return len(write), deleted
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW Supabase live-set loader")
     ap.add_argument("--dry-run", action="store_true", help="select and count only, no network")
@@ -160,24 +257,22 @@ def main(argv=None):
     failed = []
     recon = []
     for name, (df, shape) in selected.items():
-        _, key = SHAPES[shape]
+        days = dict((n, d) for n, _, d in plan)[name]
         try:
             if name not in lic:
                 raise RuntimeError("not in coverage.csv")
-            recs = records(name, df, shape, lic[name], loaded_at)
-            for i in range(0, len(recs), BATCH):
-                client.table(shape).upsert(recs[i:i + BATCH], on_conflict=",".join(key)).execute()
-            client.table(shape).delete().eq("table_name", name).lt("loaded_at", loaded_at).execute()
+            written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now)
             n = client.table(shape).select("table_name", count="exact", head=True) \
                 .eq("table_name", name).execute().count
             ok = n == len(df)
-            recon.append((name, shape, len(df), n, "match" if ok else "MISMATCH"))
-            print(f"{'match   ' if ok else 'MISMATCH'} {name}: CSV (filtered) {len(df):,}, Supabase {n:,}")
+            recon.append((name, shape, len(df), n, "match" if ok else "MISMATCH", written, deleted))
+            print(f"{'match   ' if ok else 'MISMATCH'} {name}: CSV (filtered) {len(df):,}, Supabase {n:,}; "
+                  f"written {written:,}, deleted {deleted:,}")
             if not ok:
                 failed.append(name)
         except Exception as exc:
             failed.append(name)
-            recon.append((name, shape, len(df), None, f"FAILED {type(exc).__name__}"))
+            recon.append((name, shape, len(df), None, f"FAILED {type(exc).__name__}", None, None))
             print(f"FAILED {name}: {type(exc).__name__}: {str(exc)[:300]}")
 
     # provenance headers of every live-set table
@@ -200,6 +295,8 @@ def main(argv=None):
         for k in CAT_NUMERIC:
             row[k] = None if row.get(k) is None else int(row[k])
         row["in_live_set"] = "yes" if r["table"] in live_names else "no"
+        # the table's own columns, in CSV order (migration 003), so a reader returns exactly them
+        row["columns"] = json.dumps(list(selected[r["table"]][0].columns)) if r["table"] in live_names else None
         cat.append(row)
     client.table("catalogue").upsert(cat, on_conflict="table_name").execute()
     client.table("catalogue").delete().not_.in_("table_name", list(cov["table"])).execute()
@@ -210,7 +307,7 @@ def main(argv=None):
     for t, want in (("catalogue", len(cat)), ("sources", len(srcs))):
         n = client.table(t).select("*", count="exact", head=True).execute().count
         ok = n == want
-        recon.append((t, "meta", want, n, "match" if ok else "MISMATCH"))
+        recon.append((t, "meta", want, n, "match" if ok else "MISMATCH", want, None))
         print(f"{'match   ' if ok else 'MISMATCH'} {t}: CSV {want:,}, Supabase {n:,}")
         if not ok:
             failed.append(t)
@@ -219,7 +316,8 @@ def main(argv=None):
     mb = int(size) / 1024 / 1024
     print(f"pg_database_size: {int(size):,} bytes ({mb:.1f} MB); limit {LIVE['max_mb']} MB")
     os.makedirs(os.path.join(ROOT, "runs"), exist_ok=True)
-    pd.DataFrame(recon, columns=["table", "shape", "csv_rows", "supabase_rows", "result"]).to_csv(
+    pd.DataFrame(recon, columns=["table", "shape", "csv_rows", "supabase_rows", "result", "written",
+                                 "deleted"]).to_csv(
         os.path.join(ROOT, "runs", "supabase_reconcile.csv"), index=False)
     with open(os.path.join(ROOT, "runs", "supabase_size.json"), "w", encoding="utf-8") as f:
         json.dump({"bytes": int(size), "mb": round(mb, 1), "at": loaded_at}, f)
