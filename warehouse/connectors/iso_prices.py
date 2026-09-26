@@ -867,12 +867,14 @@ NYISO_RT_NOTE = ("RTM values are 15-minute time-weighted means of NYISO's real-t
 # ERCOT (session 1 logic, unchanged apart from forward DAM days)
 # ---------------------------------------------------------------------------
 
-ERCOT_HUBS = ["HB_NORTH", "HB_SOUTH", "HB_WEST", "HB_HOUSTON", "HB_BUSAVG"]
+# HB_HUBAVG added in session 8 (the signature explorer's peak-premium chart uses it)
+ERCOT_HUBS = ["HB_NORTH", "HB_SOUTH", "HB_WEST", "HB_HOUSTON", "HB_BUSAVG", "HB_HUBAVG"]
 ERCOT_TZ = "America/Chicago"
 ERCOT_REPORTS = {
     "NP4-190-CD": ("DAM Settlement Point Prices", 12331),
     "NP6-785-ER": ("Historical RTM Load Zone and Hub Prices", 13061),
     "NP6-905-CD": ("Settlement Point Prices at Resource Nodes, Hubs and Load Zones", 12301),
+    "NP4-180-ER": ("Historical DAM Load Zone and Hub Prices", 13060),  # session 8 backfill
 }
 ERCOT_PAGE = "https://www.ercot.com/mp/data-products/data-product-details?id={}"
 ERCOT_DOC_LIST = "https://www.ercot.com/misapp/servlets/IceDocListJsonWS?reportTypeId={}"
@@ -1469,6 +1471,105 @@ def run(iso, days):
     return failures
 
 
+def backfill_ercot(first_year, log_name="ercot_history"):
+    """ERCOT hub price history from the yearly archives (session 8).
+
+    Real-time: NP6-785-ER (Ercot.get_rtm_spp(year)); day-ahead: NP4-180-ER
+    (Ercot.get_dam_spp(year)). One table per market and ERCOT operating year,
+    ercot_rtm_hub_prices_<year> and ercot_dam_hub_prices_<year>, same columns,
+    variables and merge writer as the live tables. The history does not go into
+    the live tables themselves: eleven years of 15-minute prices is about 550 MB,
+    over GitHub's 100 MB file limit, and the daily job would rewrite and commit
+    it every day (SESSION_8_REPORT.md). The last year stops where the live
+    table begins, so the two never overlap.
+
+    Completeness per year: every hub has every interval of the operating year
+    (America/Chicago), [Jan 1 00:00, Jan 1 00:00 of the next year) or up to the
+    live table's first interval, exactly once. In UTC that is 35,040 quarter hours
+    (35,136 in a leap year) and 8,760 hours (8,784): the spring-forward hour does
+    not exist and the fall-back hour occurs twice (ERCOT's DSTFlag rows), so a
+    local year is always 365 or 366 x 24 real hours.
+    """
+    os.makedirs(LOG_DIR, exist_ok=True)
+    run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    log = Log(os.path.join(LOG_DIR, f"{log_name}_{run_id}.log"))
+    RAW.open("ercot_history", run_id)
+    live = {}
+    for m in ("rtm", "dam"):
+        path = os.path.join(OUT_DIR, f"ercot_{m}_hub_prices.csv")
+        live[m] = pd.Timestamp(read_series(path)["ts_utc"].min()) if os.path.exists(path) else None
+    log(f"ERW ercot history run {run_id}: years {first_year} on; live tables start "
+        f"rtm {live['rtm']}, dam {live['dam']}")
+    results, failures = [], 0
+    this_year = pd.Timestamp.now(tz=ERCOT_TZ).year
+    for year in range(first_year, this_year + 1):
+        for m, fn, rid, step, var, freq in (
+                ("rtm", "get_rtm_spp", "NP6-785-ER", "15min", "spp_rtm", "PT15M"),
+                ("dam", "get_dam_spp", "NP4-180-ER", "1h", "spp_dam", "PT1H")):
+            name = f"ercot_{m}_hub_prices_{year}"
+            try:
+                start = pd.Timestamp(f"{year}-01-01").tz_localize(ERCOT_TZ).tz_convert("UTC")
+                end = pd.Timestamp(f"{year + 1}-01-01").tz_localize(ERCOT_TZ).tz_convert("UTC")
+                if live[m] is not None:
+                    end = min(end, live[m])
+                if end <= start:
+                    log(f"{name}: the live table covers the year; nothing to backfill")
+                    continue
+                e = TracedErcot()
+                n = len(e.singles)
+                df = with_retries(f"ERCOT {rid} {year}", lambda: getattr(e, fn)(year=year), log)
+                doc, retrieved_at = e.singles[n]
+                d = df[df["Location"].isin(ERCOT_HUBS)]
+                rows = pd.DataFrame({
+                    "node": d["Location"].astype(str).values,
+                    "interval_start": pd.to_datetime(d["Interval Start"], utc=True).values,
+                    "value": pd.to_numeric(d["SPP"]).values,
+                    "source": f"ercot:{rid}", "source_url": doc.url, "doc_name": doc.constructed_name,
+                    "retrieved_at": utc_iso(retrieved_at), "vintage": utc_iso(doc.publish_date),
+                })
+                rows["interval_start"] = pd.to_datetime(rows["interval_start"], utc=True)
+                rows = rows[(rows["interval_start"] >= start) & (rows["interval_start"] < end)]
+                log(f"{name}: {doc.constructed_name}, published {utc_iso(doc.publish_date)}, "
+                    f"{len(rows)} hub rows in [{utc_iso(start)}, {utc_iso(end)})")
+                dups = rows.duplicated(["node", "interval_start"], keep=False)
+                if dups.any():
+                    raise RuntimeError(f"{name}: {int(dups.sum())} rows repeat a (hub, interval)")
+                check_complete(rows, ERCOT_HUBS, start, end, step, log)
+                per_hub = rows.groupby("node").size()
+                log(f"  intervals per hub: {per_hub.to_dict()}")
+                s = to_series(rows, "ercot", var, freq, f"ercot_{m}", "US-TX")
+                label = "real-time market, 15-minute" if m == "rtm" else "day-ahead market, hourly"
+                notes = [f"History table (session 8): ERCOT operating year {year}"
+                         + ("" if end == pd.Timestamp(f"{year + 1}-01-01").tz_localize(ERCOT_TZ).tz_convert("UTC")
+                            else f", up to the first interval of ercot_{m}_hub_prices ({utc_iso(end)})")
+                         + f". {len(ERCOT_HUBS)} hubs x {int(per_hub.iloc[0])} intervals. Written once from "
+                         "the yearly archive; the live table carries later intervals.",
+                         "DST: interval starts are UTC. The spring-forward hour does not exist; the fall-back "
+                         "hour appears twice in ERCOT's local time (DSTFlag) and as two distinct UTC hours here."]
+                write_csv(s, name, _ercot_header(f"ERCOT {label} settlement point prices, trading hubs, {year}",
+                                                 run_id, start, end,
+                                                 rows[["source", "vintage", "source_url"]].drop_duplicates(),
+                                                 notes), log)
+                results.append(dict(table=name, market=m.upper(), status="ok", detail=""))
+            except Exception:
+                failures += 1
+                tb = traceback.format_exc()
+                last = tb.strip().splitlines()[-1]
+                log(f"{name} FAILED, no output file written:\n{tb}")
+                print(f"ercot {name} FAILED, no output file written: {last}", file=sys.stderr)
+                results.append(dict(table=name, market=m.upper(), status="failed", detail=last[:300]))
+    update_sources([dict(source=f"ercot:{rid}", publisher=ISO_PUBLISHERS["ercot"], report=ERCOT_REPORTS[rid][0],
+                         report_url=ERCOT_PAGE.format(rid), document_list=ERCOT_DOC_LIST.format(ERCOT_REPORTS[rid][1]),
+                         tables=[r["table"] for r in results if r["status"] == "ok" and
+                                 r["table"].startswith("ercot_rtm" if rid == "NP6-785-ER" else "ercot_dam")])
+                    for rid in ("NP6-785-ER", "NP4-180-ER")])
+    write_status("ercot_history", run_id, results)
+    log(f"done, failures={failures}")
+    log.close()
+    print(f"ercot history run log: {os.path.relpath(log.path, ROOT)}")
+    return failures
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW ISO price connector")
     ap.add_argument("iso", choices=sorted(ISOS) + ["all"],
@@ -1476,9 +1577,15 @@ def main(argv=None):
     ap.add_argument("--days", type=int, default=30, help="complete operating days (default 30)")
     ap.add_argument("--out-dir", help="write CSVs, logs and raw files under this directory "
                     "instead of the repository (for trial runs)")
+    ap.add_argument("--backfill-from", type=int, metavar="YEAR",
+                    help="ercot only: write yearly history tables from YEAR's archives (session 8)")
     args = ap.parse_args(argv)
     if args.out_dir:
         set_out_dir(args.out_dir)
+    if args.backfill_from:
+        if args.iso != "ercot":
+            ap.error("--backfill-from is for ercot only")
+        return 1 if backfill_ercot(args.backfill_from) else 0
     isos = sorted(ISOS) if args.iso == "all" else [args.iso]
     failures = sum(run(i, args.days) for i in isos)
     return 1 if failures else 0
