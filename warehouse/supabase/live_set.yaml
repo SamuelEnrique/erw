@@ -1,0 +1,29 @@
+# Energy Research Warehouse (ERW): what goes into Supabase (session 10 ruling 1).
+#
+# Supabase's free tier holds only a small live set, well under its 500 MB cap;
+# load.py fails if pg_database_size exceeds max_mb. Redivis holds every table.
+# Table names are regular expressions matched against the ERW table names in
+# warehouse/output; a table matching no rule is not loaded.
+
+max_mb: 300
+
+# Loaded whole, every run.
+full:
+  - '^ercot_peak_premium_(annual|monthly)$'      # the two derived peak-premium tables
+  - '^news_index$'                               # the public news index
+  - '^eia860m_(operating|planned|retired)_generators$'   # entities tables
+  - '^[a-z]+_interconnection_queue$'             # entities tables
+  - '^eia_fuel_spot_prices$'
+  - '^fred_daily_spot_prices$'
+
+# Only rows whose time is within the last `days` days (series: ts_utc). Older rows
+# of these tables are deleted from Supabase on each load, so the window rolls.
+recent:
+  days: 90
+  tables:
+    - '^(caiso|ercot|isone|miso|nyiso|spp|pjm)_(dam|rtm)_(hub|zone)_prices(_hourly|_\d{4})?$'   # ISO prices, incl. the ERCOT yearly history
+    - '^eia930_[a-z0-9]+_(demand|generation)$'
+
+# The catalogue (coverage.csv) and the source registry are loaded whole.
+catalogue: warehouse/metadata/coverage.csv
+sources: warehouse/metadata/sources.csv
