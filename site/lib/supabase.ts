@@ -1,0 +1,71 @@
+// Energy Research Warehouse (ERW) site: the one way the site reads Supabase.
+//
+// PostgREST over plain fetch, with SUPABASE_URL and SUPABASE_ANON_KEY only. The
+// anon key is subject to row-level security (warehouse/supabase/migrations/002_rls.sql):
+// it sees public rows and nothing else. The service key is never read here.
+// Both variables are server-side (no NEXT_PUBLIC_ prefix), so neither reaches a browser.
+import "server-only";
+
+/** A read that failed. Pages show its message as the reason for "no data". */
+export class DataError extends Error {}
+
+/** Revalidation, in seconds: latest prices every 15 minutes, everything else hourly. */
+export const LATEST = 900;
+export const HOURLY = 3600;
+
+const PAGE = 1000; // Supabase returns at most 1,000 rows per request
+
+function config(): { base: string; key: string } {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    throw new DataError("SUPABASE_URL or SUPABASE_ANON_KEY is not set on the server");
+  }
+  return { base: new URL(url).origin, key };
+}
+
+/**
+ * Rows of one Supabase table. `query` holds PostgREST parameters, for example
+ * { select: "entity,value", table_name: "eq.news_index", order: "ts_utc" }.
+ * Pages through the result 1,000 rows at a time, up to `max` rows.
+ */
+export async function rest<T>(
+  table: string,
+  query: Record<string, string>,
+  revalidate: number,
+  max = 50_000,
+): Promise<T[]> {
+  const { base, key } = config();
+  const rows: T[] = [];
+  for (let offset = 0; offset < max; offset += PAGE) {
+    const qs = new URLSearchParams({ ...query, limit: String(Math.min(PAGE, max - offset)), offset: String(offset) });
+    let res: Response;
+    try {
+      res = await fetch(`${base}/rest/v1/${table}?${qs}`, {
+        headers: { apikey: key, Authorization: `Bearer ${key}` },
+        next: { revalidate, tags: [table] },
+      });
+    } catch (e) {
+      throw new DataError(`Supabase ${table}: request failed (${(e as Error).message})`);
+    }
+    if (!res.ok) {
+      const body = (await res.text()).slice(0, 200);
+      throw new DataError(`Supabase ${table}: HTTP ${res.status} ${body}`);
+    }
+    const batch = (await res.json()) as T[];
+    rows.push(...batch);
+    if (batch.length < PAGE) break;
+  }
+  return rows;
+}
+
+/** Run a read and turn a failure into a reason, so a page section can say why it has no data. */
+export async function attempt<T>(f: () => Promise<T>): Promise<{ ok: true; data: T } | { ok: false; reason: string }> {
+  try {
+    return { ok: true, data: await f() };
+  } catch (e) {
+    const reason = e instanceof DataError ? e.message : `unexpected error: ${(e as Error).message}`;
+    console.error(`[erw] ${reason}`);
+    return { ok: false, reason };
+  }
+}

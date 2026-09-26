@@ -1,0 +1,18 @@
+/*
+ * Energy Research Warehouse (ERW) site: the single design token file.
+ * Every color and typeface on the site comes from here. Tailwind reads the
+ * @theme block (bg-paper, text-ink, text-accent, border-rule, font-serif ...);
+ * charts read the same CSS variables at runtime (components/tokens.ts).
+ */
+@theme {
+  --color-paper: #F7F3EA;   /* background */
+  --color-ink: #2E2D29;     /* text */
+  --color-accent: #8C1515;  /* accent: links, the highlighted series */
+  --color-muted: #6B665E;   /* secondary text, axes, the second series */
+  --color-rule: #D9D2C3;    /* borders and grid lines */
+  --color-panel: #FBF8F2;   /* a table or card on the page, a tint of the background */
+
+  --font-serif: Georgia, "Times New Roman", serif;                 /* headings */
+  --font-sans: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;  /* body */
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;          /* table and entity names */
+}

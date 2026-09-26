@@ -1,0 +1,20 @@
+{
+  "_about": "Energy Research Warehouse (ERW) site metadata that does not live in Supabase. redivis: read from the Redivis API on 2026-09-26 (dataset properties url, publicAccessLevel, version.isReleased).",
+  "repository": "https://github.com/SamuelEnrique/erw",
+  "redivis": {
+    "dataset": "energy_research_warehouse",
+    "url": "https://redivis.com/datasets/05yh-65frzyhaz",
+    "checked": "2026-09-26",
+    "released": false,
+    "status": "The dataset holds every ERW table as an unreleased draft. A version is released by a human after review; until then the dataset is not open to the public."
+  },
+  "package": {
+    "install": [
+      "git clone https://github.com/SamuelEnrique/erw.git",
+      "cd erw",
+      "python -m pip install -e package"
+    ],
+    "readme": "https://github.com/SamuelEnrique/erw/blob/main/package/README.md",
+    "note": "pandas is the only dependency. Extras: package[supabase] reads this site's live set, package[redivis] the store of record."
+  }
+}

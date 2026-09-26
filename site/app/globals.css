@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum" 1;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+a {
+  color: var(--color-accent);
+  text-underline-offset: 2px;
+}
+
+/* rendered markdown (digests, the data standard, method documents) */
+.prose-erw { line-height: 1.6; max-width: 72ch; }
+.prose-erw h1 { font-size: 1.9rem; margin: 0 0 1rem; }
+.prose-erw h2 { font-size: 1.4rem; margin: 2rem 0 0.75rem; border-bottom: 1px solid var(--color-rule); padding-bottom: 0.25rem; }
+.prose-erw h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+.prose-erw p, .prose-erw ul, .prose-erw ol { margin: 0 0 0.9rem; }
+.prose-erw ul { list-style: disc; padding-left: 1.4rem; }
+.prose-erw ol { list-style: decimal; padding-left: 1.4rem; }
+.prose-erw li { margin: 0.25rem 0; }
+.prose-erw code { font-family: var(--font-mono); font-size: 0.88em; background: var(--color-panel); border: 1px solid var(--color-rule); padding: 0 0.25em; border-radius: 3px; }
+.prose-erw pre { background: var(--color-panel); border: 1px solid var(--color-rule); padding: 0.75rem; overflow-x: auto; margin: 0 0 1rem; }
+.prose-erw pre code { border: 0; padding: 0; }
+.prose-erw table { border-collapse: collapse; margin: 0 0 1rem; font-size: 0.9rem; display: block; overflow-x: auto; }
+.prose-erw th, .prose-erw td { border: 1px solid var(--color-rule); padding: 0.3rem 0.5rem; text-align: left; vertical-align: top; }
+.prose-erw th { background: var(--color-panel); }
+.prose-erw blockquote { border-left: 3px solid var(--color-rule); padding-left: 0.75rem; color: var(--color-muted); }
+.prose-erw a { word-break: break-word; }

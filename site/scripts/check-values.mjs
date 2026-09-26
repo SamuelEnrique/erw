@@ -1,0 +1,120 @@
+// Energy Research Warehouse (ERW) site: check rendered numbers against direct Supabase queries.
+//
+//   npm run build && npm start           (the site on http://localhost:3000)
+//   node scripts/check-values.mjs [base-url]
+//
+// Every number the pages render through components/Num.tsx carries data-check (the Supabase
+// table and key it was read from) and data-raw (the value as read). For each one, this script
+// runs its own query against Supabase's REST API with SUPABASE_URL and SUPABASE_ANON_KEY (from the
+// environment or site/.env.local), independent of lib/, and checks:
+//   1. the value Supabase returns equals data-raw;
+//   2. the text on the page equals data-raw rounded as displayed (2 decimals, or a whole count).
+// Prints one line per value and a summary; exits 1 if any value fails or fewer than ten were checked.
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const base = process.argv[2] ?? "http://localhost:3000";
+const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium"];
+
+function env(name) {
+  if (process.env[name]) return process.env[name];
+  const f = path.join(here, "..", ".env.local");
+  if (fs.existsSync(f)) {
+    for (const line of fs.readFileSync(f, "utf-8").split(/\r?\n/)) {
+      const m = line.match(/^([A-Z_]+)=(.*)$/);
+      if (m && m[1] === name) return m[2].trim().replace(/^"|"$/g, "");
+    }
+  }
+  throw new Error(`${name} is not set`);
+}
+const origin = new URL(env("SUPABASE_URL")).origin;
+const key = env("SUPABASE_ANON_KEY");
+
+async function q(table, params, countOnly = false) {
+  const res = await fetch(`${origin}/rest/v1/${table}?${new URLSearchParams(params)}`, {
+    headers: { apikey: key, Authorization: `Bearer ${key}`, ...(countOnly ? { Prefer: "count=exact", Range: "0-0" } : {}) },
+  });
+  if (!res.ok) throw new Error(`${table}: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+  if (countOnly) return Number(res.headers.get("content-range").split("/")[1]);
+  return res.json();
+}
+
+async function all(table, params) {
+  const out = [];
+  for (let off = 0; ; off += 1000) {
+    const b = await q(table, { ...params, limit: "1000", offset: String(off) });
+    out.push(...b);
+    if (b.length < 1000) return out;
+  }
+}
+
+/** The value Supabase holds for one data-check key. */
+async function truth(check) {
+  const p = check.split("|");
+  if (p[0] === "catalogue") {
+    if (p[1] === "count") return q("catalogue", { select: "table_name", license: "eq.public" }, true);
+    if (p[1] === "n_pass") return q("catalogue", { select: "table_name", license: "eq.public", validator_status: "eq.pass" }, true);
+    if (p[1] === "sum_n_rows") return (await all("catalogue", { select: "n_rows", license: "eq.public" })).reduce((a, r) => a + Number(r.n_rows), 0);
+    if (p[1] === "max_last_run") return (await q("catalogue", { select: "last_run", license: "eq.public", order: "last_run.desc", limit: "1" }))[0].last_run;
+    return (await q("catalogue", { select: "n_rows", table_name: `eq.${p[1]}` }))[0]?.n_rows;
+  }
+  if (p[0] === "latest_prices") {
+    return (await q("latest_prices", { select: "value", entity: `eq.${p[1]}`, variable: `eq.${p[2]}` }))[0]?.value;
+  }
+  if (p[0] === "series") {
+    const [, table, entity, variable, at] = p;
+    const params = { select: "value,ts_utc", table_name: `eq.${table}`, entity: `eq.${entity}`, variable: `eq.${variable}` };
+    if (at === "newest") Object.assign(params, { order: "ts_utc.desc", limit: "1" });
+    else params.ts_utc = `eq.${at}`;
+    return (await q("series", params))[0]?.value;
+  }
+  throw new Error(`unknown check ${check}`);
+}
+
+function shown(raw) {
+  // how the page writes a raw value: a timestamp as "YYYY-MM-DD HH:MM UTC", a whole number with commas, else 2 decimals
+  if (/^\d{4}-\d{2}-\d{2}T/.test(raw)) return new Date(raw).toISOString().slice(0, 16).replace("T", " ") + " UTC";
+  const x = Number(raw);
+  return Number.isInteger(x) ? x.toLocaleString("en-US") : x.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function decode(s) {
+  return s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#x27;/g, "'");
+}
+
+async function main() {
+  const found = new Map();
+  for (const page of PAGES) {
+    const html = await fetch(base + page).then((r) => {
+      if (!r.ok) throw new Error(`${page}: HTTP ${r.status}`);
+      return r.text();
+    });
+    const re = /<span data-check="([^"]+)" data-raw="([^"]*)"[^>]*>([\s\S]*?)<\/span>/g;
+    for (const m of html.matchAll(re)) {
+      const text = decode(m[3].replace(/<!-- -->/g, "").replace(/<[^>]+>/g, "")).trim();
+      const check = decode(m[1]);
+      if (!found.has(check)) found.set(check, { page, raw: decode(m[2]), text });
+    }
+  }
+  let ok = 0, bad = 0;
+  const lines = [];
+  for (const [check, { page, raw, text }] of found) {
+    const t = await truth(check);
+    const isTime = /^\d{4}-\d{2}-\d{2}T/.test(raw);
+    const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : Math.abs(Number(t) - Number(raw)) < 1e-9;
+    const textOk = text.startsWith(shown(raw));
+    const pass = t !== undefined && t !== null && same && textOk;
+    pass ? ok++ : bad++;
+    lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} | page shows "${text}" | page read ${raw} | Supabase ${t}`);
+  }
+  console.log(lines.join("\n"));
+  console.log(`\n${ok} of ${found.size} values match Supabase${bad ? `; ${bad} FAILED` : ""}`);
+  if (bad || found.size < 10) process.exit(1);
+}
+
+main().catch((e) => {
+  console.error(`check-values FAILED: ${e.message}`);
+  process.exit(1);
+});
