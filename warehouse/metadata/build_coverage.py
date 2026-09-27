@@ -30,6 +30,10 @@ coverage.csv but not in warehouse/output is carried over unchanged (its CSV row
 and its line in docs/coverage.md, with its own last_run), and named in a note
 under the table; it is never dropped. Retiring a table is a human edit.
 
+Absent inputs (session 18): a derived table built without some of its inputs says so in an
+"Absent inputs:" header line (energy_projects, when a queue could not be pulled); each such
+line is repeated in a note under the table in docs/coverage.md.
+
 license (session 5 ruling) is "internal" if any of the table's sources is
 licensed for internal use only, otherwise "public". Per-source licenses come
 from warehouse/metadata/sources.csv, the source registry the connectors keep;
@@ -38,6 +42,7 @@ in the registry fails the build rather than being guessed public.
 """
 
 import glob
+import itertools
 import os
 import re
 import sys
@@ -94,6 +99,11 @@ SECTOR_RULES = [
     (r"^datacenter_projects(_evidence)?$", "power;datacenters"),
     # session 17: written only if ERCOT publishes a request-level list (warehouse/connectors/ercot_large_load.py)
     (r"^ercot_large_load_queue$", "power;datacenters"),
+    # session 18: the energy mix explorer (21), the curtailment tracker (22), consumption by sector (23)
+    (r"^(eia_state_generation_monthly|state_generation_mix_monthly)$", "power"),
+    (r"^((caiso|spp)_curtailment_daily|ercot_wind_solar_hsl_daily|iso_curtailment_monthly)$", "power"),
+    (r"^eia_retail_sales_monthly$", "power"),
+    (r"^eia_sector_energy_consumption_monthly$", "power;gas;oil;coal"),
 ]
 
 
@@ -337,6 +347,18 @@ def main():
                   f"`warehouse/output/` does not hold them (the daily CI runner restores only the "
                   f"rolling-window tables; every table is on Redivis): {len(carried)} tables, "
                   + ", ".join(f"`{r['table']}`" for r in carried) + "."]
+    # session 18: a derived table built without some of its inputs names them in an
+    # "Absent inputs:" header line (energy_projects when a queue could not be pulled)
+    absent_notes = []
+    for name in sorted(built):
+        with open(os.path.join(OUT, name + ".csv"), encoding="utf-8") as f:
+            header = list(itertools.takewhile(lambda ln: ln.startswith("#"), f))
+        for h in header:
+            h = h.lstrip("#").strip()
+            if h.startswith("Absent inputs:"):
+                absent_notes.append(f"`{name}` was built without some inputs. {h}")
+    if absent_notes:
+        lines += ["", "Absent inputs (session 18): " + " ".join(absent_notes)]
     lines += ["", "Markets and series with no table: " + (", ".join(missing) if missing else "none") +
               ". PJM prices need a PJM API key, which the ERW does not have yet. Why anything else "
               "is missing is in `warehouse/metadata/run_status.csv` and the connector's run log in "

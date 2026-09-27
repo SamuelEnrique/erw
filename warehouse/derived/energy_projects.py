@@ -35,6 +35,13 @@ source_url the method doc, a "Derived from:" header line, and the most
 restrictive license of the inputs. In CI the queue tables are on the runner only
 on Mondays (or a manual run with queues=1); on other days this script skips with
 a warning (session 10 ruling 3) and Supabase keeps the last load.
+
+Absent queues (session 18): the two EIA-860M tables are required; the queues are not. If
+some queues are present and others absent (GitHub run 4: NYISO's queue answered HTTP 202,
+so nyiso_interconnection_queue was not written), the table is built from the queues it has.
+Each absent queue is named, with the reason from warehouse/metadata/run_status.csv, in an
+"Absent inputs:" header line, in the run status and, through the coverage builder, in
+docs/coverage.md. With no queue at all in CI, the script still skips (ruling 3 above).
 """
 
 import datetime as dt
@@ -62,8 +69,9 @@ GAZ_URL = "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazett
 GAZ_URL_2020 = "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2020_Gazetteer/2020_Gaz_counties_national.zip"
 GAZ_PAGE = "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html"
 QUEUE_ISOS = ["ercot", "caiso", "nyiso", "miso", "spp", "isone"]
-INPUTS = ["eia860m_operating_generators", "eia860m_planned_generators"] + \
-         [f"{i}_interconnection_queue" for i in QUEUE_ISOS]
+REQUIRED = ["eia860m_operating_generators", "eia860m_planned_generators"]
+QUEUES = [f"{i}_interconnection_queue" for i in QUEUE_ISOS]
+INPUTS = REQUIRED + QUEUES
 
 EXTRA = ["project_id", "kind", "technology_group", "mw", "state", "county", "geo_precision", "geo_note",
          "operator_role", "date", "date_kind", "technology", "source_status", "source_table"]
@@ -226,7 +234,7 @@ def read(name):
     return pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False, na_values=[])
 
 
-def build(look, log):
+def build(look, log, queue_isos=QUEUE_ISOS):
     frames = []
     for name, kind in (("eia860m_operating_generators", "operating"), ("eia860m_planned_generators", "planned")):
         d = read(name)
@@ -245,7 +253,7 @@ def build(look, log):
             "date": date, "date_kind": date_kind, "technology": d["technology"], "source_status": d["eia_status_label"],
             "source_table": name}))
         log(f"{name}: {len(d)} rows")
-    for iso in QUEUE_ISOS:
+    for iso in queue_isos:
         name = f"{iso}_interconnection_queue"
         d = read(name)
         frames.append(pd.DataFrame({
@@ -277,11 +285,24 @@ def build(look, log):
     return t[COLS].sort_values("entity_id").reset_index(drop=True)
 
 
-def derived_license(log):
+def absent_reason(table):
+    """The latest failed or skipped run_status row of a table, as a short reason."""
+    path = os.path.join(ip.METADATA_DIR, "run_status.csv")
+    if not os.path.exists(path):
+        return "no run status"
+    st = pd.read_csv(path, dtype=str, keep_default_na=False)
+    st = st[(st["table"] == table) & st["status"].isin(["failed", "skipped", "gap"])]
+    if st.empty:
+        return "not on this machine; no failed run recorded"
+    r = st.sort_values("run_id").iloc[-1]
+    return f"{r['status']} in run {r['run_id']}: {r['detail'][:160]}"
+
+
+def derived_license(log, inputs=INPUTS):
     reg = pd.read_csv(os.path.join(ip.METADATA_DIR, "sources.csv"), dtype=str, keep_default_na=False)
     lic = dict(zip(reg["source"], reg["license"]))
     srcs = set()
-    for n in INPUTS:
+    for n in inputs:
         srcs |= set(read(n)["source"])
     missing = sorted(s for s in srcs if s not in lic)
     if missing:
@@ -295,8 +316,12 @@ def main():
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"energy_projects_{run_id}.log"))
-    absent = [n for n in INPUTS if not os.path.exists(os.path.join(ip.OUT_DIR, n + ".csv"))]
-    if absent and os.environ.get("GITHUB_ACTIONS") == "true":
+    have = lambda n: os.path.exists(os.path.join(ip.OUT_DIR, n + ".csv"))  # noqa: E731
+    absent = [n for n in INPUTS if not have(n)]
+    present_queues = [q for q in QUEUES if have(q)]
+    # session 18: some queues absent, the rest present: build from what is here
+    partial = bool(present_queues) and all(have(n) for n in REQUIRED)
+    if absent and not partial and os.environ.get("GITHUB_ACTIONS") == "true":
         msg = (f"inputs absent in CI ({len(absent)} tables, e.g. {', '.join(absent[:3])}; the queues are "
                "pulled on Mondays or a manual run); table not written (session 10 ruling 3)")
         log(f"SKIPPED: {msg}")
@@ -306,12 +331,17 @@ def main():
         log.close()
         return 0
     try:
-        if absent:
+        if absent and not partial:
             raise RuntimeError(f"input tables absent: {absent}")
+        inputs = REQUIRED + present_queues
+        missing_q = [(q, absent_reason(q)) for q in QUEUES if q not in present_queues]
+        for q, why in missing_q:
+            log(f"ABSENT input {q}: {why}; the table is built from the other queues")
+            print(f"::warning::energy_projects: {q} absent ({why}); built from {len(present_queues)} queues")
         log(f"ERW energy_projects {run_id}: method {METHOD}")
-        license_, srcs = derived_license(log)
+        license_, srcs = derived_license(log, inputs)
         look, got = load_gazetteer(run_id, log)
-        t = build(look, log)
+        t = build(look, log, [q.split("_")[0] for q in present_queues])
         n = len(t)
         by = t.groupby(["kind", "geo_precision"]).size()
         log("rows by kind and geo_precision: " + "; ".join(f"{k[0]} {k[1]} {v}" for k, v in by.items()))
@@ -326,7 +356,7 @@ def main():
             f"Retrieved: {run_id} (UTC) by warehouse/derived/energy_projects.py",
             f"Run log: warehouse/output/logs/energy_projects_{run_id}.log",
             f"Source: {SOURCE} ERW derived table, energy projects method ({METHOD}), {METHOD_URL}",
-            "Derived from: " + "; ".join(INPUTS),
+            "Derived from: " + "; ".join(inputs),
             "  input sources: " + "; ".join(srcs),
             f"Geocoding: {GAZ_SOURCE} U.S. Census Bureau, Gazetteer Files, counties: {got[0][0]} ({GAZ_URL}), "
             f"and, only for names it lacks (Connecticut's legacy counties), {got[1][0]} ({GAZ_URL_2020}); "
@@ -341,6 +371,9 @@ def main():
             f"License: {license_}. A derived table inherits the most restrictive license of its inputs "
             "(Decision 23); the Census gazetteer is public domain.",
         ]
+        if missing_q:
+            header.append("Absent inputs: " + "; ".join(f"{q} ({why})" for q, why in missing_q)
+                          + ". Their queue positions are not in this snapshot (session 18).")
         ip.write_snapshot(t, NAME, header, log, COLS)
         ip.update_sources([
             dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
@@ -350,8 +383,9 @@ def main():
                  report="Gazetteer Files, counties (2025), county internal points", report_url=GAZ_URL,
                  document_list=GAZ_PAGE, license="public", tables=[NAME]),
         ])
-        status = [dict(table=NAME, market="", status="ok",
-                       detail=f"{n} rows; " + "; ".join(f"{k[0]} {k[1]} {v}" for k, v in by.items())[:250])]
+        detail = (f"absent: {', '.join(q for q, _ in missing_q)}; " if missing_q else "") + f"{n} rows; " \
+            + "; ".join(f"{k[0]} {k[1]} {v}" for k, v in by.items())
+        status = [dict(table=NAME, market="", status="ok", detail=detail[:300])]
     except Exception:
         tb = ip.redact(traceback.format_exc())
         last = tb.strip().splitlines()[-1]

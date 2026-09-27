@@ -33,6 +33,15 @@ headers and catalogue rows, and leaves every other table, and the catalogue's ot
 Supabase has them. For a machine whose other tables are older than the last CI load.
 Then pg_database_size (function erw_db_size) must be under max_mb (300), or the
 run fails. Exit 1 on any failure.
+Session 18: GitHub run 4 failed twice over: "sources: CSV 100, Supabase 101" (a source that
+left sources.csv stayed in Supabase, as sources were only upserted) and pg_database_size
+300.6 MB, over max_mb (the series table held 62,631 dead row versions). Deleting from and
+compacting the shared database is left to a person: every run now names the stale sources,
+--prune deletes them and the rows of every table in coverage.csv no live-set rule matches,
+and --vacuum-full compacts the shape tables through SUPABASE_DB_URL (only VACUUM FULL
+shrinks pg_database_size). The scheduled run passes neither flag.
+live_set.yaml "select" also takes include (keep only these values), since (series rows from
+this time on) and days (series rows of the last N days, a window for one table).
 """
 
 import argparse
@@ -96,16 +105,33 @@ def shape_of(df):
     return "series"
 
 
+def live_rule(n):
+    """(rule, days) of the live-set rule a table name matches, or None."""
+    if any(re.match(p, n) for p in LIVE["full"]):
+        return "full", None
+    if any(re.match(p, n) for p in LIVE["recent"]["tables"]):
+        return "recent", LIVE["recent"]["days"]
+    return None
+
+
 def select_live():
     """[(table, rule, days)] for every table in warehouse/output the live set includes."""
     names = sorted(os.path.splitext(f)[0] for f in os.listdir(OUT) if f.endswith(".csv"))
-    out = []
-    for n in names:
-        if any(re.match(p, n) for p in LIVE["full"]):
-            out.append((n, "full", None))
-        elif any(re.match(p, n) for p in LIVE["recent"]["tables"]):
-            out.append((n, "recent", LIVE["recent"]["days"]))
-    return out
+    return [(n, *live_rule(n)) for n in names if live_rule(n)]
+
+
+def delete_table_rows(client, shape, names):
+    """Delete every row of these tables from a shape table, in batches by primary key, so a
+    large table does not hit the API's statement timeout."""
+    key = SHAPES[shape][1][1]
+    for name in names:
+        while True:
+            ids = [r[key] for r in client.table(shape).select(key).eq("table_name", name)
+                   .limit(BATCH).execute().data]
+            if not ids:
+                break
+            for i in range(0, len(ids), 200):
+                client.table(shape).delete().eq("table_name", name).in_(key, ids[i:i + 200]).execute()
 
 
 def filtered(name, days, now):
@@ -117,6 +143,12 @@ def filtered(name, days, now):
     if sel:
         for col, values in (sel.get("exclude") or {}).items():
             df = df[~df[col].isin(values)]
+        for col, values in (sel.get("include") or {}).items():  # session 18: keep only these
+            df = df[df[col].isin(values)]
+        if sel.get("since"):  # session 18: series rows from this time on (ISO 8601 UTC)
+            df = df[df["ts_utc"] >= sel["since"]]
+        if sel.get("days"):  # session 18: series rows of the last N days only (a table's own window)
+            df = df[df["ts_utc"] >= (now - pd.Timedelta(days=int(sel["days"]))).strftime(TS_FMT)]
         if sel.get("columns") is not None:
             std = SHAPES[shape][0]
             df = df[[c for c in df.columns if c in std or c in sel["columns"]]]
@@ -247,11 +279,31 @@ def rows_sha256(df, license_):
     return h.hexdigest()
 
 
+def vacuum_full():
+    """Session 18: return the space of dead row versions to the operating system. Postgres
+    reuses a dead row's space after a plain (auto)vacuum, but pg_database_size, which the
+    max_mb check reads, shrinks only after VACUUM FULL. GitHub run 4 measured 300.6 MB, of
+    which the series table held 62,631 dead rows. Needs SUPABASE_DB_URL (not a CI secret)."""
+    import psycopg
+    with psycopg.connect(env("SUPABASE_DB_URL"), autocommit=True, connect_timeout=30) as conn:
+        for t in ("series", "entities", "events", "headers", "catalogue", "sources"):
+            before = conn.execute(f"select pg_total_relation_size('public.{t}')").fetchone()[0]
+            conn.execute(f"VACUUM (FULL, ANALYZE) public.{t}")
+            after = conn.execute(f"select pg_total_relation_size('public.{t}')").fetchone()[0]
+            print(f"VACUUM FULL {t}: {before / 1048576:.1f} MB -> {after / 1048576:.1f} MB")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW Supabase live-set loader")
     ap.add_argument("--dry-run", action="store_true", help="select and count only, no network")
     ap.add_argument("--only", action="append", metavar="REGEX",
                     help="load only the live-set tables matching this pattern (repeatable; session 16)")
+    ap.add_argument("--prune", action="store_true",
+                    help="session 18: also delete sources gone from sources.csv and the rows of tables "
+                         "no live-set rule matches; for a person to run, never the schedule")
+    ap.add_argument("--vacuum-full", action="store_true",
+                    help="session 18: after loading, VACUUM FULL the shape tables through SUPABASE_DB_URL "
+                         "(a direct Postgres connection; locks each table for seconds) and measure again")
     args = ap.parse_args(argv)
     now = pd.Timestamp.now(tz="UTC")
     loaded_at = now.strftime(TS_FMT)
@@ -367,6 +419,34 @@ def main(argv=None):
     srcs = [{k: (None if v == "" else v) for k, v in r.items()} for r in reg.to_dict("records")]
     for i in range(0, len(srcs), BATCH):
         client.table("sources").upsert(srcs[i:i + BATCH], on_conflict="source").execute()
+    # session 18: GitHub run 4 failed on "sources: CSV 100, Supabase 101": a source that left
+    # sources.csv stayed in Supabase, since sources are only ever upserted. It is named on every
+    # run; only --prune (run by a person, never by the schedule) deletes it.
+    stale = [r["source"] for r in client.table("sources").select("source").execute().data
+             if r["source"] not in set(reg["source"])]
+    if stale and not args.prune:
+        print(f"sources: {len(stale)} in Supabase but not in {LIVE['sources']}: {stale[:5]} "
+              "(run load.py --prune to delete them)")
+    if stale and args.prune and not args.only:
+        for i in range(0, len(stale), 50):
+            client.table("sources").delete().in_("source", stale[i:i + 50]).execute()
+        print(f"sources: deleted {len(stale)} no longer in {LIVE['sources']}: {stale[:5]}")
+
+    # session 18, --prune only: rows of a table in coverage.csv that no live-set rule matches
+    # any more are deleted (after a person narrows live_set.yaml). A table still in the live
+    # set is never touched here.
+    if args.prune and not args.only:
+        gone = [t for t in cov["table"] if not live_rule(t)]
+        for shape in SHAPES:
+            for i in range(0, len(gone), 50):
+                part = gone[i:i + 50]
+                n = client.table(shape).select("table_name", count="exact", head=True) \
+                    .in_("table_name", part).execute().count
+                if n:
+                    delete_table_rows(client, shape, part)
+                    print(f"left the live set: deleted {n:,} {shape} rows of {part}")
+        for i in range(0, len(gone), 50):
+            client.table("headers").delete().in_("table_name", gone[i:i + 50]).execute()
     for t, want in ((("sources", len(srcs)),) if args.only else (("catalogue", len(cat)), ("sources", len(srcs)))):
         n = client.table(t).select("*", count="exact", head=True).execute().count
         ok = n == want
@@ -375,6 +455,8 @@ def main(argv=None):
         if not ok:
             failed.append(t)
 
+    if args.vacuum_full:
+        vacuum_full()
     size = client.rpc("erw_db_size").execute().data
     mb = int(size) / 1024 / 1024
     print(f"pg_database_size: {int(size):,} bytes ({mb:.1f} MB); limit {LIVE['max_mb']} MB")

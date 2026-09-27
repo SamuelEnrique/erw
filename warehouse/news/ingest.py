@@ -42,6 +42,19 @@ out. feed names the feed with the query that found the story ("<feed> [backfill 
     python warehouse/news/ingest.py --backfill --from 2025-10-01 --to 2026-09-22 --max-stories 3000
     python warehouse/news/ingest.py --backfill --from-raw 20260927T033451Z   # reuse saved responses
 
+Memory (session 18): the first backfill run was stopped for low memory while deduplicating
+47,578 items at once. The backfill now works one (month, sector) bucket at a time: a bucket's
+items are read (from Google or from the saved responses), deduplicated against an on-disk set
+of seen event ids and normalized titles (SQLite, warehouse/raw/news/<run_id>/backfill_seen.sqlite,
+seeded with the stored stories), and the bucket's new stories are written to the same file.
+Only one bucket's items are in memory at a time. The near-identical title test is unchanged
+(difflib ratio >= 0.92); a character-count prefilter, computed with numpy from the seen titles,
+skips pairs whose quick_ratio already falls below 0.92, which the test would reject anyway.
+Within a bucket stories are taken direct feeds first, then by publish time; buckets are taken in
+(month, sector) order, so a story found in two buckets is kept in the earlier one. The cap is then
+applied round-robin exactly as before, from the per-bucket counts, and only the kept stories
+are read back.
+
 Google News links (session 7 ruling 3): each story's link is followed once;
 if it lands on the outlet, source_url becomes the outlet URL and the Google
 link moves to google_news_url; otherwise the Google link stays and
@@ -54,7 +67,9 @@ import difflib
 import hashlib
 import html
 import os
+import json
 import re
+import sqlite3
 import sys
 import time
 import traceback
@@ -62,6 +77,7 @@ from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import feedparser
+import numpy as np
 import pandas as pd
 import requests
 import yaml
@@ -334,6 +350,231 @@ def cap_round_robin(rows, buckets, limit):
     return out
 
 
+def google_site_feeds(feeds):
+    """{site: filter: feed} for the Google News feeds that have a site: filter."""
+    import urllib.parse as up
+    out = {}
+    for f in feeds:
+        if f["via"].startswith("google_news"):
+            m = re.search(r"site:\S+", dict(up.parse_qsl(up.urlsplit(f["url"]).query)).get("q", ""))
+            if m:
+                out[m.group(0)] = f
+    return out
+
+
+def iter_backfill_buckets(feeds, sectors, start, end, from_raw, log, results):
+    """Yield ((month, sector), stories) one bucket at a time (session 18: memory-safe).
+
+    With from_raw, the stories come from that run's saved responses: the manifest is grouped by
+    bucket first, and each response is parsed only when its bucket is reached. Otherwise every
+    Google News feed with a site: filter is queried for the bucket, one query a second apart,
+    and a failed query is added to results."""
+    import urllib.parse as up
+    by_site = google_site_feeds(feeds)
+    if from_raw:
+        d = os.path.join(ip.RAW_DIR, "news", from_raw)
+        man = pd.read_csv(os.path.join(d, "manifest.csv"), dtype=str, keep_default_na=False)
+        groups, skipped = {}, 0
+        for r in man.itertuples():
+            q = dict(up.parse_qsl(up.urlsplit(r.url).query)).get("q", "")
+            site = re.search(r"site:\S+", q)
+            sector = next((k for k, v in BACKFILL_TERMS.items() if v in q), None)
+            month = re.search(r"after:(\d{4}-\d{2})", q)
+            if r.status != "200" or not site or site.group(0) not in by_site or not sector or not month:
+                skipped += 1
+                continue
+            if sector not in sectors:
+                continue
+            groups.setdefault((month.group(1), sector), []).append(
+                (site.group(0), r.url, r.file, r.retrieved_at))
+        log(f"  backfill from raw {from_raw}: {len(man)} responses, {skipped} not a backfill query, "
+            f"{len(groups)} month and sector buckets")
+        del man
+        for bucket in sorted(groups):
+            stories = []
+            for site, url, fname, retrieved in groups[bucket]:
+                feed = by_site[site]
+                with open(os.path.join(d, fname), "rb") as fh:
+                    got, _, _ = parse_feed(fh.read(), dict(feed, url=url), retrieved)
+                for st in got:
+                    st["feed"] = f"{feed['name']} [backfill {bucket[1]} {bucket[0]}]"
+                stories += got
+            yield bucket, stories
+        return
+    n_q = n_fail = 0
+    for m0, m1 in month_windows(start, end):
+        for sector in sectors:
+            bucket, stories = (f"{m0:%Y-%m}", sector), []
+            for site, f in by_site.items():
+                query = f"{site} {BACKFILL_TERMS[sector]} after:{m0:%Y-%m-%d} before:{m1:%Y-%m-%d}"
+                url = "https://news.google.com/rss/search?" + up.urlencode(
+                    {"q": query, "hl": "en-US", "gl": "US", "ceid": "US:en"})
+                n_q += 1
+                try:
+                    got, _, _ = fetch_feed(dict(f, url=url), log)
+                except Exception as exc:
+                    n_fail += 1
+                    log(f"  backfill FAILED {f['name']} {sector} {m0:%Y-%m}: {exc!r}")
+                    results.append(dict(table=NAME, market=f"backfill:{f['name']}:{sector}:{m0:%Y-%m}",
+                                        status="failed", detail=repr(exc)[:300]))
+                    time.sleep(5)
+                    continue
+                for st in got:
+                    st["feed"] = f"{f['name']} [backfill {sector} {m0:%Y-%m}]"
+                stories += got
+                time.sleep(1)
+            yield bucket, stories
+    log(f"  backfill: {n_q} queries over {len(by_site)} Google News feeds, {n_fail} failed")
+
+
+TITLE_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789 "
+_CHAR_INDEX = {c: i for i, c in enumerate(TITLE_CHARS)}
+
+
+def char_counts(t):
+    """Character counts of a normalized title (norm_title leaves only a-z, 0-9 and space)."""
+    v = np.zeros(len(TITLE_CHARS), dtype=np.int16)
+    for ch in t:
+        i = _CHAR_INDEX.get(ch)
+        if i is not None:
+            v[i] += 1
+    return v
+
+
+class SeenSet:
+    """The on-disk set of seen event ids and normalized titles (SQLite), and the accepted
+    stories of every bucket. Titles are loaded into a count matrix one bucket at a time."""
+
+    def __init__(self, path):
+        if os.path.exists(path):
+            os.remove(path)  # the file belongs to one run (its raw directory)
+        self.db = sqlite3.connect(path)
+        self.db.executescript(
+            "CREATE TABLE seen_id (eid TEXT PRIMARY KEY);"
+            "CREATE TABLE seen_title (title TEXT PRIMARY KEY);"
+            "CREATE TABLE accepted (seq INTEGER PRIMARY KEY, month TEXT, sector TEXT,"
+            " event_date TEXT, row TEXT);")
+        self.titles = None
+
+    def seed(self, ids, titles):
+        self.db.executemany("INSERT OR IGNORE INTO seen_id VALUES (?)", ((i,) for i in ids))
+        self.db.executemany("INSERT OR IGNORE INTO seen_title VALUES (?)", ((t,) for t in titles if t))
+        self.db.commit()
+
+    def has_id(self, eid):
+        return self.db.execute("SELECT 1 FROM seen_id WHERE eid = ?", (eid,)).fetchone() is not None
+
+    def load_titles(self, extra):
+        self.titles = [t for (t,) in self.db.execute("SELECT title FROM seen_title")]
+        cap = len(self.titles) + extra + 1
+        self.lens = np.zeros(cap, dtype=np.int32)
+        self.counts = np.zeros((cap, len(TITLE_CHARS)), dtype=np.int16)
+        for i, t in enumerate(self.titles):
+            self.lens[i] = len(t)
+            self.counts[i] = char_counts(t)
+        self.exact = set(self.titles)
+
+    def title_seen(self, nt):
+        """The daily ingest's test: some seen title t with abs(len(t) - len(nt)) < 20 and
+        similar(nt, t). The count prefilter only drops titles whose real_quick_ratio or
+        quick_ratio is below TITLE_SIMILAR, which similar() rejects anyway."""
+        if nt in self.exact:
+            return True
+        n, ln = len(self.titles), len(nt)
+        if n == 0:
+            return False
+        lens = self.lens[:n]
+        inter = np.minimum(self.counts[:n], char_counts(nt)).sum(axis=1)
+        total = lens + ln
+        ok = ((np.abs(lens - ln) < 20)
+              & (2 * np.minimum(lens, ln) >= TITLE_SIMILAR * total - 1e-9)
+              & (2 * inter >= TITLE_SIMILAR * total - 1e-9))
+        return any(similar(nt, self.titles[i]) for i in np.flatnonzero(ok))
+
+    def add(self, eid, nt, bucket, row):
+        self.db.execute("INSERT OR IGNORE INTO seen_id VALUES (?)", (eid,))
+        if nt and nt not in self.exact:
+            i = len(self.titles)
+            self.titles.append(nt)
+            self.lens[i] = len(nt)
+            self.counts[i] = char_counts(nt)
+            self.exact.add(nt)
+            self.db.execute("INSERT OR IGNORE INTO seen_title VALUES (?)", (nt,))
+        self.db.execute("INSERT INTO accepted (month, sector, event_date, row) VALUES (?, ?, ?, ?)",
+                        (bucket[0], bucket[1], row["event_date"], json.dumps(row)))
+
+    def end_bucket(self):
+        self.db.commit()
+        self.titles = self.lens = self.counts = self.exact = None
+
+    def take_round_robin(self, limit):
+        """cap_round_robin over the accepted stories, from per-bucket counts: how many each
+        bucket gives, then that many of its oldest (ties in the order found)."""
+        counts = {(m, s): n for m, s, n in self.db.execute(
+            "SELECT month, sector, COUNT(*) FROM accepted GROUP BY month, sector")}
+        keys = sorted(counts)
+        take, left, total = {k: 0 for k in keys}, dict(counts), 0
+        while total < limit and any(left[k] for k in keys):
+            for k in keys:
+                if total >= limit:
+                    break
+                if left[k]:
+                    take[k] += 1
+                    left[k] -= 1
+                    total += 1
+        out = []
+        for k in keys:
+            if take[k]:
+                out += [json.loads(r) for (r,) in self.db.execute(
+                    "SELECT row FROM accepted WHERE month = ? AND sector = ? "
+                    "ORDER BY event_date, seq LIMIT ?", (k[0], k[1], take[k]))]
+        return out, sum(counts.values()), len(keys)
+
+
+def backfill_bucketed(feeds, args, old, lo, hi, run_id, log, results):
+    """Session 18: the backfill's deduplication and cap, one bucket at a time (see the
+    module docstring). Returns (new rows, counters)."""
+    seen = SeenSet(os.path.join(ip.RAW_DIR, "news", run_id, "backfill_seen.sqlite"))
+    seen.seed(old["event_id"], (norm_title(t, s) for t, s in zip(old["title"], old["source"])))
+    order = {"direct": 0, "google_news_site": 1, "google_news_catchall": 2}
+    c = dict(items=0, dup_url=0, dup_title=0, outside=0, buckets=0)
+    for bucket, stories in iter_backfill_buckets(feeds, args.sectors.split(","), args.date_from,
+                                                 args.date_to, args.from_raw, log, results):
+        stories.sort(key=lambda x: (order.get(x["via"], 3), x["event_date"]))
+        seen.load_titles(len(stories))
+        kept = 0
+        for st in stories:
+            if not (lo <= pd.Timestamp(st["event_date"]) < hi):
+                c["outside"] += 1
+                continue
+            eid = "news:" + hashlib.sha1(st["canonical"].encode("utf-8")).hexdigest()[:16]
+            if seen.has_id(eid):
+                c["dup_url"] += 1
+                continue
+            nt = norm_title(st["title"], st["source"])
+            if nt and seen.title_seen(nt):
+                c["dup_title"] += 1
+                continue
+            row = {col: "" for col in NEWS_COLS}
+            row.update({"event_id": eid, "event_date": st["event_date"], "event_type": "news",
+                        "source": st["source"], "source_url": st["source_url"], "title": st["title"],
+                        "summary": st["summary"], "feed": st["feed"], "feed_sector": st["feed_sector"],
+                        "feed_region": st["feed_region"], "retrieved_at": st["retrieved_at"]})
+            seen.add(eid, nt, bucket, row)
+            kept += 1
+        seen.end_bucket()
+        c["items"] += len(stories)
+        c["buckets"] += 1
+        log(f"  bucket {bucket[0]} {bucket[1]}: {len(stories)} items, {kept} new")
+        del stories
+    new, found, n_buckets = seen.take_round_robin(args.max_stories)
+    seen.db.close()
+    log(f"  backfill: {found} new stories after deduplication, {len(new)} kept under the cap of "
+        f"{args.max_stories} (round-robin over {n_buckets} month and sector buckets); "
+        f"{found - len(new)} left out by the cap")
+    return new, c
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW news ingest")
     ap.add_argument("--days", type=int, default=2, help="keep stories published in the last N days")
@@ -364,9 +605,7 @@ def main(argv=None):
         log(f"BACKFILL {args.date_from} .. {args.date_to}, sectors {args.sectors}, at most "
             f"{args.max_stories} new stories")
         if args.from_raw:
-            got, results = backfill_from_raw(feeds, args.from_raw, log)
-        else:
-            got, results = backfill_fetch(feeds, args.sectors.split(","), args.date_from, args.date_to, log)
+            log(f"  from the saved responses of {args.from_raw}, no new queries")
 
     def one(feed):
         try:
@@ -396,42 +635,48 @@ def main(argv=None):
         old = pd.DataFrame(columns=NEWS_COLS)
     if migrated:
         log("  migrated news_stories.csv to the session 7 columns (headline, google_news_url, url_resolved)")
-    seen_ids = set(old["event_id"])
-    seen_titles = [norm_title(t, s) for t, s in zip(old["title"], old["source"])]
-    order = {"direct": 0, "google_news_site": 1, "google_news_catchall": 2}
-    got.sort(key=lambda x: (order.get(x["via"], 3), x["event_date"]))
-    new, dup_url, dup_title, too_old, buckets = [], 0, 0, 0, []
-    for st in got:
-        when = pd.Timestamp(st["event_date"])
-        if (not (lo <= when < hi)) if args.backfill else when < cutoff:
-            too_old += 1
-            continue
-        eid = "news:" + hashlib.sha1(st["canonical"].encode("utf-8")).hexdigest()[:16]
-        if eid in seen_ids:
-            dup_url += 1
-            continue
-        nt = norm_title(st["title"], st["source"])
-        if nt and any(similar(nt, t) for t in seen_titles if abs(len(t) - len(nt)) < 20):
-            dup_title += 1
-            continue
-        seen_ids.add(eid)
-        seen_titles.append(nt)
-        row = {c: "" for c in NEWS_COLS}
-        row.update({"event_id": eid, "event_date": st["event_date"], "event_type": "news",
-                    "source": st["source"], "source_url": st["source_url"], "title": st["title"],
-                    "summary": st["summary"], "feed": st["feed"], "feed_sector": st["feed_sector"],
-                    "feed_region": st["feed_region"], "retrieved_at": st["retrieved_at"]})
-        new.append(row)
-        buckets.append(st.get("bucket"))
     if args.backfill:
-        found = len(new)
-        new = cap_round_robin(new, buckets, args.max_stories)
-        log(f"  backfill: {found} new stories after deduplication, {len(new)} kept under the cap of "
-            f"{args.max_stories} (round-robin over {len(set(buckets))} month and sector buckets); "
-            f"{found - len(new)} left out by the cap")
-    log(f"  fetched {len(got)} dated stories: {len(new)} new, {dup_url} already stored or same URL, "
-        f"{dup_title} near-identical title, {too_old} "
-        + (f"outside {args.date_from} .. {args.date_to}" if args.backfill else f"older than {args.days} days"))
+        new, c = backfill_bucketed(feeds, args, old, lo, hi, run_id, log, results)
+        log(f"  read {c['items']} dated items in {c['buckets']} buckets: {c['dup_url']} already stored "
+            f"or same URL, {c['dup_title']} near-identical title, {c['outside']} outside "
+            f"{args.date_from} .. {args.date_to}")
+    else:
+        seen_ids = set(old["event_id"])
+        seen_titles = [norm_title(t, s) for t, s in zip(old["title"], old["source"])]
+        order = {"direct": 0, "google_news_site": 1, "google_news_catchall": 2}
+        got.sort(key=lambda x: (order.get(x["via"], 3), x["event_date"]))
+        new, dup_url, dup_title, too_old, buckets = [], 0, 0, 0, []
+        for st in got:
+            when = pd.Timestamp(st["event_date"])
+            if (not (lo <= when < hi)) if args.backfill else when < cutoff:
+                too_old += 1
+                continue
+            eid = "news:" + hashlib.sha1(st["canonical"].encode("utf-8")).hexdigest()[:16]
+            if eid in seen_ids:
+                dup_url += 1
+                continue
+            nt = norm_title(st["title"], st["source"])
+            if nt and any(similar(nt, t) for t in seen_titles if abs(len(t) - len(nt)) < 20):
+                dup_title += 1
+                continue
+            seen_ids.add(eid)
+            seen_titles.append(nt)
+            row = {c: "" for c in NEWS_COLS}
+            row.update({"event_id": eid, "event_date": st["event_date"], "event_type": "news",
+                        "source": st["source"], "source_url": st["source_url"], "title": st["title"],
+                        "summary": st["summary"], "feed": st["feed"], "feed_sector": st["feed_sector"],
+                        "feed_region": st["feed_region"], "retrieved_at": st["retrieved_at"]})
+            new.append(row)
+            buckets.append(st.get("bucket"))
+        if args.backfill:
+            found = len(new)
+            new = cap_round_robin(new, buckets, args.max_stories)
+            log(f"  backfill: {found} new stories after deduplication, {len(new)} kept under the cap of "
+                f"{args.max_stories} (round-robin over {len(set(buckets))} month and sector buckets); "
+                f"{found - len(new)} left out by the cap")
+        log(f"  fetched {len(got)} dated stories: {len(new)} new, {dup_url} already stored or same URL, "
+            f"{dup_title} near-identical title, {too_old} "
+            + (f"outside {args.date_from} .. {args.date_to}" if args.backfill else f"older than {args.days} days"))
     header = [
         "Energy Research Warehouse (ERW): Energy news stories, titles, summaries and links",
         "Shape: events (docs/datastandard.md v0), event_type news; news columns per Decision 15. "
