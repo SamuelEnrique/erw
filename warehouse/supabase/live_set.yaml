@@ -31,6 +31,9 @@ full:
   - '^ercot_wind_solar_hsl_daily$'
   - '^eia_retail_sales_monthly$'
   - '^eia_sector_energy_consumption_monthly$'
+  # session 19: the trader view (tool 24): the daily metrics with their own window, below
+  - '^(ercot|caiso|nyiso|miso|spp|isone)_trader_daily$'
+  - '^iso_rt_top_intervals$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -60,6 +63,13 @@ select:
       variable: [retail_sales]
     days: 850
   eia_sector_energy_consumption_monthly: {days: 850}
+  # session 19: /markets shows two weeks and the latest 30-day volatility
+  ercot_trader_daily: {days: 45}
+  caiso_trader_daily: {days: 45}
+  nyiso_trader_daily: {days: 45}
+  miso_trader_daily: {days: 45}
+  spp_trader_daily: {days: 45}
+  isone_trader_daily: {days: 45}
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

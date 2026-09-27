@@ -37,6 +37,8 @@ restore_before_run:
   - '^iso_curtailment_monthly$'
   # session 18: restored so an unchanged month keeps its retrieved_at and Supabase is not rewritten daily
   - '^state_generation_mix_monthly$'
+  # session 19: the trader view keeps days older than the price tables' windows
+  - '^[a-z]+_trader_daily$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.

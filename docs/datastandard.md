@@ -181,6 +181,11 @@ What was chosen, and why:
     - **A figure a source does not publish is named for what it is.** ERCOT publishes no curtailment. The ERW's variable is `<fuel>_below_hsl_mwh` (output below the High Sustained Limit), never `curtailed_*`, and its method says why it differs from curtailment (`docs/methods/curtailment.md`).
     - **Derived monthly sums** (`iso_curtailment_monthly`, `state_generation_mix_monthly`) use exact decimal arithmetic. A month is written only when every input value it needs is present. `state_generation_mix_monthly` carries the part of EIA's total that EIA does not itemize by source as its own variable, `net_generation_not_itemized_mwh`, so the groups add up to the published total.
 
+26. **Session 19: the trader view.**
+    - `MMBtu/MWh` joins the unit vocabulary, for the implied heat rate in `<iso>_trader_daily`.
+    - On-peak is the standard 5x16 block: hours starting 06:00 to 21:00 local, on weekdays that are not NERC holidays.
+    - A derived table recomputed from rolling windows keeps an unchanged row's `retrieved_at`, so the Supabase loader, which compares every column, rewrites only new or revised rows. The same rule applies to `state_generation_mix_monthly` since session 18.
+
 Deferred to a later version:
 
 - A controlled vocabulary for `variable`, `entity_type`, `event_type` and `status`, enforced by the validator the way the IRW enforces its tag vocabulary.

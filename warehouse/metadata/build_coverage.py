@@ -104,6 +104,8 @@ SECTOR_RULES = [
     (r"^((caiso|spp)_curtailment_daily|ercot_wind_solar_hsl_daily|iso_curtailment_monthly)$", "power"),
     (r"^eia_retail_sales_monthly$", "power"),
     (r"^eia_sector_energy_consumption_monthly$", "power;gas;oil;coal"),
+    # session 19: the trader view (24)
+    (r"^([a-z]+_trader_daily|iso_rt_top_intervals)$", "power"),
 ]
 
 

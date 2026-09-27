@@ -1,0 +1,9 @@
+Session 19 of the Energy Research Warehouse (ERW). Read CLAUDE.md, docs/platform-tools.md, warehouse/news/brief.py, warehouse/derived/ercot_peak_premium.py and SESSION_18_REPORT.md first. Same non-negotiables; may push after merging; stop if API spend passes USD 5.
+
+TASK 1. Trader view. A derived daily table per ISO from existing price tables: day-ahead versus real-time spread by hub (mean, max, hours where RT exceeded DA by more than 50 USD/MWh), on-peak versus off-peak DA averages, implied heat rate against Henry Hub, 30-day realized volatility, and the top 10 real-time intervals of the week; a /markets page presenting these per ISO with a week-over-week change, and the method doc. Note in the doc that PJM is absent pending its license.
+
+TASK 2. Audience paths. On the home page, four short entry paths: enthusiasts (digest, weekly), investors (deals, datacenters, capital), researchers (data, package, Redivis, methods), traders (markets, prices, grid, curtailment). No marketing copy; each path is three links and one sentence.
+
+TASK 3. Email digest. Add warehouse/news/email.py that renders the daily digest and the weekly brief as a short plain-text and HTML email (top 5 headlines, numbers section, link to the site) and sends through the Resend API if RESEND_API_KEY and DIGEST_RECIPIENTS are set; if not set, write the rendered email to docs/digest/email/ and skip sending with a log line. Add a /subscribe page that explains what the email is and collects an address into a Supabase table subscribers (insert-only policy for the anon key). Wire the send into the daily workflow after the brief.
+
+TASK 4. Briefing, tools list (tools 24 and 25), value check, screenshots, SESSION_19_REPORT.md. Final commit and push.

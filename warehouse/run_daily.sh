@@ -106,6 +106,9 @@ run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
 
 # EIA daily fuel spot prices, full history each run (small)
 run_other eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
+# Session 19: the trader view (tool 24), from the ISO price tables above and Henry Hub
+# (docs/methods/trader_view.md); SPP has no real-time table, PJM no price table
+run_other trader_view "$PYTHON" warehouse/derived/trader_view.py
 
 # EIA refined products, retail fuels, weekly trade and stocks, LNG exports by terminal
 # (session 7), full history each run
