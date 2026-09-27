@@ -31,6 +31,10 @@ metadata_tables:
 restore_before_run:
   - '^(caiso|ercot|isone|miso|nyiso|spp|pjm)_(dam|rtm)_(hub|zone)_prices(_hourly)?$'
   - '^eia930_[a-z0-9]+_(demand|generation)$'
+  # session 18: the curtailment tracker's tables merge each day's rows into the history
+  - '^(caiso|spp)_curtailment_daily$'
+  - '^ercot_wind_solar_hsl_daily$'
+  - '^iso_curtailment_monthly$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.
