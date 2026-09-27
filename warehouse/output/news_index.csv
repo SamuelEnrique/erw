@@ -1,11 +1,11 @@
 # Energy Research Warehouse (ERW): Public news index: links, metadata and model scores
 # Shape: events (docs/datastandard.md v0), event_type news. event_date is the publish time, UTC.
-# Retrieved: 20260927T021954Z (UTC) by warehouse/news/index.py from warehouse/output/news_stories.csv (the feeds were retrieved by warehouse/news/ingest.py; see retrieval in that table)
-# Run log: warehouse/output/logs/news_index_20260927T021954Z.log
+# Retrieved: 20260927T031947Z (UTC) by warehouse/news/index.py from warehouse/output/news_stories.csv (the feeds were retrieved by warehouse/news/ingest.py; see retrieval in that table)
+# Run log: warehouse/output/logs/news_index_20260927T031947Z.log
 # Built from warehouse/output/news_stories.csv by warehouse/news/index.py: every scored story, 1184 rows, 552 with a model headline (stories scored before session 7 have none).
 # License: public. Only links, metadata and the model's own fields; no outlet text. The internal table news_stories holds titles and summaries.
 # Sources: the outlet named in each row's source column; source_url links the story (a news.google.com link where Google News could not be resolved to the outlet).
-# File holds 1184 rows, 2026-09-23T21:16:42Z to 2026-09-27T02:00:00Z. This run wrote 1184 rows: 33 new, 1151 replacing earlier rows with the same (event_id); 0 rows are kept from earlier runs. Per row, source, source_url and retrieved_at say where it came from; earlier run logs are in warehouse/output/logs/.
+# File holds 1184 rows, 2026-09-23T21:16:42Z to 2026-09-27T02:00:00Z. This run wrote 1184 rows: 0 new, 1184 replacing earlier rows with the same (event_id); 0 rows are kept from earlier runs. Per row, source, source_url and retrieved_at say where it came from; earlier run logs are in warehouse/output/logs/.
 event_id,event_date,event_type,source,source_url,sector,region,significance,ai_power_relevance,cluster_id,headline
 news:0002d08a67749b5e,2026-09-25T17:19:57Z,news,Reuters,https://news.google.com/rss/articles/CBMimgFBVV95cUxQLVRPNkhjaVZncThYVXpmam55UG52NU5jZWQ0WXRpTmdWWUVLMXdBdkVjTzk3enJveGJBTGZtZjZ3TV9NWFQxZng3TFFvRWxkUWtZMHZNMTdaRlBrTklkMWtNVHh5XzY4ZVVnbDRiYy1LeTlnYUdGZVFoWGxTZEZFbWt2NG4yWnRWd1llbUhVQWc0ZzRTYUkxSWp3?oc=5,other,India,2,0,news:0002d08a67749b5e,
 news:005b66d52d7addd0,2026-09-25T23:46:49Z,news,California Public Utilities Commission (.gov),https://news.google.com/rss/articles/CBMitgFBVV95cUxOZ1dXcFMxMXA4RHJHUjE5RjNQSFh6bGk1cUtCRHNNR3plbEtoNEx3cVM0Vmk2ekNHaHNFLTIzZ0VxdFNPRndHa2N4VXlnNFlFTEJyMjJZa1Q1bVN1SHJHcUxtU2lUd2RxNDhDc2tiMjh2bVhMaWRHVmxlSWtJX1BmNFhYb2ZuQ1I0UUU5TGRONWdqN3EzUktOTVpvaWdLdlZ6MjlHTVZrRmoybGJ0TDY0aUJEbnBUQQ?oc=5,policy,California,5,0,news:005b66d52d7addd0,CPUC proposes $16 million penalty for Liberty Utilities over 2020 fire
