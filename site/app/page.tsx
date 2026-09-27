@@ -185,6 +185,10 @@ export default async function Home() {
             <div className="font-serif text-lg">Grid conditions</div>
             <div className="text-sm text-muted">Yesterday&apos;s peak demand, forecast error and generation mix for each ISO.</div>
           </Link>
+          <Link href="/map" className="bg-panel p-3 no-underline">
+            <div className="font-serif text-lg">Project map</div>
+            <div className="text-sm text-muted">Every EIA generator and ISO queue position on one US map, with filters.</div>
+          </Link>
           <Link href="/deals" className="bg-panel p-3 no-underline">
             <div className="font-serif text-lg">Energy deals</div>
             <div className="text-sm text-muted">PPAs, acquisitions, financings and supply deals from the news, with sources.</div>

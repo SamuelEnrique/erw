@@ -149,3 +149,63 @@ export async function deals(): Promise<DealRow[]> {
     HOURLY,
   );
 }
+
+/** A point of the project map (session 16): the fields the map draws and filters on. */
+export type ProjectPoint = {
+  entity_id: string;
+  lat: number | null;
+  lon: number | null;
+  capacity_mw: number | null;
+  status: string | null;
+  kind: string | null;
+  tech: string | null;
+  state: string | null;
+  prec: string | null;
+};
+
+/** Every row of energy_projects in the live set (withdrawn queue positions are not loaded). */
+export async function projectPoints(): Promise<ProjectPoint[]> {
+  return rest<ProjectPoint>(
+    "entities",
+    {
+      select:
+        "entity_id,lat,lon,capacity_mw,status,kind:extra->>kind,tech:extra->>technology_group,state:extra->>state,prec:extra->>geo_precision",
+      table_name: "eq.energy_projects",
+      order: "entity_id",
+    },
+    HOURLY,
+    100_000,
+  );
+}
+
+/** One entities row of a live-set table, with its own columns in extra (the map's click card). */
+export type EntityRow = {
+  entity_id: string;
+  entity_type: string;
+  name: string | null;
+  lat: number | null;
+  lon: number | null;
+  capacity_mw: number | null;
+  status: string | null;
+  status_date: string | null;
+  operator: string | null;
+  source: string;
+  source_url: string | null;
+  vintage: string | null;
+  table_name: string;
+  extra: Record<string, string>;
+};
+
+export async function entity(table: string, id: string): Promise<EntityRow | null> {
+  const rows = await rest<EntityRow>(
+    "entities",
+    {
+      select: "entity_id,entity_type,name,lat,lon,capacity_mw,status,status_date,operator,source,source_url,vintage,table_name,extra",
+      table_name: `eq.${table}`,
+      entity_id: `eq.${id}`,
+    },
+    HOURLY,
+    1,
+  );
+  return rows[0] ?? null;
+}

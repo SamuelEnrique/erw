@@ -38,6 +38,7 @@ const PAGES = [
   ["ask", "/ask"],
   ["deals", "/deals"],
   ["grid", "/grid"],
+  ["map", "/map"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],
@@ -124,9 +125,13 @@ async function main() {
         const { cssContentSize } = await page.send("Page.getLayoutMetrics");
         const full = Math.ceil(cssContentSize.height);
         const height = Math.min(full, MAX_HEIGHT);
+        // Session 16: make the viewport as tall as the capture first. captureBeyondViewport
+        // re-lays the page out during the capture, which drew the /map canvas squashed.
+        await page.send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: scale, mobile: label === "mobile" });
+        await sleep(800);
         const shot = await withTimeout(30000, page.send("Page.captureScreenshot", {
           format: "png",
-          captureBeyondViewport: true,
+          captureBeyondViewport: false,
           clip: { x: 0, y: 0, width, height, scale: 1 },
         }), `${route} at ${width}px`);
         const file = path.join(outDir, `${name}-${label}.png`);

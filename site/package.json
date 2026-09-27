@@ -15,18 +15,23 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
+    "d3-geo": "^3.1.1",
     "marked": "^18.0.14",
     "next": "16.3.6",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "server-only": "^0.0.1",
-    "uplot": "^1.6.32"
+    "topojson-client": "^3.1.0",
+    "uplot": "^1.6.32",
+    "us-atlas": "^3.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/d3-geo": "^3.1.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/topojson-client": "^3.1.5",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",
     "tailwindcss": "^4",
