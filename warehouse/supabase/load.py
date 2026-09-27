@@ -9,6 +9,7 @@ warehouse/supabase/migrations/, applied by warehouse/supabase/apply.py.
 
     python warehouse/supabase/load.py              # load, reconcile, check the size
     python warehouse/supabase/load.py --dry-run    # select and count only; no network
+    python warehouse/supabase/load.py --only '^energy_projects$'   # some tables only (session 16)
 
 Writes with SUPABASE_URL and SUPABASE_SERVICE_KEY (the service role bypasses
 row-level security; the key is never printed). For each table:
@@ -27,6 +28,9 @@ Session 11: the session 10 loader upserted every row on every run. Postgres keep
 the old copy of an updated row until a vacuum, so each full rewrite added the
 size of the live set again (219 MB after the first load, 339 MB after the
 second). Writing only what changed keeps a daily run's churn to the new days.
+Session 16: --only REGEX (repeatable) loads only the live-set tables it matches, with their
+headers and catalogue rows, and leaves every other table, and the catalogue's other rows, as
+Supabase has them. For a machine whose other tables are older than the last CI load.
 Then pg_database_size (function erw_db_size) must be under max_mb (300), or the
 run fails. Exit 1 on any failure.
 """
@@ -237,12 +241,18 @@ def rows_sha256(df, license_):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW Supabase live-set loader")
     ap.add_argument("--dry-run", action="store_true", help="select and count only, no network")
+    ap.add_argument("--only", action="append", metavar="REGEX",
+                    help="load only the live-set tables matching this pattern (repeatable; session 16)")
     args = ap.parse_args(argv)
     now = pd.Timestamp.now(tz="UTC")
     loaded_at = now.strftime(TS_FMT)
     cov = pd.read_csv(os.path.join(ROOT, LIVE["catalogue"]), dtype=str, keep_default_na=False)
     lic = dict(zip(cov["table"], cov["license"]))
     plan = select_live()
+    if args.only:
+        plan = [p for p in plan if any(re.search(o, p[0]) for o in args.only)]
+        if not plan:
+            raise SystemExit(f"--only {args.only}: no live-set table matches; nothing loaded")
     print(f"live set: {len(plan)} tables ({sum(r == 'full' for _, r, _ in plan)} whole, "
           f"{sum(r == 'recent' for _, r, _ in plan)} last {LIVE['recent']['days']} days)")
 
@@ -327,6 +337,8 @@ def main(argv=None):
         row = {("table_name" if k == "table" else k): (None if v == "" else v) for k, v in r.items()}
         for k in CAT_NUMERIC:
             row[k] = None if row.get(k) is None else int(row[k])
+        if args.only and r["table"] not in selected:
+            continue  # session 16: --only leaves the other catalogue rows as they are
         if r["table"] not in on_disk:
             cat_absent.append(row)  # coverage fields only; in_live_set, columns, rows_sha256 kept
             continue
@@ -340,12 +352,13 @@ def main(argv=None):
         client.table("catalogue").upsert(cat_absent, on_conflict="table_name").execute()
         print(f"catalogue: {len(cat_absent)} tables not on this machine kept their live-set fields")
     cat = cat + cat_absent
-    client.table("catalogue").delete().not_.in_("table_name", list(cov["table"])).execute()
+    if not args.only:
+        client.table("catalogue").delete().not_.in_("table_name", list(cov["table"])).execute()
     reg = pd.read_csv(os.path.join(ROOT, LIVE["sources"]), dtype=str, keep_default_na=False)
     srcs = [{k: (None if v == "" else v) for k, v in r.items()} for r in reg.to_dict("records")]
     for i in range(0, len(srcs), BATCH):
         client.table("sources").upsert(srcs[i:i + BATCH], on_conflict="source").execute()
-    for t, want in (("catalogue", len(cat)), ("sources", len(srcs))):
+    for t, want in ((("sources", len(srcs)),) if args.only else (("catalogue", len(cat)), ("sources", len(srcs)))):
         n = client.table(t).select("*", count="exact", head=True).execute().count
         ok = n == want
         recon.append((t, "meta", want, n, "match" if ok else "MISMATCH", want, None, False))

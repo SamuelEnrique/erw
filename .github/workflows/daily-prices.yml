@@ -29,7 +29,10 @@
 #   5. commits STATUS.md (session 14: tables, last runs, open gaps), metadata
 #      (coverage, sources, run status), docs, the digests and
 #      news_stories.csv (session 10 ruling 3) directly to main. Derived scripts
-#      whose inputs are absent on the runner skip with a warning. No other
+#      whose inputs are absent on the runner skip with a warning.
+#      Session 16: the step first sets the run's changes aside, pulls main with
+#      rebase, puts them back (this run's version wins a conflict) and commits only
+#      when a tracked file changed. Run 3 failed at this step with exit 128. No other
 #      outputs (session 9 ruling): the tables in
 #      warehouse/output, their run logs and the raw source files stay out of
 #      git; a hosted Postgres becomes the live store (warehouse/output/README.md).
@@ -47,6 +50,13 @@ on:
   schedule:
     - cron: "0 14 * * *"
   workflow_dispatch:
+    # Session 16: a manual run also pulls the ISO interconnection queues (weekly, Mondays, on
+    # the schedule), so the project map (energy_projects) can be rebuilt on any day.
+    inputs:
+      queues:
+        description: "Also pull the ISO interconnection queues (1) or not (0)"
+        required: false
+        default: "1"
 
 permissions:
   contents: write
@@ -89,9 +99,11 @@ jobs:
           fi
           echo "All 6 required secrets are set."
 
+      # Session 16: full history, so the commit step can pull with rebase onto a moved main
       - uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -121,6 +133,8 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           # the runner has no tables (not in git): restore the rolling windows first
           RESTORE_FROM_REDIVIS: "1"
+          # session 16: set on a manual run (input queues, default 1); empty on the schedule
+          QUEUES: ${{ github.event.inputs.queues || '0' }}
         run: |
           set -o pipefail
           bash warehouse/run_daily.sh 2>&1 | tee daily.log
@@ -154,18 +168,47 @@ jobs:
           # Session 9 ruling: metadata, docs and digests only; never warehouse/output
           # (tables, run logs) or warehouse/raw/. Session 10 ruling 3: the one exception is
           # warehouse/output/news_stories.csv, kept in git so the next run does not
-          # re-ingest and re-score stories it already has.
-          git add -- STATUS.md docs/coverage.md docs/digest warehouse/metadata/coverage.csv warehouse/metadata/run_status.csv warehouse/metadata/sources.csv warehouse/metadata/redivis_uploads.csv warehouse/output/news_stories.csv warehouse/output/energy_deals.csv warehouse/output/energy_deals_evidence.csv warehouse/deals/checked.csv
-          if git diff --cached --quiet; then
-            echo "No table changed today; nothing to commit."
-            exit 0
-          fi
+          # re-ingest and re-score stories it already has. Session 16: news_index.csv is
+          # tracked too and was missing here, which left it modified after the commit.
+          paths=(STATUS.md docs/coverage.md docs/digest warehouse/metadata/coverage.csv
+                 warehouse/metadata/run_status.csv warehouse/metadata/sources.csv
+                 warehouse/metadata/redivis_uploads.csv warehouse/output/news_stories.csv
+                 warehouse/output/news_index.csv warehouse/output/energy_deals.csv
+                 warehouse/output/energy_deals_evidence.csv warehouse/deals/checked.csv
+                 warehouse/datacenters/checked.csv warehouse/output/datacenter_projects.csv
+                 warehouse/output/datacenter_projects_evidence.csv)
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Daily prices $date: ok: ${ok:-none}; failed: ${failed:-none}" \
-                     -m "Automated run of .github/workflows/daily-prices.yml. Metadata, docs and digests only; the tables stay out of git (session 9). All tables passed erw_validate."
-          # main may have moved while the job ran
+          # Session 16: run 3 (36284122117) failed here with exit 128. It committed, then ran
+          # git pull --rebase with news_index.csv still modified ("cannot pull with rebase: You
+          # have unstaged changes"). Now: set this run's changes aside, bring main up to date
+          # with rebase, put the changes back, and only then commit. When main moved and a
+          # file conflicts, this run's version is kept: it was built from the newer data.
+          git stash push --include-untracked --quiet -m "daily run $date" || true
           git pull --rebase origin main
+          if git stash list | grep -q "daily run $date"; then
+            if ! git stash pop --quiet; then
+              conflicted="$(git diff --name-only --diff-filter=U)"
+              if [ -z "$conflicted" ]; then
+                echo "::error::git stash pop failed without a conflict to resolve; the run's files are in the stash"
+                git status
+                exit 1
+              fi
+              echo "::warning::main changed these files while the job ran; keeping this run's version: $conflicted"
+              git checkout --theirs -- $conflicted
+              git reset --quiet
+              git stash drop --quiet
+            fi
+          fi
+          git reset --quiet
+          for p in "${paths[@]}"; do
+            [ -e "$p" ] && git add -- "$p"
+          done
+          if git diff --cached --quiet; then
+            echo "No tracked file changed today; nothing to commit."
+            exit 0
+          fi
+          git commit -m "Daily prices $date: ok: ${ok:-none}; failed: ${failed:-none}"                      -m "Automated run of .github/workflows/daily-prices.yml. Metadata, docs and digests only; the tables stay out of git (session 9). All tables passed erw_validate."
           git push origin HEAD:main
 
       - name: Open an issue for a market failing three daily runs in a row

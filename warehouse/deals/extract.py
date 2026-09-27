@@ -16,6 +16,14 @@ deal_type, buyer, seller, other_parties, asset, technology, state, country, mw,
 mwh, dollars, price (value and unit as stated), term_years, status,
 announced_date, ai_power, confidence, and the evidence sentence.
 
+Session 16 human ruling: state, country and status are never inferred beyond the stated
+words; empty is the correct answer. The model returns the span each is read from
+(state_text, country_text, status_text); the code keeps a state only if its span is in the
+story and names the state (its name or postal code), a country only if its span is in the
+story and names the country, and a status only if its span is in the story. A re-extraction
+(--reextract) rebuilds the tables from every story already checked, with the earlier tables
+kept in warehouse/deals/history/.
+
 No number is inferred. The model returns, for every number, the exact span of the
 title or summary it read it from (mw_text, dollars_text, ...). The number is kept
 only if that span is in the story's own title or summary and parses to the same
@@ -45,6 +53,7 @@ import json
 import math
 import os
 import re
+import shutil
 import sys
 import traceback
 
@@ -66,6 +75,19 @@ MIN_SIGNIFICANCE = 5
 DEAL_TYPES = ["ppa", "offtake", "m_and_a", "project_finance", "tax_equity", "debt", "equity_raise",
               "joint_venture", "lease", "behind_the_meter", "nuclear_restart", "smr", "fuel_supply", "other"]
 STATUSES = ["announced", "signed", "closed", "cancelled", "rumored"]
+HISTORY = os.path.join(HERE, "history")
+US_STATES = {
+    "AL": "alabama", "AK": "alaska", "AZ": "arizona", "AR": "arkansas", "CA": "california", "CO": "colorado",
+    "CT": "connecticut", "DE": "delaware", "DC": "district of columbia", "FL": "florida", "GA": "georgia",
+    "HI": "hawaii", "ID": "idaho", "IL": "illinois", "IN": "indiana", "IA": "iowa", "KS": "kansas",
+    "KY": "kentucky", "LA": "louisiana", "ME": "maine", "MD": "maryland", "MA": "massachusetts",
+    "MI": "michigan", "MN": "minnesota", "MS": "mississippi", "MO": "missouri", "MT": "montana",
+    "NE": "nebraska", "NV": "nevada", "NH": "new hampshire", "NJ": "new jersey", "NM": "new mexico",
+    "NY": "new york", "NC": "north carolina", "ND": "north dakota", "OH": "ohio", "OK": "oklahoma",
+    "OR": "oregon", "PA": "pennsylvania", "RI": "rhode island", "SC": "south carolina", "SD": "south dakota",
+    "TN": "tennessee", "TX": "texas", "UT": "utah", "VT": "vermont", "VA": "virginia", "WA": "washington",
+    "WV": "west virginia", "WI": "wisconsin", "WY": "wyoming", "PR": "puerto rico"}
+US_NAMES = {"us", "u.s.", "usa", "u.s.a.", "united states", "united states of america", "america"}
 PRICES = {"claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}
 BATCH = 12          # clusters per call
 REFERENCE_MAX = 250  # earlier deals offered as same_as candidates
@@ -88,10 +110,10 @@ For each transaction, return:
 - buyer, seller: the parties as the story names them (the offtaker or acquirer is the buyer; in an equity raise, debt or project finance, the company raising the money is the seller and the investors or lenders are the buyer); empty when not named
 - other_parties: any other named parties (lenders, partners, advisers named as parties)
 - asset: the project, plant, company or asset traded, as named; technology: the generation or asset technology (solar, wind, gas, nuclear, storage, LNG, oil, ...) when stated
-- state (US two-letter code) and country, when the story states the location
+- state (US two-letter code) and country, only when the story's words name them: a state only if the story names that state (by name or postal code), a country only if the story names that country. Never infer a location from a city, county, basin, region, grid operator, project or company: "Permian Basin" gives no state and "Ichthys LNG" gives no country. With each, the exact span you read it from (state_text, country_text), copied character for character; empty when not named
 - mw, mwh, dollars (US dollars, as a number), price_value with price_unit exactly as stated (for example 50 and "USD/MWh"), term_years
 - for every number, the exact text span you read it from, copied character for character from the title or summary (mw_text, mwh_text, dollars_text, price_text, term_text)
-- status: one of {", ".join(STATUSES)}
+- status: one of {", ".join(STATUSES)}, read only from the stated words, with the exact span (status_text): signed for words such as signed, agreed, secured, awarded, entered into, inked; closed for completed, closed, finalized, or money raised or received ("raises", "raised"); announced for announces, plans, proposes, will acquire, to buy, offers; cancelled for cancelled, terminated, scrapped, withdrawn, called off; rumored for in talks, considering, exploring, reportedly. When the words do not say, status and status_text are empty
 - announced_date: YYYY-MM-DD only if the story states the date of the deal, else empty
 - ai_power: true only if the load or offtake serves datacenters or AI
 - confidence: 0 to 1, how sure you are that this is a real, specific transaction and the fields are right
@@ -121,7 +143,8 @@ SCHEMA = {
                     "dollars": NUM, "dollars_text": STR,
                     "price_value": NUM, "price_unit": STR, "price_text": STR,
                     "term_years": NUM, "term_text": STR,
-                    "status": {"type": "string", "enum": STATUSES},
+                    "state_text": STR, "country_text": STR,
+                    "status": {"type": "string", "enum": STATUSES + [""]}, "status_text": STR,
                     "announced_date": STR,
                     "ai_power": {"type": "boolean"},
                     "confidence": {"type": "number"},
@@ -132,6 +155,7 @@ SCHEMA = {
                 "required": ["deal_type", "buyer", "seller", "other_parties", "asset", "technology", "state",
                              "country", "mw", "mw_text", "mwh", "mwh_text", "dollars", "dollars_text",
                              "price_value", "price_unit", "price_text", "term_years", "term_text", "status",
+                             "state_text", "country_text", "status_text",
                              "announced_date", "ai_power", "confidence", "evidence", "story_id", "same_as"],
                 "additionalProperties": False}},
         },
@@ -195,6 +219,43 @@ def verified(field, value, span, text):
     return None, f"{field} {value}: does not match span {span!r}"
 
 
+def stated_words(d, text):
+    """(state, country, status, [reasons]) kept only as the story states them (session 16 ruling)."""
+    why = []
+    state = (d.get("state") or "").strip().upper()
+    span = d.get("state_text") or ""
+    if state:
+        name = US_STATES.get(state)
+        if name is None:
+            why.append(f"state {state!r}: not a US state code")
+            state = ""
+        elif not span or norm(span) not in text:
+            why.append(f"state {state}: span {span!r} not in the story")
+            state = ""
+        elif not (re.search(r"(?<![a-z])" + re.escape(name) + r"(?![a-z])", norm(span))
+                  or re.search(r"(?<![A-Za-z])" + state + r"(?![A-Za-z])", span)):
+            why.append(f"state {state}: span {span!r} does not name the state")
+            state = ""
+    country = " ".join((d.get("country") or "").split())
+    span = d.get("country_text") or ""
+    if country:
+        c = norm(country)
+        names = US_NAMES if c in US_NAMES else {c}
+        sp = norm(span)
+        if not span or sp not in text:
+            why.append(f"country {country}: span {span!r} not in the story")
+            country = ""
+        elif not any(re.search(r"(?<![a-z])" + re.escape(n) + r"(?![a-z])", sp) for n in names):
+            why.append(f"country {country}: span {span!r} does not name the country")
+            country = ""
+    status = d.get("status") or ""
+    span = d.get("status_text") or ""
+    if status and (not span or norm(span) not in text):
+        why.append(f"status {status}: span {span!r} not in the story")
+        status = ""
+    return state, country, status, why
+
+
 # ------------------------------------------------------------------ helpers
 
 def pick_model(client, log):
@@ -228,6 +289,9 @@ def clean(v):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW deal extraction")
     ap.add_argument("--max-calls", type=int, default=60, help="at most this many model calls")
+    ap.add_argument("--reextract", action="store_true",
+                    help="rebuild both tables from every story already checked (session 16); the earlier "
+                         "tables are copied to warehouse/deals/history/ first")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -240,11 +304,23 @@ def main(argv=None):
         news = ip.read_series(os.path.join(ip.OUT_DIR, NEWS + ".csv"), NEWS_COLS)
         checked = (pd.read_csv(CHECKED, dtype=str, keep_default_na=False) if os.path.exists(CHECKED)
                    else pd.DataFrame(columns=CHECKED_COLS))
-        deals = read_or_empty(os.path.join(ip.OUT_DIR, DEALS + ".csv"), DEAL_COLS)
-        evid = read_or_empty(os.path.join(ip.OUT_DIR, EVIDENCE + ".csv"), EVIDENCE_COLS)
         sig = pd.to_numeric(news["significance"], errors="coerce")
         elig = news[(news["scored_at"] != "") & news["sector"].isin(SECTORS_IN) & (sig >= MIN_SIGNIFICANCE)]
-        todo = elig[~elig["event_id"].isin(set(checked["story_id"]))]
+        if args.reextract:
+            # the same stories as before, from nothing: copy the earlier tables aside, then start empty
+            os.makedirs(HISTORY, exist_ok=True)
+            for t in (DEALS, EVIDENCE):
+                src = os.path.join(ip.OUT_DIR, t + ".csv")
+                if os.path.exists(src):
+                    dst = os.path.join(HISTORY, f"{t}_before_{run_id}.csv")
+                    shutil.copyfile(src, dst)
+                    os.remove(src)
+                    log(f"re-extract: {t} copied to {os.path.relpath(dst, ROOT)}; the table is rebuilt")
+            todo = elig[elig["event_id"].isin(set(checked["story_id"]))]
+            checked = checked[~checked["story_id"].isin(set(todo["event_id"]))]
+        else:
+            todo = elig[~elig["event_id"].isin(set(checked["story_id"]))]
+        deals = read_or_empty(os.path.join(ip.OUT_DIR, DEALS + ".csv"), DEAL_COLS)
         log(f"ERW deals extract {run_id}: {len(news)} stories, {len(elig)} eligible, {len(todo)} not yet checked; "
             f"{len(deals)} deals already in the table")
         if todo.empty:
@@ -319,6 +395,8 @@ def main(argv=None):
                         vals[f] = v
                         if why:
                             dropped.append(f"{cid}: {why}")
+                    st_state, st_country, st_status, why_words = stated_words(d, text)
+                    dropped.extend(f"{cid}: {w}" for w in why_words)
                     ev = d.get("evidence") or ""
                     if norm(ev) not in text:
                         dropped.append(f"{cid}: evidence not verbatim in the story, not kept: {ev[:100]!r}")
@@ -359,13 +437,12 @@ def main(argv=None):
                             "event_id": did, "event_date": ad or first["event_date"], "event_type": "deal",
                             "parties": ";".join(clean(p) for p in parties), "entity_ids": "",
                             "mw": clean(vals["mw"]), "price": clean(vals["price_value"]) if per_mwh_usd else "",
-                            "currency": "USD" if per_mwh_usd else "", "status": d["status"],
+                            "currency": "USD" if per_mwh_usd else "", "status": st_status,
                             "source": first["source"], "source_url": first["source_url"],
                             "deal_type": d["deal_type"], "buyer": clean(d.get("buyer")), "seller": clean(d.get("seller")),
                             "other_parties": ";".join(clean(p) for p in d.get("other_parties") or []),
                             "asset": clean(d.get("asset")), "technology": clean(d.get("technology")),
-                            "state": clean(d.get("state")).upper()[:2] if d.get("state") else "",
-                            "country": clean(d.get("country")),
+                            "state": st_state, "country": st_country,
                             "mwh": clean(vals["mwh"]), "dollars": clean(vals["dollars"]),
                             "price_value": clean(vals["price_value"]),
                             "price_unit": pu if vals["price_value"] is not None else "",

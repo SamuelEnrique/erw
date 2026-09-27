@@ -170,6 +170,8 @@ What was chosen, and why:
     - The unit `ratio` (dimensionless) joins the vocabulary for metrics such as the worst-interval multiple.
     First derived tables: `ercot_peak_premium_annual` and `ercot_peak_premium_monthly` (`docs/methods/ercot_peak_premium.md`).
 
+24. **Human rulings, session 16.** (a) **EIA-930 generation tables are complete per UTC day**, as the ERCO and NYIS demand tables have been since session 13: each day of the window whose `net_generation_mw` has all 24 hours is written; a day without is not, earlier runs' rows for it are kept, and it is a `gap` row in `warehouse/metadata/run_status.csv`. Within the days written, a `net_generation_<fuel>_mw` series missing any hour is dropped for the run, as in decision 14. Reason: EIA publishes net generation a day or more after demand, so the whole-window rule wrote no generation on most days. (b) **Extracted fields are never inferred beyond the stated words.** In `energy_deals`, `state`, `country` and `status` are kept only when the model returns a span of the story that is in the story and names the value (for a state, its name or postal code); otherwise they are empty, and empty is the correct answer. (c) Evidence sentences stay in the internal companion table (session 15 decision confirmed).
+
 Deferred to a later version:
 
 - A controlled vocabulary for `variable`, `entity_type`, `event_type` and `status`, enforced by the validator the way the IRW enforces its tag vocabulary.

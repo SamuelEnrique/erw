@@ -38,6 +38,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import re
 import shutil
 import sys
 import traceback
@@ -174,12 +175,20 @@ def numbers_today(digest_date, log):
                          f"{n_expected} hours) | `{table}` |")
     lines.append("| PJM | | | no PJM price table (no API key) | |")
     best = None
-    for table in erw.filter(market="rtm"):
+    # Session 16: only the interval price tables. filter(market="rtm") also names the derived
+    # ercot_peak_premium tables and the yearly ERCOT history, which are not on the CI runner
+    # (coverage carries them over), and fetching one there ended the digest with ERWDataNotFound.
+    rt_tables = [t for t in erw.filter(market="rtm") if re.fullmatch(r"[a-z]+_rtm_(hub|zone)_prices(_hourly)?", t)]
+    for table in rt_tables:
         iso = table.split("_")[0]
         tz = RT_TZ.get(iso, "UTC")
         day = pd.Timestamp(digest_date) - pd.Timedelta(days=1)
         start = pd.Timestamp(day.date()).tz_localize(tz)
-        df = erw.fetch(table, start=start, end=start + pd.Timedelta(days=1))
+        try:
+            df = erw.fetch(table, start=start, end=start + pd.Timedelta(days=1))
+        except Exception as exc:
+            log(f"  numbers: {table} unavailable: {exc!r}")
+            continue
         if df.empty:
             continue
         top = df.loc[df["value"].idxmax()]
@@ -192,7 +201,7 @@ def numbers_today(digest_date, log):
                       f"interval starting {top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local "
                       f"({top['ts_utc']:%Y-%m-%d %H:%M} UTC), {top['freq']} `{top['variable']}`"
                       f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''}; "
-                      f"{cite_short(table)}. Real-time tables: {', '.join(erw.filter(market='rtm'))}.")
+                      f"{cite_short(table)}. Real-time tables: {', '.join(rt_tables)}.")
     else:
         lines[-1] += "no real-time table covers yesterday."
     lines += ["", "**Latest fuel spot closes** (EIA, trading dates):", ""]

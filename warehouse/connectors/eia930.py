@@ -35,8 +35,11 @@ named in the table header and in warehouse/metadata/run_status.csv, rather
 than failing the whole table. A fuel type the BA does not report at all is
 simply not a variable of that table.
 Per-day completeness (session 13): for the tables in PER_DAY (ERCO and NYIS
-demand, where EIA's day-ahead forecast series has missing days), the rule above
-is applied to each UTC day instead of the whole window. Complete days are
+demand, where EIA's day-ahead forecast series has missing days, and since
+session 16 all eight generation tables, whose net generation lags demand by a
+day or more), the rule above is applied to each UTC day instead of the whole
+window. In a generation table, a per-fuel series missing any hour of a day
+that is written is dropped for the run, as under ruling a. Complete days are
 written; a day with any core hour missing is not, earlier runs' rows for it are
 kept, and it is recorded in warehouse/metadata/run_status.csv as a "gap" row.
 Values are MW as EIA publishes them (net generation of storage can be
@@ -151,7 +154,9 @@ def to_rows(df, route, variable_of, code_col):
 # a per-fuel series that is not complete is dropped for the run instead.
 CORE = {"demand_mw", "demand_forecast_mw", "net_generation_mw"}
 # Session 13: tables whose completeness is checked per UTC day (see the docstring).
-PER_DAY = {"eia930_erco_demand", "eia930_nyis_demand"}
+# Session 16 ruling: the eight generation tables too, since EIA publishes net generation
+# a day or more after demand, and the whole-window rule then wrote no generation at all.
+PER_DAY = {"eia930_erco_demand", "eia930_nyis_demand"} | {f"eia930_{c}_generation" for c in BAS}
 
 
 def incomplete_variables(rows, start, end):
@@ -191,6 +196,21 @@ def complete_days(rows, start, end, log, name):
     return pd.concat(keep, ignore_index=True), gaps
 
 
+def per_fuel_problems(rows):
+    """Session 16: ruling (a) over the complete days kept: {variable: description} for every
+    per-fuel series missing any hour of any kept day (a whole day absent counts)."""
+    problems = {}
+    variables = set(rows["variable"]) - CORE
+    for d0, part in rows.groupby(rows["interval_start"].dt.floor("D")):
+        d1 = d0 + pd.Timedelta(days=1)
+        found, _ = incomplete_variables(part[part["variable"].isin(variables)], d0, d1)
+        for v in sorted(variables - set(part["variable"])):
+            found[v] = f"{v}: no rows"
+        for v, desc in found.items():
+            problems.setdefault(v, f"{d0.date()}: {desc}")
+    return problems
+
+
 def build_table(rows, code, start, end, log, name, title, run_id, days):
     respondent, geo = BAS[code]
     rows = rows[(rows["interval_start"] >= start) & (rows["interval_start"] < end)]
@@ -199,9 +219,9 @@ def build_table(rows, code, start, end, log, name, title, run_id, days):
         raise RuntimeError(f"{name}: {int(dup.sum())} rows repeat a (variable, hour) key")
     gaps = []
     if name in PER_DAY:
-        # every day kept is complete in each core variable; demand tables have no per-fuel series
+        # every day kept is complete in each core variable
         rows, gaps = complete_days(rows, start, end, log, name)
-        problems, n_hours = {}, rows["interval_start"].nunique()
+        problems, n_hours = per_fuel_problems(rows), rows["interval_start"].nunique()
     else:
         problems, n_hours = incomplete_variables(rows, start, end)
     core_bad = {v: d for v, d in problems.items() if v in CORE}

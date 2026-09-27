@@ -295,3 +295,27 @@ run_id,runner,connector,table,market,status,detail
 20260927T011111Z,local,eia930,eia930_swpp_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_swpp_generation: net_generation_mw: 52 of 72 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
 20260927T011111Z,local,eia930,eia930_us48_demand,demand,ok,
 20260927T011111Z,local,eia930,eia930_us48_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_us48_generation: net_generation_mw: 51 of 72 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T015004Z,local,eia930,eia930_ciso_demand,demand,ok,
+20260927T015004Z,local,eia930,eia930_ciso_generation,generation,ok,"1 days not complete, not written"
+20260927T015004Z,local,eia930,eia930_ciso_generation,generation 2026-09-26,gap,"net_generation_mw: 6 of 24 hours (18 missing, 0 published as null; first missing ['2026-09-26T06:00:00Z', '2026-09-26T07:00:00Z', '2026-09-26T08:00:00Z'])"
+20260927T015004Z,local,eia930,eia930_erco_demand,demand,ok,
+20260927T015004Z,local,eia930,eia930_erco_generation,generation,ok,"1 days not complete, not written"
+20260927T015004Z,local,eia930,eia930_erco_generation,generation 2026-09-26,gap,"net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
+20260927T015004Z,local,eia930,eia930_isne_demand,demand,ok,
+20260927T015004Z,local,eia930,eia930_isne_generation,generation,ok,"1 days not complete, not written"
+20260927T015004Z,local,eia930,eia930_isne_generation,generation 2026-09-26,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T015004Z,local,eia930,eia930_miso_demand,demand,ok,
+20260927T015004Z,local,eia930,eia930_miso_generation,generation,ok,"1 days not complete, not written"
+20260927T015004Z,local,eia930,eia930_miso_generation,generation 2026-09-26,gap,"net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
+20260927T015004Z,local,eia930,eia930_nyis_demand,demand,ok,
+20260927T015004Z,local,eia930,eia930_nyis_generation,generation,ok,"1 days not complete, not written"
+20260927T015004Z,local,eia930,eia930_nyis_generation,generation 2026-09-26,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T015004Z,local,eia930,eia930_pjm_demand,demand,ok,
+20260927T015004Z,local,eia930,eia930_pjm_generation,generation,ok,"1 days not complete, not written"
+20260927T015004Z,local,eia930,eia930_pjm_generation,generation 2026-09-26,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T015004Z,local,eia930,eia930_swpp_demand,demand,ok,
+20260927T015004Z,local,eia930,eia930_swpp_generation,generation,ok,"1 days not complete, not written"
+20260927T015004Z,local,eia930,eia930_swpp_generation,generation 2026-09-26,gap,"net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
+20260927T015004Z,local,eia930,eia930_us48_demand,demand,ok,
+20260927T015004Z,local,eia930,eia930_us48_generation,generation,ok,"dropped series: 2026-09-24: net_generation_unknown_storage_mw: 7 of 24 hours (17 missing, 0 published as null; first missing ['2026-09-24T07:00:00Z', '2026-09-24T08:00:00Z', '2026-09-24T09:00:00Z']); 1 days not complete, not written"
+20260927T015004Z,local,eia930,eia930_us48_generation,generation 2026-09-26,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
