@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
-const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid"];
+const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters"];
 
 function env(name) {
   if (process.env[name]) return process.env[name];
@@ -57,7 +57,7 @@ async function truth(check) {
     if (p[1] === "count") return q("catalogue", { select: "table_name", license: "eq.public" }, true);
     if (p[1] === "n_pass") return q("catalogue", { select: "table_name", license: "eq.public", validator_status: "eq.pass" }, true);
     if (p[1] === "sum_n_rows") return (await all("catalogue", { select: "n_rows", license: "eq.public" })).reduce((a, r) => a + Number(r.n_rows), 0);
-    if (p[1] === "max_last_run") return (await q("catalogue", { select: "last_run", license: "eq.public", order: "last_run.desc", limit: "1" }))[0].last_run;
+    if (p[1] === "max_last_run") return (await q("catalogue", { select: "last_run", license: "eq.public", order: "last_run.desc.nullslast", limit: "1" }))[0].last_run;
     return (await q("catalogue", { select: "n_rows", table_name: `eq.${p[1]}` }))[0]?.n_rows;
   }
   if (p[0] === "latest_prices") {
@@ -91,6 +91,32 @@ async function truth(check) {
       and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "entity,ts_utc" });
     if (!rows.length) return undefined;
     return p[0] === "series_max" ? Math.max(...rows.map((r) => r.value)) : rows.reduce((a, r) => a + r.value, 0);
+  }
+  // session 16: /map (energy_projects, and datacenter_projects as the kind datacenter) and /datacenters
+  if (p[0] === "projects") {
+    const [, what, kind, arg] = p;
+    const table = kind === "datacenter" ? "datacenter_projects" : "energy_projects";
+    const base = { select: "entity_id", table_name: `eq.${table}`, "extra->>kind": `eq.${kind}` };
+    if (what === "count") {
+      if (arg === "all") return q("entities", base, true);
+      const prec = arg === "county" && kind === "datacenter" ? "in.(county,place)" : `eq.${arg}`;
+      return q("entities", { ...base, "extra->>geo_precision": prec }, true);
+    }
+    if (what === "tech_count") return q("entities", { ...base, "extra->>technology_group": `eq.${arg}` }, true);
+    if (what === "mw") {
+      const rows = await all("entities", { ...base, select: "capacity_mw", order: "entity_id" });
+      return rows.reduce((a, r) => a + (r.capacity_mw === null ? 0 : Number(r.capacity_mw)), 0);
+    }
+  }
+  if (p[0] === "datacenters") {
+    const [, what, key] = p;
+    const rows = await all("entities", { select: "operator,mw:capacity_mw,state:extra->>state", table_name: "eq.datacenter_projects", order: "entity_id" });
+    const withMw = rows.filter((r) => r.mw !== null);
+    if (what === "count") return rows.length;
+    if (what === "n_with_mw") return withMw.length;
+    if (what === "mw_total") return withMw.reduce((a, r) => a + Number(r.mw), 0);
+    if (what === "state_mw") return withMw.filter((r) => r.state === key).reduce((a, r) => a + Number(r.mw), 0);
+    if (what === "operator_mw") return withMw.filter((r) => r.operator === key).reduce((a, r) => a + Number(r.mw), 0);
   }
   throw new Error(`unknown check ${check}`);
 }
@@ -134,8 +160,11 @@ async function main() {
   for (const [check, { page, raw, text, usdFormat }] of found) {
     const t = await truth(check);
     const isTime = /^\d{4}-\d{2}-\d{2}T/.test(raw);
-    const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : Math.abs(Number(t) - Number(raw)) < 1e-9;
-    const textOk = text.startsWith(usdFormat ? usd(Number(raw)) : shown(raw));
+    // sums of floats may differ in the last bits with the order of addition: relative tolerance
+    const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
+    // session 16: MW sums are written as whole MW (lib/format.ts count)
+    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw))/.test(check);
+    const textOk = text.startsWith(usdFormat ? usd(Number(raw)) : whole ? Math.round(Number(raw)).toLocaleString("en-US") : shown(raw));
     const pass = t !== undefined && t !== null && same && textOk;
     pass ? ok++ : bad++;
     lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} | page shows "${text}" | page read ${raw} | Supabase ${t}`);

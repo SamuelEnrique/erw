@@ -116,6 +116,19 @@ day-ahead tables running into tomorrow:
   row per queue position, capacity_mw, status (active, completed, withdrawn;
   SPP also suspended; ERCOT lists no withdrawn projects), fuel and county as
   the ISO writes them.
+**Project map** (session 16, derived, public): energy_projects, one row per
+  EIA-860M operating or planned generator and per ISO queue position (kind
+  operating, planned, queue), with technology_group, mw, status, state, county,
+  lat/lon and geo_precision (point: EIA's coordinates; county: the county's
+  Census internal point, for queue positions; none: not placed).
+**Datacenters** (session 16, public): datacenter_projects, one row per
+  datacenter facility named in the news: operator, developer, site_name, state,
+  county, city, mw, project_status (announced, permitted, under_construction,
+  operating, cancelled), planned_year, power_source, utility, story_urls. Every
+  field only as a story states it; blank is "not stated", not zero.
+**Deals** (session 15, public): energy_deals, one row per transaction reported
+  in the news: deal_type, buyer, seller, asset, technology, mw, dollars,
+  status, story_urls. Same rule: blank is "not stated".
 **Events**: news_index (public): one row per scored news story with source,
   sector, region, significance and ai_power_relevance (0 to 10), headline.
   news_stories (INTERNAL) adds titles and summaries of third-party articles.
@@ -137,12 +150,15 @@ day-ahead tables running into tomorrow:
 | Retail electricity price by state | `eia_retail_electricity_prices` |
 | Power plants, capacity by state or fuel | `eia860m_*_generators` |
 | Projects waiting to connect | `<iso>_interconnection_queue` |
+| All generators and queue positions with a location | `energy_projects` |
+| Datacenter facilities (operator, place, MW) | `datacenter_projects` |
+| Energy deals (PPAs, M&A, financings) | `energy_deals` |
 | News, deals, policy stories | `news_index` |
 | Capacity, carbon, shipping | internal tables above; say they are internal |
 
 Not in the warehouse today: PJM energy prices (day-ahead and real-time), SPP
 real-time series, CAISO or NYISO before the live window, futures, lithium and
-other battery metals, equities, datacenter entities, structured deal records.
+other battery metals, equities.
 Say "not in the warehouse" rather than approximating from another table.
 
 
@@ -216,7 +232,7 @@ Backends (`ERW_BACKEND`, or `erw.set_backend(...)`); the calls do not change:
   days of ISO prices and EIA-930, and the derived, fuel, generator, queue and
   news tables whole (SUPABASE_URL with the anon or service key).
 Sectors for `filter`: power, gas, oil, products, lng, coal, uranium, carbon,
-capacity, metals, equities, news.
+capacity, metals, equities, news, deals, datacenters.
 
 
 ## 7. The public site and the chat
