@@ -179,8 +179,20 @@ export default async function Home() {
         <Digest />
       </Section>
 
-      <Section title="Data">
+      <Section title="Explore">
         <div className="grid gap-px border border-rule bg-rule sm:grid-cols-3">
+          <Link href="/grid" className="bg-panel p-3 no-underline">
+            <div className="font-serif text-lg">Grid conditions</div>
+            <div className="text-sm text-muted">Yesterday&apos;s peak demand, forecast error and generation mix for each ISO.</div>
+          </Link>
+          <Link href="/deals" className="bg-panel p-3 no-underline">
+            <div className="font-serif text-lg">Energy deals</div>
+            <div className="text-sm text-muted">PPAs, acquisitions, financings and supply deals from the news, with sources.</div>
+          </Link>
+          <Link href="/explorer/ercot-peak-premium" className="bg-panel p-3 no-underline">
+            <div className="font-serif text-lg">ERCOT peak premium</div>
+            <div className="text-sm text-muted">How ERCOT prices spread across the day, by hub and year since 2015.</div>
+          </Link>
           <Link href="/data" className="bg-panel p-3 no-underline">
             <div className="font-serif text-lg">Coverage</div>
             <div className="text-sm text-muted">Every public table, with its dates, rows, source and license.</div>

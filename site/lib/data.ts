@@ -61,7 +61,7 @@ export async function series(
   const q: Record<string, string> = {
     select: "entity,variable,ts_utc,value,unit",
     table_name: `eq.${table}`,
-    order: "entity,ts_utc",
+    order: "entity,variable,ts_utc", // the key: stable pages
   };
   if (opts.entity) q.entity = `eq.${opts.entity}`;
   if (opts.entities) q.entity = `in.(${opts.entities.map((e) => `"${e}"`).join(",")})`;
@@ -121,4 +121,31 @@ export function daysAgo(days: number, now = Date.now()): string {
 /** The time this render runs. A cached page is re-rendered on its revalidate schedule, so "now" is the render time. */
 export function renderTime(): number {
   return Date.now();
+}
+
+/** A deal of energy_deals (session 15): the events columns, with the table's own columns in extra. */
+export type DealRow = {
+  event_id: string;
+  event_date: string;
+  status: string | null;
+  mw: number | null;
+  price: number | null;
+  currency: string | null;
+  parties: string | null;
+  source: string;
+  source_url: string;
+  extra: Record<string, string>;
+};
+
+/** Every deal in the live set (public rows only), newest first. */
+export async function deals(): Promise<DealRow[]> {
+  return rest<DealRow>(
+    "events",
+    {
+      select: "event_id,event_date,status,mw,price,currency,parties,source,source_url,extra",
+      table_name: "eq.energy_deals",
+      order: "event_date.desc,event_id",
+    },
+    HOURLY,
+  );
 }

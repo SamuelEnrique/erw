@@ -13,6 +13,8 @@ export const metadata: Metadata = {
 
 const NAV = [
   { href: "/prices", label: "Prices" },
+  { href: "/grid", label: "Grid" },
+  { href: "/deals", label: "Deals" },
   { href: "/digest", label: "Digest" },
   { href: "/explorer/ercot-peak-premium", label: "Explorer" },
   { href: "/data", label: "Data" },
