@@ -1,0 +1,50 @@
+item,cluster_id,facility_id,field,value,ok,note
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,is_facility,yes,1,"Oracle's New Mexico project (WSJ title names it)"
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,operator,Oracle,1,
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,developer,,,"cannot tell: the stories say ""Oracle, Blue Owl project"" without naming Blue Owl's role"
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,site_name,,1,no site name in the titles or summaries
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,state,NM,1,"""New Mexico"" in the WSJ title"
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,county,,1,
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,city,,1,
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,mw,,1,no MW stated
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,phase,,1,
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,status,,1,"delay and force majeure; no status word from the vocabulary"
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,planned_year,,1,
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,power_source,,1,"""no electricity"" states no source"
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,utility,,1,
+1,news:e875979a2994c3f9,datacenter:0bd8e67d4e53595c,dedup,4 stories,1,"all four report the delay of the same Oracle project over power"
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,is_facility,yes,1,a right-of-way application for a data center project on federal land in Ada County
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,operator,Arevia Power,0,"Arevia Power is the developer (""a subsidiary of solar developer Arevia Power submitted""); no operator is named"
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,developer,Arevia Power,1,
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,site_name,,1,
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,state,,0,"""Ada County, Idaho"" and ""in Idaho"" are stated; the model returned no state, so the facility is not on the map"
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,county,Ada County,1,
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,city,,1,
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,mw,,1,no MW in the summary
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,phase,,1,
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,status,permitted,0,"an application was submitted, which is not a permit: announced, or empty"
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,planned_year,,1,
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,power_source,gas,1,"""Gas-Powered Data Center"" in the title"
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,utility,,1,
+2,news:47dd6098bf3fc2fc,datacenter:25dcf2257226bef9,dedup,1 story,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,is_facility,yes,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,operator,Applied Digital,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,developer,Applied Digital,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,site_name,Delta Forge 2,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,state,AL,1,"""built in Alabama"""
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,county,,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,city,,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,mw,,1,"USD 3.2bn is stated, no MW"
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,phase,,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,status,,0,"""reveals ... will be built"" states an announcement; the model said announced but returned no span, so the check emptied it"
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,planned_year,2028,1,"""Operations could start by 2028"""
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,power_source,,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,utility,,1,
+3,news:c2e66a6705fa1a50,datacenter:b92aff03b4ffd1a3,dedup,1 story,1,
+4,news:2f6982c1515f0f1f,,is_facility,no,1,"Rune: a product deployed at solar farms, no site named"
+5,news:86cf27327ac243c7,,is_facility,no,1,Prince William County rules for new projects; no facility
+6,news:a550200b67ca70b5,,is_facility,no,1,Google's orbital test; not a datacenter site on the ground
+7,news:cbc3f723be7fb633,,is_facility,no,1,Amazon's generator purchase; no site
+8,news:9afce10796aef000,,is_facility,no,1,a fiber route in Australia; not a datacenter
+9,news:a665666436110d50,,is_facility,no,1,a review of the Texas queue; no facility named in the title or summary
+10,news:457503b8e2ad9b32,,is_facility,no,1,Anthropic and OpenAI expansion in general; no site in the summary

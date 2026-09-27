@@ -263,11 +263,12 @@ export function MapView({ data, colors }: { data: MapData; colors: Record<string
               >
                 <div className="font-mono">{data.id[hover.i]}</div>
                 <div>
-                  {TECH_GROUPS[data.tech[hover.i]].label}, {fmt(data.mw[hover.i])} MW
+                  {data.kind[hover.i] === 3 ? "Datacenter" : TECH_GROUPS[data.tech[hover.i]].label},{" "}
+                  {data.kind[hover.i] === 3 && !data.mw[hover.i] ? "MW not stated" : `${fmt(data.mw[hover.i])} MW`}
                 </div>
                 <div className="text-muted">
                   {KINDS[data.kind[hover.i]].label.replace(/ \(.*\)$/, "")}, {data.statuses[data.status[hover.i]] || "status not stated"}
-                  {data.county[hover.i] ? ", at a county point" : ""}. Click for details.
+                  {data.county[hover.i] ? (data.kind[hover.i] === 3 ? ", at a county or city point" : ", at a county point") : ""}. Click for details.
                 </div>
               </div>
             ) : null}
@@ -333,8 +334,11 @@ const LABELS: [string, string][] = [
   ["status", "Status"],
   ["state", "State"],
   ["county", "County"],
+  ["city", "City"],
   ["operator", "Operator or developer"],
+  ["developer", "Developer"],
   ["date", "Date"],
+  ["power", "Power"],
   ["geo_precision", "Location"],
   ["source_table", "Source table"],
 ];
@@ -369,11 +373,20 @@ function ProjectCard({ card, onClose }: { card: Card | null; onClose: () => void
     kind: x.kind ?? "",
     technology_group: (TECH_GROUPS.find((g) => g.id === x.technology_group)?.label ?? x.technology_group ?? "") + (x.technology ? ` (${x.technology})` : ""),
     mw: r.capacity_mw === null || r.capacity_mw === undefined ? "not stated" : `${Number(r.capacity_mw).toLocaleString("en-US")} MW`,
-    status: `${String(r.status ?? "not stated").replace("_", " ")}${r.status_date ? ` since ${r.status_date}` : ""}`,
+    status: x.project_status
+      ? `${x.project_status.replace("_", " ")} (as stated)`
+      : `${String(r.status ?? "not stated").replace("_", " ")}${r.status_date ? ` since ${r.status_date}` : ""}`,
     state: x.state ?? "",
-    county: x.county ?? x.city ?? "",
-    operator: r.operator ? `${r.operator} (${role})` : "not stated",
-    date: x.date ? `${x.date} (${dateKind[x.date_kind] ?? x.date_kind ?? ""})` : "not stated",
+    county: x.county ?? "",
+    city: x.city ?? "",
+    developer: x.developer && x.developer !== r.operator ? x.developer : "",
+    power: [x.power_source, x.utility ? `utility ${x.utility}` : ""].filter(Boolean).join("; "),
+    operator: r.operator ? `${r.operator} (${x.kind === "datacenter" ? "operator" : role})` : "not stated",
+    date: x.date
+      ? `${x.date} (${dateKind[x.date_kind] ?? x.date_kind ?? ""})`
+      : x.planned_year
+        ? `${x.planned_year} (planned year, as stated)`
+        : "not stated",
     geo_precision:
       x.geo_precision === "point"
         ? `exact coordinates, ${r.lat}, ${r.lon}`

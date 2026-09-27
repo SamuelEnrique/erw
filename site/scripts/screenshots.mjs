@@ -39,6 +39,7 @@ const PAGES = [
   ["deals", "/deals"],
   ["grid", "/grid"],
   ["map", "/map"],
+  ["datacenters", "/datacenters"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],

@@ -209,3 +209,29 @@ export async function entity(table: string, id: string): Promise<EntityRow | nul
   );
   return rows[0] ?? null;
 }
+
+/** Map points of datacenter_projects (session 16, tool 4): the fourth kind on the project map. */
+export async function datacenterPoints(): Promise<ProjectPoint[]> {
+  return rest<ProjectPoint>(
+    "entities",
+    {
+      select: "entity_id,lat,lon,capacity_mw,status,kind:extra->>kind,tech:extra->>technology_group,state:extra->>state,prec:extra->>geo_precision",
+      table_name: "eq.datacenter_projects",
+      order: "entity_id",
+    },
+    HOURLY,
+  );
+}
+
+/** Every facility of datacenter_projects in the live set, with its own columns in extra. */
+export async function datacenters(): Promise<EntityRow[]> {
+  return rest<EntityRow>(
+    "entities",
+    {
+      select: "entity_id,entity_type,name,lat,lon,capacity_mw,status,status_date,operator,source,source_url,vintage,table_name,extra",
+      table_name: "eq.datacenter_projects",
+      order: "entity_id",
+    },
+    HOURLY,
+  );
+}

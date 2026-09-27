@@ -34,7 +34,7 @@ export function Body({ rows }: { rows: ProjectPoint[] }) {
       ...k,
       n: r.length,
       point: r.filter((p) => p.prec === "point").length,
-      county: r.filter((p) => p.prec === "county").length,
+      county: r.filter((p) => p.prec === "county" || p.prec === "place").length,
       none: r.filter((p) => p.prec === "none").length,
       mw: r.reduce((a, p) => a + (p.capacity_mw ?? 0), 0),
     };
@@ -68,15 +68,16 @@ export function Body({ rows }: { rows: ProjectPoint[] }) {
     data.tech.push(t < 0 ? TECH_GROUPS.length - 1 : t);
     data.state.push(states.indexOf(p.state ?? ""));
     data.status.push(statuses.indexOf(p.status ?? ""));
-    data.county.push(p.prec === "county" ? 1 : 0);
-    data.table.push(0);
+    data.county.push(p.prec === "county" || p.prec === "place" ? 1 : 0);
+    data.table.push(p.kind === "datacenter" ? 1 : 0);
     data.id.push(p.entity_id);
   }
 
-  // table view: count and MW by technology group and kind
+  // table view: count and MW by technology group and kind (datacenters have no technology group)
+  const techKinds = byKind.filter((k) => k.id !== "datacenter");
   const table = TECH_GROUPS.map((g) => ({
     g,
-    cells: byKind.map((k) => {
+    cells: techKinds.map((k) => {
       const r = rows.filter((p) => p.kind === k.id && (p.tech ?? "unknown") === g.id);
       return { k: k.id, n: r.length, mw: r.reduce((a, p) => a + (p.capacity_mw ?? 0), 0) };
     }),
@@ -85,20 +86,20 @@ export function Body({ rows }: { rows: ProjectPoint[] }) {
   return (
     <>
       <section aria-label="What the map holds" className="mb-5">
-        <div className="grid gap-px border border-rule bg-rule sm:grid-cols-3">
+        <div className={`grid gap-px border border-rule bg-rule sm:grid-cols-2 ${byKind.length > 3 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
           {byKind.map((k) => (
             <div key={k.id} className="bg-panel px-3 py-2">
               <div className="text-xs text-muted">{k.label}</div>
               <div className="text-lg tabular-nums">
                 <Num check={`projects|count|${k.id}|all`} raw={k.n}>{count(k.n)}</Num>{" "}
                 <span className="text-sm text-muted">
-                  {k.id === "queue" ? "positions" : "generators"},{" "}
+                  {k.id === "queue" ? "positions" : k.id === "datacenter" ? "facilities" : "generators"},{" "}
                   <Num check={`projects|mw|${k.id}`} raw={k.mw}>{count(k.mw)}</Num> MW
                 </span>
               </div>
               <div className="text-xs text-muted">
                 <Num check={`projects|count|${k.id}|point`} raw={k.point}>{count(k.point)}</Num> at exact coordinates,{" "}
-                <Num check={`projects|count|${k.id}|county`} raw={k.county}>{count(k.county)}</Num> at a county point,{" "}
+                <Num check={`projects|count|${k.id}|county`} raw={k.county}>{count(k.county)}</Num> at a {k.id === "datacenter" ? "county or city" : "county"} point,{" "}
                 <Num check={`projects|count|${k.id}|none`} raw={k.none}>{count(k.none)}</Num> not placed
               </div>
             </div>
@@ -107,6 +108,8 @@ export function Body({ rows }: { rows: ProjectPoint[] }) {
         <p className="mt-1 text-xs text-muted">
           MW as each source states it: EIA nameplate capacity; for a queue position, the MW requested. A position that is not placed names no county the
           gazetteer holds (a city, a misspelling, or no county at all); the table <code className="font-mono">energy_projects</code> says why for each.
+          Datacenters are facilities the news names (the datacenter power tracker): MW only where a story states it, placed at the stated county or
+          city, drawn as diamonds.
         </p>
       </section>
 
@@ -119,7 +122,7 @@ export function Body({ rows }: { rows: ProjectPoint[] }) {
             <thead>
               <tr className="border-b border-rule text-left text-xs text-muted">
                 <th className="py-1 pr-3 font-normal">Technology group</th>
-                {byKind.map((k) => (
+                {techKinds.map((k) => (
                   <th key={k.id} className="py-1 pr-3 text-right font-normal" colSpan={2}>
                     {k.label}: count, MW
                   </th>
@@ -147,7 +150,7 @@ export function Body({ rows }: { rows: ProjectPoint[] }) {
         </p>
       </section>
       <Cite
-        tables={["energy_projects"]}
+        tables={byKind.some((k) => k.id === "datacenter") ? ["energy_projects", "datacenter_projects"] : ["energy_projects"]}
         note="Derived by warehouse/derived/energy_projects.py from the EIA-860M inventories and the six ISO queues, with county points from the U.S. Census Bureau's 2025 county gazetteer (method: docs/methods/energy_projects.md)"
       />
     </>
