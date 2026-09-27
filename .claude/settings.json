@@ -1,4 +1,26 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(python warehouse/supabase/load.py:*)",
+      "Bash(python warehouse/news/ingest.py:*)",
+      "Bash(python warehouse/news/score.py:*)",
+      "Bash(python warehouse/deals/extract.py:*)",
+      "Bash(python warehouse/datacenters/extract.py:*)",
+      "Bash(npm run build)",
+      "Bash(npm start)",
+      "Bash(npm run check)",
+      "Bash(git push origin main)",
+      "PowerShell(python warehouse/supabase/load.py:*)",
+      "PowerShell(python warehouse/news/ingest.py:*)",
+      "PowerShell(python warehouse/news/score.py:*)",
+      "PowerShell(python warehouse/deals/extract.py:*)",
+      "PowerShell(python warehouse/datacenters/extract.py:*)",
+      "PowerShell(npm run build)",
+      "PowerShell(npm start)",
+      "PowerShell(npm run check)",
+      "PowerShell(git push origin main)"
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {
