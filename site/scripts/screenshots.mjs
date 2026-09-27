@@ -41,6 +41,10 @@ const PAGES = [
   ["map", "/map"],
   ["datacenters", "/datacenters"],
   ["weekly", "/weekly"],
+  // session 18
+  ["mix", "/mix?ba=erco&state=TX"],
+  ["curtailment", "/curtailment"],
+  ["consumption", "/consumption"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],

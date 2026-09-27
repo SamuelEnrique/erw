@@ -103,13 +103,13 @@ function Hourly({ rows, table, label }: { rows: SeriesRow[]; table: string; labe
   const t0 = Date.parse(`${days[0]}T00:00:00Z`), t1 = Date.parse(`${days[days.length - 1]}T00:00:00Z`) + 24 * H;
   const x: number[] = [];
   for (let t = t0; t < t1; t += H) x.push(t);
-  const idx = new Map(x.map((t, i) => [iso(t), i]));
+  const idx = new Map(x.map((t, i) => [t, i])); // by parsed time: Supabase writes "+00:00", not "Z"
   const layers: Layer[] = HOURLY_FUELS.map((f) => ({ key: f.key, label: f.label, color: `var(--color-fuel-${f.key})`, values: new Array(x.length).fill(null) }));
   const lk = new Map(layers.map((l) => [l.key, l]));
   let negative = false;
   for (const r of rows) {
     if (r.variable === "net_generation_mw") continue;
-    const i = idx.get(r.ts_utc);
+    const i = idx.get(Date.parse(r.ts_utc));
     if (i === undefined) continue;
     const l = lk.get(hourlyGroup(r.variable))!;
     l.values[i] = (l.values[i] ?? 0) + r.value;
@@ -203,7 +203,7 @@ function Monthly({ rows, st }: { rows: SeriesRow[]; st: string }) {
                   const v = sumOver(f.key, c.from, c.to);
                   return (
                     <td key={c.label} className="py-1 pr-3 text-right tabular-nums">
-                      {tot > 0 ? `${((v / tot) * 100).toFixed(1)}%` : ""}
+                      {tot > 0 ? `${Math.abs((v / tot) * 100) < 0.05 ? "0.0" : ((v / tot) * 100).toFixed(1)}%` : ""}
                     </td>
                   );
                 })}

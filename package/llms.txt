@@ -99,7 +99,41 @@ day-ahead tables running into tomorrow:
   eia_retail_electricity_prices (USD/MWh, monthly): entity
     eia:retail_price:<state or region>:<sector>, sector RES, COM, IND, TRA,
     OTH or ALL (TX:RES = Texas residential)
+  eia_retail_sales_monthly (session 18, monthly): entity
+    eia:retail_sales:<state>:<sector> (MWh, from EIA's million kWh x 1000) and
+    eia:customers:<state>:<sector> (count), variables retail_sales and
+    customers; sectors as above (Form EIA-861M)
+  eia_sector_energy_consumption_monthly (session 18, TBtu, US, monthly): MER
+    series TEICBUS industrial total energy, TNICBUS industrial end use,
+    ESICBUS industrial electricity sales, LOICBUS, NNICBUS, PAICBUS, CLICBUS,
+    REICBUS, and commercial TECCBUS, TNCCBUS, ESCCBUS, NNCCBUS, PACCBUS, RECCBUS
   The header's `Series:` line names every series ID in a table.
+**Generation by state, monthly** (session 18, MWh, from 2001):
+  eia_state_generation_monthly (EIA-923, all sectors): entity
+    eia:generation:<location>:<fueltypeid>, fueltypeid ALL, COW, PET, NG, OOG,
+    NUC, HYC, HPS, WND, SUN, GEO, BIO, OTH (these twelve add up to ALL) and DPV
+    (estimated small-scale solar, NOT in ALL); location = state, DC, PR, US or
+    an EIA census region (geo empty)
+  state_generation_mix_monthly (derived, method docs/methods/generation_mix.md):
+    entity eia:<state> or eia:US, variable net_generation_<group>_mwh for coal,
+    natural_gas, nuclear, hydro, wind, solar, other_renewables, oil_and_other,
+    and not_itemized (EIA's total minus the groups, when EIA withheld a source).
+    The groups plus not_itemized equal EIA's total. States only; never ISOs.
+**EIA-930 latest hours** (session 18): eia930_generation_latest, a snapshot of
+  the last 48 hours' complete hours per BA (same variables as the generation
+  tables). The current day so far; complete days are in eia930_<ba>_generation.
+**Curtailment** (session 18, MWh, method docs/methods/curtailment.md): the
+  three ISOs' figures mean different things; never add them up.
+  caiso_curtailment_daily (caiso:ISO, from 2014-05): curtailed_{solar,wind}_mwh,
+    by reason curtailed_<fuel>_{local,system}_mwh (2024 on), and
+    {solar,wind}_generation_mwh. CAISO's figure.
+  spp_curtailment_daily (spp:SPP, spp:SWPW, from 2014): curtailed_<fuel>_
+    {redispatch,manual,economic}_mwh and their sum curtailed_<fuel>_mwh. SPP's.
+  ercot_wind_solar_hsl_daily (ercot:system, from September 2026 only):
+    <fuel>_generation_mwh, <fuel>_hsl_mwh, <fuel>_below_hsl_mwh. ERCOT
+    publishes no curtailment: "below HSL" is the ERW's estimate; call it that.
+  iso_curtailment_monthly (derived): the same entities and variables summed over
+    complete months. MISO publishes no curtailment series.
 **FRED**: fred_daily_spot_prices (public; DCOILWTICO, DCOILBRENTEU, DHHNGSP,
   the same EIA spot prices as republished by FRED); fred_imf_commodity_prices
   (INTERNAL; IMF monthly coal, European and Japanese gas, nickel, uranium).
@@ -151,6 +185,11 @@ day-ahead tables running into tomorrow:
 | Crude and product stocks, trade | `eia_petroleum_stocks_weekly`, `eia_petroleum_trade_weekly`, `eia_crude_imports_by_country` |
 | LNG exports | `eia_lng_exports_monthly` |
 | Retail electricity price by state | `eia_retail_electricity_prices` |
+| Electricity sales or customers by state and sector | `eia_retail_sales_monthly` |
+| Industrial or commercial energy use, all fuels (US) | `eia_sector_energy_consumption_monthly` |
+| Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
+| Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_<ba>_generation` |
+| Wind and solar curtailment | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (not curtailment: output below HSL), `iso_curtailment_monthly` |
 | Power plants, capacity by state or fuel | `eia860m_*_generators` |
 | Projects waiting to connect | `<iso>_interconnection_queue` |
 | All generators and queue positions with a location | `energy_projects` |

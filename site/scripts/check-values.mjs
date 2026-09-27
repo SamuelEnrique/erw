@@ -16,7 +16,9 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
-const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/weekly"];
+const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/weekly",
+  // session 18
+  "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/consumption"];
 
 function env(name) {
   if (process.env[name]) return process.env[name];
@@ -91,6 +93,14 @@ async function truth(check) {
       and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "entity,ts_utc" });
     if (!rows.length) return undefined;
     return p[0] === "series_max" ? Math.max(...rows.map((r) => r.value)) : rows.reduce((a, r) => a + r.value, 0);
+  }
+  // session 18: a sum over one entity's rows in a time range (/mix, /curtailment, /consumption)
+  if (p[0] === "series_esum") {
+    const [, table, entity, variable, start, end] = p;
+    const rows = await all("series", { select: "value", table_name: `eq.${table}`, entity: `eq.${entity}`, variable: `eq.${variable}`,
+      and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "ts_utc" });
+    if (!rows.length) return undefined;
+    return rows.reduce((a, r) => a + r.value, 0);
   }
   // session 16: /map (energy_projects, and datacenter_projects as the kind datacenter) and /datacenters
   if (p[0] === "projects") {

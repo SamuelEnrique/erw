@@ -20,7 +20,9 @@ const SECTORS = [
   { id: "TRA", label: "Transportation" },
 ];
 const exact = (v: number) => (Number.isInteger(v) ? count(v) : price(v));
-const pct = (v: number | null) => (v === null ? "" : `${v >= 0 ? "+" : ""}${v.toFixed(1)}%`);
+// one decimal; a value that rounds to zero is written 0.0, never -0.0
+const one = (v: number) => (Math.abs(v) < 0.05 ? "0.0" : v.toFixed(1));
+const pct = (v: number | null) => (v === null ? "" : `${v >= 0.05 ? "+" : ""}${one(v)}%`);
 const MER_ROWS = [
   { msn: "TEICBUS", label: "Industrial: total energy consumed" },
   { msn: "ESICBUS", label: "Industrial: electricity bought (retail sales)" },
@@ -38,7 +40,9 @@ function monthsBack(ts: string, k: number): string {
 type Window = { from: string; to: string }; // [from, to) as ISO month starts
 
 function total(rows: SeriesRow[], entity: string, w: Window, n: number) {
-  const r = rows.filter((x) => x.entity === entity && x.ts_utc >= w.from && x.ts_utc < w.to);
+  // compare parsed times: Supabase writes "+00:00" where the window bounds write "Z"
+  const f = Date.parse(w.from), t = Date.parse(w.to);
+  const r = rows.filter((x) => x.entity === entity && Date.parse(x.ts_utc) >= f && Date.parse(x.ts_utc) < t);
   return r.length === n ? r.reduce((a, x) => a + x.value, 0) : null; // every month present, or no total
 }
 
@@ -46,7 +50,7 @@ export default async function ConsumptionPage() {
   const [sales, mer] = await Promise.all([attempt(() => series(SALES, { variable: "retail_sales" })), attempt(() => series(MER, {}))]);
   if (!sales.ok) return <NoData what={SALES} reason={sales.reason} />;
   const rows = sales.data;
-  const latest = rows.reduce((a, r) => (r.ts_utc > a ? r.ts_utc : a), "");
+  const latest = rows.reduce((a, r) => (r.ts_utc > a ? r.ts_utc : a), "");  // one format within a table
   if (!latest) return <NoData what={SALES} reason="the table returned no rows" />;
   const cur: Window = { from: monthsBack(latest, 11), to: monthsBack(latest, -1) };
   const prev: Window = { from: monthsBack(latest, 23), to: cur.from };
@@ -87,7 +91,7 @@ export default async function ConsumptionPage() {
               {exact(us.all.a)}
             </Num>{" "}
             MWh, {pct(us.all.growth)} on {prevLabel}.{" "}
-            {SECTORS.map((s) => `${s.label} ${us.by[s.id].a !== null ? ((100 * us.by[s.id].a!) / us.all.a!).toFixed(1) : ""}% (${pct(us.by[s.id].growth)})`).join("; ")}.
+            {SECTORS.map((s) => `${s.label} ${us.by[s.id].a !== null ? `${one((100 * us.by[s.id].a!) / us.all.a!)}%` : "no data"} (${pct(us.by[s.id].growth)})`).join("; ")}.
           </p>
         )}
         <Cite tables={[SALES]} note="Share of all-sector sales, and in brackets the change on the 12 months before" />
@@ -154,7 +158,11 @@ export default async function ConsumptionPage() {
                     const x = t.by[s.id];
                     return (
                       <td key={s.id} className="py-1 pr-3 text-right tabular-nums">
-                        {x.a !== null && t.all.a ? `${((100 * x.a) / t.all.a).toFixed(1)}%` : ""} {x.growth !== null ? `(${pct(x.growth)})` : ""}
+                        {!rows.some((r) => r.entity === ent(t.st, s.id))
+                          ? ""
+                          : x.a === null || !t.all.a
+                            ? "no data"
+                            : `${one((100 * x.a) / t.all.a)}%${x.growth !== null ? ` (${pct(x.growth)})` : ""}`}
                       </td>
                     );
                   })}
@@ -164,8 +172,9 @@ export default async function ConsumptionPage() {
           </table>
         </div>
         <p className="mt-1 text-xs text-muted">
-          Share of the state&apos;s all-sector retail sales over {label}; in brackets, the change on {prevLabel}. &quot;No data&quot;: a month of the
-          window is missing for that state, so no 12-month total is given. Transportation is electric rail and transit; EIA counts it only in some
+          Share of the state&apos;s all-sector retail sales over {label}; in brackets, the change on {prevLabel} (none where the earlier total
+          is zero). &quot;No data&quot;: EIA published no value for a month of the window, so no 12-month total is given. Blank: EIA reports no
+          such sector for the state. Transportation is electric rail and transit; EIA counts it only in some
           states.
         </p>
         <Cite tables={[SALES]} />

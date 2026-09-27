@@ -19,6 +19,18 @@ full:
   - '^energy_projects$'                         # session 16: the project map (tool 3), with "select" below
   - '^datacenter_projects$'                     # session 16: the datacenter power tracker (tool 4; evidence internal)
   - '^ercot_large_load_queue$'                  # session 17: only if ERCOT publishes a request-level list
+  # session 18: the energy mix explorer (tool 21). The grouped monthly mix is loaded, not the
+  # EIA source table (eia_state_generation_monthly: EIA source codes, census regions and long
+  # API page URLs per row, about twice the rows); Redivis and the CSV keep it whole.
+  - '^state_generation_mix_monthly$'
+  - '^eia930_generation_latest$'                # a snapshot of the latest complete hours
+  # session 18: the curtailment tracker (tool 22): the monthly history whole, the daily tables
+  # below with their own window; consumption by sector (tool 23): the last 24 published months
+  - '^iso_curtailment_monthly$'
+  - '^(caiso|spp)_curtailment_daily$'
+  - '^ercot_wind_solar_hsl_daily$'
+  - '^eia_retail_sales_monthly$'
+  - '^eia_sector_energy_consumption_monthly$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -37,6 +49,17 @@ select:
     columns: [kind, technology_group, state, county, geo_precision, operator_role, date, date_kind, source_table]
     exclude:
       status: [withdrawn]
+  # session 18: the page shows the last 90 days of daily curtailment; the monthly table holds the history
+  caiso_curtailment_daily: {days: 100}
+  spp_curtailment_daily: {days: 100}
+  ercot_wind_solar_hsl_daily: {days: 100}
+  # session 18: /consumption compares the latest 12 months with the 12 before: 25 months of
+  # retail sales (not customers), with EIA's two-month lag: 850 days; the MER series the same
+  eia_retail_sales_monthly:
+    include:
+      variable: [retail_sales]
+    days: 850
+  eia_sector_energy_consumption_monthly: {days: 850}
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

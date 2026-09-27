@@ -110,6 +110,20 @@ def main():
             "source": SOURCE, "source_url": METHOD_URL, "retrieved_at": ip.utc_iso(pd.Timestamp.now(tz="UTC")),
             "vintage": "",
         }).sort_values(["entity", "variable", "ts_utc"])
+        # A row whose value is unchanged keeps the retrieved_at of the run that first wrote it, so
+        # the Supabase loader, which compares every column, rewrites only months EIA revised or
+        # added (the daily run re-reads EIA's whole history; rewriting 107,560 rows a day would
+        # leave that many dead row versions in Supabase, which is near its size cap)
+        out_path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+        if os.path.exists(out_path):
+            prev = ip.read_series(out_path, ip.SERIES_COLS)
+            prev["value"] = pd.to_numeric(prev["value"])
+            key = ["entity", "variable", "ts_utc", "value"]
+            s = s.merge(prev[key + ["retrieved_at"]].rename(columns={"retrieved_at": "_prev"}), on=key, how="left")
+            kept = int(s["_prev"].notna().sum())
+            s["retrieved_at"] = s["_prev"].fillna(s["retrieved_at"])
+            s = s.drop(columns="_prev")
+            log(f"{kept} of {len(s)} rows unchanged since the last run keep their retrieved_at")
         header = [
             "Energy Research Warehouse (ERW): Net generation mix by state, grouped energy sources, monthly, "
             "MWh (derived from EIA Form EIA-923; platform tool 21)",

@@ -6,7 +6,7 @@ It is adapted from the `CLAUDE.md` of the Item Response Warehouse (IRW, github.c
 
 ## What the ERW is
 
-The **Energy Research Warehouse (ERW)** is the live, citable record of the US energy system: prices, flows, projects, deals and policy across power, natural gas, oil, nuclear, renewables, storage and transmission, with the global prices and events that move US markets included. AI's demand for power is the sharpest current lens on that system, not its boundary. Coverage is US first, world later. Every source is reshaped into a small number of standard table shapes so that they can be joined and compared. The ERW is the shared data layer of a 20-tool energy intelligence platform ([`docs/platform-tools.md`](docs/platform-tools.md)). Every tool on that platform reads the ERW; none keeps its own private copy of a source.
+The **Energy Research Warehouse (ERW)** is the live, citable record of the US energy system: prices, flows, projects, deals and policy across power, natural gas, oil, nuclear, renewables, storage and transmission, with the global prices and events that move US markets included. AI's demand for power is the sharpest current lens on that system, not its boundary. Coverage is US first, world later. Every source is reshaped into a small number of standard table shapes so that they can be joined and compared. The ERW is the shared data layer of a 23-tool energy intelligence platform (20 until session 18) ([`docs/platform-tools.md`](docs/platform-tools.md)). Every tool on that platform reads the ERW; none keeps its own private copy of a source.
 
 Note on the name: in sustainability circles "ERW" also means enhanced rock weathering. In this repository ERW always means Energy Research Warehouse.
 

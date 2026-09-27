@@ -94,8 +94,11 @@ function IsoBlock({ c, monthly, daily }: { c: Iso; monthly: SeriesRow[]; daily: 
   const months = Array.from(new Set(m.map((r) => r.ts_utc))).sort();
   const days = Array.from(new Set(d.map((r) => r.ts_utc))).sort();
   const vars = c.parts.map((p) => p[0]);
-  const byKey = new Map([...m, ...d].map((r) => [`${r.variable}|${r.ts_utc}`, r.value]));
-  const layer = (xs: string[]): Layer[] => c.parts.map(([v, label, color]) => ({ key: v, label, color, values: xs.map((t) => byKey.get(`${v}|${t}`) ?? null) }));
+  // monthly and daily rows apart: a daily row on the 1st has the same variable and time as the month
+  const byMonth = new Map(m.map((r) => [`${r.variable}|${r.ts_utc}`, r.value]));
+  const byDay = new Map(d.map((r) => [`${r.variable}|${r.ts_utc}`, r.value]));
+  const layer = (xs: string[], by: Map<string, number>): Layer[] =>
+    c.parts.map(([v, label, color]) => ({ key: v, label, color, values: xs.map((t) => by.get(`${v}|${t}`) ?? null) }));
   const last13 = months.slice(-13).reverse();
   const shareOf = (rows: SeriesRow[]) => {
     if (!c.share) return null;
@@ -116,7 +119,7 @@ function IsoBlock({ c, monthly, daily }: { c: Iso; monthly: SeriesRow[]; daily: 
         <>
           <StackedArea
             x={days.slice(-90).map((t) => Date.parse(t))}
-            layers={layer(days.slice(-90))}
+            layers={layer(days.slice(-90), byDay)}
             unit="MWh"
             height={180}
             ariaLabel={`${c.label} daily curtailment, ${days[Math.max(0, days.length - 90)].slice(0, 10)} to ${days[days.length - 1].slice(0, 10)}`}
@@ -154,7 +157,7 @@ function IsoBlock({ c, monthly, daily }: { c: Iso; monthly: SeriesRow[]; daily: 
         <>
           <StackedArea
             x={months.map((t) => Date.parse(t))}
-            layers={layer(months)}
+            layers={layer(months, byMonth)}
             unit="MWh"
             height={200}
             ariaLabel={`${c.label} monthly curtailment, ${months[0].slice(0, 7)} to ${months[months.length - 1].slice(0, 7)}`}
@@ -186,9 +189,9 @@ function IsoBlock({ c, monthly, daily }: { c: Iso; monthly: SeriesRow[]; daily: 
                   <td className="py-1 pr-3">{t.slice(0, 7)}</td>
                   {vars.map((v) => (
                     <td key={v} className="py-1 pr-3 text-right tabular-nums">
-                      {byKey.has(`${v}|${t}`) ? (
-                        <Num check={`series|${MONTHLY}|${c.entity}|${v}|${t}`} raw={byKey.get(`${v}|${t}`)!}>
-                          {exact(byKey.get(`${v}|${t}`)!)}
+                      {byMonth.has(`${v}|${t}`) ? (
+                        <Num check={`series|${MONTHLY}|${c.entity}|${v}|${t}`} raw={byMonth.get(`${v}|${t}`)!}>
+                          {exact(byMonth.get(`${v}|${t}`)!)}
                         </Num>
                       ) : (
                         ""

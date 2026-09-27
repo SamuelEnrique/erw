@@ -35,6 +35,8 @@ restore_before_run:
   - '^(caiso|spp)_curtailment_daily$'
   - '^ercot_wind_solar_hsl_daily$'
   - '^iso_curtailment_monthly$'
+  # session 18: restored so an unchanged month keeps its retrieved_at and Supabase is not rewritten daily
+  - '^state_generation_mix_monthly$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.
