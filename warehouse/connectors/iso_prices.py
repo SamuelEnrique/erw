@@ -1481,7 +1481,7 @@ def pull_isone(ctx):
              "prelim where no final is posted", fetch=rtm_hourly, nodes=ISONE_NODES,
              source="isone:rt_lmp_hourly_final",
              sources=["isone:rt_lmp_hourly_final", "isone:rt_lmp_hourly_prelim"],
-             page=ISONE_RTH_PAGE, step="1h", minutes=60, variable="lmp_rtm", freq="PT1H",
+             page=ISONE_RTH_PAGE, step="1h", minutes=60, per_day=True, variable="lmp_rtm", freq="PT1H",
              market="isone_rtm", file="isone_rtm_zone_prices_hourly",
              title="ISO-NE real-time market hourly LMPs (final), 8 load zones and the Internal Hub",
              notes=["ISO-NE's own hourly real-time LMPs, final report; rows from the preliminary "

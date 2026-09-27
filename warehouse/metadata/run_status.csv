@@ -220,3 +220,15 @@ run_id,runner,connector,table,market,status,detail
 20260926T160103Z,local,news_ingest,news_stories,feed:WSJ energy (via Google News),ok,
 20260926T160103Z,local,news_ingest,news_stories,feed:FT energy (via Google News),ok,
 20260926T160103Z,local,news_ingest,news_stories,stories,ok,253 new stories
+20260926T160207Z,local,news_score,news_stories,scoring,ok,"model claude-sonnet-5; calls 11 (0 failed); stories scored 253 of 253; tokens input 220740, output 35170, cache write 1818, cache read 18180; cost USD 0.8014; duplicate links rejected 0; clusters 880 among 967 scored stories; temperature not accepted by model"
+20260926T161454Z,local,news_brief,digest,brief,ok,"291 stories, 269 clusters, 2 call(s), tokens in 2727 out 901, cost USD 0.0145"
+20260926T233206Z,local,isone,isone_dam_zone_prices,DAM,ok,
+20260926T233206Z,local,isone,isone_rtm_zone_prices,RTM,ok,"6 days not complete, not written"
+20260926T233206Z,local,isone,isone_rtm_zone_prices,RTM 2026-09-02,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-03T03:45:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expected 96, missing 1 (first ['2026-09-03T03:45:00Z']), extra 0; .Z.MAINE: 95 rows, expected 96, missing 1 (first ['"
+20260926T233206Z,local,isone,isone_rtm_zone_prices,RTM 2026-09-11,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-12T03:45:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expected 96, missing 1 (first ['2026-09-12T03:45:00Z']), extra 0; .Z.MAINE: 95 rows, expected 96, missing 1 (first ['"
+20260926T233206Z,local,isone,isone_rtm_zone_prices,RTM 2026-09-12,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-12T04:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expected 96, missing 1 (first ['2026-09-12T04:15:00Z']), extra 0; .Z.MAINE: 95 rows, expected 96, missing 1 (first ['"
+20260926T233206Z,local,isone,isone_rtm_zone_prices,RTM 2026-09-13,gap,"day incomplete: .H.INTERNAL_HUB: 94 rows, expected 96, missing 2 (first ['2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0; .Z.CONNECTICUT: 94 rows, expected 96, missing 2 (first ['2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0; .Z."
+20260926T233206Z,local,isone,isone_rtm_zone_prices,RTM 2026-09-15,gap,"day incomplete: .H.INTERNAL_HUB: 88 rows, expected 96, missing 8 (first ['2026-09-15T18:00:00Z', '2026-09-15T18:15:00Z', '2026-09-15T18:30:00Z', '2026-09-15T18:45:00Z', '2026-09-15T19:00:00Z']), extra 0; .Z.CONNECTICUT: 88 rows, expected 96, missing "
+20260926T233206Z,local,isone,isone_rtm_zone_prices,RTM 2026-09-25,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.MAINE: 95 rows, expected 96, missing 1 (first ['"
+20260926T233206Z,local,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY,ok,"1 days not complete, not written"
+20260926T233206Z,local,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY 2026-09-25,gap,RTM_HOURLY 2026-09-25 failed after 4 attempts: EmptyDataError('No columns to parse from file')
