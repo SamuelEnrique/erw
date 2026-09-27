@@ -161,6 +161,9 @@ echo "== Energy Digest (docs/digest/)"
 run_other news_brief "$PYTHON" warehouse/news/brief.py
 "$PYTHON" warehouse/metadata/run_status.py record || exit 1
 
+echo "== STATUS.md (session 14): tables, last runs, open gaps"
+run_other build_status "$PYTHON" warehouse/metadata/build_status.py
+
 echo "== failure streaks (3 runs in a row)"
 "$PYTHON" warehouse/metadata/run_status.py streaks --n 3 || exit 1
 

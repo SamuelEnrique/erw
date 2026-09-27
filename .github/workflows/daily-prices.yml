@@ -26,7 +26,8 @@
 #   Session 10: first restores the rolling-window tables from the Redivis draft
 #   (the runner has no tables); after coverage, loads the Supabase live set; last,
 #   uploads the tables it changed to the Redivis draft (never released).
-#   5. commits metadata (coverage, sources, run status), docs, the digests and
+#   5. commits STATUS.md (session 14: tables, last runs, open gaps), metadata
+#      (coverage, sources, run status), docs, the digests and
 #      news_stories.csv (session 10 ruling 3) directly to main. Derived scripts
 #      whose inputs are absent on the runner skip with a warning. No other
 #      outputs (session 9 ruling): the tables in
@@ -154,7 +155,7 @@ jobs:
           # (tables, run logs) or warehouse/raw/. Session 10 ruling 3: the one exception is
           # warehouse/output/news_stories.csv, kept in git so the next run does not
           # re-ingest and re-score stories it already has.
-          git add -- docs/coverage.md docs/digest warehouse/metadata/coverage.csv warehouse/metadata/run_status.csv warehouse/metadata/sources.csv warehouse/metadata/redivis_uploads.csv warehouse/output/news_stories.csv
+          git add -- STATUS.md docs/coverage.md docs/digest warehouse/metadata/coverage.csv warehouse/metadata/run_status.csv warehouse/metadata/sources.csv warehouse/metadata/redivis_uploads.csv warehouse/output/news_stories.csv
           if git diff --cached --quiet; then
             echo "No table changed today; nothing to commit."
             exit 0
