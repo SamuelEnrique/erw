@@ -172,6 +172,15 @@ What was chosen, and why:
 
 24. **Human rulings, session 16.** (a) **EIA-930 generation tables are complete per UTC day**, as the ERCO and NYIS demand tables have been since session 13: each day of the window whose `net_generation_mw` has all 24 hours is written; a day without is not, earlier runs' rows for it are kept, and it is a `gap` row in `warehouse/metadata/run_status.csv`. Within the days written, a `net_generation_<fuel>_mw` series missing any hour is dropped for the run, as in decision 14. Reason: EIA publishes net generation a day or more after demand, so the whole-window rule wrote no generation on most days. (b) **Extracted fields are never inferred beyond the stated words.** In `energy_deals`, `state`, `country` and `status` are kept only when the model returns a span of the story that is in the story and names the value (for a state, its name or postal code); otherwise they are empty, and empty is the correct answer. (c) Evidence sentences stay in the internal companion table (session 15 decision confirmed).
 
+25. **Session 18: energy units, snapshots of partial days, curtailment.**
+    - **Units.**
+      - `TBtu` (trillion British thermal units) joins the unit vocabulary, for `eia_sector_energy_consumption_monthly` (EIA Monthly Energy Review), as EIA publishes it.
+      - `MWh` is reused for EIA generation (published in thousand megawatthours) and EIA retail sales (published in million kilowatt hours). Both are converted by x1000, exact, and the conversion is stated in the table header, as in decision 22.
+      - `count` is reused for EIA's number of customers.
+    - **Snapshots of complete hours.** `eia930_generation_latest` is a `series` table written as a snapshot, replaced every run, like an entities table (decision 21). It holds hours of a day that is not yet complete. Each hour it holds is complete in itself: net generation and every energy source the balancing authority reports. The per-day rule of decision 24 (a) still governs `eia930_<ba>_generation`.
+    - **A figure a source does not publish is named for what it is.** ERCOT publishes no curtailment. The ERW's variable is `<fuel>_below_hsl_mwh` (output below the High Sustained Limit), never `curtailed_*`, and its method says why it differs from curtailment (`docs/methods/curtailment.md`).
+    - **Derived monthly sums** (`iso_curtailment_monthly`, `state_generation_mix_monthly`) use exact decimal arithmetic. A month is written only when every input value it needs is present. `state_generation_mix_monthly` carries the part of EIA's total that EIA does not itemize by source as its own variable, `net_generation_not_itemized_mwh`, so the groups add up to the published total.
+
 Deferred to a later version:
 
 - A controlled vocabulary for `variable`, `entity_type`, `event_type` and `status`, enforced by the validator the way the IRW enforces its tag vocabulary.

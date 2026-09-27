@@ -110,6 +110,9 @@ run_other eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
 # EIA refined products, retail fuels, weekly trade and stocks, LNG exports by terminal
 # (session 7), full history each run
 run_other eia_series "$PYTHON" warehouse/connectors/eia_series.py
+# Session 18: the energy mix explorer (tool 21): EIA-923 generation by state (eia_series, above)
+# grouped by fuel (docs/methods/generation_mix.md)
+run_other generation_mix "$PYTHON" warehouse/derived/generation_mix.py
 
 # Session 7 price board: PJM RPM capacity prices (internal), CARB and RGGI carbon
 # auctions (internal), FRED series without a key (public domain daily; IMF monthly internal)
@@ -118,6 +121,11 @@ run_other carbon_auctions "$PYTHON" warehouse/connectors/carbon_auctions.py
 run_other fred_series "$PYTHON" warehouse/connectors/fred_series.py
 # IMF PortWatch daily chokepoint transits (session 8; internal until terms are confirmed)
 run_other portwatch "$PYTHON" warehouse/connectors/portwatch.py
+# Session 18: the curtailment tracker (tool 22): CAISO and SPP curtailment, ERCOT output below HSL,
+# the latest days (the history is restored from Redivis first), then the monthly sums
+# (docs/methods/curtailment.md)
+run_other curtailment "$PYTHON" warehouse/connectors/curtailment.py
+run_other iso_curtailment_monthly "$PYTHON" warehouse/derived/iso_curtailment_monthly.py
 
 # Session 8 entities. EIA-860M generator inventory: runs every day, writes only when EIA's
 # newest published monthly vintage differs from the one in the tables (a monthly cadence).
