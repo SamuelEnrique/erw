@@ -1,54 +1,54 @@
 # Energy Digest, 2026-09-27
 
-The Energy Research Warehouse (ERW) daily brief: 148 scored stories from the 24 hours to 2026-09-27 03:22 UTC, in 134 clusters, ranked by significance (rubric: `warehouse/news/rubric.md`). Headlines are written by the model (claude-sonnet-5); the why lines, MW, prices and parties come from each story's scored fields; every number under Numbers today comes from the warehouse. Sources link to the stories.
+The Energy Research Warehouse (ERW) daily brief: 182 scored stories from the 24 hours to 2026-09-27 09:51 UTC, in 162 clusters, ranked by significance (rubric: `warehouse/news/rubric.md`). Headlines are written by the model (claude-sonnet-5); the why lines, MW, prices and parties come from each story's scored fields; every number under Numbers today comes from the warehouse. Sources link to the stories.
 
 ## Top of the industry
 
 1. **TotalEnergies announces final investment decision for Absheron field development** (significance 9, gas)  
    A final investment decision on a major gas field is a market-moving supply commitment. parties: TotalEnergies. Sources: [Financial Times](https://news.google.com/rss/articles/CBMipgFBVV95cUxOdk9VLUIwUHoxQ19TZVktcGdJcEtKekFGU25mUWx6R0JHUGw2blFKaU9lb01sWUg0cE9NQ3RGaTJVcTgzUlpaT0NzTm9RaGIxaWY2R1pzcjBtamE4aVd0eF9jdGpPRFkzRktuTEQtdFpSa0lzOGM1RTRVWnNLcVp0WUhuTXN0X3l6UjFqTWFlMGZNZm9sOW5vRFZNOG81TUVEZEJBOEVR?oc=5)
-2. **Global gas supply squeeze could last through next summer** (significance 7, gas)  
+2. **Global gas supply squeeze could persist through next summer** (significance 7, gas)  
    Prolonged tight gas markets threaten Europe and Asia winter demand and pricing outlook. parties: International Gas Union. Sources: [OilPrice.com](https://oilprice.com/Energy/Natural-Gas/Global-Gas-Squeeze-Could-Last-Through-Next-Summer.html)
-3. **EU floats energy demand curbs in letter amid price crisis** (significance 7, policy)  
+3. **EU floats energy demand curbs in price crisis letter to members** (significance 7, policy)  
    EU-wide demand curbs signal policy response to a high-price energy crisis affecting industry costs. parties: EU. Sources: [Bloomberg.com](https://news.google.com/rss/articles/CBMiugFBVV95cUxNODRKdV9tUVZmVDNNMy12WU1nTnhsa29kRDkwTzN3MzNPWWtVMExUQkdwTEdUWnh1ZlBPdkg3cm1HUUNYY2N2OWREVEYxSEZwSHZCNnlYME1aSV9Yc2VLWUl5NjVnTWFlUFlxbFk5dHhubUJySENyZWZaQmQ3eTVkUEo5amZsSmw0R09uNXNKRnlscjlWOGJ1TDh5UEdSQkRTWEo2TE95bVVtMWU5R3lnT2FmdmdtTENCcmc?oc=5)
-4. **US to finalize sharply lower vehicle fuel economy standards** (significance 7, policy)  
+4. **US to finalize lower vehicle fuel economy standards, rolling back Biden rules** (significance 7, policy)  
    Major federal rule affecting fuel demand and auto industry emissions parties: US government. Sources: [Reuters](https://news.google.com/rss/articles/CBMisAFBVV95cUxPQVBRNVl3X3FfSjZmOTlqUEZsS0RlN2ZkQnU3cF9oSVA3SVhaUFVKdC1saW1UQ3hKQk5FUHpfUjE2MERFLXVyQU8zRktURUxjVnVzMHk4a3RlV2FKaUNITWxBWmsxdUxTd2VyNngtZzZHeWpfNGd1OXVldFhwMlRRbkFOOEJFSnBYbkZpV1BJUk05N0ZRUzdVYzMtVHBTbUxtbnNrYWJxcXBqY1h1QmgzWg?oc=5), [Bloomberg](https://news.google.com/rss/articles/CBMisAFBVV95cUxOQzhEck0yZDdadC12VDd1T1pfNXFuc2FiWFRDVnNDOHRkd1NpQzhjOEdJZndYd1ZBeXRmbjhCbUZXYUo4LUFhTFRJdWduVVNtWXNCRmk2V2xVX21hdXJ3MGowODZvYU1zRjdSRXBwS3VPQkFzc1NQcEszVjlTSnJMYzRXaTlmR3poMnZPSEtIQlpsWk1RR2VhVUJSaDVkN2h4T0ZFdXpNdk5neEQ4d05wNA?oc=5), [Electrek](https://electrek.co/2026/09/26/republicans-are-about-to-announce-an-effort-to-raise-your-fuel-costs-by-45/)
-5. **Total, Socar and XRG launch new phase of Azerbaijan gas project** (significance 7, gas)  
+5. **Total, Socar, XRG launch new phase of Azerbaijan gas project** (significance 7, gas)  
    Major gas project expansion by leading energy companies affects regional supply and investment. parties: Total; Socar; XRG. Sources: [Bloomberg.com](https://news.google.com/rss/articles/CBMirgFBVV95cUxPdFdRdy1rUWZWZU1lNkdxZ2ZfVlpjN3lDSHhyNFNGX0JCNWlLN3JQcm9LaWlmRXA2RU9mSEN5N0NtUXI3SWhkR3FkTjZHV3pRZ2ZrVzBxbHduUzZjV2RWejJjNm5sSXRkekljUmt0YmJlRHdqcE94SVJ6S0daUGRjazVQMDNNQzlHRUFxdXBnNVhvQUUtNENTUHN0YUEyaGRnQ2thNi1rY1JxNFdqY3c?oc=5)
 6. **US crude oil stockpiles post unexpected build** (significance 7, oil)  
    Surprise inventory build signals shifting supply-demand balance and price direction for oil markets. Sources: [WSJ](https://news.google.com/rss/articles/CBMimwFBVV95cUxQOUg3NXFscHNvUUVUalowcWxsU2k2YnlnVG5YX2tfNUNvTEg4SUZiWFl4T1VaT3RsVU1QLUp6a0NuQ3djQmdwQ3lYcmlNZ2ZNdTVaSGRhUGpqYzEySXJIaW9UeU93ZU9RRjM5SDBFU1NfdWV4S1pLcFYwMjRIbVp5dVlrekFqYVV0STdoQS1TT0FXQ1pFdHYyOHdOMA?oc=5)
-7. **Tanker shortage sends oil-shipping rates soaring** (significance 7, oil)  
+7. **Tanker shortage sends oil shipping rates soaring** (significance 7, oil)  
    Rising freight costs affect crude trade economics and delivered oil prices globally. Sources: [WSJ](https://news.google.com/rss/articles/CBMimgFBVV95cUxNUkNqbVhTZVNUVXVDMy1PM1JmcURBV0o1YUR3Zk9jMmRWMkxRNE9ZbkhJR0owRDc3dzUtSjNpT3Z4R3REUnB3dHpjTXF1YmZKX2hOYngwTkFTTEI3SDVaTmlPX1lRa2R5aTdyTDVOWTlYTmliU3ZUbmRMR09BaHQ0SVlNTGJ5Vi1RSGxuWVlJOUpsQl81My1wZkxn?oc=5)
 8. **US says China to buy 10 million tons of coal in 2027 and 2028** (significance 7, gas)  
    Major bilateral coal trade commitment affecting global coal markets. parties: China; United States. Sources: [Bloomberg](https://news.google.com/rss/articles/CBMisgFBVV95cUxOUXVPZTZ1QnpkM01VelF4WWtydjg0QlplcHVJZzE1aHE0RDNpeVQ3V21UeUhnNTRiNFJWdWNnOFpxa05LckYwYldqbjZBNV9pd3lydG9aNUExZWMzUW9nV3V0aVNQZXRzUmhnNl9pdEQ4SV9acVVjTVFxMEdqd1NCbjhJVmY3UW15WGpvdkJTRVRnblcwSUYwQ2w0ejlmcWw4cF9YRW8tMVMwS1FlQ2VoNnlB?oc=5)
-9. **Anthropic to pay Akamai $11.6 billion for cloud services** (significance 6, deal)  
+9. **Anthropic to pay Akamai $11.6 billion for cloud services over seven years** (significance 6, deal)  
    Large multi-year cloud spend signals compute/infrastructure buildout demand though not direct power deal. $11.6 billion over seven years; parties: Anthropic; Akamai. Sources: [WSJ](https://news.google.com/rss/articles/CBMiuwFBVV95cUxOVW0zbElYMzI3cUlNNWR0Rnp5Wk5FQTBJa3l4WFZ5RU01SjBJMWFCNWtWY01zcWl6TGlpalpDdjFmTGwtcUdQYVMzc1ZHOENwQ01LbmRPUS15T3lsY1JZSjgwTUxQLUNXZmhtT19KbUFLYnhZclF5SHNTNmVOUm1LTGlSNGhUTmVqdGNxQ3cyeXBoQ19NeHVsU09mY3VGbHZmVUtyVDAtdG1NancxTmdKUjIzcjh5aTViRGVn?oc=5)
-10. **North Carolina regulators reject Duke Energy gas power plant** (significance 6, gas)  
-   State rejection of new gas capacity amid record US gas demand outlook affects generation planning. parties: Duke Energy; North Carolina regulators. Sources: [OilPrice.com](https://oilprice.com/Energy/Energy-General/North-Carolina-Regulators-Reject-Duke-Energy-Gas-Power-Plant.html)
+10. **US and China agree to trim tariffs and start AI dialogue** (significance 6, geopolitics)  
+   Trade and AI diplomacy could shape tech and energy supply chains. parties: United States; China. Sources: [wsj.com](https://news.google.com/rss/articles/CBMingFBVV95cUxORGhfcEduZHZpNWZlWnZwMld5d1BseFpWcXFfXzktTUJWVldFUlJWYnloUUhldXRSQ3d5MDA5aVZjQjZKQ3VNdGFLN0xUNTVrQnRaa2ViT2ZkOEtOaTRZTXZRYWd0bHdFdkFvdnQtZU9QcU5MYVgtNFdtbGhFTlBwZERzRzRXN0tBSnFMQS1Fc2ZVS3pZSWxiZU9kWHI1Zw?oc=5), [Reuters](https://news.google.com/rss/articles/CBMisgFBVV95cUxNT2FRVWRwSDZuWUZPYTRXcmNuNTFDR0hrQkVUZnpSdV9RdGhpUjV5R0hwN2V6MUNUS2hiTHpENFhwUFVDODBIeDhBSm5SdUJOeU1qSUhjekl2RzBDd0VBYi0tdmNDblQwV1RMTF9QMGFHdlFRcDRmalE3dWlhX0l6aUJjSGtsVjlsZXNnbmZWY3JzMEtwY3hxNEZHT3JjWXJEQlVRSFpSM0haSUROOUFRaWJB?oc=5)
 
 ## By sector
 
 **Power**
 
 - Powerful storm cuts power and grounds flights across US Northeast (6): Widespread outages from severe weather affect grid reliability and travel across a major US region. [Bloomberg.com](https://news.google.com/rss/articles/CBMixwFBVV95cUxOdy04RGN5dEgwM2szLWZOTFQ3UjlnWUJfQW5xMGd2dFN5VGdlOHdabTdXOVQwa2lUdTdNU01RWEQzTTUwRkF4emNfRjJNMDcwQVhnbVBwNmhHaUxSOEZZWTJIMlZIUVR1SWhndng0SlB1N3hZeGpwNDRCb1ExWDNxYkhCVlpCWUExN3FTZ1dBTzllTDBvYldjOWw1TnRNaVFDNk01U3RaaUdabFNxVlhobTdKWGJ2RnUwZzU4TU82aGJKXzNIaFpn?oc=5)
-- India orders captive coal plants to maximise output amid demand surge (6): Signals tightening power supply and rising demand in a major market. [Reuters](https://news.google.com/rss/articles/CBMivgFBVV95cUxObnN6VllxYW5Yc3JDTVVLSjVrQXJiWlpTVmV3N2ZWd0tzbXUtVVo4dnVuQVJ6TW9VdXMzeEdCUzBfVDQxNGt6UXVfSkZjM3o0a1V2Skc5SUlrb1RGcWR1ZGJid0ZLWWVYdlZLMDJlU0NPSzVUUWs1RFRRWWhzWUxKZWpLS1lYTUs4eFVtdGhXbjZMMDR0dEEtNHdSMkNmdDUzaEkzdzFoNXBVWlR4OXBkWTdDeENVcE50LWxyMFdR?oc=5)
 - Floodwaters rush through New Jersey roads as nor'easter hits East Coast (4): Storm impacts grid reliability and infrastructure in Northeast [Reuters](https://news.google.com/rss/articles/CBMilAFBVV95cUxORnM5Z0Y1NVIya2RSNnRLNk1rUkNHcWdQS0JHRlNVbkNIaGg4Um4xNkVTUWdZSGo5TWt2WXZkTDFVY0dNem8yYVM0cTBkLTg2NW9faVU4R1JHX3N6bE96ZkFmZ3dPczZncE1Cakw5ZXZjdmc2SFRoZjVBRFlQbVZ0Ry1aV2hZV2dkNGt1TmJ0aHAyMmVx?oc=5)
+- AI infrastructure said to define the next industrial revolution (2): Generic thought-piece on AI infrastructure with no concrete new energy facts. [Data Center Dynamics](https://www.datacenterdynamics.com/en/opinions/ai-infrastructure-will-define-the-next-industrial-revolution/)
 
 **Oil and gas**
 
 - TotalEnergies announces final investment decision for Absheron field development (9): A final investment decision on a major gas field is a market-moving supply commitment. [Financial Times](https://news.google.com/rss/articles/CBMipgFBVV95cUxOdk9VLUIwUHoxQ19TZVktcGdJcEtKekFGU25mUWx6R0JHUGw2blFKaU9lb01sWUg0cE9NQ3RGaTJVcTgzUlpaT0NzTm9RaGIxaWY2R1pzcjBtamE4aVd0eF9jdGpPRFkzRktuTEQtdFpSa0lzOGM1RTRVWnNLcVp0WUhuTXN0X3l6UjFqTWFlMGZNZm9sOW5vRFZNOG81TUVEZEJBOEVR?oc=5)
-- Global gas supply squeeze could last through next summer (7): Prolonged tight gas markets threaten Europe and Asia winter demand and pricing outlook. [OilPrice.com](https://oilprice.com/Energy/Natural-Gas/Global-Gas-Squeeze-Could-Last-Through-Next-Summer.html)
-- Total, Socar and XRG launch new phase of Azerbaijan gas project (7): Major gas project expansion by leading energy companies affects regional supply and investment. [Bloomberg.com](https://news.google.com/rss/articles/CBMirgFBVV95cUxPdFdRdy1rUWZWZU1lNkdxZ2ZfVlpjN3lDSHhyNFNGX0JCNWlLN3JQcm9LaWlmRXA2RU9mSEN5N0NtUXI3SWhkR3FkTjZHV3pRZ2ZrVzBxbHduUzZjV2RWejJjNm5sSXRkekljUmt0YmJlRHdqcE94SVJ6S0daUGRjazVQMDNNQzlHRUFxdXBnNVhvQUUtNENTUHN0YUEyaGRnQ2thNi1rY1JxNFdqY3c?oc=5)
+- Global gas supply squeeze could persist through next summer (7): Prolonged tight gas markets threaten Europe and Asia winter demand and pricing outlook. [OilPrice.com](https://oilprice.com/Energy/Natural-Gas/Global-Gas-Squeeze-Could-Last-Through-Next-Summer.html)
+- Total, Socar, XRG launch new phase of Azerbaijan gas project (7): Major gas project expansion by leading energy companies affects regional supply and investment. [Bloomberg.com](https://news.google.com/rss/articles/CBMirgFBVV95cUxPdFdRdy1rUWZWZU1lNkdxZ2ZfVlpjN3lDSHhyNFNGX0JCNWlLN3JQcm9LaWlmRXA2RU9mSEN5N0NtUXI3SWhkR3FkTjZHV3pRZ2ZrVzBxbHduUzZjV2RWejJjNm5sSXRkekljUmt0YmJlRHdqcE94SVJ6S0daUGRjazVQMDNNQzlHRUFxdXBnNVhvQUUtNENTUHN0YUEyaGRnQ2thNi1rY1JxNFdqY3c?oc=5)
 
 **Nuclear and renewables**
 
-- Nevada making surprising gains on solar energy (5): State-level solar growth signals shifting generation mix relevant to grid planners. [WSJ](https://news.google.com/rss/articles/CBMiiwFBVV95cUxQUlU2bG5oSHc0RHg0QnljdVFiN0pPN0R5LW5JVHY0UG1rTlFjLTMyVHVqOENaQjJRS1RWT3lYZ0hKdURGR2U4Wl9fXzNzR0xiVXdDMkNBZGlLUEZVb2lIaVRwZzdkdjJwYTRHb2dKTFd5YXFfRF9makhqVXh0TGxCSzNWOU5LMDM5YVpz?oc=5)
+- Nevada makes surprising gains on solar energy (5): State-level solar growth signals shifting generation mix relevant to grid planners. [WSJ](https://news.google.com/rss/articles/CBMiiwFBVV95cUxQUlU2bG5oSHc0RHg0QnljdVFiN0pPN0R5LW5JVHY0UG1rTlFjLTMyVHVqOENaQjJRS1RWT3lYZ0hKdURGR2U4Wl9fXzNzR0xiVXdDMkNBZGlLUEZVb2lIaVRwZzdkdjJwYTRHb2dKTFd5YXFfRF9makhqVXh0TGxCSzNWOU5LMDM5YVpz?oc=5)
 - Brazil's energy mix goes green even as oil production climbs (3): Shows a major producer diversifying energy mix, relevant to global supply trends [OilPrice.com](https://oilprice.com/Alternative-Energy/Renewable-Energy/Brazils-Energy-Mix-Goes-Green-Even-As-Oil-Production-Climbs.html)
 
 **Policy and capital**
 
-- EU floats energy demand curbs in letter amid price crisis (7): EU-wide demand curbs signal policy response to a high-price energy crisis affecting industry costs. [Bloomberg.com](https://news.google.com/rss/articles/CBMiugFBVV95cUxNODRKdV9tUVZmVDNNMy12WU1nTnhsa29kRDkwTzN3MzNPWWtVMExUQkdwTEdUWnh1ZlBPdkg3cm1HUUNYY2N2OWREVEYxSEZwSHZCNnlYME1aSV9Yc2VLWUl5NjVnTWFlUFlxbFk5dHhubUJySENyZWZaQmQ3eTVkUEo5amZsSmw0R09uNXNKRnlscjlWOGJ1TDh5UEdSQkRTWEo2TE95bVVtMWU5R3lnT2FmdmdtTENCcmc?oc=5)
-- US to finalize sharply lower vehicle fuel economy standards (7): Major federal rule affecting fuel demand and auto industry emissions [Reuters](https://news.google.com/rss/articles/CBMisAFBVV95cUxPQVBRNVl3X3FfSjZmOTlqUEZsS0RlN2ZkQnU3cF9oSVA3SVhaUFVKdC1saW1UQ3hKQk5FUHpfUjE2MERFLXVyQU8zRktURUxjVnVzMHk4a3RlV2FKaUNITWxBWmsxdUxTd2VyNngtZzZHeWpfNGd1OXVldFhwMlRRbkFOOEJFSnBYbkZpV1BJUk05N0ZRUzdVYzMtVHBTbUxtbnNrYWJxcXBqY1h1QmgzWg?oc=5)
-- Anthropic to pay Akamai $11.6 billion for cloud services (6): Large multi-year cloud spend signals compute/infrastructure buildout demand though not direct power deal. [WSJ](https://news.google.com/rss/articles/CBMiuwFBVV95cUxOVW0zbElYMzI3cUlNNWR0Rnp5Wk5FQTBJa3l4WFZ5RU01SjBJMWFCNWtWY01zcWl6TGlpalpDdjFmTGwtcUdQYVMzc1ZHOENwQ01LbmRPUS15T3lsY1JZSjgwTUxQLUNXZmhtT19KbUFLYnhZclF5SHNTNmVOUm1LTGlSNGhUTmVqdGNxQ3cyeXBoQ19NeHVsU09mY3VGbHZmVUtyVDAtdG1NancxTmdKUjIzcjh5aTViRGVn?oc=5)
+- EU floats energy demand curbs in price crisis letter to members (7): EU-wide demand curbs signal policy response to a high-price energy crisis affecting industry costs. [Bloomberg.com](https://news.google.com/rss/articles/CBMiugFBVV95cUxNODRKdV9tUVZmVDNNMy12WU1nTnhsa29kRDkwTzN3MzNPWWtVMExUQkdwTEdUWnh1ZlBPdkg3cm1HUUNYY2N2OWREVEYxSEZwSHZCNnlYME1aSV9Yc2VLWUl5NjVnTWFlUFlxbFk5dHhubUJySENyZWZaQmQ3eTVkUEo5amZsSmw0R09uNXNKRnlscjlWOGJ1TDh5UEdSQkRTWEo2TE95bVVtMWU5R3lnT2FmdmdtTENCcmc?oc=5)
+- US to finalize lower vehicle fuel economy standards, rolling back Biden rules (7): Major federal rule affecting fuel demand and auto industry emissions [Reuters](https://news.google.com/rss/articles/CBMisAFBVV95cUxPQVBRNVl3X3FfSjZmOTlqUEZsS0RlN2ZkQnU3cF9oSVA3SVhaUFVKdC1saW1UQ3hKQk5FUHpfUjE2MERFLXVyQU8zRktURUxjVnVzMHk4a3RlV2FKaUNITWxBWmsxdUxTd2VyNngtZzZHeWpfNGd1OXVldFhwMlRRbkFOOEJFSnBYbkZpV1BJUk05N0ZRUzdVYzMtVHBTbUxtbnNrYWJxcXBqY1h1QmgzWg?oc=5)
+- Anthropic to pay Akamai $11.6 billion for cloud services over seven years (6): Large multi-year cloud spend signals compute/infrastructure buildout demand though not direct power deal. [WSJ](https://news.google.com/rss/articles/CBMiuwFBVV95cUxOVW0zbElYMzI3cUlNNWR0Rnp5Wk5FQTBJa3l4WFZ5RU01SjBJMWFCNWtWY01zcWl6TGlpalpDdjFmTGwtcUdQYVMzc1ZHOENwQ01LbmRPUS15T3lsY1JZSjgwTUxQLUNXZmhtT19KbUFLYnhZclF5SHNTNmVOUm1LTGlSNGhUTmVqdGNxQ3cyeXBoQ19NeHVsU09mY3VGbHZmVUtyVDAtdG1NancxTmdKUjIzcjh5aTViRGVn?oc=5)
 
 ## AI and power
 
@@ -70,7 +70,7 @@ Every number below is read from the warehouse through the `erw` package; each na
 | ISO-NE | .H.INTERNAL_HUB | 2026-09-26 | 33.13 | `isone_dam_zone_prices` (isone:da_lmp_hourly) |
 | PJM | | | no PJM price table (no API key) | |
 
-**Highest real-time price, yesterday:** no real-time table covers yesterday.
+**Highest real-time price, yesterday:** 166.55 USD/MWh at TH_SP15_GEN-APND (CAISO), interval starting 2026-09-26 22:15 local (2026-09-27 05:15 UTC), PT15M `lmp_rtm_15m_mean` (a 15-minute mean of 5-minute prices); `caiso_rtm_hub_prices` (caiso:PRC_INTVL_LMP). Real-time tables: caiso_rtm_hub_prices, ercot_rtm_hub_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, miso_rtm_hub_prices, nyiso_rtm_zone_prices, spp_rtm_hub_prices.
 
 **Latest fuel spot closes** (EIA, trading dates):
 
@@ -81,4 +81,4 @@ Every number below is read from the warehouse through the `erw` package; each na
 
 ---
 
-Generated by `warehouse/news/brief.py` at 2026-09-27 03:22 UTC; run log `warehouse/output/logs/news_brief_20260927T032247Z.log`. Story data: `warehouse/output/news_stories.csv`.
+Generated by `warehouse/news/brief.py` at 2026-09-27 09:51 UTC; run log `warehouse/output/logs/news_brief_20260927T095131Z.log`. Story data: `warehouse/output/news_stories.csv`.
