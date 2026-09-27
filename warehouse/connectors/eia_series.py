@@ -20,6 +20,20 @@ domain (credit: U.S. Energy Information Administration).
 | eia_crude_imports_by_country | petroleum/move/impcus  | monthly | kbbl/d (session 8) |
 | eia_padd_crude_pipeline_flows | petroleum/move/pipe   | monthly | kbbl (session 8) |
 | eia_retail_electricity_prices | electricity/retail-sales | monthly | USD/MWh, from cents/kWh x 10 (session 8) |
+| eia_state_generation_monthly | electricity/electric-power-operational-data | monthly | MWh, from thousand MWh x 1000 (session 18) |
+| eia_retail_sales_monthly     | electricity/retail-sales | monthly | MWh, from million kWh x 1000; count (session 18) |
+| eia_sector_energy_consumption_monthly | total-energy (MER tables 2.3, 2.4) | monthly | TBtu (session 18) |
+
+Session 18 (tools 21 and 23): generation by state and energy source (Form EIA-923, every
+state, EIA's census regions and the US, all sectors, sectorid 99) for the energy mix
+explorer, with the energy sources that partition EIA's "all fuels" total (ALL = COW + PET +
+NG + OOG + NUC + HYC + HPS + WND + SUN + GEO + BIO + OTH, checked for Texas, July 2026, to
+the published digit) and DPV, EIA's estimate of small-scale solar, which ALL leaves out; retail
+sales and customers by state and sector (Form EIA-861M); and the industrial and commercial
+sectors' monthly energy consumption from the Monthly Energy Review. The entity of a
+generation row is eia:generation:<location>:<fueltypeid>, of a sales row
+eia:retail_sales:<stateid>:<sectorid> or eia:customers:<stateid>:<sectorid>, of an MER row
+the MER series id (msn).
 
 Session 8 tables select series by facet where the set changes over time
 (imports: every country EIA lists, product EPC0, process IM0, the MBBL/D
@@ -63,9 +77,19 @@ API = "https://api.eia.gov/v2/"
 PAGE = 5000
 # EIA unit string -> ERW unit (docs/datastandard.md unit vocabulary)
 UNITS = {"$/GAL": "USD/gal", "MBBL/D": "kbbl/d", "MBBL": "kbbl", "MMCF": "MMcf", "$/MCF": "USD/Mcf",
-         "$/BBL": "USD/bbl", "cents per kilowatt-hour": "USD/MWh"}
-# a unit EIA reports that the ERW converts: value * factor (1 cent/kWh = 10 USD/MWh)
-SCALE = {"cents per kilowatt-hour": 10.0}
+         "$/BBL": "USD/bbl", "cents per kilowatt-hour": "USD/MWh",
+         # session 18
+         "thousand megawatthours": "MWh", "million kilowatt hours": "MWh",
+         "number of customers": "count", "Trillion Btu": "TBtu"}
+# a unit EIA reports that the ERW converts: value * factor (1 cent/kWh = 10 USD/MWh;
+# 1 thousand MWh = 1 million kWh = 1,000 MWh)
+SCALE = {"cents per kilowatt-hour": 10.0, "thousand megawatthours": 1000.0,
+         "million kilowatt hours": 1000.0}
+# session 18: the energy sources of eia_state_generation_monthly (Form EIA-923 fueltypeid)
+GEN_FUELS = ["ALL", "COW", "PET", "NG", "OOG", "NUC", "HYC", "HPS", "WND", "SUN", "GEO", "BIO",
+             "OTH", "DPV"]
+MER_SERIES = ["TEICBUS", "TNICBUS", "ESICBUS", "LOICBUS", "NNICBUS", "PAICBUS", "CLICBUS", "REICBUS",
+              "TECCBUS", "TNCCBUS", "ESCCBUS", "NNCCBUS", "PACCBUS", "RECCBUS"]
 STALE = {"daily": 10, "weekly": 21, "monthly": 150}
 FREQ = {"daily": "P1D", "weekly": "P1W", "monthly": "P1M"}
 LNG_TERMINALS = ["SPL", "CRP", "CAM", "FPT", "CCPL", "PLAQ", "CPT", "ELBA", "GPT"]
@@ -146,6 +170,52 @@ TABLES = {
         variable=lambda unit: "retail_price",
         note="Conversion: EIA reports cents per kilowatt-hour; value = EIA price x 10 "
              "(1 cent/kWh = 10 USD/MWh), exact."),
+    # session 18: the energy mix explorer (tool 21)
+    "eia_state_generation_monthly": dict(
+        parts=[dict(route="electricity/electric-power-operational-data", data="generation",
+                    facets=[("sectorid", "99")] + [("fueltypeid", f) for f in GEN_FUELS],
+                    series_of=lambda r: f"generation:{r['location']}:{r['fueltypeid']}",
+                    describe=lambda r: f"{r['stateDescription']}, {r['fuelTypeDescription']}",
+                    units_col="generation-units", sort=("location", "fueltypeid"))],
+        freq="monthly", geo=None,
+        title="EIA net generation by state and energy source, all sectors, monthly, in MWh (Form EIA-923)",
+        report="Electric Power Operational Data: net generation by state, sector and energy source "
+               "(Form EIA-923, Electric Power Monthly)",
+        page="https://www.eia.gov/electricity/data/browser/",
+        variable=lambda unit: "net_generation",
+        note="Conversion: EIA reports thousand megawatthours; value = EIA value x 1000 (MWh), exact. "
+             "Sector 99 (all sectors). Energy sources: ALL (all fuels) = COW + PET + NG + OOG + NUC + "
+             "HYC + HPS + WND + SUN + GEO + BIO + OTH; DPV (estimated small-scale solar) is not in ALL. "
+             "Locations: states, DC, EIA's census regions (geo empty) and US."),
+    # session 18: consumption by sector (tool 23)
+    "eia_retail_sales_monthly": dict(
+        parts=[dict(route="electricity/retail-sales", data="sales", facets=[],
+                    series_of=lambda r: f"retail_sales:{r['stateid']}:{r['sectorid']}",
+                    describe=lambda r: f"{r['stateDescription']}, {r['sectorName']}",
+                    units_col="sales-units"),
+               dict(route="electricity/retail-sales", data="customers", facets=[],
+                    series_of=lambda r: f"customers:{r['stateid']}:{r['sectorid']}",
+                    describe=lambda r: f"{r['stateDescription']}, {r['sectorName']}",
+                    units_col="customers-units")],
+        freq="monthly", geo=None,
+        title="EIA retail sales of electricity and customers by state and sector, monthly (Form EIA-861M)",
+        report="Electric Power Monthly: retail sales of electricity and number of customers by state "
+               "and sector (Form EIA-861M)",
+        page="https://www.eia.gov/electricity/data/eia861m/",
+        variable=lambda unit: "retail_sales" if unit == "MWh" else "customers",
+        note="Conversion: EIA reports sales in million kilowatt hours; value = EIA value x 1000 (MWh), "
+             "exact. Customers are EIA's count as published. Sectors: RES residential, COM commercial, "
+             "IND industrial, TRA transportation, OTH other (EIA's older series), ALL all sectors."),
+    "eia_sector_energy_consumption_monthly": dict(
+        parts=[dict(route="total-energy", facets=[("msn", m) for m in MER_SERIES],
+                    series_of=lambda r: r["msn"], describe=lambda r: r["seriesDescription"],
+                    units_col="unit", sort=("msn",))],
+        freq="monthly", geo="US",
+        title="EIA Monthly Energy Review: industrial and commercial sector energy consumption, monthly, TBtu",
+        report="Monthly Energy Review, tables 2.3 (commercial) and 2.4 (industrial) energy consumption",
+        page="https://www.eia.gov/totalenergy/data/monthly/",
+        variable=lambda unit: "energy_consumption",
+        note="Units: trillion British thermal units (TBtu), as EIA publishes them."),
 }
 
 
@@ -197,7 +267,7 @@ def fetch_parts(name, cfg, key, log):
     frames = []
     for p in parts:
         sids, facets, data = p.get("series", []), p.get("facets", []), p.get("data", "value")
-        sort = ("stateid", "sectorid") if "series_of" in p else ("series",)
+        sort = p.get("sort") or (("stateid", "sectorid") if "series_of" in p else ("series",))
         log(f"{name}: {p['route']} ({cfg['freq']}, {len(sids) or 'all'} series, facets {facets})")
         df = fetch(p["route"], cfg["freq"], sids, key, log, facets=facets, data=data, sort=sort)
         if df.empty:
@@ -237,7 +307,7 @@ def build(name, cfg, key, run_id, log):
     d = df[keep].copy()
     d["unit"] = d["units"].map(UNITS)
     scale = d["units"].map(SCALE).fillna(1.0).values
-    if cfg["geo"] is None:  # retail prices: the state; "US" for the nation; none for census regions
+    if cfg["geo"] is None:  # by state: the state; "US" for the nation; none for census regions
         st = d["series"].str.split(":").str[1]
         geo = st.map(lambda x: "US" if x == "US" else (f"US-{x}" if re.fullmatch(r"[A-Z]{2}", x) else "")).values
     else:

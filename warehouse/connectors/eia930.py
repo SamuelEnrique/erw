@@ -281,6 +281,75 @@ def build_table(rows, code, start, end, log, name, title, run_id, days):
     return [problems[v] for v in dropped], gaps
 
 
+LATEST = "eia930_generation_latest"
+LATEST_HOURS = 48
+
+
+def latest_hours(key, run_id, log):
+    """Session 18 (tool 21, the mix explorer's "today so far" strip): a snapshot of the complete
+    hours of the last LATEST_HOURS hours, for every BA. The generation tables hold only complete
+    UTC days, so the hours of the current day are not in them. An hour of a BA is complete, and
+    written, when net_generation_mw and every energy source the BA reports anywhere in the
+    window have a value for it; any other hour is left out, never filled. Each run replaces the
+    table (a snapshot); the complete days reach eia930_<ba>_generation as before."""
+    try:
+        now = pd.Timestamp.now(tz="UTC").floor("h")
+        start = now - pd.Timedelta(hours=LATEST_HOURS)
+        q_start = (start + pd.Timedelta(hours=1)).strftime("%Y-%m-%dT%H")
+        q_end = now.strftime("%Y-%m-%dT%H")
+        respondents = [BAS[c][0] for c in sorted(BAS)]
+        reg = fetch_route("electricity/rto/region-data", key, {"respondent": respondents, "type": ["NG"]},
+                          q_start, q_end, log)
+        fuel = fetch_route("electricity/rto/fuel-type-data", key, {"respondent": respondents}, q_start, q_end, log)
+        rows = pd.concat([to_rows(reg, "electricity/rto/region-data", REGION_TYPES, "type"),
+                          to_rows(fuel, "electricity/rto/fuel-type-data",
+                                  {k: f"net_generation_{v}_mw" for k, v in FUELS.items()}, "fueltype")],
+                         ignore_index=True)
+        keep, kept_hours = [], {}
+        for respondent, g in rows.groupby("respondent"):
+            fuels = set(g.loc[g["value"].notna(), "variable"]) - {"net_generation_mw"}
+            want = fuels | {"net_generation_mw"}
+            ok_hours = [t for t, h in g.groupby("interval_start")
+                        if want <= set(h.loc[h["value"].notna(), "variable"])
+                        and not h["variable"].duplicated().any()]
+            kept_hours[respondent] = len(ok_hours)
+            keep.append(g[g["interval_start"].isin(ok_hours) & g["variable"].isin(want)])
+        rows = pd.concat(keep, ignore_index=True) if keep else rows.iloc[0:0]
+        if rows.empty:
+            raise ip.SourceGap(f"no complete hour for any BA in the last {LATEST_HOURS} hours")
+        geo = {BAS[c][0]: BAS[c][1] for c in BAS}
+        s = pd.DataFrame({
+            "entity": "eia930:" + rows["respondent"], "variable": rows["variable"].values,
+            "ts_utc": pd.to_datetime(rows["interval_start"]).dt.strftime("%Y-%m-%dT%H:%M:%SZ").values,
+            "value": rows["value"].values, "unit": "MW", "freq": "PT1H",
+            "geo": rows["respondent"].map(geo).values, "market": "", "node": "",
+            "source": rows["source"].values, "source_url": rows["source_url"].values,
+            "retrieved_at": rows["retrieved_at"].values, "vintage": "",
+        }).sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)
+        header = [
+            "Energy Research Warehouse (ERW): EIA-930 hourly net generation by energy source, the "
+            f"latest complete hours (last {LATEST_HOURS} hours), seven ISOs and US48",
+            "Shape: series (docs/datastandard.md v0), a snapshot: each run replaces the table. Units: MW. "
+            "ts_utc is interval start, UTC (EIA's hourly period is the hour END; one hour is subtracted).",
+            f"Window: [{ip.utc_iso(start)}, {ip.utc_iso(now)}); an hour of a BA is written only when "
+            "net_generation_mw and every energy source the BA reports in the window have a value for it.",
+            f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia930.py via the EIA API v2",
+            f"Run log: warehouse/output/logs/eia930_{run_id}.log (every API request, key removed)",
+            *[f"Source: {src} {REPORTS[src][0]}, {REPORTS[src][1]}" for src in sorted(set(s["source"]))],
+            "Complete hours per respondent: " + "; ".join(f"{k} {v}" for k, v in sorted(kept_hours.items())),
+            "Complete UTC days are in eia930_<ba>_generation; this table is for the current day so far.",
+        ]
+        ip.write_snapshot(s[ip.SERIES_COLS], LATEST, header, log, ip.SERIES_COLS)
+        return dict(table=LATEST, market="latest", status="ok",
+                    detail="complete hours: " + ", ".join(f"{k} {v}" for k, v in sorted(kept_hours.items())))
+    except Exception:
+        tb = ip.redact(traceback.format_exc())
+        last = tb.strip().splitlines()[-1]
+        log(f"{LATEST} FAILED, no output file written:\n{tb}")
+        print(f"eia930 {LATEST} FAILED, no output file written: {last}", file=sys.stderr)
+        return dict(table=LATEST, market="latest", status="failed", detail=last[:300])
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW EIA-930 demand and generation connector")
     ap.add_argument("--days", type=int, default=30)
@@ -361,10 +430,12 @@ def main(argv=None):
                 log(f"{name} FAILED, no output file written:\n{tb}")
                 print(f"eia930 {name} FAILED, no output file written: {last}", file=sys.stderr)
                 results.append(dict(table=name, market=fam, status="failed", detail=last[:300]))
+    if not args.ba:  # session 18: the "today so far" snapshot, all eight BAs
+        results.append(latest_hours(key, run_id, log))
     ok = [x["table"] for x in results if x["status"] == "ok"]
     feeds = {  # which tables each route feeds: region-data all, fuel-type-data generation only
         "eia:electricity/rto/region-data": ok,
-        "eia:electricity/rto/fuel-type-data": [t for t in ok if t.endswith("_generation")],
+        "eia:electricity/rto/fuel-type-data": [t for t in ok if t.endswith("_generation") or t == LATEST],
     }
     ip.update_sources([dict(source=s, publisher="U.S. Energy Information Administration (EIA)",
                             report=r[0], report_url=r[1], document_list=r[2], tables=feeds[s])
