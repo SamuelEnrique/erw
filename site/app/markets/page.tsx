@@ -173,7 +173,10 @@ function IsoBlock({ table, rows, top, tz }: { table: string; rows: SeriesRow[]; 
           <Cite tables={[TOP]} note="Interval start in the ISO's local time; USD/MWh. The ISO's latest 7 local days with every real-time interval" />
         </>
       ) : (
-        <NoData what="top intervals" reason={`${TOP} holds no row for this ISO (no real-time table, or no 7 complete days)`} />
+        <NoData
+          what="top intervals"
+          reason={table === "spp_trader_daily" ? "the ERW has no SPP real-time price table" : `${TOP} holds no row for this ISO: its real-time table has no 7 complete days`}
+        />
       )}
     </>
   );

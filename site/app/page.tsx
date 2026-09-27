@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GROUPS } from "@/lib/pages";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
@@ -227,40 +228,19 @@ export default async function Home() {
       </Section>
 
       <Section title="Explore">
-        <div className="grid gap-px border border-rule bg-rule sm:grid-cols-3">
-          <Link href="/grid" className="bg-panel p-3 no-underline">
-            <div className="font-serif text-lg">Grid conditions</div>
-            <div className="text-sm text-muted">Yesterday&apos;s peak demand, forecast error and generation mix for each ISO.</div>
-          </Link>
-          <Link href="/map" className="bg-panel p-3 no-underline">
-            <div className="font-serif text-lg">Project map</div>
-            <div className="text-sm text-muted">Every EIA generator and ISO queue position on one US map, with filters.</div>
-          </Link>
-          <Link href="/datacenters" className="bg-panel p-3 no-underline">
-            <div className="font-serif text-lg">Datacenter power</div>
-            <div className="text-sm text-muted">Datacenter facilities named in the news: operator, place, MW, status and power.</div>
-          </Link>
-          <Link href="/deals" className="bg-panel p-3 no-underline">
-            <div className="font-serif text-lg">Energy deals</div>
-            <div className="text-sm text-muted">PPAs, acquisitions, financings and supply deals from the news, with sources.</div>
-          </Link>
-          <Link href="/explorer/ercot-peak-premium" className="bg-panel p-3 no-underline">
-            <div className="font-serif text-lg">ERCOT peak premium</div>
-            <div className="text-sm text-muted">How ERCOT prices spread across the day, by hub and year since 2015.</div>
-          </Link>
-          <Link href="/data" className="bg-panel p-3 no-underline">
-            <div className="font-serif text-lg">Coverage</div>
-            <div className="text-sm text-muted">Every public table, with its dates, rows, source and license.</div>
-          </Link>
-          <Link href="/data#methods" className="bg-panel p-3 no-underline">
-            <div className="font-serif text-lg">Methods</div>
-            <div className="text-sm text-muted">The data standard and how derived tables are computed.</div>
-          </Link>
-          <Link href="/data#access" className="bg-panel p-3 no-underline">
-            <div className="font-serif text-lg">Access</div>
-            <div className="text-sm text-muted">The Redivis dataset and the erw Python package.</div>
-          </Link>
-        </div>
+        {GROUPS.filter((g) => g.label !== "About").map((g) => (
+          <div key={g.label} className="mb-4">
+            <h3 className="mb-1 text-xs uppercase tracking-wide text-muted">{g.label}</h3>
+            <div className="grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
+              {g.pages.map((p) => (
+                <Link key={p.href} href={p.href} className="bg-panel p-3 no-underline">
+                  <div className="font-serif text-lg">{p.label}</div>
+                  <div className="text-sm text-muted">{p.line}</div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
       </Section>
     </>
   );

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import site from "@/data/site.json";
+import { GROUPS } from "@/lib/pages";
 
 export const metadata: Metadata = { title: "About" };
 
@@ -18,6 +20,19 @@ export default function About() {
         and a table derived from other tables takes the most restrictive license among them. Tables licensed for internal use only, such as PJM market
         data, stay in the warehouse and are never shown on this site.
       </p>
+      <h2 className="mb-2 mt-6 text-xl">The site</h2>
+      <dl className="mb-6 text-sm">
+        {GROUPS.map((g) => (
+          <div key={g.label} className="mb-3">
+            <dt className="text-xs uppercase tracking-wide text-muted">{g.label}</dt>
+            {g.pages.map((p) => (
+              <dd key={p.href} className="ml-0">
+                <Link href={p.href}>{p.label}</Link>: {p.line}
+              </dd>
+            ))}
+          </div>
+        ))}
+      </dl>
       <p className="text-sm text-muted">
         Code, data standard and session logs: <a href={site.repository}>{site.repository.replace("https://", "")}</a>.
       </p>

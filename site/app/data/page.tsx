@@ -9,6 +9,7 @@ import { count, day } from "@/lib/format";
 import { DOCS } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
 import site from "@/data/site.json";
+import { PAGES } from "@/lib/pages";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Data" };
@@ -73,6 +74,31 @@ export default async function Data() {
         <Cite tables={["catalogue"]} note="Freq is the interval between rows (ISO 8601 duration); snapshot means an entities table. Dates are the first and last row" />
       </Section>
 
+      <Section title="Pages" id="pages">
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr className="border-b border-rule text-left text-xs text-muted">
+                <th className="py-1 pr-3 font-normal">Page</th>
+                <th className="py-1 pr-3 font-normal">What it shows</th>
+                <th className="py-1 pr-3 font-normal">Tables it reads</th>
+              </tr>
+            </thead>
+            <tbody>
+              {PAGES.map((p) => (
+                <tr key={p.href} className="border-b border-rule/60 align-top">
+                  <td className="py-1 pr-3 whitespace-nowrap">
+                    <Link href={p.href}>{p.label}</Link>
+                  </td>
+                  <td className="py-1 pr-3">{p.line}</td>
+                  <td className="py-1 pr-3 font-mono text-xs">{p.tables}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Section>
+
       <Section title="Access" id="access">
         <div className="grid gap-6 md:grid-cols-2">
           <div>
@@ -85,8 +111,10 @@ export default async function Data() {
               .
             </p>
             <p className="text-xs text-muted">
-              {site.redivis.status} (Checked {site.redivis.checked}.) This site reads a live subset of the public tables: the last 90 days of power prices and
-              demand, and the derived, fuel, generator, queue and news tables whole.
+              {site.redivis.status} (Checked {site.redivis.checked}.) This site reads a live subset of the public tables (<code className="font-mono">warehouse/supabase/live_set.yaml</code>):
+              the last 90 days of power prices and demand, shorter windows of the daily curtailment, trader and retail sales tables, and the derived,
+              fuel, project, queue, deal and news tables whole. The ERCOT yearly history and the EIA-860M operating and planned generator tables are on
+              Redivis only; the project map carries every operating and planned generator.
             </p>
           </div>
           <div>
