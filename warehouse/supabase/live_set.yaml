@@ -16,6 +16,8 @@ full:
   - '^eia_fuel_spot_prices$'
   - '^fred_daily_spot_prices$'
   - '^energy_deals$'                            # session 15: the deal tracker (public; the evidence table is internal)
+  - '^energy_projects$'                         # session 16: the project map (tool 3), with "select" below
+  - '^datacenter_projects$'                     # session 16: the datacenter power tracker (tool 4; evidence internal)
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -24,6 +26,16 @@ recent:
   tables:
     - '^(caiso|ercot|isone|miso|nyiso|spp|pjm)_(dam|rtm)_(hub|zone)_prices(_hourly|_\d{4})?$'   # ISO prices, incl. the ERCOT yearly history
     - '^eia930_[a-z0-9]+_(demand|generation)$'
+
+# Session 16: for a table named here, only these extra columns (beyond the shape's standard
+# columns) and only rows not excluded go to Supabase. energy_projects repeats the rows of the
+# EIA-860M and queue tables already in the live set; loading it whole would pass max_mb. The
+# map needs no withdrawn queue position, and project_id and mw repeat entity_id and capacity_mw.
+select:
+  energy_projects:
+    columns: [kind, technology_group, state, county, geo_precision, operator_role, date, date_kind, source_table]
+    exclude:
+      status: [withdrawn]
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

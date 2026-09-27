@@ -63,7 +63,7 @@ CSV_COLS = ["table", "iso", "market", "n_nodes", "interval", "ts_min", "ts_max",
             "source_report", "last_run", "validator_status", "license", "sector", "derived"]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
-           "metals", "equities", "news", "deals"]
+           "metals", "equities", "news", "deals", "datacenters"]
 # (table name pattern, sectors), first match wins
 SECTOR_RULES = [
     (r"^(caiso|ercot|isone|miso|nyiso|spp)_(dam|rtm)_", "power"),
@@ -89,6 +89,9 @@ SECTOR_RULES = [
     (r"^ercot_peak_premium_(annual|monthly)$", "power"),
     # session 15: the deal tracker (tool 6)
     (r"^energy_deals(_evidence)?$", "deals"),
+    # session 16: the project map (tool 3) and the datacenter power tracker (tool 4)
+    (r"^energy_projects$", "power"),
+    (r"^datacenter_projects(_evidence)?$", "power;datacenters"),
 ]
 
 
@@ -103,7 +106,7 @@ def iso_of(table):
     parts = table.split("_")
     if parts[0] == "eia930":
         return BA_LABEL.get(parts[1], parts[1].upper())
-    if parts[0] in ("eia", "carb", "rggi", "fred", "eia860m", "portwatch"):
+    if parts[0] in ("eia", "carb", "rggi", "fred", "eia860m", "portwatch", "energy", "datacenter"):
         return "none"  # not an ISO series ("n/a" would read back as missing)
     return ISO_LABEL.get(parts[0], parts[0])
 

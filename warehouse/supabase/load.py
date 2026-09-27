@@ -111,6 +111,15 @@ def select_live():
 def filtered(name, days, now):
     df = read_table(name)
     shape = shape_of(df)
+    # session 16: live_set.yaml "select" keeps some extra columns and leaves out some rows of
+    # a table, so a large table fits the size limit; Redivis and the CSV keep everything
+    sel = (LIVE.get("select") or {}).get(name)
+    if sel:
+        for col, values in (sel.get("exclude") or {}).items():
+            df = df[~df[col].isin(values)]
+        if sel.get("columns") is not None:
+            std = SHAPES[shape][0]
+            df = df[[c for c in df.columns if c in std or c in sel["columns"]]]
     if days is not None:
         if shape != "series":
             raise RuntimeError(f"{name}: a day window applies to series tables only")

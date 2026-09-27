@@ -128,6 +128,10 @@ if [ "$(date -u +%u)" = "1" ] || [ "${QUEUES:-0}" = "1" ]; then
 else
   echo "iso_queues: weekly (Mondays UTC); skipped today, QUEUES=1 to force"
 fi
+# Session 16: the project map table (tool 3), derived from the EIA-860M inventories and the six
+# queues, geocoded with the Census county gazetteer (docs/methods/energy_projects.md). In CI the
+# queues exist only on the days they are pulled; other days it skips with a warning.
+run_other energy_projects "$PYTHON" warehouse/derived/energy_projects.py
 
 # News (session 6): ingest the feeds, then score new stories with the Claude API
 # (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.

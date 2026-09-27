@@ -319,3 +319,5 @@ run_id,runner,connector,table,market,status,detail
 20260927T015004Z,local,eia930,eia930_us48_demand,demand,ok,
 20260927T015004Z,local,eia930,eia930_us48_generation,generation,ok,"dropped series: 2026-09-24: net_generation_unknown_storage_mw: 7 of 24 hours (17 missing, 0 published as null; first missing ['2026-09-24T07:00:00Z', '2026-09-24T08:00:00Z', '2026-09-24T09:00:00Z']); 1 days not complete, not written"
 20260927T015004Z,local,eia930,eia930_us48_generation,generation 2026-09-26,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T015222Z,local,deals,energy_deals,extract,ok,model claude-sonnet-5; calls 9 (0 failed); stories checked 133; deals in table 26; evidence rows 25; numbers or fields not kept 3; tokens in 30886 out 12159 cache write 2580 cache read 20640; cost USD 0.1939
+20260927T020553Z,local,energy_projects,energy_projects,,ok,45488 rows; operating point 28605; planned point 2316; queue county 13395; queue none 1172
