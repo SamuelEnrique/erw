@@ -1,0 +1,40 @@
+Energy Week, 2026-W39
+
+The five stories of the week
+
+1. TotalEnergies makes final investment decision on Absheron field development in Azerbaijan
+   A final investment decision on a major gas field is a market-moving supply commitment.
+   Financial Times: https://news.google.com/rss/articles/CBMipgFBVV95cUxOdk9VLUIwUHoxQ19TZVktcGdJcEtKekFGU25mUWx6R0JHUGw2blFKaU9lb01sWUg0cE9NQ3RGaTJVcTgzUlpaT0NzTm9RaGIxaWY2R1pzcjBtamE4aVd0eF9jdGpPRFkzRktuTEQtdFpSa0lzOGM1RTRVWnNLcVp0WUhuTXN0X3l6UjFqTWFlMGZNZm9sOW5vRFZNOG81TUVEZEJBOEVR?oc=5
+2. Oracle triggers force majeure on data center project after power delays
+   Oracle invokes force majeure over power delays, direct evidence of grid constraints hitting AI datacenter buildout.
+   Reuters: https://news.google.com/rss/articles/CBMivgFBVV95cUxNbWZqSDVjdjZZaURFZ3VZNzlrRzdIZzE1MDRPNkNlQjRsbmlzLWdzUTRqTEFVdnNCS1czRkNrbVZTbzFHa1B2Nm51ZWRKSUUxMm41M05DWWw5WlQwZWhsR0duLVMzS1lXekZ1enFyS0VpcHRUTTduUVZtVnhXRDZRTVpHN0ZfUnhjUVVCbkNMeTAtZHdmOVpwUXpyZDNDY00zRVVyM1dyVG5fMTJ6RzE5XzBFTHU2YTNtMDdmdjh3?oc=5
+3. Applied Digital reveals data center project to be built in Alabama
+   Major $3.2bn AI data center investment signals continued large-scale AI infrastructure buildout.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/applied-digital-reveals-32bn-delta-forge-2-ai-data-center-will-be-built-in-alabama/
+4. DOE awards funding for grid upgrade projects to boost transmission capacity
+   Major DOE transmission funding adds 23GW capacity, significant grid expansion signal.
+   Utility Dive: https://www.utilitydive.com/news/doe-advanced-transmission-projects-spark-funding/831259/
+5. Anthropic signs multibillion dollar cloud computing deal with Akamai
+   Large AI computing deal implies major datacenter power demand growth.
+   Bloomberg.com: https://news.google.com/rss/articles/CBMiswFBVV95cUxQbEpHV0VXek9XWS1oa2ViR2ZBZ2d0ZERxdXdBaU1yRlB1aFQySTAxQUtmeV9CTk9qMm01eldSTWJ2MDVqQVFjdTNuS3RQUWZpRi1ycGNLTEs4a1FZMUsyVmt6dmtyZmc4cm14NkV2QkoxRjdITUFmbGJVbkF0c2hJajBZUzRFUWFTNE53bEg0MndlSEl0cmdHRXhkOUN4UXA4RXp1dVdRZkYySTBFRmRkMUl5TQ?oc=5
+
+Numbers of the week
+
+Every number below is read from the warehouse through the erw package, with its table; a change is this week's number minus last week's, computed here. Intervals are interval starts.
+Day-ahead average, main hub, over the ISO's local week, and the change from the week before
+  ISO: ERCOT; Hub or zone: HB_NORTH; This week USD/MWh: 41.84; Week before USD/MWh: 39.90; Change: +1.94; Table: ercot_dam_hub_prices (ercot:NP4-190-CD)
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; This week USD/MWh: 36.84; Week before USD/MWh: 36.79; Change: +0.05; Table: caiso_dam_hub_prices (caiso:PRC_LMP)
+  ISO: NYISO; Hub or zone: N.Y.C.; This week USD/MWh: 39.36; Week before USD/MWh: 45.97; Change: -6.61; Table: nyiso_dam_zone_prices (nyiso:damlbmp)
+  ISO: MISO; Hub or zone: INDIANA.HUB; This week USD/MWh: 40.45; Week before USD/MWh: 75.37; Change: -34.92; Table: miso_dam_hub_prices (miso:da_expost_lmp)
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; This week USD/MWh: 33.96; Week before USD/MWh: 46.44; Change: -12.48; Table: spp_dam_hub_prices (spp:DA-LMP-SL)
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; This week USD/MWh: 36.12; Week before USD/MWh: 44.30; Change: -8.18; Table: isone_dam_zone_prices (isone:da_lmp_hourly)
+  ISO: PJM; Table: no PJM price table (no API key)
+Highest real-time price of the week: 521.36 USD/MWh at N.Y.C. (NYISO), interval starting 2026-09-25 18:45 local (2026-09-25 22:45 UTC), lmp_rtm_15m_mean; nyiso_rtm_zone_prices (nyiso:realtime). Tables read, and how far each reaches this week: caiso_rtm_hub_prices to 2026-09-26 06:45 UTC; ercot_rtm_hub_prices to 2026-09-26 04:45 UTC; isone_rtm_zone_prices to 2026-09-25 03:45 UTC; isone_rtm_zone_prices_hourly to 2026-09-25 03:00 UTC; miso_rtm_hub_prices to 2026-09-26 04:00 UTC; nyiso_rtm_zone_prices to 2026-09-26 03:45 UTC.
+Fuel spot prices, weekly change (EIA, trading dates; the last close of the week and the last close before it):
+  Price: Henry Hub natural gas; Last close this week: 2.90 USD/MMBtu on 2026-09-22; Last close before: 2.97 on 2026-09-18; Change: -0.07 (-2.4%); Table: eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt)
+  Price: WTI Cushing crude; Last close this week: 96.41 USD/bbl on 2026-09-22; Last close before: 101.44 on 2026-09-18; Change: -5.03 (-5.0%); Table: eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt)
+  Price: Brent crude; Last close this week: 114.89 USD/bbl on 2026-09-22; Last close before: 119.66 on 2026-09-18; Change: -4.77 (-4.0%); Table: eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt)
+US48 peak demand of the week: 608,314 MW in the hour starting 2026-09-21 21:00 UTC (Monday 2026-09-21, 17:00 Eastern), from 144 hours of the week to 2026-09-26 23:00 UTC; eia930_us48_demand (eia:electricity/rto/region-data).
+
+The whole brief: https://github.com/SamuelEnrique/erw/blob/main/docs/weekly/2026-W39.md
+Energy Research Warehouse (ERW), the live, citable record of the US energy system. Every number names the warehouse table it came from.

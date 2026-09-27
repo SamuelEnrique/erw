@@ -2,7 +2,8 @@
 //
 // PostgREST over plain fetch, with SUPABASE_URL and SUPABASE_ANON_KEY only. The
 // anon key is subject to row-level security (warehouse/supabase/migrations/002_rls.sql):
-// it sees public rows and nothing else. The service key is never read here.
+// it sees public rows and nothing else. The service key is never read here. Since session 19
+// it also inserts into subscribers, the one table the anon key may write (migration 005).
 // Both variables are server-side (no NEXT_PUBLIC_ prefix), so neither reaches a browser.
 import "server-only";
 
@@ -83,4 +84,19 @@ export async function attempt<T>(f: () => Promise<T>): Promise<{ ok: true; data:
     console.error(`[erw] ${reason}`);
     return { ok: false, reason };
   }
+}
+
+/**
+ * Session 19: add one row to a table the anon key may insert into (subscribers, migration 005).
+ * Asks for no row back: the anon key cannot read that table.
+ */
+export async function insertRow(table: string, row: Record<string, string>): Promise<void> {
+  const { base, key } = config();
+  const res = await fetch(`${base}/rest/v1/${table}`, {
+    method: "POST",
+    headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", Prefer: "return=minimal" },
+    body: JSON.stringify(row),
+    cache: "no-store",
+  });
+  if (!res.ok) throw new DataError(`Supabase ${table}: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
 }

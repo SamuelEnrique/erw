@@ -181,6 +181,9 @@ fi
 
 echo "== Energy Digest (docs/digest/)"
 run_other news_brief "$PYTHON" warehouse/news/brief.py
+# Session 19: the digest by email (tool 25), and Energy Week on Mondays. Rendered to
+# docs/digest/email/ always; sent through Resend only when RESEND_API_KEY and DIGEST_RECIPIENTS are set
+run_other news_email "$PYTHON" warehouse/news/email_digest.py --auto
 "$PYTHON" warehouse/metadata/run_status.py record || exit 1
 
 echo "== STATUS.md (session 14): tables, last runs, open gaps"
