@@ -369,3 +369,119 @@ run_id,runner,connector,table,market,status,detail
 20260927T021914Z,local,news_score,news_stories,scoring,ok,"model claude-sonnet-5; calls 2 (0 failed); stories scored 33 of 33; tokens input 35247, output 4229, cache write 1818, cache read 1818; cost USD 0.1177; duplicate links rejected 0; clusters 1080 among 1184 scored stories; temperature not accepted by model"
 20260927T022005Z,local,deals,energy_deals,extract,ok,model claude-sonnet-5; calls 1 (0 failed); stories checked 1; deals in table 27; evidence rows 1; numbers or fields not kept 0; tokens in 1640 out 354 cache write 2580 cache read 0; cost USD 0.0133
 20260927T022300Z,local,datacenters,datacenter_projects,extract,ok,model claude-sonnet-5; calls 2 (0 failed); stories checked 15; facilities in table 3; evidence rows 2; fields not kept 1; tokens in 2767 out 911 cache write 0 cache read 3654; cost USD 0.0154
+20260927T030145Z,github,ercot,ercot_dam_hub_prices,DAM,ok,
+20260927T030145Z,github,ercot,ercot_rtm_hub_prices,RTM,ok,
+20260927T030506Z,github,caiso,caiso_dam_hub_prices,DAM,ok,
+20260927T030506Z,github,caiso,caiso_rtm_hub_prices,RTM,ok,
+20260927T030551Z,github,nyiso,nyiso_dam_zone_prices,DAM,ok,
+20260927T030551Z,github,nyiso,nyiso_rtm_zone_prices,RTM,ok,
+20260927T030558Z,github,miso,miso_dam_hub_prices,DAM,ok,
+20260927T030558Z,github,miso,miso_rtm_hub_prices,RTM,ok,
+20260927T030605Z,github,spp,spp_dam_hub_prices,DAM,ok,
+20260927T030605Z,github,spp,spp_rtm_hub_prices,RTM,failed,SourceGap: SPP has no daily RTBM file for 2026-09-23 and its interval file for 2026-09-23 16:20:00-05:00 is missing: SPP RTBM interval 2026-09-23 16:20:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path
+20260927T031041Z,github,isone,isone_dam_zone_prices,DAM,ok,
+20260927T031041Z,github,isone,isone_rtm_zone_prices,RTM,ok,"1 days not complete, not written"
+20260927T031041Z,github,isone,isone_rtm_zone_prices,RTM 2026-09-25,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.MAINE: 95 rows, expected 96, missing 1 (first ['"
+20260927T031041Z,github,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY,ok,"1 days not complete, not written"
+20260927T031041Z,github,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY 2026-09-25,gap,RTM_HOURLY 2026-09-25 failed after 4 attempts: EmptyDataError('No columns to parse from file')
+20260927T031159Z,github,ercot_peak_premium,ercot_peak_premium_annual,,skipped,"inputs absent in CI (12 tables, e.g. ercot_rtm_hub_prices_2015, ercot_rtm_hub_prices_2016, ercot_rtm_hub_prices_2017); derived tables not written (session 10 ruling 3)"
+20260927T031159Z,github,ercot_peak_premium,ercot_peak_premium_monthly,,skipped,"inputs absent in CI (12 tables, e.g. ercot_rtm_hub_prices_2015, ercot_rtm_hub_prices_2016, ercot_rtm_hub_prices_2017); derived tables not written (session 10 ruling 3)"
+20260927T031200Z,github,eia930,eia930_ciso_demand,demand,ok,
+20260927T031200Z,github,eia930,eia930_ciso_generation,generation,ok,"1 days not complete, not written"
+20260927T031200Z,github,eia930,eia930_ciso_generation,generation 2026-09-26,gap,"net_generation_mw: 6 of 24 hours (18 missing, 0 published as null; first missing ['2026-09-26T06:00:00Z', '2026-09-26T07:00:00Z', '2026-09-26T08:00:00Z'])"
+20260927T031200Z,github,eia930,eia930_erco_demand,demand,ok,
+20260927T031200Z,github,eia930,eia930_erco_generation,generation,ok,"1 days not complete, not written"
+20260927T031200Z,github,eia930,eia930_erco_generation,generation 2026-09-26,gap,"net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
+20260927T031200Z,github,eia930,eia930_isne_demand,demand,ok,
+20260927T031200Z,github,eia930,eia930_isne_generation,generation,ok,"1 days not complete, not written"
+20260927T031200Z,github,eia930,eia930_isne_generation,generation 2026-09-26,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T031200Z,github,eia930,eia930_miso_demand,demand,ok,
+20260927T031200Z,github,eia930,eia930_miso_generation,generation,ok,"1 days not complete, not written"
+20260927T031200Z,github,eia930,eia930_miso_generation,generation 2026-09-26,gap,"net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
+20260927T031200Z,github,eia930,eia930_nyis_demand,demand,ok,
+20260927T031200Z,github,eia930,eia930_nyis_generation,generation,ok,"1 days not complete, not written"
+20260927T031200Z,github,eia930,eia930_nyis_generation,generation 2026-09-26,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T031200Z,github,eia930,eia930_pjm_demand,demand,ok,
+20260927T031200Z,github,eia930,eia930_pjm_generation,generation,ok,"1 days not complete, not written"
+20260927T031200Z,github,eia930,eia930_pjm_generation,generation 2026-09-26,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T031200Z,github,eia930,eia930_swpp_demand,demand,ok,
+20260927T031200Z,github,eia930,eia930_swpp_generation,generation,ok,"1 days not complete, not written"
+20260927T031200Z,github,eia930,eia930_swpp_generation,generation 2026-09-26,gap,"net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
+20260927T031200Z,github,eia930,eia930_us48_demand,demand,ok,
+20260927T031200Z,github,eia930,eia930_us48_generation,generation,ok,"dropped series: 2026-09-24: net_generation_unknown_storage_mw: 7 of 24 hours (17 missing, 0 published as null; first missing ['2026-09-24T07:00:00Z', '2026-09-24T08:00:00Z', '2026-09-24T09:00:00Z']); 1 days not complete, not written"
+20260927T031200Z,github,eia930,eia930_us48_generation,generation 2026-09-26,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T031205Z,github,eia_fuels,eia_fuel_spot_prices,daily,ok,
+20260927T031211Z,github,eia_series,eia_crude_first_purchase_prices,monthly,ok,
+20260927T031211Z,github,eia_series,eia_crude_imports_by_country,monthly,ok,
+20260927T031211Z,github,eia_series,eia_lng_exports_monthly,monthly,ok,
+20260927T031211Z,github,eia_series,eia_padd_crude_pipeline_flows,monthly,ok,
+20260927T031211Z,github,eia_series,eia_petroleum_stocks_weekly,weekly,ok,
+20260927T031211Z,github,eia_series,eia_petroleum_trade_weekly,weekly,ok,
+20260927T031211Z,github,eia_series,eia_product_spot_prices,daily,ok,
+20260927T031211Z,github,eia_series,eia_retail_electricity_prices,monthly,ok,
+20260927T031211Z,github,eia_series,eia_retail_fuel_prices,weekly,ok,
+20260927T031350Z,github,capacity_prices,pjm_rpm_capacity_prices,bra,ok,
+20260927T031351Z,github,carbon_auctions,carb_auction_allowance_prices,carb,failed,RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202')
+20260927T031351Z,github,carbon_auctions,rggi_auction_allowance_prices,rggi,ok,
+20260927T031442Z,github,fred_series,fred_daily_spot_prices,P1D,ok,
+20260927T031442Z,github,fred_series,fred_imf_commodity_prices,P1M,ok,
+20260927T031447Z,github,portwatch,portwatch_chokepoint_transits,daily,ok,
+20260927T031455Z,github,eia860,eia860m_operating_generators,monthly,ok,vintage 2026-08
+20260927T031455Z,github,eia860,eia860m_planned_generators,monthly,ok,vintage 2026-08
+20260927T031455Z,github,eia860,eia860m_retired_generators,monthly,ok,vintage 2026-08
+20260927T031605Z,github,iso_queues,caiso_interconnection_queue,queue,ok,
+20260927T031605Z,github,iso_queues,ercot_interconnection_queue,queue,ok,
+20260927T031605Z,github,iso_queues,isone_interconnection_queue,queue,ok,
+20260927T031605Z,github,iso_queues,miso_interconnection_queue,queue,ok,
+20260927T031605Z,github,iso_queues,nyiso_interconnection_queue,queue,failed,RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Response [202]>')
+20260927T031605Z,github,iso_queues,spp_interconnection_queue,queue,ok,
+20260927T031739Z,github,energy_projects,energy_projects,,skipped,"inputs absent in CI (1 tables, e.g. nyiso_interconnection_queue; the queues are pulled on Mondays or a manual run); table not written (session 10 ruling 3)"
+20260927T031740Z,github,news_ingest,news_stories,feed:Utility Dive,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Canary Media,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Latitude Media,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Heatmap News,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:POWER Magazine,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:pv magazine USA,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Energy-Storage.news,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:T&D World,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:World Nuclear News,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:ANS Nuclear Newswire,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Hydrogen Insight,failed,"RuntimeError(""feed Hydrogen Insight failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:Electrek,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:OilPrice.com,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Rigzone,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:World Oil,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Hart Energy,failed,"RuntimeError(""feed Hart Energy failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:JPT (SPE),failed,"RuntimeError(""feed JPT (SPE) failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:Natural Gas Intelligence,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:LNG Prime,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Data Center Dynamics,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Data Center Frontier,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Data Center Knowledge,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:EIA Today in Energy,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:EIA This Week in Petroleum,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:FERC news,failed,"RuntimeError(""feed FERC news failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:NRC news,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:DOE newsroom,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:EPA news,failed,"RuntimeError(""feed EPA news failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:OPEC press releases,failed,"RuntimeError(""feed OPEC press releases failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:IEA news,failed,"RuntimeError(""feed IEA news failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:ERCOT newsroom,failed,"RuntimeError(""feed ERCOT newsroom failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:CAISO newsroom,failed,"RuntimeError(""feed CAISO newsroom failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:NYISO newsroom,failed,"RuntimeError(""feed NYISO newsroom failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:MISO newsroom,failed,"RuntimeError(""feed MISO newsroom failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:SPP newsroom,failed,"RuntimeError(""feed SPP newsroom failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:ISO-NE newsroom,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:PJM newsroom,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Texas PUC news,failed,"RuntimeError(""feed Texas PUC news failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:CPUC news,failed,"RuntimeError(""feed CPUC news failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:CTVC,ok,
+20260927T031740Z,github,news_ingest,news_stories,feed:Reuters energy (via Google News),failed,"RuntimeError(""feed Reuters energy (via Google News) failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:Bloomberg energy (via Google News),failed,"RuntimeError(""feed Bloomberg energy (via Google News) failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:WSJ energy (via Google News),failed,"RuntimeError(""feed WSJ energy (via Google News) failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,feed:FT energy (via Google News),failed,"RuntimeError(""feed FT energy (via Google News) failed after 3 attempts: RuntimeError('HTTP 503')"")"
+20260927T031740Z,github,news_ingest,news_stories,stories,ok,0 new stories
+20260927T031945Z,github,news_score,news_stories,scoring,ok,
+20260927T031948Z,github,deals,energy_deals,extract,ok,
+20260927T031950Z,github,datacenters,datacenter_projects,extract,ok,
+20260927T032247Z,github,news_brief,digest,brief,ok,"148 stories, 134 clusters, 2 call(s), tokens in 2366 out 813, cost USD 0.0129"
