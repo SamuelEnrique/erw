@@ -93,6 +93,8 @@ The daily run (`warehouse/run_daily.sh`) pulls every source, runs the derived ta
 | `20260926T085749Z` | 12 | 27 of 30 (90%) | 1.2996 |
 | `20260926T163854Z` | 13 | 28 of 30 (93%) | 0.5844 |
 | `20260927T001104Z` | 14 | 30 of 30 (100%) | 0.5536 |
+| `20260927T171809Z` | 20 | 41 of 45 (91%) | 0.9977 |
+| `20260927T172920Z` | 20 | 45 of 45 (100%) | 1.1177 |
 
 **News scoring behind the digest** (`warehouse/news/eval/eval_sample.csv`): 50 stories sampled; 0 scored by a human so far, so the model's scores are not yet benchmarked.
 **Deals** (`warehouse/deals/eval/spot_check_s15.csv`): 10 deals, 139 of 146 field values correct (0.95).
