@@ -22,7 +22,8 @@
        "capacity",
        "metals",
        "equities",
-       "news"
+       "news",
+       "deals"
       ],
       "description": "Keep tables in this sector."
      },

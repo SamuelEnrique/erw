@@ -63,7 +63,7 @@ CSV_COLS = ["table", "iso", "market", "n_nodes", "interval", "ts_min", "ts_max",
             "source_report", "last_run", "validator_status", "license", "sector", "derived"]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
-           "metals", "equities", "news"]
+           "metals", "equities", "news", "deals"]
 # (table name pattern, sectors), first match wins
 SECTOR_RULES = [
     (r"^(caiso|ercot|isone|miso|nyiso|spp)_(dam|rtm)_", "power"),
@@ -87,6 +87,8 @@ SECTOR_RULES = [
     (r"^portwatch_chokepoint_transits$", "oil;lng"),
     # session 9, derived
     (r"^ercot_peak_premium_(annual|monthly)$", "power"),
+    # session 15: the deal tracker (tool 6)
+    (r"^energy_deals(_evidence)?$", "deals"),
 ]
 
 

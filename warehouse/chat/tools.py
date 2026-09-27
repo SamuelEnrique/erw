@@ -43,7 +43,7 @@ MAX_LIST = 80          # entities or variables listed by describe_table
 DIGITS = 6             # decimals kept in returned values
 
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity", "metals",
-           "equities", "news"]
+           "equities", "news", "deals"]
 
 QUERY_PROPS = {
     "table": {"type": "string", "description": "ERW table name, exactly as list_tables gives it."},

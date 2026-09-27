@@ -155,7 +155,7 @@ jobs:
           # (tables, run logs) or warehouse/raw/. Session 10 ruling 3: the one exception is
           # warehouse/output/news_stories.csv, kept in git so the next run does not
           # re-ingest and re-score stories it already has.
-          git add -- STATUS.md docs/coverage.md docs/digest warehouse/metadata/coverage.csv warehouse/metadata/run_status.csv warehouse/metadata/sources.csv warehouse/metadata/redivis_uploads.csv warehouse/output/news_stories.csv
+          git add -- STATUS.md docs/coverage.md docs/digest warehouse/metadata/coverage.csv warehouse/metadata/run_status.csv warehouse/metadata/sources.csv warehouse/metadata/redivis_uploads.csv warehouse/output/news_stories.csv warehouse/output/energy_deals.csv warehouse/output/energy_deals_evidence.csv warehouse/deals/checked.csv
           if git diff --cached --quiet; then
             echo "No table changed today; nothing to commit."
             exit 0

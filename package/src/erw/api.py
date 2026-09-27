@@ -14,7 +14,7 @@ from .backends import Backend, LocalBackend
 from .provenance import PUBLISHERS, parse_header
 
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
-           "metals", "equities", "news"]
+           "metals", "equities", "news", "deals"]
 
 _backend: Optional[Backend] = None
 

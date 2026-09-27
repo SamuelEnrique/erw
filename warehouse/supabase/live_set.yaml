@@ -15,6 +15,7 @@ full:
   - '^[a-z]+_interconnection_queue$'             # entities tables
   - '^eia_fuel_spot_prices$'
   - '^fred_daily_spot_prices$'
+  - '^energy_deals$'                            # session 15: the deal tracker (public; the evidence table is internal)
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.

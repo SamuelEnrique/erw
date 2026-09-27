@@ -134,6 +134,8 @@ fi
 run_other news_ingest "$PYTHON" warehouse/news/ingest.py
 run_other news_score "$PYTHON" warehouse/news/score.py
 run_other news_index "$PYTHON" warehouse/news/index.py   # public companion table (session 7)
+# Session 15: deals from the newly scored stories (warehouse/deals/extract.py, tool 6)
+run_other deals "$PYTHON" warehouse/deals/extract.py
 
 echo "== connector status"
 cat "$status"
