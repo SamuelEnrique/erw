@@ -9,6 +9,8 @@ The Energy Research Warehouse is the live, citable record of the US energy syste
 | ![Home: the real-time price board, Henry Hub, WTI and Brent, the digest](site/screenshots/home-desktop.png) | ![The ERCOT peak-premium explorer](site/screenshots/explorer-ercot-peak-premium-desktop.png) | ![A question answered on /ask, with its sources](site/screenshots/ask-answer-desktop.png) |
 | The price board | The ERCOT peak-premium explorer | A question answered, with its sources |
 
+**For reviewers: [`docs/OVERVIEW.md`](docs/OVERVIEW.md)**, the platform on one page (generated from the repository's files: counts, pages, live tools, schedules, evaluations, open gaps).
+
 ## What is in it
 
 As of 2026-09-26: **81 tables, 3,751,828 rows**, of which 75 tables (3,629,472 rows) are public. The daily run keeps these numbers current in [`STATUS.md`](STATUS.md); every table is listed in [`docs/coverage.md`](docs/coverage.md).
@@ -78,7 +80,8 @@ The ERW is built as a Stanford independent study.
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | How a dataset travels, and which document wins |
 | [`CLAUDE.md`](CLAUDE.md) | The stack, the non-negotiables, the repository layout |
 | [`docs/datastandard.md`](docs/datastandard.md) | Table shapes, columns, units, names |
-| [`docs/platform-tools.md`](docs/platform-tools.md) | The 20 platform tools and their status |
+| [`docs/OVERVIEW.md`](docs/OVERVIEW.md) | The platform on one page, for reviewers (`warehouse/metadata/build_overview.py`) |
+| [`docs/platform-tools.md`](docs/platform-tools.md) | The platform's tools (25 since session 19) and their status |
 | [`STATUS.md`](STATUS.md) | Tables, last runs and open gaps, regenerated daily |
 | [`PRIORITIES.md`](PRIORITIES.md) | What kind of work comes first |
 
