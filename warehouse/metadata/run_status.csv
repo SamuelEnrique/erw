@@ -370,3 +370,20 @@ run_id,runner,connector,table,market,status,detail
 20260927T022005Z,local,deals,energy_deals,extract,ok,model claude-sonnet-5; calls 1 (0 failed); stories checked 1; deals in table 27; evidence rows 1; numbers or fields not kept 0; tokens in 1640 out 354 cache write 2580 cache read 0; cost USD 0.0133
 20260927T022300Z,local,datacenters,datacenter_projects,extract,ok,model claude-sonnet-5; calls 2 (0 failed); stories checked 15; facilities in table 3; evidence rows 2; fields not kept 1; tokens in 2767 out 911 cache write 0 cache read 3654; cost USD 0.0154
 20260927T033115Z,local,ercot_large_load,ercot_large_load_queue,large_load,failed,"iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a status report or queue (forms, FAQs, exhibits). Protocol 3.2.7 (NPRR1267) requires the monthly status report to aggregate requests; its number"
+20260927T033520Z,local,ercot,ercot_dam_hub_prices,DAM,ok,
+20260927T033520Z,local,ercot,ercot_rtm_hub_prices,RTM,ok,
+20260927T033947Z,local,caiso,caiso_dam_hub_prices,DAM,ok,
+20260927T033947Z,local,caiso,caiso_rtm_hub_prices,RTM,ok,
+20260927T034037Z,local,nyiso,nyiso_dam_zone_prices,DAM,ok,
+20260927T034037Z,local,nyiso,nyiso_rtm_zone_prices,RTM,ok,
+20260927T034049Z,local,miso,miso_dam_hub_prices,DAM,ok,
+20260927T034049Z,local,miso,miso_rtm_hub_prices,RTM,ok,
+20260927T034114Z,local,isone,isone_dam_zone_prices,DAM,ok,
+20260927T034114Z,local,isone,isone_rtm_zone_prices,RTM,ok,"1 days not complete, not written"
+20260927T034114Z,local,isone,isone_rtm_zone_prices,RTM 2026-09-25,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.MAINE: 95 rows, expected 96, missing 1 (first ['"
+20260927T034114Z,local,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY,ok,"1 days not complete, not written"
+20260927T034114Z,local,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY 2026-09-25,gap,RTM_HOURLY 2026-09-25 failed after 4 attempts: EmptyDataError('No columns to parse from file')
+20260927T034319Z,local,spp,spp_dam_hub_prices,DAM,ok,
+20260927T034319Z,local,spp,spp_rtm_hub_prices,RTM,failed,SourceGap: SPP has no daily RTBM file for 2026-09-23 and its interval file for 2026-09-23 16:20:00-05:00 is missing: SPP RTBM interval 2026-09-23 16:20:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path
+20260927T035240Z,local,eia_fuels,eia_fuel_spot_prices,daily,ok,
+20260927T035307Z,local,news_weekly,weekly,brief,ok,"2026-W39: 845 stories, 747 clusters, headline cost USD 0.0055"

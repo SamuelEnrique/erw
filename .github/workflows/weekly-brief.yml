@@ -1,0 +1,114 @@
+# Energy Week, the weekly brief of the Energy Research Warehouse (ERW), platform tool 14.
+#
+# Session 17. Every Monday at 13:00 UTC (and on manual dispatch), writes
+# docs/weekly/YYYY-Www.md and docs/weekly/latest.md for the ISO week that ended the night
+# before (warehouse/news/weekly.py), and commits them to main.
+#
+# The runner has no tables (they are not in git, session 9), so it first restores the
+# rolling-window price and EIA-930 tables from the Redivis draft (the same restore the
+# daily run does) and pulls the EIA fuel spot prices (a full-history table, small). The
+# stories, deals and datacenter tables are in git. The commit step is the daily run's:
+# set the changes aside, pull main with rebase, restore them, commit only if something
+# changed (session 16). Nothing publishes to Redivis.
+name: weekly brief
+
+on:
+  schedule:
+    - cron: "0 13 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: weekly-brief
+  cancel-in-progress: false
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+
+      - name: Restore tables, pull fuel prices, write the weekly brief
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
+          REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
+        run: |
+          set -o pipefail
+          {
+            python warehouse/redivis/upload.py --restore
+            python warehouse/connectors/eia_fuels.py
+            python warehouse/news/weekly.py
+          } 2>&1 | tee weekly.log
+
+      - name: Keep the log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-brief-log
+          path: |
+            weekly.log
+            runs/
+          retention-days: 90
+
+      - name: Commit the weekly brief
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git stash push --include-untracked --quiet -m "weekly brief" || true
+          git pull --rebase origin main
+          if git stash list | grep -q "weekly brief"; then
+            if ! git stash pop --quiet; then
+              conflicted="$(git diff --name-only --diff-filter=U)"
+              if [ -z "$conflicted" ]; then
+                echo "::error::git stash pop failed without a conflict to resolve"
+                git status
+                exit 1
+              fi
+              git checkout --theirs -- $conflicted
+              git reset --quiet
+              git stash drop --quiet
+            fi
+          fi
+          git reset --quiet
+          git add -- docs/weekly
+          if git diff --cached --quiet; then
+            echo "No weekly brief changed; nothing to commit."
+            exit 0
+          fi
+          git commit -m "Energy Week $(ls docs/weekly | grep -E '^[0-9]{4}-W[0-9]{2}\.md$' | sort | tail -1 | sed 's/\.md$//')" \
+                     -m "Automated run of .github/workflows/weekly-brief.yml (warehouse/news/weekly.py)."
+          git push origin HEAD:main
+
+      - name: Report a failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "The ERW weekly brief failed; nothing was committed."
+            echo
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo '```'
+            tail -c 30000 weekly.log 2>/dev/null || echo "(no log produced)"
+            echo '```'
+          } > issue.md
+          gh issue create --title "ERW weekly brief $(date -u +%G-W%V) [FAILED]" --body-file issue.md

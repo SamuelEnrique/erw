@@ -10,6 +10,8 @@ import site from "@/data/site.json";
 export type Docs = {
   built_at: string;
   digests: Record<string, string>;
+  // session 17: the weekly briefs, by ISO week (YYYY-Www)
+  weeklies: Record<string, string>;
   latest: string;
   datastandard: string;
   methods: Record<string, string>;
@@ -27,6 +29,8 @@ function sitePath(repoPath: string): string {
   if (m) return `/data/methods/${m[1]}${tail}`;
   m = file.match(/^docs\/digest\/(\d{4}-\d{2}-\d{2})\.md$/);
   if (m) return `/digest/${m[1]}${tail}`;
+  m = file.match(/^docs\/weekly\/(\d{4}-W\d{2})\.md$/);
+  if (m) return `/weekly/${m[1]}${tail}`;
   return `${site.repository}/blob/main/${p}`;
 }
 
@@ -43,6 +47,11 @@ export function render(md: string, repoPath: string): string {
     },
   });
   return marked.parse(md, { async: false }) as string;
+}
+
+/** The weekly briefs' ISO weeks, newest first (session 17). */
+export function weeklyWeeks(): string[] {
+  return Object.keys(DOCS.weeklies ?? {}).sort().reverse();
 }
 
 /** The dated digests, newest first. */

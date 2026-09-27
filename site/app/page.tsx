@@ -175,7 +175,14 @@ export default async function Home() {
         <Fuels />
       </Section>
 
-      <Section title="Energy Digest" aside={<Link href="/digest">Archive</Link>}>
+      <Section
+        title="Energy Digest"
+        aside={
+          <>
+            <Link href="/digest">Archive</Link> <span className="text-muted">|</span> <Link href="/weekly">Energy Week</Link>
+          </>
+        }
+      >
         <Digest />
       </Section>
 

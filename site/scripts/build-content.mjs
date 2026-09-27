@@ -35,6 +35,16 @@ if (Object.keys(digests).length === 0) {
   process.exit(1);
 }
 
+// Session 17: the weekly briefs (docs/weekly/YYYY-Www.md, warehouse/news/weekly.py); none is not an error
+const weeklyDir = path.join(docs, "weekly");
+const weeklies = {};
+if (fs.existsSync(weeklyDir)) {
+  for (const f of fs.readdirSync(weeklyDir).sort()) {
+    const m = f.match(/^(\d{4}-W\d{2})\.md$/);
+    if (m) weeklies[m[1]] = read(path.join(weeklyDir, f));
+  }
+}
+
 const methods = {};
 for (const f of fs.readdirSync(path.join(docs, "methods")).sort()) {
   if (f.endsWith(".md")) methods[f.replace(/\.md$/, "")] = read(path.join(docs, "methods", f));
@@ -64,10 +74,11 @@ const out = {
   built_at: new Date().toISOString(),
   run_status_eia930: runStatus(),
   digests,
+  weeklies,
   latest: read(path.join(digestDir, "latest.md")),
   datastandard: read(path.join(docs, "datastandard.md")),
   methods,
 };
 fs.mkdirSync(path.join(here, "..", "content"), { recursive: true });
 fs.writeFileSync(path.join(here, "..", "content", "docs.json"), JSON.stringify(out));
-console.log(`build-content: ${Object.keys(digests).length} digests, ${Object.keys(methods).length} method documents, the data standard`);
+console.log(`build-content: ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard`);

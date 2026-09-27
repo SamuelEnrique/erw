@@ -18,6 +18,7 @@ const NAV = [
   { href: "/map", label: "Map" },
   { href: "/datacenters", label: "Datacenters" },
   { href: "/digest", label: "Digest" },
+  { href: "/weekly", label: "Weekly" },
   { href: "/explorer/ercot-peak-premium", label: "Explorer" },
   { href: "/data", label: "Data" },
   { href: "/ask", label: "Ask" },

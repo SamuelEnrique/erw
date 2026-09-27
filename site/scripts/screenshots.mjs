@@ -40,6 +40,7 @@ const PAGES = [
   ["grid", "/grid"],
   ["map", "/map"],
   ["datacenters", "/datacenters"],
+  ["weekly", "/weekly"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],
