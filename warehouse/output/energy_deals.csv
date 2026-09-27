@@ -1,7 +1,7 @@
 # Energy Research Warehouse (ERW): Energy deals extracted from scored news stories (platform tool 6)
 # Shape: events (docs/datastandard.md v0), event_type deal. event_date is the announced date when the story states it (date_basis stated), else the first story's publish time (first_story_published).
-# Retrieved: 20260927T094650Z (UTC) by warehouse/deals/extract.py from warehouse/output/news_stories.csv
-# Run log: warehouse/output/logs/deals_extract_20260927T094650Z.log
+# Retrieved: 20260927T182345Z (UTC) by warehouse/deals/extract.py from warehouse/output/news_stories.csv
+# Run log: warehouse/output/logs/deals_extract_20260927T182345Z.log
 # Model: claude-sonnet-5, JSON schema output; every number was checked against a span of the story's title or summary and kept only if the span is there and parses to the same value (warehouse/deals/extract.py).
 # Columns: mw, mwh, dollars (US dollars) and term_years as stated; price and currency only for a price stated in USD/MWh, otherwise price_value with price_unit as stated. parties is buyer;seller;other_parties.
 # License: public. The model's structured fields and the story links only, no outlet text; the evidence sentences are in the internal table energy_deals_evidence.
