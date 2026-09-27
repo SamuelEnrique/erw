@@ -1,6 +1,6 @@
 # Session 18 report
 
-Energy Research Warehouse (ERW), session 18, run 2026-09-27 (UTC). **API spend this session: USD 9.0404** (scoring 7.5381, deals 1.4132, datacenters 0.0891), under the USD 15 stop. No key was printed or committed. `origin/main` was merged before each push.
+Energy Research Warehouse (ERW), session 18, run 2026-09-27 (UTC). **API spend this session: USD 9.5589**, under the USD 15 stop. That is USD 9.0404 on this machine (scoring 7.5381, deals 1.4132, datacenters 0.0891) and USD 0.5185 in GitHub run 5, which I dispatched (scoring 0.4775, digest 0.0281, deals 0.0129). No key was printed or committed. `origin/main` was merged before each push.
 
 **Four things to know first:**
 - **Supabase is over the loader's 300 MB limit, at 362.1 MB of the free tier's 500 MB, and I could not fix that.** GitHub run 4's `supabase_load` failed on two causes (below). The fix needs rows deleted from, and a `VACUUM FULL` run on, the shared database. Claude Code's auto-mode classifier refused me that ("Modify Shared Resources"), so I built the fix for a person to run: `python warehouse/supabase/load.py --prune --vacuum-full`. Until someone runs it, every load reports the size failure.
