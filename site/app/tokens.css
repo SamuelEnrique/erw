@@ -4,7 +4,7 @@
  * @theme block (bg-paper, text-ink, text-accent, border-rule, font-serif ...);
  * charts read the same CSS variables at runtime (components/tokens.ts).
  */
-@theme {
+@theme static {  /* static: emit every token, including the ones only charts read through var() */
   --color-paper: #F7F3EA;   /* background */
   --color-ink: #2E2D29;     /* text */
   --color-accent: #8C1515;  /* accent: links, the highlighted series */

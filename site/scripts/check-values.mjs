@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
-const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium"];
+const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid"];
 
 function env(name) {
   if (process.env[name]) return process.env[name];
@@ -70,7 +70,37 @@ async function truth(check) {
     else params.ts_utc = `eq.${at}`;
     return (await q("series", params))[0]?.value;
   }
+  // session 15: /deals and /grid
+  if (p[0] === "deals") {
+    const [, what, month] = p;
+    const rows = await all("events", { select: "event_date,mw,ai:extra->>ai_power", table_name: "eq.energy_deals" });
+    const m = rows.filter((r) => String(r.event_date).slice(0, 7) === month);
+    if (what === "month_count") return m.length;
+    if (what === "month_mw") return m.reduce((a, r) => a + (r.mw === null ? 0 : Number(r.mw)), 0);
+    if (what === "month_ai_pct") return m.length ? Math.round((100 * m.filter((r) => r.ai === "true").length) / m.length) : null;
+  }
+  if (p[0] === "event") {
+    const [, table, id, field] = p;
+    const col = field === "mw" ? "v:mw" : `v:extra->>${field}`;
+    const r = (await q("events", { select: col, table_name: `eq.${table}`, event_id: `eq.${id}` }))[0];
+    return r ? Number(r.v) : undefined;
+  }
+  if (p[0] === "series_max" || p[0] === "series_sum") {
+    const [, table, variable, start, end] = p;
+    const rows = await all("series", { select: "value", table_name: `eq.${table}`, variable: `eq.${variable}`,
+      and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "entity,ts_utc" });
+    if (!rows.length) return undefined;
+    return p[0] === "series_max" ? Math.max(...rows.map((r) => r.value)) : rows.reduce((a, r) => a + r.value, 0);
+  }
   throw new Error(`unknown check ${check}`);
+}
+
+/** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
+function usd(v) {
+  const t = (x) => x.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  if (Math.abs(v) >= 1e9) return `${t(v / 1e9)} billion`;
+  if (Math.abs(v) >= 1e6) return `${t(v / 1e6)} million`;
+  return v.toLocaleString("en-US");
 }
 
 function shown(raw) {
@@ -95,16 +125,17 @@ async function main() {
     for (const m of html.matchAll(re)) {
       const text = decode(m[3].replace(/<!-- -->/g, "").replace(/<[^>]+>/g, "")).trim();
       const check = decode(m[1]);
-      if (!found.has(check)) found.set(check, { page, raw: decode(m[2]), text });
+      const usdFormat = html.slice(Math.max(0, m.index - 30), m.index).endsWith('<span data-format="usd">');
+      if (!found.has(check)) found.set(check, { page, raw: decode(m[2]), text, usdFormat });
     }
   }
   let ok = 0, bad = 0;
   const lines = [];
-  for (const [check, { page, raw, text }] of found) {
+  for (const [check, { page, raw, text, usdFormat }] of found) {
     const t = await truth(check);
     const isTime = /^\d{4}-\d{2}-\d{2}T/.test(raw);
     const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : Math.abs(Number(t) - Number(raw)) < 1e-9;
-    const textOk = text.startsWith(shown(raw));
+    const textOk = text.startsWith(usdFormat ? usd(Number(raw)) : shown(raw));
     const pass = t !== undefined && t !== null && same && textOk;
     pass ? ok++ : bad++;
     lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} | page shows "${text}" | page read ${raw} | Supabase ${t}`);

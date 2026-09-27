@@ -36,6 +36,8 @@ const PAGES = [
   ["explorer-ercot-peak-premium", "/explorer/ercot-peak-premium"],
   ["about", "/about"],
   ["ask", "/ask"],
+  ["deals", "/deals"],
+  ["grid", "/grid"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],
