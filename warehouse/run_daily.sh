@@ -125,6 +125,9 @@ run_other eia860 "$PYTHON" warehouse/connectors/eia860.py
 # ISO interconnection queues: weekly, on Mondays (UTC), or any day with QUEUES=1
 if [ "$(date -u +%u)" = "1" ] || [ "${QUEUES:-0}" = "1" ]; then
   run_other iso_queues "$PYTHON" warehouse/connectors/iso_queues.py
+  # Session 17: ERCOT large-load requests. ERCOT publishes no request-level list (the status report
+  # aggregates, Protocol 3.2.7); this watches its Large Load Integration page and fails loudly until one appears
+  run_other ercot_large_load "$PYTHON" warehouse/connectors/ercot_large_load.py
 else
   echo "iso_queues: weekly (Mondays UTC); skipped today, QUEUES=1 to force"
 fi
