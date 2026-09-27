@@ -40,6 +40,12 @@ function IsoBlock({ table, rows, top, tz }: { table: string; rows: SeriesRow[]; 
   const days = Array.from(new Set(rows.map((r) => r.ts_utc))).sort((a, b) => Date.parse(a) - Date.parse(b));
   if (days.length < 7) return <NoData what={table} reason={`${table} holds ${days.length} days in the live set; a week needs 7`} />;
   const week = days.slice(-7), prev = days.slice(-14, -7);
+  // each metric's own week: the latest 7 days the ISO has it (real-time tables and Henry Hub lag the day-ahead market)
+  const byTime = (a: string, b: string) => Date.parse(a) - Date.parse(b);
+  const daysOf = (v: string) => Array.from(new Set(rows.filter((r) => r.variable === v).map((r) => r.ts_utc))).sort(byTime);
+  const weekOf = (v: string) => daysOf(v).slice(-7);
+  const prevOf = (v: string) => daysOf(v).slice(-14, -7);
+  const rtWeek = weekOf("da_rt_spread_max_usd");
   const hubs = Array.from(new Set(rows.map((r) => hubOf(r.entity)))).sort();
   const byKey = new Map(rows.map((r) => [`${r.entity}|${r.variable}|${Date.parse(r.ts_utc)}`, r.value]));
   const entityOf = new Map(rows.map((r) => [hubOf(r.entity), r.entity]));
@@ -49,13 +55,16 @@ function IsoBlock({ table, rows, top, tz }: { table: string; rows: SeriesRow[]; 
     const need = v === "da_onpeak_mean_usd" ? 1 : ds.length;
     return vals.length >= need && ds.length === 7 ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
   };
-  const wlist = (e: string, v: string) => week.map((d) => byKey.get(`${e}|${v}|${Date.parse(d)}`));
-  const w0 = Date.parse(week[0]), w1 = Date.parse(week[6]) + D;
+  const wlist = (e: string, v: string) => weekOf(v).map((d) => byKey.get(`${e}|${v}|${Date.parse(d)}`));
+  const w0 = rtWeek.length ? Date.parse(rtWeek[0]) : 0, w1 = rtWeek.length ? Date.parse(rtWeek[rtWeek.length - 1]) + D : 0;
+  const ends = (v: string) => (weekOf(v).length === 7 ? `to ${weekOf(v)[6].slice(5, 10)}` : "");
   const last = week[6];
   return (
     <>
       <p className="mb-2 text-xs text-muted">
-        This week: the operating days {week[0].slice(0, 10)} to {last.slice(0, 10)} ({tz}); change on {prev.length === 7 ? `${prev[0].slice(0, 10)} to ${prev[6].slice(0, 10)}` : "the week before (not all in the live set)"}.
+        A week is the latest 7 operating days ({tz}) the ISO has for each metric, and the change is on the 7 days before; real-time
+        tables and Henry Hub lag the day-ahead market, so their weeks end earlier (the column says where). Day-ahead: {week[0].slice(0, 10)} to{" "}
+        {last.slice(0, 10)}{prev.length === 7 ? `, against ${prev[0].slice(0, 10)} to ${prev[6].slice(0, 10)}` : ""}.
       </p>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
@@ -65,11 +74,11 @@ function IsoBlock({ table, rows, top, tz }: { table: string; rows: SeriesRow[]; 
               <th className="py-1 pr-3 text-right font-normal">DA, {last.slice(5, 10)}</th>
               {MEANS.map((m) => (
                 <th key={m.v} className="py-1 pr-3 text-right font-normal">
-                  {m.label} (week, change)
+                  {m.label} (week {ends(m.v)}, change)
                 </th>
               ))}
-              <th className="py-1 pr-3 text-right font-normal">Largest RT minus DA</th>
-              <th className="py-1 pr-3 text-right font-normal">Hours RT &gt; DA + 50</th>
+              <th className="py-1 pr-3 text-right font-normal">Largest RT minus DA (week {ends("da_rt_spread_max_usd")})</th>
+              <th className="py-1 pr-3 text-right font-normal">Hours RT &gt; DA + 50 (week {ends("hours_rt_over_da_50")})</th>
               <th className="py-1 pr-3 text-right font-normal">30-day volatility</th>
             </tr>
           </thead>
@@ -94,7 +103,7 @@ function IsoBlock({ table, rows, top, tz }: { table: string; rows: SeriesRow[]; 
                     )}
                   </td>
                   {MEANS.map((m) => {
-                    const a = wmean(e, m.v, week), b = wmean(e, m.v, prev);
+                    const a = wmean(e, m.v, weekOf(m.v)), b = wmean(e, m.v, prevOf(m.v));
                     return (
                       <td key={m.v} className="py-1 pr-3 text-right tabular-nums">
                         {a === null ? (m.v.startsWith("da_rt") && !rows.some((r) => r.variable === m.v) ? "no RT table" : "no data") : price(a)}
@@ -103,10 +112,10 @@ function IsoBlock({ table, rows, top, tz }: { table: string; rows: SeriesRow[]; 
                     );
                   })}
                   <td className="py-1 pr-3 text-right tabular-nums">
-                    {mx.every((x) => x !== undefined) ? price(Math.max(...(mx as number[]))) : rows.some((r) => r.variable === "da_rt_spread_max_usd") ? "no data" : "no RT table"}
+                    {mx.length === 7 && mx.every((x) => x !== undefined) ? price(Math.max(...(mx as number[]))) : rows.some((r) => r.variable === "da_rt_spread_max_usd") ? "no data" : "no RT table"}
                   </td>
                   <td className="py-1 pr-3 text-right tabular-nums">
-                    {hrs.every((x) => x !== undefined) ? (
+                    {hrs.length === 7 && hrs.every((x) => x !== undefined) ? (
                       <Num check={`series_esum|${table}|${e}|hours_rt_over_da_50|${iso(w0)}|${iso(w1)}`} raw={(hrs as number[]).reduce((a, b) => a + b, 0)}>
                         {count((hrs as number[]).reduce((a, b) => a + b, 0))}
                       </Num>

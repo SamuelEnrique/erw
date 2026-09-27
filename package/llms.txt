@@ -71,6 +71,18 @@ day-ahead tables running into tomorrow:
   Blocks by local (America/Chicago) hour of interval start: overnight 21 to
   12, midday 12 to 16, peak 16 to 21. ts_utc labels the local year or month.
   The current year and month are partial (n_intervals says how much).
+**Derived: trader view** (session 19, method docs/methods/trader_view.md):
+  <iso>_trader_daily for ercot, caiso, nyiso, miso, spp, isone (market = the
+  iso, node = the hub or zone, ts_utc = the local operating day): da_mean_usd,
+  da_onpeak_mean_usd (5x16: hours starting 06:00 to 21:00 local, weekdays not
+  NERC holidays), da_offpeak_mean_usd, rt_mean_usd, da_rt_spread_mean_usd and
+  da_rt_spread_max_usd (real-time minus day-ahead, hourly), hours_rt_over_da_50
+  (count), implied_heat_rate (MMBtu/MWh: da_mean_usd over Henry Hub spot),
+  da_volatility_30d_usd (standard deviation of 30 day-over-day changes in
+  da_mean_usd; USD/MWh, not annualized). SPP has day-ahead metrics only (no SPP
+  real-time table); PJM is absent (no licensed PJM data).
+  iso_rt_top_intervals: a snapshot of each ISO's 10 highest real-time
+  intervals of its latest 7 complete local days.
 **EIA-930 hourly grid data** (series, MW): eia930_<ba>_demand (demand_mw,
   demand_forecast_mw) and eia930_<ba>_generation (net_generation_mw and
   net_generation_<fuel>_mw: coal, natural_gas, nuclear, solar, wind, hydro,
@@ -189,6 +201,7 @@ day-ahead tables running into tomorrow:
 | Industrial or commercial energy use, all fuels (US) | `eia_sector_energy_consumption_monthly` |
 | Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
 | Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_<ba>_generation` |
+| Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `<iso>_trader_daily`, `iso_rt_top_intervals` |
 | Wind and solar curtailment | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (not curtailment: output below HSL), `iso_curtailment_monthly` |
 | Power plants, capacity by state or fuel | `eia860m_*_generators` |
 | Projects waiting to connect | `<iso>_interconnection_queue` |

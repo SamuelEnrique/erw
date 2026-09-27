@@ -45,6 +45,9 @@ const PAGES = [
   ["mix", "/mix?ba=erco&state=TX"],
   ["curtailment", "/curtailment"],
   ["consumption", "/consumption"],
+  // session 19
+  ["markets", "/markets"],
+  ["subscribe", "/subscribe"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],
