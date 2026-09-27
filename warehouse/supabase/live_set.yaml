@@ -5,13 +5,14 @@
 # Table names are regular expressions matched against the ERW table names in
 # warehouse/output; a table matching no rule is not loaded.
 
-max_mb: 300
+max_mb: 400   # session 19 human ruling: raised from 300 (the free tier's hard cap is 500 MB)
 
 # Loaded whole, every run.
 full:
   - '^ercot_peak_premium_(annual|monthly)$'      # the two derived peak-premium tables
   - '^news_index$'                               # the public news index
-  - '^eia860m_(operating|planned|retired)_generators$'   # entities tables
+  - '^eia860m_retired_generators$'                # entities; session 19 human ruling: the operating and
+                                                 # planned generators reach Supabase through energy_projects
   - '^[a-z]+_interconnection_queue$'             # entities tables
   - '^eia_fuel_spot_prices$'
   - '^fred_daily_spot_prices$'
@@ -40,7 +41,8 @@ full:
 recent:
   days: 90
   tables:
-    - '^(caiso|ercot|isone|miso|nyiso|spp|pjm)_(dam|rtm)_(hub|zone)_prices(_hourly|_\d{4})?$'   # ISO prices, incl. the ERCOT yearly history
+    - '^(caiso|ercot|isone|miso|nyiso|spp|pjm)_(dam|rtm)_(hub|zone)_prices(_hourly)?$'   # ISO prices; session 19 human
+      # ruling: not the ERCOT yearly history tables, whose last 90 days repeat ercot_*_hub_prices
     - '^eia930_[a-z0-9]+_(demand|generation)$'
 
 # Session 16: for a table named here, only these extra columns (beyond the shape's standard

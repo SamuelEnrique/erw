@@ -285,8 +285,11 @@ Backends (`ERW_BACKEND`, or `erw.set_backend(...)`); the calls do not change:
 - `redivis`: the Redivis dataset `energy_research_warehouse`, the store of
   record, every table, full history (REDIVIS_API_TOKEN, REDIVIS_OWNER).
 - `supabase`: the live set behind the public site: public tables, the last 90
-  days of ISO prices and EIA-930, and the derived, fuel, generator, queue and
-  news tables whole (SUPABASE_URL with the anon or service key).
+  days of ISO prices and EIA-930, and the derived, fuel, queue and news tables
+  whole (SUPABASE_URL with the anon or service key). Not in it: the ERCOT
+  yearly history (ercot_*_hub_prices_<year>) and eia860m_operating_generators
+  and eia860m_planned_generators; read those from local files or Redivis, or
+  use energy_projects (every operating and planned generator) from Supabase.
 Sectors for `filter`: power, gas, oil, products, lng, coal, uranium, carbon,
 capacity, metals, equities, news, deals, datacenters.
 
