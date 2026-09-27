@@ -13,6 +13,8 @@ export type Docs = {
   latest: string;
   datastandard: string;
   methods: Record<string, string>;
+  // session 15: warehouse/metadata/run_status.csv rows for EIA-930 that are not ok (gaps, failures)
+  run_status_eia930: { run_id: string; table: string; market: string; status: string; detail: string }[];
 };
 export const DOCS = docs as Docs;
 

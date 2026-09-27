@@ -232,3 +232,66 @@ run_id,runner,connector,table,market,status,detail
 20260926T233206Z,local,isone,isone_rtm_zone_prices,RTM 2026-09-25,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.MAINE: 95 rows, expected 96, missing 1 (first ['"
 20260926T233206Z,local,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY,ok,"1 days not complete, not written"
 20260926T233206Z,local,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY 2026-09-25,gap,RTM_HOURLY 2026-09-25 failed after 4 attempts: EmptyDataError('No columns to parse from file')
+20260927T004901Z,local,news_ingest,news_stories,feed:Utility Dive,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Canary Media,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Latitude Media,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Heatmap News,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:POWER Magazine,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:pv magazine USA,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Energy-Storage.news,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:T&D World,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:World Nuclear News,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:ANS Nuclear Newswire,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Hydrogen Insight,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Electrek,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:OilPrice.com,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Rigzone,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:World Oil,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Hart Energy,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:JPT (SPE),ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Natural Gas Intelligence,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:LNG Prime,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Data Center Dynamics,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Data Center Frontier,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Data Center Knowledge,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:EIA Today in Energy,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:EIA This Week in Petroleum,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:FERC news,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:NRC news,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:DOE newsroom,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:EPA news,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:OPEC press releases,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:IEA news,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:ERCOT newsroom,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:CAISO newsroom,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:NYISO newsroom,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:MISO newsroom,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:SPP newsroom,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:ISO-NE newsroom,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:PJM newsroom,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Texas PUC news,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:CPUC news,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:CTVC,ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Reuters energy (via Google News),ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:Bloomberg energy (via Google News),ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:WSJ energy (via Google News),ok,
+20260927T004901Z,local,news_ingest,news_stories,feed:FT energy (via Google News),ok,
+20260927T004901Z,local,news_ingest,news_stories,stories,ok,184 new stories
+20260927T004951Z,local,news_score,news_stories,scoring,ok,"model claude-sonnet-5; calls 8 (0 failed); stories scored 184 of 184; tokens input 152278, output 24582, cache write 1818, cache read 12726; cost USD 0.5575; duplicate links rejected 0; clusters 1048 among 1151 scored stories; temperature not accepted by model"
+20260927T005510Z,local,deals,energy_deals,extract,ok,model claude-sonnet-5; calls 9 (0 failed); stories checked 133; deals in table 29; evidence rows 29; numbers or fields not kept 2; tokens in 31206 out 11663 cache write 2216 cache read 17728; cost USD 0.1881
+20260927T011111Z,local,eia930,eia930_ciso_demand,demand,ok,
+20260927T011111Z,local,eia930,eia930_ciso_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_ciso_generation: net_generation_mw: 54 of 72 hours (18 missing, 0 published as null; first missing ['2026-09-26T06:00:00Z', '2026-09-26T07:00:00Z', '2026-09-26T08:00:00Z'])"
+20260927T011111Z,local,eia930,eia930_erco_demand,demand,ok,
+20260927T011111Z,local,eia930,eia930_erco_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_erco_generation: net_generation_mw: 52 of 72 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
+20260927T011111Z,local,eia930,eia930_isne_demand,demand,ok,
+20260927T011111Z,local,eia930,eia930_isne_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_isne_generation: net_generation_mw: 51 of 72 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T011111Z,local,eia930,eia930_miso_demand,demand,ok,
+20260927T011111Z,local,eia930,eia930_miso_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_miso_generation: net_generation_mw: 52 of 72 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
+20260927T011111Z,local,eia930,eia930_nyis_demand,demand,ok,
+20260927T011111Z,local,eia930,eia930_nyis_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_nyis_generation: net_generation_mw: 51 of 72 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T011111Z,local,eia930,eia930_pjm_demand,demand,ok,
+20260927T011111Z,local,eia930,eia930_pjm_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_pjm_generation: net_generation_mw: 51 of 72 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"
+20260927T011111Z,local,eia930,eia930_swpp_demand,demand,ok,
+20260927T011111Z,local,eia930,eia930_swpp_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_swpp_generation: net_generation_mw: 52 of 72 hours (20 missing, 0 published as null; first missing ['2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z', '2026-09-26T06:00:00Z'])"
+20260927T011111Z,local,eia930,eia930_us48_demand,demand,ok,
+20260927T011111Z,local,eia930,eia930_us48_generation,generation,failed,"RuntimeError: incomplete data, no file written for eia930_us48_generation: net_generation_mw: 51 of 72 hours (21 missing, 0 published as null; first missing ['2026-09-26T03:00:00Z', '2026-09-26T04:00:00Z', '2026-09-26T05:00:00Z'])"

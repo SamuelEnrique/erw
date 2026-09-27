@@ -40,8 +40,29 @@ for (const f of fs.readdirSync(path.join(docs, "methods")).sort()) {
   if (f.endsWith(".md")) methods[f.replace(/\.md$/, "")] = read(path.join(docs, "methods", f));
 }
 
+// Session 15: the run history's EIA-930 gaps and failures, so /grid can say why a day is missing
+// (warehouse/metadata/run_status.csv is committed metadata, refreshed by the daily workflow's commit).
+function runStatus() {
+  const p = path.join(repo, "warehouse", "metadata", "run_status.csv");
+  const lines = read(p).trim().split("\n");
+  const cols = lines[0].split(",");
+  const rows = [];
+  for (const line of lines.slice(1)) {
+    // detail is the last column and may be quoted with commas inside
+    const parts = line.split(",");
+    const head = parts.slice(0, cols.length - 1);
+    let detail = parts.slice(cols.length - 1).join(",");
+    if (detail.startsWith('"') && detail.endsWith('"')) detail = detail.slice(1, -1).replace(/""/g, '"');
+    const r = Object.fromEntries(cols.slice(0, -1).map((c, i) => [c, head[i]]));
+    r.detail = detail;
+    if (r.connector === "eia930" && r.status !== "ok") rows.push(r);
+  }
+  return rows;
+}
+
 const out = {
   built_at: new Date().toISOString(),
+  run_status_eia930: runStatus(),
   digests,
   latest: read(path.join(digestDir, "latest.md")),
   datastandard: read(path.join(docs, "datastandard.md")),

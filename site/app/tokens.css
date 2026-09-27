@@ -12,6 +12,18 @@
   --color-rule: #D9D2C3;    /* borders and grid lines */
   --color-panel: #FBF8F2;   /* a table or card on the page, a tint of the background */
 
+  /* Generation mix by fuel (session 15, /grid): the dataviz reference categorical slots 1 to 8 in
+     fixed order, validated on --color-panel (all checks pass; three slots below 3:1 contrast, so the
+     mix is also shown as a table). Fuels past the seventh fold into other. */
+  --color-fuel-gas: #2a78d6;
+  --color-fuel-coal: #eb6834;
+  --color-fuel-nuclear: #1baf7a;
+  --color-fuel-wind: #eda100;
+  --color-fuel-solar: #e87ba4;
+  --color-fuel-hydro: #008300;
+  --color-fuel-storage: #4a3aa7;
+  --color-fuel-other: #e34948;
+
   --font-serif: Georgia, "Times New Roman", serif;                 /* headings */
   --font-sans: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;  /* body */
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;          /* table and entity names */
