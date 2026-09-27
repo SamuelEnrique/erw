@@ -1,6 +1,6 @@
 "use client";
 // The /deals table: filters, sorted by date, each row expandable to the whole deal.
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { Num } from "@/components/Num";
 
 export type Deal = {
@@ -33,6 +33,11 @@ const TYPE_LABEL: Record<string, string> = {
   equity_raise: "Equity raise", joint_venture: "Joint venture", lease: "Lease", behind_the_meter: "Behind the meter",
   nuclear_restart: "Nuclear restart", smr: "SMR", fuel_supply: "Fuel supply", other: "Other",
 };
+
+// session 19: "capital" in the type filter (and /deals?type=capital, the home page's investor path)
+// is every financing deal type together
+const CAPITAL = ["equity_raise", "debt", "project_finance", "tax_equity"];
+const CAPITAL_LABEL = "Capital: equity, debt, project finance, tax equity";
 
 /** US dollars, short: 6000000000 gives "6 billion". scripts/check-values.mjs formats the same way (data-format usd). */
 export function usd(v: number): string {
@@ -71,11 +76,16 @@ export function DealsTable({ rows }: { rows: Deal[] }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [open, setOpen] = useState<string | null>(null);
+  // a type in the address (/deals?type=capital) sets the filter once, after the page loads
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get("type");
+    if (t && (t === "capital" || rows.some((d) => d.type === t))) setType(t); // eslint-disable-line react-hooks/set-state-in-effect
+  }, [rows]);
 
   const shown = useMemo(
     () =>
       rows
-        .filter((d) => (!type || d.type === type) && (!tech || d.technology === tech) && (!state || d.state === state))
+        .filter((d) => (!type || (type === "capital" ? CAPITAL.includes(d.type) : d.type === type)) && (!tech || d.technology === tech) && (!state || d.state === state))
         .filter((d) => (!ai || (ai === "yes") === d.aiPower) && (!status || d.status === status))
         .filter((d) => (!from || day(d.date) >= from) && (!to || day(d.date) <= to))
         .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : a.id.localeCompare(b.id))),
@@ -85,7 +95,7 @@ export function DealsTable({ rows }: { rows: Deal[] }) {
   return (
     <section aria-label="Deals">
       <div className="mb-3 flex flex-wrap items-end gap-3">
-        <Select label="Deal type" value={type} set={setType} options={uniq(rows.map((d) => d.type))} render={(v) => TYPE_LABEL[v] ?? v} />
+        <Select label="Deal type" value={type} set={setType} options={[...uniq(rows.map((d) => d.type)), "capital"]} render={(v) => (v === "capital" ? CAPITAL_LABEL : TYPE_LABEL[v] ?? v)} />
         <Select label="Technology" value={tech} set={setTech} options={uniq(rows.map((d) => d.technology))} />
         <Select label="State" value={state} set={setState} options={uniq(rows.map((d) => d.state))} />
         <Select label="AI or datacenter power" value={ai} set={setAi} options={["yes", "no"]} />

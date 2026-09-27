@@ -152,6 +152,30 @@ function Digest() {
   );
 }
 
+// Session 19: four entry paths, one sentence and three links each
+const PATHS: { who: string; what: string; links: [string, string][] }[] = [
+  {
+    who: "Enthusiasts",
+    what: "What happened across energy today and this week, from scored news.",
+    links: [["Digest", "/digest"], ["Energy Week", "/weekly"], ["Email", "/subscribe"]],
+  },
+  {
+    who: "Investors",
+    what: "Deals, datacenter projects and financings named in the news, each with its sources.",
+    links: [["Deals", "/deals"], ["Datacenters", "/datacenters"], ["Capital", "/deals?type=capital"]],
+  },
+  {
+    who: "Researchers",
+    what: "Every table, how it is built, and how to read it in Python or on Redivis.",
+    links: [["Coverage", "/data"], ["Methods", "/data#methods"], ["Package and Redivis", "/data#access"]],
+  },
+  {
+    who: "Traders",
+    what: "Day-ahead against real-time by hub, the latest prices, and curtailment by ISO.",
+    links: [["Markets", "/markets"], ["Prices", "/prices"], ["Curtailment", "/curtailment"]],
+  },
+];
+
 export default async function Home() {
   const cat = await attempt(catalogue);
   return (
@@ -161,6 +185,22 @@ export default async function Home() {
         The live, citable record of the US energy system: prices, flows, projects, deals and policy across power, gas, oil, nuclear,
         renewables, storage and transmission. AI&apos;s demand for power is the sharpest lens on it.
       </p>
+
+      <nav className="mb-8 grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4" aria-label="Where to start">
+        {PATHS.map((p) => (
+          <div key={p.who} className="bg-panel p-3">
+            <div className="font-serif text-lg">{p.who}</div>
+            <p className="mb-2 text-sm text-muted">{p.what}</p>
+            <div className="flex flex-wrap gap-x-3 text-sm">
+              {p.links.map(([label, href]) => (
+                <Link key={href + label} href={href}>
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+      </nav>
 
       <section className="mb-10" aria-label="Warehouse status">
         {cat.ok ? <StatusStrip cat={cat.data} /> : <NoData what="warehouse status" reason={cat.reason} />}
