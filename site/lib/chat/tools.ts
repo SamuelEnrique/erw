@@ -287,7 +287,7 @@ function aggregate(rows: Row[], agg: string, pct: number | undefined, shape: Sha
 
 async function query(a: QueryArgs): Promise<Json> {
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
-  const { columns, shape } = await tableInfo(a.table);
+  const { c, columns, shape } = await tableInfo(a.table);
   const tcol = TIME_COL[shape];
   const vcol = a.value_column ?? DEFAULT_VALUE[shape];
   if (a.aggregation !== "count" && !columns.includes(vcol)) throw new ToolError(`no column ${JSON.stringify(vcol)} in ${a.table}`);
@@ -315,9 +315,14 @@ async function query(a: QueryArgs): Promise<Json> {
     if (shape !== "series") throw new ToolError("variable applies to series tables only; use where for entities and events tables");
     q.variable = `eq.${a.variable}`;
   }
+  // session 20, as warehouse/chat/tools.py: a series table of days or longer labels each row with its
+  // local date at 00:00Z (Decision 11), so a date bound is that label; reading it in tz returned the
+  // next day's row (evaluation questions s20q10 and s20q12)
+  const dated = shape === "series" && (c.interval ?? "").split(";").every((f) => ["P1D", "P1W", "P1M", "P1Y"].includes(f)) && !!c.interval;
+  const btz = dated ? "UTC" : tz;
   const bounds: string[] = [];
-  if (a.start) bounds.push(`${tcol}.gte.${parseTime(a.start, tz)}`);
-  if (a.end) bounds.push(`${tcol}.lt.${parseTime(a.end, tz)}`);
+  if (a.start) bounds.push(`${tcol}.gte.${parseTime(a.start, btz)}`);
+  if (a.end) bounds.push(`${tcol}.lt.${parseTime(a.end, btz)}`);
   if (bounds.length) q.and = `(${bounds.join(",")})`;
   for (const [col, val] of Object.entries(a.where ?? {})) {
     if (!columns.includes(col)) throw new ToolError(`no column ${JSON.stringify(col)} in this table; columns: ${columns.join(", ")}`);

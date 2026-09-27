@@ -49,7 +49,7 @@ QUERY_PROPS = {
     "table": {"type": "string", "description": "ERW table name, exactly as list_tables gives it."},
     "entity": {"type": "string", "description": "Series: an entity (\"ercot:HB_NORTH\", \"eia:henry_hub\") or a node as the ISO writes it (\"HB_NORTH\", \"N.Y.C.\"). Entities tables: an entity_id or name. Exact string."},
     "variable": {"type": "string", "description": "Series only: the variable (\"spp_dam\", \"lmp_rtm_15m_mean\", \"spot_price\", \"demand_mw\", \"peak_iqr\"). Exact string."},
-    "start": {"type": "string", "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); a date or a time without Z or an offset is read in tz (default UTC), so start 2026-09-25 with tz America/Chicago is 05:00Z. Series: ts_utc (interval start); events: event_date; entities: status_date."},
+    "start": {"type": "string", "description": "Keep rows whose time is at or after this, ISO 8601 (\"2026-09-01\", \"2026-09-01T05:00:00Z\"); a date or a time without Z or an offset is read in tz (default UTC), so start 2026-09-25 with tz America/Chicago is 05:00Z; but in a table of daily or longer rows (freq P1D, P1W, P1M, P1Y), each row is labelled with its local date at 00:00Z, so a date bound is that date whatever tz says. Series: ts_utc (interval start); events: event_date; entities: status_date."},
     "end": {"type": "string", "description": "Keep rows whose time is before this (exclusive), same rules as start."},
     "where": {"type": "object", "description": "Exact-match filters on the table's own columns, {column: value} or {column: [values]}, for example {\"state\": \"TX\", \"technology_group\": \"natural_gas\", \"status\": \"operating\"}. Use describe_table to see columns and values.", "additionalProperties": {"anyOf": [{"type": "string"}, {"type": "array", "items": {"type": "string"}}]}},
     "aggregation": {"type": "string", "enum": AGGREGATIONS, "description": "latest: the newest row (per group). count: number of rows. The others apply to value_column."},
@@ -294,6 +294,11 @@ def _select(df, shape, entity, variable, start, end, where, tz="UTC"):
         t = df[tcol]
         if shape == "entities":
             t = t.dt.tz_localize("UTC")
+        # session 20: a series row of a day or longer (freq P1D, P1W, P1M, P1Y) is labelled with its
+        # local date at 00:00Z (Decision 11), so a date bound is that label, whatever tz says. Reading
+        # it in tz shifted the window by the UTC offset and returned the next day's row (the
+        # evaluation's trader-view questions s20q10 and s20q12)
+        dated = shape == "series" and "freq" in df and df.loc[keep, "freq"].isin(["P1D", "P1W", "P1M", "P1Y"]).all()             and bool(keep.any())
         for bound, op in ((start, "ge"), (end, "lt")):
             if bound:
                 try:
@@ -304,8 +309,8 @@ def _select(df, shape, entity, variable, start, end, where, tz="UTC"):
                 # UTC, although tz was described as setting day boundaries: local-day questions
                 # got the UTC day)
                 try:
-                    b = (b.tz_localize(tz, ambiguous=False, nonexistent="shift_forward") if b.tzinfo is None
-                         else b).tz_convert("UTC")
+                    b = (b.tz_localize("UTC" if dated else tz, ambiguous=False, nonexistent="shift_forward")
+                         if b.tzinfo is None else b).tz_convert("UTC")
                 except Exception:
                     raise ToolError(f"unknown time zone {tz!r}; use an IANA name such as America/Chicago")
                 keep &= (t >= b) if op == "ge" else (t < b)
@@ -387,7 +392,15 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
         raise ToolError(f"no column {vcol!r}; numeric columns: "
                         f"{[c for c in df.columns if pd.api.types.is_numeric_dtype(df[c])]}")
     if aggregation not in ("count", "latest") and not pd.api.types.is_numeric_dtype(df[vcol]):
-        raise ToolError(f"column {vcol!r} is not numeric")
+        # session 20: an events or entities column of numbers with blanks ("not stated"), such as
+        # energy_deals.dollars, arrives as text; it is numeric when every non-blank value is a
+        # number (the evaluation's s20q14 was refused with "not numeric")
+        txt = df[vcol].astype(str).str.strip()
+        num = pd.to_numeric(txt.where(txt != ""), errors="coerce")
+        if num[txt != ""].isna().any():
+            raise ToolError(f"column {vcol!r} is not numeric")
+        df = df.assign(**{vcol: num})
+        sel = sel.assign(**{vcol: num.loc[sel.index]})
     out = {"aggregation": aggregation, "value_column": None if aggregation == "count" else vcol,
            "filters": {k: v for k, v in dict(entity=entity, variable=variable, start=start, end=end,
                                               where=where, percentile=percentile, tz=tz if (group_by in TIME_GROUPS or start or end) and tz != "UTC" else None).items() if v},
