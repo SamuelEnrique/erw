@@ -47,7 +47,11 @@ Outputs:
   warehouse/output/datacenter_projects_evidence.csv   events, license internal: one row per
       facility and story, with the evidence sentence (outlet text)
   warehouse/datacenters/checked.csv                   every story sent (tracked in git)
-Standard status (entities vocabulary): announced and permitted -> planned,
+Session 17 human ruling: an "applied" status (an application filed, not yet granted), and the
+status span is required: a status without its span is left empty, which is correct.
+--reextract rebuilds the tables from every story already checked (earlier tables kept in
+warehouse/datacenters/history/).
+Standard status (entities vocabulary): announced, applied and permitted -> planned,
 under_construction, operating, cancelled -> withdrawn; the extractor's own word is in
 project_status.
 """
@@ -59,6 +63,7 @@ import importlib.util
 import json
 import os
 import re
+import shutil
 import sys
 import traceback
 
@@ -85,8 +90,9 @@ TABLE = "datacenter_projects"
 EVIDENCE = "datacenter_projects_evidence"
 CHECKED = os.path.join(HERE, "checked.csv")
 SECTORS_IN = ["datacenter_power"]
-STATUSES = ["announced", "permitted", "under_construction", "operating", "cancelled"]
-STD_STATUS = {"announced": "planned", "permitted": "planned", "under_construction": "under_construction",
+# session 17 ruling: "applied" (an application filed, not yet granted) between announced and permitted
+STATUSES = ["announced", "applied", "permitted", "under_construction", "operating", "cancelled"]
+STD_STATUS = {"announced": "planned", "applied": "planned", "permitted": "planned", "under_construction": "under_construction",
               "operating": "operating", "cancelled": "withdrawn"}
 PLACE_URL = "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_place_national.zip"
 BATCH = 10
@@ -112,7 +118,7 @@ For each facility, copy every value from the title or summary, character for cha
 - county, city: only as named, with location_text, the exact span that names them
 - mw: the facility's power capacity or demand in MW as stated (digits only, GW converted to MW), with mw_text, the exact span with the number
 - phase: the phase or building as stated ("phase one", "first 200 MW"), else empty
-- status: one of {", ".join(STATUSES)}, only from the stated words, with status_text, the exact span: announced for announces, plans, proposes; permitted for approved, permitted, rezoned, cleared; under_construction for broke ground, building, under construction, construction began; operating for opened, operational, online, running, energized; cancelled for cancelled, scrapped, withdrawn, paused indefinitely. When the words do not say, status and status_text are empty
+- status: one of {", ".join(STATUSES)}, only from the stated words, with status_text, the exact span: announced for announces, reveals, unveils, plans, proposes, will build; applied for applied, filed, submitted an application, requested a permit or right-of-way, sought approval (an application is not a permit); permitted for approved, permitted, granted, rezoned, cleared; under_construction for broke ground, building, under construction, construction began; operating for opened, operational, online, running, energized; cancelled for cancelled, scrapped, withdrawn, paused indefinitely. status_text is required: whenever you give a status, copy the words that state it into status_text; if you cannot copy them, leave status and status_text empty. An empty status is correct when the words do not say
 - planned_year: the year the facility or phase is planned to start, as stated, with planned_year_text, the exact span
 - power_source: how it will be powered, as stated (natural gas turbines, nuclear, solar and storage, grid); utility: the utility or power supplier as named; power_text: the exact span that states them
 - confidence: 0 to 1, how sure you are that this is a real, specific facility and the fields are right
@@ -228,6 +234,9 @@ def facility_id(first_story, n):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW datacenter facility extraction")
     ap.add_argument("--max-calls", type=int, default=30)
+    ap.add_argument("--reextract", action="store_true",
+                    help="rebuild both tables from every story already checked (session 17); the earlier tables "
+                         "are copied to warehouse/datacenters/history/ first")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -240,6 +249,18 @@ def main(argv=None):
         news = ip.read_series(os.path.join(ip.OUT_DIR, NEWS + ".csv"), NEWS_COLS)
         checked = (pd.read_csv(CHECKED, dtype=str, keep_default_na=False) if os.path.exists(CHECKED)
                    else pd.DataFrame(columns=CHECKED_COLS))
+        if args.reextract:
+            # the same stories as before, from nothing: copy the earlier tables aside, then start empty
+            hist = os.path.join(HERE, "history")
+            os.makedirs(hist, exist_ok=True)
+            for t in (TABLE, EVIDENCE):
+                src = os.path.join(ip.OUT_DIR, t + ".csv")
+                if os.path.exists(src):
+                    dst = os.path.join(hist, f"{t}_before_{run_id}.csv")
+                    shutil.copyfile(src, dst)
+                    os.remove(src)
+                    log(f"re-extract: {t} copied to {os.path.relpath(dst, ROOT)}; the table is rebuilt")
+            checked = checked[~checked["story_id"].isin(set(news["event_id"]))]
         table = read_table(os.path.join(ip.OUT_DIR, TABLE + ".csv"), COLS)
         elig = news[(news["scored_at"] != "") & news["sector"].isin(SECTORS_IN)]
         todo = elig[~elig["event_id"].isin(set(checked["story_id"]))]

@@ -123,8 +123,10 @@ day-ahead tables running into tomorrow:
   Census internal point, for queue positions; none: not placed).
 **Datacenters** (session 16, public): datacenter_projects, one row per
   datacenter facility named in the news: operator, developer, site_name, state,
-  county, city, mw, project_status (announced, permitted, under_construction,
-  operating, cancelled), planned_year, power_source, utility, story_urls. Every
+  county, city, mw, project_status (announced, applied, permitted,
+  under_construction, operating, cancelled; session 17: "applied" is an
+  application filed, not yet granted, and a status is kept only with the words
+  that state it), planned_year, power_source, utility, story_urls. Every
   field only as a story states it; blank is "not stated", not zero.
 **Deals** (session 15, public): energy_deals, one row per transaction reported
   in the news: deal_type, buyer, seller, asset, technology, mw, dollars,
@@ -132,7 +134,8 @@ day-ahead tables running into tomorrow:
 **Events**: news_index (public): one row per scored news story with source,
   sector, region, significance and ai_power_relevance (0 to 10), headline.
   news_stories (INTERNAL) adds titles and summaries of third-party articles.
-  The daily Energy Digest (docs/digest/) is written from them.
+  The daily Energy Digest (docs/digest/) is written from them, and on Mondays
+  the weekly brief, Energy Week (docs/weekly/YYYY-Www.md; the site's /weekly).
 
 
 ## 3. Which table for which question
@@ -158,7 +161,8 @@ day-ahead tables running into tomorrow:
 
 Not in the warehouse today: PJM energy prices (day-ahead and real-time), SPP
 real-time series, CAISO or NYISO before the live window, futures, lithium and
-other battery metals, equities.
+other battery metals, equities, and a list of ERCOT large-load interconnection
+requests by site (ERCOT publishes only aggregates: Protocol 3.2.7).
 Say "not in the warehouse" rather than approximating from another table.
 
 

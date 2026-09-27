@@ -1,10 +1,10 @@
 # Energy Research Warehouse (ERW): Evidence sentences for datacenter_projects, copied verbatim from the stories
 # Shape: events (docs/datastandard.md v0), event_type datacenter_evidence; one row per facility and story. event_date is the story's publish time.
-# Retrieved: 20260927T043103Z (UTC) by warehouse/datacenters/extract.py from warehouse/output/news_stories.csv
-# Run log: warehouse/output/logs/datacenters_extract_20260927T043103Z.log
+# Retrieved: 20260927T022300Z (UTC) by warehouse/datacenters/extract.py from warehouse/output/news_stories.csv
+# Run log: warehouse/output/logs/datacenters_extract_20260927T022300Z.log
 # License: internal. Outlet text (a sentence of the story's title or summary); never shown publicly.
 # Sources: the outlet named in each row's source column; source_url links the story.
-# File holds 3 rows, 2026-09-25T09:24:00Z to 2026-09-25T14:27:51Z. This run wrote 3 rows: 3 new, 0 replacing earlier rows with the same (event_id); 0 rows are kept from earlier runs. Per row, source, source_url and retrieved_at say where it came from; earlier run logs are in warehouse/output/logs/.
+# File holds 3 rows, 2026-09-25T09:24:00Z to 2026-09-25T14:27:51Z. This run wrote 2 rows: 2 new, 0 replacing earlier rows with the same (event_id); 1 rows are kept from earlier runs. Per row, source, source_url and retrieved_at say where it came from; earlier run logs are in warehouse/output/logs/.
 event_id,event_date,event_type,parties,entity_ids,mw,price,currency,status,source,source_url,facility_id,story_id,evidence
 datacenter:0bd8e67d4e53595c|news:3aee1091f10961e8,2026-09-25T09:30:00Z,datacenter_evidence,,datacenter:0bd8e67d4e53595c,,,,,WSJ,https://news.google.com/rss/articles/CBMixAFBVV95cUxQak1fNEtRazdLRG9WYzhfZWtLMENrWWhDSnhQOFlvd1VmMHZlVTVYVWQtSmFvazc2V2Z1TFlEWVZpcHhjT0lFWGVvVTV6MTk4UG13cFJvY1VqY2FxVUFmbGhiZTZPY1hpem9IYkhsM1VNaDZMYUJQWU5kQzE4Z2NkbVhQMVNRWTRNcXZ2eWRKSGF1VEhnaW51bG9VM0xwQk1lWlFiUDc0TldJdThrUkY3VHdJYVQ4d01TZENHN0dNTFdlTzdi?oc=5,datacenter:0bd8e67d4e53595c,news:3aee1091f10961e8,Cracks in Oracle’s AI Data-Center Build-Out Appear in Massive New Mexico Project
 datacenter:25dcf2257226bef9|news:47dd6098bf3fc2fc,2026-09-25T14:27:51Z,datacenter_evidence,,datacenter:25dcf2257226bef9,,,,,Heatmap News,https://heatmap.news/plus/the-fight/hotspots/arevia-idaho-solar-data-center,datacenter:25dcf2257226bef9,news:47dd6098bf3fc2fc,a subsidiary of solar developer Arevia Power submitted a right-of-way application for a data center project on federal lands in Idaho

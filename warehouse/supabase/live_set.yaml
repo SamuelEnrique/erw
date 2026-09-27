@@ -18,6 +18,7 @@ full:
   - '^energy_deals$'                            # session 15: the deal tracker (public; the evidence table is internal)
   - '^energy_projects$'                         # session 16: the project map (tool 3), with "select" below
   - '^datacenter_projects$'                     # session 16: the datacenter power tracker (tool 4; evidence internal)
+  - '^ercot_large_load_queue$'                  # session 17: only if ERCOT publishes a request-level list
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.

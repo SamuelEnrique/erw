@@ -92,6 +92,8 @@ SECTOR_RULES = [
     # session 16: the project map (tool 3) and the datacenter power tracker (tool 4)
     (r"^energy_projects$", "power"),
     (r"^datacenter_projects(_evidence)?$", "power;datacenters"),
+    # session 17: written only if ERCOT publishes a request-level list (warehouse/connectors/ercot_large_load.py)
+    (r"^ercot_large_load_queue$", "power;datacenters"),
 ]
 
 

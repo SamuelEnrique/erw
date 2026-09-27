@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
-const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters"];
+const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/weekly"];
 
 function env(name) {
   if (process.env[name]) return process.env[name];
@@ -140,6 +140,93 @@ function decode(s) {
   return s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#x27;/g, "'");
 }
 
+// Session 17: /weekly. The weekly brief is markdown (docs/weekly/), not Num spans, so its numbers are
+// parsed from the rendered page and recomputed here from Supabase: the day-ahead weekly means (the ISO's
+// local week), the real-time peak's value at its interval, the fuel closes on their dates, and the US48
+// peak demand (the maximum of the week to the hour the brief read to).
+const HUB = {
+  ERCOT: ["ercot_dam_hub_prices", "America/Chicago"], CAISO: ["caiso_dam_hub_prices", "America/Los_Angeles"],
+  NYISO: ["nyiso_dam_zone_prices", "America/New_York"], MISO: ["miso_dam_hub_prices", "Etc/GMT+5"],
+  SPP: ["spp_dam_hub_prices", "America/Chicago"], "ISO-NE": ["isone_dam_zone_prices", "America/New_York"],
+};
+const FUEL = { "Henry Hub natural gas": "eia:henry_hub", "WTI Cushing crude": "eia:wti_cushing", "Brent crude": "eia:brent" };
+
+function tzOffsetMs(utcMs, tz) {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: tz, hourCycle: "h23", year: "numeric", month: "2-digit",
+    day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" }).formatToParts(new Date(utcMs)).map((x) => [x.type, x.value]));
+  return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - utcMs;
+}
+function localMidnight(y, m, d, tz) {
+  const guess = Date.UTC(y, m, d);
+  return new Date(guess - tzOffsetMs(guess - tzOffsetMs(guess, tz), tz));
+}
+function isoWeekMonday(label) {
+  const [y, w] = label.split("-W").map(Number);
+  const jan4 = new Date(Date.UTC(y, 0, 4));
+  const mon = new Date(jan4.getTime() - ((jan4.getUTCDay() + 6) % 7) * 864e5);
+  return new Date(mon.getTime() + (w - 1) * 7 * 864e5);
+}
+const cells = (row) => [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((m) => decode(m[1].replace(/<[^>]+>/g, "")).trim());
+
+async function checkWeekly(lines) {
+  const html = await fetch(base + "/weekly").then((r) => r.text());
+  const label = (html.match(/Energy Week, (\d{4}-W\d{2})/) || [])[1];
+  if (!label) return [0, 0];
+  const mon = isoWeekMonday(label);
+  let ok = 0, bad = 0;
+  const report = (pass, what, shown, truth) => {
+    pass ? ok++ : bad++;
+    lines.push(`${pass ? "ok  " : "FAIL"} | /weekly | ${what} | page shows "${shown}" | Supabase ${truth}`);
+  };
+  for (const row of html.split("<tr>").slice(1)) {
+    const c = cells(row);
+    if (HUB[c[0]] && c.length >= 5) {
+      const [table, tz] = HUB[c[0]];
+      for (const [k, back] of [[2, 0], [3, 7]]) {
+        if (!/^-?\d+\.\d{2}$/.test(c[k])) continue;
+        const d0 = new Date(mon.getTime() - back * 864e5);
+        const s0 = localMidnight(d0.getUTCFullYear(), d0.getUTCMonth(), d0.getUTCDate(), tz);
+        const s1 = localMidnight(d0.getUTCFullYear(), d0.getUTCMonth(), d0.getUTCDate() + 7, tz);
+        const rows = await all("series", { select: "value", table_name: `eq.${table}`, node: `eq.${c[1]}`,
+          and: `(ts_utc.gte.${s0.toISOString()},ts_utc.lt.${s1.toISOString()})`, order: "ts_utc" });
+        const hours = (s1 - s0) / 36e5;
+        // exact: prices summed as integers of millionths, the mean rounded half up to cents (as brief.mean2)
+        const micro = rows.reduce((a, r) => a + Math.round(r.value * 1e6), 0);
+        const x = micro / rows.length / 1e4;
+        const cents = rows.length ? Math.sign(x) * Math.floor(Math.abs(x) + 0.5) : NaN; // half away from zero, as ROUND_HALF_UP
+        const truth = rows.length === hours ? (cents / 100).toFixed(2) : `${rows.length} of ${hours} hours`;
+        report(truth === c[k], `dam_week_mean|${table}|${c[1]}|${back ? "week before" : "week"}`, c[k], truth);
+      }
+    }
+    if (FUEL[c[0]]) {
+      for (const k of [1, 2]) {
+        const m = c[k].match(/^(\d+\.\d{2}) .*?on (\d{4}-\d{2}-\d{2})$/);
+        if (!m) continue;
+        const r = (await q("series", { select: "value", table_name: "eq.eia_fuel_spot_prices", entity: `eq.${FUEL[c[0]]}`,
+          ts_utc: `eq.${m[2]}T00:00:00Z` }))[0];
+        report(r && r.value.toFixed(2) === m[1], `fuel_close|${FUEL[c[0]]}|${m[2]}`, m[1], r ? r.value.toFixed(2) : "absent");
+      }
+    }
+  }
+  const text = decode(html.replace(/<[^>]+>/g, ""));
+  const rt = text.match(/Highest real-time price of the week:\s*([\d,.]+) USD\/MWh at (.+?) \([A-Z-]+\), interval starting .*?\((\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC\), (\w+); (\w+)/);
+  if (rt) {
+    const r = (await q("series", { select: "value", table_name: `eq.${rt[5]}`, node: `eq.${rt[2]}`, variable: `eq.${rt[4]}`,
+      ts_utc: `eq.${rt[3].replace(" ", "T")}:00Z` }))[0];
+    report(r && r.value.toFixed(2) === rt[1], `rt_peak|${rt[5]}|${rt[2]}|${rt[3]}`, rt[1], r ? r.value.toFixed(2) : "absent");
+  }
+  const pk = text.match(/US48 peak demand of the week:\s*([\d,]+) MW in the hour starting (\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC.*?to (\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC/);
+  if (pk) {
+    const to = new Date(pk[3].replace(" ", "T") + ":00Z");
+    const rows = await all("series", { select: "value,ts_utc", table_name: "eq.eia930_us48_demand", variable: "eq.demand_mw",
+      and: `(ts_utc.gte.${mon.toISOString()},ts_utc.lte.${to.toISOString()})`, order: "ts_utc" });
+    const top = rows.reduce((a, r) => (a === null || r.value > a.value ? r : a), null);
+    const truth = top ? `${Math.round(top.value).toLocaleString("en-US")} at ${new Date(top.ts_utc).toISOString().slice(0, 16).replace("T", " ")}` : "absent";
+    report(truth === `${pk[1]} at ${pk[2]}`, "us48_peak_week", `${pk[1]} at ${pk[2]}`, truth);
+  }
+  return [ok, bad];
+}
+
 async function main() {
   const found = new Map();
   for (const page of PAGES) {
@@ -169,9 +256,13 @@ async function main() {
     pass ? ok++ : bad++;
     lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} | page shows "${text}" | page read ${raw} | Supabase ${t}`);
   }
+  const [wok, wbad] = await checkWeekly(lines);
+  ok += wok;
+  bad += wbad;
+  const n = found.size + wok + wbad;
   console.log(lines.join("\n"));
-  console.log(`\n${ok} of ${found.size} values match Supabase${bad ? `; ${bad} FAILED` : ""}`);
-  if (bad || found.size < 10) process.exit(1);
+  console.log(`\n${ok} of ${n} values match Supabase${bad ? `; ${bad} FAILED` : ""} (/weekly: ${wok} of ${wok + wbad})`);
+  if (bad || n < 10) process.exit(1);
 }
 
 main().catch((e) => {

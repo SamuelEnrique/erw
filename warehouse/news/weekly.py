@@ -41,7 +41,7 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import brief  # noqa: E402  (the daily digest: clusters, headlines, citations, hubs, fuels)
-from brief import FUELS, MAIN_HUBS, RT_TZ, ROOT, cite_short, erw, ip, link_text, NAME, NEWS_COLS  # noqa: E402
+from brief import FUELS, MAIN_HUBS, RT_TZ, ROOT, cite_short, erw, ip, link_text, mean2, NAME, NEWS_COLS  # noqa: E402
 from score import PRICES, pick_model  # noqa: E402
 
 WEEKLY_DIR = os.path.join(ROOT, "docs", "weekly")
@@ -85,7 +85,7 @@ def dam_week(label, table, node, tz, start, log):
     except Exception as exc:
         log(f"  numbers: {table} unavailable: {exc!r}")
         return None, 0, int((e - s) / pd.Timedelta(hours=1))
-    return (df["value"].mean() if len(df) else None), len(df), int((e - s) / pd.Timedelta(hours=1))
+    return (mean2(df["value"]) if len(df) else None), len(df), int((e - s) / pd.Timedelta(hours=1))
 
 
 def numbers(start, cut, log):
@@ -97,9 +97,10 @@ def numbers(start, cut, log):
     for label, table, node, tz in MAIN_HUBS:
         m1, n1, x1 = dam_week(label, table, node, tz, start, log)
         m0, n0, x0 = dam_week(label, table, node, tz, prior, log)
-        this = f"{m1:.2f}" if n1 == x1 else f"not in the warehouse ({n1} of {x1} hours)"
-        last = f"{m0:.2f}" if n0 == x0 else f"not in the warehouse ({n0} of {x0} hours)"
-        chg = f"{m1 - m0:+.2f}" if n1 == x1 and n0 == x0 else "not computed"
+        this = f"{m1}" if n1 == x1 else f"not in the warehouse ({n1} of {x1} hours)"
+        last = f"{m0}" if n0 == x0 else f"not in the warehouse ({n0} of {x0} hours)"
+        # the change of the two rounded means, as the table shows them
+        chg = f"{m1 - m0:+}" if n1 == x1 and n0 == x0 else "not computed"
         L.append(f"| {label} | {node} | {this} | {last} | {chg} | {cite_short(table) if n1 or n0 else f'`{table}`'} |")
     L.append("| PJM | | | | | no PJM price table (no API key) |")
 

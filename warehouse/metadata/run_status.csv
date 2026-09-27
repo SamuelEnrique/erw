@@ -503,3 +503,5 @@ run_id,runner,connector,table,market,status,detail
 20260927T034319Z,local,spp,spp_rtm_hub_prices,RTM,failed,SourceGap: SPP has no daily RTBM file for 2026-09-23 and its interval file for 2026-09-23 16:20:00-05:00 is missing: SPP RTBM interval 2026-09-23 16:20:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path
 20260927T035240Z,local,eia_fuels,eia_fuel_spot_prices,daily,ok,
 20260927T035307Z,local,news_weekly,weekly,brief,ok,"2026-W39: 845 stories, 747 clusters, headline cost USD 0.0055"
+20260927T043103Z,local,datacenters,datacenter_projects,extract,ok,model claude-sonnet-5; calls 3 (0 failed); stories checked 28; facilities in table 3; evidence rows 3; fields not kept 0; tokens in 4895 out 1436 cache write 1934 cache read 3868; cost USD 0.0298
+20260927T044253Z,local,news_weekly,weekly,brief,ok,"2026-W39: 845 stories, 747 clusters, headline cost USD 0.0054"

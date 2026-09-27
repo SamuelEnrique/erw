@@ -148,6 +148,15 @@ def detail(r):
     return ("; ".join(bits) + ". ") if bits else ""
 
 
+def mean2(values):
+    """The mean of published prices, exact (decimal arithmetic on the values as written) and rounded
+    half up to cents: a float mean can land a hair under a half (44.295 read as 44.29499...).
+    Session 17; scripts/check-values.mjs rounds the same way."""
+    from decimal import Decimal, ROUND_HALF_UP
+    vals = [Decimal(repr(float(v))) for v in values]
+    return (sum(vals) / len(vals)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+
 def cite_short(table):
     s = erw.sources(table)
     return f"`{table}` ({', '.join(r['source'] for r in s['reports'] if r.get('source'))})"
@@ -169,7 +178,7 @@ def numbers_today(digest_date, log):
             df = pd.DataFrame()
         n_expected = int((end - start) / pd.Timedelta(hours=1))
         if len(df) == n_expected:
-            lines.append(f"| {label} | {node} | {day.date()} | {df['value'].mean():.2f} | {cite_short(table)} |")
+            lines.append(f"| {label} | {node} | {day.date()} | {mean2(df['value'])} | {cite_short(table)} |")
         else:
             lines.append(f"| {label} | {node} | {day.date()} | not in the warehouse ({len(df)} of "
                          f"{n_expected} hours) | `{table}` |")
