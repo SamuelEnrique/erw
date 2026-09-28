@@ -104,14 +104,18 @@ async function truth(check) {
     if (!rows.length) return undefined;
     return rows.reduce((a, r) => a + r.value, 0);
   }
-  // session 16: /map (energy_projects, and datacenter_projects as the kind datacenter) and /datacenters
+  // session 16: /map (energy_projects, and datacenter_facilities as the kind datacenter; session 22) and /datacenters
   if (p[0] === "projects") {
     const [, what, kind, arg] = p;
-    const table = kind === "datacenter" ? "datacenter_projects" : "energy_projects";
-    const base = { select: "entity_id", table_name: `eq.${table}`, "extra->>kind": `eq.${kind}` };
+    // session 22: datacenters come from datacenter_facilities, whose extra.kind is the source kind (news,
+    // operator, queue): every row is the map's kind datacenter, and the operator's coordinates count as a point
+    const dc = kind === "datacenter";
+    const base = dc
+      ? { select: "entity_id", table_name: "eq.datacenter_facilities" }
+      : { select: "entity_id", table_name: "eq.energy_projects", "extra->>kind": `eq.${kind}` };
     if (what === "count") {
       if (arg === "all") return q("entities", base, true);
-      const prec = arg === "county" && kind === "datacenter" ? "in.(county,place)" : `eq.${arg}`;
+      const prec = dc && arg === "county" ? "in.(county,place)" : dc && arg === "point" ? "in.(point,operator)" : `eq.${arg}`;
       return q("entities", { ...base, "extra->>geo_precision": prec }, true);
     }
     if (what === "tech_count") return q("entities", { ...base, "extra->>technology_group": `eq.${arg}` }, true);
@@ -122,7 +126,7 @@ async function truth(check) {
   }
   if (p[0] === "datacenters") {
     const [, what, key] = p;
-    const rows = await all("entities", { select: "operator,mw:capacity_mw,state:extra->>state", table_name: "eq.datacenter_projects", order: "entity_id" });
+    const rows = await all("entities", { select: "operator,mw:capacity_mw,state:extra->>state", table_name: "eq.datacenter_facilities", order: "entity_id" });
     const withMw = rows.filter((r) => r.mw !== null);
     if (what === "count") return rows.length;
     if (what === "n_with_mw") return withMw.length;

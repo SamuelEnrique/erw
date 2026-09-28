@@ -174,6 +174,18 @@ day-ahead tables running into tomorrow:
   application filed, not yet granted, and a status is kept only with the words
   that state it), planned_year, power_source, utility, story_urls. Every
   field only as a story states it; blank is "not stated", not zero.
+  Session 22: datacenter_facilities (derived, public) is the tracker's one
+  table: the news facilities (kind news), the operators' own public site lists
+  (kind operator: datacenter_operator_sites, from Amazon Web Services,
+  Microsoft Azure, Google, Meta, Oracle, Digital Realty, Equinix, Vantage and
+  Switch; QTS, CoreWeave and Crusoe publish no list that can be read) and ISO
+  queue positions that name a datacenter or large load (kind queue:
+  datacenter_queue_positions), deduplicated by operator plus location. kinds
+  lists every source of a row, member_ids and source_urls every member. mw only
+  where a story or the operator states it (mw_span holds the operator's exact
+  words); queue_mw is a queue position's generation or storage MW, never the
+  load. Use it for "how many datacenters", "where", "who"; most rows state no MW,
+  so a MW sum covers only the rows that state one.
 **Deals** (session 15, public): energy_deals, one row per transaction reported
   in the news: deal_type, buyer, seller, asset, technology, mw, dollars,
   status, story_urls. Same rule: blank is "not stated".
@@ -206,7 +218,7 @@ day-ahead tables running into tomorrow:
 | Power plants, capacity by state or fuel | `eia860m_*_generators` |
 | Projects waiting to connect | `<iso>_interconnection_queue` |
 | All generators and queue positions with a location | `energy_projects` |
-| Datacenter facilities (operator, place, MW) | `datacenter_projects` |
+| Datacenter facilities (operator, place, MW), all sources | `datacenter_facilities` (news only: `datacenter_projects`; operator lists: `datacenter_operator_sites`) |
 | Energy deals (PPAs, M&A, financings) | `energy_deals` |
 | News, deals, policy stories | `news_index` |
 | Capacity, carbon, shipping | internal tables above; say they are internal |
