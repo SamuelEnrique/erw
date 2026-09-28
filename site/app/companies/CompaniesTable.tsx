@@ -102,6 +102,9 @@ export function CompaniesTable({ rows }: { rows: Company[] }) {
             {shown.map((r) => {
               const isOpen = open === r.entity_id;
               const srcs = split(r.sources);
+              // session 27: a row seeded from the deal tracker has no researched fields yet
+              const fromDeals = r.confidence_note.startsWith("from deals");
+              const blank = fromDeals ? "from deals; not yet researched" : "not disclosed";
               return (
                 <Fragment key={r.entity_id}>
                   <tr id={companyAnchor(r.name)} className="cursor-pointer border-b border-rule align-top hover:bg-panel" onClick={() => setOpen(isOpen ? null : r.entity_id)}>
@@ -112,19 +115,22 @@ export function CompaniesTable({ rows }: { rows: Company[] }) {
                       {r.name}
                     </td>
                     <td className="py-1 pr-3 text-xs">{split(r.niche_tags).join(", ")}</td>
-                    <td className="py-1 pr-3">{r.stage || "not disclosed"}</td>
-                    <td className="py-1 pr-3">{r.location || "not disclosed"}</td>
+                    <td className="py-1 pr-3">{r.stage || (fromDeals ? "not yet researched" : "not disclosed")}</td>
+                    <td className="py-1 pr-3">
+                      {r.location || (fromDeals ? "not stated" : "not disclosed")}
+                      {r.location && fromDeals ? <span className="text-xs text-muted"> (where a deal is)</span> : null}
+                    </td>
                     <td className="py-1 text-right tabular-nums">{r.confidence}</td>
                   </tr>
                   <tr hidden={!isOpen} className="border-b border-rule bg-panel">
                     <td colSpan={5} className="px-3 py-2 text-sm">
                       <dl className="grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-[9rem_1fr]">
                         <dt className="text-muted">What it does</dt>
-                        <dd>{r.description || "not stated"}</dd>
+                        <dd>{r.description || (fromDeals ? blank : "not stated")}</dd>
                         <dt className="text-muted">Founders</dt>
-                        <dd>{r.founders || "not disclosed"}</dd>
+                        <dd>{r.founders || blank}</dd>
                         <dt className="text-muted">Raised</dt>
-                        <dd>{r.raised || (/^public company/.test(r.confidence_note) ? "blank: public company" : "not disclosed")}</dd>
+                        <dd>{r.raised || (/^public company/.test(r.confidence_note) ? "blank: public company" : blank)}</dd>
                         <dt className="text-muted">Website</dt>
                         <dd>{r.website ? <a href={r.website}>{r.website}</a> : "not stated"}</dd>
                         <dt className="text-muted">Confidence</dt>

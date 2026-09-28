@@ -171,6 +171,8 @@ run_other policy_score "$PYTHON" warehouse/policy/score.py
 run_other policy_reads "$PYTHON" warehouse/policy/reads.py
 # Session 15: deals from the newly scored stories (warehouse/deals/extract.py, tool 6)
 run_other deals "$PYTHON" warehouse/deals/extract.py
+# Session 27: every party of energy_deals is a row of energy_companies (tool 10), merged with the Thesis Builder's rows
+run_other companies_from_deals "$PYTHON" warehouse/companies/seed_from_deals.py
 # Session 16: datacenter facilities from the newly scored datacenter_power stories (tool 4)
 run_other datacenters "$PYTHON" warehouse/datacenters/extract.py
 # Session 22: the tracker's one table: the news facilities, the operator sites and the queue rows that

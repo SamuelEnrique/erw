@@ -22,7 +22,8 @@ export default async function CompaniesPage() {
       </p>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Scope: a seed, not a census. The table grows from Thesis Builder runs, each of which maps one niche for investors, and from the deal tracker
-        (<Link href="/deals">/deals</Link>) as its counterparties are added. Public companies are listed with their raised amount left blank and noted as public.
+        (<Link href="/deals">/deals</Link>): every buyer, seller and other party of a deal is a row, with the deal&apos;s sector, tags, place and story links, and
+        is marked &quot;from deals; not yet researched&quot; until the Thesis Builder researches it. Public companies are listed with their raised amount left blank and noted as public.
         A number no cited source confirmed reads &quot;not confirmed&quot;; the confidence score (0 to 100) is a rule, explained on each row.
       </p>
       {!res.ok ? (
@@ -31,7 +32,8 @@ export default async function CompaniesPage() {
         <NoData what="companies" reason="energy_companies has no rows in the live set" />
       ) : (
         <>
-          <CompaniesTable rows={res.data} />
+          {/* session 27: a blank field arrives from the live set as null (the deal-seeded rows have many); the table reads strings */}
+          <CompaniesTable rows={res.data.map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, v ?? ""])) as typeof r)} />
           <Cite tables={["energy_companies"]} note="Found by warehouse/thesis/build.py from public web sources; method docs/methods/thesis_builder.md" />
         </>
       )}

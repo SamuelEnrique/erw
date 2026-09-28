@@ -489,6 +489,14 @@ def domain(url):
     return m.group(1) if m else ""
 
 
+def name_key(name):
+    """A company name for merging: lower case, no parentheses, punctuation or legal suffix (site/lib/companies.ts)."""
+    s = re.sub(r"\(.*?\)", " ", (name or "").lower())
+    s = re.sub(r"[^a-z0-9 ]+", " ", s)
+    s = re.sub(r"\b(inc|llc|ltd|corp|corporation|co|plc|lp|sa|ag|gmbh|limited|holdings)\b", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
 def company_id(name, website):
     slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
     return f"erwco:{slug}" + (f"@{domain(website)}" if domain(website) else "")
@@ -504,10 +512,12 @@ def merge_companies(rows, niche, run_id, log):
     new = pd.DataFrame(rows, columns=ENT_COLS)
     if old is not None and len(old):
         merged = []
-        oldk = {(o["name"].lower(), domain(o["website"])): o for o in old.to_dict("records")}
+        # session 27: the normalized name (no punctuation, parentheses or legal suffix), as the seeder and the site read it,
+        # so "Tyba" and "Tyba (Tyba Energy Inc.)" are one company
+        oldk = {(name_key(o["name"]), domain(o["website"])): o for o in old.to_dict("records")}
         seen = set()
         for n_ in new.to_dict("records"):
-            k = (n_["name"].lower(), domain(n_["website"]))
+            k = (name_key(n_["name"]), domain(n_["website"]))
             o = oldk.get(k)
             if o:
                 seen.add(k)
@@ -522,8 +532,9 @@ def merge_companies(rows, niche, run_id, log):
         new = pd.DataFrame(merged, columns=ENT_COLS)
     new = new.drop_duplicates("entity_id", keep="first").sort_values("entity_id")
     header = [
-        "Energy Research Warehouse (ERW): energy companies found by the Thesis Builder (tool 27), the seed of the company "
-        "database (tool 10)",
+        "Energy Research Warehouse (ERW): energy companies, the company database (tool 10): companies the Thesis Builder "
+        "(tool 27) researched, and (session 27) every party of the deal tracker's deals, seeded by "
+        "warehouse/companies/seed_from_deals.py with \"from deals; not yet researched\" in confidence_note",
         "Shape: entities (docs/datastandard.md v0), entity_type company; one row per company, merged on name plus website. "
         "The fields are the model's, from public web sources it cites (sources); a number that did not appear in a cited "
         "source is written as not confirmed. confidence 0 to 100 by the rule in warehouse/thesis/build.py, explained in "

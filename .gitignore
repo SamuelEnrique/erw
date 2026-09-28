@@ -23,6 +23,8 @@ warehouse/output/*.csv
 !warehouse/output/datacenter_operator_sites.csv
 !warehouse/output/datacenter_queue_positions.csv
 !warehouse/output/datacenter_facilities.csv
+# Session 27: the company database holds the Thesis Builder's researched rows, which no daily step can rebuild
+!warehouse/output/energy_companies.csv
 # Session 9: run logs belong with the tables they describe; they stay out of git from now on
 # (logs committed before session 9 stay tracked).
 warehouse/output/logs/
