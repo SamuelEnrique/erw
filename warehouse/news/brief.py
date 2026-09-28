@@ -42,6 +42,7 @@ import re
 import shutil
 import sys
 import traceback
+from types import SimpleNamespace
 
 import anthropic
 import pandas as pd
@@ -84,7 +85,10 @@ For each cluster, write one headline of at most 14 words that states what happen
 clickbait, no question marks. Use only facts and words present in the cluster's titles and summaries; do not add
 numbers, names, descriptors or claims (if a title is only an identifier, say only what it literally is). Do not
 mention AI, artificial intelligence, datacenters, data centers or compute unless the cluster's own titles or
-summaries do. Return every cluster id exactly once."""
+summaries do. Return every cluster id exactly once.
+When a cluster lists figures (MW, prices, dollar amounts, percentages from its scored fields), the headline must carry
+at least one of them, written as given. Never write a number that is not in the cluster's titles, summaries or
+figures."""
 HEADLINE_SCHEMA = {
     "type": "object",
     "properties": {"headlines": {"type": "array", "items": {
@@ -102,8 +106,9 @@ def build_clusters(stories):
         lead = g.iloc[0]
         rows.append({
             "cluster_id": cid, "sig": int(g["sig"].max()), "ai": int(g["ai"].max()),
-            "sector": lead["sector"], "why": lead["why"], "mw": lead["mw"],
-            "price": lead["price_mentioned"], "parties": lead["parties"],
+            # session 21: the MW and price of the cluster are the first any of its stories' scored fields hold
+            "sector": lead["sector"], "why": lead["why"], "mw": next((x for x in g["mw"] if x), ""),
+            "price": next((x for x in g["price_mentioned"] if x), ""), "parties": lead["parties"],
             "first": g["event_date"].min(), "n": len(g),
             "links": [(r.source, r.source_url) for r in g.itertuples()][:3],
             "titles": list(g["title"])[:4], "summary": lead["summary"][:300],
@@ -112,9 +117,50 @@ def build_clusters(stories):
     return c.sort_values(["sig", "ai", "n", "first"], ascending=[False, False, False, True]).reset_index(drop=True)
 
 
+FIGURE = re.compile(r"(?:US\$|\$|USD ?)[\d,.]+(?: ?(?:billion|million|bn|mn|m|b)\b)?|"
+                    r"[\d,.]*\d ?(?:%|percent\b|GW\b|MW\b|GWh\b|MWh\b|bcf\b|Bcf\b|mtpa\b)|"
+                    r"[\d,.]*\d (?:billion|million) (?:dollars|USD|euros)")
+
+
+def figures(r):
+    """Session 21: the figures in a cluster's scored fields: the MW, the price mentioned, and the MW, price,
+    dollar and percent figures in its scored reason (the why line)."""
+    out = []
+    if r.get("mw"):
+        out.append(f"{float(r['mw']):,.0f} MW")
+    if r.get("price"):
+        out.append(str(r["price"]))
+    out += [m.group(0).strip() for m in FIGURE.finditer(r.get("why") or "")]
+    return list(dict.fromkeys(x for x in out if x))
+
+
 def headlines(client, model, clusters, log):
-    items = [{"cluster_id": r.cluster_id, "titles": r.titles, "summary": r.summary}
-             for r in clusters.itertuples()]
+    """Headlines for the clusters (session 21: using a scored figure where one exists), each checked with
+    the chat's literal-number check against the cluster's titles, summary, why line and figures; the clusters
+    that fail are asked again once, with the stray numbers named; a second failure stops the brief."""
+    recs = {r["cluster_id"]: r for r in clusters.to_dict("records")}
+    items = [{"cluster_id": cid, "titles": r["titles"], "summary": r["summary"], "figures": figures(r)}
+             for cid, r in recs.items()]
+    heads, usage, calls = _headline_call(client, model, items, log)
+    pool = lambda r: [*r["titles"], r["summary"], r["why"] or "", *figures(r)]  # noqa: E731
+    bad = {cid: chat_ask.unverified(h, pool(recs[cid])) for cid, h in heads.items() if cid in recs}
+    bad = {k: v for k, v in bad.items() if v}
+    if bad:
+        log(f"  headlines: {len(bad)} with numbers not in their cluster: {bad}; asking again once")
+        again = [dict(x, stray_numbers=bad[x["cluster_id"]]) for x in items if x["cluster_id"] in bad]
+        h2, u2, c2 = _headline_call(client, model, again, log)
+        usage = SimpleNamespace(input_tokens=usage.input_tokens + u2.input_tokens,
+                                output_tokens=usage.output_tokens + u2.output_tokens)
+        calls += c2
+        still = {cid: chat_ask.unverified(h, pool(recs[cid])) for cid, h in h2.items() if cid in bad}
+        still = {k: v for k, v in still.items() if v}
+        if still:
+            raise RuntimeError(f"headlines still carry numbers not in their clusters: {still}")
+        heads.update({k: v for k, v in h2.items() if k in bad})
+    return heads, usage, calls
+
+
+def _headline_call(client, model, items, log):
     kwargs = dict(model=model, max_tokens=8000, system=HEADLINE_SYSTEM,
                   output_config={"effort": "low", "format": {"type": "json_schema", "schema": HEADLINE_SCHEMA}},
                   messages=[{"role": "user", "content": json.dumps(items, ensure_ascii=False)}])
@@ -132,7 +178,51 @@ def headlines(client, model, clusters, log):
         raise RuntimeError(f"headline call stop_reason {resp.stop_reason}")
     out = json.loads(next(b.text for b in resp.content if b.type == "text"))["headlines"]
     u = resp.usage
-    return {h["cluster_id"]: nodash(h["headline"]) for h in out}, u, calls
+    return {h["cluster_id"]: nodash(h["headline"]) for h in out}, SimpleNamespace(
+        input_tokens=u.input_tokens, output_tokens=u.output_tokens), calls
+
+
+def norm_headline(h):
+    return re.sub(r"[^a-z0-9 ]+", "", h.lower()).strip()
+
+
+def unique_items(sections, heads, log):
+    """Session 21, ruling 5: the digest once showed the same event twice with identical wording, because
+    each section chose its clusters on its own, so a top-10 cluster came back under By sector and AI and
+    power. The sections now take distinct clusters; this also drops a later cluster whose headline, once
+    normalized, or first source link repeats an earlier item's (the same event in two clusters).
+    Returns the sections with the repeats removed."""
+    seen_h, seen_u, out = set(), set(), {}
+    for name, df in sections.items():
+        keep = []
+        for r in df.to_dict("records"):
+            h, urls = norm_headline(heads[r["cluster_id"]]), [u for _, u in r["links"]]
+            if h in seen_h or (urls and urls[0] in seen_u):
+                log(f"  dropped a repeat in {name}: {heads[r['cluster_id']]!r} ({r['cluster_id']})")
+                continue
+            seen_h.add(h)
+            seen_u.update(urls)
+            keep.append(r["cluster_id"])
+        out[name] = df[df["cluster_id"].isin(keep)]
+    return out
+
+
+def assert_unique(lines):
+    """The hard check (ruling 5): no two items of a brief share a normalized headline or a source URL.
+    Raises, so a brief that fails it is not written."""
+    heads, urls = [], []
+    for ln in lines:
+        m = re.match(r"^(?:\d+\. \*\*(.+?)\*\*|- (.+?) \()", ln)
+        if m and not ln.startswith("- no "):  # "- no scored story in this group today" is not an item
+            heads.append(norm_headline(m.group(1) or m.group(2)))
+            urls += re.findall(r"\]\((https?://[^)]+)\)", ln)
+        elif ln.startswith("   ") and "Sources:" in ln:
+            urls += re.findall(r"\]\((https?://[^)]+)\)", ln)
+    dh = sorted({h for h in heads if heads.count(h) > 1})
+    du = sorted({u for u in urls if urls.count(u) > 1})
+    if dh or du:
+        raise RuntimeError(f"duplicate items in the brief: headlines {dh[:3]}, source URLs {du[:3]}")
+    return len(heads)
 
 
 def link_text(links):
@@ -313,8 +403,13 @@ def main(argv=None):
             raise RuntimeError("no scored stories in the window; not writing an empty digest")
         clusters = build_clusters(s)
         top10 = clusters.head(10)
-        by_group = {g: clusters[clusters["sector"].isin(secs)].head(3) for g, secs in GROUPS.items()}
-        ai = clusters[clusters["ai"] >= 7].head(5)
+        # session 21, ruling 5: each cluster appears once; a section takes only clusters not shown above it
+        used = set(top10["cluster_id"])
+        by_group = {}
+        for g, secs in GROUPS.items():
+            by_group[g] = clusters[clusters["sector"].isin(secs) & ~clusters["cluster_id"].isin(used)].head(3)
+            used |= set(by_group[g]["cluster_id"])
+        ai = clusters[(clusters["ai"] >= 7) & ~clusters["cluster_id"].isin(used)].head(5)
         shown = pd.concat([top10, *by_group.values(), ai]).drop_duplicates("cluster_id")
         key = ip.load_key("ANTHROPIC_API_KEY", log)
         client = anthropic.Anthropic(api_key=key)
@@ -323,20 +418,27 @@ def main(argv=None):
         missing = set(shown["cluster_id"]) - set(heads)
         if missing:
             raise RuntimeError(f"headlines missing for {len(missing)} clusters")
+        secs = unique_items({"top": top10, **{g: c for g, c in by_group.items()}, "ai": ai}, heads, log)
+        top10, ai = secs.pop("top"), secs.pop("ai")
+        by_group = secs
+        # ruling 4: the share of the top 10 whose headline carries a number, and how many could
+        n_fig = sum(1 for r in top10.to_dict("records") if figures(r))
+        n_num = sum(1 for cid in top10["cluster_id"] if chat_ask.numbers(heads[cid]))
+        log(f"  top 10: {n_num} of {len(top10)} headlines carry a number; {n_fig} of {len(top10)} clusters have a "
+            "scored figure")
         cost = ""
         if model in PRICES:
             pi, po = PRICES[model]
             cost = f"USD {(u.input_tokens * pi + u.output_tokens * po) / 1e6:.4f}"
         log(f"  headlines: {len(heads)} from {model}; {calls} call(s); tokens in {u.input_tokens} "
             f"out {u.output_tokens}; cost {cost or 'unknown'}")
-        top_ids = set(top10["cluster_id"])
         L = [f"# Energy Digest, {digest_date}", "",
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              f"The ERW's daily brief of energy news for the {args.hours} hours to {now:%Y-%m-%d %H:%M} UTC, "
              f"from {len(s)} scored stories.", "",
              "## Top of the industry", ""]
         for i, r in enumerate(top10.to_dict("records"), 1):
-            L.append(f"{i}. **{heads[r['cluster_id']]}** (significance {r['sig']}, {r['sector']})  ")
+            L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ")
             L.append(f"   {r['why']} {detail(r)}Sources: {link_text(r['links'])}")
         L += ["", "## By sector", ""]
         for g, c in by_group.items():
@@ -345,14 +447,13 @@ def main(argv=None):
             if c.empty:
                 L.append("- no scored story in this group today")
             for r in c.to_dict("records"):
-                L.append(f"- {heads[r['cluster_id']]} ({r['sig']}): {r['why']} {link_text(r['links'][:1])}")
+                L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {r['why']} {link_text(r['links'][:1])}")
             L.append("")
         L += ["## AI and power", ""]
         if ai.empty:
-            L.append("- no story with ai_power_relevance 7 or more today")
+            L.append("- no further story on AI and power today (any such story is listed above)")
         for r in ai.to_dict("records"):
-            mark = " (also in Top of the industry)" if r["cluster_id"] in top_ids else ""
-            L.append(f"- {heads[r['cluster_id']]} (AI-power {r['ai']}){mark}: {r['why']} "
+            L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {r['why']} "
                      f"{link_text(r['links'][:1])}")
         nums = numbers_today(digest_date, log)
         summary, su = numbers_summary(client, model, nums, log)
@@ -366,6 +467,8 @@ def main(argv=None):
               f"<!-- Generated by warehouse/news/brief.py at {now:%Y-%m-%d %H:%M} UTC; run log "
               f"warehouse/output/logs/news_brief_{run_id}.log; model {model}; story data "
               "warehouse/output/news_stories.csv. -->"]
+        n_items = assert_unique(L)  # ruling 5: the hard check; a failure writes nothing
+        log(f"  {n_items} items, no two sharing a normalized headline or a source URL")
         text = "\n".join(L) + "\n"
         if args.out:  # a check run: this path only, the day's digest and latest.md untouched
             path = os.path.abspath(args.out)
@@ -378,7 +481,8 @@ def main(argv=None):
             with open(path, "w", encoding="utf-8", newline="\n") as f:
                 f.write(text)
             shutil.copyfile(path, os.path.join(DIGEST_DIR, "latest.md"))
-        status["detail"] = (f"{len(s)} stories, {len(clusters)} clusters, {calls} call(s), tokens in "
+        status["detail"] = (f"top 10 with a number {n_num} of {len(top10)} ({n_fig} with a scored figure); "
+                            f"{len(s)} stories, {len(clusters)} clusters, {calls} call(s), tokens in "
                             f"{u.input_tokens} out {u.output_tokens}, cost {cost or 'unknown'}")
         log(f"wrote {os.path.relpath(path, ROOT)}{'' if args.out else ' and latest.md'}; {status['detail']}")
         print(f"digest: {os.path.relpath(path, ROOT)}; {status['detail']}")

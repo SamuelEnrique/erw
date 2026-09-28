@@ -211,7 +211,8 @@ def main(argv=None):
              f"The ERW's weekly brief of energy news for {span}, from {len(s)} scored stories.", "",
              "## The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
-            L.append(f"{i}. **{heads[r['cluster_id']]}** (significance {r['sig']}, {r['sector']}, {r['n']} "
+            # session 21, ruling 4: the sector label, never the significance score
+            L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
                      f"{'story' if r['n'] == 1 else 'stories'})  ")
             L.append(f"   {r['why']} Sources: {link_text(r['links'])}")
 
@@ -269,6 +270,7 @@ def main(argv=None):
               f"warehouse/output/logs/news_weekly_{run_id}.log; model {model}. -->"]
         os.makedirs(WEEKLY_DIR, exist_ok=True)
         path = os.path.join(WEEKLY_DIR, f"{label}.md")
+        brief.assert_unique(L)  # ruling 5: no two items share a normalized headline or a source URL
         text = "\n".join(L) + "\n"
         for p in (path, os.path.join(WEEKLY_DIR, "latest.md")):
             with open(p, "w", encoding="utf-8", newline="\n") as f:
