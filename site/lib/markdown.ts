@@ -19,10 +19,35 @@ export type Docs = {
   methods: Record<string, string>;
   // session 15: warehouse/metadata/run_status.csv rows for EIA-930 that are not ok (gaps, failures)
   run_status_eia930: { run_id: string; table: string; market: string; status: string; detail: string }[];
+  // session 23: Automated Analysis (docs/analysis/): each week's chart of the week and results, the templates, the gallery
+  analysis: Analysis;
   // session 21: warehouse/metadata/sources.csv, for /terms
   sources: { source: string; publisher: string; report: string; report_url: string; license: string; tables: string }[];
 };
-export const DOCS = docs as Docs;
+export type ChartOfWeek = {
+  week: string; template: string; title: string; subtitle: string; note: string; caption: string; note_by: string;
+  source_line: string; citations: string[]; tables: string[]; params: Record<string, unknown>;
+  headline: { label: string; value: number; unit: string; period: string };
+  notability_z: number; percentile: number; history_n: number; files: Record<string, string>; option: unknown; rule: string;
+};
+export type AnalysisResult = {
+  template: string; params: Record<string, unknown>; title: string; subtitle: string;
+  headline: { label: string; value: number; unit: string; period: string };
+  history_n: number; notability_z: number | null; percentile: number | null; source_line: string; tables: string[];
+  citations: string[]; option: unknown;
+};
+export type Analysis = {
+  weeks: Record<string, ChartOfWeek>;
+  results: Record<string, { week: string; picked: string; results: AnalysisResult[]; skipped: { template: string; reason: string }[] }>;
+  templates: { template: string; title: string; public: boolean; method: string; params: Record<string, { default: unknown; choices: unknown }>; tables: string[] }[];
+  gallery: { computed_at?: string; templates: { template: string; title: string; default: string; combos: Record<string, { params: Record<string, unknown>; file: string | null; reason?: string }> }[] };
+};
+export const DOCS = docs as unknown as Docs;
+
+/** The weeks with a chart of the week, newest first (session 23). */
+export function analysisWeeks(): string[] {
+  return Object.keys(DOCS.analysis?.weeks ?? {}).sort().reverse();
+}
 
 function sitePath(repoPath: string): string {
   const p = repoPath.split("\\").join("/");

@@ -1,6 +1,7 @@
 # source: U.S. Energy Information Administration (public domain)
 # url: https://www.eia.gov/energyexplained/electricity/delivery-to-consumers.php
 # retrieved_at: 20260928T083010Z
+# note: em dashes in the source are stored as hyphens (session 23)
 
 Delivery to consumers - U.S. Energy Information Administration (EIA)
 Electricity explained
@@ -250,12 +251,12 @@ The way electricity is sold to you varies from region to region. The company sel
 A not-for-profit municipal electric utility (owned by the city or local government)
 An electric cooperative owned by its members (owned by stockholders, often called an investor-owned utility )
 A private, for-profit electric utility (owned by stockholders, often called an investor-owned utility )
-In some states, electric utility customers can buy electricity directly from a power marketer, and a local utility delivers it. A few federally owned power authorities—including the Bonneville Power Administration and the Tennessee Valley Authority , among others—also generate, buy, sell, and distribute power. No matter the electricity’s source, local electric utilities operate the distribution system that connects homes and businesses to the grid.
+In some states, electric utility customers can buy electricity directly from a power marketer, and a local utility delivers it. A few federally owned power authorities-including the Bonneville Power Administration and the Tennessee Valley Authority , among others-also generate, buy, sell, and distribute power. No matter the electricity’s source, local electric utilities operate the distribution system that connects homes and businesses to the grid.
 Delivering electricity
 Power plants generate electricity, which they send to customers through transmission and distribution power lines.
 High-voltage transmission lines , such as those hanging between tall metal towers, carry electricity over long distances. Higher-voltage electricity makes long-distance electricity transmission more efficient and less expensive.
 Distribution transmission lines carry the lower-voltage electricity, which is safer to use in homes and businesses, and delivers it to customers.
-Transformers at substations play a crucial role. They either increase (step up) or reduce (step down) voltages to adjust to the different stages of the journey—from the power plant on long-distance transmission lines to the distribution lines that deliver electricity to homes and businesses.
+Transformers at substations play a crucial role. They either increase (step up) or reduce (step down) voltages to adjust to the different stages of the journey-from the power plant on long-distance transmission lines to the distribution lines that deliver electricity to homes and businesses.
 Evolution of the electric power grid
 At the beginning of the 20th century, more than 4,000 isolated electric utilities operated in the United States. As the demand for electricity grew, especially after World War II, these lone utilities began to connect their transmission systems to each other. These connections allowed utilities to share the economic benefits of building large and often jointly owned power plants to serve their combined electricity demand at the lowest possible cost. Interconnection also reduced the amount of extra generating capacity each utility had to have available to ensure reliable service during peak demand. Over time, three large, interconnected systems evolved in the United States.
 U.S. electrical system interconnections

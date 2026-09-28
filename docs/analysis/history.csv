@@ -1,0 +1,11 @@
+week,template,params,period,value,unit,history_n,notability_z,public,picked
+2026-W39,peak_premium_block,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-20 to 2026-09-26,28.08,USD/MWh,89,2.46,True,True
+2026-W39,da_rt_spread_by_hour,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-20 to 2026-09-26,6.19,USD/MWh,3,,True,False
+2026-W39,forecast_error,"{""ba"": ""erco"", ""window"": 30}",2026-09-21 to 2026-09-27,1.25,%,3,,True,False
+2026-W39,curtailment_midday,"{""hub"": ""TH_SP15_GEN-APND"", ""window"": 30}",2026-09-19 to 2026-09-25,28725.99,MWh,246,0.15,True,False
+2026-W39,implied_heat_rate,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-20 to 2026-09-26,14.68,MMBtu/MWh,3,,True,False
+2026-W39,storage_evening_peak,"{""window"": 30}",2026-09-21 to 2026-09-27,6195.87,MW,54,0.6,True,False
+2026-W39,negative_price_hours,"{""hub"": ""HB_WEST"", ""iso"": ""ercot"", ""months"": 24}",2026-08,6.0,hours,139,0.59,True,False
+2026-W39,deals_by_month,"{""ai_power"": ""all"", ""months"": 12}",2026-08,11.0,deals,10,1.08,True,False
+2026-W39,datacenters_by_state,"{""top"": 15}",2026-09-28,237.0,facilities,0,,True,False
+2026-W39,chokepoint_transits,"{""chokepoint"": ""chokepoint6"", ""vessels"": ""n_tanker"", ""window"": 90}",2026-09-14 to 2026-09-20,0.57,transits per day,401,4.19,False,False

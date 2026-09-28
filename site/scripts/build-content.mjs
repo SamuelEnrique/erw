@@ -102,8 +102,32 @@ function sources() {
     .map(({ source, publisher, report, report_url, license, tables }) => ({ source, publisher, report, report_url, license, tables }));
 }
 
+// Session 23: Automated Analysis (docs/analysis/, warehouse/analysis/run.py). Each week's chart of the week and
+// results, the template list, and the gallery index go into the bundle; the PNGs and the gallery charts are copied
+// to public/analysis-files/ so the pages and the Roundup's images can link them. None is not an error.
+const analysisDir = path.join(docs, "analysis");
+const analysis = { weeks: {}, results: {}, templates: [], gallery: { templates: [] } };
+const publicAnalysis = path.join(here, "..", "public", "analysis-files");
+fs.rmSync(publicAnalysis, { recursive: true, force: true });
+if (fs.existsSync(analysisDir)) {
+  for (const f of fs.readdirSync(analysisDir).sort()) {
+    const dir = path.join(analysisDir, f);
+    if (/^\d{4}-W\d{2}$/.test(f) && fs.existsSync(path.join(dir, "chart_of_the_week.json"))) {
+      analysis.weeks[f] = JSON.parse(read(path.join(dir, "chart_of_the_week.json")));
+      if (fs.existsSync(path.join(dir, "results.json"))) analysis.results[f] = JSON.parse(read(path.join(dir, "results.json")));
+    }
+  }
+  if (fs.existsSync(path.join(analysisDir, "templates.json"))) analysis.templates = JSON.parse(read(path.join(analysisDir, "templates.json"))).templates;
+  if (fs.existsSync(path.join(analysisDir, "gallery", "index.json"))) analysis.gallery = JSON.parse(read(path.join(analysisDir, "gallery", "index.json")));
+  fs.cpSync(analysisDir, publicAnalysis, {
+    recursive: true,
+    filter: (src) => fs.statSync(src).isDirectory() || /\.(png|json|txt)$/.test(src),
+  });
+}
+
 const out = {
   built_at: new Date().toISOString(),
+  analysis,
   sources: sources(),
   run_status_eia930: runStatus(),
   digests,
@@ -115,4 +139,4 @@ const out = {
 };
 fs.mkdirSync(path.join(here, "..", "content"), { recursive: true });
 fs.writeFileSync(path.join(here, "..", "content", "docs.json"), JSON.stringify(out));
-console.log(`build-content: ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard`);
+console.log(`build-content: ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard, ${Object.keys(analysis.weeks).length} analysis weeks`);

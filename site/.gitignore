@@ -45,3 +45,6 @@ next-env.d.ts
 
 # local screenshots are committed; the headless browser profile is not
 /.screenshot-profile/
+
+# session 23: copied from ../docs/analysis at build (scripts/build-content.mjs)
+/public/analysis-files/

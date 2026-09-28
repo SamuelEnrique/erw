@@ -74,7 +74,7 @@ def chart_of_the_week(label, log):
     L = [f"**{m['title']}**", "", f"![{m['title']}](../analysis/{label}/{m['files']['email']})", ""]
     if m.get("note"):
         L += [m["note"], ""]
-    L.append(f"Source: {m['source_line']}. Template `{m['template']}`; every template's latest run is on "
+    L.append(f"{m['source_line']} Template `{m['template']}`; every template's latest run is on "
              "[/analysis](/analysis).")
     return L
 

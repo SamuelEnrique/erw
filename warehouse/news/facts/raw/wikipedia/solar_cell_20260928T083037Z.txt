@@ -3,6 +3,7 @@
 # url: https://en.wikipedia.org/wiki/Solar_cell
 # revision: 1375385313
 # retrieved_at: 20260928T083037Z
+# note: em dashes in the source are stored as hyphens (session 23)
 
 A solar cell, also known as a photovoltaic cell (PV cell), is an electronic device that converts the energy of light directly into electricity by using the photovoltaic effect. It is a type of photoelectric cell, a device whose electrical characteristics (such as current, voltage, or resistance) vary when it is exposed to light. Individual solar cell devices are often the electrical building blocks of photovoltaic modules, known colloquially as "solar panels". Almost all commercial PV cells consist of crystalline silicon, with a market share of 95%. Cadmium telluride thin-film solar cells account for the remainder. The common single-junction silicon solar cell can produce a maximum open-circuit voltage of approximately 0.5 to 0.6 volts.
 Photovoltaic cells may operate under sunlight or artificial light. In addition to producing solar power, they can be used as a photodetector (for example infrared detectors), to detect light or other electromagnetic radiation near the visible light range, as well as to measure light intensity.
@@ -133,9 +134,9 @@ In 2017, a team of researchers at National Renewable Energy Laboratory (NREL), E
 Solar cells are typically named after the semiconducting material of which they are composed. These materials have varying characteristics to absorb optimal available sunlight spectrum. Some cells are designed to handle sunlight that reaches the Earth's surface, while others are optimized for use in space. Solar cells can be made of a single layer of light-absorbing material (single-junction) or use multiple physical configurations (multi-junctions) to take advantage of various absorption and charge separation mechanisms.
 Solar cells can be classified into first, second and third generation:
 
-First generation cells—also called conventional, traditional or wafer-based cells—are made of crystalline silicon, the commercially predominant PV technology, that includes materials such as polysilicon and monocrystalline silicon.
+First generation cells-also called conventional, traditional or wafer-based cells-are made of crystalline silicon, the commercially predominant PV technology, that includes materials such as polysilicon and monocrystalline silicon.
 Second generation cells are thin film solar cells, that include amorphous silicon, CdTe and CIGS cells and are commercially significant in utility-scale photovoltaic power stations, building integrated photovoltaics or in small stand-alone power system.
-Third generation of solar cells includes a number of thin-film technologies often described as emerging photovoltaics—most of them have not yet been commercially applied and are still in the research or development phase. Many use organic materials, often organometallic compounds as well as inorganic substances. Despite the fact that their efficiencies had been low and the stability of the absorber material was often too short for commercial applications, there is research into these technologies as they promise to achieve the goal of producing low-cost, high-efficiency solar cells.
+Third generation of solar cells includes a number of thin-film technologies often described as emerging photovoltaics-most of them have not yet been commercially applied and are still in the research or development phase. Many use organic materials, often organometallic compounds as well as inorganic substances. Despite the fact that their efficiencies had been low and the stability of the absorber material was often too short for commercial applications, there is research into these technologies as they promise to achieve the goal of producing low-cost, high-efficiency solar cells.
 As of 2016, the most popular and efficient solar cells were those made from thin wafers of silicon which are also the oldest solar cell technology.
 
 
@@ -170,11 +171,11 @@ In June 2015, it was reported that heterojunction solar cells grown epitaxially 
 
 ==== Polycrystalline silicon ====
 
-Polycrystalline silicon, or multicrystalline silicon (multi-Si) cells are made from cast square ingots—large blocks of molten silicon carefully cooled and solidified. They consist of small crystals giving the material its typical metal flake effect. Polysilicon cells are the most common type used in photovoltaics and are less expensive, but also less efficient, than those made from monocrystalline silicon.
+Polycrystalline silicon, or multicrystalline silicon (multi-Si) cells are made from cast square ingots-large blocks of molten silicon carefully cooled and solidified. They consist of small crystals giving the material its typical metal flake effect. Polysilicon cells are the most common type used in photovoltaics and are less expensive, but also less efficient, than those made from monocrystalline silicon.
 
 
 ==== Ribbon silicon ====
-Ribbon silicon is a type of polycrystalline silicon—it is formed by drawing flat thin films from molten silicon and results in a polycrystalline structure. These cells are cheaper to make than multi-Si, due to a great reduction in silicon waste, as this approach does not require sawing from ingots. However, they are also less efficient.
+Ribbon silicon is a type of polycrystalline silicon-it is formed by drawing flat thin films from molten silicon and results in a polycrystalline structure. These cells are cheaper to make than multi-Si, due to a great reduction in silicon waste, as this approach does not require sawing from ingots. However, they are also less efficient.
 
 
 ==== Mono-like-multi silicon (MLM) ====

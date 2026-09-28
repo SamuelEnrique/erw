@@ -26,3 +26,5 @@ warehouse/output/*.csv
 # Session 9: run logs belong with the tables they describe; they stay out of git from now on
 # (logs committed before session 9 stay tracked).
 warehouse/output/logs/
+# Session 23: Automated Analysis results of internal templates (never published)
+warehouse/output/analysis_internal/

@@ -39,6 +39,8 @@ restore_before_run:
   - '^state_generation_mix_monthly$'
   # session 19: the trader view keeps days older than the price tables' windows
   - '^[a-z]+_trader_daily$'
+  # session 23: CAISO battery storage keeps its history (the connector pulls the last 30 days; the backfill reaches 2025-08)
+  - '^caiso_battery_storage$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.

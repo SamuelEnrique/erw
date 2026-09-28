@@ -1,0 +1,3 @@
+ERCOT HB_NORTH real-time prices: peak median 50.09 USD/MWh vs midday 30.11 and overnight 29.01 (2026-08-28 to 2026-09-26). Latest week's peak-minus-midday gap of 28.08 USD/MWh scores a robust z of 2.46 against its own history.
+
+Source: ERCOT via the Energy Research Warehouse (ERW), tables ercot_rtm_hub_prices, ercot_rtm_hub_prices_2025, ercot_rtm_hub_prices_2026; data retrieved to 2026-09-28.

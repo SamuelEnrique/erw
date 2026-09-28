@@ -3,6 +3,7 @@
 # url: https://en.wikipedia.org/wiki/Hubbert_peak_theory
 # revision: 1357544345
 # retrieved_at: 20260928T082943Z
+# note: em dashes in the source are stored as hyphens (session 23)
 
 The Hubbert peak theory says that for any given geographical area, from an individual oil-producing region to the planet as a whole, the rate of petroleum production tends to follow a bell-shaped curve. It is one of the primary theories on peak oil.
 Choosing a particular curve determines a point of maximum production based on discovery rates, production rates, and cumulative production. Early in the curve (pre-peak), the production rate increases due to the discovery rate and the addition of infrastructure. Late in the curve (post-peak), production declines because of resource depletion.
@@ -220,7 +221,7 @@ The assumption of inevitable declining volumes of oil and gas produced per unit 
 Insofar as economic growth is driven by oil consumption growth, post-peak societies must adapt. Hubbert believed:
 
 Our principal constraints are cultural. During the last two centuries, we have known nothing but exponential growth and in parallel, we have evolved what amounts to an exponential-growth culture, a culture so heavily dependent upon the continuance of exponential growth for its stability that it is incapable of reckoning with problems of non-growth. 
-Some economists describe the problem as uneconomic growth or a false economy. At the political right, Fred Ikle has warned about "conservatives addicted to the Utopia of Perpetual Growth". Brief oil interruptions in 1973 and 1979 markedly slowed—but did not stop—the growth of world GDP.
+Some economists describe the problem as uneconomic growth or a false economy. At the political right, Fred Ikle has warned about "conservatives addicted to the Utopia of Perpetual Growth". Brief oil interruptions in 1973 and 1979 markedly slowed-but did not stop-the growth of world GDP.
 Between 1950 and 1984, as the Green Revolution transformed agriculture around the globe, world grain production increased by 250%. The energy for the Green Revolution was provided by fossil fuels in the form of fertilizers (natural gas), pesticides (oil), and hydrocarbon fueled irrigation.
 David Pimentel, professor of ecology and agriculture at Cornell University, and Mario Giampietro, senior researcher at the National Research Institute on Food and Nutrition (INRAN), in their 2003 study Food, Land, Population and the U.S. Economy, placed the maximum U.S. population for a sustainable economy at 200 million (actual population approx. 290m in 2003, 329m in 2019). To achieve a sustainable economy world population will have to be reduced by two-thirds, says the study. Without population reduction, this study predicts an agricultural crisis beginning in 2020, becoming critical c. 2050. The peaking of global oil along with the decline in regional natural gas production may precipitate this agricultural crisis sooner than generally expected. Dale Allen Pfeiffer claims that coming decades could see spiraling food prices without relief and massive starvation on a global level such as never experienced before.
 

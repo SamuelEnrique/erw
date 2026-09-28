@@ -3,6 +3,7 @@
 # url: https://en.wikipedia.org/wiki/British_thermal_unit
 # revision: 1375040514
 # retrieved_at: 20260928T083056Z
+# note: em dashes in the source are stored as hyphens (session 23)
 
 The British thermal unit (Btu) is a unit of measure of heat, which is a form of energy. It was originally defined as the amount of heat required to raise the temperature of one pound of water by one degree Fahrenheit. It is also part of the United States customary units. In terms of joules (J), the SI unit for energy, one Btu equals about 1,055 J (varying within the range of 1,054–1,060 J depending on the specific definition of Btu; see below).
 While units of heat are often supplanted by units of energy in scientific work, they are still used in some fields. For example, in the United States the price of natural gas is quoted in dollars per the amount of natural gas that would give 1 million Btu (1 "MMBtu") of heat energy if burned.
@@ -64,7 +65,7 @@ Another legacy unit for energy in the metric system is the calorie, which is def
 
 
 === Btu/h ===
-The SI unit of power for heating and cooling systems is the watt. Btu per hour (Btu/h) is sometimes used in North America and the United Kingdom—the latter for air conditioning mainly, though "Btu/h" is sometimes abbreviated to just "Btu". MBH—thousands of Btu per hour—is also common.
+The SI unit of power for heating and cooling systems is the watt. Btu per hour (Btu/h) is sometimes used in North America and the United Kingdom-the latter for air conditioning mainly, though "Btu/h" is sometimes abbreviated to just "Btu". MBH-thousands of Btu per hour-is also common.
 
 1 W is approximately 3.412142 Btu/h
 1,000 Btu/h is approximately 0.2931 kW

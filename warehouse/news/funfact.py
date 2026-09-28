@@ -77,7 +77,7 @@ COLS = ["fact_id", "created_at", "kind", "fact", "second", "structure", "conject
         "reason", "used_on", "key"]
 STRUCTURES = ["none", "scale", "on_this_day", "etymology", "cross_field", "pun"]
 HEDGE = re.compile(r"\b(perhaps|might|may have|may be|possibly|probably|it is tempting|one guess|could be|arguably)\b", re.I)
-EM = "—"
+EM = chr(0x2014)  # the em dash, which no file here may hold (CLAUDE.md, non-negotiable 2)
 
 # Stored sources for history, quirk and etymology facts: Wikipedia articles (plain-text extracts through
 # the MediaWiki API; several hold an etymology) and EIA's history pages.
@@ -224,6 +224,10 @@ def save_raw(sub, name, text, meta):
     os.makedirs(d, exist_ok=True)
     slug = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")[:60]
     path = os.path.join(d, f"{slug}_{stamp}.txt")
+    # the repository holds no em dash (CLAUDE.md, non-negotiable 2): one in the source is stored as a hyphen,
+    # which the span check reads the same way (norm() treats both as "-")
+    meta = dict(meta, note="em dashes in the source are stored as hyphens")
+    text = text.replace(EM, "-")
     head = "".join(f"# {k}: {v}\n" for k, v in meta.items()) + f"# retrieved_at: {stamp}\n\n"
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write(head + text)

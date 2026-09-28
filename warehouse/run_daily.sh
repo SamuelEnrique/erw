@@ -129,6 +129,9 @@ run_other portwatch "$PYTHON" warehouse/connectors/portwatch.py
 # (docs/methods/curtailment.md)
 run_other curtailment "$PYTHON" warehouse/connectors/curtailment.py
 run_other iso_curtailment_monthly "$PYTHON" warehouse/derived/iso_curtailment_monthly.py
+# Session 23: CAISO battery storage output (Today's Outlook, 5-minute), the last 30 days, for the Automated
+# Analysis template storage_evening_peak (EIA-930 carries no battery series)
+run_other caiso_outlook "$PYTHON" warehouse/connectors/caiso_outlook.py
 
 # Session 8 entities. EIA-860M generator inventory: runs every day, writes only when EIA's
 # newest published monthly vintage differs from the one in the tables (a monthly cadence).

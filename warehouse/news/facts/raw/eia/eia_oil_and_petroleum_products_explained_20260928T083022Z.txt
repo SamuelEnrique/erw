@@ -1,6 +1,7 @@
 # source: U.S. Energy Information Administration (public domain)
 # url: https://www.eia.gov/energyexplained/oil-and-petroleum-products/
 # retrieved_at: 20260928T083022Z
+# note: em dashes in the source are stored as hyphens (session 23)
 
 Oil and petroleum products explained - U.S. Energy Information Administration (EIA)
 Oil and petroleum products explained
@@ -268,12 +269,12 @@ Use of oil
 Prices and outlook
 Oil and the environment
 Learn more
-United States Geological Survey—Energy Resources
+United States Geological Survey-Energy Resources
 Articles on crude oil
 Articles on oil/petroleum refining
 Also on Energy Explained
 Where our oil comes from
-Refining crude oil—Inputs and outputs
+Refining crude oil-Inputs and outputs
 Gasoline
 Diesel fuel
 Heating oil
