@@ -3,16 +3,16 @@ import Link from "next/link";
 import { DOCS, render, weeklyWeeks } from "@/lib/markdown";
 
 export const revalidate = 3600;
-export const metadata: Metadata = { title: "Energy Roundup" };
+export const metadata: Metadata = { title: "ERW's Roundup" };
 
-// Session 17: the weekly brief (platform tool 14), "Energy Week" on Mondays. Session 23: the Energy Roundup,
+// Session 17: the weekly brief (platform tool 14), "Energy Week" on Mondays. Session 23: ERW&apos;s Roundup,
 // written and sent on Sundays at 23:00 UTC by warehouse/news/roundup.py; /weekly redirects here.
 export default function RoundupIndex() {
   const weeks = weeklyWeeks();
   if (weeks.length === 0) {
     return (
       <>
-        <h1 className="mb-2 text-3xl">Energy Roundup</h1>
+        <h1 className="mb-2 text-3xl">ERW&apos;s Roundup</h1>
         <p className="text-sm text-muted">no data: no Roundup is committed in docs/roundup/ yet.</p>
       </>
     );
@@ -32,7 +32,7 @@ export default function RoundupIndex() {
           ))}
         </ul>
         <p className="mt-3 text-xs text-muted">
-          The Energy Roundup is written and sent on Sundays at 23:00 UTC (4 PM Pacific) and covers Monday to Sunday, opening with the
+          ERW&apos;s Roundup is written and sent on Sundays at 23:00 UTC (4 PM Pacific) and covers Monday to Sunday, opening with the
           weekend&apos;s stories; it is committed to <code className="font-mono">docs/roundup/</code>. Until session 23 the weekly brief was
           Energy Week, on Mondays (<code className="font-mono">docs/weekly/</code>). The daily digest, Monday to Friday, is at{" "}
           <Link href="/digest">/digest</Link>; the chart of the week is on <Link href="/analysis">/analysis</Link>.

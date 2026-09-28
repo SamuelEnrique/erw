@@ -96,15 +96,21 @@ def echarts(spec):
 
 
 def _mark(fig, x, y, h):
-    """The ERW mark at figure coordinates (x, y) = its top right corner, h = its height in figure units."""
-    from matplotlib.patches import Rectangle
+    """The ERW mark (docs/brand/erw-mark.svg, session 25) at figure coordinates (x, y) = its top right corner, h = its
+    height in figure units: a cardinal square whose white stem and three bars (14, 11 and 17 of 32 units) make an E
+    that is also a bar chart, with "ERW" in Georgia to its left."""
+    from matplotlib.patches import FancyBboxPatch, Rectangle
     w_px, h_px = fig.get_size_inches() * fig.dpi
     w = h * h_px / w_px
-    fig.patches.append(Rectangle((x - w, y - h), w, h, transform=fig.transFigure, color=ACCENT, zorder=5))
+    u, v = w / 32, h / 32  # one unit of the 32 by 32 SVG grid, across and down
+    fig.patches.append(FancyBboxPatch((x - w, y - h), w, h, boxstyle=f"round,pad=0,rounding_size={3 * v}",
+                                      transform=fig.transFigure, color=ACCENT, zorder=5, mutation_aspect=w_px / h_px))
+    for rx, ry, rw, rh in ((8, 7, 3, 18), (8, 7, 14, 3), (8, 14, 11, 3), (8, 22, 17, 3)):
+        fig.patches.append(Rectangle((x - w + rx * u, y - (ry + rh) * v), rw * u, rh * v, transform=fig.transFigure,
+                                     color="#FFFFFF", zorder=6, linewidth=0))
     size = h * h_px * 0.62 * 72 / fig.dpi
-    fig.text(x - w / 2, y - h * 0.52, "E", ha="center", va="center", color=PAPER, family=SERIF, fontsize=size, zorder=6)
     fig.text(x - w - 0.006, y - h / 2, "ERW", ha="right", va="center", color=ACCENT, family=SERIF,
-             fontsize=size * 0.9, weight="bold")
+             fontsize=size * 0.9)
 
 
 def png(spec, path, size="email"):

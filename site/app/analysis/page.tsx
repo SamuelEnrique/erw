@@ -31,7 +31,7 @@ export default function AnalysisPage() {
         Ten chart templates run on the warehouse every week; a fixed rule picks the chart of the week, the result that stands furthest from
         its own history. Every chart names its tables, and every number in a note is checked against the template&apos;s output.
       </p>
-      <Section title={`Chart of the week, ${week}`} aside={<Link href={`/analysis/${week}`}>This week&apos;s page</Link>}>
+      <Section title={`ERW's Chart of the Week, ${week}`} aside={<Link href={`/analysis/${week}`}>This week&apos;s page</Link>}>
         <ChartOfWeekView c={a.weeks[week]} />
       </Section>
       {res ? (

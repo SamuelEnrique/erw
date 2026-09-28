@@ -54,6 +54,8 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "chat"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "news"))
 import iso_prices as ip  # noqa: E402
 import templates  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+from voice import VOICE_NOTE  # noqa: E402  session 25: docs/voice.md
 from common import NoData, nodes  # noqa: E402
 
 DOCS = os.path.join(ROOT, "docs", "analysis")
@@ -113,7 +115,7 @@ Research Warehouse, the live, citable record of the US energy system.
   written in the facts and the headline, exactly as written; compute nothing new, round nothing.
 - caption: one or two sentences for a social post, at most 240 characters, the same rule for numbers, no hashtags,
   no emoji, no hype, no advice.
-- No em dashes. Return JSON with the fields note and caption."""
+- No em dashes. Return JSON with the fields note and caption.""" + VOICE_NOTE
 NOTE_SCHEMA = {"type": "object", "properties": {"note": {"type": "string"}, "caption": {"type": "string"}},
                "required": ["note", "caption"], "additionalProperties": False}
 

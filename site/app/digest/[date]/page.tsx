@@ -13,7 +13,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/digest/[date]">): Promise<Metadata> {
   const { date } = await params;
-  return { title: DOCS.digests[date] || !isWeekend(date) ? `Energy Digest, ${date}` : `No weekend issue, ${date}` };
+  return { title: DOCS.digests[date] || !isWeekend(date) ? `ERW's Energy Digest, ${date}` : `No weekend issue, ${date}` };
 }
 
 export default async function DigestDay({ params }: PageProps<"/digest/[date]">) {
@@ -29,7 +29,7 @@ export default async function DigestDay({ params }: PageProps<"/digest/[date]">)
         <p className="mb-4 text-sm"><Link href="/digest">Archive</Link></p>
         <h1 className="mb-2 text-3xl">No weekend issue</h1>
         <p className="max-w-prose">
-          {day} {date}: the Energy Digest is written Monday to Friday. The weekend&apos;s top stories open the Energy Roundup for {week},
+          {day} {date}: ERW&apos;s Energy Digest is written Monday to Friday. The weekend&apos;s top stories open ERW&apos;s Roundup for {week},
           written and sent on Sunday at 23:00 UTC (4 PM Pacific){" "}
           {weeklyWeeks().includes(week) ? <Link href={`/roundup/${week}`}>(read it)</Link> : <>(not written yet; <Link href="/roundup">all Roundups</Link>)</>}.
         </p>

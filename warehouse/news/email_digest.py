@@ -57,10 +57,10 @@ RAW = "https://raw.githubusercontent.com/SamuelEnrique/erw/main"  # images in th
 RESEND = "https://api.resend.com/emails"
 SITE_DEFAULT = "https://erw-flame.vercel.app"  # the deployed site README.md links; SITE_URL overrides it
 TOP_HEADS = ("## Top of the industry", "## The five stories of the week")
-NUM_HEADS = ("## Numbers today", "## Numbers of the week")
+NUM_HEADS = ("## ERW's Numbers Today", "## ERW's Numbers This Week", "## Numbers today", "## Numbers of the week")
 LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 IMAGE = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
-KINDS = {"daily": ("Energy Digest", "digest", DIGEST), "roundup": ("Energy Roundup", "roundup", ROUNDUP)}
+KINDS = {"daily": ("ERW's Energy Digest", "digest", DIGEST), "roundup": ("ERW's Roundup", "roundup", ROUNDUP)}
 SUB_COLUMN = {"daily": "daily", "roundup": "weekly"}  # the subscribers column (migration 006 named the Roundup opt-in weekly)
 
 
@@ -82,7 +82,7 @@ def section(lines, heads):
         if ln.strip() in heads:
             on = True
             continue
-        if on and (ln.startswith("## ") or ln.strip() == "---"):
+        if on and (ln.startswith("## ") or ln.strip() in ("---", "ERW")):  # session 25: "ERW" signs the brief
             break
         if on:
             out.append(ln)
@@ -186,6 +186,19 @@ def story_list(stories):
 
 
 H2 = "<h2 style=\"font-size:16px;margin:16px 0 8px\">{}</h2>"
+# session 25: the ERW wordmark (site/app/icon.svg, docs/brand/erw-wordmark.svg) drawn in HTML: mail clients strip inline
+# SVG and block data URIs, so the mark is a cardinal square whose white stem and three bars of 14, 11 and 17 units make
+# an E that is also a bar chart, beside "ERW" in Georgia
+WORDMARK_HTML = (
+    "<table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 0 12px\"><tr>"
+    "<td style=\"width:32px;height:32px;background:#8C1515;border-radius:3px;padding:0\">"
+    "<div style=\"position:relative;width:32px;height:32px\">"
+    "<div style=\"position:absolute;left:8px;top:7px;width:3px;height:18px;background:#FFFFFF\"></div>"
+    "<div style=\"position:absolute;left:8px;top:7px;width:14px;height:3px;background:#FFFFFF\"></div>"
+    "<div style=\"position:absolute;left:8px;top:14px;width:11px;height:3px;background:#FFFFFF\"></div>"
+    "<div style=\"position:absolute;left:8px;top:22px;width:17px;height:3px;background:#FFFFFF\"></div>"
+    "</div></td><td style=\"padding-left:8px;font-family:Georgia,serif;font-size:20px;color:#8C1515;letter-spacing:1px\">ERW</td>"
+    "</tr></table>")
 SMALL = "<div style=\"font-size:13px;font-family:system-ui,sans-serif\">{}</div>"
 
 
@@ -210,7 +223,7 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     head = "Top 5 of the day" if kind == "daily" else "The five stories of the week"
     if note:  # session 23: a subscriber's topic filter
         head = "Top stories in your topics" if kind == "daily" else "Stories of the week in your topics"
-    t, h = [title, ""], [f"<h1 style=\"font-size:22px;margin:0 0 12px\">{html.escape(title)}</h1>"]
+    t, h = [title, ""], [WORDMARK_HTML, f"<h1 style=\"font-size:22px;margin:0 0 12px\">{html.escape(title)}</h1>"]
     if kind == "roundup":  # session 23: the weekend's stories open the Roundup
         wk = numbered(lines, ("## Weekend",), 5)
         wt, wh = story_list(wk)
@@ -219,21 +232,25 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     st, sh = story_list(stories)
     t += [head, ""] + ([note, ""] if note else []) + st
     h += [H2.format(head)] + ([SMALL.format(f"<p style=\"color:#6B665E\">{html.escape(note)}</p>")] if note else []) + [sh]
-    t += ["", "Numbers" if kind == "daily" else "Numbers of the week", ""] + num_text
-    h += [H2.format("Numbers" if kind == "daily" else "Numbers of the week"), SMALL.format(num_html)]
+    nh = "ERW's Numbers Today" if kind == "daily" else "ERW's Numbers This Week"
+    t += ["", nh, ""] + num_text
+    h += [H2.format(nh), SMALL.format(num_html)]
     # session 23: the Fun fact (daily) and the Chart of the week (Roundup), as the brief wrote them
-    for heading in ("## Policy of the week", "## Chart of the week", "## Fun fact"):  # session 24: policy
-        body = [site_links(x, site or SITE_DEFAULT) for x in section(lines, (heading,))]
+    # session 24: policy; session 25: the ERW's names (the old ones still read, for briefs written before)
+    for heading, old in (("## ERW's Policy of the Week", "## Policy of the week"), ("## ERW's Chart of the Week", "## Chart of the week"),
+                         ("## ERW's Fun Fact", "## Fun fact")):
+        body = [site_links(x, site or SITE_DEFAULT) for x in section(lines, (heading, old))]
         if any(x.strip() for x in body):
             bt, bh = block(body, img_base=f"docs/{rel}")
             t += ["", heading[3:], ""] + bt
             h += [H2.format(heading[3:]), SMALL.format(bh)]
-    t += ["", f"The whole {name}: {page}", f"How this is made: {how}",
+    t += ["", "ERW", "", f"All of {name}: {page}", f"How this is made: {how}",
           "ERW, the live, citable record of the US energy system. Every number names the table it came from."]
     if unsubscribe:
         t.append(f"Stop these emails: {unsubscribe}")
+    h.append("<p style=\"font-family:Georgia,serif;font-size:15px;margin:16px 0 4px\">ERW</p>")
     h.append(f"<p style=\"font-size:13px;font-family:system-ui,sans-serif;margin-top:16px\"><a href=\"{html.escape(page)}\">"
-             f"The whole {name}</a>. <a href=\"{html.escape(how)}\">How this is made</a>. "
+             f"All of {html.escape(name)}</a>. <a href=\"{html.escape(how)}\">How this is made</a>. "
              "ERW, the live, citable record of the US energy system. Every number names the table it came from.</p>")
     if unsubscribe:
         h.append("<p style=\"font-size:12px;font-family:system-ui,sans-serif;color:#6B665E\">"

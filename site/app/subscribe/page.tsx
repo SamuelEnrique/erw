@@ -16,7 +16,7 @@ const STATES: Record<string, string> = {
   notopic: "Choose at least one topic. Nothing was stored.",
   invalid: "That does not look like an email address. Nothing was stored.",
   error: "The address could not be stored just now. Nothing was stored; please try again later.",
-  none: "Choose the daily digest, the Energy Roundup, or both. Nothing was stored.",
+  none: "Choose the daily digest, ERW's Roundup, or both. Nothing was stored.",
 };
 
 export default async function SubscribePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
@@ -26,7 +26,7 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
     <>
       <h1 className="mb-1 text-3xl">Email</h1>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        The Energy Digest and the Energy Roundup by email, as short plain text with an HTML copy.
+        ERW&apos;s Energy Digest and ERW&apos;s Roundup by email, as short plain text with an HTML copy.
       </p>
       <Section title="What the email is">
         <ul className="max-w-3xl list-disc space-y-1 pl-5 text-sm">
@@ -36,7 +36,7 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             the latest Henry Hub, WTI and Brent closes, and a fun fact.
           </li>
           <li>
-            <strong>Sundays, 4 PM Pacific:</strong> the <Link href="/roundup">Energy Roundup</Link>: the weekend&apos;s stories, the five stories of the week, the week&apos;s numbers and the chart of the week.
+            <strong>Sundays, 4 PM Pacific:</strong> the <Link href="/roundup">ERW&apos;s Roundup</Link>: the weekend&apos;s stories, the five stories of the week, the week&apos;s numbers and the chart of the week.
           </li>
           <li>
             Every number comes from the warehouse and names its table, as on this site. The email links back to the site for everything else.
@@ -64,7 +64,7 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
               <input type="checkbox" name="daily" defaultChecked /> the daily Energy Digest
             </label>
             <label className="flex items-center gap-1">
-              <input type="checkbox" name="weekly" /> the Energy Roundup, on Sundays
+              <input type="checkbox" name="weekly" /> ERW&apos;s Roundup, on Sundays
             </label>
           </fieldset>
           <fieldset className="grid w-full grid-cols-1 gap-x-4 gap-y-1 text-sm sm:grid-cols-2">

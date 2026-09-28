@@ -1,0 +1,49 @@
+ERW's Energy Digest, 2026-09-28
+
+Top 5 of the day
+
+1. EPA rollback would add 123 million more tons of CO2 from power plants
+   Federal deregulation removing emissions limits reshapes coal and gas plant economics nationwide. parties: EPA.
+   OilPrice.com: https://oilprice.com/Energy/Energy-General/EPA-Power-Plant-Rollback-To-Add-123-Million-More-Tons-of-CO2.html
+2. EU may delay methane reporting rules by a year for oil and gas importers
+   Regulatory delay affects compliance costs and energy security for gas importers. parties: European Union.
+   Rigzone: https://www.rigzone.com/news/wire/eu_may_delay_methane_rules_for_a_year-27-sep-2026-184709-article/?rss=true
+3. Oil futures extend losses on hopes for diplomacy
+   Oil price move signals easing geopolitical risk premium for traders.
+   WSJ: https://news.google.com/rss/articles/CBMiuwFBVV95cUxOX18zWFFlLU9KY3hfdXh1TEd5d0J6ZGxfQmpqeTFwVktyMElndlJvRDU4TzFJWUFEdFJQSC05NmVMeGp6RVA0clhyOXQ5N0M5NjhiNDQtOFVIQWpRQ2o0R2JNSWN6eU1aRUNjNXV1a1FkYkxMODE1Y3hldlJfaUU1OHJ1c0JpUHFFcE1ZTGxZOGU2NlYyWVltc3lUTFVkTzBIQjFiU2pWaHFhOWJjV09NU1Z6LTJVLS0zX0Nj?oc=5
+4. Utilities face reality check as speculative data center requests are questioned
+   Utilities slow-walking speculative data center power requests affects load growth forecasts.
+   OilPrice.com: https://oilprice.com/Energy/Energy-General/The-AI-Data-Center-Boom-Faces-a-New-Reality-Check.html
+5. China weighs letting ByteDance and Alibaba buy new Nvidia chips
+   Chip access changes could accelerate AI compute buildout and associated power demand in China. parties: ByteDance; Alibaba; Nvidia; China.
+   Reuters: https://news.google.com/rss/articles/CBMi2AFBVV95cUxPX0pMdFpwUWhaRHhFM1pvcndCTDdIX1NOQUVwV2JIX0xIcXByV3Z4UWQyblZRVWl5elZ0TkYxV3BXUEluN0llM0VnUDJvVmN4X19pcXJVX0tSNDdEUWdaNGFFVVQ3N01VaWJHQ1FXVEdVZTJJcDFvZlJ0QmE0b2JpeGM4RDdBMDh4YmNxRkhILVJDRGktQzRPdGNsV2VxWHBjZWt0Q3hRN2FwZWlhcDhMcUZ0LUJsS1FoWGVQUG1PVWp4cEpCcEtVdUJVRVQ4cjZxVUxjM1lDWFM?oc=5
+
+ERW's Numbers Today
+
+Day-ahead power on 2026-09-27 was dearest at ERCOT's HB_NORTH, 43.54 USD/MWh, and cheapest at ISO-NE's .H.INTERNAL_HUB, 32.85 USD/MWh, with CAISO, NYISO, MISO and SPP hubs in between. No PJM price table was available and no real-time table covers yesterday. Latest EIA fuel closes for 2026-09-22 show Henry Hub natural gas at 2.90 USD/MMBtu, WTI Cushing crude at 96.41 USD/bbl and Brent crude at 114.89 USD/bbl.
+Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
+  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-09-27; Average USD/MWh: 43.54; Table: [1]
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-09-27; Average USD/MWh: 40.00; Table: [2]
+  ISO: NYISO; Hub or zone: N.Y.C.; Operating day: 2026-09-27; Average USD/MWh: 38.17; Table: [3]
+  ISO: MISO; Hub or zone: INDIANA.HUB; Operating day: 2026-09-27; Average USD/MWh: 36.32; Table: [4]
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-09-27; Average USD/MWh: 37.90; Table: [5]
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-09-27; Average USD/MWh: 32.85; Table: [6]
+  ISO: PJM; Average USD/MWh: no PJM price table (no API key)
+Highest real-time price, yesterday: no real-time table covers yesterday.
+Latest fuel spot closes (EIA, trading dates):
+- Henry Hub natural gas: 2.90 USD/MMBtu on 2026-09-22 [7]
+- WTI Cushing crude: 96.41 USD/bbl on 2026-09-22 [7]
+- Brent crude: 114.89 USD/bbl on 2026-09-22 [7]
+Tables: [1] ercot_dam_hub_prices (ercot:NP4-190-CD); [2] caiso_dam_hub_prices (caiso:PRC_LMP); [3] nyiso_dam_zone_prices (nyiso:damlbmp); [4] miso_dam_hub_prices (miso:da_expost_lmp); [5] spp_dam_hub_prices (spp:DA-LMP-SL); [6] isone_dam_zone_prices (isone:da_lmp_hourly); [7] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+ERW's Fun Fact
+
+The Northeast Blackout of 2003 was caused when overgrown trees touched high-voltage power lines, leaving around 55 million people in the U.S. and Canada without power.
+Sources: Wikipedia, Power outage (https://en.wikipedia.org/wiki/Power_outage).
+
+ERW
+
+All of ERW's Energy Digest: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-09-28.md
+How this is made: https://erw-flame.vercel.app/about#digest
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.

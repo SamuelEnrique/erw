@@ -12,7 +12,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps<"/analysis/[week]">): Promise<Metadata> {
-  return { title: `Chart of the week, ${(await params).week}` };
+  return { title: `ERW's Chart of the Week, ${(await params).week}` };
 }
 
 export default async function AnalysisWeek({ params }: PageProps<"/analysis/[week]">) {
@@ -23,9 +23,9 @@ export default async function AnalysisWeek({ params }: PageProps<"/analysis/[wee
     <>
       <p className="mb-4 flex gap-4 text-sm">
         <Link href="/analysis">Automated Analysis</Link>
-        <Link href={`/roundup/${week}`}>The Energy Roundup, {week}</Link>
+        <Link href={`/roundup/${week}`}>ERW&apos;s Roundup, {week}</Link>
       </p>
-      <h1 className="mb-4 text-3xl">Chart of the week, {week}</h1>
+      <h1 className="mb-4 text-3xl">ERW&apos;s Chart of the Week, {week}</h1>
       <ChartOfWeekView c={c} />
     </>
   );

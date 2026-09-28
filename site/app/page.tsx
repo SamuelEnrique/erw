@@ -147,7 +147,7 @@ function Digest() {
         ))}
       </ol>
       <p className="text-sm">
-        <Link href="/digest">The full digest ({digestTitle(DOCS.latest).replace(/^Energy Digest,\s*/, "")}) and the archive</Link>
+        <Link href="/digest">The full digest ({digestTitle(DOCS.latest).replace(/^(?:ERW's )?Energy Digest,\s*/, "")}) and the archive</Link>
       </p>
     </>
   );
@@ -216,10 +216,10 @@ export default async function Home() {
       </Section>
 
       <Section
-        title="Energy Digest"
+        title="ERW's Energy Digest"
         aside={
           <>
-            <Link href="/digest">Archive</Link> <span className="text-muted">|</span> <Link href="/roundup">Energy Roundup</Link>
+            <Link href="/digest">Archive</Link> <span className="text-muted">|</span> <Link href="/roundup">ERW's Roundup</Link>
           </>
         }
       >

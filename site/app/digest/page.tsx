@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DOCS, archiveDays, digestDates, digestTitle, render } from "@/lib/markdown";
 
 export const revalidate = 3600;
-export const metadata: Metadata = { title: "Energy Digest" };
+export const metadata: Metadata = { title: "ERW's Energy Digest" };
 
 export default function DigestIndex() {
   const dates = digestDates();
@@ -22,7 +22,7 @@ export default function DigestIndex() {
         </ul>
         <p className="mt-3 text-xs text-muted">
           {dates.length} digests, written Monday to Friday at 14:00 UTC and committed to <code className="font-mono">docs/digest/</code>; the
-          weekend&apos;s stories open Sunday&apos;s <Link href="/roundup">Energy Roundup</Link>. {digestTitle(DOCS.digests[newest])} is shown here.
+          weekend&apos;s stories open Sunday&apos;s <Link href="/roundup">ERW&apos;s Roundup</Link>. {digestTitle(DOCS.digests[newest])} is shown here.
         </p>
       </aside>
     </div>

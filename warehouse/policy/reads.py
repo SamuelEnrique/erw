@@ -45,6 +45,8 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "news"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "chat"))
 import iso_prices as ip  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+from voice import VOICE_NOTE  # noqa: E402  session 25: docs/voice.md
 
 ACTIONS, NAME, EVID = "policy_actions", "policy_reads", "policy_reads_evidence"
 DONE = os.path.join(HERE, "read_done.csv")
@@ -68,7 +70,7 @@ Research Warehouse (ERW) and return a JSON object with five fields. Use only the
 - plain_read: text, exactly two plain-language sentences for a non-specialist.
 Every field has spans: one to three exact quotes copied character for character from the source text (each at most 300
 characters) that support it. A field the text does not support gets empty text and empty spans. No numbers that are not
-in its spans. No em dashes, no hype, no advice."""
+in its spans. No em dashes, no hype, no advice.""" + VOICE_NOTE
 SPANS = {"type": "array", "items": {"type": "string"}}
 SCHEMA = {"type": "object", "additionalProperties": False, "required": FIELDS, "properties": {
     "what_changes": {"type": "object", "additionalProperties": False, "required": ["text", "spans"],

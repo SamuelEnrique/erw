@@ -22,7 +22,7 @@ export default function About() {
         and a table derived from other tables takes the most restrictive license among them. Tables licensed for internal use only, such as PJM market
         data, stay in the warehouse and are never shown on this site.
       </p>
-      <h2 id="digest" className="mb-2 mt-6 text-xl">How the digest and the Energy Roundup are made</h2>
+      <h2 id="digest" className="mb-2 mt-6 text-xl">How the digest and ERW&apos;s Roundup are made</h2>
       <div className="mb-6 space-y-2 text-sm leading-relaxed">
         <p>
           <strong>Stories.</strong> The ERW reads energy news feeds (the outlets are listed in the source registry) and keeps each story&apos;s title,
@@ -46,7 +46,7 @@ export default function About() {
         </p>
         <p>
           <strong>Schedule.</strong> The digest covers the 24 hours before it is written, Monday to Friday at 14:00 UTC; there is no weekend issue.
-          The Energy Roundup covers an ISO week (Monday to Sunday, UTC), opens with the weekend&apos;s top stories, and is written and sent on Sundays at
+          ERW&apos;s Roundup covers an ISO week (Monday to Sunday, UTC), opens with the weekend&apos;s top stories, and is written and sent on Sundays at
           23:00 UTC (4 PM Pacific). It was called Energy Week, on Mondays, until session 23.
         </p>
         <p>

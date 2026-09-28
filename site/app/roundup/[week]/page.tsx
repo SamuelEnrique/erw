@@ -12,7 +12,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/roundup/[week]">): Promise<Metadata> {
   const { week } = await params;
-  const name = DOCS.weekly_source[week]?.startsWith("docs/weekly/") ? "Energy Week" : "Energy Roundup";
+  const name = DOCS.weekly_source[week]?.startsWith("docs/weekly/") ? "Energy Week" : "ERW's Roundup";
   return { title: `${name}, ${week}` };
 }
 

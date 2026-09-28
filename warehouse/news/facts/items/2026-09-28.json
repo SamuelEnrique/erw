@@ -1,19 +1,19 @@
 {
  "date": "2026-09-28",
- "fact_id": "ff_0193c461b9",
+ "fact_id": "ff_26ebba05e1",
  "kind": "history",
- "fact": "A U.S. 42-gallon barrel of crude oil yields about 45 gallons of petroleum products in U.S. refineries because of refinery processing gain.",
+ "fact": "The Northeast Blackout of 2003 was caused when overgrown trees touched high-voltage power lines, leaving around 55 million people in the U.S. and Canada without power.",
  "second": "",
  "structure": "none",
  "conjecture": "False",
  "sources": [
   {
-   "label": "EIA, Oil and petroleum products explained",
-   "url": "https://www.eia.gov/energyexplained/oil-and-petroleum-products/",
-   "raw": "warehouse/news/facts/raw/eia/eia_oil_and_petroleum_products_explained_20260928T083022Z.txt",
-   "retrieved_at": "20260928T083022Z",
+   "label": "Wikipedia, Power outage",
+   "url": "https://en.wikipedia.org/wiki/Power_outage",
+   "raw": "warehouse/news/facts/raw/wikipedia/power_outage_20260928T083028Z.txt",
+   "retrieved_at": "20260928T083028Z",
    "part": "fact",
-   "span": "A U.S. 42-gallon barrel of crude oil yields about 45 gallons of petroleum products in U.S. refineries because of refinery processing gain"
+   "span": "the \"Northeast Blackout of 2003\" was caused when overgrown trees touched high-voltage power lines. Around 55 million people in the U.S. and Canada lost power"
   }
  ]
 }

@@ -67,6 +67,8 @@ sys.path.insert(0, os.path.join(ROOT, "package", "src"))
 sys.path.insert(0, os.path.join(HERE, "..", "chat"))
 sys.path.insert(0, HERE)
 import iso_prices as ip  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+from voice import VOICE_NOTE  # noqa: E402  session 25: docs/voice.md
 
 FACTS = os.path.join(HERE, "facts")
 BANK = os.path.join(FACTS, "bank.csv")
@@ -460,7 +462,7 @@ Rules:
   none: leave second empty and second_spans empty.
   If the source text cannot support the requested structure, return second empty and second_spans empty.
 - conjecture: true only if the second sentence is a guess the source does not state; then it must be phrased as one (perhaps, might, may have). Prefer false.
-- No em dashes. No hype. Do not use facts that are not in the source text."""
+- No em dashes. No hype. Do not use facts that are not in the source text.""" + VOICE_NOTE
 DRAFT_SCHEMA = {"type": "object", "properties": {
     "fact": {"type": "string"}, "fact_spans": {"type": "array", "items": {"type": "string"}},
     "second": {"type": "string"}, "second_spans": {"type": "array", "items": {"type": "string"}},

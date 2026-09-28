@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import { Wordmark } from "@/components/Wordmark";
 import { Nav } from "@/components/Nav";
 import "./globals.css";
 
@@ -19,8 +20,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-screen bg-paper text-ink flex flex-col">
         <header className="border-b border-rule">
           <div className="mx-auto max-w-6xl px-4 py-3 flex flex-wrap items-baseline gap-x-6 gap-y-2">
-            <Link href="/" className="font-serif text-xl text-ink no-underline">
-              ERW
+            <Link href="/" className="self-center no-underline" aria-label="ERW, home">
+              <Wordmark />
             </Link>
             <Nav />
           </div>

@@ -22,7 +22,7 @@ async function sendConfirmation(email: string, origin: string, daily: boolean, w
   }
   const site = (process.env.SITE_URL || origin).replace(/\/$/, "");
   const link = `${site}/api/subscribe/confirm?e=${encodeURIComponent(email)}&t=${token}`;
-  const what = [daily ? "the weekday Energy Digest" : "", weekly ? "the Sunday Energy Roundup" : ""].filter(Boolean).join(" and ");
+  const what = [daily ? "ERW's weekday Energy Digest" : "", weekly ? "ERW's Sunday Roundup" : ""].filter(Boolean).join(" and ");
   const labels = TOPICS.filter((t) => topics.includes(t.id)).map((t) => t.label).join(", ");
   const text = `Confirm your ERW email subscription\n\nSomeone, probably you, asked to receive ${what} from the Energy Research Warehouse (ERW) at this address, with the top stories filtered to: ${labels}.\n\nConfirm: ${link}\n\nIf you did not ask for this, ignore this email: nothing will be sent until the link is followed.\n`;
   const html = `<!doctype html><html><body style="margin:0;padding:16px;background:#F7F3EA;color:#2E2D29;font-family:Georgia,serif"><div style="max-width:560px;margin:0 auto"><h1 style="font-size:20px">Confirm your ERW email subscription</h1><p style="font-family:system-ui,sans-serif;font-size:14px">Someone, probably you, asked to receive ${what} from the Energy Research Warehouse (ERW) at this address, with the top stories filtered to: ${labels}.</p><p style="font-family:system-ui,sans-serif;font-size:14px"><a href="${link}">Confirm the subscription</a></p><p style="font-family:system-ui,sans-serif;font-size:12px;color:#6B665E">If you did not ask for this, ignore this email: nothing will be sent until the link is followed.</p></div></body></html>`;
