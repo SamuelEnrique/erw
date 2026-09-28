@@ -140,3 +140,11 @@ Nothing is invented. Description, founders, stage and raised are left blank, and
 2. **Database size: 367.3 MB of 400 MB.** It rose about 33 MB between Task 2's load and Task 4's. This load rewrote rows of several tables (the weather tables among them), so dead rows are a likely part of it, not yet measured. Should the 90-day window shrink for some tables, or should dead rows be vacuumed, before the limit is reached?
 3. **Research the deal-seeded rows?** 265 companies wait for a description, stage and raised amount. A Thesis Builder pass per company would cost money. Which ones first: the most deals, or a sector?
 4. **Parties that are not names** ("a Leading Frontier AI Lab"). Keep them, or drop them from `energy_companies` while they stay in `energy_deals`?
+
+## After the report: prune and vacuum (run on a human's instruction)
+
+`python warehouse/supabase/load.py --prune --vacuum-full`, exit 0:
+
+- **Sources:** the stray `CTVC` row was deleted. Sources now match (151), as do the 65 live tables and the catalogue (113). No table had left the live set, so `--prune` deleted no table rows.
+- **VACUUM FULL:** series 286.5 MB to 223.6 MB, entities 57.9 MB to 31.8 MB, events 10.9 MB to 8.1 MB, headers 0.5 MB to 0.2 MB.
+- **`pg_database_size`:** 274.8 MB of 400 MB (it was 367.3 MB). Open questions 1 and 2 are answered.
