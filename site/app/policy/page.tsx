@@ -18,7 +18,7 @@ export default async function PolicyPage() {
   const now = renderTime();
   if (!a.ok) return <NoData what="policy actions" reason={a.reason} />;
   const reads = new Map((r.ok ? r.data : []).map((x) => [x.action_event_id, x]));
-  const rows: Row[] = a.data.map((x) => ({ ...x, read: reads.get(x.event_id) ?? null }));
+  const rows: Row[] = a.data.map((x) => ({ ...x, event_date: x.event_date.slice(0, 10), read: reads.get(x.event_id) ?? null }));
   const since = new Date(now - 7 * 86_400_000).toISOString().slice(0, 10);
   const week = rows.filter((x) => x.event_date >= since && Number(x.significance) >= 5).sort((p, q) => Number(q.significance) - Number(p.significance)).slice(0, 6);
   return (

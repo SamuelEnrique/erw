@@ -98,6 +98,9 @@ nyiso_interconnection_queue,NYISO,,1814,snapshot,2026-09-26T00:06:50Z,2026-09-26
 nyiso_rtm_zone_prices,NYISO,nyiso_rtm,11,PT15M,2026-08-26T04:00:00Z,2026-09-27T03:45:00Z,33792,nyiso:realtime,2026-09-28T03:46:39Z,pass,public,power,no
 nyiso_trader_daily,NYISO,nyiso,11,P1D,2026-08-26T00:00:00Z,2026-09-27T00:00:00Z,2717,erw:trader_view,2026-09-28T03:34:45Z,pass,public,power,yes
 pjm_rpm_capacity_prices,PJM,bra,18,P1Y,2007-06-01T00:00:00Z,2028-06-01T00:00:00Z,234,pjm:rpm-clearing-price-summary,2026-09-25T23:58:22Z,pass,internal,capacity,no
+policy_actions,none,,5,event,2025-10-01T00:00:00Z,2026-09-28T00:00:00Z,1819,5 outlets,2026-09-28T09:55:04Z,pass,public,news,no
+policy_reads,none,,1,event,2025-10-01T00:00:00Z,2026-09-25T00:00:00Z,226,1 outlets,2026-09-28T10:17:15Z,pass,public,news,no
+policy_reads_evidence,none,,1,event,2025-10-01T00:00:00Z,2026-09-25T00:00:00Z,1678,1 outlets,2026-09-28T10:17:15Z,pass,internal,news,no
 portwatch_chokepoint_transits,none,,3,P1D,2019-01-01T00:00:00Z,2026-09-20T00:00:00Z,118440,imf:portwatch-daily-chokepoints,2026-09-26T00:15:11Z,pass,internal,oil;lng,no
 rggi_auction_allowance_prices,none,,85,P3M,2008-09-25T00:00:00Z,2026-09-09T00:00:00Z,304,rggi:prices-volumes,2026-09-25T23:58:24Z,pass,internal,carbon,no
 spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-09-26T00:00:00Z,38040,spp:ver_curtailments,2026-09-27T08:42:33Z,pass,public,power,no
@@ -106,3 +109,5 @@ spp_interconnection_queue,SPP,,3076,snapshot,2026-09-26T00:06:53Z,2026-09-26T00:
 spp_rtm_hub_prices,SPP,spp_rtm,2,PT15M,2026-09-24T05:00:00Z,2026-09-27T04:45:00Z,576,spp:RTBM-LMP-SL,2026-09-28T03:47:20Z,pass,public,power,no
 spp_trader_daily,SPP,spp,2,P1D,2026-08-26T00:00:00Z,2026-09-27T00:00:00Z,246,erw:trader_view,2026-09-28T03:34:45Z,pass,public,power,yes
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,107560,erw:generation_mix,2026-09-27T10:10:23Z,pass,public,power,yes
+weather_forecast_hourly,weather,,6,PT1H,2026-09-28T09:00:00Z,2026-10-04T21:00:00Z,1872,nws:forecast_hourly,2026-09-28T10:03:27Z,pass,public,power,no
+weather_obs_hourly,weather,,7,PT1H,2026-09-21T09:00:00Z,2026-09-28T09:00:00Z,2346,nws:observations,2026-09-28T10:03:27Z,pass,public,power,no

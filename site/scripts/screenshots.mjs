@@ -55,6 +55,8 @@ const PAGES = [
   ["digest-weekend", "/digest/2026-10-03"],
   ["analysis", "/analysis"],
   ["analysis-week", "/analysis/2026-W39"],
+  // session 24
+  ["policy", "/policy"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],

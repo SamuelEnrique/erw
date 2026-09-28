@@ -197,6 +197,21 @@ day-ahead tables running into tomorrow:
   (warehouse/news/facts/), and on Sundays at 23:00 UTC the weekly brief, the
   Energy Roundup (docs/roundup/YYYY-Www.md; the site's /roundup; until session
   23 it was Energy Week on Mondays, docs/weekly/, and /weekly redirects).
+**Policy** (session 24, public): policy_actions, one row per energy rule,
+  proposed rule or notice in the Federal Register (DOE, FERC, EPA, NRC, BLM,
+  Interior; EPA, BLM and Interior only on energy subjects) and per news release
+  of NRC, DOE, the Texas PUC and the CPUC, since 2025-10-01: agency,
+  action_type, title, docket (docket ids and RINs), sector_tags, states, links
+  to the news stories that report it, and significance (0 to 10, the news
+  rubric). policy_reads: impact reads of actions scored 5 or more (what
+  changes, affected sectors, ISOs and states, direction of effect on supply,
+  demand, prices and buildout, timeline, a plain read); a blank field was
+  dropped because its quoted words were not in the action's own text.
+**Weather** (session 24, public): weather_obs_hourly (observed, the NWS API
+  keeps about 7 days, the table grows daily) and weather_forecast_hourly (the
+  latest 7-day hourly forecast): temperature_f (degF) and wind_speed_mph at one
+  airport per ISO load center (entity nws:<station>, node the ISO: ERCOT KDFW,
+  CAISO KLAX, NYISO KLGA, ISO-NE KBOS, PJM KPHL, MISO KIND, SPP KOKC).
 **Batteries** (session 23, public): caiso_battery_storage, CAISO's own Today's
   Outlook battery output, 5-minute, MW (positive discharge, negative charging),
   from 2025-08. EIA-930 has no battery series for any ISO in the warehouse.
@@ -228,6 +243,8 @@ day-ahead tables running into tomorrow:
 | Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `<iso>_trader_daily`, `iso_rt_top_intervals` |
 | Wind and solar curtailment | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (not curtailment: output below HSL), `iso_curtailment_monthly` |
 | Battery output (CAISO) | `caiso_battery_storage` |
+| Federal rules, notices, agency and PUC news releases; their impact | `policy_actions`, `policy_reads` |
+| Temperature or wind at an ISO load center, observed or forecast | `weather_obs_hourly`, `weather_forecast_hourly` |
 | Power plants, capacity by state or fuel | `eia860m_*_generators` |
 | Projects waiting to connect | `<iso>_interconnection_queue` |
 | All generators and queue positions with a location | `energy_projects` |

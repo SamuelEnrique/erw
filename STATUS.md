@@ -1,16 +1,16 @@
 # ERW status
 
-Generated 2026-09-28 09:47 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-09-28 10:28 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 107 | 4,793,743 |
-| Public | 99 | 4,659,653 |
-| Internal (never shown publicly) | 8 | 134,090 |
+| All | 112 | 4,801,684 |
+| Public | 103 | 4,665,916 |
+| Internal (never shown publicly) | 9 | 135,768 |
 
-Newest table refresh: 2026-09-28 08:35:35 UTC. Validator: 107 of 107 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-09-28 10:17:15 UTC. Validator: 112 of 112 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
 
 ## Last runs
 
