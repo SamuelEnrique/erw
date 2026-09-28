@@ -107,7 +107,9 @@ SECTOR_RULES = [
     # session 23: CAISO battery output (Today's Outlook), for the Automated Analysis storage template
     (r"^caiso_battery_storage$", "power"),
     # session 24: the policy monitor (tool 12)
-    (r"^policy_(actions|reads)$", "news"),
+    (r"^policy_(actions|reads)(_evidence)?$", "news"),
+    # session 24: NWS weather at the ISO load centers, the /grid overlay
+    (r"^weather_(obs|forecast)_hourly$", "power"),
     (r"^eia_retail_sales_monthly$", "power"),
     (r"^eia_sector_energy_consumption_monthly$", "power;gas;oil;coal"),
     # session 19: the trader view (24)

@@ -37,6 +37,9 @@ full:
   # session 19: the trader view (tool 24): the daily metrics with their own window, below
   - '^(ercot|caiso|nyiso|miso|spp|isone)_trader_daily$'
   - '^iso_rt_top_intervals$'
+  # session 24: the policy monitor (tool 12; the evidence table is internal) and NWS weather for /grid
+  - '^policy_(actions|reads)$'
+  - '^weather_(obs|forecast)_hourly$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.

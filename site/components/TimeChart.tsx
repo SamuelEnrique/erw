@@ -10,6 +10,7 @@ export type TimeSeries = {
   points: [number, number | null][]; // [time in ms, value]
   step?: boolean;
   dashed?: boolean;
+  y2?: boolean; // session 24: drawn on a second axis at the right, in unit2 (the temperature over /grid's demand)
 };
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
   x?: "minute" | "day" | "month" | "year";
   mini?: boolean;
   file?: string; // the PNG's file name
+  unit2?: string; // session 24: the unit of the y2 series
 };
 
 const FMT: Record<string, (t: number) => string> = {
@@ -30,7 +32,9 @@ const FMT: Record<string, (t: number) => string> = {
   year: (t) => new Date(t).toISOString().slice(0, 4),
 };
 
-export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = "minute", mini = false, file = "erw-chart" }: Props) {
+export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false, x = "minute", mini = false, file = "erw-chart", unit2 = "" }: Props) {
+  const has2 = series.some((s) => s.y2);
+  const unitOf = (name: string) => (series.find((s) => s.name === name)?.y2 ? unit2 : unit);
   const box = useEChart(
     (chart) => {
       const st = baseStyle();
@@ -39,7 +43,7 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
         {
           animation: false,
           textStyle: st.textStyle,
-          grid: mini ? { left: 2, right: 2, top: 4, bottom: 4 } : { left: 58, right: 14, top: series.length > 1 ? 52 : 26, bottom: 58 },
+          grid: mini ? { left: 2, right: 2, top: 4, bottom: 4 } : { left: 58, right: has2 ? 52 : 14, top: series.length > 1 ? 52 : 26, bottom: 58 },
           legend: mini || series.length < 2 ? undefined : { top: 0, left: 0, right: 40, type: "scroll", textStyle: { color: token("ink"), fontSize: 11 }, itemWidth: 14, itemHeight: 8 },
           toolbox: mini ? undefined : st.toolbox(file),
           tooltip: {
@@ -49,7 +53,7 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
             formatter: (ps: { axisValue: number; seriesName: string; value: [number, number | null]; color: string }[]) => {
               const rows = ps.filter((p) => p.value[1] !== null && p.value[1] !== undefined);
               if (!rows.length) return "";
-              return `${fmt(ps[0].axisValue)}<br/>` + rows.map((p) => `<span style="color:${p.color}">&#9632;</span> ${p.seriesName}: ${num(p.value[1] as number)} ${unit}`).join("<br/>");
+              return `${fmt(ps[0].axisValue)}<br/>` + rows.map((p) => `<span style="color:${p.color}">&#9632;</span> ${p.seriesName}: ${num(p.value[1] as number)} ${unitOf(p.seriesName)}`).join("<br/>");
             },
           },
           xAxis: {
@@ -59,15 +63,20 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
             splitLine: { show: false },
             axisLabel: { ...st.axis.axisLabel, hideOverlap: true },
           },
-          yAxis: {
-            type: "value",
-            show: !mini,
-            scale: !stack,
-            name: mini ? undefined : unit,
-            nameLocation: "end",
-            ...st.axis,
-            axisLabel: { ...st.axis.axisLabel, formatter: (v: number) => (Math.abs(v) >= 1e6 ? `${v / 1e6}M` : Math.abs(v) >= 1e4 ? `${v / 1e3}k` : String(v)) },
-          },
+          yAxis: [
+            {
+              type: "value",
+              show: !mini,
+              scale: !stack,
+              name: mini ? undefined : unit,
+              nameLocation: "end",
+              ...st.axis,
+              axisLabel: { ...st.axis.axisLabel, formatter: (v: number) => (Math.abs(v) >= 1e6 ? `${v / 1e6}M` : Math.abs(v) >= 1e4 ? `${v / 1e3}k` : String(v)) },
+            },
+            ...(has2
+              ? [{ type: "value", show: !mini, scale: true, name: unit2, nameLocation: "end", position: "right", ...st.axis, splitLine: { show: false } }]
+              : []),
+          ],
           dataZoom: mini
             ? [{ type: "inside", filterMode: "none" }]
             : [
@@ -79,6 +88,7 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
             return {
               name: s.name,
               type: "line",
+              yAxisIndex: s.y2 && has2 ? 1 : 0,
               data: s.points,
               showSymbol: false,
               connectNulls: false,
@@ -93,7 +103,7 @@ export function TimeChart({ series, unit, ariaLabel, height = 260, stack = false
         true,
       );
     },
-    [series, unit, stack, x, mini],
+    [series, unit, stack, x, mini, unit2],
   );
   return <div ref={box} role="img" aria-label={ariaLabel} className="w-full" style={{ height }} />;
 }

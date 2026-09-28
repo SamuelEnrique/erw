@@ -104,6 +104,10 @@ run_other ercot_peak_premium "$PYTHON" warehouse/derived/ercot_peak_premium.py
 # EIA-930 hourly demand and generation (EIA_API_KEY from the environment or .env)
 run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
 
+# Session 24: NWS weather at one airport per ISO load center: hourly observations (the API serves about 7 days;
+# the table grows by merging) and the 7-day hourly forecast, for /grid's temperature overlay and degree days
+run_other weather_nws "$PYTHON" warehouse/connectors/weather_nws.py
+
 # EIA daily fuel spot prices, full history each run (small)
 run_other eia_fuels "$PYTHON" warehouse/connectors/eia_fuels.py
 # Session 19: the trader view (tool 24), from the ISO price tables above and Henry Hub

@@ -15,17 +15,20 @@ import { attempt } from "@/lib/supabase";
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Grid conditions" };
 
-// EIA-930 balancing authorities: table code, label, the ISO's local time zone (for the peak's local hour)
+// EIA-930 balancing authorities: table code, label, the ISO's local time zone (for the peak's local hour);
+// session 24: station, the NWS airport at the ISO's load center (warehouse/connectors/weather_nws.py)
 const BAS = [
-  { code: "us48", entity: "eia930:US48", label: "US Lower 48", tz: "" },
-  { code: "erco", entity: "eia930:ERCO", label: "ERCOT", tz: "America/Chicago" },
-  { code: "ciso", entity: "eia930:CISO", label: "CAISO", tz: "America/Los_Angeles" },
-  { code: "pjm", entity: "eia930:PJM", label: "PJM", tz: "America/New_York" },
-  { code: "miso", entity: "eia930:MISO", label: "MISO", tz: "Etc/GMT+5" },
-  { code: "swpp", entity: "eia930:SWPP", label: "SPP", tz: "America/Chicago" },
-  { code: "nyis", entity: "eia930:NYIS", label: "NYISO", tz: "America/New_York" },
-  { code: "isne", entity: "eia930:ISNE", label: "ISO-NE", tz: "America/New_York" },
+  { code: "us48", entity: "eia930:US48", label: "US Lower 48", tz: "", station: "" },
+  { code: "erco", entity: "eia930:ERCO", label: "ERCOT", tz: "America/Chicago", station: "KDFW" },
+  { code: "ciso", entity: "eia930:CISO", label: "CAISO", tz: "America/Los_Angeles", station: "KLAX" },
+  { code: "pjm", entity: "eia930:PJM", label: "PJM", tz: "America/New_York", station: "KPHL" },
+  { code: "miso", entity: "eia930:MISO", label: "MISO", tz: "Etc/GMT+5", station: "KIND" },
+  { code: "swpp", entity: "eia930:SWPP", label: "SPP", tz: "America/Chicago", station: "KOKC" },
+  { code: "nyis", entity: "eia930:NYIS", label: "NYISO", tz: "America/New_York", station: "KLGA" },
+  { code: "isne", entity: "eia930:ISNE", label: "ISO-NE", tz: "America/New_York", station: "KBOS" },
 ];
+const WX = "weather_obs_hourly";
+const BASE_F = 65; // degree days: the US convention, base 65 degrees F
 
 // fuel groups in the fixed order of the token file; anything else is "other"
 const FUELS: { key: string; label: string; vars: string[] }[] = [
@@ -67,6 +70,7 @@ type BAResult = {
   genDay: string | null;   // the day of the generation mix: the demand day, or the latest complete generation day
   genNote: string | null;
   error: string | null;
+  weather?: SeriesRow[]; // session 24: the station's hourly observed temperature (weather_obs_hourly)
 };
 
 async function load(ba: (typeof BAS)[number], yesterday: string): Promise<BAResult> {
@@ -97,7 +101,8 @@ async function load(ba: (typeof BAS)[number], yesterday: string): Promise<BAResu
     genNote = `${gt} ${gh.has(day) ? `holds ${gh.get(day)} of 24 hours of ${day}` : `does not hold ${day}`}${genDay ? `; the mix shown is ${genDay}, its latest complete day` : ""}. Why: ${reason(gt, day)}`;
   }
   const gen = genDay ? g.data.filter((r) => r.ts_utc.slice(0, 10) === genDay) : [];
-  return { ba, day, note, demand: d.data, gen, genDay, genNote, error: null };
+  const w = ba.station ? await attempt(() => series(WX, { entity: `nws:${ba.station}`, variable: "temperature_f", since: daysAgo(10) })) : null;
+  return { ba, day, note, demand: d.data, gen, genDay, genNote, error: null, weather: w && w.ok ? w.data : [] };
 }
 
 function Block({ r }: { r: BAResult }) {
@@ -120,6 +125,15 @@ function Block({ r }: { r: BAResult }) {
     { label: "Demand", points: toLine("demand_mw"), color: "accent" },
     { label: "Day-ahead forecast", points: toLine("demand_forecast_mw"), color: "muted" },
   ];
+  // session 24: the load center's observed temperature on a second axis, and degree days per UTC day
+  const temps = (r.weather ?? []).filter((x) => Date.parse(x.ts_utc) >= c0 && Date.parse(x.ts_utc) < d1);
+  if (temps.length) lines.push({ label: `Temperature, ${r.ba.station}`, points: temps.map((x) => ({ t: Date.parse(x.ts_utc) / 1000, v: x.value })), color: "var(--color-fuel-gas)", y2: true });
+  const dd: { day: string; n: number; mean: number }[] = [];
+  for (let t = c0; t < d1; t += 24 * H) {
+    const day = iso(t).slice(0, 10);
+    const h = temps.filter((x) => x.ts_utc.slice(0, 10) === day);
+    dd.push({ day, n: h.length, mean: h.length ? h.reduce((a, x) => a + x.value, 0) / h.length : 0 });
+  }
   const range = `${iso(d0)}|${iso(d1)}`;
   return (
     <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
@@ -148,8 +162,24 @@ function Block({ r }: { r: BAResult }) {
         </div>
       </div>
       <div className="min-w-0">
-        <LineChart lines={lines} unit="MW" height={200} ariaLabel={`${r.ba.label} hourly demand and day-ahead forecast, 7 days`} />
-        <Cite tables={[table]} note={`Hourly demand and EIA's day-ahead demand forecast, the 7 UTC days to ${r.day}. Error is demand minus forecast`} />
+        <LineChart lines={lines} unit="MW" unit2="degF" height={220} ariaLabel={`${r.ba.label} hourly demand, day-ahead forecast and temperature, 7 days`} />
+        <Cite tables={temps.length ? [table, WX] : [table]} note={`Hourly demand and EIA's day-ahead demand forecast, the 7 UTC days to ${r.day}. Error is demand minus forecast${temps.length ? `. Temperature: the hourly mean observed at ${r.ba.station}, the load center's airport (right axis, degrees F); weather data: National Weather Service` : ""}`} />
+        {r.ba.station ? (
+          <p className="mt-1 text-xs">
+            <span className="text-muted">Degree days at {r.ba.station} (base {BASE_F} F, from the UTC day&apos;s 24 hourly mean temperatures; CDD cooling, HDD heating):</span>{" "}
+            {dd.map((x, i) => (
+              <span key={x.day}>
+                {i ? "; " : ""}
+                {x.day.slice(5)}{" "}
+                {x.n === 24
+                  ? x.mean >= BASE_F
+                    ? `CDD ${(x.mean - BASE_F).toFixed(1)}`
+                    : `HDD ${(BASE_F - x.mean).toFixed(1)}`
+                  : `not computed (${x.n} of 24 hours in ${WX})`}
+              </span>
+            ))}
+          </p>
+        ) : null}
         <FuelBar r={r} gtable={gtable} />
       </div>
     </div>

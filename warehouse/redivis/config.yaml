@@ -43,6 +43,8 @@ restore_before_run:
   - '^caiso_battery_storage$'
   # session 24: policy actions keep news releases older than the agencies' feed windows; policy_reads its reads
   - '^policy_(actions|reads)$'
+  # session 24: the NWS observations keep more than the API's 7 days by merging; the forecast keeps past vintages' hours
+  - '^weather_(obs|forecast)_hourly$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.
