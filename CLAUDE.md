@@ -6,7 +6,7 @@ It is adapted from the `CLAUDE.md` of the Item Response Warehouse (IRW, github.c
 
 ## What the ERW is
 
-The **Energy Research Warehouse (ERW)** is the live, citable record of the US energy system: prices, flows, projects, deals and policy across power, natural gas, oil, nuclear, renewables, storage and transmission, with the global prices and events that move US markets included. AI's demand for power is the sharpest current lens on that system, not its boundary. Coverage is US first, world later. Every source is reshaped into a small number of standard table shapes so that they can be joined and compared. The ERW is the shared data layer of a 25-tool energy intelligence platform (20 until session 18, 25 since session 19) ([`docs/platform-tools.md`](docs/platform-tools.md)). Every tool on that platform reads the ERW; none keeps its own private copy of a source.
+The **Energy Research Warehouse (ERW)** is the live, citable record of the US energy system: prices, flows, projects, deals and policy across power, natural gas, oil, nuclear, renewables, storage and transmission, with the global prices and events that move US markets included. AI's demand for power is the sharpest current lens on that system, not its boundary. Coverage is US first, world later. Every source is reshaped into a small number of standard table shapes so that they can be joined and compared. The ERW is the shared data layer of a 26-tool energy intelligence platform (20 until session 18, 25 since session 19, 26 since session 23) ([`docs/platform-tools.md`](docs/platform-tools.md)). Every tool on that platform reads the ERW; none keeps its own private copy of a source.
 
 Note on the name: in sustainability circles "ERW" also means enhanced rock weathering. In this repository ERW always means Energy Research Warehouse.
 
@@ -20,8 +20,8 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 | Warehouse of record | Redivis | The published, versioned copy of every table (`warehouse/redivis/`). Uploads write a draft; what Redivis has released is what the ERW says |
 | Live layer | Supabase Postgres | A small live set (`warehouse/supabase/`): public reads through row-level security. Derived from the warehouse, never the other way round |
 | Public site | Next.js on Vercel (`site/`) | Price board, prices, digest, data and methods, the ERCOT peak-premium explorer, and `/ask`. Reads Supabase with the anon key only |
-| Schedules | GitHub Actions | Everything that runs on a clock (`.github/workflows/`: the daily run and the 15-minute latest prices). No crontabs on anyone's machine |
-| Scoring and chat | Claude API | News scoring and the digest (`warehouse/news/`), and question answering over the warehouse (`warehouse/chat/`, `/ask`) |
+| Schedules | GitHub Actions | Everything that runs on a clock (`.github/workflows/`: the daily run, the 15-minute latest prices, and the Sunday Energy Roundup with Automated Analysis). No crontabs on anyone's machine |
+| Scoring and chat | Claude API | News scoring, the weekday digest with its fun fact and the Sunday Roundup (`warehouse/news/`), the chart-of-the-week note (`warehouse/analysis/`), and question answering over the warehouse (`warehouse/chat/`, `/ask`) |
 
 ## Non-negotiables
 

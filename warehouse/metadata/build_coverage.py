@@ -104,6 +104,8 @@ SECTOR_RULES = [
     # session 18: the energy mix explorer (21), the curtailment tracker (22), consumption by sector (23)
     (r"^(eia_state_generation_monthly|state_generation_mix_monthly)$", "power"),
     (r"^((caiso|spp)_curtailment_daily|ercot_wind_solar_hsl_daily|iso_curtailment_monthly)$", "power"),
+    # session 23: CAISO battery output (Today's Outlook), for the Automated Analysis storage template
+    (r"^caiso_battery_storage$", "power"),
     (r"^eia_retail_sales_monthly$", "power"),
     (r"^eia_sector_energy_consumption_monthly$", "power;gas;oil;coal"),
     # session 19: the trader view (24)

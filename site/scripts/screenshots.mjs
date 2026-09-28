@@ -50,6 +50,11 @@ const PAGES = [
   ["subscribe", "/subscribe"],
   // session 21
   ["terms", "/terms"],
+  // session 23
+  ["roundup-week", "/roundup/2026-W39"],
+  ["digest-weekend", "/digest/2026-10-03"],
+  ["analysis", "/analysis"],
+  ["analysis-week", "/analysis/2026-W39"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],

@@ -12,13 +12,13 @@ From `warehouse/metadata/coverage.csv` and `warehouse/metadata/sources.csv`:
 
 | | Tables | Rows |
 |---|---|---|
-| All tables | 103 | 4,430,722 |
-| Public (on the site and in the package) | 95 | 4,304,775 |
-| Internal (licensed for internal use only) | 8 | 125,947 |
+| All tables | 107 | 4,793,743 |
+| Public (on the site and in the package) | 99 | 4,659,653 |
+| Internal (licensed for internal use only) | 8 | 134,090 |
 | Derived by the ERW from other ERW tables | 11 | 144,619 |
-| Passing the validator | 103 of 103 | |
+| Passing the validator | 107 of 107 | |
 
-Sources in the registry: 127: 62 data sources (53 public, 9 internal) and 65 news outlets (internal: titles and summaries are not republished).
+Sources in the registry: 141: 73 data sources (64 public, 9 internal) and 68 news outlets (internal: titles and summaries are not republished).
 
 ## The site
 
@@ -34,18 +34,20 @@ https://erw-flame.vercel.app: Next.js on Vercel, reading Supabase with the anony
 | Grid | `/curtailment` | Wind and solar output curtailed, by ISO, daily and monthly, and what each ISO's figure means. |
 | Grid | `/consumption` | Electricity sold by state and sector, and where industrial and commercial load grows fastest. |
 | Projects | `/map` | Every EIA generator and ISO queue position on one US map, with filters. |
-| Projects | `/datacenters` | Datacenter facilities named in the news: operator, place, MW, status and power. |
+| Projects | `/datacenters` | Datacenter facilities from the news, nine operators' site lists and the ISO queues: operator, place, MW, status. |
 | Projects | `/deals` | PPAs, acquisitions, financings and supply deals from the news, with sources. |
-| News | `/digest` | The day's energy news, scored and ranked, with the day's numbers from the warehouse. |
+| News | `/digest` | The weekday brief: the day's energy news, scored and ranked, the day's numbers from the warehouse, and a fun fact. |
 | News | `/roundup` | Sunday's brief: the weekend's stories, the five stories of the week, its deals and datacenters, the week's numbers and the chart of the week. |
 | News | `/subscribe` | The digest and the Energy Roundup by email: what it is and how to sign up. |
 | Data | `/data` | Every public table with its dates, rows, source and license; the data standard and the methods. |
+| Data | `/analysis` | Ten chart templates run on the warehouse every week, the chart of the week picked by rule, and a gallery to run each template with its parameters. |
 | Data | `/ask` | Ask the warehouse a question; every number in the answer comes from a table it read. |
-| About | `/about` | What the ERW is, how it is built, and where the code and session logs are. |
+| About | `/about` | What the ERW is, how the digest is made, the glossary, and where the code and session logs are. |
+| About | `/terms` | Data licensing per source, what the site stores about subscribers and questions, and what it is not. |
 
 ## Tools that are live
 
-From `docs/platform-tools.md`: 22 of the platform's tools have a data layer that exists (5 yes, 17 partial).
+From `docs/platform-tools.md`: 23 of the platform's tools have a data layer that exists (6 yes, 17 partial).
 
 | # | Tool | Data layer | Pages |
 |---|---|---|---|
@@ -60,7 +62,7 @@ From `docs/platform-tools.md`: 22 of the platform's tools have a data layer that
 | 9 | Flagship newsletter | partial |  |
 | 12 | Policy and regulatory monitor | partial |  |
 | 13 | Deep-dive report library | partial |  |
-| 14 | Weekly state-of-energy brief (the Energy Roundup) | yes | `/roundup` |
+| 14 | Weekly state-of-energy brief | yes | `/roundup` |
 | 15 | Data downloads and methodology | partial | `/data` |
 | 16 | Cost-of-power model | partial |  |
 | 18 | Predictive and scenario layer | partial |  |
@@ -70,7 +72,8 @@ From `docs/platform-tools.md`: 22 of the platform's tools have a data layer that
 | 22 | Curtailment tracker: wind and solar output curtailed, by ISO | partial | `/curtailment` |
 | 23 | Consumption by sector: who uses the power, and where load is growing | yes | `/consumption` |
 | 24 | Trader view: day-ahead against real-time, on-peak and off-peak, heat rates and volatility, by hub | partial | `/markets` |
-| 25 | Email digest: the weekday Energy Digest and Sunday's Energy Roundup by email | partial | `/subscribe` |
+| 25 | Email digest: the daily Energy Digest and Monday's Energy Week by email | partial | `/subscribe` |
+| 26 | Automated Analysis: a template library of house-style charts, run weekly, with a chart of the week picked by rule | yes | `/analysis` |
 
 ## What refreshes when
 
@@ -80,7 +83,7 @@ From the cron lines of `.github/workflows/`:
 |---|---|---|
 | daily prices | `.github/workflows/daily-prices.yml` | every day at 14:00 UTC (`0 14 * * *`) |
 | latest prices | `.github/workflows/latest-prices.yml` | every 15 minutes (`*/15 * * * *`) |
-| Energy Roundup and Automated Analysis | `.github/workflows/roundup.yml` | Sundays at 23:00 UTC (`0 23 * * 0`) |
+| energy roundup | `.github/workflows/roundup.yml` | cron 0 23 * * 0 (`0 23 * * 0`) |
 
 The daily run (`warehouse/run_daily.sh`) pulls every source, runs the derived tables, the news (ingest, scoring, deals, datacenters, the digest and its email), validates, rebuilds coverage, loads the Supabase live set and uploads changed tables to the Redivis draft; the ISO interconnection queues are pulled on Mondays.
 
@@ -104,14 +107,21 @@ The daily run (`warehouse/run_daily.sh`) pulls every source, runs the derived ta
 
 From `STATUS.md` (generated with coverage):
 
-**Tables whose last run failed: 3.**
+**Tables whose last run failed: 10.**
 
 | Table | Run | Reason |
 |---|---|---|
-| `carb_auction_allowance_prices` | 20260927T094001Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
+| `caiso_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
+| `carb_auction_allowance_prices` | 20260927T181629Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
 | `ercot_large_load_queue` | 20260927T094319Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
+| `ercot_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
+| `iso_rt_top_intervals` | 20260927T180906Z | iso_prices.SourceGap: no ISO has 7 complete real-time days |
+| `isone_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
+| `miso_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
 | `nyiso_interconnection_queue` | 20260927T094201Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
+| `nyiso_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
+| `spp_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
 
-**Days a per-day connector could not write complete:** 21 recorded, 0 filled since, 21 open (per table and day in `STATUS.md`).
+**Days a per-day connector could not write complete:** 21 recorded, 9 filled since, 12 open (per table and day in `STATUS.md`).
 
 Named gaps in the tools themselves (PJM prices, an ERCOT large-load list, SPP real time, MISO curtailment, and others) are in the Data layer column of `docs/platform-tools.md`.

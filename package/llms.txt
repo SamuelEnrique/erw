@@ -192,8 +192,20 @@ day-ahead tables running into tomorrow:
 **Events**: news_index (public): one row per scored news story with source,
   sector, region, significance and ai_power_relevance (0 to 10), headline.
   news_stories (INTERNAL) adds titles and summaries of third-party articles.
-  The daily Energy Digest (docs/digest/) is written from them, and on Mondays
-  the weekly brief, Energy Week (docs/weekly/YYYY-Www.md; the site's /weekly).
+  The Energy Digest (docs/digest/) is written from them Monday to Friday (no
+  weekend issue; session 23), ending with a verified fun fact
+  (warehouse/news/facts/), and on Sundays at 23:00 UTC the weekly brief, the
+  Energy Roundup (docs/roundup/YYYY-Www.md; the site's /roundup; until session
+  23 it was Energy Week on Mondays, docs/weekly/, and /weekly redirects).
+**Batteries** (session 23, public): caiso_battery_storage, CAISO's own Today's
+  Outlook battery output, 5-minute, MW (positive discharge, negative charging),
+  from 2025-08. EIA-930 has no battery series for any ISO in the warehouse.
+**Automated Analysis** (session 23, tool 26): ten chart templates
+  (warehouse/analysis/templates/) run every Sunday; a rule (robust z of each
+  headline against its own history) picks the chart of the week. Results are
+  in docs/analysis/YYYY-Www/ (results.json holds every template's headline and
+  chart) and on the site's /analysis. They are computed from the tables above;
+  cite the tables they name, not the analysis files.
 
 
 ## 3. Which table for which question
@@ -215,6 +227,7 @@ day-ahead tables running into tomorrow:
 | Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_<ba>_generation` |
 | Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `<iso>_trader_daily`, `iso_rt_top_intervals` |
 | Wind and solar curtailment | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (not curtailment: output below HSL), `iso_curtailment_monthly` |
+| Battery output (CAISO) | `caiso_battery_storage` |
 | Power plants, capacity by state or fuel | `eia860m_*_generators` |
 | Projects waiting to connect | `<iso>_interconnection_queue` |
 | All generators and queue positions with a location | `energy_projects` |

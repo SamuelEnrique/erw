@@ -1,4 +1,5 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived
+caiso_battery_storage,CAISO,,1,PT5M,2025-08-24T07:00:00Z,2026-09-28T06:55:00Z,343872,caiso:todays_outlook_storage,2026-09-28T08:35:35Z,pass,public,power,no
 caiso_curtailment_daily,CAISO,,1,P1D,2014-05-01T00:00:00Z,2026-09-25T00:00:00Z,24920,caiso:daily_renewable_report;caiso:production_curtailments,2026-09-27T09:23:46Z,pass,public,power,no
 caiso_dam_hub_prices,CAISO,caiso_dam,3,PT1H,2026-08-26T07:00:00Z,2026-09-29T06:00:00Z,2448,caiso:PRC_LMP,2026-09-28T03:45:48Z,pass,public,power,no
 caiso_interconnection_queue,CAISO,,2278,snapshot,2026-09-26T00:06:48Z,2026-09-26T00:06:48Z,2278,caiso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no

@@ -52,7 +52,8 @@ def echarts(spec):
     elif spec.get("x_time"):
         x_axis = dict(axis_style, type="time", name=spec.get("x_label", ""))
     else:
-        x_axis = dict(axis_style, type="category", data=spec["x"], name=spec.get("x_label", ""),
+        x_axis = dict(axis_style, type="category", data=spec["x"], name=spec.get("x_label", ""), nameLocation="middle",
+                      nameGap=30,
                       axisLabel=dict(axis_style["axisLabel"], hideOverlap=True))
     y_axes = [dict(axis_style, type="value", name=spec.get("y_label", ""), scale=kind != "bar")]
     if has_y2:

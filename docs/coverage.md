@@ -6,6 +6,7 @@ What the Energy Research Warehouse (ERW) holds today: one row per table in `ware
 
 | Table | ISO | Market | Variable | Nodes | Interval | First interval (UTC) | Last interval (UTC) | Rows | Source report | Last run (UTC) | Validator | License | Sector | Derived |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `caiso_battery_storage` | CAISO |  | batteries_mw, hybrid_batteries_mw, standalone_batteries_mw | 1: caiso:ISO | PT5M | 2025-08-24 07:00:00 | 2026-09-28 06:55:00 | 343,872 | caiso:todays_outlook_storage | 2026-09-28 08:35:35 | pass | public | power | no |
 | `caiso_curtailment_daily` | CAISO |  | curtailed_solar_local_mwh, curtailed_solar_mwh, curtailed_solar_system_mwh, curtailed_wind_local_mwh, curtailed_wind_mwh, curtailed_wind_system_mwh, solar_generation_mwh, wind_generation_mwh | 1: caiso:ISO | P1D | 2014-05-01 00:00:00 | 2026-09-25 00:00:00 | 24,920 | caiso:daily_renewable_report; caiso:production_curtailments | 2026-09-27 09:23:46 | pass | public | power | no |
 | `caiso_dam_hub_prices` | CAISO | caiso_dam | lmp_dam | 3: TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND | PT1H | 2026-08-26 07:00:00 | 2026-09-29 06:00:00 | 2,448 | caiso:PRC_LMP | 2026-09-28 03:45:48 | pass | public | power | no |
 | `caiso_interconnection_queue` | CAISO |  | entities: project; vintage 2026-09-26 | 2278: 2278 entities | snapshot | 2026-09-26 00:06:48 | 2026-09-26 00:06:48 | 2,278 | caiso:interconnection_queue | 2026-09-26 00:06:45 | pass | public | power | no |
