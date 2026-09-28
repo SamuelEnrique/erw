@@ -81,7 +81,7 @@ The ERW is built as a Stanford independent study.
 | [`CLAUDE.md`](CLAUDE.md) | The stack, the non-negotiables, the repository layout |
 | [`docs/datastandard.md`](docs/datastandard.md) | Table shapes, columns, units, names |
 | [`docs/OVERVIEW.md`](docs/OVERVIEW.md) | The platform on one page, for reviewers (`warehouse/metadata/build_overview.py`) |
-| [`docs/platform-tools.md`](docs/platform-tools.md) | The platform's tools (25 since session 19) and their status |
+| [`docs/platform-tools.md`](docs/platform-tools.md) | The platform's 31 tools (the plan since session 24), their status and their audiences |
 | [`STATUS.md`](STATUS.md) | Tables, last runs and open gaps, regenerated daily |
 | [`PRIORITIES.md`](PRIORITIES.md) | What kind of work comes first |
 

@@ -125,8 +125,19 @@ if (fs.existsSync(analysisDir)) {
   });
 }
 
+// Session 24: the platform's tool counts by status, from docs/platform-tools.md (for /about)
+const platform = { total: 0, yes: 0, partial: 0, no: 0, planned: 0 };
+for (const line of read(path.join(docs, "platform-tools.md")).split("\n")) {
+  const m = line.match(/^\| (\d+) \|.*\| \*\*(yes|partial|no|planned)\b/);
+  if (m) {
+    platform.total += 1;
+    platform[m[2]] += 1;
+  }
+}
+
 const out = {
   built_at: new Date().toISOString(),
+  platform,
   analysis,
   sources: sources(),
   run_status_eia930: runStatus(),

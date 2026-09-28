@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import site from "@/data/site.json";
 import { GLOSSARY, glossaryId } from "@/lib/glossary";
+import { DOCS } from "@/lib/markdown";
 import { GROUPS } from "@/lib/pages";
 
 export const metadata: Metadata = { title: "About" };
@@ -57,6 +58,13 @@ export default function About() {
         </p>
       </div>
 
+      <h2 className="mb-2 mt-6 text-xl">The platform</h2>
+      <p className="mb-6 text-sm leading-relaxed">
+        The ERW is the data layer of an energy intelligence platform of {DOCS.platform.total} tools for enthusiasts, investors, researchers, traders
+        and educators. Today {DOCS.platform.yes + DOCS.platform.partial} of them have a working data layer ({DOCS.platform.yes} complete,{" "}
+        {DOCS.platform.partial} partial), {DOCS.platform.no} are not built and {DOCS.platform.planned} are planned. The list, with each tool&apos;s tables and
+        gaps, is <a href={`${site.repository}/blob/main/docs/platform-tools.md`}>docs/platform-tools.md</a>.
+      </p>
       <h2 className="mb-2 mt-6 text-xl">The site</h2>
       <dl className="mb-6 text-sm">
         {GROUPS.map((g) => (

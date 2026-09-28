@@ -21,6 +21,8 @@ export type Docs = {
   run_status_eia930: { run_id: string; table: string; market: string; status: string; detail: string }[];
   // session 23: Automated Analysis (docs/analysis/): each week's chart of the week and results, the templates, the gallery
   analysis: Analysis;
+  // session 24: the tool counts by status, from docs/platform-tools.md
+  platform: { total: number; yes: number; partial: number; no: number; planned: number };
   // session 21: warehouse/metadata/sources.csv, for /terms
   sources: { source: string; publisher: string; report: string; report_url: string; license: string; tables: string }[];
 };

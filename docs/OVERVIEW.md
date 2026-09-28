@@ -12,13 +12,13 @@ From `warehouse/metadata/coverage.csv` and `warehouse/metadata/sources.csv`:
 
 | | Tables | Rows |
 |---|---|---|
-| All tables | 107 | 4,793,743 |
-| Public (on the site and in the package) | 99 | 4,659,653 |
-| Internal (licensed for internal use only) | 8 | 134,090 |
+| All tables | 112 | 4,801,684 |
+| Public (on the site and in the package) | 103 | 4,665,916 |
+| Internal (licensed for internal use only) | 9 | 135,768 |
 | Derived by the ERW from other ERW tables | 11 | 144,619 |
-| Passing the validator | 107 of 107 | |
+| Passing the validator | 112 of 112 | |
 
-Sources in the registry: 141: 73 data sources (64 public, 9 internal) and 68 news outlets (internal: titles and summaries are not republished).
+Sources in the registry: 149: 81 data sources (72 public, 9 internal) and 68 news outlets (internal: titles and summaries are not republished).
 
 ## The site
 
@@ -35,6 +35,7 @@ https://erw-flame.vercel.app: Next.js on Vercel, reading Supabase with the anony
 | Grid | `/consumption` | Electricity sold by state and sector, and where industrial and commercial load grows fastest. |
 | Projects | `/map` | Every EIA generator and ISO queue position on one US map, with filters. |
 | Projects | `/datacenters` | Datacenter facilities from the news, nine operators' site lists and the ISO queues: operator, place, MW, status. |
+| Projects | `/policy` | Energy rules, proposed rules and notices from the Federal Register and agency news, scored, with impact reads of the significant ones. |
 | Projects | `/deals` | PPAs, acquisitions, financings and supply deals from the news, with sources. |
 | News | `/digest` | The weekday brief: the day's energy news, scored and ranked, the day's numbers from the warehouse, and a fun fact. |
 | News | `/roundup` | Sunday's brief: the weekend's stories, the five stories of the week, its deals and datacenters, the week's numbers and the chart of the week. |
@@ -60,7 +61,7 @@ From `docs/platform-tools.md`: 23 of the platform's tools have a data layer that
 | 7 | Grid stress and real-time conditions | partial | `/grid`, `/prices` |
 | 8 | Regional power-price heatmap | partial |  |
 | 9 | Flagship newsletter | partial |  |
-| 12 | Policy and regulatory monitor | partial |  |
+| 12 | Policy and regulatory monitor | partial | `/policy` |
 | 13 | Deep-dive report library | partial |  |
 | 14 | Weekly state-of-energy brief | yes | `/roundup` |
 | 15 | Data downloads and methodology | partial | `/data` |
