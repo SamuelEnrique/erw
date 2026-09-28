@@ -37,6 +37,7 @@ Status: **yes** = the tables the tool needs exist and refresh daily; **partial**
 | 29 | Run the grid: a grid-operations simulation, with Rim Baltaduonis | ISO prices, EIA-930 demand and generation, the generator inventory; research first | **planned** (research first) |
 | 30 | Case study builder in the HBS format | deals, projects, policy actions, prices, with citations | **planned** |
 | 31 | Energy meme generator: original templates, connected libraries and uploads | the warehouse's charts and numbers, cited | **planned** |
+| - | Feedback: what people say when they are shown the ERW | `docs/feedback/`: the demo protocol (a 20-minute page order and five questions), a template, one file per demo, a tally | **process (session 27)**: the protocol and template are written; no demo is recorded yet. Not a platform tool and not counted among the 31; no site page |
 
 ## By audience
 
