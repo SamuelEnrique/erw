@@ -38,6 +38,9 @@
 #   table's new or changed rows to warehouse/archive/<table>/<YYYY-MM>.csv and the private Supabase
 #   storage bucket erw-archive, before anything rewrites a shared store. If it fails, the Redivis
 #   upload is skipped, so the draft is never rewritten while the rows are not recoverable elsewhere.
+#   Session 28: uploads are routed by license (public tables to energy_research_warehouse, internal
+#   ones to the private energy_research_warehouse_internal), and upload.py --check-license, after the
+#   upload, fails the run if any internal table is in the public dataset.
 #   Session 14: DRY_STORES=1 runs the same sequence but writes to no shared store:
 #   the Supabase load runs with --dry-run and the Redivis upload lists what it
 #   would upload. For testing the workflow logic in a fresh clone; CI never sets it.
@@ -243,6 +246,15 @@ elif ! grep -q "^archive ok" "$status"; then
   echo "redivis_upload: skipped, the archive step failed (runs/daily_archive.out)"
 else
   run_other redivis_upload "$PYTHON" warehouse/redivis/upload.py --changed
+fi
+if [ "${DRY_STORES:-0}" != "1" ]; then
+  # session 28 (review item 3): no table licensed internal may be in the public dataset; if one is, the run fails
+  echo "== Redivis: license check (internal tables only in energy_research_warehouse_internal)"
+  "$PYTHON" warehouse/redivis/upload.py --check-license || {
+    echo "redivis_license failed: an internal table is in the public dataset" >> "$status"
+    echo "stopping: an internal table is in the public Redivis dataset (upload.py --check-license --fix moves it)"
+    exit 1
+  }
 fi
 
 echo "== done"

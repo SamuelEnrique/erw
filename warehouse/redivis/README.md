@@ -35,6 +35,14 @@ python warehouse/redivis/upload.py --restore      # download the rolling-window 
 
 Tests: `tests/test_redivis_gates.py`, against a mocked client.
 
+**Two datasets, routed by license (session 28, review item 3).** Redivis sets access per dataset, not per table.
+
+- **Routing:** a table whose license in `warehouse/metadata/coverage.csv` is `public` goes to `energy_research_warehouse`. Every other table goes to `energy_research_warehouse_internal`, a private dataset (no public access) under the same owner. `push()` refuses a non-public license for the public dataset, whatever the caller asked.
+- **Metadata:** each dataset gets the provenance header lines of its own tables only (`erw_headers`). `erw_coverage` and `erw_sources` go to the public dataset.
+- **Restore and reconcile** read each table from its own dataset.
+- **The check:** `upload.py --check-license` fails when any internal table is in the public dataset, checked by metadata table by table, not by `list_tables()` alone. It also fails when any table there is not a public table in `coverage.csv`, or when the internal dataset has any public access. `run_daily.sh` runs it after every upload and fails the run on it.
+- **Creating the dataset and moving tables is a human's job:** `python warehouse/redivis/upload.py --check-license --fix`. It creates the private dataset if needed, uploads each internal table found in the public draft, confirms its `count(*)` there, and only then deletes it from the public draft. A scheduled run never creates a dataset; until the internal dataset exists, uploads of internal tables fail and are named in the run.
+
 ## How to release a version (a human, on Redivis)
 
 1. Check the draft first. Every table must match: `python warehouse/redivis/upload.py --reconcile` compares `count(*)` for each table with its CSV and writes `runs/redivis_reconcile.csv`.

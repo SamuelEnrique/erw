@@ -11,6 +11,9 @@ three-line test fixtures, not data values.
   3. Existence is read from the table's metadata, not list_tables(): a table that
      list_tables() leaves out is still found and restored, and an error other than a 404
      fails the restore rather than reading as "absent".
+  4. (review item 3) Uploads are routed by license: an internal table goes to the internal
+     dataset, push() refuses it for the public one, and --check-license fails when one is
+     in the public dataset or the internal dataset is not private; --fix moves it.
 
     python -m unittest discover -s tests -v
 """
@@ -35,6 +38,7 @@ import upload  # noqa: E402
 ROLLING = "ercot_dam_hub_prices"      # matched by restore_before_run
 ROLLING_2 = "weather_obs_hourly"      # matched too
 FULL = "eia_fuel_spot_prices"         # a full-history table: not matched
+INT = "pjm_rpm_capacity_prices"       # licensed internal
 COLS = ["entity", "variable", "ts_utc", "value"]
 
 
@@ -101,7 +105,8 @@ class GateTest(unittest.TestCase):
             mock.patch.object(upload, "TMP", os.path.join(self.tmp, "redivis")),
             mock.patch.object(upload, "MANIFEST", self.manifest),
             mock.patch.object(upload, "count_rows", lambda t: len(t.ds.rows[t.name])),
-            mock.patch.object(upload, "licenses", lambda: {ROLLING: "public", ROLLING_2: "public", FULL: "public"}),
+            mock.patch.object(upload, "licenses",
+                              lambda: {ROLLING: "public", ROLLING_2: "public", FULL: "public", INT: "internal"}),
             mock.patch.dict(sys.modules, {"erw_validate": types.SimpleNamespace(validate=lambda p: {"errors": []})}),
         ]
         for p in self.patches:
@@ -117,7 +122,8 @@ class GateTest(unittest.TestCase):
 
     def manifest_rows(self, **rows):
         upload.write_manifest(pd.DataFrame(
-            [(t, "x", str(n), "2026-09-28T00:00:00Z", t) for t, n in rows.items()], columns=upload.MANIFEST_COLS))
+            [(t, "x", str(n), "2026-09-28T00:00:00Z", t, upload.PUBLIC) for t, n in rows.items()],
+            columns=upload.MANIFEST_COLS))
 
     def local(self, name, n):
         with open(os.path.join(self.out, name + ".csv"), "w", encoding="utf-8", newline="") as f:
@@ -128,6 +134,15 @@ class GateTest(unittest.TestCase):
         p = mock.patch.object(upload, "open_draft", lambda *a, **k: ds)
         p.start()
         self.patches.append(p)
+
+    def use_two(self, pub, internal, level="none"):
+        dss = {upload.PUBLIC: pub, upload.INTERNAL: internal}
+        meta = types.SimpleNamespace(exists=lambda: True, get=lambda: types.SimpleNamespace(
+            properties={"publicAccessLevel": level}))
+        for p in (mock.patch.object(upload, "open_draft", lambda name=None, create=False: dss[name or upload.PUBLIC]),
+                  mock.patch.object(upload, "account", lambda: types.SimpleNamespace(dataset=lambda n: meta))):
+            p.start()
+            self.patches.append(p)
 
     # 1. restore: a listed table absent from the draft fails the run
     def test_restore_fails_when_a_listed_table_is_absent(self):
@@ -207,6 +222,65 @@ class GateTest(unittest.TestCase):
         self.assertEqual(upload.restore(), 1)
         self.assertIn(f"FAIL restore {ROLLING}: AttributeError", self.log.getvalue())
         self.assertIsNone(upload.table_meta(ds, "no_such_table"))
+
+    # 4. routing by license
+    def test_an_internal_table_goes_to_the_internal_dataset(self):
+        pub, idd = FakeDataset({}), FakeDataset({})
+        self.use_two(pub, idd)
+        self.local(INT, 3)
+        self.local(FULL, 2)
+        self.assertEqual(upload.run_upload([INT, FULL], include_metadata=False), 0)
+        self.assertIn(INT, idd.rows)
+        self.assertNotIn(INT, pub.rows)
+        self.assertIn(FULL, pub.rows)
+        m = pd.read_csv(self.manifest, dtype=str).set_index("table")
+        self.assertEqual((m.loc[INT, "dataset"], m.loc[FULL, "dataset"]), (upload.INTERNAL, upload.PUBLIC))
+
+    def test_push_refuses_an_internal_license_for_the_public_dataset(self):
+        with self.assertRaises(RuntimeError):
+            upload.push(FakeDataset({}), INT, [], frame(2).to_csv(index=False), "internal", dataset=upload.PUBLIC)
+        with self.assertRaises(RuntimeError):
+            upload.push(FakeDataset({}), INT, [], frame(2).to_csv(index=False), "", dataset=upload.PUBLIC)
+
+    def test_check_license_fails_on_an_internal_table_in_public(self):
+        self.use_two(FakeDataset({FULL: frame(2), INT: frame(3)}, unlisted={INT}), FakeDataset({}))
+        self.assertEqual(upload.check_license(), 1)
+        self.assertIn(f"FAIL {INT}: license 'internal'", self.log.getvalue())
+
+    def test_check_license_fails_on_an_unknown_table_in_public(self):
+        self.use_two(FakeDataset({FULL: frame(2), "stray_table": frame(1)}), FakeDataset({}))
+        self.assertEqual(upload.check_license(), 1)
+
+    def test_check_license_fails_if_the_internal_dataset_is_not_private(self):
+        self.use_two(FakeDataset({FULL: frame(2)}), FakeDataset({}), level="overview")
+        self.assertEqual(upload.check_license(), 1)
+
+    def test_check_license_passes_when_clean(self):
+        self.use_two(FakeDataset({FULL: frame(2), "erw_coverage": frame(1)}), FakeDataset({INT: frame(3)}))
+        self.assertEqual(upload.check_license(), 0)
+
+    def test_a_scheduled_upload_never_creates_the_internal_dataset(self):
+        created = []
+        missing = types.SimpleNamespace(exists=lambda: False, create=lambda **k: created.append(k))
+        with mock.patch.object(upload, "account", lambda: types.SimpleNamespace(dataset=lambda *a, **k: missing)):
+            with self.assertRaises(RuntimeError):
+                upload.open_draft(upload.INTERNAL)
+        self.assertEqual(created, [])
+
+    def test_fix_moves_an_internal_table_and_then_passes(self):
+        pub, idd = FakeDataset({FULL: frame(2), INT: frame(3)}), FakeDataset({})
+        self.use_two(pub, idd)
+        self.local(INT, 3)
+        self.assertEqual(upload.check_license(fix=True), 0)
+        self.assertNotIn(INT, pub.rows)
+        self.assertEqual(len(idd.rows[INT]), 3)
+
+    def test_a_table_whose_route_changed_is_uploaded_again(self):
+        self.local(INT, 3)
+        _, data = upload.split_header(os.path.join(self.out, INT + ".csv"))
+        upload.write_manifest(pd.DataFrame([(INT, upload.sha(data), "3", "t", INT, upload.PUBLIC)],
+                                           columns=upload.MANIFEST_COLS))
+        self.assertEqual(upload.changed_tables(), [INT])
 
 
 if __name__ == "__main__":

@@ -24,7 +24,9 @@ warehouse/validate/erw_validate.py         exit 0 or the table does not move
 warehouse/archive + bucket erw-archive     warehouse/archive/archive.py (session 28): new or changed rows,
       |                                    append only, one file per table per month (section 1a)
       v
-Redivis, as a DRAFT version                 warehouse/redivis/upload.py (session 10), every table
+Redivis, as a DRAFT version                 warehouse/redivis/upload.py (session 10), every table; by license
+      |                                    (session 28): public tables to energy_research_warehouse, the
+      |                                    rest to the private energy_research_warehouse_internal
       |
       v
    released by hand on Redivis              the ERW's warehouse of record

@@ -40,6 +40,16 @@ the rolling-window tables keep their history, so three gates stop it being lost 
 - Existence is checked by fetching the table's metadata (table_meta), never by
   list_tables() alone, which in the IRW under-reported a large dataset by about half.
 Tests: tests/test_redivis_gates.py, against a mocked client.
+
+Session 28 (the review, item 3): uploads are routed by license. A table whose license in
+coverage.csv is "public" goes to the public dataset (config.yaml: dataset); every other table
+goes to a second, private dataset under the same owner (dataset_internal). Only a human creates
+it, with no public access (--check-license --fix); an upload to it before then fails that table. push() refuses a non-public license for the public dataset,
+--restore and --reconcile read each table from its own dataset, and --check-license fails when
+any internal table is in the public dataset (checked by metadata, table by table) or the internal
+dataset is not private. run_daily.sh runs it after every upload and fails the run on it.
+    python warehouse/redivis/upload.py --check-license          # exit 1 on any internal table in the public dataset
+    python warehouse/redivis/upload.py --check-license --fix    # a human, once: create the internal dataset, move them
 """
 
 import argparse
@@ -60,7 +70,8 @@ TMP = os.path.join(ROOT, "runs", "redivis")
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "validate"))
 CONFIG = yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
 MANIFEST = os.path.join(ROOT, CONFIG["manifest"])
-MANIFEST_COLS = ["table", "data_sha256", "rows", "uploaded_at", "redivis_table"]
+MANIFEST_COLS = ["table", "data_sha256", "rows", "uploaded_at", "redivis_table", "dataset"]
+PUBLIC, INTERNAL = CONFIG["dataset"], CONFIG["dataset_internal"]
 DESC_MAX = 2000  # Redivis's limit on a table description (HTTP 400 above it)
 HEADERS_TABLE = "erw_headers"  # every provenance header line of every table, in full
 
@@ -117,17 +128,50 @@ def description(name, header, license_):
     return text
 
 
-def open_draft():
-    """The dataset's unreleased draft, created if the last version was released (red_up.push.open_draft)."""
+def account():
     os.environ["REDIVIS_API_TOKEN"] = secret(CONFIG["token_env"])
     import redivis
     owner = secret(CONFIG["owner_env"])
-    acct = redivis.user(owner) if CONFIG["owner_kind"] == "user" else redivis.organization(owner)
-    ds = acct.dataset(CONFIG["dataset"])
+    return redivis.user(owner) if CONFIG["owner_kind"] == "user" else redivis.organization(owner)
+
+
+def open_draft(dataset=None, create=False):
+    """A dataset's unreleased draft, created if the last version was released (red_up.push.open_draft).
+    Session 28: dataset is PUBLIC (the default) or INTERNAL. The internal dataset is created, private
+    (no public access), only when create is set, which only --check-license --fix does (a human):
+    a scheduled run never creates a dataset. The public one must already exist."""
+    name = dataset or PUBLIC
+    acct = account()
+    ds = acct.dataset(name)
     if not ds.exists():
-        raise SystemExit(f"Redivis dataset {owner}.{CONFIG['dataset']} does not exist; create it on Redivis first")
+        if name != INTERNAL:
+            raise SystemExit(f"Redivis dataset {name} does not exist; create it on Redivis first")
+        if not create:
+            raise RuntimeError(f"the private Redivis dataset {name} does not exist yet; a human creates it with "
+                               "python warehouse/redivis/upload.py --check-license --fix")
+        ds.create(public_access_level="none",
+                  description="Energy Research Warehouse (ERW): the tables licensed for internal use only "
+                              "(warehouse/metadata/coverage.csv). Private: never shared, never released publicly.")
+        log(f"created the private Redivis dataset {name} (no public access)")
     ds.create_next_version(if_not_exists=True)
-    return acct.dataset(CONFIG["dataset"], version="next")
+    return acct.dataset(name, version="next")
+
+
+def dataset_for(license_):
+    """Session 28: "public" goes to the public dataset; anything else, blank included, to the internal one."""
+    return PUBLIC if license_ == "public" else INTERNAL
+
+
+class Drafts:
+    """The drafts of both datasets, each opened once, when first needed."""
+
+    def __init__(self, create_internal=False):
+        self.open, self.create = {}, create_internal
+
+    def __call__(self, name):
+        if name not in self.open:
+            self.open[name] = open_draft(name, create=self.create and name == INTERNAL)
+        return self.open[name]
 
 
 def rolling(name):
@@ -165,8 +209,10 @@ def count_rows(table):
     return int(rows[0]["n"])
 
 
-def push(ds, name, header, data_text, license_, events=False):
+def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC):
     """Replace one draft table with this data; return (expected, actual)."""
+    if dataset == PUBLIC and license_ != "public":  # session 28: never, whatever the caller asked
+        raise RuntimeError(f"refused: license {license_!r} may not be uploaded to the public dataset {PUBLIC}")
     df = data_rows(data_text)
     expected = len(df)
     if expected == 0:
@@ -199,7 +245,10 @@ def push(ds, name, header, data_text, license_, events=False):
 
 def read_manifest():
     if os.path.exists(MANIFEST):
-        return pd.read_csv(MANIFEST, dtype=str, keep_default_na=False)
+        m = pd.read_csv(MANIFEST, dtype=str, keep_default_na=False)
+        if "dataset" not in m.columns:  # before session 28 every table went to the public dataset
+            m["dataset"] = PUBLIC
+        return m
     return pd.DataFrame(columns=MANIFEST_COLS)
 
 
@@ -213,9 +262,9 @@ def tables_on_disk():
     return sorted(os.path.splitext(f)[0] for f in os.listdir(OUT) if f.endswith(".csv"))
 
 
-def run_upload(names, include_metadata, allow_shrink=()):
+def run_upload(names, include_metadata, allow_shrink=(), create_internal=False):
     import erw_validate
-    ds = open_draft()
+    drafts = Drafts(create_internal)
     lic = licenses()
     man = read_manifest().set_index("table")
     now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -232,39 +281,50 @@ def run_upload(names, include_metadata, allow_shrink=()):
             why = shrink_refusal(name, len(data_rows(data)), man, set(allow_shrink))
             if why:  # before push(), which deletes the draft table
                 raise RuntimeError(why)
-            expected, actual = push(ds, name, header, data, lic[name],
-                                    events=list(data_rows(data).columns[:1]) == ["event_id"])
+            target = dataset_for(lic[name])
+            expected, actual = push(drafts(target), name, header, data, lic[name],
+                                    events=list(data_rows(data).columns[:1]) == ["event_id"], dataset=target)
             ok = expected == actual
             results.append((name, expected, actual, "" if ok else "row count mismatch"))
             if ok:
-                man.loc[name, ["data_sha256", "rows", "uploaded_at", "redivis_table"]] = [
-                    sha(data), str(expected), now, name]
-            log(f"{'ok  ' if ok else 'FAIL'} {name}: CSV {expected:,} rows, Redivis count(*) {actual:,}")
+                man.loc[name, ["data_sha256", "rows", "uploaded_at", "redivis_table", "dataset"]] = [
+                    sha(data), str(expected), now, name, target]
+            log(f"{'ok  ' if ok else 'FAIL'} {name}: CSV {expected:,} rows, Redivis count(*) {actual:,}"
+                + ("" if target == PUBLIC else f" ({target})"))
         except Exception as exc:
             results.append((name, None, None, f"{type(exc).__name__}: {exc}"))
             log(f"FAIL {name}: {type(exc).__name__}: {exc}")
     if include_metadata:
         # every header line of every table on disk, in full (descriptions stop at 2,000 characters)
-        hrows = []
-        for name in tables_on_disk():
-            for i, line in enumerate(split_header(os.path.join(OUT, name + ".csv"))[0], 1):
-                hrows.append((name, i, line))
-        hdata = pd.DataFrame(hrows, columns=["table", "line_no", "line"]).to_csv(index=False, lineterminator="\n")
-        try:
-            expected, actual = push(ds, HEADERS_TABLE, [f"Provenance header lines of every ERW table, uploaded {now}"],
-                                    hdata, "public")
-            ok = expected == actual
-            results.append((HEADERS_TABLE, expected, actual, "" if ok else "row count mismatch"))
-            log(f"{'ok  ' if ok else 'FAIL'} {HEADERS_TABLE}: {expected:,} header lines, Redivis count(*) {actual:,}")
-        except Exception as exc:
-            results.append((HEADERS_TABLE, None, None, f"{type(exc).__name__}: {exc}"))
-            log(f"FAIL {HEADERS_TABLE}: {type(exc).__name__}: {exc}")
+        # session 28: each dataset gets the header lines of its own tables only
+        for target in (PUBLIC, INTERNAL):
+            hrows = []
+            for name in tables_on_disk():
+                if dataset_for(lic.get(name, "")) != target:
+                    continue
+                for i, line in enumerate(split_header(os.path.join(OUT, name + ".csv"))[0], 1):
+                    hrows.append((name, i, line))
+            if not hrows:
+                continue
+            hdata = pd.DataFrame(hrows, columns=["table", "line_no", "line"]).to_csv(index=False, lineterminator="\n")
+            label = HEADERS_TABLE + ("" if target == PUBLIC else f" ({target})")
+            try:
+                expected, actual = push(drafts(target), HEADERS_TABLE,
+                                        [f"Provenance header lines of every ERW table in {target}, uploaded {now}"],
+                                        hdata, "public" if target == PUBLIC else "internal", dataset=target)
+                ok = expected == actual
+                results.append((label, expected, actual, "" if ok else "row count mismatch"))
+                log(f"{'ok  ' if ok else 'FAIL'} {label}: {expected:,} header lines, Redivis count(*) {actual:,}")
+            except Exception as exc:
+                results.append((label, None, None, f"{type(exc).__name__}: {exc}"))
+                log(f"FAIL {label}: {type(exc).__name__}: {exc}")
         for rname, rel in CONFIG["metadata_tables"].items():
             path = os.path.join(ROOT, rel)
             try:
                 with open(path, encoding="utf-8") as f:
                     data = f.read()
-                expected, actual = push(ds, rname, [f"ERW metadata file {rel}, uploaded {now}"], data, "public")
+                expected, actual = push(drafts(PUBLIC), rname, [f"ERW metadata file {rel}, uploaded {now}"], data,
+                                        "public")
                 ok = expected == actual
                 results.append((rname, expected, actual, "" if ok else "row count mismatch"))
                 log(f"{'ok  ' if ok else 'FAIL'} {rname} ({rel}): CSV {expected:,} rows, Redivis count(*) {actual:,}")
@@ -273,24 +333,30 @@ def run_upload(names, include_metadata, allow_shrink=()):
                 log(f"FAIL {rname}: {type(exc).__name__}: {exc}")
     write_manifest(man.reset_index().rename(columns={"index": "table"}))
     failed = [r for r in results if r[3]]
-    log(f"uploaded {len(results) - len(failed)} of {len(results)} tables to the draft of "
-        f"{CONFIG['dataset']}; nothing released")
+    log(f"uploaded {len(results) - len(failed)} of {len(results)} tables to the drafts of "
+        f"{PUBLIC} and {INTERNAL} (by license); nothing released")
     return 1 if failed else 0
 
 
 def changed_tables():
+    """Tables whose data changed since their last upload, or whose license now routes them to
+    another dataset (session 28)."""
     man = read_manifest().set_index("table")
+    lic = licenses()
     out = []
     for name in tables_on_disk():
         _, data = split_header(os.path.join(OUT, name + ".csv"))
-        if name not in man.index or man.loc[name, "data_sha256"] != sha(data):
+        if name not in man.index or man.loc[name, "data_sha256"] != sha(data) \
+                or man.loc[name, "dataset"] != dataset_for(lic.get(name, "")):
             out.append(name)
     return out
 
 
 def reconcile():
-    """count(*) of every Redivis draft table against its CSV (data rows)."""
-    ds = open_draft()
+    """count(*) of every Redivis draft table against its CSV (data rows), each in its own dataset."""
+    drafts = Drafts()
+    lic = licenses()
+    ds = drafts(PUBLIC)
     rows, bad = [], 0
     names = tables_on_disk()
     for name in names + list(CONFIG["metadata_tables"]):
@@ -299,14 +365,14 @@ def reconcile():
                 expected = len(data_rows(f.read()))
         else:
             expected = len(data_rows(split_header(os.path.join(OUT, name + ".csv"))[1]))
-        t = ds.table(name)
+        t = drafts(PUBLIC if name in CONFIG["metadata_tables"] else dataset_for(lic.get(name, ""))).table(name)
         actual = count_rows(t) if t.exists() else None
         ok = actual == expected
         bad += not ok
         rows.append((name, expected, actual, "match" if ok else "MISMATCH"))
         log(f"{'match   ' if ok else 'MISMATCH'} {name}: CSV {expected:,}, Redivis {actual if actual is None else f'{actual:,}'}")
-    extra = sorted({t.name for t in ds.list_tables()} - set(names) - set(CONFIG["metadata_tables"])
-                   - {HEADERS_TABLE})
+    extra = sorted({t.name for t in ds.list_tables()} - {n for n in names if dataset_for(lic.get(n, "")) == PUBLIC}
+                   - set(CONFIG["metadata_tables"]) - {HEADERS_TABLE})
     if extra:
         log(f"Redivis tables with no CSV here: {extra}")
     total_csv = sum(r[1] for r in rows)
@@ -347,13 +413,16 @@ def restore(out_dir=None):
     rows than the manifest last recorded, fails the restore, so the run stops before a short
     window could be uploaded over the lost history."""
     out_dir = out_dir or OUT
-    ds = open_draft()
+    drafts = Drafts()
+    lic = licenses()
     man = read_manifest().set_index("table")
-    listed = {t.name for t in ds.list_tables()}
+    homes = {dataset_for(lic.get(n, "")) for n in man.index if rolling(n)} | {PUBLIC}
+    listed = {t.name for d in sorted(homes) for t in drafts(d).list_tables()}
     expected = sorted({n for n in man.index if rolling(n)} | {n for n in listed if rolling(n)})
     got, failed = 0, 0
     for name in expected:
         try:
+            ds = drafts(dataset_for(lic.get(name, "")))  # session 28: each table from its own dataset
             meta = table_meta(ds, name)
             if meta is None:
                 raise RuntimeError(f"absent from the draft, though {CONFIG['manifest']} records an upload of "
@@ -382,6 +451,54 @@ def restore(out_dir=None):
     return 1 if failed else 0
 
 
+def check_license(fix=False):
+    """Session 28: exit 1 when any table licensed other than public is in the public dataset's draft,
+    or the internal dataset is not private. Each internal table is looked up by its metadata (not
+    list_tables() alone); every table list_tables() shows in the public draft must be public or a
+    metadata table. With fix (a human, once): each internal table found in the public draft is
+    uploaded to the internal dataset, its count(*) checked, and only then deleted from the public one."""
+    lic = licenses()
+    drafts = Drafts()
+    pub = drafts(PUBLIC)
+    internal = sorted(n for n, l in lic.items() if dataset_for(l) == INTERNAL)
+    found = [n for n in internal if table_meta(pub, n) is not None]
+    allowed = {n for n, l in lic.items() if l == "public"} | set(CONFIG["metadata_tables"]) | {HEADERS_TABLE}
+    unknown = sorted({t.name for t in pub.list_tables()} - allowed - set(found))
+    bad = 0
+    for n in found:
+        log(f"FAIL {n}: license {lic[n]!r}, but the table is in the public dataset {PUBLIC}")
+    for n in unknown:
+        log(f"FAIL {n}: in the public dataset {PUBLIC} but not a public table in coverage.csv")
+    bad += len(found) + len(unknown)
+    acct = account()
+    idx = acct.dataset(INTERNAL)
+    if not idx.exists():
+        log(f"note: the private dataset {INTERNAL} does not exist yet (--fix creates it)")
+    else:
+        level = idx.get().properties.get("publicAccessLevel")
+        if level != "none":
+            bad += 1
+            log(f"FAIL the internal dataset {INTERNAL} has public access {level!r}; it must be 'none'")
+    if fix and (found or unknown):
+        moved = [n for n in found + unknown if n in lic and dataset_for(lic[n]) == INTERNAL
+                 and os.path.exists(os.path.join(OUT, n + ".csv"))]
+        if run_upload(moved, include_metadata=False, create_internal=True) != 0:
+            log("fix stopped: an upload to the internal dataset failed; nothing deleted from the public dataset")
+            return 1
+        idd = open_draft(INTERNAL)
+        for n in moved:
+            expected = len(data_rows(split_header(os.path.join(OUT, n + ".csv"))[1]))
+            if table_meta(idd, n) is None or count_rows(idd.table(n)) != expected:
+                log(f"fix: {n} not confirmed in {INTERNAL}; left in the public dataset")
+                continue
+            pub.table(n).delete()
+            log(f"moved {n}: {expected:,} rows in {INTERNAL}, deleted from the draft of {PUBLIC}")
+        return check_license(fix=False)
+    log(f"license check: {len(internal)} internal tables, {len(found)} in the public dataset, "
+        f"{len(unknown)} unknown tables there; {'FAILED' if bad else 'ok'}")
+    return 1 if bad else 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW Redivis uploader (draft only, never releases)")
     ap.add_argument("tables", nargs="*")
@@ -390,9 +507,13 @@ def main(argv=None):
     g.add_argument("--changed", action="store_true")
     g.add_argument("--reconcile", action="store_true")
     g.add_argument("--restore", action="store_true")
+    g.add_argument("--check-license", action="store_true",
+                   help="exit 1 if any internal table is in the public dataset (session 28)")
     ap.add_argument("--out-dir", help="--restore only: write here instead of warehouse/output (tests)")
     ap.add_argument("--allow-shrink", action="append", default=[], metavar="TABLE",
                     help="upload this rolling-window table although it has fewer rows than last recorded (session 28)")
+    ap.add_argument("--fix", action="store_true",
+                    help="--check-license only: move internal tables out of the public dataset (a human, once)")
     ap.add_argument("--dry-run", action="store_true",
                     help="list the tables that would be uploaded, upload nothing (session 14, CI tests)")
     args = ap.parse_args(argv)
@@ -400,6 +521,8 @@ def main(argv=None):
         return reconcile()
     if args.restore:
         return restore(args.out_dir)
+    if args.check_license:
+        return check_license(args.fix)
     if args.all:
         names = tables_on_disk()
     elif args.changed:
