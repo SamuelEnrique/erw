@@ -184,10 +184,13 @@ else
   run_other supabase_load "$PYTHON" warehouse/supabase/load.py
 fi
 
-echo "== Energy Digest (docs/digest/)"
+echo "== Energy Digest (docs/digest/), Monday to Friday"
+# Session 23: the digest is written Monday to Friday only (UTC). On Saturday and Sunday brief.py and
+# email_digest.py --auto print "SKIPPED: no weekend issue" and write nothing; the weekend's stories open
+# Sunday's Energy Roundup (.github/workflows/roundup.yml, Sundays 23:00 UTC), which also sends it.
 run_other news_brief "$PYTHON" warehouse/news/brief.py
-# Session 19: the digest by email (tool 25), and Energy Week on Mondays. Rendered to
-# docs/digest/email/ always; sent through Resend only when RESEND_API_KEY and DIGEST_RECIPIENTS are set
+# Session 19: the digest by email (tool 25). Rendered to docs/digest/email/ always; sent through
+# Resend only when RESEND_API_KEY and DIGEST_RECIPIENTS are set
 run_other news_email "$PYTHON" warehouse/news/email_digest.py --auto
 "$PYTHON" warehouse/metadata/run_status.py record || exit 1
 

@@ -35,9 +35,9 @@ export const GROUPS: Group[] = [
   {
     label: "News",
     pages: [
-      { href: "/digest", label: "Energy Digest", line: "The day's energy news, scored and ranked, with the day's numbers from the warehouse.", tables: "news_index; docs/digest/", related: ["/weekly", "/deals"] },
-      { href: "/weekly", label: "Energy Week", line: "Monday's brief: the five stories of the week, its deals and datacenters, and the week's numbers.", tables: "news_index, energy_deals, datacenter_projects; docs/weekly/", related: ["/digest", "/subscribe"] },
-      { href: "/subscribe", label: "Email", line: "The digest and Energy Week by email: what it is and how to sign up.", tables: "Supabase subscribers (insert only)" },
+      { href: "/digest", label: "Energy Digest", line: "The weekday brief: the day's energy news, scored and ranked, the day's numbers from the warehouse, and a fun fact.", tables: "news_index; docs/digest/", related: ["/roundup", "/deals"] },
+      { href: "/roundup", label: "Energy Roundup", line: "Sunday's brief: the weekend's stories, the five stories of the week, its deals and datacenters, the week's numbers and the chart of the week.", tables: "news_index, energy_deals, datacenter_projects; docs/roundup/", related: ["/digest", "/analysis"] },
+      { href: "/subscribe", label: "Email", line: "The digest and the Energy Roundup by email: what it is and how to sign up.", tables: "Supabase subscribers (insert only)" },
     ],
   },
   {

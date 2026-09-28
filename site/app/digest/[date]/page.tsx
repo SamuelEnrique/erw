@@ -1,23 +1,41 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { DOCS, digestDates, render } from "@/lib/markdown";
+import { DOCS, digestDates, isWeekend, isoWeek, render, weeklyWeeks } from "@/lib/markdown";
 
 export const revalidate = 3600;
-export const dynamicParams = false;
+// session 23: a Saturday or Sunday without a digest is answered with "no weekend issue", so any date is accepted
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return digestDates().map((date) => ({ date }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/digest/[date]">): Promise<Metadata> {
-  return { title: `Energy Digest, ${(await params).date}` };
+  const { date } = await params;
+  return { title: DOCS.digests[date] || !isWeekend(date) ? `Energy Digest, ${date}` : `No weekend issue, ${date}` };
 }
 
 export default async function DigestDay({ params }: PageProps<"/digest/[date]">) {
   const { date } = await params;
   const md = DOCS.digests[date];
-  if (!md) notFound();
+  if (!md) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !isWeekend(date)) notFound();
+    // session 23: the digest is written Monday to Friday; the weekend's stories open Sunday's Energy Roundup
+    const week = isoWeek(date);
+    const day = new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" });
+    return (
+      <>
+        <p className="mb-4 text-sm"><Link href="/digest">Archive</Link></p>
+        <h1 className="mb-2 text-3xl">No weekend issue</h1>
+        <p className="max-w-prose">
+          {day} {date}: the Energy Digest is written Monday to Friday. The weekend&apos;s top stories open the Energy Roundup for {week},
+          written and sent on Sunday at 23:00 UTC (4 PM Pacific){" "}
+          {weeklyWeeks().includes(week) ? <Link href={`/roundup/${week}`}>(read it)</Link> : <>(not written yet; <Link href="/roundup">all Roundups</Link>)</>}.
+        </p>
+      </>
+    );
+  }
   const dates = digestDates();
   const i = dates.indexOf(date);
   return (

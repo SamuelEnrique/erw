@@ -8,7 +8,7 @@ const STATES: Record<string, string> = {
   done: "Thank you: the address is on the list.",
   invalid: "That does not look like an email address. Nothing was stored.",
   error: "The address could not be stored just now. Nothing was stored; please try again later.",
-  none: "Choose the daily digest, Energy Week, or both. Nothing was stored.",
+  none: "Choose the daily digest, the Energy Roundup, or both. Nothing was stored.",
 };
 
 export default async function SubscribePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
@@ -18,17 +18,17 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
     <>
       <h1 className="mb-1 text-3xl">Email</h1>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        The Energy Digest and Energy Week by email, as short plain text with an HTML copy.
+        The Energy Digest and the Energy Roundup by email, as short plain text with an HTML copy.
       </p>
       <Section title="What the email is">
         <ul className="max-w-3xl list-disc space-y-1 pl-5 text-sm">
           <li>
-            <strong>Daily:</strong> the top 5 headlines of the day&apos;s <Link href="/digest">Energy Digest</Link>, each with why it matters and a link to
+            <strong>Weekdays:</strong> the top 5 headlines of the day&apos;s <Link href="/digest">Energy Digest</Link>, each with why it matters and a link to
             its source, and the digest&apos;s numbers: yesterday&apos;s day-ahead average at each ISO&apos;s main hub, the highest real-time price, and
-            the latest Henry Hub, WTI and Brent closes.
+            the latest Henry Hub, WTI and Brent closes, and a fun fact.
           </li>
           <li>
-            <strong>Mondays:</strong> <Link href="/weekly">Energy Week</Link>, the five stories of the week and the week&apos;s numbers.
+            <strong>Sundays, 4 PM Pacific:</strong> the <Link href="/roundup">Energy Roundup</Link>: the weekend&apos;s stories, the five stories of the week, the week&apos;s numbers and the chart of the week.
           </li>
           <li>
             Every number comes from the warehouse and names its table, as on this site. The email links back to the site for everything else.
@@ -52,7 +52,7 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
               <input type="checkbox" name="daily" defaultChecked /> the daily Energy Digest
             </label>
             <label className="flex items-center gap-1">
-              <input type="checkbox" name="weekly" /> Energy Week, on Mondays
+              <input type="checkbox" name="weekly" /> the Energy Roundup, on Sundays
             </label>
           </fieldset>
           <label className="hidden" aria-hidden="true">

@@ -10,8 +10,10 @@ import site from "@/data/site.json";
 export type Docs = {
   built_at: string;
   digests: Record<string, string>;
-  // session 17: the weekly briefs, by ISO week (YYYY-Www)
+  // session 17: the weekly briefs, by ISO week (YYYY-Www); session 23: the Energy Roundup where a week
+  // has one (docs/roundup/), else the week's Energy Week (docs/weekly/)
   weeklies: Record<string, string>;
+  weekly_source: Record<string, string>;
   latest: string;
   datastandard: string;
   methods: Record<string, string>;
@@ -31,8 +33,11 @@ function sitePath(repoPath: string): string {
   if (m) return `/data/methods/${m[1]}${tail}`;
   m = file.match(/^docs\/digest\/(\d{4}-\d{2}-\d{2})\.md$/);
   if (m) return `/digest/${m[1]}${tail}`;
-  m = file.match(/^docs\/weekly\/(\d{4}-W\d{2})\.md$/);
-  if (m) return `/weekly/${m[1]}${tail}`;
+  m = file.match(/^docs\/(?:weekly|roundup)\/(\d{4}-W\d{2})\.md$/);
+  if (m) return `/roundup/${m[1]}${tail}`;
+  // session 23: images of the analysis (the chart of the week), copied into public/analysis-files at build
+  m = file.match(/^docs\/analysis\/(.+\.(?:png|svg|json))$/);
+  if (m) return `/analysis-files/${m[1]}${tail}`;
   return `${site.repository}/blob/main/${p}`;
 }
 
@@ -42,7 +47,7 @@ export function render(md: string, repoPath: string): string {
   const marked = new Marked({
     gfm: true,
     walkTokens(token) {
-      if (token.type !== "link") return;
+      if (token.type !== "link" && token.type !== "image") return;
       const t = token as Tokens.Link;
       if (/^([a-z]+:|#|\/)/i.test(t.href)) return;
       t.href = sitePath(path.posix.normalize(path.posix.join(dir, t.href)));
@@ -51,7 +56,7 @@ export function render(md: string, repoPath: string): string {
   return marked.parse(md, { async: false }) as string;
 }
 
-/** The weekly briefs' ISO weeks, newest first (session 17). */
+/** The weekly briefs' ISO weeks, newest first (session 17; the Energy Roundup since session 23). */
 export function weeklyWeeks(): string[] {
   return Object.keys(DOCS.weeklies ?? {}).sort().reverse();
 }
@@ -89,4 +94,38 @@ export function topItems(md: string, n: number): string[] | null {
 export function digestTitle(md: string): string {
   const m = md.match(/^#\s+(.+)$/m);
   return m ? m[1].trim() : "";
+}
+
+/** Session 23: is a YYYY-MM-DD date a Saturday or Sunday (the digest has no weekend issue)? */
+export function isWeekend(date: string): boolean {
+  const d = new Date(`${date}T00:00:00Z`);
+  return !Number.isNaN(d.getTime()) && (d.getUTCDay() === 0 || d.getUTCDay() === 6);
+}
+
+/** The ISO week (YYYY-Www) that holds a date: the Roundup that carries a weekend's stories. */
+export function isoWeek(date: string): string {
+  const d = new Date(`${date}T00:00:00Z`);
+  const day = (d.getUTCDay() + 6) % 7; // Monday 0
+  d.setUTCDate(d.getUTCDate() - day + 3); // the week's Thursday
+  const year = d.getUTCFullYear();
+  const jan4 = new Date(Date.UTC(year, 0, 4));
+  const week = 1 + Math.round(((d.getTime() - jan4.getTime()) / 86400000 - 3 + ((jan4.getUTCDay() + 6) % 7)) / 7);
+  return `${year}-W${String(week).padStart(2, "0")}`;
+}
+
+/**
+ * Session 23: the digest archive by day, newest first: every dated digest, plus each Saturday and Sunday
+ * between the first digest and today (UTC) that has none, marked as having no weekend issue.
+ */
+export function archiveDays(): { date: string; has: boolean }[] {
+  const have = new Set(digestDates());
+  const first = [...have].sort()[0];
+  const out: { date: string; has: boolean }[] = [];
+  const today = new Date().toISOString().slice(0, 10);
+  for (let d = new Date(`${first}T00:00:00Z`); d.toISOString().slice(0, 10) <= today; d.setUTCDate(d.getUTCDate() + 1)) {
+    const s = d.toISOString().slice(0, 10);
+    if (have.has(s)) out.push({ date: s, has: true });
+    else if (isWeekend(s)) out.push({ date: s, has: false });
+  }
+  return out.reverse();
 }

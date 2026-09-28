@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DOCS, digestDates, digestTitle, render } from "@/lib/markdown";
+import { DOCS, archiveDays, digestDates, digestTitle, render } from "@/lib/markdown";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Energy Digest" };
@@ -14,14 +14,15 @@ export default function DigestIndex() {
       <aside className="text-sm lg:border-l lg:border-rule lg:pl-4">
         <h2 className="mb-2 text-lg">Archive</h2>
         <ul>
-          {dates.map((d) => (
-            <li key={d}>
-              <Link href={`/digest/${d}`}>{d}</Link>
+          {archiveDays().map(({ date, has }) => (
+            <li key={date}>
+              {has ? <Link href={`/digest/${date}`}>{date}</Link> : <Link href={`/digest/${date}`} className="text-muted">{date}: no weekend issue</Link>}
             </li>
           ))}
         </ul>
         <p className="mt-3 text-xs text-muted">
-          {dates.length} digests, committed daily to <code className="font-mono">docs/digest/</code>. {digestTitle(DOCS.digests[newest])} is shown here.
+          {dates.length} digests, written Monday to Friday at 14:00 UTC and committed to <code className="font-mono">docs/digest/</code>; the
+          weekend&apos;s stories open Sunday&apos;s <Link href="/roundup">Energy Roundup</Link>. {digestTitle(DOCS.digests[newest])} is shown here.
         </p>
       </aside>
     </div>

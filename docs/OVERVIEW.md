@@ -37,8 +37,8 @@ https://erw-flame.vercel.app: Next.js on Vercel, reading Supabase with the anony
 | Projects | `/datacenters` | Datacenter facilities named in the news: operator, place, MW, status and power. |
 | Projects | `/deals` | PPAs, acquisitions, financings and supply deals from the news, with sources. |
 | News | `/digest` | The day's energy news, scored and ranked, with the day's numbers from the warehouse. |
-| News | `/weekly` | Monday's brief: the five stories of the week, its deals and datacenters, and the week's numbers. |
-| News | `/subscribe` | The digest and Energy Week by email: what it is and how to sign up. |
+| News | `/roundup` | Sunday's brief: the weekend's stories, the five stories of the week, its deals and datacenters, the week's numbers and the chart of the week. |
+| News | `/subscribe` | The digest and the Energy Roundup by email: what it is and how to sign up. |
 | Data | `/data` | Every public table with its dates, rows, source and license; the data standard and the methods. |
 | Data | `/ask` | Ask the warehouse a question; every number in the answer comes from a table it read. |
 | About | `/about` | What the ERW is, how it is built, and where the code and session logs are. |
@@ -60,7 +60,7 @@ From `docs/platform-tools.md`: 22 of the platform's tools have a data layer that
 | 9 | Flagship newsletter | partial |  |
 | 12 | Policy and regulatory monitor | partial |  |
 | 13 | Deep-dive report library | partial |  |
-| 14 | Weekly state-of-energy brief | yes | `/weekly` |
+| 14 | Weekly state-of-energy brief (the Energy Roundup) | yes | `/roundup` |
 | 15 | Data downloads and methodology | partial | `/data` |
 | 16 | Cost-of-power model | partial |  |
 | 18 | Predictive and scenario layer | partial |  |
@@ -70,7 +70,7 @@ From `docs/platform-tools.md`: 22 of the platform's tools have a data layer that
 | 22 | Curtailment tracker: wind and solar output curtailed, by ISO | partial | `/curtailment` |
 | 23 | Consumption by sector: who uses the power, and where load is growing | yes | `/consumption` |
 | 24 | Trader view: day-ahead against real-time, on-peak and off-peak, heat rates and volatility, by hub | partial | `/markets` |
-| 25 | Email digest: the daily Energy Digest and Monday's Energy Week by email | partial | `/subscribe` |
+| 25 | Email digest: the weekday Energy Digest and Sunday's Energy Roundup by email | partial | `/subscribe` |
 
 ## What refreshes when
 
@@ -80,7 +80,7 @@ From the cron lines of `.github/workflows/`:
 |---|---|---|
 | daily prices | `.github/workflows/daily-prices.yml` | every day at 14:00 UTC (`0 14 * * *`) |
 | latest prices | `.github/workflows/latest-prices.yml` | every 15 minutes (`*/15 * * * *`) |
-| weekly brief | `.github/workflows/weekly-brief.yml` | Mondays at 13:00 UTC (`0 13 * * 1`) |
+| Energy Roundup and Automated Analysis | `.github/workflows/roundup.yml` | Sundays at 23:00 UTC (`0 23 * * 0`) |
 
 The daily run (`warehouse/run_daily.sh`) pulls every source, runs the derived tables, the news (ingest, scoring, deals, datacenters, the digest and its email), validates, rebuilds coverage, loads the Supabase live set and uploads changed tables to the Redivis draft; the ISO interconnection queues are pulled on Mondays.
 

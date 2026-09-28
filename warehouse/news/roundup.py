@@ -1,18 +1,27 @@
 #!/usr/bin/env python3
-"""Write "Energy Week", the weekly brief: docs/weekly/YYYY-Www.md and docs/weekly/latest.md.
+"""Write the Energy Roundup, the weekly brief: docs/roundup/YYYY-Www.md and docs/roundup/latest.md.
 
-Energy Research Warehouse (ERW), platform tool 14, session 17.
+Energy Research Warehouse (ERW), platform tool 14. Session 17 built it as "Energy Week"
+(warehouse/news/weekly.py, docs/weekly/, Mondays 13:00 UTC); session 23 renamed it the Energy
+Roundup and moved it to Sundays at 23:00 UTC (4 PM Pacific), when it is written and sent.
+The Energy Week files already in docs/weekly/ stay there as they were written.
 
-    python warehouse/news/weekly.py                    # the ISO week that contains yesterday (UTC)
-    python warehouse/news/weekly.py --week 2026-W39
+    python warehouse/news/roundup.py                    # the ISO week that contains yesterday (UTC)
+    python warehouse/news/roundup.py --week 2026-W39
 
 The week is an ISO week, Monday 00:00 to Monday 00:00 UTC, cut at the time of the run. The
-scheduled run (Mondays 13:00 UTC, .github/workflows/weekly-brief.yml) therefore writes the
-week that ended the night before; a run on any other day writes the week so far and says so.
+scheduled run (Sundays 23:00 UTC, .github/workflows/roundup.yml) therefore writes the week
+from Monday to that Sunday evening and says where it was cut; a run on Monday writes the week
+that ended the night before.
 
 Sections:
+  0. Weekend (session 23): the daily digest is written Monday to Friday only, so the Roundup
+     opens with the top three clusters among the stories published on the week's Saturday and
+     Sunday (UTC), ranked as in the digest.
   1. The five stories of the week: the five clusters (score.py's cluster_id) with the highest
-     significance among the week's scored stories, as in the daily digest.
+     significance among the week's scored stories, as in the daily digest, leaving out the
+     clusters already shown under Weekend (each section takes only clusters not shown above it,
+     as in the digest, session 21 ruling 5).
   2. The week's deals: every row of energy_deals whose event_date falls in the week.
   3. The week's datacenter announcements: every row of datacenter_projects first reported in
      the week (first_story_at).
@@ -21,6 +30,9 @@ Sections:
      week before (both weeks must be complete); the week's highest real-time price and where;
      Henry Hub, WTI and Brent: the last close of the week, the last close before it, and the
      change; US48 peak demand of the week with its hour.
+  5. Chart of the week (session 23, platform tool 26): the chart warehouse/analysis/run.py picked
+     for the week, with its two-sentence note, read from docs/analysis/YYYY-Www/. When the engine
+     has not written one for the week, the section says so.
 
 Who writes what, as in the daily digest (warehouse/news/brief.py): the model writes only the
 five headlines (one call, JSON schema). The one-line whys are the stories' own scored why
@@ -44,7 +56,27 @@ import brief  # noqa: E402  (the daily digest: clusters, headlines, citations, h
 from brief import FUELS, MAIN_HUBS, RT_TZ, ROOT, cite_short, erw, ip, link_text, mean2, NAME, NEWS_COLS  # noqa: E402
 from score import PRICES, pick_model  # noqa: E402
 
-WEEKLY_DIR = os.path.join(ROOT, "docs", "weekly")
+ROUNDUP_DIR = os.path.join(ROOT, "docs", "roundup")
+ANALYSIS_DIR = os.path.join(ROOT, "docs", "analysis")
+WEEKEND_N = 3  # clusters under Weekend
+
+
+def chart_of_the_week(label, log):
+    """Session 23: the chart of the week from docs/analysis/<label>/ (warehouse/analysis/run.py): the
+    email-size PNG, the title, the two-sentence note and the source line, as markdown. The note passed
+    the literal-number check when the engine wrote it and is copied here as written."""
+    import json
+    meta = os.path.join(ANALYSIS_DIR, label, "chart_of_the_week.json")
+    if not os.path.exists(meta):
+        log(f"  chart of the week: none in docs/analysis/{label}/")
+        return ["- no chart of the week was picked for this week (warehouse/analysis/run.py has not run for it)."]
+    m = json.load(open(meta, encoding="utf-8"))
+    L = [f"**{m['title']}**", "", f"![{m['title']}](../analysis/{label}/{m['files']['email']})", ""]
+    if m.get("note"):
+        L += [m["note"], ""]
+    L.append(f"Source: {m['source_line']}. Template `{m['template']}`; every template's latest run is on "
+             "[/analysis](/analysis).")
+    return L
 
 
 def read_table(name):
@@ -173,13 +205,13 @@ def num(v, fmt="{:,.0f}"):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="ERW weekly brief, Energy Week")
+    ap = argparse.ArgumentParser(description="ERW weekly brief, the Energy Roundup")
     ap.add_argument("--week", help="ISO week YYYY-Www (default: the week that contains yesterday, UTC)")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    log = ip.Log(os.path.join(ip.LOG_DIR, f"news_weekly_{run_id}.log"))
-    status = dict(table="weekly", market="brief", status="ok", detail="")
+    log = ip.Log(os.path.join(ip.LOG_DIR, f"news_roundup_{run_id}.log"))
+    status = dict(table="roundup", market="brief", status="ok", detail="")
     try:
         now = pd.Timestamp.now(tz="UTC")
         label, start, end, cut = week_bounds(args.week, now)
@@ -194,22 +226,38 @@ def main(argv=None):
         if s.empty:
             raise RuntimeError("no scored stories in the week; not writing an empty brief")
         clusters = brief.build_clusters(s)
-        top5 = clusters.head(5)
+        # session 23: the weekend's top clusters first (Saturday 00:00 UTC to the cut), then the five
+        # stories of the week from the clusters not shown under Weekend
+        wk_start = start + pd.Timedelta(days=5)
+        wk_s = s[pd.to_datetime(s["event_date"], utc=True) >= wk_start]
+        weekend = brief.build_clusters(wk_s).head(WEEKEND_N) if len(wk_s) else clusters.head(0)
+        top5 = clusters[~clusters["cluster_id"].isin(set(weekend["cluster_id"]))].head(5)
+        shown = pd.concat([weekend, top5]).drop_duplicates("cluster_id")
         client = anthropic.Anthropic(api_key=ip.load_key("ANTHROPIC_API_KEY", log))
         model = pick_model(client, log)
-        heads, u, calls = brief.headlines(client, model, top5, log)
-        if set(top5["cluster_id"]) - set(heads):
+        heads, u, calls = brief.headlines(client, model, shown, log)
+        if set(shown["cluster_id"]) - set(heads):
             raise RuntimeError("headlines missing for some clusters")
+        secs = brief.unique_items({"weekend": weekend, "top": top5}, heads, log)
+        weekend, top5 = secs["weekend"], secs["top"]
         cost = (f"USD {(u.input_tokens * PRICES[model][0] + u.output_tokens * PRICES[model][1]) / 1e6:.4f}"
                 if model in PRICES else "unknown")
         log(f"  headlines from {model}: tokens in {u.input_tokens} out {u.output_tokens}; cost {cost}")
 
         span = (f"{start:%Y-%m-%d} to {(end - pd.Timedelta(days=1)):%Y-%m-%d}" +
-                (f", so far (to {cut:%Y-%m-%d %H:%M} UTC)" if partial else ""))
-        L = [f"# Energy Week, {label}", "",
+                (f", to {cut:%Y-%m-%d %H:%M} UTC" if partial else ""))
+        L = [f"# Energy Roundup, {label}", "",
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
-             f"The ERW's weekly brief of energy news for {span}, from {len(s)} scored stories.", "",
-             "## The five stories of the week", ""]
+             f"The ERW's weekly roundup of energy news for {span}, from {len(s)} scored stories.", "",
+             "## Weekend", ""]
+        if weekend.empty:
+            L.append(f"- no scored story was published on {wk_start:%Y-%m-%d} or "
+                     f"{wk_start + pd.Timedelta(days=1):%Y-%m-%d} (UTC).")
+        for i, r in enumerate(weekend.to_dict("records"), 1):
+            L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
+                     f"{'story' if r['n'] == 1 else 'stories'})  ")
+            L.append(f"   {r['why']} Sources: {link_text(r['links'])}")
+        L += ["", "## The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
             # session 21, ruling 4: the sector label, never the significance score
             L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')}, {r['n']} "
@@ -265,25 +313,27 @@ def main(argv=None):
             log(f"  numbers summary: {len(su)} call(s), cost USD {scost:.4f}")
             cost = f"{cost} + summary USD {scost:.4f}"
         L += ["", "## Numbers of the week", ""] + ([summary, ""] if summary else []) + nums
+        L += ["", "## Chart of the week", ""] + chart_of_the_week(label, log)
         L += ["", "---", "", "[How this is made.](/about#digest)", "",
-              f"<!-- Generated by warehouse/news/weekly.py at {now:%Y-%m-%d %H:%M} UTC; run log "
-              f"warehouse/output/logs/news_weekly_{run_id}.log; model {model}. -->"]
-        os.makedirs(WEEKLY_DIR, exist_ok=True)
-        path = os.path.join(WEEKLY_DIR, f"{label}.md")
+              f"<!-- Generated by warehouse/news/roundup.py at {now:%Y-%m-%d %H:%M} UTC; run log "
+              f"warehouse/output/logs/news_roundup_{run_id}.log; model {model}. -->"]
+        os.makedirs(ROUNDUP_DIR, exist_ok=True)
+        path = os.path.join(ROUNDUP_DIR, f"{label}.md")
         brief.assert_unique(L)  # ruling 5: no two items share a normalized headline or a source URL
         text = "\n".join(L) + "\n"
-        for p in (path, os.path.join(WEEKLY_DIR, "latest.md")):
+        for p in (path, os.path.join(ROUNDUP_DIR, "latest.md")):
             with open(p, "w", encoding="utf-8", newline="\n") as f:
                 f.write(text)
-        status["detail"] = f"{label}: {len(s)} stories, {len(clusters)} clusters, headline cost {cost}"
+        status["detail"] = (f"{label}: {len(s)} stories, {len(clusters)} clusters, {len(weekend)} weekend, "
+                            f"headline cost {cost}")
         log(f"wrote {os.path.relpath(path, ROOT)} and latest.md; {status['detail']}")
-        print(f"weekly: {os.path.relpath(path, ROOT)}; {status['detail']}")
+        print(f"roundup: {os.path.relpath(path, ROOT)}; {status['detail']}")
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED:\n{tb}")
-        print(f"news_weekly FAILED: {tb.strip().splitlines()[-1]}", file=sys.stderr)
+        print(f"news_roundup FAILED: {tb.strip().splitlines()[-1]}", file=sys.stderr)
         status.update(status="failed", detail=tb.strip().splitlines()[-1][:300])
-    ip.write_status("news_weekly", run_id, [status])
+    ip.write_status("news_roundup", run_id, [status])
     log.close()
     return 0 if status["status"] == "ok" else 1
 

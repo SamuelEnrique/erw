@@ -158,7 +158,7 @@ const PATHS: { who: string; what: string; links: [string, string][] }[] = [
   {
     who: "Enthusiasts",
     what: "What happened across energy today and this week, from scored news.",
-    links: [["Digest", "/digest"], ["Energy Week", "/weekly"], ["Email", "/subscribe"]],
+    links: [["Digest", "/digest"], ["Roundup", "/roundup"], ["Email", "/subscribe"]],
   },
   {
     who: "Investors",
@@ -219,7 +219,7 @@ export default async function Home() {
         title="Energy Digest"
         aside={
           <>
-            <Link href="/digest">Archive</Link> <span className="text-muted">|</span> <Link href="/weekly">Energy Week</Link>
+            <Link href="/digest">Archive</Link> <span className="text-muted">|</span> <Link href="/roundup">Energy Roundup</Link>
           </>
         }
       >

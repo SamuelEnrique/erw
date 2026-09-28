@@ -21,7 +21,7 @@ export default function About() {
         and a table derived from other tables takes the most restrictive license among them. Tables licensed for internal use only, such as PJM market
         data, stay in the warehouse and are never shown on this site.
       </p>
-      <h2 id="digest" className="mb-2 mt-6 text-xl">How the digest and Energy Week are made</h2>
+      <h2 id="digest" className="mb-2 mt-6 text-xl">How the digest and the Energy Roundup are made</h2>
       <div className="mb-6 space-y-2 text-sm leading-relaxed">
         <p>
           <strong>Stories.</strong> The ERW reads energy news feeds (the outlets are listed in the source registry) and keeps each story&apos;s title,
@@ -44,8 +44,16 @@ export default function About() {
           in the section, or the summary is regenerated once and otherwise left out.
         </p>
         <p>
-          <strong>Schedule.</strong> The digest covers the 24 hours before it is written, every day at 14:00 UTC; Energy Week covers an ISO week (Monday to
-          Sunday, UTC) and is written on Mondays at 13:00 UTC.
+          <strong>Schedule.</strong> The digest covers the 24 hours before it is written, Monday to Friday at 14:00 UTC; there is no weekend issue.
+          The Energy Roundup covers an ISO week (Monday to Sunday, UTC), opens with the weekend&apos;s top stories, and is written and sent on Sundays at
+          23:00 UTC (4 PM Pacific). It was called Energy Week, on Mondays, until session 23.
+        </p>
+        <p>
+          <strong>Fun fact and chart of the week.</strong> Each digest ends with a fun fact: always an energy fact first (a number from the warehouse,
+          a piece of energy history, or a quirk of how the system works), sometimes with a second half. A number must match the warehouse exactly, and
+          a history or word-origin claim must be found, word for word, in a stored copy of its source (Wikipedia, a dictionary, or EIA); a fact that
+          fails is dropped and the digest ships without one. The Roundup carries the chart of the week, picked by a fixed rule from the Automated
+          Analysis templates (<a href="/analysis">/analysis</a>).
         </p>
       </div>
 

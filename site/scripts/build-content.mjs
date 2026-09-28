@@ -36,13 +36,20 @@ if (Object.keys(digests).length === 0) {
   process.exit(1);
 }
 
-// Session 17: the weekly briefs (docs/weekly/YYYY-Www.md, warehouse/news/weekly.py); none is not an error
-const weeklyDir = path.join(docs, "weekly");
+// Session 17: the weekly briefs (docs/weekly/YYYY-Www.md, "Energy Week"); session 23: the Energy Roundup
+// (docs/roundup/YYYY-Www.md, warehouse/news/roundup.py). Both are the weekly brief, by ISO week; where a
+// week has a Roundup it is shown, else its Energy Week. None is not an error.
 const weeklies = {};
-if (fs.existsSync(weeklyDir)) {
-  for (const f of fs.readdirSync(weeklyDir).sort()) {
+const weeklySource = {};
+for (const dir of ["weekly", "roundup"]) {
+  const d = path.join(docs, dir);
+  if (!fs.existsSync(d)) continue;
+  for (const f of fs.readdirSync(d).sort()) {
     const m = f.match(/^(\d{4}-W\d{2})\.md$/);
-    if (m) weeklies[m[1]] = read(path.join(weeklyDir, f));
+    if (m) {
+      weeklies[m[1]] = read(path.join(d, f));
+      weeklySource[m[1]] = `docs/${dir}/${f}`;
+    }
   }
 }
 
@@ -101,6 +108,7 @@ const out = {
   run_status_eia930: runStatus(),
   digests,
   weeklies,
+  weekly_source: weeklySource,
   latest: read(path.join(digestDir, "latest.md")),
   datastandard: read(path.join(docs, "datastandard.md")),
   methods,

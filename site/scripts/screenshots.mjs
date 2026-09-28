@@ -40,7 +40,7 @@ const PAGES = [
   ["grid", "/grid"],
   ["map", "/map"],
   ["datacenters", "/datacenters"],
-  ["weekly", "/weekly"],
+  ["roundup", "/roundup"],
   // session 18
   ["mix", "/mix?ba=erco&state=TX"],
   ["curtailment", "/curtailment"],

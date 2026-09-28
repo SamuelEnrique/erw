@@ -1,0 +1,144 @@
+# The Energy Roundup, the weekly brief of the Energy Research Warehouse (ERW), platform tool 14,
+# and Automated Analysis (tool 26), which picks its chart of the week.
+#
+# Session 17 built this as "Energy Week" (weekly-brief.yml, Mondays 13:00 UTC). Session 23 renamed
+# it the Energy Roundup and moved it to Sundays at 23:00 UTC (4 PM Pacific): it covers Monday to
+# that Sunday evening, opens with the weekend's stories (the daily digest is written Monday to
+# Friday only), and is sent the same evening.
+#
+# Steps:
+#   1. restore the rolling-window tables from the Redivis draft (the runner has no tables; they are
+#      not in git, session 9) and pull the EIA fuel spot prices (a full-history table, small);
+#   2. run every Automated Analysis template and pick the chart of the week
+#      (warehouse/analysis/run.py, docs/analysis/YYYY-Www/); a template whose inputs are not on the
+#      runner is skipped and named in the week's run file;
+#   3. write the Roundup (warehouse/news/roundup.py, docs/roundup/YYYY-Www.md and latest.md);
+#   4. commit docs/roundup and docs/analysis to main and push, so the chart the email embeds is on
+#      GitHub before the email goes out (the email links the image on raw.githubusercontent.com);
+#   5. render and send the email (warehouse/news/email_digest.py --roundup; sent only with the Resend
+#      secrets), then commit the rendered copy in docs/digest/email/.
+# The commit step is the daily run's: set the changes aside, pull main with rebase, restore them,
+# commit only if something changed (session 16). Nothing publishes to Redivis.
+name: energy roundup
+
+on:
+  schedule:
+    - cron: "0 23 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: energy-roundup
+  cancel-in-progress: false
+
+jobs:
+  roundup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+
+      - name: Restore tables, pull fuel prices, run the analysis, write the Roundup
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
+          REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
+        run: |
+          set -o pipefail
+          {
+            python warehouse/redivis/upload.py --restore
+            python warehouse/connectors/eia_fuels.py
+            python warehouse/analysis/run.py
+            python warehouse/news/roundup.py
+          } 2>&1 | tee roundup.log
+
+      - name: Keep the log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: energy-roundup-log
+          path: |
+            roundup.log
+            runs/
+          retention-days: 90
+
+      - name: Commit the Roundup and the analysis
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git stash push --include-untracked --quiet -m "energy roundup" || true
+          git pull --rebase origin main
+          if git stash list | grep -q "energy roundup"; then
+            if ! git stash pop --quiet; then
+              conflicted="$(git diff --name-only --diff-filter=U)"
+              if [ -z "$conflicted" ]; then
+                echo "::error::git stash pop failed without a conflict to resolve"
+                git status
+                exit 1
+              fi
+              git checkout --theirs -- $conflicted
+              git reset --quiet
+              git stash drop --quiet
+            fi
+          fi
+          git reset --quiet
+          git add -- docs/roundup docs/analysis
+          if git diff --cached --quiet; then
+            echo "No Roundup or analysis file changed; nothing to commit."
+            exit 0
+          fi
+          git commit -m "Energy Roundup $(ls docs/roundup | grep -E '^[0-9]{4}-W[0-9]{2}\.md$' | sort | tail -1 | sed 's/\.md$//')" \
+                     -m "Automated run of .github/workflows/roundup.yml (warehouse/analysis/run.py, warehouse/news/roundup.py)."
+          git push origin HEAD:main
+
+      - name: Send the Roundup by email
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          EMAIL_TOKEN_SECRET: ${{ secrets.EMAIL_TOKEN_SECRET }}
+          EMAIL_SUBSCRIBERS: "1"
+        run: |
+          set -o pipefail
+          python warehouse/news/email_digest.py --roundup 2>&1 | tee -a roundup.log
+          git add -- docs/digest/email
+          if ! git diff --cached --quiet; then
+            git commit -m "Energy Roundup email rendered" -m "Automated run of .github/workflows/roundup.yml (warehouse/news/email_digest.py --roundup)."
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+
+      - name: Report a failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "The ERW Energy Roundup failed; see the run for what was committed and sent."
+            echo
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo '```'
+            tail -c 30000 roundup.log 2>/dev/null || echo "(no log produced)"
+            echo '```'
+          } > issue.md
+          gh issue create --title "ERW Energy Roundup $(date -u +%G-W%V) [FAILED]" --body-file issue.md

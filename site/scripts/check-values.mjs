@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
-const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/weekly",
+const PAGES = ["/", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/consumption",
   // session 19
@@ -185,14 +185,15 @@ function isoWeekMonday(label) {
 const cells = (row) => [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((m) => decode(m[1].replace(/<[^>]+>/g, "")).trim());
 
 async function checkWeekly(lines) {
-  const html = await fetch(base + "/weekly").then((r) => r.text());
-  const label = (html.match(/Energy Week, (\d{4}-W\d{2})/) || [])[1];
+  // session 23: Energy Week became the Energy Roundup (/roundup; /weekly redirects there)
+  const html = await fetch(base + "/roundup").then((r) => r.text());
+  const label = (html.match(/Energy (?:Week|Roundup), (\d{4}-W\d{2})/) || [])[1];
   if (!label) return [0, 0];
   const mon = isoWeekMonday(label);
   let ok = 0, bad = 0;
   const report = (pass, what, shown, truth) => {
     pass ? ok++ : bad++;
-    lines.push(`${pass ? "ok  " : "FAIL"} | /weekly | ${what} | page shows "${shown}" | Supabase ${truth}`);
+    lines.push(`${pass ? "ok  " : "FAIL"} | /roundup | ${what} | page shows "${shown}" | Supabase ${truth}`);
   };
   for (const row of html.split("<tr>").slice(1)) {
     const c = cells(row);
@@ -280,7 +281,7 @@ async function main() {
   bad += wbad;
   const n = found.size + wok + wbad;
   console.log(lines.join("\n"));
-  console.log(`\n${ok} of ${n} values match Supabase${bad ? `; ${bad} FAILED` : ""} (/weekly: ${wok} of ${wok + wbad})`);
+  console.log(`\n${ok} of ${n} values match Supabase${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);
   if (bad || n < 10) process.exit(1);
 }
 
