@@ -28,3 +28,6 @@ warehouse/output/*.csv
 warehouse/output/logs/
 # Session 23: Automated Analysis results of internal templates (never published)
 warehouse/output/analysis_internal/
+# Session 25: the Thesis Builder's saved states and chart images (rebuildable; not published)
+warehouse/output/thesis_state/
+warehouse/output/thesis_charts/
