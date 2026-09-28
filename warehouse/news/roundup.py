@@ -30,6 +30,8 @@ Sections:
      week before (both weeks must be complete); the week's highest real-time price and where;
      Henry Hub, WTI and Brent: the last close of the week, the last close before it, and the
      change; US48 peak demand of the week with its hour.
+  4b. Policy of the week (session 24, platform tool 12): the week's most significant policy action from
+     policy_actions (scored with the news rubric), with its impact read from policy_reads, and the next two.
   5. Chart of the week (session 23, platform tool 26): the chart warehouse/analysis/run.py picked
      for the week, with its two-sentence note, read from docs/analysis/YYYY-Www/. When the engine
      has not written one for the week, the section says so.
@@ -59,6 +61,45 @@ from score import PRICES, pick_model  # noqa: E402
 ROUNDUP_DIR = os.path.join(ROOT, "docs", "roundup")
 ANALYSIS_DIR = os.path.join(ROOT, "docs", "analysis")
 WEEKEND_N = 3  # clusters under Weekend
+
+
+TYPE_RANK = {"rule": 0, "proposed_rule": 1, "notice": 2, "press_release": 3}
+TYPE_LABEL = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
+
+
+def policy_of_the_week(start, cut, log):
+    """Session 24: the week's most significant policy action (policy_actions, scored with the news rubric by
+    warehouse/policy/score.py; ties go to a final rule over a proposed rule, a notice and a news release), with its
+    impact read (policy_reads) where one was kept, and the next two."""
+    acts = read_table("policy_actions")
+    if acts is None:
+        return ["- policy_actions is not in the warehouse on this machine."]
+    reads = read_table("policy_reads")
+    rd = {} if reads is None else {r["action_event_id"]: r for r in reads.to_dict("records")}
+    d = pd.to_datetime(acts["event_date"], utc=True)
+    w = acts[(d >= start) & (d < cut) & (acts["significance"] != "")].copy()
+    if w.empty:
+        return ["- no scored policy action is dated this week."]
+    w["sig"] = w["significance"].astype(int)
+    w["rank"] = w["action_type"].map(TYPE_RANK).fillna(9)
+    w = w.sort_values(["sig", "rank", "event_date"], ascending=[False, True, True])
+    top = w.iloc[0]
+    r = rd.get(top["event_id"], {})
+    L = [f"**{top['title']}** ({top['agency']} {TYPE_LABEL.get(top['action_type'], top['action_type'])}, {top['event_date']}"
+         + (f"; docket {top['docket'].replace(';', ', ')}" if top["docket"] else "") + ")", ""]
+    L.append((r.get("plain_read") or top["why"]) + f" [Source]({top['source_url']})")
+    if r.get("timeline"):
+        L += ["", f"Timeline: {r['timeline']}"]
+    also = w.iloc[1:3]
+    if len(also):
+        L += ["", "Also this week:", ""]
+        for x in also.to_dict("records"):
+            L.append(f"- {x['title']} ({x['agency']} {TYPE_LABEL.get(x['action_type'], x['action_type'])}, "
+                     f"{x['event_date']}): {x['why']} [source]({x['source_url']})")
+    L += ["", "Table: `policy_actions` (scored with the news rubric) and `policy_reads` (impact reads, each field kept only "
+          "when its words are in the action's own text); every action is on [/policy](/policy)."]
+    log(f"  policy of the week: {top['event_id']} (significance {top['sig']})")
+    return L
 
 
 def chart_of_the_week(label, log):
@@ -306,6 +347,7 @@ def main(argv=None):
                 L.append(f"Table: `datacenter_projects` ({len(cw)} facilities; `warehouse/datacenters/extract.py`, "
                          "every field only as its story states it).")
 
+        L += ["", "## Policy of the week", ""] + policy_of_the_week(start, cut, log)
         nums = numbers(start, cut, log)
         summary, su = brief.numbers_summary(client, model, nums, log)
         if model in PRICES:

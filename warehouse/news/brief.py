@@ -32,7 +32,8 @@ Sector groups (model sector -> section):
                           interconnection, storage, datacenter_power, ppa
   Oil and gas             oil, gas, lng, geopolitics
   Nuclear and renewables  nuclear, renewables, hydrogen
-  Policy and capital      policy, capital, deal, company
+  Policy                  policy, then the policy actions of the window scored 5 or more (session 24)
+  Capital and companies   capital, deal, company
   (transport and other appear only in the top 10)
 
 Main hub per ISO for the day-ahead average (yesterday = the ISO's own local
@@ -72,7 +73,9 @@ GROUPS = {
               "storage", "datacenter_power", "ppa"],
     "Oil and gas": ["oil", "gas", "lng", "geopolitics"],
     "Nuclear and renewables": ["nuclear", "renewables", "hydrogen"],
-    "Policy and capital": ["policy", "capital", "deal", "company"],
+    # session 24: policy is its own group, with the day's scored policy actions (policy_actions) under its stories
+    "Policy": ["policy"],
+    "Capital and companies": ["capital", "deal", "company"],
 }
 MAIN_HUBS = [  # (label, table, node, local tz)
     ("ERCOT", "ercot_dam_hub_prices", "HB_NORTH", "America/Chicago"),
@@ -386,6 +389,27 @@ def numbers_today(digest_date, log):
     return lines + notes.lines()
 
 
+def policy_actions_lines(start, end, log, n=3):
+    """Session 24: the policy actions of the window (policy_actions: the Federal Register and agency news) scored 5 or
+    more with the news rubric, most significant first, as the Policy group's last lines. The title is the agency's own."""
+    path = os.path.join(ip.OUT_DIR, "policy_actions.csv")
+    if not os.path.exists(path):
+        log("  policy actions: policy_actions.csv not on this machine")
+        return []
+    with open(path, encoding="utf-8") as f:
+        skip = sum(1 for ln in f if ln.startswith("#"))
+    a = pd.read_csv(path, skiprows=skip, dtype=str, keep_default_na=False)
+    d = pd.to_datetime(a["event_date"], utc=True)
+    # the actions are dated by day: the window's days, from the day it starts
+    a = a[(d >= start.normalize()) & (d < end) & (a["significance"] != "")]
+    a = a[a["significance"].astype(int) >= 5].assign(sig=lambda x: x["significance"].astype(int))
+    a = a.sort_values(["sig", "event_date"], ascending=[False, False]).head(n)
+    kinds = {"rule": "final rule", "proposed_rule": "proposed rule", "notice": "notice", "press_release": "news release"}
+    log(f"  policy actions: {len(a)} scored 5 or more in the window")
+    return [f"- {r['title']} ({r['agency']} {kinds.get(r['action_type'], r['action_type'])}, policy action): {r['why']} "
+            f"[{r['agency']}]({r['source_url']})" for r in a.to_dict("records")]
+
+
 def fun_fact_section(digest_date, log):
     """Session 23: the day's fun fact (warehouse/news/funfact.py wrote it to warehouse/news/facts/items/),
     checked again against its stored raw sources and the literal-number check. Any failure, or no item,
@@ -486,6 +510,8 @@ def main(argv=None):
                 L.append("- no scored story in this group today")
             for r in c.to_dict("records"):
                 L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {r['why']} {link_text(r['links'][:1])}")
+            if g == "Policy":
+                L += policy_actions_lines(now - pd.Timedelta(hours=args.hours), now, log)
             L.append("")
         L += ["## AI and power", ""]
         if ai.empty:

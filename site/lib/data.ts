@@ -237,3 +237,58 @@ export async function datacenters(): Promise<EntityRow[]> {
     HOURLY,
   );
 }
+
+/** Session 24: a policy action (policy_actions) with its scores and, when it has one, its impact read (policy_reads). */
+export type PolicyAction = {
+  event_id: string;
+  event_date: string;
+  status: string | null;
+  source_url: string;
+  agency: string;
+  action_type: string;
+  title: string;
+  docket: string;
+  sector_tags: string;
+  states: string;
+  significance: string;
+  sector: string;
+  why: string;
+  related_urls: string;
+  news_story_urls: string;
+};
+export type PolicyRead = {
+  action_event_id: string;
+  what_changes: string;
+  affected_sectors: string;
+  affected_isos: string;
+  affected_states: string;
+  direction_supply: string;
+  direction_demand: string;
+  direction_prices: string;
+  direction_buildout: string;
+  timeline: string;
+  plain_read: string;
+  fields_kept: string;
+  fields_dropped: string;
+  model_id: string;
+};
+
+export async function policyActions(): Promise<PolicyAction[]> {
+  const f = ["agency", "action_type", "title", "docket", "sector_tags", "states", "significance", "sector", "why", "related_urls", "news_story_urls"];
+  return rest<PolicyAction>(
+    "events",
+    {
+      select: ["event_id", "event_date", "status", "source_url", ...f.map((k) => `${k}:extra->>${k}`)].join(","),
+      table_name: "eq.policy_actions",
+      order: "event_date.desc,event_id",
+    },
+    HOURLY,
+    10_000,
+  );
+}
+
+export async function policyReads(): Promise<PolicyRead[]> {
+  const f = ["action_event_id", "what_changes", "affected_sectors", "affected_isos", "affected_states", "direction_supply", "direction_demand",
+    "direction_prices", "direction_buildout", "timeline", "plain_read", "fields_kept", "fields_dropped", "model_id"];
+  return rest<PolicyRead>("events", { select: f.map((k) => `${k}:extra->>${k}`).join(","), table_name: "eq.policy_reads", order: "event_id" }, HOURLY, 10_000);
+}

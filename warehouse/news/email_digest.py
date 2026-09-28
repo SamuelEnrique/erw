@@ -222,7 +222,7 @@ def render(path, kind, stories=None, note=None, unsubscribe=None):
     t += ["", "Numbers" if kind == "daily" else "Numbers of the week", ""] + num_text
     h += [H2.format("Numbers" if kind == "daily" else "Numbers of the week"), SMALL.format(num_html)]
     # session 23: the Fun fact (daily) and the Chart of the week (Roundup), as the brief wrote them
-    for heading in ("## Chart of the week", "## Fun fact"):
+    for heading in ("## Policy of the week", "## Chart of the week", "## Fun fact"):  # session 24: policy
         body = [site_links(x, site or SITE_DEFAULT) for x in section(lines, (heading,))]
         if any(x.strip() for x in body):
             bt, bh = block(body, img_base=f"docs/{rel}")
