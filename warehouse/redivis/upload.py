@@ -10,6 +10,7 @@ true replace, a count(*) proof, and never a release.
     python warehouse/redivis/upload.py t1 t2            # these tables
     python warehouse/redivis/upload.py --reconcile      # count(*) of every Redivis table against its CSV
     python warehouse/redivis/upload.py --restore        # CI: download the rolling-window tables missing locally
+    python warehouse/redivis/upload.py t1 --allow-shrink t1   # upload t1 although it has fewer rows than last time
 
 Owner, dataset, numeric columns and the restore list come from
 warehouse/redivis/config.yaml; the token from REDIVIS_API_TOKEN (.env or the
@@ -29,6 +30,16 @@ For each table:
    rows, or the table is reported failed.
 5. The dataset stays an unreleased draft. This script never releases a version;
    releasing is a human click (warehouse/redivis/README.md).
+
+Session 28 (Ben Domingue's review, item 2, "silent history loss"): the draft is where
+the rolling-window tables keep their history, so three gates stop it being lost quietly.
+- --restore fails when a table that the manifest lists and restore_before_run matches is
+  absent from the draft, or holds fewer rows than the manifest last recorded.
+- An upload refuses to shrink a rolling-window table below the rows the manifest last
+  recorded for it, unless --allow-shrink names the table.
+- Existence is checked by fetching the table's metadata (table_meta), never by
+  list_tables() alone, which in the IRW under-reported a large dataset by about half.
+Tests: tests/test_redivis_gates.py, against a mocked client.
 """
 
 import argparse
@@ -119,6 +130,34 @@ def open_draft():
     return acct.dataset(CONFIG["dataset"], version="next")
 
 
+def rolling(name):
+    """A rolling-window table: the daily run merges into it, so its history lives only in the stores (config.yaml)."""
+    return any(re.match(p, name) for p in CONFIG["restore_before_run"])
+
+
+def table_meta(ds, name):
+    """The draft table's metadata, fetched by name (session 28): the properties, or None when Redivis
+    answers 404. Any other error (a 5xx, throttling, the SDK's AttributeError that hides one) propagates,
+    so an unanswered question is never read as "absent"."""
+    import redivis
+    try:
+        return ds.table(name).get().properties
+    except redivis.exceptions.NotFoundError:
+        return None
+
+
+def shrink_refusal(name, n_rows, man, allow):
+    """Why uploading n_rows would lose history (session 28), or None: a rolling-window table may not
+    go below the row count the manifest last recorded for it, unless --allow-shrink names it."""
+    if not rolling(name) or name in allow or name not in man.index:
+        return None
+    last = str(man.loc[name, "rows"] or "")
+    if last.isdigit() and n_rows < int(last):
+        return (f"refused: {n_rows:,} rows would shrink the rolling-window table below the {int(last):,} rows "
+                f"last uploaded ({man.loc[name, 'uploaded_at']}); if that is intended, --allow-shrink {name}")
+    return None
+
+
 def count_rows(table):
     import redivis
     ref = table.get().properties["qualifiedReference"]
@@ -174,7 +213,7 @@ def tables_on_disk():
     return sorted(os.path.splitext(f)[0] for f in os.listdir(OUT) if f.endswith(".csv"))
 
 
-def run_upload(names, include_metadata):
+def run_upload(names, include_metadata, allow_shrink=()):
     import erw_validate
     ds = open_draft()
     lic = licenses()
@@ -190,6 +229,9 @@ def run_upload(names, include_metadata):
             header, data = split_header(path)
             if name not in lic:
                 raise RuntimeError("not in coverage.csv; run build_coverage.py first")
+            why = shrink_refusal(name, len(data_rows(data)), man, set(allow_shrink))
+            if why:  # before push(), which deletes the draft table
+                raise RuntimeError(why)
             expected, actual = push(ds, name, header, data, lic[name],
                                     events=list(data_rows(data).columns[:1]) == ["event_id"])
             ok = expected == actual
@@ -297,17 +339,35 @@ def as_erw_text(df):
 
 
 def restore(out_dir=None):
-    """Download, from the Redivis draft, each rolling-window table that is missing locally."""
+    """Download, from the Redivis draft, each rolling-window table that is missing locally.
+
+    Session 28: the tables expected are those the manifest lists (redivis_uploads.csv) that
+    restore_before_run matches, plus any such table list_tables() shows. Each is checked by its
+    metadata, whether or not a local copy exists. One that is absent from the draft, or has fewer
+    rows than the manifest last recorded, fails the restore, so the run stops before a short
+    window could be uploaded over the lost history."""
     out_dir = out_dir or OUT
-    pats = [re.compile(p) for p in CONFIG["restore_before_run"]]
     ds = open_draft()
+    man = read_manifest().set_index("table")
+    listed = {t.name for t in ds.list_tables()}
+    expected = sorted({n for n in man.index if rolling(n)} | {n for n in listed if rolling(n)})
     got, failed = 0, 0
-    for t in ds.list_tables():
-        name = t.name
-        if not any(p.match(name) for p in pats) or os.path.exists(os.path.join(out_dir, name + ".csv")):
-            continue
+    for name in expected:
         try:
-            df = as_erw_text(t.to_pandas_dataframe(progress=False, dtype_backend="numpy"))
+            meta = table_meta(ds, name)
+            if meta is None:
+                raise RuntimeError(f"absent from the draft, though {CONFIG['manifest']} records an upload of "
+                                   f"{man.loc[name, 'rows'] if name in man.index else '?'} rows; restore it from "
+                                   "the archive (warehouse/archive/) before the next run")
+            last = str(man.loc[name, "rows"]) if name in man.index else ""
+            have = meta.get("numRows")
+            if last.isdigit() and have is not None and int(have) < int(last):
+                raise RuntimeError(f"the draft holds {int(have):,} rows, fewer than the {int(last):,} last uploaded")
+            if os.path.exists(os.path.join(out_dir, name + ".csv")):
+                continue
+            df = as_erw_text(ds.table(name).to_pandas_dataframe(progress=False, dtype_backend="numpy"))
+            if have is not None and len(df) != int(have):
+                raise RuntimeError(f"downloaded {len(df):,} rows, but the draft's metadata says {int(have):,}")
             path = os.path.join(out_dir, name + ".csv")
             with open(path, "w", encoding="utf-8", newline="") as f:
                 f.write(f"# Restored from the Redivis draft of {CONFIG['dataset']} by warehouse/redivis/upload.py "
@@ -318,7 +378,7 @@ def restore(out_dir=None):
         except Exception as exc:
             failed += 1
             log(f"FAIL restore {name}: {type(exc).__name__}: {exc}")
-    log(f"restored {got} tables, {failed} failed")
+    log(f"restored {got} tables, {failed} failed (checked {len(expected)} rolling-window tables by their metadata)")
     return 1 if failed else 0
 
 
@@ -331,6 +391,8 @@ def main(argv=None):
     g.add_argument("--reconcile", action="store_true")
     g.add_argument("--restore", action="store_true")
     ap.add_argument("--out-dir", help="--restore only: write here instead of warehouse/output (tests)")
+    ap.add_argument("--allow-shrink", action="append", default=[], metavar="TABLE",
+                    help="upload this rolling-window table although it has fewer rows than last recorded (session 28)")
     ap.add_argument("--dry-run", action="store_true",
                     help="list the tables that would be uploaded, upload nothing (session 14, CI tests)")
     args = ap.parse_args(argv)
@@ -349,10 +411,16 @@ def main(argv=None):
         if missing or not names:
             ap.error(f"no such table(s) in warehouse/output: {missing or 'none given'}")
     if args.dry_run:
+        man = read_manifest().set_index("table")
+        for n in names:  # session 28: the shrink gate, reported without uploading
+            why = shrink_refusal(n, len(data_rows(split_header(os.path.join(OUT, n + ".csv"))[1])), man,
+                                 set(args.allow_shrink))
+            if why:
+                log(f"would refuse {n}: {why}")
         log(f"dry run, nothing uploaded; would upload {len(names)} tables"
             + (f" and the metadata tables: {chr(44).join(names)}" if names else ""))
         return 0
-    return run_upload(names, include_metadata=bool(names) or args.all)
+    return run_upload(names, include_metadata=bool(names) or args.all, allow_shrink=args.allow_shrink)
 
 
 if __name__ == "__main__":

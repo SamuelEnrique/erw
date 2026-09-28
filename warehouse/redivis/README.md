@@ -27,6 +27,14 @@ python warehouse/redivis/upload.py --restore      # download the rolling-window 
 
 **Restore.** The CI runner has no tables (they are not in git). So before the connectors run, the daily workflow restores the rolling-window tables (`restore_before_run` in `config.yaml`: the ISO price tables and EIA-930) from the draft, and the connectors merge into the full tables. Without this, a 3-day window would be uploaded over the 30-day table. A failed restore stops the run. A restored table equals the original file row for row, and was tested on `ercot_rtm_hub_prices` and `eia930_erco_demand`.
 
+**History gates (session 28, from Ben Domingue's review).** The draft holds the rolling-window tables' history, so three gates stop that history from being lost without a failure:
+
+- **Restore fails on a missing table.** `--restore` fails when a table that `redivis_uploads.csv` lists, and `restore_before_run` matches, is absent from the draft. It also fails when the draft holds fewer rows than the manifest last recorded. A failed restore stops the daily run.
+- **Upload refuses to shrink.** An upload refuses to shrink a rolling-window table below the row count the manifest last recorded, before the draft table is deleted. To shrink one on purpose, name it: `upload.py TABLE --allow-shrink TABLE`.
+- **Existence is read from metadata.** A table exists when fetching its metadata succeeds. `list_tables()` alone is never trusted (in the IRW it under-reported a large dataset by about half), and an error other than a 404 fails the check instead of reading as "absent".
+
+Tests: `tests/test_redivis_gates.py`, against a mocked client.
+
 ## How to release a version (a human, on Redivis)
 
 1. Check the draft first. Every table must match: `python warehouse/redivis/upload.py --reconcile` compares `count(*)` for each table with its CSV and writes `runs/redivis_reconcile.csv`.
