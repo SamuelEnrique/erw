@@ -1,0 +1,41 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Rural Utilities Service
+# url: https://en.wikipedia.org/wiki/Rural_Utilities_Service
+# revision: 1368108488
+# retrieved_at: 20260928T083003Z
+
+The United States Rural Utilities Service (RUS) administers programs that provide infrastructure or infrastructure improvements to rural communities. These include water and waste treatment, electric power, and telecommunications services. It is an agency of the USDA Rural Development mission area in the United States Department of Agriculture (USDA). It was created in 1935 as the Rural Electrification Administration (REA), a New Deal agency promoting rural electrification.
+
+
+== Overview ==
+The RUS administers the following programs:
+
+Water and Environmental: provides financial assistance for drinking water, sanitary sewer, solid waste and storm drainage facilities in rural areas and communities with a population of 10,000 or less.
+Electric Programs: help maintain, expand, upgrade and modernize the rural electric infrastructure. It also supports demand-side management, energy efficiency and conservation programs, and on- and off-grid renewable energy systems.
+Telecommunications: helps deploy the rural telecommunications infrastructure.
+
+
+== Financial assistance ==
+A total of 890 rural electric and 800 rural telecommunications utilities in 47 states, Puerto Rico, the Virgin Islands, Guam, the Marshall Islands, the Northern Mariana Islands, and the Federated States of Micronesia have received financial assistance. Approximately 7,200 rural communities are served through financial assistance received from water and waste loans and grants.
+In 2023, RUS was in charge of the ReConnect Program; this Biden administration program is overseen by the Agriculture Department to expand broadband Internet access to rural parts of America, including the Marshall Islands.
+
+
+== Rural Electrification Administration ==
+
+The RUS originated with the Rural Electrification Administration (REA), one of the agencies created under the New Deal in 1935 to promote rural electrification. The REA was created by executive order on May 11, 1935, by President Franklin D. Roosevelt. Enacted the following year, the Rural Electrification Act provided federal loans for the installation of electrical distribution systems to serve rural areas of the United States.
+In the 1930s, the U.S. lagged behind Europe in providing electricity to rural areas. In 1934, less than 11% of U.S. farms had electricity. That same year, in France and Germany, nearly 90% of farms had electricity.
+Backed by the 1936 Rural Electrification Act the REA gave loans and other help to rural organizations setting up their own power systems and was one of the New Deal's most successful programs. By 1937, hundreds of new municipal power utilities were created nationwide. In 1939, 288,000 households had their electricity provided by rural electric cooperatives. Most of these electric co-ops had applied for and received loans from REA. By 1942, nearly 50% of US farms had electricity, and by 1952 almost all US farms had electricity.
+In 1949, the REA became authorized to provide loans to rural telephone cooperatives.
+Under the Department of Agriculture Reorganization Act of 1994 the REA was absorbed by the Rural Utilities Service (RUS).
+
+
+== See also ==
+Distance Learning and Telemedicine Grant and Loan Program
+
+
+== References ==
+
+
+== External links ==
+
+Official website

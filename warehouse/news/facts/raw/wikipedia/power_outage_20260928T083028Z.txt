@@ -1,0 +1,104 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Power outage
+# url: https://en.wikipedia.org/wiki/Power_outage
+# revision: 1376925479
+# retrieved_at: 20260928T083028Z
+
+A power outage is the complete loss of the electrical power network supply to an end user.
+There are many causes of power failures in an electricity network. Examples of these causes include faults at power stations, damage to electric transmission lines, substations or other parts of the distribution system, a short circuit, cascading failure, fuse or circuit breaker operation.
+Power failures are particularly critical at sites where the environment and public safety are at risk. Institutions such as hospitals, sewage treatment plants, and mines will usually have backup power sources such as standby generators, which will automatically start up when electrical power is lost. Other critical systems, such as telecommunication, are also required to have emergency power. The battery room of a telephone exchange usually has arrays of lead–acid batteries for backup and also a socket for connecting a generator during extended periods of outage.
+During a power outage, there is a disruption in the supply of electricity, resulting in a loss of power to homes, businesses, and other facilities. Power outages can occur for various reasons, including severe weather conditions (e.g. storms, hurricanes, or blizzards), earthquakes, equipment failure, or grid overload.
+
+
+== Types ==
+
+Power outages are categorized into three different phenomena, relating to the duration and effect of the outage:
+
+A transient fault is a loss of power typically caused by a fault on a power line, e.g. a short circuit or flashover. Power is automatically restored once the fault is cleared.
+A brownout  is a drop in voltage in an electrical power supply. The term brownout comes from the dimming experienced by incandescent lighting when the voltage sags. Brownouts can cause poor performance of equipment or even incorrect operation.
+A blackout is the total loss of power to a wider area and of long duration. It is the most severe form of power outage that can occur. Blackouts which result from or result in power stations tripping are particularly difficult to recover from quickly. Outages may last from a few minutes to a few weeks depending on the nature of the blackout and the configuration of the electrical network.
+Rolling blackouts occur when demand for electricity exceeds supply, and allow some customers to receive power at the required voltage at the expense of other customers who get no power at all. They are a common occurrence in developing countries, and may be scheduled in advance or occur without warning. They have also occurred in developed countries, for example in the California electricity crisis of 2000–2001, when government deregulation destabilized the wholesale electricity market. Blackouts are also used as a public safety measure, such as to prevent a gas leak from catching fire (for example, power was cut to several towns in response to the Merrimack Valley gas explosions), or to prevent wildfires around poorly maintained transmission lines (such as during the 2019 California power shutoffs).
+
+
+== Protecting the power system from outages ==
+
+In power supply networks, the power generation and the electrical load (demand) must be very close to equal every second to avoid overloading of network components, which can severely damage them. Protective relays and fuses are used to automatically detect overloads and to disconnect circuits at risk of damage.
+Under certain conditions, a network component shutting down can cause current fluctuations in neighboring segments of the network leading to a cascading failure of a larger section of the network. This may range from a building, to a block, to an entire city, to an entire electrical grid.
+Modern power systems are designed to be resistant to this sort of cascading failure due to redundancy. Since in some cases there is no short-term economic benefit from investing to prevent rare large-scale failures, researchers have expressed concern that there is a tendency to erode the resilience of the network over time, which is only corrected after a major failure occurs. In a 2003 publication, Carreras and co-authors claimed that reducing the likelihood of small outages only increases the likelihood of larger ones. In that case, the short-term economic benefit of keeping the individual customer happy increases the likelihood of large-scale blackouts.
+The Senate Committee on Energy and Natural Resources held a hearing in October 2018 to examine "black start", the process of restoring electricity after a system-wide power loss. The hearing's purpose was for Congress to learn about what the backup plans are in the electric utility industry in the case that the electric grid is damaged. Threats to the electrical grid include cyberattacks, solar storms, and severe weather, among others. For example, the "Northeast Blackout of 2003" was caused when overgrown trees touched high-voltage power lines. Around 55 million people in the U.S. and Canada lost power, and restoring it cost around $6 billion.
+
+
+=== Key performance indicators ===
+Utilities are measured on three specific performance measures:
+
+System Average Interruption Duration Index, measured in minutes
+Customer Average Interruption Duration Index, measured in minutes
+Customer Average Interruption Frequency Index
+
+
+== Protecting computer systems from power outages ==
+Computer systems and other electronic devices containing logic circuitry are susceptible to data loss or hardware damage that can be caused by the sudden loss of power. These can include data networking equipment, video projectors, alarm systems as well as computers. To protect computer systems against this, the use of an uninterruptible power supply (UPS) can provide a constant flow of electricity if a primary power supply becomes unavailable for a short period of time. To protect against surges (events where voltages increase for a few seconds), which can damage hardware when power is restored, a special device called a surge protector that absorbs the excess voltage can be used.
+
+
+== Restoring power after a wide-area outage ==
+
+Following a large-area, long-duration outage, electric systems operators attempt to bring the system back online as quickly as possible. While the exact steps of doing so vary depending on the nature of the outage, company policy, and other contingencies, providers generally follow general restoration steps:
+
+Assess the extent, locations, and severity of damage to the electrical system;
+Provide physical and human resources required for repairs;
+Prioritize sites/components for repair based on factors including the criticality of the load and the availability of resources to complete the needed repairs;
+Implement the repairs, then reassess system state.
+Coordinating efforts to restore power can be confusing and difficult, especially in the event of a natural disaster or large scale power outage. The general process outlined above are meant to be carried out in a semi-simultaneous fashion, and are not necessarily linear. The process is made more difficult when groups of certain jurisdictions are involved. Electricity contractors may be required to coordinate with state or municipal authorities, such as emergency services, among other federal agencies. For example, in the United States, the Federal Emergency Management Agency (FEMA), the Department of Energy (DOE), and the National Guard may be required to work in tandem with providers. While there have been attempts to designate utility personnel as first responders to mitigate certain limitations, they have been stalled due to legal issues regarding liability.
+Restoring power after a wide-area outage can be difficult, as power stations need to be brought back online. Normally, this is done with the help of power from the rest of the grid. In the total absence of grid power, a so-called black start generator (i.e. generators that do not require power from the larger grid to function) will be utilized to bootstrap the power grid into operation. There are almost always functioning areas of the grid adjacent to the area experiencing an outage, and service can be most effectively restored from the edges of the blacked-out areas. This is typically achieved with an on-site cranking generator, which may be an emergency diesel generator, battery system, or small permanent magnet hydropower unit. However, black start generators must first supply power to critical systems, such as nuclear plants, for safe shutdown before providing power to other generating stations.
+Alternatively, non-black start sources are generation units that relies on off-site power to restart. This off-site power must be supplied either from a black start unit or other parts of the transmission network that may still be energized in the case of a partial blackout. Regardless of method, the main objective will remain the same: to restore the grid and load as efficiently as possible.
+Multiple strategies exist to be applied on the transmission level for restoration:
+
+Bottom-up strategies rely on internal generation sources, utilizing black start capable units to energize restoration cells. Any imbalance between load and generation directly affects the system's frequency, and as a result, proper frequency control is crucial for this method. This method focuses on restoring network voltage by gradually increasing customer loads, which requires coordination with distribution system operators (DSOs). This process can be further complicated by the presence of distributed energy resources (DERs), such as rooftop PV systems, since system operators (SOs) may assume they are reconnecting loads, but are actually bringing additional generation online. To avoid this risk, many SOs choose to operate under off-nominal frequency conditions.
+Top-down strategies are suitable only when small parts of the network are affected during a blackout. The affected areas of the network are re-energized through operational high-voltage backbones. This approach is less sensitive to load-generation imbalances due to higher inertia involved in the process, though caution against it must still be taken.
+Hybrid strategies combine the top-down and bottom-up approaches by executing them concurrently. It uses designated black start units within the affected network area, along with connections (either AC or HVDC) to non-affected parts of the network. This strategy is often employed to leverage the strengths of different system areas.
+
+
+== Theories ==
+
+
+=== Self-organized criticality ===
+
+It has been argued on the basis of historical data and computer modeling that power grids are self-organized critical systems. These systems exhibit unavoidable disturbances of all sizes, up to the size of the entire system. This phenomenon has been attributed to steadily increasing demand/load, the economics of running a power company, and the limits of modern engineering.
+While blackout frequency has been shown to be reduced by operating it further from its critical point, it generally is not economically feasible, causing providers to increase the average load over time or upgrade less often resulting in the grid moving itself closer to its critical point. Conversely, a system past the critical point will experience too many blackouts leading to system-wide upgrades moving it back below the critical point. The term critical point of the system is used here in the sense of statistical physics and nonlinear dynamics, representing the point where a system undergoes a phase transition; in this case the transition from a steady reliable grid with few cascading failures to a very sporadic unreliable grid with common cascading failures. Near the critical point the relationship between blackout frequency and size follows a power-law distribution.
+Cascading failure becomes much more common close to this critical point. The power-law relationship is seen in both historical data and model systems. The practice of operating these systems much closer to their maximum capacity leads to magnified effects of random, unavoidable disturbances due to aging, weather, human interaction etc.  While near the critical point, these failures have a greater effect on the surrounding components due to individual components carrying a larger load. This results in the larger load from the failing component having to be redistributed in larger quantities across the system, making it more likely for additional components not directly affected by the disturbance to fail, igniting costly and dangerous cascading failures. These initial disturbances causing blackouts are all the more unexpected and unavoidable due to actions of the power suppliers to prevent obvious disturbances (cutting back trees, separating lines in windy areas, replacing aging components etc.). The complexity of most power grids often makes the initial cause of a blackout extremely hard to identify.
+Leaders are dismissive of system theories that conclude that blackouts are inevitable, but do agree that the basic operation of the grid must be changed. The Electric Power Research Institute champions the use of smart grid features such as power control devices employing advanced sensors to coordinate the grid. Others advocate greater use of electronically controlled high-voltage direct current (HVDC) firebreaks to prevent disturbances from cascading across AC lines in a wide area grid.
+
+
+=== OPA model ===
+In 2002, researchers at Oak Ridge National Laboratory (ORNL), Power System Engineering Research Center of the University of Wisconsin (PSerc), and the University of Alaska Fairbanks proposed a mathematical model for the behavior of electrical distribution systems. This model has become known as the OPA model, a reference to the names of the authors' institutions. OPA is a cascading failure model. Other cascading failure models include Manchester, Hidden failure, CASCADE, and Branching. The OPA model was quantitatively compared with a complex networks model of a cascading failure – Crucitti–Latora–Marchiori (CLM) model, showing that both models exhibit similar phase transitions in the average network damage (load shed/demand in OPA, path damage in CLM), with respect to transmission capacity.
+
+
+==== Mitigation of power outage frequency ====
+The effects of trying to mitigate cascading failures near the critical point in an economically feasible fashion are often shown to not be beneficial and often even detrimental. Four mitigation methods have been tested using the OPA blackout model:
+
+Increase critical number of failures causing cascading blackouts – Shown to decrease the frequency of smaller blackouts but increase that of larger blackouts.
+Increase individual power line max load – Shown to increase the frequency of smaller blackouts and decrease that of larger blackouts.
+Combination of increasing critical number and max load of lines – Shown to have no significant effect on either size of blackout. The resulting minor reduction in the frequency of blackouts is projected to not be worth the cost of the implementation.
+Increase the excess power available to the grid – Shown to decrease the frequency of smaller blackouts but increase that of larger blackouts.
+In addition to the finding of each mitigation strategy having a cost-benefit relationship with regards to frequency of small and large blackouts, the total number of blackout events was not significantly reduced by any of the above-mentioned mitigation measures.
+A complex network-based model to control large cascading failures (blackouts) using local information only was proposed by A. E. Motter.
+In 2015, one of the solutions proposed to reduce the impact of power outage was introduced by M. S. Saleh.
+
+
+== Major power outages ==
+
+
+== See also ==
+
+
+== Notes ==
+
+
+== References ==
+
+
+== Sources ==
+Holloway, M.D.; Holloway, E. (2020). Dictionary of Industrial Terminology. Wiley. ISBN 978-1-119-36344-6. Retrieved May 12, 2025.
+
+
+== External links ==

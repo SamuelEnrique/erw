@@ -1,0 +1,7 @@
+# table: ercot_peak_premium_annual
+# source reports: Energy Research Warehouse (ERW), derived: ERCOT peak premium metrics (docs/methods/ercot_peak_premium.md) (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_peak_premium.md)
+# table retrieved: 20260926T012724Z
+# computed by: warehouse/news/funfact.py
+# retrieved_at: 20260928T083022Z
+
+ercot_peak_premium_annual ercot:HB_WEST: years 2015 to 2026; highest all_max 9310.49 USD/MWh in 2021; most negative 15-minute intervals 4266 in 2022

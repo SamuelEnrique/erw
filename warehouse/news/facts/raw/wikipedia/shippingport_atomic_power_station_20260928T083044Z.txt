@@ -1,0 +1,62 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Shippingport Atomic Power Station
+# url: https://en.wikipedia.org/wiki/Shippingport_Atomic_Power_Station
+# revision: 1373413112
+# retrieved_at: 20260928T083044Z
+
+The Shippingport Atomic Power Station was (according to the US Nuclear Regulatory Commission) the world's first full-scale atomic electric power plant devoted exclusively to peacetime uses.
+It was located near the later Beaver Valley Nuclear Generating Station on the Ohio River in Beaver County, Pennsylvania, United States, about 25 miles (40 km) from Pittsburgh.
+The reactor reached criticality on December 2, 1957, and aside from stoppages for three core changes, it remained in operation until October 1982. The first electrical power was produced on December 18, 1957, as engineers synchronized the plant with the distribution grid of Duquesne Light Company.
+The first core used at Shippingport originated from a cancelled nuclear-powered aircraft carrier and used highly enriched uranium (93% U-235) as "seed" fuel surrounded by a "blanket" of natural U-238, in a so-called seed-and-blanket design; in the first reactor about half the power came from the seed.
+The first Shippingport core reactor turned out to be capable of an output of 60 MWe one month after its launch.
+The second core was similarly designed but more powerful, having a larger seed. The highly energetic seed required more refueling cycles than the blanket in these first two cores.
+The third and final core used at Shippingport was an experimental, light water moderated, thermal breeder reactor. It kept the same seed-and-blanket design, but the seed was now uranium-233 and the blanket was made of thorium.
+Being a breeder reactor, it had the ability to transmute relatively inexpensive thorium to uranium-233 as part of its fuel cycle.
+The breeding ratio attained by Shippingport's third core was 1.01. Over its 25-year life, the Shippingport power plant operated for about 80,324 hours, producing about 7.4 billion kilowatt-hours of electricity.
+Some non-governmental sources label Shippingport a "demonstration PWR reactor" and consider that the "first fully commercial PWR" in the US was Yankee Rowe.
+Criticism centers on the fact that the Shippingport plant had not been built to commercial specifications. Consequently, the construction cost per kilowatt at Shippingport was about ten times those for a conventional power plant.
+
+
+== Construction ==
+
+In 1953, US President Dwight D. Eisenhower gave his Atoms for Peace speech to the United Nations. Commercial nuclear power generation was cornerstone of his plan. A proposal by Duquesne Light Company was accepted by Admiral Rickover and the plans for the Shippingport Atomic Power Station started.
+Ground was broken on Labor Day, September 6, 1954. President Eisenhower remotely initiated the first scoop of dirt at the ceremony.
+The reactor achieved first criticality at 4:30 AM on December 2, 1957. Sixteen days later, on December 18, the first electrical power was generated and full power was achieved on December 23, 1957, although the station remained in test mode.  Eisenhower opened the Shippingport Atomic Power Station on May 26, 1958.  The plant was built in 32 months at a cost of $72.5 million (equivalent to $617 million in 2023).
+The type of reactor used at Shippingport was a matter of expediency. The Atomic Energy Commission urged the construction of a reactor integrated into the utility grid. The only suitable reactor available at the time was the one that was intended for the nuclear-powered aircraft carrier desired by the Navy, but which Eisenhower had just vetoed.
+Kenneth Nichols of the AEC said it  "became obvious" that the Rickover-Westinghouse pressurised-water reactor intended for an aircraft carrier was "the best choice for a reactor to demonstrate the production of electricity" with Rickover "having a going organization and a reactor project under way that now had no specific use to justify it". This was accepted by Lewis Strauss and the Commission in January 1954. The acceptance of Duquesne Light as the utility partner was announced on March 11. The ground-breaking ceremony was initiated by Eisenhower from Denver where he was giving a talk on atomic energy on Labor Day; Rickover ensured that the unmanned bulldozer pushing dirt did not dig in and stall by having the dozer blade riding along two railroad rails buried under six inches of dirt. 
+The origin of the project explains why the Shippingport reactor used 93%-enriched uranium, unlike later commercial power reactors that do not exceed 5% enrichment.
+Other significant differences from commercial reactors include the use of hafnium for its control rods, although these were necessary and used only in the reactor's seed. Shippingport was created and operated under the auspices of Admiral Hyman G. Rickover, whose authority included a substantial role within the United States Atomic Energy Commission (AEC).
+
+
+== Cores ==
+The Shippingport reactor was designed to accommodate different cores during its lifetime; three were used.
+The first, installed in 1957, held 14.2 tons of natural uranium (the "blanket") and 165 pounds (75 kg) of high-enriched (93% U-235) uranium (the "seed"); despite this disparity in mass, about half the power was generated in the seed. The seed was depleted quicker than the blanket, and it was replenished three times during the lifetime of the first core. Seven years later (when running on its fourth seed) the first core was retired, after having produced 1.8 billion kilowatt-hours of electricity.
+The second core had increased generating capacity (more than five times) and instrumentation to measure performance, but otherwise used the same seed-and-blanket design. For the second core, the seed volume was 21% of the total core volume. The second core thus required only one seed refueling. It began operating in 1965 and over the next nine years generated almost 3.5 billion kilowatt-hours of electricity. In 1974 the turbine-generator suffered mechanical failure, causing the plant to be shut down.
+The third and final core was a light water breeder, which began operating in August 1977 and after testing was brought to full power by the end of that year. It used pellets made of thorium dioxide and uranium-233 oxide; initially the U233 content of the pellets was 5-6% in the seed region, 1.5-3% in the blanket region and none in the reflector region. It operated at 236 MWt, generating 60 MWe and ultimately produced over 2.1 billion kilowatt-hours of electricity. After five years (29,000 effective full power hours) the core was removed and found to contain nearly 1.4% more fissile material than when it was installed, demonstrating that breeding had occurred.
+
+
+== Decommissioning ==
+On October 1, 1982, the reactor ceased operations after 25 years. Dismantlement of the facility began in September 1985.
+In December 1988, the 956-ton (870-T) reactor pressure vessel/neutron shield tank assembly was lifted out of the containment building and loaded onto land transportation equipment in preparation for removal from the site and shipment by water to a burial facility in Washington State.
+The site has been cleaned up and released for unrestricted use. While the Shippingport Reactor has been decommissioned, Beaver Valley Nuclear Generating Station Units 1 and 2 are still licensed and in operation at the site.
+The $98 million (1985 estimate) cleanup of Shippingport has been used as an example of a successful reactor decommissioning by proponents of nuclear power; however, critics point out that Shippingport was smaller than most commercial nuclear power plants, most reactors in the United States are about 1,000 MWe, while Shippingport was only 60 MWe. Others argue that it was an excellent test case to prove a reactor site could be safely decommissioned and a site released for unrestricted use. Shippingport, while somewhat smaller than a large commercial reactor today, was representative, with four steam generators, pressurizer and reactor. The reactor alone, when packaged for shipment, weighed in excess of 1000 tons (921 tons weight of the vessel plus the weight of a structural steel shipping skid) and was successfully shipped by waterway for burial at the Hanford Reservation.
+The reactor vessel from Trojan Nuclear Power Plant (located in Oregon), was also successfully shipped by waterway to the Hanford site; a much shorter trip than the Shippingport reactor.
+Subsequent to Shippingport's decommissioning, three other large commercial reactors have been entirely leveled: Yankee Rowe Nuclear Power Station having been entirely decommissioned in 2007 with the U.S. Nuclear Regulatory Commission (NRC) notifying Yankee in August that the former plant site had been fully decommissioned in accordance with NRC procedures and regulations; Maine Yankee Nuclear Power Plant completely decommissioned in 2005;
+and Connecticut Yankee Nuclear Power Plant.
+All three prior commercial reactor sites have been returned to greenfield conditions and are open to visitors.
+
+
+== See also ==
+
+Beaver Valley Nuclear Generating Station – a newer nuclear power station located at the same site
+Obninsk Nuclear Power Plant – a 5 MWe Soviet pilot plant (1954)
+
+
+== Notes ==
+
+
+== References ==
+
+
+== External links ==
+ Media related to Shippingport Atomic Power Station at Wikimedia Commons

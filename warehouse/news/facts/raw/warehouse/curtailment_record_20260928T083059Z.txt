@@ -1,0 +1,7 @@
+# table: iso_curtailment_monthly
+# source reports: Energy Research Warehouse (ERW), derived: Curtailment by ISO, monthly (docs/methods/curtailment.md) (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/curtailment.md)
+# table retrieved: 20260927T093110Z
+# computed by: warehouse/news/funfact.py
+# retrieved_at: 20260928T083059Z
+
+iso_curtailment_monthly caiso:ISO: wind and solar curtailed (local and system), most in one month 1,459,998 MWh in 2026-04; months 56 from 2022-01

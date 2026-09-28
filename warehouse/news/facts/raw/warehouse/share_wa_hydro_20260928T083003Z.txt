@@ -1,0 +1,7 @@
+# table: state_generation_mix_monthly
+# source reports: Energy Research Warehouse (ERW), derived: Generation mix by state (docs/methods/generation_mix.md) (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/generation_mix.md)
+# table retrieved: 20260927T101023Z
+# computed by: warehouse/news/funfact.py
+# retrieved_at: 20260928T083003Z
+
+state_generation_mix_monthly eia:WA: hydro share of net generation 65.9% in 2001, 63.2% in 2025 (sums of monthly MWh over complete years)

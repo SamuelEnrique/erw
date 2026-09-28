@@ -188,6 +188,9 @@ echo "== Energy Digest (docs/digest/), Monday to Friday"
 # Session 23: the digest is written Monday to Friday only (UTC). On Saturday and Sunday brief.py and
 # email_digest.py --auto print "SKIPPED: no weekend issue" and write nothing; the weekend's stories open
 # Sunday's Energy Roundup (.github/workflows/roundup.yml, Sundays 23:00 UTC), which also sends it.
+# Session 23: the fun fact engine adds one verified fact to warehouse/news/facts/bank.csv and writes the day's
+# item (warehouse/news/facts/items/<date>.json); brief.py re-verifies it and prints it as the digest's last section
+run_other news_funfact "$PYTHON" warehouse/news/funfact.py
 run_other news_brief "$PYTHON" warehouse/news/brief.py
 # Session 19: the digest by email (tool 25). Rendered to docs/digest/email/ always; sent through
 # Resend only when RESEND_API_KEY and DIGEST_RECIPIENTS are set

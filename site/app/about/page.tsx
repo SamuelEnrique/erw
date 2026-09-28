@@ -51,7 +51,7 @@ export default function About() {
         <p>
           <strong>Fun fact and chart of the week.</strong> Each digest ends with a fun fact: always an energy fact first (a number from the warehouse,
           a piece of energy history, or a quirk of how the system works), sometimes with a second half. A number must match the warehouse exactly, and
-          a history or word-origin claim must be found, word for word, in a stored copy of its source (Wikipedia, a dictionary, or EIA); a fact that
+          a history or word-origin claim must be found, word for word, in a stored copy of its source (Wikipedia or EIA), in the source's own words; a fact that
           fails is dropped and the digest ships without one. The Roundup carries the chart of the week, picked by a fixed rule from the Automated
           Analysis templates (<a href="/analysis">/analysis</a>).
         </p>
