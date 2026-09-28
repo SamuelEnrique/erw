@@ -53,6 +53,16 @@ def main():
             for f in files:
                 conn.execute(open(f, encoding="utf-8").read())
                 print(f"applied {os.path.basename(f)} (Postgres connection)")
+            # session 23 (migration 007): the email-token secret, from the environment, into the private schema;
+            # never in a migration file, never printed
+            secret = env("EMAIL_TOKEN_SECRET")
+            if secret:
+                conn.execute("insert into erw_private.settings (key, value) values ('email_token_secret', %s) "
+                             "on conflict (key) do update set value = excluded.value", (secret,))
+                print("set erw_private.settings email_token_secret from EMAIL_TOKEN_SECRET")
+            else:
+                print("EMAIL_TOKEN_SECRET not set: the email token secret was not written (confirm and unsubscribe "
+                      "links cannot be checked until it is)")
         return 0
     if token:
         ref = urllib.parse.urlparse(env("SUPABASE_URL")).netloc.split(".")[0]

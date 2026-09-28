@@ -136,6 +136,10 @@ jobs:
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
           DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
           SITE_URL: ${{ secrets.SITE_URL }}
+          # Session 23: send to confirmed subscribers too (double opt-in, migration 007), each email with its signed
+          # unsubscribe link; without EMAIL_TOKEN_SECRET the subscribers are left out and only DIGEST_RECIPIENTS get it
+          EMAIL_SUBSCRIBERS: "1"
+          EMAIL_TOKEN_SECRET: ${{ secrets.EMAIL_TOKEN_SECRET }}
           # the runner has no tables (not in git): restore the rolling windows first
           RESTORE_FROM_REDIVIS: "1"
           # session 16: set on a manual run (input queues, default 1); empty on the schedule

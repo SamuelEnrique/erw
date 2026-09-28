@@ -54,10 +54,12 @@ export default function Terms() {
 
       <Section title="Subscribers" id="subscribers">
         <p className="text-sm">
-          The <Link href="/subscribe">email sign-up</Link> stores three things: the address, which emails were chosen (the daily digest, the Energy Roundup,
-          or both), and the time it was added, in the ERW&apos;s Supabase database. The public site can add an address but cannot read one back; only
-          the warehouse&apos;s own service key can. Addresses are used only to send the emails chosen, are never shared or sold, and are removed on
-          request. Sending to the list is not switched on yet.
+          The <Link href="/subscribe">email sign-up</Link> stores the address, which emails were chosen (the daily digest, the Energy Roundup,
+          or both), the topics chosen for the top stories, the time it was added, and the times it was confirmed or unsubscribed, in the
+          ERW&apos;s Supabase database. The public site can add an address but cannot read one back; only the warehouse&apos;s own service key can.
+          Nothing is sent to an address until it confirms through the signed link in its confirmation email (double opt-in), and every email
+          carries a signed one-click unsubscribe link; an address that unsubscribes is kept on a suppression list so that it is never emailed
+          again, and is removed on request.
         </p>
       </Section>
 

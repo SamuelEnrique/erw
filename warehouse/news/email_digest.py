@@ -23,9 +23,13 @@ Sending: only when both RESEND_API_KEY and DIGEST_RECIPIENTS (comma-separated ad
 set, in the environment or .env. Then each recipient gets their own message (no address sees
 another), from DIGEST_FROM (default "ERW Energy Digest <onboarding@resend.dev>", Resend's test
 sender; a verified domain is needed to send to others). With either unset, nothing is sent and
-the log says so. The subscribers table in Supabase (the site's /subscribe) is read only with EMAIL_SUBSCRIBERS=1,
-which is off: sending to the list waits for double opt-in and a tokened unsubscribe (human ruling, session 21).
-When it is on, each kind goes only to the subscribers who chose it (the daily or weekly opt-in, migration 006). Links point to
+the log says so. The subscribers table in Supabase (the site's /subscribe) is read only with EMAIL_SUBSCRIBERS=1
+(on in the workflows since session 23). Each kind goes only to the subscribers who chose it (the daily or weekly
+opt-in, migration 006) and, since session 23 (migration 007), only once they confirmed through the signed link in
+their confirmation email (double opt-in). Each subscriber's top stories are filtered to their topics (topics.py);
+the numbers, the fun fact and the chart of the week are always included. Every email carries the recipient's own
+signed unsubscribe link (HMAC with EMAIL_TOKEN_SECRET, checked by the database) and List-Unsubscribe headers; an
+address that unsubscribed is on the suppression list and gets nothing, fixed recipients included. Links point to
 SITE_URL (the deployed site) when set, else to the brief's markdown on GitHub.
 """
 
@@ -185,9 +189,10 @@ H2 = "<h2 style=\"font-size:16px;margin:16px 0 8px\">{}</h2>"
 SMALL = "<div style=\"font-size:13px;font-family:system-ui,sans-serif\">{}</div>"
 
 
-def render(path, kind, stories=None, note=None):
+def render(path, kind, stories=None, note=None, unsubscribe=None):
     """(title, label, text, html). stories: the top stories to show (default: the brief's first five);
-    note: a line under the stories heading (session 23: the topic filter says what it kept)."""
+    note: a line under the stories heading (session 23: the topic filter says what it kept); unsubscribe: the
+    recipient's signed unsubscribe link (session 23), or a placeholder for the saved copy."""
     lines = open(path, encoding="utf-8").read().splitlines()
     title = lines[0].lstrip("# ").strip()
     label = title.split(", ")[-1]
@@ -203,6 +208,8 @@ def render(path, kind, stories=None, note=None):
     if not num_text:
         raise RuntimeError(f"{path}: no numbers section")
     head = "Top 5 of the day" if kind == "daily" else "The five stories of the week"
+    if note:  # session 23: a subscriber's topic filter
+        head = "Top stories in your topics" if kind == "daily" else "Stories of the week in your topics"
     t, h = [title, ""], [f"<h1 style=\"font-size:22px;margin:0 0 12px\">{html.escape(title)}</h1>"]
     if kind == "roundup":  # session 23: the weekend's stories open the Roundup
         wk = numbered(lines, ("## Weekend",), 5)
@@ -223,52 +230,152 @@ def render(path, kind, stories=None, note=None):
             h += [H2.format(heading[3:]), SMALL.format(bh)]
     t += ["", f"The whole {name}: {page}", f"How this is made: {how}",
           "ERW, the live, citable record of the US energy system. Every number names the table it came from."]
+    if unsubscribe:
+        t.append(f"Stop these emails: {unsubscribe}")
     h.append(f"<p style=\"font-size:13px;font-family:system-ui,sans-serif;margin-top:16px\"><a href=\"{html.escape(page)}\">"
              f"The whole {name}</a>. <a href=\"{html.escape(how)}\">How this is made</a>. "
              "ERW, the live, citable record of the US energy system. Every number names the table it came from.</p>")
+    if unsubscribe:
+        h.append("<p style=\"font-size:12px;font-family:system-ui,sans-serif;color:#6B665E\">"
+                 + (f"<a href=\"{html.escape(unsubscribe)}\">Stop these emails</a> (one click)."
+                    if unsubscribe.startswith("http") else html.escape(unsubscribe)) + "</p>")
     body_html = ("<!doctype html><html><body style=\"margin:0;padding:16px;background:#F7F3EA;color:#2E2D29;"
                  "font-family:Georgia,serif\"><div style=\"max-width:640px;margin:0 auto\">" + "".join(h)
                  + "</div></body></html>")
     return title, label, "\n".join(t) + "\n", body_html
 
 
-def subscribers(kind, log):
-    """Session 21, ruling 7: the subscribers who chose this kind (daily, or weekly for the Roundup) on
-    /subscribe, read with the service key (the anon key cannot read the table). Only when EMAIL_SUBSCRIBERS=1:
-    sending to the list waits for double opt-in and a tokened unsubscribe (human ruling, session 21)."""
-    if env("EMAIL_SUBSCRIBERS") != "1":
-        return []
-    import urllib.parse
-    base = urllib.parse.urlparse(env("SUPABASE_URL"))
-    key = env("SUPABASE_SERVICE_KEY")
-    r = requests.get(f"{base.scheme}://{base.netloc}/rest/v1/subscribers", timeout=60,
-                     params={"select": "email", SUB_COLUMN[kind]: "eq.true"},
-                     headers={"apikey": key, "Authorization": f"Bearer {key}"})
-    if r.status_code != 200:
-        raise RuntimeError(f"subscribers: HTTP {r.status_code}: {ip.redact(r.text[:200])}")
-    out = sorted({x["email"].strip().lower() for x in r.json()})
-    log(f"  {kind}: {len(out)} subscribers chose it")
+def items(lines, kind):
+    """Session 23: every story item of the brief, in the brief's order (its ranking), with its sector:
+    the numbered lists (Top of the industry; Weekend and the five stories of the week) and the bullets
+    of By sector and AI and power. [{head, sector, why, src}]"""
+    heads = (("## Top of the industry",), ("## By sector",), ("## AI and power",)) if kind == "daily" else \
+        (("## The five stories of the week",),)
+    out = []
+    for hd in heads:
+        out += numbered(lines, hd, 100)
+        for ln in section(lines, hd):
+            m = re.match(r"^- (.+?) \(([a-z_ ]+)\): (.*?)\s*(?:\[([^\]]+)\]\(([^)]+)\))?$", ln)
+            if m and not ln.startswith("- no "):
+                out.append({"head": m.group(1), "sector": m.group(2), "why": m.group(3).strip(),
+                            "src": (m.group(4), m.group(5)) if m.group(4) else None})
     return out
 
 
-def send(subject, text, body_html, log, kind="daily"):
+def filtered(lines, kind, chosen):
+    """The top stories for a subscriber's topics: the brief's first five items whose sector maps to a chosen
+    topic (the numbers, the fun fact and the chart of the week are never filtered). Returns (stories, note)."""
+    import topics as tp
+    if set(chosen) >= set(tp.ALL):
+        return None, None
+    keep = [x for x in items(lines, kind) if tp.topic_of(x["sector"]) in chosen][:5]
+    names = ", ".join(tp.TOPICS[t][0] for t in tp.ALL if t in chosen)
+    note = (f"Your topics: {names}. These are the highest-ranked stories in them; the whole brief on the site has all."
+            if keep else f"Your topics: {names}. No story in them made this brief; the whole brief on the site has all.")
+    return keep, note
+
+
+def supa():
+    import urllib.parse
+    base = urllib.parse.urlparse(env("SUPABASE_URL"))
+    key = env("SUPABASE_SERVICE_KEY")
+    return f"{base.scheme}://{base.netloc}/rest/v1", {"apikey": key, "Authorization": f"Bearer {key}"}
+
+
+def suppressed(log):
+    """Session 23: every address that unsubscribed (email_suppressions, migration 007); left out of every send,
+    fixed recipients included. Read only when the Supabase service key is available."""
+    if not env("SUPABASE_URL") or not env("SUPABASE_SERVICE_KEY"):
+        log("  suppression list not read (no Supabase service key)")
+        return set()
+    base, hdr = supa()
+    r = requests.get(f"{base}/email_suppressions", params={"select": "email"}, headers=hdr, timeout=60)
+    if r.status_code != 200:
+        raise RuntimeError(f"email_suppressions: HTTP {r.status_code}: {ip.redact(r.text[:200])}")
+    return {x["email"].strip().lower() for x in r.json()}
+
+
+def subscribers(kind, log):
+    """The subscribers who chose this kind (daily, or weekly for the Roundup) on /subscribe (session 21, ruling 7),
+    read with the service key (the anon key cannot read the table), with their topics. Session 23: only addresses
+    that confirmed through the signed link (double opt-in) and have not unsubscribed. Only with EMAIL_SUBSCRIBERS=1.
+    An address signed up twice keeps its latest confirmed choice. {email: topics}"""
+    if env("EMAIL_SUBSCRIBERS") != "1":
+        return {}
+    base, hdr = supa()
+    r = requests.get(f"{base}/subscribers", timeout=60, headers=hdr, params={
+        "select": "email,topics,confirmed_at", SUB_COLUMN[kind]: "eq.true", "confirmed_at": "not.is.null",
+        "unsubscribed_at": "is.null", "order": "confirmed_at.asc"})
+    if r.status_code != 200:
+        raise RuntimeError(f"subscribers: HTTP {r.status_code}: {ip.redact(r.text[:200])}")
+    out = {x["email"].strip().lower(): x["topics"] for x in r.json()}
+    log(f"  {kind}: {len(out)} confirmed subscribers chose it")
+    return out
+
+
+def token(email, purpose):
+    import hashlib
+    import hmac
+    secret = env("EMAIL_TOKEN_SECRET")
+    if not secret:
+        return None
+    return hmac.new(secret.encode(), f"{email.strip().lower()}:{purpose}".encode(), hashlib.sha256).hexdigest()
+
+
+def unsubscribe_url(email):
+    import urllib.parse
+    t = token(email, "unsubscribe")
+    if not t:
+        return None
+    return f"{(env('SITE_URL') or SITE_DEFAULT).rstrip('/')}/api/unsubscribe?e={urllib.parse.quote(email)}&t={t}"
+
+
+def send(kind, path, log):
+    """Session 23: each recipient gets their own email: the fixed recipients (DIGEST_RECIPIENTS) the whole top five,
+    each confirmed subscriber the top stories in their topics; every email carries the recipient's signed unsubscribe
+    link (and the List-Unsubscribe headers for one-click unsubscribe); suppressed addresses get nothing."""
     key = env("RESEND_API_KEY")
-    to = [a.strip() for a in env("DIGEST_RECIPIENTS").split(",") if a.strip()] + subscribers(kind, log)
-    if not key or not to:
-        missing = [n for n, v in (("RESEND_API_KEY", key), ("DIGEST_RECIPIENTS", to)) if not v]
+    fixed = [a.strip().lower() for a in env("DIGEST_RECIPIENTS").split(",") if a.strip()]
+    subs = subscribers(kind, log)
+    if not key or not (fixed or subs):
+        missing = [n for n, v in (("RESEND_API_KEY", key), ("DIGEST_RECIPIENTS", fixed or subs)) if not v]
         log(f"  not sent: {', '.join(missing)} not set; the rendered email is in docs/digest/email/")
         print(f"email: not sent ({', '.join(missing)} not set)")
         return 0, "not sent: " + ", ".join(missing) + " not set"
+    if subs and not env("EMAIL_TOKEN_SECRET"):
+        log("  EMAIL_TOKEN_SECRET not set: no email may go to a subscriber without its unsubscribe link; "
+            f"{len(subs)} subscribers left out")
+        subs = {}
+    stop = suppressed(log)
+    import topics as tp
+    to = {a: tp.ALL for a in fixed}
+    for a, t in subs.items():
+        to.setdefault(a, t)
+    left = [a for a in to if a in stop]
+    for a in left:
+        del to[a]
+    if left:
+        log(f"  {len(left)} unsubscribed addresses left out")
+    lines = open(path, encoding="utf-8").read().splitlines()
     sender = env("DIGEST_FROM") or "ERW Energy Digest <onboarding@resend.dev>"
     sent = 0
-    for addr in dict.fromkeys(to):  # each recipient alone; duplicates once
-        r = requests.post(RESEND, headers={"Authorization": f"Bearer {key}"}, timeout=60,
-                          json={"from": sender, "to": [addr], "subject": subject, "text": text, "html": body_html})
+    for addr, chosen in to.items():
+        stories, note = filtered(lines, kind, chosen)
+        unsub = unsubscribe_url(addr)
+        title, label, text, body_html = render(path, kind, stories=stories, note=note, unsubscribe=unsub)
+        msg = {"from": sender, "to": [addr], "subject": title, "text": text, "html": body_html}
+        if unsub:
+            msg["headers"] = {"List-Unsubscribe": f"<{unsub}>", "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"}
+        else:
+            log(f"  recipient {sent + 1}: no unsubscribe link (EMAIL_TOKEN_SECRET not set); a fixed recipient only")
+        r = requests.post(RESEND, headers={"Authorization": f"Bearer {key}"}, timeout=60, json=msg)
         if r.status_code >= 300:
             raise RuntimeError(f"Resend HTTP {r.status_code}: {ip.redact(r.text[:200])}")
         sent += 1
-        log(f"  sent to recipient {sent} of {len(to)} (Resend id {r.json().get('id', '?')})")
-    return sent, f"sent to {sent} recipients"
+        log(f"  sent to recipient {sent} of {len(to)} ({'fixed' if addr in fixed else 'subscriber'}, "
+            f"{len(chosen)} topics; Resend id {r.json().get('id', '?')})")
+    return sent, f"sent to {sent} recipients ({len([a for a in to if a in fixed])} fixed, " \
+                 f"{len([a for a in to if a not in fixed])} subscribers)"
 
 
 def main(argv=None):
@@ -292,13 +399,15 @@ def main(argv=None):
     results = []
     for kind in kinds:
         try:
-            title, label, text, body_html = render(KINDS[kind][2], kind)
+            # the saved copy: the whole top five, and a placeholder where each recipient's own link goes
+            title, label, text, body_html = render(KINDS[kind][2], kind,
+                                                   unsubscribe="Each recipient's email carries its own signed unsubscribe link.")
             os.makedirs(OUT, exist_ok=True)
             for ext, content in (("txt", text), ("html", body_html)):
                 with open(os.path.join(OUT, f"{label}-{kind}.{ext}"), "w", encoding="utf-8", newline="\n") as f:
                     f.write(content)
             log(f"{kind}: rendered '{title}' to docs/digest/email/{label}-{kind}.txt and .html")
-            n, detail = send(title, text, body_html, log, kind)
+            n, detail = send(kind, KINDS[kind][2], log)
             results.append(dict(table="email", market=kind, status="ok", detail=f"{label}: {detail}"))
         except Exception:
             tb = ip.redact(traceback.format_exc())

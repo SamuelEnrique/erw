@@ -90,7 +90,20 @@ export async function attempt<T>(f: () => Promise<T>): Promise<{ ok: true; data:
  * Session 19: add one row to a table the anon key may insert into (subscribers, migration 005).
  * Asks for no row back: the anon key cannot read that table.
  */
-export async function insertRow(table: string, row: Record<string, string | boolean>): Promise<void> {
+/** Session 23: call a database function the anon key may execute (subscribe_confirm, subscribe_unsubscribe). */
+export async function rpc<T>(fn: string, args: Record<string, string>): Promise<T> {
+  const { base, key } = config();
+  const res = await fetch(`${base}/rest/v1/rpc/${fn}`, {
+    method: "POST",
+    headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify(args),
+    cache: "no-store",
+  });
+  if (!res.ok) throw new DataError(`Supabase rpc ${fn}: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+  return (await res.json()) as T;
+}
+
+export async function insertRow(table: string, row: Record<string, string | boolean | string[]>): Promise<void> {
   const { base, key } = config();
   const res = await fetch(`${base}/rest/v1/${table}`, {
     method: "POST",
