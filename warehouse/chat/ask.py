@@ -46,7 +46,7 @@ MAX_TOOL_CALLS = 8
 MAX_TOKENS = 16000
 EFFORT = "high"
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
-PRICES = {"claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}
+PRICES = {"claude-sonnet-5-5": (2.00, 10.00), "claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}  # sonnet-5-5: pricing page, read 2026-09-28 (session 27)
 REFUSAL = ("I cannot give an answer I can verify: the numbers in my draft could not all be traced "
            "to a warehouse query. Try asking for one value, one table and one period at a time.")
 

@@ -355,6 +355,10 @@
  "max_tokens": 16000,
  "effort": "high",
  "prices": {
+  "claude-sonnet-5-5": [
+   2.0,
+   10.0
+  ],
   "claude-sonnet-5": [
    2.0,
    10.0

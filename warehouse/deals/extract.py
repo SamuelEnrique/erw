@@ -88,7 +88,7 @@ US_STATES = {
     "TN": "tennessee", "TX": "texas", "UT": "utah", "VT": "vermont", "VA": "virginia", "WA": "washington",
     "WV": "west virginia", "WI": "wisconsin", "WY": "wyoming", "PR": "puerto rico"}
 US_NAMES = {"us", "u.s.", "usa", "u.s.a.", "united states", "united states of america", "america"}
-PRICES = {"claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}
+PRICES = {"claude-sonnet-5-5": (2.00, 10.00), "claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}  # sonnet-5-5: pricing page, read 2026-09-28 (session 27)
 BATCH = 12          # clusters per call
 REFERENCE_MAX = 250  # earlier deals offered as same_as candidates
 

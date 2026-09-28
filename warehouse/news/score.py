@@ -47,7 +47,7 @@ SECTORS = ["oil", "gas", "lng", "power_prices", "generation", "nuclear", "renewa
            "transmission", "grid_conditions", "interconnection", "datacenter_power", "deal", "ppa",
            "policy", "capital", "company", "geopolitics", "transport", "hydrogen", "other"]
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
-PRICES = {"claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}
+PRICES = {"claude-sonnet-5-5": (2.00, 10.00), "claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}  # sonnet-5-5: pricing page, read 2026-09-28 (session 27)
 REFERENCE_MAX = 400  # earlier stories offered as is_duplicate_of candidates per call
 MIN_BATCH = 25  # stories per call, unless fewer remain
 
