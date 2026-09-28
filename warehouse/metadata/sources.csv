@@ -1,9 +1,9 @@
 source,publisher,report,report_url,document_list,license,tables,first_seen,last_seen
 ANS Nuclear Newswire,ANS Nuclear Newswire,news stories,,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
 Bloomberg,Bloomberg,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-27,2026-09-28
-Bloomberg Media,Bloomberg Media,news stories,,,internal,news_stories,2026-09-28,2026-09-28
+Bloomberg Media,Bloomberg Media,news stories,,,internal,news_index;news_stories,2026-09-28,2026-09-28
 Bloomberg Mercury,Bloomberg Mercury,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-28
-Bloomberg.com,Bloomberg.com,news stories,,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
+Bloomberg.com,Bloomberg.com,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
 California ISO,California ISO,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-28
 California Public Advocates Office (.gov),California Public Advocates Office (.gov),news stories,,,internal,news_stories,2026-09-28,2026-09-28
 California Public Utilities Commission (.gov),California Public Utilities Commission (.gov),news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-28
@@ -21,7 +21,7 @@ Electric Reliability Council of Texas (ERCOT),Electric Reliability Council of Te
 Energy-Storage.news,Energy-Storage.news,news stories,,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
 FT Channels,FT Channels,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-28
 Federal Energy Regulatory Commission (.gov),Federal Energy Regulatory Commission (.gov),news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-28
-Financial Times,Financial Times,news stories,,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
+Financial Times,Financial Times,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
 Hart Energy,Hart Energy,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
 Heatmap News,Heatmap News,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;news_index;news_stories,2026-09-25,2026-09-28
 Hydrogen Insight,Hydrogen Insight,news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-28
@@ -56,7 +56,7 @@ caiso:production_curtailments,California ISO (CAISO),Production and curtailments
 carb:auction-results-summary,California Air Resources Board (CARB),Summary of California and Joint Auction Settlement Prices and Results,https://ww2.arb.ca.gov/our-work/programs/cap-and-trade-program/auction-information,https://ww2.arb.ca.gov/sites/default/files/2020-08/results_summary.pdf,internal,carb_auction_allowance_prices,2026-09-25,2026-09-25
 careers.misoenergy.org,careers.misoenergy.org,news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-28
 cdn.misoenergy.org,cdn.misoenergy.org,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-28
-census:gazetteer_counties,U.S. Census Bureau,"Gazetteer Files, counties (2025) and places (2025), internal points",https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_counties_national.zip,https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html,public,datacenter_projects;energy_projects,2026-09-27,2026-09-27
+census:gazetteer_counties,U.S. Census Bureau,"Gazetteer Files, counties (2025) and places (2025), internal points",https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_counties_national.zip,https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html,public,datacenter_projects;energy_projects,2026-09-27,2026-09-28
 commodities-volatility-asia.live.ft.com,commodities-volatility-asia.live.ft.com,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-28
 cpuc.ca.gov,cpuc.ca.gov,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-28
 digitalrealty:data-centers,Digital Realty,Digital Realty public list of data center sites and regions,https://www.digitalrealty.com/data-centers,,public,datacenter_operator_sites,2026-09-28,2026-09-28

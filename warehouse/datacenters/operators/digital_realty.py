@@ -3,7 +3,7 @@
 Source: https://www.digitalrealty.com/data-centers . The page carries its facility list as
 JSON (__NEXT_DATA__): per facility the site code (title, "IAD39"), metro, country, and
 latitude and longitude. Kept: facilities with country USA. Each facility's own page
-(url-alias) is read for its address, which names the city and state ("IAD39 44274 Round
+(url-alias) is read for its address, which names the state, and the city where a comma sets it off ("IAD39 44274 Round
 Table Plaza (Bldg L), Ashburn, VA 20147"). The coordinates are the operator's own.
 The list also has a field_utility_power_capacity number with no unit on the page or in the
 data ("120000" for IAD39); a number without a stated unit is not an MW, so it is not kept.
@@ -49,13 +49,16 @@ def facilities(log):
         code = o["title"].strip()
         url = BASE + alias
         text = page_text(get(url, log))
-        a = re.search(r"\b" + re.escape(code) + r" (\d[^|]{2,120}?), ([A-Z][A-Za-z .'-]+?), ([A-Z]{2}) \d{5}", text)
-        st = state_of(a.group(3)) if a else ""
+        # the address ends "<state code> <ZIP>"; the city is kept only where a comma sets it off from the street
+        # ("..., Ashburn, VA 20147"); "8435 N. Stemmons Freeway Dallas, TX 75247" keeps its state, not a city
+        a = re.search(r"\b" + re.escape(code) + r" (\d[^|]{2,160}?), ([A-Z]{2}) \d{5}", text)
+        st = state_of(a.group(2)) if a else ""
+        city = a.group(1).rsplit(",", 1)[1].strip() if a and "," in a.group(1) else ""
         if not a:
             no_addr += 1
         out.append(facility(operator=OPERATOR, name=f"Digital Realty {code}", site_type="facility",
                             operator_code=code, place_text=a.group(0) if a else o.get("metro", ""),
-                            city=a.group(2) if a else "", state=st, lat=_val(o, "field_latitude"),
+                            city=city, state=st, lat=_val(o, "field_latitude"),
                             lon=_val(o, "field_longitude"), detail=f"metro: {o.get('metro', '')}", source_url=url))
     log(f"  digital realty: {len(nodes)} US facilities, {no_addr} without an address on their page")
     return out

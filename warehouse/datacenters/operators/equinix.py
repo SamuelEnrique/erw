@@ -40,8 +40,13 @@ def facilities(log):
             city = st = ""
             place = metro
             a = re.search(r"located at (.+?), ([A-Z][A-Za-z .'-]+), ([A-Z]{2})\b", desc)
+            s2 = re.search(r"located at ([^,]+), ([A-Z]{2})\.", desc)
             if a:
                 city, st, place = a.group(2), state_of(a.group(3)), a.group(0)
+            elif s2 and state_of(s2.group(2)):
+                # session 22 spot check: "located at 1525 NW 98th Court Doral, FL." has no comma between street and
+                # city, which the fallback below read as city "FL"; the state is stated, the city boundary is not
+                st, place = state_of(s2.group(2)), s2.group(0)
             else:
                 # most descriptions stop at the city ("located at 180 Peachtree Street NW, Atlanta."); the page's
                 # Address block gives the same city with its state and ZIP ("Atlanta, GA 30303")
