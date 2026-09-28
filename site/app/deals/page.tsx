@@ -3,7 +3,8 @@ import { Related } from "@/components/Related";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
-import { deals, renderTime } from "@/lib/data";
+import { companies, deals, renderTime } from "@/lib/data";
+import Link from "next/link";
 import { count } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { DealsTable, type Deal } from "./DealsTable";
@@ -13,6 +14,7 @@ export const metadata: Metadata = { title: "Deals" };
 
 export default async function DealsPage() {
   const res = await attempt(deals);
+  const cos = await attempt(companies); // session 26: party names that match a company link to /companies
   const month = new Date(renderTime()).toISOString().slice(0, 7);
   return (
     <>
@@ -24,14 +26,14 @@ export default async function DealsPage() {
         Transactions: power purchase agreements, offtakes, acquisitions, financings, joint ventures, fuel supply,
         nuclear and datacenter power deals. Each deal is extracted from the stories&apos; titles and summaries by a model, and every number was checked
         against the text it came from; a number the stories do not state is left blank. A deal reported by several stories is one row, with every
-        story linked.
+        story linked. A party that is in the company table links to its row on <Link href="/companies">/companies</Link>.
       </p>
       {!res.ok ? (
         <NoData what="deals" reason={res.reason} />
       ) : res.data.length === 0 ? (
         <NoData what="deals" reason="energy_deals has no rows in the live set" />
       ) : (
-        <Body rows={res.data.map(toDeal)} month={month} />
+        <Body rows={res.data.map(toDeal)} month={month} companies={cos.ok ? cos.data.map((c) => c.name) : []} />
       )}
     </>
   );
@@ -66,7 +68,7 @@ function toDeal(r: Awaited<ReturnType<typeof deals>>[number]): Deal {
   };
 }
 
-function Body({ rows, month }: { rows: Deal[]; month: string }) {
+function Body({ rows, month, companies }: { rows: Deal[]; month: string; companies: string[] }) {
   const inMonth = rows.filter((d) => d.date.slice(0, 7) === month);
   const mw = inMonth.reduce((a, d) => a + (d.mw ?? 0), 0);
   const withMw = inMonth.filter((d) => d.mw !== null).length;
@@ -108,7 +110,7 @@ function Body({ rows, month }: { rows: Deal[]; month: string }) {
           2026-09-23, so the table starts there.
         </p>
       </section>
-      <DealsTable rows={rows} />
+      <DealsTable rows={rows} companies={companies} />
       <Cite
         tables={["energy_deals"]}
         note="Extracted by warehouse/deals/extract.py from the scored stories of news_stories; the evidence sentences are outlet text and stay in the internal table energy_deals_evidence"

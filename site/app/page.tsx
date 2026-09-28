@@ -163,7 +163,7 @@ const PATHS: { who: string; what: string; links: [string, string][] }[] = [
   {
     who: "Investors",
     what: "Deals, datacenter projects and financings named in the news, each with its sources.",
-    links: [["Deals", "/deals"], ["Datacenters", "/datacenters"], ["Capital", "/deals?type=capital"]],
+    links: [["Deals", "/deals"], ["Companies", "/companies"], ["Datacenters", "/datacenters"], ["Capital", "/deals?type=capital"]],
   },
   {
     who: "Researchers",

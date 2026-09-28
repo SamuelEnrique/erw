@@ -292,3 +292,33 @@ export async function policyReads(): Promise<PolicyRead[]> {
     "direction_prices", "direction_buildout", "timeline", "plain_read", "fields_kept", "fields_dropped", "model_id"];
   return rest<PolicyRead>("events", { select: f.map((k) => `${k}:extra->>${k}`).join(","), table_name: "eq.policy_reads", order: "event_id" }, HOURLY, 10_000);
 }
+
+/** Session 26: a company of energy_companies (tool 10's seed, from Thesis Builder runs). */
+export type Company = {
+  entity_id: string;
+  name: string;
+  source_url: string | null;
+  description: string;
+  sector: string;
+  niche_tags: string;
+  stage: string;
+  raised: string;
+  location: string;
+  founders: string;
+  website: string;
+  sources: string;
+  confidence: string;
+  confidence_note: string;
+  first_seen: string;
+};
+
+export async function companies(): Promise<Company[]> {
+  const f = ["description", "sector", "niche_tags", "stage", "raised", "location", "founders", "website", "sources", "confidence",
+    "confidence_note", "first_seen"];
+  return rest<Company>(
+    "entities",
+    { select: ["entity_id", "name", "source_url", ...f.map((k) => `${k}:extra->>${k}`)].join(","), table_name: "eq.energy_companies", order: "name" },
+    HOURLY,
+    10_000,
+  );
+}

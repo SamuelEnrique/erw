@@ -2,6 +2,7 @@
 // The /deals table: filters, sorted by date, each row expandable to the whole deal.
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { Num } from "@/components/Num";
+import { companyAnchor, companyKey } from "@/lib/companies";
 
 export type Deal = {
   id: string;
@@ -67,7 +68,29 @@ function Select({ label, value, set, options, render }: { label: string; value: 
   );
 }
 
-export function DealsTable({ rows }: { rows: Deal[] }) {
+// Session 26: a party name that matches a company of energy_companies links to its row on /companies
+function Parties({ text, sep, known }: { text: string; sep: string; known: Set<string> }) {
+  const names = text.split(sep === ";" ? /;/ : / \/ /).map((x) => x.trim()).filter(Boolean);
+  return (
+    <>
+      {names.map((n, i) => (
+        <Fragment key={`${n}-${i}`}>
+          {i ? (sep === ";" ? ", " : " / ") : ""}
+          {known.has(companyKey(n)) ? (
+            <a href={`/companies#${companyAnchor(n)}`} onClick={(e) => e.stopPropagation()}>
+              {n}
+            </a>
+          ) : (
+            n
+          )}
+        </Fragment>
+      ))}
+    </>
+  );
+}
+
+export function DealsTable({ rows, companies = [] }: { rows: Deal[]; companies?: string[] }) {
+  const known = useMemo(() => new Set(companies.map(companyKey)), [companies]);
   const [type, setType] = useState("");
   const [tech, setTech] = useState("");
   const [state, setState] = useState("");
@@ -142,7 +165,13 @@ export function DealsTable({ rows }: { rows: Deal[] }) {
                       {day(d.date)}
                     </td>
                     <td className="py-1 pr-3 whitespace-nowrap">{TYPE_LABEL[d.type] ?? d.type}</td>
-                    <td className="py-1 pr-3">{parties}</td>
+                    <td className="py-1 pr-3">
+                      {[d.buyer, d.seller].filter(Boolean).length ? (
+                        <Parties text={parties} sep="/" known={known} />
+                      ) : (
+                        <Parties text={d.others} sep=";" known={known} />
+                      )}
+                    </td>
                     <td className="py-1 pr-3">{d.asset}</td>
                     <td className="py-1 pr-3">{d.technology}</td>
                     <td className="py-1 pr-3 whitespace-nowrap">{[d.state, d.country].filter(Boolean).join(", ")}</td>
@@ -165,11 +194,11 @@ export function DealsTable({ rows }: { rows: Deal[] }) {
                     <td colSpan={10} className="px-3 py-2 text-sm">
                       <dl className="grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-[10rem_1fr]">
                         <dt className="text-muted">Buyer</dt>
-                        <dd>{d.buyer || "not stated"}</dd>
+                        <dd>{d.buyer ? <Parties text={d.buyer} sep="/" known={known} /> : "not stated"}</dd>
                         <dt className="text-muted">Seller</dt>
-                        <dd>{d.seller || "not stated"}</dd>
+                        <dd>{d.seller ? <Parties text={d.seller} sep="/" known={known} /> : "not stated"}</dd>
                         <dt className="text-muted">Other parties</dt>
-                        <dd>{d.others ? d.others.split(";").join(", ") : "none named"}</dd>
+                        <dd>{d.others ? <Parties text={d.others} sep=";" known={known} /> : "none named"}</dd>
                         <dt className="text-muted">Capacity</dt>
                         <dd>
                           {d.mw !== null ? `${n(d.mw)} MW` : "MW not stated"}

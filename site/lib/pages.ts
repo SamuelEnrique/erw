@@ -29,8 +29,9 @@ export const GROUPS: Group[] = [
     pages: [
       { href: "/map", label: "Project map", line: "Every EIA generator and ISO queue position on one US map, with filters.", tables: "energy_projects, datacenter_facilities", related: ["/datacenters", "/deals"] },
       { href: "/datacenters", label: "Datacenters", line: "Datacenter facilities from the news, nine operators' site lists and the ISO queues: operator, place, MW, status.", tables: "datacenter_facilities", related: ["/map", "/deals"] },
+      { href: "/companies", label: "Companies", line: "Energy companies the ERW has found and sourced: stage, raised, location, founders and a confidence score, from Thesis Builder runs.", tables: "energy_companies", related: ["/deals", "/datacenters"] },
       { href: "/policy", label: "Policy", line: "Energy rules, proposed rules and notices from the Federal Register and agency news, scored, with impact reads of the significant ones.", tables: "policy_actions, policy_reads", related: ["/digest", "/deals"] },
-      { href: "/deals", label: "Deals", line: "PPAs, acquisitions, financings and supply deals from the news, with sources.", tables: "energy_deals", related: ["/datacenters", "/map"] },
+      { href: "/deals", label: "Deals", line: "PPAs, acquisitions, financings and supply deals from the news, with sources.", tables: "energy_deals", related: ["/companies", "/datacenters"] },
     ],
   },
   {

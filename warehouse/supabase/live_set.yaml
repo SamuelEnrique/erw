@@ -40,6 +40,8 @@ full:
   # session 24: the policy monitor (tool 12; the evidence table is internal) and NWS weather for /grid
   - '^policy_(actions|reads)$'
   - '^weather_(obs|forecast)_hourly$'
+  # session 26: the company database's seed (tool 10), for /companies and the /deals cross-links
+  - '^energy_companies$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
