@@ -33,3 +33,8 @@ warehouse/output/analysis_internal/
 # Session 25: the Thesis Builder's saved states and chart images (rebuildable; not published)
 warehouse/output/thesis_state/
 warehouse/output/thesis_charts/
+# Session 28: the append-only archive's month files, run logs and indexes stay out of git (the durable copy is the
+# private Supabase storage bucket erw-archive); its scripts and README are tracked
+warehouse/archive/*
+!warehouse/archive/*.py
+!warehouse/archive/README.md

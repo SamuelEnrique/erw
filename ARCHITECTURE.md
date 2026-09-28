@@ -21,6 +21,9 @@ warehouse/output/<table>.csv               standard shape, provenance header
 warehouse/validate/erw_validate.py         exit 0 or the table does not move
       |
       v
+warehouse/archive + bucket erw-archive     warehouse/archive/archive.py (session 28): new or changed rows,
+      |                                    append only, one file per table per month (section 1a)
+      v
 Redivis, as a DRAFT version                 warehouse/redivis/upload.py (session 10), every table
       |
       v
@@ -48,6 +51,22 @@ Three things about this are easy to get wrong:
 - **Until the version is released, the upload has not happened.** A successful upload and a matching row count describe the draft and nothing else. Session 10 ruling: Redivis, Stanford-owned and free, is the store of record for every table, updated daily as a draft. The Supabase free tier holds only a small live set (under 300 MB), loaded after the validator from the validated tables (`warehouse/supabase/load.py`), not from a released Redivis version.
 - **The live layer is derived, never edited.** If Supabase and Redivis disagree, Redivis is right and Supabase is rebuilt. Nobody writes corrections into Postgres by hand.
 
+## 1a. The working store and the citable archive (session 28)
+
+Ben Domingue's review (`docs/feedback/ben-2026-09-28.md`, item 1) observed that the ERW is mostly a feed, rewritten daily, while the IRW's release model fits an archive. The ERW therefore keeps three stores apart, each with one job:
+
+| Store | What it is | Rewritten? | Who cites it |
+|---|---|---|---|
+| **Working store**: `warehouse/output` and the Redivis draft | The current tables. The daily run merges into the rolling windows and rewrites the full-history tables; the draft is replaced table by table | Every day | Nobody. A draft is scratch space |
+| **Durable archive**: `warehouse/archive` and the private Supabase storage bucket `erw-archive` | Every row every run found new or changed, and every key it found gone, one file per table per month, append only ([`warehouse/archive/README.md`](warehouse/archive/README.md)). `warehouse/archive/restore.py` rebuilds any table as of any run | Never | The ERW itself, to recover. It is the history's only guaranteed copy |
+| **Citable archive**: the released Redivis versions | A version of the dataset a human released after reading the diff | Never; a version is immutable | Everyone. This is what a paper or a tool cites |
+
+Rules that follow:
+
+- **The daily run touches nothing that is not recoverable.** The archive step runs before the Supabase load and the Redivis upload, and the upload is skipped on a day the archive step fails. The uploader's history gates (`warehouse/redivis/README.md`) stop a rolling-window table being replaced by a shorter one.
+- **Monthly release cadence.** Once a month, in its first week, a human reviews the draft against the last released version and releases it on Redivis. That version is the citable record of the month before. A table that gives a wrong answer is fixed and released as soon as the fix lands, without waiting for the month. No scheduled job releases anything (CLAUDE.md, non-negotiable 6).
+- **Rebuilding.** If the draft loses a table, or a rolling window is cut short, the table is rebuilt from the archive (`restore.py TABLE --out warehouse/output/TABLE.csv`) and uploaded again.
+
 Everything on a clock is a GitHub Action. There is no crontab on any machine. As with the IRW, a late addition may wait for the next batched release; a released table that gives a *wrong* answer is fixed and released as soon as the fix lands.
 
 ## 2. Which document wins
@@ -61,6 +80,7 @@ Everything on a clock is a GitHub Action. There is no crontab on any machine. As
 | What kind of work to do next | [`PRIORITIES.md`](PRIORITIES.md). Advisory; a human overrules it |
 | What happened in a session and why | That session's `SESSION_*_REPORT.md`. A record, not a plan |
 | What the warehouse holds today | `warehouse/metadata/coverage.csv` and `docs/coverage.md`, generated on every run |
+| What a table held on an earlier day | The archive: `warehouse/archive/restore.py TABLE --as-of ...` (section 1a); a released Redivis version for what was cited |
 | How an AI assistant should read the warehouse | [`package/llms.txt`](package/llms.txt), which is also the chat's system briefing |
 | What each platform tool can do today | [`docs/platform-tools.md`](docs/platform-tools.md) |
 

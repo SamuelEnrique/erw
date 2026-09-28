@@ -34,6 +34,10 @@
 #   loaded (warehouse/supabase/load.py). (5) Last, the tables this run changed
 #   are uploaded to the Redivis draft (warehouse/redivis/upload.py --changed);
 #   nothing is ever released.
+#   Session 28: after coverage, the archive step (warehouse/archive/archive.py write) appends every
+#   table's new or changed rows to warehouse/archive/<table>/<YYYY-MM>.csv and the private Supabase
+#   storage bucket erw-archive, before anything rewrites a shared store. If it fails, the Redivis
+#   upload is skipped, so the draft is never rewritten while the rows are not recoverable elsewhere.
 #   Session 14: DRY_STORES=1 runs the same sequence but writes to no shared store:
 #   the Supabase load runs with --dry-run and the Redivis upload lists what it
 #   would upload. For testing the workflow logic in a fresh clone; CI never sets it.
@@ -194,6 +198,13 @@ fi
 echo "== coverage"
 "$PYTHON" warehouse/metadata/build_coverage.py || exit 1
 
+echo "== archive (session 28): new or changed rows to warehouse/archive and the bucket erw-archive"
+if [ "${DRY_STORES:-0}" = "1" ]; then
+  run_other archive "$PYTHON" warehouse/archive/archive.py write --no-bucket
+else
+  run_other archive "$PYTHON" warehouse/archive/archive.py write
+fi
+
 echo "== Supabase live set (session 10; warehouse/supabase/live_set.yaml)"
 if [ "${DRY_STORES:-0}" = "1" ]; then
   run_other supabase_load "$PYTHON" warehouse/supabase/load.py --dry-run
@@ -226,6 +237,10 @@ echo "== prune raw files older than 14 days (manifests kept)"
 echo "== Redivis: upload the tables this run changed, to the draft only (session 10)"
 if [ "${DRY_STORES:-0}" = "1" ]; then
   run_other redivis_upload "$PYTHON" warehouse/redivis/upload.py --changed --dry-run
+elif ! grep -q "^archive ok" "$status"; then
+  # session 28: the upload deletes and recreates draft tables; not while this run's rows are unarchived
+  echo "redivis_upload failed: skipped because the archive step failed" >> "$status"
+  echo "redivis_upload: skipped, the archive step failed (runs/daily_archive.out)"
 else
   run_other redivis_upload "$PYTHON" warehouse/redivis/upload.py --changed
 fi
