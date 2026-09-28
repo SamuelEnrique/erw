@@ -1,5 +1,5 @@
 // The project map's body (session 16): summary counts, the map and the table view, from the
-// energy_projects rows Supabase returned (and datacenter_projects points, when present).
+// energy_projects rows Supabase returned (and datacenter_facilities points, when present; session 22).
 import { geoAlbersUsa, geoPath } from "d3-geo";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
@@ -35,7 +35,7 @@ export function Body({ rows }: { rows: ProjectPoint[] }) {
     return {
       ...k,
       n: r.length,
-      point: r.filter((p) => p.prec === "point").length,
+      point: r.filter((p) => p.prec === "point" || p.prec === "operator").length,
       county: r.filter((p) => p.prec === "county" || p.prec === "place").length,
       none: r.filter((p) => p.prec === "none").length,
       mw: r.reduce((a, p) => a + (p.capacity_mw ?? 0), 0),
@@ -110,8 +110,9 @@ export function Body({ rows }: { rows: ProjectPoint[] }) {
         <p className="mt-1 text-xs text-muted">
           MW as each source states it: EIA nameplate capacity; for a queue position, the MW requested. A position that is not placed names no county the
           gazetteer holds (a city, a misspelling, or no county at all); the table <code className="font-mono">energy_projects</code> says why for each.
-          Datacenters are facilities the news names (the datacenter power tracker): MW only where a story states it, placed at the stated county or
-          city, drawn as diamonds.
+          Datacenters (the datacenter power tracker, <code className="font-mono">datacenter_facilities</code>) join the facilities the news names, the
+          operators&apos; own site lists and queue positions that name a datacenter or large load: MW only where a story or the operator states it,
+          placed at the operator&apos;s coordinates or the stated county or city, drawn as diamonds.
         </p>
       </section>
 
@@ -152,7 +153,7 @@ export function Body({ rows }: { rows: ProjectPoint[] }) {
         </p>
       </section>
       <Cite
-        tables={byKind.some((k) => k.id === "datacenter") ? ["energy_projects", "datacenter_projects"] : ["energy_projects"]}
+        tables={byKind.some((k) => k.id === "datacenter") ? ["energy_projects", "datacenter_facilities"] : ["energy_projects"]}
         note="Derived by warehouse/derived/energy_projects.py from the EIA-860M inventories and the six ISO queues, with county points from the U.S. Census Bureau's 2025 county gazetteer (method: docs/methods/energy_projects.md)"
       />
     </>

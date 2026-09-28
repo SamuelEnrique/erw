@@ -7,14 +7,14 @@ import { entity } from "@/lib/data";
 export const runtime = "nodejs";
 
 // only the tables the map reads; anything else is refused
-const TABLES = new Set(["energy_projects", "datacenter_projects"]);
+const TABLES = new Set(["energy_projects", "datacenter_facilities"]);
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const table = url.searchParams.get("table") ?? "";
   const id = url.searchParams.get("id") ?? "";
   if (!TABLES.has(table) || !id || id.length > 200) {
-    return NextResponse.json({ error: "table must be energy_projects or datacenter_projects, with an id" }, { status: 400 });
+    return NextResponse.json({ error: "table must be energy_projects or datacenter_facilities, with an id" }, { status: 400 });
   }
   try {
     const row = await entity(table, id);

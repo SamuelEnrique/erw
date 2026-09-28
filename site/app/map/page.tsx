@@ -18,15 +18,16 @@ export default async function MapPage() {
       <h1 className="mb-1 text-3xl">Energy project map</h1>
       <p className="mb-2 max-w-3xl">
         Every operating and planned generator in <Term t="EIA" first />&apos;s monthly inventory, every active interconnection queue position of six <Term t="ISO" first />s, and
-        datacenters named in the news, on one map, from EIA-860M, the ISOs&apos; queue reports and the news the ERW scores.
+        datacenters, on one map, from EIA-860M, the ISOs&apos; queue reports, the news the ERW scores and the operators&apos; own site lists.
       </p>
       <p className="mb-2 max-w-3xl text-sm">
-        Scope: datacenters are news-derived since 2025-10-01, plus the ISOs&apos; queues; this is not a census of every facility.
+        Scope: datacenters are from the news since 2025-01-01, the public site lists of nine operators and the ISOs&apos; queues; this is not a
+        census of every facility.
       </p>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         The queues are those of <Term t="ERCOT" first />, <Term t="CAISO" first />, <Term t="NYISO" first />, <Term t="MISO" first />, <Term t="SPP" first /> and <Term t="ISO-NE" first />. EIA gives each plant&apos;s coordinates. The ISOs give only a county, so a queue position is drawn at its county&apos;s
         internal point from the Census Bureau&apos;s gazetteer, as a ring rather than a dot. Withdrawn queue positions are not on the map. Datacenters
-        named in the news are the fourth kind.
+        are the fourth kind.
       </p>
       {!res.ok ? (
         <NoData what="the project map" reason={res.reason} />

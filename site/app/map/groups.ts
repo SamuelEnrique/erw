@@ -4,7 +4,7 @@ export const KINDS = [
   { id: "operating", label: "Operating (EIA-860M)" },
   { id: "planned", label: "Planned (EIA-860M)" },
   { id: "queue", label: "Queue positions (six ISOs)" },
-  { id: "datacenter", label: "Datacenters (from the news)" },
+  { id: "datacenter", label: "Datacenters (news, operators, queues)" },
 ] as const;
 
 // Technology groups of energy_projects, in the order of the site's eight fuel colors
@@ -66,7 +66,7 @@ export type MapData = {
   state: number[];
   status: number[];
   county: number[]; // 1: a county point (a ring), 0: exact coordinates (a dot)
-  table: number[]; // 0: energy_projects, 1: datacenter_projects
+  table: number[]; // 0: energy_projects, 1: datacenter_facilities
   id: string[];
   offMap: number;
   unplaced: number;

@@ -18,6 +18,11 @@ warehouse/output/*.csv
 # Session 16: the datacenter power tracker's tables, for the same reason
 !warehouse/output/datacenter_projects.csv
 !warehouse/output/datacenter_projects_evidence.csv
+# Session 22: the operator site lists (refreshed weekly) and the matched queue rows (refreshed with the
+# queues), so the daily run can rebuild datacenter_facilities every day without them on the runner
+!warehouse/output/datacenter_operator_sites.csv
+!warehouse/output/datacenter_queue_positions.csv
+!warehouse/output/datacenter_facilities.csv
 # Session 9: run logs belong with the tables they describe; they stay out of git from now on
 # (logs committed before session 9 stay tracked).
 warehouse/output/logs/

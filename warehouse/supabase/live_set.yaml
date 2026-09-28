@@ -19,6 +19,8 @@ full:
   - '^energy_deals$'                            # session 15: the deal tracker (public; the evidence table is internal)
   - '^energy_projects$'                         # session 16: the project map (tool 3), with "select" below
   - '^datacenter_projects$'                     # session 16: the datacenter power tracker (tool 4; evidence internal)
+  - '^datacenter_facilities$'                   # session 22: the tracker's one table (news, operator lists, queues);
+                                                 # datacenter_operator_sites reaches Supabase through it
   - '^ercot_large_load_queue$'                  # session 17: only if ERCOT publishes a request-level list
   # session 18: the energy mix explorer (tool 21). The grouped monthly mix is loaded, not the
   # EIA source table (eia_state_generation_monthly: EIA source codes, census regions and long

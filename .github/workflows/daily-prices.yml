@@ -181,7 +181,10 @@ jobs:
                  warehouse/output/news_index.csv warehouse/output/energy_deals.csv
                  warehouse/output/energy_deals_evidence.csv warehouse/deals/checked.csv
                  warehouse/datacenters/checked.csv warehouse/output/datacenter_projects.csv
-                 warehouse/output/datacenter_projects_evidence.csv)
+                 warehouse/output/datacenter_projects_evidence.csv
+                 warehouse/output/datacenter_operator_sites.csv
+                 warehouse/output/datacenter_queue_positions.csv
+                 warehouse/output/datacenter_facilities.csv)
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # Session 16: run 3 (36284122117) failed here with exit 128. It committed, then ran

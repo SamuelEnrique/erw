@@ -1,5 +1,5 @@
 "use client";
-// The /datacenters table (session 16): filters in one row, one row per facility, story links on each.
+// The /datacenters table (session 16; session 22: news, operator lists and queues): filters in one row, one row per facility, source links on each.
 import { useMemo, useState } from "react";
 
 export type Facility = {
@@ -20,7 +20,15 @@ export type Facility = {
   placed: boolean;
   firstStory: string;
   storyUrls: string[];
+  kind: string; // session 22: news, operator or queue (the first source); kinds lists every source's kind
+  kinds: string[];
+  siteType: string;
+  mwSpan: string;
+  queueMw: number | null;
+  sourceUrls: string[];
 };
+
+const KIND_LABEL: Record<string, string> = { news: "news", operator: "operator list", queue: "ISO queue" };
 
 const uniq = (xs: string[]) => Array.from(new Set(xs.filter(Boolean))).sort();
 const label = (s: string) => s.replace("_", " ");
@@ -46,13 +54,15 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
   const [status, setStatus] = useState("");
   const [operator, setOperator] = useState("");
   const [minMw, setMinMw] = useState("");
+  const [kind, setKind] = useState("");
   const shown = useMemo(
     () =>
       rows
         .filter((f) => (!state || f.state === state) && (!status || f.status === status) && (!operator || f.operator === operator))
+        .filter((f) => !kind || f.kinds.includes(kind))
         .filter((f) => !minMw || (f.mw !== null && f.mw >= Number(minMw)))
-        .sort((a, b) => b.firstStory.localeCompare(a.firstStory)),
-    [rows, state, status, operator, minMw],
+        .sort((a, b) => b.firstStory.localeCompare(a.firstStory) || a.operator.localeCompare(b.operator) || a.site.localeCompare(b.site)),
+    [rows, state, status, operator, minMw, kind],
   );
   const blank = <span className="text-muted">not stated</span>;
   return (
@@ -61,6 +71,7 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
         <Select name="State" value={state} set={setState} options={uniq(rows.map((f) => f.state))} />
         <Select name="Status" value={status} set={setStatus} options={uniq(rows.map((f) => f.status))} />
         <Select name="Operator" value={operator} set={setOperator} options={uniq(rows.map((f) => f.operator))} />
+        <Select name="Source" value={kind} set={setKind} options={uniq(rows.flatMap((f) => f.kinds))} />
         <label className="flex flex-col gap-1 text-xs text-muted">
           MW at least
           <input
@@ -86,13 +97,15 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
               <th className="py-1 pr-3 font-normal">Status</th>
               <th className="py-1 pr-3 font-normal">Planned year</th>
               <th className="py-1 pr-3 font-normal">Power</th>
-              <th className="py-1 font-normal">Stories</th>
+              <th className="py-1 font-normal">Sources</th>
             </tr>
           </thead>
           <tbody>
             {shown.map((f) => (
               <tr key={f.id} className="border-b border-rule align-top">
-                <td className="py-1 pr-3 tabular-nums">{f.firstStory.slice(0, 10)}</td>
+                <td className="py-1 pr-3 tabular-nums">
+                  {f.firstStory ? f.firstStory.slice(0, 10) : <span className="text-muted">{f.kind === "news" ? "not stated" : "not in the news"}</span>}
+                </td>
                 <td className="py-1 pr-3">
                   <div>{f.operator || blank}</div>
                   {f.site ? <div className="text-xs">{f.site}</div> : null}
@@ -103,14 +116,19 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
                   {[f.city, f.county, f.state].filter(Boolean).join(", ") || blank}
                   {f.placed ? <div className="text-xs text-muted">on the map</div> : null}
                 </td>
-                <td className="py-1 pr-3 text-right tabular-nums">{f.mw === null ? blank : f.mw.toLocaleString("en-US")}</td>
+                <td className="py-1 pr-3 text-right tabular-nums">
+                  {f.mw === null ? blank : f.mw.toLocaleString("en-US")}
+                  {f.mwSpan ? <div className="text-xs text-muted">&ldquo;{f.mwSpan}&rdquo;</div> : null}
+                  {f.queueMw !== null ? <div className="text-xs text-muted">queue: {f.queueMw.toLocaleString("en-US")} MW generation or storage</div> : null}
+                </td>
                 <td className="py-1 pr-3">{f.status ? label(f.status) : blank}</td>
                 <td className="py-1 pr-3 tabular-nums">{f.plannedYear || blank}</td>
                 <td className="py-1 pr-3">
                   {f.power || f.utility ? [f.power, f.utility ? `utility ${f.utility}` : ""].filter(Boolean).join("; ") : blank}
                 </td>
                 <td className="py-1">
-                  {f.storyUrls.map((u, i) => (
+                  <div className="text-xs text-muted">{f.kinds.map((k) => KIND_LABEL[k] ?? k).join(", ")}</div>
+                  {f.sourceUrls.map((u, i) => (
                     <a key={u} href={u} target="_blank" rel="noreferrer" className="mr-2">
                       {i + 1}
                     </a>

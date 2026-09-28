@@ -139,6 +139,8 @@ if [ "$(date -u +%u)" = "1" ] || [ "${QUEUES:-0}" = "1" ]; then
   # Session 17: ERCOT large-load requests. ERCOT publishes no request-level list (the status report
   # aggregates, Protocol 3.2.7); this watches its Large Load Integration page and fails loudly until one appears
   run_other ercot_large_load "$PYTHON" warehouse/connectors/ercot_large_load.py
+  # Session 22: the datacenter operators' own site lists (nine connectors), weekly with the queues
+  run_other datacenter_operators "$PYTHON" warehouse/datacenters/operators/run.py
 else
   echo "iso_queues: weekly (Mondays UTC); skipped today, QUEUES=1 to force"
 fi
@@ -156,6 +158,9 @@ run_other news_index "$PYTHON" warehouse/news/index.py   # public companion tabl
 run_other deals "$PYTHON" warehouse/deals/extract.py
 # Session 16: datacenter facilities from the newly scored datacenter_power stories (tool 4)
 run_other datacenters "$PYTHON" warehouse/datacenters/extract.py
+# Session 22: the tracker's one table: the news facilities, the operator sites and the queue rows that
+# name a datacenter or large load, deduplicated by operator plus location (docs/methods/datacenter_facilities.md)
+run_other datacenter_facilities "$PYTHON" warehouse/derived/datacenter_facilities.py
 
 echo "== connector status"
 cat "$status"

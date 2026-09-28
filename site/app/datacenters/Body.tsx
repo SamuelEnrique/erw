@@ -1,4 +1,4 @@
-// The /datacenters body (session 16): the summary strip, the table and the citation.
+// The /datacenters body (session 16; session 22: the combined table): the summary strip, the table and the citation.
 import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
 import type { EntityRow } from "@/lib/data";
@@ -22,9 +22,15 @@ export function toFacility(r: EntityRow): Facility {
     power: x.power_source ?? "",
     utility: x.utility ?? "",
     confidence: x.confidence ? Number(x.confidence) : null,
-    placed: x.geo_precision === "county" || x.geo_precision === "place",
+    placed: ["county", "place", "operator", "point"].includes(x.geo_precision ?? ""),
     firstStory: x.first_story_at ?? "",
     storyUrls: (x.story_urls ?? r.source_url ?? "").split(";").filter(Boolean),
+    kind: x.kind ?? "",
+    kinds: (x.kinds ?? x.kind ?? "").split(";").filter(Boolean),
+    siteType: x.site_type ?? "",
+    mwSpan: x.mw_span ?? "",
+    queueMw: x.queue_mw ? Number(x.queue_mw) : null,
+    sourceUrls: (x.source_urls ?? r.source_url ?? "").split(";").filter(Boolean),
   };
 }
 
@@ -74,7 +80,7 @@ export function Body({ rows }: { rows: Facility[] }) {
             </div>
           </div>
           <div className="bg-panel px-3 py-2">
-            <div className="mb-1 text-xs text-muted">Announced MW by state (MW the stories state, any status)</div>
+            <div className="mb-1 text-xs text-muted">Stated MW by state (MW a story or the operator states, any status)</div>
             {bars(byState, "state", maxMw)}
           </div>
           <div className="bg-panel px-3 py-2">
@@ -83,14 +89,14 @@ export function Body({ rows }: { rows: Facility[] }) {
           </div>
         </div>
         <p className="mt-1 text-xs text-muted">
-          The ERW has scored news since 2026-09-23, so the tracker starts there. Sums count only the facilities whose stories state MW and a state or
-          operator.
+          Sums count only the facilities whose story or operator page states MW, and a state or operator. A queue position&apos;s MW is the generation
+          or storage it asks to connect, not the datacenter&apos;s load, so it is never summed.
         </p>
       </section>
       <DatacentersTable rows={rows} />
       <Cite
-        tables={["datacenter_projects"]}
-        note="Extracted by warehouse/datacenters/extract.py from the scored datacenter_power stories of news_stories; the evidence sentences are outlet text and stay in the internal table datacenter_projects_evidence"
+        tables={["datacenter_facilities"]}
+        note="Built by warehouse/derived/datacenter_facilities.py from datacenter_projects (the news, extracted by warehouse/datacenters/extract.py; the evidence sentences stay in the internal table datacenter_projects_evidence), datacenter_operator_sites (nine operators' public site lists) and the six ISO queues, deduplicated by operator plus location (method: docs/methods/datacenter_facilities.md)"
       />
     </>
   );

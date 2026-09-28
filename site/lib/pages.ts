@@ -27,8 +27,8 @@ export const GROUPS: Group[] = [
   {
     label: "Projects",
     pages: [
-      { href: "/map", label: "Project map", line: "Every EIA generator and ISO queue position on one US map, with filters.", tables: "energy_projects, datacenter_projects", related: ["/datacenters", "/deals"] },
-      { href: "/datacenters", label: "Datacenters", line: "Datacenter facilities named in the news: operator, place, MW, status and power.", tables: "datacenter_projects", related: ["/map", "/deals"] },
+      { href: "/map", label: "Project map", line: "Every EIA generator and ISO queue position on one US map, with filters.", tables: "energy_projects, datacenter_facilities", related: ["/datacenters", "/deals"] },
+      { href: "/datacenters", label: "Datacenters", line: "Datacenter facilities from the news, nine operators' site lists and the ISO queues: operator, place, MW, status.", tables: "datacenter_facilities", related: ["/map", "/deals"] },
       { href: "/deals", label: "Deals", line: "PPAs, acquisitions, financings and supply deals from the news, with sources.", tables: "energy_deals", related: ["/datacenters", "/map"] },
     ],
   },

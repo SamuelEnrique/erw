@@ -50,7 +50,7 @@ export function MapView({ data, colors }: { data: MapData; colors: Record<string
 
   async function open(i: number) {
     const id = data.id[i];
-    const table = data.table[i] === 1 ? "datacenter_projects" : "energy_projects";
+    const table = data.table[i] === 1 ? "datacenter_facilities" : "energy_projects";
     setCard({ loading: true, id });
     try {
       const res = await fetch(`/api/entity?table=${table}&id=${encodeURIComponent(id)}`);
