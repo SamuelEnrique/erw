@@ -12,13 +12,13 @@ From `warehouse/metadata/coverage.csv` and `warehouse/metadata/sources.csv`:
 
 | | Tables | Rows |
 |---|---|---|
-| All tables | 113 | 4,801,701 |
-| Public (on the site and in the package) | 104 | 4,665,933 |
-| Internal (licensed for internal use only) | 9 | 135,768 |
+| All tables | 113 | 4,802,069 |
+| Public (on the site and in the package) | 104 | 4,666,201 |
+| Internal (licensed for internal use only) | 9 | 135,868 |
 | Derived by the ERW from other ERW tables | 11 | 144,619 |
 | Passing the validator | 113 of 113 | |
 
-Sources in the registry: 150: 82 data sources (73 public, 9 internal) and 68 news outlets (internal: titles and summaries are not republished).
+Sources in the registry: 151: 83 data sources (74 public, 9 internal) and 68 news outlets (internal: titles and summaries are not republished).
 
 ## The site
 
@@ -35,6 +35,7 @@ https://erw-flame.vercel.app: Next.js on Vercel, reading Supabase with the anony
 | Grid | `/consumption` | Electricity sold by state and sector, and where industrial and commercial load grows fastest. |
 | Projects | `/map` | Every EIA generator and ISO queue position on one US map, with filters. |
 | Projects | `/datacenters` | Datacenter facilities from the news, nine operators' site lists and the ISO queues: operator, place, MW, status. |
+| Projects | `/companies` | Energy companies the ERW has found and sourced: stage, raised, location, founders and a confidence score, from Thesis Builder runs and the parties of the deal tracker. |
 | Projects | `/policy` | Energy rules, proposed rules and notices from the Federal Register and agency news, scored, with impact reads of the significant ones. |
 | Projects | `/deals` | PPAs, acquisitions, financings and supply deals from the news, with sources. |
 | News | `/digest` | The weekday brief: the day's energy news, scored and ranked, the day's numbers from the warehouse, and a fun fact. |

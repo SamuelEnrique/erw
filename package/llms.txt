@@ -211,8 +211,12 @@ day-ahead tables running into tomorrow:
   Thesis Builder (tool 27) found in a niche it mapped: name, one-line
   description, niche_tags, stage, raised, location, founders, website, sources
   (links) and a confidence score (0 to 100) with the clause that explains it.
-  A seed, not a census: 17 companies from two niches so far. A number that no
-  cited source confirmed reads "not confirmed". A public company's raised is
+  A seed, not a census. Since session 27 it also holds every party of
+  energy_deals (buyers, sellers, other parties): those rows carry the deals'
+  sector, tags, place (where the deal is) and story links, and a
+  confidence_note starting "from deals; not yet researched", with no
+  description, founders, stage or raised. A number that no cited source
+  confirmed reads "not confirmed". A public company's raised is
   blank and its confidence_note starts "public company" (session 26). The
   site's /companies shows it.
 **Weather** (session 24, public): weather_obs_hourly (observed, the NWS API

@@ -1,16 +1,16 @@
 # ERW status
 
-Generated 2026-09-28 10:28 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-09-28 21:28 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 112 | 4,801,684 |
-| Public | 103 | 4,665,916 |
-| Internal (never shown publicly) | 9 | 135,768 |
+| All | 113 | 4,802,069 |
+| Public | 104 | 4,666,201 |
+| Internal (never shown publicly) | 9 | 135,868 |
 
-Newest table refresh: 2026-09-28 10:17:15 UTC. Validator: 112 of 112 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-09-28 20:58:20 UTC. Validator: 113 of 113 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
 
 ## Last runs
 
@@ -18,7 +18,7 @@ Newest table refresh: 2026-09-28 10:17:15 UTC. Validator: 112 of 112 tables pass
 |---|---|---|
 | daily prices, on GitHub | 2026-09-27 18:27 | 290 ok, 32 failed, 25 gap, 8 skipped (table results of that day) |
 | daily run, local | 2026-09-27 04:42 | 137 ok, 10 failed, 10 gap (table results of that day) |
-| latest prices, every 15 minutes | 2026-09-28 06:51 | 39 hubs and zones in `latest_prices` (newest retrieval) |
+| latest prices, every 15 minutes | 2026-09-28 20:50 | 39 hubs and zones in `latest_prices` (newest retrieval) |
 
 A table that failed is not written that day; nothing partial is. The reasons are in `warehouse/metadata/run_status.csv`.
 
