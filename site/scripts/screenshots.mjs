@@ -48,6 +48,8 @@ const PAGES = [
   // session 19
   ["markets", "/markets"],
   ["subscribe", "/subscribe"],
+  // session 21
+  ["terms", "/terms"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],
@@ -110,6 +112,7 @@ async function main() {
     `--user-data-dir=${profile}`,
     "--no-first-run",
     "--hide-scrollbars",
+    "--disable-gpu", // session 21: without it the capture hung on this machine (every page timed out)
     "about:blank",
   ]);
   let version;
