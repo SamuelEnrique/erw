@@ -1,0 +1,20 @@
+Session 21 of the Energy Research Warehouse (ERW). Read CLAUDE.md, site/lib/pages.ts, warehouse/news/brief.py, warehouse/news/weekly.py, warehouse/news/email_digest.py, docs/digest/latest.md, docs/weekly/latest.md and SESSION_20_REPORT.md first. Same non-negotiables; commit after each task; may push after merging origin/main; stop if API spend passes USD 3.
+
+Rulings from the human's review and an external audit. Apply all.
+1. Home opening line: "The live, citable record of the US energy system." The full definition (prices, flows, projects, deals and policy across power, gas, oil, nuclear, renewables, storage and transmission; AI's demand for power as the sharpest lens) stays on /about. The name Energy Research Warehouse is spelled out once on the home page and once on /about; everywhere else, including the digest, the weekly brief and the emails, it is ERW.
+2. Home digest subtitle: "What is happening in energy today, from scored news."
+3. Digest and weekly intros shrink to one sentence each: what it is, the period, the story count. Methodology (rubric, model, how numbers are read, licensing of headlines) moves to /about#digest, linked at the bottom of each brief as "How this is made."
+4. "Top of the industry" shows each story's sector label and never the significance score. When a story's scored fields hold an MW, price, dollar or percent figure, the headline prompt must use it, so at least half the top 10 carry a number where the stories allow; do not change the ranking to achieve this; report the share achieved.
+5. Duplicates: the same event appeared twice in one digest with identical wording. Find the cause and fix it; add a hard check that no two items in one digest share a normalized headline or a source URL.
+6. "Numbers today" and the weekly numbers: remove the provenance sentence. Add a two to three sentence summary of what the numbers say, written by the model under the chat's literal-number check (every number in the summary must appear in the numbers section; regenerate once, else omit). Each number keeps its table in a short footnote list at the end of the section, not inline.
+7. Email: separate opt-ins for the daily digest and Energy Week on /subscribe (two checkboxes, either or both), stored per subscriber; the sender respects them. Add a one-line privacy promise on the page.
+8. Every data page opens with one plain sentence: what the page shows, the period, and where the data comes from (the source, not the table name). Acronyms (ISO names, DAM, RTM, LMP, HSL, PADD, RPM) get a hover title attribute and a glossary section on /about; the first use on each page links to it.
+9. Cross-links: each data page ends with a "Related" line of two or three pages (mix to grid and curtailment, markets to prices and grid, deals to datacenters and map, and so on), rendered from pages.ts.
+10. /data gets downloads: for every public table in the live set, a "Download CSV" link served by a site API route that streams from Supabase with the anon key, capped at 200,000 rows, with the provenance header lines at the top of the file; larger tables link to Redivis with the note that version 1 is pending release. Add a data dictionary section: the three shapes and their columns.
+11. A /terms page: data licensing per source (from sources.csv), what the site stores about subscribers, that Ask questions are logged without identity, that the site is a Stanford student research project and not investment advice. Link from the footer.
+12. /datacenters and /map get a one-line scope note (news-derived since 2025-10-01 plus queues; not a census of every facility).
+
+TASK 1. Rulings 1, 2, 3, 6, 8, 9, 12: copy and structure. Regenerate today's digest and the current Energy Week. Commit.
+TASK 2. Rulings 4 and 5. Commit.
+TASK 3. Rulings 7, 10, 11. Commit.
+TASK 4. Screenshots of every changed page; the value check must pass in full; SESSION_21_REPORT.md with the numbers-share figure and the duplicate cause. Final commit and push.

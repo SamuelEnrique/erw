@@ -198,11 +198,16 @@ def keep_retrieved(s, name):
     if not os.path.exists(path):
         return s
     prev = ip.read_series(path, ip.SERIES_COLS)
-    key = ["entity", "variable", "ts_utc", "value"]
-    s = s.assign(value=s["value"].astype(str))
-    m = s.merge(prev[key + ["retrieved_at"]].rename(columns={"retrieved_at": "_prev"}), on=key, how="left")
-    m["retrieved_at"] = m["_prev"].fillna(m["retrieved_at"])
-    return m.drop(columns="_prev")
+    # compare the values as numbers: a table restored from Redivis on the CI runner arrives with
+    # numeric values, a local one as text (session 21: comparing them as text failed every ISO in CI)
+    key = ["entity", "variable", "ts_utc"]
+    p = prev[key + ["value", "retrieved_at"]].rename(columns={"value": "_pv", "retrieved_at": "_prev"})
+    p["_pv"] = pd.to_numeric(p["_pv"], errors="coerce")
+    p = p.drop_duplicates(key, keep="last")
+    m = s.merge(p, on=key, how="left")
+    same = (m["_pv"] - pd.to_numeric(m["value"])).abs() < 1e-9
+    m["retrieved_at"] = m["_prev"].where(same, m["retrieved_at"])
+    return m.drop(columns=["_pv", "_prev"])
 
 
 def main():
