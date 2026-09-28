@@ -54,6 +54,9 @@ status=runs/daily_status.txt
 rm -f runs/status/*.json runs/failure_streaks.txt  # this run's status only
 
 echo "== ERW daily refresh $(date -u +%FT%TZ): ISOs: $ISOS; days: $DAYS"
+# Session 26: the site's chat spec must be regenerated after every change to package/llms.txt (ARCHITECTURE.md);
+# a stale spec fails the run before anything is pulled
+"$PYTHON" warehouse/chat/check_spec.py || { echo "stopping: regenerate site/lib/chat/spec.json first"; exit 1; }
 if [ "${RESTORE_FROM_REDIVIS:-0}" = "1" ]; then
   echo "== restore rolling-window tables from the Redivis draft (session 10)"
   "$PYTHON" warehouse/redivis/upload.py --restore || {

@@ -57,6 +57,10 @@ const PAGES = [
   ["analysis-week", "/analysis/2026-W39"],
   // session 24
   ["policy", "/policy"],
+  // session 26
+  // the row first: loading /companies#... right after /companies is a same-document jump, with no load event
+  ["companies-row", "/companies#co-fervo-energy"],
+  ["companies", "/companies"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],
@@ -136,6 +140,13 @@ async function main() {
     for (const [name, route] of PAGES.filter(([n]) => !only || only.includes(n))) {
       for (const [label, width, scale] of WIDTHS) {
         await page.send("Emulation.setDeviceMetricsOverride", { width, height: 900, deviceScaleFactor: scale, mobile: label === "mobile" });
+        if (route.includes("#")) {
+          // session 26: loading a URL with a fragment over the same page (desktop, then mobile) is a same-document jump
+          // that fires no load event; start from a blank page so the fragment's page loads fully
+          const blank = page.once("Page.loadEventFired");
+          await page.send("Page.navigate", { url: "about:blank" });
+          await withTimeout(30000, blank, "load about:blank");
+        }
         const loaded = page.once("Page.loadEventFired");
         const nav = await page.send("Page.navigate", { url: base + route });
         if (nav.errorText) throw new Error(`${route}: ${nav.errorText}`);

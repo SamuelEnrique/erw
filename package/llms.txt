@@ -212,7 +212,9 @@ day-ahead tables running into tomorrow:
   description, niche_tags, stage, raised, location, founders, website, sources
   (links) and a confidence score (0 to 100) with the clause that explains it.
   A seed, not a census: 17 companies from two niches so far. A number that no
-  cited source confirmed reads "not confirmed".
+  cited source confirmed reads "not confirmed". A public company's raised is
+  blank and its confidence_note starts "public company" (session 26). The
+  site's /companies shows it.
 **Weather** (session 24, public): weather_obs_hourly (observed, the NWS API
   keeps about 7 days, the table grows daily) and weather_forecast_hourly (the
   latest 7-day hourly forecast): temperature_f (degF) and wind_speed_mph at one

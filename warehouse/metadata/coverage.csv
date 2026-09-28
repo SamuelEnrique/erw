@@ -44,7 +44,7 @@ eia_retail_fuel_prices,none,,3,P1W,1990-08-20T00:00:00Z,2026-09-21T00:00:00Z,532
 eia_retail_sales_monthly,none,,744,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,228203,eia:electricity/retail-sales,2026-09-27T08:07:34Z,pass,public,power,no
 eia_sector_energy_consumption_monthly,none,,14,P1M,1973-01-01T00:00:00Z,2026-05-01T00:00:00Z,8974,eia:total-energy,2026-09-27T08:07:34Z,pass,public,power;gas;oil;coal,no
 eia_state_generation_monthly,none,,760,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,200030,eia:electricity/electric-power-operational-data,2026-09-27T08:07:34Z,pass,public,power,no
-energy_companies,none,,17,snapshot,2026-09-28T11:26:44Z,2026-09-28T11:38:34Z,17,erw:thesis_builder,2026-09-28T11:27:03Z,pass,public,deals,no
+energy_companies,none,,17,snapshot,2026-09-28T17:04:21Z,2026-09-28T17:07:17Z,17,erw:thesis_builder,2026-09-28T17:04:27Z,pass,public,deals,no
 energy_deals,none,,15,event,2025-10-01T07:00:00Z,2026-09-26T15:21:55Z,191,15 outlets,2026-09-27T18:23:45Z,pass,public,deals,no
 energy_deals_evidence,none,,15,event,2025-10-01T07:00:00Z,2026-09-26T15:21:55Z,199,15 outlets,2026-09-27T09:07:35Z,pass,internal,deals,no
 energy_projects,none,,45488,snapshot,2026-09-26T00:04:26Z,2026-09-26T00:07:29Z,45488,erw:energy_projects,2026-09-27T02:05:53Z,pass,public,power,no
@@ -100,8 +100,8 @@ nyiso_rtm_zone_prices,NYISO,nyiso_rtm,11,PT15M,2026-08-26T04:00:00Z,2026-09-27T0
 nyiso_trader_daily,NYISO,nyiso,11,P1D,2026-08-26T00:00:00Z,2026-09-27T00:00:00Z,2717,erw:trader_view,2026-09-28T03:34:45Z,pass,public,power,yes
 pjm_rpm_capacity_prices,PJM,bra,18,P1Y,2007-06-01T00:00:00Z,2028-06-01T00:00:00Z,234,pjm:rpm-clearing-price-summary,2026-09-25T23:58:22Z,pass,internal,capacity,no
 policy_actions,none,,5,event,2025-10-01T00:00:00Z,2026-09-28T00:00:00Z,1819,5 outlets,2026-09-28T09:55:04Z,pass,public,news,no
-policy_reads,none,,1,event,2025-10-01T00:00:00Z,2026-09-25T00:00:00Z,226,1 outlets,2026-09-28T10:17:15Z,pass,public,news,no
-policy_reads_evidence,none,,1,event,2025-10-01T00:00:00Z,2026-09-25T00:00:00Z,1678,1 outlets,2026-09-28T10:17:15Z,pass,internal,news,no
+policy_reads,none,,1,event,2025-10-01T00:00:00Z,2026-09-25T00:00:00Z,227,1 outlets,2026-09-28T17:14:32Z,pass,public,news,no
+policy_reads_evidence,none,,1,event,2025-10-01T00:00:00Z,2026-09-25T00:00:00Z,1778,1 outlets,2026-09-28T17:14:32Z,pass,internal,news,no
 portwatch_chokepoint_transits,none,,3,P1D,2019-01-01T00:00:00Z,2026-09-20T00:00:00Z,118440,imf:portwatch-daily-chokepoints,2026-09-26T00:15:11Z,pass,internal,oil;lng,no
 rggi_auction_allowance_prices,none,,85,P3M,2008-09-25T00:00:00Z,2026-09-09T00:00:00Z,304,rggi:prices-volumes,2026-09-25T23:58:24Z,pass,internal,carbon,no
 spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-09-26T00:00:00Z,38040,spp:ver_curtailments,2026-09-27T08:42:33Z,pass,public,power,no
