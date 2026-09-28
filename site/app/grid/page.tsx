@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Related } from "@/components/Related";
 import { Term } from "@/components/Term";
 import { Cite } from "@/components/Cite";
+import { ShareBar } from "@/components/ShareBar";
 import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
@@ -171,25 +172,17 @@ function FuelBar({ r, gtable }: { r: BAResult; gtable: string }) {
   const { total, hoursTotal, by } = mix(r.gen);
   if (!r.genDay || hoursTotal !== 24) return <NoData what={`generation mix, ${r.day}`} reason={r.genNote ?? `${gtable} has no complete day in the last 10 days`} />;
   const pos = FUELS.map((f) => ({ ...f, mwh: by.get(f.key) ?? 0 }));
-  const drawn = pos.reduce((a, f) => a + Math.max(0, f.mwh), 0);
-  const W = 600, GAP = 2;
-  // segment offsets computed first: each fuel's share of the drawn (positive) total
-  const segs = pos
-    .filter((f) => f.mwh > 0 && drawn > 0)
-    .map((f) => ({ ...f, w: (f.mwh / drawn) * W }))
-    .map((f, i, arr) => ({ ...f, x: arr.slice(0, i).reduce((a, g) => a + g.w, 0) }));
   return (
     <div className="mt-4">
       <div className="mb-1 text-xs text-muted">
         {r.genNote ? <span className="mb-1 block border border-dashed border-rule px-2 py-1">{r.genNote}</span> : null}Generation mix, {r.genDay}: <Num check={`series_sum|${gtable}|net_generation_mw|${r.genDay}T00:00:00Z|${iso(Date.parse(`${r.genDay}T00:00:00Z`) + 24 * H)}`} raw={total}>{count(total)}</Num> MWh net
       </div>
-      <svg viewBox={`0 0 ${W} 22`} className="block h-6 w-full" preserveAspectRatio="none" role="img" aria-label={`${r.ba.label} generation by fuel, ${r.genDay}`}>
-        {segs.map((f) => (
-          <rect key={f.key} x={f.x} y={0} width={Math.max(0, f.w - GAP)} height={22} rx={2} fill={`var(--color-fuel-${f.key})`}>
-            <title>{`${f.label}: ${count(f.mwh)} MWh, ${((f.mwh / total) * 100).toFixed(1)}% of net generation`}</title>
-          </rect>
-        ))}
-      </svg>
+      <ShareBar
+        parts={pos.map((f) => ({ name: f.label, value: f.mwh, color: `var(--color-fuel-${f.key})` }))}
+        unit="MWh"
+        ariaLabel={`${r.ba.label} generation by fuel, ${r.genDay}`}
+        file={`erw-${r.ba.code}-mix-${r.genDay}`}
+      />
       <Cite tables={[gtable]} note="Sum of the day's 24 hourly values by fuel, in MWh; storage charging (negative net generation) is not drawn but is in the table below" />
     </div>
   );

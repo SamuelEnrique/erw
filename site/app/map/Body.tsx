@@ -17,12 +17,14 @@ const W = 975;
 const H = 610;
 const projection = geoAlbersUsa().scale(1300).translate([487.5, 305]);
 
-function outlines(): { statesPath: string; nation: string } {
+function outlines(): { statesPath: string; nation: string; statesGeo: unknown } {
   const topo = statesTopo as unknown as Topology<{ states: GeometryCollection; nation: GeometryCollection }>;
   const path = geoPath();
   return {
     statesPath: path(mesh(topo, topo.objects.states, (a, b) => a !== b)) ?? "",
     nation: path(feature(topo, topo.objects.nation)) ?? "",
+    // session 22: the ECharts map draws the states from GeoJSON (already projected to the 975 x 610 plane)
+    statesGeo: feature(topo, topo.objects.states),
   };
 }
 

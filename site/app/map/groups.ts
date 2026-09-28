@@ -55,6 +55,7 @@ export type MapData = {
   height: number;
   statesPath: string; // inner state borders, projected
   nation: string; // the national outline, projected
+  statesGeo: unknown; // session 22: the states as a GeoJSON FeatureCollection, projected (the ECharts map)
   stateCodes: string[];
   statuses: string[];
   x: number[];

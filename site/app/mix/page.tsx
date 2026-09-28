@@ -4,6 +4,7 @@ import { Term } from "@/components/Term";
 import Link from "next/link";
 import { AutoSubmitSelect } from "@/components/AutoSubmit";
 import { Cite } from "@/components/Cite";
+import { ShareBar } from "@/components/ShareBar";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
@@ -69,11 +70,8 @@ function Today({ rows, label }: { rows: SeriesRow[]; label: string }) {
   const by = new Map<string, number>();
   for (const r of today) if (r.variable !== "net_generation_mw") by.set(hourlyGroup(r.variable), (by.get(hourlyGroup(r.variable)) ?? 0) + r.value);
   const pos = HOURLY_FUELS.map((f) => ({ ...f, mwh: by.get(f.key) ?? 0 })).filter((f) => f.mwh > 0);
-  const drawn = pos.reduce((a, f) => a + f.mwh, 0);
   const last = hours[hours.length - 1];
   const entity = today[0].entity;
-  // segment offsets computed first: each fuel's share of the drawn (positive) total
-  const segs = pos.map((f) => ({ ...f, w: (f.mwh / drawn) * 600 })).map((f, i, arr) => ({ ...f, x: arr.slice(0, i).reduce((a, g) => a + g.w, 0) }));
   return (
     <div>
       <p className="mb-2 text-sm">
@@ -83,13 +81,12 @@ function Today({ rows, label }: { rows: SeriesRow[]; label: string }) {
         </Num>{" "}
         MWh net generation
       </p>
-      <svg viewBox="0 0 600 22" className="block h-6 w-full" preserveAspectRatio="none" role="img" aria-label={`${label} generation by fuel so far on ${day}`}>
-        {segs.map((f) => (
-          <rect key={f.key} x={f.x} y={0} width={Math.max(0, f.w - 2)} height={22} rx={2} fill={`var(--color-fuel-${f.key})`}>
-            <title>{`${f.label}: ${count(f.mwh)} MWh, ${((f.mwh / total) * 100).toFixed(1)}% of net generation`}</title>
-          </rect>
-        ))}
-      </svg>
+      <ShareBar
+        parts={pos.map((f) => ({ name: f.label, value: f.mwh, color: `var(--color-fuel-${f.key})` }))}
+        unit="MWh"
+        ariaLabel={`${label} generation by fuel so far on ${day}`}
+        file={`erw-mix-today-${day}`}
+      />
       <p className="mt-1 text-xs text-muted">
         {pos.map((f) => `${f.label} ${((f.mwh / total) * 100).toFixed(1)}%`).join("; ")}
       </p>

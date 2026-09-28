@@ -122,7 +122,7 @@ export default async function Data() {
       </Section>
 
       <Section title="Access" id="access">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 [&>*]:min-w-0">
           <div>
             <h3 className="mb-1 text-lg">Redivis, the store of record</h3>
             <p className="mb-2 text-sm">

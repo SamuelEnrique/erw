@@ -31,6 +31,9 @@ a {
 .prose-erw ol { list-style: decimal; padding-left: 1.4rem; }
 .prose-erw li { margin: 0.25rem 0; }
 .prose-erw code { font-family: var(--font-mono); font-size: 0.88em; background: var(--color-panel); border: 1px solid var(--color-rule); padding: 0 0.25em; border-radius: 3px; }
+/* session 22: at 390 px, long table names break rather than widen the page, and wide tables scroll inside themselves */
+code { overflow-wrap: anywhere; }
+.prose-erw table { display: block; max-width: 100%; overflow-x: auto; }
 .prose-erw pre { background: var(--color-panel); border: 1px solid var(--color-rule); padding: 0.75rem; overflow-x: auto; margin: 0 0 1rem; }
 .prose-erw pre code { border: 0; padding: 0; }
 .prose-erw table { border-collapse: collapse; margin: 0 0 1rem; font-size: 0.9rem; display: block; overflow-x: auto; }

@@ -2,6 +2,7 @@
 // The ERCOT peak-premium explorer: year and hub selectors over the derived tables
 // ercot_peak_premium_annual and ercot_peak_premium_monthly (docs/methods/ercot_peak_premium.md).
 import { useMemo, useState } from "react";
+import { BoxChart } from "@/components/BoxChart";
 import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
@@ -38,22 +39,6 @@ function fullYear(y: number): number {
   return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0 ? 35_136 : 35_040;
 }
 
-/** One block's five-number summary as a horizontal box on a shared, clipped scale. */
-function Box({ s, lo, hi }: { s: Record<string, number>; lo: number; hi: number }) {
-  const W = 520, H = 30, pad = 6;
-  const x = (v: number) => pad + ((Math.min(Math.max(v, lo), hi) - lo) / (hi - lo)) * (W - 2 * pad);
-  const clipL = s.min < lo, clipR = s.max > hi;
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="block h-8 w-full" preserveAspectRatio="none" aria-hidden>
-      <line x1={x(s.min)} x2={x(s.q1)} y1={H / 2} y2={H / 2} stroke="var(--color-muted)" />
-      <line x1={x(s.q3)} x2={x(s.max)} y1={H / 2} y2={H / 2} stroke="var(--color-muted)" />
-      {!clipL ? <line x1={x(s.min)} x2={x(s.min)} y1={9} y2={H - 9} stroke="var(--color-muted)" /> : <path d={`M${pad} ${H / 2} l6 -5 v10 z`} fill="var(--color-muted)" />}
-      {!clipR ? <line x1={x(s.max)} x2={x(s.max)} y1={9} y2={H - 9} stroke="var(--color-muted)" /> : <path d={`M${W - pad} ${H / 2} l-6 -5 v10 z`} fill="var(--color-muted)" />}
-      <rect x={x(s.q1)} y={5} width={Math.max(1, x(s.q3) - x(s.q1))} height={H - 10} fill="var(--color-panel)" stroke="var(--color-ink)" />
-      <line x1={x(s.median)} x2={x(s.median)} y1={5} y2={H - 5} stroke="var(--color-accent)" strokeWidth={2.5} />
-    </svg>
-  );
-}
 
 export function Explorer({
   annual,
@@ -88,11 +73,6 @@ export function Explorer({
     return { b, s, complete: STATS.every((k) => k in s) };
   });
   const have = boxes.filter((x) => x.complete);
-  // scale: the quartiles of every block, widened by one IQR each side; whiskers beyond are clipped and labeled
-  const q1s = have.map((x) => x.s.q1), q3s = have.map((x) => x.s.q3);
-  const iqr = Math.max(...q3s) - Math.min(...q1s);
-  const scaleLo = Math.max(Math.min(...have.map((x) => x.s.min)), Math.min(...q1s) - iqr);
-  const scaleHi = Math.min(Math.max(...have.map((x) => x.s.max)), Math.max(...q3s) + iqr);
 
   const byYear = (v: string) =>
     annual
@@ -177,12 +157,18 @@ export function Explorer({
           <NoData reason="no block summaries for this hub and year" />
         ) : (
           <div className="border border-rule bg-panel p-3">
+            <BoxChart
+              rows={boxes.filter((x) => x.complete).map(({ b, s }) => ({ name: b.label, stats: [s.min, s.q1, s.median, s.q3, s.max] as [number, number, number, number, number] }))}
+              unit="USD/MWh"
+              ariaLabel={`${hubName} ${year}: real-time price distribution by time-of-day block`}
+              file={`erw-ercot-peak-premium-${hub}-${year}`}
+            />
             {boxes.map(({ b, s, complete }) => (
-              <div key={b.key} className="grid grid-cols-1 items-center gap-x-3 border-b border-rule/60 py-2 last:border-0 md:grid-cols-[9rem_1fr_22rem]">
+              <div key={b.key} className="grid grid-cols-1 items-center gap-x-3 border-b border-rule/60 py-2 last:border-0 md:grid-cols-[9rem_1fr]">
                 <div className="text-sm">
                   {b.label} <span className="text-xs text-muted">{b.hours}</span>
                 </div>
-                {complete ? <Box s={s} lo={scaleLo} hi={scaleHi} /> : <NoData reason={`missing ${b.key} statistics`} />}
+                {complete ? null : <NoData reason={`missing ${b.key} statistics`} />}
                 <div className="grid grid-cols-5 gap-1 text-right text-xs tabular-nums">
                   {STATS.map((k) => (
                     <div key={k}>
@@ -198,8 +184,8 @@ export function Explorer({
               </div>
             ))}
             <p className="mt-2 text-xs text-muted">
-              Box: Q1 to Q3, accent line the median. Whiskers run to the min and max; a triangle marks a whisker cut at the edge of the scale (
-              {fmt(scaleLo, "USD/MWh")} to {fmt(scaleHi, "USD/MWh")}), and the exact values are in the columns on the right.
+              Box: Q1 to Q3, accent mark the median, whiskers to the min and max. The price axis opens on the boxes; drag the slider, or scroll on the
+              chart, to zoom out to the whiskers. The exact values are in the rows above.
             </p>
           </div>
         )}

@@ -1,18 +1,22 @@
 "use client";
 
-// The project map (session 16): state outlines in SVG, projects on a canvas (tens of thousands of
-// points), filters in one row above, a tooltip on hover and a card on click. The card's fields are
-// read from Supabase through /api/entity when a point is clicked.
-import { useEffect, useMemo, useRef, useState } from "react";
+// The project map (session 16; session 22: on ECharts, the site's one chart library). State shapes and
+// tens of thousands of points on one canvas, with zoom and pan (drag, wheel, pinch), a hover card on each
+// point, a click on a state that filters the page to it, and a legend that toggles kinds. A click on a
+// point opens its card, read from Supabase through /api/entity. The filters in the row above stay.
+import { useMemo, useState } from "react";
+import { baseStyle, token, useEChart } from "@/components/echarts";
+import { STATES } from "@/lib/regions";
 import { COLOR_LEGEND, KINDS, TECH_GROUPS, type MapData } from "./groups";
 
 type Card = { loading: true; id: string } | { loading: false; id: string; row?: Record<string, unknown>; error?: string };
 
 const fmt = (n: number) => Math.round(n).toLocaleString("en-US");
+const NAME_TO_CODE = Object.fromEntries(Object.entries(STATES).map(([code, name]) => [name, code]));
 
-/** Point radius in map units (the map is 975 wide): area grows with MW, clamped for legibility. */
-function radius(mw: number): number {
-  return Math.min(9, Math.max(1.1, 0.9 + Math.sqrt(Math.max(mw, 0)) * 0.11));
+/** Point size in pixels: area grows with MW, clamped for legibility. */
+function size(mw: number): number {
+  return Math.min(18, Math.max(3, 2 + Math.sqrt(Math.max(mw, 0)) * 0.2));
 }
 
 export function MapView({ data, colors }: { data: MapData; colors: Record<string, string> }) {
@@ -25,18 +29,14 @@ export function MapView({ data, colors }: { data: MapData; colors: Record<string
   const [status, setStatus] = useState<number>(-1);
   const [mwMin, setMwMin] = useState<string>("");
   const [mwMax, setMwMax] = useState<string>("");
-  const [hover, setHover] = useState<{ i: number; left: number; top: number } | null>(null);
   const [card, setCard] = useState<Card | null>(null);
-  const wrap = useRef<HTMLDivElement>(null);
-  const canvas = useRef<HTMLCanvasElement>(null);
-  const [width, setWidth] = useState(0);
 
-  const visible = useMemo(() => {
+  // everything but the kind filter: the legend toggles kinds inside the chart
+  const matched = useMemo(() => {
     const lo = mwMin === "" ? -Infinity : Number(mwMin);
     const hi = mwMax === "" ? Infinity : Number(mwMax);
     const out: number[] = [];
     for (let i = 0; i < n; i++) {
-      if (!kinds.has(data.kind[i])) continue;
       if (tech >= 0 && data.tech[i] !== tech) continue;
       if (state >= 0 && data.state[i] !== state) continue;
       if (status >= 0 && data.status[i] !== status) continue;
@@ -44,109 +44,11 @@ export function MapView({ data, colors }: { data: MapData; colors: Record<string
       out.push(i);
     }
     return out;
-  }, [n, data, kinds, tech, state, status, mwMin, mwMax]);
+  }, [n, data, tech, state, status, mwMin, mwMax]);
+  const visible = useMemo(() => matched.filter((i) => kinds.has(data.kind[i])), [matched, kinds, data.kind]);
   const visibleMw = useMemo(() => visible.reduce((a, i) => a + data.mw[i], 0), [visible, data.mw]);
 
-  useEffect(() => {
-    const el = wrap.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => setWidth(el.clientWidth));
-    ro.observe(el);
-    setWidth(el.clientWidth);
-    return () => ro.disconnect();
-  }, []);
-
-  // draw
-  useEffect(() => {
-    const c = canvas.current;
-    if (!c || !width) return;
-    const dpr = window.devicePixelRatio || 1;
-    const k = width / data.width;
-    const h = data.height * k;
-    c.width = Math.round(width * dpr);
-    c.height = Math.round(h * dpr);
-    c.style.height = `${h}px`;
-    const ctx = c.getContext("2d");
-    if (!ctx) return;
-    const css = getComputedStyle(document.documentElement);
-    const col = (name: string) => css.getPropertyValue(colors[name]).trim() || "#888";
-    const palette = TECH_GROUPS.map((g) => col(g.color));
-    const surface = css.getPropertyValue("--color-panel").trim() || "#fff";
-    const ink = css.getPropertyValue("--color-ink").trim() || "#000";
-    ctx.setTransform(dpr * k, 0, 0, dpr * k, 0, 0);
-    ctx.clearRect(0, 0, data.width, data.height);
-    for (const i of visible) {
-      const r = radius(data.mw[i]);
-      const x = data.x[i];
-      const y = data.y[i];
-      if (data.kind[i] === 3) {
-        // a datacenter: an ink diamond (a load, not a technology)
-        ctx.beginPath();
-        ctx.moveTo(x, y - r - 1);
-        ctx.lineTo(x + r + 1, y);
-        ctx.lineTo(x, y + r + 1);
-        ctx.lineTo(x - r - 1, y);
-        ctx.closePath();
-        ctx.globalAlpha = 0.9;
-        ctx.fillStyle = surface;
-        ctx.fill();
-        ctx.lineWidth = 1.2;
-        ctx.strokeStyle = ink;
-        ctx.stroke();
-        continue;
-      }
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      if (data.county[i]) {
-        // a county point: a ring, so an approximate place never reads as an exact one
-        ctx.globalAlpha = 0.85;
-        ctx.lineWidth = 0.9;
-        ctx.strokeStyle = palette[data.tech[i]];
-        ctx.stroke();
-      } else {
-        ctx.globalAlpha = 0.75;
-        ctx.fillStyle = palette[data.tech[i]];
-        ctx.fill();
-        ctx.globalAlpha = 1;
-        ctx.lineWidth = 0.35;
-        ctx.strokeStyle = surface;
-        ctx.stroke();
-      }
-    }
-    ctx.globalAlpha = 1;
-  }, [visible, width, data, colors]);
-
-  function pick(ev: React.MouseEvent): number | null {
-    const c = canvas.current;
-    if (!c || !width) return null;
-    const rect = c.getBoundingClientRect();
-    const k = width / data.width;
-    const mx = (ev.clientX - rect.left) / k;
-    const my = (ev.clientY - rect.top) / k;
-    let best: number | null = null;
-    let bestD = Infinity;
-    for (let j = visible.length - 1; j >= 0; j--) {
-      const i = visible[j];
-      const d = Math.hypot(data.x[i] - mx, data.y[i] - my);
-      const reach = radius(data.mw[i]) + 4 / k; // a hit target larger than the mark
-      if (d <= reach && d < bestD) {
-        best = i;
-        bestD = d;
-      }
-    }
-    return best;
-  }
-
-  function onMove(ev: React.MouseEvent) {
-    const i = pick(ev);
-    if (i === null) return setHover(null);
-    const rect = wrap.current!.getBoundingClientRect();
-    setHover({ i, left: ev.clientX - rect.left, top: ev.clientY - rect.top });
-  }
-
-  async function onClick(ev: React.MouseEvent) {
-    const i = pick(ev);
-    if (i === null) return;
+  async function open(i: number) {
     const id = data.id[i];
     const table = data.table[i] === 1 ? "datacenter_projects" : "energy_projects";
     setCard({ loading: true, id });
@@ -158,6 +60,97 @@ export function MapView({ data, colors }: { data: MapData; colors: Record<string
       setCard({ loading: false, id, error: (e as Error).message });
     }
   }
+
+  const box = useEChart(
+    (chart, lib) => {
+      lib.registerMap("erw-us", data.statesGeo as unknown);
+      const st = baseStyle();
+      const palette = TECH_GROUPS.map((g) => token(`var(${colors[g.color]})`));
+      const panel = token("panel"), ink = token("ink"), paper = token("paper"), rule = token("rule"), accent = token("accent");
+      const selName = state >= 0 ? STATES[data.stateCodes[state]] : null;
+      const series = presentKinds.map((k) => ({
+        name: k.label.replace(/ \(.*\)$/, ""),
+        type: "scatter",
+        coordinateSystem: "geo",
+        progressive: 4000,
+        // the legend icon: the kind's shape in a neutral color (a point's own color is its technology)
+        symbol: k.i === 3 ? "diamond" : k.i === 2 ? "emptyCircle" : "circle",
+        itemStyle: { color: k.i === 1 ? token("muted") : ink },
+        emphasis: { scale: 1.6 },
+        data: matched.filter((i) => data.kind[i] === k.i).map((i) => {
+          const dc = data.kind[i] === 3, ring = !dc && data.county[i] === 1;
+          return {
+            value: [data.x[i], data.y[i], i],
+            symbol: dc ? "diamond" : ring ? "emptyCircle" : "circle",
+            symbolSize: dc ? 9 : size(data.mw[i]),
+            itemStyle: dc
+              ? { color: panel, borderColor: ink, borderWidth: 1.2, opacity: 0.95 }
+              : ring
+                ? { color: palette[data.tech[i]], borderColor: palette[data.tech[i]], borderWidth: 1, opacity: 0.85 }
+                : { color: palette[data.tech[i]], borderColor: panel, borderWidth: 0.4, opacity: 0.78 },
+          };
+        }),
+      }));
+      chart.setOption(
+        {
+          animation: false,
+          textStyle: st.textStyle,
+          toolbox: { ...st.toolbox("erw-project-map"), feature: { restore: { title: "Reset zoom" }, saveAsImage: st.toolbox("erw-project-map").feature.saveAsImage } },
+          legend: {
+            top: 0,
+            left: 0,
+            right: 70,
+            type: "scroll",
+            textStyle: { color: ink, fontSize: 11 },
+            selected: Object.fromEntries(presentKinds.map((k) => [k.label.replace(/ \(.*\)$/, ""), kinds.has(k.i)])),
+          },
+          tooltip: {
+            ...st.tooltip,
+            trigger: "item",
+            formatter: (p: { componentType: string; name?: string; value?: number[] }) => {
+              if (p.componentType === "geo") return `${p.name}: click to show this state only`;
+              const i = (p.value as number[])[2];
+              const dc = data.kind[i] === 3;
+              return `<div style="max-width:16rem;white-space:normal"><div style="font-family:monospace">${data.id[i]}</div>`
+                + `${dc ? "Datacenter" : TECH_GROUPS[data.tech[i]].label}, ${dc && !data.mw[i] ? "MW not stated" : `${fmt(data.mw[i])} MW`}<br/>`
+                + `<span style="color:${token("muted")}">${KINDS[data.kind[i]].label.replace(/ \(.*\)$/, "")}, ${data.statuses[data.status[i]] || "status not stated"}`
+                + `${data.county[i] ? (dc ? ", at a county or city point" : ", at a county point") : ""}. Click for details.</span></div>`;
+            },
+          },
+          geo: {
+            map: "erw-us",
+            roam: true,
+            scaleLimit: { min: 1, max: 20 },
+            projection: { project: (p: number[]) => p, unproject: (p: number[]) => p },
+            top: 36,
+            bottom: 4,
+            itemStyle: { areaColor: paper, borderColor: rule, borderWidth: 0.7 },
+            emphasis: { itemStyle: { areaColor: panel }, label: { show: false } },
+            select: { disabled: true },
+            tooltip: { show: true },
+            regions: selName ? [{ name: selName, itemStyle: { areaColor: panel, borderColor: accent, borderWidth: 1.5 } }] : [],
+          },
+          series,
+        },
+        true,
+      );
+      chart.off("click");
+      chart.on("click", (p) => {
+        if (p.componentType === "series") open((p.value as number[])[2]);
+        else if (p.componentType === "geo") {
+          const code = NAME_TO_CODE[p.name as string];
+          const idx = code ? data.stateCodes.indexOf(code) : -1;
+          setState((cur) => (idx < 0 || cur === idx ? -1 : idx));
+        }
+      });
+      chart.off("legendselectchanged");
+      chart.on("legendselectchanged", (p) => {
+        const sel = p.selected as Record<string, boolean>;
+        setKinds(new Set(presentKinds.filter((k) => sel[k.label.replace(/ \(.*\)$/, "")]).map((k) => k.i)));
+      });
+    },
+    [matched, kinds, state, colors],
+  );
 
   const toggleKind = (i: number) =>
     setKinds((s) => {
@@ -200,7 +193,7 @@ export function MapView({ data, colors }: { data: MapData; colors: Record<string
           </select>
         </label>
         <label className="flex flex-col">
-          <span className="text-xs text-muted">State</span>
+          <span className="text-xs text-muted">State (or click one on the map)</span>
           <select className={sel} value={state} onChange={(e) => setState(Number(e.target.value))}>
             <option value={-1}>All</option>
             {data.stateCodes.map((s, i) => (
@@ -234,45 +227,22 @@ export function MapView({ data, colors }: { data: MapData; colors: Record<string
         </button>
       </div>
       <p className="mb-2 text-sm tabular-nums" aria-live="polite">
-        Showing {fmt(visible.length)} of {fmt(n)} placed points, {fmt(visibleMw)} MW.{" "}
+        Showing {fmt(visible.length)} of {fmt(n)} placed points, {fmt(visibleMw)} MW{state >= 0 ? ` in ${data.stateCodes[state]}` : ""}.{" "}
         <span className="text-muted">
-          Not drawn: {fmt(data.unplaced)} without a location, {fmt(data.offMap)} outside the map&apos;s area (for example Puerto Rico).
+          Not drawn: {fmt(data.unplaced)} without a location, {fmt(data.offMap)} outside the map&apos;s area (for example Puerto Rico). Drag to pan,
+          scroll or pinch to zoom.
         </span>
       </p>
 
       <div className="grid gap-4 lg:grid-cols-[1fr_18rem]">
         <div>
-          <div ref={wrap} className="relative w-full border border-rule bg-panel">
-            <svg viewBox={`0 0 ${data.width} ${data.height}`} className="block w-full" aria-hidden>
-              <path d={data.nation} fill="var(--color-paper)" stroke="var(--color-muted)" strokeWidth={0.8} />
-              <path d={data.statesPath} fill="none" stroke="var(--color-rule)" strokeWidth={0.7} />
-            </svg>
-            <canvas
-              ref={canvas}
-              className="absolute left-0 top-0 w-full cursor-pointer"
-              role="img"
-              aria-label={`Map of ${visible.length} energy projects in the United States; the table below lists them by technology`}
-              onMouseMove={onMove}
-              onMouseLeave={() => setHover(null)}
-              onClick={onClick}
-            />
-            {hover ? (
-              <div
-                className="pointer-events-none absolute z-10 max-w-64 border border-rule bg-panel px-2 py-1 text-xs shadow-sm"
-                style={{ left: Math.min(hover.left + 12, width - 200), top: hover.top + 12 }}
-              >
-                <div className="font-mono">{data.id[hover.i]}</div>
-                <div>
-                  {data.kind[hover.i] === 3 ? "Datacenter" : TECH_GROUPS[data.tech[hover.i]].label},{" "}
-                  {data.kind[hover.i] === 3 && !data.mw[hover.i] ? "MW not stated" : `${fmt(data.mw[hover.i])} MW`}
-                </div>
-                <div className="text-muted">
-                  {KINDS[data.kind[hover.i]].label.replace(/ \(.*\)$/, "")}, {data.statuses[data.status[hover.i]] || "status not stated"}
-                  {data.county[hover.i] ? (data.kind[hover.i] === 3 ? ", at a county or city point" : ", at a county point") : ""}. Click for details.
-                </div>
-              </div>
-            ) : null}
-          </div>
+          <div
+            ref={box}
+            className="w-full border border-rule bg-panel"
+            style={{ aspectRatio: `${data.width} / ${data.height + 50}` }}
+            role="img"
+            aria-label={`Map of ${visible.length} energy projects in the United States; the table below lists them by technology`}
+          />
           <Legend colors={colors} hasDatacenters={data.kind.includes(3)} />
         </div>
         <ProjectCard card={card} onClose={() => setCard(null)} />
@@ -283,46 +253,16 @@ export function MapView({ data, colors }: { data: MapData; colors: Record<string
 
 function Legend({ colors, hasDatacenters }: { colors: Record<string, string>; hasDatacenters: boolean }) {
   return (
-    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs" aria-label="Legend">
+    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs" aria-label="Colors">
       {COLOR_LEGEND.map((l) => (
         <span key={l.color} className="whitespace-nowrap">
           <span aria-hidden className="mr-1 inline-block h-2.5 w-2.5 rounded-full align-middle" style={{ background: `var(${colors[l.color]})` }} />
           {l.label}
         </span>
       ))}
-      <span className="whitespace-nowrap text-muted">
-        <svg width="12" height="12" className="mr-1 inline align-middle" aria-hidden>
-          <circle cx="6" cy="6" r="4.5" fill="var(--color-muted)" />
-        </svg>
-        exact coordinates (EIA)
-      </span>
-      <span className="whitespace-nowrap text-muted">
-        <svg width="12" height="12" className="mr-1 inline align-middle" aria-hidden>
-          <circle cx="6" cy="6" r="4.5" fill="none" stroke="var(--color-muted)" strokeWidth="1.3" />
-        </svg>
-        county point (queue positions)
-      </span>
-      {hasDatacenters ? (
-        <span className="whitespace-nowrap text-muted">
-          <svg width="12" height="12" className="mr-1 inline align-middle" aria-hidden>
-            <path d="M6 1 L11 6 L6 11 L1 6 Z" fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth="1.2" />
-          </svg>
-          datacenter
-        </span>
-      ) : null}
-      <span className="whitespace-nowrap text-muted">
-        size: MW (
-        {[10, 500, 2000].map((mw, i) => (
-          <span key={mw}>
-            {i ? ", " : ""}
-            <svg width="20" height="20" className="inline align-middle" aria-hidden>
-              <circle cx="10" cy="10" r={radius(mw) * 1.1} fill="var(--color-muted)" opacity="0.6" />
-            </svg>
-            {fmt(mw)}
-          </span>
-        ))}
-        )
-      </span>
+      <span className="whitespace-nowrap text-muted">dot: exact coordinates (EIA); ring: county point (queue positions)</span>
+      {hasDatacenters ? <span className="whitespace-nowrap text-muted">diamond: datacenter</span> : null}
+      <span className="whitespace-nowrap text-muted">size: MW</span>
     </div>
   );
 }
