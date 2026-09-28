@@ -241,7 +241,7 @@ SCHEMAS = {
          "latest_source_year": S_STR, "stage_primary": {"type": "boolean"}, "raised_primary": {"type": "boolean"}})}}),
     "capital": obj({"fact": S_STR, "fact_sources": S_IDS, "rounds": {"type": "array", "items": obj(
         {"date": S_STR, "company": S_STR, "kind": S_STR, "amount": S_STR, "currency": S_STR, "investors": S_STR,
-         "sources": S_IDS})}}),
+         "sources": S_IDS, "investors_spans": {"type": "array", "items": S_STR}, "date_span": S_STR})}}),
     "incumbents": obj({"fact": S_STR, "fact_sources": S_IDS, "players": {"type": "array", "items": obj(
         {"name": S_STR, "kind": S_STR, "ticker": S_STR, "metric": S_STR, "value": S_STR, "as_of": S_STR, "sources": S_IDS})}}),
     "policy": obj({"fact": S_STR, "actions": {"type": "array", "items": obj({"event_id": S_STR, "why_it_matters": S_STR})}}),
@@ -252,7 +252,10 @@ STRUCT_SYSTEM = """You turn research notes into one sheet of an investor's marke
 notes and the numbered sources; cite each row with the ids of the sources (S#, E#) it rests on, and only ids that
 support it. Every number must be written exactly as the cited source gives it. Where a source does not give a figure,
 write "not disclosed". An estimate is written as "estimate: <value>" with its arithmetic in estimate_arithmetic. Leave out
-any row you cannot source. Plain, precise, no hype."""
+any row you cannot source. Plain, precise, no hype.
+Capital rows: investors_spans are exact quotes, copied from the cited passages, that name each investor; date_span is the
+exact quote that gives the date. A field without its quote is left empty.
+Landscape: public companies (listed on an exchange) belong on Incumbents, not Landscape."""
 
 
 # ---------------------------------------------------------------------------------------------
@@ -270,6 +273,73 @@ def check_numbers(r, text, ids, log, where):
         log(f"    {where}: numbers not in the cited sources {bad[:6]}; written as not confirmed")
         return "not confirmed" if len(text) < 40 or not pool else text + f" (not confirmed: {', '.join(bad[:4])})"
     return text
+
+
+PUBLIC = re.compile(r"\b(public(ly)? (company|listed|traded)|public\b|NASDAQ|NYSE|Nasdaq|TSX|LSE|IPO)\b")
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
+          "December"]
+
+
+def is_public(c):
+    """Session 26 ruling: a company listed on an exchange is an incumbent. Read from its stage and raised cells."""
+    return bool(PUBLIC.search(f"{c.get('stage', '')} {c.get('raised', '')}"))
+
+
+def ticker_of(c):
+    m = re.search(r"\b(NASDAQ|Nasdaq|NYSE|TSX|LSE)\s*:\s*([A-Z.]{1,6})", f"{c.get('stage', '')} {c.get('raised', '')}")
+    return f"{m.group(1).upper()}: {m.group(2)}" if m else ""
+
+
+def _norm(t):
+    return re.sub(r"\s+", " ", (t or "").replace("\u2019", "'")).strip().casefold()
+
+
+def date_forms(date):
+    """The ways a source may write a date given as YYYY, YYYY-MM or YYYY-MM-DD (session 26: a date restated in another
+    format is accepted when the date appears in the source)."""
+    m = re.fullmatch(r"(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?", (date or "").strip())
+    if not m:
+        return [date] if date else []
+    y, mo, d = m.group(1), m.group(2), m.group(3)
+    if not mo:
+        return [y]
+    name = MONTHS[int(mo) - 1]
+    short = name[:3]
+    if not d:
+        return [f"{name} {y}", f"{short} {y}", f"{short}. {y}", f"{y}-{mo}", f"{int(mo)}/{y}"]
+    di = int(d)
+    return [f"{y}-{mo}-{d}", f"{name} {di}, {y}", f"{short} {di}, {y}", f"{short}. {di}, {y}", f"{di} {name} {y}",
+            f"{int(mo)}/{di}/{y}", f"{name} {di}"]
+
+
+def capital_checked(r, x, log):
+    """Session 26 ruling: investor names and dates in a Capital row need a quoted span from a cited source, like the
+    policy reads; else the field is blank. A run that asked for spans (investors_spans, date_span) keeps a field only
+    when its spans are in the sources' cited passages; a saved state from before the ruling has no spans, and there a name
+    counts only if it appears verbatim in those passages (the name is its own quote), and a date only if the passages
+    write it in one of its forms (date_forms)."""
+    texts = r.texts_of(x["sources"])
+    pool = _norm(" ".join(texts))
+    spans = [sp for sp in (x.get("investors_spans") or []) if sp.strip()]
+    if spans:
+        investors = x["investors"] if all(_norm(sp) in pool for sp in spans) else ""
+    else:
+        names = [n.strip(" .") for n in re.split(r",|;| and |\bwith\b|\bled by\b|\bco-led by\b|\(|\)", x["investors"] or "")]
+        names = [n for n in names if len(n) > 2 and n.lower() not in ("not disclosed", "others", "existing investors", "lead",
+                                                                           "anchor", "strategic investments from")]
+        # a phrase before a name ("strategic investments from JERA") is not part of it; a name starts with a capital
+        names = [re.sub(r"^[a-z0-9$ .,%-]*from\s+", "", n).strip() for n in names]
+        kept = [n for n in names if n[:1].isupper() and _norm(n) in pool]
+        investors = "; ".join(dict.fromkeys(kept))
+    if (x["investors"] or "").strip().lower().startswith(("not disclosed", "not named")):
+        investors = "not disclosed"  # a statement that none is named, not a name: kept as the builder's standard phrase
+    if x.get("date_span"):
+        date = x["date"] if _norm(x["date_span"]) in pool else ""
+    else:
+        date = x["date"] if any(_norm(f) in pool for f in date_forms(x["date"])) else ""
+    if investors != (x["investors"] or "") or date != x["date"]:
+        log(f"    capital {x['company']}: date {x['date']!r} -> {date!r}; investors {x['investors']!r} -> {investors!r}")
+    return date, investors
 
 
 def confidence(c):
@@ -614,6 +684,8 @@ def company_rows(r, land, niche, run_id):
         if not c.get("sources"):
             continue
         score, clause = confidence(c)
+        if is_public(c):  # session 26 ruling: a public company's raised cell is blank, noted
+            c["_raised"], clause = "", "public company; " + clause
         urls = [by[i]["url"] for i in c["sources"] if i in by]
         rows.append({"entity_id": company_id(c["name"], c["website"]), "entity_type": "company", "name": c["name"].strip(),
                      "geo": "", "lat": "", "lon": "", "capacity_mw": "", "status": "", "status_date": "", "operator": "",
@@ -697,8 +769,15 @@ def write_book(book, r, sheets, pol, licensed, args, log):
     book.bar(ws, "Companies")
     book.para(ws, "Fact:", check_numbers(r, land["fact"], land["fact_sources"], log, "landscape fact"))
     rows, srcs = [], []
+    moved = []  # session 26 ruling: public companies stay on Incumbents and off Landscape
     for c in land["companies"]:
         if not c["sources"]:
+            continue
+        if is_public(c):
+            c["_stage"] = check_numbers(r, c["stage"], c["sources"], log, f"{c['name']} stage") or "not disclosed"
+            c["_raised"] = ""
+            moved.append(c)
+            log(f"    {c['name']}: public company, moved from Landscape to Incumbents")
             continue
         c["_stage"] = check_numbers(r, c["stage"], c["sources"], log, f"{c['name']} stage") or "not disclosed"
         c["_raised"] = check_numbers(r, c["raised"], c["sources"], log, f"{c['name']} raised") or "not disclosed"
@@ -723,8 +802,9 @@ def write_book(book, r, sheets, pol, licensed, args, log):
     for x in cap["rounds"]:
         if not x["sources"]:
             continue
-        rows.append([x["date"], x["company"], x["kind"], check_numbers(r, x["amount"], x["sources"], log, f"{x['company']} amount")
-                     or "not disclosed", x["currency"], x["investors"] or "not disclosed", ", ".join(x["sources"])])
+        date, investors = capital_checked(r, x, log)
+        rows.append([date, x["company"], x["kind"], check_numbers(r, x["amount"], x["sources"], log, f"{x['company']} amount")
+                     or "not disclosed", x["currency"], investors, ", ".join(x["sources"])])
         srcs.append(x["sources"])
     for x in licensed["capital"]:
         rows.append([x.get("date", ""), x.get("company", ""), x.get("kind", ""), x.get("amount", ""), x.get("currency", ""),
@@ -745,6 +825,14 @@ def write_book(book, r, sheets, pol, licensed, args, log):
                      check_numbers(r, x["value"], x["sources"], log, f"{x['name']} metric") or "not disclosed", x["as_of"],
                      ", ".join(x["sources"])])
         srcs.append(x["sources"])
+    have = {x["name"].split(" (")[0].split(",")[0].strip().lower() for x in inc["players"]}
+    for c in moved:
+        key = c["name"].split(" (")[0].split(",")[0].strip().lower()
+        if key in have or any(key.split()[0] == h.split()[0] for h in have if h):
+            continue
+        rows.append([c["name"], "public company (from Landscape)", ticker_of(c), "not stated", "not disclosed", "",
+                     ", ".join(c["sources"])])
+        srcs.append(c["sources"])
     book.table(ws, ["Name", "Kind", "Ticker", "Metric that matters", "Value", "As of", "Sources"], rows, srcs)
     book.sources_line(ws, [i for x in srcs for i in x], r)
     # Policy
