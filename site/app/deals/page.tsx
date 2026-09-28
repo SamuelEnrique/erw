@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Related } from "@/components/Related";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
@@ -16,8 +17,11 @@ export default async function DealsPage() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Energy deals</h1>
+      <p className="mb-2 max-w-3xl">
+        Energy deals reported in the news since 2025-10-01, from the stories the ERW scores, each with its sources.
+      </p>
       <p className="mb-5 max-w-3xl text-sm text-muted">
-        Transactions reported in the news the ERW scores: power purchase agreements, offtakes, acquisitions, financings, joint ventures, fuel supply,
+        Transactions: power purchase agreements, offtakes, acquisitions, financings, joint ventures, fuel supply,
         nuclear and datacenter power deals. Each deal is extracted from the stories&apos; titles and summaries by a model, and every number was checked
         against the text it came from; a number the stories do not state is left blank. A deal reported by several stories is one row, with every
         story linked.
@@ -109,6 +113,7 @@ function Body({ rows, month }: { rows: Deal[]; month: string }) {
         tables={["energy_deals"]}
         note="Extracted by warehouse/deals/extract.py from the scored stories of news_stories; the evidence sentences are outlet text and stay in the internal table energy_deals_evidence"
       />
+      <Related href="/deals" />
     </>
   );
 }

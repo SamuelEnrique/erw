@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import site from "@/data/site.json";
+import { GLOSSARY, glossaryId } from "@/lib/glossary";
 import { GROUPS } from "@/lib/pages";
 
 export const metadata: Metadata = { title: "About" };
@@ -20,6 +21,34 @@ export default function About() {
         and a table derived from other tables takes the most restrictive license among them. Tables licensed for internal use only, such as PJM market
         data, stay in the warehouse and are never shown on this site.
       </p>
+      <h2 id="digest" className="mb-2 mt-6 text-xl">How the digest and Energy Week are made</h2>
+      <div className="mb-6 space-y-2 text-sm leading-relaxed">
+        <p>
+          <strong>Stories.</strong> The ERW reads energy news feeds (the outlets are listed in the source registry) and keeps each story&apos;s title,
+          summary and link, never its body. Titles and summaries are the outlets&apos; text, kept for scoring and linking; they are not republished.
+        </p>
+        <p>
+          <strong>Scoring.</strong> A model (the newest Sonnet-class Claude model the API lists) scores every story against a fixed rubric
+          (<a href={`${site.repository}/blob/main/warehouse/news/rubric.md`}>warehouse/news/rubric.md</a>): significance from 0 to 10 across the whole
+          energy industry, a sector, a region, and a one-line reason. Stories about the same event are grouped into one cluster, and clusters are ranked by
+          their highest significance. The ranking decides the order; the score itself is not shown.
+        </p>
+        <p>
+          <strong>Headlines.</strong> The model writes each cluster&apos;s headline, using only words and figures in the stories&apos; titles, summaries and
+          scored fields; a headline&apos;s numbers are checked against them. The line under each headline is the story&apos;s own scored reason, with its
+          sources linked.
+        </p>
+        <p>
+          <strong>Numbers.</strong> Every number in the numbers section is read from the ERW&apos;s tables through its Python package, and each names its
+          table in the section&apos;s footnotes. The short summary above them is written by the model under a literal check: every number in it must appear
+          in the section, or the summary is regenerated once and otherwise left out.
+        </p>
+        <p>
+          <strong>Schedule.</strong> The digest covers the 24 hours before it is written, every day at 14:00 UTC; Energy Week covers an ISO week (Monday to
+          Sunday, UTC) and is written on Mondays at 13:00 UTC.
+        </p>
+      </div>
+
       <h2 className="mb-2 mt-6 text-xl">The site</h2>
       <dl className="mb-6 text-sm">
         {GROUPS.map((g) => (
@@ -30,6 +59,15 @@ export default function About() {
                 <Link href={p.href}>{p.label}</Link>: {p.line}
               </dd>
             ))}
+          </div>
+        ))}
+      </dl>
+      <h2 id="glossary" className="mb-2 mt-6 text-xl">Glossary</h2>
+      <dl className="mb-6 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+        {Object.entries(GLOSSARY).map(([t, d]) => (
+          <div key={t} id={glossaryId(t)} className="contents">
+            <dt className="font-mono">{t}</dt>
+            <dd>{d}</dd>
           </div>
         ))}
       </dl>

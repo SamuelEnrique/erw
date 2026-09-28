@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Related } from "@/components/Related";
+import { Term } from "@/components/Term";
 import Link from "next/link";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
@@ -29,9 +31,12 @@ export default async function Prices() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Power prices</h1>
+      <p className="mb-2 max-w-3xl">
+        The newest real-time and day-ahead power prices at every public hub and zone of six <Term t="ISO" first />s, refreshed every 15 minutes, from each ISO&apos;s
+        market data.
+      </p>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        Every public ISO hub and zone in the ERW: the newest real-time interval, and the day-ahead price for the current hour. Select a hub or zone for its
-        last 30 days. PJM prices are licensed for internal use and are not shown.
+        Select a hub or zone for its last 30 days. <Term t="PJM" first /> prices are licensed for internal use and are not shown.
       </p>
       {!latest.ok ? <NoData what="real-time prices" reason={latest.reason} /> : null}
       {da.map(({ m, rows }) => {
@@ -99,6 +104,7 @@ export default async function Prices() {
           </Section>
         );
       })}
+      <Related href="/prices" />
     </>
   );
 }

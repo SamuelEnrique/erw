@@ -221,8 +221,11 @@ async function checkWeekly(lines) {
     }
   }
   const text = decode(html.replace(/<[^>]+>/g, ""));
-  const rt = text.match(/Highest real-time price of the week:\s*([\d,.]+) USD\/MWh at (.+?) \([A-Z-]+\), interval starting .*?\((\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC\), (\w+); (\w+)/);
-  if (rt) {
+  // session 21: the table is a footnote ("lmp_rtm_15m_mean [2]", and "[2] nyiso_rtm_zone_prices (...)" in the Tables list)
+  const foot = Object.fromEntries([...text.matchAll(/\[(\d+)\] ([a-z0-9_]+) \(/g)].map((m) => [m[1], m[2]]));
+  const m0 = text.match(/Highest real-time price of the week:\s*([\d,.]+) USD\/MWh at (.+?) \([A-Z-]+\), interval starting .*?\((\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC\), (\w+) \[(\d+)\]/);
+  const rt = m0 ? [m0[0], m0[1], m0[2], m0[3], m0[4], foot[m0[5]]] : null;
+  if (rt && rt[5]) {
     const r = (await q("series", { select: "value", table_name: `eq.${rt[5]}`, node: `eq.${rt[2]}`, variable: `eq.${rt[4]}`,
       ts_utc: `eq.${rt[3].replace(" ", "T")}:00Z` }))[0];
     report(r && r.value.toFixed(2) === rt[1], `rt_peak|${rt[5]}|${rt[2]}|${rt[3]}`, rt[1], r ? r.value.toFixed(2) : "absent");

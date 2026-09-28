@@ -140,14 +140,14 @@ function Digest() {
   if (!items || items.length === 0) return <NoData what="the digest" reason="docs/digest/latest.md has no 'Top of the industry' section" />;
   return (
     <>
-      <p className="mb-2 text-sm text-muted">{digestTitle(DOCS.latest)}, top 5 of the day by significance.</p>
+      <p className="mb-2 text-sm text-muted">What is happening in energy today, from scored news.</p>
       <ol className="prose-erw list-decimal pl-5">
         {items.map((md, i) => (
           <li key={i} dangerouslySetInnerHTML={{ __html: render(md, "docs/digest/latest.md") }} />
         ))}
       </ol>
       <p className="text-sm">
-        <Link href="/digest">The full digest and the archive</Link>
+        <Link href="/digest">The full digest ({digestTitle(DOCS.latest).replace(/^Energy Digest,\s*/, "")}) and the archive</Link>
       </p>
     </>
   );
@@ -183,8 +183,7 @@ export default async function Home() {
     <>
       <h1 className="mb-1 text-3xl">Energy Research Warehouse</h1>
       <p className="mb-5 max-w-3xl text-sm text-muted">
-        The live, citable record of the US energy system: prices, flows, projects, deals and policy across power, gas, oil, nuclear,
-        renewables, storage and transmission. AI&apos;s demand for power is the sharpest lens on it.
+        The live, citable record of the US energy system.
       </p>
 
       <nav className="mb-8 grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4" aria-label="Where to start">

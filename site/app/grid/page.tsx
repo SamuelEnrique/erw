@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Related } from "@/components/Related";
+import { Term } from "@/components/Term";
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";
@@ -200,8 +202,12 @@ export default async function GridPage() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Grid conditions</h1>
+      <p className="mb-2 max-w-3xl">
+        Yesterday&apos;s electricity demand, day-ahead demand forecast and generation by fuel for seven <Term t="ISO" first />s and the Lower 48, with the last seven
+        days of demand, from <Term t="EIA" first />&apos;s Hourly Electric Grid Monitor (Form EIA-930).
+      </p>
       <p className="mb-5 max-w-3xl text-sm text-muted">
-        Yesterday on the grid, from EIA&apos;s Hourly Electric Grid Monitor (Form EIA-930): each ISO&apos;s peak demand and when it came, how far EIA&apos;s
+        Each ISO&apos;s peak demand and when it came, how far EIA&apos;s
         day-ahead demand forecast missed, the generation mix, and the last seven days of demand. Days are UTC days, as EIA publishes them; the peak
         hour is also given in the ISO&apos;s local time.
       </p>
@@ -256,6 +262,7 @@ export default async function GridPage() {
         </p>
         <Cite tables={BAS.map((b) => `eia930_${b.code}_generation`)} />
       </Section>
+      <Related href="/grid" />
     </>
   );
 }

@@ -144,7 +144,7 @@ async function provenance(name: string): Promise<Json> {
   const last = isoTs(c.last_run);
   const cite =
     reports.map((r) => `${r.publisher ?? r.source.split(":")[0].toUpperCase()}. ${r.source.split(":").slice(1).join(":")}${r.report ? `: ${r.report}` : ""}.${r.report_url ? ` ${r.report_url}.` : ""}`).join(" ") +
-    `${last ? ` Retrieved ${last.slice(0, 10)}` : ""} via the Energy Research Warehouse (ERW), table ${name}, Supabase live set.`;
+    `${last ? ` Retrieved ${last.slice(0, 10)}` : ""} via the ERW, table ${name}, Supabase live set.`;
   return {
     table: name,
     data_version: `Supabase live set (public site)${last ? `; table last run ${last}` : ""}`,

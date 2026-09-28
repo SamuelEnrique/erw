@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Related } from "@/components/Related";
+import { Term } from "@/components/Term";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
@@ -75,9 +77,12 @@ export default async function ConsumptionPage() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Consumption by sector</h1>
+      <p className="mb-2 max-w-3xl">
+        Electricity sold to homes, businesses, industry and transport in every state, monthly to {latest.slice(0, 7)}, from <Term t="EIA" first />&apos;s monthly
+        survey of utilities and retail sellers (Form EIA-861M).
+      </p>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        Electricity sold to end users by state and sector, from EIA&apos;s monthly survey of utilities and retail sellers (Form EIA-861M): the
-        sector shares, the change over the latest 12 months against the 12 before, and where industrial and commercial load is growing fastest.
+        The sector shares, the change over the latest 12 months against the 12 before, and where industrial and commercial load is growing fastest.
         Sums of 12 months, so seasons cancel out. The latest month EIA has published is {latest.slice(0, 7)}.
       </p>
 
@@ -228,6 +233,7 @@ export default async function ConsumptionPage() {
           })()
         )}
       </Section>
+      <Related href="/consumption" />
     </>
   );
 }

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Related } from "@/components/Related";
+import { Term } from "@/components/Term";
 import Link from "next/link";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
@@ -226,8 +228,12 @@ export default async function CurtailmentPage() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Curtailment</h1>
+      <p className="mb-2 max-w-3xl">
+        Wind and solar output that could have been produced and was not, daily and monthly, at <Term t="CAISO" first /> and <Term t="SPP" first /> since 2014 and at <Term t="ERCOT" first />
+         since September 2026, from each <Term t="ISO" first />&apos;s own reports.
+      </p>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        Wind and solar output that could have been produced and was not, by ISO, daily and monthly, in MWh. Each ISO&apos;s figure means something
+        In MWh. Each ISO&apos;s figure means something
         different, and one ISO publishes none; read the note under each. <Link href="/data/methods/curtailment">Method</Link>.
       </p>
       {ISOS.map((c, i) => {
@@ -257,6 +263,7 @@ export default async function CurtailmentPage() {
           series has not been checked.
         </p>
       </Section>
+      <Related href="/curtailment" />
     </>
   );
 }

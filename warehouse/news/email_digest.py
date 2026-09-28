@@ -45,6 +45,7 @@ WEEKLY = os.path.join(ROOT, "docs", "weekly", "latest.md")
 OUT = os.path.join(ROOT, "docs", "digest", "email")
 REPO = "https://github.com/SamuelEnrique/erw/blob/main"
 RESEND = "https://api.resend.com/emails"
+SITE_DEFAULT = "https://erw-flame.vercel.app"  # the deployed site README.md links; SITE_URL overrides it
 TOP_HEADS = ("## Top of the industry", "## The five stories of the week")
 NUM_HEADS = ("## Numbers today", "## Numbers of the week")
 LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
@@ -141,6 +142,7 @@ def render(path, kind):
     site = env("SITE_URL").rstrip("/")
     rel = "digest" if kind == "daily" else "weekly"
     page = f"{site}/{rel}/{label}" if site else f"{REPO}/docs/{rel}/{label}.md"
+    how = f"{site or SITE_DEFAULT}/about#digest"  # session 21: the method is on /about#digest
     stories = top_stories(lines)
     if len(stories) < 5:
         raise RuntimeError(f"{path}: {len(stories)} top stories found, 5 needed")
@@ -157,8 +159,8 @@ def render(path, kind):
             t.append(f"   {s['src'][0]}: {s['src'][1]}")
     t += ["", "Numbers" if kind == "daily" else "Numbers of the week", ""] + num_text
     t += ["", f"The whole {'digest' if kind == 'daily' else 'brief'}: {page}",
-          "Energy Research Warehouse (ERW), the live, citable record of the US energy system. Every number names "
-          "the warehouse table it came from."]
+          f"How this is made: {how}",
+          "ERW, the live, citable record of the US energy system. Every number names the table it came from."]
     li = "".join(
         f"<li style=\"margin:0 0 8px\"><strong>{html.escape(s['head'])}</strong><br>"
         + (f"<span style=\"color:#6B665E\">{md_inline_html(s['why'])}</span><br>" if s["why"] else "")
@@ -172,8 +174,8 @@ def render(path, kind):
          f"<h2 style=\"font-size:16px;margin:16px 0 8px\">{'Numbers' if kind == 'daily' else 'Numbers of the week'}</h2>"
          f"<div style=\"font-size:13px;font-family:system-ui,sans-serif\">{num_html}</div>"
          f"<p style=\"font-size:13px;font-family:system-ui,sans-serif;margin-top:16px\"><a href=\"{html.escape(page)}\">"
-         f"The whole {'digest' if kind == 'daily' else 'brief'}</a>. Energy Research Warehouse (ERW), the live, citable "
-         "record of the US energy system. Every number names the warehouse table it came from.</p>"
+         f"The whole {'digest' if kind == 'daily' else 'brief'}</a>. <a href=\"{html.escape(how)}\">How this is made</a>. "
+         "ERW, the live, citable record of the US energy system. Every number names the table it came from.</p>"
          "</div></body></html>")
     return title, label, "\n".join(t) + "\n", h
 

@@ -89,10 +89,10 @@ def dam_week(label, table, node, tz, start, log):
 
 
 def numbers(start, cut, log):
-    L = ["Every number below is read from the warehouse through the `erw` package, with its table; "
-         "a change is this week's number minus last week's, computed here. Intervals are interval starts."]
+    # session 21: no provenance sentence; each number keeps its table in the footnotes at the end
+    notes = brief.Notes()
     prior = start - pd.Timedelta(days=7)
-    L += ["", "**Day-ahead average, main hub, over the ISO's local week, and the change from the week before**", "",
+    L = ["**Day-ahead average, main hub, over the ISO's local week, and the change from the week before**", "",
           "| ISO | Hub or zone | This week USD/MWh | Week before USD/MWh | Change | Table |", "|---|---|---|---|---|---|"]
     for label, table, node, tz in MAIN_HUBS:
         m1, n1, x1 = dam_week(label, table, node, tz, start, log)
@@ -101,7 +101,7 @@ def numbers(start, cut, log):
         last = f"{m0}" if n0 == x0 else f"not in the warehouse ({n0} of {x0} hours)"
         # the change of the two rounded means, as the table shows them
         chg = f"{m1 - m0:+}" if n1 == x1 and n0 == x0 else "not computed"
-        L.append(f"| {label} | {node} | {this} | {last} | {chg} | {cite_short(table) if n1 or n0 else f'`{table}`'} |")
+        L.append(f"| {label} | {node} | {this} | {last} | {chg} | {notes.ref(table)} |")
     L.append("| PJM | | | | | no PJM price table (no API key) |")
 
     # the week's highest real-time price, over UTC bounds, from the interval price tables
@@ -125,8 +125,7 @@ def numbers(start, cut, log):
         tz = RT_TZ.get(table.split("_")[0], "UTC")
         L[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({table.split('_')[0].upper()}), interval starting "
                   f"{top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local ({top['ts_utc']:%Y-%m-%d %H:%M} UTC), "
-                  f"`{top['variable']}`; {cite_short(table)}. Tables read, and how far each reaches this week: "
-                  + "; ".join(covered) + ".")
+                  f"{top['variable']} {notes.ref(table, 'real-time tables read, and how far each reaches this week: ' + ', '.join(covered))}.")
     else:
         L[-1] += "no real-time table covers this week."
 
@@ -141,12 +140,12 @@ def numbers(start, cut, log):
             before = s[s["ts_utc"] < start]
             if wk.empty or before.empty:
                 L.append(f"| {label} | not in the warehouse (no close this week yet; newest "
-                         f"{s['ts_utc'].max():%Y-%m-%d}) | | | `eia_fuel_spot_prices` |")
+                         f"{s['ts_utc'].max():%Y-%m-%d}) | | | {notes.ref('eia_fuel_spot_prices')} |")
                 continue
             a, b = wk.iloc[-1], before.iloc[-1]
             L.append(f"| {label} | {a['value']:.2f} {a['unit']} on {a['ts_utc']:%Y-%m-%d} | {b['value']:.2f} on "
                      f"{b['ts_utc']:%Y-%m-%d} | {a['value'] - b['value']:+.2f} ({100 * (a['value'] / b['value'] - 1):+.1f}%) "
-                     f"| {cite_short('eia_fuel_spot_prices')} |")
+                     f"| {notes.ref('eia_fuel_spot_prices')} |")
     except Exception as exc:
         log(f"  numbers: fuel prices unavailable: {exc!r}")
         L.append("| fuel prices | not in the warehouse | | | |")
@@ -161,12 +160,12 @@ def numbers(start, cut, log):
             top = d.loc[d["value"].idxmax()]
             L[-1] += (f"{top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC "
                       f"({top['ts_utc'].tz_convert('America/New_York'):%A %Y-%m-%d, %H:%M} Eastern), from "
-                      f"{d['ts_utc'].nunique()} hours of the week to {d['ts_utc'].max():%Y-%m-%d %H:%M} UTC; "
-                      f"{cite_short('eia930_us48_demand')}.")
+                      f"{d['ts_utc'].nunique()} hours of the week to {d['ts_utc'].max():%Y-%m-%d %H:%M} UTC "
+                      f"{notes.ref('eia930_us48_demand')}.")
     except Exception as exc:
         log(f"  numbers: US48 demand unavailable: {exc!r}")
         L[-1] += "not in the warehouse."
-    return L
+    return L + notes.lines()
 
 
 def num(v, fmt="{:,.0f}"):
@@ -208,10 +207,9 @@ def main(argv=None):
         span = (f"{start:%Y-%m-%d} to {(end - pd.Timedelta(days=1)):%Y-%m-%d}" +
                 (f", so far (to {cut:%Y-%m-%d %H:%M} UTC)" if partial else ""))
         L = [f"# Energy Week, {label}", "",
-             f"The Energy Research Warehouse (ERW) weekly brief for {span}: {len(s)} scored stories in "
-             f"{len(clusters)} clusters. Headlines are written by the model ({model}); the why lines are the "
-             "stories' scored fields; deals and datacenters come from the ERW's extracted tables; every number "
-             "under Numbers of the week comes from the warehouse.", "", "## The five stories of the week", ""]
+             # session 21: one sentence (what, the period, the story count); the method is on /about#digest
+             f"The ERW's weekly brief of energy news for {span}, from {len(s)} scored stories.", "",
+             "## The five stories of the week", ""]
         for i, r in enumerate(top5.to_dict("records"), 1):
             L.append(f"{i}. **{heads[r['cluster_id']]}** (significance {r['sig']}, {r['sector']}, {r['n']} "
                      f"{'story' if r['n'] == 1 else 'stories'})  ")
@@ -222,8 +220,8 @@ def main(argv=None):
         if deals is None:
             L.append("- energy_deals is not in the warehouse on this machine.")
         else:
-            dw = deals[(pd.to_datetime(deals["event_date"], utc=True) >= start)
-                       & (pd.to_datetime(deals["event_date"], utc=True) < cut)].sort_values("event_date")
+            dw = deals[(pd.to_datetime(deals["event_date"], utc=True, format="ISO8601") >= start)
+                       & (pd.to_datetime(deals["event_date"], utc=True, format="ISO8601") < cut)].sort_values("event_date")
             if dw.empty:
                 L.append("- no deal in `energy_deals` is dated this week.")
             else:
@@ -243,7 +241,7 @@ def main(argv=None):
         if dc is None:
             L.append("- datacenter_projects is not in the warehouse on this machine.")
         else:
-            t = pd.to_datetime(dc["first_story_at"], utc=True)
+            t = pd.to_datetime(dc["first_story_at"], utc=True, format="ISO8601")
             cw = dc[(t >= start) & (t < cut)].sort_values("first_story_at")
             if cw.empty:
                 L.append("- no datacenter facility in `datacenter_projects` was first reported this week.")
@@ -259,9 +257,16 @@ def main(argv=None):
                 L.append(f"Table: `datacenter_projects` ({len(cw)} facilities; `warehouse/datacenters/extract.py`, "
                          "every field only as its story states it).")
 
-        L += ["", "## Numbers of the week", ""] + numbers(start, cut, log)
-        L += ["", "---", "", f"Generated by `warehouse/news/weekly.py` at {now:%Y-%m-%d %H:%M} UTC; run log "
-              f"`warehouse/output/logs/news_weekly_{run_id}.log`."]
+        nums = numbers(start, cut, log)
+        summary, su = brief.numbers_summary(client, model, nums, log)
+        if model in PRICES:
+            scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6
+            log(f"  numbers summary: {len(su)} call(s), cost USD {scost:.4f}")
+            cost = f"{cost} + summary USD {scost:.4f}"
+        L += ["", "## Numbers of the week", ""] + ([summary, ""] if summary else []) + nums
+        L += ["", "---", "", "[How this is made.](/about#digest)", "",
+              f"<!-- Generated by warehouse/news/weekly.py at {now:%Y-%m-%d %H:%M} UTC; run log "
+              f"warehouse/output/logs/news_weekly_{run_id}.log; model {model}. -->"]
         os.makedirs(WEEKLY_DIR, exist_ok=True)
         path = os.path.join(WEEKLY_DIR, f"{label}.md")
         text = "\n".join(L) + "\n"

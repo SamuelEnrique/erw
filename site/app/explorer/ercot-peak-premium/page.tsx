@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Related } from "@/components/Related";
+import { Term } from "@/components/Term";
 import Link from "next/link";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
@@ -27,8 +29,11 @@ export default async function PeakPremium() {
     <>
       <p className="text-sm">Explorer</p>
       <h1 className="mb-1 text-3xl">ERCOT peak premium</h1>
+      <p className="mb-2 max-w-3xl">
+        How <Term t="ERCOT" first /> real-time prices spread across the day, for each hub and each year since 2015, from ERCOT&apos;s settlement point prices.
+      </p>
       <p className="mb-2 max-w-3xl text-sm text-muted">
-        How ERCOT real-time prices are distributed across the day, by hub and year: the spread of the 16:00 to 21:00 peak block against midday and
+        By hub and year: the spread of the 16:00 to 21:00 peak block against midday and
         overnight, the tail of the distribution, and scarcity and negative-price intervals. Computed from every 15-minute settlement interval since
         2015, with no cap or exclusion. <Link href="/data/methods/ercot_peak_premium">Method</Link>.
       </p>
@@ -46,6 +51,7 @@ export default async function PeakPremium() {
           citeMonthly={<Cite tables={[MONTHLY]} note="Calendar months in America/Chicago" />}
         />
       )}
+      <Related href="/explorer/ercot-peak-premium" />
     </>
   );
 }

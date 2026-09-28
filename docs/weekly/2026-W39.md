@@ -1,16 +1,16 @@
 # Energy Week, 2026-W39
 
-The Energy Research Warehouse (ERW) weekly brief for 2026-09-21 to 2026-09-27, so far (to 2026-09-27 04:42 UTC): 845 scored stories in 747 clusters. Headlines are written by the model (claude-sonnet-5); the why lines are the stories' scored fields; deals and datacenters come from the ERW's extracted tables; every number under Numbers of the week comes from the warehouse.
+The ERW's weekly brief of energy news for 2026-09-21 to 2026-09-27, from 1015 scored stories.
 
 ## The five stories of the week
 
-1. **TotalEnergies makes final investment decision on Absheron field development in Azerbaijan** (significance 9, gas, 1 story)  
+1. **TotalEnergies announces final investment decision for Absheron field development in Azerbaijan** (significance 9, gas, 1 story)  
    A final investment decision on a major gas field is a market-moving supply commitment. Sources: [Financial Times](https://news.google.com/rss/articles/CBMipgFBVV95cUxOdk9VLUIwUHoxQ19TZVktcGdJcEtKekFGU25mUWx6R0JHUGw2blFKaU9lb01sWUg0cE9NQ3RGaTJVcTgzUlpaT0NzTm9RaGIxaWY2R1pzcjBtamE4aVd0eF9jdGpPRFkzRktuTEQtdFpSa0lzOGM1RTRVWnNLcVp0WUhuTXN0X3l6UjFqTWFlMGZNZm9sOW5vRFZNOG81TUVEZEJBOEVR?oc=5)
 2. **Oracle triggers force majeure on data center project after power delays** (significance 8, datacenter_power, 4 stories)  
    Oracle invokes force majeure over power delays, direct evidence of grid constraints hitting AI datacenter buildout. Sources: [Reuters](https://news.google.com/rss/articles/CBMivgFBVV95cUxNbWZqSDVjdjZZaURFZ3VZNzlrRzdIZzE1MDRPNkNlQjRsbmlzLWdzUTRqTEFVdnNCS1czRkNrbVZTbzFHa1B2Nm51ZWRKSUUxMm41M05DWWw5WlQwZWhsR0duLVMzS1lXekZ1enFyS0VpcHRUTTduUVZtVnhXRDZRTVpHN0ZfUnhjUVVCbkNMeTAtZHdmOVpwUXpyZDNDY00zRVVyM1dyVG5fMTJ6RzE5XzBFTHU2YTNtMDdmdjh3?oc=5), [Financial Times](https://news.google.com/rss/articles/CBMihAFBVV95cUxPRnZrNVVKTGFRazBJWHdDXzMwYnM0dWp2SUlhcENBS09rTnAxOGpwSkN2NzBfemtQZ0l0RG1JcEluYWh6enZlLXdqRVBXRWMxR2xuLXBtbWF1X2w4RFFUOGp6SHlxZ2ZUMU5UVml1MFdEYl9ydTl3LS14OXVocTBCbENLMUc?oc=5), [WSJ](https://news.google.com/rss/articles/CBMixAFBVV95cUxQak1fNEtRazdLRG9WYzhfZWtLMENrWWhDSnhQOFlvd1VmMHZlVTVYVWQtSmFvazc2V2Z1TFlEWVZpcHhjT0lFWGVvVTV6MTk4UG13cFJvY1VqY2FxVUFmbGhiZTZPY1hpem9IYkhsM1VNaDZMYUJQWU5kQzE4Z2NkbVhQMVNRWTRNcXZ2eWRKSGF1VEhnaW51bG9VM0xwQk1lWlFiUDc0TldJdThrUkY3VHdJYVQ4d01TZENHN0dNTFdlTzdi?oc=5)
 3. **Applied Digital reveals data center project to be built in Alabama** (significance 8, datacenter_power, 1 story)  
    Major $3.2bn AI data center investment signals continued large-scale AI infrastructure buildout. Sources: [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/applied-digital-reveals-32bn-delta-forge-2-ai-data-center-will-be-built-in-alabama/)
-4. **DOE awards funding for grid upgrade projects to boost transmission capacity** (significance 8, transmission, 5 stories)  
+4. **DOE announces funding for grid upgrade projects to speed data center connections** (significance 8, transmission, 5 stories)  
    Major DOE transmission funding adds 23GW capacity, significant grid expansion signal. Sources: [Utility Dive](https://www.utilitydive.com/news/doe-advanced-transmission-projects-spark-funding/831259/), [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/doe-unveils-19bn-in-funding-for-31-grid-upgrade-projects-to-speed-data-center-connections/), [T&D World](https://www.tdworld.com/overhead-transmission/news/55407902/does-525b-spark-grid-initiative-selects-31-us-projects-to-accelerate-transmission-infrastructure-upgrades)
 5. **Anthropic signs multibillion dollar cloud computing deal with Akamai** (significance 8, deal, 4 stories)  
    Large AI computing deal implies major datacenter power demand growth. Sources: [Bloomberg.com](https://news.google.com/rss/articles/CBMiswFBVV95cUxQbEpHV0VXek9XWS1oa2ViR2ZBZ2d0ZERxdXdBaU1yRlB1aFQySTAxQUtmeV9CTk9qMm01eldSTWJ2MDVqQVFjdTNuS3RQUWZpRi1ycGNLTEs4a1FZMUsyVmt6dmtyZmc4cm14NkV2QkoxRjdITUFmbGJVbkF0c2hJajBZUzRFUWFTNE53bEg0MndlSEl0cmdHRXhkOUN4UXA4RXp1dVdRZkYySTBFRmRkMUl5TQ?oc=5), [Reuters](https://news.google.com/rss/articles/CBMiogFBVV95cUxNanVpUjFYbXpXWHdEU1NlRFlfZnI5a0Y2OVlzYUkya2tBR3hOY05ZTk05ZVZrWUZqcmttYjV3b2x6d01iTUFIZ095a1lQbkFCbTZFVGJzd2tUM1NkcWtOV3B2X1VpMGpkSVlGOW13ZU0xd3BjUm1paldVNHpYVllpN0UwQ3ZkUGk0R3AtaWx3SDJFaXdEUkdmeHRlT3M0Tk10LWc?oc=5), [WSJ](https://news.google.com/rss/articles/CBMiuwFBVV95cUxOVW0zbElYMzI3cUlNNWR0Rnp5Wk5FQTBJa3l4WFZ5RU01SjBJMWFCNWtWY01zcWl6TGlpalpDdjFmTGwtcUdQYVMzc1ZHOENwQ01LbmRPUS15T3lsY1JZSjgwTUxQLUNXZmhtT19KbUFLYnhZclF5SHNTNmVOUm1LTGlSNGhUTmVqdGNxQ3cyeXBoQ19NeHVsU09mY3VGbHZmVUtyVDAtdG1NancxTmdKUjIzcjh5aTViRGVn?oc=5)
@@ -61,32 +61,36 @@ Table: `datacenter_projects` (3 facilities; `warehouse/datacenters/extract.py`, 
 
 ## Numbers of the week
 
-Every number below is read from the warehouse through the `erw` package, with its table; a change is this week's number minus last week's, computed here. Intervals are interval starts.
+MISO's INDIANA.HUB saw the biggest drop this week, falling from 75.37 to 40.45 USD/MWh, while ERCOT's HB_NORTH was the only hub to rise, edging up to 41.84 from 39.90. Most other hubs also fell, with SPP's SPPSOUTH_HUB down to 33.96 and ISO-NE down to 36.12, while CAISO stayed nearly flat at 36.84. The week's highest real-time price was 521.36 USD/MWh at N.Y.C. (NYISO), and fuel spot prices all softened, with Henry Hub gas at 2.90 USD/MMBtu, WTI crude at 96.41 USD/bbl, and Brent at 114.89 USD/bbl.
 
 **Day-ahead average, main hub, over the ISO's local week, and the change from the week before**
 
 | ISO | Hub or zone | This week USD/MWh | Week before USD/MWh | Change | Table |
 |---|---|---|---|---|---|
-| ERCOT | HB_NORTH | 41.84 | 39.90 | +1.94 | `ercot_dam_hub_prices` (ercot:NP4-190-CD) |
-| CAISO | TH_SP15_GEN-APND | 36.84 | 36.79 | +0.05 | `caiso_dam_hub_prices` (caiso:PRC_LMP) |
-| NYISO | N.Y.C. | 39.36 | 45.97 | -6.61 | `nyiso_dam_zone_prices` (nyiso:damlbmp) |
-| MISO | INDIANA.HUB | 40.45 | 75.37 | -34.92 | `miso_dam_hub_prices` (miso:da_expost_lmp) |
-| SPP | SPPSOUTH_HUB | 33.96 | 46.44 | -12.48 | `spp_dam_hub_prices` (spp:DA-LMP-SL) |
-| ISO-NE | .H.INTERNAL_HUB | 36.12 | 44.30 | -8.18 | `isone_dam_zone_prices` (isone:da_lmp_hourly) |
+| ERCOT | HB_NORTH | 41.84 | 39.90 | +1.94 | [1] |
+| CAISO | TH_SP15_GEN-APND | 36.84 | 36.79 | +0.05 | [2] |
+| NYISO | N.Y.C. | 39.36 | 45.97 | -6.61 | [3] |
+| MISO | INDIANA.HUB | 40.45 | 75.37 | -34.92 | [4] |
+| SPP | SPPSOUTH_HUB | 33.96 | 46.44 | -12.48 | [5] |
+| ISO-NE | .H.INTERNAL_HUB | 36.12 | 44.30 | -8.18 | [6] |
 | PJM | | | | | no PJM price table (no API key) |
 
-**Highest real-time price of the week:** 521.36 USD/MWh at N.Y.C. (NYISO), interval starting 2026-09-25 18:45 local (2026-09-25 22:45 UTC), `lmp_rtm_15m_mean`; `nyiso_rtm_zone_prices` (nyiso:realtime). Tables read, and how far each reaches this week: caiso_rtm_hub_prices to 2026-09-26 06:45 UTC; ercot_rtm_hub_prices to 2026-09-26 04:45 UTC; isone_rtm_zone_prices to 2026-09-25 03:45 UTC; isone_rtm_zone_prices_hourly to 2026-09-25 03:00 UTC; miso_rtm_hub_prices to 2026-09-26 04:00 UTC; nyiso_rtm_zone_prices to 2026-09-26 03:45 UTC.
+**Highest real-time price of the week:** 521.36 USD/MWh at N.Y.C. (NYISO), interval starting 2026-09-25 18:45 local (2026-09-25 22:45 UTC), lmp_rtm_15m_mean [7].
 
 **Fuel spot prices, weekly change** (EIA, trading dates; the last close of the week and the last close before it):
 
 | Price | Last close this week | Last close before | Change | Table |
 |---|---|---|---|---|
-| Henry Hub natural gas | 2.90 USD/MMBtu on 2026-09-22 | 2.97 on 2026-09-18 | -0.07 (-2.4%) | `eia_fuel_spot_prices` (eia:natural-gas/pri/fut, eia:petroleum/pri/spt) |
-| WTI Cushing crude | 96.41 USD/bbl on 2026-09-22 | 101.44 on 2026-09-18 | -5.03 (-5.0%) | `eia_fuel_spot_prices` (eia:natural-gas/pri/fut, eia:petroleum/pri/spt) |
-| Brent crude | 114.89 USD/bbl on 2026-09-22 | 119.66 on 2026-09-18 | -4.77 (-4.0%) | `eia_fuel_spot_prices` (eia:natural-gas/pri/fut, eia:petroleum/pri/spt) |
+| Henry Hub natural gas | 2.90 USD/MMBtu on 2026-09-22 | 2.97 on 2026-09-18 | -0.07 (-2.4%) | [8] |
+| WTI Cushing crude | 96.41 USD/bbl on 2026-09-22 | 101.44 on 2026-09-18 | -5.03 (-5.0%) | [8] |
+| Brent crude | 114.89 USD/bbl on 2026-09-22 | 119.66 on 2026-09-18 | -4.77 (-4.0%) | [8] |
 
-**US48 peak demand of the week:** 608,314 MW in the hour starting 2026-09-21 21:00 UTC (Monday 2026-09-21, 17:00 Eastern), from 144 hours of the week to 2026-09-26 23:00 UTC; `eia930_us48_demand` (eia:electricity/rto/region-data).
+**US48 peak demand of the week:** 608,317 MW in the hour starting 2026-09-21 21:00 UTC (Monday 2026-09-21, 17:00 Eastern), from 168 hours of the week to 2026-09-27 23:00 UTC [9].
+
+Tables: [1] `ercot_dam_hub_prices` (ercot:NP4-190-CD); [2] `caiso_dam_hub_prices` (caiso:PRC_LMP); [3] `nyiso_dam_zone_prices` (nyiso:damlbmp); [4] `miso_dam_hub_prices` (miso:da_expost_lmp); [5] `spp_dam_hub_prices` (spp:DA-LMP-SL); [6] `isone_dam_zone_prices` (isone:da_lmp_hourly); [7] `nyiso_rtm_zone_prices` (nyiso:realtime); real-time tables read, and how far each reaches this week: caiso_rtm_hub_prices to 2026-09-27 06:45 UTC, ercot_rtm_hub_prices to 2026-09-27 04:45 UTC, isone_rtm_zone_prices to 2026-09-27 03:45 UTC, isone_rtm_zone_prices_hourly to 2026-09-25 03:00 UTC, miso_rtm_hub_prices to 2026-09-27 04:00 UTC, nyiso_rtm_zone_prices to 2026-09-27 03:45 UTC, spp_rtm_hub_prices to 2026-09-27 04:45 UTC; [8] `eia_fuel_spot_prices` (eia:natural-gas/pri/fut, eia:petroleum/pri/spt); [9] `eia930_us48_demand` (eia:electricity/rto/region-data).
 
 ---
 
-Generated by `warehouse/news/weekly.py` at 2026-09-27 04:42 UTC; run log `warehouse/output/logs/news_weekly_20260927T044253Z.log`.
+[How this is made.](/about#digest)
+
+<!-- Generated by warehouse/news/weekly.py at 2026-09-28 04:05 UTC; run log warehouse/output/logs/news_weekly_20260928T040511Z.log; model claude-sonnet-5. -->

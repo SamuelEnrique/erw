@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Related } from "@/components/Related";
+import { Term } from "@/components/Term";
 import Link from "next/link";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
@@ -193,10 +195,14 @@ export default async function MarketsPage() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Markets</h1>
+      <p className="mb-2 max-w-3xl">
+        Day-ahead (<Term t="DAM" first />) and real-time (<Term t="RTM" first />) power prices at the hubs of six <Term t="ISO" first />s, day by day over the last few weeks, from each
+         ISO&apos;s published market prices and <Term t="EIA" first />&apos;s Henry Hub spot price.
+      </p>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        Day-ahead against real-time, by hub: the week&apos;s averages and their change on the week before, on-peak and off-peak day-ahead prices,
-        the implied heat rate against Henry Hub, how often real-time ran more than 50 USD/MWh above day-ahead, 30-day volatility, and the
-        highest real-time intervals. PJM is absent: the ERW has no licensed PJM price data. SPP has day-ahead only. <Link href="/data/methods/trader_view">Method</Link>.
+        The week&apos;s averages and their change on the week before, on-peak and off-peak day-ahead prices, the implied heat rate against Henry Hub, how
+        often real-time ran more than 50 USD/MWh above day-ahead, 30-day volatility, and the highest real-time intervals. <Term t="PJM" first /> is absent: the ERW
+        has no licensed PJM price data. <Term t="SPP" first /> has day-ahead only. <Link href="/data/methods/trader_view">Method</Link>.
       </p>
       {results.map(({ i, table, r }) => (
         <Section key={i.key} title={i.label} id={i.key}>
@@ -207,6 +213,7 @@ export default async function MarketsPage() {
           )}
         </Section>
       ))}
+      <Related href="/markets" />
     </>
   );
 }

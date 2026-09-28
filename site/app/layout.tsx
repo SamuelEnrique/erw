@@ -7,7 +7,7 @@ import "./globals.css";
 const body = Inter({ variable: "--font-body", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "Energy Research Warehouse", template: "%s | Energy Research Warehouse" },
+  title: { default: "ERW", template: "%s | ERW" }, // session 21: the full name only on the home page and /about
   description:
     "The live, citable record of the US energy system: prices, flows, projects, deals and policy across power, gas, oil, nuclear, renewables, storage and transmission.",
 };
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <header className="border-b border-rule">
           <div className="mx-auto max-w-6xl px-4 py-3 flex flex-wrap items-baseline gap-x-6 gap-y-2">
             <Link href="/" className="font-serif text-xl text-ink no-underline">
-              Energy Research Warehouse
+              ERW
             </Link>
             <Nav />
           </div>

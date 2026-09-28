@@ -25,7 +25,7 @@ export default async function Data() {
     <>
       <h1 className="mb-1 text-3xl">Data</h1>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        Every public table in the Energy Research Warehouse. Each table is one of three shapes (series, entities, events), in UTC, with the source report
+        Every public table in the ERW. Each table is one of three shapes (series, entities, events), in UTC, with the source report
         and retrieval time of every row. Internal tables, licensed for internal use only, are not listed.
       </p>
 

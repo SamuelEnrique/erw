@@ -52,6 +52,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "connectors"))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(ROOT, "package", "src"))
 import erw  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "chat"))
+import ask as chat_ask  # noqa: E402  session 21: the chat's literal-number check (numbers, unverified)
 import iso_prices as ip  # noqa: E402
 from ingest import NAME, NEWS_COLS  # noqa: E402
 from score import PRICES, nodash, pick_model  # noqa: E402
@@ -157,15 +159,75 @@ def mean2(values):
     return (sum(vals) / len(vals)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
 
+class Notes:
+    """Session 21: each number keeps its table in a short footnote list at the end of its section,
+    not inline. ref(table) gives the marker ("[1]"); lines() the list."""
+
+    def __init__(self):
+        self.tables, self.extra = [], {}
+
+    def ref(self, table, extra=""):
+        if table not in self.tables:
+            self.tables.append(table)
+        if extra:
+            self.extra[table] = extra
+        return f"[{self.tables.index(table) + 1}]"
+
+    def lines(self):
+        if not self.tables:
+            return []
+        items = [f"[{i}] {cite_short(t)}" + (f"; {self.extra[t]}" if t in self.extra else "")
+                 for i, t in enumerate(self.tables, 1)]
+        return ["", "Tables: " + "; ".join(items) + "."]
+
+
+SUMMARY_SYSTEM = """You write the summary above the numbers section of the ERW's energy brief: two or three plain sentences
+saying what the numbers say (for example where power was dearest or cheapest, how prices moved, what stands out).
+Use only numbers written in the section, exactly as they are written there: do not compute new numbers (no sums,
+differences, ratios or percentages that are not already in the section) and do not round them. No hype, no advice,
+no em dashes. Return JSON with the field summary."""
+SUMMARY_SCHEMA = {"type": "object", "properties": {"summary": {"type": "string"}}, "required": ["summary"],
+                  "additionalProperties": False}
+
+
+def section_pool(lines):
+    """The section's text for the literal check: without footnote markers and the footnote list."""
+    return "\n".join(re.sub(r"\[\d+\]", "", ln) for ln in lines if not ln.startswith("Tables: "))
+
+
+def numbers_summary(client, model, lines, log):
+    """Session 21: a two or three sentence summary of a numbers section, written by the model under the
+    chat's literal-number check (every number in it must appear in the section). Regenerated once with
+    the violations named; if it still fails, no summary (returns None). Returns (summary, usage list)."""
+    pool = section_pool(lines)
+    msgs = [{"role": "user", "content": "The numbers section:\n\n" + pool}]
+    usages = []
+    for attempt in (1, 2):
+        kwargs = dict(model=model, max_tokens=1200, system=SUMMARY_SYSTEM, messages=msgs,
+                      output_config={"effort": "low", "format": {"type": "json_schema", "schema": SUMMARY_SCHEMA}})
+        resp = client.messages.create(**kwargs)
+        usages.append(resp.usage)
+        text = nodash(json.loads(next(b.text for b in resp.content if b.type == "text"))["summary"]).strip()
+        bad = chat_ask.unverified(text, [pool])
+        if not bad:
+            log(f"  numbers summary: attempt {attempt} passed the literal check")
+            return text, usages
+        log(f"  numbers summary: attempt {attempt} has numbers not in the section: {bad}")
+        msgs = msgs + [{"role": "assistant", "content": json.dumps({"summary": text})},
+                       {"role": "user", "content": "These numbers are not in the section as written: " + ", ".join(bad)
+                        + ". Rewrite the summary using only numbers written in the section."}]
+    log("  numbers summary: omitted (failed the literal check twice)")
+    return None, usages
+
+
 def cite_short(table):
     s = erw.sources(table)
     return f"`{table}` ({', '.join(r['source'] for r in s['reports'] if r.get('source'))})"
 
 
 def numbers_today(digest_date, log):
-    lines = ["Every number below is read from the warehouse through the `erw` package; each names its table "
-             "and source report. Intervals are interval starts; days are each ISO's local operating day."]
-    lines += ["", "**Day-ahead average, yesterday, main hub** (mean of the 24 hourly prices of the operating day):", ""]
+    notes = Notes()
+    lines = ["**Day-ahead average, yesterday, main hub** (mean of the 24 hourly prices of the operating day):", ""]
     lines += ["| ISO | Hub or zone | Operating day | Average USD/MWh | Table |", "|---|---|---|---|---|"]
     for label, table, node, tz in MAIN_HUBS:
         day = pd.Timestamp(digest_date) - pd.Timedelta(days=1)
@@ -178,10 +240,10 @@ def numbers_today(digest_date, log):
             df = pd.DataFrame()
         n_expected = int((end - start) / pd.Timedelta(hours=1))
         if len(df) == n_expected:
-            lines.append(f"| {label} | {node} | {day.date()} | {mean2(df['value'])} | {cite_short(table)} |")
+            lines.append(f"| {label} | {node} | {day.date()} | {mean2(df['value'])} | {notes.ref(table)} |")
         else:
             lines.append(f"| {label} | {node} | {day.date()} | not in the warehouse ({len(df)} of "
-                         f"{n_expected} hours) | `{table}` |")
+                         f"{n_expected} hours) | {notes.ref(table)} |")
     lines.append("| PJM | | | no PJM price table (no API key) | |")
     best = None
     # Session 16: only the interval price tables. filter(market="rtm") also names the derived
@@ -209,8 +271,8 @@ def numbers_today(digest_date, log):
         lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({table.split('_')[0].upper()}), "
                       f"interval starting {top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local "
                       f"({top['ts_utc']:%Y-%m-%d %H:%M} UTC), {top['freq']} `{top['variable']}`"
-                      f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''}; "
-                      f"{cite_short(table)}. Real-time tables: {', '.join(rt_tables)}.")
+                      f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''} "
+                      f"{notes.ref(table, 'real-time tables read: ' + ', '.join(rt_tables))}.")
     else:
         lines[-1] += "no real-time table covers yesterday."
     lines += ["", "**Latest fuel spot closes** (EIA, trading dates):", ""]
@@ -219,12 +281,12 @@ def numbers_today(digest_date, log):
         for label, entity in FUELS:
             s = fuel[fuel["entity"] == entity].sort_values("ts_utc")
             last = s.iloc[-1]
-            lines.append(f"- {label}: {last['value']:.2f} {last['unit']} on {last['ts_utc']:%Y-%m-%d}")
-        lines.append(f"- Table: {cite_short('eia_fuel_spot_prices')}")
+            lines.append(f"- {label}: {last['value']:.2f} {last['unit']} on {last['ts_utc']:%Y-%m-%d} "
+                         f"{notes.ref('eia_fuel_spot_prices')}")
     except Exception as exc:
         log(f"  numbers: fuel prices unavailable: {exc!r}")
         lines.append("- fuel prices: not in the warehouse")
-    return lines
+    return lines + notes.lines()
 
 
 def main(argv=None):
@@ -269,11 +331,9 @@ def main(argv=None):
             f"out {u.output_tokens}; cost {cost or 'unknown'}")
         top_ids = set(top10["cluster_id"])
         L = [f"# Energy Digest, {digest_date}", "",
-             f"The Energy Research Warehouse (ERW) daily brief: {len(s)} scored stories from the {args.hours} "
-             f"hours to {now:%Y-%m-%d %H:%M} UTC, in {len(clusters)} clusters, ranked by significance "
-             "(rubric: `warehouse/news/rubric.md`). Headlines are written by the model "
-             f"({model}); the why lines, MW, prices and parties come from each story's scored fields; "
-             "every number under Numbers today comes from the warehouse. Sources link to the stories.", "",
+             # session 21: one sentence (what, the period, the story count); the method is on /about#digest
+             f"The ERW's daily brief of energy news for the {args.hours} hours to {now:%Y-%m-%d %H:%M} UTC, "
+             f"from {len(s)} scored stories.", "",
              "## Top of the industry", ""]
         for i, r in enumerate(top10.to_dict("records"), 1):
             L.append(f"{i}. **{heads[r['cluster_id']]}** (significance {r['sig']}, {r['sector']})  ")
@@ -294,9 +354,18 @@ def main(argv=None):
             mark = " (also in Top of the industry)" if r["cluster_id"] in top_ids else ""
             L.append(f"- {heads[r['cluster_id']]} (AI-power {r['ai']}){mark}: {r['why']} "
                      f"{link_text(r['links'][:1])}")
-        L += ["", "## Numbers today", ""] + numbers_today(digest_date, log)
-        L += ["", "---", "", f"Generated by `warehouse/news/brief.py` at {now:%Y-%m-%d %H:%M} UTC; run log "
-              f"`warehouse/output/logs/news_brief_{run_id}.log`. Story data: `warehouse/output/news_stories.csv`."]
+        nums = numbers_today(digest_date, log)
+        summary, su = numbers_summary(client, model, nums, log)
+        if model in PRICES:
+            scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6
+            log(f"  numbers summary: {len(su)} call(s), cost USD {scost:.4f}")
+            cost = f"{cost} + summary USD {scost:.4f}"
+        L += ["", "## Numbers today", ""] + ([summary, ""] if summary else []) + nums
+        # session 21: the method is on /about#digest; the generation record stays in the file, not on the page
+        L += ["", "---", "", "[How this is made.](/about#digest)", "",
+              f"<!-- Generated by warehouse/news/brief.py at {now:%Y-%m-%d %H:%M} UTC; run log "
+              f"warehouse/output/logs/news_brief_{run_id}.log; model {model}; story data "
+              "warehouse/output/news_stories.csv. -->"]
         text = "\n".join(L) + "\n"
         if args.out:  # a check run: this path only, the day's digest and latest.md untouched
             path = os.path.abspath(args.out)

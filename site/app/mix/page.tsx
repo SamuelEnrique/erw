@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Related } from "@/components/Related";
+import { Term } from "@/components/Term";
 import Link from "next/link";
 import { AutoSubmitSelect } from "@/components/AutoSubmit";
 import { Cite } from "@/components/Cite";
@@ -244,9 +246,12 @@ export default async function MixPage({ searchParams }: { searchParams: Promise<
   return (
     <>
       <h1 className="mb-1 text-3xl">Energy mix</h1>
+      <p className="mb-2 max-w-3xl">
+        What generates the power: hourly for the last seven days by grid operator, and monthly by state since 2001, from <Term t="EIA" first />&apos;s Hourly
+        Electric Grid Monitor (Form EIA-930) and power plant survey (Form EIA-923).
+      </p>
       <p className="mb-4 max-w-3xl text-sm text-muted">
-        What generates the power: hourly by grid operator from EIA&apos;s Hourly Electric Grid Monitor (Form EIA-930), and monthly by state since 2001
-        from EIA&apos;s power plant survey (Form EIA-923). EIA-930 covers the seven ISOs and the Lower 48 but not states; EIA-923 covers states but not
+        EIA-930 covers the seven <Term t="ISO" first>ISOs</Term> and the Lower 48 but not states; EIA-923 covers states but not
         ISOs, whose footprints cross state lines. <Link href="/data/methods/generation_mix">Method</Link>.
       </p>
       <form method="get" className="mb-8 flex flex-wrap items-end gap-4">
@@ -270,6 +275,7 @@ export default async function MixPage({ searchParams }: { searchParams: Promise<
       <Section title={`${STATES[st]}: monthly mix since 2001`} id="monthly">
         {monthly.ok ? <Monthly rows={monthly.data} st={st} /> : <NoData what={MONTHLY} reason={monthly.reason} />}
       </Section>
+      <Related href="/mix" />
     </>
   );
 }
