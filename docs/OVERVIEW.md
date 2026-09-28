@@ -12,13 +12,13 @@ From `warehouse/metadata/coverage.csv` and `warehouse/metadata/sources.csv`:
 
 | | Tables | Rows |
 |---|---|---|
-| All tables | 112 | 4,801,684 |
-| Public (on the site and in the package) | 103 | 4,665,916 |
+| All tables | 113 | 4,801,701 |
+| Public (on the site and in the package) | 104 | 4,665,933 |
 | Internal (licensed for internal use only) | 9 | 135,768 |
 | Derived by the ERW from other ERW tables | 11 | 144,619 |
-| Passing the validator | 112 of 112 | |
+| Passing the validator | 113 of 113 | |
 
-Sources in the registry: 149: 81 data sources (72 public, 9 internal) and 68 news outlets (internal: titles and summaries are not republished).
+Sources in the registry: 150: 82 data sources (73 public, 9 internal) and 68 news outlets (internal: titles and summaries are not republished).
 
 ## The site
 
@@ -48,7 +48,7 @@ https://erw-flame.vercel.app: Next.js on Vercel, reading Supabase with the anony
 
 ## Tools that are live
 
-From `docs/platform-tools.md`: 23 of the platform's tools have a data layer that exists (6 yes, 17 partial).
+From `docs/platform-tools.md`: 25 of the platform's tools have a data layer that exists (6 yes, 19 partial).
 
 | # | Tool | Data layer | Pages |
 |---|---|---|---|
@@ -61,6 +61,7 @@ From `docs/platform-tools.md`: 23 of the platform's tools have a data layer that
 | 7 | Grid stress and real-time conditions | partial | `/grid`, `/prices` |
 | 8 | Regional power-price heatmap | partial |  |
 | 9 | Flagship newsletter | partial |  |
+| 10 | Energy-intelligence company database | partial |  |
 | 12 | Policy and regulatory monitor | partial | `/policy` |
 | 13 | Deep-dive report library | partial |  |
 | 14 | Weekly state-of-energy brief | yes | `/roundup` |
@@ -75,6 +76,7 @@ From `docs/platform-tools.md`: 23 of the platform's tools have a data layer that
 | 24 | Trader view: day-ahead against real-time, on-peak and off-peak, heat rates and volatility, by hub | partial | `/markets` |
 | 25 | Email digest: the daily Energy Digest and Monday's Energy Week by email | partial | `/subscribe` |
 | 26 | Automated Analysis: a template library of house-style charts, run weekly, with a chart of the week picked by rule | yes | `/analysis` |
+| 27 | Thesis Builder: a niche market-mapping workbook for investors, with bring-your-own-license connectors | partial |  |
 
 ## What refreshes when
 

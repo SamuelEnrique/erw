@@ -207,6 +207,12 @@ day-ahead tables running into tomorrow:
   changes, affected sectors, ISOs and states, direction of effect on supply,
   demand, prices and buildout, timeline, a plain read); a blank field was
   dropped because its quoted words were not in the action's own text.
+**Companies** (session 25, public): energy_companies, one row per company the
+  Thesis Builder (tool 27) found in a niche it mapped: name, one-line
+  description, niche_tags, stage, raised, location, founders, website, sources
+  (links) and a confidence score (0 to 100) with the clause that explains it.
+  A seed, not a census: 17 companies from two niches so far. A number that no
+  cited source confirmed reads "not confirmed".
 **Weather** (session 24, public): weather_obs_hourly (observed, the NWS API
   keeps about 7 days, the table grows daily) and weather_forecast_hourly (the
   latest 7-day hourly forecast): temperature_f (degF) and wind_speed_mph at one
@@ -245,6 +251,7 @@ day-ahead tables running into tomorrow:
 | Battery output (CAISO) | `caiso_battery_storage` |
 | Federal rules, notices, agency and PUC news releases; their impact | `policy_actions`, `policy_reads` |
 | Temperature or wind at an ISO load center, observed or forecast | `weather_obs_hourly`, `weather_forecast_hourly` |
+| Energy companies (startups, their stage and funding) found by the Thesis Builder | `energy_companies` |
 | Power plants, capacity by state or fuel | `eia860m_*_generators` |
 | Projects waiting to connect | `<iso>_interconnection_queue` |
 | All generators and queue positions with a location | `energy_projects` |
