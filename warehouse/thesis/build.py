@@ -160,11 +160,11 @@ class Researcher:
         msg = (f"Research notes (bracketed ids are the sources each passage cites):\n{notes}\n\nNumbered web sources "
                f"(id, title, URL, the passages cited from each):\n{src}\n\nWarehouse sources (id, tool, table, result):\n"
                f"{self.erw_list()}")
-        # the system prompt and the notes are the same for every sheet and cached; the sheet's instruction comes after them
+        # not cached: each sheet's JSON schema is part of the prompt's prefix, so a cache written for one sheet never
+        # matches the next (session 25, run 1: every structure call wrote the cache and read none)
         resp = self.client.messages.create(
             model=self.model, max_tokens=16000, system=STRUCT_SYSTEM + VOICE_NOTE,
-            messages=[{"role": "user", "content": [{"type": "text", "text": msg, "cache_control": {"type": "ephemeral"}},
-                                                   {"type": "text", "text": system}]}],
+            messages=[{"role": "user", "content": [{"type": "text", "text": msg}, {"type": "text", "text": system}]}],
             output_config={"effort": "medium", "format": {"type": "json_schema", "schema": schema}})
         self.charge(resp, what)
         if resp.stop_reason != "end_turn":
