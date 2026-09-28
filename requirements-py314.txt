@@ -49,3 +49,9 @@ python-dotenv==1.2.3
 feedparser==6.0.14
 PyYAML==6.0.3
 anthropic==1.8.0
+contourpy==1.4.0
+cycler==0.12.1
+fonttools==4.66.0
+kiwisolver==1.5.1
+matplotlib==3.11.2
+pyparsing==3.3.3

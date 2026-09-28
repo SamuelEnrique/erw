@@ -62,8 +62,8 @@ For each story in the request, return one result with:
 - ai_power_relevance: integer 0 to 10, per the rubric
 - sector: exactly one of {", ".join(SECTORS)}
 - region: the US state, the country, or "global"
-- mw_mentioned: a capacity in MW stated in the title or summary, as a number (convert GW to MW), else null
-- price_mentioned: a price or dollar amount stated in the title or summary, verbatim, else null
+- mw_mentioned: a capacity in MW stated in the title or summary, as a number (convert GW to MW), else null. Whenever the title or summary states a capacity in MW, GW or kW, you must fill this field; null only when none is stated
+- price_mentioned: a price or dollar amount stated in the title or summary, verbatim, else null. Whenever the title or summary states a price or a dollar amount, you must fill this field with the first one, verbatim; null only when none is stated
 - parties: companies, agencies or governments named as parties to the story (may be empty)
 - headline: a plain headline of at most 14 words stating what happened, no hype, no question marks
 - one_line_why: under 25 words, why an energy professional should care; plain, no hype
