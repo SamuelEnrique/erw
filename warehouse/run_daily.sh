@@ -157,6 +157,11 @@ run_other energy_projects "$PYTHON" warehouse/derived/energy_projects.py
 run_other news_ingest "$PYTHON" warehouse/news/ingest.py
 run_other news_score "$PYTHON" warehouse/news/score.py
 run_other news_index "$PYTHON" warehouse/news/index.py   # public companion table (session 7)
+# Session 24: policy actions (tool 12): the Federal Register, NRC, DOE, PUCT and CPUC, linked to the scored news,
+# then scored with the news rubric and read for impact (warehouse/policy/)
+run_other policy_sources "$PYTHON" warehouse/connectors/policy_sources.py
+run_other policy_score "$PYTHON" warehouse/policy/score.py
+run_other policy_reads "$PYTHON" warehouse/policy/reads.py
 # Session 15: deals from the newly scored stories (warehouse/deals/extract.py, tool 6)
 run_other deals "$PYTHON" warehouse/deals/extract.py
 # Session 16: datacenter facilities from the newly scored datacenter_power stories (tool 4)

@@ -41,6 +41,8 @@ restore_before_run:
   - '^[a-z]+_trader_daily$'
   # session 23: CAISO battery storage keeps its history (the connector pulls the last 30 days; the backfill reaches 2025-08)
   - '^caiso_battery_storage$'
+  # session 24: policy actions keep news releases older than the agencies' feed windows; policy_reads its reads
+  - '^policy_(actions|reads)$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.
