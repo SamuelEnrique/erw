@@ -20,8 +20,9 @@ Sending: only when both RESEND_API_KEY and DIGEST_RECIPIENTS (comma-separated ad
 set, in the environment or .env. Then each recipient gets their own message (no address sees
 another), from DIGEST_FROM (default "ERW Energy Digest <onboarding@resend.dev>", Resend's test
 sender; a verified domain is needed to send to others). With either unset, nothing is sent and
-the log says so. The subscribers table in Supabase (the site's /subscribe) is not read here:
-sending to it waits for a human decision (confirmation and unsubscribe). Links point to
+the log says so. The subscribers table in Supabase (the site's /subscribe) is read only with EMAIL_SUBSCRIBERS=1,
+which is off: sending to the list waits for double opt-in and a tokened unsubscribe (human ruling, session 21).
+When it is on, each kind goes only to the subscribers who chose it (the daily or weekly opt-in, migration 006). Links point to
 SITE_URL (the deployed site) when set, else to the brief's markdown on GitHub.
 """
 
@@ -180,8 +181,27 @@ def render(path, kind):
     return title, label, "\n".join(t) + "\n", h
 
 
-def send(subject, text, body_html, log):
-    key, to = env("RESEND_API_KEY"), [a.strip() for a in env("DIGEST_RECIPIENTS").split(",") if a.strip()]
+def subscribers(kind, log):
+    """Session 21, ruling 7: the subscribers who chose this kind (daily or weekly) on /subscribe, read with
+    the service key (the anon key cannot read the table). Only when EMAIL_SUBSCRIBERS=1: sending to the list
+    waits for double opt-in and a tokened unsubscribe (human ruling, session 21), so it is off by default."""
+    if env("EMAIL_SUBSCRIBERS") != "1":
+        return []
+    import urllib.parse
+    base = urllib.parse.urlparse(env("SUPABASE_URL"))
+    key = env("SUPABASE_SERVICE_KEY")
+    r = requests.get(f"{base.scheme}://{base.netloc}/rest/v1/subscribers", timeout=60,
+                     params={"select": "email", kind: "eq.true"}, headers={"apikey": key, "Authorization": f"Bearer {key}"})
+    if r.status_code != 200:
+        raise RuntimeError(f"subscribers: HTTP {r.status_code}: {ip.redact(r.text[:200])}")
+    out = sorted({x["email"].strip().lower() for x in r.json()})
+    log(f"  {kind}: {len(out)} subscribers chose it")
+    return out
+
+
+def send(subject, text, body_html, log, kind="daily"):
+    key = env("RESEND_API_KEY")
+    to = [a.strip() for a in env("DIGEST_RECIPIENTS").split(",") if a.strip()] + subscribers(kind, log)
     if not key or not to:
         missing = [n for n, v in (("RESEND_API_KEY", key), ("DIGEST_RECIPIENTS", to)) if not v]
         log(f"  not sent: {', '.join(missing)} not set; the rendered email is in docs/digest/email/")
@@ -224,7 +244,7 @@ def main(argv=None):
                 with open(os.path.join(OUT, f"{label}-{kind}.{ext}"), "w", encoding="utf-8", newline="\n") as f:
                     f.write(content)
             log(f"{kind}: rendered '{title}' to docs/digest/email/{label}-{kind}.txt and .html")
-            n, detail = send(title, text, body_html, log)
+            n, detail = send(title, text, body_html, log, kind)
             results.append(dict(table="email", market=kind, status="ok", detail=f"{label}: {detail}"))
         except Exception:
             tb = ip.redact(traceback.format_exc())

@@ -49,7 +49,10 @@ export const GROUPS: Group[] = [
   },
   {
     label: "About",
-    pages: [{ href: "/about", label: "About", line: "What the ERW is, how it is built, and where the code and session logs are.", tables: "" }],
+    pages: [
+      { href: "/about", label: "About", line: "What the ERW is, how the digest is made, the glossary, and where the code and session logs are.", tables: "" },
+      { href: "/terms", label: "Terms", line: "Data licensing per source, what the site stores about subscribers and questions, and what it is not.", tables: "sources.csv" },
+    ],
   },
 ];
 

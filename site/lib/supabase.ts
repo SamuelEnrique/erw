@@ -90,7 +90,7 @@ export async function attempt<T>(f: () => Promise<T>): Promise<{ ok: true; data:
  * Session 19: add one row to a table the anon key may insert into (subscribers, migration 005).
  * Asks for no row back: the anon key cannot read that table.
  */
-export async function insertRow(table: string, row: Record<string, string>): Promise<void> {
+export async function insertRow(table: string, row: Record<string, string | boolean>): Promise<void> {
   const { base, key } = config();
   const res = await fetch(`${base}/rest/v1/${table}`, {
     method: "POST",

@@ -22,8 +22,11 @@ export async function POST(req: Request) {
   if (String(form.get("website") ?? "") !== "") return back("done");
   const email = String(form.get("email") ?? "").trim();
   if (email.length < 3 || email.length > 254 || !EMAIL.test(email)) return back("invalid");
+  // session 21, ruling 7: separate opt-ins for the daily digest and Energy Week, either or both (migration 006)
+  const daily = form.get("daily") === "on", weekly = form.get("weekly") === "on";
+  if (!daily && !weekly) return back("none");
   try {
-    await insertRow("subscribers", { email, source: "site" });
+    await insertRow("subscribers", { email, source: "site", daily, weekly });
   } catch (e) {
     console.error(`[erw] subscribe: ${(e as Error).message}`);
     return back("error");

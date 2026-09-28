@@ -57,8 +57,12 @@ export async function POST(req: Request) {
   }
   try {
     const r = await ask(question.trim());
+    // session 21 (/terms): each question is logged without identity: the time, the question and the
+    // outcome, never the IP address (which lives only in memory, for the hourly limit) or any other identifier
+    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), question: question.trim(), status: (r as { status?: string }).status ?? "answered" } }));
     return NextResponse.json(r);
   } catch (e) {
+    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), question: question.trim(), status: "error" } }));
     console.error(`[erw ask] ${(e as Error).message}`);
     return NextResponse.json({ error: `the question could not be answered: ${(e as Error).message}` }, { status: 502 });
   }

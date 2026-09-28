@@ -29,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <footer className="border-t border-rule">
           <div className="mx-auto max-w-6xl px-4 py-4 text-xs text-muted">
             Every number on this site is read from the ERW tables and names the table it came from. Public tables only.{" "}
-            <Link href="/data">Data and methods</Link>.
+            <Link href="/data">Data and methods</Link>. <Link href="/terms">Terms</Link>.
           </div>
         </footer>
       </body>

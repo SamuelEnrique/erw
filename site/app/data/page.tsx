@@ -6,7 +6,7 @@ import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { catalogue } from "@/lib/data";
 import { count, day } from "@/lib/format";
-import { DOCS } from "@/lib/markdown";
+import { DOCS, render } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
 import site from "@/data/site.json";
 import { PAGES } from "@/lib/pages";
@@ -17,6 +17,13 @@ export const metadata: Metadata = { title: "Data" };
 function title(md: string): string {
   const m = md.match(/^#\s+(.+)$/m);
   return m ? m[1].trim() : "";
+}
+
+/** The data standard's three shape sections (series, entities, events), for the data dictionary. */
+function dictionary(md: string): string {
+  const a = md.indexOf("## Shape (a)");
+  const b = md.indexOf("## Decisions", a);
+  return a < 0 ? "" : md.slice(a, b < 0 ? undefined : b).replace(/^## /gm, "### ");
 }
 
 export default async function Data() {
@@ -45,6 +52,7 @@ export default async function Data() {
                   <th className="py-1 pr-3 text-right font-normal">Rows</th>
                   <th className="py-1 pr-3 font-normal">Source report</th>
                   <th className="py-1 pr-3 font-normal">License</th>
+                  <th className="py-1 pr-3 font-normal">Download</th>
                 </tr>
               </thead>
               <tbody>
@@ -65,6 +73,15 @@ export default async function Data() {
                     </td>
                     <td className="py-1 pr-3 font-mono text-xs break-all">{r.source_report}</td>
                     <td className="py-1 pr-3 text-xs">{r.license}</td>
+                    <td className="py-1 pr-3 text-xs whitespace-nowrap">
+                      {r.in_live_set === "yes" ? (
+                        <a href={`/api/download?table=${r.table_name}`}>Download CSV</a>
+                      ) : (
+                        <a href={site.redivis.url} title="On Redivis; version 1 is pending release">
+                          Redivis
+                        </a>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -72,6 +89,11 @@ export default async function Data() {
           </div>
         )}
         <Cite tables={["catalogue"]} note="Freq is the interval between rows (ISO 8601 duration); snapshot means an entities table. Dates are the first and last row" />
+        <p className="mt-2 max-w-3xl text-xs text-muted">
+          Download CSV gives the rows the site&apos;s live set holds, with the table&apos;s provenance header lines at the top, up to 200,000 rows; for a table
+          the live set keeps a window of (such as the last 90 days of prices), that window. The full history of every table, and the tables not in the
+          live set, are on <a href={site.redivis.url}>Redivis</a>, where version 1 is pending release.
+        </p>
       </Section>
 
       <Section title="Pages" id="pages">
@@ -127,6 +149,13 @@ export default async function Data() {
             <pre className="mt-1 overflow-x-auto border border-rule bg-panel p-2 font-mono text-xs">{site.package.clone_install.join("\n")}</pre>
           </div>
         </div>
+      </Section>
+
+      <Section title="Data dictionary" id="dictionary">
+        <p className="mb-3 max-w-3xl text-sm text-muted">
+          Every ERW table is one of three shapes. Their columns, from the <Link href="/data/standard">data standard</Link>:
+        </p>
+        <div className="prose-erw max-w-none overflow-x-auto text-sm" dangerouslySetInnerHTML={{ __html: render(dictionary(DOCS.datastandard), "docs/datastandard.md") }} />
       </Section>
 
       <Section title="Methodology" id="methods">

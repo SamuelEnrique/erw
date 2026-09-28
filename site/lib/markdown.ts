@@ -17,6 +17,8 @@ export type Docs = {
   methods: Record<string, string>;
   // session 15: warehouse/metadata/run_status.csv rows for EIA-930 that are not ok (gaps, failures)
   run_status_eia930: { run_id: string; table: string; market: string; status: string; detail: string }[];
+  // session 21: warehouse/metadata/sources.csv, for /terms
+  sources: { source: string; publisher: string; report: string; report_url: string; license: string; tables: string }[];
 };
 export const DOCS = docs as Docs;
 

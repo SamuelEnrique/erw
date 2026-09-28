@@ -4,6 +4,7 @@
 //   docs/digest/YYYY-MM-DD.md and docs/digest/latest.md   the Energy Digest archive
 //   docs/datastandard.md                                   the data standard
 //   docs/methods/*.md                                      method documents
+//   warehouse/metadata/sources.csv                         the source registry (session 21, /terms)
 // and writes site/content/docs.json, which the pages import. Runs before
 // `next dev` and `next build` (package.json predev and prebuild), so the
 // content is part of the build and no page reads the file system at request
@@ -70,8 +71,33 @@ function runStatus() {
   return rows;
 }
 
+// session 21 (/terms): the source registry, warehouse/metadata/sources.csv, one row per source with its license
+function csvRows(text) {
+  const rows = [];
+  let row = [], cell = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (q) {
+      if (ch === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (ch === '"') q = false;
+      else cell += ch;
+    } else if (ch === '"') q = true;
+    else if (ch === ",") { row.push(cell); cell = ""; }
+    else if (ch === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
+    else cell += ch;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  return rows;
+}
+function sources() {
+  const [head, ...rows] = csvRows(read(path.join(repo, "warehouse", "metadata", "sources.csv")));
+  return rows.filter((r) => r.length === head.length).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])))
+    .map(({ source, publisher, report, report_url, license, tables }) => ({ source, publisher, report, report_url, license, tables }));
+}
+
 const out = {
   built_at: new Date().toISOString(),
+  sources: sources(),
   run_status_eia930: runStatus(),
   digests,
   weeklies,

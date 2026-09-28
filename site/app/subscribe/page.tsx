@@ -8,6 +8,7 @@ const STATES: Record<string, string> = {
   done: "Thank you: the address is on the list.",
   invalid: "That does not look like an email address. Nothing was stored.",
   error: "The address could not be stored just now. Nothing was stored; please try again later.",
+  none: "Choose the daily digest, Energy Week, or both. Nothing was stored.",
 };
 
 export default async function SubscribePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
@@ -45,6 +46,15 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             Email address
             <input name="email" type="email" required maxLength={254} autoComplete="email" className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" />
           </label>
+          <fieldset className="flex w-full flex-wrap gap-4 text-sm">
+            <legend className="mb-1 text-xs text-muted">Send me</legend>
+            <label className="flex items-center gap-1">
+              <input type="checkbox" name="daily" defaultChecked /> the daily Energy Digest
+            </label>
+            <label className="flex items-center gap-1">
+              <input type="checkbox" name="weekly" /> Energy Week, on Mondays
+            </label>
+          </fieldset>
           <label className="hidden" aria-hidden="true">
             Leave empty
             <input name="website" type="text" tabIndex={-1} autoComplete="off" />
@@ -53,9 +63,10 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
             Sign up
           </button>
         </form>
+        <p className="mt-3 max-w-3xl text-sm">Privacy: your address is used only to send the emails you chose, never shared or sold, and you can ask for it to be removed at any time.</p>
         <div className="mt-4 max-w-3xl space-y-2 text-xs text-muted">
           <p>
-            What is stored: the address and the time it was added, in the ERW&apos;s Supabase database. The public site can add an address but cannot
+            What is stored: the address, which emails you chose, and the time it was added, in the ERW&apos;s Supabase database. The public site can add an address but cannot
             read one back; only the warehouse&apos;s own service key can. The address is used for this email only, and never shared.
           </p>
           <p>
