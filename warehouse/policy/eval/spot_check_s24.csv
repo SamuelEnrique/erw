@@ -1,0 +1,16 @@
+read_id,fields_kept,n_kept,n_correct,note
+policyread:puct:b6f4c17f012b,what_changes;who_affected;direction;timeline,4,4,all kept fields match the release; plain_read was dropped (a span not found)
+policyread:federalregister:2026-12045,what_changes;who_affected;direction;timeline;plain_read,5,5,correct; direction none rests on 'neither physical changes nor operational changes'
+policyread:federalregister:2025-19982,who_affected;direction;timeline,3,3,"correct (oil and gas leasing in the NPR-A, Alaska; effective 2025-12-17)"
+policyread:nrc:177041c7503a,who_affected;direction;timeline;plain_read,4,3,"who_affected wrong: coal is listed because the site is near a coal plant, which the action does not affect"
+policyread:federalregister:2026-03973,who_affected;direction;timeline;plain_read,4,4,correct
+policyread:cpuc:56297e626e3e,what_changes;who_affected;direction;timeline;plain_read,5,5,correct
+policyread:federalregister:2025-19675,who_affected;timeline;plain_read,3,3,correct; the sector list is broad but the loan program covers those sectors
+policyread:federalregister:2025-19646,what_changes;who_affected;direction;timeline;plain_read,5,4,plain_read wrong by the rule: 'for the first time in the United States' is not in its spans
+policyread:federalregister:2026-07800,what_changes;who_affected;direction;timeline;plain_read,5,5,correct
+policyread:federalregister:2026-07521,what_changes;who_affected,2,2,"correct (500 Bcf over two years from June 7, 2026)"
+policyread:federalregister:2026-06836,what_changes;who_affected;timeline;plain_read,4,4,correct
+policyread:nrc:be1afcf8bf45,what_changes;who_affected;direction;timeline;plain_read,5,4,direction wrong: prices down reads a cut in licensing fees as a fall in energy prices
+policyread:federalregister:2026-12734,what_changes;who_affected;direction;timeline;plain_read,5,5,correct
+policyread:federalregister:2026-07908,what_changes;who_affected;direction;timeline;plain_read,5,5,correct; buildout down for removing unused regasification facilities
+policyread:federalregister:2026-02920,who_affected;timeline;plain_read,3,3,correct
