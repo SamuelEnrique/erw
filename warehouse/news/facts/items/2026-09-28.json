@@ -1,19 +1,21 @@
 {
  "date": "2026-09-28",
- "fact_id": "ff_26ebba05e1",
- "kind": "history",
- "fact": "The Northeast Blackout of 2003 was caused when overgrown trees touched high-voltage power lines, leaving around 55 million people in the U.S. and Canada without power.",
+ "fact_id": "ff_54d18b45ff",
+ "kind": "warehouse",
+ "fact": "Of the 309 datacenter facilities the ERW tracks, Digital Realty runs the most, 74, ahead of Equinix with 73.",
  "second": "",
  "structure": "none",
  "conjecture": "False",
  "sources": [
   {
-   "label": "Wikipedia, Power outage",
-   "url": "https://en.wikipedia.org/wiki/Power_outage",
-   "raw": "warehouse/news/facts/raw/wikipedia/power_outage_20260928T083028Z.txt",
-   "retrieved_at": "20260928T083028Z",
    "part": "fact",
-   "span": "the \"Northeast Blackout of 2003\" was caused when overgrown trees touched high-voltage power lines. Around 55 million people in the U.S. and Canada lost power"
+   "label": "ERW table datacenter_facilities",
+   "table": "datacenter_facilities",
+   "publisher": "Bloomberg, Bloomberg.com, Data Center Dynamics, Financial Times, Hart Energy, Heatmap News, Reuters, WSJ, Amazon Web Services, Digital Realty, Equinix, Electric Reliability Council of Texas (ERCOT), Google, Meta, Microsoft, New York Independent System Operator (NYISO), Oracle, Switch, Vantage Data Centers",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/datacenter_operator_20260928T083037Z.txt",
+   "span": "datacenter_facilities: 309 facilities; most by one operator: Digital Realty 74; next Equinix 73",
+   "retrieved_at": "20260928T083037Z"
   }
  ]
 }
