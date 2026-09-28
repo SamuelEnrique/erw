@@ -12,7 +12,9 @@ rubric), the model reads the action's own text and returns a JSON object:
 
 each with the exact spans of the source text that support it. A field is kept only if it has at least one span, every
 span is found word for word in the stored source text (whitespace and quote marks normalized), and every number in the
-field is in its spans (the chat's literal-number check). Otherwise it is dropped and the reason recorded.
+field is in its spans (the chat's literal-number check). Otherwise it is dropped and the reason recorded. Session 26
+ruling: a date the field restates in a different format from its spans is accepted when the date appears in the source
+text (accepted_dates), so it does not fail the number check.
 
 The source text: for a Federal Register document, the Register's plain text of the document (its raw_text_url), from
 the SUMMARY on, at most 9,000 characters; for a news release, the text of its page (or PDF). Every fetch is stored raw
@@ -141,6 +143,56 @@ def source_text(r, log):
     return (r["title"] + ". " + body)[:MAX_TEXT], url
 
 
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
+          "December"]
+DATE = re.compile(r"\b(?:(?P<md>(?P<mon>" + "|".join(MONTHS) + r"|" + "|".join(m[:3] for m in MONTHS)
+                  + r")\.? (?P<day>\d{1,2})(?:st|nd|rd|th)?(?:, (?P<y1>\d{4}))?)|(?P<my>(?P<mon2>" + "|".join(MONTHS)
+                  + r") (?P<y2>\d{4}))|(?P<iso>(?P<y3>\d{4})-(?P<m3>\d{2})-(?P<d3>\d{2}))|(?P<y4>(?:19|20)\d{2}))\b")
+
+
+def date_forms(y, mo, d):
+    """The ways a source may write a date (any of year, month, day may be missing)."""
+    out = []
+    if mo:
+        name = MONTHS[mo - 1]
+        for mn in (name, name[:3], name[:3] + "."):
+            if d and y:
+                out += [f"{mn} {d}, {y}", f"{d} {mn} {y}"]
+            if d:
+                out.append(f"{mn} {d}")
+            if y and not d:
+                out.append(f"{mn} {y}")
+        if y and d:
+            out += [f"{y}-{mo:02d}-{d:02d}", f"{mo}/{d}/{y}"]
+    elif y:
+        out.append(str(y))
+    return out
+
+
+def accepted_dates(words, text):
+    """Session 26 ruling: a date in a field restated in a different format from its spans is accepted when the date
+    appears in the source text. Returns the field's text with every such date taken out, for the number check."""
+    nt = norm(text)
+    out = words
+    for m in DATE.finditer(words):
+        g = m.groupdict()
+        if g["md"]:
+            mo = next(i for i, n in enumerate(MONTHS, 1) if n.startswith(g["mon"][:3]))
+            y, d = (int(g["y1"]) if g["y1"] else None), int(g["day"])
+        elif g["my"]:
+            mo, y, d = MONTHS.index(g["mon2"]) + 1, int(g["y2"]), None
+        elif g["iso"]:
+            y, mo, d = int(g["y3"]), int(g["m3"]), int(g["d3"])
+        else:
+            y, mo, d = int(g["y4"]), None, None
+        forms = date_forms(y, mo, d)
+        # a full date also counts when the source writes its month and day in one place and the year in the text
+        if any(norm(f) in nt for f in forms) or (mo and d and y and any(norm(f) in nt for f in date_forms(None, mo, d))
+                                                  and str(y) in text):
+            out = out.replace(m.group(0), " ")
+    return out
+
+
 def check_field(name, val, text):
     """The reasons a field fails, [] if it is kept."""
     import ask as chat_ask
@@ -154,7 +206,7 @@ def check_field(name, val, text):
     words = val.get("text", "")
     if name in ("what_changes", "timeline", "plain_read") and not words.strip():
         return ["empty"]
-    nums = chat_ask.unverified(words, spans)
+    nums = chat_ask.unverified(accepted_dates(words, text), spans)
     if nums:
         return [f"numbers not in the spans: {nums}"]
     return []
@@ -171,11 +223,15 @@ class Reader:
     def read(self, r, text):
         msg = (f"Action: {r['agency']} {r['action_type'].replace('_', ' ')}, {r['event_date']}: {r['title']}\n"
                f"Sectors to choose from: {', '.join(SECTORS)}\n\nSource text:\n{text}")
+        # session 26: 8000, not 4000: one read was cut short twice (malformed JSON); every call's cost counts, failed or not
         resp = self.client.messages.create(
-            model=self.model, max_tokens=4000, system=SYSTEM, messages=[{"role": "user", "content": msg}],
+            model=self.model, max_tokens=8000, system=SYSTEM, messages=[{"role": "user", "content": msg}],
             output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}})
         u = resp.usage
         cost = (u.input_tokens * self.price[0] + u.output_tokens * self.price[1]) / 1e6 if self.price else 0
+        self.spent = getattr(self, "spent", 0.0) + cost
+        if resp.stop_reason != "end_turn":
+            raise RuntimeError(f"{r['event_id']}: stop_reason {resp.stop_reason} after {u.output_tokens} output tokens")
         return json.loads(next(b.text for b in resp.content if b.type == "text")), cost
 
 
@@ -183,6 +239,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW policy impact reads")
     ap.add_argument("--max-usd", type=float, default=3.0)
     ap.add_argument("--min-significance", type=int, default=5)
+    ap.add_argument("--ids", help="a file of action event_ids to read again (session 26: the reads dropped for a date "
+                                  "restated in another format, and one malformed read); their old rows are replaced")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -197,6 +255,12 @@ def main(argv=None):
         want = acts[sig >= args.min_significance]
         done = pd.read_csv(DONE, dtype=str, keep_default_na=False) if os.path.exists(DONE) else pd.DataFrame(columns=["action_event_id", "read_at", "outcome"])
         todo = want[~want["event_id"].isin(set(done["action_event_id"]))]
+        reread = set()
+        if args.ids:
+            reread = {x.strip() for x in open(args.ids, encoding="utf-8") if x.strip()}
+            todo = want[want["event_id"].isin(reread)]
+            done = done[~done["action_event_id"].isin(reread)]
+            log(f"re-reading {len(todo)} named actions (--ids {args.ids})")
         log(f"{len(want)} actions scored {args.min_significance} or more; {len(todo)} not read yet")
         reads, evid, marks, cost = [], [], [], 0.0
         if len(todo):
@@ -272,6 +336,18 @@ def main(argv=None):
                     f"Retrieved: {run_id} (UTC) by warehouse/policy/reads.py",
                     f"Run log: warehouse/output/logs/policy_reads_{run_id}.log",
                     "Source: erw:policy_reads.", "License: internal (kept for checking the reads, not shown on the site)."]
+            if reread:  # the evidence of a read done again replaces its old evidence, span ids and all
+                ep = os.path.join(ip.OUT_DIR, EVID + ".csv")
+                if os.path.exists(ep):
+                    with open(ep, encoding="utf-8") as fh:
+                        head = [ln for ln in fh if ln.startswith("#")]
+                    old = pd.read_csv(ep, skiprows=len(head), dtype=str, keep_default_na=False)
+                    gone = {"policyread:" + x for x in reread}
+                    old = old[~old["read_id"].isin(gone)]
+                    with open(ep + ".tmp", "w", encoding="utf-8", newline="") as fh:
+                        fh.writelines(head)
+                        old.to_csv(fh, index=False, lineterminator="\n")
+                    os.replace(ep + ".tmp", ep)
             ip.write_csv(pd.DataFrame(evid)[EVID_COLS], EVID, ehdr, log, cols=EVID_COLS, key=["event_id"], time_col="event_date")
             pd.concat([done, pd.DataFrame(marks)], ignore_index=True).to_csv(DONE, index=False, lineterminator="\n")
             ip.update_sources([dict(source="erw:policy_reads", publisher="Energy Research Warehouse (ERW)",
@@ -279,7 +355,9 @@ def main(argv=None):
                                     report_url="https://github.com/SamuelEnrique/erw/blob/main/warehouse/policy/reads.py",
                                     document_list="", license="public", tables=[NAME, EVID])])
         full = sum(1 for r in reads if r["fields_kept"].count(";") == 4)
-        status["detail"] = f"{len(reads)} actions read ({full} with all 5 fields kept); cost USD {cost:.4f}"
+        spent = getattr(reader, "spent", cost) if len(todo) else 0.0  # every call, failed ones included
+        status["detail"] = (f"{len(reads)} actions read ({full} with all 5 fields kept); cost USD {cost:.4f} for the reads "
+                            f"kept, USD {spent:.4f} for every call")
         log(status["detail"])
         print(f"policy_reads: {status['detail']}")
     except Exception:
