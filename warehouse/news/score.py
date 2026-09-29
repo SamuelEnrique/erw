@@ -57,10 +57,14 @@ REFERENCE_MAX = 400  # earlier stories offered as is_duplicate_of candidates per
 #   regular run and caps a catch-up run's scoring at about USD 1.20 (Sonnet 5: USD 0.0025 to 0.0032 a story in
 #   those logs);
 # - per outlet per run, median 3, 90th percentile 50, 95th 68, largest 108: only the Google News pages of Reuters,
-#   Bloomberg, WSJ and FT reach 95 to 108, a full page of the aggregator. 60 cuts about 1 outlet-run in 15.
+#   Bloomberg, WSJ and FT reach 95 to 108, a full page of the aggregator. Those four are also the outlets with the
+#   highest mean significance, so a lower cap would cut the stories the digest most needs on every run: 120, above
+#   the largest page seen, cuts only a feed that floods (a broken or unfiltered feed), and the run cap does the rest,
+#   leaving out the outlets of lowest mean significance first. (60 was tried in the replay first: it cut 123 stories
+#   of those four outlets from the 2026-09-28 20:47 run.)
 # A story the caps leave out stays unscored and competes again in the next run, within the --days window.
 MAX_STORIES_PER_RUN = int(os.environ.get("MAX_STORIES_PER_RUN") or 400)
-MAX_STORIES_PER_SOURCE = int(os.environ.get("MAX_STORIES_PER_SOURCE") or 60)
+MAX_STORIES_PER_SOURCE = int(os.environ.get("MAX_STORIES_PER_SOURCE") or 120)
 MIN_BATCH = 25  # stories per call, unless fewer remain
 
 SYSTEM = f"""You score energy news stories for the Energy Research Warehouse (ERW), the live, citable record of the US energy system.
