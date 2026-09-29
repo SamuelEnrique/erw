@@ -17,6 +17,15 @@ warehouse/output unless --out names it. The file's header is the table's own pro
 chosen run recorded it (warehouse/archive/_runs), after a line saying it was rebuilt from the archive.
 --check compares the rebuilt rows with the table in warehouse/output (values as the archive compares
 them) and with the row count the run recorded. Exit 1 on a mismatch or a failure.
+
+Session 29: a consolidated table (warehouse/metadata/table_migrations.csv) is rebuilt through the map. Its
+members' archived lines were written under their old names and are never rewritten or renamed; the rebuild
+replays each member as of the chosen run, adds the member's partition columns, and then applies the lines
+archived under the new name since the migration. It streams one member at a time (the ERCOT history is about
+three million rows), and --check compares every row, retrieved_at included, with warehouse/output, partition
+by partition:
+
+    python warehouse/archive/restore.py ercot_all_hub_prices_history --check --no-write
 """
 
 import argparse
@@ -32,6 +41,127 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import archive as A  # noqa: E402
+
+
+MIGRATIONS = os.path.join(A.ROOT, "warehouse", "metadata", "table_migrations.csv")
+
+
+def members_of(name):
+    """[(old table, {partition column: value})] of a consolidated table (session 29), or [] for any other."""
+    if not os.path.exists(MIGRATIONS):
+        return []
+    m = pd.read_csv(MIGRATIONS, dtype=str, keep_default_na=False)
+    return [(r["old_table"], dict(kv.split("=", 1) for kv in r["partition"].split(";") if kv))
+            for r in m[m["new_table"] == name].to_dict("records")]
+
+
+def full_hashes(df, cols):
+    """One hash per row over every column, retrieved_at included (the row-for-row test)."""
+    return A.h64(A.joined(df, cols, "".join(cols) + "\x1f"))
+
+
+def own_lines(name, as_of=None, from_bucket=False, bucket=None):
+    """The lines archived under a consolidated table's own name, latest per key, or None."""
+    frames = month_frames(name, from_bucket, bucket)
+    if not frames:
+        return None
+    lines = pd.concat(frames, ignore_index=True).fillna("")
+    lines["_order"] = np.arange(len(lines))
+    lines = lines.sort_values(["_archived_at", "_run_id", "_order"], kind="stable")
+    if as_of:
+        lines = lines[lines["_archived_at"] <= as_of]
+    return lines.drop_duplicates("_key_sha", keep="last")
+
+
+def consolidated_parts(name, as_of=None, from_bucket=False, bucket=None):
+    """Yield (member, partition, rows) of a consolidated table as of a run: each member rebuilt from its own
+    archived lines with its partition columns added, minus the keys archived since under the new name, then
+    ("", {}, the upserts archived under the new name). Columns: the table's, as its latest run recorded."""
+    members = members_of(name)
+    rl = run_log(name, from_bucket, bucket)
+    if as_of:
+        rl = rl[rl["archived_at"] <= as_of]
+    cols = json.loads(rl.iloc[-1]["columns"]) if len(rl) else None
+    own = own_lines(name, as_of, from_bucket, bucket)
+    own_keys = set(own["_key_sha"]) if own is not None else set()
+    for old, part in members:
+        _, df, _ = rebuild(old, as_of, from_bucket, bucket)
+        for c, v in part.items():
+            if c not in df.columns:
+                df[c] = v
+        if cols is None:
+            cols = list(df.columns)
+        if own_keys:
+            shape = A.shape_of(df.columns)
+            df = df[~pd.Series(A.hexes(A.key_hashes(df, shape)), index=df.index).isin(own_keys)]
+        yield old, part, df.reindex(columns=cols).fillna("").reset_index(drop=True)
+    if own is not None:
+        ups = own[own["_op"] == "upsert"]
+        yield "", {}, ups.reindex(columns=cols).fillna("").reset_index(drop=True)
+
+
+def rebuild_consolidated(name, out, as_of=None, from_bucket=False, bucket=None):
+    """Write a consolidated table rebuilt through the map to out, streaming. Returns (rows, expected rows)."""
+    rl = run_log(name, from_bucket, bucket)
+    if as_of:
+        rl = rl[rl["archived_at"] <= as_of]
+    run = rl.iloc[-1] if len(rl) else None
+    n = 0
+    with open(out, "w", encoding="utf-8", newline="") as f:
+        f.write("# Rebuilt from the ERW archive by warehouse/archive/restore.py through the session 29 map "
+                "(warehouse/metadata/table_migrations.csv)"
+                + (f", as of run {run['run_id']} ({run['archived_at']}); that run's own header of the table follows\n"
+                   if run is not None else "; no run log under the new name\n"))
+        if run is not None:
+            for h in run["header"].split("\n"):
+                f.write(f"# {h}\n")
+        first = True
+        for _, _, df in consolidated_parts(name, as_of, from_bucket, bucket):
+            df.to_csv(f, index=False, header=first, lineterminator="\n")
+            first = False
+            n += len(df)
+    return n, (int(run["table_rows"]) if run is not None else None)
+
+
+def _by_partition(df, cols, pk, into):
+    keys = df[pk].astype(str).agg("|".join, axis=1) if pk else pd.Series("", index=df.index)
+    h = full_hashes(df, cols)
+    pos = pd.Series(np.arange(len(df)), index=df.index)
+    for k, idx in keys.groupby(keys).groups.items():
+        into.setdefault(k, []).append(h[pos.loc[idx].to_numpy()])
+
+
+def check_consolidated(name, as_of=None, from_bucket=False, bucket=None):
+    """Session 29, the hard test: the rebuild through the map equals warehouse/output's table row for row
+    (every column, retrieved_at included), partition by partition. Returns (rows, messages)."""
+    path = os.path.join(A.OUT, name + ".csv")
+    if not os.path.exists(path):
+        return 0, [f"{name}: not in warehouse/output"]
+    members = members_of(name)
+    pk = list(members[0][1])
+    nhead = A.count_comments(path)
+    local, cols = {}, None
+    for chunk in pd.read_csv(path, skiprows=nhead, dtype=str, keep_default_na=False, na_values=[],
+                             chunksize=250_000):
+        cols = list(chunk.columns)
+        _by_partition(chunk, cols, pk, local)
+    local = {k: np.sort(np.concatenate(v)) for k, v in local.items()}
+    msgs, n, rebuilt = [], 0, {}
+    for old, part, df in consolidated_parts(name, as_of, from_bucket, bucket):
+        if list(df.columns) != cols:
+            msgs.append(f"{old or name}: columns {list(df.columns)} differ from warehouse/output's {cols}")
+            continue
+        n += len(df)
+        if len(df):
+            _by_partition(df, cols, pk, rebuilt)
+    rebuilt = {k: np.sort(np.concatenate(v)) for k, v in rebuilt.items()}
+    for k in sorted(set(local) | set(rebuilt)):
+        a = rebuilt.get(k, np.array([], dtype=np.uint64))
+        b = local.get(k, np.array([], dtype=np.uint64))
+        if len(a) != len(b) or not np.array_equal(a, b):
+            msgs.append(f"partition {k}: {len(a):,} rows rebuilt, {len(b):,} in warehouse/output, "
+                        f"{len(np.setdiff1d(b, a)):,} of theirs missing")
+    return n, msgs
 
 
 def month_frames(name, from_bucket=False, bucket=None):
@@ -118,6 +248,16 @@ def rebuild(name, as_of=None, from_bucket=False, bucket=None):
 
 def state_from_archive(name, from_bucket=False, bucket=None):
     """The index archive.py keeps (every row hash archived, the keys as last archived), from the archive."""
+    if members_of(name):  # session 29: a consolidated table's index, through the map
+        seen, keys = [], []
+        for _, _, df in consolidated_parts(name, None, from_bucket, bucket):
+            if len(df):
+                seen.append(A.row_hashes(df))
+                keys.append(A.key_hashes(df, A.shape_of(df.columns)))
+        rl = run_log(name, from_bucket, bucket)
+        return (np.unique(np.concatenate(seen)) if seen else np.array([], dtype=np.uint64),
+                np.unique(np.concatenate(keys)) if keys else np.array([], dtype=np.uint64),
+                str(rl.iloc[-1]["run_id"]) if len(rl) else "")
     rows, lines = replay(name, None, from_bucket, bucket)
     ups = lines[lines["_op"] == "upsert"]
     cols = [c for c in ups.columns if c not in A.FIXED and c != "_order"]
@@ -170,12 +310,30 @@ def main(argv=None):
             names = sorted(o["name"] for o in bucket.ls("") if o.get("id") is None and not o["name"].startswith("_"))
         else:
             names = sorted(d for d in os.listdir(A.ARCH) if os.path.isdir(os.path.join(A.ARCH, d))
-                           and not d.startswith("_"))
+                           and not d.startswith("_") and d != "__pycache__")
+        # session 29: the consolidated tables, whose history is archived under their members' names
+        if os.path.exists(MIGRATIONS):
+            names = sorted(set(names) | set(pd.read_csv(MIGRATIONS, dtype=str)["new_table"]))
     if not names or (args.out and len(names) > 1):
         ap.error("name one table with --out, or tables, or --all")
     bad = 0
     for name in names:
         try:
+            if members_of(name):  # session 29: a consolidated table, rebuilt through the map, streaming
+                n, msgs = (check_consolidated(name, args.as_of, args.from_bucket, bucket) if args.check
+                           else (0, []))
+                if not args.no_write:
+                    out = args.out or os.path.join(A.ROOT, "runs", "archive_restore", name + ".csv")
+                    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
+                    n, expected = rebuild_consolidated(name, out, args.as_of, args.from_bucket, bucket)
+                    if args.check and expected is not None and n != expected:
+                        msgs.append(f"{n:,} rows, the run recorded {expected:,}")
+                bad += bool(msgs)
+                print(f"{'MISMATCH' if msgs else 'ok      '} {name}: {n:,} rows, through the map"
+                      + (" (row for row, every column)" if args.check else "")
+                      + (f"; {'; '.join(msgs)}" if msgs else "")
+                      + ("" if args.no_write else f" -> {os.path.relpath(out, A.ROOT)}"), flush=True)
+                continue
             header, df, expected = rebuild(name, args.as_of, args.from_bucket, bucket)
             if not args.no_write:
                 out = args.out or os.path.join(A.ROOT, "runs", "archive_restore", name + ".csv")

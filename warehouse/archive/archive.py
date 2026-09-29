@@ -12,6 +12,7 @@ This script keeps every version of every row where no rewrite can reach it.
     python warehouse/archive/archive.py pull                # append the bucket's parts this machine lacks
     python warehouse/archive/archive.py status              # months, parts and bytes, locally and in the bucket
     python warehouse/archive/archive.py reindex             # rebuild every index from the month files
+    python warehouse/archive/archive.py seed-consolidated   # session 29, once per consolidated table
 
 What a run writes, for each table in warehouse/output whose data changed since its last archive
 (warehouse/metadata/archive_manifest.csv):
@@ -335,12 +336,26 @@ def write_manifest(man):
 
 # ---------------------------------------------------------------- write
 
+def data_sha256(path):
+    """SHA-256 of a table's data (the column row onwards), as read_table computes it, streamed (session 29:
+    the ERCOT history is 0.65 GB; an unchanged table is skipped without being parsed)."""
+    h = hashlib.sha256()
+    with open(path, encoding="utf-8", newline="") as f:
+        first = True
+        for line in f:
+            if first and line.startswith("#"):
+                continue
+            first = False
+            h.update(line.encode("utf-8"))
+    return h.hexdigest()
+
+
 def archive_table(name, run_id, now, bucket, man, runner):
     """Archive one table's new or changed rows. Returns the _runs line, or None when unchanged."""
+    if name in man.index and man.loc[name, "data_sha256"] == data_sha256(os.path.join(OUT, name + ".csv")):
+        return None
     header, data, df = read_table(os.path.join(OUT, name + ".csv"))
     data_sha = hashlib.sha256(data.encode("utf-8")).hexdigest()
-    if name in man.index and man.loc[name, "data_sha256"] == data_sha:
-        return None
     shape = shape_of(df.columns)
     rh, kh = row_hashes(df), key_hashes(df, shape)
     st = load_state(name, bucket, man)
@@ -514,6 +529,7 @@ def reindex(tables_re, use_bucket):
     bucket = Bucket(use_bucket)
     names = sorted(d for d in os.listdir(ARCH) if os.path.isdir(os.path.join(ARCH, d)) and not d.startswith("_")
                    and d != "__pycache__")
+    names = sorted(set(names) | set(n for n in read_manifest().index if restore.members_of(n)))  # session 29
     if tables_re:
         names = [n for n in names if any(re.search(p, n) for p in tables_re)]
     bad = 0
@@ -529,9 +545,70 @@ def reindex(tables_re, use_bucket):
     return 1 if bad else 0
 
 
+def seed_consolidated(tables_re, use_bucket, now=None):
+    """Session 29: a consolidated table's history is archived under its members' old names, which are never
+    rewritten or renamed; restore.py reaches it through warehouse/metadata/table_migrations.csv. So that the
+    first run under the new name archives only what is new (and not three million rows again), its index is
+    built here FROM THE ARCHIVE through the map (restore.state_from_archive), and checked against the table in
+    warehouse/output: every one of its rows must already be in the archive. Then the table's manifest line and
+    one _runs line (added 0, runner "migration", its header) are appended. A table already archived under its
+    new name is left alone."""
+    import restore
+    now = now or dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
+    run_id = now.strftime("%Y%m%dT%H%M%SZ") + "-migration"
+    stamp, month = now.strftime("%Y-%m-%dT%H:%M:%SZ"), now.strftime("%Y-%m")
+    bucket = Bucket(use_bucket)
+    man = read_manifest()
+    names = sorted(pd.read_csv(restore.MIGRATIONS, dtype=str)["new_table"].unique())
+    if tables_re:
+        names = [n for n in names if any(re.search(p, n) for p in tables_re)]
+    runs, bad = [], 0
+    for name in names:
+        path = os.path.join(OUT, name + ".csv")
+        try:
+            if name in man.index:
+                log(f"{name}: already in {os.path.relpath(MANIFEST, ROOT)}; not seeded again")
+                continue
+            if not os.path.exists(path):
+                raise RuntimeError("not in warehouse/output")
+            seen, keys, _ = restore.state_from_archive(name, from_bucket=False)
+            nhead = count_comments(path)
+            rows, missing = 0, 0
+            for chunk in pd.read_csv(path, skiprows=nhead, dtype=str, keep_default_na=False, na_values=[],
+                                     chunksize=250_000):
+                rows += len(chunk)
+                missing += int((~np.isin(row_hashes(chunk), seen)).sum())
+                cols = list(chunk.columns)
+            if missing:
+                raise RuntimeError(f"{missing:,} of its {rows:,} rows are not in the archive through the map; not seeded")
+            with open(path, encoding="utf-8") as f:
+                header = [ln.rstrip("\r\n")[1:].strip() for ln in f if ln.startswith("#")]
+            save_state(name, seen, keys, run_id, bucket)
+            sha = data_sha256(path)
+            man.loc[name, ["data_sha256", "rows", "run_id", "archived_at"]] = [sha, str(rows), run_id, stamp]
+            runs.append(dict(run_id=run_id, archived_at=stamp, runner="migration", table=name, month=month,
+                             added=0, deleted=0, table_rows=rows, data_sha256=sha, columns=json.dumps(cols),
+                             header="\n".join(header)))
+            log(f"seeded {name}: {rows:,} rows, all in the archive through the map; index {len(seen):,} row hashes, "
+                f"{len(keys):,} keys")
+        except Exception as exc:
+            bad += 1
+            log(f"FAIL seed {name}: {type(exc).__name__}: {exc}")
+    if runs:
+        rl = pd.DataFrame(runs, columns=RUN_COLS)
+        if bucket.enabled:
+            bucket.put(f"_runs/{month}/{run_id}.csv.gz", gz(rl.to_csv(index=False, lineterminator="\n")))
+        append_lines(os.path.join(ARCH, "_runs", month + ".csv"), rl,
+                     [f"# ERW archive run log, {month} (UTC): one line per table archived by a run. Append only, "
+                      "never rewritten. Written by warehouse/archive/archive.py (session 28)."])
+    write_manifest(man)
+    log(f"seed-consolidated: {len(runs)} seeded, {bad} failed")
+    return 1 if bad else 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW append-only archive (session 28)")
-    ap.add_argument("command", choices=["write", "sync", "pull", "status", "reindex"])
+    ap.add_argument("command", choices=["write", "sync", "pull", "status", "reindex", "seed-consolidated"])
     ap.add_argument("--tables", action="append", metavar="REGEX", help="write: only tables matching")
     ap.add_argument("--no-bucket", action="store_true", help="local files only (tests, DRY_STORES=1)")
     args = ap.parse_args(argv)
@@ -539,6 +616,8 @@ def main(argv=None):
         return write(args.tables, not args.no_bucket)
     if args.command == "reindex":
         return reindex(args.tables, not args.no_bucket)
+    if args.command == "seed-consolidated":
+        return seed_consolidated(args.tables, not args.no_bucket)
     if args.command == "sync":
         return sync()
     if args.command == "pull":

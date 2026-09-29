@@ -1,0 +1,8 @@
+new_table,old_table,partition,old_rows,archive_rows,new_rows,counts_match,columns_identical,provenance_on_every_row,restore_test
+iso_trader_daily,caiso_trader_daily,market=caiso,789,789,789,yes,yes,True,"ok: 9,961 rows, row for row"
+iso_trader_daily,ercot_trader_daily,market=ercot,1578,1578,1578,yes,yes,True,"ok: 9,961 rows, row for row"
+iso_trader_daily,isone_trader_daily,market=isone,2367,2367,2367,yes,yes,True,"ok: 9,961 rows, row for row"
+iso_trader_daily,miso_trader_daily,market=miso,2072,2072,2072,yes,yes,True,"ok: 9,961 rows, row for row"
+iso_trader_daily,nyiso_trader_daily,market=nyiso,2893,2893,2893,yes,yes,True,"ok: 9,961 rows, row for row"
+iso_trader_daily,spp_trader_daily,market=spp,262,262,262,yes,yes,True,"ok: 9,961 rows, row for row"
+iso_trader_daily,(family),,9961,9961,9961,yes,,,"ok: 9,961 rows, row for row"
