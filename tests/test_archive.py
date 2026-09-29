@@ -113,6 +113,18 @@ class ArchiveTest(unittest.TestCase):
         month = A.read_month(os.path.join(self.arch, ROLL, "2026-09.csv"))
         self.assertEqual(len(month), 1)
 
+    def test_a_new_retrieval_time_alone_is_not_archived(self):
+        cols = ("entity_id", "entity_type", "name", "retrieved_at")
+        self.put(ENT, ents([["t:1", "plant", "A", "2026-09-28T12:00:00Z"]], cols=cols))
+        self.run_at(T1)
+        self.put(ENT, ents([["t:1", "plant", "A", "2026-09-29T12:00:00Z"]], cols=cols))  # re-pulled, same values
+        self.run_at(T2)
+        self.assertEqual(len(A.read_month(os.path.join(self.arch, ENT, "2026-09.csv"))), 1)
+        self.put(ENT, ents([["t:1", "plant", "B", "2026-09-30T12:00:00Z"]], cols=cols))  # a real change
+        self.run_at(T3)
+        self.assertEqual(len(A.read_month(os.path.join(self.arch, ENT, "2026-09.csv"))), 2)
+        self.assertEqual(R.check(ENT, *R.rebuild(ENT)[1:]), [])
+
     def test_rolling_table_never_deletes(self):
         full = series([["HB_NORTH", "lmp", "2026-09-26T00:00:00Z", "10"], ["HB_NORTH", "lmp", "2026-09-27T00:00:00Z", "11"]])
         self.put(ROLL, full)

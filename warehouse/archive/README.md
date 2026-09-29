@@ -27,6 +27,7 @@ python warehouse/archive/restore.py --all --check --no-write   # every table aga
 ## Rules
 
 - **What is compared.** A row is archived when its hash was never archived, or when its key is not in the table as last archived (a row that comes back). Keys: `(entity, variable, ts_utc)` for series, `event_id` for events, `entity_id` for entities (`docs/datastandard.md`). Values are compared as a Redivis restore writes them (12 and 12.0 are equal), so a restored table is not archived again for formatting alone.
+- **Retrieval times.** `retrieved_at` is left out of the comparison (session 28). A full-history table rewrites it on every row every run, so comparing it would archive the whole table daily. A row's archived `retrieved_at` is that of the run that first archived its values. Each run's own retrieval time is in its `_runs` line, with the table's full header.
 - **Deletes.** A key that has disappeared is written as a delete line, except in the rolling-window tables (`restore_before_run` in `warehouse/redivis/config.yaml`), which only merge: there, a missing key means a stale copy, not a deletion.
 - **Order in the daily run.** The archive step runs before the Supabase load and the Redivis upload. If it fails, the Redivis upload is skipped that day.
 - **Two writers.** GitHub runs and local runs both write to the bucket. The index in the bucket is the shared one. A local machine runs `pull` to see the GitHub runs in its month files.

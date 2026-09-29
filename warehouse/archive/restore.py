@@ -135,7 +135,8 @@ def state_from_archive(name, from_bucket=False, bucket=None):
 
 
 def check(name, df, expected):
-    """Rebuilt rows against warehouse/output (as the archive compares values) and the recorded count."""
+    """Rebuilt rows against warehouse/output (as the archive compares values, retrieved_at left out: the
+    archive keeps a row's retrieved_at from the run that first archived its values) and the recorded count."""
     path = os.path.join(A.OUT, name + ".csv")
     msgs = []
     if expected is not None and len(df) != expected:

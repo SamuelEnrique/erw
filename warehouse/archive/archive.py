@@ -11,6 +11,7 @@ This script keeps every version of every row where no rewrite can reach it.
     python warehouse/archive/archive.py sync                # upload local parts the bucket lacks
     python warehouse/archive/archive.py pull                # append the bucket's parts this machine lacks
     python warehouse/archive/archive.py status              # months, parts and bytes, locally and in the bucket
+    python warehouse/archive/archive.py reindex             # rebuild every index from the month files
 
 What a run writes, for each table in warehouse/output whose data changed since its last archive
 (warehouse/metadata/archive_manifest.csv):
@@ -139,9 +140,17 @@ def joined(df, cols, prefix=""):
     return [prefix + "".join(t) for t in zip(*parts)] if parts else [prefix] * len(df)
 
 
+# Session 28, after the first daily run: a column that says only when a run read the row. A full-history
+# table rewrites it on every row every run, so comparing it re-archived 0.9 million unchanged rows in a day.
+# It is left out of the comparison: a row is archived when anything else in it is new, and keeps the
+# retrieved_at of that run; every run's own retrieval time is in its _runs line (the table's header).
+VOLATILE = ("retrieved_at",)
+HASH_VERSION = "2"  # 1: every column (the first two runs); 2: VOLATILE left out
+
+
 def row_hashes(df):
-    """One hash per row over every column, named, so a renamed or added column changes it."""
-    cols = sorted(df.columns)
+    """One hash per row over every column but VOLATILE, named, so a renamed or added column changes it."""
+    cols = sorted(c for c in df.columns if c not in VOLATILE)
     return h64(joined(df, cols, "".join(cols) + ""))
 
 
@@ -212,12 +221,15 @@ def state_path(name):
 
 def pack_state(seen, keys, run_id):
     buf = io.BytesIO()
-    np.savez(buf, seen=seen, keys=keys, run_id=np.array(run_id))
+    np.savez(buf, seen=seen, keys=keys, run_id=np.array(run_id), version=np.array(HASH_VERSION))
     return buf.getvalue()
 
 
 def unpack_state(data):
+    """(seen, keys, run_id), or None for an index built with another hash version (rebuilt from the archive)."""
     z = np.load(io.BytesIO(data), allow_pickle=False)
+    if "version" not in z.files or str(z["version"]) != HASH_VERSION:
+        return None
     return z["seen"], z["keys"], str(z["run_id"])
 
 
@@ -230,8 +242,9 @@ def load_state(name, bucket, man):
     elif os.path.exists(state_path(name)):
         with open(state_path(name), "rb") as f:
             data = f.read()
-    if data is not None:
-        return unpack_state(data)
+    st = unpack_state(data) if data is not None else None
+    if st is not None:
+        return st
     if name in man.index:
         # archived before, but its index is gone: rebuild it from the parts rather than archive everything again
         import restore
@@ -494,14 +507,38 @@ def status(use_bucket):
     return 0
 
 
+def reindex(tables_re, use_bucket):
+    """Rebuild every table's index from the local month files with the current hash version, and store it
+    locally and in the bucket (session 28: after VOLATILE was introduced)."""
+    import restore
+    bucket = Bucket(use_bucket)
+    names = sorted(d for d in os.listdir(ARCH) if os.path.isdir(os.path.join(ARCH, d)) and not d.startswith("_")
+                   and d != "__pycache__")
+    if tables_re:
+        names = [n for n in names if any(re.search(p, n) for p in tables_re)]
+    bad = 0
+    for name in names:
+        try:
+            seen, keys, run_id = restore.state_from_archive(name)
+            save_state(name, seen, keys, run_id, bucket)
+            log(f"reindexed {name}: {len(seen):,} row hashes, {len(keys):,} keys (as of {run_id})")
+        except Exception as exc:
+            bad += 1
+            log(f"FAIL reindex {name}: {type(exc).__name__}: {exc}")
+    log(f"reindex: {len(names) - bad} of {len(names)} tables (hash version {HASH_VERSION})")
+    return 1 if bad else 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW append-only archive (session 28)")
-    ap.add_argument("command", choices=["write", "sync", "pull", "status"])
+    ap.add_argument("command", choices=["write", "sync", "pull", "status", "reindex"])
     ap.add_argument("--tables", action="append", metavar="REGEX", help="write: only tables matching")
     ap.add_argument("--no-bucket", action="store_true", help="local files only (tests, DRY_STORES=1)")
     args = ap.parse_args(argv)
     if args.command == "write":
         return write(args.tables, not args.no_bucket)
+    if args.command == "reindex":
+        return reindex(args.tables, not args.no_bucket)
     if args.command == "sync":
         return sync()
     if args.command == "pull":
