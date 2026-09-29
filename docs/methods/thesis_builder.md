@@ -13,7 +13,7 @@ A niche stated precisely (for example "subsurface heat mapping for geothermal"),
    - **b. Companies, capital and incumbents.** This pass also reads `energy_deals`.
    - **c. Risks.** Web only.
 2. **Sources.** Every web search result becomes a numbered source (S1, S2, ...) with its URL, title and the run date. Every passage the model cites from a result (the API's web citations) is kept with it. Every warehouse tool result becomes a numbered ERW source (E1, E2, ...).
-3. **Structure:** one call per sheet with a JSON schema, from the notes and the numbered sources only. Each row names the source ids it rests on.
+3. **Structure:** one streamed call with a JSON schema holding every sheet (session 30; one call per sheet before), from the notes and the numbered sources only. Each row names the source ids it rests on. The prompt carries at most 3 cited passages of 300 characters per web source; the number check still reads every passage.
 4. **Check.** A number is written only if it appears in the cited passages of the sources its row names, or in the ERW results it names. This is the chat's literal-number check (`warehouse/chat/ask.py`); a number that fails is written as "not confirmed" and logged. A row with no source is not written. Where the sources say nothing, the cell reads "not disclosed". An estimate is labelled "estimate" and shows its arithmetic, and its inputs pass the same check.
 5. **Policy.** The Policy sheet is drawn from the ERW's `policy_actions` (matched on the niche's words, the most significant first), with the plain read from `policy_reads` where one was kept. The model only picks which actions bear on the niche.
 6. **Charts.** A trend table whose values survive the check as numbers gets a native chart. When the model names an Automated Analysis template that fits the trend, its email-size chart is inserted with the template's source line.
@@ -64,3 +64,14 @@ Licensed databases (PitchBook, Harmonic, Crunchbase and the like) are read only 
 - **Status in v0:** the three connectors are stubs. Their mapping from the vendor's documented fields to the ERW's row shapes is written, but the API call is not; each raises `NotWired`, and the builder logs that and goes on. Wiring one means writing its `fetch_companies` and `fetch_rounds` against a real account.
 
 The ERW holds no licensed data. A workbook built with a licensed connector is the user's, under their license, and is not committed to this repository.
+
+## Cost (session 30)
+
+Toward USD 1 a run:
+
+- one automatic retry per call (the SDK's default is two);
+- the research passes' system prompt and tools cached;
+- the sheets written in one call, instead of eight that each sent the same 50,000 to 70,000 tokens of notes and sources;
+- the cited passages per source capped in that prompt.
+
+Every call is a row of `api_cost_ledger` (step `thesis`).
