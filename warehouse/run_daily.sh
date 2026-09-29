@@ -135,10 +135,9 @@ run_other ercot_peak_premium "$PYTHON" warehouse/derived/ercot_peak_premium.py
 
 # EIA-930 hourly demand and generation (EIA_API_KEY from the environment or .env)
 run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
-# Session 31: EIA-930 battery storage (fuel type BAT), merged into its history like EIA-930 demand, then its daily cycle
-# (docs/methods/storage.md)
+# Session 31: EIA-930 battery storage (fuel type BAT), merged into its history like EIA-930 demand; its daily cycle
+# runs after CAISO's own battery series below (session 34) (docs/methods/storage.md)
 run_other eia930_storage "$PYTHON" warehouse/connectors/eia930_storage.py --days "$DAYS"
-run_other storage_daily_cycle "$PYTHON" warehouse/derived/storage_daily_cycle.py
 # Session 32: EIA-930 CO2 estimates from EIA's per-BA workbooks (the newest workbook per BA; the last $DAYS days merged
 # on (entity, variable, ts_utc); the raw copy kept), then carbon intensity (docs/methods/emissions.md)
 run_other eia930_emissions "$PYTHON" warehouse/connectors/eia930_emissions.py --days "$DAYS"
@@ -176,6 +175,9 @@ run_other iso_curtailment_monthly "$PYTHON" warehouse/derived/iso_curtailment_mo
 # Session 23: CAISO battery storage output (Today's Outlook, 5-minute), the last 30 days, for the Automated
 # Analysis template storage_evening_peak (EIA-930 carries no battery series)
 run_other caiso_outlook "$PYTHON" warehouse/connectors/caiso_outlook.py
+# Session 31: the daily cycle of battery storage from eia930_all_storage; session 34: with CAISO's rows from
+# caiso_battery_storage (above), so it runs after both (docs/methods/storage.md)
+run_other storage_daily_cycle "$PYTHON" warehouse/derived/storage_daily_cycle.py
 
 # Session 8 entities. EIA-860M generator inventory: runs every day, writes only when EIA's
 # newest published monthly vintage differs from the one in the tables (a monthly cadence).

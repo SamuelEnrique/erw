@@ -60,6 +60,17 @@ CAISO's own battery output is `caiso_battery_storage` (CAISO's Today's Outlook).
 
 **`round_trip_ratio` is not a measured efficiency.** It is the day's energy out over energy in as EIA-930 reports them. Charge held across midnight moves it, and so do batteries a BA reports under other fuel types (solar or wind with integrated storage). The unit `hour` is Decision 29 of `docs/datastandard.md`.
 
+<a id="caiso"></a>
+### CAISO's rows (session 34)
+
+CAISO reports no battery series to EIA-930, so its rows come from CAISO's own data, not EIA's:
+
+- **Input.** `caiso_battery_storage`, variable `batteries_mw`: CAISO's Today's Outlook "Total batteries", 5-minute, MW, positive discharging, negative charging. It includes the batteries of hybrid plants, which CAISO publishes as part of the total.
+- **Hours.** Each hour is the mean of its twelve 5-minute values, so its MW over the hour is its MWh. The five variables above then follow from those hourly values, with the same formulas, so CAISO's day compares with the EIA-930 BAs'.
+- **Days.** Pacific (America/Los_Angeles) local days. A day is written only when every 5-minute interval is present (288, or 276 and 300 on the daylight saving days).
+- **Marking.** Entity `caiso:ISO`, partition `ba` = `ciso`, and the row's `source` is `erw:storage_daily_cycle_caiso` (the EIA-930 rows' is `erw:storage_daily_cycle`), with this section as its `source_url`. The site labels them as CAISO's data.
+- **History.** From 2025-08-24, the start of `caiso_battery_storage`. The daily run computes the table after both inputs are refreshed.
+
 ## storage_capacity (derived, no pull)
 
 **Rows.** Every generator with prime mover `BA` (EIA's "Batteries", energy source `MWH`) in `eia860m_operating_generators`, `eia860m_planned_generators` and `eia860m_retired_generators`, one row per generator, a snapshot rebuilt each run.

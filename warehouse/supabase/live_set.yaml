@@ -50,6 +50,8 @@ full:
   - '^storage_(daily_cycle|capacity)$'
   # session 32: /emissions (the daily intensity whole; the hourly tables below, last 90 days)
   - '^carbon_intensity_daily$'
+  # session 34: CAISO's own battery series for /storage, beside EIA-930's (Total batteries only, its own window below)
+  - '^caiso_battery_storage$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -85,6 +87,11 @@ select:
   eia_sector_energy_consumption_monthly: {days: 850}
   # session 19: /markets shows two weeks and the latest 30-day volatility
   iso_trader_daily: {days: 45}   # session 29: the six <iso>_trader_daily tables, consolidated
+  # session 34: /storage charts the last 30 days of CAISO's Total batteries (5-minute; about 9,000 rows)
+  caiso_battery_storage:
+    include:
+      variable: [batteries_mw]
+    days: 32
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv
