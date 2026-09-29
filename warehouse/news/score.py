@@ -51,6 +51,16 @@ SECTORS = ["oil", "gas", "lng", "power_prices", "generation", "nuclear", "renewa
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
 PRICES = {m: (p["input"], p["output"]) for m, p in llm.prices()["models"].items()}  # session 30: warehouse/config/model_prices.yaml
 REFERENCE_MAX = 400  # earlier stories offered as is_duplicate_of candidates per call
+# Session 30 (Part B3): the story caps, from the environment, with defaults from the run logs of 2026-09-25 to
+# 2026-09-29 (the news pipeline's whole history, shorter than the 14 days asked for; backfill runs left out):
+# - per run, 33 to 655 new stories (median 184; 502 after a 20-hour gap, 655 on the first run). 400 cuts no
+#   regular run and caps a catch-up run's scoring at about USD 1.20 (Sonnet 5: USD 0.0025 to 0.0032 a story in
+#   those logs);
+# - per outlet per run, median 3, 90th percentile 50, 95th 68, largest 108: only the Google News pages of Reuters,
+#   Bloomberg, WSJ and FT reach 95 to 108, a full page of the aggregator. 60 cuts about 1 outlet-run in 15.
+# A story the caps leave out stays unscored and competes again in the next run, within the --days window.
+MAX_STORIES_PER_RUN = int(os.environ.get("MAX_STORIES_PER_RUN") or 400)
+MAX_STORIES_PER_SOURCE = int(os.environ.get("MAX_STORIES_PER_SOURCE") or 60)
 MIN_BATCH = 25  # stories per call, unless fewer remain
 
 SYSTEM = f"""You score energy news stories for the Energy Research Warehouse (ERW), the live, citable record of the US energy system.
@@ -103,6 +113,37 @@ def nodash(text):
     return " ".join(str(text).replace("—", " - ").split()) if text else text
 
 
+def apply_caps(todo, df, log, per_run=None, per_source=None):
+    """Session 30 (Part B3): at most per_source stories of one outlet and per_run stories in all. Priority: the
+    outlet's mean significance over its scored stories of the last 30 days (the Sonnet scores already stored;
+    an outlet with none gets the mean of all), then the newest first. A cut is logged with its count and the
+    lowest priority that made it in. Returns (kept, cut)."""
+    per_run = MAX_STORIES_PER_RUN if per_run is None else per_run
+    per_source = MAX_STORIES_PER_SOURCE if per_source is None else per_source
+    when = pd.to_datetime(df["event_date"], utc=True)
+    past = df[(df["scored_at"] != "") & (when >= pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=30))]
+    sig = pd.to_numeric(past["significance"], errors="coerce")
+    by_source = sig.groupby(past["source"]).mean()
+    default = float(sig.mean()) if len(sig) else 0.0
+    t = todo.assign(_prio=todo["source"].map(by_source).fillna(default).round(2))
+    t = t.sort_values(["_prio", "_when"], ascending=[False, False])
+    kept = t.groupby("source", sort=False).head(per_source)
+    cut_source = len(t) - len(kept)
+    kept = kept.head(per_run)
+    cut_run = len(t) - cut_source - len(kept)
+    cut = t[~t.index.isin(kept.index)]
+    if len(cut):
+        lowest = kept["_prio"].min() if len(kept) else None
+        by = cut["source"].value_counts().head(5).to_dict()
+        log(f"story caps: {len(cut)} of {len(t)} stories left unscored this run ({cut_source} by "
+            f"MAX_STORIES_PER_SOURCE={per_source}, {cut_run} by MAX_STORIES_PER_RUN={per_run}); lowest priority that "
+            f"made it in: {lowest} (the outlet's mean significance, last 30 days); most cut: {by}")
+    else:
+        log(f"story caps: none cut ({len(t)} stories; MAX_STORIES_PER_RUN={per_run}, "
+            f"MAX_STORIES_PER_SOURCE={per_source})")
+    return kept.drop(columns="_prio").sort_values("_when"), cut
+
+
 def pick_model(client, log):
     models = list(client.models.list())
     log(f"models list: {len(models)} models: {', '.join(m.id for m in models)}")
@@ -142,6 +183,7 @@ def main(argv=None):
         when = pd.to_datetime(df["event_date"], utc=True)
         todo = df[(df["scored_at"] == "") & (when >= cutoff)].copy()
         todo = todo.assign(_when=when[todo.index]).sort_values("_when")
+        todo, capped = apply_caps(todo, df, log)
         if args.limit:
             todo = todo.head(args.limit)
         log(f"stories: {len(df)} stored, {len(todo)} unscored since {ip.utc_iso(cutoff)} to score")
@@ -250,7 +292,8 @@ def main(argv=None):
                    f"{len(results)} of {len(todo)}; tokens input {tin}, output {tout}, cache write {cw}, "
                    f"cache read {cr}; cost {cost_s}; duplicate links rejected {bad_dup}; clusters "
                    f"{n_clusters} among {int(scored.sum())} scored stories; temperature "
-                   f"{'0' if use_temperature else 'not accepted by model'}")
+                   f"{'0' if use_temperature else 'not accepted by model'}; story caps left {len(capped)} unscored for a "
+                   "later run")
         log("RUN " + summary)
         header.append(f"Scored: {run_id} by warehouse/news/score.py, {summary}. Rubric: "
                       "warehouse/news/rubric.md; run log warehouse/output/logs/news_score_"
