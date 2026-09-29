@@ -6,7 +6,10 @@ filter, version. Every function reads through the active backend
 (erw.backends), so the storage behind them can change without changing these.
 """
 
-from typing import Dict, Iterable, List, Optional, Union
+import os
+import warnings
+from pathlib import Path
+from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 import pandas as pd
 
@@ -52,6 +55,44 @@ def set_backend(backend: Union[Backend, str, None] = None) -> Backend:
     return _backend
 
 
+# Session 29: 54 tables became 6 consolidated tables with the partition in a column (docs/datastandard.md,
+# decision 28). The map is warehouse/metadata/table_migrations.csv; an old name keeps working through it, with a
+# DeprecationWarning, until the first monthly release.
+PARTITION_COLUMNS = ("market", "ba", "year")
+_MIGRATIONS: Optional[Dict[str, Tuple[str, Dict[str, str]]]] = None
+
+
+def _migrations_csv() -> Optional[Path]:
+    env = os.environ.get("ERW_MIGRATIONS_CSV")
+    if env:
+        return Path(env)
+    for base in (Path(__file__).resolve(), Path.cwd().resolve()):
+        for parent in [base, *base.parents]:
+            candidate = parent / "warehouse" / "metadata" / "table_migrations.csv"
+            if candidate.is_file():
+                return candidate
+    return None
+
+
+def migrations() -> Dict[str, Tuple[str, Dict[str, str]]]:
+    """{old table: (consolidated table, {partition column: value})} (session 29)."""
+    global _MIGRATIONS
+    if _MIGRATIONS is None:
+        path = _migrations_csv()
+        _MIGRATIONS = {}
+        if path is not None:
+            m = pd.read_csv(path, dtype=str, keep_default_na=False)
+            for r in m.to_dict("records"):
+                _MIGRATIONS[r["old_table"]] = (
+                    r["new_table"], dict(kv.split("=", 1) for kv in r["partition"].split(";") if kv))
+    return _MIGRATIONS
+
+
+def _current(name: str) -> str:
+    """The table a name is read from today: itself, or the consolidated table an old name moved into."""
+    return migrations().get(name, (name, {}))[0]
+
+
 def _as_list(v) -> Optional[List[str]]:
     if v is None:
         return None
@@ -88,8 +129,38 @@ def _is_entities(df: pd.DataFrame) -> bool:
     return list(df.columns[:2]) == ["entity_id", "entity_type"]
 
 
-def _read(name: str) -> pd.DataFrame:
-    header, df = get_backend().read_table(name)
+def _backend_read(name: str, where: Optional[Dict[str, str]]):
+    b = get_backend()
+    if where and isinstance(b, LocalBackend):
+        return b.read_table(name, where=where)
+    header, df = b.read_table(name)
+    for c, v in (where or {}).items():
+        df = df[df[c] == str(v)] if c in df.columns else df.iloc[0:0]
+    return header, df.reset_index(drop=True)
+
+
+def _read(name: str, where: Optional[Dict[str, str]] = None) -> pd.DataFrame:
+    """One table as typed frame. Session 29: where={partition column: value} keeps one partition; an old table
+    name is read from its consolidated table (DeprecationWarning), with its own columns and header."""
+    moved = migrations().get(name)
+    if moved is not None and name not in set(get_backend().list_tables()):
+        new, part = moved
+        warnings.warn(f"erw: table {name!r} is now part of {new!r} (session 29, "
+                      f"docs/migrations/2026-09-29-consolidation.md); reading {new} where "
+                      + ", ".join(f"{k}={v}" for k, v in part.items())
+                      + ". Old names work until the first monthly release.", DeprecationWarning, stacklevel=3)
+        header, df = _backend_read(new, {**part, **(where or {})})
+        added = [c for c in part if c != "market"]
+        df = df.drop(columns=[c for c in added if c in df.columns])
+        block = [h.split(": ", 1)[1] for h in header if h.startswith(f"Member {name}: ")]
+        block = [h for h in block if not h.endswith("(its rows; its own provenance header follows)")]
+        header = block or header
+        return _typed(name, header, df, migrated_to=new)
+    header, df = _backend_read(name, where)
+    return _typed(name, header, df)
+
+
+def _typed(name: str, header: List[str], df: pd.DataFrame, migrated_to: Optional[str] = None) -> pd.DataFrame:
     if _is_entities(df):  # entities shape (session 8): numbers and dates typed, the rest strings
         for c in [c for c in df.columns if c in ("lat", "lon", "capacity_mw") or c.endswith("_mw")]:
             df[c] = pd.to_numeric(df[c].replace("", None), errors="raise").astype(float)
@@ -109,6 +180,8 @@ def _read(name: str) -> pd.DataFrame:
         df["ts_utc"] = pd.to_datetime(df["ts_utc"], format=TS_FMT, utc=True)
     meta = parse_header(header)
     meta["table"] = name
+    if migrated_to:
+        meta["migrated_to"] = migrated_to
     meta["backend"] = get_backend().describe()
     df.attrs["erw"] = meta
     return df
@@ -156,7 +229,8 @@ def _subset_entities(df: pd.DataFrame, start=None, end=None, node=None) -> pd.Da
 
 
 def fetch(name: Union[str, Iterable[str]], start=None, end=None,
-          node: Union[str, Iterable[str], None] = None
+          node: Union[str, Iterable[str], None] = None, market: Optional[str] = None,
+          ba: Optional[str] = None, year: Union[str, int, None] = None
           ) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
     """Fetch one table as a DataFrame, or several as a dict of name -> DataFrame.
 
@@ -182,10 +256,22 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
                  table, these entity_id values or names; start and end then
                  select on status_date.
     The subset is recorded in ``df.attrs["erw"]["subset"]``.
+
+    Session 29, the consolidated tables (docs/migrations/2026-09-29-consolidation.md):
+    market, ba, year : keep one partition, e.g. ``fetch("eia930_all_demand", ba="ciso")``,
+                 ``fetch("iso_trader_daily", market="ercot")``,
+                 ``fetch("ercot_all_hub_prices_history", market="ercot_rtm", year=2024)``.
+                 A local table is then read in chunks, never whole.
+    An old table name (``eia930_ciso_demand``) still works, with a DeprecationWarning, until the
+    first monthly release: it returns the old table's rows, columns and header.
     """
+    where = {k: str(v) for k, v in (("market", market), ("ba", ba), ("year", year)) if v is not None}
     if isinstance(name, str):
-        return _subset(_read(name), start, end, node)
-    return {n: _subset(_read(n), start, end, node) for n in list(name)}
+        df = _subset(_read(name, where or None), start, end, node)
+        if where:
+            df.attrs["erw"] = dict(df.attrs["erw"], partition=where)
+        return df
+    return {n: _subset(_read(n, where or None), start, end, node) for n in list(name)}
 
 
 def _table_facts(name: str) -> Dict:
@@ -233,11 +319,13 @@ def filter(iso: Union[str, Iterable[str], None] = None,
     isos = _as_list(iso)
     if isos:
         wanted = {ISO_ALIASES.get(i.lower(), i.upper()) for i in isos}
-        keep &= cov["iso"].isin(wanted)
+        # session 29: a consolidated table lists its members' ISOs, separated by ";"
+        keep &= cov["iso"].map(lambda v: bool(set(str(v).split(";")) & wanted))
     markets = _as_list(market)
     if markets:
         m = [x.lower() for x in markets]
-        keep &= cov["market"].map(lambda v: any(v == x or v.endswith("_" + x) for x in m))
+        keep &= cov["market"].map(lambda v: any(p == x or p.endswith("_" + x)
+                                                 for p in str(v).split(";") for x in m))  # session 29: ";"-joined
     if start is not None:
         keep &= cov["ts_max"] >= _utc(start)
     if end is not None:
@@ -305,6 +393,7 @@ def tier(name: str) -> Optional[str]:
     """The table's provenance tier (session 28): source, derived or model_extracted; None when the
     coverage being read predates the tier column."""
     cov = coverage()
+    name = name if name in set(cov["table"]) else _current(name)  # session 29: an old name
     if "tier" not in cov.columns or name not in set(cov["table"]):
         return None
     t = cov.set_index("table").loc[name, "tier"]
@@ -337,10 +426,12 @@ def cite(name: str) -> str:
         parts.append(f"News stories from {len(outlets)} outlets: {', '.join(sorted(set(outlets)))}; "
                      "each row links its story.")
     retrieved = ""
-    if name in cov.index and pd.notna(cov.loc[name, "last_run"]):
-        retrieved = f" Retrieved {cov.loc[name, 'last_run']:%Y-%m-%d}"
+    row = name if name in cov.index else _current(name)  # session 29: an old name
+    if row in cov.index and pd.notna(cov.loc[row, "last_run"]):
+        retrieved = f" Retrieved {cov.loc[row, 'last_run']:%Y-%m-%d}"
     commit = ver.get("data_commit")
-    via = (f"{retrieved} via the Energy Research Warehouse (ERW), table {name}"
+    table = name if row == name else f"{row} (formerly {name})"
+    via = (f"{retrieved} via the Energy Research Warehouse (ERW), table {table}"
            f"{', data commit ' + commit[:12] if commit else ''}.")
     t = tier(name)
     tier_text = f" Provenance tier: {t} ({TIER_NOTE.get(t, t)})." if t else ""
@@ -372,7 +463,7 @@ def info(name: Optional[str] = None, quiet: bool = False) -> Dict:
                  "capacity_mw": float(df["capacity_mw"].sum()) if "capacity_mw" in df else None,
                  "vintage": sorted(set(df["vintage"])) if "vintage" in df else [],
                  "sources": sorted(set(df["source"])),
-                 "license": coverage().set_index("table").loc[name, "license"], "tier": tier(name),
+                 "license": coverage().set_index("table").loc[_current(name), "license"], "tier": tier(name),
                  "notes": meta["notes"]}
             if not quiet:
                 print(f"{name}: {d['title']}")
@@ -383,7 +474,7 @@ def info(name: Optional[str] = None, quiet: bool = False) -> Dict:
             d = {"table": name, "title": meta["title"], "rows": len(df), "shape": "events",
                  "event_types": sorted(set(df["event_type"])), "sources": sorted(set(df["source"])),
                  "event_date_min": df["event_date"].min(), "event_date_max": df["event_date"].max(),
-                 "license": coverage().set_index("table").loc[name, "license"], "tier": tier(name),
+                 "license": coverage().set_index("table").loc[_current(name), "license"], "tier": tier(name),
                  "notes": meta["notes"]}
             if not quiet:
                 print(f"{name}: {d['title']}")
@@ -393,7 +484,7 @@ def info(name: Optional[str] = None, quiet: bool = False) -> Dict:
         d = {"table": name, "title": meta["title"], "rows": len(df),
              "variables": sorted(set(df["variable"])),
              "nodes": sorted(n for n in set(df["node"]) if n) or sorted(set(df["entity"])),
-             "license": coverage().set_index("table").loc[name, "license"], "tier": tier(name),
+             "license": coverage().set_index("table").loc[_current(name), "license"], "tier": tier(name),
              "ts_min": df["ts_utc"].min(), "ts_max": df["ts_utc"].max(),
              "freq": sorted(set(df["freq"])), "unit": sorted(set(df["unit"])),
              "sources": [s["source"] for s in meta["sources"]],

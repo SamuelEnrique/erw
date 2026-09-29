@@ -38,9 +38,9 @@ const MEANS: { v: string; label: string }[] = [
   { v: "implied_heat_rate", label: "Heat rate" },
 ];
 
-function IsoBlock({ table, rows, top, tz }: { table: string; rows: SeriesRow[]; top: SeriesRow[]; tz: string }) {
+function IsoBlock({ table, iso: isoKey, rows, top, tz }: { table: string; iso: string; rows: SeriesRow[]; top: SeriesRow[]; tz: string }) {
   const days = Array.from(new Set(rows.map((r) => r.ts_utc))).sort((a, b) => Date.parse(a) - Date.parse(b));
-  if (days.length < 7) return <NoData what={table} reason={`${table} holds ${days.length} days in the live set; a week needs 7`} />;
+  if (days.length < 7) return <NoData what={table} reason={`${table} holds ${days.length} days for ${isoKey} in the live set; a week needs 7`} />;
   const week = days.slice(-7), prev = days.slice(-14, -7);
   // each metric's own week: the latest 7 days the ISO has it (real-time tables and Henry Hub lag the day-ahead market)
   const byTime = (a: string, b: string) => Date.parse(a) - Date.parse(b);
@@ -177,7 +177,7 @@ function IsoBlock({ table, rows, top, tz }: { table: string; rows: SeriesRow[]; 
       ) : (
         <NoData
           what="top intervals"
-          reason={table === "spp_trader_daily" ? "the ERW has no SPP real-time price table" : `${TOP} holds no row for this ISO: its real-time table has no 7 complete days`}
+          reason={isoKey === "spp" ? "the ERW has no SPP real-time price table" : `${TOP} holds no row for this ISO: its real-time table has no 7 complete days`}
         />
       )}
     </>
@@ -187,8 +187,8 @@ function IsoBlock({ table, rows, top, tz }: { table: string; rows: SeriesRow[]; 
 export default async function MarketsPage() {
   const results = await Promise.all(
     ISOS.map(async (i) => {
-      const table = `${i.key}_trader_daily`;
-      return { i, table, r: await attempt(() => series(table, { since: daysAgo(20) })) };
+      const table = "iso_trader_daily"; // session 29: the six ISOs' tables, consolidated; each ISO by its market
+      return { i, table, r: await attempt(() => series(table, { market: i.key, since: daysAgo(20) })) };
     }),
   );
   const top = await attempt(() => series(TOP, {}));
@@ -209,7 +209,7 @@ export default async function MarketsPage() {
           {!r.ok ? (
             <NoData what={table} reason={r.reason} />
           ) : (
-            <IsoBlock table={table} rows={r.data} top={top.ok ? top.data.filter((x) => x.entity.startsWith(`${i.key}:`)) : []} tz={i.tz} />
+            <IsoBlock table={table} iso={i.key} rows={r.data} top={top.ok ? top.data.filter((x) => x.entity.startsWith(`${i.key}:`)) : []} tz={i.tz} />
           )}
         </Section>
       ))}

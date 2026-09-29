@@ -34,6 +34,15 @@ TODAY = "2026-09-26"
 
 
 def csv(name):
+    # session 29: an old table name is read from its consolidated table (warehouse/metadata/table_migrations.csv)
+    mig = pd.read_csv(os.path.join(OUT, "..", "metadata", "table_migrations.csv"), dtype=str, keep_default_na=False)
+    moved = mig[mig["old_table"] == name]
+    if len(moved) and not os.path.exists(os.path.join(OUT, name + ".csv")):
+        df = csv(moved.iloc[0]["new_table"])
+        for kv in moved.iloc[0]["partition"].split(";"):
+            k, v = kv.split("=", 1)
+            df = df[df[k] == v]
+        return df.drop(columns=[c for c in ("ba", "year") if c in df.columns]).reset_index(drop=True)
     path = os.path.join(OUT, name + ".csv")
     with open(path, encoding="utf-8") as f:
         skip = 0

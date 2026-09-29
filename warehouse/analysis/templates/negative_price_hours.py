@@ -26,7 +26,8 @@ def compute(iso="ercot", hub=None, months=24, history=True):
     tables = [table]
     if iso == "ercot":
         import erw
-        hist_tables = sorted(t for t in erw.list_tables() if t.startswith("ercot_rtm_hub_prices_20"))
+        hist_tables = sorted(t for t in (set(erw.list_tables()) | {o for o, (n, _) in erw.migrations().items() if n in set(erw.list_tables())})
+                             if t.startswith("ercot_rtm_hub_prices_20"))
         if not history:
             hist_tables = hist_tables[-3:]
         for t in hist_tables:

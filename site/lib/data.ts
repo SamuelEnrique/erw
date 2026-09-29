@@ -57,7 +57,7 @@ export async function latestPrices(): Promise<LatestPrice[]> {
 /** Rows of one series table for one entity (or every entity) since a time. */
 export async function series(
   table: string,
-  opts: { entity?: string; variable?: string; since?: string; entities?: string[] },
+  opts: { entity?: string; variable?: string; since?: string; entities?: string[]; market?: string },
   revalidate = HOURLY,
 ): Promise<SeriesRow[]> {
   const q: Record<string, string> = {
@@ -68,6 +68,8 @@ export async function series(
   if (opts.entity) q.entity = `eq.${opts.entity}`;
   if (opts.entities) q.entity = `in.(${opts.entities.map((e) => `"${e}"`).join(",")})`;
   if (opts.variable) q.variable = `eq.${opts.variable}`;
+  // session 29: one partition of a consolidated table (iso_trader_daily, iso_dam_hub_prices, ...)
+  if (opts.market) q.market = `eq.${opts.market}`;
   if (opts.since) q.ts_utc = `gte.${opts.since}`;
   return rest<SeriesRow>("series", q, revalidate);
 }

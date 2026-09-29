@@ -80,6 +80,10 @@ SHAPES = {"series": (SERIES_COLS, ["table_name", "entity", "variable", "ts_utc"]
           "entities": (ENTITY_COLS, ["table_name", "entity_id"]),
           "events": (EVENT_COLS, ["table_name", "event_id"])}
 NUMERIC = {"value", "lat", "lon", "capacity_mw", "mw", "price"}
+# Session 29: partition columns of consolidated series tables that Supabase stores (migration 009). A row that
+# has none is compared exactly as before, so no other table's rows are rewritten.
+SERIES_PARTITION = ["ba"]
+MIGRATIONS = os.path.join(ROOT, "warehouse", "metadata", "table_migrations.csv")
 TIMESTAMP = {"ts_utc", "retrieved_at", "event_date"}
 CAT_NUMERIC = {"n_nodes", "n_rows"}
 
@@ -183,6 +187,10 @@ def records(name, df, shape, license_, loaded_at):
                 r[c] = v
         if shape != "series":
             r["extra"] = {c: row[c] for c in extra_cols if row[c] != ""}
+        else:  # session 29: the partition column, where the table has one
+            for c in SERIES_PARTITION:
+                if c in row:
+                    r[c] = row[c] or None
         out.append(r)
     return out
 
@@ -215,6 +223,8 @@ def canon(r, shape):
             vals[c] = str(v)
     k = (r["table_name"],) + tuple(vals[c] for c in key[1:])
     body = tuple(vals[c] for c in cols) + (r["license"],)
+    if shape == "series":  # session 29: only when set, so a table without a partition compares as before
+        body += tuple((c, r[c]) for c in SERIES_PARTITION if r.get(c))
     if shape != "series":
         body += (json.dumps(r.get("extra") or {}, sort_keys=True),)
     return k, body
@@ -223,7 +233,7 @@ def canon(r, shape):
 def existing_rows(client, shape, name):
     """Every row Supabase holds for one ERW table, paged in key order."""
     cols, key = SHAPES[shape]
-    fields = ",".join(["table_name"] + cols + ["license"] + (["extra"] if shape != "series" else []))
+    fields = ",".join(["table_name"] + cols + ["license"] + (["extra"] if shape != "series" else SERIES_PARTITION))
     rows, start = [], 0
     while True:
         q = client.table(shape).select(fields).eq("table_name", name)
@@ -456,6 +466,26 @@ def main(argv=None):
         for i in range(0, len(stale), 50):
             client.table("sources").delete().in_("source", stale[i:i + 50]).execute()
         print(f"sources: deleted {len(stale)} no longer in {LIVE['sources']}: {stale[:5]}")
+
+    # session 29: the tables consolidated into others (warehouse/metadata/table_migrations.csv) leave Supabase in the
+    # same run that loads their consolidated tables: their rows and headers are deleted (their catalogue rows went with
+    # coverage.csv above). Only when every consolidated table in the live set loaded, so a page never goes empty.
+    if not args.only and os.path.exists(MIGRATIONS):
+        mig = pd.read_csv(MIGRATIONS, dtype=str, keep_default_na=False)
+        loaded = [n for n in mig["new_table"].unique() if n in selected]
+        if any(n in failed for n in loaded):
+            print(f"migrated tables kept: a consolidated table failed to load ({[n for n in loaded if n in failed]})")
+        else:
+            olds = sorted(mig.loc[mig["new_table"].isin(loaded), "old_table"])
+            for shape in SHAPES:
+                for i in range(0, len(olds), 50):
+                    part = olds[i:i + 50]
+                    n = client.table(shape).select("table_name", count="exact", head=True)                         .in_("table_name", part).execute().count
+                    if n:
+                        delete_table_rows(client, shape, part)
+                        print(f"consolidated (session 29): deleted {n:,} {shape} rows of the old tables {part}")
+            for i in range(0, len(olds), 50):
+                client.table("headers").delete().in_("table_name", olds[i:i + 50]).execute()
 
     # session 18, --prune only: rows of a table in coverage.csv that no live-set rule matches
     # any more are deleted (after a person narrows live_set.yaml). A table still in the live

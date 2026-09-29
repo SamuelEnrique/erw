@@ -32,6 +32,11 @@ def coverage_md_rows():
 
 
 TABLES = sorted(p.stem for p in OUTPUT.glob("*.csv"))
+# Session 29: the ERCOT history is one table of about three million rows. The per-table tests below read every
+# table whole, twice or more; this one is tested by partition instead (test_ercot_history_tables_are_complete_years,
+# test_old_names_work_through_the_map), so a laptop never holds it whole several times over.
+HISTORY = "ercot_all_hub_prices_history"
+PER_TABLE = [t for t in TABLES if t != HISTORY]
 
 
 def _is_events(name):
@@ -53,8 +58,9 @@ def _is_entities(name):
 EVENT_TABLES = [t for t in TABLES if _is_events(t)]
 ENTITY_TABLES = [t for t in TABLES if _is_entities(t)]
 SERIES_TABLES = [t for t in TABLES if t not in EVENT_TABLES and t not in ENTITY_TABLES]
-ERCOT_DAM = sorted(t for t in TABLES if t.startswith("ercot_dam_hub_prices"))
-ERCOT_RTM = sorted(t for t in TABLES if t.startswith("ercot_rtm_hub_prices"))
+# session 29: ERCOT's prices are in the consolidated tables (iso_*_hub_prices, the history)
+ERCOT_DAM = sorted(t for t in ("iso_dam_hub_prices", HISTORY) if t in TABLES)
+ERCOT_RTM = sorted(t for t in ("iso_rtm_hub_prices", HISTORY) if t in TABLES)
 MD_ROWS = coverage_md_rows()
 
 
@@ -85,13 +91,13 @@ def test_coverage_md_lists_every_table():
     assert sorted(MD_ROWS) == TABLES
 
 
-@pytest.mark.parametrize("name", TABLES)
+@pytest.mark.parametrize("name", PER_TABLE)
 def test_fetch_row_count_matches_coverage_md(name):
     df = erw.fetch(name)
     assert len(df) == MD_ROWS[name]
 
 
-@pytest.mark.parametrize("name", SERIES_TABLES)
+@pytest.mark.parametrize("name", [t for t in SERIES_TABLES if t != HISTORY])
 def test_fetch_types_and_provenance(name):
     df = erw.fetch(name)
     assert list(df.columns[:4]) == ["entity", "variable", "ts_utc", "value"]
@@ -123,22 +129,24 @@ def test_fetch_unknown_table_fails_loudly():
 def test_filter_by_iso_market_variable_node_and_time():
     cov = erw.coverage()
     ercot = sorted(cov.loc[cov["iso"] == "ERCOT", "table"])
-    assert erw.filter(iso="ercot") == ercot
-    assert erw.filter(iso="ERCOT", market="dam") == ERCOT_DAM  # live table and yearly history
-    # the live table, the yearly history and the derived peak-premium tables (session 9)
+    # session 29: a consolidated table lists its members' ISOs and markets, separated by ";"
+    has = lambda col, f: cov[col].map(lambda v: any(f(p) for p in str(v).split(";")))  # noqa: E731
+    assert erw.filter(iso="ercot") == sorted(cov.loc[has("iso", lambda p: p == "ERCOT"), "table"])
+    assert erw.filter(iso="ERCOT", market="dam") == ERCOT_DAM  # the live DAM table and the history
+    # the live table, the history and the derived peak-premium tables (session 9)
     assert erw.filter(market="ercot_rtm") == sorted(ERCOT_RTM + [t for t in TABLES if t.startswith("ercot_peak_premium_")])
-    assert set(erw.filter(market="rtm")) == set(cov.loc[cov["market"].str.endswith("_rtm"), "table"])
+    assert set(erw.filter(market="rtm")) == set(cov.loc[has("market", lambda p: p.endswith("_rtm")), "table"])
     assert erw.filter(variable="spp_rtm") == ERCOT_RTM
-    ercot_prices = sorted(cov.loc[cov["market"].str.startswith("ercot_"), "table"])
+    ercot_prices = sorted(cov.loc[has("market", lambda p: p.startswith("ercot_")), "table"])
     # session 29: the price tables, and the derived tables computed from them per hub (the trader view)
     derived = set(cov.loc[cov["derived"] == "yes", "table"])
     for n in ("HB_NORTH", "ercot:HB_NORTH"):
         got = erw.filter(node=n)
         assert set(ercot_prices) <= set(got) and set(got) - set(ercot_prices) <= derived
     nyc = erw.filter(iso=["ERCOT", "NYISO"], node="N.Y.C.")
-    want = set(cov.loc[cov["market"].str.startswith("nyiso_"), "table"])
+    want = set(cov.loc[has("market", lambda p: p.startswith("nyiso_")), "table"])
     assert want <= set(nyc) and set(nyc) - want <= derived
-    eia_ciso = sorted(t for t in TABLES if t.startswith("eia930_ciso_"))
+    eia_ciso = sorted(t for t in ("eia930_all_demand", "eia930_all_generation") if t in TABLES)  # session 29
     got = set(erw.filter(node="eia930:CISO"))  # session 29: also the snapshot of every BA's latest hours
     assert set(eia_ciso) <= got and got - set(eia_ciso) <= {"eia930_generation_latest"}
     assert set(eia_ciso) <= set(erw.filter(iso="caiso"))
@@ -152,7 +160,7 @@ def test_filter_by_iso_market_variable_node_and_time():
     assert erw.filter() == TABLES
 
 
-@pytest.mark.parametrize("name", TABLES)
+@pytest.mark.parametrize("name", PER_TABLE)
 def test_sources_names_reports_and_every_row_url(name):
     s = erw.sources(name)
     df = erw.fetch(name)
@@ -163,11 +171,13 @@ def test_sources_names_reports_and_every_row_url(name):
     assert all(u.startswith("http") for u in s["source_urls"])
 
 
-@pytest.mark.parametrize("name", SERIES_TABLES)
+@pytest.mark.parametrize("name", [t for t in SERIES_TABLES if t != HISTORY])
 def test_cite_names_the_iso_the_table_and_the_commit(name):
     c = erw.cite(name)
     org = name.split("_")[0]
     derived = erw.coverage().set_index("table").loc[name, "derived"] == "yes"
+    members = sorted(o for o, (n, _) in erw.migrations().items() if n == name)
+    org = members[0].split("_")[0] if members else org  # session 29: a consolidated table, its first member's publisher
     publisher = "Energy Research Warehouse (ERW), derived" if derived else {
                  "ercot": "Electric Reliability Council of Texas", "caiso": "California",
                  "nyiso": "New York", "miso": "Midcontinent", "spp": "Southwest Power Pool",
@@ -489,23 +499,42 @@ def test_ercot_history_tables_are_complete_years():
     """35,040 quarter hours per hub per year (35,136 in a leap year); 8,760 or 8,784 hours."""
     hubs = {"HB_NORTH", "HB_SOUTH", "HB_WEST", "HB_HOUSTON", "HB_BUSAVG", "HB_HUBAVG"}
     this_year = pd.Timestamp.now(tz="America/Chicago").year
-    years = sorted(int(t[-4:]) for t in TABLES if re.fullmatch(r"ercot_rtm_hub_prices_\d{4}", t))
-    if not years:
-        pytest.skip("the ERCOT yearly history is not in this machine's warehouse/output (the GitHub runner)")
-    assert years[0] == 2015
-    for y in years:
-        leap = y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
-        for m, n in (("rtm", 35136 if leap else 35040), ("dam", 8784 if leap else 8760)):
-            df = erw.fetch(f"ercot_{m}_hub_prices_{y}")
-            per = df.groupby("node").size()
+    # session 29: one table, ercot_all_hub_prices_history, partitioned by market and year (operating year)
+    _needs(HISTORY)
+    for m in ("rtm", "dam"):
+        df = erw.fetch(HISTORY, market=f"ercot_{m}")
+        years = sorted(int(y) for y in df["year"].unique())
+        assert years[0] == 2015 and years[-1] == this_year
+        live = erw.fetch(f"iso_{m}_hub_prices", market=f"ercot_{m}")
+        for y in years:
+            leap = y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
+            n = (35136 if leap else 35040) if m == "rtm" else (8784 if leap else 8760)
+            part = df[df["year"] == str(y)]
+            per = part.groupby("node").size()
             assert set(per.index) == hubs
             if y < this_year:
                 assert (per == n).all(), (m, y, per.to_dict())
             else:  # the current year stops where the live table starts
-                live = erw.fetch(f"ercot_{m}_hub_prices")
-                assert df["ts_utc"].max() < live["ts_utc"].min()
+                assert part["ts_utc"].max() < live["ts_utc"].min()
                 step = pd.Timedelta("15min" if m == "rtm" else "1h")
-                assert df["ts_utc"].max() + step == live["ts_utc"].min()
+                assert part["ts_utc"].max() + step == live["ts_utc"].min()
+        del df
+
+
+def test_old_names_work_through_the_map():
+    """Session 29: an old table name reads its rows from the consolidated table, with its own columns and header,
+    and a DeprecationWarning, until the first monthly release (docs/migrations/2026-09-29-consolidation.md)."""
+    for old, new, part in (("eia930_ciso_demand", "eia930_all_demand", {"ba": "ciso"}),
+                           ("ercot_trader_daily", "iso_trader_daily", {"market": "ercot"}),
+                           ("ercot_rtm_hub_prices", "iso_rtm_hub_prices", {"market": "ercot_rtm"})):
+        with pytest.warns(DeprecationWarning, match=new):
+            o = erw.fetch(old)
+        n = erw.fetch(new, **part)
+        assert len(o) == len(n) > 0
+        assert "ba" not in o.columns and o.attrs["erw"]["migrated_to"] == new
+        assert o.attrs["erw"]["title"] and o.attrs["erw"]["title"] != n.attrs["erw"]["title"]
+        assert "formerly " + old in erw.cite(old)
+    assert old not in erw.list_tables() and new in erw.list_tables()
 
 
 # --- session 9: derived tables -----------------------------------------------
@@ -531,7 +560,8 @@ def test_derived_tables_flag_license_and_inputs():
         inputs = [t.strip() for h in header if h.startswith("Derived from:")
                   for t in h.split(":", 1)[1].split(";")]
         assert "ercot_rtm_hub_prices" in inputs and "ercot_rtm_hub_prices_2015" in inputs
-        want = "internal" if any(cov.loc[t, "license"] == "internal" for t in inputs) else "public"
+        # session 29: an input named by its old name is read as the consolidated table it moved into
+        want = "internal" if any(cov.loc[erw.api._current(t), "license"] == "internal" for t in inputs) else "public"
         assert cov.loc[name, "license"] == want == "public"
         assert set(df["source"]) == {"erw:ercot_peak_premium"}
         assert df["source_url"].str.endswith("docs/methods/ercot_peak_premium.md").all()

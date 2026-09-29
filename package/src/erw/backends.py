@@ -110,12 +110,18 @@ class LocalBackend(Backend):
     def list_tables(self) -> List[str]:
         return sorted(Path(p).stem for p in glob.glob(str(self.data_dir / "*.csv")))
 
-    def read_table(self, name: str) -> Tuple[List[str], pd.DataFrame]:
+    def read_table(self, name: str, where: Optional[Dict[str, str]] = None) -> Tuple[List[str], pd.DataFrame]:
+        """Session 29: where={column: value} keeps only matching rows, read in chunks, so one partition of a
+        consolidated table (a year of the ERCOT history) never loads the whole table."""
         path = self._path(name)
         mtime = path.stat().st_mtime
         hit = self._cache.get(name)
         if hit and hit[0] == mtime:
-            return list(hit[1]), hit[2].copy()
+            df = hit[2]
+            if where:
+                for c, v in where.items():
+                    df = df[df[c] == str(v)] if c in df.columns else df.iloc[0:0]
+            return list(hit[1]), df.reset_index(drop=True).copy()
         header = []
         with open(path, encoding="utf-8") as f:
             for line in f:
@@ -124,6 +130,15 @@ class LocalBackend(Backend):
                 header.append(line.rstrip("\r\n")[1:].lstrip(" ") if line.startswith("# ")
                               else line.rstrip("\r\n")[1:])
         # never comment="#": it would cut every URL that contains one
+        if where:
+            parts = []
+            for chunk in pd.read_csv(path, skiprows=len(header), dtype=str, keep_default_na=False,
+                                     na_values=[], encoding="utf-8", chunksize=250_000):
+                keep = pd.Series(True, index=chunk.index)
+                for c, v in where.items():
+                    keep &= chunk[c] == str(v) if c in chunk.columns else False
+                parts.append(chunk[keep])
+            return list(header), pd.concat(parts, ignore_index=True)
         df = pd.read_csv(path, skiprows=len(header), dtype=str, keep_default_na=False,
                          na_values=[], encoding="utf-8")
         self._cache[name] = (mtime, header, df)

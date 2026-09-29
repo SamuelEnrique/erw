@@ -1,41 +1,96 @@
 {
-  "_about": "Energy Research Warehouse (ERW) site metadata: which ERW tables hold each ISO's day-ahead and real-time prices, and the main hub or zone the home page shows for each ISO. Table, entity and variable names are exactly those in warehouse/output and Supabase. PJM is absent: its prices are licensed for internal use only (license internal) and never shown on the public site. SPP has no real-time series table in the ERW (docs/platform-tools.md), only the latest interval in latest_prices.",
+  "_about": "Energy Research Warehouse (ERW) site metadata: which ERW tables hold each ISO's day-ahead and real-time prices, and the main hub or zone the home page shows for each ISO. Table, entity and variable names are exactly those in warehouse/output and Supabase. PJM is absent: its prices are licensed for internal use only (license internal) and never shown on the public site. SPP has no real-time series table in the ERW (docs/platform-tools.md), only the latest interval in latest_prices. Session 29: the CAISO, ERCOT, MISO and SPP hub prices are the consolidated tables iso_dam_hub_prices and iso_rtm_hub_prices; market names each ISO's rows in them (docs/migrations/2026-09-29-consolidation.md).",
   "isos": [
     {
       "iso": "ERCOT",
       "main": "ercot:HB_HUBAVG",
-      "rt": { "table": "ercot_rtm_hub_prices", "variable": "spp_rtm", "freq": "PT15M" },
-      "da": { "table": "ercot_dam_hub_prices", "variable": "spp_dam", "freq": "PT1H" }
+      "rt": {
+        "table": "iso_rtm_hub_prices",
+        "variable": "spp_rtm",
+        "freq": "PT15M",
+        "market": "ercot_rtm"
+      },
+      "da": {
+        "table": "iso_dam_hub_prices",
+        "variable": "spp_dam",
+        "freq": "PT1H",
+        "market": "ercot_dam"
+      }
     },
     {
       "iso": "CAISO",
       "main": "caiso:TH_SP15_GEN-APND",
-      "rt": { "table": "caiso_rtm_hub_prices", "variable": "lmp_rtm_15m_mean", "freq": "PT15M" },
-      "da": { "table": "caiso_dam_hub_prices", "variable": "lmp_dam", "freq": "PT1H" }
+      "rt": {
+        "table": "iso_rtm_hub_prices",
+        "variable": "lmp_rtm_15m_mean",
+        "freq": "PT15M",
+        "market": "caiso_rtm"
+      },
+      "da": {
+        "table": "iso_dam_hub_prices",
+        "variable": "lmp_dam",
+        "freq": "PT1H",
+        "market": "caiso_dam"
+      }
     },
     {
       "iso": "NYISO",
       "main": "nyiso:N.Y.C.",
-      "rt": { "table": "nyiso_rtm_zone_prices", "variable": "lmp_rtm_15m_mean", "freq": "PT15M" },
-      "da": { "table": "nyiso_dam_zone_prices", "variable": "lmp_dam", "freq": "PT1H" }
+      "rt": {
+        "table": "nyiso_rtm_zone_prices",
+        "variable": "lmp_rtm_15m_mean",
+        "freq": "PT15M",
+        "market": "nyiso_rtm"
+      },
+      "da": {
+        "table": "nyiso_dam_zone_prices",
+        "variable": "lmp_dam",
+        "freq": "PT1H",
+        "market": "nyiso_dam"
+      }
     },
     {
       "iso": "MISO",
       "main": "miso:INDIANA.HUB",
-      "rt": { "table": "miso_rtm_hub_prices", "variable": "lmp_rtm", "freq": "PT1H" },
-      "da": { "table": "miso_dam_hub_prices", "variable": "lmp_dam", "freq": "PT1H" }
+      "rt": {
+        "table": "iso_rtm_hub_prices",
+        "variable": "lmp_rtm",
+        "freq": "PT1H",
+        "market": "miso_rtm"
+      },
+      "da": {
+        "table": "iso_dam_hub_prices",
+        "variable": "lmp_dam",
+        "freq": "PT1H",
+        "market": "miso_dam"
+      }
     },
     {
       "iso": "SPP",
       "main": "spp:SPPNORTH_HUB",
       "rt": null,
-      "da": { "table": "spp_dam_hub_prices", "variable": "lmp_dam", "freq": "PT1H" }
+      "da": {
+        "table": "iso_dam_hub_prices",
+        "variable": "lmp_dam",
+        "freq": "PT1H",
+        "market": "spp_dam"
+      }
     },
     {
       "iso": "ISO-NE",
       "main": "isone:.H.INTERNAL_HUB",
-      "rt": { "table": "isone_rtm_zone_prices_hourly", "variable": "lmp_rtm", "freq": "PT1H" },
-      "da": { "table": "isone_dam_zone_prices", "variable": "lmp_dam", "freq": "PT1H" }
+      "rt": {
+        "table": "isone_rtm_zone_prices_hourly",
+        "variable": "lmp_rtm",
+        "freq": "PT1H",
+        "market": "isone_rtm"
+      },
+      "da": {
+        "table": "isone_dam_zone_prices",
+        "variable": "lmp_dam",
+        "freq": "PT1H",
+        "market": "isone_dam"
+      }
     }
   ],
   "latest_variables": {
@@ -46,9 +101,18 @@
     "table": "eia_fuel_spot_prices",
     "variable": "spot_price",
     "entities": [
-      { "entity": "eia:henry_hub", "label": "Henry Hub natural gas" },
-      { "entity": "eia:wti_cushing", "label": "WTI crude, Cushing" },
-      { "entity": "eia:brent", "label": "Brent crude" }
+      {
+        "entity": "eia:henry_hub",
+        "label": "Henry Hub natural gas"
+      },
+      {
+        "entity": "eia:wti_cushing",
+        "label": "WTI crude, Cushing"
+      },
+      {
+        "entity": "eia:brent",
+        "label": "Brent crude"
+      }
     ]
   }
 }

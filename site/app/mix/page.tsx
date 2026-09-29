@@ -234,10 +234,10 @@ export default async function MixPage({ searchParams }: { searchParams: Promise<
   const sp = await searchParams;
   const ba = BAS.find((b) => b.code === pick(sp.ba, (s) => BAS.some((b) => b.code === s), "us48"))!;
   const st = pick(sp.state, (s) => s in STATES, "US");
-  const table = `eia930_${ba.code}_generation`;
+  const table = "eia930_all_generation"; // session 29: every BA in one table, this BA by its entity
   const [latest, hourly, monthly] = await Promise.all([
     attempt(() => series(LATEST, { entity: ba.entity })),
-    attempt(() => series(table, { since: daysAgo(9) })),
+    attempt(() => series(table, { entity: ba.entity, since: daysAgo(9) })),
     attempt(() => series(MONTHLY, { entity: `eia:${st}` })),
   ]);
   return (

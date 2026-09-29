@@ -73,9 +73,15 @@ type BAResult = {
   weather?: SeriesRow[]; // session 24: the station's hourly observed temperature (weather_obs_hourly)
 };
 
+// Session 29: the eight BAs' tables are one table per family (docs/migrations/2026-09-29-consolidation.md), a BA's
+// rows told apart by entity (and ba); the run history still names each BA's member table, which the connector writes
+const DEMAND = "eia930_all_demand";
+const GEN = "eia930_all_generation";
+
 async function load(ba: (typeof BAS)[number], yesterday: string): Promise<BAResult> {
-  const dt = `eia930_${ba.code}_demand`;
-  const d = await attempt(() => series(dt, { since: daysAgo(10) }));
+  const dt = DEMAND;
+  const dRun = `eia930_${ba.code}_demand`;
+  const d = await attempt(() => series(dt, { entity: ba.entity, since: daysAgo(10) }));
   if (!d.ok) return { ba, day: null, note: null, demand: [], gen: [], genDay: null, genNote: null, error: d.reason };
   const dem = d.data.filter((r) => r.variable === "demand_mw");
   // complete UTC days: 24 demand hours
@@ -86,11 +92,12 @@ async function load(ba: (typeof BAS)[number], yesterday: string): Promise<BAResu
   let day = yesterday, note: string | null = null;
   if (!complete.includes(yesterday)) {
     day = complete[complete.length - 1];
-    note = `Yesterday (${yesterday}) is ${hours.has(yesterday) ? `incomplete in ${dt} (${hours.get(yesterday)} of 24 hours)` : `not in ${dt}`}; showing ${day}, the latest complete day. Why: ${reason(dt, yesterday)}`;
+    note = `Yesterday (${yesterday}) is ${hours.has(yesterday) ? `incomplete in ${dt} (${hours.get(yesterday)} of 24 hours)` : `not in ${dt}`}; showing ${day}, the latest complete day. Why: ${reason(dRun, yesterday)}`;
   }
   // generation: the same day if complete, else the latest complete day, said so with the reason
-  const gt = `eia930_${ba.code}_generation`;
-  const g = await attempt(() => series(gt, { since: daysAgo(10) }));
+  const gt = GEN;
+  const gRun = `eia930_${ba.code}_generation`;
+  const g = await attempt(() => series(gt, { entity: ba.entity, since: daysAgo(10) }));
   if (!g.ok) return { ba, day, note, demand: d.data, gen: [], genDay: null, genNote: null, error: `generation: ${g.reason}` };
   const gh = new Map<string, number>();
   for (const r of g.data) if (r.variable === "net_generation_mw") gh.set(r.ts_utc.slice(0, 10), (gh.get(r.ts_utc.slice(0, 10)) ?? 0) + 1);
@@ -98,7 +105,7 @@ async function load(ba: (typeof BAS)[number], yesterday: string): Promise<BAResu
   let genDay: string | null = day, genNote: string | null = null;
   if (!gComplete.includes(day)) {
     genDay = gComplete.length ? gComplete[gComplete.length - 1] : null;
-    genNote = `${gt} ${gh.has(day) ? `holds ${gh.get(day)} of 24 hours of ${day}` : `does not hold ${day}`}${genDay ? `; the mix shown is ${genDay}, its latest complete day` : ""}. Why: ${reason(gt, day)}`;
+    genNote = `${gt} ${gh.has(day) ? `holds ${gh.get(day)} of 24 hours of ${day}` : `does not hold ${day}`}${genDay ? `; the mix shown is ${genDay}, its latest complete day` : ""}. Why: ${reason(gRun, day)}`;
   }
   const gen = genDay ? g.data.filter((r) => r.ts_utc.slice(0, 10) === genDay) : [];
   const w = ba.station ? await attempt(() => series(WX, { entity: `nws:${ba.station}`, variable: "temperature_f", since: daysAgo(10) })) : null;
@@ -106,8 +113,8 @@ async function load(ba: (typeof BAS)[number], yesterday: string): Promise<BAResu
 }
 
 function Block({ r }: { r: BAResult }) {
-  const table = `eia930_${r.ba.code}_demand`;
-  const gtable = `eia930_${r.ba.code}_generation`;
+  const table = DEMAND;
+  const gtable = GEN;
   if (!r.day) return <NoData what={`${r.ba.label} demand`} reason={r.error ?? "no data"} />;
   const d0 = Date.parse(`${r.day}T00:00:00Z`), d1 = d0 + 24 * H;
   const dayRows = r.demand.filter((x) => { const t = Date.parse(x.ts_utc); return t >= d0 && t < d1; });
@@ -141,7 +148,7 @@ function Block({ r }: { r: BAResult }) {
         {r.note ? <p className="mb-2 border border-dashed border-rule bg-panel px-2 py-1 text-xs text-muted">{r.note}</p> : null}
         <div className="text-xs text-muted">Peak demand, {r.day} (UTC day)</div>
         <div className="text-2xl tabular-nums">
-          <Num check={`series_max|${table}|demand_mw|${range}`} raw={peak.value}>{count(peak.value)}</Num> <span className="text-sm text-muted">MW</span>
+          <Num check={`series_max|${table}|demand_mw|${range}|${r.ba.entity}`} raw={peak.value}>{count(peak.value)}</Num> <span className="text-sm text-muted">MW</span>
         </div>
         <div className="mb-3 text-xs text-muted">
           hour starting {new Date(peakT).toISOString().slice(11, 16)} UTC{r.ba.tz ? ` (${hhmm(peakT, r.ba.tz)})` : ""}
@@ -205,7 +212,7 @@ function FuelBar({ r, gtable }: { r: BAResult; gtable: string }) {
   return (
     <div className="mt-4">
       <div className="mb-1 text-xs text-muted">
-        {r.genNote ? <span className="mb-1 block border border-dashed border-rule px-2 py-1">{r.genNote}</span> : null}Generation mix, {r.genDay}: <Num check={`series_sum|${gtable}|net_generation_mw|${r.genDay}T00:00:00Z|${iso(Date.parse(`${r.genDay}T00:00:00Z`) + 24 * H)}`} raw={total}>{count(total)}</Num> MWh net
+        {r.genNote ? <span className="mb-1 block border border-dashed border-rule px-2 py-1">{r.genNote}</span> : null}Generation mix, {r.genDay}: <Num check={`series_sum|${gtable}|net_generation_mw|${r.genDay}T00:00:00Z|${iso(Date.parse(`${r.genDay}T00:00:00Z`) + 24 * H)}|${r.ba.entity}`} raw={total}>{count(total)}</Num> MWh net
       </div>
       <ShareBar
         parts={pos.map((f) => ({ name: f.label, value: f.mwh, color: `var(--color-fuel-${f.key})` }))}
@@ -283,7 +290,7 @@ export default async function GridPage() {
           Share of the day&apos;s net generation (MWh) by fuel. Storage can be negative when it charged more than it discharged. Blank: the region
           reports no such fuel.
         </p>
-        <Cite tables={BAS.map((b) => `eia930_${b.code}_generation`)} />
+        <Cite tables={[GEN]} />
       </Section>
       <Related href="/grid" />
     </>

@@ -26,7 +26,7 @@ export default async function Prices() {
   const now = renderTime();
   const latest = await attempt(latestPrices);
   const since = daysAgo(1, now);
-  const da = await Promise.all(MARKETS.map(async (m) => ({ m, rows: await attempt(() => series(m.da.table, { variable: m.da.variable, since })) })));
+  const da = await Promise.all(MARKETS.map(async (m) => ({ m, rows: await attempt(() => series(m.da.table, { variable: m.da.variable, since, market: m.da.market })) })));
 
   return (
     <>

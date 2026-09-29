@@ -90,9 +90,10 @@ async function truth(check) {
     return r ? Number(r.v) : undefined;
   }
   if (p[0] === "series_max" || p[0] === "series_sum") {
-    const [, table, variable, start, end] = p;
+    // session 29: an optional sixth part names the entity (one BA of the consolidated EIA-930 tables)
+    const [, table, variable, start, end, entity] = p;
     const rows = await all("series", { select: "value", table_name: `eq.${table}`, variable: `eq.${variable}`,
-      and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "entity,ts_utc" });
+      and: `(ts_utc.gte.${start},ts_utc.lt.${end})`, order: "entity,ts_utc", ...(entity ? { entity: `eq.${entity}` } : {}) });
     if (!rows.length) return undefined;
     return p[0] === "series_max" ? Math.max(...rows.map((r) => r.value)) : rows.reduce((a, r) => a + r.value, 0);
   }

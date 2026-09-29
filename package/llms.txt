@@ -46,22 +46,32 @@ count; never `pandas.read_csv(comment="#")`, which cuts every URL with a `#`.
 
 ## 2. The table families
 
+**Partition columns** (session 29, docs/datastandard.md decision 28): a table
+  that holds several ISOs, BAs or years says which in a column, never in its
+  name. Filter on it: `market` (ercot_dam, caiso_rtm, ...; the trader view:
+  ercot, caiso, ...), `ba` (EIA-930: ciso, erco, ...), `year` (the ERCOT
+  history). Old names such as ercot_dam_hub_prices or eia930_ciso_demand are
+  gone from the catalogue; the map is warehouse/metadata/table_migrations.csv.
 **ISO power prices, live windows** (series, USD/MWh), rolling about 30 days,
 day-ahead tables running into tomorrow:
-  ercot_dam_hub_prices (spp_dam, PT1H), ercot_rtm_hub_prices (spp_rtm, PT15M):
-    6 hubs HB_BUSAVG, HB_HOUSTON, HB_HUBAVG, HB_NORTH, HB_SOUTH, HB_WEST
-  caiso_dam_hub_prices (lmp_dam), caiso_rtm_hub_prices (lmp_rtm_15m_mean):
-    TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND
+  iso_dam_hub_prices and iso_rtm_hub_prices: CAISO, ERCOT, MISO and SPP hubs,
+    one market per ISO (market = ercot_dam, caiso_rtm, miso_dam, spp_dam, ...):
+    ERCOT (spp_dam PT1H, spp_rtm PT15M): 6 hubs HB_BUSAVG, HB_HOUSTON,
+      HB_HUBAVG, HB_NORTH, HB_SOUTH, HB_WEST
+    CAISO (lmp_dam, lmp_rtm_15m_mean): TH_NP15_GEN-APND, TH_SP15_GEN-APND,
+      TH_ZP26_GEN-APND
+    MISO (lmp_dam, hourly lmp_rtm): 8 hubs
+    SPP (lmp_dam; lmp_rtm_15m_mean, a short window): SPPNORTH_HUB, SPPSOUTH_HUB
   nyiso_dam_zone_prices, nyiso_rtm_zone_prices (lmp_rtm_15m_mean): 11 zones
-  miso_dam_hub_prices, miso_rtm_hub_prices (hourly lmp_rtm): 8 hubs
   isone_dam_zone_prices, isone_rtm_zone_prices (lmp_rtm_15m_mean),
     isone_rtm_zone_prices_hourly (lmp_rtm): .H.INTERNAL_HUB and 8 zones
-  spp_dam_hub_prices: SPPNORTH_HUB, SPPSOUTH_HUB (no SPP real-time table)
-**ERCOT history, one table per operating year, 2015 to today**:
-  ercot_dam_hub_prices_<year> and ercot_rtm_hub_prices_<year>, same 6 hubs,
-  complete from 2015-01-01. The current year's table stops where the live
-  table starts; the two never overlap. A question about ERCOT before the
-  live window (last year, 2021, "since 2015") goes to these tables.
+**ERCOT history, 2015 to today, one table**: ercot_all_hub_prices_history,
+  day-ahead and real-time (market = ercot_dam or ercot_rtm), same 6 hubs,
+  `year` = the ERCOT operating year (Central time, so 1 January's first UTC
+  hours belong to the year before). Complete from 2015-01-01; about three
+  million rows, so always filter (market, year, node, start, end). The current
+  year stops where the live window starts; the two never overlap. A question
+  about ERCOT before the live window (last year, 2021, "since 2015") goes here.
 **Derived: ERCOT peak premium** (method docs/methods/ercot_peak_premium.md):
   ercot_peak_premium_annual (P1Y) and ercot_peak_premium_monthly (P1M), per
   hub, from every 15-minute real-time interval since 2015. Variables:
@@ -72,7 +82,7 @@ day-ahead tables running into tomorrow:
   12, midday 12 to 16, peak 16 to 21. ts_utc labels the local year or month.
   The current year and month are partial (n_intervals says how much).
 **Derived: trader view** (session 19, method docs/methods/trader_view.md):
-  <iso>_trader_daily for ercot, caiso, nyiso, miso, spp, isone (market = the
+  iso_trader_daily for ercot, caiso, nyiso, miso, spp, isone (market = the
   iso, node = the hub or zone, ts_utc = the local operating day): da_mean_usd,
   da_onpeak_mean_usd (5x16: hours starting 06:00 to 21:00 local, weekdays not
   NERC holidays), da_offpeak_mean_usd, rt_mean_usd, da_rt_spread_mean_usd and
@@ -83,11 +93,11 @@ day-ahead tables running into tomorrow:
   real-time table); PJM is absent (no licensed PJM data).
   iso_rt_top_intervals: a snapshot of each ISO's 10 highest real-time
   intervals of its latest 7 complete local days.
-**EIA-930 hourly grid data** (series, MW): eia930_<ba>_demand (demand_mw,
-  demand_forecast_mw) and eia930_<ba>_generation (net_generation_mw and
+**EIA-930 hourly grid data** (series, MW): eia930_all_demand (demand_mw,
+  demand_forecast_mw) and eia930_all_generation (net_generation_mw and
   net_generation_<fuel>_mw: coal, natural_gas, nuclear, solar, wind, hydro,
-  battery, oil, other, ...) for ba = ciso, erco, isne, miso, nyis, pjm, swpp,
-  us48. About 30 days.
+  battery, oil, other, ...), column `ba` = ciso, erco, isne, miso, nyis, pjm,
+  swpp, us48 (entity eia930:CISO, ...). About 30 days.
 **EIA petroleum and gas series** (full history, replaced each run):
   eia_fuel_spot_prices: eia:henry_hub (USD/MMBtu), eia:wti_cushing and
     eia:brent (USD/bbl), daily trading dates from 1986 (Henry Hub from 1997)
@@ -133,7 +143,7 @@ day-ahead tables running into tomorrow:
     The groups plus not_itemized equal EIA's total. States only; never ISOs.
 **EIA-930 latest hours** (session 18): eia930_generation_latest, a snapshot of
   the last 48 hours' complete hours per BA (same variables as the generation
-  tables). The current day so far; complete days are in eia930_<ba>_generation.
+  tables). The current day so far; complete days are in eia930_all_generation.
 **Curtailment** (session 18, MWh, method docs/methods/curtailment.md): the
   three ISOs' figures mean different things; never add them up.
   caiso_curtailment_daily (caiso:ISO, from 2014-05): curtailed_{solar,wind}_mwh,
@@ -242,10 +252,10 @@ day-ahead tables running into tomorrow:
 
 | Question | Table |
 |---|---|
-| A recent ISO price (last month) | `<iso>_{dam,rtm}_{hub,zone}_prices` |
-| ERCOT price before the live window, or a year | `ercot_{dam,rtm}_hub_prices_<year>` |
+| A recent ISO price (last month) | `iso_{dam,rtm}_hub_prices` (market), `{nyiso,isone}_{dam,rtm}_zone_prices` |
+| ERCOT price before the live window, or a year | `ercot_all_hub_prices_history` (market, year) |
 | ERCOT distribution: percentiles, IQR, scarcity or negative counts by year or month | `ercot_peak_premium_annual` / `_monthly` |
-| Demand, generation mix | `eia930_<ba>_demand` / `_generation` |
+| Demand, generation mix | `eia930_all_demand` / `eia930_all_generation` (ba) |
 | Henry Hub, WTI, Brent | `eia_fuel_spot_prices` (FRED copy: `fred_daily_spot_prices`) |
 | Gasoline, diesel, jet, propane wholesale | `eia_product_spot_prices`; retail pump prices `eia_retail_fuel_prices` |
 | Crude and product stocks, trade | `eia_petroleum_stocks_weekly`, `eia_petroleum_trade_weekly`, `eia_crude_imports_by_country` |
@@ -254,8 +264,8 @@ day-ahead tables running into tomorrow:
 | Electricity sales or customers by state and sector | `eia_retail_sales_monthly` |
 | Industrial or commercial energy use, all fuels (US) | `eia_sector_energy_consumption_monthly` |
 | Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
-| Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_<ba>_generation` |
-| Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `<iso>_trader_daily`, `iso_rt_top_intervals` |
+| Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_all_generation` (ba) |
+| Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `iso_trader_daily` (market), `iso_rt_top_intervals` |
 | Wind and solar curtailment | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (not curtailment: output below HSL), `iso_curtailment_monthly` |
 | Battery output (CAISO) | `caiso_battery_storage` |
 | Federal rules, notices, agency and PUC news releases; their impact | `policy_actions`, `policy_reads` |
@@ -340,12 +350,13 @@ source's figure: say "model-extracted" next to it.
                                           # interval, ts_min, ts_max, n_rows,
                                           # source_report, last_run, validator_status,
                                           # license, sector, derived, tier
-    erw.fetch("ercot_rtm_hub_prices_2025", node="HB_WEST")
+    erw.fetch("ercot_all_hub_prices_history", market="ercot_rtm", year=2025, node="HB_WEST")
+    erw.fetch("eia930_all_demand", ba="ciso")   # partition filters: market, ba, year
     erw.fetch("eia_fuel_spot_prices", start="2026-09-01", end="2026-09-08")
     erw.filter(iso="ERCOT", market="rtm") # table names; also variable, node,
     erw.filter(sector="oil", license="public")   # start, end, license, sector
-    erw.sources("ercot_dam_hub_prices")   # reports, report pages, file URLs
-    erw.cite("ercot_dam_hub_prices")      # citation: publisher, report, table, version, tier
+    erw.sources("iso_dam_hub_prices")     # reports, report pages, file URLs
+    erw.cite("iso_dam_hub_prices")        # citation: publisher, report, table, version, tier
     erw.tier("energy_deals")              # source, derived or model_extracted
     erw.version()                         # which data you read
 
@@ -356,7 +367,7 @@ Backends (`ERW_BACKEND`, or `erw.set_backend(...)`); the calls do not change:
 - `supabase`: the live set behind the public site: public tables, the last 90
   days of ISO prices and EIA-930, and the derived, fuel, queue and news tables
   whole (SUPABASE_URL with the anon or service key). Not in it: the ERCOT
-  yearly history (ercot_*_hub_prices_<year>) and eia860m_operating_generators
+  history (ercot_all_hub_prices_history) and eia860m_operating_generators
   and eia860m_planned_generators; read those from local files or Redivis, or
   use energy_projects (every operating and planned generator) from Supabase.
 Sectors for `filter`: power, gas, oil, products, lng, coal, uranium, carbon,
@@ -392,7 +403,7 @@ come from a tool result, and every answer cites its tables.
 The numbers belong to the organizations that published them. Cite the source
 report, then the ERW table and data version as the route:
 
-    print(erw.cite("ercot_rtm_hub_prices_2025"))
+    print(erw.cite("ercot_all_hub_prices_history"))
 
 names the publisher, report id and title, report page, retrieval date, table
 and data commit. For Redivis, cite the released dataset version. For a

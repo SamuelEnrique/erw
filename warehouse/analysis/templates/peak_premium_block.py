@@ -29,7 +29,8 @@ def _prices(iso, hub, history):
     tables = [table]
     if history and iso == "ercot":
         import erw
-        years = sorted(t for t in erw.list_tables() if t.startswith("ercot_rtm_hub_prices_20"))[-2:]
+        years = sorted(t for t in (set(erw.list_tables()) | {o for o, (n, _) in erw.migrations().items() if n in set(erw.list_tables())})
+                             if t.startswith("ercot_rtm_hub_prices_20"))[-2:]
         for t in years:
             try:
                 df = pd.concat([df, fetch(t, node=hub)], ignore_index=True)
