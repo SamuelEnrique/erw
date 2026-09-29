@@ -1,7 +1,7 @@
 """Day-ahead against real-time spread by hour of day."""
 import pandas as pd
 
-from common import DA, ISO_LABEL, RT, NoData, complete_local_days, fetch, r2, render, result, weeks_back  # noqa: F401
+from common import DA, DA_MARKET, ISO_LABEL, RT, RT_MARKET, NoData, complete_local_days, fetch, r2, render, result, weeks_back  # noqa: F401
 
 NAME = "da_rt_spread_by_hour"
 TITLE = "Day-ahead minus real-time, by hour"
@@ -10,7 +10,7 @@ ISOS = ["ercot", "caiso", "nyiso", "miso", "isone", "spp"]
 PARAMS = {"iso": {"default": "ercot", "choices": ISOS},
           "hub": {"default": {i: RT[i][2] for i in ISOS}, "choices": "nodes in both the ISO's day-ahead and real-time tables"},
           "window": {"default": 30, "choices": [7, 30]}}
-TABLES = [DA[i] for i in ISOS] + [RT[i][0] for i in ISOS]
+TABLES = list(dict.fromkeys([DA[i] for i in ISOS] + [RT[i][0] for i in ISOS]))
 METHOD = """For one hub, the day-ahead hourly price minus the real-time price of the same hour, where the real-time
 price of an hour is the mean of the table's intervals in that hour (15-minute or 5-minute means, or the hourly price
 itself). Only hours present in both tables count, and only local days complete in both. The chart is the mean spread
@@ -20,12 +20,12 @@ window the tables hold."""
 
 
 def _hourly(iso, hub):
-    da = fetch(DA[iso], node=hub)[["ts_utc", "value"]].rename(columns={"value": "da"})
-    rt = fetch(RT[iso][0], node=hub)
+    da = fetch(DA[iso], node=hub, market=DA_MARKET[iso])[["ts_utc", "value"]].rename(columns={"value": "da"})
+    rt = fetch(RT[iso][0], node=hub, market=RT_MARKET[iso])
     rt = rt.assign(hour=rt["ts_utc"].dt.floor("h")).groupby("hour")["value"].mean().rename("rt").reset_index()
     tz = RT[iso][1]
-    days = sorted(set(complete_local_days(fetch(DA[iso], node=hub), tz)) &
-                  set(complete_local_days(fetch(RT[iso][0], node=hub), tz)))
+    days = sorted(set(complete_local_days(fetch(DA[iso], node=hub, market=DA_MARKET[iso]), tz)) &
+                  set(complete_local_days(fetch(RT[iso][0], node=hub, market=RT_MARKET[iso]), tz)))
     m = da.merge(rt, left_on="ts_utc", right_on="hour", how="inner")
     m = m.assign(spread=m["da"] - m["rt"], day=m["ts_utc"].dt.tz_convert(tz).dt.date,
                  h=m["ts_utc"].dt.tz_convert(tz).dt.hour)

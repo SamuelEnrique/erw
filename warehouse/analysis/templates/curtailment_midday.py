@@ -8,13 +8,13 @@ TITLE = "Curtailment against midday prices"
 PUBLIC = True
 PARAMS = {"hub": {"default": "TH_SP15_GEN-APND", "choices": ["TH_SP15_GEN-APND", "TH_NP15_GEN-APND", "TH_ZP26_GEN-APND"]},
           "window": {"default": 30, "choices": [7, 30]}}
-TABLES = ["caiso_curtailment_daily", "caiso_rtm_hub_prices"]
+TABLES = ["caiso_curtailment_daily", "iso_rtm_hub_prices"]  # session 30: the consolidated real-time prices
 TZ = "America/Los_Angeles"
 CURT = ["curtailed_solar_local_mwh", "curtailed_solar_system_mwh", "curtailed_wind_local_mwh", "curtailed_wind_system_mwh"]
 METHOD = """CAISO only: it is the ISO that publishes curtailment with real-time prices in the warehouse (ERCOT's figure is
 the ERW's estimate; SPP's real-time table is days old). For each day, wind and solar curtailed (CAISO's own figure: local
 plus system, MWh, caiso_curtailment_daily) against the mean real-time price at the hub from 10:00 to 16:00 Pacific, when
-solar output is highest (caiso_rtm_hub_prices, 15-minute means; the day counts only with all 24 of those intervals).
+solar output is highest (iso_rtm_hub_prices, market caiso_rtm, 15-minute means; the day counts only with all 24 of those intervals).
 The chart is a scatter of the last `window` days that have both. The headline is the curtailment summed over the latest
 7 days of the curtailment table; its history is the same sum for each earlier 7-day window since the table begins
 (2022), so it is a long record even where prices are short."""
@@ -25,7 +25,7 @@ def compute(hub="TH_SP15_GEN-APND", window=30, history=True):
     c = c[c["variable"].isin(CURT)]
     daily = c.groupby(c["ts_utc"].dt.date)["value"].sum()
     daily = daily[daily.index <= max(daily.index)]
-    p = fetch("caiso_rtm_hub_prices", node=hub)
+    p = fetch("iso_rtm_hub_prices", node=hub, market="caiso_rtm")
     loc = p["ts_utc"].dt.tz_convert(TZ)
     mid = p[(loc.dt.hour >= 10) & (loc.dt.hour < 16)]
     g = mid.groupby(mid["ts_utc"].dt.tz_convert(TZ).dt.date)["value"]
@@ -36,7 +36,7 @@ def compute(hub="TH_SP15_GEN-APND", window=30, history=True):
     use = both[-window:]
     frame = pd.DataFrame({"day": [str(d) for d in use], "curtailed_mwh": [r2(daily[d]) for d in use],
                           "midday_price_usd_mwh": [r2(price[d]) for d in use], "hub": hub,
-                          "tables": "caiso_curtailment_daily, caiso_rtm_hub_prices"})
+                          "tables": "caiso_curtailment_daily, iso_rtm_hub_prices"})
     days = sorted(daily.index)
     hist = []
     for i in range(len(days) - 7, -1, -7):

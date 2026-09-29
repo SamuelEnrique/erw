@@ -10,8 +10,8 @@ ISOS = ["ercot", "caiso", "nyiso", "miso", "spp", "isone"]
 PARAMS = {"iso": {"default": "ercot", "choices": ISOS},
           "hub": {"default": {i: RT[i][2] for i in ISOS}, "choices": "hubs of the ISO's trader view table"},
           "window": {"default": 30, "choices": [7, 30]}}
-TABLES = [f"{i}_trader_daily" for i in ISOS] + ["eia_fuel_spot_prices"]
-METHOD = """The trader view's implied heat rate (docs/methods/trader_view.md), read from <iso>_trader_daily: the hub's
+TABLES = ["iso_trader_daily", "eia_fuel_spot_prices"]  # session 30: the consolidated trader view (market)
+METHOD = """The trader view's implied heat rate (docs/methods/trader_view.md), read from iso_trader_daily (the ISO's market): the hub's
 day-ahead daily mean price over the Henry Hub spot price of the operating day, or of the latest trading day up to 4 days
 before it, in MMBtu/MWh. It shows how many MMBtu of gas a MWh of power sells for; it is not any plant's heat rate and
 ignores the basis between Henry Hub and the ISO's own gas hubs. The chart is the daily value over the last `window`
@@ -21,8 +21,8 @@ earlier 7-day run of operating days in the table (the table grows every day from
 
 def compute(iso="ercot", hub=None, window=30, history=True):
     hub = hub or RT[iso][2]
-    t = f"{iso}_trader_daily"
-    d = fetch(t, node=hub)
+    t = "iso_trader_daily"
+    d = fetch(t, node=hub, market=iso)
     s = d[d["variable"] == "implied_heat_rate"].sort_values("ts_utc")
     if len(s) < min(window, 7):
         raise NoData(f"{t} {hub}: {len(s)} days of implied_heat_rate")

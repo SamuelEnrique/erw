@@ -7,11 +7,11 @@ NAME = "storage_evening_peak"
 TITLE = "Batteries and the evening peak"
 PUBLIC = True
 PARAMS = {"window": {"default": 30, "choices": [7, 30]}}
-TABLES = ["caiso_battery_storage", "eia930_ciso_demand"]
+TABLES = ["caiso_battery_storage", "eia930_all_demand"]  # session 30: EIA-930 demand, ba ciso
 TZ = "America/Los_Angeles"
 METHOD = """CAISO only: EIA-930 carries no battery series for any balancing authority in the warehouse, so the batteries
 are CAISO's own Today's Outlook figure (caiso_battery_storage, batteries_mw, 5-minute, positive is discharge, negative is
-charging). Demand is EIA-930's CISO hourly demand (eia930_ciso_demand, demand_mw). For each Pacific hour of the day, the
+charging). Demand is EIA-930's CISO hourly demand (eia930_all_demand, ba ciso, demand_mw). For each Pacific hour of the day, the
 chart shows the mean battery output and the mean demand over the last `window` days complete in both tables. The
 headline is the mean battery output from 17:00 to 21:00 Pacific (the evening peak) over the latest 7 complete days of the
 battery table; its history is the same mean for each earlier 7-day window the battery table holds (from 2025-08, a
@@ -21,7 +21,7 @@ backfill of CAISO's history files)."""
 def compute(window=30, history=True):
     b = fetch("caiso_battery_storage")
     b = b[b["variable"] == "batteries_mw"]
-    d = fetch("eia930_ciso_demand")
+    d = fetch("eia930_all_demand", ba="ciso")
     d = d[d["variable"] == "demand_mw"]
     bdays = complete_local_days(b, TZ)
     ddays = complete_local_days(d, TZ)
@@ -35,7 +35,7 @@ def compute(window=30, history=True):
     dp = dl[dl["day"].isin(use)].groupby("h")["value"].mean()
     frame = pd.DataFrame({"hour": bp.index, "battery_mw": [r2(v) for v in bp.values],
                           "demand_mw": [r2(dp.get(h)) for h in bp.index], "first_day": str(use[0]), "last_day": str(use[-1]),
-                          "tables": "caiso_battery_storage, eia930_ciso_demand"})
+                          "tables": "caiso_battery_storage, eia930_all_demand"})
     ev = bl[(bl["h"] >= 17) & (bl["h"] < 21) & bl["day"].isin(bdays)].groupby("day")["value"].mean()
     days = sorted(ev.index)
     hist = []

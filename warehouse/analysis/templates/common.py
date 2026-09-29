@@ -31,14 +31,19 @@ sys.path.insert(0, os.path.join(HERE, ".."))
 import erw  # noqa: E402
 import style  # noqa: E402
 
-RT = {"ercot": ("ercot_rtm_hub_prices", "America/Chicago", "HB_NORTH"),
-      "caiso": ("caiso_rtm_hub_prices", "America/Los_Angeles", "TH_SP15_GEN-APND"),
+# Session 30: the consolidated tables of session 29 by their own names (docs/migrations/2026-09-29-consolidation.md);
+# MARKET names each ISO's partition of them (None: a table of one ISO)
+RT = {"ercot": ("iso_rtm_hub_prices", "America/Chicago", "HB_NORTH"),
+      "caiso": ("iso_rtm_hub_prices", "America/Los_Angeles", "TH_SP15_GEN-APND"),
       "nyiso": ("nyiso_rtm_zone_prices", "America/New_York", "N.Y.C."),
-      "miso": ("miso_rtm_hub_prices", "EST", "INDIANA.HUB"),
-      "spp": ("spp_rtm_hub_prices", "America/Chicago", "SPPSOUTH_HUB"),
+      "miso": ("iso_rtm_hub_prices", "EST", "INDIANA.HUB"),
+      "spp": ("iso_rtm_hub_prices", "America/Chicago", "SPPSOUTH_HUB"),
       "isone": ("isone_rtm_zone_prices", "America/New_York", ".H.INTERNAL_HUB")}
-DA = {"ercot": "ercot_dam_hub_prices", "caiso": "caiso_dam_hub_prices", "nyiso": "nyiso_dam_zone_prices",
-      "miso": "miso_dam_hub_prices", "spp": "spp_dam_hub_prices", "isone": "isone_dam_zone_prices"}
+DA = {"ercot": "iso_dam_hub_prices", "caiso": "iso_dam_hub_prices", "nyiso": "nyiso_dam_zone_prices",
+      "miso": "iso_dam_hub_prices", "spp": "iso_dam_hub_prices", "isone": "isone_dam_zone_prices"}
+RT_MARKET = {i: (f"{i}_rtm" if RT[i][0].startswith("iso_") else None) for i in RT}
+DA_MARKET = {i: (f"{i}_dam" if DA[i].startswith("iso_") else None) for i in DA}
+HISTORY = "ercot_all_hub_prices_history"  # the ERCOT yearly history, one partition per (market, year)
 ISO_LABEL = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MISO", "spp": "SPP", "isone": "ISO-NE"}
 
 
@@ -49,15 +54,20 @@ class NoData(RuntimeError):
 _CACHE = {}
 
 
-def fetch(table, node=None):
-    """A whole table through the erw package, read once per process (the engine runs every template and a grid
-    of parameters over the same tables), then filtered to a node."""
-    if table not in _CACHE:
+def fetch(table, node=None, market=None, ba=None, year=None):
+    """A whole table (or one partition of a consolidated table: market, ba, year) through the erw package, read once
+    per process (the engine runs every template and a grid of parameters over the same tables), then filtered to a
+    node. Session 30: a year of the ERCOT history is cached for its node only, never whole."""
+    key = (table, market, ba, year, node if year is not None else None)
+    if key not in _CACHE:
         try:
-            _CACHE[table] = erw.fetch(table)
+            got = erw.fetch(table, market=market, ba=ba, year=year)
         except Exception as exc:
             raise NoData(f"{table}: {exc}") from exc
-    df = _CACHE[table]
+        if year is not None and node is not None:
+            got = got[got["node"] == node]
+        _CACHE[key] = got
+    df = _CACHE[key]
     if node is not None:
         df = df[df["node"] == node]
     if df is None or len(df) == 0:
@@ -65,10 +75,10 @@ def fetch(table, node=None):
     return df
 
 
-def nodes(table):
-    """The nodes of a price table (for a parameter's choices)."""
+def nodes(table, market=None):
+    """The nodes of a price table, or of one ISO's partition of it (for a parameter's choices)."""
     try:
-        return sorted(erw.fetch(table)["node"].dropna().unique().tolist())
+        return sorted(erw.fetch(table, market=market)["node"].dropna().unique().tolist())
     except Exception:
         return []
 

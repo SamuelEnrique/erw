@@ -9,7 +9,7 @@ PUBLIC = True
 BAS = {"erco": "ERCOT", "ciso": "CAISO", "nyis": "NYISO", "miso": "MISO", "swpp": "SPP", "isne": "ISO-NE", "pjm": "PJM",
        "us48": "Lower 48"}
 PARAMS = {"ba": {"default": "erco", "choices": list(BAS)}, "window": {"default": 30, "choices": [7, 30]}}
-TABLES = [f"eia930_{b}_demand" for b in BAS]
+TABLES = ["eia930_all_demand"]  # session 30: the consolidated EIA-930 demand (ba)
 METHOD = """From EIA-930 (EIA's Hourly Electric Grid Monitor), each balancing authority's day-ahead demand forecast
 (demand_forecast_mw) against its demand (demand_mw), hour by hour. For each UTC day with all 24 hours of both, the mean
 absolute percentage error, MAPE = mean(|forecast - demand| / demand) x 100, and the mean signed error (forecast minus
@@ -19,8 +19,8 @@ EIA publishes the operators' own forecasts; the ERW does not forecast."""
 
 
 def compute(ba="erco", window=30, history=True):
-    t = f"eia930_{ba}_demand"
-    d = fetch(t)
+    t = "eia930_all_demand"
+    d = fetch(t, ba=ba)
     p = d.pivot_table(index="ts_utc", columns="variable", values="value").dropna(subset=["demand_mw", "demand_forecast_mw"])
     p = p[p["demand_mw"] > 0]
     p = p.assign(ape=(p["demand_forecast_mw"] - p["demand_mw"]).abs() / p["demand_mw"] * 100,

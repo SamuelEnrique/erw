@@ -81,14 +81,16 @@ GROUPS = {
     "Policy": ["policy"],
     "Capital and companies": ["capital", "deal", "company"],
 }
-MAIN_HUBS = [  # (label, table, node, local tz)
-    ("ERCOT", "ercot_dam_hub_prices", "HB_NORTH", "America/Chicago"),
-    ("CAISO", "caiso_dam_hub_prices", "TH_SP15_GEN-APND", "America/Los_Angeles"),
+MAIN_HUBS = [  # (label, table, node, local tz); session 30: the consolidated tables by their own names
+    ("ERCOT", "iso_dam_hub_prices", "HB_NORTH", "America/Chicago"),
+    ("CAISO", "iso_dam_hub_prices", "TH_SP15_GEN-APND", "America/Los_Angeles"),
     ("NYISO", "nyiso_dam_zone_prices", "N.Y.C.", "America/New_York"),
-    ("MISO", "miso_dam_hub_prices", "INDIANA.HUB", "EST"),
-    ("SPP", "spp_dam_hub_prices", "SPPSOUTH_HUB", "America/Chicago"),
+    ("MISO", "iso_dam_hub_prices", "INDIANA.HUB", "EST"),
+    ("SPP", "iso_dam_hub_prices", "SPPSOUTH_HUB", "America/Chicago"),
     ("ISO-NE", "isone_dam_zone_prices", ".H.INTERNAL_HUB", "America/New_York"),
 ]
+# session 30: the partition of a consolidated table each main hub is read from (docs/migrations/2026-09-29-consolidation.md)
+HUB_MARKET = {"ERCOT": "ercot_dam", "CAISO": "caiso_dam", "MISO": "miso_dam", "SPP": "spp_dam"}
 RT_TZ = {"ercot": "America/Chicago", "caiso": "America/Los_Angeles", "nyiso": "America/New_York",
          "miso": "EST", "spp": "America/Chicago", "isone": "America/New_York"}
 FUELS = [("Henry Hub natural gas", "eia:henry_hub"), ("WTI Cushing crude", "eia:wti_cushing"),
@@ -134,6 +136,23 @@ def build_clusters(stories):
 FIGURE = re.compile(r"(?:US\$|\$|USD ?)[\d,.]+(?: ?(?:billion|million|bn|mn|m|b)\b)?|"
                     r"[\d,.]*\d ?(?:%|percent\b|GW\b|MW\b|GWh\b|MWh\b|bcf\b|Bcf\b|mtpa\b)|"
                     r"[\d,.]*\d (?:billion|million) (?:dollars|USD|euros)")
+
+
+def rt_parts():
+    """Session 30: (iso, table, market) for every real-time interval price table; the consolidated
+    iso_rtm_hub_prices is read one ISO at a time (its markets, from the coverage table). market is None for a
+    table of one ISO."""
+    cov = erw.coverage().set_index("table")
+    out = []
+    for table in erw.filter(market="rtm"):
+        if not re.fullmatch(r"[a-z]+_rtm_(hub|zone)_prices(_hourly)?", table):
+            continue
+        if table.startswith("iso_"):
+            for m in sorted(x for x in str(cov.loc[table, "market"]).split(";") if x.endswith("_rtm")):
+                out.append((m.split("_")[0], table, m))
+        else:
+            out.append((table.split("_")[0], table, None))
+    return out
 
 
 def figures(r):
@@ -338,7 +357,7 @@ def numbers_today(digest_date, log):
         start = pd.Timestamp(day.date()).tz_localize(tz)
         end = pd.Timestamp((day + pd.Timedelta(days=1)).date()).tz_localize(tz)
         try:
-            df = erw.fetch(table, start=start, end=end, node=node)
+            df = erw.fetch(table, start=start, end=end, node=node, market=HUB_MARKET.get(label))
         except Exception as exc:
             log(f"  numbers: {table} unavailable: {exc!r}")
             df = pd.DataFrame()
@@ -353,14 +372,14 @@ def numbers_today(digest_date, log):
     # Session 16: only the interval price tables. filter(market="rtm") also names the derived
     # ercot_peak_premium tables and the yearly ERCOT history, which are not on the CI runner
     # (coverage carries them over), and fetching one there ended the digest with ERWDataNotFound.
-    rt_tables = [t for t in erw.filter(market="rtm") if re.fullmatch(r"[a-z]+_rtm_(hub|zone)_prices(_hourly)?", t)]
-    for table in rt_tables:
-        iso = table.split("_")[0]
+    parts = rt_parts()
+    rt_tables = list(dict.fromkeys(t for _, t, _ in parts))
+    for iso, table, market in parts:
         tz = RT_TZ.get(iso, "UTC")
         day = pd.Timestamp(digest_date) - pd.Timedelta(days=1)
         start = pd.Timestamp(day.date()).tz_localize(tz)
         try:
-            df = erw.fetch(table, start=start, end=start + pd.Timedelta(days=1))
+            df = erw.fetch(table, start=start, end=start + pd.Timedelta(days=1), market=market)
         except Exception as exc:
             log(f"  numbers: {table} unavailable: {exc!r}")
             continue
@@ -368,11 +387,11 @@ def numbers_today(digest_date, log):
             continue
         top = df.loc[df["value"].idxmax()]
         if best is None or top["value"] > best[0]["value"]:
-            best = (top, table, tz)
+            best = (top, table, tz, iso)
     lines += ["", "**Highest real-time price, yesterday:** "]
     if best:
-        top, table, tz = best
-        lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({table.split('_')[0].upper()}), "
+        top, table, tz, iso = best
+        lines[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), "
                       f"interval starting {top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local "
                       f"({top['ts_utc']:%Y-%m-%d %H:%M} UTC), {top['freq']} `{top['variable']}`"
                       f"{' (a 15-minute mean of 5-minute prices)' if top['variable'].endswith('_15m_mean') else ''} "

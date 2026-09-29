@@ -1,7 +1,7 @@
 """Peak premium by time-of-day block, for any ISO with 15-minute real-time prices."""
 import pandas as pd
 
-from common import ISO_LABEL, RT, NoData, complete_local_days, fetch, nodes, r2, render, result, weeks_back  # noqa: F401
+from common import HISTORY, ISO_LABEL, RT, RT_MARKET, NoData, complete_local_days, fetch, nodes, r2, render, result, weeks_back  # noqa: F401
 
 NAME = "peak_premium_block"
 TITLE = "Peak premium by time of day"
@@ -10,7 +10,7 @@ ISOS = ["ercot", "caiso", "nyiso", "isone", "spp"]  # the ISOs whose real-time t
 PARAMS = {"iso": {"default": "ercot", "choices": ISOS},
           "hub": {"default": {i: RT[i][2] for i in ISOS}, "choices": "nodes of the ISO's real-time table"},
           "window": {"default": 30, "choices": [7, 30]}}
-TABLES = [RT[i][0] for i in ISOS]
+TABLES = list(dict.fromkeys(RT[i][0] for i in ISOS)) + [HISTORY]
 METHOD = """The ERCOT peak-premium method (docs/methods/ercot_peak_premium.md) applied to any ISO whose real-time
 table holds 15-minute prices (ERCOT, CAISO, NYISO, ISO-NE, SPP; MISO's is hourly). Each 15-minute interval is put in a
 block by the local clock hour h in which it starts: overnight (h >= 21 or h < 12), midday (12 <= h < 16) and peak
@@ -25,16 +25,18 @@ BLOCKS = {"overnight": lambda h: (h >= 21) | (h < 12), "midday": lambda h: (h >=
 
 def _prices(iso, hub, history):
     table, tz, _ = RT[iso]
-    df = fetch(table, node=hub)
+    df = fetch(table, node=hub, market=RT_MARKET[iso])
     tables = [table]
     if history and iso == "ercot":
         import erw
-        years = sorted(t for t in (set(erw.list_tables()) | {o for o, (n, _) in erw.migrations().items() if n in set(erw.list_tables())})
-                             if t.startswith("ercot_rtm_hub_prices_20"))[-2:]
-        for t in years:
+        # session 30: the last two years of ercot_all_hub_prices_history (market ercot_rtm, partitions by year)
+        years = sorted({int(n.rsplit("_", 1)[1]) for n, (t, _) in erw.migrations().items()
+                        if t == HISTORY and n.startswith("ercot_rtm_hub_prices_20")})[-2:]
+        for y in years:
             try:
-                df = pd.concat([df, fetch(t, node=hub)], ignore_index=True)
-                tables.append(t)
+                df = pd.concat([df, fetch(HISTORY, node=hub, market="ercot_rtm", year=y)], ignore_index=True)
+                if HISTORY not in tables:
+                    tables.append(HISTORY)
             except Exception:
                 pass
         df = df.drop_duplicates(["ts_utc"])

@@ -55,7 +55,7 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import brief  # noqa: E402  (the daily digest: clusters, headlines, citations, hubs, fuels)
-from brief import FUELS, MAIN_HUBS, RT_TZ, ROOT, cite_short, erw, ip, link_text, mean2, NAME, NEWS_COLS  # noqa: E402
+from brief import FUELS, HUB_MARKET, MAIN_HUBS, RT_TZ, ROOT, cite_short, erw, ip, link_text, mean2, NAME, NEWS_COLS  # noqa: E402
 from score import PRICES, pick_model  # noqa: E402
 
 ROUNDUP_DIR = os.path.join(ROOT, "docs", "roundup")
@@ -154,7 +154,7 @@ def dam_week(label, table, node, tz, start, log):
     """(mean, n, expected) of the hub's day-ahead prices over the local week, or None if absent."""
     s, e = local_week(start, tz)
     try:
-        df = erw.fetch(table, start=s, end=e, node=node)
+        df = erw.fetch(table, start=s, end=e, node=node, market=HUB_MARKET.get(label))
     except Exception as exc:
         log(f"  numbers: {table} unavailable: {exc!r}")
         return None, 0, int((e - s) / pd.Timedelta(hours=1))
@@ -179,24 +179,24 @@ def numbers(start, cut, log):
 
     # the week's highest real-time price, over UTC bounds, from the interval price tables
     best, covered = None, []
-    rt = [t for t in erw.filter(market="rtm") if re.fullmatch(r"[a-z]+_rtm_(hub|zone)_prices(_hourly)?", t)]
-    for table in rt:
+    # session 30: the consolidated iso_rtm_hub_prices is read one ISO (market) at a time (brief.rt_parts)
+    for iso, table, market in brief.rt_parts():
         try:
-            df = erw.fetch(table, start=start, end=cut)
+            df = erw.fetch(table, start=start, end=cut, market=market)
         except Exception as exc:
             log(f"  numbers: {table} unavailable: {exc!r}")
             continue
         if df.empty:
             continue
-        covered.append(f"{table} to {df['ts_utc'].max():%Y-%m-%d %H:%M} UTC")
+        covered.append(f"{table}{f' ({market})' if market else ''} to {df['ts_utc'].max():%Y-%m-%d %H:%M} UTC")
         top = df.loc[df["value"].idxmax()]
         if best is None or top["value"] > best[0]["value"]:
-            best = (top, table)
+            best = (top, table, iso)
     L += ["", "**Highest real-time price of the week:** "]
     if best:
-        top, table = best
-        tz = RT_TZ.get(table.split("_")[0], "UTC")
-        L[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({table.split('_')[0].upper()}), interval starting "
+        top, table, iso = best
+        tz = RT_TZ.get(iso, "UTC")
+        L[-1] += (f"{top['value']:.2f} USD/MWh at {top['node']} ({iso.upper()}), interval starting "
                   f"{top['ts_utc'].tz_convert(tz):%Y-%m-%d %H:%M} local ({top['ts_utc']:%Y-%m-%d %H:%M} UTC), "
                   f"{top['variable']} {notes.ref(table, 'real-time tables read, and how far each reaches this week: ' + ', '.join(covered))}.")
     else:
@@ -225,7 +225,7 @@ def numbers(start, cut, log):
 
     L += ["", "**US48 peak demand of the week:** "]
     try:
-        d = erw.fetch("eia930_us48_demand", start=start, end=cut)
+        d = erw.fetch("eia930_all_demand", start=start, end=cut, ba="us48")  # session 30: the consolidated table
         d = d[d["variable"] == "demand_mw"]
         if d.empty:
             L[-1] += "not in the warehouse for this week."
@@ -234,7 +234,7 @@ def numbers(start, cut, log):
             L[-1] += (f"{top['value']:,.0f} MW in the hour starting {top['ts_utc']:%Y-%m-%d %H:%M} UTC "
                       f"({top['ts_utc'].tz_convert('America/New_York'):%A %Y-%m-%d, %H:%M} Eastern), from "
                       f"{d['ts_utc'].nunique()} hours of the week to {d['ts_utc'].max():%Y-%m-%d %H:%M} UTC "
-                      f"{notes.ref('eia930_us48_demand')}.")
+                      f"{notes.ref('eia930_all_demand', 'balancing authority us48')}.")
     except Exception as exc:
         log(f"  numbers: US48 demand unavailable: {exc!r}")
         L[-1] += "not in the warehouse."
