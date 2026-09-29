@@ -41,6 +41,9 @@
 #   Session 28: uploads are routed by license (public tables to energy_research_warehouse, internal
 #   ones to the private energy_research_warehouse_internal), and upload.py --check-license, after the
 #   upload, fails the run if any internal table is in the public dataset.
+#   Session 28: MODEL_STEPS=0 skips the seven steps that call the Claude API (scoring, extraction, reads, the
+#   fun fact and the digest) and SEND_EMAIL=0 skips the email, each recorded as skipped: for a local run of the
+#   sequence that must spend nothing and send nothing. CI never sets them.
 #   Session 14: DRY_STORES=1 runs the same sequence but writes to no shared store:
 #   the Supabase load runs with --dry-run and the Redivis upload lists what it
 #   would upload. For testing the workflow logic in a fresh clone; CI never sets it.
@@ -86,6 +89,16 @@ for iso in $ISOS; do
     tail -20 "$out"
   fi
 done
+model_step() {
+  # session 28: model_step <name> <command...>: a step that calls the Claude API. With MODEL_STEPS=0 (a local test
+  # run that must spend nothing) it is skipped and recorded as skipped; CI never sets it
+  if [ "${MODEL_STEPS:-1}" = "0" ]; then
+    echo "$1 skipped: MODEL_STEPS=0 (no model calls in this run)" >> "$status"
+    echo "$1: skipped, MODEL_STEPS=0"
+  else
+    run_other "$@"
+  fi
+}
 run_other() {
   # run_other <name> <command...>: a non-ISO connector, recorded like an ISO
   local name="$1"; shift
@@ -169,19 +182,19 @@ run_other energy_projects "$PYTHON" warehouse/derived/energy_projects.py
 # News (session 6): ingest the feeds, then score new stories with the Claude API
 # (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.
 run_other news_ingest "$PYTHON" warehouse/news/ingest.py
-run_other news_score "$PYTHON" warehouse/news/score.py
+model_step news_score "$PYTHON" warehouse/news/score.py
 run_other news_index "$PYTHON" warehouse/news/index.py   # public companion table (session 7)
 # Session 24: policy actions (tool 12): the Federal Register, NRC, DOE, PUCT and CPUC, linked to the scored news,
 # then scored with the news rubric and read for impact (warehouse/policy/)
 run_other policy_sources "$PYTHON" warehouse/connectors/policy_sources.py
-run_other policy_score "$PYTHON" warehouse/policy/score.py
-run_other policy_reads "$PYTHON" warehouse/policy/reads.py
+model_step policy_score "$PYTHON" warehouse/policy/score.py
+model_step policy_reads "$PYTHON" warehouse/policy/reads.py
 # Session 15: deals from the newly scored stories (warehouse/deals/extract.py, tool 6)
-run_other deals "$PYTHON" warehouse/deals/extract.py
+model_step deals "$PYTHON" warehouse/deals/extract.py
 # Session 27: every party of energy_deals is a row of energy_companies (tool 10), merged with the Thesis Builder's rows
 run_other companies_from_deals "$PYTHON" warehouse/companies/seed_from_deals.py
 # Session 16: datacenter facilities from the newly scored datacenter_power stories (tool 4)
-run_other datacenters "$PYTHON" warehouse/datacenters/extract.py
+model_step datacenters "$PYTHON" warehouse/datacenters/extract.py
 # Session 22: the tracker's one table: the news facilities, the operator sites and the queue rows that
 # name a datacenter or large load, deduplicated by operator plus location (docs/methods/datacenter_facilities.md)
 run_other datacenter_facilities "$PYTHON" warehouse/derived/datacenter_facilities.py
@@ -221,11 +234,17 @@ echo "== Energy Digest (docs/digest/), Monday to Friday"
 # Sunday's Energy Roundup (.github/workflows/roundup.yml, Sundays 23:00 UTC), which also sends it.
 # Session 23: the fun fact engine adds one verified fact to warehouse/news/facts/bank.csv and writes the day's
 # item (warehouse/news/facts/items/<date>.json); brief.py re-verifies it and prints it as the digest's last section
-run_other news_funfact "$PYTHON" warehouse/news/funfact.py
-run_other news_brief "$PYTHON" warehouse/news/brief.py
+model_step news_funfact "$PYTHON" warehouse/news/funfact.py
+model_step news_brief "$PYTHON" warehouse/news/brief.py
 # Session 19: the digest by email (tool 25). Rendered to docs/digest/email/ always; sent through
 # Resend only when RESEND_API_KEY and DIGEST_RECIPIENTS are set
-run_other news_email "$PYTHON" warehouse/news/email_digest.py --auto
+if [ "${SEND_EMAIL:-1}" = "0" ]; then
+  # session 28: a local test run sends no email to anyone; CI never sets it
+  echo "news_email skipped: SEND_EMAIL=0 (nothing sent)" >> "$status"
+  echo "news_email: skipped, SEND_EMAIL=0"
+else
+  run_other news_email "$PYTHON" warehouse/news/email_digest.py --auto
+fi
 "$PYTHON" warehouse/metadata/run_status.py record || exit 1
 
 echo "== STATUS.md (session 14): tables, last runs, open gaps"
