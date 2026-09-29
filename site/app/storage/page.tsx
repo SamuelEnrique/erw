@@ -134,8 +134,10 @@ function ByYear({ units }: { units: StorageUnit[] }) {
   const years = Array.from(new Set(future.map((u) => u.planned_year!))).sort();
   return (
     <>
-      <InlineBars values={years.map((y) => ({ k: y, v: mw(future.filter((u) => u.planned_year === y)) }))}
-        label="Planned battery additions by planned year, MW (under construction and planned)" height={80} />
+      <div className="max-w-md">
+        <InlineBars values={years.map((y) => ({ k: y, v: mw(future.filter((u) => u.planned_year === y)) }))}
+          label="Planned battery additions by planned year, MW (under construction and planned)" height={80} />
+      </div>
       <div className="mt-1 flex flex-wrap gap-x-4 text-sm tabular-nums">
         {years.map((y) => (
           <span key={y}>
