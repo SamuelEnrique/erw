@@ -893,3 +893,134 @@ run_id,runner,connector,table,market,status,detail
 20260928T211039Z,github,news_funfact,funfact,bank,ok,"2026-09-28: ff_54d18b45ff (none); bank +1, 3 model calls, cost USD 0.0000"
 20260928T211049Z,github,news_brief,digest,brief,ok,"top 10 with a number 4 of 10 (2 with a scored figure); 342 stories, 312 clusters, 2 call(s), tokens in 6462 out 1746, cost unknown"
 20260928T211105Z,github,news_email,email,daily,ok,"2026-09-28: not sent: RESEND_API_KEY, DIGEST_RECIPIENTS not set"
+20260929T004035Z,local,ercot,ercot_dam_hub_prices,DAM,ok,
+20260929T004035Z,local,ercot,ercot_rtm_hub_prices,RTM,ok,
+20260929T004405Z,local,caiso,caiso_dam_hub_prices,DAM,ok,
+20260929T004405Z,local,caiso,caiso_rtm_hub_prices,RTM,ok,
+20260929T004457Z,local,nyiso,nyiso_dam_zone_prices,DAM,ok,
+20260929T004457Z,local,nyiso,nyiso_rtm_zone_prices,RTM,ok,
+20260929T004511Z,local,miso,miso_dam_hub_prices,DAM,ok,
+20260929T004511Z,local,miso,miso_rtm_hub_prices,RTM,ok,
+20260929T004534Z,local,spp,spp_dam_hub_prices,DAM,ok,
+20260929T004534Z,local,spp,spp_rtm_hub_prices,RTM,ok,
+20260929T005432Z,local,isone,isone_dam_zone_prices,DAM,ok,
+20260929T005432Z,local,isone,isone_rtm_zone_prices,RTM,ok,"1 days not complete, not written"
+20260929T005432Z,local,isone,isone_rtm_zone_prices,RTM 2026-09-25,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.MAINE: 95 rows, expected 96, missing 1 (first ['"
+20260929T005432Z,local,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY,ok,
+20260929T005555Z,local,ercot_peak_premium,ercot_peak_premium_annual,P1Y,ok,
+20260929T005555Z,local,ercot_peak_premium,ercot_peak_premium_monthly,P1M,ok,
+20260929T005739Z,local,eia930,eia930_ciso_demand,demand,ok,
+20260929T005739Z,local,eia930,eia930_ciso_generation,generation,ok,"1 days not complete, not written"
+20260929T005739Z,local,eia930,eia930_ciso_generation,generation 2026-09-28,gap,"net_generation_mw: 6 of 24 hours (18 missing, 0 published as null; first missing ['2026-09-28T06:00:00Z', '2026-09-28T07:00:00Z', '2026-09-28T08:00:00Z'])"
+20260929T005739Z,local,eia930,eia930_erco_demand,demand,ok,
+20260929T005739Z,local,eia930,eia930_erco_generation,generation,ok,"1 days not complete, not written"
+20260929T005739Z,local,eia930,eia930_erco_generation,generation 2026-09-28,gap,"net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-28T04:00:00Z', '2026-09-28T05:00:00Z', '2026-09-28T06:00:00Z'])"
+20260929T005739Z,local,eia930,eia930_generation_latest,latest,ok,"complete hours: CISO 30, ERCO 28, ISNE 4, MISO 28, NYIS 27, PJM 27, SWPP 28, US48 27"
+20260929T005739Z,local,eia930,eia930_isne_demand,demand,ok,
+20260929T005739Z,local,eia930,eia930_isne_generation,generation,ok,"dropped series: 2026-09-27: net_generation_oil_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-27T04:00:00Z', '2026-09-27T05:00:00Z', '2026-09-27T06:00:00Z']); 1 days not complete, not written"
+20260929T005739Z,local,eia930,eia930_isne_generation,generation 2026-09-28,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-28T03:00:00Z', '2026-09-28T04:00:00Z', '2026-09-28T05:00:00Z'])"
+20260929T005739Z,local,eia930,eia930_miso_demand,demand,ok,
+20260929T005739Z,local,eia930,eia930_miso_generation,generation,ok,"1 days not complete, not written"
+20260929T005739Z,local,eia930,eia930_miso_generation,generation 2026-09-28,gap,"net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-28T04:00:00Z', '2026-09-28T05:00:00Z', '2026-09-28T06:00:00Z'])"
+20260929T005739Z,local,eia930,eia930_nyis_demand,demand,ok,
+20260929T005739Z,local,eia930,eia930_nyis_generation,generation,ok,"1 days not complete, not written"
+20260929T005739Z,local,eia930,eia930_nyis_generation,generation 2026-09-28,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-28T03:00:00Z', '2026-09-28T04:00:00Z', '2026-09-28T05:00:00Z'])"
+20260929T005739Z,local,eia930,eia930_pjm_demand,demand,ok,
+20260929T005739Z,local,eia930,eia930_pjm_generation,generation,ok,"1 days not complete, not written"
+20260929T005739Z,local,eia930,eia930_pjm_generation,generation 2026-09-28,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-28T03:00:00Z', '2026-09-28T04:00:00Z', '2026-09-28T05:00:00Z'])"
+20260929T005739Z,local,eia930,eia930_swpp_demand,demand,failed,"RuntimeError: incomplete data, no file written for eia930_swpp_demand: demand_forecast_mw: 53 of 72 hours (19 missing, 0 published as null; first missing ['2026-09-28T05:00:00Z', '2026-09-28T06:00:00Z', '2026-09-28T07:00:00Z'])"
+20260929T005739Z,local,eia930,eia930_swpp_generation,generation,ok,"1 days not complete, not written"
+20260929T005739Z,local,eia930,eia930_swpp_generation,generation 2026-09-28,gap,"net_generation_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-28T04:00:00Z', '2026-09-28T05:00:00Z', '2026-09-28T06:00:00Z'])"
+20260929T005739Z,local,eia930,eia930_us48_demand,demand,ok,
+20260929T005739Z,local,eia930,eia930_us48_generation,generation,ok,"1 days not complete, not written"
+20260929T005739Z,local,eia930,eia930_us48_generation,generation 2026-09-28,gap,"net_generation_mw: 3 of 24 hours (21 missing, 0 published as null; first missing ['2026-09-28T03:00:00Z', '2026-09-28T04:00:00Z', '2026-09-28T05:00:00Z'])"
+20260929T005802Z,local,weather_nws,weather_forecast_hourly,all,ok,7 stations
+20260929T005802Z,local,weather_nws,weather_obs_hourly,all,ok,7 stations
+20260929T005850Z,local,eia_fuels,eia_fuel_spot_prices,daily,ok,
+20260929T005902Z,local,trader_view,caiso_trader_daily,caiso,ok,789 rows
+20260929T005902Z,local,trader_view,ercot_trader_daily,ercot,ok,1578 rows
+20260929T005902Z,local,trader_view,iso_rt_top_intervals,,ok,50 rows
+20260929T005902Z,local,trader_view,isone_trader_daily,isone,ok,2367 rows
+20260929T005902Z,local,trader_view,miso_trader_daily,miso,ok,2072 rows
+20260929T005902Z,local,trader_view,nyiso_trader_daily,nyiso,ok,2893 rows
+20260929T005902Z,local,trader_view,spp_trader_daily,spp,ok,262 rows
+20260929T005932Z,local,eia_series,eia_crude_first_purchase_prices,monthly,ok,
+20260929T005932Z,local,eia_series,eia_crude_imports_by_country,monthly,ok,
+20260929T005932Z,local,eia_series,eia_lng_exports_monthly,monthly,ok,
+20260929T005932Z,local,eia_series,eia_padd_crude_pipeline_flows,monthly,ok,
+20260929T005932Z,local,eia_series,eia_petroleum_stocks_weekly,weekly,ok,
+20260929T005932Z,local,eia_series,eia_petroleum_trade_weekly,weekly,ok,
+20260929T005932Z,local,eia_series,eia_product_spot_prices,daily,ok,
+20260929T005932Z,local,eia_series,eia_retail_electricity_prices,monthly,ok,
+20260929T005932Z,local,eia_series,eia_retail_fuel_prices,weekly,ok,
+20260929T005932Z,local,eia_series,eia_retail_sales_monthly,monthly,ok,
+20260929T005932Z,local,eia_series,eia_sector_energy_consumption_monthly,monthly,failed,RuntimeError: eia_sector_energy_consumption_monthly: newest date 2026-05-01 is 151 days old (limit 150); not writing a stale table
+20260929T005932Z,local,eia_series,eia_state_generation_monthly,monthly,ok,
+20260929T010810Z,local,generation_mix,state_generation_mix_monthly,,ok,107560 rows
+20260929T010827Z,local,capacity_prices,pjm_rpm_capacity_prices,bra,ok,
+20260929T010831Z,local,carbon_auctions,carb_auction_allowance_prices,carb,ok,
+20260929T010831Z,local,carbon_auctions,rggi_auction_allowance_prices,rggi,ok,
+20260929T010836Z,local,fred_series,fred_daily_spot_prices,P1D,ok,
+20260929T010836Z,local,fred_series,fred_imf_commodity_prices,P1M,ok,
+20260929T010844Z,local,portwatch,portwatch_chokepoint_transits,daily,ok,
+20260929T010905Z,local,curtailment,caiso_curtailment_daily,caiso,ok,106 rows this run
+20260929T010905Z,local,curtailment,ercot_wind_solar_hsl_daily,ercot,ok,18 rows this run
+20260929T010905Z,local,curtailment,spp_curtailment_daily,spp,ok,144 rows this run
+20260929T010937Z,local,iso_curtailment_monthly,iso_curtailment_monthly,,ok,1988 rows
+20260929T010943Z,local,caiso_outlook,caiso_battery_storage,storage,ok,30 days
+20260929T011007Z,local,eia860,eia860m_operating_generators,monthly,ok,vintage 2026-08 unchanged
+20260929T011007Z,local,eia860,eia860m_planned_generators,monthly,ok,vintage 2026-08 unchanged
+20260929T011007Z,local,eia860,eia860m_retired_generators,monthly,ok,vintage 2026-08 unchanged
+20260929T011043Z,local,energy_projects,energy_projects,,ok,45488 rows; operating point 28605; planned point 2316; queue county 13395; queue none 1172
+20260929T011054Z,local,news_ingest,news_stories,feed:Utility Dive,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Canary Media,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Latitude Media,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Heatmap News,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:POWER Magazine,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:pv magazine USA,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Energy-Storage.news,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:T&D World,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:World Nuclear News,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:ANS Nuclear Newswire,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Hydrogen Insight,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Electrek,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:OilPrice.com,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Rigzone,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:World Oil,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Hart Energy,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:JPT (SPE),ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Natural Gas Intelligence,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:LNG Prime,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Data Center Dynamics,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Data Center Frontier,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Data Center Knowledge,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:EIA Today in Energy,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:EIA This Week in Petroleum,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:FERC news,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:NRC news,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:DOE newsroom,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:EPA news,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:OPEC press releases,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:IEA news,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:ERCOT newsroom,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:CAISO newsroom,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:NYISO newsroom,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:MISO newsroom,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:SPP newsroom,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:ISO-NE newsroom,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:PJM newsroom,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Texas PUC news,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:CPUC news,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:CTVC,ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Reuters energy (via Google News),ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:Bloomberg energy (via Google News),ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:WSJ energy (via Google News),ok,
+20260929T011054Z,local,news_ingest,news_stories,feed:FT energy (via Google News),ok,
+20260929T011054Z,local,news_ingest,news_stories,stories,ok,116 new stories
+20260929T011240Z,local,policy_sources,policy_actions,federalregister,ok,1584 rows
+20260929T011240Z,local,policy_sources,policy_actions,nrc,ok,159 rows
+20260929T011240Z,local,policy_sources,policy_actions,doe,ok,10 rows
+20260929T011240Z,local,policy_sources,policy_actions,puct,ok,36 rows
+20260929T011240Z,local,policy_sources,policy_actions,cpuc,ok,35 rows
+20260929T011420Z,local,companies_from_deals,energy_companies,deals,ok,"354 rows before (19 with a description), 354 after (19 with a description, 5.4%); 335 deal-only rows, 1 deal parties merged into researched rows; 59 parties left out as not company names"
+20260929T011424Z,local,datacenter_facilities,datacenter_facilities,all,ok,"340 facilities, 19 with MW"
