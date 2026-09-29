@@ -363,12 +363,22 @@ def main(argv=None):
     from supabase import create_client
     u = urllib.parse.urlparse(env("SUPABASE_URL"))
     client = create_client(f"{u.scheme}://{u.netloc}", env("SUPABASE_SERVICE_KEY"))
+    # Session 33: the probe reads one row of one column (no count(*) over series' half a million rows, which timed out
+    # with HTTP 500 twice in session 30), with three tries 5, 15 and 45 seconds apart before failing
+    import time
     for t in ("series", "entities", "events", "catalogue", "sources", "headers"):
-        try:
-            client.table(t).select("*", count="exact", head=True).limit(1).execute()
-        except Exception as exc:
-            raise SystemExit(f"FAILED: Supabase table {t} is not reachable ({type(exc).__name__}: "
-                             f"{str(exc)[:200]}). Apply the migrations first: warehouse/supabase/apply.py")
+        for attempt in range(1, 4):
+            try:
+                client.table(t).select("source" if t == "sources" else "table_name").limit(1).execute()
+                break
+            except Exception as exc:
+                if attempt == 3:
+                    raise SystemExit(f"FAILED: Supabase table {t} is not reachable after 3 tries "
+                                     f"({type(exc).__name__}: {str(exc)[:200]}). Apply the migrations first: "
+                                     "warehouse/supabase/apply.py")
+                wait = 5 * 3 ** (attempt - 1)
+                print(f"Supabase table {t}: try {attempt} failed ({type(exc).__name__}); retrying in {wait} s")
+                time.sleep(wait)
     size_before = db_size_mb(client)
     print(f"pg_database_size before the load: {size_before:.1f} MB")
 
