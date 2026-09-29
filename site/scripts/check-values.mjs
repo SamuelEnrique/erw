@@ -135,9 +135,10 @@ async function truth(check) {
     if (what === "state_mw") return withMw.filter((r) => r.state === key).reduce((a, r) => a + Number(r.mw), 0);
     if (what === "operator_mw") return withMw.filter((r) => r.operator === key).reduce((a, r) => a + Number(r.mw), 0);
   }
-  // session 31: /storage, sums of storage_capacity's nameplate MW (rounded to 0.1 MW, as the page rounds them)
+  // session 31: /storage, sums of storage_capacity's nameplate MW (rounded to 0.1 MW, as the page rounds them);
+  // session 34: and of its energy capacity, MWh (storage|mwh|<status>, storage|n_mwh|<status>)
   if (p[0] === "storage") {
-    storageRows ??= await all("entities", { select: "capacity_mw,status,state:extra->>state,iso:extra->>iso,planned_year:extra->>planned_year",
+    storageRows ??= await all("entities", { select: "capacity_mw,status,state:extra->>state,iso:extra->>iso,planned_year:extra->>planned_year,mwh:extra->>energy_capacity_mwh",
       table_name: "eq.storage_capacity", order: "entity_id" });
     const rows = storageRows;
     const build = (r) => r.status === "under_construction" || r.status === "planned";
@@ -148,6 +149,9 @@ async function truth(check) {
     if (what === "iso_mw") return sum((r) => (a === "none" ? !r.iso : r.iso === a) && r.status === b);
     if (what === "state_mw") return sum((r) => r.state === a && (b === "build" ? build(r) : r.status === b));
     if (what === "year_mw") return sum((r) => build(r) && r.planned_year === a);
+    const hasMwh = (r) => r.mwh !== null && r.mwh !== undefined && r.mwh !== "";
+    if (what === "mwh") return Math.round(rows.filter((r) => r.status === a && hasMwh(r)).reduce((s, r) => s + Number(r.mwh), 0) * 10) / 10;
+    if (what === "n_mwh") return rows.filter((r) => r.status === a && hasMwh(r)).length;
   }
   throw new Error(`unknown check ${check}`);
 }

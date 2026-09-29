@@ -11,8 +11,9 @@ Columns: the entities columns (capacity_mw is EIA's nameplate MW), then plant_id
 balancing_authority (EIA's code as written), iso (the ISO where the BA code is one of the seven ISOs: CISO CAISO,
 ERCO ERCOT, ISNE ISO-NE, MISO MISO, NYIS NYISO, PJM PJM, SWPP SPP; empty otherwise), net_summer_mw, eia_status,
 operating_year (operating and retired units), planned_year (planned units: the year of EIA's planned operation date),
-retirement_date, source_table. Energy capacity (MWh): the ERW's EIA-860M tables do not carry EIA's MWh field, so it
-is not in this table; it is not estimated from MW.
+retirement_date, source_table, input_source_url, and since session 34 energy_capacity_mwh: EIA's Nameplate Energy
+Capacity (MWh) from the EIA-860M tables. EIA gives it for operating and retired units; its Planned sheet has no such
+column, so planned units have none. It is never estimated from MW.
 
     python warehouse/derived/storage_capacity.py
 
@@ -41,7 +42,8 @@ ISO_OF_BA = {"CISO": "CAISO", "ERCO": "ERCOT", "ISNE": "ISO-NE", "MISO": "MISO",
 ENT = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacity_mw", "status", "status_date", "operator",
        "source", "source_url", "retrieved_at", "vintage"]
 COLS = ENT + ["plant_id", "generator_id", "state", "county", "balancing_authority", "iso", "net_summer_mw",
-              "eia_status", "operating_year", "planned_year", "retirement_date", "source_table", "input_source_url"]
+              "eia_status", "operating_year", "planned_year", "retirement_date", "source_table", "input_source_url",
+              "energy_capacity_mwh"]  # session 34
 
 
 def read(name):
@@ -75,7 +77,7 @@ def main():
                 log(f"  {table}: {len(other)} BA units with technology or energy source other than Batteries/MWH")
             b["source_table"] = table
             b["planned_year"] = b["planned_operation_date"].str[:4] if "planned_operation_date" in b else ""
-            for c in ("operating_year", "retirement_date"):
+            for c in ("operating_year", "retirement_date", "energy_capacity_mwh"):
                 if c not in b:
                     b[c] = ""
             log(f"  {table}: {len(b)} battery units, {pd.to_numeric(b['nameplate_mw']).sum():,.1f} MW")
@@ -93,7 +95,7 @@ def main():
             "balancing_authority": a["balancing_authority"], "iso": a["balancing_authority"].map(ISO_OF_BA).fillna(""),
             "net_summer_mw": a["net_summer_mw"], "eia_status": a["eia_status"], "operating_year": a["operating_year"],
             "planned_year": a["planned_year"], "retirement_date": a["retirement_date"], "source_table": a["source_table"],
-            "input_source_url": a["source_url"]})[COLS].sort_values("entity_id").reset_index(drop=True)
+            "input_source_url": a["source_url"], "energy_capacity_mwh": a["energy_capacity_mwh"]})[COLS].sort_values("entity_id").reset_index(drop=True)
         vint = sorted(set(a["source_url"]))
         header = [
             "Energy Research Warehouse (ERW): Battery storage units, operating, planned and retired, from EIA-860M "
@@ -106,16 +108,19 @@ def main():
             "Derived from: " + "; ".join(INPUTS.values()),
             "  input sources: eia:860m (" + "; ".join(vint) + ")",
             "iso: the ISO of the unit's balancing authority where it is one of the seven (CISO CAISO, ERCO ERCOT, ISNE "
-            "ISO-NE, MISO, NYIS NYISO, PJM, SWPP SPP), else empty. Energy capacity (MWh) is not in the ERW's EIA-860M "
-            "tables and is not estimated.",
+            "ISO-NE, MISO, NYIS NYISO, PJM, SWPP SPP), else empty. energy_capacity_mwh: EIA's Nameplate Energy "
+            "Capacity (MWh) (session 34), given by EIA for operating and retired units, not for planned ones; never "
+            "estimated from MW.",
             "License: public. A derived table inherits the most restrictive license of its inputs (Decision 23).",
         ]
         ip.write_snapshot(out, NAME, header, log, COLS)
         ip.update_sources([{"source": "erw:storage_capacity", "publisher": "Energy Research Warehouse (ERW), derived",
                             "report": "Battery storage units from EIA-860M (docs/methods/storage.md)",
                             "report_url": METHOD_URL, "document_list": "", "license": "public", "tables": [NAME]}])
-        by = out.assign(mw=pd.to_numeric(out["capacity_mw"])).groupby("status")["mw"].agg(["size", "sum"])
-        status["detail"] = "; ".join(f"{s}: {int(r['size'])} units, {r['sum']:,.1f} MW" for s, r in by.iterrows())
+        by = out.assign(mw=pd.to_numeric(out["capacity_mw"]), mwh=pd.to_numeric(out["energy_capacity_mwh"])
+                        ).groupby("status").agg(size=("mw", "size"), mw=("mw", "sum"), mwh=("mwh", "sum"))
+        status["detail"] = "; ".join(f"{s}: {int(r['size'])} units, {r['mw']:,.1f} MW, {r['mwh']:,.1f} MWh"
+                                     for s, r in by.iterrows())
         log(status["detail"])
         print(f"storage_capacity: {len(out)} units; {status['detail']}")
     except Exception:

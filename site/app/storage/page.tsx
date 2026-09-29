@@ -49,6 +49,14 @@ function MW({ units, check }: { units: StorageUnit[]; check: string }) {
   return <Num check={`storage|${check}`} raw={v}>{mwText(v)}</Num>;
 }
 
+const hasMwh = (u: StorageUnit) => u.mwh !== null && u.mwh !== "";
+
+/** Session 34: a sum of storage_capacity's energy capacity (MWh), where EIA gives it, with its check key. */
+function MWh({ units, check }: { units: StorageUnit[]; check: string }) {
+  const v = Math.round(units.filter(hasMwh).reduce((a, u) => a + Number(u.mwh), 0) * 10) / 10;
+  return <Num check={`storage|${check}`} raw={v}>{mwText(v)}</Num>;
+}
+
 function Fleet({ units }: { units: StorageUnit[] }) {
   const by = (s: string) => units.filter((u) => u.status === s);
   const cells = [
@@ -67,6 +75,16 @@ function Fleet({ units }: { units: StorageUnit[] }) {
           </div>
           <div className="text-xs text-muted">
             <Num check={`storage|n|${s}`} raw={by(s).length}>{count(by(s).length)}</Num> units
+          </div>
+          <div className="mt-1 text-xs text-muted tabular-nums">
+            {by(s).some(hasMwh) ? (
+              <>
+                <span className="text-ink"><MWh units={by(s)} check={`mwh|${s}`} /></span> MWh (
+                <Num check={`storage|n_mwh|${s}`} raw={by(s).filter(hasMwh).length}>{count(by(s).filter(hasMwh).length)}</Num> units)
+              </>
+            ) : (
+              <>MWh: EIA-860M gives none</>
+            )}
           </div>
         </div>
       ))}
@@ -275,7 +293,7 @@ export default async function Storage() {
 
       <Section title="The fleet" aside={<>EIA-860M<Tier tier="derived" /></>}>
         {units.ok ? <Fleet units={units.data} /> : <NoData what="the fleet" reason={units.reason} />}
-        <Cite tables={["storage_capacity"]} note="Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status. Energy capacity (MWh) is not in the ERW's EIA-860M tables" />
+        <Cite tables={["storage_capacity"]} note="Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status, and its Nameplate Energy Capacity (MWh) where EIA gives it: for operating and retired units, not for planned ones (EIA's Planned sheet has no such column). MWh is never estimated from MW" />
       </Section>
 
       <div className="grid gap-5 lg:grid-cols-2">

@@ -84,6 +84,11 @@ CAISO reports no battery series to EIA-930, so its rows come from CAISO's own da
 - `operating_year` is EIA's (operating and retired units).
 - `iso` is the ISO of the unit's balancing authority when it is one of the seven: CISO CAISO, ERCO ERCOT, ISNE ISO-NE, MISO, NYIS NYISO, PJM, SWPP SPP. Otherwise it is empty and the BA code stays in `balancing_authority`.
 
-**Energy capacity (MWh)** is not in the ERW's EIA-860M tables, so this table has none. It is never estimated from MW.
+**Energy capacity (MWh), since session 34.** `energy_capacity_mwh` is EIA's "Nameplate Energy Capacity (MWh)", carried by the EIA-860M tables since session 34 (checked in the saved August 2026 workbook: the Operating and Retired sheets have the column, the Planned sheet does not).
 
-**On `/storage`,** the fleet by status, by ISO, by state and by planned year are sums of this table's rows. The page sums nothing else, and `site/scripts/check-values.mjs` recomputes each sum from Supabase.
+- Operating and retired units: every battery unit has a value (1,137 operating units, 150,437.6 MWh; 8 retired, 1,236.1 MWh, vintage 2026-08).
+- Planned and under-construction units: none, because EIA publishes none in EIA-860M.
+- It is never estimated from MW.
+- The three EIA-860M tables were rebuilt from the saved workbook (`eia860.py --from-raw 20260926T000340Z`, no pull); every other column is unchanged.
+
+**On `/storage`,** the fleet by status (MW, and MWh where EIA gives it), by ISO, by state and by planned year are sums of this table's rows. The page sums nothing else, and `site/scripts/check-values.mjs` recomputes each sum from Supabase.

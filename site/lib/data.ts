@@ -335,12 +335,13 @@ export type StorageUnit = {
   state: string | null;
   iso: string | null;
   planned_year: string | null;
+  mwh: string | null; // session 34: EIA's Nameplate Energy Capacity (MWh); none for planned units
 };
 
 export async function storageUnits(): Promise<StorageUnit[]> {
   return rest<StorageUnit>(
     "entities",
-    { select: "entity_id,capacity_mw,status,state:extra->>state,iso:extra->>iso,planned_year:extra->>planned_year", table_name: "eq.storage_capacity", order: "entity_id" },
+    { select: "entity_id,capacity_mw,status,state:extra->>state,iso:extra->>iso,planned_year:extra->>planned_year,mwh:extra->>energy_capacity_mwh", table_name: "eq.storage_capacity", order: "entity_id" },
     HOURLY,
     20_000,
   );

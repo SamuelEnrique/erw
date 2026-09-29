@@ -274,12 +274,40 @@ def build(kind, sheets, content, vintage, url, got, log):
         out = out[keep].copy()
         out["retirement_date"] = status_date[keep]
         out["operating_year"], out["operating_month"] = d.loc[keep, "Operating Year"], d.loc[keep, "Operating Month"]
+    # session 34: EIA's "Nameplate Energy Capacity (MWh)", the energy a storage unit holds. The Operating and Retired
+    # sheets carry it; the Planned sheet does not, so the planned table's column is empty (never estimated from MW)
+    col = "Nameplate Energy Capacity (MWh)"
+    out["energy_capacity_mwh"] = d.loc[out.index, col] if col in d else ""
+    v = num(out["energy_capacity_mwh"])
+    bad = out["energy_capacity_mwh"][v.isna() & (out["energy_capacity_mwh"] != "")]
+    if len(bad):
+        raise RuntimeError(f"{kind}: non-numeric energy_capacity_mwh: {bad.unique()[:5]}")
     return out.sort_values("entity_id"), titles
+
+
+def from_raw(run_id, log):
+    """Session 34: (vintage, url, content, retrieved_at) of the workbook saved by an earlier run, from its manifest,
+    so a table can be rebuilt without a pull. The rows keep the retrieval time of that run."""
+    folder = os.path.join(ip.ROOT, "warehouse", "raw", "eia860", run_id)
+    man = pd.read_csv(os.path.join(folder, "manifest.csv"), dtype=str)
+    row = man[man["file"].str.endswith(".xlsx") & (man["status"] == "200")].iloc[-1]
+    m = re.search(r"/([a-z]+)_generator(\d{4})\.xlsx$", row["url"])
+    vintage = f"{m.group(2)}-{MONTHS.index(m.group(1)) + 1:02d}"
+    with open(os.path.join(folder, row["file"]), "rb") as f:
+        content = f.read()
+    import hashlib
+    if hashlib.sha256(content).hexdigest() != row["sha256"]:
+        raise RuntimeError(f"{row['file']}: sha256 differs from its manifest")
+    log(f"  from the saved workbook {folder}/{row['file']} (vintage {vintage}, retrieved {row['retrieved_at']}), no pull")
+    return vintage, row["url"], content, row["retrieved_at"]
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW EIA-860M generator inventory (entities)")
     ap.add_argument("--force", action="store_true", help="rebuild even if the vintage is unchanged")
+    ap.add_argument("--from-raw", metavar="RUN_ID",
+                    help="session 34: rebuild from the workbook an earlier run saved under warehouse/raw/eia860/RUN_ID, "
+                         "no pull; the rows keep that run's retrieval time")
     ap.add_argument("--out-dir")
     args = ap.parse_args(argv)
     if args.out_dir:
@@ -287,18 +315,24 @@ def main(argv=None):
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"eia860_{run_id}.log"))
-    ip.RAW.open("eia860", run_id)
+    if not args.from_raw:
+        ip.RAW.open("eia860", run_id)
     results = []
     try:
-        vintage, url, content = newest(log)
+        if args.from_raw:
+            vintage, url, content, got = from_raw(args.from_raw, log)
+            raw_run = args.from_raw
+        else:
+            vintage, url, content = newest(log)
+            got, raw_run = None, run_id
         have = stored_vintage()
-        if have == vintage and not args.force:
+        if have == vintage and not args.force and not args.from_raw:
             log(f"vintage {vintage} already in the tables; nothing written")
             print(f"eia860: vintage {vintage} unchanged, nothing written")
             results = [dict(table=t, market="monthly", status="ok", detail=f"vintage {vintage} unchanged")
                        for t in TABLES]
         else:
-            got = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
+            got = got or ip.utc_iso(pd.Timestamp.now(tz="UTC"))
             for name, cfg in TABLES.items():
                 try:
                     log(f"{name}:")
@@ -307,9 +341,11 @@ def main(argv=None):
                         f"Energy Research Warehouse (ERW): {cfg['title']}, vintage {vintage}",
                         "Shape: entities (docs/datastandard.md v0). One row per generator; entity_id "
                         "eia860:<plant id>:<generator id>; capacity_mw is EIA nameplate capacity (MW).",
-                        f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia860.py",
+                        f"Retrieved: {raw_run} (UTC) by warehouse/connectors/eia860.py"
+                        + (f"; rebuilt {run_id} from that run's saved workbook, no pull (--from-raw)"
+                           if args.from_raw else ""),
                         f"Run log: warehouse/output/logs/eia860_{run_id}.log",
-                        f"Raw files: warehouse/raw/eia860/{run_id}/ (not in git)",
+                        f"Raw files: warehouse/raw/eia860/{raw_run}/ (not in git)",
                         f"Source: {SOURCE} EIA-860M Monthly Update to the Annual Electric Generator Report, "
                         f"sheets {', '.join(cfg['sheets'])} ({'; '.join(titles)}), {url}",
                         f"  document list: {PAGE}",
@@ -317,6 +353,9 @@ def main(argv=None):
                         f"{INSTRUCTIONS}; technology_group is an ERW grouping of EIA's technology text.",
                         "Snapshot: the table holds one vintage; a new vintage replaces its rows. Earlier "
                         "vintages are in git history. Dates are EIA months, written as the first of the month.",
+                        "energy_capacity_mwh: EIA's Nameplate Energy Capacity (MWh), the energy a storage unit holds "
+                        "(session 34); empty where EIA gives none. EIA's Planned sheet carries no such column, so it "
+                        "is empty in the planned table.",
                         "License: public (EIA-PD).",
                     ]
                     ip.write_snapshot(df, name, header, log, cols=ENTITY_COLS + EXTRA_COLS
