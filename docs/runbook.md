@@ -43,6 +43,37 @@ What each step does:
 - **Validator.** Exit 0 or stop there.
 - **Archive.** Appends the new rows to the durable archive, through the shared index in the bucket, so a local run and the GitHub runs never archive the same rows twice.
 - **Upload.** Writes the Redivis draft only. Nothing is released.
+## Session 30: the cost page and the shadow scorer
+
+**The internal cost page, `/internal/costs`.**
+
+- It answers 404 unless `?token=` equals the server's `INTERNAL_COSTS_TOKEN`.
+- The database function behind it answers nothing unless the same token is in `erw_private.settings`.
+- `python warehouse/supabase/apply.py` writes it there from `INTERNAL_COSTS_TOKEN` in `.env`.
+- To turn the page on, set `INTERNAL_COSTS_TOKEN` in the Vercel project's environment (the value in `.env`, at least 24 characters) and redeploy.
+- To change the token: a new value in `.env`, run `apply.py`, then set it on Vercel.
+
+**The Haiku shadow scorer** (`warehouse/news/shadow.py`):
+
+- **Stop it now:** delete the line `SHADOW_MODEL: claude-haiku-4-5` from `.github/workflows/daily-prices.yml` and `roundup.yml`.
+- **It stops by itself** on the `expires` date in `warehouse/config/shadow.yaml`.
+- **Recipients:** `SHADOW_RECIPIENT` (a repository secret, optional), else `DIGEST_RECIPIENTS`. Never subscribers.
+- **Agreement with the published scores:** `python warehouse/news/shadow_agreement.py`.
+
+**A local session and the two ledger-like tables.** `api_cost_ledger` and `news_scores_shadow` grow on GitHub and locally.
+
+- Before a session's first model call, take the draft's copy, so the session adds to GitHub's rows rather than to an older local file. `--restore` downloads only a table missing locally, so move the local copy aside first:
+
+  ```bash
+  mv warehouse/output/api_cost_ledger.csv warehouse/output/api_cost_ledger.csv.bak
+  mv warehouse/output/news_scores_shadow.csv warehouse/output/news_scores_shadow.csv.bak
+  python warehouse/redivis/upload.py --restore
+  ```
+
+  The archive keeps every row either copy ever had.
+
+- A session sets `ERW_SESSION=<n>` and `ERW_SPEND_CAP_USD=<cap>`, so its calls are its own rows and stop at its cap.
+
 ## Session 29: removing the migrated tables from Redivis
 
 After the consolidation (`docs/migrations/2026-09-29-consolidation.md`), the old tables stay in both Redivis datasets until a person removes them. The command checks every family first and removes nothing if any count disagrees:

@@ -2,6 +2,31 @@
 
 Energy Research Warehouse (ERW). Changes a user of the tables, the `erw` package or the site needs to know about, newest first. What a session did and why is in its report, `archive/sessions/SESSION_*_REPORT.md`.
 
+## 2026-09-29, session 30: price board v2 and the cost layer
+
+**Four new derived tables, public,** behind the site's new `/board` (method `docs/methods/price_board.md`):
+
+| Table | What |
+|---|---|
+| `price_board_latest` | Every hub and zone of the six ISOs, day-ahead and real-time: daily means of the last 30 complete days, the latest day, its change, 7- and 30-day averages, 30-day low and high, the newest interval, day-ahead minus real-time |
+| `price_board_peak_offpeak` | Each ISO's main hub: peak and off-peak means per day (each ISO's peak definition), and ERCOT per year since 2015 |
+| `price_board_spreads` | Henry Hub, spark spreads at an assumed 7.0 MMBtu/MWh, implied heat rates, Brent minus WTI, daily for a year |
+| `price_board_carbon` | The latest CARB and RGGI auction results; **internal**, like its inputs |
+
+Variables carry the market (`da_`, `rt_`), since a hub is one entity in both markets.
+
+**Two new internal tables,** never public:
+
+- `api_cost_ledger`: every Anthropic API call the ERW makes, with its tokens and cost (`docs/methods/api_cost_ledger.md`).
+- `news_scores_shadow`: a second model's scores of the same news stories, for comparison.
+
+A new sector, `platform`, holds the ERW's operating tables.
+
+Also:
+
+- **SPP real time exists.** `iso_rtm_hub_prices`, market `spp_rtm`, has held it since 2026-09-24; `package/llms.txt` said it did not.
+- **The digest, Roundup and analysis templates read the consolidated tables by their new names.** The old names still work through the map until the first monthly release.
+
 ## 2026-09-29, session 29: fewer, longer tables
 
 **54 tables became 6. The ERW has 65 tables, not 113, and the same 4,812,358 rows.** From Ben Domingue's review (`docs/feedback/ben-2026-09-28.md`, item 5). The rule, now in `docs/datastandard.md` (decision 28): partition keys are columns, never name suffixes.
