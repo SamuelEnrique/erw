@@ -27,7 +27,8 @@ import pandas as pd
 STANDARD = "ERW Data Standard v0"
 REQUIRED = ["entity", "variable", "ts_utc", "value"]
 RESERVED = ["unit", "freq", "geo", "market", "node", "source", "source_url",
-            "retrieved_at", "vintage"]
+            "retrieved_at", "vintage",
+            "ba", "year"]  # session 29, decision 28: partition columns of the consolidated tables
 REQUIRED_BY_VALIDATOR = ["unit", "source"]
 # docs/datastandard.md "Units" states these; this set is what enforces them
 UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "pct",  # mph: session 24, decision 27

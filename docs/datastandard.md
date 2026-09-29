@@ -31,7 +31,8 @@ Modeled on the Item Response Warehouse (IRW) data standard (`datastandard.md` in
 - `product` is a short label for what the table holds (`hub_prices`, `load_zone_prices`, `plants`).
 - Lowercase letters, digits and underscores only; at least three underscore-separated parts.
 - **40 characters or fewer**, excluding `.csv`. Shorten `product` first; never shorten `source`.
-- One table per coherent product. Day-ahead and real-time prices are different products and go in different files.
+- One table per coherent product. Day-ahead and real-time prices are different products and go in different files. The one exception is the ERCOT yearly history, `ercot_all_hub_prices_history`, by the session 29 ruling; its `market` column keeps them apart.
+- **Partition keys are columns, never name suffixes** (session 29, decision 28). Tables that share their columns and differ only by a value (an ISO, a balancing authority, a market, a year, a hub) are one table, with that value in a column: `market` where it already holds it, else a reserved partition column (`ba`, `year`). Never `eia930_ciso_demand` beside `eia930_erco_demand`; always `eia930_all_demand` with `ba`. The map of the tables consolidated in session 29 is `warehouse/metadata/table_migrations.csv`.
 
 ---
 
@@ -54,6 +55,8 @@ One row per observation of one variable, for one entity, at one time.
 | `source_url` | reserved | string | URL of the exact document the value was read from, or of the report page when there is no stable document URL |
 | `retrieved_at` | reserved | string, ISO 8601 UTC | When the connector fetched the document |
 | `vintage` | reserved | string, ISO 8601 UTC | When the source published the document the value came from. Distinguishes revisions of the same observation |
+| `ba` | partition | string | Session 29: the EIA-930 balancing authority code, lowercase, as the table name used to carry it: `ciso`, `erco`, `us48` |
+| `year` | partition | string | Session 29: the operating year a history table was published by (ERCOT: the year in Central time), `2024`. Not derivable from `ts_utc`, whose first hours of 1 January UTC belong to the year before |
 
 The key of a `series` table is `(entity, variable, ts_utc)`, plus `vintage` when a table deliberately keeps more than one revision. Duplicate keys are an error.
 
@@ -211,6 +214,7 @@ What was chosen, and why:
     - On-peak is the standard 5x16 block: hours starting 06:00 to 21:00 local, on weekdays that are not NERC holidays.
     - A derived table recomputed from rolling windows keeps an unchanged row's `retrieved_at`, so the Supabase loader, which compares every column, rewrites only new or revised rows. The same rule applies to `state_generation_mix_monthly` since session 18.
 27. **Session 24: weather.** `mph` joins the unit vocabulary, for wind speed in `weather_obs_hourly` and `weather_forecast_hourly` (National Weather Service); temperature is `degF`, already in the vocabulary. The NWS API gives metric values (degC, km/h); the connector converts them (F = C x 9/5 + 32; mph = km/h / 1.609344) and rounds to 0.1.
+28. **Session 29: partition keys are columns, never name suffixes.** From Ben Domingue's review (item 5): one table per ERCOT year, per EIA-930 balancing authority and per ISO had made 113 tables in four days, against Redivis's cap of 1,000 per dataset. A family whose members share their columns and differ only by a value in the name is one table with that value in a column. `market` carries it where it already holds that value on every row (the trader view, the ISO hub prices, the ERCOT history's market); `ba` and `year` join the standard as reserved partition columns, placed after the provenance columns (`vintage`). Licenses and tiers are never mixed in one table. Session 29 consolidated 54 tables into 6 (`docs/migrations/2026-09-29-consolidation.md`; the map is `warehouse/metadata/table_migrations.csv`). The validator accepts `ba` and `year` as reserved names.
 
 Deferred to a later version:
 
@@ -218,4 +222,4 @@ Deferred to a later version:
 - An entity crosswalk between namespaces (the same plant in EIA-860 and in an ISO queue).
 - Revision history as a first-class concept, and a rule for which vintage the live layer serves.
 - Parquet alongside CSV for large tables, and a size limit that forces it.
-- Sharding rules for Redivis, which caps a dataset at 1000 tables (the reason the IRW shards).
+- Sharding rules for Redivis, which caps a dataset at 1000 tables (the reason the IRW shards). Session 29's consolidation (decision 28) puts the cap far away: 65 tables.
