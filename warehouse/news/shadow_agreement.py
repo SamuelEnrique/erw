@@ -168,10 +168,20 @@ def main(argv=None):
     report = {"model_shadow": args.model, "models_published": sorted(m["model_p"].unique().tolist()),
               "window_days": args.days, "top_n": args.top, "overall": stats(m, args.top),
               "per_day": {d: stats(g, args.top) for d, g in m.groupby("day")}}
+    # the digest selects per day: the mean of the days' overlaps, each day weighted equally, and weighted by stories
+    pdx = pd.DataFrame(report["per_day"]).T
+    if "selection_overlap" in pdx:
+        so = pdx["selection_overlap"].astype(float)
+        report["overall"]["selection_overlap_mean_per_day"] = round(float(so.mean()), 3)
+        report["overall"]["selection_overlap_story_weighted"] = round(float((so * pdx["stories"]).sum() / pdx["stories"].sum()), 3)
+        report["overall"]["top_stories_overlap_mean_per_day"] = round(float(pdx["top_stories_overlap"].astype(float).mean()), 3)
     # costs
     led = llm.read_ledger()
     led["usd"] = pd.to_numeric(led["usd"], errors="coerce")
-    shadow_calls = led[(led["model"] == args.model) & led["step"].str.startswith("news_score_shadow")]
+    # the API answers with a dated id (claude-haiku-4-5-20251001): a row is the shadow model's if it is the alias or
+    # a dated form of it
+    is_shadow = led["model"].str.fullmatch(re.escape(args.model) + r"(-\d{8})?")
+    shadow_calls = led[is_shadow & (led["step"] == "news_score_shadow")]
     measure = led[led["step"] == "news_score_shadow_nocache"]
     pub_calls = led[(led["step"] == "news_score") & led["model"].str.contains("sonnet")]
     per, n_logs, runs = sonnet_cost_per_story()
@@ -191,7 +201,8 @@ def main(argv=None):
     o = report["overall"]
     print(f"Shadow {args.model} against the published scores ({', '.join(report['models_published'])}), "
           f"{o['stories']} stories, last {args.days} days")
-    for k in ("selection_overlap", "top_clusters_matched", "top_stories_overlap", "sig_pearson", "sig_spearman",
+    for k in ("selection_overlap_mean_per_day", "selection_overlap_story_weighted", "top_stories_overlap_mean_per_day",
+              "selection_overlap", "top_clusters_matched", "top_stories_overlap", "sig_pearson", "sig_spearman",
               "sig_mad", "sig_exact", "sig_within1", "ai_mad", "ai_tag_published", "ai_tag_shadow", "ai_tag_agree",
               "ai_tag_kappa"):
         print(f"  {k}: {o.get(k)}")
