@@ -18,6 +18,8 @@ export type CatalogueRow = {
   license: string;
   sector: string | null;
   derived: string | null;
+  // session 28: the provenance tier, source, derived or model_extracted (docs/datastandard.md)
+  tier: string | null;
   in_live_set: string;
 };
 

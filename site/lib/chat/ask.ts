@@ -12,7 +12,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
 import { runTool } from "./tools";
 
-export type Citation = { table: string; source_report: string; data_version: string };
+export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
   answer: string;
   citations: Citation[];
@@ -95,6 +95,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const usage = { input: 0, output: 0, cache_write: 0, cache_read: 0, requests: 0 };
   const sources: string[] = [question];
   const tablesRead = new Set<string>();
+  const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
   let calls = 0, attempts = 0, retried = false;
 
   for (;;) {
@@ -128,11 +129,17 @@ export async function ask(question: string, today = new Date().toISOString().sli
           calls += 1;
           sources.push(JSON.stringify(out), JSON.stringify(b.input));
           if (typeof out.table === "string") tablesRead.add(out.table);
+          if (typeof out.table === "string" && typeof out.tier === "string") tiers.set(out.table, out.tier);
           for (const sub of ["a", "b"]) {
             const s = out[sub] as Record<string, unknown> | undefined;
             if (s && typeof s.table === "string") tablesRead.add(s.table);
+            if (s && typeof s.table === "string" && typeof s.tier === "string") tiers.set(s.table, s.tier);
           }
-          if (b.name === "list_tables") for (const t of (out.tables as { table: string }[]) ?? []) tablesRead.add(t.table);
+          if (b.name === "list_tables")
+            for (const t of (out.tables as { table: string; tier?: string | null }[]) ?? []) {
+              tablesRead.add(t.table);
+              if (t.tier) tiers.set(t.table, t.tier);
+            }
         }
         results.push({ type: "tool_result", tool_use_id: b.id, content: JSON.stringify(out), is_error: isError });
       }
@@ -152,7 +159,9 @@ export async function ask(question: string, today = new Date().toISOString().sli
     if (!bad.length && !uncited.length && !noCite) {
       // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
       const answer = draft.answer.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ");
-      return { ...draft, answer, status: draft.not_in_warehouse ? "not_in_warehouse" : "answered", ...base };
+      // session 28: each citation's tier is the warehouse's, whatever the model copied
+      const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));
+      return { ...draft, answer, citations, status: draft.not_in_warehouse ? "not_in_warehouse" : "answered", ...base };
     }
     attempts += 1;
     if (attempts === 1) {

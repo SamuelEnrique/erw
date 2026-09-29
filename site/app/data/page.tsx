@@ -10,6 +10,7 @@ import { DOCS, render } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
 import site from "@/data/site.json";
 import { PAGES } from "@/lib/pages";
+import { TIER_LABEL, TIER_TITLE, isModelExtracted } from "@/lib/tiers";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Data" };
@@ -52,6 +53,7 @@ export default async function Data() {
                   <th className="py-1 pr-3 text-right font-normal">Rows</th>
                   <th className="py-1 pr-3 font-normal">Source report</th>
                   <th className="py-1 pr-3 font-normal">License</th>
+                  <th className="py-1 pr-3 font-normal">Tier</th>
                   <th className="py-1 pr-3 font-normal">Download</th>
                 </tr>
               </thead>
@@ -73,6 +75,9 @@ export default async function Data() {
                     </td>
                     <td className="py-1 pr-3 font-mono text-xs break-all">{r.source_report}</td>
                     <td className="py-1 pr-3 text-xs">{r.license}</td>
+                    <td className="py-1 pr-3 text-xs whitespace-nowrap" title={r.tier ? TIER_TITLE[r.tier] : undefined}>
+                      {r.tier ? (isModelExtracted(r.tier) ? <strong className="font-normal text-accent">{TIER_LABEL[r.tier]}</strong> : TIER_LABEL[r.tier] ?? r.tier) : ""}
+                    </td>
                     <td className="py-1 pr-3 text-xs whitespace-nowrap">
                       {r.in_live_set === "yes" ? (
                         <a href={`/api/download?table=${r.table_name}`}>Download CSV</a>
@@ -89,6 +94,13 @@ export default async function Data() {
           </div>
         )}
         <Cite tables={["catalogue"]} note="Freq is the interval between rows (ISO 8601 duration); snapshot means an entities table. Dates are the first and last row" />
+        <p className="mt-2 max-w-3xl text-xs text-muted">
+          Tier (session 28) is where a table&apos;s numbers come from: <strong className="font-normal">source</strong>, as the publisher published them;{" "}
+          <strong className="font-normal">derived</strong>, computed by the ERW from other tables, with a method in the methods pages; or{" "}
+          <strong className="font-normal text-accent">model-extracted</strong>, where at least one field was written by a model reading news, filings or the
+          web, not published by a source. Cite a model-extracted number with its linked source. The rules are in the{" "}
+          <Link href="/data/standard">data standard</Link>.
+        </p>
         <p className="mt-2 max-w-3xl text-xs text-muted">
           Download CSV gives the rows the site&apos;s live set holds, with the table&apos;s provenance header lines at the top, up to 200,000 rows; for a table
           the live set keeps a window of (such as the last 90 days of prices), that window. The full history of every table, and the tables not in the

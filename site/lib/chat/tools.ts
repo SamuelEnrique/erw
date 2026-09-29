@@ -27,6 +27,7 @@ type Cat = {
   license: string;
   sector: string | null;
   derived: string | null;
+  tier: string | null;
   in_live_set: string;
   columns: string | null;
 };
@@ -150,6 +151,8 @@ async function provenance(name: string): Promise<Json> {
     data_version: `Supabase live set (public site)${last ? `; table last run ${last}` : ""}`,
     source_report: c.source_report,
     license: c.license,
+    // session 28: source, derived or model_extracted (docs/datastandard.md)
+    tier: c.tier,
     citation: cite,
   };
 }
@@ -174,6 +177,7 @@ async function listTables(a: { sector?: string; license?: string; iso?: string }
       rows: r.n_rows,
       source_report: r.source_report,
       derived: r.derived,
+      tier: r.tier,
       in_live_set: r.in_live_set,
     })),
     backend: "supabase",

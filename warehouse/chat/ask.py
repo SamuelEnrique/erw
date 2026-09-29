@@ -62,8 +62,9 @@ Rules:
 5. Times: series times are interval starts in UTC. Say which time zone you report. For an ISO's operating day, group or filter in its local time zone (tz), as the briefing says.
 6. You have at most 8 tool calls. Call list_tables (with a filter) to find the table, describe_table only when you need entity, variable or column names, then query or compare.
 7. Keep the answer short: the number or numbers with units, the time or period, and the table. Say what the number is (for example "mean of 96 fifteen-minute intervals").
+8. Provenance tier: every tool result gives the table's tier: source (as the publisher published it), derived (computed by the ERW from other tables) or model_extracted (at least one field written by a model reading news, filings or the web, not published by a source). When a number comes from a model_extracted table, say so next to it in the answer, for example "USD 1.2 billion (energy_deals, model-extracted from news)".
 
-Your final message is JSON with: answer (plain text), citations (one per table used: table, source_report, data_version), not_in_warehouse (true or false)."""
+Your final message is JSON with: answer (plain text), citations (one per table used: table, source_report, data_version, tier), not_in_warehouse (true or false)."""
 
 SYSTEM = RULES + "\n\n# Briefing: package/llms.txt\n\n" + BRIEFING
 
@@ -74,8 +75,8 @@ ANSWER_SCHEMA = {
         "citations": {"type": "array", "items": {
             "type": "object",
             "properties": {"table": {"type": "string"}, "source_report": {"type": "string"},
-                           "data_version": {"type": "string"}},
-            "required": ["table", "source_report", "data_version"],
+                           "data_version": {"type": "string"}, "tier": {"type": "string"}},
+            "required": ["table", "source_report", "data_version", "tier"],
             "additionalProperties": False}},
         "not_in_warehouse": {"type": "boolean"},
     },
@@ -266,6 +267,9 @@ class Asker:
             record["second_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables]
             record["second_answer"] = draft["answer"]
             break
+        # session 28: each citation's tier is the warehouse's, whatever the model copied
+        for c in final.get("citations", []):
+            c["tier"] = tools.provenance(c["table"]).get("tier") or c.get("tier") or ""
         record.update(final)
         # the ERW writes no em dashes in any file (CLAUDE.md): model text is normalised, as in
         # warehouse/news/score.py; the numbers and every other character are unchanged
@@ -310,7 +314,8 @@ def main(argv=None):
         return 0
     print(rec["answer"])
     for c in rec["citations"]:
-        print(f"  [{c['table']}] source {c['source_report']}; {c['data_version']}")
+        print(f"  [{c['table']}] source {c['source_report']}; {c['data_version']}"
+              + (f"; tier {c['tier']}" if c.get("tier") else ""))
     u = rec["usage"]
     cost = "unknown (model not in PRICES)" if rec["cost_usd"] is None else f"USD {rec['cost_usd']:.4f}"
     print(f"\nstatus {rec['status']}; model {rec['model']}; tool calls {rec['tool_calls']}; "

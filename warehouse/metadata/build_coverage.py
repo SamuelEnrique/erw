@@ -10,7 +10,18 @@ workflow runs this after the validator.
     python warehouse/metadata/build_coverage.py
 
 coverage.csv columns: table, iso, market, n_nodes, interval, ts_min, ts_max,
-n_rows, source_report, last_run, validator_status, license, sector, derived.
+n_rows, source_report, last_run, validator_status, license, sector, derived, tier.
+
+tier (session 28, Ben Domingue's review, item 6) is the table's provenance tier,
+one of TIERS (docs/datastandard.md, "Provenance tiers"): source (every value as the
+publisher published it, reshaped only), derived (computed by ERW code from other
+tables with a documented method, no model) or model_extracted (at least one column
+written by a model reading text: extraction, scoring or research). Set by the first
+matching rule in TIER_RULES, else "derived" for a derived table, else "source"; a
+table built from a model_extracted table (its "Derived from:" line) is
+model_extracted too. A table whose rows name a model (a model_id column) or whose
+header names a Claude model, but which no rule makes model_extracted, fails the
+build: a model's output is never labelled as a source's.
 
 derived (session 9) is "yes" for a table computed by the ERW from other ERW
 tables (its header has a "Derived from:" line), else "no". A derived table's
@@ -65,7 +76,16 @@ ISO_LABEL = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MISO
 BA_LABEL = {"ciso": "CAISO", "erco": "ERCOT", "isne": "ISO-NE", "miso": "MISO", "nyis": "NYISO",
             "pjm": "PJM", "swpp": "SPP", "us48": "US48"}
 CSV_COLS = ["table", "iso", "market", "n_nodes", "interval", "ts_min", "ts_max", "n_rows",
-            "source_report", "last_run", "validator_status", "license", "sector", "derived"]
+            "source_report", "last_run", "validator_status", "license", "sector", "derived", "tier"]
+TIERS = ["source", "derived", "model_extracted"]
+# Session 28: first match wins (docs/datastandard.md, "Provenance tiers")
+TIER_RULES = [
+    ("model_extracted", r"^(energy_deals|datacenter_projects|policy_reads)(_evidence)?$"),  # extraction from news
+    ("model_extracted", r"^energy_companies$"),           # the Thesis Builder's research and the deal parties
+    ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
+    ("model_extracted", r"^policy_actions$"),             # significance, sector and why are the model's
+    ("derived", r"^(energy_projects|datacenter_queue_positions)$"),  # ERW code over source tables
+]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
            "metals", "equities", "news", "deals", "datacenters"]
@@ -284,6 +304,46 @@ def apply_derived(rows):
     return rows
 
 
+def header_of(table):
+    path = os.path.join(OUT, table + ".csv")
+    with open(path, encoding="utf-8") as f:
+        return [ln.lstrip("#").strip() for ln in itertools.takewhile(lambda ln: ln.startswith("#"), f)]
+
+
+def tier_by_rule(table, derived):
+    for tier, pat in TIER_RULES:
+        if re.match(pat, table):
+            return tier
+    return "derived" if derived == "yes" else "source"
+
+
+def apply_tiers(rows):
+    """Session 28: the provenance tier of every table built here (see the module docstring)."""
+    by = {r["table"]: r for r in rows}
+    inputs = {}
+    for r in rows:
+        r["tier"] = tier_by_rule(r["table"], r["derived"])
+        # the "Derived from:" inputs, separated by ";" or "," (datacenter_facilities uses commas)
+        line = next((h for h in header_of(r["table"]) if h.startswith("Derived from:")), "")
+        inputs[r["table"]] = [t.strip() for t in re.split(r"[;,]", line.split(":", 1)[1]) if t.strip()] if line else []
+    changed = True
+    while changed:  # a table built from a model_extracted one is model_extracted
+        changed = False
+        for r in rows:
+            if r["tier"] != "model_extracted" and any(by.get(t, {}).get("tier") == "model_extracted"
+                                                       for t in inputs[r["table"]]):
+                r["tier"], changed = "model_extracted", True
+    for r in rows:
+        header = header_of(r["table"])
+        with open(os.path.join(OUT, r["table"] + ".csv"), encoding="utf-8") as f:
+            cols = next(ln for ln in f if not ln.startswith("#")).rstrip(chr(13) + chr(10)).split(",")
+        names_model = "model_id" in cols or any(re.search(r"(?<![a-z])claude-[a-z]", h) for h in header)
+        if names_model and r["tier"] != "model_extracted":
+            raise ValueError(f"{r['table']}: its rows or header name a model, but its tier is {r['tier']}; "
+                             "add it to build_coverage.TIER_RULES as model_extracted")
+    return rows
+
+
 def carried_over(present):
     """Rows of the previous coverage for tables not in warehouse/output on this machine:
     (CSV rows, {table: its line in docs/coverage.md})."""
@@ -306,8 +366,12 @@ def carried_over(present):
 
 def main():
     licenses = load_licenses()
-    rows = apply_derived([table_row(p, licenses) for p in sorted(glob.glob(os.path.join(OUT, "*.csv")))])
+    rows = apply_tiers(apply_derived([table_row(p, licenses) for p in sorted(glob.glob(os.path.join(OUT, "*.csv")))]))
     carried, carried_md = carried_over({r["table"] for r in rows})
+    for r in carried:  # session 28: a row carried from a coverage.csv written before the tier column
+        if not r.get("tier"):
+            r["tier"] = tier_by_rule(r["table"], r.get("derived", "no"))
+            carried_md[r["table"]] = carried_md[r["table"]] + f" {r['tier']} |"
     if carried:
         print(f"carried over from the previous coverage (not in warehouse/output here): "
               f"{len(carried)} tables: {', '.join(r['table'] for r in carried)}")
@@ -316,7 +380,7 @@ def main():
 
     md_cols = ["Table", "ISO", "Market", "Variable", "Nodes", "Interval",
                "First interval (UTC)", "Last interval (UTC)", "Rows", "Source report",
-               "Last run (UTC)", "Validator", "License", "Sector", "Derived"]
+               "Last run (UTC)", "Validator", "License", "Sector", "Derived", "Tier"]
     lines = [
         "# ERW coverage",
         "",
@@ -333,7 +397,9 @@ def main():
         "only, such as PJM data; never shown on the public site). `Sector` is what "
         "`erw.filter(sector=...)` matches: power, gas, oil, products, lng, coal, uranium, "
         "carbon, capacity, metals, equities, news. `Derived` is yes for a table the ERW computes "
-        "from other ERW tables (method in `docs/methods/`).",
+        "from other ERW tables (method in `docs/methods/`). `Tier` is the provenance tier "
+        "(`docs/datastandard.md`): `source` (as the publisher published it), `derived` (computed by ERW "
+        "code, no model) or `model_extracted` (at least one column written by a model reading text).",
         "",
         "| " + " | ".join(md_cols) + " |",
         "|" + "|".join("---" for _ in md_cols) + "|",
@@ -348,7 +414,7 @@ def main():
                  f"{r['n_nodes']}: {r['_nodes']}", r["interval"],
                  r["ts_min"].replace("T", " ").rstrip("Z"), r["ts_max"].replace("T", " ").rstrip("Z"),
                  f"{r['n_rows']:,}", r["source_report"].replace(";", "; "),
-                 r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"], r["sector"].replace(";", ", "), r["derived"]]
+                 r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"], r["sector"].replace(";", ", "), r["derived"], r["tier"]]
         lines.append("| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |")
     missing = [f"{label} {m.upper()}" for iso, label in ISO_LABEL.items() for m in ("dam", "rtm")
                if not glob.glob(os.path.join(OUT, f"{iso}_{m}_*.csv"))]

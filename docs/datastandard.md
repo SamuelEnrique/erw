@@ -95,6 +95,31 @@ One row per deal, filing, or announcement.
 
 ---
 
+## Provenance tiers
+
+Session 28, from Ben Domingue's review (`docs/feedback/ben-2026-09-28.md`, item 6). Every table has one tier, the `tier` column of `warehouse/metadata/coverage.csv`. It tells a user citing a number what kind of number it is.
+
+| Tier | Means | Examples |
+|---|---|---|
+| `source` | Every value is as the publisher published it. The ERW reshapes, renames, converts units by a stated rule and merges runs, but writes no value of its own | ISO prices, EIA-930, EIA series, the queues, NWS weather |
+| `derived` | Computed by ERW code from other tables, with a method in `docs/methods/`. No model is involved | the trader view, the ERCOT peak premium, the curtailment sums, `energy_projects` |
+| `model_extracted` | At least one column was written by a model reading text: extracted from news or filings, scored, or researched on the web. The row links the text it was read from | `energy_deals`, `datacenter_projects`, `policy_reads`, `energy_companies`, the scores in `news_stories`, `news_index` and `policy_actions` |
+
+Rules:
+
+- **The lowest tier wins.** A table is `model_extracted` if any of its columns is a model's, even when most columns are a source's: `policy_actions` holds Federal Register records, but its `significance`, `sector` and `why` are the model's. For these mixed tables, the model's columns are the ones the table's header names as the scorer's or extractor's.
+- **Tiers are inherited.** A table built from a `model_extracted` table (its `Derived from:` header line) is `model_extracted` (`datacenter_facilities`).
+- **Where it is set.** `warehouse/metadata/build_coverage.py` sets the tier by its `TIER_RULES`, else `derived` for a derived table, else `source`. The build fails if a table's rows name a model (a `model_id` column), or its header names a Claude model, but no rule makes it `model_extracted`. So a model's output cannot be labelled as a source's by omission.
+- **Where it shows.**
+  - The Supabase catalogue (migration 008).
+  - `erw.tier()`, `erw.cite()` and `erw.info()`.
+  - The site's `/data` table.
+  - Every citation on the site: a short "model-extracted" label next to such a table.
+  - The chat's tool results and citations. The chat is told to say "model-extracted" next to a number from such a table.
+- **How to cite one.** A `model_extracted` number is cited with the source the row links, not as the publisher's figure. The spot checks in the session reports give its measured accuracy (for example, 0.95 of deal fields correct in session 15's check).
+
+---
+
 ## Decisions in v0
 
 What was chosen, and why:

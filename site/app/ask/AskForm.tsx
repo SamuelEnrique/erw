@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 
-type Citation = { table: string; source_report: string; data_version: string };
+type Citation = { table: string; source_report: string; data_version: string; tier?: string };
 type Result = {
   answer: string;
   citations: Citation[];
@@ -82,6 +83,11 @@ export function AskForm() {
                     <Link href={`/data#${c.table}`} className="font-mono">
                       {c.table}
                     </Link>
+                    {c.tier === "model_extracted" ? (
+                      <span className="ml-1 rounded border border-rule px-1 text-xs" title={TIER_TITLE.model_extracted}>
+                        {TIER_LABEL.model_extracted}
+                      </span>
+                    ) : null}
                     , source report <code className="font-mono text-xs">{c.source_report}</code>
                     <div className="text-xs text-muted">{c.data_version}</div>
                   </li>

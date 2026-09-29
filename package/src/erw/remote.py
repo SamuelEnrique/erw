@@ -23,7 +23,7 @@ from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
-from .backends import COVERAGE_COLS, SOURCE_COLS, Backend, ERWDataNotFound
+from .backends import COVERAGE_COLS, OPTIONAL_COVERAGE_COLS, SOURCE_COLS, Backend, ERWDataNotFound
 
 REDIVIS_META = {"erw_headers", "erw_coverage", "erw_sources"}
 
@@ -74,7 +74,8 @@ def _coverage_frame(cov: pd.DataFrame) -> pd.DataFrame:
     missing = [c for c in COVERAGE_COLS if c not in cov.columns]
     if missing:
         raise ValueError(f"coverage lacks columns {missing}")
-    return cov[COVERAGE_COLS].sort_values("table").reset_index(drop=True)
+    cols = COVERAGE_COLS + [c for c in OPTIONAL_COVERAGE_COLS if c in cov.columns]
+    return cov[cols].sort_values("table").reset_index(drop=True)
 
 
 class RedivisBackend(Backend):

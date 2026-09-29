@@ -315,6 +315,16 @@ redistribute an internal table; label any number from one as internal. A
 derived table takes the most restrictive license of its inputs. For anything
 public, `erw.filter(license="public")`.
 
+Provenance tier (session 28): every table is `source` (as the publisher
+published it), `derived` (computed by the ERW from other tables, method in
+docs/methods/) or `model_extracted` (at least one field written by a model
+reading news, filings or the web: energy_deals, datacenter_projects,
+datacenter_facilities, policy_reads, energy_companies, and the scores in
+news_stories, news_index and policy_actions). `erw.tier(name)`, the `tier`
+column of `erw.coverage()`, and every tool result give it. A number from a
+model_extracted table is the model's reading of the linked source, not the
+source's figure: say "model-extracted" next to it.
+
 
 ## 6. Reading the data
 
@@ -326,13 +336,14 @@ public, `erw.filter(license="public")`.
     erw.coverage()                        # one row per table: iso, market, n_nodes,
                                           # interval, ts_min, ts_max, n_rows,
                                           # source_report, last_run, validator_status,
-                                          # license, sector, derived
+                                          # license, sector, derived, tier
     erw.fetch("ercot_rtm_hub_prices_2025", node="HB_WEST")
     erw.fetch("eia_fuel_spot_prices", start="2026-09-01", end="2026-09-08")
     erw.filter(iso="ERCOT", market="rtm") # table names; also variable, node,
     erw.filter(sector="oil", license="public")   # start, end, license, sector
     erw.sources("ercot_dam_hub_prices")   # reports, report pages, file URLs
-    erw.cite("ercot_dam_hub_prices")      # citation: publisher, report, table, version
+    erw.cite("ercot_dam_hub_prices")      # citation: publisher, report, table, version, tier
+    erw.tier("energy_deals")              # source, derived or model_extracted
     erw.version()                         # which data you read
 
 Backends (`ERW_BACKEND`, or `erw.set_backend(...)`); the calls do not change:

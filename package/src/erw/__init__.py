@@ -24,13 +24,14 @@ from .api import (  # noqa: E402
     list_tables,
     set_backend,
     sources,
+    tier,
     version,
 )
 from .backends import Backend, ERWDataNotFound, LocalBackend  # noqa: E402
 from .remote import RedivisBackend, SupabaseBackend  # noqa: E402
 
 __all__ = [
-    "info", "list_tables", "coverage", "fetch", "filter", "sources", "cite", "version",
+    "info", "list_tables", "coverage", "fetch", "filter", "sources", "cite", "tier", "version",
     "get_backend", "set_backend", "Backend", "LocalBackend", "ERWDataNotFound",
     "RedivisBackend", "SupabaseBackend",
 ]

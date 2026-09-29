@@ -550,3 +550,19 @@ def test_peak_premium_structure():
     tot = mm.groupby(["entity", "year"])["value"].sum()
     for (ent, ts), v in n.set_index(["entity", "ts_utc"])["value"].items():
         assert tot[(ent, ts.year)] == v
+
+
+def test_tier_column_cite_and_info():
+    """Session 28: every table has a provenance tier, and cite() and info() carry it."""
+    cov = erw.coverage()
+    assert "tier" in cov.columns
+    assert set(cov["tier"]) <= {"source", "derived", "model_extracted"} and (cov["tier"] != "").all()
+    by = cov.set_index("table")["tier"]
+    for name in by.index:
+        assert erw.tier(name) == by[name]
+        assert erw.cite(name).endswith(f"Provenance tier: {by[name]} ({erw.api.TIER_NOTE[by[name]]}).")
+    if "energy_deals" in by.index:
+        assert by["energy_deals"] == "model_extracted"
+    if "ercot_dam_hub_prices" in by.index:
+        assert by["ercot_dam_hub_prices"] == "source"
+    assert erw.info(quiet=True)["tiers"] == {k: int(v) for k, v in cov["tier"].value_counts().items()}

@@ -19,6 +19,9 @@ import pandas as pd
 COVERAGE_COLS = ["table", "iso", "market", "n_nodes", "interval", "ts_min", "ts_max",
                  "n_rows", "source_report", "last_run", "validator_status", "license", "sector",
                  "derived"]
+# session 28: the provenance tier (source, derived, model_extracted); kept when the coverage has it, so a
+# coverage written before the column still reads
+OPTIONAL_COVERAGE_COLS = ["tier"]
 SOURCE_COLS = ["source", "publisher", "report", "report_url", "document_list", "license",
                "tables", "first_seen", "last_seen"]
 
@@ -143,7 +146,7 @@ class LocalBackend(Backend):
             missing = [c for c in COVERAGE_COLS if c not in cov.columns]
             if missing:
                 raise ValueError(f"{path} lacks coverage columns {missing}")
-            return cov[COVERAGE_COLS]
+            return cov[COVERAGE_COLS + [c for c in OPTIONAL_COVERAGE_COLS if c in cov.columns]]
         raise ERWDataNotFound(
             f"No coverage table at {path}. Build it with "
             "`python warehouse/metadata/build_coverage.py`, or set ERW_COVERAGE_CSV.")

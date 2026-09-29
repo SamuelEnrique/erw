@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { catalogue } from "@/lib/data";
 import { attempt } from "@/lib/supabase";
+import { TIER_LABEL, TIER_TITLE, isModelExtracted } from "@/lib/tiers";
 
 // Supabase tables that are not ERW tables (they have no row in the coverage table)
 const LIVE_ONLY: Record<string, string> = {
@@ -9,7 +10,8 @@ const LIVE_ONLY: Record<string, string> = {
 };
 
 // The citation under every chart and table: the ERW tables it reads and, from the
-// catalogue, the source report behind each.
+// catalogue, the source report behind each. Session 28: a table whose provenance tier is
+// model_extracted carries a short label, so a reader can tell a model's reading from a source.
 export async function Cite({ tables, note }: { tables: string[]; note?: string }) {
   const cat = await attempt(catalogue);
   const byName = new Map(cat.ok ? cat.data.map((r) => [r.table_name, r]) : []);
@@ -32,6 +34,11 @@ export async function Cite({ tables, note }: { tables: string[]; note?: string }
                 <Link href={`/data#${t}`} className="font-mono">
                   {t}
                 </Link>
+                {isModelExtracted(r?.tier) ? (
+                  <Link href="/data/standard" title={TIER_TITLE.model_extracted} className="ml-1 rounded border border-rule px-1 font-sans not-italic">
+                    {TIER_LABEL.model_extracted}
+                  </Link>
+                ) : null}
                 {r?.source_report ? (
                   <>
                     {" "}

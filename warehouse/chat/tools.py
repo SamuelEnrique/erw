@@ -181,6 +181,8 @@ def provenance(name):
             "data_version": data_version(name),
             "source_report": None if row is None else row["source_report"],
             "license": None if row is None else row["license"],
+            # session 28: source, derived or model_extracted (docs/datastandard.md)
+            "tier": None if row is None or "tier" not in row.index else (row["tier"] or None),
             "citation": _cites[name]}
 
 
@@ -218,7 +220,8 @@ def list_tables(sector=None, license=None, iso=None):
         rows.append({"table": r.table, "sector": r.sector.replace(";", ", ") if r.sector else "",
                      "license": r.license, "iso": r.iso, "interval": r.interval,
                      "first": _ts(r.ts_min), "last": _ts(r.ts_max), "rows": int(r.n_rows),
-                     "source_report": r.source_report, "derived": r.derived})
+                     "source_report": r.source_report, "derived": r.derived,
+                     "tier": getattr(r, "tier", None)})
     v = erw.version()
     return {"n_tables": len(rows), "tables": rows,
             "backend": v.get("backend"),

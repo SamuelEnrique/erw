@@ -74,8 +74,9 @@ def coverage() -> pd.DataFrame:
     """The coverage table: one row per table (the ERW's metadata.csv).
 
     Columns: table, iso, market, n_nodes, interval, ts_min, ts_max, n_rows,
-    source_report, last_run, validator_status, license, sector. ts_min and ts_max are the first
-    and last interval starts in UTC.
+    source_report, last_run, validator_status, license, sector, derived, and (session 28) tier,
+    the provenance tier: source, derived or model_extracted (docs/datastandard.md). ts_min and
+    ts_max are the first and last interval starts in UTC.
     """
     cov = get_backend().coverage().copy()
     for c in ("ts_min", "ts_max", "last_run"):
@@ -292,6 +293,24 @@ def sources(name: str) -> Dict:
             "raw_files": meta["raw_files"]}
 
 
+TIER_NOTE = {  # session 28: docs/datastandard.md, "Provenance tiers"
+    "source": "as the publisher published it, reshaped only",
+    "derived": "computed by the ERW from other tables, method in docs/methods/",
+    "model_extracted": "at least one field was written by a model reading the sources, not published by them; "
+                       "check a number against its linked source before relying on it",
+}
+
+
+def tier(name: str) -> Optional[str]:
+    """The table's provenance tier (session 28): source, derived or model_extracted; None when the
+    coverage being read predates the tier column."""
+    cov = coverage()
+    if "tier" not in cov.columns or name not in set(cov["table"]):
+        return None
+    t = cov.set_index("table").loc[name, "tier"]
+    return t if isinstance(t, str) and t else None
+
+
 def cite(name: str) -> str:
     """A citation for the ISO report(s) a table was built from, plus the ERW table.
 
@@ -323,7 +342,9 @@ def cite(name: str) -> str:
     commit = ver.get("data_commit")
     via = (f"{retrieved} via the Energy Research Warehouse (ERW), table {name}"
            f"{', data commit ' + commit[:12] if commit else ''}.")
-    return " ".join(parts) + via
+    t = tier(name)
+    tier_text = f" Provenance tier: {t} ({TIER_NOTE.get(t, t)})." if t else ""
+    return " ".join(parts) + via + tier_text
 
 
 def version() -> Dict[str, Optional[str]]:
@@ -351,26 +372,28 @@ def info(name: Optional[str] = None, quiet: bool = False) -> Dict:
                  "capacity_mw": float(df["capacity_mw"].sum()) if "capacity_mw" in df else None,
                  "vintage": sorted(set(df["vintage"])) if "vintage" in df else [],
                  "sources": sorted(set(df["source"])),
-                 "license": coverage().set_index("table").loc[name, "license"], "notes": meta["notes"]}
+                 "license": coverage().set_index("table").loc[name, "license"], "tier": tier(name),
+                 "notes": meta["notes"]}
             if not quiet:
                 print(f"{name}: {d['title']}")
                 print(f"  {d['rows']} entities ({', '.join(d['entity_types'])}), vintage "
-                      f"{', '.join(d['vintage'])}, license {d['license']}")
+                      f"{', '.join(d['vintage'])}, license {d['license']}, tier {d['tier']}")
             return d
         if "event_id" in df.columns:
             d = {"table": name, "title": meta["title"], "rows": len(df), "shape": "events",
                  "event_types": sorted(set(df["event_type"])), "sources": sorted(set(df["source"])),
                  "event_date_min": df["event_date"].min(), "event_date_max": df["event_date"].max(),
-                 "license": coverage().set_index("table").loc[name, "license"], "notes": meta["notes"]}
+                 "license": coverage().set_index("table").loc[name, "license"], "tier": tier(name),
+                 "notes": meta["notes"]}
             if not quiet:
                 print(f"{name}: {d['title']}")
                 print(f"  {d['rows']} events from {len(d['sources'])} sources, "
-                      f"{d['event_date_min']} to {d['event_date_max']} (UTC), license {d['license']}")
+                      f"{d['event_date_min']} to {d['event_date_max']} (UTC), license {d['license']}, tier {d['tier']}")
             return d
         d = {"table": name, "title": meta["title"], "rows": len(df),
              "variables": sorted(set(df["variable"])),
              "nodes": sorted(n for n in set(df["node"]) if n) or sorted(set(df["entity"])),
-             "license": coverage().set_index("table").loc[name, "license"],
+             "license": coverage().set_index("table").loc[name, "license"], "tier": tier(name),
              "ts_min": df["ts_utc"].min(), "ts_max": df["ts_utc"].max(),
              "freq": sorted(set(df["freq"])), "unit": sorted(set(df["unit"])),
              "sources": [s["source"] for s in meta["sources"]],
@@ -380,7 +403,7 @@ def info(name: Optional[str] = None, quiet: bool = False) -> Dict:
             print(f"{name}: {d['title']}")
             print(f"  {d['rows']} rows, {len(d['nodes'])} nodes, {d['ts_min']} to {d['ts_max']} "
                   f"(interval starts, UTC), freq {', '.join(d['freq'])}, unit {', '.join(d['unit'])}")
-            print(f"  sources: {', '.join(d['sources'])}")
+            print(f"  sources: {', '.join(d['sources'])}; tier {d['tier']}")
         return d
     cov = coverage()
     ver = version()
@@ -389,11 +412,14 @@ def info(name: Optional[str] = None, quiet: bool = False) -> Dict:
          "markets": sorted(cov["market"].unique()), "ts_min": cov["ts_min"].min(),
          "ts_max": cov["ts_max"].max(), "data_commit": ver.get("data_commit"),
          "tables_blocked": cov.loc[~cov["validator_status"].astype(str).str.startswith("pass"),
-                                   "table"].tolist()}
+                                   "table"].tolist(),
+         "tiers": ({k: int(v) for k, v in cov["tier"].value_counts().items()} if "tier" in cov.columns else {})}
     if not quiet:
         print("Energy Research Warehouse (ERW)")
         print(f"  {d['n_tables']} tables, {d['n_rows']:,} rows, {len(d['isos'])} ISOs: "
               f"{', '.join(d['isos'])}")
         print(f"  {d['ts_min']} to {d['ts_max']} (interval starts, UTC)")
         print(f"  data: {d['backend']}; commit {(d['data_commit'] or 'unknown')[:12]}")
+        if d["tiers"]:
+            print("  provenance tiers: " + ", ".join(f"{k} {v}" for k, v in sorted(d["tiers"].items())))
     return d
