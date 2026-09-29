@@ -139,6 +139,10 @@ run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
 # (docs/methods/storage.md)
 run_other eia930_storage "$PYTHON" warehouse/connectors/eia930_storage.py --days "$DAYS"
 run_other storage_daily_cycle "$PYTHON" warehouse/derived/storage_daily_cycle.py
+# Session 32: EIA-930 CO2 estimates from EIA's per-BA workbooks (the newest workbook per BA; the last $DAYS days merged
+# on (entity, variable, ts_utc); the raw copy kept), then carbon intensity (docs/methods/emissions.md)
+run_other eia930_emissions "$PYTHON" warehouse/connectors/eia930_emissions.py --days "$DAYS"
+run_other carbon_intensity "$PYTHON" warehouse/derived/carbon_intensity.py
 
 # Session 24: NWS weather at one airport per ISO load center: hourly observations (the API serves about 7 days;
 # the table grows by merging) and the 7-day hourly forecast, for /grid's temperature overlay and degree days
