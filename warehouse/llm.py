@@ -69,9 +69,17 @@ def prices():
     return _PRICES
 
 
+def price_of(model):
+    """The configured prices of a model; a dated id the API answers with (claude-haiku-4-5-20251001) is priced as
+    its alias (claude-haiku-4-5)."""
+    import re
+    models = prices()["models"]
+    return models.get(model) or models.get(re.sub(r"-\d{8}$", "", model or ""))
+
+
 def price_pair(model):
     """(input, output) USD per million tokens, or None: the pair the older cost lines use."""
-    p = prices()["models"].get(model)
+    p = price_of(model)
     return (p["input"], p["output"]) if p else None
 
 
@@ -90,7 +98,7 @@ def usage_numbers(usage):
 def usd(model, n):
     """The cost of one call's usage numbers (usage_numbers) at the configured prices, or None."""
     cfg = prices()
-    p = cfg["models"].get(model)
+    p = price_of(model)
     if p is None:
         return None
     cw_5m = n["cache_write"] - n["cache_write_1h"]
