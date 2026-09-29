@@ -35,7 +35,7 @@ export type LatestPrice = {
 };
 
 export type Point = { ts_utc: string; value: number };
-export type SeriesRow = { entity: string; variable: string; ts_utc: string; value: number; unit: string };
+export type SeriesRow = { entity: string; variable: string; ts_utc: string; value: number; unit: string; freq?: string | null };
 
 export type Market = (typeof markets.isos)[number];
 export const MARKETS: Market[] = markets.isos;
@@ -61,7 +61,7 @@ export async function series(
   revalidate = HOURLY,
 ): Promise<SeriesRow[]> {
   const q: Record<string, string> = {
-    select: "entity,variable,ts_utc,value,unit",
+    select: "entity,variable,ts_utc,value,unit,freq", // session 30: freq tells /board's daily rows from its annual ones
     table_name: `eq.${table}`,
     order: "entity,variable,ts_utc", // the key: stable pages
   };

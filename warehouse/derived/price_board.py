@@ -263,7 +263,9 @@ def build_peak(prices, ercot_hist, retrieved, log):
             t = day_ts(day)
             if len(pk):
                 rows += [row(entity, "peak_mean", t, r4(pk["value"].mean()), "USD/MWh", "P1D", **base),
-                         row(entity, "peak_intervals", t, int(len(pk)), "count", "P1D", **base)]
+                         row(entity, "peak_intervals", t, int(len(pk)), "count", "P1D", **base),
+                         row(entity, "peak_minus_offpeak", t, r4(pk["value"].mean() - op["value"].mean()), "USD/MWh",
+                             "P1D", **base)]
             rows += [row(entity, "offpeak_mean", t, r4(op["value"].mean()), "USD/MWh", "P1D", **base),
                      row(entity, "offpeak_intervals", t, int(len(op)), "count", "P1D", **base),
                      row(entity, "all_mean", t, r4(x["value"].mean()), "USD/MWh", "P1D", **base)]

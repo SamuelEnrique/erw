@@ -46,7 +46,7 @@ The main hub of each ISO, both markets.
 
 **Rows per complete day** of the last 90 each table reaches (`P1D`):
 
-- `peak_mean`, `offpeak_mean` and `all_mean`;
+- `peak_mean`, `offpeak_mean` and `all_mean`, and `peak_minus_offpeak` (the day's two means, subtracted) on a peak day;
 - `peak_intervals` and `offpeak_intervals`.
 
 A weekend or holiday has no peak row.

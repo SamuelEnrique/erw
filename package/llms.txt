@@ -93,6 +93,22 @@ day-ahead tables running into tomorrow:
   real-time table); PJM is absent (no licensed PJM data).
   iso_rt_top_intervals: a snapshot of each ISO's 10 highest real-time
   intervals of its latest 7 complete local days.
+**Derived: price board v2** (session 30, method docs/methods/price_board.md; the
+  site's /board). Means of complete local operating days only; variables carry
+  the market, da_ or rt_. price_board_latest: every hub and zone of the six
+  ISOs: {da,rt}_daily_mean (last 30 days), _latest_day_mean,
+  _previous_day_mean, _day_change (USD/MWh), _day_change_pct, _avg_7d,
+  _avg_30d, _min_30d, _max_30d (of the daily means), _days_7d, _days_30d,
+  _latest_interval, _intervals_30d, and da_minus_rt. price_board_peak_offpeak:
+  each ISO's main hub, {da,rt}_{peak,offpeak,all}_mean and _peak_minus_offpeak
+  per day (P1D, last 90 days the tables reach; peak = hours ending 7 to 22,
+  Mon to Fri, CAISO Mon to Sat, NERC holidays off-peak), and ERCOT HB_HUBAVG
+  per operating year since 2015 (P1Y, means; ercot_peak_premium_annual has
+  the medians). price_board_spreads: henry_hub, per main hub spark_spread_7
+  (day-ahead daily mean minus an ASSUMED 7.0 MMBtu/MWh times Henry Hub; say
+  it is an assumption), implied_heat_rate, da_daily_mean, and
+  brent_minus_wti; x_gas_date is the Henry Hub date used. price_board_carbon
+  is internal (CARB and RGGI).
 **EIA-930 hourly grid data** (series, MW): eia930_all_demand (demand_mw,
   demand_forecast_mw) and eia930_all_generation (net_generation_mw and
   net_generation_<fuel>_mw: coal, natural_gas, nuclear, solar, wind, hydro,
@@ -266,6 +282,7 @@ day-ahead tables running into tomorrow:
 | Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
 | Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_all_generation` (ba) |
 | Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `iso_trader_daily` (market), `iso_rt_top_intervals` |
+| A hub's latest daily mean, its move, 7- and 30-day averages, peak and off-peak, spark spread, Brent minus WTI | `price_board_latest`, `price_board_peak_offpeak`, `price_board_spreads` |
 | Wind and solar curtailment | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (not curtailment: output below HSL), `iso_curtailment_monthly` |
 | Battery output (CAISO) | `caiso_battery_storage` |
 | Federal rules, notices, agency and PUC news releases; their impact | `policy_actions`, `policy_reads` |
@@ -280,7 +297,8 @@ day-ahead tables running into tomorrow:
 | Capacity, carbon, shipping | internal tables above; say they are internal |
 
 Not in the warehouse today: PJM energy prices (day-ahead and real-time), SPP
-real-time series, CAISO or NYISO before the live window, futures, lithium and
+real-time before 2026-09-24 (iso_rtm_hub_prices, market spp_rtm, starts
+then), CAISO or NYISO before the live window, futures, lithium and
 other battery metals, equities, and a list of ERCOT large-load interconnection
 requests by site (ERCOT publishes only aggregates: Protocol 3.2.7).
 Say "not in the warehouse" rather than approximating from another table.
@@ -323,7 +341,9 @@ Say "not in the warehouse" rather than approximating from another table.
 
 Every table is `public` or `internal` (`erw.coverage()["license"]`). Internal
 means licensed for internal use only: PJM data, CARB, RGGI, IMF series via
-FRED, PortWatch, and the third-party text in news_stories. Never publish or
+FRED, PortWatch, the third-party text in news_stories, and the ERW's own
+operating tables (api_cost_ledger, news_scores_shadow), which are never data
+for an answer. Never publish or
 redistribute an internal table; label any number from one as internal. A
 derived table takes the most restrictive license of its inputs. For anything
 public, `erw.filter(license="public")`.

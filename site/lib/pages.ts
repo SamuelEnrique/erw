@@ -10,6 +10,8 @@ export const GROUPS: Group[] = [
   {
     label: "Prices",
     pages: [
+      // session 30: price board v2, the demo's page
+      { href: "/board", label: "Price board", line: "The six ISOs' main hubs on one screen: day-ahead and real-time, moves, peak and off-peak, spark spreads, Henry Hub, Brent minus WTI, and ERCOT since 2015.", tables: "price_board_latest, price_board_peak_offpeak, price_board_spreads, price_board_carbon", related: ["/prices", "/markets"] },
       { href: "/markets", label: "Markets", line: "Day-ahead against real-time by hub: spreads, on-peak prices, heat rates, volatility and the week's top intervals.", tables: "iso_trader_daily, iso_rt_top_intervals", related: ["/prices", "/grid"] },
       { href: "/prices", label: "Prices", line: "Every public ISO hub and zone, real-time and day-ahead, with Henry Hub, WTI and Brent.", tables: "ISO price tables, eia_fuel_spot_prices, latest_prices", related: ["/markets", "/explorer/ercot-peak-premium"] },
       { href: "/explorer/ercot-peak-premium", label: "ERCOT peak premium", line: "How ERCOT real-time prices spread across the day, by hub and year since 2015.", tables: "ercot_peak_premium_annual, ercot_peak_premium_monthly", related: ["/prices", "/markets"] },

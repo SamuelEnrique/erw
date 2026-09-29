@@ -207,7 +207,7 @@ export default async function Home() {
         {cat.ok ? <Cite tables={["catalogue"]} note="Rebuilt on every daily run; public tables only" /> : null}
       </section>
 
-      <Section title="Power prices, real time" aside={<Link href="/prices">Every hub and zone</Link>}>
+      <Section title="Power prices, real time" aside={<><Link href="/board">Price board</Link> <span className="text-muted">|</span> <Link href="/prices">Every hub and zone</Link></>}>
         <PriceBoard />
       </Section>
 

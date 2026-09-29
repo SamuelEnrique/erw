@@ -11,6 +11,10 @@
   --color-muted: #6B665E;   /* secondary text, axes, the second series */
   --color-rule: #D9D2C3;    /* borders and grid lines */
   --color-panel: #FBF8F2;   /* a table or card on the page, a tint of the background */
+  /* Session 30 (/board): price moves by sign, from Stanford's palette: up in cardinal, down in Palo Alto green; the
+     sign is also written (+ or a minus and an arrow), so color is never the only cue */
+  --color-up: #8C1515;
+  --color-down: #175E54;
 
   /* Generation mix by fuel (session 15, /grid): the dataviz reference categorical slots 1 to 8 in
      fixed order, validated on --color-panel (all checks pass; three slots below 3:1 contrast, so the
