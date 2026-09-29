@@ -60,3 +60,13 @@ Cite the organization that published the data, then the ERW table and the Redivi
 > Electric Reliability Council of Texas (ERCOT). NP6-785-ER: Historical RTM Load Zone and Hub Prices. Via the Energy Research Warehouse (ERW), table `ercot_rtm_hub_prices_2025`, Redivis dataset `energy_research_warehouse`, version vN (released YYYY-MM-DD).
 
 `erw.cite("<table>")` writes the first part from the table's provenance. The version is the released Redivis version you read; the draft has no version number and is not citable. Each table's license is in its description and in `erw_coverage`. A table marked `internal` (PJM, CARB, RGGI, the FRED IMF series, PortWatch, `news_stories`) is licensed for internal use only and must not be republished.
+
+## Session 29: consolidated tables
+
+54 tables became 6 (`docs/migrations/2026-09-29-consolidation.md`; the map is `warehouse/metadata/table_migrations.csv`).
+
+- **Manifest.** `redivis_uploads.csv` has a column `migrated_to`: the consolidated table an old table moved into. Its line is kept, never removed, so the history gate keeps its count.
+- **Restore.** `--restore` neither expects nor restores a migrated table. Its rows come back inside the consolidated table, and `warehouse/consolidate.py split` writes it for the connectors.
+- **License check.** `--check-license` allows a migrated public table in the public draft until it is removed.
+- **Removal.** `--remove-migrated [--dry-run]` removes the old tables after checking every family (`docs/runbook.md`). A human runs it; no scheduled run does.
+- **Large tables** (the ERCOT history is 0.65 GB) are streamed to the upload, never held whole as text or as a frame.

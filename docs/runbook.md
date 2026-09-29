@@ -43,3 +43,26 @@ What each step does:
 - **Validator.** Exit 0 or stop there.
 - **Archive.** Appends the new rows to the durable archive, through the shared index in the bucket, so a local run and the GitHub runs never archive the same rows twice.
 - **Upload.** Writes the Redivis draft only. Nothing is released.
+## Session 29: removing the migrated tables from Redivis
+
+After the consolidation (`docs/migrations/2026-09-29-consolidation.md`), the old tables stay in both Redivis datasets until a person removes them. The command checks every family first and removes nothing if any count disagrees:
+
+```bash
+python warehouse/redivis/upload.py --remove-migrated --dry-run   # what it would remove, and the counts
+python warehouse/redivis/upload.py --remove-migrated
+```
+
+For each of the six families it checks, in the draft, that the consolidated table holds its old tables' rows:
+
+- either its `count(*)` equals the sum of the old tables' counts;
+- or, once the daily run has added days to it, every old row's key is in it (one join per old table).
+
+On any mismatch it removes nothing and says which family failed. It removes only the old tables and prints each one. The manifest (`warehouse/metadata/redivis_uploads.csv`) keeps their lines, marked `migrated_to`, so the history gate keeps their counts.
+
+## Supabase: compacting the database
+
+`warehouse/supabase/load.py` runs a plain `VACUUM (ANALYZE)` on the shape tables after every load and prints their size before and after (session 29). Only `VACUUM FULL` returns space to the operating system, and it locks each table for seconds, so it stays a person's command:
+
+```bash
+python warehouse/supabase/load.py --vacuum-full
+```
