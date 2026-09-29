@@ -145,6 +145,11 @@ jobs:
           # unsubscribe link; without EMAIL_TOKEN_SECRET the subscribers are left out and only DIGEST_RECIPIENTS get it
           EMAIL_SUBSCRIBERS: "1"
           EMAIL_TOKEN_SECRET: ${{ secrets.EMAIL_TOKEN_SECRET }}
+          # Session 30 (B4): the Haiku shadow scorer and its shadow Digest (warehouse/news/shadow.py). Delete this line
+          # (unset SHADOW_MODEL) to stop it at once; it also stops by itself on the expiry in warehouse/config/shadow.yaml.
+          # The shadow issues go to SHADOW_RECIPIENT if that secret exists, else to DIGEST_RECIPIENTS; never subscribers.
+          SHADOW_MODEL: claude-haiku-4-5
+          SHADOW_RECIPIENT: ${{ secrets.SHADOW_RECIPIENT }}
           # the runner has no tables (not in git): restore the rolling windows first
           RESTORE_FROM_REDIVIS: "1"
           # session 16: set on a manual run (input queues, default 1); empty on the schedule

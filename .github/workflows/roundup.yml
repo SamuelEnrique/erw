@@ -127,6 +127,37 @@ jobs:
             git push origin HEAD:main
           fi
 
+      # Session 30 (B4): the shadow Roundup from the Haiku shadow scores, to the shadow recipient only, subject
+      # "SHADOW HAIKU". Never fails the Roundup. Delete SHADOW_MODEL to stop it; it stops by itself on the expiry in
+      # warehouse/config/shadow.yaml.
+      - name: Shadow Roundup (Haiku scores, one address)
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          SHADOW_MODEL: claude-haiku-4-5
+          SHADOW_RECIPIENT: ${{ secrets.SHADOW_RECIPIENT }}
+        run: python warehouse/news/shadow.py roundup 2>&1 | tee -a roundup.log
+
+      # Session 30 (B1): this workflow's model calls are rows of the cost ledger (warehouse/llm.py); archive, load
+      # and upload that one internal table, so the daily run restores it with them
+      - name: Keep the cost ledger
+        if: always()
+        env:
+          REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
+          REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          if [ -f warehouse/output/api_cost_ledger.csv ]; then
+            python warehouse/archive/archive.py write --tables '^api_cost_ledger$'
+            python warehouse/supabase/load.py --only '^api_cost_ledger$' --no-vacuum
+            python warehouse/redivis/upload.py api_cost_ledger
+          fi
+
       - name: Report a failure
         if: failure()
         env:

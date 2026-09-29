@@ -107,6 +107,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       tools: TOOLS,
       tool_choice: { type: calls < spec.max_tool_calls ? "auto" : "none" },
       output_config: { effort: spec.effort, format: { type: "json_schema", schema: spec.answer_schema } },
+      cache_control: { type: "ephemeral" }, // session 30 (B2): the growing conversation is cached, as in ask.py
       messages,
     };
     const raw = await client.messages

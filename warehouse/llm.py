@@ -181,6 +181,36 @@ def record(step, model, resp_usage, request_id, log=None):
     return row
 
 
+def check_cap():
+    """Refuse a call once the session's ledger total reached ERW_SPEND_CAP_USD (when set)."""
+    cap = os.environ.get("ERW_SPEND_CAP_USD", "").strip()
+    if cap:
+        spent = session_total()
+        if spent >= float(cap):
+            raise SpendCapReached(f"session {session()} has spent USD {spent:.4f}, at or over the cap "
+                                  f"USD {float(cap):.2f} (ERW_SPEND_CAP_USD); no further model call")
+
+
+class _Stream:
+    """messages.stream(...), recorded in the ledger when the stream ends with its final message."""
+
+    def __init__(self, owner, manager, model):
+        self._owner, self._manager, self._model, self._stream = owner, manager, model, None
+
+    def __enter__(self):
+        self._stream = self._manager.__enter__()
+        return self._stream
+
+    def __exit__(self, *exc):
+        if exc[0] is None:
+            msg = self._stream.get_final_message()
+            o = self._owner
+            o.calls.append(record(o.step, getattr(msg, "model", None) or self._model, msg.usage,
+                                  getattr(msg, "_request_id", None) or getattr(self._stream, "request_id", None),
+                                  o.log))
+        return self._manager.__exit__(*exc)
+
+
 class _Messages:
     def __init__(self, owner):
         self._owner = owner
@@ -188,17 +218,16 @@ class _Messages:
 
     def create(self, **kwargs):
         o = self._owner
-        cap = os.environ.get("ERW_SPEND_CAP_USD", "").strip()
-        if cap:
-            spent = session_total()
-            if spent >= float(cap):
-                raise SpendCapReached(f"session {session()} has spent USD {spent:.4f}, at or over the cap "
-                                      f"USD {float(cap):.2f} (ERW_SPEND_CAP_USD); no further model call")
+        check_cap()
         resp = self._inner.create(**kwargs)
         row = record(o.step, getattr(resp, "model", None) or kwargs.get("model", ""), resp.usage,
                      getattr(resp, "_request_id", None), o.log)
         o.calls.append(row)
         return resp
+
+    def stream(self, **kwargs):
+        check_cap()
+        return _Stream(self._owner, self._inner.stream(**kwargs), kwargs.get("model", ""))
 
     def __getattr__(self, name):  # count_tokens, batches, stream: the SDK's own
         return getattr(self._inner, name)
@@ -218,13 +247,15 @@ class LedgerClient:
         return sum(float(r["usd"] or 0) for r in self.calls)
 
 
-def client(step, log=None, api_key=None):
-    """The one construction of the Anthropic client in ERW code (session 30). step names the ledger's step."""
+def client(step, log=None, api_key=None, max_retries=None):
+    """The one construction of the Anthropic client in ERW code (session 30). step names the ledger's step;
+    max_retries, when given, replaces the SDK's default of 2 automatic retries."""
     import anthropic
     key = api_key or ip.load_key("ANTHROPIC_API_KEY", log)
     if not key:
         raise RuntimeError("ANTHROPIC_API_KEY is empty")
-    return LedgerClient(anthropic.Anthropic(api_key=key), step, log)
+    extra = {} if max_retries is None else {"max_retries": max_retries}
+    return LedgerClient(anthropic.Anthropic(api_key=key, **extra), step, log)
 
 
 def wrap(inner, step, log=None):

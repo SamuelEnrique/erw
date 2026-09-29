@@ -192,6 +192,10 @@ run_other energy_projects "$PYTHON" warehouse/derived/energy_projects.py
 # (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.
 run_other news_ingest "$PYTHON" warehouse/news/ingest.py
 model_step news_score "$PYTHON" warehouse/news/score.py
+# Session 30 (B4): the Haiku shadow scorer scores the same stories into news_scores_shadow (internal), only while
+# SHADOW_MODEL is set (the workflow sets it; unsetting it is the kill switch) and before the expiry date in
+# warehouse/config/shadow.yaml; otherwise it prints SKIPPED and spends nothing
+model_step news_score_shadow "$PYTHON" warehouse/news/shadow.py score
 run_other news_index "$PYTHON" warehouse/news/index.py   # public companion table (session 7)
 # Session 24: policy actions (tool 12): the Federal Register, NRC, DOE, PUCT and CPUC, linked to the scored news,
 # then scored with the news rubric and read for impact (warehouse/policy/)
@@ -268,6 +272,9 @@ if [ "${SEND_EMAIL:-1}" = "0" ]; then
 else
   run_other news_email "$PYTHON" warehouse/news/email_digest.py --auto
 fi
+# Session 30 (B4): the shadow Digest from the shadow scores, to the shadow recipient only, subject "SHADOW HAIKU"
+# (weekdays, until the expiry in warehouse/config/shadow.yaml, while SHADOW_MODEL is set); SEND_EMAIL=0 writes it only
+model_step news_digest_shadow "$PYTHON" warehouse/news/shadow.py digest $([ "${SEND_EMAIL:-1}" = "0" ] && echo --no-send)
 "$PYTHON" warehouse/metadata/run_status.py record || exit 1
 
 echo "== STATUS.md (session 14): tables, last runs, open gaps"

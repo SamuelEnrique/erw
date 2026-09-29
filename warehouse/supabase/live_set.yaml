@@ -42,6 +42,10 @@ full:
   - '^weather_(obs|forecast)_hourly$'
   # session 26: the company database's seed (tool 10), for /companies and the /deals cross-links
   - '^energy_companies$'
+  # session 30: the price board v2 derived tables (/board), and the API cost ledger (internal: row-level security
+  # hides it; only internal_costs(token), migration 010, reads it for /internal/costs)
+  - '^price_board_(latest|peak_offpeak|spreads|carbon)$'
+  - '^api_cost_ledger$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.

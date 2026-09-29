@@ -48,6 +48,7 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "news"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "chat"))
 import iso_prices as ip  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 from voice import VOICE_NOTE  # noqa: E402  session 25: docs/voice.md
 
 ACTIONS, NAME, EVID = "policy_actions", "policy_reads", "policy_reads_evidence"
@@ -214,7 +215,6 @@ def check_field(name, val, text):
 
 class Reader:
     def __init__(self, log):
-        import llm
         from score import PRICES, pick_model
         self.client = llm.client("policy_reads", log)
         self.model = pick_model(self.client, log)
@@ -225,10 +225,11 @@ class Reader:
                f"Sectors to choose from: {', '.join(SECTORS)}\n\nSource text:\n{text}")
         # session 26: 8000, not 4000: one read was cut short twice (malformed JSON); every call's cost counts, failed or not
         resp = self.client.messages.create(
-            model=self.model, max_tokens=8000, system=SYSTEM, messages=[{"role": "user", "content": msg}],
+            model=self.model, max_tokens=8000, messages=[{"role": "user", "content": msg}],
+            system=[{"type": "text", "text": SYSTEM, "cache_control": {"type": "ephemeral"}}],  # session 30 (B2)
             output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}})
         u = resp.usage
-        cost = (u.input_tokens * self.price[0] + u.output_tokens * self.price[1]) / 1e6 if self.price else 0
+        cost = llm.usd(self.model, llm.usage_numbers(u)) or 0  # session 30: cache reads and writes at their own prices
         self.spent = getattr(self, "spent", 0.0) + cost
         if resp.stop_reason != "end_turn":
             raise RuntimeError(f"{r['event_id']}: stop_reason {resp.stop_reason} after {u.output_tokens} output tokens")

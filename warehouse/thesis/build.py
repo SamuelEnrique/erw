@@ -55,6 +55,12 @@ import iso_prices as ip  # noqa: E402
 from voice import VOICE_NOTE  # noqa: E402
 
 SEARCH_USD = 10 / 1000
+# Session 30 (Part B5): the bill toward USD 1. One automatic retry per call (the SDK's default is two); at most
+# MAX_SPANS cited passages per web source, of at most SPAN_CHARS characters, in the structure prompt (the number
+# check still reads every passage); and the sheets written in one streamed call instead of one call each.
+MAX_RETRIES = 1
+MAX_SPANS = 3
+SPAN_CHARS = 300
 NAME = "energy_companies"
 EM = chr(0x2014)
 CARDINAL, INK, FOG, GREY, WHITE = "8C1515", "2E2D29", "F7F3EA", "808080", "FFFFFF"
@@ -72,7 +78,7 @@ class Researcher:
     def __init__(self, log, max_usd):
         import llm
         from score import PRICES, pick_model
-        self.client = llm.client("thesis", log)
+        self.client = llm.client("thesis", log, max_retries=MAX_RETRIES)
         self.model = pick_model(self.client, log)
         self.price = PRICES[self.model]
         self.log, self.max_usd = log, max_usd
@@ -118,7 +124,11 @@ class Researcher:
         notes = []
         for turn in range(max_turns):
             # the history grows every turn: cache it (the last block), so a turn pays for its new tokens only
-            resp = self.client.messages.create(model=self.model, max_tokens=16000, system=system + VOICE_NOTE, tools=tools,
+            # session 30 (B5): the system prompt and tools carry their own breakpoint, so the next pass with the same
+            # tools reads them from the cache too
+            resp = self.client.messages.create(model=self.model, max_tokens=16000, tools=tools,
+                                               system=[{"type": "text", "text": system + VOICE_NOTE,
+                                                        "cache_control": {"type": "ephemeral"}}],
                                                messages=msgs, output_config={"effort": "medium"},
                                                cache_control={"type": "ephemeral"})
             self.charge(resp, what)
@@ -171,10 +181,31 @@ class Researcher:
             raise RuntimeError(f"{what}: stop_reason {resp.stop_reason}")
         return json.loads(next(b.text for b in resp.content if b.type == "text"))
 
+    def structure_all(self, what, keys, extra, notes):
+        """Session 30 (B5): every sheet in one streamed call, one JSON object with a property per sheet, from the notes
+        and the numbered sources only. It replaces one call per sheet, each of which sent the same 50,000 to 70,000
+        tokens of notes and sources again (the sheet's schema is part of the prompt's prefix, so they could not share
+        a cache)."""
+        src = self.source_list()
+        msg = (f"Research notes (bracketed ids are the sources each passage cites):\n{notes}\n\nNumbered web sources "
+               f"(id, title, URL, the passages cited from each):\n{src}\n\nWarehouse sources (id, tool, table, result):\n"
+               f"{self.erw_list()}")
+        schema = obj({k: SCHEMAS[k] for k in keys})
+        task = f"Write every sheet of the map, each under its own key: {', '.join(keys)}. {extra}"
+        with self.client.messages.stream(
+                model=self.model, max_tokens=64000, system=STRUCT_SYSTEM + VOICE_NOTE,
+                messages=[{"role": "user", "content": [{"type": "text", "text": msg}, {"type": "text", "text": task}]}],
+                output_config={"effort": "medium", "format": {"type": "json_schema", "schema": schema}}) as stream:
+            resp = stream.get_final_message()
+        self.charge(resp, what)
+        if resp.stop_reason != "end_turn":
+            raise RuntimeError(f"{what}: stop_reason {resp.stop_reason}")
+        return json.loads(next(b.text for b in resp.content if b.type == "text"))
+
     def source_list(self):
         out = []
         for s in self.sources.values():
-            cited = " | ".join(c[:400] for c in s["cited"][:6])
+            cited = " | ".join(c[:SPAN_CHARS] for c in s["cited"][:MAX_SPANS])  # session 30 (B5): capped
             out.append(f"{s['id']} | {s['title'][:120]} | {s['url']}" + (f" | cited: {cited}" if cited else ""))
         return "\n".join(out)
 
@@ -625,19 +656,18 @@ def main(argv=None):
             notes = f"{notes_a}\n\n{notes_b}\n\n{notes_c}"
             words = [w for w in re.findall(r"[a-z]{5,}", args.niche.lower()) if w not in {"merchant", "operators", "software", "mapping"}]
             pol = policy_candidates(words or [args.niche])
-            sheets = {}
-            for key in ("scope", "fundamentals", "trends", "landscape", "capital", "incumbents", "risks"):
-                sheets[key] = r.structure(f"structure: {key}", f"Write the sheet: {key}. Niche: {args.niche}.", notes,
-                                          SCHEMAS[key])
-                log(f"  {key}: structured")
+            # session 30 (B5): the sheets in one call (structure_all), the policy sheet with them when there are candidates
+            keys = ["scope", "fundamentals", "trends", "landscape", "capital", "incumbents", "risks"]
+            extra = f"Niche: {args.niche}."
             if len(pol):
                 cand = "\n".join(f"{x['event_id']} | {x['agency']} {x['action_type']} {x['event_date']} | {x['title'][:200]} | "
                                  f"significance {x['significance']}" for x in pol.to_dict("records"))
-                sheets["policy"] = r.structure("structure: policy", "Write the sheet: policy. Pick from these candidate policy "
-                                               "actions (the ERW table policy_actions) only those that bear on the niche, by "
-                                               f"event_id. Niche: {args.niche}.\n\nCandidate policy actions:\n" + cand, notes,
-                                               SCHEMAS["policy"])
-            else:
+                keys.append("policy")
+                extra += (" For the policy sheet, pick from these candidate policy actions (the ERW table policy_actions) "
+                          "only those that bear on the niche, by event_id.\n\nCandidate policy actions:\n" + cand)
+            sheets = r.structure_all("structure: all sheets", keys, extra, notes)
+            log(f"  structured in one call: {', '.join(keys)}")
+            if "policy" not in sheets:
                 sheets["policy"] = {"fact": "", "actions": []}
 
             # the state, so the workbook can be rebuilt without calling the model again (--resume)

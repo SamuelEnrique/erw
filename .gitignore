@@ -42,3 +42,5 @@ warehouse/archive/*
 site/screenshots/
 # session 29: the members of the consolidated tables between the two steps of the daily run (warehouse/consolidate.py)
 warehouse/output/members/
+# Session 30: the shadow Digest and Roundup and the stories view they read (warehouse/news/shadow.py), never published
+warehouse/output/shadow/

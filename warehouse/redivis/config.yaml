@@ -52,6 +52,9 @@ restore_before_run:
   - '^policy_(actions|reads)$'
   # session 24: the NWS observations keep more than the API's 7 days by merging; the forecast keeps past vintages' hours
   - '^weather_(obs|forecast)_hourly$'
+  # session 30: the API cost ledger and the shadow scores grow by merging (internal; restored from the internal draft)
+  - '^api_cost_ledger$'
+  - '^news_scores_shadow$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.

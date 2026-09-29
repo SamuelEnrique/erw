@@ -113,6 +113,25 @@ def nodash(text):
     return " ".join(str(text).replace("—", " - ").split()) if text else text
 
 
+def request_parts(ref_list, seen, stories, cache=True):
+    """Session 30 (Part B2): the system prompt and the user message of one scoring call, laid out for the prompt
+    cache. The system prompt, then the reference list of earlier stories as it stood when the run began (the same
+    in every call of a run), carry the cache breakpoints; the stories this run has already scored and the batch
+    to score come after them. So every call after the first reads the rubric and the reference list from the
+    cache. (Before session 30 the run's scored stories were merged into the reference list, changing it on every
+    call; the stories offered are the same, now in two blocks.) cache=False drops the breakpoints: the
+    measurement without caching."""
+    cc = {"cache_control": {"type": "ephemeral"}} if cache else {}
+    static = ("Reference list of earlier stories (id | title), candidates for is_duplicate_of:\n"
+              + ("\n".join(ref_list[-REFERENCE_MAX:]) if ref_list else "(none)"))
+    tail = (("Stories scored earlier in this run (id | title), also candidates for is_duplicate_of:\n"
+             + "\n".join(seen[-REFERENCE_MAX:]) + "\n\n") if seen else "")
+    tail += "Stories to score (JSON):\n" + json.dumps(stories, ensure_ascii=False)
+    return {"system": [{"type": "text", "text": SYSTEM, **cc}],
+            "messages": [{"role": "user", "content": [{"type": "text", "text": static, **cc},
+                                                       {"type": "text", "text": tail}]}]}
+
+
 def apply_caps(todo, df, log, per_run=None, per_source=None):
     """Session 30 (Part B3): at most per_source stories of one outlet and per_run stories in all. Priority: the
     outlet's mean significance over its scored stories of the last 30 days (the Sonnet scores already stored;
@@ -206,14 +225,10 @@ def main(argv=None):
             stories = [{"id": r.event_id, "published": r.event_date, "outlet": r.source,
                         "feed_beat": r.feed_sector, "title": r.title, "summary": r.summary}
                        for r in batch.itertuples()]
-            refs = (ref_list + [f"{e} | {t[:120]}" for e, t in results.get("_seen", [])])[-REFERENCE_MAX:]
-            user = ("Reference list of earlier stories (id | title), candidates for is_duplicate_of:\n"
-                    + ("\n".join(refs) if refs else "(none)")
-                    + "\n\nStories to score (JSON):\n" + json.dumps(stories, ensure_ascii=False))
+            seen = [f"{e} | {t[:120]}" for e, t in results.get("_seen", [])]
             kwargs = dict(model=model, max_tokens=16000,
-                          system=[{"type": "text", "text": SYSTEM, "cache_control": {"type": "ephemeral"}}],
                           output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}},
-                          messages=[{"role": "user", "content": user}])
+                          **request_parts(ref_list, seen, stories))
             try:
                 try:
                     # the 1.x SDK has no temperature argument, so it goes in the raw body

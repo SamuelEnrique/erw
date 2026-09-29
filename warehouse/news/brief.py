@@ -194,7 +194,9 @@ def headlines(client, model, clusters, log):
 
 
 def _headline_call(client, model, items, log):
-    kwargs = dict(model=model, max_tokens=8000, system=HEADLINE_SYSTEM,
+    # session 30 (B2): the system prompt is cached, so a retry (and the Roundup's call soon after) reads it
+    kwargs = dict(model=model, max_tokens=8000,
+                  system=[{"type": "text", "text": HEADLINE_SYSTEM, "cache_control": {"type": "ephemeral"}}],
                   output_config={"effort": "low", "format": {"type": "json_schema", "schema": HEADLINE_SCHEMA}},
                   messages=[{"role": "user", "content": json.dumps(items, ensure_ascii=False)}])
     calls = 0
@@ -326,7 +328,8 @@ def numbers_summary(client, model, lines, log):
     msgs = [{"role": "user", "content": "The numbers section:\n\n" + pool}]
     usages = []
     for attempt in (1, 2):
-        kwargs = dict(model=model, max_tokens=1200, system=SUMMARY_SYSTEM, messages=msgs,
+        kwargs = dict(model=model, max_tokens=1200, messages=msgs,  # session 30 (B2): system cached
+                      system=[{"type": "text", "text": SUMMARY_SYSTEM, "cache_control": {"type": "ephemeral"}}],
                       output_config={"effort": "low", "format": {"type": "json_schema", "schema": SUMMARY_SCHEMA}})
         resp = client.messages.create(**kwargs)
         usages.append(resp.usage)
@@ -460,6 +463,8 @@ def main(argv=None):
     ap.add_argument("--date", help="digest date YYYY-MM-DD (default: today, UTC)")
     ap.add_argument("--out", help="write the digest to this path only (not docs/digest/<date>.md, not latest.md)")
     ap.add_argument("--weekend", action="store_true", help="write a digest for a Saturday or Sunday date anyway")
+    ap.add_argument("--stories", help="read the scored stories from this file instead of news_stories (session 30: the "
+                    "shadow scorer's view, warehouse/news/shadow.py)")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -477,7 +482,7 @@ def main(argv=None):
         return 0
     try:
         now = pd.Timestamp.now(tz="UTC")
-        df = ip.read_series(os.path.join(ip.OUT_DIR, NAME + ".csv"), NEWS_COLS)
+        df = ip.read_series(args.stories or os.path.join(ip.OUT_DIR, NAME + ".csv"), NEWS_COLS)
         when = pd.to_datetime(df["event_date"], utc=True)
         s = df[(df["scored_at"] != "") & (when >= now - pd.Timedelta(hours=args.hours))].copy()
         s["sig"] = s["significance"].astype(int)

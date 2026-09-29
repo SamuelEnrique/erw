@@ -181,6 +181,8 @@ class Asker:
             tools=tools.TOOLS,
             tool_choice={"type": "auto"} if allow_tools else {"type": "none"},
             output_config={"effort": EFFORT, "format": {"type": "json_schema", "schema": ANSWER_SCHEMA}},
+            # session 30 (B2): automatic caching of the growing conversation (tool results), after the system's own
+            cache_control={"type": "ephemeral"},
             messages=messages)
 
     def ask(self, question, today=None):

@@ -1,0 +1,16 @@
+# Energy Research Warehouse (ERW): the Haiku shadow scorer (session 30, Part B4).
+#
+# warehouse/news/shadow.py reads this file. The model comes from the environment variable SHADOW_MODEL: the daily and
+# Roundup workflows set it to claude-haiku-4-5 (their env blocks); unsetting it there (or setting it empty) is the kill
+# switch, and no shadow call is made. Nothing the shadow writes reaches a public table, the site or a subscriber.
+#
+# expires: the first UTC date on which the shadow no longer scores, writes or sends. Seven days from the evening of
+# 2026-09-29: the last shadow digest is Monday 2026-10-05, the one shadow Roundup in the window is Sunday 2026-10-04.
+expires: 2026-10-06
+
+# The shadow Digest and Roundup go to this address only: SHADOW_RECIPIENT from the environment, else the fixed
+# recipients of the daily digest (DIGEST_RECIPIENTS, Samuel's address). Never to subscribers.
+subject_prefix: "SHADOW HAIKU"
+
+# Stories per scoring call (the reference list of earlier stories rides in every call, cached after the first).
+batch: 40
