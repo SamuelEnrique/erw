@@ -31,7 +31,7 @@ const base = process.argv[2] ?? "http://localhost:3000";
 const baseline = (process.argv[3] ?? env("SITE_URL") ?? "").replace(/\/$/, "");
 
 const PAGES = [
-  "/", "/board", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/prices/caiso%3ATH_SP15_GEN-APND", "/prices/miso%3AINDIANA.HUB",
+  "/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/prices/caiso%3ATH_SP15_GEN-APND", "/prices/miso%3AINDIANA.HUB",
   "/prices/spp%3ASPPSOUTH_HUB", "/prices/nyiso%3AN.Y.C.", "/markets", "/grid", "/mix", "/mix?ba=erco&state=TX",
   "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium",
   "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/about", "/terms",

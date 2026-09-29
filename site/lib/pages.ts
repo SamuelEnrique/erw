@@ -23,6 +23,8 @@ export const GROUPS: Group[] = [
       { href: "/grid", label: "Grid conditions", line: "Yesterday's peak demand, forecast error and generation mix for each ISO and the Lower 48.", tables: "eia930_all_demand, eia930_all_generation", related: ["/mix", "/curtailment"] },
       { href: "/mix", label: "Energy mix", line: "What generates the power: hourly by grid operator, and monthly by state since 2001.", tables: "eia930_all_generation, eia930_generation_latest, state_generation_mix_monthly", related: ["/grid", "/curtailment"] },
       { href: "/curtailment", label: "Curtailment", line: "Wind and solar output curtailed, by ISO, daily and monthly, and what each ISO's figure means.", tables: "caiso_curtailment_daily, spp_curtailment_daily, ercot_wind_solar_hsl_daily, iso_curtailment_monthly", related: ["/mix", "/grid"] },
+      // session 32: emissions
+      { href: "/emissions", label: "Emissions", line: "How much CO2 each ISO's power carries, per MWh made and per MWh used, from EIA's hourly estimates.", tables: "carbon_intensity_hourly, eia930_all_emissions", related: ["/grid", "/storage"] },
       // session 31: battery storage
       { href: "/storage", label: "Storage", line: "The US battery fleet by ISO, state and planned year, and how the batteries charge and discharge each hour and day.", tables: "storage_capacity, storage_daily_cycle, eia930_all_storage", related: ["/grid", "/mix"] },
       { href: "/consumption", label: "Consumption", line: "Electricity sold by state and sector, and where industrial and commercial load grows fastest.", tables: "eia_retail_sales_monthly, eia_sector_energy_consumption_monthly", related: ["/mix", "/datacenters"] },

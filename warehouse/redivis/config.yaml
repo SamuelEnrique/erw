@@ -60,6 +60,8 @@ restore_before_run:
   # session 31: EIA-930 battery storage keeps its history from 2024 by merging (storage_capacity, a snapshot that may
   # shrink, is not restored: on a day without the EIA-860M tables it is absent on the runner, like energy_projects)
   - '^eia930_all_storage$'
+  # session 32: the EIA-930 CO2 estimates keep their history from 2018-07-01 by merging
+  - '^eia930_all_emissions$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.

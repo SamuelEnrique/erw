@@ -103,6 +103,7 @@ SECTOR_RULES = [
     (r"^iso_(dam|rtm)_hub_prices$", "power"),
     (r"^ercot_all_hub_prices_history$", "power"),
     (r"^pjm_(dam|rtm)_", "power"),
+    (r"^eia930_all_emissions$", "power;carbon"),  # session 32: EIA-930 CO2 estimates
     (r"^eia930_", "power"),
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     (r"^eia_fuel_spot_prices$", "oil;gas"),
@@ -154,6 +155,8 @@ SECTOR_RULES = [
     (r"^api_cost_ledger$", "platform"),
     # session 31: battery storage (EIA-930 BAT, its daily cycle, the EIA-860M battery units)
     (r"^storage_(daily_cycle|capacity)$", "power"),
+    # session 32: carbon intensity per BA (derived from the EIA-930 CO2 estimates)
+    (r"^carbon_intensity_(hourly|daily)$", "power;carbon"),
 ]
 
 
@@ -175,6 +178,8 @@ def iso_of(table):
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
     if table in ("eia930_all_storage", "storage_daily_cycle"):  # session 31: the BAs with an EIA-930 BAT series
         return "ERCOT;ISO-NE;MISO;SPP;US48"
+    if table in ("eia930_all_emissions", "carbon_intensity_hourly", "carbon_intensity_daily"):  # session 32
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"
     if table == "storage_capacity":  # session 31: the national EIA-860M battery inventory
         return "none"
     if parts[0] == "eia930":

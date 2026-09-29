@@ -27,6 +27,7 @@ const MAX_HEIGHT = 12000; // CSS px; taller pages (the data standard) are cut at
 const PAGES = [
   ["home", "/"],
   ["board", "/board"],
+  ["emissions", "/emissions"],
   ["storage", "/storage"],
   ["prices", "/prices"],
   ["prices-entity", "/prices/ercot%3AHB_HUBAVG"],
