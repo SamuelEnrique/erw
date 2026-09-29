@@ -19,6 +19,13 @@ warehouse/thesis/build.py, started in session 25):
     description, founders, stage, raised: blank; the confidence note starts "from deals; not yet researched" (nothing is
                   invented: the deals state none of these)
 
+Session 28 (human ruling): a party that is not a company name is left out of energy_companies; it stays in
+energy_deals as the deal states it. A party naming several companies ("Nvidia, Amazon and Microsoft") is split into
+them. Left out, by not_a_company(): descriptions ("bond investors", "a Leading Frontier AI Lab", "German firm",
+"Amazon data center unit", "Meta-backed data centre"), governments, countries and public bodies ("US government",
+"DOE", "Qatar"), laws ("CHIPS Act") and universities. Every party left out is named in the run log with its reason,
+and counted in the header.
+
 Merge rule: two rows are one company when their normalized names match (lower case, no punctuation, no legal suffix
 such as Inc, LLC, Corp) and, when both have a website, their website domains match. A row the Thesis Builder researched
 keeps its description, founders, stage, raised, confidence and note; it gains the deal sources and tags. Deal-only rows
@@ -44,6 +51,68 @@ from build import ENT_COLS, company_id, confidence, domain, name_key  # noqa: E4
 
 NAME = "energy_companies"
 DEAL_NOTE = "from deals; not yet researched"
+
+
+# Session 28: parties that are not company names (see the module docstring)
+COUNTRIES = {
+    "afghanistan", "albania", "algeria", "angola", "argentina", "armenia", "australia", "austria", "azerbaijan",
+    "bahrain", "bangladesh", "belarus", "belgium", "bolivia", "bosnia", "botswana", "brazil", "brunei", "bulgaria",
+    "cambodia", "cameroon", "canada", "chad", "chile", "china", "colombia", "congo", "costa rica", "croatia", "cuba",
+    "cyprus", "czech republic", "czechia", "denmark", "ecuador", "egypt", "estonia", "ethiopia", "eu", "european union",
+    "finland", "france", "gabon", "georgia", "germany", "ghana", "greece", "guatemala", "guyana", "hungary", "iceland",
+    "india", "indonesia", "iran", "iraq", "ireland", "israel", "italy", "ivory coast", "jamaica", "japan", "jordan",
+    "kazakhstan", "kenya", "korea", "south korea", "north korea", "kuwait", "kyrgyzstan", "latvia", "lebanon", "libya",
+    "lithuania", "luxembourg", "malaysia", "mali", "malta", "mauritania", "mexico", "moldova", "mongolia", "montenegro",
+    "morocco", "mozambique", "myanmar", "namibia", "nepal", "netherlands", "new zealand", "nicaragua", "niger",
+    "nigeria", "norway", "oman", "pakistan", "panama", "paraguay", "peru", "philippines", "poland", "portugal", "qatar",
+    "romania", "russia", "rwanda", "saudi arabia", "senegal", "serbia", "singapore", "slovakia", "slovenia", "somalia",
+    "south africa", "spain", "sri lanka", "sudan", "suriname", "sweden", "switzerland", "syria", "taiwan",
+    "tajikistan", "tanzania", "thailand", "trinidad and tobago", "tunisia", "turkey", "turkiye", "turkmenistan",
+    "uae", "united arab emirates", "uganda", "uk", "united kingdom", "britain", "great britain", "ukraine", "uruguay",
+    "us", "u.s.", "usa", "united states", "uzbekistan", "venezuela", "vietnam", "yemen", "zambia", "zimbabwe",
+}
+PUBLIC_BODIES = {"doe", "pentagon", "white house", "congress", "treasury", "fed", "federal reserve", "nrc", "ferc",
+                 "epa", "blm", "british nuclear fund"}
+GENERIC_WORDS = {"investors", "investor", "lenders", "lender", "allies", "banks", "buyers", "sellers", "shareholders",
+                 "owners", "customers", "developers", "operators", "utilities", "governments"}
+GENERIC_END = re.compile(r"(?i)\b(firms?|investors?|hyperscalers?|startups?|joint venture|jv|refinery|refineries|"
+                         r"banks?|lenders?|unit|subsidiary|vehicle|project|consortium|data cent(?:er|re)s?)$")
+
+
+def not_a_company(name):
+    """Why a deal party is not a company name, or None when it is one (session 28 ruling)."""
+    n = name.strip()
+    low = n.lower().rstrip(".")
+    if low in COUNTRIES:
+        return "a country"
+    if low in PUBLIC_BODIES or re.match(r"(?i)^(us|u\.s\.|uk|eu)\s+(government|army|navy|air force|exim|treasury|"
+                                         r"department|military)\b", n) or re.search(r"(?i)\bgovernment\b", n):
+        return "a government or public body"
+    if re.search(r"\bAct$", n):
+        return "a law"
+    if re.search(r"(?i)\buniversity\b", n):
+        return "a university"
+    if low in GENERIC_WORDS or re.match(r"(?i)^(a|an|the|one|two|several|some|various|unnamed|undisclosed|unidentified|"
+                                         r"other|multiple)\s", n):
+        return "a description"
+    if " " in n and n[:1].islower():
+        return "a description"
+    if re.search(r"(?i)-(owned|backed|tied|linked)\b|\bdata cent(?:er|re)s?\b", n) or GENERIC_END.search(n):
+        return "a description"
+    return None
+
+
+def split_names(raw):
+    """A party naming several companies, "A, B and C", as its names; any other party as itself."""
+    raw = raw.strip()
+    if not raw:
+        return []
+    if raw.lower().rstrip(".") in COUNTRIES:  # "Trinidad and Tobago" is one name
+        return [raw]
+    parts = [x.strip() for x in re.split(r",\s*|\s+and\s+", raw) if x.strip()]
+    if len(parts) > 1 and all(x[:1].isupper() or x[:1].isdigit() for x in parts):
+        return parts
+    return [raw]
 
 
 def key(name):
@@ -85,7 +154,7 @@ def read(name):
     return pd.read_csv(path, skiprows=skip, dtype=str, keep_default_na=False)
 
 
-def header(run_id, n_thesis, n_deals):
+def header(run_id, n_thesis, n_deals, n_left_out=0):
     return [
         "Energy Research Warehouse (ERW): energy companies, the company database (tool 10): companies the Thesis Builder "
         "(tool 27) researched, and every party of the deal tracker's deals (energy_deals)",
@@ -96,7 +165,9 @@ def header(run_id, n_thesis, n_deals):
         "deals' story links; description, founders, stage and raised are blank and the confidence_note starts \"from "
         "deals; not yet researched\". confidence 0 to 100 by the rule in warehouse/thesis/build.py, explained in "
         "confidence_note. No licensed data.",
-        f"Rows: {n_thesis} researched by the Thesis Builder, {n_deals} from deals only.",
+        f"Rows: {n_thesis} researched by the Thesis Builder, {n_deals} from deals only. Session 28 ruling: "
+        f"{n_left_out} deal parties that are not company names (descriptions, governments, countries, laws, "
+        "universities) are left out, and stay in energy_deals; a party naming several companies is split into them.",
         f"Retrieved: {run_id} (UTC) by warehouse/companies/seed_from_deals.py (deal rows) and warehouse/thesis/build.py "
         "(researched rows)",
         f"Run log: warehouse/output/logs/companies_from_deals_{run_id}.log",
@@ -122,9 +193,17 @@ def main():
         stories = read("news_stories")
         sector_of = dict(zip(stories["event_id"], stories["sector"])) if stories is not None else {}
 
-        parties = {}
+        parties, left_out = {}, {}
         for d in deals.to_dict("records"):
-            names = [d["buyer"], d["seller"]] + d["other_parties"].split(";")
+            raw = [d["buyer"], d["seller"]] + d["other_parties"].split(";")
+            names = []
+            for r in raw:  # session 28: lists split, parties that are not company names left out
+                for n in split_names(r):
+                    why = not_a_company(n)
+                    if why:
+                        left_out.setdefault(n, why)
+                    else:
+                        names.append(n)
             sectors = [sector_of.get(s, "") for s in d["story_ids"].split(";") if s]
             place = ", ".join(x for x in (d.get("state", ""), d.get("country", "")) if x)
             urls = [u for u in d["story_urls"].split(";") if u]
@@ -147,6 +226,9 @@ def main():
                 p["dates"].append(date)
                 p["deals"].add(d["event_id"])
         log(f"{len(deals)} deals, {len(parties)} distinct parties (normalized names)")
+        log(f"{len(left_out)} parties left out as not company names (they stay in energy_deals):")
+        for n, why in sorted(left_out.items(), key=lambda x: (x[1], x[0].lower())):
+            log(f"  {why}: {n}")
 
         rkeys = {}
         for i, r in researched.iterrows():
@@ -189,7 +271,7 @@ def main():
         path = os.path.join(ip.OUT_DIR, NAME + ".csv")
         tmp = path + ".tmp"
         with open(tmp, "w", encoding="utf-8", newline="") as f:
-            for ln in header(run_id, len(researched), len(out) - len(researched)):
+            for ln in header(run_id, len(researched), len(out) - len(researched), len(left_out)):
                 f.write("# " + ln + "\n")
             out.to_csv(f, index=False, lineterminator="\n")
         os.replace(tmp, path)
@@ -200,7 +282,8 @@ def main():
         desc = int((out["description"].str.strip() != "").sum())
         status["detail"] = (f"{before} rows before ({before_desc} with a description), {len(out)} after ({desc} with a "
                             f"description, {100 * desc / max(1, len(out)):.1f}%); {len(new_rows)} deal-only rows, "
-                            f"{merged} deal parties merged into researched rows")
+                            f"{merged} deal parties merged into researched rows; {len(left_out)} parties left out as "
+                            "not company names")
         log(status["detail"])
         print(f"companies_from_deals: {status['detail']}")
     except Exception:

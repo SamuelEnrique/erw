@@ -12,7 +12,7 @@ weathering. Not here.)
 Modeled on the IRW's llms.txt (itemresponsewarehouse.org). Owner documents if
 this file and they disagree: docs/datastandard.md (format), docs/coverage.md
 and warehouse/metadata/coverage.csv (what exists, generated daily), the latest
-SESSION_*_REPORT.md (what changed). Table names, spans and row counts move
+archive/sessions/SESSION_*_REPORT.md (what changed). Table names, spans and row counts move
 daily: check `erw.coverage()` (or the list_tables tool) before answering from
 memory or from this file.
 
@@ -215,7 +215,10 @@ day-ahead tables running into tomorrow:
   energy_deals (buyers, sellers, other parties): those rows carry the deals'
   sector, tags, place (where the deal is) and story links, and a
   confidence_note starting "from deals; not yet researched", with no
-  description, founders, stage or raised. A number that no cited source
+  description, founders, stage or raised. Session 28: a party that is not a
+  company name (a description such as "bond investors", a country, a
+  government body, a law) is left out, and stays in energy_deals; a party
+  naming several companies is split into them. A number that no cited source
   confirmed reads "not confirmed". A public company's raised is
   blank and its confidence_note starts "public company" (session 26). The
   site's /companies shows it.

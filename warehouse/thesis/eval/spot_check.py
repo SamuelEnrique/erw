@@ -4,7 +4,7 @@
 For each sampled row, every source it names is fetched now (as a reader would) and its text searched for the row's
 claims: the company name, the amount (its digits), the stage or round word, the date's year, and the first named
 investor or founder. The script prints what it found; the verdict per row is a person's, written in
-SESSION_25_REPORT.md. It never changes the builder.
+archive/sessions/SESSION_25_REPORT.md. It never changes the builder.
 
     python warehouse/thesis/eval/spot_check.py docs/thesis/a.xlsx:5 docs/thesis/b.xlsx:5 --capital a.xlsx:5 b.xlsx:5
 """

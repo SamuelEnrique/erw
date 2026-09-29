@@ -95,7 +95,7 @@ Stop and say so, rather than working around it, when:
     `entity, variable, ts_utc`).
 
 11. **Report and commit.** Record every decision and error in the session's
-    `SESSION_N_REPORT.md`, commit after each task, keep the run logs of failed
+    `archive/sessions/SESSION_N_REPORT.md`, commit after each task, keep the run logs of failed
     runs, and do not push. Nothing goes to Redivis without a human.
 
 ## Mistakes already made: do not repeat them

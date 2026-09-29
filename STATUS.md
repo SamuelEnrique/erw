@@ -1,16 +1,28 @@
 # ERW status
 
-Generated 2026-09-28 21:11 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-09-29 00:38 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 113 | 4,491,573 |
-| Public | 104 | 4,354,973 |
+| All | 113 | 4,803,622 |
+| Public | 104 | 4,667,022 |
 | Internal (never shown publicly) | 9 | 136,600 |
 
-Newest table refresh: 2026-09-28 21:03:48 UTC. Validator: 113 of 113 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-09-29 00:31:10 UTC. Validator: 113 of 113 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+
+## Health gate
+
+**Closed.** The latest daily run on GitHub (2026-09-28) has 2 failed tables outside the known-gap list below: `carb_auction_allowance_prices`, `nyiso_interconnection_queue`. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
+
+### Known gaps
+
+Failures a human has accepted for now (`warehouse/metadata/known_gaps.csv`, edited by hand). A table here does not close the gate.
+
+| Table | Why | Since | Decided |
+|---|---|---|---|
+| `ercot_large_load_queue` | ERCOT publishes no request-level large-load list (Protocol 3.2.7 requires only an aggregate monthly report); the connector watches the page and fails loudly until one appears | 2026-09-27 | session 17 design; listed as a known gap in session 28 |
 
 ## Last runs
 
@@ -32,7 +44,7 @@ A table that failed is not written that day; nothing partial is. The reasons are
 
 ## Open gaps
 
-Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 21; filled since: 11; open: 10.
+Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 21; filled since: 9; open: 12.
 
 | Table | Day | State | First recorded reason |
 |---|---|---|---|
@@ -46,3 +58,5 @@ Days a per-day connector could not write complete, re-checked against the table 
 | `isone_rtm_zone_prices` | 2026-09-13 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 94 rows, expected 96, missing 2 (first ['2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0; .Z.CONNE |
 | `isone_rtm_zone_prices` | 2026-09-15 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 88 rows, expected 96, missing 8 (first ['2026-09-15T18:00:00Z', '2026-09-15T18:15:00Z', '2026-09-15T18:30:0 |
 | `isone_rtm_zone_prices` | 2026-09-25 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expecte |
+| `isone_rtm_zone_prices_hourly` | 2026-09-25 | still incomplete in the table | RTM_HOURLY 2026-09-25 failed after 4 attempts: EmptyDataError('No columns to parse from file') |
+| `isone_rtm_zone_prices_hourly` | 2026-09-26 | still incomplete in the table | RTM_HOURLY 2026-09-26 failed after 4 attempts: EmptyDataError('No columns to parse from file') |

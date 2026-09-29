@@ -28,7 +28,7 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 1. **Real data only.** Never generate, fabricate, or fill in placeholder numbers. If a data pull fails, fail loudly, log the exact error, and continue with other work. No output file is better than a partial or synthetic one.
 2. **No em dashes** in any file written to this repository. Use commas, periods, or colons.
 3. **Do not delete or overwrite existing files.** Read them first and extend them.
-4. **Commit after each unit of work** with a clear message. Do not push unless a human asks.
+4. **Commit after each unit of work** with a clear message. The daily workflow commits and pushes metadata; sessions push only after merging origin/main (session 28: this replaces "do not push unless a human asks", which the workflow never followed).
 5. **Every number traces to its source.** Each output file records, in its header comment and in the run log, the exact source report it came from and when it was retrieved.
 6. **Nothing publishes to Redivis without a human.** Uploads, when they exist, write a draft version only. Releasing a Redivis version is always a human click after reviewing the diff. No scheduled job ever publishes.
 
@@ -50,7 +50,8 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 | `docs/coverage.md`, `docs/platform-tools.md` | What the warehouse holds (generated), and the status of each of the 20 platform tools |
 | `.claude/skills/` | Claude Code skills for repeatable ERW workflows |
 | `PRIORITIES.md` | What kind of work to do next |
-| `SESSION_*_REPORT.md` | Per-session logs: what was built, decisions, errors, open questions |
+| `archive/sessions/` | Per-session prompts and reports (`SESSION_*_PROMPT.md`, `SESSION_*_REPORT.md`): what was asked, what was built, decisions, errors, open questions (moved from the root in session 28) |
+| `warehouse/archive/` | The append-only durable store (session 28): every table's new or changed rows by month, copied to the private Supabase storage bucket `erw-archive`; `restore.py` rebuilds any table (`ARCHITECTURE.md` section 1a) |
 
 ## Running things
 

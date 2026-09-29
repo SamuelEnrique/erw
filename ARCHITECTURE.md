@@ -80,7 +80,7 @@ Everything on a clock is a GitHub Action. There is no crontab on any machine. As
 | Where a number came from | The header comment of its output file, then the connector that wrote it |
 | Stack, non-negotiables, repo layout | [`CLAUDE.md`](CLAUDE.md) |
 | What kind of work to do next | [`PRIORITIES.md`](PRIORITIES.md). Advisory; a human overrules it |
-| What happened in a session and why | That session's `SESSION_*_REPORT.md`. A record, not a plan |
+| What happened in a session and why | That session's `archive/sessions/SESSION_*_REPORT.md`. A record, not a plan |
 | What the warehouse holds today | `warehouse/metadata/coverage.csv` and `docs/coverage.md`, generated on every run |
 | What a table held on an earlier day | The archive: `warehouse/archive/restore.py TABLE --as-of ...` (section 1a); a released Redivis version for what was cited |
 | How an AI assistant should read the warehouse | [`package/llms.txt`](package/llms.txt), which is also the chat's system briefing |

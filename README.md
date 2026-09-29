@@ -91,17 +91,17 @@ The ERW is built in sessions, each with its prompt and a report of what was buil
 
 | Session | Date (UTC) | Built | Report |
 |---|---|---|---|
-| 1 | 2026-09-24/25 | The repository, data standard v0, validator, and the first connector (ERCOT prices) | [report](SESSION_1_REPORT.md) |
-| 2 | 2026-09-25 | Prices from six ISOs in one connector; validator checks for geography and interval alignment | [report](SESSION_2_REPORT.md) |
-| 3 | 2026-09-25 | The daily GitHub workflow, idempotent merges, generated coverage, the add-a-connector skill | [report](SESSION_3_REPORT.md) |
-| 4 | 2026-09-25 | The `erw` Python package and `llms.txt`, the briefing for AI assistants | [report](SESSION_4_REPORT.md) |
-| 5 | 2026-09-25 | EIA-930 demand and generation, EIA fuel spot prices, run history and the license rule | [report](SESSION_5_REPORT.md) |
-| 6 | 2026-09-25 | News: 44 feeds, scoring with the Claude API, the daily Energy Digest | [report](SESSION_6_REPORT.md) |
-| 7 | 2026-09-25 | News rulings; EIA products, retail and LNG series, PJM capacity, carbon auctions, FRED | [report](SESSION_7_REPORT.md) |
-| 8 | 2026-09-25/26 | Generators (EIA-860M), interconnection queues, ERCOT history from 2015 | [report](SESSION_8_REPORT.md) |
-| 9 | 2026-09-26 | Tables leave git; the ERCOT peak premium method and derived tables | [report](SESSION_9_REPORT.md) |
-| 10 | 2026-09-26 | Redivis as the store of record (draft), Supabase live set, 15-minute latest prices | [report](SESSION_10_REPORT.md) |
-| 11 | 2026-09-26 | Supabase loaded; the public site (Next.js) with prices, digest, data and the explorer | [report](SESSION_11_REPORT.md) |
-| 12 | 2026-09-26 | Question answering over the warehouse (`/ask`), with a 30-question evaluation | [report](SESSION_12_REPORT.md) |
-| 13 | 2026-09-26 | Briefing rewrite, per-day backfills, per-table hashes in the loader, a tool fix | [report](SESSION_13_REPORT.md) |
-| 14 | 2026-09-26/27 | CI secrets check and a runner-coverage fix, ISO-NE hourly per-day, this README, STATUS.md | [report](SESSION_14_REPORT.md) |
+| 1 | 2026-09-24/25 | The repository, data standard v0, validator, and the first connector (ERCOT prices) | [report](archive/sessions/SESSION_1_REPORT.md) |
+| 2 | 2026-09-25 | Prices from six ISOs in one connector; validator checks for geography and interval alignment | [report](archive/sessions/SESSION_2_REPORT.md) |
+| 3 | 2026-09-25 | The daily GitHub workflow, idempotent merges, generated coverage, the add-a-connector skill | [report](archive/sessions/SESSION_3_REPORT.md) |
+| 4 | 2026-09-25 | The `erw` Python package and `llms.txt`, the briefing for AI assistants | [report](archive/sessions/SESSION_4_REPORT.md) |
+| 5 | 2026-09-25 | EIA-930 demand and generation, EIA fuel spot prices, run history and the license rule | [report](archive/sessions/SESSION_5_REPORT.md) |
+| 6 | 2026-09-25 | News: 44 feeds, scoring with the Claude API, the daily Energy Digest | [report](archive/sessions/SESSION_6_REPORT.md) |
+| 7 | 2026-09-25 | News rulings; EIA products, retail and LNG series, PJM capacity, carbon auctions, FRED | [report](archive/sessions/SESSION_7_REPORT.md) |
+| 8 | 2026-09-25/26 | Generators (EIA-860M), interconnection queues, ERCOT history from 2015 | [report](archive/sessions/SESSION_8_REPORT.md) |
+| 9 | 2026-09-26 | Tables leave git; the ERCOT peak premium method and derived tables | [report](archive/sessions/SESSION_9_REPORT.md) |
+| 10 | 2026-09-26 | Redivis as the store of record (draft), Supabase live set, 15-minute latest prices | [report](archive/sessions/SESSION_10_REPORT.md) |
+| 11 | 2026-09-26 | Supabase loaded; the public site (Next.js) with prices, digest, data and the explorer | [report](archive/sessions/SESSION_11_REPORT.md) |
+| 12 | 2026-09-26 | Question answering over the warehouse (`/ask`), with a 30-question evaluation | [report](archive/sessions/SESSION_12_REPORT.md) |
+| 13 | 2026-09-26 | Briefing rewrite, per-day backfills, per-table hashes in the loader, a tool fix | [report](archive/sessions/SESSION_13_REPORT.md) |
+| 14 | 2026-09-26/27 | CI secrets check and a runner-coverage fix, ISO-NE hourly per-day, this README, STATUS.md | [report](archive/sessions/SESSION_14_REPORT.md) |

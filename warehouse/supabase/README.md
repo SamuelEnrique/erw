@@ -50,7 +50,7 @@ python warehouse/supabase/load.py       # load, reconcile, size check
 python warehouse/supabase/load.py --dry-run   # what would be loaded, no network
 ```
 
-In session 10, `.env` held neither of the two, so the migrations were not applied and nothing was loaded. In session 11, with `SUPABASE_DB_URL` in `.env`, all three migrations were applied and the live set loaded: 66 tables and the catalogue and sources, every count matching the filtered CSVs (`SESSION_11_REPORT.md`).
+In session 10, `.env` held neither of the two, so the migrations were not applied and nothing was loaded. In session 11, with `SUPABASE_DB_URL` in `.env`, all three migrations were applied and the live set loaded: 66 tables and the catalogue and sources, every count matching the filtered CSVs (`archive/sessions/SESSION_11_REPORT.md`).
 
 ## Reclaiming space (a human, once)
 

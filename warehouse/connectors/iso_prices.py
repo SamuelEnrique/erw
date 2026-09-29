@@ -12,7 +12,7 @@ warehouse/raw/<iso>/<run_id>/ (gitignored) with a manifest.
     python warehouse/connectors/iso_prices.py ercot --days 30
     python warehouse/connectors/iso_prices.py all --days 30
 
-Rules shared by every ISO (session 1 and 2 decisions, SESSION_*_REPORT.md):
+Rules shared by every ISO (session 1 and 2 decisions, archive/sessions/SESSION_*_REPORT.md):
   - Window: the N complete operating days before today, in the ISO's local
     time. DAM also includes any later operating day whose results are already
     published and complete (the next-day auction), marked by `vintage`.
@@ -1543,7 +1543,7 @@ def backfill_ercot(first_year, log_name="ercot_history"):
     variables and merge writer as the live tables. The history does not go into
     the live tables themselves: eleven years of 15-minute prices is about 550 MB,
     over GitHub's 100 MB file limit, and the daily job would rewrite and commit
-    it every day (SESSION_8_REPORT.md). The last year stops where the live
+    it every day (archive/sessions/SESSION_8_REPORT.md). The last year stops where the live
     table begins, so the two never overlap.
 
     Completeness per year: every hub has every interval of the operating year

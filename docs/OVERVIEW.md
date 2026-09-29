@@ -12,13 +12,13 @@ From `warehouse/metadata/coverage.csv` and `warehouse/metadata/sources.csv`:
 
 | | Tables | Rows |
 |---|---|---|
-| All tables | 113 | 4,802,069 |
-| Public (on the site and in the package) | 104 | 4,666,201 |
-| Internal (licensed for internal use only) | 9 | 135,868 |
+| All tables | 113 | 4,803,622 |
+| Public (on the site and in the package) | 104 | 4,667,022 |
+| Internal (licensed for internal use only) | 9 | 136,600 |
 | Derived by the ERW from other ERW tables | 11 | 144,619 |
 | Passing the validator | 113 of 113 | |
 
-Sources in the registry: 151: 83 data sources (74 public, 9 internal) and 68 news outlets (internal: titles and summaries are not republished).
+Sources in the registry: 152: 83 data sources (74 public, 9 internal) and 69 news outlets (internal: titles and summaries are not republished).
 
 ## The site
 
@@ -111,20 +111,13 @@ The daily run (`warehouse/run_daily.sh`) pulls every source, runs the derived ta
 
 From `STATUS.md` (generated with coverage):
 
-**Tables whose last run failed: 10.**
+**Tables whose last run failed: 3.**
 
 | Table | Run | Reason |
 |---|---|---|
-| `caiso_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
-| `carb_auction_allowance_prices` | 20260927T181629Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
-| `ercot_large_load_queue` | 20260927T094319Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
-| `ercot_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
-| `iso_rt_top_intervals` | 20260927T180906Z | iso_prices.SourceGap: no ISO has 7 complete real-time days |
-| `isone_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
-| `miso_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
-| `nyiso_interconnection_queue` | 20260927T094201Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
-| `nyiso_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
-| `spp_trader_daily` | 20260927T180906Z | ValueError: You are trying to merge on object and float64 columns for key 'value'. If you wish to proceed you should use pd.concat |
+| `carb_auction_allowance_prices` | 20260928T204021Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
+| `ercot_large_load_queue` | 20260928T204415Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
+| `nyiso_interconnection_queue` | 20260928T204313Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
 
 **Days a per-day connector could not write complete:** 21 recorded, 9 filled since, 12 open (per table and day in `STATUS.md`).
 

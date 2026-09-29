@@ -11,7 +11,7 @@ none typed by hand:
   evaluation        warehouse/chat/eval/results/*.md (chat), warehouse/news/eval/eval_sample.csv
                     (news scoring behind the digest), warehouse/deals/eval/spot_check_s15.csv and
                     warehouse/datacenters/eval/spot_check_s16.csv; a chat run's session is the
-                    SESSION_*_REPORT.md that names its run id
+                    archive/sessions/SESSION_*_REPORT.md that names its run id
   open gaps         STATUS.md (its failed tables and open gap days)
 
     python warehouse/metadata/build_overview.py
@@ -78,7 +78,7 @@ def schedules():
 
 
 def chat_runs():
-    reports = {f: open(f, encoding="utf-8").read() for f in glob.glob(os.path.join(ROOT, "SESSION_*_REPORT.md"))}
+    reports = {f: open(f, encoding="utf-8").read() for f in glob.glob(os.path.join(ROOT, "archive", "sessions", "SESSION_*_REPORT.md"))}
     out = []
     for f in sorted(glob.glob(os.path.join(ROOT, "warehouse", "chat", "eval", "results", "*.md"))):
         run = os.path.basename(f)[:-3]

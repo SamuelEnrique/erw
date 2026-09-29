@@ -1,0 +1,2 @@
+table,reason,since,decided
+ercot_large_load_queue,"ERCOT publishes no request-level large-load list (Protocol 3.2.7 requires only an aggregate monthly report); the connector watches the page and fails loudly until one appears",2026-09-27,"session 17 design; listed as a known gap in session 28"

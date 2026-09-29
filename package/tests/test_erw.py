@@ -404,7 +404,7 @@ def test_sector_filter():
     iso_prices = [t for t in TABLES if re.match(r"^[a-z]+_(dam|rtm)_", t)]
     assert set(iso_prices) <= set(erw.filter(sector="power"))
     assert erw.filter(sector="news") == [t for t in TABLES if t.startswith("news_")]
-    assert erw.filter(sector="equities") == []  # no equities table yet (SESSION_7_REPORT.md)
+    assert erw.filter(sector="equities") == []  # no equities table yet (archive/sessions/SESSION_7_REPORT.md)
     with pytest.raises(ValueError):
         erw.filter(sector="crypto")
 
@@ -499,7 +499,7 @@ def test_ercot_history_tables_are_complete_years():
 # --- session 9: derived tables -----------------------------------------------
 
 DERIVED = ["ercot_peak_premium_annual", "ercot_peak_premium_monthly"]
-# the human's thesis values for HB_HUBAVG (SESSION_9_PROMPT.md), 2015 and 2025
+# the human's thesis values for HB_HUBAVG (archive/sessions/SESSION_9_PROMPT.md), 2015 and 2025
 THESIS = {"all_median": (20.49, 25.68), "all_p999": (583.96, 311.80),
           "peak_iqr": (7.64, 34.12), "midday_min": (-3.98, -18.25)}
 

@@ -96,7 +96,35 @@ def day_complete(table, day):
     return not problems
 
 
+KNOWN_GAPS = os.path.join(ROOT, "warehouse", "metadata", "known_gaps.csv")
+
+
+def health_gate(rs):
+    """Session 28 (PRIORITIES.md, the health gate): the latest daily run on GitHub and its failed tables
+    that are not in warehouse/metadata/known_gaps.csv. Returns (run day, failures outside the list, known)."""
+    known = pd.read_csv(KNOWN_GAPS, dtype=str, keep_default_na=False) if os.path.exists(KNOWN_GAPS)         else pd.DataFrame(columns=["table", "reason", "since", "decided"])
+    gh = rs[rs["runner"] == "github"]
+    if gh.empty:
+        return None, None, known
+    last = gh["run_id"].max()
+    day = gh[gh["run_id"].str[:8] == last[:8]]
+    newest = day.sort_values("run_id").groupby(["connector", "table"]).tail(1)
+    failed = newest[newest["status"] == "failed"]
+    outside = failed[~failed["table"].isin(set(known["table"]))]
+    return last[:8], outside, known
+
+
 def main():
+    if "--gate" in sys.argv:  # session 28: exit 1 while the health gate is closed
+        rs = pd.read_csv(RUN_STATUS, dtype=str, keep_default_na=False)
+        day, outside, _ = health_gate(rs)
+        if day is None:
+            print("health gate: no daily run on GitHub recorded")
+            return 1
+        print(f"health gate {'OPEN' if outside.empty else 'CLOSED'}: daily run on GitHub {day}, "
+              f"{len(outside)} failed tables outside warehouse/metadata/known_gaps.csv"
+              + ("" if outside.empty else ": " + ", ".join(sorted(outside["table"]))))
+        return 0 if outside.empty else 1
     now = pd.Timestamp.now(tz="UTC")
     cov = pd.read_csv(COVERAGE, dtype=str, keep_default_na=False)
     cov["n_rows"] = cov["n_rows"].astype(int)
@@ -116,6 +144,28 @@ def main():
           "", f"Newest table refresh: {cov['last_run'].max().replace('T', ' ').rstrip('Z')} UTC. "
           f"Validator: {int((cov['validator_status'] == 'pass').sum())} of {len(cov)} tables pass. "
           "Per-table detail: [`docs/coverage.md`](docs/coverage.md).", ""]
+
+    # session 28: the health gate (PRIORITIES.md) and the known-gap list it reads
+    gday, outside, known = health_gate(rs)
+    L += ["## Health gate", ""]
+    if gday is None:
+        L += ["No daily run on GitHub recorded yet, so the gate cannot be read.", ""]
+    else:
+        L += [f"**{'Open' if outside.empty else 'Closed'}.** The latest daily run on GitHub ({gday[:4]}-{gday[4:6]}-{gday[6:]}) "
+              f"has {len(outside)} failed table{'' if len(outside) == 1 else 's'} outside the known-gap list below"
+              + ("." if outside.empty else ": " + ", ".join(f"`{t}`" for t in sorted(outside["table"])) + ".")
+              + " While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the "
+              "failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` "
+              "exits 1 while it is closed.", ""]
+    L += ["### Known gaps", "", "Failures a human has accepted for now (`warehouse/metadata/known_gaps.csv`, edited by hand). "
+          "A table here does not close the gate.", ""]
+    if known.empty:
+        L += ["None.", ""]
+    else:
+        L += ["| Table | Why | Since | Decided |", "|---|---|---|---|"]
+        for r in known.itertuples():
+            L.append(f"| `{r.table}` | {r.reason.replace('|', '/')} | {r.since} | {r.decided.replace('|', '/')} |")
+        L.append("")
 
     L += ["## Last runs", "", "| Workflow | Last run (UTC) | Outcome |", "|---|---|---|"]
     for runner, label in (("github", "daily prices, on GitHub"), ("local", "daily run, local")):

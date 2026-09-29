@@ -38,3 +38,5 @@ warehouse/output/thesis_charts/
 warehouse/archive/*
 !warehouse/archive/*.py
 !warehouse/archive/README.md
+# Session 28 (Ben Domingue's review): screenshots stay local; regenerate with site/scripts/screenshots.mjs (site/README.md)
+site/screenshots/

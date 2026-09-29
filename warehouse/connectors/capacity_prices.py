@@ -25,7 +25,7 @@ and is omitted; nothing is filled from the parent LDA.
 License: PJM's data terms bar non-members from republishing, so the table is
 internal (license_of marks every pjm: source internal). ISO-NE FCA and MISO PRA
 prices need written permission for non-personal use and are not collected
-(docs/price-sources.md; SESSION_7_REPORT.md). The session 7 prompt calls the
+(docs/price-sources.md; archive/sessions/SESSION_7_REPORT.md). The session 7 prompt calls the
 table `capacity_prices`; that name has two parts and the naming rule needs
 three, so the PJM table is pjm_rpm_capacity_prices and other ISOs would get
 their own tables with the same variable.

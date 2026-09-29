@@ -47,6 +47,8 @@ node scripts/check-values.mjs               # every rendered number against Supa
 node scripts/screenshots.mjs                # screenshots/*.png
 ```
 
+**Screenshots are not in git (session 28).** `site/screenshots/` is gitignored: screenshots regenerated every session grew the repository by megabytes each time. They are kept locally and regenerated whenever they are needed: build and start the site as above, then run `node scripts/screenshots.mjs` (every page at 1280 and 390 px) or `node scripts/screenshots.mjs --only companies,data` (named pages). A session report that shows a page names the command it used.
+
 Use `npm run build` and `npm start` rather than `npm run dev`: `next dev`, when it detects an AI coding agent, rewrites `AGENTS.md` with a block that contains em dashes, which this repository does not allow.
 
 ## Deploy on Vercel (a human, by hand)
