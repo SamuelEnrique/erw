@@ -205,8 +205,13 @@ jobs:
           # have unstaged changes"). Now: set this run's changes aside, bring main up to date
           # with rebase, put the changes back, and only then commit. When main moved and a
           # file conflicts, this run's version is kept: it was built from the newer data.
+          # Session 29 ruling: sources.csv is regenerated after the pull, never before. Keeping this run's copy
+          # of a file main also changed dropped a source a session had added (2026-09-28); the registry only
+          # grows, so it is rebuilt from both copies below, after the pull.
+          mkdir -p runs && cp warehouse/metadata/sources.csv runs/sources_run.csv
           git stash push --include-untracked --quiet -m "daily run $date" || true
           git pull --rebase origin main
+          git show HEAD:warehouse/metadata/sources.csv > runs/sources_main.csv
           if git stash list | grep -q "daily run $date"; then
             if ! git stash pop --quiet; then
               conflicted="$(git diff --name-only --diff-filter=U)"
@@ -222,6 +227,7 @@ jobs:
             fi
           fi
           git reset --quiet
+          python warehouse/metadata/merge_sources.py runs/sources_main.csv runs/sources_run.csv             --out warehouse/metadata/sources.csv
           for p in "${paths[@]}"; do
             [ -e "$p" ] && git add -- "$p"
           done
