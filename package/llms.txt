@@ -128,6 +128,16 @@ day-ahead tables running into tomorrow:
   storage_capacity (derived, entities): every battery unit in EIA-860M,
   operating, under_construction, planned and retired, with capacity_mw
   (nameplate), state, balancing_authority, iso, planned_year. No MWh.
+**Emissions** (session 32, method docs/methods/emissions.md):
+  eia930_all_emissions: EIA's hourly CO2 estimates for EIA-930, from its
+  per-BA Grid Monitor workbooks, tCO2 (metric tons): co2_emissions_generated
+  (all sources in the BA) and co2_emissions_consumed (generated plus imported
+  minus exported); ba = ciso, erco, isne, miso, nyis, pjm, swpp, us48; from
+  2018-07-02. These are EIA's estimates (generation by fuel x emission factors),
+  not measurements. carbon_intensity_hourly and carbon_intensity_daily
+  (derived, kgCO2/MWh): intensity_generation (CO2 generated / net generation)
+  and intensity_demand (CO2 consumed / demand), the last ~30 days only (the
+  reach of eia930_all_generation and eia930_all_demand).
 **EIA petroleum and gas series** (full history, replaced each run):
   eia_fuel_spot_prices: eia:henry_hub (USD/MMBtu), eia:wti_cushing and
     eia:brent (USD/bbl), daily trading dates from 1986 (Henry Hub from 1997)
@@ -296,6 +306,7 @@ day-ahead tables running into tomorrow:
 | Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
 | Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_all_generation` (ba) |
 | Battery charging and discharging by hour or day; the battery fleet by state, ISO or year | `eia930_all_storage`, `storage_daily_cycle`, `storage_capacity` |
+| CO2 emissions of an ISO's power, and its carbon intensity (kg CO2 per MWh) | `eia930_all_emissions` (since 2018-07), `carbon_intensity_hourly` / `_daily` (last ~30 days) |
 | Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `iso_trader_daily` (market), `iso_rt_top_intervals` |
 | A hub's latest daily mean, its move, 7- and 30-day averages, peak and off-peak, spark spread, Brent minus WTI | `price_board_latest`, `price_board_peak_offpeak`, `price_board_spreads` |
 | Wind and solar curtailment | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (not curtailment: output below HSL), `iso_curtailment_monthly` |
@@ -314,9 +325,10 @@ day-ahead tables running into tomorrow:
 Not in the warehouse today: PJM energy prices (day-ahead and real-time), SPP
 real-time before 2026-09-24 (iso_rtm_hub_prices, market spp_rtm, starts
 then), CAISO or NYISO before the live window, futures, lithium and
-other battery metals, equities, EIA-930 CO2 emissions (EIA publishes no
-hourly emissions series in its API or bulk files), battery energy capacity in
-MWh, and a list of ERCOT large-load interconnection
+other battery metals, equities, EIA-930 CO2 by fuel and imported or exported
+CO2 as separate series (in EIA's workbooks, not yet in the warehouse), carbon
+intensity before the last 30 days, battery energy capacity in MWh, and a list
+of ERCOT large-load interconnection
 requests by site (ERCOT publishes only aggregates: Protocol 3.2.7).
 Say "not in the warehouse" rather than approximating from another table.
 
