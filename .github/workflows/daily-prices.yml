@@ -133,6 +133,9 @@ jobs:
           REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          # Session 29: the loader vacuums after every load through a direct Postgres connection; while this
+          # secret is unset the vacuum is skipped with a warning (warehouse/supabase/load.py)
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           # Session 19: the email digest (warehouse/news/email_digest.py); unset means render only, no send
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}

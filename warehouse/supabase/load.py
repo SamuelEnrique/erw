@@ -42,6 +42,12 @@ and --vacuum-full compacts the shape tables through SUPABASE_DB_URL (only VACUUM
 shrinks pg_database_size). The scheduled run passes neither flag.
 live_set.yaml "select" also takes include (keep only these values), since (series rows from
 this time on) and days (series rows of the last N days, a window for one table).
+Session 29 (human ruling, after 274.8 MB became 377.2 MB of 400 in one day): every load ends
+with a vacuum of the shape tables through SUPABASE_DB_URL, VACUUM (FULL, ANALYZE), which
+returns the space of the rows the load replaced, and prints pg_database_size before the load
+and after the vacuum; the max_mb check reads the size after. Without SUPABASE_DB_URL (a
+repository secret the daily workflow passes when it is set) the vacuum is skipped with a
+warning and the run is not failed for it. --no-vacuum skips it on purpose.
 """
 
 import argparse
@@ -279,13 +285,27 @@ def rows_sha256(df, license_):
     return h.hexdigest()
 
 
-def vacuum_full():
+def db_size_mb(client):
+    return int(client.rpc("erw_db_size").execute().data) / 1024 / 1024
+
+
+def db_url():
+    """SUPABASE_DB_URL from the environment or .env, or None (session 29: the vacuum is then skipped)."""
+    v = os.environ.get("SUPABASE_DB_URL")
+    if not v:
+        from dotenv import dotenv_values
+        v = dotenv_values(os.path.join(ROOT, ".env")).get("SUPABASE_DB_URL")
+    return (v or "").strip() or None
+
+
+def vacuum_full(url=None):
     """Session 18: return the space of dead row versions to the operating system. Postgres
     reuses a dead row's space after a plain (auto)vacuum, but pg_database_size, which the
     max_mb check reads, shrinks only after VACUUM FULL. GitHub run 4 measured 300.6 MB, of
-    which the series table held 62,631 dead rows. Needs SUPABASE_DB_URL (not a CI secret)."""
+    which the series table held 62,631 dead rows. Needs SUPABASE_DB_URL. Session 29: run
+    after every load (each table is locked for seconds while it is rewritten)."""
     import psycopg
-    with psycopg.connect(env("SUPABASE_DB_URL"), autocommit=True, connect_timeout=30) as conn:
+    with psycopg.connect(url or env("SUPABASE_DB_URL"), autocommit=True, connect_timeout=30) as conn:
         for t in ("series", "entities", "events", "headers", "catalogue", "sources"):
             before = conn.execute(f"select pg_total_relation_size('public.{t}')").fetchone()[0]
             conn.execute(f"VACUUM (FULL, ANALYZE) public.{t}")
@@ -303,7 +323,10 @@ def main(argv=None):
                          "no live-set rule matches; for a person to run, never the schedule")
     ap.add_argument("--vacuum-full", action="store_true",
                     help="session 18: after loading, VACUUM FULL the shape tables through SUPABASE_DB_URL "
-                         "(a direct Postgres connection; locks each table for seconds) and measure again")
+                         "(a direct Postgres connection; locks each table for seconds) and measure again. "
+                         "Session 29: the default after every load; kept so older commands still work")
+    ap.add_argument("--no-vacuum", action="store_true",
+                    help="session 29: skip the vacuum that ends every load")
     args = ap.parse_args(argv)
     now = pd.Timestamp.now(tz="UTC")
     loaded_at = now.strftime(TS_FMT)
@@ -336,6 +359,8 @@ def main(argv=None):
         except Exception as exc:
             raise SystemExit(f"FAILED: Supabase table {t} is not reachable ({type(exc).__name__}: "
                              f"{str(exc)[:200]}). Apply the migrations first: warehouse/supabase/apply.py")
+    size_before = db_size_mb(client)
+    print(f"pg_database_size before the load: {size_before:.1f} MB")
 
     try:  # the hashes of the last successful load of each table (migration 004)
         prev = {r["table_name"]: r.get("rows_sha256")
@@ -455,17 +480,32 @@ def main(argv=None):
         if not ok:
             failed.append(t)
 
-    if args.vacuum_full:
-        vacuum_full()
+    # session 29 (human ruling): vacuum after every load, and print the size before and after
+    vacuum = "skipped (--no-vacuum)"
+    if not args.no_vacuum:
+        url = db_url()
+        if url is None:
+            vacuum = "skipped: SUPABASE_DB_URL is not set"
+            print("WARNING: vacuum skipped, SUPABASE_DB_URL is not set (.env or the repository secret)")
+        else:
+            try:
+                vacuum_full(url)
+                vacuum = "VACUUM (FULL, ANALYZE)"
+            except Exception as exc:
+                vacuum = f"FAILED {type(exc).__name__}"
+                failed.append("vacuum")
+                print(f"FAILED vacuum: {type(exc).__name__}: {str(exc)[:300]}")
     size = client.rpc("erw_db_size").execute().data
     mb = int(size) / 1024 / 1024
-    print(f"pg_database_size: {int(size):,} bytes ({mb:.1f} MB); limit {LIVE['max_mb']} MB")
+    print(f"pg_database_size: {size_before:.1f} MB before the load, {mb:.1f} MB after the load and vacuum "
+          f"({vacuum}); {int(size):,} bytes; limit {LIVE['max_mb']} MB")
     os.makedirs(os.path.join(ROOT, "runs"), exist_ok=True)
     pd.DataFrame(recon, columns=["table", "shape", "csv_rows", "supabase_rows", "result", "written",
                                  "deleted", "unchanged"]).to_csv(
         os.path.join(ROOT, "runs", "supabase_reconcile.csv"), index=False)
     with open(os.path.join(ROOT, "runs", "supabase_size.json"), "w", encoding="utf-8") as f:
-        json.dump({"bytes": int(size), "mb": round(mb, 1), "at": loaded_at}, f)
+        json.dump({"bytes": int(size), "mb": round(mb, 1), "mb_before": round(size_before, 1),
+                   "vacuum": vacuum, "at": loaded_at}, f)
     if mb > LIVE["max_mb"]:
         print(f"FAILED: database is {mb:.1f} MB, over the {LIVE['max_mb']} MB limit", file=sys.stderr)
         return 1
