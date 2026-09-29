@@ -32,6 +32,15 @@ sys.path.insert(0, os.path.join(HERE, ".."))
 import ask  # noqa: E402
 
 
+def accepted(tables):
+    """Session 30: the acceptable tables, and the consolidated table each old name moved into in session 29
+    (warehouse/metadata/table_migrations.csv), so an answer citing iso_dam_hub_prices where the set names
+    ercot_dam_hub_prices is not marked wrong for the rename."""
+    import erw
+    moved = erw.migrations()
+    return set(tables) | {moved[t][0] for t in tables if t in moved}
+
+
 def score(q, rec):
     got = [v for v, _ in ask.numbers(rec["answer"])]
     s = {}
@@ -44,7 +53,7 @@ def score(q, rec):
         low = rec["answer"].lower()
         s["text"] = all(t.lower() in low for t in q["text"])
         cites = rec.get("citations") or []
-        ok_table = any(c["table"] in q["tables"] for c in cites)
+        ok_table = any(c["table"] in accepted(q["tables"]) for c in cites)
         complete = bool(cites) and all(c.get("source_report") and c.get("data_version") for c in cites)
         s["citation"] = ok_table and complete and (not q["internal"] or "internal" in low)
     s["correct"] = all(s.values())
