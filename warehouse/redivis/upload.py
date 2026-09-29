@@ -70,7 +70,9 @@ TMP = os.path.join(ROOT, "runs", "redivis")
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "validate"))
 CONFIG = yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
 MANIFEST = os.path.join(ROOT, CONFIG["manifest"])
-MANIFEST_COLS = ["table", "data_sha256", "rows", "uploaded_at", "redivis_table", "dataset"]
+MANIFEST_COLS = ["table", "data_sha256", "rows", "uploaded_at", "redivis_table", "dataset",
+                 "migrated_to"]  # session 29: the consolidated table an old one moved into (kept, never removed)
+MIGRATIONS = os.path.join(ROOT, "warehouse", "metadata", "table_migrations.csv")
 PUBLIC, INTERNAL = CONFIG["dataset"], CONFIG["dataset_internal"]
 DESC_MAX = 2000  # Redivis's limit on a table description (HTTP 400 above it)
 HEADERS_TABLE = "erw_headers"  # every provenance header line of every table, in full
@@ -105,6 +107,49 @@ def split_header(path):
 def data_rows(data_text):
     df = pd.read_csv(io.StringIO(data_text), dtype=str, keep_default_na=False, na_values=[])
     return df
+
+
+def data_file(path, out):
+    """Session 29: a table's header lines (without '# '), and its data (the column row onwards) copied to out,
+    streamed: (header, rows, sha256 of the data, first column name). The same sha as sha(split_header()[1]),
+    without holding the file as text (the ERCOT history is 0.65 GB) or as a frame."""
+    import csv
+    header, h, rows, first = [], hashlib.sha256(), 0, None
+    with open(path, encoding="utf-8", newline="") as f, open(out, "w", encoding="utf-8", newline="") as o:
+        started = False
+        for line in f:
+            if not started and line.startswith("#"):
+                header.append(line.rstrip("\r\n")[1:].strip())
+                continue
+            if not started:
+                first = next(csv.reader([line]))[0]
+            started = True
+            h.update(line.encode("utf-8"))
+            o.write(line)
+    with open(out, encoding="utf-8", newline="") as f:
+        rows = sum(1 for _ in csv.reader(f)) - 1
+    return header, rows, h.hexdigest(), first
+
+
+def data_sha(path):
+    """sha256 of a table's data (the column row onwards), streamed (session 29)."""
+    h = hashlib.sha256()
+    with open(path, encoding="utf-8", newline="") as f:
+        started = False
+        for line in f:
+            if not started and line.startswith("#"):
+                continue
+            started = True
+            h.update(line.encode("utf-8"))
+    return h.hexdigest()
+
+
+def migration_map():
+    """{old table: new table} (session 29, warehouse/metadata/table_migrations.csv)."""
+    if not os.path.exists(MIGRATIONS):
+        return {}
+    m = pd.read_csv(MIGRATIONS, dtype=str, keep_default_na=False)
+    return dict(zip(m["old_table"], m["new_table"]))
 
 
 def sha(data_text):
@@ -209,18 +254,23 @@ def count_rows(table):
     return int(rows[0]["n"])
 
 
-def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC):
-    """Replace one draft table with this data; return (expected, actual)."""
+def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC, data_path=None, expected=None):
+    """Replace one draft table with this data; return (expected, actual). Session 29: data_path (a file
+    holding the data, column row first, which push removes) with its expected row count, instead of
+    data_text, for a table too large to hold as text."""
     if dataset == PUBLIC and license_ != "public":  # session 28: never, whatever the caller asked
         raise RuntimeError(f"refused: license {license_!r} may not be uploaded to the public dataset {PUBLIC}")
-    df = data_rows(data_text)
-    expected = len(df)
-    if expected == 0:
-        raise RuntimeError("no data rows; an empty table is never uploaded")
     os.makedirs(TMP, exist_ok=True)
     tmp = os.path.join(TMP, f"{name}.csv")
-    with open(tmp, "w", encoding="utf-8", newline="") as f:
-        f.write(data_text if data_text.endswith("\n") else data_text + "\n")
+    if data_path is None:
+        expected = len(data_rows(data_text))
+        with open(tmp, "w", encoding="utf-8", newline="") as f:
+            f.write(data_text if data_text.endswith("\n") else data_text + "\n")
+    else:
+        tmp = data_path
+    if expected == 0:
+        os.remove(tmp)
+        raise RuntimeError("no data rows; an empty table is never uploaded")
     table = ds.table(name)
     if table.exists():
         table.delete()  # the only true replace (see the module docstring)
@@ -248,6 +298,8 @@ def read_manifest():
         m = pd.read_csv(MANIFEST, dtype=str, keep_default_na=False)
         if "dataset" not in m.columns:  # before session 28 every table went to the public dataset
             m["dataset"] = PUBLIC
+        if "migrated_to" not in m.columns:  # before session 29 no table had moved
+            m["migrated_to"] = ""
         return m
     return pd.DataFrame(columns=MANIFEST_COLS)
 
@@ -275,20 +327,25 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False):
             rep = erw_validate.validate(path)
             if rep["errors"]:
                 raise RuntimeError(f"validator blocked it: {rep['errors'][0]['check']}: {rep['errors'][0]['detail'][:200]}")
-            header, data = split_header(path)
+            del rep
             if name not in lic:
                 raise RuntimeError("not in coverage.csv; run build_coverage.py first")
-            why = shrink_refusal(name, len(data_rows(data)), man, set(allow_shrink))
+            # session 29: streamed, never the whole table as text or as a frame (the ERCOT history is 0.65 GB)
+            os.makedirs(TMP, exist_ok=True)
+            tmp = os.path.join(TMP, f"{name}.csv")
+            header, n_rows, digest, first = data_file(path, tmp)
+            why = shrink_refusal(name, n_rows, man, set(allow_shrink))
             if why:  # before push(), which deletes the draft table
+                os.remove(tmp)
                 raise RuntimeError(why)
             target = dataset_for(lic[name])
-            expected, actual = push(drafts(target), name, header, data, lic[name],
-                                    events=list(data_rows(data).columns[:1]) == ["event_id"], dataset=target)
+            expected, actual = push(drafts(target), name, header, None, lic[name], events=first == "event_id",
+                                    dataset=target, data_path=tmp, expected=n_rows)
             ok = expected == actual
             results.append((name, expected, actual, "" if ok else "row count mismatch"))
             if ok:
-                man.loc[name, ["data_sha256", "rows", "uploaded_at", "redivis_table", "dataset"]] = [
-                    sha(data), str(expected), now, name, target]
+                man.loc[name, ["data_sha256", "rows", "uploaded_at", "redivis_table", "dataset", "migrated_to"]] = [
+                    digest, str(expected), now, name, target, ""]
             log(f"{'ok  ' if ok else 'FAIL'} {name}: CSV {expected:,} rows, Redivis count(*) {actual:,}"
                 + ("" if target == PUBLIC else f" ({target})"))
         except Exception as exc:
@@ -345,8 +402,7 @@ def changed_tables():
     lic = licenses()
     out = []
     for name in tables_on_disk():
-        _, data = split_header(os.path.join(OUT, name + ".csv"))
-        if name not in man.index or man.loc[name, "data_sha256"] != sha(data) \
+        if name not in man.index or man.loc[name, "data_sha256"] != data_sha(os.path.join(OUT, name + ".csv")) \
                 or man.loc[name, "dataset"] != dataset_for(lic.get(name, "")):
             out.append(name)
     return out
@@ -364,7 +420,9 @@ def reconcile():
             with open(os.path.join(ROOT, CONFIG["metadata_tables"][name]), encoding="utf-8") as f:
                 expected = len(data_rows(f.read()))
         else:
-            expected = len(data_rows(split_header(os.path.join(OUT, name + ".csv"))[1]))
+            import csv
+            with open(os.path.join(OUT, name + ".csv"), encoding="utf-8", newline="") as f:
+                expected = sum(1 for _ in csv.reader(ln for ln in f if not ln.startswith("#"))) - 1
         t = drafts(PUBLIC if name in CONFIG["metadata_tables"] else dataset_for(lic.get(name, ""))).table(name)
         actual = count_rows(t) if t.exists() else None
         ok = actual == expected
@@ -416,9 +474,13 @@ def restore(out_dir=None):
     drafts = Drafts()
     lic = licenses()
     man = read_manifest().set_index("table")
-    homes = {dataset_for(lic.get(n, "")) for n in man.index if rolling(n)} | {PUBLIC}
+    # session 29: a table consolidated into another (migrated_to, table_migrations.csv) is never restored: its
+    # rows come back inside the consolidated table, and warehouse/consolidate.py split writes it for the connectors
+    moved = set(migration_map()) | {n for n in man.index if man.loc[n, "migrated_to"]}
+    homes = {dataset_for(lic.get(n, "")) for n in man.index if rolling(n) and n not in moved} | {PUBLIC}
     listed = {t.name for d in sorted(homes) for t in drafts(d).list_tables()}
-    expected = sorted({n for n in man.index if rolling(n)} | {n for n in listed if rolling(n)})
+    expected = sorted(n for n in ({n for n in man.index if rolling(n)} | {n for n in listed if rolling(n)})
+                      if n not in moved)
     got, failed = 0, 0
     for name in expected:
         try:
@@ -463,6 +525,8 @@ def check_license(fix=False):
     internal = sorted(n for n, l in lic.items() if dataset_for(l) == INTERNAL)
     found = [n for n in internal if table_meta(pub, n) is not None]
     allowed = {n for n, l in lic.items() if l == "public"} | set(CONFIG["metadata_tables"]) | {HEADERS_TABLE}
+    # session 29: a table consolidated into a public table stays in the draft until --remove-migrated removes it
+    allowed |= {old for old, new in migration_map().items() if lic.get(new) == "public"}
     unknown = sorted({t.name for t in pub.list_tables()} - allowed - set(found))
     bad = 0
     for n in found:
@@ -499,6 +563,80 @@ def check_license(fix=False):
     return 1 if bad else 0
 
 
+def remove_migrated(dry_run=False):
+    """Session 29: remove from the Redivis drafts the tables consolidated into others (table_migrations.csv), a
+    human's command. Per family it first checks, in the draft, that the consolidated table holds the old tables'
+    rows: its count(*) equals the sum of the old tables' counts, or, when the consolidated table has grown since
+    (the daily run adds days to it, never to the old tables), every old row's key is in it (a join per old table,
+    whose count must equal the old table's). It refuses to remove anything if any family fails a check, and
+    prints each table it removes. The manifest keeps every old line (migrated_to), so the history gate's counts
+    survive."""
+    import redivis
+    fams = {}
+    for old, new in migration_map().items():
+        fams.setdefault(new, []).append(old)
+    lic = licenses()
+    man = read_manifest().set_index("table")
+    drafts = Drafts()
+    plan, bad = [], 0
+    keys = "entity, variable, ts_utc"
+    for new, olds in fams.items():
+        ds_new = drafts(dataset_for(lic.get(new, "")))
+        meta = table_meta(ds_new, new)
+        if meta is None:
+            log(f"REFUSE {new}: the consolidated table is not in the draft of {dataset_for(lic.get(new, ''))}")
+            bad += 1
+            continue
+        n_new = count_rows(ds_new.table(new))
+        ref_new = meta["qualifiedReference"]
+        present, counts = [], {}
+        for old in olds:
+            home = man.loc[old, "dataset"] if old in man.index and man.loc[old, "dataset"] else PUBLIC
+            om = table_meta(drafts(home), old)
+            if om is None:
+                log(f"  {old}: already absent from {home}")
+                continue
+            counts[old] = count_rows(drafts(home).table(old))
+            present.append((old, home, om["qualifiedReference"]))
+        if not present:
+            log(f"ok   {new}: {n_new:,} rows; no old table left to remove")
+            continue
+        total = sum(counts.values())
+        if n_new == total:
+            log(f"ok   {new}: count(*) {n_new:,} = the sum of its {len(present)} old tables' counts {total:,}")
+        elif n_new > total:
+            missing = {}
+            for old, _, ref_old in present:
+                got = redivis.query(f"select count(*) as n from `{ref_old}` o join `{ref_new}` n using ({keys})") \
+                    .to_arrow_table(progress=False).to_pylist()[0]["n"]
+                if int(got) != counts[old]:
+                    missing[old] = counts[old] - int(got)
+            if missing:
+                log(f"REFUSE {new}: {n_new:,} rows, and old rows missing from it: {missing}")
+                bad += 1
+                continue
+            log(f"ok   {new}: count(*) {n_new:,}, more than the old tables' {total:,} (days added since the migration); "
+                f"every old row's key is in it (one join per old table)")
+        else:
+            log(f"REFUSE {new}: count(*) {n_new:,}, fewer than the {total:,} rows of its old tables")
+            bad += 1
+            continue
+        plan += [(old, home, counts[old], new) for old, home, _ in present]
+    if bad:
+        log(f"remove-migrated refused: {bad} famil{'y' if bad == 1 else 'ies'} failed a check; nothing removed")
+        return 1
+    if dry_run:
+        for old, home, n, new in plan:
+            log(f"would remove {old} ({n:,} rows, in {new}) from {home}")
+        log(f"dry run: would remove {len(plan)} tables; nothing removed")
+        return 0
+    for old, home, n, new in plan:
+        drafts(home).table(old).delete()
+        log(f"removed {old} ({n:,} rows, now in {new}) from the draft of {home}")
+    log(f"remove-migrated: removed {len(plan)} tables; the manifest keeps their lines (migrated_to)")
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW Redivis uploader (draft only, never releases)")
     ap.add_argument("tables", nargs="*")
@@ -509,6 +647,9 @@ def main(argv=None):
     g.add_argument("--restore", action="store_true")
     g.add_argument("--check-license", action="store_true",
                    help="exit 1 if any internal table is in the public dataset (session 28)")
+    g.add_argument("--remove-migrated", action="store_true",
+                   help="session 29, a human's command: remove the tables consolidated into others from the drafts, "
+                        "after checking every family; nothing is removed on any mismatch")
     ap.add_argument("--out-dir", help="--restore only: write here instead of warehouse/output (tests)")
     ap.add_argument("--allow-shrink", action="append", default=[], metavar="TABLE",
                     help="upload this rolling-window table although it has fewer rows than last recorded (session 28)")
@@ -523,6 +664,8 @@ def main(argv=None):
         return restore(args.out_dir)
     if args.check_license:
         return check_license(args.fix)
+    if args.remove_migrated:
+        return remove_migrated(args.dry_run)
     if args.all:
         names = tables_on_disk()
     elif args.changed:
@@ -536,8 +679,10 @@ def main(argv=None):
     if args.dry_run:
         man = read_manifest().set_index("table")
         for n in names:  # session 28: the shrink gate, reported without uploading
-            why = shrink_refusal(n, len(data_rows(split_header(os.path.join(OUT, n + ".csv"))[1])), man,
-                                 set(args.allow_shrink))
+            import csv
+            with open(os.path.join(OUT, n + ".csv"), encoding="utf-8", newline="") as f:
+                n_rows = sum(1 for _ in csv.reader(ln for ln in f if not ln.startswith("#"))) - 1
+            why = shrink_refusal(n, n_rows, man, set(args.allow_shrink))
             if why:
                 log(f"would refuse {n}: {why}")
         log(f"dry run, nothing uploaded; would upload {len(names)} tables"

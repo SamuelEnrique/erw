@@ -44,6 +44,9 @@
 #   Session 28: MODEL_STEPS=0 skips the seven steps that call the Claude API (scoring, extraction, reads, the
 #   fun fact and the digest) and SEND_EMAIL=0 skips the email, each recorded as skipped: for a local run of the
 #   sequence that must spend nothing and send nothing. CI never sets them.
+#   Session 29: 54 tables became 6 consolidated tables (docs/migrations/2026-09-29-consolidation.md). After the restore,
+#   warehouse/consolidate.py split writes their members for the connectors; after the last connector, build writes the
+#   consolidated tables back and moves the members to warehouse/output/members/. Either failing stops the run.
 #   Session 14: DRY_STORES=1 runs the same sequence but writes to no shared store:
 #   the Supabase load runs with --dry-run and the Redivis upload lists what it
 #   would upload. For testing the workflow logic in a fresh clone; CI never sets it.
@@ -74,6 +77,12 @@ if [ "${RESTORE_FROM_REDIVIS:-0}" = "1" ]; then
     exit 1
   }
 fi
+# Session 29: the consolidated tables (warehouse/metadata/table_migrations.csv) hold what used to be 54 tables. The
+# connectors still read and write those members, so they are written back out of the consolidated tables first,
+# and consolidated again after the last connector (below). A failed split stops the run: a connector must never
+# merge its window into a member that lost its history.
+echo "== split the consolidated tables into their members (session 29)"
+"$PYTHON" warehouse/consolidate.py split || { echo "stopping: consolidate.py split failed"; exit 1; }
 for iso in $ISOS; do
   out="runs/daily_${iso}.out"
   "$PYTHON" warehouse/connectors/iso_prices.py "$iso" --days "$DAYS" > "$out" 2>&1
@@ -198,6 +207,20 @@ model_step datacenters "$PYTHON" warehouse/datacenters/extract.py
 # Session 22: the tracker's one table: the news facilities, the operator sites and the queue rows that
 # name a datacenter or large load, deduplicated by operator plus location (docs/methods/datacenter_facilities.md)
 run_other datacenter_facilities "$PYTHON" warehouse/derived/datacenter_facilities.py
+
+# Session 29: the members back into their consolidated tables; the members move to warehouse/output/members/, where
+# nothing below looks. A failed build stops the run before the validator: the old names must never be uploaded again.
+echo "== build the consolidated tables from their members (session 29)"
+if "$PYTHON" warehouse/consolidate.py build > runs/daily_consolidate.out 2>&1; then
+  grep -E "^built|left as it is|consolidate build" runs/daily_consolidate.out
+  echo "consolidate ok" >> "$status"
+else
+  cat runs/daily_consolidate.out
+  echo "consolidate failed: $(grep -m1 FAILED runs/daily_consolidate.out)" >> "$status"
+  "$PYTHON" warehouse/metadata/run_status.py record
+  echo "stopping: consolidate.py build failed (runs/daily_consolidate.out)"
+  exit 1
+fi
 
 echo "== connector status"
 cat "$status"

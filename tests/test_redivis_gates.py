@@ -35,7 +35,8 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "redivis"))
 
 import upload  # noqa: E402
 
-ROLLING = "ercot_dam_hub_prices"      # matched by restore_before_run
+ROLLING = "iso_dam_hub_prices"        # matched by restore_before_run (session 29: the consolidated table)
+MIGRATED = "ercot_dam_hub_prices"     # session 29: consolidated into iso_dam_hub_prices, never restored
 ROLLING_2 = "weather_obs_hourly"      # matched too
 FULL = "eia_fuel_spot_prices"         # a full-history table: not matched
 INT = "pjm_rpm_capacity_prices"       # licensed internal
@@ -122,7 +123,7 @@ class GateTest(unittest.TestCase):
 
     def manifest_rows(self, **rows):
         upload.write_manifest(pd.DataFrame(
-            [(t, "x", str(n), "2026-09-28T00:00:00Z", t, upload.PUBLIC) for t, n in rows.items()],
+            [(t, "x", str(n), "2026-09-28T00:00:00Z", t, upload.PUBLIC, "") for t, n in rows.items()],  # session 29: migrated_to
             columns=upload.MANIFEST_COLS))
 
     def local(self, name, n):
@@ -151,6 +152,18 @@ class GateTest(unittest.TestCase):
         self.assertEqual(upload.restore(), 1)
         self.assertIn(f"FAIL restore {ROLLING}: RuntimeError: absent from the draft", self.log.getvalue())
         self.assertTrue(os.path.exists(os.path.join(self.out, ROLLING_2 + ".csv")))  # the others still restored
+
+    def test_a_migrated_table_is_never_restored_nor_required(self):
+        """Session 29: an old table consolidated into another (table_migrations.csv) is neither expected in the draft
+        nor restored, even while it is still there; its rows come back inside the consolidated table."""
+        self.manifest_rows(**{ROLLING: 5, MIGRATED: 5})
+        ds = FakeDataset({ROLLING: frame(5), MIGRATED: frame(5)})
+        self.use(ds)
+        self.assertEqual(upload.restore(), 0)
+        self.assertFalse(os.path.exists(os.path.join(self.out, MIGRATED + ".csv")))
+        del ds.rows[MIGRATED]  # removed from the draft by --remove-migrated
+        os.remove(os.path.join(self.out, ROLLING + ".csv"))
+        self.assertEqual(upload.restore(), 0)
 
     def test_restore_fails_when_the_draft_is_shorter_than_recorded(self):
         self.manifest_rows(**{ROLLING: 5})
@@ -278,7 +291,7 @@ class GateTest(unittest.TestCase):
     def test_a_table_whose_route_changed_is_uploaded_again(self):
         self.local(INT, 3)
         _, data = upload.split_header(os.path.join(self.out, INT + ".csv"))
-        upload.write_manifest(pd.DataFrame([(INT, upload.sha(data), "3", "t", INT, upload.PUBLIC)],
+        upload.write_manifest(pd.DataFrame([(INT, upload.sha(data), "3", "t", INT, upload.PUBLIC, "")],
                                            columns=upload.MANIFEST_COLS))
         self.assertEqual(upload.changed_tables(), [INT])
 

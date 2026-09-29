@@ -34,6 +34,9 @@ metadata_tables:
 # the yearly ERCOT history are not restored.
 restore_before_run:
   - '^(caiso|ercot|isone|miso|nyiso|spp|pjm)_(dam|rtm)_(hub|zone)_prices(_hourly)?$'
+  # session 29: the consolidated tables (warehouse/metadata/table_migrations.csv). eia930_all_* and iso_trader_daily
+  # match the patterns below; the ERCOT history (ercot_all_hub_prices_history) is not restored, like its yearly tables
+  - '^iso_(dam|rtm)_hub_prices$'
   - '^eia930_[a-z0-9]+_(demand|generation)$'
   # session 18: the curtailment tracker's tables merge each day's rows into the history
   - '^(caiso|spp)_curtailment_daily$'

@@ -32,6 +32,7 @@ stay in warehouse/output, so the validator and the uploader see them and nothing
 import argparse
 import csv
 import io
+import json
 import os
 import re
 import shutil
@@ -44,6 +45,7 @@ ROOT = os.path.abspath(os.path.join(HERE, ".."))
 OUT = os.path.join(ROOT, "warehouse", "output")
 STAGE = os.path.join(OUT, "members")
 MAP = os.path.join(ROOT, "warehouse", "metadata", "table_migrations.csv")
+SPLIT_RECORD = os.path.join(STAGE, "_split.json")  # the members split wrote: size and mtime, so build skips unchanged
 CHUNK = 250_000
 
 TITLES = {
@@ -178,9 +180,10 @@ def write_header(f, lines):
 
 # ---------------------------------------------------------------- build
 
-def build_family(new, members, src=OUT):
+def build_family(new, members, src=None):
     """Write one consolidated table from its members in src (warehouse/output, or the members rebuilt from the
     archive by `migrate`). Returns (rows, {member: rows}) or None if no member is there."""
+    src = src or OUT
     here = [old for old, _ in members if os.path.exists(os.path.join(src, old + ".csv"))]
     if not here:
         log(f"{new}: no member in warehouse/output; left as it is")
@@ -191,6 +194,15 @@ def build_family(new, members, src=OUT):
     if absent and prev is None:
         raise RuntimeError(f"members {absent} are not in warehouse/output and there is no {new}.csv to carry "
                            "them from; not built (restore the consolidated table first)")
+    rec = _split_record()
+    if prev is not None and not absent and src == OUT and all(rec.get(old) == _stamp(os.path.join(OUT, old + ".csv"))
+                                                              for old in here):
+        # every member is as split wrote it from this table: nothing to rebuild (the ERCOT history, most days)
+        os.makedirs(STAGE, exist_ok=True)
+        for old in here:
+            os.replace(os.path.join(OUT, old + ".csv"), os.path.join(STAGE, old + ".csv"))
+        log(f"{new}: unchanged since the split ({len(here)} members as split wrote them); not rewritten")
+        return None
     add = added_columns(members)
     headers, base = {}, None
     for old in here:
@@ -253,6 +265,18 @@ def build_family(new, members, src=OUT):
     return total, counts
 
 
+def _stamp(path):
+    st = os.stat(path)
+    return [st.st_size, st.st_mtime_ns]
+
+
+def _split_record():
+    if os.path.exists(SPLIT_RECORD):
+        with open(SPLIT_RECORD, encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
 def _matches(df, part):
     keep = pd.Series(True, index=df.index)
     for c, v in part.items():
@@ -306,12 +330,17 @@ def split_family(new, members):
     finally:
         for f in files.values():
             f.close()
+    rec = _split_record()
     for old, _ in todo:
         tmp = os.path.join(OUT, old + ".csv.tmp")
         if counts[old] == 0:
             os.remove(tmp)
             continue
         os.replace(tmp, os.path.join(OUT, old + ".csv"))
+        rec[old] = _stamp(os.path.join(OUT, old + ".csv"))
+    os.makedirs(STAGE, exist_ok=True)
+    with open(SPLIT_RECORD, "w", encoding="utf-8") as f:
+        json.dump(rec, f, indent=0, sort_keys=True)
     log(f"split {new}: " + ", ".join(f"{old} {counts[old]:,}" for old, _ in todo)
         + (f"; kept (newer than {new}.csv): {', '.join(kept)}" if kept else ""))
     return counts
