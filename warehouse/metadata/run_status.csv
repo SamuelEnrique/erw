@@ -1174,3 +1174,132 @@ run_id,runner,connector,table,market,status,detail
 20260929T011240Z,local,policy_sources,policy_actions,puct,ok,36 rows
 20260929T011420Z,local,companies_from_deals,energy_companies,deals,ok,"354 rows before (19 with a description), 354 after (19 with a description, 5.4%); 335 deal-only rows, 1 deal parties merged into researched rows; 59 parties left out as not company names"
 20260929T011424Z,local,datacenter_facilities,datacenter_facilities,all,ok,"340 facilities, 19 with MW"
+20260929T030141Z,local,companies_from_deals,energy_companies,deals,ok,"413 rows before (19 with a description), 354 after (19 with a description, 5.4%); 335 deal-only rows, 1 deal parties merged into researched rows; 59 parties left out as not company names"
+20260929T102003Z,local,news_shadow_score,news_scores_shadow,shadow,ok,"claude-haiku-4-5: 1940 of 1941 stories scored in 62 calls (0 failed); USD 1.5936 (api_cost_ledger, step news_score_shadow); cache on"
+20260929T103516Z,local,price_board,price_board_carbon,derived,ok,15 rows
+20260929T103516Z,local,price_board,price_board_latest,derived,ok,3263 rows
+20260929T103516Z,local,price_board,price_board_peak_offpeak,derived,ok,2625 rows
+20260929T103516Z,local,price_board,price_board_spreads,derived,ok,2052 rows
+20260929T105113Z,local,news_shadow_digest,digest,shadow,ok,"warehouse\output\shadow\digest-2026-09-29.md; sent 'SHADOW HAIKU: ERW's Energy Digest, 2026-09-29' to 1 address"
+20260929T105114Z,local,news_brief,digest,brief,ok,"top 10 with a number 5 of 10 (3 with a scored figure); 229 stories, 210 clusters, 2 call(s), tokens in 4282 out 1780, cost USD 0.0264 + summary USD 0.0032"
+20260929T105141Z,local,news_shadow_roundup,roundup,shadow,ok,"warehouse\output\shadow\roundup-2026-W39.md; sent 'SHADOW HAIKU: ERW's Roundup, 2026-W39' to 1 address"
+20260929T105142Z,local,news_roundup,roundup,brief,ok,"2026-W39: 598 stories, 537 clusters, 3 weekend, headline cost USD 0.0076 + summary USD 0.0039"
+20260929T105904Z,local,thesis,energy_companies,thesis,ok,"docs\thesis\subsurface-heat-mapping-for-geothermal-2026-09-29.xlsx: 15 calls, 37 searches, USD 1.2253, 5.4 min; sections {'Scope': 3, 'Fundamentals': 1, 'Trends': 5, 'Landscape': 1, 'Capital': 1, 'Incumbents': 1, 'Policy': 1, 'Risks': 5, 'Sources': 1}; companies 2"
+20260929T123511Z,local,eia930_storage,eia930_all_storage,all,ok,"70416 hours written, 115 incomplete days left out"
+20260929T123511Z,local,eia930_storage,eia930_all_storage,erco 2024-11-06,gap,net_generation_battery_mw: 18 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,erco 2025-12-05,gap,net_generation_battery_mw: 6 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,erco 2025-12-06,gap,net_generation_battery_mw: 18 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,isne 2024-11-06,gap,net_generation_battery_mw: 19 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,miso 2025-01-15,gap,net_generation_battery_mw: 19 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,swpp 2026-02-04,gap,net_generation_battery_mw: 18 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-15,gap,net_generation_battery_mw: 19 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-16,gap,net_generation_battery_mw: 5 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-17,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-18,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-19,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-20,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-21,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-22,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-23,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-24,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-25,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-26,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-27,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-28,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-29,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-30,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-07-31,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-01,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-02,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-03,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-04,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-05,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-06,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-07,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-08,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-09,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-10,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-11,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-12,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-13,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-14,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-15,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-16,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-17,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-18,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-19,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-20,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-21,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-22,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-23,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-24,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-25,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-26,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-27,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-28,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-29,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-30,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-08-31,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-01,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-02,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-03,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-04,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-05,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-06,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-07,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-08,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-09,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-10,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-11,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-12,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-13,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-14,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-15,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-16,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-17,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-18,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-19,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-20,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-21,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-22,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-23,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-24,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-25,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-26,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-27,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-28,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-29,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-09-30,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-01,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-02,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-03,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-04,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-05,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-06,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-07,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-08,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-09,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-10,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-11,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-12,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-13,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-14,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-15,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-16,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-17,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-18,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-19,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-20,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-21,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-22,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-23,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-24,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-25,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-26,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-27,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-28,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-29,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-30,gap,net_generation_battery_mw: 0 of 24 hours; day not written
+20260929T123511Z,local,eia930_storage,eia930_all_storage,us48 2024-10-31,gap,net_generation_battery_mw: 17 of 24 hours; day not written
+20260929T123547Z,local,storage_capacity,storage_capacity,derived,ok,"operating: 1137 units, 54,488.9 MW; planned: 245 units, 40,914.3 MW; retired: 8 units, 338.5 MW; under_construction: 237 units, 23,543.8 MW"
+20260929T123927Z,local,storage_daily_cycle,storage_daily_cycle,derived,ok,"11906 rows, 696 days"
