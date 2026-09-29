@@ -274,7 +274,47 @@ def fetch(name: Union[str, Iterable[str]], start=None, end=None,
     return {n: _subset(_read(n, where or None), start, end, node) for n in list(name)}
 
 
+def _local_columns(name: str) -> Optional[pd.DataFrame]:
+    """Session 33: for a local table, only the columns _table_facts needs, streamed with pyarrow, so filter() never
+    holds a large table (the ERCOT history, eia930_all_emissions) whole. None for any other backend or a moved name."""
+    b = get_backend()
+    if not isinstance(b, LocalBackend) or name in migrations():
+        return None
+    try:
+        import pyarrow as pa
+        import pyarrow.csv as pcsv
+    except ImportError:
+        return None
+    path = b._path(name)
+    with open(path, encoding="utf-8") as f:
+        skip = 0
+        for line in f:
+            if not line.startswith("#"):
+                cols = line.strip().split(",")
+                break
+            skip += 1
+    want = [c for c in ("entity_id", "entity_type", "name", "status", "event_id", "event_type", "source", "variable",
+                        "node", "entity") if c in cols]
+    reader = pcsv.open_csv(path, read_options=pcsv.ReadOptions(skip_rows=skip, block_size=1 << 24),
+                           convert_options=pcsv.ConvertOptions(include_columns=want,
+                                                               column_types={c: pa.string() for c in want}))
+    seen = {c: set() for c in want}
+    for batch in reader:
+        for c in want:
+            seen[c] |= set(batch.column(c).to_pylist())
+    return seen
+
+
 def _table_facts(name: str) -> Dict:
+    s = _local_columns(name)
+    if s is not None:  # the same facts as below, from the streamed columns
+        if "entity_type" in s and "entity_id" in s:
+            return {"variables": s["entity_type"] | s.get("status", set()), "nodes": s["name"],
+                    "entities": s["entity_id"]}
+        if "event_id" in s:
+            return {"variables": s["event_type"], "nodes": s["source"], "entities": set()}
+        return {"variables": s["variable"], "nodes": s["node"] if "node" in s else s["entity"],
+                "entities": s["entity"]}
     df = _read(name)
     if _is_entities(df):  # variable matches entity_type or status; node an entity_id or name
         return {"variables": set(df["entity_type"]) | set(df["status"].dropna()) if "status" in df

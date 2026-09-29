@@ -276,6 +276,9 @@ jobs:
         # tables this run produced, so a failure fails the job after the day's metadata is committed. Tables the
         # runner never holds (the ERCOT yearly history, the peak premium computed from it) are skipped by the tests.
         # No package test calls the Anthropic API; one that ever does must skip where ANTHROPIC_API_KEY is unset.
+        # Session 33: a slow test fails the step visibly after 20 minutes instead of holding the run; tables over 200,000
+        # rows are tested by partition, never whole.
+        timeout-minutes: 20
         run: |
           set -euo pipefail
           python -m pip install -e package

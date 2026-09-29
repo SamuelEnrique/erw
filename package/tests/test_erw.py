@@ -36,7 +36,6 @@ TABLES = sorted(p.stem for p in OUTPUT.glob("*.csv"))
 # table whole, twice or more; this one is tested by partition instead (test_ercot_history_tables_are_complete_years,
 # test_old_names_work_through_the_map), so a laptop never holds it whole several times over.
 HISTORY = "ercot_all_hub_prices_history"
-PER_TABLE = [t for t in TABLES if t != HISTORY]
 
 
 def _is_events(name):
@@ -62,6 +61,12 @@ SERIES_TABLES = [t for t in TABLES if t not in EVENT_TABLES and t not in ENTITY_
 ERCOT_DAM = sorted(t for t in ("iso_dam_hub_prices", HISTORY) if t in TABLES)
 ERCOT_RTM = sorted(t for t in ("iso_rtm_hub_prices", HISTORY) if t in TABLES)
 MD_ROWS = coverage_md_rows()
+# Session 33: every table over 200,000 rows (the ERCOT history, eia930_all_emissions) is tested by partition
+# (test_large_table_by_partition: ba, or market and year), never loaded whole, so the suite fits a laptop and the
+# workflow's test step stays fast. The per-table tests below take the other tables.
+LARGE_ROWS = 200_000
+LARGE = sorted(t for t in TABLES if MD_ROWS.get(t, 0) > LARGE_ROWS or t == HISTORY)
+PER_TABLE = [t for t in TABLES if t not in LARGE]
 
 
 @pytest.fixture(autouse=True)
@@ -97,7 +102,7 @@ def test_fetch_row_count_matches_coverage_md(name):
     assert len(df) == MD_ROWS[name]
 
 
-@pytest.mark.parametrize("name", [t for t in SERIES_TABLES if t != HISTORY])
+@pytest.mark.parametrize("name", [t for t in SERIES_TABLES if t not in LARGE])
 def test_fetch_types_and_provenance(name):
     df = erw.fetch(name)
     assert list(df.columns[:4]) == ["entity", "variable", "ts_utc", "value"]
@@ -177,7 +182,7 @@ def test_sources_names_reports_and_every_row_url(name):
     assert all(u.startswith("http") for u in s["source_urls"])
 
 
-@pytest.mark.parametrize("name", [t for t in SERIES_TABLES if t != HISTORY])
+@pytest.mark.parametrize("name", [t for t in SERIES_TABLES if t not in LARGE])
 def test_cite_names_the_iso_the_table_and_the_commit(name):
     c = erw.cite(name)
     org = name.split("_")[0]
@@ -301,10 +306,9 @@ def test_license_column_and_filter():
     # wins; otherwise a table is internal exactly when one of its sources is internal
     reg = erw.get_backend().source_registry().set_index("source")["license"]
     for t in TABLES:
-        df = erw.fetch(t)
+        srcs, header = _sources_and_header(t)  # session 33: a large table by partition
         declared = [h.split(":", 1)[1].strip().split(".")[0].split()[0]
-                    for h in df.attrs["erw"]["header"] if h.startswith("License:")]
-        srcs = set(df["source"])
+                    for h in header if h.startswith("License:")]
         expect = declared[0] if declared else (
             "internal" if any(reg[s] == "internal" for s in srcs) else "public")
         assert cov.set_index("table").loc[t, "license"] == expect, t
@@ -342,7 +346,7 @@ def test_source_registry_covers_every_source_in_every_table():
     assert reg["source"].is_unique
     registered = set(reg["source"])
     for name in TABLES:
-        assert set(erw.fetch(name)["source"]) <= registered, name
+        assert _sources_and_header(name)[0] <= registered, name  # session 33: a large table by partition
 
 
 def test_cite_names_every_report_even_from_earlier_runs():
@@ -508,15 +512,16 @@ def test_ercot_history_tables_are_complete_years():
     this_year = pd.Timestamp.now(tz="America/Chicago").year
     # session 29: one table, ercot_all_hub_prices_history, partitioned by market and year (operating year)
     _needs(HISTORY)
+    # session 33: one (market, year) partition at a time, never a whole market
+    parts = _partitions(HISTORY)
     for m in ("rtm", "dam"):
-        df = erw.fetch(HISTORY, market=f"ercot_{m}")
-        years = sorted(int(y) for y in df["year"].unique())
+        years = sorted(int(p["year"]) for p in parts if p["market"] == f"ercot_{m}")
         assert years[0] == 2015 and years[-1] == this_year
         live = erw.fetch(f"iso_{m}_hub_prices", market=f"ercot_{m}")
         for y in years:
             leap = y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
             n = (35136 if leap else 35040) if m == "rtm" else (8784 if leap else 8760)
-            part = df[df["year"] == str(y)]
+            part = erw.fetch(HISTORY, market=f"ercot_{m}", year=y)
             per = part.groupby("node").size()
             assert set(per.index) == hubs
             if y < this_year:
@@ -525,7 +530,7 @@ def test_ercot_history_tables_are_complete_years():
                 assert part["ts_utc"].max() < live["ts_utc"].min()
                 step = pd.Timedelta("15min" if m == "rtm" else "1h")
                 assert part["ts_utc"].max() + step == live["ts_utc"].min()
-        del df
+            del part
 
 
 def test_old_names_work_through_the_map():
@@ -575,6 +580,69 @@ def test_derived_tables_flag_license_and_inputs():
         assert set(df["entity"]) == {f"ercot:{h}" for h in ("HB_NORTH", "HB_SOUTH", "HB_WEST",
                                                               "HB_HOUSTON", "HB_BUSAVG", "HB_HUBAVG")}
         assert "Energy Research Warehouse (ERW), derived" in erw.cite(name)
+
+
+def _partitions(name):
+    """Session 33: the partitions of a large table, [{column: value}], read by streaming its partition columns only:
+    ba where the table has it, else market and year, else market."""
+    import pyarrow as pa
+    import pyarrow.csv as pcsv
+    path = OUTPUT / f"{name}.csv"
+    with open(path, encoding="utf-8") as f:
+        skip = 0
+        for line in f:
+            if not line.startswith("#"):
+                cols = line.strip().split(",")
+                break
+            skip += 1
+    keys = ["ba"] if "ba" in cols else (["market", "year"] if "year" in cols else ["market"])
+    seen = set()
+    reader = pcsv.open_csv(path, read_options=pcsv.ReadOptions(skip_rows=skip, block_size=1 << 24),
+                           convert_options=pcsv.ConvertOptions(include_columns=keys,
+                                                               column_types={k: pa.string() for k in keys}))
+    for batch in reader:
+        seen |= set(zip(*(batch.column(k).to_pylist() for k in keys)))
+    return [dict(zip(keys, v)) for v in sorted(seen)]
+
+
+@pytest.mark.parametrize("name", LARGE)
+def test_large_table_by_partition(name):
+    """Session 33: what the per-table tests check, one partition at a time: the rows add up to coverage's count, and
+    each partition has the series shape, UTC times, float values, unique keys, http source URLs, registered sources and
+    the ERW's provenance header."""
+    _needs(name)
+    parts = _partitions(name)
+    assert parts
+    total, sources = 0, set()
+    for p in parts:
+        df = erw.fetch(name, **p)
+        assert len(df), p
+        total += len(df)
+        assert list(df.columns[:4]) == ["entity", "variable", "ts_utc", "value"]
+        assert str(df["ts_utc"].dtype) == "datetime64[ns, UTC]"
+        assert df["value"].dtype == float
+        assert not df.duplicated(["entity", "variable", "ts_utc"]).any(), p
+        assert df["source_url"].str.startswith("http").all(), p
+        meta = df.attrs["erw"]
+        assert meta["header"][0].startswith("Energy Research Warehouse (ERW):") and meta["retrieved"]
+        sources |= set(df["source"])
+        del df
+    assert total == MD_ROWS[name]
+    assert sources <= set(erw.get_backend().source_registry()["source"])
+
+
+def _sources_and_header(name):
+    """Session 33: (the set of row sources, the header lines) of a table; a large table read one partition at a time."""
+    if name not in LARGE:
+        df = erw.fetch(name)
+        return set(df["source"]), df.attrs["erw"]["header"]
+    srcs, header = set(), None
+    for p in _partitions(name):
+        df = erw.fetch(name, **p)
+        srcs |= set(df["source"])
+        header = header or df.attrs["erw"]["header"]
+        del df
+    return srcs, header
 
 
 def _needs(*names):
