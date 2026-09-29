@@ -88,7 +88,7 @@ TIER_RULES = [
     ("model_extracted", r"^energy_companies$"),           # the Thesis Builder's research and the deal parties
     ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
     ("model_extracted", r"^policy_actions$"),             # significance, sector and why are the model's
-    ("derived", r"^(energy_projects|datacenter_queue_positions)$"),  # ERW code over source tables
+    ("derived", r"^(energy_projects|datacenter_queue_positions|storage_capacity)$"),  # ERW code over source tables
     # session 30: the Haiku shadow scores are a model's; the cost ledger prices Anthropic's usage counts
     ("model_extracted", r"^news_scores_shadow$"),
     ("derived", r"^api_cost_ledger$"),
@@ -152,6 +152,8 @@ SECTOR_RULES = [
     (r"^price_board_carbon$", "carbon"),
     (r"^news_scores_shadow$", "news"),
     (r"^api_cost_ledger$", "platform"),
+    # session 31: battery storage (EIA-930 BAT, its daily cycle, the EIA-860M battery units)
+    (r"^storage_(daily_cycle|capacity)$", "power"),
 ]
 
 
@@ -171,6 +173,10 @@ def iso_of(table):
         return "none"
     if table.startswith("price_board_"):  # session 30: price board v2 spans the six public ISOs
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
+    if table in ("eia930_all_storage", "storage_daily_cycle"):  # session 31: the BAs with an EIA-930 BAT series
+        return "ERCOT;ISO-NE;MISO;SPP;US48"
+    if table == "storage_capacity":  # session 31: the national EIA-860M battery inventory
+        return "none"
     if parts[0] == "eia930":
         return BA_LABEL.get(parts[1], parts[1].upper())
     if parts[0] in ("eia", "carb", "rggi", "fred", "eia860m", "portwatch", "energy", "datacenter", "api"):

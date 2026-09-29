@@ -135,6 +135,10 @@ run_other ercot_peak_premium "$PYTHON" warehouse/derived/ercot_peak_premium.py
 
 # EIA-930 hourly demand and generation (EIA_API_KEY from the environment or .env)
 run_other eia930 "$PYTHON" warehouse/connectors/eia930.py --days "$DAYS"
+# Session 31: EIA-930 battery storage (fuel type BAT), merged into its history like EIA-930 demand, then its daily cycle
+# (docs/methods/storage.md)
+run_other eia930_storage "$PYTHON" warehouse/connectors/eia930_storage.py --days "$DAYS"
+run_other storage_daily_cycle "$PYTHON" warehouse/derived/storage_daily_cycle.py
 
 # Session 24: NWS weather at one airport per ISO load center: hourly observations (the API serves about 7 days;
 # the table grows by merging) and the 7-day hourly forecast, for /grid's temperature overlay and degree days
@@ -187,6 +191,8 @@ fi
 # queues, geocoded with the Census county gazetteer (docs/methods/energy_projects.md). In CI the
 # queues exist only on the days they are pulled; other days it skips with a warning.
 run_other energy_projects "$PYTHON" warehouse/derived/energy_projects.py
+# Session 31: the battery units of the EIA-860M tables (storage_capacity); skips when the runner has no EIA-860M tables
+run_other storage_capacity "$PYTHON" warehouse/derived/storage_capacity.py
 
 # News (session 6): ingest the feeds, then score new stories with the Claude API
 # (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.

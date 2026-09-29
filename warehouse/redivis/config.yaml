@@ -57,6 +57,9 @@ restore_before_run:
   - '^news_scores_shadow$'
   # session 30: price board v2 carries the rows it cannot rebuild on the runner (the ERCOT history's, CARB's)
   - '^price_board_(peak_offpeak|spreads|carbon)$'
+  # session 31: EIA-930 battery storage keeps its history from 2024 by merging (storage_capacity, a snapshot that may
+  # shrink, is not restored: on a day without the EIA-860M tables it is absent on the runner, like energy_projects)
+  - '^eia930_all_storage$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.

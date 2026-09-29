@@ -46,6 +46,8 @@ full:
   # hides it; only internal_costs(token), migration 010, reads it for /internal/costs)
   - '^price_board_(latest|peak_offpeak|spreads|carbon)$'
   - '^api_cost_ledger$'
+  # session 31: /storage (the hourly series below, last 90 days)
+  - '^storage_(daily_cycle|capacity)$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -56,6 +58,7 @@ recent:
       # ruling: not the ERCOT yearly history tables, whose last 90 days repeat ercot_*_hub_prices
     - '^eia930_[a-z0-9]+_(demand|generation)$'     # session 29: eia930_all_demand and eia930_all_generation (ba)
     - '^iso_(dam|rtm)_hub_prices$'                 # session 29: the CAISO, ERCOT, MISO and SPP hub prices (market)
+    - '^eia930_all_storage$'                       # session 31: EIA-930 battery storage (ba), the last 90 days
 
 # Session 16: for a table named here, only these extra columns (beyond the shape's standard
 # columns) and only rows not excluded go to Supabase. energy_projects repeats the rows of the
