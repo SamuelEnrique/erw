@@ -40,3 +40,5 @@ warehouse/archive/*
 !warehouse/archive/README.md
 # Session 28 (Ben Domingue's review): screenshots stay local; regenerate with site/scripts/screenshots.mjs (site/README.md)
 site/screenshots/
+# session 29: the members of the consolidated tables between the two steps of the daily run (warehouse/consolidate.py)
+warehouse/output/members/
