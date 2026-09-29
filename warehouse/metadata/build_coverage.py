@@ -75,6 +75,10 @@ ISO_LABEL = {"ercot": "ERCOT", "caiso": "CAISO", "nyiso": "NYISO", "miso": "MISO
 # EIA-930 balancing authority codes, labelled by the ISO they are
 BA_LABEL = {"ciso": "CAISO", "erco": "ERCOT", "isne": "ISO-NE", "miso": "MISO", "nyis": "NYISO",
             "pjm": "PJM", "swpp": "SPP", "us48": "US48"}
+# Session 29: the consolidated tables and the members they replaced (warehouse/metadata/table_migrations.csv)
+MIGRATIONS = os.path.join(HERE, "table_migrations.csv")
+MIGRATED = (pd.read_csv(MIGRATIONS, dtype=str, keep_default_na=False).set_index("old_table")["new_table"].to_dict()
+            if os.path.exists(MIGRATIONS) else {})
 CSV_COLS = ["table", "iso", "market", "n_nodes", "interval", "ts_min", "ts_max", "n_rows",
             "source_report", "last_run", "validator_status", "license", "sector", "derived", "tier"]
 TIERS = ["source", "derived", "model_extracted"]
@@ -92,6 +96,9 @@ SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon"
 # (table name pattern, sectors), first match wins
 SECTOR_RULES = [
     (r"^(caiso|ercot|isone|miso|nyiso|spp)_(dam|rtm)_", "power"),
+    # session 29: the consolidated price tables (the EIA-930 and trader ones match the rules below)
+    (r"^iso_(dam|rtm)_hub_prices$", "power"),
+    (r"^ercot_all_hub_prices_history$", "power"),
     (r"^pjm_(dam|rtm)_", "power"),
     (r"^eia930_", "power"),
     (r"^pjm_rpm_capacity_prices$", "capacity"),
@@ -147,6 +154,9 @@ def load_licenses():
 
 
 def iso_of(table):
+    members = [old for old, new in MIGRATED.items() if new == table]
+    if members:  # session 29: a consolidated table spans its members' ISOs
+        return ";".join(sorted({iso_of(m) for m in members}))
     parts = table.split("_")
     if parts[0] == "eia930":
         return BA_LABEL.get(parts[1], parts[1].upper())
@@ -170,7 +180,9 @@ def derived_from(header):
     for h in header:
         h = h.lstrip("#").strip()
         if h.startswith("Derived from:"):
-            return [t.strip() for t in h.split(":", 1)[1].split(";") if t.strip()]
+            # session 29: an input named by its old name is read as the consolidated table it moved into
+            return list(dict.fromkeys(MIGRATED.get(t.strip(), t.strip()) for t in h.split(":", 1)[1].split(";")
+                                      if t.strip()))
     return None
 
 
@@ -241,18 +253,17 @@ def entities_row(path, header, df, licenses, status):
 
 
 def table_row(path, licenses):
+    # session 29: validate first, then read, so a large table (the ERCOT history) is never held twice
+    report = erw_validate.validate(path)
     header, df = erw_validate.read(path)
     if list(df.columns[:2]) == ["entity_id", "entity_type"]:
-        report = erw_validate.validate(path)
         n_err, n_warn = len(report["errors"]), len(report["warnings"])
         status = "pass" if not n_err else f"blocked ({n_err} errors)"
         return entities_row(path, header, df, licenses, status + (f", {n_warn} warnings" if n_warn else ""))
     if "event_id" in df.columns:
-        report = erw_validate.validate(path)
         n_err, n_warn = len(report["errors"]), len(report["warnings"])
         status = "pass" if not n_err else f"blocked ({n_err} errors)"
         return events_row(path, header, df, licenses, status + (f", {n_warn} warnings" if n_warn else ""))
-    report = erw_validate.validate(path)
     n_err, n_warn = len(report["errors"]), len(report["warnings"])
     status = "pass" if not n_err else f"blocked ({n_err} errors)"
     if n_warn:
@@ -325,7 +336,8 @@ def apply_tiers(rows):
         r["tier"] = tier_by_rule(r["table"], r["derived"])
         # the "Derived from:" inputs, separated by ";" or "," (datacenter_facilities uses commas)
         line = next((h for h in header_of(r["table"]) if h.startswith("Derived from:")), "")
-        inputs[r["table"]] = [t.strip() for t in re.split(r"[;,]", line.split(":", 1)[1]) if t.strip()] if line else []
+        inputs[r["table"]] = [MIGRATED.get(t.strip(), t.strip()) for t in re.split(r"[;,]", line.split(":", 1)[1])
+                              if t.strip()] if line else []  # session 29: old names through the map
     changed = True
     while changed:  # a table built from a model_extracted one is model_extracted
         changed = False
@@ -350,7 +362,8 @@ def carried_over(present):
     if not os.path.exists(CSV):
         return [], {}
     prev = pd.read_csv(CSV, dtype=str, keep_default_na=False)
-    gone = prev[~prev["table"].isin(present)].to_dict("records")
+    # session 29: a table consolidated into another is gone for good, not carried over (table_migrations.csv)
+    gone = prev[~prev["table"].isin(present) & ~prev["table"].isin(set(MIGRATED))].to_dict("records")
     md = {}
     if os.path.exists(DOC):
         with open(DOC, encoding="utf-8") as f:
@@ -416,10 +429,15 @@ def main():
                  f"{r['n_rows']:,}", r["source_report"].replace(";", "; "),
                  r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"], r["sector"].replace(";", ", "), r["derived"], r["tier"]]
         lines.append("| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |")
+    # session 29: a member of a consolidated table counts as present when its consolidated table is
+    def present(name):
+        return os.path.exists(os.path.join(OUT, name + ".csv")) or (
+            name in MIGRATED and os.path.exists(os.path.join(OUT, MIGRATED[name] + ".csv")))
     missing = [f"{label} {m.upper()}" for iso, label in ISO_LABEL.items() for m in ("dam", "rtm")
-               if not glob.glob(os.path.join(OUT, f"{iso}_{m}_*.csv"))]
+               if not glob.glob(os.path.join(OUT, f"{iso}_{m}_*.csv"))
+               and not any(present(o) for o in MIGRATED if o.startswith(f"{iso}_{m}_"))]
     missing += [f"EIA-930 {BA_LABEL[b]} {fam}" for b in BA_LABEL for fam in ("demand", "generation")
-                if not os.path.exists(os.path.join(OUT, f"eia930_{b}_{fam}.csv"))]
+                if not present(f"eia930_{b}_{fam}")]
     if carried:
         lines += ["", f"Carried over unchanged from the previous coverage, because this run's "
                   f"`warehouse/output/` does not hold them (the daily CI runner restores only the "
