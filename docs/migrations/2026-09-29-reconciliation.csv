@@ -20,3 +20,8 @@ iso_dam_hub_prices,ercot_dam_hub_prices,market=ercot_dam,5040,5040,5040,yes,yes,
 iso_dam_hub_prices,miso_dam_hub_prices,market=miso_dam,6720,6720,6720,yes,yes,True,"ok: 15,960 rows, row for row"
 iso_dam_hub_prices,spp_dam_hub_prices,market=spp_dam,1680,1680,1680,yes,yes,True,"ok: 15,960 rows, row for row"
 iso_dam_hub_prices,(family),,15960,15960,15960,yes,,,"ok: 15,960 rows, row for row"
+iso_rtm_hub_prices,caiso_rtm_hub_prices,market=caiso_rtm,9504,9504,9504,yes,yes,True,"ok: 35,424 rows, row for row"
+iso_rtm_hub_prices,ercot_rtm_hub_prices,market=ercot_rtm,19008,19008,19008,yes,yes,True,"ok: 35,424 rows, row for row"
+iso_rtm_hub_prices,miso_rtm_hub_prices,market=miso_rtm,6144,6144,6144,yes,yes,True,"ok: 35,424 rows, row for row"
+iso_rtm_hub_prices,spp_rtm_hub_prices,market=spp_rtm,768,768,768,yes,yes,True,"ok: 35,424 rows, row for row"
+iso_rtm_hub_prices,(family),,35424,35424,35424,yes,,,"ok: 35,424 rows, row for row"
