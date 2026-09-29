@@ -73,6 +73,8 @@ def latest_prices_last_run():
 def day_complete(table, day):
     """True or False from the table on disk, None if the table is not on this machine."""
     path = os.path.join(ip.OUT_DIR, table + ".csv")
+    if not os.path.exists(path):  # session 29: a member of a consolidated table, where consolidate.py build moved it
+        path = os.path.join(ip.OUT_DIR, "members", table + ".csv")
     if not os.path.exists(path):
         return None
     df = ip.read_series(path)

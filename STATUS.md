@@ -1,16 +1,16 @@
 # ERW status
 
-Generated 2026-09-29 04:12 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-09-29 06:16 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 113 | 4,812,358 |
-| Public | 104 | 4,675,663 |
+| All | 65 | 4,812,358 |
+| Public | 56 | 4,675,663 |
 | Internal (never shown publicly) | 9 | 136,695 |
 
-Newest table refresh: 2026-09-29 03:01:41 UTC. Validator: 113 of 113 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-09-29 03:01:41 UTC. Validator: 65 of 65 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
 
 ## Health gate
 
@@ -32,7 +32,7 @@ Failures a human has accepted for now (`warehouse/metadata/known_gaps.csv`, edit
 |---|---|---|
 | daily prices, on GitHub | 2026-09-28 23:52 | 280 ok, 7 failed, 2 gap, 10 skipped (table results of that day) |
 | daily run, local | 2026-09-29 01:14 | 120 ok, 2 failed, 9 gap (table results of that day) |
-| latest prices, every 15 minutes | 2026-09-29 00:45 | 39 hubs and zones in `latest_prices` (newest retrieval) |
+| latest prices, every 15 minutes | 2026-09-29 06:16 | 39 hubs and zones in `latest_prices` (newest retrieval) |
 
 A table that failed is not written that day; nothing partial is. The reasons are in `warehouse/metadata/run_status.csv`.
 
