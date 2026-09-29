@@ -325,15 +325,24 @@ def table_row(path, licenses):
 def apply_derived(rows):
     """Mark derived tables and check their license against their inputs (Decision 23)."""
     by = {r["table"]: r for r in rows}
+    # Session 33: an input absent on this machine but in the previous coverage (it is carried over below, as CARB is on
+    # the GitHub runner, where its server answers HTTP 202) keeps its license from there. On 2026-09-29 the daily run
+    # failed here: price_board_carbon carries its CARB rows forward, and its input was not in warehouse/output.
+    prev = {}
+    if os.path.exists(CSV):
+        p = pd.read_csv(CSV, dtype=str, keep_default_na=False)
+        prev = dict(zip(p["table"], p["license"]))
+    lic = lambda t: by[t]["license"] if t in by else prev[t]  # noqa: E731
     for r in rows:
         inputs = r.pop("_derived_from", None)
         r["derived"] = "yes" if inputs is not None else "no"
         if inputs is None:
             continue
-        missing = [t for t in inputs if t not in by]
+        missing = [t for t in inputs if t not in by and t not in prev]
         if missing:
-            raise ValueError(f"{r['table']}: input tables {missing} are not in warehouse/output")
-        want = "internal" if any(by[t]["license"] == "internal" for t in inputs) else "public"
+            raise ValueError(f"{r['table']}: input tables {missing} are not in warehouse/output nor in the previous "
+                             "coverage")
+        want = "internal" if any(lic(t) == "internal" for t in inputs) else "public"
         if r["license"] != want:
             raise ValueError(f"{r['table']}: license {r['license']}, but its inputs make it {want}")
     return rows
