@@ -38,3 +38,9 @@ export function node(entity: string): string {
 export function unit(u: string | null | undefined): string {
   return u ?? "";
 }
+
+/** Session 31: a number as scripts/check-values.mjs expects it shown: a whole number with separators, else 2 decimals. */
+export function shown(v: number | null | undefined): string {
+  if (v === null || v === undefined || Number.isNaN(v)) return "";
+  return Number.isInteger(v) ? count(v) : price(v);
+}

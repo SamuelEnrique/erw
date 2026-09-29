@@ -5,7 +5,7 @@ import { InlineBars, InlineSpark } from "@/components/InlineSpark";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { MARKETS, series, type SeriesRow } from "@/lib/data";
-import { day, node, price } from "@/lib/format";
+import { day, node, shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 
@@ -45,7 +45,7 @@ function Tier({ tier }: { tier: "derived" | "source" }) {
 function V({ table, r, signed, unit }: { table: string; r?: SeriesRow; signed?: boolean; unit?: string }) {
   if (!r) return <span className="text-muted">not held</span>;
   // the number inside Num is exactly the stored value as displayed (a minus sign included), for check-values
-  const n = <Num check={`series|${table}|${r.entity}|${r.variable}|${r.ts_utc}`} raw={r.value}>{price(r.value)}</Num>;
+  const n = <Num check={`series|${table}|${r.entity}|${r.variable}|${r.ts_utc}`} raw={r.value}>{shown(r.value)}</Num>;
   if (!signed) return <>{n}{unit ? <span className="text-muted">{unit}</span> : null}</>;
   const cls = r.value > 0 ? "text-up" : r.value < 0 ? "text-down" : "";
   return (

@@ -326,3 +326,22 @@ export async function companies(): Promise<Company[]> {
     10_000,
   );
 }
+
+/** Session 31: a battery unit of storage_capacity (EIA-860M), the fields /storage sums. */
+export type StorageUnit = {
+  entity_id: string;
+  capacity_mw: number | null;
+  status: string | null;
+  state: string | null;
+  iso: string | null;
+  planned_year: string | null;
+};
+
+export async function storageUnits(): Promise<StorageUnit[]> {
+  return rest<StorageUnit>(
+    "entities",
+    { select: "entity_id,capacity_mw,status,state:extra->>state,iso:extra->>iso,planned_year:extra->>planned_year", table_name: "eq.storage_capacity", order: "entity_id" },
+    HOURLY,
+    20_000,
+  );
+}

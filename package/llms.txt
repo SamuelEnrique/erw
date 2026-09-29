@@ -115,6 +115,19 @@ day-ahead tables running into tomorrow:
   net_generation_<fuel>_mw: coal, natural_gas, nuclear, solar, wind, hydro,
   battery, oil, other, ...), column `ba` = ciso, erco, isne, miso, nyis, pjm,
   swpp, us48 (entity eia930:CISO, ...). About 30 days.
+**Battery storage** (session 31, method docs/methods/storage.md):
+  eia930_all_storage: EIA-930 hourly net generation of battery storage (fuel
+  type BAT), net_generation_battery_mw, MW, positive discharging, negative
+  charging; ba = erco, isne, miso, swpp, us48, each from its series start
+  (2024-11 for ERCO, ISNE and US48, 2025-01 MISO, 2026-02 SWPP). CISO, NYIS and
+  PJM report no BAT series (CAISO: caiso_battery_storage).
+  storage_daily_cycle (derived): per complete local day and BA,
+  mwh_discharged, mwh_charged, peak_discharge_hour and peak_charge_hour (unit
+  hour: local hour of the day, the hour's start), round_trip_ratio (energy
+  out over energy in as reported; not a measured efficiency).
+  storage_capacity (derived, entities): every battery unit in EIA-860M,
+  operating, under_construction, planned and retired, with capacity_mw
+  (nameplate), state, balancing_authority, iso, planned_year. No MWh.
 **EIA petroleum and gas series** (full history, replaced each run):
   eia_fuel_spot_prices: eia:henry_hub (USD/MMBtu), eia:wti_cushing and
     eia:brent (USD/bbl), daily trading dates from 1986 (Henry Hub from 1997)
@@ -282,6 +295,7 @@ day-ahead tables running into tomorrow:
 | Industrial or commercial energy use, all fuels (US) | `eia_sector_energy_consumption_monthly` |
 | Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
 | Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_all_generation` (ba) |
+| Battery charging and discharging by hour or day; the battery fleet by state, ISO or year | `eia930_all_storage`, `storage_daily_cycle`, `storage_capacity` |
 | Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `iso_trader_daily` (market), `iso_rt_top_intervals` |
 | A hub's latest daily mean, its move, 7- and 30-day averages, peak and off-peak, spark spread, Brent minus WTI | `price_board_latest`, `price_board_peak_offpeak`, `price_board_spreads` |
 | Wind and solar curtailment | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily` (not curtailment: output below HSL), `iso_curtailment_monthly` |
@@ -300,7 +314,9 @@ day-ahead tables running into tomorrow:
 Not in the warehouse today: PJM energy prices (day-ahead and real-time), SPP
 real-time before 2026-09-24 (iso_rtm_hub_prices, market spp_rtm, starts
 then), CAISO or NYISO before the live window, futures, lithium and
-other battery metals, equities, and a list of ERCOT large-load interconnection
+other battery metals, equities, EIA-930 CO2 emissions (EIA publishes no
+hourly emissions series in its API or bulk files), battery energy capacity in
+MWh, and a list of ERCOT large-load interconnection
 requests by site (ERCOT publishes only aggregates: Protocol 3.2.7).
 Say "not in the warehouse" rather than approximating from another table.
 

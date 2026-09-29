@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
-const PAGES = ["/", "/board", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/roundup",
+const PAGES = ["/", "/board", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/consumption",
   // session 19
@@ -135,8 +135,23 @@ async function truth(check) {
     if (what === "state_mw") return withMw.filter((r) => r.state === key).reduce((a, r) => a + Number(r.mw), 0);
     if (what === "operator_mw") return withMw.filter((r) => r.operator === key).reduce((a, r) => a + Number(r.mw), 0);
   }
+  // session 31: /storage, sums of storage_capacity's nameplate MW (rounded to 0.1 MW, as the page rounds them)
+  if (p[0] === "storage") {
+    storageRows ??= await all("entities", { select: "capacity_mw,status,state:extra->>state,iso:extra->>iso,planned_year:extra->>planned_year",
+      table_name: "eq.storage_capacity", order: "entity_id" });
+    const rows = storageRows;
+    const build = (r) => r.status === "under_construction" || r.status === "planned";
+    const sum = (f) => Math.round(rows.filter(f).reduce((a, r) => a + (r.capacity_mw === null ? 0 : Number(r.capacity_mw)), 0) * 10) / 10;
+    const [, what, a, b] = p;
+    if (what === "n") return rows.filter((r) => r.status === a).length;
+    if (what === "mw") return sum((r) => r.status === a);
+    if (what === "iso_mw") return sum((r) => (a === "none" ? !r.iso : r.iso === a) && r.status === b);
+    if (what === "state_mw") return sum((r) => r.state === a && (b === "build" ? build(r) : r.status === b));
+    if (what === "year_mw") return sum((r) => build(r) && r.planned_year === a);
+  }
   throw new Error(`unknown check ${check}`);
 }
+let storageRows = null;
 
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
 function usd(v) {
