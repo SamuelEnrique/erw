@@ -87,10 +87,10 @@ def main(argv=None):
     Q = []
 
     def add(qid, sector, shape, question, expected=(), tol=0.01, text=(), tables=(), refuse=False,
-            internal=False, note=""):
+            internal=False, note="", **extra):
         Q.append({"id": qid, "sector": sector, "shape": shape, "question": question,
                   "expected": [r(v) for v in expected], "tolerance": tol, "text": list(text),
-                  "tables": list(tables), "refuse": refuse, "internal": internal, "note": note})
+                  "tables": list(tables), "refuse": refuse, "internal": internal, "note": note, **extra})
 
     # ---- power prices ----------------------------------------------------------------
     dam = pd.concat([csv("ercot_dam_hub_prices"), csv("ercot_dam_hub_prices_2026")])
@@ -264,8 +264,12 @@ def main(argv=None):
     ni = csv("news_index")
     ed = pd.to_datetime(ni["event_date"].where(ni["event_date"].str.contains("T"), ni["event_date"] + "T00:00:00Z"), utc=True)
     n25 = int(((ed >= pd.Timestamp("2026-09-25", tz="UTC")) & (ed < pd.Timestamp("2026-09-26", tz="UTC"))).sum())
+    # session 33: news_index grows as later runs score more stories of a past day (559 when the set was made, 680 on
+    # 2026-09-29), so eval.py counts the day in the table when it scores (count_on_day); n25 is the count at generation
     add("q27", "news", "events", "How many news stories in the news index are dated 2026-09-25 (UTC)?",
-        [n25], tol=0.5, tables=["news_index"])
+        [n25], tol=0.5, tables=["news_index"],
+        count_on_day={"table": "news_index", "column": "event_date", "day": "2026-09-25"},
+        note="expected is the count when this set was generated; eval.py counts the day in the table when it scores")
 
     # ---- internal ----------------------------------------------------------------------------
     pj = csv("pjm_rpm_capacity_prices")

@@ -41,6 +41,22 @@ def accepted(tables):
     return set(tables) | {moved[t][0] for t in tables if t in moved}
 
 
+def expected(q):
+    """Session 33: the expected numbers. A question on a table that keeps growing (q27: stories dated one day in
+    news_index, which later runs add to as they score more stories of that day) names the count it asks for in
+    count_on_day, {table, column, day}; the count is taken from the table when the eval scores, the day fixed. Every
+    other question keeps the numbers expected.py wrote."""
+    c = q.get("count_on_day")
+    if not c:
+        return q["expected"]
+    import erw
+    import pandas as pd
+    df = erw.fetch(c["table"])
+    t = pd.to_datetime(df[c["column"]], utc=True)
+    day = pd.Timestamp(c["day"], tz="UTC")
+    return [float(((t >= day) & (t < day + pd.Timedelta(days=1))).sum())]
+
+
 def score(q, rec):
     got = [v for v, _ in ask.numbers(rec["answer"])]
     s = {}
@@ -49,7 +65,7 @@ def score(q, rec):
         s["refusal"] = status == "not_in_warehouse"
     else:
         s["refusal"] = status == "answered"
-        s["number"] = all(any(abs(abs(g) - abs(e)) <= q["tolerance"] for g in got) for e in q["expected"])
+        s["number"] = all(any(abs(abs(g) - abs(e)) <= q["tolerance"] for g in got) for e in expected(q))
         low = rec["answer"].lower()
         s["text"] = all(t.lower() in low for t in q["text"])
         cites = rec.get("citations") or []

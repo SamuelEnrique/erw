@@ -377,7 +377,11 @@ questions:
   - news_index
   refuse: false
   internal: false
-  note: ''
+  note: expected is the count when this set was generated; eval.py counts the day in the table when it scores (session 33)
+  count_on_day:
+    table: news_index
+    column: event_date
+    day: '2026-09-25'
 - id: q28
   sector: capacity
   shape: series
