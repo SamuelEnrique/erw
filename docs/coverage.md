@@ -6,7 +6,7 @@ What the Energy Research Warehouse (ERW) holds today: one row per table in `ware
 
 | Table | ISO | Market | Variable | Nodes | Interval | First interval (UTC) | Last interval (UTC) | Rows | Source report | Last run (UTC) | Validator | License | Sector | Derived | Tier |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `api_cost_ledger` | none |  | events: api_call | 1: 1 sources | event | 2026-09-29 10:08:33 | 2026-09-29 11:12:24 | 286 | 1 outlets |  | pass | internal | platform | no | derived |
+| `api_cost_ledger` | none |  | events: api_call | 1: 1 sources | event | 2026-09-29 10:08:33 | 2026-09-29 11:12:24 | 286 | 1 outlets | 2026-09-29 11:04:57 | pass | internal | platform | no | derived |
 | `caiso_battery_storage` | CAISO |  | batteries_mw, hybrid_batteries_mw, standalone_batteries_mw | 1: caiso:ISO | PT5M | 2025-08-24 07:00:00 | 2026-09-28 06:55:00 | 343,872 | caiso:todays_outlook_storage | 2026-09-29 01:09:43 | pass | public | power | no | source |
 | `caiso_curtailment_daily` | CAISO |  | curtailed_solar_local_mwh, curtailed_solar_mwh, curtailed_solar_system_mwh, curtailed_wind_local_mwh, curtailed_wind_mwh, curtailed_wind_system_mwh, solar_generation_mwh, wind_generation_mwh | 1: caiso:ISO | P1D | 2014-05-01 00:00:00 | 2026-09-27 00:00:00 | 24,936 | caiso:daily_renewable_report; caiso:production_curtailments | 2026-09-29 01:09:05 | pass | public | power | no | source |
 | `caiso_interconnection_queue` | CAISO |  | entities: project; vintage 2026-09-26 | 2278: 2278 entities | snapshot | 2026-09-26 00:06:48 | 2026-09-26 00:06:48 | 2,278 | caiso:interconnection_queue | 2026-09-26 00:06:45 | pass | public | power | no | source |
