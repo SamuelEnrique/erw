@@ -78,7 +78,7 @@ def read_shadow():
 
 
 HEADER = [
-    "Shadow news scores of the Energy Research Warehouse (ERW): the stories the daily run scored with its Sonnet-class "
+    "Energy Research Warehouse (ERW): shadow news scores, the stories the daily run scored with its Sonnet-class "
     "model, scored again by a second model (the shadow, SHADOW_MODEL) with the same rubric (warehouse/news/rubric.md), "
     "system prompt, schema and batching, to measure whether it can replace the first (session 30, Part B4).",
     "Written by warehouse/news/shadow.py. One row per story and shadow model; story_id is the story's event_id in "
@@ -186,7 +186,8 @@ def cmd_score(args, log, run_id):
               f"USD {spent:.4f} (api_cost_ledger, step {args.step}); cache {'on' if args.cache else 'off'}")
     log("RUN " + detail)
     if args.write and rows:
-        ip.write_csv(pd.DataFrame(rows, columns=COLS), NAME, HEADER + [f"Retrieved: {run_id} (shadow scoring run)."],
+        ip.write_csv(pd.DataFrame(rows, columns=COLS), NAME, HEADER + [f"Retrieved: {run_id} (shadow scoring run).",
+                                                               f"Run log: warehouse/output/logs/news_shadow_score_{run_id}.log"],
                      log, cols=COLS, key=KEY, time_col="event_date")
     print(f"news_score_shadow: {detail}")
     return dict(table=NAME, market="shadow", status="failed" if failed and not rows else "ok", detail=detail[:300])

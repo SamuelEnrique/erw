@@ -115,7 +115,16 @@ function MarketRow({ ix, entity, k, iso }: { ix: Idx; entity: string; k: "da" | 
       <td className="whitespace-nowrap pr-2 text-right text-xs">
         <V table={T} r={one(ix, entity, `${k}_min_30d`)} /> to <V table={T} r={one(ix, entity, `${k}_max_30d`)} />
       </td>
-      <td className="pr-2 text-right text-xs">{k === "da" ? <V table={T} r={one(ix, entity, "da_minus_rt")} signed /> : null}</td>
+      <td className="whitespace-nowrap pr-2 text-right text-xs">
+        {k === "da" ? (
+          <>
+            <V table={T} r={one(ix, entity, "da_minus_rt")} signed />
+            {one(ix, entity, "da_minus_rt") ? (
+              <span className="block text-[10px] text-muted">{day(one(ix, entity, "da_minus_rt")!.ts_utc).slice(5)}</span>
+            ) : null}
+          </>
+        ) : null}
+      </td>
       <td>
         <InlineSpark values={spark} label={`${iso} ${node(entity)} ${label.toLowerCase()} daily mean, last 30 days, USD/MWh`} />
       </td>
@@ -125,7 +134,8 @@ function MarketRow({ ix, entity, k, iso }: { ix: Idx; entity: string; k: "da" | 
 
 function Power({ ix }: { ix: Idx }) {
   return (
-    <div className="overflow-x-auto">
+    <>
+      <div className="overflow-x-auto">
       <table className="w-full min-w-[640px] text-sm tabular-nums">
         <thead>
           <tr className="border-b border-rule text-left text-[11px] text-muted">
@@ -154,11 +164,12 @@ function Power({ ix }: { ix: Idx }) {
           </tbody>
         ))}
       </table>
+      </div>
       <p className="mt-1 text-[11px] text-muted">
         USD/MWh. Means of complete local operating days only (a day missing an interval is left out, never filled); the
         day-ahead latest day may be tomorrow, which the ISO has already cleared. Low to high: of the daily means.
       </p>
-    </div>
+    </>
   );
 }
 
@@ -167,7 +178,8 @@ const PEAK_RULE: Record<string, string> = { CAISO: "HE 7 to 22, Mon to Sat (WECC
 function Peak({ ix }: { ix: Idx }) {
   const T = "price_board_peak_offpeak";
   return (
-    <div className="overflow-x-auto">
+    <>
+      <div className="overflow-x-auto">
       <table className="w-full min-w-[520px] text-sm tabular-nums">
         <thead>
           <tr className="border-b border-rule text-left text-[11px] text-muted">
@@ -210,11 +222,12 @@ function Peak({ ix }: { ix: Idx }) {
           )}
         </tbody>
       </table>
+      </div>
       <p className="mt-1 text-[11px] text-muted">
         USD/MWh, main hub. Peak: hours ending 7 to 22 local, Monday to Friday (CAISO: {PEAK_RULE.CAISO}), NERC holidays
         off-peak. ERCOT reaches 90 days through its history; the other ISOs&apos; tables hold about 35.
       </p>
-    </div>
+    </>
   );
 }
 
@@ -438,12 +451,12 @@ export default async function Board() {
       </section>
 
       <div className="grid gap-5 xl:grid-cols-2">
-        <section className="mb-5" aria-label="Peak and off-peak">
+        <section className="mb-5 min-w-0" aria-label="Peak and off-peak">
           <Head title="Peak and off-peak" tier="derived" />
           {px ? <Peak ix={px} /> : <NoData what="peak and off-peak" reason={peak.ok ? "" : peak.reason} />}
           <Cite tables={["price_board_peak_offpeak"]} note="Derived from the same price tables and ercot_all_hub_prices_history" />
         </section>
-        <section className="mb-5" aria-label="Gas and spreads">
+        <section className="mb-5 min-w-0" aria-label="Gas and spreads">
           <Head title="Gas, oil and spark spreads" tier="derived" />
           {sx ? <Spreads ix={sx} /> : <NoData what="the spreads" reason={spreads.ok ? "" : spreads.reason} />}
           <Cite tables={["price_board_spreads"]} note="Derived from the day-ahead price tables, ercot_all_hub_prices_history and eia_fuel_spot_prices" />

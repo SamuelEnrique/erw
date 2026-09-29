@@ -132,12 +132,18 @@ def test_filter_by_iso_market_variable_node_and_time():
     # session 29: a consolidated table lists its members' ISOs and markets, separated by ";"
     has = lambda col, f: cov[col].map(lambda v: any(f(p) for p in str(v).split(";")))  # noqa: E731
     assert erw.filter(iso="ercot") == sorted(cov.loc[has("iso", lambda p: p == "ERCOT"), "table"])
-    assert erw.filter(iso="ERCOT", market="dam") == ERCOT_DAM  # the live DAM table and the history
-    # the live table, the history and the derived peak-premium tables (session 9)
-    assert erw.filter(market="ercot_rtm") == sorted(ERCOT_RTM + [t for t in TABLES if t.startswith("ercot_peak_premium_")])
+    # session 30: the price board's derived tables (price_board_*) carry the markets they are computed from
+    board = lambda m: [t for t in cov["table"] if t.startswith("price_board_")  # noqa: E731
+                       and m in str(cov.set_index("table").loc[t, "market"]).split(";")]
+    assert erw.filter(iso="ERCOT", market="dam") == sorted(ERCOT_DAM + board("ercot_dam"))  # the live DAM table, history
+    # the live table, the history and the derived peak-premium tables (session 9), and the price board's (session 30)
+    assert erw.filter(market="ercot_rtm") == sorted(ERCOT_RTM + [t for t in TABLES if t.startswith("ercot_peak_premium_")]
+                                                    + board("ercot_rtm"))
     assert set(erw.filter(market="rtm")) == set(cov.loc[has("market", lambda p: p.endswith("_rtm")), "table"])
     assert erw.filter(variable="spp_rtm") == ERCOT_RTM
     ercot_prices = sorted(cov.loc[has("market", lambda p: p.startswith("ercot_")), "table"])
+    # session 30: two price board tables hold each ISO's main hub only (HB_HUBAVG), not every hub
+    ercot_prices = [t for t in ercot_prices if t not in ("price_board_peak_offpeak", "price_board_spreads")]
     # session 29: the price tables, and the derived tables computed from them per hub (the trader view)
     derived = set(cov.loc[cov["derived"] == "yes", "table"])
     for n in ("HB_NORTH", "ercot:HB_NORTH"):
@@ -255,7 +261,8 @@ def test_public_functions_only_use_the_backend_interface():
             return "wrapped local files"
 
     erw.set_backend(Wrapped())
-    name = TABLES[0]
+    # a table whose name starts with its ISO (session 30: the first table by name, api_cost_ledger, has none)
+    name = next(t for t in TABLES if t.split("_")[0] in ("caiso", "ercot", "isone", "miso", "nyiso", "spp", "pjm"))
     assert erw.list_tables() == TABLES
     assert len(erw.fetch(name)) == MD_ROWS[name]
     assert name in erw.filter(iso=name.split("_")[0])

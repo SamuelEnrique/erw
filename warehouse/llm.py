@@ -141,8 +141,8 @@ def session_total(name=None):
 
 
 HEADER = [
-    "Anthropic API cost ledger of the Energy Research Warehouse (ERW): one row per Messages API call made by "
-    "ERW code (session 30, Part B1).",
+    "Energy Research Warehouse (ERW): Anthropic API cost ledger, one row per Messages API call made by ERW code "
+    "(session 30, Part B1).",
     f"Source: {SOURCE}, the usage block of each Messages API response ({SOURCE_URL}): input, output, "
     "cache read and cache write tokens and web searches, as Anthropic reported them per call.",
     "usd: computed by warehouse/llm.py from those counts at the prices in warehouse/config/model_prices.yaml "
@@ -150,6 +150,12 @@ HEADER = [
     "License: internal. Operating costs of the ERW, never shown on the public site or in the public Redivis dataset.",
     "Written by warehouse/llm.py, one row per call, at the time of the call.",
 ]
+
+
+def header_lines(run_id):
+    return HEADER + [f"Retrieved: {run_id} (UTC) by warehouse/llm.py (the run of the latest call written)",
+                     "Run log: the log of the script that made each call, warehouse/output/logs/<step>_<run_id>.log (the "
+                     "step and run_id columns name it)"]
 
 
 def record(step, model, resp_usage, request_id, log=None):
@@ -181,7 +187,7 @@ def record(step, model, resp_usage, request_id, log=None):
         quiet = log or (lambda m: None)
         stdout, sys.stdout = sys.stdout, open(os.devnull, "w")  # write_csv prints a summary line per write
         try:
-            ip.write_csv(pd.DataFrame([row], columns=COLS), NAME, HEADER, quiet, cols=COLS, key=["event_id"],
+            ip.write_csv(pd.DataFrame([row], columns=COLS), NAME, header_lines(run_id), quiet, cols=COLS, key=["event_id"],
                          time_col="event_date")
         finally:
             sys.stdout.close()
