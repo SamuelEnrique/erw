@@ -51,7 +51,7 @@ The main hub of each ISO, both markets.
 
 A weekend or holiday has no peak row.
 
-**Rows per ERCOT operating year** since 2015, HB_HUBAVG, from the history plus the rolling tables (`P1Y`): `all_mean`, `peak_mean`, `offpeak_mean`, `peak_minus_offpeak` and `days`. The current year is year to date.
+**Rows per ERCOT operating year** since 2015, HB_HUBAVG, from the history plus the rolling tables (`P1Y`): `{da,rt}_year_all_mean`, `_year_peak_mean`, `_year_offpeak_mean`, `_year_peak_minus_offpeak` and `_year_days`. The current year is year to date. (`year_` keeps them apart from a daily row dated 1 January.)
 
 These are means. `ercot_peak_premium_annual` gives medians and the peak-minus-midday premium; the page shows both.
 

@@ -282,11 +282,12 @@ def build_peak(prices, ercot_hist, retrieved, log):
         for y, x in d.groupby("year"):
             t = f"{y}-01-01T00:00:00Z"
             pk, op = x.loc[x["peak"], "value"].mean(), x.loc[~x["peak"], "value"].mean()
-            rows += [row(entity, "all_mean", t, r4(x["value"].mean()), "USD/MWh", "P1Y", **base),
-                     row(entity, "peak_mean", t, r4(pk), "USD/MWh", "P1Y", **base),
-                     row(entity, "offpeak_mean", t, r4(op), "USD/MWh", "P1Y", **base),
-                     row(entity, "peak_minus_offpeak", t, r4(pk - op), "USD/MWh", "P1Y", **base),
-                     row(entity, "days", t, int(x["day"].nunique()), "count", "P1Y", **base)]
+            # year_ in the name: a 1 January daily row of the same variable would share the key (entity, variable, ts)
+            rows += [row(entity, "year_all_mean", t, r4(x["value"].mean()), "USD/MWh", "P1Y", **base),
+                     row(entity, "year_peak_mean", t, r4(pk), "USD/MWh", "P1Y", **base),
+                     row(entity, "year_offpeak_mean", t, r4(op), "USD/MWh", "P1Y", **base),
+                     row(entity, "year_peak_minus_offpeak", t, r4(pk - op), "USD/MWh", "P1Y", **base),
+                     row(entity, "year_days", t, int(x["day"].nunique()), "count", "P1Y", **base)]
     out = market_prefix(pd.DataFrame(rows))
     log(f"price_board_peak_offpeak: {len(out)} rows")
     return out

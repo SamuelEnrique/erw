@@ -103,7 +103,8 @@ day-ahead tables running into tomorrow:
   each ISO's main hub, {da,rt}_{peak,offpeak,all}_mean and _peak_minus_offpeak
   per day (P1D, last 90 days the tables reach; peak = hours ending 7 to 22,
   Mon to Fri, CAISO Mon to Sat, NERC holidays off-peak), and ERCOT HB_HUBAVG
-  per operating year since 2015 (P1Y, means; ercot_peak_premium_annual has
+  per operating year since 2015 ({da,rt}_year_{all_mean,peak_mean,
+  offpeak_mean,peak_minus_offpeak,days}, P1Y, means; ercot_peak_premium_annual has
   the medians). price_board_spreads: henry_hub, per main hub spark_spread_7
   (day-ahead daily mean minus an ASSUMED 7.0 MMBtu/MWh times Henry Hub; say
   it is an assumption), implied_heat_rate, da_daily_mean, and

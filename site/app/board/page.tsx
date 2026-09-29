@@ -308,7 +308,7 @@ function Carbon({ rows }: { rows: SeriesRow[] }) {
 function Ercot({ ix, prem }: { ix: Idx; prem: SeriesRow[] }) {
   const T = "price_board_peak_offpeak";
   const e = "ercot:HB_HUBAVG";
-  const annual = all(ix, e, "rt_all_mean").filter((r) => r.freq === "P1Y");
+  const annual = all(ix, e, "rt_year_all_mean");
   const premium = prem.filter((r) => r.entity === e && r.variable === "peak_minus_midday_median");
   return (
     <>
@@ -338,21 +338,21 @@ function Ercot({ ix, prem }: { ix: Idx; prem: SeriesRow[] }) {
             {annual.map((r) => {
               const at = (v: string) => all(ix, e, v).find((x) => x.ts_utc === r.ts_utc);
               const pm = premium.find((x) => x.ts_utc === r.ts_utc);
-              const days = at("rt_days");
+              const days = at("rt_year_days");
               return (
                 <tr key={r.ts_utc} className="border-b border-rule">
                   <td className="py-0.5 pr-2">
                     {r.ts_utc.slice(0, 4)}
                     {days && r === annual.at(-1) && days.value < 365 ? (
                       <span className="text-muted">
-                        {" "}to date, <Num check={`series|${T}|${e}|rt_days|${days.ts_utc}`} raw={days.value}>{days.value}</Num> days
+                        {" "}to date, <Num check={`series|${T}|${e}|rt_year_days|${days.ts_utc}`} raw={days.value}>{days.value}</Num> days
                       </span>
                     ) : null}
                   </td>
                   <td className="pr-2 text-right"><V table={T} r={r} /></td>
-                  <td className="pr-2 text-right"><V table={T} r={at("rt_peak_mean")} /></td>
-                  <td className="pr-2 text-right"><V table={T} r={at("rt_offpeak_mean")} /></td>
-                  <td className="pr-2 text-right"><V table={T} r={at("rt_peak_minus_offpeak")} signed /></td>
+                  <td className="pr-2 text-right"><V table={T} r={at("rt_year_peak_mean")} /></td>
+                  <td className="pr-2 text-right"><V table={T} r={at("rt_year_offpeak_mean")} /></td>
+                  <td className="pr-2 text-right"><V table={T} r={at("rt_year_peak_minus_offpeak")} signed /></td>
                   <td className="pr-2 text-right">{pm ? <V table="ercot_peak_premium_annual" r={pm} signed /> : <span className="text-muted">not held</span>}</td>
                 </tr>
               );
