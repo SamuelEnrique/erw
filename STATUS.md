@@ -1,22 +1,22 @@
 # ERW status
 
-Generated 2026-09-28 21:11 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-09-28 23:52 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 113 | 4,491,573 |
-| Public | 104 | 4,354,973 |
-| Internal (never shown publicly) | 9 | 136,600 |
+| All | 113 | 4,492,075 |
+| Public | 104 | 4,355,380 |
+| Internal (never shown publicly) | 9 | 136,695 |
 
-Newest table refresh: 2026-09-28 21:03:48 UTC. Validator: 113 of 113 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-09-28 23:46:13 UTC. Validator: 113 of 113 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
 
 ## Last runs
 
 | Workflow | Last run (UTC) | Outcome |
 |---|---|---|
-| daily prices, on GitHub | 2026-09-28 21:11 | 140 ok, 3 failed, 1 gap, 5 skipped (table results of that day) |
+| daily prices, on GitHub | 2026-09-28 23:52 | 280 ok, 7 failed, 2 gap, 10 skipped (table results of that day) |
 | daily run, local | 2026-09-27 04:42 | 137 ok, 10 failed, 10 gap (table results of that day) |
 | latest prices, every 15 minutes | 2026-09-28 20:50 | 39 hubs and zones in `latest_prices` (newest retrieval) |
 
@@ -26,9 +26,9 @@ A table that failed is not written that day; nothing partial is. The reasons are
 
 | Table | Run | Reason |
 |---|---|---|
-| `carb_auction_allowance_prices` | 20260928T204021Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
-| `ercot_large_load_queue` | 20260928T204415Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
-| `nyiso_interconnection_queue` | 20260928T204313Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
+| `carb_auction_allowance_prices` | 20260928T233609Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
+| `ercot_large_load_queue` | 20260928T234003Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
+| `nyiso_interconnection_queue` | 20260928T233903Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
 
 ## Open gaps
 

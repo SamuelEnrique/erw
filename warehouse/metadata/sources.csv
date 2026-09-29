@@ -3,7 +3,7 @@ ANS Nuclear Newswire,ANS Nuclear Newswire,news stories via feed 'ANS Nuclear New
 Bloomberg,Bloomberg,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-27,2026-09-28
 Bloomberg Media,Bloomberg Media,news stories,,,internal,news_index;news_stories,2026-09-28,2026-09-28
 Bloomberg Mercury,Bloomberg Mercury,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-28
-Bloomberg.com,Bloomberg.com,news stories via feed 'Bloomberg energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
+Bloomberg.com,Bloomberg.com,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
 CTVC,CTVC,news stories via feed 'CTVC',,,internal,news_index;news_stories,2026-09-28,2026-09-28
 California ISO,California ISO,news stories via feed 'CAISO newsroom',,,internal,news_index;news_stories,2026-09-27,2026-09-28
 California Public Advocates Office (.gov),California Public Advocates Office (.gov),news stories via feed 'CPUC news',,,internal,news_stories,2026-09-28,2026-09-28
@@ -35,7 +35,7 @@ Midcontinent Independent System Operator (MISO),Midcontinent Independent System 
 Natural Gas Intelligence,Natural Gas Intelligence,news stories via feed 'Natural Gas Intelligence',,,internal,datacenter_projects;datacenter_projects_evidence;news_index;news_stories,2026-09-25,2026-09-28
 OilPrice.com,OilPrice.com,news stories via feed 'OilPrice.com',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
 Organization of the Petroleum Exporting Countries,Organization of the Petroleum Exporting Countries,news stories via feed 'OPEC press releases',,,internal,news_index;news_stories,2026-09-27,2026-09-28
-PJM newsroom,PJM newsroom,news stories via feed 'PJM newsroom',,,internal,news_index;news_stories,2026-09-25,2026-09-28
+PJM newsroom,PJM newsroom,news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-28
 POWER Magazine,POWER Magazine,news stories via feed 'POWER Magazine',,,internal,news_index;news_stories,2026-09-25,2026-09-28
 PUC Interchange (.gov),PUC Interchange (.gov),news stories via feed 'Texas PUC news',,,internal,news_index;news_stories,2026-09-25,2026-09-28
 Public Utility Commission of Texas (.gov),Public Utility Commission of Texas (.gov),news stories via feed 'Texas PUC news',,,internal,news_index;news_stories,2026-09-26,2026-09-28
@@ -45,9 +45,10 @@ Southwest Power Pool,Southwest Power Pool,news stories via feed 'SPP newsroom',,
 T&D World,T&D World,news stories via feed 'T&D World',,,internal,news_index;news_stories,2026-09-25,2026-09-28
 U.S. Environmental Protection Agency (.gov),U.S. Environmental Protection Agency (.gov),news stories via feed 'EPA news',,,internal,news_index;news_stories,2026-09-25,2026-09-28
 Utility Dive,Utility Dive,news stories via feed 'Utility Dive',,,internal,news_index;news_stories,2026-09-25,2026-09-28
-WSJ,WSJ,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
+WSJ,WSJ,news stories via feed 'WSJ energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
 World Nuclear News,World Nuclear News,news stories via feed 'World Nuclear News',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-28
 aws:locations,Amazon Web Services,Amazon Web Services public list of data center sites and regions,https://b0.p.awsstatic.com/locations/1.0/aws/current/locations.json,,public,datacenter_operator_sites,2026-09-28,2026-09-28
+bloomberg.com,bloomberg.com,news stories via feed 'Bloomberg energy (via Google News)',,,internal,news_index;news_stories,2026-09-28,2026-09-28
 caiso.com,caiso.com,news stories via feed 'CAISO newsroom',,,internal,news_index;news_stories,2026-09-25,2026-09-28
 caiso:PRC_INTVL_LMP,California Independent System Operator (CAISO),"OASIS Interval Locational Marginal Prices, real-time dispatch (RTD, 5-minute)",https://oasis.caiso.com/mrioasis/logon.do,,public,caiso_rtm_hub_prices,2026-09-25,2026-09-28
 caiso:PRC_LMP,California Independent System Operator (CAISO),"OASIS Locational Marginal Prices, day-ahead market (DAM)",https://oasis.caiso.com/mrioasis/logon.do,,public,caiso_dam_hub_prices,2026-09-25,2026-09-28
@@ -91,6 +92,7 @@ ercot:interconnection_queue,Electric Reliability Council of Texas (ERCOT),Genera
 ercot:np4_732_745,Electric Reliability Council of Texas (ERCOT),"Wind and Solar Power Production, Hourly Averaged Actual and Forecasted Values (NP4-732-CD, NP4-745-CD)",https://www.ercot.com/mp/data-products/data-product-details?id=NP4-732-CD,https://www.ercot.com/mp/data-products/data-product-details?id=NP4-745-CD,public,ercot_wind_solar_hsl_daily,2026-09-27,2026-09-28
 erw:curtailment_monthly,"Energy Research Warehouse (ERW), derived","Curtailment by ISO, monthly (docs/methods/curtailment.md)",https://github.com/SamuelEnrique/erw/blob/main/docs/methods/curtailment.md,docs/methods/curtailment.md,public,curtailment_monthly,2026-09-27,2026-09-27
 erw:datacenter_facilities,ERW,"Datacenter facilities: news, operator lists and ISO queues, deduplicated",https://github.com/SamuelEnrique/erw/blob/main/docs/methods/datacenter_facilities.md,,public,datacenter_facilities,2026-09-28,2026-09-28
+erw:energy_deals,Energy Research Warehouse (ERW),"Deal tracker counterparties (energy_deals, warehouse/deals/extract.py)",https://github.com/SamuelEnrique/erw/blob/main/warehouse/companies/seed_from_deals.py,,public,energy_companies,2026-09-28,2026-09-28
 erw:energy_projects,"Energy Research Warehouse (ERW), derived",Energy projects for the project map (docs/methods/energy_projects.md),https://github.com/SamuelEnrique/erw/blob/main/docs/methods/energy_projects.md,docs/methods/energy_projects.md,public,energy_projects,2026-09-27,2026-09-28
 erw:ercot_peak_premium,"Energy Research Warehouse (ERW), derived",ERCOT peak premium metrics (docs/methods/ercot_peak_premium.md),https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_peak_premium.md,docs/methods/ercot_peak_premium.md,public,ercot_peak_premium_annual;ercot_peak_premium_monthly,2026-09-26,2026-09-26
 erw:generation_mix,"Energy Research Warehouse (ERW), derived",Generation mix by state (docs/methods/generation_mix.md),https://github.com/SamuelEnrique/erw/blob/main/docs/methods/generation_mix.md,docs/methods/generation_mix.md,public,state_generation_mix_monthly,2026-09-27,2026-09-28
@@ -149,4 +151,4 @@ spp:interconnection_queue,Southwest Power Pool (SPP),Generation Interconnection 
 spp:ver_curtailments,Southwest Power Pool (SPP),"VER Curtailments (5-minute, by BAA)",https://portal.spp.org/pages/ver-curtailments,https://portal.spp.org/file-browser-api/download/ver-curtailments,public,spp_curtailment_daily,2026-09-27,2026-09-28
 switch:locations,Switch,Switch public list of data center sites and regions,https://www.switch.com/colocation/,,public,datacenter_operator_sites,2026-09-28,2026-09-28
 vantage:data-center-locations,Vantage Data Centers,Vantage Data Centers public list of data center sites and regions,https://vantage-dc.com/data-center-locations/,,public,datacenter_operator_sites,2026-09-28,2026-09-28
-wsj.com,wsj.com,news stories via feed 'WSJ energy (via Google News)',,,internal,news_index;news_stories,2026-09-27,2026-09-28
+wsj.com,wsj.com,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-28

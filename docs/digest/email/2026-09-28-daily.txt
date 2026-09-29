@@ -2,25 +2,25 @@ ERW's Energy Digest, 2026-09-28
 
 Top 5 of the day
 
-1. QatarEnergy extends LNG force majeure notices until early December as Hormuz disruptions continue
+1. UK PM Burnham to launch state-owned GB Grid to cut energy costs and speed connections
+   A state-owned grid body would reshape UK network ownership, connection queues and energy costs for generators and large loads. parties: UK government; GB Grid.
+   Reuters: https://news.google.com/rss/articles/CBMixgFBVV95cUxNQzhVTVRBTXdPRW50MGpFX1FwNDlLdjd0dVhIU0xFWV9lT21HX01pV3Q4bGhmVjBySUxfckJWOTk2Z1FRWFhsLVBLQkg2WWRHRGNURFZTRDduSWdTdXhxOHJoZDBDWW5vcGYxWW1rZ05rRmZ3T21jaDJxaExWd2RfUkFCSU1hbERQUWh1Z1l4aVJCNVM2VHpCOGN3MjUwSlZDM2RoXzA0UTBUdHZvVldOeUJKb0Nnd05zdllRVjV3U1FzTGpQQXc?oc=5
+2. Qatar extends LNG force majeure notices as Hormuz disruptions continue; Edison says until early December
    Extended force majeure on Qatari LNG keeps a major share of global supply offline, supporting gas prices. parties: Qatar.
    Bloomberg.com: https://news.google.com/rss/articles/CBMisgFBVV95cUxOckFDdlMzdy1wUTFWMGkyZENBcU03QlBlSl92RDllVTRtR2wtb2pDVUVtTW1vOWJaZlh2bnd1Q3kzckxtZXJKbXZFck82UlZvdHdtNXIzRHBYUE9EbE1KQzJjTTJhSTh5N1hoa1pmSG5MUTV1TnRDUHdaUnVxOEM0bGFZQXg4TFRpbk5nLUJOT2RYVXBrRmhVWTdVOWliS2Vxd19OcGE1eVJVLWlURFZ4Mmd3?oc=5
-2. NGPL asks FERC to approve 550,000 Dth/d Texas Panhandle pipeline expansion for planned Google data center
+3. NGPL asks FERC to approve 550,000 Dth/d Texas Panhandle pipeline expansion to serve a planned Google data center
    A large gas pipeline expansion anchored by a single data center shows gas-fired supply being built for large loads. parties: NGPL; FERC; Google.
    Natural Gas Intelligence: https://naturalgasintel.com/news/google-data-center-anchors-550000-dthd-ngpl-natural-gas-expansion-in-texas/
-3. Fervo Energy sells power to the grid from an initial 33 MW unit at Cape Station, Utah
+4. Fervo Energy sells power to the grid from a 33 MW unit at Cape Station in Utah
    First utility-scale next-generation geothermal plant delivering power to the grid, a milestone for firm clean generation. 33 MW; parties: Fervo Energy.
    Canary Media: https://www.canarymedia.com/articles/geothermal/global-first-next-gen-geothermal-fervo
-4. EIA projects 82,700 MW of renewables and storage added in 12 months; fossil and nuclear capacity falls
+5. EIA: renewables and storage to add about 82.7 GW in the next 12 months
    Large planned additions against falling fossil and nuclear capacity show the direction of US supply mix. 82,700 MW; parties: EIA; SUN DAY Campaign.
    Electrek: https://electrek.co/2026/09/28/eia-83-gw-of-renewables-and-storage-coming-in-12-months-as-fossil-fuel-capacity-to-fall/
-5. FERC approves higher capacity at NextDecade's Rio Grande LNG terminal in Brownsville, Texas
-   Regulatory approval adds export volume at a major US LNG project, supporting expansion economics. parties: NextDecade; FERC.
-   LNG Prime: https://lngprime.com/americas/nextdecades-rio-grande-lng-gets-ferc-ok-to-boost-capacity/197562/
 
 ERW's Numbers Today
 
-Day-ahead power on 2026-09-27 was dearest at ERCOT's HB_NORTH, 43.54 USD/MWh, and cheapest at ISO-NE's internal hub, 32.85. The highest real-time price was 497.06 USD/MWh at SPPNORTH_HUB (SPP), in the 15-minute interval starting 2026-09-27 14:45 local. Fuel spot closes on 2026-09-22 were 2.90 USD/MMBtu for Henry Hub gas, 96.41 USD/bbl for WTI and 114.89 USD/bbl for Brent (EIA); we have no PJM prices because there is no PJM price table.
+Day-ahead power on 2026-09-27 was dearest at ERCOT's HB_NORTH, 43.54 USD/MWh, and cheapest at ISO-NE's internal hub, 32.85. The highest real-time price was 497.06 USD/MWh at SPPNORTH_HUB in SPP, in the interval starting 2026-09-27 14:45 local. Fuel spot closes on 2026-09-22 were 2.90 USD/MMBtu for Henry Hub gas, 96.41 USD/bbl for WTI and 114.89 USD/bbl for Brent; we left PJM out: no price table.
 Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
   ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-09-27; Average USD/MWh: 43.54; Table: [1]
   ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-09-27; Average USD/MWh: 40.00; Table: [2]
@@ -38,12 +38,12 @@ Tables: [1] ercot_dam_hub_prices (ercot:NP4-190-CD); [2] caiso_dam_hub_prices (c
 
 ERW's Fun Fact
 
-Of the 309 datacenter facilities the ERW tracks, Digital Realty runs the most, 74, ahead of Equinix with 73.
-Sources: datacenter_facilities (Bloomberg, Bloomberg.com, Data Center Dynamics, Financial Times, Hart Energy, Heatmap News, Reuters, WSJ, Amazon Web Services, Digital Realty, Equinix, Electric Reliability Council of Texas (ERCOT), Google, Meta, Microsoft, New York Independent System Operator (NYISO), Oracle, Switch, Vantage Data Centers).
+The first practical photovoltaic cell was publicly demonstrated at Bell Laboratories in 1954, invented by Calvin Souther Fuller, Daryl Chapin and Gerald Pearson.
+Sources: Wikipedia, Solar cell (https://en.wikipedia.org/wiki/Solar_cell).
 
 ERW
 
-All of ERW's Energy Digest: https://github.com/SamuelEnrique/erw/blob/main/docs/digest/2026-09-28.md
+All of ERW's Energy Digest: https://erw-flame.vercel.app/digest/2026-09-28
 How this is made: https://erw-flame.vercel.app/about#digest
 ERW, the live, citable record of the US energy system. Every number names the table it came from.
 Stop these emails: Each recipient's email carries its own signed unsubscribe link.

@@ -893,3 +893,153 @@ run_id,runner,connector,table,market,status,detail
 20260928T211039Z,github,news_funfact,funfact,bank,ok,"2026-09-28: ff_54d18b45ff (none); bank +1, 3 model calls, cost USD 0.0000"
 20260928T211049Z,github,news_brief,digest,brief,ok,"top 10 with a number 4 of 10 (2 with a scored figure); 342 stories, 312 clusters, 2 call(s), tokens in 6462 out 1746, cost unknown"
 20260928T211105Z,github,news_email,email,daily,ok,"2026-09-28: not sent: RESEND_API_KEY, DIGEST_RECIPIENTS not set"
+20260928T231817Z,github,ercot,ercot_dam_hub_prices,DAM,ok,
+20260928T231817Z,github,ercot,ercot_rtm_hub_prices,RTM,ok,
+20260928T232040Z,github,caiso,caiso_dam_hub_prices,DAM,ok,
+20260928T232040Z,github,caiso,caiso_rtm_hub_prices,RTM,ok,
+20260928T232130Z,github,nyiso,nyiso_dam_zone_prices,DAM,ok,
+20260928T232130Z,github,nyiso,nyiso_rtm_zone_prices,RTM,ok,
+20260928T232134Z,github,miso,miso_dam_hub_prices,DAM,ok,
+20260928T232134Z,github,miso,miso_rtm_hub_prices,RTM,ok,
+20260928T232140Z,github,spp,spp_dam_hub_prices,DAM,ok,
+20260928T232140Z,github,spp,spp_rtm_hub_prices,RTM,ok,
+20260928T232522Z,github,isone,isone_dam_zone_prices,DAM,ok,
+20260928T232522Z,github,isone,isone_rtm_zone_prices,RTM,ok,"1 days not complete, not written"
+20260928T232522Z,github,isone,isone_rtm_zone_prices,RTM 2026-09-25,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.MAINE: 95 rows, expected 96, missing 1 (first ['"
+20260928T232522Z,github,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY,ok,
+20260928T232544Z,github,eia930,eia930_ciso_demand,demand,ok,
+20260928T232544Z,github,eia930,eia930_ciso_generation,generation,ok,
+20260928T232544Z,github,eia930,eia930_erco_demand,demand,ok,
+20260928T232544Z,github,eia930,eia930_erco_generation,generation,ok,
+20260928T232544Z,github,eia930,eia930_generation_latest,latest,ok,"complete hours: CISO 31, ERCO 29, ISNE 5, MISO 29, NYIS 28, PJM 28, SWPP 29, US48 28"
+20260928T232544Z,github,eia930,eia930_isne_demand,demand,ok,
+20260928T232544Z,github,eia930,eia930_isne_generation,generation,ok,"dropped series: 2026-09-27: net_generation_oil_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-27T04:00:00Z', '2026-09-27T05:00:00Z', '2026-09-27T06:00:00Z'])"
+20260928T232544Z,github,eia930,eia930_miso_demand,demand,ok,
+20260928T232544Z,github,eia930,eia930_miso_generation,generation,ok,
+20260928T232544Z,github,eia930,eia930_nyis_demand,demand,ok,
+20260928T232544Z,github,eia930,eia930_nyis_generation,generation,ok,
+20260928T232544Z,github,eia930,eia930_pjm_demand,demand,ok,
+20260928T232544Z,github,eia930,eia930_pjm_generation,generation,ok,
+20260928T232544Z,github,eia930,eia930_swpp_demand,demand,ok,
+20260928T232544Z,github,eia930,eia930_swpp_generation,generation,ok,
+20260928T232544Z,github,eia930,eia930_us48_demand,demand,ok,
+20260928T232544Z,github,eia930,eia930_us48_generation,generation,ok,"dropped series: 2026-09-25: net_generation_unknown_storage_mw: 17 of 24 hours (7 missing, 0 published as null; first missing ['2026-09-25T00:00:00Z', '2026-09-25T01:00:00Z', '2026-09-25T02:00:00Z'])"
+20260928T232544Z,github,ercot_peak_premium,ercot_peak_premium_annual,,skipped,"inputs absent in CI (12 tables, e.g. ercot_rtm_hub_prices_2015, ercot_rtm_hub_prices_2016, ercot_rtm_hub_prices_2017); derived tables not written (session 10 ruling 3)"
+20260928T232544Z,github,ercot_peak_premium,ercot_peak_premium_monthly,,skipped,"inputs absent in CI (12 tables, e.g. ercot_rtm_hub_prices_2015, ercot_rtm_hub_prices_2016, ercot_rtm_hub_prices_2017); derived tables not written (session 10 ruling 3)"
+20260928T232600Z,github,weather_nws,weather_forecast_hourly,all,ok,7 stations
+20260928T232600Z,github,weather_nws,weather_obs_hourly,all,ok,7 stations
+20260928T232631Z,github,eia_fuels,eia_fuel_spot_prices,daily,ok,
+20260928T232656Z,github,trader_view,caiso_trader_daily,caiso,ok,789 rows
+20260928T232656Z,github,trader_view,ercot_trader_daily,ercot,ok,1578 rows
+20260928T232656Z,github,trader_view,iso_rt_top_intervals,,ok,50 rows
+20260928T232656Z,github,trader_view,isone_trader_daily,isone,ok,2367 rows
+20260928T232656Z,github,trader_view,miso_trader_daily,miso,ok,2072 rows
+20260928T232656Z,github,trader_view,nyiso_trader_daily,nyiso,ok,2893 rows
+20260928T232656Z,github,trader_view,spp_trader_daily,spp,ok,262 rows
+20260928T232702Z,github,eia_series,eia_crude_first_purchase_prices,monthly,ok,
+20260928T232702Z,github,eia_series,eia_crude_imports_by_country,monthly,ok,
+20260928T232702Z,github,eia_series,eia_lng_exports_monthly,monthly,ok,
+20260928T232702Z,github,eia_series,eia_padd_crude_pipeline_flows,monthly,ok,
+20260928T232702Z,github,eia_series,eia_petroleum_stocks_weekly,weekly,ok,
+20260928T232702Z,github,eia_series,eia_petroleum_trade_weekly,weekly,ok,
+20260928T232702Z,github,eia_series,eia_product_spot_prices,daily,ok,
+20260928T232702Z,github,eia_series,eia_retail_electricity_prices,monthly,ok,
+20260928T232702Z,github,eia_series,eia_retail_fuel_prices,weekly,ok,
+20260928T232702Z,github,eia_series,eia_retail_sales_monthly,monthly,ok,
+20260928T232702Z,github,eia_series,eia_sector_energy_consumption_monthly,monthly,ok,
+20260928T232702Z,github,eia_series,eia_state_generation_monthly,monthly,ok,
+20260928T233602Z,github,generation_mix,state_generation_mix_monthly,,ok,107560 rows
+20260928T233608Z,github,capacity_prices,pjm_rpm_capacity_prices,bra,ok,
+20260928T233609Z,github,carbon_auctions,carb_auction_allowance_prices,carb,failed,RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202')
+20260928T233609Z,github,carbon_auctions,rggi_auction_allowance_prices,rggi,ok,
+20260928T233701Z,github,fred_series,fred_daily_spot_prices,P1D,ok,
+20260928T233701Z,github,fred_series,fred_imf_commodity_prices,P1M,ok,
+20260928T233706Z,github,portwatch,portwatch_chokepoint_transits,daily,ok,
+20260928T233711Z,github,curtailment,caiso_curtailment_daily,caiso,ok,106 rows this run
+20260928T233711Z,github,curtailment,ercot_wind_solar_hsl_daily,ercot,ok,18 rows this run
+20260928T233711Z,github,curtailment,spp_curtailment_daily,spp,ok,144 rows this run
+20260928T233737Z,github,iso_curtailment_monthly,iso_curtailment_monthly,,ok,1988 rows
+20260928T233739Z,github,caiso_outlook,caiso_battery_storage,storage,ok,30 days
+20260928T233749Z,github,eia860,eia860m_operating_generators,monthly,ok,vintage 2026-08
+20260928T233749Z,github,eia860,eia860m_planned_generators,monthly,ok,vintage 2026-08
+20260928T233749Z,github,eia860,eia860m_retired_generators,monthly,ok,vintage 2026-08
+20260928T233903Z,github,iso_queues,caiso_interconnection_queue,queue,ok,
+20260928T233903Z,github,iso_queues,ercot_interconnection_queue,queue,ok,
+20260928T233903Z,github,iso_queues,isone_interconnection_queue,queue,ok,
+20260928T233903Z,github,iso_queues,miso_interconnection_queue,queue,ok,
+20260928T233903Z,github,iso_queues,nyiso_interconnection_queue,queue,failed,RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Response [202]>')
+20260928T233903Z,github,iso_queues,spp_interconnection_queue,queue,ok,
+20260928T234003Z,github,ercot_large_load,ercot_large_load_queue,large_load,failed,"iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a status report or queue (forms, FAQs, exhibits). Protocol 3.2.7 (NPRR1267) requires the monthly status report to aggregate requests; its number"
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:aws,ok,7 facilities
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:azure,ok,19 facilities
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:google,ok,52 facilities
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:meta,ok,28 facilities
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:oracle,ok,4 facilities
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:digital_realty,ok,74 facilities
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:equinix,ok,73 facilities
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:vantage,ok,13 facilities
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:switch,ok,5 facilities
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:QTS,skipped,"the site redirects to q.com, which answers HTTP 503 to a plain request; no list could be read"
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:CoreWeave,skipped,"the region list is behind a login; the public page names only example region codes, no places"
+20260928T234004Z,github,datacenter_operators,datacenter_operator_sites,operator:Crusoe,skipped,"the page states fleet totals only (gigawatts, square feet, acres), no list of sites"
+20260928T234308Z,github,energy_projects,energy_projects,,ok,absent: nyiso_interconnection_queue; 43677 rows; operating point 28605; planned point 2316; queue county 11788; queue none 968
+20260928T234310Z,github,news_ingest,news_stories,feed:Utility Dive,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Canary Media,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Latitude Media,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Heatmap News,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:POWER Magazine,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:pv magazine USA,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Energy-Storage.news,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:T&D World,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:World Nuclear News,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:ANS Nuclear Newswire,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Hydrogen Insight,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Electrek,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:OilPrice.com,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Rigzone,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:World Oil,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Hart Energy,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:JPT (SPE),ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Natural Gas Intelligence,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:LNG Prime,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Data Center Dynamics,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Data Center Frontier,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Data Center Knowledge,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:EIA Today in Energy,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:EIA This Week in Petroleum,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:FERC news,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:NRC news,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:DOE newsroom,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:EPA news,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:OPEC press releases,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:IEA news,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:ERCOT newsroom,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:CAISO newsroom,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:NYISO newsroom,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:MISO newsroom,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:SPP newsroom,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:ISO-NE newsroom,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:PJM newsroom,failed,"RuntimeError(""feed PJM newsroom failed after 3 attempts: RuntimeError('HTTP 202')"")"
+20260928T234310Z,github,news_ingest,news_stories,feed:Texas PUC news,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:CPUC news,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:CTVC,ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Reuters energy (via Google News),ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:Bloomberg energy (via Google News),ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:WSJ energy (via Google News),ok,
+20260928T234310Z,github,news_ingest,news_stories,feed:FT energy (via Google News),ok,
+20260928T234310Z,github,news_ingest,news_stories,stories,ok,95 new stories
+20260928T234350Z,github,news_score,news_stories,scoring,ok,"model claude-sonnet-5-5; calls 4 (0 failed); stories scored 95 of 95; tokens input 82424, output 14349, cache write 1901, cache read 5703; cost USD 0.3142; duplicate links rejected 0; clusters 7969 among 8725 scored stories; temperature not accepted by model"
+20260928T234513Z,github,policy_sources,policy_actions,federalregister,ok,1584 rows
+20260928T234513Z,github,policy_sources,policy_actions,nrc,ok,159 rows
+20260928T234513Z,github,policy_sources,policy_actions,doe,ok,10 rows
+20260928T234513Z,github,policy_sources,policy_actions,puct,ok,36 rows
+20260928T234513Z,github,policy_sources,policy_actions,cpuc,ok,35 rows
+20260928T234559Z,github,policy_score,policy_actions,score,ok,"0 newly scored, 1819 of 1819 scored; 227 at significance 5 or more; cost USD 0.0000"
+20260928T234601Z,github,policy_reads,policy_reads,reads,ok,"0 actions read (0 with all 5 fields kept); cost USD 0.0000 for the reads kept, USD 0.0000 for every call"
+20260928T234603Z,github,deals,energy_deals,extract,ok,model claude-sonnet-5-5; calls 1 (0 failed); stories checked 8; deals in table 372; evidence rows 0; numbers or fields not kept 0; tokens in 14697 out 236 cache write 2580 cache read 0; cost USD 0.0382
+20260928T234607Z,github,companies_from_deals,energy_companies,deals,ok,"284 rows before (19 with a description), 413 after (19 with a description, 4.6%); 394 deal-only rows, 1 deal parties merged into researched rows"
+20260928T234609Z,github,datacenters,datacenter_projects,extract,ok,model claude-sonnet-5-5; calls 1 (0 failed); stories checked 3; facilities in table 63; evidence rows 0; fields not kept 0; tokens in 3251 out 98 cache write 2029 cache read 0; cost USD 0.0126
+20260928T234613Z,github,datacenter_facilities,datacenter_facilities,all,ok,"340 facilities, 19 with MW"
+20260928T235155Z,github,news_funfact,funfact,bank,ok,"2026-09-28: ff_0a4beec9ca (none); bank +1, 2 model calls, cost USD 0.0143"
+20260928T235202Z,github,news_brief,digest,brief,ok,"top 10 with a number 4 of 10 (2 with a scored figure); 393 stories, 357 clusters, 2 call(s), tokens in 6462 out 1759, cost USD 0.0305 + summary USD 0.0073"
+20260928T235217Z,github,news_email,email,daily,ok,"2026-09-28: sent to 1 recipients (1 fixed, 0 subscribers)"
