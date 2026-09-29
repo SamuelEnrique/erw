@@ -1,6 +1,6 @@
 # ERW status
 
-Generated 2026-09-29 03:14 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-09-29 04:12 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
@@ -14,7 +14,7 @@ Newest table refresh: 2026-09-29 03:01:41 UTC. Validator: 113 of 113 tables pass
 
 ## Health gate
 
-**Closed.** The latest daily run on GitHub (2026-09-28) has 2 failed tables outside the known-gap list below: `carb_auction_allowance_prices`, `nyiso_interconnection_queue`. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
+**Open.** The latest daily run on GitHub (2026-09-28) has 0 failed tables outside the known-gap list below. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
 
 ### Known gaps
 
@@ -23,6 +23,8 @@ Failures a human has accepted for now (`warehouse/metadata/known_gaps.csv`, edit
 | Table | Why | Since | Decided |
 |---|---|---|---|
 | `ercot_large_load_queue` | ERCOT publishes no request-level large-load list (Protocol 3.2.7 requires only an aggregate monthly report); the connector watches the page and fails loudly until one appears | 2026-09-27 | session 17 design; listed as a known gap in session 28 |
+| `carb_auction_allowance_prices` | CARB's auction summary PDF answers GitHub runners with HTTP 202 and no body on every run since 2026-09-27; it downloads from a residential connection. Refreshed locally: docs/runbook.md, "CARB auction prices" | 2026-09-27 | session 29 ruling (prompt, Part A 1) |
+| `nyiso_interconnection_queue` | NYISO's queue workbook answers GitHub runners with HTTP 202 and no body on every run since 2026-09-27; it downloads from a residential connection. Refreshed locally: docs/runbook.md, "NYISO interconnection queue" | 2026-09-27 | session 29 ruling (prompt, Part A 1) |
 
 ## Last runs
 

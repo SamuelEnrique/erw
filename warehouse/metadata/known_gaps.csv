@@ -1,2 +1,4 @@
 table,reason,since,decided
 ercot_large_load_queue,"ERCOT publishes no request-level large-load list (Protocol 3.2.7 requires only an aggregate monthly report); the connector watches the page and fails loudly until one appears",2026-09-27,"session 17 design; listed as a known gap in session 28"
+carb_auction_allowance_prices,"CARB's auction summary PDF answers GitHub runners with HTTP 202 and no body on every run since 2026-09-27; it downloads from a residential connection. Refreshed locally: docs/runbook.md, ""CARB auction prices""",2026-09-27,"session 29 ruling (prompt, Part A 1)"
+nyiso_interconnection_queue,"NYISO's queue workbook answers GitHub runners with HTTP 202 and no body on every run since 2026-09-27; it downloads from a residential connection. Refreshed locally: docs/runbook.md, ""NYISO interconnection queue""",2026-09-27,"session 29 ruling (prompt, Part A 1)"
