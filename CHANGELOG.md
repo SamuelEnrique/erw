@@ -2,6 +2,21 @@
 
 Energy Research Warehouse (ERW). Changes a user of the tables, the `erw` package or the site needs to know about, newest first. What a session did and why is in its report, `archive/sessions/SESSION_*_REPORT.md`.
 
+## 2026-09-29, session 31: battery storage
+
+**Three new public tables,** behind the site's new `/storage` (method `docs/methods/storage.md`):
+
+| Table | Tier | What |
+|---|---|---|
+| `eia930_all_storage` | source | EIA-930 hourly battery net generation (fuel type BAT), MW, positive discharging; `ba` = erco, isne, miso, swpp, us48, from each series' start (November 2024 for three of them) |
+| `storage_daily_cycle` | derived | Per BA and complete local day: MWh discharged and charged, the hours of peak discharge and charge, energy out over energy in |
+| `storage_capacity` | derived | Every battery unit in the ERW's EIA-860M tables: operating, under construction, planned, retired |
+
+**Also:**
+
+- The unit `hour` (an hour of the day) joins the vocabulary (`docs/datastandard.md`, Decision 29).
+- **Not in the warehouse: EIA-930 CO2 emissions.** EIA publishes no hourly emissions series in its API v2 or its EIA-930 bulk files, so none was pulled.
+
 ## 2026-09-29, session 30: price board v2 and the cost layer
 
 **Four new derived tables, public,** behind the site's new `/board` (method `docs/methods/price_board.md`):
