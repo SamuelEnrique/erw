@@ -18,3 +18,4 @@ redivis>=0.20
 supabase>=2.31
 psycopg[binary]>=3.3   # warehouse/supabase/apply.py with SUPABASE_DB_URL
 matplotlib>=3.9      # Automated Analysis charts, email and social PNGs (session 23)
+pytest>=8.0          # the erw package tests, a required step of the daily workflow (session 29)

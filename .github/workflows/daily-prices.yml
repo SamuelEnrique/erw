@@ -266,6 +266,16 @@ jobs:
             gh issue create --title "$title" --body-file streak_issue.md
           done < runs/failure_streaks_github.txt
 
+      - name: Package tests (erw client against this run's tables)
+        # Session 29 ruling (prompt, Part A 4): the erw package tests are a required step. They run last, on the
+        # tables this run produced, so a failure fails the job after the day's metadata is committed. Tables the
+        # runner never holds (the ERCOT yearly history, the peak premium computed from it) are skipped by the tests.
+        # No package test calls the Anthropic API; one that ever does must skip where ANTHROPIC_API_KEY is unset.
+        run: |
+          set -euo pipefail
+          python -m pip install -e package
+          ANTHROPIC_API_KEY= python -m pytest -q package/tests/test_erw.py -p no:cacheprovider
+
       - name: Report a failure
         if: failure()
         env:
