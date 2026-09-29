@@ -226,22 +226,32 @@ def read(path):
     """Return (header comment lines, frame of strings). Raise BadInput."""
     if not os.path.isfile(path):
         raise BadInput(f"no such file: {path}")
+    # session 29: the comment lines are read one by one, not the whole file as text first (the consolidated
+    # ERCOT history is 0.65 GB; its lines as strings cost about as much again as the frame). A byte that is
+    # not UTF-8 after the header still fails, in the CSV parse below.
+    header, first = [], None
     try:
         with open(path, encoding="utf-8") as f:
-            lines = f.read().splitlines()
+            for line in f:
+                line = line.rstrip("\r\n")
+                if line.startswith("#"):
+                    header.append(line)
+                    continue
+                first = line
+                break
     except UnicodeDecodeError as exc:
         raise BadInput(f"not UTF-8: {exc}")
-    n = 0
-    while n < len(lines) and lines[n].startswith("#"):
-        n += 1
-    if n == len(lines) or not lines[n].strip():
+    n = len(header)
+    if first is None or not first.strip():
         raise BadInput("no header row after the comment lines")
     try:
         df = pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False,
                          na_values=[], encoding="utf-8")
+    except UnicodeDecodeError as exc:
+        raise BadInput(f"not UTF-8: {exc}")
     except Exception as exc:
         raise BadInput(f"cannot parse as CSV: {exc}")
-    return lines[:n], df
+    return header, df
 
 
 def examples(values, k=5):
