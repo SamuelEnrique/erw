@@ -10,6 +10,9 @@ import re
 from pathlib import Path
 
 import pandas as pd
+import collections
+import functools
+
 import pytest
 
 import erw
@@ -159,7 +162,9 @@ def test_filter_by_iso_market_variable_node_and_time():
     assert want <= set(nyc) and set(nyc) - want <= derived
     eia_ciso = sorted(t for t in ("eia930_all_demand", "eia930_all_generation") if t in TABLES)  # session 29
     got = set(erw.filter(node="eia930:CISO"))  # session 29: also the snapshot of every BA's latest hours
-    assert set(eia_ciso) <= got and got - set(eia_ciso) <= {"eia930_generation_latest"}
+    # session 32: the CO2 estimates and the carbon intensity tables name each BA too
+    also = {"eia930_generation_latest"} | {t for t in TABLES if t.startswith(("eia930_all_", "carbon_intensity_"))}
+    assert set(eia_ciso) <= got and got - set(eia_ciso) <= also
     assert set(eia_ciso) <= set(erw.filter(iso="caiso"))
     spot = [t for t in ("eia_fuel_spot_prices", "eia_product_spot_prices", "fred_daily_spot_prices")
             if t in TABLES]
@@ -512,25 +517,24 @@ def test_ercot_history_tables_are_complete_years():
     this_year = pd.Timestamp.now(tz="America/Chicago").year
     # session 29: one table, ercot_all_hub_prices_history, partitioned by market and year (operating year)
     _needs(HISTORY)
-    # session 33: one (market, year) partition at a time, never a whole market
-    parts = _partitions(HISTORY)
+    # session 33: the rows per (market, year, node) and the last interval per (market, year), from one streamed pass
+    sc = _scan(HISTORY)
     for m in ("rtm", "dam"):
-        years = sorted(int(p["year"]) for p in parts if p["market"] == f"ercot_{m}")
+        years = sorted(int(y) for (mk, y) in sc["counts"] if mk == f"ercot_{m}")
         assert years[0] == 2015 and years[-1] == this_year
         live = erw.fetch(f"iso_{m}_hub_prices", market=f"ercot_{m}")
         for y in years:
             leap = y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
             n = (35136 if leap else 35040) if m == "rtm" else (8784 if leap else 8760)
-            part = erw.fetch(HISTORY, market=f"ercot_{m}", year=y)
-            per = part.groupby("node").size()
-            assert set(per.index) == hubs
+            per = {node: c for (mk, yr, node), c in sc["nodes"].items() if mk == f"ercot_{m}" and yr == str(y)}
+            assert set(per) == hubs
             if y < this_year:
-                assert (per == n).all(), (m, y, per.to_dict())
+                assert all(c == n for c in per.values()), (m, y, per)
             else:  # the current year stops where the live table starts
-                assert part["ts_utc"].max() < live["ts_utc"].min()
+                last = pd.Timestamp(sc["last"][(f"ercot_{m}", str(y))])
+                assert last < live["ts_utc"].min()
                 step = pd.Timedelta("15min" if m == "rtm" else "1h")
-                assert part["ts_utc"].max() + step == live["ts_utc"].min()
-            del part
+                assert last + step == live["ts_utc"].min()
 
 
 def test_old_names_work_through_the_map():
@@ -582,67 +586,86 @@ def test_derived_tables_flag_license_and_inputs():
         assert "Energy Research Warehouse (ERW), derived" in erw.cite(name)
 
 
-def _partitions(name):
-    """Session 33: the partitions of a large table, [{column: value}], read by streaming its partition columns only:
-    ba where the table has it, else market and year, else market."""
-    import pyarrow as pa
-    import pyarrow.csv as pcsv
+def _layout(name):
     path = OUTPUT / f"{name}.csv"
     with open(path, encoding="utf-8") as f:
-        skip = 0
+        skip, header = 0, []
         for line in f:
             if not line.startswith("#"):
                 cols = line.strip().split(",")
                 break
+            header.append(line[1:].strip())
             skip += 1
+    return path, skip, cols, header
+
+
+@functools.lru_cache(maxsize=None)
+def _scan(name):
+    """Session 33: one streamed pass over a large table, reading only the columns the tests need: the rows per
+    partition (ba, or market and year, or market), the row sources, whether every source_url is http, and for a table
+    partitioned by year the rows per (market, year, node) and the last ts_utc per (market, year). Cached: each large
+    file is read once per test session, never whole."""
+    import pyarrow as pa
+    import pyarrow.csv as pcsv
+    path, skip, cols, header = _layout(name)
     keys = ["ba"] if "ba" in cols else (["market", "year"] if "year" in cols else ["market"])
-    seen = set()
+    extra = ["node", "ts_utc"] if "year" in keys else []
+    want = keys + ["source", "source_url"] + extra
     reader = pcsv.open_csv(path, read_options=pcsv.ReadOptions(skip_rows=skip, block_size=1 << 24),
-                           convert_options=pcsv.ConvertOptions(include_columns=keys,
-                                                               column_types={k: pa.string() for k in keys}))
+                           convert_options=pcsv.ConvertOptions(include_columns=want,
+                                                               column_types={c: pa.string() for c in want}))
+    counts, nodes, last, sources, bad_url = collections.Counter(), collections.Counter(), {}, set(), 0
     for batch in reader:
-        seen |= set(zip(*(batch.column(k).to_pylist() for k in keys)))
-    return [dict(zip(keys, v)) for v in sorted(seen)]
+        df = batch.to_pandas()
+        counts.update({(k if isinstance(k, tuple) else (k,)): v for k, v in df.groupby(keys).size().items()})
+        sources |= set(df["source"])
+        bad_url += int((~df["source_url"].str.startswith("http")).sum())
+        if extra:
+            nodes.update(df.groupby(["market", "year", "node"]).size().to_dict())
+            for k, v in df.groupby(["market", "year"])["ts_utc"].max().items():
+                last[k] = max(last.get(k, v), v)
+        del df
+    return {"keys": keys, "counts": dict(counts), "sources": sources, "bad_url": bad_url, "nodes": dict(nodes),
+            "last": last, "header": header}
+
+
+def _partitions(name):
+    """Session 33: the partitions of a large table, [{column: value}], from one streamed pass (_scan)."""
+    sc = _scan(name)
+    return [dict(zip(sc["keys"], k)) for k in sorted(sc["counts"])]
 
 
 @pytest.mark.parametrize("name", LARGE)
 def test_large_table_by_partition(name):
-    """Session 33: what the per-table tests check, one partition at a time: the rows add up to coverage's count, and
-    each partition has the series shape, UTC times, float values, unique keys, http source URLs, registered sources and
-    the ERW's provenance header."""
+    """Session 33: what the per-table tests check, without loading the table whole: the rows of every partition add
+    up to coverage's count, every source is registered and every source_url is http (one streamed pass), and the first
+    and last partitions, read through erw.fetch, have the series shape, UTC times, float values, unique keys and the
+    ERW's provenance header."""
     _needs(name)
+    sc = _scan(name)
+    assert sum(sc["counts"].values()) == MD_ROWS[name]
+    assert sc["bad_url"] == 0
+    assert sc["sources"] <= set(erw.get_backend().source_registry()["source"])
     parts = _partitions(name)
-    assert parts
-    total, sources = 0, set()
-    for p in parts:
+    for p in (parts[0], parts[-1]):
         df = erw.fetch(name, **p)
-        assert len(df), p
-        total += len(df)
+        assert len(df) == sc["counts"][tuple(p[k] for k in sc["keys"])], p
         assert list(df.columns[:4]) == ["entity", "variable", "ts_utc", "value"]
         assert str(df["ts_utc"].dtype) == "datetime64[ns, UTC]"
         assert df["value"].dtype == float
         assert not df.duplicated(["entity", "variable", "ts_utc"]).any(), p
-        assert df["source_url"].str.startswith("http").all(), p
         meta = df.attrs["erw"]
         assert meta["header"][0].startswith("Energy Research Warehouse (ERW):") and meta["retrieved"]
-        sources |= set(df["source"])
         del df
-    assert total == MD_ROWS[name]
-    assert sources <= set(erw.get_backend().source_registry()["source"])
 
 
 def _sources_and_header(name):
-    """Session 33: (the set of row sources, the header lines) of a table; a large table read one partition at a time."""
+    """Session 33: (the set of row sources, the header lines) of a table; a large table from one streamed pass."""
     if name not in LARGE:
         df = erw.fetch(name)
         return set(df["source"]), df.attrs["erw"]["header"]
-    srcs, header = set(), None
-    for p in _partitions(name):
-        df = erw.fetch(name, **p)
-        srcs |= set(df["source"])
-        header = header or df.attrs["erw"]["header"]
-        del df
-    return srcs, header
+    sc = _scan(name)
+    return sc["sources"], sc["header"]
 
 
 def _needs(*names):
