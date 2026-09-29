@@ -59,6 +59,9 @@ SEARCH_USD = 10 / 1000
 # MAX_SPANS cited passages per web source, of at most SPAN_CHARS characters, in the structure prompt (the number
 # check still reads every passage); and the sheets written in one streamed call instead of one call each.
 MAX_RETRIES = 1
+# the sheets per structure call (session 30): one schema of all eight is refused by the API as too large a grammar
+# (checked 2026-09-29 with max_tokens=1 calls: {scope, fundamentals, trends, landscape} is refused; these two are accepted)
+GROUPS = [["scope", "fundamentals", "trends"], ["landscape", "capital", "incumbents", "risks", "policy"]]
 MAX_SPANS = 3
 SPAN_CHARS = 300
 NAME = "energy_companies"
@@ -180,6 +183,25 @@ class Researcher:
         if resp.stop_reason != "end_turn":
             raise RuntimeError(f"{what}: stop_reason {resp.stop_reason}")
         return json.loads(next(b.text for b in resp.content if b.type == "text"))
+
+    def structure_groups(self, what, keys, extra, notes):
+        """Session 30 (B5): the sheets in as few calls as the API accepts. One schema holding all eight sheets is
+        refused (HTTP 400, "the compiled grammar is too large"), so the sheets go in groups (GROUPS), and a group the
+        API still refuses is halved until it is accepted. A refused request is not billed."""
+        import anthropic
+        out, todo = {}, [g for g in GROUPS if any(k in keys for k in g)]
+        todo = [[k for k in g if k in keys] for g in todo]
+        while todo:
+            g = todo.pop(0)
+            try:
+                out.update(self.structure_all(f"{what} ({', '.join(g)})", g, extra, notes))
+            except anthropic.BadRequestError as exc:
+                if "grammar is too large" not in str(exc) or len(g) == 1:
+                    raise
+                h = len(g) // 2
+                self.log(f"  structure: the schema of {g} is too large for the API; halving")
+                todo[:0] = [g[:h], g[h:]]
+        return out
 
     def structure_all(self, what, keys, extra, notes):
         """Session 30 (B5): every sheet in one streamed call, one JSON object with a property per sheet, from the notes
@@ -614,6 +636,8 @@ def main(argv=None):
     ap.add_argument("--max-usd", type=float, default=6.0)
     ap.add_argument("--searches", type=int, default=12, help="web searches per research pass (at most)")
     ap.add_argument("--resume", help="a saved state (warehouse/output/thesis_state/*.json): write the workbook without new calls")
+    ap.add_argument("--resume-research", help="session 30: a saved research state (thesis_state/*_research.json): run the "
+                    "structure step on it without researching again")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -635,25 +659,38 @@ def main(argv=None):
             r = Researcher(log, args.max_usd)
             log(f"niche {args.niche!r}; stage {args.stage or 'any'}; geography {args.geography or 'any'}; model {r.model}")
             sysm = base_system(args.niche, args.stage, args.geography)
-            notes_a = r.research("research: scope, fundamentals, trends", sysm, (
-                "Research (1) what this niche is exactly, its value chain from input to customer, and the adjacent niches an "
-                "investor should keep out of scope; (2) the framing numbers: market size, installed base, costs, prices, "
-                "volumes, with the warehouse first (its tables: prices, generation by fuel and state, the generator inventory, "
-                "interconnection queues, curtailment, batteries, deals, policy actions); (3) three to five trends, each with "
-                "the numbers behind it, preferring a warehouse table where one exists. Write notes: one fact per sentence, "
-                "cited."), args.searches)
-            notes_b = r.research("research: companies, capital, incumbents", sysm, (
-                "Research every company working in this niche (startups and scale-ups first): name, website, what it does in "
-                "one line, founders, stage, amount raised, location, and the signal that surfaced it (a round, a grant, a "
-                "pilot, a customer, a patent). Then the capital: venture rounds, grants, project finance and M&A in the "
-                "niche with dates, amounts and investors (check the warehouse table energy_deals too). Then the incumbents "
-                "and public comparables, with the one metric that matters for each. Prefer primary sources (the company, "
-                "the investor, a filing). Write notes: one fact per sentence, cited."), args.searches + 6)
-            notes_c = r.research("research: risks", sysm, (
-                "Research what could break an investment thesis in this niche: technical, market, regulatory and financing "
-                "risks, and what is not known yet. Cite each. Write notes: one fact per sentence, cited."),
-                max(4, args.searches // 2), erw_tools=False)
-            notes = f"{notes_a}\n\n{notes_b}\n\n{notes_c}"
+            if args.resume_research:  # session 30: the saved research; only the structure step calls the model
+                rs = json.load(open(args.resume_research, encoding="utf-8"))
+                r.sources, r.erw, notes = rs["sources"], rs["erw"], rs["notes"]
+                r.cost, r.calls, r.searches = rs["cost"], rs["calls"], rs["searches"]
+                log(f"research resumed from {args.resume_research}: {r.calls} calls, USD {r.cost:.4f} (no new call)")
+            else:
+                notes_a = r.research("research: scope, fundamentals, trends", sysm, (
+                    "Research (1) what this niche is exactly, its value chain from input to customer, and the adjacent niches an "
+                    "investor should keep out of scope; (2) the framing numbers: market size, installed base, costs, prices, "
+                    "volumes, with the warehouse first (its tables: prices, generation by fuel and state, the generator inventory, "
+                    "interconnection queues, curtailment, batteries, deals, policy actions); (3) three to five trends, each with "
+                    "the numbers behind it, preferring a warehouse table where one exists. Write notes: one fact per sentence, "
+                    "cited."), args.searches)
+                notes_b = r.research("research: companies, capital, incumbents", sysm, (
+                    "Research every company working in this niche (startups and scale-ups first): name, website, what it does in "
+                    "one line, founders, stage, amount raised, location, and the signal that surfaced it (a round, a grant, a "
+                    "pilot, a customer, a patent). Then the capital: venture rounds, grants, project finance and M&A in the "
+                    "niche with dates, amounts and investors (check the warehouse table energy_deals too). Then the incumbents "
+                    "and public comparables, with the one metric that matters for each. Prefer primary sources (the company, "
+                    "the investor, a filing). Write notes: one fact per sentence, cited."), args.searches + 6)
+                notes_c = r.research("research: risks", sysm, (
+                    "Research what could break an investment thesis in this niche: technical, market, regulatory and financing "
+                    "risks, and what is not known yet. Cite each. Write notes: one fact per sentence, cited."),
+                    max(4, args.searches // 2), erw_tools=False)
+                notes = f"{notes_a}\n\n{notes_b}\n\n{notes_c}"
+                # session 30: the research is saved before the structure step, so a failure there never loses it
+                research_path = os.path.join(ip.OUT_DIR, "thesis_state", f"{slug}_{run_id}_research.json")
+                os.makedirs(os.path.dirname(research_path), exist_ok=True)
+                json.dump({"niche": args.niche, "model": r.model, "cost": r.cost, "calls": r.calls, "searches": r.searches,
+                           "sources": r.sources, "erw": r.erw, "notes": notes}, open(research_path, "w", encoding="utf-8"),
+                          default=str)
+                log(f"research saved: {os.path.relpath(research_path, ROOT)}")
             words = [w for w in re.findall(r"[a-z]{5,}", args.niche.lower()) if w not in {"merchant", "operators", "software", "mapping"}]
             pol = policy_candidates(words or [args.niche])
             # session 30 (B5): the sheets in one call (structure_all), the policy sheet with them when there are candidates
@@ -665,8 +702,8 @@ def main(argv=None):
                 keys.append("policy")
                 extra += (" For the policy sheet, pick from these candidate policy actions (the ERW table policy_actions) "
                           "only those that bear on the niche, by event_id.\n\nCandidate policy actions:\n" + cand)
-            sheets = r.structure_all("structure: all sheets", keys, extra, notes)
-            log(f"  structured in one call: {', '.join(keys)}")
+            sheets = r.structure_groups("structure", keys, extra, notes)
+            log(f"  structured: {', '.join(keys)}")
             if "policy" not in sheets:
                 sheets["policy"] = {"fact": "", "actions": []}
 
