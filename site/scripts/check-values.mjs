@@ -166,6 +166,27 @@ const HUB = {
   NYISO: ["nyiso_dam_zone_prices", "America/New_York"], MISO: ["miso_dam_hub_prices", "Etc/GMT+5"],
   SPP: ["spp_dam_hub_prices", "America/Chicago"], "ISO-NE": ["isone_dam_zone_prices", "America/New_York"],
 };
+// Session 29: a table consolidated into another (warehouse/metadata/table_migrations.csv) is read from its new
+// table, filtered to its partition (market, or ba through the entity). A published Roundup names tables as they were.
+const MIGRATED = (() => {
+  const f = path.join(here, "..", "..", "warehouse", "metadata", "table_migrations.csv");
+  if (!fs.existsSync(f)) return {};
+  const out = {};
+  for (const line of fs.readFileSync(f, "utf-8").split(/\r?\n/).slice(1)) {
+    const [old, neu, part] = line.split(",");
+    if (old) out[old] = [neu, Object.fromEntries(part.split(";").map((kv) => kv.split("=")))];
+  }
+  return out;
+})();
+function current(table, filters) {
+  const m = MIGRATED[table];
+  if (!m) return [table, filters];
+  const [neu, part] = m;
+  const f = { ...filters };
+  if (part.market) f.market = `eq.${part.market}`;
+  if (part.ba) f.entity = `eq.eia930:${part.ba.toUpperCase()}`;
+  return [neu, f];
+}
 const FUEL = { "Henry Hub natural gas": "eia:henry_hub", "WTI Cushing crude": "eia:wti_cushing", "Brent crude": "eia:brent" };
 
 function tzOffsetMs(utcMs, tz) {
@@ -205,8 +226,8 @@ async function checkWeekly(lines) {
         const d0 = new Date(mon.getTime() - back * 864e5);
         const s0 = localMidnight(d0.getUTCFullYear(), d0.getUTCMonth(), d0.getUTCDate(), tz);
         const s1 = localMidnight(d0.getUTCFullYear(), d0.getUTCMonth(), d0.getUTCDate() + 7, tz);
-        const rows = await all("series", { select: "value", table_name: `eq.${table}`, node: `eq.${c[1]}`,
-          and: `(ts_utc.gte.${s0.toISOString()},ts_utc.lt.${s1.toISOString()})`, order: "ts_utc" });
+        const [t, f] = current(table, { node: `eq.${c[1]}`, and: `(ts_utc.gte.${s0.toISOString()},ts_utc.lt.${s1.toISOString()})` });
+        const rows = await all("series", { select: "value", table_name: `eq.${t}`, ...f, order: "ts_utc" });
         const hours = (s1 - s0) / 36e5;
         // exact: prices summed as integers of millionths, the mean rounded half up to cents (as brief.mean2)
         const micro = rows.reduce((a, r) => a + Math.round(r.value * 1e6), 0);
@@ -232,15 +253,16 @@ async function checkWeekly(lines) {
   const m0 = text.match(/Highest real-time price of the week:\s*([\d,.]+) USD\/MWh at (.+?) \([A-Z-]+\), interval starting .*?\((\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC\), (\w+) \[(\d+)\]/);
   const rt = m0 ? [m0[0], m0[1], m0[2], m0[3], m0[4], foot[m0[5]]] : null;
   if (rt && rt[5]) {
-    const r = (await q("series", { select: "value", table_name: `eq.${rt[5]}`, node: `eq.${rt[2]}`, variable: `eq.${rt[4]}`,
-      ts_utc: `eq.${rt[3].replace(" ", "T")}:00Z` }))[0];
+    const [t, f] = current(rt[5], { node: `eq.${rt[2]}`, variable: `eq.${rt[4]}`, ts_utc: `eq.${rt[3].replace(" ", "T")}:00Z` });
+    const r = (await q("series", { select: "value", table_name: `eq.${t}`, ...f }))[0];
     report(r && r.value.toFixed(2) === rt[1], `rt_peak|${rt[5]}|${rt[2]}|${rt[3]}`, rt[1], r ? r.value.toFixed(2) : "absent");
   }
   const pk = text.match(/US48 peak demand of the week:\s*([\d,]+) MW in the hour starting (\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC.*?to (\d{4}-\d{2}-\d{2} \d{2}:\d{2}) UTC/);
   if (pk) {
     const to = new Date(pk[3].replace(" ", "T") + ":00Z");
-    const rows = await all("series", { select: "value,ts_utc", table_name: "eq.eia930_us48_demand", variable: "eq.demand_mw",
-      and: `(ts_utc.gte.${mon.toISOString()},ts_utc.lte.${to.toISOString()})`, order: "ts_utc" });
+    const [t, f] = current("eia930_us48_demand", { variable: "eq.demand_mw",
+      and: `(ts_utc.gte.${mon.toISOString()},ts_utc.lte.${to.toISOString()})` });
+    const rows = await all("series", { select: "value,ts_utc", table_name: `eq.${t}`, ...f, order: "ts_utc" });
     const top = rows.reduce((a, r) => (a === null || r.value > a.value ? r : a), null);
     const truth = top ? `${Math.round(top.value).toLocaleString("en-US")} at ${new Date(top.ts_utc).toISOString().slice(0, 16).replace("T", " ")}` : "absent";
     report(truth === `${pk[1]} at ${pk[2]}`, "us48_peak_week", `${pk[1]} at ${pk[2]}`, truth);
