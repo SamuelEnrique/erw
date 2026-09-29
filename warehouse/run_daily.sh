@@ -225,6 +225,10 @@ else
   echo "stopping: consolidate.py build failed (runs/daily_consolidate.out)"
   exit 1
 fi
+# Session 30 (Part A): price board v2, four derived tables from the consolidated price tables, the EIA fuels and the
+# carbon auctions (docs/methods/price_board.md). On the runner, the rows built from the ERCOT history (never restored)
+# and from CARB (a known gap there) are carried from the last run's tables, restored from the draft, and said so
+run_other price_board "$PYTHON" warehouse/derived/price_board.py
 
 echo "== connector status"
 cat "$status"

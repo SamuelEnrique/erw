@@ -55,6 +55,8 @@ restore_before_run:
   # session 30: the API cost ledger and the shadow scores grow by merging (internal; restored from the internal draft)
   - '^api_cost_ledger$'
   - '^news_scores_shadow$'
+  # session 30: price board v2 carries the rows it cannot rebuild on the runner (the ERCOT history's, CARB's)
+  - '^price_board_(peak_offpeak|spreads|carbon)$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.
