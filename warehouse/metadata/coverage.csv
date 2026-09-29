@@ -55,7 +55,7 @@ isone_rtm_zone_prices_hourly,ISO-NE,isone_rtm,9,PT1H,2026-08-26T04:00:00Z,2026-0
 miso_interconnection_queue,MISO,,3870,snapshot,2026-09-26T00:06:51Z,2026-09-26T00:06:51Z,3870,miso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 news_index,none,,68,event,2025-01-01T08:00:00Z,2026-09-28T23:26:32Z,8725,68 outlets,2026-09-28T23:45:12Z,pass,public,news,no,model_extracted
 news_scores_shadow,none,,55,event,2026-08-31T07:00:00Z,2026-09-28T23:26:32Z,2375,55 outlets,2026-09-29T10:20:03Z,pass,internal,news,no,model_extracted
-news_stories,none,,70,event,2025-01-01T08:00:00Z,2026-09-28T23:26:32Z,13066,70 outlets,2026-09-28T23:43:10Z,pass,internal,news,no,model_extracted
+news_stories,none,,70,event,2025-01-01T08:00:00Z,2026-09-29T00:20:13Z,13113,70 outlets,2026-09-28T23:43:10Z,pass,internal,news,no,model_extracted
 nyiso_dam_zone_prices,NYISO,nyiso_dam,11,PT1H,2026-08-26T04:00:00Z,2026-09-30T03:00:00Z,9240,nyiso:damlbmp,2026-09-29T00:44:57Z,pass,public,power,no,source
 nyiso_interconnection_queue,NYISO,,1814,snapshot,2026-09-26T00:06:50Z,2026-09-26T00:06:50Z,1814,nyiso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 nyiso_rtm_zone_prices,NYISO,nyiso_rtm,11,PT15M,2026-08-26T04:00:00Z,2026-09-28T03:45:00Z,34848,nyiso:realtime,2026-09-29T00:44:57Z,pass,public,power,no,source
