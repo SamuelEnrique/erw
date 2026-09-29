@@ -1,0 +1,56 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Drake Well
+# url: https://en.wikipedia.org/wiki/Drake_Well
+# revision: 1373110844
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20260928T235157Z
+
+The Drake Well is a 69.5-foot-deep (21.2 m) oil well in Cherrytree Township, Pennsylvania, the success of which sparked the first oil boom in the United States. The well is the centerpiece of the Drake Well Museum located 3 miles (5 km) south of Titusville.
+Drilled by Edwin Drake in 1859, along the banks of Oil Creek, it is the first commercial oil well in the United States. Drake Well was listed on National Register of Historic Places and designated a National Historic Landmark in 1966. It was designated a Historic Mechanical Engineering Landmark in 1979. The well was designated a National Historic Chemical Landmark in 2009, on the sesquicentennial of the strike.
+The Drake Well is often referred to as the first commercial oil well, although that title is also claimed for wells in Azerbaijan, Ontario, West Virginia, Myanmar, Persia, Arabia, Sichuan and Poland.
+In the United States before the Drake Well, oil-producing wells were wells that were drilled for salt brine, and produced oil and gas only as accidental byproducts. An intended drinking water well at Oil Springs, Ontario found oil in 1858, a year before the Drake Well, but it had not been drilled for oil. Historians have noted that the importance of the Drake Well was not in being the first well to produce oil, but in attracting the first great wave of investment in oil drilling, refining, and marketing:
+
+The importance of the Drake Well was in the fact that it caused prompt additional drilling, thus establishing a supply of petroleum in sufficient quantity to support business enterprises of magnitude.
+
+
+== Location and geology ==
+The Drake Well is located in Cherrytree Township, Venango County in northwestern Pennsylvania situated on the flats 150 feet (46 m) from the east bank of Oil Creek. The site was originally on an artificial island formed by the creek and a mill race. On a floodplain, the well and the museum are protected by an earthen dike.
+Most of the oil produced in northwestern Pennsylvania was formed in sandstone reservoir rocks at the boundary between the Mississippian and Devonian rock layers. Over time, the oil migrated toward the surface, became trapped beneath an impervious layer of caprock, and formed a reservoir. The presence of upwards-curving folds in the caprock called anticlines, or sometimes an inversion of an anticline called a syncline, greatly varied the depth of the reservoirs, from around 4,000 feet (1,200 m) to just beneath the surface.
+
+
+== History ==
+Petroleum found along Oil Creek was known to Native Americans for hundreds of years through natural seeps. Europeans became aware of the existence of petroleum in the 1600s. At the time, this "mineral-oil" was used primarily for medicinal purposes and was reputed to cure many ailments, including rheumatism and arthritis. Around 1848, Samuel Kier realized the potential of the medicinal oil as an illuminant. Kier distilled the oil to make it more suitable in lamps by removing the odor and impurities that created soot when burned. A sample of oil was brought to Dartmouth College by Francis B. Brewer from the Watson, Brewer and Company Farm on Oil Creek around 1853. The sample was acquired by George Bissell who, along with Jonathan G. Eveleth purchased the farm for $5,000. Bissell and Eveleth took another sample of oil to Benjamin Silliman at Yale University in 1855 for further investigation. Silliman's report confirmed the quality of the petroleum and described the distillation processes needed to produce kerosene. The Pennsylvania Rock Oil Company was incorporated and the farm transferred to the company.
+
+
+=== Construction and operation ===
+
+Edwin Drake, a former conductor for the New York and New Haven Railroad, invested $200, his entire savings, into the Pennsylvania Rock Oil Company. Drake became more involved in the company and traveled to Titusville, Pennsylvania and the Brewer and Watson Farm in December 1857. His report prompted Bissell and Eveleth to organize the Seneca Oil Company in Connecticut in March 1858 and to place Drake in charge of producing petroleum. Because Drake decided that drilling in the manner of salt wells would yield more petroleum than conventional digging, he hired William A. Smith, a Tarentum, Pennsylvania, blacksmith and salt-well driller, to aid in the endeavor. An engine house and derrick were constructed, and Drake purchased a 6-horsepower (4.5 kW), horizontal steam engine. The steam engine was used to ram the drill through the soil until it reached bedrock 32 feet (10 m) down. After it was found that groundwater would cause the walls of the hole to collapse, Drake acquired 50 feet (20 m) of cast iron pipe to stabilize the hole. After reaching bedrock, Drake and Smith were able to drill at a rate of 3 feet (1 m) per day. Drake's colleagues back in Connecticut gave up on finding any oil by April 1859 and after spending $2,500, Drake took out a $500 loan to keep the operation going. The drill reached its maximum depth of 69.5 feet (21.2 m) on August 27, 1859. Smith visited the well the next day and found oil visible on top of the water 5 inches (13 cm) from the top of the well. The original structures at the well caught fire in October 1859 and were rebuilt by Drake a month later. The well produced 12 to 20 barrels (2 to 3 m3) a day, but, after the price of oil plummeted from the resulting boom, it was never profitable. The well stopped producing in 1861 and the Seneca Oil Company sold the property in 1864. The derrick was moved in 1876 to the Centennial Exposition in Philadelphia.
+
+
+=== Preservation ===
+
+The well remained abandoned until 1889, when David Emery of Titusville bought the site, erected a derrick and cleaned out the well. Emery was able to obtain a small quantity of petroleum from the well and attempted to sell it as souvenirs to raise funds "to perpetuate the site", but died before he was able to do so. His widow donated the 1 acre (0.40 ha) that included the well to the Canadohta Chapter of the Daughters of the American Revolution in 1913. The chapter erected a limestone boulder with a bronze plaque at the well in 1914 to commemorate the site. In 1931, the American Petroleum Institute donated $60,000 for the creation of a museum and library, as well as a dike to protect Drake Well from flooding by Oil Creek. The Institute stipulated that when the Commonwealth of Pennsylvania took ownership of the site during the Diamond Jubilee of Drake Well in 1934, it was to be made a state park. The Drake Well State Park remained under the control of the Department of Forestry and Waters, the precursor to the Pennsylvania Department of Conservation and Natural Resources, until 1943 when it was transferred along with the Cornwall Iron Furnace in Lebanon County to the Pennsylvania Historical Commission.
+Since at least the late-1890s, the only artifacts remaining from the original well were the drilling tools and drivepipe, much to the disappointment of visitors to Drake Well. In 1945, the Pennsylvania General Assembly appropriated $185,000 for the construction of a replica derrick and engine house, including pumping equipment. The "board-for-board replica" was duplicated from photographs of the well taken by John A. Mather from the 1860s. Drake Well was listed on National Register of Historic Places and designated a National Historic Landmark on November 13, 1966 by the National Park Service. It was designated a Historic Mechanical Engineering Landmark by the American Society of Mechanical Engineers in October 1979. Authentic reproductions of the steam engine and boiler were purchased in Erie and installed in 1986. The American Chemical Society designated the Drake Well a National Historic Chemical Landmark on August 27, 2009, the 150th anniversary of the strike.
+
+
+== Museum ==
+
+The Drake Well Museum encompasses 22 acres (9 ha) of land that surrounds the well. The museum was accredited by the American Alliance of Museums in 1983 and reaccredited in 1995.  The museum has a station on the Oil Creek and Titusville Railroad.
+
+
+== See also ==
+
+List of Historic Mechanical Engineering Landmarks
+List of National Historic Landmarks in Pennsylvania
+National Register of Historic Places listings in Venango County, Pennsylvania
+
+
+== References ==
+
+
+== Bibliography ==
+
+
+== External links ==
+
+Drake Well Museum

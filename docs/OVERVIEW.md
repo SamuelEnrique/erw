@@ -12,13 +12,13 @@ From `warehouse/metadata/coverage.csv` and `warehouse/metadata/sources.csv`:
 
 | | Tables | Rows |
 |---|---|---|
-| All tables | 113 | 4,812,284 |
-| Public (on the site and in the package) | 104 | 4,675,568 |
-| Internal (licensed for internal use only) | 9 | 136,716 |
+| All tables | 113 | 4,812,358 |
+| Public (on the site and in the package) | 104 | 4,675,663 |
+| Internal (licensed for internal use only) | 9 | 136,695 |
 | Derived by the ERW from other ERW tables | 11 | 145,263 |
 | Passing the validator | 113 of 113 | |
 
-Sources in the registry: 152: 83 data sources (74 public, 9 internal) and 69 news outlets (internal: titles and summaries are not republished).
+Sources in the registry: 153: 83 data sources (74 public, 9 internal) and 70 news outlets (internal: titles and summaries are not republished).
 
 ## The site
 
@@ -117,8 +117,8 @@ From `STATUS.md` (generated with coverage):
 |---|---|---|
 | `eia930_swpp_demand` | 20260929T005739Z | RuntimeError: incomplete data, no file written for eia930_swpp_demand: demand_forecast_mw: 53 of 72 hours (19 missing, 0 published as null; first missing ['2026 |
 | `eia_sector_energy_consumption_monthly` | 20260929T005932Z | RuntimeError: eia_sector_energy_consumption_monthly: newest date 2026-05-01 is 151 days old (limit 150); not writing a stale table |
-| `ercot_large_load_queue` | 20260928T204415Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
-| `nyiso_interconnection_queue` | 20260928T204313Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
+| `ercot_large_load_queue` | 20260928T234003Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
+| `nyiso_interconnection_queue` | 20260928T233903Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
 
 **Days a per-day connector could not write complete:** 29 recorded, 11 filled since, 18 open (per table and day in `STATUS.md`).
 

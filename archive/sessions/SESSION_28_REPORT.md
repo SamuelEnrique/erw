@@ -263,3 +263,34 @@ The run took 89 minutes, from 2026-09-29 00:40 to 02:09 UTC:
    - item 6's rights question on `energy_companies`, which comes from web search.
 7. **The first monthly release:** the first week of October, once `--fix` has run and the draft is clean?
 8. **The package tests** (`package/tests/test_erw.py`) have drifted from the warehouse. Should they be updated and added to the workflow?
+
+## Addendum: the package tests, and the merge before the push
+
+**Package tests** (`package/tests/`, run in full, 51 minutes): 483 passed, 23 failed.
+
+- **One failure was this session's.** `test_coverage_has_one_row_per_table_and_the_documented_columns` expected coverage without the new `tier` column. It is fixed and now passes, with the new tier test.
+- **The other 22 are older drift.** The tests are not in the workflow, so nothing caught them. None of their assertions involves the tier:
+  - `test_cite_names_the_iso_the_table_and_the_commit`, 11 cases: it expects an ISO publisher in the citation of derived and weather tables, and has no publisher entry for `weather` or `iso`.
+  - `test_entities_table_types_provenance_and_rules`, 5 cases: it expects every entities table to be in the power sector.
+  - `test_derived_tables_flag_license_and_inputs`: it expects only the peak-premium tables to be derived.
+  - `test_filter_by_iso_market_variable_node_and_time`: its expected ERCOT list predates the trader tables.
+  - `test_sector_filter` and `test_fetch_types_and_provenance[iso_rt_top_intervals]`: assumptions from before sessions 18 to 22.
+  - `test_backends` for `news_index` on Redivis, 2 cases: the draft holds a different number of rows than the local file.
+
+  Open question 8 stands.
+
+**The merge before the push.** A daily run on GitHub (commit `acd84cf`) finished while this session was open. It ran the code from before this session, with its model steps, so it:
+
+- scored and extracted the new stories;
+- uploaded the internal tables to the public draft again;
+- did not yet archive.
+
+I merged it as follows:
+
+- **Data tables:** its versions of `news_stories`, `news_index`, `datacenter_facilities`, `datacenter_queue_positions` and `energy_companies`. They carry the model's scores and extractions, which this session's run skipped. `seed_from_deals.py` was then rerun, so `energy_companies` has the ruling again: 354 rows, 59 parties left out.
+- **`run_status.csv`:** every line from both sides, 1,175 lines.
+- **The upload manifest:** the later upload of each table.
+- **`sources.csv`:** the union of both sides, 153 sources. That includes the `bloomberg.com` outlet the Supabase load had flagged, so that mismatch should clear on the next load.
+- **Coverage, STATUS and OVERVIEW:** regenerated.
+
+The changed tables pass the validator. The next archive run (the first on GitHub with this code) will archive the merged tables' new rows.

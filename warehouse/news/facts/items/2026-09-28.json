@@ -1,21 +1,19 @@
 {
  "date": "2026-09-28",
- "fact_id": "ff_54d18b45ff",
- "kind": "warehouse",
- "fact": "Of the 309 datacenter facilities the ERW tracks, Digital Realty runs the most, 74, ahead of Equinix with 73.",
+ "fact_id": "ff_0a4beec9ca",
+ "kind": "history",
+ "fact": "The first practical photovoltaic cell was publicly demonstrated at Bell Laboratories in 1954, invented by Calvin Souther Fuller, Daryl Chapin and Gerald Pearson.",
  "second": "",
  "structure": "none",
  "conjecture": "False",
  "sources": [
   {
+   "label": "Wikipedia, Solar cell",
+   "url": "https://en.wikipedia.org/wiki/Solar_cell",
+   "raw": "warehouse/news/facts/raw/wikipedia/solar_cell_20260928T083037Z.txt",
+   "retrieved_at": "20260928T083037Z",
    "part": "fact",
-   "label": "ERW table datacenter_facilities",
-   "table": "datacenter_facilities",
-   "publisher": "Bloomberg, Bloomberg.com, Data Center Dynamics, Financial Times, Hart Energy, Heatmap News, Reuters, WSJ, Amazon Web Services, Digital Realty, Equinix, Electric Reliability Council of Texas (ERCOT), Google, Meta, Microsoft, New York Independent System Operator (NYISO), Oracle, Switch, Vantage Data Centers",
-   "url": "/data",
-   "raw": "warehouse/news/facts/raw/warehouse/datacenter_operator_20260928T083037Z.txt",
-   "span": "datacenter_facilities: 309 facilities; most by one operator: Digital Realty 74; next Equinix 73",
-   "retrieved_at": "20260928T083037Z"
+   "span": "1954 – The first practical photovoltaic cell was publicly demonstrated at Bell Laboratories. The inventors were Calvin Souther Fuller, Daryl Chapin and Gerald Pearson."
   }
  ]
 }

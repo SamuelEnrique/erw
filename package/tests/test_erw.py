@@ -74,7 +74,7 @@ def test_coverage_has_one_row_per_table_and_the_documented_columns():
     cov = erw.coverage()
     assert list(cov.columns) == ["table", "iso", "market", "n_nodes", "interval", "ts_min",
                                  "ts_max", "n_rows", "source_report", "last_run",
-                                 "validator_status", "license", "sector", "derived"]
+                                 "validator_status", "license", "sector", "derived", "tier"]  # tier: session 28
     assert set(cov["license"]) <= {"public", "internal"}
     assert sorted(cov["table"]) == TABLES
     assert str(cov["ts_min"].dtype).startswith("datetime64") and cov["ts_min"].dt.tz is not None
