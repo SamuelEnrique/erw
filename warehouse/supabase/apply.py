@@ -63,6 +63,15 @@ def main():
             else:
                 print("EMAIL_TOKEN_SECRET not set: the email token secret was not written (confirm and unsubscribe "
                       "links cannot be checked until it is)")
+            # session 30 (migration 010): the token of the internal costs page, the same way
+            token_secret = env("INTERNAL_COSTS_TOKEN")
+            if len(token_secret) >= 24:
+                conn.execute("insert into erw_private.settings (key, value) values ('internal_costs_token', %s) "
+                             "on conflict (key) do update set value = excluded.value", (token_secret,))
+                print("set erw_private.settings internal_costs_token from INTERNAL_COSTS_TOKEN")
+            else:
+                print("INTERNAL_COSTS_TOKEN not set (or shorter than 24 characters): /internal/costs answers nothing "
+                      "until it is")
         return 0
     if token:
         ref = urllib.parse.urlparse(env("SUPABASE_URL")).netloc.split(".")[0]

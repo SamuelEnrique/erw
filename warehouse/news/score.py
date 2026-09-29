@@ -40,6 +40,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "connectors"))
 sys.path.insert(0, HERE)
 import iso_prices as ip  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, ".."))
+import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 from ingest import KEY, NAME, NEWS_COLS  # noqa: E402
 
 RUBRIC = open(os.path.join(HERE, "rubric.md"), encoding="utf-8").read().strip()
@@ -47,7 +49,7 @@ SECTORS = ["oil", "gas", "lng", "power_prices", "generation", "nuclear", "renewa
            "transmission", "grid_conditions", "interconnection", "datacenter_power", "deal", "ppa",
            "policy", "capital", "company", "geopolitics", "transport", "hydrogen", "other"]
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
-PRICES = {"claude-sonnet-5-5": (2.00, 10.00), "claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}  # sonnet-5-5: pricing page, read 2026-09-28 (session 27)
+PRICES = {m: (p["input"], p["output"]) for m, p in llm.prices()["models"].items()}  # session 30: warehouse/config/model_prices.yaml
 REFERENCE_MAX = 400  # earlier stories offered as is_duplicate_of candidates per call
 MIN_BATCH = 25  # stories per call, unless fewer remain
 
@@ -134,7 +136,7 @@ def main(argv=None):
         with open(path, encoding="utf-8") as f:
             header = [ln[2:].rstrip("\n") for ln in f if ln.startswith("# ")]
         header = [h for h in header if not h.startswith(("File holds", "Scored:"))]
-        client = anthropic.Anthropic(api_key=key)
+        client = llm.client(os.environ.get("ERW_STEP") or "news_score", log, api_key=key)
         model = pick_model(client, log)
         cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=args.days)
         when = pd.to_datetime(df["event_date"], utc=True)

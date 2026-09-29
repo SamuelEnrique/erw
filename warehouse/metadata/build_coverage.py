@@ -89,10 +89,13 @@ TIER_RULES = [
     ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
     ("model_extracted", r"^policy_actions$"),             # significance, sector and why are the model's
     ("derived", r"^(energy_projects|datacenter_queue_positions)$"),  # ERW code over source tables
+    # session 30: the Haiku shadow scores are a model's; the cost ledger prices Anthropic's usage counts
+    ("model_extracted", r"^news_scores_shadow$"),
+    ("derived", r"^api_cost_ledger$"),
 ]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
-           "metals", "equities", "news", "deals", "datacenters"]
+           "metals", "equities", "news", "deals", "datacenters", "platform"]  # session 30: platform (operating costs)
 # (table name pattern, sectors), first match wins
 SECTOR_RULES = [
     (r"^(caiso|ercot|isone|miso|nyiso|spp)_(dam|rtm)_", "power"),
@@ -143,6 +146,12 @@ SECTOR_RULES = [
     (r"^eia_sector_energy_consumption_monthly$", "power;gas;oil;coal"),
     # session 19: the trader view (24)
     (r"^([a-z]+_trader_daily|iso_rt_top_intervals)$", "power"),
+    # session 30: price board v2 (derived), the Haiku shadow scores and the API cost ledger (internal)
+    (r"^price_board_(latest|peak_offpeak)$", "power"),
+    (r"^price_board_spreads$", "power;gas;oil"),
+    (r"^price_board_carbon$", "carbon"),
+    (r"^news_scores_shadow$", "news"),
+    (r"^api_cost_ledger$", "platform"),
 ]
 
 
@@ -158,9 +167,13 @@ def iso_of(table):
     if members:  # session 29: a consolidated table spans its members' ISOs
         return ";".join(sorted({iso_of(m) for m in members}))
     parts = table.split("_")
+    if table == "price_board_carbon":  # session 30: CARB and RGGI, no ISO
+        return "none"
+    if table.startswith("price_board_"):  # session 30: price board v2 spans the six public ISOs
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
     if parts[0] == "eia930":
         return BA_LABEL.get(parts[1], parts[1].upper())
-    if parts[0] in ("eia", "carb", "rggi", "fred", "eia860m", "portwatch", "energy", "datacenter"):
+    if parts[0] in ("eia", "carb", "rggi", "fred", "eia860m", "portwatch", "energy", "datacenter", "api"):
         return "none"  # not an ISO series ("n/a" would read back as missing)
     return ISO_LABEL.get(parts[0], parts[0])
 

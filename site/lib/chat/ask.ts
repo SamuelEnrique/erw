@@ -11,6 +11,7 @@ import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
 import { runTool } from "./tools";
+import { recordCall } from "./ledger";
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
@@ -108,7 +109,11 @@ export async function ask(question: string, today = new Date().toISOString().sli
       output_config: { effort: spec.effort, format: { type: "json_schema", schema: spec.answer_schema } },
       messages,
     };
-    const resp = (await client.messages.create(params as unknown as Anthropic.MessageCreateParamsNonStreaming)) as Anthropic.Message;
+    const raw = await client.messages
+      .create(params as unknown as Anthropic.MessageCreateParamsNonStreaming)
+      .withResponse();
+    const resp = raw.data as Anthropic.Message;
+    await recordCall(model, resp, raw.request_id); // session 30: every call into the cost ledger (site_api_calls)
     usage.input += resp.usage.input_tokens;
     usage.output += resp.usage.output_tokens;
     usage.cache_write += resp.usage.cache_creation_input_tokens ?? 0;

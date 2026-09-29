@@ -41,12 +41,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, HERE)
 import tools  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
 MAX_TOOL_CALLS = 8
 MAX_TOKENS = 16000
 EFFORT = "high"
 # USD per million tokens (input, output), from the claude-api skill model table, cached 2026-06-24
-PRICES = {"claude-sonnet-5-5": (2.00, 10.00), "claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}  # sonnet-5-5: pricing page, read 2026-09-28 (session 27)
+PRICES = {m: (p["input"], p["output"]) for m, p in llm.prices()["models"].items()}  # session 30: warehouse/config/model_prices.yaml
 REFUSAL = ("I cannot give an answer I can verify: the numbers in my draft could not all be traced "
            "to a warehouse query. Try asking for one value, one table and one period at a time.")
 
@@ -162,16 +164,14 @@ def api_key():
 
 
 def cost_usd(model, usage):
-    if model not in PRICES:
-        return None
-    pi, po = PRICES[model]
-    return (usage["input"] * pi + usage["cache_write"] * pi * 1.25 + usage["cache_read"] * pi * 0.1
-            + usage["output"] * po) / 1e6
+    """Session 30: at the prices of warehouse/config/model_prices.yaml, cache reads at their own price."""
+    return llm.usd(model, {"input": usage["input"], "output": usage["output"], "cache_read": usage["cache_read"],
+                           "cache_write": usage["cache_write"], "cache_write_1h": 0, "web_searches": 0})
 
 
 class Asker:
     def __init__(self, model=None, client=None):
-        self.client = client or anthropic.Anthropic(api_key=api_key())
+        self.client = client or llm.client(os.environ.get("ERW_STEP") or "chat", api_key=api_key())
         self.model = model or pick_model(self.client)
 
     def _create(self, messages, allow_tools):
@@ -288,6 +288,8 @@ def export_spec(path):
             "system": SYSTEM, "tools": tools.TOOLS, "answer_schema": ANSWER_SCHEMA,
             "max_tool_calls": MAX_TOOL_CALLS, "max_tokens": MAX_TOKENS, "effort": EFFORT,
             "prices": PRICES, "retry": RETRY, "refusal": REFUSAL,
+            # session 30: the full price table (cache writes and reads) and its date, for the site's cost ledger
+            "model_prices": llm.prices()["models"], "prices_as_of": llm.prices()["as_of"],
             "aggregations": tools.AGGREGATIONS, "time_groups": tools.TIME_GROUPS,
             "max_groups": tools.MAX_GROUPS, "digits": tools.DIGITS}
     os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)

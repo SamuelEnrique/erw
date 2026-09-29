@@ -70,9 +70,9 @@ class Budget(RuntimeError):
 
 class Researcher:
     def __init__(self, log, max_usd):
-        import anthropic
+        import llm
         from score import PRICES, pick_model
-        self.client = anthropic.Anthropic(api_key=ip.load_key("ANTHROPIC_API_KEY", log))
+        self.client = llm.client("thesis", log)
         self.model = pick_model(self.client, log)
         self.price = PRICES[self.model]
         self.log, self.max_usd = log, max_usd

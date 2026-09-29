@@ -67,6 +67,7 @@ import iso_prices as ip  # noqa: E402
 from ingest import NAME, NEWS_COLS  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 from voice import VOICE_NOTE  # noqa: E402  session 25: docs/voice.md in every writer's system prompt
+import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
 from score import PRICES, nodash, pick_model  # noqa: E402
 
@@ -477,7 +478,7 @@ def main(argv=None):
         ai = clusters[(clusters["ai"] >= 7) & ~clusters["cluster_id"].isin(used)].head(5)
         shown = pd.concat([top10, *by_group.values(), ai]).drop_duplicates("cluster_id")
         key = ip.load_key("ANTHROPIC_API_KEY", log)
-        client = anthropic.Anthropic(api_key=key)
+        client = llm.client("digest", log, api_key=key)
         model = pick_model(client, log)
         heads, u, calls = headlines(client, model, shown, log)
         missing = set(shown["cluster_id"]) - set(heads)

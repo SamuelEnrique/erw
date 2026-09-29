@@ -66,6 +66,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "connectors"))
 sys.path.insert(0, os.path.join(ROOT, "package", "src"))
 sys.path.insert(0, os.path.join(HERE, "..", "chat"))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 import iso_prices as ip  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 from voice import VOICE_NOTE  # noqa: E402  session 25: docs/voice.md
@@ -482,9 +483,9 @@ JUDGE_SCHEMA = {"type": "object", "properties": {"supported": {"type": "boolean"
 
 class Model:
     def __init__(self, log):
-        import anthropic
+        import llm
         from score import PRICES, pick_model
-        self.client = anthropic.Anthropic(api_key=ip.load_key("ANTHROPIC_API_KEY", log))
+        self.client = llm.client("funfact", log)
         self.model = pick_model(self.client, log)
         self.price = PRICES.get(self.model)
         self.cost, self.calls, self.log = 0.0, 0, log

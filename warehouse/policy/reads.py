@@ -214,9 +214,9 @@ def check_field(name, val, text):
 
 class Reader:
     def __init__(self, log):
-        import anthropic
+        import llm
         from score import PRICES, pick_model
-        self.client = anthropic.Anthropic(api_key=ip.load_key("ANTHROPIC_API_KEY", log))
+        self.client = llm.client("policy_reads", log)
         self.model = pick_model(self.client, log)
         self.price = PRICES.get(self.model)
 

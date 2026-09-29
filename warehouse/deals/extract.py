@@ -66,6 +66,8 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "news"))
 import iso_prices as ip  # noqa: E402
 from ingest import NAME as NEWS, NEWS_COLS  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
 DEALS = "energy_deals"
 EVIDENCE = "energy_deals_evidence"
@@ -88,7 +90,7 @@ US_STATES = {
     "TN": "tennessee", "TX": "texas", "UT": "utah", "VT": "vermont", "VA": "virginia", "WA": "washington",
     "WV": "west virginia", "WI": "wisconsin", "WY": "wyoming", "PR": "puerto rico"}
 US_NAMES = {"us", "u.s.", "usa", "u.s.a.", "united states", "united states of america", "america"}
-PRICES = {"claude-sonnet-5-5": (2.00, 10.00), "claude-sonnet-5": (2.00, 10.00), "claude-sonnet-4-6": (3.00, 15.00)}  # sonnet-5-5: pricing page, read 2026-09-28 (session 27)
+PRICES = {m: (p["input"], p["output"]) for m, p in llm.prices()["models"].items()}  # session 30: warehouse/config/model_prices.yaml
 BATCH = 12          # clusters per call
 REFERENCE_MAX = 250  # earlier deals offered as same_as candidates
 
@@ -329,7 +331,7 @@ def main(argv=None):
             log.close()
             print("deals extract: no new eligible stories")
             return 0
-        client = anthropic.Anthropic(api_key=key)
+        client = llm.client("deals_extract", log, api_key=key)
         model = pick_model(client, log)
         clusters = [g for _, g in todo.sort_values("event_date").groupby("cluster_id", sort=False)]
         clusters.sort(key=lambda g: g["event_date"].min())

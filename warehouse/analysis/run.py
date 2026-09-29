@@ -129,9 +129,9 @@ def draft_note(res, z, log, use_model=True):
     if not use_model:
         return fallback
     try:
-        import anthropic
+        import llm
         from score import PRICES, pick_model
-        client = anthropic.Anthropic(api_key=ip.load_key("ANTHROPIC_API_KEY", log))
+        client = llm.client("analysis_note", log)
         model = pick_model(client, log)
         msgs = [{"role": "user", "content": f"Chart: {res['title']}. {res['subtitle']}.\n\nFacts:\n" +
                  "\n".join(f"- {f}" for f in res["facts"]) + f"\n- {head}"}]

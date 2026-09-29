@@ -274,7 +274,7 @@ def main(argv=None):
         weekend = brief.build_clusters(wk_s).head(WEEKEND_N) if len(wk_s) else clusters.head(0)
         top5 = clusters[~clusters["cluster_id"].isin(set(weekend["cluster_id"]))].head(5)
         shown = pd.concat([weekend, top5]).drop_duplicates("cluster_id")
-        client = anthropic.Anthropic(api_key=ip.load_key("ANTHROPIC_API_KEY", log))
+        client = brief.llm.client("roundup", log)
         model = pick_model(client, log)
         heads, u, calls = brief.headlines(client, model, shown, log)
         if set(shown["cluster_id"]) - set(heads):

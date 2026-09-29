@@ -27,6 +27,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "news"))
 import iso_prices as ip  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 
 NAME = "policy_actions"
 SCORES = os.path.join(HERE, "scores.csv")
@@ -81,7 +82,7 @@ def main(argv=None):
     log = ip.Log(os.path.join(ip.LOG_DIR, f"policy_score_{run_id}.log"))
     status = dict(table=NAME, market="score", status="ok", detail="")
     try:
-        import anthropic
+        import llm
         from score import PRICES, pick_model
         path = os.path.join(ip.OUT_DIR, NAME + ".csv")
         head, df = read_table(path)
@@ -92,7 +93,7 @@ def main(argv=None):
         new = []
         cost = 0.0
         if len(todo):
-            client = anthropic.Anthropic(api_key=ip.load_key("ANTHROPIC_API_KEY", log))
+            client = llm.client("policy_score", log)
             model = pick_model(client, log)
             price = PRICES.get(model)
             items = [{"id": r["event_id"], "feed_beat": "policy", "title": r["title"],

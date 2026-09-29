@@ -78,6 +78,8 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
 import iso_prices as ip  # noqa: E402
 from ingest import NAME as NEWS, NEWS_COLS  # noqa: E402
 import energy_projects as ep  # noqa: E402  (county gazetteer and name matching)
+sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+import llm  # noqa: E402  session 30: every Anthropic call goes through the cost ledger
 
 # the deal extractor's checks, loaded by path: this file has the same module name
 _spec = importlib.util.spec_from_file_location("deals_extract", os.path.join(ROOT, "warehouse", "deals", "extract.py"))
@@ -275,7 +277,7 @@ def main(argv=None):
         # the gazetteers first: if they cannot be read, stop before spending on the model
         counties, got = ep.load_gazetteer(run_id, log)
         places, place_member = load_places(log)
-        client = anthropic.Anthropic(api_key=key)
+        client = llm.client("datacenters_extract", log, api_key=key)
         model = pick_model(client, log)
         clusters = [g for _, g in todo.sort_values("event_date").groupby("cluster_id", sort=False)]
         clusters.sort(key=lambda g: g["event_date"].min())
