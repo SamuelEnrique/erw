@@ -13,7 +13,7 @@ The Energy Research Warehouse is the live, citable record of the US energy syste
 
 ## What is in it
 
-As of 2026-09-26: **81 tables, 3,751,828 rows**, of which 75 tables (3,629,472 rows) are public. The daily run keeps these numbers current in [`STATUS.md`](STATUS.md); every table is listed in [`docs/coverage.md`](docs/coverage.md).
+As of 2026-09-29: **65 tables, 4,812,358 rows**, of which 56 tables (4,675,663 rows) are public. Session 29 folded 54 tables that differed only by an ISO, a balancing authority or a year into 6, with that value in a column ([`docs/migrations/2026-09-29-consolidation.md`](docs/migrations/2026-09-29-consolidation.md)). The daily run keeps these numbers current in [`STATUS.md`](STATUS.md); every table is listed in [`docs/coverage.md`](docs/coverage.md).
 
 | Family | Tables | Rows | From | License |
 |---|---|---|---|---|
@@ -38,8 +38,9 @@ The `erw` Python package reads the tables. From a clone, with no API key (ERCOT 
 git clone https://github.com/SamuelEnrique/erw.git && cd erw
 pip install -r requirements.txt && pip install -e package
 python warehouse/connectors/iso_prices.py ercot --days 3
-python -c "import erw; print(erw.fetch('ercot_dam_hub_prices', node='HB_NORTH').tail())"
-python -c "import erw; print(erw.cite('ercot_dam_hub_prices'))"
+python warehouse/consolidate.py build     # the ISO's tables into the consolidated ones (session 29)
+python -c "import erw; print(erw.fetch('iso_dam_hub_prices', market='ercot_dam', node='HB_NORTH').tail())"
+python -c "import erw; print(erw.cite('iso_dam_hub_prices'))"
 ```
 
 The tables themselves are not in git. A clone holds the news tables, and makes the others by running their connectors (`bash warehouse/run_daily.sh` runs them all; EIA needs a free API key). Every table, with full history, is on Redivis: [`energy_research_warehouse`](https://redivis.com/datasets/05yh-65frzyhaz), open once its first version is released by a human. The package also reads Redivis and the site's Supabase live set (`ERW_BACKEND`, see [`package/README.md`](package/README.md)). For AI assistants, [`package/llms.txt`](package/llms.txt) says which table answers which question.
@@ -48,7 +49,7 @@ The tables themselves are not in git. A clone holds the news tables, and makes t
 
 - **Daily, 14:00 UTC** ([`.github/workflows/daily-prices.yml`](.github/workflows/daily-prices.yml), the steps in [`warehouse/run_daily.sh`](warehouse/run_daily.sh)):
   1. restore the rolling-window tables from the Redivis draft;
-  2. run every connector for the last three days, merging into the tables;
+  2. run every connector for the last three days, merging into the tables (the consolidated tables are split into the members the connectors write, and built again after them);
   3. ingest and score the news;
   4. run the validator (a blocked table stops the run);
   5. rebuild coverage and load the Supabase live set;
