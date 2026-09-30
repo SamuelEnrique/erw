@@ -8,6 +8,10 @@ Energy Research Warehouse (ERW). Four tools over the erw package, and nothing el
                     source reports and license
     query           one aggregation over one table, optionally filtered and grouped
     compare         two queries side by side
+    grid_notes      session 35: a grid page's written layer (docs/grids/<grid>.md), text with its sources
+
+Session 35: set_scope(slug) limits every tool to one grid (docs/grids/grids.json): list_tables shows only the tables
+that carry it, and each table is read for its rows only (its ba, its market prefix, its ISO or its queue).
 
 There is no free-form SQL and no code execution. A query picks an aggregation from
 a fixed list (latest, mean, median, min, max, percentile, count, sum) and a grouping
@@ -94,6 +98,17 @@ TOOLS = [
         },
     },
     {
+        # session 35: the grid pages' written layer (docs/grids/<slug>.md), text with its sources, not data
+        "name": "grid_notes",
+        "description": "Read the written layer of one grid page: who runs the grid, how its market sets prices, what makes it different, a short dated history and a glossary, with the ISO and EIA pages each section cites. Text, not data (tier written): cite it as its table name, docs/grids/<grid>.md. grid is one of ercot, caiso, pjm, nyiso, isone, miso, spp.",
+        "input_schema": {
+            "type": "object",
+            "properties": {"grid": {"type": "string", "enum": ["ercot", "caiso", "pjm", "nyiso", "isone", "miso", "spp"]}},
+            "required": ["grid"],
+            "additionalProperties": False,
+        },
+    },
+    {
         "name": "compare",
         "description": "Run two queries (each with the same fields as query) and return both results side by side, with the difference (b minus a) and the ratio (b over a) when both results are single values.",
         "input_schema": {
@@ -117,6 +132,46 @@ _frames = {}
 _cites = {}
 _backend_ready = False
 
+# Session 35: a scoped chat (ask.py --grid, the site's /ask?grid=): the tables and rows carrying one grid
+# (docs/grids/grids.json), plus its written layer. None: the whole warehouse.
+GRIDS = {g["slug"]: g for g in json.load(open(os.path.join(ROOT, "docs", "grids", "grids.json"), encoding="utf-8"))["grids"]}
+SCOPE = None
+
+
+def set_scope(slug):
+    """Limit every tool to one grid's tables and rows (None lifts it). The frames read so far are dropped."""
+    global SCOPE
+    SCOPE = GRIDS[slug] if slug else None
+    _frames.clear()
+
+
+def scope_rows(name, df):
+    """The rows of a table that carry the scoped grid: its ba, its market prefix, its ISO or its queue."""
+    g = SCOPE
+    if g is None or df is None:
+        return df
+    if "ba" in df.columns:
+        return df[df["ba"] == g["ba"]]
+    if name == "storage_capacity":
+        return df[df["iso"] == g["iso"]]
+    if name == "energy_projects":
+        return df[df["source_table"] == (g.get("queue_table") or "")]
+    if "market" in df.columns and g.get("market_prefix"):
+        return df[df["market"].fillna("").str.startswith(g["market_prefix"])]  # as the site: market like <prefix>*
+    return df
+
+
+def grid_notes(grid):
+    if grid not in GRIDS:
+        raise ToolError(f"no grid {grid!r}; grids: {', '.join(GRIDS)}")
+    if SCOPE is not None and grid != SCOPE["slug"]:
+        raise ToolError(f"this chat speaks for {SCOPE['iso']} only; its notes are grid_notes {SCOPE['slug']!r}")
+    path = f"docs/grids/{grid}.md"
+    text = open(os.path.join(ROOT, path), encoding="utf-8").read()
+    return {"table": path, "grid": grid, "tier": "written", "license": "public",
+            "source_report": f"{path}: text written for the ERW's grid page; each section names its ISO and EIA sources",
+            "data_version": "the repository's copy", "text": text}
+
 
 def _ready():
     global _backend_ready
@@ -137,11 +192,20 @@ def _table(name):
     if name not in _frames:
         if name not in set(_coverage()["table"]):
             raise ToolError(f"no table named {name!r}; call list_tables for the table names")
+        if SCOPE is not None and name not in SCOPE["tables"]:
+            raise ToolError(f"{name} does not carry {SCOPE['iso']}; this chat reads only {SCOPE['iso']}'s tables (list_tables)")
         try:
-            _frames[name] = erw.fetch(name)
+            # session 35: a partitioned table is read for the scoped grid's ba only, never whole
+            df = erw.fetch(name, ba=SCOPE["ba"]) if SCOPE is not None and name in _BA_TABLES else erw.fetch(name)
+            _frames[name] = scope_rows(name, df)
         except erw.ERWDataNotFound as exc:
             raise ToolError(f"table {name!r} cannot be read from this backend: {exc}")
     return _frames[name]
+
+
+# tables partitioned by ba (session 29 and later): a scoped chat fetches one partition
+_BA_TABLES = {"eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage",
+              "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle"}
 
 
 def _shape(df):
@@ -215,6 +279,8 @@ def list_tables(sector=None, license=None, iso=None):
         keep &= cov["license"] == license
     if iso:
         keep &= cov["iso"].str.upper() == iso.upper()
+    if SCOPE is not None:  # session 35: only the tables carrying the scoped grid
+        keep &= cov["table"].isin(SCOPE["tables"])
     rows = []
     for r in cov[keep].itertuples():
         rows.append({"table": r.table, "sector": r.sector.replace(";", ", ") if r.sector else "",
@@ -456,7 +522,8 @@ def compare(a, b):
     return out
 
 
-FUNCTIONS = {"list_tables": list_tables, "describe_table": describe_table, "query": query, "compare": compare}
+FUNCTIONS = {"list_tables": list_tables, "describe_table": describe_table, "query": query, "compare": compare,
+             "grid_notes": grid_notes}
 
 
 def run(name, args):

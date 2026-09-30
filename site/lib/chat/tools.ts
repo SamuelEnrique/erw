@@ -9,6 +9,24 @@
 import "server-only";
 import { DataError, HOURLY, rest, restCount } from "@/lib/supabase";
 import spec from "./spec.json";
+import { DOCS, type GridConfig } from "@/lib/markdown";
+
+// Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
+// warehouse/chat/tools.py set_scope does. null: the whole live set.
+export type Scope = GridConfig | null;
+export const scopeOf = (slug: string | null | undefined): Scope => (slug ? DOCS.grid_config.find((g) => g.slug === slug) ?? null : null);
+const BA_TABLES = new Set(["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage",
+  "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle"]);
+
+/** The PostgREST filters that keep a table's rows of the scoped grid. */
+function scopeFilter(scope: Scope, name: string, shape: Shape, columns: string[]): Record<string, string> {
+  if (!scope) return {};
+  if (shape === "series" && BA_TABLES.has(name)) return { ba: `eq.${scope.ba}` };
+  if (name === "storage_capacity") return { "extra->>iso": `eq.${scope.iso}` };
+  if (name === "energy_projects") return { entity_id: `like.${(scope.queue_table ?? "none").replace(/_interconnection_queue$/, "_queue")}:*` };
+  if (shape === "series" && scope.market_prefix && columns.includes("market")) return { market: `like.${scope.market_prefix}*` };
+  return {};
+}
 
 export class ToolError extends Error {}
 
@@ -58,9 +76,10 @@ async function catalogue(): Promise<Cat[]> {
   return rows;
 }
 
-async function tableInfo(name: string) {
+async function tableInfo(name: string, scope: Scope = null) {
   const c = (await catalogue()).find((r) => r.table_name === name);
   if (!c) throw new ToolError(`no public table named ${JSON.stringify(name)}; call list_tables for the table names`);
+  if (scope && !scope.tables.includes(name)) throw new ToolError(`${name} does not carry ${scope.iso}; this chat reads only ${scope.iso}'s tables (list_tables)`);
   if (c.in_live_set !== "yes") throw new ToolError(`table ${name} is not in this site's live set; its full history is on Redivis`);
   const columns: string[] = c.columns ? JSON.parse(c.columns) : [];
   const shape: Shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
@@ -159,8 +178,9 @@ async function provenance(name: string): Promise<Json> {
 
 // ------------------------------------------------------------------ list_tables
 
-async function listTables(a: { sector?: string; license?: string; iso?: string }): Promise<Json> {
+async function listTables(a: { sector?: string; license?: string; iso?: string }, scope: Scope = null): Promise<Json> {
   let rows = await catalogue();
+  if (scope) rows = rows.filter((r) => scope.tables.includes(r.table_name)); // session 35
   if (a.sector) rows = rows.filter((r) => (r.sector ?? "").split(";").includes(a.sector!));
   if (a.license) rows = rows.filter((r) => r.license === a.license);
   if (a.iso) rows = rows.filter((r) => (r.iso ?? "").toUpperCase() === a.iso!.toUpperCase());
@@ -187,9 +207,9 @@ async function listTables(a: { sector?: string; license?: string; iso?: string }
 
 // ------------------------------------------------------------------ describe_table
 
-async function describeTable(a: { table: string }): Promise<Json> {
-  const { c, columns, shape } = await tableInfo(a.table);
-  const base = { table_name: `eq.${a.table}` };
+async function describeTable(a: { table: string }, scope: Scope = null): Promise<Json> {
+  const { c, columns, shape } = await tableInfo(a.table, scope);
+  const base = { table_name: `eq.${a.table}`, ...scopeFilter(scope, a.table, shape, columns) };
   const tcol = TIME_COL[shape];
   const [n, firstRow, lastRow] = await Promise.all([
     restCount(shape, base, HOURLY),
@@ -289,9 +309,9 @@ function aggregate(rows: Row[], agg: string, pct: number | undefined, shape: Sha
   return { value: round(agg === "sum" ? sum : sum / xs.length), n: xs.length };
 }
 
-async function query(a: QueryArgs): Promise<Json> {
+async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
-  const { c, columns, shape } = await tableInfo(a.table);
+  const { c, columns, shape } = await tableInfo(a.table, scope);
   const tcol = TIME_COL[shape];
   const vcol = a.value_column ?? DEFAULT_VALUE[shape];
   if (a.aggregation !== "count" && !columns.includes(vcol)) throw new ToolError(`no column ${JSON.stringify(vcol)} in ${a.table}`);
@@ -309,7 +329,7 @@ async function query(a: QueryArgs): Promise<Json> {
   }
   if (shape === "series") sel.push("entity", "variable", "unit");
   if (shape === "entities") sel.push("id:entity_id");
-  const q: Record<string, string> = { select: sel.join(","), table_name: `eq.${a.table}`, order: `${tcol}.asc.nullslast` };
+  const q: Record<string, string> = { select: sel.join(","), table_name: `eq.${a.table}`, order: `${tcol}.asc.nullslast`, ...scopeFilter(scope, a.table, shape, columns) };
   if (a.entity) {
     q.or = shape === "series" ? `(entity.eq.${quote(a.entity)},node.eq.${quote(a.entity)})`
       : shape === "entities" ? `(entity_id.eq.${quote(a.entity)},name.eq.${quote(a.entity)})`
@@ -393,8 +413,8 @@ async function query(a: QueryArgs): Promise<Json> {
   return out;
 }
 
-async function compare(a: { a: QueryArgs; b: QueryArgs }): Promise<Json> {
-  const [ra, rb] = await Promise.all([query(a.a), query(a.b)]);
+async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): Promise<Json> {
+  const [ra, rb] = await Promise.all([query(a.a, scope), query(a.b, scope)]);
   const single = (r: Json) => {
     const res = r.result as Json[];
     if (res.length !== 1) return null;
@@ -410,14 +430,24 @@ async function compare(a: { a: QueryArgs; b: QueryArgs }): Promise<Json> {
   return out;
 }
 
+/** Session 35: a grid page's written layer, as warehouse/chat/tools.py grid_notes. */
+function gridNotes(a: { grid?: string }, scope: Scope): Json {
+  const g = scopeOf(a.grid);
+  if (!g) throw new ToolError(`no grid ${JSON.stringify(a.grid)}; grids: ${DOCS.grid_config.map((x) => x.slug).join(", ")}`);
+  if (scope && g.slug !== scope.slug) throw new ToolError(`this chat speaks for ${scope.iso} only; its notes are grid_notes ${JSON.stringify(scope.slug)}`);
+  const table = `docs/grids/${g.slug}.md`;
+  return { table, grid: g.slug, tier: "written", license: "public", source_report: `${table}: text written for the ERW's grid page; each section names its ISO and EIA sources`, data_version: "the site's build", text: DOCS.grids[g.slug] };
+}
+
 /** Run one tool. Returns the result and whether it is an error the model should see. */
-export async function runTool(name: string, input: unknown): Promise<{ out: Json; isError: boolean }> {
+export async function runTool(name: string, input: unknown, scope: Scope = null): Promise<{ out: Json; isError: boolean }> {
   try {
     const a = (input ?? {}) as Json;
-    if (name === "list_tables") return { out: await listTables(a), isError: false };
-    if (name === "describe_table") return { out: await describeTable(a as { table: string }), isError: false };
-    if (name === "query") return { out: await query(a as unknown as QueryArgs), isError: false };
-    if (name === "compare") return { out: await compare(a as unknown as { a: QueryArgs; b: QueryArgs }), isError: false };
+    if (name === "list_tables") return { out: await listTables(a, scope), isError: false };
+    if (name === "describe_table") return { out: await describeTable(a as { table: string }, scope), isError: false };
+    if (name === "query") return { out: await query(a as unknown as QueryArgs, scope), isError: false };
+    if (name === "compare") return { out: await compare(a as unknown as { a: QueryArgs; b: QueryArgs }, scope), isError: false };
+    if (name === "grid_notes") return { out: gridNotes(a as { grid?: string }, scope), isError: false };
     return { out: { error: `unknown tool ${JSON.stringify(name)}` }, isError: true };
   } catch (e) {
     if (e instanceof ToolError || e instanceof DataError) return { out: { error: e.message }, isError: true };

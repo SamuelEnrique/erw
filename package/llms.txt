@@ -441,9 +441,21 @@ Supabase table latest_prices, refreshed every 15 minutes: variable spp_rtm for
 ERCOT, lmp_rtm_5min for the others; CAISO's newest 5-minute price can start
 just after it is fetched, as CAISO publishes it ahead of its interval), the price
 tables, the digest archive, coverage, methods and the ERCOT peak-premium
-explorer. `/ask` answers questions with the four tools of warehouse/chat
-(list_tables, describe_table, query, compare): every number in an answer must
-come from a tool result, and every answer cites its tables.
+explorer. `/ask` answers questions with the tools of warehouse/chat
+(list_tables, describe_table, query, compare, and grid_notes): every number in
+an answer must come from a tool result, and every answer cites its tables.
+
+**Grid pages** (session 35): /grid/ercot, /grid/caiso, /grid/pjm, /grid/nyiso,
+/grid/isone, /grid/miso, /grid/spp, one template for students: demand now,
+generation by fuel, batteries, carbon intensity, hub prices (PJM's are
+internal, not shown), the interconnection queue and datacenters, and the news,
+each block only where the warehouse holds that grid's rows. Their config is
+docs/grids/grids.json (which tables carry each grid). Each has a written layer,
+docs/grids/<grid>.md: who runs it, how prices are set, what is different, three
+dated events, a glossary, each section citing ISO and EIA pages; it is text,
+not data (tier written), and the grid_notes tool reads it. /ask?grid=<grid> is
+the page's scoped chat: its tools see only that grid's tables and rows
+(partition ba, market prefix, storage_capacity's iso, energy_projects' queue).
 
 
 ## 8. Working well

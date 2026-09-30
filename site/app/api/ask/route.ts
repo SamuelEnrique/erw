@@ -7,6 +7,7 @@
 // the limit is per instance, a floor rather than a guarantee.
 import { NextResponse } from "next/server";
 import { ask } from "@/lib/chat/ask";
+import { scopeOf } from "@/lib/chat/tools";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,14 +36,18 @@ function allow(ip: string, now: number): { ok: boolean; retryAfter: number } {
 }
 
 export async function POST(req: Request) {
-  let question: unknown;
+  let question: unknown, grid: unknown;
   try {
-    question = ((await req.json()) as { question?: unknown }).question;
+    ({ question, grid } = (await req.json()) as { question?: unknown; grid?: unknown });
   } catch {
     return NextResponse.json({ error: "send JSON: {\"question\": \"...\"}" }, { status: 400 });
   }
   if (typeof question !== "string" || !question.trim()) {
     return NextResponse.json({ error: "question is required" }, { status: 400 });
+  }
+  // session 35: a grid page's scoped chat (/ask?grid=<slug>)
+  if (grid !== undefined && grid !== null && grid !== "" && (typeof grid !== "string" || !scopeOf(grid))) {
+    return NextResponse.json({ error: "unknown grid" }, { status: 400 });
   }
   if (question.length > MAX_QUESTION) {
     return NextResponse.json({ error: `a question is at most ${MAX_QUESTION} characters` }, { status: 400 });
@@ -56,10 +61,10 @@ export async function POST(req: Request) {
     );
   }
   try {
-    const r = await ask(question.trim());
+    const r = await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null);
     // session 21 (/terms): each question is logged without identity: the time, the question and the
     // outcome, never the IP address (which lives only in memory, for the hourly limit) or any other identifier
-    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), question: question.trim(), status: (r as { status?: string }).status ?? "answered" } }));
+    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || null, question: question.trim(), status: (r as { status?: string }).status ?? "answered" } }));
     return NextResponse.json(r);
   } catch (e) {
     console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), question: question.trim(), status: "error" } }));

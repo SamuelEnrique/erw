@@ -21,8 +21,9 @@ const STATUS: Record<string, string> = {
   model_refusal: "No answer",
 };
 
-export function AskForm() {
-  const [q, setQ] = useState("");
+// session 35: grid, a grid page's scoped chat (/ask?grid=<slug>); initial, the question its Ask box carried
+export function AskForm({ grid = null, initial = "", placeholder }: { grid?: string | null; initial?: string; placeholder?: string }) {
+  const [q, setQ] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [res, setRes] = useState<Result | null>(null);
   const [err, setErr] = useState<string | null>(null);
@@ -34,7 +35,7 @@ export function AskForm() {
     setErr(null);
     setRes(null);
     try {
-      const r = await fetch("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: q }) });
+      const r = await fetch("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: q, ...(grid ? { grid } : {}) }) });
       const body = await r.json();
       if (!r.ok) setErr(body.error ?? `HTTP ${r.status}`);
       else setRes(body as Result);
@@ -56,7 +57,7 @@ export function AskForm() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           maxLength={500}
-          placeholder="For example: what was the median ERCOT HB_WEST real-time price last week?"
+          placeholder={placeholder ?? "For example: what was the median ERCOT HB_WEST real-time price last week?"}
           className="flex-1 border border-rule bg-panel px-3 py-2 text-sm"
         />
         <button type="submit" disabled={busy || !q.trim()} className="border border-accent bg-accent px-4 py-2 text-sm text-paper disabled:opacity-50">
@@ -79,10 +80,21 @@ export function AskForm() {
               <ul className="text-sm">
                 {res.citations.map((c) => (
                   <li key={c.table} className="border-b border-rule/60 py-1">
-                    ERW table{" "}
-                    <Link href={`/data#${c.table}`} className="font-mono">
-                      {c.table}
-                    </Link>
+                    {c.table.startsWith("docs/grids/") ? (
+                      <>
+                        Written layer{" "}
+                        <Link href={`/grid/${c.table.slice(11, -3)}`} className="font-mono">
+                          {c.table}
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        ERW table{" "}
+                        <Link href={`/data#${c.table}`} className="font-mono">
+                          {c.table}
+                        </Link>
+                      </>
+                    )}
                     {c.tier === "model_extracted" ? (
                       <span className="ml-1 rounded border border-rule px-1 text-xs" title={TIER_TITLE.model_extracted}>
                         {TIER_LABEL.model_extracted}

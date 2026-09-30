@@ -10,7 +10,7 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
-import { runTool } from "./tools";
+import { runTool, scopeOf } from "./tools";
 import { recordCall } from "./ledger";
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
@@ -87,7 +87,14 @@ function cost(model: string, u: AskResult["usage"]): number | null {
   return (u.input * pi + u.cache_write * pi * 1.25 + u.cache_read * pi * 0.1 + u.output * po) / 1e6;
 }
 
-export async function ask(question: string, today = new Date().toISOString().slice(0, 10)): Promise<AskResult> {
+export async function ask(question: string, today = new Date().toISOString().slice(0, 10), grid: string | null = null): Promise<AskResult> {
+  // session 35: /ask?grid=<slug>: the grid's block after the system prompt, and the tools scoped to its tables and rows
+  const scope = scopeOf(grid);
+  const system: { type: "text"; text: string; cache_control?: { type: "ephemeral" } }[] = [{ type: "text", text: spec.system, cache_control: { type: "ephemeral" } }];
+  if (scope) {
+    const fill: Record<string, string> = { ...(scope as unknown as Record<string, string>), ba_code: scope.entity.split(":")[1] };
+    system.push({ type: "text", text: spec.grid_system.replace(/\{(\w+)\}/g, (m: string, k: string) => (k in fill ? String(fill[k]) : m)) });
+  }
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) throw new Error("ANTHROPIC_API_KEY is not set on the server");
   const client = new Anthropic({ apiKey: key });
@@ -103,7 +110,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const params = {
       model,
       max_tokens: spec.max_tokens,
-      system: [{ type: "text", text: spec.system, cache_control: { type: "ephemeral" } }],
+      system,
       tools: TOOLS,
       tool_choice: { type: calls < spec.max_tool_calls ? "auto" : "none" },
       output_config: { effort: spec.effort, format: { type: "json_schema", schema: spec.answer_schema } },
@@ -131,7 +138,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
           out = { error: `tool call limit (${spec.max_tool_calls}) reached; answer now` };
           isError = true;
         } else {
-          ({ out, isError } = await runTool(b.name, b.input));
+          ({ out, isError } = await runTool(b.name, b.input, scope));
           calls += 1;
           sources.push(JSON.stringify(out), JSON.stringify(b.input));
           if (typeof out.table === "string") tablesRead.add(out.table);
