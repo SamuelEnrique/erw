@@ -124,20 +124,30 @@ day-ahead tables running into tomorrow:
   storage_daily_cycle (derived): per complete local day and BA,
   mwh_discharged, mwh_charged, peak_discharge_hour and peak_charge_hour (unit
   hour: local hour of the day, the hour's start), round_trip_ratio (energy
-  out over energy in as reported; not a measured efficiency).
+  out over energy in as reported; not a measured efficiency). Since session
+  34 also CAISO (ba ciso, entity caiso:ISO, source
+  erw:storage_daily_cycle_caiso), from CAISO's own caiso_battery_storage
+  (5-minute Total batteries averaged to hours, Pacific days), not EIA-930.
   storage_capacity (derived, entities): every battery unit in EIA-860M,
   operating, under_construction, planned and retired, with capacity_mw
-  (nameplate), state, balancing_authority, iso, planned_year. No MWh.
+  (nameplate), state, balancing_authority, iso, planned_year, and since
+  session 34 energy_capacity_mwh (EIA's Nameplate Energy Capacity, MWh) for
+  operating and retired units; EIA-860M gives none for planned units.
 **Emissions** (session 32, method docs/methods/emissions.md):
   eia930_all_emissions: EIA's hourly CO2 estimates for EIA-930, from its
   per-BA Grid Monitor workbooks, tCO2 (metric tons): co2_emissions_generated
   (all sources in the BA) and co2_emissions_consumed (generated plus imported
-  minus exported); ba = ciso, erco, isne, miso, nyis, pjm, swpp, us48; from
-  2018-07-02. These are EIA's estimates (generation by fuel x emission factors),
-  not measurements. carbon_intensity_hourly and carbon_intensity_daily
-  (derived, kgCO2/MWh): intensity_generation (CO2 generated / net generation)
-  and intensity_demand (CO2 consumed / demand), the last ~30 days only (the
-  reach of eia930_all_generation and eia930_all_demand).
+  minus exported); since session 34 also by fuel, co2_emissions_coal,
+  co2_emissions_natural_gas, co2_emissions_oil, co2_emissions_other (each only
+  where EIA gives it: no oil for ERCOT or MISO), and co2_emissions_imported,
+  co2_emissions_exported; ba = ciso, erco, isne, miso, nyis, pjm, swpp, us48;
+  from 2018-07-02. These are EIA's estimates (generation by fuel x emission
+  factors), not measurements. carbon_intensity_hourly, carbon_intensity_daily
+  and carbon_intensity_monthly (session 34; derived, kgCO2/MWh):
+  intensity_generation (CO2 generated / EIA's net generation) and
+  intensity_demand (CO2 consumed / EIA's demand), from 2018-07; since session
+  34 the denominators are the same EIA workbooks' Demand and Net generation
+  columns. Monthly: UTC months whose every day is complete.
 **EIA petroleum and gas series** (full history, replaced each run):
   eia_fuel_spot_prices: eia:henry_hub (USD/MMBtu), eia:wti_cushing and
     eia:brent (USD/bbl), daily trading dates from 1986 (Henry Hub from 1997)
@@ -207,7 +217,8 @@ day-ahead tables running into tomorrow:
 **Entities**: eia860m_operating_generators, eia860m_planned_generators
   (status planned or under_construction), eia860m_retired_generators: one row
   per generator, with state, technology_group (natural_gas, solar, wind,
-  storage, coal, nuclear, hydro, ...), nameplate_mw, lat/lon, from EIA-860M.
+  storage, coal, nuclear, hydro, ...), nameplate_mw, lat/lon, from EIA-860M;
+  energy_capacity_mwh (session 34, storage units; empty in the planned table).
   <iso>_interconnection_queue for caiso, ercot, isone, miso, nyiso, spp: one
   row per queue position, capacity_mw, status (active, completed, withdrawn;
   SPP also suspended; ERCOT lists no withdrawn projects), fuel and county as
