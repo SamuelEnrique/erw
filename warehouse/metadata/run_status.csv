@@ -1941,3 +1941,19 @@ run_id,runner,connector,table,market,status,detail
 20260929T182103Z,local,eia930_emissions,eia930_all_emissions,swpp 2026-09-28,gap,24 of 24 hours with CO2 values; day not written
 20260929T182103Z,local,eia930_emissions,eia930_all_emissions,us48 2026-09-28,gap,24 of 24 hours with CO2 values; day not written
 20260929T184209Z,local,carbon_intensity,carbon_intensity,derived,ok,hourly and daily written
+20260929T235354Z,local,storage_daily_cycle,storage_daily_cycle,derived,ok,"13896 rows, 696 days; 1990 CAISO rows from caiso_battery_storage"
+20260929T235750Z,local,eia860,eia860m_operating_generators,monthly,ok,vintage 2026-08
+20260929T235750Z,local,eia860,eia860m_planned_generators,monthly,ok,vintage 2026-08
+20260929T235750Z,local,eia860,eia860m_retired_generators,monthly,ok,vintage 2026-08
+20260929T235850Z,local,storage_capacity,storage_capacity,derived,ok,"operating: 1137 units, 54,488.9 MW, 150,437.6 MWh; planned: 245 units, 40,914.3 MW, 0.0 MWh; retired: 8 units, 338.5 MW, 1,236.1 MWh; under_construction: 237 units, 23,543.8 MW, 0.0 MWh"
+20260930T000038Z,local,thesis,energy_companies,thesis,ok,"docs\thesis\subsurface-heat-mapping-for-geothermal-session-34.xlsx: 16 calls, 37 searches, USD 1.3237, 1.4 min; sections {'Scope': 3, 'Fundamentals': 1, 'Trends': 5, 'Landscape': 1, 'Capital': 1, 'Incumbents': 1, 'Policy': 1, 'Risks': 5, 'Sources': 1}; companies 2"
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,all,ok,"eia930_all_emissions.csv: this run 3,195,240 rows (3,195,240 new, 0 replacing earlier rows with the same key); 1,122,144 rows kept from earlier runs; 9 incomplete BA-day groups left out"
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,ciso 2018-07-20..2026-08-19 coal,gap,"275 UTC days without 24 hours with co2_emissions_coal, not written (first 2018-07-20, 2019-05-28, 2019-08-25; last 2026-08-19)"
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,ciso 2018-07-20..2026-08-20 natural_gas,gap,"10 UTC days without 24 hours with co2_emissions_natural_gas, not written (first 2018-07-20, 2019-08-25, 2019-12-19; last 2026-08-20)"
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,ciso 2018-07-20..2026-09-27 oil,gap,"189 UTC days without 24 hours with co2_emissions_oil, not written (first 2018-07-20, 2019-03-15, 2019-03-16; last 2026-09-27)"
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,isne 2024-07-19..2026-09-27 coal,gap,"366 UTC days without 24 hours with co2_emissions_coal, not written (first 2024-07-19, 2024-07-20, 2024-07-21; last 2026-09-27)"
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,isne 2021-03-01 natural_gas,gap,23 of 24 hours with co2_emissions_natural_gas; not written for this day
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,isne 2024-09-06..2026-09-27 oil,gap,"318 UTC days without 24 hours with co2_emissions_oil, not written (first 2024-09-06, 2024-09-07, 2024-09-08; last 2026-09-27)"
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,miso 2018-07-02..2026-09-27 oil,gap,"2982 UTC days without 24 hours with co2_emissions_oil, not written (first 2018-07-02, 2018-07-03, 2018-07-04; last 2026-09-27)"
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,pjm 2022-10-01 coal,gap,20 of 24 hours with co2_emissions_coal; not written for this day
+20260930T002015Z,local,eia930_emissions,eia930_all_emissions,pjm 2022-10-02 coal,gap,23 of 24 hours with co2_emissions_coal; not written for this day
