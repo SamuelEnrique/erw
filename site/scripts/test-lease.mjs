@@ -266,6 +266,16 @@ check(has(flags([{ state: "LA", well_id: "z", month: "2027-01", oil_bbl: 900, oi
   // the page's server part reads only the warehouse prices; it passes nothing of the reader's back
   const page = fs.readFileSync(path.join(here, "..", "app/severance/lease/page.tsx"), "utf-8");
   check(!/"use server"|searchParams|cookies\(|headers\(/.test(page), "the server page takes no request data (no server action, search parameters, cookies or headers)");
+  // session 46: no prefetch on this page: its own links say prefetch={false}; the shared ones (header, nav, footer,
+  // citations) are components/SiteLink, which turns prefetch off on /severance/lease
+  const links = page.match(/<Link\s[^>]*>/g) ?? [];
+  check(links.length > 0 && links.every((l) => l.includes("prefetch={false}")), `every link on the lease page is prefetch={false} (${links.length})`);
+  const site = fs.readFileSync(path.join(here, "..", "components/SiteLink.tsx"), "utf-8");
+  check(/NO_PREFETCH = \[[^\]]*"\/severance\/lease"/.test(site) && site.includes("prefetch={noPrefetch(path) ? false"), "SiteLink turns prefetch off on /severance/lease");
+  for (const f of ["app/layout.tsx", "components/Nav.tsx", "components/Cite.tsx"]) {
+    const src = fs.readFileSync(path.join(here, "..", f), "utf-8");
+    check(src.includes('SiteLink as Link } from "@/components/SiteLink"') && !src.includes('from "next/link"'), `${f} links through SiteLink`);
+  }
 }
 
 // --- the sample -------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 46: no prefetch on /severance/lease
 import { catalogue } from "@/lib/data";
 import { attempt } from "@/lib/supabase";
 import { TIER_LABEL, TIER_TITLE, isModelExtracted } from "@/lib/tiers";

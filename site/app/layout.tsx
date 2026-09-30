@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 46: no prefetch on /severance/lease
 import { Wordmark } from "@/components/Wordmark";
 import { Nav } from "@/components/Nav";
 import "./globals.css";

@@ -12,6 +12,8 @@ import { LeaseTool } from "./LeaseTool";
 // Session 45: severance v0.2, the lease tool. The reader's lease file is parsed and taxed in the browser (LeaseTool,
 // lib/lease.ts, lib/severance.ts) and never sent to the server; the server sends only the rules and the monthly means of
 // the warehouse's EIA daily spot prices, the default prices. An estimate for education and planning, not tax advice.
+// Session 46: every link on this page is prefetch={false}, and the shared ones (components/SiteLink) turn prefetch off
+// here, so no request fires after a file is loaded.
 export const metadata: Metadata = { title: "Severance tax: the lease tool" };
 export const revalidate = 3600;
 
@@ -54,13 +56,13 @@ export default async function LeasePage() {
   };
   return (
     <>
-      <p className="mb-1 text-sm"><Link href="/severance">Severance tax calculator</Link> / the lease tool</p>
+      <p className="mb-1 text-sm"><Link href="/severance" prefetch={false}>Severance tax calculator</Link> / the lease tool</p>
       <h1 className="mb-1 text-3xl">Severance tax for a lease: every well, every month</h1>
       <div className="mb-5 max-w-3xl text-sm">
         <p className="mb-2">
           Drop a CSV of your wells&apos; monthly production, or paste the rows. For each well and month the tool computes the state production tax at
           the base rate and with the reduced rates you tick, and flags each rule whose thresholds the well&apos;s own numbers meet, with the statute or
-          agency page that states it. Texas, Louisiana and New Mexico, on the same cited rules as the <Link href="/severance">calculator</Link>.
+          agency page that states it. Texas, Louisiana and New Mexico, on the same cited rules as the <Link href="/severance" prefetch={false}>calculator</Link>.
         </p>
         <p className="mb-2 border-l-2 border-accent pl-2">
           <strong>Your file stays on your computer.</strong> It is read and computed in this browser tab. Nothing in it is sent to this site&apos;s server
@@ -69,7 +71,7 @@ export default async function LeasePage() {
         <p className="border-l-2 border-accent pl-2 text-muted">
           <strong>An estimate for education and planning, not tax advice.</strong> A &quot;may qualify&quot; flag means the numbers in your file meet the
           rule&apos;s thresholds; the state still has to certify or designate the well, and some tests (payout, pressure, the Railroad Commission&apos;s
-          designation) are not in the file. <Link href="/data/methods/severance">Method</Link>.
+          designation) are not in the file. <Link href="/data/methods/severance" prefetch={false}>Method</Link>.
         </p>
       </div>
       <Section title="Your lease">

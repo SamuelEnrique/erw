@@ -2,7 +2,7 @@
 // The top nav (session 20): six groups from lib/pages.ts, each a <details> menu, so it works
 // without JavaScript and fits a phone's width in one or two lines. A group of one page is a
 // plain link. A menu closes when a page is chosen or another menu opens.
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 46: no prefetch on /severance/lease
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { GROUPS } from "@/lib/pages";
