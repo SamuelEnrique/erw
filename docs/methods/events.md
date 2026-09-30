@@ -61,6 +61,24 @@ Heat waves and cold snaps are stories about the peak hour.
   - 2020-08-10, an event day;
   - 2019-08-13 and 2019-08-25, baseline days, so their comparisons for 2020-08-11 and 2020-08-23 are missing.
 
+### Winter Storm Elliott, December 2022 (`elliott_2022`)
+
+- **Window:** 2022-12-19 to 2022-12-29.
+- **Grids:** PJM, MISO, SPP, NYISO, ISO-NE and ERCOT, each on its own local day, as for COVID-19.
+- **Prices:** ERCOT's hub average, the daily mean and highest real-time and day-ahead price (`prices` "full"). PJM's prices are internal and not used.
+- **Framing,** read as text:
+  - FERC, NERC and the Regional Entities' inquiry report (https://www.ferc.gov/sites/default/files/2024-02/24_Winter-Storm_Elliot_0207_UPDATE.pdf): the storm blanketed "most of the eastern United States on December 23 and 24", with "90,500 MW of coincident unplanned generating unit outages, derates and failures to start" at the worst point.
+  - PJM's Event Analysis and Recommendation Report (2023-07-17): "almost a quarter of the generation capacity", 47,000 MW, on forced outages; load on Dec. 23 "about 136,000 MW" against a forecast of about 127,000 MW; PJM "remained reliable, was able to serve its customers" on Dec. 23 and 24; TVA and Duke "were both in an EEA-3 and shedding load".
+- **What the rows show:**
+  - PJM's highest hour, 135,328 MW on 2022-12-23, agrees with the report.
+  - The peak hour against the baseline was highest on 2022-12-23 in ERCOT (+65.01 percent), PJM (+41.76), MISO (+39.61) and SPP (+50.45), and on the 24th in NYISO (+17.18) and ISO-NE (+10.80, the least moved).
+- **What contradicts the story:**
+  - PJM's report says SPP "set a new winter peak" on Dec. 23. In EIA-930, SPP's highest hour of the window is 18:00 Central on 2022-12-22 (47,026 MW), which is 00:00 UTC on Dec. 23. The warehouse holds no SPP peak record to say which count the report used.
+- **The baseline weeks hold Christmas too:** the same weekdays of 2021 and 2020.
+- **Left out:**
+  - MISO 2021-12-27 misses an hour, so MISO's comparison for 2022-12-26 is left out.
+  - SWPP's CO2 is missing on several December days of 2020 and 2021.
+
 ## Sources and variables
 
 | Variable | Entity | From | Unit |

@@ -32,7 +32,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 38: today's level's price range
   "/play/battery",
   // session 39: three more events
-  "/events/caiso-heat-2020"];
+  "/events/caiso-heat-2020", "/events/elliott-2022"];
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 
