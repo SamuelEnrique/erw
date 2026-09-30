@@ -1,27 +1,35 @@
 #!/usr/bin/env python3
-"""Carbon intensity per balancing authority, hourly and daily, from EIA-930's CO2 estimates (session 32, Part A2).
+"""Carbon intensity per balancing authority, hourly, daily and monthly, from EIA-930's CO2 estimates (session 32, Part
+A2; session 34: from 2018, with the workbooks' own demand and net generation).
 
-Energy Research Warehouse (ERW). Writes two derived series tables (partition column ba), method
+Energy Research Warehouse (ERW). Writes three derived series tables (partition column ba), method
 docs/methods/emissions.md:
 
     carbon_intensity_hourly   per BA and hour
     carbon_intensity_daily    per BA and complete UTC day
+    carbon_intensity_monthly  per BA and UTC calendar month whose every day is complete (session 34)
 
-    intensity_generation  = co2_emissions_generated (eia930_all_emissions, tCO2) x 1000 / net_generation_mw
-                            (eia930_all_generation, MWh in the hour), kgCO2/MWh: the CO2 of the power made in the BA
-    intensity_demand      = co2_emissions_consumed (eia930_all_emissions, tCO2) x 1000 / demand_mw
-                            (eia930_all_demand), kgCO2/MWh: the CO2 of the power used in the BA, imports counted
-                            and exports taken out, over its demand
+    intensity_generation  = co2_emissions_generated (eia930_all_emissions, tCO2) x 1000 / EIA's "Net generation" in the
+                            same workbook row (MWh in the hour), kgCO2/MWh: the CO2 of the power made in the BA
+    intensity_demand      = co2_emissions_consumed (eia930_all_emissions, tCO2) x 1000 / EIA's "Demand" in the same
+                            workbook row, kgCO2/MWh: the CO2 of the power used in the BA, imports counted and exports
+                            taken out, over its demand
+
+Session 34: the denominators are the workbooks' own Demand and Net generation columns, read in the emissions
+connector's single pass over each workbook and kept in its extract (warehouse/raw/eia930_emissions/<run_id>/
+<ba>_hours.csv, the newest per BA), so intensity runs from 2018-07 like the emissions. Session 32 divided by the
+warehouse's eia930_all_generation and eia930_all_demand, which keep about 30 days; that version is still computed for
+the hours those tables hold, as a check, and its difference from the workbook version is logged and written in the
+header. It is not written as rows.
 
 The two differ by trade: a BA that imports power made with more CO2 than its own has a higher demand intensity than
 generation intensity, and one that exports its dirtier power the reverse. An hour is written only when its numerator
-and a denominator above zero are both in the warehouse; the daily values are energy-weighted (the day's CO2 over the
-day's MWh) over UTC days with all 24 hours of both. eia930_all_generation and eia930_all_demand keep about 30 days, so
-these tables reach back only that far; the emissions go back to 2018-07-01.
+and a denominator above zero are both present; the daily values are energy-weighted (the day's CO2 over the day's MWh)
+over UTC days with all 24 hours; the monthly values the same over months whose every UTC day is complete.
 
 EIA's own intensities in its workbooks (lbs/kWh) divide by positive generation and by "consumed electricity"
 (generation by source plus imports minus exports); these divide by the reported net generation and demand, so they
-can differ slightly.
+can differ slightly. All three tables are rewritten whole each run, one BA at a time.
 
     python warehouse/derived/carbon_intensity.py
 """
@@ -39,13 +47,16 @@ import pyarrow.csv as pcsv
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
+import eia930_emissions as em  # noqa: E402  (FILE: the BAs; latest_extract, read_extract, extract_meta)
 import iso_prices as ip  # noqa: E402
 
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/emissions.md"
 EMIS, GEN, DEM = "eia930_all_emissions", "eia930_all_generation", "eia930_all_demand"
 COLS = ip.SERIES_COLS + ["ba"]
-PAIRS = {"intensity_generation": ("co2_emissions_generated", GEN, "net_generation_mw"),
-         "intensity_demand": ("co2_emissions_consumed", DEM, "demand_mw")}
+# variable -> (the CO2 variable, the extract's denominator column, the warehouse check table and variable)
+PAIRS = {"intensity_generation": ("co2_emissions_generated", "net_generation_mwh", GEN, "net_generation_mw"),
+         "intensity_demand": ("co2_emissions_consumed", "demand_mwh", DEM, "demand_mw")}
+TABLES = ["carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly"]
 
 
 def read(name, variables, since=None):
@@ -68,7 +79,7 @@ def read(name, variables, since=None):
         if since:
             m = pc.and_(m, pc.greater_equal(b.column("ts_utc"), since))
         parts.append(pa.Table.from_batches([b]).filter(m))
-    return pa.concat_tables(parts).to_pandas() if parts else pd.DataFrame(columns=cols)
+    return pa.concat_tables(parts) if parts else None
 
 
 def r4(v):
@@ -76,18 +87,72 @@ def r4(v):
     return float(Decimal(repr(float(v))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP))
 
 
-def write(df, name, header, log):
-    path = os.path.join(ip.OUT_DIR, name + ".csv")
-    df = df[COLS].sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)
-    if df.duplicated(["entity", "variable", "ts_utc"]).any():
-        raise RuntimeError(f"{name}: duplicate keys")
-    with open(path + ".tmp", "w", encoding="utf-8", newline="") as f:
-        for h in header + [f"File holds {len(df)} rows, rewritten whole by this run."]:
-            f.write("# " + h + "\n")
-        df.to_csv(f, index=False, lineterminator="\n")
-    os.replace(path + ".tmp", path)
-    log(f"  wrote {name}.csv: {len(df)} rows")
-    print(f"{name}.csv: rows={len(df)}")
+class Out:
+    """One table written a BA at a time, through a temporary file."""
+
+    def __init__(self, name):
+        self.name, self.path = name, os.path.join(ip.OUT_DIR, name + ".csv")
+        self.body = self.path + ".rows.tmp"
+        self.f = open(self.body, "w", encoding="utf-8", newline="")
+        self.n = 0
+
+    def add(self, df):
+        df = df[COLS].sort_values(["entity", "variable", "ts_utc"])
+        if df.duplicated(["entity", "variable", "ts_utc"]).any():
+            raise RuntimeError(f"{self.name}: duplicate keys")
+        df.to_csv(self.f, index=False, header=False, lineterminator="\n")
+        self.n += len(df)
+
+    def close(self, header, log):
+        self.f.close()
+        with open(self.path + ".tmp", "w", encoding="utf-8", newline="") as f:
+            for h in header + [f"File holds {self.n} rows, rewritten whole by this run."]:
+                f.write("# " + h + "\n")
+            f.write(",".join(COLS) + "\n")
+            with open(self.body, encoding="utf-8") as b:
+                for line in b:
+                    f.write(line)
+        os.replace(self.path + ".tmp", self.path)
+        os.remove(self.body)
+        log(f"  wrote {self.name}.csv: {self.n} rows")
+        print(f"{self.name}.csv: rows={self.n}")
+
+    def abort(self):
+        self.f.close()
+        if os.path.exists(self.body):
+            os.remove(self.body)
+
+
+def check(emis, extracts, log):
+    """Session 34: the session 32 version (the warehouse's eia930_all_generation and eia930_all_demand as the
+    denominators) against the workbook version, over the hours both hold. Returns summary lines."""
+    lines = []
+    for var, (co2, col, table, wvar) in PAIRS.items():
+        w = read(table, [wvar])
+        if w is None:
+            continue
+        w = w.to_pandas()[["entity", "ts_utc", "value"]].rename(columns={"value": "w_mwh"})
+        stats = []
+        for code, x in extracts.items():
+            e = emis[(emis["ba"] == code) & (emis["variable"] == co2)][["entity", "ts_utc", "value"]]
+            j = e.merge(x[["ts_utc", col]], on="ts_utc").merge(w, on=["entity", "ts_utc"])
+            j = j[(j[col] > 0) & (j["w_mwh"] > 0)]
+            if not len(j):
+                continue
+            a, b = j["value"] * 1000 / j[col], j["value"] * 1000 / j["w_mwh"]
+            d = (b - a).abs()
+            stats.append((code, len(j), j["ts_utc"].min(), j["ts_utc"].max(), float(d.mean()), float(d.max()),
+                          float((d / a.abs()).median() * 100), int((d > 0.0001).sum())))
+            log(f"  check {var} {code}: {len(j)} hours {j['ts_utc'].min()}..{j['ts_utc'].max()}; |warehouse - workbook| "
+                f"mean {d.mean():.4f}, max {d.max():.4f} kgCO2/MWh, median {(d / a.abs()).median() * 100:.4f}%; "
+                f"hours differing by more than 0.0001: {(d > 0.0001).sum()}; denominators differ in "
+                f"{(j[col] - j['w_mwh']).abs().gt(0.5).sum()} hours by more than 0.5 MWh")
+        if stats:
+            n = sum(s[1] for s in stats)
+            lines.append(f"{var}: {n} hours in {len(stats)} BAs; mean |difference| "
+                         f"{sum(s[4] * s[1] for s in stats) / n:.4f} kgCO2/MWh, largest {max(s[5] for s in stats):.4f}; "
+                         f"{sum(s[7] for s in stats)} hours differ by more than 0.0001")
+    return lines
 
 
 def main():
@@ -95,51 +160,82 @@ def main():
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"carbon_intensity_{run_id}.log"))
     results = []
+    outs = []
     try:
-        gen = read(GEN, ["net_generation_mw"])
-        dem = read(DEM, ["demand_mw"])
-        since = min(gen["ts_utc"].min(), dem["ts_utc"].min())
-        emis = read(EMIS, ["co2_emissions_generated", "co2_emissions_consumed"], since=since)
-        log(f"inputs: {EMIS} {len(emis)} rows since {since}; {GEN} {len(gen)}; {DEM} {len(dem)}")
+        # the workbooks' demand and net generation: the newest extract of every BA, or nothing is written
+        extracts, used = {}, []
+        for code in em.FILE:
+            p = em.latest_extract(code)
+            if p is None:
+                raise RuntimeError(f"no extract of {code} under warehouse/raw/eia930_emissions/ (the emissions "
+                                   "connector writes one per BA each run); the tables are left as they are")
+            url, lm, got = em.extract_meta(p)
+            extracts[code] = em.read_extract(p)[["ts_utc", "demand_mwh", "net_generation_mwh"]]
+            used.append(f"{code}: {os.path.relpath(p, ROOT)} ({url}, Last-Modified {lm})")
+        log("extracts: " + "; ".join(used))
+        emis = read(EMIS, ["co2_emissions_generated", "co2_emissions_consumed"]).to_pandas()
+        log(f"inputs: {EMIS} {len(emis)} rows of generated and consumed CO2")
         retrieved = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
-        hourly, daily = [], []
-        for var, (co2, table, denom) in PAIRS.items():
-            e = emis[emis["variable"] == co2][["entity", "ts_utc", "value", "geo", "ba"]]
-            d = (gen if table == GEN else dem)
-            d = d[d["variable"] == denom][["entity", "ts_utc", "value"]]
-            j = e.merge(d, on=["entity", "ts_utc"], suffixes=("_co2", "_mwh"))
-            j = j[j["value_mwh"] > 0]
-            j = j.assign(value=(j["value_co2"] * 1000 / j["value_mwh"]).map(r4))
-            base = dict(variable=var, unit="kgCO2/MWh", market="", node="", source="erw:carbon_intensity",
-                        source_url=METHOD_URL, retrieved_at=retrieved, vintage="")
-            hourly.append(j.assign(freq="PT1H", **base)[COLS])
-            j = j.assign(day=j["ts_utc"].str[:10])
-            g = j.groupby(["entity", "geo", "ba", "day"]).agg(co2=("value_co2", "sum"), mwh=("value_mwh", "sum"),
-                                                               n=("value_co2", "size")).reset_index()
-            g = g[g["n"] == 24]
-            daily.append(pd.DataFrame({"entity": g["entity"], "ts_utc": g["day"] + "T00:00:00Z",
-                                       "value": (g["co2"] * 1000 / g["mwh"]).map(r4), "geo": g["geo"], "ba": g["ba"],
-                                       "freq": "P1D", **base})[COLS])
-            log(f"  {var}: {len(j)} hours, {len(g)} complete days")
+        base = dict(unit="kgCO2/MWh", market="", node="", source="erw:carbon_intensity", source_url=METHOD_URL,
+                    retrieved_at=retrieved, vintage="")
+        outs = [Out(t) for t in TABLES]
+        hourly, daily, monthly = outs
+        span = []
+        for code, x in extracts.items():
+            for var, (co2, col, _, _) in sorted(PAIRS.items()):  # the file sorted by entity, variable, ts_utc
+                e = emis[(emis["ba"] == code) & (emis["variable"] == co2)][["entity", "ts_utc", "value", "geo", "ba"]]
+                j = e.merge(x[["ts_utc", col]].rename(columns={col: "mwh"}), on="ts_utc")
+                j = j[j["mwh"] > 0].rename(columns={"value": "co2"})
+                if not len(j):
+                    continue
+                span += [j["ts_utc"].min(), j["ts_utc"].max()]
+                hourly.add(j.assign(variable=var, freq="PT1H", value=(j["co2"] * 1000 / j["mwh"]).map(r4), **base))
+                j = j.assign(day=j["ts_utc"].str[:10])
+                g = j.groupby(["entity", "geo", "ba", "day"]).agg(co2=("co2", "sum"), mwh=("mwh", "sum"),
+                                                                   n=("co2", "size")).reset_index()
+                g = g[g["n"] == 24]
+                daily.add(pd.DataFrame({"entity": g["entity"], "variable": var, "ts_utc": g["day"] + "T00:00:00Z",
+                                        "value": (g["co2"] * 1000 / g["mwh"]).map(r4), "geo": g["geo"], "ba": g["ba"],
+                                        "freq": "P1D", **base}))
+                # a month is written only when every UTC day of it is complete
+                g = g.assign(month=g["day"].str[:7])
+                m = g.groupby(["entity", "geo", "ba", "month"]).agg(co2=("co2", "sum"), mwh=("mwh", "sum"),
+                                                                     days=("day", "size")).reset_index()
+                m = m[m["days"] == pd.to_datetime(m["month"] + "-01").dt.days_in_month]
+                monthly.add(pd.DataFrame({"entity": m["entity"], "variable": var, "ts_utc": m["month"] + "-01T00:00:00Z",
+                                          "value": (m["co2"] * 1000 / m["mwh"]).map(r4), "geo": m["geo"], "ba": m["ba"],
+                                          "freq": "P1M", **base}))
+                log(f"  {code} {var}: {len(j)} hours, {len(g)} complete days, {len(m)} complete months")
+        checked = check(emis, extracts, log)
         head = lambda what: [  # noqa: E731
-            f"Energy Research Warehouse (ERW): carbon intensity per balancing authority, {what} (derived, session 32)",
+            f"Energy Research Warehouse (ERW): carbon intensity per balancing authority, {what} (derived, sessions 32 "
+            "and 34)",
             "Shape: series (docs/datastandard.md v0), partition column ba, kgCO2/MWh. intensity_generation = EIA's CO2 "
-            "emissions generated / net generation; intensity_demand = EIA's CO2 emissions consumed (generated plus "
-            "imported minus exported) / demand. Daily values: the day's CO2 over the day's MWh, complete UTC days only.",
+            "emissions generated / EIA's net generation; intensity_demand = EIA's CO2 emissions consumed (generated plus "
+            "imported minus exported) / EIA's demand. Daily values: the day's CO2 over the day's MWh, complete UTC days "
+            "only; monthly values the same over UTC months whose every day is complete.",
             f"Retrieved: {run_id} (UTC) by warehouse/derived/carbon_intensity.py",
             f"Run log: warehouse/output/logs/carbon_intensity_{run_id}.log",
             f"Source: erw:carbon_intensity ERW derived table, emissions method (docs/methods/emissions.md), {METHOD_URL}",
-            f"Derived from: {EMIS}; {GEN}; {DEM}",
-            f"Reach: the hours eia930_all_generation and eia930_all_demand hold (about 30 days, from {since}).",
+            f"Derived from: {EMIS}",
+            "Denominators (session 34): the Demand and Net generation columns of the same EIA workbooks the CO2 comes from "
+            "(sheet Published Hourly Data), from the emissions connector's extracts: " + "; ".join(used),
+            f"Reach: {min(span)} to {max(span)}.",
+            "Check against the session 32 version (the warehouse's eia930_all_generation and eia930_all_demand as "
+            "denominators, the hours they hold): " + (" | ".join(checked) or "no overlapping hours"),
         ]
-        write(pd.concat(hourly), "carbon_intensity_hourly", head("hourly"), log)
-        write(pd.concat(daily), "carbon_intensity_daily", head("daily"), log)
+        for o, what in zip(outs, ["hourly", "daily", "monthly"]):
+            o.close(head(what), log)
+        outs = []
         ip.update_sources([{"source": "erw:carbon_intensity", "publisher": "Energy Research Warehouse (ERW), derived",
                             "report": "Carbon intensity per balancing authority (docs/methods/emissions.md)",
-                            "report_url": METHOD_URL, "document_list": "", "license": "public",
-                            "tables": ["carbon_intensity_hourly", "carbon_intensity_daily"]}])
-        results.append(dict(table="carbon_intensity", market="derived", status="ok", detail="hourly and daily written"))
+                            "report_url": METHOD_URL, "document_list": "", "license": "public", "tables": TABLES}])
+        results.append(dict(table="carbon_intensity", market="derived", status="ok",
+                            detail=f"hourly {hourly.n}, daily {daily.n}, monthly {monthly.n} rows; " + " | ".join(checked)
+                            [:200]))
     except Exception:
+        for o in outs:
+            o.abort()
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED:\n{tb}")
         print(f"carbon_intensity FAILED: {tb.strip().splitlines()[-1]}", file=sys.stderr)

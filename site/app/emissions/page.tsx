@@ -13,10 +13,13 @@ import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 // Session 32 (Part B): carbon intensity per ISO, two blocks only: the latest hour per ISO, ranked, and the last 24
 // hours as one chart. Every number is a value of carbon_intensity_hourly (derived from EIA's CO2 estimates,
 // eia930_all_emissions, over EIA-930 generation and demand); the page computes nothing.
+// Session 34: one more block, the monthly intensity since 2018-07 per ISO (carbon_intensity_monthly). Since session 34
+// the denominators are the workbooks' own Demand and Net generation, so every table reaches back to 2018.
 export const metadata: Metadata = { title: "Emissions" };
 export const revalidate = 3600;
 
 const T = "carbon_intensity_hourly";
+const TM = "carbon_intensity_monthly"; // session 34
 const METHOD = "/data/methods/emissions";
 const ISOS = [
   { entity: "eia930:CISO", label: "CAISO", color: "var(--color-fuel-solar)" },
@@ -39,8 +42,40 @@ function Tier() {
 const N = (r?: SeriesRow) =>
   r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}`} raw={r.value}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
 
+function Monthly({ rows }: { rows: SeriesRow[] }) {
+  const of = (e: string) => rows.filter((r) => r.entity === e && r.variable === "intensity_generation").sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
+  const lines: Line[] = ISOS.map((i) => ({ label: i.label, color: i.color, points: of(i.entity).map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })) }));
+  return (
+    <>
+      <LineChart lines={lines} unit="kg CO2/MWh" height={280} ariaLabel="Carbon intensity of generation per ISO, monthly since 2018" />
+      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm tabular-nums">
+        {ISOS.map((i) => {
+          const first = of(i.entity)[0];
+          const last = of(i.entity).at(-1);
+          return last && first ? (
+            <span key={i.entity}>
+              {i.label}: <Num check={`series|${TM}|${first.entity}|${first.variable}|${first.ts_utc}`} raw={first.value}>{shown(first.value)}</Num>{" "}
+              <span className="text-[11px] text-muted">({first.ts_utc.slice(0, 7)})</span> to{" "}
+              <Num check={`series|${TM}|${last.entity}|${last.variable}|${last.ts_utc}`} raw={last.value}>{shown(last.value)}</Num>{" "}
+              <span className="text-[11px] text-muted">({last.ts_utc.slice(0, 7)})</span>
+            </span>
+          ) : null;
+        })}
+      </div>
+      <p className="mt-1 text-[11px] text-muted">
+        Intensity of generation, kg CO2/MWh: each month&apos;s CO2 over its net generation, for UTC months whose every day is
+        complete; a month with a missing day is left out, so a line can have gaps. The first and the latest complete month
+        per ISO are given in figures.
+      </p>
+    </>
+  );
+}
+
 export default async function Emissions() {
-  const got = await attempt(() => series(T, { since: daysAgo(3) }));
+  const [got, monthly] = await Promise.all([
+    attempt(() => series(T, { since: daysAgo(3) })),
+    attempt(() => series(TM, { variable: "intensity_generation" })),
+  ]);
   const rows = got.ok ? got.data : [];
   const of = (e: string, v: string) => rows.filter((r) => r.entity === e && r.variable === v).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
   const latest = ISOS.map((i) => {
@@ -101,7 +136,7 @@ export default async function Emissions() {
             </p>
           </div>
         )}
-        <Cite tables={[T]} note="Derived from eia930_all_emissions (EIA's CO2 estimates), eia930_all_generation and eia930_all_demand" />
+        <Cite tables={[T]} note="Derived from eia930_all_emissions (EIA's CO2 estimates) over the Demand and Net generation columns of the same EIA workbooks" />
       </Section>
 
       <Section title="The last 24 hours" aside={<Tier />}>
@@ -111,6 +146,15 @@ export default async function Emissions() {
           <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last 3 days` : got.reason} />
         )}
         <Cite tables={[T]} note={newest ? `Intensity of generation, hourly, the 24 hours to ${utc(new Date(newest).toISOString())} (hour start)` : undefined} />
+      </Section>
+
+      <Section title="Monthly since 2018" aside={<Tier />}>
+        {monthly.ok && monthly.data.length ? (
+          <Monthly rows={monthly.data} />
+        ) : (
+          <NoData what="the monthly intensity" reason={monthly.ok ? `${TM} returned no rows` : monthly.reason} />
+        )}
+        <Cite tables={[TM]} note="Derived from eia930_all_emissions over the Demand and Net generation columns of the same EIA workbooks, from 2018-07, when EIA's CO2 estimates start" />
       </Section>
     </>
   );

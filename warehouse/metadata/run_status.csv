@@ -1957,3 +1957,4 @@ run_id,runner,connector,table,market,status,detail
 20260930T002015Z,local,eia930_emissions,eia930_all_emissions,miso 2018-07-02..2026-09-27 oil,gap,"2982 UTC days without 24 hours with co2_emissions_oil, not written (first 2018-07-02, 2018-07-03, 2018-07-04; last 2026-09-27)"
 20260930T002015Z,local,eia930_emissions,eia930_all_emissions,pjm 2022-10-01 coal,gap,20 of 24 hours with co2_emissions_coal; not written for this day
 20260930T002015Z,local,eia930_emissions,eia930_all_emissions,pjm 2022-10-02 coal,gap,23 of 24 hours with co2_emissions_coal; not written for this day
+20260930T003026Z,local,carbon_intensity,carbon_intensity,derived,ok,"hourly 1119244, daily 46624, monthly 1264 rows; intensity_generation: 6335 hours in 8 BAs; mean |difference| 0.1569 kgCO2/MWh, largest 38.1535; 624 hours differ by more than 0.0001 | intensity_demand: 6191 hours in 8 BAs; mean |difference| 0.0340 k"
