@@ -20,9 +20,9 @@ Sources: https://www.nyiso.com/what-we-do ; https://www.eia.gov/electricity/grid
 
 ## A short history
 
-- **1999-12-01:** NYISO takes over running New York's grid from the New York Power Pool.
-- **2003-08-14:** The Northeast blackout leaves New York City and much of the state without power.
-- **2021-04-30:** The last reactor at the Indian Point nuclear plant, north of New York City, shuts down.
+- **1999-12-01:** NYISO takes over running New York's grid from the New York Power Pool (NYISO, https://www.nyiso.com/faq).
+- **2003-08-14:** The Northeast blackout leaves New York City and much of the state without power (NYISO, https://www.nyiso.com/-/a-look-back-at-the-northeast-blackout-of-2003-and-lessons-learned).
+- **2021-04-30:** The last reactor at the Indian Point nuclear plant, north of New York City, shuts down (EIA, https://www.eia.gov/todayinenergy/detail.php?id=47776).
 
 Sources: https://www.nyiso.com/about-us ; https://www.nyiso.com/what-we-do
 

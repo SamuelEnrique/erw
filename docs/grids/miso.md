@@ -20,9 +20,9 @@ Sources: https://www.misoenergy.org/meet-miso/about-miso/ ; https://www.eia.gov/
 
 ## A short history
 
-- **2001-12:** The Federal Energy Regulatory Commission approves MISO as the first regional transmission organization (RTO) in the United States.
-- **2005-04-01:** MISO opens its day-ahead and real-time energy markets.
-- **2013-12-19:** Utilities in Arkansas, Louisiana, Mississippi and East Texas join MISO as MISO South.
+- **2001-12-20:** The Federal Energy Regulatory Commission approves MISO as the first regional transmission organization (RTO) in the United States (MISO, https://www.misoenergy.org/meet-miso/about-miso/industry-foundations/miso-history/).
+- **2005-04-01:** MISO opens its day-ahead and real-time energy markets (FERC, https://ferc.gov/sites/default/files/2020-05/miso-06-30-05.pdf).
+- **2013-12-19:** Utilities in Arkansas, Louisiana, Mississippi and East Texas join MISO as MISO South (FERC, https://ferc.gov/sites/default/files/2020-05/E-4_84.pdf).
 
 Sources: https://www.misoenergy.org/meet-miso/about-miso/
 

@@ -20,9 +20,9 @@ Sources: https://www.caiso.com/todays-outlook ; https://www.eia.gov/electricity/
 
 ## A short history
 
-- **1998-03-31:** CAISO begins operating the grid, after California restructured its electricity industry.
-- **2014-11-01:** The Western Energy Imbalance Market starts, letting utilities outside California trade power with CAISO in real time.
-- **2020-08-14:** During a West-wide heat wave, CAISO orders rotating outages because demand outran the power available.
+- **1998-03-31:** CAISO begins operating the grid, after California restructured its electricity industry (CAISO, https://www.caiso.com/documents/rtofiling.pdf).
+- **2014-11-01:** The Western Energy Imbalance Market starts, letting utilities outside California trade power with CAISO in real time (CAISO, https://www.caiso.com/content/monthly-market-performance/dec-2022/western-energy-imbalance-market.html).
+- **2020-08-14:** During a West-wide heat wave, CAISO orders rotating outages because demand outran the power available (CAISO, https://www.caiso.com/Documents/Final-Root-Cause-Analysis-Mid-August-2020-Extreme-Heat-Wave.pdf).
 
 Sources: https://www.caiso.com/about ; https://www.westernenergymarkets.com/
 

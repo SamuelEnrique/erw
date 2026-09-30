@@ -20,9 +20,9 @@ Sources: https://www.pjm.com/markets-and-operations/rpm ; https://www.pjm.com/ab
 
 ## A short history
 
-- **1927:** Three utilities in Pennsylvania and New Jersey pool their power plants (PJM, https://www.pjm.com/about-pjm/who-we-are); PJM grows from this pool.
-- **2007-06-01:** The first delivery year of PJM's capacity market, the Reliability Pricing Model, begins.
-- **2022-12-24:** During Winter Storm Elliott, many power plants fail in the cold and PJM calls on emergency procedures to keep the lights on.
+- **1927:** Three utilities in Pennsylvania and New Jersey pool their power plants; PJM grows from this pool (PJM, https://www.pjm.com/about-pjm/who-we-are/pjm-history).
+- **2007:** PJM's capacity market, the Reliability Pricing Model, begins with its 2007/2008 delivery year (PJM Manual 18, https://www.pjm.com/-/media/DotCom/documents/manuals/m18.pdf).
+- **2022-12-24:** During Winter Storm Elliott, many power plants fail in the cold and PJM calls on emergency procedures to keep the lights on (PJM, https://www.pjm.com/-/media/DotCom/library/reports-notices/special-reports/2023/20230717-winter-storm-elliott-event-analysis-and-recommendation-report.pdf).
 
 Sources: https://www.pjm.com/about-pjm/who-we-are ; https://www.pjm.com/markets-and-operations/rpm
 

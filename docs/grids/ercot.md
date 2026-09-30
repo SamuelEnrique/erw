@@ -20,9 +20,9 @@ Sources: https://www.ercot.com/about/profile ; https://www.eia.gov/electricity/g
 
 ## A short history
 
-- **1970:** ERCOT is formed to manage reliability for the Texas grid.
-- **2010-12-01:** ERCOT starts its nodal market, with a price at each location on the grid instead of a few zones.
-- **2021-02-15:** During Winter Storm Uri, ERCOT orders utilities to cut power to customers across the state because too many power plants had failed in the cold.
+- **1970:** ERCOT is formed to manage reliability for the Texas grid (ERCOT, https://www.ercot.com/news/mediakit/backgrounder).
+- **2010-12-01:** ERCOT starts its nodal market, with a price at each location on the grid instead of a few zones (ERCOT, https://www.ercot.com/files/docs/2011/04/26/ercot_2010_financial_statements.pdf).
+- **2021-02-15:** During Winter Storm Uri, ERCOT orders utilities to cut power to customers across the state because too many power plants had failed in the cold (EIA, https://www.eia.gov/todayinenergy/detail.php?id=46836).
 
 Sources: https://www.ercot.com/about ; https://www.ercot.com/about/profile
 

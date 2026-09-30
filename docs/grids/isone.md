@@ -20,9 +20,9 @@ Sources: https://www.iso-ne.com/about/key-stats ; https://www.eia.gov/electricit
 
 ## A short history
 
-- **1997:** ISO New England is created to run the region's grid independently of the utilities.
-- **2003-03-01:** ISO-NE starts pricing power by location (Standard Market Design).
-- **2008-02:** ISO-NE holds its first Forward Capacity Auction.
+- **1997:** ISO New England is created to run the region's grid independently of the utilities (ISO-NE, https://www.iso-ne.com/about/who-we-are/our-history).
+- **2003:** ISO-NE starts pricing power by location, with day-ahead and real-time markets (Standard Market Design) (ISO-NE, https://www.iso-ne.com/about/who-we-are/our-history).
+- **2008-02:** ISO-NE holds its first Forward Capacity Auction (ISO-NE, https://www.iso-ne.com/about/who-we-are/our-history).
 
 Sources: https://www.iso-ne.com/about ; https://www.iso-ne.com/markets-operations/markets/forward-capacity-market
 

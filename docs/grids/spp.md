@@ -20,9 +20,9 @@ Sources: https://www.spp.org/about-us/fast-facts/ ; https://www.eia.gov/electric
 
 ## A short history
 
-- **1941:** Utilities in the region pool their power to keep an aluminum plant in Arkansas running for the war effort; SPP grows from this pool.
-- **2014-03-01:** SPP launches the Integrated Marketplace, with day-ahead and real-time markets.
-- **2021-02-15:** During Winter Storm Uri, SPP directs utilities to cut power to some customers to protect the grid.
+- **1941:** Utilities in the region pool their power to keep an aluminum plant in Arkansas running for the war effort; SPP grows from this pool (SPP, https://www.spp.org/news-list/spp-celebrates-20-years-as-an-rto-with-growth-and-added-value-for-members/).
+- **2014:** SPP launches the Integrated Marketplace, with day-ahead and real-time markets (SPP, https://www.spp.org/about-us/fast-facts/).
+- **2021-02-15:** During Winter Storm Uri, SPP directs utilities to cut power to some customers to protect the grid (SPP, https://spp.org/documents/65037/comprehensive%20review%20of%20spp's%20response%20to%20the%20feb.%202021%20winter%20storm%202021%2007%2019.pdf).
 
 Sources: https://www.spp.org/about-us/ ; https://www.spp.org/about-us/fast-facts/
 
