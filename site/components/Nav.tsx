@@ -22,7 +22,7 @@ export function Nav() {
   return (
     <nav ref={box} className="flex flex-wrap gap-x-5 gap-y-1 text-sm" aria-label="Site">
       {GROUPS.map((g, gi) => {
-        const here = g.pages.some((p) => path === p.href || path.startsWith(p.href + "/"));
+        const here = g.pages.some((p) => path === p.href || path.startsWith(p.href + "/")) || !!g.sub?.links.some((l) => path === l.href);
         if (g.pages.length === 1) {
           const p = g.pages[0];
           return (
@@ -45,6 +45,18 @@ export function Nav() {
                   </Link>
                 </li>
               ))}
+              {g.sub ? (
+                <li className="mt-1 border-t border-rule px-3 pt-1">
+                  <div className="text-xs text-muted">{g.sub.label}</div>
+                  <div className="flex flex-wrap gap-x-2 text-sm">
+                    {g.sub.links.map((l) => (
+                      <Link key={l.href} href={l.href} className={`no-underline ${path === l.href ? "text-accent" : "text-ink hover:text-accent"}`}>
+                        {l.label}
+                      </Link>
+                    ))}
+                  </div>
+                </li>
+              ) : null}
             </ul>
           </details>
         );

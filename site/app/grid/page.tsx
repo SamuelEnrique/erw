@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { YOUR_GRID } from "@/lib/pages";
 import { Related } from "@/components/Related";
 import { Term } from "@/components/Term";
 import { Cite } from "@/components/Cite";
@@ -240,6 +242,13 @@ export default async function GridPage() {
         Each ISO&apos;s peak demand and when it came, how far EIA&apos;s
         day-ahead demand forecast missed, the generation mix, and the last seven days of demand. Days are UTC days, as EIA publishes them; the peak
         hour is also given in the ISO&apos;s local time.
+      </p>
+      {/* session 35: the seven grid pages */}
+      <p className="mb-4 text-sm">
+        <span className="font-semibold">Your grid:</span>{" "}
+        {YOUR_GRID.map((l, i) => (
+          <span key={l.href}>{i ? " · " : ""}<Link href={l.href}>{l.label}</Link></span>
+        ))}
       </p>
       <div className="mb-8 flex flex-wrap gap-3 text-xs" aria-label="Fuel colors">
         {FUELS.map((f) => (

@@ -4,7 +4,15 @@
 
 // related (session 21): the pages a data page's closing "Related" line links
 export type Page = { href: string; label: string; line: string; tables: string; related?: string[] };
-export type Group = { label: string; pages: Page[] };
+// session 35: sub, a line of short links under a group's pages (the Grid menu's "Your grid": the seven grid pages)
+export type Group = { label: string; pages: Page[]; sub?: { label: string; links: { href: string; label: string }[] } };
+
+// session 35: the seven grid pages (/grid/<slug>, docs/grids/grids.json), in the nav's Grid menu
+export const YOUR_GRID = [
+  { href: "/grid/ercot", label: "ERCOT" }, { href: "/grid/caiso", label: "CAISO" }, { href: "/grid/pjm", label: "PJM" },
+  { href: "/grid/nyiso", label: "NYISO" }, { href: "/grid/isone", label: "ISO-NE" }, { href: "/grid/miso", label: "MISO" },
+  { href: "/grid/spp", label: "SPP" },
+];
 
 export const GROUPS: Group[] = [
   {
@@ -29,6 +37,7 @@ export const GROUPS: Group[] = [
       { href: "/storage", label: "Storage", line: "The US battery fleet by ISO, state and planned year, and how the batteries charge and discharge each hour and day.", tables: "storage_capacity, storage_daily_cycle, eia930_all_storage", related: ["/grid", "/mix"] },
       { href: "/consumption", label: "Consumption", line: "Electricity sold by state and sector, and where industrial and commercial load grows fastest.", tables: "eia_retail_sales_monthly, eia_sector_energy_consumption_monthly", related: ["/mix", "/datacenters"] },
     ],
+    sub: { label: "Your grid", links: YOUR_GRID },
   },
   {
     label: "Projects",

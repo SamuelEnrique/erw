@@ -20,7 +20,11 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/consumption",
   // session 19
-  "/markets"];
+  "/markets",
+  // session 35: the seven grid pages
+  "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp"];
+// session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
+const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 
 function env(name) {
   if (process.env[name]) return process.env[name];
@@ -152,6 +156,34 @@ async function truth(check) {
     const hasMwh = (r) => r.mwh !== null && r.mwh !== undefined && r.mwh !== "";
     if (what === "mwh") return Math.round(rows.filter((r) => r.status === a && hasMwh(r)).reduce((s, r) => s + Number(r.mwh), 0) * 10) / 10;
     if (what === "n_mwh") return rows.filter((r) => r.status === a && hasMwh(r)).length;
+    // session 35: a grid's battery MWh (units whose balancing authority is the grid's ISO)
+    if (what === "iso_mwh") return Math.round(rows.filter((r) => r.iso === a && r.status === b && hasMwh(r)).reduce((s, r) => s + Number(r.mwh), 0) * 10) / 10;
+  }
+  // session 35: the grid pages. gridq|<queue table>|<status>|<technology_group>|n or mw: its positions in energy_projects
+  if (p[0] === "gridq") {
+    const [, table, status, tech, what] = p;
+    const rows = await all("entities", { select: "capacity_mw,status,tech:extra->>technology_group,src:extra->>source_table", table_name: "eq.energy_projects",
+      entity_id: `like.${table.replace(/_interconnection_queue$/, "_queue")}:*`, order: "entity_id" }).then((x) => x.filter((r) => r.src === table));
+    const m = rows.filter((r) => r.status === status && (r.tech ?? "unknown") === tech);
+    if (what === "n") return m.length;
+    return Math.round(m.reduce((a, r) => a + (r.capacity_mw === null ? 0 : Number(r.capacity_mw)), 0) * 10) / 10;
+  }
+  // griddc|<ST;ST>|n or mw: datacenter_facilities in those states
+  if (p[0] === "griddc") {
+    const [, states, what] = p;
+    const set = new Set(states.split(";"));
+    const rows = (await all("entities", { select: "capacity_mw,state:extra->>state", table_name: "eq.datacenter_facilities", order: "entity_id" }))
+      .filter((r) => set.has(r.state));
+    if (what === "n") return rows.length;
+    return Math.round(rows.reduce((a, r) => a + (r.capacity_mw === null ? 0 : Number(r.capacity_mw)), 0) * 10) / 10;
+  }
+  // gridnews|<slug>|<since>|n: news_index stories since then whose headline names the grid or whose region is one of its states
+  if (p[0] === "gridnews") {
+    const [, slug, since] = p;
+    const g = GRIDS.find((x) => x.slug === slug);
+    const rows = await all("events", { select: "headline:extra->>headline,region:extra->>region", table_name: "eq.news_index", event_date: `gte.${since}`, order: "event_id" });
+    const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return rows.filter((r) => g.names.some((n) => new RegExp(`\\b${esc(n)}\\b`).test(r.headline ?? "")) || Object.values(g.states).includes((r.region ?? "").trim())).length;
   }
   throw new Error(`unknown check ${check}`);
 }

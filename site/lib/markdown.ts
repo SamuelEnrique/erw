@@ -25,6 +25,17 @@ export type Docs = {
   platform: { total: number; yes: number; partial: number; no: number; planned: number };
   // session 21: warehouse/metadata/sources.csv, for /terms
   sources: { source: string; publisher: string; report: string; report_url: string; license: string; tables: string }[];
+  // session 35: the grid pages' config (docs/grids/grids.json) and written layer (docs/grids/<slug>.md)
+  grid_config: GridConfig[];
+  grids: Record<string, string>;
+};
+export type GridConfig = {
+  slug: string; iso: string; name: string; ba: string; entity: string; tz: string; tz_label: string;
+  market_prefix: string | null; hub: { entity: string; label: string } | null;
+  prices_public: boolean; prices_note?: string; prices_url?: string;
+  queue_table: string | null; queue_url?: string;
+  storage_entity: string | null; storage_source: "eia930" | "caiso" | null;
+  states: Record<string, string>; names: string[]; tables: string[];
 };
 export type ChartOfWeek = {
   week: string; template: string; title: string; subtitle: string; note: string; caption: string; note_by: string;

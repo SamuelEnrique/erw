@@ -135,8 +135,16 @@ for (const line of read(path.join(docs, "platform-tools.md")).split("\n")) {
   }
 }
 
+// Session 35: the grid pages' written layer (docs/grids/<slug>.md) and their config (docs/grids/grids.json); every grid
+// the config names must have its markdown, or the build fails
+const gridConfig = JSON.parse(read(path.join(docs, "grids", "grids.json")));
+const grids = {};
+for (const g of gridConfig.grids) grids[g.slug] = read(path.join(docs, "grids", `${g.slug}.md`));
+
 const out = {
   built_at: new Date().toISOString(),
+  grid_config: gridConfig.grids,
+  grids,
   platform,
   analysis,
   sources: sources(),
@@ -150,4 +158,4 @@ const out = {
 };
 fs.mkdirSync(path.join(here, "..", "content"), { recursive: true });
 fs.writeFileSync(path.join(here, "..", "content", "docs.json"), JSON.stringify(out));
-console.log(`build-content: ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard, ${Object.keys(analysis.weeks).length} analysis weeks`);
+console.log(`build-content: ${Object.keys(grids).length} grid pages, ${Object.keys(digests).length} digests, ${Object.keys(weeklies).length} weekly briefs, ${Object.keys(methods).length} method documents, the data standard, ${Object.keys(analysis.weeks).length} analysis weeks`);
