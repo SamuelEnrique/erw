@@ -38,6 +38,8 @@ const PAGES = [
   "/subscribe", "/ask",
   // session 35: the seven grid pages
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
+  // session 36B: the Historical Event Analyzer
+  "/events", "/events/uri-2021",
 ];
 
 function visible(html) {

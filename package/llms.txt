@@ -303,6 +303,7 @@ day-ahead tables running into tomorrow:
 
 | Question | Table |
 |---|---|
+| Winter Storm Uri (ERCOT, February 2021) day by day against the same days of 2019 and 2020: prices, demand served, net generation, carbon intensity | `event_window_daily` (event uri_2021) |
 | A recent ISO price (last month) | `iso_{dam,rtm}_hub_prices` (market), `{nyiso,isone}_{dam,rtm}_zone_prices` |
 | ERCOT price before the live window, or a year | `ercot_all_hub_prices_history` (market, year) |
 | ERCOT distribution: percentiles, IQR, scarcity or negative counts by year or month | `ercot_peak_premium_annual` / `_monthly` |
@@ -445,6 +446,18 @@ tables, the digest archive, coverage, methods and the ERCOT peak-premium
 explorer. `/ask` answers questions with the tools of warehouse/chat
 (list_tables, describe_table, query, compare, and grid_notes): every number in
 an answer must come from a tool result, and every answer cites its tables.
+
+**Event windows** (session 36B, derived, public, method docs/methods/events.md):
+  event_window_daily, daily figures around an event and the same calendar days
+  of earlier years, partition columns ba and event. The first event is uri_2021
+  (Winter Storm Uri, ERCOT): operating days 2021-02-07 to 2021-02-24 and the
+  same days of 2019 and 2020. Variables: rt_mean, rt_max, da_mean, da_max
+  (ercot:HB_HUBAVG, USD/MWh); demand_mwh, demand_min_mw, demand_max_mw,
+  net_generation_mwh, intensity_generation (eia930:ERCO); for event days
+  demand_mwh_vs_baseline, net_generation_mwh_vs_baseline (the day minus the mean
+  of 2019 and 2020) and *_day_change (the day minus the day before). Demand
+  during load shed is load served, not what customers wanted. The site's
+  /events and /events/uri-2021 draw it.
 
 **Grid pages** (session 35): /grid/ercot, /grid/caiso, /grid/pjm, /grid/nyiso,
 /grid/isone, /grid/miso, /grid/spp, one template for students: demand now,

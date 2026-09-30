@@ -42,6 +42,7 @@ ercot_interconnection_queue,ERCOT,,1778,snapshot,2026-09-26T00:06:47Z,2026-09-26
 ercot_peak_premium_annual,ERCOT,ercot_rtm,6,P1Y,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2016,erw:ercot_peak_premium,2026-09-29T00:55:55Z,pass,public,power,yes,derived
 ercot_peak_premium_monthly,ERCOT,ercot_rtm,6,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,23688,erw:ercot_peak_premium,2026-09-29T00:55:55Z,pass,public,power,yes,derived
 ercot_wind_solar_hsl_daily,ERCOT,,1,P1D,2026-09-19T00:00:00Z,2026-09-27T00:00:00Z,54,ercot:np4_732_745,2026-09-29T01:09:05Z,pass,public,power,no,source
+event_window_daily,ERCOT,ercot_dam;ercot_rtm,2,P1D,2019-02-07T00:00:00Z,2021-02-24T00:00:00Z,556,erw:event_window,2026-09-30T06:28:23Z,pass,public,power;carbon,yes,derived
 fred_daily_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-09-22T00:00:00Z,24291,fred:DCOILBRENTEU;fred:DCOILWTICO;fred:DHHNGSP,2026-09-29T01:08:36Z,pass,public,oil;gas,no,source
 fred_imf_commodity_prices,none,,5,P1M,1992-01-01T00:00:00Z,2026-07-01T00:00:00Z,2075,fred:PCOALAUUSDM;fred:PNGASEUUSDM;fred:PNGASJPUSDM;fred:PNICKUSDM;fred:PURANUSDM,2026-09-29T01:08:36Z,pass,internal,gas;lng;coal;uranium;metals,no,source
 iso_curtailment_monthly,iso,,2,P1M,2014-03-01T00:00:00Z,2026-08-01T00:00:00Z,1988,erw:iso_curtailment_monthly,2026-09-29T01:09:37Z,pass,public,power,yes,derived

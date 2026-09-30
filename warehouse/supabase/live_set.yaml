@@ -52,6 +52,8 @@ full:
   - '^carbon_intensity_(daily|monthly)$'          # session 34: the monthly table too, whole (about 1,600 rows)
   # session 34: CAISO's own battery series for /storage, beside EIA-930's (Total batteries only, its own window below)
   - '^caiso_battery_storage$'
+  # session 36B: the Historical Event Analyzer's daily table (556 rows); never an hourly history
+  - '^event_window_daily$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
