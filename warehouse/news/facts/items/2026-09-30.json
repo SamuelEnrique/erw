@@ -1,35 +1,29 @@
 {
  "date": "2026-09-30",
- "fact_id": "ff_bcac98bca5",
- "kind": "history",
- "fact": "Shippingport's reactor reached criticality on December 2, 1957, and its first electrical power was produced on December 18, 1957.",
+ "fact_id": "ff_af80783a5e",
+ "kind": "warehouse",
+ "fact": "In 2001, wind made 0.3% of the electricity generated in Texas; in 2025 it made 21.9%.",
  "second": "On this day in 1882: Thomas Edison's first commercial hydroelectric power plant, the Vulcan Street Plant, begins operation.",
  "structure": "on_this_day",
  "conjecture": "False",
  "sources": [
   {
-   "label": "Wikipedia, Shippingport Atomic Power Station",
-   "url": "https://en.wikipedia.org/wiki/Shippingport_Atomic_Power_Station",
-   "raw": "warehouse/news/facts/raw/wikipedia/shippingport_atomic_power_station_20260928T083044Z.txt",
-   "retrieved_at": "20260928T083044Z",
    "part": "fact",
-   "span": "The reactor reached criticality on December 2, 1957"
-  },
-  {
-   "label": "Wikipedia, Shippingport Atomic Power Station",
-   "url": "https://en.wikipedia.org/wiki/Shippingport_Atomic_Power_Station",
-   "raw": "warehouse/news/facts/raw/wikipedia/shippingport_atomic_power_station_20260928T083044Z.txt",
-   "retrieved_at": "20260928T083044Z",
-   "part": "fact",
-   "span": "The first electrical power was produced on December 18, 1957"
+   "label": "ERW table state_generation_mix_monthly",
+   "table": "state_generation_mix_monthly",
+   "publisher": "Energy Research Warehouse (ERW), derived",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/share_tx_wind_20260928T083049Z.txt",
+   "span": "state_generation_mix_monthly eia:TX: wind share of net generation 0.3% in 2001, 21.9% in 2025 (sums of monthly MWh over complete years)",
+   "retrieved_at": "20260928T083049Z"
   },
   {
    "part": "second",
    "label": "Wikipedia, September 30",
    "url": "https://en.wikipedia.org/wiki/September_30",
-   "raw": "warehouse/news/facts/raw/wikipedia/september_30_20260930T201141Z.txt",
+   "raw": "warehouse/news/facts/raw/wikipedia/september_30_20260930T221441Z.txt",
    "span": "1882 – Thomas Edison's first commercial hydroelectric power plant, the Vulcan Street Plant, begins operation.",
-   "retrieved_at": "20260930T201141Z"
+   "retrieved_at": "20260930T221441Z"
   }
  ]
 }

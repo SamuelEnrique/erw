@@ -32,12 +32,12 @@ LNG Prime,LNG Prime,news stories via feed 'LNG Prime',,,internal,energy_deals;en
 Latitude Media,Latitude Media,news stories via feed 'Latitude Media',,,internal,news_index;news_stories,2026-09-25,2026-09-30
 MISO Help Center,MISO Help Center,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-30
 Midcontinent Independent System Operator,Midcontinent Independent System Operator,news stories via feed 'MISO newsroom',,,internal,news_index;news_stories,2026-09-30,2026-09-30
-Midcontinent Independent System Operator (MISO),Midcontinent Independent System Operator (MISO),news stories via feed 'MISO newsroom',,,internal,news_index;news_stories,2026-09-25,2026-09-30
+Midcontinent Independent System Operator (MISO),Midcontinent Independent System Operator (MISO),news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-30
 Natural Gas Intelligence,Natural Gas Intelligence,news stories via feed 'Natural Gas Intelligence',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
 OilPrice.com,OilPrice.com,news stories via feed 'OilPrice.com',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
 Organization of the Petroleum Exporting Countries,Organization of the Petroleum Exporting Countries,news stories via feed 'OPEC press releases',,,internal,news_index;news_stories,2026-09-27,2026-09-30
-PJM newsroom,PJM newsroom,news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-30
-POWER Magazine,POWER Magazine,news stories via feed 'POWER Magazine',,,internal,news_index;news_stories,2026-09-25,2026-09-30
+PJM newsroom,PJM newsroom,news stories via feed 'PJM newsroom',,,internal,news_index;news_stories,2026-09-25,2026-09-30
+POWER Magazine,POWER Magazine,news stories via feed 'POWER Magazine',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
 PUC Interchange (.gov),PUC Interchange (.gov),news stories via feed 'Texas PUC news',,,internal,news_index;news_stories,2026-09-25,2026-09-30
 Public Utility Commission of Texas (.gov),Public Utility Commission of Texas (.gov),news stories via feed 'Texas PUC news',,,internal,news_index;news_stories,2026-09-26,2026-09-30
 Reuters,Reuters,news stories via feed 'Reuters energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
@@ -46,7 +46,7 @@ Southwest Power Pool,Southwest Power Pool,news stories via feed 'SPP newsroom',,
 T&D World,T&D World,news stories via feed 'T&D World',,,internal,news_index;news_stories,2026-09-25,2026-09-30
 U.S. Environmental Protection Agency (.gov),U.S. Environmental Protection Agency (.gov),news stories via feed 'EPA news',,,internal,news_index;news_stories,2026-09-25,2026-09-30
 Utility Dive,Utility Dive,news stories via feed 'Utility Dive',,,internal,news_index;news_stories,2026-09-25,2026-09-30
-WSJ,WSJ,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
+WSJ,WSJ,news stories via feed 'WSJ energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
 World Nuclear News,World Nuclear News,news stories via feed 'World Nuclear News',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
 anthropic:messages-usage,Anthropic,Messages API response usage (tokens per call),https://docs.anthropic.com/en/api/messages,https://docs.anthropic.com/en/docs/about-claude/pricing,internal,api_cost_ledger,2026-09-29,2026-09-30
 aws:locations,Amazon Web Services,Amazon Web Services public list of data center sites and regions,https://b0.p.awsstatic.com/locations/1.0/aws/current/locations.json,,public,datacenter_operator_sites,2026-09-28,2026-09-30
@@ -161,4 +161,4 @@ spp:interconnection_queue,Southwest Power Pool (SPP),Generation Interconnection 
 spp:ver_curtailments,Southwest Power Pool (SPP),"VER Curtailments (5-minute, by BAA)",https://portal.spp.org/pages/ver-curtailments,https://portal.spp.org/file-browser-api/download/ver-curtailments,public,spp_curtailment_daily,2026-09-27,2026-09-30
 switch:locations,Switch,Switch public list of data center sites and regions,https://www.switch.com/colocation/,,public,datacenter_operator_sites,2026-09-28,2026-09-30
 vantage:data-center-locations,Vantage Data Centers,Vantage Data Centers public list of data center sites and regions,https://vantage-dc.com/data-center-locations/,,public,datacenter_operator_sites,2026-09-28,2026-09-30
-wsj.com,wsj.com,news stories via feed 'WSJ energy (via Google News)',,,internal,news_index;news_stories,2026-09-27,2026-09-30
+wsj.com,wsj.com,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-30

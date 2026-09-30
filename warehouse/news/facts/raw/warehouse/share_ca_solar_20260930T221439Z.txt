@@ -1,0 +1,8 @@
+# table: state_generation_mix_monthly
+# source reports: Energy Research Warehouse (ERW), derived: Generation mix by state (docs/methods/generation_mix.md) (https://github.com/SamuelEnrique/erw/blob/main/docs/methods/generation_mix.md)
+# table retrieved: 20260930T214420Z
+# computed by: warehouse/news/funfact.py
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20260930T221439Z
+
+state_generation_mix_monthly eia:CA: solar share of net generation 0.3% in 2001, 27.0% in 2025 (sums of monthly MWh over complete years)
