@@ -79,6 +79,19 @@ Heat waves and cold snaps are stories about the peak hour.
   - MISO 2021-12-27 misses an hour, so MISO's comparison for 2022-12-26 is left out.
   - SWPP's CO2 is missing on several December days of 2020 and 2021.
 
+### The summer 2023 heat in ERCOT (`ercot_heat_2023`)
+
+- **Window:** 2023-08-01 to 2023-09-10, ERCOT operating days.
+- **Prices:** ERCOT's hub average, the daily mean and highest real-time and day-ahead price.
+- **Framing:** ERCOT's two news releases of 2023-09-06, read as text:
+  - https://www.ercot.com/news/release/2023-09-06-ercot-has-initiated: the EEA 2;
+  - https://www.ercot.com/news/release/2023-09-06-ercot-has-exited: "No power outages associated with the ERCOT power grid were necessary"; "Texas set a new September peak demand record today of 82,705 MW driven by extreme heat across the state"; and the chief executive's "High demand, lower wind generation, and the declining solar generation during sunset led to lower operating reserves on the grid".
+- **What contradicts the story:**
+  - The emergency did not come on the day of the highest demand. EIA's highest hour on 2023-09-06 was 82,692 MW, 13 MW under ERCOT's September record. The window's highest hour was 85,432 MW on 2023-08-10, with no emergency.
+  - The price marks the emergency: the highest 15-minute real-time price of the window, 5,075.46 USD/MWh, came on 2023-09-06.
+  - The day most above the baseline (daily demand, +32.81 percent) was 2023-09-08. The peak hour most above it (+30.31 percent) was 2023-08-13.
+- **Left out:** ERCO's CO2 hours on two baseline days (2021-08-17 and 18), so the intensity of those two days is missing.
+
 ## Sources and variables
 
 | Variable | Entity | From | Unit |

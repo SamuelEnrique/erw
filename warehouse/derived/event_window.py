@@ -85,7 +85,10 @@ CAISO_HEAT = dict(event="caiso_heat_2020", label="the August 2020 heat wave, CAI
 ELLIOTT = dict(event="elliott_2022", label="Winter Storm Elliott, six grids", start="2022-12-19", end="2022-12-29",
                offsets=[364, 728], hub="ercot:HB_HUBAVG", hub_ba="erco", prices="full", max_vs=True,
                bas={k: COVID["bas"][k] for k in ("erco", "isne", "miso", "nyis", "pjm", "swpp")})
-MULTI = [COVID, CAISO_HEAT, ELLIOTT]
+ERCOT_HEAT = dict(event="ercot_heat_2023", label="the summer 2023 heat, ERCOT", start="2023-08-01", end="2023-09-10",
+                  offsets=[364, 728], hub="ercot:HB_HUBAVG", hub_ba="erco", prices="full", max_vs=True,
+                  bas={"erco": COVID["bas"]["erco"]})
+MULTI = [COVID, CAISO_HEAT, ELLIOTT, ERCOT_HEAT]
 
 
 def r4(v):
