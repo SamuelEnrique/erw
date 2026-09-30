@@ -27,6 +27,12 @@ is filled. Variables per day:
 
 Demand during rotating outages is load that was served, not what customers wanted: the power cut off is not in it.
 
+Session 36C adds covid_2020 (build_covid): the seven ISO balancing authorities and US48, 2020-03-01 to 2020-05-31, each
+BA's local day, against the same weekday 364 and 728 days earlier where the extracts reach (they start 2018-07-01, so
+2019 alone). Variables demand_mwh, demand_min_mw, demand_max_mw, intensity_generation, demand_mwh_vs_baseline,
+demand_pct_vs_baseline (pct), the same two per whole week (freq P1W, at the week's first day, a Sunday) and ERCOT's hub
+rt_mean and da_mean. A local day has 23 hours on the spring change to daylight time, and that day is complete.
+
     python warehouse/derived/event_window.py
 """
 
@@ -55,6 +61,23 @@ EVENTS = [
     dict(event="uri_2021", ba="erco", entity="eia930:ERCO", tz="America/Chicago", hub="ercot:HB_HUBAVG",
          start="2021-02-07", end="2021-02-24", baseline=[2019, 2020]),
 ]
+# Session 36C: COVID-19, spring 2020, all seven ISO balancing authorities and US48. The baseline is weekday-aligned: the
+# same weekday 364 and 728 days earlier. Each BA's local day: ERCOT operating days (America/Chicago) for ERCO, the time
+# zones of storage_daily_cycle for the others (MISO on Eastern Standard Time all year, as its market day), Pacific for
+# CISO and Eastern for NYIS and PJM.
+COVID = dict(event="covid_2020", start="2020-03-01", end="2020-05-31", offsets=[364, 728], hub="ercot:HB_HUBAVG",
+             hub_ba="erco",
+             bas={"ciso": ("CISO", "America/Los_Angeles", "US-CA"),
+                  "erco": ("ERCO", "America/Chicago", "US-TX"),
+                  "isne": ("ISNE", "America/New_York", "US-CT,US-MA,US-ME,US-NH,US-RI,US-VT"),
+                  "miso": ("MISO", "EST", "US-AR,US-IL,US-IN,US-IA,US-KY,US-LA,US-MI,US-MN,US-MS,US-MO,US-MT,"
+                                         "US-ND,US-SD,US-TX,US-WI"),
+                  "nyis": ("NYIS", "America/New_York", "US-NY"),
+                  "pjm": ("PJM", "America/New_York", "US-DE,US-DC,US-IL,US-IN,US-KY,US-MD,US-MI,US-NJ,US-NC,US-OH,"
+                                                     "US-PA,US-TN,US-VA,US-WV"),
+                  "swpp": ("SWPP", "America/Chicago", "US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,"
+                                                      "US-OK,US-SD,US-TX,US-WY"),
+                  "us48": ("US48", "America/New_York", "US")})
 
 
 def r4(v):
@@ -172,6 +195,117 @@ def build(e, log, retrieved):
     return rows, left, (url, lm, got, ex)
 
 
+def hours_in(day, tz):
+    """The hours of a local day: 23 on the spring change to daylight time, 25 on the autumn change, else 24."""
+    a = pd.Timestamp(day).tz_localize(tz)
+    return int(((a + pd.DateOffset(days=1)).normalize() - a).total_seconds() // 3600)
+
+
+def build_covid(e, log, retrieved):
+    """covid_2020 (session 36C): per BA and local day, demand served and carbon intensity in the window and on the
+    weekday-aligned baseline days, the event days against the baseline (MWh and percent), the same for each whole week
+    of the window, and ERCOT's hub prices for context. A baseline offset is used only where the extracts reach it."""
+    days = [d.strftime("%Y-%m-%d") for d in pd.date_range(e["start"], e["end"], freq="D")]
+    shift = lambda d, o: (pd.Timestamp(d) - pd.Timedelta(days=o)).strftime("%Y-%m-%d")  # noqa: E731
+    rows, left, used = [], [], []
+    base = dict(freq="P1D", node="", source="erw:event_window", source_url=METHOD_URL, retrieved_at=retrieved,
+                vintage="", event=e["event"])
+
+    # CO2 generated, one streamed pass over eia930_all_emissions for every BA, the years the days can fall in
+    years = sorted({shift(d, o)[:4] for d in days for o in [0] + e["offsets"]})
+    c = stream(EMIS, lambda b: pc.and_(pc.and_(pc.is_in(b.column("ba"), pa.array(list(e["bas"]))),
+                                               pc.equal(b.column("variable"), "co2_emissions_generated")),
+                                       pc.is_in(pc.utf8_slice_codeunits(b.column("ts_utc"), 0, 4), pa.array(years))),
+               ["entity", "variable", "ts_utc", "value", "ba"])
+    log(f"  {e['event']} CO2: {len(c)} rows of {EMIS} (years {', '.join(years)})")
+
+    held_by_ba = {}
+    for ba, (resp, tz, geo) in e["bas"].items():
+        entity = f"eia930:{resp}"
+        ex = em.latest_extract(ba)
+        if ex is None:
+            raise RuntimeError(f"no extract of {ba} under warehouse/raw/eia930_emissions/; nothing written")
+        url, lm, got = em.extract_meta(ex)
+        used.append(f"{ba}: {os.path.relpath(ex, ROOT)} (EIA workbook {url}, Last-Modified {lm}, downloaded {got})")
+        x = em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]]
+        x["day"] = local_days(x["ts_utc"], tz)
+        first = x.loc[x["demand_mwh"].notna(), "day"].min()
+        # an offset whose baseline days start before the extract's first hour of demand is not held: left out whole
+        held = [o for o in e["offsets"] if shift(days[0], o) > first]
+        for o in e["offsets"]:
+            if o not in held:
+                left.append(f"{entity} baseline {o} days earlier ({shift(days[0], o)} to {shift(days[-1], o)}): not "
+                            f"held, the extract's demand starts {first}")
+        held_by_ba[ba] = held
+        want = set(days) | {shift(d, o) for d in days for o in held}
+        x = x[x["day"].isin(want)]
+        x = x.merge(c.loc[c["ba"] == ba, ["ts_utc", "value"]].rename(columns={"value": "co2"}), on="ts_utc", how="left")
+        eia0 = dict(base, entity=entity, geo=geo, market="", ba=ba)
+        dem = {}
+        for day, h in x.groupby("day"):
+            eia = dict(eia0, ts_utc=f"{day}T00:00:00Z")
+            n = hours_in(day, tz)  # a complete day has every hour of the local day, 23 on 2019-03-10 and 2020-03-08
+            if len(h) != n or h["demand_mwh"].isna().any():
+                left.append(f"{entity} demand {day}: {h['demand_mwh'].notna().sum()} of {n} hours")
+            else:
+                dem[day] = h["demand_mwh"].sum()
+                rows += [dict(eia, variable="demand_mwh", value=r4(dem[day]), unit="MWh"),
+                         dict(eia, variable="demand_min_mw", value=r4(h["demand_mwh"].min()), unit="MW"),
+                         dict(eia, variable="demand_max_mw", value=r4(h["demand_mwh"].max()), unit="MW")]
+            if len(h) == n and h["net_generation_mwh"].notna().all() and h["co2"].notna().sum() == n \
+                    and h["net_generation_mwh"].sum() > 0:
+                rows.append(dict(eia, variable="intensity_generation", unit="kgCO2/MWh",
+                                 value=r4(h["co2"].sum() * 1000 / h["net_generation_mwh"].sum())))
+            else:
+                left.append(f"{entity} intensity {day}: net generation {h['net_generation_mwh'].notna().sum()}, "
+                            f"CO2 {h['co2'].notna().sum()} of {n} hours")
+        # each event day against the mean of its held baseline days (same weekday, 364 or 728 days earlier)
+        for d in days:
+            b = [dem.get(shift(d, o)) for o in held]
+            if d not in dem or not held or any(v is None for v in b):
+                left.append(f"{entity} demand vs baseline {d}: the day or a baseline day is missing")
+                continue
+            bm = sum(b) / len(b)
+            eia = dict(eia0, ts_utc=f"{d}T00:00:00Z")
+            rows += [dict(eia, variable="demand_mwh_vs_baseline", value=r4(dem[d] - bm), unit="MWh"),
+                     dict(eia, variable="demand_pct_vs_baseline", value=r4((dem[d] / bm - 1) * 100), unit="pct")]
+        # whole weeks of the window from its first day (2020-03-01, a Sunday): the week's demand against the mean of
+        # its baseline weeks' demand
+        for i in range(0, len(days) - 6, 7):
+            wk = days[i:i + 7]
+            cur = [dem.get(d) for d in wk]
+            bw = [[dem.get(shift(d, o)) for d in wk] for o in held]
+            if not held or any(v is None for v in cur) or any(v is None for w in bw for v in w):
+                left.append(f"{entity} week of {wk[0]}: a day or a baseline day is missing")
+                continue
+            bm = sum(sum(w) for w in bw) / len(bw)
+            eia = dict(eia0, ts_utc=f"{wk[0]}T00:00:00Z", freq="P1W")
+            rows += [dict(eia, variable="demand_mwh_vs_baseline_week", value=r4(sum(cur) - bm), unit="MWh"),
+                     dict(eia, variable="demand_pct_vs_baseline_week", value=r4((sum(cur) / bm - 1) * 100),
+                          unit="pct")]
+        log(f"  {e['event']} {ba}: {len(x)} hours from {os.path.relpath(ex, ROOT)} ({url}, Last-Modified {lm}); "
+            f"baseline offsets held {held}")
+
+    # ERCOT's hub prices for context: the window and ERCO's held baseline days
+    want = set(days) | {shift(d, o) for d in days for o in held_by_ba[e["hub_ba"]]}
+    p = stream(PRICES, lambda b: pc.and_(pc.equal(b.column("entity"), e["hub"]),
+                                         pc.is_in(b.column("year"), pa.array(sorted({d[:4] for d in want})))),
+               ["entity", "variable", "ts_utc", "value", "market", "year"])
+    p["day"] = local_days(p["ts_utc"], e["bas"][e["hub_ba"]][1])
+    p = p[p["day"].isin(want)]
+    for market, var, per_hour, pre in (("ercot_rtm", "spp_rtm", 4, "rt"), ("ercot_dam", "spp_dam", 1, "da")):
+        g = p[(p["market"] == market) & (p["variable"] == var)].groupby("day")["value"]
+        for day, v in g:
+            n_need = per_hour * hours_in(day, e["bas"][e["hub_ba"]][1])  # 92 and 23 on the spring change
+            if len(v) != n_need:
+                left.append(f"{e['hub']} {market} {day}: {len(v)} of {n_need} intervals")
+                continue
+            rows.append(dict(base, entity=e["hub"], variable=f"{pre}_mean", ts_utc=f"{day}T00:00:00Z", geo="US-TX",
+                             value=r4(v.mean()), unit="USD/MWh", market=market, ba=e["hub_ba"]))
+    log(f"  {e['event']} prices: {len(p)} intervals read from {PRICES}")
+    return rows, left, used
+
+
 def main():
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -187,6 +321,11 @@ def main():
             used.append(f"{e['event']}: {os.path.relpath(ex, ROOT)} (EIA workbook {url}, Last-Modified {lm}, "
                         f"downloaded {got})")
             log(f"  {e['event']}: {len(r)} rows; left out: {len(lft)}")
+        r, lft, cu = build_covid(COVID, log, retrieved)  # session 36C
+        rows += r
+        left += lft
+        used.append(f"{COVID['event']}: " + "; ".join(cu))
+        log(f"  {COVID['event']}: {len(r)} rows; left out: {len(lft)}")
         for x in left:
             log(f"  LEFT OUT {x}")
         out = pd.DataFrame(rows)[COLS].sort_values(["event", "entity", "variable", "ts_utc"]).reset_index(drop=True)
@@ -197,8 +336,9 @@ def main():
             "Energy Research Warehouse (ERW): event windows, daily figures around an event and the same calendar days "
             "of earlier years (Historical Event Analyzer v0, derived, session 36B)",
             "Shape: series (docs/datastandard.md v0), partition columns ba and event (decision 31); freq P1D, ts_utc the "
-            "local operating day at 00:00:00Z (America/Chicago for ERCOT). A day is written only when every interval "
-            "is present.",
+            "local operating day at 00:00:00Z (America/Chicago for ERCOT, each BA's own zone for the others; weekly rows "
+            "freq P1W at the week's first day). A day is written only when every interval is present. Key (entity, "
+            "variable, ts_utc, event), decision 32.",
             f"Retrieved: {run_id} (UTC) by warehouse/derived/event_window.py",
             f"Run log: warehouse/output/logs/event_window_{run_id}.log",
             f"Source: erw:event_window ERW derived table, events method (docs/methods/events.md), {METHOD_URL}",
@@ -206,7 +346,9 @@ def main():
             "Also read: EIA's hourly demand and net generation from the per-BA workbooks (source "
             "eia:gridmonitor/knownissues/xls), the emissions connector's extract: " + "; ".join(used),
             f"Events: uri_2021 (Winter Storm Uri, ERCOT), window {e['start']} to {e['end']}, baseline the same calendar "
-            f"days of {', '.join(map(str, e['baseline']))}.",
+            f"days of {', '.join(map(str, e['baseline']))}. covid_2020 (COVID-19, seven ISO BAs and US48, session 36C), "
+            f"window {COVID['start']} to {COVID['end']}, baseline the same weekday "
+            f"{' and '.join(map(str, COVID['offsets']))} days earlier where held.",
             "Demand during load shed is load served, not the demand customers would have had.",
             f"Days or variables left out, incomplete: {len(left)}" + (" (" + "; ".join(left[:10]) + ")" if left else ""),
         ]

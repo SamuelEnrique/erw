@@ -178,8 +178,8 @@ def iso_of(table):
         return "none"
     if table.startswith("price_board_"):  # session 30: price board v2 spans the six public ISOs
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
-    if table == "event_window_daily":  # session 36B: its one event so far, Uri in ERCOT
-        return "ERCOT"
+    if table == "event_window_daily":  # session 36B Uri in ERCOT; session 36C COVID-19 in the seven ISO BAs and US48
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"
     if table == "storage_daily_cycle":  # session 34: CAISO's rows from caiso_battery_storage, with the EIA-930 BAs
         return "CAISO;ERCOT;ISO-NE;MISO;SPP;US48"
     if table == "eia930_all_storage":  # session 31: the BAs with an EIA-930 BAT series

@@ -9,14 +9,33 @@ Built in session 36B for the Historical Event Analyzer (`/events`). One derived 
   - `ba`, the EIA-930 balancing authority;
   - `event`, the event id (`uri_2021`), a reserved partition column since session 36B (decision 31 of `docs/datastandard.md`).
 - **Later events append their rows.** The key is (entity, variable, ts_utc, event) since session 36C (decision 32), so an event's days and baseline days may be another event's days.
-- **Days are the operating days of the grid's own time zone** (America/Chicago for ERCOT). Each is labelled with its local date at 00:00:00Z (decision 11), freq `P1D`.
-- **Complete days only.** A day's value is written only when every interval of that day is present: 96 real-time intervals, 24 day-ahead hours, or 24 EIA-930 hours. Nothing is filled. Days left out are named in the table's header and run log.
+- **Days are the operating days of the grid's own time zone** (America/Chicago for ERCOT; each balancing authority's own zone for COVID-19, below). Each is labelled with its local date at 00:00:00Z (decision 11), freq `P1D`.
+- **Complete days only.** A day's value is written only when every interval of that day is present: 96 real-time intervals, 24 day-ahead hours, or 24 EIA-930 hours. On the spring change to daylight time a local day has 23 hours (92 real-time intervals), and that is complete (session 36C; Uri's days never cross a change). Nothing is filled. Days left out are named in the table's header and run log.
 
 ## The first event: Winter Storm Uri, ERCOT (`uri_2021`)
 
 - **Window:** 2021-02-07 to 2021-02-24, eighteen days: the week before the storm, the storm, and the week after.
 - **Baseline:** the same calendar days of 2019 and 2020. For the comparison variables, the baseline of a day is the mean of those two years' values for the same calendar day.
 - **The date the page cites:** EIA writes that "ERCOT began implementing rotating outages at midnight on February 15" (https://www.eia.gov/todayinenergy/detail.php?id=46836).
+
+## The second event: COVID-19, spring 2020 (`covid_2020`)
+
+Added in session 36C.
+
+- **Window:** 2020-03-01 to 2020-05-31, ninety-two days.
+- **Grids:** the seven ISO balancing authorities of EIA-930 (CISO, ERCO, ISNE, MISO, NYIS, PJM, SWPP) and US48, the lower 48 states.
+- **Days:** each balancing authority's local day.
+  - ERCO: ERCOT operating days (America/Chicago).
+  - SWPP: America/Chicago.
+  - MISO: Eastern Standard Time all year (`EST`), its market day, as in `storage_daily_cycle`.
+  - ISNE, NYIS, PJM and US48: America/New_York.
+  - CISO: America/Los_Angeles.
+- **Baseline: weekday-aligned.** The baseline of a day is the same weekday 364 days earlier (2019) and 728 days earlier (2018). A calendar-day baseline would compare a Sunday with a Monday, and demand differs by weekday more than the effects this page looks for. Holidays still move: Easter was 2019-04-21 and 2020-04-12. Memorial Day aligns exactly (2019-05-27 and 2020-05-25).
+- **The 2018 baseline is not held.** The 728-day offset puts the baseline at 2018-03-04 to 2018-06-03. EIA's per-BA workbooks, the only EIA-930 history the warehouse holds, start on 2018-07-01. That offset is left out whole, and so for this window the baseline is 2019 alone. It is named in the table's header and run log. Pulling EIA's six-month files for 2018 would restore it (not done: session 36C made no pulls).
+- **One baseline year means that year's weather is in every comparison.** A cold or mild week of 2019 moves the 2020 comparison as much as a lockdown. The table holds no weather (`weather_obs_hourly` starts in 2026), so a drop against the baseline is not a measure of COVID-19 alone.
+- **Weeks:** thirteen whole weeks from 2020-03-01, a Sunday, to 2020-05-30. A week's figure compares its seven days' demand with the seven baseline days' demand. It is written only when all fourteen days are complete. 2020-05-31 is a week's first day only, so it has no weekly row.
+- **Prices, for context:** ERCOT's hub average, the daily mean real-time and day-ahead price, on the window's days and ERCO's baseline days.
+- **The date the page cites:** California's Governor "issued a stay at home order to protect the health and well-being of all Californians" on 2020-03-19 (Executive Order N-33-20; the release at https://www.gov.ca.gov/2020/03/19/governor-gavin-newsom-issues-stay-at-home-order/, read as text in session 36C; the order's own PDF is a scan with no text). Other states' orders came in the weeks after. The warehouse holds no list of their dates.
 
 ## Sources and variables
 
@@ -30,6 +49,16 @@ Built in session 36B for the Historical Event Analyzer (`/events`). One derived 
 | `intensity_generation` | `eia930:ERCO` | the day's CO2 generated (`eia930_all_emissions`) x 1000 over its net generation: `carbon_intensity_daily`'s formula, over the local day | kgCO2/MWh |
 | `demand_mwh_vs_baseline`, `net_generation_mwh_vs_baseline` | `eia930:ERCO` | event days only: the day minus the baseline mean of its calendar day | MWh |
 | `demand_mwh_day_change`, `net_generation_mwh_day_change` | `eia930:ERCO` | event days only: the day minus the previous day of the window | MWh |
+
+For `covid_2020`, by entity `eia930:<BA>` for each of the eight, and `ercot:HB_HUBAVG` for prices:
+
+| Variable | Rows | From | Unit |
+|---|---|---|---|
+| `demand_mwh`, `demand_min_mw`, `demand_max_mw`, `intensity_generation` | the window and the held baseline days | as for Uri, from each BA's extract and `eia930_all_emissions` | MWh, MW, kgCO2/MWh |
+| `demand_mwh_vs_baseline` | event days | the day minus the mean of its held baseline days | MWh |
+| `demand_pct_vs_baseline` | event days | (the day over the mean of its held baseline days, minus 1) x 100 | pct |
+| `demand_mwh_vs_baseline_week`, `demand_pct_vs_baseline_week` | the week's first day, `freq` `P1W` | as above, over the week's seven days | MWh, pct |
+| `rt_mean`, `da_mean` | `ercot:HB_HUBAVG`, the window and the baseline days | as for Uri | USD/MWh |
 
 **Where the hourly demand and net generation come from.** EIA's per-BA workbook for ERCO (sheet Published Hourly Data, source `eia:gridmonitor/knownissues/xls`), as the emissions connector extracted it in session 34 (`warehouse/raw/eia930_emissions/20260930T000657Z/erco_hours.csv`, the same columns `carbon_intensity_*` divide by).
 
@@ -45,6 +74,8 @@ EIA-930's demand is the load the grid served, not what customers wanted. During 
 - Demand served still stayed above the 2019 and 2020 baseline on every day from 2021-02-09 to 2021-02-20, the outages included (the rows `demand_mwh_vs_baseline`). The table holds no weather to say why.
 
 ## What the page reads
+
+`/events/covid-2020` draws one chart of weekly demand against the baseline, in percent, for all eight grids on one axis, and a small multiple per grid (daily demand served in 2020 and on the baseline days). Under each grid is one line read from its weekly rows: the deepest weekly drop against the baseline and its week, and the deepest from the week of 2020-03-22 on, the first whole week after California's order. The two differ because the literal deepest week is, in several grids, the week of 2020-03-01, before any order. The table holds no weather to say why.
 
 `/events/uri-2021` draws four charts from this table, with the event year against 2019 and 2020 on the same calendar days: price, demand served, net generation and carbon intensity.
 
