@@ -8,7 +8,7 @@ Built in session 36B for the Historical Event Analyzer (`/events`). One derived 
 - **Partition columns:**
   - `ba`, the EIA-930 balancing authority;
   - `event`, the event id (`uri_2021`), a reserved partition column since session 36B (decision 31 of `docs/datastandard.md`).
-- **Later events append their rows.** The key stays (entity, variable, ts_utc), so an event whose days, or baseline days, overlap another event's fails the build.
+- **Later events append their rows.** The key is (entity, variable, ts_utc, event) since session 36C (decision 32), so an event's days and baseline days may be another event's days.
 - **Days are the operating days of the grid's own time zone** (America/Chicago for ERCOT). Each is labelled with its local date at 00:00:00Z (decision 11), freq `P1D`.
 - **Complete days only.** A day's value is written only when every interval of that day is present: 96 real-time intervals, 24 day-ahead hours, or 24 EIA-930 hours. Nothing is filled. Days left out are named in the table's header and run log.
 

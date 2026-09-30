@@ -156,7 +156,9 @@ def row_hashes(df):
 
 
 def key_hashes(df, shape):
-    return h64(joined(df, KEYS[shape]))
+    # session 36C, decision 32: a series table with an event column is keyed by it too
+    key = KEYS[shape] + (["event"] if shape == "series" and "event" in df.columns else [])
+    return h64(joined(df, key))
 
 
 def hexes(a):

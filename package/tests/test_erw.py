@@ -111,7 +111,7 @@ def test_fetch_types_and_provenance(name):
     assert list(df.columns[:4]) == ["entity", "variable", "ts_utc", "value"]
     assert str(df["ts_utc"].dtype) == "datetime64[ns, UTC]"
     assert df["value"].dtype == float
-    assert not df.duplicated(["entity", "variable", "ts_utc"]).any()
+    assert not df.duplicated(["entity", "variable", "ts_utc"] + (["event"] if "event" in df.columns else [])).any()  # event: session 36C
     meta = df.attrs["erw"]
     assert meta["table"] == name
     # session 29: a derived table (the trader view's snapshots) names its inputs, not a connector run log
@@ -653,7 +653,7 @@ def test_large_table_by_partition(name):
         assert list(df.columns[:4]) == ["entity", "variable", "ts_utc", "value"]
         assert str(df["ts_utc"].dtype) == "datetime64[ns, UTC]"
         assert df["value"].dtype == float
-        assert not df.duplicated(["entity", "variable", "ts_utc"]).any(), p
+        assert not df.duplicated(["entity", "variable", "ts_utc"] + (["event"] if "event" in df.columns else [])).any()  # event: session 36C, p
         meta = df.attrs["erw"]
         assert meta["header"][0].startswith("Energy Research Warehouse (ERW):") and meta["retrieved"]
         del df

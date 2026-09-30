@@ -359,11 +359,12 @@ def validate(path):
             info.append(f"value {num.min()} .. {num.max()}")
 
     if not missing:
-        key = ["entity", "variable", "ts_utc"]
+        # session 36C, decision 32: a table with an event column (event_window_daily) is keyed by it too
+        key = ["entity", "variable", "ts_utc"] + (["event"] if "event" in cols else [])
         dup = df.duplicated(key, keep=False)
         if dup.any():
             first = df.loc[dup, key].head(3).to_dict("records")
-            err("duplicate_key", f"{int(dup.sum())} rows share an (entity, variable, ts_utc) key, "
+            err("duplicate_key", f"{int(dup.sum())} rows share an ({', '.join(key)}) key, "
                 f"e.g. {first}")
         bad_ent = df["entity"][~df["entity"].str.match(ENTITY_RE)]
         if len(bad_ent):

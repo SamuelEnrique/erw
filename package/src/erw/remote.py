@@ -176,7 +176,7 @@ class SupabaseBackend(Backend):
     # Each table's key, the order pages are read in (session 13): without an ORDER BY,
     # Postgres does not promise the same row order on every request, so paging by range
     # could repeat some rows and skip others (seen as a flaky 27,702-row fetch).
-    ORDER = {"series": ["entity", "variable", "ts_utc"], "entities": ["entity_id"],
+    ORDER = {"series": ["entity", "variable", "ts_utc", "event"], "entities": ["entity_id"],  # event: session 36C
              "events": ["event_id"], "catalogue": ["table_name"], "sources": ["source"],
              "headers": ["line_no"], "latest_prices": ["entity", "variable"]}
 

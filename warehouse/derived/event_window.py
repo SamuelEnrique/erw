@@ -190,8 +190,8 @@ def main():
         for x in left:
             log(f"  LEFT OUT {x}")
         out = pd.DataFrame(rows)[COLS].sort_values(["event", "entity", "variable", "ts_utc"]).reset_index(drop=True)
-        if out.duplicated(["entity", "variable", "ts_utc"]).any():
-            raise RuntimeError("two rows share an (entity, variable, ts_utc) key; an event's days overlap another's")
+        if out.duplicated(["entity", "variable", "ts_utc", "event"]).any():  # session 36C: the key includes event
+            raise RuntimeError("two rows share an (entity, variable, ts_utc, event) key")
         e = EVENTS[0]
         header = [
             "Energy Research Warehouse (ERW): event windows, daily figures around an event and the same calendar days "

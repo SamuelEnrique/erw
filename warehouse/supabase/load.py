@@ -76,13 +76,13 @@ ENTITY_COLS = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacit
                "status_date", "operator", "source", "source_url", "retrieved_at", "vintage"]
 EVENT_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price",
               "currency", "status", "source", "source_url"]
-SHAPES = {"series": (SERIES_COLS, ["table_name", "entity", "variable", "ts_utc"]),
+SHAPES = {"series": (SERIES_COLS, ["table_name", "entity", "variable", "ts_utc", "event"]),
           "entities": (ENTITY_COLS, ["table_name", "entity_id"]),
           "events": (EVENT_COLS, ["table_name", "event_id"])}
 NUMERIC = {"value", "lat", "lon", "capacity_mw", "mw", "price"}
 # Session 29: partition columns of consolidated series tables that Supabase stores (migration 009). A row that
 # has none is compared exactly as before, so no other table's rows are rewritten.
-SERIES_PARTITION = ["ba"]
+SERIES_PARTITION = ["ba", "event"]  # session 36C: event (migration 011), part of the series key
 MIGRATIONS = os.path.join(ROOT, "warehouse", "metadata", "table_migrations.csv")
 TIMESTAMP = {"ts_utc", "retrieved_at", "event_date"}
 CAT_NUMERIC = {"n_nodes", "n_rows"}
@@ -190,7 +190,7 @@ def records(name, df, shape, license_, loaded_at):
         else:  # session 29: the partition column, where the table has one
             for c in SERIES_PARTITION:
                 if c in row:
-                    r[c] = row[c] or None
+                    r[c] = row[c] or ("" if c == "event" else None)  # event is a key column: '' when unset
         out.append(r)
     return out
 
@@ -221,10 +221,11 @@ def canon(r, shape):
             vals[c] = str(v)[:10]
         else:
             vals[c] = str(v)
+    vals["event"] = r.get("event") or ""  # session 36C: a key column of series, '' for tables without events
     k = (r["table_name"],) + tuple(vals[c] for c in key[1:])
     body = tuple(vals[c] for c in cols) + (r["license"],)
     if shape == "series":  # session 29: only when set, so a table without a partition compares as before
-        body += tuple((c, r[c]) for c in SERIES_PARTITION if r.get(c))
+        body += tuple((c, r[c]) for c in SERIES_PARTITION if r.get(c) and c != "event")
     if shape != "series":
         body += (json.dumps(r.get("extra") or {}, sort_keys=True),)
     return k, body
@@ -274,11 +275,11 @@ def sync_table(client, name, df, shape, license_, loaded_at, days, now):
     if shape == "series":  # anything else, grouped by entity and variable
         groups = {}
         for k in gone:
-            groups.setdefault((k[1], k[2]), []).append(k[3])
-        for (ent, var), tss in groups.items():
+            groups.setdefault((k[1], k[2], k[4]), []).append(k[3])
+        for (ent, var, ev), tss in groups.items():
             for i in range(0, len(tss), 100):
                 client.table(shape).delete().eq("table_name", name).eq("entity", ent) \
-                    .eq("variable", var).in_("ts_utc", tss[i:i + 100]).execute()
+                    .eq("variable", var).eq("event", ev).in_("ts_utc", tss[i:i + 100]).execute()
     else:
         ids = [k[1] for k in gone]
         for i in range(0, len(ids), 100):
