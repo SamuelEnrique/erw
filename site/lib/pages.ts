@@ -59,6 +59,14 @@ export const GROUPS: Group[] = [
     ],
   },
   {
+    // session 43: learning pages (the bill explainer), with the seven grid pages and the events
+    label: "Learn",
+    pages: [
+      { href: "/learn/bill", label: "What is on a bill", line: "Two real electricity bills built line by line from the tariffs, PG&E in California and Oncor in Texas, and how much of each is the wholesale price of energy.", tables: "site/data/bill_rules.json; cost_of_power_monthly", related: ["/cost-of-power", "/grid/ercot"] },
+    ],
+    sub: { label: "Grids and events", links: [...YOUR_GRID, { href: "/events", label: "Events" }] },
+  },
+  {
     // session 40: tools for a practitioner
     label: "Tools",
     pages: [

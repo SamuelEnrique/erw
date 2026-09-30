@@ -32,7 +32,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 38: today's level's price range
   "/play/battery",
   // session 39: three more events
-  "/events", "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023"];
+  "/events", "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",
+  // session 43: the bill explainer's default bills
+  "/learn/bill"];
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 
@@ -80,6 +82,29 @@ async function truth(check) {
   }
   if (p[0] === "latest_prices") {
     return (await q("latest_prices", { select: "value", entity: `eq.${p[1]}`, variable: `eq.${p[2]}` }))[0]?.value;
+  }
+  // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
+  // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly
+  if (p[0] === "bill") {
+    const R = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "bill_rules.json"), "utf-8")).bills;
+    const [, st, what, ts] = p;
+    let total, kwh;
+    if (st === "CA") {
+      const c = R.CA, d = c.defaults, s = c.seasons[d.season];
+      kwh = d.kwh;
+      const q = c.baseline_quantities.code_B[d.territory][d.season === "summer" ? 0 : 1] * d.days;
+      total = kwh * (d.peak_share * s.peak + (1 - d.peak_share) * s.offpeak) + Math.min(kwh, q) * c.baseline_credit.rate
+        + d.days * c.base_services.tiers[d.income_tier] + (d.climate_credit ? c.climate_credit.rate : 0);
+    } else {
+      const t = R.TX;
+      kwh = t.defaults.kwh;
+      total = kwh * t.energy_default.rate + t.fixed.reduce((a, f) => a + f.rate, 0) + kwh * t.per_kwh.reduce((a, f) => a + f.rate, 0);
+    }
+    if (what === "total") return total;
+    const row = (await q("series", { select: "value", table_name: "eq.cost_of_power_monthly", entity: `eq.${R[st].wholesale_entity}`, variable: "eq.rt_load_weighted", ts_utc: `eq.${ts}` }))[0];
+    if (!row) return undefined;
+    const w = (kwh * Number(row.value)) / 1000;
+    return what === "wholesale" ? w : (w / total) * 100;
   }
   // session 37: the cost-of-power calculator's defaults, recomputed here from the tables (docs/methods/cost_of_power.md)
   if (p[0] === "cop") {

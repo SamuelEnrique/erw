@@ -1,0 +1,548 @@
+{
+  "version": "2026-09-30.1",
+  "note": "ERW, session 43: two residential electricity bills for /learn/bill, for education. Every rate cites the tariff page that states it, read as text on 2026-09-30; 'quote' is the passage (checked against the page text, whitespace ignored). An estimate, not a bill.",
+  "sources": {
+    "pge_etouc": {
+      "publisher": "Pacific Gas and Electric Company (PG&E)",
+      "title": "Electric Schedule E-TOU-C, Residential Time-of-Use (Peak Pricing 4 - 9 p.m. Every Day)",
+      "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_E-TOU-C.pdf"
+    },
+    "pge_prelim_a": {
+      "publisher": "Pacific Gas and Electric Company (PG&E)",
+      "title": "Electric Preliminary Statement Part A, Description of Service Area and General Requirements (baseline territories)",
+      "url": "https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_PRELIM_A.pdf"
+    },
+    "oncor_tariff": {
+      "publisher": "Oncor Electric Delivery Company LLC",
+      "title": "Tariff for Retail Delivery Service",
+      "url": "https://www.oncor.com/content/dam/oncorwww/documents/about-us/regulatory/tariff-and-rate-schedules/Tariff%20for%20Retail%20Delivery%20Service.pdf"
+    },
+    "eia_retail": {
+      "publisher": "U.S. Energy Information Administration, via the ERW table eia_retail_electricity_prices",
+      "title": "Average retail price of electricity, Texas, residential, July 2026 (EIA electricity/retail-sales)",
+      "url": "https://www.eia.gov/electricity/data/browser/"
+    }
+  },
+  "bills": {
+    "CA": {
+      "name": "California: a PG&E home on time-of-use rate E-TOU-C",
+      "iso": "caiso",
+      "grid": "/grid/caiso",
+      "wholesale_entity": "caiso:TH_SP15_GEN-APND",
+      "note": "Bundled service (PG&E buys the power), Income Tier 3 (no CARE or FERA discount), basic (not all-electric) baseline quantities. PG&E's service area is in CAISO; the wholesale reference is CAISO's main hub in the warehouse, SP15, while most PG&E homes sit in the NP15 zone.",
+      "seasons": {
+        "summer": {
+          "label": "Summer (June 1 through September 30)",
+          "peak": 0.5224,
+          "offpeak": 0.3994
+        },
+        "winter": {
+          "label": "Winter (October 1 through May 31)",
+          "peak": 0.39757,
+          "offpeak": 0.36757
+        }
+      },
+      "totals": {
+        "id": "etouc_total",
+        "name": "Energy charge (total rate)",
+        "what": "The price per kWh for each hour, higher from 4 to 9 p.m.",
+        "why": "Power costs more in the evening, when solar fades and demand is still high, so the rate asks homes to shift use.",
+        "basis": "per_kWh_tou",
+        "rate": null,
+        "cite": "pge_etouc",
+        "quote": "E-TOU-C TOTAL BUNDLED RATES Total Energy Rates ($ per kWh) PEAK OFF-PEAK Summer Total Usage $0.52240 (R) $0.39940 (R) Baseline Credit (Applied to Baseline Usage Only) ($0.08140) (I) ($0.08140) (I) Winter Total Usage $0.39757 (R) $0.36757 (R)",
+        "effective": "2026-06-01 (Sheet 2, Advice 7921-E)"
+      },
+      "tou_rule": {
+        "cite": "pge_etouc",
+        "quote": "TOU period usage is assigned to tiers on a pro-rated basis. For example, if twenty percent of a customer's usage is in the peak period, then twenty percent of the total usage in each tier will be treated as on-peak usage.",
+        "effective": "2026-03-01 (Sheet 1)"
+      },
+      "periods": {
+        "cite": "pge_etouc",
+        "quote": "Peak: 4:00 p.m. to 9:00 p.m. All days",
+        "effective": "2026-03-01 (Sheet 5)"
+      },
+      "baseline_credit": {
+        "id": "baseline_credit",
+        "name": "Baseline credit",
+        "what": "A credit per kWh on the first block of use each day, the baseline allowance.",
+        "why": "California law gives every home a basic amount of power at a lower price; use above it pays more.",
+        "basis": "per_kWh_baseline",
+        "rate": -0.0814,
+        "cite": "pge_etouc",
+        "quote": "Baseline Credit (Applied to Baseline Usage Only) ($0.08140) (I) ($0.08140) (I)",
+        "effective": "2026-06-01 (Sheet 2)"
+      },
+      "baseline_quantities": {
+        "cite": "pge_etouc",
+        "quote": "T 6.5 (R) 7.5 (R) 7.1 (R) 12.9 (R)",
+        "effective": "2026-03-01 (Sheet 5)",
+        "code_B": {
+          "P": [
+            13.5,
+            11.0
+          ],
+          "Q": [
+            9.8,
+            11.0
+          ],
+          "R": [
+            17.7,
+            10.4
+          ],
+          "S": [
+            15.0,
+            10.2
+          ],
+          "T": [
+            6.5,
+            7.5
+          ],
+          "V": [
+            7.1,
+            8.1
+          ],
+          "W": [
+            19.2,
+            9.8
+          ],
+          "X": [
+            9.8,
+            9.7
+          ],
+          "Y": [
+            10.5,
+            11.1
+          ],
+          "Z": [
+            5.9,
+            7.8
+          ]
+        },
+        "unit": "kWh per day, [summer, winter], Code B (basic) quantities"
+      },
+      "default_territory": {
+        "territory": "T",
+        "cite": "pge_prelim_a",
+        "quote": "SAN FRANCISCO All T",
+        "label": "Territory T (San Francisco)"
+      },
+      "base_services": {
+        "cite": "pge_etouc",
+        "effective": "2026-06-01 (Sheet 2)",
+        "quote": "Base Services Charge Rates ($ per customer per day) Income Tier 1 $0.19713 (N) Income Tier 2 $0.39688 (N) Income Tier 3 $0.79343 (N)",
+        "tiers": {
+          "1": 0.19713,
+          "2": 0.39688,
+          "3": 0.79343
+        },
+        "what": "A fixed charge per day, set by household income.",
+        "why": "Part of the cost of the grid does not change with use; a daily charge collects it and lowers the per-kWh rates (the tariff says the charge's revenue reduces the energy rates).",
+        "components_tier3": [
+          {
+            "name": "Distribution",
+            "rate": 0.36945
+          },
+          {
+            "name": "Public Purpose Program",
+            "rate": 0.31065
+          },
+          {
+            "name": "Nuclear Decommissioning",
+            "rate": 0.0
+          },
+          {
+            "name": "New System Generation Charge",
+            "rate": 0.11333
+          }
+        ],
+        "components_quote": "Distribution Income Tier 1 ($0.10751) (N) Income Tier 2 ($0.02710) (N) Income Tier 3 $0.36945 (N) Public Purpose Program Income Tier 1 $0.19131 (N) Income Tier 2 $0.31065 (N) Income Tier 3 $0.31065 (N)"
+      },
+      "climate_credit": {
+        "id": "climate_credit",
+        "name": "California Climate Credit",
+        "what": "A credit on the bill, twice a year, per household.",
+        "why": "California returns part of the money power plants pay for their carbon emissions to households.",
+        "basis": "per_bill",
+        "rate": -36.18,
+        "cite": "pge_etouc",
+        "quote": "California Climate Credit (per household, semi-annual payment occurring in the August and September bill cycles) ($36.18) (N)",
+        "effective": "2026-06-01 (Sheet 2)"
+      },
+      "components": [
+        {
+          "id": "gen",
+          "name": "Generation",
+          "what": "The power itself: what PG&E pays to generate or buy electricity.",
+          "why": "Someone has to make the electricity; this is its cost.",
+          "basis": "per_kWh_tou",
+          "rate": {
+            "summer": [
+              0.20782,
+              0.10482
+            ],
+            "winter": [
+              0.1371,
+              0.11042
+            ]
+          },
+          "cite": "pge_etouc",
+          "quote": "Generation: Summer (all usage) $0.20782 $0.10482 Winter (all usage) $0.13710 $0.11042",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Generation"
+        },
+        {
+          "id": "pcia",
+          "name": "Bundled Power Charge Indifference Adjustment",
+          "what": "An adjustment for the cost of older power contracts, shown with generation on the bill.",
+          "why": "Contracts signed years ago for all customers are shared fairly between customers who stayed and those who left for another supplier.",
+          "basis": "per_kWh",
+          "rate": -0.01011,
+          "cite": "pge_etouc",
+          "quote": "Bundled Power Charge Indifference Adjustment (all usage)*** ($0.01011)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Generation"
+        },
+        {
+          "id": "dist",
+          "name": "Distribution",
+          "what": "The local wires, poles and transformers that bring power to the home.",
+          "why": "The neighborhood grid has to be built, maintained and repaired; this pays for it.",
+          "basis": "per_kWh_tou",
+          "rate": {
+            "summer": [
+              0.20388,
+              0.18388
+            ],
+            "winter": [
+              0.14977,
+              0.14645
+            ]
+          },
+          "cite": "pge_etouc",
+          "quote": "Distribution**: Summer (all usage) $0.20388 (R) $0.18388 (R) Winter (all usage) $0.14977 (R) $0.14645 (R)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Distribution"
+        },
+        {
+          "id": "nsgc",
+          "name": "New System Generation Charge",
+          "what": "A charge for new power plants built for reliability, shown with distribution on the bill.",
+          "why": "The state asks utilities to build or contract new capacity so there is enough power on the hottest days.",
+          "basis": "per_kWh",
+          "rate": 0.0,
+          "cite": "pge_etouc",
+          "quote": "New System Generation Charge (all usage)** $0.00000 (R)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Distribution"
+        },
+        {
+          "id": "cia",
+          "name": "Conservation Incentive Adjustment",
+          "what": "A credit on use within the baseline and a charge on use above it.",
+          "why": "It is how the baseline credit is built: use above the baseline allowance pays more.",
+          "basis": "per_kWh_baseline_split",
+          "rate": {
+            "baseline": -0.02786,
+            "over": 0.05354
+          },
+          "cite": "pge_etouc",
+          "quote": "Conservation Incentive Adjustment (Baseline Usage) ($0.02786) (I) Conservation Incentive Adjustment (Over Baseline Usage) $0.05354 (R)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Distribution"
+        },
+        {
+          "id": "trans",
+          "name": "Transmission",
+          "what": "The high-voltage lines that carry power from plants to cities.",
+          "why": "Long-distance lines are shared across the state's grid and paid for by all its users.",
+          "basis": "per_kWh",
+          "rate": 0.04638,
+          "cite": "pge_etouc",
+          "quote": "Transmission* (all usage) $0.04638",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Transmission"
+        },
+        {
+          "id": "tra",
+          "name": "Transmission Rate Adjustments",
+          "what": "Adjustments to the transmission charge, shown with transmission on the bill.",
+          "why": "Transmission costs are trued up to what was actually spent.",
+          "basis": "per_kWh",
+          "rate": 0.00453,
+          "cite": "pge_etouc",
+          "quote": "Transmission Rate Adjustments* (all usage) $0.00453 (I)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Transmission"
+        },
+        {
+          "id": "rs",
+          "name": "Reliability Services",
+          "what": "A small charge for services that keep the grid stable, shown with transmission.",
+          "why": "The grid operator buys services that keep voltage and frequency steady.",
+          "basis": "per_kWh",
+          "rate": 0.00013,
+          "cite": "pge_etouc",
+          "quote": "Reliability Services* (all usage) $0.00013",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Transmission"
+        },
+        {
+          "id": "ppp",
+          "name": "Public Purpose Programs",
+          "what": "State programs: energy efficiency, help for low-income customers, research.",
+          "why": "California funds these programs through every bill.",
+          "basis": "per_kWh",
+          "rate": 0.00614,
+          "cite": "pge_etouc",
+          "quote": "Public Purpose Programs (all usage) $0.00614 (R)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Other charges"
+        },
+        {
+          "id": "nd",
+          "name": "Nuclear Decommissioning",
+          "what": "Money set aside to take apart retired nuclear plants safely.",
+          "why": "Nuclear plants must be dismantled and cleaned up after they close.",
+          "basis": "per_kWh",
+          "rate": -2e-05,
+          "cite": "pge_etouc",
+          "quote": "Nuclear Decommissioning (all usage) ($0.00002)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Other charges"
+        },
+        {
+          "id": "ctc",
+          "name": "Competition Transition Charges",
+          "what": "A charge left from the move to competitive power markets in the late 1990s.",
+          "why": "Some older costs are still being paid off.",
+          "basis": "per_kWh",
+          "rate": 0.00027,
+          "cite": "pge_etouc",
+          "quote": "Competition Transition Charges (all usage) $0.00027",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Other charges"
+        },
+        {
+          "id": "ecra",
+          "name": "Energy Cost Recovery Amount",
+          "what": "A small charge that recovers past energy costs.",
+          "why": "Past costs approved by the regulator are paid off over time.",
+          "basis": "per_kWh",
+          "rate": 2e-05,
+          "cite": "pge_etouc",
+          "quote": "Energy Cost Recovery Amount (all usage) $0.00002",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Other charges"
+        },
+        {
+          "id": "wfc",
+          "name": "Wildfire Fund Charge",
+          "what": "A charge for California's fund that pays wildfire damage claims against utilities.",
+          "why": "Wildfires started by power lines cause great damage; the state fund pays claims so utilities stay solvent.",
+          "basis": "per_kWh",
+          "rate": 0.00591,
+          "cite": "pge_etouc",
+          "quote": "Wildfire Fund Charge (all usage) $0.00591",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Other charges"
+        },
+        {
+          "id": "whc",
+          "name": "Wildfire Hardening Charge",
+          "what": "A charge for work that makes the grid less likely to start fires.",
+          "why": "Covering lines, clearing trees and undergrounding cut fire risk.",
+          "basis": "per_kWh",
+          "rate": 0.00391,
+          "cite": "pge_etouc",
+          "quote": "Wildfire Hardening Charge (all usage) $0.00391 (I)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Other charges"
+        },
+        {
+          "id": "rbc",
+          "name": "Recovery Bond Charge",
+          "what": "A charge that repays bonds the utility issued.",
+          "why": "Some large costs are financed with bonds and repaid over many years.",
+          "basis": "per_kWh",
+          "rate": 0.00857,
+          "cite": "pge_etouc",
+          "quote": "Recovery Bond Charge (all usage) $0.00857 (I)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Other charges"
+        },
+        {
+          "id": "rbcr",
+          "name": "Recovery Bond Credit",
+          "what": "A credit that offsets the recovery bond charge.",
+          "why": "The bond charge is offset for bundled customers, so the two cancel.",
+          "basis": "per_kWh",
+          "rate": -0.00857,
+          "cite": "pge_etouc",
+          "quote": "Recovery Bond Credit (all usage) ($0.00857) (R)",
+          "effective": "2026-03-01 (Sheet 3)",
+          "group": "Other charges"
+        }
+      ],
+      "presentation": {
+        "cite": "pge_etouc",
+        "quote": "Transmission, Transmission Rate Adjustments and Reliability Service charges are combined for presentation on customer bills. ** Distribution and New System Generation Charges are combined for presentation on customer bills."
+      },
+      "defaults": {
+        "kwh": 600,
+        "peak_share": 0.2,
+        "season": "summer",
+        "territory": "T",
+        "income_tier": "3",
+        "days": 30,
+        "climate_credit": false,
+        "labels": {
+          "kwh": "600 kWh a month, an assumption",
+          "peak_share": "20 percent in peak hours, the tariff's own example (Sheet 1)",
+          "days": "a 30-day bill"
+        }
+      }
+    },
+    "TX": {
+      "name": "Texas: a home in Oncor's area of ERCOT",
+      "iso": "ercot",
+      "grid": "/grid/ercot",
+      "wholesale_entity": "ercot:HB_HUBAVG",
+      "note": "In most of ERCOT, a retail electric provider sells the power and a wires company (here Oncor) delivers it. The retailer's energy charge is set by the plan the customer picks: it is an input. Oncor's delivery charges are passed through by the retailer.",
+      "energy_default": {
+        "rate": 0.0907,
+        "derivation": "EIA's average Texas residential price for July 2026 (158.8 USD/MWh, all customers of all utilities and retailers) less Oncor's delivery charges at 600 kWh, so the default bill at 600 kWh matches that average; an assumption: enter the energy charge on your plan's Electricity Facts Label",
+        "eia_row": {
+          "table": "eia_retail_electricity_prices",
+          "entity": "eia:retail_price:TX:RES",
+          "ts_utc": "2026-07-01T00:00:00Z",
+          "value": 158.8,
+          "unit": "USD/MWh"
+        },
+        "cite": "eia_retail",
+        "arithmetic": "0.1588 - 0.061322 (Oncor per kWh) - 4.06 / 600 (Oncor fixed per kWh at 600) = 0.090711, rounded to 0.0907"
+      },
+      "fixed": [
+        {
+          "id": "onc_cust",
+          "name": "Customer Charge",
+          "what": "A fixed monthly charge per customer for Oncor's account costs.",
+          "why": "Billing and customer service cost the same whether a home uses a little or a lot.",
+          "basis": "per_month",
+          "rate": 1.48,
+          "cite": "oncor_tariff",
+          "quote": "MONTHLY RATE I. Base Rate Charges: Customer Charge $ 1.48 per Retail Customer Metering Charge $ 2.58 per Retail Customer Distribution System Charge $ 0.036043 per kWh",
+          "effective": "2026-06-01 (6.1.1.1.1 Residential Service, Sheet 1.1)"
+        },
+        {
+          "id": "onc_meter",
+          "name": "Metering Charge",
+          "what": "A fixed monthly charge for the meter and reading it.",
+          "why": "Every home has a meter to install, read and maintain.",
+          "basis": "per_month",
+          "rate": 2.58,
+          "cite": "oncor_tariff",
+          "quote": "Metering Charge $ 2.58 per Retail Customer",
+          "effective": "2026-06-01 (Sheet 1.1)"
+        }
+      ],
+      "per_kwh": [
+        {
+          "id": "onc_dsc",
+          "name": "Distribution System Charge",
+          "what": "Oncor's charge per kWh for the local wires and poles.",
+          "why": "The neighborhood grid has to be built and kept up.",
+          "basis": "per_kWh",
+          "rate": 0.036043,
+          "cite": "oncor_tariff",
+          "quote": "Distribution System Charge $ 0.036043 per kWh",
+          "effective": "2026-06-01 (Sheet 1.1)"
+        },
+        {
+          "id": "onc_tcrf",
+          "name": "Transmission Cost Recovery Factor (TCRF)",
+          "what": "A charge for the high-voltage transmission lines across ERCOT.",
+          "why": "Every wires company in ERCOT pays for the shared transmission grid; it passes the cost through.",
+          "basis": "per_kWh",
+          "rate": 0.019046,
+          "cite": "oncor_tariff",
+          "quote": "Effective Date ($/kWh) ($/kWh) ($/NCP kW) ($/4CP kW) ($/kWh) ($/NCP kW) ($/4CP kW) ($/4CP kW) ($/4CP kW) August 1, 2026 0.019046",
+          "effective": "2026-08-01 (Rider TCRF, 6.1.1.6.1; the first column is Residential Service)"
+        },
+        {
+          "id": "onc_eecrf",
+          "name": "Energy Efficiency Cost Recovery Factor (EECRF)",
+          "what": "A charge for Oncor's energy efficiency programs.",
+          "why": "Texas law requires wires companies to fund programs that cut waste.",
+          "basis": "per_kWh",
+          "rate": 0.001487,
+          "cite": "oncor_tariff",
+          "quote": "March 1, 2026 0.001487 0.000055",
+          "effective": "2026-03-01 (Rider EECRF, 6.1.1.6.3; the first column is Residential Service)"
+        },
+        {
+          "id": "onc_dcrf",
+          "name": "Distribution Cost Recovery Factor (DCRF)",
+          "what": "A charge for new distribution investment between rate cases; now zero.",
+          "why": "It recovers new wires spending until the next full rate review, which reset it.",
+          "basis": "per_kWh",
+          "rate": 0.0,
+          "cite": "oncor_tariff",
+          "quote": "June 1, 2026 0.000000 0.000000",
+          "effective": "2026-06-01 (Rider DCRF, 6.1.1.6.4; the first column is Residential Service)"
+        },
+        {
+          "id": "onc_ndc",
+          "name": "Nuclear Decommissioning Charge (NDC)",
+          "what": "A charge to take apart retired nuclear plants; now zero for homes.",
+          "why": "Nuclear plants must be dismantled safely after they close.",
+          "basis": "per_kWh",
+          "rate": 0.0,
+          "cite": "oncor_tariff",
+          "quote": "Nuclear Decommissioning Rate Schedule Charge Factor (NDCF) Res idential Service $ 0.000000 per kWh",
+          "effective": "Rider NDC (6.1.1.5.1)"
+        },
+        {
+          "id": "onc_rce",
+          "name": "Rate Case Expense Surcharge (RCE)",
+          "what": "A temporary charge for the cost of Oncor's last rate review.",
+          "why": "The regulator lets the utility recover the approved cost of the case, about a year.",
+          "basis": "per_kWh",
+          "rate": 8.6e-05,
+          "cite": "oncor_tariff",
+          "quote": "R esidential Service $ 0.000086 per kWh",
+          "effective": "Rider RCE (6.1.1.6.5), Docket No. 58306, in effect until $8,291,399 has been billed"
+        },
+        {
+          "id": "onc_mg",
+          "name": "Mobile Generation Rider (MG)",
+          "what": "A charge for portable generators Oncor uses to restore power after storms.",
+          "why": "Texas lets wires companies lease mobile generation for outages.",
+          "basis": "per_kWh",
+          "rate": 0.001027,
+          "cite": "oncor_tariff",
+          "quote": "Dec 1, 2025 $0.001027 $0.000606",
+          "effective": "2025-12-01 (Rider MG, 6.1.1.6.6; the first column is Residential Service)"
+        },
+        {
+          "id": "onc_is",
+          "name": "Interim Surcharge (IS)",
+          "what": "A temporary charge that makes up the difference between old and new rates for part of 2026.",
+          "why": "The new rates approved in 2026 apply from January 1, 2026; this collects the gap.",
+          "basis": "per_kWh",
+          "rate": 0.003633,
+          "cite": "oncor_tariff",
+          "quote": "Rate Schedule IS Residential Service $ 0.003633 per kWh",
+          "effective": "Rider IS (6.1.1.6.7), in effect through December 2026"
+        }
+      ],
+      "defaults": {
+        "kwh": 600,
+        "labels": {
+          "kwh": "600 kWh a month, an assumption"
+        }
+      }
+    }
+  }
+}
