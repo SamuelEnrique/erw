@@ -62,6 +62,10 @@ export const GROUPS: Group[] = [
     // session 43: learning pages (the bill explainer), with the seven grid pages and the events
     label: "Learn",
     pages: [
+      // session 44: the problem sets
+      { href: "/learn/problems/know-your-grid", label: "Problems: know your grid", line: "Five questions on ERCOT and CAISO side by side: peak demand, generation mix, batteries and carbon intensity, answered from the latest data.", tables: "eia930_all_demand, eia930_all_generation, storage_daily_cycle, carbon_intensity_daily", related: ["/learn/problems", "/grid/ercot"] },
+      { href: "/learn/problems/prices-and-your-bill", label: "Problems: prices and your bill", line: "Five questions on load-weighted prices, the shape premium, the wholesale share of two bills and the daily price swing.", tables: "cost_of_power_monthly, cost_of_power_hourly_profile; site/data/bill_rules.json", related: ["/learn/problems", "/cost-of-power"] },
+      { href: "/learn/problems/when-the-grid-broke", label: "Problems: when the grid broke", line: "Five questions on Uri, CAISO's 2020 heat, Elliott and ERCOT's 2023 heat, answered from the event windows.", tables: "event_window_daily", related: ["/learn/problems", "/events"] },
       { href: "/learn/bill", label: "What is on a bill", line: "Two real electricity bills built line by line from the tariffs, PG&E in California and Oncor in Texas, and how much of each is the wholesale price of energy.", tables: "site/data/bill_rules.json; cost_of_power_monthly", related: ["/cost-of-power", "/grid/ercot"] },
     ],
     sub: { label: "Grids and events", links: [...YOUR_GRID, { href: "/events", label: "Events" }] },

@@ -34,7 +34,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 39: three more events
   "/events", "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",
   // session 43: the bill explainer's default bills
-  "/learn/bill"];
+  "/learn/bill",
+  // session 44: every computed answer of the problem sets
+  "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke"];
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 
@@ -53,10 +55,19 @@ const origin = new URL(env("SUPABASE_URL")).origin;
 const key = env("SUPABASE_ANON_KEY");
 
 async function q(table, params, countOnly = false) {
-  const res = await fetch(`${origin}/rest/v1/${table}?${new URLSearchParams(params)}`, {
-    headers: { apikey: key, Authorization: `Bearer ${key}`, ...(countOnly ? { Prefer: "count=exact", Range: "0-0" } : {}) },
-  });
-  if (!res.ok) throw new Error(`${table}: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+  // session 44: a statement timeout (Postgres 57014) is retried twice, after 1 and 3 seconds, as the site's reader does:
+  // while the daily run loads Supabase, a query that takes a fraction of a second can pass the anon role's 3 s limit
+  let res, body = "";
+  for (let attempt = 0; attempt < 3; attempt++) {
+    res = await fetch(`${origin}/rest/v1/${table}?${new URLSearchParams(params)}`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}`, ...(countOnly ? { Prefer: "count=exact", Range: "0-0" } : {}) },
+    });
+    if (res.ok) break;
+    body = (await res.text()).slice(0, 200);
+    if (attempt < 2 && res.status === 500 && body.includes("57014")) { await new Promise((r) => setTimeout(r, attempt ? 3000 : 1000)); continue; }
+    break;
+  }
+  if (!res.ok) throw new Error(`${table}: HTTP ${res.status} ${body}`);
   if (countOnly) return Number(res.headers.get("content-range").split("/")[1]);
   return res.json();
 }
@@ -82,6 +93,14 @@ async function truth(check) {
   }
   if (p[0] === "latest_prices") {
     return (await q("latest_prices", { select: "value", entity: `eq.${p[1]}`, variable: `eq.${p[2]}` }))[0]?.value;
+  }
+  // session 44: a derived answer of the problem sets, calc|<op>|<A>|<B>: A and B are check keys with "~" for "|", each
+  // recomputed here on its own, then combined
+  if (p[0] === "calc") {
+    const [, op, a, b] = p;
+    const x = Number(await truth(a.replaceAll("~", "|"))), y = Number(await truth(b.replaceAll("~", "|")));
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return undefined;
+    return op === "ratio" ? x / y : op === "diff" ? x - y : op === "pct" ? (x / y) * 100 : undefined;
   }
   // session 43: the bill explainer's default bills, recomputed here from data/bill_rules.json (California by the tariff's
   // total rates, not its unbundled lines; Texas by its charges), and the wholesale share from cost_of_power_monthly
