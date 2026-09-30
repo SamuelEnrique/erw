@@ -18,6 +18,7 @@ A niche stated precisely (for example "subsurface heat mapping for geothermal"),
 5. **Policy.** The Policy sheet is drawn from the ERW's `policy_actions` (matched on the niche's words, the most significant first), with the plain read from `policy_reads` where one was kept. The model only picks which actions bear on the niche.
 6. **Charts.** A trend table whose values survive the check as numbers gets a native chart. When the model names an Automated Analysis template that fits the trend, its email-size chart is inserted with the template's source line.
 7. **Costs.** Every model call is logged with its tokens, web searches and cost, and the run's total is logged and written on the Scope sheet. Cost is the model's token prices plus USD 10 per 1,000 searches, with a hard stop at `--max-usd` (default 6).
+8. **The structure calls (sessions 30 and 34).** The sheets are written from the saved research in three calls: {scope, fundamentals, trends}, the landscape alone, and {capital, incumbents, risks, policy}. Session 34 gave the landscape its own call. On session 30's saved geothermal research it cost USD 0.1152 more (run total USD 1.3237 against 1.2253) and found the same 2 companies. The 7 of the earlier per-sheet run came from a different research pass: this pass's Scope sheet excludes drilling and plant developers (Quaise, XGS, Sage, Fervo), which the notes do name.
 
 ## The workbook (Stanford format)
 

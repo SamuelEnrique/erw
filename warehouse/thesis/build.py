@@ -61,7 +61,12 @@ SEARCH_USD = 10 / 1000
 MAX_RETRIES = 1
 # the sheets per structure call (session 30): one schema of all eight is refused by the API as too large a grammar
 # (checked 2026-09-29 with max_tokens=1 calls: {scope, fundamentals, trends, landscape} is refused; these two are accepted)
-GROUPS = [["scope", "fundamentals", "trends"], ["landscape", "capital", "incumbents", "risks", "policy"]]
+# Session 34: the landscape (the company list) in its own call. Batched with four other sheets (session 30) it found 2
+# companies where the per-sheet run before found 7; the list is the sheet most cut short when one call writes five.
+GROUPS = [["scope", "fundamentals", "trends"], ["landscape"], ["capital", "incumbents", "risks", "policy"]]
+LANDSCAPE_TASK = ("This call writes the landscape only: one row for every private company the notes and sources name as "
+                  "working in the niche, not only the best known; a company with few disclosed facts still gets its row, "
+                  "with \"not disclosed\" where a figure is missing.")
 MAX_SPANS = 3
 SPAN_CHARS = 300
 NAME = "energy_companies"
@@ -214,6 +219,8 @@ class Researcher:
                f"{self.erw_list()}")
         schema = obj({k: SCHEMAS[k] for k in keys})
         task = f"Write every sheet of the map, each under its own key: {', '.join(keys)}. {extra}"
+        if keys == ["landscape"]:  # session 34
+            task += " " + LANDSCAPE_TASK
         with self.client.messages.stream(
                 model=self.model, max_tokens=64000, system=STRUCT_SYSTEM + VOICE_NOTE,
                 messages=[{"role": "user", "content": [{"type": "text", "text": msg}, {"type": "text", "text": task}]}],
