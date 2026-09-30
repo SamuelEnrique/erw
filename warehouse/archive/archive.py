@@ -269,7 +269,7 @@ def load_state(name, bucket, man):
     The bucket's index is the shared one; a local index is used only without the bucket."""
     data = None
     if bucket.enabled:
-        data = bucket.get(f"_state/{name}.npz")
+        data = state_get(bucket, name)
     elif os.path.exists(state_path(name)):
         with open(state_path(name), "rb") as f:
             data = f.read()
@@ -290,7 +290,39 @@ def save_state(name, seen, keys, run_id, bucket):
     with open(state_path(name), "wb") as f:
         f.write(data)
     if bucket.enabled:
-        bucket.put(f"_state/{name}.npz", data, overwrite=True)
+        state_put(bucket, name, data)
+
+
+def state_put(bucket, name, data):
+    """Session 34: the index in the bucket. One larger than PART_MAX (4.3 million rows of eia930_all_emissions make
+    69 MB) goes as chunks _state/<name>.npz.pNNN, and _state/<name>.npz becomes a small pointer naming how many, so a
+    reader never takes an older single index for the current one."""
+    path = f"_state/{name}.npz"
+    if len(data) <= PART_MAX:
+        bucket.put(path, data, overwrite=True)
+        return
+    step = PART_MAX * 3 // 4
+    pieces = [data[i:i + step] for i in range(0, len(data), step)]
+    for i, p in enumerate(pieces, 1):
+        bucket.put(f"{path}.p{i:03d}", p, overwrite=True)
+    buf = io.BytesIO()
+    np.savez(buf, chunks=np.array(len(pieces)), size=np.array(len(data)), sha256=np.array(hashlib.sha256(data).hexdigest()))
+    bucket.put(path, buf.getvalue(), overwrite=True)
+
+
+def state_get(bucket, name):
+    """The index's bytes from the bucket (reassembled from its chunks behind a pointer), or None."""
+    path = f"_state/{name}.npz"
+    data = bucket.get(path)
+    if data is None:
+        return None
+    z = np.load(io.BytesIO(data), allow_pickle=False)
+    if "chunks" not in z.files:
+        return data
+    whole = b"".join(bucket.get(f"{path}.p{i:03d}") or b"" for i in range(1, int(z["chunks"]) + 1))
+    if len(whole) != int(z["size"]) or hashlib.sha256(whole).hexdigest() != str(z["sha256"]):
+        raise RuntimeError(f"{path}: its chunks do not add up to the index the pointer names")
+    return whole
 
 
 # ---------------------------------------------------------------- month files

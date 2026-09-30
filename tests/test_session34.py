@@ -179,3 +179,40 @@ class ArchiveChunks(unittest.TestCase):
         self.assertEqual(A.put_part(small, "t/2026-09", "r2", df.head(10)), 1)
         self.assertEqual(list(small.objects), ["t/2026-09/r2.csv.gz"])
         self.assertEqual(A.run_of("r2.csv.gz"), "r2")
+
+
+class ArchiveStateChunks(unittest.TestCase):
+    """Session 34: an index larger than the bucket's limit is stored as chunks behind a pointer and read back whole."""
+
+    def test_state_round_trip_and_pointer(self):
+        import numpy as np
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "archive"))
+        import archive as A
+
+        class FakeBucket:
+            def __init__(self):
+                self.objects = {}
+
+            def put(self, path, data, overwrite=False):
+                self.objects[path] = data
+
+            def get(self, path):
+                return self.objects.get(path)
+
+        rng = np.random.default_rng(34)
+        data = A.pack_state(rng.integers(0, 2**63, 30000, dtype=np.uint64),
+                            rng.integers(0, 2**63, 30000, dtype=np.uint64), "r1")
+        b = FakeBucket()
+        b.objects["_state/t.npz"] = b"an older single index"
+        saved = A.PART_MAX
+        try:
+            A.PART_MAX = 100_000
+            A.state_put(b, "t", data)
+            self.assertGreater(len([k for k in b.objects if k.startswith("_state/t.npz.p")]), 1)
+            self.assertLess(len(b.objects["_state/t.npz"]), 2_000)  # the pointer replaced the older index
+            self.assertEqual(A.state_get(b, "t"), data)
+            small = A.pack_state(np.array([1], dtype=np.uint64), np.array([2], dtype=np.uint64), "r2")
+            A.state_put(b, "u", small)
+            self.assertEqual(A.state_get(b, "u"), small)
+        finally:
+            A.PART_MAX = saved

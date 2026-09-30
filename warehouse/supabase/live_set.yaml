@@ -92,6 +92,13 @@ select:
     include:
       variable: [batteries_mw]
     days: 32
+  # session 34: Supabase stood at 394.2 MB of 400 after the six new CO2 variables and intensity from 2018 were loaded.
+  # The site reads no by-fuel CO2 and no daily intensity: the live set keeps generated and consumed CO2 (its 90 days)
+  # and the last 100 days of the daily intensity; Redivis and the CSVs hold everything
+  eia930_all_emissions:
+    include:
+      variable: [co2_emissions_generated, co2_emissions_consumed]
+  carbon_intensity_daily: {days: 100}
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv
