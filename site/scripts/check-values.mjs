@@ -28,7 +28,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 36C
   "/events/covid-2020",
   // session 37: the cost-of-power model
-  "/cost-of-power"];
+  "/cost-of-power",
+  // session 38: today's level's price range
+  "/play/battery"];
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 

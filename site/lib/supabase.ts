@@ -103,7 +103,7 @@ export async function rpc<T>(fn: string, args: Record<string, string>): Promise<
   return (await res.json()) as T;
 }
 
-export async function insertRow(table: string, row: Record<string, string | boolean | string[] | number | null>): Promise<void> {
+export async function insertRow(table: string, row: Record<string, string | boolean | string[] | number | number[] | null>): Promise<void> {
   const { base, key } = config();
   const res = await fetch(`${base}/rest/v1/${table}`, {
     method: "POST",

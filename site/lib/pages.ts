@@ -59,6 +59,13 @@ export const GROUPS: Group[] = [
     ],
   },
   {
+    // session 38: the home battery game
+    label: "Play",
+    pages: [
+      { href: "/play/battery", label: "Home battery game", line: "Run a home battery through a real day of ERCOT prices: charge cheap, sell dear, answer the fleet call, and see what perfect foresight would have earned.", tables: "iso_rtm_hub_prices, ercot_all_hub_prices_history", related: ["/storage", "/grid/ercot"] },
+    ],
+  },
+  {
     label: "News",
     pages: [
       { href: "/digest", label: "ERW's Energy Digest", line: "The weekday brief: the day's energy news, scored and ranked, the day's numbers from the warehouse, and a fun fact.", tables: "news_index; docs/digest/", related: ["/roundup", "/deals"] },
