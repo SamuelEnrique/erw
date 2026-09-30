@@ -42,9 +42,10 @@ export async function rest<T>(
     const qs = new URLSearchParams({ ...query, limit: String(Math.min(PAGE, max - offset)), offset: String(offset) });
     let res: Response | null = null;
     let body = "";
-    // session 39: one retry, after a second, of a statement timeout (Postgres 57014). A build that runs right after the
-    // loader's VACUUM FULL meets cold tables, and seven grid pages at once took the anon role past its 3 s limit.
-    for (let attempt = 0; attempt < 2; attempt++) {
+    // session 39: a retry of a statement timeout (Postgres 57014). A build that runs right after the loader's VACUUM FULL,
+    // or while the daily run loads, meets cold or busy tables, and seven grid pages at once took the anon role past its
+    // 3 s limit. Session 43: two retries, after 1 and 3 seconds (one retry still lost the NYISO and SPP queue reads).
+    for (let attempt = 0; attempt < 3; attempt++) {
       try {
         res = await fetch(`${base}/rest/v1/${table}?${qs}`, {
           headers: { apikey: key, Authorization: `Bearer ${key}` },
@@ -55,8 +56,8 @@ export async function rest<T>(
       }
       if (res.ok) break;
       body = (await res.text()).slice(0, 200);
-      if (attempt === 0 && res.status === 500 && body.includes("57014")) {
-        await new Promise((r) => setTimeout(r, 1000));
+      if (attempt < 2 && res.status === 500 && body.includes("57014")) {
+        await new Promise((r) => setTimeout(r, attempt === 0 ? 1000 : 3000));
         continue;
       }
       break;
