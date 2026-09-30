@@ -295,6 +295,10 @@ def _local_columns(name: str) -> Optional[pd.DataFrame]:
             skip += 1
     want = [c for c in ("entity_id", "entity_type", "name", "status", "event_id", "event_type", "source", "variable",
                         "node", "entity") if c in cols]
+    cached = _facts_cache_read(path, want)
+    if cached is not None:
+        return cached
+    before = os.stat(path)  # the file as it was when the scan began: the cache is keyed on it
     reader = pcsv.open_csv(path, read_options=pcsv.ReadOptions(skip_rows=skip, block_size=1 << 24),
                            convert_options=pcsv.ConvertOptions(include_columns=want,
                                                                column_types={c: pa.string() for c in want}))
@@ -302,7 +306,54 @@ def _local_columns(name: str) -> Optional[pd.DataFrame]:
     for batch in reader:
         for c in want:
             seen[c] |= set(batch.column(c).to_pylist())
+    _facts_cache_write(path, seen, before)
     return seen
+
+
+# Session 34: the distinct values _local_columns streams from a local file, cached on disk so filter(node=...) does not
+# scan the 0.7 GB ERCOT history on every call. One JSON file per data file, under ERW_CACHE_DIR (default
+# ~/.cache/erw/facts), valid only while the data file's modification time (ns) and size are those recorded; any change
+# to the file makes the next call scan it again. ERW_FACTS_CACHE=0 turns the cache off.
+def _facts_cache_path(path: Path) -> Optional[Path]:
+    if os.environ.get("ERW_FACTS_CACHE", "1") == "0":
+        return None
+    import hashlib
+    root = Path(os.environ.get("ERW_CACHE_DIR") or Path.home() / ".cache" / "erw") / "facts"
+    key = hashlib.sha256(str(Path(path).resolve()).encode("utf-8")).hexdigest()[:24]
+    return root / f"{Path(path).stem}_{key}.json"
+
+
+def _facts_cache_read(path: Path, want: List[str]) -> Optional[Dict]:
+    import json
+    cp = _facts_cache_path(path)
+    if cp is None or not cp.exists():
+        return None
+    try:
+        st = os.stat(path)
+        c = json.loads(cp.read_text(encoding="utf-8"))
+        if c["mtime_ns"] != st.st_mtime_ns or c["size"] != st.st_size or sorted(c["columns"]) != sorted(want):
+            return None
+        return {k: set(v) for k, v in c["columns"].items()}
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def _facts_cache_write(path: Path, seen: Dict, st: os.stat_result) -> None:
+    import json
+    cp = _facts_cache_path(path)
+    if cp is None:
+        return
+    try:
+        now = os.stat(path)
+        if (now.st_mtime_ns, now.st_size) != (st.st_mtime_ns, st.st_size):
+            return  # the file changed while it was scanned: not cached
+        cp.parent.mkdir(parents=True, exist_ok=True)
+        tmp = cp.with_suffix(".tmp")
+        tmp.write_text(json.dumps({"path": str(path), "mtime_ns": st.st_mtime_ns, "size": st.st_size,
+                                   "columns": {k: sorted(v) for k, v in seen.items()}}), encoding="utf-8")
+        os.replace(tmp, cp)
+    except OSError:  # a read-only home: the facts are still returned, only not kept
+        pass
 
 
 def _table_facts(name: str) -> Dict:

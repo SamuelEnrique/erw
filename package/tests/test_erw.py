@@ -720,3 +720,32 @@ def test_tier_column_cite_and_info():
     if "ercot_dam_hub_prices" in by.index:
         assert by["ercot_dam_hub_prices"] == "source"
     assert erw.info(quiet=True)["tiers"] == {k: int(v) for k, v in cov["tier"].value_counts().items()}
+
+
+def test_filter_facts_are_cached_on_disk_and_invalidated_by_mtime(tmp_path, monkeypatch):
+    """Session 34: _table_facts keeps a local file's distinct values in a cache file, used while the data file's
+    modification time and size are unchanged, and read again from the file once either changes."""
+    import json
+    import os
+    import shutil
+    from erw.api import _facts_cache_path, _table_facts
+    name = "eia_fuel_spot_prices" if "eia_fuel_spot_prices" in TABLES else PER_TABLE[0]
+    data = tmp_path / "data"
+    data.mkdir()
+    shutil.copy2(OUTPUT / f"{name}.csv", data / f"{name}.csv")
+    monkeypatch.setenv("ERW_CACHE_DIR", str(tmp_path / "cache"))
+    erw.set_backend(str(data))
+    first = _table_facts(name)
+    cp = _facts_cache_path(data / f"{name}.csv")
+    assert cp.exists()
+    assert _table_facts(name) == first
+    monkeypatch.setenv("ERW_FACTS_CACHE", "0")
+    assert _table_facts(name) == first  # the cache gives what a scan gives
+    monkeypatch.delenv("ERW_FACTS_CACHE")
+    c = json.loads(cp.read_text(encoding="utf-8"))
+    c["columns"] = {k: ["marker"] for k in c["columns"]}
+    cp.write_text(json.dumps(c), encoding="utf-8")
+    assert "marker" in _table_facts(name)["variables"]  # a valid cache is read, not the file
+    st = os.stat(data / f"{name}.csv")
+    os.utime(data / f"{name}.csv", ns=(st.st_atime_ns, st.st_mtime_ns + 10_000_000_000))
+    assert _table_facts(name) == first  # a newer file is scanned again
