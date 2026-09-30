@@ -1941,6 +1941,45 @@ run_id,runner,connector,table,market,status,detail
 20260929T182103Z,local,eia930_emissions,eia930_all_emissions,swpp 2026-09-28,gap,24 of 24 hours with CO2 values; day not written
 20260929T182103Z,local,eia930_emissions,eia930_all_emissions,us48 2026-09-28,gap,24 of 24 hours with CO2 values; day not written
 20260929T184209Z,local,carbon_intensity,carbon_intensity,derived,ok,hourly and daily written
+20260929T185935Z,github,build_coverage,coverage,job log,failed,price_board_carbon: input tables ['carb_auction_allowance_prices'] are not in warehouse/output; fixed in 670ba69 (session 33); recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,caiso,caiso,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,caiso_outlook,caiso_outlook,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,capacity_prices,capacity_prices,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,carbon_auctions,carb_auction_allowance_prices,job log,failed,RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202'); recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,companies_from_deals,companies_from_deals,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,consolidate,consolidate,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,curtailment,curtailment,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,datacenter_facilities,datacenter_facilities,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,datacenters,datacenters,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,deals,deals,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,eia860,eia860,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,eia930,eia930_swpp_demand,job log,failed,"RuntimeError: incomplete data, no file written for eia930_swpp_demand: demand_forecast_mw: 53 of 72 hours (19 missing, 0 published as null; first missing ['2026-09-28T05:00:00Z', '2026-09-28T06:00:00Z', '2026-09-28T07:00:00Z']); recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)"
+20260929T185935Z,github,eia930_storage,eia930_storage,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,eia_fuels,eia_fuels,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,eia_series,eia_series,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,energy_projects,energy_projects,job log,skipped,"inputs absent in CI (6 tables, e.g. ercot_interconnection_queue, caiso_interconnection_queue, nyiso_interconnection_queue; the queues are pulled on Mondays or a manual run); table not written (session; recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)"
+20260929T185935Z,github,ercot,ercot,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,ercot_peak_premium,ercot_peak_premium,job log,skipped,"inputs absent in CI (12 tables, e.g. ercot_rtm_hub_prices_2015, ercot_rtm_hub_prices_2016, ercot_rtm_hub_prices_2017); derived tables not written (session 10 ruling 3); recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)"
+20260929T185935Z,github,fred_series,fred_series,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,generation_mix,generation_mix,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,iso_curtailment_monthly,iso_curtailment_monthly,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,isone,isone,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,miso,miso,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,news_index,news_index,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,news_ingest,news_ingest,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,news_score,news_score,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,news_score_shadow,news_score_shadow,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,nyiso,nyiso,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,policy_reads,policy_reads,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,policy_score,policy_score,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,policy_sources,policy_sources,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,portwatch,portwatch,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,price_board,price_board,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,spp,spp,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,storage_capacity,storage_capacity,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,storage_daily_cycle,storage_daily_cycle,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,trader_view,trader_view,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
+20260929T185935Z,github,weather_nws,weather_nws,job log,ok,recorded in session 34 from the job log of GitHub run 36615905147 (failed before its commit)
 20260929T235354Z,local,storage_daily_cycle,storage_daily_cycle,derived,ok,"13896 rows, 696 days; 1990 CAISO rows from caiso_battery_storage"
 20260929T235750Z,local,eia860,eia860m_operating_generators,monthly,ok,vintage 2026-08
 20260929T235750Z,local,eia860,eia860m_planned_generators,monthly,ok,vintage 2026-08

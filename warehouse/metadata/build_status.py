@@ -70,13 +70,50 @@ def latest_prices_last_run():
     return rows[0]["retrieved_at"], len(rows)
 
 
-def day_complete(table, day):
+# Session 34: the partitioned EIA-930 tables (column ba) and the variables whose 24 hours make a day complete; a gap
+# row names the partition first ("swpp 2026-09-28") and, for one of the emissions table's six others, the variable
+CORE_OF = {"eia930_all_emissions": {"co2_emissions_generated", "co2_emissions_consumed"},
+           "eia930_all_storage": {"net_generation_battery_mw"}}
+_COUNTS = {}
+
+
+def partition_counts(table, path):
+    """Session 34: {(ba, variable, UTC day): hours with a value} of a partitioned table, from one streamed pass,
+    kept for every gap of the table (the emissions table has 4 million rows; it is read once, never whole)."""
+    if table not in _COUNTS:
+        import pyarrow as pa
+        import pyarrow.csv as pcsv
+        with open(path, encoding="utf-8") as f:
+            skip = sum(1 for ln in f if ln.startswith("#"))
+        cols = ["ba", "variable", "ts_utc", "value"]
+        reader = pcsv.open_csv(path, read_options=pcsv.ReadOptions(skip_rows=skip, block_size=1 << 24),
+                               convert_options=pcsv.ConvertOptions(include_columns=cols,
+                                                                   column_types={c: pa.string() for c in cols}))
+        counts = {}
+        for b in reader:
+            d = b.to_pandas()
+            d = d[d["value"] != ""]
+            g = d.groupby([d["ba"], d["variable"], d["ts_utc"].str[:10]]).size()
+            for k, n in g.items():
+                counts[k] = counts.get(k, 0) + int(n)
+        _COUNTS[table] = counts
+    return _COUNTS[table]
+
+
+def day_complete(table, day, part=None, variable=None):
     """True or False from the table on disk, None if the table is not on this machine."""
     path = os.path.join(ip.OUT_DIR, table + ".csv")
     if not os.path.exists(path):  # session 29: a member of a consolidated table, where consolidate.py build moved it
         path = os.path.join(ip.OUT_DIR, "members", table + ".csv")
     if not os.path.exists(path):
         return None
+    with open(path, encoding="utf-8") as f:
+        cols = next(ln for ln in f if not ln.startswith("#")).strip().split(",")
+    if part is not None and "ba" in cols:  # session 34: a partitioned table: its core variables, or the gap's own
+        counts = partition_counts(table, path)
+        want = {variable} if variable else CORE_OF.get(table, eia930.CORE)
+        present = {v for (b, v, d) in counts if b == part} & want
+        return bool(present) and all(counts.get((part, v, day), 0) == 24 for v in present) and present == want
     df = ip.read_series(path)
     ts = pd.to_datetime(df["ts_utc"], utc=True)
     if table.startswith("eia930_"):  # EIA-930: UTC days, the core variables complete
@@ -201,11 +238,20 @@ def main():
             L.append(f"| `{r.table}` | {r.run_id} | {r.detail[:160].replace('|', '/')} |")
 
     gaps = rs[rs["status"] == "gap"].copy()
-    gaps["day"] = gaps["market"].str.split().str[-1]
-    gaps = gaps.sort_values("run_id").drop_duplicates(["table", "day"], keep="last")
+    # session 34: the market is "<day>", or for a partitioned table "<ba> <day>" or "<ba> <day> <variable>"; a history
+    # build records a range ("<ba> <first>..<last> <variable>"), which is listed, not re-checked day by day
+    tok = gaps["market"].str.split()
+    gaps["day"] = tok.map(lambda t: next((x for x in t if len(x) >= 10 and x[:4].isdigit()), t[-1] if t else ""))
+    gaps["part"] = [t[0] if len(t) >= 2 and not t[0][:4].isdigit() else None for t in tok]
+    gaps["var"] = [("co2_emissions_" + t[2]) if len(t) >= 3 and "+" not in t[2] else None for t in tok]
+    gaps = gaps.sort_values("run_id").drop_duplicates(["table", "part", "day", "var"], keep="last")
     open_rows, closed = [], 0
     for g in gaps.itertuples():
-        state = day_complete(g.table, g.day)
+        if ".." in g.day:
+            open_rows.append((g.table, f"{g.part} {g.day}", "a range recorded by a history build (run_status.csv)",
+                              g.detail[:140].replace("|", "/")))
+            continue
+        state = day_complete(g.table, g.day, g.part, g.var)
         if state is True:
             closed += 1
             continue

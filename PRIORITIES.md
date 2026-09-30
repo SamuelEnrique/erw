@@ -16,6 +16,13 @@ Session 28 rewrote it as two layers, after Ben Domingue's review (`docs/feedback
 
 While it is closed, a session fixes the failures (layer 1, order 1 or 2), or asks a human to accept one as a known gap. It does not start a connector or a platform tool. Fixes, gates, documentation and work a human asks for directly are not blocked.
 
+What counts, as the daily run stands after sessions 29 to 33 (session 34):
+
+- **A run that fails before its commit** (2026-09-29: coverage stopped it) commits no row of `run_status.csv`, so the gate would read the last run that did. The session that finds it records that run's results from the job log (runner `github`), so the gate reads the newest run.
+- **A carried-forward table is not a failure.** On the runner `price_board_carbon` carries its CARB rows forward (session 30); CARB's own failure is the known gap, and coverage takes its license from the previous coverage (session 33).
+- **The storage and emissions steps** (sessions 31 and 32: EIA-930 storage, its daily cycle, the CO2 workbooks and carbon intensity) count like any connector. A day EIA leaves incomplete is a `gap` row, not a failure.
+- **The package test step** (session 29, required; 20 minutes at most since session 33) runs after the commit. A failed test fails the job and opens the failure issue, but it is not a table in `run_status.csv`; the next session reads the job's result and fixes it before anything else.
+
 ## Layer 1: the warehouse
 
 The tables of what sources published, their provenance, the validator, and the stores: the working store, the archive and the released versions (`ARCHITECTURE.md` section 1a).
