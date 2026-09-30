@@ -159,6 +159,9 @@ SECTOR_RULES = [
     (r"^carbon_intensity_(hourly|daily|monthly)$", "power;carbon"),  # session 34: monthly
     # session 36B: the Historical Event Analyzer's event windows (prices, demand, generation, intensity)
     (r"^event_window_daily$", "power;carbon"),
+    # session 37: the cost-of-power model (market-based wholesale cost per ISO hub; carbon beside price)
+    (r"^cost_of_power_(monthly|hourly_profile)$", "power"),
+    (r"^cost_of_power_carbon$", "power;carbon"),
 ]
 
 
@@ -176,7 +179,7 @@ def iso_of(table):
     parts = table.split("_")
     if table == "price_board_carbon":  # session 30: CARB and RGGI, no ISO
         return "none"
-    if table.startswith("price_board_"):  # session 30: price board v2 spans the six public ISOs
+    if table.startswith("price_board_") or table.startswith("cost_of_power_"):  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
     if table == "event_window_daily":  # session 36B Uri in ERCOT; session 36C COVID-19 in the seven ISO BAs and US48
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"
