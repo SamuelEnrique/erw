@@ -64,8 +64,14 @@ MAX_RETRIES = 1
 # Session 34: the landscape (the company list) in its own call. Batched with four other sheets (session 30) it found 2
 # companies where the per-sheet run before found 7; the list is the sheet most cut short when one call writes five.
 GROUPS = [["scope", "fundamentals", "trends"], ["landscape"], ["capital", "incumbents", "risks", "policy"]]
+# Session 36A: the scope was drawn too tight (session 34: the geothermal run excluded the drillers and developers its own
+# notes named, and found 2 companies). The adjacent companies whose work the niche depends on, or that deliver it, are in.
+ADJACENT = ("Keep in scope the adjacent drillers, plant or project developers and technology providers whose work supplies "
+            "the niche or depends on it; exclude only activities with no link to the niche's customers or its technology.")
+ADJACENT_COMPANIES = ("including the adjacent drillers, plant or project developers and technology providers in scope, each "
+                      "with the one line that links it to the niche")
 LANDSCAPE_TASK = ("This call writes the landscape only: one row for every private company the notes and sources name as "
-                  "working in the niche, not only the best known; a company with few disclosed facts still gets its row, "
+                  "working in the niche or in scope next to it (drillers, plant developers, technology providers), not only the best known; a company with few disclosed facts still gets its row, "
                   "with \"not disclosed\" where a figure is missing.")
 MAX_SPANS = 3
 SPAN_CHARS = 300
@@ -674,13 +680,13 @@ def main(argv=None):
             else:
                 notes_a = r.research("research: scope, fundamentals, trends", sysm, (
                     "Research (1) what this niche is exactly, its value chain from input to customer, and the adjacent niches an "
-                    "investor should keep out of scope; (2) the framing numbers: market size, installed base, costs, prices, "
+                    "investor should keep out of scope. " + ADJACENT + " (2) the framing numbers: market size, installed base, costs, prices, "
                     "volumes, with the warehouse first (its tables: prices, generation by fuel and state, the generator inventory, "
                     "interconnection queues, curtailment, batteries, deals, policy actions); (3) three to five trends, each with "
                     "the numbers behind it, preferring a warehouse table where one exists. Write notes: one fact per sentence, "
                     "cited."), args.searches)
                 notes_b = r.research("research: companies, capital, incumbents", sysm, (
-                    "Research every company working in this niche (startups and scale-ups first): name, website, what it does in "
+                    "Research every company working in this niche (startups and scale-ups first), " + ADJACENT_COMPANIES + ": name, website, what it does in "
                     "one line, founders, stage, amount raised, location, and the signal that surfaced it (a round, a grant, a "
                     "pilot, a customer, a patent). Then the capital: venture rounds, grants, project finance and M&A in the "
                     "niche with dates, amounts and investors (check the warehouse table energy_deals too). Then the incumbents "
