@@ -35,7 +35,8 @@ named in the table header and in warehouse/metadata/run_status.csv, rather
 than failing the whole table. A fuel type the BA does not report at all is
 simply not a variable of that table.
 Per-day completeness (session 13): for the tables in PER_DAY (ERCO and NYIS
-demand, where EIA's day-ahead forecast series has missing days, and since
+demand, where EIA's day-ahead forecast series has missing days, SWPP demand since
+session 36A for the same reason (2026-09-28: 19 forecast hours missing), and since
 session 16 all eight generation tables, whose net generation lags demand by a
 day or more), the rule above is applied to each UTC day instead of the whole
 window. In a generation table, a per-fuel series missing any hour of a day
@@ -156,7 +157,9 @@ CORE = {"demand_mw", "demand_forecast_mw", "net_generation_mw"}
 # Session 13: tables whose completeness is checked per UTC day (see the docstring).
 # Session 16 ruling: the eight generation tables too, since EIA publishes net generation
 # a day or more after demand, and the whole-window rule then wrote no generation at all.
-PER_DAY = {"eia930_erco_demand", "eia930_nyis_demand"} | {f"eia930_{c}_generation" for c in BAS}
+# Session 36A: SWPP demand too; EIA left 19 of its day-ahead forecast hours of 2026-09-28 empty, and the whole-window
+# rule failed the table (and closed the health gate) instead of recording the day as a gap
+PER_DAY = {"eia930_erco_demand", "eia930_nyis_demand", "eia930_swpp_demand"} | {f"eia930_{c}_generation" for c in BAS}
 
 
 def incomplete_variables(rows, start, end):
