@@ -42,7 +42,7 @@ const PAGES = [
   "/events", "/events/uri-2021", "/events/covid-2020",
   "/cost-of-power", "/data/methods/cost_of_power",
   "/play/battery",
-  "/severance", "/data/methods/severance",
+  "/severance", "/severance/lease", "/data/methods/severance",
   "/learn/bill",
   "/learn/problems", "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke",
   "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",

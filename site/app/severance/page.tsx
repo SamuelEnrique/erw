@@ -55,6 +55,10 @@ export default async function Severance() {
           rates are the Taxation and Revenue Department&apos;s latest published table, for April to August 2026. Local taxes, county levies and
           federal royalties are not here. <Link href="/data/methods/severance">Method</Link>.
         </p>
+        <p className="mt-2">
+          <strong>A whole lease?</strong> <Link href="/severance/lease">The lease tool</Link> takes a CSV of every well&apos;s monthly production, computes
+          each well and month, and flags the reduced rates each well&apos;s numbers may qualify for. Your file is read in your browser and never sent.
+        </p>
       </div>
       <Section title="Calculator">
         <Calculator rules={rules} prices={prices} />

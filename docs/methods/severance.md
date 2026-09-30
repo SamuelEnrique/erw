@@ -169,6 +169,33 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
   - A hub price is not the value at the well.
 - **Tests:** `site/scripts/test-severance.mjs` checks 26 hand-computed cases, run by `tests/test_session40.py`: 19 from session 40 and 7 from session 41 (the per-barrel floor, high-cost gas by cost ratio, the certified tiers and New Mexico's 2026 rates). Session 41 replaced one case, since high-cost gas now takes a cost ratio.
 
+## The lease tool (session 45, v0.2)
+
+`/severance/lease` takes a lease file: one row per well and month, with `state`, `well_id`, `month` and the month's oil (bbl), gas (Mcf) and condensate (bbl), and optional prices and well facts (the template lists each column and the rule that uses it). The file is read with the browser's File API and computed in the page (`site/lib/lease.ts` on `site/lib/severance.ts`); it is never sent to the server, and the results download is made in the page. A sample of clearly fictional wells shows each flag.
+
+**Prices.** A blank price is the month's mean of the warehouse's EIA daily spot prices (`eia_fuel_spot_prices`): WTI Cushing for oil and condensate, Henry Hub for gas (USD per MMBtu, applied per Mcf as if one Mcf held one MMBtu), each labeled with the number of days averaged. A hub price is not the value at the well. A month the warehouse does not hold is not computed until a price is entered.
+
+**Per well, month and product:** the base tax (Louisiana's oil rate from the completion date: 6.5 percent on or after July 1, 2025, else 12.5 percent, and 12.5 percent when no date is given; New Mexico's ad valorem rate from the district), the tax with the rules the reader ticks (one reduced rate per well and product, and the Texas low-producing oil credit beside it, as the calculator allows), and the regulatory fees apart.
+
+**"May qualify" flags.** A flag means the well's own numbers meet the rule's thresholds. The state still certifies or designates the well; the flag says so. Each flag cites its rule and states the numbers:
+
+| Rule | The test on the file's numbers |
+|---|---|
+| TX low-producing oil lease (`tx_lp_oil`) | The lease's oil wells (Texas wells with oil that month) average less than 15 bbl per well per day over the months of the 90 days ending with the month that the file holds, or less than 5 percent oil per barrel of produced water (water from `water_cut_pct`). The credit is from the Comptroller's certified price of the production month (2005 dollars); a month not published gives no credit |
+| TX low-producing gas well (`tx_lp_gas`) | No more than 90 Mcf a day over the three months before, as the file holds them (the month itself when it holds none); not for a well whose `well_type` is oil (casinghead gas); the certified price of the month sets the credit |
+| TX high-cost gas (`tx_hcg`) | A cost ratio is given, and the month is within 120 months of completion when a date is given; the rate by Sec. 201.057(c) |
+| TX and LA two-year inactive wells | 24 months or more without production before the month: `inactive_months`, or the file's own run of zero months |
+| LA stripper (`la_stripper`) | 10 bbl or less per producing day (`days_produced`, else the calendar days) |
+| LA incapable oil (`la_incapable`) | 25 bbl or less per producing day with 50 percent salt water or more (`water_cut_pct`); not assessed without a water cut, and the row says so |
+| LA incapable gas (`la_gas_incapable`) | Under 250 Mcf a day over the month's calendar days, for a well not designated an oil well |
+| LA deep wells | True vertical depth over 15,000 feet, completed after July 31, 1994 when a date is given, within 24 months of completion (commercial production is assumed to begin then; payout is not in the file) |
+| LA horizontal wells | `horizontal` yes, within 24 months of completion (18 for gas from a well completed on or after July 1, 2025); payout is not in the file |
+| NM district (`nm_district`) | Not a reduction: the district's ad valorem production rate applied, or, without a district, the tax left out and the range of the 2026 districts stated. No reduced New Mexico rate is flagged (see below) |
+
+**Potential savings** of a flag are the base tax less the tax with that rule alone. A well's potential savings take, for each month and product, the one flagged rule that saves the most, since reduced rates do not stack; the lease's are the sum over its wells, and the list shows the largest first. Not assessed from a file: Louisiana's low-pressure oil well gas (wellhead pressure), Texas enhanced recovery, flared and restimulated gas (Railroad Commission certification), and payout of any well.
+
+**Tests:** `site/scripts/test-lease.mjs`, run by `tests/test_session45.py`: a three-well, two-month lease for each state worked by hand (base, with ticks, potential savings, fees and flags), each threshold from both sides, and no network call (fetch, XMLHttpRequest, WebSocket, EventSource and sendBeacon trapped while the sample is parsed, analysed and written; the page's sources name none of them).
+
 ## Left out: no page read states them
 
 **Texas:**
