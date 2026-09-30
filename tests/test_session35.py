@@ -14,7 +14,8 @@ import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "chat"))
-os.environ.setdefault("ERW_LEDGER", "0")
+# no environment is changed here: the fake client below never reaches the ledger (session 36A: setting ERW_LEDGER at
+# import turned the ledger off for every later test of a discover run, and test_session30's ledger test failed)
 
 import ask  # noqa: E402
 import tools  # noqa: E402

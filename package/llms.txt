@@ -425,8 +425,9 @@ Backends (`ERW_BACKEND`, or `erw.set_backend(...)`); the calls do not change:
 - `redivis`: the Redivis dataset `energy_research_warehouse`, the store of
   record, every table, full history (REDIVIS_API_TOKEN, REDIVIS_OWNER).
 - `supabase`: the live set behind the public site: public tables, the last 90
-  days of ISO prices and EIA-930, and the derived, fuel, queue and news tables
-  whole (SUPABASE_URL with the anon or service key). Not in it: the ERCOT
+  days of ISO prices and EIA-930 (and all eight CO2 variables of
+  eia930_all_emissions, session 36A), and the derived, fuel, queue and news
+  tables whole (SUPABASE_URL with the anon or service key). Not in it: the ERCOT
   history (ercot_all_hub_prices_history) and eia860m_operating_generators
   and eia860m_planned_generators; read those from local files or Redivis, or
   use energy_projects (every operating and planned generator) from Supabase.
@@ -456,6 +457,11 @@ dated events, a glossary, each section citing ISO and EIA pages; it is text,
 not data (tier written), and the grid_notes tool reads it. /ask?grid=<grid> is
 the page's scoped chat: its tools see only that grid's tables and rows
 (partition ba, market prefix, storage_capacity's iso, energy_projects' queue).
+A datacenter facility counts for a grid (session 36A) when it comes from that
+grid's queue, else when its utility is one the grid lists in grids.json, else
+by the grid's states (docs/methods/datacenter_facilities.md, "Grid pages").
+Each dated event of the written layer cites the ISO, EIA or FERC page that
+states it; three are given as a year only because no such page states the day.
 
 
 ## 8. Working well
