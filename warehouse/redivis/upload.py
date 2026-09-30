@@ -482,9 +482,28 @@ def restore(out_dir=None):
     expected = sorted(n for n in ({n for n in man.index if rolling(n)} | {n for n in listed if rolling(n)})
                       if n not in moved)
     got, failed = 0, 0
+    # session 46: a restored file keeps its provenance header, read back from the draft's erw_headers table (every
+    # header line of every table, as last uploaded). Daily run 13 failed on policy_reads, whose connector rewrites its
+    # header only when it reads something new: on a day with nothing new the placeholder line stayed, with no source
+    # or run log. The placeholder is still written, after the lines, and alone when erw_headers has none for a table.
+    header_lines = {}
+
+    def lines_of(ds, dataset, name):
+        if dataset not in header_lines:
+            try:
+                h = ds.table(HEADERS_TABLE).to_pandas_dataframe(progress=False, dtype_backend="numpy")
+                header_lines[dataset] = {t: [str(x) for x in g.sort_values("line_no")["line"]] for t, g in h.groupby("table")}
+                log(f"read {len(h):,} header lines from {HEADERS_TABLE} ({dataset})")
+            except Exception as exc:  # the rows still restore; the header falls back to the placeholder alone
+                header_lines[dataset] = {}
+                log(f"WARNING: could not read {HEADERS_TABLE} ({dataset}): {type(exc).__name__}: {exc}")
+        # an earlier restore's placeholder line, uploaded with its table, is never carried forward as a header line
+        return [x for x in header_lines[dataset].get(name, []) if not x.startswith("Restored from the Redivis draft")]
+
     for name in expected:
         try:
-            ds = drafts(dataset_for(lic.get(name, "")))  # session 28: each table from its own dataset
+            dataset = dataset_for(lic.get(name, ""))
+            ds = drafts(dataset)  # session 28: each table from its own dataset
             meta = table_meta(ds, name)
             if meta is None:
                 raise RuntimeError(f"absent from the draft, though {CONFIG['manifest']} records an upload of "
@@ -500,9 +519,13 @@ def restore(out_dir=None):
             if have is not None and len(df) != int(have):
                 raise RuntimeError(f"downloaded {len(df):,} rows, but the draft's metadata says {int(have):,}")
             path = os.path.join(out_dir, name + ".csv")
+            kept = lines_of(ds, dataset, name)
             with open(path, "w", encoding="utf-8", newline="") as f:
+                for line in kept:
+                    f.write(f"# {line}\n")
                 f.write(f"# Restored from the Redivis draft of {CONFIG['dataset']} by warehouse/redivis/upload.py "
-                        f"--restore; the connector rewrites this header when it merges\n")
+                        f"--restore{' with the header lines above, from ' + HEADERS_TABLE if kept else ''}; the "
+                        f"connector rewrites this header when it merges\n")
                 df.to_csv(f, index=False, lineterminator="\n")
             got += 1
             log(f"restored {name}: {len(df):,} rows")

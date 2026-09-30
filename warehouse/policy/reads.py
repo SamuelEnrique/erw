@@ -236,6 +236,56 @@ class Reader:
         return json.loads(next(b.text for b in resp.content if b.type == "text")), cost
 
 
+def reads_header(run_id, model):
+    """The provenance header of policy_reads for a run (session 46: a function, shared with the rebuild below)."""
+    return ["Energy Research Warehouse (ERW): impact reads of policy actions scored 5 or more",
+            "Shape: events (docs/datastandard.md v0), event_type policy_read; one row per action read. The model's "
+            "fields as kept by warehouse/policy/reads.py: a field is blank when its spans were not found word for "
+            "word in the action's own text or a number in it was not in its spans (fields_dropped says why).",
+            f"Retrieved: {run_id} (UTC) by warehouse/policy/reads.py; model {model}",
+            f"Run log: warehouse/output/logs/policy_reads_{run_id}.log",
+            f"Raw files: warehouse/raw/policy_reads/{run_id}/ (not in git; texts/ holds the text each read used)",
+            "Source: erw:policy_reads, from policy_actions (the Federal Register and agency news releases).",
+            "License: public (the model's fields and links; the evidence spans are in policy_reads_evidence, internal)."]
+
+
+def rebuild_restored_header(log):
+    """Session 46: daily run 13 failed on policy_reads. On the GitHub runner the table comes back from the Redivis
+    draft with a one-line placeholder header, which this script rewrote only when it read something new; on a day with
+    nothing new the placeholder stayed (no source, no run log), and was uploaded as the table's header. When the file's
+    header is not an ERW header, it is rebuilt here from the rows themselves: the latest read's read_at (the run, to the
+    second the rows record) and model_id. No row changes."""
+    path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+    if not os.path.exists(path):
+        return False
+    with open(path, encoding="utf-8") as fh:
+        lines = fh.readlines()
+    n = 0
+    while n < len(lines) and lines[n].startswith("#"):
+        n += 1
+    if n and lines[0].startswith("# Energy Research Warehouse (ERW):"):
+        return False
+    df = pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False)
+    if not len(df):
+        return False
+    last = df.sort_values("read_at").iloc[-1]
+    run = pd.Timestamp(last["read_at"]).strftime("%Y%m%dT%H%M%SZ")
+    hdr = reads_header(run, last["model_id"])
+    # the run id is not in the rows (read_at is each read's own second), so the lines naming it say so
+    hdr[2] = f"Retrieved: the latest read at {last['read_at']} (UTC, read_at) by warehouse/policy/reads.py; model {last['model_id']}"
+    hdr[3] = (f"Run log: warehouse/output/logs/policy_reads_<run id>.log of the run that read each row (read_at; the "
+              f"latest {last['read_at']})")
+    hdr[4] = "Raw files: warehouse/raw/policy_reads/<run id>/ of the run that read each row (not in git; texts/ holds the text each read used)"
+    hdr.append(f"Header rebuilt from the rows by warehouse/policy/reads.py (session 46): the file had come back from the "
+               f"Redivis draft without its header; {len(df)} rows, unchanged.")
+    with open(path + ".tmp", "w", encoding="utf-8", newline="") as fh:
+        fh.writelines("# " + h + "\n" for h in hdr)
+        fh.writelines(lines[n:])
+    os.replace(path + ".tmp", path)
+    log(f"rebuilt the header of {NAME} from its rows (latest read {last['read_at']}, model {last['model_id']})")
+    return True
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW policy impact reads")
     ap.add_argument("--max-usd", type=float, default=3.0)
@@ -322,15 +372,7 @@ def main(argv=None):
                         marks.append({"action_event_id": r["event_id"], "read_at": now, "outcome": f"{len(k)} of 5 kept"})
                         log(f"  {r['event_id']}: kept {sorted(k)}; dropped {dropped}; USD {c:.4f}")
         if reads:
-            hdr = ["Energy Research Warehouse (ERW): impact reads of policy actions scored 5 or more",
-                   "Shape: events (docs/datastandard.md v0), event_type policy_read; one row per action read. The model's "
-                   "fields as kept by warehouse/policy/reads.py: a field is blank when its spans were not found word for "
-                   "word in the action's own text or a number in it was not in its spans (fields_dropped says why).",
-                   f"Retrieved: {run_id} (UTC) by warehouse/policy/reads.py; model {reads[0]['model_id']}",
-                   f"Run log: warehouse/output/logs/policy_reads_{run_id}.log",
-                   f"Raw files: warehouse/raw/policy_reads/{run_id}/ (not in git; texts/ holds the text each read used)",
-                   "Source: erw:policy_reads, from policy_actions (the Federal Register and agency news releases).",
-                   "License: public (the model's fields and links; the evidence spans are in policy_reads_evidence, internal)."]
+            hdr = reads_header(run_id, reads[0]["model_id"])
             ip.write_csv(pd.DataFrame(reads)[READ_COLS], NAME, hdr, log, cols=READ_COLS, key=["event_id"], time_col="event_date")
             ehdr = ["Energy Research Warehouse (ERW): the evidence spans of each kept field of policy_reads",
                     "Shape: events (docs/datastandard.md v0), event_type policy_read_evidence; one row per span.",
@@ -355,6 +397,8 @@ def main(argv=None):
                                     report="Impact reads of policy actions (warehouse/policy/reads.py)",
                                     report_url="https://github.com/SamuelEnrique/erw/blob/main/warehouse/policy/reads.py",
                                     document_list="", license="public", tables=[NAME, EVID])])
+        else:
+            rebuild_restored_header(log)  # session 46: a restored file's placeholder header, on a day with nothing new
         full = sum(1 for r in reads if r["fields_kept"].count(";") == 4)
         spent = getattr(reader, "spent", cost) if len(todo) else 0.0  # every call, failed ones included
         status["detail"] = (f"{len(reads)} actions read ({full} with all 5 fields kept); cost USD {cost:.4f} for the reads "
