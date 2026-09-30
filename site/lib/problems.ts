@@ -58,7 +58,8 @@ async function setA(): Promise<Question[]> {
     why: "Peak demand, not average demand, sets how much generation and wire a grid has to build.",
   };
   const gen = await series(G, { entities: [E, CA], since: s0 });
-  const sum = (e: string, v: string): V => ({ v: gen.filter((r) => r.entity === e && r.variable === v && r.ts_utc < s1).reduce((a, r) => a + r.value, 0), k: `series_sum|${G}|${v}|${s0}|${s1}|${e}`, u: "MWh" });
+  // session 46: compared parsed; Supabase's "+00:00" sorts before "Z", so a row at s1 itself passed the text test
+  const sum = (e: string, v: string): V => ({ v: gen.filter((r) => r.entity === e && r.variable === v && Date.parse(r.ts_utc) < Date.parse(s1)).reduce((a, r) => a + r.value, 0), k: `series_sum|${G}|${v}|${s0}|${s1}|${e}`, u: "MWh" });
   const gE = sum(E, "net_generation_natural_gas_mw"), tE = sum(E, "net_generation_mw"), gC = sum(CA, "net_generation_natural_gas_mw"), tC = sum(CA, "net_generation_mw");
   const q2: Question = {
     id: "a2", tables: [G],
@@ -250,7 +251,9 @@ async function setD(): Promise<Question[]> {
   const days = [...new Set(cyc.filter((r) => r.variable === "mwh_discharged").map((r) => day(r.ts_utc)))].sort();
   const last7 = days.slice(-7);
   const s0 = `${last7[0]}T00:00:00Z`, s1 = iso(Date.parse(`${last7.at(-1)}T00:00:00Z`) + DAY);
-  const tot = (v: string): V => ({ v: cyc.filter((r) => r.variable === v && r.ts_utc >= s0 && r.ts_utc < s1).reduce((a, r) => a + r.value, 0), k: `series_sum|${S}|${v}|${s0}|${s1}|${E}`, u: "MWh" });
+  // times compared parsed: Supabase writes "+00:00", which sorts before "Z" as text and would drop the first day
+  const t0 = Date.parse(s0), t1 = Date.parse(s1);
+  const tot = (v: string): V => ({ v: cyc.filter((r) => r.variable === v && Date.parse(r.ts_utc) >= t0 && Date.parse(r.ts_utc) < t1).reduce((a, r) => a + r.value, 0), k: `series_sum|${S}|${v}|${s0}|${s1}|${E}`, u: "MWh" });
   const out = tot("mwh_discharged"), inn = tot("mwh_charged");
   const rt: V = { v: BATTERY.roundTrip * 100, k: "battery|round_trip_pct", u: "%" };
   const q1: Question = {
@@ -264,7 +267,7 @@ async function setD(): Promise<Question[]> {
   };
   const dayRows = (d: string) => cyc.filter((r) => day(r.ts_utc) === d);
   const dL = [...days].reverse().find((d) => ["peak_charge_hour", "peak_discharge_hour"].every((v) => dayRows(d).some((r) => r.variable === v)))!;
-  const hc = row(S, dayRows(dL).find((r) => r.variable === "peak_charge_hour")!, "hour"), hd = row(S, dayRows(dL).find((r) => r.variable === "peak_discharge_hour")!, "hour");
+  const hc = row(S, dayRows(dL).find((r) => r.variable === "peak_charge_hour")!, ""), hd = row(S, dayRows(dL).find((r) => r.variable === "peak_discharge_hour")!, "");
   const q2: Question = {
     id: "d2", tables: [S],
     q: `On ${dL}, at which hour (Central time) did ERCOT's batteries charge hardest, at which did they discharge hardest, and how many hours apart were they?`,
