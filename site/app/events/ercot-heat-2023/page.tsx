@@ -44,7 +44,7 @@ export default function ErcotHeat2023() {
         return (
           <p>
             <strong>The emergency did not come on the day of the highest demand.</strong> On 2023-09-06 EIA&apos;s highest hour was <N r={d6} event={EV} /> MW, beside
-            ERCOT&apos;s September record of 82,705 MW; the highest hour of the window came on {day(top)}, <N r={top} event={EV} /> MW, with no emergency. The price
+            ERCOT&apos;s September record of 82,705 MW; the highest hour of the window came on {day(top)}, <N r={top} event={EV} /> MW. The price
             tells the emergency: the highest 15-minute real-time price of the window was <N r={rt} event={EV} /> USD/MWh on {day(rt)}. ERCOT&apos;s release puts the
             cause in supply as well as demand: lower wind, and solar declining at sunset.
           </p>

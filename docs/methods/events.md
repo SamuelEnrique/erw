@@ -87,7 +87,7 @@ Heat waves and cold snaps are stories about the peak hour.
   - https://www.ercot.com/news/release/2023-09-06-ercot-has-initiated: the EEA 2;
   - https://www.ercot.com/news/release/2023-09-06-ercot-has-exited: "No power outages associated with the ERCOT power grid were necessary"; "Texas set a new September peak demand record today of 82,705 MW driven by extreme heat across the state"; and the chief executive's "High demand, lower wind generation, and the declining solar generation during sunset led to lower operating reserves on the grid".
 - **What contradicts the story:**
-  - The emergency did not come on the day of the highest demand. EIA's highest hour on 2023-09-06 was 82,692 MW, 13 MW under ERCOT's September record. The window's highest hour was 85,432 MW on 2023-08-10, with no emergency.
+  - The emergency did not come on the day of the highest demand. EIA's highest hour on 2023-09-06 was 82,692 MW, 13 MW under ERCOT's September record. The window's highest hour was 85,432 MW on 2023-08-10.
   - The price marks the emergency: the highest 15-minute real-time price of the window, 5,075.46 USD/MWh, came on 2023-09-06.
   - The day most above the baseline (daily demand, +32.81 percent) was 2023-09-08. The peak hour most above it (+30.31 percent) was 2023-08-13.
 - **Left out:** ERCO's CO2 hours on two baseline days (2021-08-17 and 18), so the intensity of those two days is missing.
