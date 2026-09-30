@@ -95,9 +95,8 @@ select:
   # session 34: Supabase stood at 394.2 MB of 400 after the six new CO2 variables and intensity from 2018 were loaded.
   # The site reads no by-fuel CO2 and no daily intensity: the live set keeps generated and consumed CO2 (its 90 days)
   # and the last 100 days of the daily intensity; Redivis and the CSVs hold everything
-  eia930_all_emissions:
-    include:
-      variable: [co2_emissions_generated, co2_emissions_consumed]
+  # session 36A: all eight CO2 variables again (the by-fuel and trade six for /ask and the grid pages' chat), the table's
+  # recent window of 90 days; 30 days had the live set passed 380 MB. It measured 376.3 MB after the load and vacuum (335.6 before)
   carbon_intensity_daily: {days: 100}
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
