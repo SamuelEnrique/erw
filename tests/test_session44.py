@@ -19,8 +19,8 @@ with open(os.path.join(ROOT, "site", "lib", "problems.ts"), encoding="utf-8") as
 
 class ProblemSets(unittest.TestCase):
     def test_three_sets_of_five(self):
-        self.assertEqual(len(re.findall(r'\{ slug: "', SRC)), 3)
-        for s in "abc":
+        self.assertEqual(len(re.findall(r'\{ slug: "', SRC)), 4)  # session 46: set D, storage and taxes
+        for s in "abcd":
             ids = re.findall(rf'(?:id: |billQ\()"{s}(\d)"', SRC)
             self.assertEqual(sorted(ids), ["1", "2", "3", "4", "5"], s)
 

@@ -4,6 +4,9 @@
 import bills from "@/data/bill_rules.json";
 import { billCA, billTX, defaultsCA, defaultsTX } from "@/lib/bill";
 import { series, type SeriesRow } from "@/lib/data";
+import severance from "@/data/severance_rules.json";
+import { BATTERY, FLEET, fullCycle } from "@/lib/battery";
+import { compute, creditPct, type Rules } from "@/lib/severance";
 
 export type V = { v: number; k: string; u?: string };
 export type Part = string | V;
@@ -221,6 +224,104 @@ async function setC(): Promise<Question[]> {
   return [q1, q2, q3, q4, q5];
 }
 
+// ---------------------------------------------------------------- set D: storage and taxes (session 46)
+// The battery answers use lib/battery.ts (the game's assumed battery); the tax answers use lib/severance.ts on
+// data/severance_rules.json with the month's mean of the warehouse's EIA daily spot prices, as /severance does.
+const RULES = severance as unknown as Rules;
+const SPOT = "eia_fuel_spot_prices";
+
+/** The mean of an EIA daily spot series over a calendar month, with its check key. */
+async function spotMean(entity: string, month: string, u: string): Promise<V> {
+  const rows = (await series(SPOT, { entity, variable: "spot_price", since: `${month}-01T00:00:00Z` })).filter((r) => r.ts_utc.startsWith(month));
+  return { v: rows.reduce((a, r) => a + r.value, 0) / rows.length, k: `spotmean|${entity}|${month}`, u };
+}
+
+/** A month's tax (lib/severance.ts) at the base rate, or with one option (its period the month), with its check key. */
+function sev(state: string, product: string, volume: number, month: string, price: V, option = "base"): V {
+  const x = { state, product, volume, price: price.v, ...(state === "LA" && product === "oil" ? { variant: "la_oil_pre2025" } : {}) };
+  const o = RULES.states[state].products[product].options.find((q) => q.id === option);
+  const r = compute(RULES, o ? { ...x, [o.group === "credit" ? "credit" : "option"]: { id: option, period: month } } : x);
+  return { v: o ? r.withTotal : r.baseTotal, k: `sev|${state}|${product}|${volume}|${month}|${option}`, u: "USD" };
+}
+
+async function setD(): Promise<Question[]> {
+  const S = "storage_daily_cycle", P = "cost_of_power_hourly_profile", E = "eia930:ERCO";
+  const cyc = await series(S, { entity: E, since: iso(Date.now() - 12 * DAY) });
+  const days = [...new Set(cyc.filter((r) => r.variable === "mwh_discharged").map((r) => day(r.ts_utc)))].sort();
+  const last7 = days.slice(-7);
+  const s0 = `${last7[0]}T00:00:00Z`, s1 = iso(Date.parse(`${last7.at(-1)}T00:00:00Z`) + DAY);
+  const tot = (v: string): V => ({ v: cyc.filter((r) => r.variable === v && r.ts_utc >= s0 && r.ts_utc < s1).reduce((a, r) => a + r.value, 0), k: `series_sum|${S}|${v}|${s0}|${s1}|${E}`, u: "MWh" });
+  const out = tot("mwh_discharged"), inn = tot("mwh_charged");
+  const rt: V = { v: BATTERY.roundTrip * 100, k: "battery|round_trip_pct", u: "%" };
+  const q1: Question = {
+    id: "d1", tables: [S],
+    q: `Over the seven latest days held (${last7[0]} to ${last7.at(-1)}), how much energy did ERCOT's batteries discharge and charge, and what share of the energy in came back out? How does that compare with the game's battery?`,
+    answer: ["Discharged ", out, ", charged ", inn, ": ", calc("pct", out, inn, "%"), " came back out, against ", rt, " assumed for the game's battery."],
+    steps: [[`Add ERCOT's (eia930:ERCO) daily mwh_discharged and mwh_charged over ${last7[0]} to ${last7.at(-1)} (local days).`],
+      ["Energy out over energy in: ", out, " / ", inn, " x 100 = ", calc("pct", out, inn, "%"), "."],
+      ["The game's battery is an assumption: ", rt, " round trip (lib/battery.ts)."]],
+    why: "Every battery loses some energy in the round trip; a single day's ratio can even pass 100 percent when a charge and its discharge fall on different days, so a week is fairer.",
+  };
+  const dayRows = (d: string) => cyc.filter((r) => day(r.ts_utc) === d);
+  const dL = [...days].reverse().find((d) => ["peak_charge_hour", "peak_discharge_hour"].every((v) => dayRows(d).some((r) => r.variable === v)))!;
+  const hc = row(S, dayRows(dL).find((r) => r.variable === "peak_charge_hour")!, "hour"), hd = row(S, dayRows(dL).find((r) => r.variable === "peak_discharge_hour")!, "hour");
+  const q2: Question = {
+    id: "d2", tables: [S],
+    q: `On ${dL}, at which hour (Central time) did ERCOT's batteries charge hardest, at which did they discharge hardest, and how many hours apart were they?`,
+    answer: ["Charging peaked in hour ", hc, ", discharging in hour ", hd, ": ", calc("diff", hd, hc, "hours"), " apart."],
+    steps: [["Read peak_charge_hour and peak_discharge_hour for that day (the hour starting, 0 to 23, local time)."], ["Subtract: ", hd, " - ", hc, " = ", calc("diff", hd, hc, "hours"), "."]],
+    why: "Batteries fill when solar floods the grid at midday and empty into the evening peak, when the sun has set and demand is still high.",
+  };
+  const prof = await series(P, { entity: "ercot:HB_HUBAVG" });
+  const pm = [...new Set(prof.map((r) => r.ts_utc))].sort().at(-1)!;
+  const cells = prof.filter((r) => r.ts_utc === pm && r.variable.startsWith("rt_mean_h"));
+  const lo = pick(cells, "min"), hi = pick(cells, "max");
+  const LO = row(P, lo, "USD/MWh"), HI = row(P, hi, "USD/MWh");
+  const fc = fullCycle(lo.value, hi.value);
+  const key = `${P}|${lo.entity}|${pm}|${lo.variable}|${hi.variable}`;
+  const cash: V = { v: fc.usd, k: `battery|cycle|${key}`, u: "USD" }, fleet: V = { v: fc.usd * FLEET, k: `battery|cycle_fleet|${key}`, u: "USD" };
+  const bought: V = { v: fc.bought, k: "battery|bought_kwh", u: "kWh" }, delivered: V = { v: fc.delivered, k: "battery|delivered_kwh", u: "kWh" };
+  const q3: Question = {
+    id: "d3", tables: [P],
+    q: `The home battery game's battery charges once from empty at ERCOT's cheapest average hour of ${pm.slice(0, 7)} and empties at its dearest. What does that one cycle earn, and what would the game's fictional fleet of homes earn?`,
+    answer: ["One cycle earns ", cash, "; the fleet ", fleet, "."],
+    steps: [[`The cheapest hour of the month's profile is ${lo.variable.slice(-2)}:00, `, LO, `; the dearest ${hi.variable.slice(-2)}:00, `, HI, "."],
+      ["To store 13.5 kWh at 90 percent round trip (the square root of 0.9 each way) it buys ", bought, " and delivers ", delivered, "."],
+      ["Cash: (", delivered, " x ", HI, " - ", bought, " x ", LO, ") / 1,000 = ", cash, "."], ["Times the fleet's homes: ", fleet, "."]],
+    why: "The price spread between hours is a battery's whole business, and a home battery's share of it is small: what matters is scale.",
+  };
+  const held = [...new Set((await series(SPOT, { entity: "eia:wti_cushing", variable: "spot_price", since: iso(Date.now() - 75 * DAY) })).map((r) => r.ts_utc.slice(0, 7)))].sort();
+  const mo = held.at(-2)!;  // the latest complete month: a later month has begun
+  const wti = await spotMean("eia:wti_cushing", mo, "USD/bbl");
+  const tx = sev("TX", "oil", 1000, mo, wti), la = sev("LA", "oil", 1000, mo, wti), nm = sev("NM", "oil", 1000, mo, wti);
+  const q4: Question = {
+    id: "d4", tables: [SPOT],
+    q: `A well produces 1,000 barrels of oil in ${mo}, valued at that month's WTI Cushing mean. What state production tax does it owe in Texas, in Louisiana (a well completed before July 2025, no transport deducted) and in New Mexico (no royalty, trucking or district ad valorem)?`,
+    answer: ["At ", wti, ": Texas ", tx, ", Louisiana ", la, ", New Mexico ", nm, "; Louisiana's is ", calc("ratio", la, tx, "times"), " Texas's."],
+    steps: [[`The mean of ${mo}'s daily WTI Cushing spot prices: `, wti, "."],
+      ["Texas: 4.6 percent of value, or 4.6 cents a barrel if more: ", tx, "."], ["Louisiana: 12.5 percent of value: ", la, "."],
+      ["New Mexico: severance 3.75, emergency school 3.15 and conservation 0.24 percent: ", nm, "."], ["Louisiana over Texas: ", calc("ratio", la, tx, "times"), "."]],
+    why: "The same barrel pays very different taxes across a state line. Each rate cites its statute or agency page on /severance.",
+  };
+  const lp = RULES.states.TX.products.gas.options.find((o) => o.id === "tx_lp_gas")!;
+  const certMonths = lp.certified!.prices.map((p) => p.period);
+  const gm = [...held].reverse().find((m) => m <= mo && certMonths.includes(m))!;
+  const hh = await spotMean("eia:henry_hub", gm, "USD/MMBtu");
+  const cp = creditPct(lp, { period: gm });
+  const cert: V = { v: cp.price!, k: `sevcert|tx_lp_gas|${gm}`, u: "USD/Mcf (2005 dollars)" }, pct: V = { v: cp.pct, k: `sevcredit|tx_lp_gas|${gm}`, u: "%" };
+  const g0 = sev("TX", "gas", 2400, gm, hh), g1 = sev("TX", "gas", 2400, gm, hh, "tx_lp_gas");
+  const q5: Question = {
+    id: "d5", tables: [SPOT],
+    q: `A Texas gas well produced 2,400 Mcf in ${gm} (80 Mcf a day over 30 days), valued at that month's Henry Hub mean. What is its tax, and what does it owe with the low-producing well credit?`,
+    answer: ["Tax ", g0, "; the Comptroller certified ", cert, " for the month, a ", pct, " credit, so it owes ", g1, "."],
+    steps: [[`The mean of ${gm}'s daily Henry Hub spot prices, applied per Mcf: `, hh, "."], ["7.5 percent of value: ", g0, "."],
+      ["The well averages 90 Mcf a day or less, so it may claim the credit, set by the Comptroller's certified price for the month in 2005 dollars: ", cert, ", which gives ", pct, "."],
+      ["With the credit: ", g1, "."]],
+    why: "Low-producing wells get tax relief when prices are low, so they are not plugged for good; the test uses a certified price, not the well's own.",
+  };
+  return [q1, q2, q3, q4, q5];
+}
+
 export const SETS: Omit<ProblemSet, "questions">[] = [
   { slug: "know-your-grid", title: "Know your grid: ERCOT and CAISO side by side", line: "Peak demand, generation mix, the battery cycle and carbon intensity, from the latest data.",
     teacher: "About 45 minutes. Prerequisites: MW against MWh, reading a daily and an hourly table. Students should open /grid/ercot, /grid/caiso, /mix, /storage and /emissions, and the tables linked under each question on /data.",
@@ -231,11 +332,15 @@ export const SETS: Omit<ProblemSet, "questions">[] = [
   { slug: "when-the-grid-broke", title: "When the grid broke: four events", line: "Winter Storm Uri, CAISO's August 2020 heat, Winter Storm Elliott and ERCOT's 2023 heat, one question each and one comparing two.",
     teacher: "About 50 minutes. Prerequisites: percent change, a baseline (the same weekdays of earlier years). Students should open /events and the four event pages, and read each page's note on what contradicted the headline story.",
     pages: [{ href: "/events", label: "Events" }, { href: "/events/uri-2021", label: "Uri" }, { href: "/events/caiso-heat-2020", label: "CAISO 2020" }, { href: "/events/elliott-2022", label: "Elliott" }, { href: "/events/ercot-heat-2023", label: "ERCOT 2023" }] },
+  // session 46: set D
+  { slug: "storage-and-taxes", title: "Storage and taxes", line: "How much energy ERCOT's batteries give back, when they charge and discharge, what one home battery cycle earns, and the oil and gas production taxes of three states.",
+    teacher: "About 45 minutes. Prerequisites: MWh against kWh, a percent of value, a round trip efficiency. Students should open /storage, /play/battery, /cost-of-power and /severance, and read the cited rule behind each tax.",
+    pages: [{ href: "/storage", label: "Storage" }, { href: "/play/battery", label: "The battery game" }, { href: "/cost-of-power", label: "Cost of power" }, { href: "/severance", label: "Severance tax" }] },
 ];
 
 export async function problemSet(slug: string): Promise<ProblemSet | null> {
   const meta = SETS.find((s) => s.slug === slug);
   if (!meta) return null;
-  const questions = slug === "know-your-grid" ? await setA() : slug === "prices-and-your-bill" ? await setB() : await setC();
+  const questions = slug === "know-your-grid" ? await setA() : slug === "prices-and-your-bill" ? await setB() : slug === "storage-and-taxes" ? await setD() : await setC();
   return { ...meta, questions };
 }

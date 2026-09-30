@@ -132,3 +132,10 @@ export function eventPageFor(date: string): { href: string; label: string } | nu
 /** The fictional fleet at full power and full charge: 10,000 homes x 5 kW = 50 MW; x 13.5 kWh = 135 MWh. */
 export const FLEET_MW = (FLEET * BATTERY.kw) / 1000;
 export const FLEET_MWH = (FLEET * BATTERY.kwh) / 1000;
+
+/** Session 46 (problem set D): one full cycle of the game's battery, empty to full at `buy` and full to empty at `sell`
+ * (USD/MWh): it buys 13.5 kWh over the square root of 0.9 and delivers 13.5 kWh times it; the cash is USD. */
+export function fullCycle(buy: number, sell: number): { bought: number; delivered: number; usd: number } {
+  const bought = BATTERY.kwh / ETA, delivered = BATTERY.kwh * ETA;
+  return { bought, delivered, usd: (delivered * sell - bought * buy) / 1000 };
+}

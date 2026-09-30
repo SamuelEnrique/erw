@@ -264,6 +264,46 @@ async function truth(check) {
     const b = await import("../lib/battery.ts");
     if (p[1] === "fleet_mw") return b.FLEET_MW;
     if (p[1] === "fleet_mwh") return b.FLEET_MWH;
+    // problem set D: the assumed battery's round trip, one full cycle's kWh, and one cycle between two series values
+    // (battery|cycle|<table>|<entity>|<ts>|<buy variable>|<sell variable>), for one home or the fleet
+    if (p[1] === "round_trip_pct") return b.BATTERY.roundTrip * 100;
+    if (p[1] === "bought_kwh") return b.fullCycle(0, 0).bought;
+    if (p[1] === "delivered_kwh") return b.fullCycle(0, 0).delivered;
+    if (p[1] === "cycle" || p[1] === "cycle_fleet") {
+      const [, , table, entity, ts, buyVar, sellVar] = p;
+      const val = async (v) => (await q("series", { select: "value", table_name: `eq.${table}`, entity: `eq.${entity}`, variable: `eq.${v}`, ts_utc: `eq.${ts}` }))[0]?.value;
+      const buy = await val(buyVar), sell = await val(sellVar);
+      if (buy === undefined || sell === undefined) return undefined;
+      const usd = b.fullCycle(Number(buy), Number(sell)).usd;
+      return p[1] === "cycle" ? usd : usd * b.FLEET;
+    }
+  }
+  // session 46 (problem set D): a month's mean of an EIA daily spot series (spotmean|<entity>|<YYYY-MM>), a month's
+  // severance tax at that mean (sev|<state>|<product>|<volume>|<YYYY-MM>|<option id or base>, by lib/severance.ts on
+  // data/severance_rules.json), and a Texas low-producing credit's certified price and percent (sevcert, sevcredit)
+  const spotMean = async (entity, month) => {
+    const next = new Date(Date.UTC(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 1)).toISOString().slice(0, 7);
+    const rows = await all("series", { select: "value", table_name: "eq.eia_fuel_spot_prices", entity: `eq.${entity}`, variable: "eq.spot_price",
+      and: `(ts_utc.gte.${month}-01T00:00:00Z,ts_utc.lt.${next}-01T00:00:00Z)`, order: "ts_utc" });
+    return rows.length ? rows.reduce((a, r) => a + Number(r.value), 0) / rows.length : undefined;
+  };
+  if (p[0] === "spotmean") return spotMean(p[1], p[2]);
+  if (p[0] === "sev" || p[0] === "sevcert" || p[0] === "sevcredit") {
+    const S = await import("../lib/severance.ts");
+    const R = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "severance_rules.json"), "utf-8"));
+    if (p[0] !== "sev") {
+      const [, id, month] = p;
+      const o = Object.values(R.states).flatMap((st) => Object.values(st.products)).flatMap((pr) => pr.options).find((x) => x.id === id);
+      const c = o ? S.creditPct(o, { period: month }) : undefined;
+      return c ? (p[0] === "sevcert" ? c.price : c.pct) : undefined;
+    }
+    const [, state, product, volume, month, option] = p;
+    const price = await spotMean(product === "gas" ? "eia:henry_hub" : "eia:wti_cushing", month);
+    if (price === undefined) return undefined;
+    const x = { state, product, volume: Number(volume), price, ...(state === "LA" && product === "oil" ? { variant: "la_oil_pre2025" } : {}) };
+    const o = R.states[state].products[product].options.find((y) => y.id === option);
+    const r = S.compute(R, o ? { ...x, [o.group === "credit" ? "credit" : "option"]: { id: option, period: month } } : x);
+    return o ? r.withTotal : r.baseTotal;
   }
   // session 35: the grid pages. gridq|<queue table>|<status>|<technology_group>|n or mw: its positions in energy_projects
   if (p[0] === "gridq") {
