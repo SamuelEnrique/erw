@@ -156,7 +156,7 @@ SECTOR_RULES = [
     # session 31: battery storage (EIA-930 BAT, its daily cycle, the EIA-860M battery units)
     (r"^storage_(daily_cycle|capacity)$", "power"),
     # session 32: carbon intensity per BA (derived from the EIA-930 CO2 estimates)
-    (r"^carbon_intensity_(hourly|daily)$", "power;carbon"),
+    (r"^carbon_intensity_(hourly|daily|monthly)$", "power;carbon"),  # session 34: monthly
 ]
 
 
@@ -176,9 +176,12 @@ def iso_of(table):
         return "none"
     if table.startswith("price_board_"):  # session 30: price board v2 spans the six public ISOs
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
-    if table in ("eia930_all_storage", "storage_daily_cycle"):  # session 31: the BAs with an EIA-930 BAT series
+    if table == "storage_daily_cycle":  # session 34: CAISO's rows from caiso_battery_storage, with the EIA-930 BAs
+        return "CAISO;ERCOT;ISO-NE;MISO;SPP;US48"
+    if table == "eia930_all_storage":  # session 31: the BAs with an EIA-930 BAT series
         return "ERCOT;ISO-NE;MISO;SPP;US48"
-    if table in ("eia930_all_emissions", "carbon_intensity_hourly", "carbon_intensity_daily"):  # session 32
+    if table in ("eia930_all_emissions", "carbon_intensity_hourly", "carbon_intensity_daily",
+                 "carbon_intensity_monthly"):  # session 32; monthly session 34
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"
     if table == "storage_capacity":  # session 31: the national EIA-860M battery inventory
         return "none"
