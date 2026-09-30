@@ -4,16 +4,23 @@
 // planning, not tax advice.
 
 export type Base = {
-  id: string; name: string; basis: "pct_value" | "per_unit"; rate: number | "variant" | "choice" | "input";
+  id: string; name: string; basis: "pct_value" | "per_unit"; rate: number | "variant" | "choice" | "input" | "district";
   choices?: { label: string; rate: number }[]; input?: { label: string; default: number };
+  min_per_unit?: number;                    // session 41: Texas oil, 4.6 cents a barrel when that is more (Sec. 202.052(a))
+  districts?: { cite: string; note: string; list: { label: string; rate: number }[] };
+  code?: { cite: string; section: string; quote: string };
   effective: string | null; cite: string; quote: string; cite2?: string; quote2?: string;
 };
 export type Option = {
   id: string; group: "rate" | "credit"; name: string;
-  kind: "rate" | "rate_param" | "per_unit" | "exempt_pct" | "credit_tier";
+  kind: "rate" | "rate_param" | "per_unit" | "exempt_pct" | "credit_tier" | "hcg_ratio";
   rate?: number | null; pct?: number; exempt_below_price?: number;
   param?: { label: string; min: number; max: number; default: number };
   tiers?: { label: string; pct: number }[];
+  // session 41: the credit's price bounds (a price above `above` falls in that tier) and the certified prices by period
+  bounds?: { above: number | null; pct: number }[];
+  certified?: { cite: string; as_of: string; note: string; prices: { period: string; price: number; eligibility: string }[] };
+  code?: { cite: string; section: string; quote: string };
   who: string; what: string; how_long: string | null; cite: string; quote: string; cite2?: string; quote2?: string;
 };
 export type Product = {
@@ -31,11 +38,11 @@ export type Input = {
   state: string; product: string; volume: number; price: number;
   variant?: string;                         // Louisiana oil: the well's completion date
   choice?: number;                          // New Mexico oil: the conservation rate chosen
-  adval?: number;                           // New Mexico: the unit's ad valorem production rate, percent
+  adval?: number;                           // New Mexico: the unit's ad valorem production rate, percent (its district's)
   royaltyPct?: number; trucking?: number;   // New Mexico: royalties (percent of value) and trucking (USD per unit)
   transport?: number;                       // Louisiana oil and condensate: trucking, barging and pipeline, USD per bbl
-  option?: { id: string; param?: number; tierPct?: number };  // one rate-group option
-  credit?: { id: string; tierPct: number };                   // one credit-group option (Texas oil)
+  option?: { id: string; param?: number; tierPct?: number; period?: string };  // one rate-group option
+  credit?: { id: string; tierPct?: number; period?: string };                   // one credit-group option (Texas oil)
 };
 export type Line = { id: string; name: string; rate: number; basis: string; tax: number; cite: string };
 export type Result = {
@@ -56,6 +63,17 @@ function baseRate(b: Base, p: Product, x: Input): number {
   return (x.adval ?? b.input?.default ?? 0) / 100;
 }
 
+/** The credit percent of a low-producing credit: from the certified price of a report period when one is chosen and
+ * published (session 41), else the tier the reader picked. */
+export function creditPct(o: Option, pick: { tierPct?: number; period?: string }): { pct: number; price?: number; period?: string } {
+  const row = pick.period ? o.certified?.prices.find((p) => p.period === pick.period) : undefined;
+  if (row && o.bounds) {
+    const b = o.bounds.find((t) => t.above === null || row.price > t.above)!;
+    return { pct: b.pct, price: row.price, period: row.period };
+  }
+  return { pct: pick.tierPct ?? 0 };
+}
+
 export function compute(rules: Rules, x: Input): Result {
   const st = rules.states[x.state];
   const p = st?.products[x.product];
@@ -72,7 +90,9 @@ export function compute(rules: Rules, x: Input): Result {
   const perUnitValue = x.volume > 0 ? taxable / x.volume : 0;
   const base: Line[] = p.base.map((b) => {
     const rate = baseRate(b, p, x);
-    return { id: b.id, name: b.name, rate, basis: b.basis, tax: b.basis === "per_unit" ? x.volume * rate : taxable * rate, cite: b.cite };
+    let tax = b.basis === "per_unit" ? x.volume * rate : taxable * rate;
+    if (b.min_per_unit !== undefined) tax = Math.max(tax, x.volume * b.min_per_unit);  // the greater of the two (Texas oil)
+    return { id: b.id, name: b.name, rate, basis: b.basis, tax, cite: b.cite };
   });
   const baseTotal = base.reduce((a, l) => a + l.tax, 0);
   let withTotal = baseTotal;
@@ -101,10 +121,16 @@ export function compute(rules: Rules, x: Input): Result {
     } else if (opt.kind === "exempt_pct") {
       tax = first.tax * (1 - (opt.pct as number) / 100);
       effect = `${opt.pct} percent of the tax exempt`;
+    } else if (opt.kind === "hcg_ratio") {
+      // Sec. 201.057(c): the rate less the rate times the cost ratio over twice the median, never below zero
+      const ratio = x.option!.param ?? opt.param!.default;
+      const r = Math.max(0, first.rate - first.rate * (ratio / 2));
+      tax = taxable * r;
+      effect = `${(r * 100).toFixed(4).replace(/\.?0+$/, "")} percent of value (costs ${ratio} times the median)`;
     } else if (opt.kind === "credit_tier") {
-      const pct = x.option!.tierPct ?? 0;
-      tax = first.tax * (1 - pct / 100);
-      effect = `a ${pct} percent credit`;
+      const c = creditPct(opt, x.option!);
+      tax = first.tax * (1 - c.pct / 100);
+      effect = `a ${c.pct} percent credit${c.price !== undefined ? ` (certified price $${c.price} for ${c.period}, 2005 dollars)` : ""}`;
     }
     withTotal = rest + tax;
     applied.push({ id: opt.id, name: opt.name, effect, cite: opt.cite });
@@ -112,8 +138,9 @@ export function compute(rules: Rules, x: Input): Result {
   const cr = x.credit ? p.options.find((o) => o.id === x.credit!.id && o.group === "credit") : undefined;
   if (x.credit && !cr) throw new Error(`${x.credit.id}: not a credit of ${x.state} ${x.product}`);
   if (cr) {
-    withTotal = withTotal * (1 - x.credit!.tierPct / 100);
-    applied.push({ id: cr.id, name: cr.name, effect: `a ${x.credit!.tierPct} percent credit`, cite: cr.cite });
+    const c = creditPct(cr, x.credit!);
+    withTotal = withTotal * (1 - c.pct / 100);
+    applied.push({ id: cr.id, name: cr.name, effect: `a ${c.pct} percent credit${c.price !== undefined ? ` (certified price $${c.price} for ${c.period}, 2005 dollars)` : ""}`, cite: cr.cite });
   }
   const fees = p.fees.map((f) => ({ id: f.id, name: f.name, amount: x.volume * f.per_unit, cite: f.cite }));
   return { gross, taxable, perUnitValue, base, baseTotal, withTotal, savings: baseTotal - withTotal, applied, fees };

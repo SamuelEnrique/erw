@@ -52,7 +52,7 @@ export default async function Severance() {
         <p className="border-l-2 border-accent pl-2 text-muted">
           <strong>An estimate for education and planning, not tax advice.</strong> Deductions such as marketing costs vary by state: they are listed, and
           computed only where the state&apos;s rule states them (Louisiana&apos;s transport charges on oil, New Mexico&apos;s royalties and trucking). New Mexico&apos;s
-          rates are the Taxation and Revenue Department&apos;s latest published table found, for November 2021 to August 2022. Local taxes, county levies and
+          rates are the Taxation and Revenue Department&apos;s latest published table, for April to August 2026. Local taxes, county levies and
           federal royalties are not here. <Link href="/data/methods/severance">Method</Link>.
         </p>
       </div>
@@ -72,13 +72,16 @@ export default async function Severance() {
                     <strong>{p}, {b.name}:</strong>{" "}
                     {typeof b.rate === "number" ? (b.basis === "per_unit" ? `$${b.rate} per ${pr.unit}` : `${(b.rate * 100).toLocaleString("en-US", { maximumFractionDigits: 4 })}% of value`)
                       : b.rate === "variant" ? pr.variants!.map((v) => `${(v.rate * 100).toLocaleString("en-US")}% (${v.label.toLowerCase()})`).join("; ")
-                      : b.rate === "choice" ? b.choices!.map((c) => c.label).join("; ") : "your production unit's rate"}
+                      : b.rate === "choice" ? b.choices!.map((c) => c.label).join("; ") : "your production unit's rate (by county, district and suffix)"}
                     {b.effective ? `; effective ${b.effective}` : ""}. <a href={rules.sources[b.cite].url}>{rules.sources[b.cite].title}</a>
+                    {b.code ? <>; <a href={rules.sources[b.code.cite].url}>{b.code.section}</a></> : null}
                   </li>
                 )),
                 ...pr.options.map((o) => (
                   <li key={o.id} className="text-muted">
                     {p}, {o.name}: {o.what}.{o.how_long ? ` ${o.how_long}.` : ""} <a href={rules.sources[o.cite].url}>{rules.sources[o.cite].title}</a>
+                    {o.code ? <>; <a href={rules.sources[o.code.cite].url}>{o.code.section}</a></> : null}
+                    {o.certified ? <> Latest certified price: ${o.certified.prices[0].price} for {o.certified.as_of} (2005 dollars).</> : null}
                   </li>
                 )),
                 ...pr.fees.map((f) => (

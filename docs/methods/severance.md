@@ -2,9 +2,9 @@
 
 Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louisiana and New Mexico, for oil, gas and condensate where a state taxes condensate apart.
 
-**Where the rules live.** The rules are a versioned site data file, `site/data/severance_rules.json` (version `2026-09-30.1`). They are not a warehouse table and are not in Supabase. The arithmetic is `site/lib/severance.ts`.
+**Where the rules live.** The rules are a versioned site data file, `site/data/severance_rules.json` (version `2026-09-30.2`; session 41 added the Texas Tax Code sections, the Comptroller's certified prices and New Mexico's 2026 rates). They are not a warehouse table and are not in Supabase. The arithmetic is `site/lib/severance.ts`.
 
-**Every rate cites a page.** Every rate, exemption, threshold and effective date cites a statute or state agency page whose text states it. Each was read as text on 2026-09-30, and the rule keeps the passage (`quote`) that states it. A check matched all 46 passages against the pages' text. A figure no page stated is not in the file; see "Left out" below.
+**Every rate cites a page.** Every rate, exemption, threshold and effective date cites a statute or state agency page whose text states it. Each was read as text on 2026-09-30, and the rule keeps the passage (`quote`) that states it. A check matched all 72 passages (46 in session 40, 26 more in session 41) against the pages' text. A figure no page stated is not in the file; see "Left out" below.
 
 **An estimate for education and planning, not tax advice.**
 
@@ -24,10 +24,34 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 | `nm_trd_taxes` | New Mexico Taxation and Revenue Department, Oil & Gas Production Taxes |
 | `nm_trd_rates` | TRD, New Mexico Oil and Gas Production tax rates for 11/01/2021 through 08/31/2022 by county and suffix (spreadsheet) |
 | `nm_trd_calc` | TRD, OGT Return Tax Due Calculation Method (Rev. 1, 2017-10-06) |
+| `tx_code_201`, `tx_code_202` | Texas Tax Code chapters 201 (gas) and 202 (oil), https://statutes.capitol.texas.gov/Docs/TX/htm/TX.201.htm and TX.202.htm (session 41). The site's pages are a script viewer; the text is the file it loads, https://tcss.legis.texas.gov/resources/TX/htm/TX.201.htm and TX.202.htm |
+| `nm_trd_rates_2026` | TRD, New Mexico Oil and Gas Production tax rates for 04/01/2026 through 08/31/2026 by county and suffix (spreadsheet, revised; session 41) |
 
-**The Texas Tax Code itself** (chapters 201 and 202) could not be read as text: the Legislature's statute site returns a script shell. The Comptroller's pages state every Texas figure used here.
+**The Texas Tax Code itself** (chapters 201 and 202) could not be read in session 40, because the statute site is a script viewer. Session 41 read the files it loads. Each Texas rule now cites its section beside the Comptroller's page (`code` in the JSON).
 
 ## Texas
+
+**What the code adds (session 41):**
+
+| Rule | Section | What the code states |
+|---|---|---|
+| Oil | Sec. 202.052(a) | 4.6 percent of market value or 4.6 cents a barrel, whichever is greater. The calculator applies the greater. |
+| Gas | Sec. 201.052(a) | 7.5 percent of market value |
+| Condensate | Sec. 201.055(b) | the oil rate of Sec. 202.052. The calculator applies 4.6 percent and not the per-barrel alternative, which the Comptroller's page does not state for condensate. |
+| EOR | Secs. 202.052(b), 202.054(g) | 2.3 percent, for 10 years from the month after the Railroad Commission certifies a positive production response |
+| EOR with anthropogenic CO2 | Sec. 202.0545(a), (b) | an additional 50 percent reduction until the 30th anniversary of the Comptroller's first approval, prorated to the anthropogenic share of the CO2 |
+| Two-year inactive wells | Sec. 202.056(b); gas by Sec. 201.053(4) | a five-year exemption |
+| High-cost gas | Sec. 201.057(c) | 7.5 percent less 7.5 percent times the well's drilling and completion costs over twice the prior fiscal year's median, never below zero, for 120 consecutive months or until the reduction equals 50 percent of those costs. The calculator takes the cost ratio. |
+| Restimulation | Sec. 202.062(c) | exempt until the earlier of 36 consecutive months or the lesser of restimulation costs or $750,000 in exempted tax |
+| Flared gas from oil wells | Sec. 201.053(2) | not taxed |
+| Gas otherwise vented or flared, consumed within 1,000 feet | Sec. 201.061(b) | not taxed |
+| Low-producing credits | Secs. 201.059(b), 202.058(c) | the Comptroller certifies each month the average taxable price over the previous three months, **adjusted to 2005 dollars** |
+
+**Why the certified prices look low.** They are in 2005 dollars: gas at $1.17 to $1.97 per Mcf through 2025 and 2026. That is what session 40 found odd.
+
+**The "date inconsistency."** Session 40 saw rows for September to December 2026 on the Comptroller's pages. In the page source those four rows sit inside an HTML comment (`<!-- ... -->`), so a browser never shows them. They are placeholders, copied row for row from September to December 2025.
+
+**The certified prices in the rules file.** The file keeps the published rows only, January 2025 to August 2026, for gas and oil. The latest, August 2026, is gas $1.36 per Mcf (100 percent credit) and oil $53.55 per barrel (no credit). The calculator picks the credit tier from the certified price of the report period the reader chooses.
 
 **Base rates, by market value:**
 
@@ -118,16 +142,17 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 
 **The base.** All four are levied on taxable value: the price at the production unit, less royalties paid the United States, New Mexico or a tribe or pueblo, and less reasonable trucking to the first place of market (`nm_trd_taxes`). The calculator subtracts the royalty share and trucking the user enters.
 
-**The rates** come from TRD's latest published table found, effective November 1, 2021 through August 31, 2022 (`nm_trd_rates`):
+**The rates** come from TRD's latest published table, effective April 1, 2026 through August 31, 2026 (`nm_trd_rates_2026`, session 41). Session 40's link filter missed it and used the 2021-22 table. TRD had not published a table from September 2026 when it was read on 2026-09-30.
 
 | Tax | Oil | Gas |
 |---|---|---|
 | Severance | 3.75 percent | 3.75 percent |
 | Emergency school | 3.15 percent | 4 percent |
-| Conservation | 0.19 percent to 2021-09-30, 0.24 percent from 2021-10-01 | 0.19 percent |
+| Conservation | 0.24 percent (from 2026-04-01) | 0.19 percent (2025-09-01 to 2026-08-31) |
+| Ad valorem production | the district's rate, 0.7105 to 1.7249 percent (35 county, district and suffix rows) | the same |
 
-- **Conservation on oil** is a choice on the page. The table shows both rates, and the rule that moves it was not read.
-- **Ad valorem production** varies by county and district. The user enters the unit's rate.
+- **Why AD /2 is the production rate.** The table's "AD /2" column is the ad valorem production rate: SEV + SCHOOL + CONS + AD /2 equals its Total Rate on every oil and gas row. Its "AD VAL", twice that, is the equipment tax.
+- **The reader picks the district** from the table's list.
 - **The TRD calculation note** (`nm_trd_calc`) shows the same oil rates in a 2017 example, and says each tax is rounded to the cent separately. The calculator does not round per tax.
 - **The Oil and Gas Production Equipment Ad Valorem Tax** is annual (due November 30) and is not computed.
 
@@ -142,14 +167,14 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
   - Oil and condensate use WTI Cushing.
   - Gas uses Henry Hub, quoted per MMBtu and applied per Mcf as if one Mcf held one MMBtu.
   - A hub price is not the value at the well.
-- **Tests:** `site/scripts/test-severance.mjs` checks 19 hand-computed cases, run by `tests/test_session40.py`.
+- **Tests:** `site/scripts/test-severance.mjs` checks 26 hand-computed cases, run by `tests/test_session40.py`: 19 from session 40 and 7 from session 41 (the per-barrel floor, high-cost gas by cost ratio, the certified tiers and New Mexico's 2026 rates). Session 41 replaced one case, since high-cost gas now takes a cost ratio.
 
 ## Left out: no page read states them
 
 **Texas:**
 
-- how long EOR (Type 05 and 14) lasts;
-- the Railroad Commission's certification terms;
+- the Railroad Commission's certification terms (its rules, Title 16 of the Texas Administrative Code, were not read);
+- the late-application cut in high-cost gas (Sec. 201.057(f), a 10 percent reduction for a late filing), which the calculator does not model;
 - the Comptroller's marketing-cost policy for gas (the page "Audit Policy on Natural Gas Marketing Costs" was not read), so no deduction is computed;
 - the statute text of Tax Code chapters 201 and 202.
 
@@ -161,8 +186,8 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 
 **New Mexico:**
 
-- the rates in force in 2026: no TRD table after August 2022 was found;
-- the rule that sets the conservation tax at 0.19 or 0.24 percent;
+- rates from September 2026: TRD's table for 2026-27 was not yet published;
+- the rule that sets the conservation tax at 0.19 or 0.24 percent (the table shows 0.24 for oil from April 2026);
 - any price-based change in the emergency school or severance tax;
 - New Mexico's reduced rates for stripper wells, enhanced recovery or well workovers (the NMSA text, on NMOneSource, could not be read as text);
 - products H and C of TRD's table, which the table does not name;

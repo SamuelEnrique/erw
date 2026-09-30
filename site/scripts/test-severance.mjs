@@ -22,8 +22,21 @@ const cases = [
     x: { state: "TX", product: "oil", volume: 1000, price: 70, option: { id: "tx_eor_co2", param: 50 }, credit: { id: "tx_lp_oil", tierPct: 50 } }, base: 3220, with: 402.5 },
   { name: "TX gas, base: 10,000 Mcf x $3 = $30,000 x 7.5% = $2,250.00; fee 10,000 x $0.000667 = $6.67",
     x: { state: "TX", product: "gas", volume: 10000, price: 3 }, base: 2250, with: 2250, fee: 6.67 },
-  { name: "TX gas, high-cost gas at a certified 2.5%: $30,000 x 2.5% = $750.00",
-    x: { state: "TX", product: "gas", volume: 10000, price: 3, option: { id: "tx_hcg", param: 2.5 } }, base: 2250, with: 750 },
+  // session 41: high-cost gas by Sec. 201.057(c): 7.5% - 7.5% x ratio / 2, never below zero
+  { name: "TX gas, high-cost gas, costs at the median (ratio 1.0): 7.5% - 7.5% x 1/2 = 3.75%; $30,000 x 3.75% = $1,125.00",
+    x: { state: "TX", product: "gas", volume: 10000, price: 3, option: { id: "tx_hcg", param: 1 } }, base: 2250, with: 1125 },
+  { name: "TX gas, high-cost gas, ratio 0.5: 7.5% x (1 - 0.25) = 5.625%; $30,000 x 5.625% = $1,687.50",
+    x: { state: "TX", product: "gas", volume: 10000, price: 3, option: { id: "tx_hcg", param: 0.5 } }, base: 2250, with: 1687.5 },
+  { name: "TX gas, high-cost gas, ratio 2.5: 7.5% x (1 - 1.25) is below zero, so 0%: $0.00",
+    x: { state: "TX", product: "gas", volume: 10000, price: 3, option: { id: "tx_hcg", param: 2.5 } }, base: 2250, with: 0 },
+  // session 41: Sec. 202.052(a), the greater of 4.6% of value or 4.6 cents a barrel
+  { name: "TX oil at $0.50/bbl: 4.6% x $500 = $23.00 is less than 1,000 x $0.046 = $46.00, so $46.00",
+    x: { state: "TX", product: "oil", volume: 1000, price: 0.5 }, base: 46, with: 46 },
+  // session 41: the low-producing credits from the Comptroller's certified price (2005 dollars) for a report period
+  { name: "TX gas, low-producing well, report period 2026-08: certified $1.36/Mcf, $2.50 or less, 100% credit: $0.00",
+    x: { state: "TX", product: "gas", volume: 10000, price: 3, option: { id: "tx_lp_gas", period: "2026-08" } }, base: 2250, with: 0 },
+  { name: "TX oil, EOR with a low-producing lease credit for 2026-08: certified $53.55/bbl, more than $30, no credit: $1,610.00",
+    x: { state: "TX", product: "oil", volume: 1000, price: 70, option: { id: "tx_eor" }, credit: { id: "tx_lp_oil", period: "2026-08" } }, base: 3220, with: 1610 },
   { name: "TX gas, low-producing well at a 100% credit: $0.00",
     x: { state: "TX", product: "gas", volume: 10000, price: 3, option: { id: "tx_lp_gas", tierPct: 100 } }, base: 2250, with: 0 },
   { name: "TX condensate: 500 bbl x $60 = $30,000 x 4.6% = $1,380.00",
@@ -55,6 +68,11 @@ const cases = [
     x: { state: "NM", product: "oil", volume: 1000, price: 70, royaltyPct: 12.5, trucking: 1, choice: 0.0024, adval: 1.0 }, base: 4904.35, with: 4904.35 },
   { name: "NM gas: 10,000 x $3 = $30,000; 3.75% $1,125 + 4% $1,200 + 0.19% $57 + ad valorem 0 = $2,382.00",
     x: { state: "NM", product: "gas", volume: 10000, price: 3 }, base: 2382, with: 2382 },
+  // session 41: TRD's 2026 table (04/01/2026 to 08/31/2026), Chaves district 01 suffix 0510, AD /2 1.0423%
+  { name: "NM oil, 2026 table, Chaves 01/0510: $60,250 x (3.75% + 3.15% + 0.24% + 1.0423% = 8.1823%) = $4,929.83575",
+    x: { state: "NM", product: "oil", volume: 1000, price: 70, royaltyPct: 12.5, trucking: 1, adval: 1.0423 }, base: 4929.83575, with: 4929.83575 },
+  { name: "NM gas, 2026 table, Chaves 01/0510: $30,000 x (3.75% + 4% + 0.19% + 1.0423% = 8.9823%) = $2,694.69",
+    x: { state: "NM", product: "gas", volume: 10000, price: 3, adval: 1.0423 }, base: 2694.69, with: 2694.69 },
 ];
 
 let bad = 0;
@@ -72,6 +90,7 @@ for (const [s, st] of Object.entries(rules.states)) {
     for (const o of pr.options) {
       const x = { state: s, product: p, volume: 100, price: 50 };
       if (o.group === "rate") x.option = { id: o.id, tierPct: 50 }; else x.credit = { id: o.id, tierPct: 50 };
+      if (o.code && !rules.sources[o.code.cite]) { bad++; console.log(`FAIL code cite ${o.id}`); }
       const r = compute(rules, x);
       const ok = Number.isFinite(r.withTotal) && r.withTotal <= r.baseTotal + 1e-9 && rules.sources[o.cite] !== undefined;
       if (!ok) { bad++; console.log(`FAIL option ${s} ${p} ${o.id}`); }
