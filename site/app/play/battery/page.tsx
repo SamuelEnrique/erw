@@ -5,6 +5,8 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
+import { FLEET, FLEET_MW, FLEET_MWH } from "@/lib/battery";
+import { storageUnits, type StorageUnit } from "@/lib/data";
 import { leaderboard, type ScoreRow } from "@/lib/game";
 import { FAMOUS, todayLevel, type Level } from "@/lib/levels";
 import { attempt } from "@/lib/supabase";
@@ -17,11 +19,47 @@ export const revalidate = 600;
 
 const T = "iso_rtm_hub_prices";
 
+// Session 46: the fictional fleet beside ERCOT's real one: the operating battery units of storage_capacity (EIA-860M)
+// whose balancing authority is ERCOT. Each sum carries the check key check-values.mjs recomputes.
+function RealFleet({ units }: { units: StorageUnit[] }) {
+  const op = units.filter((u) => u.iso === "ERCOT" && u.status === "operating");
+  const mw = Math.round(op.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
+  const withMwh = op.filter((u) => u.mwh !== null && u.mwh !== "");
+  const mwh = Math.round(withMwh.reduce((a, u) => a + Number(u.mwh), 0) * 10) / 10;
+  const ratio = mw / FLEET_MW;
+  const cell = "border border-rule bg-panel p-3";
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      <div className={cell}>
+        <div className="text-xs text-muted">The game&apos;s fleet (fictional)</div>
+        <div className="text-2xl tabular-nums"><Num check="battery|fleet_mw" raw={FLEET_MW}>{shown(FLEET_MW)}</Num> <span className="text-sm text-muted">MW</span></div>
+        <div className="text-sm">
+          <Num check="battery|fleet_mwh" raw={FLEET_MWH}>{shown(FLEET_MWH)}</Num> MWh: {FLEET.toLocaleString("en-US")} homes, each 5 kW and 13.5 kWh (an assumption)
+        </div>
+      </div>
+      <div className={cell}>
+        <div className="text-xs text-muted">ERCOT&apos;s real battery fleet, operating (EIA-860M)</div>
+        <div className="text-2xl tabular-nums"><Num check="storage|iso_mw|ERCOT|operating" raw={mw}>{shown(mw)}</Num> <span className="text-sm text-muted">MW</span></div>
+        <div className="text-sm">
+          <Num check="storage|iso_n|ERCOT|operating" raw={op.length}>{op.length.toLocaleString("en-US")}</Num> units;{" "}
+          <Num check="storage|iso_mwh|ERCOT|operating" raw={mwh}>{shown(mwh)}</Num> MWh where EIA gives the energy capacity (
+          <Num check="storage|iso_n_mwh|ERCOT|operating" raw={withMwh.length}>{withMwh.length.toLocaleString("en-US")}</Num> units)
+        </div>
+      </div>
+      <p className="text-sm sm:col-span-2">
+        ERCOT&apos;s real fleet has <Num check="calc|ratio|storage~iso_mw~ERCOT~operating|battery~fleet_mw" raw={ratio}>{shown(ratio)}</Num> times the power of
+        the game&apos;s 10,000 homes. A real grid battery is a power plant: it bids into the same real-time market the game replays.
+      </p>
+    </div>
+  );
+}
+
 export default async function Battery() {
   const today = await attempt(() => todayLevel(600));
   const t: Level | null = today.ok ? today.data : null;
   const levels: GameLevel[] = [...(t ? [t] : []), ...FAMOUS].map(({ slug, date, title, why, ts_utc, price }) => ({ slug, date, title, why, ts_utc, price }));
   const top = t ? await attempt(() => leaderboard(t.date)) : null;
+  const fleet = await attempt(storageUnits);
   const first: ScoreRow[] = top && top.ok ? top.data : [];
   const hi = t ? t.price.indexOf(Math.max(...t.price)) : -1, lo = t ? t.price.indexOf(Math.min(...t.price)) : -1;
   const key = (i: number) => `series|${T}|ercot:HB_HUBAVG|spp_rtm|${t!.ts_utc[i]}`;
@@ -51,6 +89,10 @@ export default async function Battery() {
       )}
       <Section title="Play">
         <Game levels={levels} top={first} />
+      </Section>
+      <Section title="The fleet: fictional and real">
+        {fleet.ok ? <RealFleet units={fleet.data} /> : <NoData what="ERCOT's battery fleet" reason={fleet.reason} />}
+        <Cite tables={["storage_capacity"]} note="Operating battery units whose balancing authority is ERCOT: nameplate MW, and EIA's energy capacity (MWh) where it gives one. The game's fleet is fictional" />
       </Section>
       <Section title="What is stored">
         <p className="max-w-3xl text-sm">

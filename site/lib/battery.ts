@@ -101,3 +101,34 @@ export function validNickname(s: string): boolean {
   const low = s.toLowerCase();
   return !BLOCK.some((b) => low.includes(b));
 }
+
+// --- session 46: battery game v1.1 -------------------------------------------------------------------------------
+
+/** The share of the perfect-foresight score a score reaches, percent, or null when perfect foresight earns nothing. */
+export function perfectShare(score: number, optimal: number): number | null {
+  return optimal > 0 ? (score / optimal) * 100 : null;
+}
+
+/** A leaderboard score shown as 100 percent of perfect (or more, rounded as shown): flagged on the leaderboard, since
+ * the debrief prints the perfect plan and replaying it scores 100 percent. The score stands; the flag says so. */
+export function isPerfect(score: number, optimal: number): boolean {
+  const s = perfectShare(score, optimal);
+  return s !== null && Math.round(s) >= 100;
+}
+
+/** The /events pages whose window (warehouse/derived/event_window.py, local dates, inclusive) takes in ERCOT, so a game
+ * day inside one links to it. CAISO's 2020 heat is not an ERCOT event. */
+export const EVENT_PAGES = [
+  { href: "/events/covid-2020", label: "the COVID-19 lockdowns, spring 2020", start: "2020-03-01", end: "2020-05-31" },
+  { href: "/events/uri-2021", label: "Winter Storm Uri, February 2021", start: "2021-02-07", end: "2021-02-24" },
+  { href: "/events/elliott-2022", label: "Winter Storm Elliott, December 2022", start: "2022-12-19", end: "2022-12-29" },
+  { href: "/events/ercot-heat-2023", label: "ERCOT's summer 2023 heat", start: "2023-08-01", end: "2023-09-10" },
+];
+export function eventPageFor(date: string): { href: string; label: string } | null {
+  const e = EVENT_PAGES.find((x) => date >= x.start && date <= x.end);
+  return e ? { href: e.href, label: e.label } : null;
+}
+
+/** The fictional fleet at full power and full charge: 10,000 homes x 5 kW = 50 MW; x 13.5 kWh = 135 MWh. */
+export const FLEET_MW = (FLEET * BATTERY.kw) / 1000;
+export const FLEET_MWH = (FLEET * BATTERY.kwh) / 1000;

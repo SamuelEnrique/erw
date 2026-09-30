@@ -255,6 +255,15 @@ async function truth(check) {
     if (what === "n_mwh") return rows.filter((r) => r.status === a && hasMwh(r)).length;
     // session 35: a grid's battery MWh (units whose balancing authority is the grid's ISO)
     if (what === "iso_mwh") return Math.round(rows.filter((r) => r.iso === a && r.status === b && hasMwh(r)).reduce((s, r) => s + Number(r.mwh), 0) * 10) / 10;
+    // session 46: the battery game's fleet panel, a grid's unit counts (all, and those with an energy capacity)
+    if (what === "iso_n") return rows.filter((r) => r.iso === a && r.status === b).length;
+    if (what === "iso_n_mwh") return rows.filter((r) => r.iso === a && r.status === b && hasMwh(r)).length;
+  }
+  // session 46: the battery game's fictional fleet, from lib/battery.ts's constants (FLEET homes x 5 kW, x 13.5 kWh)
+  if (p[0] === "battery") {
+    const b = await import("../lib/battery.ts");
+    if (p[1] === "fleet_mw") return b.FLEET_MW;
+    if (p[1] === "fleet_mwh") return b.FLEET_MWH;
   }
   // session 35: the grid pages. gridq|<queue table>|<status>|<technology_group>|n or mw: its positions in energy_projects
   if (p[0] === "gridq") {

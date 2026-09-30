@@ -4,7 +4,7 @@
 // brand and the fleet are fictional and say so. Each interval's action is the control held for most of its time.
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BATTERY, FLEET, optimum, simulate, step, vppHour, type Action } from "@/lib/battery";
+import { BATTERY, eventPageFor, FLEET, isPerfect, optimum, perfectShare, simulate, step, vppHour, type Action } from "@/lib/battery";
 import type { ScoreRow } from "@/lib/game";
 
 export type GameLevel = { slug: string; date: string; title: string; why: string; ts_utc: string[]; price: number[] };
@@ -39,6 +39,52 @@ function list(xs: string[]): string {
   const shown = xs.slice(0, 4);
   const more = xs.length > 4 ? `, and ${xs.length - 4} more` : "";
   return `${shown.slice(0, -1).join(", ")}${shown.length > 1 ? " and " : ""}${shown.at(-1)}${more}`;
+}
+
+/** Session 46: a share card drawn on a canvas in this page and saved from it: nothing is uploaded. */
+function ShareCard({ level, score, optimal }: { level: GameLevel; score: number; optimal: number }) {
+  const [png, setPng] = useState("");
+  const [copied, setCopied] = useState("");
+  const share = perfectShare(score, optimal);
+  const lines = [
+    `${level.title}, ${level.date}`,
+    `I earned ${usd(score)} with one home battery${share !== null ? `: ${Math.round(share)} percent of perfect foresight (${usd(optimal)})` : ""}.`,
+    `My fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}.`,
+  ];
+  const text = () => `${lines.join(" ")} Real ERCOT real-time prices (HB_HUBAVG); the battery and the fleet are fictional. ${window.location.origin}/play/battery`;
+  const make = () => {
+    const cv = document.createElement("canvas");
+    cv.width = 1200; cv.height = 630;
+    const ctx = cv.getContext("2d")!;
+    ctx.fillStyle = css("paper"); ctx.fillRect(0, 0, 1200, 630);
+    ctx.fillStyle = css("accent"); ctx.fillRect(0, 0, 1200, 14);
+    ctx.fillStyle = css("muted"); ctx.font = "28px system-ui, sans-serif";
+    ctx.fillText("The home battery game, Energy Research Warehouse (ERW)", 60, 90);
+    ctx.fillStyle = css("ink"); ctx.font = "bold 44px system-ui, sans-serif";
+    ctx.fillText(lines[0], 60, 170);
+    ctx.fillStyle = css("accent"); ctx.font = "bold 96px system-ui, sans-serif";
+    ctx.fillText(usd(score), 60, 300);
+    ctx.fillStyle = css("ink"); ctx.font = "36px system-ui, sans-serif";
+    if (share !== null) ctx.fillText(`${Math.round(share)} percent of perfect foresight (${usd(optimal)})`, 60, 370);
+    ctx.fillText(`A fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}`, 60, 425);
+    ctx.fillStyle = css("muted"); ctx.font = "24px system-ui, sans-serif";
+    ctx.fillText("Real prices: ERCOT real-time, hub average (HB_HUBAVG), every 15 minutes of the day.", 60, 520);
+    ctx.fillText(`The battery, home and fleet are fictional. ${window.location.host}/play/battery`, 60, 560);
+    setPng(cv.toDataURL("image/png"));
+  };
+  return (
+    <div className="mt-3 border-t border-rule pt-2 text-sm">
+      <div className="flex flex-wrap items-center gap-2">
+        <button onClick={make} className="border border-rule px-3 py-1">Make a share card</button>
+        <button onClick={() => { navigator.clipboard?.writeText(text()).then(() => setCopied("Copied."), () => setCopied("Could not copy.")); }} className="border border-rule px-3 py-1">Copy the text</button>
+        {png ? <a href={png} download={`erw-battery-${level.date}.png`} className="border border-accent px-3 py-1 text-accent no-underline">Save the card (PNG)</a> : null}
+        <span className="text-xs text-muted">{copied || "Drawn in this page and saved from it; nothing is uploaded."}</span>
+      </div>
+      {/* a data: URL drawn in this page; next/image would add nothing here */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      {png ? <img src={png} alt={lines.join(" ")} className="mt-2 w-full max-w-xl border border-rule" /> : null}
+    </div>
+  );
 }
 
 export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: ScoreRow[] }) {
@@ -221,12 +267,18 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
         <div>
           <p className="mb-2 text-sm">Pick a day. Everyone plays the same level on the same day.</p>
           <div className="mb-3 grid gap-2 sm:grid-cols-2">
-            {levels.map((l, i) => (
-              <button key={l.slug} onClick={() => setPick(i)} className={`border p-2 text-left text-sm ${i === pick ? "border-accent" : "border-rule"}`}>
-                <span className="font-semibold">{l.title}</span> <span className="text-muted">{l.date}</span>
-                <span className="block text-xs text-muted">{l.why}</span>
-              </button>
-            ))}
+            {levels.map((l, i) => {
+              const ev = eventPageFor(l.date);  // session 46: a famous day inside an /events window links to it
+              return (
+                <div key={l.slug} className={`border text-sm ${i === pick ? "border-accent" : "border-rule"}`}>
+                  <button onClick={() => setPick(i)} className="w-full p-2 text-left">
+                    <span className="font-semibold">{l.title}</span> <span className="text-muted">{l.date}</span>
+                    <span className="block text-xs text-muted">{l.why}</span>
+                  </button>
+                  {ev ? <Link href={ev.href} className="block px-2 pb-2 text-xs">What happened: {ev.label}</Link> : null}
+                </div>
+              );
+            })}
           </div>
           <button onClick={start} className="border border-accent bg-accent px-4 py-2 text-paper">Play {level.date}</button>
         </div>
@@ -276,7 +328,9 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
             was lowest, {level.price[low].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh, at {clock(level.ts_utc[low])}. The dearest hour, the fleet call, began at {clock(level.ts_utc[vpp.first])}. Knowing every
             price in advance, this battery would have {charged.length ? `charged ${list(charged)}` : "never charged"} and {discharged.length ? `discharged ${list(discharged)}` : "never discharged"}: buy when power is cheap,
             sell when it is dear, within 13.5 kWh and 5 kW, losing a tenth of the energy on the round trip. Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href="/grid/ercot">ERCOT&apos;s grid page</Link>.
+            {eventPageFor(level.date) ? <> What happened that day on the grid: <Link href={eventPageFor(level.date)!.href}>{eventPageFor(level.date)!.label}</Link>.</> : null}
           </p>
+          <ShareCard level={level} score={result.score} optimal={best.score} />
           <div className="mt-3 flex flex-wrap items-end gap-2 text-sm">
             <label className="flex flex-col">Nickname (optional, 3 to 16 letters and digits)
               <input value={nick} onChange={(e) => setNick(e.target.value.replace(/[^A-Za-z0-9]/g, "").slice(0, 16))} className="w-48 border border-rule bg-panel px-2 py-1" />
@@ -293,10 +347,16 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
         {top.length ? (
           <ol className="list-decimal pl-6 text-sm">
             {top.map((r, i) => (
-              <li key={i}>{r.nickname ?? <span className="text-muted">anonymous</span>}: {usd(r.score)}{r.optimal_score > 0 ? <span className="text-muted"> ({Math.round((r.score / r.optimal_score) * 100)} percent of perfect)</span> : null}</li>
+              <li key={i}>
+                {r.nickname ?? <span className="text-muted">anonymous</span>}: {usd(r.score)}{r.optimal_score > 0 ? <span className="text-muted"> ({Math.round((r.score / r.optimal_score) * 100)} percent of perfect)</span> : null}
+                {isPerfect(r.score, r.optimal_score) ? <span className="ml-1 border border-accent px-1 text-xs text-accent" title="A score at 100 percent of perfect foresight: the debrief shows the perfect plan, and replaying it scores this">flagged: 100 percent of perfect</span> : null}
+              </li>
             ))}
           </ol>
         ) : <p className="text-sm text-muted">No scores yet for this level.</p>}
+        {top.some((r) => isPerfect(r.score, r.optimal_score)) ? (
+          <p className="mt-1 text-xs text-muted">A flagged score reached 100 percent of perfect foresight. The debrief after each game shows the perfect plan, so such a score may replay it; it stands, marked.</p>
+        ) : null}
       </div>
     </div>
   );
