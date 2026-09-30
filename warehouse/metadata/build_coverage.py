@@ -279,9 +279,113 @@ def entities_row(path, header, df, licenses, status):
     }
 
 
+# Session 36A: a series file larger than this is read for coverage in one streamed pyarrow pass over the columns
+# coverage needs, never whole (the emissions table is 4.3 million rows, the ERCOT history 3 million); its validator
+# status still comes from erw_validate.validate, the gate
+LARGE_BYTES = 100 * 1024 * 1024
+FACT_COLS = ["entity", "variable", "ts_utc", "source", "node", "market", "freq"]
+
+
+def series_facts(path):
+    """(header lines, facts) of a series file from one streamed pass: rows, ts_utc min and max (ISO strings, which
+    sort as times once the validator has passed them), and the distinct values of FACT_COLS."""
+    import pyarrow as pa
+    import pyarrow.compute as pc
+    import pyarrow.csv as pcsv
+    header, cols = [], None
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if line.startswith("#"):
+                header.append(line.rstrip("\r\n"))
+                continue
+            cols = line.strip().split(",")
+            break
+    want = [c for c in FACT_COLS if c in cols]
+    reader = pcsv.open_csv(path, read_options=pcsv.ReadOptions(skip_rows=len(header), block_size=1 << 24),
+                           convert_options=pcsv.ConvertOptions(include_columns=want,
+                                                               column_types={c: pa.string() for c in want}))
+    seen = {c: set() for c in want}
+    n, tmin, tmax = 0, None, None
+    for b in reader:
+        n += b.num_rows
+        for c in want:
+            seen[c] |= set(pc.unique(b.column(c)).to_pylist())
+        mm = pc.min_max(b.column("ts_utc")).as_py()
+        tmin = mm["min"] if tmin is None or mm["min"] < tmin else tmin
+        tmax = mm["max"] if tmax is None or mm["max"] > tmax else tmax
+    return header, {"n": n, "ts_min": tmin, "ts_max": tmax, **seen}
+
+
+def is_series(path):
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                return line.startswith("entity,variable,ts_utc,")
+    return False
+
+
+def large_series_row(path, header, facts, report, licenses):
+    """The series row of table_row, from series_facts instead of a whole frame (session 36A)."""
+    n_err, n_warn = len(report["errors"]), len(report["warnings"])
+    status = "pass" if not n_err else f"blocked ({n_err} errors)"
+    if n_warn:
+        status += f", {n_warn} warnings"
+    table = os.path.splitext(os.path.basename(path))[0]
+    sources = sorted(facts["source"])
+    unknown = [s for s in sources if s not in licenses]
+    if unknown:
+        raise ValueError(f"{table}: sources {unknown} are not in {SOURCES}; cannot set its license")
+    license_ = declared_license(header) or (
+        "internal" if any(licenses[s] == "internal" for s in sources) else "public")
+    nodes = sorted(n for n in facts.get("node", set()) if n)
+    return {
+        "table": table, "iso": iso_of(table),
+        "market": ";".join(sorted(m for m in facts["market"] if m)) if "market" in facts else "",
+        "n_nodes": len(nodes) if nodes else len(facts["entity"]),
+        "interval": ";".join(sorted(facts["freq"])) if "freq" in facts else "",
+        "ts_min": facts["ts_min"], "ts_max": facts["ts_max"], "n_rows": facts["n"],
+        "source_report": ";".join(sources), "last_run": last_run(header), "validator_status": status,
+        "license": license_, "sector": sector_of(table), "_derived_from": derived_from(header),
+        "_variable": ", ".join(sorted(facts["variable"])),
+        "_nodes": ", ".join(nodes) if nodes else ", ".join(sorted(facts["entity"])),
+    }
+
+
+# Session 36A: the validator's own reports of this run (erw_validate.py --json, written by run_daily.sh just before
+# coverage), keyed by absolute path. A table's report is reused only when the file has not changed since the reports
+# were written; otherwise, or without reports, the table is validated here as before.
+REPORTS = {}
+
+
+def load_reports(path):
+    import json
+    if not path or not os.path.exists(path):
+        return {}
+    # the validator's start (run_daily.sh touches <reports>.started just before it runs): a file changed after that may
+    # have been validated before the change, so only files older than the start are reused; without the marker, none is
+    marker = path + ".started"
+    if not os.path.exists(marker):
+        return {}
+    at = os.path.getmtime(marker)
+    out = {}
+    for r in json.load(open(path, encoding="utf-8")):
+        f = os.path.abspath(r["file"])
+        if r.get("verdict") in ("pass", "blocked") and os.path.exists(f) and os.path.getmtime(f) <= at:
+            out[f] = r
+    return out
+
+
+def report_of(path):
+    return REPORTS.get(os.path.abspath(path)) or erw_validate.validate(path)
+
+
 def table_row(path, licenses):
+    if os.path.getsize(path) > LARGE_BYTES and is_series(path):  # session 36A: validated, then streamed
+        report = report_of(path)
+        header, facts = series_facts(path)
+        return large_series_row(path, header, facts, report, licenses)
     # session 29: validate first, then read, so a large table (the ERCOT history) is never held twice
-    report = erw_validate.validate(path)
+    report = report_of(path)
     header, df = erw_validate.read(path)
     if list(df.columns[:2]) == ["entity_id", "entity_type"]:
         n_err, n_warn = len(report["errors"]), len(report["warnings"])
@@ -414,6 +518,13 @@ def carried_over(present):
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser(description="Build docs/coverage.md and warehouse/metadata/coverage.csv")
+    ap.add_argument("--reports", help="session 36A: erw_validate.py --json output of this run, reused for unchanged files")
+    args = ap.parse_args()
+    REPORTS.update(load_reports(args.reports))
+    if args.reports:
+        print(f"validator reports reused for {len(REPORTS)} unchanged tables ({args.reports})")
     licenses = load_licenses()
     rows = apply_tiers(apply_derived([table_row(p, licenses) for p in sorted(glob.glob(os.path.join(OUT, "*.csv")))]))
     carried, carried_md = carried_over({r["table"] for r in rows})

@@ -247,15 +247,25 @@ cat "$status"
 "$PYTHON" warehouse/metadata/run_status.py record || exit 1
 
 echo "== validator"
-"$PYTHON" warehouse/validate/erw_validate.py warehouse/output/*.csv
+# session 36A: the reports are kept as JSON (runs/validate_reports.json) for coverage to reuse, and summarized here:
+# every file's verdict, and each error and warning in full
+: > runs/validate_reports.json.started  # the validator's start: coverage reuses a report only for files older than this
+"$PYTHON" warehouse/validate/erw_validate.py --json warehouse/output/*.csv > runs/validate_reports.json
 vrc=$?
+"$PYTHON" -c "
+import json
+for r in json.load(open('runs/validate_reports.json', encoding='utf-8')):
+    print(r['file'], r['verdict'].upper(), r.get('detail', ''))
+    for e in r.get('errors', []): print('  ERROR [' + e['check'] + '] ' + e['detail'])
+    for w in r.get('warnings', []): print('  warn  [' + w['check'] + '] ' + w['detail'])
+" || echo "validator reports unreadable (runs/validate_reports.json)"
 if [ "$vrc" -ne 0 ]; then
   echo "erw_validate exit $vrc: at least one table is blocked; stopping before coverage and commit"
   exit 1
 fi
 
 echo "== coverage"
-"$PYTHON" warehouse/metadata/build_coverage.py || exit 1
+"$PYTHON" warehouse/metadata/build_coverage.py --reports runs/validate_reports.json || exit 1
 
 echo "== archive (session 28): new or changed rows to warehouse/archive and the bucket erw-archive"
 if [ "${DRY_STORES:-0}" = "1" ]; then
