@@ -21,7 +21,7 @@ export default async function AskPage({ searchParams }: { searchParams: Promise<
       <p className="mb-5 max-w-3xl text-sm text-muted">
         A question about US energy prices, demand, generation, projects or news, answered only from the ERW tables this site reads. Every number in an
         answer comes from a query of a table, and the answer names the table and its source report; a number that cannot be traced to a query is not
-        shown. If the warehouse does not hold the answer, it says so. Public tables only; power prices and demand cover the last 90 days. At most 10
+        shown. If the warehouse does not hold the answer, it says so. Public tables only; power prices and demand cover the last 35 days. At most 10
         questions per hour.
       </p>
       <AskForm grid={g?.slug ?? null} initial={sp.q ?? ""} placeholder={g ? `For example: what was ${g.iso}'s highest demand this week?` : undefined} />

@@ -549,6 +549,11 @@ def main(argv=None):
     if mb > LIVE["max_mb"]:
         print(f"FAILED: database is {mb:.1f} MB, over the {LIVE['max_mb']} MB limit", file=sys.stderr)
         return 1
+    # session 36C: a warning well before the limit, so windows are trimmed by a person, not by a failed run
+    warn_mb = LIVE.get("warn_mb")
+    if warn_mb and mb > warn_mb:
+        print(f"WARNING: database is {mb:.1f} MB, over the {warn_mb} MB warning line (limit {LIVE['max_mb']} MB); "
+              "trim a live window in warehouse/supabase/live_set.yaml", file=sys.stderr)
     if failed:
         print(f"FAILED tables: {failed}", file=sys.stderr)
         return 1

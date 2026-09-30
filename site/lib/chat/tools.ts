@@ -3,7 +3,7 @@
 // The same four tools as warehouse/chat/tools.py (list_tables, describe_table, query, compare),
 // with the same input schemas (lib/chat/spec.json, exported from the Python loop) and the same
 // fixed aggregations and groupings. The Python tools read the erw package; these read Supabase
-// with the anon key, so they see public tables only, and only the live set: the last 90 days of
+// with the anon key, so they see public tables only, and only the live set: the last 35 days of
 // power prices and demand, and the derived, fuel, generator, queue and news tables whole.
 // Differences from the Python tools are named where they occur.
 import "server-only";
@@ -63,7 +63,7 @@ const AGGREGATIONS: string[] = spec.aggregations;
 const TIME_GROUPS: string[] = spec.time_groups;
 const MAX_ROWS = 60_000; // rows one query may read from Supabase
 const LIVE_NOTE =
-  "This site reads the Supabase live set: public tables only; power price and demand tables hold only their last 90 days; derived, fuel, generator, queue and news tables are whole. Tables with in_live_set no cannot be queried here (their full history is on Redivis).";
+  "This site reads the Supabase live set: public tables only; power price, demand, generation and hourly emissions tables hold only their last 35 days; derived, fuel, generator, queue and news tables are whole. Tables with in_live_set no cannot be queried here (their full history is on Redivis).";
 
 // ------------------------------------------------------------------ helpers
 

@@ -425,8 +425,8 @@ Backends (`ERW_BACKEND`, or `erw.set_backend(...)`); the calls do not change:
 - `local` (default): the CSVs in the repository's warehouse/output, or ERW_DATA_DIR.
 - `redivis`: the Redivis dataset `energy_research_warehouse`, the store of
   record, every table, full history (REDIVIS_API_TOKEN, REDIVIS_OWNER).
-- `supabase`: the live set behind the public site: public tables, the last 90
-  days of ISO prices and EIA-930 (and all eight CO2 variables of
+- `supabase`: the live set behind the public site: public tables, the last 35
+  days of ISO prices and EIA-930 (session 36C; 90 before) (and all eight CO2 variables of
   eia930_all_emissions, session 36A), and the derived, fuel, queue and news
   tables whole (SUPABASE_URL with the anon or service key). Not in it: the ERCOT
   history (ercot_all_hub_prices_history) and eia860m_operating_generators

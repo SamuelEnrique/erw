@@ -6,6 +6,7 @@
 # warehouse/output; a table matching no rule is not loaded.
 
 max_mb: 400   # session 19 human ruling: raised from 300 (the free tier's hard cap is 500 MB)
+warn_mb: 350  # session 36C: load.py prints a warning above this, after the vacuum
 
 # Loaded whole, every run.
 full:
@@ -57,15 +58,18 @@ full:
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
+# Session 36C: 35 days, not 90. The site reads at most 31 days of these tables (/prices/<hub> 30, /storage 31, the grid
+# pages 34 of EIA-930 generation, /emissions and the grid pages 3 to 4 of hourly intensity); 35 keeps a margin, and /ask
+# answers from the same window. The live set stood at 376.6 MB of 400; Redivis and the CSVs keep every row.
 recent:
-  days: 90
+  days: 35
   tables:
     - '^(caiso|ercot|isone|miso|nyiso|spp|pjm)_(dam|rtm)_(hub|zone)_prices(_hourly)?$'   # ISO prices; session 19 human
       # ruling: not the ERCOT yearly history tables, whose last 90 days repeat ercot_*_hub_prices
     - '^eia930_[a-z0-9]+_(demand|generation)$'     # session 29: eia930_all_demand and eia930_all_generation (ba)
     - '^iso_(dam|rtm)_hub_prices$'                 # session 29: the CAISO, ERCOT, MISO and SPP hub prices (market)
-    - '^eia930_all_storage$'                       # session 31: EIA-930 battery storage (ba), the last 90 days
-    - '^(eia930_all_emissions|carbon_intensity_hourly)$'   # session 32: CO2 estimates and hourly intensity, 90 days
+    - '^eia930_all_storage$'                       # session 31: EIA-930 battery storage (ba), the recent window
+    - '^(eia930_all_emissions|carbon_intensity_hourly)$'   # session 32: CO2 estimates and hourly intensity, the recent window
 
 # Session 16: for a table named here, only these extra columns (beyond the shape's standard
 # columns) and only rows not excluded go to Supabase. energy_projects repeats the rows of the
@@ -98,7 +102,7 @@ select:
   # The site reads no by-fuel CO2 and no daily intensity: the live set keeps generated and consumed CO2 (its 90 days)
   # and the last 100 days of the daily intensity; Redivis and the CSVs hold everything
   # session 36A: all eight CO2 variables again (the by-fuel and trade six for /ask and the grid pages' chat), the table's
-  # recent window of 90 days; 30 days had the live set passed 380 MB. It measured 376.3 MB after the load and vacuum (335.6 before)
+  # recent window (90 days in session 36A at 376.3 MB; 35 days since session 36C)
   carbon_intensity_daily: {days: 100}
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.

@@ -103,7 +103,7 @@ export default async function Data() {
         </p>
         <p className="mt-2 max-w-3xl text-xs text-muted">
           Download CSV gives the rows the site&apos;s live set holds, with the table&apos;s provenance header lines at the top, up to 200,000 rows; for a table
-          the live set keeps a window of (such as the last 90 days of prices), that window. The full history of every table, and the tables not in the
+          the live set keeps a window of (such as the last 35 days of prices), that window. The full history of every table, and the tables not in the
           live set, are on <a href={site.redivis.url}>Redivis</a>, where version 1 is pending release.
         </p>
       </Section>
@@ -146,7 +146,7 @@ export default async function Data() {
             </p>
             <p className="text-xs text-muted">
               {site.redivis.status} (Checked {site.redivis.checked}.) This site reads a live subset of the public tables (<code className="font-mono">warehouse/supabase/live_set.yaml</code>):
-              the last 90 days of power prices and demand, shorter windows of the daily curtailment, trader and retail sales tables, and the derived,
+              the last 35 days of power prices, demand, generation and emissions, other windows of the daily curtailment, trader and retail sales tables, and the derived,
               fuel, project, queue, deal and news tables whole. The ERCOT yearly history and the EIA-860M operating and planned generator tables are on
               Redivis only; the project map carries every operating and planned generator.
             </p>

@@ -2,7 +2,7 @@
 // as CSV (session 21, ruling 10). Streams from Supabase with the anon key (public rows only), page by
 // page, with the table's provenance header lines at the top (as '#' lines, as in the ERW's own CSVs),
 // then the table's columns in their CSV order. At most 200,000 rows: a larger table answers 413 and
-// points to Redivis. A windowed table (for example the last 90 days of prices) gives what the live set
+// points to Redivis. A windowed table (for example the last 35 days of prices) gives what the live set
 // holds; the full history is on Redivis.
 import site from "@/data/site.json";
 
