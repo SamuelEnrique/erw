@@ -70,6 +70,19 @@ MD_ROWS = coverage_md_rows()
 LARGE_ROWS = 200_000
 LARGE = sorted(t for t in TABLES if MD_ROWS.get(t, 0) > LARGE_ROWS or t == HISTORY)
 PER_TABLE = [t for t in TABLES if t not in LARGE]
+# Session 45: daily run 12 failed here. A table in coverage but not in this machine's warehouse/output is carried over
+# by build_coverage.py (its session 14 rule): the GitHub runner never holds the ERCOT history and the tables computed
+# from it (the peak premium, the cost of power, the event windows), and a connector that failed that day (CARB answers
+# the runner HTTP 202; the NYISO queue) leaves its table absent. Coverage must still list it; its contents are tested
+# only where it is held.
+CARRIED = sorted(set(MD_ROWS) - set(TABLES))
+# the API cost ledger is appended by the model calls that follow the coverage step in a daily run (the fun fact,
+# the digest email), so the file may hold more rows than coverage counted, never fewer
+GROWS = {"api_cost_ledger"}
+
+
+def _rows_match(name, n):
+    return n == MD_ROWS[name] or (name in GROWS and n >= MD_ROWS[name])
 
 
 @pytest.fixture(autouse=True)
@@ -90,19 +103,20 @@ def test_coverage_has_one_row_per_table_and_the_documented_columns():
                                  "ts_max", "n_rows", "source_report", "last_run",
                                  "validator_status", "license", "sector", "derived", "tier"]  # tier: session 28
     assert set(cov["license"]) <= {"public", "internal"}
-    assert sorted(cov["table"]) == TABLES
+    assert sorted(cov["table"]) == sorted(TABLES + CARRIED)  # session 45: CARRIED, absent from this machine
     assert str(cov["ts_min"].dtype).startswith("datetime64") and cov["ts_min"].dt.tz is not None
     assert (cov["validator_status"] == "pass").all()
 
 
 def test_coverage_md_lists_every_table():
-    assert sorted(MD_ROWS) == TABLES
+    assert set(TABLES) <= set(MD_ROWS)
+    assert sorted(MD_ROWS) == sorted(erw.coverage()["table"])  # session 45: and the tables carried over
 
 
 @pytest.mark.parametrize("name", PER_TABLE)
 def test_fetch_row_count_matches_coverage_md(name):
     df = erw.fetch(name)
-    assert len(df) == MD_ROWS[name]
+    assert _rows_match(name, len(df))
 
 
 @pytest.mark.parametrize("name", [t for t in SERIES_TABLES if t not in LARGE])
@@ -126,7 +140,7 @@ def test_fetch_list_returns_dict():
     names = TABLES[:3]
     got = erw.fetch(names)
     assert isinstance(got, dict) and list(got) == names
-    assert all(len(got[n]) == MD_ROWS[n] for n in names)
+    assert all(_rows_match(n, len(got[n])) for n in names)
 
 
 def test_fetch_unknown_table_fails_loudly():
@@ -135,45 +149,52 @@ def test_fetch_unknown_table_fails_loudly():
 
 
 def test_filter_by_iso_market_variable_node_and_time():
+    # session 45: only the tables this machine holds (CARRIED are listed by coverage, tested where held)
     cov = erw.coverage()
+    cov = cov[cov["table"].isin(TABLES)]
+    held = lambda *a, **kw: [t for t in erw.filter(*a, **kw) if t in TABLES]  # noqa: E731
     ercot = sorted(cov.loc[cov["iso"] == "ERCOT", "table"])
     # session 29: a consolidated table lists its members' ISOs and markets, separated by ";"
     has = lambda col, f: cov[col].map(lambda v: any(f(p) for p in str(v).split(";")))  # noqa: E731
-    assert erw.filter(iso="ercot") == sorted(cov.loc[has("iso", lambda p: p == "ERCOT"), "table"])
-    # session 30: the price board's derived tables (price_board_*) carry the markets they are computed from
-    board = lambda m: [t for t in cov["table"] if t.startswith("price_board_")  # noqa: E731
+    assert held(iso="ercot") == sorted(cov.loc[has("iso", lambda p: p == "ERCOT"), "table"])
+    # session 30: the price board's derived tables (price_board_*) carry the markets they are computed from; session 45:
+    # so does every derived table (the peak premium, the cost of power, the event windows), which this test had missed
+    board = lambda m: [t for t in cov["table"] if cov.set_index("table").loc[t, "derived"] == "yes"  # noqa: E731
                        and m in str(cov.set_index("table").loc[t, "market"]).split(";")]
-    assert erw.filter(iso="ERCOT", market="dam") == sorted(ERCOT_DAM + board("ercot_dam"))  # the live DAM table, history
-    # the live table, the history and the derived peak-premium tables (session 9), and the price board's (session 30)
-    assert erw.filter(market="ercot_rtm") == sorted(ERCOT_RTM + [t for t in TABLES if t.startswith("ercot_peak_premium_")]
-                                                    + board("ercot_rtm"))
-    assert set(erw.filter(market="rtm")) == set(cov.loc[has("market", lambda p: p.endswith("_rtm")), "table"])
-    assert erw.filter(variable="spp_rtm") == ERCOT_RTM
+    assert held(iso="ERCOT", market="dam") == sorted(ERCOT_DAM + board("ercot_dam"))  # the live DAM table, history
+    # the live table, the history and the derived tables (the peak premium since session 9, the price board since 30)
+    assert held(market="ercot_rtm") == sorted(ERCOT_RTM + board("ercot_rtm"))
+    assert set(held(market="rtm")) == set(cov.loc[has("market", lambda p: p.endswith("_rtm")), "table"])
+    assert held(variable="spp_rtm") == ERCOT_RTM
     ercot_prices = sorted(cov.loc[has("market", lambda p: p.startswith("ercot_")), "table"])
     # session 30: two price board tables hold each ISO's main hub only (HB_HUBAVG), not every hub
     ercot_prices = [t for t in ercot_prices if t not in ("price_board_peak_offpeak", "price_board_spreads")]
     # session 29: the price tables, and the derived tables computed from them per hub (the trader view)
     derived = set(cov.loc[cov["derived"] == "yes", "table"])
+    # session 45: a derived table may hold a hub or only a summary (the cost of power, the event windows): every source
+    # price table must hold the hub, and every other table that does must be derived
+    ercot_prices = [t for t in ercot_prices if t not in derived]
     for n in ("HB_NORTH", "ercot:HB_NORTH"):
-        got = erw.filter(node=n)
+        got = held(node=n)
         assert set(ercot_prices) <= set(got) and set(got) - set(ercot_prices) <= derived
-    nyc = erw.filter(iso=["ERCOT", "NYISO"], node="N.Y.C.")
+    nyc = held(iso=["ERCOT", "NYISO"], node="N.Y.C.")
     want = set(cov.loc[has("market", lambda p: p.startswith("nyiso_")), "table"])
     assert want <= set(nyc) and set(nyc) - want <= derived
     eia_ciso = sorted(t for t in ("eia930_all_demand", "eia930_all_generation") if t in TABLES)  # session 29
-    got = set(erw.filter(node="eia930:CISO"))  # session 29: also the snapshot of every BA's latest hours
+    got = set(held(node="eia930:CISO"))  # session 29: also the snapshot of every BA's latest hours
     # session 32: the CO2 estimates and the carbon intensity tables name each BA too
     also = {"eia930_generation_latest"} | {t for t in TABLES if t.startswith(("eia930_all_", "carbon_intensity_"))}
+    also |= derived  # session 45: event_window_daily names each BA too
     assert set(eia_ciso) <= got and got - set(eia_ciso) <= also
-    assert set(eia_ciso) <= set(erw.filter(iso="caiso"))
+    assert set(eia_ciso) <= set(held(iso="caiso"))
     spot = [t for t in ("eia_fuel_spot_prices", "eia_product_spot_prices", "fred_daily_spot_prices")
             if t in TABLES]
     if spot:
-        assert erw.filter(variable="spot_price") == spot
-    assert erw.filter(start="1900-01-01", end="1900-01-02") == []  # before any table starts (imports: 1920)
+        assert held(variable="spot_price") == spot
+    assert held(start="1900-01-01", end="1900-01-02") == []  # before any table starts (imports: 1920)
     last = cov["ts_max"].max()
-    assert set(erw.filter(start=last)) == set(cov.loc[cov["ts_max"] >= last, "table"])
-    assert erw.filter() == TABLES
+    assert set(held(start=last)) == set(cov.loc[cov["ts_max"] >= last, "table"])
+    assert held() == TABLES
 
 
 @pytest.mark.parametrize("name", PER_TABLE)
@@ -220,11 +241,11 @@ def test_version_reports_the_data_commit():
 
 def test_info_summary_and_table(capsys):
     d = erw.info()
-    assert d["n_tables"] == len(TABLES)
+    assert d["n_tables"] == len(TABLES) + len(CARRIED)  # session 45: coverage's count, with the carried tables
     assert d["n_rows"] == sum(MD_ROWS.values())
     assert "Energy Research Warehouse (ERW)" in capsys.readouterr().out
     t = erw.info(TABLES[0], quiet=True)
-    assert t["rows"] == MD_ROWS[TABLES[0]]
+    assert _rows_match(TABLES[0], t["rows"])  # session 45: TABLES[0] is the API cost ledger, which grows in a run
     assert capsys.readouterr().out == ""
 
 
@@ -391,11 +412,12 @@ PRICE_BOARD = {
 
 
 def test_every_price_board_table_is_present():
-    assert set(PRICE_BOARD) <= set(TABLES)
+    assert set(PRICE_BOARD) <= set(TABLES) | set(CARRIED)  # session 45: absent here, but in coverage
 
 
 @pytest.mark.parametrize("name", sorted(PRICE_BOARD))
 def test_price_board_table_units_freq_license_sector(name):
+    _needs(name)  # session 45: CARB is absent on the GitHub runner (HTTP 202)
     units, freqs, license_, sectors, prefix = PRICE_BOARD[name]
     df = erw.fetch(name)
     assert set(df["unit"]) == units
@@ -453,7 +475,7 @@ QUEUES = {"ercot", "caiso", "nyiso", "miso", "spp", "isone"}
 def test_every_session8_entities_table_is_present():
     want = {"eia860m_operating_generators", "eia860m_planned_generators", "eia860m_retired_generators"}
     want |= {f"{i}_interconnection_queue" for i in QUEUES}
-    assert want <= set(ENTITY_TABLES)
+    assert want <= set(ENTITY_TABLES) | set(CARRIED)  # session 45: a queue that failed today is carried over
 
 
 @pytest.mark.parametrize("name", ENTITY_TABLES)
@@ -500,6 +522,7 @@ def test_eia860m_tables_one_vintage_and_the_right_statuses():
 
 @pytest.mark.parametrize("iso", sorted(QUEUES))
 def test_queue_harmonized_status_keeps_the_iso_status(iso):
+    _needs(f"{iso}_interconnection_queue")  # session 45
     df = erw.fetch(f"{iso}_interconnection_queue")
     assert set(df["status"].fillna("")) <= {"active", "withdrawn", "completed", "suspended", ""}
     # the ISO's own status is kept beside the harmonized one, and maps one way
@@ -669,7 +692,8 @@ def _sources_and_header(name):
 
 
 def _needs(*names):
-    """Session 29: the GitHub runner never holds the ERCOT yearly history or the tables derived from it."""
+    """Session 29: the GitHub runner never holds the ERCOT yearly history or the tables derived from it
+    (session 45: nor a table whose connector failed that day; coverage carries it over)."""
     missing = [n for n in names if n not in TABLES]
     if missing:
         pytest.skip(f"not in this machine's warehouse/output: {missing}")
@@ -713,6 +737,8 @@ def test_tier_column_cite_and_info():
     assert set(cov["tier"]) <= {"source", "derived", "model_extracted"} and (cov["tier"] != "").all()
     by = cov.set_index("table")["tier"]
     for name in by.index:
+        if name in CARRIED:  # session 45: its header is not on this machine
+            continue
         assert erw.tier(name) == by[name]
         assert erw.cite(name).endswith(f"Provenance tier: {by[name]} ({erw.api.TIER_NOTE[by[name]]}).")
     if "energy_deals" in by.index:
