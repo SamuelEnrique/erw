@@ -59,6 +59,13 @@ export const GROUPS: Group[] = [
     ],
   },
   {
+    // session 40: tools for a practitioner
+    label: "Tools",
+    pages: [
+      { href: "/severance", label: "Severance tax", line: "State production taxes on a month of oil, gas or condensate in Texas, Louisiana and New Mexico: the base rate, the reduced rates and exemptions, and the savings, each rule cited.", tables: "site/data/severance_rules.json; eia_fuel_spot_prices (default prices)", related: ["/prices", "/cost-of-power"] },
+    ],
+  },
+  {
     // session 38: the home battery game
     label: "Play",
     pages: [
