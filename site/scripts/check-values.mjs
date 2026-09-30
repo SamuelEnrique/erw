@@ -168,12 +168,23 @@ async function truth(check) {
     if (what === "n") return m.length;
     return Math.round(m.reduce((a, r) => a + (r.capacity_mw === null ? 0 : Number(r.capacity_mw)), 0) * 10) / 10;
   }
-  // griddc|<ST;ST>|n or mw: datacenter_facilities in those states
+  // griddc|<slug>|n or mw: datacenter_facilities mapped to the grid (session 36A): its queue's rows, rows naming one of
+  // its utilities, then the others by its states (docs/methods/datacenter_facilities.md, "Grid pages")
   if (p[0] === "griddc") {
-    const [, states, what] = p;
-    const set = new Set(states.split(";"));
-    const rows = (await all("entities", { select: "capacity_mw,state:extra->>state", table_name: "eq.datacenter_facilities", order: "entity_id" }))
-      .filter((r) => set.has(r.state));
+    const [, slug, what] = p;
+    const g = GRIDS.find((x) => x.slug === slug);
+    const gridOf = (r) => {
+      const ids = (r.member_ids ?? "").split(";");
+      for (const x of GRIDS) {
+        const pre = x.queue_table ? x.queue_table.replace(/_interconnection_queue$/, "_queue:") : null;
+        if (pre && ids.some((i) => i.startsWith(pre))) return x.slug;
+      }
+      const u = (r.utility ?? "").trim();
+      return u ? (GRIDS.find((x) => (x.utilities ?? []).includes(u))?.slug ?? null) : null;
+    };
+    const rows = (await all("entities", { select: "capacity_mw,state:extra->>state,utility:extra->>utility,member_ids:extra->>member_ids",
+      table_name: "eq.datacenter_facilities", order: "entity_id" }))
+      .filter((r) => { const by = gridOf(r); return by ? by === slug : !!r.state && r.state in g.states; });
     if (what === "n") return rows.length;
     return Math.round(rows.reduce((a, r) => a + (r.capacity_mw === null ? 0 : Number(r.capacity_mw)), 0) * 10) / 10;
   }

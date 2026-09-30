@@ -51,13 +51,33 @@ async function news(since: string): Promise<NewsRow[]> {
   }, HOURLY);
 }
 
-/** Datacenter facilities of datacenter_facilities, with their state and MW. */
-async function datacenterStates(): Promise<{ entity_id: string; capacity_mw: number | null; state: string | null }[]> {
+export type Facility = { entity_id: string; capacity_mw: number | null; state: string | null; utility: string | null; member_ids: string | null };
+
+/** Datacenter facilities of datacenter_facilities, with their state, utility, member ids and MW. */
+async function datacenterStates(): Promise<Facility[]> {
   return rest("entities", {
-    select: "entity_id,capacity_mw,state:extra->>state",
+    select: "entity_id,capacity_mw,state:extra->>state,utility:extra->>utility,member_ids:extra->>member_ids",
     table_name: "eq.datacenter_facilities",
     order: "entity_id",
   }, HOURLY);
+}
+
+/** Session 36A (docs/methods/datacenter_facilities.md, "Grid pages"): the grid a facility belongs to, or null when no
+ * rule gives one: a facility from an ISO's queue (member id <iso>_queue:...) is that ISO's; else one whose utility a
+ * grid lists is that grid's. The pages then fall back to the state lists for a null. check-values.mjs does the same. */
+export function facilityGrid(f: { utility: string | null; member_ids: string | null }): string | null {
+  const ids = (f.member_ids ?? "").split(";");
+  for (const g of GRIDS) {
+    const pre = g.queue_table ? g.queue_table.replace(/_interconnection_queue$/, "_queue:") : null;
+    if (pre && ids.some((x) => x.startsWith(pre))) return g.slug;
+  }
+  const u = (f.utility ?? "").trim();
+  return u ? GRIDS.find((g) => g.utilities.includes(u))?.slug ?? null : null;
+}
+
+export function facilityInGrid(g: GridConfig, f: Facility): boolean {
+  const by = facilityGrid(f);
+  return by ? by === g.slug : !!f.state && f.state in g.states;
 }
 
 /** A story is this grid's when its headline names the grid (a word of names) or its region is one of its states.
@@ -72,7 +92,7 @@ export function newsMatch(g: GridConfig, r: { extra: Record<string, string> }): 
 export type GridData = {
   demand: SeriesRow[]; gen: SeriesRow[]; cycle: SeriesRow[]; units: StorageUnit[];
   ci: SeriesRow[]; monthly: SeriesRow[]; prices: SeriesRow[]; peak: SeriesRow[];
-  queue: QueueRow[]; dcs: { entity_id: string; capacity_mw: number | null; state: string | null }[];
+  queue: QueueRow[]; dcs: Facility[];
   news: NewsRow[]; newsSince: string;
   errors: Record<string, string>;
 };
@@ -103,6 +123,6 @@ export async function load(g: GridConfig): Promise<GridData> {
   ]);
   return {
     demand, gen, cycle, units: units.filter((u) => u.iso === g.iso), ci, monthly, prices, peak, queue: q,
-    dcs: dcs.filter((d) => d.state && d.state in g.states), news: n.filter((r) => newsMatch(g, r)), newsSince, errors,
+    dcs: dcs.filter((d) => facilityInGrid(g, d)), news: n.filter((r) => newsMatch(g, r)), newsSince, errors,
   };
 }

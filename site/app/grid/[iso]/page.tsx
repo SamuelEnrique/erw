@@ -333,14 +333,16 @@ function Building({ g, d }: { g: GridConfig; d: GridData }) {
     <>
       {queue}
       <div className="mt-4 text-sm">
-        <div className="text-xs text-muted">Datacenter facilities in {states.map((s) => g.states[s]).join(", ")}<Chip tier="model_extracted" /></div>
+        <div className="text-xs text-muted">Datacenter facilities mapped to {g.iso}<Chip tier="model_extracted" /></div>
         <div className="tabular-nums">
-          <Num check={`griddc|${states.join(";")}|n`} raw={dcN}>{count(dcN)}</Num> facilities; <Num check={`griddc|${states.join(";")}|mw`} raw={dcMw}>{shown(dcMw)}</Num> MW where a source states it.{" "}
+          <Num check={`griddc|${g.slug}|n`} raw={dcN}>{count(dcN)}</Num> facilities; <Num check={`griddc|${g.slug}|mw`} raw={dcMw}>{shown(dcMw)}</Num> MW where a source states it.{" "}
           <Link href="/datacenters">All datacenters</Link>.
         </div>
         <p className="mt-1 text-[11px] text-muted">
-          The warehouse places datacenters by state, not by grid, so this counts the states wholly or mostly inside {g.iso}; a facility there may be
-          served by a neighboring grid. Many rows come from news stories read by a model: check each against its source.
+          A facility from {g.iso}&apos;s interconnection queue, or whose utility is one of {g.iso}&apos;s, is counted here; any other is counted by its
+          state, for the states wholly or mostly inside {g.iso} ({states.map((s) => g.states[s]).join(", ")}), so one there may be served by a
+          neighboring grid. Many rows come from news stories read by a model: check each against its source.{" "}
+          <Link href="/data/methods/datacenter_facilities">Method</Link>.
         </p>
         <Cite tables={["datacenter_facilities"]} />
       </div>

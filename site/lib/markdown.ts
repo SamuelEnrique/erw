@@ -36,6 +36,7 @@ export type GridConfig = {
   queue_table: string | null; queue_url?: string;
   storage_entity: string | null; storage_source: "eia930" | "caiso" | null;
   states: Record<string, string>; names: string[]; tables: string[];
+  utilities: string[]; // session 36A: utility names that place a datacenter facility in this grid
 };
 export type ChartOfWeek = {
   week: string; template: string; title: string; subtitle: string; note: string; caption: string; note_by: string;

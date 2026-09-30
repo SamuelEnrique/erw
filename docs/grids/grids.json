@@ -1,74 +1,334 @@
 {
-  "_about": "Session 35: the seven grid pages (/grid/<slug>), their scoped chat (/ask?grid=<slug>) and their checks read this one file. Which tables carry each grid was read once from warehouse/metadata/coverage.csv (session 35) and is written here; the page shows a block only when its table holds this grid's rows. states: the states counted for datacenter facilities and news, those wholly or mostly inside the grid (a state shared with another grid is left out); names: the words a news headline or region must contain to count as this grid's news (the news tables carry no ISO tag).",
+  "_about": "Session 35: the seven grid pages (/grid/<slug>), their scoped chat (/ask?grid=<slug>) and their checks read this one file. Which tables carry each grid was read once from warehouse/metadata/coverage.csv (session 35) and is written here; the page shows a block only when its table holds this grid's rows. states: the states counted for datacenter facilities and news, those wholly or mostly inside the grid (a state shared with another grid is left out); names: the words a news headline or region must contain to count as this grid's news (the news tables carry no ISO tag). utilities (session 36A): the utility names in datacenter_facilities' utility column that belong to this grid; a facility is this grid's when it comes from this grid's queue (member id <iso>_queue:), else when its utility is listed here, else when its state is in states and no other rule gave it another grid (docs/methods/datacenter_facilities.md).",
   "grids": [
     {
-      "slug": "ercot", "iso": "ERCOT", "name": "Electric Reliability Council of Texas", "ba": "erco", "entity": "eia930:ERCO",
-      "tz": "America/Chicago", "tz_label": "Central time",
-      "market_prefix": "ercot", "hub": {"entity": "ercot:HB_HUBAVG", "label": "ERCOT Hub Average (HB_HUBAVG)"},
-      "prices_public": true, "queue_table": "ercot_interconnection_queue",
-      "storage_entity": "eia930:ERCO", "storage_source": "eia930",
-      "states": {"TX": "Texas"}, "names": ["ERCOT", "Texas"],
-      "tables": ["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle", "storage_capacity", "iso_dam_hub_prices", "iso_rtm_hub_prices", "iso_trader_daily", "price_board_latest", "price_board_peak_offpeak", "price_board_spreads", "ercot_interconnection_queue", "ercot_wind_solar_hsl_daily", "ercot_peak_premium_annual", "ercot_peak_premium_monthly", "energy_projects"]
+      "slug": "ercot",
+      "iso": "ERCOT",
+      "name": "Electric Reliability Council of Texas",
+      "ba": "erco",
+      "entity": "eia930:ERCO",
+      "tz": "America/Chicago",
+      "tz_label": "Central time",
+      "market_prefix": "ercot",
+      "hub": {
+        "entity": "ercot:HB_HUBAVG",
+        "label": "ERCOT Hub Average (HB_HUBAVG)"
+      },
+      "prices_public": true,
+      "queue_table": "ercot_interconnection_queue",
+      "storage_entity": "eia930:ERCO",
+      "storage_source": "eia930",
+      "states": {
+        "TX": "Texas"
+      },
+      "names": [
+        "ERCOT",
+        "Texas"
+      ],
+      "tables": [
+        "eia930_all_demand",
+        "eia930_all_generation",
+        "eia930_all_emissions",
+        "eia930_all_storage",
+        "carbon_intensity_hourly",
+        "carbon_intensity_daily",
+        "carbon_intensity_monthly",
+        "storage_daily_cycle",
+        "storage_capacity",
+        "iso_dam_hub_prices",
+        "iso_rtm_hub_prices",
+        "iso_trader_daily",
+        "price_board_latest",
+        "price_board_peak_offpeak",
+        "price_board_spreads",
+        "ercot_interconnection_queue",
+        "ercot_wind_solar_hsl_daily",
+        "ercot_peak_premium_annual",
+        "ercot_peak_premium_monthly",
+        "energy_projects"
+      ],
+      "utilities": []
     },
     {
-      "slug": "caiso", "iso": "CAISO", "name": "California Independent System Operator", "ba": "ciso", "entity": "eia930:CISO",
-      "tz": "America/Los_Angeles", "tz_label": "Pacific time",
-      "market_prefix": "caiso", "hub": {"entity": "caiso:TH_SP15_GEN-APND", "label": "SP15, Southern California (TH_SP15_GEN-APND)"},
-      "prices_public": true, "queue_table": "caiso_interconnection_queue",
-      "storage_entity": "caiso:ISO", "storage_source": "caiso",
-      "states": {"CA": "California"}, "names": ["CAISO", "California"],
-      "tables": ["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle", "caiso_battery_storage", "storage_capacity", "iso_dam_hub_prices", "iso_rtm_hub_prices", "iso_trader_daily", "price_board_latest", "price_board_peak_offpeak", "price_board_spreads", "caiso_interconnection_queue", "caiso_curtailment_daily", "energy_projects"]
+      "slug": "caiso",
+      "iso": "CAISO",
+      "name": "California Independent System Operator",
+      "ba": "ciso",
+      "entity": "eia930:CISO",
+      "tz": "America/Los_Angeles",
+      "tz_label": "Pacific time",
+      "market_prefix": "caiso",
+      "hub": {
+        "entity": "caiso:TH_SP15_GEN-APND",
+        "label": "SP15, Southern California (TH_SP15_GEN-APND)"
+      },
+      "prices_public": true,
+      "queue_table": "caiso_interconnection_queue",
+      "storage_entity": "caiso:ISO",
+      "storage_source": "caiso",
+      "states": {
+        "CA": "California"
+      },
+      "names": [
+        "CAISO",
+        "California"
+      ],
+      "tables": [
+        "eia930_all_demand",
+        "eia930_all_generation",
+        "eia930_all_emissions",
+        "carbon_intensity_hourly",
+        "carbon_intensity_daily",
+        "carbon_intensity_monthly",
+        "storage_daily_cycle",
+        "caiso_battery_storage",
+        "storage_capacity",
+        "iso_dam_hub_prices",
+        "iso_rtm_hub_prices",
+        "iso_trader_daily",
+        "price_board_latest",
+        "price_board_peak_offpeak",
+        "price_board_spreads",
+        "caiso_interconnection_queue",
+        "caiso_curtailment_daily",
+        "energy_projects"
+      ],
+      "utilities": []
     },
     {
-      "slug": "pjm", "iso": "PJM", "name": "PJM Interconnection", "ba": "pjm", "entity": "eia930:PJM",
-      "tz": "America/New_York", "tz_label": "Eastern time",
-      "market_prefix": null, "hub": null,
-      "prices_public": false, "prices_note": "PJM's prices are licensed to the ERW for internal use only; they are not shown here until PJM permits publication.",
+      "slug": "pjm",
+      "iso": "PJM",
+      "name": "PJM Interconnection",
+      "ba": "pjm",
+      "entity": "eia930:PJM",
+      "tz": "America/New_York",
+      "tz_label": "Eastern time",
+      "market_prefix": null,
+      "hub": null,
+      "prices_public": false,
+      "prices_note": "PJM's prices are licensed to the ERW for internal use only; they are not shown here until PJM permits publication.",
       "prices_url": "https://www.pjm.com/markets-and-operations/energy",
-      "queue_table": null, "queue_url": "https://www.pjm.com/planning/service-requests/services-request-status",
-      "storage_entity": null, "storage_source": null,
-      "states": {"DE": "Delaware", "DC": "District of Columbia", "MD": "Maryland", "NJ": "New Jersey", "OH": "Ohio", "PA": "Pennsylvania", "VA": "Virginia", "WV": "West Virginia"},
-      "names": ["PJM"],
-      "tables": ["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_capacity"]
+      "queue_table": null,
+      "queue_url": "https://www.pjm.com/planning/service-requests/services-request-status",
+      "storage_entity": null,
+      "storage_source": null,
+      "states": {
+        "DE": "Delaware",
+        "DC": "District of Columbia",
+        "MD": "Maryland",
+        "NJ": "New Jersey",
+        "OH": "Ohio",
+        "PA": "Pennsylvania",
+        "VA": "Virginia",
+        "WV": "West Virginia"
+      },
+      "names": [
+        "PJM"
+      ],
+      "tables": [
+        "eia930_all_demand",
+        "eia930_all_generation",
+        "eia930_all_emissions",
+        "carbon_intensity_hourly",
+        "carbon_intensity_daily",
+        "carbon_intensity_monthly",
+        "storage_capacity"
+      ],
+      "utilities": []
     },
     {
-      "slug": "nyiso", "iso": "NYISO", "name": "New York Independent System Operator", "ba": "nyis", "entity": "eia930:NYIS",
-      "tz": "America/New_York", "tz_label": "Eastern time",
-      "market_prefix": "nyiso", "hub": {"entity": "nyiso:N.Y.C.", "label": "New York City zone (N.Y.C.)"},
-      "prices_public": true, "queue_table": "nyiso_interconnection_queue",
-      "storage_entity": null, "storage_source": null,
-      "states": {"NY": "New York"}, "names": ["NYISO", "New York"],
-      "tables": ["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_capacity", "iso_trader_daily", "nyiso_dam_zone_prices", "nyiso_rtm_zone_prices", "price_board_latest", "price_board_peak_offpeak", "price_board_spreads", "nyiso_interconnection_queue", "energy_projects"]
+      "slug": "nyiso",
+      "iso": "NYISO",
+      "name": "New York Independent System Operator",
+      "ba": "nyis",
+      "entity": "eia930:NYIS",
+      "tz": "America/New_York",
+      "tz_label": "Eastern time",
+      "market_prefix": "nyiso",
+      "hub": {
+        "entity": "nyiso:N.Y.C.",
+        "label": "New York City zone (N.Y.C.)"
+      },
+      "prices_public": true,
+      "queue_table": "nyiso_interconnection_queue",
+      "storage_entity": null,
+      "storage_source": null,
+      "states": {
+        "NY": "New York"
+      },
+      "names": [
+        "NYISO",
+        "New York"
+      ],
+      "tables": [
+        "eia930_all_demand",
+        "eia930_all_generation",
+        "eia930_all_emissions",
+        "carbon_intensity_hourly",
+        "carbon_intensity_daily",
+        "carbon_intensity_monthly",
+        "storage_capacity",
+        "iso_trader_daily",
+        "nyiso_dam_zone_prices",
+        "nyiso_rtm_zone_prices",
+        "price_board_latest",
+        "price_board_peak_offpeak",
+        "price_board_spreads",
+        "nyiso_interconnection_queue",
+        "energy_projects"
+      ],
+      "utilities": []
     },
     {
-      "slug": "isone", "iso": "ISO-NE", "name": "ISO New England", "ba": "isne", "entity": "eia930:ISNE",
-      "tz": "America/New_York", "tz_label": "Eastern time",
-      "market_prefix": "isone", "hub": {"entity": "isone:.H.INTERNAL_HUB", "label": "the Internal Hub (.H.INTERNAL_HUB)"},
-      "prices_public": true, "queue_table": "isone_interconnection_queue",
-      "storage_entity": "eia930:ISNE", "storage_source": "eia930",
-      "states": {"CT": "Connecticut", "ME": "Maine", "MA": "Massachusetts", "NH": "New Hampshire", "RI": "Rhode Island", "VT": "Vermont"},
-      "names": ["ISO-NE", "ISO New England", "New England"],
-      "tables": ["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle", "storage_capacity", "iso_trader_daily", "isone_dam_zone_prices", "isone_rtm_zone_prices", "isone_rtm_zone_prices_hourly", "price_board_latest", "price_board_peak_offpeak", "price_board_spreads", "isone_interconnection_queue", "energy_projects"]
+      "slug": "isone",
+      "iso": "ISO-NE",
+      "name": "ISO New England",
+      "ba": "isne",
+      "entity": "eia930:ISNE",
+      "tz": "America/New_York",
+      "tz_label": "Eastern time",
+      "market_prefix": "isone",
+      "hub": {
+        "entity": "isone:.H.INTERNAL_HUB",
+        "label": "the Internal Hub (.H.INTERNAL_HUB)"
+      },
+      "prices_public": true,
+      "queue_table": "isone_interconnection_queue",
+      "storage_entity": "eia930:ISNE",
+      "storage_source": "eia930",
+      "states": {
+        "CT": "Connecticut",
+        "ME": "Maine",
+        "MA": "Massachusetts",
+        "NH": "New Hampshire",
+        "RI": "Rhode Island",
+        "VT": "Vermont"
+      },
+      "names": [
+        "ISO-NE",
+        "ISO New England",
+        "New England"
+      ],
+      "tables": [
+        "eia930_all_demand",
+        "eia930_all_generation",
+        "eia930_all_emissions",
+        "eia930_all_storage",
+        "carbon_intensity_hourly",
+        "carbon_intensity_daily",
+        "carbon_intensity_monthly",
+        "storage_daily_cycle",
+        "storage_capacity",
+        "iso_trader_daily",
+        "isone_dam_zone_prices",
+        "isone_rtm_zone_prices",
+        "isone_rtm_zone_prices_hourly",
+        "price_board_latest",
+        "price_board_peak_offpeak",
+        "price_board_spreads",
+        "isone_interconnection_queue",
+        "energy_projects"
+      ],
+      "utilities": []
     },
     {
-      "slug": "miso", "iso": "MISO", "name": "Midcontinent Independent System Operator", "ba": "miso", "entity": "eia930:MISO",
-      "tz": "Etc/GMT+5", "tz_label": "Eastern Standard Time all year (MISO's market time)",
-      "market_prefix": "miso", "hub": {"entity": "miso:INDIANA.HUB", "label": "Indiana Hub (INDIANA.HUB)"},
-      "prices_public": true, "queue_table": "miso_interconnection_queue",
-      "storage_entity": "eia930:MISO", "storage_source": "eia930",
-      "states": {"MN": "Minnesota", "WI": "Wisconsin", "IA": "Iowa"},
-      "names": ["MISO", "Midcontinent Independent System Operator"],
-      "tables": ["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle", "storage_capacity", "iso_dam_hub_prices", "iso_rtm_hub_prices", "iso_trader_daily", "price_board_latest", "price_board_peak_offpeak", "price_board_spreads", "miso_interconnection_queue", "energy_projects"]
+      "slug": "miso",
+      "iso": "MISO",
+      "name": "Midcontinent Independent System Operator",
+      "ba": "miso",
+      "entity": "eia930:MISO",
+      "tz": "Etc/GMT+5",
+      "tz_label": "Eastern Standard Time all year (MISO's market time)",
+      "market_prefix": "miso",
+      "hub": {
+        "entity": "miso:INDIANA.HUB",
+        "label": "Indiana Hub (INDIANA.HUB)"
+      },
+      "prices_public": true,
+      "queue_table": "miso_interconnection_queue",
+      "storage_entity": "eia930:MISO",
+      "storage_source": "eia930",
+      "states": {
+        "MN": "Minnesota",
+        "WI": "Wisconsin",
+        "IA": "Iowa"
+      },
+      "names": [
+        "MISO",
+        "Midcontinent Independent System Operator"
+      ],
+      "tables": [
+        "eia930_all_demand",
+        "eia930_all_generation",
+        "eia930_all_emissions",
+        "eia930_all_storage",
+        "carbon_intensity_hourly",
+        "carbon_intensity_daily",
+        "carbon_intensity_monthly",
+        "storage_daily_cycle",
+        "storage_capacity",
+        "iso_dam_hub_prices",
+        "iso_rtm_hub_prices",
+        "iso_trader_daily",
+        "price_board_latest",
+        "price_board_peak_offpeak",
+        "price_board_spreads",
+        "miso_interconnection_queue",
+        "energy_projects"
+      ],
+      "utilities": [
+        "WEC Energy"
+      ]
     },
     {
-      "slug": "spp", "iso": "SPP", "name": "Southwest Power Pool", "ba": "swpp", "entity": "eia930:SWPP",
-      "tz": "America/Chicago", "tz_label": "Central time",
-      "market_prefix": "spp", "hub": {"entity": "spp:SPPNORTH_HUB", "label": "SPP North Hub (SPPNORTH_HUB)"},
-      "prices_public": true, "queue_table": "spp_interconnection_queue",
-      "storage_entity": "eia930:SWPP", "storage_source": "eia930",
-      "states": {"KS": "Kansas", "NE": "Nebraska", "OK": "Oklahoma"},
-      "names": ["SPP", "Southwest Power Pool"],
-      "tables": ["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle", "storage_capacity", "iso_dam_hub_prices", "iso_rtm_hub_prices", "iso_trader_daily", "price_board_latest", "price_board_peak_offpeak", "price_board_spreads", "spp_interconnection_queue", "spp_curtailment_daily", "energy_projects"]
+      "slug": "spp",
+      "iso": "SPP",
+      "name": "Southwest Power Pool",
+      "ba": "swpp",
+      "entity": "eia930:SWPP",
+      "tz": "America/Chicago",
+      "tz_label": "Central time",
+      "market_prefix": "spp",
+      "hub": {
+        "entity": "spp:SPPNORTH_HUB",
+        "label": "SPP North Hub (SPPNORTH_HUB)"
+      },
+      "prices_public": true,
+      "queue_table": "spp_interconnection_queue",
+      "storage_entity": "eia930:SWPP",
+      "storage_source": "eia930",
+      "states": {
+        "KS": "Kansas",
+        "NE": "Nebraska",
+        "OK": "Oklahoma"
+      },
+      "names": [
+        "SPP",
+        "Southwest Power Pool"
+      ],
+      "tables": [
+        "eia930_all_demand",
+        "eia930_all_generation",
+        "eia930_all_emissions",
+        "eia930_all_storage",
+        "carbon_intensity_hourly",
+        "carbon_intensity_daily",
+        "carbon_intensity_monthly",
+        "storage_daily_cycle",
+        "storage_capacity",
+        "iso_dam_hub_prices",
+        "iso_rtm_hub_prices",
+        "iso_trader_daily",
+        "price_board_latest",
+        "price_board_peak_offpeak",
+        "price_board_spreads",
+        "spp_interconnection_queue",
+        "spp_curtailment_daily",
+        "energy_projects"
+      ],
+      "utilities": [
+        "OGE Energy"
+      ]
     }
   ]
 }

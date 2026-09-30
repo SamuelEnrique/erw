@@ -61,3 +61,13 @@ The entities standard columns come first, then: `kind` (the first member's kind)
 
 - **Not a census.** The news covers stories since 2025-01-01. Nine operators publish lists, and most of those give no MW. The queues hold very few load rows, because ISO queues are for generation.
 - **Region names are not places.** A cloud region's name is not a street address. A region is placed only where its operator names a city and state.
+
+## Grid pages: which grid a facility belongs to (session 36A)
+
+The grid pages (`/grid/<slug>`, session 35) count the facilities of their grid. The table places a facility by state, not by grid, so the pages apply one rule, kept in `docs/grids/grids.json` and applied the same way by `site/lib/grid.ts` and `site/scripts/check-values.mjs`:
+
+1. **Queue:** a facility with a member from an ISO's interconnection queue (a member id `<iso>_queue:...`) belongs to that ISO.
+2. **Utility:** otherwise, a facility whose `utility` is one a grid lists under `utilities` belongs to that grid. The list holds the utilities the table names today: OGE Energy (SPP) and WEC Energy (MISO).
+3. **State:** otherwise, a facility counts for every grid whose `states` include its state: the states wholly or mostly inside the grid (TX; CA; NY; the six New England states; for PJM DE, DC, MD, NJ, OH, PA, VA, WV; for MISO MN, WI, IA; for SPP KS, NE, OK). A state shared by several grids is on none of their lists, so its facilities are not counted by state.
+
+In session 36A, 5 of the 340 facilities were placed by rules 1 and 2 (two ERCOT queue rows, one NYISO queue row, one utility each for MISO and SPP), all in states their grid already counts, so no grid's count changed.
