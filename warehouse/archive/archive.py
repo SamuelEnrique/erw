@@ -214,6 +214,36 @@ def gz(text):
     return gzip.compress(text.encode("utf-8"), mtime=0)
 
 
+# Session 34: the bucket refuses an object over its size limit (HTTP 413, "Payload too large"; 50 MB on this plan).
+# A run's part larger than PART_MAX once compressed is stored as numbered chunks, <run_id>.p001.csv.gz, .p002, ...,
+# each a CSV with the column row, in row order; readers take every object of a month in name order, so a chunked part
+# reads exactly as one. Only history loads are this large (session 34's 3.2 million emissions rows); a daily part is not.
+PART_MAX = 45 * 1024 * 1024
+
+
+def put_part(bucket, prefix, rid, df):
+    """Upload one run's lines as prefix/<rid>.csv.gz, or as numbered chunks when compressed it passes PART_MAX."""
+    whole = gz(df.to_csv(index=False, lineterminator="\n"))
+    if len(whole) <= PART_MAX:
+        bucket.put(f"{prefix}/{rid}.csv.gz", whole)
+        return 1
+    k = -(-len(whole) // (PART_MAX * 3 // 4))  # chunks of about three quarters of the limit
+    while True:
+        bounds = np.linspace(0, len(df), k + 1).astype(int)
+        blobs = [gz(df.iloc[a:b].to_csv(index=False, lineterminator="\n")) for a, b in zip(bounds[:-1], bounds[1:])]
+        if max(len(b) for b in blobs) <= PART_MAX:
+            break
+        k *= 2
+    for i, b in enumerate(blobs, 1):
+        bucket.put(f"{prefix}/{rid}.p{i:03d}.csv.gz", b)
+    return len(blobs)
+
+
+def run_of(object_name):
+    """The run id of a bucket object: <rid>.csv.gz, or a chunk <rid>.pNNN.csv.gz (session 34)."""
+    return re.sub(r"\.p\d{3}$", "", object_name[:-len(".csv.gz")])
+
+
 # ---------------------------------------------------------------- state
 
 def state_path(name):
@@ -377,7 +407,7 @@ def archive_table(name, run_id, now, bucket, man, runner):
         lines = to_month_columns(rows, cols)
         # the bucket first: if the upload fails, nothing local claims this run was archived
         if bucket.enabled:
-            bucket.put(f"{name}/{month}/{run_id}.csv.gz", gz(lines.to_csv(index=False, lineterminator="\n")))
+            put_part(bucket, f"{name}/{month}", run_id, lines)  # session 34: chunked when too large for one object
         append_lines(path, lines, month_header(name, month, header))
     seen = np.union1d(seen, rh[new]) if new.any() else seen
     keys = np.union1d(keys, kh) if rolling(name) else np.unique(kh)
@@ -451,12 +481,12 @@ def sync():
     bucket = Bucket(True)
     n = 0
     for name, month, path in local_months():
-        have = {o["name"][:-7] for o in bucket.ls(f"{name}/{month}") if o["name"].endswith(".csv.gz")}
+        have = {run_of(o["name"]) for o in bucket.ls(f"{name}/{month}") if o["name"].endswith(".csv.gz")}
         df = read_month(path)
         idcol = "run_id" if name == "_runs" else "_run_id"
         for rid, part in df.groupby(idcol, sort=False):
             if rid not in have:
-                bucket.put(f"{name}/{month}/{rid}.csv.gz", gz(part.to_csv(index=False, lineterminator="\n")))
+                put_part(bucket, f"{name}/{month}", rid, part)
                 n += 1
                 log(f"uploaded {name}/{month}/{rid}.csv.gz ({len(part):,} lines)")
     log(f"sync: {n} parts uploaded")
@@ -477,10 +507,10 @@ def pull():
             idcol = "run_id" if name == "_runs" else "_run_id"
             local = set(read_month(path)[idcol]) if os.path.exists(path) else set()
             for o in bucket.ls(f"{name}/{month}"):
-                rid = o["name"][:-7]
-                if not o["name"].endswith(".csv.gz") or rid in local:
+                if not o["name"].endswith(".csv.gz") or run_of(o["name"]) in local:
                     continue
-                part = pd.read_csv(io.BytesIO(gzip.decompress(bucket.get(f"{name}/{month}/{rid}.csv.gz"))),
+                rid = o["name"][:-len(".csv.gz")]  # session 34: a chunk is appended as its own piece, in name order
+                part = pd.read_csv(io.BytesIO(gzip.decompress(bucket.get(f"{name}/{month}/{o['name']}"))),
                                    dtype=str, keep_default_na=False, na_values=[])
                 if name == "_runs":
                     hdr = [f"# ERW archive run log, {month} (UTC): one line per table archived by a run. Append "

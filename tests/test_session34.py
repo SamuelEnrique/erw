@@ -139,3 +139,43 @@ class Workflows(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ArchiveChunks(unittest.TestCase):
+    """Session 34: a run's part over the bucket's size limit is stored as numbered chunks that read back as one."""
+
+    def test_large_part_is_chunked_and_reads_back_in_order(self):
+        import gzip
+        import io
+        import numpy as np
+        import pandas as pd
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "archive"))
+        import archive as A
+
+        class FakeBucket:
+            def __init__(self):
+                self.objects = {}
+
+            def put(self, path, data, overwrite=False):
+                self.objects[path] = data
+
+        rng = np.random.default_rng(34)
+        df = pd.DataFrame({"_run_id": "r1", "value": rng.random(20000).astype(str)})
+        b = FakeBucket()
+        saved = A.PART_MAX
+        try:
+            A.PART_MAX = 60_000
+            n = A.put_part(b, "t/2026-09", "r1", df)
+        finally:
+            A.PART_MAX = saved
+        self.assertGreater(n, 1)
+        names = sorted(b.objects)
+        self.assertTrue(all(x.startswith("t/2026-09/r1.p") for x in names))
+        self.assertTrue(all(len(v) <= 60_000 for v in b.objects.values()))
+        self.assertEqual({A.run_of(x.split("/")[-1]) for x in names}, {"r1"})
+        back = pd.concat([pd.read_csv(io.BytesIO(gzip.decompress(b.objects[x])), dtype=str) for x in names])
+        self.assertEqual(back["value"].tolist(), df["value"].tolist())
+        small = FakeBucket()
+        self.assertEqual(A.put_part(small, "t/2026-09", "r2", df.head(10)), 1)
+        self.assertEqual(list(small.objects), ["t/2026-09/r2.csv.gz"])
+        self.assertEqual(A.run_of("r2.csv.gz"), "r2")
