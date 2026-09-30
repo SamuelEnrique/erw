@@ -37,6 +37,30 @@ Added in session 36C.
 - **Prices, for context:** ERCOT's hub average, the daily mean real-time and day-ahead price, on the window's days and ERCO's baseline days.
 - **The date the page cites:** California's Governor "issued a stay at home order to protect the health and well-being of all Californians" on 2020-03-19 (Executive Order N-33-20; the release at https://www.gov.ca.gov/2020/03/19/governor-gavin-newsom-issues-stay-at-home-order/, read as text in session 36C; the order's own PDF is a scan with no text). The warehouse holds no list of other states' orders or their dates.
 
+## Session 39: three more events on the COVID-19 template
+
+Built on `build_covid`'s code path, which each event configures. All three use the same key and the same weekday-aligned baseline: the same weekday 364 and 728 days earlier. Both baseline years are held for all three, because EIA's workbooks start 2018-07-01.
+
+**Variables in each event:** the COVID-19 set, plus two for the peak hour (`max_vs`):
+
+- the COVID-19 set, without its weekly rows: `demand_mwh`, `demand_min_mw`, `demand_max_mw`, `intensity_generation`, `demand_mwh_vs_baseline` and `demand_pct_vs_baseline`;
+- `demand_max_mw_vs_baseline` (MW) and `demand_max_pct_vs_baseline` (pct): the day's highest hour of demand against the mean of the baseline days' highest hours.
+
+Heat waves and cold snaps are stories about the peak hour.
+
+### The August 2020 heat wave in CAISO (`caiso_heat_2020`)
+
+- **Window:** 2020-08-10 to 2020-08-24, Pacific time.
+- **No prices:** CAISO's prices for 2020 are not held, and the page says so.
+- **Framing:** CAISO, the CPUC and the CEC's Final Root Cause Analysis (January 13, 2021), read as text: "the two rotating outages in the CAISO footprint on August 14 and 15, 2020" (https://www.caiso.com/Documents/Final-Root-Cause-Analysis-Mid-August-2020-Extreme-Heat-Wave.pdf).
+- **What contradicts the story:**
+  - The highest peak hour against the baseline was on 2020-08-18 (+23.50 percent, 46,643 MW), not on the outage days (+10.74 and +21.58 percent).
+  - The same report says "August 17 through 19 were projected to have much higher supply shortfalls", and credits a statewide mitigation effort and consumer conservation for avoiding further outages.
+  - Demand served on 14 and 15 August also leaves out the load that was shed.
+- **Left out:** three CISO days, each missing one hour in EIA's data:
+  - 2020-08-10, an event day;
+  - 2019-08-13 and 2019-08-25, baseline days, so their comparisons for 2020-08-11 and 2020-08-23 are missing.
+
 ## Sources and variables
 
 | Variable | Entity | From | Unit |

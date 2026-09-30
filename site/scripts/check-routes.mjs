@@ -42,6 +42,7 @@ const PAGES = [
   "/events", "/events/uri-2021", "/events/covid-2020",
   "/cost-of-power", "/data/methods/cost_of_power",
   "/play/battery",
+  "/events/caiso-heat-2020",
 ];
 
 function visible(html) {

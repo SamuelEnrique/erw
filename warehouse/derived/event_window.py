@@ -77,7 +77,12 @@ COVID = dict(event="covid_2020", start="2020-03-01", end="2020-05-31", offsets=[
                                                      "US-PA,US-TN,US-VA,US-WV"),
                   "swpp": ("SWPP", "America/Chicago", "US-AR,US-IA,US-KS,US-LA,US-MN,US-MO,US-MT,US-NE,US-NM,US-ND,"
                                                       "US-OK,US-SD,US-TX,US-WY"),
-                  "us48": ("US48", "America/New_York", "US")})
+                  "us48": ("US48", "America/New_York", "US")}, weekly=True, prices="mean", label="COVID-19")
+# Session 39: three more events on the template, the same weekday-aligned baseline (364 and 728 days, both held).
+# max_vs: the day's peak hour against the baseline days' too; prices "full": the hub's daily max beside its mean.
+CAISO_HEAT = dict(event="caiso_heat_2020", label="the August 2020 heat wave, CAISO", start="2020-08-10", end="2020-08-24",
+                  offsets=[364, 728], hub=None, bas={"ciso": COVID["bas"]["ciso"]}, max_vs=True)
+MULTI = [COVID, CAISO_HEAT]
 
 
 def r4(v):
@@ -241,7 +246,7 @@ def build_covid(e, log, retrieved):
         x = x[x["day"].isin(want)]
         x = x.merge(c.loc[c["ba"] == ba, ["ts_utc", "value"]].rename(columns={"value": "co2"}), on="ts_utc", how="left")
         eia0 = dict(base, entity=entity, geo=geo, market="", ba=ba)
-        dem = {}
+        dem, mx = {}, {}
         for day, h in x.groupby("day"):
             eia = dict(eia0, ts_utc=f"{day}T00:00:00Z")
             n = hours_in(day, tz)  # a complete day has every hour of the local day, 23 on 2019-03-10 and 2020-03-08
@@ -249,6 +254,7 @@ def build_covid(e, log, retrieved):
                 left.append(f"{entity} demand {day}: {h['demand_mwh'].notna().sum()} of {n} hours")
             else:
                 dem[day] = h["demand_mwh"].sum()
+                mx[day] = h["demand_mwh"].max()
                 rows += [dict(eia, variable="demand_mwh", value=r4(dem[day]), unit="MWh"),
                          dict(eia, variable="demand_min_mw", value=r4(h["demand_mwh"].min()), unit="MW"),
                          dict(eia, variable="demand_max_mw", value=r4(h["demand_mwh"].max()), unit="MW")]
@@ -269,9 +275,13 @@ def build_covid(e, log, retrieved):
             eia = dict(eia0, ts_utc=f"{d}T00:00:00Z")
             rows += [dict(eia, variable="demand_mwh_vs_baseline", value=r4(dem[d] - bm), unit="MWh"),
                      dict(eia, variable="demand_pct_vs_baseline", value=r4((dem[d] / bm - 1) * 100), unit="pct")]
+            if e.get("max_vs"):  # session 39: the day's peak hour against the baseline days' peak hours
+                bx = sum(mx[shift(d, o)] for o in held) / len(held)
+                rows += [dict(eia, variable="demand_max_mw_vs_baseline", value=r4(mx[d] - bx), unit="MW"),
+                         dict(eia, variable="demand_max_pct_vs_baseline", value=r4((mx[d] / bx - 1) * 100), unit="pct")]
         # whole weeks of the window from its first day (2020-03-01, a Sunday): the week's demand against the mean of
         # its baseline weeks' demand
-        for i in range(0, len(days) - 6, 7):
+        for i in range(0, len(days) - 6 if e.get("weekly") else 0, 7):  # session 39: weeks for covid_2020 only
             wk = days[i:i + 7]
             cur = [dem.get(d) for d in wk]
             bw = [[dem.get(shift(d, o)) for d in wk] for o in held]
@@ -286,7 +296,10 @@ def build_covid(e, log, retrieved):
         log(f"  {e['event']} {ba}: {len(x)} hours from {os.path.relpath(ex, ROOT)} ({url}, Last-Modified {lm}); "
             f"baseline offsets held {held}")
 
-    # ERCOT's hub prices for context: the window and ERCO's held baseline days
+    # ERCOT's hub prices for context: the window and ERCO's held baseline days (session 39: none for an event without a
+    # hub; daily max too where prices is "full")
+    if not e.get("hub"):
+        return rows, left, used
     want = set(days) | {shift(d, o) for d in days for o in held_by_ba[e["hub_ba"]]}
     p = stream(PRICES, lambda b: pc.and_(pc.equal(b.column("entity"), e["hub"]),
                                          pc.is_in(b.column("year"), pa.array(sorted({d[:4] for d in want})))),
@@ -302,6 +315,9 @@ def build_covid(e, log, retrieved):
                 continue
             rows.append(dict(base, entity=e["hub"], variable=f"{pre}_mean", ts_utc=f"{day}T00:00:00Z", geo="US-TX",
                              value=r4(v.mean()), unit="USD/MWh", market=market, ba=e["hub_ba"]))
+            if e.get("prices") == "full":
+                rows.append(dict(base, entity=e["hub"], variable=f"{pre}_max", ts_utc=f"{day}T00:00:00Z", geo="US-TX",
+                                 value=r4(v.max()), unit="USD/MWh", market=market, ba=e["hub_ba"]))
     log(f"  {e['event']} prices: {len(p)} intervals read from {PRICES}")
     return rows, left, used
 
@@ -321,11 +337,12 @@ def main():
             used.append(f"{e['event']}: {os.path.relpath(ex, ROOT)} (EIA workbook {url}, Last-Modified {lm}, "
                         f"downloaded {got})")
             log(f"  {e['event']}: {len(r)} rows; left out: {len(lft)}")
-        r, lft, cu = build_covid(COVID, log, retrieved)  # session 36C
-        rows += r
-        left += lft
-        used.append(f"{COVID['event']}: " + "; ".join(cu))
-        log(f"  {COVID['event']}: {len(r)} rows; left out: {len(lft)}")
+        for m in MULTI:  # session 36C covid_2020; session 39 the three events after it
+            r, lft, cu = build_covid(m, log, retrieved)
+            rows += r
+            left += lft
+            used.append(f"{m['event']}: " + "; ".join(cu))
+            log(f"  {m['event']}: {len(r)} rows; left out: {len(lft)}")
         for x in left:
             log(f"  LEFT OUT {x}")
         out = pd.DataFrame(rows)[COLS].sort_values(["event", "entity", "variable", "ts_utc"]).reset_index(drop=True)
@@ -348,7 +365,9 @@ def main():
             f"Events: uri_2021 (Winter Storm Uri, ERCOT), window {e['start']} to {e['end']}, baseline the same calendar "
             f"days of {', '.join(map(str, e['baseline']))}. covid_2020 (COVID-19, seven ISO BAs and US48, session 36C), "
             f"window {COVID['start']} to {COVID['end']}, baseline the same weekday "
-            f"{' and '.join(map(str, COVID['offsets']))} days earlier where held.",
+            f"{' and '.join(map(str, COVID['offsets']))} days earlier where held. Session 39: "
+            + "; ".join(f"{m['event']} ({m['label']}), window {m['start']} to {m['end']}, the same weekday 364 and 728 "
+                        f"days earlier" for m in MULTI[1:]) + ".",
             "Demand during load shed is load served, not the demand customers would have had.",
             f"Days or variables left out, incomplete: {len(left)}" + (" (" + "; ".join(left[:10]) + ")" if left else ""),
         ]
