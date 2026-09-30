@@ -304,6 +304,7 @@ day-ahead tables running into tomorrow:
 | Question | Table |
 |---|---|
 | Winter Storm Uri (ERCOT, February 2021) day by day against the same days of 2019 and 2020: prices, demand served, net generation, carbon intensity | `event_window_daily` (event uri_2021) |
+| COVID-19, spring 2020: demand served in the seven ISO grids and US48 against the same weekday of 2019, by day and by week, in MWh and percent | `event_window_daily` (event covid_2020) |
 | A recent ISO price (last month) | `iso_{dam,rtm}_hub_prices` (market), `{nyiso,isone}_{dam,rtm}_zone_prices` |
 | ERCOT price before the live window, or a year | `ercot_all_hub_prices_history` (market, year) |
 | ERCOT distribution: percentiles, IQR, scarcity or negative counts by year or month | `ercot_peak_premium_annual` / `_monthly` |
@@ -458,6 +459,17 @@ an answer must come from a tool result, and every answer cites its tables.
   of 2019 and 2020) and *_day_change (the day minus the day before). Demand
   during load shed is load served, not what customers wanted. The site's
   /events and /events/uri-2021 draw it.
+  The key is (entity, variable, ts_utc, event) since session 36C: filter by
+  event. The second event (session 36C) is covid_2020: eia930:CISO, ERCO, ISNE,
+  MISO, NYIS, PJM, SWPP and US48, each BA's local day 2020-03-01 to 2020-05-31,
+  against the same weekday 364 days earlier (2019; the 728-day baseline of 2018
+  is not held, EIA's workbooks start 2018-07-01). Variables: demand_mwh,
+  demand_min_mw, demand_max_mw, intensity_generation (window and baseline days);
+  demand_mwh_vs_baseline and demand_pct_vs_baseline (unit pct) for event days;
+  demand_mwh_vs_baseline_week and demand_pct_vs_baseline_week (freq P1W, at the
+  week's Sunday, 13 whole weeks); rt_mean and da_mean of ercot:HB_HUBAVG. One
+  baseline year: 2019's weather is in every comparison, and the warehouse holds
+  no weather for it. /events/covid-2020 draws it.
 
 **Grid pages** (session 35): /grid/ercot, /grid/caiso, /grid/pjm, /grid/nyiso,
 /grid/isone, /grid/miso, /grid/spp, one template for students: demand now,

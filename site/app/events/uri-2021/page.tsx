@@ -34,7 +34,7 @@ function Tier() {
 }
 
 const N = ({ r }: { r?: SeriesRow }) =>
-  r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}`} raw={r.value}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
+  r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}|uri_2021`} raw={r.value}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
 const day = (r?: SeriesRow) => (r ? r.ts_utc.slice(0, 10) : "");
 
 /** The three years of one variable on the 2021 calendar, so the days line up. */
@@ -56,7 +56,7 @@ function pick(rows: SeriesRow[], variable: string, years: string[], how: "max" |
 }
 
 export default async function Uri() {
-  const got = await attempt(() => series(T, {}));
+  const got = await attempt(() => series(T, { event: "uri_2021" })); // session 36C: the table holds other events too
   const rows = got.ok ? got.data : [];
   const ev = ["2021"], base = ["2019", "2020"];
   const rtPeak = pick(rows, "rt_max", ev, "max"), rtBase = pick(rows, "rt_max", base, "max");

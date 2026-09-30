@@ -53,7 +53,7 @@ export const GROUPS: Group[] = [
     // session 36B: the Historical Event Analyzer
     label: "Events",
     pages: [
-      { href: "/events", label: "Events", line: "What happened to a grid during a major event, day by day, against the same days of earlier years: Winter Storm Uri in ERCOT, February 2021.", tables: "event_window_daily", related: ["/grid/ercot", "/emissions"] },
+      { href: "/events", label: "Events", line: "What happened to a grid during a major event, day by day, against the same days of earlier years: Winter Storm Uri in ERCOT, February 2021, and COVID-19 in the seven ISO grids, spring 2020.", tables: "event_window_daily", related: ["/grid/ercot", "/emissions"] },
     ],
   },
   {

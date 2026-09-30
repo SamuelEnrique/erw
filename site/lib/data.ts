@@ -57,19 +57,21 @@ export async function latestPrices(): Promise<LatestPrice[]> {
 /** Rows of one series table for one entity (or every entity) since a time. */
 export async function series(
   table: string,
-  opts: { entity?: string; variable?: string; since?: string; entities?: string[]; market?: string },
+  opts: { entity?: string; variable?: string; since?: string; entities?: string[]; market?: string; event?: string },
   revalidate = HOURLY,
 ): Promise<SeriesRow[]> {
   const q: Record<string, string> = {
     select: "entity,variable,ts_utc,value,unit,freq", // session 30: freq tells /board's daily rows from its annual ones
     table_name: `eq.${table}`,
-    order: "entity,variable,ts_utc", // the key: stable pages
+    order: "entity,variable,ts_utc,event", // the key (session 36C: event is part of it, '' outside event_window_daily): stable pages
   };
   if (opts.entity) q.entity = `eq.${opts.entity}`;
   if (opts.entities) q.entity = `in.(${opts.entities.map((e) => `"${e}"`).join(",")})`;
   if (opts.variable) q.variable = `eq.${opts.variable}`;
   // session 29: one partition of a consolidated table (iso_trader_daily, iso_dam_hub_prices, ...)
   if (opts.market) q.market = `eq.${opts.market}`;
+  // session 36C: one event of event_window_daily (uri_2021, covid_2020)
+  if (opts.event) q.event = `eq.${opts.event}`;
   if (opts.since) q.ts_utc = `gte.${opts.since}`;
   return rest<SeriesRow>("series", q, revalidate);
 }

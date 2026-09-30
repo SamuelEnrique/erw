@@ -35,7 +35,7 @@ Added in session 36C.
 - **One baseline year means that year's weather is in every comparison.** A cold or mild week of 2019 moves the 2020 comparison as much as a lockdown. The table holds no weather (`weather_obs_hourly` starts in 2026), so a drop against the baseline is not a measure of COVID-19 alone.
 - **Weeks:** thirteen whole weeks from 2020-03-01, a Sunday, to 2020-05-30. A week's figure compares its seven days' demand with the seven baseline days' demand. It is written only when all fourteen days are complete. 2020-05-31 is a week's first day only, so it has no weekly row.
 - **Prices, for context:** ERCOT's hub average, the daily mean real-time and day-ahead price, on the window's days and ERCO's baseline days.
-- **The date the page cites:** California's Governor "issued a stay at home order to protect the health and well-being of all Californians" on 2020-03-19 (Executive Order N-33-20; the release at https://www.gov.ca.gov/2020/03/19/governor-gavin-newsom-issues-stay-at-home-order/, read as text in session 36C; the order's own PDF is a scan with no text). Other states' orders came in the weeks after. The warehouse holds no list of their dates.
+- **The date the page cites:** California's Governor "issued a stay at home order to protect the health and well-being of all Californians" on 2020-03-19 (Executive Order N-33-20; the release at https://www.gov.ca.gov/2020/03/19/governor-gavin-newsom-issues-stay-at-home-order/, read as text in session 36C; the order's own PDF is a scan with no text). The warehouse holds no list of other states' orders or their dates.
 
 ## Sources and variables
 

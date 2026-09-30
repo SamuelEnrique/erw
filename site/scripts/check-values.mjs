@@ -24,7 +24,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 35: the seven grid pages
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
   // session 36B: the Historical Event Analyzer
-  "/events/uri-2021"];
+  "/events/uri-2021",
+  // session 36C
+  "/events/covid-2020"];
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 
@@ -74,8 +76,9 @@ async function truth(check) {
     return (await q("latest_prices", { select: "value", entity: `eq.${p[1]}`, variable: `eq.${p[2]}` }))[0]?.value;
   }
   if (p[0] === "series") {
-    const [, table, entity, variable, at] = p;
+    const [, table, entity, variable, at, event] = p;
     const params = { select: "value,ts_utc", table_name: `eq.${table}`, entity: `eq.${entity}`, variable: `eq.${variable}` };
+    if (event) params.event = `eq.${event}`; // session 36C: event_window_daily's key includes its event
     if (at === "newest") Object.assign(params, { order: "ts_utc.desc", limit: "1" });
     else params.ts_utc = `eq.${at}`;
     return (await q("series", params))[0]?.value;
