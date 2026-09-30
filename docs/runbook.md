@@ -92,8 +92,10 @@ On any mismatch it removes nothing and says which family failed. It removes only
 
 ## Supabase: compacting the database
 
-`warehouse/supabase/load.py` runs a plain `VACUUM (ANALYZE)` on the shape tables after every load and prints their size before and after (session 29). Only `VACUUM FULL` returns space to the operating system, and it locks each table for seconds, so it stays a person's command:
+`warehouse/supabase/load.py` runs a plain `VACUUM (ANALYZE)` on the shape tables after every load and prints their size before and after (session 29; from session 29 to session 44 the code in fact ran `VACUUM (FULL, ANALYZE)`, and in daily run 12 it held the tables for about ten minutes, so session 45 made the plain vacuum the default). A plain vacuum takes no exclusive lock: the space of the rows a load replaced is marked for reuse by the next loads, but `pg_database_size` does not shrink. Only `VACUUM FULL` returns space to the operating system, and it locks each table while it rewrites it (seconds to minutes; the site's reads wait or time out meanwhile), so it stays a person's command, run when the site is quiet:
 
 ```bash
 python warehouse/supabase/load.py --vacuum-full
 ```
+
+The loader still warns above `warn_mb` (350 MB) and fails above `max_mb` in `warehouse/supabase/live_set.yaml`. When the warning shows and does not clear, run the command above once, or trim a live window.

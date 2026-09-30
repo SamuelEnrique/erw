@@ -48,6 +48,11 @@ returns the space of the rows the load replaced, and prints pg_database_size bef
 and after the vacuum; the max_mb check reads the size after. Without SUPABASE_DB_URL (a
 repository secret the daily workflow passes when it is set) the vacuum is skipped with a
 warning and the run is not failed for it. --no-vacuum skips it on purpose.
+Session 45: daily run 12's VACUUM FULL held the shape tables for about ten minutes, so every
+load now ends with a plain VACUUM (ANALYZE), which marks the replaced rows' space for reuse and
+takes no exclusive lock. VACUUM (FULL, ANALYZE), which returns the space to the operating system
+and shrinks pg_database_size, runs only with --vacuum-full, a person's command (docs/runbook.md).
+The warn_mb warning (350 MB) is unchanged.
 """
 
 import argparse
@@ -309,6 +314,21 @@ def db_url():
     return (v or "").strip() or None
 
 
+def vacuum(url=None, full=False):
+    """Session 45: VACUUM (ANALYZE) the shape tables after every load (no exclusive lock; the
+    space of replaced rows is reused by later loads), or VACUUM (FULL, ANALYZE) when full is
+    True (--vacuum-full, a person's command). Needs SUPABASE_DB_URL."""
+    if full:
+        return vacuum_full(url)
+    import psycopg
+    with psycopg.connect(url or env("SUPABASE_DB_URL"), autocommit=True, connect_timeout=30) as conn:
+        for t in ("series", "entities", "events", "headers", "catalogue", "sources"):
+            before = conn.execute(f"select pg_total_relation_size('public.{t}')").fetchone()[0]
+            conn.execute(f"VACUUM (ANALYZE) public.{t}")
+            after = conn.execute(f"select pg_total_relation_size('public.{t}')").fetchone()[0]
+            print(f"VACUUM {t}: {before / 1048576:.1f} MB -> {after / 1048576:.1f} MB")
+
+
 def vacuum_full(url=None):
     """Session 18: return the space of dead row versions to the operating system. Postgres
     reuses a dead row's space after a plain (auto)vacuum, but pg_database_size, which the
@@ -335,7 +355,7 @@ def main(argv=None):
     ap.add_argument("--vacuum-full", action="store_true",
                     help="session 18: after loading, VACUUM FULL the shape tables through SUPABASE_DB_URL "
                          "(a direct Postgres connection; locks each table for seconds) and measure again. "
-                         "Session 29: the default after every load; kept so older commands still work")
+                         "Session 45: a person's command only; the daily load runs a plain VACUUM (ANALYZE)")
     ap.add_argument("--no-vacuum", action="store_true",
                     help="session 29: skip the vacuum that ends every load")
     args = ap.parse_args(argv)
@@ -521,32 +541,34 @@ def main(argv=None):
         if not ok:
             failed.append(t)
 
-    # session 29 (human ruling): vacuum after every load, and print the size before and after
-    vacuum = "skipped (--no-vacuum)"
+    # session 29 (human ruling): vacuum after every load, and print the size before and after;
+    # session 45: plain VACUUM (ANALYZE) by default, FULL only with --vacuum-full
+    vacuum_kind = "VACUUM (FULL, ANALYZE)" if args.vacuum_full else "VACUUM (ANALYZE)"
+    vac = "skipped (--no-vacuum)"
     if not args.no_vacuum:
         url = db_url()
         if url is None:
-            vacuum = "skipped: SUPABASE_DB_URL is not set"
+            vac = "skipped: SUPABASE_DB_URL is not set"
             print("WARNING: vacuum skipped, SUPABASE_DB_URL is not set (.env or the repository secret)")
         else:
             try:
-                vacuum_full(url)
-                vacuum = "VACUUM (FULL, ANALYZE)"
+                vacuum(url, full=args.vacuum_full)
+                vac = vacuum_kind
             except Exception as exc:
-                vacuum = f"FAILED {type(exc).__name__}"
+                vac = f"FAILED {type(exc).__name__}"
                 failed.append("vacuum")
                 print(f"FAILED vacuum: {type(exc).__name__}: {str(exc)[:300]}")
     size = client.rpc("erw_db_size").execute().data
     mb = int(size) / 1024 / 1024
     print(f"pg_database_size: {size_before:.1f} MB before the load, {mb:.1f} MB after the load and vacuum "
-          f"({vacuum}); {int(size):,} bytes; limit {LIVE['max_mb']} MB")
+          f"({vac}); {int(size):,} bytes; limit {LIVE['max_mb']} MB")
     os.makedirs(os.path.join(ROOT, "runs"), exist_ok=True)
     pd.DataFrame(recon, columns=["table", "shape", "csv_rows", "supabase_rows", "result", "written",
                                  "deleted", "unchanged"]).to_csv(
         os.path.join(ROOT, "runs", "supabase_reconcile.csv"), index=False)
     with open(os.path.join(ROOT, "runs", "supabase_size.json"), "w", encoding="utf-8") as f:
         json.dump({"bytes": int(size), "mb": round(mb, 1), "mb_before": round(size_before, 1),
-                   "vacuum": vacuum, "at": loaded_at}, f)
+                   "vacuum": vac, "at": loaded_at}, f)
     if mb > LIVE["max_mb"]:
         print(f"FAILED: database is {mb:.1f} MB, over the {LIVE['max_mb']} MB limit", file=sys.stderr)
         return 1
