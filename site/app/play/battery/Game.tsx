@@ -123,7 +123,10 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
     const cur = level.price[Math.min(n - 1, Math.floor(pos))];
     ctx.fillStyle = css("accent"); ctx.beginPath(); ctx.arc(nowX, y(cur), 4, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = css("ink"); ctx.font = "12px system-ui, sans-serif";
-    ctx.fillText(`${cur.toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh`, Math.min(nowX + 8, w - 120), Math.max(top + 10, y(cur) - 8));
+    // the label right of the now line where it fits, else left of it (narrow screens), never over the line
+    const label = `${cur.toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh`;
+    const lw = ctx.measureText(label).width;
+    ctx.fillText(label, nowX + 8 + lw <= w - 2 ? nowX + 8 : nowX - 8 - lw, Math.max(top + 10, y(cur) - 8));
   }, [level, n, vpp]);
 
   const finish = useCallback(async () => {
