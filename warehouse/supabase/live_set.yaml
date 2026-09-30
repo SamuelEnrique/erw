@@ -55,6 +55,8 @@ full:
   - '^caiso_battery_storage$'
   # session 36B: the Historical Event Analyzer's daily table (556 rows); never an hourly history
   - '^event_window_daily$'
+  # session 37: the cost-of-power model, whole (about 2,300 monthly rows in all)
+  - '^cost_of_power_(monthly|hourly_profile|carbon)$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
