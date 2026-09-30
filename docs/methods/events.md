@@ -42,7 +42,7 @@ Built in session 36B for the Historical Event Analyzer (`/events`). One derived 
 EIA-930's demand is the load the grid served, not what customers wanted. During rotating outages, customers whose power was cut used nothing, and that shortfall is not in the numbers.
 
 - So demand served during Uri is a floor on what Texans would have used. The fall on 2021-02-15 shows the outages as much as any change in need.
-- Demand served still stayed above the 2019 and 2020 baseline on every day of the outages, because the cold raised the demand that could be served.
+- Demand served still stayed above the 2019 and 2020 baseline on every day from 2021-02-09 to 2021-02-20, the outages included (the rows `demand_mwh_vs_baseline`). The table holds no weather to say why.
 
 ## What the page reads
 

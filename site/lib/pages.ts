@@ -50,6 +50,13 @@ export const GROUPS: Group[] = [
     ],
   },
   {
+    // session 36B: the Historical Event Analyzer
+    label: "Events",
+    pages: [
+      { href: "/events", label: "Events", line: "What happened to a grid during a major event, day by day, against the same days of earlier years: Winter Storm Uri in ERCOT, February 2021.", tables: "event_window_daily", related: ["/grid/ercot", "/emissions"] },
+    ],
+  },
+  {
     label: "News",
     pages: [
       { href: "/digest", label: "ERW's Energy Digest", line: "The weekday brief: the day's energy news, scored and ranked, the day's numbers from the warehouse, and a fun fact.", tables: "news_index; docs/digest/", related: ["/roundup", "/deals"] },
