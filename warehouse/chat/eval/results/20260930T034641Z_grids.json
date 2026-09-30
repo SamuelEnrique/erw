@@ -1,0 +1,695 @@
+[
+ {
+  "question": "What was ERCOT's highest hourly demand in the last 30 days, and in which hour?",
+  "grid": "ercot",
+  "model": "claude-sonnet-5-5",
+  "today": "2026-09-30",
+  "retried": false,
+  "first_violations": [],
+  "request_ids": [
+   "req_011CfYwMudQKgLXzENJL5Z4N",
+   "req_011CfYwNJU68amAKvPfmfGRv",
+   "req_011CfYwNXgpwBVEvMbxwERMM",
+   "req_011CfYwNgFmhhZ2axv4bmWqZ",
+   "req_011CfYwNu8fc5bcW6TdM8zxA",
+   "req_011CfYwP5ARGLLQziqLw7Fmz",
+   "req_011CfYwPHqv4So6EcD1by3uw",
+   "req_011CfYwPT2ZggDm3tX9DpPKj",
+   "req_011CfYwPbERWJT7RZ5K9VfPh"
+  ],
+  "status": "answered",
+  "answer": "I read \"last 30 days\" as the 30 days before today (2026-09-30), but the latest data hour is 2026-09-28 23:00 UTC. Because the window is ambiguous, here are two results.\n\n- **Window from 2026-08-31 (00:00 UTC) to the end of the data:** ERCOT's highest hourly demand was 88,535 MW (eia930_all_demand, variable demand_mw, entity eia930:ERCO). It was in the hour starting 2026-08-31 21:00 UTC. That is the hour starting 16:00 Central (America/Chicago), from the query output labelled 2026-08-31 16:00.\n- **Window from 2026-08-30 to the end of the data:** the maximum is higher, at 88,768 MW. It was in the hour starting 2026-08-30 22:00 UTC (eia930_all_demand). I did not run a query that converts this hour to Central time.\n\nThe table holds hourly EIA-930 data, and the figures are hourly maxima of that data. It starts 2026-08-27, and EIA-930 data can also cover part of the day before that start date.",
+  "citations": [
+   {
+    "table": "eia930_all_demand",
+    "source_report": "eia:electricity/rto/region-data",
+    "data_version": "local backend, data commit da4538b6cf5e; table last run 2026-09-29T00:57:39Z",
+    "tier": "source"
+   }
+  ],
+  "not_in_warehouse": false,
+  "tool_calls": 8,
+  "calls": [
+   {
+    "tool": "list_tables",
+    "input": {
+     "iso": "ERCOT",
+     "sector": "power"
+    },
+    "is_error": false,
+    "result_chars": 1293
+   },
+   {
+    "tool": "describe_table",
+    "input": {
+     "table": "eia930_all_demand"
+    },
+    "is_error": false,
+    "result_chars": 2103
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_demand",
+     "aggregation": "max",
+     "variable": "demand_mw",
+     "start": "2026-08-31"
+    },
+    "is_error": false,
+    "result_chars": 1030
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_demand",
+     "aggregation": "max",
+     "variable": "demand_mw",
+     "start": "2026-08-31",
+     "group_by": "day",
+     "tz": "America/Chicago",
+     "end": "2026-09-02"
+    },
+    "is_error": false,
+    "result_chars": 1215
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_demand",
+     "aggregation": "max",
+     "variable": "demand_mw",
+     "start": "2026-08-31T05:00:00Z",
+     "end": "2026-09-01T05:00:00Z"
+    },
+    "is_error": false,
+    "result_chars": 1069
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_demand",
+     "aggregation": "max",
+     "variable": "demand_mw",
+     "start": "2026-08-31",
+     "group_by": "hour",
+     "tz": "America/Chicago",
+     "end": "2026-09-01"
+    },
+    "is_error": false,
+    "result_chars": 3670
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_demand",
+     "aggregation": "max",
+     "variable": "demand_mw",
+     "start": "2026-08-31",
+     "tz": "America/Chicago"
+    },
+    "is_error": false,
+    "result_chars": 1055
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_demand",
+     "aggregation": "max",
+     "variable": "demand_mw",
+     "start": "2026-08-30"
+    },
+    "is_error": false,
+    "result_chars": 1030
+   }
+  ],
+  "usage": {
+   "input": 20,
+   "output": 1897,
+   "cache_write": 27237,
+   "cache_read": 183783,
+   "requests": 9
+  },
+  "cost_usd": 0.1238591,
+  "seconds": 30.3
+ },
+ {
+  "question": "How many MWh did CAISO's batteries discharge on the latest complete day, and how many did they charge?",
+  "grid": "caiso",
+  "model": "claude-sonnet-5-5",
+  "today": "2026-09-30",
+  "retried": false,
+  "first_violations": [],
+  "request_ids": [
+   "req_011CfYwQA5cftkWZvx7aWQLM",
+   "req_011CfYwQMGpH5Rjypm9V4aMZ",
+   "req_011CfYwQabm5Uogt2DL1ncLA",
+   "req_011CfYwQkZ32zZ3Q9ov3UENq",
+   "req_011CfYwRiNMKE1z8vPXcqmiw",
+   "req_011CfYwRtMd4w675DTG46kNt",
+   "req_011CfYwS4L9HiNMuLHPcCrk6",
+   "req_011CfYwSEsextAk2XnfAgCvn"
+  ],
+  "status": "answered",
+  "answer": "",
+  "citations": [],
+  "not_in_warehouse": false,
+  "tool_calls": 8,
+  "calls": [
+   {
+    "tool": "list_tables",
+    "input": {
+     "iso": "CAISO",
+     "sector": "power"
+    },
+    "is_error": false,
+    "result_chars": 1061
+   },
+   {
+    "tool": "list_tables",
+    "input": {
+     "iso": "CAISO"
+    },
+    "is_error": false,
+    "result_chars": 1061
+   },
+   {
+    "tool": "describe_table",
+    "input": {
+     "table": "storage_daily_cycle"
+    },
+    "is_error": false,
+    "result_chars": 2396
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "storage_daily_cycle",
+     "aggregation": "latest",
+     "entity": "caiso:ISO",
+     "group_by": "variable"
+    },
+    "is_error": false,
+    "result_chars": 1895
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "caiso_battery_storage",
+     "aggregation": "latest"
+    },
+    "is_error": false,
+    "result_chars": 708
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "storage_daily_cycle",
+     "aggregation": "latest",
+     "entity": "caiso:ISO",
+     "group_by": "variable",
+     "start": "2026-09-27"
+    },
+    "is_error": false,
+    "result_chars": 1915
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "storage_daily_cycle",
+     "aggregation": "latest",
+     "entity": "caiso:ISO",
+     "group_by": "variable",
+     "start": "2026-09-27",
+     "tz": "America/Los_Angeles"
+    },
+    "is_error": false,
+    "result_chars": 1944
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "storage_daily_cycle",
+     "aggregation": "latest",
+     "entity": "caiso:ISO",
+     "group_by": "variable",
+     "start": "2026-09-26",
+     "end": "2026-09-27"
+    },
+    "is_error": false,
+    "result_chars": 1932
+   }
+  ],
+  "usage": {
+   "input": 18,
+   "output": 1191,
+   "cache_write": 7415,
+   "cache_read": 179559,
+   "requests": 8
+  },
+  "cost_usd": 0.0663953,
+  "seconds": 32.8
+ },
+ {
+  "question": "Who runs the PJM grid, and what is its capacity market called?",
+  "grid": "pjm",
+  "model": "claude-sonnet-5-5",
+  "today": "2026-09-30",
+  "retried": false,
+  "first_violations": [],
+  "request_ids": [
+   "req_011CfYwSbg3gLmKS7erVVxKd",
+   "req_011CfYwShJdmQ8LnTV18Ubgj"
+  ],
+  "status": "answered",
+  "answer": "PJM Interconnection runs the PJM grid (docs/grids/pjm.md, written text). It runs the largest wholesale electricity market in the United States. It covers all or part of thirteen states and the District of Columbia. PJM owns no power plants. It schedules its members' plants, keeps supply equal to demand, and plans the high-voltage transmission lines. FERC approves its market rules. Its capacity market is called the Reliability Pricing Model (RPM), and PJM runs an RPM auction each year (docs/grids/pjm.md).",
+  "citations": [
+   {
+    "table": "docs/grids/pjm.md",
+    "source_report": "docs/grids/pjm.md: text written for the ERW's grid page; each section names its ISO and EIA sources",
+    "data_version": "the repository's copy",
+    "tier": "written"
+   }
+  ],
+  "not_in_warehouse": false,
+  "tool_calls": 1,
+  "calls": [
+   {
+    "tool": "grid_notes",
+    "input": {
+     "grid": "pjm"
+    },
+    "is_error": false,
+    "result_chars": 4089
+   }
+  ],
+  "usage": {
+   "input": 6,
+   "output": 336,
+   "cache_write": 1957,
+   "cache_read": 39455,
+   "requests": 2
+  },
+  "cost_usd": 0.0161555,
+  "seconds": 4.2
+ },
+ {
+  "question": "What was the latest day-ahead daily mean price in NYISO's New York City zone?",
+  "grid": "nyiso",
+  "model": "claude-sonnet-5-5",
+  "today": "2026-09-30",
+  "retried": false,
+  "first_violations": [],
+  "request_ids": [
+   "req_011CfYwSxC5ago32FWKK77Bg",
+   "req_011CfYwT859qaCprn3aBxKJK",
+   "req_011CfYwTXWoH9Uy7PnymgyEB",
+   "req_011CfYwTgQLjcJnY2MNZKaw9",
+   "req_011CfYwTqCvEKYnkDp69CmKC",
+   "req_011CfYwTxjrRags6h9HvjGXM",
+   "req_011CfYwU8dAhmPzQLfsmTgdq",
+   "req_011CfYwUHXwzCmBqkhzcChon"
+  ],
+  "status": "answered",
+  "answer": "The latest day-ahead daily mean for NYISO's N.Y.C. zone is 45.92 USD/MWh (nyiso_dam_zone_prices, variable lmp_dam). This is the mean of 24 hourly day-ahead prices for the Eastern-time operating day 2026-09-29. That day runs from 2026-09-29T04:00Z to 2026-09-30T03:00Z, and I report it in America/New_York time. The table has no rows after that day. The previous day, 2026-09-28, averaged 46.20 USD/MWh (same table).",
+  "citations": [
+   {
+    "table": "nyiso_dam_zone_prices",
+    "source_report": "nyiso:damlbmp",
+    "data_version": "local backend, data commit da4538b6cf5e; table last run 2026-09-29T00:44:57Z",
+    "tier": "source"
+   }
+  ],
+  "not_in_warehouse": false,
+  "tool_calls": 8,
+  "calls": [
+   {
+    "tool": "list_tables",
+    "input": {
+     "iso": "NYISO"
+    },
+    "is_error": false,
+    "result_chars": 1000
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "nyiso_dam_zone_prices",
+     "aggregation": "mean",
+     "entity": "N.Y.C.",
+     "group_by": "day",
+     "tz": "America/New_York",
+     "start": "2026-09-27"
+    },
+    "is_error": false,
+    "result_chars": 1002
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "nyiso_dam_zone_prices",
+     "aggregation": "count",
+     "entity": "N.Y.C.",
+     "group_by": "day",
+     "start": "2026-09-27",
+     "tz": "America/New_York"
+    },
+    "is_error": false,
+    "result_chars": 952
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "nyiso_dam_zone_prices",
+     "aggregation": "mean",
+     "entity": "N.Y.C.",
+     "group_by": "day",
+     "tz": "America/New_York",
+     "start": "2026-09-29"
+    },
+    "is_error": false,
+    "result_chars": 898
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "nyiso_dam_zone_prices",
+     "aggregation": "mean",
+     "entity": "N.Y.C.",
+     "group_by": "day",
+     "tz": "America/New_York",
+     "start": "2026-09-30"
+    },
+    "is_error": false,
+    "result_chars": 743
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "nyiso_dam_zone_prices",
+     "aggregation": "latest",
+     "entity": "N.Y.C."
+    },
+    "is_error": false,
+    "result_chars": 901
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "nyiso_dam_zone_prices",
+     "aggregation": "mean",
+     "entity": "N.Y.C.",
+     "group_by": "day",
+     "tz": "America/New_York",
+     "start": "2026-09-29"
+    },
+    "is_error": false,
+    "result_chars": 898
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "nyiso_dam_zone_prices",
+     "aggregation": "mean",
+     "entity": "N.Y.C.",
+     "group_by": "day",
+     "tz": "America/New_York",
+     "start": "2026-09-29"
+    },
+    "is_error": false,
+    "result_chars": 898
+   }
+  ],
+  "usage": {
+   "input": 18,
+   "output": 1799,
+   "cache_write": 5393,
+   "cache_read": 175714,
+   "requests": 8
+  },
+  "cost_usd": 0.0666513,
+  "seconds": 21.8
+ },
+ {
+  "question": "What was ISO New England's carbon intensity of generation in the latest month you hold?",
+  "grid": "isone",
+  "model": "claude-sonnet-5-5",
+  "today": "2026-09-30",
+  "retried": false,
+  "first_violations": [],
+  "request_ids": [
+   "req_011CfYwUb68fJDTS8TaAD1PB",
+   "req_011CfYwUrjipjH4xxhMCWDX3",
+   "req_011CfYwV1YJGkpcYT9onwfeN"
+  ],
+  "status": "answered",
+  "answer": "ISO New England's carbon intensity of generation was 244.35 kgCO2/MWh in August 2026 (carbon_intensity_monthly, BA ISNE, variable intensity_generation). August 2026 is the latest month in the table. The ERW derives this figure as CO2 generated divided by EIA's net generation. The month is a UTC month, and the table only includes months in which every day is complete. The table is public and its tier is derived.",
+  "citations": [
+   {
+    "table": "carbon_intensity_monthly",
+    "source_report": "erw:carbon_intensity",
+    "data_version": "local backend, data commit da4538b6cf5e; table last run 2026-09-30T00:30:26Z",
+    "tier": "derived"
+   }
+  ],
+  "not_in_warehouse": false,
+  "tool_calls": 3,
+  "calls": [
+   {
+    "tool": "list_tables",
+    "input": {
+     "iso": "ISO-NE",
+     "sector": "carbon"
+    },
+    "is_error": false,
+    "result_chars": 195
+   },
+   {
+    "tool": "describe_table",
+    "input": {
+     "table": "carbon_intensity_monthly"
+    },
+    "is_error": false,
+    "result_chars": 3561
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "carbon_intensity_monthly",
+     "aggregation": "latest",
+     "variable": "intensity_generation",
+     "entity": "eia930:ISNE"
+    },
+    "is_error": false,
+    "result_chars": 1076
+   }
+  ],
+  "usage": {
+   "input": 8,
+   "output": 519,
+   "cache_write": 3026,
+   "cache_read": 61425,
+   "requests": 3
+  },
+  "cost_usd": 0.025056,
+  "seconds": 10.0
+ },
+ {
+  "question": "How many active solar projects are in MISO's interconnection queue, and how many MW do they add up to?",
+  "grid": "miso",
+  "model": "claude-sonnet-5-5",
+  "today": "2026-09-30",
+  "retried": false,
+  "first_violations": [],
+  "request_ids": [
+   "req_011CfYwVMiF6YZMsh8XCw7sW",
+   "req_011CfYwVWbYFVP3b1nRnKBm8",
+   "req_011CfYwVipFc3aSaYpU9x2Rj"
+  ],
+  "status": "answered",
+  "answer": "MISO's interconnection queue has 383 active projects with fuel_technology \"Solar\" (miso_interconnection_queue). Together they request 71,671.18 MW (about 71,671 MW), the sum of capacity_mw (miso_interconnection_queue). The count and the MW total exclude hybrid projects, which are a separate fuel category. The MW figure is MISO's requested capacity, taken as the larger of summer and winter net MW. The table is a snapshot from 2026-09-26.",
+  "citations": [
+   {
+    "table": "miso_interconnection_queue",
+    "source_report": "miso:interconnection_queue",
+    "data_version": "local backend, data commit da4538b6cf5e; table last run 2026-09-26T00:06:45Z",
+    "tier": "source"
+   }
+  ],
+  "not_in_warehouse": false,
+  "tool_calls": 3,
+  "calls": [
+   {
+    "tool": "describe_table",
+    "input": {
+     "table": "miso_interconnection_queue"
+    },
+    "is_error": false,
+    "result_chars": 2783
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "miso_interconnection_queue",
+     "aggregation": "count",
+     "where": {
+      "status": "active",
+      "fuel_technology": "Solar"
+     }
+    },
+    "is_error": false,
+    "result_chars": 784
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "miso_interconnection_queue",
+     "aggregation": "sum",
+     "where": {
+      "status": "active",
+      "fuel_technology": "Solar"
+     }
+    },
+    "is_error": false,
+    "result_chars": 806
+   }
+  ],
+  "usage": {
+   "input": 8,
+   "output": 561,
+   "cache_write": 2695,
+   "cache_read": 60801,
+   "requests": 3
+  },
+  "cost_usd": 0.024523700000000002,
+  "seconds": 10.5
+ },
+ {
+  "question": "What makes SPP different from other grids, and how much wind did it generate over the last 7 days you hold?",
+  "grid": "spp",
+  "model": "claude-sonnet-5-5",
+  "today": "2026-09-30",
+  "retried": true,
+  "first_violations": [
+   "23",
+   "1.74",
+   "5"
+  ],
+  "request_ids": [
+   "req_011CfYwWAGhCru6Yc6p9QX2B",
+   "req_011CfYwWKmCKBAnfiHq89Mru",
+   "req_011CfYwWq16Y3wf7iM5Fjvxs",
+   "req_011CfYwXAkzRp7VrhNVvjLSP",
+   "req_011CfYwXMeamDKThQZhsUVfx",
+   "req_011CfYwXhc8FYTZ7BBMNjENR"
+  ],
+  "first_answer": "What makes SPP different: wind. The Great Plains are among the windiest places in the country. On windy nights wind can supply a large share of SPP's power, which pushes some prices to zero or below. The wind is far from cities, so delivery depends on long transmission lines. SPP curtails wind when those lines are full (docs/grids/spp.md, written text, not data). SPP also owns no power plants, and it has no capacity auction. Its members must show they have enough capacity themselves (docs/grids/spp.md).\n\nWind over the last 7 days held: the newest SPP (SWPP) hour in the warehouse is 2026-09-27 23:00 UTC. I used the 7 UTC days 2026-09-21 00:00 to 2026-09-28 00:00 UTC, which is 168 hourly values. Wind net generation averaged 10363.67 MW (mean of the 168 hourly values, eia930_all_generation). The hourly values sum to 1741096 MW-hours, i.e. about 1.74 million MWh (eia930_all_generation). The last hour, 2026-09-27 23:00 UTC, was 3952 MW (eia930_all_generation). Times are UTC. Central time is UTC-5 in September.",
+  "status": "answered",
+  "answer": "What makes SPP different is wind. The Great Plains are among the windiest places in the country. On windy nights wind can supply a large share of SPP's power, which pushes some prices to zero or below. The wind is far from cities, so delivery depends on long transmission lines. SPP curtails wind when those lines are full (docs/grids/spp.md, written text, not data). SPP also owns no power plants, and it has no capacity auction. Its members must show they have enough capacity themselves (docs/grids/spp.md).\n\nWind over the last 7 days held: the newest SPP (SWPP) data in the warehouse ends at 2026-09-27T23:00:00Z. I used the 7 UTC days from 2026-09-21T00:00:00Z up to 2026-09-28T00:00:00Z, which is 168 hourly values. Wind net generation averaged 10363.67 MW (mean of the 168 hourly values, eia930_all_generation). The hourly values sum to 1741096 MW-hours, i.e. MWh (eia930_all_generation). Times are UTC.",
+  "citations": [
+   {
+    "table": "docs/grids/spp.md",
+    "source_report": "docs/grids/spp.md: text written for the ERW's grid page; each section names its ISO and EIA sources",
+    "data_version": "the repository's copy",
+    "tier": "written"
+   },
+   {
+    "table": "eia930_all_generation",
+    "source_report": "eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data",
+    "data_version": "local backend, data commit da4538b6cf5e; table last run 2026-09-29T00:57:39Z",
+    "tier": "source"
+   }
+  ],
+  "not_in_warehouse": false,
+  "tool_calls": 8,
+  "calls": [
+   {
+    "tool": "grid_notes",
+    "input": {
+     "grid": "spp"
+    },
+    "is_error": false,
+    "result_chars": 3725
+   },
+   {
+    "tool": "list_tables",
+    "input": {
+     "iso": "SPP",
+     "sector": "power"
+    },
+    "is_error": false,
+    "result_chars": 736
+   },
+   {
+    "tool": "list_tables",
+    "input": {
+     "iso": "US48"
+    },
+    "is_error": false,
+    "result_chars": 195
+   },
+   {
+    "tool": "describe_table",
+    "input": {
+     "table": "eia930_all_generation"
+    },
+    "is_error": false,
+    "result_chars": 2884
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_generation",
+     "aggregation": "sum",
+     "variable": "net_generation_wind_mw",
+     "start": "2026-09-21T00:00:00Z",
+     "end": "2026-09-28T00:00:00Z"
+    },
+    "is_error": false,
+    "result_chars": 1295
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_generation",
+     "aggregation": "mean",
+     "variable": "net_generation_wind_mw",
+     "start": "2026-09-21T00:00:00Z",
+     "end": "2026-09-28T00:00:00Z"
+    },
+    "is_error": false,
+    "result_chars": 1299
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_generation",
+     "aggregation": "count",
+     "variable": "net_generation_wind_mw",
+     "start": "2026-09-21T00:00:00Z",
+     "end": "2026-09-28T00:00:00Z"
+    },
+    "is_error": false,
+    "result_chars": 1278
+   },
+   {
+    "tool": "query",
+    "input": {
+     "table": "eia930_all_generation",
+     "aggregation": "latest",
+     "variable": "net_generation_wind_mw"
+    },
+    "is_error": false,
+    "result_chars": 1328
+   }
+  ],
+  "usage": {
+   "input": 16,
+   "output": 2367,
+   "cache_write": 7660,
+   "cache_read": 136872,
+   "requests": 6
+  },
+  "cost_usd": 0.0702264,
+  "seconds": 26.9
+ }
+]

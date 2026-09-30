@@ -278,7 +278,8 @@ def list_tables(sector=None, license=None, iso=None):
     if license:
         keep &= cov["license"] == license
     if iso:
-        keep &= cov["iso"].str.upper() == iso.upper()
+        # session 35: a consolidated table lists its ISOs joined by ";" (session 29); the exact match missed them
+        keep &= cov["iso"].map(lambda v: iso.upper() in str(v).upper().split(";"))
     if SCOPE is not None:  # session 35: only the tables carrying the scoped grid
         keep &= cov["table"].isin(SCOPE["tables"])
     rows = []

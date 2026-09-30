@@ -168,7 +168,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const draft = JSON.parse(text) as { answer: string; citations: Citation[]; not_in_warehouse: boolean };
     const bad = unverified(draft.answer, sources);
     const uncited = draft.citations.map((c) => c.table).filter((t) => !tablesRead.has(t));
-    const noCite = numbers(draft.answer).length > 0 && !draft.citations.length && !draft.not_in_warehouse;
+    // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
+    const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
     if (!bad.length && !uncited.length && !noCite) {
       // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
       const answer = draft.answer.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ");
@@ -182,7 +183,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       const problems: string[] = [];
       if (bad.length) problems.push(`numbers in no tool result: ${bad.join(", ")}`);
       if (uncited.length) problems.push(`cited tables no tool read: ${uncited.join(", ")}`);
-      if (noCite) problems.push("numbers but no citations");
+      if (noCite) problems.push("an empty answer, or no citations");
       messages.push({ role: "user", content: spec.retry.replace("{problems}", problems.join("; ")) });
       continue;
     }

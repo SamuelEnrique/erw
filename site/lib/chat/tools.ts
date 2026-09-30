@@ -183,7 +183,8 @@ async function listTables(a: { sector?: string; license?: string; iso?: string }
   if (scope) rows = rows.filter((r) => scope.tables.includes(r.table_name)); // session 35
   if (a.sector) rows = rows.filter((r) => (r.sector ?? "").split(";").includes(a.sector!));
   if (a.license) rows = rows.filter((r) => r.license === a.license);
-  if (a.iso) rows = rows.filter((r) => (r.iso ?? "").toUpperCase() === a.iso!.toUpperCase());
+  // session 35, as tools.py: a consolidated table lists its ISOs joined by ";"
+  if (a.iso) rows = rows.filter((r) => (r.iso ?? "").toUpperCase().split(";").includes(a.iso!.toUpperCase()));
   return {
     n_tables: rows.length,
     tables: rows.map((r) => ({

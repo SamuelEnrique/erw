@@ -256,7 +256,9 @@ class Asker:
             bad = unverified(draft["answer"], sources)
             cited = [c["table"] for c in draft.get("citations", [])]
             uncited_tables = [t for t in cited if t not in tables_read]
-            no_cite = bool(numbers(draft["answer"])) and not cited and not draft.get("not_in_warehouse")
+            # session 35: an answer that is empty, or cites nothing, is not an answer (the grid check's CAISO question
+            # came back empty and uncited after eight tool calls, and passed); "not in the warehouse" needs no citation
+            no_cite = not draft.get("not_in_warehouse") and (not cited or not draft["answer"].strip())
             if not bad and not uncited_tables and not no_cite:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
@@ -265,7 +267,7 @@ class Asker:
             if attempts == 1:
                 record["retried"] = True
                 record["first_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables] \
-                    + (["numbers without a citation"] if no_cite else [])
+                    + (["empty or uncited answer"] if no_cite else [])
                 record["first_answer"] = draft["answer"]
                 problems = []
                 if bad:
@@ -273,7 +275,7 @@ class Asker:
                 if uncited_tables:
                     problems.append("cited tables no tool read: " + ", ".join(uncited_tables))
                 if no_cite:
-                    problems.append("numbers but no citations")
+                    problems.append("an empty answer, or no citations")
                 messages.append({"role": "user", "content": RETRY.format(problems="; ".join(problems))})
                 continue
             final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
