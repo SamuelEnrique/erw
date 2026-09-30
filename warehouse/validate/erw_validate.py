@@ -28,7 +28,8 @@ STANDARD = "ERW Data Standard v0"
 REQUIRED = ["entity", "variable", "ts_utc", "value"]
 RESERVED = ["unit", "freq", "geo", "market", "node", "source", "source_url",
             "retrieved_at", "vintage",
-            "ba", "year"]  # session 29, decision 28: partition columns of the consolidated tables
+            "ba", "year",  # session 29, decision 28: partition columns of the consolidated tables
+            "event"]  # session 36B, decision 31: the event a row of event_window_daily belongs to
 REQUIRED_BY_VALIDATOR = ["unit", "source"]
 # docs/datastandard.md "Units" states these; this set is what enforces them
 UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "pct",  # mph: session 24, decision 27

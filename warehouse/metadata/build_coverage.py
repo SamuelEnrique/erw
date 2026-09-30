@@ -157,6 +157,8 @@ SECTOR_RULES = [
     (r"^storage_(daily_cycle|capacity)$", "power"),
     # session 32: carbon intensity per BA (derived from the EIA-930 CO2 estimates)
     (r"^carbon_intensity_(hourly|daily|monthly)$", "power;carbon"),  # session 34: monthly
+    # session 36B: the Historical Event Analyzer's event windows (prices, demand, generation, intensity)
+    (r"^event_window_daily$", "power;carbon"),
 ]
 
 
@@ -176,6 +178,8 @@ def iso_of(table):
         return "none"
     if table.startswith("price_board_"):  # session 30: price board v2 spans the six public ISOs
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
+    if table == "event_window_daily":  # session 36B: its one event so far, Uri in ERCOT
+        return "ERCOT"
     if table == "storage_daily_cycle":  # session 34: CAISO's rows from caiso_battery_storage, with the EIA-930 BAs
         return "CAISO;ERCOT;ISO-NE;MISO;SPP;US48"
     if table == "eia930_all_storage":  # session 31: the BAs with an EIA-930 BAT series
