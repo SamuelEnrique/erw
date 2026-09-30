@@ -1818,3 +1818,15 @@ puct:f50dd7e3bdd2,1,other,Consumer advisory with no market impact.,claude-sonnet
 puct:fbb8b67a2a7c,1,other,Consumer advisory with no market impact.,claude-sonnet-5,2026-09-28T10:06:38Z
 puct:fc71c633d26b,2,policy,Personnel change at Texas utility regulator.,claude-sonnet-5,2026-09-28T10:06:38Z
 puct:fd74cd584606,2,policy,Minor personnel appointment with limited market impact.,claude-sonnet-5,2026-09-28T10:06:38Z
+cpuc:4c8578a008e4,2,policy,Rate case forums signal upcoming retail rate decisions for a small California utility; local impact only.,claude-sonnet-5-5,2026-09-30T19:56:54Z
+doe:7da9ce11e513,6,oil,Reserve releases affect crude supply and prices; continued execution shows the pace of government stock draws.,claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19812,3,nuclear,Routine notice of operating license amendments; shows licensing activity at existing reactors but little market impact.,claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19816,3,gas,Staff protest on a gas storage filing may affect rates or terms of storage service.,claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19817,2,generation,Small hydro exemption surrender; minor filing with comment and intervention period open.,claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19818,4,renewables,Hydro relicensing step for an Alaska utility; environmental scoping and intervention deadlines now open.,claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19819,3,gas,"Pipeline application in Florida; details are not given, but it opens the intervention window.",claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19907,5,gas,Schedule sets the timeline for permitting of a Midwest gas pipeline expansion.,claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19981,3,renewables,Conduit hydro qualification eases licensing for a small project; comments and interventions are open.,claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19983,7,lng,"Final EIS is a key permitting milestone for a major LNG expansion, ahead of a possible FERC approval and investment decision.",claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19984,2,gas,"Routine blanket-certificate pipeline work; minor, with a protest window open.",claude-sonnet-5-5,2026-09-30T19:56:54Z
+federalregister:2026-19985,3,renewables,Environmental assessment moves a hydro licensing proceeding forward; incremental.,claude-sonnet-5-5,2026-09-30T19:56:54Z
