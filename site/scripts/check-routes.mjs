@@ -40,6 +40,7 @@ const PAGES = [
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
   // session 36B: the Historical Event Analyzer
   "/events", "/events/uri-2021", "/events/covid-2020",
+  "/cost-of-power", "/data/methods/cost_of_power",
 ];
 
 function visible(html) {

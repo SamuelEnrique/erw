@@ -418,7 +418,14 @@ export default async function GridPage({ params }: { params: Promise<{ iso: stri
       <Section title="Where the power comes from" aside={<Chip tier="source" />}><Power g={g} d={d} /></Section>
       <Section title="Batteries" aside={<><Chip tier="derived" /></>}><Batteries g={g} d={d} /></Section>
       <Section title="How clean" aside={<Chip tier="derived" />}><Clean g={g} d={d} /></Section>
-      <Section title="What it costs" aside={<Chip tier="derived" />}><Cost g={g} d={d} /></Section>
+      <Section title="What it costs" aside={<Chip tier="derived" />}>
+        <Cost g={g} d={d} />
+        {/* session 37: the cost-of-power model (PJM's prices are internal, so it has no PJM row) */}
+        <p className="mt-2 text-sm">
+          {g.slug === "pjm" ? "PJM's prices are internal, so the " : "What a large load pays for energy here, load-weighted by month and by hour of day: the "}
+          <Link href="/cost-of-power">cost of power</Link>{g.slug === "pjm" ? " model has no PJM row." : "."}
+        </p>
+      </Section>
       <Section title="What is being built" aside={<Chip tier="derived" />}><Building g={g} d={d} /></Section>
       <Section title="In the news" aside={<Chip tier="model_extracted" />}><News g={g} d={d} /></Section>
 

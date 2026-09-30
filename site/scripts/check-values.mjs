@@ -26,7 +26,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 36B: the Historical Event Analyzer
   "/events/uri-2021",
   // session 36C
-  "/events/covid-2020"];
+  "/events/covid-2020",
+  // session 37: the cost-of-power model
+  "/cost-of-power"];
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 
@@ -74,6 +76,48 @@ async function truth(check) {
   }
   if (p[0] === "latest_prices") {
     return (await q("latest_prices", { select: "value", entity: `eq.${p[1]}`, variable: `eq.${p[2]}` }))[0]?.value;
+  }
+  // session 37: the cost-of-power calculator's defaults, recomputed here from the tables (docs/methods/cost_of_power.md)
+  if (p[0] === "cop") {
+    const [, what] = p;
+    if (what === "energy") {
+      const [, , mw, lf, days, share] = p.map(Number);
+      return mw * lf * 24 * days * share;
+    }
+    const entity = p[2];
+    if (what === "flat_price" || what === "flat_cost") {
+      const rows = await all("series", { select: "variable,ts_utc,value", table_name: "eq.cost_of_power_monthly", entity: `eq.${entity}`,
+        variable: "in.(rt_hours,rt_simple_mean)", order: "ts_utc" });
+      const by = {};
+      for (const r of rows) (by[r.ts_utc.slice(0, 7)] ??= {})[r.variable] = Number(r.value);
+      const months = Object.keys(by).filter((m) => by[m].rt_hours !== undefined && by[m].rt_simple_mean !== undefined).sort().reverse().slice(0, 12);
+      let num = 0, den = 0;
+      for (const m of months) { num += by[m].rt_simple_mean * by[m].rt_hours; den += by[m].rt_hours; }
+      const price = den ? num / den : null;
+      if (price === null || what === "flat_price") return price;
+      const [mw, lf, days] = p.slice(3).map(Number);
+      return mw * lf * 24 * days * price;
+    }
+    if (what === "cheap_price" || what === "cheap_cost") {
+      const rows = await all("series", { select: "variable,ts_utc,value", table_name: "eq.cost_of_power_hourly_profile", entity: `eq.${entity}`, order: "ts_utc" });
+      const cells = {};
+      for (const r of rows) {
+        const m = /^rt_(mean|days)_h(\d\d)$/.exec(r.variable);
+        if (m) (cells[`${r.ts_utc.slice(0, 7)}|${m[2]}`] ??= {})[m[1]] = Number(r.value);
+      }
+      const cs = Object.entries(cells).filter(([, c]) => c.mean !== undefined && c.days !== undefined)
+        .map(([k, c]) => ({ month: k.split("|")[0], hour: Number(k.split("|")[1]), price: c.mean, hours: c.days }))
+        .sort((a, b) => a.price - b.price || a.month.localeCompare(b.month) || a.hour - b.hour);
+      const share = Number(what === "cheap_price" ? p[3] : p[6]);
+      const target = share * cs.reduce((a, c) => a + c.hours, 0);
+      if (!target) return null;
+      let left = target, cost = 0;
+      for (const c of cs) { if (left <= 0) break; const take = Math.min(c.hours, left); cost += c.price * take; left -= take; }
+      const price = cost / target;
+      if (what === "cheap_price") return price;
+      const [mw, lf, days] = p.slice(3, 6).map(Number);
+      return mw * lf * 24 * days * share * price;
+    }
   }
   if (p[0] === "series") {
     const [, table, entity, variable, at, event] = p;

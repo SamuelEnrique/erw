@@ -304,6 +304,7 @@ day-ahead tables running into tomorrow:
 | Question | Table |
 |---|---|
 | Winter Storm Uri (ERCOT, February 2021) day by day against the same days of 2019 and 2020: prices, demand served, net generation, carbon intensity | `event_window_daily` (event uri_2021) |
+| What does a 100 MW datacenter pay for energy in ERCOT (or another ISO): wholesale energy, load-weighted and flat, by month and hour of day | `cost_of_power_monthly`, `cost_of_power_hourly_profile` (and `cost_of_power_carbon` for cost against carbon) |
 | COVID-19, spring 2020: demand served in the seven ISO grids and US48 against the same weekday of 2019, by day and by week, in MWh and percent | `event_window_daily` (event covid_2020) |
 | A recent ISO price (last month) | `iso_{dam,rtm}_hub_prices` (market), `{nyiso,isone}_{dam,rtm}_zone_prices` |
 | ERCOT price before the live window, or a year | `ercot_all_hub_prices_history` (market, year) |
@@ -470,6 +471,23 @@ an answer must come from a tool result, and every answer cites its tables.
   week's Sunday, 13 whole weeks); rt_mean and da_mean of ercot:HB_HUBAVG. One
   baseline year: 2019's weather is in every comparison, and the warehouse holds
   no weather for it. /events/covid-2020 draws it.
+
+**Cost of power** (session 37, derived, public, method docs/methods/cost_of_power.md):
+  market-based, wholesale energy only (no transmission, distribution, capacity
+  or taxes; no LCOE). Per ISO main hub (ercot:HB_HUBAVG, caiso:TH_SP15_GEN-APND,
+  isone:.H.INTERNAL_HUB, miso:INDIANA.HUB, nyiso:N.Y.C., spp:SPPNORTH_HUB; no
+  PJM, internal) and local month: cost_of_power_monthly holds rt_ and
+  da_load_weighted (hourly price x the BA's EIA-930 demand, over demand),
+  rt_ and da_simple_mean (what a flat load pays), rt_ and da_shape_premium, rt_
+  and da_hours and hours_in_month (a month is complete when rt_hours equals
+  hours_in_month). ERCOT from 2018-07; the other five ISOs hold about the last
+  33 days, so their months are partial. cost_of_power_hourly_profile:
+  rt_mean_h00 to rt_mean_h23 (mean real-time price by local hour of day, last
+  12 months held) and rt_days_hNN. cost_of_power_carbon: rt_load_weighted
+  beside intensity_demand and intensity_generation. A 100 MW load at load
+  factor 0.9 for 90 days draws 194,400 MWh; its flat-load cost is that times
+  the hours-weighted mean of rt_simple_mean over the last 12 months held.
+  /cost-of-power draws it.
 
 **Grid pages** (session 35): /grid/ercot, /grid/caiso, /grid/pjm, /grid/nyiso,
 /grid/isone, /grid/miso, /grid/spp, one template for students: demand now,
