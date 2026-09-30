@@ -47,14 +47,23 @@ class Scope(unittest.TestCase):
         self.assertTrue(names <= set(tools.GRIDS["pjm"]["tables"]))
         out, err = tools.run("query", {"table": "nyiso_dam_zone_prices", "aggregation": "count"})
         self.assertTrue(err)
-        out, err = tools.run("query", {"table": "storage_capacity", "aggregation": "count", "group_by": "iso"})
-        self.assertFalse(err)
-        self.assertEqual([r["iso"] for r in out["result"]], ["PJM"])
         out, err = tools.run("grid_notes", {"grid": "ercot"})
         self.assertTrue(err)
         out, err = tools.run("grid_notes", {"grid": "pjm"})
         self.assertFalse(err)
         self.assertEqual(out["table"], "docs/grids/pjm.md")
+
+    def test_a_scoped_query_reads_only_its_grids_rows(self):
+        # session 41: storage_capacity is an output table, never in git, so the GitHub runner's test step (before the
+        # pull) does not hold it; on 2026-09-30 this assertion failed runs 10 and 11 there. It runs where the table is.
+        import erw
+        backend = erw.get_backend()
+        if not (getattr(backend, "data_dir", None) and (backend.data_dir / "storage_capacity.csv").exists()):
+            self.skipTest("storage_capacity.csv is not in the local backend's data directory")
+        tools.set_scope("pjm")
+        out, err = tools.run("query", {"table": "storage_capacity", "aggregation": "count", "group_by": "iso"})
+        self.assertFalse(err)
+        self.assertEqual([r["iso"] for r in out["result"]], ["PJM"])
 
 
 def reply(text):
