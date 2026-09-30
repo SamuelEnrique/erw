@@ -225,6 +225,9 @@ def send(kind, path, model, log):
     if not key or not to:
         log("  not sent: RESEND_API_KEY or SHADOW_RECIPIENT/DIGEST_RECIPIENTS not set")
         return "not sent (no key or recipient)"
+    if len(to) != 1:  # session 34: the shadow goes to one address (Samuel's), never to a list that has grown
+        log(f"  not sent: {len(to)} addresses; the shadow goes to one only (set SHADOW_RECIPIENT to that address)")
+        return f"not sent ({len(to)} addresses; the shadow goes to one)"
     note = (f"Shadow issue: the stories are selected and described by {model}'s scores (news_scores_shadow), for "
             "comparison with the published issue. Not published; sent to one address.")
     title, label, text, body = em.render(path, kind, note=note, unsubscribe=None)
