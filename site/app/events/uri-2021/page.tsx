@@ -61,7 +61,7 @@ export default async function Uri() {
   const ev = ["2021"], base = ["2019", "2020"];
   const rtPeak = pick(rows, "rt_max", ev, "max"), rtBase = pick(rows, "rt_max", base, "max");
   const lowDemand = pick(rows, "demand_min_mw", ev, "min");
-  const low15 = rows.find((r) => r.variable === "demand_min_mw" && r.ts_utc === "2021-02-15T00:00:00Z");
+  const low15 = rows.find((r) => r.variable === "demand_min_mw" && r.ts_utc.slice(0, 10) === "2021-02-15");
   const fall = pick(rows, "net_generation_mwh_day_change", ev, "min");
   const short = pick(rows, "net_generation_mwh_vs_baseline", ev, "min");
   const ciPeak = pick(rows, "intensity_generation", ev, "max");
