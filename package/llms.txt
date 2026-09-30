@@ -306,6 +306,7 @@ day-ahead tables running into tomorrow:
 | Winter Storm Uri (ERCOT, February 2021) day by day against the same days of 2019 and 2020: prices, demand served, net generation, carbon intensity | `event_window_daily` (event uri_2021) |
 | What does a 100 MW datacenter pay for energy in ERCOT (or another ISO): wholesale energy, load-weighted and flat, by month and hour of day | `cost_of_power_monthly`, `cost_of_power_hourly_profile` (and `cost_of_power_carbon` for cost against carbon) |
 | COVID-19, spring 2020: demand served in the seven ISO grids and US48 against the same weekday of 2019, by day and by week, in MWh and percent | `event_window_daily` (event covid_2020) |
+| The August 2020 heat wave in CAISO, Winter Storm Elliott (December 2022, six grids) or the summer 2023 heat in ERCOT: demand, peak hour and intensity against the same weekdays of earlier years, ERCOT hub prices | `event_window_daily` (events caiso_heat_2020, elliott_2022, ercot_heat_2023) |
 | A recent ISO price (last month) | `iso_{dam,rtm}_hub_prices` (market), `{nyiso,isone}_{dam,rtm}_zone_prices` |
 | ERCOT price before the live window, or a year | `ercot_all_hub_prices_history` (market, year) |
 | ERCOT distribution: percentiles, IQR, scarcity or negative counts by year or month | `ercot_peak_premium_annual` / `_monthly` |
@@ -471,6 +472,15 @@ an answer must come from a tool result, and every answer cites its tables.
   week's Sunday, 13 whole weeks); rt_mean and da_mean of ercot:HB_HUBAVG. One
   baseline year: 2019's weather is in every comparison, and the warehouse holds
   no weather for it. /events/covid-2020 draws it.
+  Session 39 adds three events with the same weekday-aligned baseline (364 and
+  728 days earlier, both held), without weekly rows, and with the peak hour
+  against the baseline (demand_max_mw_vs_baseline, MW; demand_max_pct_vs_baseline,
+  pct): caiso_heat_2020 (eia930:CISO, 2020-08-10 to 2020-08-24, no prices: CAISO's
+  2020 prices are not held), elliott_2022 (eia930:PJM, MISO, SWPP, NYIS, ISNE,
+  ERCO, 2022-12-19 to 2022-12-29, with ercot:HB_HUBAVG rt_mean, rt_max, da_mean,
+  da_max) and ercot_heat_2023 (eia930:ERCO, 2023-08-01 to 2023-09-10, the same
+  hub prices). Pages /events/caiso-heat-2020, /events/elliott-2022 and
+  /events/ercot-heat-2023 say where the rows contradict the headline story.
 
 **Cost of power** (session 37, derived, public, method docs/methods/cost_of_power.md):
   market-based, wholesale energy only (no transmission, distribution, capacity
