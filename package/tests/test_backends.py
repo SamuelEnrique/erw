@@ -6,7 +6,10 @@ RedivisBackend and SupabaseBackend must match LocalBackend. A backend whose
 credentials are missing, or whose store is not reachable or not loaded, is
 skipped with the reason; it never passes silently.
 
-    python -m pytest package/tests/test_backends.py -v
+    python -m pytest package/tests/test_backends.py -v -m remote
+
+Session 34: every test here carries the marker `remote` and the default run skips them (package/tests/conftest.py);
+select them with -m remote or ERW_REMOTE_TESTS=1.
 """
 
 import pandas as pd
@@ -14,6 +17,8 @@ import pytest
 
 import erw
 from erw.api import _read
+
+pytestmark = pytest.mark.remote  # session 34: network tests, run only when asked for
 
 FIVE = ["ercot_peak_premium_annual",     # derived
         "eia860m_retired_generators",    # entities
