@@ -243,7 +243,8 @@ def build_weather(log, retrieved):
     w = w[w["variable"] == "temperature_f"]
     w["ts"] = pd.to_datetime(w["ts_utc"], utc=True)
     rows, left = [], []
-    plans = [(e["event"], e["start"], e["end"], [f"{y}" for y in e["baseline"]], [e["ba"]]) for e in EVENTS] +             [(m["event"], m["start"], m["end"], m["offsets"], list(m["bas"])) for m in MULTI]
+    plans = [(e["event"], e["start"], e["end"], [f"{y}" for y in e["baseline"]], [e["ba"]]) for e in EVENTS] + \
+        [(m["event"], m["start"], m["end"], m["offsets"], list(m["bas"])) for m in MULTI]
     for ev, start, end, base, bas in plans:
         days = [d.strftime("%Y-%m-%d") for d in pd.date_range(start, end, freq="D")]
         want = set(days)
