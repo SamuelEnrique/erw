@@ -14,11 +14,14 @@ Built in session 37 for the cost-of-power model v0, platform tool 16 (`/cost-of-
 | MISO | INDIANA.HUB | MISO | EST (all year) |
 | NYISO | N.Y.C. (zone J) | NYIS | America/New_York |
 | SPP | SPPNORTH_HUB | SWPP | America/Chicago |
+| CAISO (session 49, for `/learn/bill` only) | TH_NP15_GEN-APND | CISO | America/Los_Angeles |
 
 - **PJM is not here.** Its prices are internal (license), so no PJM price enters a public table.
 - **Prices:**
   - ERCOT: `ercot_all_hub_prices_history` (2015 on), joined to the rolling `iso_rtm_hub_prices` and `iso_dam_hub_prices` from where the history ends.
   - The other ISOs: their rolling tables only, `iso_*_hub_prices`, `nyiso_*_zone_prices` and `isone_*_zone_prices(_hourly)`. These hold about the last 33 days.
+  - **Session 49:** `iso_hub_prices_history` (from 2025-09-01, `warehouse/connectors/hub_history.py`) comes first for the five other ISOs, the rolling tables after it, so every ISO has about a year. ISO-NE's history holds its 15-minute real-time prices; where its live table is hourly, they are averaged to the hour first (an hour only when all four are present).
+  - **NP15 (session 49):** CAISO's NP15 hub is built beside SP15 with the same demand weights (CAISO's whole BA), for `/learn/bill`, where PG&E's wholesale reference is NP15 (PG&E serves Northern California). It is not in the ISO comparison on `/cost-of-power`, which keeps one main hub per ISO.
 - **An hour's price** is the mean of its intervals: four 15-minute prices, or the one hourly price. It is used only when every interval of the hour is present.
 - **Demand and CO2** come from EIA's per-BA workbooks (sheet Published Hourly Data), from the emissions connector's extracts under `warehouse/raw/eia930_emissions/`. Demand is held from 2018-07-01. `eia930_all_demand` keeps 30 days only, so it cannot weight earlier months.
 - **One hub's price, the whole BA's demand.** Each hub's price is weighted by the demand of the whole balancing authority. A buyer elsewhere in the ISO pays its own node's price, which can differ, above all in NYISO, where N.Y.C. is one zone of eleven.
@@ -59,6 +62,11 @@ For one hub, one market (real-time or day-ahead) and one local month, over the h
 - **The rolling tables drop their oldest days.** The builder therefore keeps, from its previous file, any month the inputs no longer reach (`carry`), and never recomputes a month from fewer hours.
 - **The builder is not in the daily run.** The ERCOT history and the extracts are not on the runner. Rerun it by hand after the daily runs to complete September 2026 and add later months.
 
+## The ranked month (session 49)
+
+- **The ranked bar** and the calculator's defaults use the latest month complete (`rt_hours` equal to `hours_in_month`) for every ISO's main hub. Only when no month is complete for all of them does the page fall back to the latest month every ISO holds, labelled partial.
+- **Before session 49** the ranked month was the latest month every ISO held hours for, 2026-09, partial for five of the six, and the calculator priced each hub over the months it held (12 for ERCOT, one or two for the others).
+
 ## The calculator on `/cost-of-power`
 
 **Inputs,** each labelled on the page as an assumption with its default:
@@ -71,12 +79,13 @@ For one hub, one market (real-time or day-ahead) and one local month, over the h
 
 - Energy = MW x load factor x 24 x days.
 - Price = the hub's real-time `simple_mean` over the last 12 months held, weighted by `rt_hours`. That is the mean price of every hour held.
+- **Session 49:** the page passes one month, the ranked month (below), so every ISO is priced on the same complete month; the function still takes the last 12 months when given none.
 - Cost = energy x price.
 
 **Cheapest 80 percent of hours:**
 
 - The facility draws MW x load factor only in the cheapest 80 percent of hours and nothing in the rest, so it uses 80 percent of the flat energy.
-- The hours are chosen by the hourly profile. The (month, hour of day) cells of the last 12 months are ranked by `rt_mean_hNN`, and the cheapest are taken, weighted by `rt_days_hNN`, until they hold 80 percent of the hours. The last cell is taken in part.
+- The hours are chosen by the hourly profile (session 49: the ranked month's cells only). The (month, hour of day) cells of the last 12 months are ranked by `rt_mean_hNN`, and the cheapest are taken, weighted by `rt_days_hNN`, until they hold 80 percent of the hours. The last cell is taken in part.
 - Price = the weighted mean of the chosen cells.
 - This is a schedule set by hour of day and month, which a facility could plan in advance. It is not perfect foresight of each hour.
 
