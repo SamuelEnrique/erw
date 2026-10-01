@@ -76,3 +76,93 @@ export function defaultsCA(rules: Rules): CAInput {
 export function defaultsTX(rules: Rules): TXInput {
   return { kwh: rules.bills.TX.defaults.kwh, energyRate: rules.bills.TX.energy_default.rate };
 }
+
+// --- session 52: SCE (TOU-D Option 4-9 PM), SDG&E (TOU-DR1) and CenterPoint -----------------------------------------
+
+/** A three-period time-of-use bill's inputs: the share of use from 4 to 9 p.m. (peak), the share in the super
+ * off-peak hours (winter for SCE, every season for SDG&E), and for SCE the share of days that are weekdays (summer 4 to
+ * 9 p.m. is on-peak on weekdays and mid-peak on weekends). SCE's baseline comes from its region; SDG&E's is the
+ * customer's own allowance from the bill (the credit applies up to 130 percent of it). */
+export type TOUInput = {
+  kwh: number; peakShare: number; superShare: number; weekdayShare: number; season: "summer" | "winter"; days: number;
+  region?: string; baselineKwh?: number; climateCredit?: boolean;
+};
+
+/** Each period's share of the month's use, by the utility's own period definitions (bill_rules.json "periods"). */
+export function periodShares(kind: string, x: TOUInput): Record<string, number> {
+  const p = x.peakShare, s = x.superShare;
+  if (kind === "sce") {
+    return x.season === "summer" ? { on: p * x.weekdayShare, mid: p * (1 - x.weekdayShare), off: 1 - p } : { mid: p, super: s, off: 1 - p - s };
+  }
+  return { on: p, super: s, off: 1 - p - s };  // SDG&E: 4 to 9 p.m. every day, super off-peak, the rest
+}
+
+/** The kWh the baseline credit applies to: SCE's region allocation times the days (no more than the use); SDG&E's
+ * allowance times 1.3 (no more than the use). */
+export function touBaselineKwh(rules: Rules, key: string, x: TOUInput): number {
+  const b = rules.bills[key];
+  if (b.kind === "sce") {
+    const q = b.baseline_quantities.basic[x.region ?? b.defaults.region];
+    return Math.min(x.kwh, q[x.season === "summer" ? 0 : 1] * x.days);
+  }
+  return Math.min(x.kwh, (x.baselineKwh ?? 0) * (b.baseline_credit.share ?? 1));
+}
+
+export function billTOU(rules: Rules, key: string, x: TOUInput): Bill {
+  const b = rules.bills[key];
+  const sh = periodShares(b.kind, x);
+  const lines: Line[] = [];
+  for (const c of b.components as Src[]) {
+    if (c.basis === "per_kWh_period") {
+      const r = (c.rate as Record<string, Record<string, number>>)[x.season];
+      const amount = Object.entries(sh).reduce((a, [k, share]) => a + x.kwh * share * r[k], 0);
+      const detail = Object.entries(sh).map(([k, share]) => `${Math.round(x.kwh * share * 10) / 10} kWh ${k === "on" ? "on-peak" : k === "mid" ? "mid-peak" : k === "super" ? "super off-peak" : "off-peak"} at $${r[k]}`).join(", ");
+      lines.push(mk(c, amount, detail));
+    } else {
+      lines.push(mk(c, x.kwh * (c.rate as number), `${x.kwh} kWh at $${c.rate}`));
+    }
+  }
+  const base = touBaselineKwh(rules, key, x);
+  const bc = b.baseline_credit;
+  lines.push({ id: `${key.toLowerCase()}_baseline`, name: "Baseline credit", group: "Credits", what: bc.what, why: bc.why, amount: base * bc.rate,
+    cite: bc.cite, quote: bc.quote, effective: bc.effective,
+    detail: b.kind === "sce" ? `${base} kWh within the Region ${x.region ?? b.defaults.region} baseline at $${bc.rate}` : `${base} kWh (up to 130 percent of your ${x.baselineKwh ?? 0} kWh allowance) at $${bc.rate}` });
+  const bs = b.base_services;
+  lines.push({ id: `${key.toLowerCase()}_bsc`, name: "Base Services Charge", group: "Fixed", what: bs.what, why: bs.why, amount: x.days * bs.rate,
+    cite: bs.cite, quote: bs.quote, effective: bs.effective, detail: `${x.days} days at $${bs.rate} a day` });
+  if (x.climateCredit && b.climate_credit) lines.push(mk({ id: `${key.toLowerCase()}_climate`, name: "California Climate Credit", group: "Credits", basis: "per_bill", ...b.climate_credit }, b.climate_credit.rate, "once, twice a year"));
+  return { lines, total: lines.reduce((a, l) => a + l.amount, 0), kwh: x.kwh };
+}
+
+export function defaultsTOU(rules: Rules, key: string): TOUInput {
+  const d = rules.bills[key].defaults;
+  return { kwh: d.kwh, peakShare: d.peak_share, superShare: d.super_share, weekdayShare: d.weekday_share ?? 5 / 7, season: d.season, days: d.days, region: d.region, baselineKwh: d.baseline_kwh, climateCredit: d.climate_credit ?? false };
+}
+
+/** Texas, any wires company (Oncor "TX", CenterPoint "TXC"): the retailer's energy charge, the company's fixed and
+ * per-kWh charges. billTX is this for Oncor. */
+export function billTDSP(rules: Rules, key: string, x: TXInput): Bill {
+  const t = rules.bills[key];
+  const lines: Line[] = [{
+    id: `${key.toLowerCase()}_energy`, name: "Energy charge (your retail electric provider)", group: "Energy", amount: x.kwh * x.energyRate,
+    what: "What your retailer charges for the power itself, under the plan you chose.", why: "In most of ERCOT, retailers compete to sell power; the price is on the plan's Electricity Facts Label.",
+    cite: t.energy_default.cite, quote: t.energy_default.derivation, effective: "your plan", detail: `${x.kwh} kWh at $${x.energyRate}`,
+  }];
+  const who = key === "TXC" ? "Delivery (CenterPoint)" : "Delivery (Oncor)";
+  for (const f of t.fixed as Src[]) lines.push(mk({ ...f, group: who }, f.rate as number, "per month"));
+  for (const p of t.per_kwh as Src[]) lines.push(mk({ ...p, group: who }, x.kwh * (p.rate as number), `${x.kwh} kWh at $${p.rate}`));
+  return { lines, total: lines.reduce((a, l) => a + l.amount, 0), kwh: x.kwh };
+}
+export function defaultsTDSP(rules: Rules, key: string): TXInput {
+  return { kwh: rules.bills[key].defaults.kwh, energyRate: rules.bills[key].energy_default.rate };
+}
+
+/** Every bill's default, by key: the page's five. */
+export const BILL_KEYS = ["CA", "SCE", "SDGE", "TX", "TXC"] as const;
+export type BillKey = (typeof BILL_KEYS)[number];
+export function defaultBill(rules: Rules, key: BillKey): Bill {
+  if (key === "CA") return billCA(rules, defaultsCA(rules));
+  if (key === "TX") return billTX(rules, defaultsTX(rules));
+  if (key === "TXC") return billTDSP(rules, "TXC", defaultsTDSP(rules, "TXC"));
+  return billTOU(rules, key, defaultsTOU(rules, key));
+}

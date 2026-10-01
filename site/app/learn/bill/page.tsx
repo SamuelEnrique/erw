@@ -4,14 +4,14 @@ import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import rules from "@/data/bill_rules.json";
-import { billCA, billTX, defaultsCA, defaultsTX } from "@/lib/bill";
+import { BILL_KEYS, defaultBill, type BillKey } from "@/lib/bill";
 import { series, type SeriesRow } from "@/lib/data";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { BillCalc } from "./BillCalc";
 
 // Session 43: electricity bill explainer v0, for learning. Two bills (PG&E E-TOU-C in California, a home in Oncor's
-// area of ERCOT), every rate from data/bill_rules.json with its tariff passage; the wholesale share from
+// area of ERCOT); session 52 adds three (SCE TOU-D-4-9PM, SDG&E TOU-DR1, a home in CenterPoint's area of Houston), every rate from data/bill_rules.json with its tariff passage; the wholesale share from
 // cost_of_power_monthly (derived, docs/methods/cost_of_power.md). The defaults are computed here, on the server, and
 // checked by scripts/check-values.mjs (keys bill|...).
 export const metadata: Metadata = { title: "What is on an electricity bill" };
@@ -52,29 +52,38 @@ const GLOSSARY: [string, string, string][] = [
 ];
 
 export default async function LearnBill() {
-  const [wc, wt] = await Promise.all([attempt(() => wholesaleOf(rules.bills.CA.wholesale_entity)), attempt(() => wholesaleOf(rules.bills.TX.wholesale_entity))]);
-  const W = { CA: wc.ok ? wc.data : null, TX: wt.ok ? wt.data : null };
-  const bills = { CA: billCA(rules, defaultsCA(rules)), TX: billTX(rules, defaultsTX(rules)) };
-  const wholesale = Object.fromEntries((["CA", "TX"] as const).map((s) => [s, W[s] ? { price: W[s]!.row.value, month: W[s]!.row.ts_utc.slice(0, 7), partial: W[s]!.partial } : null]));
-  const usdShort = (v: number) => `$${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  // session 52: five bills; each wholesale reference is its ISO zone's (two bills may share one)
+  const ents = [...new Set(BILL_KEYS.map((k) => rules.bills[k].wholesale_entity as string))];
+  const got = await Promise.all(ents.map((e) => attempt(() => wholesaleOf(e))));
+  const byEnt = Object.fromEntries(ents.map((e, i) => [e, got[i].ok ? got[i].data : null]));
+  const W = Object.fromEntries(BILL_KEYS.map((k) => [k, byEnt[rules.bills[k].wholesale_entity]])) as Record<BillKey, Awaited<ReturnType<typeof wholesaleOf>>>;
+  const bills = Object.fromEntries(BILL_KEYS.map((k) => [k, defaultBill(rules, k)])) as Record<BillKey, ReturnType<typeof defaultBill>>;
+  const wholesale = Object.fromEntries(BILL_KEYS.map((s) => [s, W[s] ? { price: W[s]!.row.value, month: W[s]!.row.ts_utc.slice(0, 7), partial: W[s]!.partial } : null]));
+  const note: Record<BillKey, string> = {
+    CA: "Summer, 20 percent in peak hours, territory T (San Francisco), Income Tier 3, 30 days.",
+    SCE: "Winter (the season on 2026-10-01), 20 percent from 4 to 9 p.m., a third in 8 a.m. to 4 p.m., Baseline Region 9, 30 days.",
+    SDGE: "Summer, 20 percent from 4 to 9 p.m., 34.5 percent in super off-peak hours, 30 days; no baseline credit until you enter your allowance.",
+    TX: `Energy charge $${rules.bills.TX.energy_default.rate} per kWh (the labelled default).`,
+    TXC: `Energy charge $${rules.bills.TXC.energy_default.rate} per kWh (the labelled default).`,
+  };
   return (
     <>
       <h1 className="mb-1 text-3xl">What is on an electricity bill</h1>
       <div className="mb-5 max-w-3xl text-sm">
         <p className="mb-2">
           A home&apos;s electricity bill pays for much more than the power itself: the wires and poles on the street, the high-voltage grid, meters,
-          state programs and credits. This page builds two real bills line by line from the utilities&apos; own tariffs, a PG&amp;E home in California and a
-          home in Oncor&apos;s area of Texas, then shows how much of each is the wholesale price of energy. <Chip />
+          state programs and credits. This page builds five real bills line by line from the utilities&apos; own tariffs, a PG&amp;E, an SCE and an SDG&amp;E
+          home in California and a home in Oncor&apos;s and in CenterPoint&apos;s area of Texas, then shows how much of each is the wholesale price of energy. <Chip />
         </p>
         <p className="text-muted">
-          For learning, not a bill: the rates are the tariffs&apos; as read on 2026-09-30, taxes and local fees are not included, and your usage and plan
+          For learning, not a bill: the rates are the tariffs&apos; as read on 2026-09-30 (PG&amp;E, Oncor) and 2026-10-01 (SCE, SDG&amp;E, CenterPoint), taxes and local fees are not included, and your usage and plan
           differ. Wholesale prices: <Link href="/cost-of-power">cost of power</Link>. The grids: <Link href="/grid/caiso">CAISO</Link>, <Link href="/grid/ercot">ERCOT</Link>.
         </p>
       </div>
 
       <Section title="The default bills (600 kWh a month, an assumption)">
-        <div className="grid gap-4 md:grid-cols-2">
-          {(["CA", "TX"] as const).map((s) => {
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {BILL_KEYS.map((s) => {
             const w = W[s];
             const wUsd = w ? (bills[s].kwh * w.row.value) / 1000 : null;
             return (
@@ -87,12 +96,12 @@ export default async function LearnBill() {
                     of the bill, at <Num check={`series|${M}|${w.row.entity}|${w.row.variable}|${w.row.ts_utc}`} raw={w.row.value}>{shown(w.row.value)}</Num> USD/MWh ({w.row.ts_utc.slice(0, 7)}{w.partial ? ", a partial month" : ""}).
                   </p>
                 ) : <p className="text-muted">The wholesale price is not held.</p>}
-                <p className="text-xs text-muted">{s === "CA" ? `Summer, 20 percent in peak hours, territory T (San Francisco), Income Tier 3, 30 days.` : `Energy charge ${usdShort(rules.bills.TX.energy_default.rate)} per kWh (the labelled default).`}</p>
+                <p className="text-xs text-muted">{note[s]}</p>
               </div>
             );
           })}
         </div>
-        <Cite tables={[M]} note="Bills: site/data/bill_rules.json, each rate with its tariff passage (PG&E Electric Schedule E-TOU-C; Oncor Tariff for Retail Delivery Service). Wholesale: the load-weighted real-time price of the ISO's main hub" />
+        <Cite tables={[M]} note="Bills: site/data/bill_rules.json, each rate with its tariff passage (PG&E Electric Schedule E-TOU-C; SCE Schedule TOU-D; SDG&E Schedule TOU-DR1; Oncor and CenterPoint Tariffs for Retail Delivery Service). Wholesale: the load-weighted real-time price of the ISO's zone" />
       </Section>
 
       <Section title="Build a bill">

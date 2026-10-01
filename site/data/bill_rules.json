@@ -1,6 +1,6 @@
 {
-  "version": "2026-09-30.1",
-  "note": "ERW, session 43: two residential electricity bills for /learn/bill, for education. Every rate cites the tariff page that states it, read as text on 2026-09-30; 'quote' is the passage (checked against the page text, whitespace ignored). An estimate, not a bill.",
+  "version": "2026-10-01.1",
+  "note": "ERW, session 43: two residential electricity bills for /learn/bill, for education. Every rate cites the tariff page that states it, read as text on 2026-09-30; 'quote' is the passage (checked against the page text, whitespace ignored). An estimate, not a bill. Session 52 adds three bills (SCE TOU-D Option 4-9 PM, SDG&E TOU-DR1, CenterPoint), read as text on 2026-10-01 and checked the same way.",
   "sources": {
     "pge_etouc": {
       "publisher": "Pacific Gas and Electric Company (PG&E)",
@@ -21,6 +21,31 @@
       "publisher": "U.S. Energy Information Administration, via the ERW table eia_retail_electricity_prices",
       "title": "Average retail price of electricity, Texas, residential, July 2026 (EIA electricity/retail-sales)",
       "url": "https://www.eia.gov/electricity/data/browser/"
+    },
+    "sce_tou_d": {
+      "publisher": "Southern California Edison (SCE)",
+      "title": "Schedule TOU-D, Time-of-Use Domestic (Cal. P.U.C. Sheet No. 91197-E and following)",
+      "url": "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Schedules/Residential%20Rates/ELECTRIC_SCHEDULES_TOU-D.pdf"
+    },
+    "sce_prelim_h": {
+      "publisher": "Southern California Edison (SCE)",
+      "title": "Preliminary Statement Part H, Baseline Service (baseline allocations by region)",
+      "url": "https://edisonintl.sharepoint.com/teams/Public/TM2/Shared%20Documents/Public/Regulatory/Tariff-SCE%20Tariff%20Books/Electric/Preliminary%20Statements/ELECTRIC_PRELIM_H.pdf"
+    },
+    "sdge_toudr1_rates": {
+      "publisher": "San Diego Gas & Electric (SDG&E)",
+      "title": "Schedule TOU-DR1, Residential Time of Use Service, Total Rates Table, effective 8/1/2026",
+      "url": "https://www.sdge.com/sites/default/files/regulatory/8-1-26%20Schedule%20TOU-DR1%20Total%20Rates%20Table.pdf"
+    },
+    "sdge_toudr1_sheet": {
+      "publisher": "San Diego Gas & Electric (SDG&E)",
+      "title": "Schedule TOU-DR1 tariff sheets as posted on sdge.com (sheets dated effective Jan 1, 2018: used for the time periods only)",
+      "url": "https://www.sdge.com/sites/default/files/elec_elec-scheds_tou-dr1.pdf"
+    },
+    "cnp_tariff": {
+      "publisher": "CenterPoint Energy Houston Electric, LLC",
+      "title": "Tariff for Retail Delivery Service",
+      "url": "https://assets.centerpointenergy.com/api/public/content/houston-electric-tariff-for-retail-delivery-service.pdf"
     }
   },
   "bills": {
@@ -543,6 +568,448 @@
         "labels": {
           "kwh": "600 kWh a month, an assumption"
         }
+      }
+    },
+    "SCE": {
+      "name": "California: an SCE home (Southern California Edison, TOU-D-4-9PM)",
+      "iso": "caiso",
+      "grid": "/grid/caiso",
+      "wholesale_entity": "caiso:TH_SP15_GEN-APND",
+      "wholesale_label": "CAISO's SP15 zone, weighted by CAISO's whole demand",
+      "kind": "sce",
+      "note": "SCE's standard residential time-of-use option, Option 4-9 PM of Schedule TOU-D, for a bundled-service home (SCE buys the power). Rates as effective June 1, 2026 (Sheet No. 91197-E). Peak hours are 4 to 9 p.m.; summer runs June 1 to October 1. SCE's Delivery Service total and its Generation charge are shown as two lines; the baseline credit applies up to the baseline allocation of the home's region. The Modified Cost Allocation Mechanism charge is left out: it recovers procurement made for customers of other generation providers.",
+      "periods": {
+        "rule": "On-Peak 4 p.m. - 9 p.m. N/A N/A N/A Mid-Peak N/A 4 p.m. - 9 p.m. 4 p.m. - 9 p.m. 4 p.m. - 9 p.m. Off-Peak All other hours 9 p.m. - 8 a.m. All other hours 9 p.m. - 8 a.m. Super-Off-Peak N/A 8 a.m. - 4 p.m. N/A 8 a.m. - 4 p.m.",
+        "seasons": "The Summer Season shall commence at 12:00 a.m. on June 1 and continue until 12:00 a.m. on October 1 of each year.",
+        "cite": "sce_tou_d",
+        "effective": "Special Conditions 1 (Schedule TOU-D)"
+      },
+      "seasons": {
+        "summer": {
+          "label": "Summer (June to September)"
+        },
+        "winter": {
+          "label": "Winter (October to May)"
+        }
+      },
+      "components": [
+        {
+          "id": "sce_delivery",
+          "name": "Delivery service energy charge",
+          "group": "Delivery",
+          "what": "SCE's charge per kWh for the grid that delivers the power: transmission, distribution and the state programs funded through the bill.",
+          "why": "The wires, poles and transformers, and the high-voltage grid, have to be built and run whoever supplies the power.",
+          "basis": "per_kWh_period",
+          "rate": {
+            "summer": {
+              "on": 0.33156,
+              "mid": 0.33156,
+              "off": 0.2727
+            },
+            "winter": {
+              "mid": 0.33156,
+              "off": 0.2727,
+              "super": 0.25153
+            }
+          },
+          "cite": "sce_tou_d",
+          "effective": "2026-06-01 (Sheet No. 91197-E, Total Delivery Service)",
+          "quote": "Summer Season - On-Peak 0.331 56 (I) 0.25321 (R) 0.00000 M id-Peak 0.331 56 (I) 0.1 3326 (R) 0.00000 Off-Peak 0.27270 (R) 0.07396 (I) 0.00000 Winter Season - M id-Peak 0.331 56 (I) 0.1 7956 (R) 0.00000 Off-Peak 0.27270 (R) 0.1 0245 (I) 0.00000 Super-Off-Peak 0.251 53 (R) 0.08452 (I) 0.00000"
+        },
+        {
+          "id": "sce_generation",
+          "name": "Generation",
+          "group": "Energy",
+          "what": "The cost of the power itself, which SCE buys or makes for a bundled customer.",
+          "why": "Someone has to generate the electricity; for a bundled customer SCE does, at these rates.",
+          "basis": "per_kWh_period",
+          "rate": {
+            "summer": {
+              "on": 0.25321,
+              "mid": 0.13326,
+              "off": 0.07396
+            },
+            "winter": {
+              "mid": 0.17956,
+              "off": 0.10245,
+              "super": 0.08452
+            }
+          },
+          "cite": "sce_tou_d",
+          "effective": "2026-06-01 (Sheet No. 91197-E, Generation, UG)",
+          "quote": "Summer Season - On-Peak 0.331 56 (I) 0.25321 (R) 0.00000 M id-Peak 0.331 56 (I) 0.1 3326 (R) 0.00000 Off-Peak 0.27270 (R) 0.07396 (I) 0.00000"
+        },
+        {
+          "id": "sce_frc",
+          "name": "Fixed Recovery Charge",
+          "group": "Delivery",
+          "what": "A charge per kWh that repays bonds SCE issued for wildfire-related costs.",
+          "why": "The bonds were approved by the CPUC to recover those costs at a lower total cost; the charge belongs to the bond issuer, not SCE.",
+          "basis": "per_kWh",
+          "rate": 0.00619,
+          "cite": "sce_tou_d",
+          "effective": "2026-06-01 (Sheet No. 91197-E)",
+          "quote": "Fixed Recovery Charge - $/kWh 0.0061 9"
+        }
+      ],
+      "baseline_credit": {
+        "rate": -0.10099,
+        "cite": "sce_tou_d",
+        "effective": "2026-06-01 (Sheet No. 91197-E)",
+        "what": "A credit per kWh on use up to the home's baseline allocation, whatever the hour.",
+        "why": "California law gives every home a basic quantity of power at a lower price, set by climate region and season.",
+        "quote": "Baseline Credit**** - $/kWh (0.1 0099) (I)",
+        "rule": "The Baseline Credit applies up to 100% of the Baseline Allocation, regardless of Time-of-Use time period."
+      },
+      "baseline_quantities": {
+        "basic": {
+          "5": [
+            17.0,
+            18.4
+          ],
+          "6": [
+            11.4,
+            11.0
+          ],
+          "8": [
+            12.8,
+            10.3
+          ],
+          "9": [
+            16.9,
+            12.0
+          ],
+          "10": [
+            19.3,
+            12.1
+          ],
+          "13": [
+            22.2,
+            12.2
+          ],
+          "14": [
+            19.2,
+            11.9
+          ]
+        },
+        "cite": "sce_prelim_h",
+        "effective": "Preliminary Statement Part H, Baseline Allocations (summer and winter tables)",
+        "quote": "5 17.0 (R) 16.8 (R) 1.9 (N) 1.9 (N) 6 11.4 8.7 (R) 1.9 (N) 1.9 (N) 8 12.8 (I) 9.9 (I) 1.9 (N) 1.9 (N) 9 16.9 (I) 12.5 (I) 1.9 (N) 1.9 (N) 10 19.3 (I) 15.9 (I) 1.9 (N) 1.9 (N) 13 22.2 (I) 24.2 (R) 1.9 (N) 1.9 (N) 14 19.2 (I) 18.5 (I) 1.9 (N) 1.9 (N)",
+        "quote_winter": "5 18.4 (R) 27.0 (R) 2.6 (N) 3.0 (N) 6 11.0 (R) 12.6 (R) 2.6 (N) 3.0 (N) 8 10.3 (R) 12.3 (R) 2.6 (N) 3.0 (N) 9 12.0 (R) 13.9 (R) 2.6 (N) 3.0 (N) 10 12.1 (R) 16.4 (R) 2.6 (N) 3.0 (N) 13 12.2 (R) 23.0 (R) 2.6 (N) 3.0 (N) 14 11.9 (R) 21.1 (R) 2.6 (N) 3.0 (N)",
+        "left_out": "Regions 15 and 16 (desert and mountain) are in the tables, but their summer and winter rows could not be told apart in the text read, so they are not offered."
+      },
+      "base_services": {
+        "rate": 0.794,
+        "cite": "sce_tou_d",
+        "effective": "2026-06-01 (Sheet No. 91197-E)",
+        "what": "SCE's fixed daily charge per meter.",
+        "why": "It recovers fixed costs of serving a home, so the per-kWh rates can be lower.",
+        "quote": "Base Services Charge (BSC) - $/M eter/Day 0.794"
+      },
+      "climate_credit": {
+        "rate": -36.0,
+        "cite": "sce_tou_d",
+        "effective": "2026-06-01 (Sheet No. 91197-E)",
+        "what": "A credit per household, twice a year, from the state's cap-and-trade program.",
+        "why": "California returns part of the program's proceeds to households through their bills.",
+        "quote": "California Climate Credit1 0 (36.00)"
+      },
+      "defaults": {
+        "kwh": 600,
+        "peak_share": 0.2,
+        "super_share": 0.3333,
+        "weekday_share": 0.7143,
+        "season": "winter",
+        "region": "9",
+        "days": 30,
+        "climate_credit": false,
+        "labels": {
+          "peak_share": "20 percent in 4 to 9 p.m., the same assumption as the PG&E bill (PG&E's tariff example)",
+          "super_share": "a third in 8 a.m. to 4 p.m. (winter), use spread evenly over the hours: an assumption",
+          "weekday_share": "5 of 7 days are weekdays (summer 4 to 9 p.m. on weekdays is on-peak, on weekends mid-peak); holidays ignored: an assumption",
+          "season": "winter, the season on 2026-10-01",
+          "region": "Baseline Region 9, an assumption: the region is on the bill"
+        }
+      }
+    },
+    "SDGE": {
+      "name": "California: an SDG&E home (San Diego Gas & Electric, TOU-DR1)",
+      "iso": "caiso",
+      "grid": "/grid/caiso",
+      "wholesale_entity": "caiso:TH_SP15_GEN-APND",
+      "wholesale_label": "CAISO's SP15 zone, weighted by CAISO's whole demand",
+      "kind": "sdge",
+      "note": "SDG&E's standard residential schedule, TOU-DR1, bundled service, at the total rates effective August 1, 2026 (UDC, the DWR and wildfire charges, and the EECC commodity rate together, as SDG&E's own table gives them). The baseline adjustment credit applies to use up to 130 percent of the home's baseline allowance, which SDG&E prints on the bill: enter it. SDG&E's baseline allowances by climate zone were not found as text (its calculator is a script), so the default bill has no baseline credit and is that much too high. The time periods are read from the tariff sheet SDG&E posts on its site, which is dated 2018; its old rates are not used.",
+      "periods": {
+        "rule": "On-Peak 4:00 p.m. – 9:00 p.m. 4:00 p.m. – 9:00 p.m. Off-Peak 6:00 a.m. – 4:00 p.m.; 9:00 p.m. - midnight",
+        "super": "Super Off-Peak Midnight – 6:00 a.m. Midnight – 6:00 a.m.",
+        "weekend": "Super Off-Peak Midnight – 2:00 p.m. Midnight – 2:00 p.m.",
+        "cite": "sdge_toudr1_sheet",
+        "effective": "the sheet's Time Periods (dated effective Jan 1, 2018)"
+      },
+      "seasons": {
+        "summer": {
+          "label": "Summer"
+        },
+        "winter": {
+          "label": "Winter"
+        }
+      },
+      "components": [
+        {
+          "id": "sdge_total",
+          "name": "Energy charge (delivery and commodity, total)",
+          "group": "Energy and delivery",
+          "what": "SDG&E's total rate per kWh in each time period: delivery (transmission, distribution, public programs), the DWR and wildfire charges, and the power itself.",
+          "why": "SDG&E's own table gives the bundled total rate per period; the components are in the table.",
+          "basis": "per_kWh_period",
+          "rate": {
+            "summer": {
+              "on": 0.69135,
+              "off": 0.46421,
+              "super": 0.37433
+            },
+            "winter": {
+              "on": 0.61471,
+              "off": 0.5306,
+              "super": 0.43719
+            }
+          },
+          "cite": "sdge_toudr1_rates",
+          "effective": "2026-08-01 (Total Rates Table)",
+          "quote": "On-Peak 0.09096 0.15348 0.01515 0.00000 (0.00007) 0.00000 0.00005 0.06644 0.32601 0.00591 0.35943 0.69135"
+        }
+      ],
+      "rate_quotes": [
+        "Off-Peak 0.09096 0.15348 0.01515 0.00000 (0.00007) 0.00000 0.00005 0.06644 0.32601 0.00591 0.13229 0.46421",
+        "Super Off-Peak 0.09096 0.15348 0.01515 0.00000 (0.00007) 0.00000 0.00005 0.06644 0.32601 0.00591 0.04241 0.37433",
+        "On-Peak 0.09096 0.15348 0.01515 0.00000 (0.00007) 0.00000 0.00005 0.06644 0.32601 0.00591 0.28279 0.61471",
+        "Off-Peak 0.09096 0.15348 0.01515 0.00000 (0.00007) 0.00000 0.00005 0.06644 0.32601 0.00591 0.19868 0.53060",
+        "Super Off-Peak 0.09096 0.15348 0.01515 0.00000 (0.00007) 0.00000 0.00005 0.06644 0.32601 0.00591 0.10527 0.43719"
+      ],
+      "baseline_credit": {
+        "rate": -0.10702,
+        "share": 1.3,
+        "cite": "sdge_toudr1_rates",
+        "effective": "2026-08-01 (Total Rates Table)",
+        "what": "A credit per kWh on use up to 130 percent of the home's baseline allowance.",
+        "why": "California law gives every home a basic quantity of power at a lower price; SDG&E credits up to 130 percent of it.",
+        "quote": "Up to 130% of Baseline Adjustment Credit 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 0.00000 (0.10702) (0.10702) (0.10702)"
+      },
+      "base_services": {
+        "rate": 0.79343,
+        "cite": "sdge_toudr1_rates",
+        "effective": "2026-08-01 (Total Rates Table)",
+        "what": "SDG&E's fixed daily charge.",
+        "why": "It recovers fixed costs of serving a home, so the per-kWh rates can be lower.",
+        "quote": "Base Services Charge ($/Day) 0.00000 0.63391 0.02913 0.00000 0.00000 0.13039 0.00000 0.00000 0.79343 0.00000 0.00000 0.79343"
+      },
+      "defaults": {
+        "kwh": 600,
+        "peak_share": 0.2,
+        "super_share": 0.3452,
+        "season": "summer",
+        "baseline_kwh": 0,
+        "days": 30,
+        "labels": {
+          "peak_share": "20 percent in 4 to 9 p.m., the same assumption as the PG&E bill",
+          "super_share": "34.5 percent in super off-peak hours: use spread evenly over the week's hours (midnight to 6 a.m. on weekdays, midnight to 2 p.m. on weekends; March and April weekday middays ignored): an assumption",
+          "season": "summer, SDG&E's season on 2026-10-01 by its calculator page (summer June 1 to October 31)",
+          "baseline_kwh": "0: enter your baseline allowance from your SDG&E bill; the default bill has no baseline credit"
+        }
+      }
+    },
+    "TXC": {
+      "name": "Texas: a home in CenterPoint's area (Houston)",
+      "iso": "ercot",
+      "grid": "/grid/ercot",
+      "wholesale_entity": "ercot:HB_HUBAVG",
+      "kind": "tdsp",
+      "note": "In the Houston area a retail electric provider sells the power and CenterPoint Energy Houston Electric delivers it; the retailer passes CenterPoint's delivery charges through. The retailer's energy charge is set by the plan: it is an input. CenterPoint's rates page lists an older DCRF ($0.004934) and shows its credits without signs; the tariff, read here, is used.",
+      "energy_default": {
+        "rate": 0.0853,
+        "derivation": "EIA's average Texas residential price for July 2026 (158.8 USD/MWh, all customers of all utilities and retailers) less CenterPoint's delivery charges at 600 kWh, so the default bill at 600 kWh matches that average; an assumption: enter the energy charge on your plan's Electricity Facts Label",
+        "eia_row": {
+          "table": "eia_retail_electricity_prices",
+          "entity": "eia:retail_price:TX:RES",
+          "ts_utc": "2026-07-01T00:00:00Z",
+          "value": 158.8,
+          "unit": "USD/MWh"
+        },
+        "cite": "eia_retail",
+        "arithmetic": "0.1588 - 0.065333 (CenterPoint per kWh) - 4.90 / 600 (CenterPoint fixed per kWh at 600) = 0.085300, rounded to 0.0853"
+      },
+      "fixed": [
+        {
+          "id": "cnp_cust",
+          "name": "Customer Charge",
+          "what": "A fixed monthly charge per customer.",
+          "why": "Billing and customer service cost the same whether a home uses a little or a lot.",
+          "basis": "per_month",
+          "rate": 2.11,
+          "cite": "cnp_tariff",
+          "quote": "Customer Charge $2.11 per Retail Customer per Month",
+          "effective": "2026-02-26 (6.1.1.1.1 Residential Service)"
+        },
+        {
+          "id": "cnp_meter",
+          "name": "Metering Charge",
+          "what": "A fixed monthly charge for the meter.",
+          "why": "Every home has a meter to install, read and maintain.",
+          "basis": "per_month",
+          "rate": 2.79,
+          "cite": "cnp_tariff",
+          "quote": "Metering Charge $2.79 per Meter per Month",
+          "effective": "2026-02-26 (6.1.1.1.1 Residential Service)"
+        }
+      ],
+      "per_kwh": [
+        {
+          "id": "cnp_dsc",
+          "name": "Distribution System Charge",
+          "what": "CenterPoint's charge per kWh for the local wires and poles.",
+          "why": "The neighborhood grid has to be built and kept up.",
+          "basis": "per_kWh",
+          "rate": 0.02324,
+          "cite": "cnp_tariff",
+          "quote": "Distribution System Charge $0.023240 per kWh",
+          "effective": "2026-02-26 (6.1.1.1.1 Residential Service, 22nd revision)"
+        },
+        {
+          "id": "cnp_tcrf",
+          "name": "Transmission Cost Recovery Factor (TCRF)",
+          "what": "A charge for the high-voltage transmission grid across ERCOT.",
+          "why": "Every wires company in ERCOT pays for the shared transmission grid and passes the cost through.",
+          "basis": "per_kWh",
+          "rate": 0.030812,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service $ 0.030812 per kWh",
+          "effective": "Rider TCRF (53rd revision, effective 9/1/26)"
+        },
+        {
+          "id": "cnp_dcrf",
+          "name": "Distribution Cost Recovery Factor (DCRF)",
+          "what": "A charge for distribution investment made since the last rate case.",
+          "why": "Texas lets wires companies recover new distribution spending between rate cases.",
+          "basis": "per_kWh",
+          "rate": 0.006137,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service $ 0.006137 per kWh",
+          "effective": "meter reads on and after 2026-09-30 (Rider DCRF, 16th revision)"
+        },
+        {
+          "id": "cnp_eecrf",
+          "name": "Energy Efficiency Cost Recovery Factor (EECRF)",
+          "what": "Funds CenterPoint's energy efficiency programs.",
+          "why": "Texas requires utilities to run efficiency programs and recover their cost.",
+          "basis": "per_kWh",
+          "rate": 0.001576,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service $0.001576 Per kWh",
+          "effective": "Rider EECRF"
+        },
+        {
+          "id": "cnp_ndc",
+          "name": "Nuclear Decommissioning Charge (NDC)",
+          "what": "Funds the eventual decommissioning of nuclear plants once owned for this area.",
+          "why": "The cost of retiring those plants is collected from the customers they served.",
+          "basis": "per_kWh",
+          "rate": 1.3e-05,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service $0.000013 Per kWh",
+          "effective": "Rider NDC (8th revision, effective 4/28/25)"
+        },
+        {
+          "id": "cnp_teeef",
+          "name": "Temporary Emergency Electric Energy Facilities (TEEEF)",
+          "what": "Pays for mobile generation CenterPoint keeps for outages.",
+          "why": "Texas allowed wires companies to lease emergency generation after the 2021 storm.",
+          "basis": "per_kWh",
+          "rate": 0.000742,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service $0.000742 per kWh",
+          "effective": "Rider TEEEF (effective for meter reads on and after 2026-08-15)"
+        },
+        {
+          "id": "cnp_rce",
+          "name": "Rate Case Expense Surcharge (RCE)",
+          "what": "Recovers the cost of CenterPoint's last rate case.",
+          "why": "Rate cases are costly; the expense is recovered over time.",
+          "basis": "per_kWh",
+          "rate": 4.8e-05,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service $0.000048 Per kWh",
+          "effective": "Rider RCE (2nd revision, effective 04/28/25)"
+        },
+        {
+          "id": "cnp_ira",
+          "name": "Inflation Reduction Act 2022 (IRA)",
+          "what": "Passes through effects of the 2022 federal Inflation Reduction Act; zero now.",
+          "why": "The rider exists so the effect can be passed through when it is not zero.",
+          "basis": "per_kWh",
+          "rate": 0.0,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service $0.000000 Per kWh",
+          "effective": "Rider IRA (6th revision, effective 5/18/2026)"
+        },
+        {
+          "id": "cnp_src2",
+          "name": "System Restoration Charge II (SRC II)",
+          "what": "Repays bonds that financed storm restoration costs.",
+          "why": "Restoration after major storms was financed with bonds repaid through bills.",
+          "basis": "per_kWh",
+          "rate": 0.000636,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service $0.000636 Per kWh",
+          "effective": "Schedule SRC II (1st revision, effective 9/1/26)"
+        },
+        {
+          "id": "cnp_adfit2",
+          "name": "ADFIT Credit II",
+          "what": "A credit returning accumulated deferred income tax benefits tied to SRC II.",
+          "why": "Tax benefits from the restoration financing are returned to customers.",
+          "basis": "per_kWh",
+          "rate": -2.3e-05,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service ($0.000023) Per kWh",
+          "effective": "Rider ADFITC II (1st revision, effective 9/1/26)"
+        },
+        {
+          "id": "cnp_src3",
+          "name": "System Restoration Charge III (SRC III)",
+          "what": "Repays bonds for later storm restoration costs.",
+          "why": "As SRC II, for later storms.",
+          "basis": "per_kWh",
+          "rate": 0.002848,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service $0.002848 Per kWh",
+          "effective": "Schedule SRC III (original, effective 02/26/26)"
+        },
+        {
+          "id": "cnp_adfit3",
+          "name": "ADFIT Credit III",
+          "what": "A credit returning tax benefits tied to SRC III.",
+          "why": "As ADFIT Credit II.",
+          "basis": "per_kWh",
+          "rate": -0.000418,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service ($0.000418) Per kWh",
+          "effective": "Rider ADFITC III"
+        },
+        {
+          "id": "cnp_tc5",
+          "name": "TC5 Refund",
+          "what": "Refunds an amount left over after the transition bonds of Schedule TC5 were paid off.",
+          "why": "Money collected beyond what the bonds needed goes back to customers.",
+          "basis": "per_kWh",
+          "rate": -0.000278,
+          "cite": "cnp_tariff",
+          "quote": "Residential Service ($0.000278) Per kWh",
+          "effective": "Rider TC5 Refund (6th revision, effective 5/18/2026)"
+        }
+      ],
+      "defaults": {
+        "kwh": 600
       }
     }
   }

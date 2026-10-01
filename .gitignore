@@ -44,3 +44,7 @@ site/screenshots/
 warehouse/output/members/
 # Session 30: the shadow Digest and Roundup and the stories view they read (warehouse/news/shadow.py), never published
 warehouse/output/shadow/
+# session 52: real bills, typed in by hand with their owners' permission, never leave this folder; only its README is
+# tracked. site/scripts/bill-intake.mjs writes de-identified fixtures to tests/fixtures/bills/
+private/bills/*
+!private/bills/README.md

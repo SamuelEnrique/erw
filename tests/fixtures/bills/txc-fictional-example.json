@@ -1,0 +1,19 @@
+{
+  "fictional": true,
+  "source": "FICTIONAL EXAMPLE, made up in session 52 to show the intake's output: not a real bill, home, retailer or customer",
+  "utility": "TXC",
+  "plan_type": "fixed-rate 12 months (fictional)",
+  "period": { "start": "2026-08-14", "end": "2026-09-13" },
+  "kwh": 1000,
+  "energy_rate": 0.0853,
+  "lines": [
+    { "name": "Energy Charge", "amount": 85.30 },
+    { "name": "Customer Charge", "amount": 2.11 },
+    { "name": "Metering Charge", "amount": 2.79 },
+    { "name": "Distribution System Charge", "amount": 23.24 },
+    { "name": "Transmission Cost Recovery Factor", "amount": 30.81 },
+    { "name": "Distribution Cost Recovery Factor", "amount": 4.93 },
+    { "name": "Energy Efficiency Cost Recovery Factor", "amount": 1.58 },
+    { "name": "Miscellaneous Gross Receipts Reimbursement", "amount": 3.10 }
+  ]
+}

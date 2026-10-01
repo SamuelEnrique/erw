@@ -121,8 +121,21 @@ async function truth(check) {
       const q = c.baseline_quantities.code_B[d.territory][d.season === "summer" ? 0 : 1] * d.days;
       total = kwh * (d.peak_share * s.peak + (1 - d.peak_share) * s.offpeak) + Math.min(kwh, q) * c.baseline_credit.rate
         + d.days * c.base_services.tiers[d.income_tier] + (d.climate_credit ? c.climate_credit.rate : 0);
+    } else if (st === "SCE" || st === "SDGE") {
+      // session 52: by period, the delivery and generation (SCE) or total (SDG&E) rates summed per period, here
+      const c = R[st], d = c.defaults;
+      kwh = d.kwh;
+      const p = d.peak_share, sp = d.super_share;
+      const sh = c.kind === "sce"
+        ? (d.season === "summer" ? { on: p * d.weekday_share, mid: p * (1 - d.weekday_share), off: 1 - p } : { mid: p, super: sp, off: 1 - p - sp })
+        : { on: p, super: sp, off: 1 - p - sp };
+      const perPeriod = {};
+      for (const comp of c.components) for (const [k, v] of Object.entries(comp.basis === "per_kWh_period" ? comp.rate[d.season] : Object.fromEntries(Object.keys(sh).map((k) => [k, comp.rate])))) perPeriod[k] = (perPeriod[k] ?? 0) + v;
+      const base = c.kind === "sce" ? Math.min(kwh, c.baseline_quantities.basic[d.region][d.season === "summer" ? 0 : 1] * d.days) : Math.min(kwh, (d.baseline_kwh ?? 0) * c.baseline_credit.share);
+      total = Object.entries(sh).reduce((a, [k, x]) => a + kwh * x * perPeriod[k], 0) + base * c.baseline_credit.rate + d.days * c.base_services.rate
+        + (d.climate_credit && c.climate_credit ? c.climate_credit.rate : 0);
     } else {
-      const t = R.TX;
+      const t = R[st];  // TX (Oncor) or, since session 52, TXC (CenterPoint)
       kwh = t.defaults.kwh;
       total = kwh * t.energy_default.rate + t.fixed.reduce((a, f) => a + f.rate, 0) + kwh * t.per_kwh.reduce((a, f) => a + f.rate, 0);
     }
