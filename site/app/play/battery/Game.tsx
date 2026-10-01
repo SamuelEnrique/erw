@@ -339,6 +339,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
   const [nick, setNick] = useState("");
   const [posted, setPosted] = useState<string>("");
   const canvas = useRef<HTMLCanvasElement>(null);
+  const board = useRef<HTMLDivElement>(null);  // session 50: scrolled into view when a game starts (phones)
   const raf = useRef(0);
   const next = useRef<(now: number) => void>(() => {});  // the loop's next frame, through a ref (react-hooks/immutability)
 
@@ -393,7 +394,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
         if (x1 > x0) ctx.fillRect(x0, y(b.hi), x1 - x0, Math.max(2, y(b.lo) - y(b.hi)));
       }
       ctx.fillStyle = css("muted"); ctx.font = "11px system-ui, sans-serif";
-      ctx.fillText(`next ${forecast / 4} hours: each hour's price range`, nowX + 6, top + 2);
+      ctx.fillText(w < 520 ? `next ${forecast / 4} h: price range` : `next ${forecast / 4} hours: each hour's price range`, nowX + 6, top + 2);
     }
     // actions taken, under the line
     const acts = g.current.actions;
@@ -478,6 +479,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
     setHud({ idx: 0, soc: rules.start, cash: 0, wear: 0, vppKwh: 0, control: 0 });
     setResult(null); setServer(""); setPosted("");
     setPhase("play");
+    requestAnimationFrame(() => board.current?.scrollIntoView({ block: "start", behavior: "auto" }));
     next.current = loop;
     raf.current = requestAnimationFrame((t) => next.current(t));
   };
@@ -557,7 +559,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
       ) : null}
 
       {phase !== "pick" ? (
-        <div>
+        <div ref={board} className="scroll-mt-2">
           <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2 text-sm">
             <span><strong>{level.title}</strong>, {level.date} (Central time), {DIFFICULTIES[difficulty].label}</span>
             <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.ts_utc[Math.min(n - 1, hud.idx)])}` : "end of day"}</span>

@@ -10,7 +10,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { optimum, simulate } from "../lib/battery.ts";
+import { DEFAULT_SETTINGS, optimum, presetOf, rulesOf, simulate } from "../lib/battery.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
@@ -54,5 +54,25 @@ check(s === 400, `short actions refused: HTTP ${s} (${j.error})`);
 check(s === 400, `unknown level refused: HTTP ${s} (${j.error})`);
 // the local rule check: the same actions scored here
 check(Math.abs(simulate(heat.price, best.actions).score - best.score) < 1e-9, "lib/battery.ts replays the optimum");
+
+// 4. session 50: one scripted play per difficulty, and a custom battery on Hard: the server rescoring under each preset
+// equals lib/battery.ts's, the optimum too, and the stored preset is the one played
+const custom = { kwh: 10, kw: 4, rte: 0.88, reserve: 0.3, deg: 0.15 };
+for (const [label, settings, difficulty] of [["easy", DEFAULT_SETTINGS, "easy"], ["normal", DEFAULT_SETTINGS, "normal"], ["hard", DEFAULT_SETTINGS, "hard"], ["hard, custom", custom, "hard"]]) {
+  const r = rulesOf(settings, difficulty);
+  const plan = optimum(heat.price, r);
+  const greedy = heat.price.map((p, i) => (i < 24 ? 1 : p > 100 ? -1 : 0));  // charge the first six hours, sell above 100 USD/MWh
+  const want = simulate(heat.price, greedy, r).score;
+  [s, j] = await post("/api/play/finish", { level: heat.date, actions: greedy, settings, difficulty });
+  const preset = presetOf(settings, difficulty);
+  check(s === 200 && j.stored === true && Math.abs(j.score - Math.round(want * 1e4) / 1e4) < 1e-9 && Math.abs(j.optimal - Math.round(plan.score * 1e4) / 1e4) < 1e-9 && j.preset === preset,
+    `${label}: finish scored ${j.score} (lib ${want.toFixed(4)}), perfect ${j.optimal} (lib ${plan.score.toFixed(4)}), preset ${j.preset}`);
+  [s, j] = await post("/api/play/score", { level: heat.date, actions: greedy, settings, difficulty });
+  check(s === 200 && j.preset === preset && Array.isArray(j.top) && j.top.every((x) => x.preset === preset), `${label}: score stored under ${preset}; leaderboard of ${j.top?.length} rows, all of that preset`);
+}
+[s, j] = await post("/api/play/finish", { level: heat.date, actions: best.actions, settings: { ...DEFAULT_SETTINGS, kwh: 99 }, difficulty: "hard" });
+check(s === 400, `a setting out of range refused: HTTP ${s} (${j.error})`);
+[s, j] = await post("/api/play/finish", { level: heat.date, actions: best.actions, difficulty: "insane" });
+check(s === 400, `an unknown difficulty refused: HTTP ${s} (${j.error})`);
 console.log(bad ? `${bad} FAILED` : "scripted play: every check passed");
 process.exit(bad ? 1 : 0);

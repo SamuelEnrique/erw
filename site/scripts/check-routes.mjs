@@ -42,6 +42,7 @@ const PAGES = [
   "/events", "/events/uri-2021", "/events/covid-2020",
   "/cost-of-power", "/data/methods/cost_of_power", "/data/methods/event_study",
   "/play/battery",
+  "/data/methods/battery_game",  // session 50
   "/severance", "/severance/lease", "/data/methods/severance",
   "/learn/bill",
   "/learn/problems", "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke", "/learn/problems/storage-and-taxes",
