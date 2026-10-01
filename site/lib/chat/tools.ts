@@ -15,7 +15,7 @@ import { DOCS, type GridConfig } from "@/lib/markdown";
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
 export type Scope = GridConfig | null;
 export const scopeOf = (slug: string | null | undefined): Scope => (slug ? DOCS.grid_config.find((g) => g.slug === slug) ?? null : null);
-const BA_TABLES = new Set(["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage",
+const BA_TABLES = new Set(["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "eia930_all_interchange",
   "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle"]);
 
 /** The PostgREST filters that keep a table's rows of the scoped grid. */

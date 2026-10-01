@@ -142,6 +142,11 @@ run_other eia930_storage "$PYTHON" warehouse/connectors/eia930_storage.py --days
 # on (entity, variable, ts_utc); the raw copy kept), then carbon intensity (docs/methods/emissions.md)
 run_other eia930_emissions "$PYTHON" warehouse/connectors/eia930_emissions.py --days "$DAYS"
 run_other carbon_intensity "$PYTHON" warehouse/derived/carbon_intensity.py
+# Session 49 (session 42's A2): EIA-930 interchange, every BA pair EIA reports, merged into its history like the other
+# EIA-930 tables (the last $DAYS days pulled again), then the grid network's tables and the /network snapshot
+# site/data/grid_network.json (docs/methods/grid_network.md)
+run_other eia930_interchange "$PYTHON" warehouse/connectors/eia930_interchange.py --days "$DAYS"
+run_other grid_network "$PYTHON" warehouse/derived/grid_network.py
 
 # Session 24: NWS weather at one airport per ISO load center: hourly observations (the API serves about 7 days;
 # the table grows by merging) and the 7-day hourly forecast, for /grid's temperature overlay and degree days

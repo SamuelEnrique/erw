@@ -398,6 +398,7 @@ export default async function GridPage({ params }: { params: Promise<{ iso: stri
       <p className="mb-4 max-w-3xl text-sm text-muted">
         Who runs this grid, where its power comes from, what it costs, how clean it is, what is being built and what makes it different. Numbers come
         from the warehouse&apos;s tables, each with its source; the text is written for this page and cites its sources. Times are {g.tz_label} unless marked UTC.
+        {" "}How it trades power with its neighbors: <Link href="/network">the grid network</Link>.
       </p>
       <nav aria-label="Other grids" className="mb-5 flex flex-wrap gap-x-3 text-sm">
         {GRIDS.map((x) => (x.slug === g.slug ? <span key={x.slug} className="text-accent">{x.iso}</span> : <Link key={x.slug} href={`/grid/${x.slug}`}>{x.iso}</Link>))}

@@ -30,6 +30,8 @@ export const GROUPS: Group[] = [
   {
     label: "Grid",
     pages: [
+      // session 49 (session 42's B4): the 3D network, first under Grid
+      { href: "/network", label: "The network", line: "The US balancing authorities in 3D and the power they trade, hour by hour over the latest week.", tables: "eia930_all_interchange, grid_network_nodes, grid_network_links", related: ["/grid", "/emissions"] },
       { href: "/grid", label: "Grid conditions", line: "Yesterday's peak demand, forecast error and generation mix for each ISO and the Lower 48.", tables: "eia930_all_demand, eia930_all_generation", related: ["/mix", "/curtailment"] },
       { href: "/mix", label: "Energy mix", line: "What generates the power: hourly by grid operator, and monthly by state since 2001.", tables: "eia930_all_generation, eia930_generation_latest, state_generation_mix_monthly", related: ["/grid", "/curtailment"] },
       { href: "/curtailment", label: "Curtailment", line: "Wind and solar output curtailed, by ISO, daily and monthly, and what each ISO's figure means.", tables: "caiso_curtailment_daily, spp_curtailment_daily, ercot_wind_solar_hsl_daily, iso_curtailment_monthly", related: ["/mix", "/grid"] },

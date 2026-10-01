@@ -115,6 +115,17 @@ day-ahead tables running into tomorrow:
   net_generation_<fuel>_mw: coal, natural_gas, nuclear, solar, wind, hydro,
   battery, oil, other, ...), column `ba` = ciso, erco, isne, miso, nyis, pjm,
   swpp, us48 (entity eia930:CISO, ...). About 30 days.
+**Interchange and the grid network** (session 49, method docs/methods/grid_network.md):
+  eia930_all_interchange: EIA-930 hourly interchange between balancing
+  authorities, every pair EIA reports, interchange_mw, MW (EIA's MWh per hour),
+  positive when the reporting BA (column ba, lowercase; entity eia930:<FROM>-<TO>)
+  exports to its neighbor (x_to_ba). Both BAs of a pair report it. From
+  2026-09-13, grown daily; not in the live set (hourly history).
+  grid_network_nodes (derived): one entity per BA, demand_mw and
+  intensity_generation (the latest hour, the seven ISO BAs) and
+  interchange_volume_mwh over the latest 168 hours; x_name is EIA's name.
+  grid_network_links (derived): each BA pair once per hour, the last 168 hours,
+  flow_mw positive when the code that sorts first exports to the other.
 **Battery storage** (session 31, method docs/methods/storage.md):
   eia930_all_storage: EIA-930 hourly net generation of battery storage (fuel
   type BAT), net_generation_battery_mw, MW, positive discharging, negative
@@ -320,6 +331,7 @@ day-ahead tables running into tomorrow:
 | Industrial or commercial energy use, all fuels (US) | `eia_sector_energy_consumption_monthly` |
 | Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
 | Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_all_generation` (ba) |
+| Power flowing between balancing authorities (imports, exports, interchange, ties) | `eia930_all_interchange` (ba), `grid_network_links`, `grid_network_nodes` |
 | Battery charging and discharging by hour or day; the battery fleet by state, ISO or year | `eia930_all_storage`, `storage_daily_cycle`, `storage_capacity` |
 | CO2 emissions of an ISO's power, and its carbon intensity (kg CO2 per MWh) | `eia930_all_emissions` (since 2018-07), `carbon_intensity_hourly` / `_daily` (last ~30 days) |
 | Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `iso_trader_daily` (market), `iso_rt_top_intervals` |

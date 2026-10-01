@@ -204,7 +204,7 @@ def _table(name):
 
 
 # tables partitioned by ba (session 29 and later): a scoped chat fetches one partition
-_BA_TABLES = {"eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage",
+_BA_TABLES = {"eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "eia930_all_interchange",
               "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle"}
 
 

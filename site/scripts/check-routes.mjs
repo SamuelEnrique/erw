@@ -37,7 +37,7 @@ const PAGES = [
   "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/about", "/terms",
   "/subscribe", "/ask",
   // session 35: the seven grid pages
-  "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
+  "/network", "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
   // session 36B: the Historical Event Analyzer
   "/events", "/events/uri-2021", "/events/covid-2020",
   "/cost-of-power", "/data/methods/cost_of_power", "/data/methods/event_study",
