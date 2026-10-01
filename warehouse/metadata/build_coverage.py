@@ -168,7 +168,7 @@ SECTOR_RULES = [
     (r"^iso_hub_prices_history$", "power"),
     (r"^eia930_all_history$", "power"),
     (r"^noaa_isd_hourly$", "power"),
-    (r"^rrc_well_production_monthly$", "oil;gas"),
+    (r"^rrc_lease_production_monthly$", "oil;gas"),
 ]
 
 
@@ -194,7 +194,7 @@ def iso_of(table):
         return "CAISO;ISO-NE;MISO;NYISO;SPP"
     if table in ("eia930_all_history", "noaa_isd_hourly"):  # session 49: the seven ISO BAs, and their weather stations
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
-    if table == "rrc_well_production_monthly":  # session 49: Texas wells, no ISO
+    if table == "rrc_lease_production_monthly":  # session 49: Texas leases, no ISO
         return "none"
     if table in ("event_window_daily", "event_study_estimates"):  # session 36B Uri in ERCOT; session 36C COVID-19 in the seven ISO BAs and US48; session 47 its event studies
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"

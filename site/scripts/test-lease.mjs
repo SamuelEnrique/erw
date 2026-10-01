@@ -294,5 +294,31 @@ check(has(flags([{ state: "LA", well_id: "z", month: "2027-01", oil_bbl: 900, oi
   check(JSON.stringify(fired) === JSON.stringify(want), "the sample fires the flags it was written to show");
 }
 
+// session 49: "Load a real lease": the RRC table's rows become the tool's file (lib/rrclease.ts). The fixture is made up
+// (FICTIONAL lease names, the table's columns), not RRC data, which is internal and not in git.
+{
+  const { parseRrc, leaseCsv, splitCsv } = await import("../lib/rrclease.ts");
+  const fx = [
+    "# a made-up fixture in the shape of rrc_lease_production_monthly",
+    "entity,variable,ts_utc,value,unit,freq,geo,market,node,source,source_url,retrieved_at,vintage,x_county,x_district,x_oil_gas_code,x_lease_no,x_lease_name,x_operator_no,x_operator_name,x_field_no,x_field_name,x_gas_well_no,x_wells",
+    'rrc:O-10-99999,oil_bbl,2026-06-01T00:00:00Z,300,bbl,P1M,US-TX,,,rrc:pdq_dump,u,r,v,MARTIN,08,O,99999,"FICTIONAL ""A"", UNIT",1,FICTIONAL OPERATING,2,FIELD X,,1',
+    'rrc:O-10-99999,casinghead_gas_mcf,2026-06-01T00:00:00Z,900,Mcf,P1M,US-TX,,,rrc:pdq_dump,u,r,v,MARTIN,08,O,99999,"FICTIONAL ""A"", UNIT",1,FICTIONAL OPERATING,2,FIELD X,,1',
+    'rrc:O-10-99999,oil_bbl,2026-05-01T00:00:00Z,310,bbl,P1M,US-TX,,,rrc:pdq_dump,u,r,v,MARTIN,08,O,99999,"FICTIONAL ""A"", UNIT",1,FICTIONAL OPERATING,2,FIELD X,,1',
+    'rrc:G-10-88888,gas_mcf,2026-06-01T00:00:00Z,5000,Mcf,P1M,US-TX,,,rrc:pdq_dump,u,r,v,MARTIN,08,G,88888,FICTIONAL GAS,1,FICTIONAL OPERATING,3,FIELD Y,1,1',
+    'rrc:G-10-88888,condensate_bbl,2026-06-01T00:00:00Z,12,bbl,P1M,US-TX,,,rrc:pdq_dump,u,r,v,MARTIN,08,G,88888,FICTIONAL GAS,1,FICTIONAL OPERATING,3,FIELD Y,1,1',
+  ].join("\n");
+  check(JSON.stringify(splitCsv('a,"b ""c"", d",e')) === JSON.stringify(["a", 'b "c", d', "e"]), "rrclease: CSV quoting (a doubled quote, a comma inside quotes)");
+  const t = parseRrc(fx);
+  const o = t.leases.get("rrc:O-10-99999"), g = t.leases.get("rrc:G-10-88888");
+  check(t.leases.size === 2 && o.name === 'FICTIONAL "A", UNIT' && o.wells === 1 && Object.keys(o.months).length === 2, "rrclease: two leases parsed, the quoted name and the months");
+  const po = parseLease(leaseCsv(o, COLUMNS), rules), pg = parseLease(leaseCsv(g, COLUMNS), rules);
+  check(po.errors.length === 0 && po.rows.length === 2 && pg.errors.length === 0 && pg.rows.length === 1, "rrclease: the made file parses in the lease tool without error", JSON.stringify([po.errors, pg.errors]));
+  const jun = po.rows.find((r) => r.month === "2026-06"), may = po.rows.find((r) => r.month === "2026-05");
+  check(jun.vol.oil === 300 && jun.vol.gas === 900 && may.vol.oil === 310 && !may.vol.gas && pg.rows[0].vol.gas === 5000 && pg.rows[0].vol.condensate === 12,
+    "rrclease: oil, casinghead gas as gas, gas and condensate land in their columns", JSON.stringify([jun.vol, may.vol, pg.rows[0].vol]));
+  const banned = /\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|"use server"|\bimport\s*\(/;
+  check(!banned.test(fs.readFileSync(path.join(here, "..", "lib", "rrclease.ts"), "utf8")), "rrclease: no network in lib/rrclease.ts");
+}
+
 console.log(bad ? `${bad} of ${n} FAILED` : `every check passes (${n}): the lease tool matches the hand-computed leases and thresholds, and makes no network call`);
 process.exit(bad ? 1 : 0);

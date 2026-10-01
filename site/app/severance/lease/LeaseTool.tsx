@@ -25,9 +25,10 @@ function save(name: string, text: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export function LeaseTool({ rules, prices }: { rules: Rules; prices: PriceBook }) {
-  const [text, setText] = useState("");
-  const [source, setSource] = useState("");
+// session 49: `initial`, a file the server rendered into the page (the internal real-lease route); still no request
+export function LeaseTool({ rules, prices, initial }: { rules: Rules; prices: PriceBook; initial?: { text: string; source: string } }) {
+  const [text, setText] = useState(initial?.text ?? "");
+  const [source, setSource] = useState(initial?.source ?? "");
   const [manual, setManual] = useState<Record<string, string[]> | null>(null);
   const [over, setOver] = useState(false);
   const load = (t: string, from: string) => { setText(t); setSource(from); setManual(null); };
