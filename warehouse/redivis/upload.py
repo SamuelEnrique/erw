@@ -314,7 +314,38 @@ def tables_on_disk():
     return sorted(os.path.splitext(f)[0] for f in os.listdir(OUT) if f.endswith(".csv"))
 
 
-def run_upload(names, include_metadata, allow_shrink=(), create_internal=False):
+def merge_headers(drafts, names, lic, now, results):
+    """Session 49 (--tables): each named table's header lines replace its own lines in its dataset's erw_headers draft
+    table; every other table's lines stay as the draft holds them (a machine with older copies of other tables never
+    overwrites their headers)."""
+    for target in sorted({dataset_for(lic.get(n, "")) for n in names}):
+        mine = [n for n in names if dataset_for(lic.get(n, "")) == target]
+        label = HEADERS_TABLE + ("" if target == PUBLIC else f" ({target})")
+        try:
+            try:
+                old = drafts(target).table(HEADERS_TABLE).to_pandas_dataframe(progress=False, dtype_backend="numpy")
+                old = old[~old["table"].isin(mine)][["table", "line_no", "line"]]
+            except Exception as exc:  # no erw_headers in this draft yet: start it with these tables
+                log(f"{label}: none in the draft ({type(exc).__name__}); starting it with {mine}")
+                old = pd.DataFrame(columns=["table", "line_no", "line"])
+            new = [(n, i, line) for n in mine for i, line in enumerate(split_header(os.path.join(OUT, n + ".csv"))[0], 1)]
+            h = pd.concat([old, pd.DataFrame(new, columns=["table", "line_no", "line"])], ignore_index=True)
+            h["line_no"] = h["line_no"].astype(int)
+            h = h.sort_values(["table", "line_no"])
+            expected, actual = push(drafts(target), HEADERS_TABLE,
+                                    [f"Provenance header lines of every ERW table in {target}, updated {now} for {', '.join(mine)}"],
+                                    h.to_csv(index=False, lineterminator="\n"), "public" if target == PUBLIC else "internal",
+                                    dataset=target)
+            ok = expected == actual
+            results.append((label, expected, actual, "" if ok else "row count mismatch"))
+            log(f"{'ok  ' if ok else 'FAIL'} {label}: {expected:,} header lines ({len(new)} for {', '.join(mine)}), "
+                f"Redivis count(*) {actual:,}")
+        except Exception as exc:
+            results.append((label, None, None, f"{type(exc).__name__}: {exc}"))
+            log(f"FAIL {label}: {type(exc).__name__}: {exc}")
+
+
+def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, only=False):
     import erw_validate
     drafts = Drafts(create_internal)
     lic = licenses()
@@ -351,6 +382,8 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False):
         except Exception as exc:
             results.append((name, None, None, f"{type(exc).__name__}: {exc}"))
             log(f"FAIL {name}: {type(exc).__name__}: {exc}")
+    if only:  # session 49, --tables: the named tables' header lines only, merged into the drafts' erw_headers
+        merge_headers(drafts, [r[0] for r in results if not r[3]], lic, now, results)
     if include_metadata:
         # every header line of every table on disk, in full (descriptions stop at 2,000 characters)
         # session 28: each dataset gets the header lines of its own tables only
@@ -668,6 +701,9 @@ def main(argv=None):
     g.add_argument("--changed", action="store_true")
     g.add_argument("--reconcile", action="store_true")
     g.add_argument("--restore", action="store_true")
+    g.add_argument("--tables", nargs="+", metavar="TABLE", dest="only_tables",
+                   help="session 49: upload these tables only, each to its own dataset by license, and merge their "
+                        "header lines into erw_headers; no other table, header or metadata table is touched")
     g.add_argument("--check-license", action="store_true",
                    help="exit 1 if any internal table is in the public dataset (session 28)")
     g.add_argument("--remove-migrated", action="store_true",
@@ -689,6 +725,14 @@ def main(argv=None):
         return check_license(args.fix)
     if args.remove_migrated:
         return remove_migrated(args.dry_run)
+    if args.only_tables:
+        missing = [n for n in args.only_tables if not os.path.exists(os.path.join(OUT, n + ".csv"))]
+        if missing:
+            ap.error(f"no such table(s) in warehouse/output: {missing}")
+        if args.dry_run:
+            log(f"dry run, nothing uploaded; --tables would upload {', '.join(args.only_tables)} and merge their header lines")
+            return 0
+        return run_upload(args.only_tables, include_metadata=False, allow_shrink=args.allow_shrink, only=True)
     if args.all:
         names = tables_on_disk()
     elif args.changed:

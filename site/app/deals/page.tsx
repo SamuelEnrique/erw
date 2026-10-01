@@ -68,7 +68,11 @@ function toDeal(r: Awaited<ReturnType<typeof deals>>[number]): Deal {
   };
 }
 
-function Body({ rows, month, companies }: { rows: Deal[]; month: string; companies: string[] }) {
+function Body({ rows, month: current, companies }: { rows: Deal[]; month: string; companies: string[] }) {
+  // session 49: at the start of a month with no deals yet, the previous month, labeled
+  const prev = new Date(Date.UTC(Number(current.slice(0, 4)), Number(current.slice(5, 7)) - 2, 1)).toISOString().slice(0, 7);
+  const empty = !rows.some((d) => d.date.slice(0, 7) === current);
+  const month = empty ? prev : current;
   const inMonth = rows.filter((d) => d.date.slice(0, 7) === month);
   const mw = inMonth.reduce((a, d) => a + (d.mw ?? 0), 0);
   const withMw = inMonth.filter((d) => d.mw !== null).length;
@@ -105,6 +109,9 @@ function Body({ rows, month, companies }: { rows: Deal[]; month: string; compani
             </div>
           ))}
         </div>
+        {empty ? (
+          <p className="mt-1 text-sm">No deals dated {current} yet, so these are {month}&apos;s, the month before.</p>
+        ) : null}
         <p className="mt-1 text-xs text-muted">
           By the deal&apos;s date: the announced date where a story states it, else the first story&apos;s publish date (UTC). The ERW has scored news since
           2026-09-23, so the table starts there.
