@@ -21,6 +21,12 @@ The merge, onto the previous snapshot:
 - The pull: interchange for the 48 hours ending at the API route's own newest period (it runs more than a day behind
   the clock, so 48 clock hours would hold only about 14 hours of it and leave a hole before them); demand for the last
   48 clock hours. About 16,000 interchange rows (some 337 reports an hour, both BAs of most pairs) and 330 demand rows.
+- Session 55, leaner runs: the run first reads the interchange route's endPeriod (its metadata: no data rows). When it
+  equals the endPeriod the Storage object was built from (pull.interchange_end_period), and that object is the base, the
+  interchange pull is skipped: the links are carried over unchanged, demand alone is pulled (about 330 rows), and the
+  object records interchange "unchanged" (and when the links were last pulled, pull.interchange_pulled). The endPeriod
+  did not move between 17:00 and 18:18 UTC on 2026-10-01, so many runs should be demand only. build() holds the run,
+  and the tests run it on fixtures.
 - Links: the last 168 hours, ending at the newest complete hour. A pair-hour from this run's pull replaces the same
   pair-hour of the base; hours this run did not pull keep the base's value (or, where the base has none, the other
   snapshot's). The pair rule is the daily builder's (RULE): each pair once, read from the BA whose code sorts first,
@@ -129,23 +135,28 @@ def eia(route, key, start, end, extra=()):
 
 
 def end_period(route, key):
-    """The newest period the route holds (its metadata's endPeriod), as a datetime."""
+    """The newest period the route holds (its metadata's endPeriod), as a datetime. Session 55: the first request of a
+    run, and a request for no data rows: the route's metadata, not its data/ endpoint (a data request of length 0 states
+    the row total, not the newest period)."""
     r = requests.get(API + route + "/", params={"api_key": key}, timeout=60)
     if r.status_code != 200:
         raise RuntimeError(f"EIA {route} metadata HTTP {r.status_code}")
     return dt.datetime.strptime(r.json()["response"]["endPeriod"], "%Y-%m-%dT%H").replace(tzinfo=dt.timezone.utc)
 
 
-def pull(key, now):
-    """The last PULL_HOURS hours of interchange (every pair) and demand (the seven ISO BAs). Interchange: the 48 hours
-    ending at the route's own newest period, not at the clock, since the route runs more than a day behind the clock
-    and 48 clock hours would leave hours between the daily snapshot and this pull empty. Demand: the 48 clock hours."""
-    xe = min(end_period(INTERCHANGE, key), now + dt.timedelta(hours=1))
-    x, xu = eia(INTERCHANGE, key, (xe - dt.timedelta(hours=PULL_HOURS - 1)).strftime("%Y-%m-%dT%H"), xe.strftime("%Y-%m-%dT%H"))
+def pull_interchange(key, xe, now):
+    """The last PULL_HOURS hours of interchange (every pair), ending at the route's own newest period xe, not at the
+    clock: the route runs more than a day behind the clock, and 48 clock hours would leave hours between the daily
+    snapshot and this pull empty."""
+    xe = min(xe, now + dt.timedelta(hours=1))
+    return eia(INTERCHANGE, key, (xe - dt.timedelta(hours=PULL_HOURS - 1)).strftime("%Y-%m-%dT%H"), xe.strftime("%Y-%m-%dT%H"))
+
+
+def pull_demand(key, now):
+    """Demand of the seven ISO BAs, the last PULL_HOURS clock hours."""
     start = (now - dt.timedelta(hours=PULL_HOURS - 1)).strftime("%Y-%m-%dT%H")
     end = (now + dt.timedelta(hours=1)).strftime("%Y-%m-%dT%H")
-    d, du = eia(REGION, key, start, end, [("facets[type][]", "D")] + [("facets[respondent][]", c) for c in sorted(ISO)])
-    return x, d, xu + du
+    return eia(REGION, key, start, end, [("facets[type][]", "D")] + [("facets[respondent][]", c) for c in sorted(ISO)])
 
 
 def hour_of(period):
@@ -296,6 +307,56 @@ def upload(base, key, body):
 
 # ---------------------------------------------------------------- the run
 
+def previous_end(stored):
+    """The interchange endPeriod the Storage object was built from, as EIA writes it (YYYY-MM-DDTHH), or None. Objects
+    from before session 55 hold only the newest period of the rows they pulled (eia_interchange_end), which is the same
+    when the pull reached the route's end."""
+    p = (stored or {}).get("pull") or {}
+    return p.get("interchange_end_period") or p.get("eia_interchange_end")
+
+
+def build(stored, committed, xe, get_interchange, get_demand, built, say=print):
+    """One run's snapshot, and the number of pairs in its newest hour. xe: the interchange route's endPeriod (read
+    first). Session 55: when xe is the endPeriod the Storage object was built from, and that object is the base (it is
+    newer than the committed snapshot), the interchange pull is skipped: the links are carried over unchanged, demand
+    alone is refreshed, and the object records interchange "unchanged". get_interchange(xe) and get_demand() return
+    (rows, urls); tests pass fixtures."""
+    base, other = (stored, committed) if stored and stored.get("built", "") > committed["built"] else (committed, stored)
+    say(f"base: {'Storage' if base is stored else 'the committed snapshot'}, built {base['built']}, newest hour {base['hours'][-1]}"
+        f"{'' if stored else '; no object in Storage yet'}")
+    end = xe.strftime("%Y-%m-%dT%H")
+    d, du = get_demand()
+    demand = demand_of(d)
+    if base is stored and previous_end(stored) == end:
+        say(f"interchange unchanged: EIA's endPeriod is still {end}, as when the object was built; links carried over, demand only "
+            f"({len(d)} rows)")
+        prev = stored.get("pull") or {}
+        meta = dict(interchange="unchanged", pull=dict(
+            interchange_rows=0, demand_rows=len(d), interchange_end_period=end, eia_interchange_end=prev.get("eia_interchange_end"),
+            interchange_pulled=prev.get("interchange_pulled") or stored.get("built"),
+            demand_newest={c: max(v) for c, v in sorted(demand.items())}, urls=du))
+        snap = merge(base, None, {}, base["hours"][-1], demand, built, meta)
+        return snap, check(snap, base)
+    x, xu = get_interchange(xe)
+    flows, left = pair_flows(x, {n["id"] for n in base["nodes"]})
+    newest, per = newest_full_hour(flows)
+    eia_last = max((r["period"] for r in x), default=None)
+    say(f"interchange: EIA's endPeriod {end} (the object's: {previous_end(stored)}); pulled {len(x)} interchange rows (newest period "
+        f"{eia_last}) and {len(d)} demand rows; {len(flows)} pairs; {len(left)} pairs with a BA outside the snapshot's nodes left out")
+    if newest is None:
+        raise SystemExit("network_hourly FAILED: no interchange in the last 48 hours; nothing uploaded")
+    late = sorted(h for h in per if h > newest)
+    say(f"newest complete hour {newest} ({per[newest]} pairs); later partial hours left for a later run: "
+        + (", ".join(f"{h} ({per[h]})" for h in late) or "none"))
+    if newest < base["hours"][-1]:
+        newest = base["hours"][-1]  # never move the window back
+    meta = dict(interchange="pulled", pull=dict(
+        interchange_rows=len(x), demand_rows=len(d), interchange_end_period=end, eia_interchange_end=eia_last, interchange_pulled=built,
+        demand_newest={c: max(v) for c, v in sorted(demand.items())}, urls=xu + du))
+    snap = merge(base, other, flows, newest, demand, built, meta)
+    return snap, check(snap, base)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: the grid network, refreshed hourly (session 54)")
     ap.add_argument("--dry-run", action="store_true", help="upload nothing")
@@ -311,29 +372,9 @@ def main(argv=None):
     sb = origin(env("SUPABASE_URL"))
     with open(COMMITTED, encoding="utf-8") as f:
         committed = json.load(f)
-    stored = read_storage(sb)
-    base, other = (stored, committed) if stored and stored.get("built", "") > committed["built"] else (committed, stored)
-    print(f"base: {'Storage' if base is stored else 'the committed snapshot'}, built {base['built']}, newest hour {base['hours'][-1]}"
-          f"{'' if stored else '; no object in Storage yet'}")
     key = env("EIA_API_KEY")
-    x, d, urls = pull(key, now)
-    flows, left = pair_flows(x, {n["id"] for n in base["nodes"]})
-    newest, per = newest_full_hour(flows)
-    demand = demand_of(d)
-    eia_last = max((r["period"] for r in x), default=None)
-    print(f"pulled {len(x)} interchange rows (newest EIA period {eia_last}) and {len(d)} demand rows; {len(flows)} pairs; "
-          f"{len(left)} pairs with a BA outside the snapshot's nodes left out")
-    if newest is None:
-        raise SystemExit("network_hourly FAILED: no interchange in the last 48 hours; nothing uploaded")
-    late = sorted(h for h in per if h > newest)
-    print(f"newest complete hour {newest} ({per[newest]} pairs); later partial hours left for a later run: "
-          + (", ".join(f"{h} ({per[h]})" for h in late) or "none"))
-    if newest < base["hours"][-1]:
-        newest = base["hours"][-1]  # never move the window back
-    meta = dict(pull=dict(interchange_rows=len(x), demand_rows=len(d), eia_interchange_end=eia_last,
-                          demand_newest={c: max(v) for c, v in sorted(demand.items())}, urls=urls))
-    snap = merge(base, other, flows, newest, demand, built, meta)
-    last = check(snap, base)
+    snap, last = build(read_storage(sb), committed, end_period(INTERCHANGE, key),
+                       lambda xe: pull_interchange(key, xe, now), lambda: pull_demand(key, now), built)
     body = json.dumps(snap, separators=(",", ":")).encode("utf-8")
     print(f"snapshot: {len(snap['nodes'])} nodes, {len(snap['links'])} links, window {snap['window'][0]} to {snap['window'][1]}, "
           f"{last} pairs in the newest hour, {len(body) / 1024:.0f} KB")

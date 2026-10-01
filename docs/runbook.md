@@ -113,6 +113,7 @@ The loader still warns above `warn_mb` (350 MB) and fails above `max_mb` in `war
 **Approved by Samuel.** `.github/workflows/hourly-network.yml` runs `warehouse/derived/network_hourly.py --skip-if-busy` on the hour, every hour except 14:00 UTC.
 
 - **What it does:** pulls the last 48 hours of EIA-930 interchange (every BA pair) and demand (the seven ISO BAs), merges them onto the previous network snapshot, and uploads one JSON object to the public Supabase Storage bucket `erw-public` (`network/grid_network.json`). `/network` reads it with a one-hour revalidation.
+- **Leaner runs (session 55):** when EIA's interchange `endPeriod` has not moved since the object was built, a run pulls demand only and carries the links over; the object says `"interchange": "unchanged"`, and the job log says "interchange unchanged".
 - **What refreshes hourly and what daily:** the links and the ISO demand hourly. Carbon intensity, the nodes and their positions daily, from the committed `site/data/grid_network.json` that the daily run builds (`warehouse/derived/grid_network.py`); that file is also the page's fallback. Details, and why EIA's lag keeps the links more than a day behind the clock while demand is one to two hours behind it: `docs/methods/grid_network.md`.
 - **What it never does:**
   - write to the Supabase database, or commit to git;
