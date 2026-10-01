@@ -29,6 +29,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/events/covid-2020",
   // session 37: the cost-of-power model
   "/cost-of-power",
+  // session 51: the seller's tab, its defaults and three other assets
+  "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=miso&asset=wind",
   // session 38: today's level's price range
   "/play/battery",
   // session 39: three more events
@@ -328,6 +330,13 @@ async function truth(check) {
   }
   // session 48: the shape premium report's period statistics, shape|<entity>|<market>|<stat>|<start>|<end>, by
   // lib/shapepremium.ts from every cost_of_power_monthly row of the hub
+  // session 51: the seller's tab: recomputed from the snapshot the page reads (data/merchant_snapshot.json, not Supabase),
+  // with lib/merchant.ts; tests/test_session51.py checks the snapshot against the warehouse table and by hand
+  if (p[0] === "mr") {
+    const M = await import("../lib/merchant.ts");
+    const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "merchant_snapshot.json"), "utf-8"));
+    return M.stat(snap, M.parseKey(p[1]), p[2]);
+  }
   if (p[0] === "shape") {
     const [, entity, market, stat, start, end] = p;
     const { stats } = await import("../lib/shapepremium.ts");

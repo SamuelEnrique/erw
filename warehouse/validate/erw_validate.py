@@ -33,6 +33,7 @@ RESERVED = ["unit", "freq", "geo", "market", "node", "source", "source_url",
 REQUIRED_BY_VALIDATOR = ["unit", "source"]
 # docs/datastandard.md "Units" states these; this set is what enforces them
 UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "pct",  # mph: session 24, decision 27
+         "USD/MW", "MWh/MW",  # session 51: merchant revenue and energy per MW installed (Decision 34)
         
          # session 7 price board (docs/datastandard.md Decision 17)
          "USD/gal", "USD/short_ton", "USD/t", "USD/lb", "USD/MW-day", "USD/tCO2", "USD/Mcf",

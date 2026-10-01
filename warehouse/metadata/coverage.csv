@@ -63,6 +63,7 @@ isone_dam_zone_prices,ISO-NE,isone_dam,9,PT1H,2026-08-26T04:00:00Z,2026-09-30T03
 isone_interconnection_queue,ISO-NE,,1751,snapshot,2026-09-26T00:07:29Z,2026-09-26T00:07:29Z,1751,isone:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 isone_rtm_zone_prices,ISO-NE,isone_rtm,9,PT15M,2026-08-27T04:00:00Z,2026-09-28T03:45:00Z,22464,isone:rt_lmp_5min,2026-09-29T00:54:32Z,pass,public,power,no,source
 isone_rtm_zone_prices_hourly,ISO-NE,isone_rtm,9,PT1H,2026-08-26T04:00:00Z,2026-09-28T03:00:00Z,7128,isone:rt_lmp_hourly_final,2026-09-29T00:54:32Z,pass,public,power,no,source
+merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-09-01T00:00:00Z,5984,erw:merchant_revenue,2026-10-01T11:07:08Z,pass,public,power;gas,yes,derived
 miso_interconnection_queue,MISO,,3870,snapshot,2026-09-26T00:06:51Z,2026-09-26T00:06:51Z,3870,miso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 news_index,none,,69,event,2025-01-01T08:00:00Z,2026-09-30T23:28:39Z,9544,69 outlets,2026-09-30T23:38:55Z,pass,public,news,no,model_extracted
 news_scores_shadow,none,,55,event,2026-08-31T07:00:00Z,2026-09-28T23:26:32Z,2375,55 outlets,2026-09-29T10:20:03Z,pass,internal,news,no,model_extracted

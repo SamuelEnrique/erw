@@ -40,7 +40,7 @@ const PAGES = [
   "/network", "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
   // session 36B: the Historical Event Analyzer
   "/events", "/events/uri-2021", "/events/covid-2020",
-  "/cost-of-power", "/data/methods/cost_of_power", "/data/methods/event_study",
+  "/cost-of-power", "/cost-of-power/seller", "/data/methods/cost_of_power", "/data/methods/event_study",  // the seller's tab: session 51
   "/play/battery",
   "/data/methods/battery_game",  // session 50
   "/severance", "/severance/lease", "/data/methods/severance",

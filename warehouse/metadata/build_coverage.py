@@ -163,6 +163,7 @@ SECTOR_RULES = [
     # session 37: the cost-of-power model (market-based wholesale cost per ISO hub; carbon beside price)
     (r"^cost_of_power_(monthly|hourly_profile)$", "power"),
     (r"^cost_of_power_carbon$", "power;carbon"),
+    (r"^merchant_revenue_monthly$", "power;gas"),  # session 51: the seller's side (solar, wind, batteries, peaker)
     # session 49: interchange and the grid network; a year of hub prices; the 2018 EIA-930 baseline; station weather
     (r"^(eia930_all_interchange|grid_network_(nodes|links))$", "power"),
     (r"^iso_hub_prices_history$", "power"),
@@ -186,7 +187,7 @@ def iso_of(table):
     parts = table.split("_")
     if table == "price_board_carbon":  # session 30: CARB and RGGI, no ISO
         return "none"
-    if table.startswith("price_board_") or table.startswith("cost_of_power_"):  # session 30; session 37 the same six
+    if table.startswith("price_board_") or table.startswith("cost_of_power_") or table == "merchant_revenue_monthly":  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
     if table in ("eia930_all_interchange", "grid_network_nodes", "grid_network_links"):  # session 49: every BA EIA reports
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"

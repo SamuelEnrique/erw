@@ -11,6 +11,7 @@ import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 import { Calculator, CostCarbon, HeatGrid, RankBars } from "./charts";
+import { CostTabs } from "./Tabs";
 
 // Session 37: the cost-of-power model v0 (platform tool 16), market-based. Every number is a row of the
 // cost_of_power_* tables (derived: docs/methods/cost_of_power.md) or arithmetic on them with the calculator's
@@ -126,6 +127,7 @@ export default async function CostOfPower() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Cost of power: what electricity costs to buy at wholesale</h1>
+      <CostTabs active="buy" />{/* session 51: the seller's tab beside this one */}
       <div className="mb-5 max-w-3xl text-sm">
         <p className="mb-2">
           What a megawatt-hour cost at each ISO&apos;s main hub, weighted by when the grid used it, and what a large load such as a datacenter would pay
