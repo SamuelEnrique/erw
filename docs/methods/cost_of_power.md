@@ -50,6 +50,20 @@ For one hub, one market (real-time or day-ahead) and one local month, over the h
 - `intensity_generation` = CO2 generated x 1000 / net generation.
 - These are the `carbon_intensity_*` formulas, over the ISO's local month. A month missing any hour of CO2 has no intensity row; the header and run log name it.
 
+## Which months each ISO has (session 49, as built on 2026-10-01)
+
+| ISO | Real-time | Day-ahead | Complete real-time months |
+|---|---|---|---|
+| ERCOT | 2018-07 to 2026-09 | 2018-07 to 2026-09 | 11 of 13 since 2025-09: all but 2025-12, 2026-09 |
+| CAISO SP15 | 2025-09 to 2026-09 | 2025-09 to 2026-09 | 8 of 13 since 2025-09: all but 2025-11, 2026-01, 2026-02, 2026-03, 2026-09 |
+| CAISO NP15 | 2025-09 to 2026-09 | 2025-09 to 2026-09 | 8 of 13 since 2025-09: all but 2025-11, 2026-01, 2026-02, 2026-03, 2026-09 |
+| ISO-NE | 2025-09 to 2026-09 | 2025-09 to 2026-09 | 2 of 13 since 2025-09: 2026-01, 2026-03 |
+| MISO | 2025-09 to 2026-09 | 2025-09 to 2026-09 | 10 of 13 since 2025-09: all but 2026-01, 2026-06, 2026-09 |
+| NYISO | 2025-09 to 2026-09 | 2025-09 to 2026-09 | 4 of 13 since 2025-09: 2026-01, 2026-04, 2026-05, 2026-08 |
+| SPP | 2025-09 to 2026-09 | 2025-09 to 2026-09 | 11 of 13 since 2025-09: all but 2026-01, 2026-09 |
+
+A month counts as complete when every hour has a price and the BA's demand. 2026-09 is in progress.
+
 ## Which months each ISO has (as built on 2026-09-30)
 
 | ISO | Real-time | Day-ahead | Complete months |

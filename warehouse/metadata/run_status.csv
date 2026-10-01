@@ -2575,10 +2575,16 @@ run_id,runner,connector,table,market,status,detail
 20261001T035305Z,local,hub_history,iso_hub_prices_history,isone_rtm 2026-09-15,gap,"day incomplete: .H.INTERNAL_HUB: 88 rows, expected 96, missing 8 (first ['2026-09-15T18:00:00Z', '2026-09-15T18:15:00Z', '2026-09-15T18:30:00Z', '2026-09-15T18:45:00Z', '2026-09-15T19:00:00Z']), extra 0"
 20261001T035305Z,local,hub_history,iso_hub_prices_history,isone_rtm 2026-09-25,gap,"day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0"
 20261001T035305Z,local,hub_history,iso_hub_prices_history,isone_rtm,ok,"364 days written, 31 not complete (status rebuilt from the run log: the run was stopped before it wrote its status, session 49)"
+20261001T035306Z,local,hub_history,iso_hub_prices_history,spp_dam 2026-06-04,gap,DAM 2026-06-04 failed after 4 attempts: KeyError('Interval End')
+20261001T035306Z,local,hub_history,iso_hub_prices_history,spp_dam,ok,"393 days written, 1 not complete, months 2025-09 to 2026-09 (status rebuilt from the run log, session 49)"
+20261001T035306Z,local,hub_history,iso_hub_prices_history,spp_rtm,ok,"181 days written, 0 not complete, months 2025-09 to 2026-02 (status rebuilt from the run log, session 49; the run was stopped (time limit or by hand) before this market's end)"
 20261001T050229Z,local,hub_history,iso_hub_prices_history,caiso_dam 2025-11-02,gap,"day incomplete: TH_NP15_GEN-APND: 24 rows, expected 25, missing 1 (first ['2025-11-03T07:00:00Z']), extra 0; TH_SP15_GEN-APND: 24 rows, expected 25, missing 1 (first ['2025-11-03T07:00:00Z']), extra 0"
 20261001T050229Z,local,hub_history,iso_hub_prices_history,caiso_dam,ok,"393 days written, 1 not complete"
 20261001T050229Z,local,hub_history,iso_hub_prices_history,caiso_rtm 2025-11-02,gap,"day incomplete: TH_NP15_GEN-APND: 96 rows, expected 100, missing 4 (first ['2025-11-03T07:00:00Z', '2025-11-03T07:15:00Z', '2025-11-03T07:30:00Z', '2025-11-03T07:45:00Z']), extra 0; TH_SP15_GEN-APND: 96 rows, expected 100, missing 4 (first ['2025-11-"
 20261001T050229Z,local,hub_history,iso_hub_prices_history,caiso_rtm,ok,"393 days written, 1 not complete"
+20261001T060050Z,local,hub_history,iso_hub_prices_history,spp_dam 2026-06-04,gap,DAM 2026-06-04 failed after 4 attempts: KeyError('Interval End')
+20261001T060050Z,local,hub_history,iso_hub_prices_history,spp_dam,ok,"59 days written, 1 not complete, months 2026-06 to 2026-09 (status rebuilt from the run log, session 49)"
+20261001T060050Z,local,hub_history,iso_hub_prices_history,spp_rtm,ok,"153 days written, 0 not complete, months 2026-03 to 2026-07 (status rebuilt from the run log, session 49; the run was stopped (time limit or by hand) before this market's end)"
 20261001T060904Z,github,supabase_vacuum,catalogue,all,ok,0.1 MB -> 0.1 MB
 20261001T060904Z,github,supabase_vacuum,entities,all,ok,64.8 MB -> 36.2 MB
 20261001T060904Z,github,supabase_vacuum,events,all,ok,11.6 MB -> 9.5 MB
@@ -2586,3 +2592,5 @@ run_id,runner,connector,table,market,status,detail
 20261001T060904Z,github,supabase_vacuum,series,all,ok,304.8 MB -> 297.6 MB
 20261001T060904Z,github,supabase_vacuum,sources,all,ok,0.2 MB -> 0.1 MB
 20261001T060904Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 394.6 MB -> 356.2 MB
+20261001T072517Z,local,hub_history,iso_hub_prices_history,spp_dam,ok,"61 days written, 0 not complete"
+20261001T072517Z,local,hub_history,iso_hub_prices_history,spp_rtm,ok,"61 days written, 0 not complete"
