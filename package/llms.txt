@@ -332,6 +332,9 @@ day-ahead tables running into tomorrow:
 | Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
 | Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_all_generation` (ba) |
 | Power flowing between balancing authorities (imports, exports, interchange, ties) | `eia930_all_interchange` (ba), `grid_network_links`, `grid_network_nodes` |
+| How much of an event's effect on demand or price is the weather (temperature-controlled event study estimates) | `event_study_estimates` (x_spec dow_year_temp_v1 beside dow_year_mean_v1) |
+| Temperature at an airport on the days of an event or its baseline | `event_window_daily` (entity noaa:<station>), `noaa_isd_hourly` |
+| EIA-930 demand or net generation in January to June 2018 | `eia930_all_history` |
 | Battery charging and discharging by hour or day; the battery fleet by state, ISO or year | `eia930_all_storage`, `storage_daily_cycle`, `storage_capacity` |
 | CO2 emissions of an ISO's power, and its carbon intensity (kg CO2 per MWh) | `eia930_all_emissions` (since 2018-07), `carbon_intensity_hourly` / `_daily` (last ~30 days) |
 | Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `iso_trader_daily` (market), `iso_rt_top_intervals` |
@@ -493,6 +496,28 @@ an answer must come from a tool result, and every answer cites its tables.
   da_max) and ercot_heat_2023 (eia930:ERCO, 2023-08-01 to 2023-09-10, the same
   hub prices). Pages /events/caiso-heat-2020, /events/elliott-2022 and
   /events/ercot-heat-2023 say where the rows contradict the headline story.
+  Session 49: covid_2020's 728-day baseline (2018-03-04 to 2018-06-03) is
+  restored for the seven ISO BAs from eia930_all_history (EIA's six-month file,
+  2018 January to June, demand_mw and net_generation_mw, the Adjusted columns);
+  US48 keeps 2019 alone. Weather rows for every event, window and baseline
+  days: entity noaa:<station> (DFW, IAH, SAC, LAX, PHL, ORD, MSP, JFK, BOS,
+  OKC), ba the grid it stands for, variables temp_mean_f, temp_min_f,
+  temp_max_f (degF) and hdd_65f, cdd_65f (degF-day, from (max + min) / 2), from
+  noaa_isd_hourly (NOAA NCEI ISD, temperature_f and dew_point_f per
+  observation, public domain).
+
+**Event studies** (session 47, derived, public, method docs/methods/event_study.md):
+  event_study_estimates, partition columns ba and event: for each event and
+  grid, <outcome>_effect_day (each event day) and <outcome>_effect_pooled (the
+  window), outcome demand_mwh (MWh a day) or rt_mean (ERCOT hub, USD/MWh), with
+  x_std_error, x_ci_low, x_ci_high (95 percent), x_n and x_spec;
+  <outcome>_counterfactual_mean; demand_mw_effect_hNN by local hour. x_spec
+  dow_year_mean_v1: event-day indicators, weekday and year effects. Session 49
+  adds dow_year_temp_v1 (the grid's heating and cooling degree days and their
+  squares; variables *_effect_day_temp, *_effect_pooled_temp,
+  *_counterfactual_mean_temp; none for US48, which has no station) and
+  dow_trend_v1 (*_effect_pooled_trend: a linear trend in place of the year
+  effects, a robustness row). The /events pages show both estimates.
 
 **Cost of power** (session 37, derived, public, method docs/methods/cost_of_power.md):
   market-based, wholesale energy only (no transmission, distribution, capacity
