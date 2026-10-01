@@ -1,16 +1,53 @@
-# Session 42 report: EIA-930 interchange and the 3D grid network
+# Session 42 report: stopped at Part 0, the gate is not open
+
+Energy Research Warehouse (ERW), session 42, 2026-09-30 from 19:31 to about 19:35 UTC. **Wall time about 4 minutes.**
+
+**API spend: USD 0.00, confirmed.** No model call.
+
+- **No pull:** the approved EIA-930 interchange pull (Part A) was not made.
+- **Nothing else built,** and no Supabase change.
+- **Nothing to merge:** the daily job had not landed on origin (`git fetch` at 19:31 UTC showed nothing new).
+
+## Part 0: the gate
+
+**Daily-prices run 12** (workflow_dispatch, commit 9fb7d93, created 2026-09-30 18:52:43 UTC), read through the GitHub API at 19:31 UTC:
+
+| Step | State |
+|---|---|
+| 1 to 5 (set up, secrets, checkout, Python, install) | completed, success |
+| 6 Merge tests | completed, **success** (18:53:53 to 18:53:58), the step session 41 fixed |
+| 7 Pull, validate, rebuild coverage | **in progress** since 18:53:58 (about 37 minutes), no conclusion |
+| 8 to 12 | pending |
+
+**The run is still running, so the gate is not open.** As the prompt directs, nothing was pulled and the session stops here. For scale, the last run to complete this step, run 9 on 2026-09-29, spent 53 minutes in it before failing at coverage.
+
+## Not done (waiting for the gate)
+
+- Part A, the interchange connector and pull.
+- Part B, the network tables, snapshot and `/network`.
+- Part C, verify and ship.
+
+`SESSION_42_PROMPT.md` stays at the repository root, unchanged, for the rerun.
+
+## Open question
+
+1. **Rerun Session 42 once run 12 completes?** If step 7 fails, its failure issue will name the cause, and a fix comes before the interchange pull.
+
+---
+
+## The rerun, 2026-10-01 (session 49 Part A): EIA-930 interchange and the 3D grid network
 
 Energy Research Warehouse (ERW). Session 42's plan was carried out as **Part A of session 49**, run 2026-10-01 from about 03:30 to 03:57 UTC (the connector and network commit, 6dd3dae), with the verification and uploads later in the same session. Work was interleaved with session 49's other parts, so the wall time is about 45 minutes all told.
 
 **API spend: USD 0.00, confirmed.** No model call; the chat spec was regenerated with `ask.py --export-spec`, which makes no API call. No force push.
 
-## Part 0: the gate
+### Part 0: the gate
 
 Session 49's instruction: "The gate is open; no routing." Daily run 14 had passed (2026-10-01 00:20 UTC, session 48), so the approved pull ran.
 
-## Part A: interchange
+### Part A: interchange
 
-### A1. The connector and the table
+#### A1. The connector and the table
 
 - **Connector:** `warehouse/connectors/eia930_interchange.py`. It reads EIA API v2 `electricity/rto/interchange-data`, hourly, every pair EIA reports (no facet).
 - **Field names were checked against the API first:**
@@ -25,7 +62,7 @@ Session 49's instruction: "The gate is open; no routing." Daily run 14 had passe
 - **Day checkpoints:** saved to make the pull resumable. The last 4 days are never checkpointed, since EIA revises them.
 - **Completeness per pair and UTC day:** a pair-day missing any hour is not written. One `run_status` row counts the incomplete pair-days and names the first 20.
 
-### Rows against the ceiling
+#### Rows against the ceiling
 
 | | Rows |
 |---|---|
@@ -38,7 +75,7 @@ Session 49's instruction: "The gate is open; no routing." Daily run 14 had passe
 - **Directed pairs:** 341. Data runs through 2026-09-28 at the time of the pull.
 - **Decision (recorded in the method page):** the window was cut from 30 to 18 days to stay under the ceiling. 18 days was the most whole days the count allowed.
 
-### EIA's sign convention, checked against the data
+#### EIA's sign convention, checked against the data
 
 - **Method:** for each of the seven ISO BAs, its interchange summed over neighbors, compared hour by hour (360 hours) with its net generation minus its demand.
 - **Positive means exports from the reporting BA.**
@@ -55,15 +92,15 @@ Session 49's instruction: "The gate is open; no routing." Daily run 14 had passe
 
 The opposite sign is far worse everywhere. The table is in `docs/methods/grid_network.md`.
 
-### A2. The daily run
+#### A2. The daily run
 
 - `warehouse/run_daily.sh` runs the connector after `carbon_intensity` with the same `--days` as the other EIA-930 steps (3 days, merged into the history), then rebuilds the network.
 - `warehouse/redivis/config.yaml` restores `eia930_all_interchange` before each run, so the history survives.
 - The workflow commits `site/data/grid_network.json`.
 
-## Part B: the network
+### Part B: the network
 
-### B1. The derived tables (`warehouse/derived/grid_network.py`)
+#### B1. The derived tables (`warehouse/derived/grid_network.py`)
 
 - **`grid_network_nodes`:**
   - 69 BAs, 83 rows.
@@ -77,19 +114,19 @@ The opposite sign is far worse everywhere. The table is in `docs/methods/grid_ne
   - In an hour that BA did not report, the flow comes from the other BA's report with the sign flipped.
   - `tests/test_session49.py` checks a sample of 300 link-hours against the source table under this rule.
 
-### B2. The snapshot
+#### B2. The snapshot
 
 - **The file:** `site/data/grid_network.json` (about 179 KB) holds the nodes, their fixed positions and 168 hourly flows per pair. The page reads only this file.
 - **Supabase: nothing loaded.** The nodes table could have gone into Supabase under session 42's 345 MB rule. Session 49's rule is 395 MB, and the live set stood at 393.5 MB after Part C's event table, with room needed for the cost-of-power rebuild. So the nodes stay in the JSON only.
   - Supabase before and after Part A: 382.1 MB, unchanged by this part.
 - **Node figures from the live set:** they are read from Supabase (`--nodes-from-supabase`), so the page agrees with what check-values reads. EIA revises recent hours, and the first local build showed older values.
 
-### B3. Positions
+#### B3. Positions
 
 - **Layout:** a 3D Fruchterman-Reingold layout, 600 steps, seed 42, links weighted by the square root of their mean flow.
 - **Fixed:** computed once per build and stored as x, y, z per node. The page never re-settles it (`fx`, `fy`, `fz` fixed, `cooldownTicks(0)`).
 
-### B4. The page `/network`
+#### B4. The page `/network`
 
 - **Navigation:** first under Grid. Each `/grid/<iso>` page links to it.
 - **The graph:**
@@ -108,7 +145,7 @@ The opposite sign is far worse everywhere. The table is in `docs/methods/grid_ne
 - interchange before 2026-09-13 is not held;
 - EIA-930 reports BA-to-BA totals, not flows by line.
 
-## Part C: verify and ship
+### Part C: verify and ship
 
 | Check | Result |
 |---|---|
@@ -123,7 +160,7 @@ The opposite sign is far worse everywhere. The table is in `docs/methods/grid_ne
 | Tests | `tests/test_session49.py`: the snapshot against the rules, the pair rule against the table, the layout seed, the ceiling |
 | Deploy and live check | with session 49's push; results in `SESSION_49_REPORT.md` |
 
-## Open questions
+### Open questions
 
 1. **A longer window.** The 30-day window needs about 237,000 rows, so a 150,000 ceiling allows 18 days. Raise the ceiling, or keep the 18 days and let the daily merge grow the history?
 2. **Demand for the other 62 BAs** would let every sphere be sized by demand: one more EIA-930 route, about 1,500 rows a day.
