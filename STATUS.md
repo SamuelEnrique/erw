@@ -1,16 +1,16 @@
 # ERW status
 
-Generated 2026-09-30 22:15 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-09-30 23:49 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 82 | 10,425,536 |
-| Public | 70 | 10,285,939 |
-| Internal (never shown publicly) | 12 | 139,597 |
+| All | 82 | 10,425,611 |
+| Public | 70 | 10,285,889 |
+| Internal (never shown publicly) | 12 | 139,722 |
 
-Newest table refresh: 2026-09-30 22:03:49 UTC. Validator: 82 of 82 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-09-30 23:39:58 UTC. Validator: 82 of 82 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
 
 ## Health gate
 
@@ -30,9 +30,9 @@ Failures a human has accepted for now (`warehouse/metadata/known_gaps.csv`, edit
 
 | Workflow | Last run (UTC) | Outcome |
 |---|---|---|
-| daily prices, on GitHub | 2026-09-30 22:14 | 299 ok, 11 failed, 34 gap, 10 skipped (table results of that day) |
+| daily prices, on GitHub | 2026-09-30 23:49 | 449 ok, 16 failed, 48 gap, 15 skipped (table results of that day) |
 | daily run, local | 2026-09-30 06:28 | 5 ok, 9 gap (table results of that day) |
-| latest prices, every 15 minutes | 2026-09-30 19:16 | 39 hubs and zones in `latest_prices` (newest retrieval) |
+| latest prices, every 15 minutes | 2026-09-30 23:07 | 39 hubs and zones in `latest_prices` (newest retrieval) |
 
 A table that failed is not written that day; nothing partial is. The reasons are in `warehouse/metadata/run_status.csv`.
 
@@ -40,12 +40,12 @@ A table that failed is not written that day; nothing partial is. The reasons are
 
 | Table | Run | Reason |
 |---|---|---|
-| `carb_auction_allowance_prices` | 20260930T214427Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
+| `carb_auction_allowance_prices` | 20260930T232935Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
 | `coverage` | 20260929T185935Z | price_board_carbon: input tables ['carb_auction_allowance_prices'] are not in warehouse/output; fixed in 670ba69 (session 33); recorded in session 34 from the j |
-| `digest` | 20260930T221458Z |     - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this. |
-| `digest` | 20260930T221458Z | RuntimeError: the shadow digest was not written (exit 1); see the brief's log |
-| `ercot_large_load_queue` | 20260930T214824Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
-| `nyiso_interconnection_queue` | 20260930T214722Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
+| `digest` | 20260930T234902Z |     - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this. |
+| `digest` | 20260930T234902Z | RuntimeError: the shadow digest was not written (exit 1); see the brief's log |
+| `ercot_large_load_queue` | 20260930T233331Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
+| `nyiso_interconnection_queue` | 20260930T233227Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
 
 ## Open gaps
 

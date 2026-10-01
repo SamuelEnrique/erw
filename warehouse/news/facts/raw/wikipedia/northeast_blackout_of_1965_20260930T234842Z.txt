@@ -1,0 +1,65 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: Northeast blackout of 1965
+# url: https://en.wikipedia.org/wiki/Northeast_blackout_of_1965
+# revision: 1331126704
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20260930T234842Z
+
+The northeast blackout of 1965 was a significant disruption in the supply of electricity on Tuesday, November 9, 1965, affecting parts of Ontario in Canada and Connecticut, Delaware, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, and Vermont in the United States. Over 30 million people and 80,000 square miles (207,000 km2), and a population density of 144.9 inhabitants/km2 were left without electricity for up to 13 hours.
+
+
+== Cause ==
+The cause of the failure was the setting of a protective relay on one of the transmission lines from the Sir Adam Beck Hydroelectric Power Station No. 2 in Queenston, Ontario, near Niagara Falls. The safety relay was set to trip if other protective equipment deeper within the Ontario Hydro system failed to operate properly.
+On a particularly cold November evening, power demands for heating, lighting, and cooking were pushing the electrical system to near its peak capacity. Transmission lines heading into southern Ontario were heavily loaded. The safety relay had been misprogrammed, and it did what it had been asked to do: to disconnect under the loads it perceived. As a result, at 5:16 p.m. Eastern Time, a small variation of power originating from the Robert Moses generating plant in Lewiston, New York, caused the relay to trip, disabling a main power line heading into Southern Ontario. Instantly, the load that was flowing on the tripped line redistributed to the other lines, causing them to become overloaded. Their own protective relays, which are also designed to protect the lines from overload, tripped, isolating Beck Station from all of southern Ontario.
+With nowhere else to go, the excess load from Beck Station was redirected east, over the interconnected lines into New York state, overloading them as well, and isolating the power generated in the Niagara region from the rest of the interconnected grid. The Beck generators, with no outlet for their power, were automatically shut down to prevent damage. The Robert Moses Niagara Power Plant continued to generate power, which supplied Niagara Mohawk Power Corporation customers in the metropolitan areas of Buffalo and Niagara Falls, New York. These areas ended up being isolated from the rest of the Northeast power grid and remained powered up. The Niagara Mohawk Western NY Huntley (Buffalo) and Dunkirk steam plants were knocked offline. Within five minutes, the power distribution system in the Northeast was in chaos as the effects of overloads and the subsequent loss of generating capacity cascaded through the network, breaking the grid into "islands".  Station after station experienced load imbalances and automatically shut down. The affected power areas were the Ontario Hydro System, St Lawrence-Oswego, Upstate New York, and New England. With only limited electrical connection southwards, power to the southern states was not affected. The only part of the Ontario Hydro System not affected was the Fort Erie area next to Buffalo, which was still powered by older 25 Hz generators. Residents in Fort Erie were able to pick up a TV broadcast from New York, where a local backup generator was being used for transmission purposes.
+
+
+== Radio ==
+An aircheck of New York City radio station WABC from November 9, 1965, reveals disc jockey Dan Ingram doing a segment of his afternoon drive time show, during which he noted that a record he was playing (Jonathan King's "Everyone's Gone to the Moon") sounded slow, as did the subsequent jingles played during a commercial break. Ingram quipped that the King record "was in the key of R."  The station's music playback equipment used synchronous motors whose speed was dependent on the frequency of the powerline, normally 60 Hz. Comparisons of segments of the hit songs played at the time of the broadcast, minutes before the blackout happened, in this aircheck, as compared to the same song recordings played at normal speed reveal that approximately six minutes before blackout the line frequency was 56 Hz, and just two minutes before the blackout that frequency dropped to 51 Hz. As Si Zentner's recording of "(Up a) Lazy River" played in the background-again at a slower-than-normal tempo-Ingram mentioned that the lights in the studio were dimming, then suggested that the electricity itself was slowing down, adding, "I didn't know that could happen". When the station's Action Central News report came on at 5:25 pm ET, the staff remained oblivious to the ongoing blackout. The lead story was still Roger Allen LaPorte's self-immolation at United Nations Headquarters earlier that day in protest of American military involvement in the Vietnam War; a taped sound bite with the attending physician played noticeably slower and lower than usual. The newscast gradually fizzled out as power was lost by the time newscaster Bill Rice started delivering the second story about New Jersey Senator Clifford P. Case's comments on his home state's recent gubernatorial election.
+
+
+== Unaffected areas ==
+Some areas within the affected region were not blacked out. Municipal utilities in Hartford, Connecticut; Braintree, Hudson, Holyoke, Peabody and Taunton, Massachusetts; and Fairport, Greenport, and Walden, New York had their own power plants, which operators disconnected from the grid and which were able to sustain local loads, though some areas lost power for at least a few hours. In New York City, Staten Island and parts of Brooklyn were spared when Con Edison disconnected its Arthur Kill Generating Station from the grid. Rochdale, Queens was also unaffected as it had its own power plant.
+
+
+== Effect and aftermath ==
+From the first failure at 5:17 p.m. near the Niagara-Canada border, the blackout moved eastward across the state, and "at 5:27 p.m., the lights began sputtering in New York City,  and within seconds... blacked out in Manhattan, the Bronx, Queens, and most of Brooklyn." The blackout was not universal; some neighborhoods never lost power, notably Staten Island and parts of Brooklyn. Also, some suburban areas -including Bergen County, New Jersey-served by PSE&G never lost power.
+Fortunately, a bright full moon lit up the cloudless sky over the entire blackout area, providing some aid for the millions who were suddenly plunged into darkness.
+Most telephones remained operational since the telephone exchanges were powered by emergency generators. However, not all emergency generators functioned as desired. The generator at Upstate Medical Center in Syracuse failed to start, creating a serious crisis and forcing surgeons to complete operations in progress by flashlight.
+Power restoration was uneven. Most generators had no auxiliary power to use for startup. Parts of Brooklyn were repowered by 11:00 p.m., the rest of the borough by midnight. However, the entire city was not returned to normal power supply until nearly 7:00 a.m. the next day, November 10.
+Power in western New York was restored in a few hours, thanks to the Genesee River-powered generating plant in Rochester, which stayed online throughout the blackout. Starting or restarting a generating plant requires power for water and fuel pumps, ventilation, and control systems (see black start). The availability of this hydroelectric power was crucial; it was used to restart dead generators, which then could provide power to restart other generators, in a cascading process which required much switching by engineers at the various plants.
+The Mount Weather Emergency Operations Center saw the first full-scale activation  of the facility during the blackout.
+The New York Times was able to produce a ten-page edition for November 10, using the printing presses of a nearby paper that was not affected, the Newark Evening News. The front page showed a photograph of the city skyline with its lights all out.
+The task force that investigated the blackout found that a lack of voltage and current monitoring was a contributing factor to the blackout, and recommended improvements.
+The Electric Power Research Institute helped the electric power industry develop new metering and monitoring equipment and systems, which have become the  modern SCADA systems in use today.
+
+In contrast to the wave of looting and other incidents that took place during the 1977 New York City blackout, only five reports of looting were made in New York City after the 1965 blackout. It was said to be the lowest amount of crime on any night in the city's history since records were first kept. However, more than 800,000 riders were trapped in the subway.
+Reports about an alleged baby boom that followed the blackout nine months later are considered unsubstantiated.
+
+
+== See also ==
+
+Where Were You When the Lights Went Out? (1968 film)
+Brittle Power (1982 book)
+List of major power outages
+New York City blackout of 1977
+January 1998 North American ice storm
+Northeast blackout of 2003
+Manhattan blackout of July 2019
+
+
+== References ==
+
+
+== Further reading ==
+Cave, Damien (October 15, 2001). "Imaginary infants as beacons of hope". Salon.com.
+Nye, David E. (2010). When the Lights Went Out: A History of Blackouts in America. Cambridge, MA: MIT Press. ISBN 978-0-262-01374-1.
+Schewe, Phillip (2006). The Grid: A Journey Through the Heart of Our Electrified World. Washington, DC: Joseph Henry Press. ISBN 978-0-309-10260-5.
+Sitts, George (December 1965). "Radio Pierces The Great Blackout". Broadcast Engineering. Archived from the original on May 9, 2010.
+
+
+== External links ==
+Summers, Randy. "Memoirs of the 1965 Blackout". MemoryArchive. Archived from the original on November 11, 2014.
+The Trigger Effect. Connections. 1978. The first episode of this BBC documentary series explained and re-enacted parts of the blackout.
+The Blackout of 1965 (NBC-TV coverage). YouTube. Archived from the original on December 12, 2021.
+"The 'Great Northeastern Blackout' of 1965". CBC Digital Archives.

@@ -1,9 +1,9 @@
 # Energy Research Warehouse (ERW): Datacenter facilities extracted from scored news stories (the datacenter power tracker, platform tool 4)
 # Shape: entities (docs/datastandard.md), entity_type datacenter; the whole table is rewritten each run from the facilities already extracted and the new stories. capacity_mw = mw, as stated.
-# Retrieved: 20260930T220340Z (UTC) by warehouse/datacenters/extract.py from warehouse/output/news_stories.csv
-# Run log: warehouse/output/logs/datacenters_extract_20260930T220340Z.log
+# Retrieved: 20260930T233950Z (UTC) by warehouse/datacenters/extract.py from warehouse/output/news_stories.csv
+# Run log: warehouse/output/logs/datacenters_extract_20260930T233950Z.log
 # Model: claude-sonnet-5-5, JSON schema output. Every value was checked against the story's title or summary and kept only as stated (session 16 ruling); mw only if its span parses to the same value.
-# Columns: status is the entities vocabulary (announced and permitted -> planned, cancelled -> withdrawn); project_status is the extractor's word. ai_power is true on every row (the AI and datacenter power subset). geo_precision: county or place (the Census gazetteer's internal point of the stated county or city; 2025_Gaz_counties_national.txt, 2025_Gaz_place_national.txt, kept in warehouse/raw/census_gazetteer/20260930T220340Z/), or none.
+# Columns: status is the entities vocabulary (announced and permitted -> planned, cancelled -> withdrawn); project_status is the extractor's word. ai_power is true on every row (the AI and datacenter power subset). geo_precision: county or place (the Census gazetteer's internal point of the stated county or city; 2025_Gaz_counties_national.txt, 2025_Gaz_place_national.txt, kept in warehouse/raw/census_gazetteer/20260930T233950Z/), or none.
 # License: public. The model's checked fields and the story links only, no outlet text; the evidence sentences are in the internal table datacenter_projects_evidence.
 # Sources: the outlet named in each row's source column (the first story); story_urls lists every story.
 # File holds 70 rows, one snapshot; the previous file held 70 rows. Per row, source, source_url and retrieved_at say where it came from.
