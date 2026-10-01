@@ -2,10 +2,16 @@
 // Session 38: the home battery game. One canvas for the prices, plain React for the rest; mouse, touch and keys.
 // The prices are real (ERCOT HB_HUBAVG, every 15-minute interval of one operating day); the battery, the home, the
 // brand and the fleet are fictional and say so. Each interval's action is the control held for most of its time.
+// Session 50 (v2): the battery's settings and a difficulty (lib/battery.ts), a 30-second first-run tutorial, a
+// house-and-battery animation, Easy's forecast band, a 15-minute notice before the fleet call, the replay of the
+// perfect battery beside the player's with a reason at each switch, and the leaderboard by preset.
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BATTERY, eventPageFor, FLEET, isPerfect, optimum, perfectShare, simulate, step, vppHour, type Action } from "@/lib/battery";
-import type { ScoreRow } from "@/lib/game";
+import {
+  DEFAULT_SETTINGS, DIFFICULTIES, eventPageFor, explain, FLEET, isPerfect, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS,
+  simulate, step, validSettings, vppHour, type Action, type Difficulty, type Rules, type Settings,
+} from "@/lib/battery";
+import type { PresetCount, ScoreRow } from "@/lib/game";
 
 export type GameLevel = { slug: string; date: string; title: string; why: string; ts_utc: string[]; price: number[] };
 
@@ -15,6 +21,8 @@ const HHMM = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "2-digit", m
 const clock = (ts: string) => HHMM.format(new Date(ts));
 const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const css = (name: string) => (typeof window === "undefined" ? "#6B665E" : getComputedStyle(document.documentElement).getPropertyValue(`--color-${name}`).trim() || "#6B665E");
+const TUTORIAL_KEY = "erw.battery.tutorial.v2";
+const SETTINGS_KEY = "erw.battery.settings.v2";
 
 type Phase = "pick" | "play" | "done";
 type Control = 1 | 0 | -1;
@@ -41,8 +49,17 @@ function list(xs: string[]): string {
   return `${shown.slice(0, -1).join(", ")}${shown.length > 1 ? " and " : ""}${shown.at(-1)}${more}`;
 }
 
+/** Browser storage, for this viewer's conveniences only (the tutorial seen, the last settings): it may be absent or
+ * refuse, and the game works without it. */
+function load(key: string): string | null {
+  try { return window.localStorage.getItem(key); } catch { return null; }
+}
+function save(key: string, v: string) {
+  try { window.localStorage.setItem(key, v); } catch { /* private window or blocked storage: nothing to keep */ }
+}
+
 /** Session 46: a share card drawn on a canvas in this page and saved from it: nothing is uploaded. */
-function ShareCard({ level, score, optimal }: { level: GameLevel; score: number; optimal: number }) {
+function ShareCard({ level, score, optimal, preset }: { level: GameLevel; score: number; optimal: number; preset: string }) {
   const [png, setPng] = useState("");
   const [copied, setCopied] = useState("");
   const share = perfectShare(score, optimal);
@@ -51,7 +68,7 @@ function ShareCard({ level, score, optimal }: { level: GameLevel; score: number;
     `I earned ${usd(score)} with one home battery${share !== null ? `: ${Math.round(share)} percent of perfect foresight (${usd(optimal)})` : ""}.`,
     `My fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}.`,
   ];
-  const text = () => `${lines.join(" ")} Real ERCOT real-time prices (HB_HUBAVG); the battery and the fleet are fictional. ${window.location.origin}/play/battery`;
+  const text = () => `${lines.join(" ")} ${presetLabel(preset)}. Real ERCOT real-time prices (HB_HUBAVG); the battery and the fleet are fictional. ${window.location.origin}/play/battery`;
   const make = () => {
     const cv = document.createElement("canvas");
     cv.width = 1200; cv.height = 630;
@@ -68,6 +85,7 @@ function ShareCard({ level, score, optimal }: { level: GameLevel; score: number;
     if (share !== null) ctx.fillText(`${Math.round(share)} percent of perfect foresight (${usd(optimal)})`, 60, 370);
     ctx.fillText(`A fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}`, 60, 425);
     ctx.fillStyle = css("muted"); ctx.font = "24px system-ui, sans-serif";
+    ctx.fillText(presetLabel(preset), 60, 480);
     ctx.fillText("Real prices: ERCOT real-time, hub average (HB_HUBAVG), every 15 minutes of the day.", 60, 520);
     ctx.fillText(`The battery, home and fleet are fictional. ${window.location.host}/play/battery`, 60, 560);
     setPng(cv.toDataURL("image/png"));
@@ -87,27 +105,245 @@ function ShareCard({ level, score, optimal }: { level: GameLevel; score: number;
   );
 }
 
-export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: ScoreRow[] }) {
+/** Session 50: the 30-second first-run tutorial, four cards of about 7.5 seconds; skippable, remembered. */
+const STEPS = [
+  "A real day of ERCOT's wholesale prices scrolls past in about 90 seconds, fifteen minutes at a time. You see the past; on Easy, the next three hours show as a band.",
+  "Hold Charge to buy power into your battery when it is cheap; hold Sell to discharge it when it is dear. Let go to idle. Keys: C and S, or the arrows.",
+  "Once a day the fleet is called for the day's dearest hour, with a 15-minute warning. Energy you deliver in that hour earns a bonus: a game rule, modeled on ERCOT's ADER pilot.",
+  "On Hard the battery keeps a backup reserve, and every kWh you discharge wears it (a cost). After the day, replay the perfect battery's day beside yours.",
+];
+function Tutorial({ onDone }: { onDone: () => void }) {
+  const [k, setK] = useState(0);
+  useEffect(() => {
+    const t = setTimeout(() => (k + 1 < STEPS.length ? setK(k + 1) : onDone()), 7500);
+    return () => clearTimeout(t);
+  }, [k, onDone]);
+  return (
+    <div className="mb-3 border border-accent bg-panel p-3 text-sm" role="dialog" aria-label="How to play, in 30 seconds">
+      <div className="mb-1 flex items-center justify-between text-xs text-muted">
+        <span>How to play: {k + 1} of {STEPS.length}</span>
+        <button onClick={onDone} className="border border-rule px-2 py-0.5">Skip</button>
+      </div>
+      <p className="mb-2 min-h-[3.5rem]">{STEPS[k]}</p>
+      <div className="flex items-center gap-2">
+        <div className="h-1 flex-1 bg-[var(--color-rule)]"><div className="h-1 bg-accent" style={{ width: `${((k + 1) / STEPS.length) * 100}%` }} /></div>
+        <button onClick={() => (k + 1 < STEPS.length ? setK(k + 1) : onDone())} className="border border-accent px-2 py-0.5 text-accent">{k + 1 < STEPS.length ? "Next" : "Play"}</button>
+      </div>
+    </div>
+  );
+}
+
+/** Session 50: the house and its battery. Charge flows in from the grid along the wire; discharge flows out to it; the
+ * battery shows its charge and, on Hard, the reserve line. Motion stops for readers who ask for less. */
+function HouseFlow({ flow, soc, kwh, reserveKwh, blocked }: { flow: Action; soc: number; kwh: number; reserveKwh: number; blocked: boolean }) {
+  const fill = Math.max(0, Math.min(1, soc / kwh)), res = reserveKwh / kwh;
+  const H = 70, top = 22;
+  const state = blocked ? "held at the reserve" : flow === 1 ? "charging from the grid" : flow === -1 ? "sending power to the grid" : "idle";
+  return (
+    <svg viewBox="0 0 320 110" className="h-[110px] w-full max-w-[420px]" role="img" aria-label={`The battery is ${state}; ${Math.round(fill * 100)} percent charged`}>
+      <style>{`
+        .erw-flow { stroke-dasharray: 6 8; }
+        .erw-in { animation: erw-in 0.6s linear infinite; }
+        .erw-out { animation: erw-out 0.6s linear infinite; }
+        @keyframes erw-in { to { stroke-dashoffset: -14; } }
+        @keyframes erw-out { to { stroke-dashoffset: 14; } }
+        @media (prefers-reduced-motion: reduce) { .erw-in, .erw-out { animation: none; } }
+      `}</style>
+      {/* the grid: a pylon */}
+      <g stroke="var(--color-muted)" strokeWidth="2" fill="none">
+        <path d="M28 96 L40 24 L52 96 M33 66 L47 66 M36 46 L44 46 M24 34 L56 34" />
+      </g>
+      <text x="40" y="18" textAnchor="middle" fontSize="10" fill="var(--color-muted)">grid</text>
+      {/* the wire, grid to battery */}
+      <line x1="56" y1="58" x2="128" y2="58" stroke="var(--color-rule)" strokeWidth="4" />
+      {flow !== 0 && !blocked ? (
+        <line x1="56" y1="58" x2="128" y2="58" stroke={flow === 1 ? "var(--color-down)" : "var(--color-accent)"} strokeWidth="4" className={`erw-flow ${flow === 1 ? "erw-in" : "erw-out"}`} />
+      ) : null}
+      {/* the battery */}
+      <rect x="130" y={top} width="44" height={H} rx="4" fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth="2" />
+      <rect x="144" y={top - 6} width="16" height="6" fill="var(--color-ink)" />
+      <rect x="134" y={top + 4 + (H - 8) * (1 - fill)} width="36" height={(H - 8) * fill} fill="var(--color-down)" />
+      {reserveKwh > 0 ? (
+        <g>
+          <line x1="126" x2="178" y1={top + 4 + (H - 8) * (1 - res)} y2={top + 4 + (H - 8) * (1 - res)} stroke="var(--color-accent)" strokeWidth="2" strokeDasharray="4 3" />
+          <text x="182" y={top + 8 + (H - 8) * (1 - res)} fontSize="9" fill="var(--color-accent)">reserve</text>
+        </g>
+      ) : null}
+      {/* the wire, battery to house */}
+      <line x1="176" y1="70" x2="232" y2="70" stroke="var(--color-rule)" strokeWidth="4" />
+      {/* the house */}
+      <path d="M236 92 L236 60 L266 38 L296 60 L296 92 Z" fill="var(--color-panel)" stroke="var(--color-ink)" strokeWidth="2" />
+      <rect x="258" y="70" width="14" height="22" fill="var(--color-rule)" />
+      <text x="160" y="106" textAnchor="middle" fontSize="10" fill="var(--color-ink)">{state}</text>
+    </svg>
+  );
+}
+
+/** Session 50: the replay. The perfect battery's day (perfect foresight, the same rules) plays back beside the
+ * player's: both states of charge over the day, a cursor, and at each switch of the perfect plan a reason read from
+ * the prices (lib/battery.ts explain). */
+function Replay({ level, rules, mine, perfect }: { level: GameLevel; rules: Rules; mine: Action[]; perfect: Action[] }) {
+  const n = level.price.length;
+  const hours = useMemo(() => level.ts_utc.map((t) => Number(clock(t).slice(0, 2))), [level]);
+  const segs = useMemo(() => explain(level.price, hours, perfect, rules, (i) => clock(level.ts_utc[i])), [level, hours, perfect, rules]);
+  const a = useMemo(() => simulate(level.price, mine, rules).soc, [level, mine, rules]);
+  const b = useMemo(() => simulate(level.price, perfect, rules).soc, [level, perfect, rules]);
+  const [t, setT] = useState(n);
+  const [playing, setPlaying] = useState(false);
+  const raf = useRef(0);
+  useEffect(() => {
+    if (!playing) return;
+    const t0 = performance.now(), from = t >= n ? 0 : t;
+    const tick = (now: number) => {
+      const v = Math.min(n, from + ((now - t0) / 20_000) * n);
+      setT(v);
+      if (v < n) raf.current = requestAnimationFrame(tick); else setPlaying(false);
+    };
+    raf.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playing]);
+  const W = 720, H = 200, L = 36, R = 8, T = 10, B = 26;
+  const x = (i: number) => L + (i / n) * (W - L - R);
+  const y = (v: number) => T + (1 - v / rules.kwh) * (H - T - B);
+  const lo = Math.min(...level.price), hi = Math.max(...level.price);
+  const py = (v: number) => T + (1 - (v - lo) / (hi - lo || 1)) * (H - T - B);
+  const upto = Math.floor(t);
+  const path = (s: number[]) => s.slice(0, upto + 1).map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const price = level.price.slice(0, upto).map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${py(v).toFixed(1)}`).join(" ");
+  const cur = Math.min(n - 1, upto);
+  const seg = segs.find((s) => cur >= s.from && cur <= s.to);
+  const verb = (v: Action) => (v === 1 ? "charging" : v === -1 ? "selling" : "holding");
+  return (
+    <div className="mt-4 border-t border-rule pt-3 text-sm">
+      <h3 className="mb-1 text-base">Replay: the perfect battery beside yours</h3>
+      <p className="mb-2 text-xs text-muted">The same battery and rules, with every price known in advance. Its state of charge (accent) and yours (ink), kWh, over the day; the day&apos;s price is the faint line behind, on its own scale.</p>
+      <div className="mb-2 flex flex-wrap items-center gap-2">
+        <button onClick={() => setPlaying(!playing)} className="border border-accent px-3 py-1 text-accent">{playing ? "Pause" : t >= n ? "Play the replay" : "Resume"}</button>
+        <input type="range" min={0} max={n} step={1} value={Math.round(t)} onChange={(e) => { setPlaying(false); setT(Number(e.target.value)); }} className="w-56" aria-label="Replay position" />
+        <span className="tabular-nums">{clock(level.ts_utc[cur])}</span>
+      </div>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="State of charge over the day: the perfect battery and yours">
+        {[0, 0.5, 1].map((f) => (
+          <g key={f}>
+            <line x1={L} x2={W - R} y1={y(rules.kwh * f)} y2={y(rules.kwh * f)} stroke="var(--color-rule)" />
+            <text x={L - 4} y={y(rules.kwh * f) + 4} textAnchor="end" fontSize="10" fill="var(--color-muted)">{(rules.kwh * f).toFixed(1)}</text>
+          </g>
+        ))}
+        {rules.reserveKwh > 0 ? <line x1={L} x2={W - R} y1={y(rules.reserveKwh)} y2={y(rules.reserveKwh)} stroke="var(--color-accent)" strokeDasharray="4 3" /> : null}
+        <path d={price} fill="none" stroke="var(--color-muted)" strokeOpacity="0.35" strokeWidth="1.5" />
+        <path d={path(a)} fill="none" stroke="var(--color-ink)" strokeWidth="2" />
+        <path d={path(b)} fill="none" stroke="var(--color-accent)" strokeWidth="2" />
+        <line x1={x(upto)} x2={x(upto)} y1={T} y2={H - B} stroke="var(--color-muted)" />
+        {[0, Math.floor(n / 2), n - 1].map((i) => <text key={i} x={x(i)} y={H - 8} fontSize="10" textAnchor="middle" fill="var(--color-muted)">{clock(level.ts_utc[i])}</text>)}
+      </svg>
+      <div className="flex flex-wrap gap-4 text-xs">
+        <span><span className="mr-1 inline-block h-0.5 w-5 align-middle bg-accent" />the perfect battery</span>
+        <span><span className="mr-1 inline-block h-0.5 w-5 align-middle bg-[var(--color-ink)]" />yours</span>
+        {rules.reserveKwh > 0 ? <span className="text-accent">dashed: the reserve</span> : null}
+      </div>
+      <p className="mt-2 min-h-[2.5rem]" aria-live="polite">
+        <strong>{clock(level.ts_utc[cur])}</strong>: the perfect battery {seg ? `is ${verb(seg.a)} (${seg.text})` : ""}; you were {verb(mine[cur] ?? 0)}.
+      </p>
+      <details className="mt-1">
+        <summary className="cursor-pointer text-muted">Every switch of the perfect plan ({segs.length})</summary>
+        <ol className="mt-1 list-decimal pl-6 text-xs">
+          {segs.map((s) => <li key={s.from}>{clock(level.ts_utc[s.from])} to {clock(new Date(Date.parse(level.ts_utc[s.to]) + 15 * 60_000).toISOString())}: {s.text}</li>)}
+        </ol>
+      </details>
+    </div>
+  );
+}
+
+/** Session 50: the battery's settings and the difficulty, each default labelled with its source. */
+function SettingsPanel({ draft, setDraft, difficulty, setDifficulty }: {
+  draft: Record<keyof Settings, string>; setDraft: (d: Record<keyof Settings, string>) => void; difficulty: Difficulty; setDifficulty: (d: Difficulty) => void;
+}) {
+  const shownAs = (k: keyof Settings) => (k === "rte" || k === "reserve" ? 100 : 1);
+  return (
+    <div className="mb-3 border border-rule p-3 text-sm">
+      <div className="mb-2 flex flex-wrap gap-2" role="radiogroup" aria-label="Difficulty">
+        {(Object.keys(DIFFICULTIES) as Difficulty[]).map((d) => (
+          <button key={d} role="radio" aria-checked={difficulty === d} onClick={() => setDifficulty(d)}
+            className={`border px-3 py-1 ${difficulty === d ? "border-accent bg-accent text-paper" : "border-rule"}`}>{DIFFICULTIES[d].label}</button>
+        ))}
+        <span className="self-center text-xs text-muted">{DIFFICULTIES[difficulty].what}.</span>
+      </div>
+      <details>
+        <summary className="cursor-pointer">The battery: settings (each default an assumption or a cited figure; editable within its range)</summary>
+        <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {(Object.keys(SETTINGS) as (keyof Settings)[]).map((k) => {
+            const r = SETTINGS[k], f = shownAs(k);
+            const onHardOnly = (k === "reserve" || k === "deg") && difficulty !== "hard";
+            return (
+              <label key={k} className={`flex flex-col ${onHardOnly ? "opacity-60" : ""}`}>
+                <span>{r.label}{r.unit === "percent" ? ", percent" : r.unit ? `, ${r.unit}` : ""} <span className="text-xs text-muted">({+(r.min * f).toFixed(2)} to {+(r.max * f).toFixed(2)}, default {+(r.def * f).toFixed(2)}){onHardOnly ? "; applies on Hard" : ""}</span></span>
+                <input type="number" inputMode="decimal" min={r.min * f} max={r.max * f} step={r.step * f} value={draft[k]}
+                  onChange={(e) => setDraft({ ...draft, [k]: e.target.value })} className="w-32 border border-rule bg-panel px-2 py-1" />
+                <span className="text-xs text-muted">{r.source}</span>
+              </label>
+            );
+          })}
+        </div>
+        <button onClick={() => setDraft(toDraft(DEFAULT_SETTINGS))} className="mt-2 border border-rule px-3 py-1">Reset to the defaults</button>
+      </details>
+    </div>
+  );
+}
+const toDraft = (s: Settings): Record<keyof Settings, string> => ({
+  kwh: String(s.kwh), kw: String(s.kw), rte: String(Math.round(s.rte * 100)), reserve: String(Math.round(s.reserve * 100)), deg: String(s.deg),
+});
+const fromDraft = (d: Record<keyof Settings, string>): Settings => ({
+  kwh: Number(d.kwh), kw: Number(d.kw), rte: Math.round(Number(d.rte)) / 100, reserve: Math.round(Number(d.reserve)) / 100, deg: Math.round(Number(d.deg) * 100) / 100,
+});
+
+export function Game({ levels, top: firstTop, presets: firstPresets }: { levels: GameLevel[]; top: ScoreRow[]; presets: PresetCount[] }) {
   const [phase, setPhase] = useState<Phase>("pick");
   const [pick, setPick] = useState(0);
   const level = levels[pick];
   const n = level.price.length;
   const vpp = useMemo(() => vppHour(level.price), [level]);
-  const best = useMemo(() => optimum(level.price), [level]);
+  const [draft, setDraft] = useState(toDraft(DEFAULT_SETTINGS));
+  const [difficulty, setDifficulty] = useState<Difficulty>("normal");
+  const parsed = fromDraft(draft);
+  const ok = validSettings(parsed);
+  const settings = ok ? parsed : DEFAULT_SETTINGS;
+  const settingsKey = JSON.stringify(settings);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const rules = useMemo(() => rulesOf(settings, difficulty), [settingsKey, difficulty]);
+  const preset = presetOf(settings, difficulty);
+  const best = useMemo(() => optimum(level.price, rules), [level, rules]);
+  const [tutorial, setTutorial] = useState(false);
+
+  // the viewer's conveniences, from browser storage after the first render (absent or refused: the defaults)
+  useEffect(() => {
+    const seen = load(TUTORIAL_KEY) === "seen";
+    let saved: { settings?: unknown; difficulty?: unknown } | null = null;
+    try { saved = JSON.parse(load(SETTINGS_KEY) ?? "null"); } catch { saved = null; }
+    queueMicrotask(() => {
+      if (!seen) setTutorial(true);
+      if (saved && validSettings(saved.settings)) setDraft(toDraft(saved.settings));
+      if (saved && (saved.difficulty === "easy" || saved.difficulty === "normal" || saved.difficulty === "hard")) setDifficulty(saved.difficulty);
+    });
+  }, []);
+  useEffect(() => { if (ok) save(SETTINGS_KEY, JSON.stringify({ settings, difficulty })); }, [ok, settingsKey, difficulty]); // eslint-disable-line react-hooks/exhaustive-deps
+  const endTutorial = useCallback(() => { save(TUTORIAL_KEY, "seen"); setTutorial(false); }, []);
 
   // mutable game state, read by the animation loop
-  const g = useRef({ t0: 0, idx: 0, held: [0, 0, 0], last: 0, soc: BATTERY.kwh * BATTERY.startShare, cash: 0, vppKwh: 0, actions: [] as Action[], control: 0 as Control });
-  const [hud, setHud] = useState({ idx: 0, soc: BATTERY.kwh * BATTERY.startShare, cash: 0, vppKwh: 0, control: 0 as Control });
-  const [result, setResult] = useState<{ score: number; cash: number; bonus: number; actions: Action[] } | null>(null);
+  const g = useRef({ t0: 0, idx: 0, held: [0, 0, 0], last: 0, soc: 0, cash: 0, wear: 0, vppKwh: 0, actions: [] as Action[], control: 0 as Control });
+  const [hud, setHud] = useState({ idx: 0, soc: rules.start, cash: 0, wear: 0, vppKwh: 0, control: 0 as Control });
+  const [result, setResult] = useState<{ score: number; cash: number; wear: number; bonus: number; actions: Action[]; rules: Rules; preset: string; settings: Settings; difficulty: Difficulty } | null>(null);
   const [server, setServer] = useState<string>("");
   const [top, setTop] = useState<ScoreRow[]>(firstTop);
-  const [topFor, setTopFor] = useState<string>(levels[0].date);
+  const [topFor, setTopFor] = useState<{ date: string; preset: string }>({ date: levels[0].date, preset: firstTop[0]?.preset ?? presetOf(DEFAULT_SETTINGS, "normal") });
   const [nick, setNick] = useState("");
   const [posted, setPosted] = useState<string>("");
   const canvas = useRef<HTMLCanvasElement>(null);
   const raf = useRef(0);
+  const next = useRef<(now: number) => void>(() => {});  // the loop's next frame, through a ref (react-hooks/immutability)
 
   const setControl = useCallback((c: Control) => { g.current.control = c; setHud((h) => ({ ...h, control: c })); }, []);
+  const forecast = DIFFICULTIES[difficulty].forecastHours * 4;
 
   const draw = useCallback((pos: number) => {
     const cv = canvas.current;
@@ -120,12 +356,20 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
     ctx.fillStyle = css("panel"); ctx.fillRect(0, 0, w, h);
     const shown = Math.max(1, Math.min(n, Math.floor(pos) + 1));
     const seen = level.price.slice(0, shown);
-    let lo = Math.min(0, ...seen), hi = Math.max(10, ...seen);
+    // Easy: the next hours as a band, each clock hour's lowest to highest real price
+    const bands: { i: number; lo: number; hi: number }[] = [];
+    if (forecast) {
+      for (let i = Math.floor(shown / 4) * 4; i < Math.min(n, shown + forecast); i += 4) {
+        const hr = level.price.slice(i, i + 4);
+        bands.push({ i, lo: Math.min(...hr), hi: Math.max(...hr) });
+      }
+    }
+    let lo = Math.min(0, ...seen, ...bands.map((b) => b.lo)), hi = Math.max(10, ...seen, ...bands.map((b) => b.hi));
     const pad = (hi - lo) * 0.12; lo -= pad; hi += pad;
     const top = 18, bottom = h - 34;
     const y = (v: number) => bottom - ((v - lo) / (hi - lo)) * (bottom - top);
     const span = 24; // intervals visible behind the now line (six hours)
-    const nowX = w * 0.72;
+    const nowX = w * (forecast ? 0.55 : 0.72);
     const dx = (nowX - 44) / span;
     const x = (i: number) => nowX - (pos - i) * dx;
     // grid and zero line
@@ -136,10 +380,20 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
       ctx.fillText(Math.round(v).toLocaleString("en-US"), 2, yy + 4);
     }
     if (lo < 0) { ctx.strokeStyle = css("ink"); ctx.beginPath(); ctx.moveTo(40, y(0)); ctx.lineTo(w, y(0)); ctx.stroke(); }
-    // the VPP hour, once it has started
-    if (pos >= vpp.first) {
+    // the VPP hour, from its notice (one interval before) on
+    if (pos >= vpp.first - 1) {
       ctx.fillStyle = "rgba(140, 21, 21, 0.08)";
       ctx.fillRect(x(vpp.first), top, (vpp.last + 1 - vpp.first) * dx, bottom - top);
+    }
+    // the forecast band, ahead of the now line
+    if (bands.length) {
+      ctx.fillStyle = "rgba(23, 94, 84, 0.16)";
+      for (const b of bands) {
+        const x0 = Math.max(nowX, x(b.i)), x1 = x(b.i + 4);
+        if (x1 > x0) ctx.fillRect(x0, y(b.hi), x1 - x0, Math.max(2, y(b.lo) - y(b.hi)));
+      }
+      ctx.fillStyle = css("muted"); ctx.font = "11px system-ui, sans-serif";
+      ctx.fillText(`next ${forecast / 4} hours: each hour's price range`, nowX + 6, top + 2);
     }
     // actions taken, under the line
     const acts = g.current.actions;
@@ -152,7 +406,7 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
     ctx.fillStyle = css("muted");
     for (let i = 0; i < n; i += 4) {
       const xx = x(i);
-      if (xx < 40 || xx > w - 20 || i > pos + 1) continue;
+      if (xx < 40 || xx > w - 20 || i > pos + 1 + forecast) continue;
       ctx.fillText(clock(level.ts_utc[i]).slice(0, 2), xx - 6, h - 6);
     }
     // the price line so far
@@ -161,7 +415,7 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
     for (let i = 0; i < shown; i++) {
       const x0 = x(i), yy = y(level.price[i]);
       if (i === 0) ctx.moveTo(x0, yy); else ctx.lineTo(x0, yy);
-      ctx.lineTo(x0 + dx, yy);
+      ctx.lineTo(Math.min(x0 + dx, nowX), yy);
     }
     ctx.stroke(); ctx.restore();
     // the now line and the current price
@@ -172,24 +426,25 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
     // the label right of the now line where it fits, else left of it (narrow screens), never over the line
     const label = `${cur.toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh`;
     const lw = ctx.measureText(label).width;
-    ctx.fillText(label, nowX + 8 + lw <= w - 2 ? nowX + 8 : nowX - 8 - lw, Math.max(top + 10, y(cur) - 8));
-  }, [level, n, vpp]);
+    ctx.fillText(label, nowX + 8 + lw <= w - 2 && !forecast ? nowX + 8 : nowX - 8 - lw, Math.max(top + 10, y(cur) - 8));
+  }, [level, n, vpp, forecast]);
 
   const finish = useCallback(async () => {
     cancelAnimationFrame(raf.current);
     const actions = g.current.actions.slice(0, n);
-    const r = simulate(level.price, actions);
-    setResult({ score: r.score, cash: r.cash, bonus: r.bonus, actions });
+    const r = simulate(level.price, actions, rules);
+    setResult({ score: r.score, cash: r.cash, wear: r.wear, bonus: r.bonus, actions, rules, preset, settings, difficulty });
     setPhase("done");
     setControl(0);
     try {
-      const res = await fetch("/api/play/finish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ level: level.date, actions }) });
+      const res = await fetch("/api/play/finish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ level: level.date, actions, settings, difficulty }) });
       const j = await res.json();
       setServer(res.ok ? (Math.abs(j.score - Math.round(r.score * 10_000) / 10_000) < 1e-6 ? "Score verified by the server." : `The server scored this game ${usd(j.score)}.`) : `Not stored: ${j.error ?? res.status}`);
     } catch {
       setServer("Not stored: the server could not be reached.");
     }
-  }, [level, n, setControl]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [level, n, setControl, rules, preset, settingsKey, difficulty]);
 
   const loop = useCallback((now: number) => {
     const s = g.current;
@@ -202,26 +457,29 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
     while (s.idx < target) {
       const [dis, idle, chg] = s.held;
       const a: Action = chg > idle && chg > dis ? 1 : dis > idle && dis > chg ? -1 : 0;
-      const r = step(s.soc, a, level.price[s.idx]);
-      s.soc = r.soc; s.cash += r.cash;
+      const r = step(s.soc, a, level.price[s.idx], rules);
+      s.soc = r.soc; s.cash += r.cash; s.wear += r.wear;
       if (s.idx >= vpp.first && s.idx <= vpp.last) s.vppKwh += r.delivered;
       s.actions.push(a);
       s.idx++;
       s.held = [0, 0, 0];
     }
     draw(Math.min(n - 0.001, elapsed / per));
-    setHud((h) => (h.idx !== s.idx || Math.abs(h.soc - s.soc) > 1e-9 ? { idx: s.idx, soc: s.soc, cash: s.cash, vppKwh: s.vppKwh, control: s.control } : h));
+    setHud((h) => (h.idx !== s.idx || Math.abs(h.soc - s.soc) > 1e-9 ? { idx: s.idx, soc: s.soc, cash: s.cash, wear: s.wear, vppKwh: s.vppKwh, control: s.control } : h));
     if (s.idx >= n) { finish(); return; }
-    raf.current = requestAnimationFrame(loop);
-  }, [n, level, vpp, draw, finish]);
+    raf.current = requestAnimationFrame((t) => next.current(t));
+  }, [n, level, vpp, draw, finish, rules]);
+  useEffect(() => { next.current = loop; }, [loop]);
 
   const start = () => {
+    if (!ok) return;
     const t = performance.now();
-    g.current = { t0: t, idx: 0, held: [0, 0, 0], last: t, soc: BATTERY.kwh * BATTERY.startShare, cash: 0, vppKwh: 0, actions: [], control: 0 };
-    setHud({ idx: 0, soc: g.current.soc, cash: 0, vppKwh: 0, control: 0 });
+    g.current = { t0: t, idx: 0, held: [0, 0, 0], last: t, soc: rules.start, cash: 0, wear: 0, vppKwh: 0, actions: [], control: 0 };
+    setHud({ idx: 0, soc: rules.start, cash: 0, wear: 0, vppKwh: 0, control: 0 });
     setResult(null); setServer(""); setPosted("");
     setPhase("play");
-    raf.current = requestAnimationFrame(loop);
+    next.current = loop;
+    raf.current = requestAnimationFrame((t) => next.current(t));
   };
 
   useEffect(() => () => cancelAnimationFrame(raf.current), []);
@@ -245,27 +503,38 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
     onContextMenu: (e: React.MouseEvent) => e.preventDefault(),
   });
 
-  const inVpp = phase === "play" && hud.idx >= vpp.first && hud.idx <= vpp.last;
+  const playing = phase === "play";
+  const inVpp = playing && hud.idx >= vpp.first && hud.idx <= vpp.last;
+  const notice = playing && hud.idx === vpp.first - 1;
   const vppDone = hud.idx > vpp.last;
   const lit = hud.vppKwh > 0;
+  const atReserve = rules.reserveKwh > 0 && hud.soc <= rules.reserveKwh + 1e-9;
+  const blocked = playing && hud.control === -1 && atReserve;
   const post = async () => {
     if (!result) return;
     setPosted("Posting...");
-    const res = await fetch("/api/play/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ level: level.date, actions: result.actions, nickname: nick.trim() || undefined }) });
+    const res = await fetch("/api/play/score", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ level: level.date, actions: result.actions, nickname: nick.trim() || undefined, settings: result.settings, difficulty: result.difficulty }),
+    });
     const j = await res.json();
     if (!res.ok) { setPosted(j.error ?? `HTTP ${res.status}`); return; }
-    setTop(j.top); setTopFor(level.date); setPosted("Posted.");
+    setTop(j.top); setTopFor({ date: level.date, preset: j.preset }); setPosted("Posted.");
   };
 
-  // the debrief, from the level's prices and the optimum
+  // the debrief, from the level's prices and the optimum under the rules played
   const peak = level.price.indexOf(Math.max(...level.price)), low = level.price.indexOf(Math.min(...level.price));
   const charged = runs(best.actions, level.ts_utc, 1), discharged = runs(best.actions, level.ts_utc, -1);
+  const otherPresets = topFor.date === levels[0].date ? firstPresets.filter((p) => p.preset !== topFor.preset) : [];
 
   return (
     <div className="select-none">
+      {tutorial && phase === "pick" ? <Tutorial onDone={endTutorial} /> : null}
       {phase === "pick" ? (
         <div>
-          <p className="mb-2 text-sm">Pick a day. Everyone plays the same level on the same day.</p>
+          <SettingsPanel draft={draft} setDraft={setDraft} difficulty={difficulty} setDifficulty={setDifficulty} />
+          {!ok ? <p className="mb-2 text-sm text-accent" role="alert">A setting is outside its range or between its steps; the game will not start until it is within them.</p> : null}
+          <p className="mb-2 text-sm">Pick a day. Everyone plays the same level on the same day; the leaderboard ranks plays with the same difficulty and battery.</p>
           <div className="mb-3 grid gap-2 sm:grid-cols-2">
             {levels.map((l, i) => {
               const ev = eventPageFor(l.date);  // session 46: a famous day inside an /events window links to it
@@ -280,28 +549,43 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
               );
             })}
           </div>
-          <button onClick={start} className="border border-accent bg-accent px-4 py-2 text-paper">Play {level.date}</button>
+          <div className="flex flex-wrap items-center gap-3">
+            <button onClick={start} disabled={!ok} className="border border-accent bg-accent px-4 py-2 text-paper disabled:opacity-50">Play {level.date}, {DIFFICULTIES[difficulty].label}</button>
+            {!tutorial ? <button onClick={() => setTutorial(true)} className="text-sm underline">How to play (30 seconds)</button> : null}
+          </div>
         </div>
       ) : null}
 
       {phase !== "pick" ? (
         <div>
           <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2 text-sm">
-            <span><strong>{level.title}</strong>, {level.date} (Central time)</span>
-            <span aria-live="polite">{phase === "play" && hud.idx < n ? `${clock(level.ts_utc[Math.min(n - 1, hud.idx)])}` : "end of day"}</span>
+            <span><strong>{level.title}</strong>, {level.date} (Central time), {DIFFICULTIES[difficulty].label}</span>
+            <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.ts_utc[Math.min(n - 1, hud.idx)])}` : "end of day"}</span>
           </div>
-          {inVpp ? (
+          {notice ? (
+            <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
+          ) : inVpp ? (
             <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
-              Fleet call: the grid is at its dearest hour. Discharge now to earn a bonus (a game rule, not a real program&apos;s terms).
+              Fleet call: discharge now to earn the bonus (a game rule modeled on ERCOT&apos;s ADER pilot; see the rules below).
             </div>
           ) : null}
-          <canvas ref={canvas} className="block h-[260px] w-full touch-none" aria-label="The day's real-time price so far; the future is hidden" />
-          <div className="mt-2 grid grid-cols-[1fr_auto] items-center gap-3 text-sm">
-            <div>
-              <div className="mb-1 flex justify-between text-xs text-muted"><span>State of charge</span><span>{hud.soc.toFixed(2)} of {BATTERY.kwh} kWh</span></div>
-              <div className="h-3 w-full border border-rule bg-panel"><div className="h-full bg-[var(--color-down)]" style={{ width: `${(hud.soc / BATTERY.kwh) * 100}%` }} /></div>
+          <canvas ref={canvas} className="block h-[220px] w-full touch-none sm:h-[260px]" aria-label="The day's real-time price so far; the future is hidden except Easy's forecast band" />
+          <div className="mt-2 grid grid-cols-1 items-center gap-2 sm:grid-cols-[auto_1fr]">
+            <HouseFlow flow={playing ? hud.control : 0} soc={hud.soc} kwh={rules.kwh} reserveKwh={rules.reserveKwh} blocked={blocked} />
+            <div className="grid grid-cols-[1fr_auto] items-center gap-3 text-sm">
+              <div>
+                <div className="mb-1 flex justify-between text-xs text-muted"><span>State of charge</span><span>{hud.soc.toFixed(2)} of {rules.kwh} kWh</span></div>
+                <div className="relative h-3 w-full border border-rule bg-panel">
+                  <div className="h-full bg-[var(--color-down)]" style={{ width: `${(hud.soc / rules.kwh) * 100}%` }} />
+                  {rules.reserveKwh > 0 ? <div className="absolute top-[-3px] h-[18px] w-0.5 bg-accent" style={{ left: `${(rules.reserveKwh / rules.kwh) * 100}%` }} title="the backup reserve" /> : null}
+                </div>
+                {blocked ? <div className="mt-1 text-xs text-accent">Held: the battery is at its backup reserve.</div> : null}
+              </div>
+              <div className="text-right">
+                <span className="text-xs text-muted">Cash</span><div className="font-mono text-lg" aria-live="off">{usd(hud.cash)}</div>
+                {rules.deg > 0 ? <div className="text-xs text-muted">wear {usd(-hud.wear)}</div> : null}
+              </div>
             </div>
-            <div className="text-right"><span className="text-xs text-muted">Cash</span><div className="font-mono text-lg" aria-live="off">{usd(hud.cash)}</div></div>
           </div>
           <div className="mt-2 flex items-center gap-3">
             <div className="grid grid-cols-10 gap-[3px]" aria-label={lit ? "The fleet map is lit: your battery answered the call" : "The fleet map"} role="img">
@@ -309,10 +593,10 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
             </div>
             <span className="text-xs text-muted">{lit ? `Fleet lit: ${hud.vppKwh.toFixed(2)} kWh delivered in the call hour.` : vppDone ? "The fleet call has passed." : "The fleet map lights when your battery answers the call."}</span>
           </div>
-          {phase === "play" ? (
+          {playing ? (
             <div className="mt-3 grid grid-cols-2 gap-3">
               <button {...hold(1)} className={`touch-none border px-3 py-4 text-base ${hud.control === 1 ? "border-[var(--color-down)] bg-[var(--color-down)] text-paper" : "border-[var(--color-down)] text-[var(--color-down)]"}`}>Hold to charge (buy)</button>
-              <button {...hold(-1)} className={`touch-none border px-3 py-4 text-base ${hud.control === -1 ? "border-accent bg-accent text-paper" : "border-accent text-accent"}`}>Hold to discharge (sell)</button>
+              <button {...hold(-1)} className={`touch-none border px-3 py-4 text-base ${hud.control === -1 ? "border-accent bg-accent text-paper" : "border-accent text-accent"}`}>Hold to sell (discharge)</button>
               <p className="col-span-2 text-xs text-muted">Keys: C or the down arrow to charge, S or the up arrow to sell. Let go to idle.</p>
             </div>
           ) : null}
@@ -321,16 +605,22 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
 
       {phase === "done" && result ? (
         <div className="mt-4 border border-rule p-3">
-          <p className="text-lg">You earned <strong>{usd(result.score)}</strong>{result.bonus > 0 ? <> (the fleet bonus {usd(result.bonus)})</> : null}. Your fleet of {FLEET.toLocaleString("en-US")} homes: <strong>{usd(result.score * FLEET)}</strong>.</p>
-          <p className="text-sm">With perfect foresight the same battery would have earned {usd(best.score)}{best.score > 0 ? `; you made ${Math.round((result.score / best.score) * 100)} percent of it` : ""}. <span className="text-muted">{server}</span></p>
+          <p className="text-lg">
+            You earned <strong>{usd(result.score)}</strong>
+            {result.bonus > 0 || result.wear > 0 ? <> ({usd(result.cash)} in the market{result.wear > 0 ? `, less ${usd(result.wear)} of wear` : ""}{result.bonus > 0 ? `, plus the fleet bonus ${usd(result.bonus)}` : ""})</> : null}.
+            Your fleet of {FLEET.toLocaleString("en-US")} homes: <strong>{usd(result.score * FLEET)}</strong>.
+          </p>
+          <p className="text-sm">With perfect foresight the same battery, under the same rules ({presetLabel(result.preset)}), would have earned {usd(best.score)}{best.score > 0 ? `; you made ${Math.round((result.score / best.score) * 100)} percent of it` : ""}. <span className="text-muted">{server}</span></p>
           <p className="mt-2 max-w-3xl text-sm">
             On {level.date} the real-time price at ERCOT&apos;s hub average peaked at {level.price[peak].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh at {clock(level.ts_utc[peak])} Central time and
             was lowest, {level.price[low].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh, at {clock(level.ts_utc[low])}. The dearest hour, the fleet call, began at {clock(level.ts_utc[vpp.first])}. Knowing every
             price in advance, this battery would have {charged.length ? `charged ${list(charged)}` : "never charged"} and {discharged.length ? `discharged ${list(discharged)}` : "never discharged"}: buy when power is cheap,
-            sell when it is dear, within 13.5 kWh and 5 kW, losing a tenth of the energy on the round trip. Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href="/grid/ercot">ERCOT&apos;s grid page</Link>.
+            sell when it is dear, within {result.rules.kwh} kWh and {result.rules.kw} kW, losing {Math.round((1 - result.rules.eta ** 2) * 100)} percent of the energy on the round trip{result.rules.reserveKwh > 0 ? `, never below its ${result.rules.reserveKwh.toFixed(2)} kWh reserve` : ""}{result.rules.deg > 0 ? `, and paying ${usd(result.rules.deg)} of wear for each kWh it discharges` : ""}.
+            Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href="/grid/ercot">ERCOT&apos;s grid page</Link>.
             {eventPageFor(level.date) ? <> What happened that day on the grid: <Link href={eventPageFor(level.date)!.href}>{eventPageFor(level.date)!.label}</Link>.</> : null}
           </p>
-          <ShareCard level={level} score={result.score} optimal={best.score} />
+          <Replay level={level} rules={result.rules} mine={result.actions} perfect={best.actions} />
+          <ShareCard level={level} score={result.score} optimal={best.score} preset={result.preset} />
           <div className="mt-3 flex flex-wrap items-end gap-2 text-sm">
             <label className="flex flex-col">Nickname (optional, 3 to 16 letters and digits)
               <input value={nick} onChange={(e) => setNick(e.target.value.replace(/[^A-Za-z0-9]/g, "").slice(0, 16))} className="w-48 border border-rule bg-panel px-2 py-1" />
@@ -343,7 +633,7 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
       ) : null}
 
       <div className="mt-6">
-        <h3 className="mb-1 text-base">Leaderboard, {topFor}</h3>
+        <h3 className="mb-1 text-base">Leaderboard, {topFor.date}: {presetLabel(topFor.preset)}</h3>
         {top.length ? (
           <ol className="list-decimal pl-6 text-sm">
             {top.map((r, i) => (
@@ -353,10 +643,16 @@ export function Game({ levels, top: firstTop }: { levels: GameLevel[]; top: Scor
               </li>
             ))}
           </ol>
-        ) : <p className="text-sm text-muted">No scores yet for this level.</p>}
+        ) : <p className="text-sm text-muted">No scores yet for this level and preset.</p>}
         {top.some((r) => isPerfect(r.score, r.optimal_score)) ? (
           <p className="mt-1 text-xs text-muted">A flagged score reached 100 percent of perfect foresight. The debrief after each game shows the perfect plan, so such a score may replay it; it stands, marked.</p>
         ) : null}
+        {otherPresets.length ? (
+          <p className="mt-2 text-xs text-muted">
+            Other presets played on {topFor.date}: {otherPresets.map((p) => `${presetLabel(p.preset)} (${p.n} score${p.n === 1 ? "" : "s"}, best ${usd(p.best)})`).join("; ")}. Scores are ranked only within a preset.
+          </p>
+        ) : null}
+        <p className="mt-1 text-xs text-muted">Your preset now: {presetLabel(preset)}.</p>
       </div>
     </div>
   );

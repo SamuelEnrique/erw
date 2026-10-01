@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   if (!allow(clientIp(req))) return fail("limit reached: 30 game requests per hour; try again later", 429);
-  let body: { level?: unknown; actions?: unknown; nickname?: unknown };
+  let body: { level?: unknown; actions?: unknown; nickname?: unknown; settings?: unknown; difficulty?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -31,6 +31,7 @@ export async function POST(req: Request) {
   try {
     await insertRow("game_scores", {
       level_date: s.level.date, nickname, score: s.score, optimal_score: s.optimal, check: req.headers.get("x-erw-check") === "1",
+      preset: s.preset, difficulty: s.difficulty,  // session 50: ranked only against plays under the same rules
     });
   } catch (e) {
     console.error(`[erw] play/score: ${(e as Error).message}`);
@@ -38,9 +39,9 @@ export async function POST(req: Request) {
   }
   let top: Awaited<ReturnType<typeof leaderboard>> = [];
   try {
-    top = await leaderboard(s.level.date, 0);
+    top = await leaderboard(s.level.date, 0, s.preset);
   } catch (e) {
     console.error(`[erw] play/score leaderboard: ${(e as Error).message}`);
   }
-  return NextResponse.json({ score: s.score, optimal: s.optimal, level: s.level.date, top });
+  return NextResponse.json({ score: s.score, optimal: s.optimal, level: s.level.date, preset: s.preset, top });
 }

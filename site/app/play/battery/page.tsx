@@ -7,7 +7,7 @@ import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
 import { FLEET, FLEET_MW, FLEET_MWH } from "@/lib/battery";
 import { storageUnits, type StorageUnit } from "@/lib/data";
-import { leaderboard, type ScoreRow } from "@/lib/game";
+import { leaderboard, presetsPlayed, type PresetCount, type ScoreRow } from "@/lib/game";
 import { FAMOUS, todayLevel, type Level } from "@/lib/levels";
 import { attempt } from "@/lib/supabase";
 import { Game, type GameLevel } from "./Game";
@@ -59,6 +59,8 @@ export default async function Battery() {
   const t: Level | null = today.ok ? today.data : null;
   const levels: GameLevel[] = [...(t ? [t] : []), ...FAMOUS].map(({ slug, date, title, why, ts_utc, price }) => ({ slug, date, title, why, ts_utc, price }));
   const top = t ? await attempt(() => leaderboard(t.date)) : null;
+  const played = t ? await attempt(() => presetsPlayed(t.date)) : null;  // session 50: the presets played today
+  const presets: PresetCount[] = played && played.ok ? played.data : [];
   const fleet = await attempt(storageUnits);
   const first: ScoreRow[] = top && top.ok ? top.data : [];
   const hi = t ? t.price.indexOf(Math.max(...t.price)) : -1, lo = t ? t.price.indexOf(Math.min(...t.price)) : -1;
@@ -74,9 +76,10 @@ export default async function Battery() {
         </p>
         <p className="text-muted">
           The prices are real: ERCOT&apos;s real-time settlement point price at the hub average (HB_HUBAVG), every interval of the day. The battery, the home,
-          the brand (&quot;Mockingbird Home Battery&quot; is made up) and the fleet of 10,000 homes are fictional. The battery is an assumption: 13.5 kWh usable,
-          5 kW, 90 percent round trip, half full at the start. The fleet bonus is a game rule: energy delivered in the day&apos;s dearest hour earns that
-          hour&apos;s mean price again (never below zero); it is not any real program&apos;s terms.
+          the brand (&quot;Mockingbird Home Battery&quot; is made up) and the fleet of 10,000 homes are fictional. The battery&apos;s settings are yours to set, within
+          stated ranges; by default 13.5 kWh usable, 5 kW, 90 percent round trip, half full at the start (assumptions), a 20 percent backup reserve and a
+          degradation cost of $0.11 per kWh discharged (from Lazard&apos;s 2025 storage cost study), both enforced on Hard. Every assumption and its source:{" "}
+          <Link href="/data/methods/battery_game">the method</Link>.
         </p>
       </div>
       {t ? (
@@ -88,7 +91,28 @@ export default async function Battery() {
         <NoData what="today's level" reason={today.ok ? "no complete ERCOT operating day in the last four days of the live set" : today.reason} />
       )}
       <Section title="Play">
-        <Game levels={levels} top={first} />
+        <Game levels={levels} top={first} presets={presets} />
+      </Section>
+      <Section title="The fleet call: how it mirrors ERCOT's ADER pilot">
+        <div className="max-w-3xl space-y-2 text-sm">
+          <p>
+            The real program the call is modeled on is ERCOT&apos;s Aggregate Distributed Energy Resource (ADER) pilot. Its governing document (Phase 3.3, June 2026)
+            defines an ADER as &quot;a Resource consisting of multiple Premises or devices connected at the distribution system level that has the ability in
+            aggregate to respond to ERCOT Dispatch Instructions&quot;, and settles its energy at &quot;the Load Zone price&quot;. The game keeps that shape and simplifies the rest:
+          </p>
+          <ul className="list-disc space-y-1 pl-5">
+            <li><strong>When:</strong> the call is the day&apos;s dearest clock hour, with a 15-minute warning. In the pilot, dispatch comes from ERCOT&apos;s Security-Constrained Economic Dispatch (SCED), every five minutes, when prices and the grid call for it; nobody knows the dearest hour in advance. The warning and the hour are the game&apos;s choices.</li>
+            <li><strong>How long:</strong> one hour. The pilot&apos;s deployment test lasts &quot;at least one full 15-minute Settlement Interval&quot;; a real call lasts as long as the instruction does.</li>
+            <li><strong>What the battery is paid:</strong> every kWh sold, in or out of the call, earns the real-time price, as an ADER&apos;s energy is settled at a market price (the game uses the hub average, not the battery&apos;s Load Zone price). In the call hour, each kWh delivered also earns a bonus of the hour&apos;s mean price (never below zero). The bonus is the game&apos;s stand-in for what an aggregator may pass on to a home: the pilot also lets ADERs earn ancillary-service payments (ECRS and Non-Spin), whose prices the game does not hold, and what a home is paid is set by its retailer or aggregator, not by ERCOT.</li>
+            <li><strong>The reserve:</strong> on Hard, the battery never discharges below its backup reserve, even in the call.</li>
+            <li><strong>Size:</strong> the game&apos;s fleet of 10,000 homes is 50 MW. The pilot&apos;s Phase 3 limit is 500 MW of ADERs system-wide.</li>
+          </ul>
+          <p className="text-xs text-muted">
+            Source: ERCOT, <a href="https://www.ercot.com/files/docs/2026/03/02/ADER-Pilot-Project-Governing-Document-Phase-3.3.docx">ADER Pilot Project Governing Document, Phase 3.3</a>, from{" "}
+            <a href="https://www.ercot.com/mktrules/pilots/ader">ERCOT&apos;s ADER pilot page</a>, read on 2026-10-01. The game is not the program: no telemetry,
+            no qualification, no Base Point Deviation, no ancillary-service awards.
+          </p>
+        </div>
       </Section>
       <Section title="The fleet: fictional and real">
         {fleet.ok ? <RealFleet units={fleet.data} /> : <NoData what="ERCOT's battery fleet" reason={fleet.reason} />}
