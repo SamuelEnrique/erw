@@ -49,6 +49,7 @@ import os
 import statistics
 import sys
 import time
+import urllib.parse
 
 import requests
 
@@ -85,8 +86,15 @@ def parse(s):
     return dt.datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=dt.timezone.utc)
 
 
+def origin(url):
+    """The scheme and host of SUPABASE_URL: the secret may carry a path (/rest/v1), and Storage lives beside it. The
+    dispatched run of session 54 failed here: /rest/v1/storage/v1/bucket reached PostgREST (PGRST125)."""
+    u = urllib.parse.urlparse(url)
+    return f"{u.scheme}://{u.netloc}"
+
+
 def public_url(base):
-    return f"{base.rstrip('/')}/storage/v1/object/public/{BUCKET}/{OBJECT}"
+    return f"{base}/storage/v1/object/public/{BUCKET}/{OBJECT}"
 
 
 # ---------------------------------------------------------------- the pull
@@ -300,7 +308,7 @@ def main(argv=None):
     if a.skip_if_busy and (b := busy()):
         print(f"network_hourly: skipped, {b}; nothing pulled or uploaded")
         return 0
-    sb = env("SUPABASE_URL").rstrip("/")
+    sb = origin(env("SUPABASE_URL"))
     with open(COMMITTED, encoding="utf-8") as f:
         committed = json.load(f)
     stored = read_storage(sb)
