@@ -48,3 +48,9 @@ warehouse/output/shadow/
 # tracked. site/scripts/bill-intake.mjs writes de-identified fixtures to tests/fixtures/bills/
 private/bills/*
 !private/bills/README.md
+# Session 57: the internal RRC statewide table (county partitions) and the severance refund finder's outputs: internal
+# (the RRC grants no reuse in writing), never in git
+warehouse/output/rrc_lease_production_statewide/
+warehouse/output/rrc_lease_production_statewide.partial/
+warehouse/output/*.csv.gz
+warehouse/output/severance_screen_summary.json
