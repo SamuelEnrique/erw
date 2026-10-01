@@ -160,10 +160,10 @@ def main(argv=None):
     m = p.merge(s, on="story_id")
     for c in ("sig_p", "sig_s", "ai_p", "ai_s"):
         m[c] = pd.to_numeric(m[c])
-    when = pd.to_datetime(m["event_date"], utc=True)
+    when = pd.to_datetime(m["event_date"], utc=True, format="ISO8601")
     labelled = m.copy()
     m = m[when >= pd.Timestamp.now(tz="UTC").normalize() - pd.Timedelta(days=args.days)]
-    m = m.assign(day=pd.to_datetime(m["event_date"], utc=True).dt.strftime("%Y-%m-%d"))
+    m = m.assign(day=pd.to_datetime(m["event_date"], utc=True, format="ISO8601").dt.strftime("%Y-%m-%d"))
 
     report = {"model_shadow": args.model, "models_published": sorted(m["model_p"].unique().tolist()),
               "window_days": args.days, "top_n": args.top, "overall": stats(m, args.top),

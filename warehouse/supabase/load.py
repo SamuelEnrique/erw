@@ -560,6 +560,21 @@ def main(argv=None):
                 print(f"FAILED vacuum: {type(exc).__name__}: {str(exc)[:300]}")
     size = client.rpc("erw_db_size").execute().data
     mb = int(size) / 1024 / 1024
+    # session 58: on 2026-09-30 the daily load wrote every table and then failed the size check at 448.5 MB: the plain
+    # vacuum marks replaced rows for reuse but never shrinks the database, and the weekly VACUUM FULL came the next day
+    # (356.6 MB after it). Over the limit after the plain vacuum, the load now runs VACUUM (FULL, ANALYZE) once and
+    # measures again; the tables are locked for a few minutes, which a failed run cost more than.
+    if mb > LIVE["max_mb"] and not args.no_vacuum and not args.vacuum_full and db_url() is not None and not vac.startswith("FAILED"):
+        print(f"{mb:.1f} MB after VACUUM (ANALYZE), over the {LIVE['max_mb']} MB limit: VACUUM (FULL, ANALYZE) once (session 58)")
+        try:
+            vacuum(db_url(), full=True)
+            vac = "VACUUM (ANALYZE), then VACUUM (FULL, ANALYZE) over the limit"
+        except Exception as exc:
+            vac = f"VACUUM (ANALYZE); the escalation to FULL FAILED {type(exc).__name__}"
+            failed.append("vacuum")
+            print(f"FAILED vacuum full: {type(exc).__name__}: {str(exc)[:300]}")
+        size = client.rpc("erw_db_size").execute().data
+        mb = int(size) / 1024 / 1024
     print(f"pg_database_size: {size_before:.1f} MB before the load, {mb:.1f} MB after the load and vacuum "
           f"({vac}); {int(size):,} bytes; limit {LIVE['max_mb']} MB")
     os.makedirs(os.path.join(ROOT, "runs"), exist_ok=True)

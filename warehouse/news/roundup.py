@@ -76,7 +76,7 @@ def policy_of_the_week(start, cut, log):
         return ["- policy_actions is not in the warehouse on this machine."]
     reads = read_table("policy_reads")
     rd = {} if reads is None else {r["action_event_id"]: r for r in reads.to_dict("records")}
-    d = pd.to_datetime(acts["event_date"], utc=True)
+    d = pd.to_datetime(acts["event_date"], utc=True, format="ISO8601")
     w = acts[(d >= start) & (d < cut) & (acts["significance"] != "")].copy()
     if w.empty:
         return ["- no scored policy action is dated this week."]
@@ -261,7 +261,7 @@ def main(argv=None):
         label, start, end, cut = week_bounds(args.week, now)
         partial = cut < end
         df = ip.read_series(args.stories or os.path.join(ip.OUT_DIR, NAME + ".csv"), NEWS_COLS)
-        when = pd.to_datetime(df["event_date"], utc=True)
+        when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
         s = df[(df["scored_at"] != "") & (when >= start) & (when < cut)].copy()
         s["sig"] = s["significance"].astype(int)
         s["ai"] = s["ai_power_relevance"].astype(int)
@@ -273,7 +273,7 @@ def main(argv=None):
         # session 23: the weekend's top clusters first (Saturday 00:00 UTC to the cut), then the five
         # stories of the week from the clusters not shown under Weekend
         wk_start = start + pd.Timedelta(days=5)
-        wk_s = s[pd.to_datetime(s["event_date"], utc=True) >= wk_start]
+        wk_s = s[pd.to_datetime(s["event_date"], utc=True, format="ISO8601") >= wk_start]
         weekend = brief.build_clusters(wk_s).head(WEEKEND_N) if len(wk_s) else clusters.head(0)
         top5 = clusters[~clusters["cluster_id"].isin(set(weekend["cluster_id"]))].head(5)
         shown = pd.concat([weekend, top5]).drop_duplicates("cluster_id")

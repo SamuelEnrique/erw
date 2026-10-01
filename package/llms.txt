@@ -464,6 +464,11 @@ tables, the digest archive, coverage, methods and the ERCOT peak-premium
 explorer. `/ask` answers questions with the tools of warehouse/chat
 (list_tables, describe_table, query, compare, and grid_notes): every number in
 an answer must come from a tool result, and every answer cites its tables.
+Today's prices (session 58): the price tables the chat reads hold complete
+operating days, through yesterday at best (the daily run loads them). Today's
+real-time prices exist only in latest_prices, the 15-minute snapshot on /board
+and /prices, which the chat does not read. For today's price, say it is not in
+the tables the chat reads, give the newest day they hold, and point to /board.
 
 **Event windows** (session 36B, derived, public, method docs/methods/events.md):
   event_window_daily, daily figures around an event and the same calendar days

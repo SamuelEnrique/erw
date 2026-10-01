@@ -342,14 +342,15 @@ async function setE(): Promise<Question[]> {
   const name = (id: string) => net.nodes.find((n) => n.id === id)?.name ?? id;
   const ties = tiesAt(net, "ERCO", H).sort((a, b) => Math.abs(b.mw) - Math.abs(a.mw) || a.other.localeCompare(b.other));
   const big = ties[0];
+  const out = big.mw > 0;  // the direction, outside the answer: the answer's parts hold no typed number (test_session44)
   const nTies: V = { v: ties.length, k: `net|ties|ERCO|${H}`, u: "neighbors" }, maxFlow: V = { v: Math.abs(big.mw), k: `net|maxflow|ERCO|${H}`, u: "MW" };
   const q1: Question = {
     id: "e1", tables: ["eia930_all_interchange"],
     q: `In the newest hour of the network snapshot, ${hourText(H)}, with how many neighboring balancing authorities did ERCOT exchange power, and what was the largest flow?`,
-    answer: ["ERCOT exchanged power with ", nTies, "; the largest flow, ", maxFlow, ", ", big.mw > 0 ? "out to " : "in from ", name(big.other), "."],
+    answer: ["ERCOT exchanged power with ", nTies, "; the largest flow, ", maxFlow, ", ", out ? "out to " : "in from ", name(big.other), "."],
     steps: [["On /network, pick ERCOT and set the slider to the last hour; or read the snapshot's links that have ERCO at either end, in that hour."],
       ["Count the neighbors with a reported flow: ", nTies, ": ", ties.map((t) => `${name(t.other)} (${t.other})`).join(", "), "."],
-      ["The largest in size, whichever way it runs: ", maxFlow, ", ", big.mw > 0 ? "ERCOT exporting" : "ERCOT importing", ". EIA's sign: positive when the reporting balancing authority exports."]],
+      ["The largest in size, whichever way it runs: ", maxFlow, ", ", out ? "ERCOT exporting" : "ERCOT importing", ". EIA's sign: positive when the reporting balancing authority exports."]],
     why: "ERCOT is almost an island: its grid is an interconnection of its own, joined to its neighbors only through a few direct-current ties (each neighbor here may be several of them), so it cannot lean on them much in an emergency.",
   };
   const top = topExporter(net, H)!;

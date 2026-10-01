@@ -425,7 +425,7 @@ def policy_actions_lines(start, end, log, n=3):
     with open(path, encoding="utf-8") as f:
         skip = sum(1 for ln in f if ln.startswith("#"))
     a = pd.read_csv(path, skiprows=skip, dtype=str, keep_default_na=False)
-    d = pd.to_datetime(a["event_date"], utc=True)
+    d = pd.to_datetime(a["event_date"], utc=True, format="ISO8601")
     # the actions are dated by day: the window's days, from the day it starts
     a = a[(d >= start.normalize()) & (d < end) & (a["significance"] != "")]
     a = a[a["significance"].astype(int) >= 5].assign(sig=lambda x: x["significance"].astype(int))
@@ -483,7 +483,7 @@ def main(argv=None):
     try:
         now = pd.Timestamp.now(tz="UTC")
         df = ip.read_series(args.stories or os.path.join(ip.OUT_DIR, NAME + ".csv"), NEWS_COLS)
-        when = pd.to_datetime(df["event_date"], utc=True)
+        when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
         s = df[(df["scored_at"] != "") & (when >= now - pd.Timedelta(hours=args.hours))].copy()
         s["sig"] = s["significance"].astype(int)
         s["ai"] = s["ai_power_relevance"].astype(int)

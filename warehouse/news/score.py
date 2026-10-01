@@ -143,7 +143,7 @@ def apply_caps(todo, df, log, per_run=None, per_source=None):
     lowest priority that made it in. Returns (kept, cut)."""
     per_run = MAX_STORIES_PER_RUN if per_run is None else per_run
     per_source = MAX_STORIES_PER_SOURCE if per_source is None else per_source
-    when = pd.to_datetime(df["event_date"], utc=True)
+    when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
     past = df[(df["scored_at"] != "") & (when >= pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=30))]
     sig = pd.to_numeric(past["significance"], errors="coerce")
     by_source = sig.groupby(past["source"]).mean()
@@ -203,7 +203,7 @@ def main(argv=None):
         client = llm.client(os.environ.get("ERW_STEP") or "news_score", log, api_key=key)
         model = pick_model(client, log)
         cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=args.days)
-        when = pd.to_datetime(df["event_date"], utc=True)
+        when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
         todo = df[(df["scored_at"] == "") & (when >= cutoff)].copy()
         todo = todo.assign(_when=when[todo.index]).sort_values("_when")
         todo, capped = apply_caps(todo, df, log)

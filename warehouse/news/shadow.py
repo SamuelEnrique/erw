@@ -111,7 +111,7 @@ def cmd_score(args, log, run_id):
         return dict(table=NAME, market="shadow", status="skipped", detail=why)
     cfg = config()
     news = ip.read_series(os.path.join(ip.OUT_DIR, NEWS + ".csv"), NEWS_COLS)
-    when = pd.to_datetime(news["event_date"], utc=True)
+    when = pd.to_datetime(news["event_date"], utc=True, format="ISO8601")
     news = news.assign(_when=when, _day=when.dt.strftime("%Y-%m-%d"))
     scored = news[news["scored_at"] != ""]
     old = read_shadow()
