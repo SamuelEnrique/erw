@@ -1,6 +1,9 @@
 // Energy Research Warehouse (ERW) site: every page, once (session 20). The top nav (six groups),
 // the home page's Explore grid, /about and /data all read this list, so a page added here is
 // reachable and described everywhere, and a page missing here is missing everywhere.
+// Session 53: no menu holds more than eight entries (a test checks it): the seven grid pages are their own menu, "Your
+// grid", instead of a sub-list under Grid and Learn; the battery game joins Learn, beside the tour; the seller's tab of
+// the cost of power and the lease tool are listed. docs/tools.md is the inventory these lines follow.
 
 // related (session 21): the pages a data page's closing "Related" line links
 export type Page = { href: string; label: string; line: string; tables: string; related?: string[] };
@@ -23,6 +26,8 @@ export const GROUPS: Group[] = [
       { href: "/markets", label: "Markets", line: "Day-ahead against real-time by hub: spreads, on-peak prices, heat rates, volatility and the week's top intervals.", tables: "iso_trader_daily, iso_rt_top_intervals", related: ["/prices", "/grid"] },
       // session 37: the cost-of-power model (platform tool 16), under Markets
       { href: "/cost-of-power", label: "Cost of power", line: "What a MWh costs to buy at each ISO's main hub, weighted by when the grid uses it; when power is cheap by hour of day; cost against carbon; and what a large load pays for energy.", tables: "cost_of_power_monthly, cost_of_power_hourly_profile, cost_of_power_carbon", related: ["/board", "/datacenters"] },
+      // session 51: the seller's tab
+      { href: "/cost-of-power/seller", label: "What a generator earns", line: "What a merchant solar, wind, battery or gas peaker asset earns month by month at an ISO's main hub, its bad months and stress days, and whether it covers its debt.", tables: "merchant_revenue_monthly", related: ["/cost-of-power", "/board"] },
       { href: "/prices", label: "Prices", line: "Every public ISO hub and zone, real-time and day-ahead, with Henry Hub, WTI and Brent.", tables: "ISO price tables, eia_fuel_spot_prices, latest_prices", related: ["/markets", "/explorer/ercot-peak-premium"] },
       { href: "/explorer/ercot-peak-premium", label: "ERCOT peak premium", line: "How ERCOT real-time prices spread across the day, by hub and year since 2015.", tables: "ercot_peak_premium_annual, ercot_peak_premium_monthly", related: ["/prices", "/markets"] },
     ],
@@ -41,7 +46,14 @@ export const GROUPS: Group[] = [
       { href: "/storage", label: "Storage", line: "The US battery fleet by ISO, state and planned year, and how the batteries charge and discharge each hour and day.", tables: "storage_capacity, storage_daily_cycle, eia930_all_storage", related: ["/grid", "/mix"] },
       { href: "/consumption", label: "Consumption", line: "Electricity sold by state and sector, and where industrial and commercial load grows fastest.", tables: "eia_retail_sales_monthly, eia_sector_energy_consumption_monthly", related: ["/mix", "/datacenters"] },
     ],
-    sub: { label: "Your grid", links: YOUR_GRID },
+  },
+  {
+    // session 53: the seven grid pages, their own menu (they were a sub-list under Grid and Learn)
+    label: "Your grid",
+    pages: YOUR_GRID.map((g) => ({
+      href: g.href, label: g.label, line: `${g.label}: what the grid is and what it is doing today: demand, generation, prices, batteries, the queue and the news.`,
+      tables: "eia930_all_demand, eia930_all_generation, ISO price tables, storage_capacity, interconnection queues, news_index", related: ["/network", "/grid"],
+    })),
   },
   {
     label: "Projects",
@@ -64,26 +76,24 @@ export const GROUPS: Group[] = [
     // session 43: learning pages (the bill explainer), with the seven grid pages and the events
     label: "Learn",
     pages: [
+      // session 53: the guided tour, first
+      { href: "/tour", label: "The tour", line: "Five stops for a first visit, about three minutes: the network, a grid page, the price board, an event study and what a generator earns.", tables: "" },
       // session 44: the problem sets
       { href: "/learn/problems/know-your-grid", label: "Problems: know your grid", line: "Five questions on ERCOT and CAISO side by side: peak demand, generation mix, batteries and carbon intensity, answered from the latest data.", tables: "eia930_all_demand, eia930_all_generation, storage_daily_cycle, carbon_intensity_daily", related: ["/learn/problems", "/grid/ercot"] },
       { href: "/learn/problems/prices-and-your-bill", label: "Problems: prices and your bill", line: "Five questions on load-weighted prices, the shape premium, the wholesale share of two bills and the daily price swing.", tables: "cost_of_power_monthly, cost_of_power_hourly_profile; site/data/bill_rules.json", related: ["/learn/problems", "/cost-of-power"] },
       { href: "/learn/problems/when-the-grid-broke", label: "Problems: when the grid broke", line: "Five questions on Uri, CAISO's 2020 heat, Elliott and ERCOT's 2023 heat, answered from the event windows.", tables: "event_window_daily", related: ["/learn/problems", "/events"] },
-      { href: "/learn/bill", label: "What is on a bill", line: "Two real electricity bills built line by line from the tariffs, PG&E in California and Oncor in Texas, and how much of each is the wholesale price of energy.", tables: "site/data/bill_rules.json; cost_of_power_monthly", related: ["/cost-of-power", "/grid/ercot"] },
+      { href: "/learn/bill", label: "What is on a bill", line: "Five real electricity bills built line by line from the tariffs (PG&E, SCE and SDG&E in California; Oncor and CenterPoint in Texas), and how much of each is the wholesale price of energy.", tables: "site/data/bill_rules.json; cost_of_power_monthly", related: ["/cost-of-power", "/grid/ercot"] },
+      // session 53: the battery game joins Learn (it was its own "Play" group)
+      { href: "/play/battery", label: "Home battery game", line: "Run a home battery through a real day of ERCOT prices: charge cheap, sell dear, answer the fleet call, and see what perfect foresight would have earned.", tables: "iso_rtm_hub_prices, ercot_all_hub_prices_history", related: ["/storage", "/grid/ercot"] },
     ],
-    sub: { label: "Grids and events", links: [...YOUR_GRID, { href: "/events", label: "Events" }] },
   },
   {
     // session 40: tools for a practitioner
     label: "Tools",
     pages: [
       { href: "/severance", label: "Severance tax", line: "State production taxes on a month of oil, gas or condensate in Texas, Louisiana and New Mexico: the base rate, the reduced rates and exemptions, and the savings, each rule cited.", tables: "site/data/severance_rules.json; eia_fuel_spot_prices (default prices)", related: ["/prices", "/cost-of-power"] },
-    ],
-  },
-  {
-    // session 38: the home battery game
-    label: "Play",
-    pages: [
-      { href: "/play/battery", label: "Home battery game", line: "Run a home battery through a real day of ERCOT prices: charge cheap, sell dear, answer the fleet call, and see what perfect foresight would have earned.", tables: "iso_rtm_hub_prices, ercot_all_hub_prices_history", related: ["/storage", "/grid/ercot"] },
+      // session 53: the lease tool, listed (session 45)
+      { href: "/severance/lease", label: "Lease tool", line: "The severance calculator for every well and month of a lease file, computed in the browser: nothing is sent.", tables: "site/data/severance_rules.json; eia_fuel_spot_prices (default prices)", related: ["/severance"] },
     ],
   },
   {

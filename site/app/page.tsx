@@ -1,12 +1,17 @@
 import Link from "next/link";
-import { GROUPS } from "@/lib/pages";
+import fs from "node:fs";
+import path from "node:path";
+import type { ReactNode } from "react";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { Sparkline } from "@/components/Sparkline";
-import { MARKETS, catalogue, daysAgo, latestPrices, newest, series, type CatalogueRow } from "@/lib/data";
-import { count, day, node, price, utc } from "@/lib/format";
+import { MARKETS, catalogue, datacenters, daysAgo, deals, latestPrices, newest, series, storageUnits, type CatalogueRow } from "@/lib/data";
+import { defaultBill } from "@/lib/bill";
+import { inputsKey, inputsOf, stat, type Snapshot } from "@/lib/merchant";
+import rules from "@/data/bill_rules.json";
+import { count, day, node, price, shown, utc } from "@/lib/format";
 import { DOCS, render, topItems, digestTitle } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
 import markets from "@/data/markets.json";
@@ -153,63 +158,161 @@ function Digest() {
   );
 }
 
-// Session 19: four entry paths, one sentence and three links each
-const PATHS: { who: string; what: string; links: [string, string][] }[] = [
-  {
-    who: "Enthusiasts",
-    what: "What happened across energy today and this week, from scored news.",
-    links: [["Digest", "/digest"], ["Roundup", "/roundup"], ["Email", "/subscribe"]],
-  },
-  {
-    who: "Investors",
-    what: "Deals, datacenter projects and financings named in the news, each with its sources.",
-    links: [["Deals", "/deals"], ["Companies", "/companies"], ["Datacenters", "/datacenters"], ["Capital", "/deals?type=capital"]],
-  },
-  {
-    who: "Researchers",
-    what: "Every table, how it is built, and how to read it in Python or on Redivis.",
-    links: [["Coverage", "/data"], ["Methods", "/data#methods"], ["Package and Redivis", "/data#access"]],
-  },
-  {
-    who: "Traders",
-    what: "Day-ahead against real-time by hub, the latest prices, and curtailment by ISO.",
-    links: [["Markets", "/markets"], ["Prices", "/prices"], ["Curtailment", "/curtailment"]],
-  },
-];
+// Session 53: the home page v2. Three audiences, each a set of tool cards: the tool's name, the question it answers, one
+// live number from the warehouse where natural (each with its check key, as everywhere on the site), and a link.
+// docs/tools.md is the inventory the cards follow. Session 19's four entry paths and session 20's Explore grid gave way
+// to these; every page is still in the nav.
+type Card = { href: string; name: string; question: string; num?: ReactNode; numLabel?: string };
+
+const n0 = (v: number) => Math.round(v).toLocaleString("en-US");
+
+function ToolCard({ c }: { c: Card }) {
+  return (
+    <Link href={c.href} className="flex flex-col bg-panel p-3 no-underline">
+      <span className="font-serif text-lg text-ink">{c.name}</span>
+      <span className="text-sm text-muted">{c.question}</span>
+      {c.num ? <span className="mt-2 text-sm text-ink"><span className="text-base tabular-nums">{c.num}</span> <span className="text-xs text-muted">{c.numLabel}</span></span> : null}
+    </Link>
+  );
+}
+
+function Audience({ title, line, cards }: { title: string; line: string; cards: Card[] }) {
+  return (
+    <section className="mb-8" aria-label={title}>
+      <h2 className="mb-1 font-serif text-2xl">{title}</h2>
+      <p className="mb-2 max-w-3xl text-sm text-muted">{line}</p>
+      <div className="grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
+        {cards.map((c) => <ToolCard key={c.href + c.name} c={c} />)}
+      </div>
+    </section>
+  );
+}
+
+/** The cards' live numbers, each read here and checked by scripts/check-values.mjs under its key. */
+async function liveNumbers() {
+  const [ercotDemand, wti, fleet, uri, cop, deal, dc, cat] = await Promise.all([
+    attempt(() => newest("eia930_all_demand", "eia930:ERCO", "demand_mw")),
+    attempt(() => newest("eia_fuel_spot_prices", "eia:wti_cushing", "spot_price")),
+    attempt(storageUnits),
+    attempt(() => series("event_window_daily", { event: "uri_2021", entity: "ercot:HB_HUBAVG", variable: "rt_max" })),
+    attempt(() => series("cost_of_power_monthly", { entity: "ercot:HB_HUBAVG" })),
+    attempt(deals),
+    attempt(datacenters),
+    attempt(catalogue),
+  ]);
+  const out: Record<string, ReactNode> = {};
+  if (ercotDemand.ok && ercotDemand.data) {
+    const r = ercotDemand.data;
+    out.grid = <Num check={`series|eia930_all_demand|eia930:ERCO|demand_mw|newest`} raw={r.value}>{n0(r.value)}</Num>;
+    out.gridLabel = `MW, ERCOT's demand at ${r.ts_utc.slice(11, 16)} UTC on ${r.ts_utc.slice(0, 10)}`;
+  }
+  if (wti.ok && wti.data) {
+    out.wti = <Num check={`series|eia_fuel_spot_prices|eia:wti_cushing|spot_price|newest`} raw={wti.data.value}>{price(wti.data.value)}</Num>;
+    out.wtiLabel = `USD/bbl, WTI Cushing on ${wti.data.ts_utc.slice(0, 10)}; the calculator's default oil prices are monthly means of these daily prices`;
+  }
+  if (fleet.ok) {
+    const op = fleet.data.filter((u) => u.iso === "ERCOT" && u.status === "operating");
+    const mw = Math.round(op.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
+    out.fleet = <Num check="storage|iso_mw|ERCOT|operating" raw={mw}>{shown(mw)}</Num>;
+    out.fleetLabel = "MW of batteries operating in ERCOT (EIA-860M), the real fleet the game sets beside its own";
+  }
+  if (uri.ok) {
+    const w = uri.data.filter((r) => r.ts_utc >= "2021-02-07" && r.ts_utc < "2021-02-25");
+    if (w.length) {
+      const v = Math.max(...w.map((r) => r.value));
+      out.uri = <Num check="series_max|event_window_daily|rt_max|2021-02-07T00:00:00Z|2021-02-25T00:00:00Z|ercot:HB_HUBAVG" raw={v}>{price(v)}</Num>;
+      out.uriLabel = "USD/MWh, the highest 15-minute real-time price at ERCOT's hub average during Winter Storm Uri";
+    }
+  }
+  if (cop.ok) {
+    const by = new Map<string, Record<string, { value: number; ts_utc: string }>>();
+    for (const r of cop.data) (by.get(r.ts_utc) ?? by.set(r.ts_utc, {}).get(r.ts_utc)!)[r.variable] = r;
+    const full = [...by.entries()].filter(([, m]) => m.rt_load_weighted && m.rt_hours && m.hours_in_month && m.rt_hours.value === m.hours_in_month.value).sort((a, b) => (a[0] < b[0] ? -1 : 1));
+    const last = full.at(-1);
+    if (last) {
+      const r = last[1].rt_load_weighted;
+      out.cop = <Num check={`series|cost_of_power_monthly|ercot:HB_HUBAVG|rt_load_weighted|${r.ts_utc}`} raw={r.value}>{price(r.value)}</Num>;
+      out.copLabel = `USD/MWh, what ERCOT's load paid at the hub in ${r.ts_utc.slice(0, 7)}, load-weighted`;
+    }
+  }
+  if (deal.ok) {
+    const now = new Date().toISOString().slice(0, 7);
+    const prev = new Date(Date.UTC(Number(now.slice(0, 4)), Number(now.slice(5, 7)) - 2, 1)).toISOString().slice(0, 7);
+    const month = deal.data.some((d) => d.event_date.slice(0, 7) === now) ? now : prev;
+    const k = deal.data.filter((d) => d.event_date.slice(0, 7) === month).length;
+    out.deals = <Num check={`deals|month_count|${month}`} raw={k}>{n0(k)}</Num>;
+    out.dealsLabel = `deals dated ${month}`;
+  }
+  if (dc.ok) {
+    out.dc = <Num check="datacenters|count" raw={dc.data.length}>{n0(dc.data.length)}</Num>;
+    out.dcLabel = "datacenter facilities tracked";
+  }
+  if (cat.ok) {
+    out.tables = <Num check="catalogue|count" raw={cat.data.length}>{n0(cat.data.length)}</Num>;
+    out.tablesLabel = "public tables, each with its source, license and method";
+  }
+  // the bill explainer's default PG&E bill, recomputed by check-values from the tariff rates
+  const ca = defaultBill(rules, "CA");
+  out.bill = <Num check="bill|CA|total" raw={ca.total}>{shown2(ca.total)}</Num>;
+  out.billLabel = "USD, a PG&E home's 600 kWh bill, built line by line from the tariff";
+  // the seller's tab: the median month of 100 MW of ERCOT solar, from the snapshot the tab reads
+  try {
+    const snap = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "merchant_snapshot.json"), "utf8")) as Snapshot;
+    const x = inputsOf({});
+    const v = stat(snap, x, "median");
+    if (v !== null) {
+      out.seller = <span data-format="usd"><Num check={`mr|${inputsKey(x)}|median`} raw={v}>{v.toLocaleString("en-US")}</Num></span>;
+      out.sellerLabel = "USD, the median month of 100 MW of solar selling at ERCOT's hub";
+    }
+  } catch { /* the snapshot is missing: the card shows no number */ }
+  return out;
+}
+const shown2 = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default async function Home() {
   const cat = await attempt(catalogue);
+  const L = await liveNumbers();
+  const num = (k: string) => ({ num: L[k], numLabel: L[`${k}Label`] as string | undefined });
+  const students: Card[] = [
+    { href: "/grid/ercot", name: "Your grid", question: "What is each of the seven ISO grids, and what is it doing today?", ...num("grid") },
+    { href: "/network", name: "The network", question: "Which balancing authorities trade power, and how much, hour by hour, in 3D?" },
+    { href: "/learn/bill", name: "What is on a bill", question: "What does a home's electricity bill pay for, line by line, at five utilities?", ...num("bill") },
+    { href: "/learn/problems", name: "Problem sets", question: "Fifteen questions on grids, prices and storms, answered from the latest data." },
+    { href: "/play/battery", name: "Home battery game", question: "Can you run a home battery through a real day of ERCOT prices better than perfect foresight?", ...num("fleet") },
+    { href: "/events", name: "Events", question: "What did Uri, Elliott, COVID-19 and two heat waves do to the grid, day by day?", ...num("uri") },
+  ];
+  const investors: Card[] = [
+    { href: "/board", name: "Price board", question: "What is power selling for at each ISO's main hub right now, and how did it move?" },
+    { href: "/cost-of-power", name: "Cost of power: buying", question: "What does a MWh cost to buy at each hub, weighted by when the grid uses it?", ...num("cop") },
+    { href: "/cost-of-power/seller", name: "Cost of power: selling", question: "What does a merchant solar, wind, battery or peaker asset earn, and does it cover its debt?", ...num("seller") },
+    { href: "/deals", name: "Deals", question: "Which PPAs, acquisitions and financings happened, with their sources?", ...num("deals") },
+    { href: "/datacenters", name: "Datacenters", question: "Which datacenters are being built, by whom, where and how large?", ...num("dc") },
+    { href: "/severance", name: "Severance tax and the lease tool", question: "What state production tax is due on oil and gas in Texas, Louisiana and New Mexico, well by well?", ...num("wti") },
+    { href: "/companies", name: "Companies (the Thesis Builder)", question: "Which energy companies has the Thesis Builder mapped, at what stage and with what funding?" },
+  ];
+  const researchers: Card[] = [
+    { href: "/data", name: "Data and downloads", question: "What tables does the ERW hold, and how do I read them in Python or on Redivis?", ...num("tables") },
+    { href: "/data/methods/event_study", name: "Event studies and the notebook", question: "How large was each event's effect, with and without the weather, and how do I reproduce it?" },
+    { href: "/data/standard", name: "Methods and the data standard", question: "How is every number built, and what shape is every table?" },
+    { href: "/ask", name: "Ask the ERW", question: "Ask the warehouse a question; every number in the answer comes from a table it read." },
+  ];
   return (
     <>
       <h1 className="mb-1 text-3xl">Energy Research Warehouse</h1>
-      <p className="mb-5 max-w-3xl text-sm text-muted">
-        The live, citable record of the US energy system.
+      <p className="mb-2 max-w-3xl text-base">
+        The live, citable record of the whole US energy system, from power prices to pipelines, plants, deals and policy, with AI&apos;s demand for power as
+        its sharpest lens.
       </p>
-
-      <nav className="mb-8 grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4" aria-label="Where to start">
-        {PATHS.map((p) => (
-          <div key={p.who} className="bg-panel p-3">
-            <div className="font-serif text-lg">{p.who}</div>
-            <p className="mb-2 text-sm text-muted">{p.what}</p>
-            <div className="flex flex-wrap gap-x-3 text-sm">
-              {p.links.map(([label, href]) => (
-                <Link key={href + label} href={href}>
-                  {label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
-      </nav>
-
-      <section className="mb-10" aria-label="Warehouse status">
-        {cat.ok ? <StatusStrip cat={cat.data} /> : <NoData what="warehouse status" reason={cat.reason} />}
-        {cat.ok ? <Cite tables={["catalogue"]} note="Rebuilt on every daily run; public tables only" /> : null}
-      </section>
+      <p className="mb-5 text-sm"><Link href="/tour" className="border border-accent px-3 py-1 text-accent no-underline">Start the tour</Link> <span className="text-muted">five stops, about three minutes</span></p>
 
       <Section title="Power prices, real time" aside={<><Link href="/board">Price board</Link> <span className="text-muted">|</span> <Link href="/prices">Every hub and zone</Link></>}>
         <PriceBoard />
       </Section>
+
+      <Audience title="Students and teachers" line="How the grid works, what a bill pays for, and what storms and heat waves do, from the data itself." cards={students} />
+      <Audience title="Investors and lenders" line="Prices, the cost and the earnings of power, deals, datacenters and the taxes on oil and gas, each number traced to its source." cards={investors} />
+      <Audience title="Researchers" line="Every table with its method, license and download, the event studies and their notebook, and a warehouse you can ask." cards={researchers} />
+      <Cite tables={["eia930_all_demand", "storage_capacity", "event_window_daily", "cost_of_power_monthly", "merchant_revenue_monthly", "energy_deals", "datacenter_facilities", "eia_fuel_spot_prices", "catalogue"]} note="The cards' numbers, each checked against its table; the full list of tools is docs/tools.md" />
 
       <Section title="Gas and oil">
         <Fuels />
@@ -219,28 +322,17 @@ export default async function Home() {
         title="ERW's Energy Digest"
         aside={
           <>
-            <Link href="/digest">Archive</Link> <span className="text-muted">|</span> <Link href="/roundup">ERW's Roundup</Link>
+            <Link href="/digest">Archive</Link> <span className="text-muted">|</span> <Link href="/roundup">ERW&apos;s Roundup</Link>
           </>
         }
       >
         <Digest />
       </Section>
 
-      <Section title="Explore">
-        {GROUPS.filter((g) => g.label !== "About").map((g) => (
-          <div key={g.label} className="mb-4">
-            <h3 className="mb-1 text-xs uppercase tracking-wide text-muted">{g.label}</h3>
-            <div className="grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
-              {g.pages.map((p) => (
-                <Link key={p.href} href={p.href} className="bg-panel p-3 no-underline">
-                  <div className="font-serif text-lg">{p.label}</div>
-                  <div className="text-sm text-muted">{p.line}</div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
-      </Section>
+      <section className="mb-10" aria-label="Warehouse status">
+        {cat.ok ? <StatusStrip cat={cat.data} /> : <NoData what="warehouse status" reason={cat.reason} />}
+        {cat.ok ? <Cite tables={["catalogue"]} note="Rebuilt on every daily run; public tables only" /> : null}
+      </section>
     </>
   );
 }
