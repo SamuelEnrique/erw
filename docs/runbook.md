@@ -119,5 +119,6 @@ The loader still warns above `warn_mb` (350 MB) and fails above `max_mb` in `war
   - run while the daily or weekly job is queued or running. It has its own concurrency group, so it can never displace their pending runs. The script asks the GitHub API before the pull and again before the upload, and exits 0 without uploading if either is busy.
 - **Its record:** the job log only (Actions, "hourly network"). A failed run leaves the object in Storage as it was, and the page keeps showing it, or the committed file when the object is older than that file.
 - **Secrets:** `EIA_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` (Storage only), and the job's own `GITHUB_TOKEN` (read access to Actions).
+- **How often it really runs:** GitHub runs scheduled workflows on a best-effort basis. On 2026-10-01 the 15-minute "latest prices" cron ran five times in 24 hours, so expect hours between refreshes rather than one (archive/sessions/SESSION_54_REPORT.md, open question 1).
 - **Run it now:** Actions, "hourly network", Run workflow. Locally, from `.env`, without uploading: `python warehouse/derived/network_hourly.py --dry-run --out network.json`.
 - **Stop it:** delete the `schedule` lines of the workflow. The page then falls back to the committed file as soon as that file is newer than the last object.
