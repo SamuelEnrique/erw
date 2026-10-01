@@ -18,6 +18,9 @@ never count toward a failure streak (the table itself was written).
 
 `streaks` prints one line per (connector, table) whose last N recorded runs
 all failed, and writes them to runs/failure_streaks.txt for the workflow.
+Session 48: a table in warehouse/metadata/known_gaps.csv (a failure a human has
+accepted, with its reason) is printed as known but not written to the file, so
+the workflow opens no issue for it.
 """
 
 import argparse
@@ -67,6 +70,17 @@ def record(status_dir=STATUS_DIR, path=CSV):
     return len(new)
 
 
+KNOWN_GAPS = os.path.join(ROOT, "warehouse", "metadata", "known_gaps.csv")
+
+
+def known_gaps(path=KNOWN_GAPS):
+    """{table: reason} of the failures a human has accepted (session 48)."""
+    if not os.path.exists(path):
+        return {}
+    k = pd.read_csv(path, dtype=str, keep_default_na=False)
+    return dict(zip(k["table"], k["reason"]))
+
+
 def streaks(n=3, path=CSV, runner=None):
     """(connector, table) pairs whose last n recorded runs all failed."""
     hist = load(path)
@@ -94,7 +108,10 @@ def main(argv=None):
     if args.cmd == "record":
         record()
         return 0
-    found = streaks(args.n, runner=args.runner)
+    all_found = streaks(args.n, runner=args.runner)
+    gaps = known_gaps()  # session 48: accepted failures open no issue
+    found = [f for f in all_found if f["table"] not in gaps]
+    known = [f for f in all_found if f["table"] in gaps]
     lines = [f"{f['connector']} {f['table']}: failed the last {args.n} runs ({f['runs']}); "
              f"latest: {f['detail']}" for f in found]
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
@@ -103,6 +120,8 @@ def main(argv=None):
     print(f"markets failing {args.n} runs in a row: {len(found)}")
     for line in lines:
         print("  " + line)
+    for f in known:
+        print(f"  known gap, no issue: {f['connector']} {f['table']} (warehouse/metadata/known_gaps.csv)")
     return 0
 
 
