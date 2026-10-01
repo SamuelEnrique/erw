@@ -12,7 +12,8 @@ with the rules and their citations from site/data/severance_rules.json:
                  the wells the RRC lists on the lease and no shut-in date (OG_WELL_COMPLETION, at the extract); the
                  credit is set by the Comptroller's certified price for the month
     tx_lp_gas    low-producing gas well credit: a gas lease (one gas well) averaging 90 Mcf a day or less over the three
-                 months before (the months with a filed report; the month itself when none); certified price tier
+                 months before, when it produced gas in each of them (a full three-month history; else the month itself,
+                 so a new well's zeros or short first month before it ramps up do not count); certified price tier
     tx_inactive  two-year inactive wells (oil Sec. 202.056(b); gas Type 16): a lease producing again after 24 months or
                  more without production, having produced before. Two cases:
                  seen   the lease's production before the gap is in the 48 months read: the saving is estimated on the
@@ -220,8 +221,8 @@ def screen(facts, a, months, wells, R, wti, hh, firsts=None):
             for t in range(first, T):
                 if gas[t] <= 0 or not filed[t]:
                     continue
-                prior = [k for k in (t - 3, t - 2, t - 1) if k >= 0 and filed[k]]
-                use = prior or [t]
+                prior = [k for k in (t - 3, t - 2, t - 1) if k >= 0 and filed[k] and gas[k] > 0]
+                use = prior if len(prior) == 3 else [t]  # a full three-month history, as lib/lease.ts txGasAverage; else the month itself
                 pd_ = gas[use].sum() / days[use].sum()
                 if pd_ <= 90:
                     pct, cp = lp_gas_pct[t]
@@ -233,7 +234,7 @@ def screen(facts, a, months, wells, R, wti, hh, firsts=None):
                     notes.add(f"no certified price in the rules file for {months[t]}: no credit" if pct is None else f"certified ${cp} for {months[t]}: {pct} percent")
             if ms:
                 out.append(dict(common, rule="tx_lp_gas", months=len(ms), first=ms[0], last=ms[-1], month_list=";".join(ms),
-                                test=f"{min(tests):.2f} to {max(tests):.2f} Mcf per day over the three months before each month (the months with a filed report), 90 or less",
+                                test=f"{min(tests):.2f} to {max(tests):.2f} Mcf per day over the three months before each month when it produced in each of them (else the month itself), 90 or less",
                                 base_tax=round(base, 2), tax_with=round(withc, 2), savings=round(base - withc, 2), price_note=compress(notes)))
         # two-year inactive: the first month in the window that produces after 24 or more months without production
         cond, csgd = a["cond"][i], a["csgd"][i]

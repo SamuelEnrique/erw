@@ -83,3 +83,36 @@ export function leaseCsv(l: RrcLease, columns: typeof COLUMNS): string {
   return [`# RRC lease ${l.entity.replace(/^rrc:/, "")}: ${l.name.replaceAll(",", " ")}, ${l.operator.replaceAll(",", " ")} (rrc_lease_production_monthly, internal)`,
     columns.join(","), ...rows].join("\n");
 }
+
+/** Session 57: one lease from a county partition of the statewide table (rrc_lease_production_statewide/<COUNTY>.csv.gz,
+ * internal, warehouse/connectors/rrc_statewide.py), as an RrcLease: the months with a filed report only, as the session 49
+ * table holds them, so the lease tool's tests read the same months. The lease's production in that county; a lease
+ * reported in several counties shows this county's share. Null when the lease is not in the file. */
+export function parseStatewideLease(text: string, leaseId: string): { header: string[]; lease: RrcLease | null; unfiled: number } {
+  const lines = text.split(/\r?\n/);
+  const header = lines.filter((l) => l.startsWith("#")).map((l) => l.replace(/^#\s?/, ""));
+  const body = lines.filter((l) => l && !l.startsWith("#"));
+  const cols = splitCsv(body[0]);
+  const ix = (c: string) => {
+    const i = cols.indexOf(c);
+    if (i < 0) throw new Error(`rrc_lease_production_statewide: no column ${c}`);
+    return i;
+  };
+  const I = { id: ix("lease_id"), m: ix("month"), f: ix("filed"), oil: ix("oil_bbl"), csgd: ix("casinghead_gas_mcf"), gas: ix("gas_mcf"),
+    cond: ix("condensate_bbl"), n: ix("lease_name"), o: ix("operator_name"), on: ix("operator_no"), fld: ix("field_name"), d: ix("district"),
+    c: ix("oil_gas_code"), w: ix("wells"), cty: ix("county") };
+  let lease: RrcLease | null = null, unfiled = 0;
+  const prefix = `${leaseId},`;
+  for (const line of body.slice(1)) {
+    if (!line.includes(prefix)) continue;
+    const r = splitCsv(line);
+    if (r[I.id] !== leaseId) continue;
+    if (r[I.f] !== "Y") { unfiled++; continue; }
+    lease ??= { entity: `rrc:${leaseId}`, name: r[I.n], operator: r[I.o], operatorNo: r[I.on], field: r[I.fld], district: r[I.d], code: r[I.c],
+      wells: Number(r[I.w]), county: r[I.cty], months: {} };
+    lease.months[r[I.m]] = r[I.c] === "G"
+      ? { gas_mcf: Number(r[I.gas]), condensate_bbl: Number(r[I.cond]) }
+      : { oil_bbl: Number(r[I.oil]), casinghead_gas_mcf: Number(r[I.csgd]) };
+  }
+  return { header, lease, unfiled };
+}

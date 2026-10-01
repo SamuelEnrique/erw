@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import fs from "node:fs";
+import zlib from "node:zlib";
 import { Cite } from "@/components/Cite";
 import { Section } from "@/components/Section";
 import rulesJson from "@/data/severance_rules.json";
 import { COLUMNS, type PriceBook } from "@/lib/lease";
 import { monthMeans } from "@/lib/leaseprices";
-import { leaseCsv, parseRrc } from "@/lib/rrclease";
+import { leaseCsv, parseRrc, parseStatewideLease, type RrcLease } from "@/lib/rrclease";
 import type { Rules } from "@/lib/severance";
 import { attempt } from "@/lib/supabase";
 import { LeaseTool } from "../LeaseTool";
@@ -25,6 +26,18 @@ const NAME = "rrc_lease_production_monthly";
 // the path comes from the environment so the build does not trace (and bundle) the warehouse directory
 const fileOf = () => `${process.env.ERW_OUTPUT_DIR || "../warehouse/output"}/${NAME}.csv`;
 let cache: { mtime: number; data: ReturnType<typeof parseRrc> } | null = null;
+// session 57: a lease of the statewide table, opened from the refund finder (/severance/finder): one county's partition,
+// the county looked up in the partition index, never a path from the query
+const STATEWIDE = "rrc_lease_production_statewide";
+const dirOf = () => `${process.env.ERW_OUTPUT_DIR || "../warehouse/output"}/${STATEWIDE}`;
+function statewideLease(county: string, lease: string): { lease: RrcLease | null; header: string[]; unfiled: number } | null {
+  const idx = `${dirOf()}/_index.csv`;
+  if (!fs.existsSync(idx) || !/^[OG]-[0-9A-Z]{2}-\d{1,6}$/.test(lease)) return null;
+  const row = fs.readFileSync(idx, "utf8").split(/\r?\n/).slice(1).map((l) => l.split(",")).find((r) => r[0] === county);
+  if (!row) return null;
+  return parseStatewideLease(zlib.gunzipSync(fs.readFileSync(`${dirOf()}/${row[1]}`)).toString("utf8"), lease);
+}
+
 function readTable() {
   const f = fileOf();
   if (!fs.existsSync(f)) return null;
@@ -40,7 +53,6 @@ export default async function RealLease({ searchParams }: { searchParams: Promis
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
   if (want.length < 24 || token !== want) notFound();
 
-  const t = readTable();
   const field = "border border-rule bg-panel px-2 py-1 text-sm";
   const head = (
     <>
@@ -49,6 +61,48 @@ export default async function RealLease({ searchParams }: { searchParams: Promis
       <h1 className="mb-1 text-3xl">Load a real lease</h1>
     </>
   );
+  // session 57: a lease from the statewide table, opened by the refund finder
+  if (one("src") === "statewide") {
+    const got = statewideLease(one("county"), one("lease"));
+    const l = got?.lease ?? null;
+    const ms = l ? Object.keys(l.months).sort() : [];
+    const [wti, hh] = l
+      ? await Promise.all([
+        attempt(() => monthMeans("eia:wti_cushing", "WTI Cushing", "per barrel", "")),
+        attempt(() => monthMeans("eia:henry_hub", "Henry Hub", "per MMBtu", ", applied per Mcf as if one Mcf held one MMBtu")),
+      ])
+      : [null, null];
+    const book: PriceBook = { oil: wti?.ok ? wti.data : {}, gas: hh?.ok ? hh.data : {} };
+    return (
+      <>
+        {head}
+        <p className="mb-3 text-sm"><Link href={`/severance/finder?token=${encodeURIComponent(token)}`} prefetch={false}>Back to the refund finder</Link></p>
+        {!got ? (
+          <p className="max-w-3xl text-sm">The statewide table (<code className="font-mono">{STATEWIDE}</code>) is not on this server, or the county is not in its index.</p>
+        ) : !l ? (
+          <p className="max-w-3xl text-sm">Lease {one("lease")} has no filed report in {one("county")} County in the table.</p>
+        ) : (
+          <Section title={`${l.name}, ${l.operator}`}>
+            <p className="mb-2 max-w-3xl text-sm">
+              RRC {l.code === "G" ? "gas" : "oil"} lease {one("lease")}, district {l.district}, field {l.field}, {l.county} County; {ms.length} months with a
+              filed report, {ms[0]} to {ms.at(-1)}{got.unfiled ? `, and ${got.unfiled} without one (left out, as the session 49 table leaves them)` : ""}. The RRC lists{" "}
+              {l.wells} well{l.wells === 1 ? "" : "s"} on it. The lease&apos;s production in this county: a lease reported in several counties shows this county&apos;s share.
+            </p>
+            {l.wells > 1 ? (
+              <p className="mb-2 max-w-3xl border-l-2 border-accent pl-2 text-sm">
+                <strong>This lease has {l.wells} wells; the tool reads it as one.</strong> The refund finder divides the oil test by the wells listed and not shut in, so
+                the two can differ on the low-producing oil lease test.
+              </p>
+            ) : null}
+            <LeaseTool key={l.entity} rules={rules} prices={book} initial={{ text: leaseCsv(l, COLUMNS), source: `RRC lease ${one("lease")}, ${l.name}` }} />
+            <Cite tables={[STATEWIDE, "eia_fuel_spot_prices"]} note="Production: the RRC's Production Data Query dump, OG_COUNTY_LEASE_CYCLE (internal); prices: monthly means of EIA daily spot prices" />
+          </Section>
+        )}
+      </>
+    );
+  }
+
+  const t = readTable();
   if (!t) {
     return (
       <>

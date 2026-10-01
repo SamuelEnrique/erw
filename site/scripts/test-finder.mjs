@@ -79,7 +79,7 @@ function run(rule, pick) {
   return null;
 }
 
-const gas = run("tx_lp_gas", (f) => f.rule === "tx_lp_gas" && f.months === "24");
+run("tx_lp_gas", (f) => f.rule === "tx_lp_gas" && f.months === "24");
 const oil = run("tx_lp_oil", (f) => f.rule === "tx_lp_oil" && f.months === "24" && f.wells === "1" && f.wells_open === "1");
 if (oil) check(Number(oil.savings) === 0, `the oil lease saves nothing: ${oil.price_note}`);
 console.log(bad ? `${bad} FAILED` : "refund finder: the lease tool agrees on both leases");

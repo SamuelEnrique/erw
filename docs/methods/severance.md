@@ -182,7 +182,7 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 | Rule | The test on the file's numbers |
 |---|---|
 | TX low-producing oil lease (`tx_lp_oil`) | The lease's oil wells (Texas wells with oil that month) average less than 15 bbl per well per day over the months of the 90 days ending with the month that the file holds, or less than 5 percent oil per barrel of produced water (water from `water_cut_pct`). The credit is from the Comptroller's certified price of the production month (2005 dollars); a month not published gives no credit |
-| TX low-producing gas well (`tx_lp_gas`) | No more than 90 Mcf a day over the three months before, as the file holds them (the month itself when it holds none); not for a well whose `well_type` is oil (casinghead gas); the certified price of the month sets the credit |
+| TX low-producing gas well (`tx_lp_gas`) | No more than 90 Mcf a day over the three months before, as the file holds them, when the well produced gas in each of them (otherwise the month itself: session 57, so a new well's zeros or short first month before it ramps up do not count); not for a well whose `well_type` is oil (casinghead gas); the certified price of the month sets the credit |
 | TX high-cost gas (`tx_hcg`) | A cost ratio is given, and the month is within 120 months of completion when a date is given; the rate by Sec. 201.057(c) |
 | TX and LA two-year inactive wells | 24 months or more without production before the month: `inactive_months`, or the file's own run of zero months |
 | LA stripper (`la_stripper`) | 10 bbl or less per producing day (`days_produced`, else the calendar days) |
@@ -211,7 +211,7 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 | Rule | The test the data can make | The money |
 |---|---|---|
 | Low-producing oil lease credit (`tx_lp_oil`) | under 15 bbl per well per day over the months of the 90 days ending with the month, divided by the wells listed and not shut in (at least one) | the certified price's credit; no certified price in the rules file, no credit |
-| Low-producing gas well credit (`tx_lp_gas`) | a gas lease (one gas well) at 90 Mcf a day or less over the three months before (the months with a filed report; the month itself when none) | the certified price's credit |
+| Low-producing gas well credit (`tx_lp_gas`) | a gas lease (one gas well) at 90 Mcf a day or less over the three months before when it produced gas in each of them (otherwise the month itself, so a new well's zeros or short first month before it ramps up do not count) | the certified price's credit |
 | Two-year inactive well (`tx_oil_inactive`, `tx_gas_inactive`) | producing after 24 months or more without production, having produced before; see the two cases below | 0 percent of value |
 
 **The two cases of the two-year inactive test:**

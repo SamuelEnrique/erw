@@ -124,7 +124,8 @@ class ByHand(unittest.TestCase):
                 if gas[m] <= 0:
                     continue
                 prior = [ss.shift(m, -k) for k in (3, 2, 1)]
-                held = [p for p in prior if p in gas.index] or [m]  # as lib/lease.ts txGasAverage
+                held = [p for p in prior if p in gas.index and gas[p] > 0]
+                held = held if len(held) == 3 else [m]  # as lib/lease.ts txGasAverage: a full three-month history, else the month
                 per_day = sum(gas[p] for p in held) / sum(ss.days_in(p) for p in held)
                 if per_day <= 90:
                     months.append(m)

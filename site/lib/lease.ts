@@ -300,14 +300,16 @@ export function txOilLease(rows: WellMonth[], month: string): { perWellDay: numb
   return { perWellDay: oil / wellDays, months: held, wells: wells.size, oilPerWater: waterKnown && water > 0 ? oil / water : null };
 }
 
-/** The TX low-producing gas test: the well's average Mcf per day over the three months before, as the file holds them
- * (or the month itself when it holds none of them). */
+/** The TX low-producing gas test: the well's average Mcf per day over the three months before (or the month itself).
+ * Session 57: the three months count only when the well produced gas in each of them, a full three-month history;
+ * otherwise the month itself is tested. A new well's filed zeros, or its short first month, before it ramps up do not
+ * make it a low-producing well (the refund finder flagged new Haynesville and Eagle Ford wells that way). */
 export function txGasAverage(byMonth: Map<string, WellMonth>, month: string): { perDay: number; months: string[]; prior: boolean } {
-  const prior = [shift(month, -3), shift(month, -2), shift(month, -1)].filter((m) => byMonth.get(m)?.vol.gas !== undefined);
-  const ms = prior.length ? prior : [month];
+  const prior = [shift(month, -3), shift(month, -2), shift(month, -1)].filter((m) => (byMonth.get(m)?.vol.gas ?? 0) > 0);
+  const ms = prior.length === 3 ? prior : [month];
   const gas = ms.reduce((a, m) => a + (byMonth.get(m)?.vol.gas ?? 0), 0);
   const days = ms.reduce((a, m) => a + daysIn(m), 0);
-  return { perDay: gas / days, months: ms, prior: prior.length > 0 };
+  return { perDay: gas / days, months: ms, prior: prior.length === 3 };
 }
 
 /** Months without production before a month: the reader's inactive_months, else the file's run of zero months. */
@@ -361,7 +363,7 @@ function flagsFor(c: Ctx, r: WellMonth, product: Product, x: Input, base: number
         if (g.perDay <= 90) {
           const o = optionOf(c.rules, "TX", "gas", "tx_lp_gas")!;
           const cp = c.engine.creditPct(o, { period: r.month });
-          add("tx_lp_gas", `${n2(g.perDay)} Mcf per day over ${g.months.join(", ")}${g.prior ? "" : " (the file holds none of the three months before, so this month)"}, 90 or less`, [
+          add("tx_lp_gas", `${n2(g.perDay)} Mcf per day over ${g.months.join(", ")}${g.prior ? "" : " (the well did not produce in each of the three months before, so this month)"}, 90 or less`, [
             cp.price !== undefined ? `certified price for ${r.month}: $${cp.price} (2005 dollars), a ${cp.pct} percent credit` : `no certified price is published for ${r.month}: no credit computed`,
             ...(r.facts.wellType ? [] : ["for a gas well only: casinghead gas is not eligible (well_type not given)"]),
             "cannot be reported with high-cost gas for the same well and period",
