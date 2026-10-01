@@ -36,7 +36,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 43: the bill explainer's default bills
   "/learn/bill",
   // session 44: every computed answer of the problem sets
-  "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke", "/learn/problems/storage-and-taxes"];  // session 46: set D
+  "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke", "/learn/problems/storage-and-taxes",
+  // session 49: the network's default node card (ERCOT)
+  "/network"];  // session 46: set D
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
 // out, and said so, where the token is not set (the page answers 404 without it)
 const INTERNAL = ["/reports/draft/shape-premium"];
@@ -296,18 +298,27 @@ async function truth(check) {
     const [, ev, entity, variable] = p;
     const term = p[4] === "day" ? `day|${p[5]}` : p[4], field = p.at(-1);
     const k = `${ev}|${entity}|${variable}`;
+    const { studyOf, gridWeather, STATION_BA, ENTITY_BA } = await import("../lib/eventstudy.ts");
     if (!studies.has(k)) {
-      const { studyOf } = await import("../lib/eventstudy.ts");
       const rows = await all("series", { select: "ts_utc,value,freq", table_name: "eq.event_window_daily", event: `eq.${ev}`, entity: `eq.${entity}`,
         variable: `eq.${variable}`, order: "ts_utc" });
-      studies.set(k, studyOf(ev, rows.map((r) => ({ ts_utc: r.ts_utc, value: Number(r.value), freq: r.freq }))));
+      const rs = rows.map((r) => ({ ts_utc: r.ts_utc, value: Number(r.value), freq: r.freq }));
+      // session 49: the station rows of the event, for the temperature-controlled study
+      const wx = await all("series", { select: "entity,variable,ts_utc,value", table_name: "eq.event_window_daily", event: `eq.${ev}`,
+        entity: "like.noaa:*", variable: "in.(hdd_65f,cdd_65f)", order: "entity,ts_utc,variable" });
+      const ws = gridWeather(wx.filter((r) => STATION_BA[r.entity] === ENTITY_BA(entity)).map((r) => ({ ...r, value: Number(r.value) })));
+      let t = null;
+      try { t = ws.size ? studyOf(ev, rs, ws) : null; } catch { t = null; }
+      studies.set(k, { s: studyOf(ev, rs), t });
     }
-    const s = studies.get(k);
+    const { s, t } = studies.get(k);
     if (term === "pooled") {
       if (field === "cf") return s.counterfactualMean;
       if (field === "pct") return (s.pooled.estimate / s.counterfactualMean) * 100;
       return { est: s.pooled.estimate, lo: s.pooled.lo, hi: s.pooled.hi }[field];
     }
+    if (term === "pooled_temp") return t ? { est: t.pooled.estimate, lo: t.pooled.lo, hi: t.pooled.hi }[field] : undefined;
+    if (term === "weather_share") return t ? (1 - t.pooled.estimate / s.pooled.estimate) * 100 : undefined;
     const d = s.days.find((x) => x.day === p[5]);
     return d ? { est: d.estimate, lo: d.lo, hi: d.hi }[field] : undefined;
   }

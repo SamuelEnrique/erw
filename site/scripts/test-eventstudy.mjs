@@ -12,7 +12,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { estimate, studyOf, WINDOWS } from "../lib/eventstudy.ts";
+import { ENTITY_BA, estimate, gridWeather, STATION_BA, studyOf, WINDOWS } from "../lib/eventstudy.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 let bad = 0, n = 0;
@@ -62,17 +62,28 @@ const read = (f) => {
   });
 };
 if (fs.existsSync(path.join(out, "event_study_estimates.csv")) && fs.existsSync(path.join(out, "event_window_daily.csv"))) {
-  const win = read("event_window_daily.csv").filter((r) => r.freq === "P1D" && (r.variable === "demand_mwh" || r.variable === "rt_mean"));
-  const py = read("event_study_estimates.csv").filter((r) => !r.variable.startsWith("demand_mw_effect_h"));
+  const all = read("event_window_daily.csv");
+  const win = all.filter((r) => r.freq === "P1D" && (r.variable === "demand_mwh" || r.variable === "rt_mean"));
+  const wx = all.filter((r) => r.entity.startsWith("noaa:") && (r.variable === "hdd_65f" || r.variable === "cdd_65f"));
+  const py = read("event_study_estimates.csv").filter((r) => !r.variable.startsWith("demand_mw_effect_h") && !r.variable.endsWith("_trend"));
   const groups = new Map();
   for (const r of win) { const k = `${r.event}|${r.entity}|${r.variable}`; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(r); }
   let m = 0, miss = 0;
   for (const [k, rows] of groups) {
     const [event, entity, variable] = k.split("|");
-    const s = studyOf(event, rows.map((r) => ({ ts_utc: r.ts_utc, value: Number(r.value), freq: r.freq })));
+    const rs = rows.map((r) => ({ ts_utc: r.ts_utc, value: Number(r.value), freq: r.freq }));
+    const s = studyOf(event, rs);
     const mine = new Map([[`${variable}_effect_pooled|${WINDOWS[event][0]}`, [s.pooled.estimate, s.pooled.se]],
       [`${variable}_counterfactual_mean|${WINDOWS[event][0]}`, [s.counterfactualMean, null]],
       ...s.days.map((d) => [`${variable}_effect_day|${d.day}`, [d.estimate, d.se]])]);
+    // session 49: the temperature-controlled specification, from the grid's stations
+    const ws = gridWeather(wx.filter((r) => r.event === event && STATION_BA[r.entity] === ENTITY_BA(entity)).map((r) => ({ ...r, value: Number(r.value) })));
+    if (ws.size) {
+      const t = studyOf(event, rs, ws);
+      mine.set(`${variable}_effect_pooled_temp|${WINDOWS[event][0]}`, [t.pooled.estimate, t.pooled.se]);
+      mine.set(`${variable}_counterfactual_mean_temp|${WINDOWS[event][0]}`, [t.counterfactualMean, null]);
+      for (const d of t.days) mine.set(`${variable}_effect_day_temp|${d.day}`, [d.estimate, d.se]);
+    }
     for (const r of py.filter((x) => x.event === event && x.entity === entity && x.variable.startsWith(variable + "_"))) {
       const t = mine.get(`${r.variable}|${r.ts_utc.slice(0, 10)}`);
       m++;

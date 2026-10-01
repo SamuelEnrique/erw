@@ -4,6 +4,8 @@
 // the 168 is a frame: link width and particle speed follow the hour's MW, particles run in the direction of flow.
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Num } from "@/components/Num";
+import { shown } from "@/lib/format";
 
 export type NetNode = { id: string; name: string; iso: string | null; demand_mw: number | null; demand_ts: string | null;
   intensity: number | null; intensity_ts: string | null; volume_mwh: number; x: number; y: number; z: number };
@@ -44,10 +46,11 @@ export function Network({ snap }: { snap: Snapshot }) {
     let alive = true;
     const el = box.current;
     if (!el) return;
+    const fail = () => { queueMicrotask(() => setNoGl(true)); };  // not synchronously inside the effect
     try {
       const c = document.createElement("canvas");
-      if (!(c.getContext("webgl2") || c.getContext("webgl"))) { setNoGl(true); return; }
-    } catch { setNoGl(true); return; }
+      if (!(c.getContext("webgl2") || c.getContext("webgl"))) { fail(); return; }
+    } catch { fail(); return; }
     import("3d-force-graph").then(({ default: ForceGraph3D }) => {
       if (!alive || !el) return;
       const nodes = snap.nodes.map((n) => ({ ...n, fx: n.x, fy: n.y, fz: n.z }));
@@ -125,8 +128,9 @@ export function Network({ snap }: { snap: Snapshot }) {
         <div className="mt-3 border border-rule bg-panel p-3 text-sm">
           <div className="mb-1 font-semibold">{pick.name} <span className="font-mono text-xs text-muted">{pick.id}</span>{pick.iso ? <> &middot; <Link href={`/grid/${GRID_SLUG[pick.iso]}`}>{pick.iso}&apos;s grid page</Link></> : null}</div>
           <div>
-            {pick.demand_mw !== null ? <>Demand {fmt(pick.demand_mw)} MW at {pick.demand_ts?.slice(0, 13).replace("T", " ")}:00 UTC. </> : <>Demand: not held in the warehouse (sized by interchange). </>}
-            {pick.intensity !== null ? <>Carbon intensity {fmt(pick.intensity)} kg CO2/MWh. </> : null}
+            {/* the ISO BAs' figures carry check keys: check-values reads them from Supabase (eia930_all_demand, carbon_intensity_hourly) */}
+            {pick.demand_mw !== null ? <>Demand <Num check={`series|eia930_all_demand|eia930:${pick.id}|demand_mw|${pick.demand_ts}`} raw={pick.demand_mw}>{shown(pick.demand_mw)}</Num> MW at {pick.demand_ts?.slice(0, 13).replace("T", " ")}:00 UTC. </> : <>Demand: not held in the warehouse (sized by interchange). </>}
+            {pick.intensity !== null ? <>Carbon intensity <Num check={`series|carbon_intensity_hourly|eia930:${pick.id}|intensity_generation|${pick.intensity_ts}`} raw={pick.intensity}>{shown(pick.intensity)}</Num> kg CO2/MWh. </> : null}
             Interchange over the week: {fmt(pick.volume_mwh)} MWh.
           </div>
           <div className="mt-1">Largest flows this hour: {flows.length ? flows.map((f, i) => <span key={f.other}>{i ? "; " : ""}{f.mw > 0 ? "to" : "from"} {nameOf(f.other)} {fmt(Math.abs(f.mw))} MW</span>) : "none reported"}.</div>

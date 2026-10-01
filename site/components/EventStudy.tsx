@@ -8,7 +8,7 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { series } from "@/lib/data";
-import { studyOf, type Study } from "@/lib/eventstudy";
+import { ENTITY_BA, gridWeather, STATION_BA, studyOf, type Study } from "@/lib/eventstudy";
 import { shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 
@@ -22,7 +22,7 @@ const OUTCOME: Record<string, { what: string; unit: string }> = {
   rt_mean: { what: "daily mean real-time price", unit: "USD/MWh" },
 };
 
-type Row = { entity: string; variable: string; s: Study };
+type Row = { entity: string; variable: string; s: Study; t: Study | null };
 
 function E({ ev, r, term, field, v }: { ev: string; r: Row; term: string; field: string; v: number }) {
   return <Num check={`es|${ev}|${r.entity}|${r.variable}|${term}|${field}`} raw={v}>{shown(v)}</Num>;
@@ -62,9 +62,14 @@ function Plot({ r, label }: { r: Row; label: string }) {
 
 export async function EventStudy({ event, grids, primary, price }: { event: string; grids: string[]; primary: string; price?: boolean }) {
   const want = [...grids.map((g) => ({ entity: g, variable: "demand_mwh" })), ...(price ? [{ entity: "ercot:HB_HUBAVG", variable: "rt_mean" }] : [])];
+  // session 49: the station rows of the event (temperature and degree days), for the temperature-controlled estimate
+  const wx = await attempt(async () => (await series(T, { event })).filter((r) => r.entity.startsWith("noaa:") && (r.variable === "hdd_65f" || r.variable === "cdd_65f")));
   const got = await attempt(() => Promise.all(want.map(async (w) => {
     const rows = await series(T, { event, entity: w.entity, variable: w.variable });
-    return { ...w, s: studyOf(event, rows) } as Row;
+    const ws = wx.ok ? gridWeather(wx.data.filter((r) => STATION_BA[r.entity] === ENTITY_BA(w.entity))) : new Map();
+    let t: Study | null = null;
+    try { t = ws.size ? studyOf(event, rows, ws) : null; } catch { t = null; }
+    return { ...w, s: studyOf(event, rows), t } as Row;
   })));
   if (!got.ok) return <Section title="What the estimates say"><NoData what="the event study" reason={got.reason} /></Section>;
   const rows = got.data;
@@ -82,16 +87,31 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
         <E ev={event} r={lead} term="pooled" field="cf" v={lead.s.counterfactualMean} /> MWh a day expected.{" "}
         {clear ? "The interval excludes zero." : "The interval includes zero: the effect cannot be told apart from the baseline days' own variation."}
       </p>
+      {lead.t ? (
+        <p className="mb-2 max-w-3xl text-sm">
+          Controlling for temperature (the day&apos;s heating and cooling degree days at {name}&apos;s weather stations, and their squares), the effect is{" "}
+          <strong><E ev={event} r={lead} term="pooled_temp" field="est" v={lead.t.pooled.estimate} /></strong> MWh a day (95 percent interval{" "}
+          <E ev={event} r={lead} term="pooled_temp" field="lo" v={lead.t.pooled.lo} /> to <E ev={event} r={lead} term="pooled_temp" field="hi" v={lead.t.pooled.hi} />).{" "}
+          {Math.sign(lead.t.pooled.estimate) === Math.sign(p.estimate) && Math.abs(lead.t.pooled.estimate) <= Math.abs(p.estimate) ? (
+            <>The weather terms account for <E ev={event} r={lead} term="weather_share" field="pct" v={(1 - lead.t.pooled.estimate / p.estimate) * 100} /> percent of the estimate without them.</>
+          ) : (
+            <>With the weather terms the estimate is not smaller in size or keeps no sign in common with the one without them, so no share of it can be put down to weather.</>
+          )}
+        </p>
+      ) : (
+        <p className="mb-2 max-w-3xl text-sm text-muted">No weather station is held for {name}, so there is no temperature-controlled estimate.</p>
+      )}
       <p className="mb-3 max-w-3xl text-xs text-muted">
         A regression of each day&apos;s value on the event days, the day of the week and the year, fitted to the baseline days (the same days of earlier
-        years); robust standard errors. It does not control for temperature, which the warehouse does not hold, nor for anything else that happened in
-        the same days. <Link href="/data/methods/event_study">Method and replication</Link>.
+        years); robust standard errors. The first estimate does not control for temperature; the second adds the day&apos;s heating and cooling degree days
+        at the grid&apos;s weather stations (NOAA). Neither controls for anything else that happened in the same days.{" "}
+        <Link href="/data/methods/event_study">Method and replication</Link>.
       </p>
       <h3 className="mb-1 text-sm">{name}: the effect of each event day on daily demand served, MWh, with its 95 percent interval</h3>
       <Plot r={lead} label={name} />
       <p className="mb-3 text-xs text-muted">Filled: the day&apos;s interval excludes zero. Open: it includes zero.</p>
       <table className="mb-2 w-full text-left text-sm">
-        <thead><tr className="border-b border-rule text-xs text-muted"><th className="py-1">Grid</th><th>Outcome</th><th className="text-right">Pooled effect</th><th className="text-right">95 percent interval</th><th className="text-right">Percent of expected</th><th className="text-right">Days</th></tr></thead>
+        <thead><tr className="border-b border-rule text-xs text-muted"><th className="py-1">Grid</th><th>Outcome</th><th className="text-right">Pooled effect</th><th className="text-right">95 percent interval</th><th className="text-right">Percent of expected</th><th className="text-right">Days</th><th className="text-right">Controlling for temperature</th></tr></thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.entity + r.variable} className="border-b border-rule">
@@ -101,6 +121,7 @@ export async function EventStudy({ event, grids, primary, price }: { event: stri
               <td className="text-right tabular-nums"><E ev={event} r={r} term="pooled" field="lo" v={r.s.pooled.lo} /> to <E ev={event} r={r} term="pooled" field="hi" v={r.s.pooled.hi} /></td>
               <td className="text-right tabular-nums"><E ev={event} r={r} term="pooled" field="pct" v={(r.s.pooled.estimate / r.s.counterfactualMean) * 100} /></td>
               <td className="text-right tabular-nums">{r.s.n}</td>
+              <td className="text-right tabular-nums">{r.t ? <><E ev={event} r={r} term="pooled_temp" field="est" v={r.t.pooled.estimate} /> <span className="text-muted">(<E ev={event} r={r} term="pooled_temp" field="lo" v={r.t.pooled.lo} /> to <E ev={event} r={r} term="pooled_temp" field="hi" v={r.t.pooled.hi} />)</span></> : <span className="text-muted">no station</span>}</td>
             </tr>
           ))}
         </tbody>

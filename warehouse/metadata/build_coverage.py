@@ -163,6 +163,12 @@ SECTOR_RULES = [
     # session 37: the cost-of-power model (market-based wholesale cost per ISO hub; carbon beside price)
     (r"^cost_of_power_(monthly|hourly_profile)$", "power"),
     (r"^cost_of_power_carbon$", "power;carbon"),
+    # session 49: interchange and the grid network; a year of hub prices; the 2018 EIA-930 baseline; station weather
+    (r"^(eia930_all_interchange|grid_network_(nodes|links))$", "power"),
+    (r"^iso_hub_prices_history$", "power"),
+    (r"^eia930_all_history$", "power"),
+    (r"^noaa_isd_hourly$", "power"),
+    (r"^rrc_well_production_monthly$", "oil;gas"),
 ]
 
 
@@ -182,6 +188,14 @@ def iso_of(table):
         return "none"
     if table.startswith("price_board_") or table.startswith("cost_of_power_"):  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
+    if table in ("eia930_all_interchange", "grid_network_nodes", "grid_network_links"):  # session 49: every BA EIA reports
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
+        return "CAISO;ISO-NE;MISO;NYISO;SPP"
+    if table in ("eia930_all_history", "noaa_isd_hourly"):  # session 49: the seven ISO BAs, and their weather stations
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table == "rrc_well_production_monthly":  # session 49: Texas wells, no ISO
+        return "none"
     if table in ("event_window_daily", "event_study_estimates"):  # session 36B Uri in ERCOT; session 36C COVID-19 in the seven ISO BAs and US48; session 47 its event studies
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"
     if table == "storage_daily_cycle":  # session 34: CAISO's rows from caiso_battery_storage, with the EIA-930 BAs

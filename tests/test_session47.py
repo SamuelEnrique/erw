@@ -112,8 +112,8 @@ class Table(unittest.TestCase):
         se = df.dropna(subset=["x_std_error"])
         self.assertTrue(np.allclose(se["x_ci_low"], se["value"] - es.Z * se["x_std_error"], atol=1e-4))
         self.assertTrue(np.allclose(se["x_ci_high"], se["value"] + es.Z * se["x_std_error"], atol=1e-4))
-        self.assertTrue(set(df["x_spec"]) == {es.SPEC})
-        self.assertTrue(all(re.match(r"^(demand_mwh|rt_mean)_(effect_day|effect_pooled|counterfactual_mean)$|^demand_mw_effect_h\d\d$", v)
+        self.assertTrue(set(df["x_spec"]) <= {es.SPEC, es.SPEC_T, es.SPEC_R})  # session 49: two more specifications
+        self.assertTrue(all(re.match(r"^(demand_mwh|rt_mean)_(effect_day|effect_pooled|counterfactual_mean)(_temp)?$|^(demand_mwh|rt_mean)_effect_pooled_trend$|^demand_mw_effect_h\d\d$", v)
                             for v in df["variable"]))
 
 

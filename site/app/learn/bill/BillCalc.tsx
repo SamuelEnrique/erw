@@ -95,7 +95,7 @@ export function BillCalc({ rules, wholesale }: { rules: any; wholesale: Record<s
                 <div style={{ width: `${(1 - share) * 100}%`, background: "var(--color-rule)" }} />
               </div>
               <p className="text-xs">
-                <span className="text-accent">Wholesale energy {usd(wholesaleUsd)}, {Math.round(share * 100)} percent</span>: {bill.kwh} kWh at the load-weighted real-time price of {state === "CA" ? "CAISO's main hub (SP15)" : "ERCOT's hub average"}, ${w.price.toFixed(2)} per MWh in {w.month}{w.partial ? " (a partial month, the latest held)" : ""}. <span className="text-muted">Everything else, {usd(bill.total - wholesaleUsd)}: the wires and poles that carry power to the home, the high-voltage grid, fixed charges, state programs and credits.</span>
+                <span className="text-accent">Wholesale energy {usd(wholesaleUsd)}, {Math.round(share * 100)} percent</span>: {bill.kwh} kWh at the load-weighted real-time price of {state === "CA" ? (rules.bills.CA.wholesale_label ?? "CAISO's NP15 zone") : "ERCOT's hub average"}, ${w.price.toFixed(2)} per MWh in {w.month}{w.partial ? " (a partial month, the latest held)" : ""}. <span className="text-muted">Everything else, {usd(bill.total - wholesaleUsd)}: the wires and poles that carry power to the home, the high-voltage grid, fixed charges, state programs and credits.</span>
               </p>
             </div>
           ) : null}

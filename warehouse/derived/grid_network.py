@@ -108,7 +108,28 @@ def layout(codes, weights, seed=42, steps=600):
     return pos / np.abs(pos).max() * 300
 
 
+def live_latest(entity, table, variable):
+    """The newest row of one series in the Supabase live set (the anon key, read-only), or (None, None). Session 49:
+    --nodes-from-supabase, for a build on a machine whose demand and intensity tables are older than the live set's (EIA
+    revises recent hours); the daily run builds from its own fresh tables, which it then loads."""
+    import urllib.parse
+    from dotenv import dotenv_values
+    env = {**dotenv_values(os.path.join(ROOT, ".env")), **dotenv_values(os.path.join(ROOT, "site", ".env.local")), **os.environ}
+    u = urllib.parse.urlparse(env["SUPABASE_URL"])
+    key = env.get("SUPABASE_ANON_KEY")
+    import requests
+    r = requests.get(f"{u.scheme}://{u.netloc}/rest/v1/series", timeout=60, headers={"apikey": key, "Authorization": f"Bearer {key}"},
+                     params={"select": "ts_utc,value", "table_name": f"eq.{table}", "entity": f"eq.{entity}", "variable": f"eq.{variable}",
+                             "order": "ts_utc.desc", "limit": "1"})
+    r.raise_for_status()
+    rows = r.json()
+    if not rows:
+        return None, None
+    return float(rows[0]["value"]), pd.Timestamp(rows[0]["ts_utc"]).tz_convert("UTC").strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 def main():
+    nodes_live = "--nodes-from-supabase" in sys.argv
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     retrieved = f"{run_id[:4]}-{run_id[4:6]}-{run_id[6:8]}T{run_id[9:11]}:{run_id[11:13]}:{run_id[13:15]}Z"
     os.makedirs(ip.LOG_DIR, exist_ok=True)
@@ -160,8 +181,12 @@ def main():
         pos = layout(codes, {p: np.sqrt(v / top) for p, v in mean_abs.items()})
         nodes, node_rows = [], []
         for i, c in enumerate(codes):
-            d, dts = latest(dem, c) if c in ISO else (None, None)
-            it, its = latest(ci, c) if c in ISO else (None, None)
+            if nodes_live and c in ISO:
+                d, dts = live_latest(f"eia930:{c}", "eia930_all_demand", "demand_mw")
+                it, its = live_latest(f"eia930:{c}", "carbon_intensity_hourly", "intensity_generation")
+            else:
+                d, dts = latest(dem, c) if c in ISO else (None, None)
+                it, its = latest(ci, c) if c in ISO else (None, None)
             nodes.append(dict(id=c, name=names.get(c, c), iso=ISO.get(c), demand_mw=d, demand_ts=dts, intensity=it, intensity_ts=its,
                               volume_mwh=round(vol[c], 1), x=round(float(pos[i, 0]), 2), y=round(float(pos[i, 1]), 2), z=round(float(pos[i, 2]), 2)))
             base = dict(entity=f"eia930:{c}", freq="PT1H", geo="", market="", node="", source=SOURCE, source_url=METHOD_URL,

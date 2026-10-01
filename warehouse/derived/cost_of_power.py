@@ -56,6 +56,10 @@ BA = {"ercot": "erco", "caiso": "ciso", "isone": "isne", "miso": "miso", "nyiso"
 GEO = {"ercot": "US-TX", "caiso": "US-CA", "isone": "US-CT,US-MA,US-ME,US-NH,US-RI,US-VT", "miso": "US-IN",
        "nyiso": "US-NY", "spp": "US-KS,US-NE,US-OK"}  # the hub's own geo is taken from its price rows when present
 PROFILE_MONTHS = 12
+HUB_HISTORY = "iso_hub_prices_history"  # session 49: a year of the other ISOs' main hubs
+# session 49: a second hub per ISO, priced like the main one and weighted by the same BA's demand: CAISO's NP15, the
+# wholesale reference of PG&E's bill (/learn/bill); its demand weights are CAISO's whole BA, not Northern California's
+EXTRA = {"caiso": ["TH_NP15_GEN-APND"]}
 r4 = pb.r4
 
 
@@ -80,14 +84,27 @@ def prices_of(iso, mk, log):
     table, market = pb.TABLES[(iso, mk)]
     df = pb.read_table(table, market=market, node=pb.MAIN[iso])
     parts = [df]
+    hname = None
     if iso == "ercot":  # the history, then the rolling table from where the history ends
+        hname = pb.HISTORY
         hist = pb.read_table(pb.HISTORY, market=market, node=pb.MAIN[iso])
         parts = [hist, df[df["ts"] > hist["ts"].max()] if len(hist) else df]
-    out = pd.concat(parts, ignore_index=True).sort_values("ts")
+    elif os.path.exists(os.path.join(ip.OUT_DIR, HUB_HISTORY + ".csv")):
+        # session 49: the other ISOs' year of history (iso_hub_prices_history), then the rolling table after it
+        hname = HUB_HISTORY
+        hist = pb.read_table(HUB_HISTORY, market=market, node=pb.MAIN[iso])
+        if len(hist) and len(df) and hist["freq"].iloc[0] != df["freq"].iloc[0]:
+            # ISO-NE: the history is 15-minute, the rolling table here hourly; the history's complete hours, as hourly rows
+            hh = hourly(hist)
+            hist = pd.DataFrame({"ts": hh.index, "value": hh.values}).assign(
+                freq=df["freq"].iloc[0], entity=df["entity"].iloc[0], variable=df["variable"].iloc[0], geo=df["geo"].iloc[0],
+                market=market, node=pb.MAIN[iso], unit=df["unit"].iloc[0])
+        parts = [hist, df[df["ts"] > hist["ts"].max()] if len(hist) else df]
+    out = pd.concat([p for p in parts if len(p)], ignore_index=True).sort_values("ts")
     if out["ts"].duplicated().any():
         raise RuntimeError(f"{iso} {mk}: two prices for one interval")
     log(f"  {iso} {mk}: {len(out)} intervals of {pb.MAIN[iso]} ({table}"
-        f"{' and ' + pb.HISTORY if iso == 'ercot' else ''}), {out['ts'].min()} to {out['ts'].max()}")
+        f"{' and ' + hname if hname else ''}), {out['ts'].min()} to {out['ts'].max()}")
     return out, table
 
 
@@ -193,7 +210,7 @@ def write(name, rows, title, notes, run_id, used, left, log):
         f"Retrieved: {run_id} (UTC) by warehouse/derived/cost_of_power.py",
         f"Run log: warehouse/output/logs/cost_of_power_{run_id}.log",
         f"Source: {SOURCE} ERW derived table, cost-of-power method (docs/methods/cost_of_power.md), {METHOD_URL}",
-        "Derived from: ercot_all_hub_prices_history; iso_rtm_hub_prices; iso_dam_hub_prices; nyiso_rtm_zone_prices; "
+        "Derived from: ercot_all_hub_prices_history; iso_hub_prices_history; iso_rtm_hub_prices; iso_dam_hub_prices; nyiso_rtm_zone_prices; "
         "nyiso_dam_zone_prices; isone_rtm_zone_prices_hourly; isone_dam_zone_prices",
         "Also read: EIA's hourly demand, net generation and CO2 from the per-BA workbooks (source "
         "eia:gridmonitor/knownissues/xls), the emissions connector's extracts: " + "; ".join(used),
@@ -235,6 +252,16 @@ def main():
             monthly += a
             profile += b
             carbon += c
+            for node in EXTRA.get(iso, []):  # session 49: CAISO's NP15 too, for PG&E's bill, weighted by CAISO's demand
+                main_hub = pb.MAIN[iso]
+                pb.MAIN[iso] = node
+                try:
+                    a, b, c = build_iso(iso, x, retrieved, log, left)
+                finally:
+                    pb.MAIN[iso] = main_hub
+                monthly += a
+                profile += b
+                carbon += c
         for s in left:
             log(f"  LEFT OUT {s}")
         n = {}

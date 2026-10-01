@@ -206,6 +206,79 @@ def build(e, log, retrieved):
     return rows, left, (url, lm, got, ex)
 
 
+HIST = "eia930_all_history"
+
+
+def history_hours(resp, before):
+    """Session 49: a BA's hours from eia930_all_history (EIA-930 six-month files) before an instant, as the extract's
+    columns (ts_utc, demand_mwh, net_generation_mwh; EIA's MW over an hour is its MWh). Empty if the table is absent."""
+    path = os.path.join(ip.OUT_DIR, HIST + ".csv")
+    if not os.path.exists(path):
+        return pd.DataFrame(columns=["ts_utc", "demand_mwh", "net_generation_mwh"])
+    h = ip.read_series(path, cols=ip.SERIES_COLS + ["ba"])
+    h = h[h["entity"] == f"eia930:{resp}"]
+    if not len(h):  # US48 is not a balancing authority in the six-month files
+        return pd.DataFrame(columns=["ts_utc", "demand_mwh", "net_generation_mwh"])
+    w = h.pivot_table(index="ts_utc", columns="variable", values="value").reset_index()
+    w = w.rename(columns={"demand_mw": "demand_mwh", "net_generation_mw": "net_generation_mwh"})
+    w["ts_utc"] = pd.to_datetime(w["ts_utc"], utc=True)
+    b = pd.to_datetime(pd.Series([before]), utc=True).iloc[0]
+    return w[w["ts_utc"] < b][["ts_utc", "demand_mwh", "net_generation_mwh"]]
+
+
+# Session 49: the weather at each grid's stations (noaa_isd_hourly), per station and local day of every event and baseline
+WEATHER = "noaa_isd_hourly"
+
+
+def build_weather(log, retrieved):
+    """Per station and local day (the station's grid's time zone), for every day an event's rows cover: the mean of the
+    hourly temperatures (each clock hour's observations averaged first), the minimum and maximum of every observation,
+    and heating and cooling degree days at 65 F from (max + min) / 2, the National Weather Service's daily mean. A day
+    with observations in fewer than 20 clock hours is not written."""
+    import noaa_isd
+    path = os.path.join(ip.OUT_DIR, WEATHER + ".csv")
+    if not os.path.exists(path):
+        return [], [f"{WEATHER} is not on this machine: no weather rows"], []
+    w = ip.read_series(path, cols=ip.SERIES_COLS + ["ba", "x_station_id"])
+    w = w[w["variable"] == "temperature_f"]
+    w["ts"] = pd.to_datetime(w["ts_utc"], utc=True)
+    rows, left = [], []
+    plans = [(e["event"], e["start"], e["end"], [f"{y}" for y in e["baseline"]], [e["ba"]]) for e in EVENTS] +             [(m["event"], m["start"], m["end"], m["offsets"], list(m["bas"])) for m in MULTI]
+    for ev, start, end, base, bas in plans:
+        days = [d.strftime("%Y-%m-%d") for d in pd.date_range(start, end, freq="D")]
+        want = set(days)
+        for b in base:
+            if isinstance(b, int):
+                want |= {(pd.Timestamp(d) - pd.Timedelta(days=b)).strftime("%Y-%m-%d") for d in days}
+            else:
+                want |= {f"{b}{d[4:]}" for d in days}
+        for code, (sid, ba, tz, _) in noaa_isd.STATIONS.items():
+            if ba not in bas:
+                continue
+            g = w[w["entity"] == f"noaa:{code}"].copy()
+            if not len(g):
+                left.append(f"noaa:{code} {ev}: no observations held")
+                continue
+            local = g["ts"].dt.tz_convert(tz)
+            g["day"], g["hour"] = local.dt.strftime("%Y-%m-%d"), local.dt.hour
+            g = g[g["day"].isin(want)]
+            for day, h in g.groupby("day"):
+                if h["hour"].nunique() < 20:
+                    left.append(f"noaa:{code} {day}: observations in {h['hour'].nunique()} clock hours")
+                    continue
+                hi, lo = h["value"].max(), h["value"].min()
+                mid = (hi + lo) / 2
+                base_row = dict(entity=f"noaa:{code}", ts_utc=f"{day}T00:00:00Z", freq="P1D", geo="", market="", node=sid,
+                                source="erw:event_window", source_url=METHOD_URL, retrieved_at=retrieved, vintage="", ba=ba, event=ev)
+                rows += [dict(base_row, variable="temp_mean_f", value=r4(h.groupby("hour")["value"].mean().mean()), unit="degF"),
+                         dict(base_row, variable="temp_min_f", value=r4(lo), unit="degF"),
+                         dict(base_row, variable="temp_max_f", value=r4(hi), unit="degF"),
+                         dict(base_row, variable="hdd_65f", value=r4(max(0.0, 65 - mid)), unit="degF-day"),
+                         dict(base_row, variable="cdd_65f", value=r4(max(0.0, mid - 65)), unit="degF-day")]
+    log(f"  weather: {len(rows)} station-day rows from {WEATHER}")
+    return rows, left, [f"weather: {WEATHER} (NOAA NCEI ISD hourly temperature)"]
+
+
 def hours_in(day, tz):
     """The hours of a local day: 23 on the spring change to daylight time, 25 on the autumn change, else 24."""
     a = pd.Timestamp(day).tz_localize(tz)
@@ -239,6 +312,11 @@ def build_covid(e, log, retrieved):
         url, lm, got = em.extract_meta(ex)
         used.append(f"{ba}: {os.path.relpath(ex, ROOT)} (EIA workbook {url}, Last-Modified {lm}, downloaded {got})")
         x = em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]]
+        # session 49: the hours before the extract begins (2018-06-30), from EIA's six-month files (eia930_all_history)
+        hist = history_hours(resp, x["ts_utc"].min())
+        if len(hist):
+            x = pd.concat([hist, x], ignore_index=True)
+            used.append(f"{ba}: {len(hist)} hours before the extract from {HIST}")
         x["day"] = local_days(x["ts_utc"], tz)
         first = x.loc[x["demand_mwh"].notna(), "day"].min()
         # an offset whose baseline days start before the extract's first hour of demand is not held: left out whole
@@ -349,6 +427,10 @@ def main():
             left += lft
             used.append(f"{m['event']}: " + "; ".join(cu))
             log(f"  {m['event']}: {len(r)} rows; left out: {len(lft)}")
+        r, lft, cu = build_weather(log, retrieved)  # session 49
+        rows += r
+        left += lft
+        used += cu
         for x in left:
             log(f"  LEFT OUT {x}")
         out = pd.DataFrame(rows)[COLS].sort_values(["event", "entity", "variable", "ts_utc"]).reset_index(drop=True)
@@ -365,7 +447,7 @@ def main():
             f"Retrieved: {run_id} (UTC) by warehouse/derived/event_window.py",
             f"Run log: warehouse/output/logs/event_window_{run_id}.log",
             f"Source: erw:event_window ERW derived table, events method (docs/methods/events.md), {METHOD_URL}",
-            f"Derived from: {PRICES}; {EMIS}",
+            f"Derived from: {PRICES}; {EMIS}; {HIST}; {WEATHER}",
             "Also read: EIA's hourly demand and net generation from the per-BA workbooks (source "
             "eia:gridmonitor/knownissues/xls), the emissions connector's extract: " + "; ".join(used),
             f"Events: uri_2021 (Winter Storm Uri, ERCOT), window {e['start']} to {e['end']}, baseline the same calendar "
@@ -375,6 +457,10 @@ def main():
             + "; ".join(f"{m['event']} ({m['label']}), window {m['start']} to {m['end']}, the same weekday 364 and 728 "
                         f"days earlier" for m in MULTI[1:]) + ".",
             "Demand during load shed is load served, not the demand customers would have had.",
+            "Session 49: COVID-19's 728-day baseline (2018-03-04 to 2018-06-03) from EIA's six-month files (eia930_all_history; "
+            "no CO2 for those hours, so no intensity). Weather per station and local day (entity noaa:<station>, node the ISD "
+            "station id): temp_mean_f (the mean of the clock hours' means), temp_min_f, temp_max_f, hdd_65f and cdd_65f "
+            "(degree days at 65 F from (max + min) / 2); a day with fewer than 20 clock hours observed is not written.",
             f"Days or variables left out, incomplete: {len(left)}" + (" (" + "; ".join(left[:10]) + ")" if left else ""),
         ]
         path = os.path.join(ip.OUT_DIR, NAME + ".csv")

@@ -28,8 +28,9 @@
       "name": "California: a PG&E home on time-of-use rate E-TOU-C",
       "iso": "caiso",
       "grid": "/grid/caiso",
-      "wholesale_entity": "caiso:TH_SP15_GEN-APND",
-      "note": "Bundled service (PG&E buys the power), Income Tier 3 (no CARE or FERA discount), basic (not all-electric) baseline quantities. PG&E's service area is in CAISO; the wholesale reference is CAISO's main hub in the warehouse, SP15, while most PG&E homes sit in the NP15 zone.",
+      "wholesale_entity": "caiso:TH_NP15_GEN-APND",
+      "wholesale_label": "CAISO's NP15 zone, weighted by CAISO's whole demand",
+      "note": "Bundled service (PG&E buys the power), Income Tier 3 (no CARE or FERA discount), basic (not all-electric) baseline quantities. PG&E's service area is in CAISO; since session 49 the wholesale reference is the NP15 zone (TH_NP15_GEN-APND), where most PG&E homes sit, its hourly real-time prices weighted by CAISO's whole demand (EIA-930 holds no demand for Northern California alone). Until session 48 it was CAISO's main hub, SP15.",
       "seasons": {
         "summer": {
           "label": "Summer (June 1 through September 30)",

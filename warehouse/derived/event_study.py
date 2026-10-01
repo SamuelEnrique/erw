@@ -54,6 +54,8 @@ NAME = "event_study_estimates"
 SOURCE = "erw:event_study"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/event_study.md"
 SPEC = "dow_year_mean_v1"
+SPEC_T = "dow_year_temp_v1"   # session 49: plus the grid's heating and cooling degree days at 65 F and their squares
+SPEC_R = "dow_trend_v1"       # session 49, robustness only: a linear year trend in place of the year effects
 Z = 1.959963984540054
 COLS = ip.SERIES_COLS + ["ba", "event", "x_std_error", "x_ci_low", "x_ci_high", "x_n", "x_spec", "x_term"]
 OUTCOMES = {"demand_mwh": "MWh", "rt_mean": "USD/MWh"}
@@ -70,8 +72,9 @@ TZ = {"ciso": "America/Los_Angeles", "erco": "America/Chicago", "isne": "America
       "nyis": "America/New_York", "pjm": "America/New_York", "swpp": "America/Chicago", "us48": "America/New_York"}
 
 
-def design(dates, event, years_base, pooled):
-    """The regression's columns: intercept, [pooled indicator], dow (Tuesday to Sunday), year contrasts."""
+def design(dates, event, years_base, pooled, Z=None, trend=False):
+    """The regression's columns: intercept, [pooled indicator], dow (Tuesday to Sunday), year contrasts (or, with trend,
+    one linear year trend: the year less the event's year), [the columns of Z: session 49, degree days and squares]."""
     d = pd.to_datetime(pd.Series(dates))
     cols = [np.ones(len(d))]
     names = ["intercept"]
@@ -82,11 +85,19 @@ def design(dates, event, years_base, pooled):
         cols.append((d.dt.dayofweek == k).to_numpy(dtype=float))
         names.append(f"dow{k}")
     yr = d.dt.year.to_numpy()
-    if len(years_base) >= 2:
+    if trend:
+        ev_year = int(np.asarray(dates)[np.asarray(event, dtype=bool)][0][:4])
+        cols.append((yr - ev_year).astype(float))
+        names.append("trend")
+    elif len(years_base) >= 2:
         last = years_base[-1]
         for y in years_base[:-1]:
             cols.append(np.where(event, 0.0, (yr == y).astype(float) - (yr == last).astype(float)))
             names.append(f"year{y}")
+    if Z is not None:
+        for j in range(Z.shape[1]):
+            cols.append(np.asarray(Z[:, j], dtype=float))
+            names.append(f"z{j}")
     return np.column_stack(cols), names
 
 
@@ -103,19 +114,34 @@ def ols_hc1(X, y):
 
 
 def drop_empty(X, names):
-    """Columns that are all zero (a weekday or year absent from the sample) are dropped, so X'X is invertible."""
-    keep = [j for j in range(X.shape[1]) if np.any(X[:, j] != 0)]
-    return X[:, keep], [names[j] for j in keep]
+    """Columns that are all zero (a weekday or year absent from the sample) are dropped, and (session 49) any column that
+    is a linear combination of the ones kept before it (greedy Gram-Schmidt in column order, relative tolerance 1e-9;
+    site/lib/eventstudy.ts does the same), so X'X is invertible: a summer's cooling degree days may duplicate another
+    column, a winter's are all zero."""
+    kept, basis = [], []
+    for j in range(X.shape[1]):
+        v = X[:, j].astype(float)
+        norm = np.linalg.norm(v)
+        if norm == 0:
+            continue
+        r = v.copy()
+        for q in basis:
+            r = r - (q @ r) * q
+        if np.linalg.norm(r) > 1e-9 * norm:
+            kept.append(j)
+            basis.append(r / np.linalg.norm(r))
+    return X[:, kept], [names[j] for j in kept]
 
 
-def estimate(dates, y, event):
-    """Per-day and pooled effects for one series. dates: local days (YYYY-MM-DD); event: booleans."""
+def estimate(dates, y, event, Z=None, trend=False):
+    """Per-day and pooled effects for one series. dates: local days (YYYY-MM-DD); event: booleans; Z: extra columns
+    (session 49: degree days and their squares); trend: a linear year trend in place of the year effects."""
     dates = list(dates)
     y = np.asarray(y, dtype=float)
     event = np.asarray(event, dtype=bool)
     years_base = sorted({int(d[:4]) for d, ev in zip(dates, event) if not ev})
     # the baseline-only fit: the counterfactual of each event day
-    Xall, nall = design(dates, event, years_base, pooled=False)
+    Xall, nall = design(dates, event, years_base, pooled=False, Z=Z, trend=trend)
     Xb, nb = drop_empty(Xall[~event], nall)
     b, V, _, s2 = ols_hc1(Xb, y[~event])
     Xe = Xall[event][:, [nall.index(c) for c in nb]]
@@ -126,11 +152,36 @@ def estimate(dates, y, event):
         est = float(y[event][i] - cf[i])
         days.append(dict(day=d, estimate=est, se=se, cf=float(cf[i])))
     # the pooled regression
-    Xp, npn = drop_empty(*design(dates, event, years_base, pooled=True))
+    Xp, npn = drop_empty(*design(dates, event, years_base, pooled=True, Z=Z, trend=trend))
     bp, Vp, _, _ = ols_hc1(Xp, y)
     j = npn.index("pooled")
     pooled = dict(estimate=float(bp[j]), se=float(np.sqrt(Vp[j, j])), n=len(y))
     return dict(days=days, pooled=pooled, cf_mean=float(np.mean(cf)), n=len(y), n_base=int((~event).sum()))
+
+
+def weather_of(wx, event, ba):
+    """Session 49: the grid's daily heating and cooling degree days (the mean over its stations) for an event, indexed by
+    local day, from event_window_daily's station rows; None when none are held."""
+    w = wx[(wx["event"] == event) & (wx["ba"] == ba)]
+    if not len(w):
+        return None
+    w = w.assign(day=w["ts_utc"].str[:10], value=pd.to_numeric(w["value"]))
+    p = w.pivot_table(index="day", columns="variable", values="value", aggfunc="mean")
+    if not {"hdd_65f", "cdd_65f"} <= set(p.columns):
+        return None
+    return p.rename(columns={"hdd_65f": "hdd", "cdd_65f": "cdd"})[["hdd", "cdd"]].dropna()
+
+
+def read_weather():
+    path = os.path.join(ip.OUT_DIR, "event_window_daily.csv")
+    n = 0
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    df = pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False)
+    return df[df["variable"].isin(["hdd_65f", "cdd_65f"])]
 
 
 def read_window_table():
@@ -151,13 +202,13 @@ def extract_path(ba):
     return files[-1] if files else None
 
 
-def row(entity, variable, ts, est, se, n, unit, freq, ba, event, term, geo=""):
+def row(entity, variable, ts, est, se, n, unit, freq, ba, event, term, geo="", spec=SPEC):
     ci = (est - Z * se, est + Z * se) if se is not None else (None, None)
     f = lambda v: "" if v is None else repr(round(float(v), 6))  # noqa: E731
     return dict(entity=entity, variable=variable, ts_utc=f"{ts}T00:00:00Z", value=round(float(est), 6), unit=unit,
                 freq=freq, geo=geo, market="", node="", source=SOURCE, source_url=METHOD_URL, retrieved_at=RETRIEVED,
                 vintage="", ba=ba, event=event, x_std_error=f(se), x_ci_low=f(ci[0]), x_ci_high=f(ci[1]), x_n=str(n),
-                x_spec=SPEC, x_term=term)
+                x_spec=spec, x_term=term)
 
 
 RETRIEVED = ""
@@ -172,6 +223,7 @@ def main():
     status = dict(table=NAME, market="all", status="ok", detail="")
     try:
         df = read_window_table()
+        wx = read_weather()  # session 49
         rows, hourly_used = [], []
         for (event, entity, variable), g in df.groupby(["event", "entity", "variable"]):
             start, end = WINDOWS[event]
@@ -190,6 +242,31 @@ def main():
                             ba, event, "mean counterfactual over the window days (baseline fit)", geo))
             log(f"{event} {entity} {variable}: pooled {p['estimate']:.2f} (se {p['se']:.2f}), n {r['n']} "
                 f"({r['n_base']} baseline days)")
+            # session 49: the temperature-controlled specification (the grid's degree days and their squares)
+            vals = pd.to_numeric(g["value"]).to_numpy()
+            wz = weather_of(wx, event, ba)
+            if wz is not None:
+                keep = np.array([d in wz.index for d in dates])
+                d2 = [d for d, k in zip(dates, keep) if k]
+                ev2 = [e for e, k in zip(ev, keep) if k]
+                if any(ev2) and not all(ev2):
+                    hd, cd = wz.loc[d2, "hdd"].to_numpy(), wz.loc[d2, "cdd"].to_numpy()
+                    rt = estimate(d2, vals[keep], ev2, Z=np.column_stack([hd, hd ** 2, cd, cd ** 2]))
+                    for d in rt["days"]:
+                        rows.append(row(entity, f"{variable}_effect_day_temp", d["day"], d["estimate"], d["se"], rt["n"], unit,
+                                        "P1D", ba, event, f"event day {d['day']}, controlling for temperature", geo, SPEC_T))
+                    q = rt["pooled"]
+                    rows.append(row(entity, f"{variable}_effect_pooled_temp", start, q["estimate"], q["se"], rt["n"], unit, "P1D",
+                                    ba, event, "pooled event-window effect, per day, controlling for temperature", geo, SPEC_T))
+                    rows.append(row(entity, f"{variable}_counterfactual_mean_temp", start, rt["cf_mean"], None, rt["n"], unit,
+                                    "P1D", ba, event, "mean counterfactual over the window days, controlling for temperature", geo, SPEC_T))
+                    log(f"  temperature-controlled: pooled {q['estimate']:.2f} (se {q['se']:.2f}), n {rt['n']}")
+            # session 49, robustness only: a linear year trend in place of the year effects (two baseline years or more)
+            if len({d[:4] for d, e in zip(dates, ev) if not e}) >= 2:
+                rr = estimate(dates, vals, ev, trend=True)
+                q = rr["pooled"]
+                rows.append(row(entity, f"{variable}_effect_pooled_trend", start, q["estimate"], q["se"], rr["n"], unit, "P1D", ba,
+                                event, "pooled event-window effect, per day, with a linear year trend (robustness)", geo, SPEC_R))
             # the hour-of-day profile of demand, where the extract is held
             if variable == "demand_mwh" and ba in TZ:
                 path = extract_path(ba)
@@ -227,7 +304,10 @@ def main():
             f"Specification {SPEC}: event-day indicators (and one pooled indicator), day-of-week effects, year effects "
             "summing to zero over the baseline years (the event year's counterfactual is their mean); HC1 standard "
             "errors; a day's standard error adds the baseline residual variance (docs/methods/event_study.md).",
-            "Temperature is not held: no estimate controls for weather.",
+            f"Session 49: {SPEC_T} adds the grid's daily heating and cooling degree days at 65 F (the mean over its weather "
+            "stations in event_window_daily, NOAA ISD) and their squares (variables <outcome>_effect_day_temp, "
+            f"_effect_pooled_temp, _counterfactual_mean_temp; days without weather left out); {SPEC_R}, a robustness row only, "
+            "replaces the year effects with a linear year trend (<outcome>_effect_pooled_trend). US48 has no station.",
             f"Retrieved: {run_id} (UTC) by warehouse/derived/event_study.py",
             f"Run log: warehouse/output/logs/event_study_{run_id}.log",
             f"Source: {SOURCE} ERW derived table, event study method (docs/methods/event_study.md), {METHOD_URL}",

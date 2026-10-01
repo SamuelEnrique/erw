@@ -8,6 +8,7 @@
 // error sqrt(s2 + x'Vx) (V the HC1 covariance of the baseline fit); the pooled effect is one window indicator, HC1.
 
 export const SPEC = "dow_year_mean_v1";
+export const SPEC_T = "dow_year_temp_v1";  // session 49: plus the grid's degree days at 65 F and their squares
 export const Z = 1.959963984540054;
 export const WINDOWS: Record<string, [string, string]> = {
   uri_2021: ["2021-02-07", "2021-02-24"],
@@ -17,30 +18,52 @@ export const WINDOWS: Record<string, [string, string]> = {
   ercot_heat_2023: ["2023-08-01", "2023-09-10"],
 };
 
+// session 49: each weather station's grid (warehouse/connectors/noaa_isd.py STATIONS), and each estimated entity's grid
+export const STATION_BA: Record<string, string> = {
+  "noaa:DFW": "erco", "noaa:IAH": "erco", "noaa:SAC": "ciso", "noaa:LAX": "ciso", "noaa:PHL": "pjm", "noaa:ORD": "pjm",
+  "noaa:MSP": "miso", "noaa:JFK": "nyis", "noaa:BOS": "isne", "noaa:OKC": "swpp",
+};
+export const ENTITY_BA = (entity: string): string => (entity === "ercot:HB_HUBAVG" ? "erco" : entity.replace(/^eia930:/, "").toLowerCase());
+
 export type Est = { estimate: number; se: number; lo: number; hi: number };
 export type DayEst = Est & { day: string; counterfactual: number };
 export type Study = { days: DayEst[]; pooled: Est; counterfactualMean: number; n: number; nBase: number };
 
 const dow = (d: string) => (new Date(`${d}T12:00:00Z`).getUTCDay() + 6) % 7; // Monday 0 ... Sunday 6
 
-function design(dates: string[], event: boolean[], yearsBase: number[], pooled: boolean): { X: number[][]; names: string[] } {
+function design(dates: string[], event: boolean[], yearsBase: number[], pooled: boolean, Z?: number[][], trend = false): { X: number[][]; names: string[] } {
+  const evYear = Number(dates[event.indexOf(true)].slice(0, 4));
   const names = ["intercept", ...(pooled ? ["pooled"] : []), ...[1, 2, 3, 4, 5, 6].map((k) => `dow${k}`),
-    ...(yearsBase.length >= 2 ? yearsBase.slice(0, -1).map((y) => `year${y}`) : [])];
+    ...(trend ? ["trend"] : yearsBase.length >= 2 ? yearsBase.slice(0, -1).map((y) => `year${y}`) : []),
+    ...(Z && Z.length ? Z[0].map((_, j) => `z${j}`) : [])];
   const last = yearsBase.at(-1);
   const X = dates.map((d, i) => {
     const yr = Number(d.slice(0, 4)), w = dow(d);
     const r = [1];
     if (pooled) r.push(event[i] ? 1 : 0);
     for (let k = 1; k <= 6; k++) r.push(w === k ? 1 : 0);
-    if (yearsBase.length >= 2) for (const y of yearsBase.slice(0, -1)) r.push(event[i] ? 0 : (yr === y ? 1 : 0) - (yr === last ? 1 : 0));
+    if (trend) r.push(yr - evYear);
+    else if (yearsBase.length >= 2) for (const y of yearsBase.slice(0, -1)) r.push(event[i] ? 0 : (yr === y ? 1 : 0) - (yr === last ? 1 : 0));
+    if (Z) r.push(...Z[i]);
     return r;
   });
   return { X, names };
 }
 
-/** The columns that are not all zero, as Python's drop_empty. */
+/** The columns kept, as Python's drop_empty: not all zero, and (session 49) not a linear combination of the columns kept
+ * before them (greedy Gram-Schmidt in column order, relative tolerance 1e-9). */
 function dropEmpty(X: number[][], names: string[]): { X: number[][]; names: string[]; keep: number[] } {
-  const keep = names.map((_, j) => j).filter((j) => X.some((r) => r[j] !== 0));
+  const keep: number[] = [], basis: number[][] = [];
+  const dot = (a: number[], b: number[]) => a.reduce((s, v, i) => s + v * b[i], 0);
+  for (let j = 0; j < names.length; j++) {
+    const v = X.map((r) => r[j]);
+    const norm = Math.sqrt(dot(v, v));
+    if (norm === 0) continue;
+    let r = v.slice();
+    for (const q of basis) { const c = dot(q, r); r = r.map((x, i) => x - c * q[i]); }
+    const rn = Math.sqrt(dot(r, r));
+    if (rn > 1e-9 * norm) { keep.push(j); basis.push(r.map((x) => x / rn)); }
+  }
   return { X: X.map((r) => keep.map((j) => r[j])), names: keep.map((j) => names[j]), keep };
 }
 
@@ -81,9 +104,9 @@ function olsHc1(X: number[][], y: number[]): { b: number[]; V: number[][]; s2: n
 const est = (estimate: number, se: number): Est => ({ estimate, se, lo: estimate - Z * se, hi: estimate + Z * se });
 
 /** Per-day and pooled effects of one series: dates are local days (YYYY-MM-DD), event marks the window days. */
-export function estimate(dates: string[], y: number[], event: boolean[]): Study {
+export function estimate(dates: string[], y: number[], event: boolean[], Z?: number[][], trend = false): Study {
   const yearsBase = [...new Set(dates.filter((_, i) => !event[i]).map((d) => Number(d.slice(0, 4))))].sort((a, b) => a - b);
-  const all = design(dates, event, yearsBase, false);
+  const all = design(dates, event, yearsBase, false, Z, trend);
   const base = dropEmpty(all.X.filter((_, i) => !event[i]), all.names);
   const { b, V, s2 } = olsHc1(base.X, y.filter((_, i) => !event[i]));
   const days: DayEst[] = [];
@@ -94,7 +117,7 @@ export function estimate(dates: string[], y: number[], event: boolean[]): Study 
     const q = x.reduce((a, v, j) => a + v * V[j].reduce((s, w, m) => s + w * x[m], 0), 0);
     days.push({ day: dates[i], counterfactual: cf, ...est(y[i] - cf, Math.sqrt(s2 + q)) });
   });
-  const p = design(dates, event, yearsBase, true);
+  const p = design(dates, event, yearsBase, true, Z, trend);
   const pd = dropEmpty(p.X, p.names);
   const fit = olsHc1(pd.X, y);
   const j = pd.names.indexOf("pooled");
@@ -104,9 +127,31 @@ export function estimate(dates: string[], y: number[], event: boolean[]): Study 
   };
 }
 
-/** A study from event_window_daily rows of one event, entity and variable (daily rows only). */
-export function studyOf(event: string, rows: { ts_utc: string; value: number; freq?: string | null }[]): Study {
+/** A study from event_window_daily rows of one event, entity and variable (daily rows only). Session 49: with weather
+ * (the grid's daily heating and cooling degree days, the mean over its stations, by local day), the temperature-controlled
+ * study: the days with weather only, and hdd, hdd squared, cdd, cdd squared as columns. */
+export function studyOf(event: string, rows: { ts_utc: string; value: number; freq?: string | null }[],
+  weather?: Map<string, { hdd: number; cdd: number }>): Study {
   const [s, e] = WINDOWS[event];
-  const r = rows.filter((x) => !x.freq || x.freq === "P1D").map((x) => ({ d: x.ts_utc.slice(0, 10), v: Number(x.value) })).sort((a, b) => (a.d < b.d ? -1 : 1));
-  return estimate(r.map((x) => x.d), r.map((x) => x.v), r.map((x) => x.d >= s && x.d <= e));
+  let r = rows.filter((x) => !x.freq || x.freq === "P1D").map((x) => ({ d: x.ts_utc.slice(0, 10), v: Number(x.value) })).sort((a, b) => (a.d < b.d ? -1 : 1));
+  if (weather) r = r.filter((x) => weather.has(x.d));
+  const Z = weather ? r.map((x) => { const w = weather.get(x.d)!; return [w.hdd, w.hdd * w.hdd, w.cdd, w.cdd * w.cdd]; }) : undefined;
+  return estimate(r.map((x) => x.d), r.map((x) => x.v), r.map((x) => x.d >= s && x.d <= e), Z);
+}
+
+/** Session 49: the grid's daily degree days from event_window_daily's station rows (hdd_65f, cdd_65f of the stations
+ * whose ba is the grid's), the mean over its stations, as event_study.py's weather_of. */
+export function gridWeather(rows: { ts_utc: string; value: number; variable: string; entity: string }[]): Map<string, { hdd: number; cdd: number }> {
+  const acc = new Map<string, { h: number[]; c: number[] }>();
+  for (const r of rows) {
+    const d = r.ts_utc.slice(0, 10);
+    const a = acc.get(d) ?? { h: [], c: [] };
+    if (r.variable === "hdd_65f") a.h.push(Number(r.value));
+    if (r.variable === "cdd_65f") a.c.push(Number(r.value));
+    acc.set(d, a);
+  }
+  const mean = (x: number[]) => x.reduce((p, q) => p + q, 0) / x.length;
+  const out = new Map<string, { hdd: number; cdd: number }>();
+  for (const [d, a] of acc) if (a.h.length && a.c.length) out.set(d, { hdd: mean(a.h), cdd: mean(a.c) });
+  return out;
 }
