@@ -196,6 +196,52 @@ Built in session 40 for the severance tax engine v0 (`/severance`): Texas, Louis
 
 **Tests:** `site/scripts/test-lease.mjs`, run by `tests/test_session45.py`: a three-well, two-month lease for each state worked by hand (base, with ticks, potential savings, fees and flags), each threshold from both sides, and no network call (fetch, XMLHttpRequest, WebSocket, EventSource and sendBeacon trapped while the sample is parsed, analysed and written; the page's sources name none of them).
 
+## The refund finder (session 57, internal)
+
+**Who it is for.** A severance tax consultant asks one question: which Texas leases may be paying more severance tax than the rules require, and how much might they save? The page is `/severance/finder`, behind the internal token (404 without it).
+
+**The data.**
+- The Railroad Commission of Texas's Production Data Query dump, already on disk from session 49 (no new download).
+- Its table OG_COUNTY_LEASE_CYCLE, streamed once and split by county for the latest 48 production months (`warehouse/connectors/rrc_statewide.py`).
+- `rrc_lease_production_statewide` holds the latest 24 months, partitioned by county. It also carries the wells the RRC lists on each lease (OG_WELL_COMPLETION) and those with no shut-in date at the extract.
+- **License: internal** (the RRC grants no reuse in writing). It is not in git, the public database, public Redivis or any committed JSON.
+
+**The tests** (`warehouse/derived/severance_screen.py`). Each lease is tested month by month over the 24 months, with the rules and citations of `site/data/severance_rules.json`. A lease reported in several counties is tested once, on its sum.
+
+| Rule | The test the data can make | The money |
+|---|---|---|
+| Low-producing oil lease credit (`tx_lp_oil`) | under 15 bbl per well per day over the months of the 90 days ending with the month, divided by the wells listed and not shut in (at least one) | the certified price's credit; no certified price in the rules file, no credit |
+| Low-producing gas well credit (`tx_lp_gas`) | a gas lease (one gas well) at 90 Mcf a day or less over the three months before (the months with a filed report; the month itself when none) | the certified price's credit |
+| Two-year inactive well (`tx_oil_inactive`, `tx_gas_inactive`) | producing after 24 months or more without production, having produced before; see the two cases below | 0 percent of value |
+
+**The two cases of the two-year inactive test:**
+- **Seen:** the production before the gap is in the 48 months read. The saving is estimated on at most the lease's average producing month of the 12 before the gap, because new wells drilled on the lease are not exempt.
+- **Older:** the gap runs back past the 48 months, and the RRC's first month for the lease (OG_SUMMARY_ONSHORE_LEASE) is at least 12 months older. The lease is flagged with no saving estimated.
+
+A lease whose first RRC month falls inside the gap is new, not inactive. The first run flagged such leases (new Permian leases report zeros before their first well produces) and was corrected.
+
+**Prices.** Monthly means of EIA's daily spot prices: WTI Cushing per barrel for oil and condensate, and Henry Hub per MMBtu for gas, applied per Mcf as if one Mcf held one MMBtu. These are labeled, and they are not the operator's prices. Base rates: 4.6 percent of value for oil and condensate, 7.5 percent for gas.
+
+**How the finder differs from the lease tool:**
+- The oil test divides by the RRC's well count, where the lease tool reads a real lease as one well.
+- The inactive run counts unfiled months as months without production.
+
+`site/scripts/test-finder.mjs` runs a gas lease and a one-well oil lease through the lease tool. Their months, base tax and saving agree with the finder to the cent.
+
+**What no flag can see:**
+- certification and the forms: AP-216 and AP-217, and the Commission's designation;
+- filings already made: a credit already claimed is not in the dump;
+- per-well volumes: the RRC reports leases;
+- water (the oil test's other branch), flared gas, and high-cost gas already reported;
+- the operator's own prices.
+
+A flag means a lease **may** qualify, never that it qualifies. Not tax advice.
+
+**Louisiana (Part B of session 57) was not built.**
+- **The terms:** the SONRIS disclaimer of the Department of Conservation and Energy (formerly DENR) states the data is "for general informational purposes only" and disclaims warranty and liability. It grants no reuse, so the license would be internal.
+- **The access:** SONRIS's parish and lease production reports sit behind a CAPTCHA. The CAPTCHA-free legacy report takes one field, one operator and one month per request. A parish's 24 months would mean thousands of requests, in effect working around the CAPTCHA, so no request was made for production data.
+- **Next step:** a bulk extract from the department.
+
 ## Left out: no page read states them
 
 **Texas:**
