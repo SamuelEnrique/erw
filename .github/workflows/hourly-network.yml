@@ -1,0 +1,44 @@
+name: hourly network
+# Session 54 (approved by Samuel): the /network snapshot refreshed every hour. warehouse/derived/network_hourly.py pulls
+# the last 48 hours of EIA-930 interchange (every BA pair) and demand (the seven ISO BAs), merges them onto the previous
+# snapshot (same nodes, same fixed positions, the latest 168 hours of links) and uploads one JSON object to the public
+# Supabase Storage bucket erw-public (object storage, not the database). The page reads it with a one-hour revalidation
+# and falls back to the committed site/data/grid_network.json, which the daily run keeps building.
+#
+# What this job never does: write to the Supabase database, commit to git, or run while the daily or weekly job does.
+# It has its own concurrency group, so a pending hourly run can never replace a pending daily or weekly run (sharing
+# their group would: GitHub keeps one pending run per group); instead the script asks the GitHub API before the pull and
+# again before the upload, and exits 0 without uploading while either is queued or running. The 14:00 UTC hour, when the
+# daily job starts, is left out of the schedule. Success or failure is recorded in this job's log only; a failure leaves
+# the object in Storage as it was. docs/runbook.md, docs/methods/grid_network.md.
+on:
+  schedule:
+    - cron: "0 0-13,15-23 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: hourly-network
+  cancel-in-progress: false
+jobs:
+  network:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install requests
+        run: python -m pip install --quiet requests==2.32.3
+      - name: Refresh the network snapshot in Storage
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python warehouse/derived/network_hourly.py --skip-if-busy

@@ -107,3 +107,17 @@ The loader still warns above `warn_mb` (350 MB) and fails above `max_mb` in `war
 - **When:** in the daily run's concurrency group, so it never runs during a daily load, and four hours before the daily run's 14:00 UTC start. The site's reads may wait or time out while `series` is rewritten, a few minutes on a Sunday morning.
 - **Run it now:** Actions, "weekly vacuum", Run workflow; or locally, with `SUPABASE_DB_URL` in `.env`: `python warehouse/supabase/vacuum.py` (no load, unlike `load.py --vacuum-full`).
 - **Stop it:** delete the `schedule` lines of the workflow.
+
+## The hourly network refresh (session 54)
+
+**Approved by Samuel.** `.github/workflows/hourly-network.yml` runs `warehouse/derived/network_hourly.py --skip-if-busy` on the hour, every hour except 14:00 UTC.
+
+- **What it does:** pulls the last 48 hours of EIA-930 interchange (every BA pair) and demand (the seven ISO BAs), merges them onto the previous network snapshot, and uploads one JSON object to the public Supabase Storage bucket `erw-public` (`network/grid_network.json`). `/network` reads it with a one-hour revalidation.
+- **What refreshes hourly and what daily:** the links and the ISO demand hourly. Carbon intensity, the nodes and their positions daily, from the committed `site/data/grid_network.json` that the daily run builds (`warehouse/derived/grid_network.py`); that file is also the page's fallback. Details, and why EIA's lag keeps the links more than a day behind the clock while demand is one to two hours behind it: `docs/methods/grid_network.md`.
+- **What it never does:**
+  - write to the Supabase database, or commit to git;
+  - run while the daily or weekly job is queued or running. It has its own concurrency group, so it can never displace their pending runs. The script asks the GitHub API before the pull and again before the upload, and exits 0 without uploading if either is busy.
+- **Its record:** the job log only (Actions, "hourly network"). A failed run leaves the object in Storage as it was, and the page keeps showing it, or the committed file when the object is older than that file.
+- **Secrets:** `EIA_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` (Storage only), and the job's own `GITHUB_TOKEN` (read access to Actions).
+- **Run it now:** Actions, "hourly network", Run workflow. Locally, from `.env`, without uploading: `python warehouse/derived/network_hourly.py --dry-run --out network.json`.
+- **Stop it:** delete the `schedule` lines of the workflow. The page then falls back to the committed file as soon as that file is newer than the last object.
