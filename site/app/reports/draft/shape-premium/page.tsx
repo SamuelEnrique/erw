@@ -148,6 +148,21 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
   const s12 = stats(rows, ERCOT, "rt", last12Start, endAll);
   const n12 = sk("n", last12Start, endAll, s12.n), usd12 = sk("usdmw", last12Start, endAll, s12.usdmw), mean12 = sk("mean", last12Start, endAll, s12.mean);
 
+  // 1b. session 49: twelve months for every hub (iso_hub_prices_history holds a year of the five hubs other than ERCOT):
+  // the twelve months ending with the latest month complete in real time at every hub, each hub's complete months in it
+  const lastAll = [...new Set(all.filter((r) => r.variable === "rt_shape_premium").map((r) => r.ts_utc.slice(0, 10)))].sort().reverse()
+    .find((ts) => HUBS.every((h) => monthsOf(rows, h.e, "rt").some((m) => m.ts === ts && m.complete)));
+  const yEnd = lastAll ? nextDay(lastAll) : "";
+  const yStart = lastAll ? `${Number(lastAll.slice(0, 4)) - 1}-${String(Number(lastAll.slice(5, 7)) % 12 + 1).padStart(2, "0")}-01` : "";
+  const fixStart = lastAll && Number(lastAll.slice(5, 7)) === 12 ? `${lastAll.slice(0, 4)}-01-01` : yStart;
+  const year = lastAll ? HUBS.map((h) => {
+    const st = stats(rows, h.e, "rt", fixStart, yEnd);
+    const k = (stat: string, v: number): V => ({ v, k: `shape|${h.e}|rt|${stat}|${fixStart}|${yEnd}` });
+    return { ...h, n: k("n", st.n), npos: k("npos", st.npos), mean: k("mean", st.mean), usd: k("usdmw", st.usdmw) };
+  }).sort((a, b) => b.mean.v - a.mean.v) : [];
+  const allTwelve = year.length > 0 && year.every((y) => y.n.v === 12);
+  const alwaysPos = year.filter((y) => y.npos.v === y.n.v);
+
   // 3. the hour of the day, each hub's latest profile month
   const prof = await series(P, {});
   const pm = [...new Set(prof.map((r) => r.ts_utc.slice(0, 10)))].sort().at(-1)!;
@@ -188,8 +203,8 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
           Day-ahead, over the days of {month(latest)} the warehouse holds for every hub ({top.hrs.v === top.inMonth.v ? "the whole month" : <><N x={top.hrs} /> of <N x={top.inMonth} /> hours</>}),
           the premium runs from <N x={low.pr} /> USD/MWh at {low.iso}&apos;s {low.hub} to <N x={top.pr} /> USD/MWh at {top.iso}&apos;s {top.hub}. Against the
           flat price, the spread is wider still: {low.iso}&apos;s premium is <N x={low.pct} /> percent of its simple average, {topPct.iso}&apos;s{" "}
-          <N x={topPct.pct} /> percent. Day-ahead is used here because it is the one market every hub holds for nearly every hour of the month; the
-          warehouse keeps only a rolling window of the five hubs other than ERCOT, so a fuller year is not yet possible.
+          <N x={topPct.pct} /> percent. Day-ahead is used here because it is the one market every hub holds for nearly every hour of the month.
+          The twelve-month view below reads the real-time market over a year.
         </p>
         <Bars items={six.map((s) => ({ label: s.iso, v: s.pr.v }))} />
         <table className="mt-2 w-full text-left text-sm tabular-nums">
@@ -213,6 +228,35 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
           the six agree on is the sign: in every hub, the grid&apos;s own load paid more per megawatt-hour than a flat load would have.
         </p>
       </Section>
+
+      {year.length ? (
+        <Section title={`Twelve months, six hubs: ${month(fixStart)} to ${month(lastAll!)}`}>
+          <p className="mb-3">
+            {allTwelve ? "Every hub has all twelve months complete in real time." : "Not every hub has all twelve months complete; the table gives each hub's count, and its figures are over those months."}{" "}
+            Over the year, the mean real-time premium runs from <N x={year.at(-1)!.mean} /> USD/MWh at {year.at(-1)!.iso}&apos;s {year.at(-1)!.hub} to{" "}
+            <N x={year[0].mean} /> at {year[0].iso}&apos;s {year[0].hub}.{" "}
+            {alwaysPos.length === year.length
+              ? "The premium was positive in every complete month at every hub."
+              : alwaysPos.length
+                ? <>It was positive in every complete month at {alwaysPos.map((y) => y.iso).join(", ")}; at the others, some months had a negative premium (the table counts them).</>
+                : "At every hub, some months had a negative premium (the table counts them)."}{" "}
+            A megawatt shaped like the grid&apos;s load paid <N x={year[0].usd} /> USD more than a flat megawatt over the year at {year[0].iso}, and{" "}
+            <N x={year.at(-1)!.usd} /> USD at {year.at(-1)!.iso}.
+          </p>
+          <table className="w-full text-left text-sm tabular-nums">
+            <thead><tr className="border-b border-rule text-xs text-muted"><th className="py-1">ISO hub</th><th className="text-right">Complete months</th><th className="text-right">Positive</th><th className="text-right">Mean premium, USD/MWh</th><th className="text-right">Grid-shaped over flat, USD per MW</th></tr></thead>
+            <tbody>
+              {year.map((y) => (
+                <tr key={y.e} className="border-b border-rule">
+                  <td className="py-1">{y.iso}, {y.hub}</td><td className="text-right"><N x={y.n} /></td><td className="text-right"><N x={y.npos} /></td>
+                  <td className="text-right"><N x={y.mean} /></td><td className="text-right"><N x={y.usd} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-1 text-xs text-muted">Real-time, each hub&apos;s complete months from {month(fixStart)} to {month(lastAll!)}. Mean: the months&apos; premiums averaged; USD per MW: each month&apos;s premium times its hours, summed.</p>
+        </Section>
+      ) : null}
 
       <Section title="Eight years of ERCOT">
         <p className="mb-3">
@@ -302,7 +346,7 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
           <li><code className="font-mono">cost_of_power_monthly</code>: per ISO main hub and month, the load-weighted and simple averages of the real-time and day-ahead price, and their hours. A month counts as complete when its hours equal the month&apos;s.</li>
           <li><code className="font-mono">cost_of_power_hourly_profile</code>: per hub and month, the mean real-time price at each local hour of the day.</li>
           <li>Hubs: CAISO SP15, ERCOT HB_HUBAVG, ISO-NE .H.INTERNAL_HUB, MISO Indiana Hub, NYISO N.Y.C., SPP SPPNORTH_HUB. PJM is not here: its prices are internal.</li>
-          <li>Only ERCOT has a long history in the warehouse. A year of the other five hubs&apos; prices is approved but not yet pulled; this draft will be redone with it.</li>
+          <li>Only ERCOT has a long history in the warehouse. Since session 49 the other five hubs reach back to September 2025 (<code className="font-mono">iso_hub_prices_history</code>), which gives the twelve-month view.</li>
         </ul>
         <Cite tables={[M, P]} note="The cost-of-power model (docs/methods/cost_of_power.md); statistics by site/lib/shapepremium.ts" />
       </Section>
