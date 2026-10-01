@@ -26,6 +26,9 @@ const EVENTS: Card[] = [
     entity: "eia930:US48", variable: "demand_pct_vs_baseline_week", how: "min", within: ["2020-03-01", "2020-05-31"], unit: "% against the same weeks of 2019", lead: "Lower 48, deepest weekly drop" },
   { href: "/events/caiso-heat-2020", title: "The August 2020 heat wave: CAISO", dates: "2020-08-10 to 2020-08-24", grids: "CAISO", event: "caiso_heat_2020",
     entity: "eia930:CISO", variable: "demand_max_pct_vs_baseline", how: "max", within: ["2020-08-10", "2020-08-24"], unit: "% above the baseline", lead: "Peak hour, highest against the baseline" },
+  // session 58
+  { href: "/events/caiso-heat-2022", title: "The September 2022 heat wave: CAISO", dates: "2022-08-31 to 2022-09-09", grids: "CAISO", event: "caiso_heat_2022",
+    entity: "eia930:CISO", variable: "demand_max_mw", how: "max", within: ["2022-08-31", "2022-09-09"], unit: "MW", lead: "CAISO's highest hour of demand served" },
   { href: "/events/elliott-2022", title: "Winter Storm Elliott: six grids, December 2022", dates: "2022-12-19 to 2022-12-29", grids: "PJM, MISO, SPP, NYISO, ISO-NE and ERCOT", event: "elliott_2022",
     entity: "eia930:PJM", variable: "demand_max_mw", how: "max", within: ["2022-12-19", "2022-12-29"], unit: "MW", lead: "PJM's highest hour of demand served" },
   { href: "/events/ercot-heat-2023", title: "The summer 2023 heat: ERCOT", dates: "2023-08-01 to 2023-09-10", grids: "ERCOT", event: "ercot_heat_2023",

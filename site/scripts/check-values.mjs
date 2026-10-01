@@ -35,6 +35,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/play/battery",
   // session 39: three more events
   "/events", "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",
+  // session 58: CAISO's September 2022 heat
+  "/events/caiso-heat-2022",
   // session 43: the bill explainer's default bills
   "/learn/bill",
   // session 44: every computed answer of the problem sets
@@ -123,6 +125,13 @@ async function truth(check) {
       if (v !== undefined) return v;
     }
     return N.netValue(JSON.parse(fs.readFileSync(path.join(here, "..", "data", "grid_network.json"), "utf-8")), check);
+  }
+  // session 58: /grid/caiso's Reliability timeline, awe|days|<type>|<year>: the distinct local days with a CAISO notice of the
+  // type in the year (caiso_grid_emergencies, the events table)
+  if (p[0] === "awe") {
+    const rows = await all("events", { select: "event_date", table_name: "eq.caiso_grid_emergencies", event_type: `eq.${p[2]}`,
+      and: `(event_date.gte.${p[3]}-01-01,event_date.lte.${p[3]}-12-31T23:59:59Z)` });
+    return new Set(rows.map((r) => String(r.event_date).slice(0, 10))).size;
   }
   // session 44: a derived answer of the problem sets, calc|<op>|<A>|<B>: A and B are check keys with "~" for "|", each
   // recomputed here on its own, then combined

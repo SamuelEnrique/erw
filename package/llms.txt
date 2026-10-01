@@ -334,6 +334,9 @@ day-ahead tables running into tomorrow:
 | Power flowing between balancing authorities (imports, exports, interchange, ties) | `eia930_all_interchange` (ba), `grid_network_links`, `grid_network_nodes` |
 | How much of an event's effect on demand or price is the weather (temperature-controlled event study estimates) | `event_study_estimates` (x_spec dow_year_temp_v1 beside dow_year_mean_v1) |
 | Temperature at an airport on the days of an event or its baseline | `event_window_daily` (entity noaa:<station>), `noaa_isd_hourly` |
+| CAISO's Flex Alerts, Restricted Maintenance Operations, EEAs and stage emergencies, 1998 on (days, types, regions) | `caiso_grid_emergencies` (events; event_type flex_alert, rmo, eea1 to eea3, stage1 to stage3...) |
+| How tight CAISO's evenings were: peak demand, the evening ramp, batteries' share of the evening peak, the day's notices | `caiso_reliability_daily` (eia930:CISO and caiso:ISO, daily since 2018-07-01) |
+| CAISO's September 2022 heat wave | `event_window_daily` and `event_study_estimates` (event caiso_heat_2022) |
 | EIA-930 demand or net generation in January to June 2018 | `eia930_all_history` |
 | Battery charging and discharging by hour or day; the battery fleet by state, ISO or year | `eia930_all_storage`, `storage_daily_cycle`, `storage_capacity` |
 | CO2 emissions of an ISO's power, and its carbon intensity (kg CO2 per MWh) | `eia930_all_emissions` (since 2018-07), `carbon_intensity_hourly` / `_daily` (last ~30 days) |

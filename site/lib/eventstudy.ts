@@ -16,6 +16,7 @@ export const WINDOWS: Record<string, [string, string]> = {
   caiso_heat_2020: ["2020-08-10", "2020-08-24"],
   elliott_2022: ["2022-12-19", "2022-12-29"],
   ercot_heat_2023: ["2023-08-01", "2023-09-10"],
+  caiso_heat_2022: ["2022-08-31", "2022-09-09"],  // session 58
 };
 
 // session 49: each weather station's grid (warehouse/connectors/noaa_isd.py STATIONS), and each estimated entity's grid

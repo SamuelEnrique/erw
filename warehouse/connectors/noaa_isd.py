@@ -55,6 +55,8 @@ EVENTS = {
     "elliott_2022": ("2022-12-19", "2022-12-29", [364, 728], ["erco", "isne", "miso", "nyis", "pjm", "swpp"]),
     "ercot_heat_2023": ("2023-08-01", "2023-09-10", [364, 728], ["erco"]),
     "covid_2020": ("2020-03-01", "2020-05-31", [364, 728], ["ciso", "erco", "isne", "miso", "nyis", "pjm", "swpp"]),
+    # session 58 (approved pull: SAC and LAX, ceiling 10,000 rows): CAISO's September 2022 heat, weekday-aligned baselines
+    "caiso_heat_2022": ("2022-08-31", "2022-09-09", [364, 728], ["ciso"]),
 }
 BAD_QUALITY = set("2367")
 
@@ -72,12 +74,12 @@ def ranges(event):
     return out
 
 
-def plan():
+def plan(only=None):
     """(station, local start, local end) requests: primary stations of every event first, smallest events first, then
-    the second stations; a range already requested for a station is not requested again."""
+    the second stations; a range already requested for a station is not requested again. only: one event's ranges."""
     jobs, seen = [], set()
     for primary in (True, False):
-        for ev in EVENTS:
+        for ev in ([only] if only else EVENTS):
             for code, (sid, ba, tz, prim) in STATIONS.items():
                 if prim != primary or ba not in EVENTS[ev][3]:
                     continue
@@ -103,12 +105,20 @@ def parse(text, code):
 
 
 def main():
+    """python noaa_isd.py: every event, the table rewritten. Session 58: python noaa_isd.py --event caiso_heat_2022
+    --ceiling 10000: one event's ranges, merged into the table (its other rows kept), under its own ceiling."""
+    global CEILING
+    only = sys.argv[sys.argv.index("--event") + 1] if "--event" in sys.argv else None
+    if only and only not in EVENTS:
+        raise SystemExit(f"no event {only}")
+    if "--ceiling" in sys.argv:
+        CEILING = int(sys.argv[sys.argv.index("--ceiling") + 1])
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     log = ip.Log(os.path.join(ip.LOG_DIR, f"noaa_isd_{run_id}.log"))
     ip.RAW.open("noaa_isd", run_id)
     results, frames, pulled, skipped, names = [], [], 0, [], {}
-    jobs = plan()
+    jobs = plan(only)
     log(f"ERW noaa_isd run {run_id}: {len(jobs)} station ranges planned; ceiling {CEILING} rows returned")
     try:
         for code, s, e, ev in jobs:
@@ -167,7 +177,15 @@ def main():
             "License: public domain (U.S. Government data, NOAA NCEI).",
         ]
         path = os.path.join(ip.OUT_DIR, NAME + ".csv")
-        if os.path.exists(path):
+        if only and os.path.exists(path):
+            # one event merged into the table: its header as it was (the stations and the earlier pull), and a line for this one
+            with open(path, encoding="utf-8") as f:
+                old = [ln[1:].strip() for ln in f if ln.startswith("#")]
+            header = old + [f"Session 58, {only}: {', '.join(sorted(names))} over its window and weekday-aligned baselines "
+                            f"({'; '.join(f'{a} to {b}' for a, b in ranges(only))}); {pulled:,} rows returned of this pull's {CEILING:,} "
+                            f"ceiling; retrieved {run_id} (UTC), run log warehouse/output/logs/noaa_isd_{run_id}.log, raw files "
+                            f"warehouse/raw/noaa_isd/{run_id}/. Left out: " + ("; ".join(skipped) or "nothing") + "."]
+        elif os.path.exists(path):
             os.remove(path)
         ip.write_csv(s_[cols], NAME, header, log, cols=cols, key=["entity", "variable", "ts_utc"])
         ip.update_sources([dict(source=SOURCE, publisher="NOAA National Centers for Environmental Information (NCEI)",

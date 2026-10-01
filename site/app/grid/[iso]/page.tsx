@@ -14,6 +14,7 @@ import { count, shown } from "@/lib/format";
 import { FUELS, GRIDS, fuelName, fuelOf, gridOf, load, type GridData } from "@/lib/grid";
 import { DOCS, render, type GridConfig } from "@/lib/markdown";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
+import { Reliability } from "./Reliability";
 
 // Session 35: "Ask your grid". One template, seven pages (docs/grids/grids.json), for a student in a first energy
 // course: who runs the grid, where the power comes from now, what it costs, how clean it is, what is being built,
@@ -427,6 +428,8 @@ export default async function GridPage({ params }: { params: Promise<{ iso: stri
           <Link href="/cost-of-power">cost of power</Link>{g.slug === "pjm" ? " model has no PJM row." : "."}
         </p>
       </Section>
+      {/* session 58: California reliability v1, CAISO only */}
+      {g.slug === "caiso" ? <Section id="reliability" title="Reliability" aside={<Chip tier="derived" />}><Reliability /></Section> : null}
       <Section title="What is being built" aside={<Chip tier="derived" />}><Building g={g} d={d} /></Section>
       <Section title="In the news" aside={<Chip tier="model_extracted" />}><News g={g} d={d} /></Section>
 

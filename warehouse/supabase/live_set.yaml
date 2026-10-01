@@ -18,6 +18,8 @@ full:
   - '^eia_fuel_spot_prices$'
   - '^fred_daily_spot_prices$'
   - '^energy_deals$'                            # session 15: the deal tracker (public; the evidence table is internal)
+  - '^caiso_grid_emergencies$'                  # session 58: CAISO's Flex Alerts and emergencies, 1998 on (events)
+  - '^caiso_reliability_daily$'                 # session 58: how tight was it, CAISO's evenings day by day (derived)
   - '^energy_projects$'                         # session 16: the project map (tool 3), with "select" below
   - '^datacenter_projects$'                     # session 16: the datacenter power tracker (tool 4; evidence internal)
   - '^datacenter_facilities$'                   # session 22: the tracker's one table (news, operator lists, queues);

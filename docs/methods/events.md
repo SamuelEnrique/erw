@@ -55,6 +55,10 @@ Built on `build_covid`'s code path, which each event configures. All three use t
 
 Heat waves and cold snaps are stories about the peak hour.
 
+### The September 2022 heat wave in CAISO (`caiso_heat_2022`, session 58)
+
+2022-08-31 to 2022-09-09, CAISO's balancing authority (CISO), on this template. The baseline is the same weekdays 364 and 728 days earlier. The weather is at Sacramento and Los Angeles (`noaa_isd_hourly`, pulled for this window). CAISO's prices for 2022 are not held, so there is no price chart. The page lists CAISO's notices of those days, from `caiso_grid_emergencies`, and the event study's estimates with and without temperature. Method and numbers: `docs/methods/california_reliability.md`.
+
 ### The August 2020 heat wave in CAISO (`caiso_heat_2020`)
 
 - **Window:** 2020-08-10 to 2020-08-24, Pacific time.

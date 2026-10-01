@@ -88,7 +88,11 @@ ELLIOTT = dict(event="elliott_2022", label="Winter Storm Elliott, six grids", st
 ERCOT_HEAT = dict(event="ercot_heat_2023", label="the summer 2023 heat, ERCOT", start="2023-08-01", end="2023-09-10",
                   offsets=[364, 728], hub="ercot:HB_HUBAVG", hub_ba="erco", prices="full", max_vs=True,
                   bas={"erco": COVID["bas"]["erco"]})
-MULTI = [COVID, CAISO_HEAT, ELLIOTT, ERCOT_HEAT]
+# Session 58: CAISO's September 2022 heat (Flex Alerts on ten days, EEA3 on 2022-09-06; caiso_grid_emergencies), on the
+# CAISO 2020 template: CISO, the same weekday 364 and 728 days earlier
+CAISO_HEAT_2022 = dict(event="caiso_heat_2022", label="the September 2022 heat wave, CAISO", start="2022-08-31", end="2022-09-09",
+                       offsets=[364, 728], hub=None, bas={"ciso": COVID["bas"]["ciso"]}, max_vs=True)
+MULTI = [COVID, CAISO_HEAT, ELLIOTT, ERCOT_HEAT, CAISO_HEAT_2022]
 
 
 def r4(v):
