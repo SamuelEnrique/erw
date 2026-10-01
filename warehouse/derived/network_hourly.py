@@ -87,8 +87,8 @@ def parse(s):
 
 
 def origin(url):
-    """The scheme and host of SUPABASE_URL: the secret may carry a path (/rest/v1), and Storage lives beside it. The
-    dispatched run of session 54 failed here: /rest/v1/storage/v1/bucket reached PostgREST (PGRST125)."""
+    """The scheme and host of SUPABASE_URL: the secret may carry the REST API's path, and Storage lives beside it, not
+    under it. The dispatched run of session 54 failed here: its bucket request reached PostgREST (PGRST125)."""
     u = urllib.parse.urlparse(url)
     return f"{u.scheme}://{u.netloc}"
 
