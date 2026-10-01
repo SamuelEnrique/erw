@@ -242,6 +242,9 @@ else
   echo "stopping: consolidate.py build failed (runs/daily_consolidate.out)"
   exit 1
 fi
+# Session 49: the main hubs' price history (iso_hub_prices_history, from 2025-09-01, restored from the draft) takes the
+# consolidated live tables' rows of its hubs, so it keeps growing past their rolling window. Never in Supabase.
+run_other hub_history "$PYTHON" warehouse/connectors/hub_history.py append
 # Session 30 (Part A): price board v2, four derived tables from the consolidated price tables, the EIA fuels and the
 # carbon auctions (docs/methods/price_board.md). On the runner, the rows built from the ERCOT history (never restored)
 # and from CARB (a known gap there) are carried from the last run's tables, restored from the draft, and said so

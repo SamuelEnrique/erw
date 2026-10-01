@@ -64,6 +64,8 @@ restore_before_run:
   - '^eia930_all_emissions$'
   # session 49: EIA-930 interchange keeps its history by merging, so the grid network always has its 168 hours
   - '^eia930_all_interchange$'
+  # session 49: the main hubs' price history from 2025-09-01; the daily run appends the live tables' rows to it
+  - '^iso_hub_prices_history$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.
