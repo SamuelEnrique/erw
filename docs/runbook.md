@@ -99,3 +99,11 @@ python warehouse/supabase/load.py --vacuum-full
 ```
 
 The loader still warns above `warn_mb` (350 MB) and fails above `max_mb` in `warehouse/supabase/live_set.yaml`. When the warning shows and does not clear, run the command above once, or trim a live window.
+
+**The weekly vacuum (session 49, approved by Samuel).** `.github/workflows/weekly-vacuum.yml` runs `warehouse/supabase/vacuum.py` every Sunday at 10:00 UTC:
+
+- **What it does:** `VACUUM (FULL, ANALYZE)` of the six shape tables, with no load.
+- **What it records:** `pg_database_size` before and after, and each table's size, in `warehouse/metadata/run_status.csv` (connector `supabase_vacuum`; the table `supabase` holds the database's two sizes). The workflow commits that file.
+- **When:** in the daily run's concurrency group, so it never runs during a daily load, and four hours before the daily run's 14:00 UTC start. The site's reads may wait or time out while `series` is rewritten, a few minutes on a Sunday morning.
+- **Run it now:** Actions, "weekly vacuum", Run workflow; or locally, with `SUPABASE_DB_URL` in `.env`: `python warehouse/supabase/vacuum.py` (no load, unlike `load.py --vacuum-full`).
+- **Stop it:** delete the `schedule` lines of the workflow.
