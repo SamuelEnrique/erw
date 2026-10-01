@@ -37,6 +37,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/learn/bill",
   // session 44: every computed answer of the problem sets
   "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke", "/learn/problems/storage-and-taxes"];  // session 46: set D
+// session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
+// out, and said so, where the token is not set (the page answers 404 without it)
+const INTERNAL = ["/reports/draft/shape-premium"];
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 
@@ -308,6 +311,14 @@ async function truth(check) {
     const d = s.days.find((x) => x.day === p[5]);
     return d ? { est: d.estimate, lo: d.lo, hi: d.hi }[field] : undefined;
   }
+  // session 48: the shape premium report's period statistics, shape|<entity>|<market>|<stat>|<start>|<end>, by
+  // lib/shapepremium.ts from every cost_of_power_monthly row of the hub
+  if (p[0] === "shape") {
+    const [, entity, market, stat, start, end] = p;
+    const { stats } = await import("../lib/shapepremium.ts");
+    const rows = await all("series", { select: "entity,variable,ts_utc,value", table_name: "eq.cost_of_power_monthly", entity: `eq.${entity}`, order: "ts_utc,variable" });
+    return stats(rows.map((r) => ({ ...r, value: Number(r.value) })), entity, market, start, end)[stat];
+  }
   if (p[0] === "spotmean") return spotMean(p[1], p[2]);
   if (p[0] === "sev" || p[0] === "sevcert" || p[0] === "sevcredit") {
     const S = await import("../lib/severance.ts");
@@ -502,11 +513,18 @@ async function checkWeekly(lines) {
 
 async function main() {
   const found = new Map();
-  for (const page of PAGES) {
-    const html = await fetch(base + page).then((r) => {
-      if (!r.ok) throw new Error(`${page}: HTTP ${r.status}`);
-      return r.text();
-    });
+  const tok = env("INTERNAL_COSTS_TOKEN");
+  const urls = PAGES.map((page) => ({ page, url: page }));
+  if (tok) urls.push(...INTERNAL.map((page) => ({ page, url: `${page}?token=${encodeURIComponent(tok)}`, internal: true })));
+  else console.log(`internal pages not checked (INTERNAL_COSTS_TOKEN not set here): ${INTERNAL.join(", ")}`);
+  for (const { page, url, internal } of urls) {
+    const res = await fetch(base + url);
+    if (internal && res.status === 404) {  // the server has no INTERNAL_COSTS_TOKEN (or another): the page is off there
+      console.log(`internal page not checked: ${page} answers 404 at ${base} (its INTERNAL_COSTS_TOKEN is not this one)`);
+      continue;
+    }
+    if (!res.ok) throw new Error(`${page}: HTTP ${res.status}`);
+    const html = await res.text();
     const re = /<span data-check="([^"]+)" data-raw="([^"]*)"[^>]*>([\s\S]*?)<\/span>/g;
     for (const m of html.matchAll(re)) {
       const text = decode(m[3].replace(/<!-- -->/g, "").replace(/<[^>]+>/g, "")).trim();
