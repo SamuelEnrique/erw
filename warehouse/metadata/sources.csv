@@ -23,7 +23,7 @@ Energy-Storage.news,Energy-Storage.news,news stories via feed 'Energy-Storage.ne
 FT Channels,FT Channels,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-30
 Federal Energy Regulatory Commission (.gov),Federal Energy Regulatory Commission (.gov),news stories via feed 'FERC news',,,internal,news_index;news_stories,2026-09-25,2026-09-30
 Financial Times,Financial Times,news stories via feed 'FT energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
-Hart Energy,Hart Energy,news stories via feed 'Hart Energy',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
+Hart Energy,Hart Energy,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
 Heatmap News,Heatmap News,news stories via feed 'Heatmap News',,,internal,datacenter_projects;datacenter_projects_evidence;news_index;news_stories,2026-09-25,2026-09-30
 Hydrogen Insight,Hydrogen Insight,news stories via feed 'Hydrogen Insight',,,internal,news_index;news_stories,2026-09-25,2026-09-30
 IEA – International Energy Agency,IEA – International Energy Agency,news stories via feed 'IEA news',,,internal,news_index;news_stories,2026-09-25,2026-09-30
@@ -122,7 +122,7 @@ fred:PNICKUSDM,Federal Reserve Bank of St. Louis (FRED),Global price of Nickel (
 fred:PURANUSDM,Federal Reserve Bank of St. Louis (FRED),Global price of Uranium (PURANUSDM) (Copyrighted: Citation Required),https://fred.stlouisfed.org/series/PURANUSDM,https://fred.stlouisfed.org/graph/fredgraph.csv?id=PURANUSDM,internal,fred_imf_commodity_prices,2026-09-25,2026-09-30
 ft.com,ft.com,news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-30
 google:datacenter-locations,Google,Google public list of data center sites and regions,https://datacenters.google/locations/,,public,datacenter_operator_sites,2026-09-28,2026-09-30
-hartenergy.com,hartenergy.com,news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-30
+hartenergy.com,hartenergy.com,news stories via feed 'Hart Energy',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-09-30
 ia.cpuc.ca.gov,ia.cpuc.ca.gov,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-30
 imf:portwatch-daily-chokepoints,International Monetary Fund (IMF PortWatch),Daily Chokepoints Data (vessel transits),https://portwatch.imf.org/pages/cb5856222a5b4105adc6ee7e880a1730,https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query,internal,portwatch_chokepoint_transits,2026-09-26,2026-09-30
 isone:da_lmp_hourly,ISO New England (ISO-NE),Day-Ahead Energy Market Hourly LMPs,https://www.iso-ne.com/isoexpress/web/reports/pricing/-/tree/lmps-da-hourly,,public,isone_dam_zone_prices,2026-09-25,2026-09-30
@@ -139,7 +139,7 @@ miso:da_expost_lmp,Midcontinent Independent System Operator (MISO),Day-Ahead Ex-
 miso:interconnection_queue,Midcontinent Independent System Operator (MISO),Generator Interconnection Queue (giqueue API),https://www.misoenergy.org/planning/resource-utilization/GI_Queue/,https://www.misoenergy.org/planning/resource-utilization/GI_Queue/,public,miso_interconnection_queue,2026-09-26,2026-09-30
 miso:rt_lmp_final,Midcontinent Independent System Operator (MISO),"Real-Time Final Market LMP, hourly (daily csv)",https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/,,public,miso_rtm_hub_prices,2026-09-25,2026-09-30
 miso:rt_lmp_prelim,Midcontinent Independent System Operator (MISO),"Real-Time Preliminary Ex-Post LMP, hourly (daily csv)",https://www.misoenergy.org/markets-and-operations/real-time--market-data/market-reports/,,public,miso_rtm_hub_prices,2026-09-25,2026-09-30
-misoenergy.org,misoenergy.org,news stories,,,internal,news_index;news_stories,2026-09-25,2026-09-30
+misoenergy.org,misoenergy.org,news stories via feed 'MISO newsroom',,,internal,news_index;news_stories,2026-09-25,2026-09-30
 nepis.epa.gov,nepis.epa.gov,news stories,,,internal,news_index;news_stories,2026-09-27,2026-09-30
 nrc:news,U.S. Nuclear Regulatory Commission (NRC),NRC news releases (RSS),https://www.nrc.gov/reading-rm/doc-collections/news/,https://www.nrc.gov/public-involve/rss?feed=news,public,policy_actions,2026-09-28,2026-09-30
 nws:forecast_hourly,"National Weather Service (NWS, NOAA)",Hourly gridpoint forecast (api.weather.gov),https://www.weather.gov/documentation/services-web-api,"https://api.weather.gov/points/<lat,lon>",public,weather_forecast_hourly,2026-09-28,2026-09-30

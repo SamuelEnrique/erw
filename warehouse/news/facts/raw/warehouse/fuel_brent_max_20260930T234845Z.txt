@@ -1,0 +1,8 @@
+# table: eia_fuel_spot_prices
+# source reports: U.S. Energy Information Administration (EIA): Natural Gas Spot and Futures Prices (NYMEX), daily (https://www.eia.gov/dnav/ng/ng_pri_fut_s1_d.htm); U.S. Energy Information Administration (EIA): Spot Prices for Crude Oil and Petroleum Products (https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm)
+# table retrieved: 20260930T232307Z
+# computed by: warehouse/news/funfact.py
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20260930T234845Z
+
+eia_fuel_spot_prices eia:brent: max 143.95 USD/bbl on 2008-07-03; series starts 1987-05-20; latest 113.96 on 2026-09-29; ratio of the max to the latest 1.3
