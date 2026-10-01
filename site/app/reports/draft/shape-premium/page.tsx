@@ -149,9 +149,10 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
   const n12 = sk("n", last12Start, endAll, s12.n), usd12 = sk("usdmw", last12Start, endAll, s12.usdmw), mean12 = sk("mean", last12Start, endAll, s12.mean);
 
   // 1b. session 49: twelve months for every hub (iso_hub_prices_history holds a year of the five hubs other than ERCOT):
-  // the twelve months ending with the latest month complete in real time at every hub, each hub's complete months in it
+  // the twelve months ending with the latest month every hub holds in real time, each hub's complete months in it (the
+  // ISOs' own gap days leave some months partial; only complete months count)
   const lastAll = [...new Set(all.filter((r) => r.variable === "rt_shape_premium").map((r) => r.ts_utc.slice(0, 10)))].sort().reverse()
-    .find((ts) => HUBS.every((h) => monthsOf(rows, h.e, "rt").some((m) => m.ts === ts && m.complete)));
+    .find((ts) => HUBS.every((h) => monthsOf(rows, h.e, "rt").some((m) => m.ts === ts)));
   const yEnd = lastAll ? nextDay(lastAll) : "";
   const yStart = lastAll ? `${Number(lastAll.slice(0, 4)) - 1}-${String(Number(lastAll.slice(5, 7)) % 12 + 1).padStart(2, "0")}-01` : "";
   const fixStart = lastAll && Number(lastAll.slice(5, 7)) === 12 ? `${lastAll.slice(0, 4)}-01-01` : yStart;

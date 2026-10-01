@@ -24,6 +24,7 @@ nyiso_*_zone_prices, isone_*_zone_prices) into the history: the history grows by
 
 import argparse
 import datetime as dt
+import glob
 import os
 import sys
 import traceback
@@ -218,8 +219,11 @@ def rewrite_header(run_id, reports, log):
         "Markets: " + "; ".join(f"{m} {r['size']:,} rows, {str(r['min'])[:10]} to {str(r['max'])[:10]}" for m, r in span.iterrows()),
         f"Retrieved: {run_id} (UTC) by warehouse/connectors/hub_history.py (each ISO's pull in iso_prices.py, via gridstatus "
         f"{ip.gridstatus.__version__}); earlier and later days by earlier runs and the daily append",
-        f"Run log: warehouse/output/logs/hub_history_{run_id}.log",
-        f"Raw files: warehouse/raw/hub_history_<iso>/{run_id}/ (not in git; manifest.csv lists each file and URL)",
+        f"Run log: warehouse/output/logs/hub_history_{run_id}.log; the backfills' logs: "
+        + (", ".join(sorted({os.path.basename(x) for x in glob.glob(os.path.join(ip.LOG_DIR, "hub_history_2*.log"))})) or "none here"),
+        "Raw files: " + (", ".join(sorted({os.path.relpath(x, ip.ROOT).replace(os.sep, "/") for x in
+                                          glob.glob(os.path.join(ip.RAW_DIR, "hub_history_*", "*"))})) or "none on this machine")
+        + " (not in git; each manifest.csv lists each file and URL)",
     ] + [f"Source: {sid} {rest}" for sid, rest in sorted(known.items()) if sid in set(s["source"])] + [
         "Completeness per operating day (session 13): a day is written only when every interval of every hub is there; "
         "each day not written is a gap row in warehouse/metadata/run_status.csv.",
@@ -271,9 +275,66 @@ def append():
     return 0 if results[-1]["status"] == "ok" else 1
 
 
+def reports_of(isos):
+    """Each ISO's report list, as its pull function registers it, without pulling: run_iso is replaced by a no-op."""
+    reports = {}
+    orig = ip.run_iso
+    ip.run_iso = lambda ctx, specs: 0
+    try:
+        for iso in isos:
+            fn, label, tz, geo = ip.ISOS[iso]
+            ctx = dict(iso=iso, label=label, tz=tz, geo=geo, start=pd.Timestamp(START).tz_localize(tz),
+                       end=pd.Timestamp(START).tz_localize(tz), run_id="", log=lambda *a: None, reports={}, results=[], specs=[])
+            fn(ctx)
+            reports.update(ctx["reports"])
+    finally:
+        ip.run_iso = orig
+    return reports
+
+
+def header_and_sources(src_dirs=()):
+    """Session 49: the combined header and the source registry, for a history built by runs that ended early (a
+    stopped run leaves the last month's single-ISO header) or merged from other directories (merge)."""
+    run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    os.makedirs(ip.LOG_DIR, exist_ok=True)
+    log = ip.Log(os.path.join(ip.LOG_DIR, f"hub_history_header_{run_id}.log"))
+    path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+    s = ip.read_series(path)
+    isos = sorted({e.split(":")[0] for e in s["entity"]})
+    reports = reports_of(isos)
+    reports = {sid: v for sid, v in reports.items() if sid in set(s["source"])}
+    rewrite_header(run_id, reports, log)
+    ip.update_sources([dict(source=sid, publisher=ip.ISO_PUBLISHERS.get(sid.split(":")[0], sid.split(":")[0]), report=name,
+                            report_url=page, document_list="", tables=[NAME]) for sid, (name, page) in reports.items()])
+    log(f"sources: {', '.join(sorted(reports))}; merged from: {', '.join(src_dirs) or 'none'}")
+    log.close()
+    print(f"hub_history header: {len(s):,} rows, {len(reports)} sources")
+    return 0
+
+
+def merge(src_dirs):
+    """Session 49: merge the history built in other directories (backfills run in parallel, one ISO each) into this
+    one, by key, then rewrite the header. Their run logs stay where they were written; the header names this run."""
+    run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    os.makedirs(ip.LOG_DIR, exist_ok=True)
+    log = ip.Log(os.path.join(ip.LOG_DIR, f"hub_history_merge_{run_id}.log"))
+    path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+    with open(path, encoding="utf-8") as f:
+        hdr = [ln[1:].strip() for ln in f if ln.startswith("#")]
+    for d in src_dirs:
+        p = os.path.join(d, NAME + ".csv")
+        t = ip.read_series(p)
+        t = t[t["entity"].isin(ENTITIES)]
+        log(f"merge {p}: {len(t):,} rows, " + ", ".join(f"{m} {n:,}" for m, n in t.groupby('market').size().items()))
+        ip.write_csv(t[ip.SERIES_COLS], NAME, hdr, log)
+    log.close()
+    return header_and_sources(src_dirs)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW main-hub price history (session 49)")
-    ap.add_argument("cmd", choices=["backfill", "append"])
+    ap.add_argument("cmd", choices=["backfill", "append", "header", "merge"])
+    ap.add_argument("--from", dest="src", action="append", default=[], help="merge: a directory holding a history to merge")
     ap.add_argument("--iso", action="append", choices=list(TARGETS))
     ap.add_argument("--until", help="backfill: the first local day not pulled (YYYY-MM-DD); default today")
     ap.add_argument("--start", help="backfill: a later first day, for a trial (default 2025-09-01)")
@@ -286,6 +347,10 @@ def main(argv=None):
         START = args.start
     if args.cmd == "append":
         return append()
+    if args.cmd == "header":
+        return header_and_sources()
+    if args.cmd == "merge":
+        return merge(args.src)
     return backfill(args.iso or list(TARGETS), args.until)
 
 

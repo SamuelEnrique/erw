@@ -66,14 +66,21 @@ export default async function CostOfPower() {
   const entities = [...new Set(d.monthly.map((r) => r.entity))].filter((e) => e !== "caiso:TH_NP15_GEN-APND")
     .sort((a, b) => Object.keys(ISO).indexOf(isoOf(a)) - Object.keys(ISO).indexOf(isoOf(b)));
   const monthsOf = (e: string) => new Set(d.monthly.filter((r) => r.entity === e && r.variable === "rt_load_weighted").map((r) => month(r.ts_utc)));
-  // the ranked month: session 49, the latest month complete for every ISO (real-time hours equal to the month's), now that
-  // iso_hub_prices_history holds a year of every hub; else, as before, the latest month every ISO holds hours for
-  const completeFor = (e: string, m: string) => {
+  // the ranked month (session 49, now that iso_hub_prices_history holds a year of every hub): the latest month complete
+  // for every ISO (real-time hours equal to the month's); else, since the ISOs' own gap days leave few months complete at
+  // every hub, the latest month in which every hub holds at least NEAR of its hours, labelled with the hours held; else,
+  // as before, the latest month every ISO holds hours for
+  const NEAR = 0.9;
+  const shareOf = (e: string, m: string) => {
     const h = find(d.monthly, e, "rt_hours", m), hm = find(d.monthly, e, "hours_in_month", m);
-    return !!h && !!hm && h.value === hm.value;
+    return h && hm ? h.value / hm.value : 0;
   };
   const held = entities.length ? [...monthsOf(entities[0])].filter((m) => entities.every((e) => monthsOf(e).has(m))).sort() : [];
-  const common = [...held].reverse().find((m) => entities.every((e) => completeFor(e, m))) ?? held.at(-1);
+  const back = [...held].reverse();
+  const completeM = back.find((m) => entities.every((e) => shareOf(e, m) === 1));
+  const nearM = back.find((m) => entities.every((e) => shareOf(e, m) >= NEAR));
+  const common = completeM ?? nearM ?? held.at(-1);
+  const rule = completeM ? "complete" : nearM ? "near" : "held";
   const rank = common ? entities.map((e) => ({
     e, lw: find(d.monthly, e, "rt_load_weighted", common), sm: find(d.monthly, e, "rt_simple_mean", common),
     sp: find(d.monthly, e, "rt_shape_premium", common), h: find(d.monthly, e, "rt_hours", common), hm: find(d.monthly, e, "hours_in_month", common),
@@ -141,7 +148,9 @@ export default async function CostOfPower() {
             <p className="mb-2 text-sm text-muted">
               {allComplete
                 ? `${common} is complete for every ISO.`
-                : `The latest month every ISO holds, ${common}; no month is complete for every ISO, so some are partial (grey bars): the hours held are in the table.`}
+                : rule === "near"
+                  ? `No month is complete at every ISO's hub (each ISO's real-time files miss a few days or hours), so this is the latest month in which every hub holds at least ${NEAR * 100} percent of its hours, ${common}; the partial ones are grey, and the hours held are in the table.`
+                  : `The latest month every ISO holds, ${common}; no month has at least ${NEAR * 100} percent of its hours at every hub, so some are partial (grey bars): the hours held are in the table.`}
             </p>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] text-sm">
@@ -225,7 +234,7 @@ export default async function CostOfPower() {
             <p className="mb-2 max-w-3xl text-sm">
               Assumptions, each a default you can change below: a facility of <strong>{MW} MW</strong>, a load factor of <strong>{LF}</strong>, and a training run
               of <strong>{DAYS} days</strong>. Flat load: the facility draws {MW} MW x {LF} in every hour, <Num check={`cop|energy|${MW}|${LF}|${DAYS}|1`} raw={eFlat}>{shown(eFlat)}</Num> MWh,
-              in {common}, the latest month complete for every ISO, at that month&apos;s mean real-time price. Cheapest 80 percent of hours: it draws the same
+              in {common}, the month the ranking above uses, at that month&apos;s mean real-time price. Cheapest 80 percent of hours: it draws the same
               only in the cheapest 80 percent of {common}&apos;s hours by hour of day, <Num check={`cop|energy|${MW}|${LF}|${DAYS}|${SHARE}`} raw={e80}>{shown(e80)}</Num> MWh.
             </p>
             <div className="overflow-x-auto">

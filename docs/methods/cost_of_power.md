@@ -64,7 +64,11 @@ For one hub, one market (real-time or day-ahead) and one local month, over the h
 
 ## The ranked month (session 49)
 
-- **The ranked bar** and the calculator's defaults use the latest month complete (`rt_hours` equal to `hours_in_month`) for every ISO's main hub. Only when no month is complete for all of them does the page fall back to the latest month every ISO holds, labelled partial.
+- **The ranked bar** and the calculator's defaults use one month for every ISO, chosen in this order:
+  1. the latest month complete (`rt_hours` equal to `hours_in_month`) for every ISO's main hub;
+  2. failing that, the latest month in which every hub holds at least 90 percent of its real-time hours, labelled with the hours held;
+  3. failing that, the latest month every ISO holds, labelled partial.
+- **Why the second rule:** each ISO's real-time files miss a few days or intervals, and a day missing any interval is not written (session 13). From 2025-09 to 2026-08, ISO-NE's Internal Hub is complete only in January and March 2026, NYISO's N.Y.C. in four months, and MISO's Indiana Hub misses hours in January and June. So no month is complete at all six hubs, and the first rule alone would always fall back to the current, partial month.
 - **Before session 49** the ranked month was the latest month every ISO held hours for, 2026-09, partial for five of the six, and the calculator priced each hub over the months it held (12 for ERCOT, one or two for the others).
 
 ## The calculator on `/cost-of-power`
