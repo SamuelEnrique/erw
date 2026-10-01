@@ -8,7 +8,7 @@ import { shown } from "@/lib/format";
 import { FLEET, FLEET_MW, FLEET_MWH } from "@/lib/battery";
 import { storageUnits, type StorageUnit } from "@/lib/data";
 import { leaderboard, presetsPlayed, type PresetCount, type ScoreRow } from "@/lib/game";
-import { FAMOUS, todayLevel, type Level } from "@/lib/levels";
+import { FAMOUS, todayLevel, TZ, type Level } from "@/lib/levels";
 import { attempt } from "@/lib/supabase";
 import { Game, type GameLevel } from "./Game";
 
@@ -57,7 +57,9 @@ function RealFleet({ units }: { units: StorageUnit[] }) {
 export default async function Battery() {
   const today = await attempt(() => todayLevel(600));
   const t: Level | null = today.ok ? today.data : null;
-  const levels: GameLevel[] = [...(t ? [t] : []), ...FAMOUS].map(({ slug, date, title, why, ts_utc, price }) => ({ slug, date, title, why, ts_utc, price }));
+  // session 56: each level's grid and time zone (today's level and the session 38 days are ERCOT, Central time)
+  const levels: GameLevel[] = [...(t ? [t] : []), ...FAMOUS].map(({ slug, date, title, why, ts_utc, price, grid, tz, rule }) =>
+    ({ slug, date, title, why, ts_utc, price, grid: grid ?? "ERCOT", tz: tz ?? TZ, ...(rule ? { rule } : {}) }));
   const top = t ? await attempt(() => leaderboard(t.date)) : null;
   const played = t ? await attempt(() => presetsPlayed(t.date)) : null;  // session 50: the presets played today
   const presets: PresetCount[] = played && played.ok ? played.data : [];
@@ -70,12 +72,15 @@ export default async function Battery() {
       <h1 className="mb-1 text-3xl">The home battery game</h1>
       <div className="mb-4 max-w-3xl text-sm">
         <p className="mb-2">
-          You own one home battery in Texas. A real day of ERCOT&apos;s wholesale power prices scrolls past in about 90 seconds, fifteen minutes at a
+          You own one home battery in Texas, or, on the two California days, in Southern California. A real day of wholesale power prices scrolls past in about 90 seconds, fifteen minutes at a
           time. Hold to charge when power is cheap, hold to sell when it is dear. Once a day the grid calls the fleet: answer it for a bonus. At the end,
           see what the same battery would have earned with perfect foresight.
         </p>
         <p className="text-muted">
-          The prices are real: ERCOT&apos;s real-time settlement point price at the hub average (HB_HUBAVG), every interval of the day. The battery, the home,
+          The prices are real: ERCOT&apos;s real-time settlement point price at the hub average (HB_HUBAVG), every interval of the day; on the California days,
+          CAISO&apos;s real-time price at the SP15 trading hub, the 15-minute means of its 5-minute prices. Each California day was chosen by a stated rule, from
+          the complete days the warehouse holds since 2025-09-01: the lowest mean price from 10:00 to 15:00 Pacific, and the largest rise from the 12:00 to 15:00
+          mean to the 18:00 to 21:00 mean. The battery, the home,
           the brand (&quot;Mockingbird Home Battery&quot; is made up) and the fleet of 10,000 homes are fictional. The battery&apos;s settings are yours to set, within
           stated ranges; by default 13.5 kWh usable, 5 kW, 90 percent round trip, half full at the start (assumptions), a 20 percent backup reserve and a
           degradation cost of $0.11 per kWh discharged (from Lazard&apos;s 2025 storage cost study), both enforced on Hard. Every assumption and its source:{" "}

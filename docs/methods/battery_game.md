@@ -12,11 +12,30 @@ The page is `/play/battery`. The rules live in `site/lib/battery.ts`, and the se
 
 | Part | Real or assumed | Source |
 |---|---|---|
-| Prices | **Real.** ERCOT real-time settlement point prices at the hub average, HB_HUBAVG, every 15-minute interval of one operating day | today's level: `iso_rtm_hub_prices` (Supabase); the famous days: `ercot_all_hub_prices_history`, frozen in `site/data/battery_levels.json` by `warehouse/derived/battery_levels.py` |
+| Prices | **Real.** ERCOT real-time settlement point prices at the hub average, HB_HUBAVG, every 15-minute interval of one operating day; on the two California days (session 56), CAISO SP15 real-time prices, `iso_hub_prices_history` | today's level: `iso_rtm_hub_prices` (Supabase); the famous days: `ercot_all_hub_prices_history`, frozen in `site/data/battery_levels.json` by `warehouse/derived/battery_levels.py` |
 | The battery, home and brand | **Fictional.** "Mockingbird Home Battery" is made up | none |
 | The fleet | **Fictional.** 10,000 homes | none; the page sets it beside ERCOT's real operating battery fleet from `storage_capacity` (EIA-860M) |
 | The fleet call | **A game rule** modeled on ERCOT's ADER pilot | below |
 | Real tariffs, retail rates, grid fees, real program terms | **Left out** | below |
+
+## The California days (session 56)
+
+Two levels use California's prices: CAISO's real-time price at the SP15 trading hub (`TH_SP15_GEN-APND`). They are the 15-minute means of CAISO's 5-minute prices (`lmp_rtm_15m_mean`), every interval of a Pacific-time operating day. They come from `iso_hub_prices_history`, frozen in `site/data/battery_levels.json` by `warehouse/derived/battery_levels.py`.
+
+Each day is chosen by a stated rule from the complete days the table holds (393 days, 2025-09-01 to 2026-09-29, when chosen). A day is complete when every interval is present. Nothing is filled.
+
+| Level | The rule | The day, and its rule's number |
+|---|---|---|
+| CAISO SP15: the cheapest midday | the lowest mean price over the intervals starting 10:00 to 14:45 Pacific (10:00 to 15:00) | 2026-04-27: a mean of -22.13 USD/MWh |
+| CAISO SP15: the steepest evening ramp | the largest rise from the mean of 12:00 to 15:00 Pacific to the mean of 18:00 to 21:00 | 2026-07-24: from 53.37 to 462.27 USD/MWh, a rise of 408.90 |
+
+**What stays the same.** The battery, its settings and difficulties, the fleet call, the perfect-foresight optimum, the leaderboard by preset and the server's rescoring all work on these days as on the ERCOT days. On the page, the levels are grouped by grid, and the debrief names the grid and links its grid page.
+
+**The fleet call is unchanged.** It is still a game rule modeled on ERCOT's ADER pilot, applied to California's prices.
+
+**One limit: levels are keyed by date.** The game keys a level by its date (`game_scores.level_date`), so a California day may not share its date with an ERCOT level. The builder stops rather than choose another day if it would.
+
+**The ERCOT days are frozen.** A run of the builder keeps the five ERCOT days as written in session 38, unless it is run with `--rebuild-ercot`. One of their rules reads a table that grows every day, so a rebuild could move a level, and its leaderboard, to another date.
 
 ## The battery's settings
 

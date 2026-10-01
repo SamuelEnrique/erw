@@ -49,7 +49,8 @@ def rows_of(table, ts):
 
 class RealRows(unittest.TestCase):
     def setUp(self):
-        self.levels = json.load(open(LEVELS, encoding="utf-8"))["levels"]
+        # session 56: the California days are checked by tests/test_session56.py; these are the five ERCOT days
+        self.levels = [lv for lv in json.load(open(LEVELS, encoding="utf-8"))["levels"] if lv.get("grid", "ERCOT") == "ERCOT"]
 
     def test_five_days_whole(self):
         self.assertEqual(len(self.levels), 5)

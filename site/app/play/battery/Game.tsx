@@ -13,12 +13,22 @@ import {
 } from "@/lib/battery";
 import type { PresetCount, ScoreRow } from "@/lib/game";
 
-export type GameLevel = { slug: string; date: string; title: string; why: string; ts_utc: string[]; price: number[] };
+// session 56: a level names its grid and its operating day's time zone (the California days are Pacific), and the
+// California days their selection rule
+export type GameLevel = { slug: string; date: string; title: string; why: string; ts_utc: string[]; price: number[]; grid: "ERCOT" | "CAISO"; tz: string; rule?: string };
 
 const DURATION_MS = 90_000;
-const TZ = "America/Chicago";
-const HHMM = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
-const clock = (ts: string) => HHMM.format(new Date(ts));
+const HHMM = new Map<string, Intl.DateTimeFormat>();
+/** An interval's local clock time in the level's time zone, HH:MM. */
+const clock = (tz: string, ts: string) => {
+  if (!HHMM.has(tz)) HHMM.set(tz, new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }));
+  return HHMM.get(tz)!.format(new Date(ts));
+};
+/** Session 56: what the game says about each grid's prices. */
+const GRIDS: Record<GameLevel["grid"], { name: string; hub: string; prices: string; href: string; page: string; zone: string }> = {
+  ERCOT: { name: "ERCOT (Texas)", hub: "ERCOT's hub average (HB_HUBAVG)", prices: "ERCOT real-time, hub average (HB_HUBAVG)", href: "/grid/ercot", page: "ERCOT's grid page", zone: "Central" },
+  CAISO: { name: "CAISO SP15 (Southern California)", hub: "CAISO's SP15 trading hub (TH_SP15_GEN-APND)", prices: "CAISO SP15 real-time (TH_SP15_GEN-APND), 15-minute means of its 5-minute prices", href: "/grid/caiso", page: "CAISO's grid page", zone: "Pacific" },
+};
 const usd = (v: number) => `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const css = (name: string) => (typeof window === "undefined" ? "#6B665E" : getComputedStyle(document.documentElement).getPropertyValue(`--color-${name}`).trim() || "#6B665E");
 const TUTORIAL_KEY = "erw.battery.tutorial.v2";
@@ -28,7 +38,7 @@ type Phase = "pick" | "play" | "done";
 type Control = 1 | 0 | -1;
 
 /** Runs of one action in a list of intervals, as "HH:MM to HH:MM" (the end is the last interval's end). */
-function runs(actions: Action[], ts: string[], which: Action): string[] {
+function runs(actions: Action[], ts: string[], which: Action, tz: string): string[] {
   const out: string[] = [];
   let i = 0;
   while (i < actions.length) {
@@ -36,7 +46,7 @@ function runs(actions: Action[], ts: string[], which: Action): string[] {
     let j = i;
     while (j + 1 < actions.length && actions[j + 1] === which) j++;
     const end = new Date(Date.parse(ts[j]) + 15 * 60_000).toISOString();
-    out.push(`${clock(ts[i])} to ${clock(end)}`);
+    out.push(`${clock(tz, ts[i])} to ${clock(tz, end)}`);
     i = j + 1;
   }
   return out;
@@ -68,7 +78,7 @@ function ShareCard({ level, score, optimal, preset }: { level: GameLevel; score:
     `I earned ${usd(score)} with one home battery${share !== null ? `: ${Math.round(share)} percent of perfect foresight (${usd(optimal)})` : ""}.`,
     `My fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}.`,
   ];
-  const text = () => `${lines.join(" ")} ${presetLabel(preset)}. Real ERCOT real-time prices (HB_HUBAVG); the battery and the fleet are fictional. ${window.location.origin}/play/battery`;
+  const text = () => `${lines.join(" ")} ${presetLabel(preset)}. Real ${GRIDS[level.grid].prices} prices; the battery and the fleet are fictional. ${window.location.origin}/play/battery`;
   const make = () => {
     const cv = document.createElement("canvas");
     cv.width = 1200; cv.height = 630;
@@ -86,7 +96,7 @@ function ShareCard({ level, score, optimal, preset }: { level: GameLevel; score:
     ctx.fillText(`A fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}`, 60, 425);
     ctx.fillStyle = css("muted"); ctx.font = "24px system-ui, sans-serif";
     ctx.fillText(presetLabel(preset), 60, 480);
-    ctx.fillText("Real prices: ERCOT real-time, hub average (HB_HUBAVG), every 15 minutes of the day.", 60, 520);
+    ctx.fillText(`Real prices: ${level.grid === "CAISO" ? "CAISO SP15 real-time" : "ERCOT real-time, hub average (HB_HUBAVG)"}, every 15 minutes of the day.`, 60, 520);
     ctx.fillText(`The battery, home and fleet are fictional. ${window.location.host}/play/battery`, 60, 560);
     setPng(cv.toDataURL("image/png"));
   };
@@ -107,7 +117,7 @@ function ShareCard({ level, score, optimal, preset }: { level: GameLevel; score:
 
 /** Session 50: the 30-second first-run tutorial, four cards of about 7.5 seconds; skippable, remembered. */
 const STEPS = [
-  "A real day of ERCOT's wholesale prices scrolls past in about 90 seconds, fifteen minutes at a time. You see the past; on Easy, the next three hours show as a band.",
+  "A real day of wholesale prices, Texas's (ERCOT) or California's (CAISO), scrolls past in about 90 seconds, fifteen minutes at a time. You see the past; on Easy, the next three hours show as a band.",
   "Hold Charge to buy power into your battery when it is cheap; hold Sell to discharge it when it is dear. Let go to idle. Keys: C and S, or the arrows.",
   "Once a day the fleet is called for the day's dearest hour, with a 15-minute warning. Energy you deliver in that hour earns a bonus: a game rule, modeled on ERCOT's ADER pilot.",
   "On Hard the battery keeps a backup reserve, and every kWh you discharge wears it (a cost). After the day, replay the perfect battery's day beside yours.",
@@ -184,8 +194,8 @@ function HouseFlow({ flow, soc, kwh, reserveKwh, blocked }: { flow: Action; soc:
  * the prices (lib/battery.ts explain). */
 function Replay({ level, rules, mine, perfect }: { level: GameLevel; rules: Rules; mine: Action[]; perfect: Action[] }) {
   const n = level.price.length;
-  const hours = useMemo(() => level.ts_utc.map((t) => Number(clock(t).slice(0, 2))), [level]);
-  const segs = useMemo(() => explain(level.price, hours, perfect, rules, (i) => clock(level.ts_utc[i])), [level, hours, perfect, rules]);
+  const hours = useMemo(() => level.ts_utc.map((t) => Number(clock(level.tz, t).slice(0, 2))), [level]);
+  const segs = useMemo(() => explain(level.price, hours, perfect, rules, (i) => clock(level.tz, level.ts_utc[i])), [level, hours, perfect, rules]);
   const a = useMemo(() => simulate(level.price, mine, rules).soc, [level, mine, rules]);
   const b = useMemo(() => simulate(level.price, perfect, rules).soc, [level, perfect, rules]);
   const [t, setT] = useState(n);
@@ -221,7 +231,7 @@ function Replay({ level, rules, mine, perfect }: { level: GameLevel; rules: Rule
       <div className="mb-2 flex flex-wrap items-center gap-2">
         <button onClick={() => setPlaying(!playing)} className="border border-accent px-3 py-1 text-accent">{playing ? "Pause" : t >= n ? "Play the replay" : "Resume"}</button>
         <input type="range" min={0} max={n} step={1} value={Math.round(t)} onChange={(e) => { setPlaying(false); setT(Number(e.target.value)); }} className="w-56" aria-label="Replay position" />
-        <span className="tabular-nums">{clock(level.ts_utc[cur])}</span>
+        <span className="tabular-nums">{clock(level.tz, level.ts_utc[cur])}</span>
       </div>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="State of charge over the day: the perfect battery and yours">
         {[0, 0.5, 1].map((f) => (
@@ -235,7 +245,7 @@ function Replay({ level, rules, mine, perfect }: { level: GameLevel; rules: Rule
         <path d={path(a)} fill="none" stroke="var(--color-ink)" strokeWidth="2" />
         <path d={path(b)} fill="none" stroke="var(--color-accent)" strokeWidth="2" />
         <line x1={x(upto)} x2={x(upto)} y1={T} y2={H - B} stroke="var(--color-muted)" />
-        {[0, Math.floor(n / 2), n - 1].map((i) => <text key={i} x={x(i)} y={H - 8} fontSize="10" textAnchor="middle" fill="var(--color-muted)">{clock(level.ts_utc[i])}</text>)}
+        {[0, Math.floor(n / 2), n - 1].map((i) => <text key={i} x={x(i)} y={H - 8} fontSize="10" textAnchor="middle" fill="var(--color-muted)">{clock(level.tz, level.ts_utc[i])}</text>)}
       </svg>
       <div className="flex flex-wrap gap-4 text-xs">
         <span><span className="mr-1 inline-block h-0.5 w-5 align-middle bg-accent" />the perfect battery</span>
@@ -243,12 +253,12 @@ function Replay({ level, rules, mine, perfect }: { level: GameLevel; rules: Rule
         {rules.reserveKwh > 0 ? <span className="text-accent">dashed: the reserve</span> : null}
       </div>
       <p className="mt-2 min-h-[2.5rem]" aria-live="polite">
-        <strong>{clock(level.ts_utc[cur])}</strong>: the perfect battery {seg ? `is ${verb(seg.a)} (${seg.text})` : ""}; you were {verb(mine[cur] ?? 0)}.
+        <strong>{clock(level.tz, level.ts_utc[cur])}</strong>: the perfect battery {seg ? `is ${verb(seg.a)} (${seg.text})` : ""}; you were {verb(mine[cur] ?? 0)}.
       </p>
       <details className="mt-1">
         <summary className="cursor-pointer text-muted">Every switch of the perfect plan ({segs.length})</summary>
         <ol className="mt-1 list-decimal pl-6 text-xs">
-          {segs.map((s) => <li key={s.from}>{clock(level.ts_utc[s.from])} to {clock(new Date(Date.parse(level.ts_utc[s.to]) + 15 * 60_000).toISOString())}: {s.text}</li>)}
+          {segs.map((s) => <li key={s.from}>{clock(level.tz, level.ts_utc[s.from])} to {clock(level.tz, new Date(Date.parse(level.ts_utc[s.to]) + 15 * 60_000).toISOString())}: {s.text}</li>)}
         </ol>
       </details>
     </div>
@@ -427,7 +437,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
     for (let i = 0; i < n; i += 4) {
       const xx = x(i);
       if (xx < 40 || xx > w - 20 || i > pos + 1 + forecast) continue;
-      ctx.fillText(clock(level.ts_utc[i]).slice(0, 2), xx - 6, h - 6);
+      ctx.fillText(clock(level.tz, level.ts_utc[i]).slice(0, 2), xx - 6, h - 6);
     }
     // the price line so far
     ctx.save(); ctx.beginPath(); ctx.rect(40, 0, w - 40, h); ctx.clip();
@@ -545,7 +555,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
 
   // the debrief, from the level's prices and the optimum under the rules played
   const peak = level.price.indexOf(Math.max(...level.price)), low = level.price.indexOf(Math.min(...level.price));
-  const charged = runs(best.actions, level.ts_utc, 1), discharged = runs(best.actions, level.ts_utc, -1);
+  const charged = runs(best.actions, level.ts_utc, 1, level.tz), discharged = runs(best.actions, level.ts_utc, -1, level.tz);
+  const G = GRIDS[level.grid];
   const otherPresets = topFor.date === levels[0].date ? firstPresets.filter((p) => p.preset !== topFor.preset) : [];
 
   return (
@@ -556,20 +567,28 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
           <SettingsPanel draft={draft} setDraft={setDraft} difficulty={difficulty} setDifficulty={setDifficulty} />
           {!ok ? <p className="mb-2 text-sm text-accent" role="alert">A setting is outside its range or between its steps; the game will not start until it is within them.</p> : null}
           <p className="mb-2 text-sm">Pick a day. Everyone plays the same level on the same day; the leaderboard ranks plays with the same difficulty and battery.</p>
-          <div className="mb-3 grid gap-2 sm:grid-cols-2">
-            {levels.map((l, i) => {
-              const ev = eventPageFor(l.date);  // session 46: a famous day inside an /events window links to it
-              return (
-                <div key={l.slug} className={`border text-sm ${i === pick ? "border-accent" : "border-rule"}`}>
-                  <button onClick={() => setPick(i)} className="w-full p-2 text-left">
-                    <span className="font-semibold">{l.title}</span> <span className="text-muted">{l.date}</span>
-                    <span className="block text-xs text-muted">{l.why}</span>
-                  </button>
-                  {ev ? <Link href={ev.href} className="block px-2 pb-2 text-xs">What happened: {ev.label}</Link> : null}
-                </div>
-              );
-            })}
-          </div>
+          {/* session 56: the levels grouped by grid; a California day states its selection rule */}
+          {(["ERCOT", "CAISO"] as const).filter((gr) => levels.some((l) => l.grid === gr)).map((gr) => (
+            <div key={gr} className="mb-3">
+              <h3 className="mb-1 text-sm font-semibold">{GRIDS[gr].name}: {GRIDS[gr].zone} time</h3>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {levels.map((l, i) => {
+                  if (l.grid !== gr) return null;
+                  const ev = l.grid === "ERCOT" ? eventPageFor(l.date) : null;  // session 46: a famous ERCOT day inside an /events window links to it
+                  return (
+                    <div key={l.slug} className={`border text-sm ${i === pick ? "border-accent" : "border-rule"}`}>
+                      <button onClick={() => setPick(i)} className="w-full p-2 text-left">
+                        <span className="font-semibold">{l.title}</span> <span className="text-muted">{l.date}</span>
+                        <span className="block text-xs text-muted">{l.why}</span>
+                        {l.rule ? <span className="block text-xs text-muted">The rule: {l.rule}</span> : null}
+                      </button>
+                      {ev ? <Link href={ev.href} className="block px-2 pb-2 text-xs">What happened: {ev.label}</Link> : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
           <div className="flex flex-wrap items-center gap-3">
             <button onClick={start} disabled={!ok} className="border border-accent bg-accent px-4 py-2 text-paper disabled:opacity-50">Play {level.date}, {DIFFICULTIES[difficulty].label}</button>
             {!tutorial ? <button onClick={() => setTutorial(true)} className="text-sm underline">How to play (30 seconds)</button> : null}
@@ -580,8 +599,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
       {phase !== "pick" ? (
         <div ref={board} className="scroll-mt-2">
           <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2 text-sm">
-            <span><strong>{level.title}</strong>, {level.date} (Central time), {DIFFICULTIES[difficulty].label}</span>
-            <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.ts_utc[Math.min(n - 1, hud.idx)])}` : "end of day"}</span>
+            <span><strong>{level.title}</strong>, {level.date} ({GRIDS[level.grid].name}, {GRIDS[level.grid].zone} time), {DIFFICULTIES[difficulty].label}</span>
+            <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.tz, level.ts_utc[Math.min(n - 1, hud.idx)])}` : "end of day"}</span>
           </div>
           {notice ? (
             <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
@@ -633,12 +652,12 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
           </p>
           <p className="text-sm">With perfect foresight the same battery, under the same rules ({presetLabel(result.preset)}), would have earned {usd(best.score)}{best.score > 0 ? `; you made ${Math.round((result.score / best.score) * 100)} percent of it` : ""}. <span className="text-muted">{server}</span></p>
           <p className="mt-2 max-w-3xl text-sm">
-            On {level.date} the real-time price at ERCOT&apos;s hub average peaked at {level.price[peak].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh at {clock(level.ts_utc[peak])} Central time and
-            was lowest, {level.price[low].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh, at {clock(level.ts_utc[low])}. The dearest hour, the fleet call, began at {clock(level.ts_utc[vpp.first])}. Knowing every
+            On {level.date} the real-time price at {G.hub} peaked at {level.price[peak].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh at {clock(level.tz, level.ts_utc[peak])} {G.zone} time and
+            was lowest, {level.price[low].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh, at {clock(level.tz, level.ts_utc[low])}. The dearest hour, the fleet call, began at {clock(level.tz, level.ts_utc[vpp.first])}. Knowing every
             price in advance, this battery would have {charged.length ? `charged ${list(charged)}` : "never charged"} and {discharged.length ? `discharged ${list(discharged)}` : "never discharged"}: buy when power is cheap,
             sell when it is dear, within {result.rules.kwh} kWh and {result.rules.kw} kW, losing {Math.round((1 - result.rules.eta ** 2) * 100)} percent of the energy on the round trip{result.rules.reserveKwh > 0 ? `, never below its ${result.rules.reserveKwh.toFixed(2)} kWh reserve` : ""}{result.rules.deg > 0 ? `, and paying ${usd(result.rules.deg)} of wear for each kWh it discharges` : ""}.
-            Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href="/grid/ercot">ERCOT&apos;s grid page</Link>.
-            {eventPageFor(level.date) ? <> What happened that day on the grid: <Link href={eventPageFor(level.date)!.href}>{eventPageFor(level.date)!.label}</Link>.</> : null}
+            The grid: {G.name}. Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href={G.href}>{G.page}</Link>.
+            {level.grid === "ERCOT" && eventPageFor(level.date) ? <> What happened that day on the grid: <Link href={eventPageFor(level.date)!.href}>{eventPageFor(level.date)!.label}</Link>.</> : null}
           </p>
           <Replay level={level} rules={result.rules} mine={result.actions} perfect={best.actions} />
           <ShareCard level={level} score={result.score} optimal={best.score} preset={result.preset} />

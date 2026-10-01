@@ -7,6 +7,7 @@ import { rest } from "@/lib/supabase";
 
 export type Level = {
   slug: string; date: string; title: string; why: string; table: string;
+  grid?: "ERCOT" | "CAISO"; tz?: string; rule?: string;  // session 56: the California days (data/battery_levels.json)
   ts_utc: string[]; price: number[]; source: string[]; source_url: string[]; retrieved_at: string;
 };
 
