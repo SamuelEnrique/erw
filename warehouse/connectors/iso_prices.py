@@ -855,7 +855,10 @@ def run_market_per_day(ctx, spec):
                                 what=spec["name"], data_url=ctx.get("data_url"))
             rows = rows[(rows["interval_start"] >= d0) & (rows["interval_start"] < d1)]
             rows = latest_per_key(rows, log)
-            if spec.get("five_min"):
+            if spec.get("irregular"):  # session 49: NYISO's irregular RTD stamps, as run_market reads them
+                rows = rebuild_irregular_intervals(rows, d0, d1, nodes, log)
+                rows = to_15min_means(split_at_quarters(rows), log)
+            elif spec.get("five_min"):
                 check_interval_length(rows, 5, log)
                 rows = to_15min_means(rows, log)
             elif "minutes" in spec:
