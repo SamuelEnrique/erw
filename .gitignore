@@ -54,3 +54,6 @@ warehouse/output/rrc_lease_production_statewide/
 warehouse/output/rrc_lease_production_statewide.partial/
 warehouse/output/*.csv.gz
 warehouse/output/severance_screen_summary.json
+# Session 58: newsletter issues for the digest comparison never leave this folder; only its README is tracked
+private/newsletters/*
+!private/newsletters/README.md
