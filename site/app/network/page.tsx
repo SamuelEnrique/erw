@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import snapJson from "@/data/grid_network.json";
-import { pickSnapshot, storageUrl } from "@/lib/network";
+import { fetchHourly, pickSnapshot } from "@/lib/network";
 import { HOURLY } from "@/lib/supabase";
 import { Network, type Snapshot } from "./Network";
 
@@ -23,19 +23,8 @@ const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", mont
 const utc = (t: string) => `${t.slice(0, 16).replace("T", " ")} UTC`;
 const both = (t: string) => `${utc(t)} (${ET.format(new Date(t))} Eastern)`;
 
-async function hourly(): Promise<unknown> {
-  try {
-    const url = process.env.SUPABASE_URL;
-    if (!url) return null;
-    const r = await fetch(storageUrl(url), { next: { revalidate: HOURLY }, signal: AbortSignal.timeout(8000) });
-    return r.ok ? await r.json() : null;
-  } catch {
-    return null;
-  }
-}
-
 export default async function NetworkPage() {
-  const { snap, from } = pickSnapshot(await hourly(), committed);
+  const { snap, from } = pickSnapshot(await fetchHourly(HOURLY), committed);
   const newest = snap.hours[snap.hours.length - 1];
   const demandTs = snap.nodes.filter((n) => n.iso && n.demand_ts).map((n) => n.demand_ts as string).reduce((a, b) => (b > a ? b : a), "");
   const held = snap.nodes.filter((n) => n.demand_mw !== null).length;

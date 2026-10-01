@@ -47,6 +47,7 @@ const PAGES = [
   "/severance", "/severance/lease", "/data/methods/severance",
   "/learn/bill",
   "/learn/problems", "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke", "/learn/problems/storage-and-taxes",
+  "/learn/problems/networks-and-money",  // session 55: set E
   "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",
 ];
 

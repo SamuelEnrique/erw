@@ -201,6 +201,7 @@ export function stat(snap: Snapshot, x: Inputs, what: string): number | null {
     case "dscr": { const r = ms.find((y) => y.m === b); return r ? r.dscr : null; }
     case "capture": { const r = ms.find((y) => y.m === b); return r ? r.capture : null; }
     case "rate": { const r = ms.find((y) => y.m === b); return r ? r.rate : null; }
+    case "flat": { const r = ms.find((y) => y.m === b); return r ? r.flat : null; }  // session 55: problem set E
     default: return null;
   }
 }

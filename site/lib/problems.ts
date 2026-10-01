@@ -7,6 +7,12 @@ import { series, type SeriesRow } from "@/lib/data";
 import severance from "@/data/severance_rules.json";
 import { BATTERY, FLEET, fullCycle } from "@/lib/battery";
 import { compute, creditPct, type Rules } from "@/lib/severance";
+import fs from "node:fs";
+import path from "node:path";
+import netJson from "@/data/grid_network.json";
+import type { Snapshot as NetSnapshot } from "@/app/network/Network";
+import { fetchHourly, netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
+import { EVENTS, ISO_NAMES, inputsKey, inputsOf, months, stat, stress, summary, type Inputs, type Snapshot as MerchantSnapshot } from "@/lib/merchant";
 
 export type V = { v: number; k: string; u?: string };
 export type Part = string | V;
@@ -325,6 +331,81 @@ async function setD(): Promise<Question[]> {
   return [q1, q2, q3, q4, q5];
 }
 
+// ---------------------------------------------------------------- set E: networks and money (session 55)
+const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+const hourText = (h: string) => `${h.slice(0, 13).replace("T", " ")}:00 UTC (${ET.format(new Date(h))} Eastern)`;
+
+async function setE(): Promise<Question[]> {
+  // the network: the snapshot /network draws (lib/network.ts: the hourly one in Storage, else the committed one)
+  const { snap: net } = pickSnapshot(await fetchHourly(), netJson as unknown as NetSnapshot);
+  const H = net.hours.at(-1)!;
+  const name = (id: string) => net.nodes.find((n) => n.id === id)?.name ?? id;
+  const ties = tiesAt(net, "ERCO", H).sort((a, b) => Math.abs(b.mw) - Math.abs(a.mw) || a.other.localeCompare(b.other));
+  const big = ties[0];
+  const nTies: V = { v: ties.length, k: `net|ties|ERCO|${H}`, u: "ties" }, maxFlow: V = { v: Math.abs(big.mw), k: `net|maxflow|ERCO|${H}`, u: "MW" };
+  const q1: Question = {
+    id: "e1", tables: ["eia930_all_interchange"],
+    q: `In the newest hour of the network snapshot, ${hourText(H)}, over how many ties did ERCOT exchange power with its neighbors, and what was the largest flow on them?`,
+    answer: ["ERCOT reported flows on ", nTies, "; the largest, ", maxFlow, ", ", big.mw > 0 ? "out to " : "in from ", name(big.other), "."],
+    steps: [["On /network, pick ERCOT and set the slider to the last hour; or read the snapshot's links that have ERCO at either end, in that hour."],
+      ["Count the ties with a reported flow: ", nTies, ". Ties: ", ties.map((t) => `${name(t.other)} (${t.other})`).join(", "), "."],
+      ["The largest in size, whichever way it runs: ", maxFlow, ", ", big.mw > 0 ? "ERCOT exporting" : "ERCOT importing", ". EIA's sign: positive when the reporting balancing authority exports."]],
+    why: "ERCOT is almost an island: its grid is an interconnection of its own, joined to its neighbors only through a few direct-current ties, so it cannot lean on them much in an emergency.",
+  };
+  const top = topExporter(net, H)!;
+  const ex = netExports(net, H);
+  const second = [...ex].filter(([id]) => id !== top.id).sort((a, b) => b[1] - a[1])[0];
+  const topV: V = { v: top.mw, k: `net|topexport|${H}`, u: "MW" };
+  const q2: Question = {
+    id: "e2", tables: ["eia930_all_interchange"],
+    q: "In the same hour, which balancing authority exported the most power, net, to its neighbors?",
+    answer: [`${name(top.id)} (${top.id}), a net export of `, topV, "."],
+    steps: [["For each balancing authority, add the flows on all its ties in that hour, exports positive and imports negative."],
+      ["The largest sum: ", `${name(top.id)} (${top.id}), `, topV, `; the next, ${name(second[0])} (${second[0]}), about ${Math.round(second[1]).toLocaleString("en-US")} MW.`],
+      ["The sum covers the ties between balancing authorities in the snapshot; EIA's regions and its country totals are left out, since they repeat the same flows."]],
+    why: "A net exporter has more generation than load in that hour, often cheap hydro, wind or solar, and its ties carry the surplus to where it is worth more.",
+  };
+  // the money: the seller's tab (lib/merchant.ts on data/merchant_snapshot.json), at its defaults
+  const M = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "merchant_snapshot.json"), "utf8")) as MerchantSnapshot;
+  const mr = (x: Inputs, what: string, u: string): V => ({ v: stat(M, x, what) as number, k: `mr|${inputsKey(x)}|${what}`, u });
+  const sol = inputsOf({ iso: "ercot", asset: "solar" });
+  const mo = months(M, sol).filter((r) => r.held).at(-1)!.m;
+  const cap = mr(sol, `capture:${mo}`, "USD/MWh"), flat = mr(sol, `flat:${mo}`, "USD/MWh"), rate = mr(sol, `rate:${mo}`, "%");
+  const q3: Question = {
+    id: "e3", tables: ["merchant_revenue_monthly"],
+    q: `A merchant solar plant at ERCOT's hub average (HB_HUBAVG) sells every MWh it makes at the real-time price. In ${mo}, the latest complete month held, what price did its output capture, and what is that as a share of the month's flat (time-average) price?`,
+    answer: ["It captured ", cap, " against a flat price of ", flat, ": a capture rate of ", rate, "."],
+    steps: [["Capture price: the month's revenue from its sales over the MWh it made (the Texas solar fleet's hourly shape, per MW of nameplate): ", cap, "."],
+      ["Flat price: the mean of every hour's real-time price in the month: ", flat, "."], ["Capture rate: ", cap, " / ", flat, " x 100 = ", rate, "."]],
+    why: "Solar makes its power when every other solar plant does, so midday prices sag and a solar MWh is worth less than the average MWh. The capture rate measures that discount.",
+  };
+  const bat = inputsOf({ iso: "ercot", asset: "battery" });
+  const n = mr(bat, "n", "months"), under = mr(bat, "under1", "months");
+  const sm = summary(months(M, bat));
+  const covered = calc("diff", n, under, "months");
+  const q4: Question = {
+    id: "e4", tables: ["merchant_revenue_monthly"],
+    q: `A default merchant battery at ERCOT's hub average, ${bat.mw} MW / ${bat.mwh} MWh, financed with 60 percent debt at 8 percent over its 20-year life at Lazard's midpoint cost, owes ${Math.round(bat.ds).toLocaleString("en-US")} USD of debt service a year. In how many of the months held, ${sm.first} to ${sm.last}, did its cash flow cover that month's share?`,
+    answer: ["In ", covered, " of ", n, "; it fell short in ", under, "."],
+    steps: [["Each month: the battery's arbitrage revenue (one cycle a day with perfect foresight, an upper bound) less fixed O&M, over one twelfth of the annual debt service: the debt service coverage ratio."],
+      ["Months held: ", n, "; months below 1.0x: ", under, "."], ["Months covered: ", n, " - ", under, " = ", covered, "."]],
+    why: "A lender looks at the bad months, not the average: a battery's revenue comes in bursts, a few price spikes a year, and the months between them must still pay the debt.",
+  };
+  const ev = "uri_2021";
+  const st = stress(M, sol)!.find((e) => e.event === ev)!;
+  const tot = mr(sol, `stress_total:${ev}`, "USD"), week = mr(sol, `stress_week:${ev}`, "USD");
+  const q5: Question = {
+    id: "e5", tables: ["merchant_revenue_monthly", "event_window_daily"],
+    q: `During ${EVENTS[ev]} (the ${st.days} days from ${st.start} to ${st.end}), what did the same ${sol.mw} MW merchant solar plant at ${ISO_NAMES.ercot}'s hub average earn, against a normal week before the storm?`,
+    answer: ["Over the storm's days it earned ", tot, "; a normal week earned ", week, ": ", calc("ratio", tot, week, "times"), " as much."],
+    steps: [["Each day's revenue: the plant's hourly output (the fleet's shape that day) times the hour's real-time price, added up."],
+      [`Add the ${st.days} days of the event window: `, tot, "."],
+      ["A normal week: seven times the mean day of the baseline days of the same event: ", week, "."], ["The ratio: ", tot, " / ", week, " = ", calc("ratio", tot, week, "times"), "."]],
+    why: "Scarcity pays whoever can deliver in it. Uri's prices sat at the cap for days, so even a plant whose output fell with the snow and the short days could earn more in the storm than in a normal week.",
+  };
+  return [q1, q2, q3, q4, q5];
+}
+
 export const SETS: Omit<ProblemSet, "questions">[] = [
   { slug: "know-your-grid", title: "Know your grid: ERCOT and CAISO side by side", line: "Peak demand, generation mix, the battery cycle and carbon intensity, from the latest data.",
     teacher: "About 45 minutes. Prerequisites: MW against MWh, reading a daily and an hourly table. Students should open /grid/ercot, /grid/caiso, /mix, /storage and /emissions, and the tables linked under each question on /data.",
@@ -339,11 +420,16 @@ export const SETS: Omit<ProblemSet, "questions">[] = [
   { slug: "storage-and-taxes", title: "Storage and taxes", line: "How much energy ERCOT's batteries give back, when they charge and discharge, what one home battery cycle earns, and the oil and gas production taxes of three states.",
     teacher: "About 45 minutes. Prerequisites: MWh against kWh, a percent of value, a round trip efficiency. Students should open /storage, /play/battery, /cost-of-power and /severance, and read the cited rule behind each tax.",
     pages: [{ href: "/storage", label: "Storage" }, { href: "/play/battery", label: "The battery game" }, { href: "/cost-of-power", label: "Cost of power" }, { href: "/severance", label: "Severance tax" }] },
+  // session 55: set E
+  { slug: "networks-and-money", title: "Networks and money", line: "ERCOT's ties and the biggest exporter in the network's newest hour, a solar plant's capture rate, a battery's debt cover, and what a plant earned in Winter Storm Uri.",
+    teacher: "About 45 minutes. Prerequisites: MW against MWh, a weighted price, a ratio. Students should open /network (pick ERCOT, slide to the last hour), /cost-of-power/seller (solar, then battery, at ERCOT) and the Uri event page. The network's hour moves as the hourly refresh runs; the money questions move when the seller's snapshot is rebuilt.",
+    pages: [{ href: "/network", label: "The network" }, { href: "/cost-of-power/seller", label: "What a generator earns" }, { href: "/events/uri-2021", label: "Uri" }] },
 ];
 
 export async function problemSet(slug: string): Promise<ProblemSet | null> {
   const meta = SETS.find((s) => s.slug === slug);
   if (!meta) return null;
-  const questions = slug === "know-your-grid" ? await setA() : slug === "prices-and-your-bill" ? await setB() : slug === "storage-and-taxes" ? await setD() : await setC();
+  const questions = slug === "know-your-grid" ? await setA() : slug === "prices-and-your-bill" ? await setB() : slug === "storage-and-taxes" ? await setD()
+    : slug === "networks-and-money" ? await setE() : await setC();
   return { ...meta, questions };
 }

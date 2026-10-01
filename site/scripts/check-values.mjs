@@ -39,6 +39,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/learn/bill",
   // session 44: every computed answer of the problem sets
   "/learn/problems/know-your-grid", "/learn/problems/prices-and-your-bill", "/learn/problems/when-the-grid-broke", "/learn/problems/storage-and-taxes",
+  // session 55: set E, networks and money
+  "/learn/problems/networks-and-money",
   // session 49: the network's default node card (ERCOT)
   "/network"];  // session 46: set D
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
@@ -108,6 +110,19 @@ async function truth(check) {
     const res = await fetch(`${origin}/storage/v1/object/public/erw-public/network/grid_network.json`, { cache: "no-store" });
     if (!res.ok) throw new Error(`network snapshot in Storage: HTTP ${res.status}`);
     return (await res.json()).nodes.find((n) => n.id === p[1])?.demand_recent?.[p[3]];
+  }
+  // session 55: problem set E's network answers, net|ties|<BA>|<hour>, net|maxflow|<BA>|<hour>, net|topexport|<hour>:
+  // recomputed by lib/network.ts on the snapshot that holds the hour, the hourly one in Storage first, else the committed
+  // data/grid_network.json (the page draws the Storage one unless it is unreachable or older)
+  if (p[0] === "net") {
+    const N = await import("../lib/network.ts");
+    const res = await fetch(`${origin}/${N.NETWORK_OBJECT}`, { cache: "no-store" });
+    const stored = res.ok ? await res.json() : null;
+    if (stored && N.isSnapshot(stored)) {
+      const v = N.netValue(stored, check);
+      if (v !== undefined) return v;
+    }
+    return N.netValue(JSON.parse(fs.readFileSync(path.join(here, "..", "data", "grid_network.json"), "utf-8")), check);
   }
   // session 44: a derived answer of the problem sets, calc|<op>|<A>|<B>: A and B are check keys with "~" for "|", each
   // recomputed here on its own, then combined

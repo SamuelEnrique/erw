@@ -56,7 +56,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 |---|---|---|---|---|
 | The tour | `/tour` | Where should a first-time visitor start? Five stops, about three minutes | everyone | links only |
 | What is on a bill | `/learn/bill` | What does a home's electricity bill pay for, line by line, and how much of it is wholesale energy? Five utilities | students and teachers | `site/data/bill_rules.json` (tariffs), `cost_of_power_monthly` |
-| Problem sets (three) | `/learn/problems`, `/learn/problems/know-your-grid`, `/learn/problems/prices-and-your-bill`, `/learn/problems/when-the-grid-broke` | Five questions each, answered from the latest data | students and teachers | `eia930_all_*`, `storage_daily_cycle`, `carbon_intensity_daily`, `cost_of_power_*`, `event_window_daily` |
+| Problem sets (five) | `/learn/problems`, `/learn/problems/know-your-grid`, `/learn/problems/prices-and-your-bill`, `/learn/problems/when-the-grid-broke`, `/learn/problems/storage-and-taxes`, `/learn/problems/networks-and-money` (session 55) | Five questions each, answered from the latest data | students and teachers | `eia930_all_*`, `storage_daily_cycle`, `carbon_intensity_daily`, `cost_of_power_*`, `event_window_daily`, `eia_fuel_spot_prices`, the network snapshot, `merchant_revenue_monthly` |
 | Home battery game | `/play/battery` | Can you run a home battery through a real day of ERCOT prices better than perfect foresight would? | students and teachers; everyone | `iso_rtm_hub_prices`, `ercot_all_hub_prices_history`, `storage_capacity` |
 
 ## Practitioner tools

@@ -157,9 +157,11 @@ class Fallback(unittest.TestCase):
     def test_page_reads_storage_with_revalidation_and_catches(self):
         page = src("site", "app", "network", "page.tsx")
         self.assertIn("export const revalidate = 3600", page)
-        self.assertIn("next: { revalidate: HOURLY }", page)
-        self.assertIn("catch {", page)
-        self.assertIn("pickSnapshot(await hourly(), committed)", page)
+        # session 55: the fetch moved to lib/network.ts (fetchHourly), shared with problem set E
+        lib = src("site", "lib", "network.ts")
+        self.assertIn("next: { revalidate }", lib)
+        self.assertIn("catch {", lib)
+        self.assertIn("pickSnapshot(await fetchHourly(HOURLY), committed)", page)
         self.assertIn("Newest hour:", page)
         self.assertIn("The color updates daily", src("site", "app", "network", "Network.tsx"))
 
