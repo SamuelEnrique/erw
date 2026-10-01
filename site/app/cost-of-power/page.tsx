@@ -62,10 +62,18 @@ export default async function CostOfPower() {
   const d = got.ok ? got.data : { monthly: [], profile: [], carbon: [] };
   const find = (rows: SeriesRow[], entity: string, variable: string, m: string) =>
     rows.find((r) => r.entity === entity && r.variable === variable && month(r.ts_utc) === m);
-  const entities = [...new Set(d.monthly.map((r) => r.entity))].sort((a, b) => Object.keys(ISO).indexOf(isoOf(a)) - Object.keys(ISO).indexOf(isoOf(b)));
+  // session 49: CAISO's NP15 is in the table for PG&E's bill (/learn/bill); the ISO comparison keeps each ISO's main hub
+  const entities = [...new Set(d.monthly.map((r) => r.entity))].filter((e) => e !== "caiso:TH_NP15_GEN-APND")
+    .sort((a, b) => Object.keys(ISO).indexOf(isoOf(a)) - Object.keys(ISO).indexOf(isoOf(b)));
   const monthsOf = (e: string) => new Set(d.monthly.filter((r) => r.entity === e && r.variable === "rt_load_weighted").map((r) => month(r.ts_utc)));
-  // the ranked month: the latest month every ISO holds real-time hours for
-  const common = entities.length ? [...monthsOf(entities[0])].filter((m) => entities.every((e) => monthsOf(e).has(m))).sort().pop() : undefined;
+  // the ranked month: session 49, the latest month complete for every ISO (real-time hours equal to the month's), now that
+  // iso_hub_prices_history holds a year of every hub; else, as before, the latest month every ISO holds hours for
+  const completeFor = (e: string, m: string) => {
+    const h = find(d.monthly, e, "rt_hours", m), hm = find(d.monthly, e, "hours_in_month", m);
+    return !!h && !!hm && h.value === hm.value;
+  };
+  const held = entities.length ? [...monthsOf(entities[0])].filter((m) => entities.every((e) => monthsOf(e).has(m))).sort() : [];
+  const common = [...held].reverse().find((m) => entities.every((e) => completeFor(e, m))) ?? held.at(-1);
   const rank = common ? entities.map((e) => ({
     e, lw: find(d.monthly, e, "rt_load_weighted", common), sm: find(d.monthly, e, "rt_simple_mean", common),
     sp: find(d.monthly, e, "rt_shape_premium", common), h: find(d.monthly, e, "rt_hours", common), hm: find(d.monthly, e, "hours_in_month", common),
@@ -100,8 +108,9 @@ export default async function CostOfPower() {
 
   // the calculator's defaults
   const calc = entities.map((e) => {
-    const f = flatPrice(d.monthly, e);
-    const c80 = cheapPrice(cells(d.profile, e), SHARE);
+    // session 49: on the ranked month (the latest complete month every ISO holds)
+    const f = flatPrice(d.monthly, e, common ? [common] : undefined);
+    const c80 = cheapPrice(cells(d.profile, e).filter((c) => !common || c.month === common), SHARE);
     return { e, flat: f.price, months: f.months, c80 };
   });
   const eFlat = energy(MW, LF, DAYS), e80 = energy(MW, LF, DAYS, SHARE);
@@ -228,10 +237,10 @@ export default async function CostOfPower() {
                   {calc.map((c) => (
                     <tr key={c.e} className="border-t border-rule">
                       <td className="py-1">{ISO[isoOf(c.e)].name}</td>
-                      <td>{c.flat === null ? "not held" : <Usd check={`cop|flat_cost|${c.e}|${MW}|${LF}|${DAYS}`} v={eFlat * c.flat} />}</td>
-                      <td>{c.flat === null ? "" : <Num check={`cop|flat_price|${c.e}`} raw={c.flat}>{shown(c.flat)}</Num>}</td>
-                      <td>{c.c80 === null ? "not held" : <Usd check={`cop|cheap_cost|${c.e}|${MW}|${LF}|${DAYS}|${SHARE}`} v={e80 * c.c80} />}</td>
-                      <td>{c.c80 === null ? "" : <Num check={`cop|cheap_price|${c.e}|${SHARE}`} raw={c.c80}>{shown(c.c80)}</Num>}</td>
+                      <td>{c.flat === null ? "not held" : <Usd check={`cop|flat_cost|${c.e}|${MW}|${LF}|${DAYS}|${common}`} v={eFlat * c.flat} />}</td>
+                      <td>{c.flat === null ? "" : <Num check={`cop|flat_price|${c.e}|${common}`} raw={c.flat}>{shown(c.flat)}</Num>}</td>
+                      <td>{c.c80 === null ? "not held" : <Usd check={`cop|cheap_cost|${c.e}|${MW}|${LF}|${DAYS}|${SHARE}|${common}`} v={e80 * c.c80} />}</td>
+                      <td>{c.c80 === null ? "" : <Num check={`cop|cheap_price|${c.e}|${SHARE}|${common}`} raw={c.c80}>{shown(c.c80)}</Num>}</td>
                       <td className="text-xs text-muted">{span(c.months)}</td>
                     </tr>
                   ))}

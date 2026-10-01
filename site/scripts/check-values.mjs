@@ -143,7 +143,10 @@ async function truth(check) {
         variable: "in.(rt_hours,rt_simple_mean)", order: "ts_utc" });
       const by = {};
       for (const r of rows) (by[r.ts_utc.slice(0, 7)] ??= {})[r.variable] = Number(r.value);
-      const months = Object.keys(by).filter((m) => by[m].rt_hours !== undefined && by[m].rt_simple_mean !== undefined).sort().reverse().slice(0, 12);
+      // session 49: a key that ends in a month (flat_price|<e>|<m>, flat_cost|<e>|<mw>|<lf>|<days>|<m>) uses that month only
+      const only = what === "flat_price" ? p[3] : p[6];
+      const months = Object.keys(by).filter((m) => by[m].rt_hours !== undefined && by[m].rt_simple_mean !== undefined && (!only || m === only))
+        .sort().reverse().slice(0, 12);
       let num = 0, den = 0;
       for (const m of months) { num += by[m].rt_simple_mean * by[m].rt_hours; den += by[m].rt_hours; }
       const price = den ? num / den : null;
@@ -158,7 +161,8 @@ async function truth(check) {
         const m = /^rt_(mean|days)_h(\d\d)$/.exec(r.variable);
         if (m) (cells[`${r.ts_utc.slice(0, 7)}|${m[2]}`] ??= {})[m[1]] = Number(r.value);
       }
-      const cs = Object.entries(cells).filter(([, c]) => c.mean !== undefined && c.days !== undefined)
+      const onlyM = what === "cheap_price" ? p[4] : p[7];  // session 49: the month, where the key names one
+      const cs = Object.entries(cells).filter(([k, c]) => c.mean !== undefined && c.days !== undefined && (!onlyM || k.split("|")[0] === onlyM))
         .map(([k, c]) => ({ month: k.split("|")[0], hour: Number(k.split("|")[1]), price: c.mean, hours: c.days }))
         .sort((a, b) => a.price - b.price || a.month.localeCompare(b.month) || a.hour - b.hour);
       const share = Number(what === "cheap_price" ? p[3] : p[6]);

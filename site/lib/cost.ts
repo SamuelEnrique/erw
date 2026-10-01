@@ -12,7 +12,7 @@ type Row = { entity: string; variable: string; ts_utc: string; value: number };
 
 /** The last 12 months with real-time hours, newest first, and the flat-load price over them: the simple means
  * weighted by the hours held (the mean price of every hour held). */
-export function flatPrice(monthly: Row[], entity: string): { price: number | null; months: string[]; hours: number } {
+export function flatPrice(monthly: Row[], entity: string, only?: string[]): { price: number | null; months: string[]; hours: number } {
   const hours = new Map<string, number>(), mean = new Map<string, number>();
   for (const r of monthly) {
     if (r.entity !== entity) continue;
@@ -20,7 +20,8 @@ export function flatPrice(monthly: Row[], entity: string): { price: number | nul
     if (r.variable === "rt_hours") hours.set(m, r.value);
     if (r.variable === "rt_simple_mean") mean.set(m, r.value);
   }
-  const months = [...hours.keys()].filter((m) => mean.has(m)).sort().reverse().slice(0, 12);
+  // session 49: `only`, the months to use (the page passes the latest complete month every ISO holds); else the latest 12
+  const months = [...hours.keys()].filter((m) => mean.has(m) && (!only || only.includes(m))).sort().reverse().slice(0, 12);
   let num = 0, den = 0;
   for (const m of months) {
     num += (mean.get(m) as number) * (hours.get(m) as number);
