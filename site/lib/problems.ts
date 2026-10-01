@@ -385,10 +385,11 @@ async function setE(): Promise<Question[]> {
   const covered = calc("diff", n, under);
   const q4: Question = {
     id: "e4", tables: ["merchant_revenue_monthly"],
-    q: `A default merchant battery at ERCOT's hub average, ${bat.mw} MW / ${bat.mwh} MWh, financed with 60 percent debt at 8 percent over its 20-year life at Lazard's midpoint cost, owes ${Math.round(bat.ds).toLocaleString("en-US")} USD of debt service a year. In how many of the months held, ${sm.first} to ${sm.last}, did its cash flow cover that month's share?`,
-    answer: ["In ", covered, " of ", n, "; it fell short in ", under, "."],
+    q: `A default merchant battery at ERCOT's hub average, ${bat.mw} MW / ${bat.mwh} MWh, financed with 60 percent debt at 8 percent over its 20-year life at Lazard's midpoint cost, owes ${Math.round(bat.ds).toLocaleString("en-US")} USD of debt service a year. In how many of the months held, ${sm.first} to ${sm.last}, could its cash flow at best cover that month's share?`,
+    answer: ["At best, in ", covered, " of ", n, "; it fell short in ", under, " even with perfect foresight. A real battery, which cannot see the day's prices in advance, earns less and covers fewer."],
     steps: [["Each month: the battery's arbitrage revenue (one cycle a day with perfect foresight, an upper bound) less fixed O&M, over one twelfth of the annual debt service: the debt service coverage ratio."],
-      ["Months held: ", n, "; months below 1.0x: ", under, "."], ["Months covered: ", n, " - ", under, " = ", covered, "."]],
+      ["Months held: ", n, "; months below 1.0x: ", under, "."], ["Months covered, at best: ", n, " - ", under, " = ", covered, "."],
+      ["At best, because the revenue is an upper bound, as the seller's tab notes: the battery knows each day's prices in advance; a real one captures a fraction of this."]],
     why: "A lender looks at the bad months, not the average: a battery's revenue comes in bursts, a few price spikes a year, and the months between them must still pay the debt.",
   };
   const ev = "uri_2021";
