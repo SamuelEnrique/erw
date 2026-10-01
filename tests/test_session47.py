@@ -8,6 +8,7 @@ Energy Research Warehouse (ERW). No network, no model.
 3. site/scripts/test-eventstudy.mjs: the TypeScript twin on the same synthetic panel, and equal to the Python table on
    every daily and pooled estimate where the warehouse files are on this machine.
 4. The table, where it is on this machine: each interval is the estimate +/- 1.96 standard errors.
+5. notebooks/event_study.ipynb runs and reproduces the table (it asserts so itself).
 
     python -m unittest tests.test_session47 -v
 """
@@ -84,6 +85,21 @@ class TypeScriptTwin(unittest.TestCase):
         r = subprocess.run([node, os.path.join("scripts", "test-eventstudy.mjs")], cwd=os.path.join(ROOT, "site"),
                            capture_output=True, text=True, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+
+class Notebook(unittest.TestCase):
+    def test_the_replication_notebook_reproduces_the_table(self):
+        """notebooks/event_study.ipynb, its code cells run in order: it asserts its estimates equal the table's."""
+        import json
+        if not os.path.exists(os.path.join(ROOT, "warehouse", "output", "event_study_estimates.csv")):
+            self.skipTest("the warehouse tables are not on this machine")
+        sys.path.insert(0, os.path.join(ROOT, "package", "src"))
+        nb = json.load(open(os.path.join(ROOT, "notebooks", "event_study.ipynb"), encoding="utf-8"))
+        g = {}
+        for c in nb["cells"]:
+            if c["cell_type"] == "code":
+                exec("".join(c["source"]), g)  # noqa: S102  the repository's own notebook
+        self.assertEqual(len(g["pooled"]), 21)
 
 
 class Table(unittest.TestCase):

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EventStudy } from "@/components/EventStudy";
 import Link from "next/link";
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
@@ -122,6 +123,8 @@ export default async function Uri() {
           </Section>
         </>
       )}
+      {/* session 47: the event study */}
+      <EventStudy event="uri_2021" grids={["eia930:ERCO"]} primary="eia930:ERCO" price />
     </>
   );
 }

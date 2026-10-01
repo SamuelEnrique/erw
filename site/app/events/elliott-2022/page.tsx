@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EventStudy } from "@/components/EventStudy";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
 
 // Session 39: Winter Storm Elliott, December 2022, event elliott_2022 of event_window_daily (docs/methods/events.md):
@@ -13,6 +14,7 @@ const inWin = (d: string) => d >= "2022-12-19" && d <= "2022-12-29";
 
 export default function Elliott2022() {
   return (
+    <>
     <EventWindow
       event={EV}
       title="Winter Storm Elliott: six grids, December 2022"
@@ -70,5 +72,8 @@ export default function Elliott2022() {
         );
       }}
     />
+    {/* session 47: the event study */}
+    <EventStudy event="elliott_2022" grids={["eia930:PJM", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:SWPP"]} primary="eia930:PJM" price />
+    </>
   );
 }

@@ -287,6 +287,27 @@ async function truth(check) {
       and: `(ts_utc.gte.${month}-01T00:00:00Z,ts_utc.lt.${next}-01T00:00:00Z)`, order: "ts_utc" });
     return rows.length ? rows.reduce((a, r) => a + Number(r.value), 0) / rows.length : undefined;
   };
+  // session 47: the event studies on the /events pages, es|<event>|<entity>|<variable>|<term>|<field>, recomputed from
+  // event_window_daily with lib/eventstudy.ts (term pooled, or day|<YYYY-MM-DD>; field est, lo, hi, cf, pct)
+  if (p[0] === "es") {
+    const [, ev, entity, variable] = p;
+    const term = p[4] === "day" ? `day|${p[5]}` : p[4], field = p.at(-1);
+    const k = `${ev}|${entity}|${variable}`;
+    if (!studies.has(k)) {
+      const { studyOf } = await import("../lib/eventstudy.ts");
+      const rows = await all("series", { select: "ts_utc,value,freq", table_name: "eq.event_window_daily", event: `eq.${ev}`, entity: `eq.${entity}`,
+        variable: `eq.${variable}`, order: "ts_utc" });
+      studies.set(k, studyOf(ev, rows.map((r) => ({ ts_utc: r.ts_utc, value: Number(r.value), freq: r.freq }))));
+    }
+    const s = studies.get(k);
+    if (term === "pooled") {
+      if (field === "cf") return s.counterfactualMean;
+      if (field === "pct") return (s.pooled.estimate / s.counterfactualMean) * 100;
+      return { est: s.pooled.estimate, lo: s.pooled.lo, hi: s.pooled.hi }[field];
+    }
+    const d = s.days.find((x) => x.day === p[5]);
+    return d ? { est: d.estimate, lo: d.lo, hi: d.hi }[field] : undefined;
+  }
   if (p[0] === "spotmean") return spotMean(p[1], p[2]);
   if (p[0] === "sev" || p[0] === "sevcert" || p[0] === "sevcredit") {
     const S = await import("../lib/severance.ts");
@@ -345,6 +366,7 @@ async function truth(check) {
   throw new Error(`unknown check ${check}`);
 }
 let storageRows = null;
+const studies = new Map();  // session 47: event studies, by event|entity|variable
 
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
 function usd(v) {

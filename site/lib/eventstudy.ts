@@ -105,7 +105,7 @@ export function estimate(dates: string[], y: number[], event: boolean[]): Study 
 }
 
 /** A study from event_window_daily rows of one event, entity and variable (daily rows only). */
-export function studyOf(event: string, rows: { ts_utc: string; value: number; freq?: string }[]): Study {
+export function studyOf(event: string, rows: { ts_utc: string; value: number; freq?: string | null }[]): Study {
   const [s, e] = WINDOWS[event];
   const r = rows.filter((x) => !x.freq || x.freq === "P1D").map((x) => ({ d: x.ts_utc.slice(0, 10), v: Number(x.value) })).sort((a, b) => (a.d < b.d ? -1 : 1));
   return estimate(r.map((x) => x.d), r.map((x) => x.v), r.map((x) => x.d >= s && x.d <= e));

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EventStudy } from "@/components/EventStudy";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
 
 // Session 39: the August 2020 heat wave in CAISO, event caiso_heat_2020 of event_window_daily (docs/methods/events.md).
@@ -12,6 +13,7 @@ const E = "eia930:CISO";
 
 export default function CaisoHeat2020() {
   return (
+    <>
     <EventWindow
       event={EV}
       title="The August 2020 heat wave: CAISO"
@@ -46,5 +48,8 @@ export default function CaisoHeat2020() {
         );
       }}
     />
+    {/* session 47: the event study */}
+    <EventStudy event="caiso_heat_2020" grids={["eia930:CISO"]} primary="eia930:CISO" />
+    </>
   );
 }

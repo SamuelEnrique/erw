@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EventStudy } from "@/components/EventStudy";
 import Link from "next/link";
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
@@ -155,6 +156,8 @@ export default async function Covid() {
           </Section>
         </>
       )}
+      {/* session 47: the event study */}
+      <EventStudy event="covid_2020" grids={["eia930:US48", "eia930:CISO", "eia930:ERCO", "eia930:ISNE", "eia930:MISO", "eia930:NYIS", "eia930:PJM", "eia930:SWPP"]} primary="eia930:US48" price />
     </>
   );
 }

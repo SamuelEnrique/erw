@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EventStudy } from "@/components/EventStudy";
 import { EventWindow, N, day, find, pickOf } from "../EventWindow";
 
 // Session 39: the summer 2023 heat in ERCOT, event ercot_heat_2023 of event_window_daily (docs/methods/events.md), with
@@ -14,6 +15,7 @@ const inWin = (d: string) => d >= "2023-08-01" && d <= "2023-09-10";
 
 export default function ErcotHeat2023() {
   return (
+    <>
     <EventWindow
       event={EV}
       title="The summer 2023 heat: ERCOT"
@@ -51,5 +53,8 @@ export default function ErcotHeat2023() {
         );
       }}
     />
+    {/* session 47: the event study */}
+    <EventStudy event="ercot_heat_2023" grids={["eia930:ERCO"]} primary="eia930:ERCO" price />
+    </>
   );
 }
