@@ -814,7 +814,7 @@
         "labels": {
           "peak_share": "20 percent in 4 to 9 p.m., the same assumption as the PG&E bill",
           "super_share": "34.5 percent in super off-peak hours: use spread evenly over the week's hours (midnight to 6 a.m. on weekdays, midnight to 2 p.m. on weekends; March and April weekday middays ignored): an assumption",
-          "season": "summer, SDG&E's season on 2026-10-01 by its calculator page (summer June 1 to October 31)",
+          "season": "summer: an assumption that 2026-10-01 is still SDG&E's summer; its baseline calculator page says only that a change of season falls in June and October",
           "baseline_kwh": "0: enter your baseline allowance from your SDG&E bill; the default bill has no baseline credit"
         }
       }
