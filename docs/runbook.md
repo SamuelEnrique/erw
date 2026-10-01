@@ -123,3 +123,74 @@ The loader still warns above `warn_mb` (350 MB) and fails above `max_mb` in `war
 - **How often it really runs:** GitHub runs scheduled workflows on a best-effort basis. On 2026-10-01 the 15-minute "latest prices" cron ran five times in 24 hours, so expect hours between refreshes rather than one (archive/sessions/SESSION_54_REPORT.md, open question 1).
 - **Run it now:** Actions, "hourly network", Run workflow. Locally, from `.env`, without uploading: `python warehouse/derived/network_hourly.py --dry-run --out network.json`.
 - **Stop it:** delete the `schedule` lines of the workflow. The page then falls back to the committed file as soon as that file is newer than the last object.
+
+## An outside trigger for the scheduled jobs (session 58)
+
+**Why.** GitHub runs scheduled workflows on a best-effort basis, and for this repository it runs them rarely.
+- On 2026-10-01, "latest prices" (every 15 minutes, 96 runs a day) ran five times in 24 hours.
+- The hourly network ran once in the five hours after it was added.
+- The daily job's 14:00 UTC run came at 18:00 to 20:00, or not at all.
+
+A free outside scheduler that calls GitHub's `workflow_dispatch` on time fixes this. Samuel sets it up himself: it needs a token, and **no token is ever stored in this repository**.
+
+**Two triggers on one day are safe** for the daily job and the Roundup, the two that send email. A run that is scheduled, or dispatched with `once` set to `1`, stops in its first job (`gate`) when a run of the workflow already succeeded that UTC day. A manual run from the Actions tab (`once` left at `0`) always runs. The other jobs only refresh data, so an extra run costs a minute.
+
+### 1. A fine-grained GitHub token, this repository only
+
+1. GitHub, your picture, **Settings**, **Developer settings**, **Personal access tokens**, **Fine-grained tokens**, **Generate new token**.
+2. **Name:** `erw-scheduler`. **Expiration:** 90 days, and put the renewal date in your calendar. **Resource owner:** SamuelEnrique.
+3. **Repository access:** "Only select repositories", then `SamuelEnrique/erw`.
+4. **Permissions,** Repository permissions: **Actions: Read and write**. Metadata: Read is added by itself. Nothing else.
+5. **Generate token** and copy it once (it starts `github_pat_`). Paste it only into the scheduler below; never into a file in this repository, a commit, an issue or a chat.
+
+### 2. The scheduler: cron-job.org (free)
+
+1. Make an account at https://cron-job.org and confirm the email.
+2. For each row of the table below: **Create cronjob**.
+   - **Title:** the row's name.
+   - **URL:** `https://api.github.com/repos/SamuelEnrique/erw/actions/workflows/<file>/dispatches`
+   - **Schedule:** "Custom". Set the time zone to **UTC** in your account settings first.
+   - **Advanced:**
+     - **Request method:** `POST`.
+     - **Headers:**
+       - `Accept: application/vnd.github+json`
+       - `Authorization: Bearer <the token>`
+       - `X-GitHub-Api-Version: 2022-11-28`
+       - `Content-Type: application/json`
+     - **Request body:** the row's body.
+   - **Save**, then **Test run** once. GitHub answers **HTTP 204** with an empty body when it accepted the dispatch, and the run appears in the repository's Actions tab within a minute. A 401 means the token is wrong or expired; a 403 or 404 means the token lacks Actions write on this repository; a 422 means the body is wrong.
+
+| Name | `<file>` | When (UTC) | Body |
+|---|---|---|---|
+| ERW daily | `daily-prices.yml` | every day 14:00 | `{"ref":"main","inputs":{"queues":"0","once":"1"}}` (Mondays pull the ISO queues by themselves) |
+| ERW latest prices | `latest-prices.yml` | every 15 minutes | `{"ref":"main"}` |
+| ERW hourly network | `hourly-network.yml` | every hour at :05, except 14:05 | `{"ref":"main"}` |
+| ERW Roundup | `roundup.yml` | Sundays 23:00 | `{"ref":"main","inputs":{"once":"1"}}` |
+| ERW weekly vacuum | `weekly-vacuum.yml` | Sundays 10:00 | `{"ref":"main"}` |
+
+3. **cron-job.org's history** shows each call's HTTP status. The Actions tab shows each run.
+4. **Keep the GitHub schedules** in the workflow files as a fallback. The gate stops a late duplicate of the daily job or the Roundup.
+
+### 3. The alternative: Supabase `pg_cron` with `pg_net`
+
+The same calls can come from the project's own database. In Supabase:
+1. **Database, Extensions:** enable `pg_cron` and `pg_net`.
+2. **Vault:** store the token as a secret named `github_dispatch`. It stays in the database's vault, never in this repository.
+3. **SQL editor:** for the daily job, run:
+
+```sql
+select cron.schedule('erw-daily', '0 14 * * *', $$
+  select net.http_post(
+    url := 'https://api.github.com/repos/SamuelEnrique/erw/actions/workflows/daily-prices.yml/dispatches',
+    headers := jsonb_build_object('Accept', 'application/vnd.github+json', 'X-GitHub-Api-Version', '2022-11-28',
+      'Authorization', 'Bearer ' || (select decrypted_secret from vault.decrypted_secrets where name = 'github_dispatch'),
+      'User-Agent', 'erw-scheduler'),
+    body := '{"ref":"main","inputs":{"queues":"0","once":"1"}}'::jsonb);
+$$);
+```
+
+Repeat with the other rows' files, times and bodies. `select * from net._http_response order by id desc limit 5;` shows GitHub's answers; 204 is accepted. cron-job.org is simpler and keeps the database's resources for the site, so it is the first choice.
+
+### 4. When the token expires
+
+Generate a new one as in step 1. Replace it in each cron job (or the vault secret), then test one run. Delete the old token on GitHub.
