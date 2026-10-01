@@ -159,6 +159,7 @@ SECTOR_RULES = [
     (r"^carbon_intensity_(hourly|daily|monthly)$", "power;carbon"),  # session 34: monthly
     # session 36B: the Historical Event Analyzer's event windows (prices, demand, generation, intensity)
     (r"^event_window_daily$", "power;carbon"),
+    (r"^event_study_estimates$", "power"),  # session 47: the event studies of event_window_daily
     # session 37: the cost-of-power model (market-based wholesale cost per ISO hub; carbon beside price)
     (r"^cost_of_power_(monthly|hourly_profile)$", "power"),
     (r"^cost_of_power_carbon$", "power;carbon"),
@@ -181,7 +182,7 @@ def iso_of(table):
         return "none"
     if table.startswith("price_board_") or table.startswith("cost_of_power_"):  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
-    if table == "event_window_daily":  # session 36B Uri in ERCOT; session 36C COVID-19 in the seven ISO BAs and US48
+    if table in ("event_window_daily", "event_study_estimates"):  # session 36B Uri in ERCOT; session 36C COVID-19 in the seven ISO BAs and US48; session 47 its event studies
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48"
     if table == "storage_daily_cycle":  # session 34: CAISO's rows from caiso_battery_storage, with the EIA-930 BAs
         return "CAISO;ERCOT;ISO-NE;MISO;SPP;US48"
