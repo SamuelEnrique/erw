@@ -101,6 +101,14 @@ async function truth(check) {
   if (p[0] === "latest_prices") {
     return (await q("latest_prices", { select: "value", entity: `eq.${p[1]}`, variable: `eq.${p[2]}` }))[0]?.value;
   }
+  // session 54: demand from the hourly network refresh, netsnap|<BA>|demand_mw|<ts>: not in the database (the hourly job
+  // never writes it), so it is read from the hourly snapshot itself, the public Storage object, whose demand_recent keeps
+  // each ISO BA's last 48 hours (a page cached an hour ago still finds its hour)
+  if (p[0] === "netsnap") {
+    const res = await fetch(`${origin}/storage/v1/object/public/erw-public/network/grid_network.json`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`network snapshot in Storage: HTTP ${res.status}`);
+    return (await res.json()).nodes.find((n) => n.id === p[1])?.demand_recent?.[p[3]];
+  }
   // session 44: a derived answer of the problem sets, calc|<op>|<A>|<B>: A and B are check keys with "~" for "|", each
   // recomputed here on its own, then combined
   if (p[0] === "calc") {

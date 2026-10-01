@@ -8,9 +8,13 @@ import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 
 export type NetNode = { id: string; name: string; iso: string | null; demand_mw: number | null; demand_ts: string | null;
-  intensity: number | null; intensity_ts: string | null; volume_mwh: number; x: number; y: number; z: number };
+  intensity: number | null; intensity_ts: string | null; volume_mwh: number; x: number; y: number; z: number;
+  // session 54: set by the hourly refresh (warehouse/derived/network_hourly.py) on the seven ISO BAs
+  demand_src?: "hourly"; demand_recent?: Record<string, number> };
 export type NetLink = { a: string; b: string; mw: (number | null)[] };
-export type Snapshot = { built: string; window: [string, string]; hours: string[]; rule: string; nodes: NetNode[]; links: NetLink[] };
+export type Snapshot = { built: string; window: [string, string]; hours: string[]; rule: string; nodes: NetNode[]; links: NetLink[];
+  // session 54: the hourly snapshot's newest complete hour and the daily build it was merged onto
+  newest_hour?: string; refresh?: "hourly"; base_built?: string };
 
 const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
 const fmt = (v: number) => Math.round(v).toLocaleString("en-US");
@@ -33,6 +37,7 @@ export function Network({ snap }: { snap: Snapshot }) {
   const [noGl, setNoGl] = useState(false);
   const held = snap.nodes.filter((n) => n.intensity !== null).map((n) => n.intensity as number);
   const lo = Math.min(...held), hi = Math.max(...held);
+  const ciTs = snap.nodes.map((n) => n.intensity_ts ?? "").reduce((a, b) => (b > a ? b : a), "");
   const maxDemand = Math.max(...snap.nodes.map((n) => n.demand_mw ?? 0)), maxVol = Math.max(...snap.nodes.map((n) => n.volume_mwh));
   const maxMw = Math.max(1, ...snap.links.flatMap((l) => l.mw.map((v) => Math.abs(v ?? 0))));
   const size = (n: NetNode) => (n.demand_mw !== null ? 4 + 30 * Math.sqrt(n.demand_mw / maxDemand) : 2 + 12 * Math.sqrt(n.volume_mwh / maxVol));
@@ -121,15 +126,17 @@ export function Network({ snap }: { snap: Snapshot }) {
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
         <span>Drag to rotate, scroll to zoom; it turns slowly until touched.</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
-          <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, #175E54, #8C1515)" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held</span>
+          <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, #175E54, #8C1515)" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
+          The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly</span>
         <span>Sphere: demand (the seven ISOs) or interchange volume (the others)</span>
       </div>
       {pick ? (
         <div className="mt-3 border border-rule bg-panel p-3 text-sm">
           <div className="mb-1 font-semibold">{pick.name} <span className="font-mono text-xs text-muted">{pick.id}</span>{pick.iso ? <> &middot; <Link href={`/grid/${GRID_SLUG[pick.iso]}`}>{pick.iso}&apos;s grid page</Link></> : null}</div>
           <div>
-            {/* the ISO BAs' figures carry check keys: check-values reads them from Supabase (eia930_all_demand, carbon_intensity_hourly) */}
-            {pick.demand_mw !== null ? <>Demand <Num check={`series|eia930_all_demand|eia930:${pick.id}|demand_mw|${pick.demand_ts}`} raw={pick.demand_mw}>{shown(pick.demand_mw)}</Num> MW at {pick.demand_ts?.slice(0, 13).replace("T", " ")}:00 UTC. </> : <>Demand: not held in the warehouse (sized by interchange). </>}
+            {/* the ISO BAs' figures carry check keys: check-values reads them from Supabase (eia930_all_demand, carbon_intensity_hourly), or,
+                for demand from the hourly refresh (session 54), from the hourly snapshot's demand_recent in Supabase Storage */}
+            {pick.demand_mw !== null ? <>Demand <Num check={pick.demand_src === "hourly" ? `netsnap|${pick.id}|demand_mw|${pick.demand_ts}` : `series|eia930_all_demand|eia930:${pick.id}|demand_mw|${pick.demand_ts}`} raw={pick.demand_mw}>{shown(pick.demand_mw)}</Num> MW at {pick.demand_ts?.slice(0, 13).replace("T", " ")}:00 UTC. </> : <>Demand: not held in the warehouse (sized by interchange). </>}
             {pick.intensity !== null ? <>Carbon intensity <Num check={`series|carbon_intensity_hourly|eia930:${pick.id}|intensity_generation|${pick.intensity_ts}`} raw={pick.intensity}>{shown(pick.intensity)}</Num> kg CO2/MWh. </> : null}
             Interchange over the week: {fmt(pick.volume_mwh)} MWh.
           </div>
