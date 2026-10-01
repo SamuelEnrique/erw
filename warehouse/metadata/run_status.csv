@@ -2594,3 +2594,10 @@ run_id,runner,connector,table,market,status,detail
 20261001T060904Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 394.6 MB -> 356.2 MB
 20261001T072517Z,local,hub_history,iso_hub_prices_history,spp_dam,ok,"61 days written, 0 not complete"
 20261001T072517Z,local,hub_history,iso_hub_prices_history,spp_rtm,ok,"61 days written, 0 not complete"
+20261001T093109Z,github,supabase_vacuum,catalogue,all,ok,0.1 MB -> 0.1 MB
+20261001T093109Z,github,supabase_vacuum,entities,all,ok,36.3 MB -> 36.2 MB
+20261001T093109Z,github,supabase_vacuum,events,all,ok,9.6 MB -> 9.5 MB
+20261001T093109Z,github,supabase_vacuum,headers,all,ok,0.4 MB -> 0.3 MB
+20261001T093109Z,github,supabase_vacuum,series,all,ok,300.6 MB -> 297.9 MB
+20261001T093109Z,github,supabase_vacuum,sources,all,ok,0.2 MB -> 0.1 MB
+20261001T093109Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 359.4 MB -> 356.6 MB
