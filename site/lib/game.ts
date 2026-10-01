@@ -30,6 +30,21 @@ export function allow(ip: string, now = Date.now()): boolean {
   return true;
 }
 
+/** Session 55: the leaderboard's read route (GET /api/play/top) has its own, larger floor: the pick screen reloads the
+ * board as the player changes the settings, which should not use up the 30 plays an hour. */
+const READ_LIMIT = 240;
+const seenRead = new Map<string, number[]>();
+export function allowRead(ip: string, now = Date.now()): boolean {
+  const recent = (seenRead.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= READ_LIMIT) {
+    seenRead.set(ip, recent);
+    return false;
+  }
+  recent.push(now);
+  seenRead.set(ip, recent);
+  return true;
+}
+
 export const fail = (error: string, status = 400) => NextResponse.json({ error }, { status });
 
 export type Scored = {

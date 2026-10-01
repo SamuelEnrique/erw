@@ -77,6 +77,23 @@ export function presetLabel(p: string): string {
   return `${d}, ${m[2]} kWh, ${m[3]} kW, ${m[4]} percent round trip${m[5] !== undefined ? `, reserve ${m[5]} percent, wear $${m[6]} per kWh` : ""}`;
 }
 
+/** Session 55: a preset back to its settings and difficulty, or null when it is not a preset presetOf writes: an
+ * unknown difficulty, a setting outside its range or off its step, the reserve and degradation on a level other than
+ * Hard (or missing on Hard), or any other spelling of the same rules. The read route of the leaderboard refuses the rest. */
+export function parsePreset(p: unknown): { settings: Settings; difficulty: Difficulty } | null {
+  if (typeof p !== "string" || p.length > 64) return null;
+  const m = /^(easy|normal|hard):(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)-(\d+)(?:-r(\d+)-d(\d+(?:\.\d+)?))?$/.exec(p);
+  if (!m) return null;
+  const difficulty = m[1] as Difficulty;
+  if ((difficulty === "hard") !== (m[5] !== undefined)) return null;
+  const settings: Settings = {
+    kwh: Number(m[2]), kw: Number(m[3]), rte: Number(m[4]) / 100,
+    reserve: m[5] !== undefined ? Number(m[5]) / 100 : DEFAULT_SETTINGS.reserve, deg: m[6] !== undefined ? Number(m[6]) : DEFAULT_SETTINGS.deg,
+  };
+  if (!validSettings(settings) || presetOf(settings, difficulty) !== p) return null;
+  return { settings, difficulty };
+}
+
 /** The VPP hour: the clock hour (four intervals from the day's start) with the highest mean price; the earliest on a tie. */
 export function vppHour(prices: number[]): { first: number; last: number; price: number } {
   let best = { first: 0, last: Math.min(3, prices.length - 1), price: -Infinity };

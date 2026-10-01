@@ -336,6 +336,25 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
   const [server, setServer] = useState<string>("");
   const [top, setTop] = useState<ScoreRow[]>(firstTop);
   const [topFor, setTopFor] = useState<{ date: string; preset: string }>({ date: levels[0].date, preset: firstTop[0]?.preset ?? presetOf(DEFAULT_SETTINGS, "normal") });
+  const [boardNote, setBoardNote] = useState("");
+  // session 55: on the pick screen the leaderboard follows the chosen day, difficulty and battery (GET /api/play/top),
+  // so the board shown is the one a play would join; 400 ms after the last change, and only for valid settings
+  useEffect(() => {
+    if (phase !== "pick" || !ok || (topFor.date === level.date && topFor.preset === preset)) return;
+    let live = true;
+    const t = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/play/top?${new URLSearchParams({ level: level.date, preset })}`);
+        const j = await res.json();
+        if (!live) return;
+        if (!res.ok) { setBoardNote(j.error ?? `The leaderboard could not be loaded (HTTP ${res.status}).`); return; }
+        setTop(j.top); setTopFor({ date: j.level, preset: j.preset }); setBoardNote("");
+      } catch {
+        if (live) setBoardNote("The leaderboard could not be loaded.");
+      }
+    }, 400);
+    return () => { live = false; clearTimeout(t); };
+  }, [phase, ok, level.date, preset, topFor.date, topFor.preset]);
   const [nick, setNick] = useState("");
   const [posted, setPosted] = useState<string>("");
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -653,6 +672,9 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
           <p className="mt-2 text-xs text-muted">
             Other presets played on {topFor.date}: {otherPresets.map((p) => `${presetLabel(p.preset)} (${p.n} score${p.n === 1 ? "" : "s"}, best ${usd(p.best)})`).join("; ")}. Scores are ranked only within a preset.
           </p>
+        ) : null}
+        {phase === "pick" && ok && (topFor.date !== level.date || topFor.preset !== preset) ? (
+          <p className="mt-1 text-xs text-muted" aria-live="polite">{boardNote || `Loading the board for ${level.date}: ${presetLabel(preset)}...`}</p>
         ) : null}
         <p className="mt-1 text-xs text-muted">Your preset now: {presetLabel(preset)}.</p>
       </div>
