@@ -128,7 +128,7 @@ export default async function CostOfPower() {
         <p className="text-muted">
           Wholesale energy only: transmission, distribution, capacity charges, ancillary services and taxes are not in these figures, so an end user
           pays more. PJM is not here: its prices are internal. ERCOT&apos;s prices reach back to 2015 and its demand to July 2018; the other five ISOs&apos;
-          hub prices cover about the last month, so their months are partial and say so. <Link href={METHOD}>Method</Link>.
+          main hubs reach back to September 2025 (session 49&apos;s history), so every ISO has a year; a partial month says so. <Link href={METHOD}>Method</Link>.
         </p>
       </div>
       {!got.ok || !d.monthly.length ? (
@@ -141,7 +141,7 @@ export default async function CostOfPower() {
             <p className="mb-2 text-sm text-muted">
               {allComplete
                 ? `${common} is complete for every ISO.`
-                : `The latest month every ISO holds, ${common}; the months are partial (grey bars): the hours held are in the table. The other five ISOs' hub prices cover about the last month, and SPP's real-time prices only a few days.`}
+                : `The latest month every ISO holds, ${common}; no month is complete for every ISO, so some are partial (grey bars): the hours held are in the table.`}
             </p>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] text-sm">
@@ -225,13 +225,13 @@ export default async function CostOfPower() {
             <p className="mb-2 max-w-3xl text-sm">
               Assumptions, each a default you can change below: a facility of <strong>{MW} MW</strong>, a load factor of <strong>{LF}</strong>, and a training run
               of <strong>{DAYS} days</strong>. Flat load: the facility draws {MW} MW x {LF} in every hour, <Num check={`cop|energy|${MW}|${LF}|${DAYS}|1`} raw={eFlat}>{shown(eFlat)}</Num> MWh,
-              at the mean real-time price of every hour held in the last 12 months. Cheapest 80 percent of hours: it draws the same only in the cheapest 80
-              percent of hours by month and hour of day, <Num check={`cop|energy|${MW}|${LF}|${DAYS}|${SHARE}`} raw={e80}>{shown(e80)}</Num> MWh.
+              in {common}, the latest month complete for every ISO, at that month&apos;s mean real-time price. Cheapest 80 percent of hours: it draws the same
+              only in the cheapest 80 percent of {common}&apos;s hours by hour of day, <Num check={`cop|energy|${MW}|${LF}|${DAYS}|${SHARE}`} raw={e80}>{shown(e80)}</Num> MWh.
             </p>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] text-sm">
                 <thead className="text-left text-xs text-muted">
-                  <tr><th className="py-1">ISO</th><th>Flat load, USD</th><th>USD/MWh</th><th>Cheapest 80% of hours, USD</th><th>USD/MWh</th><th>Months held</th></tr>
+                  <tr><th className="py-1">ISO</th><th>Flat load, USD</th><th>USD/MWh</th><th>Cheapest 80% of hours, USD</th><th>USD/MWh</th><th>Month</th></tr>
                 </thead>
                 <tbody>
                   {calc.map((c) => (
@@ -248,12 +248,12 @@ export default async function CostOfPower() {
               </table>
             </div>
             <p className="mt-1 mb-4 text-xs text-muted">
-              The defaults, computed from the tables. Only ERCOT has 12 months; the other ISOs&apos; prices are those of the months they hold, a late-summer
-              month, not a year. Wholesale energy only, at the main hub.
+              The defaults, computed from the tables, every ISO on the same month, {common}, the one the ranking above uses: one month&apos;s prices,
+              not a year&apos;s. Wholesale energy only, at the main hub.
             </p>
             <h3 className="mb-2 text-base">Your own inputs</h3>
-            <Calculator hubs={calc.map((c) => ({ iso: ISO[isoOf(c.e)].name, flat: c.flat, cells: cells(d.profile, c.e), months: span(c.months) }))} />
-            <Cite tables={[M, P]} note="Flat: the hub's real-time simple means over the last 12 months held, weighted by the hours held; cheapest 80 percent: the hourly profile's cheapest (month, hour) cells" />
+            <Calculator hubs={calc.map((c) => ({ iso: ISO[isoOf(c.e)].name, flat: c.flat, cells: cells(d.profile, c.e).filter((x) => !common || x.month === common), months: span(c.months) }))} />
+            <Cite tables={[M, P]} note="Flat: the hub's real-time simple mean in the ranked month; cheapest 80 percent: the hourly profile's cheapest hour-of-day cells of that month" />
           </Section>
         </>
       )}

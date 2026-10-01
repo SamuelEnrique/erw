@@ -21,6 +21,8 @@ eia860m_retired_generators,none,,249,snapshot,2026-09-26T00:04:26Z,2026-09-26T00
 eia930_all_demand,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2026-08-26T00:00:00Z,2026-09-28T23:00:00Z,12720,eia:electricity/rto/region-data,2026-09-29T00:57:39Z,pass,public,power,no,source
 eia930_all_emissions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2018-07-02T00:00:00Z,2026-09-27T23:00:00Z,4317384,eia:gridmonitor/knownissues/xls,2026-09-30T00:20:15Z,pass,public,power;carbon,no,source
 eia930_all_generation,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2026-08-26T00:00:00Z,2026-09-27T23:00:00Z,65112,eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data,2026-09-29T00:57:39Z,pass,public,power,no,source
+eia930_all_history,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2018-01-01T05:00:00Z,2018-07-01T06:00:00Z,60084,eia:gridmonitor/sixMonthFiles,2026-10-01T03:50:16Z,pass,public,power,no,source
+eia930_all_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,341,PT1H,2026-09-13T00:00:00Z,2026-09-28T23:00:00Z,127560,eia:electricity/rto/interchange-data,2026-10-01T03:50:59Z,pass,public,power,no,source
 eia930_all_storage,ERCOT;ISO-NE;MISO;SPP;US48,,5,PT1H,2024-11-01T00:00:00Z,2026-09-28T23:00:00Z,70416,eia:electricity/rto/fuel-type-data,2026-09-29T12:35:11Z,pass,public,power,no,source
 eia930_generation_latest,GENERATION,,8,PT1H,2026-09-27T00:00:00Z,2026-09-28T05:00:00Z,2073,eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data,2026-09-29T00:57:39Z,pass,public,power,no,source
 eia_crude_first_purchase_prices,none,,2,P1M,1977-07-01T00:00:00Z,2026-06-01T00:00:00Z,858,eia:petroleum/pri/dfp1;eia:petroleum/pri/dfp2,2026-09-29T00:59:32Z,pass,public,oil,no,source
@@ -45,12 +47,15 @@ ercot_interconnection_queue,ERCOT,,1778,snapshot,2026-09-26T00:06:47Z,2026-09-26
 ercot_peak_premium_annual,ERCOT,ercot_rtm,6,P1Y,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2016,erw:ercot_peak_premium,2026-09-29T00:55:55Z,pass,public,power,yes,derived
 ercot_peak_premium_monthly,ERCOT,ercot_rtm,6,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,23688,erw:ercot_peak_premium,2026-09-29T00:55:55Z,pass,public,power,yes,derived
 ercot_wind_solar_hsl_daily,ERCOT,,1,P1D,2026-09-19T00:00:00Z,2026-09-27T00:00:00Z,54,ercot:np4_732_745,2026-09-29T01:09:05Z,pass,public,power,no,source
-event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,9,P1D;PT1H,2020-03-01T00:00:00Z,2023-09-10T00:00:00Z,1485,erw:event_study,2026-09-30T23:49:48Z,pass,public,power,yes,derived
-event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm,9,P1D;P1W,2018-08-13T00:00:00Z,2023-09-10T00:00:00Z,10879,erw:event_window,2026-09-30T10:47:58Z,pass,public,power;carbon,yes,derived
+event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,9,P1D;PT1H,2020-03-01T00:00:00Z,2023-09-10T00:00:00Z,2320,erw:event_study,2026-10-01T04:15:42Z,pass,public,power,yes,derived
+event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2023-09-10T00:00:00Z,25580,erw:event_window,2026-10-01T04:08:00Z,pass,public,power;carbon,yes,derived
 fred_daily_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-09-22T00:00:00Z,24291,fred:DCOILBRENTEU;fred:DCOILWTICO;fred:DHHNGSP,2026-09-29T01:08:36Z,pass,public,oil;gas,no,source
 fred_imf_commodity_prices,none,,5,P1M,1992-01-01T00:00:00Z,2026-07-01T00:00:00Z,2075,fred:PCOALAUUSDM;fred:PNGASEUUSDM;fred:PNGASJPUSDM;fred:PNICKUSDM;fred:PURANUSDM,2026-09-29T01:08:36Z,pass,internal,gas;lng;coal;uranium;metals,no,source
+grid_network_links,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,156,PT1H,2026-09-22T00:00:00Z,2026-09-28T23:00:00Z,26160,erw:grid_network,2026-10-01T04:02:47Z,pass,public,power,yes,derived
+grid_network_nodes,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,69,PT168H;PT1H,2026-09-22T00:00:00Z,2026-09-29T23:00:00Z,83,erw:grid_network,2026-10-01T04:02:47Z,pass,public,power,yes,derived
 iso_curtailment_monthly,iso,,2,P1M,2014-03-01T00:00:00Z,2026-08-01T00:00:00Z,1988,erw:iso_curtailment_monthly,2026-09-29T01:09:37Z,pass,public,power,yes,derived
 iso_dam_hub_prices,CAISO;ERCOT;MISO;SPP,caiso_dam;ercot_dam;miso_dam;spp_dam,19,PT1H,2026-08-26T05:00:00Z,2026-09-30T06:00:00Z,15960,caiso:PRC_LMP;ercot:NP4-190-CD;miso:da_expost_lmp;spp:DA-LMP-SL,2026-09-29T00:45:34Z,pass,public,power,no,source
+iso_hub_prices_history,CAISO;ISO-NE;MISO;NYISO;SPP,isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm,3,PT15M;PT1H,2025-09-01T04:00:00Z,2026-10-01T03:45:00Z,77232,isone:da_lmp_hourly;isone:rt_lmp_5min;miso:da_expost_lmp;miso:rt_lmp_final;miso:rt_lmp_prelim;nyiso:damlbmp;nyiso:realtime,2026-10-01T03:53:05Z,pass,public,power,no,source
 iso_rt_top_intervals,iso,caiso;ercot;isone;miso;nyiso,35,PT15M;PT1H,2026-09-21T09:00:00Z,2026-09-27T05:30:00Z,50,erw:trader_view,2026-09-29T00:59:02Z,pass,public,power,yes,derived
 iso_rtm_hub_prices,CAISO;ERCOT;MISO;SPP,caiso_rtm;ercot_rtm;miso_rtm;spp_rtm,19,PT15M;PT1H,2026-08-26T05:00:00Z,2026-09-28T06:45:00Z,35424,caiso:PRC_INTVL_LMP;ercot:NP6-785-ER;ercot:NP6-905-CD;miso:rt_lmp_final;miso:rt_lmp_prelim;spp:RTBM-LMP-SL,2026-09-29T00:45:34Z,pass,public,power,no,source
 iso_trader_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso;ercot;isone;miso;nyiso;spp,39,P1D,2026-08-26T00:00:00Z,2026-09-29T00:00:00Z,9961,erw:trader_view,2026-09-29T00:59:02Z,pass,public,power,yes,derived
@@ -62,6 +67,7 @@ miso_interconnection_queue,MISO,,3870,snapshot,2026-09-26T00:06:51Z,2026-09-26T0
 news_index,none,,69,event,2025-01-01T08:00:00Z,2026-09-30T23:28:39Z,9544,69 outlets,2026-09-30T23:38:55Z,pass,public,news,no,model_extracted
 news_scores_shadow,none,,55,event,2026-08-31T07:00:00Z,2026-09-28T23:26:32Z,2375,55 outlets,2026-09-29T10:20:03Z,pass,internal,news,no,model_extracted
 news_stories,none,,71,event,2025-01-01T08:00:00Z,2026-09-30T23:28:39Z,13885,71 outlets,2026-09-30T23:36:57Z,pass,internal,news,no,model_extracted
+noaa_isd_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,4,,2018-03-04T05:51:00Z,2023-09-11T04:53:00Z,176885,noaa:isd_global_hourly,2026-10-01T03:54:43Z,pass,public,power,no,source
 nyiso_dam_zone_prices,NYISO,nyiso_dam,11,PT1H,2026-08-26T04:00:00Z,2026-09-30T03:00:00Z,9240,nyiso:damlbmp,2026-09-29T00:44:57Z,pass,public,power,no,source
 nyiso_interconnection_queue,NYISO,,1814,snapshot,2026-09-26T00:06:50Z,2026-09-26T00:06:50Z,1814,nyiso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 nyiso_rtm_zone_prices,NYISO,nyiso_rtm,11,PT15M,2026-08-26T04:00:00Z,2026-09-28T03:45:00Z,34848,nyiso:realtime,2026-09-29T00:44:57Z,pass,public,power,no,source
