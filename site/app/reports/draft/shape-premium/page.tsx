@@ -160,9 +160,11 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
     const st = stats(rows, h.e, "rt", fixStart, yEnd);
     const k = (stat: string, v: number): V => ({ v, k: `shape|${h.e}|rt|${stat}|${fixStart}|${yEnd}` });
     return { ...h, n: k("n", st.n), npos: k("npos", st.npos), mean: k("mean", st.mean), usd: k("usdmw", st.usdmw) };
-  }).sort((a, b) => b.mean.v - a.mean.v) : [];
+  }).sort((a, b) => (b.n.v > 0 ? 1 : 0) - (a.n.v > 0 ? 1 : 0) || b.mean.v - a.mean.v) : [];
   const allTwelve = year.length > 0 && year.every((y) => y.n.v === 12);
-  const alwaysPos = year.filter((y) => y.npos.v === y.n.v);
+  const ranked = year.filter((y) => y.n.v > 0);  // a hub with no complete month has no mean and is left out of the text
+  const alwaysPos = ranked.filter((y) => y.npos.v === y.n.v);
+  const noneComplete = year.filter((y) => y.n.v === 0);
 
   // 3. the hour of the day, each hub's latest profile month
   const prof = await series(P, {});
@@ -230,19 +232,20 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
         </p>
       </Section>
 
-      {year.length ? (
+      {ranked.length >= 2 ? (
         <Section title={`Twelve months, six hubs: ${month(fixStart)} to ${month(lastAll!)}`}>
           <p className="mb-3">
             {allTwelve ? "Every hub has all twelve months complete in real time." : "Not every hub has all twelve months complete; the table gives each hub's count, and its figures are over those months."}{" "}
-            Over the year, the mean real-time premium runs from <N x={year.at(-1)!.mean} /> USD/MWh at {year.at(-1)!.iso}&apos;s {year.at(-1)!.hub} to{" "}
-            <N x={year[0].mean} /> at {year[0].iso}&apos;s {year[0].hub}.{" "}
-            {alwaysPos.length === year.length
-              ? "The premium was positive in every complete month at every hub."
+            {noneComplete.length ? <>{noneComplete.map((y) => y.iso).join(" and ")} {noneComplete.length === 1 ? "has" : "have"} no complete month in it, so {noneComplete.length === 1 ? "it is" : "they are"} left out of what follows. </> : null}
+            Over their complete months, the mean real-time premium runs from <N x={ranked.at(-1)!.mean} /> USD/MWh at {ranked.at(-1)!.iso}&apos;s {ranked.at(-1)!.hub} to{" "}
+            <N x={ranked[0].mean} /> at {ranked[0].iso}&apos;s {ranked[0].hub}.{" "}
+            {alwaysPos.length === ranked.length
+              ? "The premium was positive in every complete month at each of them."
               : alwaysPos.length
                 ? <>It was positive in every complete month at {alwaysPos.map((y) => y.iso).join(", ")}; at the others, some months had a negative premium (the table counts them).</>
                 : "At every hub, some months had a negative premium (the table counts them)."}{" "}
-            A megawatt shaped like the grid&apos;s load paid <N x={year[0].usd} /> USD more than a flat megawatt over the year at {year[0].iso}, and{" "}
-            <N x={year.at(-1)!.usd} /> USD at {year.at(-1)!.iso}.
+            Summed over its complete months, a megawatt shaped like the grid&apos;s load paid <N x={ranked[0].usd} /> USD more than a flat megawatt at {ranked[0].iso}, and{" "}
+            <N x={ranked.at(-1)!.usd} /> USD at {ranked.at(-1)!.iso}; the counts of months differ, so these sums are not a ranking.
           </p>
           <table className="w-full text-left text-sm tabular-nums">
             <thead><tr className="border-b border-rule text-xs text-muted"><th className="py-1">ISO hub</th><th className="text-right">Complete months</th><th className="text-right">Positive</th><th className="text-right">Mean premium, USD/MWh</th><th className="text-right">Grid-shaped over flat, USD per MW</th></tr></thead>
@@ -250,7 +253,7 @@ export default async function ShapePremium({ searchParams }: { searchParams: Pro
               {year.map((y) => (
                 <tr key={y.e} className="border-b border-rule">
                   <td className="py-1">{y.iso}, {y.hub}</td><td className="text-right"><N x={y.n} /></td><td className="text-right"><N x={y.npos} /></td>
-                  <td className="text-right"><N x={y.mean} /></td><td className="text-right"><N x={y.usd} /></td>
+                  {y.n.v > 0 ? <><td className="text-right"><N x={y.mean} /></td><td className="text-right"><N x={y.usd} /></td></> : <td colSpan={2} className="text-right text-muted">no complete month</td>}
                 </tr>
               ))}
             </tbody>
