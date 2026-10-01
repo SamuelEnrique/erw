@@ -2527,3 +2527,10 @@ run_id,runner,connector,table,market,status,detail
 20260930T234859Z,github,news_email,email,daily,ok,"2026-09-28: sent to 0 recipients (0 fixed, 0 subscribers)"
 20260930T234902Z,github,news_brief,digest,brief,failed,"    - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this."
 20260930T234902Z,github,news_shadow_digest,digest,shadow,failed,RuntimeError: the shadow digest was not written (exit 1); see the brief's log
+20261001T060904Z,github,supabase_vacuum,catalogue,all,ok,0.1 MB -> 0.1 MB
+20261001T060904Z,github,supabase_vacuum,entities,all,ok,64.8 MB -> 36.2 MB
+20261001T060904Z,github,supabase_vacuum,events,all,ok,11.6 MB -> 9.5 MB
+20261001T060904Z,github,supabase_vacuum,headers,all,ok,0.6 MB -> 0.3 MB
+20261001T060904Z,github,supabase_vacuum,series,all,ok,304.8 MB -> 297.6 MB
+20261001T060904Z,github,supabase_vacuum,sources,all,ok,0.2 MB -> 0.1 MB
+20261001T060904Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 394.6 MB -> 356.2 MB
