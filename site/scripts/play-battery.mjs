@@ -74,5 +74,22 @@ for (const [label, settings, difficulty] of [["easy", DEFAULT_SETTINGS, "easy"],
 check(s === 400, `a setting out of range refused: HTTP ${s} (${j.error})`);
 [s, j] = await post("/api/play/finish", { level: heat.date, actions: best.actions, difficulty: "insane" });
 check(s === 400, `an unknown difficulty refused: HTTP ${s} (${j.error})`);
+// 5. session 56: one scripted play on each California day (CAISO SP15), the optimum's actions on Normal with the default
+// battery: the server finds the level, rescoring equals lib/battery.ts's optimum, the score is stored under its preset,
+// and the leaderboard's read route answers for the level
+for (const l of levels.filter((x) => x.grid === "CAISO")) {
+  const o = optimum(l.price);
+  [s, j] = await post("/api/play/finish", { level: l.date, actions: o.actions });
+  check(s === 200 && j.stored === true && Math.abs(j.score - Math.round(o.score * 1e4) / 1e4) < 1e-9 && Math.abs(j.optimal - j.score) < 1e-9,
+    `CAISO ${l.slug} ${l.date}: finish scored ${j.score}, the optimum ${o.score.toFixed(4)} USD`);
+  [s, j] = await post("/api/play/score", { level: l.date, actions: o.actions, nickname: "ERWcheck" });
+  check(s === 200 && j.preset === presetOf(DEFAULT_SETTINGS, "normal") && Array.isArray(j.top) && !j.top.some((r) => r.nickname === "ERWcheck"),
+    `CAISO ${l.slug}: score stored under ${j.preset}; leaderboard of ${j.top?.length} rows, the check row left out`);
+  const r = await fetch(`${base}/api/play/top?${new URLSearchParams({ level: l.date, preset: presetOf(DEFAULT_SETTINGS, "hard") })}`);
+  const t = await r.json();
+  check(r.status === 200 && t.level === l.date && Array.isArray(t.top), `CAISO ${l.slug}: /api/play/top for Hard answers ${r.status} with ${t.top?.length} rows`);
+  const h = optimum(l.price, rulesOf(DEFAULT_SETTINGS, "hard"));
+  console.log(`     ${l.date}: perfect foresight ${o.score.toFixed(4)} USD on Normal, ${h.score.toFixed(4)} USD on Hard (default battery)`);
+}
 console.log(bad ? `${bad} FAILED` : "scripted play: every check passed");
 process.exit(bad ? 1 : 0);

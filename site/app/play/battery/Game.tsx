@@ -578,7 +578,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
                   return (
                     <div key={l.slug} className={`border text-sm ${i === pick ? "border-accent" : "border-rule"}`}>
                       <button onClick={() => setPick(i)} className="w-full p-2 text-left">
-                        <span className="font-semibold">{l.title}</span> <span className="text-muted">{l.date}</span>
+                        <span className="font-semibold">{l.title}</span> <span className="whitespace-nowrap text-muted">{l.date}</span>
                         <span className="block text-xs text-muted">{l.why}</span>
                         {l.rule ? <span className="block text-xs text-muted">The rule: {l.rule}</span> : null}
                       </button>

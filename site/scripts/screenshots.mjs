@@ -26,6 +26,7 @@ const MAX_HEIGHT = 12000; // CSS px; taller pages (the data standard) are cut at
 
 const PAGES = [
   ["home", "/"],
+  ["play-battery", "/play/battery"],  // session 56: the levels grouped by grid
   ["board", "/board"],
   ["emissions", "/emissions"],
   ["storage", "/storage"],
