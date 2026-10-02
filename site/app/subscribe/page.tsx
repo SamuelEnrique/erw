@@ -22,6 +22,10 @@ const STATES: Record<string, string> = {
 export default async function SubscribePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
   const state = typeof sp.state === "string" ? STATES[sp.state] : undefined;
+  // session 59: an email's unsubscribe link opens this page and asks; only the button below unsubscribes (a link scanner's
+  // GET changes nothing). The address and token travel in hidden fields to /api/unsubscribe.
+  const one = (k: string) => (typeof sp[k] === "string" ? (sp[k] as string) : "");
+  const confirm = one("confirm") === "1" && one("e") && /^[0-9a-f]{64}$/.test(one("t"));
   return (
     <>
       <h1 className="mb-1 text-3xl">Email</h1>
@@ -47,6 +51,18 @@ export default async function SubscribePage({ searchParams }: { searchParams: Pr
           </li>
         </ul>
       </Section>
+      {confirm ? (
+        <Section title="Unsubscribe">
+          <form method="post" action="/api/unsubscribe" className="flex max-w-xl flex-wrap items-center gap-3 border border-rule bg-panel p-3 text-sm">
+            <input type="hidden" name="e" value={one("e")} />
+            <input type="hidden" name="t" value={one("t")} />
+            <input type="hidden" name="confirm" value="yes" />
+            <span>Stop every ERW email to <strong>{one("e")}</strong>?</span>
+            <button type="submit" className="border border-accent px-3 py-1 text-accent">Unsubscribe</button>
+          </form>
+          <p className="mt-2 max-w-xl text-xs text-muted">Nothing changes until you press the button.</p>
+        </Section>
+      ) : null}
       <Section title="Sign up">
         {state ? (
           <p className="mb-3 border border-dashed border-rule bg-panel px-3 py-2 text-sm" role="status">

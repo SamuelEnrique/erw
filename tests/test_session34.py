@@ -22,7 +22,8 @@ for p in ("warehouse", "warehouse/connectors", "warehouse/news"):
 import email_digest as em  # noqa: E402
 import shadow  # noqa: E402
 
-A, B, C = "owner@example.org", "second@example.org", "subscriber@example.org"
+# session 59: the fixed test address (email_digest.TEST_ADDRESS) and its +tags, never a real recipient
+A, B, C = "erw-test+owner@example.invalid", "erw-test+second@example.invalid", "erw-test+subscriber@example.invalid"
 
 
 class Sent:

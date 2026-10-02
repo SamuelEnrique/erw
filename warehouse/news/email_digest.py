@@ -61,6 +61,9 @@ NUM_HEADS = ("## ERW's Numbers Today", "## ERW's Numbers This Week", "## Numbers
 LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 IMAGE = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
 KINDS = {"daily": ("ERW's Energy Digest", "digest", DIGEST), "roundup": ("ERW's Roundup", "roundup", ROUNDUP)}
+# Session 59: every test uses this address or a +tag of it (erw-test+owner@example.invalid). The .invalid domain is
+# reserved (RFC 2606) and can never be a real recipient, so no test can touch the real recipient's subscription.
+TEST_ADDRESS = "erw-test@example.invalid"
 SUB_COLUMN = {"daily": "daily", "roundup": "weekly"}  # the subscribers column (migration 006 named the Roundup opt-in weekly)
 
 
