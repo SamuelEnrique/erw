@@ -162,6 +162,22 @@ class LoaderRefusesOlder(unittest.TestCase):
         self.assertIsNone(load.older_than_live(self.client(count=300), "api_cost_ledger", ledger, "series"))
 
 
+class RestoredDates(unittest.TestCase):
+    """warehouse/redivis/upload.py as_erw_text: a date column read back from Redivis (a datetime at midnight) is written
+    YYYY-MM-DD, as the connectors write it; timestamps keep their time and Z."""
+
+    def test_dates_and_timestamps(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "redivis"))
+        import upload as up
+        df = pd.DataFrame({"status_date": pd.to_datetime(["2015-09-09", None]), "queue_date": pd.to_datetime(["2010-07-31 06:00", None]),
+                           "retrieved_at": pd.to_datetime(["2026-10-01T23:10:06", "2026-10-01T00:00:00"]), "value": [1.5, None]})
+        out = up.as_erw_text(df)
+        self.assertEqual(list(out["status_date"]), ["2015-09-09", ""])
+        self.assertEqual(out["queue_date"].iloc[0], "2010-07-31T06:00:00Z")  # not midnight: kept whole
+        self.assertEqual(list(out["retrieved_at"]), ["2026-10-01T23:10:06Z", "2026-10-01T00:00:00Z"])
+        self.assertEqual(list(out["value"]), ["1.5", ""])
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(OUT, "flex_alert_effects.csv")) and os.path.isdir(os.path.join(ROOT, "warehouse", "raw", "eia930_emissions")),
                      "the scorecard's tables or the CISO extract are not on this machine")
 class Notebook(unittest.TestCase):

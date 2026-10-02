@@ -483,7 +483,12 @@ def as_erw_text(df):
     out = pd.DataFrame(index=df.index)
     for c in df.columns:
         s = df[c]
-        if pd.api.types.is_datetime64_any_dtype(s):
+        if pd.api.types.is_datetime64_any_dtype(s) and str(c).endswith("date") and \
+                bool((s.dropna().dt.strftime("%H:%M:%S") == "00:00:00").all()):
+            # session 60: a date column (status_date, queue_date, event_date...) comes back from Redivis as a datetime;
+            # the connectors write YYYY-MM-DD, and the erw client parses it so (a restore wrote 2015-09-09T00:00:00Z)
+            out[c] = s.dt.strftime("%Y-%m-%d").fillna("")
+        elif pd.api.types.is_datetime64_any_dtype(s):
             out[c] = s.dt.strftime("%Y-%m-%dT%H:%M:%SZ").fillna("")
         elif s.dtype == object and len(s.dropna()) and hasattr(s.dropna().iloc[0], "isoformat") \
                 and not hasattr(s.dropna().iloc[0], "hour"):
