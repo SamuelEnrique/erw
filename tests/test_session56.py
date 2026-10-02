@@ -88,6 +88,7 @@ class California(unittest.TestCase):
         if self.sp15 is None:
             self.skipTest("iso_hub_prices_history.csv is not on this machine")
         d = self.sp15
+        d = d[d["day"] >= "2025-09-01"]  # session 64: the rules' stated window (the history now starts 2024-09-01)
         size = d.groupby("day").size()
         full = [x for x in size.index if size[x] == need(x)]
         d = d[d["day"].isin(full)]
@@ -104,7 +105,7 @@ class California(unittest.TestCase):
         q = pd.Series(duck["price"], index=pd.to_datetime(duck["ts_utc"], utc=True).tz_convert(TZ))
         r = q[(q.index.hour >= 18) & (q.index.hour < 21)].mean() - q[(q.index.hour >= 12) & (q.index.hour < 15)].mean()
         self.assertAlmostEqual(r, rise.max(), places=9)
-        self.assertEqual(len(full), 393)
+        self.assertGreaterEqual(len(full), 393)  # session 64: the daily run appends a day to the history each day
 
     def test_no_date_shared_and_ercot_days_unchanged(self):
         er = [lv for lv in levels() if lv.get("grid", "ERCOT") == "ERCOT"]

@@ -6,7 +6,7 @@ to Redivis. It answers one question: had the Flex Alert scorecard's load model (
 session 60) been run the day before, how well would its predicted evening peak have told CAISO's tight evenings (the days
 of a Flex Alert or a grid emergency notice, caiso_grid_emergencies) from the others?
 
-    warehouse/output/caiso_tight_evening_backtest.csv
+    warehouse/output/analysis_internal/caiso_tight_evening_backtest.csv   (gitignored; not a warehouse table, so not in coverage)
     python warehouse/derived/caiso_tight_evening.py
 
 The forecast, per day D of the alert season (May to October):
@@ -190,23 +190,22 @@ def main():
             raise RuntimeError("two rows share an (entity, variable, ts_utc) key")
         header = [
             "Energy Research Warehouse (ERW): a day-ahead tight-evening forecast for CAISO, backtested on past alert days (derived, session 64)",
-            "License: internal. Not in Supabase's live set, not on the site, not uploaded to Redivis.",
+            "Internal only (session 64): kept in warehouse/output/analysis_internal/, outside the warehouse's tables, so it is not in "
+            "coverage, Supabase's live set, the site or Redivis. Its inputs are public data.",
             "Shape: series (docs/datastandard.md v0). entity eia930:CISO; P1D rows at the Pacific day (00:00:00Z); P1Y rows per alert "
             "season (ts_utc May 1), P6Y the pooled 2020 to 2025 seasons (variables ending _pooled). Variables end _observed (day D's observed weather, a perfect "
             "weather forecast, an upper bound) or _persistence (the day before's weather, hour by hour).",
             f"Retrieved: {run_id} (UTC) by warehouse/derived/caiso_tight_evening.py",
             f"Run log: warehouse/output/logs/tight_evening_{run_id}.log",
             f"Source: {SOURCE} ERW derived internal table, tight-evening backtest, {METHOD}",
-            "Derived from: caiso_grid_emergencies (alert days, as flex_alert_scorecard.alert_days reads them); EIA-930 CISO hourly "
-            f"demand, {dsrc}; {wsrc}",
+            "Derived from: caiso_grid_emergencies; noaa_isd_hourly",
+            "Also read: the alert days as flex_alert_scorecard.alert_days reads them; EIA-930 CISO hourly demand from the emissions "
+            f"connector's extract, {dsrc}; weather {wsrc}",
             "Model: warehouse/derived/flex_alert_scorecard.py's per-hour OLS (chosen variant), fitted on non-alert days of the seasons "
             "before the test season; the test season's year level is the last training year's; threshold maximizing F1 on the training "
             "seasons' in-sample evening peaks (16:00 to 20:00 Pacific).",
         ]
         _write(df, header, log)
-        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
-                                report="Tight-evening forecast backtest (warehouse/derived/caiso_tight_evening.py)", report_url=METHOD,
-                                document_list="", license="internal", tables=[NAME])])
         status["detail"] = f"{len(df)} rows"
         for name, (seasons, pooled) in summary.items():
             print(f"{name}: pooled {pooled}")
@@ -222,7 +221,8 @@ def main():
 
 def _write(df, header, log):
     """The table rewritten whole (a derived backtest: every run replaces it)."""
-    path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+    os.makedirs(os.path.join(ip.OUT_DIR, "analysis_internal"), exist_ok=True)
+    path = os.path.join(ip.OUT_DIR, "analysis_internal", NAME + ".csv")
     with open(path + ".tmp", "w", encoding="utf-8", newline="") as f:
         f.writelines("# " + h + "\n" for h in header)
         df.to_csv(f, index=False, lineterminator="\n")

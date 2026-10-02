@@ -90,11 +90,15 @@ def provenance(table, market, node, cols_extra=("source", "source_url", "retriev
                              for b in reader]).to_pandas()[["ts_utc"] + cols_extra]
 
 
+CA_FROM = "2025-09-01"  # session 64: the rules' stated window; the history now starts 2024-09-01, and the levels stay put
+
+
 def caiso_days(log):
     """The two California days by their rules, from CAISO SP15 real-time prices; each day's rule number."""
     df = pb.read_table(CA_TABLE, market=CA_MARKET, node=CA_NODE)
     df = df[df["variable"] == CA_VARIABLE]
     df = with_day(df.merge(provenance(CA_TABLE, CA_MARKET, CA_NODE), on="ts_utc", how="left"), CA_TZ)
+    df = df[df["day"] >= CA_FROM]
     full = complete(df, CA_TZ).index
     df = df[df["day"].isin(full)]
     win = lambda a, b: df[(df["hour"] >= a) & (df["hour"] < b)].groupby("day")["value"].mean()  # noqa: E731
@@ -193,15 +197,15 @@ def caiso_levels(log, taken):
     ca = dict(grid="CAISO", tz=CA_TZ, entity=f"caiso:{CA_NODE}", variable=CA_VARIABLE, market=CA_MARKET)
     return [
         level("caiso-solar-noon", "CAISO SP15: the cheapest midday",
-              f"{noon_day}: the lowest midday price of any day held, a mean of {noon_mean:,.2f} USD/MWh from 10:00 to 15:00 Pacific, when "
+              f"{noon_day}: the lowest midday price of any day held from {CA_FROM} on, a mean of {noon_mean:,.2f} USD/MWh from 10:00 to 15:00 Pacific, when "
               f"California's solar floods the grid.", df[df["day"] == noon_day], CA_TABLE,
               rule="The day with the lowest mean real-time price from 10:00 to 15:00 Pacific, of the complete days of CAISO SP15 "
-                   f"real-time prices the warehouse holds ({CA_TABLE}, from 2025-09-01).", **ca),
+                   f"real-time prices the warehouse holds ({CA_TABLE}, from {CA_FROM}).", **ca),
         level("caiso-duck", "CAISO SP15: the steepest evening ramp",
-              f"{duck_day}: the largest rise of any day held, from a {aft:,.2f} USD/MWh mean at 12:00 to 15:00 Pacific to {eve:,.2f} at 18:00 to "
+              f"{duck_day}: the largest rise of any day held from {CA_FROM} on, from a {aft:,.2f} USD/MWh mean at 12:00 to 15:00 Pacific to {eve:,.2f} at 18:00 to "
               f"21:00, {rise:,.2f} USD/MWh, as the sun sets and demand stays high.", df[df["day"] == duck_day], CA_TABLE,
               rule="The day with the largest rise from the mean real-time price of 12:00 to 15:00 Pacific to that of 18:00 to 21:00, of the "
-                   f"complete days of CAISO SP15 real-time prices the warehouse holds ({CA_TABLE}, from 2025-09-01).", **ca),
+                   f"complete days of CAISO SP15 real-time prices the warehouse holds ({CA_TABLE}, from {CA_FROM}).", **ca),
     ]
 
 

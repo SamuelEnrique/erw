@@ -517,7 +517,7 @@ def main():
             f"Retrieved: {run_id} (UTC) by warehouse/derived/event_window.py",
             f"Run log: warehouse/output/logs/event_window_{run_id}.log",
             f"Source: erw:event_window ERW derived table, events method (docs/methods/events.md), {METHOD_URL}",
-            f"Derived from: {PRICES}; {EMIS}; {HIST}; {WEATHER}; {HUB_HISTORY} (session 64)",
+            f"Derived from: {PRICES}; {EMIS}; {HIST}; {WEATHER}; {HUB_HISTORY}",
             "Also read: EIA's hourly demand and net generation from the per-BA workbooks (source "
             "eia:gridmonitor/knownissues/xls), the emissions connector's extract: " + "; ".join(used),
             f"Events: uri_2021 (Winter Storm Uri, ERCOT), window {e['start']} to {e['end']}, baseline the same calendar "

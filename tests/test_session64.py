@@ -124,8 +124,8 @@ class TightEvening(unittest.TestCase):
         pats = [p for v in live.values() if isinstance(v, list) for p in v if isinstance(p, str)]
         self.assertFalse(any(re.search(p, te.NAME) for p in pats))
         src = open(os.path.join(ROOT, "warehouse", "derived", "caiso_tight_evening.py"), encoding="utf-8").read()
-        self.assertIn('"License: internal.', src)
-        self.assertIn('license="internal"', src)
+        self.assertIn('"analysis_internal"', src)  # outside the warehouse's tables: not in coverage, Supabase or Redivis
+        self.assertNotIn("update_sources", src)
 
 
 class Events(unittest.TestCase):
