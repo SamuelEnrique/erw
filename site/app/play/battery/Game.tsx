@@ -580,9 +580,12 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
     }
     ctx.restore();
     if (anySpike && em.spike && pos >= em.spike.last + 1) {  // while the spike lasts, the label at the now line says it
-      ctx.fillStyle = css("accent"); ctx.font = "11px system-ui, sans-serif";
-      ctx.fillText(SPIKE_LABEL, Math.max(42, x(em.spike.first) + 4), top + 26);
-      ctx.fillText("dashed: the real price", Math.max(42, x(em.spike.first) + 4), top + 39);
+      ctx.font = "11px system-ui, sans-serif";
+      const notes = [SPIKE_LABEL, "dashed: the real price"];
+      const nx = Math.max(42, x(em.spike.first) + 4), nw = Math.max(...notes.map((t) => ctx.measureText(t).width));
+      ctx.fillStyle = css("panel"); ctx.fillRect(nx - 3, top + 15, nw + 6, 29);  // a plain ground, so the words do not cross the price line
+      ctx.fillStyle = css("accent");
+      notes.forEach((t, k) => ctx.fillText(t, nx, top + 26 + k * 13));
     }
     // the now line and the current price
     ctx.strokeStyle = css("accent"); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(nowX, top - 8); ctx.lineTo(nowX, bottom); ctx.stroke();

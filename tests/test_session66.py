@@ -234,7 +234,7 @@ class Words(unittest.TestCase):
         for p in (("site", "lib", "battery.ts"), ("site", "lib", "game.ts"), ("site", "lib", "levels.ts"), ("site", "app", "play", "battery", "Game.tsx"),
                   ("site", "app", "play", "battery", "page.tsx"), ("site", "app", "api", "play", "finish", "route.ts"), ("site", "app", "api", "play", "score", "route.ts"),
                   ("site", "app", "api", "play", "top", "route.ts"), ("site", "scripts", "test-battery.mjs"), ("site", "scripts", "check-scorer.mjs"),
-                  ("site", "scripts", "alias-loader.mjs"), ("site", "scripts", "alias-register.mjs"), ("site", "scripts", "play-battery.mjs"),
+                  ("site", "scripts", "alias-loader.mjs"), ("site", "scripts", "check-lights.mjs"), ("site", "scripts", "alias-register.mjs"), ("site", "scripts", "play-battery.mjs"),
                   ("warehouse", "derived", "battery_solar.py"), ("warehouse", "supabase", "migrations", "019_game_v4.sql"),
                   ("docs", "methods", "battery_game.md"), ("tests", "test_session66.py")):
             self.assertNotIn(chr(0x2014), src(*p), p)
