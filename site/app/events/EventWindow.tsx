@@ -40,9 +40,12 @@ export function pickOf(rows: SeriesRow[], entity: string, variable: string, how:
 export const find = (rows: SeriesRow[], entity: string, variable: string, d: string) =>
   rows.find((r) => r.entity === entity && r.variable === variable && r.ts_utc.slice(0, 10) === d);
 
-export async function EventWindow({ event, title, crumb, framing, caveat, grids, start, end, hub, peakWord = "highest", after }: {
+// Session 64: the other ISOs' main hubs (iso_hub_prices_history, held from 2024-09-01, so no baseline days)
+export type Hub = { entity: string; name: string; rtNote: string };
+
+export async function EventWindow({ event, title, crumb, framing, caveat, grids, start, end, hub, hubs, peakWord = "highest", after }: {
   event: string; title: string; crumb: string; framing: ReactNode; caveat: ReactNode; grids: Grid[]; start: string; end: string;
-  hub?: string; peakWord?: string; after?: (rows: SeriesRow[]) => ReactNode;
+  hub?: string; hubs?: Hub[]; peakWord?: string; after?: (rows: SeriesRow[]) => ReactNode;
 }) {
   const got = await attempt(() => series(T, { event }));
   const rows = got.ok ? got.data : [];
@@ -139,6 +142,31 @@ export async function EventWindow({ event, title, crumb, framing, caveat, grids,
                 );
               })()}
               <Cite tables={[T]} note="ERCOT's settlement point prices at the hub average (HB_HUBAVG), from ercot_all_hub_prices_history, per operating day" />
+            </Section>
+          ) : null}
+
+          {hubs && hubs.length ? (
+            <Section title={`Price: ${hubs.map((h) => h.name).join(", ")}`} aside={<Tier />}>
+              <LineChart
+                lines={hubs.map((h, i) => ({ label: h.name, color: COLORS[i % COLORS.length], points: pts(h.entity, "rt_mean", inWin) }))}
+                unit="USD/MWh" height={260} ariaLabel={`Each hub's daily mean real-time price, ${start} to ${end}`}
+              />
+              <p className="mt-1 text-sm text-muted">
+                Each point is a day&apos;s mean real-time price at the hub, on its grid&apos;s local day. The warehouse holds these hubs from 2024-09-01, so there are no
+                baseline days to draw against: the price lines are the event days only.
+              </p>
+              <ul className="mt-2 max-w-3xl list-disc space-y-1 pl-5 text-sm">
+                {hubs.map((h) => {
+                  const rt = pickOf(rows, h.entity, "rt_max", "max", inWin), rm = pickOf(rows, h.entity, "rt_mean", "max", inWin), da = pickOf(rows, h.entity, "da_max", "max", inWin);
+                  return (
+                    <li key={h.entity}>
+                      <strong>{h.name}:</strong> the highest real-time price ({h.rtNote}) <N r={rt} event={event} /> USD/MWh on {day(rt)}; the highest daily mean{" "}
+                      <N r={rm} event={event} /> on {day(rm)}; the highest day-ahead hour <N r={da} event={event} /> on {day(da)}.
+                    </li>
+                  );
+                })}
+              </ul>
+              <Cite tables={[T, "iso_hub_prices_history"]} note="each ISO's own day-ahead and real-time prices at its main hub (the history table, session 49; its second year, session 64), per local day" />
             </Section>
           ) : null}
         </>

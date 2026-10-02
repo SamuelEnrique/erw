@@ -33,6 +33,11 @@ const EVENTS: Card[] = [
     entity: "eia930:PJM", variable: "demand_max_mw", how: "max", within: ["2022-12-19", "2022-12-29"], unit: "MW", lead: "PJM's highest hour of demand served" },
   { href: "/events/ercot-heat-2023", title: "The summer 2023 heat: ERCOT", dates: "2023-08-01 to 2023-09-10", grids: "ERCOT", event: "ercot_heat_2023",
     entity: "ercot:HB_HUBAVG", variable: "rt_max", how: "max", within: ["2023-08-01", "2023-09-10"], unit: "USD/MWh", lead: "Highest 15-minute real-time price" },
+  // session 64: the two events of the hub history's second year (2024-09 to 2025-08), chosen from EIA's demand data
+  { href: "/events/cold-2025", title: "The January 2025 cold: six grids", dates: "2025-01-17 to 2025-01-26", grids: "PJM, MISO, SPP, NYISO, ISO-NE and ERCOT", event: "cold_2025",
+    entity: "eia930:PJM", variable: "demand_max_mw", how: "max", within: ["2025-01-17", "2025-01-26"], unit: "MW", lead: "PJM's highest hour of demand served" },
+  { href: "/events/east-heat-2025", title: "The June 2025 heat: four eastern grids", dates: "2025-06-20 to 2025-06-28", grids: "PJM, NYISO, ISO-NE and MISO", event: "east_heat_2025",
+    entity: "eia930:PJM", variable: "demand_max_mw", how: "max", within: ["2025-06-20", "2025-06-28"], unit: "MW", lead: "PJM's highest hour of demand served" },
 ];
 
 async function headline(c: Card): Promise<SeriesRow | undefined> {

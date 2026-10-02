@@ -67,6 +67,8 @@ WINDOWS = {
     "caiso_heat_2022": ("2022-08-31", "2022-09-09"),  # session 58
     "elliott_2022": ("2022-12-19", "2022-12-29"),
     "ercot_heat_2023": ("2023-08-01", "2023-09-10"),
+    "cold_2025": ("2025-01-17", "2025-01-26"),  # session 64
+    "east_heat_2025": ("2025-06-20", "2025-06-28"),  # session 64
 }
 # each BA's local day, as event_window.py reads the extracts (COVID's time zones)
 TZ = {"ciso": "America/Los_Angeles", "erco": "America/Chicago", "isne": "America/New_York", "miso": "EST",
@@ -231,6 +233,9 @@ def main():
             g = g.sort_values("ts_utc")
             dates = g["ts_utc"].str[:10].tolist()
             ev = [start <= d <= end for d in dates]
+            if all(ev) or not any(ev):  # session 64: a hub of iso_hub_prices_history has no baseline days (from 2024-09-01)
+                log(f"{event} {entity} {variable}: {sum(ev)} window days, {len(ev) - sum(ev)} baseline days; no estimate")
+                continue
             r = estimate(dates, pd.to_numeric(g["value"]).to_numpy(), ev)
             unit, ba, geo = OUTCOMES[variable], g["ba"].iloc[0], g["geo"].iloc[0]
             for d in r["days"]:

@@ -92,7 +92,69 @@ ERCOT_HEAT = dict(event="ercot_heat_2023", label="the summer 2023 heat, ERCOT", 
 # CAISO 2020 template: CISO, the same weekday 364 and 728 days earlier
 CAISO_HEAT_2022 = dict(event="caiso_heat_2022", label="the September 2022 heat wave, CAISO", start="2022-08-31", end="2022-09-09",
                        offsets=[364, 728], hub=None, bas={"ciso": COVID["bas"]["ciso"]}, max_vs=True)
-MULTI = [COVID, CAISO_HEAT, ELLIOTT, ERCOT_HEAT, CAISO_HEAT_2022]
+# Session 64: two events of the year the second hub-price pull added (2024-09-01 to 2025-08-31), chosen from the data: the
+# days of that year's highest winter and summer peak hours of demand served in PJM, MISO, NYISO and ISO-NE (EIA-930).
+# hubs: the other ISOs' main hubs from iso_hub_prices_history, each on its grid's local day (no baseline price: the
+# history starts 2024-09-01, so the same weekdays 364 and 728 days earlier are not held).
+COLD_2025 = dict(event="cold_2025", label="the January 2025 cold, six grids", start="2025-01-17", end="2025-01-26",
+                 offsets=[364, 728], hub="ercot:HB_HUBAVG", hub_ba="erco", prices="full", max_vs=True,
+                 bas={k: COVID["bas"][k] for k in ("erco", "isne", "miso", "nyis", "pjm", "swpp")},
+                 hubs=["miso:INDIANA.HUB", "nyiso:N.Y.C.", "isone:.H.INTERNAL_HUB", "spp:SPPNORTH_HUB"])
+EAST_HEAT_2025 = dict(event="east_heat_2025", label="the June 2025 heat, four eastern grids", start="2025-06-20", end="2025-06-28",
+                      offsets=[364, 728], hub=None, max_vs=True,
+                      bas={k: COVID["bas"][k] for k in ("pjm", "nyis", "isne", "miso")},
+                      hubs=["nyiso:N.Y.C.", "isone:.H.INTERNAL_HUB", "miso:INDIANA.HUB"])
+MULTI = [COVID, CAISO_HEAT, ELLIOTT, ERCOT_HEAT, CAISO_HEAT_2022, COLD_2025, EAST_HEAT_2025]
+HUB_HISTORY = "iso_hub_prices_history"
+HUB_BA = {"miso": "miso", "nyiso": "nyis", "isone": "isne", "spp": "swpp", "caiso": "ciso"}  # each hub's grid (its local day)
+_hub_cache = {}
+
+
+def hub_rows(e, days, held_by_ba, base, left, log):
+    """Session 64: the daily mean and highest real-time and day-ahead price of each hub in e["hubs"], from
+    iso_hub_prices_history, on its grid's local day, for the window and whatever baseline days the history holds. A day
+    is written only when every interval is there (real-time 15-minute means, MISO's hourly real-time; hourly day-ahead)."""
+    if not e.get("hubs"):
+        return []
+    if HUB_HISTORY not in _hub_cache:
+        path = os.path.join(ip.OUT_DIR, HUB_HISTORY + ".csv")
+        if not os.path.exists(path):
+            left.append(f"{HUB_HISTORY} is not on this machine: no hub prices for {e['event']}")
+            return []
+        _hub_cache[HUB_HISTORY] = ip.read_series(path)
+    h = _hub_cache[HUB_HISTORY]
+    shift = lambda d, o: (pd.Timestamp(d) - pd.Timedelta(days=o)).strftime("%Y-%m-%d")  # noqa: E731
+    rows = []
+    for hub in e["hubs"]:
+        iso = hub.split(":")[0]
+        ba = HUB_BA[iso]
+        tz = e["bas"][ba][1]
+        want = set(days) | {shift(d, o) for d in days for o in held_by_ba.get(ba, [])}
+        p = h[h["entity"] == hub].copy()
+        p["day"] = local_days(p["ts_utc"], tz)
+        p = p[p["day"].isin(want)]
+        n_read = 0
+        for market, pre in ((f"{iso}_rtm", "rt"), (f"{iso}_dam", "da")):
+            m = p[p["market"] == market]
+            n_read += len(m)
+            per_hour = 4 if (len(m) and m["freq"].iloc[0] == "PT15M") else 1
+            g = m.groupby("day")
+            for d in sorted(want):
+                if d not in g.groups:
+                    if d in days:
+                        left.append(f"{hub} {market} {d}: not held")
+                    continue
+                v = g.get_group(d)["value"]
+                need = per_hour * hours_in(d, tz)
+                if len(v) != need:
+                    left.append(f"{hub} {market} {d}: {len(v)} of {need} intervals")
+                    continue
+                geo = g.get_group(d)["geo"].iloc[0]
+                for stat, val in (("mean", v.mean()), ("max", v.max())):
+                    rows.append(dict(base, entity=hub, variable=f"{pre}_{stat}", ts_utc=f"{d}T00:00:00Z", geo=geo,
+                                     value=r4(val), unit="USD/MWh", market=market, ba=ba))
+        log(f"  {e['event']} {hub}: {n_read} intervals read from {HUB_HISTORY}")
+    return rows
 
 
 def r4(v):
@@ -385,6 +447,7 @@ def build_covid(e, log, retrieved):
         log(f"  {e['event']} {ba}: {len(x)} hours from {os.path.relpath(ex, ROOT)} ({url}, Last-Modified {lm}); "
             f"baseline offsets held {held}")
 
+    rows += hub_rows(e, days, held_by_ba, base, left, log)  # session 64: the other ISOs' hubs
     # ERCOT's hub prices for context: the window and ERCO's held baseline days (session 39: none for an event without a
     # hub; daily max too where prices is "full")
     if not e.get("hub"):
@@ -452,7 +515,7 @@ def main():
             f"Retrieved: {run_id} (UTC) by warehouse/derived/event_window.py",
             f"Run log: warehouse/output/logs/event_window_{run_id}.log",
             f"Source: erw:event_window ERW derived table, events method (docs/methods/events.md), {METHOD_URL}",
-            f"Derived from: {PRICES}; {EMIS}; {HIST}; {WEATHER}",
+            f"Derived from: {PRICES}; {EMIS}; {HIST}; {WEATHER}; {HUB_HISTORY} (session 64)",
             "Also read: EIA's hourly demand and net generation from the per-BA workbooks (source "
             "eia:gridmonitor/knownissues/xls), the emissions connector's extract: " + "; ".join(used),
             f"Events: uri_2021 (Winter Storm Uri, ERCOT), window {e['start']} to {e['end']}, baseline the same calendar "
@@ -466,6 +529,9 @@ def main():
             "no CO2 for those hours, so no intensity). Weather per station and local day (entity noaa:<station>, node the ISD "
             "station id): temp_mean_f (the mean of the clock hours' means), temp_min_f, temp_max_f, hdd_65f and cdd_65f "
             "(degree days at 65 F from (max + min) / 2); a day with fewer than 20 clock hours observed is not written.",
+            "Session 64: cold_2025 and east_heat_2025 add the other ISOs' main hubs (entity <iso>:<hub>, from "
+            f"{HUB_HISTORY}): rt_mean, rt_max, da_mean, da_max per the grid's local day, written only when every interval is "
+            "there; the history starts 2024-09-01, so these hubs have no baseline days. No weather is held for these two events.",
             f"Days or variables left out, incomplete: {len(left)}" + (" (" + "; ".join(left[:10]) + ")" if left else ""),
         ]
         path = os.path.join(ip.OUT_DIR, NAME + ".csv")
