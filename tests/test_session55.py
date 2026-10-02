@@ -72,11 +72,16 @@ class LeanerPulls(unittest.TestCase):
             self.fx = json.load(f)
         self.xe = dt.datetime.strptime(self.fx["interchange_end_period"], "%Y-%m-%dT%H").replace(tzinfo=dt.timezone.utc)
         self.quiet = lambda *_: None
+        # session 59: the runs are timed after the committed snapshot, which the daily job replaces every day (fixed times
+        # of 2026-10-01 failed once a daily commit built a newer one, and the unchanged path then read the committed base)
+        base = dt.datetime.strptime(self.c["built"], "%Y-%m-%dT%H:%M:%SZ")
+        self.t1 = (base + dt.timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        self.t2 = (base + dt.timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     def first(self):
         """A pulled run on the committed snapshot (no object in Storage yet)."""
         calls = Calls(rows_from(self.c), self.fx["demand_run1"])
-        snap, _ = nh.build(None, self.c, self.xe, calls.interchange, calls.demand, "2026-10-01T18:17:10Z", self.quiet)
+        snap, _ = nh.build(None, self.c, self.xe, calls.interchange, calls.demand, self.t1, self.quiet)
         return snap, calls
 
     def test_pulled_path(self):
@@ -84,7 +89,7 @@ class LeanerPulls(unittest.TestCase):
         self.assertEqual((calls.x, calls.d), (1, 1))
         self.assertEqual(snap["interchange"], "pulled")
         self.assertEqual(snap["pull"]["interchange_end_period"], "2026-09-30T07")
-        self.assertEqual(snap["pull"]["interchange_pulled"], "2026-10-01T18:17:10Z")
+        self.assertEqual(snap["pull"]["interchange_pulled"], self.t1)
         self.assertGreater(snap["pull"]["interchange_rows"], 0)
         # the fixture rows are the committed snapshot's own values at its own hours: the links come back as they were
         self.assertEqual(snap["hours"], self.c["hours"])
@@ -98,13 +103,13 @@ class LeanerPulls(unittest.TestCase):
 
         def refuse(xe):
             raise AssertionError("the interchange pull ran although EIA's endPeriod had not moved")
-        snap, last = nh.build(stored, self.c, self.xe, refuse, calls.demand, "2026-10-01T19:00:05Z", self.quiet)
+        snap, last = nh.build(stored, self.c, self.xe, refuse, calls.demand, self.t2, self.quiet)
         self.assertEqual(calls.d, 1)
         self.assertEqual(snap["interchange"], "unchanged")
         self.assertEqual(snap["pull"]["interchange_rows"], 0)
         self.assertEqual(snap["pull"]["interchange_end_period"], "2026-09-30T07")
-        self.assertEqual(snap["pull"]["interchange_pulled"], "2026-10-01T18:17:10Z")  # when the links were last pulled
-        self.assertEqual(snap["built"], "2026-10-01T19:00:05Z")
+        self.assertEqual(snap["pull"]["interchange_pulled"], self.t1)  # when the links were last pulled
+        self.assertEqual(snap["built"], self.t2)
         # links, hours, window and positions carried over unchanged
         for k in ("hours", "window", "links", "newest_hour"):
             self.assertEqual(snap[k], stored[k], k)
@@ -119,7 +124,7 @@ class LeanerPulls(unittest.TestCase):
     def test_moved_end_period_pulls(self):
         stored, _ = self.first()
         calls = Calls(rows_from(self.c), self.fx["demand_run2"])
-        snap, _ = nh.build(stored, self.c, self.xe + dt.timedelta(hours=1), calls.interchange, calls.demand, "2026-10-01T19:00:05Z", self.quiet)
+        snap, _ = nh.build(stored, self.c, self.xe + dt.timedelta(hours=1), calls.interchange, calls.demand, self.t2, self.quiet)
         self.assertEqual(calls.x, 1)
         self.assertEqual(snap["interchange"], "pulled")
         self.assertEqual(snap["pull"]["interchange_end_period"], "2026-09-30T08")

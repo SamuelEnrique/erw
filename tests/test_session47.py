@@ -99,7 +99,9 @@ class Notebook(unittest.TestCase):
         for c in nb["cells"]:
             if c["cell_type"] == "code":
                 exec("".join(c["source"]), g)  # noqa: S102  the repository's own notebook
-        self.assertEqual(len(g["pooled"]), 21)
+        # the notebook asserts its estimates equal the table's; the count grows with the events (21 to session 57, 22 since
+        # session 58 added caiso_heat_2022, whose window session 59 added to the notebook)
+        self.assertGreaterEqual(len(g["pooled"]), 22)
 
 
 class Table(unittest.TestCase):

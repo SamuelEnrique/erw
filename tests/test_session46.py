@@ -37,7 +37,9 @@ class RestoredHeader(unittest.TestCase):
         if not os.path.exists(REAL):
             self.skipTest("warehouse/output/policy_reads.csv is not on this machine")
         import iso_prices as ip
-        self.ip, self.saved = ip, ip.OUT_DIR
+        # session 59: all five paths, as test_session30 does (set_out_dir(OUT_DIR) put RAW_DIR under warehouse/output, so
+        # later tests that read warehouse/raw found nothing)
+        self.ip, self.saved = ip, (ip.OUT_DIR, ip.LOG_DIR, ip.METADATA_DIR, ip.STATUS_DIR, ip.RAW_DIR)
         self.tmp = tempfile.mkdtemp()
         ip.set_out_dir(self.tmp)
         import reads
@@ -45,7 +47,8 @@ class RestoredHeader(unittest.TestCase):
         self.path = os.path.join(self.tmp, "policy_reads.csv")
 
     def tearDown(self):
-        self.ip.set_out_dir(self.saved)
+        ip = self.ip
+        ip.OUT_DIR, ip.LOG_DIR, ip.METADATA_DIR, ip.STATUS_DIR, ip.RAW_DIR = self.saved
         shutil.rmtree(self.tmp, ignore_errors=True)
 
     def test_a_placeholder_header_is_rebuilt_from_the_rows(self):
