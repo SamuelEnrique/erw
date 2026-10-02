@@ -130,7 +130,8 @@ def main():
             f"Retrieved: {run_id} (UTC) by warehouse/derived/caiso_reliability.py",
             f"Run log: warehouse/output/logs/caiso_reliability_{run_id}.log",
             f"Source: {SOURCE} ERW derived table, California reliability method (docs/methods/california_reliability.md), {METHOD_URL}",
-            f"Derived from: caiso_battery_storage; caiso_grid_emergencies; and EIA's CISO workbook, {ex_url}, the hourly demand of eia930_all_demand",
+            "Derived from: caiso_battery_storage; caiso_grid_emergencies; eia930_all_demand",
+            f"  demand read from EIA's CISO workbook (the hourly demand of eia930_all_demand, its full history), {ex_url}",
             "License: public. A derived table inherits the most restrictive license of its inputs (Decision 23): EIA, CAISO (credit the California ISO).",
         ]
         path = os.path.join(ip.OUT_DIR, NAME + ".csv")
