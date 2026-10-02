@@ -293,7 +293,9 @@ def main():
                           "2018-07 to 2025-04, CAISO's Grid Emergencies History Report" if k == "emergency_days" else
                           "studied event windows (event_study_estimates)" if k.startswith("event_") else
                           f"{WINDOW[0]} to {WINDOW[1]} (twelve months)")
-                rows.append((f"iso:{r}", k, ts, round(float(val), 4), unit, window, notes if k in ("event_largest_effect_pct", "queue_active_mw") else ""))
+                # whole units for amounts (USD, tonnes, MW, MWh, counts), two decimals for rates, shares and prices
+                digits = 0 if unit in ("USD", "tCO2", "MW", "MWh", "count") else 2
+                rows.append((f"iso:{r}", k, ts, round(float(val), digits), unit, window, notes if k in ("event_largest_effect_pct", "queue_active_mw") else ""))
         s = pd.DataFrame(rows, columns=["entity", "variable", "ts_utc", "value", "unit", "x_window", "x_note"])
         s = s.assign(freq="", geo="", market="", node="", source=SOURCE, source_url=METHOD_URL, retrieved_at=retrieved, vintage="")
         cols = ip.SERIES_COLS + ["x_window", "x_note"]

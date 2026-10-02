@@ -87,7 +87,8 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
     lgw: get(g.id, "lbnl_active_mw"), lreq: get(g.id, "lbnl_active_requests"), yrs: get(g.id, "lbnl_median_years_to_cod"),
     ysample: get(g.id, "lbnl_cod_sample"), comp: get(g.id, "lbnl_completion_pct"), cohort: get(g.id, "lbnl_cohort_requests"),
     q: get(g.id, "queue_active_mw"), imp: get(g.id, "net_import_share_pct"), impd: get(g.id, "net_import_days_pct"),
-    peak: get(g.id, "peak_import_share_pct"), ngc: get(g.id, "ng_check_import_share_pct"), dem: get(g.id, "demand_mwh"),
+    peak: get(g.id, "peak_import_share_pct"), pair: get(g.id, "pair_import_share_pct"), dem: get(g.id, "demand_mwh"),
+    days: get(g.id, "interchange_days"), screened: get(g.id, "screened_pair_days"),
     evName: (() => { const f = all.find((x) => x.entity === `iso:${g.id}` && x.variable.startsWith("event_largest_is_")); return f ? EVENTS[f.variable.slice(17)] ?? f.variable.slice(17) : ""; })(),
   }));
   if (!R.some((r) => r.rt)) {
@@ -126,7 +127,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
             in {c0.name}, the cheapest region, and <Usd x={c1.cost} /> USD in {c1.name}, the dearest: <Usd x={costDiff} /> USD more, for wholesale energy alone.
           </li>
           <li>
-            <strong>Carbon differs more than cost.</strong> The same gigawatt would carry <N x={ci0.co2} /> tonnes of CO2 a year in {ci0.name} and <N x={ci1.co2} /> in{" "}
+            <strong>Carbon differs {co2Ratio.v > costRatio.v ? "more" : "less"} than cost.</strong> The same gigawatt would carry <N x={ci0.co2} /> tonnes of CO2 a year in {ci0.name} and <N x={ci1.co2} /> in{" "}
             {ci1.name}, <N x={co2Ratio} /> times as much (<N x={co2Diff} /> tonnes more).{" "}
             {c0.id === ci0.id
               ? <>{c0.name} is both the cheapest and the cleanest; it is also the {rank(fast, c0)} of {fast.length} to connect new supply.</>
@@ -143,9 +144,9 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
             and {big[1].name} <N x={big[1].lgw} /> MW. What matters is how little of it gets built, and how long it takes.
           </li>
           <li>
-            <strong>Some regions lean on their neighbors.</strong> Over the year, {imp1.name} imported a net <N x={imp1.imp} /> percent of its demand, and on its ten
-            highest-demand days <N x={imp1.peak} /> percent. {imp0.name} is at the other end: <N x={imp0.imp} /> percent (a negative share is a net exporter). A new
-            gigawatt in an importing region adds to that reliance unless new supply comes with it.
+            <strong>Some regions lean on their neighbors.</strong> Over the year, {imp1.name} imported a net <N x={imp1.imp} /> percent of its demand (EIA&apos;s own
+            balance) and was a net importer on <N x={imp1.impd} /> percent of its complete days. {imp0.name} is at the other end: <N x={imp0.imp} /> percent (a negative
+            share is a net exporter). A new gigawatt in an importing region adds to that reliance unless new supply comes with it.
           </li>
         </ol>
       </Section>
@@ -226,6 +227,12 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           region with many dear hours either pays them or hedges them; it also adds to the demand in the hours that are already tight.
         </p>
         <p className="mt-2 max-w-3xl text-sm">
+          For a flat load the dear hours are not optional. A factory or a campus that runs every hour buys the scarcity hours with the rest, and a region
+          with hundreds of them a year asks either for a hedge (a fixed-price contract, which prices the risk in) or for flexibility: a campus that can
+          shift or shed part of its load in those hours, or carry batteries, pays less and eases the grid at the same time. The count of hours above
+          USD 200/MWh is therefore a rough guide to how much a buyer would gain from being able to step back when the grid is short.
+        </p>
+        <p className="mt-2 max-w-3xl text-sm">
           Grid emergencies are held for CAISO only: <N x={R.find((r) => r.id === "caiso")!.emerg} /> days with an ISO-wide Flex Alert or emergency from July 2018 to
           April 2025. The event studies add the scale of the worst weather the warehouse has measured: the largest effect on daily demand was{" "}
           <N x={by((r) => r.ev, "desc")[0].ev} /> percent above normal, in {by((r) => r.ev, "desc")[0].name} during {by((r) => r.ev, "desc")[0].evName}, after
@@ -261,28 +268,44 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           region could add the supply a new gigawatt of load needs. These are times for generators; a load&apos;s own connection runs through its utility and is
           not in these data.
         </p>
+        <p className="mt-2 max-w-3xl text-sm">
+          The time to connect matters twice for a new campus. It sets how soon the generation the campus contracts for can be built, and in most regions it
+          also sets how soon the transmission upgrades that new supply triggers get done. Where requests come online in a median <N x={f0.yrs} /> years
+          ({f0.name}), a buyer can match new load with new supply within one planning cycle; where they take <N x={f1.yrs} /> ({f1.name}), the buyer relies on
+          existing plants, and on the grid&apos;s margin, for most of that time.
+        </p>
       </Section>
 
       <Section title="6. Imports: how much a region leans on its neighbors" aside={`${T}; eia930_daily_interchange`}>
         <Bars items={[...self].reverse().map((r) => ({ label: r.name, v: Math.max(0, r.imp!.v) }))} unit="percent of demand imported, net (exporters at 0)" best="low" fmt={(v) => v.toFixed(1)} />
         <div className="mt-3 overflow-x-auto">
           <table className="text-sm">
-            <thead><tr className="border-b border-ink text-left text-xs text-muted"><th className="py-1 pr-3">Region</th><th className="py-1 pr-3 text-right">Net imports, percent of demand</th><th className="py-1 pr-3 text-right">Days a net importer, percent</th><th className="py-1 pr-3 text-right">Ten peak days, percent imported</th><th className="py-1 pr-3 text-right">Check: demand less generation, percent</th><th className="py-1 pr-3 text-right">Demand, MWh</th></tr></thead>
+            <thead><tr className="border-b border-ink text-left text-xs text-muted"><th className="py-1 pr-3">Region</th><th className="py-1 pr-3 text-right">Net imports, percent of demand (EIA&apos;s balance)</th><th className="py-1 pr-3 text-right">Pair sums, percent</th><th className="py-1 pr-3 text-right">Days a net importer, percent</th><th className="py-1 pr-3 text-right">Ten peak days, percent imported</th><th className="py-1 pr-3 text-right">Complete days</th><th className="py-1 pr-3 text-right">Pair-days screened out</th><th className="py-1 pr-3 text-right">Demand, MWh</th></tr></thead>
             <tbody>
               {self.map((r) => (
                 <tr key={r.id} className="border-b border-rule"><td className="py-1 pr-3">{r.name}</td>
-                  <td className="py-1 pr-3 text-right tabular-nums"><N x={r.imp} /></td><td className="py-1 pr-3 text-right tabular-nums"><N x={r.impd} /></td>
-                  <td className="py-1 pr-3 text-right tabular-nums"><N x={r.peak} /></td><td className="py-1 pr-3 text-right tabular-nums"><N x={r.ngc} /></td>
+                  <td className="py-1 pr-3 text-right tabular-nums"><N x={r.imp} /></td><td className="py-1 pr-3 text-right tabular-nums"><N x={r.pair} /></td>
+                  <td className="py-1 pr-3 text-right tabular-nums"><N x={r.impd} /></td><td className="py-1 pr-3 text-right tabular-nums"><N x={r.peak} /></td>
+                  <td className="py-1 pr-3 text-right tabular-nums"><N x={r.days} /></td><td className="py-1 pr-3 text-right tabular-nums"><N x={r.screened} /></td>
                   <td className="py-1 pr-3 text-right tabular-nums"><N x={r.dem} /></td></tr>
               ))}
             </tbody>
           </table>
         </div>
         <p className="mt-3 max-w-3xl text-sm">
-          Net imports are the sum of each region&apos;s daily interchange with every neighbor, as EIA-930 reports it, over the year&apos;s demand. {imp1.name} imported
-          the most, a net <N x={imp1.imp} /> percent, and was a net importer on <N x={imp1.impd} /> percent of days. {imp0.name} exported the most. The check column is
-          EIA&apos;s own balance, demand less net generation: where it and the pair sums agree, the interchange data are whole; where they differ, the region&apos;s
-          reported interchange and its generation do not close, and the gap is EIA&apos;s.
+          The headline share is EIA&apos;s own balance for each region: demand less net generation, over demand, for the year&apos;s complete hours. {imp1.name} imported
+          the most, a net <N x={imp1.imp} /> percent of its demand; {imp0.name} exported the most, <N x={imp0.imp} /> percent. The other columns come from the
+          interchange EIA reports with each neighbor, summed per day, on complete days only: a day counts when every regular neighbor reported it.
+          EIA&apos;s daily interchange is missing for some days of the year in every region (the complete-days column says how many remain), and a few pair-days
+          are impossible (one day SPP and MISO reported more energy across their tie than SPP uses in a day); those are left out and counted.
+        </p>
+        <p className="mt-2 max-w-3xl text-sm">
+          Where the pair sums and the balance agree, the data close. Where they do not, the region&apos;s reported interchange and its generation tell different
+          stories: in {[...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0].name} the balance says{" "}
+          <N x={[...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0].imp} /> percent and the pairs{" "}
+          <N x={[...R].filter((r) => r.imp && r.pair).sort((a, b) => Math.abs(b.imp!.v - b.pair!.v) - Math.abs(a.imp!.v - a.pair!.v))[0].pair} /> percent, and the gap is EIA&apos;s
+          data, not this report&apos;s. The peak-day share uses the pair sums: on a region&apos;s ten highest-demand complete days, how much of its demand came from
+          neighbors.
         </p>
       </Section>
 
@@ -307,7 +330,36 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
         </p>
       </Section>
 
-      <Section title="8. What this cannot say">
+      <Section title="8. Reading the table three ways">
+        <p className="mb-3 max-w-3xl text-sm">
+          A developer, a utility planner and a policymaker would read the same table in different orders. Here is what each order picks, with the trade it
+          brings along. Each line is the region&apos;s own row; nothing is weighted or combined.
+        </p>
+        {([
+          ["If cost comes first", cheap, "cheapest"], ["If carbon comes first", clean, "cleanest"], ["If speed comes first", fast, "fastest to connect new supply"],
+        ] as [string, Reg[], string][]).map(([title, list, what]) => (
+          <div key={title} className="mb-3 max-w-3xl">
+            <h3 className="mb-1 text-base">{title}</h3>
+            <p className="mb-1 text-sm">The three {what}, and what each brings with it:</p>
+            <ul className="list-disc space-y-1 pl-5 text-sm">
+              {list.slice(0, 3).map((r) => (
+                <li key={r.id}>
+                  <strong>{r.name}</strong>: a flat 1 GW at <Usd x={r.cost} /> USD a year for energy{r.cost ? "" : " (its prices are not held)"}; <N x={r.ci} /> kg CO2/MWh;{" "}
+                  {r.yrs ? <>new supply online in a median <N x={r.yrs} /> years</> : <>no median time to connect held</>}; <N x={r.s200} /> hours at or above USD 200/MWh;
+                  net imports <N x={r.imp} /> percent of demand.
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <p className="max-w-3xl text-sm">
+          {cheap[0].id === clean[0].id && clean[0].id === fast[0].id ? `${cheap[0].name} is first in all three orders.` : "No region is first in all three orders."} The
+          picks differ by years of waiting or by millions of tonnes of CO2 a year. That is the case for a buyer bringing its own supply, storage or
+          flexibility: it can choose the region for one measure and buy its way out of the others.
+        </p>
+      </Section>
+
+      <Section title="9. What this cannot say">
         <ul className="max-w-3xl list-disc space-y-1 pl-5 text-sm">
           <li><strong>Permitting and local approval are out of scope.</strong> Land, zoning, water, community consent and the time a utility takes to connect a
             large load are what most often decide a site, and none of them is in these data.</li>
@@ -336,8 +388,9 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
           <li><strong>Connection</strong>: Berkeley Lab and GridTracker&apos;s Queued Up 2026 data file (lbnl_interconnection_queue, CC BY 4.0): active requests at the
             end of 2025, the median years from request to operation for requests online in 2018 to 2025, the share of 2000 to 2019 requests completed; and
             each ISO&apos;s own queue (September 2026).</li>
-          <li><strong>Imports</strong>: EIA-930 daily interchange for every pair (eia930_daily_interchange, Eastern days, 2019 on), summed per region, over demand
-            from the region&apos;s EIA-930 workbook; checked against demand less net generation.</li>
+          <li><strong>Imports</strong>: the headline is EIA&apos;s balance, demand less net generation over demand, from the region&apos;s EIA-930 workbook. The per-day
+            measures sum EIA-930 daily interchange for every pair (eia930_daily_interchange, Eastern days, 2019 on) on complete days, with impossible pair-days
+            (further than ten median absolute deviations from the pair&apos;s median) left out.</li>
         </ul>
       </Section>
       <Cite tables={[T, "cost_of_power_monthly", "carbon_intensity_daily", "lbnl_interconnection_queue", "eia930_daily_interchange", "event_study_estimates"]}
