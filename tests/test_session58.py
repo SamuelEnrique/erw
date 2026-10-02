@@ -63,6 +63,20 @@ class DailyJob(unittest.TestCase):
             self.assertIn(f"actions/workflows/{wf}/runs?status=success", s)
             self.assertIn("actions: read", s)
 
+    def test_status_lists_a_multi_iso_gap(self):
+        # 2026-10-02: the daily run's STATUS.md step failed with KeyError 'iso' on a gap of iso_hub_prices_history
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
+        import build_status
+        self.assertIn("if iso not in ip.ISOS:", src("warehouse", "metadata", "build_status.py"))
+        if os.path.exists(os.path.join(OUT, "iso_hub_prices_history.csv")):
+            self.assertIsNone(build_status.day_complete("iso_hub_prices_history", "2026-09-01"))
+
+    def test_derived_sources_say_derived(self):
+        import csv
+        rows = {r["source"]: r for r in csv.DictReader(open(os.path.join(ROOT, "warehouse", "metadata", "sources.csv"), encoding="utf-8"))}
+        for s in ("erw:grid_network", "erw:caiso_reliability"):
+            self.assertEqual(rows[s]["publisher"], "Energy Research Warehouse (ERW), derived", s)
+
     def test_runbook_has_no_token(self):
         rb = src("docs", "runbook.md")
         self.assertIn("## An outside trigger for the scheduled jobs (session 58)", rb)

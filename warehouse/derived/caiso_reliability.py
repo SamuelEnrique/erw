@@ -137,7 +137,7 @@ def main():
         if os.path.exists(path):
             os.remove(path)  # rebuilt whole from its inputs each run
         ip.write_csv(s, NAME, header, log)
-        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW)", report="California reliability, how tight was it (warehouse/derived/caiso_reliability.py)",
+        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived", report="California reliability, how tight was it (warehouse/derived/caiso_reliability.py)",
                                 report_url=METHOD_URL, document_list="", license="public", tables=[NAME])])
         msg = f"{len(s)} rows, {first} to {last}"
         log(msg)

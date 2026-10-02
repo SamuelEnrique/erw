@@ -125,6 +125,10 @@ def day_complete(table, day, part=None, variable=None):
         core = set(df["variable"]) & eia930.CORE
         return not any(v in core for v in problems) and core <= set(part["variable"])
     iso = table.split("_")[0]  # ISO tables: the ISO's local operating day, every node and interval
+    if iso not in ip.ISOS:
+        # session 58: a table of several ISOs (iso_hub_prices_history, the consolidated iso_* tables) has no one operating day
+        # here; its gap is listed, not re-checked. On 2026-10-02 the daily run's STATUS.md step failed here (KeyError 'iso').
+        return None
     tz = ip.ISOS[iso][2]
     d0 = pd.Timestamp(day).tz_localize(tz)
     d1 = pd.Timestamp(pd.Timestamp(day).date() + dt.timedelta(days=1)).tz_localize(tz)

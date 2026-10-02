@@ -236,7 +236,8 @@ def main():
                     sources=["eia930_all_interchange", "eia930_all_demand", "carbon_intensity_hourly"], nodes=nodes, links=links)
         with open(SNAPSHOT, "w", encoding="utf-8", newline="\n") as f:
             json.dump(snap, f, separators=(",", ":"))
-        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW)",
+        # session 58: "derived" in the publisher, as every derived source, so erw.cite says so (the package tests check it)
+        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
                                 report="The grid network (warehouse/derived/grid_network.py)", report_url=METHOD_URL,
                                 document_list="", license="public", tables=[NODES, LINKS])])
         msg = f"{len(codes)} BAs, {len(pairs)} pairs, {len(link_rows)} pair-hours; snapshot {os.path.getsize(SNAPSHOT) / 1024:.0f} KB"
