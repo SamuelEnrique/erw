@@ -15,3 +15,6 @@ A test of the queue, not real work: run by scripts/worker.py with the stub runne
 STUB: usage-limit-once
 STUB: require-lock
 STUB: write queue/e2e/data-task.md The fake data task of session 59's end-to-end check wrote this file on main under the data lock, after a usage-limit pause and a resume.
+
+## Queue log
+- 2026-10-02T04:13:19Z claimed by portable-laptop
