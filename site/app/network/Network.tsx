@@ -2,7 +2,7 @@
 // Session 49 (session 42's B4): the 3D grid network. 3d-force-graph draws the balancing authorities at the fixed
 // positions of the snapshot (data/grid_network.json, warehouse/derived/grid_network.py), never re-settled; each hour of
 // the 168 is a frame: link width and particle speed follow the hour's MW, particles run in the direction of flow.
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";

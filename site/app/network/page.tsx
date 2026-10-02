@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Section } from "@/components/Section";
 import snapJson from "@/data/grid_network.json";
 import { fetchHourly, pickSnapshot } from "@/lib/network";

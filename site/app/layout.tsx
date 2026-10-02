@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 46: no prefetch on /severance/lease
 import { Wordmark } from "@/components/Wordmark";
 import { Nav } from "@/components/Nav";
+import { GateRestore } from "@/components/GateRestore";
 import "./globals.css";
 
 const body = Inter({ variable: "--font-body", subsets: ["latin"] });
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </div>
         </header>
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">{children}</main>
+        <GateRestore />
         <footer className="border-t border-rule">
           <div className="mx-auto max-w-6xl px-4 py-4 text-xs text-muted">
             Every number on this site is read from the ERW tables and names the table it came from. Public tables only.{" "}

@@ -66,6 +66,10 @@ restore_before_run:
   - '^eia930_all_interchange$'
   # session 49: the main hubs' price history from 2025-09-01; the daily run appends the live tables' rows to it
   - '^iso_hub_prices_history$'
+  # session 67: CAISO's ancillary service prices merge the last days into the history from 2024-09-01 (one request
+  # per day at the source); the battery revenue stack keeps the months the runner cannot rebuild (no ERCOT history there)
+  - '^caiso_as_prices$'
+  - '^battery_stack_(monthly|stress_daily)$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.

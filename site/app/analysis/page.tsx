@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { AnalysisGallery } from "@/components/AnalysisGallery";
 import { Section } from "@/components/Section";
 import { DOCS, analysisWeeks } from "@/lib/markdown";

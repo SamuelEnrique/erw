@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import fs from "node:fs";
 import path from "node:path";
 import { Cite } from "@/components/Cite";
@@ -176,6 +176,9 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
           <button type="submit" className="border border-accent px-3 py-1 text-accent">Show</button>
           <Link href="/cost-of-power/seller" className="text-xs">Reset to the defaults</Link>
         </form>
+        <p className="mt-2 max-w-3xl text-sm">
+          Battery: this tab is energy only. Energy and ancillary services together, at 2, 4 and 8 hours, are on <Link href="/cost-of-power/battery">What a battery earns</Link>.
+        </p>
         <p className="mt-2 max-w-3xl text-xs text-muted">
           Defaults, each an assumption from Lazard&apos;s Levelized Cost of Energy+ (June 2025), the midpoint of its range: capital cost {D.capex.toLocaleString("en-US")} USD/kW
           (Lazard {D.capexRange}), fixed O&amp;M {D.fom} USD/kW-yr ({D.fomRange}), life {D.life} years; debt service = capital x {DEBT.share * 100} percent debt at{" "}
