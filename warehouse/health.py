@@ -156,6 +156,8 @@ def dedupe(workflow_file, minutes, rec=record, get=requests.get, dispatch_minute
         runs = []
     others = [x for x in runs if str(x["id"]) != str(me) and int(x["id"]) < int(me) and x.get("event") == "workflow_dispatch"
               and (x["status"] in ("in_progress", "queued") or x.get("conclusion") == "success")]
+    if others:  # a run that was itself skipped as a duplicate did nothing, so it does not count
+        others = [x for x in others if str(x["id"]) not in skipped_starts([str(x["id"]) for x in others], get)]
     if others:
         o = others[0]
         why = f"another run of {workflow_file} started at {o['created_at']} ({o['event']}, {o['status']}): this one is a duplicate"
@@ -165,6 +167,20 @@ def dedupe(workflow_file, minutes, rec=record, get=requests.get, dispatch_minute
         return True
     output(skip=0)
     return False
+
+
+def skipped_starts(run_ids, get=requests.get):
+    """The run ids among these whose start erw_health records as skipped (a duplicate that did nothing)."""
+    url, headers = rest()
+    if url is None or not run_ids:
+        return set()
+    try:
+        r = get(url, headers=headers, params={"select": "run_id", "step": "eq.start", "status": "eq.skipped",
+                                              "run_id": f"in.({','.join(run_ids)})"}, timeout=30)
+        rows = r.json() if r.status_code == 200 else []
+        return {str(x.get("run_id")) for x in rows if isinstance(x, dict)} if isinstance(rows, list) else set()
+    except (requests.RequestException, ValueError):
+        return set()
 
 
 def fetch(day, get=requests.get):

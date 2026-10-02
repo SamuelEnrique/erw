@@ -51,16 +51,23 @@ class Run(unittest.TestCase):
 
 
 class Dedupe(unittest.TestCase):
-    def go(self, event, runs):
+    def go(self, event, runs, skipped=()):
         class R:
             status_code = 200
 
+            def __init__(self, body):
+                self.body = body
+
             def json(self):
-                return {"workflow_runs": runs}
+                return self.body
         rows = []
-        env = {"GITHUB_RUN_ID": "200", "GITHUB_REPOSITORY": "o/r", "GITHUB_TOKEN": "t", "GITHUB_EVENT_NAME": event, "GITHUB_OUTPUT": ""}
+        env = {"GITHUB_RUN_ID": "200", "GITHUB_REPOSITORY": "o/r", "GITHUB_TOKEN": "t", "GITHUB_EVENT_NAME": event, "GITHUB_OUTPUT": "",
+               "SUPABASE_URL": "https://x.supabase.co", "SUPABASE_SERVICE_KEY": "k"}
+
+        def get(url, *a, **k):  # GitHub's runs, or erw_health's skipped starts
+            return R({"workflow_runs": runs}) if "api.github.com" in url else R([{"run_id": s} for s in skipped])
         with mock.patch.dict(os.environ, env):
-            return health.dedupe("latest-prices.yml", 15, rec=lambda *a: rows.append(a), get=lambda *a, **k: R()), rows
+            return health.dedupe("latest-prices.yml", 15, rec=lambda *a: rows.append(a), get=get), rows
 
     def test_schedule_yields_to_the_database(self):
         disp = {"id": 199, "event": "workflow_dispatch", "status": "completed", "conclusion": "success", "created_at": "t"}
@@ -71,6 +78,7 @@ class Dedupe(unittest.TestCase):
         self.assertFalse(self.go("schedule", [dict(disp, event="schedule")])[0])
         self.assertTrue(self.go("workflow_dispatch", [disp])[0])
         self.assertFalse(self.go("workflow_dispatch", [dict(disp, id=201)])[0])  # a later run never makes an earlier one skip
+        self.assertFalse(self.go("workflow_dispatch", [disp], skipped=["199"])[0])  # an earlier run that was itself skipped
 
 
 class Summary(unittest.TestCase):
