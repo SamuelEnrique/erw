@@ -320,7 +320,9 @@ def build_weather(log, retrieved):
             else:
                 want |= {f"{b}{d[4:]}" for d in days}
         for code, (sid, ba, tz, _) in noaa_isd.STATIONS.items():
-            if ba not in bas:
+            # session 64: a station pulled for the alert seasons only (session 60's FAT, noaa_isd.SEASON_ONLY) is not an
+            # event station; without this check a rebuild averaged it into CAISO's degree days
+            if ba not in bas or code in getattr(noaa_isd, "SEASON_ONLY", set()):
                 continue
             g = w[w["entity"] == f"noaa:{code}"].copy()
             if not len(g):

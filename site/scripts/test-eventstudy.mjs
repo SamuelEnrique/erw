@@ -72,6 +72,9 @@ if (fs.existsSync(path.join(out, "event_study_estimates.csv")) && fs.existsSync(
   for (const [k, rows] of groups) {
     const [event, entity, variable] = k.split("|");
     const rs = rows.map((r) => ({ ts_utc: r.ts_utc, value: Number(r.value), freq: r.freq }));
+    // session 64: as event_study.py, a series with no baseline day (a hub held from 2024-09-01) has no estimate
+    const inW = rs.map((r) => r.ts_utc.slice(0, 10) >= WINDOWS[event][0] && r.ts_utc.slice(0, 10) <= WINDOWS[event][1]);
+    if (inW.every(Boolean) || !inW.some(Boolean)) continue;
     const s = studyOf(event, rs);
     const mine = new Map([[`${variable}_effect_pooled|${WINDOWS[event][0]}`, [s.pooled.estimate, s.pooled.se]],
       [`${variable}_counterfactual_mean|${WINDOWS[event][0]}`, [s.counterfactualMean, null]],

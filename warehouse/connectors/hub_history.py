@@ -341,7 +341,8 @@ def rewrite_header(run_id, reports, log):
         known[sid] = f"{name}, {page}"
     span = s.groupby("market")["ts_utc"].agg(["min", "max", "size"])
     hdr = [
-        "Energy Research Warehouse (ERW): main-hub day-ahead and real-time prices, history from 2025-09-01 (session 49): "
+        "Energy Research Warehouse (ERW): main-hub day-ahead and real-time prices, history from "
+        f"{str(s['ts_utc'].min())[:10]} (session 49 from 2025-09-01; session 64 the year before, from 2024-09-01): "
         "CAISO SP15 and NP15, MISO Indiana Hub, NYISO N.Y.C., ISO-NE .H.INTERNAL_HUB, SPP SPPNORTH_HUB",
         "Shape: series (docs/datastandard.md v0), partition column market. Units: USD/MWh. ts_utc is interval start, UTC. "
         "lmp_dam hourly; real-time lmp_rtm_15m_mean (15-minute means of 5-minute prices; NYISO time-weighted) or "
@@ -358,6 +359,8 @@ def rewrite_header(run_id, reports, log):
         "Completeness per operating day (session 13): a day is written only when every interval of every hub is there; "
         "each day not written is a gap row in warehouse/metadata/run_status.csv.",
         ip.FIVE_MIN_NOTE, ip.NYISO_RT_NOTE,
+        "Session 64: SPP's 2024 days are read from SPP's archive of the year (<report>?path=/2024/2024.zip), the same daily "
+        "file (By_Day) the 404'd path named, by HTTP range; those rows' source_url is the archive's URL.",
         "History: the daily run merges the live tables' rows of these hubs into this table (hub_history.py append); never trimmed.",
     ]
     with open(path + ".tmp", "w", encoding="utf-8", newline="") as f:
