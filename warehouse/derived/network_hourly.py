@@ -188,15 +188,20 @@ def pair_flows(rows, nodes):
 
 
 def newest_full_hour(flows):
-    """The latest hour in which at least FULL_SHARE of the median hour's number of pairs reported, or None."""
+    """The latest hour in which at least FULL_SHARE of a fully reported hour's number of pairs reported, or None.
+    Session 61: a fully reported hour is the 90th percentile of the hours' counts, no longer their median. EIA's
+    interchange for most BAs lags about a day, so half of the 48 hours pulled hold 7 to 24 pairs; the median fell with
+    them, and 2026-09-30 06:00, with 92 of 155 pairs, passed as complete: every hourly run from 08:05 on 2026-10-02 then
+    refused it (fewer than 100 pairs in the newest hour) and the snapshot stopped moving."""
     per = {}
     for f in flows.values():
         for h in f:
             per[h] = per.get(h, 0) + 1
     if not per:
         return None, per
-    med = statistics.median(per.values())
-    full = [h for h, n in per.items() if n >= FULL_SHARE * med]
+    counts = sorted(per.values())
+    ref = counts[int(0.9 * (len(counts) - 1))]
+    full = [h for h, n in per.items() if n >= FULL_SHARE * ref]
     return (max(full) if full else None), per
 
 

@@ -114,6 +114,21 @@ class SkipExits(unittest.TestCase):
         self.assertEqual(seen["cmd"], ["python", "warehouse/supabase/vacuum.py", "--x"])
         self.assertEqual(seen["task"], "weekly vacuum 1")
 
+    def test_newest_full_hour_ignores_a_lagging_half(self):
+        """2026-10-02's pull: 24 hours of about 155 pairs, then 92, then 22 hours of 7 to 24. The newest full hour is the
+        last of the 155s, not the 92 (which the median rule took, and every run then refused)."""
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
+        import network_hourly as nh
+        hours = [f"2026-09-29T{h:02d}:00:00Z" for h in range(6, 24)] + [f"2026-09-30T{h:02d}:00:00Z" for h in range(0, 24)]
+        counts = [155] * 22 + [131, 92] + [21] * 10 + [24] * 10
+        flows = {}
+        for h, n in zip(hours, counts):
+            for i in range(n):
+                flows.setdefault((f"A{i:03d}", "ZZZ"), {})[h] = 1.0
+        newest, per = nh.newest_full_hour(flows)
+        self.assertEqual(newest, hours[21])
+        self.assertEqual(per[hours[23]], 92)
+
     def test_network_skip_code(self):
         sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
         import network_hourly as nh
