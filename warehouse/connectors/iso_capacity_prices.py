@@ -44,9 +44,9 @@ Sources, each the publisher's own posting:
           not written: it is not filled from the system price.
   MISO    The Planning Resource Auction "Results Posting" of each planning year (PDF): the page "<Season> PRA
           Results by Zone", row ACP ($/MW-Day), zones 1 to 10 and the external zones (ERZ), each matched to its
-          column by position. Seasonal auctions only, planning years 2024/25 on: the postings of 2023/24 and of
-          the annual auctions before it were not found on MISO's own host, and the history table in the later
-          postings merges cells, so it cannot be read reliably. Those years are reported as gaps, not estimated.
+          column by position. Seasonal auctions only, planning years 2024/25 on: the postings of 2021/22 to 2023/24
+          are not in MISO's document list, the 2019 and 2020 postings are annual auctions with another layout and
+          are not read, and the history table in the later postings merges cells, so it cannot be read reliably. Those years are reported as gaps, not estimated.
 
 California has no capacity market and ERCOT is energy-only: neither has rows (the methods doc says why, and what a
 person would need to do for the CPUC's resource adequacy price statistics).
@@ -108,10 +108,13 @@ MISO_PAGE = "https://www.misoenergy.org/planning/resource-adequacy2/resource-ade
 MISO_POSTINGS = {  # planning year (its first calendar year): the Results Posting on MISO's document host
     2024: "https://cdn.misoenergy.org/2024%20PRA%20Results%20Posting%2020240425632665.pdf",
     2025: "https://cdn.misoenergy.org/2025%20PRA%20Results%20Posting%2020250529_Corrections694160.pdf",
-    2026: "https://cdn.misoenergy.org/2026%20PRA%20Results%20Posting%2020260428754715.pdf",
+    # the posting of 2026-04-28 was replaced by a corrected one on 2026-05-22; the first link now answers 403
+    2026: "https://cdn.misoenergy.org/2026%20PRA%20Results%20Posting%2020260522%20-%20Corrections754715.pdf",
 }
-MISO_NOT_HELD = ("planning year 2023/24 (seasonal) and the annual auctions before it: no Results Posting found on "
-                 "MISO's own host, and the history table in later postings merges cells")
+MISO_FIND = "https://www.misoenergy.org/api/find/Optics_Models_Find_RemoteHostedContentItem/_search"  # the page's own list
+MISO_NOT_HELD = ("planning year 2023/24 (seasonal) and the annual auctions before it: MISO's document list holds no "
+                 "Results Posting for 2021/22 to 2023/24, the 2019 and 2020 postings are annual with another layout "
+                 "and are not read, and the history table in later postings merges cells")
 MISO_ZONES = [f"Z{i}" for i in range(1, 11)]
 SEASONS = {"Summer": (6, 1, 8), "Fall": (9, 1, 11), "Winter": (12, 1, 2), "Spring": (3, 1, 5)}  # start month, day, end month
 
@@ -348,7 +351,8 @@ def pull_isone(log, offline):
 # ---------------------------------------------------------------------------
 
 SEASON_TITLE = re.compile(r"^(Summer|Fall|Winter|Spring) (\d{4})(?:[/-]\d{2,4})? PRA Results by Zone\b")
-MONEY = re.compile(r"^\d{1,4}\.\d{2}$")
+MONEY = re.compile(r"^\$?(\d{1,4}\.\d{2})$")  # the 2026 posting prints the dollar sign, the earlier ones do not
+ZONE_LABEL = re.compile(r"^(Z(?:10|[1-9])|ERZ)[^A-Za-z0-9]?$")  # the 2026 posting hangs a footnote mark on ERZ
 
 
 def parse_miso(raw, py):
@@ -368,8 +372,9 @@ def parse_miso(raw, py):
             mid = lambda w: (w["x0"] + w["x1"]) / 2  # noqa: E731
             head = {}
             for w in words:
-                if w["text"] in MISO_ZONES + ["ERZ"] and w["text"] not in head:
-                    head[w["text"]] = w
+                zl = ZONE_LABEL.match(w["text"])
+                if zl and zl.group(1) not in head:
+                    head[zl.group(1)] = w
             if [z for z in MISO_ZONES + ["ERZ"] if z not in head]:
                 raise RuntimeError(f"MISO {season} {year}: the zone header is not Z1 to Z10 and ERZ")
             tops = {round(head[z]["top"]) for z in head}
@@ -394,7 +399,7 @@ def parse_miso(raw, py):
                     continue  # a number under the totals columns, not a zone
                 if z in got:
                     raise RuntimeError(f"MISO {season} {year}: two prices under {z}")
-                got[z] = float(w["text"])
+                got[z] = float(MONEY.match(w["text"]).group(1))
             missing = [z for z in MISO_ZONES if z not in got]
             if missing:
                 raise RuntimeError(f"MISO {season} {year}: no ACP under {missing}")
