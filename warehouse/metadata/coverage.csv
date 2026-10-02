@@ -1,6 +1,8 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived,tier
 ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,2026-09-30T00:00:00Z,187,erw:ai_power_regions,2026-10-02T09:57:58Z,pass,public,power;carbon,yes,derived
 api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-02T00:23:37Z,477,1 outlets,2026-09-30T05:05:41Z,pass,internal,platform,no,derived
+battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,10461,erw:battery_stack,2026-10-02T21:22:20Z,pass,public,power,yes,derived
+battery_stack_stress_daily,ERCOT,ercot,1,P1D,2021-02-07T00:00:00Z,2023-09-10T00:00:00Z,1260,erw:battery_stack,2026-10-02T21:22:20Z,pass,public,power,yes,derived
 caiso_as_prices,CAISO,caiso_dam,2,PT1H,2024-09-01T07:00:00Z,2026-10-03T06:00:00Z,145728,caiso:PRC_AS,2026-10-02T19:49:25Z,pass,public,power,no,source
 caiso_battery_storage,CAISO,,1,PT5M,2025-08-24T07:00:00Z,2026-10-01T06:55:00Z,346464,caiso:todays_outlook_storage,2026-09-29T01:09:43Z,pass,public,power,no,source
 caiso_curtailment_daily,CAISO,,1,P1D,2014-05-01T00:00:00Z,2026-09-30T00:00:00Z,24958,caiso:daily_renewable_report;caiso:production_curtailments,2026-09-29T01:09:05Z,pass,public,power,no,source

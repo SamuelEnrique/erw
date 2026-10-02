@@ -9,7 +9,7 @@
 // climbs toward the cap, then a two-hour outage runs the house on the battery; lights out ends the round); the state is
 // computed with simulate(), the server's own scorer, so the two cannot differ; and a simple mode (the default page): one
 // sentence, two big buttons, the battery and the price, with everything else behind "more".
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET, isPerfect, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS,

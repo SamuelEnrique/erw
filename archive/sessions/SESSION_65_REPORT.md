@@ -250,3 +250,34 @@ The real-time price of a left-out day is by definition not held, so the test use
 4. **Should the three tables refresh daily?** They are not in the daily run.
 5. **D3's recommendation:** whether to recover the left-out real-time days from the ISOs' hourly real-time prices. It would change `iso_hub_prices_history` and everything built on it.
 6. **Session 62's draft:** whether its first finding should say that the comparison is energy only, and cite the table above.
+
+## Finish
+
+Run on 2026-10-02, about 19:45 to 20:30 UTC, on Samuel's instruction, in the order of "To finish", one command at a time, each exit code read before the next. Every step exited 0; nothing was improvised. `warehouse/supabase/load.py` was not run. No model call, no force push.
+
+| Step | Command | Exit | Result |
+|---|---|---|---|
+| 1 | `git checkout`, `git fetch origin`, `git merge origin/main` | 0, 0, 0 | already on the branch; main had nothing new ("Already up to date"), so no conflict |
+| 2 | `lock.py acquire --task "session 65 finish" --minutes 120` | 0 | taken by `portable-laptop/45dfa531` (the session, as D2 now names the holder) |
+| 3 | `scripts/sync.py` | 0 | 99 tables in coverage, 99 here and matching, 0 missing |
+| 4 | `iso_capacity_prices.py` | 0 | `iso_all_capacity_prices` 814 rows |
+| 4 | `ercot_as_prices.py` | 0 | `ercot_as_prices` 336,092 rows, to 2026-10-03 (one more delivery day than the scratch table: 120 rows) |
+| 4 | `caiso_as_prices.py` | 0 | `caiso_as_prices` 145,728 rows, the same as the scratch table |
+| 5 | `erw_validate.py --json warehouse/output/*.csv` | 0 | no table blocked |
+| 5 | `build_coverage.py --reports ...` | 0 | 102 tables; the three new ones pass; `iso_all_capacity_prices` internal, the other two public; all tier source |
+| 6 | `archive.py write --tables ...` | 0 | 3 tables archived, 482,634 rows, 0 failed (bucket `erw-archive`) |
+| 7 | `upload.py --changed --dry-run` | 0 | nothing uploaded. It listed 74 changed tables and said it would refuse two rolling-window tables that are not this session's (`eia930_all_interchange`, `news_scores_shadow`: fewer rows here than last uploaded). I did not touch them |
+| 7 | `upload.py --tables` (the three) | 0 | `iso_all_capacity_prices` 814 rows to `energy_research_warehouse_internal` only; `ercot_as_prices` 336,092 and `caiso_as_prices` 145,728 to the public dataset; Redivis counts equal the CSVs. Drafts only, nothing released |
+| 7 | `upload.py --check-license` | 0 | 14 internal tables, 0 in the public dataset |
+| 8 | `unittest tests.test_session65`; `git add`; `git commit` | 0, 0, 0 | 39 tests pass; commit `a6e3835` (coverage, sources, the archive manifest, the upload record) |
+| 9 | `git push origin task/065-revenue-stack` | 0 | the workflow's checks passed (run 37060178167) and it merged the branch: main is at `e4debe2`, "Merge task/065-revenue-stack: checks passed", and holds `a6e3835` |
+| 10 | `lock.py release` | 0 | "the data lock is free" |
+| 10 | `git push origin --delete wip/065-revenue-stack` | 0 | removed, after checking that main holds every commit on it. The workflow had already deleted the remote task branch |
+
+**The production deploy and the live page.** I could not read the deploy's status from Vercel or GitHub directly (no `gh` or `vercel` command on this machine, and GitHub's public API answered "rate limit exceeded"). The evidence that the deploy succeeded is the live page itself: `https://erw-flame.vercel.app/cost-of-power/seller?iso=miso` answers 200 and now reads "the warehouse holds MISO's hub prices from September 2024 only" and "The other hubs' prices start in September 2024: 25 months is a short sample of weather and gas, not a distribution." Neither "September 2025 only" nor "twelve or thirteen months" is on the page any more. The new wording exists only in this branch, so the page is served by the merged code.
+
+**Left for a person.**
+- Releasing the Redivis versions: both datasets hold the new tables in their drafts only.
+- The two tables the dry run would refuse (`eia930_all_interchange`, `news_scores_shadow`): this machine holds fewer rows than the last upload. The daily run will meet the same refusal if it runs here; it is worth a look before the next upload from this laptop.
+- This "Finish" section is committed on the local branch `task/065-revenue-stack` only. It is not pushed: a push to a `task/` branch would run the merge and a production deploy again. It reaches main with the next session's merge, or with a push when you choose.
+

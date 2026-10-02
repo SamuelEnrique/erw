@@ -28,6 +28,8 @@ export const GROUPS: Group[] = [
       { href: "/cost-of-power", label: "Cost of power", line: "What a MWh costs to buy at each ISO's main hub, weighted by when the grid uses it; when power is cheap by hour of day; cost against carbon; and what a large load pays for energy.", tables: "cost_of_power_monthly, cost_of_power_hourly_profile, cost_of_power_carbon", related: ["/board", "/datacenters"] },
       // session 51: the seller's tab
       { href: "/cost-of-power/seller", label: "What a generator earns", line: "What a merchant solar, wind, battery or gas peaker asset earns month by month at an ISO's main hub, its bad months and stress days, and whether it covers its debt.", tables: "merchant_revenue_monthly", related: ["/cost-of-power", "/board"] },
+      // session 67: the battery revenue stack, next to the seller's tab
+      { href: "/cost-of-power/battery", label: "What a battery earns", line: "What a grid battery of your size and duration earned in ERCOT and CAISO from energy and ancillary services together, by year and by stream, and whether it covers its debt, with and without a contract.", tables: "battery_stack_monthly, battery_stack_stress_daily", related: ["/cost-of-power/seller", "/storage"] },
       { href: "/prices", label: "Prices", line: "Every public ISO hub and zone, real-time and day-ahead, with Henry Hub, WTI and Brent.", tables: "ISO price tables, eia_fuel_spot_prices, latest_prices", related: ["/markets", "/explorer/ercot-peak-premium"] },
       { href: "/explorer/ercot-peak-premium", label: "ERCOT peak premium", line: "How ERCOT real-time prices spread across the day, by hub and year since 2015.", tables: "ercot_peak_premium_annual, ercot_peak_premium_monthly", related: ["/prices", "/markets"] },
     ],

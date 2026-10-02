@@ -47,6 +47,10 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/learn/problems/networks-and-money",
   // session 49: the network's default node card (ERCOT)
   "/network",
+  // session 67: what a battery earns: both grids, the three durations, both strategies, another size
+  "/cost-of-power/battery", "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight", "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
+  "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead", "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
+  "/cost-of-power/battery?grid=caiso&dur=8&strat=foresight&mw=250",
   // session 60: the Flex Alert scorecard
   "/grid/caiso/alerts"];  // (the line ended "// session 46: set D" before session 60)
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
@@ -386,6 +390,23 @@ async function truth(check) {
     const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "merchant_snapshot.json"), "utf-8"));
     return M.stat(snap, M.parseKey(p[1]), p[2]);
   }
+  // session 67: what a battery earns, bs|<inputs>|<stat>: recomputed by lib/batterystack.ts from this script's own read
+  // of battery_stack_monthly and battery_stack_stress_daily in Supabase
+  if (p[0] === "bs") {
+    const B = await import("../lib/batterystack.ts");
+    const x = B.parseKey(p[1]);
+    const entity = B.gridOf(x.grid).entity;
+    const k = `${entity}|${x.strat}|${x.dur}`;
+    if (!stackRows.has(k)) {
+      const f = { entity: `eq.${entity}`, variable: `like.${x.strat}_${x.dur}h_*`, order: "variable,ts_utc" };
+      const rows = await all("series", { select: "variable,ts_utc,value", table_name: `eq.${B.TABLE}`, ...f });
+      const stress = await all("series", { select: "variable,ts_utc,value,event", table_name: `eq.${B.STRESS_TABLE}`, ...f });
+      const num = (r) => ({ ...r, value: Number(r.value) });
+      stackRows.set(k, [rows.map(num), stress.map(num)]);
+    }
+    const [rows, stress] = stackRows.get(k);
+    return B.stat(rows, stress, x, p[2]);
+  }
   if (p[0] === "shape") {
     const [, entity, market, stat, start, end] = p;
     const { stats } = await import("../lib/shapepremium.ts");
@@ -450,6 +471,7 @@ async function truth(check) {
   throw new Error(`unknown check ${check}`);
 }
 let storageRows = null;
+const stackRows = new Map();  // session 67: the battery stack's rows, by entity|strategy|duration
 const studies = new Map();  // session 47: event studies, by event|entity|variable
 
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
@@ -587,17 +609,26 @@ async function checkWeekly(lines) {
 async function main() {
   const found = new Map();
   const tok = env("INTERNAL_COSTS_TOKEN");
+  // session 67, the release gate (lib/release.ts): the pages are read with the internal cookie, so the pages in review
+  // are still checked; without it they would answer the in-review page, which carries no number
+  let cookie = "";
+  if (tok) {
+    const u = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(tok)}`, { redirect: "manual" });
+    cookie = (u.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
+  }
+  if (!cookie) console.log(`no internal cookie from ${base}/internal/unlock: pages in review answer the in-review page and are counted as failures`);
   const urls = PAGES.map((page) => ({ page, url: page }));
   if (tok) urls.push(...INTERNAL.map((page) => ({ page, url: `${page}?token=${encodeURIComponent(tok)}`, internal: true })));
   else console.log(`internal pages not checked (INTERNAL_COSTS_TOKEN not set here): ${INTERNAL.join(", ")}`);
   for (const { page, url, internal } of urls) {
-    const res = await fetch(base + url);
+    const res = await fetch(base + url, { headers: cookie ? { Cookie: cookie } : {} });
     if (internal && res.status === 404) {  // the server has no INTERNAL_COSTS_TOKEN (or another): the page is off there
       console.log(`internal page not checked: ${page} answers 404 at ${base} (its INTERNAL_COSTS_TOKEN is not this one)`);
       continue;
     }
     if (!res.ok) throw new Error(`${page}: HTTP ${res.status}`);
     const html = await res.text();
+    if (html.includes('data-in-review="1"')) throw new Error(`${page}: the in-review page was served (no internal cookie, or the server's token is not this one)`);
     const re = /<span data-check="([^"]+)" data-raw="([^"]*)"[^>]*>([\s\S]*?)<\/span>/g;
     for (const m of html.matchAll(re)) {
       const text = decode(m[3].replace(/<!-- -->/g, "").replace(/<[^>]+>/g, "")).trim();

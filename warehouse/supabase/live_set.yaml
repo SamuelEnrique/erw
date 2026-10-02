@@ -63,6 +63,9 @@ full:
   - '^event_window_daily$'
   # session 37: the cost-of-power model, whole (about 2,300 monthly rows in all)
   - '^cost_of_power_(monthly|hourly_profile|carbon)$'
+  # session 67: the battery revenue stack, whole (/cost-of-power/battery reads both; about 20,000 monthly rows and
+  # a few thousand stress-day rows)
+  - '^battery_stack_(monthly|stress_daily)$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.

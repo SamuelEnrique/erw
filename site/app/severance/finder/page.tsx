@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
 import { Section } from "@/components/Section";
 import { RULE_NAMES, readSummary, tokenOk, type Totals } from "@/lib/finder";

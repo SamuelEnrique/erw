@@ -4,7 +4,7 @@ import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { companies, deals, renderTime } from "@/lib/data";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { count } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { DealsTable, type Deal } from "./DealsTable";

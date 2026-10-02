@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Cite } from "@/components/Cite";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { InlineBars, InlineSpark } from "@/components/InlineSpark";
 import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
-import { Section } from "@/components/Section";
+import { ChartFrame, HeadlineNumber, HeadlineRow, SourceLine, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
 import { daysAgo, series, storageUnits, type SeriesRow, type StorageUnit } from "@/lib/data";
 import { count, day, shown } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
@@ -16,6 +15,9 @@ import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 // source). Sums of storage_capacity's rows are the only arithmetic on the page, each checked by check-values.mjs.
 // Session 34: CAISO reports no battery series to EIA-930; its row of the daily cycle and its line in the charts come from
 // CAISO's own data (caiso_battery_storage, Today's Outlook), labeled as CAISO's with their own tier chip and citation.
+// Session 67: the page is live under the release gate, so it wears the shared tool header, type and source line
+// (components/tool/ToolPage.tsx), and its most important number (the operating fleet) and chart (the last 24 hours,
+// the daily cycle as it happened) come first. No data change and no new section: every number and check key is as it was.
 export const metadata: Metadata = { title: "Storage" };
 export const revalidate = 3600;
 
@@ -34,9 +36,9 @@ const BUILD = ["under_construction", "planned"];
 
 function Tier({ tier }: { tier: "derived" | "source" }) {
   return (
-    <Link href="/data/standard" title={TIER_TITLE[tier]} className="ml-1 rounded border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
+    <span title={TIER_TITLE[tier]} className="ml-1 rounded border border-rule px-1 align-middle font-sans text-[10px] uppercase tracking-wide text-muted">
       {TIER_LABEL[tier]}
-    </Link>
+    </span>
   );
 }
 
@@ -245,19 +247,6 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
   );
 }
 
-/** The CAISO line's own tier chip and citation: CAISO's data, not EIA-930's. */
-function CaisoCite() {
-  return (
-    <>
-      <p className="mt-2 text-xs text-muted">
-        The CAISO line is CAISO&apos;s own data<Tier tier="source" />, not EIA-930&apos;s: Today&apos;s Outlook &quot;Total batteries&quot;
-        (hybrid plants&apos; batteries included), 5-minute values averaged to UTC hours.
-      </p>
-      <Cite tables={["caiso_battery_storage"]} note="California ISO, Today's Outlook, storage history files" />
-    </>
-  );
-}
-
 export default async function Storage() {
   const since30 = daysAgo(31);
   const [units, cycle, hourly, caiso] = await Promise.all([
@@ -283,43 +272,59 @@ export default async function Storage() {
       : [];
   const newest = hourly.ok && hourly.data.length ? Math.max(...hourly.data.map((r) => new Date(r.ts_utc).getTime())) : 0;
   const us48 = hourly.ok ? hourly.data.filter((r) => r.entity === "eia930:US48") : [];
-  return (
+  const operating = units.ok ? units.data.filter((u) => u.status === "operating") : [];
+  const last24 = (
     <>
-      <h1 className="mb-1 text-3xl">Battery storage</h1>
-      <p className="mb-5 max-w-3xl text-sm text-muted">
-        The US battery fleet from EIA&apos;s monthly generator inventory, and how the batteries charge and discharge each
-        hour from EIA-930. <Link href={METHOD}>Method</Link>.
-      </p>
+      {hourly.ok && newest ? (
+        <LineChart lines={lines(newest - 23 * 3_600_000)} unit="MW" height={240} ariaLabel="Battery net generation by ISO, the last 24 hours EIA has published" />
+      ) : (
+        <NoData what="the last 24 hours" reason={hourly.ok ? "no rows" : hourly.reason} />
+      )}
+    </>
+  );
+  const H2 = "mb-2 border-b border-rule pb-1 font-serif text-xl text-accent";
+  return (
+    <ToolPage>
+      <ToolHeader title="Battery storage"
+        lead={<>The US battery fleet from EIA&apos;s monthly generator inventory, and how the batteries charge and discharge each hour from EIA-930. <Link href={METHOD}>Method</Link>. What a battery earns doing it is on <Link href="/cost-of-power/battery">What a battery earns</Link>.</>} />
 
-      <Section title="The fleet" aside={<>EIA-860M<Tier tier="derived" /></>}>
+      {units.ok ? (
+        <HeadlineRow>
+          <HeadlineNumber label="Batteries operating in the US" value={<MW units={operating} check="mw|operating" />} unit="MW"
+            note={<><Num check="storage|n|operating" raw={operating.length}>{count(operating.length)}</Num> units in EIA&apos;s monthly generator inventory (EIA-860M), nameplate power.</>} />
+        </HeadlineRow>
+      ) : null}
+
+      <ChartFrame title="The last 24 hours, by grid, MW"
+        note={<>EIA-930 net generation of battery storage: above zero the batteries are discharging, below zero charging. UTC hours{newest ? `, the 24 hours to ${new Date(newest).toISOString().slice(0, 16).replace("T", " ")} UTC, the newest EIA has published for every hour of its day` : ""}. The CAISO line is CAISO&apos;s own data (Today&apos;s Outlook, Total batteries), not EIA-930&apos;s. NYISO and PJM report no battery series.</>}>
+        {last24}
+      </ChartFrame>
+
+      <ToolSection title="The fleet" note="Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status, and its Nameplate Energy Capacity (MWh) where EIA gives it: for operating and retired units, not for planned ones (EIA's Planned sheet has no such column). MWh is never estimated from MW.">
         {units.ok ? <Fleet units={units.data} /> : <NoData what="the fleet" reason={units.reason} />}
-        <Cite tables={["storage_capacity"]} note="Nameplate MW of every battery unit (prime mover BA) in EIA-860M, by EIA's status, and its Nameplate Energy Capacity (MWh) where EIA gives it: for operating and retired units, not for planned ones (EIA's Planned sheet has no such column). MWh is never estimated from MW" />
-      </Section>
+      </ToolSection>
 
-      <div className="grid gap-5 lg:grid-cols-2">
-        <section className="mb-8 min-w-0" aria-label="By ISO">
-          <h2 className="mb-2 border-b border-rule pb-1 text-xl">By ISO<Tier tier="derived" /></h2>
+      <div className="grid gap-8 lg:grid-cols-2">
+        <section className="mb-10 min-w-0" aria-label="By ISO">
+          <h2 className={H2}>By ISO<Tier tier="derived" /></h2>
           {units.ok ? <ByIso units={units.data} /> : <NoData what="the fleet by ISO" reason={units.reason} />}
-          <Cite tables={["storage_capacity"]} note="The ISO is the unit's balancing authority when it is one of the seven" />
+          <p className="mt-2 text-xs text-muted">The ISO is the unit&apos;s balancing authority when it is one of the seven.</p>
         </section>
-        <section className="mb-8 min-w-0" aria-label="By state">
-          <h2 className="mb-2 border-b border-rule pb-1 text-xl">By state<Tier tier="derived" /></h2>
+        <section className="mb-10 min-w-0" aria-label="By state">
+          <h2 className={H2}>By state<Tier tier="derived" /></h2>
           {units.ok ? <ByState units={units.data} /> : <NoData what="the fleet by state" reason={units.reason} />}
-          <Cite tables={["storage_capacity"]} />
         </section>
       </div>
 
-      <Section title="Planned additions by year" aside={<Tier tier="derived" />}>
+      <ToolSection title="Planned additions by year" note="Units under construction or planned, by the year of EIA's planned operation date.">
         {units.ok ? <ByYear units={units.data} /> : <NoData what="planned additions" reason={units.reason} />}
-        <Cite tables={["storage_capacity"]} note="Units under construction or planned, by the year of EIA's planned operation date" />
-      </Section>
+      </ToolSection>
 
-      <Section title="The daily cycle" aside={<Tier tier="derived" />}>
+      <ToolSection title="The daily cycle" note="Derived from eia930_all_storage; CAISO's row from caiso_battery_storage, CAISO's own data, because CAISO reports no battery series in EIA-930. NYISO and PJM report none in either.">
         {cycle.ok && cycle.data.length ? <Cycle rows={cycle.data} /> : <NoData what="the daily cycle" reason={cycle.ok ? "storage_daily_cycle returned no rows" : cycle.reason} />}
-        <Cite tables={["storage_daily_cycle"]} note="Derived from eia930_all_storage; CAISO's row from caiso_battery_storage, CAISO's own data, because CAISO reports no battery series in EIA-930. NYISO and PJM report none in either" />
-      </Section>
+      </ToolSection>
 
-      <Section title="Hour by hour, the last 30 days" aside={<Tier tier="source" />}>
+      <ToolSection title="Hour by hour, the last 30 days" note="EIA-930 net generation of battery storage, MW: above zero discharging, below zero charging. UTC hours. The CAISO line is CAISO's own data, not EIA-930's: Today's Outlook Total batteries (hybrid plants' batteries included), 5-minute values averaged to UTC hours.">
         {hourly.ok && newest ? (
           <>
             <LineChart lines={lines(newest - 30 * 86_400_000)} unit="MW" height={240} ariaLabel="Battery net generation by ISO, hourly, last 30 days" />
@@ -329,19 +334,10 @@ export default async function Storage() {
         ) : (
           <NoData what="the hourly series" reason={hourly.ok ? "eia930_all_storage returned no rows in the last 30 days" : hourly.reason} />
         )}
-        <Cite tables={["eia930_all_storage"]} note="EIA-930 net generation of battery storage, MW: above zero discharging, below zero charging. UTC hours" />
-        <CaisoCite />
-      </Section>
+      </ToolSection>
 
-      <Section title="The last 24 hours" aside={<Tier tier="source" />}>
-        {hourly.ok && newest ? (
-          <LineChart lines={lines(newest - 23 * 3_600_000)} unit="MW" height={220} ariaLabel="Battery net generation by ISO, the last 24 hours EIA has published" />
-        ) : (
-          <NoData what="the last 24 hours" reason={hourly.ok ? "no rows" : hourly.reason} />
-        )}
-        <Cite tables={["eia930_all_storage"]} note={newest ? `The 24 hours to ${new Date(newest).toISOString().slice(0, 16).replace("T", " ")} UTC, the newest EIA has published for every hour of its day` : undefined} />
-        <CaisoCite />
-      </Section>
-    </>
+      <SourceLine tables={["storage_capacity", "storage_daily_cycle", "eia930_all_storage", "caiso_battery_storage"]}
+        note="The fleet: EIA-860M, derived by the ERW. The daily cycle: derived from EIA-930 and CAISO's Today's Outlook. The hourly series: EIA-930 and CAISO, as published." />
+    </ToolPage>
   );
 }
