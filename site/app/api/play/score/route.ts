@@ -5,7 +5,7 @@
 // account, no IP. Answers with the level's best ten. Header x-erw-check: 1 marks the ERW's own scripted checks.
 import { NextResponse } from "next/server";
 import { validNickname } from "@/lib/battery";
-import { allow, clientIp, fail, leaderboard, scorePlay } from "@/lib/game";
+import { allow, clientIp, fail, leaderboard, scorePlay, type PlayBody } from "@/lib/game";
 import { insertRow } from "@/lib/supabase";
 
 export const runtime = "nodejs";
@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   if (!allow(clientIp(req))) return fail("limit reached: 30 game requests per hour; try again later", 429);
-  let body: { level?: unknown; actions?: unknown; nickname?: unknown; settings?: unknown; difficulty?: unknown };
+  let body: PlayBody & { nickname?: unknown };  // session 66: with the add-ons (Hard only), which the preset carries
   try {
     body = await req.json();
   } catch {

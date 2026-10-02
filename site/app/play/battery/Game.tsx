@@ -9,17 +9,25 @@
 // climbs toward the cap, then a two-hour outage runs the house on the battery; lights out ends the round); the state is
 // computed with simulate(), the server's own scorer, so the two cannot differ; and a simple mode (the default page): one
 // sentence, two big buttons, the battery and the price, with everything else behind "more".
+// Session 66 (v4): lights out costs money (the page says so, with the reason); a spiked price is shown only through
+// lib/battery.ts's shownPrices, whose text carries "game rule, not a real price" and the real price beside it (this file
+// never formats a played price itself: scripts/test-battery.mjs checks it); after a play, three plain lines (EndLines):
+// what you earned, what the perfect battery earned, and the hour you lost the most, from simulate()'s own earnings per
+// interval; and Hard's add-ons, off by default, the first a rooftop solar array that follows the level's real solar shape.
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET, isPerfect, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS,
-  simulate, START_MONEY, validSettings, vppHour, type Action, type Difficulty, type Rules, type Settings,
+  ADDON_KEYS, ADDONS, DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET, isPerfect, LIGHTS_OUT, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS,
+  shownPrices, simulate, SOLAR, solarKwh, SPIKE_LABEL, START_MONEY, validAddons, validSettings, validSolar, vppHour, worstHour,
+  type Action, type AddonKey, type Difficulty, type Result, type Rules, type Settings, type ShownPrice,
 } from "@/lib/battery";
 import type { PresetCount, ScoreRow } from "@/lib/game";
 
 // session 56: a level names its grid and its operating day's time zone (the California days are Pacific), and the
 // California days their selection rule
-export type GameLevel = { slug: string; date: string; title: string; why: string; ts_utc: string[]; price: number[]; grid: "ERCOT" | "CAISO"; tz: string; rule?: string };
+// session 66: and, where the warehouse holds it, the day's solar shape (the grid's solar fleet, output per MW installed,
+// one value per interval) with its source: the rooftop add-on needs it and is unavailable without it
+export type GameLevel = { slug: string; date: string; title: string; why: string; ts_utc: string[]; price: number[]; grid: "ERCOT" | "CAISO"; tz: string; rule?: string; solar?: number[]; solar_source?: string };
 
 const DURATION_MS = 90_000;
 const HHMM = new Map<string, Intl.DateTimeFormat>();
@@ -82,7 +90,10 @@ function ShareCard({ level, score, optimal, preset }: { level: GameLevel; score:
     `I earned ${usd(score)} with one home battery${share !== null ? `: ${Math.round(share)} percent of perfect foresight (${usd(optimal)})` : ""}.`,
     `My fleet of ${FLEET.toLocaleString("en-US")} homes: ${usd(score * FLEET)}.`,
   ];
-  const text = () => `${lines.join(" ")} ${presetLabel(preset)}. Real ${GRIDS[level.grid].prices} prices; the battery and the fleet are fictional. ${window.location.origin}/play/battery`;
+  // session 66: on Hard the dearest hour's price is the game's, and the share says so wherever it says "real prices"
+  const hard = preset.startsWith("hard:");
+  const spikeNote = `On Hard the dearest hour's price is a ${SPIKE_LABEL}.`;
+  const text = () => `${lines.join(" ")} ${presetLabel(preset)}. Real ${GRIDS[level.grid].prices} prices; ${hard ? `${spikeNote} ` : ""}the battery and the fleet are fictional. ${window.location.origin}/play/battery`;
   const make = () => {
     const cv = document.createElement("canvas");
     cv.width = 1200; cv.height = 630;
@@ -102,6 +113,7 @@ function ShareCard({ level, score, optimal, preset }: { level: GameLevel; score:
     ctx.fillText(presetLabel(preset), 60, 480);
     ctx.fillText(`Real prices: ${level.grid === "CAISO" ? "CAISO SP15 real-time" : "ERCOT real-time, hub average (HB_HUBAVG)"}, every 15 minutes of the day.`, 60, 520);
     ctx.fillText(`The battery, home and fleet are fictional. ${window.location.host}/play/battery`, 60, 560);
+    if (hard) ctx.fillText(spikeNote, 60, 600);
     setPng(cv.toDataURL("image/png"));
   };
   return (
@@ -124,7 +136,7 @@ const STEPS = [
   "A real day of wholesale prices, Texas's (ERCOT) or California's (CAISO), scrolls past in about 90 seconds, fifteen minutes at a time. You see the past; on Easy, the next three hours show as a band.",
   "Hold Charge to buy power into your battery when it is cheap; hold Sell to discharge it when it is dear. Let go to idle. Keys: C and S, or the arrows.",
   "Once a day the fleet is called for the day's dearest hour, with a 15-minute warning. Energy you deliver in that hour earns a bonus: a game rule, modeled on ERCOT's ADER pilot.",
-  "On Hard the battery keeps a backup reserve, and every kWh you discharge wears it (a cost). After the day, replay the perfect battery's day beside yours.",
+  "On Hard the battery keeps a backup reserve, every kWh you discharge wears it (a cost), and a grid emergency ends in an outage: keep the house lit, because a dark house costs money. After the day, replay the perfect battery's day beside yours.",
 ];
 function Tutorial({ onDone }: { onDone: () => void }) {
   const [k, setK] = useState(0);
@@ -196,12 +208,13 @@ function HouseFlow({ flow, soc, kwh, reserveKwh, blocked }: { flow: Action; soc:
 /** Session 50: the replay. The perfect battery's day (perfect foresight, the same rules) plays back beside the
  * player's: both states of charge over the day, a cursor, and at each switch of the perfect plan a reason read from
  * the prices (lib/battery.ts explain). */
-function Replay({ level, rules, mine, perfect }: { level: GameLevel; rules: Rules; mine: Action[]; perfect: Action[] }) {
+function Replay({ level, rules, mine, perfect, sun }: { level: GameLevel; rules: Rules; mine: Action[]; perfect: Action[]; sun?: number[] }) {
   const n = level.price.length;
   const hours = useMemo(() => level.ts_utc.map((t) => Number(clock(level.tz, t).slice(0, 2))), [level]);
-  const segs = useMemo(() => explain(level.price, hours, perfect, rules, (i) => clock(level.tz, level.ts_utc[i])), [level, hours, perfect, rules]);
-  const a = useMemo(() => simulate(level.price, mine, rules).soc, [level, mine, rules]);
-  const b = useMemo(() => simulate(level.price, perfect, rules).soc, [level, perfect, rules]);
+  const segs = useMemo(() => explain(level.price, hours, perfect, rules, (i) => clock(level.tz, level.ts_utc[i]), sun), [level, hours, perfect, rules, sun]);
+  const a = useMemo(() => simulate(level.price, mine, rules, sun).soc, [level, mine, rules, sun]);
+  const b = useMemo(() => simulate(level.price, perfect, rules, sun).soc, [level, perfect, rules, sun]);
+  const shown = useMemo(() => shownPrices(level.price, rules), [level, rules]);  // session 66: the price at the cursor, a spiked one labeled
   const [t, setT] = useState(n);
   const [playing, setPlaying] = useState(false);
   const raf = useRef(0);
@@ -231,7 +244,7 @@ function Replay({ level, rules, mine, perfect }: { level: GameLevel; rules: Rule
   return (
     <div className="mt-4 border-t border-rule pt-3 text-sm">
       <h3 className="mb-1 text-base">Replay: the perfect battery beside yours</h3>
-      <p className="mb-2 text-xs text-muted">The same battery and rules, with every price known in advance. Its state of charge (accent) and yours (ink), kWh, over the day; the day&apos;s price is the faint line behind, on its own scale.</p>
+      <p className="mb-2 text-xs text-muted">The same battery and rules, with every price known in advance. Its state of charge (accent) and yours (ink), kWh, over the day; the day&apos;s real price is the faint line behind, on its own scale{shown.some((s) => s.spike) ? ` (the emergency's prices are a ${SPIKE_LABEL}, so they are not drawn; the line below names them)` : ""}.</p>
       <div className="mb-2 flex flex-wrap items-center gap-2">
         <button onClick={() => setPlaying(!playing)} className="border border-accent px-3 py-1 text-accent">{playing ? "Pause" : t >= n ? "Play the replay" : "Resume"}</button>
         <input type="range" min={0} max={n} step={1} value={Math.round(t)} onChange={(e) => { setPlaying(false); setT(Number(e.target.value)); }} className="w-56" aria-label="Replay position" />
@@ -257,7 +270,8 @@ function Replay({ level, rules, mine, perfect }: { level: GameLevel; rules: Rule
         {rules.reserveKwh > 0 ? <span className="text-accent">dashed: the reserve</span> : null}
       </div>
       <p className="mt-2 min-h-[2.5rem]" aria-live="polite">
-        <strong>{clock(level.tz, level.ts_utc[cur])}</strong>: the perfect battery {seg ? `is ${verb(seg.a)} (${seg.text})` : ""}; you were {verb(mine[cur] ?? 0)}.
+        <strong>{clock(level.tz, level.ts_utc[cur])}</strong>: the perfect battery {seg ? `is ${verb(seg.a)} (${seg.text})` : ""}; you were {verb(mine[cur] ?? 0)}.{" "}
+        <span className={shown[cur].spike ? "text-accent" : "text-muted"}>The price: {shown[cur].text}.</span>
       </p>
       <details className="mt-1">
         <summary className="cursor-pointer text-muted">Every switch of the perfect plan ({segs.length})</summary>
@@ -270,8 +284,9 @@ function Replay({ level, rules, mine, perfect }: { level: GameLevel; rules: Rule
 }
 
 /** Session 50: the battery's settings and the difficulty, each default labelled with its source. */
-function SettingsPanel({ draft, setDraft, difficulty, setDifficulty }: {
+function SettingsPanel({ draft, setDraft, difficulty, setDifficulty, addonsOn, setAddonsOn, available, level }: {
   draft: Record<keyof Settings, string>; setDraft: (d: Record<keyof Settings, string>) => void; difficulty: Difficulty; setDifficulty: (d: Difficulty) => void;
+  addonsOn: AddonKey[]; setAddonsOn: (a: AddonKey[]) => void; available: Record<AddonKey, boolean>; level: GameLevel;
 }) {
   const shownAs = (k: keyof Settings) => (k === "rte" || k === "reserve" ? 100 : 1);
   return (
@@ -283,6 +298,28 @@ function SettingsPanel({ draft, setDraft, difficulty, setDifficulty }: {
         ))}
         <span className="self-center text-xs text-muted">{DIFFICULTIES[difficulty].what}.</span>
       </div>
+      {/* session 66: Hard's add-ons, optional switches, off by default; one that needs data the level does not hold is
+          unavailable for it and says so */}
+      {DIFFICULTIES[difficulty].addons ? (
+        <fieldset className="mb-2 border-t border-rule pt-2">
+          <legend className="float-left mr-2 font-semibold">Add-ons</legend>
+          <p className="mb-1 text-xs text-muted">Optional, off by default, on Hard only. Each is a game rule, and a leaderboard ranks only plays with the same add-ons.</p>
+          {ADDON_KEYS.map((k) => {
+            const can = available[k], on = can && addonsOn.includes(k);
+            return (
+              <label key={k} className={`flex items-start gap-2 ${can ? "" : "opacity-70"}`}>
+                <input type="checkbox" role="switch" aria-checked={on} checked={on} disabled={!can} className="mt-1"
+                  onChange={(e) => setAddonsOn(e.target.checked ? [...addonsOn.filter((x) => x !== k), k] : addonsOn.filter((x) => x !== k))} />
+                <span>
+                  <strong>{ADDONS[k].label}</strong>: {ADDONS[k].what}.
+                  {can && level.solar_source ? <span className="block text-xs text-muted">The shape for {level.date}: {level.solar_source}</span> : null}
+                  {can ? null : <span className="block text-xs text-accent">Not available for {level.date}: the warehouse holds no solar shape for this day, and the game never fills one in.</span>}
+                </span>
+              </label>
+            );
+          })}
+        </fieldset>
+      ) : null}
       <details>
         <summary className="cursor-pointer">The battery: settings (each default an assumption or a cited figure; editable within its range)</summary>
         <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -311,6 +348,59 @@ const fromDraft = (d: Record<keyof Settings, string>): Settings => ({
   kwh: Number(d.kwh), kw: Number(d.kw), rte: Math.round(Number(d.rte)) / 100, reserve: Math.round(Number(d.reserve)) / 100, deg: Math.round(Number(d.deg) * 100) / 100,
 });
 
+/** Session 66: after a play, three plain lines: what you earned, what the perfect battery earned on the same day under
+ * the same rules, and the one hour where you lost the most against it, with what it did then and at what price. Every
+ * number is simulate()'s (the play's and the perfect plan's results, and worstHour over their earnings per interval). */
+function EndLines({ level, rules, mine, perfect, big }: { level: GameLevel; rules: Rules; mine: Result; perfect: Result; big: boolean }) {
+  const w = worstHour(level.price, mine, perfect, rules);
+  const from = (i: number) => clock(level.tz, level.ts_utc[i]);
+  const to = (i: number) => clock(level.tz, new Date(Date.parse(level.ts_utc[i]) + 15 * 60_000).toISOString());
+  const did = !w ? "" : w.did === -1 ? "sold power" : w.did === 1 ? "charged up (bought power)" : w.outage ? "kept the house running, because the grid was down," : "waited";
+  return (
+    <ol className={`list-decimal space-y-1 pl-6 ${big ? "text-lg" : "text-base"}`} aria-label="Your day in three lines">
+      <li>You {mine.score >= 0 ? "earned" : "lost"} <strong>{usd(Math.abs(mine.score))}</strong>.</li>
+      <li>The perfect battery, which knew every price ahead of time, earned <strong>{usd(perfect.score)}</strong> on the same day with the same rules.</li>
+      <li>
+        {w ? (
+          <>
+            The hour you lost the most was {from(w.first)} to {to(w.last)}. The perfect battery {did} then, at an average price of{" "}
+            <span className={w.price.spike ? "text-accent" : ""}>{w.price.text}</span>, and made {usd(w.perfect)} in that hour; you made {usd(w.mine)}.
+          </>
+        ) : "You matched the perfect battery in every hour."}
+      </li>
+    </ol>
+  );
+}
+
+/** Why a play ended early, in words. Session 66: lights out costs money, and the note says what and why. */
+function EarlyEnd({ mine, at }: { mine: Result; at: string }) {
+  if (mine.why === "bankrupt") {
+    return <p className="mt-1 text-sm text-accent" role="status">Out of money at {at}: below $0 the game ends (a game rule). Buying when power is dear costs more than the battery can earn back.</p>;
+  }
+  if (mine.why !== "lights_out") return null;
+  return (
+    <p className="mt-1 text-sm text-accent" role="status">
+      Lights out at {at}: the battery ran dry in the outage, so the round ended there. A dark house costs money (a game rule): the{" "}
+      {mine.unservedKwh.toFixed(2)} kWh the house went without in the rest of the outage was charged at {LIGHTS_OUT.multiple} times the USD {EMERGENCY.cap.toLocaleString("en-US")}/MWh price cap,{" "}
+      {usd(mine.penalty)}. A home without power in a grid emergency is the outcome the battery exists to prevent. The outage needed{" "}
+      {mine.outageNeedKwh.toFixed(2)} kWh from the battery; at its start the battery held {(mine.outageStartKwh ?? 0).toFixed(2)} kWh.
+      {mine.money < 0 ? " The charge took your money below $0." : ""}
+    </p>
+  );
+}
+
+/** The price now, as a big number. Session 66: a spiked price carries its label and the real price beside it, on the
+ * number itself (the text is lib/battery.ts's shownPrices). */
+function PriceNow({ s, big }: { s: ShownPrice; big: boolean }) {
+  const cut = s.text.indexOf(" ");
+  return (
+    <div className="mb-1 text-center">
+      <span className={`tabular-nums ${big ? "text-3xl" : "text-xl"} ${s.spike ? "text-accent" : ""}`}>{s.text.slice(0, cut)}</span>{" "}
+      <span className={`text-sm ${s.spike ? "text-accent" : "text-muted"}`}>{s.text.slice(cut + 1)}{s.spike ? "" : " now"}</span>
+    </div>
+  );
+}
+
 export function Game({ levels, top: firstTop, presets: firstPresets, simple = false }: { levels: GameLevel[]; top: ScoreRow[]; presets: PresetCount[]; simple?: boolean }) {
   const [phase, setPhase] = useState<Phase>("pick");
   const [pick, setPick] = useState(0);
@@ -322,37 +412,49 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
   const ok = validSettings(parsed);
   const settings = ok ? parsed : DEFAULT_SETTINGS;
   const settingsKey = JSON.stringify(settings);
+  // session 66: Hard's add-ons. One is on when it is switched on, the difficulty has add-ons, and the level holds what it
+  // needs (rooftop solar: the day's solar shape); otherwise it is off, and the panel says why
+  const [addonsOn, setAddonsOn] = useState<AddonKey[]>([]);
+  const available: Record<AddonKey, boolean> = { solar: validSolar(level.solar, n) };
+  const addonsKey = (DIFFICULTIES[difficulty].addons ? ADDON_KEYS.filter((k) => addonsOn.includes(k) && available[k]) : []).join(",");
+  const addons = useMemo(() => (addonsKey ? addonsKey.split(",") : []) as AddonKey[], [addonsKey]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const rules = useMemo(() => rulesOf(settings, difficulty), [settingsKey, difficulty]);
-  const preset = presetOf(settings, difficulty);
+  const rules = useMemo(() => rulesOf(settings, difficulty, addons), [settingsKey, difficulty, addons]);
+  const preset = presetOf(settings, difficulty, addons);
+  const sun = rules.solarKw > 0 ? level.solar : undefined;
   // session 63: on Hard the emergency's prices are the ones played and scored (a game rule); elsewhere the real prices
   const em = useMemo(() => emergencyOf(level.price, rules), [level, rules]);
   const P = em.prices;
   const vpp = useMemo(() => vppHour(P), [P]);
-  const best = useMemo(() => optimum(level.price, rules), [level, rules]);
+  // session 66: every price as it may be shown: a spiked one carries its label and the real price
+  const labeled = useMemo(() => shownPrices(level.price, rules), [level, rules]);
+  const best = useMemo(() => optimum(level.price, rules, sun), [level, rules, sun]);
+  const perfect = useMemo(() => simulate(level.price, best.actions, rules, sun), [level, best, rules, sun]);
   const [tutorial, setTutorial] = useState(false);
 
   // the viewer's conveniences, from browser storage after the first render (absent or refused: the defaults)
   useEffect(() => {
     if (simple) return;  // session 63: the simple page always plays Normal with the default battery, and skips the tutorial
     const seen = load(TUTORIAL_KEY) === "seen";
-    let saved: { settings?: unknown; difficulty?: unknown } | null = null;
+    let saved: { settings?: unknown; difficulty?: unknown; addons?: unknown } | null = null;
     try { saved = JSON.parse(load(SETTINGS_KEY) ?? "null"); } catch { saved = null; }
     queueMicrotask(() => {
       if (!seen) setTutorial(true);
       if (saved && validSettings(saved.settings)) setDraft(toDraft(saved.settings));
       if (saved && (saved.difficulty === "easy" || saved.difficulty === "normal" || saved.difficulty === "hard")) setDifficulty(saved.difficulty);
+      if (saved && validAddons(saved.addons, "hard")) setAddonsOn(saved.addons);
     });
   }, [simple]);
-  useEffect(() => { if (ok && !simple) save(SETTINGS_KEY, JSON.stringify({ settings, difficulty })); }, [ok, settingsKey, difficulty, simple]); // eslint-disable-line react-hooks/exhaustive-deps
+  const addonsOnKey = addonsOn.join(",");
+  useEffect(() => { if (ok && !simple) save(SETTINGS_KEY, JSON.stringify({ settings, difficulty, addons: addonsOn })); }, [ok, settingsKey, difficulty, simple, addonsOnKey]); // eslint-disable-line react-hooks/exhaustive-deps
   const endTutorial = useCallback(() => { save(TUTORIAL_KEY, "seen"); setTutorial(false); }, []);
 
   // mutable game state, read by the animation loop
-  const g = useRef({ t0: 0, idx: 0, held: [0, 0, 0], last: 0, soc: 0, cash: 0, wear: 0, bonus: 0, vppKwh: 0, actions: [] as Action[], control: 0 as Control, ended: false });
-  const [hud, setHud] = useState({ idx: 0, soc: rules.start, cash: 0, wear: 0, bonus: 0, vppKwh: 0, control: 0 as Control });
+  const g = useRef({ t0: 0, idx: 0, held: [0, 0, 0], last: 0, soc: 0, money: START_MONEY, wear: 0, solar: 0, vppKwh: 0, actions: [] as Action[], control: 0 as Control, ended: false });
+  const [hud, setHud] = useState({ idx: 0, soc: rules.start, money: START_MONEY, wear: 0, solar: 0, vppKwh: 0, control: 0 as Control });
+  // session 66: the finished play is simulate()'s own result (the end screen reads every number from it)
   const [result, setResult] = useState<{
-    score: number; cash: number; wear: number; bonus: number; actions: Action[]; rules: Rules; preset: string; settings: Settings; difficulty: Difficulty;
-    end: number | null; why: "" | "bankrupt" | "lights_out"; outageStartKwh: number | null; outageNeedKwh: number;
+    mine: Result; actions: Action[]; rules: Rules; preset: string; settings: Settings; difficulty: Difficulty; addons: AddonKey[]; sun?: number[];
   } | null>(null);
   const [server, setServer] = useState<string>("");
   const [top, setTop] = useState<ScoreRow[]>(firstTop);
@@ -465,36 +567,56 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
       if (i === 0) ctx.moveTo(x0, yy); else ctx.lineTo(x0, yy);
       ctx.lineTo(Math.min(x0 + dx, nowX), yy);
     }
-    ctx.stroke(); ctx.restore();
+    ctx.stroke();
+    // session 66: a spiked price is the game's, not the market's: it is drawn in the accent color, the real price
+    // dashed beneath it, and the band says so
+    let anySpike = false;
+    for (let i = 0; i < shown; i++) {
+      if (!labeled[i].spike) continue;
+      anySpike = true;
+      const x0 = x(i), x1 = Math.min(x0 + dx, nowX);
+      ctx.strokeStyle = css("accent"); ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x0, y(P[i])); ctx.lineTo(x1, y(P[i])); ctx.stroke();
+      ctx.strokeStyle = css("ink"); ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(x0, y(labeled[i].real)); ctx.lineTo(x1, y(labeled[i].real)); ctx.stroke(); ctx.setLineDash([]);
+    }
+    ctx.restore();
+    if (anySpike && em.spike) {
+      ctx.fillStyle = css("accent"); ctx.font = "11px system-ui, sans-serif";
+      ctx.fillText(SPIKE_LABEL, Math.max(42, x(em.spike.first) + 4), top + 26);
+      ctx.fillText("dashed: the real price", Math.max(42, x(em.spike.first) + 4), top + 39);
+    }
     // the now line and the current price
     ctx.strokeStyle = css("accent"); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(nowX, top - 8); ctx.lineTo(nowX, bottom); ctx.stroke();
-    const cur = P[Math.min(n - 1, Math.floor(pos))];
-    ctx.fillStyle = css("accent"); ctx.beginPath(); ctx.arc(nowX, y(cur), 4, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = css("ink"); ctx.font = "12px system-ui, sans-serif";
-    // the label right of the now line where it fits, else left of it (narrow screens), never over the line
-    const label = `${cur.toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh`;
-    const lw = ctx.measureText(label).width;
-    ctx.fillText(label, nowX + 8 + lw <= w - 2 && !forecast ? nowX + 8 : nowX - 8 - lw, Math.max(top + 10, y(cur) - 8));
-  }, [level, n, vpp, forecast, P, em]);
+    const now = labeled[Math.min(n - 1, Math.floor(pos))];
+    ctx.fillStyle = css("accent"); ctx.beginPath(); ctx.arc(nowX, y(now.value), 4, 0, Math.PI * 2); ctx.fill();
+    ctx.font = "12px system-ui, sans-serif";
+    // the label right of the now line where it fits, else left of it (narrow screens), never over the line. Session 66:
+    // the label is the library's text; a spiked price's label and its real price go on the lines under the number
+    const cut = now.text.indexOf(" ("), semi = now.text.indexOf("; ");
+    const lines = cut < 0 ? [now.text] : [now.text.slice(0, cut), now.text.slice(cut + 1, semi + 1), now.text.slice(semi + 2)];
+    const lw = Math.max(...lines.map((t) => ctx.measureText(t).width));
+    const lx = nowX + 8 + lw <= w - 2 && !forecast ? nowX + 8 : nowX - 8 - lw;
+    const ly = Math.max(top + 10, y(now.value) - 8) + (lines.length > 1 ? 44 : 0);
+    if (lines.length > 1) { ctx.fillStyle = css("panel"); ctx.fillRect(lx - 3, ly - 12, lw + 6, lines.length * 14 + 4); }
+    lines.forEach((t, k) => { ctx.fillStyle = k === 0 ? css("ink") : css("accent"); ctx.fillText(t, lx, ly + k * 14); });
+  }, [level, n, vpp, forecast, P, em, labeled]);
 
   const finish = useCallback(async () => {
     cancelAnimationFrame(raf.current);
     const played = g.current.actions.slice(0, n);
     const actions: Action[] = [...played, ...new Array(Math.max(0, n - played.length)).fill(0)];  // after an early end nothing counts
-    const r = simulate(level.price, actions, rules);
-    setResult({ score: r.score, cash: r.cash, wear: r.wear, bonus: r.bonus, actions, rules, preset, settings, difficulty,
-      end: r.end, why: r.why, outageStartKwh: r.outageStartKwh, outageNeedKwh: r.outageNeedKwh });
+    const r = simulate(level.price, actions, rules, sun);
+    setResult({ mine: r, actions, rules, preset, settings, difficulty, addons, sun });
     setPhase("done");
     setControl(0);
     try {
-      const res = await fetch("/api/play/finish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ level: level.date, actions, settings, difficulty }) });
+      const res = await fetch("/api/play/finish", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ level: level.date, actions, settings, difficulty, addons }) });
       const j = await res.json();
       setServer(res.ok ? (Math.abs(j.score - Math.round(r.score * 10_000) / 10_000) < 1e-6 ? "Score verified by the server." : `The server scored this game ${usd(j.score)}.`) : `Not stored: ${j.error ?? res.status}`);
     } catch {
       setServer("Not stored: the server could not be reached.");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [level, n, setControl, rules, preset, settingsKey, difficulty]);
+  }, [level, n, setControl, rules, preset, settingsKey, difficulty, addons, sun]);
 
   const loop = useCallback((now: number) => {
     const s = g.current;
@@ -512,22 +634,22 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
       s.idx++;
       s.held = [0, 0, 0];
       // session 63: the state from simulate(), the server's scorer: money, the emergency, the outage, an early end
-      const r = simulate(level.price, s.actions, rules);
-      s.soc = r.soc[r.soc.length - 1]; s.cash = r.cash; s.wear = r.wear; s.bonus = r.bonus; s.vppKwh = r.vppKwh;
+      const r = simulate(level.price, s.actions, rules, sun);
+      s.soc = r.soc[r.soc.length - 1]; s.money = r.money; s.wear = r.wear; s.solar = r.solar; s.vppKwh = r.vppKwh;
       if (r.end !== null) s.ended = true;
     }
     draw(Math.min(n - 0.001, elapsed / per));
-    setHud((h) => (h.idx !== s.idx || Math.abs(h.soc - s.soc) > 1e-9 ? { idx: s.idx, soc: s.soc, cash: s.cash, wear: s.wear, bonus: s.bonus, vppKwh: s.vppKwh, control: s.control } : h));
+    setHud((h) => (h.idx !== s.idx || Math.abs(h.soc - s.soc) > 1e-9 ? { idx: s.idx, soc: s.soc, money: s.money, wear: s.wear, solar: s.solar, vppKwh: s.vppKwh, control: s.control } : h));
     if (s.idx >= n || s.ended) { finish(); return; }
     raf.current = requestAnimationFrame((t) => next.current(t));
-  }, [n, level, draw, finish, rules, em]);
+  }, [n, level, draw, finish, rules, em, sun]);
   useEffect(() => { next.current = loop; }, [loop]);
 
   const start = () => {
     if (!ok) return;
     const t = performance.now();
-    g.current = { t0: t, idx: 0, held: [0, 0, 0], last: t, soc: rules.start, cash: 0, wear: 0, bonus: 0, vppKwh: 0, actions: [], control: 0, ended: false };
-    setHud({ idx: 0, soc: rules.start, cash: 0, wear: 0, bonus: 0, vppKwh: 0, control: 0 });
+    g.current = { t0: t, idx: 0, held: [0, 0, 0], last: t, soc: rules.start, money: START_MONEY, wear: 0, solar: 0, vppKwh: 0, actions: [], control: 0, ended: false };
+    setHud({ idx: 0, soc: rules.start, money: START_MONEY, wear: 0, solar: 0, vppKwh: 0, control: 0 });
     setResult(null); setServer(""); setPosted("");
     setPhase("play");
     requestAnimationFrame(() => board.current?.scrollIntoView({ block: "start", behavior: "auto" }));
@@ -557,7 +679,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
   });
 
   const playing = phase === "play";
-  const money = START_MONEY + hud.cash - hud.wear + hud.bonus;
+  const money = hud.money;  // session 66: simulate()'s own money: the roof's sales and a lights-out charge included
+  const roof = useMemo(() => solarKwh(level.price, rules, sun), [level, rules, sun]);
   const inSpike = playing && em.spike !== null && hud.idx >= em.spike.first && hud.idx <= em.spike.last;
   const inOutage = playing && em.outage !== null && hud.idx >= em.outage.first && hud.idx <= em.outage.last;
   const inVpp = playing && hud.idx >= vpp.first && hud.idx <= vpp.last;
@@ -571,7 +694,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
     setPosted("Posting...");
     const res = await fetch("/api/play/score", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ level: level.date, actions: result.actions, nickname: nick.trim() || undefined, settings: result.settings, difficulty: result.difficulty }),
+      body: JSON.stringify({ level: level.date, actions: result.actions, nickname: nick.trim() || undefined, settings: result.settings, difficulty: result.difficulty, addons: result.addons }),
     });
     const j = await res.json();
     if (!res.ok) { setPosted(j.error ?? `HTTP ${res.status}`); return; }
@@ -600,7 +723,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
         </div>
       ) : phase === "pick" ? (
         <div>
-          <SettingsPanel draft={draft} setDraft={setDraft} difficulty={difficulty} setDifficulty={setDifficulty} />
+          <SettingsPanel draft={draft} setDraft={setDraft} difficulty={difficulty} setDifficulty={setDifficulty} addonsOn={addonsOn} setAddonsOn={setAddonsOn} available={available} level={level} />
           {!ok ? <p className="mb-2 text-sm text-accent" role="alert">A setting is outside its range or between its steps; the game will not start until it is within them.</p> : null}
           <p className="mb-2 text-sm">Pick a day. Everyone plays the same level on the same day; the leaderboard ranks plays with the same difficulty and battery.</p>
           {/* session 56: the levels grouped by grid; a California day states its selection rule */}
@@ -626,7 +749,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
             </div>
           ))}
           <div className="flex flex-wrap items-center gap-3">
-            <button onClick={start} disabled={!ok} className="border border-accent bg-accent px-4 py-2 text-paper disabled:opacity-50">Play {level.date}, {DIFFICULTIES[difficulty].label}</button>
+            <button onClick={start} disabled={!ok} className="border border-accent bg-accent px-4 py-2 text-paper disabled:opacity-50">Play {level.date}, {DIFFICULTIES[difficulty].label}{addons.map((k) => `, with ${ADDONS[k].label.toLowerCase()}`).join("")}</button>
             {!tutorial ? <button onClick={() => setTutorial(true)} className="text-sm underline">How to play (30 seconds)</button> : null}
           </div>
         </div>
@@ -635,16 +758,17 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
       {phase !== "pick" ? (
         <div ref={board} className="scroll-mt-2">
           <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2 text-sm">
-            <span><strong>{level.title}</strong>, {level.date} ({GRIDS[level.grid].name}, {GRIDS[level.grid].zone} time), {DIFFICULTIES[difficulty].label}</span>
+            <span><strong>{level.title}</strong>, {level.date} ({GRIDS[level.grid].name}, {GRIDS[level.grid].zone} time), {DIFFICULTIES[difficulty].label}{addons.map((k) => `, with ${ADDONS[k].label.toLowerCase()}`).join("")}</span>
             <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.tz, level.ts_utc[Math.min(n - 1, hud.idx)])}` : "end of day"}</span>
           </div>
           {inOutage ? (
             <div className="mb-1 border border-ink bg-panel px-2 py-1 text-sm" role="status">
-              Outage (a game rule): the grid is down. Your house runs on its battery, {EMERGENCY.houseKw} kW; if the battery runs dry, the lights go out and the round ends.
+              Outage (a game rule): the grid is down. Your house runs on its battery, {EMERGENCY.houseKw} kW{rules.solarKw > 0 ? " (the roof's power first)" : ""}. If the battery runs dry, the lights go out, the round ends,
+              and every fifteen minutes left of the outage costs money: a dark house in a grid emergency is what the battery is there to prevent.
             </div>
           ) : inSpike ? (
             <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
-              Grid emergency (a game rule): the price is climbing toward the {usd(EMERGENCY.cap).replace(".00", "")}/MWh cap. Next the grid goes down for two hours: keep charge for the house.
+              Grid emergency (a game rule): the price is climbing toward the {usd(EMERGENCY.cap).replace(".00", "")}/MWh cap. This hour&apos;s price is a {SPIKE_LABEL}. Next the grid goes down for two hours: keep charge for the house.
             </div>
           ) : notice ? (
             <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
@@ -653,9 +777,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
               Fleet call: discharge now to earn the bonus (a game rule modeled on ERCOT&apos;s ADER pilot; see the rules below).
             </div>
           ) : null}
-          {simple ? (
-            <div className="mb-1 text-center"><span className="text-3xl tabular-nums">{P[Math.min(n - 1, hud.idx)].toLocaleString("en-US", { maximumFractionDigits: 2 })}</span> <span className="text-sm text-muted">USD/MWh now</span></div>
-          ) : null}
+          {simple || playing ? <PriceNow s={labeled[Math.min(n - 1, hud.idx)]} big={simple} /> : null}
           <canvas ref={canvas} className={`block w-full touch-none ${simple ? "h-[140px]" : "h-[220px] sm:h-[260px]"}`} aria-label="The day's price so far; the future is hidden except Easy's forecast band" />
           <div className="mt-2 grid grid-cols-1 items-center gap-2 sm:grid-cols-[auto_1fr]">
             <HouseFlow flow={playing ? hud.control : 0} soc={hud.soc} kwh={rules.kwh} reserveKwh={rules.reserveKwh} blocked={blocked} />
@@ -671,6 +793,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
               <div className="text-right">
                 <span className="text-xs text-muted">Money</span><div className={`font-mono text-lg ${money < 1 ? "text-accent" : ""}`} aria-live="off">{usd(money)}</div>
                 <div className="text-xs text-muted">earned {usd(money - START_MONEY)}{rules.deg > 0 ? `, wear ${usd(-hud.wear)}` : ""}</div>
+                {rules.solarKw > 0 ? <div className="text-xs text-muted">roof: {(roof[Math.min(n - 1, hud.idx)] * 4).toFixed(1)} of {SOLAR.kw} kW now, {usd(hud.solar)} so far</div> : null}
               </div>
             </div>
           </div>
@@ -692,17 +815,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
 
       {phase === "done" && result && simple ? (
         <div className="mt-4 border border-rule p-3">
-          <p className="text-xl">You finished with <strong>{usd(START_MONEY + result.score)}</strong>: you {result.score >= 0 ? "earned" : "lost"} {usd(Math.abs(result.score))}.</p>
-          {result.why === "bankrupt" ? (
-            <p className="mt-1 text-sm text-accent" role="status">Out of money at {at(result.end)}: below $0 the game ends (a game rule). Buying when power is dear costs more than the battery can earn back.</p>
-          ) : result.why === "lights_out" ? (
-            <p className="mt-1 text-sm text-accent" role="status">
-              Lights out at {at(result.end)}: the battery ran dry in the outage (a game rule), so the round ended there. The two-hour outage needed{" "}
-              {result.outageNeedKwh.toFixed(2)} kWh for the house; at its start the battery held {(result.outageStartKwh ?? 0).toFixed(2)} kWh. Keep at least{" "}
-              {result.outageNeedKwh.toFixed(2)} kWh when the grid is in an emergency.
-            </p>
-          ) : null}
-          <p className="mt-1 text-sm">A battery that knew every price in advance would have earned {usd(best.score)}.</p>
+          <EndLines level={level} rules={result.rules} mine={result.mine} perfect={perfect} big />
+          <EarlyEnd mine={result.mine} at={at(result.mine.end)} />
           <div className="mt-3 flex flex-wrap gap-3">
             <button onClick={() => setPhase("pick")} className="border border-accent bg-accent px-5 py-3 text-lg text-paper">Play again</button>
             <Link href="/play/battery?more=1" className="self-center text-sm">More: the replay, the settings, Hard&apos;s emergency and the leaderboard</Link>
@@ -710,21 +824,13 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
         </div>
       ) : phase === "done" && result ? (
         <div className="mt-4 border border-rule p-3">
-          <p className="text-lg">
-            You earned <strong>{usd(result.score)}</strong>
-            {result.bonus > 0 || result.wear > 0 ? <> ({usd(result.cash)} in the market{result.wear > 0 ? `, less ${usd(result.wear)} of wear` : ""}{result.bonus > 0 ? `, plus the fleet bonus ${usd(result.bonus)}` : ""})</> : null}.
-            Your fleet of {FLEET.toLocaleString("en-US")} homes: <strong>{usd(result.score * FLEET)}</strong>.
+          <EndLines level={level} rules={result.rules} mine={result.mine} perfect={perfect} big={false} />
+          <EarlyEnd mine={result.mine} at={at(result.mine.end)} />
+          <p className="mt-2 text-sm">
+            In detail: {usd(result.mine.cash)} in the market{result.mine.wear > 0 ? `, less ${usd(result.mine.wear)} of wear` : ""}{result.mine.bonus > 0 ? `, plus the fleet bonus ${usd(result.mine.bonus)}` : ""}{result.rules.solarKw > 0 ? `, plus ${usd(result.mine.solar)} for the roof's power` : ""}{result.mine.penalty > 0 ? `, less the lights-out charge ${usd(result.mine.penalty)}` : ""}.
+            Your fleet of {FLEET.toLocaleString("en-US")} homes: <strong>{usd(result.mine.score * FLEET)}</strong>.
+            The rules: {presetLabel(result.preset)}{perfect.score > 0 ? `; you made ${Math.round((result.mine.score / perfect.score) * 100)} percent of the perfect battery's earnings` : ""}. <span className="text-muted">{server}</span>
           </p>
-          {result.why === "bankrupt" ? (
-            <p className="mt-1 text-sm text-accent" role="status">Out of money at {at(result.end)}: below $0 the game ends (a game rule). Buying when power is dear costs more than the battery can earn back.</p>
-          ) : result.why === "lights_out" ? (
-            <p className="mt-1 text-sm text-accent" role="status">
-              Lights out at {at(result.end)}: the battery ran dry in the outage (a game rule), so the round ended there. The two-hour outage needed{" "}
-              {result.outageNeedKwh.toFixed(2)} kWh for the house; at its start the battery held {(result.outageStartKwh ?? 0).toFixed(2)} kWh. Keep at least{" "}
-              {result.outageNeedKwh.toFixed(2)} kWh when the grid is in an emergency.
-            </p>
-          ) : null}
-          <p className="text-sm">With perfect foresight the same battery, under the same rules ({presetLabel(result.preset)}), would have earned {usd(best.score)}{best.score > 0 ? `; you made ${Math.round((result.score / best.score) * 100)} percent of it` : ""}. <span className="text-muted">{server}</span></p>
           <p className="mt-2 max-w-3xl text-sm">
             On {level.date} the real-time price at {G.hub} peaked at {level.price[peak].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh at {clock(level.tz, level.ts_utc[peak])} {G.zone} time and
             was lowest, {level.price[low].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh, at {clock(level.tz, level.ts_utc[low])}. The dearest hour, the fleet call, began at {clock(level.tz, level.ts_utc[vpp.first])}. Knowing every
@@ -733,8 +839,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
             The grid: {G.name}. Real batteries on the grid do this every day: see <Link href="/storage">storage</Link> and <Link href={G.href}>{G.page}</Link>.
             {level.grid === "ERCOT" && eventPageFor(level.date) ? <> What happened that day on the grid: <Link href={eventPageFor(level.date)!.href}>{eventPageFor(level.date)!.label}</Link>.</> : null}
           </p>
-          <Replay level={level} rules={result.rules} mine={result.actions} perfect={best.actions} />
-          <ShareCard level={level} score={result.score} optimal={best.score} preset={result.preset} />
+          <Replay level={level} rules={result.rules} mine={result.actions} perfect={best.actions} sun={result.sun} />
+          <ShareCard level={level} score={result.mine.score} optimal={perfect.score} preset={result.preset} />
           <div className="mt-3 flex flex-wrap items-end gap-2 text-sm">
             <label className="flex flex-col">Nickname (optional, 3 to 16 letters and digits)
               <input value={nick} onChange={(e) => setNick(e.target.value.replace(/[^A-Za-z0-9]/g, "").slice(0, 16))} className="w-48 border border-rule bg-panel px-2 py-1" />

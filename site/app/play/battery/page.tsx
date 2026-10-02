@@ -5,7 +5,7 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
-import { EMERGENCY, FLEET, FLEET_MW, FLEET_MWH, START_MONEY } from "@/lib/battery";
+import { ADDONS, EMERGENCY, FLEET, FLEET_MW, FLEET_MWH, LIGHTS_OUT, SOLAR, SPIKE_LABEL, START_MONEY } from "@/lib/battery";
 import { storageUnits, type StorageUnit } from "@/lib/data";
 import { leaderboard, presetsPlayed, type PresetCount, type ScoreRow } from "@/lib/game";
 import { FAMOUS, todayLevel, TZ, type Level } from "@/lib/levels";
@@ -59,8 +59,10 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const today = await attempt(() => todayLevel(600));
   const t: Level | null = today.ok ? today.data : null;
   // session 56: each level's grid and time zone (today's level and the session 38 days are ERCOT, Central time)
-  const levels: GameLevel[] = [...(t ? [t] : []), ...FAMOUS].map(({ slug, date, title, why, ts_utc, price, grid, tz, rule }) =>
-    ({ slug, date, title, why, ts_utc, price, grid: grid ?? "ERCOT", tz: tz ?? TZ, ...(rule ? { rule } : {}) }));
+  // session 66: and the day's solar shape where the warehouse holds one (the rooftop add-on; never filled where it does not)
+  const levels: GameLevel[] = [...(t ? [t] : []), ...FAMOUS].map(({ slug, date, title, why, ts_utc, price, grid, tz, rule, solar, solar_source }) =>
+    ({ slug, date, title, why, ts_utc, price, grid: grid ?? "ERCOT", tz: tz ?? TZ, ...(rule ? { rule } : {}), ...(solar ? { solar, solar_source } : {}) }));
+  const withSolar = levels.filter((l) => l.solar).map((l) => l.date);
   // Session 63: the default page is the simple one, for a class: one sentence, two big buttons, the battery and the
   // price. The settings, the notes, Hard's emergency and the leaderboard are behind "more" (?more=1), the full game.
   if (!more) {
@@ -69,7 +71,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         <h1 className="mb-3 text-3xl">The home battery game</h1>
         <Game simple levels={levels} top={[]} presets={[]} />
         <p className="mt-6 text-sm"><Link href="/play/battery?more=1">More: the rules, the battery&apos;s settings, Hard&apos;s grid emergency, the leaderboard and the notes</Link></p>
-        <p className="mt-1 text-xs text-muted">Real prices: ERCOT&apos;s real-time hub average (on the California days, CAISO SP15). The battery and the home are made up, and the $5 is a game rule.</p>
+        <p className="mt-1 text-xs text-muted">Real prices: ERCOT&apos;s real-time hub average (on the California days, CAISO SP15). The battery and the home are made up, and the $5 is a game rule. After each play: what you earned, what a perfect battery earned, and the hour you lost the most.</p>
       </>
     );
   }
@@ -111,15 +113,17 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       <Section title="Play">
         <Game levels={levels} top={first} presets={presets} />
       </Section>
-      <Section title="The game's rules (version 3)">
+      <Section title="The game's rules (version 4)">
         <div className="max-w-3xl space-y-2 text-sm">
-          <p>Each of these is a game rule, not a market rule. The prices stay real; on Hard, the emergency changes them, and the page says so while it lasts.</p>
+          <p>Each of these is a game rule, not a market rule. The prices stay real; on Hard, the emergency changes them for one hour, and wherever such a price is shown the number itself says &quot;{SPIKE_LABEL}&quot;, with the real price beside it.</p>
           <ul className="list-disc space-y-1 pl-5">
             <li><strong>Money:</strong> every play starts with ${START_MONEY}. Buying power costs money and selling earns it; if the money falls below $0, the game ends there. The score is what you earned (the money less the ${START_MONEY}).</li>
             <li><strong>Hard&apos;s grid emergency:</strong> in the day&apos;s dearest hour the price climbs toward the cap: each fifteen minutes {EMERGENCY.ramp.map((r) => `${Math.round(r * 100)}`).join(", ")} percent of the way from the real price to USD {EMERGENCY.cap.toLocaleString("en-US")}/MWh (ERCOT&apos;s offer cap since 2023, used for every grid). Then the grid goes down for two hours: nothing can be bought or sold, and the house draws {EMERGENCY.houseKw} kW from the battery, its backup reserve included (that is what the reserve is for).</li>
-            <li><strong>Lights out:</strong> if the battery cannot carry the house through the outage, the lights go out and the round ends; the score so far stands, and the game says how much charge the outage needed.</li>
-            <li><strong>The perfect battery</strong> plays by the same rules: it never runs out of money, and it keeps enough charge for the outage when that pays.</li>
-            <li><strong>The leaderboard</strong> ranks version 3 plays only against version 3 plays with the same difficulty and battery; a board from before says &quot;v2 rules&quot;.</li>
+            <li><strong>Lights out costs money (a game rule):</strong> if the battery cannot carry the house through the outage, the lights go out and the round ends. Every fifteen minutes left of the outage, the one the lights went out in included, then charges the house&apos;s unserved energy ({EMERGENCY.houseKw} kW for the fifteen minutes, less what a rooftop array makes) at {LIGHTS_OUT.multiple} times the price cap, USD {(LIGHTS_OUT.multiple * EMERGENCY.cap).toLocaleString("en-US")}/MWh: USD {((LIGHTS_OUT.multiple * EMERGENCY.cap * EMERGENCY.houseKw) / 4000).toFixed(2)} for each fifteen minutes without the roof. The money may end below $0. Why: a home without power in a grid emergency is the outcome the battery exists to prevent, so giving the house up must never be the best play.</li>
+            <li><strong>Why {LIGHTS_OUT.multiple} times the cap:</strong> priced at the cap itself, the perfect battery still let the house go dark on Winter Storm Uri&apos;s day, whose real prices sat near USD 9,000/MWh, above the game&apos;s cap. {LIGHTS_OUT.multiple} is the smallest whole multiple at which the perfect battery keeps the lights on wherever it can, on every famous day and every test day (the test finds it; <Link href="/data/methods/battery_game">the method</Link>).</li>
+            <li><strong>The perfect battery</strong> plays by the same rules: it never runs out of money, and it never gives up the house where the lights can be kept on.</li>
+            <li><strong>Add-ons (Hard only, off by default).</strong> {ADDONS.solar.label}: {ADDONS.solar.what}. The shape is the whole fleet&apos;s, not one roof&apos;s: the hourly output of the grid&apos;s solar plants per MW installed (EIA-930 generation over EIA-860M nameplate, as <Link href="/cost-of-power/seller">the seller&apos;s tab</Link> uses), kept between 0 and 1, times {SOLAR.kw} kW. Where the warehouse holds no shape for a level&apos;s day the add-on is unavailable for it; nothing is filled in. {withSolar.length ? `Days with a shape: ${withSolar.join(", ")}.` : "No level holds a shape yet, so the add-on is unavailable on every level for now."}</li>
+            <li><strong>The leaderboard</strong> ranks version 4 plays only against version 4 plays with the same difficulty, battery and add-ons; a board from before says &quot;v3 rules&quot; or &quot;v2 rules&quot;.</li>
           </ul>
         </div>
       </Section>
