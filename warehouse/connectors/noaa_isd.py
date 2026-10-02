@@ -47,7 +47,12 @@ STATIONS = {
     "PHL": ("72408013739", "pjm", "America/New_York", True), "ORD": ("72530094846", "pjm", "America/New_York", False),
     "MSP": ("72658014922", "miso", "EST", True), "JFK": ("74486094789", "nyis", "America/New_York", True),
     "BOS": ("72509014739", "isne", "America/New_York", True), "OKC": ("72353013967", "swpp", "America/Chicago", True),
+    # session 60: Fresno Yosemite International, for the Flex Alert scorecard's alert seasons only (not in the event plan)
+    "FAT": ("72389093193", "ciso", "America/Los_Angeles", False),
 }
+SEASON_ONLY = {"FAT"}
+# session 60 (approved pull a): the alert seasons, May to October of 2018 to 2025, at CAISO's three stations
+SEASONS = dict(stations=["SAC", "FAT", "LAX"], years=list(range(2018, 2026)), months=("05-01", "10-31"), ceiling=150_000)
 # event: (window start, end, baseline offsets in days or calendar years, the grids)
 EVENTS = {
     "caiso_heat_2020": ("2020-08-10", "2020-08-24", [364, 728], ["ciso"]),
@@ -81,7 +86,7 @@ def plan(only=None):
     for primary in (True, False):
         for ev in ([only] if only else EVENTS):
             for code, (sid, ba, tz, prim) in STATIONS.items():
-                if prim != primary or ba not in EVENTS[ev][3]:
+                if prim != primary or ba not in EVENTS[ev][3] or code in SEASON_ONLY:
                     continue
                 for s, e in ranges(ev):
                     if (code, s, e) not in seen:
@@ -102,6 +107,105 @@ def parse(text, code):
         out.append(pd.DataFrame({"ts": pd.to_datetime(df.loc[ok, "DATE"], utc=True), "variable": var,
                                  "value": (val[ok] / 10.0 * 9 / 5 + 32).round(2), "report_type": df.loc[ok, "REPORT_TYPE"].str.strip()}))
     return pd.concat(out, ignore_index=True), len(df), (df["NAME"].iloc[0] if "NAME" in df.columns and len(df) else "")
+
+
+def saved_response(url):
+    """A response saved by an earlier run (resume): the raw file whose manifest line has this URL and status 200."""
+    import glob
+    for man in sorted(glob.glob(os.path.join(ip.RAW_DIR, "noaa_isd", "*", "manifest.csv")), reverse=True):
+        m = pd.read_csv(man, dtype=str, keep_default_na=False)
+        hit = m[(m["url"] == url) & (m["status"] == "200")]
+        if len(hit):
+            f = os.path.join(os.path.dirname(man), hit.iloc[-1]["file"])
+            if os.path.exists(f):
+                with open(f, encoding="utf-8") as fh:
+                    text = fh.read()
+                if text.startswith('"STATION"'):
+                    return text, os.path.relpath(os.path.dirname(man), ip.ROOT)
+    return None, None
+
+
+def seasons_main():
+    """python noaa_isd.py --seasons (session 60, approved pull a): SAC, FAT and LAX, May 1 to October 31 (local days) of
+    2018 to 2025, one request per station and year, merged into the table (its other rows kept). Resumable: a request
+    whose response an earlier run saved (warehouse/raw/noaa_isd/*/manifest.csv) is read from that file, not sent again.
+    Ceiling 150,000 rows returned, counted over the saved and the new responses alike; the pull stops before passing it."""
+    run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    os.makedirs(ip.LOG_DIR, exist_ok=True)
+    log = ip.Log(os.path.join(ip.LOG_DIR, f"noaa_isd_{run_id}.log"))
+    ip.RAW.open("noaa_isd", run_id)
+    ceiling, results, frames, pulled, reused, sent, skipped, names = SEASONS["ceiling"], [], [], 0, 0, 0, [], {}
+    log(f"ERW noaa_isd --seasons run {run_id}: {SEASONS['stations']} x {SEASONS['years'][0]} to {SEASONS['years'][-1]}, "
+        f"{SEASONS['months'][0]} to {SEASONS['months'][1]}; ceiling {ceiling:,} rows returned")
+    try:
+        for y in SEASONS["years"]:
+            for code in SEASONS["stations"]:
+                sid, ba, tz, _ = STATIONS[code]
+                s, e = f"{y}-{SEASONS['months'][0]}", f"{y}-{SEASONS['months'][1]}"
+                days = (pd.Timestamp(e) - pd.Timestamp(s)).days + 1
+                t0 = pd.Timestamp(s).tz_localize(tz).tz_convert("UTC")
+                t1 = (pd.Timestamp(e) + pd.Timedelta(days=1)).tz_localize(tz).tz_convert("UTC") - pd.Timedelta(seconds=1)
+                params = {"dataset": "global-hourly", "stations": sid, "startDate": t0.strftime("%Y-%m-%dT%H:%M:%S"),
+                          "endDate": t1.strftime("%Y-%m-%dT%H:%M:%S"), "dataTypes": "TMP,DEW", "format": "csv",
+                          "includeStationName": "true"}
+                url = requests.Request("GET", API, params=params).prepare().url
+                text, where = saved_response(url)
+                how = f"read from {where}"
+                if text is None:
+                    if pulled + days * 30 > ceiling:
+                        skipped.append(f"{code} {y}")
+                        log(f"  skipped {code} {y}: {pulled:,} rows returned, about {days * 30:,} more would pass the ceiling")
+                        continue
+
+                    def call():
+                        r = requests.get(API, params=params, timeout=900)
+                        if r.status_code != 200 or not r.text.startswith('"STATION"'):
+                            raise RuntimeError(f"NCEI HTTP {r.status_code}: {r.text[:200]}")
+                        return r
+                    text = ip.with_retries(f"NCEI {code} {y}", call, log).text
+                    sent += 1
+                    how = "requested"
+                else:
+                    reused += 1
+                obs, n, name = parse(text, code)
+                pulled += n
+                names[code] = name
+                obs["code"], obs["url"] = code, url
+                frames.append(obs)
+                log(f"  {code} ({name}) {y}: {n:,} rows ({how}), {len(obs):,} values kept; {pulled:,} returned in all")
+                if pulled > ceiling:
+                    raise RuntimeError(f"{pulled:,} rows returned, over the {ceiling:,} ceiling: stopped before writing")
+        x = pd.concat(frames, ignore_index=True).drop_duplicates(["code", "variable", "ts", "report_type"])
+        x["rank"] = (x["report_type"] != "FM-15").astype(int)
+        x = x.sort_values(["code", "variable", "ts", "rank"]).drop_duplicates(["code", "variable", "ts"])
+        retrieved = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
+        s_ = pd.DataFrame({
+            "entity": "noaa:" + x["code"], "variable": x["variable"], "ts_utc": x["ts"].dt.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "value": x["value"], "unit": "degF", "freq": "", "geo": "", "market": "", "node": x["report_type"],
+            "source": SOURCE, "source_url": x["url"].map(ip.redact), "retrieved_at": retrieved, "vintage": "",
+            "ba": x["code"].map(lambda c: STATIONS[c][1]), "x_station_id": x["code"].map(lambda c: STATIONS[c][0])})
+        cols = ip.SERIES_COLS + ["ba", "x_station_id"]
+        path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+        with open(path, encoding="utf-8") as f:
+            old = [ln[1:].strip() for ln in f if ln.startswith("#")]
+        old = [ln for ln in old if not ln.startswith("Session 60, the alert seasons")]
+        header = old + [f"Session 60, the alert seasons (approved pull a): SAC, FAT ({STATIONS['FAT'][0]} {names.get('FAT', '')}) and LAX, "
+                        f"May 1 to October 31 of {SEASONS['years'][0]} to {SEASONS['years'][-1]} (local days), one request per station "
+                        f"and year; {pulled:,} rows returned of the {ceiling:,} ceiling ({sent} requests sent by run {run_id}, {reused} "
+                        f"read from responses an earlier run saved); run log warehouse/output/logs/noaa_isd_{run_id}.log. Left out: "
+                        + ("; ".join(skipped) or "nothing") + "."]
+        ip.write_csv(s_[cols], NAME, header, log, cols=cols, key=["entity", "variable", "ts_utc"])
+        results.append(dict(table=NAME, market="ciso seasons", status="ok",
+                            detail=f"{len(s_)} values; {pulled} rows returned; {len(skipped)} station-years left out"))
+        print(f"noaa_isd --seasons: {len(s_):,} values, {pulled:,} rows returned ({sent} requests, {reused} reused), {len(skipped)} left out")
+    except Exception:
+        tb = ip.redact(traceback.format_exc())
+        log(f"FAILED:\n{tb}")
+        print(f"noaa_isd --seasons FAILED: {tb.strip().splitlines()[-1]}", file=sys.stderr)
+        results.append(dict(table=NAME, market="ciso seasons", status="failed", detail=tb.strip().splitlines()[-1][:300]))
+    ip.write_status("noaa_isd", run_id, results)
+    log.close()
+    return 0 if all(r["status"] == "ok" for r in results) else 1
 
 
 def main():
@@ -205,4 +309,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(seasons_main() if "--seasons" in sys.argv else main())
