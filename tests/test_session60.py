@@ -138,5 +138,28 @@ class Published(unittest.TestCase):
         self.assertTrue((h["predicted_mw_lo"] <= h["predicted_mw_hi"]).all())
 
 
+@unittest.skipUnless(os.path.exists(os.path.join(OUT, "flex_alert_effects.csv")) and os.path.isdir(os.path.join(ROOT, "warehouse", "raw", "eia930_emissions")),
+                     "the scorecard's tables or the CISO extract are not on this machine")
+class Notebook(unittest.TestCase):
+    def test_the_replication_notebook_reproduces_the_point_estimates(self):
+        """notebooks/flex_alert_scorecard.ipynb, its code cells run in order with ERW_NOTEBOOK_QUICK=1 (the bootstrap's
+        intervals are left to a full run): it asserts every point estimate, variant and value equal to the tables."""
+        import json
+        from unittest import mock
+        with open(os.path.join(ROOT, "notebooks", "flex_alert_scorecard.ipynb"), encoding="utf-8") as f:
+            nb = json.load(f)
+        g = {}
+        cwd = os.getcwd()
+        try:
+            os.chdir(ROOT)
+            with mock.patch.dict(os.environ, {"ERW_NOTEBOOK_QUICK": "1"}):
+                for c in nb["cells"]:
+                    if c["cell_type"] == "code":
+                        exec("".join(c["source"]), g)  # noqa: S102  the repository's own notebook
+        finally:
+            os.chdir(cwd)
+        self.assertEqual(len(g["alerts"]), 38)
+
+
 if __name__ == "__main__":
     unittest.main()

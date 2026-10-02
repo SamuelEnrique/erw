@@ -531,32 +531,32 @@ def main():
         for r in D.itertuples():
             ts = f"{r.day}T00:00:00Z"
             a = A.loc[r.day]
-            for var, unit in (("hours", "h"), ("actual_mwh", "MWh"), ("predicted_mwh", "MWh"), ("reduction_mwh", "MWh"),
+            for var, unit in (("hours", "count"), ("actual_mwh", "MWh"), ("predicted_mwh", "MWh"), ("reduction_mwh", "MWh"),
                               ("reduction_mwh_lo", "MWh"), ("reduction_mwh_hi", "MWh"), ("reduction_mw", "MW"), ("reduction_mw_lo", "MW"),
                               ("reduction_mw_hi", "MW"), ("reduction_pct", "pct"), ("temp_max_f", "degF"), ("train_days_as_hot", "count"), ("price_usd_mwh", "USD/MWh"),
                               ("value_usd", "USD"), ("value_usd_lo", "USD"), ("value_usd_hi", "USD")):
                 add(EFFECTS, E, "alert_" + var if var == "hours" else var, ts, getattr(r, var, None), unit, "P1D")
             add(EFFECTS, E, "alert_first_hour", ts, min(a["hours"]), "hour", "P1D")
             add(EFFECTS, E, "alert_last_hour", ts, max(a["hours"]) + 1, "hour", "P1D")
-            add(EFFECTS, E, "hours_assumed", ts, 1.0 if a["assumed"] else 0.0, "flag", "P1D")
-            add(EFFECTS, E, "basis_flex_alert", ts, 1.0 if a["basis"] == "flex_alert" else 0.0, "flag", "P1D")
+            add(EFFECTS, E, "hours_assumed", ts, 1.0 if a["assumed"] else 0.0, "count", "P1D")
+            add(EFFECTS, E, "basis_flex_alert", ts, 1.0 if a["basis"] == "flex_alert" else 0.0, "count", "P1D")
         for r in H.itertuples():
             ts = r.ts.strftime("%Y-%m-%dT%H:%M:%SZ")
             for var in ("actual_mw", "predicted_mw", "predicted_mw_lo", "predicted_mw_hi"):
                 add(EFFECTS, E, var, ts, getattr(r, var), "MW", "PT1H")
-            add(EFFECTS, E, "alert_hour", ts, 1.0 if r.alert else 0.0, "flag", "PT1H")
+            add(EFFECTS, E, "alert_hour", ts, 1.0 if r.alert else 0.0, "count", "PT1H")
         for r in Y.itertuples():
             ts = f"{r.year}-01-01T00:00:00Z"
-            for var, unit in (("days", "count"), ("hours", "h"), ("reduction_mw", "MW"), ("reduction_mw_lo", "MW"), ("reduction_mw_hi", "MW"),
+            for var, unit in (("days", "count"), ("hours", "count"), ("reduction_mw", "MW"), ("reduction_mw_lo", "MW"), ("reduction_mw_hi", "MW"),
                               ("reduction_mwh", "MWh"), ("reduction_mwh_lo", "MWh"), ("reduction_mwh_hi", "MWh"), ("reduction_pct", "pct"),
                               ("value_usd", "USD"), ("value_usd_lo", "USD"), ("value_usd_hi", "USD")):
                 add(EFFECTS, E, "year_" + var, ts, getattr(r, var, None), unit, "P1Y")
         T0 = f"{START}T00:00:00Z"
         for var, v in pooled.items():
-            unit = {"days": "count", "hours": "h", "value_hours": "h", "reduction_pct": "pct"}.get(var, "MWh" if "mwh" in var else "USD" if "usd" in var else "MW")
+            unit = {"days": "count", "hours": "count", "value_hours": "count", "reduction_pct": "pct"}.get(var, "MWh" if "mwh" in var else "USD" if "usd" in var else "MW")
             add(MODEL, M, "pooled_" + var, T0, v, unit, "")
         for var, v in metrics.items():
-            add(MODEL, M, "oos_" + var, T0, v, {"days": "count", "hours": "h", "mape_pct": "pct"}.get(var, "MW"), "")
+            add(MODEL, M, "oos_" + var, T0, v, {"days": "count", "hours": "count", "mape_pct": "pct"}.get(var, "MW"), "")
         # the pooled reduction less the model's own hot-day over-prediction (bias = actual less predicted, negative when the
         # model predicts too much): what is left if alert days carry the same error as the hottest non-alert days
         add(MODEL, M, "pooled_reduction_mw_net_of_bias", T0, pooled["reduction_mw"] + metrics["bias_mw"], "MW", "")
@@ -574,7 +574,7 @@ def main():
         alert_tmax = p[p["day"].isin(alerts["day"])].groupby("day")["temp_f"].max()
         add(MODEL, M, "alert_days_hotter_than_threshold", T0, int((alert_tmax >= x["threshold"]).sum()), "count", "")
         for c, wt in WEIGHTS.items():
-            add(MODEL, M, f"station_weight_{c}", T0, wt, "share", "")
+            add(MODEL, M, f"station_weight_{c}", T0, wt, "ratio", "")
         for h, bvec in betas.items():
             for term, v in zip(TERMS, bvec):
                 add(MODEL, M, f"coef_h{h:02d}_{term}", T0, v, "MW", "")
@@ -606,9 +606,9 @@ def main():
         ]
         heads = {
             EFFECTS: ["Energy Research Warehouse (ERW): the Flex Alert scorecard, per alert day, CAISO (derived, session 60)",
-                      "Shape: series (docs/datastandard.md v0). P1D rows (ts_utc the Pacific day at 00:00:00Z): alert_hours, alert_first_hour and "
-                      "alert_last_hour (local, the window's end), hours_assumed (1 where no notice gave hours: 16:00 to 21:00), basis_flex_alert (1 "
-                      "where the hours are the Flex Alert's), actual_mwh and predicted_mwh over the alert hours, reduction_mwh and reduction_mw "
+                      "Shape: series (docs/datastandard.md v0). P1D rows (ts_utc the Pacific day at 00:00:00Z): alert_hours (count), alert_first_hour and "
+                      "alert_last_hour (local, the window's end), hours_assumed (1 where no notice gave hours: 16:00 to 21:00, else 0), basis_flex_alert (1 "
+                      "where the hours are the Flex Alert's, else 0; unit count), actual_mwh and predicted_mwh over the alert hours, reduction_mwh and reduction_mw "
                       "(predicted less actual; positive is demand below the model) with _lo and _hi (90 percent interval), reduction_pct (of "
                       "predicted), temp_max_f (population-weighted), train_days_as_hot (training days whose highest weighted temperature was at least the day's: the model's support), price_usd_mwh (mean day-ahead hub price over the alert hours), value_usd "
                       "(reduction times price, summed) with _lo and _hi. PT1H rows (ts_utc the hour's start, local 12:00 to 23:00): actual_mw, "
