@@ -31,7 +31,9 @@ def main():
     task = os.environ.get("ERW_QUEUE_TASK", "task")
     marker = os.path.join(ROOT, ".erw", "worker", f"stub-limit-{task}")
     done = []
-    if resumed and os.path.exists(marker):  # a resumed session gets "continue", not the task's lines again
+    if resumed and os.path.exists(marker):  # a resumed session gets "continue": like Claude, the stub picks up the task it had
+        with open(marker, encoding="utf-8") as f:
+            prompt = f.read()
         os.remove(marker)
         done.append("resumed after a usage limit")
     for ln in prompt.splitlines():
@@ -40,12 +42,11 @@ def main():
         cmd = ln[5:].strip()
         if cmd == "usage-limit-once" and not resumed and not os.path.exists(marker):
             os.makedirs(os.path.dirname(marker), exist_ok=True)
-            open(marker, "w").close()
+            with open(marker, "w", encoding="utf-8") as f:
+                f.write(prompt)  # the session's memory, for the resume
             out(f"Claude AI usage limit reached|{int(time.time()) + 5}", error=True)
         elif cmd == "usage-limit-once":
-            if os.path.exists(marker):
-                os.remove(marker)
-            done.append("resumed after a usage limit")
+            continue
         elif cmd.startswith("write "):
             _, path, text = cmd.split(" ", 2)
             full = os.path.join(ROOT, path)
