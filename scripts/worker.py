@@ -82,7 +82,10 @@ def sync(role):
 
 def claude_cmd(runner):
     if runner:
-        return shlex.split(runner, posix=os.name != "nt")
+        cmd = shlex.split(runner, posix=os.name != "nt")
+        if cmd and cmd[0] in ("python", "python3"):  # this interpreter (the .venv), not whichever python Windows finds first
+            cmd[0] = sys.executable
+        return cmd
     exe = os.environ.get("ERW_CLAUDE") or shutil.which("claude")
     if not exe:
         raise SystemExit("Claude Code is not installed here (npm install -g @anthropic-ai/claude-code), or set ERW_CLAUDE")
