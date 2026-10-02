@@ -676,6 +676,10 @@ def main(argv=None):
     ap.add_argument("--tables", action="append", metavar="REGEX", help="write: only tables matching")
     ap.add_argument("--no-bucket", action="store_true", help="local files only (tests, DRY_STORES=1)")
     args = ap.parse_args(argv)
+    if args.command in ("write", "reindex", "seed-consolidated", "sync"):  # session 59: archive writes take the data lock
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+        import lock
+        lock.require(what=f"archive {args.command}")
     if args.command == "write":
         return write(args.tables, not args.no_bucket)
     if args.command == "reindex":

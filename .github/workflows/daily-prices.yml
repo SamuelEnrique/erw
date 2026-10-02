@@ -148,6 +148,15 @@ jobs:
       - name: Merge tests
         run: python -m unittest discover -s tests -v
 
+      # Session 59: the data lock (warehouse/lock.py, docs/machines.md). A data machine may be writing the warehouse; the
+      # run waits up to 60 minutes for it, then stops. The lock lasts 200 minutes, longer than the job's 180, and is
+      # released after the commit below, whatever happened.
+      - name: Take the data lock
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/lock.py acquire --task "daily run ${{ github.run_id }}" --minutes 200 --wait 60 --github-env
+
       - name: Pull, validate, rebuild coverage
         env:
           PYTHON: python
@@ -273,6 +282,13 @@ jobs:
           fi
           git commit -m "Daily prices $date: ok: ${ok:-none}; failed: ${failed:-none}"                      -m "Automated run of .github/workflows/daily-prices.yml. Metadata, docs and digests only; the tables stay out of git (session 9). All tables passed erw_validate."
           git push origin HEAD:main
+
+      - name: Release the data lock
+        if: always()
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/lock.py release
 
       - name: Open an issue for a market failing three daily runs in a row
         # Session 5 ruling. Counts scheduled runs only (runner github), so a

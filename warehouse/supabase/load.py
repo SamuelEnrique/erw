@@ -359,6 +359,10 @@ def main(argv=None):
     ap.add_argument("--no-vacuum", action="store_true",
                     help="session 29: skip the vacuum that ends every load")
     args = ap.parse_args(argv)
+    if not args.dry_run:  # session 59: loading Supabase is a data write, under the data lock (warehouse/lock.py)
+        sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+        import lock
+        lock.require(what="the Supabase load")
     now = pd.Timestamp.now(tz="UTC")
     loaded_at = now.strftime(TS_FMT)
     cov = pd.read_csv(os.path.join(ROOT, LIVE["catalogue"]), dtype=str, keep_default_na=False)

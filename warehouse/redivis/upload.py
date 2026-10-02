@@ -721,6 +721,10 @@ def main(argv=None):
         return reconcile()
     if args.restore:
         return restore(args.out_dir)
+    if not (args.check_license and not args.fix):  # session 59: writing to Redivis is a data write, under the data lock
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+        import lock
+        lock.require(what="the Redivis upload")
     if args.check_license:
         return check_license(args.fix)
     if args.remove_migrated:

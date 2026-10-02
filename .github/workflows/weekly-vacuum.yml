@@ -27,10 +27,13 @@ jobs:
           cache: pip
       - name: Install Python dependencies
         run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+      # session 59: under the data lock (warehouse/lock.py), taken and released around it; waits up to 60 minutes
       - name: VACUUM (FULL, ANALYZE) the shape tables
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-        run: python warehouse/supabase/vacuum.py
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/lock.py run --task "weekly vacuum ${{ github.run_id }}" --minutes 60 --wait 60 -- python warehouse/supabase/vacuum.py
       - name: Record the sizes in run_status
         if: always()
         run: |

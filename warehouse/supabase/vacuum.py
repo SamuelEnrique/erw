@@ -36,6 +36,9 @@ def db_url():
 
 
 def main():
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    import lock
+    lock.require(what="the Supabase vacuum")  # session 59: a write to the shared database, under the data lock
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     results = []
     url = db_url()

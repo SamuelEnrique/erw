@@ -507,6 +507,14 @@ def merge_series(old, new, key=None, cols=None):
     return merged, stats
 
 
+def _require_lock(path, what):
+    """Session 59: a data write needs the data lock (warehouse/lock.py); a write outside warehouse/output is not one."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("erw_lock", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "lock.py"))
+    lock = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(lock)
+    lock.require(path, what)
+
 def write_csv(series, name, header_lines, log, cols=None, key=None, time_col="ts_utc"):
     """Write a table, merging into any existing file of the same name.
 
@@ -516,6 +524,7 @@ def write_csv(series, name, header_lines, log, cols=None, key=None, time_col="ts
     cols = SERIES_COLS if cols is None else cols
     key = SERIES_KEY if key is None else key
     path = os.path.join(OUT_DIR, name + ".csv")
+    _require_lock(path, f"writing {name}")  # session 59: the data lock
     old = read_series(path, cols) if os.path.exists(path) else None
     merged, st = merge_series(old, series, key, cols)
     merge_line = (f"File holds {len(merged)} rows, {merged[time_col].min()} to "
@@ -554,6 +563,7 @@ def write_snapshot(table, name, header_lines, log, cols):
     source, so a new vintage replaces the rows instead of merging with them. A thing the
     source dropped (a generator that retired, a withdrawn queue position) must leave the
     table. Earlier snapshots stay in git history and in the raw files."""
+    _require_lock(os.path.join(OUT_DIR, name + ".csv"), f"writing {name}")  # session 59: the data lock
     if list(table.columns) != cols:
         raise RuntimeError(f"{name}: columns {list(table.columns)} are not {cols}")
     if table.empty:
