@@ -1,0 +1,49 @@
+ERW's Energy Digest, 2026-10-02
+
+Top 5 of the day
+
+1. South Korea to invest $120 billion in U.S. nuclear projects, including eight large reactors
+   Gigawatt-scale reactor buildout at federal sites, part of a $200 billion package, would reshape US nuclear construction. $120 billion; parties: US Department of Commerce; South Korea.
+   ANS Nuclear Newswire: https://www.ans.org/news/2026-10-01/article-8453/south-korea-to-invest-in-us-nuclear-projects-including-8-large-reactors/
+2. US Commerce outlines USD120 billion framework for six AP1000 and two APR1400 units
+   A multi-reactor, large-scale nuclear build framework would be among the largest US new-build commitments in decades. USD120 billion; parties: US Department of Commerce; Westinghouse; South Korea.
+   World Nuclear News: https://www.world-nuclear-news.org/articles/usa-south-korea-targeting-six-ap1000-two-apr1400-units
+3. Amazon and Constellation sign 20-year deal adding 190 MW at Calvert Cliffs
+   A 20-year deal backing 190MW of added capacity at an existing nuclear plant is another large buyer-nuclear contract. 190 MW; parties: Amazon; Constellation.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/amazon-signs-ppa-with-constellation-for-maryland-nuclear-plant/
+4. Bipartisan Senate permitting bill would let FERC issue transmission permits in the public interest
+   Federal permit power and removal of incumbent right of first refusal would reshape transmission development if enacted. parties: FERC; US Senate.
+   Utility Dive: https://www.utilitydive.com/news/senate-permitting-bill-would-expand-federal-role-in-electric-transmission-s/831886/
+5. Oil jumps 4% on reports China halts fuel exports and US troops head to Middle East
+   A 4% price jump on supply and geopolitical risk signals tighter products markets. parties: China; US.
+   Reuters: https://news.google.com/rss/articles/CBMixgFBVV95cUxOcGNFYVVqQ0xkMTkyblJkMU5mMnJ6Y1RhTEhBWjJyWEhDaXdCVzg3aF9pWTFYdVkyN3d5WmpIRDdHQ283dUJhVlV4WTJzSEMwTy1uZkhwS2NNNndEZlhJY2lGTHgtRng1TjQ0XzRWdUNnUjRPQ2ZoaDg2UlJ1cTgtRGZHbTNVcUVFenI1SlIxREdDbWJJX25kWFY2ZWxxVzRyOFl3SGZzbjZUWEk2NklWOUR2UzEwanpPSzU1TnJyXzVveDRoX2c?oc=5
+
+ERW's Numbers Today
+
+Day-ahead power on 2026-10-01 was dearest at MISO's INDIANA.HUB, 86.98 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 32.43. There is no PJM price table and no real-time table covering yesterday. The latest fuel closes, on 2026-09-29, were 3.18 USD/MMBtu for Henry Hub natural gas, 96.16 USD/bbl for WTI and 113.96 USD/bbl for Brent.
+Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
+  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-10-01; Average USD/MWh: 43.25; Table: [1]
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-10-01; Average USD/MWh: 44.83; Table: [1]
+  ISO: NYISO; Hub or zone: N.Y.C.; Operating day: 2026-10-01; Average USD/MWh: 49.83; Table: [2]
+  ISO: MISO; Hub or zone: INDIANA.HUB; Operating day: 2026-10-01; Average USD/MWh: 86.98; Table: [1]
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-10-01; Average USD/MWh: 32.43; Table: [1]
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-10-01; Average USD/MWh: 43.38; Table: [3]
+  ISO: PJM; Average USD/MWh: no PJM price table (no API key)
+Highest real-time price, yesterday: no real-time table covers yesterday.
+Latest fuel spot closes (EIA, trading dates):
+- Henry Hub natural gas: 3.18 USD/MMBtu on 2026-09-29 [4]
+- WTI Cushing crude: 96.16 USD/bbl on 2026-09-29 [4]
+- Brent crude: 113.96 USD/bbl on 2026-09-29 [4]
+Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+ERW's Fun Fact
+
+The Colonial Pipeline is 5,500 miles long and can carry 3 million barrels of fuel per day between Texas and New York. That is a lot of ground to cover, no wonder it moves at a crawl instead of a sprint.
+Sources: Wikipedia, Colonial Pipeline (https://en.wikipedia.org/wiki/Colonial_Pipeline).
+
+ERW
+
+All of ERW's Energy Digest: https://erw-flame.vercel.app/digest/2026-10-02
+How this is made: https://erw-flame.vercel.app/about#digest
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.

@@ -1,0 +1,19 @@
+{
+ "date": "2026-10-02",
+ "fact_id": "ff_6c3f03312f",
+ "kind": "history",
+ "fact": "The Colonial Pipeline is 5,500 miles long and can carry 3 million barrels of fuel per day between Texas and New York.",
+ "second": "That is a lot of ground to cover, no wonder it moves at a crawl instead of a sprint.",
+ "structure": "pun",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, Colonial Pipeline",
+   "url": "https://en.wikipedia.org/wiki/Colonial_Pipeline",
+   "raw": "warehouse/news/facts/raw/wikipedia/colonial_pipeline_20260928T082929Z.txt",
+   "retrieved_at": "20260928T082929Z",
+   "part": "fact",
+   "span": "5,500 miles (8,850 km) long and can carry 3 million barrels of fuel per day between Texas and New York"
+  }
+ ]
+}
