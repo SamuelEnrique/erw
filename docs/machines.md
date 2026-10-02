@@ -121,6 +121,25 @@ never in the repository).
 `python warehouse/supabase/scheduler.py --status` lists the jobs and their last runs. When the GitHub token is renewed,
 run `--set-token` once.
 
+### Health: skips, retries, the daily summary (session 61)
+
+No scheduled job fails on GitHub, so GitHub sends no failure email; the digest and the Roundup are the only emails.
+Every step runs under `warehouse/health.py run`, which writes one row per step to the Supabase table `erw_health`
+(migration 017, service key only):
+
+- **skipped**, a success with a one-line reason, when the job should not run: the data lock is held after the wait, the
+  day's work is done (the daily job: a run succeeded today or today's "Daily prices" commit is on main; the Roundup:
+  not Sunday), EIA has not finished publishing the newest hour (the network), or the start duplicates another
+  (`health.py dedupe`: the database's dispatch is the schedule; a run GitHub's own schedule starts yields to it);
+- **retried**, when a step failed once and passed on its second try a minute later;
+- **failed**, when it failed twice. A step that spends on the model or sends email (the daily run, the Roundup and its
+  send) is not retried: its connectors retry their own requests, and a second try could send twice.
+
+The daily job writes the previous UTC day's rows into `queue/summary/<day>-health.md`: runs against the expected count
+(fewer than half means the schedule may have stopped), every failure and retry, and the skips by reason.
+`python warehouse/health.py summary --day <day>` writes it by hand. A market failing three daily runs in a row is a
+failure row there, no longer a GitHub issue.
+
 ## Code work: branches, checks, merge
 
 A code task works on its own branch, `task/<NNN>-<slug>`. A push to `task/**` runs `.github/workflows/code-branch.yml`:
