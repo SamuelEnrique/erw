@@ -157,10 +157,10 @@ export default async function FlexAlertScorecard() {
       <Section title="The answer, pooled" aside="flex_alert_model">
         <div className="mb-3 max-w-3xl border-l-2 border-accent pl-3">
           <p className="mb-2 text-lg">
-            Over <V r={P("pooled_days")} table={MODEL} /> alert days and <V r={P("pooled_hours")} table={MODEL} /> alert hours, demand served was{" "}
-            {pooledMw >= 0 ? "below" : "above"} the model&apos;s prediction by <V r={P("pooled_reduction_mw")} table={MODEL} /> MW on average{" "}
+            Over <V r={P("pooled_days")} table={MODEL} /> alert days and <V r={P("pooled_hours")} table={MODEL} /> alert hours, the estimated cut in
+            demand was <V r={P("pooled_reduction_mw")} table={MODEL} /> MW on average{" "}
             <span className="text-sm">(90 percent interval <Interval lo={P("pooled_reduction_mw_lo")} hi={P("pooled_reduction_mw_hi")} table={MODEL} /> MW;
-            a positive number is a cut)</span>.
+            a positive number is a cut)</span>: demand served ran {pooledMw >= 0 ? "below" : "above"} what the weather and the calendar predicted.
           </p>
           <p className="text-sm">
             That is <V r={P("pooled_reduction_pct")} table={MODEL} /> percent of predicted demand in those hours, a total of{" "}

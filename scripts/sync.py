@@ -69,12 +69,13 @@ def pull():
 
 
 def local_rows(path):
-    """Data rows of a CSV: the lines after the '#' header lines and the column row."""
-    n = -1
-    with open(path, "rb") as f:
-        for ln in f:
-            if not ln.startswith(b"#"):
-                n += 1
+    """Data rows of a CSV: the records after the '#' header lines and the column row. Session 60: records, not lines;
+    a quoted field may hold a line break (the queue tables' notes), and counting lines made three tables look different
+    from coverage when they were not."""
+    import csv
+    with open(path, encoding="utf-8", newline="") as f:
+        lines = (ln for ln in f if not ln.startswith("#"))
+        n = sum(1 for _ in csv.reader(lines)) - 1
     return max(n, 0)
 
 

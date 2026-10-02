@@ -52,7 +52,7 @@ export function shape(eff: SeriesRow[], mod: SeriesRow[]) {
   const pooled = new Map<string, SeriesRow>(), heldout: { day: string; err?: SeriesRow; temp?: SeriesRow; price?: SeriesRow }[] = [];
   const ho = new Map<string, { day: string; err?: SeriesRow; temp?: SeriesRow; price?: SeriesRow }>();
   for (const r of mod) {
-    if (r.ts_utc === T0) pooled.set(r.variable, r);
+    if (Date.parse(r.ts_utc) === Date.parse(T0)) pooled.set(r.variable, r);  // Supabase writes +00:00, not Z
     else {
       const d = r.ts_utc.slice(0, 10);
       const x = ho.get(d) ?? ho.set(d, { day: d }).get(d)!;

@@ -252,6 +252,28 @@ def existing_rows(client, shape, name):
         start += BATCH
 
 
+def older_than_live(client, name, df, shape):
+    """Session 60: a reason to refuse loading this table, or None. On 2026-10-02 a data machine whose working copies were
+    days older than the daily run's loaded them over Supabase's newer rows (30 tables, repaired the same hour from the
+    Redivis draft). A table is refused when its newest retrieved_at is older than the newest Supabase holds for it, or,
+    where it has no retrieved_at (a ledger, a list of reads), when it has fewer rows than Supabase holds."""
+    try:
+        if "retrieved_at" in df.columns and shape != "events":
+            mine = str(df["retrieved_at"].dropna().astype(str).max() or "")
+            got = client.table(shape).select("retrieved_at").eq("table_name", name).order("retrieved_at", desc=True).limit(1).execute().data
+            theirs = str(got[0]["retrieved_at"]) if got and got[0].get("retrieved_at") else ""
+            mine_t, theirs_t = pd.to_datetime(mine, utc=True, errors="coerce"), pd.to_datetime(theirs, utc=True, errors="coerce")
+            if pd.notna(mine_t) and pd.notna(theirs_t) and mine_t < theirs_t:
+                return f"its newest retrieved_at here is {mine}, Supabase holds rows retrieved {theirs}"
+        else:
+            n = client.table(shape).select("table_name", count="exact", head=True).eq("table_name", name).execute().count or 0
+            if len(df) < n:
+                return f"it has {len(df):,} rows here and {n:,} in Supabase (no retrieved_at to compare)"
+    except Exception as exc:  # the guard must not stop a load on its own failure: say so and go on
+        print(f"WARNING {name}: the older-than-live check could not run ({type(exc).__name__}: {str(exc)[:150]})")
+    return None
+
+
 def sync_table(client, name, df, shape, license_, loaded_at, days, now):
     """Make Supabase hold exactly the selected rows of one table, writing only the
     difference. Returns (written, deleted)."""
@@ -358,6 +380,9 @@ def main(argv=None):
                          "Session 45: a person's command only; the daily load runs a plain VACUUM (ANALYZE)")
     ap.add_argument("--no-vacuum", action="store_true",
                     help="session 29: skip the vacuum that ends every load")
+    ap.add_argument("--allow-older", action="append", default=[], metavar="TABLE",
+                    help="session 60: load this table although it is older than what Supabase holds (a person's "
+                         "decision, such as a deliberate rollback)")
     args = ap.parse_args(argv)
     if not args.dry_run:  # session 59: loading Supabase is a data write, under the data lock (warehouse/lock.py)
         sys.path.insert(0, os.path.join(ROOT, "warehouse"))
@@ -423,6 +448,10 @@ def main(argv=None):
                 raise RuntimeError("not in coverage.csv")
             digest = rows_sha256(df, lic[name])
             unchanged = prev.get(name) == digest
+            stale = None if unchanged or name in args.allow_older else older_than_live(client, name, df, shape)
+            if stale:
+                raise RuntimeError(f"refused, older than the live copy: {stale}. Sync this machine from the cloud first "
+                                   f"(python scripts/sync.py --refresh), or pass --allow-older {name} to roll it back on purpose")
             if unchanged:
                 written = deleted = 0
             else:

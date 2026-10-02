@@ -138,6 +138,30 @@ class Published(unittest.TestCase):
         self.assertTrue((h["predicted_mw_lo"] <= h["predicted_mw_hi"]).all())
 
 
+class LoaderRefusesOlder(unittest.TestCase):
+    """warehouse/supabase/load.py's session 60 gate: a table older than Supabase's copy is refused, not loaded over it."""
+
+    def client(self, newest=None, count=0):
+        from unittest import mock
+        c = mock.MagicMock()
+        q = c.table.return_value.select.return_value.eq.return_value
+        q.order.return_value.limit.return_value.execute.return_value.data = [{"retrieved_at": newest}] if newest else []
+        q.execute.return_value.count = count
+        return c
+
+    def test_older_newer_and_counts(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "supabase"))
+        import load
+        df = pd.DataFrame({"retrieved_at": ["2026-09-29T01:00:00Z", "2026-09-29T00:58:45Z"], "value": [1, 2]})
+        why = load.older_than_live(self.client("2026-10-01T23:12:46+00:00"), "weather_obs_hourly", df, "series")
+        self.assertIn("2026-09-29T01:00:00Z", why)
+        self.assertIsNone(load.older_than_live(self.client("2026-09-28T00:00:00+00:00"), "weather_obs_hourly", df, "series"))
+        self.assertIsNone(load.older_than_live(self.client(None), "new_table", df, "series"))  # nothing live yet
+        ledger = pd.DataFrame({"x": range(351)})
+        self.assertIn("351 rows here and 477", load.older_than_live(self.client(count=477), "api_cost_ledger", ledger, "series"))
+        self.assertIsNone(load.older_than_live(self.client(count=300), "api_cost_ledger", ledger, "series"))
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(OUT, "flex_alert_effects.csv")) and os.path.isdir(os.path.join(ROOT, "warehouse", "raw", "eia930_emissions")),
                      "the scorecard's tables or the CISO extract are not on this machine")
 class Notebook(unittest.TestCase):
