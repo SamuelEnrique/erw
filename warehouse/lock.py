@@ -193,7 +193,14 @@ def main(argv=None):
     if a.action == "role":
         print(json.dumps(set_role(a.value, a.name) if a.value else machine()))
     elif a.action == "acquire":
-        tok = acquire(a.task or "unnamed", a.minutes, a.wait)
+        try:
+            tok = acquire(a.task or "unnamed", a.minutes, a.wait)
+        except SystemExit as e:
+            if str(e).startswith("the data lock is held") and os.environ.get("ERW_SKIP_EXIT"):
+                # session 61: a scheduled job that finds the lock held should not run: a success with the reason
+                print(f"skipped: {e}")
+                sys.exit(int(os.environ["ERW_SKIP_EXIT"]))
+            raise
         if a.github_env and os.environ.get("GITHUB_ENV"):
             open(os.environ["GITHUB_ENV"], "a", encoding="utf-8").write(f"ERW_LOCK_TOKEN={tok}\n")
         print(f"data lock taken by {machine()['name']} for {a.task!r}, {a.minutes} minutes")
@@ -208,7 +215,13 @@ def main(argv=None):
         cmd = rest[1:] if rest[:1] == ["--"] else rest
         if not cmd:
             raise SystemExit("run: the command after --")
-        sys.exit(run(a.task or " ".join(cmd)[:80], cmd, a.minutes, a.wait))
+        try:
+            sys.exit(run(a.task or " ".join(cmd)[:80], cmd, a.minutes, a.wait))
+        except SystemExit as e:
+            if isinstance(e.code, str) and e.code.startswith("the data lock is held") and os.environ.get("ERW_SKIP_EXIT"):
+                print(f"skipped: {e.code}")
+                sys.exit(int(os.environ["ERW_SKIP_EXIT"]))
+            raise
 
 
 if __name__ == "__main__":

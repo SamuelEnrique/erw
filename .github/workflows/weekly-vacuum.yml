@@ -33,7 +33,9 @@ jobs:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python warehouse/lock.py run --task "weekly vacuum ${{ github.run_id }}" --minutes 60 --wait 60 -- python warehouse/supabase/vacuum.py
+        # session 61: under warehouse/health.py: the data lock still held after an hour is a skip with its reason; a failure
+        # retries once and goes into the day's health summary; the job stays green
+        run: python warehouse/health.py run --step "vacuum" -- python warehouse/lock.py run --task "weekly vacuum ${{ github.run_id }}" --minutes 60 --wait 60 -- python warehouse/supabase/vacuum.py
       - name: Record the sizes in run_status
         if: always()
         run: |

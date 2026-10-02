@@ -357,6 +357,13 @@ def build(stored, committed, xe, get_interchange, get_demand, built, say=print):
     return snap, check(snap, base)
 
 
+def skip(msg):
+    """Session 61: a run that should not change anything is a success with a reason. Under warehouse/health.py the exit is
+    ERW_SKIP_EXIT (75), which records the skip; run by hand it is 0."""
+    print(msg)
+    return int(os.environ.get("ERW_SKIP_EXIT") or 0)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: the grid network, refreshed hourly (session 54)")
     ap.add_argument("--dry-run", action="store_true", help="upload nothing")
@@ -367,14 +374,20 @@ def main(argv=None):
     now = dt.datetime.now(dt.timezone.utc).replace(minute=0, second=0, microsecond=0)
     built = iso(dt.datetime.now(dt.timezone.utc).replace(microsecond=0))
     if a.skip_if_busy and (b := busy()):
-        print(f"network_hourly: skipped, {b}; nothing pulled or uploaded")
-        return 0
+        return skip(f"network_hourly: skipped, {b}; nothing pulled or uploaded")
     sb = origin(env("SUPABASE_URL"))
     with open(COMMITTED, encoding="utf-8") as f:
         committed = json.load(f)
     key = env("EIA_API_KEY")
-    snap, last = build(read_storage(sb), committed, end_period(INTERCHANGE, key),
-                       lambda xe: pull_interchange(key, xe, now), lambda: pull_demand(key, now), built)
+    try:
+        snap, last = build(read_storage(sb), committed, end_period(INTERCHANGE, key),
+                           lambda xe: pull_interchange(key, xe, now), lambda: pull_demand(key, now), built)
+    except AssertionError as e:
+        if str(e).startswith("only "):
+            # session 61: EIA publishes an hour's pairs over several minutes; run 36982030881 (2026-10-02 08:05) found 92
+            # of the hundred-odd pairs and failed. The snapshot in Storage stays as it is until the hour is whole.
+            return skip(f"network_hourly: skipped, EIA's newest hour is not complete yet ({e}); the snapshot in Storage is kept")
+        raise
     body = json.dumps(snap, separators=(",", ":")).encode("utf-8")
     print(f"snapshot: {len(snap['nodes'])} nodes, {len(snap['links'])} links, window {snap['window'][0]} to {snap['window'][1]}, "
           f"{last} pairs in the newest hour, {len(body) / 1024:.0f} KB")
@@ -384,7 +397,7 @@ def main(argv=None):
     if a.dry_run:
         print("dry run: nothing uploaded")
     elif a.skip_if_busy and (b := busy()):
-        print(f"network_hourly: skipped before the upload, {b}; nothing uploaded")
+        return skip(f"network_hourly: skipped before the upload, {b}; nothing uploaded")
     else:
         upload(sb, env("SUPABASE_SERVICE_KEY"), body)
         print(f"uploaded {public_url(sb).split('/storage/')[1]}")

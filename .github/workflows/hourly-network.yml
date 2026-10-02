@@ -35,10 +35,21 @@ jobs:
           python-version: "3.12"
       - name: Install requests
         run: python -m pip install --quiet requests==2.32.3
+      # Session 61 (warehouse/health.py): a duplicate start, a daily or weekly run in progress, or an hour EIA has not
+      # finished publishing is a success with its reason (run 36982030881 failed on "only 92 pairs in the newest hour");
+      # a real failure retries once and goes into the day's health summary; the job stays green, so GitHub sends no email.
+      - name: Skip a duplicate start
+        id: dedupe
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python warehouse/health.py dedupe --workflow-file hourly-network.yml --minutes 55
       - name: Refresh the network snapshot in Storage
+        if: steps.dedupe.outputs.skip != '1'
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           GITHUB_TOKEN: ${{ github.token }}
-        run: python warehouse/derived/network_hourly.py --skip-if-busy
+        run: python warehouse/health.py run --step "network snapshot" -- python warehouse/derived/network_hourly.py --skip-if-busy

@@ -65,8 +65,7 @@ on:
         default: "0"
 
 permissions:
-  contents: write
-  issues: write
+  contents: write  # session 61: no issues: the failure issues became rows of the day's health summary
   actions: read  # session 58: the gate reads this workflow's runs
 
 concurrency:
@@ -82,7 +81,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       run: ${{ steps.check.outputs.run }}
+      reason: ${{ steps.check.outputs.reason }}
     steps:
+      # Session 61: the day's work is done when a run succeeded today OR today's "Daily prices <day>" commit is on main:
+      # the run of 2026-10-01 22:48 UTC committed and sent 2026-10-02's digest after midnight, then failed in its package
+      # tests, and a second run that day would have sent a second digest.
       - id: check
         env:
           GH_TOKEN: ${{ github.token }}
@@ -91,12 +94,33 @@ jobs:
           if [ "$ONCE" != "true" ]; then echo "run=1" >> "$GITHUB_OUTPUT"; exit 0; fi
           today=$(date -u +%F)
           n=$(gh api "repos/${{ github.repository }}/actions/workflows/daily-prices.yml/runs?status=success&created=%3E%3D${today}" --jq '.total_count')
-          if [ "$n" -gt 0 ]; then
-            echo "a run of daily-prices.yml already succeeded today ($today, $n): nothing to do"
+          c=$(gh api "repos/${{ github.repository }}/commits?sha=main&since=${today}T00:00:00Z&per_page=100" --jq "[.[] | select(.commit.message | startswith(\"Daily prices ${today}\"))] | length")
+          if [ "$n" -gt 0 ] || [ "${c:-0}" -gt 0 ]; then
+            reason="the day's work is done: $n successful runs today ($today) and $c 'Daily prices $today' commits on main"
+            echo "$reason"
             echo "run=0" >> "$GITHUB_OUTPUT"
+            echo "reason=$reason" >> "$GITHUB_OUTPUT"
           else
             echo "run=1" >> "$GITHUB_OUTPUT"
           fi
+  # Session 61: a gate's "nothing to do" is recorded as a skip with its reason (warehouse/health.py, erw_health).
+  note-skip:
+    needs: gate
+    if: needs.gate.outputs.run != '1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Record the skip
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          REASON: ${{ needs.gate.outputs.reason }}
+        run: |
+          python -m pip install --quiet requests==2.32.3
+          python warehouse/health.py record --step gate --status skipped --reason "$REASON"
   refresh:
     needs: gate
     if: needs.gate.outputs.run == '1'
@@ -145,19 +169,29 @@ jobs:
       - name: Install Python dependencies
         run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
 
+      # Session 61: every step below runs under warehouse/health.py: a skip is a success with its reason, a real failure
+      # retries once (not the daily run itself, which spends and sends: its connectors retry their own requests) and goes
+      # into the day's health summary, and the job stays green, so GitHub sends no email.
       - name: Merge tests
-        run: python -m unittest discover -s tests -v
+        id: tests
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/health.py run --step "merge tests" -- python -m unittest discover -s tests -v
 
       # Session 59: the data lock (warehouse/lock.py, docs/machines.md). A data machine may be writing the warehouse; the
       # run waits up to 60 minutes for it, then stops. The lock lasts 200 minutes, longer than the job's 180, and is
       # released after the commit below, whatever happened.
       - name: Take the data lock
+        if: steps.tests.outputs.status == 'ok' || steps.tests.outputs.status == 'retried'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python warehouse/lock.py acquire --task "daily run ${{ github.run_id }}" --minutes 200 --wait 60 --github-env
+        run: python warehouse/health.py run --step "data lock" -- python warehouse/lock.py acquire --task "daily run ${{ github.run_id }}" --minutes 200 --wait 60 --github-env
 
       - name: Pull, validate, rebuild coverage
+        id: daily
+        if: env.ERW_LOCK_TOKEN != ''
         env:
           PYTHON: python
           DAYS: "3"
@@ -193,9 +227,7 @@ jobs:
           RESTORE_FROM_REDIVIS: "1"
           # session 16: set on a manual run (input queues, default 1); empty on the schedule
           QUEUES: ${{ github.event.inputs.queues || '0' }}
-        run: |
-          set -o pipefail
-          bash warehouse/run_daily.sh 2>&1 | tee daily.log
+        run: python warehouse/health.py run --step "daily run" --retries 0 -- bash -c "set -o pipefail; bash warehouse/run_daily.sh 2>&1 | tee daily.log"
 
       - name: Keep the full log
         if: always()
@@ -208,6 +240,8 @@ jobs:
           retention-days: 90
 
       - name: Commit metadata, docs and digests (never outputs)
+        id: commit
+        if: steps.daily.outputs.status == 'ok' || steps.daily.outputs.status == 'retried'
         run: |
           set -euo pipefail
           date="$(date -u +%F)"
@@ -284,38 +318,25 @@ jobs:
           git push origin HEAD:main
 
       - name: Release the data lock
-        if: always()
+        if: always() && env.ERW_LOCK_TOKEN != ''
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python warehouse/lock.py release
 
-      - name: Open an issue for a market failing three daily runs in a row
-        # Session 5 ruling. Counts scheduled runs only (runner github), so a
-        # local test run does not start or break a streak. One issue per
-        # market: an open issue with the same title is not duplicated.
+      # Session 61: a market failing three scheduled runs in a row was an issue (an email); now a failure row of the day's
+      # health summary, once a day while the streak lasts.
+      - name: Record markets failing three daily runs in a row
+        if: steps.commit.outcome == 'success'
         env:
-          GH_TOKEN: ${{ github.token }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
-          set -euo pipefail
-          python warehouse/metadata/run_status.py streaks --n 3 --runner github             --out runs/failure_streaks_github.txt
+          set -uo pipefail
+          python warehouse/metadata/run_status.py streaks --n 3 --runner github --out runs/failure_streaks_github.txt || exit 0
           while IFS= read -r line; do
             [ -z "$line" ] && continue
-            market="${line%%:*}"
-            title="ERW market failing 3 daily runs: $market"
-            open=$(gh issue list --state open --search "in:title \"$title\"" --json title                      --jq "map(select(.title == \"$title\")) | length")
-            if [ "$open" -gt 0 ]; then
-              echo "issue already open: $title"
-              continue
-            fi
-            {
-              echo "$line"
-              echo
-              echo "The market has not been written for three scheduled runs. Its run log"
-              echo "in warehouse/output/logs/ and warehouse/metadata/run_status.csv say why."
-              echo "Nothing partial was written. Close this issue when the market is back."
-            } > streak_issue.md
-            gh issue create --title "$title" --body-file streak_issue.md
+            python warehouse/health.py record --step "3-run failure streak" --status failed --reason "$line"
           done < runs/failure_streaks_github.txt
 
       - name: Package tests (erw client against this run's tables)
@@ -325,28 +346,38 @@ jobs:
         # No package test calls the Anthropic API; one that ever does must skip where ANTHROPIC_API_KEY is unset.
         # Session 33: a slow test fails the step visibly after 20 minutes instead of holding the run; tables over 200,000
         # rows are tested by partition, never whole.
-        timeout-minutes: 20
-        run: |
-          set -euo pipefail
-          python -m pip install -e package
-          ANTHROPIC_API_KEY= python -m pytest -q package/tests/test_erw.py -p no:cacheprovider
-
-      - name: Report a failure
-        if: failure()
+        if: steps.commit.outcome == 'success'
+        timeout-minutes: 45
         env:
-          GH_TOKEN: ${{ github.token }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
-          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-          {
-            echo "The ERW daily price refresh failed, so nothing was committed today."
-            echo "A validator failure lands here, as does a failed test or install."
-            echo "A single market that was incomplete does not fail the job; it is"
-            echo "named in the day's commit message instead."
-            echo
-            echo "Run: $run_url"
-            echo
-            echo '```'
-            tail -c 40000 daily.log 2>/dev/null || echo "(no log produced)"
-            echo '```'
-          } > issue.md
-          gh issue create --title "ERW daily prices $(date -u +%F) [FAILED]" --body-file issue.md
+          python -m pip install -e package
+          ANTHROPIC_API_KEY= python warehouse/health.py run --step "package tests" -- python -m pytest -q package/tests/test_erw.py -p no:cacheprovider
+
+      # Session 61: the one daily health summary (warehouse/health.py summary): yesterday's (UTC) steps of every scheduled
+      # job from erw_health, committed as queue/summary/<day>-health.md. It runs even when the rest of this job did not.
+      - name: Write yesterday's health summary
+        if: always()
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          set -uo pipefail
+          day="$(date -u -d yesterday +%F)"
+          python warehouse/health.py summary --day "$day" || { echo "::warning::no health summary for $day"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git stash push --include-untracked --quiet -m "health summary" || true
+          for i in 1 2 3; do
+            git pull --quiet --rebase origin main || true
+            git stash list | grep -q "health summary" && git stash pop --quiet || true
+            git add -- "queue/summary/$day-health.md"
+            git diff --cached --quiet && { echo "the health summary for $day is unchanged"; exit 0; }
+            git commit --quiet -m "Health summary $day (warehouse/health.py)" -m "Automated run of .github/workflows/daily-prices.yml."
+            git push --quiet origin HEAD:main && exit 0
+            git reset --quiet --soft HEAD~1
+            git stash push --include-untracked --quiet -m "health summary" || true
+            sleep 10
+          done
+          echo "::warning::the health summary for $day could not be pushed after three tries"

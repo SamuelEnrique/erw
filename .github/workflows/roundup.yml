@@ -32,8 +32,7 @@ on:
         default: "0"
 
 permissions:
-  contents: write
-  issues: write
+  contents: write  # session 61: no issues: a failure is a row of the day's health summary
   actions: read  # session 58: the gate reads this workflow's runs
 
 concurrency:
@@ -49,21 +48,46 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       run: ${{ steps.check.outputs.run }}
+      reason: ${{ steps.check.outputs.reason }}
     steps:
+      # Session 61: with once=1 (the schedule, the database's dispatch) the Roundup runs on its day only: Sunday (UTC), or
+      # Monday before 03:00 for a late start; and not when a run already succeeded today.
       - id: check
         env:
           GH_TOKEN: ${{ github.token }}
           ONCE: ${{ github.event_name == 'schedule' || github.event.inputs.once == '1' }}
         run: |
           if [ "$ONCE" != "true" ]; then echo "run=1" >> "$GITHUB_OUTPUT"; exit 0; fi
-          today=$(date -u +%F)
+          today=$(date -u +%F); dow=$(date -u +%u); hour=$(date -u +%H)
+          if [ "$dow" != "7" ] && ! { [ "$dow" = "1" ] && [ "$hour" -lt 3 ]; }; then
+            reason="not the Roundup's day: it is $(date -u +%A) $today (UTC); the Roundup is written on Sundays"
+            echo "$reason"; echo "run=0" >> "$GITHUB_OUTPUT"; echo "reason=$reason" >> "$GITHUB_OUTPUT"; exit 0
+          fi
           n=$(gh api "repos/${{ github.repository }}/actions/workflows/roundup.yml/runs?status=success&created=%3E%3D${today}" --jq '.total_count')
           if [ "$n" -gt 0 ]; then
-            echo "a run of roundup.yml already succeeded today ($today, $n): nothing to do"
-            echo "run=0" >> "$GITHUB_OUTPUT"
+            reason="the week's work is done: a run of roundup.yml already succeeded today ($today, $n)"
+            echo "$reason"; echo "run=0" >> "$GITHUB_OUTPUT"; echo "reason=$reason" >> "$GITHUB_OUTPUT"
           else
             echo "run=1" >> "$GITHUB_OUTPUT"
           fi
+  # Session 61: a gate's "nothing to do" is recorded as a skip with its reason (warehouse/health.py, erw_health).
+  note-skip:
+    needs: gate
+    if: needs.gate.outputs.run != '1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Record the skip
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          REASON: ${{ needs.gate.outputs.reason }}
+        run: |
+          python -m pip install --quiet requests==2.32.3
+          python warehouse/health.py record --step gate --status skipped --reason "$REASON"
   roundup:
     needs: gate
     if: needs.gate.outputs.run == '1'
@@ -83,20 +107,27 @@ jobs:
       - name: Install Python dependencies
         run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
 
+      # Session 61: the Roundup writes warehouse tables (the fuel prices, the analysis, the cost ledger), so it takes the
+      # data lock like the daily job (since session 59 every data writer refuses without it, so this job would have failed
+      # on its first Sunday); a lock still held after an hour is a skip with its reason.
+      - name: Take the data lock
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/health.py run --step "data lock" -- python warehouse/lock.py acquire --task "energy roundup ${{ github.run_id }}" --minutes 90 --wait 60 --github-env
+
       - name: Restore tables, pull fuel prices, run the analysis, write the Roundup
+        id: main
+        if: env.ERW_LOCK_TOKEN != ''
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
           REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
-        run: |
-          set -o pipefail
-          {
-            python warehouse/redivis/upload.py --restore
-            python warehouse/connectors/eia_fuels.py
-            python warehouse/analysis/run.py
-            python warehouse/news/roundup.py
-          } 2>&1 | tee roundup.log
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        # not retried: it spends on the model (warehouse/news/roundup.py); its pulls retry their own requests
+        run: python warehouse/health.py run --step "write the Roundup" --retries 0 -- bash -c "set -o pipefail; { python warehouse/redivis/upload.py --restore && python warehouse/connectors/eia_fuels.py && python warehouse/analysis/run.py && python warehouse/news/roundup.py; } 2>&1 | tee roundup.log"
 
       - name: Keep the log
         if: always()
@@ -109,6 +140,8 @@ jobs:
           retention-days: 90
 
       - name: Commit the Roundup and the analysis
+        id: commit
+        if: steps.main.outputs.status == 'ok' || steps.main.outputs.status == 'retried'
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -139,6 +172,7 @@ jobs:
           git push origin HEAD:main
 
       - name: Send the Roundup by email
+        if: steps.commit.outcome == 'success'
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
@@ -150,7 +184,8 @@ jobs:
           EMAIL_SUBSCRIBERS: "1"
         run: |
           set -o pipefail
-          python warehouse/news/email_digest.py --roundup 2>&1 | tee -a roundup.log
+          # not retried: a second try could send twice
+          python warehouse/health.py run --step "send the Roundup" --retries 0 -- bash -c "set -o pipefail; python warehouse/news/email_digest.py --roundup 2>&1 | tee -a roundup.log"
           git add -- docs/digest/email
           if ! git diff --cached --quiet; then
             git commit -m "Energy Roundup email rendered" -m "Automated run of .github/workflows/roundup.yml (warehouse/news/email_digest.py --roundup)."
@@ -162,6 +197,7 @@ jobs:
       # "SHADOW HAIKU". Never fails the Roundup. Delete SHADOW_MODEL to stop it; it stops by itself on the expiry in
       # warehouse/config/shadow.yaml.
       - name: Shadow Roundup (Haiku scores, one address)
+        if: steps.commit.outcome == 'success'
         continue-on-error: true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -176,7 +212,7 @@ jobs:
       # Session 30 (B1): this workflow's model calls are rows of the cost ledger (warehouse/llm.py); archive, load
       # and upload that one internal table, so the daily run restores it with them
       - name: Keep the cost ledger
-        if: always()
+        if: always() && env.ERW_LOCK_TOKEN != ''
         env:
           REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
           REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
@@ -189,18 +225,9 @@ jobs:
             python warehouse/redivis/upload.py api_cost_ledger
           fi
 
-      - name: Report a failure
-        if: failure()
+      - name: Release the data lock
+        if: always() && env.ERW_LOCK_TOKEN != ''
         env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          {
-            echo "The ERW Energy Roundup failed; see the run for what was committed and sent."
-            echo
-            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-            echo
-            echo '```'
-            tail -c 30000 roundup.log 2>/dev/null || echo "(no log produced)"
-            echo '```'
-          } > issue.md
-          gh issue create --title "ERW Energy Roundup $(date -u +%G-W%V) [FAILED]" --body-file issue.md
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/lock.py release
