@@ -24,6 +24,9 @@ warehouse/derived/battery_levels.py, which writes the California levels anew (wi
 
     python warehouse/derived/battery_solar.py            # write the shapes into site/data/battery_levels.json
     python warehouse/derived/battery_solar.py --dry-run  # say what would be written, write nothing
+    python warehouse/derived/battery_solar.py --data-root C:/path/to/erw   # read the raw workbooks and the EIA-860M
+                                                         # tables (and merchant_revenue.py) from another checkout, the
+                                                         # one that holds them; still writes this checkout's levels file
 
 Needs the BA workbooks (raw files, not in git) and warehouse/output/eia860m_operating_generators.csv and
 eia860m_retired_generators.csv, so it runs on the machine that holds them. Session 66 wrote it and did not run it.
@@ -94,8 +97,9 @@ def build(levels, fuel_of, cap_of, built):
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     dry = "--dry-run" in argv
-    sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
-    sys.path.insert(0, HERE)
+    data_root = os.path.abspath(argv[argv.index("--data-root") + 1]) if "--data-root" in argv else ROOT
+    sys.path.insert(0, os.path.join(data_root, "warehouse", "connectors"))
+    sys.path.insert(0, os.path.join(data_root, "warehouse", "derived"))
     import merchant_revenue as mr  # noqa: E402  (the seller tab's own shape: workbook_of, fuel_hours, read_gens, capacity)
 
     built = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -107,7 +111,7 @@ def main(argv=None):
     def fuel_of(ba):
         if ba not in fuels:
             path, _ = mr.workbook_of(ba)  # raises, loudly, when the workbook is not on this machine
-            fuels[ba] = (mr.fuel_hours(path), os.path.relpath(path, ROOT).replace(os.sep, "/"))
+            fuels[ba] = (mr.fuel_hours(path), os.path.relpath(path, data_root).replace(os.sep, "/"))
         return fuels[ba]
 
     log = build(doc["levels"], fuel_of, lambda ba, month: (mr.capacity(gens, ba, "SUN", month), vint), built)

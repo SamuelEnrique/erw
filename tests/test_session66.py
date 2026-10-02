@@ -113,6 +113,7 @@ class Shape(unittest.TestCase):
             self.assertIn(call, b)
         self.assertIn('GRID_BA = {"ERCOT": "ERCO", "CAISO": "CISO"}', b)
         self.assertIn("--dry-run", b)
+        self.assertIn("--data-root", b)
 
 
 class Levels(unittest.TestCase):
