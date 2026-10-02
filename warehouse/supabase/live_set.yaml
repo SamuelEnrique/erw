@@ -16,7 +16,7 @@ full:
   - '^news_index$'                               # the public news index
   - '^eia860m_retired_generators$'                # entities; session 19 human ruling: the operating and
                                                  # planned generators reach Supabase through energy_projects
-  - '^[a-z]+_interconnection_queue$'             # entities tables
+  - '^(?!lbnl_)[a-z]+_interconnection_queue$'   # entities tables (session 62: not Berkeley Lab's national history)
   - '^eia_fuel_spot_prices$'
   - '^fred_daily_spot_prices$'
   - '^energy_deals$'                            # session 15: the deal tracker (public; the evidence table is internal)
