@@ -141,6 +141,7 @@ SECTOR_RULES = [
     (r"^caiso_reliability_daily$", "power"),  # session 58: how tight was it (derived)
     (r"^flex_alert_(effects|model)$", "power"),  # session 60: the Flex Alert scorecard (derived)
     (r"^caiso_dam_alert_day_hub_prices$", "power"),  # session 60: day-ahead hub prices on alert days
+    (r"^ai_power_regions$", "power;carbon"),  # session 62: where the next gigawatts for AI can come from (derived)
     # session 24: the policy monitor (tool 12)
     (r"^policy_(actions|reads)(_evidence)?$", "news"),
     # session 24: NWS weather at the ISO load centers, the /grid overlay
@@ -193,7 +194,8 @@ def iso_of(table):
         return "none"
     if table.startswith("price_board_") or table.startswith("cost_of_power_") or table == "merchant_revenue_monthly":  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
-    if table in ("eia930_all_interchange", "grid_network_nodes", "grid_network_links"):  # session 49: every BA EIA reports
+    if table in ("eia930_all_interchange", "grid_network_nodes", "grid_network_links", "eia930_daily_interchange",  # session 49: every BA EIA reports
+                 "lbnl_interconnection_queue", "ai_power_regions"):  # session 62: the seven ISOs (Berkeley Lab also non-ISO West and Southeast)
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
         return "CAISO;ISO-NE;MISO;NYISO;SPP"

@@ -49,7 +49,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/grid/caiso/alerts"];  // (the line ended "// session 46: set D" before session 60)
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
 // out, and said so, where the token is not set (the page answers 404 without it)
-const INTERNAL = ["/reports/draft/shape-premium"];
+const INTERNAL = ["/reports/draft/shape-premium", "/reports/draft/ai-gigawatts"];  // session 62: the AI gigawatts draft
 // session 35: the grid pages' config, for their news and datacenter keys (the same file the pages read)
 const GRIDS = JSON.parse(fs.readFileSync(path.join(here, "..", "..", "docs", "grids", "grids.json"), "utf-8")).grids;
 
