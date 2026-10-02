@@ -105,6 +105,17 @@ class TaskFiles(unittest.TestCase):
             tq.Task(bad)
 
 
+class QueueFiles(unittest.TestCase):
+    def test_every_task_parses(self):
+        for s in tq.STATES:
+            d = os.path.join(ROOT, "queue", s)
+            for f in (os.listdir(d) if os.path.isdir(d) else []):
+                if f.endswith(".md"):
+                    t = tq.Task(os.path.join(d, f))  # a bad name, role or front matter raises
+                    self.assertGreater(t.cap, 0, f)
+                    self.assertGreater(len(t.prompt), 200, f)
+
+
 class ClaimRace(unittest.TestCase):
     """Two machines claim the same task: the one that pushes first gets it, the other moves on to the next task."""
 
