@@ -272,6 +272,21 @@ class RawStore:
             bucket.append(rec)
         return rec
 
+    def alias(self, asked, content, headers):
+        """Session 65: a request the source answered at another address (a redirect) is listed under the address
+        asked for too, the same file, so raw_cached finds it by the URL a connector builds."""
+        if self.dir is None:
+            return
+        digest = hashlib.sha256(content).hexdigest()
+        with self.lock:
+            fname = self.by_hash.get(digest)
+            if not fname:
+                return
+            lm = headers.get("Last-Modified") if headers is not None else None
+            with open(self.manifest, "a", encoding="utf-8", newline="\n") as f:
+                row = [utc_iso(pd.Timestamp.now(tz="UTC")), "200", str(len(content)), digest, lm or "", fname, redact(asked)]
+                f.write(",".join('"' + v.replace('"', '""') + '"' for v in row) + "\n")
+
     def collect(self):
         store = self
 
@@ -392,6 +407,8 @@ def fetch_raw(connector, url, log, offline=False, fresh=False, pause=0, timeout=
             raise RuntimeError(f"HTTP {r.status_code} for {url}")
         return r
     r = with_retries(url, call, log)
+    if redact(r.url) != redact(url):  # answered at another address: keep the file findable by the one asked for
+        RAW.alias(url, r.content, r.headers)
     rec = {"url": redact(r.url), "retrieved_at": utc_iso(pd.Timestamp.now(tz="UTC")),
            "last_modified": r.headers.get("Last-Modified") or "", "file": "", "cached": False}
     log(f"  GET {url}: {len(r.content)} bytes")

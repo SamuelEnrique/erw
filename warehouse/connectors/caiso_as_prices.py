@@ -67,6 +67,9 @@ REPORT = "OASIS AS Clearing Prices (PRC_AS), day-ahead market (DAM)"
 PAGE = "https://oasis.caiso.com/mrioasis/logon.do"
 API = ("https://oasis.caiso.com/oasisapi/SingleZip?queryname=PRC_AS&market_run_id=DAM&anc_type=ALL&anc_region=ALL"
        "&startdatetime={}&enddatetime={}&version=12&resultformat=6")
+# OASIS answers the request above at this address (a redirect), and the raw files of the first runs are listed
+# under it only: a day saved under either address is not requested again
+ANSWERED = "https://oasis.caiso.com/oasisapi/GroupZip?groupid=DAM_PRC_AS_GRP&startdatetime={}&resultformat=6&version=12"
 PAUSE = 6  # seconds between requests; OASIS throttles
 COLS = ["INTERVALSTARTTIME_GMT", "OPR_DT", "ANC_TYPE", "ANC_REGION", "MARKET_RUN_ID", "XML_DATA_ITEM", "MW"]
 
@@ -85,6 +88,11 @@ def url_for(day):
     b = (a + pd.DateOffset(days=1))
     f = lambda t: t.tz_convert("UTC").strftime("%Y%m%dT%H:%M-0000")  # noqa: E731
     return API.format(f(a), f(b))
+
+
+def answered_url_for(day):
+    """The address OASIS redirects the day's request to, as the raw manifests record it."""
+    return ANSWERED.format(pd.Timestamp(day).tz_localize(TZ).tz_convert("UTC").strftime("%Y%m%dT%H:%M-0000"))
 
 
 def hours_in(day):
@@ -152,7 +160,12 @@ def fetch_day(day, log, offline):
     last = None
     for attempt in range(5):
         try:
-            raw, rec = ip.fetch_raw(CONNECTOR, url, log, offline=offline, fresh=attempt > 0, pause=0)
+            hit = ip.raw_cached(CONNECTOR, answered_url_for(day)) if attempt == 0 else None
+            if hit:
+                raw, rec = hit
+                log(f"  raw file reused: {rec['url']} ({os.path.relpath(rec['file'], ip.ROOT)})")
+            else:
+                raw, rec = ip.fetch_raw(CONNECTOR, url, log, offline=offline, fresh=attempt > 0, pause=0)
         except ip.SourceGap:
             raise
         except RuntimeError as exc:  # HTTP 429 or a timeout, after fetch_raw's own retries

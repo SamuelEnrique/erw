@@ -106,6 +106,9 @@ SECTOR_RULES = [
     (r"^eia930_all_emissions$", "power;carbon"),  # session 32: EIA-930 CO2 estimates
     (r"^eia930_", "power"),
     (r"^pjm_rpm_capacity_prices$", "capacity"),
+    # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
+    (r"^iso_all_capacity_prices$", "capacity"),
+    (r"^(ercot|caiso)_as_prices$", "power"),
     (r"^eia_fuel_spot_prices$", "oil;gas"),
     (r"^eia_(product_spot|retail_fuel)_prices$", "products"),
     (r"^eia_petroleum_(trade|stocks)_weekly$", "oil;products"),
@@ -197,6 +200,8 @@ def iso_of(table):
     if table in ("eia930_all_interchange", "grid_network_nodes", "grid_network_links", "eia930_daily_interchange",  # session 49: every BA EIA reports
                  "lbnl_interconnection_queue", "ai_power_regions"):  # session 62: the seven ISOs (Berkeley Lab also non-ISO West and Southeast)
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table == "iso_all_capacity_prices":  # session 65: the markets with a capacity auction (ERCOT and CAISO have none)
+        return "ISO-NE;MISO;NYISO;PJM"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
         return "CAISO;ISO-NE;MISO;NYISO;SPP"
     if table in ("eia930_all_history", "noaa_isd_hourly"):  # session 49: the seven ISO BAs, and their weather stations
