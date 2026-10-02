@@ -10,7 +10,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { DEFAULT_SETTINGS, optimum, presetOf, rulesOf, simulate } from "../lib/battery.ts";
+import { DEFAULT_SETTINGS, optimum, presetOf, rulesOf, simulate, validSolar } from "../lib/battery.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
@@ -90,6 +90,39 @@ for (const l of levels.filter((x) => x.grid === "CAISO")) {
   check(r.status === 200 && t.level === l.date && Array.isArray(t.top), `CAISO ${l.slug}: /api/play/top for Hard answers ${r.status} with ${t.top?.length} rows`);
   const h = optimum(l.price, rulesOf(DEFAULT_SETTINGS, "hard"));
   console.log(`     ${l.date}: perfect foresight ${o.score.toFixed(4)} USD on Normal, ${h.score.toFixed(4)} USD on Hard (default battery)`);
+}
+// 6. session 66 (v4): Hard with the rooftop add-on on, on a famous day that holds a solar shape (the other add-on state,
+// off, is section 4's Hard play): the server rescoring equals lib/battery.ts's with the level's shape and stores the
+// play under the "-solar-v4" preset. On a day without a shape the server refuses the add-on (HTTP 400): never filled.
+{
+  const withShape = levels.find((l) => validSolar(l.solar, l.price.length));
+  const without = levels.find((l) => !validSolar(l.solar, l.price.length));
+  if (withShape) {
+    const r = rulesOf(DEFAULT_SETTINGS, "hard", ["solar"]);
+    const plan = optimum(withShape.price, r, withShape.solar);
+    const greedy = withShape.price.map((p, i) => (i < 24 ? 1 : p > 100 ? -1 : 0));
+    const want = simulate(withShape.price, greedy, r, withShape.solar).score;
+    const preset = presetOf(DEFAULT_SETTINGS, "hard", ["solar"]);
+    [s, j] = await post("/api/play/finish", { level: withShape.date, actions: greedy, settings: DEFAULT_SETTINGS, difficulty: "hard", addons: ["solar"] });
+    check(s === 200 && j.stored === true && Math.abs(j.score - Math.round(want * 1e4) / 1e4) < 1e-9 && Math.abs(j.optimal - Math.round(plan.score * 1e4) / 1e4) < 1e-9 && j.preset === preset,
+      `hard with rooftop solar, ${withShape.date}: finish scored ${j.score} (lib ${want.toFixed(4)}), perfect ${j.optimal} (lib ${plan.score.toFixed(4)}), preset ${j.preset}`);
+    [s, j] = await post("/api/play/score", { level: withShape.date, actions: greedy, settings: DEFAULT_SETTINGS, difficulty: "hard", addons: ["solar"] });
+    check(s === 200 && j.preset === preset && Array.isArray(j.top) && j.top.every((x) => x.preset === preset), `hard with rooftop solar: score stored under ${preset}; leaderboard of ${j.top?.length} rows, all of that preset`);
+    const t = await fetch(`${base}/api/play/top?${new URLSearchParams({ level: withShape.date, preset })}`);
+    check(t.status === 200, `/api/play/top answers ${t.status} for ${preset}`);
+  } else {
+    console.log("     no famous day holds a solar shape yet (warehouse/derived/battery_solar.py writes them): the add-on's stored play is not checked");
+  }
+  if (without) {
+    [s, j] = await post("/api/play/finish", { level: without.date, actions: without.price.map(() => 0), difficulty: "hard", addons: ["solar"] });
+    check(s === 400 && /rooftop solar is not available/.test(j.error ?? ""), `rooftop solar on ${without.date}, a day without a shape, refused: HTTP ${s} (${j.error})`);
+  }
+  [s, j] = await post("/api/play/finish", { level: heat.date, actions: best.actions, difficulty: "normal", addons: ["solar"] });
+  check(s === 400, `an add-on on Normal refused: HTTP ${s} (${j.error})`);
+  for (const p of ["normal:13.5-5-90-v3", "normal:13.5-5-90", presetOf(DEFAULT_SETTINGS, "hard")]) {
+    const t = await fetch(`${base}/api/play/top?${new URLSearchParams({ level: heat.date, preset: p })}`);
+    check(t.status === 200, `/api/play/top reads the board ${p}: HTTP ${t.status}`);
+  }
 }
 console.log(bad ? `${bad} FAILED` : "scripted play: every check passed");
 process.exit(bad ? 1 : 0);
