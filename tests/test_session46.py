@@ -85,7 +85,7 @@ class Sources(unittest.TestCase):
 
     def test_no_prefetch_on_the_lease_page(self):
         site = open(os.path.join(ROOT, "site", "components", "SiteLink.tsx"), encoding="utf-8").read()
-        self.assertIn('NO_PREFETCH = ["/severance/lease"]', site)
+        self.assertIn('NO_PREFETCH = ["/severance/lease"', site)  # session 67: /cost-of-power/battery joined the list
         page = open(os.path.join(ROOT, "site", "app", "severance", "lease", "page.tsx"), encoding="utf-8").read()
         tags = re.findall(r"<Link\s[^>]*>", page)
         self.assertTrue(tags and all("prefetch={false}" in t for t in tags), tags)

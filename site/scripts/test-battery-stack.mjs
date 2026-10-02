@@ -196,6 +196,31 @@ try {
   check(!menu.internal, "visitor: no internal view mark");
   await ev(`document.querySelector('nav[aria-label="Site"]').querySelectorAll("details").forEach((d, i) => i === 0 ? d.setAttribute("open", "") : d.removeAttribute("open"))`);
   await shot("menu-visitor-desktop", 1280);
+
+  // 5. the internal view: unlock opens everything and marks the menu; lock closes it again. The token is read from the
+  // environment or site/.env.local and is never printed.
+  const token = (() => {
+    if (process.env.INTERNAL_COSTS_TOKEN) return process.env.INTERNAL_COSTS_TOKEN;
+    const f = path.join(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..", ".env.local");
+    if (!fs.existsSync(f)) return "";
+    const m = fs.readFileSync(f, "utf-8").match(/^INTERNAL_COSTS_TOKEN=(.*)$/m);
+    return m ? m[1].trim().replace(/^"|"$/g, "") : "";
+  })();
+  if (!token) {
+    console.log("skip the internal view: INTERNAL_COSTS_TOKEN is not set here");
+  } else {
+    await go(`/internal/unlock?token=${encodeURIComponent(token)}`);
+    const inside = await ev(`(() => { const nav = document.querySelector('nav[aria-label="Site"]'); return { path: location.pathname + location.search, greyed: document.querySelectorAll(".gate-review").length, mark: /internal view/.test(nav.textContent), board: !!nav.querySelector('a[href="/board"]'), readable: document.cookie.includes("erw_internal") }; })()`);
+    check(inside.path === "/" && inside.greyed === 0 && inside.mark && inside.board, "internal: unlock goes to the home page, nothing is greyed, the menu links every page and carries the internal view mark", JSON.stringify({ ...inside, path: inside.path }));
+    check(!inside.readable, "internal: the cookie the gate checks is httpOnly (the page's script cannot read it)");
+    await go("/board");
+    check(!(await ev(`!!document.querySelector("[data-in-review]")`)), "internal: /board opens");
+    await go("/internal/lock");
+    const out = await ev(`({ greyed: document.querySelectorAll('nav[aria-label="Site"] .gate-review').length, mark: /internal view/.test(document.querySelector('nav[aria-label="Site"]').textContent) })`);
+    check(out.greyed > 0 && !out.mark, "internal: lock closes it again", JSON.stringify(out));
+    await go("/internal/unlock?token=not-the-token");
+    check(await ev(`document.querySelectorAll('nav[aria-label="Site"] .gate-review').length > 0 || !document.querySelector("nav")`), "internal: a wrong token opens nothing");
+  }
   page.close();
 } finally {
   chrome.kill();
