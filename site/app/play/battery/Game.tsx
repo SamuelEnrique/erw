@@ -5,11 +5,15 @@
 // Session 50 (v2): the battery's settings and a difficulty (lib/battery.ts), a 30-second first-run tutorial, a
 // house-and-battery animation, Easy's forecast band, a 15-minute notice before the fleet call, the replay of the
 // perfect battery beside the player's with a reason at each switch, and the leaderboard by preset.
+// Session 63 (v3): every play starts with $5 and ends when the money falls below $0; on Hard a grid emergency (the price
+// climbs toward the cap, then a two-hour outage runs the house on the battery; lights out ends the round); the state is
+// computed with simulate(), the server's own scorer, so the two cannot differ; and a simple mode (the default page): one
+// sentence, two big buttons, the battery and the price, with everything else behind "more".
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  DEFAULT_SETTINGS, DIFFICULTIES, eventPageFor, explain, FLEET, isPerfect, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS,
-  simulate, step, validSettings, vppHour, type Action, type Difficulty, type Rules, type Settings,
+  DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET, isPerfect, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS,
+  simulate, START_MONEY, validSettings, vppHour, type Action, type Difficulty, type Rules, type Settings,
 } from "@/lib/battery";
 import type { PresetCount, ScoreRow } from "@/lib/game";
 
@@ -307,12 +311,11 @@ const fromDraft = (d: Record<keyof Settings, string>): Settings => ({
   kwh: Number(d.kwh), kw: Number(d.kw), rte: Math.round(Number(d.rte)) / 100, reserve: Math.round(Number(d.reserve)) / 100, deg: Math.round(Number(d.deg) * 100) / 100,
 });
 
-export function Game({ levels, top: firstTop, presets: firstPresets }: { levels: GameLevel[]; top: ScoreRow[]; presets: PresetCount[] }) {
+export function Game({ levels, top: firstTop, presets: firstPresets, simple = false }: { levels: GameLevel[]; top: ScoreRow[]; presets: PresetCount[]; simple?: boolean }) {
   const [phase, setPhase] = useState<Phase>("pick");
   const [pick, setPick] = useState(0);
   const level = levels[pick];
   const n = level.price.length;
-  const vpp = useMemo(() => vppHour(level.price), [level]);
   const [draft, setDraft] = useState(toDraft(DEFAULT_SETTINGS));
   const [difficulty, setDifficulty] = useState<Difficulty>("normal");
   const parsed = fromDraft(draft);
@@ -322,11 +325,16 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const rules = useMemo(() => rulesOf(settings, difficulty), [settingsKey, difficulty]);
   const preset = presetOf(settings, difficulty);
+  // session 63: on Hard the emergency's prices are the ones played and scored (a game rule); elsewhere the real prices
+  const em = useMemo(() => emergencyOf(level.price, rules), [level, rules]);
+  const P = em.prices;
+  const vpp = useMemo(() => vppHour(P), [P]);
   const best = useMemo(() => optimum(level.price, rules), [level, rules]);
   const [tutorial, setTutorial] = useState(false);
 
   // the viewer's conveniences, from browser storage after the first render (absent or refused: the defaults)
   useEffect(() => {
+    if (simple) return;  // session 63: the simple page always plays Normal with the default battery, and skips the tutorial
     const seen = load(TUTORIAL_KEY) === "seen";
     let saved: { settings?: unknown; difficulty?: unknown } | null = null;
     try { saved = JSON.parse(load(SETTINGS_KEY) ?? "null"); } catch { saved = null; }
@@ -335,14 +343,17 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
       if (saved && validSettings(saved.settings)) setDraft(toDraft(saved.settings));
       if (saved && (saved.difficulty === "easy" || saved.difficulty === "normal" || saved.difficulty === "hard")) setDifficulty(saved.difficulty);
     });
-  }, []);
-  useEffect(() => { if (ok) save(SETTINGS_KEY, JSON.stringify({ settings, difficulty })); }, [ok, settingsKey, difficulty]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [simple]);
+  useEffect(() => { if (ok && !simple) save(SETTINGS_KEY, JSON.stringify({ settings, difficulty })); }, [ok, settingsKey, difficulty, simple]); // eslint-disable-line react-hooks/exhaustive-deps
   const endTutorial = useCallback(() => { save(TUTORIAL_KEY, "seen"); setTutorial(false); }, []);
 
   // mutable game state, read by the animation loop
-  const g = useRef({ t0: 0, idx: 0, held: [0, 0, 0], last: 0, soc: 0, cash: 0, wear: 0, vppKwh: 0, actions: [] as Action[], control: 0 as Control });
-  const [hud, setHud] = useState({ idx: 0, soc: rules.start, cash: 0, wear: 0, vppKwh: 0, control: 0 as Control });
-  const [result, setResult] = useState<{ score: number; cash: number; wear: number; bonus: number; actions: Action[]; rules: Rules; preset: string; settings: Settings; difficulty: Difficulty } | null>(null);
+  const g = useRef({ t0: 0, idx: 0, held: [0, 0, 0], last: 0, soc: 0, cash: 0, wear: 0, bonus: 0, vppKwh: 0, actions: [] as Action[], control: 0 as Control, ended: false });
+  const [hud, setHud] = useState({ idx: 0, soc: rules.start, cash: 0, wear: 0, bonus: 0, vppKwh: 0, control: 0 as Control });
+  const [result, setResult] = useState<{
+    score: number; cash: number; wear: number; bonus: number; actions: Action[]; rules: Rules; preset: string; settings: Settings; difficulty: Difficulty;
+    end: number | null; why: "" | "bankrupt" | "lights_out"; outageStartKwh: number | null; outageNeedKwh: number;
+  } | null>(null);
   const [server, setServer] = useState<string>("");
   const [top, setTop] = useState<ScoreRow[]>(firstTop);
   const [topFor, setTopFor] = useState<{ date: string; preset: string }>({ date: levels[0].date, preset: firstTop[0]?.preset ?? presetOf(DEFAULT_SETTINGS, "normal") });
@@ -385,12 +396,12 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = css("panel"); ctx.fillRect(0, 0, w, h);
     const shown = Math.max(1, Math.min(n, Math.floor(pos) + 1));
-    const seen = level.price.slice(0, shown);
+    const seen = P.slice(0, shown);
     // Easy: the next hours as a band, each clock hour's lowest to highest real price
     const bands: { i: number; lo: number; hi: number }[] = [];
     if (forecast) {
       for (let i = Math.floor(shown / 4) * 4; i < Math.min(n, shown + forecast); i += 4) {
-        const hr = level.price.slice(i, i + 4);
+        const hr = P.slice(i, i + 4);
         bands.push({ i, lo: Math.min(...hr), hi: Math.max(...hr) });
       }
     }
@@ -414,6 +425,13 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
     if (pos >= vpp.first - 1) {
       ctx.fillStyle = "rgba(140, 21, 21, 0.08)";
       ctx.fillRect(x(vpp.first), top, (vpp.last + 1 - vpp.first) * dx, bottom - top);
+    }
+    // session 63: Hard's outage, from its start: the grid is down
+    if (em.outage && pos >= em.outage.first) {
+      ctx.fillStyle = "rgba(46, 45, 41, 0.10)";
+      ctx.fillRect(x(em.outage.first), top, (em.outage.last + 1 - em.outage.first) * dx, bottom - top);
+      ctx.fillStyle = css("muted"); ctx.font = "11px system-ui, sans-serif";
+      ctx.fillText("grid down", x(em.outage.first) + 4, top + 12);
     }
     // the forecast band, ahead of the now line
     if (bands.length) {
@@ -443,27 +461,29 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
     ctx.save(); ctx.beginPath(); ctx.rect(40, 0, w - 40, h); ctx.clip();
     ctx.strokeStyle = css("ink"); ctx.lineWidth = 2; ctx.beginPath();
     for (let i = 0; i < shown; i++) {
-      const x0 = x(i), yy = y(level.price[i]);
+      const x0 = x(i), yy = y(P[i]);
       if (i === 0) ctx.moveTo(x0, yy); else ctx.lineTo(x0, yy);
       ctx.lineTo(Math.min(x0 + dx, nowX), yy);
     }
     ctx.stroke(); ctx.restore();
     // the now line and the current price
     ctx.strokeStyle = css("accent"); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(nowX, top - 8); ctx.lineTo(nowX, bottom); ctx.stroke();
-    const cur = level.price[Math.min(n - 1, Math.floor(pos))];
+    const cur = P[Math.min(n - 1, Math.floor(pos))];
     ctx.fillStyle = css("accent"); ctx.beginPath(); ctx.arc(nowX, y(cur), 4, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = css("ink"); ctx.font = "12px system-ui, sans-serif";
     // the label right of the now line where it fits, else left of it (narrow screens), never over the line
     const label = `${cur.toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh`;
     const lw = ctx.measureText(label).width;
     ctx.fillText(label, nowX + 8 + lw <= w - 2 && !forecast ? nowX + 8 : nowX - 8 - lw, Math.max(top + 10, y(cur) - 8));
-  }, [level, n, vpp, forecast]);
+  }, [level, n, vpp, forecast, P, em]);
 
   const finish = useCallback(async () => {
     cancelAnimationFrame(raf.current);
-    const actions = g.current.actions.slice(0, n);
+    const played = g.current.actions.slice(0, n);
+    const actions: Action[] = [...played, ...new Array(Math.max(0, n - played.length)).fill(0)];  // after an early end nothing counts
     const r = simulate(level.price, actions, rules);
-    setResult({ score: r.score, cash: r.cash, wear: r.wear, bonus: r.bonus, actions, rules, preset, settings, difficulty });
+    setResult({ score: r.score, cash: r.cash, wear: r.wear, bonus: r.bonus, actions, rules, preset, settings, difficulty,
+      end: r.end, why: r.why, outageStartKwh: r.outageStartKwh, outageNeedKwh: r.outageNeedKwh });
     setPhase("done");
     setControl(0);
     try {
@@ -484,28 +504,30 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
     s.last = now;
     s.held[s.control + 1] += dt; // [discharge, idle, charge]
     const target = Math.min(n, Math.floor(elapsed / per));
-    while (s.idx < target) {
+    while (s.idx < target && !s.ended) {
       const [dis, idle, chg] = s.held;
-      const a: Action = chg > idle && chg > dis ? 1 : dis > idle && dis > chg ? -1 : 0;
-      const r = step(s.soc, a, level.price[s.idx], rules);
-      s.soc = r.soc; s.cash += r.cash; s.wear += r.wear;
-      if (s.idx >= vpp.first && s.idx <= vpp.last) s.vppKwh += r.delivered;
+      const out = em.outage !== null && s.idx >= em.outage.first && s.idx <= em.outage.last;
+      const a: Action = out ? 0 : chg > idle && chg > dis ? 1 : dis > idle && dis > chg ? -1 : 0;
       s.actions.push(a);
       s.idx++;
       s.held = [0, 0, 0];
+      // session 63: the state from simulate(), the server's scorer: money, the emergency, the outage, an early end
+      const r = simulate(level.price, s.actions, rules);
+      s.soc = r.soc[r.soc.length - 1]; s.cash = r.cash; s.wear = r.wear; s.bonus = r.bonus; s.vppKwh = r.vppKwh;
+      if (r.end !== null) s.ended = true;
     }
     draw(Math.min(n - 0.001, elapsed / per));
-    setHud((h) => (h.idx !== s.idx || Math.abs(h.soc - s.soc) > 1e-9 ? { idx: s.idx, soc: s.soc, cash: s.cash, wear: s.wear, vppKwh: s.vppKwh, control: s.control } : h));
-    if (s.idx >= n) { finish(); return; }
+    setHud((h) => (h.idx !== s.idx || Math.abs(h.soc - s.soc) > 1e-9 ? { idx: s.idx, soc: s.soc, cash: s.cash, wear: s.wear, bonus: s.bonus, vppKwh: s.vppKwh, control: s.control } : h));
+    if (s.idx >= n || s.ended) { finish(); return; }
     raf.current = requestAnimationFrame((t) => next.current(t));
-  }, [n, level, vpp, draw, finish, rules]);
+  }, [n, level, draw, finish, rules, em]);
   useEffect(() => { next.current = loop; }, [loop]);
 
   const start = () => {
     if (!ok) return;
     const t = performance.now();
-    g.current = { t0: t, idx: 0, held: [0, 0, 0], last: t, soc: rules.start, cash: 0, wear: 0, vppKwh: 0, actions: [], control: 0 };
-    setHud({ idx: 0, soc: rules.start, cash: 0, wear: 0, vppKwh: 0, control: 0 });
+    g.current = { t0: t, idx: 0, held: [0, 0, 0], last: t, soc: rules.start, cash: 0, wear: 0, bonus: 0, vppKwh: 0, actions: [], control: 0, ended: false };
+    setHud({ idx: 0, soc: rules.start, cash: 0, wear: 0, bonus: 0, vppKwh: 0, control: 0 });
     setResult(null); setServer(""); setPosted("");
     setPhase("play");
     requestAnimationFrame(() => board.current?.scrollIntoView({ block: "start", behavior: "auto" }));
@@ -535,6 +557,9 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
   });
 
   const playing = phase === "play";
+  const money = START_MONEY + hud.cash - hud.wear + hud.bonus;
+  const inSpike = playing && em.spike !== null && hud.idx >= em.spike.first && hud.idx <= em.spike.last;
+  const inOutage = playing && em.outage !== null && hud.idx >= em.outage.first && hud.idx <= em.outage.last;
   const inVpp = playing && hud.idx >= vpp.first && hud.idx <= vpp.last;
   const notice = playing && hud.idx === vpp.first - 1;
   const vppDone = hud.idx > vpp.last;
@@ -555,6 +580,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
 
   // the debrief, from the level's prices and the optimum under the rules played
   const peak = level.price.indexOf(Math.max(...level.price)), low = level.price.indexOf(Math.min(...level.price));
+  const at = (i: number | null) => (i === null ? "" : clock(level.tz, level.ts_utc[Math.min(n - 1, i)]));
   const charged = runs(best.actions, level.ts_utc, 1, level.tz), discharged = runs(best.actions, level.ts_utc, -1, level.tz);
   const G = GRIDS[level.grid];
   const otherPresets = topFor.date === levels[0].date ? firstPresets.filter((p) => p.preset !== topFor.preset) : [];
@@ -562,7 +588,17 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
   return (
     <div className="select-none">
       {tutorial && phase === "pick" ? <Tutorial onDone={endTutorial} /> : null}
-      {phase === "pick" ? (
+      {phase === "pick" && simple ? (
+        <div>
+          <p className="mb-3 text-base">Buy power into your battery when it is cheap and sell it when it is dear: you start with $5, and the game ends if you go below $0.</p>
+          <label className="mb-3 block text-sm">The day:{" "}
+            <select value={pick} onChange={(e) => setPick(Number(e.target.value))} className="border border-rule bg-panel px-2 py-1">
+              {levels.map((l, i) => <option key={l.slug} value={i}>{l.title}, {l.date}</option>)}
+            </select>
+          </label>
+          <button onClick={start} className="w-full border border-accent bg-accent px-6 py-4 text-xl text-paper sm:w-auto">Start</button>
+        </div>
+      ) : phase === "pick" ? (
         <div>
           <SettingsPanel draft={draft} setDraft={setDraft} difficulty={difficulty} setDifficulty={setDifficulty} />
           {!ok ? <p className="mb-2 text-sm text-accent" role="alert">A setting is outside its range or between its steps; the game will not start until it is within them.</p> : null}
@@ -602,14 +638,25 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
             <span><strong>{level.title}</strong>, {level.date} ({GRIDS[level.grid].name}, {GRIDS[level.grid].zone} time), {DIFFICULTIES[difficulty].label}</span>
             <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.tz, level.ts_utc[Math.min(n - 1, hud.idx)])}` : "end of day"}</span>
           </div>
-          {notice ? (
+          {inOutage ? (
+            <div className="mb-1 border border-ink bg-panel px-2 py-1 text-sm" role="status">
+              Outage (a game rule): the grid is down. Your house runs on its battery, {EMERGENCY.houseKw} kW; if the battery runs dry, the lights go out and the round ends.
+            </div>
+          ) : inSpike ? (
+            <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
+              Grid emergency (a game rule): the price is climbing toward the {usd(EMERGENCY.cap).replace(".00", "")}/MWh cap. Next the grid goes down for two hours: keep charge for the house.
+            </div>
+          ) : notice ? (
             <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
           ) : inVpp ? (
             <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
               Fleet call: discharge now to earn the bonus (a game rule modeled on ERCOT&apos;s ADER pilot; see the rules below).
             </div>
           ) : null}
-          <canvas ref={canvas} className="block h-[220px] w-full touch-none sm:h-[260px]" aria-label="The day's real-time price so far; the future is hidden except Easy's forecast band" />
+          {simple ? (
+            <div className="mb-1 text-center"><span className="text-3xl tabular-nums">{P[Math.min(n - 1, hud.idx)].toLocaleString("en-US", { maximumFractionDigits: 2 })}</span> <span className="text-sm text-muted">USD/MWh now</span></div>
+          ) : null}
+          <canvas ref={canvas} className={`block w-full touch-none ${simple ? "h-[140px]" : "h-[220px] sm:h-[260px]"}`} aria-label="The day's price so far; the future is hidden except Easy's forecast band" />
           <div className="mt-2 grid grid-cols-1 items-center gap-2 sm:grid-cols-[auto_1fr]">
             <HouseFlow flow={playing ? hud.control : 0} soc={hud.soc} kwh={rules.kwh} reserveKwh={rules.reserveKwh} blocked={blocked} />
             <div className="grid grid-cols-[1fr_auto] items-center gap-3 text-sm">
@@ -622,12 +669,12 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
                 {blocked ? <div className="mt-1 text-xs text-accent">Held: the battery is at its backup reserve.</div> : null}
               </div>
               <div className="text-right">
-                <span className="text-xs text-muted">Cash</span><div className="font-mono text-lg" aria-live="off">{usd(hud.cash)}</div>
-                {rules.deg > 0 ? <div className="text-xs text-muted">wear {usd(-hud.wear)}</div> : null}
+                <span className="text-xs text-muted">Money</span><div className={`font-mono text-lg ${money < 1 ? "text-accent" : ""}`} aria-live="off">{usd(money)}</div>
+                <div className="text-xs text-muted">earned {usd(money - START_MONEY)}{rules.deg > 0 ? `, wear ${usd(-hud.wear)}` : ""}</div>
               </div>
             </div>
           </div>
-          <div className="mt-2 flex items-center gap-3">
+          <div className={`mt-2 flex items-center gap-3 ${simple ? "hidden" : ""}`}>
             <div className="grid grid-cols-10 gap-[3px]" aria-label={lit ? "The fleet map is lit: your battery answered the call" : "The fleet map"} role="img">
               {Array.from({ length: 50 }, (_, i) => <span key={i} className="block h-2 w-2 rounded-full" style={{ background: lit ? "var(--color-accent)" : "var(--color-rule)" }} />)}
             </div>
@@ -635,21 +682,48 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
           </div>
           {playing ? (
             <div className="mt-3 grid grid-cols-2 gap-3">
-              <button {...hold(1)} className={`touch-none border px-3 py-4 text-base ${hud.control === 1 ? "border-[var(--color-down)] bg-[var(--color-down)] text-paper" : "border-[var(--color-down)] text-[var(--color-down)]"}`}>Hold to charge (buy)</button>
-              <button {...hold(-1)} className={`touch-none border px-3 py-4 text-base ${hud.control === -1 ? "border-accent bg-accent text-paper" : "border-accent text-accent"}`}>Hold to sell (discharge)</button>
-              <p className="col-span-2 text-xs text-muted">Keys: C or the down arrow to charge, S or the up arrow to sell. Let go to idle.</p>
+              <button {...hold(1)} disabled={inOutage} className={`touch-none border px-3 ${simple ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === 1 ? "border-[var(--color-down)] bg-[var(--color-down)] text-paper" : "border-[var(--color-down)] text-[var(--color-down)]"}`}>{simple ? "Charge" : "Hold to charge (buy)"}</button>
+              <button {...hold(-1)} disabled={inOutage} className={`touch-none border px-3 ${simple ? "py-8 text-xl" : "py-4 text-base"} disabled:opacity-40 ${hud.control === -1 ? "border-accent bg-accent text-paper" : "border-accent text-accent"}`}>{simple ? "Sell" : "Hold to sell (discharge)"}</button>
+              <p className="col-span-2 text-xs text-muted">{inOutage ? "The grid is down: nothing to buy or sell until it is back." : simple ? "Hold a button down; let go to wait." : "Keys: C or the down arrow to charge, S or the up arrow to sell. Let go to idle."}</p>
             </div>
           ) : null}
         </div>
       ) : null}
 
-      {phase === "done" && result ? (
+      {phase === "done" && result && simple ? (
+        <div className="mt-4 border border-rule p-3">
+          <p className="text-xl">You finished with <strong>{usd(START_MONEY + result.score)}</strong>: you {result.score >= 0 ? "earned" : "lost"} {usd(Math.abs(result.score))}.</p>
+          {result.why === "bankrupt" ? (
+            <p className="mt-1 text-sm text-accent" role="status">Out of money at {at(result.end)}: below $0 the game ends (a game rule). Buying when power is dear costs more than the battery can earn back.</p>
+          ) : result.why === "lights_out" ? (
+            <p className="mt-1 text-sm text-accent" role="status">
+              Lights out at {at(result.end)}: the battery ran dry in the outage (a game rule), so the round ended there. The two-hour outage needed{" "}
+              {result.outageNeedKwh.toFixed(2)} kWh for the house; at its start the battery held {(result.outageStartKwh ?? 0).toFixed(2)} kWh. Keep at least{" "}
+              {result.outageNeedKwh.toFixed(2)} kWh when the grid is in an emergency.
+            </p>
+          ) : null}
+          <p className="mt-1 text-sm">A battery that knew every price in advance would have earned {usd(best.score)}.</p>
+          <div className="mt-3 flex flex-wrap gap-3">
+            <button onClick={() => setPhase("pick")} className="border border-accent bg-accent px-5 py-3 text-lg text-paper">Play again</button>
+            <Link href="/play/battery?more=1" className="self-center text-sm">More: the replay, the settings, Hard&apos;s emergency and the leaderboard</Link>
+          </div>
+        </div>
+      ) : phase === "done" && result ? (
         <div className="mt-4 border border-rule p-3">
           <p className="text-lg">
             You earned <strong>{usd(result.score)}</strong>
             {result.bonus > 0 || result.wear > 0 ? <> ({usd(result.cash)} in the market{result.wear > 0 ? `, less ${usd(result.wear)} of wear` : ""}{result.bonus > 0 ? `, plus the fleet bonus ${usd(result.bonus)}` : ""})</> : null}.
             Your fleet of {FLEET.toLocaleString("en-US")} homes: <strong>{usd(result.score * FLEET)}</strong>.
           </p>
+          {result.why === "bankrupt" ? (
+            <p className="mt-1 text-sm text-accent" role="status">Out of money at {at(result.end)}: below $0 the game ends (a game rule). Buying when power is dear costs more than the battery can earn back.</p>
+          ) : result.why === "lights_out" ? (
+            <p className="mt-1 text-sm text-accent" role="status">
+              Lights out at {at(result.end)}: the battery ran dry in the outage (a game rule), so the round ended there. The two-hour outage needed{" "}
+              {result.outageNeedKwh.toFixed(2)} kWh for the house; at its start the battery held {(result.outageStartKwh ?? 0).toFixed(2)} kWh. Keep at least{" "}
+              {result.outageNeedKwh.toFixed(2)} kWh when the grid is in an emergency.
+            </p>
+          ) : null}
           <p className="text-sm">With perfect foresight the same battery, under the same rules ({presetLabel(result.preset)}), would have earned {usd(best.score)}{best.score > 0 ? `; you made ${Math.round((result.score / best.score) * 100)} percent of it` : ""}. <span className="text-muted">{server}</span></p>
           <p className="mt-2 max-w-3xl text-sm">
             On {level.date} the real-time price at {G.hub} peaked at {level.price[peak].toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/MWh at {clock(level.tz, level.ts_utc[peak])} {G.zone} time and
@@ -672,7 +746,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets }: { levels:
         </div>
       ) : null}
 
-      <div className="mt-6">
+      <div className={`mt-6 ${simple ? "hidden" : ""}`}>
         <h3 className="mb-1 text-base">Leaderboard, {topFor.date}: {presetLabel(topFor.preset)}</h3>
         {top.length ? (
           <ol className="list-decimal pl-6 text-sm">

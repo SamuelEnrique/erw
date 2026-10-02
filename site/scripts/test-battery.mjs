@@ -6,8 +6,8 @@
 // score must equal the dynamic programme's optimum, whose actions must reproduce it. Prints one line per day; exits 1
 // on any mismatch.
 import {
-  DEFAULT_PRESET, DEFAULT_SETTINGS, eventPageFor, explain, FLEET_MW, FLEET_MWH, isPerfect, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS, simulate,
-  validSettings, vppHour,
+  DEFAULT_PRESET, DEFAULT_SETTINGS, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET_MW, FLEET_MWH, isPerfect, optimum, outageDraw, parsePreset, perfectShare,
+  presetLabel, presetOf, rulesOf, SETTINGS, simulate, START_MONEY, validSettings, vppHour,
 } from "../lib/battery.ts";
 import fs from "node:fs";
 
@@ -81,6 +81,10 @@ const presets = [
 for (const [label, s, d] of presets) {
   const r = rulesOf(s, d);
   for (const [name, prices] of Object.entries(days)) {
+    // session 63: on Hard the outage may draw the battery below its reserve (the reserve is for it): the reserve binds
+    // before the outage
+    const o = emergencyOf(prices, r).outage;
+    const upto = (soc) => (o ? soc.slice(0, o.first + 1) : soc);
     let best = -Infinity;
     const seq = new Array(12).fill(0);
     const acts = [1, 0, -1];
@@ -90,21 +94,22 @@ for (const [label, s, d] of presets) {
       for (let i = 0; i < 12; i++) { seq[i] = acts[c % 3]; c = Math.floor(c / 3); }
       const x = simulate(prices, seq, r);
       if (x.score > best) best = x.score;
-      if (code % 997 === 0) lowest = Math.min(lowest, ...x.soc);
+      if (code % 997 === 0) lowest = Math.min(lowest, ...upto(x.soc));
     }
     const dp = optimum(prices, r);
     const replay = simulate(prices, dp.actions, r);
-    const ok = Math.abs(dp.score - best) < 1e-9 && Math.abs(replay.score - dp.score) < 1e-9 && lowest >= r.reserveKwh - 1e-9 && Math.min(...replay.soc) >= r.reserveKwh - 1e-9;
+    const ok = Math.abs(dp.score - best) < 1e-9 && Math.abs(replay.score - dp.score) < 1e-9 && lowest >= r.reserveKwh - 1e-9 && Math.min(...upto(replay.soc)) >= r.reserveKwh - 1e-9;
     if (!ok) bad++;
-    console.log(`${ok ? "ok  " : "FAIL"} ${label}, ${name}: brute force ${best.toFixed(6)}, DP ${dp.score.toFixed(6)}, replayed ${replay.score.toFixed(6)} (wear ${replay.wear.toFixed(4)}), lowest charge ${Math.min(lowest, ...replay.soc).toFixed(3)} of reserve ${r.reserveKwh.toFixed(3)} kWh`);
+    console.log(`${ok ? "ok  " : "FAIL"} ${label}, ${name}: brute force ${best.toFixed(6)}, DP ${dp.score.toFixed(6)}, replayed ${replay.score.toFixed(6)} (wear ${replay.wear.toFixed(4)}), lowest charge before any outage ${Math.min(lowest, ...upto(replay.soc)).toFixed(3)} of reserve ${r.reserveKwh.toFixed(3)} kWh${o ? `; outage ${o.first} to ${o.last}${replay.why ? `, ${replay.why}` : ""}` : ""}`);
   }
 }
-// on Normal with the default battery, v2's rules are v1's: the same score for the same actions
+// on Normal with the default battery the defaults are the rules: the same score for the same actions; session 63: the
+// preset carries the rules' version
 {
   const a = optimum(days.shape).actions;
-  const ok = Math.abs(simulate(days.shape, a).score - simulate(days.shape, a, rulesOf(DEFAULT_SETTINGS, "normal")).score) < 1e-12 && presetOf(DEFAULT_SETTINGS, "normal") === DEFAULT_PRESET && DEFAULT_PRESET === "normal:13.5-5-90";
+  const ok = Math.abs(simulate(days.shape, a).score - simulate(days.shape, a, rulesOf(DEFAULT_SETTINGS, "normal")).score) < 1e-12 && presetOf(DEFAULT_SETTINGS, "normal") === DEFAULT_PRESET && DEFAULT_PRESET === "normal:13.5-5-90-v3";
   if (!ok) bad++;
-  console.log(`${ok ? "ok  " : "FAIL"} Normal with the default battery scores as v1; its preset is ${DEFAULT_PRESET}`);
+  console.log(`${ok ? "ok  " : "FAIL"} Normal with the default battery: its preset is ${DEFAULT_PRESET}`);
 }
 const v2 = [
   ["validSettings(defaults)", validSettings(DEFAULT_SETTINGS), true],
@@ -112,9 +117,13 @@ const v2 = [
   ["validSettings: kw 5.25 is off its 0.5 step", validSettings({ ...DEFAULT_SETTINGS, kw: 5.25 }), false],
   ["validSettings: an extra key", validSettings({ ...DEFAULT_SETTINGS, x: 1 }), false],
   ["validSettings: a string", validSettings({ ...DEFAULT_SETTINGS, deg: "0.11" }), false],
-  ["presetOf(hard)", presetOf(DEFAULT_SETTINGS, "hard"), "hard:13.5-5-90-r20-d0.11"],
-  ["presetLabel(default normal)", presetLabel("normal:13.5-5-90"), "Normal, the default battery"],
-  ["presetLabel(custom hard)", presetLabel("hard:5-2.5-85-r30-d0.2"), "Hard, 5 kWh, 2.5 kW, 85 percent round trip, reserve 30 percent, wear $0.2 per kWh"],
+  ["presetOf(hard)", presetOf(DEFAULT_SETTINGS, "hard"), "hard:13.5-5-90-r20-d0.11-v3"],
+  ["presetLabel(default normal, v3)", presetLabel("normal:13.5-5-90-v3"), "Normal, the default battery"],
+  ["presetLabel(default normal, a v2 board)", presetLabel("normal:13.5-5-90"), "Normal, the default battery (v2 rules)"],
+  ["presetLabel(custom hard)", presetLabel("hard:5-2.5-85-r30-d0.2-v3"), "Hard, 5 kWh, 2.5 kW, 85 percent round trip, reserve 30 percent, wear $0.2 per kWh"],
+  ["parsePreset(v3) round trip", JSON.stringify(parsePreset("hard:13.5-5-90-r20-d0.11-v3")?.v3), "true"],
+  ["parsePreset(a v2 board) is readable", JSON.stringify(parsePreset("normal:13.5-5-90")?.v3), "false"],
+  ["parsePreset: v3 twice is refused", parsePreset("normal:13.5-5-90-v3-v3"), null],
   ["the degradation default: 721 x 25 / 158,000 rounds to 0.11", Math.round((721 * 25) / 158000 * 100) / 100, SETTINGS.deg.def],
 ];
 for (const [name, got, want] of v2) {
@@ -148,6 +157,41 @@ for (const l of levels) {
     if (!ok) bad++;
     console.log(`${ok ? "ok  " : "FAIL"} ${l.date} on ${d}: the optimum ${o.score.toFixed(4)} USD in ${ms.toFixed(0)} ms`);
   }
+}
+// session 63: game v3. Money: a play starts with $5 and ends in the interval it falls below $0. On Hard, the emergency
+// spikes the day's dearest hour toward the cap and then cuts the grid for up to two hours; the house draws on the battery
+// and the lights go out when it cannot. The brute force above already ran every sequence under these rules on Hard.
+{
+  const dear = new Array(12).fill(2000);
+  const all = new Array(12).fill(1);
+  const x = simulate(dear, all);
+  // each interval buys 1.25 kWh at USD 2/kWh, USD 2.50: $5 is $0 after two intervals and below it in the third
+  const ok = START_MONEY === 5 && x.why === "bankrupt" && x.end === 2 && Math.abs(x.money + 2.5) < 1e-9;
+  if (!ok) bad++;
+  console.log(`${ok ? "ok  " : "FAIL"} charging at USD 2,000/MWh runs out of money in interval ${x.end} (money ${x.money.toFixed(2)}, ${x.why})`);
+  const o = optimum(dear);
+  const ok2 = o.score >= 0 && simulate(dear, o.actions).why !== "bankrupt";
+  if (!ok2) bad++;
+  console.log(`${ok2 ? "ok  " : "FAIL"} the optimum never goes bankrupt (score ${o.score.toFixed(4)})`);
+}
+{
+  const r = rulesOf({ ...DEFAULT_SETTINGS, kwh: 5, kw: 5, reserve: 0 }, "hard");
+  const day = days.spike;  // its dearest hour is intervals 4 to 7, so the outage has room after it
+  const em = emergencyOf(day, r);
+  const v = vppHour(day);
+  const spiked = em.prices.slice(v.first, v.last + 1).map((p, k) => Math.abs(p - (day[v.first + k] + (EMERGENCY.cap - day[v.first + k]) * EMERGENCY.ramp[k])) < 1e-9);
+  const okSpike = spiked.every(Boolean) && em.outage.first === v.last + 1 && em.outage.last === 11;
+  if (!okSpike) bad++;
+  console.log(`${okSpike ? "ok  " : "FAIL"} Hard's spike: the dearest hour (${v.first} to ${v.last}) climbs toward ${EMERGENCY.cap}; the outage runs ${em.outage.first} to ${em.outage.last}`);
+  const sellAll = day.map((_, i) => (i >= v.first && i <= v.last ? -1 : 0));
+  const x = simulate(day, sellAll, r);
+  const ok = x.why === "lights_out" && x.end === em.outage.first && Math.abs(x.outageNeedKwh - (em.outage.last - em.outage.first + 1) * outageDraw(r)) < 1e-12;
+  if (!ok) bad++;
+  console.log(`${ok ? "ok  " : "FAIL"} selling everything into the spike: lights out at interval ${x.end}; the outage needed ${x.outageNeedKwh.toFixed(3)} kWh, the battery held ${x.outageStartKwh?.toFixed(3)}`);
+  const ignored = simulate(day, day.map((_, i) => (i > v.last ? 1 : 0)), rulesOf(DEFAULT_SETTINGS, "hard"));
+  const ok3 = ignored.cash === simulate(day, day.map(() => 0), rulesOf(DEFAULT_SETTINGS, "hard")).cash;
+  if (!ok3) bad++;
+  console.log(`${ok3 ? "ok  " : "FAIL"} in the outage the grid is down: charge actions buy nothing`);
 }
 console.log(bad ? `${bad} FAILED` : "every toy day: the DP optimum equals brute force");
 process.exit(bad ? 1 : 0);

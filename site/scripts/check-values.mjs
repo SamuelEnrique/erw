@@ -32,7 +32,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 51: the seller's tab, its defaults and three other assets
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=miso&asset=wind",
   // session 38: today's level's price range
-  "/play/battery",
+  "/play/battery", "/play/battery?more=1",  // session 63: the simple page and the full game
   // session 39: three more events
   "/events", "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",
   // session 58: CAISO's September 2022 heat

@@ -5,7 +5,7 @@ import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";
 import { Section } from "@/components/Section";
 import { shown } from "@/lib/format";
-import { FLEET, FLEET_MW, FLEET_MWH } from "@/lib/battery";
+import { EMERGENCY, FLEET, FLEET_MW, FLEET_MWH, START_MONEY } from "@/lib/battery";
 import { storageUnits, type StorageUnit } from "@/lib/data";
 import { leaderboard, presetsPlayed, type PresetCount, type ScoreRow } from "@/lib/game";
 import { FAMOUS, todayLevel, TZ, type Level } from "@/lib/levels";
@@ -54,12 +54,25 @@ function RealFleet({ units }: { units: StorageUnit[] }) {
   );
 }
 
-export default async function Battery() {
+export default async function Battery({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const more = (await searchParams).more === "1";
   const today = await attempt(() => todayLevel(600));
   const t: Level | null = today.ok ? today.data : null;
   // session 56: each level's grid and time zone (today's level and the session 38 days are ERCOT, Central time)
   const levels: GameLevel[] = [...(t ? [t] : []), ...FAMOUS].map(({ slug, date, title, why, ts_utc, price, grid, tz, rule }) =>
     ({ slug, date, title, why, ts_utc, price, grid: grid ?? "ERCOT", tz: tz ?? TZ, ...(rule ? { rule } : {}) }));
+  // Session 63: the default page is the simple one, for a class: one sentence, two big buttons, the battery and the
+  // price. The settings, the notes, Hard's emergency and the leaderboard are behind "more" (?more=1), the full game.
+  if (!more) {
+    return (
+      <>
+        <h1 className="mb-3 text-3xl">The home battery game</h1>
+        <Game simple levels={levels} top={[]} presets={[]} />
+        <p className="mt-6 text-sm"><Link href="/play/battery?more=1">More: the rules, the battery&apos;s settings, Hard&apos;s grid emergency, the leaderboard and the notes</Link></p>
+        <p className="mt-1 text-xs text-muted">Real prices: ERCOT&apos;s real-time hub average (on the California days, CAISO SP15). The battery and the home are made up, and the $5 is a game rule.</p>
+      </>
+    );
+  }
   const top = t ? await attempt(() => leaderboard(t.date)) : null;
   const played = t ? await attempt(() => presetsPlayed(t.date)) : null;  // session 50: the presets played today
   const presets: PresetCount[] = played && played.ok ? played.data : [];
@@ -97,6 +110,18 @@ export default async function Battery() {
       )}
       <Section title="Play">
         <Game levels={levels} top={first} presets={presets} />
+      </Section>
+      <Section title="The game's rules (version 3)">
+        <div className="max-w-3xl space-y-2 text-sm">
+          <p>Each of these is a game rule, not a market rule. The prices stay real; on Hard, the emergency changes them, and the page says so while it lasts.</p>
+          <ul className="list-disc space-y-1 pl-5">
+            <li><strong>Money:</strong> every play starts with ${START_MONEY}. Buying power costs money and selling earns it; if the money falls below $0, the game ends there. The score is what you earned (the money less the ${START_MONEY}).</li>
+            <li><strong>Hard&apos;s grid emergency:</strong> in the day&apos;s dearest hour the price climbs toward the cap: each fifteen minutes {EMERGENCY.ramp.map((r) => `${Math.round(r * 100)}`).join(", ")} percent of the way from the real price to USD {EMERGENCY.cap.toLocaleString("en-US")}/MWh (ERCOT&apos;s offer cap since 2023, used for every grid). Then the grid goes down for two hours: nothing can be bought or sold, and the house draws {EMERGENCY.houseKw} kW from the battery, its backup reserve included (that is what the reserve is for).</li>
+            <li><strong>Lights out:</strong> if the battery cannot carry the house through the outage, the lights go out and the round ends; the score so far stands, and the game says how much charge the outage needed.</li>
+            <li><strong>The perfect battery</strong> plays by the same rules: it never runs out of money, and it keeps enough charge for the outage when that pays.</li>
+            <li><strong>The leaderboard</strong> ranks version 3 plays only against version 3 plays with the same difficulty and battery; a board from before says &quot;v2 rules&quot;.</li>
+          </ul>
+        </div>
       </Section>
       <Section title="The fleet call: how it mirrors ERCOT's ADER pilot">
         <div className="max-w-3xl space-y-2 text-sm">
