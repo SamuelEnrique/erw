@@ -330,7 +330,7 @@ class CapacityGrammar(unittest.TestCase):
         self.assertEqual(cap.MONEY.match("30.00").group(1), "30.00")
         self.assertIsNone(cap.MONEY.match("$405.31-"))  # the external zones' range is not one price
         self.assertIsNone(cap.MONEY.match("19,568.4"))
-        self.assertEqual(cap.ZONE_LABEL.match("ERZ†").group(1), "ERZ")  # a footnote mark on the label
+        self.assertEqual(cap.ZONE_LABEL.match("ERZ" + chr(0x2020)).group(1), "ERZ")  # a footnote mark on the label
         self.assertEqual(cap.ZONE_LABEL.match("Z10").group(1), "Z10")
         self.assertIsNone(cap.ZONE_LABEL.match("ERZ:"[:3] + "s"))
         self.assertIsNone(cap.ZONE_LABEL.match("Z11"))
@@ -597,7 +597,7 @@ class Registered(unittest.TestCase):
                 text = f.read()
             for name in (cap.NAME, ercot.NAME, caiso.NAME):
                 self.assertIn(name, text, f"{name} not in {path}")
-            self.assertNotIn("—", text, path)
+            self.assertNotIn(chr(0x2014), text, path)  # no em dash
 
     def test_the_capacity_table_is_internal_and_not_live(self):
         import load
