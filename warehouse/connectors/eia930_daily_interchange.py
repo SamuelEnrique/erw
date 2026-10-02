@@ -129,7 +129,7 @@ def main():
             raise RuntimeError("a pair-day appears twice")
         s = pd.DataFrame({
             "entity": "eia930:" + x["fromba"] + "-" + x["toba"], "variable": "interchange_mwh",
-            "ts_utc": x["period"] + "T00:00:00Z", "value": x["value_n"].map(lambda v: repr(float(v))), "unit": "MWh", "freq": "P1D",
+            "ts_utc": x["period"] + "T00:00:00Z", "value": x["value_n"].astype(float), "unit": "MWh", "freq": "P1D",
             "geo": "", "market": "", "node": "", "source": SOURCE, "source_url": x["_url"], "retrieved_at": x["_retrieved"],
             "vintage": "", "ba": x["fromba"].str.lower(), "x_to_ba": x["toba"].str.lower(), "x_timezone": TZ})
         cols = ip.SERIES_COLS + ["ba", "x_to_ba", "x_timezone"]

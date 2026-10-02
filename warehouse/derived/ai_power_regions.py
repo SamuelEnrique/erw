@@ -26,11 +26,13 @@ measures, each from a warehouse table (docs/reports/ai_gigawatts_methods.md is t
              lbnl_median_years_to_cod  median years from request to operation, requests that came online 2018 to 2025;
              lbnl_completion_pct     share of the requests made 2000 to 2019 that came online;
              queue_active_gw         active MW in the ISO's own queue as of late September 2026 (<iso>_interconnection_queue)
-  imports    net_import_share_pct    net imports over demand for the year (eia930_daily_interchange: minus the BA's summed
-                                     interchange with every neighbour; demand from the EIA-930 workbook extract);
-             net_import_days_pct     share of days the BA was a net importer; peak_import_share_pct the mean net import
-                                     share on the year's ten highest-demand days; ng_check_import_share_pct the same year's
-                                     demand less net generation over demand, EIA's own balance, as a check on the pair sums
+  imports    net_import_share_pct    the year's demand less net generation over demand, EIA's own balance (the EIA-930 workbook
+                                     extract, complete hours);
+             pair_import_share_pct, net_import_days_pct, peak_import_share_pct   from the pair sums (eia930_daily_interchange,
+                                     minus the BA's summed interchange with every neighbour) over complete days: the pair-sum
+                                     share, the share of days the BA was a net importer, and the mean net import share on the
+                                     ten highest-demand complete days; interchange_days the complete days, screened_pair_days
+                                     the pair-days left out as implausible
 """
 
 import datetime as dt
@@ -199,27 +201,53 @@ def extract(ba):
     return x, ex
 
 
+def screen(it):
+    """Pair-days left out as implausible: further than 10 median absolute deviations (at least 500 MWh) from the pair's own
+    median over its whole history (2019 on). EIA's daily interchange holds days no tie can carry (SWPP-MISO 2,159,056 MWh on
+    2026-07-21, more than SPP's whole daily demand)."""
+    g = it.groupby("entity")["v"]
+    med = g.transform("median")
+    mad = (it["v"] - med).abs().groupby(it["entity"]).transform("median")
+    return (it["v"] - med).abs() > 10 * np.maximum(mad, 500)
+
+
 def imports():
+    """The headline share is EIA's own balance, demand less net generation over demand, from the BA's complete hours (the
+    workbook extract). The pair sums (eia930_daily_interchange) give the per-day measures, over complete days only: a day
+    counts when every regular neighbour (a pair present on at least half the year's days) reported it and none of its
+    pair-days was screened out. EIA's daily interchange is missing for about 50 days of the year in every region, which is
+    why the pairs are not the headline."""
     it = read("eia930_daily_interchange", ["entity", "ts_utc", "value", "ba"])
-    it = it[in_window(it["ts_utc"])]
     it["v"] = pd.to_numeric(it["value"])
+    bad = screen(it)
+    it = it.assign(bad=bad)[in_window(it["ts_utc"])]
     out = {}
     for r, (ba, *_rest) in REGIONS.items():
-        g = it[it["ba"] == ba.lower()]
-        daily_export = g.groupby(g["ts_utc"].str[:10])["v"].sum()
+        g = it[it["ba"] == ba.lower()].assign(day=lambda z: z["ts_utc"].str[:10])
+        days_all = g["day"].nunique()
+        regular = g.groupby("entity")["day"].nunique()
+        regular = set(regular[regular >= 0.5 * days_all].index)
+        ok_days = []
+        for day, gd in g.groupby("day"):
+            have = set(gd.loc[~gd["bad"], "entity"])
+            if regular <= have and not gd["bad"].any():
+                ok_days.append(day)
+        gd = g[g["day"].isin(ok_days)]
+        daily_export = gd.groupby("day")["v"].sum()
         x, ex = extract(ba)
         d = pd.to_numeric(x["demand_mwh"], errors="coerce")
         ng = pd.to_numeric(x["net_generation_mwh"], errors="coerce")
         ok = d.notna() & ng.notna()
-        demand = float(d.sum())
-        # the extract's hours are UTC; the interchange days are Eastern: the daily share uses the UTC day's demand
         dd = d.groupby(pd.to_datetime(x["ts_utc"], utc=True).dt.strftime("%Y-%m-%d")).sum()
-        day_share = (-daily_export / dd.reindex(daily_export.index)).dropna()
-        top = dd.sort_values(ascending=False).index[:10]
-        out[r] = dict(net_import_share_pct=float(-daily_export.sum() / demand * 100), net_import_days_pct=float((daily_export < 0).mean() * 100),
+        dd = dd.reindex(daily_export.index)
+        day_share = (-daily_export / dd).dropna()
+        top = dd.dropna().sort_values(ascending=False).index[:10]
+        out[r] = dict(net_import_share_pct=float((d[ok].sum() - ng[ok].sum()) / d[ok].sum() * 100),
+                      pair_import_share_pct=float(-daily_export.sum() / dd.sum() * 100),
+                      net_import_days_pct=float((daily_export < 0).mean() * 100),
                       peak_import_share_pct=float(day_share.reindex(top).mean() * 100),
-                      ng_check_import_share_pct=float((d[ok].sum() - ng[ok].sum()) / d[ok].sum() * 100),
-                      interchange_days=float(len(daily_export)), demand_twh=demand / 1e6)
+                      interchange_days=float(len(daily_export)), interchange_days_reported=float(days_all),
+                      screened_pair_days=float(g["bad"].sum()), demand_twh=float(d[ok].sum()) / 1e6)
     return out
 
 
@@ -276,8 +304,9 @@ def main():
             "wholesale energy only). Carbon: carbon_intensity_kg_mwh, flat_1gw_co2_t. Stress: scarcity_hours_200, scarcity_hours_1000, "
             "max_rt_hour_usd_mwh, emergency_days (CAISO only), event_largest_effect_pct and event_largest_is_<event> (1: which event). Connection: lbnl_active_mw, lbnl_active_requests, "
             "lbnl_median_years_to_cod, lbnl_completion_pct, queue_active_mw. Imports: net_import_share_pct, net_import_days_pct, "
-            "peak_import_share_pct, ng_check_import_share_pct. Counts behind them: rt_hours_priced, rt_hours_seen, carbon_days, "
-            "lbnl_cod_sample, lbnl_cohort_requests, interchange_days, demand_mwh.",
+            "peak_import_share_pct, pair_import_share_pct (net_import_share_pct is EIA's balance, demand less net generation; the others are "
+            "from the pair sums over complete days). Counts behind them: rt_hours_priced, rt_hours_seen, carbon_days, lbnl_cod_sample, "
+            "lbnl_cohort_requests, interchange_days, interchange_days_reported, screened_pair_days, demand_mwh.",
             f"The year: {WINDOW[0]} to {WINDOW[1]}. PJM's prices are licensed for internal use and not held: PJM has no cost or price-stress "
             "measure here.",
             f"Retrieved: {run_id} (UTC) by warehouse/derived/ai_power_regions.py",

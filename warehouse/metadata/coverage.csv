@@ -1,4 +1,5 @@
 table,iso,market,n_nodes,interval,ts_min,ts_max,n_rows,source_report,last_run,validator_status,license,sector,derived,tier
+ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,2026-09-30T00:00:00Z,187,erw:ai_power_regions,2026-10-02T09:42:46Z,pass,public,power;carbon,yes,derived
 api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-02T00:23:37Z,477,1 outlets,2026-09-30T05:05:41Z,pass,internal,platform,no,derived
 caiso_battery_storage,CAISO,,1,PT5M,2025-08-24T07:00:00Z,2026-10-01T06:55:00Z,346464,caiso:todays_outlook_storage,2026-09-29T01:09:43Z,pass,public,power,no,source
 caiso_curtailment_daily,CAISO,,1,P1D,2014-05-01T00:00:00Z,2026-09-30T00:00:00Z,24958,caiso:daily_renewable_report;caiso:production_curtailments,2026-09-29T01:09:05Z,pass,public,power,no,source
@@ -27,6 +28,7 @@ eia930_all_generation,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2026-08
 eia930_all_history,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,PT1H,2018-01-01T05:00:00Z,2018-07-01T06:00:00Z,60084,eia:gridmonitor/sixMonthFiles,2026-10-01T03:50:16Z,pass,public,power,no,source
 eia930_all_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,341,PT1H,2026-09-13T00:00:00Z,2026-09-28T23:00:00Z,127560,eia:electricity/rto/interchange-data,2026-10-01T03:50:59Z,pass,public,power,no,source
 eia930_all_storage,ERCOT;ISO-NE;MISO;SPP;US48,,5,PT1H,2024-11-01T00:00:00Z,2026-09-30T23:00:00Z,70656,eia:electricity/rto/fuel-type-data,2026-09-29T12:35:11Z,pass,public,power,no,source
+eia930_daily_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,390,P1D,2019-01-01T00:00:00Z,2026-09-30T00:00:00Z,945130,eia930:daily_interchange,2026-10-02T09:39:32Z,pass,public,power,no,source
 eia930_generation_latest,GENERATION,,8,PT1H,2026-09-29T23:00:00Z,2026-10-01T05:00:00Z,2410,eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data,2026-09-29T00:57:39Z,pass,public,power,no,source
 eia_crude_first_purchase_prices,none,,2,P1M,1977-07-01T00:00:00Z,2026-06-01T00:00:00Z,858,eia:petroleum/pri/dfp1;eia:petroleum/pri/dfp2,2026-09-29T00:59:32Z,pass,public,oil,no,source
 eia_crude_imports_by_country,none,,82,P1M,1920-01-01T00:00:00Z,2026-06-01T00:00:00Z,22615,eia:petroleum/move/impcus,2026-09-29T00:59:32Z,pass,public,oil,no,source
@@ -68,6 +70,7 @@ isone_dam_zone_prices,ISO-NE,isone_dam,9,PT1H,2026-08-26T04:00:00Z,2026-10-03T03
 isone_interconnection_queue,ISO-NE,,1751,snapshot,2026-09-30T23:33:26Z,2026-09-30T23:33:26Z,1751,isone:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 isone_rtm_zone_prices,ISO-NE,isone_rtm,9,PT15M,2026-08-27T04:00:00Z,2026-10-01T03:45:00Z,25056,isone:rt_lmp_5min,2026-09-29T00:54:32Z,pass,public,power,no,source
 isone_rtm_zone_prices_hourly,ISO-NE,isone_rtm,9,PT1H,2026-08-26T04:00:00Z,2026-10-01T03:00:00Z,7776,isone:rt_lmp_hourly_final,2026-09-29T00:54:32Z,pass,public,power,no,source
+lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-09-01T00:00:00Z,5984,erw:merchant_revenue,2026-10-01T11:07:08Z,pass,public,power;gas,yes,derived
 miso_interconnection_queue,MISO,,3881,snapshot,2026-09-30T23:33:22Z,2026-09-30T23:33:22Z,3881,miso:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 news_index,none,,70,event,2025-01-01T08:00:00Z,2026-10-01T23:32:51Z,9944,70 outlets,2026-10-02T00:08:26Z,pass,public,news,no,model_extracted
