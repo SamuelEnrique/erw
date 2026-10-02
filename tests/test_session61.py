@@ -104,6 +104,16 @@ class SkipExits(unittest.TestCase):
                 lock.main(["acquire", "--task", "t"])
             self.assertIn("held", str(c.exception.code))  # by hand: the message, a failure
 
+    def test_lock_run_keeps_the_whole_command(self):
+        """The weekly vacuum's command reached lock.run as ['warehouse/supabase/vacuum.py'] (run 36986828541)."""
+        import lock
+        seen = {}
+        with mock.patch.object(lock, "run", side_effect=lambda task, cmd, m, w: seen.update(cmd=cmd, task=task) or 0):
+            with self.assertRaises(SystemExit):
+                lock.main(["run", "--task", "weekly vacuum 1", "--minutes", "60", "--wait", "60", "--", "python", "warehouse/supabase/vacuum.py", "--x"])
+        self.assertEqual(seen["cmd"], ["python", "warehouse/supabase/vacuum.py", "--x"])
+        self.assertEqual(seen["task"], "weekly vacuum 1")
+
     def test_network_skip_code(self):
         sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
         import network_hourly as nh

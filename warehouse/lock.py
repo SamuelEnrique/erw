@@ -189,7 +189,14 @@ def main(argv=None):
     ap.add_argument("--wait", type=int, default=0, help="minutes to wait for another holder")
     ap.add_argument("--name", help="role: this machine's name (default its host name)")
     ap.add_argument("--github-env", action="store_true", help="acquire: append ERW_LOCK_TOKEN to $GITHUB_ENV")
-    a, rest = ap.parse_known_args(argv)
+    argv = list(sys.argv[1:] if argv is None else argv)
+    # session 61: split off the command at the first "--" before parsing. argparse took "--" as its own end of options and
+    # the positional value took "python", so run tried to execute "warehouse/supabase/vacuum.py" itself (the weekly
+    # vacuum, run 36986828541: PermissionError). Everything after "--" is the command, untouched.
+    rest = argv[argv.index("--") + 1:] if "--" in argv else []
+    argv = argv[:argv.index("--")] if "--" in argv else argv
+    a, extra = ap.parse_known_args(argv)
+    rest = rest or extra
     if a.action == "role":
         print(json.dumps(set_role(a.value, a.name) if a.value else machine()))
     elif a.action == "acquire":
@@ -212,7 +219,7 @@ def main(argv=None):
         s = status()
         print(json.dumps(s, default=str) if s else "the data lock is free")
     elif a.action == "run":
-        cmd = rest[1:] if rest[:1] == ["--"] else rest
+        cmd = rest
         if not cmd:
             raise SystemExit("run: the command after --")
         try:
