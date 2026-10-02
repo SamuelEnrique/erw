@@ -320,7 +320,7 @@ def main():
         if os.path.exists(path):
             os.remove(path)  # rewritten whole each run: every estimate comes from this run
         ip.write_csv(s, NAME, header, log, cols=COLS, key=["entity", "variable", "ts_utc", "event"])
-        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW)",
+        ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
                                 report="Event study estimates (warehouse/derived/event_study.py)", report_url=METHOD_URL,
                                 document_list="", license="public", tables=[NAME])])
         status["detail"] = f"{len(s)} estimates for {s.groupby(['event', 'entity']).ngroups} event-grid pairs"
