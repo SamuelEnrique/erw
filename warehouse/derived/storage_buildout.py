@@ -141,7 +141,7 @@ def build(op, pl, rt, log=lambda m: None):
     if (u["first"] > last).any():
         raise RuntimeError("a unit's first operating month is after the inventory month")
     months = list(range(first, last + 1))
-    out = []
+    out, held_at = [], {}
     add = lambda e, v, m, val, unit: out.append((e, v, month_of(m), val, unit))  # noqa: E731
     for m in months:
         live = u[(u["first"] <= m) & (u["end"].isna() | (u["end"] > m))]
@@ -153,6 +153,10 @@ def build(op, pl, rt, log=lambda m: None):
             mwh, mw_held, solar = int(held["mwh"].sum()), int(held["mw"].sum()), int(se["mw"].sum())
             add(e, "battery_operating_mw", m, mw / SCALE, "MW")
             add(e, "battery_operating_mwh", m, mwh / SCALE, "MWh")
+            held_at[(e, m)] = (mw, mwh)
+            if (e, m - 12) in held_at:  # the change over twelve months, net of retirements; from the 13th month written
+                add(e, "battery_operating_mw_net_added_12m", m, (mw - held_at[(e, m - 12)][0]) / SCALE, "MW")
+                add(e, "battery_operating_mwh_net_added_12m", m, (mwh - held_at[(e, m - 12)][1]) / SCALE, "MWh")
             add(e, "battery_operating_units", m, float(len(be)), "count")
             for k in BUCKETS + [NOT_REPORTED]:
                 g = be[be["bucket"] == k]
@@ -269,7 +273,9 @@ def main(argv=None):
             "battery_operating_mw_energy_not_reported (units EIA gives no energy for: in no duration bucket, MWh "
             "never estimated); solar_operating_mw (photovoltaic and solar thermal); battery_operating_mwh_per_mw "
             "(average duration: MWh over the MW of the units that report energy) and battery_mwh_per_solar_mw, "
-            "omitted where the denominator is zero. At the inventory month only: battery_planned_mw, "
+            "omitted where the denominator is zero; battery_operating_mw_net_added_12m and "
+            "battery_operating_mwh_net_added_12m (the month's value less the value twelve months before, so net of "
+            "retirements; from the thirteenth month). At the inventory month only: battery_planned_mw, "
             "battery_planned_units, battery_planned_mw_under_construction, battery_planned_mw_online_<year> (the year "
             "of EIA's planned operation date). No planned MWh: EIA-860M's Planned sheet has no energy column.",
             "Grid: the generator's balancing authority code in EIA-860M where it is one of the seven ISOs (CISO, "

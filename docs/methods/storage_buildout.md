@@ -87,6 +87,7 @@ Every month, every entity:
 | `solar_operating_mw` | MW | nameplate power of operating solar |
 | `battery_operating_mwh_per_mw` | MWh/MW | average duration in hours: MWh over the MW of the units that report energy |
 | `battery_mwh_per_solar_mw` | MWh/MW | battery MWh over solar MW: the hours the batteries could carry the solar fleet's nameplate |
+| `battery_operating_mw_net_added_12m`, `battery_operating_mwh_net_added_12m` | MW, MWh | the month's value less the value twelve months before: additions net of retirements. From January 2016, the thirteenth month |
 
 The two ratios are rounded to four decimals and omitted, never written as zero, where their denominator is zero.
 
@@ -107,7 +108,7 @@ EIA-860M's Planned sheet has no energy column (checked in the saved August 2026 
 
 ## Reading the numbers
 
-- **Added in twelve months** on the page is the newest month's MW less the MW twelve months before: additions net of retirements.
+- **Added in twelve months** is the newest month's value less the value twelve months before: additions net of retirements. It is a variable of the table, so the page computes nothing.
 - **Planned dates** are developers' own estimates as reported to EIA. They slip, and some planned units are never built.
 - **The solar ratio** compares energy with power: 1.0 means the grid's batteries hold one hour of its solar fleet's nameplate output. It says nothing about how the batteries are used or whether they sit beside the solar.
 - **PJM is shown.** These are EIA's public generator data, not PJM's prices, so the table is public.

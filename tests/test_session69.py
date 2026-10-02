@@ -29,6 +29,7 @@ FIXTURE = os.path.join(ROOT, "tests", "fixtures", "session69", "storage_buildout
 COLS = ["entity_id", "vintage", "source", "source_url", "balancing_authority", "technology_group", "prime_mover",
         "nameplate_mw", "status", "operating_year", "operating_month", "retirement_date", "planned_operation_date",
         "energy_capacity_mwh"]
+NET = ["battery_operating_mw_net_added_12m", "battery_operating_mwh_net_added_12m"]
 SUMS = (["battery_operating_mw", "battery_operating_mwh", "battery_operating_units", "solar_operating_mw"]
         + [f"battery_operating_mw_{b}" for b in sb.BUCKETS + [sb.NOT_REPORTED]]
         + [f"battery_operating_mwh_{b}" for b in sb.BUCKETS])
@@ -145,6 +146,18 @@ class Rules(unittest.TestCase):
         self.assertEqual(self.v("iso:ercot", "battery_operating_mw", "2025-06"), 30.0)
         self.assertEqual(self.v("iso:ercot", "solar_operating_mw", "2015-01"), 100.0)  # operating before the first month
 
+    def test_net_added_over_twelve_months(self):
+        self.assertNotIn(("iso:ercot", "battery_operating_mw_net_added_12m", "2015-12"), self.t)  # no month twelve before
+        self.assertEqual(self.v("iso:ercot", "battery_operating_mw_net_added_12m", "2016-01"), 0.0)
+        self.assertEqual(self.v("iso:ercot", "battery_operating_mw_net_added_12m", "2024-12"), 20.0)
+        self.assertEqual(self.v("iso:ercot", "battery_operating_mwh_net_added_12m", "2025-06"), 40.0)
+        self.assertEqual(self.v("iso:pjm", "battery_operating_mw_net_added_12m", "2025-07"), -5.0)   # the retirement
+        for m in self.months[12:]:
+            for e in sb.ENTITIES:
+                prev = f"{int(m[:4]) - 1}{m[4:]}"
+                self.assertAlmostEqual(self.v(e, "battery_operating_mw_net_added_12m", m),
+                                       self.v(e, "battery_operating_mw", m) - self.v(e, "battery_operating_mw", prev), places=6)
+
     def test_ratios_are_omitted_where_the_denominator_is_zero(self):
         self.assertNotIn(("iso:pjm", "battery_operating_mwh_per_mw", "2026-08"), self.t)   # no battery
         self.assertNotIn(("iso:caiso", "battery_mwh_per_solar_mw", "2026-08"), self.t)     # no solar
@@ -238,6 +251,16 @@ class RealSums(unittest.TestCase):
                 self.assertAlmostEqual(mwh, t[(e, "battery_operating_mwh", m)], places=3, msg=f"{e} {m}")
             for var in SUMS:
                 self.assertAlmostEqual(sum(t[(e, var, m)] for e in sb.REGIONS), t[(sb.TOTAL, var, m)], places=3, msg=f"{var} {m}")
+        for var in NET:  # the net additions are sums too, and each is its month less the month twelve before
+            for (e, v, m), val in list(t.items()):
+                if v != var:
+                    continue
+                base = var.replace("_net_added_12m", "")
+                prev = f"{int(m[:4]) - 1}{m[4:]}"
+                if (e, base, prev) in t:
+                    self.assertAlmostEqual(val, t[(e, base, m)] - t[(e, base, prev)], places=3, msg=f"{e} {var} {m}")
+                if e == sb.TOTAL:
+                    self.assertAlmostEqual(sum(t[(r, var, m)] for r in sb.REGIONS), val, places=3, msg=f"{var} {m}")
         planned = sorted({k[1] for k in t if k[1].startswith("battery_planned")})
         self.assertIn("battery_planned_mw", planned)
         for var in planned:
