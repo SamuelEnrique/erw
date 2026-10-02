@@ -85,11 +85,20 @@ One row, `data`, of the Supabase table `erw_locks` (migration 016, functions `er
 unless renewed, so a machine that closes or crashes cannot hold it forever.
 
 ```bash
-python warehouse/lock.py acquire --task "backfill x" --minutes 120 --wait 30   # prints nothing secret; token in .erw/lock.json
+python warehouse/lock.py acquire --task "backfill x" --minutes 120 --wait 30   # prints nothing secret; token in .erw/, per session
 python warehouse/lock.py run --task "daily" -- bash warehouse/run_daily.sh      # take, renew every 10 minutes, run, release
 python warehouse/lock.py release
 python warehouse/lock.py status
 ```
+
+**The holder is the session, not the machine (session 65).** A session's identity is `ERW_SESSION`, else Claude Code's
+`CLAUDE_CODE_SESSION_ID`, else the GitHub run id; a plain terminal has none and counts as the machine's one terminal. The
+holder recorded in `erw_locks` is `<machine>/<first 8 characters of the session>`, and the token is kept in
+`.erw/lock.<session>.json`, which only that session reads (`ERW_LOCK_TOKEN` in the environment still wins, so a worker
+passes its token to the task it starts). Two sessions on one machine therefore cannot both hold the lock: the second
+finds it held by the first, by name, and its writers refuse. Before session 65 the token sat in one file per machine,
+`.erw/lock.json`, which every process on the machine read: while one session held the lock, any other session on that
+machine passed `require()` with the same token, and `release` in either gave it up for both.
 
 Every data writer calls `lock.require()` and refuses without the lock: the connectors' writer (`iso_prices.write_csv`,
 `write_snapshot`, so every connector), the Supabase loader (`load.py`, except `--dry-run`), the Redivis uploader

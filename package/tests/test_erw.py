@@ -179,7 +179,9 @@ def test_filter_by_iso_market_variable_node_and_time():
         assert set(ercot_prices) <= set(got) and set(got) - set(ercot_prices) <= derived
     nyc = held(iso=["ERCOT", "NYISO"], node="N.Y.C.")
     want = set(cov.loc[has("market", lambda p: p.startswith("nyiso_")), "table"])
-    assert want <= set(nyc) and set(nyc) - want <= derived
+    # session 65: as for ERCOT above, a derived table may hold only a summary of the hub (event_window_daily since the
+    # session 64 events): every source price table must hold the zone
+    assert want - derived <= set(nyc) and set(nyc) - want <= derived
     eia_ciso = sorted(t for t in ("eia930_all_demand", "eia930_all_generation") if t in TABLES)  # session 29
     got = set(held(node="eia930:CISO"))  # session 29: also the snapshot of every BA's latest hours
     # session 32: the CO2 estimates and the carbon intensity tables name each BA too
@@ -335,6 +337,9 @@ def test_license_column_and_filter():
         srcs, header = _sources_and_header(t)  # session 33: a large table by partition
         declared = [h.split(":", 1)[1].strip().split(".")[0].split()[0]
                     for h in header if h.startswith("License:")]
+        # session 65: only "public" or "internal" is a declared license, as build_coverage.declared_license reads it
+        # (lbnl_interconnection_queue's header names its license, CC BY 4.0, and is public by its sources)
+        declared = [d for d in declared if d in ("public", "internal")]
         expect = declared[0] if declared else (
             "internal" if any(reg[s] == "internal" for s in srcs) else "public")
         assert cov.set_index("table").loc[t, "license"] == expect, t
