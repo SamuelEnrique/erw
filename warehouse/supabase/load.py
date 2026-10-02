@@ -129,6 +129,41 @@ def live_rule(n):
     return None
 
 
+def coverage_stale(cov, names, out=None):
+    """Session 65: the tables whose coverage row no longer describes the file on this machine, as (table, reason).
+
+    Session 64 ran `build_coverage.py | tail`: the pipe hid the build's failure, coverage.csv stayed as it was, and
+    the loader ran on it. Coverage gives each loaded row its license and the catalogue its counts, so a load on a
+    coverage older than the tables is refused. A table is described when coverage's n_rows is the file's row count
+    and coverage's last_run is the run in the file's own 'Retrieved:' header line (what build_coverage.py reads);
+    comparing contents, not file times, so a table restored from Redivis or the archive still matches."""
+    out = OUT if out is None else out
+    by = {r["table"]: r for r in cov.to_dict("records")}
+    stale = []
+    for n in names:
+        if n not in by:
+            stale.append((n, "not in coverage.csv"))
+            continue
+        import csv
+        run = ""
+        with open(os.path.join(out, n + ".csv"), encoding="utf-8", newline="") as f:
+            pos = f.tell()
+            line = f.readline()
+            while line.startswith("#"):  # the provenance header; comment lines come only before the header row
+                m = re.search(r"Retrieved: (\d{8}T\d{6}Z)", line)
+                if m and not run:
+                    run = dt.datetime.strptime(m.group(1), "%Y%m%dT%H%M%SZ").strftime(TS_FMT)
+                pos = f.tell()
+                line = f.readline()
+            f.seek(pos)
+            rows = sum(1 for _ in csv.reader(f)) - 1  # records, not lines: a quoted field may hold a line break
+        if str(by[n]["n_rows"]) != str(rows):
+            stale.append((n, f"coverage says {by[n]['n_rows']} rows, the file holds {rows}"))
+        elif by[n].get("last_run", "") != run:
+            stale.append((n, f"coverage describes the run {by[n].get('last_run') or 'none'}, the file is from {run or 'none'}"))
+    return stale
+
+
 def select_live():
     """[(table, rule, days)] for every table in warehouse/output the live set includes."""
     names = sorted(os.path.splitext(f)[0] for f in os.listdir(OUT) if f.endswith(".csv"))
@@ -397,6 +432,11 @@ def main(argv=None):
         plan = [p for p in plan if any(re.search(o, p[0]) for o in args.only)]
         if not plan:
             raise SystemExit(f"--only {args.only}: no live-set table matches; nothing loaded")
+    stale = coverage_stale(cov, [p[0] for p in plan])
+    if stale:  # session 65: never load on a coverage older than the tables it describes
+        raise SystemExit("FAILED: coverage.csv is older than the tables it describes; nothing loaded. Run "
+                         "python warehouse/metadata/build_coverage.py (and read its exit code) first.\n"
+                         + "\n".join(f"  {t}: {why}" for t, why in stale))
     print(f"live set: {len(plan)} tables ({sum(r == 'full' for _, r, _ in plan)} whole, "
           f"{sum(r == 'recent' for _, r, _ in plan)} last {LIVE['recent']['days']} days)")
 

@@ -31,6 +31,7 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 4. **Commit after each unit of work** with a clear message. The daily workflow commits and pushes metadata; sessions push only after merging origin/main (session 28: this replaces "do not push unless a human asks", which the workflow never followed).
 5. **Every number traces to its source.** Each output file records, in its header comment and in the run log, the exact source report it came from and when it was retrieved.
 6. **Nothing publishes to Redivis without a human.** Uploads, when they exist, write a draft version only. Releasing a Redivis version is always a human click after reviewing the diff. No scheduled job ever publishes.
+7. **Gate commands are never piped.** The validator, the coverage builder, the tests, the site build and the loader are run so that their own exit code is what the shell sees: no `| tail`, `| head`, `| grep` or `| tee` after them (a pipe returns the last command's status and hides a failure), and the exit code is read before the next step. To keep a long output, redirect it to a file and print the exit code (`cmd > runs/x.out 2>&1; echo "exit=$?"`). Session 64's `build_coverage.py | tail` hid a failed build and the loader ran on stale coverage; since session 65 the loader also refuses to run when `coverage.csv` no longer describes the tables on the machine.
 
 ## Repository layout
 
@@ -58,7 +59,7 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 ```bash
 pip install -r requirements.txt
 bash warehouse/run_daily.sh                               # the full daily sequence, as the workflow runs it
-python warehouse/validate/erw_validate.py warehouse/output/*.csv
+python warehouse/validate/erw_validate.py warehouse/output/*.csv   # a gate: never piped, read its exit code
 python warehouse/supabase/load.py                         # the live set (writes only what changed)
 python warehouse/chat/ask.py "question"                   # ask the warehouse
 cd site && npm install && npm run build && npm start      # the public site

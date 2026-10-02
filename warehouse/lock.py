@@ -17,12 +17,21 @@ lock it refuses to run. Writes into a directory other than warehouse/output (tes
 neither is a test run (python -m unittest, pytest, or ERW_LOCK_EXEMPT=1).
 
     python warehouse/lock.py role data                 # this machine's role (data or code), and its name
-    python warehouse/lock.py acquire --task daily [--minutes 120] [--wait 60]   # prints the token; saved in .erw/lock.json
+    python warehouse/lock.py acquire --task daily [--minutes 120] [--wait 60]   # the token is saved in .erw/, per session
     python warehouse/lock.py run --task daily -- bash warehouse/run_daily.sh    # take, renew every 10 minutes, run, release
     python warehouse/lock.py release
     python warehouse/lock.py status
 
 Needs SUPABASE_URL and SUPABASE_SERVICE_KEY (.env or the environment); never printed.
+
+Session 65: the holder is the session, not the machine. Until then the token was kept in one file per machine,
+.erw/lock.json, and every process on the machine read it: while one session held the lock, any other session on the
+same machine passed require() with the first session's token, `release` in either gave the lock up for both, and
+`status` named only the machine, so neither could tell. Sessions 62, 63 and 64 overlapped on one laptop that way and
+each reported holding the lock. Now a session has an identity (ERW_SESSION, else Claude Code's CLAUDE_CODE_SESSION_ID,
+else the GitHub run id; a plain terminal has none and is "the machine's terminal"), the holder is
+<machine>/<session>, and the token is kept in .erw/lock.<session>.json, which only that session reads. A second
+session on the same machine finds the lock held by the first, by name, and its writers refuse.
 """
 
 import argparse
@@ -41,7 +50,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 STATE = os.path.join(ROOT, ".erw")
 MACHINE = os.path.join(STATE, "machine.json")
-LOCKFILE = os.path.join(STATE, "lock.json")
+LOCKFILE = os.path.join(STATE, "lock.json")  # a plain terminal's token; a session's is lock.<session>.json
 OUTPUT = os.path.normcase(os.path.abspath(os.path.join(ROOT, "warehouse", "output")))
 NAME = "data"
 _checked = {}
@@ -68,6 +77,28 @@ def machine():
     if env("ERW_ROLE"):
         m["role"] = env("ERW_ROLE")
     return m
+
+
+def session():
+    """This session's identity, or "" for a plain terminal: ERW_SESSION, else Claude Code's session id, else the
+    GitHub run. Stable across the many processes one session starts, different between two sessions on one machine."""
+    for name in ("ERW_SESSION", "CLAUDE_CODE_SESSION_ID", "GITHUB_RUN_ID"):
+        v = (os.environ.get(name) or "").strip()
+        if v:
+            return "".join(c for c in v if c.isalnum() or c in "-_")[:36]
+    return ""
+
+
+def holder():
+    """Who holds the lock when this process takes it: <machine>/<session>, or the machine alone for a terminal."""
+    m, s = machine()["name"], session()
+    return f"{m}/{s[:8]}" if s and os.environ.get("GITHUB_ACTIONS") != "true" else m
+
+
+def lockfile():
+    """Where this session keeps its token: its own file, so another session on the machine never reads it."""
+    s = session()
+    return os.path.join(STATE, f"lock.{s}.json") if s else LOCKFILE
 
 
 def set_role(role, name=None):
@@ -107,11 +138,12 @@ def acquire(task, minutes=120, wait=0):
                          "(python warehouse/lock.py role data)")
     deadline = time.time() + wait * 60
     while True:
-        tok = rpc("erw_lock_acquire", p_name=NAME, p_holder=m["name"], p_task=task, p_minutes=minutes)
+        tok = rpc("erw_lock_acquire", p_name=NAME, p_holder=holder(), p_task=task, p_minutes=minutes)
         if tok:
             os.makedirs(STATE, exist_ok=True)
-            json.dump({"token": tok, "holder": m["name"], "task": task, "acquired": dt.datetime.now(dt.timezone.utc).isoformat()},
-                      open(LOCKFILE, "w", encoding="utf-8"), indent=1)
+            json.dump({"token": tok, "holder": holder(), "session": session(), "task": task,
+                       "acquired": dt.datetime.now(dt.timezone.utc).isoformat()},
+                      open(lockfile(), "w", encoding="utf-8"), indent=1)
             os.environ["ERW_LOCK_TOKEN"] = tok
             return tok
         s = status()
@@ -122,9 +154,11 @@ def acquire(task, minutes=120, wait=0):
 
 
 def token():
+    """This session's token: ERW_LOCK_TOKEN (a parent that took the lock passes it on), else this session's own
+    file. Never another session's file (session 65)."""
     t = os.environ.get("ERW_LOCK_TOKEN")
-    if not t and os.path.exists(LOCKFILE):
-        t = json.load(open(LOCKFILE, encoding="utf-8")).get("token")
+    if not t and os.path.exists(lockfile()):
+        t = json.load(open(lockfile(), encoding="utf-8")).get("token")
     return t
 
 
@@ -135,8 +169,9 @@ def renew(tok=None, minutes=120):
 def release(tok=None):
     tok = tok or token()
     ok = bool(rpc("erw_lock_release", p_name=NAME, p_token=tok)) if tok else False
-    if os.path.exists(LOCKFILE) and (not tok or json.load(open(LOCKFILE, encoding="utf-8")).get("token") == tok):
-        os.remove(LOCKFILE)
+    f = lockfile()
+    if os.path.exists(f) and (not tok or json.load(open(f, encoding="utf-8")).get("token") == tok):
+        os.remove(f)
     os.environ.pop("ERW_LOCK_TOKEN", None)
     return ok
 
@@ -150,13 +185,14 @@ def require(path=None, what="this data write"):
         return
     tok = token()
     if not tok:
-        raise SystemExit(f"{what} refuses to run without the data lock (python warehouse/lock.py acquire --task <task>, "
-                         "or run it through: python warehouse/lock.py run --task <task> -- <command>)")
+        raise SystemExit(f"{what} refuses to run without the data lock: this session ({holder()}) does not hold it "
+                         "(python warehouse/lock.py acquire --task <task>, or run it through: python warehouse/lock.py "
+                         "run --task <task> -- <command>; python warehouse/lock.py status names the holder)")
     now = time.time()
     if _checked.get(tok, 0) > now - 300:
         return
     if not rpc("erw_lock_check", p_name=NAME, p_token=tok):
-        raise SystemExit(f"{what} refuses to run: this machine's data lock has expired or was taken by another holder")
+        raise SystemExit(f"{what} refuses to run: this session's data lock has expired or was taken by another holder")
     _checked[tok] = now
 
 
@@ -210,9 +246,9 @@ def main(argv=None):
             raise
         if a.github_env and os.environ.get("GITHUB_ENV"):
             open(os.environ["GITHUB_ENV"], "a", encoding="utf-8").write(f"ERW_LOCK_TOKEN={tok}\n")
-        print(f"data lock taken by {machine()['name']} for {a.task!r}, {a.minutes} minutes")
+        print(f"data lock taken by {holder()} for {a.task!r}, {a.minutes} minutes")
     elif a.action == "release":
-        print("data lock released" if release() else "no data lock held by this machine")
+        print("data lock released" if release() else f"no data lock held by this session ({holder()})")
     elif a.action == "renew":
         print("renewed" if renew(minutes=a.minutes) else "not held")
     elif a.action == "status":
