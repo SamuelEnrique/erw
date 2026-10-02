@@ -1,0 +1,91 @@
+name: code branch
+# Session 59 (docs/machines.md): code work happens on branches named task/<task>. A push to one runs the tests and the
+# site's checks; when they pass, the branch is merged into main through a pull request, which this workflow opens and
+# merges itself (its own GITHUB_TOKEN: contents and pull requests write), so no machine needs a token that can do it.
+# If the repository does not let Actions create pull requests (Settings, Actions, General, Workflow permissions, "Allow
+# GitHub Actions to create and approve pull requests"), the branch is merged into main directly, with a merge commit,
+# after the same checks. Data work does not come here: data tasks commit to main under the data lock.
+on:
+  push:
+    branches: ["task/**"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: code-branch-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+      - name: Tests (tests/)
+        env:
+          ERW_LOCK_EXEMPT: "1"
+        run: python -m unittest discover -s tests
+      - name: Site build and check-routes
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SITE_URL: ${{ secrets.SITE_URL }}  # check-routes' baseline: the live site, before this branch
+        run: |
+          set -euo pipefail
+          cd site
+          npm ci
+          npm run build
+          if [ -z "${SUPABASE_ANON_KEY:-}" ]; then
+            echo "::warning::SUPABASE_ANON_KEY is not a repository secret: the site was built without data and check-routes was skipped (docs/machines.md)"
+            exit 0
+          fi
+          (npx next start -p 3049 > /tmp/next.log 2>&1 &)
+          for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:3049/ && break; sleep 2; done
+          node scripts/check-routes.mjs http://localhost:3049
+  merge:
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Open the pull request and merge it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          branch="${GITHUB_REF#refs/heads/}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          pr=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number // empty')
+          if [ -z "$pr" ]; then
+            if gh pr create --head "$branch" --base main --title "$(git log -1 --format=%s "origin/$branch" | cut -c1-200)" \
+                 --body "Task branch \`$branch\`: tests and the site's checks passed (run ${{ github.run_id }}). Opened and merged by .github/workflows/code-branch.yml."; then
+              pr=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number // empty')
+            fi
+          fi
+          if [ -n "$pr" ]; then
+            gh pr merge "$pr" --merge --delete-branch && echo "merged pull request #$pr" && exit 0
+            echo "::warning::could not merge pull request #$pr; merging the branch directly"
+          else
+            echo "::warning::Actions could not open a pull request here; merging the branch directly (docs/machines.md)"
+          fi
+          git fetch origin main "$branch"
+          git checkout -B main origin/main
+          git merge --no-ff "origin/$branch" -m "Merge $branch: checks passed (run ${{ github.run_id }})"
+          git push origin main
+          git push origin --delete "$branch" || true
