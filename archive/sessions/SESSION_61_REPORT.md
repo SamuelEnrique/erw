@@ -1,6 +1,6 @@
 # Session 61 report: scheduled-job reliability
 
-Energy Research Warehouse (ERW), session 61, the first of the overnight run (sessions 61 to 64), on the portable laptop (role data), 2026-10-02 08:32 to about 09:25 UTC. **Wall time about 55 minutes. Spend: USD 0.00** (no model call; the daily job was dispatched only on its no-spend skip path, see below). No force push.
+Energy Research Warehouse (ERW), session 61, the first of the overnight run (sessions 61 to 64), on the portable laptop (role data), 2026-10-02 08:32 to about 09:15 UTC. **Wall time about 45 minutes. Spend: USD 0.00** (no model call; the daily job was dispatched only on its no-spend skip path, see below). No force push.
 
 ## In plain words
 
