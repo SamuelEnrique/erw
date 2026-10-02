@@ -3,7 +3,7 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { Num } from "@/components/Num";
 import { Fold, SourceLine, ToolHeader, ToolPage, ToolTable } from "@/components/tool/ToolPage";
 import snapJson from "@/data/grid_network.json";
-import { HEADLINE, MEASURES, SPREAD, TABLE as SUPPLY_TABLE, supplyOf, supplyStat, type Measure, type Supply, type SupplyRow } from "@/lib/basupply";
+import { HEADLINE, MEASURES, SPREAD, TABLE as SUPPLY_TABLE, supplyOf, supplyStat, type Supply, type SupplyRow } from "@/lib/basupply";
 import { MARKETS, series } from "@/lib/data";
 import { fetchHourly, pickSnapshot } from "@/lib/network";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
@@ -48,7 +48,14 @@ function hourly(rows: { ts_utc: string; value: number }[], perHour: number): Map
 async function liveExtras(snap: Snapshot): Promise<LiveExtras> {
   const since = snap.hours[0];
   const align = (m: Map<string, number>) => snap.hours.map((h) => (m.has(h) ? Math.round(m.get(h)! * 10) / 10 : null));
-  const out: LiveExtras = { batteries: {}, batterySource: {}, prices: {}, priceKind: {} };
+  const out: LiveExtras = { batteries: {}, batterySource: {}, prices: {}, priceKind: {}, demand: {} };
+  const dem = await attempt(() => series("eia930_all_demand", { variable: "demand_mw", since }));
+  if (dem.ok) {
+    for (const ba of Object.values(ISO_BA)) {
+      const rows = dem.data.filter((r) => r.entity === `eia930:${ba}`);
+      if (rows.length) out.demand[ba] = align(hourly(rows, 1));
+    }
+  }
   const bat = await attempt(() => series("eia930_all_storage", { variable: "net_generation_battery_mw", since }));
   if (bat.ok) {
     for (const ba of ["ERCO", "ISNE", "MISO", "SWPP"]) {
@@ -71,9 +78,13 @@ async function liveExtras(snap: Snapshot): Promise<LiveExtras> {
   return out;
 }
 
-async function supplyRows(): Promise<SupplyRow[]> {
-  return rest<SupplyRow>("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${SUPPLY_TABLE}`, variable: `in.(${SUPPLY_VARS.join(",")})`,
-    order: "entity,variable,ts_utc" }, HOURLY, 80_000);
+/** One ISO grid's rows of ba_supply_monthly (its own and its ties'): one small read each, so no read passes the anon
+ * role's statement time limit. The shares need demand, which the warehouse holds for the seven ISO grids only. */
+async function supplyRows(ba: string): Promise<SupplyRow[]> {
+  // a range on the key (eia930:CISO up to, not including, eia930:CISP) uses the table's index; a LIKE does not
+  const hi = `eia930:${ba.slice(0, -1)}${String.fromCharCode(ba.charCodeAt(ba.length - 1) + 1)}`;
+  return rest<SupplyRow>("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${SUPPLY_TABLE}`, and: `(entity.gte.eia930:${ba},entity.lt.${hi})`,
+    variable: `in.(${SUPPLY_VARS.join(",")})`, order: "entity,variable,ts_utc" }, HOURLY);
 }
 
 export default async function NetworkPage() {
@@ -82,10 +93,12 @@ export default async function NetworkPage() {
   const demandTs = snap.nodes.filter((n) => n.iso && n.demand_ts).map((n) => n.demand_ts as string).reduce((a, b) => (b > a ? b : a), "");
   const heldDemand = snap.nodes.filter((n) => n.demand_mw !== null).length;
   const erco = snap.links.filter((l) => l.a === "ERCO" || l.b === "ERCO");
-  const [rows, extras] = await Promise.all([attempt(supplyRows), liveExtras(snap)]);
-  const supply: Record<string, Supply> = {};
-  if (rows.ok) for (const n of snap.nodes) { const s = supplyOf(rows.data, n.id); if (s) supply[n.id] = s; }
   const isos = Object.entries(ISO_BA);
+  const [reads, extras] = await Promise.all([Promise.all(isos.map(([, ba]) => attempt(() => supplyRows(ba)))), liveExtras(snap)]);
+  const bad = reads.find((r) => !r.ok);
+  const rows = bad && !bad.ok ? { ok: false as const, reason: bad.reason } : { ok: true as const, data: reads.flatMap((r) => (r.ok ? r.data : [])) };
+  const supply: Record<string, Supply> = {};
+  if (rows.ok) for (const [, ba] of isos) { const s = supplyOf(rows.data, ba); if (s) supply[ba] = s; }
   const S = (ba: string, what: string, d = 2) => {
     const v = rows.ok ? supplyStat(rows.data, ba, what) : null;
     return v === null ? <span className="text-muted">not held</span> : <Num check={`bsup|${ba}|${what}`} raw={v}>{Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d })}</Num>;
@@ -98,7 +111,7 @@ export default async function NetworkPage() {
         lead={<>The {snap.nodes.length} balancing authorities that report to EIA-930 and the power they exchange, hour by hour. Watch a story, or click a grid to see who supplies it.</>} />
       <Network snap={snap} supply={supply} live={extras} />
       <p className="mt-3 max-w-3xl text-xs text-muted" data-network-source={from}>
-        Newest hour {both(newest)}, refreshed {utc(snap.built)}{from === "storage" ? " (the hourly refresh)" : " (the daily snapshot: the hourly copy was not reachable)"}.
+        Newest hour: {both(newest)}, refreshed {utc(snap.built)}{from === "storage" ? " (the hourly refresh)" : " (the daily snapshot: the hourly copy was not reachable)"}.
         {demandTs ? <> Demand of the seven ISOs: newest hour {both(demandTs)}.</> : null}
       </p>
       {!rows.ok ? <p className="mt-2 text-sm text-muted" role="status">The last twelve months could not be read, so the panel shows none: {rows.reason}</p> : null}

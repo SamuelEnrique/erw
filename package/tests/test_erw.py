@@ -190,6 +190,7 @@ def test_filter_by_iso_market_variable_node_and_time():
     # session 32: the CO2 estimates and the carbon intensity tables name each BA too
     also = {"eia930_generation_latest"} | {t for t in TABLES if t.startswith(("eia930_all_", "carbon_intensity_"))}
     also |= derived  # session 45: event_window_daily names each BA too
+    also |= {"eia930_daily_total_interchange", "eia930_event_hourly_interchange"}  # session 68: EIA's total interchange and demand name each BA
     assert set(eia_ciso) <= got and got - set(eia_ciso) <= also
     assert set(eia_ciso) <= set(held(iso="caiso"))
     spot = [t for t in ("eia_fuel_spot_prices", "eia_product_spot_prices", "fred_daily_spot_prices")

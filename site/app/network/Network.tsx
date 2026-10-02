@@ -32,10 +32,10 @@ export type Story = { event: string; title: string; focus: string; tz: string; w
   missing: { link_hours: number; link_hours_from_other_side: number; demand_hours: number; left_out_bas: string[]; nodes_without_demand: string[]; batteries_reported: string[] } };
 /** Session 68: the live week's extras, read by the page from Supabase and aligned to the snapshot's hours. */
 export type LiveExtras = { batteries: Record<string, (number | null)[]>; batterySource: Record<string, string>; prices: Record<string, (number | null)[]>;
-  priceKind: Record<string, string> };
+  priceKind: Record<string, string>; demand: Record<string, (number | null)[]> };
 
 const ET = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
-const fmt = (v: number) => Math.round(v).toLocaleString("en-US");
+const fmt = (v: number) => (Math.round(v) === 0 ? 0 : Math.round(v)).toLocaleString("en-US");  // never "-0"
 const GRID_SLUG: Record<string, string> = { CAISO: "caiso", ERCOT: "ercot", "ISO-NE": "isone", MISO: "miso", NYISO: "nyiso", PJM: "pjm", SPP: "spp" };
 // the seven ISO balancing authorities' local time (the price board's operating days); the others' is not held
 const LOCAL_TZ: Record<string, string> = { CISO: "America/Los_Angeles", ERCO: "America/Chicago", ISNE: "America/New_York", MISO: "Etc/GMT+5",
@@ -77,6 +77,8 @@ export function Network({ snap, supply, live }: { snap: Snapshot; supply: Record
       const n = snap.nodes.find((x) => x.id === id);
       const ts = snap.hours[h];
       if (!n) return null;
+      const d = live.demand[id]?.[h];
+      if (d !== null && d !== undefined) return d;  // the seven ISOs' hourly demand of the week (eia930_all_demand)
       if (n.demand_recent && ts in n.demand_recent) return n.demand_recent[ts];
       return n.demand_ts === ts ? n.demand_mw : null;
     },
@@ -174,7 +176,8 @@ export function Network({ snap, supply, live }: { snap: Snapshot; supply: Record
       g.cameraPosition({ x: 0, y: 0, z: 700 });
       graph.current = g;
       // session 68: the network fills its frame when the page opens
-      setTimeout(() => { if (alive) g.zoomToFit(0, 20); }, 50);
+      setTimeout(() => { if (alive) g.zoomToFit(0, 10); }, 300);
+      setTimeout(() => { if (alive) g.zoomToFit(400, 10); }, 1200);
     }).catch(() => setNoGl(true));
     const onResize = () => { if (graph.current && el) graph.current.width(el.clientWidth).height(el.clientHeight); };
     window.addEventListener("resize", onResize);
@@ -193,6 +196,12 @@ export function Network({ snap, supply, live }: { snap: Snapshot; supply: Record
       .linkColor((l: object) => { const x = l as { a: string; b: string }; return pick && x.a !== pick.id && x.b !== pick.id ? "#D9D2C3" : "#6B665E"; })
       .linkDirectionalParticles((l: object) => { const x = l as { a: string; b: string; mw: number }; return pick && x.a !== pick.id && x.b !== pick.id ? 0 : (x.mw > 0 ? 2 : 0); });
   }, [hour, view, pick, batteriesOn, linksAt, nodeObject]);
+
+  // the panel opening or closing changes the frame's width: the canvas follows it
+  useEffect(() => {
+    const t = setTimeout(() => { const el = box.current; if (graph.current && el) graph.current.width(el.clientWidth).height(el.clientHeight); }, 0);
+    return () => clearTimeout(t);
+  }, [pick]);
 
   useEffect(() => {
     if (!playing) return;
@@ -274,6 +283,13 @@ export function Network({ snap, supply, live }: { snap: Snapshot; supply: Record
   const netImport = ties.reduce((a, t) => a + t.imp, 0);
   const demandNow = pick ? view.demand(pick.id, hour) : null;
   const buttons = "border border-accent px-3 py-1 text-sm text-accent hover:bg-paper";
+  // the live week's demand carries its check key: from the hourly refresh's snapshot in Storage, else eia930_all_demand
+  const demandKey = (n: NetNode, t: string, v: number) => {
+    if (view.kind !== "live") return fmt(v);
+    const check = n.demand_src === "hourly" && n.demand_recent && t in n.demand_recent && n.demand_recent[t] === v
+      ? `netsnap|${n.id}|demand_mw|${t}` : `series|eia930_all_demand|eia930:${n.id}|demand_mw|${t}`;
+    return <Num check={check} raw={v}>{shown(v)}</Num>;
+  };
 
   return (
     <div>
@@ -295,14 +311,14 @@ export function Network({ snap, supply, live }: { snap: Snapshot; supply: Record
       <div className="mb-1 text-xs text-muted" data-network-view={view.key}>
         Showing: {view.title}.{failed ? <span className="text-accent"> {failed}</span> : null}{view.note ? <> {view.note}</> : null}
       </div>
-      <div className={`grid gap-3 ${pick ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
+      <div className={`grid grid-cols-[minmax(0,1fr)] gap-3 ${pick ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
         {noGl ? (
           <p className="border border-rule bg-panel p-4 text-sm">
             This browser cannot draw 3D (WebGL is not available), so the network is not shown. The table of balancing authorities below, and{" "}
             <Link href="/grid">grid conditions</Link>, hold the same numbers.
           </p>
         ) : (
-          <div ref={box} className="w-full cursor-grab border border-rule" style={{ height: "min(72vh, 620px)", minHeight: 420 }}
+          <div ref={box} className="w-full min-w-0 cursor-grab overflow-hidden border border-rule" style={{ height: "min(72vh, 620px)", minHeight: 420 }}
             aria-label="A 3D network of the US balancing authorities and their interchange; drag to rotate, scroll to zoom, click a grid for its panel" role="img" />
         )}
         {pick ? (
@@ -318,13 +334,13 @@ export function Network({ snap, supply, live }: { snap: Snapshot; supply: Record
             <dl className="space-y-1.5">
               <div>
                 <dt className="text-xs text-muted">Net {netImport >= 0 ? "imports" : "exports"} this hour</dt>
-                <dd>{ties.length ? <>{fmt(Math.abs(netImport))} MW{demandNow ? <>, {pct((Math.abs(netImport) / demandNow) * 100)} percent of its {fmt(demandNow)} MW demand</> : <> (its demand for this hour is not held)</>}</> : "no tie reported this hour"}</dd>
+                <dd>{ties.length ? <>{fmt(Math.abs(netImport))} MW{demandNow ? <>, {pct((Math.abs(netImport) / demandNow) * 100)} percent of its {demandKey(pick, ts, demandNow)} MW demand</> : <> (its demand for this hour is not held)</>}</> : "no tie reported this hour"}</dd>
               </div>
               <div>
                 <dt className="text-xs text-muted">Who is supplying it, largest first</dt>
                 <dd>{ties.length ? (
                   <ul className="mt-0.5 space-y-0.5 tabular-nums">
-                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-[10px] text-muted">{t.other}</span></span><span>{t.imp >= 0 ? `${fmt(t.imp)} MW in` : `${fmt(-t.imp)} MW out`}</span></li>)}
+                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-[10px] text-muted">{t.other}</span></span><span className="whitespace-nowrap">{Math.round(t.imp) === 0 ? "0 MW" : t.imp > 0 ? `${fmt(t.imp)} MW in` : `${fmt(-t.imp)} MW out`}</span></li>)}
                   </ul>
                 ) : "none reported"}</dd>
               </div>
@@ -334,7 +350,7 @@ export function Network({ snap, supply, live }: { snap: Snapshot; supply: Record
               </div>
               <div>
                 <dt className="text-xs text-muted">Carbon intensity of generation</dt>
-                <dd>{(() => { const c = view.intensity(pick.id, hour); return c !== null ? <>{fmt(c)} kg CO2/MWh <span className="text-xs text-muted">({view.kind === "live" ? "the latest hour held" : "that day"})</span></> : "Not held"; })()}</dd>
+                <dd>{(() => { const c = view.intensity(pick.id, hour); return c !== null ? <>{view.kind === "live" && pick.intensity_ts ? <Num check={`series|carbon_intensity_hourly|eia930:${pick.id}|intensity_generation|${pick.intensity_ts}`} raw={c}>{shown(c)}</Num> : fmt(c)} kg CO2/MWh <span className="text-xs text-muted">({view.kind === "live" ? "the latest hour held" : "that day"})</span></> : "Not held"; })()}</dd>
               </div>
               {batteriesOn ? (
                 <div>
@@ -346,7 +362,7 @@ export function Network({ snap, supply, live }: { snap: Snapshot; supply: Record
                 <dt className="text-xs text-muted">Over the last twelve months</dt>
                 <dd>{(() => {
                   const s = supply[pick.id];
-                  if (!s) return "Not held";
+                  if (!s) return pick.iso ? "Not held" : "Not held: a share needs the grid's demand, which the warehouse holds for the seven ISO grids only";
                   const top = s.neighbours[0];
                   const range3 = s.spread !== null && s.spread > SPREAD ? (Object.keys(MEASURES) as Measure[]).map((k) => s.share[k]).filter((v): v is number => v !== undefined) : null;
                   return (
@@ -373,7 +389,7 @@ export function Network({ snap, supply, live }: { snap: Snapshot; supply: Record
         {batteriesOn ? <span>Ring: batteries reported for the hour, fuller as they discharge, emptier as they charge.</span> : null}
       </div>
       <label className="mt-3 block text-sm">Show a balancing authority:{" "}
-        <select className="border border-rule bg-panel px-2 py-1 text-sm" value={pick?.id ?? ""} onChange={(e) => setPick(snap.nodes.find((n) => n.id === e.target.value) ?? null)}>
+        <select className="w-full max-w-md border border-rule bg-panel px-2 py-1 text-sm sm:w-auto" value={pick?.id ?? ""} onChange={(e) => setPick(snap.nodes.find((n) => n.id === e.target.value) ?? null)}>
           <option value="">none</option>
           {[...snap.nodes].sort((a, b) => a.name.localeCompare(b.name)).map((n) => <option key={n.id} value={n.id}>{n.name} ({n.id})</option>)}
         </select>

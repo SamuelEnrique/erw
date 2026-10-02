@@ -411,14 +411,14 @@ async function truth(check) {
   // of ba_supply_monthly (the variables the panel uses)
   if (p[0] === "bsup") {
     const S = await import("../lib/basupply.ts");
-    if (!supplyRows) {
+    if (!supplyRows.has(p[1])) {
       const vars = ["days_in_month", "days_held", "days_left_out", "thin_month", "share_days", "demand_mwh", "net_import_mwh", "net_import_share_pct",
         "net_import_pairs_mwh", "net_import_total_interchange_mwh", "net_import_balance_mwh", "net_import_pairs_share_pct",
         "net_import_total_interchange_share_pct", "net_import_balance_share_pct"];
-      supplyRows = (await all("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${S.TABLE}`, variable: `in.(${vars.join(",")})`, order: "entity,variable,ts_utc" }))
-        .map((r) => ({ ...r, value: Number(r.value) }));
+      supplyRows.set(p[1], (await all("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${S.TABLE}`, and: `(entity.gte.eia930:${p[1]},entity.lt.eia930:${p[1].slice(0, -1)}${String.fromCharCode(p[1].charCodeAt(p[1].length - 1) + 1)})`,
+        variable: `in.(${vars.join(",")})`, order: "entity,variable,ts_utc" })).map((r) => ({ ...r, value: Number(r.value) })));
     }
-    return S.supplyStat(supplyRows, p[1], p[2]);
+    return S.supplyStat(supplyRows.get(p[1]), p[1], p[2]);
   }
   if (p[0] === "shape") {
     const [, entity, market, stat, start, end] = p;
@@ -485,7 +485,7 @@ async function truth(check) {
 }
 let storageRows = null;
 const stackRows = new Map();
-let supplyRows = null;  // session 68: ba_supply_monthly, read once  // session 67: the battery stack's rows, by entity|strategy|duration
+const supplyRows = new Map();  // session 68: ba_supply_monthly, one ISO grid at a time  // session 67: the battery stack's rows, by entity|strategy|duration
 const studies = new Map();  // session 47: event studies, by event|entity|variable
 
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */

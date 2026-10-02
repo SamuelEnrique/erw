@@ -94,8 +94,52 @@ For this reason the hourly run pulls interchange for the 48 hours ending at the 
 - the Lower 48's power system "is made up of three main interconnections, which operate largely independently from each other with limited transfers of power between them";
 - in ERCOT "the balancing authority, interconnection, and the regional transmission organization are all the same entity and physical system".
 
+## Who supplies a grid (session 68)
+
+Table `ba_supply_monthly` (derived, public; `warehouse/derived/ba_supply.py`), from `eia930_daily_interchange` (session 62: every pair, daily, from 2019) and `eia930_daily_total_interchange` (session 68: EIA-930's own total interchange of every balancing authority, type TI, daily, from 2019; 210,911 rows of a 300,000-row ceiling). A month's days are EIA's Eastern days, the day boundary of both tables. **Positive means the neighbour supplied the grid** (a net import): EIA's own sign is the opposite and is flipped once, in the builder.
+
+**Three measures of a grid's net imports, side by side**, per balancing authority and month:
+
+1. **The sum of its reported ties** (`net_import_pairs_mwh`): the grid's own report of each tie, summed.
+2. **EIA's total interchange** (`net_import_total_interchange_mwh`): the figure EIA publishes for the grid as a whole.
+3. **Demand less net generation** (`net_import_balance_mwh`): the balance, from EIA's hourly workbooks; held for the seven ISO grids only.
+
+**Held days** follow session 62's rules: a day counts when every regular neighbour reported it (a regular neighbour reports on at least half of the month's days that have any report) and none of its pair-days was screened out. A pair-day is screened out when it is further than 10 median absolute deviations, at least 500 MWh, from the pair's own median over its history: 2,732 of 945,130 pair-days, among them SWPP-MISO on 2026-07-21 (2,159,056 MWh, more than SPP's whole daily demand). A month EIA reported nothing for is counted as left out, not skipped. `thin_month` is 1 when fewer than two thirds of the month's days are held. Every share is taken over the *share days*: held days whose demand is held too, so a numerator and its denominator cover the same days.
+
+**What the three showed, September 2025 to August 2026, on the same days** (percent of demand):
+
+| Grid | Sum of ties | EIA's total interchange | Demand less net generation |
+|---|---|---|---|
+| CAISO | 16.49 | 16.49 | 26.87 |
+| ERCOT | 0.07 | 0.07 | 0.07 |
+| ISO-NE | 4.96 | 4.96 | 4.96 |
+| MISO | 2.54 | 2.54 | 0.17 |
+| NYISO | 11.82 | 11.81 | 11.81 |
+| PJM | -2.72 | -1.25 | -3.18 |
+| SPP | -1.44 | -1.00 | -1.01 |
+
+**CAISO's gap, found.** EIA's total interchange for CAISO equals the sum of its eleven ties to the MWh on every day both exist; none of CAISO's pair-days was missing or screened in the year; every neighbour that reports a tie with CAISO is one CAISO reports too (CEN, Mexico's operator, does not report back). So the interchange is consistent, and the gap is in the balance. CAISO's demand less net generation less its interchange was within about 2 percent of demand through 2024 and most of 2025, then rose in December 2025 to 70 to 93 GWh a day (10 to 15 percent of demand) from January 2026. Demand and interchange did not move: CAISO's published net generation fell (January 2026: 348 GWh a day against 457 GWh in January 2025). The residual correlates only weakly with CAISO's battery discharge (0.51) and is about 1.7 times as large, so batteries alone do not explain it. Why EIA's net generation fell is not in the data the warehouse holds. Until it is explained, the balance overstates California's imports: session 62's 27.02 percent is that measure.
+
+Two of CAISO's ties also disagree between their two sides: the Arizona ties (AZPS, SRP) and TIDC and BANC report different flows from CAISO's on the same days (column `neighbor_report_mwh` holds the neighbour's own report). The headline uses CAISO's.
+
+**The headline rule.** The sum of the ties is the headline: it is complete on every held day, it equals EIA's total interchange on the same days for CAISO, ERCOT, ISO-NE, MISO and NYISO, and the neighbours' shares add up to it. Where the three measures spread more than one point of demand over the twelve months (CAISO, MISO and PJM in session 68's data), the panel shows the range and says so.
+
+**Who supplied CAISO**, over the panel's twelve months (October 2025 to September 2026), is in the panel and its folded table; the largest supplier is Nevada Power (NEVP).
+
+## The stories (session 68)
+
+`eia930_event_hourly_interchange` (266,833 rows of a 400,000-row ceiling; `warehouse/connectors/eia930_event_hourly.py`): EIA-930's hourly interchange of every pair and hourly demand of every balancing authority, for two windows only: Winter Storm Uri, 2021-02-07 to 2021-02-24 (Central days, 432 hours) and the June 2025 heat, 2025-06-20 to 2025-06-28 (Eastern days, 216 hours). The warehouse's own hourly interchange (`eia930_all_interchange`) starts in September 2026.
+
+`warehouse/derived/network_stories.py` writes one compact snapshot per story (`site/public/network/story_<event>.json`, and the same object in the public Storage bucket `erw-public`), in the shape the network draws: the same nodes and positions as today's network, each pair counted once by the pair rule above, demand, each day's carbon intensity where held (the seven ISO grids; grey elsewhere), batteries where EIA-930 reports them and the warehouse holds them, and the real-time price of each ISO's main hub where a public price is held. Never filled: an hour neither side reported is blank, and each story states what is missing. Balancing authorities of the window that are not in today's network (in 2021: AEC, GLHB, GRIF, HGMA, SPC, WACM) are not drawn and are named.
+
+"California's evening" needs no pull: it is the newest complete Pacific day of the live week.
+
+## Batteries (session 68)
+
+The Batteries switch draws one thin ring around a grid whose batteries are reported for the hour shown: fuller as they discharge, emptier as they charge, against that grid's largest hour in the range shown. Which grids: EIA-930's battery series as the warehouse holds it (`eia930_all_storage`: ERCOT, ISO-NE, MISO and SPP, from November 2024), and CAISO's own data for CAISO (`caiso_battery_storage`, from August 2025), because CAISO reports no battery series to EIA-930. NYISO and PJM report none. The warehouse does not hold EIA-930's battery series for the balancing authorities outside the seven ISOs, so no ring is drawn for them; that is a limit of the warehouse, not a finding that they have no batteries. In the Uri window no grid's batteries are held; in the June 2025 window, ERCOT's, ISO-NE's and MISO's.
+
 ## Not here
 
 - The demand of the BAs outside the seven ISOs.
-- Interchange before 2026-09-13.
+- Hourly interchange before 2026-09-13, except the two stories' windows (daily interchange is held from 2019).
 - Flows by transmission line: EIA-930 reports BA-to-BA totals only.
