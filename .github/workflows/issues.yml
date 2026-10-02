@@ -1,0 +1,31 @@
+name: close fixed issues
+# Session 59: close GitHub issues with a comment, by hand (workflow_dispatch). The fine-grained token sessions use has
+# Actions write but not Issues write, so a session that fixed what an issue reports dispatches this workflow: the
+# workflow's own GITHUB_TOKEN (issues: write) closes the listed issues, each with the comment given.
+on:
+  workflow_dispatch:
+    inputs:
+      issues:
+        description: "Issue numbers to close, separated by spaces"
+        required: true
+      comment:
+        description: "The comment each one gets (the fix, with its commits)"
+        required: true
+permissions:
+  issues: write
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUES: ${{ github.event.inputs.issues }}
+          COMMENT: ${{ github.event.inputs.comment }}
+        run: |
+          set -euo pipefail
+          for n in $ISSUES; do
+            case "$n" in (*[!0-9]*|'') echo "not an issue number: $n"; exit 1;; esac
+            gh issue close "$n" --repo "${{ github.repository }}" --comment "$COMMENT"
+            echo "closed #$n"
+          done
