@@ -1,0 +1,6 @@
+column,type,unit,description
+ba,string,,"EIA's balancing authority code (CISO, ERCO, ISNE, MISO, NYIS, PJM, SWPP)"
+iso,string,,"The ISO's short name (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP)"
+utc_hour_start,"datetime (ISO 8601, UTC)",,"The start of the hour, UTC. EIA labels each hour by its end; one hour is subtracted"
+local_hour_start,datetime (ISO 8601 with offset),,"The same instant in the ISO's own time zone (Pacific for CAISO; Central for ERCOT, MISO and SPP; Eastern for ISO-NE, NYISO and PJM), with its UTC offset"
+demand_mw,integer,MW,"Demand served in the balancing authority's area during the hour: EIA-930's Demand, in MWh per hour, which is the hour's mean MW"
