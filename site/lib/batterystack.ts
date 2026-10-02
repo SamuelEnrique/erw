@@ -165,6 +165,19 @@ export function badMonth(ms: Month[]): Month | null {
   return sorted.length ? sorted[Math.max(0, Math.ceil(0.1 * sorted.length) - 1)] : null;
 }
 
+/** The one month that carries the window: the held month with the highest total, when it alone is at least a fifth of
+ * everything the held months earned (ERCOT's February 2021, Winter Storm Uri). The page names it beside the average,
+ * and gives the average year without it, so a reader is not misled by one storm. Null when no month weighs that much. */
+export function outlier(ms: Month[]): { m: string; share: number; averageWithout: number | null } | null {
+  const held = ms.filter((r) => r.held);
+  const sum = held.reduce((a, r) => a + r.total!, 0);
+  if (held.length < 12 || sum <= 0) return null;
+  const top = held.reduce((a, r) => (r.total! > a.total! ? r : a));
+  const share = top.total! / sum;
+  if (share < 0.2) return null;
+  return { m: top.m, share: share * 100, averageWithout: averageYear(ms.filter((r) => r.m !== top.m), "total") };
+}
+
 export type Year = { y: string; months: number; complete: boolean; energy: number; ancillary: number };
 /** Revenue by calendar year per MW, the held months only; a year is complete when all twelve of its months are held. */
 export function years(ms: Month[]): Year[] {
@@ -242,6 +255,8 @@ export function stat(rows: Row[], stressRows: StressRow[], x: Inputs, what: stri
     case "p10": return scaled(badMonth(ms)?.total ?? null);
     case "cover": return l12 ? coverage(sumOf(l12, "total"), x) : null;
     case "n": return ms.filter((r) => r.held).length;
+    case "top_share": { const o = outlier(ms); return o ? Math.round(o.share) : null; }
+    case "avg_without_top": return scaled(outlier(ms)?.averageWithout ?? null);
     case "ds": return x.ds;
     case "year": { const y = years(ms).find((t) => t.y === b); return y ? (c === "energy" ? y.energy : c === "ancillary" ? y.ancillary : y.energy + y.ancillary) / 1000 : null; }
     case "month": { const r = ms.find((t) => t.m === b); return r ? scaled(pick(r, c)) : null; }

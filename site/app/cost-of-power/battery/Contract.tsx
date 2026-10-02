@@ -62,7 +62,7 @@ export function ContractResult({ ms, x }: { ms: Month[]; x: Inputs }) {
           {rows.map(([k, v, note], i) => (
             <tr key={k} className={`border-b border-rule ${i === 2 ? "bg-paper font-semibold" : ""}`}>
               <th scope="row" className="px-3 py-1.5 font-normal">{k}<div className="text-xs font-normal text-muted">{note}</div></th>
-              <td className="px-3 py-1.5 text-right align-top">{v}</td>
+              <td className="whitespace-nowrap px-3 py-1.5 text-right align-top">{v}</td>
             </tr>
           ))}
         </tbody>

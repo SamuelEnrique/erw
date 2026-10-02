@@ -80,20 +80,27 @@ export function InputPanel({ title, children, note }: { title: string; children:
 }
 
 /** A table with a cardinal header row and thin grey rules. `highlight` rows are fog beige. */
-export function ToolTable({ head, rows, minWidth = 520, caption }: { head: ReactNode[]; rows: { key: string; cells: ReactNode[]; highlight?: boolean; muted?: boolean }[]; minWidth?: number; caption?: string }) {
+export function ToolTable({ head, rows, minWidth = 520, caption, words }: {
+  head: ReactNode[]; rows: { key: string; cells: ReactNode[]; highlight?: boolean; muted?: boolean; wide?: ReactNode }[]; minWidth?: number; caption?: string;
+  /** a table of words, not numbers: every column reads from the left. A row's `wide` is one cell of words across the columns after the first. */
+  words?: boolean;
+}) {
+  const side = words ? "text-left" : "text-right";
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm tabular-nums" style={{ minWidth }}>
         {caption ? <caption className="sr-only">{caption}</caption> : null}
         <thead>
           <tr className="bg-accent text-white">
-            {head.map((h, i) => <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? "text-right" : ""}`}>{h}</th>)}
+            {head.map((h, i) => <th key={i} scope="col" className={`px-3 py-1.5 font-normal ${i ? side : ""}`}>{h}</th>)}
           </tr>
         </thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.key} className={`border-b border-rule ${r.highlight ? "bg-paper font-semibold" : ""} ${r.muted ? "text-muted" : ""}`}>
-              {r.cells.map((c, i) => (i === 0 ? <th key={i} scope="row" className="px-3 py-1.5 font-normal">{c}</th> : <td key={i} className="px-3 py-1.5 text-right">{c}</td>))}
+              {r.wide !== undefined
+                ? <><th scope="row" className="px-3 py-1.5 font-normal">{r.cells[0]}</th><td colSpan={head.length - 1} className="px-3 py-1.5 text-left text-muted">{r.wide}</td></>
+                : r.cells.map((c, i) => (i === 0 ? <th key={i} scope="row" className="px-3 py-1.5 font-normal">{c}</th> : <td key={i} className={`px-3 py-1.5 ${side}`}>{c}</td>))}
             </tr>
           ))}
         </tbody>

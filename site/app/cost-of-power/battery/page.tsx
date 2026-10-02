@@ -3,8 +3,8 @@ import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  CAPACITY_WORDS, DEBT, EVENTS, PRODUCTS, REQUIREMENTS, RTE, STRATEGIES, STRESS_TABLE, TABLE, averageYear, badMonth, coverage, debtPerMw, gridOf, inputsKey,
-  inputsOf, lastTwelve, monthName, monthsOf, stat, stress, sumOf, usdShort, years, type Inputs, type Month, type Row, type StressRow, type Year,
+  CAPACITY_WORDS, DEBT, EVENTS, PRODUCTS, REQUIREMENTS, RTE, STRATEGIES, STRESS_TABLE, TABLE, badMonth, coverage, debtPerMw, gridOf, inputsKey,
+  inputsOf, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type Inputs, type Month, type Row, type StressRow, type Year,
 } from "@/lib/batterystack";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
@@ -121,6 +121,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const ys = years(ms);
   const l12 = lastTwelve(ms);
   const bad = badMonth(ms);
+  const top = outlier(ms);
   const avgTotal = st("avg:total"), share = st("share:ancillary"), cover = st("cover");
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
   const leftOut = ms.reduce((a, r) => a + r.daysOut, 0), leftAnc = ms.reduce((a, r) => a + r.daysOutAncillary, 0);
@@ -162,6 +163,15 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                   of it from ancillary services, and covered its debt <V pre={key} s="cover" v={cover} /> times over the last twelve months.
                 </p>
 
+                {top ? (
+                  <p className="mb-6 max-w-3xl border-l-2 border-accent bg-paper px-3 py-2 text-sm" data-outlier="1">
+                    <strong>Read the average with care.</strong> One month, {monthName(top.m)}{top.m === "2021-02" ? " (Winter Storm Uri)" : ""}, is <V pre={key} s="top_share" v={st("top_share")} /> percent
+                    of everything this battery earned in {held.length} months. Without it the average year is USD <U pre={key} s="avg_without_top" v={st("avg_without_top")} />,
+                    and the last twelve months earned USD <U pre={key} s="l12:total" v={st("l12:total")} />. That month&apos;s figure is what the published reserve prices
+                    offered a battery that is paid and never called; in such a storm a real battery holding reserves is called on and runs down.
+                  </p>
+                ) : null}
+
                 <HeadlineRow>
                   <HeadlineNumber label="An average year, all streams" value={<>USD <U pre={key} s="avg:total" v={avgTotal} /></>}
                     note={<><V pre={key} s="avg_kw:total" v={st("avg_kw:total")} /> USD per kW. The mean of each calendar month over {held.length} months, {monthName(held[0].m)} to {monthName(held.at(-1)!.m)}, summed.</>} />
@@ -184,7 +194,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                       { key: "energy", cells: ["Energy (charge low, sell high)", <U key="a" pre={key} s="avg:energy" v={st("avg:energy")} />, <U key="b" pre={key} s="l12:energy" v={st("l12:energy")} />, <><V pre={key} s="share:energy" v={st("share:energy")} /> percent</>] },
                       { key: "anc", cells: ["Ancillary services", <U key="a" pre={key} s="avg:ancillary" v={st("avg:ancillary")} />, <U key="b" pre={key} s="l12:ancillary" v={st("l12:ancillary")} />, <><V pre={key} s="share:ancillary" v={share} /> percent</>] },
                       ...products.map((p) => ({ key: p.key, muted: true, cells: [<span key="n" className="pl-4">{p.label}</span>, <U key="a" pre={key} s={`avg:${p.key}`} v={st(`avg:${p.key}`)} />, <U key="b" pre={key} s={`l12:${p.key}`} v={st(`l12:${p.key}`)} />, <><V pre={key} s={`share:${p.key}`} v={st(`share:${p.key}`)} /> percent</>] })),
-                      { key: "cap", cells: ["Capacity", <span key="w" className="text-left text-muted">{CAPACITY_WORDS[x.grid]}</span>, "", ""] },
+                      { key: "cap", cells: ["Capacity"], wide: CAPACITY_WORDS[x.grid] },
                       { key: "total", highlight: true, cells: ["Total, split hour by hour with no double counting", <U key="a" pre={key} s="avg:total" v={avgTotal} />, <U key="b" pre={key} s="l12:total" v={st("l12:total")} />, "100 percent"] },
                     ]} />
                 </ToolSection>
@@ -196,7 +206,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
             )}
 
             <ToolSection title="Other grids" note="In words only: no number from a licensed table is shown on this site.">
-              <ToolTable caption="Other grids" head={["Grid", "Energy", "Ancillary services", "Capacity"]} minWidth={620}
+              <ToolTable caption="Other grids" words head={["Grid", "Energy", "Ancillary services", "Capacity"]} minWidth={620}
                 rows={OTHER.map((o) => ({ key: o.grid, cells: [o.grid, <span key="e" className="block text-left">{o.energy === "see the seller tab" ? <Link href="/cost-of-power/seller?asset=battery">see the seller tab</Link> : o.energy}</span>, <span key="a" className="block text-left">{o.ancillary}</span>, <span key="c" className="block text-left">{o.capacity}</span>] }))} />
             </ToolSection>
 

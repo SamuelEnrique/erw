@@ -124,7 +124,7 @@ No capacity payment is in the model, and no value from `iso_all_capacity_prices`
 
 ## Results that look implausible, and why they are what the prices say
 
-- **ERCOT 2021: USD 3,431 per kW.** Almost all of it is February (Winter Storm Uri): Responsive Reserve and regulation cleared in the thousands and tens of thousands of dollars per MW for days. A price-taking battery paid for holding reserves it is never asked to deliver collects all of it. A real battery would have been called and run empty. The figure is what the published prices offered, not what a battery could have kept; the page says so beside the number, breaks the chart's scale for that year and marks it.
+- **ERCOT 2021: USD 3,431 per kW.** Almost all of it is February (Winter Storm Uri): Responsive Reserve and regulation cleared in the thousands and tens of thousands of dollars per MW for days. A price-taking battery paid for holding reserves it is never asked to deliver collects all of it. In such a storm a real battery holding reserves is called on and runs down. The figure is what the published prices offered, not what a battery could have kept; the page says so beside the number, breaks the chart's scale for that year and marks it.
 - **ERCOT 2018 to 2023: most of the revenue is ancillary** (Responsive Reserve before 2022, ECRS in 2023). From 2024 the ancillary stream falls sharply in the same prices.
 - **CAISO: Regulation Down is the largest ancillary stream**, because the battery sits near empty for most of the day with room to absorb energy, and is paid for that room in nearly every hour. This is where the price-taker assumption carries the most weight.
 

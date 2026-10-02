@@ -41,7 +41,8 @@ export function BatteryForm({ x }: { x: Inputs }) {
         <div className="grid grid-cols-3 border border-accent" role="group" aria-labelledby="dur-label">
           {DURATIONS.map((d) => (
             <Link key={d} href={hrefOf(x, { dur: d })} scroll={false} aria-current={x.dur === d ? "true" : undefined} data-duration={d}
-              className={`px-2 py-1.5 text-center no-underline ${d !== DURATIONS[0] ? "border-l border-accent" : ""} ${x.dur === d ? "bg-accent text-white" : "bg-white text-accent"}`}>
+              style={x.dur === d ? { color: "#fff" } : undefined}
+              className={`px-2 py-1.5 text-center no-underline ${d !== DURATIONS[0] ? "border-l border-accent" : ""} ${x.dur === d ? "bg-accent font-semibold" : "bg-white text-accent"}`}>
               {d} hours
             </Link>
           ))}
