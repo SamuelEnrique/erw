@@ -126,6 +126,22 @@ day-ahead tables running into tomorrow:
   interchange_volume_mwh over the latest 168 hours; x_name is EIA's name.
   grid_network_links (derived): each BA pair once per hour, the last 168 hours,
   flow_mw positive when the code that sorts first exports to the other.
+  eia930_daily_total_interchange (session 68): EIA's own daily total
+  interchange of every BA (type TI), total_interchange_mwh, positive when the BA
+  exports, EIA's Eastern day, from 2019; history, not in the live set.
+  eia930_event_hourly_interchange (session 68): hourly interchange_mw of every
+  pair and demand_mw of every BA for two windows only, column event = uri_2021
+  (2021-02-07 to 02-24) or east_heat_2025 (2025-06-20 to 06-28); history.
+  ba_supply_monthly (derived, session 68): who supplies a grid. Positive means
+  the NEIGHBOUR SUPPLIED the BA (the opposite of EIA's sign). Pair entity
+  eia930:<BA>-<NEIGHBOUR>: net_import_mwh, net_import_share_pct (of the BA's
+  demand, seven ISO BAs only). BA entity eia930:<BA>: net_import_pairs_mwh,
+  net_import_total_interchange_mwh, net_import_balance_mwh (demand less net
+  generation) and each _share_pct, days_held, days_left_out, thin_month. The
+  headline is the pair sum. CAISO's balance reads about 10 points higher than
+  its flows from December 2025: EIA's published net generation for CAISO
+  dropped then; say so if asked about CAISO's imports. Last 430 days in the
+  live set.
 **Battery storage** (session 31, method docs/methods/storage.md):
   eia930_all_storage: EIA-930 hourly net generation of battery storage (fuel
   type BAT), net_generation_battery_mw, MW, positive discharging, negative
@@ -371,6 +387,7 @@ day-ahead tables running into tomorrow:
 | Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
 | Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_all_generation` (ba) |
 | Power flowing between balancing authorities (imports, exports, interchange, ties) | `eia930_all_interchange` (ba), `grid_network_links`, `grid_network_nodes` |
+| Who supplies a grid, by neighbour and month; net imports as a share of demand | `ba_supply_monthly`, `eia930_daily_total_interchange`, `eia930_daily_interchange` |
 | How much of an event's effect on demand or price is the weather (temperature-controlled event study estimates) | `event_study_estimates` (x_spec dow_year_temp_v1 beside dow_year_mean_v1) |
 | Temperature at an airport on the days of an event or its baseline | `event_window_daily` (entity noaa:<station>), `noaa_isd_hourly` |
 | CAISO's Flex Alerts, Restricted Maintenance Operations, EEAs and stage emergencies, 1998 on (days, types, regions) | `caiso_grid_emergencies` (events; event_type flex_alert, rmo, eea1 to eea3, stage1 to stage3...) |

@@ -66,6 +66,9 @@ full:
   # session 67: the battery revenue stack, whole (/cost-of-power/battery reads both; about 20,000 monthly rows and
   # a few thousand stress-day rows)
   - '^battery_stack_(monthly|stress_daily)$'
+  # session 68: who supplies a grid; the page reads the last twelve months, so only the last 430 days are loaded (select,
+  # below): about 30,000 of its 158,000 rows. Redivis and the CSV hold every month from 2019
+  - '^ba_supply_monthly$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -115,6 +118,8 @@ select:
   # session 36A: all eight CO2 variables again (the by-fuel and trade six for /ask and the grid pages' chat), the table's
   # recent window (90 days in session 36A at 376.3 MB; 35 days since session 36C)
   carbon_intensity_daily: {days: 100}
+  # session 68: /network's panel reads the last twelve complete months of ba_supply_monthly
+  ba_supply_monthly: {days: 430}
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv
