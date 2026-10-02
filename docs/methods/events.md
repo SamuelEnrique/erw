@@ -103,6 +103,29 @@ Heat waves and cold snaps are stories about the peak hour.
   - The day most above the baseline (daily demand, +32.81 percent) was 2023-09-08. The peak hour most above it (+30.31 percent) was 2023-08-13.
 - **Left out:** ERCO's CO2 hours on two baseline days (2021-08-17 and 18), so the intensity of those two days is missing.
 
+## Session 64: two events of the hub history's second year
+
+Both are on the Elliott template (each grid's local day; the same weekdays 364 and 728 days earlier; the peak-hour variables). They were chosen from the data, not from a news account: they are the days of the highest winter and summer hours of demand served, in EIA's hourly data, in the year the second year of hub prices covers (2024-09-01 to 2025-08-31). That year is why these two: they are the first events with prices at hubs other than ERCOT's.
+
+- **Hub prices beyond ERCOT** (`hubs`): MISO Indiana Hub, NYISO N.Y.C., ISO-NE .H.INTERNAL_HUB and SPP SPPNORTH_HUB, from `iso_hub_prices_history`, each on its grid's local day: `rt_mean`, `rt_max` (the highest 15-minute mean; MISO's hourly real-time price), `da_mean`, `da_max`. A day is written only when every interval is there. The history starts 2024-09-01, so these hubs have no baseline days, and the event study gives them no estimate (it needs baseline days; `event_study.py` and the TypeScript twin both skip such a series).
+- **No weather:** `noaa_isd_hourly` holds no event stations for these windows, so no estimate controls for temperature. Pulling it would be a new pull, not one approved in session 64.
+
+### The January 2025 cold (`cold_2025`)
+
+- **Window:** 2025-01-17 to 2025-01-26. **Grids:** PJM, MISO, SPP, NYISO, ISO-NE and ERCOT. **Prices:** ERCOT's hub (full), and the four hubs above.
+- **Why these days:** PJM's highest winter hour of 2024-09 to 2025-08 was 144,420 MW on 2025-01-22, MISO's 104,434 MW on 2025-01-21, NYISO's 23,521 MW on 2025-01-22 and ISO-NE's 19,582 MW on 2025-01-21. SPP's and ERCOT's highest winter hours came on 2025-02-20, but 2025-01-21 and 22 were their second highest.
+- **What the window shows:** PJM's peak hour stood 38.57 percent above the baseline on 2025-01-22, ERCOT's 47.97 percent the same day. The event study's pooled effect on daily demand served: PJM +412,096 MWh a day (95 percent interval 230,840 to 593,352), 17.51 percent of the counterfactual; ERCOT +21.63 percent; SPP +13.70; MISO +12.73; NYISO +9.68; ISO-NE +9.46.
+- **Prices:** ERCOT's hub stayed calm (highest 15 minutes 192.08 USD/MWh on 2025-01-23; the pooled effect on its daily mean, +4.93 USD/MWh, has an interval that spans zero), while the eastern hubs rose: NYISO N.Y.C. 714.25 USD/MWh on 2025-01-21, SPP North 800.22 on 2025-01-23, ISO-NE 456.57 on 2025-01-17, MISO Indiana 393.10 (an hour) on 2025-01-21.
+- **Left out:** NYISO's carbon intensity on 2025-01-17 (CO2 in 5 of 24 hours).
+
+### The June 2025 heat (`east_heat_2025`)
+
+- **Window:** 2025-06-20 to 2025-06-28. **Grids:** PJM, NYISO, ISO-NE and MISO. **Prices:** NYISO N.Y.C., ISO-NE and MISO Indiana (no ERCOT hub: ERCOT is not in it).
+- **Why these days:** the highest hours of 2024-09 to 2025-08: PJM 160,560 MW on 2025-06-23, NYISO 31,857 MW and ISO-NE 25,898 MW on 2025-06-24.
+- **What the window shows:** on 2025-06-24 ISO-NE's daily demand stood 39.93 percent above the baseline, NYISO's 35.23 and PJM's 35.05. Pooled effects on daily demand: PJM +15.35 percent (380,844 MWh a day, interval 195,313 to 566,376), NYISO +9.98, MISO +8.53, ISO-NE +6.75 (interval -15,756 to 61,785 MWh: it spans zero, and 2025-06-25 is missing an hour).
+- **Prices:** every hub's highest came on 2025-06-24: NYISO N.Y.C. 2,960.11 USD/MWh (15 minutes), ISO-NE 1,240.24, MISO Indiana 1,202.05 (an hour).
+- **Left out, the ISOs' own gaps:** ISO-NE's demand on 2025-06-25 (23 of 24 hours); NYISO's real-time price on 2025-06-27 and ISO-NE's on 2025-06-22 and 2025-06-26 (days the history does not hold complete).
+
 ## Sources and variables
 
 | Variable | Entity | From | Unit |
