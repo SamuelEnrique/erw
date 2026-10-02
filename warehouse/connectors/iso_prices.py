@@ -349,6 +349,57 @@ def vintage_of(rec):
         return ""
 
 
+def raw_cached(connector, url):
+    """Session 65: the newest raw file an earlier run of `connector` saved for `url` with HTTP 200, as
+    (bytes, record), or None. Raw files stay on the machine that downloaded them (warehouse/raw/<connector>/<run>/,
+    each run with its manifest.csv), so a document is never pulled twice. The record keeps the first download's
+    retrieved_at and Last-Modified: a row cites when the document was really fetched, not when it was re-read."""
+    import csv
+    import glob
+    for manifest in sorted(glob.glob(os.path.join(RAW_DIR, connector, "*", "manifest.csv")), reverse=True):
+        with open(manifest, encoding="utf-8", newline="") as f:
+            rows = [r for r in csv.DictReader(f) if r["url"] == redact(url) and r["status"] == "200"]
+        for r in reversed(rows):
+            path = os.path.join(os.path.dirname(manifest), r["file"])
+            if os.path.exists(path):
+                with open(path, "rb") as f:
+                    content = f.read()
+                if hashlib.sha256(content).hexdigest() == r["sha256"]:
+                    return content, {"url": r["url"], "retrieved_at": r["retrieved_at"],
+                                     "last_modified": r["last_modified"], "file": path, "cached": True}
+    return None
+
+
+def fetch_raw(connector, url, log, offline=False, fresh=False, pause=0, timeout=180, headers=None):
+    """Session 65: one document, from the raw files when an earlier run saved it, else from the source (saved by
+    the raw capture as every request is). fresh: a document that changes (a list, a current-year file) is fetched
+    again unless offline. offline: never touch the network; a document not in the raw files is an error. HTTP 404
+    is a SourceGap (the source says it is not there), never retried. Returns (bytes, record)."""
+    url = requests.Request("GET", url).prepare().url  # as requests will send and the manifest will record it
+    if offline or not fresh:
+        hit = raw_cached(connector, url)
+        if hit:
+            log(f"  raw file reused: {url} ({os.path.relpath(hit[1]['file'], ROOT)})")
+            return hit
+        if offline:
+            raise RuntimeError(f"offline: {url} is not in warehouse/raw/{connector}/")
+
+    def call():
+        r = requests.get(url, timeout=timeout, headers=headers)
+        if r.status_code == 404:
+            raise SourceGap(f"HTTP 404 for {url}")
+        if r.status_code != 200:
+            raise RuntimeError(f"HTTP {r.status_code} for {url}")
+        return r
+    r = with_retries(url, call, log)
+    rec = {"url": redact(r.url), "retrieved_at": utc_iso(pd.Timestamp.now(tz="UTC")),
+           "last_modified": r.headers.get("Last-Modified") or "", "file": "", "cached": False}
+    log(f"  GET {url}: {len(r.content)} bytes")
+    if pause:
+        time.sleep(pause)
+    return r.content, rec
+
+
 # ---------------------------------------------------------------------------
 # Shared shaping, checks and writing
 # ---------------------------------------------------------------------------

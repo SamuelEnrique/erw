@@ -45,7 +45,10 @@ UNITS = {"MW", "MWh", "USD/MWh", "USD", "USD/MMBtu", "USD/bbl", "degF", "mph", "
          "MMBtu/MWh",  # session 19: implied heat rate, the trader view (Decision 26)
          "hour",  # session 31: an hour of the day, 0 to 23, local, hour beginning (storage_daily_cycle; Decision 29)
          "tCO2", "kgCO2/MWh",  # session 32: metric tons of CO2, and kilograms of CO2 per MWh (Decision 30)
-         "degF-day", "bbl", "Mcf"}  # session 49: degree days at 65 F; barrels and thousand cubic feet (Decision 33)
+         "degF-day", "bbl", "Mcf",  # session 49: degree days at 65 F; barrels and thousand cubic feet (Decision 33)
+         # session 65: capacity per kW-month as NYISO and ISO-NE publish it, and capacity held for an hour, the
+         # ancillary service clearing prices of ERCOT and CAISO (Decision 37)
+         "USD/kW-month", "USD/MW-hour"}
 NAME_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+){2,}$")
 NAME_MAX = 40
 TS_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
