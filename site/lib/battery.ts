@@ -258,8 +258,11 @@ export type Result = {
  * interval, or null for a whole day; the actions after it do not count. Session 66: lights out also costs the penalty
  * (the money may end below $0); with the rooftop add-on (`solar`, the level's shape), the roof's power is sold at each
  * interval's price (while the battery charges it goes into the battery first, which comes to the same money: the grid
- * supplies only the rest), and in the outage it carries the house before the battery does. */
-export function simulate(prices: number[], actions: Action[], r: Rules = V1, solar?: number[] | null): Result {
+ * supplies only the rest), and in the outage it carries the house before the battery does. `upto` stops the day after
+ * that many intervals (the page, mid-game: the state so far, with nothing of the hours not yet played; before it the
+ * page scored the rest of the day as idle, so on Hard the charge shown already had the coming outage taken out of it, and
+ * an outage that idling would lose ended the round before it began). */
+export function simulate(prices: number[], actions: Action[], r: Rules = V1, solar?: number[] | null, upto?: number): Result {
   const em = emergencyOf(prices, r);
   const P = em.prices;
   const vpp = vppHour(P);
@@ -270,7 +273,8 @@ export function simulate(prices: number[], actions: Action[], r: Rules = V1, sol
   let end: number | null = null, why: Result["why"] = "", outageStartKwh: number | null = null;
   const path = [soc];
   const gain: number[] = new Array(P.length).fill(0);
-  for (let i = 0; i < P.length; i++) {
+  const stop = Math.min(P.length, upto ?? P.length);
+  for (let i = 0; i < stop; i++) {
     made += sun[i];
     if (em.outage && i >= em.outage.first && i <= em.outage.last) {
       if (i === em.outage.first) outageStartKwh = soc;

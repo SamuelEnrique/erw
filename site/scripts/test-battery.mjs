@@ -264,6 +264,12 @@ const need = (EMERGENCY.houseKw * 15) / 60;  // the house's need in one interval
   const z = simulate(days.flat, days.flat.map(() => 0), rulesOf({ ...DEFAULT_SETTINGS, kwh: 5, kw: 5, reserve: 0 }, "hard"));
   const o = emergencyOf(days.flat, r).outage;
   check(z.why === "lights_out" && z.end > o.first && Math.abs(z.unservedKwh - (o.last - z.end + 1) * need) < 1e-12, `lights out at interval ${z.end} of an outage ${o.first} to ${o.last}: ${(z.unservedKwh / need).toFixed(0)} intervals unserved, USD ${z.penalty.toFixed(4)}`);
+  // mid-game the page scores only the intervals played: before the outage nothing of it shows, even where idling
+  // through the rest of the day would end in lights out
+  const whole = simulate(day, [-1, -1, -1, -1], r), part = simulate(day, [-1, -1, -1, -1], r, undefined, 4);
+  check(whole.why === "lights_out" && part.why === "" && part.end === null && part.penalty === 0 && part.soc.length === 5 && part.soc[4] === 0 && Math.abs(part.score - part.gain.reduce((a, b) => a + b, 0)) < 1e-12
+    && simulate(day, optimum(day, r).actions, r, undefined, 12).score === simulate(day, optimum(day, r).actions, r).score,
+  `the state after 4 intervals holds nothing of the outage to come (charge ${part.soc[4].toFixed(2)} kWh, money ${part.money.toFixed(2)}); the whole day ends ${whole.why}`);
   check(simulate(days.shape, optimum(days.shape).actions).penalty === 0 && simulate(days.shape, days.shape.map(() => -1)).penalty === 0, "Normal has no outage and no penalty");
 }
 // Part A's required result. The cases: each famous day on Hard with the default battery (and with rooftop solar where

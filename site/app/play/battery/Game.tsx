@@ -579,7 +579,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
       ctx.strokeStyle = css("ink"); ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(x0, y(labeled[i].real)); ctx.lineTo(x1, y(labeled[i].real)); ctx.stroke(); ctx.setLineDash([]);
     }
     ctx.restore();
-    if (anySpike && em.spike) {
+    if (anySpike && em.spike && pos >= em.spike.last + 1) {  // while the spike lasts, the label at the now line says it
       ctx.fillStyle = css("accent"); ctx.font = "11px system-ui, sans-serif";
       ctx.fillText(SPIKE_LABEL, Math.max(42, x(em.spike.first) + 4), top + 26);
       ctx.fillText("dashed: the real price", Math.max(42, x(em.spike.first) + 4), top + 39);
@@ -634,7 +634,8 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
       s.idx++;
       s.held = [0, 0, 0];
       // session 63: the state from simulate(), the server's scorer: money, the emergency, the outage, an early end
-      const r = simulate(level.price, s.actions, rules, sun);
+      // session 66: only the intervals played so far (the rest of the day is not scored as idle before it happens)
+      const r = simulate(level.price, s.actions, rules, sun, s.idx);
       s.soc = r.soc[r.soc.length - 1]; s.money = r.money; s.wear = r.wear; s.solar = r.solar; s.vppKwh = r.vppKwh;
       if (r.end !== null) s.ended = true;
     }
