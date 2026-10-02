@@ -2760,3 +2760,10 @@ run_id,runner,connector,table,market,status,detail
 20261002T002319Z,github,news_email,email,daily,ok,"2026-10-02: sent to 0 recipients (0 fixed, 0 subscribers)"
 20261002T002321Z,github,news_shadow_digest,digest,shadow,ok,"warehouse/output/shadow/digest-2026-10-02.md; sent 'SHADOW HAIKU: ERW's Energy Digest, 2026-10-02' to 1 address"
 20261002T002322Z,github,news_brief,digest,brief,ok,"top 10 with a number 7 of 10 (6 with a scored figure); 279 stories, 256 clusters, 2 call(s), tokens in 4485 out 1740, cost USD 0.0264 + summary USD 0.0031"
+20261002T090024Z,github,supabase_vacuum,catalogue,all,ok,0.1 MB -> 0.1 MB
+20261002T090024Z,github,supabase_vacuum,entities,all,ok,64.1 MB -> 36.4 MB
+20261002T090024Z,github,supabase_vacuum,events,all,ok,13.5 MB -> 11.0 MB
+20261002T090024Z,github,supabase_vacuum,headers,all,ok,0.6 MB -> 0.3 MB
+20261002T090024Z,github,supabase_vacuum,series,all,ok,379.1 MB -> 307.6 MB
+20261002T090024Z,github,supabase_vacuum,sources,all,ok,0.2 MB -> 0.1 MB
+20261002T090024Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 470.5 MB -> 368.6 MB
