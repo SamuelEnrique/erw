@@ -50,6 +50,7 @@ const PAGES = [
   "/learn/problems/networks-and-money",  // session 55: set E
   "/events/caiso-heat-2020", "/events/elliott-2022", "/events/ercot-heat-2023",
   "/events/caiso-heat-2022",  // session 58
+  "/grid/caiso/alerts",  // session 60: the Flex Alert scorecard
 ];
 
 function visible(html) {

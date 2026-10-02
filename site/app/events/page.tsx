@@ -72,6 +72,12 @@ export default async function Events() {
         </div>
         <Cite tables={[T]} />
       </Section>
+      <Section title="Across many events: the Flex Alert scorecard">
+        <p className="max-w-3xl text-sm">
+          Each page above studies one window. <Link href="/grid/caiso/alerts">The Flex Alert scorecard</Link> takes every CAISO alert day since 2018 at once
+          and asks how far demand in the alert hours fell below a weather-and-calendar model, with intervals and a wholesale value (session 60).
+        </p>
+      </Section>
     </>
   );
 }

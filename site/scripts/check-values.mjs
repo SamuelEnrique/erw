@@ -44,7 +44,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 55: set E, networks and money
   "/learn/problems/networks-and-money",
   // session 49: the network's default node card (ERCOT)
-  "/network"];  // session 46: set D
+  "/network",
+  // session 60: the Flex Alert scorecard
+  "/grid/caiso/alerts"];  // (the line ended "// session 46: set D" before session 60)
 // session 48: the draft report behind the internal token (INTERNAL_COSTS_TOKEN, in .env.local or the environment); left
 // out, and said so, where the token is not set (the page answers 404 without it)
 const INTERNAL = ["/reports/draft/shape-premium"];

@@ -75,6 +75,11 @@ export async function Reliability() {
         The tightest hour is usually early evening: solar fades while air conditioners still run.
       </p>
 
+      <p className="mb-3 max-w-3xl text-sm">
+        <strong>Did the alerts cut demand?</strong> <Link href="/grid/caiso/alerts">The Flex Alert scorecard</Link> sets every alert day since 2018 against
+        a weather-and-calendar model of demand, with intervals and a wholesale value.
+      </p>
+
       <h3 className="mb-1 text-base">Every notice since 1998: days per year</h3>
       {ns.ok ? (
         <div className="mb-2 overflow-x-auto">
