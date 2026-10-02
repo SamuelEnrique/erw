@@ -28,18 +28,18 @@ for (let i = at + 9; i < flight.length; i++) {
 const levels = JSON.parse(flight.slice(at + 9, end + 1));
 let bad = 0;
 const ends = (l, addons, m) => {
-  const r = { ...rulesOf(DEFAULT_SETTINGS, "hard", addons), penaltyMultiple: m };
+  const r = { ...rulesOf(DEFAULT_SETTINGS, "hard", addons), voll: m };
   const sun = r.solarKw > 0 ? l.solar : undefined;
   return simulate(l.price, optimum(l.price, r, sun).actions, r, sun);
 };
 for (const l of levels) {
   for (const addons of [[], ...(validSolar(l.solar, l.price.length) ? [["solar"]] : [])]) {
-    const can = ends(l, addons, 1e9).why !== "lights_out";
-    const x = ends(l, addons, LIGHTS_OUT.multiple);
+    const can = ends(l, addons, 1e12).why !== "lights_out";
+    const x = ends(l, addons, LIGHTS_OUT.usdPerMwh);
     const ok = !(can && x.why === "lights_out");
     if (!ok) bad++;
     console.log(`${ok ? "ok  " : "FAIL"} ${l.date} (${l.slug}), Hard${addons.length ? " with rooftop solar" : ""}: the perfect battery earns ${x.score.toFixed(2)} USD and ends ${x.why || "with a whole day"}; ${x.outageStartKwh === null ? "no outage (the dearest hour is the day's last)" : `${x.outageStartKwh.toFixed(2)} kWh at the outage's start, need ${x.outageNeedKwh.toFixed(2)}`}${can ? "" : "; the lights cannot be kept on from the starting charge"}`);
   }
 }
-console.log(bad ? `${bad} FAILED` : `Part A holds on the ${levels.length} levels ${base} serves (penalty ${LIGHTS_OUT.multiple} times the cap)`);
+console.log(bad ? `${bad} FAILED` : `Part A holds on the ${levels.length} levels ${base} serves (lights out charged for the whole outage at USD ${LIGHTS_OUT.usdPerMwh}/MWh)`);
 process.exit(bad || !levels.length ? 1 : 0);

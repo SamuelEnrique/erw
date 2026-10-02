@@ -380,8 +380,9 @@ function EarlyEnd({ mine, at }: { mine: Result; at: string }) {
   if (mine.why !== "lights_out") return null;
   return (
     <p className="mt-1 text-sm text-accent" role="status">
-      Lights out at {at}: the battery ran dry in the outage, so the round ended there. A dark house costs money (a game rule): the{" "}
-      {mine.unservedKwh.toFixed(2)} kWh the house went without in the rest of the outage was charged at {LIGHTS_OUT.multiple} times the USD {EMERGENCY.cap.toLocaleString("en-US")}/MWh price cap,{" "}
+      Lights out at {at}: the battery ran dry in the outage, so the round ended there. A dark house costs money (a game rule): if the lights
+      go out at any moment of the outage, you pay for the power the house needed in the whole outage, not only the part it missed. That is{" "}
+      {mine.unservedKwh.toFixed(2)} kWh at USD {LIGHTS_OUT.usdPerMwh.toLocaleString("en-US")} per MWh, the value Texas&apos;s utility commission puts on power that is not delivered:{" "}
       {usd(mine.penalty)}. A home without power in a grid emergency is the outcome the battery exists to prevent. The outage needed{" "}
       {mine.outageNeedKwh.toFixed(2)} kWh from the battery; at its start the battery held {(mine.outageStartKwh ?? 0).toFixed(2)} kWh.
       {mine.money < 0 ? " The charge took your money below $0." : ""}
@@ -768,7 +769,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
           {inOutage ? (
             <div className="mb-1 border border-ink bg-panel px-2 py-1 text-sm" role="status">
               Outage (a game rule): the grid is down. Your house runs on its battery, {EMERGENCY.houseKw} kW{rules.solarKw > 0 ? " (the roof's power first)" : ""}. If the battery runs dry, the lights go out, the round ends,
-              and every fifteen minutes left of the outage costs money: a dark house in a grid emergency is what the battery is there to prevent.
+              and you pay for the power the house needed in the whole outage ({usd((perfect.outageNeedKwh * rules.eta * LIGHTS_OUT.usdPerMwh) / 1000)}): a dark house in a grid emergency is what the battery is there to prevent.
             </div>
           ) : inSpike ? (
             <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
@@ -797,7 +798,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
               <div className="text-right">
                 <span className="text-xs text-muted">Money</span><div className={`font-mono text-lg ${money < 1 ? "text-accent" : ""}`} aria-live="off">{usd(money)}</div>
                 <div className="text-xs text-muted">earned {usd(money - START_MONEY)}{rules.deg > 0 ? `, wear ${usd(-hud.wear)}` : ""}</div>
-                {rules.solarKw > 0 ? <div className="text-xs text-muted">roof: {(roof[Math.min(n - 1, hud.idx)] * 4).toFixed(1)} of {SOLAR.kw} kW now, {usd(hud.solar)} so far</div> : null}
+                {rules.solarKw > 0 ? <div className="text-xs text-muted">roof: {(roof[Math.min(n - 1, hud.idx)] * 4).toFixed(1)} of {SOLAR.kw} kW now{playing && !inOutage && labeled[Math.min(n - 1, hud.idx)].value < 0 && hud.control !== 1 ? " (switched off: the price is below zero)" : ""}, {usd(hud.solar)} so far</div> : null}
               </div>
             </div>
           </div>

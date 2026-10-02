@@ -26,6 +26,11 @@
 // (worstHour), from simulate()'s own per-interval earnings; (4) Hard's add-ons (ADDONS), off by default, the first a
 // rooftop solar array whose output follows the grid's real solar fleet (a level's `solar`); (5) presets end "-v4" and
 // carry the add-ons.
+//
+// Session 70 (still v4, which was not yet released): (1) the lights-out charge is priced at Texas's value of lost load
+// (LIGHTS_OUT.usdPerMwh), not at a multiple of the cap found by search; (2) going dark at any point of the outage
+// charges the unserved energy of the whole outage, not only of what is left of it; (3) the roof is curtailed, earning
+// nothing, when the price is below zero and the battery is not charging (roofSale).
 
 export type Settings = { kwh: number; kw: number; rte: number; reserve: number; deg: number };
 export type Difficulty = "easy" | "normal" | "hard";
@@ -57,12 +62,20 @@ export const START_MONEY = 5;
  * assumption: a home's evening load with air conditioning; the reserve is for exactly this). */
 export const EMERGENCY = { cap: 5000, ramp: [0.25, 0.5, 0.75, 0.9], outageIntervals: 8, houseKw: 1.5 };
 export const RULES_VERSION = "v4";
-/** Session 66: lights out costs money (a game rule). The round still ends; every remaining interval of the outage, the
- * lights-out interval included, charges the house's unserved energy (EMERGENCY.houseKw for the interval, less what a
- * rooftop array makes in it) at `multiple` times the price cap. The multiple is the smallest whole one under which the
- * perfect battery keeps the lights on wherever it can (site/scripts/test-battery.mjs finds it and checks it):
- * docs/methods/battery_game.md, "Version 4". */
-export const LIGHTS_OUT = { multiple: 6 };
+/** Session 66: lights out costs money (a game rule). Session 70: the round still ends, and if the lights go out at any
+ * point of the outage the house is charged for the unserved energy of the whole outage (EMERGENCY.houseKw for every
+ * interval of it, less what a rooftop array makes in each) at Texas's value of lost load.
+ * usdPerMwh: the value of lost load the Public Utility Commission of Texas approved for the ERCOT region at its open
+ * meeting of 2024-08-29 (Project No. 55837; no written order, the Commission's press release of that day states it).
+ * study: the one-hour, ERCOT-wide value of ERCOT's study by The Brattle Group, "Value of Lost Load Study for the ERCOT
+ * Region" (filed in Project No. 55837 on 2024-08-22), which the Commission rounded. residential: the same study's
+ * one-hour value for residential customers alone. All 2024 dollars per MWh of unserved energy. The game uses the
+ * system-wide figure, on California's days too. docs/methods/battery_game.md, "Version 4". */
+export const LIGHTS_OUT = {
+  usdPerMwh: 35_000, study: 35_685, residential: 3_964,
+  release: "https://ftp.puc.texas.gov/public/puct-info/agency/resources/pubs/news/2024/PUCT_Adopts_Reliability_Standard_for_the_ERCOT_Market.pdf",
+  report: "https://www.brattle.com/wp-content/uploads/2024/09/Value-of-Lost-Load-Study-for-the-ERCOT-Region.pdf",
+};
 /** Session 66: what a spiked price carries wherever it is shown. */
 export const SPIKE_LABEL = "game rule, not a real price";
 
@@ -71,7 +84,7 @@ export const SPIKE_LABEL = "game rule, not a real price";
  * what it needs from the level where the page and the server check it (the solar shape). */
 export type AddonKey = "solar";
 export const ADDONS: Record<AddonKey, { label: string; what: string }> = {
-  solar: { label: "Rooftop solar", what: "a 5 kW rooftop array (a game rule). Each fifteen minutes it makes 5 kW times the real output, per MW installed, of the grid's whole solar fleet that hour: the fleet's shape, not one roof's. Its power is sold at that moment's price, or goes into the battery for free while you charge; in the outage it runs the house first, and what is left over charges the battery" },
+  solar: { label: "Rooftop solar", what: "a 5 kW rooftop array (a game rule). Each fifteen minutes it makes 5 kW times the real output, per MW installed, of the grid's whole solar fleet that hour: the fleet's shape, not one roof's. Its power is sold at that moment's price, or goes into the battery for free while you charge; when the price is below zero and the battery is not charging, the roof is switched off and earns nothing, as a real system would be, instead of paying to export; in the outage it runs the house first, and what is left over charges the battery" },
 };
 /** The rooftop array's size, kW (a game rule). */
 export const SOLAR = { kw: 5 };
@@ -90,13 +103,13 @@ export function validSolar(x: unknown, n: number): x is number[] {
  * difficulty enforces them; session 66: the lights-out penalty and the add-ons (only where the difficulty has them). */
 export type Rules = {
   kwh: number; kw: number; eta: number; reserveKwh: number; deg: number; start: number; minutes: number; money0: number; emergency: boolean; houseKw: number;
-  penaltyMultiple: number; solarKw: number;
+  voll: number; solarKw: number;  // voll: what unserved house energy costs, USD/MWh (LIGHTS_OUT.usdPerMwh)
 };
 export function rulesOf(s: Settings = DEFAULT_SETTINGS, d: Difficulty = "normal", addons: AddonKey[] = []): Rules {
   const D = DIFFICULTIES[d];
   return { kwh: s.kwh, kw: s.kw, eta: Math.sqrt(s.rte), reserveKwh: D.reserve ? s.kwh * s.reserve : 0, deg: D.degradation ? s.deg : 0, start: s.kwh * 0.5, minutes: 15,
     money0: START_MONEY, emergency: D.emergency, houseKw: EMERGENCY.houseKw,
-    penaltyMultiple: LIGHTS_OUT.multiple, solarKw: D.addons && addons.includes("solar") ? SOLAR.kw : 0 };
+    voll: LIGHTS_OUT.usdPerMwh, solarKw: D.addons && addons.includes("solar") ? SOLAR.kw : 0 };
 }
 
 /** Session 63: the prices a play sees and is scored at, and Hard's emergency windows (intervals, inclusive), or null. */
@@ -136,13 +149,25 @@ function outageStep(soc: number, sun: number, r: Rules): number | null {
   const taken = (need - sun) / r.eta;
   return soc + 1e-12 < taken ? null : soc - taken;
 }
-/** Session 66: the house's unserved energy from interval i to the outage's end (kWh at the meter: the house's need less
- * what the roof makes), and what it costs at the penalty's multiple of the cap, USD. */
-function unserved(i: number, last: number, sun: number[], r: Rules): { kwh: number; usd: number } {
+/** Session 66: the house's unserved energy from interval `first` to interval `last` (kWh at the meter: the house's need
+ * less what the roof makes), and what it costs at the value of lost load, USD. Session 70: lights out is charged for the
+ * whole outage, so both callers pass the outage's first and last interval, whenever the lights went out. */
+function unserved(first: number, last: number, sun: number[], r: Rules): { kwh: number; usd: number } {
   const need = (r.houseKw * r.minutes) / 60;
   let kwh = 0;
-  for (let j = i; j <= last; j++) kwh += Math.max(0, need - sun[j]);
-  return { kwh, usd: (kwh * EMERGENCY.cap * r.penaltyMultiple) / 1000 };
+  for (let j = first; j <= last; j++) kwh += Math.max(0, need - sun[j]);
+  return { kwh, usd: (kwh * r.voll) / 1000 };
+}
+/** Session 70: what the roof's power earns in one interval outside the outage (USD), and how much of it is curtailed
+ * (kWh). At a price of zero or more all of it earns the price (sold, or taken by the charging battery in place of a
+ * purchase: the same money). Below zero a real system does not pay to export: the roof's power is used only as far as
+ * the charging battery takes it (`stored`, the kWh this interval's charge put into the battery; that power then replaces
+ * grid power the battery would have been paid to take), and the rest is curtailed and earns nothing. So with the
+ * battery idle, selling or full, a negative price curtails the whole roof. */
+function roofSale(sun: number, price: number, stored: number, r: Rules): { usd: number; curtailed: number } {
+  if (price >= 0 || sun <= 0) return { usd: (sun * price) / 1000, curtailed: 0 };
+  const used = Math.min(sun, Math.max(0, stored) / r.eta);
+  return { usd: (used * price) / 1000, curtailed: sun - used };
 }
 
 export const BATTERY = { kwh: DEFAULT_SETTINGS.kwh, kw: DEFAULT_SETTINGS.kw, roundTrip: DEFAULT_SETTINGS.rte, startShare: 0.5, minutes: 15 };
@@ -249,6 +274,7 @@ export type Result = {
   /** session 66: the lights-out penalty (USD) and the unserved energy it prices (kWh); the roof's sales (USD) and its
    * output up to the end (kWh); each interval's change of the score (they sum to it; zero after an early end). */
   penalty: number; unservedKwh: number; solar: number; solarKwh: number; gain: number[];
+  curtailedKwh: number;  // session 70: the roof's output switched off at negative prices, kWh
 };
 
 /** A whole day's play: the score is cash, less the degradation cost, plus the VPP bonus, in USD. Session 63: the money
@@ -258,7 +284,9 @@ export type Result = {
  * interval, or null for a whole day; the actions after it do not count. Session 66: lights out also costs the penalty
  * (the money may end below $0); with the rooftop add-on (`solar`, the level's shape), the roof's power is sold at each
  * interval's price (while the battery charges it goes into the battery first, which comes to the same money: the grid
- * supplies only the rest), and in the outage it carries the house before the battery does. `upto` stops the day after
+ * supplies only the rest), and in the outage it carries the house before the battery does. Session 70: lights out is
+ * charged for the whole outage's unserved energy, whenever in the outage it happens; the roof is curtailed at a
+ * negative price unless the battery is charging (roofSale). `upto` stops the day after
  * that many intervals (the page, mid-game: the state so far, with nothing of the hours not yet played; before it the
  * page scored the rest of the day as idle, so on Hard the charge shown already had the coming outage taken out of it, and
  * an outage that idling would lose ended the round before it began). */
@@ -269,7 +297,7 @@ export function simulate(prices: number[], actions: Action[], r: Rules = V1, sol
   const bonusPrice = Math.max(0, vpp.price);
   const sun = solarKwh(prices, r, solar);
   const need = (r.houseKw * r.minutes) / 60;
-  let soc = r.start, cash = 0, wear = 0, vppKwh = 0, sold = 0, made = 0, penalty = 0, unservedKwh = 0;
+  let soc = r.start, cash = 0, wear = 0, vppKwh = 0, sold = 0, made = 0, penalty = 0, unservedKwh = 0, curtailedKwh = 0;
   let end: number | null = null, why: Result["why"] = "", outageStartKwh: number | null = null;
   const path = [soc];
   const gain: number[] = new Array(P.length).fill(0);
@@ -280,7 +308,7 @@ export function simulate(prices: number[], actions: Action[], r: Rules = V1, sol
       if (i === em.outage.first) outageStartKwh = soc;
       const next = outageStep(soc, sun[i], r);
       if (next === null) {
-        const u = unserved(i, em.outage.last, sun, r);
+        const u = unserved(em.outage.first, em.outage.last, sun, r);  // session 70: the whole outage
         penalty = u.usd; unservedKwh = u.kwh; gain[i] = -u.usd;
         soc = 0; path.push(soc); end = i; why = "lights_out";
         break;
@@ -291,7 +319,8 @@ export function simulate(prices: number[], actions: Action[], r: Rules = V1, sol
     }
     const x = step(soc, actions[i] ?? 0, P[i], r);
     const inVpp = i >= vpp.first && i <= vpp.last;
-    const roof = (sun[i] * P[i]) / 1000;
+    const sale = roofSale(sun[i], P[i], x.soc - soc, r), roof = sale.usd;
+    curtailedKwh += sale.curtailed;
     soc = x.soc;
     cash += x.cash;
     wear += x.wear;
@@ -306,14 +335,15 @@ export function simulate(prices: number[], actions: Action[], r: Rules = V1, sol
   let outageNeedKwh = 0;
   if (em.outage) for (let j = em.outage.first; j <= em.outage.last; j++) outageNeedKwh += Math.max(0, need - sun[j]) / r.eta;
   return { cash, wear, bonus, score, soc: path, vppKwh, money: r.money0 + score, end, why, outageStartKwh, outageNeedKwh, prices: P,
-    penalty, unservedKwh, solar: sold, solarKwh: made, gain };
+    penalty, unservedKwh, solar: sold, solarKwh: made, gain, curtailedKwh };
 }
 
 /** The perfect-foresight optimum over the same three actions: dynamic programming over every state of charge the
  * actions can reach (each state is its exact value; two paths meeting at one keep the better). The VPP bonus, the
  * reserve and the degradation cost are part of it, as in simulate(); session 66: so are the lights-out penalty and the
- * roof (its sales are the same whatever the action, and in the outage every state moves by the same forced step, so
- * the states stay as few as without it). */
+ * roof (it never moves the battery's charge outside the outage, and in the outage every state moves by the same forced
+ * step, so the states stay as few as without it; session 70: at a negative price its money depends on whether the
+ * battery charges, which roofSale reads from the step itself). */
 export function optimum(prices: number[], r: Rules = V1, solar?: number[] | null): { score: number; actions: Action[] } {
   const em = emergencyOf(prices, r);
   const P = em.prices;
@@ -330,8 +360,7 @@ export function optimum(prices: number[], r: Rules = V1, solar?: number[] | null
     const next = new Map<number, Node>();
     const inVpp = i >= vpp.first && i <= vpp.last;
     const out = em.outage !== null && i >= em.outage.first && i <= em.outage.last;
-    const dark = out ? unserved(i, em.outage!.last, sun, r).usd : 0;  // session 66: what lights out here costs
-    const roof = (sun[i] * P[i]) / 1000;
+    const dark = out ? unserved(em.outage!.first, em.outage!.last, sun, r).usd : 0;  // session 70: lights out costs the whole outage
     for (const n of layer.values()) {
       if (out) {  // the grid is down: no action; the roof and the battery carry the house, or the lights go out
         const soc = outageStep(n.soc, sun[i], r);
@@ -342,7 +371,7 @@ export function optimum(prices: number[], r: Rules = V1, solar?: number[] | null
       }
       for (const a of [1, 0, -1] as Action[]) {
         const x = step(n.soc, a, P[i], r);
-        const value = n.value + x.cash - x.wear + roof + (inVpp ? (x.delivered * bonusPrice) / 1000 : 0);
+        const value = n.value + x.cash - x.wear + roofSale(sun[i], P[i], x.soc - n.soc, r).usd + (inVpp ? (x.delivered * bonusPrice) / 1000 : 0);
         if (r.money0 + value < 0) { endAt({ soc: x.soc, value, prev: n, a }, i); continue; }  // bankrupt: the game ends
         const k = Math.round(x.soc * 1e9);
         const had = next.get(k);

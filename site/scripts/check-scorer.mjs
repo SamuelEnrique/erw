@@ -57,7 +57,7 @@ for (const l of levels) {
   agree(toy, "hard with rooftop solar, idle", DEFAULT_SETTINGS, "hard", ["solar"], toy.price.map(() => 0));
   agree(toy, "hard, sold out before the outage", zero, "hard", [], toy.price.map(() => -1));
   const dark = scoreOn(toy, { level: "toy", actions: toy.price.map(() => -1), settings: zero, difficulty: "hard" });
-  check(typeof dark !== "string" && dark.penalty === c((4 * 0.375 * 5000 * LIGHTS_OUT.multiple) / 1000), `the server's score carries the lights-out charge: USD ${typeof dark === "string" ? dark : dark.penalty}`);
+  check(typeof dark !== "string" && dark.penalty === c((4 * 0.375 * LIGHTS_OUT.usdPerMwh) / 1000), `the server's score carries the lights-out charge: USD ${typeof dark === "string" ? dark : dark.penalty}`);
   const refuse = (body, has, what) => { const r = scoreOn(toy, { level: "toy", actions: toy.price.map(() => 0), ...body }); check(typeof r === "string" && r.includes(has), `${what}: refused ("${r}")`); };
   refuse({ difficulty: "normal", addons: ["solar"] }, "only on Hard", "an add-on on Normal");
   refuse({ difficulty: "hard", addons: ["wind"] }, "addons:", "an unknown add-on");

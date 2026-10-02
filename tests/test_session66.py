@@ -182,14 +182,11 @@ class Node(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
         self.assertNotIn("FAIL", r.stdout)
         for label in ("ok   hard, default battery, rooftop solar, shape", "ok   hard, default battery, rooftop solar, flat", "ok   hard, 5 kWh, 2.5 kW, 85 percent, reserve 30, wear 0.20, rooftop solar, spike",
-                      "ok   Part A: at ", "ok   Part A: LIGHTS_OUT.multiple is ", "ok   Part B: ", "ok   Part B: Game.tsx prints no played price outside the library's labeled text",
+                      "ok   Part A: at ", "ok   Part B: ", "ok   Part B: Game.tsx prints no played price outside the library's labeled text",
                       "ok   Part C: ", "ok   lights out costs money", "ok   every preset the game writes round trips", "ok   parsePreset(a v3 board) is readable", "ok   parsePreset(a v2 board) is readable"):
             self.assertIn(label, r.stdout)
-        m = re.search(r"LIGHTS_OUT\.multiple is (\d+), the smallest whole multiple that achieves it \((\d+)\)", r.stdout)
-        self.assertEqual(m.group(1), m.group(2))
-        # the multiple the test found is the one the library holds and the method states
-        self.assertIn(f"export const LIGHTS_OUT = {{ multiple: {m.group(1)} }};", src("site", "lib", "battery.ts"))
-        self.assertIn(f"**{m.group(1)} times the price cap**", src("docs", "methods", "battery_game.md"))
+        # session 70: the price is no longer found by search (tests/test_session70.py holds the new rule's checks)
+        self.assertNotIn("smallest whole multiple that achieves it", r.stdout)
         # no famous day ends in lights out under v4, on Hard or on Normal
         table = [ln for ln in r.stdout.splitlines() if ln.startswith("  v4, ")]
         self.assertEqual(len(table), 7)
@@ -209,7 +206,7 @@ class Words(unittest.TestCase):
         self.assertIn("The game's rules (version 4)", page)
         self.assertIn("Lights out costs money (a game rule)", page)
         self.assertIn("a home without power in a grid emergency is the outcome the battery exists to prevent", page)
-        self.assertIn("{LIGHTS_OUT.multiple} times the price cap", page)
+        self.assertNotIn("LIGHTS_OUT.multiple", page)  # session 70: priced at Texas's value of lost load (tests/test_session70.py)
         self.assertIn("not one roof&apos;s", page)
         self.assertIn("nothing is filled in", page)
         game = src("site", "app", "play", "battery", "Game.tsx")
