@@ -34,7 +34,8 @@ class Rules(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-2000:])
         for label in ("hard, default battery", "hard, 5 kWh", "easy, 20 kWh", "normal, default battery"):
             self.assertIn(f"ok   {label}", r.stdout)
-        self.assertIn("Normal with the default battery scores as v1", r.stdout)
+        # session 63: the preset carries the rules' version (v3); Normal with the default battery keeps v1's scoring
+        self.assertIn("Normal with the default battery: its preset is normal:13.5-5-90-v3", r.stdout)
         self.assertNotIn("FAIL", r.stdout)
 
     def test_degradation_default_traces_to_lazard(self):

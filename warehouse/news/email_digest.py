@@ -31,6 +31,14 @@ the numbers, the fun fact and the chart of the week are always included. Every e
 signed unsubscribe link (HMAC with EMAIL_TOKEN_SECRET, checked by the database) and List-Unsubscribe headers; an
 address that unsubscribed is on the suppression list and gets nothing, fixed recipients included. Links point to
 SITE_URL (the deployed site) when set, else to the brief's markdown on GitHub.
+
+Session 63, the send guard: before the first message goes out the send claims its (kind, day) and (kind, issue) in
+Supabase (digest_sends, migration 018). A second send the same day, or of the same issue, finds the claim and is
+skipped with the reason, whether it came from the schedule, a retry or a manual dispatch. A claim whose send failed
+before any message went out is deleted, so a retry can send; once one message has gone out the claim stays (marked
+partial), so no recipient gets the issue twice. The day is the UTC date of the send; for the Roundup three hours
+earlier, so a retry before 03:00 UTC on Monday counts as Sunday's. Without the Supabase service key nothing is sent:
+an unguarded send could repeat.
 """
 
 import argparse
@@ -350,6 +358,56 @@ def unsubscribe_url(email):
     return f"{(env('SITE_URL') or SITE_DEFAULT).rstrip('/')}/api/unsubscribe?e={urllib.parse.quote(email)}&t={t}"
 
 
+class AlreadySent(Exception):
+    """Session 63: this kind was already sent today, or this issue was already sent."""
+
+
+def send_day(kind, now=None):
+    """The day a send counts for: the UTC date; for the Roundup three hours earlier (its window runs to Monday 03:00)."""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    return (now - dt.timedelta(hours=3 if kind == "roundup" else 0)).date().isoformat()
+
+
+def claim(kind, issue, log, now=None):
+    """Session 63: insert the (kind, day, issue) row in digest_sends; its two unique keys make a second send the same
+    day, or of the same issue, fail here. Returns the claim's id. Raises AlreadySent with the earlier claim's details."""
+    if not env("SUPABASE_URL") or not env("SUPABASE_SERVICE_KEY"):
+        raise RuntimeError("the send guard needs SUPABASE_URL and SUPABASE_SERVICE_KEY: nothing sent, since an unguarded "
+                           "send could repeat")
+    base, hdr = supa()
+    day = send_day(kind, now)
+    row = {"kind": kind, "day": day, "issue": issue, "run_id": env("GITHUB_RUN_ID") or "by hand"}
+    r = requests.post(f"{base}/digest_sends", json=row, timeout=60,
+                      headers={**hdr, "Prefer": "return=representation"})
+    if r.status_code == 409:
+        q = requests.get(f"{base}/digest_sends", headers=hdr, timeout=60, params={
+            "select": "day,issue,status,claimed_at,recipients,run_id", "kind": f"eq.{kind}",
+            "or": f"(day.eq.{day},issue.eq.{issue})"})
+        prior = q.json()[0] if q.status_code == 200 and q.json() else {}
+        raise AlreadySent(f"{kind} already sent: issue {prior.get('issue', '?')} on {prior.get('day', '?')} "
+                          f"({prior.get('status', '?')}, {prior.get('recipients')} recipients, run {prior.get('run_id', '?')}, "
+                          f"claimed {prior.get('claimed_at', '?')}); this send is for issue {issue} on {day}")
+    if r.status_code >= 300:
+        raise RuntimeError(f"digest_sends claim: HTTP {r.status_code}: {ip.redact(r.text[:200])}")
+    log(f"  claimed {kind} for {day} (issue {issue})")
+    return r.json()[0]["id"]
+
+
+def settle(claim_id, sent, total, log):
+    """Session 63: after the send: none sent, the claim is deleted (a retry may send); all sent, it is marked sent;
+    some sent, it stays as partial (a retry would repeat those recipients)."""
+    base, hdr = supa()
+    if sent == 0:
+        r = requests.delete(f"{base}/digest_sends", headers=hdr, timeout=60, params={"id": f"eq.{claim_id}"})
+        log(f"  nothing went out: the claim is released (HTTP {r.status_code})")
+        return
+    status = "sent" if sent == total else "partial"
+    r = requests.patch(f"{base}/digest_sends", headers=hdr, timeout=60, params={"id": f"eq.{claim_id}"},
+                       json={"status": status, "sent_at": dt.datetime.now(dt.timezone.utc).isoformat(), "recipients": sent})
+    if r.status_code >= 300:
+        log(f"  digest_sends {status} not recorded: HTTP {r.status_code}: {ip.redact(r.text[:200])} (the claim stays)")
+
+
 def send(kind, path, log):
     """Session 23: each recipient gets their own email: the fixed recipients (DIGEST_RECIPIENTS) the whole top five,
     each confirmed subscriber the top stories in their topics; every email carries the recipient's signed unsubscribe
@@ -378,6 +436,23 @@ def send(kind, path, log):
         log(f"  {len(left)} unsubscribed addresses left out")
     lines = open(path, encoding="utf-8").read().splitlines()
     sender = env("DIGEST_FROM") or "ERW Energy Digest <onboarding@resend.dev>"
+    issue = render(path, kind)[1]
+    claim_id = claim(kind, issue, log)  # session 63: raises AlreadySent on a second send
+    sent = 0
+    try:
+        sent = deliver(kind, lines, to, fixed, sender, key, path, log)
+    except Exception as exc:
+        sent = getattr(exc, "sent", 0)
+        raise
+    finally:
+        settle(claim_id, sent, len(to), log)
+    return sent, f"sent to {sent} recipients ({len([a for a in to if a in fixed])} fixed, " \
+                 f"{len([a for a in to if a not in fixed])} subscribers)"
+
+
+def deliver(kind, lines, to, fixed, sender, key, path, log):
+    """One message per recipient. On a failure part way, the count so far rides on the exception (.sent), so the
+    claim can be settled as partial."""
     sent = 0
     for addr, chosen in to.items():
         stories, note = filtered(lines, kind, chosen)
@@ -388,14 +463,17 @@ def send(kind, path, log):
             msg["headers"] = {"List-Unsubscribe": f"<{unsub}>", "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"}
         else:
             log(f"  recipient {sent + 1}: no unsubscribe link (EMAIL_TOKEN_SECRET not set); a fixed recipient only")
-        r = requests.post(RESEND, headers={"Authorization": f"Bearer {key}"}, timeout=60, json=msg)
-        if r.status_code >= 300:
-            raise RuntimeError(f"Resend HTTP {r.status_code}: {ip.redact(r.text[:200])}")
+        try:
+            r = requests.post(RESEND, headers={"Authorization": f"Bearer {key}"}, timeout=60, json=msg)
+            if r.status_code >= 300:
+                raise RuntimeError(f"Resend HTTP {r.status_code}: {ip.redact(r.text[:200])}")
+        except Exception as exc:
+            exc.sent = sent
+            raise
         sent += 1
         log(f"  sent to recipient {sent} of {len(to)} ({'fixed' if addr in fixed else 'subscriber'}, "
             f"{len(chosen)} topics; Resend id {r.json().get('id', '?')})")
-    return sent, f"sent to {sent} recipients ({len([a for a in to if a in fixed])} fixed, " \
-                 f"{len([a for a in to if a not in fixed])} subscribers)"
+    return sent
 
 
 def main(argv=None):
@@ -429,6 +507,10 @@ def main(argv=None):
             log(f"{kind}: rendered '{title}' to docs/digest/email/{label}-{kind}.txt and .html")
             n, detail = send(kind, KINDS[kind][2], log)
             results.append(dict(table="email", market=kind, status="ok", detail=f"{label}: {detail}"))
+        except AlreadySent as exc:  # session 63: a second send the same day is a skip, not a failure
+            log(f"{kind} SKIPPED: {exc}")
+            print(f"news_email {kind} SKIPPED: {exc}")
+            results.append(dict(table="email", market=kind, status="skipped", detail=str(exc)[:300]))
         except Exception:
             tb = ip.redact(traceback.format_exc())
             last = tb.strip().splitlines()[-1]

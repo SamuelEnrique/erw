@@ -103,15 +103,17 @@ class ShadowExpiry(unittest.TestCase):
 class PublishedDigestRecipients(unittest.TestCase):
     def test_fixed_recipients_and_confirmed_subscribers_get_the_published_digest(self):
         sent = Sent()
-        saved = (em.env, em.requests.post, em.subscribers, em.suppressed)
+        saved = (em.env, em.requests.post, em.subscribers, em.suppressed, em.claim, em.settle)
         try:
+            em.claim = lambda kind, issue, log, now=None: 1  # session 63: the send guard (tests/test_session63.py)
+            em.settle = lambda claim_id, sent, total, log: None
             em.requests.post = sent
             em.env = Env(RESEND_API_KEY="k", DIGEST_RECIPIENTS=A, EMAIL_SUBSCRIBERS="1", EMAIL_TOKEN_SECRET="s")
             em.subscribers = lambda kind, log: {C: ["power"]}
             em.suppressed = lambda log: set()
             n, _ = em.send("daily", DIGEST, lambda m: None)
         finally:
-            em.env, em.requests.post, em.subscribers, em.suppressed = saved
+            em.env, em.requests.post, em.subscribers, em.suppressed, em.claim, em.settle = saved
         self.assertEqual(n, 2)
         self.assertEqual(sorted(m["to"][0] for m in sent.messages), sorted([A, C]))
         self.assertFalse(any(m["subject"].startswith("SHADOW") for m in sent.messages))

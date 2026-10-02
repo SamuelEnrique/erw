@@ -78,6 +78,19 @@ The default spreads the low end of the capital cost over the energy Lazard assum
 - **Normal with the default battery is the session 38 game:** the same actions score the same (a test checks this). Every leaderboard row before v2 is of that preset.
 - **Easy's band is real prices, not a forecast model:** it shows the range of each coming hour's real prices. A real forecast is noisier, so Easy is easier than real life.
 
+## Version 3 (session 63): money, Hard's grid emergency, the simple page
+
+Every rule in this section is a **game rule**, not a market rule. The prices stay ERCOT's (or CAISO's) real prices; on Hard the emergency changes them, and the page says so while it lasts. The rules live in `site/lib/battery.ts` (`START_MONEY`, `EMERGENCY`, `emergencyOf`, `outageDraw`, `simulate`, `optimum`; `RULES_VERSION = "v3"`).
+
+- **Money.** Every play starts with $5 (`START_MONEY`). Money is $5 plus the market cash, less the degradation cost, plus the fleet bonus. In the first interval where it falls below $0 the game ends ("out of money"); the intervals after it count for nothing. The score is unchanged in meaning: what was earned, the money less the $5.
+- **Hard's grid emergency, the spike.** In the day's VPP hour (the clock hour with the highest mean real price, `vppHour`), the price climbs toward the cap: interval k of the hour is `p + (5000 - p) x r_k`, with r = 0.25, 0.5, 0.75, 0.9 and p the real price. USD 5,000/MWh is ERCOT's offer cap since 2023; the game uses it on every grid, CAISO's days included. The fleet call keeps its hour, so the spike and the call coincide.
+- **Hard's grid emergency, the outage.** The eight intervals (two hours) after the spike, clipped at the day's end, the grid is down: nothing can be bought or sold, whatever the player presses, and the house draws 1.5 kW from the battery. Each interval takes `1.5 x 15 / 60 / sqrt(round-trip)` kWh of charge, the same outbound loss as a sale; the backup reserve can be used, since this is what it is for.
+- **Lights out.** If the battery holds less than one interval's draw at the start of an outage interval, the lights go out and the round ends there. The score so far stands. The page then says how much charge the outage needed (eight intervals' draw, or fewer if clipped) and how much the battery held when it began.
+- **The perfect battery plays by the same rules.** The DP gains terminal states: a path that goes bankrupt or dark ends with the score it had, and competes with every path that continues. In the outage the only move is the forced draw. The brute-force test (all 3^12 sequences of each toy day) runs under these rules on all four presets, and new checks cover going bankrupt, the optimum never doing so, the spike's formula, the outage window, lights out and the ignored actions.
+- **What the optimum does with lights out.** Since ending the round gives up only the rest of the day, the perfect battery sometimes chooses it: with the default battery on Hard, on 2 of the 7 famous days (Uri, 2021-02-15, and the CAISO duck day, 2026-07-24) it sells into the spike and lets the lights go out, because the later intervals are worth less than the extra charge sold at the spike. On the other 5 it keeps enough. A penalty for lights out is not a rule in v3; it would be a v4 decision.
+- **The leaderboard.** A v3 preset ends `-v3` (`normal:13.5-5-90-v3`); plays are ranked only against the same preset, so a v3 play never meets a v2 one. A board from before reads "(v2 rules)". Migration `018_game_v3_digest_sends.sql` allows the suffix; the server parses and rescored every posted play with `simulate` and `optimum` under v3, as before.
+- **The simple page.** `/play/battery` is now a page for a class: one sentence of instructions, the day, a Start button, then two big buttons (Charge, Sell), the battery and the price. It plays Normal with the default battery (no emergency), skips the tutorial, and shows only the score and the perfect battery's. The settings, the difficulties, the replay, the fleet map, the leaderboard and these notes are behind "More" (`/play/battery?more=1`, the full game). Each simple play is kept in the research record like any play (the default Normal preset); the simple page has no leaderboard form, so it posts no public score.
+
 ## The leaderboard: presets
 
 - **What a preset is:** the difficulty, the usable energy, the power and the round-trip efficiency, plus, on Hard, the reserve and the degradation cost (`presetOf`). For example `normal:13.5-5-90` or `hard:13.5-5-90-r20-d0.11`.
@@ -152,4 +165,4 @@ Unchanged from session 38:
 - **Public scores:** the level, an optional nickname, the score, the perfect-foresight score and the time.
 - **Session 50 adds** the preset and the difficulty.
 - **The research record of each play** (never shown): the actions, the score, and since session 50 the preset, the difficulty and the settings. No IP, no nickname.
-- **The schema:** migration `warehouse/supabase/migrations/014_game_v2.sql` (columns only).
+- **The schema:** migration `warehouse/supabase/migrations/014_game_v2.sql` (columns only); session 63's `018_game_v3_digest_sends.sql` lets a preset end `-v3`.

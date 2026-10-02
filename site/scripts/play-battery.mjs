@@ -33,7 +33,7 @@ check(Math.abs(j.score - Math.round(best.score * 1e4) / 1e4) < 1e-9 && Math.abs(
 check(s === 200 && Array.isArray(j.top) && !j.top.some((r) => r.nickname === "ERWcheck"), `score ${heat.date}: HTTP ${s}, leaderboard of ${j.top?.length} rows, the check row left out`);
 
 // 2. today's level, from the page
-const html = await fetch(`${base}/play/battery`).then((r) => r.text());
+const html = await fetch(`${base}/play/battery?more=1`).then((r) => r.text());  // session 63: the full game names the day; the simple page does not
 const today = /the operating day (?:<!-- -->)?(\d{4}-\d{2}-\d{2})/.exec(html)?.[1];
 check(Boolean(today), `today's level on the page: ${today}`);
 if (today) {
