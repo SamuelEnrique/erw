@@ -355,7 +355,9 @@ function EndLines({ level, rules, mine, perfect, big }: { level: GameLevel; rule
   const w = worstHour(level.price, mine, perfect, rules);
   const from = (i: number) => clock(level.tz, level.ts_utc[i]);
   const to = (i: number) => clock(level.tz, new Date(Date.parse(level.ts_utc[i]) + 15 * 60_000).toISOString());
-  const did = !w ? "" : w.did === -1 ? "sold power" : w.did === 1 ? "charged up (bought power)" : w.outage ? "kept the house running, because the grid was down," : "waited";
+  const did = !w ? "" : w.did === -1 ? "sold power" : w.did === 1 ? "charged up (bought power)" : "waited";
+  // session 70: in an outage hour the perfect battery can only run the house and no price applies, so none is given
+  const dark = w !== null && w.did === 0 && w.outage;
   return (
     <ol className={`list-decimal space-y-1 pl-6 ${big ? "text-lg" : "text-base"}`} aria-label="Your day in three lines">
       <li>You {mine.score >= 0 ? "earned" : "lost"} <strong>{usd(Math.abs(mine.score))}</strong>.</li>
@@ -363,8 +365,11 @@ function EndLines({ level, rules, mine, perfect, big }: { level: GameLevel; rule
       <li>
         {w ? (
           <>
-            The hour you lost the most was {from(w.first)} to {to(w.last)}. The perfect battery {did} then, at an average price of{" "}
-            <span className={w.price.spike ? "text-accent" : ""}>{w.price.text}</span>, and made {usd(w.perfect)} in that hour; you made {usd(w.mine)}.
+            The hour you lost the most was {from(w.first)} to {to(w.last)}.{" "}
+            {dark ? "The grid was down then, so the perfect battery only kept the house running" : (
+              <>The perfect battery {did} then, at an average price of <span className={w.price.spike ? "text-accent" : ""}>{w.price.text}</span>,</>
+            )}{" "}
+            and made {usd(w.perfect)} in that hour; you made {usd(w.mine)}.
           </>
         ) : "You matched the perfect battery in every hour."}
       </li>
