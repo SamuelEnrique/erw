@@ -18,6 +18,13 @@ the hubs above, the window widened to 2025-09-01, and the per-day completeness r
 day is written only when every interval of every hub is there. It works a calendar month at a time and writes after
 each month, so an interrupted pull resumes at the first month the table does not hold. Ceiling 1.5 million rows.
 
+Session 64: the second year (2024-09-01 to 2025-08-31, --start 2024-09-01 --until 2025-09-01). SPP no longer serves
+2024's daily files at their own paths (HTTP 404): it keeps each finished year as one archive per report
+(<report>?path=/2024/2024.zip; 294 MB for the day-ahead, 5.15 GB for the real-time). For an SPP day whose daily file
+answers 404, spp_archive() reads the same daily file (By_Day/...) out of the year's archive with HTTP range requests: the
+archive's directory once, then only that member's bytes, so a day costs about its own compressed size (0.6 MB day-ahead,
+7 MB real-time). The rows' source_url is the archive's URL; the member is the daily file the 404 named.
+
 append merges the rows of the hubs above from the live rolling tables (iso_dam_hub_prices, iso_rtm_hub_prices,
 nyiso_*_zone_prices, isone_*_zone_prices) into the history: the history grows by merging and is never trimmed.
 """
@@ -52,6 +59,127 @@ LIVE = {  # market: the live table holding it
     "isone_dam": "isone_dam_zone_prices", "isone_rtm": "isone_rtm_zone_prices",
 }
 ENTITIES = {f"{iso}:{n}" for iso, (_, nodes) in TARGETS.items() for n in nodes}
+
+
+class _Remote:
+    """A file-like view of a URL that serves byte ranges, for zipfile to read an archive's directory."""
+
+    def __init__(self, url):
+        import requests
+        self.url, self.pos, self.rq = url, 0, requests
+        h = requests.get(url, headers={"Range": "bytes=0-0"}, timeout=120)
+        if h.status_code != 206:
+            raise RuntimeError(f"{url}: no byte ranges (HTTP {h.status_code})")
+        self.size = int(h.headers["Content-Range"].split("/")[1])
+
+    def seekable(self):
+        return True
+
+    def readable(self):
+        return True
+
+    def tell(self):
+        return self.pos
+
+    def seek(self, off, whence=0):
+        self.pos = off if whence == 0 else self.pos + off if whence == 1 else self.size + off
+        return self.pos
+
+    def read(self, n=-1):
+        n = self.size - self.pos if n is None or n < 0 else min(n, self.size - self.pos)
+        if n <= 0:
+            return b""
+        r = self.rq.get(self.url, headers={"Range": f"bytes={self.pos}-{self.pos + n - 1}"}, timeout=300)
+        if r.status_code != 206:
+            raise RuntimeError(f"{self.url}: range read HTTP {r.status_code}")
+        self.pos += len(r.content)
+        return r.content
+
+
+_ARCHIVES = {}
+
+
+def _archive_member(archive_url, member):
+    """The bytes of one member of a remote zip: the directory read once per archive (cached), then the member's local
+    header and data by range."""
+    import struct
+    import threading
+    import zipfile
+    import zlib
+    import requests
+    if archive_url not in _ARCHIVES:
+        _ARCHIVES.setdefault("_lock", threading.Lock())
+        with _ARCHIVES["_lock"]:
+            if archive_url not in _ARCHIVES:
+                import io
+                z = zipfile.ZipFile(io.BufferedReader(_RawAdapter(_Remote(archive_url)), buffer_size=1 << 20))
+                _ARCHIVES[archive_url] = {i.filename: i for i in z.infolist()}
+    info = _ARCHIVES[archive_url].get(member)
+    if info is None:
+        raise FileNotFoundError(f"{member} is not in {archive_url}")
+    get = lambda a, b: requests.get(archive_url, headers={"Range": f"bytes={a}-{b}"}, timeout=600)  # noqa: E731
+    head = get(info.header_offset, info.header_offset + 29).content
+    n, m = struct.unpack("<HH", head[26:30])
+    start = info.header_offset + 30 + n + m
+    data = get(start, start + info.compress_size - 1).content
+    if len(data) != info.compress_size:
+        raise RuntimeError(f"{member}: {len(data)} of {info.compress_size} bytes")
+    out = zlib.decompress(data, -15) if info.compress_type == zipfile.ZIP_DEFLATED else data
+    if zlib.crc32(out) != info.CRC:
+        raise RuntimeError(f"{member}: CRC mismatch")
+    return out
+
+
+def _raw_adapter():
+    import io
+
+    class RawAdapter(io.RawIOBase):
+        def __init__(self, remote):
+            self.r = remote
+
+        def seekable(self):
+            return True
+
+        def readable(self):
+            return True
+
+        def tell(self):
+            return self.r.tell()
+
+        def seek(self, off, whence=0):
+            return self.r.seek(off, whence)
+
+        def readinto(self, b):
+            d = self.r.read(len(b))
+            b[:len(d)] = d
+            return len(d)
+    return RawAdapter
+
+
+_RawAdapter = _raw_adapter()
+
+
+def spp_archive():
+    """Session 64: pandas.read_csv wrapped so that an SPP daily file answering 404 is read from its year's archive
+    (<report>?path=/<year>/<year>.zip, member <year>/<month>/By_Day/<file>). Installed for SPP backfills only."""
+    import io
+    import re
+    import urllib.error
+    orig = pd.read_csv
+    pat = re.compile(r"^(https://portal\.spp\.org/file-browser-api/download/[a-z-]+)\?path=/((\d{4})/\d{2}/By_Day/[^/]+\.csv)$")
+
+    def read_csv(src, *a, **k):
+        m = pat.match(src) if isinstance(src, str) else None
+        if not m:
+            return orig(src, *a, **k)
+        try:
+            return orig(src, *a, **k)
+        except urllib.error.HTTPError as exc:
+            if exc.code != 404:
+                raise
+        return orig(io.BytesIO(_archive_member(f"{m.group(1)}?path=/{m.group(3)}/{m.group(3)}.zip", m.group(2))), *a, **k)
+    pd.read_csv = read_csv
+    return orig
 
 
 def held_days(market, tz):
@@ -127,6 +255,8 @@ def backfill(isos, until=None):
         fn, label, tz, geo = ip.ISOS[iso]
         listname, nodes = TARGETS[iso]
         setattr(ip, listname, nodes)  # the pull functions read their node list at call time
+        if iso == "spp":  # session 64: 2024's daily files are only in the year's archive
+            spp_archive()
         ip.RAW.open(f"hub_history_{iso}", run_id)
         end = pd.Timestamp(until).tz_localize(tz) if until else ip.window(tz, 1)[1]
         captured = []

@@ -140,6 +140,7 @@ SECTOR_RULES = [
     (r"^caiso_grid_emergencies$", "power"),  # session 58: CAISO's Flex Alerts and emergencies
     (r"^caiso_reliability_daily$", "power"),  # session 58: how tight was it (derived)
     (r"^flex_alert_(effects|model)$", "power"),  # session 60: the Flex Alert scorecard (derived)
+    (r"^caiso_tight_evening_backtest$", "power"),  # session 64: the tight-evening forecast's backtest (derived, internal)
     (r"^caiso_dam_alert_day_hub_prices$", "power"),  # session 60: day-ahead hub prices on alert days
     (r"^ai_power_regions$", "power;carbon"),  # session 62: where the next gigawatts for AI can come from (derived)
     # session 24: the policy monitor (tool 12)
