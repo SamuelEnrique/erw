@@ -3,4 +3,7 @@ ba,string,,"EIA's balancing authority code (CISO, ERCO, ISNE, MISO, NYIS, PJM, S
 iso,string,,"The ISO's short name (CAISO, ERCOT, ISO-NE, MISO, NYISO, PJM, SPP)"
 utc_hour_start,"datetime (ISO 8601, UTC)",,"The start of the hour, UTC. EIA labels each hour by its end; one hour is subtracted"
 local_hour_start,datetime (ISO 8601 with offset),,"The same instant in the ISO's own time zone (Pacific for CAISO; Central for ERCOT, MISO and SPP; Eastern for ISO-NE, NYISO and PJM), with its UTC offset"
-demand_mw,integer,MW,"Demand served in the balancing authority's area during the hour: EIA-930's Demand, in MWh per hour, which is the hour's mean MW"
+demand_mw,integer,MW,"Demand in the balancing authority's area during the hour: EIA-930's Adjusted demand (the reported value, with the hours EIA found anomalous or missing replaced by its imputation), in MWh per hour, which is the hour's mean MW"
+demand_reported_mw,integer,MW,EIA-930's Demand as the balancing authority reported it; empty where it reported none
+imputed,boolean,,"true where EIA imputed the hour's demand (its Imputed demand column holds a value), so demand_mw is EIA's estimate, not the reported value"
+suspect,boolean,,"true where demand_mw is implausible by the rule in the README (below 30% of the ISO's median hour, or a single hour more than 20% above or below both the hour before and the hour after); the value is EIA's, unchanged"
