@@ -5,8 +5,10 @@
 # Table names are regular expressions matched against the ERW table names in
 # warehouse/output; a table matching no rule is not loaded.
 
-max_mb: 400   # session 19 human ruling: raised from 300 (the free tier's hard cap is 500 MB)
-warn_mb: 350  # session 36C: load.py prints a warning above this, after the vacuum
+# session 59 (Samuel): Supabase is on the Pro plan with the spend cap on: 8 GB of database included, and the cap stops
+# usage beyond it rather than billing. The limit leaves room under 8 GB for the vacuum's copies and the other tables.
+max_mb: 7500  # was 400 (session 19, the free tier's 500 MB hard cap)
+warn_mb: 6000 # was 350 (session 36C): load.py prints a warning above this, after the vacuum
 
 # Loaded whole, every run.
 full:

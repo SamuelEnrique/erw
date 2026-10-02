@@ -31,7 +31,7 @@ second). Writing only what changed keeps a daily run's churn to the new days.
 Session 16: --only REGEX (repeatable) loads only the live-set tables it matches, with their
 headers and catalogue rows, and leaves every other table, and the catalogue's other rows, as
 Supabase has them. For a machine whose other tables are older than the last CI load.
-Then pg_database_size (function erw_db_size) must be under max_mb (400 since session 19), or the
+Then pg_database_size (function erw_db_size) must be under max_mb (400 since session 19; 7,500 since session 59, the Pro plan), or the
 run fails. Exit 1 on any failure.
 Session 18: GitHub run 4 failed twice over: "sources: CSV 100, Supabase 101" (a source that
 left sources.csv stayed in Supabase, as sources were only upserted) and pg_database_size
