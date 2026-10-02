@@ -407,6 +407,19 @@ async function truth(check) {
     const [rows, stress] = stackRows.get(k);
     return B.stat(rows, stress, x, p[2]);
   }
+  // session 68: /network's last twelve months, bsup|<BA>|<stat>: recomputed by lib/basupply.ts from this script's own read
+  // of ba_supply_monthly (the variables the panel uses)
+  if (p[0] === "bsup") {
+    const S = await import("../lib/basupply.ts");
+    if (!supplyRows) {
+      const vars = ["days_in_month", "days_held", "days_left_out", "thin_month", "share_days", "demand_mwh", "net_import_mwh", "net_import_share_pct",
+        "net_import_pairs_mwh", "net_import_total_interchange_mwh", "net_import_balance_mwh", "net_import_pairs_share_pct",
+        "net_import_total_interchange_share_pct", "net_import_balance_share_pct"];
+      supplyRows = (await all("series", { select: "entity,variable,ts_utc,value", table_name: `eq.${S.TABLE}`, variable: `in.(${vars.join(",")})`, order: "entity,variable,ts_utc" }))
+        .map((r) => ({ ...r, value: Number(r.value) }));
+    }
+    return S.supplyStat(supplyRows, p[1], p[2]);
+  }
   if (p[0] === "shape") {
     const [, entity, market, stat, start, end] = p;
     const { stats } = await import("../lib/shapepremium.ts");
@@ -471,7 +484,8 @@ async function truth(check) {
   throw new Error(`unknown check ${check}`);
 }
 let storageRows = null;
-const stackRows = new Map();  // session 67: the battery stack's rows, by entity|strategy|duration
+const stackRows = new Map();
+let supplyRows = null;  // session 68: ba_supply_monthly, read once  // session 67: the battery stack's rows, by entity|strategy|duration
 const studies = new Map();  // session 47: event studies, by event|entity|variable
 
 /** US dollars, short, as site/app/deals/DealsTable.tsx writes them (data-format usd). */
