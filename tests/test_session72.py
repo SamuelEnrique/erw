@@ -1,4 +1,5 @@
-"""Session 72 tests: apply.py applies one named migration (--only), and nothing else.
+"""Session 72 tests: apply.py applies one named migration (--only), and nothing else; sync.py compares each table
+with Redivis's own copy (rows and newest timestamp), not with coverage.csv.
 
 Energy Research Warehouse (ERW). Session 71 found that a full run of warehouse/supabase/apply.py stops on
 014_game_v2.sql, which re-adds the version 2 preset check that version 3 plays break. --only applies one migration.
@@ -78,6 +79,66 @@ class TestOnly(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(len([s for s in sql if not s.startswith("insert into erw_private.settings")]), len(MIGRATIONS))
         self.assertTrue(any("email_token_secret" in s for s in sql))
+
+
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+import sync  # noqa: E402
+import tempfile  # noqa: E402
+
+
+class TestSync(unittest.TestCase):
+    def test_classify(self):
+        c = sync.classify
+        self.assertEqual(c(None, (5, "2026-09-30 00:00:00")), "missing")
+        self.assertEqual(c((5, "2026-09-30 00:00:00"), (5, "2026-09-30 00:00:00")), "current")
+        self.assertEqual(c((5, "2026-09-28 23:00:00"), (9, "2026-10-01 23:00:00")), "behind")   # the stale laptop
+        self.assertEqual(c((9, "2026-09-30 00:00:00"), (9, "2026-10-01 00:00:00")), "behind")   # same rows, older
+        self.assertEqual(c((9, "2026-10-02 00:00:00"), (5, "2026-10-01 00:00:00")), "ahead")    # a run not uploaded
+        self.assertEqual(c((9, "2026-10-01 00:00:00"), (5, "2026-10-01 00:00:00")), "ahead")
+        self.assertEqual(c((3, "2026-10-02 00:00:00"), (9, "2026-10-01 00:00:00")), "diverged")
+        self.assertEqual(c((3, None), (9, None)), "behind")  # no time column: rows alone
+
+    def test_norm_ts_and_local_state(self):
+        self.assertEqual(sync.norm_ts("2026-09-28T23:00:00Z"), "2026-09-28 23:00:00")
+        self.assertEqual(sync.norm_ts("2026-09-28 23:00:00+00:00"), "2026-09-28 23:00:00")
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "t.csv")
+            with open(p, "w", encoding="utf-8", newline="") as f:
+                f.write('# header\nentity,variable,ts_utc,value,note\na,x,2026-01-02T00:00:00Z,1,"two\nlines"\n'
+                        'a,x,2026-03-01T00:00:00Z,2,\na,x,2026-02-01T00:00:00Z,3,\n')
+            self.assertEqual(sync.local_state(p), (3, "ts_utc", "2026-03-01 00:00:00"))
+
+    def test_behind_restored_ahead_never_overwritten(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = os.path.join(d, "output")
+            os.makedirs(out)
+            rows = lambda ts: "".join(f"e,v,{t},1\n" for t in ts)  # noqa: E731
+            for name, ts in {"behind_t": ["2026-09-01T00:00:00Z"], "ahead_t": ["2026-09-01T00:00:00Z", "2026-10-01T00:00:00Z"],
+                             "same_t": ["2026-09-01T00:00:00Z"]}.items():
+                with open(os.path.join(out, name + ".csv"), "w", encoding="utf-8") as f:
+                    f.write("# h\nentity,variable,ts_utc,value\n" + rows(ts))
+            cov = os.path.join(d, "coverage.csv")
+            with open(cov, "w", encoding="utf-8") as f:
+                # coverage's own counts agree with every local file: the old check would have called them all current
+                f.write("table,n_rows,license\nbehind_t,1,public\nahead_t,2,public\nsame_t,1,public\nmissing_t,4,public\n")
+            cloud = {"behind_t": (2, "2026-10-01 00:00:00"), "ahead_t": (1, "2026-09-01 00:00:00"),
+                     "same_t": (1, "2026-09-01 00:00:00"), "missing_t": (4, "2026-10-01 00:00:00")}
+            restored = []
+            def restorer(names, lic, log):
+                restored.extend(names)
+                return {n: (cloud[n][0], None) for n in names}
+            buf = io.StringIO()
+            with mock.patch.object(sync, "OUT", out), mock.patch.object(sync, "COVERAGE", cov), contextlib.redirect_stdout(buf):
+                code = sync.main(["--no-git"], cloud_reader=lambda names, lic, cols, log: dict(cloud), restorer=restorer)
+                self.assertEqual(code, 0)
+                self.assertEqual(sorted(restored), ["behind_t", "missing_t"])
+                self.assertIn("AHEAD, not overwritten: ahead_t", buf.getvalue())
+                restored.clear()
+                self.assertEqual(sync.main(["--no-git", "--check"], cloud_reader=lambda *a: dict(cloud), restorer=restorer), 0)
+                self.assertEqual(restored, [], "--check writes nothing")
+                # a table whose Redivis question goes unanswered is not read as absent, and fails the run
+                part = {k: v for k, v in cloud.items() if k != "same_t"}
+                self.assertEqual(sync.main(["--no-git", "--check"], cloud_reader=lambda *a: dict(part), restorer=restorer), 1)
 
 
 if __name__ == "__main__":
