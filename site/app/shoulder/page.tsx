@@ -4,7 +4,7 @@ import { Num } from "@/components/Num";
 import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
-import { GRIDS, TABLE, checkKey, choices, hourName, monthName, monthOf, shown, view, type Row, type View } from "@/lib/shoulder";
+import { GRIDS, TABLE, checkKey, choices, dayKey, dayName, hourName, monthName, monthOf, shown, view, type Row, type View } from "@/lib/shoulder";
 import { shoulderRows } from "./read";
 
 // Session 75: "The shoulder hours". Solar floods the middle of the day and demand peaks in the evening; how long is the
@@ -29,6 +29,12 @@ function Hr({ row }: { row: Row | undefined }) {
 function V({ row, unit }: { row: Row | undefined; unit?: string }) {
   if (!row) return <span className="text-muted">not held</span>;
   return <><Num check={checkKey(row)} raw={row.value}>{shown(row.value)}</Num>{unit ? ` ${unit}` : ""}</>;
+}
+
+/** Session 80: a figure of a worst day; its row is dated the day, and so is its check key. */
+function D({ row, hour }: { row: Row | undefined; hour?: boolean }) {
+  if (!row) return <span className="text-muted">not held</span>;
+  return <Num check={dayKey(row)} raw={row.value}>{hour ? `${String(row.value).padStart(2, "0")}:00` : shown(row.value)}</Num>;
 }
 
 /** The average day, hour by hour: demand, net load, solar and battery output, the shoulder shaded. */
@@ -101,6 +107,8 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
   const { grid, month } = choices(q, months);
   const v = month ? view(rows, grid, month) : null;
   const toMidnight = v?.get("shoulder_runs_to_midnight")?.value === 1;
+  const toMidnight2 = v?.get("shoulder2_runs_to_midnight")?.value === 1;
+  const worstNeeded = v?.year.get("year_worst10_mean_shoulder_hours_needed");
   const href = (g: string, m: string) => `/shoulder?grid=${g}&month=${m}`;
   const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
   const years = [...new Set((months[grid.slug] ?? []).map((m) => m.slice(0, 4)))];
@@ -109,7 +117,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
       <ToolHeader title="The shoulder hours"
         lead={<>Solar floods the middle of the day and demand peaks in the evening. Between them is a stretch this page calls the evening shoulder (its term,
           defined below, not an industry standard): how long it lasts, how much of it the batteries operating that month cover, and how many hours they would need
-          to cover all of it. California and Texas, on the average day of each month. See also <SiteLink href="/cost-of-power/battery">what a battery earns</SiteLink>,{" "}
+          to cover all of it. California and Texas, on the average day of each month and on the ten worst days of each year. See also <SiteLink href="/cost-of-power/battery">what a battery earns</SiteLink>,{" "}
           <SiteLink href="/storage/buildout">the storage build-out</SiteLink> and <SiteLink href="/curtailment">curtailment</SiteLink>.</>} />
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
@@ -138,8 +146,11 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
           ) : (
             <>
               <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
-                In {monthName(v.month)}, {grid.name}&apos;s evening shoulder lasted <V row={v.get("shoulder_hours")} /> hours, from <Hr row={v.get("shoulder_start_hour")} /> to{" "}
-                <Hr row={v.get("shoulder_end_hour")} />{toMidnight ? " (midnight)" : ""}; its batteries could run <V row={v.get("fleet_hours")} /> hours at full power, covering <V row={v.get("shoulder_hours_covered")} /> of them.
+                In {monthName(v.month)}, {grid.by}{grid.short}&apos;s evening shoulder lasted <V row={v.get("shoulder_hours")} /> hours, from <Hr row={v.get("shoulder_start_hour")} /> to{" "}
+                <Hr row={v.get("shoulder_end_hour")} />{toMidnight ? " (midnight)" : ""}; its batteries could run <V row={v.get("fleet_hours")} /> hours at full power, covering <V row={v.get("shoulder_hours_covered")} /> of them.{" "}
+                To deliver all of the shoulder&apos;s energy above the mean they would need <V row={v.get("shoulder_hours_needed")} /> hours on the average day{worstNeeded
+                  ? <>, and <V row={worstNeeded} /> on the ten worst days of {v.year.year}.</>
+                  : v.worst.length ? <>; on the ten worst days of {v.year.year} the fleet is not held for every day, so no figure is given.</> : <>; the worst days of {v.year.year} are not held for {grid.name}.</>}
               </p>
               <HeadlineRow>
                 <HeadlineNumber label="The evening shoulder" value={<V row={v.get("shoulder_hours")} />} unit="hours"
@@ -166,6 +177,30 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                 </ChartFrame>
               </ToolSection>
 
+              <ToolSection title="A shoulder that ends inside the evening, and the worst days" id="worst"
+                note={<>The second measure is the run of hours around the evening&apos;s highest net load in which net load is above the midpoint between its daily mean and that peak. The worst days are the ten complete days of the year with the most evening shoulder energy above the day&apos;s own mean; a day of 23 or 25 hours is not ranked.</>}>
+                <HeadlineRow>
+                  <HeadlineNumber label="The shoulder, second measure" value={<V row={v.get("shoulder2_hours")} />} unit="hours"
+                    note={<><Hr row={v.get("shoulder2_start_hour")} /> to <Hr row={v.get("shoulder2_end_hour")} />{toMidnight2 ? ", still above the midpoint at midnight" : ""}, on the average day of {monthName(v.month)}. <V row={v.get("shoulder2_mwh_above_midpoint")} unit="MWh" /> above the midpoint.</>} />
+                  <HeadlineNumber label="Hours needed, second measure" value={<V row={v.get("shoulder2_hours_needed")} />} unit="hours"
+                    note={<>At the fleet&apos;s power, to deliver the energy above the midpoint. The evening peak is <V row={v.get("evening_peak_mw")} unit="MW" /> at <Hr row={v.get("evening_peak_hour")} />.</>} />
+                  <HeadlineNumber label={`The ten worst days of ${v.year.year}`} value={<V row={v.year.get("year_worst10_mean_shoulder_hours_needed")} />} unit="hours needed"
+                    note={<>Against <V row={v.year.get("year_mean_shoulder_hours_needed")} /> on the year&apos;s average day. Ranked among <V row={v.year.get("year_days_ranked")} /> complete days; the batteries ran <V row={v.year.get("year_worst10_mean_battery_hours")} /> hours at rated power in those shoulders.</>} />
+                </HeadlineRow>
+                {v.worst.length === 0 ? (
+                  <p className="max-w-3xl border border-rule bg-paper px-3 py-2 text-sm" data-worst="none">The worst days of {v.year.year} are not held for {grid.name}: the table has no ranked day for it.</p>
+                ) : (
+                  <ToolTable caption={`${grid.name}: the ten days of ${v.year.year} with the largest evening shoulder`} minWidth={760}
+                    head={["Rank", "Day", "Above its mean, MWh", "Shoulder, h", "From", "Needed, h", "Second measure, h", "Needed (second), h", "Batteries discharged, MWh", "Batteries ran, h"]}
+                    rows={v.worst.map((w) => ({
+                      key: w.day,
+                      cells: [<D key="r" row={w.get("worst_rank")} />, dayName(w.day), <D key="e" row={w.get("day_shoulder_mwh_above_mean")} />, <D key="h" row={w.get("day_shoulder_hours")} />,
+                        <D key="s" row={w.get("day_shoulder_start_hour")} hour />, <D key="n" row={w.get("day_shoulder_hours_needed")} />, <D key="h2" row={w.get("day_shoulder2_hours")} />,
+                        <D key="n2" row={w.get("day_shoulder2_hours_needed")} />, <D key="b" row={w.get("day_battery_discharge_mwh")} />, <D key="bh" row={w.get("day_battery_hours")} />],
+                    }))} />
+                )}
+              </ToolSection>
+
               <ToolSection title="By year" note="Each year: the mean over its months held of the average day's figures; the fleet as at the year's last month that has one (EIA's inventory is published a month or two behind).">
                 <ToolTable caption="The shoulder hours by year" minWidth={640}
                   head={["Year", "Months", "Shoulder, h", "Above mean, MWh", "Midday surplus, MWh", "Fleet, MW", "Fleet, h", "Covered, h", "Needed, h"]}
@@ -175,6 +210,16 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                       <V key="e" row={y.get("year_mean_shoulder_mwh_above_mean")} />, <V key="ms" row={y.get("year_mean_midday_surplus_mwh")} />, <V key="f" row={y.get("year_end_fleet_mw")} />,
                       <V key="fh" row={y.get("year_end_fleet_hours")} />, <V key="c" row={y.get("year_mean_shoulder_hours_covered")} />, <V key="n" row={y.get("year_mean_shoulder_hours_needed")} />],
                   }))} />
+                <div className="mt-6">
+                  <ToolTable caption="By year: the second measure and the ten worst days" minWidth={640}
+                    head={["Year", "Shoulder (second), h", "Needed (second), h", "Days ranked", "Worst ten: above mean, MWh", "Worst ten: needed, h", "Worst ten: needed (second), h", "Worst ten: batteries ran, h"]}
+                    rows={v.years.map((y) => ({
+                      key: `w${y.year}`,
+                      cells: [y.year, <V key="s2" row={y.get("year_mean_shoulder2_hours")} />, <V key="n2" row={y.get("year_mean_shoulder2_hours_needed")} />, <V key="d" row={y.get("year_days_ranked")} />,
+                        <V key="we" row={y.get("year_worst10_mean_shoulder_mwh_above_mean")} />, <V key="wn" row={y.get("year_worst10_mean_shoulder_hours_needed")} />,
+                        <V key="wn2" row={y.get("year_worst10_mean_shoulder2_hours_needed")} />, <V key="wb" row={y.get("year_worst10_mean_battery_hours")} />],
+                    }))} />
+                </div>
               </ToolSection>
 
               <div className="mb-8 border-t border-rule">
@@ -185,12 +230,15 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                     <li><strong>The midday surplus:</strong> the run of hours around net load&apos;s lowest hour in which net load is below its daily mean; its MWh are the sum, over those hours, of the mean less net load.</li>
                     <li><strong>The evening shoulder:</strong> from the first hour after solar&apos;s highest hour in which solar is below half of that highest value, to the first hour, after net load has risen above its daily mean, in which net load is back at or below that mean. If net load stays above the mean to midnight, the shoulder ends at midnight and the page says so. Its MWh are the sum, over its hours, of net load less the mean.</li>
                     <li><strong>The fleet:</strong> the batteries operating that month in EIA&apos;s monthly generator inventory (EIA-860M), their MW and MWh. Its hours are its MWh over its MW. <em>Hours covered</em> is the smaller of the shoulder&apos;s length and the fleet&apos;s hours; <em>hours needed</em> is the shoulder&apos;s MWh above the mean over the fleet&apos;s MW.</li>
-                    <li><strong>California:</strong> {GRIDS[1].note}</li>
+                    <li><strong>The second measure:</strong> the run of hours around the evening&apos;s highest net load (the highest from the shoulder&apos;s start to midnight) in which net load is above the midpoint between its daily mean and that peak; its MWh are the sum, over those hours, of net load less the midpoint. Hours covered and hours needed are computed against it as against the first.</li>
+                    <li><strong>The worst days:</strong> each complete day of 24 local hours is measured as the average day is, on its own hours and against its own mean. The ten with the most shoulder energy above the mean in each local year are ranked. <em>Hours needed</em> on a day is its shoulder energy over the fleet&apos;s MW of that month; where the month&apos;s fleet is not published yet it is not given, and the year&apos;s figure is the mean over all ten or is not given. <em>Batteries discharged</em> is the fleet&apos;s output in the shoulder&apos;s hours, where every hour of the day holds it; <em>batteries ran</em> is that over the fleet&apos;s MW.</li>
+                    <li><strong>California, EIA-930:</strong> {GRIDS[1].note}</li>
+                    <li><strong>California, CAISO&apos;s own data:</strong> {GRIDS[2].note}</li>
                   </ul>
                 </Fold>
                 <Fold title="What this cannot see">
                   <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
-                    <li><strong>The worst day, not the average one.</strong> A month&apos;s average day smooths away the cloudy week, the calm evening and the heat wave, which are the days that decide how much storage a grid needs.</li>
+                    <li><strong>More than ten days a year.</strong> The worst days here are ranked by one measure, shoulder energy above the day&apos;s mean. A cloudy week or a calm evening that is hard for another reason is not singled out, and several bad days in a row are counted one by one.</li>
                     <li><strong>The transmission grid and local constraints.</strong> The figures are whole-grid; a battery in the wrong place cannot serve load behind a congested line.</li>
                     <li><strong>Capacity accreditation.</strong> What a grid counts a battery as for reliability is its own rule, not its MWh over its MW.</li>
                     <li><strong>Everything else that serves the shoulder:</strong> gas, imports, hydro and demand response. The arithmetic asks only what the batteries alone could cover.</li>
@@ -202,8 +250,8 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
           )}
         </div>
       </div>
-      <SourceLine tables={[TABLE, "storage_buildout_monthly", "caiso_battery_storage", "caiso_curtailment_daily"]}
-        note={<>Derived by the ERW from EIA Form EIA-930 hourly demand and generation by energy source (the per-BA workbooks) and EIA-860M. <SiteLink href={METHOD}>Method</SiteLink>.</>} />
+      <SourceLine tables={[TABLE, "storage_buildout_monthly", "caiso_battery_storage", "caiso_curtailment_daily", "caiso_fuel_supply"]}
+        note={<>Derived by the ERW from EIA Form EIA-930 hourly demand and generation by energy source (the per-BA workbooks), CAISO&apos;s supply by fuel and EIA-860M. <SiteLink href={METHOD}>Method</SiteLink>.</>} />
     </ToolPage>
   );
 }

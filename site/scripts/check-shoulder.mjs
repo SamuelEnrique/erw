@@ -19,10 +19,14 @@ const unlock = token ? await fetch(`${base}/internal/unlock?token=${encodeURICom
 const cookie = unlock ? (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ") : "";
 let bad = 0, n = 0, values = 0;
 const check = (ok, what) => { n++; if (!ok) { bad++; console.log(`FAIL ${what}`); } };
-const truth = new Map(tableRows().map((r) => [`series|${TABLE}|${r.entity}|${r.variable}|${r.ts_utc.slice(0, 7)}-01T00:00:00Z`, r.value]));
+// session 80: a row's key carries its own date (a month's and a year's rows are dated the first of the month; a worst
+// day's rows the day)
+const truth = new Map(tableRows().map((r) => [`series|${TABLE}|${r.entity}|${r.variable}|${r.ts_utc.slice(0, 10)}T00:00:00Z`, r.value]));
+const hasOwn = tableRows().some((r) => r.entity === "iso:caiso_own");
 const decode = (s) => s.replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
 const visible = (html) => decode(html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<!-- -->/g, "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ");
-for (const page of ["/shoulder", "/shoulder?grid=ercot&month=2019-07", "/shoulder?grid=ercot&month=2024-01", "/shoulder?grid=caiso&month=2025-07", "/shoulder?grid=caiso&month=2021-04", "/shoulder?grid=caiso"]) {
+for (const page of ["/shoulder", "/shoulder?grid=ercot&month=2019-07", "/shoulder?grid=ercot&month=2024-01", "/shoulder?grid=caiso&month=2025-07", "/shoulder?grid=caiso&month=2021-04", "/shoulder?grid=caiso",
+  ...(hasOwn ? ["/shoulder?grid=caiso-own", "/shoulder?grid=caiso-own&month=2025-09", "/shoulder?grid=caiso-own&month=2026-08"] : [])]) {
   const res = await fetch(base + page, { headers: cookie ? { Cookie: cookie } : {} });
   const html = await res.text();
   const text = visible(html);
@@ -41,6 +45,12 @@ for (const page of ["/shoulder", "/shoulder?grid=ercot&month=2019-07", "/shoulde
   check(text.includes("The evening shoulder") && text.includes("Hours the battery fleet covers") && text.includes("The midday surplus"), `${page}: three headline numbers`);
   check((html.match(/<svg /g) ?? []).length >= 2, `${page}: both charts`);
   check(text.includes("The shoulder hours by year") || /By year/.test(text), `${page}: the table by year`);
+  // session 80: the second section, and the summary's average day and worst days together
+  check(text.includes("A shoulder that ends inside the evening, and the worst days") && text.includes("The shoulder, second measure"), `${page}: the second section`);
+  check(/on the average day/.test(text) && (/on the ten worst days of \d{4}/.test(text) || /the worst days of \d{4} are not held/.test(text)), `${page}: the summary names the average day and the worst days`);
+  const ranked = spans.filter((m) => decode(m[1]).includes("|worst_rank|")).length;
+  check(ranked === 10 || (ranked === 0 && /data-worst="none"/.test(html)), `${page}: ten ranked days, or the page says none are held (${ranked})`);
+  if (page.includes("caiso-own")) check(ranked === 10, `${page}: California's own data has its ten worst days`);
 }
 console.log(`/shoulder as rendered: ${n - bad} of ${n} checks pass, ${values} numbers against the table's rows`);
 process.exit(bad ? 1 : 0);

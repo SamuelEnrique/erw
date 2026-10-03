@@ -15,7 +15,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-export const TABLE_FILE = path.join(here, "..", "..", "warehouse", "output", "shoulder_hours_monthly.csv");
+// session 80: SHOULDER_TABLE_FILE points the stub (and check-shoulder) at a trial build, for a table not yet in warehouse/output
+export const TABLE_FILE = process.env.SHOULDER_TABLE_FILE ?? path.join(here, "..", "..", "warehouse", "output", "shoulder_hours_monthly.csv");
 export const TABLE = "shoulder_hours_monthly";
 
 /** The table's rows as { entity, variable, ts_utc, value }. The table has no quoted cell. */
