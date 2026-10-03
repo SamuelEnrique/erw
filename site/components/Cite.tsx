@@ -11,7 +11,8 @@ const LIVE_ONLY: Record<string, string> = {
 
 // The citation under every chart and table: the ERW tables it reads and, from the
 // catalogue, the source report behind each. Session 28: a table whose provenance tier is
-// model_extracted carries a short label, so a reader can tell a model's reading from a source.
+// model_extracted carries a short label, so a reader can tell a model's reading from a source. Session 71: while /data is
+// in review (lib/release.ts) a visitor sees each table name as plain text, with no "in review" label.
 export async function Cite({ tables, note }: { tables: string[]; note?: string }) {
   const cat = await attempt(catalogue);
   const byName = new Map(cat.ok ? cat.data.map((r) => [r.table_name, r]) : []);
@@ -31,11 +32,11 @@ export async function Cite({ tables, note }: { tables: string[]; note?: string }
             ) : (
               <>
                 ERW table{" "}
-                <Link href={`/data#${t}`} className="font-mono">
+                <Link href={`/data#${t}`} className="font-mono" gate="plain">
                   {t}
                 </Link>
                 {isModelExtracted(r?.tier) ? (
-                  <Link href="/data/standard" title={TIER_TITLE.model_extracted} className="ml-1 rounded border border-rule px-1 font-sans not-italic">
+                  <Link href="/data/standard" title={TIER_TITLE.model_extracted} className="ml-1 rounded border border-rule px-1 font-sans not-italic" gate="plain">
                     {TIER_LABEL.model_extracted}
                   </Link>
                 ) : null}

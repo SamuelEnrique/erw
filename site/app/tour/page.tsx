@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { STOPS } from "@/lib/tour";
 
 // Session 53: the guided tour for a first-time visitor: five stops, about three minutes, each a sentence and a link.

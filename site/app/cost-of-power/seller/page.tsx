@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import fs from "node:fs";
 import path from "node:path";
 import { Cite } from "@/components/Cite";
@@ -51,6 +51,18 @@ function U({ pre, stat, v }: { pre: string; stat: string; v: number | null }) {
   return v === null ? <span className="text-muted">not held</span> : <span data-format="usd"><Num check={`mr|${pre}|${stat}`} raw={v}>{usdShort(v)}</Num></span>;
 }
 const count = (v: number) => String(v);
+/** Session 65: where the hubs outside ERCOT start and how many months they hold, read from the snapshot's own months
+ * (the months of merchant_revenue_monthly), so the sentences that state them cannot go stale when the history grows. */
+function otherHubs(snap: Snapshot) {
+  const spans = Object.values(snap.isos).filter((s) => s.iso !== "ercot").map((s) => {
+    const ks = Object.keys(s.months).sort();
+    return { first: ks[0], n: ks.length };
+  });
+  const first = spans.map((s) => s.first).sort()[0];
+  const lo = Math.min(...spans.map((s) => s.n)), hi = Math.max(...spans.map((s) => s.n));
+  return { first, count: lo === hi ? `${lo}` : `${lo} to ${hi}` };
+}
+const firstMonth = (snap: Snapshot, iso: string) => Object.keys(snap.isos[iso].months).sort()[0];
 const monthName = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 
 /** Monthly revenue, one bar per month: held months in ink, the ones below the debt service's month in cardinal, months
@@ -114,6 +126,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const s = snap.isos[x.iso];
   const k = keyOf(x);
   const ms = months(snap, x);
+  const others = otherHubs(snap);
   const sm = summary(ms);
   const t = ttm(ms, x.ds);
   const st = stress(snap, x);
@@ -163,6 +176,9 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
           <button type="submit" className="border border-accent px-3 py-1 text-accent">Show</button>
           <Link href="/cost-of-power/seller" className="text-xs">Reset to the defaults</Link>
         </form>
+        <p className="mt-2 max-w-3xl text-sm">
+          Battery: this tab is energy only. Energy and ancillary services together, at 2, 4 and 8 hours, are on <Link href="/cost-of-power/battery">What a battery earns</Link>.
+        </p>
         <p className="mt-2 max-w-3xl text-xs text-muted">
           Defaults, each an assumption from Lazard&apos;s Levelized Cost of Energy+ (June 2025), the midpoint of its range: capital cost {D.capex.toLocaleString("en-US")} USD/kW
           (Lazard {D.capexRange}), fixed O&amp;M {D.fom} USD/kW-yr ({D.fomRange}), life {D.life} years; debt service = capital x {DEBT.share * 100} percent debt at{" "}
@@ -265,7 +281,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
             <p className="mt-1 text-xs text-muted">A normal week: seven times the mean of the baseline days. A merchant asset&apos;s best days are the grid&apos;s worst: what it earns in a storm depends on being available in it, which this model assumes (no outage, no frozen equipment, no fuel shortage).</p>
           </>
         ) : (
-          <p className="max-w-3xl text-sm text-muted">The stress days are ERCOT&apos;s: the warehouse holds {ISO_NAMES[x.iso]}&apos;s hub prices from September 2025 only, after these events.</p>
+          <p className="max-w-3xl text-sm text-muted">The stress days are ERCOT&apos;s: the warehouse holds {ISO_NAMES[x.iso]}&apos;s hub prices from {monthName(firstMonth(snap, x.iso))} only, after these events.</p>
         )}
       </Section>
 
@@ -276,7 +292,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
           <li><strong>Solar and wind are the fleet, not your site.</strong> Hourly output per MW is the whole balancing authority&apos;s, so a single site&apos;s curtailment, congestion and node price are not here, and new capacity listed late in EIA-860M inflates the early hours of a new fleet.</li>
           <li><strong>The hub, not your node.</strong> A plant is paid its own node&apos;s price; the gap to the hub (basis) can be large and negative exactly in the windy, sunny hours.</li>
           <li><strong>Gas is Henry Hub.</strong> A peaker in New England or New York pays a delivered gas price that spikes in winter; Henry Hub understates it there, so the peaker&apos;s margin is overstated.</li>
-          <li><strong>The few months outside ERCOT.</strong> The other hubs&apos; prices start in September 2025: twelve or thirteen months is one draw of weather and gas, not a distribution.</li>
+          <li><strong>The few months outside ERCOT.</strong> The other hubs&apos; prices start in {monthName(others.first)}: {others.count} months is a short sample of weather and gas, not a distribution.</li>
         </ul>
       </Section>
       <p className="text-xs text-muted">

@@ -43,6 +43,9 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SITE_URL: ${{ secrets.SITE_URL }}  # check-routes' baseline: the live site, before this branch
+          # session 67, the release gate (docs/release-gate.md): the local build under test gets a throwaway token of
+          # its own, so check-routes can unlock it and still cover every page. Not a secret, not production's token.
+          INTERNAL_COSTS_TOKEN: ci-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           set -euo pipefail
           cd site

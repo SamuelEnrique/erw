@@ -2,7 +2,7 @@
 // build time, from event_window_daily (Supabase) by lib/eventstudy.ts, the twin of warehouse/derived/event_study.py,
 // whose table event_study_estimates holds the same numbers (docs/methods/event_study.md). Every number carries a check
 // key (es|<event>|<entity>|<variable>|<term>|<field>) that scripts/check-values.mjs recomputes.
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Num } from "@/components/Num";

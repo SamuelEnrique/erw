@@ -1,14 +1,18 @@
 "use client";
 // The top nav (session 20): six groups from lib/pages.ts, each a <details> menu, so it works
 // without JavaScript and fits a phone's width in one or two lines. A group of one page is a
-// plain link. A menu closes when a page is chosen or another menu opens.
+// plain link. A menu closes when a page is chosen or another menu opens. Session 67: a page in review (lib/release.ts)
+// is listed greyed with an "in review" label and is not a link (components/SiteLink.tsx); a menu whose pages are all
+// in review still opens.
 import { SiteLink as Link } from "@/components/SiteLink";  // session 46: no prefetch on /severance/lease
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { useInternal } from "@/components/Internal";
 import { GROUPS } from "@/lib/pages";
 
 export function Nav() {
   const path = usePathname();
+  const internal = useInternal();  // session 67: the release gate's internal view (lib/release.ts)
   const box = useRef<HTMLElement>(null);
   useEffect(() => {
     box.current?.querySelectorAll("details[open]").forEach((d) => d.removeAttribute("open"));
@@ -61,6 +65,11 @@ export function Nav() {
           </details>
         );
       })}
+      {internal ? (
+        <span className="text-xs text-muted" title="The release gate is open in this browser: every page is reachable (docs/release-gate.md)">
+          internal view <a href="/internal/lock" className="text-muted">lock</a>
+        </span>
+      ) : null}
     </nav>
   );
 }

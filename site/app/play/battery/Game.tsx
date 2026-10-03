@@ -14,7 +14,7 @@
 // never formats a played price itself: scripts/test-battery.mjs checks it); after a play, three plain lines (EndLines):
 // what you earned, what the perfect battery earned, and the hour you lost the most, from simulate()'s own earnings per
 // interval; and Hard's add-ons, off by default, the first a rooftop solar array that follows the level's real solar shape.
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ADDON_KEYS, ADDONS, DEFAULT_SETTINGS, DIFFICULTIES, EMERGENCY, emergencyOf, eventPageFor, explain, FLEET, isPerfect, LIGHTS_OUT, optimum, perfectShare, presetLabel, presetOf, rulesOf, SETTINGS,
