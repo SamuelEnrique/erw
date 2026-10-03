@@ -235,7 +235,7 @@ export default async function GridPage() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Grid conditions</h1>
-      <CaisoBreakNote />
+      <CaisoBreakNote kind="mix" />
       <p className="mb-2 max-w-3xl">
         Yesterday&apos;s electricity demand, day-ahead demand forecast and generation by fuel for seven <Term t="ISO" first />s and the Lower 48, with the last seven
         days of demand, from <Term t="EIA" first />&apos;s Hourly Electric Grid Monitor (Form EIA-930).
