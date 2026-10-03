@@ -46,6 +46,8 @@ code { overflow-wrap: anywhere; }
    label; it is not a link, so it cannot be clicked or reached by keyboard. */
 .gate-review, .gate-review * { color: var(--color-muted) !important; }
 .gate-review { cursor: default; text-decoration: none; }
+/* Session 71: a table name in a citation line while /data is in review: plain text, not greyed, no label. */
+.gate-plain { cursor: text; text-decoration: none; }
 .gate-label {
   display: inline-block; margin-left: 0.4em; padding: 0 0.3em; border: 1px solid var(--color-rule); border-radius: 2px;
   font-family: var(--font-sans); font-size: 10px; line-height: 1.5; letter-spacing: 0.03em; white-space: nowrap; vertical-align: middle;
