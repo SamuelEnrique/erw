@@ -75,7 +75,7 @@ export default async function Prices() {
                           </td>
                           <td className="py-1 pr-3 text-right tabular-nums">
                             {rt ? (
-                              <Num check={`latest_prices|${rt.entity}|${rt.variable}`} raw={rt.value}>
+                              <Num check={`latest_prices|${rt.entity}|${rt.variable}|${rt.ts_utc}`} raw={rt.value}>
                                 {price(rt.value)}
                               </Num>
                             ) : (

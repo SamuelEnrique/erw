@@ -80,7 +80,7 @@ async function PriceBoard() {
               {p ? (
                 <>
                   <div className="mt-1 text-2xl tabular-nums">
-                    <Num check={`latest_prices|${p.entity}|${p.variable}`} raw={p.value}>{price(p.value)}</Num>{" "}
+                    <Num check={`latest_prices|${p.entity}|${p.variable}|${p.ts_utc}`} raw={p.value}>{price(p.value)}</Num>{" "}
                     <span className="text-sm text-muted">{p.unit}</span>
                   </div>
                   <div className="text-xs text-muted">
