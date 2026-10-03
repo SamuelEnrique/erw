@@ -97,6 +97,10 @@ class TestSync(unittest.TestCase):
         self.assertEqual(c((9, "2026-10-01 00:00:00"), (5, "2026-10-01 00:00:00")), "ahead")
         self.assertEqual(c((3, "2026-10-02 00:00:00"), (9, "2026-10-01 00:00:00")), "diverged")
         self.assertEqual(c((3, None), (9, None)), "behind")  # no time column: rows alone
+        self.assertEqual(c((9, "2026-10-01"), (9, "2026-10-01 00:00:00")), "current")  # a date against a timestamp
+        self.assertEqual(c((9, "2026-10-01"), (9, None)), "current")  # Redivis gives no newest for a string column
+        self.assertIsNone(sync.stat_newest({"max": 20, "variable": {"type": "string"}}))
+        self.assertEqual(sync.stat_newest({"max": 1790722800000, "variable": {"type": "dateTime"}}), "2026-09-29 23:00:00")
 
     def test_norm_ts_and_local_state(self):
         self.assertEqual(sync.norm_ts("2026-09-28T23:00:00Z"), "2026-09-28 23:00:00")
@@ -143,3 +147,16 @@ class TestSync(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestSyncTyped(unittest.TestCase):
+    def test_csv_export_written_as_before(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "redivis"))
+        import pandas as pd
+        import upload as up
+        df = pd.DataFrame({"ts_utc": ["2026-09-28 00:00:00", ""], "value": ["1.5", ""], "event_date": ["2026-10-01", ""],
+                           "flag": ["true", "false"], "n": ["3", ""]})
+        types = {"ts_utc": "dateTime", "value": "float", "event_date": "date", "flag": "boolean", "n": "integer"}
+        out = up.as_erw_text(sync.typed(df, types))
+        self.assertEqual(out.iloc[0].tolist(), ["2026-09-28T00:00:00Z", "1.5", "2026-10-01", "True", "3"])
+        self.assertEqual(out.iloc[1].tolist(), ["", "", "", "False", ""])

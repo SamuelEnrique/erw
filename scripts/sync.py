@@ -128,6 +128,9 @@ def classify(local, cloud):
     if local is None:
         return "missing"
     (ln, lt), (cn, ct) = local, cloud
+    if lt is not None and ct is not None:  # a date against a timestamp: compare on what both hold
+        k = min(len(lt), len(ct))
+        lt, ct = lt[:k], ct[:k]
     t = 0 if lt == ct or lt is None or ct is None else (1 if lt > ct else -1)
     r = (ln > cn) - (ln < cn)
     if t == 0 and r == 0:
@@ -150,12 +153,27 @@ def open_read(acct, dataset):
     return acct.dataset(dataset)
 
 
+def stat_newest(stats):
+    """The newest value of a variable from Redivis's own statistics: a dateTime or date is epoch milliseconds."""
+    import datetime as dt
+    v = (stats or {}).get("max")
+    # a string variable's min and max are its lengths, not values: no newest timestamp from Redivis for it
+    if v is None or ((stats or {}).get("variable") or {}).get("type") not in ("dateTime", "date"):
+        return None
+    if isinstance(v, (int, float)):
+        return dt.datetime.fromtimestamp(v / 1000, tz=dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+    return norm_ts(v)
+
+
 def cloud_state(names, lic, cols, log):
-    """{name: (rows, newest) or None when Redivis does not hold it}; a table whose question goes unanswered is left out
-    and reported, never read as absent."""
+    """{name: (rows, newest) or None when Redivis does not hold it}. Rows are the table's own numRows, the newest
+    timestamp the max of Redivis's statistics of its time variable: no query and no download, so no pyarrow (which an
+    Application Control policy blocks on this laptop since session 72). A table whose question goes unanswered is left
+    out and reported, never read as absent."""
     sys.path.insert(0, os.path.join(ROOT, "warehouse", "redivis"))
-    import redivis
+    import warnings
     import upload as up
+    warnings.filterwarnings("ignore")
     acct, opened, out = up.account(), {}, {}
     for name in names:
         dataset = up.dataset_for(lic.get(name, ""))
@@ -166,22 +184,49 @@ def cloud_state(names, lic, cols, log):
             if meta is None:
                 out[name] = None
                 continue
-            ref = meta["qualifiedReference"]
             col = cols.get(name)
-            sql = f"select count(*) as n{f', max(`{col}`) as newest' if col else ''} from `{ref}`"
-            row = redivis.query(sql).to_arrow_table(progress=False).to_pylist()[0]
-            out[name] = (int(row["n"]), norm_ts(row.get("newest")))
+            newest = stat_newest(opened[dataset].table(name).variable(col).get_statistics()) if col else None
+            out[name] = (int(meta["numRows"]), newest)
         except Exception as exc:
             log(f"  could not read {name} on Redivis ({dataset}): {type(exc).__name__}: {str(exc)[:160]}")
     return out
+
+
+def typed(df, types):
+    """A frame read from Redivis's CSV export, as strings, given the types the reader of to_pandas_dataframe would have
+    given it, so upload.as_erw_text writes the same text as before: dateTime as datetimes, float as floats, boolean as
+    True and False; date, integer and string stay as written (as_erw_text writes them unchanged)."""
+    for c, t in types.items():
+        if c not in df.columns:
+            continue
+        if t == "dateTime":
+            df[c] = pd.to_datetime(df[c].replace("", None), format="ISO8601")
+        elif t == "float":
+            df[c] = pd.to_numeric(df[c].replace("", None))
+        elif t == "boolean":
+            df[c] = df[c].map({"true": "True", "false": "False"}).fillna("")
+    return df
+
+
+def download_frame(table, tmpdir):
+    """One Redivis table as a frame, through its CSV export (session 72: on this laptop an Application Control policy
+    blocks the pyarrow module that Redivis's to_pandas_dataframe needs; the export needs none)."""
+    types = {v.properties["name"]: v.properties.get("type") for v in table.list_variables()}
+    path = table.download(os.path.join(tmpdir, "table.csv"), format="csv", overwrite=True, progress=False)
+    path = path[0] if isinstance(path, list) else path
+    df = pd.read_csv(path, dtype=str, keep_default_na=False)
+    os.remove(path)
+    return typed(df, types)
 
 
 def restore(names, lic, log):
     """Each table from its Redivis dataset into warehouse/output, header lines first. Returns {name: (rows, error)}."""
     sys.path.insert(0, os.path.join(ROOT, "warehouse", "redivis"))
     import upload as up
+    import tempfile
     drafts = up.Drafts()
     headers, out = {}, {}
+    tmpdir = tempfile.mkdtemp(prefix="erw-sync-")
     for name in names:
         try:
             dataset = up.dataset_for(lic.get(name, ""))
@@ -191,12 +236,13 @@ def restore(names, lic, log):
                 raise RuntimeError(f"not in the Redivis dataset {dataset}; rebuild it from the archive: python warehouse/archive/restore.py {name}")
             have = meta.get("numRows")
             t0 = time.time()
-            df = up.as_erw_text(ds.table(name).to_pandas_dataframe(progress=False, dtype_backend="numpy"))
+            df = up.as_erw_text(download_frame(ds.table(name), tmpdir))
             if have is not None and len(df) != int(have):
                 raise RuntimeError(f"downloaded {len(df):,} rows, Redivis's count is {int(have):,}")
             if dataset not in headers:
                 try:
-                    h = ds.table(up.HEADERS_TABLE).to_pandas_dataframe(progress=False, dtype_backend="numpy")
+                    h = download_frame(ds.table(up.HEADERS_TABLE), tmpdir)
+                    h["line_no"] = pd.to_numeric(h["line_no"])
                     headers[dataset] = {t: [str(x) for x in g.sort_values("line_no")["line"]] for t, g in h.groupby("table")}
                 except Exception as exc:
                     headers[dataset] = {}
