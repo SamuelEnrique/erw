@@ -2,7 +2,7 @@
 
 Energy Research Warehouse (ERW), session 67, on the portable laptop, 2026-10-02 from about 20:30 UTC, unattended. **Model spend: USD 0.00** (the cap was USD 0). No paid service, no new pull, no force push. Branch `task/067-battery-stack`.
 
-**For session 68: the release gate (Part C) shipped on this branch.** It is live once this branch's merge is on main (see "The push and production" at the end for whether the merge and the deploy were confirmed). `site/lib/release.ts` is the one list; `site/scripts/check-routes.mjs` has both passes.
+**For session 68: the release gate (Part C) shipped.** It is on main (`12bd978`) and live on production. `site/lib/release.ts` is the one list; `site/scripts/check-routes.mjs` has both passes.
 
 ## In plain words
 
@@ -209,8 +209,28 @@ The contract terms: tested in a real browser that typing them makes no network r
 - **The lock** was held from 21:00 to about 21:45 UTC for the build, archive, upload and load, and released.
 - **`SESSION_69_PROMPT.md` appeared in the repository root during the session.** I was told to stop after session 68. I have not read or acted on it.
 
+## The push and production
+
+- **The push:** `git push origin task/067-battery-stack`, once, after every local check passed. The workflow's checks passed (run 37074080816) and it merged the branch: main is at `12bd978`, "Merge task/067-battery-stack: checks passed". Production served the new page about two minutes later.
+- **The live URLs:** `https://erw-flame.vercel.app/cost-of-power/battery` (ERCOT, 4 hours, perfect foresight by default; for example `?grid=caiso&dur=2&strat=dayahead`), `https://erw-flame.vercel.app/storage`, `https://erw-flame.vercel.app/` (the "Open now" strip).
+- **The numbers on production match Supabase.** `site/scripts/check-battery-production.mjs` loaded the page for ERCOT and CAISO at 2, 4 and 8 hours under both strategies and recomputed every keyed number from its own read of Supabase: 12 of 12 combinations, 2,766 values, 0 wrong.
+- **The duration toggle on production** changes the address, the summary sentence, each headline number, the chart and the income table (the browser test, on both grids).
+- **The contract on production:** no request, no change of address, nothing stored; the terms survive a change of duration and are in none of its requests.
+- **The gate on production, in a browser with no cookie:** the home page and the six live pages open; `/board` shows the in-review page with its name, at its own address, noindex; the menu shows every item, the 38 in review greyed, labeled, not links and not reachable by keyboard. 43 assertions, all pass.
+
+**One thing on production did not work, and it matters: the unlock link answered 404.** `https://erw-flame.vercel.app/internal/unlock?token=...` with the `INTERNAL_COSTS_TOKEN` this laptop holds (the same value in `.env` and `site/.env.local`) answers 404. So does `/internal/costs` with the same token, which is older code, so the cause is not this session's route: either `INTERNAL_COSTS_TOKEN` is not set in Vercel's production environment, or it is set to another value than this laptop's. I could not tell which (no Vercel access here) and did not try to work around it. Until it is settled:
+
+- **nobody can open the pages in review on production**, you included, unless you hold the token Vercel has;
+- `check-routes` and `check-values` cannot cover the pages in review on production (they did locally, and in the workflow against its own build);
+- the internal view itself (unlock, the mark in the menu, lock) is tested locally only: 5 assertions, pass.
+
+If Vercel has no token, setting `INTERNAL_COSTS_TOKEN` there to the value in `.env` and redeploying fixes it. If you need a tool open before then, it is one line in `site/lib/release.ts`.
+
+**This section is not on main yet.** The report was committed before the push (pushing twice would have deployed twice). This section and the production check script are the first commit of session 68's branch and reach main with its merge.
+
 ## For Samuel
 
+0. **The unlock link answers 404 on production.** See "The push and production". Everything but the six live tools is closed to everyone until Vercel's `INTERNAL_COSTS_TOKEN` matches a token you hold.
 1. **Before sending the page: the ERCOT summary sentence.** It leads with an average year that is 57 percent one storm. Decide whether it should lead with the last twelve months.
 2. **CAISO's duration requirements** are assumed at one hour. If you or the CFO know them, they are one line each.
 3. **Watch the 14:00 UTC daily run.** Four new steps, never run on the runner.
