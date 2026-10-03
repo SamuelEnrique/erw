@@ -71,6 +71,13 @@ NPRR1096 = ("ERCOT NPRR 1096, Require Sustained Two-Hour Capability for ECRS and
             "approved 2022-05-12, effective 2022-12-09, https://www.ercot.com/mktrules/issues/NPRR1096")
 NPRR1282 = ("ERCOT NPRR 1282, Ancillary Service Duration under Real-Time Co-Optimization, approved 2025-07-31, "
             "effective 2025-12-05, https://www.ercot.com/mktrules/issues/NPRR1282")
+# Session 76 (Samuel's ruling on session 74's reading of the tariff): California's requirements, cited. The model's
+# awards are day-ahead, so Regulation keeps its hour, now the tariff's own; Spinning and Non-Spinning Reserve take 30 minutes.
+CAISO_TARIFF = "CAISO tariff Section 8 as of 2026-05-01"
+CAISO_REG = (CAISO_TARIFF + ", section 8.4.1.1(g): Regulation dispatchable on a continuous basis for at least sixty (60) "
+             "minutes in the Day-Ahead Market, https://www.caiso.com/documents/section-8-ancillary-services-as-of-may-1-2026.pdf")
+CAISO_RESERVE = (CAISO_TARIFF + ", section 8.4.3: Spinning and Non-Spinning Reserve maintained for at least thirty (30) "
+                 "minutes, https://www.caiso.com/documents/section-8-ancillary-services-as-of-may-1-2026.pdf")
 
 # Each product: its key in the table, its direction, its price series (entity, variable), the first local day it was
 # bought (None: from the table's start) and its required duration by period: (first local day, hours, source), the
@@ -95,13 +102,13 @@ MARKETS = {
         label="CAISO", start="2024-09-01", as_table="caiso_as_prices", geo="US-CA",
         products=[
             dict(key="regup", label="Regulation Up", up=True, entity="caiso:AS_CAISO_EXP", variable="as_price_dam_ru",
-                 first=None, hours=[("2024-09-01", 1.0, ONE_HOUR)]),
+                 first=None, hours=[("2024-09-01", 1.0, CAISO_REG)]),
             dict(key="regdn", label="Regulation Down", up=False, entity="caiso:AS_CAISO_EXP", variable="as_price_dam_rd",
-                 first=None, hours=[("2024-09-01", 1.0, ONE_HOUR)]),
+                 first=None, hours=[("2024-09-01", 1.0, CAISO_REG)]),
             dict(key="spin", label="Spinning Reserve", up=True, entity="caiso:AS_CAISO_EXP", variable="as_price_dam_sr",
-                 first=None, hours=[("2024-09-01", 1.0, ONE_HOUR)]),
+                 first=None, hours=[("2024-09-01", 0.5, CAISO_RESERVE)]),
             dict(key="nonspin", label="Non-Spinning Reserve", up=True, entity="caiso:AS_CAISO_EXP",
-                 variable="as_price_dam_nr", first=None, hours=[("2024-09-01", 1.0, ONE_HOUR)]),
+                 variable="as_price_dam_nr", first=None, hours=[("2024-09-01", 0.5, CAISO_RESERVE)]),
         ]),
 }
 PRODUCT_KEYS = sorted({p["key"] for m in MARKETS.values() for p in m["products"]})
