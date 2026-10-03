@@ -73,7 +73,7 @@ export default async function EntityPrices({ params }: PageProps<"/prices/[entit
       {lp ? (
         <p className="mb-4 text-sm">
           Latest real-time interval:{" "}
-          <Num check={`latest_prices|${lp.entity}|${lp.variable}`} raw={lp.value} className="text-lg tabular-nums">
+          <Num check={`latest_prices|${lp.entity}|${lp.variable}|${lp.ts_utc}`} raw={lp.value} className="text-lg tabular-nums">
             {price(lp.value)}
           </Num>{" "}
           {lp.unit}, starting {utc(lp.ts_utc)} <span className="font-mono text-xs text-muted">({lp.variable})</span>

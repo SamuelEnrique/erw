@@ -9,6 +9,7 @@ import { daysAgo, series, type SeriesRow } from "@/lib/data";
 import { shown, utc } from "@/lib/format";
 import { attempt } from "@/lib/supabase";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
+import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 
 // Session 32 (Part B): carbon intensity per ISO, two blocks only: the latest hour per ISO, ranked, and the last 24
 // hours as one chart. Every number is a value of carbon_intensity_hourly (derived from EIA's CO2 estimates,
@@ -96,6 +97,7 @@ export default async function Emissions() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Emissions</h1>
+      <CaisoBreakNote />
       <p className="mb-5 max-w-3xl text-sm text-muted">
         How much CO2 each ISO&apos;s power carries, from EIA&apos;s hourly CO2 estimates for EIA-930. <Link href={METHOD}>Method</Link>.
       </p>

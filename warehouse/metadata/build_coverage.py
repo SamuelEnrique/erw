@@ -109,6 +109,7 @@ SECTOR_RULES = [
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
     (r"^(ercot|caiso)_as_prices$", "power"),
+    (r"^ercot_as_quantities$", "power"),  # session 74: the DAM Ancillary Service Plan
     (r"^eia_fuel_spot_prices$", "oil;gas"),
     (r"^eia_(product_spot|retail_fuel)_prices$", "products"),
     (r"^eia_petroleum_(trade|stocks)_weekly$", "oil;products"),
@@ -140,6 +141,7 @@ SECTOR_RULES = [
     (r"^((caiso|spp)_curtailment_daily|ercot_wind_solar_hsl_daily|iso_curtailment_monthly)$", "power"),
     # session 23: CAISO battery output (Today's Outlook), for the Automated Analysis storage template
     (r"^caiso_battery_storage$", "power"),
+    (r"^caiso_fuel_supply$", "power"),  # session 73: CAISO's own supply by fuel source, hourly
     (r"^caiso_grid_emergencies$", "power"),  # session 58: CAISO's Flex Alerts and emergencies
     (r"^caiso_reliability_daily$", "power"),  # session 58: how tight was it (derived)
     (r"^flex_alert_(effects|model)$", "power"),  # session 60: the Flex Alert scorecard (derived)
@@ -162,7 +164,8 @@ SECTOR_RULES = [
     (r"^news_scores_shadow$", "news"),
     (r"^api_cost_ledger$", "platform"),
     # session 31: battery storage (EIA-930 BAT, its daily cycle, the EIA-860M battery units)
-    (r"^storage_(daily_cycle|capacity)$", "power"),
+    (r"^storage_(daily_cycle|capacity|buildout_monthly)$", "power"),  # session 72: the build-out (session 69)
+    (r"^shoulder_hours_monthly$", "power"),  # session 75: the shoulder hours
     # session 32: carbon intensity per BA (derived from the EIA-930 CO2 estimates)
     (r"^carbon_intensity_(hourly|daily|monthly)$", "power;carbon"),  # session 34: monthly
     # session 36B: the Historical Event Analyzer's event windows (prices, demand, generation, intensity)
@@ -198,6 +201,10 @@ def iso_of(table):
     parts = table.split("_")
     if table == "price_board_carbon":  # session 30: CARB and RGGI, no ISO
         return "none"
+    if table == "shoulder_hours_monthly":  # session 75
+        return "CAISO;ERCOT"
+    if table == "storage_buildout_monthly":  # session 72 (session 69): the seven grids, and the US outside them
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table.startswith("price_board_") or table.startswith("cost_of_power_") or table == "merchant_revenue_monthly":  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
     if table in ("eia930_daily_total_interchange", "eia930_event_hourly_interchange", "ba_supply_monthly"):  # session 68: every BA EIA reports

@@ -3,10 +3,10 @@
 
 Energy Research Warehouse (ERW). docs/machines.md.
 
-    python scripts/sync.py              # pull main; restore every warehouse table missing here from Redivis; verify counts
-    python scripts/sync.py --check      # report only: what is missing or differs, nothing written
+    python scripts/sync.py              # pull main; compare every table with Redivis; restore the missing and the behind
+    python scripts/sync.py --check      # report only: what is missing, behind or ahead, nothing written
     python scripts/sync.py --tables '^eia930_'   # only tables matching
-    python scripts/sync.py --refresh    # also replace a local table whose row count differs from coverage with Redivis's
+    python scripts/sync.py --refresh    # also replace a table that has diverged from Redivis (neither ahead nor behind)
     python scripts/sync.py --no-git     # skip the pull
 
 Where the warehouse lives in the cloud (docs/machines.md, "Cloud copies"):
@@ -21,11 +21,21 @@ Where the warehouse lives in the cloud (docs/machines.md, "Cloud copies"):
 The pull: on main with no uncommitted tracked changes, a fast-forward to origin/main (a merge if local commits exist; never
 a force or a rebase). On another branch, it fetches and reports.
 
-The tables: for every table in coverage.csv, the local CSV's data rows against coverage's n_rows. Missing here: restored
-from its Redivis dataset, with its provenance header from Redivis's erw_headers table, and the rows downloaded checked
-against Redivis's own count and against coverage. Present but different: reported (a data machine may hold newer rows
-than the last upload); replaced only with --refresh. The restore writes local working files only, so it needs no data
-lock. Exit 1 if any restore fails.
+The tables (session 72): coverage.csv only lists them (and their licenses). Each local table is compared with Redivis's
+own copy, the draft of its dataset (or the last released version when no draft is open), by row count and by its newest
+timestamp (ts_utc, else event_date or date). Until session 72 the comparison was with coverage.csv's n_rows, which the
+same machine may have rebuilt from its own files, so a stale machine looked current (session 67: this laptop's
+eia930_all_interchange and news_scores_shadow). Each table is then:
+
+- missing here: restored from Redivis;
+- behind: Redivis holds a newer timestamp, or the same newest timestamp and more rows: restored from Redivis;
+- ahead: this machine holds a newer timestamp, or the same and more rows (a data run not yet uploaded): never
+  overwritten, and said so on its own line;
+- diverged: newer here by one measure and older by the other: reported; replaced only with --refresh;
+- current: the same newest timestamp and the same rows.
+
+Restored rows are checked against Redivis's own count. The restore writes local working files only, so it needs no data
+lock. Exit 1 if any restore fails or Redivis cannot be read for a table.
 """
 
 import argparse
@@ -79,12 +89,144 @@ def local_rows(path):
     return max(n, 0)
 
 
+TIME_COLUMNS = ("ts_utc", "event_date", "date")
+
+
+def norm_ts(v):
+    """A timestamp as 'YYYY-MM-DD HH:MM:SS' (or a shorter date), so a CSV's text and Redivis's value compare as text."""
+    if v is None:
+        return None
+    t = str(v).strip()
+    if not t or t.lower() in ("nan", "nat", "none"):
+        return None
+    t = t.replace("T", " ").replace("Z", "")
+    t = re.sub(r"[+-]00:?00$", "", t)
+    return t[:19]
+
+
+def local_state(path):
+    """(data rows, time column, newest timestamp) of a local CSV, in one pass over its records."""
+    import csv
+    with open(path, encoding="utf-8", newline="") as f:
+        reader = csv.reader(ln for ln in f if not ln.startswith("#"))
+        head = next(reader, [])
+        col = next((c for c in TIME_COLUMNS if c in head), None)
+        k = head.index(col) if col else None
+        n, newest = 0, None
+        for rec in reader:
+            n += 1
+            if k is not None and k < len(rec):
+                v = norm_ts(rec[k])
+                if v and (newest is None or v > newest):
+                    newest = v
+    return n, col, newest
+
+
+def classify(local, cloud):
+    """'missing', 'current', 'behind', 'ahead' or 'diverged': this machine's (rows, newest) against Redivis's.
+    local None: missing here. A newest of None (a table with no time column) compares by rows alone."""
+    if local is None:
+        return "missing"
+    (ln, lt), (cn, ct) = local, cloud
+    if lt is not None and ct is not None:  # a date against a timestamp: compare on what both hold
+        k = min(len(lt), len(ct))
+        lt, ct = lt[:k], ct[:k]
+    t = 0 if lt == ct or lt is None or ct is None else (1 if lt > ct else -1)
+    r = (ln > cn) - (ln < cn)
+    if t == 0 and r == 0:
+        return "current"
+    if t >= 0 and r >= 0:
+        return "ahead"
+    if t <= 0 and r <= 0:
+        return "behind"
+    return "diverged"
+
+
+def open_read(acct, dataset):
+    """A dataset's draft when one is open, else its last released version. Read only: never creates a draft."""
+    d = acct.dataset(dataset, version="next")
+    try:
+        if d.exists():
+            return d
+    except Exception:
+        pass
+    return acct.dataset(dataset)
+
+
+def stat_newest(stats):
+    """The newest value of a variable from Redivis's own statistics: a dateTime or date is epoch milliseconds."""
+    import datetime as dt
+    v = (stats or {}).get("max")
+    # a string variable's min and max are its lengths, not values: no newest timestamp from Redivis for it
+    if v is None or ((stats or {}).get("variable") or {}).get("type") not in ("dateTime", "date"):
+        return None
+    if isinstance(v, (int, float)):
+        return dt.datetime.fromtimestamp(v / 1000, tz=dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+    return norm_ts(v)
+
+
+def cloud_state(names, lic, cols, log):
+    """{name: (rows, newest) or None when Redivis does not hold it}. Rows are the table's own numRows, the newest
+    timestamp the max of Redivis's statistics of its time variable: no query and no download, so no pyarrow (which an
+    Application Control policy blocks on this laptop since session 72). A table whose question goes unanswered is left
+    out and reported, never read as absent."""
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "redivis"))
+    import warnings
+    import upload as up
+    warnings.filterwarnings("ignore")
+    acct, opened, out = up.account(), {}, {}
+    for name in names:
+        dataset = up.dataset_for(lic.get(name, ""))
+        try:
+            if dataset not in opened:
+                opened[dataset] = open_read(acct, dataset)
+            meta = up.table_meta(opened[dataset], name)
+            if meta is None:
+                out[name] = None
+                continue
+            col = cols.get(name)
+            newest = stat_newest(opened[dataset].table(name).variable(col).get_statistics()) if col else None
+            out[name] = (int(meta["numRows"]), newest)
+        except Exception as exc:
+            log(f"  could not read {name} on Redivis ({dataset}): {type(exc).__name__}: {str(exc)[:160]}")
+    return out
+
+
+def typed(df, types):
+    """A frame read from Redivis's CSV export, as strings, given the types the reader of to_pandas_dataframe would have
+    given it, so upload.as_erw_text writes the same text as before: dateTime as datetimes, float as floats, boolean as
+    True and False; date, integer and string stay as written (as_erw_text writes them unchanged)."""
+    for c, t in types.items():
+        if c not in df.columns:
+            continue
+        if t == "dateTime":
+            df[c] = pd.to_datetime(df[c].replace("", None), format="ISO8601")
+        elif t == "float":
+            df[c] = pd.to_numeric(df[c].replace("", None))
+        elif t == "boolean":
+            df[c] = df[c].map({"true": "True", "false": "False"}).fillna("")
+    return df
+
+
+def download_frame(table, tmpdir):
+    """One Redivis table as a frame, through its CSV export (session 72: on this laptop an Application Control policy
+    blocks the pyarrow module that Redivis's to_pandas_dataframe needs; the export needs none)."""
+    types = {v.properties["name"]: v.properties.get("type") for v in table.list_variables()}
+    path = table.download(os.path.join(tmpdir, "table.csv"), format="csv", overwrite=True, progress=False)
+    path = path[0] if isinstance(path, list) else path
+    df = pd.read_csv(path, dtype=str, keep_default_na=False)
+    os.remove(path)
+    return typed(df, types)
+
+
 def restore(names, lic, log):
     """Each table from its Redivis dataset into warehouse/output, header lines first. Returns {name: (rows, error)}."""
     sys.path.insert(0, os.path.join(ROOT, "warehouse", "redivis"))
     import upload as up
+    import tempfile
     drafts = up.Drafts()
     headers, out = {}, {}
+    tmpdir = tempfile.mkdtemp(prefix="erw-sync-")
     for name in names:
         try:
             dataset = up.dataset_for(lic.get(name, ""))
@@ -94,12 +236,13 @@ def restore(names, lic, log):
                 raise RuntimeError(f"not in the Redivis dataset {dataset}; rebuild it from the archive: python warehouse/archive/restore.py {name}")
             have = meta.get("numRows")
             t0 = time.time()
-            df = up.as_erw_text(ds.table(name).to_pandas_dataframe(progress=False, dtype_backend="numpy"))
+            df = up.as_erw_text(download_frame(ds.table(name), tmpdir))
             if have is not None and len(df) != int(have):
                 raise RuntimeError(f"downloaded {len(df):,} rows, Redivis's count is {int(have):,}")
             if dataset not in headers:
                 try:
-                    h = ds.table(up.HEADERS_TABLE).to_pandas_dataframe(progress=False, dtype_backend="numpy")
+                    h = download_frame(ds.table(up.HEADERS_TABLE), tmpdir)
+                    h["line_no"] = pd.to_numeric(h["line_no"])
                     headers[dataset] = {t: [str(x) for x in g.sort_values("line_no")["line"]] for t, g in h.groupby("table")}
                 except Exception as exc:
                     headers[dataset] = {}
@@ -121,14 +264,15 @@ def restore(names, lic, log):
     return out
 
 
-def main(argv=None):
-    ap = argparse.ArgumentParser(description="ERW sync: pull main, restore the warehouse from the cloud (session 59)")
+def main(argv=None, cloud_reader=None, restorer=None):
+    ap = argparse.ArgumentParser(description="ERW sync: pull main, compare every table with Redivis, restore (session 59, 72)")
     ap.add_argument("--check", action="store_true", help="report only")
     ap.add_argument("--tables", help="only tables matching this regex")
-    ap.add_argument("--refresh", action="store_true", help="also replace tables whose row count differs from coverage")
+    ap.add_argument("--refresh", action="store_true", help="also replace tables that have diverged from Redivis")
     ap.add_argument("--no-git", action="store_true")
     a = ap.parse_args(argv)
     log = lambda m: print(m, flush=True)  # noqa: E731
+    cloud_reader, restorer = cloud_reader or cloud_state, restorer or restore
     if not a.no_git:
         log("git: " + pull())
     cov = pd.read_csv(COVERAGE, dtype=str, keep_default_na=False)
@@ -136,31 +280,42 @@ def main(argv=None):
         cov = cov[cov["table"].str.contains(a.tables, regex=True)]
     lic = dict(zip(cov["table"], cov["license"]))
     os.makedirs(OUT, exist_ok=True)
-    ok, missing, differs = [], [], []
-    for r in cov.itertuples():
-        path = os.path.join(OUT, r.table + ".csv")
-        want = int(r.n_rows) if str(r.n_rows).isdigit() else None
-        if not os.path.exists(path):
-            missing.append(r.table)
+    local, cols = {}, {}
+    for t in cov["table"]:
+        path = os.path.join(OUT, t + ".csv")
+        if os.path.exists(path):
+            n, col, newest = local_state(path)
+            local[t], cols[t] = (n, newest), col
+    cloud = cloud_reader(list(cov["table"]), lic, cols, log)
+    unread = [t for t in cov["table"] if t not in cloud]
+    groups = {k: [] for k in ("current", "missing", "behind", "ahead", "diverged", "not on Redivis")}
+    for t in cov["table"]:
+        if t in unread:
             continue
-        have = local_rows(path)
-        (ok if want is None or have == want else differs).append((r.table, have, want))
-    log(f"tables in coverage: {len(cov)}; here and matching coverage: {len(ok)}; missing here: {len(missing)}; "
-        f"present with another row count: {len(differs)}")
-    for t, have, want in differs:
-        log(f"  differs: {t}: {have:,} rows here, {want:,} in coverage")
-    todo = missing + ([t for t, _, _ in differs] if a.refresh else [])
+        if cloud[t] is None:
+            groups["not on Redivis"].append(t)
+            continue
+        groups[classify(local.get(t), cloud[t])].append(t)
+    log(f"tables in coverage: {len(cov)}; " + "; ".join(f"{k}: {len(v)}" for k, v in groups.items()) + f"; unread: {len(unread)}")
+    fmt = lambda x: "none" if x is None else f"{x[0]:,} rows to {x[1] or 'no timestamp'}"  # noqa: E731
+    for k in ("behind", "diverged"):
+        for t in groups[k]:
+            log(f"  {k}: {t}: here {fmt(local.get(t))}; Redivis {fmt(cloud[t])}")
+    for t in groups["ahead"]:
+        log(f"  AHEAD, not overwritten: {t}: here {fmt(local.get(t))}; Redivis {fmt(cloud[t])} (upload it, or it is lost with this machine)")
+    for t in groups["not on Redivis"]:
+        log(f"  not on Redivis: {t}" + ("" if t in local else ": and not here; rebuild it from the archive: python warehouse/archive/restore.py " + t))
+    todo = groups["missing"] + groups["behind"] + (groups["diverged"] if a.refresh else [])
     if a.check or not todo:
-        return 0
+        return 1 if unread else 0
     log(f"restoring {len(todo)} tables from Redivis")
-    got = restore(todo, lic, log)
-    want = dict(zip(cov["table"], cov["n_rows"]))
+    got = restorer(todo, lic, log)
     failed = [t for t, (_, e) in got.items() if e]
-    off = [(t, n, want.get(t)) for t, (n, e) in got.items() if not e and str(want.get(t, "")).isdigit() and n != int(want[t])]
-    for t, n, w in off:
-        log(f"  note: {t} restored with {n:,} rows; coverage says {int(w):,} (coverage is the last data build; Redivis the last upload)")
-    log(f"sync: {len(got) - len(failed)} restored, {len(failed)} failed, {len(off)} differing from coverage")
-    return 1 if failed else 0
+    off = [(t, n) for t, (n, e) in got.items() if not e and n != cloud[t][0]]
+    for t, n in off:
+        log(f"  FAILED {t}: restored {n:,} rows, Redivis counted {cloud[t][0]:,}")
+    log(f"sync: {len(got) - len(failed) - len(off)} restored, {len(failed) + len(off)} failed")
+    return 1 if failed or off or unread else 0
 
 
 if __name__ == "__main__":

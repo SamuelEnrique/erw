@@ -18,6 +18,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | Markets (trader view) | `/markets` | How do day-ahead and real-time prices compare by hub, on- and off-peak? | investors and lenders | `iso_trader_daily`, `iso_rt_top_intervals` |
 | Cost of power: what power costs to buy | `/cost-of-power` | What does a MWh cost to buy at each hub, weighted by when the grid uses it, and what does a large load pay? | investors and lenders; researchers | `cost_of_power_monthly`, `cost_of_power_hourly_profile`, `cost_of_power_carbon` |
 | Cost of power: what a generator earns | `/cost-of-power/seller` | What does a merchant solar, wind, battery or peaker asset earn month by month, and does it cover its debt? | investors and lenders | `merchant_revenue_monthly` (snapshot `site/data/merchant_snapshot.json`) |
+| The shoulder hours (in review, session 75) | `/shoulder` | How long is the evening stretch between the solar midday and the demand peak in ERCOT and CAISO, how much of it do today's batteries cover, and how many hours would they need? | investors and lenders; researchers | `shoulder_hours_monthly` |
 | Cost of power: what a battery earns | `/cost-of-power/battery` | What does a grid battery of this size and duration earn from energy and ancillary services together, and does it cover its debt, with and without a contract? | investors and lenders | `battery_stack_monthly`, `battery_stack_stress_daily` |
 | Prices | `/prices`, `/prices/<entity>` | Every public ISO hub and zone price, with Henry Hub, WTI and Brent | everyone | the ISO price tables, `eia_fuel_spot_prices`, `latest_prices` |
 | ERCOT peak premium | `/explorer/ercot-peak-premium` | How do ERCOT's real-time prices spread across the day, by hub and year since 2015? | researchers | `ercot_peak_premium_annual`, `ercot_peak_premium_monthly` |
@@ -33,6 +34,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | Curtailment | `/curtailment` | How much wind and solar output is curtailed, by ISO? | everyone | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily`, `iso_curtailment_monthly` |
 | Emissions | `/emissions` | How much CO2 does each ISO's power carry, per MWh made and used? | everyone | `carbon_intensity_hourly`, `eia930_all_emissions` |
 | Storage | `/storage` | Where is the US battery fleet, and how do batteries charge and discharge? | everyone | `storage_capacity`, `storage_daily_cycle`, `eia930_all_storage` |
+| Storage build-out (in review, session 72) | `/storage/buildout` | How much battery storage has each US grid built, of what duration, how does it compare with solar, and what is planned? | investors and lenders; everyone | `storage_buildout_monthly` |
 | Consumption | `/consumption` | Who uses the power, and where is load growing fastest? | everyone | `eia_retail_sales_monthly`, `eia_sector_energy_consumption_monthly` |
 
 ## Projects, companies, deals and policy
