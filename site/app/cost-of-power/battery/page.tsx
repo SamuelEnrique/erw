@@ -204,13 +204,13 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                   {top ? <> {topName} alone is <V pre={key} s="top_share" v={st("top_share")} /> percent of everything this battery earned in the {held.length} months held. It stays on the chart and in the average of every year held; the last column is that same average without this one month.</> : null}</>}>
                   {(() => {
                     const cols: { head: string; cell: (s: string) => ReactNode; kw: ReactNode }[] = [
-                      { head: l12 ? `Last twelve months, ${monthName(l12[0].m)} to ${monthName(l12[11].m)}` : "Last twelve months",
+                      { head: l12 ? `Last twelve months, ${monthName(l12[0].m)} to ${monthName(l12[11].m)}, USD` : "Last twelve months, USD",
                         cell: (s) => <U pre={key} s={`l12:${s}`} v={st(`l12:${s}`)} />, kw: <V pre={key} s="l12_kw:total" v={st("l12_kw:total")} /> },
-                      { head: y3 ? `Average of ${y3[0]} to ${y3[2]}, the last three full years` : `The last three full years: not held, ${g.name} holds ${fullYears.length === 0 ? "no full calendar year" : fullYears.length === 1 ? `one full calendar year (${fullYears[0].y})` : `${fullYears.length} full calendar years`}`,
+                      { head: y3 ? `Average of ${y3[0]} to ${y3[2]}, the last three full years, USD` : `The last three full years: not held, ${g.name} holds ${fullYears.length === 0 ? "no full calendar year" : fullYears.length === 1 ? `one full calendar year (${fullYears[0].y})` : `${fullYears.length} full calendar years`}`,
                         cell: (s) => <U pre={key} s={`y3:${s}`} v={st(`y3:${s}`)} />, kw: <V pre={key} s="y3_kw:total" v={st("y3_kw:total")} /> },
-                      { head: `Average of every year held, ${monthName(held[0].m)} to ${monthName(held.at(-1)!.m)}`,
+                      { head: `Average of every year held, ${monthName(held[0].m)} to ${monthName(held.at(-1)!.m)}, USD`,
                         cell: (s) => <U pre={key} s={`avg:${s}`} v={st(`avg:${s}`)} />, kw: <V pre={key} s="avg_kw:total" v={st("avg_kw:total")} /> },
-                      ...(top ? [{ head: `Average of every year held, without ${monthName(top.m)}`,
+                      ...(top ? [{ head: `Average of every year held, without ${monthName(top.m)}, USD`,
                         cell: (s: string) => <U pre={key} s={`avg_without:${s}`} v={st(`avg_without:${s}`)} />, kw: <V pre={key} s="avg_without_kw:total" v={st("avg_without_kw:total")} /> }] : []),
                     ];
                     const line = (s: string) => cols.map((c, i) => <span key={i}>{c.cell(s)}</span>);

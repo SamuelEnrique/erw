@@ -12,6 +12,11 @@
 //   3. the contract terms survive a change of duration, and no request made by that change carries them;
 //   4. the gate, as a visitor: the six live pages open as themselves, a page in review shows the in-review page, and
 //      the menu lists every item with the ones in review greyed, labeled, not links and not reachable by keyboard.
+//   Session 71: the page leads with the last twelve months (the summary sentence, the first headline number, the
+//   income table's first column, the contract's market lines); the income table's four spans (three on CAISO, whose
+//   three full years say "not held"); the upper-bound sentence directly under the chart, not folded; no box under the
+//   summary; February 2021 still on the chart. The home page: the tools in review named once in "In review", greyed,
+//   not links, and no "in review" label anywhere in the page's body.
 // Prints one line per assertion; exits 1 if any fails.
 import { spawn } from "node:child_process";
 import fs from "node:fs";
@@ -97,6 +102,9 @@ try {
     headline: [...document.querySelectorAll("[data-summary] ~ div .font-serif.text-3xl")].map((e) => e.textContent),
     chart: document.querySelector("figure svg")?.outerHTML ?? "",
     table: document.querySelector("table")?.textContent ?? "",
+    heads: [...(document.querySelector("table")?.querySelectorAll("thead th") ?? [])].map((e) => e.textContent),
+    upper: (() => { const e = document.querySelector("[data-upper-bound]"); return e ? { text: e.textContent, folded: !!e.closest("details"), underChart: !!e.closest("figure")?.querySelector("svg") } : null; })(),
+    outlierBox: !!document.querySelector("[data-outlier]"),
     contract: document.querySelector("[data-contract-result]")?.getAttribute("data-contract-result") ?? "",
     contractText: document.querySelector("[data-contract-result]")?.textContent ?? "",
     scrollW: document.documentElement.scrollWidth, clientW: document.documentElement.clientWidth,
@@ -113,6 +121,22 @@ try {
     const s4 = await ev(STATE);
     check(s4.summary.includes("4-hour battery") && s4.headline.length === 3 && s4.chart.length > 500, `${q}: the page shows a summary, three headline numbers and a chart`, s4.summary.replace(/\s+/g, " ").trim());
     if (q.startsWith("grid=ercot")) await shot("battery-ercot-4h-desktop", 1280);
+    // session 71: the last twelve months lead, every span is labeled, the upper bound is said once, under the chart
+    const ercot = q.startsWith("grid=ercot");
+    check(/^\s*Over the last twelve months a 100 MW, 4-hour battery in (ERCOT|CAISO) earned USD [\d.,]+ per kW, \d+ percent\s+of it from ancillary services, and covered its debt [\d.]+ times\.\s*$/.test(s4.summary),
+      `${q}: the summary sentence leads with the last twelve months`, s4.summary.replace(/\s+/g, " ").trim());
+    check(/per kW/.test(s4.headline[0]), `${q}: the first headline number is the last twelve months, per kW`, s4.headline[0]);
+    const wantHeads = ercot
+      ? [/^Last twelve months, .+ to .+, USD$/, /^Average of 2023 to 2025, the last three full years, USD$/, /^Average of every year held, January 2018 to .+, USD$/, /^Average of every year held, without February 2021, USD$/]
+      : [/^Last twelve months, .+ to .+, USD$/, /^The last three full years: not held, CAISO holds one full calendar year \(2025\)$/, /^Average of every year held, September 2024 to .+, USD$/];
+    check(s4.heads.length === wantHeads.length + 1 && wantHeads.every((r, i) => r.test(s4.heads[i + 1])), `${q}: the income table's columns are the spans, each labeled`, s4.heads.slice(1).join(" | "));
+    if (!ercot) check((s4.table.match(/not held/g) ?? []).length >= 8, `${q}: the three-year column says "not held" in every row`);
+    if (ercot) check(/Total, USD per kW[\s\S]*614\.\d\d[\s\S]*269\.\d\d/.test(s4.table), `${q}: the every-year average is about USD 614.6 per kW, and about 269.7 without February 2021`, (s4.table.match(/Total, USD per kW.*$/) ?? [""])[0]);
+    check(!!s4.upper && !s4.upper.folded && s4.upper.underChart && /^This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called/.test(s4.upper.text)
+      && (ercot ? /years before 2024 show more than real batteries earned\. Recent years are the ones to read\.$/.test(s4.upper.text) : true),
+      `${q}: one plain upper-bound sentence directly under the chart, not folded`, s4.upper?.text ?? "missing");
+    check(!s4.outlierBox, `${q}: no box under the summary sentence`);
+    if (ercot) check(/>2021</.test(s4.chart) && /3,43\d/.test(s4.chart), `${q}: 2021 stays on the chart, its value written`);
     let prev = s4;
     for (const d of [2, 8]) {
       const s = await clickDuration(d, prev);
@@ -143,6 +167,8 @@ try {
   check(after.url === before.url, "entering the contract terms leaves the address unchanged", after.url);
   check((await ev(stored)) === storedBefore, "entering the contract terms writes nothing to storage or cookies");
   check(after.contract === "shown" && /Debt coverage with the contract/.test(after.contractText) && /June 2031/.test(after.contractText), "the contract result is shown, computed in the browser", after.contractText.replace(/\s+/g, " ").slice(0, 160));
+  check(/percent of the last twelve months' market revenue/.test(after.contractText) && (after.contractText.match(/average of every year held: USD/g) ?? []).length === 2,
+    "the contract's market lines use the last twelve months, with the every-year average beside each, labeled");
   check(await ev(`!document.querySelector("[data-contract-inputs] input[name]") && !document.querySelector("[data-contract-inputs]").closest("form")`), "the contract inputs have no field name and sit in no form");
   await shot("battery-ercot-4h-contract-desktop", 1280);
 
@@ -167,7 +193,18 @@ try {
     const r = await ev(`({ review: !!document.querySelector("[data-in-review]"), h1: document.querySelector("h1")?.textContent ?? "" })`);
     check(!r.review && r.h1.length > 0, `visitor: ${p} opens`, r.h1);
     if (p === "/storage") await shot("storage-desktop", 1280);
-    if (p === "/") await shot("home-desktop", 1280);
+    if (p === "/") {
+      await shot("home-desktop", 1280);
+      // session 71: the tools in review named once near the bottom, greyed, not links; no label in the page's body
+      const home = await ev(`(() => {
+        const main = document.querySelector("main"), ir = main.querySelector("[data-home-in-review]");
+        return { ir: !!ir, h2: ir?.querySelector("h2")?.textContent ?? "", items: ir ? ir.querySelectorAll(".gate-review").length : 0, links: ir ? ir.querySelectorAll("a").length : -1,
+          labels: main.querySelectorAll(".gate-label").length, last: [...main.querySelectorAll("section[aria-label]")].map((e) => e.getAttribute("aria-label")).slice(-2).join(", "),
+          open: !!main.querySelector('section[aria-label="Open now"]') };
+      })()`);
+      check(home.ir && home.h2 === "In review" && home.items >= 10 && home.links === 0, `visitor: the home page names the tools in review once, in "In review", greyed and not links`, `${home.items} named`);
+      check(home.labels === 0 && home.open, `visitor: no "in review" label in the home page's body, and the "Open now" strip is there`, `${home.labels} labels; last sections: ${home.last}`);
+    }
   }
   await go("/board");
   const rev = await ev(`({ review: !!document.querySelector("[data-in-review]"), text: document.querySelector("main").textContent, robots: document.querySelector('meta[name="robots"]')?.content ?? "", path: location.pathname })`);
