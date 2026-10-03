@@ -45,7 +45,7 @@ for (const grid of GRIDS) {
     check(text.includes(`Operating power ${shown(mw)} MW`) && text.includes(`Operating energy ${shown(mwh)} MWh average duration ${shown(hours)} hours`)
       && text.includes(`net of retirements ${shown(val(e, "battery_operating_mw_net_added_12m", "2026-08"))} MW ${shown(val(e, "battery_operating_mwh_net_added_12m", "2026-08"))} MWh`), `${page}: the three headline numbers`);
     check(text.includes("How much storage has been built") && text.includes("Operating storage by year, by duration") && text.includes("Storage against solar") && text.includes("By grid"), `${page}: title and sections`);
-    check(text.includes("How generators are assigned to a grid, and how many were not") && text.includes("What EIA-860M covers and misses") && text.includes("The newest month held") && text.includes("Source: ERW table storage_buildout_monthly"), `${page}: folded sections and the source line`);
+    check(text.includes("How generators are assigned to a grid, and how many were not") && text.includes("What EIA-860M covers and misses") && text.includes("The newest month held") && /Source: ERW tables? storage_buildout_monthly/.test(text), `${page}: folded sections and the source line`);
     check((html.match(/<svg /g) ?? []).length >= 2 && (html.match(/<rect /g) ?? []).length >= 12 && (html.match(/<circle /g) ?? []).length >= 2, `${page}: both charts are drawn`);
     // the bars: one hover title per bucket and year with a value above zero, in the measure's unit
     const unit = measure === "mw" ? "MW" : "MWh";

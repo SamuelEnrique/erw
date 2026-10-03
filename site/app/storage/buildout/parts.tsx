@@ -1,26 +1,25 @@
 // Energy Research Warehouse (ERW) site, session 69: the storage build-out page's own pieces (/storage/buildout).
 //
-// The page's panel, numbers, two charts and tables, kept beside the page and built for it alone: session 67 is
-// changing /storage and the shared components the same night, so this page imports none of them. The finish step
-// (archive/sessions/SESSION_69_REPORT.md, "To finish") swaps these for the shared ones. Charts are server-drawn SVG:
-// no script runs in the browser; each mark carries its value as a hover title, and a folded table gives every number.
+// Session 72 (session 69's finish): the frame, panel, headline numbers, chart frames, sections, folds and source line
+// are now session 67's shared pieces; what stays here is what only this page draws: the panel's choices, the two
+// server-drawn charts and the two tables. Charts are server-drawn SVG: no script runs in the browser; each mark carries
+// its value as a hover title, and a folded table gives every number. Their colors are tokens (app/tokens.css).
+// The panel's and the table's links point at this same page (another grid or measure): plain next/link, not the gated
+// link, because the page is itself in review and a gated link to it would render greyed in the server's HTML.
 import Link from "next/link";
+import { Num } from "@/components/Num";
 import { BUCKETS, checkKey, GRIDS, MEASURES, NOT_REPORTED, shown, type Grid, type Measure, type Row, type View, type YearPoint } from "@/lib/buildout";
 
-// The page's colors that are not design tokens yet (app/tokens.css is shared; the finish step moves these there).
-// Duration is one hue, cardinal, light to dark: longer duration reads darker. Not reported is a neutral grey.
-export const RAMP = ["#E9A9A9", "#CC6F6F", "#A63A3A", "#6B0F0F"];
-export const GREY = "#B8B2A7";
-export const SURFACE = "#FFFFFF"; // the answer's side; the panel is fog beige (--color-paper)
+// Duration is one hue, cardinal, light to dark: longer duration reads darker. Not reported is a neutral grey. The
+// values are in app/tokens.css (session 72); the page holds no color of its own.
+export const RAMP = ["var(--color-duration-1)", "var(--color-duration-2)", "var(--color-duration-3)", "var(--color-duration-4)"];
+export const GREY = "var(--color-not-reported)";
+export const SURFACE = "var(--color-surface)"; // the white sheet of the tool page, between stacked segments
 
-/** A value of the table with its check key, or "not held" where the table has no such row. */
+/** A value of the table with its check key (components/Num.tsx), or "not held" where the table has no such row. */
 export function V({ row, className }: { row: Row | undefined; className?: string }) {
   if (!row) return <span className="text-muted">not held</span>;
-  return <span data-check={checkKey(row)} data-raw={String(row.value)} className={className}>{shown(row.value)}</span>;
-}
-
-export function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="mb-2 mt-8 border-b border-rule pb-1 font-serif text-xl text-accent">{children}</h2>;
+  return <Num check={checkKey(row)} raw={row.value} className={className}>{shown(row.value)}</Num>;
 }
 
 /** The left panel: the grid and the measure, each choice a link, so it works without a script. */
@@ -28,8 +27,8 @@ export function Panel({ grid, measure }: { grid: Grid; measure: Measure }) {
   const href = (g: string, m: string) => `/storage/buildout?grid=${g}&measure=${m}`;
   const item = (on: boolean) => `block border-l-2 px-2 py-1 no-underline ${on ? "border-accent font-semibold text-accent" : "border-transparent text-ink hover:text-accent"}`;
   return (
-    <aside className="border-b border-rule bg-paper p-4 md:border-b-0 md:border-r" aria-label="Choices">
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
+    <div aria-label="Choices">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
         <nav aria-label="Grid">
           <div className="mb-1 text-xs uppercase tracking-wide text-muted">Grid</div>
           <ul className="text-sm">
@@ -49,32 +48,7 @@ export function Panel({ grid, measure }: { grid: Grid; measure: Measure }) {
               </li>
             ))}
           </ul>
-          <p className="mt-3 text-xs text-muted">Power is how fast the batteries can discharge. Energy is how much they hold. Energy over power is duration, in hours.</p>
         </nav>
-      </div>
-    </aside>
-  );
-}
-
-/** Three headline numbers, side by side, separated by thin rules. */
-export function Headlines({ v }: { v: View }) {
-  const cell = "px-0 py-2 sm:px-4 sm:first:pl-0";
-  return (
-    <div className="mt-4 grid grid-cols-1 divide-y divide-rule border-y border-rule sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-      <div className={cell}>
-        <div className="text-xs text-muted">Operating power</div>
-        <div className="text-2xl tabular-nums"><V row={v.mw} /> <span className="text-sm text-muted">MW</span></div>
-        <div className="text-xs text-muted"><V row={v.units} /> battery units</div>
-      </div>
-      <div className={cell}>
-        <div className="text-xs text-muted">Operating energy</div>
-        <div className="text-2xl tabular-nums"><V row={v.mwh} /> <span className="text-sm text-muted">MWh</span></div>
-        <div className="text-xs text-muted">average duration <span className="text-ink"><V row={v.hours} /></span> hours</div>
-      </div>
-      <div className={cell}>
-        <div className="text-xs text-muted">Added over the last twelve months, net of retirements</div>
-        <div className="text-2xl tabular-nums"><V row={v.addedMw} /> <span className="text-sm text-muted">MW</span></div>
-        <div className="text-xs text-muted"><span className="text-ink"><V row={v.addedMwh} /></span> MWh</div>
       </div>
     </div>
   );
@@ -90,20 +64,6 @@ function axis(v: number): number[] {
 }
 const tick = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
 
-export function Legend({ notReported }: { notReported: boolean }) {
-  const items = [...BUCKETS.map((b, i) => ({ label: b.label, color: RAMP[i] })), ...(notReported ? [{ label: NOT_REPORTED.label, color: GREY }] : [])];
-  return (
-    <div className="mb-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink" aria-label="Duration buckets, shortest and lightest first">
-      {items.map((it) => (
-        <span key={it.label} className="flex items-center gap-1">
-          <span className="inline-block h-3 w-3" style={{ background: it.color }} />
-          {it.label}
-        </span>
-      ))}
-    </div>
-  );
-}
-
 /** Chart 1: operating storage by year, one bar per year, stacked by duration bucket, shortest at the bottom. */
 export function DurationBars({ v }: { v: View }) {
   const unit = MEASURES[v.measure].unit;
@@ -118,10 +78,8 @@ export function DurationBars({ v }: { v: View }) {
   const py = (val: number) => top + (1 - val / hi) * (H - top - bot);
   const slot = (W - L - R) / stacks.length;
   const bw = Math.min(44, slot * 0.7);
-  const anyNotReported = v.measure === "mw" && stacks.some((s) => s.parts.length > BUCKETS.length);
   return (
-    <figure>
-      <Legend notReported={anyNotReported} />
+    <div>
       <div className="overflow-x-auto">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img"
         aria-label={`${v.grid.name}: operating battery storage at each year's end, ${unit}, stacked by duration bucket`}>
@@ -156,7 +114,7 @@ export function DurationBars({ v }: { v: View }) {
         })}
       </svg>
       </div>
-    </figure>
+    </div>
   );
 }
 
@@ -278,14 +236,5 @@ export function GridTable({ v }: { v: View }) {
         </tbody>
       </table>
     </div>
-  );
-}
-
-export function Fold({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <details className="border-b border-rule py-2 text-sm">
-      <summary className="cursor-pointer font-serif text-base text-accent">{title}</summary>
-      <div className="mt-2 max-w-3xl space-y-2">{children}</div>
-    </details>
   );
 }

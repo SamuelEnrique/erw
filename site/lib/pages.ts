@@ -46,6 +46,8 @@ export const GROUPS: Group[] = [
       { href: "/emissions", label: "Emissions", line: "How much CO2 each ISO's power carries, per MWh made and per MWh used, from EIA's hourly estimates.", tables: "carbon_intensity_hourly, eia930_all_emissions", related: ["/grid", "/storage"] },
       // session 31: battery storage
       { href: "/storage", label: "Storage", line: "The US battery fleet by ISO, state and planned year, and how the batteries charge and discharge each hour and day.", tables: "storage_capacity, storage_daily_cycle, eia930_all_storage", related: ["/grid", "/mix"] },
+      // session 72 (session 69's finish): in review
+      { href: "/storage/buildout", label: "Storage build-out", line: "How much battery storage each US grid has built, of what duration, how it compares with solar, and what is planned.", tables: "storage_buildout_monthly", related: ["/storage", "/cost-of-power/seller"] },
       { href: "/consumption", label: "Consumption", line: "Electricity sold by state and sector, and where industrial and commercial load grows fastest.", tables: "eia_retail_sales_monthly, eia_sector_energy_consumption_monthly", related: ["/mix", "/datacenters"] },
     ],
   },

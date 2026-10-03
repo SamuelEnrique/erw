@@ -18,6 +18,7 @@ export const RELEASE: Record<string, Status> = {
   "/cost-of-power/seller": "live",
   "/network": "live",
   "/storage": "live",
+  "/storage/buildout": "review",  // session 72: without its own line it would take /storage's status
   "/about": "live",
   "/terms": "live",
   // the methods pages the live tools link to

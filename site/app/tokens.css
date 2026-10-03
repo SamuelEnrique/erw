@@ -28,6 +28,15 @@
   --color-fuel-storage: #4a3aa7;
   --color-fuel-other: #e34948;
 
+  /* Session 72 (/storage/buildout, session 69): battery duration, one hue, cardinal, light to dark (longer reads darker),
+     a neutral grey for units whose energy is not reported, and the white of the tool page's sheet */
+  --color-duration-1: #E9A9A9;
+  --color-duration-2: #CC6F6F;
+  --color-duration-3: #A63A3A;
+  --color-duration-4: #6B0F0F;
+  --color-not-reported: #B8B2A7;
+  --color-surface: #FFFFFF;
+
   --font-serif: Georgia, "Times New Roman", serif;                 /* headings */
   --font-sans: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;  /* body */
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;          /* table and entity names */

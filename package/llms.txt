@@ -143,6 +143,18 @@ day-ahead tables running into tomorrow:
   dropped then; say so if asked about CAISO's imports. Last 430 days in the
   live set.
 **Battery storage** (session 31, method docs/methods/storage.md):
+  storage_buildout_monthly (derived, session 69, method
+  docs/methods/storage_buildout.md): operating battery storage by grid and
+  month from EIA-860M; entities iso:<grid> (caiso, ercot, isone, miso, nyiso,
+  pjm, spp), us:outside_isos and us:total (the seven plus outside); variables
+  battery_operating_mw, battery_operating_mwh, battery_operating_units,
+  battery_operating_mw_<bucket> and battery_operating_mwh_<bucket> (buckets
+  lt2h, 2to4h, 4to6h, ge6h; MW also energy_not_reported),
+  battery_operating_mwh_per_mw (average hours), solar_operating_mw,
+  battery_mwh_per_solar_mw, battery_operating_mw_net_added_12m,
+  battery_operating_mwh_net_added_12m, battery_planned_mw,
+  battery_planned_units, battery_planned_mw_under_construction,
+  battery_planned_mw_online_<year>. Planned MWh is not held.
   eia930_all_storage: EIA-930 hourly net generation of battery storage (fuel
   type BAT), net_generation_battery_mw, MW, positive discharging, negative
   charging; ba = erco, isne, miso, swpp, us48, each from its series start
