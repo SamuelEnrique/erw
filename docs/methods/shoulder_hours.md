@@ -54,7 +54,7 @@ Yearly rows (P1Y, `ts_utc` the year's first day), so the page does no arithmetic
 
 - `year_months_held`;
 - `year_mean_<shoulder_hours, shoulder_mwh_above_mean, shoulder_start_hour, shoulder_runs_to_midnight, midday_surplus_hours, midday_surplus_mwh, curtailed_mwh_per_day, shoulder_hours_covered, shoulder_hours_needed>`, each the mean over the year's months held;
-- `year_end_<fleet_mw, fleet_mwh, fleet_hours>` at the year's last month held.
+- `year_end_<fleet_mw, fleet_mwh, fleet_hours>` at the year's last month held that has a fleet (EIA-860M is published a month or two behind).
 
 ## What it cannot see
 

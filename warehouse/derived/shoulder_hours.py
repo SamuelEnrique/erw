@@ -227,7 +227,7 @@ def build(grid, log):
                              geo=g["geo"], market="", node="", source=SOURCE, source_url="docs/methods/shoulder_hours.md",
                              retrieved_at=ip.utc_iso(pd.Timestamp.now(tz="UTC")), vintage=""))
     # session 75: each year's figures, so the page's table does no arithmetic: the mean over the year's months held, and
-    # the fleet at the year's last month held (freq P1Y, ts_utc the year's first day)
+    # the fleet at the year's last month held that has one (freq P1Y, ts_utc the year's first day)
     by_year = {}
     for m, v in months:
         by_year.setdefault(m[:4], []).append((m, v))
@@ -239,10 +239,10 @@ def build(grid, log):
                   "midday_surplus_mwh", "curtailed_mwh_per_day", "shoulder_hours_covered", "shoulder_hours_needed"):
             if k in f and f[k].notna().any():
                 yv[f"year_mean_{k}"] = float(f[k].mean())
-        last = mv[-1][1]
-        for k in ("fleet_mw", "fleet_mwh", "fleet_hours"):
-            if k in last:
-                yv[f"year_end_{k}"] = last[k]
+        withfleet = [v for _, v in mv if "fleet_mw" in v]  # the year's last month that has a fleet (EIA-860M lags)
+        if withfleet:
+            for k in ("fleet_mw", "fleet_mwh", "fleet_hours"):
+                yv[f"year_end_{k}"] = withfleet[-1][k]
         for k, val in yv.items():
             unit = ("MW" if k.endswith("_mw") else "MWh" if k.endswith("_mwh") or k.endswith("_mwh_per_day") or k.endswith("above_mean")
                     else "count" if k == "year_months_held" else "ratio" if k == "year_mean_shoulder_runs_to_midnight" else "hour")

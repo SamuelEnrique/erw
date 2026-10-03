@@ -50,7 +50,7 @@ function DayChart({ v }: { v: View }) {
       {ticks.map((t) => (
         <g key={t}>
           <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="var(--color-rule)" strokeWidth={t === 0 ? 1.5 : 0.75} />
-          <text x={L - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="var(--color-muted)">{t.toLocaleString("en-US")}</text>
+          <text x={L - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="var(--color-muted)">{(t || 0).toLocaleString("en-US")}</text>
         </g>
       ))}
       {mean !== undefined ? <line x1={L} x2={W - R} y1={y(mean)} y2={y(mean)} stroke="var(--color-accent)" strokeDasharray="4 3" strokeWidth="1" /> : null}
@@ -121,10 +121,10 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
             <nav aria-label="Month" className="text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Month</div>
               {years.map((y) => (
-                <div key={y} className="mb-1">
-                  <span className="mr-1 text-xs text-muted">{y}</span>
+                <div key={y} className="mb-1.5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+                  <span className="w-9 text-xs text-muted">{y}</span>
                   {(months[grid.slug] ?? []).filter((m) => m.startsWith(y)).map((m) => (
-                    <Link key={m} href={href(grid.slug, m)} aria-current={m === month ? "true" : undefined} className={`mr-1.5 text-xs ${item(m === month)}`}>{m.slice(5)}</Link>
+                    <Link key={m} href={href(grid.slug, m)} aria-current={m === month ? "true" : undefined} className={`text-xs ${item(m === month)}`}>{m.slice(5)}</Link>
                   ))}
                 </div>
               ))}
@@ -166,12 +166,12 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                 </ChartFrame>
               </ToolSection>
 
-              <ToolSection title="By year" note="Each year: the mean over its months held of the average day's figures; the fleet as at the year's last month held.">
-                <ToolTable caption="The shoulder hours by year" minWidth={760}
-                  head={["Year", "Months", "Shoulder, hours", "Starts", "MWh above mean", "Midday surplus, MWh", "Fleet MW", "Fleet hours", "Covered, hours", "Needed, hours"]}
+              <ToolSection title="By year" note="Each year: the mean over its months held of the average day's figures; the fleet as at the year's last month that has one (EIA's inventory is published a month or two behind).">
+                <ToolTable caption="The shoulder hours by year" minWidth={640}
+                  head={["Year", "Months", "Shoulder, h", "Above mean, MWh", "Midday surplus, MWh", "Fleet, MW", "Fleet, h", "Covered, h", "Needed, h"]}
                   rows={v.years.map((y) => ({
                     key: y.year,
-                    cells: [y.year, <V key="m" row={y.get("year_months_held")} />, <V key="s" row={y.get("year_mean_shoulder_hours")} />, <V key="st" row={y.get("year_mean_shoulder_start_hour")} />,
+                    cells: [y.year, <V key="m" row={y.get("year_months_held")} />, <V key="s" row={y.get("year_mean_shoulder_hours")} />,
                       <V key="e" row={y.get("year_mean_shoulder_mwh_above_mean")} />, <V key="ms" row={y.get("year_mean_midday_surplus_mwh")} />, <V key="f" row={y.get("year_end_fleet_mw")} />,
                       <V key="fh" row={y.get("year_end_fleet_hours")} />, <V key="c" row={y.get("year_mean_shoulder_hours_covered")} />, <V key="n" row={y.get("year_mean_shoulder_hours_needed")} />],
                   }))} />
