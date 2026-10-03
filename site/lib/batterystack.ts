@@ -336,6 +336,7 @@ export const REQUIREMENTS: Record<string, { product: string; rule: string; sourc
     { product: "Non-Spin", rule: "1 hour before 9 December 2022", source: "assumed", assumed: true },
   ],
   caiso: [
-    { product: "Regulation Up, Regulation Down, Spinning Reserve, Non-Spinning Reserve", rule: "1 hour", source: "assumed", assumed: true },
+    { product: "Regulation Up, Regulation Down", rule: "1 hour in the day-ahead market", source: "CAISO tariff, section 8.4.1.1(g)", assumed: false },
+    { product: "Spinning Reserve, Non-Spinning Reserve", rule: "30 minutes", source: "CAISO tariff, section 8.4.3", assumed: false },
   ],
 };

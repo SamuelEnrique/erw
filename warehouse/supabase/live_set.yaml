@@ -66,6 +66,8 @@ full:
   # session 67: the battery revenue stack, whole (/cost-of-power/battery reads both; about 20,000 monthly rows and
   # a few thousand stress-day rows)
   - '^battery_stack_(monthly|stress_daily)$'
+  # session 76 (for session 75's page): the shoulder hours, whole (/shoulder reads it; about 20,000 monthly and yearly rows)
+  - '^shoulder_hours_monthly$'
   # session 68: who supplies a grid; the page reads the last twelve months, so only the last 430 days are loaded (select,
   # below): about 30,000 of its 158,000 rows. Redivis and the CSV hold every month from 2019
   - '^ba_supply_monthly$'

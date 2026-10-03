@@ -53,7 +53,8 @@ The stored energy an upward reserve must have behind it. Each market's published
 | ERCOT | Non-Spin | 1 hour before 2022-12-09 | **assumed**: not verified |
 | ERCOT | Regulation Up, Regulation Down, Responsive Reserve | 30 minutes from 2025-12-05 | NPRR 1282: it "updates duration requirements for Regulation Service and Responsive Reserve (RRS) to thirty minutes; and updates duration requirement for ERCOT Contingency Reserve Service (ECRS) to one hour" |
 | ERCOT | Regulation Up, Regulation Down, Responsive Reserve | 1 hour before 2025-12-05 | **assumed**: not verified |
-| CAISO | Regulation Up, Regulation Down, Spinning Reserve, Non-Spinning Reserve | 1 hour | **assumed**: CAISO's tariff requirement was not checked against the tariff in session 67 |
+| CAISO | Regulation Up, Regulation Down | 1 hour (day-ahead awards) | CAISO tariff, Section 8 as of 1 May 2026, section 8.4.1.1(g) (session 76; one hour was assumed before) |
+| CAISO | Spinning Reserve, Non-Spinning Reserve | 30 minutes | CAISO tariff, Section 8 as of 1 May 2026, section 8.4.3 (session 76; one hour was assumed before) |
 
 ERCOT's pages: `https://www.ercot.com/mktrules/issues/NPRR1096`, `https://www.ercot.com/mktrules/issues/NPRR1282`. The requirement that applies to a local day is the one in force on that day.
 
@@ -156,7 +157,7 @@ CAISO's tariff, Section 8 as of 1 May 2026 (https://www.caiso.com/documents/sect
 - **Regulation Up and Down, section 8.4.1.1(g):** "Regulation capacity offered must be dispatchable on a continuous basis for at least sixty (60) minutes in the Day-Ahead Market and at least thirty (30) minutes in the Real-Time Market". The model's awards are day-ahead, so the one hour it assumed is the tariff's. Section 8.4.1.2 (Regulation Energy Management) lets a storage resource bid up to four times the energy it can deliver in fifteen minutes; the model does not use it.
 - **Spinning and Non-Spinning Reserve, section 8.4.3:** "must be capable of maintaining that output or scheduled Interchange for at least thirty (30) minutes": half an hour, not the hour assumed.
 
-Run both ways on the same days (`warehouse/analysis/battery_caiso_rules.py`), the verified rules move CAISO's yearly totals by at most USD 0.2 per kW (4 hours, perfect foresight, 2025: 91.6 assumed, 91.7 verified). The page and `battery_stack.py` still carry the assumed hour for Spinning and Non-Spinning Reserve; changing them changes the live table, so it is left for Samuel (`archive/sessions/SESSION_74_REPORT.md`, "To finish").
+Run both ways on the same days (`warehouse/analysis/battery_caiso_rules.py`), the verified rules move CAISO's yearly totals by at most USD 0.2 per kW (4 hours, perfect foresight, 2025: 91.6 assumed, 91.7 verified). Session 76 applied them (Samuel's ruling): `battery_stack.py` and the page's requirement rows cite the two sections, `battery_stack_monthly` was rebuilt, and ERCOT's rows did not change (`archive/sessions/SESSION_76_REPORT.md` has every headline number before and after).
 
 ## The daily run
 

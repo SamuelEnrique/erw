@@ -180,8 +180,13 @@ class Durations(unittest.TestCase):
         self.assertEqual(bs.required_hours(p["rrs"], "2025-12-05")[0], 0.5)
         self.assertIn("NPRR1282", bs.required_hours(p["rrs"], "2026-01-01")[1])
         self.assertIn("not verified", bs.required_hours(p["regup"], "2020-01-01")[1])
+        # session 76: California's rules are the tariff's (Section 8): Regulation one hour day-ahead, 8.4.1.1(g);
+        # Spinning and Non-Spinning Reserve 30 minutes, 8.4.3. None is assumed any more.
         for x in bs.MARKETS["caiso"]["products"]:
-            self.assertEqual(bs.required_hours(x, "2025-01-01")[0], 1.0)
+            hours, src = bs.required_hours(x, "2025-01-01")
+            self.assertEqual(hours, 0.5 if x["key"] in ("spin", "nonspin") else 1.0)
+            self.assertIn("8.4.3" if x["key"] in ("spin", "nonspin") else "8.4.1.1(g)", src)
+            self.assertNotIn("not verified", src)
 
 
 def hours(start, n):
