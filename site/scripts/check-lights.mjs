@@ -11,7 +11,9 @@
 import { DEFAULT_SETTINGS, LIGHTS_OUT, optimum, rulesOf, simulate, validSolar } from "../lib/battery.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
-const html = await fetch(`${base}/play/battery?more=1`).then((r) => r.text());
+// session 76: while /play/battery is in review a visitor is shown the in-review page, which holds no levels; ERW_COOKIE
+// (the Cookie header /internal/unlock sets) lets the check read the page itself. Without it the request is a visitor's.
+const html = await fetch(`${base}/play/battery?more=1`, { headers: process.env.ERW_COOKIE ? { Cookie: process.env.ERW_COOKIE } : {} }).then((r) => r.text());
 // the page's data: the strings Next pushes for the client, joined
 let flight = "";
 for (const m of html.matchAll(/self\.__next_f\.push\(\[1,("(?:[^"\\]|\\.)*")\]\)/g)) flight += JSON.parse(m[1]);
