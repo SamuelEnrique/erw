@@ -10,10 +10,21 @@
 // MWh, the page answers 200, shows no "no data" and no "undefined", every number's data-raw equals the fixture's row
 // under its check key, its text is that value as the site writes numbers, the summary sentence is the fixture's, the
 // headline numbers are there, the selected grid's row is highlighted, and both charts are drawn. Exits 1 on a failure.
+import fsMod from "node:fs";
 import { GRIDS, shown } from "../lib/buildout.ts";
 import { fixtureRows, TABLE } from "./buildout-stub.mjs";
 
 const base = process.argv[2] ?? "http://localhost:3069";
+// session 72: the page is in review (lib/release.ts), so it is read with the internal cookie, as check-values does; the
+// token comes from the environment or site/.env.local and is never printed
+const token = process.env.INTERNAL_COSTS_TOKEN ?? (() => {
+  const f = new URL("../.env.local", import.meta.url);
+  try { return (fsMod.readFileSync(f, "utf-8").match(/^INTERNAL_COSTS_TOKEN=(.*)$/m)?.[1] ?? "").trim().replace(/^"|"$/g, ""); } catch { return ""; }
+})();
+const unlock = token ? await fetch(`${base}/internal/unlock?token=${encodeURIComponent(token)}`, { redirect: "manual" }) : null;
+const cookie = unlock ? (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ") : "";
+if (!cookie) console.log("no internal cookie: the page in review answers the in-review page to this check");
+const get = (url) => fetch(url, { headers: cookie ? { Cookie: cookie } : {} });
 let bad = 0, n = 0, values = 0;
 const check = (ok, what) => { n++; if (!ok) { bad++; console.log(`FAIL ${what}`); } };
 const truth = new Map(fixtureRows().map((r) => [`series|${TABLE}|${r.entity}|${r.variable}|${r.ts_utc}`, r.value]));
@@ -24,7 +35,7 @@ const val = (e, v, m) => truth.get(`series|${TABLE}|${e}|${v}|${m}-01T00:00:00Z`
 for (const grid of GRIDS) {
   for (const measure of ["mw", "mwh"]) {
     const page = `/storage/buildout?grid=${grid.slug}&measure=${measure}`;
-    const res = await fetch(base + page);
+    const res = await get(base + page);
     const html = await res.text();
     const text = visible(html);
     check(res.status === 200, `${page}: status ${res.status}`);
@@ -66,7 +77,7 @@ for (const grid of GRIDS) {
   }
 }
 // a grid or measure the page does not know falls back to the United States in MW
-const fallback = visible(await (await fetch(`${base}/storage/buildout?grid=nope&measure=x`)).text());
+const fallback = visible(await (await get(`${base}/storage/buildout?grid=nope&measure=x`)).text());
 check(fallback.includes("The United States has "), "an unknown grid shows the United States");
 console.log(bad ? `${bad} of ${n} checks FAILED` : `/storage/buildout as rendered: ${n} checks pass, ${values} numbers equal the fixture's rows (16 pages)`);
 process.exit(bad ? 1 : 0);
