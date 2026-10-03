@@ -70,6 +70,7 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/network",
   // session 72 (session 69's finish): the storage build-out
   "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/storage/buildout?grid=caiso",
+  "/shoulder", "/shoulder?grid=caiso&month=2025-07",  // session 75
   // session 67: what a battery earns: both grids, the three durations, both strategies, another size
   "/cost-of-power/battery", "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight", "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
   "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead", "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
