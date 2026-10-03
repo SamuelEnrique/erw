@@ -56,6 +56,7 @@ energy_deals_evidence,none,,21,event,2025-01-05T08:00:00Z,2026-10-01T21:50:00Z,4
 energy_projects,none,,43685,snapshot,2026-09-30T23:32:04Z,2026-09-30T23:33:26Z,43685,erw:energy_projects,2026-09-29T01:10:43Z,pass,public,power,no,derived
 ercot_all_hub_prices_history,ERCOT,ercot_dam;ercot_rtm,6,PT15M;PT1H,2015-01-01T06:00:00Z,2026-08-26T04:45:00Z,3063570,ercot:NP4-180-ER;ercot:NP6-785-ER,2026-09-26T00:09:58Z,pass,public,power,no,source
 ercot_as_prices,ERCOT,ercot_dam,5,PT1H,2018-01-01T06:00:00Z,2026-10-04T04:00:00Z,336092,ercot:NP4-181-ER;ercot:NP4-188-CD,2026-10-02T19:48:48Z,pass,public,power,no,source
+ercot_as_quantities,ERCOT,ercot_dam,5,PT1H,2026-09-03T05:00:00Z,2026-10-05T04:00:00Z,3840,ercot:np4-33-cd,2026-10-03T10:23:50Z,pass,public,power,no,source
 ercot_interconnection_queue,ERCOT,,1778,snapshot,2026-09-30T23:32:29Z,2026-09-30T23:32:29Z,1778,ercot:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 ercot_peak_premium_annual,ERCOT,ercot_rtm,6,P1Y,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2016,erw:ercot_peak_premium,2026-09-29T00:55:55Z,pass,public,power,yes,derived
 ercot_peak_premium_monthly,ERCOT,ercot_rtm,6,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,23688,erw:ercot_peak_premium,2026-09-29T00:55:55Z,pass,public,power,yes,derived

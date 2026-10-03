@@ -109,6 +109,7 @@ SECTOR_RULES = [
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
     (r"^(ercot|caiso)_as_prices$", "power"),
+    (r"^ercot_as_quantities$", "power"),  # session 74: the DAM Ancillary Service Plan
     (r"^eia_fuel_spot_prices$", "oil;gas"),
     (r"^eia_(product_spot|retail_fuel)_prices$", "products"),
     (r"^eia_petroleum_(trade|stocks)_weekly$", "oil;products"),
