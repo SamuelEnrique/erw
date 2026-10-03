@@ -274,8 +274,9 @@ async function liveNumbers() {
       out.sellerLabel = "USD, the median month of 100 MW of solar selling at ERCOT's hub";
     }
   } catch { /* the snapshot is missing: the card shows no number */ }
-  // session 67, the "Open now" strip: the US operating fleet, and an average year of the default battery (100 MW,
-  // 4 hours, ERCOT, perfect foresight) from battery_stack_monthly, as /cost-of-power/battery computes it
+  // session 67, the "Open now" strip: the US operating fleet, and the default battery (100 MW, 4 hours, ERCOT, perfect
+  // foresight) from battery_stack_monthly, as /cost-of-power/battery computes it. Session 71: the last twelve months per
+  // kW, the battery page's own lead, never the average of every year held (57 percent of it is February 2021)
   if (fleet.ok) {
     const op = fleet.data.filter((u) => u.status === "operating");
     const mw = Math.round(op.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
@@ -285,8 +286,12 @@ async function liveNumbers() {
   const stack = await attempt(() => rest<BS.Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${BS.TABLE}`, entity: `eq.${BS.gridOf(bx.grid).entity}`,
     variable: `like.${bx.strat}_${bx.dur}h_*`, order: "variable,ts_utc" }, HOURLY));
   if (stack.ok) {
-    const v = BS.stat(stack.data, [], bx, "avg:total");
-    if (v !== null) out.battery = <span data-format="usd"><Num check={`bs|${BS.inputsKey(bx)}|avg:total`} raw={v}>{BS.usdShort(v)}</Num></span>;
+    const v = BS.stat(stack.data, [], bx, "l12_kw:total");
+    const l12 = BS.lastTwelve(BS.monthsOf(stack.data, bx.strat, bx.dur));
+    if (v !== null && l12) {
+      out.battery = <Num check={`bs|${BS.inputsKey(bx)}|l12_kw:total`} raw={v}>{v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Num>;
+      out.batteryLabel = `${BS.monthName(l12[0].m)} to ${BS.monthName(l12[11].m)}`;
+    }
   }
   return out;
 }
@@ -294,7 +299,7 @@ async function liveNumbers() {
 /** Session 67: the tools open to every visitor (lib/release.ts), each with one line and one number read from the tables. */
 function OpenNow({ L }: { L: Record<string, ReactNode> }) {
   const tools: { href: string; name: string; line: string; num?: ReactNode; pre?: string; unit?: string }[] = [
-    { href: "/cost-of-power/battery", name: "What a battery earns", line: "An average year of a 100 MW, 4-hour battery in ERCOT, energy and ancillary services together, with perfect foresight.", num: L.battery, pre: "USD " },
+    { href: "/cost-of-power/battery", name: "What a battery earns", line: `The last twelve months of a 100 MW, 4-hour battery in ERCOT${L.batteryLabel ? ` (${L.batteryLabel})` : ""}, energy and ancillary services together, with perfect foresight.`, num: L.battery, pre: "USD ", unit: "per kW" },
     { href: "/cost-of-power/seller", name: "What a generator earns", line: "The median month of 100 MW of solar selling at ERCOT's hub.", num: L.seller, pre: "USD " },
     { href: "/network", name: "The network", line: `ERCOT's demand in the newest hour held, one of the grids the 3D network draws${L.gridLabel ? ` (${String(L.gridLabel).replace(/^MW, ERCOT's demand /, "")})` : ""}.`, num: L.grid, unit: "MW" },
     { href: "/storage", name: "Storage", line: "Batteries operating in the US, nameplate power, from EIA's monthly generator inventory.", num: L.us, unit: "MW" },

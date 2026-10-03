@@ -201,9 +201,13 @@ try {
         const main = document.querySelector("main"), ir = main.querySelector("[data-home-in-review]");
         return { ir: !!ir, h2: ir?.querySelector("h2")?.textContent ?? "", items: ir ? ir.querySelectorAll(".gate-review").length : 0, links: ir ? ir.querySelectorAll("a").length : -1,
           labels: main.querySelectorAll(".gate-label").length, last: [...main.querySelectorAll("section[aria-label]")].map((e) => e.getAttribute("aria-label")).slice(-2).join(", "),
-          open: !!main.querySelector('section[aria-label="Open now"]') };
+          open: !!main.querySelector('section[aria-label="Open now"]'),
+          tile: main.querySelector('section[aria-label="Open now"] [data-check*="cost-of-power"], section[aria-label="Open now"] [data-check^="bs|"]')?.getAttribute("data-check") ?? "",
+          tileText: main.querySelector('section[aria-label="Open now"]')?.textContent ?? "" };
       })()`);
       check(home.ir && home.h2 === "In review" && home.items >= 10 && home.links === 0, `visitor: the home page names the tools in review once, in "In review", greyed and not links`, `${home.items} named`);
+      check(/\|l12_kw:total$/.test(home.tile) && /per kW/.test(home.tileText) && /The last twelve months of a 100 MW, 4-hour battery in ERCOT/.test(home.tileText) && !/An average year/.test(home.tileText),
+        "visitor: the home page's battery tile is the last twelve months per kW, as the battery page leads, not the average of every year held", home.tile);
       check(home.labels === 0 && home.open, `visitor: no "in review" label in the home page's body, and the "Open now" strip is there`, `${home.labels} labels; last sections: ${home.last}`);
     }
   }
