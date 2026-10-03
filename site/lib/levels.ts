@@ -9,6 +9,11 @@ export type Level = {
   slug: string; date: string; title: string; why: string; table: string;
   grid?: "ERCOT" | "CAISO"; tz?: string; rule?: string;  // session 56: the California days (data/battery_levels.json)
   ts_utc: string[]; price: number[]; source: string[]; source_url: string[]; retrieved_at: string;
+  // session 66: the grid's solar fleet on the level's day, output per MW installed, one value per interval (each hour's
+  // value on its four intervals), written by warehouse/derived/battery_solar.py where every hour of the day is held.
+  // Absent where it is not (today's level always: the live set holds no solar shape): the rooftop add-on is then
+  // unavailable for the level, and nothing is filled.
+  solar?: number[]; solar_source?: string;
 };
 
 export const TZ = "America/Chicago";

@@ -16,7 +16,7 @@ export async function GET(req: Request) {
   if (!allowRead(clientIp(req))) return fail("limit reached: 240 leaderboard reads per hour; try again later", 429);
   const q = new URL(req.url).searchParams;
   const preset = q.get("preset") ?? "";
-  if (!parsePreset(preset)) return fail("preset: not one the game writes (for example normal:13.5-5-90-v3, or hard:13.5-5-90-r20-d0.11-v3)");
+  if (!parsePreset(preset)) return fail("preset: not one the game writes (for example normal:13.5-5-90-v4, hard:13.5-5-90-r20-d0.11-v4, or with rooftop solar hard:13.5-5-90-r20-d0.11-solar-v4)");
   const date = q.get("level") ?? "";
   let level;
   try {
