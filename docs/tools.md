@@ -33,6 +33,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | Curtailment | `/curtailment` | How much wind and solar output is curtailed, by ISO? | everyone | `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily`, `iso_curtailment_monthly` |
 | Emissions | `/emissions` | How much CO2 does each ISO's power carry, per MWh made and used? | everyone | `carbon_intensity_hourly`, `eia930_all_emissions` |
 | Storage | `/storage` | Where is the US battery fleet, and how do batteries charge and discharge? | everyone | `storage_capacity`, `storage_daily_cycle`, `eia930_all_storage` |
+| Storage build-out (in review, session 72) | `/storage/buildout` | How much battery storage has each US grid built, of what duration, how does it compare with solar, and what is planned? | investors and lenders; everyone | `storage_buildout_monthly` |
 | Consumption | `/consumption` | Who uses the power, and where is load growing fastest? | everyone | `eia_retail_sales_monthly`, `eia_sector_energy_consumption_monthly` |
 
 ## Projects, companies, deals and policy
