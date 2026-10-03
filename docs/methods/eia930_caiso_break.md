@@ -1,6 +1,25 @@
 # Method note: the break in EIA-930's California generation series (16 December 2025)
 
-Energy Research Warehouse (ERW), session 73. Status: **under review**. The ERW has changed no table's values and switched no page to another source; this note says what changed, what the evidence supports, and which figures are affected. Code: `warehouse/analysis/eia930_break.py` (daily sums from the saved EIA-930 workbooks); CAISO's own figures: `caiso_fuel_supply` (`warehouse/connectors/caiso_fuel_supply.py`).
+Energy Research Warehouse (ERW), sessions 73 and 78. Status: **ruled, prepared, not yet live.** Session 73 found the break and changed nothing. Samuel ruled on it, and session 78 built the join below as scratch tables (`runs/session78/`); the live tables and pages switch together after the site's freeze (`archive/sessions/SESSION_78_REPORT.md`, "To finish"). Until then every live figure is still EIA-930's. Code: `warehouse/derived/caiso_join.py` (the join and its one constant), `warehouse/analysis/caiso_join_before_after.py` (every affected figure both ways), `warehouse/analysis/eia930_break.py` (session 73's daily sums from the saved EIA-930 workbooks); CAISO's own figures: `caiso_fuel_supply` (`warehouse/connectors/caiso_fuel_supply.py`).
+
+## The join (the ruling)
+
+From the hour starting **2025-12-16T08:00:00Z** (midnight Pacific; the constant `JOIN` in `warehouse/derived/caiso_join.py`, and nowhere else), California's generation, its generation mix and the generation side of its carbon figures come from CAISO's own supply by fuel. EIA-930 stays the source before that hour, and for interchange and demand on both sides.
+
+**What changes in the tables: California's carbon intensity of generation** (`intensity_generation` of `eia930:CISO` in `carbon_intensity_hourly`, `_daily` and `_monthly`).
+
+| | Before the join | From the join |
+|---|---|---|
+| CO2 generated | EIA's estimate | EIA's estimate |
+| Net generation | EIA-930's | CAISO's own: every source of its supply but imports, batteries net |
+| The row's `source` | `erw:carbon_intensity` | `erw:carbon_intensity_caiso` |
+
+- **Why the CO2 stays EIA's.** CAISO's supply carries no emissions. And from the join EIA's California gas series is CAISO's own: EIA's gas CO2 over CAISO's gas MWh is 0.4049 tCO2/MWh over the 6,609 hours from the join to 2026-09-30, against EIA's own factor of 0.4051 (EIA's gas CO2 over EIA's gas generation, the 864 hours both tables held on 2026-10-03). What was wrong after the break is the denominator. The build repeats that check every run and stops if the ratio leaves the factor by more than 2 percent.
+- **What was wrong with the denominator.** On the 888 hours both tables hold from the join (2026-08-26 to 2026-10-02), EIA's gas, geothermal, hydro, nuclear and coal equal CAISO's own to within 1 MW on average; EIA's solar is 944 MW lower (7,029 against 7,973), its wind 473 MW lower (2,719 against 3,192), and its total 1,740 MW lower (22,618 against 24,358).
+- **What it does to the figure.** Over the 6,657 hours from the join that both hold, California's intensity of generation is 110.80 kgCO2/MWh on EIA's generation and 100.91 on CAISO's own. By month the change is 7 to 11 percent down.
+- **Never mixed.** A period is written from one source or not at all. An hour from the join rests on CAISO's generation or is absent, never on EIA's. The UTC day 2025-12-16 and the month 2025-12 lie on both sides and are not written. A day needs its 24 hours and a month every day, so a day CAISO's supply does not hold completely costs that day and its month: CAISO's file was empty or short on 2026-08-21 and 2026-09-22, and the connector could not place the clock-change day 2026-03-08, so March, August and September 2026 have no monthly figure.
+- **What does not change: the consumed intensity** (`intensity_demand`, CO2 consumed over demand). Its numerator is EIA's CO2 generated plus imported less exported, and its denominator EIA's demand; neither is a generation series, so it keeps EIA's rows on both sides. Its fall across the date (201 to 115 kgCO2/MWh in session 73's periods) is still partly the reporting change, and the pages say so.
+- **Not built yet: the mix pages.** `/mix`, `/grid` and the California grid page still read EIA-930's generation by fuel for California. Their sentence says that plainly. Switching them needs `caiso_fuel_supply` in the daily run and in the live set.
 
 ## What changed
 
@@ -51,6 +70,6 @@ See `archive/sessions/SESSION_73_REPORT.md`, "The audit", for the list of tables
 - California's carbon intensity of generation (EIA's CO2 over EIA's generation) was 188 kg/MWh before the break against 139 on CAISO's own generation (EIA's own gas emission factor applied to CAISO's gas), and 110 against 101 after. EIA's figure ran about 49 kg/MWh high before and about 9 high after. A comparison across 2025-12-16 overstates the fall, and EIA's consumed intensity (201 to 115 kg/MWh) moves with it.
 - The import share measured as demand less net generation reads about 12 points high from the break.
 
-## Recommendation (not applied)
+## The ruling
 
-For California from 2025-12-16, use CAISO's own supply by fuel source (`caiso_fuel_supply`) for generation, generation mix and the generation side of the carbon figures, with EIA-930 kept for interchange. Keep EIA-930 before the break, and state the join on every page that crosses it. Samuel rules.
+For California from 2025-12-16, CAISO's own supply by fuel source (`caiso_fuel_supply`) is the source for generation, generation mix and the generation side of the carbon figures, with EIA-930 kept for interchange. EIA-930 stays before the break, and the join is stated on every page that crosses it. Session 73 recommended this; Samuel ruled for it; "The join" above is how session 78 built it.

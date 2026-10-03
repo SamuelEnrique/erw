@@ -242,7 +242,7 @@ class Page(unittest.TestCase):
         for page, kind in (("app/network/page.tsx", "<CaisoBreakNote "), ("app/emissions/page.tsx", "<CaisoBreakNote />"),
                            ("app/cost-of-power/page.tsx", "<CaisoBreakNote />"), ("app/mix/page.tsx", '<CaisoBreakNote kind="mix" />'),
                            ("app/grid/page.tsx", '<CaisoBreakNote kind="mix" />'), ("app/grid/[iso]/page.tsx", '<CaisoBreakNote kind="both" />'),
-                           ("app/reports/draft/ai-gigawatts/page.tsx", "<CaisoBreakNote />")):
+                           ("app/reports/draft/ai-gigawatts/page.tsx", '<CaisoBreakNote kind="imports" />')):
             with open(os.path.join(ROOT, "site", *page.split("/")), encoding="utf-8") as f:
                 self.assertIn(kind, f.read(), page)
 

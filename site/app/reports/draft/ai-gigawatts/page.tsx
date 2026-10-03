@@ -115,7 +115,7 @@ export default async function AiGigawatts({ searchParams }: { searchParams: Prom
     <article className="max-w-4xl">
       <p className="mb-1 text-xs text-muted">Draft, internal. Not in the navigation, not published. <Link href="/data/methods/cost_of_power">Cost-of-power method</Link></p>
       <h1 className="mb-2 text-3xl">Where the next gigawatts for AI can come from</h1>
-      <CaisoBreakNote />
+      <CaisoBreakNote kind="imports" />
       <p className="mb-4 text-sm text-muted">
         Energy Research Warehouse (ERW), session 62. Seven U.S. ISO regions, September 2025 to August 2026, measured the same way: what a flat 1 GW
         load would pay for energy, how much carbon it would carry, how stressed the grid is, how long new supply takes to connect, and how much the
