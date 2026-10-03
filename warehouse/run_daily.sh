@@ -204,6 +204,8 @@ fi
 run_other energy_projects "$PYTHON" warehouse/derived/energy_projects.py
 # Session 31: the battery units of the EIA-860M tables (storage_capacity); skips when the runner has no EIA-860M tables
 run_other storage_capacity "$PYTHON" warehouse/derived/storage_capacity.py
+# Session 72 (session 69): the storage build-out by grid and month, from the same EIA-860M tables; skips without them
+run_other storage_buildout "$PYTHON" warehouse/derived/storage_buildout.py
 
 # News (session 6): ingest the feeds, then score new stories with the Claude API
 # (ANTHROPIC_API_KEY). The digest is written after validation and coverage, below.

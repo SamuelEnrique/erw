@@ -54,7 +54,7 @@ full:
   - '^price_board_(latest|peak_offpeak|spreads|carbon)$'
   - '^api_cost_ledger$'
   # session 31: /storage (the hourly series below, last 90 days)
-  - '^storage_(daily_cycle|capacity)$'
+  - '^storage_(daily_cycle|capacity|buildout_monthly)$'
   # session 32: /emissions (the daily intensity whole; the hourly tables below, last 90 days)
   - '^carbon_intensity_(daily|monthly)$'          # session 34: the monthly table too, whole (about 1,600 rows)
   # session 34: CAISO's own battery series for /storage, beside EIA-930's (Total batteries only, its own window below)

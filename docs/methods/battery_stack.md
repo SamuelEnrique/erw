@@ -140,6 +140,24 @@ The page leads with the last twelve months, because the earlier years rest on an
 
 Session 67's page led with the average of every year held and named February 2021 in a box under the summary sentence; session 71 removed the box, because the table and the sentence under the chart now say the same thing.
 
+## The fleet-limited estimate (session 74, for review)
+
+Not on the page, and no live strategy changed. `warehouse/analysis/battery_fleet_limited.py` solves the same program with one more limit: in each hour, one battery's award of a product, per MW of its power, is at most the MW ERCOT procures that hour divided by the operating battery MW in ERCOT that month, and never above 1 (`solve_day(..., caps=...)`; no cap, or a cap of 1, is the page's program exactly, and a test checks it). That assumes batteries share each product in proportion to their power and between them take all of it: still generous, before batteries were the main providers.
+
+- **Quantities:** `ercot_as_quantities`, ERCOT's DAM Ancillary Service Plan (NP4-33-CD), the plan published the day before each delivery day. ERCOT's public reports site keeps about a month of it. No keyless public source of 2018 to 2026 was found: the archive API needs a subscription key, and the yearly methodology documents give rules and adjustment tables, not the quantities. So the estimate covers 2026-09-03 to 2026-10-02 only.
+- **The fleet:** `storage_buildout_monthly`, `iso:ercot`, `battery_operating_mw` of the day's month; September and October 2026 are not yet published by EIA, so August's 18,204.5 MW is used and named in the output.
+- **Result, those 30 days:** with caps averaging 2.6 percent of a battery's power for regulation, 9 percent for ECRS and 13 percent for Responsive Reserve and Non-Spin, the fleet-limited battery earns 69 to 82 percent of the price-taker, the ancillary stream falling about four fifths and part of the freed power going to energy (4 hours, perfect foresight: USD 4.52 per kW against 5.92).
+- **What it cannot do:** lower the years before 2024 much. ERCOT's operating battery fleet was 87 MW at the end of 2018, 107 in 2019, 218 in 2020, 821 in 2021 and 2,130 in 2022. ERCOT's 2024 methodology states that at least 2,300 MW of Responsive Reserve is procured in every hour (the 2024 quantities; earlier years' are not held). With quantities of that order, the cap is 1 for Responsive Reserve, the stream that carried 2018 to 2021, until the fleet passed them in 2023. The implausible early years come from assuming a battery is paid for reserves it is never asked to deliver, not from the fleet being too large for the market.
+
+## California's rules, verified (session 74)
+
+CAISO's tariff, Section 8 as of 1 May 2026 (https://www.caiso.com/documents/section-8-ancillary-services-as-of-may-1-2026.pdf):
+
+- **Regulation Up and Down, section 8.4.1.1(g):** "Regulation capacity offered must be dispatchable on a continuous basis for at least sixty (60) minutes in the Day-Ahead Market and at least thirty (30) minutes in the Real-Time Market". The model's awards are day-ahead, so the one hour it assumed is the tariff's. Section 8.4.1.2 (Regulation Energy Management) lets a storage resource bid up to four times the energy it can deliver in fifteen minutes; the model does not use it.
+- **Spinning and Non-Spinning Reserve, section 8.4.3:** "must be capable of maintaining that output or scheduled Interchange for at least thirty (30) minutes": half an hour, not the hour assumed.
+
+Run both ways on the same days (`warehouse/analysis/battery_caiso_rules.py`), the verified rules move CAISO's yearly totals by at most USD 0.2 per kW (4 hours, perfect foresight, 2025: 91.6 assumed, 91.7 verified). The page and `battery_stack.py` still carry the assumed hour for Spinning and Non-Spinning Reserve; changing them changes the live table, so it is left for Samuel (`archive/sessions/SESSION_74_REPORT.md`, "To finish").
+
 ## The daily run
 
 `warehouse/run_daily.sh` refreshes `ercot_as_prices` and `caiso_as_prices` (CAISO: the last days, merged into the table restored from the Redivis draft) and then runs the builder, each under `warehouse/health.py`. `iso_capacity_prices.py` runs on the first day of each month. On the GitHub runner the ERCOT price history is not present, so the builder recomputes the months the rolling price tables reach and keeps every earlier month from its own table, restored from the draft: a month is never replaced by one resting on fewer days. A row whose value did not change keeps its `retrieved_at`.

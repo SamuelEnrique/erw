@@ -50,6 +50,9 @@ const PAGES = [
   // session 67: what a battery earns, its two grids, and the methods pages the live tools link to
   "/cost-of-power/battery", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead", "/cost-of-power/battery?grid=ercot&dur=8&strat=foresight",
   "/data/methods/battery_stack", "/data/methods/grid_network", "/data/methods/storage",
+  // session 72 (session 69's finish): the storage build-out, in review
+  "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/data/methods/storage_buildout",
+  "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75
   "/play/battery", "/play/battery?more=1",  // session 63: the simple page and the full game
   "/tour",  // session 53: the guided tour
   "/data/methods/battery_game",  // session 50

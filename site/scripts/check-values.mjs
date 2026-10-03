@@ -10,9 +10,30 @@
 //   1. the value Supabase returns equals data-raw;
 //   2. the text on the page equals data-raw rounded as displayed (2 decimals, or a whole count).
 // Prints one line per value and a summary; exits 1 if any value fails or fewer than ten were checked.
+//
+// Session 72: it cannot hang. Every request has a hard timeout (CHECK_VALUES_REQUEST_S, default 60 s) and the whole run
+// one too (CHECK_VALUES_TIMEOUT_MIN, default 15 minutes): past it the run fails, loudly, with exit 1 (session 71's third
+// run hung for 70 minutes on the network). And it does not flake on the latest prices: their key carries the interval
+// the page shows (latest_prices|<entity>|<variable>|<ts_utc>). Supabase's latest_prices holds one row per entity, the
+// newest interval, and no earlier one anywhere. So: the same interval in Supabase, the values must be equal; a newer
+// interval in Supabase (the page was cached before the 15-minute refresh), the key is "superseded", reported on its own
+// line and in the summary, and passes only if the page's interval is at most 45 minutes behind Supabase's (the page's
+// 15-minute cache, the refresh and the run's own length); any other case fails. No key is dropped.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+const REQUEST_MS = Number(process.env.CHECK_VALUES_REQUEST_S ?? 60) * 1000;
+const RUN_MIN = Number(process.env.CHECK_VALUES_TIMEOUT_MIN ?? 15);
+const LATEST_LAG_MIN = 45;
+{
+  const plain = globalThis.fetch;
+  globalThis.fetch = (url, opts = {}) => plain(url, { ...opts, signal: opts.signal ?? AbortSignal.timeout(REQUEST_MS) });
+  setTimeout(() => {
+    console.error(`check-values FAILED: the run passed its ${RUN_MIN}-minute limit (CHECK_VALUES_TIMEOUT_MIN); nothing is reported as checked`);
+    process.exit(1);
+  }, RUN_MIN * 60 * 1000).unref();
+}
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
@@ -47,6 +68,9 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/learn/problems/networks-and-money",
   // session 49: the network's default node card (ERCOT)
   "/network",
+  // session 72 (session 69's finish): the storage build-out
+  "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/storage/buildout?grid=caiso",
+  "/shoulder", "/shoulder?grid=caiso&month=2025-07",  // session 75
   // session 67: what a battery earns: both grids, the three durations, both strategies, another size
   "/cost-of-power/battery", "/cost-of-power/battery?grid=ercot&dur=2&strat=foresight", "/cost-of-power/battery?grid=ercot&dur=8&strat=dayahead",
   "/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead", "/cost-of-power/battery?grid=caiso&dur=4&strat=foresight", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead",
@@ -111,7 +135,9 @@ async function truth(check) {
     return (await q("catalogue", { select: "n_rows", table_name: `eq.${p[1]}` }))[0]?.n_rows;
   }
   if (p[0] === "latest_prices") {
-    return (await q("latest_prices", { select: "value", entity: `eq.${p[1]}`, variable: `eq.${p[2]}` }))[0]?.value;
+    const r = (await q("latest_prices", { select: "value,ts_utc", entity: `eq.${p[1]}`, variable: `eq.${p[2]}` }))[0];
+    if (p[3] === undefined || r === undefined) return r?.value;  // a key without its interval: the value alone
+    return { latest: true, value: r.value, ts: r.ts_utc, pageTs: p[3] };
   }
   // session 54: demand from the hourly network refresh, netsnap|<BA>|demand_mw|<ts>: not in the database (the hourly job
   // never writes it), so it is read from the hourly snapshot itself, the public Storage object, whose demand_recent keeps
@@ -651,10 +677,25 @@ async function main() {
       if (!found.has(check)) found.set(check, { page, raw: decode(m[2]), text, usdFormat });
     }
   }
-  let ok = 0, bad = 0;
+  let ok = 0, bad = 0, superseded = 0;
   const lines = [];
   for (const [check, { page, raw, text, usdFormat }] of found) {
-    const t = await truth(check);
+    let t = await truth(check);
+    if (t && t.latest) {
+      const lag = (new Date(t.ts).getTime() - new Date(t.pageTs).getTime()) / 60000;
+      if (lag > 0) {
+        const pass = lag <= LATEST_LAG_MIN && text.startsWith(shown(raw));
+        pass ? superseded++ : bad++;
+        lines.push(`${pass ? "late" : "FAIL"} | ${page} | ${check} | page shows "${text}" for the interval starting ${t.pageTs} | Supabase now holds ${t.ts} (${lag} minutes later; the earlier interval is held nowhere to compare)${pass ? "" : `: more than ${LATEST_LAG_MIN} minutes behind`}`);
+        continue;
+      }
+      if (lag < 0) {
+        bad++;
+        lines.push(`FAIL | ${page} | ${check} | the page's interval ${t.pageTs} is newer than Supabase's ${t.ts}`);
+        continue;
+      }
+      t = t.value;
+    }
     const isTime = /^\d{4}-\d{2}-\d{2}T/.test(raw);
     // sums of floats may differ in the last bits with the order of addition: relative tolerance
     const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
@@ -670,7 +711,7 @@ async function main() {
   bad += wbad;
   const n = found.size + wok + wbad;
   console.log(lines.join("\n"));
-  console.log(`\n${ok} of ${n} values match Supabase${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);
+  console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);
   if (bad || n < 10) process.exit(1);
 }
 

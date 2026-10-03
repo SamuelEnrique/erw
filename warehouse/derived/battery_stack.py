@@ -174,21 +174,28 @@ def structure(T, duration, spec, eta):
     return _STRUCT[k]
 
 
-def solve_day(energy, reserves, spec, duration, rte=RTE, force_switch=False):
+def solve_day(energy, reserves, spec, duration, rte=RTE, force_switch=False, caps=None):
     """One day's optimum for 1 MW. energy: the T hourly energy prices; reserves: one list of T capacity prices per
     product; spec: the products' (up, required hours). Returns a dict: total, energy, reserve (per product), the hourly
-    charge, discharge, awards and state of charge, and whether the mixed-integer program was needed."""
+    charge, discharge, awards and state of charge, and whether the mixed-integer program was needed.
+    Session 74: caps, one list of T values per product (or None): the most of each hour's award the battery may hold,
+    per MW of its power, between 0 and 1 (the fleet-limited strategy, warehouse/analysis/battery_fleet_limited.py).
+    None, or a cap of 1 everywhere, is the program of sessions 67 to 73 exactly."""
     T = len(energy)
     K = len(spec)
     eta = math.sqrt(rte)
     A, b, n = structure(T, duration, tuple(spec), eta)
+    ub = np.ones(n)
+    if caps is not None:
+        for j, cap in enumerate(caps):
+            ub[T * (2 + j):T * (3 + j)] = np.clip(np.asarray(cap, dtype=float), 0, 1)
     p = np.asarray(energy, dtype=float)
     obj = np.concatenate([p, -p] + [-np.asarray(r, dtype=float) for r in reserves])  # minimize cost less revenue
     neg = np.flatnonzero(p < 0) if not force_switch else np.arange(T)
     mip = bool(force_switch)
     x = None
     if not mip:
-        res = linprog(obj, A_ub=A, b_ub=b, bounds=(0, 1), method="highs")
+        res = linprog(obj, A_ub=A, b_ub=b, bounds=list(zip(np.zeros(n), ub)), method="highs")
         if res.status != 0:
             raise RuntimeError(f"the linear program did not solve: {res.message}")
         x = res.x
@@ -204,7 +211,7 @@ def solve_day(energy, reserves, spec, duration, rte=RTE, force_switch=False):
         A2 = sparse.vstack([sparse.hstack([A, sparse.csr_matrix((A.shape[0], N))]), sparse.csr_matrix(sw)]).tocsr()
         b2 = np.concatenate([b, np.zeros(N), np.ones(N)])
         res = milp(np.concatenate([obj, np.zeros(N)]), constraints=LinearConstraint(A2, -np.inf, b2),
-                   integrality=np.concatenate([np.zeros(n), np.ones(N)]), bounds=Bounds(0, 1))
+                   integrality=np.concatenate([np.zeros(n), np.ones(N)]), bounds=Bounds(0, np.concatenate([ub, np.ones(N)])))
         if res.status != 0:
             raise RuntimeError(f"the mixed-integer program did not solve: {res.message}")
         x = res.x[:n].copy()

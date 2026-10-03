@@ -29,6 +29,8 @@ export const GROUPS: Group[] = [
       // session 51: the seller's tab
       { href: "/cost-of-power/seller", label: "What a generator earns", line: "What a merchant solar, wind, battery or gas peaker asset earns month by month at an ISO's main hub, its bad months and stress days, and whether it covers its debt.", tables: "merchant_revenue_monthly", related: ["/cost-of-power", "/board"] },
       // session 67: the battery revenue stack, next to the seller's tab
+      // session 75: in review
+      { href: "/shoulder", label: "The shoulder hours", line: "How long the evening stretch between the solar midday and the demand peak lasts in ERCOT and CAISO, how much of it today's batteries cover, and how many hours they would need.", tables: "shoulder_hours_monthly", related: ["/cost-of-power/battery", "/storage/buildout"] },
       { href: "/cost-of-power/battery", label: "What a battery earns", line: "What a grid battery of your size and duration earned in ERCOT and CAISO from energy and ancillary services together, by year and by stream, and whether it covers its debt, with and without a contract.", tables: "battery_stack_monthly, battery_stack_stress_daily", related: ["/cost-of-power/seller", "/storage"] },
       { href: "/prices", label: "Prices", line: "Every public ISO hub and zone, real-time and day-ahead, with Henry Hub, WTI and Brent.", tables: "ISO price tables, eia_fuel_spot_prices, latest_prices", related: ["/markets", "/explorer/ercot-peak-premium"] },
       { href: "/explorer/ercot-peak-premium", label: "ERCOT peak premium", line: "How ERCOT real-time prices spread across the day, by hub and year since 2015.", tables: "ercot_peak_premium_annual, ercot_peak_premium_monthly", related: ["/prices", "/markets"] },
@@ -46,6 +48,8 @@ export const GROUPS: Group[] = [
       { href: "/emissions", label: "Emissions", line: "How much CO2 each ISO's power carries, per MWh made and per MWh used, from EIA's hourly estimates.", tables: "carbon_intensity_hourly, eia930_all_emissions", related: ["/grid", "/storage"] },
       // session 31: battery storage
       { href: "/storage", label: "Storage", line: "The US battery fleet by ISO, state and planned year, and how the batteries charge and discharge each hour and day.", tables: "storage_capacity, storage_daily_cycle, eia930_all_storage", related: ["/grid", "/mix"] },
+      // session 72 (session 69's finish): in review
+      { href: "/storage/buildout", label: "Storage build-out", line: "How much battery storage each US grid has built, of what duration, how it compares with solar, and what is planned.", tables: "storage_buildout_monthly", related: ["/storage", "/cost-of-power/seller"] },
       { href: "/consumption", label: "Consumption", line: "Electricity sold by state and sector, and where industrial and commercial load grows fastest.", tables: "eia_retail_sales_monthly, eia_sector_energy_consumption_monthly", related: ["/mix", "/datacenters"] },
     ],
   },

@@ -49,7 +49,9 @@ restore_before_run:
   # session 23: CAISO battery storage keeps its history (the connector pulls the last 30 days; the backfill reaches 2025-08)
   - '^caiso_battery_storage$'
   # session 24: policy actions keep news releases older than the agencies' feed windows; policy_reads its reads
-  - '^policy_(actions|reads)$'
+  # session 76: and policy_reads_evidence its spans. It was not restored, so each run on the runner merged its new
+  # spans into an empty table and uploaded only those (25, 7, 22 rows) over the 1,778 held; rebuilt from the archive
+  - '^policy_(actions|reads|reads_evidence)$'
   # session 24: the NWS observations keep more than the API's 7 days by merging; the forecast keeps past vintages' hours
   - '^weather_(obs|forecast)_hourly$'
   # session 30: the API cost ledger and the shadow scores grow by merging (internal; restored from the internal draft)
