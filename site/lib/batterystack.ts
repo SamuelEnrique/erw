@@ -165,17 +165,51 @@ export function badMonth(ms: Month[]): Month | null {
   return sorted.length ? sorted[Math.max(0, Math.ceil(0.1 * sorted.length) - 1)] : null;
 }
 
-/** The one month that carries the window: the held month with the highest total, when it alone is at least a fifth of
- * everything the held months earned (ERCOT's February 2021, Winter Storm Uri). The page names it beside the average,
- * and gives the average year without it, so a reader is not misled by one storm. Null when no month weighs that much. */
+/** The one month that carries the window: the held month with the highest total, when it alone is more than a quarter
+ * of everything the held months earned (ERCOT's February 2021, Winter Storm Uri; session 71's rule). The income table
+ * then gives the average of every year held without it, beside the average with it, so a reader is not misled by one
+ * storm. Nothing is removed from the data: the month stays in every other figure and on the chart. Null when no month
+ * weighs that much. */
 export function outlier(ms: Month[]): { m: string; share: number; averageWithout: number | null } | null {
   const held = ms.filter((r) => r.held);
   const sum = held.reduce((a, r) => a + r.total!, 0);
   if (held.length < 12 || sum <= 0) return null;
   const top = held.reduce((a, r) => (r.total! > a.total! ? r : a));
   const share = top.total! / sum;
-  if (share < 0.2) return null;
+  if (share <= 0.25) return null;
   return { m: top.m, share: share * 100, averageWithout: averageYear(ms.filter((r) => r.m !== top.m), "total") };
+}
+/** The average of every year held without the outlier month, one stream, per MW (null when there is no outlier). */
+export function averageWithout(ms: Month[], s: Stream): number | null {
+  const o = outlier(ms);
+  return o ? averageYear(ms.filter((r) => r.m !== o.m), s) : null;
+}
+
+/** Session 71: the last 36 months, the window of the page's bad month: the 36 calendar months ending with the last
+ * twelve months' last month (else the newest held month), and the held months in it. A market held for less than 36
+ * months gives fewer; the page says how many. */
+export function last36(ms: Month[]): { from: string; to: string; months: Month[] } | null {
+  const held = ms.filter((r) => r.held);
+  if (!held.length) return null;
+  const to = (lastTwelve(ms)?.[11] ?? held.at(-1)!).m;
+  const from = prevMonth(to, 35);
+  return { from, to, months: held.filter((r) => r.m >= from && r.m <= to) };
+}
+
+/** Session 71: the last three full calendar years: the newest calendar year with all twelve months held, and the two
+ * before it, each also complete. Null when three such years are not held (CAISO, held from September 2024). */
+export function lastThreeYears(ms: Month[]): string[] | null {
+  const full = years(ms).filter((y) => y.complete).map((y) => y.y);
+  const newest = full.at(-1);
+  if (!newest) return null;
+  const want = [0, 1, 2].map((k) => String(Number(newest) - k)).reverse();
+  return want.every((y) => full.includes(y)) ? want : null;
+}
+/** The average of the last three full calendar years, one stream, per MW: their months' sum over three. */
+export function threeYearAverage(ms: Month[], s: Stream): number | null {
+  const ys = lastThreeYears(ms);
+  if (!ys) return null;
+  return ms.filter((r) => r.held && ys.includes(r.m.slice(0, 4))).reduce((a, r) => a + (pick(r, s) ?? 0), 0) / 3;
 }
 
 export type Year = { y: string; months: number; complete: boolean; energy: number; ancillary: number };
@@ -207,12 +241,16 @@ export function contractResult(ms: Month[], x: Inputs, c: Contract) {
   const avg = averageYear(ms, "total");
   const l12 = lastTwelve(ms);
   const market12 = l12 ? sumOf(l12, "total") : null;
+  // session 71: the market lines lead with the last twelve months; the average of every year held is shown beside them
   return {
     contracted,
+    market12: market12 === null ? null : (1 - s) * market12 * x.mw,
     marketAverage: avg === null ? null : (1 - s) * avg * x.mw,
     coverageWith: market12 === null || x.ds <= 0 ? null : (contracted + (1 - s) * market12 * x.mw - x.fom * 1000 * x.mw) / x.ds,
     coverageWithout: market12 === null ? null : coverage(market12, x),
+    after12: market12 === null ? null : market12 * x.mw,
     afterAverage: avg === null ? null : avg * x.mw,
+    first: l12 ? l12[0].m : null,
     last: l12 ? l12[11].m : null,
   };
 }
@@ -257,6 +295,16 @@ export function stat(rows: Row[], stressRows: StressRow[], x: Inputs, what: stri
     case "n": return ms.filter((r) => r.held).length;
     case "top_share": { const o = outlier(ms); return o ? Math.round(o.share) : null; }
     case "avg_without_top": return scaled(outlier(ms)?.averageWithout ?? null);
+    // session 71: the last twelve months per kW and by share; the bad month of the last 36 months; the last three full
+    // years; the average of every year held without the outlier month
+    case "l12_kw": return l12 ? sumOf(l12, b) / 1000 : null;
+    case "l12_share": { if (!l12) return null; const t = sumOf(l12, "total"); return t === 0 ? null : Math.round((sumOf(l12, b) / t) * 100); }
+    case "p10_36": return scaled(badMonth(last36(ms)?.months ?? [])?.total ?? null);
+    case "n36": { const w = last36(ms); return w ? w.months.length : null; }
+    case "y3": return scaled(threeYearAverage(ms, b));
+    case "y3_kw": { const v = threeYearAverage(ms, b); return v === null ? null : v / 1000; }
+    case "avg_without": return scaled(averageWithout(ms, b));
+    case "avg_without_kw": { const v = averageWithout(ms, b); return v === null ? null : v / 1000; }
     case "ds": return x.ds;
     case "year": { const y = years(ms).find((t) => t.y === b); return y ? (c === "energy" ? y.energy : c === "ancillary" ? y.ancillary : y.energy + y.ancillary) / 1000 : null; }
     case "month": { const r = ms.find((t) => t.m === b); return r ? scaled(pick(r, c)) : null; }
