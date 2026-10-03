@@ -140,6 +140,7 @@ SECTOR_RULES = [
     (r"^((caiso|spp)_curtailment_daily|ercot_wind_solar_hsl_daily|iso_curtailment_monthly)$", "power"),
     # session 23: CAISO battery output (Today's Outlook), for the Automated Analysis storage template
     (r"^caiso_battery_storage$", "power"),
+    (r"^caiso_fuel_supply$", "power"),  # session 73: CAISO's own supply by fuel source, hourly
     (r"^caiso_grid_emergencies$", "power"),  # session 58: CAISO's Flex Alerts and emergencies
     (r"^caiso_reliability_daily$", "power"),  # session 58: how tight was it (derived)
     (r"^flex_alert_(effects|model)$", "power"),  # session 60: the Flex Alert scorecard (derived)
