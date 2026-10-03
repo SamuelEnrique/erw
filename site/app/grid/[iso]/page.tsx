@@ -15,6 +15,7 @@ import { FUELS, GRIDS, fuelName, fuelOf, gridOf, load, type GridData } from "@/l
 import { DOCS, render, type GridConfig } from "@/lib/markdown";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 import { Reliability } from "./Reliability";
+import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 
 // Session 35: "Ask your grid". One template, seven pages (docs/grids/grids.json), for a student in a first energy
 // course: who runs the grid, where the power comes from now, what it costs, how clean it is, what is being built,
@@ -396,6 +397,7 @@ export default async function GridPage({ params }: { params: Promise<{ iso: stri
     <>
       <p className="mb-1 text-xs text-muted"><Link href="/grid">Grid</Link> / Your grid</p>
       <h1 className="mb-1 text-3xl">{g.iso}: {g.name}</h1>
+      {g.iso === "CAISO" ? <CaisoBreakNote /> : null}
       <p className="mb-4 max-w-3xl text-sm text-muted">
         Who runs this grid, where its power comes from, what it costs, how clean it is, what is being built and what makes it different. Numbers come
         from the warehouse&apos;s tables, each with its source; the text is written for this page and cites its sources. Times are {g.tz_label} unless marked UTC.

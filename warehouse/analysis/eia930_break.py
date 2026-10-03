@@ -8,7 +8,8 @@ Energy Research Warehouse (ERW). docs/methods/eia930_caiso_break.md.
 Session 68 found that EIA-930's net generation for CAISO fell by about 80 GWh a day from December 2025 while demand and
 interchange did not. This reads the workbooks the emissions connector saved (warehouse/raw/eia930_emissions/<run>/,
 EIA's "Published Hourly Data" sheet of https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx): no
-request is made. For each of the seven ISO balancing authorities it writes one row per UTC day: demand, net generation
+request is made. For each of the seven ISO balancing authorities it writes one row per UTC day (an hour is dated by its
+start: EIA's "UTC time" column is the hour's end): demand, net generation
 and total interchange as EIA reports them and as EIA adjusts them, and net generation by fuel (EIA's NG: columns, as
 reported, and the adjusted ones), each the day's sum of hourly MWh, with the number of hours that held a value. A day's
 sum is over the hours EIA gave; nothing is filled. Output: <out>/<ba>_daily.csv, an analysis file, not a warehouse table.
@@ -19,10 +20,12 @@ import csv
 import glob
 import os
 import sys
+from datetime import timedelta
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+HOUR = timedelta(hours=1)
 RAW = os.path.join(ROOT, "warehouse", "raw", "eia930_emissions")
 BAS = ["CISO", "ERCO", "ISNE", "MISO", "NYIS", "PJM", "SWPP"]
 FUELS = ["COL", "NG", "NUC", "OIL", "GEO", "WAT", "PS", "SUN", "SNB", "WND", "WNB", "BAT", "OES", "UES", "OTH", "UNK"]
@@ -66,7 +69,7 @@ def daily(args):
         ts = r[t]
         if ts is None:
             continue
-        d = ts.strftime("%Y-%m-%d")
+        d = (ts - HOUR).strftime("%Y-%m-%d")  # EIA's "UTC time" is the hour's end; the ERW dates an hour by its start
         hours[d]["_rows"] += 1
         for c, k in idx.items():
             v = r[k]

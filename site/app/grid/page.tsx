@@ -13,6 +13,7 @@ import { daysAgo, renderTime, series, type SeriesRow } from "@/lib/data";
 import { count } from "@/lib/format";
 import { DOCS } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
+import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Grid conditions" };
@@ -234,6 +235,7 @@ export default async function GridPage() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Grid conditions</h1>
+      <CaisoBreakNote />
       <p className="mb-2 max-w-3xl">
         Yesterday&apos;s electricity demand, day-ahead demand forecast and generation by fuel for seven <Term t="ISO" first />s and the Lower 48, with the last seven
         days of demand, from <Term t="EIA" first />&apos;s Hourly Electric Grid Monitor (Form EIA-930).
