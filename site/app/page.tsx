@@ -190,7 +190,7 @@ function Audience({ title, line, cards }: { title: string; line: string; cards: 
     <section className="mb-8" aria-label={title}>
       <h2 className="mb-1 font-serif text-2xl">{title}</h2>
       <p className="mb-2 max-w-3xl text-sm text-muted">{line}</p>
-      <div className="grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
+      <div className={`grid gap-px border border-rule bg-rule ${cards.length === 1 ? "max-w-sm" : cards.length === 2 ? "max-w-2xl sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3"}`}>
         {cards.map((c) => <ToolCard key={c.href + c.name} c={c} />)}
       </div>
     </section>
@@ -380,9 +380,9 @@ export default async function Home() {
       <Audience title="Students and teachers" line="How the grid works, what a bill pays for, and what storms and heat waves do, from the data itself." cards={students} />
       <Audience title="Investors and lenders" line="Prices, the cost and the earnings of power, deals, datacenters and the taxes on oil and gas, each number traced to its source." cards={investors} />
       <Audience title="Researchers" line="Every table with its method, license and download, the event studies and their notebook, and a warehouse you can ask." cards={researchers} />
-      <Cite tables={["battery_stack_monthly", "merchant_revenue_monthly", "eia930_all_demand", "storage_capacity",
+      <div className="mb-8"><Cite tables={["battery_stack_monthly", "merchant_revenue_monthly", "eia930_all_demand", "storage_capacity",
         ...[...students, ...investors, ...researchers].filter((c) => statusOf(c.href) === "live" && c.table).map((c) => c.table!)]}
-        note="The numbers of the tools open now, each checked against its table; the full list of tools is docs/tools.md" />
+        note="The numbers of the tools open now, each checked against its table; the full list of tools is docs/tools.md" /></div>
 
       <Section title="Gas and oil">
         <Fuels />

@@ -119,6 +119,7 @@ try {
   for (const q of ["grid=ercot&dur=4&strat=foresight", "grid=caiso&dur=4&strat=dayahead"]) {
     await go(`/cost-of-power/battery?${q}`);
     const s4 = await ev(STATE);
+    check(await ev(`(() => { const t = document.querySelector("table"), w = t.parentElement; return w.scrollWidth <= w.clientWidth + 1; })()`), `${q}: the income table fits its column at 1280 px, no sideways scroll`);
     check(s4.summary.includes("4-hour battery") && s4.headline.length === 3 && s4.chart.length > 500, `${q}: the page shows a summary, three headline numbers and a chart`, s4.summary.replace(/\s+/g, " ").trim());
     if (q.startsWith("grid=ercot")) await shot("battery-ercot-4h-desktop", 1280);
     // session 71: the last twelve months lead, every span is labeled, the upper bound is said once, under the chart
@@ -127,8 +128,8 @@ try {
       `${q}: the summary sentence leads with the last twelve months`, s4.summary.replace(/\s+/g, " ").trim());
     check(/per kW/.test(s4.headline[0]), `${q}: the first headline number is the last twelve months, per kW`, s4.headline[0]);
     const wantHeads = ercot
-      ? [/^Last twelve months, .+ to .+, USD$/, /^Average of 2023 to 2025, the last three full years, USD$/, /^Average of every year held, January 2018 to .+, USD$/, /^Average of every year held, without February 2021, USD$/]
-      : [/^Last twelve months, .+ to .+, USD$/, /^The last three full years: not held, CAISO holds one full calendar year \(2025\)$/, /^Average of every year held, September 2024 to .+, USD$/];
+      ? [/^Last twelve months, USD\w{3} \d{4} to \w{3} \d{4}$/, /^2023 to 2025, a year, USDthe average of the last three full years$/, /^Every year held, a year, USDthe average, Jan 2018 to \w{3} \d{4}$/, /^Without Feb 2021, a year, USDthe same average, without that one month$/]
+      : [/^Last twelve months, USD\w{3} \d{4} to \w{3} \d{4}$/, /^Last three full yearsnot held: CAISO holds one full year \(2025\)$/, /^Every year held, a year, USDthe average, Sep 2024 to \w{3} \d{4}$/];
     check(s4.heads.length === wantHeads.length + 1 && wantHeads.every((r, i) => r.test(s4.heads[i + 1])), `${q}: the income table's columns are the spans, each labeled`, s4.heads.slice(1).join(" | "));
     if (!ercot) check((s4.table.match(/not held/g) ?? []).length >= 8, `${q}: the three-year column says "not held" in every row`);
     if (ercot) check(/Total, USD per kW[\s\S]*614\.\d\d[\s\S]*269\.\d\d/.test(s4.table), `${q}: the every-year average is about USD 614.6 per kW, and about 269.7 without February 2021`, (s4.table.match(/Total, USD per kW.*$/) ?? [""])[0]);

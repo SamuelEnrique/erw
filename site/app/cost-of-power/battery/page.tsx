@@ -27,6 +27,7 @@ export const metadata: Metadata = { title: "What a battery earns" };
 export const dynamic = "force-dynamic";
 
 const METHOD = "/data/methods/battery_stack";
+const shortMonth = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 const ENERGY = "#8C1515", ANCILLARY = "#2E2D29";  // cardinal and Stanford black (app/tokens.css: accent and ink)
 
 async function rowsOf(entity: string, x: Inputs): Promise<Row[]> {
@@ -203,19 +204,20 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                 <ToolSection title="Income by stream" note={<>For {size}, in US dollars, one column for each span. The total is split hour by hour by one optimization a day: in any hour the battery&apos;s power is sold as energy or held as a reserve, never both, so the rows add up with no double counting. Reserves are paid for being held and are assumed never called.
                   {top ? <> {topName} alone is <V pre={key} s="top_share" v={st("top_share")} /> percent of everything this battery earned in the {held.length} months held. It stays on the chart and in the average of every year held; the last column is that same average without this one month.</> : null}</>}>
                   {(() => {
-                    const cols: { head: string; cell: (s: string) => ReactNode; kw: ReactNode }[] = [
-                      { head: l12 ? `Last twelve months, ${monthName(l12[0].m)} to ${monthName(l12[11].m)}, USD` : "Last twelve months, USD",
+                    const cols: { head: string; sub: string; cell: (s: string) => ReactNode; kw: ReactNode }[] = [
+                      { head: "Last twelve months, USD", sub: l12 ? `${shortMonth(l12[0].m)} to ${shortMonth(l12[11].m)}` : "not held",
                         cell: (s) => <U pre={key} s={`l12:${s}`} v={st(`l12:${s}`)} />, kw: <V pre={key} s="l12_kw:total" v={st("l12_kw:total")} /> },
-                      { head: y3 ? `Average of ${y3[0]} to ${y3[2]}, the last three full years, USD` : `The last three full years: not held, ${g.name} holds ${fullYears.length === 0 ? "no full calendar year" : fullYears.length === 1 ? `one full calendar year (${fullYears[0].y})` : `${fullYears.length} full calendar years`}`,
+                      { head: y3 ? `${y3[0]} to ${y3[2]}, a year, USD` : "Last three full years",
+                        sub: y3 ? "the average of the last three full years" : `not held: ${g.name} holds ${fullYears.length === 0 ? "no full calendar year" : fullYears.length === 1 ? `one full year (${fullYears[0].y})` : `${fullYears.length} full years`}`,
                         cell: (s) => <U pre={key} s={`y3:${s}`} v={st(`y3:${s}`)} />, kw: <V pre={key} s="y3_kw:total" v={st("y3_kw:total")} /> },
-                      { head: `Average of every year held, ${monthName(held[0].m)} to ${monthName(held.at(-1)!.m)}, USD`,
+                      { head: "Every year held, a year, USD", sub: `the average, ${shortMonth(held[0].m)} to ${shortMonth(held.at(-1)!.m)}`,
                         cell: (s) => <U pre={key} s={`avg:${s}`} v={st(`avg:${s}`)} />, kw: <V pre={key} s="avg_kw:total" v={st("avg_kw:total")} /> },
-                      ...(top ? [{ head: `Average of every year held, without ${monthName(top.m)}, USD`,
+                      ...(top ? [{ head: `Without ${shortMonth(top.m)}, a year, USD`, sub: "the same average, without that one month",
                         cell: (s: string) => <U pre={key} s={`avg_without:${s}`} v={st(`avg_without:${s}`)} />, kw: <V pre={key} s="avg_without_kw:total" v={st("avg_without_kw:total")} /> }] : []),
                     ];
                     const line = (s: string) => cols.map((c, i) => <span key={i}>{c.cell(s)}</span>);
                     return (
-                      <ToolTable caption="Income by stream" minWidth={top ? 820 : 680} head={["Stream", ...cols.map((c) => c.head)]}
+                      <ToolTable caption="Income by stream" minWidth={top ? 640 : 560} head={["Stream", ...cols.map((c) => <>{c.head}<span className="mt-0.5 block text-xs opacity-80">{c.sub}</span></>)]}
                         rows={[
                           { key: "energy", cells: ["Energy (charge low, sell high)", ...line("energy")] },
                           { key: "anc", cells: ["Ancillary services", ...line("ancillary")] },
