@@ -5,6 +5,9 @@ Energy Research Warehouse (ERW).
 - **Session 38:** the game.
 - **Session 46:** v1.1.
 - **Session 50:** v2: settings, difficulties, the fleet call modeled on ERCOT's ADER pilot, the tutorial, the house animation, and the replay.
+- **Session 63:** v3: money, Hard's grid emergency, the simple page.
+- **Session 66:** v4: lights out costs money, the spiked price is labeled on the number, the end screen's three lines, and Hard's add-ons with rooftop solar.
+- **Session 70:** v4, before its release: the lights-out charge at Texas's value of lost load and for the whole outage; the roof curtailed at negative prices.
 
 The page is `/play/battery`. The rules live in `site/lib/battery.ts`, and the server's rescoring in `site/lib/game.ts` and `site/app/api/play/`.
 
@@ -16,6 +19,8 @@ The page is `/play/battery`. The rules live in `site/lib/battery.ts`, and the se
 | The battery, home and brand | **Fictional.** "Mockingbird Home Battery" is made up | none |
 | The fleet | **Fictional.** 10,000 homes | none; the page sets it beside ERCOT's real operating battery fleet from `storage_capacity` (EIA-860M) |
 | The fleet call | **A game rule** modeled on ERCOT's ADER pilot | below |
+| Hard's spiked price, the outage, the lights-out charge | **Game rules.** A spiked price is never shown as a real one: the number carries "game rule, not a real price" and the real price beside it | "Version 3" and "Version 4" below |
+| The rooftop array (Hard's add-on) | **A game rule** (5 kW) on a **real shape**: the grid's solar fleet that day, output per MW installed | EIA-930 generation by fuel over EIA-860M nameplate, frozen in `site/data/battery_levels.json` by `warehouse/derived/battery_solar.py`; "Version 4" below |
 | Real tariffs, retail rates, grid fees, real program terms | **Left out** | below |
 
 ## The California days (session 56)
@@ -87,9 +92,71 @@ Every rule in this section is a **game rule**, not a market rule. The prices sta
 - **Hard's grid emergency, the outage.** The eight intervals (two hours) after the spike, clipped at the day's end, the grid is down: nothing can be bought or sold, whatever the player presses, and the house draws 1.5 kW from the battery. Each interval takes `1.5 x 15 / 60 / sqrt(round-trip)` kWh of charge, the same outbound loss as a sale; the backup reserve can be used, since this is what it is for.
 - **Lights out.** If the battery holds less than one interval's draw at the start of an outage interval, the lights go out and the round ends there. The score so far stands. The page then says how much charge the outage needed (eight intervals' draw, or fewer if clipped) and how much the battery held when it began.
 - **The perfect battery plays by the same rules.** The DP gains terminal states: a path that goes bankrupt or dark ends with the score it had, and competes with every path that continues. In the outage the only move is the forced draw. The brute-force test (all 3^12 sequences of each toy day) runs under these rules on all four presets, and new checks cover going bankrupt, the optimum never doing so, the spike's formula, the outage window, lights out and the ignored actions.
-- **What the optimum does with lights out.** Since ending the round gives up only the rest of the day, the perfect battery sometimes chooses it: with the default battery on Hard, on 2 of the 7 famous days (Uri, 2021-02-15, and the CAISO duck day, 2026-07-24) it sells into the spike and lets the lights go out, because the later intervals are worth less than the extra charge sold at the spike. On the other 5 it keeps enough. A penalty for lights out is not a rule in v3; it would be a v4 decision.
+- **What the optimum did with lights out under version 3.** Since ending the round gave up only the rest of the day, the perfect battery sometimes chose it: with the default battery on Hard, on 2 of the 7 famous days (Uri, 2021-02-15, and the CAISO duck day, 2026-07-24) it sold into the spike and let the lights go out, because the later intervals were worth less than the extra charge sold at the spike. Version 4 (below) makes lights out cost money, and the perfect battery no longer does this.
 - **The leaderboard.** A v3 preset ends `-v3` (`normal:13.5-5-90-v3`); plays are ranked only against the same preset, so a v3 play never meets a v2 one. A board from before reads "(v2 rules)". Migration `018_game_v3_digest_sends.sql` allows the suffix; the server parses and rescored every posted play with `simulate` and `optimum` under v3, as before.
 - **The simple page.** `/play/battery` is now a page for a class: one sentence of instructions, the day, a Start button, then two big buttons (Charge, Sell), the battery and the price. It plays Normal with the default battery (no emergency), skips the tutorial, and shows only the score and the perfect battery's. The settings, the difficulties, the replay, the fleet map, the leaderboard and these notes are behind "More" (`/play/battery?more=1`, the full game). Each simple play is kept in the research record like any play (the default Normal preset); the simple page has no leaderboard form, so it posts no public score.
+
+## Version 4 (session 66)
+
+Every rule in this section is a **game rule**, not a market rule, and the page labels each as one. Session 70 changed three of them before version 4 was released, so they are still version 4: the price and the reach of the lights-out charge, and the roof at negative prices. The rules live in `site/lib/battery.ts` (`LIGHTS_OUT`, `SPIKE_LABEL`, `shownPrices`, `worstHour`, `ADDONS`, `SOLAR`, `solarKwh`; `RULES_VERSION = "v4"`). The server's scorer (`site/lib/game.ts`, `scoreOn`), the perfect battery and the page all call the same `simulate` and `optimum`, as in version 3.
+
+### Lights out costs money
+
+- **The rule (session 70).** Lights out still ends the round (version 3's rule stands). It also costs money: **if the lights go out at any point in the outage, the house is charged for the unserved energy of the whole outage**, 1.5 kW for every interval of it (0.375 kWh each), at **USD 35,000 per MWh**. Without a roof that is USD 13.125 for each fifteen minutes and USD 105.00 for a whole two-hour outage. It is a game rule, and the page says so.
+- **Why.** A home without power in a grid emergency is the outcome the battery exists to prevent. Under version 3 the perfect battery let the house go dark on 2 of the 7 famous days (Uri and the CAISO duck day), because ending the round cost only the rest of the day. The game then taught that abandoning the house in a blackout is the best play.
+- **The price: Texas's value of lost load.** USD 35,000 per MWh is the value of lost load (VOLL) the Public Utility Commission of Texas approved for the ERCOT region at its open meeting of 29 August 2024, in Project No. 55837.
+  - **The Commission's decision.** There is no written order: the Commissioners agreed on the value at the open meeting, and the Commission's press release of that day records it: "Commissioners approved a VOLL of $35,000 per megawatt-hour" (Public Utility Commission of Texas, "Public Utility Commission of Texas Adopts Reliability Standard for the ERCOT Market", 29 August 2024, https://ftp.puc.texas.gov/public/puct-info/agency/resources/pubs/news/2024/PUCT_Adopts_Reliability_Standard_for_the_ERCOT_Market.pdf, read 2026-10-02). A later filing in another docket says the same in terms: asked for the order, the answer was that "the Commission issued its directive to use a $35,000 VOLL" at the 29 August 2024 open meeting "and did not memorialize its vote in a written order" (PUC Docket No. 57579, item 61, https://interchange.puc.texas.gov/Documents/57579_61_1474998.PDF, read 2026-10-02).
+  - **The study.** ERCOT's study by The Brattle Group, *Value of Lost Load Study for the ERCOT Region* (Gibbons and Sergici, filed by ERCOT in Project No. 55837 on 22 August 2024; https://www.brattle.com/wp-content/uploads/2024/09/Value-of-Lost-Load-Study-for-the-ERCOT-Region.pdf, read 2026-10-02): "The one-hour, system-wide VOLL for the ERCOT Region yielded by the VOLL survey is $35,685 per MWh." The Commission's figure rounds it.
+  - **It is the system-wide value.** The same study's table of VOLL per unserved MWh by customer class gives, for a one-hour outage, USD 3,964 for residential customers, USD 666,907 for small commercial and industrial customers and USD 22,721 for medium and large ones, and USD 35,685 ERCOT-wide (2024 dollars; a weekday afternoon outage without warning). So the value for residential customers alone is about a ninth of the figure the game charges a house. The game uses the system-wide figure because it is the one the Commission approved.
+  - **What the figure is for.** The Commission approved it for planning: the reliability standard and the study of market changes. Nobody is billed it. Charging a house at it is the game's rule.
+  - **California.** The game applies the Texas figure on the California days too.
+- **The whole outage, not what is left of it.** Session 66 charged only the intervals from lights out to the outage's end, so going dark in the last fifteen minutes was cheap, and a battery with a much larger inverter could still find it worth it. Now the charge is the same whenever in the outage the lights go out.
+- **Before session 70** the price was 6 times the USD 5,000/MWh cap (USD 30,000/MWh), a number found by search: the smallest whole multiple at which the perfect battery kept the lights on. That search and its test are gone. The price is no longer chosen to produce a result; the result below is only checked.
+- **The required result, as a test** (`site/scripts/test-battery.mjs`, "Part A"). Where the lights can be kept on, the perfect battery must not end in lights out. 73 cases, all of which pass:
+  - the 7 famous days on Hard with the default battery (and with rooftop solar where a level holds a shape);
+  - every toy day with an outage under each Hard preset of the brute-force test (12 cases, the roof included);
+  - the larger-inverter batteries session 66 named: the largest inverter the settings allow, 11.5 kW, on the default, the largest (30 kWh) and the smallest (5 kWh) battery, with and without the reserve and the wear cost (6 batteries), on the 7 famous days and the 2 toy days with an outage (54 cases).
+  - "The lights can be kept on" means the optimum under a prohibitive price stays lit; for the brute-forced toy cases, that at least one of the 3^12 plays does.
+  - `site/scripts/check-lights.mjs` checks the same on the levels a running site serves, today's level included.
+- **How much room there is.** Of the 73 cases the closest is a toy day with the 11.5 kW inverter: with no charge at all, going dark would earn USD 13.44 more than staying lit, against a charge of USD 52.50 (its outage is one hour). On Winter Storm Uri's day (2021-02-15) with the default battery the same comparison is USD 11.09 against USD 105.00.
+- **Money.** The charge can take the money below USD 0. The round has already ended at lights out, so the out-of-money rule has nothing left to end; the page says the charge took the money below USD 0.
+- **With the rooftop array,** the unserved energy of each interval of the outage is the house's need less what the roof makes in it (never below zero).
+
+### The spike is labeled on the number
+
+- On Hard the dearest hour's prices are the game's, not the market's (version 3's spike). Wherever such a price is shown, the number itself carries "game rule, not a real price", and the real price of that interval is shown beside it: the big price number, the chart (the spiked stretch is drawn in the accent color with the label on it and the real price dashed beneath, and the label at the "now" line reads the same), the replay's price line, the end screen's hour, and the share text (which shows no price, and says the dearest hour's price is a game rule).
+- **One source.** `shownPrices` writes every such text. A price is labeled when the price played differs from the real one. On Uri the dearest hour is already above the cap, so the game leaves it unchanged: those prices are real, and shown plain.
+- **The test.** Every spiked price of the 7 famous days and the toy days carries the label and its real price, every other price is plain, and nothing is labeled off Hard. The page's source is also checked: `Game.tsx` never formats a played price itself.
+
+### The end screen: three lines
+
+After a play, on the simple page and in the full game:
+
+1. what you earned;
+2. what the perfect battery earned on the same day under the same rules;
+3. the one clock hour where you lost the most against the perfect battery, what it did in that hour (charged, sold or held: what it did in most of the hour's intervals) and the average price of those intervals.
+
+Every number comes from `simulate` (the play's result and the perfect plan's result) and from `worstHour`, which only sums the two results' own per-interval earnings (`gain`) by hour. The per-interval earnings add up to the score (a test checks it).
+
+### Hard's add-ons: rooftop solar
+
+- **Add-ons** are optional switches on Hard, off by default. The first is rooftop solar. A later one needs a key in `ADDONS`, its rule in `simulate` and `optimum`, and no new migration.
+- **The rule.** A 5 kW rooftop array (a game rule). Each interval it makes 5 kW times the real hourly output per MW installed of that grid's solar fleet on the level's day.
+- **Where the power goes.** While the battery charges, the roof's power goes into the battery for free, up to the battery's power and capacity limits, and what does not fit is sold at that interval's price. While the battery holds or sells, the roof's power is sold at that interval's price. At a price of zero or more this comes to one thing in money: the roof's power earns the interval's price whatever the battery does, since a kWh from the roof that charges the battery is a kWh not bought.
+- **Below zero the roof is curtailed (session 70).** A real system does not pay to export. When the price is below zero and the battery is not charging (it holds, sells, or is full), the roof's output is switched off and earns nothing. While the battery charges at a negative price, the roof's power still goes into the battery first, as above, and only what does not fit is curtailed. That power takes the place of grid power the battery would have been paid to take, so with the roof on, charging at a negative price earns less than without it; the rule was kept as specified and the consequence is stated here. Before session 70 the roof sold at the negative price and so paid to export.
+- **In the outage** the roof carries the house first. What is left over charges the battery (up to its power and its room; the rest is lost, since the grid is down). What the roof does not cover comes from the battery.
+- **Why charging is the player's choice.** A roof that always filled the battery on its own would move the battery's charge by a different amount each interval, and the perfect battery could no longer be computed exactly: the number of states of charge it must follow would grow past what a browser can do. With this rule the states stay as few as without the roof, and the optimum still equals brute force (the test runs it under two Hard presets with the roof).
+- **The fleet call's bonus** counts the battery's deliveries only, not the roof's.
+- **The source of the shape.** The same one the cost-of-power seller tab uses for a solar farm (`warehouse/derived/merchant_revenue.py`, whose functions the builder calls): EIA-930 hourly generation by fuel (the balancing authority's "Adjusted SUN Gen") over the solar nameplate installed in that balancing authority that month (EIA-860M operating and retired generators). ERCOT levels read ERCO, California levels CISO. `warehouse/derived/battery_solar.py` writes each level's shape into `site/data/battery_levels.json` (`solar`, one value per interval, each hour's value on its four intervals; `solar_source`).
+- **It is the whole fleet's shape, not one roof's,** and the page says so. A fleet of plants across a state is smoother than one roof under one cloud, and utility plants track the sun.
+- **Between 0 and 1.** The values are kept as EIA reports them. The game uses each between 0 and 1: a roof draws nothing at night (EIA reports a fleet's station use as negative output), and makes no more than its rating (EIA-860M lists new plants late, so a growing fleet can read above its nameplate).
+- **Real data only.** A level gets a shape only when every hour of its day is held. Where it is not, the add-on is unavailable for that level and the page says so; the server refuses such a play. Nothing is filled. Today's level has no shape (the live set holds none), so the add-on is unavailable on it.
+
+### Presets, boards and the schema
+
+- A version 4 preset ends `-v4`; on Hard the add-ons that are on come just before it: `normal:13.5-5-90-v4`, `hard:13.5-5-90-r20-d0.11-v4`, `hard:13.5-5-90-r20-d0.11-solar-v4`.
+- A board ranks only plays with the same rules and add-ons. `parsePreset` still reads version 2 and version 3 presets, and their boards are labeled "(v2 rules)" and "(v3 rules)".
+- Migration `warehouse/supabase/migrations/019_game_v4.sql` lets the preset checks of `game_scores` and `game_plays` take `-v4` and the add-on words. Constraints only.
 
 ## The leaderboard: presets
 
@@ -103,7 +170,7 @@ Every rule in this section is a **game rule**, not a market rule. The prices sta
 - **The objective:** market cash, less the degradation cost, plus the fleet bonus. The reserve is enforced inside `step`, so no path crosses it.
 - **The test** (`site/scripts/test-battery.mjs`):
   - On 12-interval toy days, every one of the 3^12 action sequences is simulated, and the best must equal the DP's score.
-  - It runs under four presets: Hard with the default battery, Hard with a small battery whose reserve binds early, Easy with a large battery, and Normal.
+  - It runs under eight presets: Hard with the default battery, Hard with a small battery whose reserve binds early, Easy with a large battery, Normal, (session 66) the two Hard presets again with rooftop solar on a toy shape, and (session 70) the roof with sun in the negative-price intervals, and the largest inverter (11.5 kW) without a reserve.
   - Replaying the DP's actions must score the same, and the reserve must never be crossed.
 - **Timing:** on the five famous days the DP takes 20 to 42 ms.
 
@@ -153,7 +220,7 @@ Every rule in this section is a **game rule**, not a market rule. The prices sta
 - **Real program terms:** ERCOT's ADER pilot is the model, but the bonus, the notice, the hour and the reserve rule are the game's.
 - **Taxes and incentives:** the federal storage tax credit and any utility incentive.
 - **Physics the model skips:**
-  - the home's own load and any rooftop solar;
+  - the home's own load outside Hard's outage, and any rooftop solar outside Hard's add-on (which uses a fleet's shape, not a roof's);
   - inverter limits beyond the continuous power;
   - temperature effects and calendar aging;
   - the state of charge's effect on efficiency.
@@ -165,4 +232,4 @@ Unchanged from session 38:
 - **Public scores:** the level, an optional nickname, the score, the perfect-foresight score and the time.
 - **Session 50 adds** the preset and the difficulty.
 - **The research record of each play** (never shown): the actions, the score, and since session 50 the preset, the difficulty and the settings. No IP, no nickname.
-- **The schema:** migration `warehouse/supabase/migrations/014_game_v2.sql` (columns only); session 63's `018_game_v3_digest_sends.sql` lets a preset end `-v3`.
+- **The schema:** migration `warehouse/supabase/migrations/014_game_v2.sql` (columns only); session 63's `018_game_v3_digest_sends.sql` lets a preset end `-v3`; session 66's `019_game_v4.sql` lets it end `-v4` with the add-ons before it. The add-ons of a play are stored in its preset.
