@@ -264,6 +264,33 @@ class GateTest(unittest.TestCase):
         self.use_two(FakeDataset({FULL: frame(2), "stray_table": frame(1)}), FakeDataset({}))
         self.assertEqual(upload.check_license(), 1)
 
+    # session 77: a table uploaded by name from a branch not merged yet is known by its own header in erw_headers
+    def headers(self, *rows):
+        return pd.DataFrame(rows, columns=["table", "line_no", "line"])
+
+    def test_check_license_passes_a_table_not_in_coverage_whose_header_says_public(self):
+        h = self.headers(("new_table", "1", "Energy Research Warehouse (ERW): a new table"), ("new_table", "2", "License: public. Derived."))
+        self.use_two(FakeDataset({FULL: frame(2), "new_table": frame(1), upload.HEADERS_TABLE: h}), FakeDataset({}))
+        with mock.patch.object(upload, "read_frame", lambda t: t.ds.rows[t.name].copy()):
+            self.assertEqual(upload.check_license(), 0)
+        self.assertIn("note new_table:", self.log.getvalue())
+
+    def test_check_license_still_fails_a_table_not_in_coverage_with_another_or_no_license_line(self):
+        h = self.headers(("held_back", "1", "License: internal. Outlet text."), ("two_lines", "1", "License: public"),
+                         ("two_lines", "2", "License: internal"), ("no_line", "1", "Energy Research Warehouse (ERW)"))
+        for name in ("held_back", "two_lines", "no_line", "no_header_at_all"):
+            self.use_two(FakeDataset({FULL: frame(2), name: frame(1), upload.HEADERS_TABLE: h}), FakeDataset({}))
+            with mock.patch.object(upload, "read_frame", lambda t: t.ds.rows[t.name].copy()):
+                self.assertEqual(upload.check_license(), 1, name)
+            self.assertIn(f"FAIL {name}:", self.log.getvalue())
+
+    def test_check_license_fails_as_before_when_the_headers_cannot_be_read(self):
+        self.use_two(FakeDataset({FULL: frame(2), "new_table": frame(1)}), FakeDataset({}))
+        def boom(t):
+            raise RuntimeError("no export")
+        with mock.patch.object(upload, "read_frame", boom):
+            self.assertEqual(upload.check_license(), 1)
+
     def test_check_license_fails_if_the_internal_dataset_is_not_private(self):
         self.use_two(FakeDataset({FULL: frame(2)}), FakeDataset({}), level="overview")
         self.assertEqual(upload.check_license(), 1)

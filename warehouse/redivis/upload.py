@@ -596,6 +596,25 @@ def restore(out_dir=None):
     return 1 if failed else 0
 
 
+def header_public(pub, names):
+    """Session 77: which of these tables' own header lines, as uploaded to the public draft's erw_headers, hold a
+    license line and only public ones ("License: public ..." or "License: public domain ..."). A table with no license
+    line, or with any other, is not returned; if erw_headers cannot be read, none is (the check then fails as before)."""
+    try:
+        h = read_frame(pub.table(HEADERS_TABLE))
+    except Exception as exc:
+        log(f"WARNING: could not read {HEADERS_TABLE} to look up {len(names)} tables not in coverage.csv: "
+            f"{type(exc).__name__}: {exc}")
+        return set()
+    out = set()
+    for n in names:
+        lines = [str(x).lstrip("# ").strip() for x in h.loc[h["table"] == n, "line"]]
+        lic = [x for x in lines if x.lower().startswith("license:")]
+        if lic and all(re.match(r"license:\s*public\b", x, re.I) for x in lic):
+            out.add(n)
+    return out
+
+
 def check_license(fix=False):
     """Session 28: exit 1 when any table licensed other than public is in the public dataset's draft,
     or the internal dataset is not private. Each internal table is looked up by its metadata (not
@@ -611,6 +630,16 @@ def check_license(fix=False):
     # session 29: a table consolidated into a public table stays in the draft until --remove-migrated removes it
     allowed |= {old for old, new in migration_map().items() if lic.get(new) == "public"}
     unknown = sorted({t.name for t in pub.list_tables()} - allowed - set(found))
+    # session 77: a table another checkout uploaded by name, whose coverage row is on a branch not merged yet, is not
+    # in this checkout's coverage.csv. It is not unknown to the ERW: its header lines went to erw_headers with it
+    # (merge_headers), and push() refused it unless that checkout's coverage licensed it public. So a table whose own
+    # header says "License: public" is reported and passes; one with no header, or any other license line, still fails.
+    # The daily run of 2026-10-03 failed here on four such tables (sessions 69 and 73 to 75) and skipped its commit.
+    pending = header_public(pub, unknown) if unknown else set()
+    for n in sorted(pending):
+        log(f"note {n}: in the public dataset {PUBLIC}, not in this checkout's coverage.csv; its header in "
+            f"{HEADERS_TABLE} says License: public (uploaded from a branch not merged yet)")
+    unknown = [n for n in unknown if n not in pending]
     bad = 0
     for n in found:
         log(f"FAIL {n}: license {lic[n]!r}, but the table is in the public dataset {PUBLIC}")

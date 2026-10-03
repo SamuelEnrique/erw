@@ -53,6 +53,7 @@ import price_board as pb  # noqa: E402
 
 NAME = "shoulder_hours_monthly"
 SOURCE = "erw:shoulder_hours"
+METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/shoulder_hours.md"  # a URL in every row, not a path (session 77)
 RAW = os.path.join(ROOT, "warehouse", "raw", "eia930_emissions")
 GRIDS = {
     "ercot": dict(ba="ERCO", tz="America/Chicago", geo="US-TX", last=None),
@@ -224,7 +225,7 @@ def build(grid, log):
             unit = ("MW" if k.endswith("_mw") or "_mw_h" in k else "MWh" if k.endswith("_mwh") or k.endswith("_mwh_per_day")
                     else "hour" if k.endswith("_hours") or k.endswith("_covered") or k.endswith("_needed") or k.endswith("_hour") else "count")
             rows.append(dict(entity=f"iso:{grid}", variable=k, ts_utc=ts, value=round(float(val), 4), unit=unit, freq="P1M",
-                             geo=g["geo"], market="", node="", source=SOURCE, source_url="docs/methods/shoulder_hours.md",
+                             geo=g["geo"], market="", node="", source=SOURCE, source_url=METHOD_URL,
                              retrieved_at=ip.utc_iso(pd.Timestamp.now(tz="UTC")), vintage=""))
     # session 75: each year's figures, so the page's table does no arithmetic: the mean over the year's months held, and
     # the fleet at the year's last month held that has one (freq P1Y, ts_utc the year's first day)
@@ -247,7 +248,7 @@ def build(grid, log):
             unit = ("MW" if k.endswith("_mw") else "MWh" if k.endswith("_mwh") or k.endswith("_mwh_per_day") or k.endswith("above_mean")
                     else "count" if k == "year_months_held" else "ratio" if k == "year_mean_shoulder_runs_to_midnight" else "hour")
             rows.append(dict(entity=f"iso:{grid}", variable=k, ts_utc=f"{y}-01-01T00:00:00Z", value=round(float(val), 4), unit=unit,
-                             freq="P1Y", geo=g["geo"], market="", node="", source=SOURCE, source_url="docs/methods/shoulder_hours.md",
+                             freq="P1Y", geo=g["geo"], market="", node="", source=SOURCE, source_url=METHOD_URL,
                              retrieved_at=now, vintage=""))
     log(f"  {grid}: {len(months)} months, {len(by_year)} years from {os.path.relpath(path, ROOT)}")
     return rows, path
@@ -280,7 +281,7 @@ def main():
     ip.write_csv(s, NAME, header, log)
     ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
                             report="The shoulder hours by grid and month (docs/methods/shoulder_hours.md)",
-                            report_url="https://github.com/SamuelEnrique/erw/blob/main/docs/methods/shoulder_hours.md",
+                            report_url=METHOD_URL,
                             document_list="docs/methods/shoulder_hours.md", license="public", tables=[NAME])])
     log.close()
     print(f"{NAME}: {len(s):,} rows, {s['ts_utc'].nunique()} months, {s['entity'].nunique()} grids")
