@@ -130,6 +130,15 @@ Both stories are static snapshots, `site/public/network/story_*.json` (560 kB an
 - **The data lock** was held from 22:52 to about 23:30 UTC for the pulls, the builds, the archive, the uploads and the load, and released.
 - **`SESSION_69_PROMPT.md`** is in the repository root and a `wip/069-storage-buildout` branch exists on the remote; another session appears to be working. I did not touch either.
 
+## The push and production
+
+- **The push:** `git push origin task/068-network`, once, after every local check passed. The workflow's checks passed (run 37080999300) and merged it: main is at `595ae59`, "Merge task/068-network: checks passed". Production served the new page within a minute.
+- **The live URL:** `https://erw-flame.vercel.app/network`.
+- **On production,** the browser test passes, 30 of 30: the network draws and fills its frame; each Watch button sets its view, plays, and opens its grid (Uri on ERCOT, the June 2025 heat on PJM, California's evening on CAISO with the Batteries switch on); the panel opens for CAISO, ERCOT and PJM beside the network, PJM's without a price, CAISO's and ERCOT's with the link to what a battery earns there; Escape and the close button close it; the switch turns on and off; on a phone the panel stacks under the network and nothing is wider than the screen.
+- **The panel's numbers match Supabase:** all 42 twelve-month figures on the production page equal this script's own recomputation from Supabase (`runs/session68/prod_supply.mjs`, not committed: `runs/` is not in git). CAISO 16.84 percent, largest supplier Nevada Power at 4.03; ERCOT 0.08, Southwest Power Pool 0.11; PJM -2.66 (a net exporter), Tennessee Valley Authority 0.84. The panel's hourly figures (the MW of each tie in the hour) come from the network's own snapshot, which the page already drew before this session.
+
+**This section is committed on the local branch only.** Pushing it would merge and deploy a second time, which the run's rules forbid. It reaches main with the next session's merge, or when you push `task/068-network` yourself.
+
 ## For Samuel
 
 1. **The unlock link answers 404 on production** (session 67). Set `INTERNAL_COSTS_TOKEN` on Vercel to the value in `.env`, or tell me which token Vercel holds.
