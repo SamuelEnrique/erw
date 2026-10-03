@@ -291,6 +291,18 @@ class GateTest(unittest.TestCase):
         with mock.patch.object(upload, "read_frame", boom):
             self.assertEqual(upload.check_license(), 1)
 
+    def test_a_full_upload_keeps_the_header_lines_of_tables_this_machine_does_not_hold(self):
+        # session 77: the daily run on the runner wrote erw_headers from its own tables alone
+        h = self.headers(("elsewhere_table", "1", "License: public"), (FULL, "1", "an old line of a table held here"))
+        pub = FakeDataset({"elsewhere_table": frame(1), upload.HEADERS_TABLE: h})
+        self.use_two(pub, FakeDataset({}))
+        self.local(FULL, 2)
+        with mock.patch.object(upload, "read_frame", lambda t: t.ds.rows[t.name].copy()):
+            self.assertEqual(upload.run_upload([FULL], include_metadata=True), 0)
+        got = pub.rows[upload.HEADERS_TABLE]
+        self.assertEqual(list(got.loc[got["table"] == "elsewhere_table", "line"]), ["License: public"])
+        self.assertEqual(list(got.loc[got["table"] == FULL, "line"]), ["test fixture"])
+
     def test_check_license_fails_if_the_internal_dataset_is_not_private(self):
         self.use_two(FakeDataset({FULL: frame(2)}), FakeDataset({}), level="overview")
         self.assertEqual(upload.check_license(), 1)

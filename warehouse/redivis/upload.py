@@ -418,9 +418,24 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
                     hrows.append((name, i, line))
             if not hrows:
                 continue
-            hdata = pd.DataFrame(hrows, columns=["table", "line_no", "line"]).to_csv(index=False, lineterminator="\n")
             label = HEADERS_TABLE + ("" if target == PUBLIC else f" ({target})")
             try:
+                # session 77: the header lines of a table this machine does not hold stay as the draft has them. Before,
+                # this wrote the lines of the tables on disk alone, so each daily run on the runner removed the header
+                # of every table another machine had uploaded by name (on 2026-10-03: caiso_fuel_supply,
+                # ercot_as_quantities, shoulder_hours_monthly, storage_buildout_monthly), and a restore of one came
+                # back with the placeholder line only. As in merge_headers, an error reading the draft's lines fails
+                # this step and writes nothing.
+                here = {r[0] for r in hrows}
+                kept = pd.DataFrame(columns=["table", "line_no", "line"])
+                if table_meta(drafts(target), HEADERS_TABLE) is not None:
+                    old = read_frame(drafts(target).table(HEADERS_TABLE))
+                    kept = old[~old["table"].isin(here)][["table", "line_no", "line"]]
+                h = pd.concat([kept, pd.DataFrame(hrows, columns=["table", "line_no", "line"])], ignore_index=True)
+                h["line_no"] = h["line_no"].astype(int)
+                hdata = h.sort_values(["table", "line_no"]).to_csv(index=False, lineterminator="\n")
+                if len(kept):
+                    log(f"{label}: kept {len(kept):,} header lines of {kept['table'].nunique()} tables not on this machine")
                 expected, actual = push(drafts(target), HEADERS_TABLE,
                                         [f"Provenance header lines of every ERW table in {target}, uploaded {now}"],
                                         hdata, "public" if target == PUBLIC else "internal", dataset=target)
