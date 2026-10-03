@@ -135,7 +135,7 @@ With no deploy there is no "after" on production. Instead the built branch was s
 | `check-routes`, both passes, local build | exit 0: 80 of 80 with the cookie; 14 live and 66 in review as a visitor |
 | `snapshot-live.mjs`: production twice, one minute apart | exit 0, 0 differences |
 | `snapshot-live.mjs`: production against the local build | exit 1, 9 lines of difference on 2 pages, listed above |
-| The home page's tile on the local build, after its 15-minute cache | pending when this report was first pushed (the cache turns at about 20:04 UTC); the result is added in the next commit |
+| The home page's tile on the local build, after its 15-minute cache | 20:04 UTC: the tile reads USD 81.40 per kW (raw 81.4021896), as production does. The "not held" was the build's timed-out query, and it lasted until the page's cache turned. A last comparison with production then shows `/about`'s four lines and, on `/`, only the six latest prices and their times and three "days in the ERW table" labels, which move by themselves (the local page was generated 15 minutes after production's) |
 | The unlock link on production | 404 with the token and with a wrong one |
 
 Not run: `check-values` (it needs no change of mine and the home tile's state would have failed it), the validator and the coverage builder (no table was built), the loader, the uploader's writes.
