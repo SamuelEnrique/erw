@@ -160,3 +160,32 @@ class TestSyncTyped(unittest.TestCase):
         out = up.as_erw_text(sync.typed(df, types))
         self.assertEqual(out.iloc[0].tolist(), ["2026-09-28T00:00:00Z", "1.5", "2026-10-01", "True", "3"])
         self.assertEqual(out.iloc[1].tolist(), ["", "", "", "False", ""])
+
+
+class TestHeadersNeverClobbered(unittest.TestCase):
+    """Session 72: upload.merge_headers took any error reading erw_headers for "none in the draft" and would have
+    replaced every table's header lines with the uploaded table's alone. Only a table Redivis says is absent starts
+    afresh; a read error fails the step and writes nothing."""
+
+    def run_merge(self, meta, read):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "redivis"))
+        import upload as up
+        pushed, results = [], []
+        draft = types.SimpleNamespace(table=lambda name: object())
+        with mock.patch.object(up, "table_meta", lambda ds, name: meta), mock.patch.object(up, "read_frame", read), \
+                mock.patch.object(up, "push", lambda *a, **k: pushed.append(a) or (1, 1)), \
+                mock.patch.object(up, "split_header", lambda path: (["a header line"], "")), mock.patch.object(up, "log", lambda m: None):
+            up.merge_headers(lambda target: draft, ["new_table"], {"new_table": "public"}, "now", results)
+        return pushed, results
+
+    def test_read_error_writes_nothing(self):
+        def boom(table):
+            raise ImportError("blocked")
+        pushed, results = self.run_merge({"numRows": 1741}, boom)
+        self.assertEqual(pushed, [])
+        self.assertTrue(results and results[0][3].startswith("ImportError"))
+
+    def test_absent_table_starts_afresh(self):
+        pushed, results = self.run_merge(None, lambda t: self.fail("an absent table is not read"))
+        self.assertEqual(len(pushed), 1)
+        self.assertEqual(results[0][3], "")

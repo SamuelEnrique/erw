@@ -248,10 +248,29 @@ def shrink_refusal(name, n_rows, man, allow):
 
 
 def count_rows(table):
-    import redivis
-    ref = table.get().properties["qualifiedReference"]
-    rows = redivis.query(f"select count(*) as n from `{ref}`").to_arrow_table(progress=False).to_pylist()
-    return int(rows[0]["n"])
+    """The table's row count as Redivis records it (session 72: its metadata, not a count(*) query, whose result comes
+    back through a pyarrow module that an Application Control policy blocks on the portable laptop)."""
+    return int(table.get().properties["numRows"])
+
+
+def read_frame(table):
+    """A Redivis table as a frame of the types to_pandas_dataframe would give, read through its CSV export (session 72:
+    no pyarrow). Errors propagate: a table that cannot be read is never taken for an empty one."""
+    import tempfile
+    types = {v.properties["name"]: v.properties.get("type") for v in table.list_variables()}
+    d = tempfile.mkdtemp(prefix="erw-redivis-")
+    path = table.download(os.path.join(d, "table.csv"), format="csv", overwrite=True, progress=False)
+    path = path[0] if isinstance(path, list) else path
+    df = pd.read_csv(path, dtype=str, keep_default_na=False)
+    os.remove(path)
+    for c, t in types.items():
+        if c in df.columns and t == "dateTime":
+            df[c] = pd.to_datetime(df[c].replace("", None), format="ISO8601")
+        elif c in df.columns and t == "float":
+            df[c] = pd.to_numeric(df[c].replace("", None))
+        elif c in df.columns and t == "integer":
+            df[c] = pd.to_numeric(df[c].replace("", None)).astype("Int64")
+    return df
 
 
 def push(ds, name, header, data_text, license_, events=False, dataset=PUBLIC, data_path=None, expected=None):
@@ -322,12 +341,15 @@ def merge_headers(drafts, names, lic, now, results):
         mine = [n for n in names if dataset_for(lic.get(n, "")) == target]
         label = HEADERS_TABLE + ("" if target == PUBLIC else f" ({target})")
         try:
-            try:
-                old = drafts(target).table(HEADERS_TABLE).to_pandas_dataframe(progress=False, dtype_backend="numpy")
-                old = old[~old["table"].isin(mine)][["table", "line_no", "line"]]
-            except Exception as exc:  # no erw_headers in this draft yet: start it with these tables
-                log(f"{label}: none in the draft ({type(exc).__name__}); starting it with {mine}")
+            # session 72: only a table Redivis says is absent starts afresh; any error reading it fails this step and
+            # writes nothing (before, a read error was taken for "none in the draft", which would have replaced every
+            # other table's header lines with these alone)
+            if table_meta(drafts(target), HEADERS_TABLE) is None:
+                log(f"{label}: none in the draft; starting it with {mine}")
                 old = pd.DataFrame(columns=["table", "line_no", "line"])
+            else:
+                old = read_frame(drafts(target).table(HEADERS_TABLE))
+                old = old[~old["table"].isin(mine)][["table", "line_no", "line"]]
             new = [(n, i, line) for n in mine for i, line in enumerate(split_header(os.path.join(OUT, n + ".csv"))[0], 1)]
             h = pd.concat([old, pd.DataFrame(new, columns=["table", "line_no", "line"])], ignore_index=True)
             h["line_no"] = h["line_no"].astype(int)
