@@ -101,7 +101,7 @@ price_board_peak_offpeak,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;e
 price_board_spreads,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;ercot_dam;isone_dam;miso_dam;nyiso_dam;spp_dam,6,P1D,2025-09-29T00:00:00Z,2026-10-02T00:00:00Z,2164,erw:price_board,2026-09-29T10:35:16Z,pass,public,power;gas;oil,yes,derived
 rggi_auction_allowance_prices,none,,85,P3M,2008-09-25T00:00:00Z,2026-09-09T00:00:00Z,304,rggi:prices-volumes,2026-09-29T01:08:31Z,pass,internal,carbon,no,source
 rrc_lease_production_monthly,none,,4828,P1M,2024-08-01T00:00:00Z,2026-07-01T00:00:00Z,212252,rrc:pdq_dump,2026-10-01T04:46:13Z,pass,internal,oil;gas,no,source
-shoulder_hours_monthly,CAISO;ERCOT,,2,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,20277,erw:shoulder_hours,2026-10-03T10:54:28Z,pass,public,power,yes,derived
+shoulder_hours_monthly,CAISO;ERCOT,,2,P1M;P1Y,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,20461,erw:shoulder_hours,2026-10-03T11:04:34Z,pass,public,power,yes,derived
 spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-09-30T00:00:00Z,38104,spp:ver_curtailments,2026-09-29T01:09:05Z,pass,public,power,no,source
 spp_interconnection_queue,SPP,,3076,snapshot,2026-09-30T23:33:23Z,2026-09-30T23:33:23Z,3076,spp:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,107560,erw:generation_mix,2026-09-29T01:08:10Z,pass,public,power,yes,derived

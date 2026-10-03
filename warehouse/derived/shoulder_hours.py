@@ -188,7 +188,7 @@ def build(grid, log):
     full = {d for d in need.index if ok.get(d, 0) == need[d] and need[d] in (23, 24, 25)}
     curt, curt_days = curtailment_by_month() if grid == "caiso" else (None, None)
     fl = fleet_by_month(grid)
-    rows = []
+    rows, months = [], []
     for m, x in h.groupby("m"):
         dim = pd.Period(m).days_in_month
         days = sorted(set(x["day"]) & full)
@@ -216,6 +216,7 @@ def build(grid, log):
             mwh = fl.loc[m].get("battery_operating_mwh")
             v.update(fleet_metrics(dm.get("shoulder_hours"), dm.get("shoulder_mwh_above_mean", 0.0),
                                    None if pd.isna(mw) else float(mw), None if pd.isna(mwh) else float(mwh)))
+        months.append((m, v))
         ts = f"{m}-01T00:00:00Z"
         for k, val in v.items():
             if val is None or (isinstance(val, float) and np.isnan(val)):
@@ -225,7 +226,30 @@ def build(grid, log):
             rows.append(dict(entity=f"iso:{grid}", variable=k, ts_utc=ts, value=round(float(val), 4), unit=unit, freq="P1M",
                              geo=g["geo"], market="", node="", source=SOURCE, source_url="docs/methods/shoulder_hours.md",
                              retrieved_at=ip.utc_iso(pd.Timestamp.now(tz="UTC")), vintage=""))
-    log(f"  {grid}: {len({r['ts_utc'] for r in rows})} months from {os.path.relpath(path, ROOT)}")
+    # session 75: each year's figures, so the page's table does no arithmetic: the mean over the year's months held, and
+    # the fleet at the year's last month held (freq P1Y, ts_utc the year's first day)
+    by_year = {}
+    for m, v in months:
+        by_year.setdefault(m[:4], []).append((m, v))
+    now = pd.Timestamp.now(tz="UTC").strftime("%Y-%m-%dT%H:%M:%SZ")
+    for y, mv in sorted(by_year.items()):
+        f = pd.DataFrame([v for _, v in mv])
+        yv = {"year_months_held": len(mv)}
+        for k in ("shoulder_hours", "shoulder_mwh_above_mean", "shoulder_start_hour", "shoulder_runs_to_midnight", "midday_surplus_hours",
+                  "midday_surplus_mwh", "curtailed_mwh_per_day", "shoulder_hours_covered", "shoulder_hours_needed"):
+            if k in f and f[k].notna().any():
+                yv[f"year_mean_{k}"] = float(f[k].mean())
+        last = mv[-1][1]
+        for k in ("fleet_mw", "fleet_mwh", "fleet_hours"):
+            if k in last:
+                yv[f"year_end_{k}"] = last[k]
+        for k, val in yv.items():
+            unit = ("MW" if k.endswith("_mw") else "MWh" if k.endswith("_mwh") or k.endswith("_mwh_per_day") or k.endswith("above_mean")
+                    else "count" if k == "year_months_held" else "ratio" if k == "year_mean_shoulder_runs_to_midnight" else "hour")
+            rows.append(dict(entity=f"iso:{grid}", variable=k, ts_utc=f"{y}-01-01T00:00:00Z", value=round(float(val), 4), unit=unit,
+                             freq="P1Y", geo=g["geo"], market="", node="", source=SOURCE, source_url="docs/methods/shoulder_hours.md",
+                             retrieved_at=now, vintage=""))
+    log(f"  {grid}: {len(months)} months, {len(by_year)} years from {os.path.relpath(path, ROOT)}")
     return rows, path
 
 
