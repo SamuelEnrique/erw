@@ -128,7 +128,7 @@ Spinning Reserve still earns almost nothing (at most USD 0.17 per kW a year), be
 |---|---|
 | `tests/test_session74.py` | 4 tests: a cap of 1 reproduces the program on 6 random days at 2, 4 and 8 hours; caps bind and no award passes one, and the capped revenue never exceeds the price-taker's; a cap of 0 is the energy-only optimum; the AS Plan parser. OK |
 | `tests/test_session67.py` (the battery model's own) | 21 tests, OK, with the cap added |
-| `python -m unittest discover -s tests` | see below |
+| `python -m unittest discover -s tests` | 358 tests, OK (2 skipped), exit 0 |
 | Validator, coverage, `--check-license` (`ercot_as_quantities`) | exit 0 each |
 
 No site file changed in this session (the method doc is read by the site at build; session 75's build covers it).
