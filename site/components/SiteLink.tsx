@@ -19,15 +19,20 @@ export function noPrefetch(path: string | null): boolean {
   return !!path && NO_PREFETCH.some((p) => path === p || path.startsWith(p + "/"));
 }
 
-export function SiteLink(props: ComponentProps<typeof Link>) {
+/** Session 71: how a link to a page in review is drawn for a visitor. "label" (the default, as in the menu): greyed with
+ * the "in review" label. "quiet": greyed, no label (the home page's "In review" list). "plain": plain text, no label,
+ * not greyed (a table name in a citation line, a node name on a price card). Never a link, in any of the three. */
+export type GateLook = "label" | "quiet" | "plain";
+
+export function SiteLink({ gate = "label", ...props }: ComponentProps<typeof Link> & { gate?: GateLook }) {
   const path = usePathname();
   const internal = useInternal();
   const href = typeof props.href === "string" ? props.href : (props.href.pathname ?? "");
   if (!internal && gated(href)) {
     return (
-      <span className={`${props.className ?? ""} gate-review`} aria-disabled="true" title={typeof props.title === "string" ? props.title : undefined}>
+      <span className={`${props.className ?? ""} ${gate === "plain" ? "gate-plain" : "gate-review"}`} aria-disabled="true" title={typeof props.title === "string" ? props.title : undefined}>
         {props.children}
-        <span className="gate-label">in review</span>
+        {gate === "label" ? <span className="gate-label">in review</span> : null}
       </span>
     );
   }

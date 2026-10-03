@@ -53,7 +53,8 @@ for (const grid of ["ercot", "caiso"]) for (const dur of [2, 4, 8]) for (const s
     if (t === null || Math.abs(t - raw) > 1e-9 * Math.max(1, Math.abs(t))) { wrong++; if (wrong <= 3) console.log(`  FAIL ${check}: page ${raw}, Supabase ${t}`); }
   }
   const summary = (html.match(/data-summary="1">([\s\S]*?)<\/p>/)?.[1] ?? "").replace(/<!-- -->/g, "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
-  const ok = res.status === 200 && n > 50 && wrong === 0 && summary.includes(`${dur}-hour battery in ${B.gridOf(grid).name}`) && B.inputsKey(x).includes(`dur=${dur}`);
+  // session 71: the summary sentence leads with the last twelve months
+  const ok = res.status === 200 && n > 50 && wrong === 0 && summary.startsWith(`Over the last twelve months a 100 MW, ${dur}-hour battery in ${B.gridOf(grid).name}`) && B.inputsKey(x).includes(`dur=${dur}`);
   bad += ok ? 0 : 1;
   total += n;
   console.log(`${ok ? "ok  " : "FAIL"} ${q}: ${res.status}, ${n} values, ${wrong} wrong, ${rows.length} rows read. ${decode(summary)}`);

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
   CAPACITY_WORDS, DEBT, EVENTS, PRODUCTS, REQUIREMENTS, RTE, STRATEGIES, STRESS_TABLE, TABLE, badMonth, coverage, debtPerMw, gridOf, inputsKey,
-  inputsOf, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type Inputs, type Month, type Row, type StressRow, type Year,
+  inputsOf, last36, lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type Inputs, type Month, type Row,
+  type StressRow, type Year,
 } from "@/lib/batterystack";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
@@ -17,10 +19,15 @@ import { ContractInputs, ContractProvider, ContractResult } from "./Contract";
 // and battery_stack_stress_daily (warehouse/derived/battery_stack.py), read from Supabase, and carries a check key
 // (bs|<inputs>|<stat>) that scripts/check-values.mjs recomputes from its own read. The contract terms never leave the
 // browser (Contract.tsx). No capacity price is read: the capacity table is internal and is named nowhere in this page.
+// Session 71: the page leads with the last twelve months (the summary sentence, the first headline number, the first
+// column of the income table, the contract's market lines); the average of every year held follows, and beside it the
+// same average without the one month that is more than a quarter of everything held (ERCOT's February 2021), which stays
+// in every other figure and on the chart. Wording, order and layout only: no number changed.
 export const metadata: Metadata = { title: "What a battery earns" };
 export const dynamic = "force-dynamic";
 
 const METHOD = "/data/methods/battery_stack";
+const shortMonth = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 const ENERGY = "#8C1515", ANCILLARY = "#2E2D29";  // cardinal and Stanford black (app/tokens.css: accent and ink)
 
 async function rowsOf(entity: string, x: Inputs): Promise<Row[]> {
@@ -120,15 +127,20 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const st = (s: string) => stat(rows, stressRows, x, s);
   const ys = years(ms);
   const l12 = lastTwelve(ms);
-  const bad = badMonth(ms);
+  const w36 = last36(ms);
+  const bad = badMonth(w36?.months ?? []);
   const top = outlier(ms);
-  const avgTotal = st("avg:total"), share = st("share:ancillary"), cover = st("cover");
+  const y3 = lastThreeYears(ms);
+  const fullYears = ys.filter((r) => r.complete);
+  const cover = st("cover");
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
   const leftOut = ms.reduce((a, r) => a + r.daysOut, 0), leftAnc = ms.reduce((a, r) => a + r.daysOutAncillary, 0);
   const events = stress(stressRows, x.strat, x.dur);
   const defaultDs = Math.round(debtPerMw(x.dur) * x.mw);
   const products = PRODUCTS[x.grid];
   const broken = (() => { const t = ys.map((r) => r.energy + r.ancillary).sort((a, b) => b - a); return t.length > 2 && t[0] > 2.5 * t[1] ? ys.find((r) => r.energy + r.ancillary === t[0])! : null; })();
+  const before2024 = ys.some((r) => r.y < "2024");
+  const topName = top ? `${monthName(top.m)}${top.m === "2021-02" ? " (Winter Storm Uri)" : ""}` : "";
   const strategyLine = x.strat === "foresight"
     ? "Perfect foresight: energy at the hourly real-time price and ancillary services at day-ahead prices, all known in advance. An upper bound, not a forecast."
     : "Day-ahead schedule: the battery is scheduled against day-ahead energy and ancillary prices and paid those prices, with no real-time trading. It assumes its offers clear at the day-ahead price.";
@@ -159,44 +171,63 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
             ) : (
               <>
                 <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
-                  A {size} battery in {g.name} earned USD <U pre={key} s="avg:total" v={avgTotal} /> in an average year, <V pre={key} s="share:ancillary" v={share} /> percent
-                  of it from ancillary services, and covered its debt <V pre={key} s="cover" v={cover} /> times over the last twelve months.
+                  {l12 ? (
+                    <>Over the last twelve months a {size} battery in {g.name} earned USD <V pre={key} s="l12_kw:total" v={st("l12_kw:total")} /> per kW, <V pre={key} s="l12_share:ancillary" v={st("l12_share:ancillary")} /> percent
+                      of it from ancillary services, and covered its debt <V pre={key} s="cover" v={cover} /> times.</>
+                  ) : (
+                    <>A {size} battery in {g.name}: no twelve consecutive months are held, so there is no last-twelve-months figure.</>
+                  )}
                 </p>
 
-                {top ? (
-                  <p className="mb-6 max-w-3xl border-l-2 border-accent bg-paper px-3 py-2 text-sm" data-outlier="1">
-                    <strong>Read the average with care.</strong> One month, {monthName(top.m)}{top.m === "2021-02" ? " (Winter Storm Uri)" : ""}, is <V pre={key} s="top_share" v={st("top_share")} /> percent
-                    of everything this battery earned in {held.length} months. Without it the average year is USD <U pre={key} s="avg_without_top" v={st("avg_without_top")} />,
-                    and the last twelve months earned USD <U pre={key} s="l12:total" v={st("l12:total")} />. That month&apos;s figure is what the published reserve prices
-                    offered a battery that is paid and never called; in such a storm a real battery holding reserves is called on and runs down.
-                  </p>
-                ) : null}
-
                 <HeadlineRow>
-                  <HeadlineNumber label="An average year, all streams" value={<>USD <U pre={key} s="avg:total" v={avgTotal} /></>}
-                    note={<><V pre={key} s="avg_kw:total" v={st("avg_kw:total")} /> USD per kW. The mean of each calendar month over {held.length} months, {monthName(held[0].m)} to {monthName(held.at(-1)!.m)}, summed.</>} />
-                  <HeadlineNumber label="A bad month, the 10th percentile" value={<>USD <U pre={key} s="p10" v={st("p10")} /></>}
-                    note={bad ? <>{monthName(bad.m)}. One month in ten earned this or less.</> : null} />
+                  <HeadlineNumber label="Last twelve months, all streams" value={<>USD <V pre={key} s="l12_kw:total" v={st("l12_kw:total")} /><span className="ml-1 font-sans text-sm text-muted">per kW</span></>}
+                    note={l12 ? <>USD <U pre={key} s="l12:total" v={st("l12:total")} /> for {size}, {monthName(l12[0].m)} to {monthName(l12[11].m)}.</> : <>No twelve consecutive months are held.</>} />
+                  <HeadlineNumber label="A bad month: the 10th percentile, last 36 months" value={<>USD <U pre={key} s="p10_36" v={st("p10_36")} /></>}
+                    note={bad && w36 ? <>{monthName(bad.m)}. One month in ten of the <V pre={key} s="n36" v={st("n36")} /> months held from {monthName(w36.months[0].m)} to {monthName(w36.to)} earned this or less{w36.months.length < 36 ? `: ${g.name} is held from ${g.from}` : ""}.</> : null} />
                   <HeadlineNumber label="Debt coverage, last twelve months" value={<><V pre={key} s="cover" v={cover} /><span className="ml-1 font-sans text-sm text-muted">times</span></>}
                     note={l12 ? <>{monthName(l12[0].m)} to {monthName(l12[11].m)}: revenue less fixed O&amp;M, over debt payments of USD <U pre={key} s="ds" v={x.ds} /> a year.</> : <>No twelve consecutive months are held.</>} />
                 </HeadlineRow>
 
                 <ChartFrame title="Revenue by year, USD per kW"
                   legend={[{ label: "Energy", color: ENERGY }, { label: "Ancillary services", color: ANCILLARY }, { label: "Incomplete year", color: ANCILLARY, hatch: true }]}
-                  note={<>{strategyLine} Per kW of rated power. A hatched year holds fewer than twelve months and is not a full year&apos;s revenue.
-                    {broken ? <> {broken.y} is off the scale at <V pre={key} s={`year:${broken.y}:total`} v={st(`year:${broken.y}:total`)} /> USD per kW: Winter Storm Uri, when reserve prices stood near the cap for days. It is in the average year.</> : null}</>}>
+                  note={<>
+                    <span className="mb-1.5 block text-sm text-ink" data-upper-bound="1">
+                      {before2024
+                        ? "This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called, so years before 2024 show more than real batteries earned. Recent years are the ones to read."
+                        : `This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called. ${g.name} is held from ${g.from}, so every year here is a recent one.`}
+                    </span>
+                    {strategyLine} Per kW of rated power. A hatched year holds fewer than twelve months and is not a full year&apos;s revenue.
+                    {broken ? <> {broken.y} is off the scale at <V pre={key} s={`year:${broken.y}:total`} v={st(`year:${broken.y}:total`)} /> USD per kW: Winter Storm Uri, when reserve prices stood near the cap for days.</> : null}</>}>
                   <YearBars ys={ys} />
                 </ChartFrame>
 
-                <ToolSection title="Income by stream" note={<>Average year and last twelve months for {size}. The total is split hour by hour by one optimization a day: in any hour the battery&apos;s power is sold as energy or held as a reserve, never both, so the rows add up with no double counting. Reserves are paid for being held and are assumed never called.</>}>
-                  <ToolTable caption="Income by stream" head={["Stream", "Average year, USD", "Last twelve months, USD", "Share of the average year"]}
-                    rows={[
-                      { key: "energy", cells: ["Energy (charge low, sell high)", <U key="a" pre={key} s="avg:energy" v={st("avg:energy")} />, <U key="b" pre={key} s="l12:energy" v={st("l12:energy")} />, <><V pre={key} s="share:energy" v={st("share:energy")} /> percent</>] },
-                      { key: "anc", cells: ["Ancillary services", <U key="a" pre={key} s="avg:ancillary" v={st("avg:ancillary")} />, <U key="b" pre={key} s="l12:ancillary" v={st("l12:ancillary")} />, <><V pre={key} s="share:ancillary" v={share} /> percent</>] },
-                      ...products.map((p) => ({ key: p.key, muted: true, cells: [<span key="n" className="pl-4">{p.label}</span>, <U key="a" pre={key} s={`avg:${p.key}`} v={st(`avg:${p.key}`)} />, <U key="b" pre={key} s={`l12:${p.key}`} v={st(`l12:${p.key}`)} />, <><V pre={key} s={`share:${p.key}`} v={st(`share:${p.key}`)} /> percent</>] })),
-                      { key: "cap", cells: ["Capacity"], wide: CAPACITY_WORDS[x.grid] },
-                      { key: "total", highlight: true, cells: ["Total, split hour by hour with no double counting", <U key="a" pre={key} s="avg:total" v={avgTotal} />, <U key="b" pre={key} s="l12:total" v={st("l12:total")} />, "100 percent"] },
-                    ]} />
+                <ToolSection title="Income by stream" note={<>For {size}, in US dollars, one column for each span. The total is split hour by hour by one optimization a day: in any hour the battery&apos;s power is sold as energy or held as a reserve, never both, so the rows add up with no double counting. Reserves are paid for being held and are assumed never called.
+                  {top ? <> {topName} alone is <V pre={key} s="top_share" v={st("top_share")} /> percent of everything this battery earned in the {held.length} months held. It stays on the chart and in the average of every year held; the last column is that same average without this one month.</> : null}</>}>
+                  {(() => {
+                    const cols: { head: string; sub: string; cell: (s: string) => ReactNode; kw: ReactNode }[] = [
+                      { head: "Last twelve months, USD", sub: l12 ? `${shortMonth(l12[0].m)} to ${shortMonth(l12[11].m)}` : "not held",
+                        cell: (s) => <U pre={key} s={`l12:${s}`} v={st(`l12:${s}`)} />, kw: <V pre={key} s="l12_kw:total" v={st("l12_kw:total")} /> },
+                      { head: y3 ? `${y3[0]} to ${y3[2]}, a year, USD` : "Last three full years",
+                        sub: y3 ? "the average of the last three full years" : `not held: ${g.name} holds ${fullYears.length === 0 ? "no full calendar year" : fullYears.length === 1 ? `one full year (${fullYears[0].y})` : `${fullYears.length} full years`}`,
+                        cell: (s) => <U pre={key} s={`y3:${s}`} v={st(`y3:${s}`)} />, kw: <V pre={key} s="y3_kw:total" v={st("y3_kw:total")} /> },
+                      { head: "Every year held, a year, USD", sub: `the average, ${shortMonth(held[0].m)} to ${shortMonth(held.at(-1)!.m)}`,
+                        cell: (s) => <U pre={key} s={`avg:${s}`} v={st(`avg:${s}`)} />, kw: <V pre={key} s="avg_kw:total" v={st("avg_kw:total")} /> },
+                      ...(top ? [{ head: `Without ${shortMonth(top.m)}, a year, USD`, sub: "the same average, without that one month",
+                        cell: (s: string) => <U pre={key} s={`avg_without:${s}`} v={st(`avg_without:${s}`)} />, kw: <V pre={key} s="avg_without_kw:total" v={st("avg_without_kw:total")} /> }] : []),
+                    ];
+                    const line = (s: string) => cols.map((c, i) => <span key={i}>{c.cell(s)}</span>);
+                    return (
+                      <ToolTable caption="Income by stream" minWidth={top ? 640 : 560} head={["Stream", ...cols.map((c) => <>{c.head}<span className="mt-0.5 block text-xs opacity-80">{c.sub}</span></>)]}
+                        rows={[
+                          { key: "energy", cells: ["Energy (charge low, sell high)", ...line("energy")] },
+                          { key: "anc", cells: ["Ancillary services", ...line("ancillary")] },
+                          ...products.map((p) => ({ key: p.key, muted: true, cells: [<span key="n" className="pl-4">{p.label}</span>, ...line(p.key)] })),
+                          { key: "cap", cells: ["Capacity"], wide: CAPACITY_WORDS[x.grid] },
+                          { key: "total", highlight: true, cells: ["Total, split hour by hour with no double counting", ...line("total")] },
+                          { key: "kw", cells: ["Total, USD per kW", ...cols.map((c, i) => <span key={i}>{c.kw}</span>)] },
+                        ]} />
+                    );
+                  })()}
                 </ToolSection>
 
                 <ToolSection title="With your contract">

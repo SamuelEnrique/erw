@@ -35,6 +35,10 @@ export function ContractInputs() {
   );
 }
 
+/** A last-twelve-months figure with the average of every year held beside it, labeled. */
+function Beside({ v, avg }: { v: string; avg: string }) {
+  return <>{v}<div className="text-xs font-normal text-muted">average of every year held: {avg}</div></>;
+}
 const ratio = (v: number | null) => (v === null ? "not held" : `${v.toFixed(2)} times`);
 const usd = (v: number | null) => (v === null ? "not held" : `USD ${usdShort(Math.round(v))}`);
 
@@ -47,12 +51,14 @@ export function ContractResult({ ms, x }: { ms: Month[]; x: Inputs }) {
   }
   const r = contractResult(ms, x, { share, price, end: c.t.end });
   const end = /^\d{4}-\d{2}$/.test(c.t.end) ? c.t.end : null;
-  const rows: [string, string, string][] = [
+  // session 71: the market lines use the last twelve months; the average of every year held is shown beside each, labeled
+  const span = r.first && r.last ? `${monthName(r.first)} to ${monthName(r.last)}` : null;
+  const rows: [string, ReactNode, string][] = [
     ["Contracted income a year", usd(r.contracted), `${share} percent of ${x.mw} MW at USD ${price} per kW-month, twelve months`],
-    ["Market income on the uncontracted share", usd(r.marketAverage), `${100 - share} percent of an average year of market revenue`],
+    ["Market income on the uncontracted share", <Beside key="m" v={usd(r.market12)} avg={usd(r.marketAverage)} />, span ? `${100 - share} percent of the last twelve months' market revenue, ${span}` : "no twelve consecutive months are held"],
     ["Debt coverage with the contract", ratio(r.coverageWith), r.last ? `the twelve months to ${monthName(r.last)}: contract plus market on the rest, less fixed O&M, over the debt payments` : "no twelve consecutive months are held"],
     ["Debt coverage without it", ratio(r.coverageWithout), "the same twelve months, market only"],
-    [end ? `From the market after ${monthName(end)}` : "From the market after the contract ends", usd(r.afterAverage), "an average year, the whole battery in the market"],
+    [end ? `From the market after ${monthName(end)}` : "From the market after the contract ends", <Beside key="a" v={usd(r.after12)} avg={usd(r.afterAverage)} />, "the whole battery in the market, at the last twelve months' revenue"],
   ];
   return (
     <div data-contract-result="shown">

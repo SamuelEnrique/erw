@@ -16,6 +16,7 @@ import rules from "@/data/bill_rules.json";
 import { count, day, node, price, shown, utc } from "@/lib/format";
 import { DOCS, render, topItems, digestTitle } from "@/lib/markdown";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
+import { statusOf } from "@/lib/release";
 import markets from "@/data/markets.json";
 
 // the latest-price board refreshes every 15 minutes; the rest of the page reads hourly data
@@ -72,7 +73,7 @@ async function PriceBoard() {
             <div key={m.iso} className="bg-panel p-3">
               <div className="flex items-baseline justify-between gap-2">
                 <span className="font-serif text-lg">{m.iso}</span>
-                <Link href={`/prices/${encodeURIComponent(m.main)}`} className="font-mono text-xs">
+                <Link href={`/prices/${encodeURIComponent(m.main)}`} className="font-mono text-xs" gate="plain">
                   {node(m.main)}
                 </Link>
               </div>
@@ -153,9 +154,11 @@ function Digest() {
           <li key={i} dangerouslySetInnerHTML={{ __html: render(md, "docs/digest/latest.md") }} />
         ))}
       </ol>
-      <p className="text-sm">
-        <Link href="/digest">The full digest ({digestTitle(DOCS.latest).replace(/^(?:ERW's )?Energy Digest,\s*/, "")}) and the archive</Link>
-      </p>
+      {statusOf("/digest") === "live" ? (
+        <p className="text-sm">
+          <Link href="/digest">The full digest ({digestTitle(DOCS.latest).replace(/^(?:ERW's )?Energy Digest,\s*/, "")}) and the archive</Link>
+        </p>
+      ) : null}
     </>
   );
 }
@@ -164,7 +167,7 @@ function Digest() {
 // live number from the warehouse where natural (each with its check key, as everywhere on the site), and a link.
 // docs/tools.md is the inventory the cards follow. Session 19's four entry paths and session 20's Explore grid gave way
 // to these; every page is still in the nav.
-type Card = { href: string; name: string; question: string; num?: ReactNode; numLabel?: string };
+type Card = { href: string; name: string; question: string; num?: ReactNode; numLabel?: string; table?: string };
 
 const n0 = (v: number) => Math.round(v).toLocaleString("en-US");
 
@@ -178,12 +181,16 @@ function ToolCard({ c }: { c: Card }) {
   );
 }
 
+/** Session 71: an audience shows only its live tools' cards (lib/release.ts); the tools in review are named once, in
+ * the "In review" section near the bottom. An audience with no live tool is not shown. */
 function Audience({ title, line, cards }: { title: string; line: string; cards: Card[] }) {
+  cards = cards.filter((c) => statusOf(c.href) === "live");
+  if (!cards.length) return null;
   return (
     <section className="mb-8" aria-label={title}>
       <h2 className="mb-1 font-serif text-2xl">{title}</h2>
       <p className="mb-2 max-w-3xl text-sm text-muted">{line}</p>
-      <div className="grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
+      <div className={`grid gap-px border border-rule bg-rule ${cards.length === 1 ? "max-w-sm" : cards.length === 2 ? "max-w-2xl sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3"}`}>
         {cards.map((c) => <ToolCard key={c.href + c.name} c={c} />)}
       </div>
     </section>
@@ -267,8 +274,9 @@ async function liveNumbers() {
       out.sellerLabel = "USD, the median month of 100 MW of solar selling at ERCOT's hub";
     }
   } catch { /* the snapshot is missing: the card shows no number */ }
-  // session 67, the "Open now" strip: the US operating fleet, and an average year of the default battery (100 MW,
-  // 4 hours, ERCOT, perfect foresight) from battery_stack_monthly, as /cost-of-power/battery computes it
+  // session 67, the "Open now" strip: the US operating fleet, and the default battery (100 MW, 4 hours, ERCOT, perfect
+  // foresight) from battery_stack_monthly, as /cost-of-power/battery computes it. Session 71: the last twelve months per
+  // kW, the battery page's own lead, never the average of every year held (57 percent of it is February 2021)
   if (fleet.ok) {
     const op = fleet.data.filter((u) => u.status === "operating");
     const mw = Math.round(op.reduce((a, u) => a + (u.capacity_mw ?? 0), 0) * 10) / 10;
@@ -278,8 +286,12 @@ async function liveNumbers() {
   const stack = await attempt(() => rest<BS.Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${BS.TABLE}`, entity: `eq.${BS.gridOf(bx.grid).entity}`,
     variable: `like.${bx.strat}_${bx.dur}h_*`, order: "variable,ts_utc" }, HOURLY));
   if (stack.ok) {
-    const v = BS.stat(stack.data, [], bx, "avg:total");
-    if (v !== null) out.battery = <span data-format="usd"><Num check={`bs|${BS.inputsKey(bx)}|avg:total`} raw={v}>{BS.usdShort(v)}</Num></span>;
+    const v = BS.stat(stack.data, [], bx, "l12_kw:total");
+    const l12 = BS.lastTwelve(BS.monthsOf(stack.data, bx.strat, bx.dur));
+    if (v !== null && l12) {
+      out.battery = <Num check={`bs|${BS.inputsKey(bx)}|l12_kw:total`} raw={v}>{v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Num>;
+      out.batteryLabel = `${BS.monthName(l12[0].m)} to ${BS.monthName(l12[11].m)}`;
+    }
   }
   return out;
 }
@@ -287,7 +299,7 @@ async function liveNumbers() {
 /** Session 67: the tools open to every visitor (lib/release.ts), each with one line and one number read from the tables. */
 function OpenNow({ L }: { L: Record<string, ReactNode> }) {
   const tools: { href: string; name: string; line: string; num?: ReactNode; pre?: string; unit?: string }[] = [
-    { href: "/cost-of-power/battery", name: "What a battery earns", line: "An average year of a 100 MW, 4-hour battery in ERCOT, energy and ancillary services together, with perfect foresight.", num: L.battery, pre: "USD " },
+    { href: "/cost-of-power/battery", name: "What a battery earns", line: `The last twelve months of a 100 MW, 4-hour battery in ERCOT${L.batteryLabel ? ` (${L.batteryLabel})` : ""}, energy and ancillary services together, with perfect foresight.`, num: L.battery, pre: "USD ", unit: "per kW" },
     { href: "/cost-of-power/seller", name: "What a generator earns", line: "The median month of 100 MW of solar selling at ERCOT's hub.", num: L.seller, pre: "USD " },
     { href: "/network", name: "The network", line: `ERCOT's demand in the newest hour held, one of the grids the 3D network draws${L.gridLabel ? ` (${String(L.gridLabel).replace(/^MW, ERCOT's demand /, "")})` : ""}.`, num: L.grid, unit: "MW" },
     { href: "/storage", name: "Storage", line: "Batteries operating in the US, nameplate power, from EIA's monthly generator inventory.", num: L.us, unit: "MW" },
@@ -305,6 +317,19 @@ function OpenNow({ L }: { L: Record<string, ReactNode> }) {
     </section>
   );
 }
+/** Session 71: the tools in review, named once, greyed and not links (in the internal view they are links). */
+function InReview({ tools }: { tools: { href: string; name: string }[] }) {
+  if (!tools.length) return null;
+  return (
+    <section className="mb-8" aria-label="In review" data-home-in-review="1">
+      <h2 className="mb-1 font-serif text-lg text-muted">In review</h2>
+      <p className="max-w-3xl text-sm leading-relaxed text-muted">
+        {tools.map((t, i) => <span key={t.href}>{i ? ", " : ""}<Link href={t.href} gate="quiet">{t.name}</Link></span>)}.
+        {" "}They open when they are approved.
+      </p>
+    </section>
+  );
+}
 const shown2 = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default async function Home() {
@@ -312,28 +337,34 @@ export default async function Home() {
   const L = await liveNumbers();
   const num = (k: string) => ({ num: L[k], numLabel: L[`${k}Label`] as string | undefined });
   const students: Card[] = [
-    { href: "/grid/ercot", name: "Your grid", question: "What is each of the seven ISO grids, and what is it doing today?", ...num("grid") },
+    { href: "/grid/ercot", name: "Your grid", question: "What is each of the seven ISO grids, and what is it doing today?", ...num("grid"), table: "eia930_all_demand" },
     { href: "/network", name: "The network", question: "Which balancing authorities trade power, and how much, hour by hour, in 3D?" },
     { href: "/learn/bill", name: "What is on a bill", question: "What does a home's electricity bill pay for, line by line, at five utilities?", ...num("bill") },
     { href: "/learn/problems", name: "Problem sets", question: "Fifteen questions on grids, prices and storms, answered from the latest data." },
-    { href: "/play/battery", name: "Home battery game", question: "Can you run a home battery through a real day of ERCOT prices better than perfect foresight?", ...num("fleet") },
-    { href: "/events", name: "Events", question: "What did Uri, Elliott, COVID-19 and two heat waves do to the grid, day by day?", ...num("uri") },
+    { href: "/play/battery", name: "Home battery game", question: "Can you run a home battery through a real day of ERCOT prices better than perfect foresight?", ...num("fleet"), table: "storage_capacity" },
+    { href: "/events", name: "Events", question: "What did Uri, Elliott, COVID-19 and two heat waves do to the grid, day by day?", ...num("uri"), table: "event_window_daily" },
   ];
   const investors: Card[] = [
     { href: "/board", name: "Price board", question: "What is power selling for at each ISO's main hub right now, and how did it move?" },
-    { href: "/cost-of-power", name: "Cost of power: buying", question: "What does a MWh cost to buy at each hub, weighted by when the grid uses it?", ...num("cop") },
-    { href: "/cost-of-power/seller", name: "Cost of power: selling", question: "What does a merchant solar, wind, battery or peaker asset earn, and does it cover its debt?", ...num("seller") },
-    { href: "/deals", name: "Deals", question: "Which PPAs, acquisitions and financings happened, with their sources?", ...num("deals") },
-    { href: "/datacenters", name: "Datacenters", question: "Which datacenters are being built, by whom, where and how large?", ...num("dc") },
-    { href: "/severance", name: "Severance tax and the lease tool", question: "What state production tax is due on oil and gas in Texas, Louisiana and New Mexico, well by well?", ...num("wti") },
+    { href: "/cost-of-power", name: "Cost of power: buying", question: "What does a MWh cost to buy at each hub, weighted by when the grid uses it?", ...num("cop"), table: "cost_of_power_monthly" },
+    { href: "/cost-of-power/seller", name: "Cost of power: selling", question: "What does a merchant solar, wind, battery or peaker asset earn, and does it cover its debt?", ...num("seller"), table: "merchant_revenue_monthly" },
+    { href: "/deals", name: "Deals", question: "Which PPAs, acquisitions and financings happened, with their sources?", ...num("deals"), table: "energy_deals" },
+    { href: "/datacenters", name: "Datacenters", question: "Which datacenters are being built, by whom, where and how large?", ...num("dc"), table: "datacenter_facilities" },
+    { href: "/severance", name: "Severance tax and the lease tool", question: "What state production tax is due on oil and gas in Texas, Louisiana and New Mexico, well by well?", ...num("wti"), table: "eia_fuel_spot_prices" },
     { href: "/companies", name: "Companies (the Thesis Builder)", question: "Which energy companies has the Thesis Builder mapped, at what stage and with what funding?" },
   ];
   const researchers: Card[] = [
-    { href: "/data", name: "Data and downloads", question: "What tables does the ERW hold, and how do I read them in Python or on Redivis?", ...num("tables") },
+    { href: "/data", name: "Data and downloads", question: "What tables does the ERW hold, and how do I read them in Python or on Redivis?", ...num("tables"), table: "catalogue" },
     { href: "/data/methods/event_study", name: "Event studies and the notebook", question: "How large was each event's effect, with and without the weather, and how do I reproduce it?" },
     { href: "/data/standard", name: "Methods and the data standard", question: "How is every number built, and what shape is every table?" },
     { href: "/ask", name: "Ask the ERW", question: "Ask the warehouse a question; every number in the answer comes from a table it read." },
   ];
+  // session 71: every tool in review the home page used to link, named once near the bottom
+  const inReview = [
+    { href: "/tour", name: "The tour" }, { href: "/board", name: "Price board" }, { href: "/prices", name: "Every hub and zone" },
+    ...[...students, ...investors, ...researchers].map((c) => ({ href: c.href, name: c.name })),
+    { href: "/digest", name: "Energy Digest archive" }, { href: "/roundup", name: "ERW's Roundup" },
+  ].filter((t, i, all) => statusOf(t.href) === "review" && all.findIndex((u) => u.href === t.href) === i);
   return (
     <>
       <h1 className="mb-1 text-3xl">Energy Research Warehouse</h1>
@@ -341,18 +372,22 @@ export default async function Home() {
         The live, citable record of the whole US energy system, from power prices to pipelines, plants, deals and policy, with AI&apos;s demand for power as
         its sharpest lens.
       </p>
-      <p className="mb-5 text-sm"><Link href="/tour" className="border border-accent px-3 py-1 text-accent no-underline">Start the tour</Link> <span className="text-muted">five stops, about three minutes</span></p>
+      {statusOf("/tour") === "live" ? (
+        <p className="mb-5 text-sm"><Link href="/tour" className="border border-accent px-3 py-1 text-accent no-underline">Start the tour</Link> <span className="text-muted">five stops, about three minutes</span></p>
+      ) : <div className="mb-5" />}
 
       <OpenNow L={L} />
 
-      <Section title="Power prices, real time" aside={<><Link href="/board">Price board</Link> <span className="text-muted">|</span> <Link href="/prices">Every hub and zone</Link></>}>
+      <Section title="Power prices, real time" aside={statusOf("/board") === "live" ? <><Link href="/board">Price board</Link> <span className="text-muted">|</span> <Link href="/prices">Every hub and zone</Link></> : undefined}>
         <PriceBoard />
       </Section>
 
       <Audience title="Students and teachers" line="How the grid works, what a bill pays for, and what storms and heat waves do, from the data itself." cards={students} />
       <Audience title="Investors and lenders" line="Prices, the cost and the earnings of power, deals, datacenters and the taxes on oil and gas, each number traced to its source." cards={investors} />
       <Audience title="Researchers" line="Every table with its method, license and download, the event studies and their notebook, and a warehouse you can ask." cards={researchers} />
-      <Cite tables={["eia930_all_demand", "storage_capacity", "event_window_daily", "cost_of_power_monthly", "merchant_revenue_monthly", "energy_deals", "datacenter_facilities", "eia_fuel_spot_prices", "catalogue"]} note="The cards' numbers, each checked against its table; the full list of tools is docs/tools.md" />
+      <div className="mb-8"><Cite tables={["battery_stack_monthly", "merchant_revenue_monthly", "eia930_all_demand", "storage_capacity",
+        ...[...students, ...investors, ...researchers].filter((c) => statusOf(c.href) === "live" && c.table).map((c) => c.table!)]}
+        note="The numbers of the tools open now, each checked against its table; the full list of tools is docs/tools.md" /></div>
 
       <Section title="Gas and oil">
         <Fuels />
@@ -360,14 +395,16 @@ export default async function Home() {
 
       <Section
         title="ERW's Energy Digest"
-        aside={
+        aside={statusOf("/digest") === "live" ? (
           <>
             <Link href="/digest">Archive</Link> <span className="text-muted">|</span> <Link href="/roundup">ERW&apos;s Roundup</Link>
           </>
-        }
+        ) : undefined}
       >
         <Digest />
       </Section>
+
+      <InReview tools={inReview} />
 
       <section className="mb-10" aria-label="Warehouse status">
         {cat.ok ? <StatusStrip cat={cat.data} /> : <NoData what="warehouse status" reason={cat.reason} />}
