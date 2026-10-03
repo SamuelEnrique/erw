@@ -192,7 +192,8 @@ class Workflow(unittest.TestCase):
         cv = src("site", "scripts", "check-values.mjs")
         self.assertIn('p[0] === "netsnap"', cv)
         self.assertIn("erw-public/network/grid_network.json", cv)
-        self.assertTrue(re.search(r'netsnap\|\$\{pick\.id\}\|demand_mw', src("site", "app", "network", "Network.tsx")))
+        # session 68: the panel's key is built from the node in view (n), not the old card's pick
+        self.assertTrue(re.search(r'netsnap\|\$\{(pick|n)\.id\}\|demand_mw', src("site", "app", "network", "Network.tsx")))
 
     def test_no_em_dashes(self):
         for p in (("warehouse", "derived", "network_hourly.py"), (".github", "workflows", "hourly-network.yml"), ("site", "lib", "network.ts"),

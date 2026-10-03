@@ -6,6 +6,7 @@ import path from "node:path";
 import { Marked, type Tokens } from "marked";
 import docs from "@/content/docs.json";
 import site from "@/data/site.json";
+import { gated } from "@/lib/release";
 
 export type Docs = {
   built_at: string;
@@ -92,7 +93,15 @@ export function render(md: string, repoPath: string): string {
       t.href = sitePath(path.posix.normalize(path.posix.join(dir, t.href)));
     },
   });
-  return marked.parse(md, { async: false }) as string;
+  return gateLinks(marked.parse(md, { async: false }) as string);
+}
+
+/** Session 67, the release gate (lib/release.ts): in rendered markdown a link to a page in review becomes greyed text
+ * with the "in review" label, keeping its address in data-gate-href so the internal view can make it a link again
+ * (components/GateRestore.tsx). */
+export function gateLinks(html: string): string {
+  return html.replace(/<a href="(\/[^"]*)"([^>]*)>([\s\S]*?)<\/a>/g, (all, href: string, _rest: string, text: string) =>
+    gated(href) ? `<span class="gate-review" aria-disabled="true" data-gate-href="${href}">${text}<span class="gate-label">in review</span></span>` : all);
 }
 
 /** The weekly briefs' ISO weeks, newest first (session 17; the Energy Roundup since session 23). */

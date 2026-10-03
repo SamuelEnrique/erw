@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Related } from "@/components/Related";
 import { Term } from "@/components/Term";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { AutoSubmitSelect } from "@/components/AutoSubmit";
 import { Cite } from "@/components/Cite";
 import { ShareBar } from "@/components/ShareBar";

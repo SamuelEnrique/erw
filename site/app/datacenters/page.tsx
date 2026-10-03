@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Related } from "@/components/Related";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { NoData } from "@/components/NoData";
 import { datacenters } from "@/lib/data";
 import { attempt } from "@/lib/supabase";

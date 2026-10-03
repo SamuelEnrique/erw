@@ -1,5 +1,5 @@
 // The "Related" line at the end of a data page (session 21), from site/lib/pages.ts.
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { PAGES } from "@/lib/pages";
 
 export function Related({ href }: { href: string }) {

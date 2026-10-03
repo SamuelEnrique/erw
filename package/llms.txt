@@ -126,6 +126,22 @@ day-ahead tables running into tomorrow:
   interchange_volume_mwh over the latest 168 hours; x_name is EIA's name.
   grid_network_links (derived): each BA pair once per hour, the last 168 hours,
   flow_mw positive when the code that sorts first exports to the other.
+  eia930_daily_total_interchange (session 68): EIA's own daily total
+  interchange of every BA (type TI), total_interchange_mwh, positive when the BA
+  exports, EIA's Eastern day, from 2019; history, not in the live set.
+  eia930_event_hourly_interchange (session 68): hourly interchange_mw of every
+  pair and demand_mw of every BA for two windows only, column event = uri_2021
+  (2021-02-07 to 02-24) or east_heat_2025 (2025-06-20 to 06-28); history.
+  ba_supply_monthly (derived, session 68): who supplies a grid. Positive means
+  the NEIGHBOUR SUPPLIED the BA (the opposite of EIA's sign). Pair entity
+  eia930:<BA>-<NEIGHBOUR>: net_import_mwh, net_import_share_pct (of the BA's
+  demand, seven ISO BAs only). BA entity eia930:<BA>: net_import_pairs_mwh,
+  net_import_total_interchange_mwh, net_import_balance_mwh (demand less net
+  generation) and each _share_pct, days_held, days_left_out, thin_month. The
+  headline is the pair sum. CAISO's balance reads about 10 points higher than
+  its flows from December 2025: EIA's published net generation for CAISO
+  dropped then; say so if asked about CAISO's imports. Last 430 days in the
+  live set.
 **Battery storage** (session 31, method docs/methods/storage.md):
   eia930_all_storage: EIA-930 hourly net generation of battery storage (fuel
   type BAT), net_generation_battery_mw, MW, positive discharging, negative
@@ -244,6 +260,26 @@ day-ahead tables running into tomorrow:
   USD/MW-hour: dollars per MW of capacity held for one hour, NOT an energy
   price; never add it to USD/MWh. A day short of an hour is left out, not
   filled. Method: docs/methods/capacity_and_ancillary.md.
+**The battery revenue stack, derived, public** (session 67):
+  battery_stack_monthly, what 1 MW of a grid battery earned per local month
+  from energy and ancillary services together, split hour by hour by one
+  linear program a day so nothing is counted twice. Entities ercot:HB_HUBAVG
+  (2018 on) and caiso:TH_SP15_GEN-APND (2024-09 on). variable is
+  <strategy>_<N>h_<metric>: strategy foresight (perfect foresight, an upper
+  bound: real-time energy, day-ahead ancillary) or dayahead (the day-ahead
+  schedule); N is 2, 4 or 8 hours; metric revenue_energy_usd_per_mw,
+  revenue_ancillary_usd_per_mw, revenue_total_usd_per_mw,
+  revenue_<product>_usd_per_mw (regup, regdn, rrs, ecrs, nspin in ERCOT;
+  regup, regdn, spin, nonspin in CAISO), discharged_mwh_per_mw, days_held,
+  days_left_out, days_in_month. Example: foresight_4h_revenue_total_usd_per_mw.
+  USD/MW per month: divide by 1000 for USD per kW, sum twelve months for a
+  year. A day missing any price is left out and counted, never filled; a
+  month's revenue is its held days only. Reserves are paid and never called,
+  and the battery is a price taker, so large sizes are overstated: say so.
+  ERCOT's February 2021 (Winter Storm Uri) is far above every other month.
+  No capacity payment is in it. battery_stack_stress_daily holds the same per
+  day for ERCOT's Uri, Elliott and 2023 heat windows (column event).
+  Method: docs/methods/battery_stack.md.
 **Entities**: eia860m_operating_generators, eia860m_planned_generators
   (status planned or under_construction), eia860m_retired_generators: one row
   per generator, with state, technology_group (natural_gas, solar, wind,
@@ -351,6 +387,7 @@ day-ahead tables running into tomorrow:
 | Generation mix of a state, monthly since 2001 | `state_generation_mix_monthly` (EIA codes: `eia_state_generation_monthly`) |
 | Generation mix of an ISO today, or this week | `eia930_generation_latest`, `eia930_all_generation` (ba) |
 | Power flowing between balancing authorities (imports, exports, interchange, ties) | `eia930_all_interchange` (ba), `grid_network_links`, `grid_network_nodes` |
+| Who supplies a grid, by neighbour and month; net imports as a share of demand | `ba_supply_monthly`, `eia930_daily_total_interchange`, `eia930_daily_interchange` |
 | How much of an event's effect on demand or price is the weather (temperature-controlled event study estimates) | `event_study_estimates` (x_spec dow_year_temp_v1 beside dow_year_mean_v1) |
 | Temperature at an airport on the days of an event or its baseline | `event_window_daily` (entity noaa:<station>), `noaa_isd_hourly` |
 | CAISO's Flex Alerts, Restricted Maintenance Operations, EEAs and stage emergencies, 1998 on (days, types, regions) | `caiso_grid_emergencies` (events; event_type flex_alert, rmo, eea1 to eea3, stage1 to stage3...) |
@@ -359,6 +396,7 @@ day-ahead tables running into tomorrow:
 | The January 2025 cold (six grids) or the June 2025 heat (four eastern grids), with the MISO, NYISO, ISO-NE and SPP hubs' prices | `event_window_daily` and `event_study_estimates` (events cold_2025, east_heat_2025) |
 | EIA-930 demand or net generation in January to June 2018 | `eia930_all_history` |
 | Battery charging and discharging by hour or day; the battery fleet by state, ISO or year | `eia930_all_storage`, `storage_daily_cycle`, `storage_capacity` |
+| What a grid battery earns from energy and ancillary services, by month, duration and strategy | `battery_stack_monthly`, `battery_stack_stress_daily` |
 | CO2 emissions of an ISO's power, and its carbon intensity (kg CO2 per MWh) | `eia930_all_emissions` (since 2018-07), `carbon_intensity_hourly` / `_daily` (last ~30 days) |
 | Day-ahead against real-time, on-peak prices, heat rates, volatility by hub | `iso_trader_daily` (market), `iso_rt_top_intervals` |
 | A hub's latest daily mean, its move, 7- and 30-day averages, peak and off-peak, spark spread, Brent minus WTI | `price_board_latest`, `price_board_peak_offpeak`, `price_board_spreads` |

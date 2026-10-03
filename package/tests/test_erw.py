@@ -61,7 +61,8 @@ EVENT_TABLES = [t for t in TABLES if _is_events(t)]
 ENTITY_TABLES = [t for t in TABLES if _is_entities(t)]
 SERIES_TABLES = [t for t in TABLES if t not in EVENT_TABLES and t not in ENTITY_TABLES]
 # session 29: ERCOT's prices are in the consolidated tables (iso_*_hub_prices, the history)
-ERCOT_DAM = sorted(t for t in ("iso_dam_hub_prices", HISTORY) if t in TABLES)
+# session 67: ercot_as_prices (session 65) is a source table of the day-ahead market too: its market is ercot_dam
+ERCOT_DAM = sorted(t for t in ("iso_dam_hub_prices", HISTORY, "ercot_as_prices") if t in TABLES)
 ERCOT_RTM = sorted(t for t in ("iso_rtm_hub_prices", HISTORY) if t in TABLES)
 MD_ROWS = coverage_md_rows()
 # Session 33: every table over 200,000 rows (the ERCOT history, eia930_all_emissions) is tested by partition
@@ -168,7 +169,8 @@ def test_filter_by_iso_market_variable_node_and_time():
     assert held(variable="spp_rtm") == ERCOT_RTM
     ercot_prices = sorted(cov.loc[has("market", lambda p: p.startswith("ercot_")), "table"])
     # session 30: two price board tables hold each ISO's main hub only (HB_HUBAVG), not every hub
-    ercot_prices = [t for t in ercot_prices if t not in ("price_board_peak_offpeak", "price_board_spreads")]
+    # session 67: ercot_as_prices holds services (ercot:REGUP, ...), not hubs
+    ercot_prices = [t for t in ercot_prices if t not in ("price_board_peak_offpeak", "price_board_spreads", "ercot_as_prices")]
     # session 29: the price tables, and the derived tables computed from them per hub (the trader view)
     derived = set(cov.loc[cov["derived"] == "yes", "table"])
     # session 45: a derived table may hold a hub or only a summary (the cost of power, the event windows): every source
@@ -179,6 +181,7 @@ def test_filter_by_iso_market_variable_node_and_time():
         assert set(ercot_prices) <= set(got) and set(got) - set(ercot_prices) <= derived
     nyc = held(iso=["ERCOT", "NYISO"], node="N.Y.C.")
     want = set(cov.loc[has("market", lambda p: p.startswith("nyiso_")), "table"])
+    want -= {"iso_all_capacity_prices"}  # session 67: its NYISO rows are capacity localities (nyiso:NYC), not the price zone N.Y.C.
     # session 65: as for ERCOT above, a derived table may hold only a summary of the hub (event_window_daily since the
     # session 64 events): every source price table must hold the zone
     assert want - derived <= set(nyc) and set(nyc) - want <= derived
@@ -187,6 +190,7 @@ def test_filter_by_iso_market_variable_node_and_time():
     # session 32: the CO2 estimates and the carbon intensity tables name each BA too
     also = {"eia930_generation_latest"} | {t for t in TABLES if t.startswith(("eia930_all_", "carbon_intensity_"))}
     also |= derived  # session 45: event_window_daily names each BA too
+    also |= {"eia930_daily_total_interchange", "eia930_event_hourly_interchange"}  # session 68: EIA's total interchange and demand name each BA
     assert set(eia_ciso) <= got and got - set(eia_ciso) <= also
     assert set(eia_ciso) <= set(held(iso="caiso"))
     spot = [t for t in ("eia_fuel_spot_prices", "eia_product_spot_prices", "fred_daily_spot_prices")
@@ -227,7 +231,9 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
                  "rggi": "Regional Greenhouse Gas Initiative",
                  "fred": "Federal Reserve Bank of St. Louis",
                  "portwatch": "International Monetary Fund",
-                 "weather": "National Weather Service"}[org]  # session 29: derived tables and weather
+                 "weather": "National Weather Service",
+                 "iso": "PJM"}[org]  # session 29: derived tables and weather; session 67: iso_all_capacity_prices (session
+    # 65) names its four publishers, PJM among them
     assert publisher in c and name in c and "Energy Research Warehouse (ERW)" in c
     commit = erw.version()["data_commit"]
     assert commit and commit[:12] in c

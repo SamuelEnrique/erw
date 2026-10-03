@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { EventStudy } from "@/components/EventStudy";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
 import { LineChart, type Line } from "@/components/LineChart";
 import { NoData } from "@/components/NoData";

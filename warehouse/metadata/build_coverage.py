@@ -172,8 +172,11 @@ SECTOR_RULES = [
     (r"^cost_of_power_(monthly|hourly_profile)$", "power"),
     (r"^cost_of_power_carbon$", "power;carbon"),
     (r"^merchant_revenue_monthly$", "power;gas"),  # session 51: the seller's side (solar, wind, batteries, peaker)
+    (r"^battery_stack_(monthly|stress_daily)$", "power"),  # session 67: the battery revenue stack (energy and ancillary)
     # session 49: interchange and the grid network; a year of hub prices; the 2018 EIA-930 baseline; station weather
     (r"^(eia930_all_interchange|grid_network_(nodes|links))$", "power"),
+    # session 68: EIA's daily total interchange of every BA, the two stories' hourly flows, who supplies a grid
+    (r"^(eia930_daily_total_interchange|eia930_event_hourly_interchange|ba_supply_monthly)$", "power"),
     (r"^iso_hub_prices_history$", "power"),
     (r"^eia930_all_history$", "power"),
     (r"^noaa_isd_hourly$", "power"),
@@ -197,9 +200,13 @@ def iso_of(table):
         return "none"
     if table.startswith("price_board_") or table.startswith("cost_of_power_") or table == "merchant_revenue_monthly":  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
+    if table in ("eia930_daily_total_interchange", "eia930_event_hourly_interchange", "ba_supply_monthly"):  # session 68: every BA EIA reports
+        return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table in ("eia930_all_interchange", "grid_network_nodes", "grid_network_links", "eia930_daily_interchange",  # session 49: every BA EIA reports
                  "lbnl_interconnection_queue", "ai_power_regions"):  # session 62: the seven ISOs (Berkeley Lab also non-ISO West and Southeast)
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table in ("battery_stack_monthly", "battery_stack_stress_daily"):  # session 67: ERCOT and CAISO (the stress days: ERCOT)
+        return "CAISO;ERCOT" if table == "battery_stack_monthly" else "ERCOT"
     if table == "iso_all_capacity_prices":  # session 65: the markets with a capacity auction (ERCOT and CAISO have none)
         return "ISO-NE;MISO;NYISO;PJM"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)

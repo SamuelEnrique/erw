@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { useState } from "react";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 

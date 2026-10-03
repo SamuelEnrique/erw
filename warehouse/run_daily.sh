@@ -249,6 +249,20 @@ run_other hub_history "$PYTHON" warehouse/connectors/hub_history.py append
 # carbon auctions (docs/methods/price_board.md). On the runner, the rows built from the ERCOT history (never restored)
 # and from CARB (a known gap there) are carried from the last run's tables, restored from the draft, and said so
 run_other price_board "$PYTHON" warehouse/derived/price_board.py
+# Session 67: the battery revenue stack (/cost-of-power/battery). The day-ahead ancillary service prices of ERCOT (its
+# yearly files and the days after them) and of CAISO (the last days; the table is restored from the draft and merged
+# into), then the stack itself, each under warehouse/health.py (a failed step is retried once and recorded in
+# erw_health). On the runner the ERCOT price history is absent: the stack rebuilds the months the rolling tables reach
+# and keeps the earlier ones from its own table, restored from the draft (docs/methods/battery_stack.md).
+run_other ercot_as_prices "$PYTHON" warehouse/health.py run --strict --step "ercot_as_prices" -- "$PYTHON" warehouse/connectors/ercot_as_prices.py
+run_other caiso_as_prices "$PYTHON" warehouse/health.py run --strict --step "caiso_as_prices" -- "$PYTHON" warehouse/connectors/caiso_as_prices.py --start "$("$PYTHON" -c "import datetime as d; print((d.datetime.now(d.timezone.utc) - d.timedelta(days=${DAYS} + 3)).date())")"
+# the capacity prices (internal) change with each auction: the first day of each month only, or any day with CAPACITY=1
+if [ "$(date -u +%d)" = "01" ] || [ "${CAPACITY:-0}" = "1" ]; then
+  run_other iso_capacity_prices "$PYTHON" warehouse/health.py run --strict --step "iso_capacity_prices" -- "$PYTHON" warehouse/connectors/iso_capacity_prices.py
+else
+  echo "iso_capacity_prices: monthly (the first day of the month, UTC); skipped today, CAPACITY=1 to force"
+fi
+run_other battery_stack "$PYTHON" warehouse/health.py run --strict --step "battery_stack" -- "$PYTHON" warehouse/derived/battery_stack.py
 
 echo "== connector status"
 cat "$status"
