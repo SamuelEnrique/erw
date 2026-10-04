@@ -1,0 +1,58 @@
+# Energy Research Warehouse (ERW): the chain watch (session 91; docs/machines.md, "Alerts").
+#
+# Every 15 minutes: is a chain of unattended sessions marked as running (the row "chain" of erw_locks, written by
+# python scripts/alert.py chain start), and has it saved anything in the last 30 minutes (a commit pushed to a wip/ or
+# task/ branch, or a beat)? If it has not, one line by email to the fixed recipients, once at 30 minutes and again
+# every hour after. The check runs here and not on the machine that runs the chain, because the usual reason a chain
+# stops saving is that its machine closed, slept or crashed.
+#
+# No chain marked: the run says so and ends. Like every scheduled job since session 61 it never fails on GitHub: its
+# step runs under warehouse/health.py, which records the outcome in erw_health. It reads git and the mark; it writes
+# nothing to the warehouse, to git or to Redivis, and takes no lock.
+name: chain watch
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: chain-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install requests
+        run: python -m pip install --quiet requests==2.32.3
+      # GitHub's own schedule and the database's dispatch (migration 022) both start this job: the second start is skipped
+      - name: Skip a duplicate start
+        id: dedupe
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python warehouse/health.py dedupe --workflow-file chain-watch.yml --minutes 15
+      - name: Has a marked chain saved anything in 30 minutes
+        if: steps.dedupe.outputs.skip != '1'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python warehouse/health.py run --step "chain watch" -- python scripts/alert.py chain check

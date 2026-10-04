@@ -18,7 +18,92 @@
       "PowerShell(npm run build)",
       "PowerShell(npm start)",
       "PowerShell(npm run check)",
-      "PowerShell(git push origin main)"
+      "PowerShell(git push origin main)",
+
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch *)",
+      "Bash(git rev-parse *)",
+      "Bash(git merge-base *)",
+      "Bash(git for-each-ref *)",
+      "Bash(git cat-file *)",
+      "Bash(git ls-files *)",
+      "Bash(git fetch *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git merge *)",
+      "Bash(git checkout *)",
+      "Bash(git switch *)",
+      "Bash(git push origin wip/*)",
+      "Bash(git push -u origin wip/*)",
+
+      "Bash(python -m unittest *)",
+      "Bash(ERW_LOCK_EXEMPT=1 python -m unittest *)",
+      "Bash(python warehouse/validate/erw_validate.py *)",
+      "Bash(python warehouse/metadata/build_coverage.py *)",
+      "Bash(python warehouse/lock.py *)",
+      "Bash(python warehouse/health.py *)",
+      "Bash(python warehouse/derived/*)",
+      "Bash(python warehouse/archive/archive.py *)",
+      "Bash(python warehouse/archive/restore.py *)",
+      "Bash(python warehouse/redivis/upload.py *)",
+      "Bash(python scripts/sync.py *)",
+      "Bash(python scripts/notify.py *)",
+      "Bash(python scripts/alert.py *)",
+      "Bash(python scripts/taskqueue.py *)",
+      "Bash(bash -n *)",
+
+      "Bash(npm ci)",
+      "Bash(npm install)",
+      "Bash(npx tsc --noEmit *)",
+      "Bash(npx next start *)",
+      "Bash(node scripts/*)",
+      "Bash(node site/scripts/*)",
+      "Bash(node --import ./scripts/alias-register.mjs scripts/*)",
+
+      "PowerShell(git status *)",
+      "PowerShell(git diff *)",
+      "PowerShell(git log *)",
+      "PowerShell(git show *)",
+      "PowerShell(git branch *)",
+      "PowerShell(git fetch *)",
+      "PowerShell(git add *)",
+      "PowerShell(git commit *)",
+      "PowerShell(git merge *)",
+      "PowerShell(git checkout *)",
+      "PowerShell(git switch *)",
+      "PowerShell(git push origin wip/*)",
+      "PowerShell(python -m unittest *)",
+      "PowerShell(python warehouse/validate/erw_validate.py *)",
+      "PowerShell(python warehouse/metadata/build_coverage.py *)",
+      "PowerShell(python warehouse/lock.py *)",
+      "PowerShell(python warehouse/derived/*)",
+      "PowerShell(python warehouse/archive/archive.py *)",
+      "PowerShell(python warehouse/redivis/upload.py *)",
+      "PowerShell(python scripts/sync.py *)",
+      "PowerShell(python scripts/notify.py *)",
+      "PowerShell(python scripts/alert.py *)",
+      "PowerShell(npx tsc --noEmit *)",
+      "PowerShell(node scripts/*)",
+      "PowerShell(node site/scripts/*)",
+
+      "Edit(/runs/**)",
+      "WebFetch(domain:erw-flame.vercel.app)",
+      "WebFetch(domain:github.com)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git push -f *)",
+      "Bash(git push * --force*)",
+      "Bash(git push * -f)",
+      "Bash(git push * -f *)",
+      "PowerShell(git push --force*)",
+      "PowerShell(git push -f *)",
+      "PowerShell(git push * --force*)",
+      "PowerShell(git push * -f)",
+      "PowerShell(git push * -f *)"
     ]
   },
   "hooks": {
@@ -29,6 +114,32 @@
             "type": "command",
             "command": "{ echo \"Available skills:\"; find -L \"$CLAUDE_PROJECT_DIR/.claude/skills\" -name SKILL.md 2>/dev/null | sort | while IFS= read -r f; do name=$(sed -n 's/^name: *//p' \"$f\" | head -1); desc=$(sed -n 's/^description: *//p' \"$f\" | head -1); printf -- '- %s: %s\\n' \"$name\" \"$desc\"; done; } | python -c \"import json, sys; print(json.dumps({'systemMessage': sys.stdin.read()}))\""
           }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          { "type": "command", "shell": "bash", "command": "python \"$CLAUDE_PROJECT_DIR/scripts/alert.py\" hook", "timeout": 45, "async": true }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          { "type": "command", "shell": "bash", "command": "python \"$CLAUDE_PROJECT_DIR/scripts/alert.py\" hook", "timeout": 45, "async": true }
+        ]
+      },
+      {
+        "matcher": "elicitation_dialog",
+        "hooks": [
+          { "type": "command", "shell": "bash", "command": "python \"$CLAUDE_PROJECT_DIR/scripts/alert.py\" hook", "timeout": 45, "async": true }
+        ]
+      },
+      {
+        "matcher": "agent_needs_input",
+        "hooks": [
+          { "type": "command", "shell": "bash", "command": "python \"$CLAUDE_PROJECT_DIR/scripts/alert.py\" hook", "timeout": 45, "async": true }
         ]
       }
     ]
