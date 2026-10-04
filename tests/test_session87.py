@@ -196,8 +196,11 @@ class Page(unittest.TestCase):
         import load
         import yaml
         with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
-            self.assertIn(so.NAME, yaml.safe_load(f)["catalogue_hold"])
-        self.assertIsNone(load.live_rule(so.NAME))
+            live = yaml.safe_load(f)
+        # session 102: loaded for Ask ERCOT and held out of the public catalogue while the page is in review
+        self.assertIn(so.NAME, live["review_hold"])
+        self.assertNotIn(so.NAME, live["catalogue_hold"])
+        self.assertEqual(load.live_rule(so.NAME), ("full", None))
 
     def test_the_pages_model(self):
         node = shutil.which("node")

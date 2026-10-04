@@ -240,7 +240,8 @@ def main(argv=None):
         f"Window: {vintage}. Past requests entered from {PAST_FROM} to {last_year - PAST_LAG}. A share is written when at least {MIN_SHARE} past requests are "
         f"counted, a median when at least {MIN_MEDIAN} requests are dated.",
         f"Retrieved: {run_id} (UTC) by warehouse/derived/queue_summary.py", f"Run log: warehouse/output/logs/queue_summary_{run_id}.log",
-        f"Derived from: {INPUT} (retrieved {input_retrieved}); read by this run from {os.path.relpath(path, ROOT).replace(os.sep, '/')}",
+        f"Derived from: {INPUT}",   # table names only: build_coverage.py reads this line (session 102)
+        f"Input: {INPUT} retrieved {input_retrieved}, read by this run from {os.path.relpath(path, ROOT).replace(os.sep, '/')}",
         f"Source: {SOURCE} from lbnl:queued_up, Lawrence Berkeley National Laboratory and GridTracker, Queued Up: 2026 Edition data file, "
         "https://eta-publications.lbl.gov/publications/queued-2026-edition-characteristics",
         f"License: {LICENSE} A derived table inherits the license of its input: attribute Lawrence Berkeley National Laboratory and GridTracker.",

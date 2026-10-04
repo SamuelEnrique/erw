@@ -185,6 +185,13 @@ SECTOR_RULES = [
     (r"^eia930_all_history$", "power"),
     (r"^noaa_isd_hourly$", "power"),
     (r"^rrc_lease_production_monthly$", "oil;gas"),
+    # session 102: the tables of sessions 94 to 100, which could not be put in coverage during the freeze
+    (r"^generation_mix_(hourly_profile|records)$", "power;carbon"),  # session 94: the energy mix by hour and its records
+    (r"^interconnection_queue_summary$", "power"),  # session 95: the queue by grid and technology
+    (r"^hub_price_comparison$", "power;carbon"),  # session 96: where power is cheap (price, spread and carbon intensity)
+    (r"^caiso_curtailment_(intervals|profile)$", "power"),  # session 98: CAISO curtailment by interval, and its profile
+    (r"^ferc_eqr_(buyer_names|buyer_doubtful|party_totals)$", "power"),  # session 99: who is buying (internal)
+    (r"^spp_as_quantities$", "power"),  # session 100: SPP reserve MW cleared day-ahead
 ]
 
 

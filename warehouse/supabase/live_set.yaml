@@ -75,6 +75,22 @@ full:
   # session 68: who supplies a grid; the page reads the last twelve months, so only the last 430 days are loaded (select,
   # below): about 30,000 of its 158,000 rows. Redivis and the CSV hold every month from 2019
   - '^ba_supply_monthly$'
+  # session 102 (for session 92's Ask ERCOT, in review): the ERCOT tables the site's database lacked. The hub price
+  # history is 3,063,570 rows and the reserve prices 336,092: loaded whole, as Samuel's chain prompt of 4 October says
+  # (the history only if the database stays under 2 GB). Berkeley Lab's national queue file, which session 62 kept out
+  # for its size, is loaded for the same page (38,201 entities)
+  - '^ercot_all_hub_prices_history$'
+  - '^ercot_as_prices$'
+  - '^lbnl_interconnection_queue$'
+  - '^merchant_revenue_monthly$'
+  # session 102: the tables the review pages of sessions 87 and 94 to 98 are built on, loaded and named under review_hold
+  # below, so they are in Supabase for the internal view and for Ask, and in no count a visitor sees
+  - '^storage_owners_monthly$'
+  - '^generation_mix_(hourly_profile|records)$'
+  - '^interconnection_queue_summary$'
+  - '^hub_price_comparison$'
+  - '^eia930_demand_growth$'
+  - '^caiso_curtailment_profile$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -138,8 +154,25 @@ catalogue_hold:
   - spp_as_prices
   # session 86: the battery model on NYISO and SPP, in review; the page reads site/data/battery_stack_review.json
   - battery_stack_review_monthly
-  # session 87: battery storage by reporting company; the review page reads site/data/storage_owners.json
-  - storage_owners_monthly
+  # session 102: the two pulls of sessions 98 and 100 that no page reads from Supabase (the curtailment page reads the
+  # profile built from the intervals; the battery review page reads its own file). In coverage, the archive and the
+  # Redivis draft; not loaded, not in the live catalogue
+  - caiso_curtailment_intervals
+  - spp_as_quantities
+
+# Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
+# the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
+# catalogue reader (site/lib/data.ts) leaves such rows out, so the home page's counts of public tables and rows and
+# the Data page do not hear of them, while the question-answering tools (site/lib/chat/tools.ts) read them. Each needs
+# a live-set rule above. To open one: take its name off this list; the next load writes "yes".
+review_hold:
+  - storage_owners_monthly             # session 87 (/storage/owners) and session 92 (Ask ERCOT); was under catalogue_hold
+  - generation_mix_hourly_profile      # session 94, /mix/v2
+  - generation_mix_records
+  - interconnection_queue_summary      # session 95, /queues
+  - hub_price_comparison               # session 96, /prices/compare
+  - eia930_demand_growth               # session 97, /demand
+  - caiso_curtailment_profile          # session 98, /curtailment/v2
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

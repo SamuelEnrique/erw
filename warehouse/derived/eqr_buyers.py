@@ -280,7 +280,8 @@ def main(argv=None):
             ip._require_lock(target, f"rebuilding {name}")
             os.remove(target)  # rebuilt whole from the quarter's file each run
     tail = [f"Retrieved: {run_id} (UTC) by warehouse/derived/eqr_buyers.py", f"Run log: warehouse/output/logs/eqr_buyers_{run_id}.log",
-            f"Derived from: {INPUT} ({quarter}); read by this run from {os.path.relpath(path, ROOT).replace(os.sep, '/')}",
+            f"Derived from: {INPUT}",   # table names only: build_coverage.py reads this line (session 102)
+            f"Input: {INPUT} of {quarter}, read by this run from {os.path.relpath(path, ROOT).replace(os.sep, '/')}",
             f"Source: {SOURCE} from ferc:eqr, Federal Energy Regulatory Commission, Electric Quarterly Reports, {quarter}",
             "License: internal. A derived table inherits the license of its input: ferc_eqr_contracts is internal (session 83's ruling). Not in git, not public."]
     ip.write_csv(names, NAMES, [

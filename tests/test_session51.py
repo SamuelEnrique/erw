@@ -199,8 +199,11 @@ class Snapshot(unittest.TestCase):
 
 class Rules(unittest.TestCase):
     def test_never_in_supabase(self):
+        # Session 51 loaded nothing. Session 102 loads the table whole for Ask ERCOT (in review), on Samuel's instruction
+        # of 4 October 2026: one rule, and no other mention of the table in the live set
         live = src("warehouse", "supabase", "live_set.yaml")
-        self.assertNotIn("merchant", live)
+        self.assertEqual(live.count("merchant"), 1)
+        self.assertIn("  - '^merchant_revenue_monthly$'", live)
 
     def test_units(self):
         v = src("warehouse", "validate", "erw_validate.py")

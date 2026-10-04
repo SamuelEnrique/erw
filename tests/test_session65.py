@@ -603,7 +603,8 @@ class Registered(unittest.TestCase):
     def test_the_capacity_table_is_internal_and_not_live(self):
         import load
         self.assertIsNone(load.live_rule(cap.NAME))
-        self.assertIsNone(load.live_rule(ercot.NAME))
+        # session 102: ERCOT's reserve prices (public) are loaded whole for Ask ERCOT, on Samuel's instruction of 4 October 2026
+        self.assertEqual(load.live_rule(ercot.NAME), ("full", None))
         self.assertIsNone(load.live_rule(caiso.NAME))
 
 

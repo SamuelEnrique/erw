@@ -63,12 +63,9 @@ class TheLadder(unittest.TestCase):
         self.assertIn("analysis_internal", code)
         self.assertNotIn("ip.write_csv", code)
         self.assertNotIn("requests", code)
-        base = "origin/wip/100-reserves"                                                     # the chain's branch before this session
-        if subprocess.run(["git", "rev-parse", "--verify", "--quiet", base], cwd=ROOT, capture_output=True).returncode != 0:
-            self.skipTest(f"{base} is not on this machine")
-        r = subprocess.run(["git", "diff", "--stat", base, "--", "site", "warehouse/derived", "warehouse/connectors", "docs/methods/battery_stack.md"],
-                           cwd=ROOT, capture_output=True, text=True)
-        self.assertEqual(r.stdout.strip(), "")                                               # the site, the model and the page's method note are as they were
+        # Session 101 changed no page: it compared its branch with origin/wip/100-reserves here. Session 102 landed the
+        # chain and, on Samuel's instruction, put the recommended wording on the page (tests/test_session102.py), so that
+        # comparison is no longer true by design and is not made; the two checks above still hold the analysis to its files.
 
 
 class TheResult(unittest.TestCase):

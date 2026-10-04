@@ -144,6 +144,15 @@ def hold(cov, plan, held=None):
             sorted(held & set(cov["table"])))
 
 
+def live_flag(table, live_names, review=None):
+    """Session 102: what the catalogue says of a table: "yes" loaded, "no" not loaded, "review" loaded for a page in
+    review and held out of the public catalogue (live_set.yaml, review_hold)."""
+    review = set(LIVE.get("review_hold") or [] if review is None else review)
+    if table not in live_names:
+        return "no"
+    return "review" if table in review else "yes"
+
+
 def coverage_stale(cov, names, out=None):
     """Session 65: the tables whose coverage row no longer describes the file on this machine, as (table, reason).
 
@@ -639,7 +648,9 @@ def main(argv=None):
         if r["table"] not in on_disk:
             cat_absent.append(row)  # coverage fields only; in_live_set, columns, rows_sha256 kept
             continue
-        row["in_live_set"] = "yes" if r["table"] in live_names else "no"
+        # session 102: a table under review_hold is loaded, and its catalogue row says "review", which the site's
+        # catalogue reader leaves out of every count a visitor sees (site/lib/data.ts)
+        row["in_live_set"] = live_flag(r["table"], live_names)
         # the table's own columns, in CSV order (migration 003), so a reader returns exactly them
         row["columns"] = json.dumps(list(selected[r["table"]][0].columns)) if r["table"] in live_names else None
         row["rows_sha256"] = hashes.get(r["table"])  # null after a failed load, so the next run retries

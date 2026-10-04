@@ -92,7 +92,8 @@ async function tableInfo(name: string, scope: Scope = null) {
   const c = (await catalogue()).find((r) => r.table_name === name);
   if (!c) throw new ToolError(`no public table named ${JSON.stringify(name)}; call list_tables for the table names`);
   if (scope && !scope.tables.includes(name)) throw new ToolError(`${name} does not carry ${scope.iso}; this chat reads only ${scope.iso}'s tables (list_tables)`);
-  if (c.in_live_set !== "yes") throw new ToolError(`table ${name} is not in this site's live set; its full history is on Redivis`);
+  // session 102: "review" is a table loaded for a page in review (live_set.yaml, review_hold); Ask is in review too
+  if (c.in_live_set !== "yes" && c.in_live_set !== "review") throw new ToolError(`table ${name} is not in this site's live set; its full history is on Redivis`);
   const columns: string[] = c.columns ? JSON.parse(c.columns) : [];
   const shape: Shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
   return { c, columns, shape };
