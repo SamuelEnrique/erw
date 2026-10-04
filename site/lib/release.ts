@@ -40,6 +40,7 @@ export const RELEASE: Record<string, Status> = {
   "/grid": "review",
   "/mix": "review",
   "/prices/compare": "review",  // session 96: where power is cheap (hub and zone prices compared)
+  "/demand": "review",  // session 97: the demand growth explorer
   "/queues": "review",  // session 95: the interconnection queue explorer
   "/mix/v2": "review",  // session 94: the energy mix, version 2 (any grid, any month or year, two grids side by side, the records)
   "/curtailment": "review",
