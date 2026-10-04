@@ -165,7 +165,7 @@ SECTOR_RULES = [
     (r"^news_scores_shadow$", "news"),
     (r"^api_cost_ledger$", "platform"),
     # session 31: battery storage (EIA-930 BAT, its daily cycle, the EIA-860M battery units)
-    (r"^storage_(daily_cycle|capacity|buildout_monthly)$", "power"),  # session 72: the build-out (session 69)
+    (r"^storage_(daily_cycle|capacity|buildout_monthly|owners_monthly)$", "power"),  # session 72: the build-out (session 69); session 87: the owners
     (r"^shoulder_hours_monthly$", "power"),  # session 75: the shoulder hours
     # session 32: carbon intensity per BA (derived from the EIA-930 CO2 estimates)
     (r"^carbon_intensity_(hourly|daily|monthly)$", "power;carbon"),  # session 34: monthly
@@ -204,7 +204,7 @@ def iso_of(table):
         return "none"
     if table == "shoulder_hours_monthly":  # session 75
         return "CAISO;ERCOT"
-    if table == "storage_buildout_monthly":  # session 72 (session 69): the seven grids, and the US outside them
+    if table in ("storage_buildout_monthly", "storage_owners_monthly"):  # session 72 (session 69): the seven grids, and the US outside them; session 87
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table.startswith("price_board_") or table.startswith("cost_of_power_") or table == "merchant_revenue_monthly":  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"

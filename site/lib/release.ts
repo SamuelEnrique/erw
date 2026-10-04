@@ -19,6 +19,7 @@ export const RELEASE: Record<string, Status> = {
   "/network": "live",
   "/storage": "live",
   "/storage/buildout": "review",
+  "/storage/owners": "review",  // session 87: without its own line it would take /storage's status
   "/contracts": "review",  // session 83: an internal table; it stays behind the internal view
   "/shoulder": "review",  // session 75  // session 72: without its own line it would take /storage's status
   "/about": "live",

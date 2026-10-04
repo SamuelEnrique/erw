@@ -114,5 +114,6 @@ state_generation_mix_monthly,state,,53,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00
 storage_buildout_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,9,P1M,2015-01-01T00:00:00Z,2026-08-01T00:00:00Z,21229,erw:storage_buildout,,pass,public,power,no,source
 storage_capacity,none,,1627,snapshot,2026-10-01T23:54:03Z,2026-10-01T23:54:03Z,1627,erw:storage_capacity,2026-09-29T23:58:50Z,pass,public,power,no,derived
 storage_daily_cycle,CAISO;ERCOT;ISO-NE;MISO;SPP;US48,,6,P1D,2024-11-01T00:00:00Z,2026-10-02T00:00:00Z,14005,erw:storage_daily_cycle;erw:storage_daily_cycle_caiso,2026-10-03T14:28:06Z,pass,public,power,yes,derived
+storage_owners_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,948,P1M,2026-08-01T00:00:00Z,2026-08-01T00:00:00Z,9540,erw:storage_owners,2026-10-04T04:46:36Z,pass,public,power,yes,derived
 weather_forecast_hourly,weather,,7,PT1H,2026-09-28T09:00:00Z,2026-10-10T01:00:00Z,3894,nws:forecast_hourly,2026-10-03T14:18:40Z,pass,public,power,no,source
 weather_obs_hourly,weather,,7,PT1H,2026-09-21T09:00:00Z,2026-10-03T13:00:00Z,4081,nws:observations,2026-10-03T14:18:40Z,pass,public,power,no,source
