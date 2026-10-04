@@ -133,7 +133,9 @@ def hook_line(event, machine=None, chain=None):
     if kind is None:
         return None
     session = str(event.get("session_id") or "")[:8] or "unknown"
-    where = os.path.basename(str(event.get("cwd") or "").rstrip("/\\")) or "an unknown folder"
+    # the folder's own name, whichever machine wrote the path: a Windows path read on Linux has no "/" to split at
+    # (session 102: the test of this line failed on GitHub's runner, where os.path.basename left the path whole)
+    where = str(event.get("cwd") or "").replace("\\", "/").rstrip("/").split("/")[-1] or "an unknown folder"
     said = one_line(event.get("message") or event.get("title") or "", 140)
     line = (f"A Claude Code session waits for {WAITS[kind]} on {machine or socket.gethostname()} (session {session}, in {where})"
             + (f", in the chain \"{chain}\"" if chain else "") + (f": {said}" if said else "."))
