@@ -56,6 +56,7 @@ export const RELEASE: Record<string, Status> = {
   "/grid/miso": "review",
   "/grid/spp": "review",
   "/map": "review",
+  "/map/v2": "review",  // session 105: the project map, version 2 (EIA-860M's operating and planned units, with the queue beside it)
   "/datacenters": "review",
   "/companies": "review",
   "/policy": "review",
