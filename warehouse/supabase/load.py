@@ -220,12 +220,57 @@ def eqr_summary(df):
         return [{key: r[key], "rows": int(r["rows"]), **({"priced": int(r["priced"])} if with_priced else {})}
                 for r in t.to_dict("records")]
     most = lambda rows, key: sorted(rows, key=lambda r: (-r["rows"], r[key]))
-    return {
+    out = {
         "rows": int(len(df)), "priced": int(priced.sum()),
         "first": day.min() if len(df) else None, "last": day.max() if len(df) else None,
         "quarters": sorted(q for q in col("x_quarter").unique() if q != ""),
         "by_month": by("month"), "by_product": most(by("product"), "product"), "by_ba": most(by("ba", False), "ba"),
     }
+    largest = eqr_largest()
+    if largest:
+        out["largest"] = largest  # session 99: the largest buyers and sellers, from the whole quarter's file
+    return out
+
+
+EQR_TOP = 25
+
+
+def eqr_largest(top=EQR_TOP, out_dir=None):
+    """Session 99: the largest buyers and sellers of energy, capacity and tolling for /contracts?view=largest, from
+    ferc_eqr_party_totals (warehouse/derived/eqr_buyers.py: the whole quarter's file, contracts in force, buyers by their
+    name after the rules, sellers by FERC's company identifier): the first `top` of each role and product, how many
+    parties each list holds, and the counts of the name rules. None when the tables are not on this machine. Internal,
+    like the table they come from: it goes only into the stored summary, which answers only with the internal token."""
+    d = out_dir or OUT
+    paths = {n: os.path.join(d, n + ".csv") for n in ("ferc_eqr_party_totals", "ferc_eqr_buyer_names", "ferc_eqr_buyer_doubtful")}
+    if not all(os.path.exists(p) for p in paths.values()):
+        return None
+
+    def table(path):
+        with open(path, encoding="utf-8") as f:
+            n = 0
+            for line in f:
+                if not line.startswith("#"):
+                    break
+                n += 1
+        return pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False, na_values=[])
+    t, names, pairs = table(paths["ferc_eqr_party_totals"]), table(paths["ferc_eqr_buyer_names"]), table(paths["ferc_eqr_buyer_doubtful"])
+    lists = {}
+    for role in ("buyer", "seller"):
+        lists[role] = {}
+        for product in ("energy", "capacity", "tolling"):
+            g = t[(t["x_role"] == role) & (t["x_product"] == product)].copy()
+            g["rank"] = g["x_rank"].astype(int)
+            g = g.sort_values("rank")
+            lists[role][product] = {
+                "parties": int(len(g)), "contracts": int(g["x_contracts"].astype(int).sum()), "rows": int(g["x_rows"].astype(int).sum()),
+                "top": [{"rank": int(r.rank), "name": r.name, "contracts": int(r.x_contracts), "rows": int(r.x_rows), "counterparties": int(r.x_counterparties),
+                         "mw_filed": float(r.x_mw_filed), "rows_with_mw": int(r.x_rows_with_mw)} for r in g.head(top).itertuples()],
+            }
+    return {"quarter": t["x_quarter"].iloc[0] if len(t) else None, "top": top,
+            "names": {"filed": int(len(names)), "after_rules": int(names["x_key"].nunique()), "merged_groups": int(names[names["x_merged"] == "yes"]["x_key"].nunique()),
+                      "merged_names": int((names["x_merged"] == "yes").sum()), "doubtful_pairs": int(len(pairs))},
+            "lists": lists}
 
 
 def filtered(name, days, now):
