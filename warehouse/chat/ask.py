@@ -176,6 +176,38 @@ def cost_usd(model, usage):
 
 
 class Asker:
+    # Session 92: what a profile of the loop may replace (warehouse/chat/ercot.py is the first). The defaults are the
+    # general chat's, unchanged: the same schema, tools and effort, no extra check, nothing added to the record.
+    schema = ANSWER_SCHEMA
+    effort = EFFORT
+    retry = RETRY
+
+    def tool_list(self):
+        return tools.TOOLS
+
+    def opening(self, question, today, context=None):
+        """The first message. `context` is the view a reader opened the chat from (only a profile uses it)."""
+        return f"Today is {today} (UTC).\n\nQuestion: {question}"
+
+    def tag(self, name, args, out, n):
+        """Called with every tool result before the model sees it; a profile may mark it (a result id)."""
+        return out
+
+    def extra_problems(self, draft, results):
+        """Further reasons to send a draft back, as text for the retry message."""
+        return []
+
+    def extra_sources(self, context):
+        """Texts whose numbers count as given, beside the question and the tool results."""
+        return []
+
+    def finish(self, record, results):
+        """Called once with the final record; a profile adds to it (the series behind a chart)."""
+
+    def source_texts(self, name, args, out):
+        """Further texts of one tool call whose numbers count as fetched (a profile spells out the names it asked by)."""
+        return []
+
     def __init__(self, model=None, client=None, grid=None):
         self.client = client or llm.client(os.environ.get("ERW_STEP") or ("chat_grid" if grid else "chat"), api_key=api_key())
         self.model = model or pick_model(self.client)
@@ -190,19 +222,20 @@ class Asker:
         return self.client.messages.create(
             model=self.model, max_tokens=MAX_TOKENS,
             system=self.system,
-            tools=tools.TOOLS,
+            tools=self.tool_list(),
             tool_choice={"type": "auto"} if allow_tools else {"type": "none"},
-            output_config={"effort": EFFORT, "format": {"type": "json_schema", "schema": ANSWER_SCHEMA}},
+            output_config={"effort": self.effort, "format": {"type": "json_schema", "schema": self.schema}},
             # session 30 (B2): automatic caching of the growing conversation (tool results), after the system's own
             cache_control={"type": "ephemeral"},
             messages=messages)
 
-    def ask(self, question, today=None):
+    def ask(self, question, today=None, context=None):
         t0 = time.time()
         today = today or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
-        messages = [{"role": "user", "content": f"Today is {today} (UTC).\n\nQuestion: {question}"}]
+        messages = [{"role": "user", "content": self.opening(question, today, context)}]
         usage = {"input": 0, "output": 0, "cache_write": 0, "cache_read": 0, "requests": 0}
-        calls, sources, tables_read = [], [question], set()
+        calls, sources, tables_read = [], [question] + self.extra_sources(context), set()
+        results = []  # session 92: every tool result, in order, for a profile's checks and its record
         record = {"question": question, "grid": self.grid, "model": self.model, "today": today, "retried": False,
                   "first_violations": [], "request_ids": []}
         final, attempts = None, 0
@@ -217,7 +250,7 @@ class Asker:
             record["request_ids"].append(resp._request_id)
             messages.append({"role": "assistant", "content": resp.content})
             if resp.stop_reason == "tool_use":
-                results = []
+                answers = []
                 for b in resp.content:
                     if b.type != "tool_use":
                         continue
@@ -225,10 +258,12 @@ class Asker:
                         out, err = {"error": f"tool call limit ({MAX_TOOL_CALLS}) reached; answer now"}, True
                     else:
                         out, err = tools.run(b.name, b.input)
+                        out = self.tag(b.name, b.input, out, len(calls) + 1)
+                        results.append({"tool": b.name, "input": b.input, "out": out, "is_error": err})
                         text = json.dumps(out, default=str)
                         calls.append({"tool": b.name, "input": b.input, "is_error": err,
                                       "result_chars": len(text)})
-                        sources += [text, json.dumps(b.input)]
+                        sources += [text, json.dumps(b.input)] + self.source_texts(b.name, b.input, out)
                         for key in ("table",):
                             if isinstance(out, dict) and out.get(key):
                                 tables_read.add(out[key])
@@ -238,9 +273,9 @@ class Asker:
                                     tables_read.add(out[sub]["table"])
                             if b.name == "list_tables":
                                 tables_read.update(r["table"] for r in out.get("tables", []))
-                    results.append({"type": "tool_result", "tool_use_id": b.id,
+                    answers.append({"type": "tool_result", "tool_use_id": b.id,
                                     "content": json.dumps(out, default=str), "is_error": err})
-                messages.append({"role": "user", "content": results})
+                messages.append({"role": "user", "content": answers})
                 continue
             if resp.stop_reason == "refusal":
                 final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
@@ -259,7 +294,8 @@ class Asker:
             # session 35: an answer that is empty, or cites nothing, is not an answer (the grid check's CAISO question
             # came back empty and uncited after eight tool calls, and passed); "not in the warehouse" needs no citation
             no_cite = not draft.get("not_in_warehouse") and (not cited or not draft["answer"].strip())
-            if not bad and not uncited_tables and not no_cite:
+            more = self.extra_problems(draft, results)
+            if not bad and not uncited_tables and not no_cite and not more:
                 final = draft
                 record["status"] = "not_in_warehouse" if draft.get("not_in_warehouse") else "answered"
                 break
@@ -267,7 +303,7 @@ class Asker:
             if attempts == 1:
                 record["retried"] = True
                 record["first_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables] \
-                    + (["empty or uncited answer"] if no_cite else [])
+                    + (["empty or uncited answer"] if no_cite else []) + more
                 record["first_answer"] = draft["answer"]
                 problems = []
                 if bad:
@@ -276,11 +312,12 @@ class Asker:
                     problems.append("cited tables no tool read: " + ", ".join(uncited_tables))
                 if no_cite:
                     problems.append("an empty answer, or no citations")
-                messages.append({"role": "user", "content": RETRY.format(problems="; ".join(problems))})
+                problems += more
+                messages.append({"role": "user", "content": self.retry.format(problems="; ".join(problems))})
                 continue
             final = {"answer": REFUSAL, "citations": [], "not_in_warehouse": False}
             record["status"] = "refused_unverified"
-            record["second_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables]
+            record["second_violations"] = bad + [f"cited table not read: {t}" for t in uncited_tables] + more
             record["second_answer"] = draft["answer"]
             break
         # session 28: each citation's tier is the warehouse's, whatever the model copied
@@ -294,6 +331,7 @@ class Asker:
                 record[k] = nodash(record[k])
         record.update({"tool_calls": len(calls), "calls": calls, "usage": usage,
                        "cost_usd": cost_usd(self.model, usage), "seconds": round(time.time() - t0, 1)})
+        self.finish(record, results)
         return record
 
 

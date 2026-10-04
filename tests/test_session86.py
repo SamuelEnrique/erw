@@ -98,9 +98,12 @@ class Grids(unittest.TestCase):
                     assumed = source.startswith(("assumed", "not verified"))
                     self.assertTrue(cited or assumed, (iso, p["key"], source))
                     self.assertGreater(hours, 0)
-        for iso, m in bs.REVIEW_MARKETS.items():                           # nothing could be verified for the two: all assumed, one hour
+        # session 86 assumed one hour for both; session 100 read the operators' documents and session 102 carried the rules
+        # here: every product is still one hour, SPP's four and NYISO's spinning reserve cited, NYISO's regulation assumed
+        for iso, m in bs.REVIEW_MARKETS.items():
             for p in m["products"]:
-                self.assertEqual([(h, s.startswith("assumed in session 86: one hour")) for _, h, s in p["hours"]], [(1.0, True)], (iso, p["key"]))
+                assumed = (iso, p["key"]) == ("nyiso", "reg")
+                self.assertEqual([(h, s.startswith("assumed: one hour"), "http" in s) for _, h, s in p["hours"]], [(1.0, assumed, not assumed)], (iso, p["key"]))
         self.assertEqual([p["up"] for p in bs.REVIEW_MARKETS["nyiso"]["products"]], ["both", True])
         self.assertEqual([p["key"] for p in bs.REVIEW_MARKETS["spp"]["products"]], ["regup", "regdn", "spin", "supp"])   # no ramp, no uncertainty product
 
@@ -198,7 +201,7 @@ console.log(JSON.stringify({
         self.assertEqual(d["internal"], ["ercot", "caiso", "nyiso", "spp", "ercot", "ercot", "ercot"])     # nor can the internal view open a held grid
         self.assertEqual(d["key"], ["ercot", "nyiso"])
         self.assertEqual(d["products"], {"nyiso": ["reg", "spin"], "spp": ["regup", "regdn", "spin", "supp"]})
-        self.assertEqual(d["assumed"], [[True, "1 hour"], [True, "1 hour"]])
+        self.assertEqual(d["assumed"], [[False, "1 hour"], [True, "1 hour"], [False, "60 minutes"]])   # session 102: session 100's verified rules; NYISO's regulation stays assumed
         self.assertGreater(d["cited"], 0)
         self.assertEqual((d["table"], d["entity"]), ("battery_stack_review_monthly", ["nyiso:N.Y.C.", "spp:SPPNORTH_HUB"]))
 

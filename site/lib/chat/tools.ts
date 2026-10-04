@@ -13,7 +13,9 @@ import { DOCS, type GridConfig } from "@/lib/markdown";
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
-export type Scope = GridConfig | null;
+// Session 92: a profile's scope (lib/chat/ercot.ts) also names each table's rows outright (filters: {table: {column:
+// value or values}}, as warehouse/chat/tools.py scope_rows) and may raise the rows one grouped result returns.
+export type Scope = (GridConfig & { filters?: Record<string, Record<string, string | string[]>>; max_groups?: number; dated_groups?: boolean }) | null;
 export const scopeOf = (slug: string | null | undefined): Scope => (slug ? DOCS.grid_config.find((g) => g.slug === slug) ?? null : null);
 const BA_TABLES = new Set(["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "eia930_all_interchange",
   "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle"]);
@@ -21,6 +23,16 @@ const BA_TABLES = new Set(["eia930_all_demand", "eia930_all_generation", "eia930
 /** The PostgREST filters that keep a table's rows of the scoped grid. */
 function scopeFilter(scope: Scope, name: string, shape: Shape, columns: string[]): Record<string, string> {
   if (!scope) return {};
+  const f = scope.filters?.[name];
+  if (f) {
+    // a series table keeps only its standard columns in Supabase: a filter on another column cannot be applied here
+    const out: Record<string, string> = {};
+    for (const [col, val] of Object.entries(f)) {
+      if (shape === "series" && !SHAPE_COLS.series.includes(col)) throw new ToolError(`${name} cannot be read for ${scope.iso} alone on this site: its column ${col} is not in the site's copy`);
+      out[colRef(shape, col)] = `in.(${(Array.isArray(val) ? val : [val]).map((v) => quote(v)).join(",")})`;
+    }
+    return out;
+  }
   if (shape === "series" && BA_TABLES.has(name)) return { ba: `eq.${scope.ba}` };
   if (name === "storage_capacity") return { "extra->>iso": `eq.${scope.iso}` };
   if (name === "energy_projects") return { entity_id: `like.${(scope.queue_table ?? "none").replace(/_interconnection_queue$/, "_queue")}:*` };
@@ -80,7 +92,8 @@ async function tableInfo(name: string, scope: Scope = null) {
   const c = (await catalogue()).find((r) => r.table_name === name);
   if (!c) throw new ToolError(`no public table named ${JSON.stringify(name)}; call list_tables for the table names`);
   if (scope && !scope.tables.includes(name)) throw new ToolError(`${name} does not carry ${scope.iso}; this chat reads only ${scope.iso}'s tables (list_tables)`);
-  if (c.in_live_set !== "yes") throw new ToolError(`table ${name} is not in this site's live set; its full history is on Redivis`);
+  // session 102: "review" is a table loaded for a page in review (live_set.yaml, review_hold); Ask is in review too
+  if (c.in_live_set !== "yes" && c.in_live_set !== "review") throw new ToolError(`table ${name} is not in this site's live set; its full history is on Redivis`);
   const columns: string[] = c.columns ? JSON.parse(c.columns) : [];
   const shape: Shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
   return { c, columns, shape };
@@ -400,15 +413,17 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   } else {
     const groups = new Map<string, Row[]>();
     for (const r of rows) {
-      const k = TIME_GROUPS.includes(g) ? (r.t ? tzKey(r.t, tz, g) : null) : r.g;
+      // session 92, as tools.py under a scope that asks for it: rows of a day or longer are grouped by their own label
+      const k = TIME_GROUPS.includes(g) ? (r.t ? tzKey(r.t, dated && scope?.dated_groups ? "UTC" : tz, g) : null) : r.g;
       if (k === null) continue;
       if (!groups.has(k)) groups.set(k, []);
       groups.get(k)!.push(r);
     }
     const res = Array.from(groups.keys()).sort().map((k) => ({ [g]: k, ...aggregate(groups.get(k)!, a.aggregation, a.percentile, shape) }));
     out.n_groups = res.length;
-    if (res.length > MAX_GROUPS) out.result_note = `${res.length} groups; the first ${MAX_GROUPS} (sorted by ${g}) are shown`;
-    out.result = res.slice(0, MAX_GROUPS);
+    const cap = scope?.max_groups ?? MAX_GROUPS; // session 92: a profile may show a month per row since 2018
+    if (res.length > cap) out.result_note = `${res.length} groups; the first ${cap} (sorted by ${g}) are shown`;
+    out.result = res.slice(0, cap);
   }
   Object.assign(out, await provenance(a.table));
   return out;

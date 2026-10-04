@@ -8,6 +8,7 @@
 import { NextResponse } from "next/server";
 import { ask } from "@/lib/chat/ask";
 import { scopeOf } from "@/lib/chat/tools";
+import { cleanContext, ercotProfile } from "@/lib/chat/ercot";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -36,9 +37,9 @@ function allow(ip: string, now: number): { ok: boolean; retryAfter: number } {
 }
 
 export async function POST(req: Request) {
-  let question: unknown, grid: unknown;
+  let question: unknown, grid: unknown, profile: unknown, context: unknown;
   try {
-    ({ question, grid } = (await req.json()) as { question?: unknown; grid?: unknown });
+    ({ question, grid, profile, context } = (await req.json()) as { question?: unknown; grid?: unknown; profile?: unknown; context?: unknown });
   } catch {
     return NextResponse.json({ error: "send JSON: {\"question\": \"...\"}" }, { status: 400 });
   }
@@ -48,6 +49,10 @@ export async function POST(req: Request) {
   // session 35: a grid page's scoped chat (/ask?grid=<slug>)
   if (grid !== undefined && grid !== null && grid !== "" && (typeof grid !== "string" || !scopeOf(grid))) {
     return NextResponse.json({ error: "unknown grid" }, { status: 400 });
+  }
+  // session 92: Ask ERCOT, the reference version (/ask/ercot): {profile: "ercot", context: the view the reader came from}
+  if (profile !== undefined && profile !== null && profile !== "" && profile !== "ercot") {
+    return NextResponse.json({ error: "unknown profile" }, { status: 400 });
   }
   if (question.length > MAX_QUESTION) {
     return NextResponse.json({ error: `a question is at most ${MAX_QUESTION} characters` }, { status: 400 });
@@ -61,10 +66,12 @@ export async function POST(req: Request) {
     );
   }
   try {
-    const r = await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null);
+    const r = profile === "ercot"
+      ? await ask(question.trim(), undefined, null, ercotProfile(), cleanContext(context))
+      : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null);
     // session 21 (/terms): each question is logged without identity: the time, the question and the
     // outcome, never the IP address (which lives only in memory, for the hourly limit) or any other identifier
-    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || null, question: question.trim(), status: (r as { status?: string }).status ?? "answered" } }));
+    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: question.trim(), status: (r as { status?: string }).status ?? "answered" } }));
     return NextResponse.json(r);
   } catch (e) {
     console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), question: question.trim(), status: "error" } }));

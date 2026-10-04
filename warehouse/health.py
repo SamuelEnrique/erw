@@ -37,6 +37,7 @@ SKIP = 75
 TABLE = "erw_health"
 EXPECTED = {  # runs a day, as migration 015 schedules them (the weekly jobs on Sundays)
     "latest prices": 96, "hourly network": 23, "daily prices": 1, "energy roundup": 0, "weekly vacuum": 0,
+    "chain watch": 96,  # session 91: every 15 minutes, whether or not a chain is marked (migration 022)
 }
 
 

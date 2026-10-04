@@ -196,3 +196,94 @@ its own branch. A data task's commits are on `main`; the data lock expires on it
 Windows: `scripts\setup.ps1 -Worker` registers a Task Scheduler task "ERW worker" that runs `scripts\worker.ps1` at logon,
 restarting it if it stops. macOS: a LaunchAgent running `scripts/worker.sh` with `KeepAlive`. Linux: a systemd user
 service with `Restart=always`. Stop it from the same place.
+
+## Alerts: when an unattended session needs a person (session 91)
+
+A night's chain of sessions can stand still with nobody told in two ways: a session waits for input or for a permission,
+or the chain stops saving (the laptop closed, a crash, a usage limit, a command that hangs). Each now sends one line by
+email, through the sender the digest and `scripts/notify.py` use (Resend), to the fixed recipients only
+(`DIGEST_RECIPIENTS`), never to a subscriber. One script does both: `scripts/alert.py`. It needs only Python's standard
+library and the keys in `.env`.
+
+### A session waits: the Notification hook
+
+Claude Code runs the hooks named in `.claude/settings.json`. Its `Notification` event fires when Claude Code sends a
+notification; the matcher filters by notification type (Claude Code's hooks reference,
+`https://code.claude.com/docs/en/hooks`). Four types are a wait, and each has a matcher group that pipes the event to
+`python scripts/alert.py hook`:
+
+| Type | When | The line says |
+|---|---|---|
+| `permission_prompt` | Claude needs a permission to use a tool | waits for a permission |
+| `idle_prompt` | Claude finished and nobody has typed, about a minute | waits for input |
+| `elicitation_dialog` | a connected tool asks the person a question | waits for an answer |
+| `agent_needs_input` | a background session needs input | waits for input |
+
+The line names the machine, the first eight characters of the session, the folder, the chain if one is marked on this
+machine, and what Claude Code said: "A Claude Code session waits for a permission on samueloldlaptop (session f4e41419,
+in erw), in the chain "night of 4 October": Claude needs your permission to use Bash".
+
+- **At most one email per session and kind every 10 minutes** (`.erw/alerts/`), so a session left open does not fill an
+  inbox. A send that failed is not counted.
+- **It cannot stop or slow a session.** The reference says a Notification hook cannot block (its exit code is
+  ignored); the hook is `async`, has a 45-second timeout, prints nothing and always exits 0.
+- **To silence it on a machine:** `ERW_ALERTS=off` in the environment, or an empty file `.erw/alerts_off`. Working at
+  the keyboard, the "waits for input" line arrives a minute after every answer you leave unread for a minute: silence
+  it there, or keep it.
+- **A running session does not pick the hook up.** Hooks are read when a session starts; start a new session (or
+  review them in `/hooks`). A session started with `claude -p` fires the hook too.
+- The hook runs in bash (`"shell": "bash"`, Git Bash on Windows), like the session-start hook beside it.
+
+### A chain stops saving: the mark and the watch
+
+```bash
+python scripts/alert.py chain start --name "night of 4 October, sessions 90 to 101" --hours 14   # first thing in a chain
+python scripts/alert.py chain beat      # a save that is not a push (a long pull pushes nothing for half an hour)
+python scripts/alert.py chain done      # last thing: with "CHAIN DONE"
+python scripts/alert.py chain status    # the mark, the newest push, and what the check would say now
+python scripts/alert.py chain check --dry-run
+```
+
+- **The mark** is one row, `chain`, of `erw_locks`, the data lock's own table (migration 016): who started the chain,
+  its name, when, and when the mark lapses by itself (`--hours`, default 16). It is not the data lock and blocks nothing.
+  The token is in `.erw/chain.json` on the machine that started it; `done` and `beat` work only there.
+- **A save** is a commit pushed to a `wip/` or `task/` branch (read from GitHub), or a beat. Every chain already pushes
+  a `wip/` copy after each working step, so a chain needs to do nothing more than start and end the mark.
+- **The watch** is `.github/workflows/chain-watch.yml`: every 15 minutes it runs `alert.py chain check` on GitHub, not on
+  the machine that runs the chain, because the usual reason a chain stops saving is that its machine stopped. No chain
+  marked: it says so and ends. A marked chain with no save for 30 minutes: one line, "The chain "..." (machine/session)
+  has saved nothing for 37 minutes: its last save was a push to wip/090-fixes at 06:48 UTC. Marked as running since
+  05:52 UTC." It says so **once at 30 minutes and again every hour after** (90, 150, ...), not every quarter of an hour.
+  A mark that lapsed without `done` is said once.
+- Like every scheduled job it runs under `warehouse/health.py` and never fails on GitHub; its 96 runs a day are in the
+  daily health summary. The database's schedule starts it (migration 022, `erw-chain-watch`), and GitHub's own schedule
+  too; the second start is skipped.
+- **A long step is a silence.** A pull or a build of more than half an hour pushes nothing: run `chain beat` before it,
+  or expect the line.
+
+### The permission allowlist
+
+`.claude/settings.json` also holds the project's permission rules (Claude Code's permissions reference,
+`https://code.claude.com/docs/en/permissions`). Rules are read deny first, then ask, then allow; a rule must match each
+part of a compound command; `*` stands for any text, and belongs after the subcommand.
+
+| Allowed without asking | Not in the list, so asked for in a session that asks |
+|---|---|
+| git: status, diff, log, show, branch, fetch, add, commit, merge, checkout, switch; a push to a `wip/` branch | a push to `main` by any other spelling than `git push origin main`, or to a `task/` branch named as such |
+| the tests, the validator, the coverage builder, the lock, the health wrapper, the derived builders, the archive, the Redivis draft uploader, the loader, sync, the two email helpers | the connectors (a pull is approved per session), `apply.py` (a migration), `ask.py` and anything that calls the model |
+| the site: `npm ci`, the build, `tsc`, `next start`, the scripts in `site/scripts/` | inline code (`python -c`, `python - <<EOF`, `node -e`): it can do anything, so it is not a routine action |
+| writes under `runs/` (where a gate's output is redirected), and fetches of the live site and GitHub | edits to the repository's files: that is the session's permission mode, not this list |
+
+**Denied in every mode:** a force push, in the five spellings a session writes (`--force`, `-f`, before or after the
+branch, and `--force-with-lease`). Every chain's rules already say "never force push"; this makes Claude Code refuse it.
+
+Three limits, from the reference, to keep in mind:
+
+- **The `wip/` rule also matches `git push origin wip/x:task/x`**, the push that deploys: a `*` matches any text, and no
+  allow rule can say "but not this". Rules 8 and 9 of `CLAUDE.md` govern that push, not this list.
+- **A rule matches the command as written.** `git -C . push --force` is not stopped by the deny rules. They are a guard
+  against the usual spelling, not a wall.
+- **Project allow rules apply once the folder is trusted** (the dialog an interactive session shows the first time);
+  deny rules always apply. `.claude/settings.local.json` is the place for one machine's own rules; it is not in git.
+
+The rules reduce how often a session asks. They do not choose the mode a chain runs in (`defaultMode` is not set here).

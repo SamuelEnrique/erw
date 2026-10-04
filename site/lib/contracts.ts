@@ -19,7 +19,26 @@ export type Summary = {
   by_month: { month: string; rows: number; priced: number }[];
   by_product: { product: string; rows: number; priced: number }[];
   by_ba: { ba: string; rows: number }[];
+  /** Session 99: the largest buyers and sellers, from the whole quarter's file (the loader stores it with the summary; absent until a load after session 99). */
+  largest?: Largest;
 };
+export type Party = { rank: number; name: string; contracts: number; rows: number; counterparties: number; mw_filed: number; rows_with_mw: number };
+export type PartyList = { parties: number; contracts: number; rows: number; top: Party[] };
+export type Largest = {
+  quarter: string | null; top: number;
+  names: { filed: number; after_rules: number; merged_groups: number; merged_names: number; doubtful_pairs: number };
+  lists: Record<"buyer" | "seller", Record<"energy" | "capacity" | "tolling", PartyList>>;
+};
+/** The three products of the largest buyers and sellers view. */
+export const LARGEST_PRODUCTS = [
+  { slug: "energy", label: "Energy" }, { slug: "capacity", label: "Capacity" }, { slug: "tolling", label: "Tolling energy" },
+] as const;
+export type LargestProduct = (typeof LARGEST_PRODUCTS)[number];
+/** The view a reader asked for: the contracts by quarter signed (the page as it was), or the largest buyers and sellers. */
+export function viewOf(q: Record<string, string | undefined>): { view: "quarter" | "largest"; product: LargestProduct } {
+  return { view: q.view === "largest" ? "largest" : "quarter", product: LARGEST_PRODUCTS.find((p) => p.slug === q.product) ?? LARGEST_PRODUCTS[0] };
+}
+export const largestHref = (product: string) => `/contracts?view=largest&product=${product}`;
 
 /** The product groups a reader can pick. FERC's product names come in more than one spelling, so they are compared in
  * capitals. "power" is what a credit investor means by a contract: energy, capacity and tolling. */

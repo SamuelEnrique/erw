@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AskErcotLink } from "@/components/AskErcotLink";
 import { EventStudy } from "@/components/EventStudy";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { Cite } from "@/components/Cite";
@@ -71,6 +72,7 @@ export default async function Uri() {
     <>
       <p className="mb-1 text-xs text-muted"><Link href="/events">Events</Link> / Winter Storm Uri</p>
       <h1 className="mb-1 text-3xl">Winter Storm Uri: ERCOT, February 2021</h1>
+      <AskErcotLink context={{ view: "/events/uri-2021", title: "Winter Storm Uri", settings: { grid: "ERCOT", event: "uri_2021", period: "2021-02-07 to 2021-02-24" } }} />
       <div className="mb-5 max-w-3xl text-sm">
         <p className="mb-2">
           In February 2021 extreme winter weather disrupted energy supply and demand, particularly in Texas, and ERCOT began implementing rotating

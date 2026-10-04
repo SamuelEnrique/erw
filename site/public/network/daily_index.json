@@ -1,0 +1,213 @@
+{
+ "first": "2019-01-01",
+ "last": "2026-09-30",
+ "tz": "America/New_York",
+ "frame": "day",
+ "rule": "Each pair is counted once: its flow is read from the BA whose code sorts first, as that BA reported it (positive = it exported to the other); in an hour it did not report, from the other BA's report with the sign flipped.",
+ "years": {
+  "2019": {
+   "file": "/network/daily_2019.json",
+   "days": 365,
+   "first": "2019-01-01",
+   "last": "2019-12-31",
+   "links": 144,
+   "priced": [
+    "ERCO"
+   ],
+   "intensity": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "PJM",
+    "SWPP"
+   ],
+   "pair_days": 144,
+   "pair_days_from_other_side": 3961,
+   "pair_days_screened": 190
+  },
+  "2020": {
+   "file": "/network/daily_2020.json",
+   "days": 366,
+   "first": "2020-01-01",
+   "last": "2020-12-31",
+   "links": 144,
+   "priced": [
+    "ERCO"
+   ],
+   "intensity": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "PJM",
+    "SWPP"
+   ],
+   "pair_days": 373,
+   "pair_days_from_other_side": 3725,
+   "pair_days_screened": 171
+  },
+  "2021": {
+   "file": "/network/daily_2021.json",
+   "days": 365,
+   "first": "2021-01-01",
+   "last": "2021-12-31",
+   "links": 144,
+   "priced": [
+    "ERCO"
+   ],
+   "intensity": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "PJM",
+    "SWPP"
+   ],
+   "pair_days": 3,
+   "pair_days_from_other_side": 3338,
+   "pair_days_screened": 106
+  },
+  "2022": {
+   "file": "/network/daily_2022.json",
+   "days": 365,
+   "first": "2022-01-01",
+   "last": "2022-12-31",
+   "links": 144,
+   "priced": [
+    "ERCO"
+   ],
+   "intensity": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "PJM",
+    "SWPP"
+   ],
+   "pair_days": 173,
+   "pair_days_from_other_side": 3316,
+   "pair_days_screened": 151
+  },
+  "2023": {
+   "file": "/network/daily_2023.json",
+   "days": 365,
+   "first": "2023-01-01",
+   "last": "2023-12-31",
+   "links": 144,
+   "priced": [
+    "ERCO"
+   ],
+   "intensity": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "PJM",
+    "SWPP"
+   ],
+   "pair_days": 314,
+   "pair_days_from_other_side": 3387,
+   "pair_days_screened": 38
+  },
+  "2024": {
+   "file": "/network/daily_2024.json",
+   "days": 366,
+   "first": "2024-01-01",
+   "last": "2024-12-31",
+   "links": 145,
+   "priced": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "SWPP"
+   ],
+   "intensity": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "PJM",
+    "SWPP"
+   ],
+   "pair_days": 390,
+   "pair_days_from_other_side": 3736,
+   "pair_days_screened": 25
+  },
+  "2025": {
+   "file": "/network/daily_2025.json",
+   "days": 365,
+   "first": "2025-01-01",
+   "last": "2025-12-31",
+   "links": 149,
+   "priced": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "SWPP"
+   ],
+   "intensity": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "PJM",
+    "SWPP"
+   ],
+   "pair_days": 8585,
+   "pair_days_from_other_side": 3776,
+   "pair_days_screened": 174
+  },
+  "2026": {
+   "file": "/network/daily_2026.json",
+   "days": 273,
+   "first": "2026-01-01",
+   "last": "2026-09-30",
+   "links": 158,
+   "priced": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "SWPP"
+   ],
+   "intensity": [
+    "CISO",
+    "ERCO",
+    "ISNE",
+    "MISO",
+    "NYIS",
+    "PJM",
+    "SWPP"
+   ],
+   "pair_days": 2225,
+   "pair_days_from_other_side": 3697,
+   "pair_days_screened": 217
+  }
+ },
+ "left_out_bas": [
+  "AEC",
+  "CFE",
+  "EEI",
+  "GLHB",
+  "GRIF",
+  "HGMA",
+  "NSB",
+  "SPC",
+  "WACM"
+ ],
+ "built": "2026-10-04T08:07:05Z",
+ "source": "eia930_daily_interchange"
+}

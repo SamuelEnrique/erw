@@ -356,14 +356,21 @@ export const REQUIREMENTS: Record<string, { product: string; rule: string; sourc
     { product: "Regulation Up, Regulation Down", rule: "1 hour in the day-ahead market", source: "CAISO tariff, section 8.4.1.1(g)", assumed: false },
     { product: "Spinning Reserve, Non-Spinning Reserve", rule: "30 minutes", source: "CAISO tariff, section 8.4.3", assumed: false },
   ],
-  // session 86: neither operator's own requirement could be verified, so both are labeled assumed. NYISO's Ancillary
-  // Services Manual (September 2026) was read and states no duration; SPP's current protocols were not found.
+  // session 86 assumed one hour for both. Session 100 read the operators' own documents (docs/methods/
+  // reserve_quantities_nyiso_spp.md): SPP's protocols state 60 minutes for all four products; NYISO's tariff states one
+  // hour for operating reserves from storage and no time for regulation, which stays an assumption (session 102).
   nyiso: [
-    { product: "Regulation Capacity, 10-Minute Spinning Reserve", rule: "1 hour", source: "assumed", assumed: true },
+    { product: "10-Minute Spinning Reserve", rule: "1 hour", source: "NYISO Market Administration and Control Area Services Tariff, section 4.4.2.1, effective 16 September 2026", assumed: false },
+    { product: "Regulation Capacity", rule: "1 hour", source: "the tariff states no time (Rate Schedule 3, section 15.3.2.1(e), lets NYISO reduce a storage resource's regulation capacity for its energy level), so one hour is used", assumed: true },
   ],
   spp: [
-    { product: "Regulation Up, Regulation Down, Spinning Reserve, Supplemental Reserve", rule: "1 hour", source: "assumed", assumed: true },
+    { product: "Regulation Up, Regulation Down, Spinning Reserve, Supplemental Reserve", rule: "60 minutes", source: "SPP Integrated Marketplace Protocols, Revision 119, section 4.2.2", assumed: false },
   ],
+};
+/** Session 102: how long a reserve must be backed on a grid in review, in words (session 100's verified rules). */
+export const DURATION_WORDS: Record<string, string> = {
+  nyiso: "How long a reserve must be backed is NYISO's own rule for spinning reserve, one hour (its tariff, section 4.4.2.1). For regulation the tariff states no time, so one hour is assumed; a shorter requirement would raise these numbers and a longer one lower them.",
+  spp: "How long a reserve must be backed is SPP's own rule, 60 minutes for each of the four products (Integrated Marketplace Protocols, Revision 119, section 4.2.2).",
 };
 /** Session 86: what the model leaves out on a grid in review, in words. */
 export const LEFT_OUT: Record<string, string> = {

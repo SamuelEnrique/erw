@@ -17,6 +17,7 @@ export const RELEASE: Record<string, Status> = {
   "/cost-of-power/battery": "live",
   "/cost-of-power/seller": "live",
   "/network": "live",
+  "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace); without its own line it would take /network's status
   "/storage": "live",
   "/storage/buildout": "review",
   "/battery/customer": "review",  // session 88: what a battery saves a customer; the reader's own numbers, in the browser
@@ -38,6 +39,11 @@ export const RELEASE: Record<string, Status> = {
   "/explorer/ercot-peak-premium": "review",
   "/grid": "review",
   "/mix": "review",
+  "/prices/compare": "review",  // session 96: where power is cheap (hub and zone prices compared)
+  "/demand": "review",  // session 97: the demand growth explorer
+  "/curtailment/v2": "review",  // session 98: curtailment, version 2 (California by hour, month and reason, against battery charging)
+  "/queues": "review",  // session 95: the interconnection queue explorer
+  "/mix/v2": "review",  // session 94: the energy mix, version 2 (any grid, any month or year, two grids side by side, the records)
   "/curtailment": "review",
   "/emissions": "review",
   "/consumption": "review",
@@ -68,6 +74,7 @@ export const RELEASE: Record<string, Status> = {
   "/data/methods": "review",
   "/analysis": "review",
   "/ask": "review",
+  "/ask/ercot": "review",  // session 92: Ask ERCOT, the reference version
   "/reports": "review",
 };
 

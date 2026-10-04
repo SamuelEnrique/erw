@@ -3,8 +3,8 @@
 //   node scripts/warm-live.mjs [base-url]     (default http://localhost:3000)
 //
 // Asks for every live page once, as a visitor, one at a time: the pages scripts/snapshot-live.mjs reads (the six live
-// pages, with the battery page for both grids at 2, 4 and 8 hours under both strategies and the seller tab's California
-// solar and wind). The first request for a page after a build or a deploy finds the database's tables cold and is the
+// pages, with the battery page for both grids at 2, 4 and 8 hours under both strategies, the seller tab's California
+// solar and wind, /terms and the four live methods pages). The first request for a page after a build or a deploy finds the database's tables cold and is the
 // slow one; three deploys in a row lost one read of the home page that way (sessions 77, 87, 88). The workflow runs
 // this against the build it has just started, before the route check, so the check and the deploy that follows the
 // merge find the tables warm.

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AskErcotLink } from "@/components/AskErcotLink";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
@@ -34,6 +35,7 @@ export default async function Buildout({ searchParams }: { searchParams: Promise
         lead={<>Battery storage operating on each US grid, how long it can run, and how it compares with solar, from the monthly generator inventory of the US
           Energy Information Administration. What the batteries do hour by hour is on <Link href="/storage">Storage</Link>.</>}
       />
+      {grid.slug === "ercot" ? <AskErcotLink context={{ view: "/storage/buildout", title: "How much storage has been built", settings: { grid: "ERCOT", measure: MEASURES[measure].label, ...(v ? { inventory: v.newest } : {}) } }} /> : null}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
           <InputPanel title="Choose" note="Power is how fast the batteries can discharge. Energy is how much they hold. Energy over power is duration, in hours.">

@@ -40,11 +40,13 @@ export type SeriesRow = { entity: string; variable: string; ts_utc: string; valu
 export type Market = (typeof markets.isos)[number];
 export const MARKETS: Market[] = markets.isos;
 
-/** One row per ERW table, public tables only (row-level security hides the rest). */
+/** One row per ERW table, public tables only (row-level security hides the rest). Session 102: a table loaded for a page
+ *  in review (in_live_set "review": warehouse/supabase/live_set.yaml, review_hold) is left out, so no count a visitor
+ *  sees moves when such a table is loaded. */
 export async function catalogue(): Promise<CatalogueRow[]> {
   const rows = await rest<CatalogueRow>("catalogue", { select: "*", order: "table_name" }, HOURLY);
   if (rows.length === 0) throw new DataError("the catalogue table returned no rows");
-  return rows.filter((r) => r.license === "public");
+  return rows.filter((r) => r.license === "public" && r.in_live_set !== "review");
 }
 
 /** The newest real-time interval per hub and zone, refreshed every 15 minutes. */

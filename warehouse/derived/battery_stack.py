@@ -127,12 +127,18 @@ PRODUCT_KEYS = sorted({p["key"] for m in MARKETS.values() for p in m["products"]
 # directions and needs stored energy and room behind it.
 REVIEW_NAME = "battery_stack_review_monthly"
 REVIEW_SNAPSHOT = os.path.join(ROOT, "site", "data", "battery_stack_review.json")
-NYISO_ASSUMED = ("assumed in session 86: one hour. NYISO's Ancillary Services Manual (Manual 2, issued September 2026, "
-                 "https://www.nyiso.com/documents/20142/2923301/ancserv.pdf) was read and states no time a regulation or reserve "
-                 "supplier must sustain its award; the requirement is in NYISO's tariff, which was not read")
-SPP_ASSUMED = ("assumed in session 86: one hour. SPP's current Integrated Marketplace protocols were not found at an "
-               "address this machine could read (the copies found are of 2016 and 2017, before storage resources had rules "
-               "of their own), so the operator's requirement is not verified")
+# Session 102, from session 100's reading of the operators' own documents (docs/methods/reserve_quantities_nyiso_spp.md):
+# SPP's 60 minutes and NYISO's one hour for operating reserves are the operators' rules; NYISO's tariff states no time for
+# regulation, so its one hour stays an assumption, labeled as one. The hours are as session 86 assumed: no figure moves.
+NYISO_RESERVE = ("NYISO Market Administration and Control Area Services Tariff, section 4.4.2.1 (Real-Time Dispatch, Overview), "
+                 "effective 9/16/2026: operating reserves scheduled from an Energy Storage Resource must be sustainable for one hour, "
+                 "https://nyisoviewer.etariff.biz/ViewerDocLibrary/MasterTariffs/9FullTariffNYISOMST.pdf")
+NYISO_ASSUMED = ("assumed: one hour; NYISO's Market Administration and Control Area Services Tariff, Rate Schedule 3, section "
+                 "15.3.2.1(e), states no time (NYISO may reduce a storage resource's regulation capacity to account for its "
+                 "energy level)")
+SPP_RULE = ("SPP Integrated Marketplace Protocols, Revision 119 (latest revision 7/17/2026), section 4.2.2 (Offer Submittal): "
+            "a continuous duration of 60 minutes for regulation, spinning reserve and supplemental reserve, "
+            "https://www.spp.org/spp-documents-filings/?id=18162")
 REVIEW_MARKETS = {
     "nyiso": dict(
         label="NYISO", start="2024-09-01", as_table="nyiso_as_prices", geo="US-NY",
@@ -140,7 +146,7 @@ REVIEW_MARKETS = {
             dict(key="reg", label="Regulation Capacity", up="both", entity="nyiso:NYCA", variable="as_price_dam_reg",
                  first=None, hours=[("2024-09-01", 1.0, NYISO_ASSUMED)]),
             dict(key="spin", label="10-Minute Spinning Reserve", up=True, entity="nyiso:N.Y.C.",
-                 variable="as_price_dam_spin10", first=None, hours=[("2024-09-01", 1.0, NYISO_ASSUMED)]),
+                 variable="as_price_dam_spin10", first=None, hours=[("2024-09-01", 1.0, NYISO_RESERVE)]),
         ],
         # not modeled, and why nothing is lost: checked in every hour held by not_above()
         dominated=[("nyiso:N.Y.C.", "as_price_dam_nsync10", "10-Minute Non-Synchronous Reserve"),
@@ -150,13 +156,13 @@ REVIEW_MARKETS = {
         label="SPP", start="2024-09-01", as_table="spp_as_prices", geo=None,
         products=[
             dict(key="regup", label="Regulation Up", up=True, entity="spp:SPP", variable="as_price_dam_regup",
-                 first=None, hours=[("2024-09-01", 1.0, SPP_ASSUMED)]),
+                 first=None, hours=[("2024-09-01", 1.0, SPP_RULE)]),
             dict(key="regdn", label="Regulation Down", up=False, entity="spp:SPP", variable="as_price_dam_regdn",
-                 first=None, hours=[("2024-09-01", 1.0, SPP_ASSUMED)]),
+                 first=None, hours=[("2024-09-01", 1.0, SPP_RULE)]),
             dict(key="spin", label="Spinning Reserve", up=True, entity="spp:SPP", variable="as_price_dam_spin",
-                 first=None, hours=[("2024-09-01", 1.0, SPP_ASSUMED)]),
+                 first=None, hours=[("2024-09-01", 1.0, SPP_RULE)]),
             dict(key="supp", label="Supplemental Reserve", up=True, entity="spp:SPP", variable="as_price_dam_supp",
-                 first=None, hours=[("2024-09-01", 1.0, SPP_ASSUMED)]),
+                 first=None, hours=[("2024-09-01", 1.0, SPP_RULE)]),
         ]),
 }
 # Not modeled in SPP: the ramp capability products (RampUP, RampDN) and the uncertainty product (UncUP). What a battery

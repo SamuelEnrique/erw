@@ -3,7 +3,8 @@ import Link from "next/link";
 import { SiteLink } from "@/components/SiteLink";
 import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
-import { PRODUCTS, TABLE, byBa, choices, counts, fercDate, filedQuarter, filter, listed, quarterDates, quarters, rateText, termYears, type Contract } from "@/lib/contracts";
+import { LARGEST_PRODUCTS, PRODUCTS, TABLE, byBa, choices, counts, fercDate, filedQuarter, filter, largestHref, listed, quarterDates, quarters, rateText, termYears, viewOf,
+  type Contract, type LargestProduct, type Party, type Summary } from "@/lib/contracts";
 import { contractRows, contractSummary } from "./read";
 
 // Session 83: "Where power contracts are being struck". A credit investor asked where bilateral power contracts are
@@ -33,10 +34,11 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
   const sp = await searchParams;
   const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
   const summary = await attempt(contractSummary);
+  const v = viewOf(q);
   const every = summary.ok ? quarters(summary.data) : [];
   const { upTo: held, laterRows, laterLast } = listed(every, summary.ok ? filedQuarter(summary.data) : null);
   const { quarter, product, ba } = choices(q, held.map((h) => h.quarter));
-  const read = quarter ? await attempt(() => { const d = quarterDates(quarter); return contractRows(d.from, d.to); }) : null;
+  const read = quarter && v.view === "quarter" ? await attempt(() => { const d = quarterDates(quarter); return contractRows(d.from, d.to); }) : null;
   const all: Contract[] = read?.ok ? read.data : [];
   const rows = filter(all, product, ba);
   const c = counts(rows);
@@ -54,7 +56,11 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
         <div className="mb-2 text-xs uppercase tracking-wide text-muted">Three limits of this record</div>
         <Limits rows={summary.ok ? summary.data.rows : null} priced={summary.ok ? summary.data.priced : null} />
       </div>
-      {!summary.ok || !quarter ? (
+      <nav aria-label="View" className="mb-6 flex flex-wrap gap-x-6 gap-y-1 border-b border-rule pb-3 text-sm" data-view={v.view}>
+        <Link href="/contracts" aria-current={v.view === "quarter" ? "true" : undefined} className={item(v.view === "quarter")}>Contracts by the quarter signed</Link>
+        <Link href={largestHref(v.product.slug)} aria-current={v.view === "largest" ? "true" : undefined} className={item(v.view === "largest")}>The largest buyers and sellers</Link>
+      </nav>
+      {v.view === "largest" ? <LargestView summary={summary.ok ? summary.data : null} reason={summary.ok ? null : summary.reason} product={v.product} /> : !summary.ok || !quarter ? (
         <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-contracts="unavailable">
           The contract table is internal and is read only with this server&apos;s internal token: {summary.ok ? "it holds no row yet" : summary.reason}.
         </p>
@@ -136,7 +142,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                     delivery point; in the quarter&apos;s whole file they are almost all one utility&apos;s transmission agreements.</li>
                   <li><strong>Buyers that do not sell power.</strong> A company buying under a power purchase agreement appears only as the customer of a seller that files.</li>
                   <li><strong>Financial contracts.</strong> A contract settled in money and not in power is not a sale under a FERC tariff.</li>
-                  <li><strong>Names as one thing.</strong> The same buyer is spelled several ways across filers; nothing here merges them.</li>
+                  <li><strong>Names as one thing.</strong> The same buyer is spelled several ways across filers; this list shows each name as filed. The view of the largest buyers and sellers counts a buyer&apos;s spellings together, by rule.</li>
                   <li><strong>Totals of megawatts.</strong> Quantity is empty in many rows and its units vary, so no total is given.</li>
                 </ul>
               </Fold>
@@ -147,5 +153,79 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
       <SourceLine tables={[TABLE]}
         note={<>Federal Energy Regulatory Commission, Electric Quarterly Reports, the contract files of one quarter&apos;s filings (eqrreportviewer.ferc.gov). An internal table: this page is read only in the internal view.</>} />
     </ToolPage>
+  );
+}
+
+/** Session 99: the largest buyers and sellers of one product, contracts in force, from the whole quarter's file. Buyers
+ * are counted under one name by rule (warehouse/derived/eqr_buyers.py; docs/methods/eqr_buyers.md); sellers by FERC's
+ * company identifier. The figures are the stored summary's (the loader puts them there); the page ranks nothing. */
+function LargestView({ summary, reason, product }: { summary: Summary | null; reason: string | null; product: LargestProduct }) {
+  const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
+  const L = summary?.largest;
+  if (!summary || !L) {
+    return (
+      <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-largest="unavailable">
+        The largest buyers and sellers are not loaded here yet: {summary ? "the stored summary was computed before this view existed; the next load of the contract table adds it" : reason}.
+      </p>
+    );
+  }
+  const buyers = L.lists.buyer[product.slug], sellers = L.lists.seller[product.slug];
+  const table = (role: "buyer" | "seller", list: typeof buyers) => (
+    <ToolTable minWidth={720} caption={`The largest ${role}s of ${product.label.toLowerCase()}, contracts in force`}
+      head={["", role === "buyer" ? "Buyer, by its merged name" : "Seller", "Contracts", "Rows", role === "buyer" ? "Sellers" : "Buyers", "MW filed", "Rows with a MW"]}
+      rows={list.top.map((r: Party) => ({ key: `${role}${r.rank}`, cells: [String(r.rank), <span key="n" className="block text-left" data-party={`${role}|${r.rank}`}>{r.name}</span>,
+        <span key="c" data-n={`${role}|${r.rank}|contracts`}>{count(r.contracts)}</span>, <span key="r" data-n={`${role}|${r.rank}|rows`}>{count(r.rows)}</span>,
+        <span key="o" data-n={`${role}|${r.rank}|counterparties`}>{count(r.counterparties)}</span>,
+        r.rows_with_mw > 0 ? <span key="m" data-n={`${role}|${r.rank}|mw`}>{r.mw_filed.toLocaleString("en-US", { maximumFractionDigits: 1 })}</span> : <span key="m" className="text-muted">none filed</span>,
+        <span key="w" data-n={`${role}|${r.rank}|rows_with_mw`}>{count(r.rows_with_mw)}</span>] }))} />
+  );
+  return (
+    <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]" data-largest="1">
+      <aside>
+        <InputPanel title="Choose" note={`Contracts in force in the filings for ${(L.quarter ?? "").replace("_", " ")}: every agreement in force is filed again each quarter, so this is the standing book, not one quarter's signings.`}>
+          <nav aria-label="Product" className="text-sm">
+            <div className="mb-1 text-xs uppercase tracking-wide text-muted">Product</div>
+            {LARGEST_PRODUCTS.map((p) => <div key={p.slug}><Link href={largestHref(p.slug)} aria-current={p.slug === product.slug ? "true" : undefined} className={item(p.slug === product.slug)}>{p.label}</Link></div>)}
+          </nav>
+        </InputPanel>
+      </aside>
+      <div className="min-w-0">
+        <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="largest">
+          <span data-n="contracts">{count(buyers.contracts)}</span> {product.label.toLowerCase()} contracts are in force in FERC&apos;s filings, between <span data-n="sellers">{count(sellers.parties)}</span> sellers
+          and <span data-n="buyers">{count(buyers.parties)}</span> buyers. The buyer with the most is {buyers.top[0]?.name}, on <span data-n="top|buyer">{count(buyers.top[0]?.contracts ?? 0)}</span>; the seller with the most
+          is {sellers.top[0]?.name}, on <span data-n="top|seller">{count(sellers.top[0]?.contracts ?? 0)}</span>.
+        </p>
+        <HeadlineRow>
+          <HeadlineNumber label="Contracts in force" value={count(buyers.contracts)} note={<>{count(buyers.rows)} product rows. A contract is one filer&apos;s contract identifier.</>} />
+          <HeadlineNumber label="Buyers, after the name rules" value={count(buyers.parties)} note={<>Sellers: {count(sellers.parties)}, by FERC&apos;s company identifier.</>} />
+          <HeadlineNumber label="Buyer names brought together" value={<span data-n="names|merged">{count(L.names.merged_names)}</span>}
+            note={<><span data-n="names|filed">{count(L.names.filed)}</span> names as filed, across every product, are counted as <span data-n="names|after">{count(L.names.after_rules)}</span>. <span data-n="names|doubtful">{count(L.names.doubtful_pairs)}</span> pairs that look alike were not merged.</>} />
+        </HeadlineRow>
+        <ToolSection title={`The largest buyers of ${product.label.toLowerCase()}`} note={<>The first {L.top} of {count(buyers.parties)}, by contracts in force, then rows. The market operators stand at the top of energy and capacity because a sale into an organized market is filed with the operator as its customer: they are counterparties of record, not users of the power.</>}>
+          {table("buyer", buyers)}
+        </ToolSection>
+        <ToolSection title={`The largest sellers of ${product.label.toLowerCase()}`} note={<>The first {L.top} of {count(sellers.parties)}. A seller is a filer: one company identifier, one name.</>}>
+          {table("seller", sellers)}
+        </ToolSection>
+        <div className="mb-8 border-t border-rule">
+          <Fold title="How a buyer's names are brought together">
+            <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
+              <li><strong>By rule, never by a guess.</strong> Two spellings are one buyer only when they are identical after: capitals and spaces; punctuation (&amp; read as &quot;and&quot;); a leading &quot;The&quot;; a short list of whole-word abbreviations (Corp, Inc, Co, Ltd, Coop, Assn, Elec, Dept and a few more); the legal form written one way (L.L.C. as LLC); and a name filed with and without its one legal form.</li>
+              <li><strong>Every merge is listed</strong> in the internal table <code className="font-mono">ferc_eqr_buyer_names</code>: each name as filed, the name it is counted under, and the rules that changed it.</li>
+              <li><strong>Doubtful pairs are listed and not merged</strong> in <code className="font-mono">ferc_eqr_buyer_doubtful</code>: the same name under two legal forms (LLC and Inc may be two companies); a name with an added d/b/a or bracketed clause; and names 94 percent alike that may be a typing error. A person decides each.</li>
+              <li><strong>So a buyer can still be split.</strong> A parent and its subsidiaries are different names and stay apart; a misspelling stays apart until a person rules on it. A buyer&apos;s count here is a floor.</li>
+            </ul>
+          </Fold>
+          <Fold title="What the ranking is, and is not">
+            <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
+              <li><strong>By contracts, not by megawatts.</strong> Few rows file a quantity in MW; the column shows what is filed and on how many rows. No total of megawatts is a ranking here.</li>
+              <li><strong>In force, not new.</strong> Every agreement in force is filed again each quarter. For what was signed lately, use the other view.</li>
+              <li><strong>Not Texas.</strong> Sales inside ERCOT are not filed with FERC.</li>
+              <li><strong>Not buyers that never appear as a seller&apos;s customer</strong> in a filing: a contract settled in money, or one outside FERC&apos;s jurisdiction.</li>
+            </ul>
+          </Fold>
+        </div>
+      </div>
+    </div>
   );
 }

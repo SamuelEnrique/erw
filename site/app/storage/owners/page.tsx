@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AskErcotLink } from "@/components/AskErcotLink";
 import Link from "next/link";
 import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
@@ -61,6 +62,7 @@ export default async function Owners({ searchParams }: { searchParams: Promise<R
         lead={<>Operating and planned battery storage by the company that reports each plant, on each US grid, from the monthly generator inventory of the US Energy
           Information Administration. How much has been built is on <SiteLink href="/storage/buildout">Storage build-out</SiteLink>; what a battery earns is
           on <SiteLink href="/cost-of-power/battery">What a battery earns</SiteLink>. <SiteLink href={METHOD}>Method</SiteLink>.</>} />
+      {grid.slug === "ercot" ? <AskErcotLink context={{ view: "/storage/owners", title: "Who owns the batteries", settings: { grid: "ERCOT" } }} /> : null}
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
           <InputPanel title="Choose" note={`EIA's inventory of ${monthName(m)}. An owner here is the company that reports the plant to EIA, often a project company; parents are not named.`}>

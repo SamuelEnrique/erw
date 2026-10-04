@@ -338,7 +338,14 @@ const hourText = (h: string) => `${h.slice(0, 13).replace("T", " ")}:00 UTC (${E
 async function setE(): Promise<Question[]> {
   // the network: the snapshot /network draws (lib/network.ts: the hourly one in Storage, else the committed one)
   const { snap: net } = pickSnapshot(await fetchHourly(), netJson as unknown as NetSnapshot);
-  const H = net.hours.at(-1)!;
+  // Session 102: the newest hour in which ERCOT's ties are reported. EIA's newest hour can hold other balancing
+  // authorities' flows and none of ERCOT's yet; the set then read the first tie of an empty list and the page failed
+  // ("Cannot read properties of undefined (reading mw)", the route check of 4 October 2026). The question says which
+  // hour it is, and says so when it is not the snapshot's last.
+  const last = net.hours.at(-1)!;
+  const H = [...net.hours].reverse().find((h) => tiesAt(net, "ERCO", h).length > 0);
+  if (!H) throw new Error("the network snapshot holds no hour with a flow on ERCOT's ties");
+  const hourWords = H === last ? "In the newest hour of the network snapshot" : "In the newest hour of the network snapshot in which ERCOT's ties are reported";
   const name = (id: string) => net.nodes.find((n) => n.id === id)?.name ?? id;
   const ties = tiesAt(net, "ERCO", H).sort((a, b) => Math.abs(b.mw) - Math.abs(a.mw) || a.other.localeCompare(b.other));
   const big = ties[0];
@@ -346,9 +353,9 @@ async function setE(): Promise<Question[]> {
   const nTies: V = { v: ties.length, k: `net|ties|ERCO|${H}`, u: "neighbors" }, maxFlow: V = { v: Math.abs(big.mw), k: `net|maxflow|ERCO|${H}`, u: "MW" };
   const q1: Question = {
     id: "e1", tables: ["eia930_all_interchange"],
-    q: `In the newest hour of the network snapshot, ${hourText(H)}, with how many neighboring balancing authorities did ERCOT exchange power, and what was the largest flow?`,
+    q: `${hourWords}, ${hourText(H)}, with how many neighboring balancing authorities did ERCOT exchange power, and what was the largest flow?`,
     answer: ["ERCOT exchanged power with ", nTies, "; the largest flow, ", maxFlow, ", ", out ? "out to " : "in from ", name(big.other), "."],
-    steps: [["On /network, pick ERCOT and set the slider to the last hour; or read the snapshot's links that have ERCO at either end, in that hour."],
+    steps: [[`${H === last ? "On /network, pick ERCOT and set the slider to the last hour" : `On /network, pick ERCOT and set the slider to ${hourText(H)} (the snapshot's later hours hold no flow for ERCOT yet)`}; or read the snapshot's links that have ERCO at either end, in that hour.`],
       ["Count the neighbors with a reported flow: ", nTies, ": ", ties.map((t) => `${name(t.other)} (${t.other})`).join(", "), "."],
       ["The largest in size, whichever way it runs: ", maxFlow, ", ", out ? "ERCOT exporting" : "ERCOT importing", ". EIA's sign: positive when the reporting balancing authority exports."]],
     why: "ERCOT is almost an island: its grid is an interconnection of its own, joined to its neighbors only through a few direct-current ties (each neighbor here may be several of them), so it cannot lean on them much in an emergency.",

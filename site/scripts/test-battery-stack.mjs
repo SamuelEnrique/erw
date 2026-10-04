@@ -133,8 +133,9 @@ try {
     check(s4.heads.length === wantHeads.length + 1 && wantHeads.every((r, i) => r.test(s4.heads[i + 1])), `${q}: the income table's columns are the spans, each labeled`, s4.heads.slice(1).join(" | "));
     if (!ercot) check((s4.table.match(/not held/g) ?? []).length >= 8, `${q}: the three-year column says "not held" in every row`);
     if (ercot) check(/Total, USD per kW[\s\S]*614\.\d\d[\s\S]*269\.\d\d/.test(s4.table), `${q}: the every-year average is about USD 614.6 per kW, and about 269.7 without February 2021`, (s4.table.match(/Total, USD per kW.*$/) ?? [""])[0]);
-    check(!!s4.upper && !s4.upper.folded && s4.upper.underChart && /^This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called/.test(s4.upper.text)
-      && (ercot ? /years before 2024 show more than real batteries earned\. Recent years are the ones to read\.$/.test(s4.upper.text) : true),
+    check(!!s4.upper && !s4.upper.folded && s4.upper.underChart && (ercot
+        ? s4.upper.text === "This is an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer than any Texas then had, and 2021 is one week of February. Recent years are the ones to read."
+        : /^This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called/.test(s4.upper.text)),
       `${q}: one plain upper-bound sentence directly under the chart, not folded`, s4.upper?.text ?? "missing");
     check(!s4.outlierBox, `${q}: no box under the summary sentence`);
     if (ercot) check(/>2021</.test(s4.chart) && /3,43\d/.test(s4.chart), `${q}: 2021 stays on the chart, its value written`);

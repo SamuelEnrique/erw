@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { AskErcotLink } from "@/components/AskErcotLink";
 import { cookies } from "next/headers";
 import type { ReactNode } from "react";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  CAPACITY_WORDS, DEBT, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, badMonth, coverage, debtPerMw, gridOf, inputsKey,
+  CAPACITY_WORDS, DEBT, DURATION_WORDS, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, badMonth, coverage, debtPerMw, gridOf, inputsKey,
   inputsOf, last36, lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type Inputs, type Month, type Row,
   type StressRow, type Year,
 } from "@/lib/batterystack";
@@ -178,6 +179,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         crumb={<CostTabs active="battery" />}
         lead={<>What a grid battery earned from energy and from ancillary services together, by year and by stream, and whether that covers its debt, with and without a contract. The battery is split hour by hour between the two, so nothing is counted twice. <Link href={METHOD}>Method</Link>.</>}
       />
+      {/* session 92: drawn only in the internal view while /ask/ercot is in review (components/AskErcotLink.tsx) */}
+      {x.grid === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/battery", title: "What a battery earns", settings: { grid: "ERCOT", duration: `${x.dur} hours`, strategy: `${STRATEGIES[x.strat]} (${x.strat})`, size: `${x.mw} MW` } }} /> : null}
       <ContractProvider>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
@@ -192,9 +195,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
           <div className="min-w-0">
             {g.review ? (
               <p className="mb-6 border-l-2 border-accent bg-paper px-4 py-3 text-sm" data-in-review-grid={x.grid}>
-                <strong>{g.name} is in review and shown in the internal view only.</strong> Its reserve prices came into the warehouse in session 85. How long a reserve must be
-                backed is assumed here, one hour, because the operator&apos;s own requirement could not be verified; a shorter requirement would raise these numbers and a
-                longer one lower them. {LEFT_OUT[x.grid]}.
+                <strong>{g.name} is in review and shown in the internal view only.</strong> Its reserve prices came into the warehouse in session 85. {DURATION_WORDS[x.grid]} {LEFT_OUT[x.grid]}.
               </p>
             ) : null}
             {!read.ok ? (
@@ -226,7 +227,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                   note={<>
                     <span className="mb-1.5 block text-sm text-ink" data-upper-bound="1">
                       {before2024
-                        ? "This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called, so years before 2024 show more than real batteries earned. Recent years are the ones to read."
+                        ? "This is an upper bound: before 2024 it is mostly payment for holding reserves, to a battery longer than any Texas then had, and 2021 is one week of February. Recent years are the ones to read."
                         : `This is an upper bound: the battery is assumed to sell as much of its power as reserves as it likes at the posted price, and is never called. ${g.name} is held from ${g.from}, so every year here is a recent one.`}
                     </span>
                     {strategyLine} Per kW of rated power. A hatched year holds fewer than twelve months and is not a full year&apos;s revenue.
@@ -320,7 +321,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                   <li><strong>No capacity payment.</strong> {CAPACITY_WORDS[x.grid]}.</li>
                   <li><strong>How long a reserve must be backed.</strong> The battery must hold stored energy to deliver each upward reserve for the product&apos;s required duration:
                     <ul className="mt-1 list-disc space-y-0.5 pl-5">
-                      {REQUIREMENTS[x.grid].map((r, i) => <li key={i}>{r.product}: {r.rule}{r.assumed ? ". Assumed: the operator's own requirement was not verified, so one hour is used" : ` (${r.source})`}.</li>)}
+                      {REQUIREMENTS[x.grid].map((r, i) => <li key={i}>{r.product}: {r.rule}{r.assumed ? `. Assumed: ${r.source === "assumed" ? "the operator's own requirement was not verified, so one hour is used" : r.source}` : ` (${r.source})`}.</li>)}
                     </ul>
                   </li>
                 </ul>
