@@ -176,7 +176,16 @@ class WorkflowWarmsTheLivePages(unittest.TestCase):
         d = node("import { LIVE_PAGES } from './scripts/snapshot-live.mjs'; import fs from 'node:fs';"
                  "const w = fs.readFileSync('./scripts/warm-live.mjs', 'utf8');"
                  "console.log(JSON.stringify({ n: LIVE_PAGES.length, home: LIVE_PAGES[0], uses: w.includes('import { LIVE_PAGES } from \"./snapshot-live.mjs\"') }));")
-        self.assertEqual(d, {"n": 20, "home": "/", "uses": True})
+        self.assertEqual(d, {"n": 25, "home": "/", "uses": True})
+
+    def test_the_snapshot_reads_every_live_page_that_holds_no_tool_too(self):
+        # this session's deploy changed /terms and one methods page, and the script read neither
+        d = node("import { LIVE_PAGES } from './scripts/snapshot-live.mjs'; import { RELEASE } from './lib/release.ts';"
+                 "const live = Object.keys(RELEASE).filter((p) => RELEASE[p] === 'live');"
+                 "console.log(JSON.stringify({ missing: live.filter((p) => !LIVE_PAGES.some((q) => q.split('?')[0] === p)), first: LIVE_PAGES.slice(0, 6), tail: LIVE_PAGES.slice(20) }));")
+        self.assertEqual(d["missing"], [], "a live page the snapshot does not read")
+        self.assertEqual(d["first"], ["/", "/about", "/storage", "/cost-of-power/seller", "/network", "/cost-of-power/battery"], "an older snapshot's files would change their numbers")
+        self.assertEqual(d["tail"], ["/terms", "/data/methods/battery_stack", "/data/methods/cost_of_power", "/data/methods/grid_network", "/data/methods/storage"])
 
     def test_it_fails_when_a_page_never_answers(self):
         exe = shutil.which("node")
@@ -190,7 +199,7 @@ class WorkflowWarmsTheLivePages(unittest.TestCase):
         r = subprocess.run([exe, "--import", "file:///" + pre.replace(os.sep, "/"), "scripts/warm-live.mjs", "http://127.0.0.1:9"],
                            cwd=SITE, capture_output=True, text=True, timeout=300)
         self.assertEqual(r.returncode, 1, r.stdout[-500:] + r.stderr[-500:])
-        self.assertIn("20 never answered 200", r.stdout)
+        self.assertIn("25 never answered 200", r.stdout)
 
 
 class ContractsSummary(unittest.TestCase):

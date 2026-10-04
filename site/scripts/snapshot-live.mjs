@@ -33,10 +33,14 @@ const REQUEST_MS = Number(process.env.SNAPSHOT_REQUEST_S ?? 60) * 1000;
 // The live pages (site/lib/release.ts) as a visitor sees them: the five tools and About, with the battery page for both
 // grids at 2, 4 and 8 hours under both strategies: the 18 pages session 76 compared. Session 82 added California's solar
 // and wind on the seller tab (the default page is Texas's solar, and the hour correction of that session moved only
-// California's): 20 pages. New pages go at the end, so an older snapshot's files keep their numbers.
+// California's): 20 pages. New pages go at the end, so an older snapshot's files keep their numbers. Session 90 added the
+// live pages that hold no tool: /terms, which prints the source registry, and the four methods pages the tools link to.
+// That session's deploy changed two of them (the MISO pause's note in the registry and in one method) and the script did
+// not look: 25 pages.
 const BATTERY = ["ercot", "caiso"].flatMap((g) => [2, 4, 8].flatMap((d) => ["foresight", "dayahead"].map((s) => `/cost-of-power/battery?grid=${g}&dur=${d}&strat=${s}`)));
 const SELLER = ["/cost-of-power/seller?iso=caiso&asset=solar", "/cost-of-power/seller?iso=caiso&asset=wind"];
-export const LIVE_PAGES = ["/", "/about", "/storage", "/cost-of-power/seller", "/network", "/cost-of-power/battery", ...BATTERY, ...SELLER];
+const WORDS = ["/terms", "/data/methods/battery_stack", "/data/methods/cost_of_power", "/data/methods/grid_network", "/data/methods/storage"];
+export const LIVE_PAGES = ["/", "/about", "/storage", "/cost-of-power/seller", "/network", "/cost-of-power/battery", ...BATTERY, ...SELLER, ...WORDS];
 
 /** The paths release.ts marks live, read from the file as text (it has no imports, by design). */
 function liveInRelease() {
