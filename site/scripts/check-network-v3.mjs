@@ -54,7 +54,36 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   const panel = await evaluate(`document.querySelector('[data-panel]').innerText`);
   const shownNet = panel.match(/Net (imports|exports) this day\s+([\d,]+) MW on average/);
   check(!!shownNet && num(shownNet[2]) === Math.abs(Math.round(net)) && (shownNet[1] === "imports") === (net >= 0), `the panel's net ${shownNet?.[1]} of the day, ${shownNet?.[2]} MW on average, is the file's (${net.toFixed(1)})`);
-  check(panel.includes("its demand for this day is not held"), "the panel says the day's demand is not held");
+  // session 109: the replay now holds each day's demand (EIA's daily demand, the day's average MW), so the panel gives
+  // the net imports as a share of it and each supplier's share
+  const dem = y21.demand?.ERCO?.[i] ?? null;
+  check(dem !== null && dem > 0, `the year's file holds ERCOT's demand of the day (${dem} MW on average)`);
+  const pct1 = (v) => (v >= 10 ? v.toFixed(0) : v.toFixed(1));
+  const wantShare = dem ? (Math.abs(net) / dem) * 100 : NaN;
+  const shownShare = panel.match(/MW on average,\s*([\d.]+) percent of its ([\d,]+) MW demand/);
+  check(!!shownShare && Math.abs(Number(shownShare[1]) - wantShare) < 0.06 + wantShare * 0.01 && num(shownShare[2]) === Math.round(dem),
+    `the panel gives the net ${shownNet?.[1]} as a share of the day's demand: ${shownShare?.[1]} percent of ${shownShare?.[2]} MW (the file: ${wantShare.toFixed(2)} percent of ${dem})`);
+  check(!panel.includes("its demand for this day is not held"), "the panel no longer says the day's demand is not held");
+  const ties21 = y21.links.filter((l) => (l.a === "ERCO" || l.b === "ERCO") && l.mw[i] !== null && Math.round(l.mw[i]) !== 0).map((l) => ({ other: l.a === "ERCO" ? l.b : l.a, mw: Math.abs(l.mw[i]) }));
+  const tieShares = await evaluate(`Object.fromEntries([...document.querySelectorAll('[data-tie-share]')].map((e) => [e.getAttribute('data-tie-share'), e.innerText]))`);
+  check(ties21.length > 0 && ties21.every((t) => { const m = (tieShares[t.other] ?? "").match(/([\d.]+)% of demand/); return !!m && Math.abs(Number(m[1]) - (t.mw / dem) * 100) < 0.06; }),
+    `each supplier's share of the day's demand is its flow over the demand: ${ties21.map((t) => `${t.other} ${tieShares[t.other]?.replace(/^, /, "")} (the file: ${((t.mw / dem) * 100).toFixed(2)})`).join("; ")}`);
+  // a day whose demand is not held, or was screened out, gives no share: the first such day of the year for a grid with ties
+  const gap = (() => { for (const [ba, arr] of Object.entries(y21.demand ?? {})) { const k = arr.findIndex((v, j) => v === null && y21.links.some((l) => (l.a === ba || l.b === ba) && l.mw[j] !== null)); if (k >= 0) return { ba, day: y21.days[k] }; } return null; })();
+  if (gap) {
+    await evaluate(setDate(gap.day));
+    await wait(`(() => { const s = ${STATE}; return s.view === 'day' && s.t === '${gap.day}' ? s : null; })()`, 20000, `the day ${gap.day} to load`);
+    await evaluate(`(() => { const sel = document.querySelector('select'); Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set.call(sel, '${gap.ba}'); sel.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
+    await wait(`document.querySelector('[data-panel]')?.getAttribute('data-panel') === '${gap.ba}'`, 10000, `${gap.ba}'s panel`);
+    const p2 = await evaluate(`document.querySelector('[data-panel]').innerText`);
+    check(p2.includes("its demand for this day is not held") && !(await evaluate(`!!document.querySelector('[data-tie-share]')`)), `a day whose demand is not used gives no share (${gap.ba}, ${gap.day})`);
+    await evaluate(setDate("2021-02-15"));
+    await wait(`(() => { const s = ${STATE}; return s.view === 'day' && s.t === '2021-02-15' ? s : null; })()`, 20000, "the day 2021-02-15 again");
+    await evaluate(`(() => { const sel = document.querySelector('select'); Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set.call(sel, 'ERCO'); sel.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
+    await wait(`document.querySelector('[data-panel]')?.getAttribute('data-panel') === 'ERCO'`, 10000, "ERCOT's panel again");
+  } else {
+    console.log("note: every day of 2021 with a tie holds its demand; the no-share case is not exercised");
+  }
   await evaluate(click(button("Play the year")));
   await wait(`document.querySelector('[data-network-view]').getAttribute('data-playing') === '1'`, 5000, "the year to play");
   await sleep(1500);

@@ -105,7 +105,7 @@ recent:
   tables:
     - '^(caiso|ercot|isone|miso|nyiso|spp|pjm)_(dam|rtm)_(hub|zone)_prices(_hourly)?$'   # ISO prices; session 19 human
       # ruling: not the ERCOT yearly history tables, whose last 90 days repeat ercot_*_hub_prices
-    - '^eia930_[a-z0-9]+_(demand|generation)$'     # session 29: eia930_all_demand and eia930_all_generation (ba)
+    - '^eia930_(?!daily_)[a-z0-9]+_(demand|generation)$'     # session 29: eia930_all_demand and eia930_all_generation (ba); session 109: not the daily history eia930_daily_demand
     - '^iso_(dam|rtm)_hub_prices$'                 # session 29: the CAISO, ERCOT, MISO and SPP hub prices (market)
     - '^eia930_all_storage$'                       # session 31: EIA-930 battery storage (ba), the recent window
     - '^(eia930_all_emissions|carbon_intensity_hourly)$'   # session 32: CO2 estimates and hourly intensity, the recent window
@@ -162,6 +162,9 @@ catalogue_hold:
   # Redivis draft; not loaded, not in the live catalogue
   - caiso_curtailment_intervals
   - spp_as_quantities
+  # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
+  # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
+  - eia930_daily_demand
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
@@ -193,6 +196,7 @@ sources_hold:
   - spp:DA-MC                          # session 100, the SPP reserve quantities (the battery page's SPP is closed)
   - erw:known_data_faults              # session 103, /data/faults
   - ercot:large_load_status_update     # session 106, /datacenters/v2
+  - eia930:daily_demand                # session 109, /network/v3's replay
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

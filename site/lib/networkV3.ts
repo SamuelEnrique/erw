@@ -9,7 +9,9 @@ import type { NetLink } from "../app/network/Network";
 /** A year of the replay (public/network/daily_<year>.json, warehouse/derived/network_daily.py). */
 export type Daily = { year: number; frame: "day"; tz: string; days: string[]; built: string; rule: string; links: NetLink[];
   intensity: Record<string, (number | null)[]>; hub_prices: Record<string, (number | null)[]>;
-  missing: { pair_days: number; pair_days_from_other_side: number; pair_days_screened: number } };
+  /** session 109: each balancing authority's demand, the day's average MW (EIA's daily demand over the day's hours); null where not held or screened out */
+  demand?: Record<string, (number | null)[]>;
+  missing: { pair_days: number; pair_days_from_other_side: number; pair_days_screened: number; demand_days_held?: number } };
 export type DailyIndex = { first: string; last: string; tz: string; years: Record<string, { file: string; days: number; first: string; last: string; priced: string[]; pair_days_screened: number; pair_days: number }>;
   left_out_bas: string[]; built: string };
 

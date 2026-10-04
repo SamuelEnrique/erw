@@ -183,6 +183,7 @@ SECTOR_RULES = [
     (r"^(eia930_all_interchange|grid_network_(nodes|links))$", "power"),
     # session 68: EIA's daily total interchange of every BA, the two stories' hourly flows, who supplies a grid
     (r"^(eia930_daily_total_interchange|eia930_event_hourly_interchange|ba_supply_monthly)$", "power"),
+    (r"^eia930_daily_demand$", "power"),  # session 109: EIA's daily demand of every balancing authority (the replay's share of demand)
     (r"^iso_hub_prices_history$", "power"),
     (r"^eia930_all_history$", "power"),
     (r"^noaa_isd_hourly$", "power"),
@@ -218,7 +219,7 @@ def iso_of(table):
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table.startswith("price_board_") or table.startswith("cost_of_power_") or table == "merchant_revenue_monthly":  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
-    if table in ("eia930_daily_total_interchange", "eia930_event_hourly_interchange", "ba_supply_monthly"):  # session 68: every BA EIA reports
+    if table in ("eia930_daily_total_interchange", "eia930_event_hourly_interchange", "ba_supply_monthly", "eia930_daily_demand"):  # session 68: every BA EIA reports
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table in ("eia930_all_interchange", "grid_network_nodes", "grid_network_links", "eia930_daily_interchange",  # session 49: every BA EIA reports
                  "lbnl_interconnection_queue", "ai_power_regions"):  # session 62: the seven ISOs (Berkeley Lab also non-ISO West and Southeast)

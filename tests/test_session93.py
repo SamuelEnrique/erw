@@ -65,7 +65,7 @@ class TheReplayFiles(unittest.TestCase):
         self.assertEqual(len(link["mw"]), len(y["days"]))
         self.assertEqual(link["mw"][:4], [100.0, 20.0, None, None])
         self.assertEqual(link["mw"][-1], 100.0)   # 2,300 MWh over 23 hours
-        self.assertEqual(y["missing"], {"pair_days": len(y["days"]) - 4, "pair_days_from_other_side": 1, "pair_days_screened": 1})
+        self.assertEqual(y["missing"], {"pair_days": len(y["days"]) - 4, "pair_days_from_other_side": 1, "pair_days_screened": 1, "demand_days_held": 0})   # session 109: the count of days with demand; none given here
         self.assertEqual(y["intensity"]["AAA"][0], 412.35)
         self.assertIsNone(y["intensity"]["AAA"][1])
         self.assertEqual(y["hub_prices"]["AAA"][1], 31.5)
