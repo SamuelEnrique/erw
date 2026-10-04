@@ -53,6 +53,7 @@ const PAGES = [
   // session 72 (session 69's finish): the storage build-out, in review
   "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/data/methods/storage_buildout",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75
+  "/contracts", "/contracts?product=capacity",  // session 83
   "/play/battery", "/play/battery?more=1",  // session 63: the simple page and the full game
   "/tour",  // session 53: the guided tour
   "/data/methods/battery_game",  // session 50

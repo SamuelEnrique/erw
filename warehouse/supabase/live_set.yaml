@@ -53,6 +53,10 @@ full:
   # hides it; only internal_costs(token), migration 010, reads it for /internal/costs)
   - '^price_board_(latest|peak_offpeak|spreads|carbon)$'
   - '^api_cost_ledger$'
+  # session 83: FERC EQR contracts (internal: row-level security hides it; only internal_eqr_contracts(token) and
+  # internal_eqr_summary(token), migration 020, read it for the review page /contracts). The rows signed in the last 1,000
+  # days (select, below); Redivis's internal dataset and the CSV hold every row
+  - '^ferc_eqr_contracts$'
   # session 31: /storage (the hourly series below, last 90 days)
   - '^storage_(daily_cycle|capacity|buildout_monthly)$'
   # session 32: /emissions (the daily intensity whole; the hourly tables below, last 90 days)
@@ -122,6 +126,8 @@ select:
   carbon_intensity_daily: {days: 100}
   # session 68: /network's panel reads the last twelve complete months of ba_supply_monthly
   ba_supply_monthly: {days: 430}
+  # session 83: /contracts lists contracts by the quarter they were signed; the last 1,000 days of execution dates
+  ferc_eqr_contracts: {event_days: 1000}
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

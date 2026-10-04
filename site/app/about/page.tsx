@@ -8,7 +8,7 @@ import { gated } from "@/lib/release";
 
 // Session 77: the two tools added in review by sessions 72 and 75 are named here, greyed, without their descriptions,
 // for as long as they are in review. Once a page is live in lib/release.ts its description shows again by itself.
-const NAME_ONLY_IN_REVIEW = ["/shoulder", "/storage/buildout"];
+const NAME_ONLY_IN_REVIEW = ["/shoulder", "/storage/buildout", "/contracts"];  // session 83: and each tool added in review since
 const nameOnly = (href: string) => NAME_ONLY_IN_REVIEW.includes(href) && gated(href);
 
 export const metadata: Metadata = { title: "About" };
