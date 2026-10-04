@@ -66,6 +66,18 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 OUT_DIR = os.path.join(ROOT, "warehouse", "output")
 
+
+def _header_rows(path):
+    """The lines of a table's provenance header (session 103): skipped by count, never with comment="#", which cuts a
+    row at any "#" in it. This module is imported by builders that do not load the connectors' module, so it has its own."""
+    with open(path, encoding="utf-8") as f:
+        n = 0
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
 JOIN = "2025-12-16T08:00:00Z"  # the one constant: the first hour that is CAISO's own (midnight Pacific, 16 December 2025)
 JOIN_DAY, JOIN_MONTH = JOIN[:10], JOIN[:7]  # the UTC day and month that lie on both sides, and are not written
 
@@ -120,7 +132,7 @@ def read_entity(name, entity, in_dir=OUT_DIR):
 def caiso_hours(in_dir=OUT_DIR):
     """CAISO's own supply by hour (index ts_utc): each source's MW and net_generation_mwh. Only hours that hold all
     thirteen sources: an hour short of one is absent, never filled."""
-    f = pd.read_csv(os.path.join(in_dir, SUPPLY + ".csv"), comment="#", usecols=["entity", "variable", "ts_utc", "value"])
+    f = pd.read_csv(os.path.join(in_dir, SUPPLY + ".csv"), skiprows=_header_rows(os.path.join(in_dir, SUPPLY + ".csv")), usecols=["entity", "variable", "ts_utc", "value"])
     if set(f["entity"]) != {"caiso:ISO"}:
         raise RuntimeError(f"{SUPPLY}: entities {sorted(set(f['entity']))}, expected caiso:ISO alone")
     w = f.pivot(index="ts_utc", columns="variable", values="value")
@@ -305,8 +317,8 @@ def check_joined(in_dir, out_dir):
     SOURCE_EIA before JOIN and SOURCE_JOIN from it, and hold no period that contains JOIN."""
     bad = []
     for name, freq in TABLES.items():
-        a = pd.read_csv(os.path.join(in_dir, name + ".csv"), comment="#", dtype=str, keep_default_na=False)
-        b = pd.read_csv(os.path.join(out_dir, name + ".csv"), comment="#", dtype=str, keep_default_na=False)
+        a = pd.read_csv(os.path.join(in_dir, name + ".csv"), skiprows=_header_rows(os.path.join(in_dir, name + ".csv")), dtype=str, keep_default_na=False)
+        b = pd.read_csv(os.path.join(out_dir, name + ".csv"), skiprows=_header_rows(os.path.join(out_dir, name + ".csv")), dtype=str, keep_default_na=False)
         ours = lambda d: (d["entity"] == ENTITY) & (d["variable"] == VARIABLE)  # noqa: E731
         ra, rb = a[~ours(a)].reset_index(drop=True), b[~ours(b)].reset_index(drop=True)
         if not ra.equals(rb):

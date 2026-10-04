@@ -50,7 +50,8 @@ class Constant(unittest.TestCase):
         """One constant: the join's date is written in caiso_join.py and in the site's copy of it, and nowhere else in
         the code that builds tables or pages (documents, reports, tests and session 73's analysis of the break aside)."""
         allowed = {"warehouse/derived/caiso_join.py", "site/lib/caisoJoin.ts", "warehouse/analysis/eia930_break.py",
-                   "warehouse/analysis/eia930_break_numbers.py"}
+                   "warehouse/analysis/eia930_break_numbers.py",
+                   "warehouse/faults/faults.yaml"}   # session 103: the register of known faults states the fault's date; it builds no table from it
         found = []
         for top, exts in (("warehouse", (".py", ".sh", ".yaml")), ("site/app", (".ts", ".tsx")), ("site/lib", (".ts", ".tsx")),
                           ("site/components", (".ts", ".tsx")), ("package/src", (".py",))):

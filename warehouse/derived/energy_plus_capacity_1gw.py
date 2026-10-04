@@ -126,12 +126,23 @@ def build(regions, cap):
     return pd.DataFrame(out)
 
 
+def _header_rows(path):
+    """The lines of the provenance header (session 103): skipped by count, never with comment="#", which cuts a row at a bare "#"."""
+    with open(path, encoding="utf-8") as f:
+        n = 0
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: a flat 1 GW, energy next to capacity (internal)")
     ap.add_argument("--capacity", default=CAPACITY_TABLE, help="the capacity table (the scratch copy before the finish step)")
     a = ap.parse_args(argv)
-    regions = pd.read_csv(REGIONS_TABLE, comment="#", dtype=str, keep_default_na=False)
-    cap = pd.read_csv(a.capacity, comment="#", dtype=str, keep_default_na=False)
+    regions = pd.read_csv(REGIONS_TABLE, skiprows=_header_rows(REGIONS_TABLE), dtype=str, keep_default_na=False)
+    cap = pd.read_csv(a.capacity, skiprows=_header_rows(a.capacity), dtype=str, keep_default_na=False)
     t = build(regions, cap)
     os.makedirs(OUT, exist_ok=True)
     now = pd.Timestamp.now(tz="UTC").strftime("%Y-%m-%dT%H:%M:%SZ")

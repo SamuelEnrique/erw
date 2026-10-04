@@ -74,6 +74,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, HERE)
 import caiso_join as cj  # noqa: E402  (session 82: California's hours that EIA holds one hour late)
+import impossible_hours  # noqa: E402  (session 103: EIA's impossible demand hours are not used)
 import iso_prices as ip  # noqa: E402
 import price_board as pb  # noqa: E402
 
@@ -127,6 +128,10 @@ def hourly(ba):
     d["ts"] = pd.to_datetime(d["ts"]).dt.tz_localize("UTC")
     if ba == "CISO":  # session 82: EIA's California values of 2023-11 to 2025-12-02 sit one hour late
         d = cj.true_hours(d.set_index("ts")).rename_axis("ts").reset_index()
+    # session 103: an impossible hour of demand is a blank (docs/methods/impossible_hours.md); its day is then not a
+    # complete day, by this table's own rule. Solar, wind and battery output are not screened: they move further in an hour
+    d = d.drop_duplicates("ts").sort_values("ts").reset_index(drop=True)
+    d["demand"] = impossible_hours.screen(d.set_index("ts")["demand"]).values
     for k in ("sun", "snb", "wnd", "wnb", "bat"):
         if k not in d:
             d[k] = np.nan
@@ -139,7 +144,7 @@ def supply_hourly(name):
     """CAISO's own hours (session 80): demand as the sum of every source of its supply (imports and batteries net), solar,
     wind and battery output, by hour start, UTC. Only hours that hold all thirteen sources."""
     path = os.path.join(ip.OUT_DIR, name + ".csv")
-    f = pd.read_csv(path, comment="#", usecols=["entity", "variable", "ts_utc", "value"])
+    f = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value"])
     w = f[f["entity"] == "caiso:ISO"].pivot(index="ts_utc", columns="variable", values="value")
     missing = [c for c in SUPPLY_ALL if c not in w]
     if missing:
@@ -424,7 +429,7 @@ def from_held(grid, log):
     path = os.path.join(ip.OUT_DIR, NAME + ".csv")
     if not os.path.exists(path):
         raise FileNotFoundError(f"{grid}: no workbook and no earlier {NAME}.csv")
-    t = pd.read_csv(path, comment="#", dtype=str, keep_default_na=False)
+    t = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
     t = t[(t["entity"] == entity_of(grid)) & (t["freq"] == "P1M")]
     w = t.assign(v=t["value"].astype(float)).pivot(index="ts_utc", columns="variable", values="v")
     now = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
@@ -511,6 +516,24 @@ def main(argv=None):
                       "the earlier file's; this run added only the second measure of their average days, computed from the earlier "
                       "file's avg_*_mw_hHH rows, and no worst day.")
     header.append("License: public")
+    # Session 103: a grid rebuilt by this run is written whole. The table is merged into the earlier file (a grid whose
+    # workbook is not on the machine keeps its rows), and until now a row this run no longer makes stayed too: a day that
+    # left a year's ten worst kept its worst_rank, so a year could hold eleven ranked days (tests/test_session80.py found
+    # it on the first rebuild with a newer day). The earlier rows of a rebuilt grid that this run does not make are dropped.
+    target = os.path.join(ip.OUT_DIR, NAME + ".csv")
+    rebuilt = set(s["entity"]) - {entity_of(k) for k in kept}
+    if os.path.exists(target) and rebuilt:
+        old = ip.read_series(target)
+        made = set(zip(s["entity"], s["variable"], s["ts_utc"]))
+        in_run = pd.Series([k in made for k in zip(old["entity"], old["variable"], old["ts_utc"])], index=old.index)
+        stale = old["entity"].isin(rebuilt) & ~in_run
+        if stale.any():
+            log(f"  {int(stale.sum())} earlier rows of {', '.join(sorted(rebuilt))} are not made by this run and are dropped: "
+                + ", ".join(f"{v} {n}" for v, n in old[stale].groupby("variable").size().head(12).items()))
+            ip._require_lock(target, f"rebuilding {NAME}")
+            carried = old[~stale & ~in_run]   # the rows of a grid this run could not rebuild
+            os.remove(target)
+            s = pd.concat([carried, s.astype({c: str for c in s.columns if c != "value"})], ignore_index=True) if len(carried) else s
     ip.write_csv(s, NAME, header, log)
     ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW), derived",
                             report="The shoulder hours by grid and month (docs/methods/shoulder_hours.md)",

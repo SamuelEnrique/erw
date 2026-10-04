@@ -185,7 +185,7 @@ def carry(name, new):
     path = os.path.join(ip.OUT_DIR, name + ".csv")
     if not os.path.exists(path) or new.empty:
         return new, 0
-    old = pd.read_csv(path, comment="#", dtype=str, keep_default_na=False)
+    old = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
     old["value"] = old["value"].astype(float)
     have = set(zip(new["entity"], new["market"], new["ts_utc"]))
     # a month is carried only when this run did not compute it and it is older than every month this run computed for

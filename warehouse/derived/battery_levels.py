@@ -154,7 +154,7 @@ def ercot_levels(log):
     log.append(f"negative: {neg}, mean {days.loc[neg, 'mean']:.4f} USD/MWh, the lowest of {len(days)} complete days")
     sday, share = solar_day(log)
     rt = pb.read_table("iso_rtm_hub_prices", market="ercot_rtm", node=NODE)
-    rprov = pd.read_csv(os.path.join(ip.OUT_DIR, "iso_rtm_hub_prices.csv"), comment="#", dtype=str,
+    rprov = pd.read_csv(os.path.join(ip.OUT_DIR, "iso_rtm_hub_prices.csv"), skiprows=ip.header_rows(os.path.join(ip.OUT_DIR, "iso_rtm_hub_prices.csv")), dtype=str,
                         usecols=["ts_utc", "market", "node"] + cols_extra)
     rprov = rprov[(rprov["node"] == NODE) & (rprov["market"] == "ercot_rtm")][["ts_utc"] + cols_extra]
     rt = with_day(rt.merge(rprov, on="ts_utc", how="left"))

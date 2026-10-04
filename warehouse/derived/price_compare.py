@@ -92,7 +92,7 @@ def read_prices(in_dir, since, log):
             log(f"  {t}: not on this machine")
             continue
         got = []
-        for chunk in pd.read_csv(path, comment="#", usecols=["entity", "variable", "ts_utc", "value", "freq", "geo"], chunksize=500_000):
+        for chunk in pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value", "freq", "geo"], chunksize=500_000):
             chunk = chunk[chunk["ts_utc"] >= since]
             if len(chunk):
                 got.append(chunk)
@@ -139,7 +139,7 @@ def measures(h, tz):
 def carbon(in_dir, ba, start, end):
     """The mean of a grid's daily carbon intensity of generation over [start, end) (dates), with the days held and due."""
     path = os.path.join(in_dir, "carbon_intensity_daily.csv")
-    c = pd.read_csv(path, comment="#", usecols=["entity", "variable", "ts_utc", "value"])
+    c = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value"])
     c = c[(c["entity"] == f"eia930:{ba}") & (c["variable"] == "intensity_generation") & (c["ts_utc"] >= f"{start}T00:00:00Z") & (c["ts_utc"] < f"{end}T00:00:00Z")]
     due = (pd.Timestamp(end) - pd.Timestamp(start)).days
     if len(c) < NEAR_DAYS * due:

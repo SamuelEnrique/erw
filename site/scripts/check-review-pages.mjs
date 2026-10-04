@@ -41,7 +41,7 @@ const get = async (p, withCookie) => {
 // the visible text: scripts, styles and tags out
 const text = (html) => html.replace(/<script[\s\S]*?<\/script>/g, " ").replace(/<style[\s\S]*?<\/style>/g, " ").replace(/<[^>]+>/g, " ").replace(/&[a-z#0-9]+;/g, " ").replace(/\s+/g, " ");
 const BAD = [/could not be read/i, /not loaded here yet/i, /no number is shown/i, /Application error/i, /Internal Server Error/i];
-const inReview = (html) => /data-in-review-page|This (page|tool) is in review/i.test(html);
+const inReview = (html) => html.includes('data-in-review="1"');   // the in-review page's own mark (app/in-review/page.tsx)
 
 let bad = 0;
 for (const p of paths) {
