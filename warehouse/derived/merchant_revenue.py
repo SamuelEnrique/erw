@@ -48,6 +48,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, HERE)
+import caiso_join as cj  # noqa: E402  (session 82: California's hours that EIA holds one hour late)
 import cost_of_power as cp  # noqa: E402
 import event_window as ew  # noqa: E402  (the events' windows)
 import eia930_emissions as em  # noqa: E402
@@ -186,6 +187,8 @@ def build_iso(iso, gens, hh, log, left):
         raise RuntimeError(f"{iso}: no complete hourly real-time price")
     path, ex = workbook_of(BA[iso])
     fuel = fuel_hours(path)
+    if iso == "caiso":
+        fuel = cj.true_hours(fuel)  # session 82: EIA's California values of 2023-11 to 2025-12-02 sit one hour late
     log(f"  {iso}: {len(price)} hourly prices {price.index.min()} to {price.index.max()}; fuel hours {len(fuel)} from {os.path.relpath(path, ROOT)}")
     start = max(price.index.min(), pd.Timestamp(SHAPE_START, tz="UTC"))
     h = pd.DataFrame({"p": price}).loc[start:]

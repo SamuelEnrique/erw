@@ -191,13 +191,14 @@ class Splice(unittest.TestCase):
             cj.build(out_dir=None)
 
 
-HAVE = all(os.path.exists(os.path.join(SCRATCH, t + ".csv")) and os.path.exists(os.path.join(OUT, t + ".csv")) for t in cj.TABLES)
+# session 82: the join is live, so these read the tables in warehouse/output (session 78 read its scratch build against them)
+SCRATCH = OUT
+HAVE = all(os.path.exists(os.path.join(OUT, t + ".csv")) for t in cj.TABLES) and os.path.exists(os.path.join(OUT, cj.SUPPLY + ".csv"))
 
 
-@unittest.skipUnless(HAVE, "the built tables (runs/session78) or the held ones are not on this machine")
+@unittest.skipUnless(HAVE, "the carbon tables or caiso_fuel_supply are not on this machine")
 class Built(unittest.TestCase):
     def test_no_series_mixes_the_two_sources_on_one_side_of_the_join(self):
-        self.assertEqual(cj.check_joined(OUT, SCRATCH), [])
         for name, freq in cj.TABLES.items():
             b = pd.read_csv(os.path.join(SCRATCH, name + ".csv"), comment="#", dtype=str, keep_default_na=False)
             ca = b[b["entity"] == cj.ENTITY]

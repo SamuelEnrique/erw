@@ -43,6 +43,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, HERE)
+import caiso_join as cj  # noqa: E402  (session 82: California's generation from the join)
 import eia930_emissions as em  # noqa: E402
 import iso_prices as ip  # noqa: E402
 import price_board as pb  # noqa: E402  (TZ, MAIN, TABLES, HISTORY, read_table, r4)
@@ -248,6 +249,11 @@ def main():
             used.append(f"{BA[iso]}: {os.path.relpath(ex, ROOT)} ({url}, Last-Modified {lm}, downloaded {got})")
             x = em.read_extract(ex)
             x.index = pd.to_datetime(x["ts_utc"], utc=True)
+            if iso == "caiso":
+                # session 82: EIA's California values of 2023-11 to 2025-12-02 sit one hour late (cj.true_hours); and from
+                # the join California's net generation is CAISO's own (cost_of_power_carbon's intensity of generation):
+                # the month that holds the join, and a month CAISO does not hold wholly, is left out below
+                x = cj.join_extract(cj.true_hours(x))
             a, b, c = build_iso(iso, x, retrieved, log, left)
             monthly += a
             profile += b

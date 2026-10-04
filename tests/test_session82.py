@@ -105,5 +105,72 @@ class DailySupply(unittest.TestCase):
         self.assertEqual(list(cj.before_join(j)["co2"]), [1.0])
 
 
+class LateHours(unittest.TestCase):
+    """EIA's California hours from 2023-11-01 to 2025-12-02 (caiso_join.true_hours)."""
+
+    def frame(self, starts):
+        idx = pd.DatetimeIndex(pd.to_datetime(starts, utc=True))
+        return pd.DataFrame({"v": range(len(idx))}, index=idx)
+
+    def test_only_the_late_hours_move_and_by_one_hour(self):
+        x = self.frame(["2023-10-31T21:00:00Z", "2023-10-31T22:00:00Z", "2023-10-31T23:00:00Z", "2023-11-01T00:00:00Z",
+                        "2025-12-02T21:00:00Z", "2025-12-02T22:00:00Z", "2025-12-02T23:00:00Z", "2025-12-03T00:00:00Z"])
+        y = cj.true_hours(x)
+        got = {t.strftime("%Y-%m-%dT%H"): int(v) for t, v in y["v"].items()}
+        self.assertEqual(got, {"2023-10-31T21": 0, "2023-10-31T22": 1,      # before: as they stand; the first late row (2) would
+                               "2023-10-31T23": 3,                          # land on 22:00, which holds its own row, and is dropped
+                               "2025-12-02T20": 4, "2025-12-02T21": 5,      # the last late rows move back
+                               "2025-12-02T23": 6, "2025-12-03T00": 7})     # after: as they stand; 22:00 on 2 December is empty
+        self.assertNotIn(pd.Timestamp("2025-12-02T22:00:00Z"), y.index)
+        self.assertFalse(y.index.duplicated().any())
+
+    def test_hours_outside_the_period_are_untouched(self):
+        x = self.frame(pd.date_range("2022-01-01", periods=48, freq="h", tz="UTC").append(pd.date_range("2026-01-01", periods=48, freq="h", tz="UTC")))
+        self.assertTrue(cj.true_hours(x).equals(x))
+
+    def test_the_builders_that_read_those_hours_call_it(self):
+        for rel, call in (("warehouse/derived/merchant_revenue.py", "fuel = cj.true_hours(fuel)"),
+                          ("warehouse/derived/cost_of_power.py", "x = cj.join_extract(cj.true_hours(x))"),
+                          ("warehouse/derived/shoulder_hours.py", 'd = cj.true_hours(d.set_index("ts"))')):
+            with open(os.path.join(ROOT, *rel.split("/")), encoding="utf-8") as f:
+                self.assertIn(call, f.read(), rel)
+
+    def test_with_the_workbook_every_day_matches_caisos_own_solar_at_no_shift(self):
+        """The evidence, and the fix: before, EIA's solar is one hour late on every day to 2025-12-02; after
+        true_hours, it matches CAISO's own at no shift on every day."""
+        import glob
+        files = glob.glob(os.path.join(ROOT, "warehouse", "raw", "eia930_emissions", "*", "*_CISO.xlsx"))
+        supply = os.path.join(ROOT, "warehouse", "output", "caiso_fuel_supply.csv")
+        if not files or not os.path.exists(supply):
+            self.skipTest("EIA's CISO workbook or caiso_fuel_supply is not on this machine")
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "analysis"))
+        import caiso_hour_offset as ho
+        head, w = ho.read(ho.workbook(), since="2025-05-31")
+        w.index = pd.to_datetime(w["UTC time"], utc=True) - pd.Timedelta(hours=1)
+        eia = pd.to_numeric(w["Adjusted SUN Gen"], errors="coerce").to_frame("sun")
+        caiso = cj.caiso_hours()
+        own = pd.Series(caiso["solar_mw"].values, index=pd.to_datetime(caiso.index, utc=True))
+
+        def best_by_day(series):
+            out = {}
+            for day, x in series.groupby(series.index.strftime("%Y-%m-%d")):
+                res = {}
+                for s in (-1, 0, 1):
+                    a = x.copy()
+                    a.index = a.index - pd.Timedelta(hours=s)
+                    j = pd.concat([a, own], axis=1, join="inner").dropna()
+                    if len(j) >= 20:
+                        res[s] = j.corr().iloc[0, 1]
+                if res:
+                    out[day] = max(res, key=res.get)
+            return pd.Series(out)
+        before = best_by_day(eia["sun"])
+        self.assertEqual(set(before[before.index <= "2025-12-02"]), {1})
+        self.assertEqual(set(before[before.index >= "2025-12-04"]), {0})
+        after = best_by_day(cj.true_hours(eia)["sun"])
+        self.assertEqual(set(after[after.index != "2025-12-02"]), {0})
+        self.assertGreater(len(after), 450)
+
+
 if __name__ == "__main__":
     unittest.main()

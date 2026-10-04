@@ -26,7 +26,7 @@ Every number comes from Supabase or a committed metadata file (`data/markets.jso
 - `scripts/build-content.mjs`: bundles `../docs` into `content/docs.json` before `dev` and `build` (generated, not committed).
 - `scripts/screenshots.mjs`: full-page screenshots of every page in headless Chrome, to `screenshots/`.
 - `scripts/check-values.mjs`: compares every rendered number with a direct Supabase query.
-- `scripts/snapshot-live.mjs`: the snapshot of the live pages a deploy needs before and after (`CLAUDE.md`, "The live pages and the freeze"). `take <name> [base-url]` reads the 18 live pages as a visitor (production by default) and keeps each page's HTML, checked numbers and visible text in `../runs/snapshots/<name>/`; `compare <before> <after>` lists every difference and exits 1 if there is one. A snapshot is never overwritten.
+- `scripts/snapshot-live.mjs`: the snapshot of the live pages a deploy needs before and after (`CLAUDE.md`, "The live pages and the freeze"). `take <name> [base-url]` reads the 20 live pages as a visitor (production by default) and keeps each page's HTML, checked numbers and visible text in `../runs/snapshots/<name>/`; `compare <before> <after>` lists every difference and exits 1 if there is one. A snapshot is never overwritten.
 - `lib/chat/`: question answering for `/ask` (session 12).
   - `ask.ts`: the same loop as `warehouse/chat/ask.py`.
   - `tools.ts`: the four tools over the Supabase live set.

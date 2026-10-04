@@ -132,11 +132,16 @@ class LeanerPulls(unittest.TestCase):
     def test_newer_daily_snapshot_pulls(self):
         # the daily run rebuilt the committed snapshot after the object: it becomes the base, and the links are pulled again
         stored, _ = self.first()
-        newer = dict(copy.deepcopy(self.c), built="2026-10-02T04:00:00Z")
+        # session 82: timed after the committed snapshot, like t1 and t2 (the fixed 2026-10-02T04:00 was "newer" only until
+        # a daily commit built a later snapshot; the merge tests would then have failed and stopped the daily run)
+        base = dt.datetime.strptime(self.c["built"], "%Y-%m-%dT%H:%M:%SZ")
+        built = (base + dt.timedelta(hours=3)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        newer = dict(copy.deepcopy(self.c), built=built)
         calls = Calls(rows_from(self.c), self.fx["demand_run2"])
-        snap, _ = nh.build(stored, newer, self.xe, calls.interchange, calls.demand, "2026-10-02T05:00:00Z", self.quiet)
+        snap, _ = nh.build(stored, newer, self.xe, calls.interchange, calls.demand,
+                           (base + dt.timedelta(hours=4)).strftime("%Y-%m-%dT%H:%M:%SZ"), self.quiet)
         self.assertEqual(calls.x, 1)
-        self.assertEqual(snap["base_built"], "2026-10-02T04:00:00Z")
+        self.assertEqual(snap["base_built"], built)
 
     def test_objects_from_before_session_55(self):
         # session 54's object recorded only eia_interchange_end (the newest period of its rows)

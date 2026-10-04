@@ -151,7 +151,7 @@ A large load's delivered cost is therefore above the hub price. EIA's retail pri
 ### Assets (each per MW; every result is linear in MW, so the page scales by the reader's size)
 
 **Solar and wind: the fleet's hourly output per MW installed.**
-- **Output:** EIA-930's hourly generation by fuel, the BA workbooks' `Adjusted SUN Gen` and `Adjusted WND Gen`. These are the workbooks already saved under `warehouse/raw/eia930_emissions/` that the emissions extracts were read from. The extracts themselves hold no fuel columns.
+- **Output:** EIA-930's hourly generation by fuel, the BA workbooks' `Adjusted SUN Gen` and `Adjusted WND Gen`. These are the workbooks already saved under `warehouse/raw/eia930_emissions/` that the emissions extracts were read from. The extracts themselves hold no fuel columns. **California's hours from 1 November 2023 to 2 December 2025 are read one hour earlier than EIA stamps them (session 82):** EIA's values for California sit one hour late in that period, measured against CAISO's own data and against the sun (`docs/methods/eia930_caiso_break.md`, "The late hours"). The same holds for California's demand in the load weights above.
 - **Capacity:** the fuel's installed nameplate in that BA in that month, from EIA-860M: operating generators by operating month, plus retired ones until their retirement month.
 - **Revenue** is the sum over the month's hours of output per MW times the price.
 - **Limits:**

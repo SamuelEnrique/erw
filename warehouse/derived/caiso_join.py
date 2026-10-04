@@ -248,6 +248,50 @@ def splice(name, new, in_dir, out_dir, note):
     return dict(table=name, kept=kept, dropped=dropped, added=len(new), rows=kept + len(new))
 
 
+# Session 82: EIA's California hours, one hour late for two years. In EIA's CISO workbook every hourly value from the
+# row whose "UTC time" (the hour's end) is 2023-11-01T00:00 to the row whose UTC time is 2025-12-02T23:00 belongs to the
+# hour before the one it is stamped with. Evidence (warehouse/analysis/caiso_hour_offset.py, docs/methods/
+# eia930_caiso_break.md): against CAISO's own 5-minute supply, EIA's solar is one hour late on each of the 182 days from
+# 2025-06-02 to 2025-12-02 and at no shift on each of the 298 days after; by the sun, the clock time of solar's centre of
+# mass steps one hour later on 2023-10-31 and back on 2025-12-03 and sits one hour late in every month between. The
+# workbook's local and UTC columns agree with each other throughout, and Texas is not late, so the offset is in the
+# values EIA holds for California, not in the ERW's reading. The two bounds are hour starts as the ERW reads EIA (its
+# UTC time less one hour). Before 2023-11 the series is about half an hour early until June 2022: not a whole hour, not
+# clear, and not touched.
+LATE_FROM = "2023-10-31T23:00:00Z"   # the first hour start whose value is the hour before's
+LATE_TO = "2025-12-02T23:00:00Z"     # the first hour start that is right again
+
+
+def true_hours(x):
+    """EIA's California hours with the late ones set back: x is a frame indexed by the hour's start (UTC timestamps) as
+    the ERW reads EIA. A row in [LATE_FROM, LATE_TO) moves one hour earlier. The first of them lands on an hour that
+    already holds its own row and is dropped; the last hour before LATE_TO is then empty, and is not filled."""
+    a, b = pd.Timestamp(LATE_FROM), pd.Timestamp(LATE_TO)
+    late = (x.index >= a) & (x.index < b)
+    moved = x[late].copy()
+    moved.index = moved.index - pd.Timedelta(hours=1)
+    kept = x[~late]
+    moved = moved[~moved.index.isin(kept.index)]
+    return pd.concat([kept, moved]).sort_index()
+
+
+def join_extract(x, in_dir=None, tz="America/Los_Angeles"):
+    """California's hours for a builder that reads EIA's workbook extract (session 82, for cost_of_power.py). x: the CISO
+    extract indexed by the hour's start (UTC timestamps), with net_generation_mwh. From JOIN the net generation is CAISO's
+    own, and absent where CAISO does not hold the hour; in the local month that holds JOIN it is absent throughout, so a
+    monthly figure is never built on both sources. Demand and the CO2 columns are EIA's, unchanged."""
+    caiso = caiso_hours(in_dir or OUT_DIR)
+    own = pd.Series(caiso["net_generation_mwh"].values, index=pd.to_datetime(caiso.index, utc=True))
+    x = x.copy()
+    x["net_generation_mwh"] = pd.to_numeric(x["net_generation_mwh"], errors="coerce")
+    start = pd.Timestamp(JOIN)
+    post = x.index >= start
+    x.loc[post, "net_generation_mwh"] = own.reindex(x.index[post]).values
+    held = x.index.tz_convert(tz).strftime("%Y-%m") == start.tz_convert(tz).strftime("%Y-%m")
+    x.loc[held, "net_generation_mwh"] = float("nan")
+    return x
+
+
 def before_join(j):
     """The rows of an hourly frame (column ts_utc) that lie before JOIN. For warehouse/derived/carbon_intensity.py: applied
     to California's intensity_generation, it keeps EIA's generation out of every period from the join (the day and the

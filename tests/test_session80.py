@@ -20,7 +20,8 @@ for p in ("warehouse", "warehouse/connectors", "warehouse/derived"):
 
 import shoulder_hours as sh  # noqa: E402
 
-TRIAL = os.path.join(ROOT, "runs", "session80", "build", "shoulder_hours_monthly.csv")
+# session 82: the table is rebuilt in warehouse/output with the workbooks, so these read it (session 80 read its trial build)
+TRIAL = os.path.join(ROOT, "warehouse", "output", "shoulder_hours_monthly.csv")
 
 
 def day(evening=(1600, 1900, 2000, 1700, 1300, 1100), demand=1000.0):
@@ -186,15 +187,9 @@ class Trial(unittest.TestCase):
         self.assertIn("iso:caiso_own is CAISO's own supply by fuel", head)
         self.assertIn("never mixed", head)
 
-    def test_the_earlier_rows_are_kept_as_they_stand(self):
-        held = os.path.join(ROOT, "warehouse", "output", "shoulder_hours_monthly.csv")
-        if not os.path.exists(held):
-            self.skipTest("the held table is not on this machine")
-        a = pd.read_csv(held, comment="#", dtype=str, keep_default_na=False)
-        k = ["entity", "variable", "ts_utc"]
-        j = a.merge(self.t, on=k, suffixes=("_held", "_trial"))
-        self.assertEqual(len(j), len(a))
-        self.assertTrue((j["value_held"].astype(float) == j["value_trial"].astype(float)).all())
+    def test_every_row_carries_the_methods_address(self):
+        # session 77's defect (a path where a URL belongs) is gone from every row once the table is rebuilt
+        self.assertEqual(set(self.t["source_url"]), {sh.METHOD_URL})
 
     def test_the_second_measure_in_every_month_and_inside_the_first(self):
         w = self.t[self.t["freq"] == "P1M"].pivot(index=["entity", "ts_utc"], columns="variable", values="v")
