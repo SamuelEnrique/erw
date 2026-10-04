@@ -595,7 +595,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
     }
     // the now line and the current price
     ctx.strokeStyle = css("accent"); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(nowX, top - 8); ctx.lineTo(nowX, bottom); ctx.stroke();
-    const now = labeled[Math.min(n - 1, Math.floor(pos))];
+    const now = labeled[Math.max(0, Math.min(n - 1, Math.floor(pos)))];
     ctx.fillStyle = css("accent"); ctx.beginPath(); ctx.arc(nowX, y(now.value), 4, 0, Math.PI * 2); ctx.fill();
     ctx.font = "12px system-ui, sans-serif";
     // the label right of the now line where it fits, else left of it (narrow screens), never over the line. Session 66:
@@ -630,8 +630,10 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
   const loop = useCallback((now: number) => {
     const s = g.current;
     const per = DURATION_MS / n;
-    const elapsed = now - s.t0;
-    const dt = Math.min(100, now - s.last);
+    // session 111: a frame's time stamp can be earlier than the press that started the play (the frame had begun
+    // before the press was handled); never before the day's first interval, or draw() reads a price that is not there
+    const elapsed = Math.max(0, now - s.t0);
+    const dt = Math.max(0, Math.min(100, now - s.last));
     s.last = now;
     s.held[s.control + 1] += dt; // [discharge, idle, charge]
     const target = Math.min(n, Math.floor(elapsed / per));
@@ -781,7 +783,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
               Grid emergency (a game rule): the price is climbing toward the {usd(EMERGENCY.cap).replace(".00", "")}/MWh cap. This hour&apos;s price is a {SPIKE_LABEL}. Next the grid goes down for two hours: keep charge for the house.
               {/* session 111: how much, in numbers. Selling down to the reserve line looked safe and was not: with the default battery the
                   reserve holds 2.70 kWh and the house needs 3.16 */}
-              {perfect.outageNeedKwh > 0 ? <> It will need <strong>{perfect.outageNeedKwh.toFixed(2)} kWh</strong> from the battery{rules.reserveKwh < perfect.outageNeedKwh ? <>; the backup reserve is {rules.reserveKwh.toFixed(2)} kWh, which is not enough by itself</> : null}.</> : null}
+              {perfect.outageNeedKwh > 0 ? <> It will need <strong>{perfect.outageNeedKwh.toFixed(2)} kWh</strong> from the battery{rules.reserveKwh < perfect.outageNeedKwh ? <>; the backup reserve is {rules.reserveKwh.toFixed(2)} kWh, which is not enough by itself</> : null}.</> : rules.solarKw > 0 ? <> Today the roof carries the house through it.</> : null}
             </div>
           ) : notice ? (
             <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
