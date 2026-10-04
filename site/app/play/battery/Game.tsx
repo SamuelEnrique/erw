@@ -766,7 +766,7 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
       ) : null}
 
       {phase !== "pick" ? (
-        <div ref={board} className="scroll-mt-2">
+        <div ref={board} className="scroll-mt-2" data-game-phase={phase} data-game-idx={hud.idx} data-game-level={level.date}>
           <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2 text-sm">
             <span><strong>{level.title}</strong>, {level.date} ({GRIDS[level.grid].name}, {GRIDS[level.grid].zone} time), {DIFFICULTIES[difficulty].label}{addons.map((k) => `, with ${ADDONS[k].label.toLowerCase()}`).join("")}</span>
             <span aria-live="polite">{playing && hud.idx < n ? `${clock(level.tz, level.ts_utc[Math.min(n - 1, hud.idx)])}` : "end of day"}</span>
@@ -779,6 +779,9 @@ export function Game({ levels, top: firstTop, presets: firstPresets, simple = fa
           ) : inSpike ? (
             <div className="mb-1 border border-accent bg-panel px-2 py-1 text-sm text-accent" role="status">
               Grid emergency (a game rule): the price is climbing toward the {usd(EMERGENCY.cap).replace(".00", "")}/MWh cap. This hour&apos;s price is a {SPIKE_LABEL}. Next the grid goes down for two hours: keep charge for the house.
+              {/* session 111: how much, in numbers. Selling down to the reserve line looked safe and was not: with the default battery the
+                  reserve holds 2.70 kWh and the house needs 3.16 */}
+              {perfect.outageNeedKwh > 0 ? <> It will need <strong>{perfect.outageNeedKwh.toFixed(2)} kWh</strong> from the battery{rules.reserveKwh < perfect.outageNeedKwh ? <>; the backup reserve is {rules.reserveKwh.toFixed(2)} kWh, which is not enough by itself</> : null}.</> : null}
             </div>
           ) : notice ? (
             <div className="mb-1 border border-accent px-2 py-1 text-sm text-accent" role="status">Fleet call in 15 minutes: the grid&apos;s dearest hour of the day. Keep charge to sell then.</div>
