@@ -70,6 +70,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 |---|---|---|---|---|
 | Severance tax calculator | `/severance` | What state production tax is due on a month of oil, gas or condensate in Texas, Louisiana or New Mexico, and what reduced rates could apply? | investors and lenders | `site/data/severance_rules.json`, `eia_fuel_spot_prices` |
 | Lease tool | `/severance/lease` | The same, for every well and month of a lease file, computed in the browser | investors and lenders | the same |
+| What a battery saves a customer (in review, session 88) | `/battery/customer` | With my peak demand, my demand charge, my energy rates and a battery of this size, how much of the bill does shaving the peak and shifting energy save? | businesses with a demand charge; everyone | none: the reader's own numbers, worked out in the browser; nothing typed is sent or stored |
 
 ## News and analysis
 

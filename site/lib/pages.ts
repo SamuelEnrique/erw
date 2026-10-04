@@ -105,6 +105,8 @@ export const GROUPS: Group[] = [
     pages: [
       { href: "/severance", label: "Severance tax", line: "State production taxes on a month of oil, gas or condensate in Texas, Louisiana and New Mexico: the base rate, the reduced rates and exemptions, and the savings, each rule cited.", tables: "site/data/severance_rules.json; eia_fuel_spot_prices (default prices)", related: ["/prices", "/cost-of-power"] },
       // session 53: the lease tool, listed (session 45)
+      // session 88: a calculator on the reader's own bill; no ERW table is read, and nothing typed leaves the browser (in review)
+      { href: "/battery/customer", label: "What a battery saves a customer", line: "Type your peak demand, your demand charge, your energy rates and a battery's size: the bill saved by shaving the peak and shifting energy. Your own numbers, worked out in your browser; nothing is sent.", tables: "", related: ["/cost-of-power/battery", "/learn/bill"] },
       { href: "/severance/lease", label: "Lease tool", line: "The severance calculator for every well and month of a lease file, computed in the browser: nothing is sent.", tables: "site/data/severance_rules.json; eia_fuel_spot_prices (default prices)", related: ["/severance"] },
     ],
   },

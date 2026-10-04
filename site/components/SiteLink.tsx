@@ -13,7 +13,9 @@ import type { ComponentProps } from "react";
 import { useInternal } from "@/components/Internal";
 import { gated } from "@/lib/release";
 
-export const NO_PREFETCH = ["/severance/lease", "/cost-of-power/battery"];
+// Session 88: /battery/customer promises that nothing typed is sent. The browser proof (scripts/check-no-request.mjs)
+// caught the footer's links prefetching when the result made the page taller; on that page too the shared links do not.
+export const NO_PREFETCH = ["/severance/lease", "/cost-of-power/battery", "/battery/customer"];
 
 export function noPrefetch(path: string | null): boolean {
   return !!path && NO_PREFETCH.some((p) => path === p || path.startsWith(p + "/"));
