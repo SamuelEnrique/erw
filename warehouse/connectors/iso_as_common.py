@@ -113,8 +113,9 @@ def run(spec, argv=None):
                  else pd.Timestamp.now(tz=tz).tz_localize(None).normalize() + pd.Timedelta(days=1))
         start = pd.Timestamp(max(a.start, spec["first"]))
         docs = spec["documents"](start, until, log, a.offline)
+        ceiling = spec.get("ceiling", CEILING)  # session 100: a table may carry its own, lower, ceiling
         log(f"ERW {connector} run {run_id}: operating days {start.date()} to {(until - pd.Timedelta(days=1)).date()}, "
-            f"{len(docs)} documents; ceiling {CEILING:,} rows")
+            f"{len(docs)} documents; ceiling {ceiling:,} rows")
         frames, gaps, t0 = [], [], time.time()
         for i, doc in enumerate(docs):
             try:
@@ -136,15 +137,15 @@ def run(spec, argv=None):
         rows = pd.concat(frames, ignore_index=True) if frames else None
         if rows is None or rows.empty:
             raise RuntimeError("no complete day was read; nothing written")
-        if len(rows) > CEILING and "narrow" in spec:
+        if len(rows) > ceiling and "narrow" in spec:
             rows = spec["narrow"](rows, log)
-        if len(rows) > CEILING:
-            raise RuntimeError(f"{len(rows):,} rows would pass the ceiling of {CEILING:,}; nothing written")
+        if len(rows) > ceiling:
+            raise RuntimeError(f"{len(rows):,} rows would pass the ceiling of {ceiling:,}; nothing written")
         if rows.duplicated(["region", "variable", "ts"]).any():
             raise RuntimeError("two documents hold the same (region, variable, hour)")
         s = pd.DataFrame({
             "entity": spec["namespace"] + ":" + rows["region"], "variable": rows["variable"],
-            "ts_utc": rows["ts"].map(ip.utc_iso), "value": rows["value"], "unit": UNIT, "freq": "PT1H",
+            "ts_utc": rows["ts"].map(ip.utc_iso), "value": rows["value"], "unit": spec.get("unit", UNIT), "freq": "PT1H",
             "geo": spec["geo"], "market": spec["market"], "node": rows["region"], "source": spec["source"],
             "source_url": rows["source_url"], "retrieved_at": rows["retrieved_at"], "vintage": "",
         }).sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)[ip.SERIES_COLS]
@@ -164,7 +165,7 @@ def run(spec, argv=None):
         ip.update_sources([dict(source=spec["source"], publisher=spec["publisher"], report=spec["report"],
                                 report_url=spec["page"], document_list=spec["document_list"],
                                 license=spec["license"], tables=[name])])
-        results.append(dict(table=name, market="DAM", status="ok", detail=f"{len(s)} rows of {CEILING}"))
+        results.append(dict(table=name, market="DAM", status="ok", detail=f"{len(s)} rows of {ceiling}"))
         for g in gaps:
             results.append(dict(table=name, market="DAM", status="gap", detail=g))
     except Exception:
