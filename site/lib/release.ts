@@ -33,6 +33,7 @@ export const RELEASE: Record<string, Status> = {
   "/data/methods/storage": "live",
 
   "/board": "review",
+  "/board/v3": "review",  // session 104: the price board, version 3 (power by grid, gas, oil; last value, day, week, thirty days)
   "/markets": "review",
   "/cost-of-power": "review",
   "/prices": "review",
