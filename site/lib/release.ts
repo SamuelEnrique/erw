@@ -16,6 +16,7 @@ export const RELEASE: Record<string, Status> = {
   "/": "live",
   "/cost-of-power/battery": "live",
   "/cost-of-power/seller": "live",
+  "/cost-of-power/seller/v2": "review",  // session 107: version 2 of the seller's tab; without its own line it would take the live tab's status
   "/network": "live",
   "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace); without its own line it would take /network's status
   "/storage": "live",
