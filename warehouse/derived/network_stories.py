@@ -46,7 +46,7 @@ COMMITTED = os.path.join(ROOT, "site", "data", "grid_network.json")
 
 
 def read(name, cols):
-    return pd.read_csv(os.path.join(ip.OUT_DIR, name + ".csv"), comment="#", usecols=cols, dtype=str, keep_default_na=False)
+    return pd.read_csv(os.path.join(ip.OUT_DIR, name + ".csv"), skiprows=ip.header_rows(os.path.join(ip.OUT_DIR, name + ".csv")), usecols=cols, dtype=str, keep_default_na=False)
 
 
 HUB_BA = {"ercot": "ERCO", "caiso": "CISO", "nyiso": "NYIS", "miso": "MISO", "spp": "SWPP", "isone": "ISNE"}  # PJM: internal prices

@@ -504,7 +504,7 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
         # fell in the month before and a year lost its January (the evaluation's carbon intensity by year). The general
         # chat groups as it did; the same fix there is a change for a person to make
         dated = shape == "series" and "freq" in sel and len(sel) and sel["freq"].isin(["P1D", "P1W", "P1M", "P1Y"]).all()
-        keys = _group_keys(sel, shape, tcol, group_by, "UTC" if dated and (SCOPE or {}).get("dated_groups") else tz)
+        keys = _group_keys(sel, shape, tcol, group_by, "UTC" if dated else tz)   # session 103: for every chat, not only under a scope that asks
         if keys is None:
             if aggregation == "latest" and shape == "series" and sel.groupby(["entity", "variable"]).ngroups > 1:
                 res = []

@@ -573,6 +573,24 @@ def to_series(rows, iso, variable, freq, market, geo):
 SERIES_KEY = ["entity", "variable", "ts_utc"]
 
 
+def header_rows(path):
+    """The number of lines of a table's provenance header: the "#" lines before the column row.
+
+    Session 103, settling session 95's finding: the comment character "#" given to pandas cuts a row short at a bare
+    "#" in it (one inside a quoted field is spared) and pads the lost columns with blanks without a word. 26 tables hold
+    a "#" in a value (queue ids such as "Q#12", plant names such as "Muscatine Plant #1", an address with a fragment).
+    Read a table by skipping the header's lines by count, skiprows=header_rows(path), never by the comment character
+    (tests/test_session103.py holds every builder, reader and loader to it).
+    """
+    with open(path, encoding="utf-8") as f:
+        n = 0
+        for line in f:
+            if not line.startswith("#"):
+                break
+            n += 1
+    return n
+
+
 def read_series(path, cols=None):
     """An existing output file as a frame (header comment lines skipped).
 

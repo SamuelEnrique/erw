@@ -476,7 +476,7 @@ def keep_fuller(name, new, cols, log):
     path = os.path.join(ip.OUT_DIR, name + ".csv")
     if not os.path.exists(path):
         return new, 0
-    old = pd.read_csv(path, comment="#", dtype=str, keep_default_na=False)
+    old = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
     if list(old.columns) != cols:
         raise RuntimeError(f"{name}: the earlier file's columns differ; nothing written")
     old["value"] = old["value"].astype(float)
@@ -508,7 +508,7 @@ def carry_retrieved(name, out, key):
     path = os.path.join(ip.OUT_DIR, name + ".csv")
     if not os.path.exists(path):
         return out
-    old = pd.read_csv(path, comment="#", dtype=str, keep_default_na=False)
+    old = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
     old["value"] = old["value"].astype(float)
     prev = {tuple(r[:-2]): (r[-2], r[-1]) for r in zip(*(old[c] for c in key), old["value"], old["retrieved_at"])}
     got = [prev.get(k) for k in zip(*(out[c] for c in key))]

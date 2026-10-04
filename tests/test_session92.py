@@ -235,10 +235,11 @@ class TheTrapsTheFirstRunFound(unittest.TestCase):
         plain = {r["year"]: r["count"] for r in tools.query(**{**q, "tz": "UTC"})["result"]}
         self.assertEqual(mine, plain, "a monthly row moved to another year when a time zone was passed")
         self.assertEqual(sum(mine.values()), tools.query(table="carbon_intensity_monthly", variable="intensity_generation", aggregation="count")["result"][0]["count"])
-        # the general chat groups as it did (the same trap is there; a person decides)
+        # session 103, on Samuel's instruction: the general chat groups such rows by their own label too (it lost each
+        # year's January until then; this assertion used to hold that the trap was still there)
         tools.set_scope(None)
-        old = {r["year"]: r["count"] for r in tools.query(**{**q, "entity": "eia930:ERCO"})["result"]}
-        self.assertNotEqual(old, plain)
+        general = {r["year"]: r["count"] for r in tools.query(**{**q, "entity": "eia930:ERCO"})["result"]}
+        self.assertEqual(general, plain)
 
     def test_a_name_asked_by_counts_as_fetched(self):
         self.assertEqual(ercot.spelled({"variable": "foresight_4h_revenue_total_usd_per_mw", "entity": "ercot:HB_HUBAVG", "where": {"event": "uri_2021"}, "start": "2021-02-07"}),

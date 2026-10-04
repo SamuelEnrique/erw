@@ -414,7 +414,7 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     const groups = new Map<string, Row[]>();
     for (const r of rows) {
       // session 92, as tools.py under a scope that asks for it: rows of a day or longer are grouped by their own label
-      const k = TIME_GROUPS.includes(g) ? (r.t ? tzKey(r.t, dated && scope?.dated_groups ? "UTC" : tz, g) : null) : r.g;
+      const k = TIME_GROUPS.includes(g) ? (r.t ? tzKey(r.t, dated ? "UTC" : tz, g) : null) : r.g;
       if (k === null) continue;
       if (!groups.has(k)) groups.set(k, []);
       groups.get(k)!.push(r);

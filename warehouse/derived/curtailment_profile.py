@@ -170,8 +170,8 @@ def main(argv=None):
     log_dir = os.path.join(a.out_dir, "logs") if a.out_dir else ip.LOG_DIR
     os.makedirs(log_dir, exist_ok=True)
     log = ip.Log(os.path.join(log_dir, f"curtailment_profile_{run_id}.log"))
-    t = pd.read_csv(os.path.join(inputs, f"{INPUT}.csv"), comment="#", usecols=["variable", "ts_utc", "value", "freq"])
-    b = pd.read_csv(os.path.join(inputs, f"{BATTERY}.csv"), comment="#", usecols=["variable", "ts_utc", "value"])
+    t = pd.read_csv(os.path.join(inputs, f"{INPUT}.csv"), skiprows=ip.header_rows(os.path.join(inputs, f"{INPUT}.csv")), usecols=["variable", "ts_utc", "value", "freq"])
+    b = pd.read_csv(os.path.join(inputs, f"{BATTERY}.csv"), skiprows=ip.header_rows(os.path.join(inputs, f"{BATTERY}.csv")), usecols=["variable", "ts_utc", "value"])
     days = covered_days(t)
     bat = battery_hours(b)
     months = summarize(hourly_curtailment(t), days, bat)

@@ -87,6 +87,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, HERE)
 import caiso_join as cj  # noqa: E402
+import impossible_hours  # noqa: E402  (session 103: EIA's impossible demand hours are not used)
 import iso_prices as ip  # noqa: E402
 
 PROFILE = "generation_mix_hourly_profile"
@@ -158,6 +159,9 @@ def eia_hourly(ba):
     d = d.drop_duplicates("ts").set_index("ts").sort_index()
     if ba == "CISO":
         d = cj.true_hours(d)
+    # session 103: an impossible hour of demand is a blank in the average day's demand (docs/methods/impossible_hours.md);
+    # the hour's generation is used as before, by this table's own tests
+    d["demand"] = impossible_hours.screen(d["demand"])
     return grouped(d, GROUPS), path
 
 
@@ -370,8 +374,8 @@ def main(argv=None):
     a = ap.parse_args(argv)
     if a.snapshot_only:
         d = a.out_dir or ip.OUT_DIR
-        p = pd.read_csv(os.path.join(d, f"{PROFILE}.csv"), comment="#")
-        r = pd.read_csv(os.path.join(d, f"{RECORDS}.csv"), comment="#", dtype={"x_period": str})
+        p = pd.read_csv(os.path.join(d, f"{PROFILE}.csv"), skiprows=ip.header_rows(os.path.join(d, f"{PROFILE}.csv")))
+        r = pd.read_csv(os.path.join(d, f"{RECORDS}.csv"), skiprows=ip.header_rows(os.path.join(d, f"{RECORDS}.csv")), dtype={"x_period": str})
         snapshot(p, r, p["retrieved_at"].max())
         print(f"the site's copy written from {d}: {p['entity'].nunique()} grids")
         return 0

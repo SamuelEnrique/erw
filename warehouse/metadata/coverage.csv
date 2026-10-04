@@ -75,8 +75,8 @@ flex_alert_effects,flex,,1,P1D;P1Y;PT1H,2018-01-01T00:00:00Z,2024-07-25T06:00:00
 flex_alert_model,flex,,1,;P1D,2018-07-01T00:00:00Z,2025-08-24T00:00:00Z,881,erw:flex_alert_scorecard,2026-10-02T05:12:48Z,pass,public,power,yes,derived
 fred_daily_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-09-29T00:00:00Z,24306,fred:DCOILBRENTEU;fred:DCOILWTICO;fred:DHHNGSP,2026-10-04T14:28:46Z,pass,public,oil;gas,no,source
 fred_imf_commodity_prices,none,,5,P1M,1992-01-01T00:00:00Z,2026-07-01T00:00:00Z,2075,fred:PCOALAUUSDM;fred:PNGASEUUSDM;fred:PNGASJPUSDM;fred:PNICKUSDM;fred:PURANUSDM,2026-10-04T14:28:46Z,pass,internal,gas;lng;coal;uranium;metals,no,source
-generation_mix_hourly_profile,generation,,7,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,162911,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-04T17:12:51Z,pass,public,power;carbon,yes,derived
-generation_mix_records,generation,,7,PT1H,2019-01-14T05:00:00Z,2026-09-27T17:00:00Z,306,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-04T17:12:51Z,pass,public,power;carbon,yes,derived
+generation_mix_hourly_profile,generation,,7,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,162911,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-04T19:18:51Z,pass,public,power;carbon,yes,derived
+generation_mix_records,generation,,7,PT1H,2019-01-14T05:00:00Z,2026-09-27T17:00:00Z,306,erw:generation_mix_hourly;erw:generation_mix_hourly_caiso,2026-10-04T19:18:51Z,pass,public,power;carbon,yes,derived
 grid_network_links,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,156,PT1H,2026-09-25T00:00:00Z,2026-10-01T23:00:00Z,26088,erw:grid_network,2026-10-04T02:26:01Z,pass,public,power,yes,derived
 grid_network_nodes,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,69,PT168H;PT1H,2026-09-25T00:00:00Z,2026-10-02T23:00:00Z,83,erw:grid_network,2026-10-04T02:26:01Z,pass,public,power,yes,derived
 hub_price_comparison,hub,,31,P1M;P1Y,2025-10-01T00:00:00Z,2026-09-01T00:00:00Z,575,erw:hub_price_comparison,2026-10-04T17:15:32Z,pass,public,power;carbon,yes,derived
@@ -93,6 +93,7 @@ isone_dam_zone_prices,ISO-NE,isone_dam,9,PT1H,2026-08-26T04:00:00Z,2026-10-05T03
 isone_interconnection_queue,ISO-NE,,1751,snapshot,2026-09-30T23:33:26Z,2026-09-30T23:33:26Z,1751,isone:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 isone_rtm_zone_prices,ISO-NE,isone_rtm,9,PT15M,2026-08-27T04:00:00Z,2026-10-04T03:45:00Z,26784,isone:rt_lmp_5min,2026-10-04T14:11:43Z,pass,public,power,no,source
 isone_rtm_zone_prices_hourly,ISO-NE,isone_rtm,9,PT1H,2026-08-26T04:00:00Z,2026-10-02T03:00:00Z,7992,isone:rt_lmp_hourly_final,2026-10-04T14:11:43Z,pass,public,power,no,source
+known_data_faults,none,,1,event,2019-01-01T00:00:00Z,2026-10-04T00:00:00Z,24,1 outlets,2026-10-04T19:40:33Z,pass,public,platform,no,derived
 lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-10-01T00:00:00Z,8335,erw:merchant_revenue,2026-10-04T02:26:32Z,pass,public,power;gas,yes,derived
 miso_as_prices,MISO,miso_dam,1,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,54936,miso:asm_expost_damcp,2026-10-04T04:19:52Z,pass,internal,power,no,source
@@ -116,7 +117,7 @@ price_board_peak_offpeak,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;caiso_rtm;e
 price_board_spreads,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_dam;ercot_dam;isone_dam;miso_dam;nyiso_dam;spp_dam,6,P1D,2025-09-29T00:00:00Z,2026-10-03T00:00:00Z,2178,erw:price_board,2026-10-04T14:43:49Z,pass,public,power;gas;oil,yes,derived
 rggi_auction_allowance_prices,none,,85,P3M,2008-09-25T00:00:00Z,2026-09-09T00:00:00Z,304,rggi:prices-volumes,2026-10-04T14:27:55Z,pass,internal,carbon,no,source
 rrc_lease_production_monthly,none,,4828,P1M,2024-08-01T00:00:00Z,2026-07-01T00:00:00Z,212252,rrc:pdq_dump,2026-10-01T04:46:13Z,pass,internal,oil;gas,no,source
-shoulder_hours_monthly,CAISO;ERCOT,,3,P1D;P1M;P1Y,2019-01-01T00:00:00Z,2026-10-02T00:00:00Z,27328,erw:shoulder_hours,2026-10-04T02:29:32Z,pass,public,power,yes,derived
+shoulder_hours_monthly,CAISO;ERCOT,,3,P1D;P1M;P1Y,2019-01-01T00:00:00Z,2026-10-03T00:00:00Z,27201,erw:shoulder_hours,2026-10-04T19:34:28Z,pass,public,power,yes,derived
 spp_as_prices,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,159432,spp:DA-MCP,2026-10-04T04:09:48Z,pass,public,power,no,source
 spp_as_quantities,SPP,spp_dam,2,PT1H,2024-09-01T05:00:00Z,2026-10-05T04:00:00Z,159768,spp:DA-MC,2026-10-04T11:34:34Z,pass,public,power,no,source
 spp_curtailment_daily,SPP,,2,P1D,2014-03-01T00:00:00Z,2026-10-03T00:00:00Z,38152,spp:ver_curtailments,2026-10-04T14:28:57Z,pass,public,power,no,source

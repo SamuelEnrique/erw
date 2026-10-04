@@ -92,6 +92,7 @@ full:
   - '^hub_price_comparison$'
   - '^eia930_demand_growth$'
   - '^caiso_curtailment_profile$'
+  - '^known_data_faults$'                        # session 103: /data/faults (in review), under review_hold below
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -174,6 +175,7 @@ review_hold:
   - hub_price_comparison               # session 96, /prices/compare
   - eia930_demand_growth               # session 97, /demand
   - caiso_curtailment_profile          # session 98, /curtailment/v2
+  - known_data_faults                  # session 103, /data/faults
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
@@ -187,6 +189,7 @@ sources_hold:
   - erw:caiso_curtailment_profile      # session 98, /curtailment/v2
   - erw:eqr_buyers                     # session 99, /contracts (internal)
   - spp:DA-MC                          # session 100, the SPP reserve quantities (the battery page's SPP is closed)
+  - erw:known_data_faults              # session 103, /data/faults
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

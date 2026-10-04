@@ -72,6 +72,7 @@ export const RELEASE: Record<string, Status> = {
   "/data": "review",
   "/data/standard": "review",
   "/data/methods": "review",
+  "/data/faults": "review",  // session 103: known faults in source data
   "/analysis": "review",
   "/ask": "review",
   "/ask/ercot": "review",  // session 92: Ask ERCOT, the reference version

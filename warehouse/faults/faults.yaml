@@ -1,0 +1,608 @@
+# Energy Research Warehouse (ERW): the register of known faults in source data (session 103).
+#
+# One entry per fault: something a publisher's data holds that is wrong, missing, shifted or impossible, as an ERW
+# session found it. Not here: a gap that is only a late posting, a license ruling, or a fault of the ERW's own code.
+# warehouse/derived/data_faults.py writes the table known_data_faults and the site's copy from this file.
+#
+# Every figure in `evidence` is one a session measured and wrote down (`recorded_in` says where), or one the screening
+# rule measured on 2026-10-04 (runs/session103/impossible_hours.csv, built by runs/session103/before_after.py hours).
+# Nothing is estimated. `first` and `last` are dates as recorded; `last` is empty when the fault continues, and
+# `dates_note` says so when a day is not recorded. `status` is one of:
+#   screened     the ERW leaves the faulty values out, by a stated rule, in every table named under screened_in
+#   corrected    the ERW reads the values as they should have been, by a stated rule
+#   worked_around the ERW reads another source for the period
+#   held_as_published  the ERW holds the values as the publisher gave them and says so
+# To add a fault: an entry here, then python warehouse/derived/data_faults.py --snapshot (docs/methods/known_data_faults.md).
+
+faults:
+  - id: eia930_ciso_generation_break
+    title: >-
+      EIA's California generation changed in one hour on 16 December 2025
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2025-12-16"
+    last: ""
+    dates_note: >-
+      from the hour starting 2025-12-16T08:00:00Z (midnight Pacific), and continuing
+    status: worked_around
+    evidence: >-
+      EIA-930's generation for California (CISO) steps in one hour, the hour starting 2025-12-16 08:00 UTC. Natural gas
+      falls from a daily mean of 251.7 GWh (2025-06-02 to 2025-12-15) to 118.3 GWh (2025-12-16 to 2026-09-29). Total net
+      generation falls from 554.1 GWh a day to 454.3 and stays the sum of the fuels. EIA's own balance for California
+      (demand less net generation less net imports) was within about 1 percent of demand before (4.7 GWh a day) and is
+      about 12 percent after (80.7 GWh a day). Demand and interchange do not move: a reporting change, not a change in
+      the grid.
+    tables: >-
+      carbon_intensity_hourly; carbon_intensity_daily; carbon_intensity_monthly; cost_of_power_carbon; eia930_all_generation; eia930_generation_latest; eia930_all_emissions; ba_supply_monthly; grid_network_nodes; ai_power_regions; generation_mix_hourly_profile; generation_mix_records; shoulder_hours_monthly
+    erw_does: >-
+      From that hour California's generation by fuel is read from CAISO's own supply by fuel (caiso_fuel_supply), never
+      blended with EIA's: a period is written from one source or not at all (warehouse/derived/caiso_join.py, JOIN).
+      The month that holds the join, December 2025, is not written in the energy mix tables, and the shoulder hours'
+      EIA-based California stops after November 2025. Demand is EIA's throughout: it does not step at the break.
+    open: >-
+      The older pages /mix, /grid and the California grid page still read EIA's generation by fuel for California.
+      What the generation EIA stopped counting is, is not settled by these data. EIA's known-issues page refused a
+      plain request (HTTP 403), so EIA's own account of the change was not read.
+    recorded_in: >-
+      session 73; docs/methods/eia930_caiso_break.md
+
+  - id: eia930_ciso_hours_one_hour_late
+    title: >-
+      EIA's California hours sit one hour late from 1 November 2023 to 2 December 2025
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2023-11-01"
+    last: "2025-12-02"
+    dates_note: >-
+      rows stamped 2023-11-01T00:00 UTC to 2025-12-02T23:00 UTC (the hour's end)
+    status: corrected
+    evidence: >-
+      In EIA's CISO workbook every hourly value from the row stamped 2023-11-01T00:00 UTC to the row stamped
+      2025-12-02T23:00 UTC belongs to the hour before; before and after, the stamps are right. Set beside CAISO's own
+      data, the best match is at a shift of one hour on 182 of 182 days from 2025-06-02 to 2025-12-02 and at no shift
+      on 298 of 298 days from 2025-12-03. The two solar profiles correlate at 0.946 as they stand and at 0.9998 with
+      EIA's moved one hour earlier.
+    tables: >-
+      merchant_revenue_monthly; cost_of_power_monthly; cost_of_power_carbon; shoulder_hours_monthly; eia930_demand_growth; generation_mix_hourly_profile; generation_mix_records; eia930_all_emissions; carbon_intensity_hourly; carbon_intensity_daily; carbon_intensity_monthly; ba_supply_monthly; ai_power_regions; event_window_daily
+    erw_does: >-
+      Those hours are moved one hour earlier where they are read (caiso_join.true_hours) in merchant_revenue_monthly,
+      cost_of_power_monthly, cost_of_power_carbon, shoulder_hours_monthly, eia930_demand_growth and the two energy mix
+      tables. The hour 2025-12-02T22:00Z is then empty and is not filled. The correction made California solar revenue
+      10.3 percent lower over the 16 months measured (USD 45,617 to 40,916 per MW).
+    open: >-
+      Why is not known. Not corrected: eia930_all_emissions, the carbon intensity tables, ba_supply_monthly,
+      ai_power_regions and event_window_daily hold the hours as EIA stamped them. From July 2018 to mid June 2022 the
+      same measure sits about half an hour early; that is seen and not corrected.
+    recorded_in: >-
+      sessions 80 and 82; docs/methods/eia930_caiso_break.md
+
+  - id: eia930_ciso_no_hydro
+    title: >-
+      EIA's file holds no hydro for California from October 2019 to mid August 2020
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2019-10-01"
+    last: "2020-08-15"
+    dates_note: >-
+      recorded as October 2019 to mid August 2020; the first and last day are not recorded, so the first of October and the middle of August stand in for them
+    status: screened
+    evidence: >-
+      In those ten months hydro is blank in 97 to 100 percent of California's hours, and EIA's own total leaves it out
+      too, so the sources still add up. EIA's balance gives it away: demand against net generation less interchange is
+      off by 9 to 15 percent of demand in those months, against 2 to 4 percent around them. Before the screen,
+      California's dirtiest hour on record was an evening of December 2019 with no hydro in it.
+    tables: >-
+      generation_mix_hourly_profile; generation_mix_records; eia930_all_generation; carbon_intensity_hourly; carbon_intensity_daily; carbon_intensity_monthly
+    erw_does: >-
+      In the energy mix tables an hour is not used when a main source is blank (a main source supplies at least 5
+      percent of the grid's generation over its history: warehouse/derived/mix_profile.py, MAIN). California's months
+      from September 2019 to August 2020, and October 2020, are not written there.
+    open: >-
+      eia930_all_generation and the carbon intensity tables carry those months as EIA published them, so California's
+      intensity in those months is computed without hydro. Not measured, not changed.
+    recorded_in: >-
+      session 94; docs/methods/generation_mix_hourly.md
+
+  - id: eia930_pjm_impossible_demand_hours
+    title: >-
+      PJM's demand holds hours that did not happen
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2019-12-12"
+    last: "2024-11-21"
+    dates_note: >-
+      seven hours, by the hour's start in UTC
+    status: screened
+    evidence: >-
+      Seven hours stand more than a quarter away from the four hours around them: 155,276 MW at 2019-12-12T21:00Z
+      (the hours around it 103,637), which would have been 2019's peak; 215,682 MW at 2020-04-10T03:00Z (71,370);
+      224,345 MW at 2020-07-13T22:00Z (124,986), 18:00 Eastern on 13 July 2020; 192,229 MW at 2020-07-28T16:00Z
+      (132,060); 176,085 MW at 2020-07-29T20:00Z (140,093); 138,575 MW at 2020-08-13T12:00Z (99,325); and 56,260 MW
+      at 2024-11-21T16:00Z (95,147). 27 more hours are blank.
+    tables: >-
+      eia930_demand_growth; generation_mix_hourly_profile; eia930_all_emissions; cost_of_power_monthly; ba_supply_monthly; ai_power_regions
+    erw_does: >-
+      The screening rule for impossible hours (warehouse/derived/impossible_hours.py): an hour of demand is used when
+      it is held, above zero, and within 25 percent of the median of the four hours around it. Applied in
+      eia930_demand_growth (session 97) and, from session 103, in generation_mix_hourly_profile and
+      shoulder_hours_monthly. Nothing is filled.
+    open: >-
+      Not applied in the tables a live page reads (ba_supply_monthly, the cost of power tables, ai_power_regions) nor
+      in the source table eia930_all_emissions, which holds EIA's hours as published. The Lower 48's demand is EIA's
+      sum, with PJM's faulty hours inside it.
+    recorded_in: >-
+      session 97; docs/methods/demand_growth.md; measured again by the rule on 2026-10-04
+
+  - id: eia930_nyiso_zero_demand_hours
+    title: >-
+      New York's demand holds hours of zero
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2019-04-18"
+    last: "2026-02-10"
+    dates_note: >-
+      twelve hours, by the hour's start in UTC, in 2019, 2024, 2025 and 2026 (none in 2020)
+    status: screened
+    evidence: >-
+      Twelve hours of exactly zero between hours of 14,000 to 23,000 MW: 2019-04-18T03:00Z; 2024-01-17T23:00Z;
+      2024-10-09T20:00Z and T21:00Z; 2025-01-15T22:00Z and T23:00Z; and six in a row from 2026-02-09T23:00Z to
+      2026-02-10T04:00Z. 24 more hours are blank.
+    tables: >-
+      eia930_demand_growth; generation_mix_hourly_profile; eia930_all_emissions; cost_of_power_monthly; ba_supply_monthly; ai_power_regions
+    erw_does: >-
+      The screening rule for impossible hours: an hour at or below zero is not used. Applied in eia930_demand_growth
+      and, from session 103, in generation_mix_hourly_profile (New York's average demand of February 2026 rose by
+      about 650 to 760 MW in the six local hours that had held a zero).
+    open: >-
+      Not applied in the tables a live page reads, nor in the source table, as for PJM.
+    recorded_in: >-
+      session 97; docs/methods/demand_growth.md; the dates measured by the rule on 2026-10-04
+
+  - id: eia930_ciso_impossible_demand_hours
+    title: >-
+      California's demand holds runs of hours near half its level
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2019-02-13"
+    last: "2026-01-25"
+    dates_note: >-
+      38 hours not used; most from 13 February to 10 May 2019, then 19 to 22 December 2019, 8 October 2020, 31 July 2025 and 25 January 2026
+    status: screened
+    evidence: >-
+      Hours of 12,000 to 14,000 MW between hours of 23,000 to 25,000, February to May 2019 (12,193 MW at
+      2019-04-10T22:00Z, the hours around it 21,843). Three hours of 14, 91 and 96 MW from 2019-12-19T23:00Z. 13,807 MW
+      at 2020-10-08T18:00Z (26,062); 11,819 MW at 2025-07-31T19:00Z (30,091); 17,438 MW at 2026-01-25T20:00Z (26,277).
+      The rule leaves out 38 hours in all; some are good hours caught between two faulty ones, left out with them.
+      48 more hours are blank.
+    tables: >-
+      eia930_demand_growth; shoulder_hours_monthly; generation_mix_hourly_profile; eia930_all_emissions; cost_of_power_monthly; ba_supply_monthly; ai_power_regions
+    erw_does: >-
+      The screening rule for impossible hours. Applied in eia930_demand_growth and, from session 103, in
+      shoulder_hours_monthly (a day short of an hour is not a complete day there: February 2019 is no longer written, and 445 of California's figures changed,
+      in April, May and December 2019, July 2025 and the years 2019 and 2025) and in generation_mix_hourly_profile.
+    open: >-
+      Not applied in the tables a live page reads, nor in the source table, as for PJM.
+    recorded_in: >-
+      session 97; docs/methods/demand_growth.md; measured again by the rule on 2026-10-04
+
+  - id: eia930_spp_impossible_demand_hours
+    title: >-
+      SPP's demand holds two impossible hours
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2024-07-19"
+    last: "2025-06-21"
+    dates_note: >-
+      two hours, by the hour's start in UTC
+    status: screened
+    evidence: >-
+      1,505 MW at 2025-06-21T09:00Z (04:00 Central), the hours around it 34,479; and 24,991 MW at 2024-07-19T04:00Z,
+      the hours around it 35,083. 48 more hours are blank.
+    tables: >-
+      eia930_demand_growth; generation_mix_hourly_profile; eia930_all_emissions; cost_of_power_monthly; ba_supply_monthly; ai_power_regions
+    erw_does: >-
+      The screening rule for impossible hours. Applied in eia930_demand_growth and, from session 103, in generation_mix_hourly_profile.
+    open: >-
+      Not applied in cost_of_power_monthly, which weighs SPP's price of June 2025 by that hour's 1,505 MW, nor in the
+      other tables a live page reads.
+    recorded_in: >-
+      session 97; docs/methods/demand_growth.md; measured again by the rule on 2026-10-04
+
+  - id: eia930_us48_demand_sum_holds_faulty_hours
+    title: >-
+      The Lower 48's demand is a sum with the faulty hours inside it
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2020-04-10"
+    last: "2020-07-13"
+    dates_note: >-
+      the two hours recorded; any faulty hour of a balancing authority is inside the sum of that hour
+    status: held_as_published
+    evidence: >-
+      525,129 MW at 2020-04-10T03:00Z, the hours around it 380,115: the rule leaves that hour out. PJM's 224,345 MW of
+      2020-07-13T22:00Z is inside the Lower 48's 776,575 MW of the same hour, which stands only 12 percent above the
+      hours around it and passes the rule.
+    tables: >-
+      eia930_demand_growth; eia930_all_emissions
+    erw_does: >-
+      The Lower 48 is given an average and no peak in eia930_demand_growth: an average over 8,760 hours does not move
+      for such an hour, and a peak would be that hour.
+    open: >-
+      A faulty hour inside the sum cannot be screened from the sum.
+    recorded_in: >-
+      session 97; docs/methods/demand_growth.md
+
+  - id: eia930_interchange_impossible_pair_days
+    title: >-
+      EIA's daily interchange holds days no tie can carry
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia930:daily_interchange
+    first: "2019-01-01"
+    last: "2026-09-30"
+    dates_note: >-
+      across the history held; the one day named in the reports is 2026-07-21
+    status: screened
+    evidence: >-
+      SPP to MISO (SWPP-MISO) is reported at 2,159,056 MWh on 2026-07-21, more than SPP's whole daily demand. By the
+      rule below, 2,732 of 945,130 pair-days are left out of the monthly supply table, and 1,072 pair-days out of the
+      network's replay (190, 171, 106, 151, 38, 25, 174 and 217 by year from 2019).
+    tables: >-
+      eia930_daily_interchange; ba_supply_monthly; ai_power_regions
+    erw_does: >-
+      A pair-day is left out when it is further than 10 median absolute deviations, and at least 500 MWh, from the
+      pair's own median over its history (warehouse/derived/ba_supply.py, MADS and FLOOR; the same rule in
+      ai_power_regions.py and network_daily.py). The count left out is in each replay file and printed on the page.
+    open: >-
+      Why the supply table's count (2,732) and the replay's (1,072) differ is not recorded.
+    recorded_in: >-
+      sessions 62, 68 and 93; docs/methods/grid_network.md
+
+  - id: eia930_daily_interchange_missing_days
+    title: >-
+      EIA's daily interchange is missing for weeks of the year, most in SPP
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia930:daily_interchange
+    first: ""
+    last: ""
+    dates_note: >-
+      the year measured in session 62; the days are not listed in the reports
+    status: held_as_published
+    evidence: >-
+      EIA's daily interchange is missing for 47 to 53 days of the year in six regions, and 156 in SPP (session 62).
+      In the supply table PJM and SPP leave out the most days (PJM 141 of 365, SPP 165: session 68). SPP's carbon
+      intensity over twelve months holds 236 of 365 days (session 96).
+    tables: >-
+      eia930_daily_interchange; ba_supply_monthly; ai_power_regions; hub_price_comparison
+    erw_does: >-
+      A month's figures rest on the days held and say how many (days_held, days_left_out, thin_month). A figure that
+      needs most of a year is not written under its share (SPP's carbon intensity in hub_price_comparison).
+    open: >-
+      The cause is not recorded.
+    recorded_in: >-
+      sessions 62, 68 and 96
+
+  - id: eia930_ercot_other_repeats_batteries
+    title: >-
+      EIA's "other" for ERCOT repeats the batteries' output, 6 to 14 December 2025
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2025-12-06"
+    last: "2025-12-14"
+    dates_note: >-
+      as recorded; EIA's file is also blank for parts of 5 to 14 December 2025
+    status: screened
+    evidence: >-
+      From 6 to 14 December 2025 EIA's "other" for ERCOT repeats the batteries' output (other at 3,281 MW in an hour
+      with storage at 3,172), and the sources stand 5 to 8 percent above the total.
+    tables: >-
+      generation_mix_hourly_profile; generation_mix_records; eia930_all_generation
+    erw_does: >-
+      In the energy mix tables an hour is used when its sources add up to EIA's total within 5 percent
+      (mix_profile.py, TOLERANCE). Texas's December 2025 is not written; a looser test would have counted the
+      batteries twice.
+    open: >-
+      eia930_all_generation holds those hours as published.
+    recorded_in: >-
+      session 94
+
+  - id: eia930_pjm_sources_and_total_part
+    title: >-
+      PJM's sources and its total part by 5 to 15 percent in 2,689 hours
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2020-01-01"
+    last: "2024-12-31"
+    dates_note: >-
+      recorded as 2020 to 2024, most at 05:00 and 06:00; the hours are not listed in the reports
+    status: held_as_published
+    evidence: >-
+      PJM itemizes no storage, and in 2,689 of its hours its sources and its total part by 5 to 15 percent, above
+      about as often as below, with no source blank. At the 5 percent test the other grids are held to, only 36 of
+      PJM's 93 months could be written.
+    tables: >-
+      generation_mix_hourly_profile; generation_mix_records
+    erw_does: >-
+      PJM is held to a looser test, 15 percent, in the energy mix tables (mix_profile.py, LOOSE); 91 of its 93 months are written.
+    open: >-
+      The looser test is a session's choice, not yet ruled on. PJM's residual since May 2025 is flagged as unexplained (session 73).
+    recorded_in: >-
+      sessions 73 and 94
+
+  - id: eia930_uri_demand_blank
+    title: >-
+      24 hours of demand in the Winter Storm Uri window have no number at the source
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:electricity/rto/region-data
+    first: "2021-02-01"
+    last: "2021-02-28"
+    dates_note: >-
+      the Uri window of February 2021; the hours are not listed in the report
+    status: held_as_published
+    evidence: >-
+      24 hours of demand in the Uri window had no number at the source and were not written (session 68).
+    tables: >-
+      eia930_event_hourly_interchange
+    erw_does: >-
+      The hours are not written; nothing is filled.
+    open: ""
+    recorded_in: >-
+      session 68
+
+  - id: eia930_ciso_ties_disagree
+    title: >-
+      Four of California's ties are reported differently by the two sides
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia930:daily_interchange
+    first: ""
+    last: ""
+    dates_note: >-
+      over the year measured in session 68
+    status: held_as_published
+    evidence: >-
+      The Arizona ties (AZPS, SRP), TIDC and BANC report different flows from CAISO's on the same days; the largest
+      mean daily gap is SRP, about 8,400 MWh. The two sides agree in sign on every tie's total for the year.
+    tables: >-
+      ba_supply_monthly
+    erw_does: >-
+      The headline uses the grid's own reports; the neighbour's report is in the table beside it (neighbor_report_mwh).
+    open: ""
+    recorded_in: >-
+      session 68
+
+  - id: eia930_ciso_solar_below_caiso
+    title: >-
+      EIA's California solar runs about 13 percent below CAISO's own
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: ""
+    last: ""
+    dates_note: >-
+      on both sides of the break of 2025-12-16: a standing difference
+    status: held_as_published
+    evidence: >-
+      Solar runs about 22 GWh a day below CAISO's own on both sides of the break, a standing difference of 13 percent, not the break.
+    tables: >-
+      eia930_all_generation; caiso_fuel_supply
+    erw_does: >-
+      Nothing: each table holds its publisher's figure. California's rows say which source they rest on.
+    open: >-
+      Not explained.
+    recorded_in: >-
+      session 73
+
+  - id: eia930_ercot_solar_above_nameplate
+    title: >-
+      ERCOT's solar output stands above the installed capacity on two days
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Forms EIA-930 and EIA-860M
+    source: eia:860m
+    first: "2023-08-10"
+    last: "2026-08-29"
+    dates_note: >-
+      two days
+    status: held_as_published
+    evidence: >-
+      EIA-930 solar output over EIA-860M operating MW peaks at 1.0429 of nameplate on 2023-08-10 and 1.0318 on 2026-08-29.
+    tables: ""
+    erw_does: >-
+      Nothing: flagged, not explained. No warehouse table holds the ratio; it was measured for the battery game's rooftop solar shapes.
+    open: >-
+      Which of the two forms is off (output or the inventory's MW) is not known.
+    recorded_in: >-
+      session 72
+
+  - id: caiso_renewable_report_clock_change
+    title: >-
+      CAISO's Daily Renewable Report has 24 hours on the day the clocks went forward
+    publisher: >-
+      California ISO (CAISO)
+    source: caiso:daily_renewable_report
+    first: "2026-03-08"
+    last: "2026-03-08"
+    dates_note: >-
+      one day
+    status: corrected
+    evidence: >-
+      On 8 March 2026 the report still has 24 hourly values, by the clock, with zero in the hour that does not exist.
+      A first reading that wanted 23 hours left the day out: it was 64,906 MWh, 8.38 percent of March's curtailment.
+    tables: >-
+      caiso_curtailment_intervals; caiso_curtailment_profile
+    erw_does: >-
+      The values are dated by their clock hour and the day is held; the hour that does not exist carries CAISO's zero.
+    open: ""
+    recorded_in: >-
+      session 98; docs/methods/caiso_curtailment_intervals.md
+
+  - id: caiso_curtailment_reason_blank
+    title: >-
+      CAISO's curtailment file gives no reason for 9,241 rows of 2022
+    publisher: >-
+      California ISO (CAISO)
+    source: caiso:production_curtailments
+    first: "2022-01-01"
+    last: "2022-12-31"
+    dates_note: >-
+      the 2022 workbook
+    status: held_as_published
+    evidence: >-
+      The 2022 workbook has the Reason column with 9,241 of its rows blank; 2023's has it on every row.
+    tables: >-
+      caiso_curtailment_intervals; caiso_curtailment_daily
+    erw_does: >-
+      A blank reason is kept blank ("local or system" is not guessed). The reason reaches back to 2022 in the interval table.
+    open: >-
+      caiso_curtailment_daily uses the reason only from 2024.
+    recorded_in: >-
+      session 98
+
+  - id: caiso_curtailment_workbooks_overlap
+    title: >-
+      CAISO's two curtailment workbooks of 2025 repeat January to May
+    publisher: >-
+      California ISO (CAISO)
+    source: caiso:production_curtailments
+    first: "2025-01-01"
+    last: "2025-05-31"
+    dates_note: >-
+      January to May 2025
+    status: corrected
+    evidence: >-
+      The second 2025 workbook is "a one time bulk upload" that repeats January to May; 25,848 rows are in both.
+    tables: >-
+      caiso_curtailment_intervals
+    erw_does: >-
+      The 25,848 rows are read once.
+    open: ""
+    recorded_in: >-
+      session 98
+
+  - id: caiso_supply_short_days
+    title: >-
+      CAISO's supply by fuel is empty or short on four days
+    publisher: >-
+      California ISO (CAISO)
+    source: caiso:todays_outlook_fuelsource
+    first: "2025-11-02"
+    last: "2026-09-22"
+    dates_note: >-
+      four days
+    status: held_as_published
+    evidence: >-
+      Four days were skipped: 2025-11-02 and 2026-03-08 (clock changes the conversion could not place), 2026-08-21
+      (CAISO's file empty) and 2026-09-22 (287 of 288 intervals).
+    tables: >-
+      caiso_fuel_supply; carbon_intensity_monthly
+    erw_does: >-
+      A day that is not whole is not written; March, August and September 2026 then have no monthly figure for California. Nothing is filled.
+    open: >-
+      The two clock-change days are a limit of the ERW's conversion, not of CAISO's file.
+    recorded_in: >-
+      sessions 73 and 82; docs/methods/eia930_caiso_break.md
+
+  - id: caiso_oasis_autumn_clock_day
+    title: >-
+      CAISO's OASIS leaves out the last hour of the autumn clock-change day
+    publisher: >-
+      California ISO (CAISO)
+    source: caiso:PRC_LMP
+    first: "2024-11-03"
+    last: "2025-11-02"
+    dates_note: >-
+      two days, 2024-11-03 and 2025-11-02
+    status: held_as_published
+    evidence: >-
+      On 2024-11-03 and on 2025-11-02, the autumn clock change, OASIS left out the day's last hour.
+    tables: >-
+      iso_hub_prices_history
+    erw_does: >-
+      The day is not complete and is not written (the completeness rule of the price connectors).
+    open: ""
+    recorded_in: >-
+      sessions 49 and 64
+
+  - id: iso_realtime_price_gaps
+    title: >-
+      ISO-NE's and NYISO's real-time price files miss intervals on some days
+    publisher: >-
+      ISO New England; New York ISO
+    source: isone:rt_lmp_hourly_final
+    first: ""
+    last: ""
+    dates_note: >-
+      days in the year pulled in session 49 and in the history pulled in session 64 (for example 2024-09-09 and 2024-10-23)
+    status: held_as_published
+    evidence: >-
+      ISO-NE real-time: 31 days on which the final 5-minute files miss an interval or a day. NYISO real-time: 11 days
+      with a missing time stamp (session 49). ISO-NE's real-time price over the twelve months to September 2026 holds
+      8,112 of 8,760 hours (session 96).
+    tables: >-
+      iso_hub_prices_history; hub_price_comparison
+    erw_does: >-
+      A day with a missing interval is not written. A twelve-month figure is written only when 95 percent of its hours
+      are held, so ISO-NE's real-time figure in hub_price_comparison is not written.
+    open: >-
+      A rule to fill a single missing interval was recommended in session 65 and not applied.
+    recorded_in: >-
+      sessions 49, 64, 65 and 96
+
+  - id: lbnl_queue_file_gaps
+    title: "Berkeley Lab's queue file: missing years, statuses and operation dates"
+    publisher: >-
+      Lawrence Berkeley National Laboratory and GridTracker, Queued Up 2026 Edition
+    source: lbnl:queued_up
+    first: ""
+    last: "2025-12-31"
+    dates_note: >-
+      the 2026 edition, requests through the end of 2025
+    status: screened
+    evidence: >-
+      Of 38,201 requests, 665 have no year entered, 10 have an unknown status, 16 have no positive capacity, and 48
+      operating requests are dated as operating before their request. None of ISO-NE's 228 operating requests carries
+      an operation date. The file has 45 operating standalone battery requests in ERCOT; EIA's inventory counts 259
+      operating battery units there (August 2026).
+    tables: >-
+      lbnl_interconnection_queue; interconnection_queue_summary
+    erw_does: >-
+      Requests with no year are in the totals and in no year; those with no positive capacity are counted and add no
+      MW; the 48 are not in the median wait. A share is given only from 20 past requests and a median only from 5
+      dated ones (queue_summary.py, MIN_SHARE and MIN_MEDIAN), so ISO-NE has no median wait. The page says that
+      "reached operation" is what the queues record, not every plant built.
+    open: ""
+    recorded_in: >-
+      session 95; docs/methods/interconnection_queue_summary.md
+
+  - id: ferc_eqr_rate_as_filed
+    title: >-
+      A contract rate in FERC's quarterly reports that cannot be a monthly price
+    publisher: >-
+      Federal Energy Regulatory Commission (FERC), Electric Quarterly Reports
+    source: ferc:eqr
+    first: ""
+    last: ""
+    dates_note: >-
+      one row of the filings of 2026 Q2
+    status: held_as_published
+    evidence: >-
+      One storage contract row gives a rate of 132000 in $/MW-MO for 1.056 MW. It is what the filer wrote.
+    tables: >-
+      ferc_eqr_contracts
+    erw_does: >-
+      Nothing: the row is held as filed. The table is internal.
+    open: ""
+    recorded_in: >-
+      session 81

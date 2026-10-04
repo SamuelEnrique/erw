@@ -92,6 +92,7 @@ TIER_RULES = [
     # session 30: the Haiku shadow scores are a model's; the cost ledger prices Anthropic's usage counts
     ("model_extracted", r"^news_scores_shadow$"),
     ("derived", r"^api_cost_ledger$"),
+    ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
 ]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
@@ -192,6 +193,7 @@ SECTOR_RULES = [
     (r"^caiso_curtailment_(intervals|profile)$", "power"),  # session 98: CAISO curtailment by interval, and its profile
     (r"^ferc_eqr_(buyer_names|buyer_doubtful|party_totals)$", "power"),  # session 99: who is buying (internal)
     (r"^spp_as_quantities$", "power"),  # session 100: SPP reserve MW cleared day-ahead
+    (r"^known_data_faults$", "platform"),  # session 103: known faults in source data (every sector's sources)
 ]
 
 

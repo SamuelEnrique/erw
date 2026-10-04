@@ -58,6 +58,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, HERE)
 import caiso_join as cj  # noqa: E402
+import impossible_hours  # noqa: E402  (session 103: the screen, stated once for every table that reads these hours)
 import iso_prices as ip  # noqa: E402
 
 NAME = "eia930_demand_growth"
@@ -104,10 +105,7 @@ def read_demand(ba):
 
 def screened(d):
     """The hours used: held, above zero, and within JUMP of the median of the four hours around them."""
-    v = d.where(d > 0)
-    around = pd.concat([v.shift(k) for k in (-2, -1, 1, 2)], axis=1).median(axis=1)
-    ok = v.notna() & ~((v - around).abs() > JUMP * around)
-    return v.where(ok)
+    return impossible_hours.screen(d, JUMP)   # session 103: the rule moved to impossible_hours.py, word for word
 
 
 def hours_between(a, b, tz):

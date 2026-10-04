@@ -70,7 +70,7 @@ r4 = pb.r4
 
 def read(name, cols, in_dir=None):
     path = os.path.join(in_dir or ip.OUT_DIR, name + ".csv")
-    return pd.read_csv(path, comment="#", usecols=cols, dtype=str, keep_default_na=False)
+    return pd.read_csv(path, skiprows=ip.header_rows(path), usecols=cols, dtype=str, keep_default_na=False)
 
 
 def screen(it):
