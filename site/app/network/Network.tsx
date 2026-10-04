@@ -331,7 +331,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     const hrs = f.days.map(easternHours);
     const v: View = {
       kind: "story", key: "day", frame: "day", hoursOf: (h) => hrs[h] ?? 24, title: `The days of ${y}, from EIA's daily interchange`, hours: f.days.map(dayFrame), links: f.links,
-      intensity: (id, h) => f.intensity[id]?.[h] ?? null, demand: () => null,
+      intensity: (id, h) => f.intensity[id]?.[h] ?? null, demand: (id, h) => f.demand?.[id]?.[h] ?? null,   // session 109: EIA's daily demand, the day's average MW
       battery: () => null, batteryReported: () => false, batterySource: () => "",
       price: (id, h) => f.hub_prices[id]?.[h] ?? null, priceKind: () => "real time, the mean of the day's hours",
       note: `Each day is EIA's Eastern day; a flow is the day's MWh over its hours, the day's average MW. ${f.missing.pair_days.toLocaleString("en-US")} pair-days of ${y} not reported by either side (left blank); ${f.missing.pair_days_screened.toLocaleString("en-US")} screened out as days no tie can carry (the monthly supply table's rule); ${f.missing.pair_days_from_other_side.toLocaleString("en-US")} read from the other side's report. Demand and batteries are not held by day. Not drawn (no place in today's network): ${v3.index.left_out_bas.join(", ") || "none"}.`,
@@ -465,7 +465,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
                 <dt className="text-xs text-muted">Who is supplying it, largest first</dt>
                 <dd>{ties.length ? (
                   <ul className="mt-0.5 space-y-0.5 tabular-nums">
-                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-[10px] text-muted">{t.other}</span></span><span className="whitespace-nowrap">{Math.round(t.imp) === 0 ? "0 MW" : t.imp > 0 ? `${fmt(t.imp)} MW in` : `${fmt(-t.imp)} MW out`}</span></li>)}
+                    {ties.map((t) => <li key={t.other} className="flex justify-between gap-2"><span>{nameOf(t.other)} <span className="font-mono text-[10px] text-muted">{t.other}</span></span><span className="whitespace-nowrap">{Math.round(t.imp) === 0 ? "0 MW" : t.imp > 0 ? `${fmt(t.imp)} MW in` : `${fmt(-t.imp)} MW out`}{isDayView && demandNow && Math.round(t.imp) !== 0 ? <span className="text-muted" data-tie-share={t.other}>, {pct((Math.abs(t.imp) / demandNow) * 100)}% of demand</span> : null}</span></li>)}
                   </ul>
                 ) : "none reported"}</dd>
               </div>

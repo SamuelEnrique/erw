@@ -21,7 +21,12 @@ What a frame holds:
   holds days no tie can carry, and one such day would set the scale of a year.
 - carbon intensity is that day's (intensity_generation, kg CO2/MWh); where it is not held the sphere is grey.
 - a hub price is the mean of the real-time hourly prices of that Eastern day, only when every hour of the day is held.
-- demand is not in the file: the warehouse holds no daily demand history, and the page says so.
+- demand (session 109) is the day's MWh from eia930_daily_demand (EIA's daily demand of every balancing authority, its
+  Eastern day) over the hours of that day: the day's average MW, on the scale of the flows, so that a tie's flow over it
+  is that supplier's share of the grid's demand that day. A day's demand is used when it is above zero and between half
+  and twice the median of the six days around it (three before, three after, those held); a day outside that is null
+  and counted. EIA's daily demand is its own sum of the hours it holds, so a day with hours missing or faulty at the
+  source can be far off; a day within the band can still hold one faulty hour (docs/methods/impossible_hours.md).
 
 Node positions and names are the committed snapshot's (site/data/grid_network.json): a balancing authority of the
 history that is not in today's network is left out and counted. Nothing is written to warehouse/output: the files are
@@ -47,6 +52,8 @@ import iso_prices as ip  # noqa: E402
 import network_stories as ns  # noqa: E402  (hub_prices, HUB_BA)
 
 TABLE = "eia930_daily_interchange"
+DEMAND = "eia930_daily_demand"   # session 109: EIA's daily demand by balancing authority, the denominator of a share
+DEMAND_BAND = (0.5, 2.0)         # a day's demand is used within this band of the median of the six days around it
 OUT_DIR = ns.OUT_DIR
 TZ = "America/New_York"   # EIA's daily tables are its Eastern day
 FIRST_YEAR = 2019
@@ -72,7 +79,29 @@ def daily_prices(hourly):
     return out
 
 
-def build_year(year, flows, nodes, ci, prices, last_day):
+def screened_demand(d):
+    """A balancing authority's daily demand (a Series by day, in order): the days used, the others NaN. A day is used when
+    it is above zero and within DEMAND_BAND of the median of the six days around it (three before, three after)."""
+    v = d.where(d > 0)
+    around = pd.concat([v.shift(k) for k in (-3, -2, -1, 1, 2, 3)], axis=1).median(axis=1)
+    ok = v.notna() & ~((v < DEMAND_BAND[0] * around) | (v > DEMAND_BAND[1] * around))
+    return v.where(ok)
+
+
+def demand_by_day(table, nodes):
+    """{BA: {day: MWh}} of the screened daily demand of the network's nodes, and the count of days screened out."""
+    out, screened = {}, 0
+    for ba, g in table.groupby("ba"):
+        if ba not in nodes:
+            continue
+        s = g.set_index("day")["v"].sort_index()
+        used = screened_demand(s)
+        screened += int((s.notna() & used.isna()).sum())
+        out[ba] = {d: float(x) for d, x in used.dropna().items()}
+    return out, screened
+
+
+def build_year(year, flows, nodes, ci, prices, last_day, demand=None):
     days = [d.strftime("%Y-%m-%d") for d in pd.date_range(f"{year}-01-01", min(pd.Timestamp(f"{year}-12-31"), pd.Timestamp(last_day)), freq="D")]
     hours = {d: day_hours(d) for d in days}
     f = flows[flows["day"].str[:4] == str(year)]
@@ -109,10 +138,16 @@ def build_year(year, flows, nodes, ci, prices, last_day):
         arr = [m.get(d) for d in days]
         if any(v is not None for v in arr):
             hub[ba] = arr
+    dem, demand_days = {}, 0
+    for ba, m in sorted((demand or {}).items()):
+        arr = [round(m[d] / hours[d], 1) if d in m else None for d in days]   # the day's average MW, as the flows
+        if any(v is not None for v in arr):
+            dem[ba] = arr
+            demand_days += sum(v is not None for v in arr)
     return dict(year=year, frame="day", tz=TZ, days=days, built=ip.utc_iso(pd.Timestamp.now(tz="UTC")), rule=gn.RULE, links=links,
-                intensity=intensity, hub_prices=hub,
-                missing=dict(pair_days=missing, pair_days_from_other_side=from_other, pair_days_screened=screened),
-                source=[TABLE, "carbon_intensity_daily", "ercot_all_hub_prices_history", "iso_hub_prices_history", "iso_rtm_hub_prices"])
+                intensity=intensity, hub_prices=hub, demand=dem,
+                missing=dict(pair_days=missing, pair_days_from_other_side=from_other, pair_days_screened=screened, demand_days_held=demand_days),
+                source=[TABLE, DEMAND, "carbon_intensity_daily", "ercot_all_hub_prices_history", "iso_hub_prices_history", "iso_rtm_hub_prices"])
 
 
 def main(argv=None):
@@ -132,18 +167,22 @@ def main(argv=None):
     ci = ns.read("carbon_intensity_daily", ["entity", "variable", "ts_utc", "value"])
     ci = ci[ci["variable"] == "intensity_generation"].assign(ba=lambda z: z["entity"].str[7:], day=lambda z: z["ts_utc"].str[:10])
     prices = daily_prices(ns.hub_prices())
+    dm = ns.read(DEMAND, ["entity", "variable", "ts_utc", "value"])
+    dm = dm[dm["variable"] == "demand_mwh"].assign(ba=lambda z: z["entity"].str[7:], day=lambda z: z["ts_utc"].str[:10], v=lambda z: z["value"].astype(float))
+    demand, demand_screened = demand_by_day(dm, nodes)
     os.makedirs(OUT_DIR, exist_ok=True)
     index = dict(first=f"{FIRST_YEAR}-01-01", last=last_day, tz=TZ, frame="day", rule=gn.RULE, years={}, left_out_bas=left_out,
-                 built=ip.utc_iso(pd.Timestamp.now(tz="UTC")), source=TABLE)
+                 built=ip.utc_iso(pd.Timestamp.now(tz="UTC")), source=TABLE, demand_source=DEMAND, demand_band=list(DEMAND_BAND),
+                 demand_days_screened=demand_screened, demand_bas=sorted(demand))
     for year in range(FIRST_YEAR, int(last_day[:4]) + 1):
         if a.years and year not in a.years:
             continue
-        y = build_year(year, flows, nodes, ci, prices, last_day)
+        y = build_year(year, flows, nodes, ci, prices, last_day, demand)
         path = os.path.join(OUT_DIR, f"daily_{year}.json")
         with open(path, "w", encoding="utf-8", newline="\n") as f:
             json.dump(y, f, separators=(",", ":"))
         index["years"][str(year)] = dict(file=f"/network/daily_{year}.json", days=len(y["days"]), first=y["days"][0], last=y["days"][-1], links=len(y["links"]),
-                                         priced=sorted(y["hub_prices"]), intensity=sorted(y["intensity"]), **y["missing"])
+                                         priced=sorted(y["hub_prices"]), intensity=sorted(y["intensity"]), with_demand=len(y["demand"]), **y["missing"])
         print(f"{year}: {len(y['days'])} days, {len(y['links'])} pairs, {y['missing']['pair_days_screened']} pair-days screened, "
               f"{y['missing']['pair_days']} not reported, prices {sorted(y['hub_prices'])}, {os.path.getsize(path) / 1e3:.0f} kB")
     if not a.years:

@@ -70,6 +70,10 @@ A file cannot be had without its zip. If the ESR file begins with the market cha
 - `tests/test_session108.py`, 5 tests, on zips made for the test: an operating day is the day published less 60; the award columns are kept and the offer curve is not; a zip with no ESR file stops the run; whole days are kept under the ceiling and the run stops before the day that would pass it; the sample is outside coverage and the script writes no warehouse table; the note says what was and was not read.
 - Every session's tests on this machine before the push: 771 ran; one fails and is not this session's (the interchange ceiling, as before).
 
+## The push
+
+The code, the note and this report went to main through one push (run 37237189750, merged as `2322f5e`); Vercel accepted the deployment. `before-108` against `after-108`: 26 differences, all on the home page, all the latest real-time prices. No page changed. (This section was added in session 109, after the push it describes.)
+
 ## Errors and decisions
 
 1. **A first draft of the note named an identifier for the real-time report that I had not read from its page,** and described how real-time ancillary services settle from memory. Both are out: the note now says the page was not read and the settlement rule has to be.

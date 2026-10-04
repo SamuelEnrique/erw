@@ -23,9 +23,11 @@
     "PJM",
     "SWPP"
    ],
+   "with_demand": 52,
    "pair_days": 144,
    "pair_days_from_other_side": 3961,
-   "pair_days_screened": 190
+   "pair_days_screened": 190,
+   "demand_days_held": 18632
   },
   "2020": {
    "file": "/network/daily_2020.json",
@@ -45,9 +47,11 @@
     "PJM",
     "SWPP"
    ],
+   "with_demand": 52,
    "pair_days": 373,
    "pair_days_from_other_side": 3725,
-   "pair_days_screened": 171
+   "pair_days_screened": 171,
+   "demand_days_held": 18963
   },
   "2021": {
    "file": "/network/daily_2021.json",
@@ -67,9 +71,11 @@
     "PJM",
     "SWPP"
    ],
+   "with_demand": 52,
    "pair_days": 3,
    "pair_days_from_other_side": 3338,
-   "pair_days_screened": 106
+   "pair_days_screened": 106,
+   "demand_days_held": 18922
   },
   "2022": {
    "file": "/network/daily_2022.json",
@@ -89,9 +95,11 @@
     "PJM",
     "SWPP"
    ],
+   "with_demand": 52,
    "pair_days": 173,
    "pair_days_from_other_side": 3316,
-   "pair_days_screened": 151
+   "pair_days_screened": 151,
+   "demand_days_held": 18972
   },
   "2023": {
    "file": "/network/daily_2023.json",
@@ -111,9 +119,11 @@
     "PJM",
     "SWPP"
    ],
+   "with_demand": 52,
    "pair_days": 314,
    "pair_days_from_other_side": 3387,
-   "pair_days_screened": 38
+   "pair_days_screened": 38,
+   "demand_days_held": 18964
   },
   "2024": {
    "file": "/network/daily_2024.json",
@@ -138,9 +148,11 @@
     "PJM",
     "SWPP"
    ],
+   "with_demand": 52,
    "pair_days": 390,
    "pair_days_from_other_side": 3736,
-   "pair_days_screened": 25
+   "pair_days_screened": 25,
+   "demand_days_held": 19008
   },
   "2025": {
    "file": "/network/daily_2025.json",
@@ -165,9 +177,11 @@
     "PJM",
     "SWPP"
    ],
+   "with_demand": 52,
    "pair_days": 8585,
    "pair_days_from_other_side": 3776,
-   "pair_days_screened": 174
+   "pair_days_screened": 174,
+   "demand_days_held": 18881
   },
   "2026": {
    "file": "/network/daily_2026.json",
@@ -192,9 +206,11 @@
     "PJM",
     "SWPP"
    ],
+   "with_demand": 54,
    "pair_days": 2225,
    "pair_days_from_other_side": 3697,
-   "pair_days_screened": 217
+   "pair_days_screened": 217,
+   "demand_days_held": 14264
   }
  },
  "left_out_bas": [
@@ -208,6 +224,68 @@
   "SPC",
   "WACM"
  ],
- "built": "2026-10-04T08:07:05Z",
- "source": "eia930_daily_interchange"
+ "built": "2026-10-04T21:55:39Z",
+ "source": "eia930_daily_interchange",
+ "demand_source": "eia930_daily_demand",
+ "demand_band": [
+  0.5,
+  2.0
+ ],
+ "demand_days_screened": 109,
+ "demand_bas": [
+  "AECI",
+  "AVA",
+  "AZPS",
+  "BANC",
+  "BHBA",
+  "BPAT",
+  "CHPD",
+  "CISO",
+  "CPLE",
+  "CPLW",
+  "DOPD",
+  "DUK",
+  "EPE",
+  "ERCO",
+  "FMPP",
+  "FPC",
+  "FPL",
+  "GCPD",
+  "GVL",
+  "HST",
+  "IID",
+  "IPCO",
+  "ISNE",
+  "JEA",
+  "LDWP",
+  "LGEE",
+  "MISO",
+  "NEVP",
+  "NWMT",
+  "NYIS",
+  "PACE",
+  "PACW",
+  "PGE",
+  "PJM",
+  "PNM",
+  "PSCO",
+  "PSEI",
+  "SC",
+  "SCEG",
+  "SCL",
+  "SEC",
+  "SOCO",
+  "SPA",
+  "SRP",
+  "SWPP",
+  "SWPW",
+  "TAL",
+  "TEC",
+  "TEPC",
+  "TIDC",
+  "TPWR",
+  "TVA",
+  "WALC",
+  "WAUW"
+ ]
 }

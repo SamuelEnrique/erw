@@ -48,7 +48,8 @@ export default async function NetworkV3Page() {
             <li><strong>A day is EIA&apos;s Eastern day</strong>, from its daily interchange of every pair of balancing authorities, {years[0]} to {index.last}. A flow is the day&apos;s MWh over the day&apos;s hours: its average MW, so a day draws on the scale an hour draws on.</li>
             <li><strong>Each pair is counted once</strong>, by the network&apos;s own rule: read from the balancing authority whose code sorts first, as it reported it; on a day it did not report, from the other&apos;s report with the sign flipped. A day neither reported is left blank.</li>
             <li><strong>{screened.toLocaleString("en-US")} pair-days are left out as days no tie can carry</strong>: further than 10 median absolute deviations, and at least 500 MWh, from the pair&apos;s own median. It is the rule of the monthly supply table; one such day would set the scale of a whole year.</li>
-            <li><strong>Not held by day:</strong> demand, so a share of demand is not given for a replayed day; and the batteries.</li>
+            <li><strong>A share of demand, by day:</strong> each supplier&apos;s flow over the grid&apos;s demand that day, both as the day&apos;s average MW. Demand is EIA&apos;s daily figure, its own sum of the hours it holds; a day whose demand is not above zero, or outside half to twice the median of the six days around it, is not used and shows no share.</li>
+            <li><strong>Not held by day:</strong> the batteries.</li>
             <li><strong>Not drawn:</strong> {index.left_out_bas.join(", ")}, which reported in those years and have no place in today&apos;s network.</li>
           </ul>
         </Fold>
@@ -70,7 +71,7 @@ export default async function NetworkV3Page() {
         </Fold>
         <p className="mt-3 max-w-3xl text-sm">The three measures of each grid&apos;s imports, what the network is and is not, and how fresh each layer is: on <Link href="/network">the network page</Link>.</p>
       </div>
-      <SourceLine tables={["eia930_all_interchange", "eia930_daily_interchange", "eia930_all_demand", "carbon_intensity_hourly", "carbon_intensity_daily", SUPPLY_TABLE,
+      <SourceLine tables={["eia930_all_interchange", "eia930_daily_interchange", "eia930_daily_demand", "eia930_all_demand", "carbon_intensity_hourly", "carbon_intensity_daily", SUPPLY_TABLE,
         "eia930_event_hourly_interchange", "eia930_all_storage", "caiso_battery_storage"]}
         note={<>Public domain (EIA) and CAISO; hub prices as each ISO publishes them. <Link href="/data/methods/grid_network">Method</Link>.</>} />
     </ToolPage>
