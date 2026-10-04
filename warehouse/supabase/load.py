@@ -53,6 +53,10 @@ load now ends with a plain VACUUM (ANALYZE), which marks the replaced rows' spac
 takes no exclusive lock. VACUUM (FULL, ANALYZE), which returns the space to the operating system
 and shrinks pg_database_size, runs only with --vacuum-full, a person's command (docs/runbook.md).
 The warn_mb warning (350 MB) is unchanged.
+Session 90: /contracts timed out on production. Its summary (internal_eqr_summary, migration 020) counted the live rows
+of ferc_eqr_contracts on every request, with the public key, whose statements are cancelled after 3 seconds. The summary
+is now computed here, from the rows this run loads (eqr_summary), and stored once (eqr_summary_store, migration 021);
+the page's function reads that one row. A load of the table that cannot store its summary fails the table.
 """
 
 import argparse
@@ -193,6 +197,35 @@ def delete_table_rows(client, shape, names):
                 break
             for i in range(0, len(ids), 200):
                 client.table(shape).delete().eq("table_name", name).in_(key, ids[i:i + 200]).execute()
+
+
+EQR = "ferc_eqr_contracts"
+
+
+def eqr_summary(df):
+    """Session 90: the counts /contracts states, over the rows of ferc_eqr_contracts the live set holds: what migration
+    020's internal_eqr_summary counted in SQL on every request, computed once here. Counts only: rows, rows with a rate
+    filed as a number, the first and last execution date, the quarters filed for, and rows by month of execution, by
+    product name (in capitals: FERC's names come in more than one spelling) and by delivery balancing authority."""
+    def col(c):
+        return df[c] if c in df.columns else pd.Series([""] * len(df), index=df.index)
+    day = df["event_date"].str[:10]
+    priced = col("x_rate") != ""
+    product = col("x_product_name").str.upper()
+    ba = col("x_point_of_delivery_balancing_authority").where(col("x_point_of_delivery_balancing_authority") != "", "not stated")
+    g = pd.DataFrame({"month": day.str[:7], "product": product, "ba": ba, "priced": priced})
+
+    def by(key, with_priced=True):
+        t = g.groupby(key, sort=True).agg(rows=("priced", "size"), priced=("priced", "sum")).reset_index()
+        return [{key: r[key], "rows": int(r["rows"]), **({"priced": int(r["priced"])} if with_priced else {})}
+                for r in t.to_dict("records")]
+    most = lambda rows, key: sorted(rows, key=lambda r: (-r["rows"], r[key]))
+    return {
+        "rows": int(len(df)), "priced": int(priced.sum()),
+        "first": day.min() if len(df) else None, "last": day.max() if len(df) else None,
+        "quarters": sorted(q for q in col("x_quarter").unique() if q != ""),
+        "by_month": by("month"), "by_product": most(by("product"), "product"), "by_ba": most(by("ba", False), "ba"),
+    }
 
 
 def filtered(name, days, now):
@@ -515,6 +548,9 @@ def main(argv=None):
             n = client.table(shape).select("table_name", count="exact", head=True) \
                 .eq("table_name", name).execute().count
             ok = n == len(df)
+            if ok and name == EQR:  # session 90: the page's summary, from the rows just reconciled (migration 021)
+                stored = client.rpc("eqr_summary_store", {"p_summary": eqr_summary(df)}).execute().data
+                print(f"         {name}: the summary of {stored['rows']:,} rows stored for /contracts ({stored['computed_at']})")
             if ok:
                 hashes[name] = digest
             recon.append((name, shape, len(df), n, "match" if ok else "MISMATCH", written, deleted, unchanged))

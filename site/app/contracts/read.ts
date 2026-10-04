@@ -2,6 +2,9 @@
 // row-level security hides it from the anon key, and two database functions (migration 020) answer only with the
 // internal token, which this server holds as INTERNAL_COSTS_TOKEN and never sends to a browser. Without the token on
 // the server, or with one the database does not accept, nothing is read and the page says so.
+// Session 90: the summary is one stored row, computed by the loader from the rows it loaded (warehouse/supabase/load.py
+// eqr_summary; migration 021). Until then the function counted the table on every request and production cancelled it
+// at the public key's 3 seconds, so the page showed no panel.
 import "server-only";
 import { DataError, rpc } from "@/lib/supabase";
 import type { Contract, Summary } from "@/lib/contracts";

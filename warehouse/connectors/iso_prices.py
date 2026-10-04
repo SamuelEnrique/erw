@@ -85,6 +85,48 @@ def license_of(source):
     return "internal" if source.split(":", 1)[0].lower() in INTERNAL_ORGS else "public"
 
 
+# Session 89 (Samuel's ruling of 4 October 2026): a publisher whose pulls are paused. The list is
+# warehouse/metadata/paused_sources.csv, one row per publisher: when, why, the terms quoted, who ruled, until what.
+# Every connector that requests a publisher's servers asks paused() first and makes no request when it answers. The
+# tables and pages of a paused publisher stay as they are: nothing is deleted, nothing is rewritten. To lift a pause,
+# delete its row. The file is read from the repository whatever the output directory of a trial run.
+PAUSED_FILE = os.path.join(ROOT, "warehouse", "metadata", "paused_sources.csv")
+
+
+def paused_rows():
+    if not os.path.exists(PAUSED_FILE):
+        return []
+    return pd.read_csv(PAUSED_FILE, dtype=str, keep_default_na=False).to_dict("records")
+
+
+def paused(scope):
+    """The pause of a publisher's pulls, as its row of paused_sources.csv (a dict), or None. scope: "miso"."""
+    for r in paused_rows():
+        if r["scope"] == str(scope).lower():
+            return r
+    return None
+
+
+def pause_line(scope):
+    """One line saying why nothing was requested, for a log, a status and the terminal."""
+    r = paused(scope)
+    return (f"PAUSED since {r['paused_on']}: {r['reason']} ({r['terms_url']}); pending {r['until']}. "
+            f"No request made; the tables stay as they are. warehouse/metadata/paused_sources.csv")
+
+
+def pause_note(source, publisher):
+    """The note a paused publisher's rows carry in the source registry's report column, or "" for any other row."""
+    for r in paused_rows():
+        if re.search(r["match"], source) or re.search(r["match"], publisher):
+            return f" [PAUSED {r['paused_on']}: {r['reason']}; pulls paused pending {r['until']} (docs/methods/miso_pause.md)]"
+    return ""
+
+
+def paused_outlets():
+    """The news outlets of paused publishers: a story of theirs is never opened on their own site."""
+    return {o for r in paused_rows() for o in r["outlets"].split(";") if o}
+
+
 def update_sources(entries):
     """Merge report descriptions into warehouse/metadata/sources.csv, keyed by source.
 
@@ -116,6 +158,10 @@ def update_sources(entries):
             # an entry may state its license (third-party news text is internal); else the rule
             "license": e.get("license") or license_of(sid), "tables": ";".join(sorted(tables)),
             "first_seen": first, "last_seen": today}
+    for r in rows.values():  # session 89: a paused publisher's rows say so, whoever writes the registry
+        note = pause_note(r["source"], r["publisher"])
+        if note and "[PAUSED " not in r["report"]:
+            r["report"] = r["report"] + note
     reg = pd.DataFrame([rows[k] for k in sorted(rows)], columns=SOURCE_COLS)
     tmp = path + ".tmp"
     reg.to_csv(tmp, index=False, lineterminator="\n")
@@ -1593,6 +1639,12 @@ ISOS = {
 
 
 def run(iso, days):
+    if paused(iso):  # session 89: no request to a paused publisher; its tables stay as they are
+        line = f"{iso} prices {pause_line(iso)}"
+        print(line)
+        write_status(iso, dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ"),
+                     [dict(table=f"{iso}_prices", market="all", status="skipped", detail=line[:300])])
+        return 0
     fn, label, tz, geo = ISOS[iso]
     os.makedirs(LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")

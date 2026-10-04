@@ -171,6 +171,15 @@ def resolve_rows(df, log):
     """Resolve Google News links not tried before; each row is tried once and cached."""
     todo = df.index[(df["google_news_url"] == "") & df["source_url"].str.contains(GOOGLE_HOST)
                     & (df["url_resolved"] == "")]
+    # session 89: resolving a link opens the story on the outlet's own site. A paused publisher's site is not opened
+    # (warehouse/metadata/paused_sources.csv); such a story keeps its Google News link and says why.
+    held = [i for i in todo if df.at[i, "source"] in ip.paused_outlets()]
+    if held:
+        df = df.copy()
+        for i in held:
+            df.at[i, "url_resolved"] = "no: the outlet's pulls are paused"
+        log(f"  Google News links: {len(held)} of a paused outlet not opened")
+        todo = todo.difference(held)
     if len(todo) == 0:
         return df, 0, 0
     df = df.copy()

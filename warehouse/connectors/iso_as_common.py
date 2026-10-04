@@ -95,6 +95,9 @@ def run(spec, argv=None):
     a = ap.parse_args(argv)
     if a.start < START:
         ap.error(f"the approved window starts {START}")
+    if ip.paused(spec["namespace"]):  # session 89: a paused publisher is not requested and its table is not rewritten
+        print(f"{connector} {ip.pause_line(spec['namespace'])}")
+        return 0
     raw_dir = ip.RAW_DIR
     if a.out_dir:
         ip.set_out_dir(a.out_dir)

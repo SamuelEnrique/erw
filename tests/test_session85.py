@@ -326,7 +326,8 @@ class Run(unittest.TestCase):
 
         def fetch(doc, log, offline):
             return miso_file(doc["day"]), {"url": doc["url"], "retrieved_at": "2026-10-04T00:00:00Z", "cached": True}
-        return dict(miso.SPEC, name="madeup_as_prices", connector="madeup_as_prices", documents=documents, fetch=fetch)
+        # a made-up namespace: MISO itself is paused since session 89 and its connector makes no request and writes nothing
+        return dict(miso.SPEC, name="madeup_as_prices", connector="madeup_as_prices", namespace="madeup", documents=documents, fetch=fetch)
 
     def run_in(self, tmp, spec, argv):
         keep = (ip.OUT_DIR, ip.LOG_DIR, ip.RAW_DIR, ip.METADATA_DIR, ip.STATUS_DIR)

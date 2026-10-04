@@ -1,5 +1,7 @@
 # Method: trader view
 
+> **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's hub prices stop at the last day pulled, and so does its trader view. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
+
 Energy Research Warehouse (ERW), session 19. Tables: `ercot_trader_daily`, `caiso_trader_daily`, `nyiso_trader_daily`, `miso_trader_daily`, `spp_trader_daily`, `isone_trader_daily` (derived, series, public) and `iso_rt_top_intervals` (derived, series snapshot, public). Code: `warehouse/derived/trader_view.py`. The page that reads them: the site's `/markets` (platform tool 24).
 
 **PJM is absent.** The ERW has no PJM energy price table: PJM's Data Miner needs an API key, and its terms bar non-members from republishing. The trader view will add PJM when a licensed key exists.

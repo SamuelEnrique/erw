@@ -8,7 +8,7 @@
 // link, because the page is itself in review and a gated link to it would render greyed in the server's HTML.
 import Link from "next/link";
 import { Num } from "@/components/Num";
-import { BUCKETS, checkKey, GRIDS, MEASURES, NOT_REPORTED, shown, type Grid, type Measure, type Row, type View, type YearPoint } from "@/lib/buildout";
+import { BUCKETS, checkKey, GRIDS, MEASURES, NOT_REPORTED, shown, whole, written, type Grid, type Measure, type Row, type View, type YearPoint } from "@/lib/buildout";
 
 // Duration is one hue, cardinal, light to dark: longer duration reads darker. Not reported is a neutral grey. The
 // values are in app/tokens.css (session 72); the page holds no color of its own.
@@ -16,10 +16,11 @@ export const RAMP = ["var(--color-duration-1)", "var(--color-duration-2)", "var(
 export const GREY = "var(--color-not-reported)";
 export const SURFACE = "var(--color-surface)"; // the white sheet of the tool page, between stacked segments
 
-/** A value of the table with its check key (components/Num.tsx), or "not held" where the table has no such row. */
+/** A value of the table with its check key (components/Num.tsx), or "not held" where the table has no such row.
+ * Session 90: MW and MWh are written without decimals (lib/buildout.ts written); hours keep two. */
 export function V({ row, className }: { row: Row | undefined; className?: string }) {
   if (!row) return <span className="text-muted">not held</span>;
-  return <Num check={checkKey(row)} raw={row.value} className={className}>{shown(row.value)}</Num>;
+  return <Num check={checkKey(row)} raw={row.value} className={className}>{written(row.variable, row.value)}</Num>;
 }
 
 /** The left panel: the grid and the measure, each choice a link, so it works without a script. */
@@ -101,7 +102,7 @@ export function DurationBars({ v }: { v: View }) {
                 if (p.value <= 0) return null;
                 return (
                   <rect key={p.label} x={x} width={bw} y={y1} height={Math.max(0.5, y0 - y1)} fill={p.color} stroke={SURFACE} strokeWidth={y0 - y1 > 4 ? 1 : 0}>
-                    <title>{`${s.y.label}, ${p.label}: ${shown(p.value)} ${unit}`}</title>
+                    <title>{`${s.y.label}, ${p.label}: ${whole(p.value)} ${unit}`}</title>
                   </rect>
                 );
               })}

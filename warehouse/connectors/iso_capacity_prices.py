@@ -465,6 +465,11 @@ def main(argv=None):
     ip.RAW.open(CONNECTOR, run_id)
     results, rows, done = [], [], []
     for market in a.only or sorted(PULLS):  # one market at a time; a market that fails writes none of its rows
+        if ip.paused(market):  # session 89: no request; the market's rows in the table are kept by the merge writer
+            log(f"{market}: {ip.pause_line(market)}")
+            print(f"{CONNECTOR} {market} {ip.pause_line(market)}")
+            results.append(dict(table=NAME, market=market, status="skipped", detail=ip.pause_line(market)[:300]))
+            continue
         try:
             log(f"{market}:")
             r, gaps = PULLS[market](log, a.offline)
@@ -494,7 +499,9 @@ def main(argv=None):
                 "period and auction; value is the clearing price as published, in the unit column's unit (USD/MW-day "
                 "or USD/kW-month); nothing is converted. ts_utc is the first day of the delivery period, "
                 "x_period_end its last.",
-                "Markets in this run: " + "; ".join(f"{m} {n} rows" for m, n in sorted(counts.items())) + ".",
+                "Markets in this run: " + "; ".join(f"{m} {n} rows" for m, n in sorted(counts.items())) + "."
+                + "".join(f" Paused, its rows kept from its last pull: {m} ({ip.paused(m)['reason']}, since "
+                          f"{ip.paused(m)['paused_on']})." for m in sorted(PULLS) if ip.paused(m)),
                 "Not in the table: ERCOT (energy-only: no capacity price exists), California (no capacity market; "
                 "the CPUC's resource adequacy price statistics are not pulled), PJM's incremental auctions, NYISO's "
                 "strip and monthly auctions, ISO-NE's reconfiguration auctions, MISO planning years before 2024/25.",

@@ -4,7 +4,7 @@ import { Num } from "@/components/Num";
 import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
-import { GRIDS, TABLE, checkKey, choices, dayKey, dayName, hourName, monthName, monthOf, shown, view, type Row, type View } from "@/lib/shoulder";
+import { GRIDS, TABLE, checkKey, choices, completeMonths, dayKey, dayName, hourName, monthName, monthOf, opening, shown, view, type Row, type View } from "@/lib/shoulder";
 import { shoulderRows } from "./read";
 
 // Session 75: "The shoulder hours". Solar floods the middle of the day and demand peaks in the evening; how long is the
@@ -104,7 +104,11 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
   const rows = read.ok ? read.data : [];
   const months: Record<string, string[]> = Object.fromEntries(GRIDS.map((g) => [g.slug,
     [...new Set(rows.filter((r) => r.entity === g.entity && r.variable === "days_held").map((r) => monthOf(r.ts_utc)))].sort()]));
-  const { grid, month } = choices(q, months);
+  // session 90: with no month named the page opens on the latest month that holds every figure, not on the newest
+  // (whose fleet EIA has not published yet); the panel still lists every month held, and says which are incomplete
+  const complete: Record<string, string[]> = Object.fromEntries(GRIDS.map((g) => [g.slug, completeMonths(rows, g)]));
+  const { grid, month } = choices(q, months, complete);
+  const later = month ? (months[grid.slug] ?? []).filter((m) => m > month && !(complete[grid.slug] ?? []).includes(m)) : [];
   const v = month ? view(rows, grid, month) : null;
   const toMidnight = v?.get("shoulder_runs_to_midnight")?.value === 1;
   const toMidnight2 = v?.get("shoulder2_runs_to_midnight")?.value === 1;
@@ -124,7 +128,7 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
           <InputPanel title="Choose" note={grid.note}>
             <nav aria-label="Grid" className="mb-4 text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Grid</div>
-              {GRIDS.map((g) => <div key={g.slug}><Link href={href(g.slug, (months[g.slug] ?? []).at(-1) ?? "")} aria-current={g.slug === grid.slug ? "true" : undefined} className={item(g.slug === grid.slug)}>{g.name}</Link></div>)}
+              {GRIDS.map((g) => <div key={g.slug}><Link href={href(g.slug, opening(months[g.slug] ?? [], complete[g.slug] ?? []) ?? "")} aria-current={g.slug === grid.slug ? "true" : undefined} className={item(g.slug === grid.slug)}>{g.name}</Link></div>)}
             </nav>
             <nav aria-label="Month" className="text-sm">
               <div className="mb-1 text-xs uppercase tracking-wide text-muted">Month</div>
@@ -136,6 +140,8 @@ export default async function Shoulder({ searchParams }: { searchParams: Promise
                   ))}
                 </div>
               ))}
+              {!q.month && later.length ? <p className="mt-2 text-xs text-muted" data-opening={month ?? ""}>Opened on {monthName(month!)}, the latest month that holds every figure. {later.map(monthName).join(" and ")} {later.length === 1 ? "is" : "are"} held,
+                but not every figure of {later.length === 1 ? "it" : "them"} yet (EIA publishes the battery fleet a month or two behind).</p> : null}
             </nav>
           </InputPanel>
         </aside>

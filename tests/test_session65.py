@@ -388,14 +388,15 @@ class CapacityRun(Scratch):
 
         def boom(log, offline):
             raise RuntimeError("HTTP 403")
-        pulls = {"nyiso": lambda log, offline: (rows, ["nyiso 2000-13: the page shows no spot auction"]), "miso": boom}
+        # session 89: the market that fails here was MISO; MISO is paused and is skipped before its pull, so ISO-NE stands in
+        pulls = {"nyiso": lambda log, offline: (rows, ["nyiso 2000-13: the page shows no spot auction"]), "isone": boom}
         with mock.patch.object(cap, "PULLS", pulls), mock.patch("builtins.print"), \
                 mock.patch("sys.stderr", io.StringIO()):
             self.assertEqual(cap.main(["--offline", "--out-dir", self.out]), 1)  # one market failed: said so
         t = read_table(os.path.join(self.out, "iso_all_capacity_prices.csv"))
         self.assertEqual((len(t), set(t["market"])), (12, {"nyiso_icap_spot"}))  # the failed market has no row
         by = {(r["market"], r["status"]) for r in self.status("iso_capacity_prices")}
-        self.assertEqual(by, {("nyiso", "ok"), ("nyiso", "gap"), ("miso", "failed")})
+        self.assertEqual(by, {("nyiso", "ok"), ("nyiso", "gap"), ("isone", "failed")})
         shutil.rmtree(self.out)
         with mock.patch.object(cap, "PULLS", pulls), mock.patch.object(cap, "CEILING", 11), \
                 mock.patch("builtins.print"), mock.patch("sys.stderr", io.StringIO()):

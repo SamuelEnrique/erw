@@ -58,7 +58,11 @@ set -uo pipefail
 
 PYTHON="${PYTHON:-python}"
 DAYS="${DAYS:-3}"
-ISOS="${ISOS:-ercot caiso nyiso miso spp isone}"
+# Session 89 (Samuel's ruling of 4 October 2026): MISO is out of the daily run. Its terms forbid automated access, and
+# every MISO pull is paused pending a review (warehouse/metadata/paused_sources.csv, docs/methods/miso_pause.md). The
+# connectors refuse a paused publisher themselves, so ISOS=miso would request nothing either. MISO's tables stay as
+# they are. To bring it back: delete the row of paused_sources.csv and put miso back in this list.
+ISOS="${ISOS:-ercot caiso nyiso spp isone}"
 
 cd "$(dirname "$0")/.."
 mkdir -p runs

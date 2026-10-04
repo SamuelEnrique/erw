@@ -11,7 +11,7 @@
 // under its check key, its text is that value as the site writes numbers, the summary sentence is the fixture's, the
 // headline numbers are there, the selected grid's row is highlighted, and both charts are drawn. Exits 1 on a failure.
 import fsMod from "node:fs";
-import { GRIDS, shown } from "../lib/buildout.ts";
+import { GRIDS, shown, whole, written } from "../lib/buildout.ts";
 import { fixtureRows, TABLE } from "./buildout-stub.mjs";
 
 const base = process.argv[2] ?? "http://localhost:3069";
@@ -47,14 +47,17 @@ for (const grid of GRIDS) {
       const key = decode(m[1]), raw = Number(m[2]), shownText = decode(m[3].replace(/<!-- -->/g, "").replace(/<[^>]+>/g, "")).trim();
       values++;
       check(truth.has(key) && truth.get(key) === raw, `${page}: ${key} page read ${m[2]}, fixture ${truth.get(key)}`);
-      check(shownText === shown(raw), `${page}: ${key} shown "${shownText}", expected "${shown(raw)}"`);
+      // session 90: MW and MWh without decimals, the ratios with two (lib/buildout.ts written)
+      const want = written(key.split("|")[3], raw);
+      check(shownText === want, `${page}: ${key} shown "${shownText}", expected "${want}"`);
+      if (/_(mw|mwh)(_|$)/.test(key.split("|")[3]) && !key.split("|")[3].includes("_per_")) check(!/\.\d/.test(shownText), `${page}: ${key} is MW or MWh and shows a decimal: "${shownText}"`);
     }
     const e = grid.entity;
     const [mw, mwh, hours, before] = [val(e, "battery_operating_mw", "2026-08"), val(e, "battery_operating_mwh", "2026-08"), val(e, "battery_operating_mwh_per_mw", "2026-08"), val(e, "battery_operating_mw", "2025-08")];
-    const sentence = `${grid.name} has ${shown(mw)} MW of batteries holding ${shown(mwh)} MWh, an average of ${shown(hours)} hours, ${mw > before ? "up from" : mw < before ? "down from" : "unchanged from"} ${shown(before)} MW a year ago.`;
+    const sentence = `${grid.name} has ${whole(mw)} MW of batteries holding ${whole(mwh)} MWh, an average of ${shown(hours)} hours, ${mw > before ? "up from" : mw < before ? "down from" : "unchanged from"} ${whole(before)} MW a year ago.`;
     check(text.includes(sentence), `${page}: the summary sentence: ${sentence}`);
-    check(text.includes(`Operating power ${shown(mw)} MW`) && text.includes(`Operating energy ${shown(mwh)} MWh average duration ${shown(hours)} hours`)
-      && text.includes(`net of retirements ${shown(val(e, "battery_operating_mw_net_added_12m", "2026-08"))} MW ${shown(val(e, "battery_operating_mwh_net_added_12m", "2026-08"))} MWh`), `${page}: the three headline numbers`);
+    check(text.includes(`Operating power ${whole(mw)} MW`) && text.includes(`Operating energy ${whole(mwh)} MWh average duration ${shown(hours)} hours`)
+      && text.includes(`net of retirements ${whole(val(e, "battery_operating_mw_net_added_12m", "2026-08"))} MW ${whole(val(e, "battery_operating_mwh_net_added_12m", "2026-08"))} MWh`), `${page}: the three headline numbers`);
     check(text.includes("How much storage has been built") && text.includes("Operating storage by year, by duration") && text.includes("Storage against solar") && text.includes("By grid"), `${page}: title and sections`);
     check(text.includes("How generators are assigned to a grid, and how many were not") && text.includes("What EIA-860M covers and misses") && text.includes("The newest month held") && /Source: ERW tables? storage_buildout_monthly/.test(text), `${page}: folded sections and the source line`);
     check((html.match(/<svg /g) ?? []).length >= 2 && (html.match(/<rect /g) ?? []).length >= 12 && (html.match(/<circle /g) ?? []).length >= 2, `${page}: both charts are drawn`);
@@ -64,7 +67,7 @@ for (const grid of GRIDS) {
     for (const y of ["2020", "2025", "2026 to August"]) {
       const month = y.startsWith("2026") ? "2026-08" : `${y}-12`;
       const v4 = val(e, `battery_operating_${measure}_4to6h`, month);
-      if (v4 > 0) check(titles.includes(`${y}, 4 to under 6 hours: ${shown(v4)} ${unit}`), `${page}: the ${y} bar's 4 to 6 hour segment is ${shown(v4)} ${unit}`);
+      if (v4 > 0) check(titles.includes(`${y}, 4 to under 6 hours: ${whole(v4)} ${unit}`), `${page}: the ${y} bar's 4 to 6 hour segment is ${whole(v4)} ${unit}`);
     }
     const perSolar = val(e, "battery_mwh_per_solar_mw", "2026-08");
     check(titles.includes(`2026 to August: ${shown(perSolar)} MWh of batteries per MW of solar`), `${page}: the solar line's last point is ${shown(perSolar)}`);

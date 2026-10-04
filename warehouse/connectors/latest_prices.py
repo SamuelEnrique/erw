@@ -131,6 +131,9 @@ def main(argv=None):
     log = ip.Log(os.path.join(ip.LOG_DIR, f"latest_prices_{run_id}.log"))
     rows = []
     for iso, (fn, col, nodes, variable, source) in fetchers().items():
+        if ip.paused(iso):  # session 89: no request; the publisher's last row in latest_prices stays as it is
+            log(f"{iso}: {ip.pause_line(iso)}")
+            continue
         try:
             got = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
             r = rows_for(iso, fn(), col, nodes, variable, source, got, log)

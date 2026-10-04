@@ -484,7 +484,13 @@ def main(argv=None):
         return header_and_sources()
     if args.cmd == "merge":
         return merge(args.src)
-    return backfill(args.iso or list(TARGETS), args.until)
+    isos = args.iso or list(TARGETS)
+    for i in [i for i in isos if ip.paused(i)]:  # session 89: no request to a paused publisher
+        print(f"hub_history {i} {ip.pause_line(i)}")
+    isos = [i for i in isos if not ip.paused(i)]
+    if not isos:
+        return 0
+    return backfill(isos, args.until)
 
 
 if __name__ == "__main__":
