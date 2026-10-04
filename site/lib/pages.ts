@@ -69,6 +69,8 @@ export const GROUPS: Group[] = [
       { href: "/companies", label: "Companies", line: "Energy companies the ERW has found and sourced: stage, raised, location, founders and a confidence score, from Thesis Builder runs and the parties of the deal tracker.", tables: "energy_companies", related: ["/deals", "/datacenters"] },
       { href: "/policy", label: "Policy", line: "Energy rules, proposed rules and notices from the Federal Register and agency news, scored, with impact reads of the significant ones.", tables: "policy_actions, policy_reads", related: ["/digest", "/deals"] },
       { href: "/deals", label: "Deals", line: "PPAs, acquisitions, financings and supply deals from the news, with sources.", tables: "energy_deals", related: ["/companies", "/datacenters"] },
+      // session 83: FERC's Electric Quarterly Report contracts, an internal table behind the internal view (in review)
+      { href: "/contracts", label: "Power contracts", line: "Where bilateral power contracts are being signed: seller, buyer, product, term, price as filed and delivery point, by the quarter of signing, from the contracts sellers file with FERC.", tables: "ferc_eqr_contracts (internal)", related: ["/deals", "/cost-of-power/seller"] },
     ],
   },
   {

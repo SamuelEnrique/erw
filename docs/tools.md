@@ -45,6 +45,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | Datacenters | `/datacenters` | Which datacenters are being built, by whom, where and how large? | investors and lenders | `datacenter_facilities` |
 | Companies (the Thesis Builder's output) | `/companies` | Which energy companies has the ERW mapped, at what stage and with what funding? | investors and lenders | `energy_companies` |
 | Deals | `/deals` | Which PPAs, acquisitions and financings happened, with sources? | investors and lenders | `energy_deals` |
+| Power contracts (in review, session 83; internal view only) | `/contracts` | Where are bilateral power contracts being signed: which seller, which buyer, what product, for how long, at what price as filed, delivered where? | investors and lenders | `ferc_eqr_contracts` (internal) |
 | Policy | `/policy` | Which rules and notices matter, and what do they do? | investors and lenders; researchers | `policy_actions`, `policy_reads` |
 
 ## Events and studies

@@ -199,6 +199,8 @@ def filtered(name, days, now):
             df = df[df["ts_utc"] >= sel["since"]]
         if sel.get("days"):  # session 18: series rows of the last N days only (a table's own window)
             df = df[df["ts_utc"] >= (now - pd.Timedelta(days=int(sel["days"]))).strftime(TS_FMT)]
+        if sel.get("event_days"):  # session 83: events rows dated in the last N days (event_date, YYYY-MM-DD or a UTC time)
+            df = df[df["event_date"].str[:10] >= (now - pd.Timedelta(days=int(sel["event_days"]))).strftime("%Y-%m-%d")]
         if sel.get("columns") is not None:
             std = SHAPES[shape][0]
             df = df[[c for c in df.columns if c in std or c in sel["columns"]]]

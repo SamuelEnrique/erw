@@ -59,7 +59,8 @@ class Library(unittest.TestCase):
 
     def test_still_version_4(self):
         self.assertIn('export const RULES_VERSION = "v4";', self.b)
-        names = sorted(os.path.basename(p) for p in glob.glob(os.path.join(ROOT, "warehouse", "supabase", "migrations", "*.sql")))
+        # session 83: the newest migration of the game, not the newest migration (020 is the contracts page's functions)
+        names = sorted(os.path.basename(p) for p in glob.glob(os.path.join(ROOT, "warehouse", "supabase", "migrations", "*_game_*.sql")))
         self.assertEqual(names[-1], "019_game_v4.sql")
 
 
