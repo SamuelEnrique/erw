@@ -58,4 +58,4 @@ for (const p of paths) {
     + `${said.length ? `, says ${said.join(" ")}` : ""}; visitor ${v.status}${v.location ? ` to ${v.location}` : ""}${visitorClosed ? ", closed" : ", OPEN TO A VISITOR"}`);
 }
 console.log(`${paths.length - bad} of ${paths.length} pages render with data in the internal view at ${base}`);
-process.exit(bad ? 1 : 0);
+process.exitCode = bad ? 1 : 0;   // not process.exit: on Windows an exit while a fetch handle closes trips a libuv assertion (session 110)
