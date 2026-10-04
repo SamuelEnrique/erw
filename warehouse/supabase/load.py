@@ -129,6 +129,17 @@ def live_rule(n):
     return None
 
 
+def hold(cov, plan, held=None):
+    """Session 85: the tables live_set.yaml's catalogue_hold names stay out of the live catalogue and of the live set.
+    The home page counts the catalogue's public tables and rows; a new public table would move those numbers the day
+    it is loaded, and while the live site is frozen for a reviewer no live number may move. A held table is in
+    coverage.csv, the archive and its Redivis draft as any other; only Supabase does not hear of it, until a person
+    takes its name off the list. Returns (coverage without them, plan without them, the names held)."""
+    held = set(LIVE.get("catalogue_hold") or [] if held is None else held)
+    return (cov[~cov["table"].isin(held)].reset_index(drop=True), [p for p in plan if p[0] not in held],
+            sorted(held & set(cov["table"])))
+
+
 def coverage_stale(cov, names, out=None):
     """Session 65: the tables whose coverage row no longer describes the file on this machine, as (table, reason).
 
@@ -430,6 +441,9 @@ def main(argv=None):
     cov = pd.read_csv(os.path.join(ROOT, LIVE["catalogue"]), dtype=str, keep_default_na=False)
     lic = dict(zip(cov["table"], cov["license"]))
     plan = select_live()
+    cov, plan, held = hold(cov, plan)
+    if held:
+        print(f"held out of the live catalogue (live_set.yaml, catalogue_hold): {', '.join(held)}")
     if args.only:
         plan = [p for p in plan if any(re.search(o, p[0]) for o in args.only)]
         if not plan:
