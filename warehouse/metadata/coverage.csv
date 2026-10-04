@@ -3,6 +3,7 @@ ai_power_regions,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,7,,2018-07-01T00:00:00Z,
 api_cost_ledger,none,,1,event,2026-09-29T10:08:33Z,2026-10-03T14:45:53Z,515,1 outlets,2026-10-03T14:45:34Z,pass,internal,platform,no,derived
 ba_supply_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,473,P1M,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,158503,erw:ba_supply,2026-10-02T23:03:48Z,pass,public,power,yes,derived
 battery_stack_monthly,CAISO;ERCOT,caiso;ercot,2,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,10542,erw:battery_stack,2026-10-03T17:09:57Z,pass,public,power,yes,derived
+battery_stack_review_monthly,NYISO;SPP,nyiso;spp,2,P1M,2024-09-01T00:00:00Z,2026-10-01T00:00:00Z,3744,erw:battery_stack,2026-10-04T04:30:49Z,pass,public,power,yes,derived
 battery_stack_stress_daily,ERCOT,ercot,1,P1D,2021-02-07T00:00:00Z,2023-09-10T00:00:00Z,1260,erw:battery_stack,2026-10-02T21:22:20Z,pass,public,power,yes,derived
 caiso_as_prices,CAISO,caiso_dam,2,PT1H,2024-09-01T07:00:00Z,2026-10-04T06:00:00Z,145920,caiso:PRC_AS,2026-10-03T14:47:20Z,pass,public,power,no,source
 caiso_battery_storage,CAISO,,1,PT5M,2025-08-24T07:00:00Z,2026-10-03T06:55:00Z,348192,caiso:todays_outlook_storage,2026-10-03T14:27:58Z,pass,public,power,no,source

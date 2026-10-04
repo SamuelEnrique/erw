@@ -420,9 +420,15 @@ async function truth(check) {
   // of battery_stack_monthly and battery_stack_stress_daily in Supabase
   if (p[0] === "bs") {
     const B = await import("../lib/batterystack.ts");
-    const x = B.parseKey(p[1]);
+    const x = B.parseKey(p[1], true);
     const entity = B.gridOf(x.grid).entity;
     const k = `${entity}|${x.strat}|${x.dur}`;
+    if (!stackRows.has(k) && B.gridOf(x.grid).review) {
+      // session 86: a grid in review is read from the committed snapshot, as its page reads it; it has no stress day
+      const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "battery_stack_review.json"), "utf-8"));
+      const pre = `${x.strat}_${x.dur}h_`;
+      stackRows.set(k, [(snap.grids[x.grid]?.rows ?? []).filter((r) => r[0].startsWith(pre)).map(([variable, ts_utc, value]) => ({ variable, ts_utc, value: Number(value) })), []]);
+    }
     if (!stackRows.has(k)) {
       const f = { entity: `eq.${entity}`, variable: `like.${x.strat}_${x.dur}h_*`, order: "variable,ts_utc" };
       const rows = await all("series", { select: "variable,ts_utc,value", table_name: `eq.${B.TABLE}`, ...f });

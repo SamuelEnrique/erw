@@ -8,7 +8,7 @@ import { COSTS, DURATIONS, GRIDS, STRATEGIES, hrefOf, type Inputs, type Strategy
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 
-export function BatteryForm({ x }: { x: Inputs }) {
+export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boolean }) {
   const router = useRouter();
   return (
     <form
@@ -24,15 +24,19 @@ export function BatteryForm({ x }: { x: Inputs }) {
       <fieldset>
         <legend className="mb-1 font-semibold">Grid</legend>
         <ul className="space-y-1">
-          {GRIDS.map((g) => (
-            <li key={g.id}>
-              <label className={`flex items-baseline gap-2 ${g.ready ? "" : "text-muted"}`}>
-                <input type="radio" name="grid" value={g.id} defaultChecked={x.grid === g.id} disabled={!g.ready} className="accent-[var(--color-accent)]" />
-                <span>{g.name}</span>
-                {g.ready ? <span className="text-xs text-muted">{g.hub}, from {g.from}</span> : <span className="text-xs">{g.why}</span>}
-              </label>
-            </li>
-          ))}
+          {GRIDS.map((g) => {
+            // session 86: a grid in review is greyed for a visitor, as it was, and open in the internal view
+            const open = g.ready || (internal && !!g.review);
+            return (
+              <li key={g.id}>
+                <label className={`flex items-baseline gap-2 ${open ? "" : "text-muted"}`} data-grid={g.id} data-open={open ? "1" : "0"}>
+                  <input type="radio" name="grid" value={g.id} defaultChecked={x.grid === g.id} disabled={!open} className="accent-[var(--color-accent)]" />
+                  <span>{g.name}</span>
+                  {open ? <span className="text-xs text-muted">{g.hub}, from {g.from}{g.review ? "; in review" : ""}</span> : <span className="text-xs">{g.why}</span>}
+                </label>
+              </li>
+            );
+          })}
         </ul>
       </fieldset>
 

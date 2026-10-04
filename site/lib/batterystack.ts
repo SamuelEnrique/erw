@@ -17,23 +17,32 @@ export type Month = {
 };
 
 export const TABLE = "battery_stack_monthly";
+// Session 86: the grids in review (NYISO, SPP) are in a table of their own, held out of the live set; the page reads
+// them from data/battery_stack_review.json, and only in the internal view.
+export const REVIEW_TABLE = "battery_stack_review_monthly";
 export const STRESS_TABLE = "battery_stack_stress_daily";
 export const RTE = 0.86;   // round trip, as warehouse/derived/battery_stack.py and the seller tab
 export const NEAR = 0.9;  // a month counts when at least this share of its days is held (the seller tab's rule)
 export const DURATIONS: Duration[] = [2, 4, 8];
 export const STRATEGIES: Record<Strategy, string> = { foresight: "Perfect foresight", dayahead: "Day-ahead schedule" };
 
-/** The grids the tool is built for. Two are ready; the others are listed with the reason they are not. */
-export const GRIDS: { id: string; name: string; ready: boolean; why?: string; hub?: string; entity?: string; from?: string }[] = [
+/** The grids the tool is built for. Two are ready; the others are listed with the reason they are not.
+ * Session 86: `review` marks a grid that is built and waits for approval (its energy and reserve prices are both
+ * public): greyed for a visitor exactly as before, open in the internal view. A grid whose reserve prices are internal
+ * is not built; it says "held, not shown: license needed". `at` is where energy is priced, when it is not a hub. */
+export const GRIDS: { id: string; name: string; ready: boolean; review?: boolean; why?: string; hub?: string; at?: string; entity?: string; from?: string }[] = [
   { id: "ercot", name: "ERCOT", ready: true, hub: "HB_HUBAVG", entity: "ercot:HB_HUBAVG", from: "2018" },
   { id: "caiso", name: "CAISO", ready: true, hub: "SP15", entity: "caiso:TH_SP15_GEN-APND", from: "September 2024" },
   { id: "pjm", name: "PJM", ready: false, why: "license needed" },
-  { id: "nyiso", name: "NYISO", ready: false, why: "coming" },
-  { id: "isone", name: "ISO-NE", ready: false, why: "coming" },
-  { id: "miso", name: "MISO", ready: false, why: "coming" },
-  { id: "spp", name: "SPP", ready: false, why: "coming" },
+  { id: "nyiso", name: "NYISO", ready: false, review: true, why: "coming", hub: "N.Y.C.", at: "N.Y.C. zone (New York City)", entity: "nyiso:N.Y.C.", from: "September 2024" },
+  { id: "isone", name: "ISO-NE", ready: false, why: "held, not shown: license needed" },
+  { id: "miso", name: "MISO", ready: false, why: "held, not shown: license needed" },
+  { id: "spp", name: "SPP", ready: false, review: true, why: "coming", hub: "SPPNORTH_HUB", entity: "spp:SPPNORTH_HUB", from: "September 2024" },
 ];
 export const READY = GRIDS.filter((g) => g.ready);
+export const IN_REVIEW = GRIDS.filter((g) => g.review);
+/** Whether a grid can be opened: a ready one by anyone, one in review only in the internal view. */
+export const opens = (id: string | undefined, internal: boolean) => READY.some((g) => g.id === id) || (internal && IN_REVIEW.some((g) => g.id === id));
 export const gridOf = (id: string) => GRIDS.find((g) => g.id === id)!;
 
 /** The ancillary products of each market, in the order the page lists them. */
@@ -46,11 +55,19 @@ export const PRODUCTS: Record<string, { key: string; label: string }[]> = {
     { key: "regup", label: "Regulation Up" }, { key: "regdn", label: "Regulation Down" }, { key: "spin", label: "Spinning Reserve" },
     { key: "nonspin", label: "Non-Spinning Reserve" },
   ],
+  // session 86, in review
+  nyiso: [{ key: "reg", label: "Regulation Capacity (up and down)" }, { key: "spin", label: "10-Minute Spinning Reserve" }],
+  spp: [
+    { key: "regup", label: "Regulation Up" }, { key: "regdn", label: "Regulation Down" }, { key: "spin", label: "Spinning Reserve" },
+    { key: "supp", label: "Supplemental Reserve" },
+  ],
 };
 /** What the capacity row says, in words: no number from a capacity table is ever shown. */
 export const CAPACITY_WORDS: Record<string, string> = {
   ercot: "None: an energy-only market",
   caiso: "Not held: California's resource adequacy prices are contract statistics, not yet in the warehouse",
+  nyiso: "Not shown: New York's capacity prices are held and their license is under review",
+  spp: "None: SPP has no capacity market",
 };
 
 /** Lazard, "Levelized Cost of Energy+", June 2025, LCOS v10.0, utility-scale standalone storage, the midpoint of its low
@@ -68,12 +85,12 @@ export const crf = (rate: number, n: number) => rate / (1 - (1 + rate) ** -n);
 export const debtPerMw = (d: Duration) => COSTS[d].capex * 1000 * DEBT.share * crf(DEBT.rate, DEBT.life);
 
 /** The inputs from a query (strings), each defaulted and bounded. */
-export function inputsOf(q: Record<string, string | undefined>): Inputs {
+export function inputsOf(q: Record<string, string | undefined>, internal = false): Inputs {
   const num = (v: string | undefined, d: number, lo: number, hi: number) => {
     const x = v === undefined || v === "" ? NaN : Number(v);
     return Number.isFinite(x) ? Math.min(hi, Math.max(lo, x)) : d;
   };
-  const grid = READY.some((g) => g.id === q.grid) ? q.grid! : "ercot";
+  const grid = opens(q.grid, internal) ? q.grid! : "ercot";  // session 86: a grid in review opens only in the internal view
   const dur = (DURATIONS.includes(Number(q.dur) as Duration) ? Number(q.dur) : 4) as Duration;
   const strat = (q.strat === "dayahead" ? "dayahead" : "foresight") as Strategy;
   const mw = num(q.mw, 100, 1, 5000);
@@ -81,8 +98,8 @@ export function inputsOf(q: Record<string, string | undefined>): Inputs {
 }
 /** The inputs as a stable string: the check keys' and the links' form. */
 export const inputsKey = (x: Inputs) => `grid=${x.grid}&dur=${x.dur}&strat=${x.strat}&mw=${x.mw}&fom=${x.fom}&ds=${x.ds}`;
-export function parseKey(k: string): Inputs {
-  return inputsOf(Object.fromEntries(k.split("&").map((p) => p.split("=") as [string, string])));
+export function parseKey(k: string, internal = false): Inputs {
+  return inputsOf(Object.fromEntries(k.split("&").map((p) => p.split("=") as [string, string])), internal);
 }
 /** The query of a link: only what differs from the defaults of the chosen duration, so a duration link carries no stale
  * cost default. */
@@ -339,4 +356,17 @@ export const REQUIREMENTS: Record<string, { product: string; rule: string; sourc
     { product: "Regulation Up, Regulation Down", rule: "1 hour in the day-ahead market", source: "CAISO tariff, section 8.4.1.1(g)", assumed: false },
     { product: "Spinning Reserve, Non-Spinning Reserve", rule: "30 minutes", source: "CAISO tariff, section 8.4.3", assumed: false },
   ],
+  // session 86: neither operator's own requirement could be verified, so both are labeled assumed. NYISO's Ancillary
+  // Services Manual (September 2026) was read and states no duration; SPP's current protocols were not found.
+  nyiso: [
+    { product: "Regulation Capacity, 10-Minute Spinning Reserve", rule: "1 hour", source: "assumed", assumed: true },
+  ],
+  spp: [
+    { product: "Regulation Up, Regulation Down, Spinning Reserve, Supplemental Reserve", rule: "1 hour", source: "assumed", assumed: true },
+  ],
+};
+/** Session 86: what the model leaves out on a grid in review, in words. */
+export const LEFT_OUT: Record<string, string> = {
+  nyiso: "NYISO's 10-minute non-synchronous and 30-minute reserves are left out: in every hour held, 10-minute spinning reserve paid at least as much for the same megawatt. Regulation is one product in New York, up and down together, so an award takes the battery's power in both directions",
+  spp: "SPP's ramp capability and uncertainty products are left out: what a battery must hold behind them was not read",
 };

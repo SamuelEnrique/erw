@@ -10,6 +10,13 @@ Energy Research Warehouse (ERW). Writes two derived series tables:
 Scope: ERCOT (HB_HUBAVG, 2018 on) and CAISO (TH_SP15_GEN-APND, 2024-09 on; ancillary prices of the expanded system
 region). Durations 2, 4 and 8 hours. Every result is per MW of rated power.
 
+Session 86, the grids in review: NYISO (the N.Y.C. zone; regulation and 10-minute spinning reserve) and SPP
+(SPPNORTH_HUB; regulation up and down, spinning and supplemental reserve), the two other grids whose energy and
+reserve prices are both public (nyiso_as_prices, spp_as_prices, session 85). They are written to a table of their
+own, battery_stack_review_monthly, and to site/data/battery_stack_review.json for the page's internal view, so the
+live table and every live number stay as they were; a person moves a grid into MARKETS to release it. ISO-NE's and
+MISO's reserve prices are internal (their terms forbid republishing), so those grids are not modeled: HELD.
+
 Co-optimization, not addition. A battery cannot sell its full power as energy and be paid to hold the same power in
 reserve in the same hour. For each local day one linear program (scipy's HiGHS) splits the battery hour by hour
 between charging, discharging and each ancillary product, subject to:
@@ -32,12 +39,14 @@ that day is held; any other day is left out and counted (days_left_out), never e
 
     python warehouse/derived/battery_stack.py
     python warehouse/derived/battery_stack.py --out-dir C:/scratch   # a trial run: nothing in warehouse/output
+    python warehouse/derived/battery_stack.py --review-only           # the grids in review only: the live tables untouched
 
 Method: docs/methods/battery_stack.md.
 """
 
 import argparse
 import datetime as dt
+import json
 import math
 import os
 import sys
@@ -112,6 +121,55 @@ MARKETS = {
         ]),
 }
 PRODUCT_KEYS = sorted({p["key"] for m in MARKETS.values() for p in m["products"]})
+
+# Session 86: the grids in review. Same shape as MARKETS. A product's `up` may also be "both": one award that must be
+# able to move up and down (NYISO buys regulation as one capacity product), so it takes the battery's power in both
+# directions and needs stored energy and room behind it.
+REVIEW_NAME = "battery_stack_review_monthly"
+REVIEW_SNAPSHOT = os.path.join(ROOT, "site", "data", "battery_stack_review.json")
+NYISO_ASSUMED = ("assumed in session 86: one hour. NYISO's Ancillary Services Manual (Manual 2, issued September 2026, "
+                 "https://www.nyiso.com/documents/20142/2923301/ancserv.pdf) was read and states no time a regulation or reserve "
+                 "supplier must sustain its award; the requirement is in NYISO's tariff, which was not read")
+SPP_ASSUMED = ("assumed in session 86: one hour. SPP's current Integrated Marketplace protocols were not found at an "
+               "address this machine could read (the copies found are of 2016 and 2017, before storage resources had rules "
+               "of their own), so the operator's requirement is not verified")
+REVIEW_MARKETS = {
+    "nyiso": dict(
+        label="NYISO", start="2024-09-01", as_table="nyiso_as_prices", geo="US-NY",
+        products=[
+            dict(key="reg", label="Regulation Capacity", up="both", entity="nyiso:NYCA", variable="as_price_dam_reg",
+                 first=None, hours=[("2024-09-01", 1.0, NYISO_ASSUMED)]),
+            dict(key="spin", label="10-Minute Spinning Reserve", up=True, entity="nyiso:N.Y.C.",
+                 variable="as_price_dam_spin10", first=None, hours=[("2024-09-01", 1.0, NYISO_ASSUMED)]),
+        ],
+        # not modeled, and why nothing is lost: checked in every hour held by not_above()
+        dominated=[("nyiso:N.Y.C.", "as_price_dam_nsync10", "10-Minute Non-Synchronous Reserve"),
+                   ("nyiso:N.Y.C.", "as_price_dam_op30", "30-Minute Operating Reserve")],
+        dominant=("nyiso:N.Y.C.", "as_price_dam_spin10")),
+    "spp": dict(
+        label="SPP", start="2024-09-01", as_table="spp_as_prices", geo=None,
+        products=[
+            dict(key="regup", label="Regulation Up", up=True, entity="spp:SPP", variable="as_price_dam_regup",
+                 first=None, hours=[("2024-09-01", 1.0, SPP_ASSUMED)]),
+            dict(key="regdn", label="Regulation Down", up=False, entity="spp:SPP", variable="as_price_dam_regdn",
+                 first=None, hours=[("2024-09-01", 1.0, SPP_ASSUMED)]),
+            dict(key="spin", label="Spinning Reserve", up=True, entity="spp:SPP", variable="as_price_dam_spin",
+                 first=None, hours=[("2024-09-01", 1.0, SPP_ASSUMED)]),
+            dict(key="supp", label="Supplemental Reserve", up=True, entity="spp:SPP", variable="as_price_dam_supp",
+                 first=None, hours=[("2024-09-01", 1.0, SPP_ASSUMED)]),
+        ]),
+}
+# Not modeled in SPP: the ramp capability products (RampUP, RampDN) and the uncertainty product (UncUP). What a battery
+# must hold behind them was not read, and adding a paid product on an assumption would only raise the result.
+# Held, not shown: a grid whose reserve prices are internal. Its result would be a derived table of an internal input
+# (Decision 23: the most restrictive license of the inputs), so it is not built and the page says why.
+HELD = {"isone": "held, not shown: license needed", "miso": "held, not shown: license needed"}
+ALL_MARKETS = {**MARKETS, **REVIEW_MARKETS}
+
+
+def sides(up):
+    """(takes upward power, takes downward power) of a product's direction: True, False or "both"."""
+    return (True, True) if up == "both" else (bool(up), not bool(up))
 r4 = pb.r4
 TOL = 1e-6
 
@@ -163,10 +221,11 @@ def structure(T, duration, spec, eta):
         need_up = np.zeros(n)
         need_dn = np.zeros(n)
         for j, (is_up, hours) in enumerate(spec):
-            if is_up:
+            goes_up, goes_dn = sides(is_up)
+            if goes_up:
                 up[r0[j] + t] = 1
                 need_up[r0[j] + t] = hours / eta      # energy drawn from the battery to deliver the reserve
-            else:
+            if goes_dn:
                 dn[r0[j] + t] = 1
                 need_dn[r0[j] + t] = hours * eta      # energy the battery would store if the regulation were called
         rows.append(up); b.append(1.0)               # power: discharge plus upward reserves
@@ -247,10 +306,10 @@ def check_day(sol, spec, duration, rte=RTE, tol=1e-6):
     bad = []
     prev = 0.0
     for t in range(len(c)):
-        up = sum(aw[j][t] for j, (is_up, _) in enumerate(spec) if is_up)
-        dn = sum(aw[j][t] for j, (is_up, _) in enumerate(spec) if not is_up)
-        need_up = sum(aw[j][t] * h / eta for j, (is_up, h) in enumerate(spec) if is_up)
-        need_dn = sum(aw[j][t] * h * eta for j, (is_up, h) in enumerate(spec) if not is_up)
+        up = sum(aw[j][t] for j, (is_up, _) in enumerate(spec) if sides(is_up)[0])
+        dn = sum(aw[j][t] for j, (is_up, _) in enumerate(spec) if sides(is_up)[1])
+        need_up = sum(aw[j][t] * h / eta for j, (is_up, h) in enumerate(spec) if sides(is_up)[0])
+        need_dn = sum(aw[j][t] * h * eta for j, (is_up, h) in enumerate(spec) if sides(is_up)[1])
         if d[t] + up > 1 + tol:
             bad.append(f"hour {t}: discharge plus upward reserves {d[t] + up:.6f} MW per MW")
         if c[t] + dn > 1 + tol:
@@ -304,7 +363,7 @@ def build_market(iso, energy, reserve, log, until=None):
     """Every local day of a market, solved for each strategy and duration.
     energy: {"rtm": hourly Series, "dam": hourly Series}; reserve: {product key: hourly Series}.
     Returns (days, left): days[(strategy, duration)][day] = the day's result; left[strategy] = [(day, reason)]."""
-    m = MARKETS[iso]
+    m = ALL_MARKETS[iso]
     tz = pb.TZ[iso]
     last_as = min(s.index.max() for s in reserve.values())
     days, left = {(s, d): {} for s in STRATEGIES for d in DURATIONS}, {s: [] for s in STRATEGIES}
@@ -349,7 +408,7 @@ def days_in(month):
 
 def monthly_rows(iso, days, left, base):
     """The monthly table's rows of a market: variables <strategy>_<N>h_<metric>."""
-    m = MARKETS[iso]
+    m = ALL_MARKETS[iso]
     keys = [p["key"] for p in m["products"]]
     rows = []
     for (strat, dur), by_day in sorted(days.items()):
@@ -470,6 +529,127 @@ def write_table(name, out, cols, header, log):
     return len(out)
 
 
+def not_above(table, entity, variable, others):
+    """Session 86: the hours in which a product left out of the model is priced above the product kept in its place.
+    {label: (hours compared, hours above)}. Zero above means leaving it out loses nothing: the kept product pays at
+    least as much for the same megawatt in every hour."""
+    a = pb.read_table(table)
+    ref = a[(a["entity"] == entity) & (a["variable"] == variable)].set_index("ts")["value"]
+    out = {}
+    for e, v, label in others:
+        o = a[(a["entity"] == e) & (a["variable"] == v)].set_index("ts")["value"]
+        both = pd.concat([ref, o], axis=1, join="inner")
+        out[label] = (len(both), int((both.iloc[:, 1] > both.iloc[:, 0] + 1e-9).sum()))
+    return out
+
+
+def review(in_dir, log, retrieved, only=None):
+    """Session 86: the rows of the grids in review, and what the header states. A grid whose reserve table is not on
+    this machine is skipped and named (the GitHub runner does not hold them)."""
+    rows, used, counts, lines, skipped, checks = [], [], [], [], [], []
+    for iso, m in REVIEW_MARKETS.items():
+        if only and iso not in only:
+            continue
+        need = [m["as_table"], pb.TABLES[(iso, "rtm")][0], pb.TABLES[(iso, "dam")][0]]
+        missing = [t for t in need if not os.path.exists(os.path.join(in_dir, t + ".csv"))]
+        if missing:
+            skipped.append(f"{m['label']}: {', '.join(missing)} not on this machine")
+            log(f"  review: {skipped[-1]}; the grid is left as the earlier file has it")
+            continue
+        energy = {}
+        for mk in ("rtm", "dam"):
+            energy[mk], tables = energy_prices(iso, mk, log)
+            used.append(f"{iso} {mk}: {tables}, {len(energy[mk])} complete hours "
+                        f"{ip.utc_iso(energy[mk].index.min())} to {ip.utc_iso(energy[mk].index.max())}")
+        reserve = as_prices(m["as_table"], m["products"])
+        if "dominated" in m:
+            for label, (n, above) in not_above(m["as_table"], *m["dominant"], m["dominated"]).items():
+                checks.append(f"{m['label']} {label}: priced above the product kept in {above} of {n} hours")
+        days, left = build_market(iso, energy, reserve, log)
+        hub = pb.MAIN[iso]
+        geo = m["geo"] or sorted(set(pb.read_table(m["as_table"])["geo"]))[0]
+        base = dict(entity=f"{iso}:{hub}", freq="P1M", geo=geo, market=iso, node=hub, source=SOURCE,
+                    source_url=METHOD_URL, retrieved_at=retrieved, vintage="")
+        rows += monthly_rows(iso, days, left, base)
+        for strat in STRATEGIES:
+            n = len(days[(strat, DURATIONS[0])])
+            counts.append(f"{m['label']} {strat}: {n} days held, {len(left[strat])} left out"
+                          + (" (" + "; ".join(f"{d} {why}" for d, why in left[strat][:8])
+                             + ("; ..." if len(left[strat]) > 8 else "") + ")" if left[strat] else ""))
+            for d, why in left[strat]:
+                log(f"  left out: {iso} {strat} {d}: {why}")
+        for p in m["products"]:
+            for first, hours, src in p["hours"]:
+                lines.append(f"{m['label']} {p['label']} ({p['key']}, {'up and down' if p['up'] == 'both' else 'up' if p['up'] else 'down'}), "
+                             f"from {first}: {hours:g} hour(s); {src}")
+    return rows, used, counts, lines, skipped, checks
+
+
+def review_snapshot(table, run_id):
+    """The page's file: the review table's rows by grid, compact. Every number in it is a row of the table."""
+    grids = {}
+    for iso, m in REVIEW_MARKETS.items():
+        e = f"{iso}:{pb.MAIN[iso]}"
+        t = table[table["entity"] == e].sort_values(["variable", "ts_utc"])
+        if len(t):
+            grids[iso] = dict(entity=e, rows=[[v, ts, float(x)] for v, ts, x in zip(t["variable"], t["ts_utc"], t["value"])])
+    return dict(table=REVIEW_NAME, built=run_id, grids=grids)
+
+
+def write_review(in_dir, log, retrieved, run_id, snapshot, out_dir=None):
+    """Build and write the review table (and the page's snapshot); a list of status entries."""
+    rows, used, counts, lines, skipped, checks = review(in_dir, log, retrieved)
+    if out_dir:
+        ip.set_out_dir(out_dir)  # the inputs are read; from here every write goes under the trial directory
+    if not rows:
+        msg = "no grid in review could be built: " + "; ".join(skipped)
+        log(msg)
+        return [dict(table=REVIEW_NAME, market="derived", status="skipped", detail=msg[:300])]
+    cols = ip.SERIES_COLS + ["x_strategy", "x_duration_hours", "x_metric"]
+    out, kept = keep_fuller(REVIEW_NAME, pd.DataFrame(rows)[cols], cols, log)
+    n = write_table(REVIEW_NAME, out, cols, [
+        "Energy Research Warehouse (ERW): the battery revenue stack on the grids in review (NYISO, SPP), energy and "
+        "ancillary services co-optimized, per MW, by market, hub, duration (2, 4, 8 hours), strategy and local month "
+        "(derived, session 86)",
+        "Shape: series (docs/datastandard.md v0), partition column market; freq P1M, ts_utc the first day of the "
+        "market's local month at 00:00:00Z. The variables are those of battery_stack_monthly: <strategy>_<N>h_<metric>, "
+        "also in x_strategy, x_duration_hours and x_metric.",
+        "In review: these grids are not in battery_stack_monthly and are not shown to visitors. The model is the one "
+        "of battery_stack_monthly (docs/methods/battery_stack.md): round trip " + str(RTE) + ", each local day from empty, "
+        "at most one full cycle a day, hourly, per MW; reserves are paid and never deployed.",
+        "Required duration of each product: " + " | ".join(lines),
+        "Products left out: NYISO's 10-Minute Non-Synchronous Reserve and 30-Minute Operating Reserve (a battery "
+        "that can hold spinning reserve is paid at least as much for it: " + "; ".join(checks) + "); SPP's ramp "
+        "capability and uncertainty products (RampUP, RampDN, UncUP: what a battery must hold behind them was not read).",
+        "Never filled: a local day is solved only when every hour of the energy price and of every ancillary product "
+        "is held. " + " | ".join(counts) + (" | skipped on this machine: " + "; ".join(skipped) if skipped else ""),
+        "Not built: ISO-NE and MISO. Their reserve prices (isone_as_prices, miso_as_prices) are internal, so a result "
+        "would be internal too; the page shows \"held, not shown: license needed\". PJM is not held.",
+        f"Retrieved: {run_id} (UTC) by warehouse/derived/battery_stack.py",
+        f"Run log: warehouse/output/logs/battery_stack_{run_id}.log",
+        f"Source: {SOURCE} ERW derived table, the battery revenue stack (docs/methods/battery_stack.md), {METHOD_URL}",
+        "Derived from: iso_hub_prices_history; iso_rtm_hub_prices; iso_dam_hub_prices; nyiso_rtm_zone_prices; "
+        "nyiso_dam_zone_prices; nyiso_as_prices; spp_as_prices",
+        "Inputs: " + "; ".join(used),
+        "License: public. A derived table inherits the most restrictive license of its inputs (Decision 23); every "
+        "input is public (SPP's terms allow copying with citation and not commercial publication: spp_as_prices).",
+        f"Kept from the earlier file (it rests on more days than this machine's inputs give): {kept} rows.",
+    ], log)
+    ip.update_sources([{"source": SOURCE, "publisher": "Energy Research Warehouse (ERW), derived",
+                        "report": "The battery revenue stack: energy and ancillary services co-optimized, per MW "
+                                  "(docs/methods/battery_stack.md)",
+                        "report_url": METHOD_URL, "document_list": "", "license": "public",
+                        "tables": [NAME, STRESS_NAME, REVIEW_NAME]}])
+    if snapshot:
+        path = os.path.join(out_dir, "battery_stack_review.json") if out_dir else REVIEW_SNAPSHOT
+        held = ip.read_series(os.path.join(ip.OUT_DIR, REVIEW_NAME + ".csv"), cols)
+        with open(path, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(review_snapshot(held, run_id), f, separators=(",", ":"), sort_keys=True)
+            f.write("\n")
+        log(f"review snapshot: {os.path.relpath(path, ROOT)}")
+    return [dict(table=REVIEW_NAME, market="derived", status="ok", detail=f"{n} rows" + ("; " + "; ".join(skipped) if skipped else ""))]
+
+
 def duration_lines():
     out = []
     for iso, m in MARKETS.items():
@@ -483,9 +663,27 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: the battery revenue stack (energy and ancillary services, co-optimized)")
     ap.add_argument("--out-dir", help="write the tables, log, registry and status under this directory; the inputs are "
                     "still read from warehouse/output")
+    ap.add_argument("--review-only", action="store_true", help="session 86: build only the grids in review "
+                    "(battery_stack_review_monthly); the live tables are not touched")
+    ap.add_argument("--snapshot", action="store_true", help="session 86: also write site/data/battery_stack_review.json")
     a = ap.parse_args(argv)
     in_dir = ip.OUT_DIR
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    if a.review_only:
+        out_dir = os.path.abspath(a.out_dir) if a.out_dir else in_dir
+        os.makedirs(os.path.join(out_dir, "logs"), exist_ok=True)
+        log = ip.Log(os.path.join(out_dir, "logs", f"battery_stack_{run_id}.log"))
+        try:
+            retrieved = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
+            status = write_review(in_dir, log, retrieved, run_id, a.snapshot, a.out_dir)
+        except Exception:
+            tb = ip.redact(traceback.format_exc())
+            log(f"FAILED:\n{tb}")
+            print(f"battery_stack {REVIEW_NAME} FAILED: {tb.strip().splitlines()[-1]}", file=sys.stderr)
+            status = [dict(table=REVIEW_NAME, market="derived", status="failed", detail=tb.strip().splitlines()[-1][:300])]
+        ip.write_status("battery_stack_review", run_id, status)
+        log.close()
+        return 0 if all(s["status"] in ("ok", "skipped") for s in status) else 1
     missing = [t for t in ("ercot_as_prices", "caiso_as_prices", "iso_rtm_hub_prices", "iso_dam_hub_prices")
                if not os.path.exists(os.path.join(in_dir, t + ".csv"))]
     if missing:

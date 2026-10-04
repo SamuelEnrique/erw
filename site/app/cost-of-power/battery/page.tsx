@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import type { ReactNode } from "react";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  CAPACITY_WORDS, DEBT, EVENTS, PRODUCTS, REQUIREMENTS, RTE, STRATEGIES, STRESS_TABLE, TABLE, badMonth, coverage, debtPerMw, gridOf, inputsKey,
+  CAPACITY_WORDS, DEBT, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, badMonth, coverage, debtPerMw, gridOf, inputsKey,
   inputsOf, last36, lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type Inputs, type Month, type Row,
   type StressRow, type Year,
 } from "@/lib/batterystack";
+import reviewData from "@/data/battery_stack_review.json";
+import { COOKIE, digest } from "@/lib/release";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
 import { BatteryForm } from "./BatteryForm";
@@ -23,8 +26,25 @@ import { ContractInputs, ContractProvider, ContractResult } from "./Contract";
 // column of the income table, the contract's market lines); the average of every year held follows, and beside it the
 // same average without the one month that is more than a quarter of everything held (ERCOT's February 2021), which stays
 // in every other figure and on the chart. Wording, order and layout only: no number changed.
+// Session 86: NYISO and SPP are built and in review. A visitor sees them greyed, as before; with the internal cookie
+// they open, and their rows come from data/battery_stack_review.json (battery_stack_review_monthly, held out of the
+// live set so no live number moves), not from Supabase. ISO-NE and MISO are not built: their reserve prices are
+// internal, and the page says "held, not shown: license needed".
 export const metadata: Metadata = { title: "What a battery earns" };
 export const dynamic = "force-dynamic";
+
+/** Whether this request carries the internal view's cookie (the proxy's own test: lib/release.ts). */
+async function internalView(): Promise<boolean> {
+  const token = process.env.INTERNAL_COSTS_TOKEN;
+  const have = (await cookies()).get(COOKIE)?.value;
+  return !!token && !!have && have === (await digest(token));
+}
+/** The rows of a grid in review, from the committed snapshot, for one strategy and duration. */
+function reviewRows(grid: string, x: Inputs): Row[] {
+  const g = (reviewData as unknown as { grids: Record<string, { rows: [string, string, number][] }> }).grids[grid];
+  const pre = `${x.strat}_${x.dur}h_`;
+  return (g?.rows ?? []).filter((r) => r[0].startsWith(pre)).map(([variable, ts_utc, value]) => ({ variable, ts_utc, value }));
+}
 
 const METHOD = "/data/methods/battery_stack";
 const shortMonth = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
@@ -106,20 +126,26 @@ function YearBars({ ys }: { ys: Year[] }) {
   );
 }
 
+// Session 86: the four grids' day-ahead reserve prices are in the warehouse now (session 85), so "not yet in the
+// warehouse" is no longer true of them. No number is shown here either way.
 const OTHER: { grid: string; energy: string; ancillary: string; capacity: string }[] = [
   { grid: "PJM", energy: "not held, licensed", ancillary: "not yet in the warehouse", capacity: "Held, not shown: publishing requires a license from the market operator" },
-  { grid: "NYISO", energy: "see the seller tab", ancillary: "not yet in the warehouse", capacity: "Held: license under review" },
-  { grid: "ISO-NE", energy: "see the seller tab", ancillary: "not yet in the warehouse", capacity: "Held, not shown: publishing requires a license from the market operator" },
-  { grid: "MISO", energy: "see the seller tab", ancillary: "not yet in the warehouse", capacity: "Held, not shown: publishing requires a license from the market operator" },
-  { grid: "SPP", energy: "see the seller tab", ancillary: "not yet in the warehouse", capacity: "No capacity market" },
+  { grid: "NYISO", energy: "see the seller tab", ancillary: "Held: this page's model of it is in review", capacity: "Held: license under review" },
+  { grid: "ISO-NE", energy: "see the seller tab", ancillary: "Held, not shown: license needed", capacity: "Held, not shown: publishing requires a license from the market operator" },
+  { grid: "MISO", energy: "see the seller tab", ancillary: "Held, not shown: license needed", capacity: "Held, not shown: publishing requires a license from the market operator" },
+  { grid: "SPP", energy: "see the seller tab", ancillary: "Held: this page's model of it is in review", capacity: "No capacity market" },
 ];
 
 export default async function Battery({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
-  const x = inputsOf(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined])));
+  const internal = await internalView();
+  const x = inputsOf(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined])), internal);
   const g = gridOf(x.grid);
   const key = inputsKey(x);
-  const [read, readStress] = await Promise.all([attempt(() => rowsOf(g.entity!, x)), attempt(() => stressOf(g.entity!, x))]);
+  // a grid in review is read from the committed snapshot, never from Supabase; it has no stress day (the events are ERCOT's)
+  const [read, readStress] = g.review
+    ? [{ ok: true as const, data: reviewRows(x.grid, x) }, { ok: true as const, data: [] as StressRow[] }]
+    : await Promise.all([attempt(() => rowsOf(g.entity!, x)), attempt(() => stressOf(g.entity!, x))]);
   const rows = read.ok ? read.data : [];
   const stressRows = readStress.ok ? readStress.data : [];
   const ms: Month[] = monthsOf(rows, x.strat, x.dur);
@@ -156,7 +182,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
             <InputPanel title="Your battery" note={<>Debt payments default to {DEBT.share * 100} percent of the capital cost borrowed at {DEBT.rate * 100} percent over {DEBT.life} years: USD {usdShort(defaultDs)} a year for {size}. Costs are Lazard&apos;s Levelized Cost of Energy+ (June 2025), as on the seller tab, scaled to the duration.</>}>
-              <BatteryForm key={key} x={x} />
+              <BatteryForm key={key} x={x} internal={internal} />
             </InputPanel>
             <InputPanel title="Your contract (optional)">
               <ContractInputs />
@@ -164,6 +190,13 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
           </aside>
 
           <div className="min-w-0">
+            {g.review ? (
+              <p className="mb-6 border-l-2 border-accent bg-paper px-4 py-3 text-sm" data-in-review-grid={x.grid}>
+                <strong>{g.name} is in review and shown in the internal view only.</strong> Its reserve prices came into the warehouse in session 85. How long a reserve must be
+                backed is assumed here, one hour, because the operator&apos;s own requirement could not be verified; a shorter requirement would raise these numbers and a
+                longer one lower them. {LEFT_OUT[x.grid]}.
+              </p>
+            ) : null}
             {!read.ok ? (
               <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">The table could not be read, so no number is shown: {read.reason}</p>
             ) : !held.length ? (
@@ -279,7 +312,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
               <Fold title="What this model cannot see">
                 <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
                   <li><strong>One battery does not move prices.</strong> The battery is a price taker. Ancillary markets are small next to the energy market. A large battery, or a fleet of them, pushes those prices down, so large sizes are overstated, ancillary income most of all.</li>
-                  <li><strong>The hub, not your node.</strong> Energy is priced at {g.name}&apos;s {g.hub} hub. A battery is paid its own node&apos;s price, which can differ in either direction.</li>
+                  <li><strong>The hub, not your node.</strong> Energy is priced at {g.name}&apos;s {g.at ?? `${g.hub} hub`}. A battery is paid its own node&apos;s price, which can differ in either direction.</li>
                   <li><strong>Reserves are never called.</strong> An award pays its capacity price and moves no energy. A real battery that is called sells energy at the real-time price, and must recharge.</li>
                   <li><strong>No degradation beyond the round trip.</strong> Round-trip efficiency is {RTE * 100} percent, at most one full cycle a day, each day from empty. Capacity fade, augmentation, outages and station power are not modeled.</li>
                   <li><strong>{STRATEGIES[x.strat]}.</strong> {strategyLine}</li>
@@ -296,8 +329,10 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
           </div>
         </div>
       </ContractProvider>
-      <SourceLine tables={[TABLE, STRESS_TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"])]}
-        note={<>Derived by the ERW from {g.name}&apos;s public prices; the first two tables are what this page reads. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>.</>} />
+      <SourceLine tables={g.review
+        ? [REVIEW_TABLE, "iso_hub_prices_history", ...(x.grid === "nyiso" ? ["nyiso_rtm_zone_prices", "nyiso_dam_zone_prices", "nyiso_as_prices"] : ["iso_rtm_hub_prices", "iso_dam_hub_prices", "spp_as_prices"])]
+        : [TABLE, STRESS_TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"])]}
+        note={<>Derived by the ERW from {g.name}&apos;s public prices; {g.review ? "the first table is what this page reads, from the site's own copy of it" : "the first two tables are what this page reads"}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>.</>} />
     </ToolPage>
   );
 }
