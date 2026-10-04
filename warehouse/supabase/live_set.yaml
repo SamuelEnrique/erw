@@ -174,6 +174,19 @@ review_hold:
   - eia930_demand_growth               # session 97, /demand
   - caiso_curtailment_profile          # session 98, /curtailment/v2
 
+# Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
+# registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
+# the registry itself (sources.csv), Redivis and Supabase hold them as any other. To release one, take it off the list.
+sources_hold:
+  - erw:generation_mix_hourly          # session 94, /mix/v2
+  - erw:generation_mix_hourly_caiso
+  - erw:interconnection_queue_summary  # session 95, /queues
+  - erw:hub_price_comparison           # session 96, /prices/compare
+  - erw:demand_growth                  # session 97, /demand
+  - erw:caiso_curtailment_profile      # session 98, /curtailment/v2
+  - erw:eqr_buyers                     # session 99, /contracts (internal)
+  - spp:DA-MC                          # session 100, the SPP reserve quantities (the battery page's SPP is closed)
+
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv
 sources: warehouse/metadata/sources.csv
