@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { caisoJoinDay } from "@/lib/caisoJoin";  // session 78: the join's date is written in one place
 import { HEAT_RATE, VOM, type Snapshot } from "@/lib/merchant";
 import { ASSETS, GRIDS, PAUSED, choiceOf, href, monthName, monthsOf, sentence, spans, usd, whole, years, type Span } from "@/lib/seller2";
 
@@ -144,7 +145,7 @@ export default async function SellerTwo({ searchParams }: { searchParams: Promis
               <li><strong>The price</strong> is the real-time price at {g.at} of {g.name}, hour by hour. A plant is paid at its own node, which can differ in either direction.</li>
               <li><strong>A month is held</strong> when at least {Math.round(snap.defaults.near * 100)} percent of its hours are. A year is full when all twelve months are held.</li>
               <li><strong>Per kW of nameplate</strong>, before any cost but the peaker&apos;s fuel: no fixed cost, debt, tax or contract. The live tab has the costs and the debt coverage.</li>
-              {c.grid === "caiso" && !peaker ? <li><strong>California.</strong> EIA&apos;s California hours from 1 November 2023 to 2 December 2025 sit one hour late and are read one hour earlier here, as on the live tab; from 16 December 2025 EIA&apos;s generation series for California changed (the page of known data faults has both).</li> : null}
+              {c.grid === "caiso" && !peaker ? <li><strong>California.</strong> EIA&apos;s California hours from 1 November 2023 to 2 December 2025 sit one hour late and are read one hour earlier here, as on the live tab; from {caisoJoinDay()} EIA&apos;s generation series for California changed (the page of known data faults has both).</li> : null}
             </ul>
           </Fold>
           <Fold title="What this does not tell you">
