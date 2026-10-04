@@ -115,6 +115,8 @@ class Emergencies(unittest.TestCase):
 class Tightness(unittest.TestCase):
     def test_2022_09_06_by_hand(self):
         import eia930_emissions as em
+        if em.latest_extract("ciso") is None:  # session 77: raw files stay on the machine that downloaded them
+            self.skipTest("EIA-930's CISO extract (warehouse/raw/eia930_emissions) is not on this machine")
         x = em.read_extract(em.latest_extract("ciso"))[["ts_utc", "demand_mwh"]].dropna()
         t = pd.to_datetime(x["ts_utc"], utc=True).dt.tz_convert("America/Los_Angeles")
         day = x[t.dt.strftime("%Y-%m-%d") == "2022-09-06"].assign(h=t.dt.hour)

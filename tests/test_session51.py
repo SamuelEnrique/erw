@@ -84,7 +84,10 @@ class ByHand(unittest.TestCase):
     def test_ercot_solar_month(self):
         import openpyxl
         wb = sorted(glob.glob(os.path.join(ROOT, "warehouse", "raw", "eia930_emissions", "*", "*_ERCO.xlsx")))
-        wb = [w for w in wb if os.path.getsize(w) > 0][-1]
+        wb = [w for w in wb if os.path.getsize(w) > 0]
+        if not wb:  # session 77: raw files stay on the machine that downloaded them (docs/machines.md)
+            self.skipTest("EIA-930's ERCO workbook (warehouse/raw/eia930_emissions) is not on this machine")
+        wb = wb[-1]
         ws = openpyxl.load_workbook(wb, read_only=True)["Published Hourly Data"]
         rows = ws.iter_rows(values_only=True)
         hdr = list(next(rows))

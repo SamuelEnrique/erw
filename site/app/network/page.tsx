@@ -8,6 +8,7 @@ import { MARKETS, series } from "@/lib/data";
 import { fetchHourly, pickSnapshot } from "@/lib/network";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { Network, type LiveExtras, type Snapshot } from "./Network";
+import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 78 (session 73's "To finish", step 2)
 
 // Session 49 (session 42's Part B4): the 3D grid network. The page reads only the static snapshot
 // data/grid_network.json, written by warehouse/derived/grid_network.py from eia930_all_interchange (EIA-930 hourly
@@ -162,6 +163,7 @@ export default async function NetworkPage() {
           </ul>
         </Fold>
       </div>
+      <CaisoBreakNote className="mt-6 mb-0" />
       <SourceLine tables={["eia930_all_interchange", "eia930_all_demand", "carbon_intensity_hourly", "carbon_intensity_daily", SUPPLY_TABLE, "eia930_daily_interchange",
         "eia930_daily_total_interchange", "eia930_event_hourly_interchange", "eia930_all_storage", "caiso_battery_storage"]}
         note={<>Built {utc(snap.built)}{snap.base_built ? <>, onto the daily build of {utc(snap.base_built)}</> : null}. Public domain (EIA) and CAISO. <Link href="/data/methods/grid_network">Method</Link>.</>} />

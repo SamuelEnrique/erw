@@ -16,6 +16,13 @@ writes one series table, caiso_fuel_supply:
 
     python warehouse/connectors/caiso_fuel_supply.py --start 2025-06-01            # to yesterday (Pacific)
     python warehouse/connectors/caiso_fuel_supply.py --start 2025-06-01 --dry-run  # count only, nothing written
+    python warehouse/connectors/caiso_fuel_supply.py --days 3                      # the daily run: the last 3 Pacific days
+
+Session 82 (Samuel's approval of the small daily pull): --days N pulls the N Pacific days ending yesterday, at most 312
+rows a day (13 sources, 24 hours), and merges them into the table on (entity, variable, ts_utc), as the writer does for
+every rolling table; the history stays. The daily run calls it before the carbon tables, which from the join read
+California's generation here (warehouse/derived/caiso_join.py). On the runner the table is restored from Redivis first
+(warehouse/redivis/config.yaml).
 
 Completeness: a day is written only if it has every 5-minute interval of the Pacific operating day (288, or 276 and
 300 on the clock-change days); a day that falls short is logged and skipped, never filled. Ceiling: the approved pull
@@ -88,13 +95,16 @@ def day_rows(day, log):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="CAISO Today's Outlook supply by fuel source, hourly")
-    ap.add_argument("--start", required=True, help="first Pacific day, YYYY-MM-DD")
+    ap.add_argument("--start", help="first Pacific day, YYYY-MM-DD")
+    ap.add_argument("--days", type=int, help="session 82, the daily run: the last N Pacific days, ending yesterday")
     ap.add_argument("--end", help="last Pacific day (default yesterday)")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--dry-run", action="store_true", help="count the rows the window would hold; no request")
     args = ap.parse_args(argv)
-    first = dt.date.fromisoformat(args.start)
+    if bool(args.start) == bool(args.days):
+        ap.error("give --start or --days, one of them")
     last = dt.date.fromisoformat(args.end) if args.end else pd.Timestamp.now(tz=TZ).date() - dt.timedelta(days=1)
+    first = dt.date.fromisoformat(args.start) if args.start else last - dt.timedelta(days=args.days - 1)
     days = [first + dt.timedelta(days=k) for k in range((last - first).days + 1)]
     most = len(days) * 25 * len(SOURCES)
     print(f"{len(days)} days, {first} to {last}: at most {most:,} rows (ceiling {CEILING:,})")
@@ -134,8 +144,10 @@ def main(argv=None):
             "twelve 5-minute values, MW (also the hour's MWh). Variables are CAISO's columns: solar, wind, geothermal, "
             "biomass, biogas, small_hydro, coal, nuclear, natural_gas, large_hydro, batteries (positive discharging), "
             "imports, other, each _mw.",
-            f"Window: Pacific days {first} to {last} (session 73's approved pull, ceiling {CEILING:,} rows); a day short of "
-            "any 5-minute interval is not written" + (f" (this run skipped {len(short)}: {'; '.join(short[:5])})" if short else "") + ".",
+            f"Window: this run pulled Pacific days {first} to {last}; the table holds every day pulled since 2025-06-01 (session "
+            f"73's approved pull, ceiling {CEILING:,} rows a run; session 82's approved daily pull of the last days, merged in); "
+            "a day short of any 5-minute interval is not written"
+            + (f" (this run skipped {len(short)}: {'; '.join(short[:5])})" if short else "") + ".",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/caiso_fuel_supply.py",
             f"Run log: warehouse/output/logs/caiso_fuel_supply_{run_id}.log",
             f"Raw files: warehouse/raw/caiso_fuel_supply/{run_id}/ (not in git)",

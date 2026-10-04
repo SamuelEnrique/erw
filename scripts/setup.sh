@@ -34,6 +34,7 @@ py=.venv/bin/python
 ver="$($py -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[1]}")')"
 $py -m pip install -q --upgrade pip
 if [ "$ver" = "3.14" ]; then $py -m pip install -q --no-deps -r requirements-py314.txt; else $py -m pip install -q -r requirements.txt; fi
+$py -m pip install -q --no-deps -e package   # the erw client, which the package tests import (session 77)
 echo "  Python $ver, requirements installed"
 
 if [ "$site" = 1 ]; then echo "== site packages"; (cd site && npm ci --silent); fi

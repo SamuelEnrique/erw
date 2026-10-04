@@ -418,9 +418,24 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
                     hrows.append((name, i, line))
             if not hrows:
                 continue
-            hdata = pd.DataFrame(hrows, columns=["table", "line_no", "line"]).to_csv(index=False, lineterminator="\n")
             label = HEADERS_TABLE + ("" if target == PUBLIC else f" ({target})")
             try:
+                # session 77: the header lines of a table this machine does not hold stay as the draft has them. Before,
+                # this wrote the lines of the tables on disk alone, so each daily run on the runner removed the header
+                # of every table another machine had uploaded by name (on 2026-10-03: caiso_fuel_supply,
+                # ercot_as_quantities, shoulder_hours_monthly, storage_buildout_monthly), and a restore of one came
+                # back with the placeholder line only. As in merge_headers, an error reading the draft's lines fails
+                # this step and writes nothing.
+                here = {r[0] for r in hrows}
+                kept = pd.DataFrame(columns=["table", "line_no", "line"])
+                if table_meta(drafts(target), HEADERS_TABLE) is not None:
+                    old = read_frame(drafts(target).table(HEADERS_TABLE))
+                    kept = old[~old["table"].isin(here)][["table", "line_no", "line"]]
+                h = pd.concat([kept, pd.DataFrame(hrows, columns=["table", "line_no", "line"])], ignore_index=True)
+                h["line_no"] = h["line_no"].astype(int)
+                hdata = h.sort_values(["table", "line_no"]).to_csv(index=False, lineterminator="\n")
+                if len(kept):
+                    log(f"{label}: kept {len(kept):,} header lines of {kept['table'].nunique()} tables not on this machine")
                 expected, actual = push(drafts(target), HEADERS_TABLE,
                                         [f"Provenance header lines of every ERW table in {target}, uploaded {now}"],
                                         hdata, "public" if target == PUBLIC else "internal", dataset=target)
@@ -596,6 +611,25 @@ def restore(out_dir=None):
     return 1 if failed else 0
 
 
+def header_public(pub, names):
+    """Session 77: which of these tables' own header lines, as uploaded to the public draft's erw_headers, hold a
+    license line and only public ones ("License: public ..." or "License: public domain ..."). A table with no license
+    line, or with any other, is not returned; if erw_headers cannot be read, none is (the check then fails as before)."""
+    try:
+        h = read_frame(pub.table(HEADERS_TABLE))
+    except Exception as exc:
+        log(f"WARNING: could not read {HEADERS_TABLE} to look up {len(names)} tables not in coverage.csv: "
+            f"{type(exc).__name__}: {exc}")
+        return set()
+    out = set()
+    for n in names:
+        lines = [str(x).lstrip("# ").strip() for x in h.loc[h["table"] == n, "line"]]
+        lic = [x for x in lines if x.lower().startswith("license:")]
+        if lic and all(re.match(r"license:\s*public\b", x, re.I) for x in lic):
+            out.add(n)
+    return out
+
+
 def check_license(fix=False):
     """Session 28: exit 1 when any table licensed other than public is in the public dataset's draft,
     or the internal dataset is not private. Each internal table is looked up by its metadata (not
@@ -611,6 +645,29 @@ def check_license(fix=False):
     # session 29: a table consolidated into a public table stays in the draft until --remove-migrated removes it
     allowed |= {old for old, new in migration_map().items() if lic.get(new) == "public"}
     unknown = sorted({t.name for t in pub.list_tables()} - allowed - set(found))
+    # session 77: a table another checkout uploaded by name, whose coverage row is on a branch not merged yet, is not
+    # in this checkout's coverage.csv. It is not unknown to the ERW: its header lines went to erw_headers with it
+    # (merge_headers), and push() refused it unless that checkout's coverage licensed it public. So a table whose own
+    # header says "License: public" is reported and passes; one with no header, or any other license line, still fails.
+    # The daily run of 2026-10-03 failed here on four such tables (sessions 69 and 73 to 75) and skipped its commit.
+    pending = header_public(pub, unknown) if unknown else set()
+    # session 82: and never a table the internal dataset holds. A name that is in the private dataset is an internal
+    # table by the ERW's own record, whatever a header in the public one says; if the private dataset cannot be read,
+    # nothing passes on its header.
+    if pending:
+        try:
+            held_internal = {t.name for t in drafts(INTERNAL).list_tables()}
+        except Exception as exc:
+            log(f"WARNING: could not list {INTERNAL} to check {len(pending)} tables against it: {type(exc).__name__}: {exc}")
+            pending = set()
+        else:
+            for n in sorted(pending & held_internal):
+                log(f"FAIL {n}: its header in {HEADERS_TABLE} says License: public, but {INTERNAL} holds a table of that name")
+            pending -= held_internal
+    for n in sorted(pending):
+        log(f"note {n}: in the public dataset {PUBLIC}, not in this checkout's coverage.csv; its header in "
+            f"{HEADERS_TABLE} says License: public (uploaded from a branch not merged yet)")
+    unknown = [n for n in unknown if n not in pending]
     bad = 0
     for n in found:
         log(f"FAIL {n}: license {lic[n]!r}, but the table is in the public dataset {PUBLIC}")

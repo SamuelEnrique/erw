@@ -7,8 +7,10 @@ export const TABLE = "shoulder_hours_monthly";
 export type Row = { entity: string; variable: string; ts_utc: string; value: number };
 
 export const GRIDS = [
-  { slug: "ercot", name: "ERCOT", entity: "iso:ercot", note: "EIA-930 hourly demand, solar, wind and battery output, from January 2019." },
-  { slug: "caiso", name: "CAISO", entity: "iso:caiso", note: "EIA-930 hourly demand, solar and wind, January 2019 to November 2025: EIA's generation series for California changed on 16 December 2025, and this page does not mix the changed series in. Battery output is CAISO's own (Today's Outlook), from August 2025." },
+  { slug: "ercot", name: "ERCOT", short: "ERCOT", by: "", entity: "iso:ercot", note: "EIA-930 hourly demand, solar, wind and battery output, from January 2019." },
+  { slug: "caiso", name: "CAISO", short: "CAISO", by: "by EIA-930, ", entity: "iso:caiso", note: "EIA-930 hourly demand, solar and wind, January 2019 to November 2025: EIA's generation series for California changed on 16 December 2025, and this page does not mix the changed series in. Battery output is CAISO's own (Today's Outlook), from August 2025." },
+  // session 80: California on CAISO's own supply by fuel, a separate entity, never mixed with the EIA-930 one above
+  { slug: "caiso-own", name: "CAISO, its own data", short: "CAISO", by: "by CAISO's own data, ", entity: "iso:caiso_own", note: "CAISO's own supply by fuel (Today's Outlook), from June 2025: solar, wind and battery output are CAISO's, and demand is the sum of its sources, imports and batteries included. A separate series from the EIA-930 one, never mixed with it." },
 ] as const;
 export type Grid = (typeof GRIDS)[number];
 
@@ -24,10 +26,15 @@ export function shown(v: number): string {
 export const checkKey = (r: Row) => `series|${TABLE}|${r.entity}|${r.variable}|${tsOf(monthOf(r.ts_utc))}`;
 export const monthName = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 export const hourName = (h: number) => (h >= 24 ? "midnight" : `${String(h).padStart(2, "0")}:00`);
+/** Session 80: a worst day's rows are dated the day itself, so their check key carries the day. */
+export const dayOf = (ts: string) => ts.slice(0, 10);
+export const dayKey = (r: Row) => `series|${TABLE}|${r.entity}|${r.variable}|${dayOf(r.ts_utc)}T00:00:00Z`;
+export const dayName = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleString("en-US", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+const DAILY = (v: string) => v === "worst_rank" || v.startsWith("day_");
 
 /** An index of the rows: (entity, variable, month or year start) to the row. */
 export function index(rows: Row[]): Map<string, Row> {
-  return new Map(rows.map((r) => [`${r.entity}|${r.variable}|${monthOf(r.ts_utc)}`, { ...r, ts_utc: `${monthOf(r.ts_utc)}-01T00:00:00Z` }]));
+  return new Map(rows.filter((r) => !DAILY(r.variable)).map((r) => [`${r.entity}|${r.variable}|${monthOf(r.ts_utc)}`, { ...r, ts_utc: `${monthOf(r.ts_utc)}-01T00:00:00Z` }]));
 }
 
 /** The grid and the month from a query; the month defaults to the newest month held for the grid. */
@@ -46,6 +53,10 @@ export type View = {
   hasBattery: boolean;
   monthly: { month: string; shoulder?: Row; covered?: Row; needed?: Row; fleetHours?: Row }[];
   years: { year: string; get: (v: string) => Row | undefined }[];
+  /** session 80: the ten worst days of the selected month's year, in rank order; empty when the table holds none */
+  worst: { day: string; get: (v: string) => Row | undefined }[];
+  /** the selected month's year: its yearly rows */
+  year: { year: string; get: (v: string) => Row | undefined };
 };
 
 export function view(rows: Row[], grid: Grid, month: string): View {
@@ -60,5 +71,21 @@ export function view(rows: Row[], grid: Grid, month: string): View {
     hasBattery: !!at("avg_battery_mw_h00", month),
     monthly: months.map((m) => ({ month: m, shoulder: at("shoulder_hours", m), covered: at("shoulder_hours_covered", m), needed: at("shoulder_hours_needed", m), fleetHours: at("fleet_hours", m) })),
     years: years.map((y) => ({ year: y.slice(0, 4), get: (v: string) => at(v, y) })),
+    worst: worstDays(rows, grid, month.slice(0, 4)),
+    year: { year: month.slice(0, 4), get: (v: string) => at(v, `${month.slice(0, 4)}-01`) },
   };
+}
+
+/** Session 80: a grid's ranked days of one local year, from the table's daily rows (worst_rank and day_*). */
+export function worstDays(rows: Row[], grid: Grid, year: string) {
+  const byDay = new Map<string, Map<string, Row>>();
+  for (const r of rows) {
+    if (r.entity !== grid.entity || !DAILY(r.variable) || !r.ts_utc.startsWith(year)) continue;
+    const d = dayOf(r.ts_utc);
+    if (!byDay.has(d)) byDay.set(d, new Map());
+    byDay.get(d)!.set(r.variable, { ...r, ts_utc: `${d}T00:00:00Z` });
+  }
+  return [...byDay.entries()].filter(([, m]) => m.has("worst_rank"))
+    .sort((a, b) => a[1].get("worst_rank")!.value - b[1].get("worst_rank")!.value)
+    .map(([day, m]) => ({ day, get: (v: string) => m.get(v) }));
 }

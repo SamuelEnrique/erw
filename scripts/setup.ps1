@@ -37,6 +37,7 @@ if (-not (Test-Path $py)) { python -m venv .venv }
 $ver = & $py -c "import sys; print(f'{sys.version_info[0]}.{sys.version_info[1]}')"
 & $py -m pip install -q --upgrade pip
 if ($ver -eq "3.14") { & $py -m pip install -q --no-deps -r requirements-py314.txt } else { & $py -m pip install -q -r requirements.txt }
+& $py -m pip install -q --no-deps -e package   # the erw client, which the package tests import (session 77)
 Write-Host "  Python $ver, requirements installed"
 
 if (-not $SkipSite) {

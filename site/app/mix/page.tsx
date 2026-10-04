@@ -244,7 +244,7 @@ export default async function MixPage({ searchParams }: { searchParams: Promise<
   return (
     <>
       <h1 className="mb-1 text-3xl">Energy mix</h1>
-      <CaisoBreakNote />
+      <CaisoBreakNote kind="mix" />
       <p className="mb-2 max-w-3xl">
         What generates the power: hourly for the last seven days by grid operator, and monthly by state since 2001, from <Term t="EIA" first />&apos;s Hourly
         Electric Grid Monitor (Form EIA-930) and power plant survey (Form EIA-923).

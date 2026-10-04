@@ -36,6 +36,24 @@ A complete day holds every hour of demand, solar and wind. A month with fewer th
   - `shoulder_hours_covered` = the smaller of the shoulder's length and `fleet_hours`: the hours the fleet can run at its rated power through the shoulder;
   - `shoulder_hours_needed` = the shoulder's MWh over the fleet's MW: the hours a fleet of that power would have to run at rated power to deliver all of the shoulder's MWh above the mean.
 
+## The second measure and the worst days (session 80)
+
+Session 75's shoulder runs to midnight in California and, since 2025, in Texas, and it describes only the average day. Two additions, both in the same table.
+
+**A second measure, meant to end inside the evening** (`shoulder2_*`). The evening peak is net load's highest hour from the shoulder's start to midnight. The second shoulder is the run of hours around that peak in which net load is above the midpoint between its daily mean and the peak; its MWh are the sum, over those hours, of net load less the midpoint. `shoulder2_hours_covered` and `shoulder2_hours_needed` set the fleet against it as against the first. It starts no earlier than the first shoulder and holds no more energy than the evening holds above the mean. It is flagged (`shoulder2_runs_to_midnight`) when net load is still above the midpoint in the day's last hour.
+
+**The worst days** (`worst_rank` and `day_*`, freq P1D; `year_worst10_*`, freq P1Y). Each complete day of 24 local hours is measured as the average day is, on its own hours and against its own mean. For each grid and local year the ten days with the most shoulder energy above the mean are ranked. For each:
+
+- the shoulder by both measures;
+- `day_shoulder_hours_needed`: its energy above the mean over the fleet's MW of that month. Where EIA has not yet published the month's fleet it is not written, and the year's mean of the ten is written only when all ten have it;
+- what the batteries did, where every hour of the day holds their output: `day_battery_discharge_mwh` (their output in the shoulder's hours, discharging only), `day_battery_peak_mw`, and `day_battery_hours`, that discharge over the fleet's MW.
+
+A day of 23 or 25 local hours is not ranked.
+
+**California has two sources, as two entities, never mixed.** `iso:caiso` is EIA-930 through November 2025, as before. `iso:caiso_own` is CAISO's own supply by fuel (`caiso_fuel_supply`) from June 2025: solar and wind are CAISO's, battery output is its batteries source, and demand is the sum of its thirteen sources (imports and batteries net), the load the supply serves. The two overlap from June to November 2025 and differ there: CAISO's own solar is larger than EIA's (`docs/methods/eia930_caiso_break.md`), and the sum of CAISO's sources is not EIA's demand.
+
+**A machine without the EIA workbooks** cannot rebuild an EIA grid. It keeps that grid's rows as they stand and adds only the second measure of its average days, computed from the average day the table already holds (it first checks that the first measure recomputed that way equals the held one). That grid's worst days are then not written.
+
 ## The table
 
 `shoulder_hours_monthly`: entity `iso:ercot` or `iso:caiso`; `ts_utc` the first day of the local month at 00:00:00Z.

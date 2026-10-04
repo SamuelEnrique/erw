@@ -71,6 +71,9 @@ restore_before_run:
   # session 67: CAISO's ancillary service prices merge the last days into the history from 2024-09-01 (one request
   # per day at the source); the battery revenue stack keeps the months the runner cannot rebuild (no ERCOT history there)
   - '^caiso_as_prices$'
+  # session 82: CAISO's supply by fuel keeps its history from 2025-06-01 by merging the last days (about 312 rows a day);
+  # California's carbon intensity of generation reads it from the join (warehouse/derived/caiso_join.py)
+  - '^caiso_fuel_supply$'
   - '^battery_stack_(monthly|stress_daily)$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload

@@ -4,6 +4,12 @@ import site from "@/data/site.json";
 import { GLOSSARY, glossaryId } from "@/lib/glossary";
 import { DOCS } from "@/lib/markdown";
 import { GROUPS } from "@/lib/pages";
+import { gated } from "@/lib/release";
+
+// Session 77: the two tools added in review by sessions 72 and 75 are named here, greyed, without their descriptions,
+// for as long as they are in review. Once a page is live in lib/release.ts its description shows again by itself.
+const NAME_ONLY_IN_REVIEW = ["/shoulder", "/storage/buildout"];
+const nameOnly = (href: string) => NAME_ONLY_IN_REVIEW.includes(href) && gated(href);
 
 export const metadata: Metadata = { title: "About" };
 
@@ -72,7 +78,7 @@ export default function About() {
             <dt className="text-xs uppercase tracking-wide text-muted">{g.label}</dt>
             {g.pages.map((p) => (
               <dd key={p.href} className="ml-0">
-                <Link href={p.href}>{p.label}</Link>: {p.line}
+                <Link href={p.href}>{p.label}</Link>{nameOnly(p.href) ? null : <>: {p.line}</>}
               </dd>
             ))}
           </div>

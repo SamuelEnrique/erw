@@ -264,6 +264,103 @@ class GateTest(unittest.TestCase):
         self.use_two(FakeDataset({FULL: frame(2), "stray_table": frame(1)}), FakeDataset({}))
         self.assertEqual(upload.check_license(), 1)
 
+    # session 77: a table uploaded by name from a branch not merged yet is known by its own header in erw_headers
+    def headers(self, *rows):
+        return pd.DataFrame(rows, columns=["table", "line_no", "line"])
+
+    def test_check_license_passes_a_table_not_in_coverage_whose_header_says_public(self):
+        h = self.headers(("new_table", "1", "Energy Research Warehouse (ERW): a new table"), ("new_table", "2", "License: public. Derived."))
+        self.use_two(FakeDataset({FULL: frame(2), "new_table": frame(1), upload.HEADERS_TABLE: h}), FakeDataset({}))
+        with mock.patch.object(upload, "read_frame", lambda t: t.ds.rows[t.name].copy()):
+            self.assertEqual(upload.check_license(), 0)
+        self.assertIn("note new_table:", self.log.getvalue())
+
+    def test_check_license_still_fails_a_table_not_in_coverage_with_another_or_no_license_line(self):
+        h = self.headers(("held_back", "1", "License: internal. Outlet text."), ("two_lines", "1", "License: public"),
+                         ("two_lines", "2", "License: internal"), ("no_line", "1", "Energy Research Warehouse (ERW)"))
+        for name in ("held_back", "two_lines", "no_line", "no_header_at_all"):
+            self.use_two(FakeDataset({FULL: frame(2), name: frame(1), upload.HEADERS_TABLE: h}), FakeDataset({}))
+            with mock.patch.object(upload, "read_frame", lambda t: t.ds.rows[t.name].copy()):
+                self.assertEqual(upload.check_license(), 1, name)
+            self.assertIn(f"FAIL {name}:", self.log.getvalue())
+
+    def test_check_license_fails_as_before_when_the_headers_cannot_be_read(self):
+        self.use_two(FakeDataset({FULL: frame(2), "new_table": frame(1)}), FakeDataset({}))
+        def boom(t):
+            raise RuntimeError("no export")
+        with mock.patch.object(upload, "read_frame", boom):
+            self.assertEqual(upload.check_license(), 1)
+
+    def test_a_full_upload_keeps_the_header_lines_of_tables_this_machine_does_not_hold(self):
+        # session 77: the daily run on the runner wrote erw_headers from its own tables alone
+        h = self.headers(("elsewhere_table", "1", "License: public"), (FULL, "1", "an old line of a table held here"))
+        pub = FakeDataset({"elsewhere_table": frame(1), upload.HEADERS_TABLE: h})
+        self.use_two(pub, FakeDataset({}))
+        self.local(FULL, 2)
+        with mock.patch.object(upload, "read_frame", lambda t: t.ds.rows[t.name].copy()):
+            self.assertEqual(upload.run_upload([FULL], include_metadata=True), 0)
+        got = pub.rows[upload.HEADERS_TABLE]
+        self.assertEqual(list(got.loc[got["table"] == "elsewhere_table", "line"]), ["License: public"])
+        self.assertEqual(list(got.loc[got["table"] == FULL, "line"]), ["test fixture"])
+
+    # session 82: the proof asked for before session 77's change may merge: no internal table can pass the check
+    def test_no_internal_table_passes_whatever_coverage_and_the_header_say(self):
+        """Every way an internal table could sit in the public dataset, and the check fails each time:
+        1. coverage knows it as internal: found by its metadata, whatever its header says (even "License: public");
+        2. coverage does not know it and its header says internal, says nothing, or says both: no pass on the header;
+        3. coverage does not know it, its header says public, and the private dataset holds a table of that name;
+        4. the private dataset cannot be listed: nothing passes on its header."""
+        public_header = self.headers((INT, "1", "License: public"), ("forgotten", "1", "License: public. Mislabelled."))
+        read = mock.patch.object(upload, "read_frame", lambda t: t.ds.rows[t.name].copy())
+        # 1
+        self.use_two(FakeDataset({FULL: frame(2), INT: frame(3), upload.HEADERS_TABLE: public_header}), FakeDataset({}))
+        with read:
+            self.assertEqual(upload.check_license(), 1)
+        self.assertIn(f"FAIL {INT}: license 'internal'", self.log.getvalue())
+        # 3
+        self.use_two(FakeDataset({FULL: frame(2), "forgotten": frame(1), upload.HEADERS_TABLE: public_header}),
+                     FakeDataset({"forgotten": frame(1)}))
+        with read:
+            self.assertEqual(upload.check_license(), 1)
+        self.assertIn("FAIL forgotten: its header", self.log.getvalue())
+        # 4
+        class Unlistable(FakeDataset):
+            def list_tables(self):
+                raise RuntimeError("the private dataset did not answer")
+        self.use_two(FakeDataset({FULL: frame(2), "forgotten": frame(1), upload.HEADERS_TABLE: public_header}), Unlistable({}))
+        with read:
+            self.assertEqual(upload.check_license(), 1)
+
+    def test_no_internal_table_of_the_warehouse_passes_on_its_own_header(self):
+        """On a machine that holds the tables: each table coverage.csv licenses other than public, put in the public
+        dataset with its own header lines and forgotten by coverage, fails the check. And no such table's header reads
+        public to header_public at all."""
+        import csv
+        cov = os.path.join(ROOT, "warehouse", "metadata", "coverage.csv")
+        with open(cov, encoding="utf-8", newline="") as f:
+            internal = [r["table"] for r in csv.DictReader(f) if r["license"] != "public"]
+        here = [t for t in internal if os.path.exists(os.path.join(ROOT, "warehouse", "output", t + ".csv"))]
+        if not here:
+            self.skipTest("no internal table is on this machine")
+        self.assertGreaterEqual(len(internal), 10)
+        rows = []
+        for t in here:
+            with open(os.path.join(ROOT, "warehouse", "output", t + ".csv"), encoding="utf-8", errors="replace") as f:
+                lines = []
+                for ln in f:
+                    if not ln.startswith("#"):
+                        break
+                    lines.append(ln[1:].strip())
+            rows += [(t, str(i), ln) for i, ln in enumerate(lines, 1)]
+        h = self.headers(*rows)
+        pub = FakeDataset({FULL: frame(2), upload.HEADERS_TABLE: h, **{t: frame(1) for t in here}})
+        with mock.patch.object(upload, "read_frame", lambda t: t.ds.rows[t.name].copy()):
+            self.assertEqual(upload.header_public(pub, here), set())          # none reads public
+            self.use_two(pub, FakeDataset({}))                                # coverage (the mock) knows none of them
+            self.assertEqual(upload.check_license(), 1)
+        for t in here:
+            self.assertIn(f"FAIL {t}:", self.log.getvalue())
+
     def test_check_license_fails_if_the_internal_dataset_is_not_private(self):
         self.use_two(FakeDataset({FULL: frame(2)}), FakeDataset({}), level="overview")
         self.assertEqual(upload.check_license(), 1)

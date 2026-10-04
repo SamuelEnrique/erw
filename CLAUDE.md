@@ -33,6 +33,13 @@ Note on the name: in sustainability circles "ERW" also means enhanced rock weath
 6. **Nothing publishes to Redivis without a human.** Uploads, when they exist, write a draft version only. Releasing a Redivis version is always a human click after reviewing the diff. No scheduled job ever publishes.
 7. **Gate commands are never piped.** The validator, the coverage builder, the tests, the site build and the loader are run so that their own exit code is what the shell sees: no `| tail`, `| head`, `| grep` or `| tee` after them (a pipe returns the last command's status and hides a failure), and the exit code is read before the next step. To keep a long output, redirect it to a file and print the exit code (`cmd > runs/x.out 2>&1; echo "exit=$?"`). Session 64's `build_coverage.py | tail` hid a failed build and the loader ran on stale coverage; since session 65 the loader also refuses to run when `coverage.csv` no longer describes the tables on the machine.
 
+## The live pages and the freeze
+
+The pages open to visitors (`live` in `site/lib/release.ts`, the one list): `/`, `/cost-of-power/battery`, `/cost-of-power/seller`, `/network`, `/storage` and `/about` (About), with `/terms` and the four methods pages those tools link to. Every other page is `review`, and every new page starts as `review`.
+
+8. **No deploy without a before and after snapshot of the live pages, every difference listed.** A push to `main` or to a `task/` branch deploys. Before it, `node site/scripts/snapshot-live.mjs take <before>`; after the deploy, `take <after>` and `compare <before> <after>`. The comparison's lines go into the session report, each marked expected or not; a difference that was not meant is reported at the top of the report. The same holds for a load into the live set of a table a live page reads. The script reads 20 pages as a visitor (the six above, with the battery page for both grids at 2, 4 and 8 hours under both strategies and, since session 82, the seller tab's California solar and wind) and keeps each page's HTML, every checked number and the visible text in `runs/snapshots/` (session 76 found the rule; session 77 made it permanent).
+9. **A freeze is honoured by every session.** While a reviewer is using the site, no session changes what a visitor sees on a live page, or any table a live page reads, unless its prompt names the one deploy that may. Sessions push to `wip/` branches and write the exact remaining commands under "To finish". **Current freeze: 3 October 2026 to 6 October 2026** (a reviewer is using the live site until 6 October).
+
 ## Repository layout
 
 | Path | Contents |
