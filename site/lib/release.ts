@@ -17,6 +17,7 @@ export const RELEASE: Record<string, Status> = {
   "/cost-of-power/battery": "live",
   "/cost-of-power/seller": "live",
   "/network": "live",
+  "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace); without its own line it would take /network's status
   "/storage": "live",
   "/storage/buildout": "review",
   "/battery/customer": "review",  // session 88: what a battery saves a customer; the reader's own numbers, in the browser
