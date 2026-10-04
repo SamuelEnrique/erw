@@ -75,11 +75,12 @@ full:
   # session 68: who supplies a grid; the page reads the last twelve months, so only the last 430 days are loaded (select,
   # below): about 30,000 of its 158,000 rows. Redivis and the CSV hold every month from 2019
   - '^ba_supply_monthly$'
-  # session 102 (for session 92's Ask ERCOT, in review): the ERCOT tables the site's database lacked. The hub price
-  # history is 3,063,570 rows and the reserve prices 336,092: loaded whole, as Samuel's chain prompt of 4 October says
-  # (the history only if the database stays under 2 GB). Berkeley Lab's national queue file, which session 62 kept out
-  # for its size, is loaded for the same page (38,201 entities)
-  - '^ercot_all_hub_prices_history$'
+  # session 102 (for session 92's Ask ERCOT, in review): the ERCOT tables the site's database lacked, as Samuel's chain
+  # prompt of 4 October says. The reserve prices are 336,092 rows, loaded whole. Berkeley Lab's national queue file,
+  # which session 62 kept out for its size, is loaded for the same page (38,201 entities).
+  # NOT loaded: ercot_all_hub_prices_history (3,063,570 rows). The prompt's line was 2 GB. The load of the other tables
+  # measured 549 bytes a row (603,438 rows took the database from 437.3 to 753.0 MB), so the history would add about
+  # 1,600 MB and bring it to about 2,356 MB. A daily summary of it (about 51,000 rows: session 92's lighter way) would fit.
   - '^ercot_as_prices$'
   - '^lbnl_interconnection_queue$'
   - '^merchant_revenue_monthly$'

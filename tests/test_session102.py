@@ -43,9 +43,10 @@ class ReviewHold(unittest.TestCase):
 
     def test_the_ercot_tables_of_session_92_have_rules(self):
         import load
-        for t in ("ercot_all_hub_prices_history", "ercot_as_prices", "lbnl_interconnection_queue",
-                  "merchant_revenue_monthly", "storage_owners_monthly"):
+        for t in ("ercot_as_prices", "lbnl_interconnection_queue", "merchant_revenue_monthly", "storage_owners_monthly"):
             self.assertEqual(load.live_rule(t), ("full", None), t)
+        # the fifth, the hub price history of 3,063,570 rows, would have passed 2 GB (measured: 549 bytes a row) and is not loaded
+        self.assertIsNone(load.live_rule("ercot_all_hub_prices_history"))
         # the yearly ERCOT history tables stay out of the recent rule (session 19), and the internal EQR tables are not loaded
         for t in ("ferc_eqr_buyer_names", "ferc_eqr_buyer_doubtful", "ferc_eqr_party_totals"):
             self.assertIsNone(load.live_rule(t), t)
