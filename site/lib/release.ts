@@ -81,6 +81,7 @@ export const RELEASE: Record<string, Status> = {
   "/ask": "review",
   "/ask/ercot": "review",  // session 92: Ask ERCOT, the reference version
   "/reports": "review",
+  "/home/v2": "review",  // session 110: the home page and menu by audience, a draft
 };
 
 /** Never behind the curtain: the API and route handlers (the scheduled jobs and the game read them), the internal
