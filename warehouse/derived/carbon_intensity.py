@@ -47,6 +47,8 @@ import pyarrow.csv as pcsv
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
+sys.path.insert(0, HERE)
+import caiso_join as cj  # noqa: E402  (session 82: California from the join)
 import eia930_emissions as em  # noqa: E402  (FILE: the BAs; latest_extract, read_extract, extract_meta)
 import iso_prices as ip  # noqa: E402
 
@@ -186,6 +188,10 @@ def main():
                 e = emis[(emis["ba"] == code) & (emis["variable"] == co2)][["entity", "ts_utc", "value", "geo", "ba"]]
                 j = e.merge(x[["ts_utc", col]].rename(columns={col: "mwh"}), on="ts_utc")
                 j = j[j["mwh"] > 0].rename(columns={"value": "co2"})
+                if code == cj.BA and var == cj.VARIABLE:
+                    # session 82: from the join California's generation is CAISO's own, written by caiso_join.py --apply
+                    # (the next step of the daily run); EIA's generation is never written for those hours
+                    j = cj.before_join(j)
                 if not len(j):
                     continue
                 span += [j["ts_utc"].min(), j["ts_utc"].max()]

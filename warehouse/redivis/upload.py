@@ -651,6 +651,19 @@ def check_license(fix=False):
     # header says "License: public" is reported and passes; one with no header, or any other license line, still fails.
     # The daily run of 2026-10-03 failed here on four such tables (sessions 69 and 73 to 75) and skipped its commit.
     pending = header_public(pub, unknown) if unknown else set()
+    # session 82: and never a table the internal dataset holds. A name that is in the private dataset is an internal
+    # table by the ERW's own record, whatever a header in the public one says; if the private dataset cannot be read,
+    # nothing passes on its header.
+    if pending:
+        try:
+            held_internal = {t.name for t in drafts(INTERNAL).list_tables()}
+        except Exception as exc:
+            log(f"WARNING: could not list {INTERNAL} to check {len(pending)} tables against it: {type(exc).__name__}: {exc}")
+            pending = set()
+        else:
+            for n in sorted(pending & held_internal):
+                log(f"FAIL {n}: its header in {HEADERS_TABLE} says License: public, but {INTERNAL} holds a table of that name")
+            pending -= held_internal
     for n in sorted(pending):
         log(f"note {n}: in the public dataset {PUBLIC}, not in this checkout's coverage.csv; its header in "
             f"{HEADERS_TABLE} says License: public (uploaded from a branch not merged yet)")
