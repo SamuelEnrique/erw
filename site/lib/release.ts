@@ -39,6 +39,7 @@ export const RELEASE: Record<string, Status> = {
   "/explorer/ercot-peak-premium": "review",
   "/grid": "review",
   "/mix": "review",
+  "/queues": "review",  // session 95: the interconnection queue explorer
   "/mix/v2": "review",  // session 94: the energy mix, version 2 (any grid, any month or year, two grids side by side, the records)
   "/curtailment": "review",
   "/emissions": "review",
