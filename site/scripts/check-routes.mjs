@@ -55,6 +55,7 @@ const PAGES = [
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75
   "/contracts", "/contracts?product=capacity",  // session 83
   "/storage/owners", "/storage/owners?grid=caiso", "/storage/owners?grid=isone",  // session 87
+  "/battery/customer",  // session 88: a static page; scripts/check-no-request.mjs types into it in a real browser
   // session 86: the grids in review on the live battery page (open in the internal view; a visitor gets ERCOT)
   "/cost-of-power/battery?grid=nyiso&dur=4&strat=dayahead", "/cost-of-power/battery?grid=spp&dur=2&strat=foresight",
   "/play/battery", "/play/battery?more=1",  // session 63: the simple page and the full game

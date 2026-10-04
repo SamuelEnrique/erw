@@ -58,6 +58,8 @@ jobs:
           (npx next start -p 3049 > /tmp/next.log 2>&1 &)
           for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:3049/ && break; sleep 2; done
           node scripts/check-routes.mjs http://localhost:3049
+          # session 88: a real browser types into /battery/customer; the step fails if the page makes one request
+          node scripts/check-no-request.mjs http://localhost:3049
   merge:
     needs: checks
     runs-on: ubuntu-latest
