@@ -36,9 +36,14 @@ const usd = (v) => `${v < 0 ? "-" : ""}$${Math.abs(v).toFixed(2)}`;
 let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 
+// session 111: Easy is started with its first frames stamped before the press of the start button, as a browser
+// sometimes stamps them (production, the fifth play at a laptop's width: the game stopped on its first frame)
+const EARLY = `(() => { const raf = window.requestAnimationFrame.bind(window); let k = 0; window.__early = 0;
+  window.requestAnimationFrame = (cb) => raf((t) => { if (k++ < 3) { window.__early += 1; return cb(t - 80); } return cb(t); }); return true; })()`;
+const ONLY = process.argv[5] ? process.argv[5].split(",") : null;   // a fifth argument plays only the named plays
 const PLAYS = [
   { label: "the simple page", simple: true, difficulty: "normal", addons: [] },
-  { label: "Easy", difficulty: "easy", addons: [] },
+  { label: "Easy", difficulty: "easy", addons: [], early: true },
   { label: "Normal", difficulty: "normal", addons: [] },
   { label: "Hard", difficulty: "hard", addons: [] },
   { label: "Hard with rooftop solar", difficulty: "hard", addons: ["solar"] },
@@ -80,6 +85,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors
   };
 
   for (const p of PLAYS) {
+    if (ONLY && !ONLY.includes(p.label)) continue;
     const tag = `${device}, ${p.label}`;
     const rules = rulesOf(DEFAULT_SETTINGS, p.difficulty, p.addons);
     const sun = p.addons.includes("solar") ? level.solar : undefined;
@@ -108,6 +114,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors
       }
       const startLabel = `Play ${DAY}, ${DIFFICULTIES[p.difficulty].label}${p.addons.includes("solar") ? ", with rooftop solar" : ""}`;
       await wait(`[...document.querySelectorAll('button')].some((b) => b.innerText.trim() === ${JSON.stringify(startLabel)})`, 10000, `${tag}: the button "${startLabel}"`).catch(() => null);
+      if (p.early) await evaluate(EARLY);
       check(await evaluate(clickText("button", startLabel)), `${tag}: the start button reads "${startLabel}"`);
     }
 
@@ -139,6 +146,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors
     }
     await release();
     check(!!end && end.phase === "done", `${tag}: the day plays to its end (${Math.round((Date.now() - t0) / 1000)} s)`);
+    if (p.early) {
+      const early = await evaluate(`window.__early ?? 0`);
+      check(early >= 2 && !!end && end.phase === "done", `${tag}: ${early} frames stamped before the press of the start button did not stop the game`);
+    }
     const lines = await wait(`(() => { const ol = document.querySelector('ol[aria-label="Your day in three lines"]'); return ol ? [...ol.querySelectorAll('li')].map((x) => x.innerText.replace(/\\s+/g, ' ').trim()) : null; })()`, 15000, `${tag}: the end screen`).catch(() => null);
     check(Array.isArray(lines) && lines.length === 3, `${tag}: the end screen has three lines`);
     if (Array.isArray(lines) && lines.length === 3) {
@@ -159,8 +170,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors
       check(seen.spike.includes(SPIKE_LABEL) && /Next the grid goes down for two hours: keep charge for the house/.test(seen.spike), `${tag}: the emergency is announced with its label "${SPIKE_LABEL}" and what comes next`);
       // session 111: the announcement says how much the house will need, and that the reserve alone is not enough when it is not
       const need = simulate(level.price, best.actions, rules, sun).outageNeedKwh;
-      check(seen.spike.includes(`It will need ${need.toFixed(2)} kWh from the battery`) && (rules.reserveKwh < need) === seen.spike.includes(`the backup reserve is ${rules.reserveKwh.toFixed(2)} kWh, which is not enough by itself`),
-        `${tag}: the announcement says the house will need ${need.toFixed(2)} kWh${rules.reserveKwh < need ? ` and that the ${rules.reserveKwh.toFixed(2)} kWh reserve is not enough by itself` : ""}`);
+      // (with the roof the house needs nothing from the battery on this day, and then the announcement gives no figure)
+      check(seen.spike !== "" && (need > 0 || !sun) === !seen.spike.includes("Today the roof carries the house through it.") && (need > 0) === seen.spike.includes(`It will need ${need.toFixed(2)} kWh from the battery`) && (need > 0 && rules.reserveKwh < need) === seen.spike.includes(`the backup reserve is ${rules.reserveKwh.toFixed(2)} kWh, which is not enough by itself`),
+        need > 0 ? `${tag}: the announcement says the house will need ${need.toFixed(2)} kWh${rules.reserveKwh < need ? ` and that the ${rules.reserveKwh.toFixed(2)} kWh reserve is not enough by itself` : ""}`
+          : `${tag}: the house needs nothing from the battery in the outage, and the announcement says the roof carries it`);
       check(/Outage \(a game rule\): the grid is down\. Your house runs on its battery/.test(seen.outage) && seen.offInOutage === true, `${tag}: the outage is announced and the two buttons are off while it lasts`);
       check(seen.wear, `${tag}: the wear on the battery shows beside the money`);
       check(/^.*, Hard/.test(seen.title), `${tag}: the play's title names the difficulty: "${seen.title}"`);

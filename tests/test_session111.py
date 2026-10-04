@@ -95,6 +95,22 @@ class TheGame(unittest.TestCase):
             self.assertIn(word, check)
         self.assertRegex(src("site", "lib", "release.ts"), r'"/play/battery":\s*"review"')
 
+    def test_a_frame_stamped_before_the_press_does_not_stop_the_game(self):
+        # found on production: the fifth play at a laptop's width stopped on its first frame (TypeError in draw())
+        game = src("site", "app", "play", "battery", "Game.tsx")
+        self.assertIn("const elapsed = Math.max(0, now - s.t0);", game)
+        self.assertIn("const now = labeled[Math.max(0, Math.min(n - 1, Math.floor(pos)))];", game)
+        check = src("site", "scripts", "check-battery-game.mjs")
+        self.assertIn("return cb(t - 80)", check)                                     # the check forces the case in one play
+        self.assertIn('{ label: "Easy", difficulty: "easy", addons: [], early: true }', check)
+        self.assertIn("frames stamped before the press of the start button did not stop the game", check)
+
+    def test_with_the_roof_the_announcement_says_the_roof_carries_the_house(self):
+        m = node(MODEL)
+        self.assertEqual(m["solar"]["need"], 0)                                       # the roof carries the house through this day's outage
+        self.assertIn("(need > 0) === seen.spike.includes(", src("site", "scripts", "check-battery-game.mjs"))
+        self.assertIn("rules.solarKw > 0 ? <> Today the roof carries the house through it.</> : null", src("site", "app", "play", "battery", "Game.tsx"))
+
     def test_no_em_dash(self):
         for rel in ("site/scripts/check-battery-game.mjs", "tests/test_session111.py"):
             self.assertNotIn(chr(0x2014), src(*rel.split("/")), rel)
