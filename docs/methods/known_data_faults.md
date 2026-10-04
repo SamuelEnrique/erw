@@ -61,6 +61,10 @@ Two things the register corrected in what was believed before it was written:
 - **PJM has seven impossible hours, not two.** The two the reports name (12 December 2019 and 13 July 2020) and five
   more: one in April 2020, two in July 2020, one in August 2020 and one in November 2024.
 
+**Session 106 added two,** both in ERCOT's Large Load Interconnection Status Update: a report whose simultaneous peak
+is above its non-simultaneous one (27 August 2025), and the reports of early 2026 that name their months as 2025. The
+register then holds 26 faults.
+
 ## To add a fault
 
 An entry in the register, then `python warehouse/derived/data_faults.py --snapshot` under the data lock, the validator,

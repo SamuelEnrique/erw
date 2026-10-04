@@ -606,3 +606,54 @@ faults:
     open: ""
     recorded_in: >-
       session 81
+
+  - id: ercot_large_load_simultaneous_above_nonsimultaneous
+    title: >-
+      ERCOT's large-load report of August 2025 states a simultaneous peak above the non-simultaneous one
+    publisher: >-
+      Electric Reliability Council of Texas (ERCOT), Large Load Interconnection Status Update
+    source: ercot:large_load_status_update
+    first: "2025-08-27"
+    last: "2025-08-27"
+    dates_note: >-
+      the report dated 27 August 2025
+    status: held_as_published
+    evidence: >-
+      The report states a non-simultaneous monthly peak of 3,694 MW and a simultaneous monthly peak of 3,733 MW for
+      August 2025. By the report's own definitions the first is the sum of each load's highest hour and the second the
+      highest hour of the loads together, so the second cannot be the larger. In the other eight reports held it is
+      the smaller.
+    tables: >-
+      ercot_large_load_status
+    erw_does: >-
+      Nothing: both figures are in the table as the report states them, and the page shows them with this note.
+    open: >-
+      Which of the two is misstated is not known.
+    recorded_in: >-
+      session 106; docs/methods/ercot_large_load_status.md
+
+  - id: ercot_large_load_months_written_with_the_wrong_year
+    title: >-
+      ERCOT's large-load reports of early 2026 name their months as 2025, and March 2026 is stated twice
+    publisher: >-
+      Electric Reliability Council of Texas (ERCOT), Large Load Interconnection Status Update
+    source: ercot:large_load_status_update
+    first: "2026-01-21"
+    last: "2026-03-26"
+    dates_note: >-
+      the reports dated 21 January, 25 February, 13 March and 26 March 2026
+    status: held_as_published
+    evidence: >-
+      The reports dated 21 January, 25 February and 13 March 2026 state their observed peaks as of "January 2025",
+      "February 2025" and "March 2025". The report dated 26 March 2026 says "March 2026" and gives other figures for
+      the month than the report of 13 March: a non-simultaneous peak of 4,004 MW against 3,883, and a simultaneous
+      peak of 3,522 MW against 3,801.
+    tables: >-
+      ercot_large_load_status
+    erw_does: >-
+      Each figure is dated by the day on its report's first page, never by the month the sentence names; the month as
+      ERCOT wrote it is kept beside it (x_month_as_written). Both March reports are held, each under its own day.
+    open: >-
+      Whether the 13 March figures were for part of the month is not said in either report.
+    recorded_in: >-
+      session 106; docs/methods/ercot_large_load_status.md

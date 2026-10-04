@@ -138,6 +138,7 @@ SECTOR_RULES = [
     (r"^datacenter_(facilities|operator_sites|queue_positions)$", "power;datacenters"),
     # session 17: written only if ERCOT publishes a request-level list (warehouse/connectors/ercot_large_load.py)
     (r"^ercot_large_load_queue$", "power;datacenters"),
+    (r"^ercot_large_load_status$", "power;datacenters"),  # session 106: the figures ERCOT's monthly status update states in words
     # session 18: the energy mix explorer (21), the curtailment tracker (22), consumption by sector (23)
     (r"^(eia_state_generation_monthly|state_generation_mix_monthly)$", "power"),
     (r"^((caiso|spp)_curtailment_daily|ercot_wind_solar_hsl_daily|iso_curtailment_monthly)$", "power"),
