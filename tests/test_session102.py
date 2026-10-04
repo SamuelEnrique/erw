@@ -59,6 +59,34 @@ class ReviewHold(unittest.TestCase):
         self.assertIn("required(catalogue)", home)           # the home page's counts come through that reader
 
 
+class TermsPage(unittest.TestCase):
+    """The landing's deploy moved a number on a live page: /terms counts the registry, and eight new sources made
+    "125 data sources" 133. A source that serves only tables whose pages are in review is held off the page."""
+
+    def test_the_new_sources_are_held_off_the_terms_page(self):
+        import load
+        held = load.LIVE["sources_hold"]
+        self.assertEqual(sorted(held), sorted(set(held)))
+        for s in ("erw:generation_mix_hourly", "erw:generation_mix_hourly_caiso", "erw:interconnection_queue_summary",
+                  "erw:hub_price_comparison", "erw:demand_growth", "erw:caiso_curtailment_profile", "erw:eqr_buyers", "spp:DA-MC"):
+            self.assertIn(s, held)
+        import csv
+        with open(os.path.join(ROOT, "warehouse", "metadata", "sources.csv"), encoding="utf-8", newline="") as f:
+            registry = {r["source"]: r for r in csv.DictReader(f)}
+        review = set(load.LIVE["review_hold"]) | set(load.LIVE["catalogue_hold"])
+        for s in held:
+            self.assertIn(s, registry, s)                    # held off a page, never out of the registry
+            tables = [t for t in registry[s]["tables"].split(";") if t]
+            if registry[s]["license"] == "public":           # a public source is held only while all its tables are
+                self.assertTrue(tables and all(t in review for t in tables), (s, tables))
+
+    def test_the_build_reads_the_hold(self):
+        build = src("site", "scripts", "build-content.mjs")
+        self.assertIn('new Set(liveSetList("sources_hold"))', build)
+        self.assertIn(".filter((r) => !held.has(r.source))", build)
+        self.assertIn("split(/\\r?\\n/)", build)
+
+
 class Coverage(unittest.TestCase):
     def test_every_new_table_has_a_sector(self):
         import importlib.util   # by path: warehouse/validate holds a script of the same name that runs the builder

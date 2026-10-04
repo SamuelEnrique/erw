@@ -96,9 +96,28 @@ function csvRows(text) {
   if (cell || row.length) { row.push(cell); rows.push(row); }
   return rows;
 }
+// Session 102: the items of one top-level list of warehouse/supabase/live_set.yaml ("key:" then "  - item" lines; a
+// comment after an item is dropped). The build has no YAML reader and needs only this.
+function liveSetList(key) {
+  const lines = read(path.join(repo, "warehouse", "supabase", "live_set.yaml")).split(/\r?\n/);
+  const at = lines.findIndex((l) => l.startsWith(`${key}:`));
+  if (at < 0) return [];
+  const out = [];
+  for (const l of lines.slice(at + 1)) {
+    if (/^\S/.test(l)) break;                       // the next top-level key
+    const m = l.match(/^\s+-\s+([^\s#]+)/);
+    if (m) out.push(m[1].replace(/^['"]|['"]$/g, ""));
+  }
+  return out;
+}
+// Session 102: /terms (a live page) lists the registry and counts it. A source that serves only tables whose pages are
+// in review is held off the page until one of them opens (live_set.yaml, sources_hold), as catalogue_hold keeps such a
+// table out of the home page's counts: the landing of sessions 91 to 101 moved "125 data sources" to 133 for an hour.
 function sources() {
+  const held = new Set(liveSetList("sources_hold"));
   const [head, ...rows] = csvRows(read(path.join(repo, "warehouse", "metadata", "sources.csv")));
   return rows.filter((r) => r.length === head.length).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])))
+    .filter((r) => !held.has(r.source))
     .map(({ source, publisher, report, report_url, license, tables }) => ({ source, publisher, report, report_url, license, tables }));
 }
 
