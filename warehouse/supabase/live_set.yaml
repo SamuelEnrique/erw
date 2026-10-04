@@ -129,6 +129,14 @@ select:
   # session 83: /contracts lists contracts by the quarter they were signed; the last 1,000 days of execution dates
   ferc_eqr_contracts: {event_days: 1000}
 
+# Session 85: public tables held out of the live catalogue (and of the live set) while the live site is frozen for a
+# reviewer: the home page counts the catalogue's public tables and rows, and no live number may move. A held table is
+# in coverage.csv, the archive and its Redivis draft like any other. To release one, take its name off this list (and
+# give it a live-set rule above if a page reads it from Supabase); the next load adds it to the catalogue.
+catalogue_hold:
+  - nyiso_as_prices
+  - spp_as_prices
+
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv
 sources: warehouse/metadata/sources.csv

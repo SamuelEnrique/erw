@@ -108,7 +108,7 @@ SECTOR_RULES = [
     (r"^pjm_rpm_capacity_prices$", "capacity"),
     # session 65: capacity prices of the four markets that pay capacity apart, and the day-ahead ancillary services
     (r"^iso_all_capacity_prices$", "capacity"),
-    (r"^(ercot|caiso)_as_prices$", "power"),
+    (r"^(ercot|caiso|nyiso|isone|miso|spp)_as_prices$", "power"),  # session 85: four more grids
     (r"^ercot_as_quantities$", "power"),  # session 74: the DAM Ancillary Service Plan
     (r"^ferc_eqr_contracts$", "power"),  # session 83: FERC Electric Quarterly Report contracts (internal)
     (r"^eia_fuel_spot_prices$", "oil;gas"),

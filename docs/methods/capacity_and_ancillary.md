@@ -80,6 +80,54 @@ Day-ahead ancillary service clearing prices, hourly, from 2024-09-01 (the window
 
 **License: public.** CAISO's terms of use (`https://www.caiso.com/privacy-terms-of-use`): materials and information on the website "may be used by you provided that you keep intact all copyright, trademark and other proprietary notices and that you credit the California ISO".
 
+## Four more grids' day-ahead reserve prices: `nyiso_as_prices`, `isone_as_prices`, `miso_as_prices`, `spp_as_prices`
+
+Session 85. Day-ahead ancillary service prices, hourly, from 2024-09-01 (ISO-NE from 2025-03-01, when its day-ahead ancillary services market began), one connector for each grid over one shared loop (`warehouse/connectors/iso_as_common.py`). Unit USD/MW-hour. Not PJM. USD 0.
+
+| Table | Rows | Window | Entities | Variables (`as_price_dam_...`) | License |
+|---|---|---|---|---|---|
+| `nyiso_as_prices` | 293,376 | 2024-09-01 to 2026-10-04, 764 days | `nyiso:WEST`, `nyiso:CAPITL`, `nyiso:HUD VL`, `nyiso:N.Y.C.`, `nyiso:LONGIL`; `nyiso:NYCA` for regulation | `spin10`, `nsync10`, `op30`; `reg` | public, with a caution |
+| `isone_as_prices` | 55,964 | 2025-03-01 to 2026-10-04, 583 days | `isone:7000` (the system) | `tmsr`, `tmr10`, `tmr30`, `fer` | internal |
+| `miso_as_prices` | 54,936 | 2024-09-01 to 2026-10-03, 763 days | `miso:MISO Wide` | `reg`, `spin`, `supp` | internal |
+| `spp_as_prices` | 159,432 | 2024-09-01 to 2026-10-03, 763 days | `spp:SPP`; `spp:SWPW` from 2026-04-01 | `regup`, `regdn`, `spin`, `supp`, `rampup`, `rampdn`, `uncup` | public, with citation |
+
+No day and no hour is missing in any of the four: every (region, product, operating day) holds every hour of its day.
+
+**Sources.**
+
+- **NYISO:** "Day-Ahead Market Ancillary Services Prices" (report P-5), the monthly archive `http://mis.nyiso.com/public/csv/damasp/<YYYYMM>01damasp_csv.zip`. One request a month.
+- **ISO-NE:** "Day-Ahead Hourly Reserve Requirements Prices Designations and Forecast", `https://www.iso-ne.com/transform/csv/daasreservedata?start=..&end=..`. One request a month, after opening a report page (ISO-NE answers the csv only to a session that has). The report answers no row before 2025-03-01.
+- **MISO:** "ASM Day-Ahead Market ExPost MCPs", `https://docs.misoenergy.org/marketreports/<YYYYMMDD>_asm_expost_damcp.csv`. One request a day; hours are Eastern Standard Time all year, as the file says.
+- **SPP:** "Day-Ahead Market Clearing Prices (MCP)", `https://portal.spp.org/pages/da-mcp`. The year 2024 is one archive; later days are one request each. `ts_utc` is the file's `GMTIntervalEnd` less one hour.
+
+**Which regions are kept, and what that loses.** The ceiling is 500,000 rows a grid, and every region of every product would pass it in New York (806,000) and SPP (about a million). So each connector keeps the regions that can carry a price of their own and measures, file by file, what the others would have added:
+
+| Grid | Kept | Not kept | Measured over the whole window |
+|---|---|---|---|
+| NYISO | Five of the eleven load zones, one for each set that prices reserves apart; regulation once, for the control area | GENESE, CENTRL, NORTH, MHK VL (as WEST); MILLWD, DUNWOD (as HUD VL) | In 764 daily files, a zone not kept differed from the kept zone of its set in 0 zone-product-hours. Regulation is one price across the eleven zones in every hour, or the run fails. LONGIL is kept beside HUD VL: its spinning reserve price differed in 3 hours |
+| ISO-NE | The report's one location, 7000 | Nothing: the market clears for New England as a whole | |
+| MISO | The file's "MISO Wide" rows, generation types | The demand-side and stored-energy types; the rows that repeat a price for each resource with its reserve zone | In 763 daily files, a zone's resources carried a price other than MISO Wide's in 0 zone-product-hours |
+| SPP | The rows named `SPP` and `SWPW`, seven products | The numbered reserve zones (1 to 5; 21 from April 2026) | In 763 daily files, a numbered zone carried a price of neither named row in 0 zone-product-hours |
+
+What `SWPW` stands for is not stated in SPP's file and is not guessed. It appears on 2026-04-01 with zone 21, and its prices differ from the `SPP` row's in nearly every hour.
+
+**ISO-NE's variables are named by the report's columns:** `tmsr` "Ten Minute Spinning Reserve Clearing Price", `tmr10` "Ten Minute Reserve Clearing Price", `tmr30` "Total Thirty Reserve Clearing Price", `fer` "FER Price" (the forecast energy requirement). The requirements and designated MW in the same file are quantities and are not kept.
+
+**Never filled.** A (region, product, operating day) is written only when every hour of the day is there exactly once: 24, or 23 and 25 at the clock changes (MISO's file does not change clocks). ISO-NE names an hour by its ending and repeats "02" on the day the clocks go back; a day is read only when its hours are exactly the hours that day has, in order.
+
+**Licenses, with the terms quoted** (each read on 2026-10-04):
+
+| Grid | License | Terms |
+|---|---|---|
+| NYISO | public, with a caution | `https://www.nyiso.com/legal-notice`: "Access to this Web site does not confer any license or ownership interest in either the form or content of the Web site, including any confidential or proprietary information or intellectual property of any kind or nature, and the NYISO hereby expressly reserves such rights and property in its entirety. Downloading, republishing, retransmitting, reproducing, or other use of any image or video on this website as a stand-alone file is strictly prohibited". The prohibition names images and video, not data; no license is granted either. Public by the ERW's standing rule (every ISO but PJM), as session 65 ruled for NYISO's capacity prices |
+| ISO-NE | internal | `https://www.iso-ne.com/legal-privacy`: "You are also hereby put on notice that the Content is protected by copyright under United States laws. Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws." |
+| MISO | internal | `https://www.misoenergy.org/meet-miso/legal-and-privacy/`: "You are not permitted to modify, publish, transmit, participate in the transfer or sale of, reproduce, create derivative works of, distribute, publicly perform, publicly display or in any way exploit any of the materials or content on this Website or the App in whole or in part." The same page: "You agree not use any automated means, including, without limitation, agents, robots, scripts, or spiders, to access, monitor, or copy any part of this Website or the App." The ERW has read MISO's market report files by script every day since session 5; the sentence is quoted here so that a person can rule on it |
+| SPP | public, with citation | `https://www.spp.org/terms-conditions/`: "Permission is implicitly granted to copy and distribute (via computer network or printed form) in whole or in part (with appropriate citation) EXCEPT when such materials will be used, in whole or in part, within a commercial publication (printed or otherwise) or when the author(s) or SPP will be quoted in commercial materials, forums or publications. Any commercial use of these materials requires prior, express written authorization from the author(s) or a duly authorized officer of SPP." Republishing with citation is allowed; a commercial publication is not. If the platform sells anything built on these rows, the table must be ruled on again |
+
+**Held out of the live catalogue.** The two public tables are in coverage, the archive and the public Redivis draft, and are held out of Supabase (`live_set.yaml`, `catalogue_hold`) while the live site is frozen for its reviewer: the home page counts the catalogue's public tables and rows. The two internal tables are in the internal Redivis draft and are in no live-set rule.
+
+**Not in the daily run.** The connectors pull the window on request and merge; a daily schedule is a decision for a person.
+
 ## USD/MW-hour is not USD/MWh
 
 An ancillary service price pays a resource for holding a megawatt ready for an hour, whether or not it is called. It is not a price of energy and is never added to a hub price per MWh. What a resource earns from a service is its awarded MW times the price, hour by hour; the awards are not in these tables.
@@ -88,11 +136,12 @@ An ancillary service price pays a resource for holding a megawatt ready for an h
 
 - **Bilateral contracts.** Most capacity and resource adequacy is bought outside the auctions; those prices are private. California's and SPP's are entirely so.
 - **Real-time ancillary prices.** ERCOT's real-time ancillary prices (since real-time co-optimization began in December 2025) and CAISO's hour-ahead and real-time runs are not held.
-- **The other ISOs' ancillary markets.** PJM, NYISO, ISO-NE, MISO and SPP all buy regulation and reserves; none of those prices is held.
+- **PJM's ancillary markets.** PJM buys regulation and reserves; those prices are not held (session 85 pulled NYISO, ISO-NE, MISO and SPP, not PJM).
+- **Reserve prices by zone.** NYISO's six load zones not kept, MISO's reserve zones and SPP's numbered zones: each was measured against the rows kept and never carried a price of its own in the window, but the tables hold the kept rows only.
 - **Awards and quantities.** The tables hold prices only: no cleared MW, no offer data, no accreditation.
 - **Capacity outside the headline auction.** Incremental, reconfiguration, strip and monthly auctions, and MISO before 2024/25.
 - **A load's capacity bill.** That depends on its peak contribution and the reserve requirement, not on the auction price alone.
 
 ## Checks
 
-`tests/test_session65.py`: each parser on a saved document (CAISO and ERCOT in `tests/fixtures/session65/`; the capacity sources' documents are not copied into the repository and are read from `warehouse/raw/` where the machine holds them), the ceilings, the never-fill rule, the raw-file cache. The validator passes each table.
+`tests/test_session85.py`: each of the four readers on a made-up file (the clock changes, an empty cell, a zone priced apart, a changed layout), the complete-day rule, the ceiling, the licenses and their quoted terms, the hold. `tests/test_session65.py`: each parser on a saved document (CAISO and ERCOT in `tests/fixtures/session65/`; the capacity sources' documents are not copied into the repository and are read from `warehouse/raw/` where the machine holds them), the ceilings, the never-fill rule, the raw-file cache. The validator passes each table.
