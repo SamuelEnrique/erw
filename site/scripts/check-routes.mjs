@@ -42,6 +42,7 @@ const PAGES = [
   "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium",
   "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/about", "/terms",
   "/subscribe", "/ask",
+  "/ask/ercot", "/ask/ercot?from=%2Fshoulder&title=The+shoulder+hours&s_grid=ERCOT&s_month=2025-01",  // session 92: Ask ERCOT, the reference version (the page only: the check never asks the model)
   // session 35: the seven grid pages
   "/network", "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
   // session 36B: the Historical Event Analyzer

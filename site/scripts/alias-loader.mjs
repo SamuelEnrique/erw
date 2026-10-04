@@ -21,6 +21,12 @@ export async function resolve(specifier, context, next) {
     if (!file) throw new Error(`alias-loader: nothing at ${specifier}`);
     return { url: pathToFileURL(file).href, shortCircuit: true };
   }
+  // session 92: a relative import that names no extension ("./ask" in lib/chat), as the site's own modules write them
+  if (/^\.\.?\//.test(specifier) && !path.extname(specifier) && context.parentURL?.startsWith("file:")) {
+    const base = path.resolve(path.dirname(fileURLToPath(context.parentURL)), specifier);
+    const file = [`${base}.ts`, `${base}.tsx`, path.join(base, "index.ts")].find((p) => fs.existsSync(p) && fs.statSync(p).isFile());
+    if (file) return { url: pathToFileURL(file).href, shortCircuit: true };
+  }
   return next(specifier, context);
 }
 

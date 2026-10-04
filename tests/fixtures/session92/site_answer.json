@@ -1,0 +1,85 @@
+{
+ "answer": "ERCOT's operating battery fleet has grown every year since 2020. These are year-end values of operating power capacity in MW from EIA's monthly generator inventory (storage_buildout_monthly), using the page's Power, MW setting: 218.4 MW at the end of 2020, 820.9 MW in 2021, 2130 MW in 2022, 4173.5 MW in 2023, 8293.8 MW in 2024 and 13909.3 MW in 2025. The newest figure is 18204.5 MW in August 2026, which is the latest month held and not a full year. The fleet has roughly doubled each year through 2024, and growth in MW has stayed large since then.",
+ "citations": [
+  {
+   "table": "storage_buildout_monthly",
+   "source_report": "erw:storage_buildout",
+   "data_version": "Supabase live set (public site)",
+   "tier": "source"
+  }
+ ],
+ "not_in_warehouse": false,
+ "series": [
+  {
+   "result_id": "r3",
+   "table": "storage_buildout_monthly",
+   "title": "latest of battery_operating_mw, by year",
+   "group_by": "year",
+   "kind": "line",
+   "unit": "MW",
+   "aggregation": "latest",
+   "rows": [
+    {
+     "key": "2020",
+     "value": 218.4,
+     "at": "2020-12-01T00:00:00Z"
+    },
+    {
+     "key": "2021",
+     "value": 820.9,
+     "at": "2021-12-01T00:00:00Z"
+    },
+    {
+     "key": "2022",
+     "value": 2130,
+     "at": "2022-12-01T00:00:00Z"
+    },
+    {
+     "key": "2023",
+     "value": 4173.5,
+     "at": "2023-12-01T00:00:00Z"
+    },
+    {
+     "key": "2024",
+     "value": 8293.8,
+     "at": "2024-12-01T00:00:00Z"
+    },
+    {
+     "key": "2025",
+     "value": 13909.3,
+     "at": "2025-12-01T00:00:00Z"
+    },
+    {
+     "key": "2026",
+     "value": 18204.5,
+     "at": "2026-08-01T00:00:00Z"
+    }
+   ],
+   "rows_matched": 80,
+   "note": null,
+   "source_report": "erw:storage_buildout",
+   "license": "public",
+   "tier": "source",
+   "data_version": "Supabase live set (public site)",
+   "chosen_by": "the answer"
+  }
+ ],
+ "followups": [
+  "How many hours of storage does the average ERCOT battery have?",
+  "How much battery capacity is planned or under construction in ERCOT?",
+  "Who are the largest battery owners in ERCOT?"
+ ],
+ "status": "answered",
+ "model": "claude-sonnet-5-5",
+ "tool_calls": 3,
+ "retried": false,
+ "usage": {
+  "input": 10,
+  "output": 843,
+  "cache_write": 14777,
+  "cache_read": 39004,
+  "requests": 4
+ },
+ "cost_usd": 0.053193300000000006,
+ "profile": "ercot"
+}

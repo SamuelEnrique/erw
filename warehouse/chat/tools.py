@@ -150,6 +150,13 @@ def scope_rows(name, df):
     g = SCOPE
     if g is None or df is None:
         return df
+    # session 92: a scope may name a table's rows outright, {table: {column: value or [values]}} (Ask ERCOT's
+    # tables that carry a grid in a column of their own: region, x_grid, the delivery balancing authority)
+    f = (g.get("filters") or {}).get(name)
+    if f is not None:
+        for col, val in f.items():
+            df = df[df[col].isin(val if isinstance(val, list) else [val])]
+        return df
     if "ba" in df.columns:
         return df[df["ba"] == g["ba"]]
     if name == "storage_capacity":
@@ -197,7 +204,14 @@ def _table(name):
         try:
             # session 35: a partitioned table is read for the scoped grid's ba only, never whole
             df = erw.fetch(name, ba=SCOPE["ba"]) if SCOPE is not None and name in _BA_TABLES else erw.fetch(name)
-            _frames[name] = scope_rows(name, df)
+            df = scope_rows(name, df)
+            if SCOPE is not None and name in (SCOPE.get("slim") or ()):
+                # session 92: a table of millions of rows is kept without the columns no query reads (its source is in
+                # the result's own provenance); the hub price history is 2.4 GB whole on a machine of 8
+                attrs = df.attrs
+                df = df.drop(columns=[c for c in ("geo", "source", "source_url", "retrieved_at", "vintage") if c in df.columns])
+                df.attrs = attrs
+            _frames[name] = df
         except erw.ERWDataNotFound as exc:
             raise ToolError(f"table {name!r} cannot be read from this backend: {exc}")
     return _frames[name]
@@ -485,7 +499,12 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
         out["result"] = []
         out["note"] = "no rows match these filters"
     else:
-        keys = _group_keys(sel, shape, tcol, group_by, tz)
+        # session 92, under a scope that asks for it (Ask ERCOT): rows of a day or longer are labelled with their local
+        # period at 00:00Z, so they are grouped by that label whatever tz says. Read in America/Chicago, a month's row
+        # fell in the month before and a year lost its January (the evaluation's carbon intensity by year). The general
+        # chat groups as it did; the same fix there is a change for a person to make
+        dated = shape == "series" and "freq" in sel and len(sel) and sel["freq"].isin(["P1D", "P1W", "P1M", "P1Y"]).all()
+        keys = _group_keys(sel, shape, tcol, group_by, "UTC" if dated and (SCOPE or {}).get("dated_groups") else tz)
         if keys is None:
             if aggregation == "latest" and shape == "series" and sel.groupby(["entity", "variable"]).ngroups > 1:
                 res = []
@@ -501,9 +520,10 @@ def query(table, aggregation, entity=None, variable=None, start=None, end=None, 
             for k, g in sel.groupby(keys, sort=True):
                 res.append({group_by: k, **_aggregate(g, aggregation, vcol, tcol, percentile, shape)})
             out["n_groups"] = len(res)
-            if len(res) > MAX_GROUPS:
-                out["result_note"] = f"{len(res)} groups; the first {MAX_GROUPS} (sorted by {group_by}) are shown"
-            out["result"] = res[:MAX_GROUPS]
+            cap = (SCOPE or {}).get("max_groups") or MAX_GROUPS  # session 92: Ask ERCOT charts a month per row since 2018
+            if len(res) > cap:
+                out["result_note"] = f"{len(res)} groups; the first {cap} (sorted by {group_by}) are shown"
+            out["result"] = res[:cap]
     out.update(provenance(table))
     return out
 

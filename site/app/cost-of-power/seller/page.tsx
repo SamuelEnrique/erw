@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AskErcotLink } from "@/components/AskErcotLink";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import fs from "node:fs";
 import path from "node:path";
@@ -143,6 +144,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
     <>
       <h1 className="mb-1 text-3xl">Cost of power</h1>
       <CostTabs active="sell" />
+      {x.iso === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/seller", title: "What a generator earns", settings: { grid: "ERCOT", asset: ASSET_NAMES[x.asset], size: sizeLabel } }} /> : null}
       <div className="mb-4 max-w-3xl space-y-2 text-sm">
         <p>
           What a power plant earns selling at an ISO&apos;s main hub, month by month: a solar or wind farm, a battery, or a gas peaker of your size, at the

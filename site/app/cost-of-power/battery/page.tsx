@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AskErcotLink } from "@/components/AskErcotLink";
 import { cookies } from "next/headers";
 import type { ReactNode } from "react";
 import { Num } from "@/components/Num";
@@ -178,6 +179,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         crumb={<CostTabs active="battery" />}
         lead={<>What a grid battery earned from energy and from ancillary services together, by year and by stream, and whether that covers its debt, with and without a contract. The battery is split hour by hour between the two, so nothing is counted twice. <Link href={METHOD}>Method</Link>.</>}
       />
+      {/* session 92: drawn only in the internal view while /ask/ercot is in review (components/AskErcotLink.tsx) */}
+      {x.grid === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/battery", title: "What a battery earns", settings: { grid: "ERCOT", duration: `${x.dur} hours`, strategy: `${STRATEGIES[x.strat]} (${x.strat})`, size: `${x.mw} MW` } }} /> : null}
       <ContractProvider>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
