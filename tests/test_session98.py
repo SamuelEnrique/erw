@@ -106,8 +106,11 @@ class TheConnector(unittest.TestCase):
         self.assertEqual((round(totals["solar"], 2), totals["wind"]), (614.39, 1.5))
         self.assertEqual(cc.report_rows(report("2026-07-15"), "2026-07-15"), ([], {"wind": 0.0, "solar": 0.0}))  # a day with none is a day, with zero
         self.assertIsNone(cc.report_rows(html, "2026-07-16"))                                                   # the page of another day
-        self.assertIsNone(cc.report_rows(report("2026-03-08"), "2026-03-08"))                                   # 24 values on a day of 23 hours
+        spring = cc.report_rows(report("2026-03-08", {("solar", "econ_system"): {1: 2.0, 9: 3956.0}}), "2026-03-08")   # 24 values on a day of 23 hours: by the clock
+        self.assertEqual(sorted((cc.ip.utc_iso(ts), x) for ts, _, x in spring[0]), [("2026-03-08T09:00:00Z", 2.0), ("2026-03-08T16:00:00Z", 3956.0)])   # 01:00 standard, 09:00 daylight
+        self.assertIsNone(cc.report_rows(report("2026-03-08", {("solar", "econ_system"): {2: 5.0}}), "2026-03-08"))   # a value in the clock hour that does not exist
         self.assertIsNotNone(cc.report_rows(report("2026-03-08", hours=23), "2026-03-08"))
+        self.assertIsNone(cc.report_rows(report("2026-07-15", hours=20), "2026-07-15"))                          # a short array
         self.assertIsNone(cc.report_rows(html.replace("var curt_hr_tot_wind_ss_local_mwh", "var other"), "2026-07-15"))
 
     def test_the_pull_has_a_ceiling_and_asks_the_pause_first(self):
@@ -205,7 +208,7 @@ class TheTablesAsBuilt(unittest.TestCase):
         self.assertAlmostEqual(at("curtailed_wind_system_mwh", "2024-04"), float((x[x["variable"] == "curtailed_wind_system_mw"]["value"] * 5 / 60).sum()), delta=0.06)
         noon = x[x["variable"].str.contains("solar") & (x["ts"].dt.tz_convert(cp.TZ).dt.hour == 12)]
         self.assertAlmostEqual(at("curtailed_solar_mwh_h12", "2024-04"), float((noon["value"] * 5 / 60).sum()), delta=0.06)
-        self.assertEqual(at("days_held", "2026-03"), 30)                                                        # the day the clocks went forward is not held
+        self.assertEqual(at("days_held", "2026-03"), 31)                                                        # the day the clocks went forward is held, placed by the clock
         self.assertFalse(p["variable"].str.startswith("battery").any() and p[p["variable"] == "battery_days_held"]["ts_utc"].min() < "2025-09")
         share = p[p["variable"] == "curtailed_while_charging_share_pct"]["value"]
         self.assertTrue(((share >= 0) & (share <= 100)).all())
@@ -221,7 +224,7 @@ class TheTablesAsBuilt(unittest.TestCase):
         self.assertEqual(got, want)
         y = c["years"]["2025"]
         self.assertAlmostEqual(y["curtailed_solar_mwh"], sum(c["months"][f"2025-{i:02d}"]["curtailed_solar_mwh"] for i in range(1, 13)), delta=0.2)
-        self.assertEqual(c["days_not_held"], ["2026-03-08"])
+        self.assertEqual(c["days_not_held"], [])
 
 
 class ThePage(unittest.TestCase):

@@ -4,7 +4,7 @@ Two tables behind the page `/curtailment/v2` ("Curtailment", version 2, in revie
 
 | Table | Built by | What it is |
 |---|---|---|
-| `caiso_curtailment_intervals` | `warehouse/connectors/caiso_curtailment_intervals.py` | CAISO's wind and solar curtailment at the finest interval it publishes, by reason, from 2019. An approved pull (Samuel, 4 October 2026): ceiling 500,000 rows, USD 0. It holds 484,774 |
+| `caiso_curtailment_intervals` | `warehouse/connectors/caiso_curtailment_intervals.py` | CAISO's wind and solar curtailment at the finest interval it publishes, by reason, from 2019. An approved pull (Samuel, 4 October 2026): ceiling 500,000 rows, USD 0. It holds 484,819 |
 | `caiso_curtailment_profile` | `warehouse/derived/curtailment_profile.py` | the same by hour of the day, by month and by reason, and against battery charging in the same hours |
 
 **What the data does not locate.** CAISO publishes one figure for its whole system: not the plant, not the node or
@@ -41,8 +41,8 @@ in CAISO's workbooks.
 | freq | Unit | Variables | Rows |
 |---|---|---|---|
 | `PT5M` | MW, the interval's average | `curtailed_<fuel>_mw` (no reason published), `curtailed_<fuel>_local_mw`, `curtailed_<fuel>_system_mw` | 463,166 |
-| `PT1H` | MWh | `curtailed_<fuel>_<econ\|ss\|oi>_<local\|system>_mwh` | 15,946 |
-| `P1D` | MWh | `curtailed_<fuel>_day_mwh`: one row for every day covered, zero included | 5,662 |
+| `PT1H` | MWh | `curtailed_<fuel>_<econ\|ss\|oi>_<local\|system>_mwh` | 15,989 |
+| `P1D` | MWh | `curtailed_<fuel>_day_mwh`: one row for every day covered, zero included | 5,664 |
 
 - **A five-minute MW** is the interval's average: its energy is MW x 5/60 MWh.
 - **CAISO's categories from 2026,** in its report's words: "Economic - Local: Market dispatch of generators with
@@ -51,13 +51,15 @@ in CAISO's workbooks.
   oversupply. Operator Instruction - Local: Operator Instructions to mitigate local congestion. Operator Instruction -
   System: ... system-wide oversupply." The table writes them `econ`, `ss`, `oi`.
 - **The day rows** say which days are held. A day with no interval row and a day row of zero had no curtailment; a day
-  with no day row is not held. One day is not held: 2026-03-08, the day the clocks went forward, whose report's
-  hourly arrays did not have that day's 23 hours.
+  with no day row is not held. Every day from 2019-01-01 to 2026-10-02 is held.
+- **The day the clocks go forward.** A daily report has 24 hourly values on that day too (8 March 2026), by the clock,
+  with zero in the hour from 02:00 that does not exist. Each value is dated by its clock hour. A value in the hour that
+  does not exist could not be placed, and the day would not be written.
 - **The clock.** Date is the Pacific day; an interval starts at (Hour - 1) hours and (Interval - 1) x 5 minutes of the
   day's clock. On an autumn day the clock hour from 01:00 happens twice and the workbook does not say which: 29 rows
   are dated the first.
 - **Checked against the table the site already had:** every day's total equals `caiso_curtailment_daily`, to the
-  thousandth of a MWh, for the 5,660 fuel-days both hold.
+  thousandth of a MWh, for the 5,662 fuel-days both hold.
 
 ## `caiso_curtailment_profile`
 

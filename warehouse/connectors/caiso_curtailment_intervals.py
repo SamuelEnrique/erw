@@ -15,7 +15,9 @@ Sources (both CAISO's, both public; credit the California ISO):
   Curtailment in MW, and from 2022 a Reason (Local or System; blank on 9,241 rows of 2022, and absent before). Only
   the 5-minute intervals with a curtailment are listed. The two 2025 workbooks overlap; a row is read once.
 - from 2026-01-01: the Daily Renewable Report (www.caiso.com/library/daily-renewable-reports), one page a day. By fuel
-  it gives the hour: curt_hr_tot_<fuel>_<category>_<local|system>_mwh, 24 values (23 or 25 when the clocks change).
+  it gives the hour: curt_hr_tot_<fuel>_<category>_<local|system>_mwh, 24 values. On the day the clocks go forward
+  the report still has 24, by the clock, with nothing in the hour that does not exist; a value there could not be
+  placed and the day would not be written.
   Its 5-minute curtailment series is wind and solar together, not by fuel, and is not taken: by fuel the hour is the
   finest interval offered, and the 5-minute series would pass the pull's ceiling.
 
@@ -199,11 +201,21 @@ def report_rows(html, day):
     for fuel in ("solar", "wind"):
         for cat in CATS:
             arr = js_array(html, f"curt_hr_tot_{fuel}_{cat}_mwh")
-            if arr is None or len(arr) != hours or any(v is None for v in arr):
+            if arr is None or len(arr) not in (hours, 24) or any(v is None for v in arr):
                 return None
             for i, v in enumerate(arr):
-                if round(v, 6) > 0:
-                    out.append(((start + pd.Timedelta(hours=i)).tz_convert("UTC"), f"curtailed_{fuel}_{cat}_mwh", float(v)))
+                if round(v, 6) <= 0:
+                    continue
+                if len(arr) == hours:
+                    ts = (start + pd.Timedelta(hours=i)).tz_convert("UTC")  # one value for each hour of the day, in order
+                else:
+                    # 24 values on a day of 23 or 25 hours: the report keeps the clock's hours. A value in the clock hour
+                    # that does not exist that day cannot be placed; the hour that happens twice is dated the first
+                    try:
+                        ts = (pd.Timestamp(day) + pd.Timedelta(hours=i)).tz_localize(TZ, ambiguous=True, nonexistent="raise").tz_convert("UTC")
+                    except Exception:  # noqa: BLE001
+                        return None
+                out.append((ts, f"curtailed_{fuel}_{cat}_mwh", float(v)))
             totals[fuel] += sum(arr)
     return out, totals
 
