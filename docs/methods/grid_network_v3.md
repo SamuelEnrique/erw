@@ -83,3 +83,28 @@ that carried power both ways counts by its balance over the period.
   the live page passes nothing of version 3.
 - `site/scripts/check-network-v3.mjs`: each addition in a real browser, and the live page as it was.
 - `site/scripts/test-network.mjs` (session 68), unchanged, still passes on the live page.
+
+## The replay's share of demand (session 109)
+
+A replayed day of `/network/v3` now gives, for the grid chosen, its net imports as a share of its demand that day, and
+each supplier's flow as a share of the same demand.
+
+- **Demand** is `eia930_daily_demand` (`warehouse/connectors/eia930_daily_demand.py`, an approved pull of session 109):
+  EIA's daily demand of every balancing authority, API route `electricity/rto/daily-region-data`, type D, EIA's Eastern
+  day, from 2019-01-01. 190,512 rows for 71 respondents (balancing authorities and EIA's regions) to 2026-10-03, of a
+  ceiling of 300,000. Public domain. EIA's terms (`https://www.eia.gov/about/copyrights_reuse.php`, read 4 October
+  2026): "U.S. government publications are in the public domain and are not subject to copyright protection. You may
+  use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that
+  are on our website".
+- **In the replay's files** a day's demand is its MWh over the hours of that Eastern day (24; 23 or 25 on the two days
+  the clocks change): the day's average MW, the scale the flows are on. So a tie's average MW over the grid's average
+  MW is that supplier's share of the day's demand. 54 of the network's balancing authorities have a demand.
+- **A day's demand is used** when it is above zero and between half and twice the median of the six days around it
+  (three before, three after, those held). 109 days of the history fail that and carry no demand and no share. EIA's
+  daily demand is its own sum of the hours it holds: a day with hours missing at the source can be far off, and that is
+  what the band catches. A day inside the band can still hold one impossible hour (`docs/methods/impossible_hours.md`):
+  PJM's 224,345 MW of 13 July 2020 adds about 4 percent to that day.
+- **What a share is not:** a share of the grid's supply (its own generation is not in the replay), nor a contract. The
+  flows are physical, between neighbours.
+- The live week's shares are as they were: hourly demand of the seven ISOs. The live page `/network` does not draw the
+  replay and is unchanged.

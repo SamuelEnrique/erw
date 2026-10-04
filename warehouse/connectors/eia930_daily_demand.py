@@ -17,12 +17,12 @@ EIA's Eastern day for every balancing authority (x_timezone), as eia930_daily_in
 eia930_daily_total_interchange, so the three share one day boundary. Entity eia930:<BA>; ts_utc the day at 00:00:00Z
 (Decision 11). Nothing is filled: a day EIA does not report is absent, and a row without a number is not written. EIA's
 daily demand is its own sum of the hours it holds, faulty hours included (docs/methods/impossible_hours.md): the
-replay screens a day's demand by its own rule, stated in docs/methods/grid_network.md.
+replay screens a day's demand by its own rule, stated in docs/methods/grid_network_v3.md.
 
 Resumable by calendar month (warehouse/raw/eia930_daily_demand/checkpoints/<YYYY-MM>.csv), every page saved under
 warehouse/raw/eia930_daily_demand/<run_id>/. Before paging, the rows the API reports for the whole span are counted,
 and the pull stops if they pass the ceiling. The key comes from EIA_API_KEY and is removed from every URL, log line and
-row. Method: docs/methods/grid_network.md, "The replay's share of demand".
+row. Method: docs/methods/grid_network_v3.md, "The replay's share of demand".
 """
 
 import datetime as dt
