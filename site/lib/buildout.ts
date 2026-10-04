@@ -174,6 +174,21 @@ export function shown(v: number): string {
   return Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+/** Session 90: MW and MWh are written without decimals. EIA reports a unit to a tenth of a megawatt, and a fleet of
+ * 54,489 MW gains nothing from ".30". A half rounds up, as a reader rounds it and as the rest of the site does
+ * (lib/format.ts count). The value read from the table is unchanged: it is in the number's data-raw. */
+export function whole(v: number): string {
+  return Math.round(v).toLocaleString("en-US");
+}
+/** The variables that are MW or MWh: the fleet's power and energy, their duration buckets, what was added and what is
+ * planned, and solar's MW. Not the two ratios (MWh per MW, and MWh per MW of solar), which are hours and keep their
+ * decimals, nor the counts of units, which are whole already. scripts/check-values.mjs holds the same pattern. */
+export const WHOLE = /^(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|$)/;
+/** A value of the table as the page writes it: MW and MWh whole, everything else as `shown`. */
+export function written(variable: string, v: number): string {
+  return WHOLE.test(variable) ? whole(v) : shown(v);
+}
+
 /** The check key of a row, as scripts/check-values.mjs reads series values: series|<table>|<entity>|<variable>|<ts>. */
 export const checkKey = (r: Row) => `series|${TABLE}|${r.entity}|${r.variable}|${tsOf(monthOf(r.ts_utc))}`;
 

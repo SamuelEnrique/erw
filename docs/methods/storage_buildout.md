@@ -91,6 +91,8 @@ Every month, every entity:
 
 The two ratios are rounded to four decimals and omitted, never written as zero, where their denominator is zero.
 
+On the page (`/storage/buildout`), MW and MWh are written without decimals, a half rounding up, and the two ratios with two (session 90). The table's values are unchanged; each number on the page carries the value as read.
+
 At the inventory month only:
 
 | Variable | Unit | What |

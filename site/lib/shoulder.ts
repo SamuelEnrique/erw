@@ -37,11 +37,35 @@ export function index(rows: Row[]): Map<string, Row> {
   return new Map(rows.filter((r) => !DAILY(r.variable)).map((r) => [`${r.entity}|${r.variable}|${monthOf(r.ts_utc)}`, { ...r, ts_utc: `${monthOf(r.ts_utc)}-01T00:00:00Z` }]));
 }
 
-/** The grid and the month from a query; the month defaults to the newest month held for the grid. */
-export function choices(q: Record<string, string | undefined>, months: Record<string, string[]>) {
+/** Session 90: the figures of a month the page states in its summary sentence and headline numbers. The newest month
+ * usually lacks the fleet (EIA's inventory is published a month or two behind) and with it the hours covered and
+ * needed, so the page opened on a sentence with "not held" in it. Curtailment and battery output are not in the list:
+ * they are held for some grids only, and the page says so in words. */
+export const REQUIRED = [
+  "days_held", "shoulder_hours", "shoulder_start_hour", "shoulder_end_hour", "shoulder_mwh_above_mean", "fleet_mw", "fleet_mwh", "fleet_hours",
+  "shoulder_hours_covered", "shoulder_hours_needed", "midday_surplus_mwh", "midday_surplus_hours", "midday_low_hour",
+  "shoulder2_hours", "shoulder2_start_hour", "shoulder2_end_hour", "shoulder2_mwh_above_midpoint", "shoulder2_hours_needed", "evening_peak_mw", "evening_peak_hour",
+] as const;
+
+/** The months of a grid that hold every figure in REQUIRED, oldest first. */
+export function completeMonths(rows: Row[], grid: Grid): string[] {
+  const need = new Set<string>(REQUIRED);
+  const n = new Map<string, number>();
+  for (const r of rows) if (r.entity === grid.entity && need.has(r.variable)) n.set(monthOf(r.ts_utc), (n.get(monthOf(r.ts_utc)) ?? 0) + 1);
+  return [...n.entries()].filter(([, k]) => k === REQUIRED.length).map(([m]) => m).sort();
+}
+
+/** The month a grid opens on: the latest that holds every figure; the newest held when none does. */
+export function opening(held: string[], complete: string[]): string | null {
+  return complete.at(-1) ?? held.at(-1) ?? null;
+}
+
+/** The grid and the month from a query; with no month named (or one not held) the page opens on the latest month that
+ * holds every figure (session 90; until then the newest month held). A later month is still in the panel. */
+export function choices(q: Record<string, string | undefined>, months: Record<string, string[]>, complete: Record<string, string[]> = {}) {
   const grid = GRIDS.find((g) => g.slug === q.grid) ?? GRIDS[0];
   const held = months[grid.slug] ?? [];
-  const month = q.month && held.includes(q.month) ? q.month : held.at(-1) ?? null;
+  const month = q.month && held.includes(q.month) ? q.month : opening(held, complete[grid.slug] ?? []);
   return { grid, month };
 }
 

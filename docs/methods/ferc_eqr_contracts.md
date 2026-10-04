@@ -66,7 +66,7 @@ And three things the sample did not show:
 
 ## The live set and the page
 
-The live set holds the rows executed in the last 1,000 days (`live_set.yaml`, `event_days: 1000`): 19,009 rows on 2026-10-04. Row-level security hides them from the public key, as it hides every internal table; the page reads them through `internal_eqr_contracts` and `internal_eqr_summary`, which answer only with the internal token. The page is in review and stays behind the internal view while the table is internal.
+The live set holds the rows executed in the last 1,000 days (`live_set.yaml`, `event_days: 1000`): 19,009 rows on 2026-10-04. Row-level security hides them from the public key, as it hides every internal table; the page reads them through `internal_eqr_contracts` and `internal_eqr_summary`, which answer only with the internal token. Since session 90 the summary (the counts by month, product and balancing authority) is computed once by the loader, from the rows it loads, and stored (`load.py` `eqr_summary`, migration 021); the page's function reads that one row. Before that it counted the table on every request, which took 4.8 seconds against the public key's limit of 3, and production cancelled it. The page is in review and stays behind the internal view while the table is internal.
 
 ## License
 

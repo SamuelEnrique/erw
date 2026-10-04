@@ -10,7 +10,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { BUCKETS, GRIDS, OUTSIDE, checkKey, choices, direction, index, monthName, monthsNeeded, shown, tsOf, view, yearBefore } from "../lib/buildout.ts";
+import { BUCKETS, GRIDS, OUTSIDE, WHOLE, checkKey, choices, direction, index, monthName, monthsNeeded, shown, tsOf, view, whole, written, yearBefore } from "../lib/buildout.ts";
 import { fixtureRows } from "./buildout-stub.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -30,6 +30,16 @@ check(yearBefore("2026-08") === "2025-08" && tsOf("2026-08") === "2026-08-01T00:
 check(choices({}).grid.slug === "us" && choices({}).measure === "mw" && choices({ grid: "nope", measure: "x" }).grid.slug === "us"
   && choices({ grid: "ercot", measure: "mwh" }).grid.entity === "iso:ercot" && choices({ grid: "ercot", measure: "mwh" }).measure === "mwh", "choices: defaults, wrong values, a named grid");
 check(shown(18204.5) === "18,204.50" && shown(1137) === "1,137" && shown(2.7609) === "2.76", "numbers are written whole or with 2 decimals");
+// session 90: MW and MWh are written without decimals, a half rounding up; the two ratios and the counts are not touched
+check(whole(18204.5) === "18,205" && whole(54489.3) === "54,489" && whole(0.4) === "0" && whole(1137) === "1,137", "MW and MWh are written whole, a half up");
+check(written("battery_operating_mw", 18204.5) === "18,205" && written("battery_operating_mwh_4to6h", 99.96) === "100" && written("battery_operating_mw_net_added_12m", 17689.2) === "17,689"
+  && written("battery_planned_mw_online_2027", 10.5) === "11" && written("solar_operating_mw", 3.2) === "3" && written("battery_operating_mw_energy_not_reported", 7.7) === "8", "every MW and MWh variable is written whole");
+check(written("battery_operating_mwh_per_mw", 1.6532) === "1.65" && written("battery_mwh_per_solar_mw", 0.4567) === "0.46" && written("battery_operating_units", 812) === "812", "the ratios keep two decimals; counts are whole already");
+{
+  const vars = [...new Set(fixtureRows().map((r) => r.variable))];
+  const units = new Map(fixtureRows().map((r) => [r.variable, r.unit]));
+  check(vars.every((v) => !units.get(v) || WHOLE.test(v) === (units.get(v) === "MW" || units.get(v) === "MWh")), `the whole-number variables are exactly the table's MW and MWh variables (${vars.filter((v) => units.get(v) && WHOLE.test(v) !== (units.get(v) === "MW" || units.get(v) === "MWh")).join()})`);
+}
 check(direction(2, 1) === "up from" && direction(1, 2) === "down from" && direction(1, 1) === "unchanged from", "direction");
 check(view([], GRIDS[0], "mw") === null, "no rows, no view");
 
@@ -60,7 +70,8 @@ for (const grid of GRIDS) {
     for (const g of v.table) check(near(g.plannedByYear.reduce((a, p) => a + p.row.value, 0), g.planned.value), `${tag}: ${g.slug} planned by year sums to planned`);
     for (const [i, p] of us.plannedByYear.entries()) check(near(parts.reduce((a, g) => a + g.plannedByYear[i].row.value, 0), p.row.value), `${tag}: planned ${p.year} sums over grids`);
     // the summary sentence, as the page writes it
-    const s = `${grid.name} has ${shown(v.mw.value)} MW of batteries holding ${shown(v.mwh.value)} MWh, an average of ${shown(v.hours.value)} hours, ${direction(v.mw.value, v.mwBefore.value)} ${shown(v.mwBefore.value)} MW a year ago.`;
+    const s = `${grid.name} has ${whole(v.mw.value)} MW of batteries holding ${whole(v.mwh.value)} MWh, an average of ${shown(v.hours.value)} hours, ${direction(v.mw.value, v.mwBefore.value)} ${whole(v.mwBefore.value)} MW a year ago.`;
+    check(!/\d\.\d+ MWh? /.test(s.replace(/an average of [\d.]+ hours/, "")), `${tag}: no decimal in the sentence's MW or MWh`);
     const words = s.split(/\s+/).length;
     check(words >= 20 && words <= 30, `${tag}: the summary sentence is about 25 words (${words})`);
     if (measure === "mw") console.log(`  ${s}`);

@@ -57,6 +57,9 @@ jobs:
           fi
           (npx next start -p 3049 > /tmp/next.log 2>&1 &)
           for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:3049/ && break; sleep 2; done
+          # session 90: every live page is asked once before anything is checked, so the check, and the deploy that
+          # follows the merge, find the database's tables warm (a cold first read blanked a home tile on three deploys)
+          node scripts/warm-live.mjs http://localhost:3049
           node scripts/check-routes.mjs http://localhost:3049
           # session 88: a real browser types into /battery/customer; the step fails if the page makes one request
           node scripts/check-no-request.mjs http://localhost:3049

@@ -706,7 +706,8 @@ async function main() {
     // sums of floats may differ in the last bits with the order of addition: relative tolerance
     const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
     // session 16: MW sums are written as whole MW (lib/format.ts count)
-    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw))/.test(check);
+    // session 90: /storage/buildout writes its MW and MWh whole too (lib/buildout.ts WHOLE; the ratios keep two decimals)
+    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw))|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
     // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
     // "16:00" passed the rule below by accident, "09:00" could not
     const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);

@@ -15,12 +15,16 @@ import { inputsKey, inputsOf, stat, type Snapshot } from "@/lib/merchant";
 import rules from "@/data/bill_rules.json";
 import { count, day, node, price, shown, utc } from "@/lib/format";
 import { DOCS, render, topItems, digestTitle } from "@/lib/markdown";
-import { HOURLY, attempt, rest } from "@/lib/supabase";
+import { HOURLY, required, rest } from "@/lib/supabase";
 import { statusOf } from "@/lib/release";
 import markets from "@/data/markets.json";
 
 // the latest-price board refreshes every 15 minutes; the rest of the page reads hourly data
 export const revalidate = 900;
+// Session 90: this page is never cached with a failed read in it. Every read below goes through lib/supabase.ts's
+// `required`, not `attempt`: a read that fails throws, the render is thrown away, and the last good
+// page stays until a later render reads everything. "no data" and "not held" below are for what the tables do not
+// hold (a grid with no row, a snapshot file not built), and for a server with no database named.
 
 function StatusStrip({ cat }: { cat: CatalogueRow[] }) {
   const rows = cat.reduce((a, r) => a + (r.n_rows ?? 0), 0);
@@ -52,12 +56,12 @@ function StatusStrip({ cat }: { cat: CatalogueRow[] }) {
 }
 
 async function PriceBoard() {
-  const latest = await attempt(latestPrices);
+  const latest = await required(latestPrices);
   const since = daysAgo(7);
   const cards = await Promise.all(
     MARKETS.map(async (m) => {
       const src = m.rt ?? m.da;
-      const spark = await attempt(() => series(src.table, { entity: m.main, variable: src.variable, since }));
+      const spark = await required(() => series(src.table, { entity: m.main, variable: src.variable, since }));
       return { m, src, spark };
     }),
   );
@@ -117,7 +121,7 @@ async function PriceBoard() {
 
 async function Fuels() {
   const f = markets.fuels;
-  const rows = await Promise.all(f.entities.map(async (e) => ({ e, r: await attempt(() => newest(f.table, e.entity, f.variable)) })));
+  const rows = await Promise.all(f.entities.map(async (e) => ({ e, r: await required(() => newest(f.table, e.entity, f.variable)) })));
   return (
     <>
       <div className="grid gap-px border border-rule bg-rule sm:grid-cols-3">
@@ -200,14 +204,14 @@ function Audience({ title, line, cards }: { title: string; line: string; cards: 
 /** The cards' live numbers, each read here and checked by scripts/check-values.mjs under its key. */
 async function liveNumbers() {
   const [ercotDemand, wti, fleet, uri, cop, deal, dc, cat] = await Promise.all([
-    attempt(() => newest("eia930_all_demand", "eia930:ERCO", "demand_mw")),
-    attempt(() => newest("eia_fuel_spot_prices", "eia:wti_cushing", "spot_price")),
-    attempt(storageUnits),
-    attempt(() => series("event_window_daily", { event: "uri_2021", entity: "ercot:HB_HUBAVG", variable: "rt_max" })),
-    attempt(() => series("cost_of_power_monthly", { entity: "ercot:HB_HUBAVG" })),
-    attempt(deals),
-    attempt(datacenters),
-    attempt(catalogue),
+    required(() => newest("eia930_all_demand", "eia930:ERCO", "demand_mw")),
+    required(() => newest("eia_fuel_spot_prices", "eia:wti_cushing", "spot_price")),
+    required(storageUnits),
+    required(() => series("event_window_daily", { event: "uri_2021", entity: "ercot:HB_HUBAVG", variable: "rt_max" })),
+    required(() => series("cost_of_power_monthly", { entity: "ercot:HB_HUBAVG" })),
+    required(deals),
+    required(datacenters),
+    required(catalogue),
   ]);
   const out: Record<string, ReactNode> = {};
   if (ercotDemand.ok && ercotDemand.data) {
@@ -283,7 +287,7 @@ async function liveNumbers() {
     out.us = <Num check="storage|mw|operating" raw={mw}>{shown(mw)}</Num>;
   }
   const bx = BS.inputsOf({});
-  const stack = await attempt(() => rest<BS.Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${BS.TABLE}`, entity: `eq.${BS.gridOf(bx.grid).entity}`,
+  const stack = await required(() => rest<BS.Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${BS.TABLE}`, entity: `eq.${BS.gridOf(bx.grid).entity}`,
     variable: `like.${bx.strat}_${bx.dur}h_*`, order: "variable,ts_utc" }, HOURLY));
   if (stack.ok) {
     const v = BS.stat(stack.data, [], bx, "l12_kw:total");
@@ -333,7 +337,7 @@ function InReview({ tools }: { tools: { href: string; name: string }[] }) {
 const shown2 = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default async function Home() {
-  const cat = await attempt(catalogue);
+  const cat = await required(catalogue);
   const L = await liveNumbers();
   const num = (k: string) => ({ num: L[k], numLabel: L[`${k}Label`] as string | undefined });
   const students: Card[] = [
