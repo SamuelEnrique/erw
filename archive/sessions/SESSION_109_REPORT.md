@@ -29,7 +29,7 @@
 
 `warehouse/derived/network_daily.py` now puts each balancing authority's demand in each year's file, as the day's MWh over the hours of that Eastern day (24; 23 or 25 on the two days the clocks change): the day's average MW, the scale the flows are on. All eight years were rebuilt (`site/public/network/daily_2019.json` to `daily_2026.json`, and the index). 54 of the network's balancing authorities have a demand; 52 in every year to 2025.
 
-On the page, for a replayed day and a chosen grid: "Net imports this day: 888 MW on average, 1.77 percent of its 50,152 MW demand", and in the list of who supplies it, each neighbour's flow with its percent of demand. A day whose demand is not used says "its demand for this day is not held" and gives no share. The live week is as it was (hourly demand of the seven ISOs).
+On the page, for a replayed day and a chosen grid: "Net imports this day: 886 MW on average, 1.77 percent of its 50,152 MW demand", and in the list of who supplies it, each neighbour's flow with its percent of demand. A day whose demand is not used says "its demand for this day is not held" and gives no share. The live week is as it was (hourly demand of the seven ISOs).
 
 ## Every control of `/network/v3`, in a browser
 
