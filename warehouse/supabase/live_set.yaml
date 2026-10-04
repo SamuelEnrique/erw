@@ -138,6 +138,8 @@ catalogue_hold:
   - spp_as_prices
   # session 86: the battery model on NYISO and SPP, in review; the page reads site/data/battery_stack_review.json
   - battery_stack_review_monthly
+  # session 87: battery storage by reporting company; the review page reads site/data/storage_owners.json
+  - storage_owners_monthly
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv
