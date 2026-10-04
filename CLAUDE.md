@@ -83,4 +83,5 @@ The full rules live in **[`docs/datastandard.md`](docs/datastandard.md)**, which
 - Connectors are self-contained. Do not introduce shared dependencies between connectors until two of them need the same code.
 - Connectors write CSV only, with a `#` comment header naming the source report, source URL and retrieval timestamp.
 - Credentials live outside the repository and are read from the environment. Never commit a key.
+- A publisher in `warehouse/metadata/paused_sources.csv` is never requested (session 89). Every connector that reaches a publisher's servers asks `iso_prices.paused()` first. MISO is paused since 4 October 2026: its terms forbid automated access, pending a review ([`docs/methods/miso_pause.md`](docs/methods/miso_pause.md)). Its tables and pages stay as they are; only a person lifts a pause.
 - When a decision has to be made without a human, make a reasonable one, write it down in the session report, and continue.

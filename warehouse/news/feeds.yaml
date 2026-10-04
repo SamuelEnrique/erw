@@ -178,11 +178,6 @@ feeds:
     sector: power
     region: us
     via: google_news_site
-  - name: "MISO newsroom"
-    url: "https://news.google.com/rss/search?q=site%3Amisoenergy.org+when%3A7d&hl=en-US&gl=US&ceid=US:en"
-    sector: power
-    region: us
-    via: google_news_site
   - name: "SPP newsroom"
     url: "https://news.google.com/rss/search?q=site%3Aspp.org+when%3A7d&hl=en-US&gl=US&ceid=US:en"
     sector: power
@@ -233,3 +228,14 @@ feeds:
     sector: general
     region: global
     via: google_news_catchall
+
+# Session 89 (Samuel's ruling of 4 October 2026): feeds of a paused publisher. Not read by ingest.py (it reads the
+# list "feeds" above). MISO's terms forbid automated access, and resolving a story's link opens the story on MISO's own
+# site, so the feed is out of the run pending a review (warehouse/metadata/paused_sources.csv,
+# docs/methods/miso_pause.md). The stories already held stay. To bring it back, move the entry up into "feeds".
+paused_feeds:
+  - name: "MISO newsroom"
+    url: "https://news.google.com/rss/search?q=site%3Amisoenergy.org+when%3A7d&hl=en-US&gl=US&ceid=US:en"
+    sector: power
+    region: us
+    via: google_news_site

@@ -42,6 +42,10 @@ also says: "You agree not use any automated means, including, without limitation
 spiders, to access, monitor, or copy any part of this Website or the App." The ERW has read MISO's market report
 files by script every day since session 5 (iso_prices.py); session 85 quotes the sentence so that a person can
 rule on it, and keeps this pull to one small file a day.
+
+PAUSED (Samuel's ruling of 4 October 2026, the close of session 89): every MISO pull is paused because of that
+sentence, pending a review. This connector asks iso_prices.paused("miso") before anything else and makes no request
+while warehouse/metadata/paused_sources.csv holds MISO's row. The table of session 85 stays as it is.
 """
 
 import io

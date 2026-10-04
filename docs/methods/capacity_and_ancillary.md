@@ -1,5 +1,7 @@
 # Method: capacity prices and ancillary service prices
 
+> **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's Planning Resource Auction results and its reserve prices (`miso_as_prices`) are not pulled again. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
+
 Energy Research Warehouse (ERW), session 65. Tables: `iso_all_capacity_prices` (series, internal), `ercot_as_prices` and `caiso_as_prices` (series, hourly, public). Code: `warehouse/connectors/iso_capacity_prices.py`, `ercot_as_prices.py`, `caiso_as_prices.py`. No page reads them yet: a later session wires them into the seller tab and the regional comparison.
 
 **Why.** A hub's energy price is not the whole wholesale price of power. ERCOT pays for capacity through its energy price (scarcity pricing in an energy-only market). PJM, NYISO, ISO-NE and MISO pay for capacity apart, in auctions. Comparing regions on energy alone therefore flatters the markets with a capacity auction. A plant or battery also earns from ancillary services, which the merchant revenue tables leave out. These three tables hold the published prices; nothing in them is converted, estimated or filled.

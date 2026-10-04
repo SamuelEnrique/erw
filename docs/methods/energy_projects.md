@@ -1,5 +1,7 @@
 # Method: energy projects for the project map
 
+> **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's interconnection queue stays as of its last weekly pull. What is held stays as it is. [`miso_pause.md`](miso_pause.md)
+
 Energy Research Warehouse (ERW), session 16. Table: `energy_projects` (entities shape, derived, public). Code: `warehouse/derived/energy_projects.py`. The map that reads it: the site's `/map` (platform tool 3).
 
 ## What it is

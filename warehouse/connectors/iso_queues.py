@@ -215,6 +215,11 @@ def main(argv=None):
     todo = args.isos or [i for i in ISOS if i != "pjm"] + ["pjm"]
     for iso in todo:
         cfg, name = ISOS[iso], f"{iso}_interconnection_queue"
+        if ip.paused(iso):  # session 89: no request; the queue table stays as it is
+            log(f"{name}: {ip.pause_line(iso)}")
+            print(f"iso_queues {iso} {ip.pause_line(iso)}")
+            results.append(dict(table=name, market="queue", status="skipped", detail=ip.pause_line(iso)[:300]))
+            continue
         try:
             if iso == "pjm":
                 key = ip.load_key("PJM_API_KEY", log)

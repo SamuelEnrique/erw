@@ -1,5 +1,7 @@
 # ERW Price Board: Data Source Map
 
+> **MISO is paused (4 October 2026).** MISO's terms forbid automated access to its site, so every pull of MISO's own servers is paused pending a review; MISO's hub prices, queue, auction results and reserve prices are not pulled. What is held stays as it is. [`miso_pause.md`](methods/miso_pause.md)
+
 Compiled 2026-09-25. Every URL below was opened during this research, on that date, unless it is marked "not opened" or "unconfirmed". Anything we could not see on an opened page is written as "unconfirmed".
 
 ## Read this first
