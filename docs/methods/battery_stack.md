@@ -169,6 +169,34 @@ CAISO's tariff, Section 8 as of 1 May 2026 (https://www.caiso.com/documents/sect
 
 Run both ways on the same days (`warehouse/analysis/battery_caiso_rules.py`), the verified rules move CAISO's yearly totals by at most USD 0.2 per kW (4 hours, perfect foresight, 2025: 91.6 assumed, 91.7 verified). Session 76 applied them (Samuel's ruling): `battery_stack.py` and the page's requirement rows cite the two sections, `battery_stack_monthly` was rebuilt, and ERCOT's rows did not change (`archive/sessions/SESSION_76_REPORT.md` has every headline number before and after).
 
+## The grids in review: NYISO and SPP (session 86)
+
+The model is extended to each grid whose energy and reserve prices are both public. After session 85 that is two more: **NYISO** and **SPP**. They are built and **in review**: written to a table of their own, `battery_stack_review_monthly`, so that `battery_stack_monthly` and every number on the live page stay exactly as they were. On the live page a visitor sees the two grids greyed, as before; with the internal cookie they open, read from `site/data/battery_stack_review.json` (the table's rows, written by the builder; a test checks the file is the table). The table is public and is held out of the live set (`live_set.yaml`, `catalogue_hold`) until a person releases it.
+
+    python warehouse/derived/battery_stack.py --review-only --snapshot
+
+| Grid | Energy price | Reserve prices | Products modeled | Left out |
+|---|---|---|---|---|
+| NYISO | the N.Y.C. zone (`nyiso_rtm_zone_prices`, `nyiso_dam_zone_prices`, `iso_hub_prices_history`) | `nyiso_as_prices`: the N.Y.C. zone, and NYCA for regulation | Regulation Capacity (`reg`, up and down together); 10-Minute Spinning Reserve (`spin`) | 10-Minute Non-Synchronous Reserve and 30-Minute Operating Reserve: a battery that can hold spinning reserve is paid at least as much for it. Checked in every hour held: priced above spinning reserve in 0 of 18,336 hours, each |
+| SPP | SPPNORTH_HUB (`iso_rtm_hub_prices`, `iso_dam_hub_prices`, `iso_hub_prices_history`) | `spp_as_prices`: the row named SPP | Regulation Up (`regup`), Regulation Down (`regdn`), Spinning Reserve (`spin`), Supplemental Reserve (`supp`) | The ramp capability and uncertainty products (RampUP, RampDN, UncUP): what a battery must hold behind them was not read, and adding a paid product on an assumption would only raise the result |
+
+**A two-way product.** New York buys regulation as one capacity product: an award must be able to move up and down. In the daily program such an award counts against the battery's power on both sides (discharge plus upward awards within rated power, and charge plus downward awards within rated power) and needs both stored energy and room behind it. ERCOT's, California's and SPP's products are one-way, and their programs are unchanged.
+
+**Required durations: assumed, not cited.** The rule of session 67 holds: a requirement that could not be checked against the market operator's own document is one hour and is labeled assumed.
+
+| Grid | Products | Hours | Why assumed |
+|---|---|---|---|
+| NYISO | Regulation Capacity, 10-Minute Spinning Reserve | 1 | NYISO's Ancillary Services Manual (Manual 2, issued September 2026, `https://www.nyiso.com/documents/20142/2923301/ancserv.pdf`) was read in full and states no time a regulation or reserve supplier must sustain its award. The requirement is in NYISO's tariff, which was not read |
+| SPP | Regulation Up, Regulation Down, Spinning Reserve, Supplemental Reserve | 1 | SPP's current Integrated Marketplace protocols were not found at an address this machine could read. The copies found (versions 38a and 46a) date from before storage resources had rules of their own |
+
+A shorter requirement would raise the results and a longer one lower them, most of all for the 2-hour battery.
+
+**Not built: ISO-NE and MISO.** Their reserve prices (`isone_as_prices`, `miso_as_prices`) are internal: the operators' terms forbid republishing. A result built on them would be internal too (Decision 23), so none is built, and the page shows "held, not shown: license needed". PJM's reserve prices are not held.
+
+**What was solved.** NYISO: 764 days with the day-ahead schedule, none left out; 730 days with perfect foresight, 32 left out because an hour of the real-time price is not held. SPP: 762 days each; one day left out of the day-ahead schedule (2026-06-04, no day-ahead energy price held). A month counts on the page when at least 90 percent of its days are held, as for the live grids.
+
+**The same limits, and one more.** Everything under "What the model cannot see" applies. For these two grids the revenue leans on one product: over the last twelve months regulation is more than half of the 4-hour battery's total in both, under either strategy. The first limit applies with more force here: ancillary markets are small next to the energy market, and a fleet of batteries pushes those prices down. Read these numbers as what the posted prices offered one small battery, not as what a fleet would earn.
+
 ## The daily run
 
 `warehouse/run_daily.sh` refreshes `ercot_as_prices` and `caiso_as_prices` (CAISO: the last days, merged into the table restored from the Redivis draft) and then runs the builder, each under `warehouse/health.py`. `iso_capacity_prices.py` runs on the first day of each month. On the GitHub runner the ERCOT price history is not present, so the builder recomputes the months the rolling price tables reach and keeps every earlier month from its own table, restored from the draft: a month is never replaced by one resting on fewer days. A row whose value did not change keeps its `retrieved_at`.

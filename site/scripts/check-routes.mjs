@@ -54,6 +54,8 @@ const PAGES = [
   "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/data/methods/storage_buildout",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75
   "/contracts", "/contracts?product=capacity",  // session 83
+  // session 86: the grids in review on the live battery page (open in the internal view; a visitor gets ERCOT)
+  "/cost-of-power/battery?grid=nyiso&dur=4&strat=dayahead", "/cost-of-power/battery?grid=spp&dur=2&strat=foresight",
   "/play/battery", "/play/battery?more=1",  // session 63: the simple page and the full game
   "/tour",  // session 53: the guided tour
   "/data/methods/battery_game",  // session 50
