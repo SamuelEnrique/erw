@@ -5,7 +5,7 @@
 # Method: docs/methods/datacenter_facilities.md. License: public (the ISOs' queue reports).
 # File holds 3 rows, one snapshot; the previous file held 11 rows. Per row, source, source_url and retrieved_at say where it came from.
 entity_id,entity_type,name,geo,lat,lon,capacity_mw,status,status_date,operator,source,source_url,retrieved_at,vintage,queue_id,county,state,poi,zone,transmission_owner,fuel_technology,iso_status,queue_date,proposed_in_service_date,actual_in_service_date,withdrawn_date,matched
-ercot_queue:25INR0688,project,Giga Texas Data Center,US-TX,,,133.0,completed,,"Giga Texas Energy, LLC",ercot:interconnection_queue,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1269363208,2026-09-30T23:32:29Z,2026-09-30,25INR0688,Travis,TX,"HORNSBY Substation POIB# 7047 
+ercot_queue:25INR0688,project,Giga Texas Data Center,US-TX,,,133.0,completed,,"Giga Texas Energy, LLC",ercot:interconnection_queue,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1281327706,2026-10-05T14:39:16Z,2026-10-05,25INR0688,Travis,TX,"HORNSBY Substation POIB# 7047 
 
 Site will be connected behind the meter at Medium Voltage  24.9 kV with non export controls
 
@@ -14,5 +14,5 @@ GSU TRANSFORMER
 345kV DELTA PRIMARY
 24.9kV WYE-G SECONDARY
 Z=XX%, 65DEG C RISE",,,Other - Battery Energy Storage,Completed,2024-08-27,2025-12-15,,,Data Center
-ercot_queue:28INR0499,project,Alpha Digital Campus Combined-cycle and Co-located Load,US-TX,,,58.26,active,,PowerBridge LLC,ercot:interconnection_queue,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1269363208,2026-09-30T23:32:29Z,2026-09-30,28INR0499,Reeves,TX,38044 TNCOWPEN__3 345kV,,,Gas - Combined-Cycle,Active,2026-04-28,2027-12-31,,,Digital Campus
+ercot_queue:28INR0499,project,Alpha Digital Campus Combined-cycle and Co-located Load,US-TX,,,58.26,active,,PowerBridge LLC,ercot:interconnection_queue,https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1281327706,2026-10-05T14:39:16Z,2026-10-05,28INR0499,Reeves,TX,38044 TNCOWPEN__3 345kV,,,Gas - Combined-Cycle,Active,2026-04-28,2027-12-31,,,Digital Campus
 nyiso_queue:1630,project,Suffern Quarry Data Center,US-NY,,,0.0,withdrawn,2023-12-31,Orange & Rockland,nyiso:interconnection_queue,https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx,2026-09-26T00:06:50Z,2026-09-26,1630,Rockland,NY,"We anticipate a new substation being built on our site off of a transmission line tower that abuts our property. Additionally, we may need to tie in for redundancy to the Hillburn Area Substation",G,O&R,,Withdrawn,2023-11-03,,,2023-12-31,Data Center

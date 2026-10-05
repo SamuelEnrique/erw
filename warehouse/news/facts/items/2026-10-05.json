@@ -1,0 +1,21 @@
+{
+ "date": "2026-10-05",
+ "fact_id": "ff_8ed9b3c2ae",
+ "kind": "warehouse",
+ "fact": "ERCOT's real-time price at HB_HOUSTON reached 9160.85 USD/MWh in a 15-minute interval in 2021, the highest of any year since 2015; the year with the most negative-price intervals there was 2024, with 742.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "part": "fact",
+   "label": "ERW table ercot_peak_premium_annual",
+   "table": "ercot_peak_premium_annual",
+   "publisher": "Energy Research Warehouse (ERW), derived",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/premium_hb_houston_20260928T082936Z.txt",
+   "span": "ercot_peak_premium_annual ercot:HB_HOUSTON: years 2015 to 2026; highest all_max 9160.85 USD/MWh in 2021; most negative 15-minute intervals 742 in 2024",
+   "retrieved_at": "20260928T082936Z"
+  }
+ ]
+}
