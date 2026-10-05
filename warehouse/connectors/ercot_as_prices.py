@@ -18,7 +18,11 @@ table, warehouse/output/ercot_as_prices.csv:
 Sources, both on ERCOT's public reports site, the route iso_prices.py already uses for ERCOT's price history:
 
   NP4-181-ER  Historical DAM Clearing Prices for Capacity: one zip per operating year, a CSV with a row per
-              delivery hour and a column per service. The current year's file is republished weekly.
+              delivery hour and a column per service. The current year's file is republished weekly. From
+              4 October 2026 the current year's zip holds one Excel workbook in place of the CSV (session 113):
+              the same columns in the same order, under a logo and a title, each price a number to the cent.
+              parse_year reads either form, and a zip that holds neither, or both, is an error. The zips of 2018
+              to 2025 each held a CSV on 5 October 2026.
   NP4-188-CD  DAM Clearing Prices for Capacity: one zip per day-ahead market run, for the days after the newest
               yearly file ends.
 
@@ -46,6 +50,7 @@ import sys
 import traceback
 import zipfile
 
+import openpyxl
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -84,17 +89,60 @@ def to_utc(dates, hour_ending, repeated):
     return local.dt.tz_localize(TZ, ambiguous=(flag == "N").values, nonexistent="raise").dt.tz_convert("UTC")
 
 
+YEAR_HEAD = ["Delivery Date", "Hour Ending", "Repeated Hour Flag"]
+
+
+def year_workbook(data):
+    """The yearly file as ERCOT posts it since 4 October 2026: one Excel workbook, one sheet, the header row under a
+    logo and a title. Returned as the CSV reads, every cell text, so both forms pass the same checks. A price is the
+    number the workbook stores, written by repr (the shortest text that reads back as the same number): nothing is
+    rounded. An empty cell is "", as in the CSV."""
+    wb = openpyxl.load_workbook(io.BytesIO(data), read_only=True, data_only=True)
+    if len(wb.worksheets) != 1:
+        raise RuntimeError(f"NP4-181-ER workbook holds sheets {wb.sheetnames}, expected one")
+    rows = [r for r in wb.worksheets[0].iter_rows(values_only=True)]
+    heads = [i for i, r in enumerate(rows) if [str(c).strip() for c in r[:3] if c is not None] == YEAR_HEAD]
+    if len(heads) != 1:
+        raise RuntimeError(f"NP4-181-ER workbook: {len(heads)} header rows, expected one: layout changed")
+    head = rows[heads[0]]
+    if any(c is None or not str(c).strip() for c in head):
+        raise RuntimeError(f"NP4-181-ER workbook header {list(head)}: a column without a name")
+    body = [r for r in rows[heads[0] + 1:] if any(c is not None for c in r)]  # a wholly empty row is no hour
+    cells = []
+    for r in body:
+        if not all(isinstance(c, str) for c in r[:3]):
+            raise RuntimeError(f"NP4-181-ER workbook row {list(r)}: delivery date, hour ending or flag is not text")
+        prices = []
+        for c in r[3:]:
+            if c is None:
+                prices.append("")
+            elif isinstance(c, (int, float)) and not isinstance(c, bool):
+                prices.append(repr(c))
+            else:
+                raise RuntimeError(f"NP4-181-ER workbook row {list(r)}: a price that is not a number")
+        cells.append(list(r[:3]) + prices)
+    return pd.DataFrame(cells, columns=[str(c) for c in head], dtype=str)
+
+
 def parse_year(raw):
-    """A yearly NP4-181-ER zip: long rows (service, ts, value, day). Empty cells are omitted, never filled."""
+    """A yearly NP4-181-ER zip, in either form ERCOT has posted (one CSV, or since 4 October 2026 one Excel
+    workbook): long rows (service, ts, value, day). Empty cells are omitted, never filled."""
     z = zipfile.ZipFile(io.BytesIO(raw))
-    names = [n for n in z.namelist() if n.lower().endswith(".csv")]
-    if len(names) != 1:
-        raise RuntimeError(f"NP4-181-ER zip holds {z.namelist()}, expected one CSV")
-    x = pd.read_csv(z.open(names[0]), dtype=str, keep_default_na=False)
+    csvs = [n for n in z.namelist() if n.lower().endswith(".csv")]
+    books = [n for n in z.namelist() if n.lower().endswith(".xlsx")]
+    if len(csvs) == 1 and not books:
+        x = pd.read_csv(z.open(csvs[0]), dtype=str, keep_default_na=False)
+    elif len(books) == 1 and not csvs:
+        x = year_workbook(z.read(books[0]))
+    else:
+        raise RuntimeError(f"NP4-181-ER zip holds {z.namelist()}, expected one CSV or one Excel workbook")
     x.columns = [c.strip() for c in x.columns]
-    need = ["Delivery Date", "Hour Ending", "Repeated Hour Flag"]
-    if list(x.columns[:3]) != need or not set(x.columns[3:]) <= set(SERVICES) or "REGUP" not in x.columns:
+    need = YEAR_HEAD
+    if (list(x.columns[:3]) != need or not set(x.columns[3:]) <= set(SERVICES) or "REGUP" not in x.columns
+            or x.columns.duplicated().any()):
         raise RuntimeError(f"NP4-181-ER columns {list(x.columns)}: layout changed")
+    if x.empty:
+        raise RuntimeError("NP4-181-ER file holds no hour")
     ts = to_utc(x["Delivery Date"], x["Hour Ending"], x["Repeated Hour Flag"])
     out = []
     for s in x.columns[3:]:

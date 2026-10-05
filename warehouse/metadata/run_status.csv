@@ -2947,3 +2947,6 @@ run_id,runner,connector,table,market,status,detail
 20261004T152700Z,github,supabase_vacuum,series,all,ok,421.5 MB -> 349.5 MB
 20261004T152700Z,github,supabase_vacuum,sources,all,ok,0.2 MB -> 0.1 MB
 20261004T152700Z,github,supabase_vacuum,supabase,all,ok,pg_database_size 514.3 MB -> 437.4 MB
+20261005T010011Z,local,ercot_as_prices,ercot_as_prices,DAM,ok,336332 rows of 500000
+20261005T010314Z,local,battery_stack,battery_stack_monthly,derived,ok,10542 rows
+20261005T010314Z,local,battery_stack,battery_stack_stress_daily,derived,ok,1260 rows
