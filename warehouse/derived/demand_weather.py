@@ -94,7 +94,7 @@ PLAIN = ("one", "hd", "cd")       # the comparison: the same 48 lines with heati
 
 def read_weather(path):
     """{BA: frame by UTC hour with temperature_f, dew_point_f, heating_degrees_f, cooling_degrees_f} from the table."""
-    w = pd.read_csv(path, comment="#", usecols=["variable", "ts_utc", "value", "ba"], dtype={"variable": str, "ts_utc": str, "ba": str})
+    w = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["variable", "ts_utc", "value", "ba"], dtype={"variable": str, "ts_utc": str, "ba": str})
     out = {}
     for ba, g in w.groupby("ba"):
         p = g.pivot(index="ts_utc", columns="variable", values="value")

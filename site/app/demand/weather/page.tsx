@@ -23,11 +23,12 @@ function Explained({ year, fig }: { year: string; fig: (typeof FIGURES)[number] 
   const rows = ORDER.map((ba) => ({ ba, name: file.grids[ba].name, g: figureOf(file, ba, year, fig.key) }));
   const W = 760, L = 78, R = 64, top = 26, rh = 50, H = top + rows.length * rh + 8;
   const ends = rows.flatMap((r) => (r.g ? [r.g.weather_pct, r.g.unexplained_pct - (r.g.uncertainty_pct ?? 0), r.g.unexplained_pct + (r.g.uncertainty_pct ?? 0)] : []));
-  const lo = Math.min(0, ...ends) * 1.08, hi = Math.max(0, ...ends) * 1.08 || 1;
+  const low = Math.min(0, ...ends), high = Math.max(0, ...ends) || 1;
+  const lo = low - (low < 0 ? 0.09 : 0.01) * (high - low), hi = high + 0.04 * (high - low);   // room for the labels of bars that point left
   const x = (v: number) => L + ((v - lo) / (hi - lo)) * (W - L - R);
   const step = [1, 2, 5, 10, 20].find((s) => (hi - lo) / s <= 9) ?? 20;
   const ticks: number[] = [];
-  for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) ticks.push(t);
+  for (let t = Math.ceil(low / step) * step; t <= hi; t += step) ticks.push(t);
   const bar = (v: number, y: number, fill: string, label: string) => (
     <rect x={Math.min(x(0), x(v))} y={y} width={Math.max(1, Math.abs(x(v) - x(0)))} height={14} fill={fill}><title>{label}</title></rect>
   );
@@ -112,16 +113,16 @@ export default async function DemandWeather({ searchParams }: { searchParams: Pr
           </ToolSection>
 
           <ToolSection title="By grid and year" id="table" note={<>Percent of the mean of {t0} to {t1}. Growth is the sum of the two columns after it. A remainder is called a finding only when it is larger than its uncertainty. A peak is one hour, so its uncertainty is never less than the fit&apos;s error on a single hour.</>}>
-            <ToolTable minWidth={860} caption={`${figure.name}: growth, the part the temperature explains and the part it does not, by grid and year`}
-              head={["Grid", "Year", "Metered, MW", "Growth", "Explained by the temperature", "Not explained", "Give or take", "Reading"]}
+            <ToolTable minWidth={640} caption={`${figure.name}: growth, the part the temperature explains and the part it does not, by grid and year`}
+              head={["Grid", "Year", "Metered, MW", "Growth", "Temperature", "Not explained", "Give or take", "Finding"]}
               rows={ORDER.flatMap((ba) => ys.map((y) => {
                 const g = figureOf(file, ba, y, figure.key), k = `t|${ba}|${y}`;
                 return { key: k, highlight: y === year, muted: !g, cells: g
-                  ? [file.grids[ba].name, partial(ba, y) && g.window !== "the season" ? `${y}, ${g.window.replace("1 January to ", "to ")}` : y, <N key="a" k={`${k}|mw`}>{whole(g.actual)}</N>, <N key="g" k={`${k}|g`}>{signed(g.growth_pct)}</N>, <N key="w" k={`${k}|w`}>{signed(g.weather_pct)}</N>,
-                    <N key="u" k={`${k}|u`}>{signed(g.unexplained_pct)}</N>, pm(g, `${k}|pm`), <span key="r" data-reading={g.finding ? "finding" : "no"}>{reading(g)}</span>]
-                  : [file.grids[ba].name, y, NOT, NOT, NOT, NOT, NOT, <span key="r">not held</span>] };
+                  ? [file.grids[ba].name, partial(ba, y) && g.window !== "the season" ? `${y}, part` : y, <N key="a" k={`${k}|mw`}>{whole(g.actual)}</N>, <N key="g" k={`${k}|g`}>{signed(g.growth_pct)}</N>, <N key="w" k={`${k}|w`}>{signed(g.weather_pct)}</N>,
+                    <N key="u" k={`${k}|u`}>{signed(g.unexplained_pct)}</N>, pm(g, `${k}|pm`), <span key="r" data-reading={g.finding ? "finding" : "no"} title={reading(g)}>{g.finding ? "yes" : g.outside ? "beyond" : "no"}</span>]
+                  : [file.grids[ba].name, y, NOT, NOT, NOT, NOT, NOT, ""] };
               }))} />
-            <p className="mt-2 max-w-3xl text-xs text-muted">&quot;Beyond the weather the fit saw&quot;: the peak hour was hotter (summer) or colder (winter) than any hour of {t0} to {t1}, so the fit is reaching past what it was made on and the figure is not called a finding. A year marked &quot;to&quot; a date is partial.</p>
+            <p className="mt-2 max-w-3xl text-xs text-muted">Temperature: the growth the year&apos;s temperatures explain. Finding: yes when the part not explained is larger than its give or take; no when it is smaller; &quot;beyond&quot; when the peak hour was hotter (summer) or colder (winter) than any hour of {t0} to {t1}, so the fit is reaching past what it was made on and the figure is not called a finding. &quot;{years(file).slice(-1)[0]}, part&quot; is 1 January to {day(`${file.through}T00:00:00Z`)}, against the same days of {t0} to {t1}.</p>
           </ToolSection>
 
           <Fold title="The check: years the fit had not seen">

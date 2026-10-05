@@ -228,7 +228,7 @@ console.log(JSON.stringify(trace(f.links, f.days.indexOf("{a}"), f.days.indexOf(
         self.assertAlmostEqual(link["mw"][f["days"].index("2021-02-15")] * 24, a.loc["2021-02-15", "v"], delta=2.0)
 
     def test_most_of_what_the_rule_leaves_out_is_confirmed_by_the_other_side(self):
-        self.assertEqual(int(self.it["bad"].sum()), 2732)
+        self.assertGreater(int(self.it["bad"].sum()), 2500)            # session 126: was "== 2732", the table of 30 September; it grows a day a day
         self.assertGreater(self.how["both_sides"], 1800)
         self.assertGreater(int(self.it["out"].sum()), 500)             # what neither test confirms stays out
 
@@ -270,7 +270,11 @@ class TheReplaysFiles(unittest.TestCase):
             thin = sum(n < 0.5 * f["pairs_usual"] for n in f["pairs_held"])
             self.assertEqual((meta["thin_days"], meta["pair_days_confirmed"]), (thin, f["missing"]["pair_days_confirmed"]), year)
         self.assertLessEqual(index["last_complete"], index["last"])
-        self.assertEqual(index["pair_days_rule"], 2732)
+        # session 126: this stood as "== 2732", the count on 30 September. The daily run rebuilds this file, and on
+        # 5 October it held 2,734: main's test failed against main's own file, and the daily workflow runs these tests
+        # before it takes the lock. The count moves with every day of data; what must hold on any day is below.
+        self.assertGreater(index["pair_days_rule"], 2500)
+        self.assertGreaterEqual(index["pair_days_rule"], index["pair_days_confirmed_both_sides"] + index["pair_days_confirmed_by_hours"])
         self.assertEqual(index["years"]["2025"]["thin_days"], 47)       # EIA's file is blank from 5 November to 10 December and from 21 to 31 December 2025
 
     def test_a_year_holds_no_fewer_flows_than_before_the_days_were_kept(self):

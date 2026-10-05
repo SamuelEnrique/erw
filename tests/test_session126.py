@@ -387,10 +387,16 @@ class TablesAsBuilt(unittest.TestCase):
             row = cov[cov["table"] == name]
             self.assertEqual(len(row), 1, name)
             self.assertEqual((row.iloc[0]["validator_status"], row.iloc[0]["license"]), ("pass", "public"))
-        with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
-            live = f.read()
-        self.assertNotIn("noaa_grid_weather", live)                 # no live page reads them: they are not in the live set
-        self.assertNotIn("eia930_demand_weather", live)
+
+    def test_nothing_of_it_reaches_a_live_page(self):
+        # the home page counts the catalogue's public tables and rows, and /terms lists the registry: both are live
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "supabase"))
+        import load
+        for name in ("noaa_grid_weather_stations", "noaa_grid_weather_hourly", "noaa_grid_weather_daily", "eia930_demand_weather"):
+            self.assertIn(name, load.LIVE["catalogue_hold"])
+            self.assertNotIn(name, load.LIVE["review_hold"])
+        for name in ("noaa:isd_lite", "noaa:lcd_v2", "erw:demand_weather"):
+            self.assertIn(name, load.LIVE["sources_hold"])
 
 
 if __name__ == "__main__":
