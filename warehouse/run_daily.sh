@@ -258,6 +258,10 @@ fi
 # Session 49: the main hubs' price history (iso_hub_prices_history, from 2025-09-01, restored from the draft) takes the
 # consolidated live tables' rows of its hubs, so it keeps growing past their rolling window. Never in Supabase.
 run_other hub_history "$PYTHON" warehouse/connectors/hub_history.py append
+# Session 114: ERCOT's hub prices by day (ercot_hub_prices_daily, for Ask ERCOT's past prices), from the consolidated
+# price tables above. On the runner the ERCOT history is absent: the days the rolling tables reach are rebuilt and the
+# earlier ones kept from its own table, restored from the draft (docs/methods/ercot_hub_prices_daily.md)
+run_other ercot_hub_prices_daily "$PYTHON" warehouse/derived/ercot_hub_prices_daily.py
 # Session 30 (Part A): price board v2, four derived tables from the consolidated price tables, the EIA fuels and the
 # carbon auctions (docs/methods/price_board.md). On the runner, the rows built from the ERCOT history (never restored)
 # and from CARB (a known gap there) are carried from the last run's tables, restored from the draft, and said so
@@ -276,6 +280,28 @@ else
   echo "iso_capacity_prices: monthly (the first day of the month, UTC); skipped today, CAPACITY=1 to force"
 fi
 run_other battery_stack "$PYTHON" warehouse/health.py run --strict --step "battery_stack" -- "$PYTHON" warehouse/derived/battery_stack.py
+
+# Session 114: the builders that were run by hand, on a schedule (session 112's state document, item 5). Each is a soft
+# step (warehouse/soft_step.sh): under warehouse/health.py without --strict, so a failure is tried once more, recorded in
+# erw_health and in the status file, and never fails the run. Each is started by warehouse/scheduled.py, which skips
+# with the reason, and builds nothing, where an input is not on the machine.
+# The network's replay (/network/v3), every day: EIA-930's daily interchange and daily demand take the newest days
+# (--days 5, merged into the tables held; on the runner each table is first rebuilt from the ERW's archive, and a table
+# that is not there is never started), then the replay's newest year and its index are rebuilt, so the replay holds
+# every day to EIA's newest. It runs here, after the consolidated price tables and the hub history it reads.
+. warehouse/soft_step.sh
+soft_step eia930_daily_interchange "$PYTHON" warehouse/scheduled.py eia930_daily_interchange
+soft_step eia930_daily_demand "$PYTHON" warehouse/scheduled.py eia930_daily_demand
+soft_step network_replay "$PYTHON" warehouse/scheduled.py network_replay
+# The other six (the hourly mix, the hub price comparison, demand growth, the curtailment profile, the project map and
+# ERCOT's large-load figures): the monthly job, warehouse/run_monthly.sh, with the first daily run on or after the third
+# day of each month (UTC: EIA-930's lag of a day or two is past, so the month before is whole; scheduled.py --monthly-due
+# reads whether this month's has run), or any day with MONTHLY=1
+if [ "${MONTHLY:-0}" = "1" ] || "$PYTHON" warehouse/scheduled.py --monthly-due; then
+  STATUS_FILE="$status" PYTHON="$PYTHON" bash warehouse/run_monthly.sh
+else
+  echo "monthly builds: not today, MONTHLY=1 to force"
+fi
 
 echo "== connector status"
 cat "$status"

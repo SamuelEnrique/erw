@@ -63,6 +63,12 @@ on:
         description: "Skip if a run already succeeded today, UTC (1, the outside scheduler) or run anyway (0)"
         required: false
         default: "0"
+      # Session 114: the monthly job (warehouse/run_monthly.sh: the six builders that were run by hand) runs with the
+      # first daily run on or after the third day of each month; a manual run can start it on any day.
+      monthly:
+        description: "Also run the monthly builds, warehouse/run_monthly.sh (1) or only when the month's are due (0)"
+        required: false
+        default: "0"
 
 permissions:
   contents: write  # session 61: no issues: the failure issues became rows of the day's health summary
@@ -227,6 +233,8 @@ jobs:
           RESTORE_FROM_REDIVIS: "1"
           # session 16: set on a manual run (input queues, default 1); empty on the schedule
           QUEUES: ${{ github.event.inputs.queues || '0' }}
+          # session 114: the monthly builds on any day of a manual run (input monthly); otherwise when the month's are due
+          MONTHLY: ${{ github.event.inputs.monthly || '0' }}
         run: python warehouse/health.py run --step "daily run" --retries 0 -- bash -c "set -o pipefail; bash warehouse/run_daily.sh 2>&1 | tee daily.log"
 
       - name: Keep the full log
@@ -276,7 +284,12 @@ jobs:
                  warehouse/policy/scores.csv warehouse/policy/read_done.csv
                  warehouse/output/energy_companies.csv
                  warehouse/metadata/archive_manifest.csv
-                 site/data/grid_network.json)
+                 site/data/grid_network.json
+                 site/public/network/daily_index.json site/data/mix site/data/price_compare.json
+                 site/data/demand_growth.json site/data/curtailment_profile.json site/data/map_v2.json
+                 site/data/large_load_status.json)
+          # session 114: the network's replay, rebuilt by the daily run: the index (above) and the years' files
+          for f in site/public/network/daily_2*.json; do paths+=("$f"); done
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # Session 16: run 3 (36284122117) failed here with exit 128. It committed, then ran
