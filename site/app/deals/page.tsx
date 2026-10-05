@@ -61,7 +61,7 @@ function toDeal(r: Awaited<ReturnType<typeof deals>>[number]): Deal {
     priceValue: num(x.price_value),
     priceUnit: x.price_unit ?? "",
     termYears: num(x.term_years),
-    aiPower: x.ai_power === "true",
+    aiPower: String(x.ai_power ?? "").toLowerCase() === "true", // session 114: the table holds "True", "False" and "false"
     confidence: num(x.confidence),
     storyUrls: (x.story_urls ?? r.source_url).split(";").filter(Boolean),
     source: r.source,
