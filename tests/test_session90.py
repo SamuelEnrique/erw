@@ -242,8 +242,10 @@ class ContractsSummary(unittest.TestCase):
         fields = re.search(r"export type Summary = \{(.*?)\};", ts, re.S).group(1)
         for k in s:
             self.assertRegex(fields, rf"\b{k}\b", f"the page's Summary has no field {k}")
+        # session 125: only the two fields the page's functions read go on node's command line. With the real tables on
+        # the machine the whole summary (the largest parties, and now the terms) is longer than Windows allows there.
         d = node("import * as c from './lib/contracts.ts';"
-                 f"const s = {json.dumps(s)};"
+                 f"const s = {json.dumps({k: s[k] for k in ('by_month', 'quarters')})};"
                  "console.log(JSON.stringify({ q: c.quarters(s), filed: c.filedQuarter(s) }));")
         self.assertEqual(d["filed"], "2026-Q2")
         self.assertEqual(d["q"], [{"quarter": "2026-Q2", "rows": 5, "priced": 2}, {"quarter": "2025-Q4", "rows": 1, "priced": 1}])

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { SiteLink } from "@/components/SiteLink";
 import { Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { attempt } from "@/lib/supabase";
-import { LARGEST_PRODUCTS, PRODUCTS, TABLE, byBa, choices, counts, fercDate, filedQuarter, filter, largestHref, listed, quarterDates, quarters, rateText, termYears, viewOf,
-  type Contract, type LargestProduct, type Party, type Summary } from "@/lib/contracts";
+import { LARGEST_PRODUCTS, PRODUCTS, STORAGE_FIELDS, TABLE, UNREAD, byBa, changesOf, choices, counts, fercDate, filedQuarter, filter, largestHref, listed, mwHref, quarterDates, quarters,
+  rateText, termYears, viewOf, type Contract, type LargestProduct, type MwParty, type Party, type Summary } from "@/lib/contracts";
 import { contractRows, contractSummary } from "./read";
 
 // Session 83: "Where power contracts are being struck". A credit investor asked where bilateral power contracts are
@@ -59,8 +59,12 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
       <nav aria-label="View" className="mb-6 flex flex-wrap gap-x-6 gap-y-1 border-b border-rule pb-3 text-sm" data-view={v.view}>
         <Link href="/contracts" aria-current={v.view === "quarter" ? "true" : undefined} className={item(v.view === "quarter")}>Contracts by the quarter signed</Link>
         <Link href={largestHref(v.product.slug)} aria-current={v.view === "largest" ? "true" : undefined} className={item(v.view === "largest")}>The largest buyers and sellers</Link>
+        <Link href={mwHref(v.product.slug)} aria-current={v.view === "mw" ? "true" : undefined} className={item(v.view === "mw")}>Ranked by megawatts stated</Link>
+        <Link href="/contracts?view=terms" aria-current={v.view === "terms" ? "true" : undefined} className={item(v.view === "terms")}>What the filings state</Link>
       </nav>
-      {v.view === "largest" ? <LargestView summary={summary.ok ? summary.data : null} reason={summary.ok ? null : summary.reason} product={v.product} /> : !summary.ok || !quarter ? (
+      {v.view === "mw" ? <MwView summary={summary.ok ? summary.data : null} reason={summary.ok ? null : summary.reason} product={v.product} />
+        : v.view === "terms" ? <TermsView summary={summary.ok ? summary.data : null} reason={summary.ok ? null : summary.reason} />
+        : v.view === "largest" ? <LargestView summary={summary.ok ? summary.data : null} reason={summary.ok ? null : summary.reason} product={v.product} /> : !summary.ok || !quarter ? (
         <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-contracts="unavailable">
           The contract table is internal and is read only with this server&apos;s internal token: {summary.ok ? "it holds no row yet" : summary.reason}.
         </p>
@@ -143,7 +147,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                   <li><strong>Buyers that do not sell power.</strong> A company buying under a power purchase agreement appears only as the customer of a seller that files.</li>
                   <li><strong>Financial contracts.</strong> A contract settled in money and not in power is not a sale under a FERC tariff.</li>
                   <li><strong>Names as one thing.</strong> The same buyer is spelled several ways across filers; this list shows each name as filed. The view of the largest buyers and sellers counts a buyer&apos;s spellings together, by rule.</li>
-                  <li><strong>Totals of megawatts.</strong> Quantity is empty in many rows and its units vary, so no total is given.</li>
+                  <li><strong>Totals of megawatts.</strong> Quantity is empty in many rows and its units vary, so this list gives no total. The view &quot;Ranked by megawatts stated&quot; adds up the few contracts that state one, and says how few.</li>
                 </ul>
               </Fold>
             </div>
@@ -218,7 +222,7 @@ function LargestView({ summary, reason, product }: { summary: Summary | null; re
           </Fold>
           <Fold title="What the ranking is, and is not">
             <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
-              <li><strong>By contracts, not by megawatts.</strong> Few rows file a quantity in MW; the column shows what is filed and on how many rows. No total of megawatts is a ranking here.</li>
+              <li><strong>By contracts, not by megawatts.</strong> Few rows file a quantity in MW; the column shows what is filed and on how many rows. No total of megawatts is a ranking here: the view &quot;Ranked by megawatts stated&quot; ranks the few contracts that state one.</li>
               <li><strong>In force, not new.</strong> Every agreement in force is filed again each quarter. For what was signed lately, use the other view.</li>
               <li><strong>Not Texas.</strong> Sales inside ERCOT are not filed with FERC.</li>
               <li><strong>Not buyers that never appear as a seller&apos;s customer</strong> in a filing: a contract settled in money, or one outside FERC&apos;s jurisdiction.</li>
@@ -226,6 +230,139 @@ function LargestView({ summary, reason, product }: { summary: Summary | null; re
           </Fold>
         </div>
       </div>
+    </div>
+  );
+}
+
+const notLoaded = (what: string, summary: Summary | null, reason: string | null) => (
+  <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-terms="unavailable">
+    {what} not loaded here yet: {summary ? "the stored summary was computed before this view existed; the next load of the contract table adds it" : reason}.
+  </p>
+);
+const mwText = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 1 });
+const quarterText = (q: string | null) => (q ?? "").replace("_", " ");
+
+/** Session 125: the buyers and sellers of one product ranked by the megawatts their contracts in force state
+ * (warehouse/derived/eqr_terms.py; docs/methods/eqr_terms.md). Most contracts state none: the page says how many do,
+ * and shows each party's place by contracts beside its place by megawatts. The figures are the stored summary's. */
+function MwView({ summary, reason, product }: { summary: Summary | null; reason: string | null; product: LargestProduct }) {
+  const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
+  const T = summary?.terms;
+  if (!summary || !T) return notLoaded("The ranking by megawatts is", summary, reason);
+  const buyers = T.by_mw.buyer[product.slug], sellers = T.by_mw.seller[product.slug];
+  const stated = T.mw.by_product[product.slug] ?? { contracts: 0, contracts_with_mw: 0, contracts_over: 0 };
+  const ceiling = T.mw_ceiling ?? 0;
+  const table = (role: "buyer" | "seller", list: typeof buyers) => (
+    <ToolTable minWidth={720} caption={`The ${role}s of ${product.label.toLowerCase()} with the most megawatts stated, contracts in force`}
+      head={["", role === "buyer" ? "Buyer, by its merged name" : "Seller", "MW stated", "Contracts that state a MW", "Contracts in force", "Place by contracts"]}
+      rows={list.top.map((r: MwParty) => ({ key: `${role}${r.rank}`, cells: [String(r.rank), <span key="n" className="block text-left" data-party={`mw|${role}|${r.rank}`}>{r.name}</span>,
+        <span key="m" data-n={`mw|${role}|${r.rank}|mw`}>{mwText(r.mw)}</span>, <span key="w" data-n={`mw|${role}|${r.rank}|with`}>{count(r.contracts_with_mw)}</span>,
+        <span key="c" data-n={`mw|${role}|${r.rank}|contracts`}>{count(r.contracts)}</span>, <span key="p" data-n={`mw|${role}|${r.rank}|place`}>{count(r.rank_contracts)}</span>] }))} />
+  );
+  return (
+    <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]" data-mw="1">
+      <aside>
+        <InputPanel title="Choose" note={`Contracts in force in the filings for ${quarterText(T.quarter)}. Only a contract that states a quantity in MW, or in kW, is ranked.`}>
+          <nav aria-label="Product" className="text-sm">
+            <div className="mb-1 text-xs uppercase tracking-wide text-muted">Product</div>
+            {LARGEST_PRODUCTS.map((p) => <div key={p.slug}><Link href={mwHref(p.slug)} aria-current={p.slug === product.slug ? "true" : undefined} className={item(p.slug === product.slug)}>{p.label}</Link></div>)}
+          </nav>
+        </InputPanel>
+      </aside>
+      <div className="min-w-0">
+        <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="mw">
+          Of the <span data-n="mw|contracts">{count(stated.contracts)}</span> {product.label.toLowerCase()} contracts in force in FERC&apos;s filings, <span data-n="mw|with">{count(stated.contracts_with_mw)}</span> state
+          a quantity in megawatts. Those add up to <span data-n="mw|total">{mwText(buyers.mw)}</span> MW, bought by <span data-n="mw|buyers">{count(buyers.parties)}</span> buyers
+          from <span data-n="mw|sellers">{count(sellers.parties)}</span> sellers. This ranks what is stated: it is not a ranking of the market.
+        </p>
+        <HeadlineRow>
+          <HeadlineNumber label="Contracts that state a MW" value={count(stated.contracts_with_mw)} note={<>Of {count(stated.contracts)} in force. The others state megawatt-hours, a rate period, or nothing.</>} />
+          <HeadlineNumber label="MW stated, in all" value={mwText(buyers.mw)} note="Per contract, the largest MW any of its rows states; a contract's rows repeat its quantity by period and by product." />
+          <HeadlineNumber label="Contracts left out as not megawatts" value={<span data-n="mw|over">{count(stated.contracts_over)}</span>}
+            note={<>They state more than {count(ceiling)} MW, the largest power station operating in the United States: a year&apos;s megawatt-hours or kilowatts filed under MW.</>} />
+        </HeadlineRow>
+        <ToolSection title={`Buyers of ${product.label.toLowerCase()}, by megawatts stated`} note={<>The first {Math.min(T.top, buyers.parties)} of {count(buyers.parties)} buyers with a megawatt stated. &quot;Place by contracts&quot; is the buyer&apos;s place in the other view, among every buyer of the product.</>}>
+          {table("buyer", buyers)}
+        </ToolSection>
+        <ToolSection title={`Sellers of ${product.label.toLowerCase()}, by megawatts stated`} note={<>The first {Math.min(T.top, sellers.parties)} of {count(sellers.parties)}. A seller is a filer: one company identifier, one name.</>}>
+          {table("seller", sellers)}
+        </ToolSection>
+        <div className="mb-8 border-t border-rule">
+          <Fold title="What a megawatt stated is, and what this leaves out">
+            <ul className="max-w-3xl list-disc space-y-1.5 pl-5">
+              <li><strong>Stated:</strong> the row&apos;s quantity when its units are MW, or kW divided by 1,000. A quantity in megawatt-hours, per month, per day, or with no units is not a number of megawatts and is not converted. A quantity of zero is not a quantity.</li>
+              <li><strong>Per contract, the largest MW any row states,</strong> then added up by party. Adding the rows would count one contract once for each period and product it lists.</li>
+              <li><strong>Left out, and counted:</strong> a contract stating more than {count(ceiling)} MW. No single contract is for more than the largest station in the country; the figure is another unit filed under MW. Across every product {count(T.mw.rows_over)} rows do.</li>
+              <li><strong>A figure under that ceiling can be mislabelled too,</strong> and nothing in the filing can tell. A person should read the contract before quoting one row.</li>
+              <li><strong>Most of the book is absent.</strong> A full-requirements sale or a sale into an organized market states no megawatts. The largest buyers by contracts are mostly not here.</li>
+            </ul>
+          </Fold>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Session 125: what the filings state and what they do not: prices as numbers, as words, and the few words that leave
+ * one reading; the tags the product fields allow; contracts new and gone by quarter; the name merges; and FERC's own
+ * words on the data. Counts only, from the stored summary. */
+function TermsView({ summary, reason }: { summary: Summary | null; reason: string | null }) {
+  const T = summary?.terms;
+  if (!summary || !T) return notLoaded("What the filings state is", summary, reason);
+  const P = T.prices, unread = P.words_only - P.read;
+  const all = changesOf(T, "all");
+  const products = ["all", "energy", "capacity", "tolling"] as const;
+  const label = { all: "Every product", energy: "Energy", capacity: "Capacity", tolling: "Tolling energy" } as const;
+  const doubtful = summary.largest?.names.doubtful_pairs ?? null;
+  return (
+    <div className="min-w-0" data-terms="1">
+      <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="terms">
+        Of the <span data-n="terms|rows">{count(T.rows)}</span> contract rows filed for {quarterText(T.quarter)}, <span data-n="terms|number">{count(P.filed_number)}</span> give their rate as a
+        number and <span data-n="terms|words">{count(P.words_only)}</span> give words. A price can be read from the words, with no doubt about number or unit,
+        in <span data-n="terms|read">{count(P.read)}</span> of them. <span data-n="terms|unread">{count(unread)}</span> remain unread.
+      </p>
+      <HeadlineRow>
+        <HeadlineNumber label="Rates filed as words" value={count(P.words_only)} note={<>{count(P.filed_number)} rows file a number; {count(P.none)} file neither.</>} />
+        <HeadlineNumber label="Prices read from the words" value={count(P.read)} note={<>{count(P.read_usd_per_mwh)} of them in dollars per megawatt-hour; the others are capacity prices per kW or MW and month or day, kept in their own unit.</>} />
+        <HeadlineNumber label="Left unread" value={count(unread)} note="Never estimated. The reasons are counted below." />
+      </HeadlineRow>
+      <ToolSection title="Why a rate in words was not read" note="The rule reads a price only when the words hold exactly one dollar amount, followed at once by its unit, with no condition and no other number beside it. The first test a row fails is its reason.">
+        <ToolTable minWidth={720} caption="Rates filed as words, by what the rule found" words
+          head={["What the words hold", "For example", "Rows"]}
+          rows={[...UNREAD.map((u) => ({ key: u.key, cells: [u.label, <span key="e" className="text-muted">{u.example}</span>, <span key="n" data-n={`unread|${u.key}`}>{count(P.unread[u.key] ?? 0)}</span>] })),
+            { key: "read", cells: [<strong key="l">One amount, its unit, nothing else: read</strong>, <span key="e" className="text-muted">{Object.entries(P.read_by_unit).map(([u, n]) => `${n} in ${u}`).join(", ")}</span>, <span key="n" data-n="unread|read">{count(P.read)}</span>] }]} />
+      </ToolSection>
+      <ToolSection title="Tolling and storage, from the product fields" note="A tag is given only from FERC's product fields: product name, product type, class, term and increment.">
+        <ul className="max-w-3xl list-disc space-y-1.5 pl-5 text-sm">
+          <li><strong>Tolling:</strong> <span data-n="tag|tolling_rows">{count(T.tags.tolling_rows)}</span> rows of <span data-n="tag|tolling_contracts">{count(T.tags.tolling_contracts)}</span> contracts carry the product name Tolling Energy.</li>
+          <li><strong>Storage:</strong> <span data-n="tag|storage_rows">{count(T.tags.storage_rows)}</span> rows. FERC&apos;s product list has no storage product, so no product field names storage or a battery, and no row is tagged.</li>
+          <li><strong>Where the words do stand:</strong> in <span data-n="tag|elsewhere">{count(T.tags.storage_words_rows)}</span> rows, outside the product fields: {STORAGE_FIELDS.map((f, i) => (
+            <span key={f.key}>{i ? ", " : ""}{f.label} (<span data-n={`tag|${f.key}`}>{count(T.tags.storage_words_elsewhere[f.key] ?? 0)}</span>)</span>))}. These are not tagged: a seller named
+            for a battery sells other things too, and a tariff&apos;s storage schedule is not a contract for a battery. They say where a person would have to read.</li>
+        </ul>
+      </ToolSection>
+      <ToolSection title="Contracts new and gone, by quarter" note={all.length > 1 ? "A contract is one filer's contract identifier. New: in force in this quarter's filings and not in the quarter before. Gone: the reverse. A filer that renumbers its contracts makes one gone and one new." : "Only one quarter is held: nothing to compare yet."}>
+        <ToolTable minWidth={720} caption="Contracts in force in FERC's filings by quarter, and the change from the quarter before"
+          head={["Filed for", "Product", "Contracts in force", "New", "Gone", "Kept"]}
+          rows={all.flatMap((q) => products.map((p) => {
+            const c = T.changes.find((x) => x.quarter === q.quarter && x.product === p);
+            const cell = (k: "contracts_new" | "contracts_gone" | "contracts_kept") => c && c[k] !== undefined ? <span key={k} data-n={`change|${q.quarter}|${p}|${k}`}>{count(c[k] as number)}</span> : <span key={k} className="text-muted">no quarter before</span>;
+            return { key: `${q.quarter}${p}`, cells: [quarterText(q.quarter), label[p], <span key="f" data-n={`change|${q.quarter}|${p}|in_force`}>{count(c?.contracts_in_force ?? 0)}</span>, cell("contracts_new"), cell("contracts_gone"), cell("contracts_kept")] };
+          }))} />
+      </ToolSection>
+      <ToolSection title="Buyers under one name" note="Only the merges a rule makes certain are applied. A pair that merely looks alike is listed for a person and left apart.">
+        <ul className="max-w-3xl list-disc space-y-1.5 pl-5 text-sm">
+          <li><span data-n="buyers|merged">{count(T.buyers.rows_merged)}</span> of the {count(T.rows)} rows carry a buyer name that the rules count together with at least one other spelling.</li>
+          {doubtful !== null ? <li><span data-n="buyers|doubtful">{count(doubtful)}</span> doubtful pairs stay listed in <code className="font-mono">ferc_eqr_buyer_doubtful</code> and are not merged in any figure on this page.</li> : null}
+        </ul>
+      </ToolSection>
+      <ToolSection title="FERC's terms for this data" note="Quoted, not interpreted. The table stays internal until a person has read the Commission's own statement of terms.">
+        <ul className="max-w-3xl list-disc space-y-1.5 pl-5 text-sm">
+          <li>&quot;The Commission established the EQR reporting requirements to help ensure the collection of information needed to perform its regulatory functions over transmission and wholesale sales of electricity, while making data available to the public and allowing public utilities to better fulfill their responsibility under Federal Power Act (FPA) section 205(c) to have rates on file in a convenient form and place.&quot; Federal Register, 17 February 2026, 91 FR 7278, at 7279, FR Doc. 2026-03012.</li>
+          <li>&quot;The Commission adopted the EQR as the reporting mechanism for public utilities to fulfill their responsibility under FPA section 205(c) to have information relating to their rates, terms and conditions of service available for public inspection in a convenient form and place.&quot; Federal Register, 24 March 2026, 91 FR 14306, at 14310, FR Doc. 2026-05709.</li>
+          <li><strong>What this machine did not reach:</strong> the Commission&apos;s own pages of terms on ferc.gov answered this machine&apos;s requests with HTTP 403 on 5 October 2026, as they did in session 83. That was not worked around. The two passages say the filings are public; neither is a statement of the terms on which the data may be republished.</li>
+        </ul>
+      </ToolSection>
     </div>
   );
 }

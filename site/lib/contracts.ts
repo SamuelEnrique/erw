@@ -21,7 +21,39 @@ export type Summary = {
   by_ba: { ba: string; rows: number }[];
   /** Session 99: the largest buyers and sellers, from the whole quarter's file (the loader stores it with the summary; absent until a load after session 99). */
   largest?: Largest;
+  /** Session 125: megawatts, prices read from the words, tags and changes by quarter (warehouse/derived/eqr_terms.py; absent until a load after session 125). */
+  terms?: Terms;
 };
+export type MwParty = { rank: number; name: string; mw: number; contracts_with_mw: number; contracts: number; rank_contracts: number; contracts_over: number };
+export type MwList = { parties: number; mw: number; contracts_with_mw: number; top: MwParty[] };
+export type Change = { quarter: string; product: string; contracts_in_force: number; rows_in_force: number; contracts_new?: number; contracts_gone?: number; contracts_kept?: number };
+export type Terms = {
+  quarter: string | null; top: number; rows: number; mw_ceiling: number | null;
+  mw: { rows_stated: number; rows_over: number; by_product: Record<string, { contracts: number; contracts_with_mw: number; contracts_over: number }> };
+  prices: { filed_number: number; none: number; words_only: number; read: number; read_usd_per_mwh: number; read_by_unit: Record<string, number>; unread: Record<string, number> };
+  buyers: { rows_merged: number };
+  tags: { tolling_rows: number; tolling_contracts: number; storage_rows: number; storage_words_elsewhere: Record<string, number>; storage_words_rows: number };
+  by_mw: Record<"buyer" | "seller", Record<"energy" | "capacity" | "tolling", MwList>>;
+  changes: Change[];
+};
+/** Why no price was read from a rate filed as words, in the order the rule tests them (warehouse/derived/eqr_terms.py). */
+export const UNREAD = [
+  { key: "no_dollar_amount", label: "No dollar amount in the words", example: "a market-based rate, a tariff's name, a formula in words" },
+  { key: "several_amounts", label: "More than one dollar amount", example: "a schedule by year, peak and off-peak, tiers" },
+  { key: "no_unit", label: "A dollar amount with no unit after it", example: "a deposit, a facilities charge, a figure per kW with no period" },
+  { key: "conditional", label: "One amount with its unit, and a condition", example: "escalating, plus other charges, a cap, an if, a factor, a year" },
+  { key: "other_numbers", label: "Another number beside it that is not a quantity", example: "an amendment's number, a schedule's number" },
+  { key: "units_disagree", label: "The unit in the words is not the unit filed", example: "a capacity price derived from an energy rate" },
+] as const;
+/** The fields outside the product fields in which the words storage, battery or BESS stand. */
+export const STORAGE_FIELDS = [
+  { key: "seller_name", label: "the seller's name" }, { key: "rate_description", label: "the rate description" },
+  { key: "agreement_id", label: "the agreement's identifier" }, { key: "tariff_reference", label: "the tariff reference" },
+] as const;
+/** The changes of one product, oldest quarter first. */
+export function changesOf(t: Terms, product: string): Change[] {
+  return t.changes.filter((c) => c.product === product).sort((a, b) => a.quarter.localeCompare(b.quarter));
+}
 export type Party = { rank: number; name: string; contracts: number; rows: number; counterparties: number; mw_filed: number; rows_with_mw: number };
 export type PartyList = { parties: number; contracts: number; rows: number; top: Party[] };
 export type Largest = {
@@ -35,10 +67,12 @@ export const LARGEST_PRODUCTS = [
 ] as const;
 export type LargestProduct = (typeof LARGEST_PRODUCTS)[number];
 /** The view a reader asked for: the contracts by quarter signed (the page as it was), or the largest buyers and sellers. */
-export function viewOf(q: Record<string, string | undefined>): { view: "quarter" | "largest"; product: LargestProduct } {
-  return { view: q.view === "largest" ? "largest" : "quarter", product: LARGEST_PRODUCTS.find((p) => p.slug === q.product) ?? LARGEST_PRODUCTS[0] };
+export function viewOf(q: Record<string, string | undefined>): { view: "quarter" | "largest" | "mw" | "terms"; product: LargestProduct } {
+  const view = q.view === "largest" || q.view === "mw" || q.view === "terms" ? q.view : "quarter";   // session 125: by megawatts stated, and what the filings state
+  return { view, product: LARGEST_PRODUCTS.find((p) => p.slug === q.product) ?? LARGEST_PRODUCTS[0] };
 }
 export const largestHref = (product: string) => `/contracts?view=largest&product=${product}`;
+export const mwHref = (product: string) => `/contracts?view=mw&product=${product}`;
 
 /** The product groups a reader can pick. FERC's product names come in more than one spelling, so they are compared in
  * capitals. "power" is what a credit investor means by a contract: energy, capacity and tolling. */

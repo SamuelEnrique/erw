@@ -72,6 +72,14 @@ NAME = "ferc_eqr_contracts"
 SOURCE = "ferc:eqr"
 VIEWER = "https://eqrreportviewer.ferc.gov/"
 CEILING = 400_000
+# Session 125: an approved pull of three more quarters, a filing at a time, 800,000 contract rows in all. The ceiling of
+# one run stays as it was; PULL_CEILING is the pull's, counted over this run and the quarters named with --also.
+PULL_CEILING = 800_000
+PAUSE = 0.2   # seconds between two filings asked of FERC's server
+# The earlier quarters of the approved pull go to a table of their own, in the same shape: ferc_eqr_contracts stays one
+# quarter, the newest, which is what the page, the buyers' tables and the live set read. Every agreement in force is
+# filed again each quarter, so one table of four quarters would hold most contracts four times.
+HISTORY = "ferc_eqr_contracts_history"
 UA = {"User-Agent": "Mozilla/5.0 (ERW research; github.com/SamuelEnrique/erw)"}
 # FERC's contract columns, in the file's order (the header of every contracts file is checked against this)
 FERC_COLS = ["contract_unique_id", "seller_company_name", "customer_company_name", "contract_affiliate", "ferc_tariff_reference",
@@ -292,7 +300,15 @@ def main(argv=None):
     ap.add_argument("--list", action="store_true", help="print the quarter's filings and their sizes; fetch no data")
     ap.add_argument("--limit", type=int, help="a trial: the first N filings, written to runs/, no table")
     ap.add_argument("--ceiling", type=int, default=CEILING)
+    ap.add_argument("--fetch-only", action="store_true", help="session 125: fetch the quarter's contract files to warehouse/raw and stop; no table is written "
+                    "(no data lock is needed). A later run of the quarter reads them from disk and writes the table")
+    ap.add_argument("--history", action="store_true", help=f"session 125: write the quarter to {HISTORY}, the table of the quarters before the newest")
+    ap.add_argument("--also", nargs="*", default=[], metavar="YYYY_Qn", help="session 125: the other quarters of the same approved pull; the contract rows already "
+                    f"fetched for them count toward its ceiling of {PULL_CEILING:,}")
     args = ap.parse_args(argv)
+    if ip.paused("ferc"):
+        print("ferc is a paused publisher (warehouse/metadata/paused_sources.csv): no request is made", file=sys.stderr)
+        return 1
     if not re.fullmatch(r"\d{4}_Q[1-4]", args.quarter):
         ap.error("--quarter is YYYY_Qn")
     if args.ceiling > CEILING:
@@ -318,6 +334,13 @@ def main(argv=None):
         index = json.load(open(index_path, encoding="utf-8")) if os.path.exists(index_path) else {}
         todo = members[:args.limit] if args.limit else members
         filings, n_rows, t0 = [], 0, time.time()
+        prior = 0
+        for q in args.also:
+            p = os.path.join(ip.RAW_DIR, NAME, q, "index.json")
+            if q != args.quarter and os.path.exists(p):
+                prior += sum(m["rows"] for m in json.load(open(p, encoding="utf-8")).values())
+        if args.also:
+            log(f"  the approved pull's other quarters ({', '.join(args.also)}) hold {prior:,} contract rows; its ceiling is {PULL_CEILING:,}")
         for k, (name, ctype, csize, fsize, off) in enumerate(todo, 1):
             raw_path = os.path.join(raw_dir, name + ".contracts.csv")
             if name in index and (index[name]["rows"] == 0 or os.path.exists(raw_path)):
@@ -328,6 +351,7 @@ def main(argv=None):
                 cid, cname = meta["company_id"], meta["company_name"]
             else:
                 rows, raw, cid, cname, fq = read_filing(member(f, name, ctype, csize, off))
+                time.sleep(PAUSE)   # a filing at a time, and a breath between two
                 if rows:
                     with open(raw_path, "wb") as out:
                         out.write(raw)  # the contracts file as FERC serves it; nothing else of the filing is kept
@@ -340,12 +364,23 @@ def main(argv=None):
                 raise RuntimeError(f"the ceiling: {n_rows:,} contract rows after {k - 1:,} of {len(todo):,} filings, and {name} holds "
                                    f"{len(rows):,} more; stopped, nothing written (the contract files fetched so far are kept in "
                                    f"{os.path.relpath(raw_dir, ip.ROOT)})")
+            if prior + n_rows + len(rows) > PULL_CEILING:
+                json.dump(index, open(index_path, "w", encoding="utf-8"))
+                raise RuntimeError(f"the approved pull's ceiling of {PULL_CEILING:,} contract rows: {prior:,} in its other quarters and {n_rows:,} in this one after "
+                                   f"{k - 1:,} of {len(todo):,} filings, and {name} holds {len(rows):,} more; stopped, nothing written")
             n_rows += len(rows)
             filings.append((name, cid, cname, rows))
             if k % 250 == 0:
                 log(f"  {k:,} of {len(todo):,} filings, {n_rows:,} contract rows, {f.requests:,} requests, {f.bytes / 1e6:,.0f} MB, "
                     f"{time.time() - t0:,.0f} s")
         json.dump(index, open(index_path, "w", encoding="utf-8"))
+        if args.fetch_only:
+            line = (f"{args.quarter}: fetched only: {len(filings):,} filings, {n_rows:,} contract rows, {f.requests:,} requests, {f.bytes / 1e9:.2f} GB, "
+                    f"{time.time() - t0:,.0f} s; no table written")
+            log("  " + line)
+            print(line)
+            log.close()
+            return 0
         retrieved = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
         rows, counts = events(filings, args.quarter, url, retrieved)
         d = pd.DataFrame(rows, columns=COLS)
@@ -390,12 +425,24 @@ def main(argv=None):
             print(f"trial: {len(filings):,} filings, {len(d):,} rows -> {os.path.relpath(trial, ip.ROOT)}; no table written")
             log.close()
             return 0
-        ip.write_csv(d, NAME, header, log, cols=COLS, key=["event_id"], time_col="event_date")
+        table = HISTORY if args.history else NAME
+        if args.history:
+            header[0] = ("Energy Research Warehouse (ERW): FERC Electric Quarterly Reports, the contracts as filed for the quarters before the newest "
+                         f"(session 125's approved pull; this run wrote {args.quarter.replace('_', ' ')}; x_quarter says which quarter a row was filed for)")
+            header.insert(1, f"The newest quarter is the table {NAME}. Every agreement in force is filed again each quarter: a contract is in this table once for each "
+                             "quarter it was filed in, so its rows are never added up across quarters.")
+        ip.write_csv(d, table, header, log, cols=COLS, key=["event_id"], time_col="event_date")
+        documents = public_url(url)
+        if args.history:  # the registry's row keeps naming the newest quarter's file; an earlier quarter adds its table only
+            reg = os.path.join(ip.METADATA_DIR, "sources.csv")
+            was = pd.read_csv(reg, dtype=str, keep_default_na=False) if os.path.exists(reg) else pd.DataFrame(columns=["source", "document_list"])
+            kept = was.loc[was["source"] == SOURCE, "document_list"]
+            documents = kept.iloc[0] if len(kept) else documents
         ip.update_sources([dict(source=SOURCE, publisher="Federal Energy Regulatory Commission (FERC)",
                                 report="Electric Quarterly Reports (EQR): contracts, quarterly filings of all companies", report_url=VIEWER,
-                                document_list=public_url(url), license="internal", tables=[NAME])])
-        results.append(dict(table=NAME, market="contracts", status="ok", detail=f"{len(d):,} rows, {counts['companies']:,} companies"))
-        print(f"{NAME}: {len(d):,} rows, {counts['companies']:,} companies, {args.quarter}; {f.requests:,} requests, {f.bytes / 1e9:.2f} GB")
+                                document_list=documents, license="internal", tables=[table])])
+        results.append(dict(table=table, market="contracts", status="ok", detail=f"{len(d):,} rows, {counts['companies']:,} companies"))
+        print(f"{table}: {len(d):,} rows, {counts['companies']:,} companies, {args.quarter}; {f.requests:,} requests, {f.bytes / 1e9:.2f} GB")
     except Exception:
         tb = ip.redact(traceback.format_exc())
         log(f"FAILED:\n{tb}")

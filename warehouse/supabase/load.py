@@ -238,7 +238,75 @@ def eqr_summary(df):
     largest = eqr_largest()
     if largest:
         out["largest"] = largest  # session 99: the largest buyers and sellers, from the whole quarter's file
+    terms = eqr_terms()
+    if terms:
+        out["terms"] = terms      # session 125: megawatts, prices read from words, tags, changes by quarter
     return out
+
+
+def eqr_terms(top=None, out_dir=None):
+    """Session 125: what /contracts states from warehouse/derived/eqr_terms.py's three tables: the parties ranked by the
+    megawatts their contracts state, the count of prices read from words and of those left unread by reason, the tags,
+    and the contracts new and gone by quarter. None when the tables are not on this machine. Internal, like
+    eqr_largest: it goes only into the stored summary, which answers only with the internal token."""
+    top = top or EQR_TOP
+    d = out_dir or OUT
+    paths = {n: os.path.join(d, n + ".csv") for n in ("ferc_eqr_contract_terms", "ferc_eqr_party_mw", "ferc_eqr_quarter_changes")}
+    if not all(os.path.exists(p) for p in paths.values()):
+        return None
+
+    def table(path):
+        with open(path, encoding="utf-8") as f:
+            n = 0
+            for line in f:
+                if not line.startswith("#"):
+                    break
+                n += 1
+        return pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False, na_values=[], low_memory=False)
+    t, m, c = table(paths["ferc_eqr_contract_terms"]), table(paths["ferc_eqr_party_mw"]), table(paths["ferc_eqr_quarter_changes"])
+    by_mw = {}
+    for role in ("buyer", "seller"):
+        by_mw[role] = {}
+        for product in ("energy", "capacity", "tolling"):
+            g = m[(m["x_role"] == role) & (m["x_product"] == product)].copy()
+            g["rank"] = g["x_rank_mw"].astype(int)
+            g = g.sort_values("rank")
+            by_mw[role][product] = {
+                "parties": int(len(g)), "mw": round(float(g["x_mw_stated"].astype(float).sum()), 1), "contracts_with_mw": int(g["x_contracts_with_mw"].astype(int).sum()),
+                "top": [{"rank": int(r.rank), "name": r.name, "mw": float(r.x_mw_stated), "contracts_with_mw": int(r.x_contracts_with_mw), "contracts": int(r.x_contracts),
+                         "rank_contracts": int(r.x_rank_contracts), "contracts_over": int(r.x_contracts_over)} for r in g.head(top).itertuples()],
+            }
+    scope = t[(t["status"] == "in_force") & t["x_product"].isin(["energy", "capacity", "tolling"])]
+    stated = {}
+    for product, g in scope.groupby("x_product"):
+        ranked = g[g["x_mw_ranked"] == "yes"]
+        stated[product] = {"contracts": int(g["x_contract"].nunique()), "contracts_with_mw": int(ranked["x_contract"].nunique()),
+                           "contracts_over": int(g[g["x_mw_ranked"] == "no"]["x_contract"].nunique())}
+    words = t[(t["x_price_words"] != "") | (t["x_price_unread"] != "")]
+    read = t[t["x_price_words"] != ""]
+    tolling = t[t["x_tag"] == "tolling"]
+    quarters = sorted(c["ts_utc"].unique())
+    changes = []
+    for ts in quarters:
+        for product in ("all", "energy", "capacity", "tolling"):
+            g = c[(c["ts_utc"] == ts) & (c["entity"] == f"ferc_eqr:{product}")]
+            v = {r.variable: int(float(r.value)) for r in g.itertuples()}
+            changes.append({"quarter": f"{ts[:4]}_Q{(int(ts[5:7]) - 1) // 3 + 1}", "product": product, **v})
+    ceiling = float(m["x_mw_ceiling"].iloc[0]) if len(m) else None
+    return {
+        "quarter": t["x_quarter"].iloc[0] if len(t) else None, "top": top, "rows": int(len(t)), "mw_ceiling": ceiling,
+        "mw": {"rows_stated": int((t["mw"] != "").sum()), "rows_over": int((t["x_mw_ranked"] == "no").sum()), "by_product": stated},
+        "prices": {"filed_number": int((t["x_rate_kind"] == "number").sum()), "none": int((t["x_rate_kind"] == "none").sum()),
+                   "words_only": int(len(words)), "read": int(len(read)), "read_usd_per_mwh": int((t["x_price_source"] == "words").sum()),
+                   "read_by_unit": {k: int(v) for k, v in read["x_price_words_unit"].value_counts().items()},
+                   "unread": {k: int(v) for k, v in words[words["x_price_words"] == ""]["x_price_unread"].value_counts().items()}},
+        "buyers": {"rows_merged": int((t["x_buyer_merged"] == "yes").sum())},
+        "tags": {"tolling_rows": int(len(tolling)), "tolling_contracts": int(tolling["x_contract"].nunique()), "storage_rows": int((t["x_tag"] == "storage").sum()),
+                 "storage_words_elsewhere": {k: int(t["x_storage_words_in"].str.split(";").map(lambda s: k in s).sum())
+                                             for k in ("rate_description", "agreement_id", "tariff_reference", "seller_name")},
+                 "storage_words_rows": int((t["x_storage_words_in"] != "").sum())},
+        "by_mw": by_mw, "changes": changes,
+    }
 
 
 EQR_TOP = 25

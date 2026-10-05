@@ -194,6 +194,7 @@ SECTOR_RULES = [
     (r"^hub_price_comparison$", "power;carbon"),  # session 96: where power is cheap (price, spread and carbon intensity)
     (r"^caiso_curtailment_(intervals|profile)$", "power"),  # session 98: CAISO curtailment by interval, and its profile
     (r"^ferc_eqr_(buyer_names|buyer_doubtful|party_totals)$", "power"),  # session 99: who is buying (internal)
+    (r"^ferc_eqr_(contracts_history|contract_terms|party_mw|quarter_changes)$", "power"),  # session 125: earlier quarters and the terms read from them (internal)
     (r"^spp_as_quantities$", "power"),  # session 100: SPP reserve MW cleared day-ahead
     (r"^known_data_faults$", "platform"),  # session 103: known faults in source data (every sector's sources)
     (r"^ercot_hub_prices_daily$", "power"),  # session 114: ERCOT hub prices by day (derived), for Ask ERCOT

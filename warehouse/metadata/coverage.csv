@@ -82,8 +82,12 @@ event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,9,P1D;PT1H,202
 event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2025-06-28T00:00:00Z,28438,erw:event_window,2026-10-02T12:56:43Z,pass,public,power;carbon,yes,derived
 ferc_eqr_buyer_doubtful,none,,1,event,2026-06-30T00:00:00Z,2026-06-30T00:00:00Z,1281,1 outlets,2026-10-04T17:29:30Z,pass,internal,power,no,source
 ferc_eqr_buyer_names,ferc,,17955,snapshot,2026-10-04T17:29:30Z,2026-10-04T17:29:30Z,17955,erw:eqr_buyers,2026-10-04T17:29:30Z,pass,internal,power,no,source
+ferc_eqr_contract_terms,none,,1,event,1924-10-24T00:00:00Z,2223-01-01T00:00:00Z,186873,1 outlets,2026-10-05T13:13:59Z,pass,internal,power,no,source
 ferc_eqr_contracts,none,,1,event,1924-10-24T00:00:00Z,2223-01-01T00:00:00Z,186873,1 outlets,2026-10-04T03:50:09Z,pass,internal,power,no,source
+ferc_eqr_contracts_history,none,,1,event,1924-10-24T00:00:00Z,2223-01-01T00:00:00Z,190816,1 outlets,2026-10-05T13:07:11Z,pass,internal,power,no,source
+ferc_eqr_party_mw,ferc,,812,snapshot,2026-10-05T13:13:59Z,2026-10-05T13:13:59Z,812,erw:eqr_terms,2026-10-05T13:13:59Z,pass,internal,power,no,source
 ferc_eqr_party_totals,ferc,,12290,snapshot,2026-10-04T17:29:30Z,2026-10-04T17:29:30Z,12290,erw:eqr_buyers,2026-10-04T17:29:30Z,pass,internal,power,no,source
+ferc_eqr_quarter_changes,ferc,,4,P3M,2026-01-01T00:00:00Z,2026-04-01T00:00:00Z,28,erw:eqr_terms,2026-10-05T13:13:59Z,pass,internal,power,yes,derived
 flex_alert_effects,flex,,1,P1D;P1Y;PT1H,2018-01-01T00:00:00Z,2024-07-25T06:00:00Z,2973,erw:flex_alert_scorecard,2026-10-02T05:12:48Z,pass,public,power,yes,derived
 flex_alert_model,flex,,1,;P1D,2018-07-01T00:00:00Z,2025-08-24T00:00:00Z,881,erw:flex_alert_scorecard,2026-10-02T05:12:48Z,pass,public,power,yes,derived
 fred_daily_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-09-29T00:00:00Z,24306,fred:DCOILBRENTEU;fred:DCOILWTICO;fred:DHHNGSP,2026-10-04T14:28:46Z,pass,public,oil;gas,no,source

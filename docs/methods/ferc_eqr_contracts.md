@@ -71,3 +71,18 @@ The live set holds the rows executed in the last 1,000 days (`live_set.yaml`, `e
 ## License
 
 Internal. The filings are public: FERC publishes them to make the data available to the public (its notice of 17 February 2026, 91 FR 7279). But FERC's own statement of terms on `ferc.gov` could not be read by this machine (the site answers automated requests with HTTP 403, which was not worked around), and the instruction of session 83 is an internal table. A person who reads FERC's terms can open it.
+
+## Earlier quarters, and what is read from the rows (session 125)
+
+The three quarters before 2026 Q2 are held in `ferc_eqr_contracts_history`, in this table's shape, pulled a filing at
+a time under a ceiling of 800,000 rows; this table stays one quarter, the newest. Megawatts where a quantity is
+stated, a price read from the words where number and unit leave one reading, the tolling tag, and the contracts new
+and gone by quarter are in [`eqr_terms.md`](eqr_terms.md), which also quotes the two passages of the Federal Register
+on the public character of these filings. The license above is unchanged: `ferc.gov` again answered this machine with
+HTTP 403 on 5 October 2026.
+
+**The loader and the 1,000-day window.** The live set's rule keeps the rows executed in the last 1,000 days, so each
+day a few rows leave it: 19,009 on 4 October 2026, 18,989 on the 5th, the 20 between them executed on 8 January 2024.
+The loader compares an events table by its row count when it has no retrieval time to compare, reads the smaller
+file as an older one, and refuses. On 5 October it was run with `--allow-older ferc_eqr_contracts` after the 20 rows
+were checked to be exactly the day the window had passed. A loader that knew the window would not need the flag.
