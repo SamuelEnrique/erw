@@ -14,6 +14,7 @@ import { count, price } from "@/lib/format";
 import { BAS, STATES } from "@/lib/regions";
 import { attempt } from "@/lib/supabase";
 import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
+import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Energy mix" };
@@ -241,10 +242,12 @@ export default async function MixPage({ searchParams }: { searchParams: Promise<
     attempt(() => series(table, { entity: ba.entity, since: daysAgo(9) })),
     attempt(() => series(MONTHLY, { entity: `eia:${st}` })),
   ]);
+  // session 118: EIA-930's generation for California is the series the faults register calls changed; it is not drawn
+  const withheld = ba.code === "ciso";
   return (
     <>
       <h1 className="mb-1 text-3xl">Energy mix</h1>
-      <CaisoBreakNote kind="mix" />
+      {withheld ? null : <CaisoBreakNote kind="mix" />}
       <p className="mb-2 max-w-3xl">
         What generates the power: hourly for the last seven days by grid operator, and monthly by state since 2001, from <Term t="EIA" first />&apos;s Hourly
         Electric Grid Monitor (Form EIA-930) and power plant survey (Form EIA-923).
@@ -262,13 +265,13 @@ export default async function MixPage({ searchParams }: { searchParams: Promise<
       </form>
 
       <Section title={`${ba.label}: today so far`} id="today">
-        {latest.ok ? <Today rows={latest.data} label={ba.label} /> : <NoData what={LATEST} reason={latest.reason} />}
+        {withheld ? <CaisoMixWithheld what="California's hours of today, by fuel" /> : latest.ok ? <Today rows={latest.data} label={ba.label} /> : <NoData what={LATEST} reason={latest.reason} />}
         <Cite tables={[LATEST]} note="The latest UTC day with complete hours; an hour is shown only when net generation and every energy source the operator reports have a value for it. EIA publishes fuel data a day or more after the hour, so this is often yesterday" />
       </Section>
 
       <Section title={`${ba.label}: hourly mix, last 7 days`} id="hourly">
         <Legend items={HOURLY_FUELS.map((f) => ({ key: f.key, label: f.label, color: `var(--color-fuel-${f.key})` }))} />
-        {hourly.ok ? <Hourly rows={hourly.data} table={table} label={ba.label} /> : <NoData what={table} reason={hourly.reason} />}
+        {withheld ? <CaisoMixWithheld what="California's hourly mix of the last 7 days" /> : hourly.ok ? <Hourly rows={hourly.data} table={table} label={ba.label} /> : <NoData what={table} reason={hourly.reason} />}
       </Section>
 
       <Section title={`${STATES[st]}: monthly mix since 2001`} id="monthly">

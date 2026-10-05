@@ -13,7 +13,7 @@ import { daysAgo, renderTime, series, type SeriesRow } from "@/lib/data";
 import { count } from "@/lib/format";
 import { DOCS } from "@/lib/markdown";
 import { attempt } from "@/lib/supabase";
-import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
+import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Grid conditions" };
@@ -208,6 +208,8 @@ function mix(gen: SeriesRow[]) {
 }
 
 function FuelBar({ r, gtable }: { r: BAResult; gtable: string }) {
+  // session 118: EIA-930's generation for California is the series the faults register calls changed; it is not drawn
+  if (r.ba.code === "ciso") return <CaisoMixWithheld what="California's generation mix of the day" className="mt-4" />;
   if (r.error && !r.gen.length) return <NoData what="generation mix" reason={r.error} />;
   const { total, hoursTotal, by } = mix(r.gen);
   if (!r.genDay || hoursTotal !== 24) return <NoData what={`generation mix, ${r.day}`} reason={r.genNote ?? `${gtable} has no complete day in the last 10 days`} />;
@@ -235,7 +237,6 @@ export default async function GridPage() {
   return (
     <>
       <h1 className="mb-1 text-3xl">Grid conditions</h1>
-      <CaisoBreakNote kind="mix" />
       <p className="mb-2 max-w-3xl">
         Yesterday&apos;s electricity demand, day-ahead demand forecast and generation by fuel for seven <Term t="ISO" first />s and the Lower 48, with the last seven
         days of demand, from <Term t="EIA" first />&apos;s Hourly Electric Grid Monitor (Form EIA-930).
