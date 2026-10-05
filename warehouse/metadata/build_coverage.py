@@ -199,6 +199,8 @@ SECTOR_RULES = [
     (r"^ercot_hub_prices_daily$", "power"),  # session 114: ERCOT hub prices by day (derived), for Ask ERCOT
     (r"^ercot_storage_dam_awards_monthly$", "power"),  # session 115: storage resources' day-ahead awards by month (derived)
     (r"^ercot_storage_dam_offers_(daily|monthly)$", "power"),  # session 116: their day-ahead offers, by day and by month (derived)
+    (r"^(ercot_sced_esr_hourly|ercot_rtm_node_prices)$", "power"),  # session 120: storage resources in real time by hour; node prices for the week ERCOT lists
+    (r"^ercot_storage_(rt_monthly|node_basis)$", "power"),  # session 120: the fleet in real time beside its day-ahead awards, and its nodes against the hub (derived)
 ]
 
 

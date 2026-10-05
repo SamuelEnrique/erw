@@ -105,6 +105,13 @@ full:
   # 819 rows), whole: the same review page reads it. Under review_hold. The daily table it is added up from,
   # ercot_storage_dam_offers_daily, is NOT loaded: it is under catalogue_hold below
   - '^ercot_storage_dam_offers_monthly$'
+  # session 120: what the same resources did in real time beside their day-ahead awards, the fleet by month (derived, a
+  # few hundred rows), and the storage settlement points' real-time prices against the hub over the one week of node
+  # prices ERCOT lists (derived, about 2,000 rows), whole: the same review page reads them. Under review_hold. The two
+  # tables they are built from, ercot_sced_esr_hourly (a row per resource and hour) and ercot_rtm_node_prices (a row per
+  # settlement point and 15-minute interval), are NOT loaded: they are under catalogue_hold below
+  - '^ercot_storage_rt_monthly$'
+  - '^ercot_storage_node_basis$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -182,6 +189,11 @@ catalogue_hold:
   # session 116: the fleet's day-ahead offers by operating day (about 19,000 rows), the store the standing pull adds a day
   # to; the review page reads the monthly table added up from it
   - ercot_storage_dam_offers_daily
+  # session 120: ERCOT's storage resources in real time by resource and hour (about 1.4 million rows, from the 60-Day SCED
+  # Disclosure), and the real-time prices at their settlement points, the hubs and the Load Zones for the week ERCOT
+  # lists (about 190,000 rows). The review page reads the two small tables built from them
+  - ercot_sced_esr_hourly
+  - ercot_rtm_node_prices
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
@@ -201,6 +213,8 @@ review_hold:
   - ercot_hub_prices_daily             # session 114, /ask/ercot
   - ercot_storage_dam_awards_monthly   # session 115, /cost-of-power/battery/awards
   - ercot_storage_dam_offers_monthly   # session 116, the same page's section on offers
+  - ercot_storage_rt_monthly           # session 120, the same page's section on real time
+  - ercot_storage_node_basis
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
@@ -221,6 +235,9 @@ sources_hold:
   - ercot:NP3-966-ER                   # session 115, ERCOT's 60-day DAM disclosure (/cost-of-power/battery/awards)
   - erw:ercot_storage_dam_awards       # session 115, /cost-of-power/battery/awards
   - erw:ercot_storage_dam_offers       # session 116, the same page's section on offers
+  - ercot:NP3-965-ER                   # session 120, ERCOT's 60-day SCED disclosure (the same page's section on real time)
+  # (the node prices' report, ercot:NP6-905-CD, is not held: ercot_rtm_hub_prices already reads it and /terms already lists it)
+  - erw:ercot_storage_realtime         # session 120, the same page's section on real time
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv
