@@ -248,7 +248,7 @@ On production after the deploy (`site/scripts/check-review-pages.mjs`, 05:05 UTC
 10. **`run_status.csv`: two rows added by hand,** this session's two builds.
 11. **No model call. Model spend USD 0.00.** No request to ERCOT or any publisher. MISO was not requested. No force push.
 12. **I stopped the local site server by its process** (port 3049), as session 115 did.
-13. **About 63 minutes, not 60.**
+13. **About one hour, as asked** (04:07 to 05:07 UTC).
 
 ## To finish
 
@@ -281,4 +281,4 @@ The data lock was taken for each write step and released after it; it is free no
 5. **The first scheduled run of the standing pull** is today at 14:00 UTC. The health summary will say whether it added 6 August.
 6. **The two sentences I added to rule 9** (the freeze rule section).
 
-Energy Research Warehouse (ERW), session 116, on the old laptop (`samueloldlaptop`, data role), 2026-10-05 from about 04:07 UTC to about 05:10 UTC, unattended.
+Energy Research Warehouse (ERW), session 116, on the old laptop (`samueloldlaptop`, data role), 2026-10-05 from about 04:07 UTC to about 05:07 UTC, unattended.
