@@ -8,7 +8,7 @@
 import { NextResponse } from "next/server";
 import { ask } from "@/lib/chat/ask";
 import { scopeOf } from "@/lib/chat/tools";
-import { cleanContext, ercotProfile } from "@/lib/chat/ercot";
+import { cleanContext, cleanHistory, ercotProfile } from "@/lib/chat/ercot";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -37,9 +37,9 @@ function allow(ip: string, now: number): { ok: boolean; retryAfter: number } {
 }
 
 export async function POST(req: Request) {
-  let question: unknown, grid: unknown, profile: unknown, context: unknown;
+  let question: unknown, grid: unknown, profile: unknown, context: unknown, history: unknown, stream: unknown;
   try {
-    ({ question, grid, profile, context } = (await req.json()) as { question?: unknown; grid?: unknown; profile?: unknown; context?: unknown });
+    ({ question, grid, profile, context, history, stream } = (await req.json()) as { question?: unknown; grid?: unknown; profile?: unknown; context?: unknown; history?: unknown; stream?: unknown });
   } catch {
     return NextResponse.json({ error: "send JSON: {\"question\": \"...\"}" }, { status: 400 });
   }
@@ -65,9 +65,36 @@ export async function POST(req: Request) {
       { status: 429, headers: { "Retry-After": String(gate.retryAfter) } },
     );
   }
+  const asked = question.trim();
+  // session 121: the per-question line of the log also holds what the question cost and how long it took
+  const logged = (r: Record<string, unknown>) => console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: asked,
+    status: r.status ?? "answered", cost_usd: r.cost_usd ?? null, seconds: r.seconds ?? null, seconds_first: r.seconds_first ?? null, tool_calls: r.tool_calls ?? null, turns_before: cleanHistory(history).length } }));
+  // session 121, Ask ERCOT only: {stream: true} answers as lines of JSON, one per thing a reader can be shown: first
+  // {"type":"reading","table":...} as each query starts, then {"type":"result",...} (the same object the plain answer
+  // is) or {"type":"error","error":...}. The answer itself is never sent in pieces: it is checked whole first.
+  if (profile === "ercot" && stream === true) {
+    const enc = new TextEncoder();
+    const body = new ReadableStream<Uint8Array>({
+      async start(ctrl) {
+        const send = (o: unknown) => ctrl.enqueue(enc.encode(JSON.stringify(o) + "\n"));
+        send({ type: "started" });
+        try {
+          const r = await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), onEvent: send });
+          logged(r);
+          send({ type: "result", ...r });
+        } catch (e) {
+          console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), question: asked, status: "error" } }));
+          console.error(`[erw ask] ${(e as Error).message}`);
+          send({ type: "error", error: `the question could not be answered: ${(e as Error).message}` });
+        }
+        ctrl.close();
+      },
+    });
+    return new Response(body, { headers: { "Content-Type": "application/x-ndjson; charset=utf-8", "Cache-Control": "no-store", "X-Accel-Buffering": "no" } });
+  }
   try {
     const r = profile === "ercot"
-      ? await ask(question.trim(), undefined, null, ercotProfile(), cleanContext(context))
+      ? await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history) })
       : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null);
     // session 21 (/terms): each question is logged without identity: the time, the question and the
     // outcome, never the IP address (which lives only in memory, for the hourly limit) or any other identifier

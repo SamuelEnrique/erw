@@ -24,7 +24,13 @@ export type AskResult = {
   retried: boolean;
   usage: { input: number; output: number; cache_write: number; cache_read: number; requests: number };
   cost_usd: number | null;
+  /** session 121: seconds from the question to the full answer, and to the model's first reply (the first thing a reader can be shown) */
+  seconds?: number;
+  seconds_first?: number | null;
 };
+/** Session 121: what a reader can be shown before the answer: the table a tool call has gone to read. */
+export type AskEvent = { type: "reading"; tool: string; table: string | null };
+export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void };
 
 const PRICES = spec.prices as unknown as Record<string, [number, number]>;
 const TOOLS = spec.tools as unknown as Anthropic.Tool[];
@@ -40,11 +46,14 @@ export type Profile = {
   effort: string;
   retry: string;
   scope: Scope;
-  opening: (question: string, today: string, context: unknown) => string;
-  extraSources: (context: unknown) => string[];
+  opening: (question: string, today: string, context: unknown, history?: unknown) => string;
+  extraSources: (context: unknown, history?: unknown) => string[];
+  /** session 121: tables an earlier answer of the conversation cited (citing one again is not citing a table unread) */
+  knownTables?: (history: unknown) => string[];
   sourceTexts: (name: string, input: Record<string, unknown>, out: Record<string, unknown>) => string[];
   tag: (name: string, input: Record<string, unknown>, out: Record<string, unknown>, n: number) => Record<string, unknown>;
-  extraProblems: (draft: Draft, results: ToolRecord[]) => string[];
+  /** `given`: the question and the other texts whose numbers count as given (session 121: a premise is checked against them) */
+  extraProblems: (draft: Draft, results: ToolRecord[], given?: string[]) => string[];
   finish: (status: AskResult["status"], draft: Draft | null, results: ToolRecord[]) => Record<string, unknown>;
 };
 
@@ -107,7 +116,16 @@ function cost(model: string, u: AskResult["usage"]): number | null {
 }
 
 export async function ask(question: string, today = new Date().toISOString().slice(0, 10), grid: string | null = null,
-  profile: Profile | null = null, context: unknown = null): Promise<AskResult & Record<string, unknown>> {
+  profile: Profile | null = null, context: unknown = null, opts: AskOptions = {}): Promise<AskResult & Record<string, unknown>> {
+  const t0 = Date.now();
+  let secondsFirst: number | null = null;
+  // session 121: the cost ledger's rows are written beside the loop and awaited once, before the answer is returned:
+  // a row's insert no longer stands between one model call and the next
+  const ledger: Promise<void>[] = [];
+  const done = async <T extends object>(r: T) => {
+    await Promise.allSettled(ledger);
+    return { ...r, seconds: Math.round((Date.now() - t0) / 100) / 10, seconds_first: secondsFirst };
+  };
   // session 35: /ask?grid=<slug>: the grid's block after the system prompt, and the tools scoped to its tables and rows
   const scope = profile ? profile.scope : scopeOf(grid);
   const system: { type: "text"; text: string; cache_control?: { type: "ephemeral" } }[] = [{ type: "text", text: profile ? profile.system : spec.system, cache_control: { type: "ephemeral" } }];
@@ -119,11 +137,12 @@ export async function ask(question: string, today = new Date().toISOString().sli
   if (!key) throw new Error("ANTHROPIC_API_KEY is not set on the server");
   const client = new Anthropic({ apiKey: key });
   const model = await pickModel(client);
-  const messages: Anthropic.MessageParam[] = [{ role: "user", content: profile ? profile.opening(question, today, context) : `Today is ${today} (UTC).\n\nQuestion: ${question}` }];
+  const messages: Anthropic.MessageParam[] = [{ role: "user", content: profile ? profile.opening(question, today, context, opts.history) : `Today is ${today} (UTC).\n\nQuestion: ${question}` }];
   const usage = { input: 0, output: 0, cache_write: 0, cache_read: 0, requests: 0 };
-  const sources: string[] = [question, ...(profile ? profile.extraSources(context) : [])];
+  const given: string[] = [question, ...(profile ? profile.extraSources(context, opts.history) : [])];
+  const sources: string[] = [...given];
   const records: ToolRecord[] = []; // session 92: every tool result, in order, for a profile's checks and its result
-  const tablesRead = new Set<string>();
+  const tablesRead = new Set<string>(profile?.knownTables ? profile.knownTables(opts.history) : []);
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
   let calls = 0, attempts = 0, retried = false;
 
@@ -142,7 +161,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
       .create(params as unknown as Anthropic.MessageCreateParamsNonStreaming)
       .withResponse();
     const resp = raw.data as Anthropic.Message;
-    await recordCall(model, resp, raw.request_id); // session 30: every call into the cost ledger (site_api_calls)
+    ledger.push(recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask")); // session 30: every call into the cost ledger (site_api_calls)
+    if (secondsFirst === null) secondsFirst = Math.round((Date.now() - t0) / 100) / 10;
     usage.input += resp.usage.input_tokens;
     usage.output += resp.usage.output_tokens;
     usage.cache_write += resp.usage.cache_creation_input_tokens ?? 0;
@@ -152,17 +172,23 @@ export async function ask(question: string, today = new Date().toISOString().sli
 
     if (resp.stop_reason === "tool_use") {
       const results: Anthropic.ToolResultBlockParam[] = [];
-      for (const b of resp.content) {
-        if (b.type !== "tool_use") continue;
+      // session 121: the tool calls of one model turn are read together, not one after another. Each keeps the ordinal it
+      // would have had (0: past the limit), so the result ids are the ones a sequential loop gives
+      const blocks = resp.content.filter((b): b is Anthropic.ToolUseBlock => b.type === "tool_use");
+      const slots = blocks.map(() => (calls < spec.max_tool_calls ? ++calls : 0));
+      for (const [i, b] of blocks.entries())
+        if (slots[i]) opts.onEvent?.({ type: "reading", tool: b.name, table: typeof (b.input as Record<string, unknown> | null)?.table === "string" ? String((b.input as Record<string, unknown>).table) : null });
+      const outs = await Promise.all(blocks.map((b, i) => (slots[i] ? runTool(b.name, b.input, scope) : null)));
+      for (const [i, b] of blocks.entries()) {
         let out: Record<string, unknown>, isError: boolean;
-        if (calls >= spec.max_tool_calls) {
+        const got = outs[i];
+        if (!got) {
           out = { error: `tool call limit (${spec.max_tool_calls}) reached; answer now` };
           isError = true;
         } else {
-          ({ out, isError } = await runTool(b.name, b.input, scope));
-          calls += 1;
+          ({ out, isError } = got);
           if (profile) {
-            out = profile.tag(b.name, (b.input ?? {}) as Record<string, unknown>, out, calls);
+            out = profile.tag(b.name, (b.input ?? {}) as Record<string, unknown>, out, slots[i]);
             records.push({ tool: b.name, input: (b.input ?? {}) as Record<string, unknown>, out, isError });
             sources.push(...profile.sourceTexts(b.name, (b.input ?? {}) as Record<string, unknown>, out));
           }
@@ -187,7 +213,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
     }
     const base = { model, tool_calls: calls, retried, usage, cost_usd: cost(model, usage) };
     if (resp.stop_reason === "refusal") {
-      return { answer: spec.refusal, citations: [], not_in_warehouse: false, status: "model_refusal", ...base, ...(profile ? profile.finish("model_refusal", null, records) : {}) };
+      return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "model_refusal" as const, ...base, ...(profile ? profile.finish("model_refusal", null, records) : {}) });
     }
     if (resp.stop_reason !== "end_turn") throw new Error(`stop_reason ${resp.stop_reason}`);
     const text = resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
@@ -196,14 +222,14 @@ export async function ask(question: string, today = new Date().toISOString().sli
     const uncited = draft.citations.map((c) => c.table).filter((t) => !tablesRead.has(t));
     // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
     const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
-    const more = profile ? profile.extraProblems(draft, records) : [];
+    const more = profile ? profile.extraProblems(draft, records, given) : [];
     if (!bad.length && !uncited.length && !noCite && !more.length) {
       // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
       const answer = draft.answer.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ");
       // session 28: each citation's tier is the warehouse's, whatever the model copied
       const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));
-      const status = draft.not_in_warehouse ? "not_in_warehouse" : "answered";
-      return { ...draft, answer, citations, status, ...base, ...(profile ? profile.finish(status, { ...draft, citations }, records) : {}) };
+      const status = draft.not_in_warehouse ? ("not_in_warehouse" as const) : ("answered" as const);
+      return done({ ...draft, answer, citations, status, ...base, ...(profile ? profile.finish(status, { ...draft, citations }, records) : {}) });
     }
     attempts += 1;
     if (attempts === 1) {
@@ -216,7 +242,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       messages.push({ role: "user", content: (profile ? profile.retry : spec.retry).replace("{problems}", problems.join("; ")) });
       continue;
     }
-    return { answer: spec.refusal, citations: [], not_in_warehouse: false, status: "refused_unverified", ...base, retried: true,
-      ...(profile ? profile.finish("refused_unverified", null, records) : {}) };
+    return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base, retried: true,
+      ...(profile ? profile.finish("refused_unverified", null, records) : {}) });
   }
 }

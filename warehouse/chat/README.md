@@ -81,3 +81,35 @@ On the site the profile is `site/lib/chat/ercot.ts`, the page `/ask/ercot` (in r
 the same tool results through both and compares what they return. The site reads the Supabase live set, which does not
 hold every ERCOT table (the hub price history, the reserve prices, Berkeley Lab's queue, the owners, the internal
 contracts): there the chat says the table is not in the site's live set.
+
+## Ask ERCOT, to user-ready (session 121)
+
+What the profile gained, in `ercot.py` and, the same, in `site/lib/chat/ercot.ts`:
+
+1. **A conversation.** `ask(question, history=[earlier records])`. The first message carries, for each of the last
+   three turns, the question, the answer and the queries run for it, so "and the year before?" is read as what it
+   continues. The numbers of an earlier answer count as given (they were checked when it was written); every new
+   number is still fetched and checked. Without a history the first message is byte for byte what it was.
+2. **A refusal names the nearest thing held.** The answer schema has `nearest`: one to three tables of the guide,
+   nearest first. A refusal that names none, or a table that is not in the guide, is sent back. What the reader is
+   shown beside each table (`HOLDS`) is the guide's own sentence, written by code. The fixed refusal (an answer whose
+   numbers could not be traced) lists the tables it read. A question plainly outside the tables is refused without a
+   tool call.
+3. **A premise.** The schema has `premise`: one sentence when the question takes for granted something the tables
+   contradict (a level, a direction, a ranking, a date, an "always"). Its numbers are checked as the answer's are.
+4. **A loose question is answered**, in the most natural reading the tables bear, which the answer states first.
+5. **Time.** Every record has `seconds_first` (the model's first reply: the first thing a reader can be shown) beside
+   `seconds`. `on_event` reports each table as its query starts; the site's route streams those as lines of JSON
+   (`{"stream": true}`), then the answer, whole and checked. The site reads the queries of one model turn together and
+   no longer waits on the cost ledger between model calls.
+6. **A chart is the rows fetched.** Each series of a record carries `check`: the rows the tool returned, the rows of
+   the series, whether they are the same key by key, and how many of them a line chart can place. A series that is
+   not the tool's rows is not shown. `site/lib/chat/series.ts` is the one function the page draws from;
+   `node site/scripts/check-series.mjs <records.jsonl>` sets every chart of a run against its rows.
+7. **Cost.** Each record has `cost_usd`; the site's log line of a question has its cost, seconds and tool calls, and
+   its rows in `site_api_calls` carry the step `site_ask_ercot`.
+
+The second evaluation set: `eval/ercot_expected_s121.py` builds `eval/questions_ercot_s121.yaml`, 100 questions of
+five kinds (join, vague, followup, premise, outside); `eval/ercot_eval_s121.py --arm before|after --cap USD` runs it,
+`--rescore <jsonl>` scores saved answers again without a model call. `node site/scripts/time-ask-ercot.mjs <base>
+<out.json>` times a few questions on the site itself (each is a model call).

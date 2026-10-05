@@ -63,7 +63,9 @@ UPS = ["How long can the fleet run?", "How much is planned?"]
 
 
 def final(answer, series=(), followups=UPS, citations=CITE, missing=False):
-    return Reply(final={"answer": answer, "citations": citations, "not_in_warehouse": missing, "series": list(series), "followups": list(followups)})
+    # session 121: the schema gained nearest (a refusal names the tables that come closest) and premise
+    return Reply(final={"answer": answer, "citations": citations, "not_in_warehouse": missing, "series": list(series), "followups": list(followups),
+                        "nearest": ["storage_buildout_monthly"] if missing else [], "premise": ""})
 
 
 @unittest.skipUnless(held("storage_buildout_monthly"), "storage_buildout_monthly is not on this machine")

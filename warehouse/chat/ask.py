@@ -185,8 +185,9 @@ class Asker:
     def tool_list(self):
         return tools.TOOLS
 
-    def opening(self, question, today, context=None):
-        """The first message. `context` is the view a reader opened the chat from (only a profile uses it)."""
+    def opening(self, question, today, context=None, history=None):
+        """The first message. `context` is the view a reader opened the chat from, `history` the conversation so far
+        (only a profile uses either)."""
         return f"Today is {today} (UTC).\n\nQuestion: {question}"
 
     def tag(self, name, args, out, n):
@@ -197,9 +198,13 @@ class Asker:
         """Further reasons to send a draft back, as text for the retry message."""
         return []
 
-    def extra_sources(self, context):
+    def extra_sources(self, context, history=None):
         """Texts whose numbers count as given, beside the question and the tool results."""
         return []
+
+    def known_tables(self, history):
+        """Tables an earlier answer of the conversation read and cited: citing one again is not citing a table unread."""
+        return set()
 
     def finish(self, record, results):
         """Called once with the final record; a profile adds to it (the series behind a chart)."""
@@ -229,12 +234,20 @@ class Asker:
             cache_control={"type": "ephemeral"},
             messages=messages)
 
-    def ask(self, question, today=None, context=None):
+    def ask(self, question, today=None, context=None, history=None, on_event=None):
+        """`history` (session 121): the conversation so far, a list of earlier records of this method, oldest first; a
+        profile puts it in the first message. `on_event` is called with each thing a reader could be shown before the
+        answer: {"type": "reading", "tool": ..., "table": ...} as each tool call starts."""
         t0 = time.time()
         today = today or dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
-        messages = [{"role": "user", "content": self.opening(question, today, context)}]
+        if history:
+            first, given = self.opening(question, today, context, history), self.extra_sources(context, history)
+        else:  # as before session 121, argument for argument
+            first, given = self.opening(question, today, context), self.extra_sources(context)
+        messages = [{"role": "user", "content": first}]
         usage = {"input": 0, "output": 0, "cache_write": 0, "cache_read": 0, "requests": 0}
-        calls, sources, tables_read = [], [question] + self.extra_sources(context), set()
+        calls, sources, tables_read = [], [question] + given, set(self.known_tables(history) if history else ())
+        seconds_first = None
         results = []  # session 92: every tool result, in order, for a profile's checks and its record
         record = {"question": question, "grid": self.grid, "model": self.model, "today": today, "retried": False,
                   "first_violations": [], "request_ids": []}
@@ -249,6 +262,10 @@ class Asker:
             usage["requests"] += 1
             record["request_ids"].append(resp._request_id)
             messages.append({"role": "assistant", "content": resp.content})
+            if seconds_first is None:
+                # session 121: the model's first reply is the first thing a reader can be shown: what it went to read,
+                # or the answer itself when it needed no tool
+                seconds_first = round(time.time() - t0, 1)
             if resp.stop_reason == "tool_use":
                 answers = []
                 for b in resp.content:
@@ -257,6 +274,8 @@ class Asker:
                     if len(calls) >= MAX_TOOL_CALLS:
                         out, err = {"error": f"tool call limit ({MAX_TOOL_CALLS}) reached; answer now"}, True
                     else:
+                        if on_event:
+                            on_event({"type": "reading", "tool": b.name, "table": b.input.get("table") if isinstance(b.input, dict) else None})
                         out, err = tools.run(b.name, b.input)
                         out = self.tag(b.name, b.input, out, len(calls) + 1)
                         results.append({"tool": b.name, "input": b.input, "out": out, "is_error": err})
@@ -330,7 +349,7 @@ class Asker:
             if isinstance(record.get(k), str):
                 record[k] = nodash(record[k])
         record.update({"tool_calls": len(calls), "calls": calls, "usage": usage,
-                       "cost_usd": cost_usd(self.model, usage), "seconds": round(time.time() - t0, 1)})
+                       "cost_usd": cost_usd(self.model, usage), "seconds": round(time.time() - t0, 1), "seconds_first": seconds_first})
         self.finish(record, results)
         return record
 
