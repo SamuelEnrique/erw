@@ -147,7 +147,7 @@ export default async function Contracts({ searchParams }: { searchParams: Promis
                   <li><strong>Buyers that do not sell power.</strong> A company buying under a power purchase agreement appears only as the customer of a seller that files.</li>
                   <li><strong>Financial contracts.</strong> A contract settled in money and not in power is not a sale under a FERC tariff.</li>
                   <li><strong>Names as one thing.</strong> The same buyer is spelled several ways across filers; this list shows each name as filed. The view of the largest buyers and sellers counts a buyer&apos;s spellings together, by rule.</li>
-                  <li><strong>Totals of megawatts.</strong> Quantity is empty in many rows and its units vary, so no total is given.</li>
+                  <li><strong>Totals of megawatts.</strong> Quantity is empty in many rows and its units vary, so this list gives no total. The view &quot;Ranked by megawatts stated&quot; adds up the few contracts that state one, and says how few.</li>
                 </ul>
               </Fold>
             </div>
@@ -358,9 +358,9 @@ function TermsView({ summary, reason }: { summary: Summary | null; reason: strin
       </ToolSection>
       <ToolSection title="FERC's terms for this data" note="Quoted, not interpreted. The table stays internal until a person has read the Commission's own statement of terms.">
         <ul className="max-w-3xl list-disc space-y-1.5 pl-5 text-sm">
-          <li>&quot;The Commission established the EQR reporting requirements to help ensure the collection of information needed to perform its regulatory functions over transmission and wholesale sales of electricity, while making data available to the public and allowing public utilities to better fulfill their responsibility under Federal Power Act (FPA) section 205(c) to have rates on file in a convenient form and place.&quot; Federal Register, 17 February 2026, 91 FR 7278, FR Doc. 2026-03012.</li>
-          <li>&quot;The Commission adopted the EQR as the reporting mechanism for public utilities to fulfill their responsibility under FPA section 205(c) to have information relating to their rates, terms and conditions of service available for public inspection in a convenient form and place.&quot; Federal Register, 24 March 2026, 91 FR 14306, FR Doc. 2026-05709.</li>
-          <li><strong>What could not be read:</strong> the Commission&apos;s own pages of terms on ferc.gov answered this machine&apos;s requests with HTTP 403 on 5 October 2026, as they did in session 83. That was not worked around. The two passages say the filings are public; neither is a statement of the terms on which the data may be republished.</li>
+          <li>&quot;The Commission established the EQR reporting requirements to help ensure the collection of information needed to perform its regulatory functions over transmission and wholesale sales of electricity, while making data available to the public and allowing public utilities to better fulfill their responsibility under Federal Power Act (FPA) section 205(c) to have rates on file in a convenient form and place.&quot; Federal Register, 17 February 2026, 91 FR 7278, at 7279, FR Doc. 2026-03012.</li>
+          <li>&quot;The Commission adopted the EQR as the reporting mechanism for public utilities to fulfill their responsibility under FPA section 205(c) to have information relating to their rates, terms and conditions of service available for public inspection in a convenient form and place.&quot; Federal Register, 24 March 2026, 91 FR 14306, at 14310, FR Doc. 2026-05709.</li>
+          <li><strong>What this machine did not reach:</strong> the Commission&apos;s own pages of terms on ferc.gov answered this machine&apos;s requests with HTTP 403 on 5 October 2026, as they did in session 83. That was not worked around. The two passages say the filings are public; neither is a statement of the terms on which the data may be republished.</li>
         </ul>
       </ToolSection>
     </div>
