@@ -187,6 +187,7 @@ SECTOR_RULES = [
     (r"^iso_hub_prices_history$", "power"),
     (r"^eia930_all_history$", "power"),
     (r"^noaa_isd_hourly$", "power"),
+    (r"^noaa_grid_weather_(stations|hourly|daily)$", "power"),  # session 126: each grid's weighted weather, and its stations
     (r"^rrc_lease_production_monthly$", "oil;gas"),
     # session 102: the tables of sessions 94 to 100, which could not be put in coverage during the freeze
     (r"^generation_mix_(hourly_profile|records)$", "power;carbon"),  # session 94: the energy mix by hour and its records
@@ -240,7 +241,8 @@ def iso_of(table):
         return "ISO-NE;MISO;NYISO;PJM"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
         return "CAISO;ISO-NE;MISO;NYISO;SPP"
-    if table in ("eia930_all_history", "noaa_isd_hourly"):  # session 49: the seven ISO BAs, and their weather stations
+    if table in ("eia930_all_history", "noaa_isd_hourly", "noaa_grid_weather_stations", "noaa_grid_weather_hourly", "noaa_grid_weather_daily",
+                 "eia930_demand_weather"):  # session 49: the seven ISO BAs, and their weather stations; session 126: their weighted weather and demand with it taken out
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table == "rrc_lease_production_monthly":  # session 49: Texas leases, no ISO
         return "none"

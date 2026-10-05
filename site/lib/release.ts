@@ -44,6 +44,7 @@ export const RELEASE: Record<string, Status> = {
   "/mix": "review",
   "/prices/compare": "review",  // session 96: where power is cheap (hub and zone prices compared)
   "/demand": "review",  // session 97: the demand growth explorer
+  "/demand/weather": "review",  // session 126: demand growth with the weather taken out (NOAA station temperatures)
   "/curtailment/v2": "review",  // session 98: curtailment, version 2 (California by hour, month and reason, against battery charging)
   "/queues": "review",  // session 95: the interconnection queue explorer
   "/mix/clean": "review",  // session 122: how clean each grid's generation is, and when (hourly against annual matching, the cleanest hours, load moved into them)
