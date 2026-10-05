@@ -71,7 +71,10 @@ async function take(name, base) {
   if (fs.existsSync(dir)) { console.error(`${path.relative(ROOT, dir)} exists; a snapshot is never overwritten, choose another name`); process.exit(2); }
   const live = liveInRelease();
   const notLive = LIVE_PAGES.filter((p) => !live.includes(p.split("?")[0]));
-  if (notLive.length) { console.error(`not live in lib/release.ts: ${notLive.join(", ")}`); process.exit(2); }
+  // session 126: a listed page in review is read all the same, as a visitor sees it (the in-review page): the home page,
+  // About, Terms, the seller's tab and the four methods notes went to review on 5 October 2026, and a snapshot now also
+  // shows that a locked page stayed locked. The list keeps its order, so an older snapshot's files keep their numbers.
+  if (notLive.length) console.log(`in review in lib/release.ts, read as a visitor sees them: ${[...new Set(notLive.map((p) => p.split("?")[0]))].join(", ")}`);
   fs.mkdirSync(dir, { recursive: true });
   const index = { name, base, taken_utc: new Date().toISOString(), complete: false, pages: [] };
   let failed = 0, n = 0;

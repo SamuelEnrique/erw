@@ -139,9 +139,9 @@ class ThePage(unittest.TestCase):
     def test_in_review_with_its_own_line_and_the_live_tab_untouched(self):
         rel = src("site", "lib", "release.ts")
         self.assertRegex(rel, r'"/cost-of-power/seller/v2":\s*"review"')          # without it the page would take the live tab's status
-        self.assertRegex(rel, r'"/cost-of-power/seller":\s*"live"')
+        self.assertRegex(rel, r'"/cost-of-power/seller":\s*"review"')            # session 126: the tab itself went to review on 5 October 2026 (the owner's instruction)
         out = node("const r = await import('./lib/release.ts'); console.log(JSON.stringify([r.statusOf('/cost-of-power/seller/v2'), r.statusOf('/cost-of-power/seller/v2?iso=caiso'), r.statusOf('/cost-of-power/seller')]));")
-        self.assertEqual(out, ["review", "review", "live"])
+        self.assertEqual(out, ["review", "review", "review"])
         page = src("site", "app", "cost-of-power", "seller", "v2", "page.tsx")
         for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "Fold", "SourceLine"):
             self.assertIn(f"<{piece}", page)
