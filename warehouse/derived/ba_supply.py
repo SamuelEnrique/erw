@@ -203,7 +203,9 @@ def load(in_dir, log):
         # session 118: an impossible hour of demand or of net generation is a blank, and its day is then not a day whose
         # every hour is held (docs/methods/impossible_hours.md). HELD: this table is behind the live /network page, so
         # the rule is applied only when a person has approved the numbers it moves (impossible_hours.HELD)
-        bal[ba] = balance_days(ih.screen_extract(em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]], NAME))
+        # and California's net generation of the hydro gap is a blank: demand less a net generation with no hydro in
+        # it is not what California imported (ih.CISO_NO_HYDRO), so those days have no balance
+        bal[ba] = balance_days(ih.without_hydro_gap(ih.screen_extract(em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]], NAME), ba, NAME))
         used.append(f"{ba}: {os.path.relpath(ex, ROOT)} ({len(bal[ba])} complete days)")
     return it, ti, bal, used
 

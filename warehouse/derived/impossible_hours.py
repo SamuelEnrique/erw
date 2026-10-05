@@ -90,6 +90,18 @@ def in_hydro_gap(ts_utc):
     return ((t >= pd.Timestamp(CISO_NO_HYDRO[0])) & (t <= pd.Timestamp(CISO_NO_HYDRO[1]))).to_numpy()
 
 
+def without_hydro_gap(x, ba, table=None, col="net_generation_mwh"):
+    """An extract with California's net generation blank in the hours of the hydro gap: EIA's total leaves hydro out
+    there, so the hour's generation, and any CO2 divided by it, is short. Another balancing authority's extract comes
+    back as it came, and so does a held table's outside a trial build. Demand is not touched: it does not rest on
+    generation by source."""
+    if str(ba).lower() != "ciso" or (table is not None and not applies(table)):
+        return x
+    out = x.copy()
+    out.loc[in_hydro_gap(out["ts_utc"]), col] = np.nan
+    return out
+
+
 def applies(table):
     """Whether the rule is applied when this table is built: always, except for a table in HELD, where it is applied
     only in a trial build (ERW_SCREEN_TRIAL=1)."""

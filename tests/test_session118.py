@@ -198,6 +198,7 @@ class TheHold(unittest.TestCase):
         self.assertIn("ih.screen_extract(em.read_extract(p)[[\"ts_utc\", \"demand_mwh\", \"net_generation_mwh\"]], TABLES[0], log=log)", src("warehouse", "derived", "carbon_intensity.py"))
         self.assertIn("x = ih.screen_extract(x, MONTHLY, log=log)", src("warehouse", "derived", "cost_of_power.py"))
         self.assertIn("ih.screen_extract(em.read_extract(ex)[[\"ts_utc\", \"demand_mwh\", \"net_generation_mwh\"]], NAME)", src("warehouse", "derived", "ba_supply.py"))
+        self.assertIn("ih.without_hydro_gap(ih.screen_extract(", src("warehouse", "derived", "ba_supply.py"))
         self.assertIn('impossible_hours.screen_extract(x, "ai_power_regions")', src("warehouse", "derived", "ai_power_regions.py"))
         s = src("warehouse", "derived", "ai_power_regions.py")
         self.assertLess(s.index('impossible_hours.screen_extract(x, "ai_power_regions")'), s.index('x = x[in_window(x["ts_utc"])]'),
@@ -220,6 +221,23 @@ class TheHydroGap(unittest.TestCase):
         self.assertEqual(list(ih.in_hydro_gap(hours)), [False, True, True, True, False])
         self.assertEqual(list(ih.in_hydro_gap(pd.to_datetime(hours, utc=True))), [False, True, True, True, False])
         self.assertEqual(len(pd.date_range(ih.CISO_NO_HYDRO[0], ih.CISO_NO_HYDRO[1], freq="h")), 7869)
+
+    def test_californias_net_generation_of_the_gap_is_a_blank_and_nothing_else_is(self):
+        x = sample("ciso")
+        os.environ["ERW_SCREEN_TRIAL"] = "1"
+        try:
+            y = ih.without_hydro_gap(x, "ciso", "event_window_daily")
+        finally:
+            os.environ.pop("ERW_SCREEN_TRIAL", None)
+        gap = ih.in_hydro_gap(x["ts_utc"])
+        self.assertGreater(int(gap.sum()), 60)                               # the sample holds both edges of the gap
+        self.assertTrue(y["net_generation_mwh"][gap].isna().all())
+        self.assertTrue((pd.to_numeric(y["net_generation_mwh"][~gap]) == pd.to_numeric(x["net_generation_mwh"][~gap])).all())
+        self.assertTrue(y["demand_mwh"].equals(x["demand_mwh"]))               # demand does not rest on generation by source
+        self.assertIs(ih.without_hydro_gap(x, "pjm", None), x)                 # another grid: as it came
+        self.assertIs(ih.without_hydro_gap(x, "ciso", "event_window_daily"), x)   # held, outside a trial build: as it came
+        s = src("warehouse", "derived", "event_window.py")
+        self.assertEqual(s.count("impossible_hours.without_hydro_gap("), 2)
 
     def test_the_carbon_builder_leaves_it_out_and_reads_the_late_hours_where_they_belong(self):
         s = src("warehouse", "derived", "carbon_intensity.py")

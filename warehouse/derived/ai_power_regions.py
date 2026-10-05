@@ -200,7 +200,7 @@ def extract(ba):
     x = em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]]
     # session 118: the rule for impossible hours, over the whole history before the window is cut (the hours around an
     # hour and the grid's own median need it). HELD until a person approves the numbers it moves (impossible_hours.HELD)
-    x = impossible_hours.screen_extract(x, "ai_power_regions")
+    x = impossible_hours.without_hydro_gap(impossible_hours.screen_extract(x, "ai_power_regions"), ba, "ai_power_regions")
     x = x[in_window(x["ts_utc"])]
     return x, ex
 
