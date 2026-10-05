@@ -2950,3 +2950,4 @@ run_id,runner,connector,table,market,status,detail
 20261005T010011Z,local,ercot_as_prices,ercot_as_prices,DAM,ok,336332 rows of 500000
 20261005T010314Z,local,battery_stack,battery_stack_monthly,derived,ok,10542 rows
 20261005T010314Z,local,battery_stack,battery_stack_stress_daily,derived,ok,1260 rows
+20261005T020357Z,local,ercot_hub_prices_daily,ercot_hub_prices_daily,derived,ok,345228 rows; 0 hub-days left out
