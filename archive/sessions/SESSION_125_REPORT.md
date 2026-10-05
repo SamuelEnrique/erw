@@ -150,7 +150,7 @@ git push origin --delete wip/125-contracts wip/124-network-v3   # once both are 
 
 ## The daily run of 14:00 UTC
 
-Run 37321169760 started at 14:00:02, took the data lock at 14:03:53, and was still in its step "Pull, validate, rebuild coverage" at 15:32. The two daily runs before it took 86.2 minutes each. Its commit had not landed, so it is not merged here (step 1 of "To finish" merges it).
+Run 37321169760 started at 14:00:02, took the data lock at 14:03:53, and was still in its step "Pull, validate, rebuild coverage" at 15:40, when the chain ended. The two daily runs before it took 86.2 minutes each. Its commit had not landed, so it is not merged here (step 1 of "To finish" merges it).
 
 **Not read, because the run had not finished:** whether Monday's digest was written and delivered, whether the new `health.py alert` step ran, and whether `network_daily.py --daily` passed with session 124's builder. Its log is `python runs/session118/gh.py log 37321169760 runs/daily.zip` once it ends.
 
@@ -179,7 +179,7 @@ Run 37321169760 started at 14:00:02, took the data lock at 14:03:53, and was sti
 
 `tests/test_session125.py`, 27 tests: every reading and every reason of the price rule on made-up words; megawatts (units, zero, the ceiling, a contract counted once); the tags and the words elsewhere; rule merges only; new, gone and kept, and no change written across a gap; the loader's summary from made tables; the pull's ceiling and modes; the unreadable filing; the registry row `/terms` shows; that the four tables are internal, unloaded, held and out of git; that no name of the real tables is in a doc, a test, the page or this report; the tables as built; the page's views and words.
 
-Full suite before the push: 1,258 passed, 19 skipped, exit 0. Site build exit 0. Route check exit 0.
+Full suite before the deploying push: 1,258 passed, 19 skipped, exit 0. Site build exit 0. Route check exit 0. On `wip/125-contracts` as it stands, with this report in place: 1,259 passed, 19 skipped, exit 0.
 
 ## What is left
 
