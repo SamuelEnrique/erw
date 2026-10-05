@@ -9,6 +9,9 @@ import { AskErcot } from "./AskErcot";
 // a chart and the rows it fetched, it proposes what to ask next, and a view of the site can open it with that view's
 // period and settings (/ask/ercot?from=<view>&title=<its name>&s_<setting>=<value>&q=<question>). In review
 // (lib/release.ts). The general chat (/ask) and the grid pages' chats (/ask?grid=<slug>) are as they were.
+// Session 121: a conversation (the turns before go with the next question), a refusal that names the nearest tables, a
+// premise the tables contradict said first, what is being read shown while the answer is prepared, and each chart
+// checked against the rows fetched.
 export const metadata: Metadata = { title: "Ask ERCOT", robots: { index: false, follow: false } };
 
 export default async function AskErcotPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
@@ -25,7 +28,9 @@ export default async function AskErcotPage({ searchParams }: { searchParams: Pro
       </p>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Every number in an answer comes from a query of a table, and the answer names the table; a number that cannot be traced to a query is not shown. An answer
-        that rests on a series comes with a chart and the rows it was drawn from. If the tables do not hold the answer, it says so. On this site the tables are the
+        that rests on a series comes with a chart and the rows it was drawn from. If the tables do not hold the answer, it says so and names the tables that come nearest.
+        If a question takes for granted something the tables contradict, it says that first. It keeps the conversation: the next question is read as a continuation of
+        the answers before it. On this site the tables are the
         live set&apos;s: hub prices are held by day since 2015 (each day&apos;s mean, its peak and off-peak means, its lowest and highest price, and its hours
         below zero and above 200 USD/MWh), and interval by interval for the newest weeks only. A question that needs the single intervals of an older day is
         answered from the day&apos;s figures, and the chat says what they cannot give. At most 10 questions per hour.
