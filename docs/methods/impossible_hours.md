@@ -109,6 +109,9 @@ its own constant, `impossible_hours.CISO_NO_HYDRO`, measured on the workbook ret
 
 - the energy mix tables do not write those months (session 94: a main source may not be blank);
 - the carbon builder leaves the hours out of both intensities, in the held build;
+- the supply, regions and event window builders take California's net generation of those hours as blank
+  (`impossible_hours.without_hydro_gap`), in their held builds: demand less a net generation with no hydro in it is
+  not what California imported;
 - the pages that read the carbon tables leave the months out and say so (below).
 
 ## Every table that reads these values
@@ -126,10 +129,10 @@ approves it by taking the table's line out of `HELD`; its next build then applie
 | the network's replay (`site/public/network/daily_*.json`) | daily interchange; daily demand | C; a band of its own on daily demand | Applied (sessions 93, 109) |
 | `carbon_intensity_hourly`, `_daily`, `_monthly` | demand and net generation as reported | A, B; the hydro gap; California's late hours | **Held** |
 | `cost_of_power_monthly`, `cost_of_power_carbon` | demand as weights; net generation | A, B | **Held** |
-| `ba_supply_monthly` | demand and net generation by day; daily interchange | A, B (held); C applied since session 62 | **Held** |
-| `ai_power_regions` | demand and net generation by year; daily interchange; the two tables above | A, B (held); C applied | **Held** |
+| `ba_supply_monthly` | demand and net generation by day; daily interchange | A, B and the hydro gap (held); C applied since session 62 | **Held** |
+| `ai_power_regions` | demand and net generation by year; daily interchange; the two tables above | A, B and the hydro gap (held); C applied | **Held** |
 | `caiso_reliability_daily` | California's demand | A, B | **Held** |
-| `event_window_daily` | demand and net generation by day | A, B | **Held** |
+| `event_window_daily` | demand and net generation by day | A, B and the hydro gap | **Held** |
 | `flex_alert_effects`, `flex_alert_model` | California's demand | A, B, in place of a screen of its own (below 30 percent of the median hour, or 20 percent from both neighbours) | Applied (session 118): built both ways from the same inputs, the two tables are the same in every value, so nothing was held |
 | `grid_network_nodes`, the live `/network` page's hourly file | the newest hour of demand, hourly interchange | none: one hour has no hours after it, and rule C is for days | Not applied; said on `/data/faults` |
 | `eia930_all_demand`, `eia930_all_generation`, `eia930_all_emissions`, `eia930_daily_interchange` | the source tables | none | They hold EIA's values as published and always will |
@@ -147,10 +150,10 @@ on a live page that would move.
 | `carbon_intensity_monthly` | 1,275 | 1,242 | 33 months gone: California 22, PJM 7, SPP 3, the Lower 48 1. PJM's October 2021 was 4.4718 (consumed) and 4.7971 (generation) kg CO2/MWh between months of 316 to 411. 34 of California's months move by at most 0.15, as its late hours are read where they belong |
 | `cost_of_power_monthly` | 2,304 | 2,304 | 39 values in five grid-months: New York's October 2024, January 2025 and February 2026 (hours at zero demand leave the hour counts and the simple means; the load-weighted prices do not move, a zero weighs nothing), SPP's June 2025 (load-weighted real-time 33.4085 to 33.4103 USD/MWh) and California's July 2025 (33.2546 to 33.2600 at SP15). No value of Texas moves |
 | `cost_of_power_carbon` | 712 | 712 | 9 values change (SPP's June 2025, California's July 2025), 2 gone (California's April 2025 intensity of generation, both hubs), 2 new (New York's February 2026: with the zero hours left out the month's CO2 is held in every hour that is used) |
-| `ba_supply_monthly` | 158,503 | 158,503 | 433 values in 28 grid-months. PJM's demand of October 2021 was 4,165,722,983 MWh and is 55,904,508; SPP's of June 2023 was 28,293,676 and is 23,996,172. In the twelve months the live page shows: California's August 2026 and New York's February 2026 |
+| `ba_supply_monthly` | 158,503 | 158,293 | 391 values change in 26 grid-months, and 210 rows go. PJM's demand of October 2021 was 4,165,722,983 MWh and is 55,904,508; SPP's of June 2023 was 28,293,676 and is 23,996,172. The 210: every figure of California from October 2019 to July 2020, the months wholly inside the hydro gap. The builder takes a day's demand only from days that also hold net generation, so with the gap's net generation blank those months have no days; the shares by the pairs, which need no generation, go with them (a limit of the builder, said in session 118's report). In the twelve months the live page shows: California's August 2026 and New York's February 2026 |
 | `ai_power_regions` | 187 | 187 | 8 values: California's carbon intensity (142.8 to 142.2 kg CO2/MWh), its days and demand; New York's flat-load prices (day-ahead 72.64 to 72.52 USD/MWh) |
 | `caiso_reliability_daily` | 20,498 | 20,420 | 13 days of California no longer written (78 rows), in February, April, May and December 2019, October 2020 and July 2025: each held an impossible hour of demand. No value changes |
-| `event_window_daily` | 28,438 | 28,383 | 55 rows gone, none changed: days of California (2019 and 2020), New York, PJM and the Lower 48 (April 2019 and 2020) that held an impossible hour, and the comparisons with a baseline that rested on them. No row of Texas moves, so the stress days of the live seller page do not |
+| `event_window_daily` | 28,438 | 28,279 | 159 rows gone, none changed. 107 are California's intensity of generation on days inside the hydro gap (March to May and August 2020, and three days of 2019 and 2020 with an impossible hour); 52 are days of California, New York, PJM and the Lower 48 (April and May 2019 and 2020) that held an impossible hour of demand, and the comparisons with a baseline that rested on them. No row of Texas moves, so the stress days of the live seller page do not |
 
 Not held, because nothing moved: `flex_alert_effects` (2,973 rows) and `flex_alert_model` (881 rows). The table's own
 screen marked 27 of California's hours and the one rule marks 37; the hours that differ lie before the weather the
