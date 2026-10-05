@@ -5,7 +5,7 @@
 Every operating and planned generating unit of EIA's monthly inventory (Form EIA-860M), batteries among them, as the
 page /map/v2 reads it: one compact column per field, a unit per position. It makes no request and writes no warehouse
 table: the units are the rows of eia860m_operating_generators and eia860m_planned_generators, unchanged. A site file,
-like the network's replay files, built by hand when a new month of the inventory is in the warehouse.
+like the network's replay files. Session 114: rebuilt by the monthly job (warehouse/run_monthly.sh), no longer by hand.
 
 Fields of a unit: name (the plant's), state, grid (the seven ISOs by EIA's balancing authority code; every other
 balancing authority, and a blank one, is "outside the seven ISOs"), technology group (the inventory's eleven; a

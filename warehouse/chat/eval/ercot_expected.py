@@ -25,6 +25,8 @@ OUT = os.path.join(ROOT, "warehouse", "output")
 TODAY = "2026-10-04"
 TZ = "America/Chicago"
 HUB = "ercot:HB_HUBAVG"
+HIST = "ercot_all_hub_prices_history"
+DAILY = "ercot_hub_prices_daily"  # session 114: the history by day, the table the site holds
 _cache = {}
 
 
@@ -77,6 +79,8 @@ def build():
 
     def add(kind, question, expected, tables, text=(), refuse=False, internal=False, wants_series=False, context=None, note="", tolerance=None):
         expected = [round(float(v), 6) for v in expected]
+        if HIST in tables and DAILY not in tables:  # session 114: a past price may be read from the daily summary
+            tables = list(tables) + [DAILY]
         Q.append({"id": f"e{len(Q) + 1:02d}", "kind": kind, "question": question, "expected": expected,
                   "tolerance": tolerance if tolerance is not None else (tol(*expected) if expected else 0.0), "text": list(text), "tables": list(tables),
                   "refuse": refuse, "internal": internal, "series": wants_series, "context": context, "note": note})
@@ -281,9 +285,52 @@ def build():
     # The model spend cap of session 92 (USD 5 for both arms and the fixes between) holds the set to 44 questions:
     # thirteen lookups that repeat a kind another question asks are built and left out (LEFT_OUT, by their text).
     kept = [q for q in Q if not any(q["question"].startswith(t) for t in LEFT_OUT)]
+    Q = kept  # session 114: add() now appends to the kept list, so the ten past-price questions follow the 44
+    past_prices(add, rt)
     for i, q in enumerate(kept, 1):
         q["id"] = f"e{i:02d}"
     return kept
+
+
+def past_prices(add, rt):
+    """Session 114: ten questions on past hub prices, older than the weeks the site's interval tables hold. Every
+    expected number is computed from the interval history (ercot_all_hub_prices_history), never from the daily
+    summary the chat is taught to read, so the set also checks that table. A mean is the mean of the intervals; the
+    chat's mean of daily means differs from it only through a day of 23 or 25 hours, far inside the tolerance."""
+    T = [DAILY, HIST]
+    note = "session 114, past prices: from the intervals of ercot_all_hub_prices_history; "
+    da = series(HIST, HUB, "spp_dam")
+    v = local(da, "2019-01-01", "2020-01-01")["value"]
+    add("lookup", "What was the average day-ahead price at the ERCOT hub average in 2019?", [v.mean()], T, note=note + f"mean of {len(v)} hourly spp_dam values, 2019 local")
+    w = local(series(HIST, "ercot:HB_WEST", "spp_rtm"), "2020-03-01", "2020-04-01")["value"]
+    add("lookup", "What was the average real-time price at HB_WEST in March 2020?", [w.mean()], T, note=note + f"mean of {len(w)} fifteen-minute spp_rtm values, March 2020 local")
+    h = local(series(HIST, "ercot:HB_HOUSTON", "spp_dam"), "2023-01-01", "2024-01-01")
+    top = h.loc[h["value"].idxmax()]
+    add("lookup", "What was the highest day-ahead price at HB_HOUSTON in 2023, and in which month was it?", [top["value"]], T,
+        text=[top["ts"].tz_convert(TZ).strftime("%B")], note=note + f"max spp_dam of HB_HOUSTON in 2023 local, at {top['ts_utc']}")
+    lo = local(series(HIST, "ercot:HB_WEST", "spp_rtm"), "2022-01-01", "2023-01-01")["value"]
+    add("lookup", "What was the lowest real-time price at HB_WEST in 2022?", [lo.min()], T, note=note + f"min of {len(lo)} fifteen-minute spp_rtm values, 2022 local")
+    y23 = local(rt, "2023-01-01", "2024-01-01")["value"]
+    add("lookup", "For how many hours was the real-time price at the ERCOT hub average above 200 USD/MWh in 2023?", [(y23 > 200).sum() * 0.25], T,
+        note=note + f"{int((y23 > 200).sum())} fifteen-minute intervals above 200, a quarter of an hour each", tolerance=0.3)
+    wd = local(series(HIST, "ercot:HB_WEST", "spp_dam"), "2024-01-01", "2025-01-01")["value"]
+    add("lookup", "For how many hours was the day-ahead price at HB_WEST below zero in 2024?", [(wd < 0).sum()], T,
+        note=note + f"hourly spp_dam values below zero of {len(wd)}, 2024 local", tolerance=0.5)
+    n = local(series(HIST, "ercot:HB_NORTH", "spp_dam"), "2023-08-01", "2023-09-01")
+    loc = n["ts"].dt.tz_convert(TZ)
+    pk = n[(loc.dt.weekday < 5) & (loc.dt.hour >= 6) & (loc.dt.hour < 22)]["value"]  # August has no NERC holiday
+    add("lookup", "What was the average peak-hours day-ahead price at HB_NORTH in August 2023?", [pk.mean()], T,
+        note=note + f"mean of {len(pk)} hourly values, hours ending 7 to 22 local on Monday to Friday, August 2023")
+    yr = local(da, "2015-01-01", "2026-01-01")
+    by = yr.groupby(yr["ts"].dt.tz_convert(TZ).dt.year)["value"].mean()
+    add("series", "How did the yearly average day-ahead price at the ERCOT hub average move from 2015 to 2025, and which year was highest?", [by.max()], T,
+        text=[str(int(by.idxmax()))], wants_series=True, note=note + f"yearly means of hourly spp_dam by local year; highest {int(by.idxmax())}")
+    u = local(rt, "2021-02-15", "2021-02-16")["value"]
+    add("lookup", "What was the average real-time price at the ERCOT hub average on 15 February 2021?", [u.mean()], T, note=note + f"mean of {len(u)} fifteen-minute values, the local day")
+    sd = local(series(HIST, "ercot:HB_SOUTH", "spp_dam"), "2022-01-01", "2023-01-01")["value"]
+    sr = local(series(HIST, "ercot:HB_SOUTH", "spp_rtm"), "2022-01-01", "2023-01-01")["value"]
+    add("join", "In 2022, what was the average day-ahead price at HB_SOUTH, and what was the average real-time price there?", [sd.mean(), sr.mean()], T,
+        note=note + f"means of {len(sd)} hourly spp_dam and {len(sr)} fifteen-minute spp_rtm values, 2022 local")
 
 
 LEFT_OUT = (
@@ -299,7 +346,7 @@ def main():
     Q = build()
     spec = {"today": TODAY, "questions": Q}
     path = os.path.join(HERE, "questions_ercot.yaml")
-    head = ("# Energy Research Warehouse (ERW): the ERCOT evaluation set for Ask ERCOT (session 92: %d questions).\n"
+    head = ("# Energy Research Warehouse (ERW): the ERCOT evaluation set for Ask ERCOT (session 92: 44 questions; session 114: ten more on past prices, %d in all).\n"
             "# Generated by warehouse/chat/eval/ercot_expected.py from the CSVs in warehouse/output with pandas, independently of\n"
             "# warehouse/chat/tools.py. Fixed date: today = %s. Do not edit by hand.\n") % (len(Q), TODAY)
     with open(path, "w", encoding="utf-8", newline="\n") as f:

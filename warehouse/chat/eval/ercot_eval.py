@@ -6,6 +6,7 @@ Energy Research Warehouse (ERW).
     python warehouse/chat/eval/ercot_eval.py --arm before --cap 5    # the grid page's chat as it is (ask.py --grid ercot)
     python warehouse/chat/eval/ercot_eval.py --arm after --cap 5     # Ask ERCOT, the reference version (ercot.py)
     python warehouse/chat/eval/ercot_eval.py --arm after --only e03 e41
+    python warehouse/chat/eval/ercot_eval.py --arm after --cap 3 --session 114   # a later session's run, under its own cap
 
 Each question of questions_ercot.yaml (built by ercot_expected.py) is asked with the set's fixed date and scored as
 eval.py scores: number, text, citation, refusal; a question is correct when all that apply pass. The reference
@@ -46,12 +47,15 @@ def extras(q, rec):
 
 
 def main(argv=None):
+    global SESSION
     ap = argparse.ArgumentParser(description="The ERCOT evaluation of Ask, before and after")
     ap.add_argument("--arm", required=True, choices=["before", "after"])
     ap.add_argument("--only", nargs="*")
     ap.add_argument("--cap", type=float, required=True, help="USD: the session's spend cap (ERW_SPEND_CAP_USD)")
     ap.add_argument("--questions", default=os.path.join(HERE, "questions_ercot.yaml"))
+    ap.add_argument("--session", default=SESSION, help="the session the calls are recorded under and the cap counts (session 114; default 92)")
     a = ap.parse_args(argv)
+    SESSION = str(a.session)
     os.environ["ERW_SESSION"] = SESSION
     os.environ["ERW_SPEND_CAP_USD"] = str(a.cap)
     os.environ.setdefault("ERW_STEP", f"chat_ercot_eval_{a.arm}")

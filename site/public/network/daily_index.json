@@ -210,7 +210,8 @@
    "pair_days": 2225,
    "pair_days_from_other_side": 3697,
    "pair_days_screened": 217,
-   "demand_days_held": 14264
+   "demand_days_held": 14264,
+   "hub_price_days_kept": 0
   }
  },
  "left_out_bas": [
@@ -224,7 +225,7 @@
   "SPC",
   "WACM"
  ],
- "built": "2026-10-04T21:55:39Z",
+ "built": "2026-10-05T02:06:26Z",
  "source": "eia930_daily_interchange",
  "demand_source": "eia930_daily_demand",
  "demand_band": [

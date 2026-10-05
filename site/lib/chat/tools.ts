@@ -75,7 +75,7 @@ const AGGREGATIONS: string[] = spec.aggregations;
 const TIME_GROUPS: string[] = spec.time_groups;
 const MAX_ROWS = 60_000; // rows one query may read from Supabase
 const LIVE_NOTE =
-  "This site reads the Supabase live set: public tables only; power price, demand, generation and hourly emissions tables hold only their last 35 days; derived, fuel, generator, queue and news tables are whole. Tables with in_live_set no cannot be queried here (their full history is on Redivis).";
+  "This site reads the Supabase live set: public tables only; the interval tables of power prices, demand, generation and hourly emissions hold only their last 35 days; derived, fuel, generator, queue and news tables are whole, and so are ERCOT's hub prices by day (ercot_hub_prices_daily, since 2015) and its reserve prices (ercot_as_prices, since 2018). Tables with in_live_set no cannot be queried here (their full history is on Redivis).";
 
 // ------------------------------------------------------------------ helpers
 

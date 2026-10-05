@@ -33,6 +33,19 @@ history that is not in today's network is left out and counted. Nothing is writt
 the site's, like the two stories (network_stories.py).
 
     python warehouse/derived/network_daily.py [--years 2021 2026]
+    python warehouse/derived/network_daily.py --daily        # the daily run (session 114)
+
+Session 114, --daily: the replay holds every day to the newest day of eia930_daily_interchange, which the daily run now
+extends each day (eia930_daily_interchange.py --days, eia930_daily_demand.py --days; warehouse/run_daily.sh). The daily
+build writes the newest year's file (and the year before it during the first week of January, while that year's last
+days are still arriving) and the index; the earlier years' files and their index entries stay as they are. Three rules
+keep a machine that holds less than this one from writing a poorer file than the one it replaces:
+- the files it replaces must be there: it adds days to a replay, it never starts one;
+- a hub's price on a day this build cannot compute, and the file held, is kept from the file and counted
+  (hub_price_days_kept). The GitHub runner does not hold the ERCOT price history, only the rolling table's recent weeks,
+  so Texas's earlier days of the year come from the file the data machine built from the history, by the same rule;
+- if, over the days the old file holds, the new one would hold fewer flows, intensities, demands or prices by more
+  than one in a hundred, nothing is written and the step fails with the counts.
 """
 
 import argparse
@@ -150,10 +163,62 @@ def build_year(year, flows, nodes, ci, prices, last_day, demand=None):
                 source=[TABLE, DEMAND, "carbon_intensity_daily", "ercot_all_hub_prices_history", "iso_hub_prices_history", "iso_rtm_hub_prices"])
 
 
+def hub_prices_held():
+    """ns.hub_prices on a machine that may lack the ERCOT price history (the GitHub runner): there ERCOT's hub is read from
+    the rolling table alone. The other hubs as ns.hub_prices reads them."""
+    import cost_of_power as cp
+    import price_board as pb
+    if os.path.exists(os.path.join(ip.OUT_DIR, pb.HISTORY + ".csv")):
+        return ns.hub_prices()
+    out = {}
+    for iso, ba in ns.HUB_BA.items():
+        if iso == "ercot":
+            table, market = pb.TABLES[(iso, "rtm")]
+            out[ba] = cp.hourly(pb.read_table(table, market=market, node=pb.MAIN[iso]))
+        else:
+            df, _ = cp.prices_of(iso, "rtm", lambda m: None)
+            out[ba] = cp.hourly(df)
+    return out
+
+
+def keep_prices(new, old):
+    """A hub's price on a day the new file lacks and the old one holds is kept from the old one. Returns the count kept."""
+    at = {d: i for i, d in enumerate(old["days"])}
+    kept = 0
+    for ba, was in old.get("hub_prices", {}).items():
+        arr = new["hub_prices"].setdefault(ba, [None] * len(new["days"]))
+        for j, d in enumerate(new["days"]):
+            i = at.get(d)
+            if arr[j] is None and i is not None and was[i] is not None:
+                arr[j] = was[i]
+                kept += 1
+    return kept
+
+
+def held(y, days):
+    """How many values a year's file holds on these days: flows, intensities, demands and hub prices."""
+    idx = [i for i, d in enumerate(y["days"]) if d in days]
+
+    def n(arrs):
+        return sum(a[i] is not None for a in arrs for i in idx)
+    return dict(flows=n([k["mw"] for k in y["links"]]), intensity=n(list(y["intensity"].values())), demand=n(list(y.get("demand", {}).values())),
+                hub_prices=n(list(y["hub_prices"].values())))
+
+
+def poorer(new, old, share=0.01):
+    """The kinds of value of which the new file holds fewer than the old one, over the old file's days, by more than `share`."""
+    days = set(old["days"])
+    a, b = held(old, days), held(new, days)
+    return {k: (a[k], b[k]) for k in a if b[k] < (1 - share) * a[k]}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="The network's replay files, one per year since 2019")
     ap.add_argument("--years", nargs="*", type=int)
+    ap.add_argument("--daily", action="store_true", help="the daily run: the newest year's file and the index; the earlier years stay (the docstring)")
     a = ap.parse_args(argv)
+    if a.daily and a.years:
+        ap.error("--daily chooses its own years")
     base = json.load(open(ns.COMMITTED, encoding="utf-8"))
     nodes = {n["id"] for n in base["nodes"]}
     it = ns.read(TABLE, ["entity", "variable", "ts_utc", "value"])
@@ -166,7 +231,7 @@ def main(argv=None):
     last_day = flows["day"].max()
     ci = ns.read("carbon_intensity_daily", ["entity", "variable", "ts_utc", "value"])
     ci = ci[ci["variable"] == "intensity_generation"].assign(ba=lambda z: z["entity"].str[7:], day=lambda z: z["ts_utc"].str[:10])
-    prices = daily_prices(ns.hub_prices())
+    prices = daily_prices(hub_prices_held() if a.daily else ns.hub_prices())
     dm = ns.read(DEMAND, ["entity", "variable", "ts_utc", "value"])
     dm = dm[dm["variable"] == "demand_mwh"].assign(ba=lambda z: z["entity"].str[7:], day=lambda z: z["ts_utc"].str[:10], v=lambda z: z["value"].astype(float))
     demand, demand_screened = demand_by_day(dm, nodes)
@@ -174,19 +239,39 @@ def main(argv=None):
     index = dict(first=f"{FIRST_YEAR}-01-01", last=last_day, tz=TZ, frame="day", rule=gn.RULE, years={}, left_out_bas=left_out,
                  built=ip.utc_iso(pd.Timestamp.now(tz="UTC")), source=TABLE, demand_source=DEMAND, demand_band=list(DEMAND_BAND),
                  demand_days_screened=demand_screened, demand_bas=sorted(demand))
+    index_path = os.path.join(OUT_DIR, "daily_index.json")
+    if a.daily:
+        # the newest year, and the year before it while its last days are still arriving
+        a.years = sorted({int(last_day[:4]), (pd.Timestamp(last_day) - pd.Timedelta(days=7)).year})
+        was = json.load(open(index_path, encoding="utf-8"))
+        index["years"] = {k: v for k, v in was["years"].items() if int(k) not in a.years}
+        if was["last"] > last_day:
+            raise RuntimeError(f"the replay holds days to {was['last']} and the table only to {last_day}: nothing written")
+    built = {}
     for year in range(FIRST_YEAR, int(last_day[:4]) + 1):
         if a.years and year not in a.years:
             continue
         y = build_year(year, flows, nodes, ci, prices, last_day, demand)
         path = os.path.join(OUT_DIR, f"daily_{year}.json")
+        if a.daily and (str(year) in was["years"] or os.path.exists(path)):
+            # the file it replaces must be there (a missing one the index names fails here); only a new year's first file is started
+            old = json.load(open(path, encoding="utf-8"))
+            y["missing"]["hub_price_days_kept"] = keep_prices(y, old)
+            less = poorer(y, old)
+            if less:
+                raise RuntimeError(f"daily_{year}.json would hold fewer values than the file it replaces (held, would hold): {less}: nothing written")
+        built[year] = (path, y)
+    for year, (path, y) in built.items():
         with open(path, "w", encoding="utf-8", newline="\n") as f:
             json.dump(y, f, separators=(",", ":"))
         index["years"][str(year)] = dict(file=f"/network/daily_{year}.json", days=len(y["days"]), first=y["days"][0], last=y["days"][-1], links=len(y["links"]),
                                          priced=sorted(y["hub_prices"]), intensity=sorted(y["intensity"]), with_demand=len(y["demand"]), **y["missing"])
         print(f"{year}: {len(y['days'])} days, {len(y['links'])} pairs, {y['missing']['pair_days_screened']} pair-days screened, "
               f"{y['missing']['pair_days']} not reported, prices {sorted(y['hub_prices'])}, {os.path.getsize(path) / 1e3:.0f} kB")
-    if not a.years:
-        with open(os.path.join(OUT_DIR, "daily_index.json"), "w", encoding="utf-8", newline="\n") as f:
+    if a.daily:
+        index["years"] = dict(sorted(index["years"].items()))
+    if a.daily or not a.years:
+        with open(index_path, "w", encoding="utf-8", newline="\n") as f:
             json.dump(index, f, indent=1)
             f.write("\n")
         print(f"index: {index['first']} to {index['last']}, {len(index['years'])} years; left out (not in today's network): {', '.join(left_out) or 'none'}")

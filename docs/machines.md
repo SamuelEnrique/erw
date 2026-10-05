@@ -149,6 +149,28 @@ The daily job writes the previous UTC day's rows into `queue/summary/<day>-healt
 `python warehouse/health.py summary --day <day>` writes it by hand. A market failing three daily runs in a row is a
 failure row there, no longer a GitHub issue.
 
+### The builders that were run by hand (session 114)
+
+Seven pages in review read a file a person used to build (`docs/state_2026-10-04.md`, item 5). Each builder is now a
+step of a schedule, started by `warehouse/scheduled.py` under `warehouse/health.py` without `--strict`
+(`warehouse/soft_step.sh`): a failure is tried once more, recorded in `erw_health` and in the run's status file, and
+never fails the run.
+
+- **Every day, in the daily run:** `eia930_daily_interchange` and `eia930_daily_demand` take EIA's newest days
+  (`--days 5`, merged into the table held; a table that is not on the machine is rebuilt from the archive first and is
+  never started from nothing), then `network_daily.py --daily` rebuilds the replay's newest year and its index. The
+  replay holds every day to EIA's newest, which is a day or two behind the calendar.
+- **Once a month, `warehouse/run_monthly.sh`:** the hourly mix, the hub price comparison, demand growth, the
+  curtailment profile, the project map and ERCOT's large-load figures. The daily run starts it with its first run on or
+  after the third of the month (`scheduled.py --monthly-due`), or on any day with `MONTHLY=1` (the workflow's `monthly`
+  input).
+- **A step whose inputs are not on the machine is a skip with the reason**, and the page keeps the copy it has.
+  `python warehouse/scheduled.py <step> --check` says which inputs a machine lacks. The GitHub runner does not hold the
+  ERCOT price history, so there the hub price comparison is a skip each month and is rebuilt on the data machine
+  (`MONTHLY=1`, or the builder alone, under the data lock).
+- The daily workflow commits the site's copies the steps rebuild (`site/public/network/daily_*.json`, `site/data/mix/`
+  and the five other files). Each page prints the date its copy was built.
+
 ## Code work: branches, checks, merge
 
 A code task works on its own branch, `task/<NNN>-<slug>`. A push to `task/**` runs `.github/workflows/code-branch.yml`:

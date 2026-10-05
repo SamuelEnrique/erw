@@ -12,6 +12,13 @@ day. It is the denominator the network's replay lacked: a day's net imports as a
 (warehouse/derived/network_daily.py).
 
     python warehouse/connectors/eia930_daily_demand.py
+    python warehouse/connectors/eia930_daily_demand.py --days 5     # the daily run (session 114): the newest days, merged
+
+Session 114, --days N: the table as it is, with the days from N days before today (UTC) to EIA's newest day asked for
+again and merged in on (entity, variable, ts_utc): a day already held is replaced by what EIA reports now, a new day is
+added, nothing else is touched. It never starts a table: where the table is not on the machine it asks EIA for nothing
+and says so (a skip under warehouse/health.py), so a short table is never written over the history. It is how the
+network's replay holds every day to EIA's newest (warehouse/run_daily.sh).
 
 EIA's Eastern day for every balancing authority (x_timezone), as eia930_daily_interchange and
 eia930_daily_total_interchange, so the three share one day boundary. Entity eia930:<BA>; ts_utc the day at 00:00:00Z
@@ -86,11 +93,103 @@ def month(key, m0, m1, log):
     return pd.DataFrame(out)
 
 
-def main():
+COLS = ip.SERIES_COLS + ["ba", "x_timezone"]
+
+
+def rows_of(x):
+    """The table's rows from EIA's (strings, with _url and _retrieved), and the count of rows without a number."""
+    x = x.copy()
+    x["value_n"] = pd.to_numeric(x["value"], errors="coerce")
+    bad = int(x["value_n"].isna().sum())
+    x = x[x["value_n"].notna()]
+    if x.duplicated(["period", "respondent"]).any():
+        raise RuntimeError("a balancing authority and day appear twice")
+    if set(x["type"]) != {"D"}:
+        raise RuntimeError(f"types {sorted(set(x['type']))}: only D was asked for")
+    s = pd.DataFrame({
+        "entity": "eia930:" + x["respondent"], "variable": "demand_mwh",
+        "ts_utc": x["period"] + "T00:00:00Z", "value": x["value_n"].astype(float), "unit": "MWh", "freq": "P1D",
+        "geo": "", "market": "", "node": "", "source": SOURCE, "source_url": x["_url"], "retrieved_at": x["_retrieved"],
+        "vintage": "", "ba": x["respondent"].str.lower(), "x_timezone": TZ})
+    return s[COLS], bad
+
+
+def header_of(rows_line, retrieved_line, run_id):
+    return [
+        "Energy Research Warehouse (ERW): demand of every balancing authority, EIA-930, daily, from 2019 (session 109)",
+        "Shape: series (docs/datastandard.md v0), partition column ba; entity eia930:<BA>; demand_mwh, MWh over the day, "
+        "the balancing authority's demand as EIA sums it over the day's hours (EIA type D), its faulty hours included; ts_utc the "
+        f"day at 00:00:00Z (Decision 11); EIA's {TZ} day (x_timezone). Nothing filled: a day EIA does not report is absent.",
+        rows_line, retrieved_line,
+        f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
+        f"Raw files: warehouse/raw/{NAME}/ (pages per run, month checkpoints; not in git)",
+        f"Source: {SOURCE} U.S. Energy Information Administration, Form EIA-930, daily demand by balancing authority (API route {ROUTE}, type D), {PAGE_URL}",
+        "License: public domain (U.S. Government data, EIA).",
+    ]
+
+
+def skip(reason):
+    """Not an error: nothing was asked for. Under warehouse/health.py the exit is ERW_SKIP_EXIT (75), a recorded skip."""
+    print(f"{NAME} SKIPPED: {reason}")
+    return int(os.environ.get("ERW_SKIP_EXIT") or 0)
+
+
+def data_rows(path):
+    with open(path, encoding="utf-8") as f:
+        return sum(1 for _ in f) - ip.header_rows(path) - 1
+
+
+def recent(days, run_id, log, today=None):
+    """Session 114, the daily run: the days from `days` before today (UTC) to EIA's newest, merged into the table held.
+    Returns the message of the run. Raises when EIA returns nothing or the merge would leave fewer rows than were held."""
+    path = os.path.join(ip.OUT_DIR, NAME + ".csv")
+    held = data_rows(path)
+    key = ip.load_key("EIA_API_KEY", log)
+    ip.RAW.open(NAME, run_id)
+    today = today or dt.datetime.now(dt.timezone.utc).date()
+    d0 = (today - dt.timedelta(days=days)).strftime("%Y-%m-%d")
+    df = month(key, d0, "2099-12-31", log)
+    if not len(df):
+        raise RuntimeError(f"EIA returned no row from {d0}: nothing written")
+    s, bad = rows_of(df.astype(str))
+    if held + len(s) > CEILING:
+        raise RuntimeError(f"{held:,} rows held and {len(s):,} pulled would pass the {CEILING:,} ceiling: nothing written")
+    last = s["ts_utc"].max()[:10]
+    ip.write_csv(s, NAME, header_of(
+        f"Rows: of the {CEILING:,}-row ceiling, from {START}; this run asked for {d0} to EIA's newest day ({last}); {bad} rows without a number not written.",
+        f"Retrieved: {run_id} (UTC) by warehouse/connectors/{NAME}.py --days {days} ({len(df):,} rows pulled this run and merged; "
+        "the earlier days as the earlier runs wrote them)", run_id), log, cols=COLS, key=["entity", "variable", "ts_utc"])
+    now = data_rows(path)
+    if now < held:
+        raise RuntimeError(f"the table held {held:,} rows and holds {now:,}: a merge never shrinks it")
+    return f"{now:,} rows held ({now - held:,} new), {d0} to {last} asked again; {len(df):,} rows pulled this run"
+
+
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--days", type=int, help="the daily run: only the days from this many before today, merged into the table held")
+    a = ap.parse_args(argv)
+    if a.days is not None and not os.path.exists(os.path.join(ip.OUT_DIR, NAME + ".csv")):
+        return skip("the table is not on this machine; --days merges into the history and never starts it, so EIA was not asked")
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     log = ip.Log(os.path.join(ip.LOG_DIR, f"{NAME}_{run_id}.log"))
     results = []
+    if a.days is not None:
+        try:
+            msg = recent(a.days, run_id, log)
+            log(msg)
+            print(f"{NAME}: {msg}")
+            results.append(dict(table=NAME, market="all", status="ok", detail=msg))
+        except Exception:
+            tb = ip.redact(traceback.format_exc())
+            log(f"FAILED:\n{tb}")
+            print(f"{NAME} FAILED: {tb.strip().splitlines()[-1]}", file=sys.stderr)
+            results.append(dict(table=NAME, market="all", status="failed", detail=tb.strip().splitlines()[-1][:300]))
+        ip.write_status(NAME, run_id, results)
+        log.close()
+        return 0 if all(r["status"] == "ok" for r in results) else 1
     try:
         key = ip.load_key("EIA_API_KEY", log)
         ip.RAW.open(NAME, run_id)
@@ -122,34 +221,14 @@ def main():
                     df.to_csv(path, index=False)
                 frames.append(df)
         x = pd.concat(frames, ignore_index=True)
-        x["value_n"] = pd.to_numeric(x["value"], errors="coerce")
-        bad = int(x["value_n"].isna().sum())
-        x = x[x["value_n"].notna()]
-        if x.duplicated(["period", "respondent"]).any():
-            raise RuntimeError("a balancing authority and day appear twice")
-        if set(x["type"]) != {"D"}:
-            raise RuntimeError(f"types {sorted(set(x['type']))}: only D was asked for")
-        if len(x) > CEILING:
-            raise RuntimeError(f"{len(x):,} rows would pass the {CEILING:,} ceiling: nothing written")
-        s = pd.DataFrame({
-            "entity": "eia930:" + x["respondent"], "variable": "demand_mwh",
-            "ts_utc": x["period"] + "T00:00:00Z", "value": x["value_n"].astype(float), "unit": "MWh", "freq": "P1D",
-            "geo": "", "market": "", "node": "", "source": SOURCE, "source_url": x["_url"], "retrieved_at": x["_retrieved"],
-            "vintage": "", "ba": x["respondent"].str.lower(), "x_timezone": TZ})
-        cols = ip.SERIES_COLS + ["ba", "x_timezone"]
-        header = [
-            "Energy Research Warehouse (ERW): demand of every balancing authority, EIA-930, daily, from 2019 (session 109)",
-            "Shape: series (docs/datastandard.md v0), partition column ba; entity eia930:<BA>; demand_mwh, MWh over the day, "
-            "the balancing authority's demand as EIA sums it over the day's hours (EIA type D), its faulty hours included; ts_utc the "
-            f"day at 00:00:00Z (Decision 11); EIA's {TZ} day (x_timezone). Nothing filled: a day EIA does not report is absent.",
+        s, bad = rows_of(x)
+        if len(s) > CEILING:
+            raise RuntimeError(f"{len(s):,} rows would pass the {CEILING:,} ceiling: nothing written")
+        cols = COLS
+        header = header_of(
             f"Rows: {len(s):,} of the {CEILING:,}-row ceiling, {START} to {last}; {bad} rows without a number not written.",
             f"Retrieved: {run_id} (UTC) by warehouse/connectors/eia930_daily_demand.py ({pulled:,} rows pulled this run; earlier months "
-            "from checkpoints)",
-            f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
-            f"Raw files: warehouse/raw/{NAME}/ (pages per run, month checkpoints; not in git)",
-            f"Source: {SOURCE} U.S. Energy Information Administration, Form EIA-930, daily demand by balancing authority (API route {ROUTE}, type D), {PAGE_URL}",
-            "License: public domain (U.S. Government data, EIA).",
-        ]
+            "from checkpoints)", run_id)
         path = os.path.join(ip.OUT_DIR, NAME + ".csv")
         if os.path.exists(path):
             os.remove(path)  # rebuilt whole from the checkpoints and this run's months
