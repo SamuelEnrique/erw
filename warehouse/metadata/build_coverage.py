@@ -582,16 +582,36 @@ def carried_over(present):
     return gone, md
 
 
+def md_line(r):
+    """A built row as its line of docs/coverage.md."""
+    cells = [f"`{r['table']}`", r["iso"], r["market"], r["_variable"],
+             f"{r['n_nodes']}: {r['_nodes']}", r["interval"],
+             r["ts_min"].replace("T", " ").rstrip("Z"), r["ts_max"].replace("T", " ").rstrip("Z"),
+             f"{r['n_rows']:,}", r["source_report"].replace(";", "; "),
+             r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"], r["sector"].replace(";", ", "), r["derived"], r["tier"]]
+    return "| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |"
+
+
 def main():
     import argparse
     ap = argparse.ArgumentParser(description="Build docs/coverage.md and warehouse/metadata/coverage.csv")
     ap.add_argument("--reports", help="session 36A: erw_validate.py --json output of this run, reused for unchanged files")
+    ap.add_argument("--only", help="session 119: rebuild only the rows of the tables whose name matches this regular "
+                                   "expression; every other row is carried over from the coverage as it stands, word for "
+                                   "word. For a job that changed one table (the cost ledger after the Roundup) and loads it")
     args = ap.parse_args()
     REPORTS.update(load_reports(args.reports))
     if args.reports:
         print(f"validator reports reused for {len(REPORTS)} unchanged tables ({args.reports})")
     licenses = load_licenses()
-    rows = apply_tiers(apply_derived([table_row(p, licenses) for p in sorted(glob.glob(os.path.join(OUT, "*.csv")))]))
+    files = sorted(glob.glob(os.path.join(OUT, "*.csv")))
+    if args.only:
+        files = [p for p in files if re.search(args.only, os.path.basename(p)[:-4])]
+        if not files:
+            print(f"FAILED: --only {args.only!r} matches no table in {os.path.relpath(OUT, ROOT)}; coverage left as it is", file=sys.stderr)
+            return 1
+        print(f"--only {args.only}: rebuilding {len(files)} row(s): {', '.join(os.path.basename(p)[:-4] for p in files)}; every other row is carried over")
+    rows = apply_tiers(apply_derived([table_row(p, licenses) for p in files]))
     carried, carried_md = carried_over({r["table"] for r in rows})
     for r in carried:  # session 28: a row carried from a coverage.csv written before the tier column
         if not r.get("tier"):
@@ -602,6 +622,29 @@ def main():
               f"{len(carried)} tables: {', '.join(r['table'] for r in carried)}")
     out_rows = sorted([{c: r[c] for c in CSV_COLS} for r in rows] + carried, key=lambda r: r["table"])
     pd.DataFrame(out_rows, columns=CSV_COLS).to_csv(CSV, index=False, lineterminator="\n")
+    if args.only:
+        # session 119: docs/coverage.md keeps every line but the rebuilt tables' own (a table new to it goes in at its
+        # place in the alphabet); the notes under the table describe a whole build and are left as that build wrote them
+        with open(DOC, encoding="utf-8") as f:
+            doc = f.read().split("\n")
+        name_of = lambda ln: (re.match(r"^\| `([a-z0-9_]+)` \|", ln) or [None, None])[1]  # noqa: E731
+        todo = {r["table"]: md_line(r) for r in rows}
+        out_doc = []
+        for ln in doc:
+            n = name_of(ln)
+            if n is not None:
+                for new in sorted(k for k in todo if k < n):
+                    out_doc.append(todo.pop(new))
+                if n in todo:
+                    ln = todo.pop(n)
+            out_doc.append(ln)
+        if todo:
+            raise ValueError(f"--only: no place in {os.path.relpath(DOC, ROOT)} for {sorted(todo)}")
+        with open(DOC, "w", encoding="utf-8", newline="\n") as f:
+            f.write("\n".join(out_doc))
+        print(f"wrote the rows of {', '.join(r['table'] for r in rows)} in {os.path.relpath(DOC, ROOT)} and {os.path.relpath(CSV, ROOT)}: "
+              f"{len(out_rows)} tables ({len(rows)} built here, {len(carried)} carried over as they stood)")
+        return 0
 
     md_cols = ["Table", "ISO", "Market", "Variable", "Nodes", "Interval",
                "First interval (UTC)", "Last interval (UTC)", "Rows", "Source report",
@@ -634,13 +677,7 @@ def main():
         if name not in built:
             lines.append(carried_md[name])
             continue
-        r = built[name]
-        cells = [f"`{r['table']}`", r["iso"], r["market"], r["_variable"],
-                 f"{r['n_nodes']}: {r['_nodes']}", r["interval"],
-                 r["ts_min"].replace("T", " ").rstrip("Z"), r["ts_max"].replace("T", " ").rstrip("Z"),
-                 f"{r['n_rows']:,}", r["source_report"].replace(";", "; "),
-                 r["last_run"].replace("T", " ").rstrip("Z"), r["validator_status"], r["license"], r["sector"].replace(";", ", "), r["derived"], r["tier"]]
-        lines.append("| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |")
+        lines.append(md_line(built[name]))
     # session 29: a member of a consolidated table counts as present when its consolidated table is
     def present(name):
         return os.path.exists(os.path.join(OUT, name + ".csv")) or (
@@ -678,4 +715,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main() or 0)

@@ -394,3 +394,17 @@ jobs:
             sleep 10
           done
           echo "::warning::the health summary for $day could not be pushed after three tries"
+
+      # Session 119: no job fails on GitHub (session 61), so GitHub emails nobody, and the health summary is written the
+      # day after. A failed step of this run is now one line by email the same day, to the fixed recipients only
+      # (warehouse/health.py alert); a run with no failed step sends nothing. It cannot fail the job.
+      - name: Tell a person what failed in this run
+        if: always()
+        continue-on-error: true
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
+        run: python warehouse/health.py alert --run-id "${{ github.run_id }}"

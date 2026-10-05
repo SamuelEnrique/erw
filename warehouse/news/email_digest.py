@@ -368,6 +368,22 @@ def send_day(kind, now=None):
     return (now - dt.timedelta(hours=3 if kind == "roundup" else 0)).date().isoformat()
 
 
+def already_sent(kind, now=None):
+    """Session 119: the earlier send of this kind for today's send day, or None. Read only: it asks the guard's table
+    (digest_sends) and claims nothing. A row counts once something went out (status sent or partial); a claim still open
+    is another run's send in progress and counts too, so that a second run does not write the issue again beside it.
+    Without the Supabase keys the answer is None: the guard itself still refuses a second send."""
+    if not env("SUPABASE_URL") or not env("SUPABASE_SERVICE_KEY"):
+        return None
+    base, hdr = supa()
+    r = requests.get(f"{base}/digest_sends", headers=hdr, timeout=60, params={
+        "select": "day,issue,status,claimed_at,recipients,run_id", "kind": f"eq.{kind}", "day": f"eq.{send_day(kind, now)}"})
+    if r.status_code != 200:
+        raise RuntimeError(f"digest_sends: HTTP {r.status_code}: {ip.redact(r.text[:200])}")
+    rows = r.json()
+    return rows[0] if rows else None
+
+
 def claim(kind, issue, log, now=None):
     """Session 63: insert the (kind, day, issue) row in digest_sends; its two unique keys make a second send the same
     day, or of the same issue, fail here. Returns the claim's id. Raises AlreadySent with the earlier claim's details."""
@@ -482,7 +498,20 @@ def main(argv=None):
     g.add_argument("--roundup", "--weekly", dest="roundup", action="store_true",
                    help="the Energy Roundup instead of the daily digest (--weekly: its session 19 name)")
     g.add_argument("--auto", action="store_true", help="the daily digest, Monday to Friday (UTC) only")
+    ap.add_argument("--sent-check", action="store_true",
+                    help="session 119: send nothing; exit ERW_SKIP_EXIT (75) with the reason when this kind was already "
+                         "sent for today's send day, else exit 0. For a workflow to ask before it writes an issue again")
     args = ap.parse_args(argv)
+    if args.sent_check:
+        kind = "roundup" if args.roundup else "daily"
+        prior = already_sent(kind)
+        if prior is None:
+            print(f"{kind}: not sent yet for {send_day(kind)}")
+            return 0
+        print(f"the {'Roundup' if kind == 'roundup' else 'digest'} was already sent: issue {prior.get('issue', '?')} on "
+              f"{prior.get('day', '?')} ({prior.get('status', '?')}, {prior.get('recipients')} recipients, run "
+              f"{prior.get('run_id', '?')}, claimed {prior.get('claimed_at', '?')})")
+        return int(os.environ.get("ERW_SKIP_EXIT", "75"))
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"news_email_{run_id}.log"))

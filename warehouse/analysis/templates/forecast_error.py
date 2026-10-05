@@ -1,7 +1,7 @@
 """Day-ahead demand forecast error by ISO (EIA-930)."""
 import pandas as pd
 
-from common import NoData, fetch, r2, render, result  # noqa: F401
+from common import NoData, fetch, r2, render, result, screened_demand  # noqa: F401
 
 NAME = "forecast_error"
 TITLE = "Demand forecast error"
@@ -21,6 +21,9 @@ EIA publishes the operators' own forecasts; the ERW does not forecast."""
 def compute(ba="erco", window=30, history=True):
     t = "eia930_all_demand"
     d = fetch(t, ba=ba)
+    # session 119: a forecast is not judged against an hour of demand that did not happen (New York's hours of zero)
+    ok = screened_demand(d[d["variable"] == "demand_mw"])["ts_utc"]
+    d = d[(d["variable"] != "demand_mw") | d["ts_utc"].isin(ok)]
     p = d.pivot_table(index="ts_utc", columns="variable", values="value").dropna(subset=["demand_mw", "demand_forecast_mw"])
     p = p[p["demand_mw"] > 0]
     p = p.assign(ape=(p["demand_forecast_mw"] - p["demand_mw"]).abs() / p["demand_mw"] * 100,

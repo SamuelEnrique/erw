@@ -6,6 +6,7 @@ from common import NoData, fetch, render, result  # noqa: F401
 NAME = "deals_by_month"
 TITLE = "Deals by month and type"
 PUBLIC = True
+ABOUT = "coverage"  # session 119: a count of what the ERW itself has collected, not a measurement of the energy system: run and shown, never the chart of the week
 PARAMS = {"months": {"default": 12, "choices": [6, 12]}, "ai_power": {"default": "all", "choices": ["all", "ai_power"]}}
 TABLES = ["energy_deals"]
 TYPES = ["m_and_a", "fuel_supply", "equity_raise", "debt", "project_finance", "ppa", "offtake", "joint_venture"]

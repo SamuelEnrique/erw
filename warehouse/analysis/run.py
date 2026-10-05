@@ -10,19 +10,37 @@ Energy Research Warehouse (ERW), session 23. Weekly, before the Energy Roundup (
     python warehouse/analysis/run.py --no-model       # the note and caption from the template's own sentences
 
 Steps:
-  1. Run every template in warehouse/analysis/templates/ at its default parameters. A template whose inputs are
-     not in the warehouse on this machine (NoData) is skipped and named, with the reason.
-  2. Notability, a rule and not a model: each template's headline number is compared with its own history (the
-     same number for every earlier period the tables hold, plus the values stored in docs/analysis/history.csv by
-     earlier runs): robust z = |x - median(history)| / (1.4826 x MAD(history)), capped at 10; when the MAD is 0
-     (a sparse history, mostly one value) the scale is 1.2533 x the mean absolute deviation instead. A template needs at
-     least 8 earlier values, and its headline period must have ended within the last 45 days, to be eligible.
-  3. The chart of the week is the eligible public template with the highest robust z (ties: template order). An
-     internal template is never picked and never written under docs/.
-  4. Its note (two sentences) and a social caption are drafted by the model from the template's own sentences
-     ("facts") and checked with the chat's literal-number check (warehouse/chat/ask.py): every number must appear
-     in the facts or the headline. One regeneration; if it still fails, the note is the template's first two
-     fact sentences as written (and the caption the first), which hold only the template's numbers.
+  1. Run every template in warehouse/analysis/templates/ at its default parameters, and every line of the watch list
+     (warehouse/analysis/watch.py, session 119: one measure of a public table a line). A template or a line whose
+     inputs are not in the warehouse on this machine (NoData) is skipped and named, with the reason.
+  2. The chart of the week is the week's most notable real change, chosen by a rule and not by a model (session 119;
+     until then the rule compared a headline's level with its history, and on 4 October 2026 it picked "energy deals
+     in the news, by month", a count of what the ERW had read, at its highest because the ERW had just begun reading):
+       a. Real: only a measurement of the energy system competes (ABOUT = "system"). A count of what the ERW itself
+          has collected (deals in the news, facilities in the tracker: ABOUT = "coverage") is run and shown in the
+          gallery and never chosen.
+       b. A change: the statistic is the headline's change from the period it is compared with, not its level. The
+          period before it, for a weekly figure (COMPARE = "previous"); the same month a year earlier, for a monthly
+          figure with a season in it (COMPARE = "year"). Each template and each line says which.
+       c. Notable against its own recent past: that change is ranked among the same measure's own earlier changes,
+          the last 104 for a weekly figure and the last 36 for a monthly one (two and three years: a price's weekly
+          moves at USD 100 a barrel are not those at USD 20, and a fleet adds more MW a month than it did). The score
+          is the share of those earlier changes that were smaller in size, 0 to 100. At least 8 are needed. A first
+          version scored a robust z over the whole history; on its first trial it chose an ordinary month of battery
+          additions (29 of 138 earlier months had added as much), because most of that history is near zero. The z
+          is still computed, over the same window, and only breaks a tie.
+       d. This week's: the headline period must be new, one this measure has not shown as its headline in an earlier
+          week's run (docs/analysis/history.csv), and must have ended within the last 100 days (EIA's monthly
+          figures arrive about two months late).
+       e. The highest score is chosen; ties go to the higher z, then to template order.
+     If nothing passes d, the largest change among measures whose period is not new is chosen and the chart says so;
+     if no measure has 8 earlier changes, the level rule of session 23 is used and the chart says so.
+  3. An internal template is never picked and never written under docs/.
+  4. The caption states the finding, and code writes it, not the model: what the measure was, in which period, how
+     far it moved from the period it is compared with, and how that move ranks among the earlier ones. Its numbers
+     are the table's. The note (two sentences) is drafted by the model from the template's own sentences and the
+     finding, and checked with the chat's literal-number check (warehouse/chat/ask.py): every number must appear in
+     them. One regeneration; if it still fails, the note is the finding and the template's first sentence as written.
   5. Writes docs/analysis/YYYY-Www/: results.json (every public template's result, notability and ECharts option),
      chart_of_the_week.json, chart_email.png (1200 x 750), social_1200x627.png, social_1080x1080.png; copies the
      two social PNGs and caption.txt to docs/analysis/social/ for manual posting; appends every template's
@@ -62,6 +80,14 @@ DOCS = os.path.join(ROOT, "docs", "analysis")
 INTERNAL = os.path.join(ROOT, "warehouse", "output", "analysis_internal")
 HISTORY = os.path.join(DOCS, "history.csv")
 MIN_HISTORY, MAX_AGE_DAYS, Z_CAP = 8, 45, 10.0
+MAX_AGE_NEW = 100  # session 119: a headline period new this week may have ended this long ago (EIA's monthly lag)
+WINDOW = {"week": 104, "month": 36}  # session 119: the earlier changes a change is ranked among
+RULE = ("the change that ranks highest among the measure's own earlier changes, among measurements of the energy system "
+        "whose newest period is new this week: the change from the period before (weekly figures) or from the same month "
+        f"a year earlier (monthly figures with a season), ranked by size among the last {WINDOW['week']} weekly or "
+        f"{WINDOW['month']} monthly changes before it (at least {MIN_HISTORY}); counts of what the ERW itself has "
+        "collected never compete")
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 EM = chr(0x2014)  # the em dash, which no file here may hold (CLAUDE.md, non-negotiable 2)
 
 
@@ -97,6 +123,129 @@ def notability(value, history):
     return round(z, 2), len(vals), round(rank, 1)
 
 
+def ordered(headline, stored=None):
+    """Every period the headline has a value for, oldest first: [(period, value)], the headline's own period last
+    among equals. stored: {period: value} from history.csv, used where the tables no longer reach."""
+    seen = {}
+    for p, v in list((stored or {}).items()) + [tuple(x) for x in headline.get("history", [])] + [(headline["period"], headline["value"])]:
+        if v is not None and not pd.isna(v):
+            seen[p] = float(v)
+    return sorted(seen.items(), key=lambda x: (period_end(x[0]), x[0]))
+
+
+def change(headline, compare, stored=None):
+    """The headline's change from the period it is compared with, and the same change for every earlier period:
+    {delta, prev_period, prev_value, earlier: [deltas, oldest first]}, or None when the headline has no such period.
+    compare "previous": the period before it in the history. "year": the same month a year earlier (monthly labels)."""
+    seq = ordered(headline, stored)
+    pairs = []
+    if compare == "year":
+        by = dict(seq)
+        for p, v in seq:
+            if re.fullmatch(r"\d{4}-\d{2}", p):
+                q = f"{int(p[:4]) - 1}{p[4:]}"
+                if q in by:
+                    pairs.append((p, v, q, by[q]))
+    else:
+        pairs = [(seq[i][0], seq[i][1], seq[i - 1][0], seq[i - 1][1]) for i in range(1, len(seq))]
+    if not pairs or pairs[-1][0] != headline["period"]:
+        return None
+    deltas = [v - pv for _, v, _, pv in pairs]
+    earlier = deltas[:-1][-WINDOW["week" if " to " in str(headline["period"]) else "month"]:]
+    d = deltas[-1]
+    score = round(100.0 * sum(1 for x in earlier if abs(x) < abs(d)) / len(earlier), 1) if earlier else None
+    return {"delta": d, "prev_period": pairs[-1][2], "prev_value": pairs[-1][3], "earlier": earlier, "score": score}
+
+
+def month_words(p):
+    """'2026-08' as 'August 2026'; anything else as it is."""
+    return f"{MONTHS[int(p[5:7]) - 1]} {p[:4]}" if re.fullmatch(r"\d{4}-\d{2}", str(p)) else str(p)
+
+
+def shown(v):
+    """A number as a sentence gives it: whole when it is whole or large, else two decimals."""
+    v = float(v)
+    if abs(v) >= 100000 or v == int(v):
+        return f"{int(round(v)):,}"
+    return f"{round(v, 2):,}"
+
+
+def finding(headline, ch, compare):
+    """The finding in two plain sentences, written by code from the table's own numbers (session 119): what the
+    measure was, how far it moved from the period it is compared with, and how that move ranks among the earlier ones.
+    Returns (first sentence, second sentence)."""
+    weekly = " to " in str(headline["period"])
+    when = f"in the week of {headline['period']}" if weekly else f"in {month_words(headline['period'])}"
+    versus = "a year earlier" if compare == "year" else ("the week before" if weekly else f"in {month_words(ch['prev_period'])}")
+    label = headline["label"][0].upper() + headline["label"][1:]
+    d = ch["delta"]
+    moved = "unchanged from" if d == 0 else f"{'up' if d > 0 else 'down'} {shown(abs(d))} from"
+    one = f"{label}: {shown(headline['value'])} {headline['unit']} {when}, {moved} {shown(ch['prev_value'])} {versus}."
+    n = len(ch["earlier"])
+    bigger = sum(1 for x in ch["earlier"] if abs(x) >= abs(d))
+    kind = "year-over-year" if compare == "year" else ("week-to-week" if weekly else "month-to-month")
+    if n == 0:
+        two = ""
+    elif bigger == 0:
+        two = f"It is the largest {kind} move of the last {n + 1}."
+    else:
+        two = f"Of the {n} {kind} moves before it, {bigger} {'was' if bigger == 1 else 'were'} as large."
+    return one, two
+
+
+def seen_before(template, params, period, label):
+    """Whether an earlier week's run already had this period as this template's headline (history.csv)."""
+    if not os.path.exists(HISTORY):
+        return False
+    h = pd.read_csv(HISTORY, dtype=str, keep_default_na=False)
+    h = h[(h["template"] == template) & (h["params"] == json.dumps(params, sort_keys=True)) & (h["week"] < label)]
+    return bool((h["period"] == str(period)).any())
+
+
+def table_registry(mods):
+    """Session 119: for every public table of coverage.csv, which template or watch line reads it, or why none does.
+    Written to docs/analysis/tables.json on every run, so "the chooser draws on the public tables" is a list and a
+    count, not a claim. A table is not read for one of four stated reasons; the last is the honest one."""
+    cov_path = os.path.join(ROOT, "warehouse", "metadata", "coverage.csv")
+    cov = pd.read_csv(cov_path, dtype=str, keep_default_na=False)
+    read_by = {}
+    for m in mods:
+        if m.PUBLIC:
+            for t in m.TABLES:
+                read_by.setdefault(t, []).append(m.NAME)
+    held = set()
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
+        import impossible_hours
+        held = set(impossible_hours.HELD)
+    except Exception:
+        pass
+    import watch
+    named = {t: reason for reason, ts in watch.NOT_WATCHED.items() for t in ts}
+    rows = []
+    for r in cov[cov["license"] == "public"].sort_values("table").to_dict("records"):
+        t, by = r["table"], sorted(read_by.get(r["table"], []))
+        why = ""
+        if not by:
+            if r["interval"] in ("snapshot", "event"):
+                why = "a list of things or of events, not a series: it has no period to compare with the one before"
+            elif r["tier"] == "model_extracted" or "news" in r["sector"].split(";") or "platform" in r["sector"].split(";"):
+                why = "the ERW's own reading or record, not a measurement of the energy system"
+            elif t in held:
+                why = "behind a fix held for approval (docs/methods/impossible_hours.md): not watched until the hold is lifted"
+            elif t in named:
+                why = named[t]
+            else:
+                why = "no template or watch line reads it yet"
+        rows.append({"table": t, "interval": r["interval"], "sector": r["sector"], "tier": r["tier"], "read_by": by, "why_not": why})
+    n = sum(1 for x in rows if x["read_by"])
+    reasons = {}
+    for x in rows:
+        if x["why_not"]:
+            reasons[x["why_not"]] = reasons.get(x["why_not"], 0) + 1
+    return {"public_tables": len(rows), "read": n, "not_read": reasons, "tables": rows}
+
+
 def stored_history(template, params):
     if not os.path.exists(HISTORY):
         return {}
@@ -111,21 +260,26 @@ def stored_history(template, params):
 
 NOTE_SYSTEM = """You write the note under the ERW's chart of the week and a social caption for it. The ERW is the Energy
 Research Warehouse, the live, citable record of the US energy system.
-- note: exactly two plain sentences saying what the chart shows and why it stands out this week. Use only the numbers
-  written in the facts and the headline, exactly as written; compute nothing new, round nothing.
+- note: exactly two plain sentences saying what the chart shows and what changed this week. Use only the numbers
+  written in the facts and the finding, exactly as written; compute nothing new, round nothing. Name no statistic
+  (no "z", no "deviation", no "percentile"): say what moved, by how much, and against what.
 - caption: one or two sentences for a social post, at most 240 characters, the same rule for numbers, no hashtags,
-  no emoji, no hype, no advice.
+  no emoji, no hype, no advice. (The engine publishes its own caption, the finding; yours is kept beside it.)
 - No em dashes. Return JSON with the fields note and caption.""" + VOICE_NOTE
 NOTE_SCHEMA = {"type": "object", "properties": {"note": {"type": "string"}, "caption": {"type": "string"}},
                "required": ["note", "caption"], "additionalProperties": False}
 
 
-def draft_note(res, z, log, use_model=True):
+def draft_note(res, z, log, use_model=True, found=None):
     import ask as chat_ask
     h = res["headline"]
-    head = f"Headline: {h['label']}, {h['period']}: {h['value']} {h['unit']}. Its robust z against its own history: {z}."
+    head = f"Headline: {h['label']}, {h['period']}: {h['value']} {h['unit']}."
+    if found:  # session 119: the finding leads, and the model is not told the statistic
+        head = "Finding: " + " ".join(x for x in found if x)
+        fallback = (" ".join(x for x in (found[0], res["facts"][0]) if x), found[0][:240], "the finding and the template's own sentence")
+    else:
+        fallback = (" ".join(res["facts"][:2]), res["facts"][0][:240], "the template's own sentences")
     pool = res["facts"] + [head]
-    fallback = (" ".join(res["facts"][:2]), res["facts"][0][:240], "the template's own sentences")
     if not use_model:
         return fallback
     try:
@@ -164,9 +318,14 @@ def draft_note(res, z, log, use_model=True):
 # ---------------------------------------------------------------------------------------------
 
 def public_record(res, z, n_hist, rank):
+    ch = res.get("_change") or {}
     return {"template": res["template"], "params": res["params"], "title": res["title"], "subtitle": res["subtitle"],
             "headline": {k: v for k, v in res["headline"].items() if k != "history"},
-            "history_n": n_hist, "notability_z": z, "percentile": rank, "source_line": res["source_line"],
+            "history_n": n_hist, "notability_z": z, "percentile": rank,
+            # session 119: what the chooser compared
+            "about": ch.get("about"), "compare": ch.get("compare"), "change": None if ch.get("delta") is None else round(ch["delta"], 4),
+            "change_score": ch.get("score"), "change_z": ch.get("z"), "earlier_changes": ch.get("n"), "new_this_week": ch.get("new"),
+            "source_line": res["source_line"],
             "tables": res["tables"], "citations": res["citations"], "facts": res["facts"],
             "option": res["_option"], "frame": json.loads(res["frame"].to_json(orient="records", date_format="iso"))}
 
@@ -241,6 +400,8 @@ def main(argv=None):
     ap.add_argument("--no-gallery", action="store_true")
     ap.add_argument("--no-model", action="store_true")
     ap.add_argument("--gallery-only", action="store_true", help="recompute only the gallery (and templates.json)")
+    ap.add_argument("--tables-only", action="store_true",
+                    help="session 119: write only docs/analysis/tables.json (which public table each template and watch line reads)")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -251,6 +412,15 @@ def main(argv=None):
         label = week_label(args.week, now)
         out = os.path.join(DOCS, label)
         mods = templates.load_all()
+        if args.tables_only:
+            reg = table_registry(mods)
+            write_json(os.path.join(DOCS, "tables.json"), reg)
+            status["detail"] = f"tables only: {reg['read']} of {reg['public_tables']} public tables read by a template or a watch line"
+            log(status["detail"])
+            print(f"analysis: {status['detail']}")
+            ip.write_status("analysis", run_id, [status])
+            log.close()
+            return 0
         if args.gallery_only:
             write_json(os.path.join(DOCS, "templates.json"), {"templates": [
                 {"template": m.NAME, "title": m.TITLE, "public": m.PUBLIC, "method": " ".join(m.METHOD.split()),
@@ -282,23 +452,61 @@ def main(argv=None):
                     past.setdefault(period, v)
             z, n_hist, rank = notability(h["value"], list(past.values()))
             age = (now.date() - period_end(h["period"])).days
-            eligible = mod.PUBLIC and z is not None and age <= MAX_AGE_DAYS
+            # session 119: the change rule (the docstring, step 2)
+            about, compare = getattr(mod, "ABOUT", "system"), getattr(mod, "COMPARE", "previous")
+            stored = {p: v for p, v in stored_history(mod.NAME, res["params"]).items() if p != h["period"]}
+            ch = change(h, compare, stored)
+            cz, n_ch, _ = notability(ch["delta"], ch["earlier"]) if ch else (None, 0, None)
+            score = ch["score"] if ch and n_ch >= MIN_HISTORY else None
+            new = not seen_before(mod.NAME, res["params"], h["period"], label)
+            res["_change"] = dict(ch or {}, z=cz, n=n_ch, compare=compare, about=about, new=new, age=age, score=score)
+            eligible = bool(mod.PUBLIC and about == "system" and score is not None and new and age <= MAX_AGE_NEW)
             res["_option"] = mod.render(res, "site")
             res["_mod"] = mod
             results.append((res, z, n_hist, rank, eligible))
             hist_rows.append({"week": label, "template": mod.NAME, "params": json.dumps(res["params"], sort_keys=True),
                               "period": h["period"], "value": h["value"], "unit": h["unit"], "history_n": n_hist,
-                              "notability_z": "" if z is None else z, "public": mod.PUBLIC})
-            log(f"{mod.NAME}: {h['label']} {h['period']} = {h['value']} {h['unit']}; history {n_hist}; z {z}; "
-                f"percentile {rank}; age {age} days; eligible {eligible}")
+                              "notability_z": "" if z is None else z, "public": mod.PUBLIC,
+                              "about": about, "compare": compare, "change": "" if not ch else round(ch["delta"], 4),
+                              "change_score": "" if score is None else score, "change_z": "" if cz is None else cz,
+                              "changes_n": n_ch, "new": new})
+            log(f"{mod.NAME}: {h['label']} {h['period']} = {h['value']} {h['unit']}; history {n_hist}; level z {z}; "
+                f"change {None if not ch else round(ch['delta'], 4)} ({compare}), score {score} (z {cz}) among {n_ch} earlier "
+                f"changes; about {about}; new {new}; age {age} days; eligible {eligible}")
+        order = lambda r: -templates.ORDER.index(r[0]["template"])  # noqa: E731
         pool = [r for r in results if r[4]]
-        if not pool:
-            raise RuntimeError(f"no eligible public template (skipped: {skipped})")
-        best = max(pool, key=lambda r: (r[1], -templates.ORDER.index(r[0]["template"])))
+        how_picked = "the rule"
+        if not pool:  # nothing new this week passes: the largest change among measures whose period is not new
+            pool = [r for r in results if r[0]["_mod"].PUBLIC and r[0]["_change"]["about"] == "system" and r[0]["_change"]["score"] is not None
+                    and r[0]["_change"]["age"] <= MAX_AGE_NEW]
+            how_picked = "no measure's newest period was new this week; the largest change among periods already seen"
+        if pool:
+            best = max(pool, key=lambda r: (r[0]["_change"]["score"], r[0]["_change"]["z"] or 0, order(r)))
+        else:  # no measure has enough earlier changes: session 23's level rule, among measurements of the system first
+            level = [r for r in results if r[0]["_mod"].PUBLIC and r[1] is not None and r[2] >= MIN_HISTORY and
+                     (now.date() - period_end(r[0]["headline"]["period"])).days <= MAX_AGE_DAYS]
+            pool = [r for r in level if r[0]["_change"]["about"] == "system"] or level
+            how_picked = (f"no measure had {MIN_HISTORY} earlier changes; the level rule of session 23 (the headline's robust z against "
+                          "its own history)")
+            if not pool:
+                raise RuntimeError(f"no eligible public template (skipped: {skipped})")
+            best = max(pool, key=lambda r: (r[1], order(r)))
         res, z, n_hist, rank, _ = best
         mod = res["_mod"]
-        log(f"chart of the week: {mod.NAME} (z {z}, percentile {rank}, history {n_hist})")
-        note, caption, how = draft_note(res, z, log, use_model=not args.no_model)
+        ch = res["_change"]
+        found = finding(res["headline"], ch, ch["compare"]) if ch.get("delta") is not None else None
+        log(f"chart of the week: {mod.NAME} ({how_picked}; score {ch['score']}, z {ch['z']}, among {ch['n']} earlier changes; level z {z})")
+        if found:
+            log("  finding: " + " ".join(x for x in found if x))
+        note, model_caption, how = draft_note(res, z, log, use_model=not args.no_model, found=found)
+        # session 119: the caption is the finding, written by code. Two sentences when they fit a social post, else the first
+        caption = model_caption
+        if found:
+            both = " ".join(x for x in found if x)
+            caption = both if len(both) <= 240 else found[0][:240]
+        also = sorted([r for r in results if r is not best and r[0]["_mod"].PUBLIC and r[0]["_change"]["about"] == "system"
+                       and r[0]["_change"]["score"] is not None],
+                      key=lambda r: (r[0]["_change"]["score"], r[0]["_change"]["z"] or 0, order(r)), reverse=True)[:5]
         os.makedirs(out, exist_ok=True)
         files = {"email": "chart_email.png", "social_wide": "social_1200x627.png", "social_square": "social_1080x1080.png"}
         for size, f in files.items():
@@ -309,9 +517,19 @@ def main(argv=None):
                                                                                if k != "history"},
                "notability_z": z, "percentile": rank, "history_n": n_hist, "files": files, "option": res["_option"],
                "chart": res["chart"],
-               "rule": f"highest robust z of the headline against its own history among eligible public templates "
-                       f"(at least {MIN_HISTORY} earlier values, headline period ended within {MAX_AGE_DAYS} days)",
-               "computed_at": ip.utc_iso(now)}
+               # session 119: the finding, the change it rests on, how it was picked, and what else moved
+               "finding": " ".join(x for x in found if x) if found else None, "model_caption": model_caption,
+               "change": None if ch.get("delta") is None else {
+                   "compare": ch["compare"], "delta": round(ch["delta"], 4), "previous_period": ch["prev_period"],
+                   "previous_value": ch["prev_value"], "score": ch["score"], "z": ch["z"], "earlier_changes": ch["n"],
+                   "new_this_week": ch["new"]},
+               "picked_by": how_picked,
+               "also_moved": [{"template": r[0]["template"], "title": r[0]["title"], "score": r[0]["_change"]["score"],
+                               "change_z": r[0]["_change"]["z"],
+                               "new_this_week": r[0]["_change"]["new"],
+                               "finding": " ".join(x for x in finding(r[0]["headline"], r[0]["_change"], r[0]["_change"]["compare"]) if x)}
+                              for r in also],
+               "rule": RULE, "computed_at": ip.utc_iso(now)}
         write_json(os.path.join(out, "chart_of_the_week.json"), cow)
         write_json(os.path.join(out, "results.json"), {
             "week": label, "computed_at": ip.utc_iso(now), "picked": mod.NAME,
@@ -337,12 +555,13 @@ def main(argv=None):
         write_json(os.path.join(DOCS, "templates.json"), {"templates": [
             {"template": m.NAME, "title": m.TITLE, "public": m.PUBLIC, "method": " ".join(m.METHOD.split()),
              "params": m.PARAMS, "tables": m.TABLES} for m in mods]})
+        write_json(os.path.join(DOCS, "tables.json"), table_registry(mods))  # session 119
         n_gal = 0
         if not args.no_gallery:
             idx = gallery(mods, log)
             n_gal = sum(1 for t in idx for c in t["combos"].values() if c["file"])
         status["detail"] = (f"{label}: {len(results)} templates run, {len(skipped)} skipped; chart of the week "
-                            f"{mod.NAME} (z {z}); note by {how.split(',')[0]}; gallery {n_gal} charts")
+                            f"{mod.NAME} (score {ch.get('score')}); note by {how.split(',')[0]}; gallery {n_gal} charts")
         log(status["detail"])
         print(f"analysis: {status['detail']}")
     except Exception:

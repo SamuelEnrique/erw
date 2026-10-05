@@ -6,6 +6,7 @@ from common import fetch, render, result  # noqa: F401
 NAME = "datacenters_by_state"
 TITLE = "Datacenter facilities by state"
 PUBLIC = True
+ABOUT = "coverage"  # session 119: a count of what the ERW itself has collected, not a measurement of the energy system: run and shown, never the chart of the week
 PARAMS = {"top": {"default": 15, "choices": [10, 15, 25]}}
 TABLES = ["datacenter_facilities"]
 METHOD = """The facilities in datacenter_facilities (docs/methods/datacenter_facilities.md: news facilities, nine

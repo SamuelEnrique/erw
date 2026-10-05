@@ -166,5 +166,18 @@ def render(res, size, path=None):
     return style.png(res["chart"], path, size)
 
 
+def screened_demand(d):
+    """Rows of hourly demand (ts_utc, value) with the hours the ERW's rule for impossible values does not use taken
+    out (session 119; warehouse/derived/impossible_hours.py, rule A: held, above zero, within a quarter of the median
+    of the four hours around it, within the grid's own range). A chart of the week is not drawn on an hour that did
+    not happen. Nothing is filled: the hour is absent, and a day short of an hour is not a complete day."""
+    sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
+    import impossible_hours
+    s = d.drop_duplicates("ts_utc").set_index("ts_utc")["value"].sort_index()
+    full = pd.date_range(s.index.min(), s.index.max(), freq="h")
+    kept = impossible_hours.screen(s.reindex(full)).dropna()
+    return d[d["ts_utc"].isin(kept.index)]
+
+
 def r2(v):
     return None if v is None or pd.isna(v) else round(float(v), 2)

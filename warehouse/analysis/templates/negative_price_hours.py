@@ -6,6 +6,7 @@ from common import HISTORY, ISO_LABEL, RT, RT_MARKET, NoData, fetch, r2, render,
 NAME = "negative_price_hours"
 TITLE = "Negative-price hours by month"
 PUBLIC = True
+COMPARE = "year"  # session 119: a monthly count with a season in it: compared with the same month a year earlier
 ISOS = ["ercot", "caiso", "nyiso", "miso", "spp", "isone"]
 PARAMS = {"iso": {"default": "ercot", "choices": ISOS},
           "hub": {"default": {**{i: RT[i][2] for i in ISOS}, "ercot": "HB_WEST"}, "choices": "nodes of the ISO's real-time table"},

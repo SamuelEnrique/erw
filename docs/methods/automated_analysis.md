@@ -48,6 +48,38 @@ Each template's own method, shown on `/analysis` and in `docs/analysis/templates
 
    The site's gallery serves these files. The charts are computed by the same Python templates from public tables, on the warehouse's side, so the site needs no second implementation. What the site cannot do is compute a parameter value outside the grid.
 
+## The rule since session 119: the week's most notable real change
+
+Steps 2 to 4 above are the rule of session 23, kept here as the record. On Sunday 4 October 2026 that rule chose "Energy deals in the news, by month": 59 deals in September, the most of any month. It was true and it was not news. The count is of what the ERW has read, and the ERW began reading in late September. A headline's level against its own history rewards anything that grows with the warehouse. The caption then said "with a robust z of 2.73 against its own history", which states a statistic and not a finding.
+
+The rule now (`warehouse/analysis/run.py`, its docstring):
+
+1. **Real.** Only a measurement of the energy system competes. A count of what the ERW itself has collected (deals in the news, facilities in the tracker) is still run and shown in the gallery, and is never the chart of the week. A template says which it is (`ABOUT`).
+2. **A change, not a level.** The statistic is the headline's change from the period it is compared with: the week before, for a weekly figure; the same month a year earlier, for a monthly figure with a season in it. A template or a line says which (`COMPARE`).
+3. **Notable against its own recent past.** The change is ranked by size among the same measure's own earlier changes: the last 104 for a weekly figure, the last 36 for a monthly one. The score is the share of those that were smaller, 0 to 100. At least 8 earlier changes are needed.
+4. **This week's.** The headline period must be new: one this measure has not shown as its headline in an earlier week's run (`docs/analysis/history.csv`). It must also have ended within the last 100 days, because EIA's monthly figures arrive about two months late.
+5. **The highest score is chosen.** Ties go to the higher robust z of the change over the same window, then to the order of the list.
+
+If nothing new passes, the largest change among measures whose period is not new is chosen, and the chart says so. If no measure has 8 earlier changes, the level rule of session 23 is used, and the chart says so.
+
+**Why a rank and not a z.** The first version scored a robust z of the change over the measure's whole history. On its first trial it chose US battery storage in operation: 743 MW added in August 2026, with a z of 9.32. Of the 138 earlier months, 29 had added as much. Most of that history is the years when almost nothing was added, so the median and the spread were near zero and any modern month looked extreme. A rank over a recent window says what the caption says.
+
+**The caption states the finding, and code writes it.** Two sentences from the table's own numbers: what the measure was, in which period, how far it moved from the period it is compared with, and how that move ranks among the earlier ones. For the week of 4 October a trial of the rule (not published: that week's chart had gone out) gives: "CAISO Regulation Up day-ahead price, weekly mean: 5.04 USD/MW in the week of 2026-09-28 to 2026-10-04, up 1.73 from 3.31 the week before. Of the 104 week-to-week moves before it, 7 were as large." Second, with the same rank and a lower z: "WTI spot price at Cushing, weekly mean: 93.57 USD/bbl in the week of 2026-09-21 to 2026-09-27, down 9.97 from 103.54 the week before. Of the 104 week-to-week moves before it, 7 were as large." The model still drafts the two-sentence note, from the template's sentences and the finding, under the literal-number check; it is told to name no statistic. The model's own caption is kept beside the finding in `chart_of_the_week.json` (`model_caption`) and is not published.
+
+`chart_of_the_week.json` also lists `also_moved`: the next five by the same rule, each with its finding.
+
+## The watch list (`warehouse/analysis/watch.py`, session 119)
+
+The ten templates read 8 of the public tables. A measure on the watch list needs no module: one line names a public table, an entity, a variable, how a period is made of its rows, and what the period is compared with. The engine runs the lines beside the templates and chooses among all of them by the one rule. A line draws a plain line chart of its measure.
+
+- A week is Monday to Sunday, UTC. It counts only with enough rows (4 of a business week for a daily price, 7 for a daily figure of the grid, 160 of 168 for an hourly one). The week under way, and the month under way, are not shown. Nothing is filled.
+- A monthly line that says `whole` counts a month only when every day of it is held.
+- A table behind a fix held for approval is not watched. The carbon intensity tables carry months the faults register calls wrong (`docs/methods/impossible_hours.md`), so no line reads them until that hold is lifted.
+
+**Which public table is read, and which is not.** `docs/analysis/tables.json`, written on every run, lists every public table of `coverage.csv` with the templates and lines that read it, or the reason none does. The reasons are stated ones: a list of things or events and not a series; an input of a table that is read; a study of past events; yearly figures; figures by hour of the day; the latest values only; EIA's daily sums, which can hold a faulty hour. The last reason is the plain one: no template or line reads it yet. The count is in the file, not in this note.
+
+**On GitHub's runner** the Roundup's job restores only the rolling-window tables. It now also restores the tables the lines read (`scripts/sync.py --tables`, the pattern from `watch.py --tables`). A line whose table could not be restored is skipped and named, like a template.
+
 ## Schedule
 
 `.github/workflows/roundup.yml`, Sundays at 23:00 UTC:
