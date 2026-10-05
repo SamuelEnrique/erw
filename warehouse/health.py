@@ -19,6 +19,11 @@ else); SUPABASE_URL and SUPABASE_SERVICE_KEY from the environment or .env.
     python warehouse/health.py summary [--day 2026-10-02 | yesterday]
         writes queue/summary/<day>-health.md from erw_health: per workflow, runs against the expected count, and every
         skip reason, retry and failure.
+    python warehouse/health.py alert [--run-id 37207629600] [--day today] [--dry-run]
+        session 119: one line by email, to the fixed recipients only, when a step of this run (or of the day) is
+        recorded as failed; nothing when none is. No job fails on GitHub, so GitHub sends no email, and the summary
+        above is written the day after: on 4 October 2026 the battery page's refresh failed at 14:45 UTC and a person
+        learned of it from a document a session wrote that evening. Never raises and always exits 0.
 """
 
 import argparse
@@ -253,6 +258,38 @@ def summary(day, out_dir=None, rows=None):
     return path, rows
 
 
+def alert_line(day, rows, run_id=None, workflow=None):
+    """(subject, line) for the steps recorded as failed among `rows` (of one run when run_id is given), or None when
+    none failed. The line names each step and the start of its reason, and stays within 300 characters."""
+    fails = [r for r in rows if r["status"] == "failed" and (not run_id or str(r.get("run_id") or "") == str(run_id))
+             and (not workflow or r["workflow"] == workflow)]
+    if not fails:
+        return None
+    what = sorted({r["workflow"] for r in fails})
+    head = (f"{len(fails)} step{'s' if len(fails) != 1 else ''} of {', '.join(what)} failed on {day} UTC"
+            + (f" (run {run_id})" if run_id else "") + ": ")
+    room = max(40, (300 - len(head)) // len(fails) - 4)
+    parts = [" ".join(f"{r['step']}: {(r.get('reason') or 'no reason recorded')}".split())[:room] for r in fails]
+    return f"ERW: {len(fails)} scheduled step{'s' if len(fails) != 1 else ''} failed", (head + "; ".join(parts))[:300]
+
+
+def alert(day, run_id=None, dry_run=False, rows=None, send=None):
+    """Sends the line when a step failed. Returns the number of failed steps told of (0: nothing sent)."""
+    rows = fetch(day) if rows is None else rows
+    got = alert_line(day, rows, run_id)
+    if got is None:
+        print(f"health alert: no failed step recorded{' for run ' + str(run_id) if run_id else ''} on {day}; nothing sent")
+        return 0
+    subject, line = got
+    if send is None:
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import alert as alert_mail  # the sender the digest uses: Resend, the fixed recipients only
+        send = alert_mail.send
+    send(subject, line, dry_run)
+    print(f"health alert: {'would send' if dry_run else 'sent'}: {line}")
+    return line.count(";") + 1
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW scheduled-job health (session 61)")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -271,7 +308,18 @@ def main(argv=None):
     s = sub.add_parser("summary")
     s.add_argument("--day", default="yesterday")
     s.add_argument("--out")
+    al = sub.add_parser("alert")
+    al.add_argument("--day", default="today")
+    al.add_argument("--run-id", default="")
+    al.add_argument("--dry-run", action="store_true")
     a, rest_ = ap.parse_known_args(argv)
+    if a.cmd == "alert":  # session 119: never raises: an alert that cannot be sent must not fail the job it reports on
+        try:
+            day = a.day if a.day != "today" else dt.datetime.now(dt.timezone.utc).date().isoformat()
+            alert(day, a.run_id or None, a.dry_run)
+        except Exception as exc:
+            print(f"health alert: not sent: {type(exc).__name__}: {str(exc)[:200]}")
+        return 0
     if a.cmd == "run":
         cmd = rest_[1:] if rest_[:1] == ["--"] else rest_
         if not cmd:

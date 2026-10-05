@@ -503,6 +503,78 @@ class TheWatchList(unittest.TestCase):
         self.assertTrue((kept["value"] > 0).all())
 
 
+class TheFailureAlert(unittest.TestCase):
+    """warehouse/health.py alert: a failed step is one line by email the same day; no failed step, no email."""
+    # two rows of erw_health as they stood for the daily run of 4 October 2026 (run 37207629600), and one made ok
+    ROWS = [
+        {"at": "2026-10-04T14:45:10Z", "workflow": "daily prices", "run_id": "37207629600", "step": "ercot_as_prices", "status": "failed",
+         "reason": "ercot_as_prices ercot_as_prices FAILED, no output file written: RuntimeError: NP4-181-ER zip holds "
+                   "['rpt.00013091.0000000000000000.20261004.080005.DAMASMCPC_2026.xlsx'], expected one CSV"},
+        {"at": "2026-10-04T14:46:00Z", "workflow": "daily prices", "run_id": "37207629600", "step": "caiso_as_prices", "status": "ok", "reason": ""},
+        {"at": "2026-10-04T23:05:00Z", "workflow": "energy roundup", "run_id": "37242113598", "step": "send the Roundup", "status": "ok", "reason": ""},
+    ]
+
+    def setUp(self):
+        sys.path.insert(0, os.path.join(ROOT, "warehouse"))
+        import health
+        self.health = health
+
+    def test_a_failed_step_is_one_line_within_300_characters(self):
+        subject, line = self.health.alert_line("2026-10-04", self.ROWS, "37207629600")
+        self.assertEqual(subject, "ERW: 1 scheduled step failed")
+        self.assertTrue(line.startswith("1 step of daily prices failed on 2026-10-04 UTC (run 37207629600): ercot_as_prices: "))
+        self.assertIn("DAMASMCPC_2026.xlsx", line)
+        self.assertLessEqual(len(line), 300)
+        self.assertNotIn("\n", line)
+
+    def test_a_run_with_no_failed_step_sends_nothing(self):
+        self.assertIsNone(self.health.alert_line("2026-10-04", self.ROWS, "37242113598"))
+        sent = []
+        n = self.health.alert("2026-10-04", "37242113598", rows=self.ROWS, send=lambda *a: sent.append(a))
+        self.assertEqual((n, sent), (0, []))
+
+    def test_it_sends_through_the_fixed_recipients_sender_and_many_failures_still_fit(self):
+        many = [dict(self.ROWS[0], step=f"step_{i}") for i in range(9)]
+        sent = []
+        self.health.alert("2026-10-04", "37207629600", rows=many, send=lambda subject, line, dry: sent.append((subject, line, dry)))
+        self.assertEqual(sent[0][0], "ERW: 9 scheduled steps failed")
+        self.assertLessEqual(len(sent[0][1]), 300)
+        self.assertIn("import alert as alert_mail", src("warehouse", "health.py"))
+
+    def test_it_cannot_fail_the_job_it_reports_on(self):
+        saved = self.health.fetch
+
+        def boom(day):
+            raise RuntimeError("the database did not answer")
+        self.health.fetch = boom
+        try:
+            self.assertEqual(self.health.main(["alert", "--day", "2026-10-04"]), 0)
+        finally:
+            self.health.fetch = saved
+        for f in ("daily-prices.yml", "roundup.yml"):
+            w = yaml.safe_load(src(".github", "workflows", f))
+            job = w["jobs"]["refresh" if f.startswith("daily") else "roundup"]
+            last = job["steps"][-1]
+            self.assertEqual(last["name"], "Tell a person what failed in this run")
+            self.assertEqual((last["if"], last["continue-on-error"]), ("always()", True))
+            self.assertIn('python warehouse/health.py alert --run-id "${{ github.run_id }}"', last["run"])
+
+
+class WhatEarlierSessionsMended(unittest.TestCase):
+    """The two causes the prompt named for the daily run failing day after day were mended before this session; these
+    hold them in place."""
+
+    def test_a_table_uploaded_before_main_knows_it_passes_on_its_own_header(self):
+        s = src("warehouse", "redivis", "upload.py")
+        self.assertIn("pending = header_public(pub, unknown) if unknown else set()", s)     # session 77
+        self.assertIn("pending -= held_internal", s)                                        # session 82: never an internal one
+
+    def test_ercots_yearly_reserve_price_file_is_read_in_both_forms(self):
+        s = src("warehouse", "connectors", "ercot_as_prices.py")
+        self.assertIn(".xlsx", s)                                                           # session 113
+        self.assertIn(".csv", s)
+
+
 class Standing(unittest.TestCase):
     def test_no_em_dash_in_what_this_session_wrote(self):
         for parts in (("warehouse", "analysis", "watch.py"), ("warehouse", "analysis", "run.py"), ("warehouse", "news", "commit_paths.sh"),
