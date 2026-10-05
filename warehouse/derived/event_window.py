@@ -50,6 +50,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 import eia930_emissions as em  # noqa: E402  (latest_extract, read_extract, extract_meta)
+import impossible_hours  # noqa: E402  (session 118: the one rule for impossible values)
 import iso_prices as ip  # noqa: E402
 
 NAME = "event_window_daily"
@@ -221,7 +222,10 @@ def build(e, log, retrieved):
     if ex is None:
         raise RuntimeError(f"no extract of {e['ba']} under warehouse/raw/eia930_emissions/; nothing written")
     url, lm, got = em.extract_meta(ex)
-    x = em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]]
+    # session 118: an impossible hour of demand or net generation is a blank, so its day is not written
+    # (docs/methods/impossible_hours.md), over the whole history before the window is cut. HELD: a live page reads this
+    # table, so the rule is applied only when a person has approved the numbers it moves (impossible_hours.HELD)
+    x = impossible_hours.screen_extract(em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]], NAME)
     x["day"] = local_days(x["ts_utc"], e["tz"])
     x = x[x["day"].map(in_win)]
     # CO2 generated: the warehouse table
@@ -380,7 +384,7 @@ def build_covid(e, log, retrieved):
             raise RuntimeError(f"no extract of {ba} under warehouse/raw/eia930_emissions/; nothing written")
         url, lm, got = em.extract_meta(ex)
         used.append(f"{ba}: {os.path.relpath(ex, ROOT)} (EIA workbook {url}, Last-Modified {lm}, downloaded {got})")
-        x = em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]]
+        x = impossible_hours.screen_extract(em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]], NAME)   # session 118, HELD
         # session 49: the hours before the extract begins (2018-06-30), from EIA's six-month files (eia930_all_history)
         hist = history_hours(resp, x["ts_utc"].min())
         if len(hist):

@@ -40,6 +40,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 import iso_prices as ip  # noqa: E402
 import eia930_emissions as em  # noqa: E402
+import impossible_hours  # noqa: E402  (session 118: the one rule for impossible values)
 
 NAME = "caiso_reliability_daily"
 SOURCE = "erw:caiso_reliability"
@@ -53,7 +54,9 @@ def demand_days(log):
     if not ex:
         raise RuntimeError("no CISO extract under warehouse/raw/eia930_emissions/")
     url, lm, got = em.extract_meta(ex)
-    x = em.read_extract(ex)[["ts_utc", "demand_mwh"]].dropna()
+    # session 118: an impossible hour of demand is a blank, so its day is not a complete day and has no peak
+    # (docs/methods/impossible_hours.md). HELD until a person approves the numbers it moves (impossible_hours.HELD)
+    x = impossible_hours.screen_extract(em.read_extract(ex)[["ts_utc", "demand_mwh"]], NAME, cols=("demand_mwh",)).dropna()
     t = pd.to_datetime(x["ts_utc"], utc=True).dt.tz_convert(TZ)
     x = x.assign(day=t.dt.strftime("%Y-%m-%d"), hour=t.dt.hour, ts=t)
     need = {d: int(((pd.Timestamp(d).tz_localize(TZ) + pd.DateOffset(days=1)).normalize() - pd.Timestamp(d).tz_localize(TZ)).total_seconds() // 3600)

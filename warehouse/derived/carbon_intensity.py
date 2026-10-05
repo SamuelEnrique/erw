@@ -50,6 +50,7 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, HERE)
 import caiso_join as cj  # noqa: E402  (session 82: California from the join)
 import eia930_emissions as em  # noqa: E402  (FILE: the BAs; latest_extract, read_extract, extract_meta)
+import impossible_hours as ih  # noqa: E402  (session 118: the one rule for impossible values)
 import iso_prices as ip  # noqa: E402
 
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/emissions.md"
@@ -172,7 +173,10 @@ def main():
                 raise RuntimeError(f"no extract of {code} under warehouse/raw/eia930_emissions/ (the emissions "
                                    "connector writes one per BA each run); the tables are left as they are")
             url, lm, got = em.extract_meta(p)
-            extracts[code] = em.read_extract(p)[["ts_utc", "demand_mwh", "net_generation_mwh"]]
+            # session 118: an impossible hour of demand or of net generation is a blank (docs/methods/impossible_hours.md):
+            # the hour is then not written, its day is not complete and its month is not written, by this table's own rule
+            log(f"  {code}:")
+            extracts[code] = ih.screen_extract(em.read_extract(p)[["ts_utc", "demand_mwh", "net_generation_mwh"]], TABLES[0], log=log)
             used.append(f"{code}: {os.path.relpath(p, ROOT)} ({url}, Last-Modified {lm})")
         log("extracts: " + "; ".join(used))
         emis = read(EMIS, ["co2_emissions_generated", "co2_emissions_consumed"]).to_pandas()
@@ -188,6 +192,16 @@ def main():
                 e = emis[(emis["ba"] == code) & (emis["variable"] == co2)][["entity", "ts_utc", "value", "geo", "ba"]]
                 j = e.merge(x[["ts_utc", col]].rename(columns={col: "mwh"}), on="ts_utc")
                 j = j[j["mwh"] > 0].rename(columns={"value": "co2"})
+                if code == cj.BA and ih.applies(TABLES[0]):
+                    # session 118: EIA's file holds no hydro for California for 7,869 hours in a row; its generation, its
+                    # net generation and the CO2 traced through them are left out of every figure (ih.CISO_NO_HYDRO).
+                    # And EIA's California hours of November 2023 to 2 December 2025 are read one hour earlier, where
+                    # they belong (caiso_join.true_hours): the CO2 and its denominator sit in the same late row
+                    gap = ih.in_hydro_gap(j["ts_utc"])
+                    log(f"  {code} {var}: {int(gap.sum())} hours in the hydro gap not written")
+                    j = j[~gap]
+                    k = cj.true_hours(j.set_index(pd.to_datetime(j["ts_utc"], utc=True)))
+                    j = k.assign(ts_utc=k.index.strftime("%Y-%m-%dT%H:%M:%SZ")).reset_index(drop=True)
                 if code == cj.BA and var == cj.VARIABLE:
                     # session 82: from the join California's generation is CAISO's own, written by caiso_join.py --apply
                     # (the next step of the daily run); EIA's generation is never written for those hours
@@ -224,6 +238,12 @@ def main():
             f"Run log: warehouse/output/logs/carbon_intensity_{run_id}.log",
             f"Source: erw:carbon_intensity ERW derived table, emissions method (docs/methods/emissions.md), {METHOD_URL}",
             f"Derived from: {EMIS}",
+            "Left out (session 118, docs/methods/impossible_hours.md): an hour whose demand or net generation is impossible "
+            "(not above zero, further than 25 percent from the median of the four hours around it, or outside one third to "
+            "three times the grid's own median hour) is not written for the intensity that divides by it; California's "
+            f"hours from {ih.CISO_NO_HYDRO[0]} to {ih.CISO_NO_HYDRO[1]} (hour starts, both included), in which EIA's file "
+            "holds no hydro, are not written at all; EIA's California hours of 2023-11 to 2025-12-02 are read one hour "
+            "earlier. A day short of an hour is not a complete day, and its month is not written. Nothing is filled.",
             "Denominators (session 34): the Demand and Net generation columns of the same EIA workbooks the CO2 comes from "
             "(sheet Published Hourly Data), from the emissions connector's extracts: " + "; ".join(used),
             f"Reach: {min(span)} to {max(span)}.",

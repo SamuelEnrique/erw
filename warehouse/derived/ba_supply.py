@@ -62,7 +62,8 @@ METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_n
 PAIRS, TOTAL = "eia930_daily_interchange", "eia930_daily_total_interchange"
 ISO_BAS = ["CISO", "ERCO", "ISNE", "MISO", "NYIS", "PJM", "SWPP"]  # demand and net generation are held for these
 DAY_TZ = "America/New_York"  # EIA's Eastern day
-MADS, FLOOR = 10, 500.0
+import impossible_hours as ih  # noqa: E402  (session 118: the one rule for impossible values)
+MADS, FLOOR = ih.MADS, ih.FLOOR  # rule C lives in impossible_hours.py since session 118; the numbers are the same
 THIN = 2 / 3
 COLS = ip.SERIES_COLS + ["ba", "x_to_ba"]
 r4 = pb.r4
@@ -75,10 +76,7 @@ def read(name, cols, in_dir=None):
 
 def screen(it):
     """True for a pair-day further than MADS median absolute deviations (at least FLOOR MWh) from its pair's median."""
-    g = it.groupby("entity")["v"]
-    med = g.transform("median")
-    mad = (it["v"] - med).abs().groupby(it["entity"]).transform("median")
-    return (it["v"] - med).abs() > MADS * np.maximum(mad, FLOOR)
+    return ih.pair_days_far(it)   # session 118: the rule moved to impossible_hours.py, word for word
 
 
 def balance_days(hours):
@@ -202,7 +200,10 @@ def load(in_dir, log):
         if ex is None:
             log(f"  {ba}: no workbook extract on this machine; its balance and shares are not written")
             continue
-        bal[ba] = balance_days(em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]])
+        # session 118: an impossible hour of demand or of net generation is a blank, and its day is then not a day whose
+        # every hour is held (docs/methods/impossible_hours.md). HELD: this table is behind the live /network page, so
+        # the rule is applied only when a person has approved the numbers it moves (impossible_hours.HELD)
+        bal[ba] = balance_days(ih.screen_extract(em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]], NAME))
         used.append(f"{ba}: {os.path.relpath(ex, ROOT)} ({len(bal[ba])} complete days)")
     return it, ti, bal, used
 
