@@ -13,10 +13,12 @@
 export type Status = "live" | "review";
 
 export const RELEASE: Record<string, Status> = {
-  "/": "live",
+  // Session 126 (the owner's instruction, 5 October 2026): the home page, About, Terms, the seller's tab and the four
+  // methods notes are in review. Three pages are open: /cost-of-power/battery, /network and /storage.
+  "/": "review",
   "/cost-of-power/battery": "live",
   "/cost-of-power/battery/awards": "review",  // session 115: what Texas's storage resources were awarded day-ahead; without its own line it would take the live battery page's status
-  "/cost-of-power/seller": "live",
+  "/cost-of-power/seller": "review",
   "/cost-of-power/seller/v2": "review",  // session 107: version 2 of the seller's tab; without its own line it would take the live tab's status
   "/network": "live",
   "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace); without its own line it would take /network's status
@@ -26,13 +28,13 @@ export const RELEASE: Record<string, Status> = {
   "/storage/owners": "review",  // session 87: without its own line it would take /storage's status
   "/contracts": "review",  // session 83: an internal table; it stays behind the internal view
   "/shoulder": "review",  // session 75  // session 72: without its own line it would take /storage's status
-  "/about": "live",
-  "/terms": "live",
+  "/about": "review",
+  "/terms": "review",
   // the methods pages the live tools link to
-  "/data/methods/battery_stack": "live",
-  "/data/methods/cost_of_power": "live",
-  "/data/methods/grid_network": "live",
-  "/data/methods/storage": "live",
+  "/data/methods/battery_stack": "review",
+  "/data/methods/cost_of_power": "review",
+  "/data/methods/grid_network": "review",
+  "/data/methods/storage": "review",
 
   "/board": "review",
   "/board/v3": "review",  // session 104: the price board, version 3 (power by grid, gas, oil; last value, day, week, thirty days)
