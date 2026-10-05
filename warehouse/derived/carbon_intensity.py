@@ -238,12 +238,14 @@ def main():
             f"Run log: warehouse/output/logs/carbon_intensity_{run_id}.log",
             f"Source: erw:carbon_intensity ERW derived table, emissions method (docs/methods/emissions.md), {METHOD_URL}",
             f"Derived from: {EMIS}",
+        ] + ([  # session 118: said only by a build that did it (the tables are held: impossible_hours.HELD)
             "Left out (session 118, docs/methods/impossible_hours.md): an hour whose demand or net generation is impossible "
             "(not above zero, further than 25 percent from the median of the four hours around it, or outside one third to "
             "three times the grid's own median hour) is not written for the intensity that divides by it; California's "
             f"hours from {ih.CISO_NO_HYDRO[0]} to {ih.CISO_NO_HYDRO[1]} (hour starts, both included), in which EIA's file "
             "holds no hydro, are not written at all; EIA's California hours of 2023-11 to 2025-12-02 are read one hour "
             "earlier. A day short of an hour is not a complete day, and its month is not written. Nothing is filled.",
+        ] if ih.applies(TABLES[0]) else []) + [
             "Denominators (session 34): the Demand and Net generation columns of the same EIA workbooks the CO2 comes from "
             "(sheet Published Hourly Data), from the emissions connector's extracts: " + "; ".join(used),
             f"Reach: {min(span)} to {max(span)}.",

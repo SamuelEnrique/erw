@@ -24,6 +24,9 @@ export const revalidate = 3600;
 const T = "carbon_intensity_hourly";
 const TM = "carbon_intensity_monthly"; // session 34
 const METHOD = "/data/methods/emissions";
+// session 118: EIA's CO2 estimates often run more than three days behind the clock. With a three-day window the two
+// "now" sections said "no row in the last 3 days" while the table held hours four days old; the page looks back a week
+const LOOK_BACK_DAYS = 7;
 const ISOS = [
   { entity: "eia930:CISO", label: "CAISO", color: "var(--color-fuel-solar)" },
   { entity: "eia930:ERCO", label: "ERCOT", color: "accent" },
@@ -94,7 +97,7 @@ function Monthly({ rows }: { rows: SeriesRow[] }) {
 
 export default async function Emissions() {
   const [got, monthly] = await Promise.all([
-    attempt(() => series(T, { since: daysAgo(3) })),
+    attempt(() => series(T, { since: daysAgo(LOOK_BACK_DAYS) })),
     attempt(() => series(TM, { variable: "intensity_generation" })),
   ]);
   const rows = got.ok ? got.data : [];
@@ -126,7 +129,7 @@ export default async function Emissions() {
         {!got.ok ? (
           <NoData what="carbon intensity" reason={got.reason} />
         ) : latest.length === 0 ? (
-          <NoData what="carbon intensity" reason={`${T} has no row in the last 3 days`} />
+          <NoData what="carbon intensity" reason={`${T} has no row in the last ${LOOK_BACK_DAYS} days`} />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[460px] text-sm tabular-nums">
@@ -165,7 +168,7 @@ export default async function Emissions() {
         {got.ok && newest ? (
           <LineChart lines={lines} unit="kg CO2/MWh" height={260} ariaLabel="Carbon intensity of generation per ISO, the last 24 hours" />
         ) : (
-          <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last 3 days` : got.reason} />
+          <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last ${LOOK_BACK_DAYS} days` : got.reason} />
         )}
         <Cite tables={[T]} note={newest ? `Intensity of generation, hourly, the 24 hours to ${utc(new Date(newest).toISOString())} (hour start)` : undefined} />
       </Section>

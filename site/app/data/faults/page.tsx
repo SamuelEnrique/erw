@@ -53,7 +53,7 @@ export default function Faults() {
         <strong>{file.faults} faults</strong> are recorded, touching {file.tables_touched} tables:{" "}
         {ORDER.filter((s) => file.by_status[s]).map((s, i, a) => (
           <span key={s}>{file.by_status[s]} {STATUS_LABEL[s].toLowerCase()}{i < a.length - 1 ? ", " : ""}</span>
-        ))}. {file.with_open} still have something open.
+        ))}. {file.with_open} carry a note of something not settled.
       </p>
       <p className="mb-6 max-w-3xl text-sm" data-faults-resolution-summary="1">
         Where the ERW&apos;s own work stands:{" "}
