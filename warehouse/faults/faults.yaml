@@ -12,6 +12,11 @@
 #   corrected    the ERW reads the values as they should have been, by a stated rule
 #   worked_around the ERW reads another source for the period
 #   held_as_published  the ERW holds the values as the publisher gave them and says so
+# Session 118: every entry also says where the ERW's own work on it stands, `resolution`, with `resolution_reason`:
+#   fixed              no ERW table or page shows or computes a wrong figure from it; where the fault is a gap, the gap
+#                      is stated and nothing is filled
+#   held_for_approval  the fix is built and waits for a person, because applying it moves a number on a live page
+#   open               something is still to do or to rule on, or cannot be done from these data; the reason says which
 # To add a fault: an entry here, then python warehouse/derived/data_faults.py --snapshot (docs/methods/known_data_faults.md).
 
 faults:
@@ -26,6 +31,12 @@ faults:
     dates_note: >-
       from the hour starting 2025-12-16T08:00:00Z (midnight Pacific), and continuing
     status: worked_around
+    resolution: fixed
+    resolution_reason: >-
+      From the join every table reads CAISO's own supply, and since session 118 the older pages /mix, /grid and
+      the California grid page no longer draw EIA's generation by fuel for California: they say why and point to
+      the mix on CAISO's own data. What the generation EIA stopped counting is remains unknown, and that is
+      EIA's to say.
     evidence: >-
       EIA-930's generation for California (CISO) steps in one hour, the hour starting 2025-12-16 08:00 UTC. Natural gas
       falls from a daily mean of 251.7 GWh (2025-06-02 to 2025-12-15) to 118.3 GWh (2025-12-16 to 2026-09-29). Total net
@@ -41,9 +52,8 @@ faults:
       The month that holds the join, December 2025, is not written in the energy mix tables, and the shoulder hours'
       EIA-based California stops after November 2025. Demand is EIA's throughout: it does not step at the break.
     open: >-
-      The older pages /mix, /grid and the California grid page still read EIA's generation by fuel for California.
-      What the generation EIA stopped counting is, is not settled by these data. EIA's known-issues page refused a
-      plain request (HTTP 403), so EIA's own account of the change was not read.
+      What the generation EIA stopped counting is, is not settled by these data. EIA's known-issues page refused
+      a plain request (HTTP 403), so EIA's own account of the change was not read.
     recorded_in: >-
       session 73; docs/methods/eia930_caiso_break.md
 
@@ -58,6 +68,14 @@ faults:
     dates_note: >-
       rows stamped 2023-11-01T00:00 UTC to 2025-12-02T23:00 UTC (the hour's end)
     status: corrected
+    resolution: held_for_approval
+    resolution_reason: >-
+      The carbon intensity tables now read those hours one hour earlier in a trial build (17 monthly and 743
+      daily values of each intensity move, the largest month by 0.14 kg CO2/MWh), held with the rest of that
+      build because the tables are behind a live page. Not built: ba_supply_monthly, ai_power_regions and
+      event_window_daily add up whole days, where one hour moved across midnight changes a day by a
+      twenty-fourth at most; and eia930_all_emissions is the source table, which holds EIA's stamps as
+      published.
     evidence: >-
       In EIA's CISO workbook every hourly value from the row stamped 2023-11-01T00:00 UTC to the row stamped
       2025-12-02T23:00 UTC belongs to the hour before; before and after, the stamps are right. Set beside CAISO's own
@@ -80,29 +98,42 @@ faults:
 
   - id: eia930_ciso_no_hydro
     title: >-
-      EIA's file holds no hydro for California from October 2019 to mid August 2020
+      EIA's file holds no hydro for California from 1 October 2019 to 24 August 2020
     publisher: >-
       U.S. Energy Information Administration (EIA), Form EIA-930
     source: eia:gridmonitor/knownissues/xls
     first: "2019-10-01"
-    last: "2020-08-15"
+    last: "2020-08-24"
     dates_note: >-
-      recorded as October 2019 to mid August 2020; the first and last day are not recorded, so the first of October and the middle of August stand in for them
+      7,869 hours in a row, from the hour starting 2019-10-01T21:00Z to the hour starting 2020-08-24T17:00Z,
+      both included (measured in session 118 on the workbook retrieved 2026-10-04)
     status: screened
+    resolution: held_for_approval
+    resolution_reason: >-
+      Session 118 measured the gap to the hour and left it out of the carbon intensity tables in a trial build:
+      7,789 hours of the consumed intensity and 7,784 of the generation intensity are not written, and with them
+      the daily and monthly figures of those months. Held, because those tables are behind a live page. Until it
+      is approved the pages in review that read them (/emissions, the California grid page) leave the months out
+      and say so (site/data/carbon_left_out.json).
     evidence: >-
-      In those ten months hydro is blank in 97 to 100 percent of California's hours, and EIA's own total leaves it out
-      too, so the sources still add up. EIA's balance gives it away: demand against net generation less interchange is
-      off by 9 to 15 percent of demand in those months, against 2 to 4 percent around them. Before the screen,
-      California's dirtiest hour on record was an evening of December 2019 with no hydro in it.
+      Hydro is blank in every one of the 7,869 hours from the hour starting 2019-10-01T21:00Z to the hour
+      starting 2020-08-24T17:00Z; the hour before holds 1,278 MW of hydro and the hour after 1,898 MW. EIA's own
+      total leaves it out too, so the sources still add up. EIA's balance gives it away: demand against net
+      generation less interchange is off by 9 to 15 percent of demand in those months, against 2 to 4 percent
+      around them. Before the screen, California's dirtiest hour on record was an evening of December 2019 with
+      no hydro in it.
     tables: >-
       generation_mix_hourly_profile; generation_mix_records; eia930_all_generation; carbon_intensity_hourly; carbon_intensity_daily; carbon_intensity_monthly
     erw_does: >-
-      In the energy mix tables an hour is not used when a main source is blank (a main source supplies at least 5
-      percent of the grid's generation over its history: warehouse/derived/mix_profile.py, MAIN). California's months
-      from September 2019 to August 2020, and October 2020, are not written there.
+      In the energy mix tables an hour is not used when a main source is blank (a main source supplies at least
+      5 percent of the grid's generation over its history: warehouse/derived/mix_profile.py, MAIN). California's
+      months from September 2019 to August 2020, and October 2020, are not written there. In the carbon
+      intensity tables the 7,869 hours are left out of both intensities by the builder
+      (impossible_hours.CISO_NO_HYDRO), in a build that is held.
     open: >-
-      eia930_all_generation and the carbon intensity tables carry those months as EIA published them, so California's
-      intensity in those months is computed without hydro. Not measured, not changed.
+      The held carbon build is not yet the table: carbon_intensity_hourly, _daily and _monthly still carry those
+      hours as EIA published them, so California's intensity there is computed without hydro until a person
+      approves the build. eia930_all_generation is the source table and keeps them.
     recorded_in: >-
       session 94; docs/methods/generation_mix_hourly.md
 
@@ -117,6 +148,13 @@ faults:
     dates_note: >-
       seven hours, by the hour's start in UTC
     status: screened
+    resolution: held_for_approval
+    resolution_reason: >-
+      Built and held. The rule is in the builder of every table named and is applied in a trial build only
+      (warehouse/derived/impossible_hours.py, HELD): those tables are behind a live page or counted on the home
+      page, so applying it moves a number a visitor sees. Session 118's report lists each number before and
+      after; a person approves it by taking the table out of HELD. Applied already where no live number moves:
+      eia930_demand_growth, generation_mix_hourly_profile, shoulder_hours_monthly.
     evidence: >-
       Seven hours stand more than a quarter away from the four hours around them: 155,276 MW at 2019-12-12T21:00Z
       (the hours around it 103,637), which would have been 2019's peak; 215,682 MW at 2020-04-10T03:00Z (71,370);
@@ -148,6 +186,13 @@ faults:
     dates_note: >-
       twelve hours, by the hour's start in UTC, in 2019, 2024, 2025 and 2026 (none in 2020)
     status: screened
+    resolution: held_for_approval
+    resolution_reason: >-
+      Built and held. The rule is in the builder of every table named and is applied in a trial build only
+      (warehouse/derived/impossible_hours.py, HELD): those tables are behind a live page or counted on the home
+      page, so applying it moves a number a visitor sees. Session 118's report lists each number before and
+      after; a person approves it by taking the table out of HELD. A zero is now stated in the rule as a missing
+      value, not a quantity. Applied already in eia930_demand_growth and generation_mix_hourly_profile.
     evidence: >-
       Twelve hours of exactly zero between hours of 14,000 to 23,000 MW: 2019-04-18T03:00Z; 2024-01-17T23:00Z;
       2024-10-09T20:00Z and T21:00Z; 2025-01-15T22:00Z and T23:00Z; and six in a row from 2026-02-09T23:00Z to
@@ -174,6 +219,13 @@ faults:
     dates_note: >-
       38 hours not used; most from 13 February to 10 May 2019, then 19 to 22 December 2019, 8 October 2020, 31 July 2025 and 25 January 2026
     status: screened
+    resolution: held_for_approval
+    resolution_reason: >-
+      Built and held. The rule is in the builder of every table named and is applied in a trial build only
+      (warehouse/derived/impossible_hours.py, HELD): those tables are behind a live page or counted on the home
+      page, so applying it moves a number a visitor sees. Session 118's report lists each number before and
+      after; a person approves it by taking the table out of HELD. Applied already in eia930_demand_growth,
+      shoulder_hours_monthly and generation_mix_hourly_profile.
     evidence: >-
       Hours of 12,000 to 14,000 MW between hours of 23,000 to 25,000, February to May 2019 (12,193 MW at
       2019-04-10T22:00Z, the hours around it 21,843). Three hours of 14, 91 and 96 MW from 2019-12-19T23:00Z. 13,807 MW
@@ -202,6 +254,13 @@ faults:
     dates_note: >-
       two hours, by the hour's start in UTC
     status: screened
+    resolution: held_for_approval
+    resolution_reason: >-
+      Built and held. The rule is in the builder of every table named and is applied in a trial build only
+      (warehouse/derived/impossible_hours.py, HELD): those tables are behind a live page or counted on the home
+      page, so applying it moves a number a visitor sees. Session 118's report lists each number before and
+      after; a person approves it by taking the table out of HELD. Applied already in eia930_demand_growth and
+      generation_mix_hourly_profile.
     evidence: >-
       1,505 MW at 2025-06-21T09:00Z (04:00 Central), the hours around it 34,479; and 24,991 MW at 2024-07-19T04:00Z,
       the hours around it 35,083. 48 more hours are blank.
@@ -215,6 +274,88 @@ faults:
     recorded_in: >-
       session 97; docs/methods/demand_growth.md; measured again by the rule on 2026-10-04
 
+  - id: eia930_unadjusted_values_in_the_billions
+    title: >-
+      EIA's unadjusted demand and net generation hold values in the millions and billions of MW
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2019-12-11"
+    last: "2023-06-13"
+    dates_note: >-
+      nine hours of PJM and one of SPP, by the hour's start in UTC, in the columns Demand and Net generation; EIA's own Adjusted columns do not hold them
+    status: screened
+    resolution: held_for_approval
+    resolution_reason: >-
+      Built and held. The rule is in the builder of every table named and is applied in a trial build only
+      (warehouse/derived/impossible_hours.py, HELD): those tables are behind a live page or counted on the home
+      page, so applying it moves a number a visitor sees. Session 118's report lists each number before and
+      after; a person approves it by taking the table out of HELD. Until it is approved the pages in review
+      leave the months out and say so: PJM's October 2021 is in the monthly carbon table at 4.4718 and 4.7971 kg
+      CO2/MWh, between months of 316 to 411.
+    evidence: >-
+      The workbook's column Demand, which the ERW's emissions extract reads, holds for PJM 1,527,760,000 MW at
+      2021-10-19T02:00Z, 2,147,480,000 MW at T03:00Z (the largest 32-bit whole number, rounded) and 431,044,000
+      MW at T04:00Z, between hours near 75,000; the column Net generation holds 1,527,330,000, 2,147,480,000 and
+      430,497,000 MW in the same three hours. Also PJM: 417,669 MW at 2019-12-11T19:00Z; 262,651 at
+      2020-07-24T15:00Z; 245,799 at 2020-07-27T21:00Z; 250,825 of demand and 257,186 of net generation at
+      2020-09-03T20:00Z. SPP: 3,621,097 MW of demand and 3,617,992 of net generation at 2023-06-13T01:00Z,
+      between hours near 32,000. EIA's Adjusted demand does not hold these values: by the rule it has 7
+      impossible hours for PJM where the unadjusted column has 16. Session 103 measured the Adjusted column and
+      so did not see them.
+    tables: >-
+      carbon_intensity_hourly; carbon_intensity_daily; carbon_intensity_monthly; cost_of_power_monthly; cost_of_power_carbon; ba_supply_monthly; ai_power_regions; event_window_daily
+    erw_does: >-
+      The one rule for impossible values (warehouse/derived/impossible_hours.py, rule A) leaves each of them
+      out, with the good hour on each side of a run. It is in the builder of every table named and held there.
+      The tables that read EIA's Adjusted demand (eia930_demand_growth, generation_mix_hourly_profile,
+      shoulder_hours_monthly) never held them.
+    open: >-
+      Whether the ERW's extract should read EIA's Adjusted columns in place of the unadjusted ones is a ruling
+      to make: EIA has already replaced these values there, with its own imputation, which is a fill the ERW
+      would then inherit.
+    recorded_in: >-
+      session 118; docs/methods/impossible_hours.md
+
+  - id: eia930_net_generation_impossible_hours
+    title: >-
+      Net generation holds impossible hours in California, New York, New England, PJM and SPP
+    publisher: >-
+      U.S. Energy Information Administration (EIA), Form EIA-930
+    source: eia:gridmonitor/knownissues/xls
+    first: "2018-07-20"
+    last: "2026-08-20"
+    dates_note: >-
+      63 held hours by the rule: California 41, New York 13, PJM 6, New England 2, SPP 1 (measured in session 118 on the workbooks retrieved 2026-10-04)
+    status: screened
+    resolution: held_for_approval
+    resolution_reason: >-
+      Built and held. The rule is in the builder of every table named and is applied in a trial build only
+      (warehouse/derived/impossible_hours.py, HELD): those tables are behind a live page or counted on the home
+      page, so applying it moves a number a visitor sees. Session 118's report lists each number before and
+      after; a person approves it by taking the table out of HELD. Net generation was not screened by any table
+      before session 118: the rule was for demand only.
+    evidence: >-
+      California: 29 hours stand more than a quarter from the four hours around them (629 MW at
+      2018-07-20T18:00Z between hours near 25,740; 1,932 MW at 2019-08-25T20:00Z; three hours near 1,500 MW from
+      2019-12-19T23:00Z), and twelve more hours on 2023-11-10 slide to 727 MW, each close to the hour before it,
+      which only the grid's own range catches (one third to three times its median hour of 18,232 MW). New York:
+      zero in the same twelve hours as its demand, and 20,562 MW at 2025-01-15T20:00Z. New England: minus 41 MW
+      at 2021-03-01T04:00Z and 2,776 MW at 2021-03-02T04:00Z, between hours near 10,000. PJM and SPP: the hours
+      of the fault eia930_unadjusted_values_in_the_billions.
+    tables: >-
+      carbon_intensity_hourly; carbon_intensity_daily; carbon_intensity_monthly; cost_of_power_carbon; ba_supply_monthly; ai_power_regions; event_window_daily
+    erw_does: >-
+      Rule A of the one rule applies to net generation as to demand since session 118: held, above zero, within
+      a quarter of the median of the four hours around it, and within the grid's own range. An hour that fails
+      is a blank; the intensity that divides by it is not written, and a day short of an hour is not a complete
+      day.
+    open: >-
+      The energy mix tables test an hour another way (its sources must add up to its total), and are not put to
+      this rule for generation: whether they should be is a ruling to make.
+    recorded_in: >-
+      session 118; docs/methods/impossible_hours.md
+
   - id: eia930_us48_demand_sum_holds_faulty_hours
     title: >-
       The Lower 48's demand is a sum with the faulty hours inside it
@@ -226,6 +367,12 @@ faults:
     dates_note: >-
       the two hours recorded; any faulty hour of a balancing authority is inside the sum of that hour
     status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      A faulty hour of one balancing authority cannot be taken out of EIA's sum. The rule leaves out the one
+      hour of the sum that fails it (2020-04-10T03:00Z), and the Lower 48 is given no peak. The Lower 48's
+      consumed intensity of April 2020 goes with the held carbon build. It stays open until EIA republishes the
+      hours or the ERW builds its own sum from the screened authorities, which no session has been asked to do.
     evidence: >-
       525,129 MW at 2020-04-10T03:00Z, the hours around it 380,115: the rule leaves that hour out. PJM's 224,345 MW of
       2020-07-13T22:00Z is inside the Lower 48's 776,575 MW of the same hour, which stands only 12 percent above the
@@ -251,6 +398,12 @@ faults:
     dates_note: >-
       across the history held; the one day named in the reports is 2026-07-21
     status: screened
+    resolution: fixed
+    resolution_reason: >-
+      Rule C of the one rule (warehouse/derived/impossible_hours.py, pair_days_far) is what ba_supply_monthly,
+      ai_power_regions and the network's replay each call; before session 118 two of them carried their own copy
+      of it. Not covered, and said here: the live /network page draws hourly interchange, and rule C is a rule
+      for days.
     evidence: >-
       SPP to MISO (SWPP-MISO) is reported at 2,159,056 MWh on 2026-07-21, more than SPP's whole daily demand. By the
       rule below, 2,732 of 945,130 pair-days are left out of the monthly supply table, and 1,072 pair-days out of the
@@ -262,7 +415,11 @@ faults:
       pair's own median over its history (warehouse/derived/ba_supply.py, MADS and FLOOR; the same rule in
       ai_power_regions.py and network_daily.py). The count left out is in each replay file and printed on the page.
     open: >-
-      Why the supply table's count (2,732) and the replay's (1,072) differ is not recorded.
+      The live /network page's hourly links are not screened: rule C is a rule for days. Settled in session 118:
+      the supply table's count (2,732) and the replay's (1,072) count different things. The first is every
+      report of every pair, both sides; 1,259 of them are between authorities the network draws, on 1,252
+      pair-days; the replay uses one report a pair and day and counts a day only when the report it used is left
+      out.
     recorded_in: >-
       sessions 62, 68 and 93; docs/methods/grid_network.md
 
@@ -277,6 +434,11 @@ faults:
     dates_note: >-
       the year measured in session 62; the days are not listed in the reports
     status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      A gap at the source: there is nothing for the ERW to fix, and nothing is filled. Each figure says how many
+      days it rests on. Open because EIA has not been asked why SPP's days are missing, and a figure for SPP
+      that rests on 200 of 365 days is a weak one however plainly it says so.
     evidence: >-
       EIA's daily interchange is missing for 47 to 53 days of the year in six regions, and 156 in SPP (session 62).
       In the supply table PJM and SPP leave out the most days (PJM 141 of 365, SPP 165: session 68). SPP's carbon
@@ -302,6 +464,11 @@ faults:
     dates_note: >-
       as recorded; EIA's file is also blank for parts of 5 to 14 December 2025
     status: screened
+    resolution: fixed
+    resolution_reason: >-
+      The energy mix tables do not use those hours (the sources must add up to the total within 5 percent), and
+      Texas's December 2025 is not written there. The source table holds EIA's hours as published, as every
+      source table does.
     evidence: >-
       From 6 to 14 December 2025 EIA's "other" for ERCOT repeats the batteries' output (other at 3,281 MW in an hour
       with storage at 3,172), and the sources stand 5 to 8 percent above the total.
@@ -327,6 +494,11 @@ faults:
     dates_note: >-
       recorded as 2020 to 2024, most at 05:00 and 06:00; the hours are not listed in the reports
     status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      PJM is held to a looser test (15 percent against 5) so that 91 of its 93 months can be written. That is a
+      session's choice and waits for a person's ruling: keep the looser test, or write only PJM's 36 months that
+      pass the test the other grids pass.
     evidence: >-
       PJM itemizes no storage, and in 2,689 of its hours its sources and its total part by 5 to 15 percent, above
       about as often as below, with no source blank. At the 5 percent test the other grids are held to, only 36 of
@@ -351,6 +523,10 @@ faults:
     dates_note: >-
       the Uri window of February 2021; the hours are not listed in the report
     status: held_as_published
+    resolution: fixed
+    resolution_reason: >-
+      The 24 hours are absent from the table and the gap is stated; nothing is filled. There is no number to
+      correct.
     evidence: >-
       24 hours of demand in the Uri window had no number at the source and were not written (session 68).
     tables: >-
@@ -372,6 +548,10 @@ faults:
     dates_note: >-
       over the year measured in session 68
     status: held_as_published
+    resolution: fixed
+    resolution_reason: >-
+      Both sides' reports are in the table side by side and the headline says which it uses. The disagreement is
+      the publishers'.
     evidence: >-
       The Arizona ties (AZPS, SRP), TIDC and BANC report different flows from CAISO's on the same days; the largest
       mean daily gap is SRP, about 8,400 MWh. The two sides agree in sign on every tie's total for the year.
@@ -394,6 +574,10 @@ faults:
     dates_note: >-
       on both sides of the break of 2025-12-16: a standing difference
     status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      Not explained. Each table holds its publisher's figure and says which source it rests on, so no ERW figure
+      mixes the two; but which of the two is right for a given use has not been worked out.
     evidence: >-
       Solar runs about 22 GWh a day below CAISO's own on both sides of the break, a standing difference of 13 percent, not the break.
     tables: >-
@@ -416,6 +600,11 @@ faults:
     dates_note: >-
       two days
     status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      No table of the warehouse holds the ratio, so no page shows it. Open because a page that divides output by
+      installed capacity (session 123's stress page) will meet these two days: a ratio above 1 has to be shown
+      as it is and explained there, not capped.
     evidence: >-
       EIA-930 solar output over EIA-860M operating MW peaks at 1.0429 of nameplate on 2023-08-10 and 1.0318 on 2026-08-29.
     tables: ""
@@ -437,6 +626,9 @@ faults:
     dates_note: >-
       one day
     status: corrected
+    resolution: fixed
+    resolution_reason: >-
+      The day is held, dated by the clock, with CAISO's zero in the hour that does not exist.
     evidence: >-
       On 8 March 2026 the report still has 24 hourly values, by the clock, with zero in the hour that does not exist.
       A first reading that wanted 23 hours left the day out: it was 64,906 MWh, 8.38 percent of March's curtailment.
@@ -459,6 +651,10 @@ faults:
     dates_note: >-
       the 2022 workbook
     status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      The interval table keeps a blank reason blank. The daily table still uses the reason only from 2024, so
+      2022 and 2023 by reason are in one table and not the other. Small, and nobody has asked for it.
     evidence: >-
       The 2022 workbook has the Reason column with 9,241 of its rows blank; 2023's has it on every row.
     tables: >-
@@ -481,6 +677,9 @@ faults:
     dates_note: >-
       January to May 2025
     status: corrected
+    resolution: fixed
+    resolution_reason: >-
+      The 25,848 repeated rows are read once.
     evidence: >-
       The second 2025 workbook is "a one time bulk upload" that repeats January to May; 25,848 rows are in both.
     tables: >-
@@ -502,6 +701,11 @@ faults:
     dates_note: >-
       four days
     status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      Two of the four days (2025-11-02 and 2026-03-08) are lost to the ERW's own conversion on clock-change
+      days, not to CAISO's file. The curtailment connector already dates such a day by the clock (session 98);
+      the supply connector does not yet. The other two days are CAISO's and stay unwritten.
     evidence: >-
       Four days were skipped: 2025-11-02 and 2026-03-08 (clock changes the conversion could not place), 2026-08-21
       (CAISO's file empty) and 2026-09-22 (287 of 288 intervals).
@@ -525,6 +729,9 @@ faults:
     dates_note: >-
       two days, 2024-11-03 and 2025-11-02
     status: held_as_published
+    resolution: fixed
+    resolution_reason: >-
+      The day is not complete at the source and is not written. Nothing is filled.
     evidence: >-
       On 2024-11-03 and on 2025-11-02, the autumn clock change, OASIS left out the day's last hour.
     tables: >-
@@ -546,6 +753,11 @@ faults:
     dates_note: >-
       days in the year pulled in session 49 and in the history pulled in session 64 (for example 2024-09-09 and 2024-10-23)
     status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      A day with a missing interval is not written. Session 65 recommended filling a single missing interval;
+      the ERW's rule is to fill nothing, so it was not applied. Open for a ruling: the cost is ISO-NE's
+      real-time twelve-month figure, which is not written.
     evidence: >-
       ISO-NE real-time: 31 days on which the final 5-minute files miss an interval or a day. NYISO real-time: 11 days
       with a missing time stamp (session 49). ISO-NE's real-time price over the twelve months to September 2026 holds
@@ -570,6 +782,11 @@ faults:
     dates_note: >-
       the 2026 edition, requests through the end of 2025
     status: screened
+    resolution: fixed
+    resolution_reason: >-
+      Each kind of gap has a stated rule (in the totals and in no year; counted and adding no MW; out of the
+      median wait), a share needs 20 requests and a median 5, and the page says what reaching operation means in
+      this file.
     evidence: >-
       Of 38,201 requests, 665 have no year entered, 10 have an unknown status, 16 have no positive capacity, and 48
       operating requests are dated as operating before their request. None of ISO-NE's 228 operating requests carries
@@ -597,6 +814,10 @@ faults:
     dates_note: >-
       one row of the filings of 2026 Q2
     status: held_as_published
+    resolution: fixed
+    resolution_reason: >-
+      Held as filed in an internal table. A session that reads prices from the filings must not read this one as
+      a monthly price: it is listed here so that it is not.
     evidence: >-
       One storage contract row gives a rate of 132000 in $/MW-MO for 1.056 MW. It is what the filer wrote.
     tables: >-
@@ -618,6 +839,10 @@ faults:
     dates_note: >-
       the report dated 27 August 2025
     status: held_as_published
+    resolution: open
+    resolution_reason: >-
+      Both figures are shown as the report states them, with the note. Which is misstated only ERCOT can say; it
+      has not been asked.
     evidence: >-
       The report states a non-simultaneous monthly peak of 3,694 MW and a simultaneous monthly peak of 3,733 MW for
       August 2025. By the report's own definitions the first is the sum of each load's highest hour and the second the
@@ -643,6 +868,10 @@ faults:
     dates_note: >-
       the reports dated 21 January, 25 February, 13 March and 26 March 2026
     status: held_as_published
+    resolution: fixed
+    resolution_reason: >-
+      Every figure is dated by the day on its report's first page, and the month as ERCOT wrote it is kept
+      beside it.
     evidence: >-
       The reports dated 21 January, 25 February and 13 March 2026 state their observed peaks as of "January 2025",
       "February 2025" and "March 2025". The report dated 26 March 2026 says "March 2026" and gives other figures for

@@ -2955,3 +2955,4 @@ run_id,runner,connector,table,market,status,detail
 20261005T032922Z,local,ercot_storage_dam_awards_monthly,ercot_storage_dam_awards_monthly,derived,ok,252 rows; 9 months
 20261005T042413Z,local,ercot_storage_dam_offers_monthly,ercot_storage_dam_offers_daily,derived,ok,"18954 rows; 243 operating days 2025-12-06 to 2026-08-05; 0 failed a check"
 20261005T043635Z,local,ercot_storage_dam_offers_monthly,ercot_storage_dam_offers_monthly,derived,ok,819 rows; 9 months
+20261005T075729Z,local,data_faults,known_data_faults,derived,ok,"28 faults (10 screened, 3 corrected, 1 worked_around, 14 held_as_published); 8 held for approval, 9 open, 11 fixed (session 118)"

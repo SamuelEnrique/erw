@@ -24,6 +24,7 @@ ruling; a publisher that is paused; a fault of the ERW's own code (those are fix
 | `tables` | every ERW table it touches |
 | `erw_does` | what the ERW does about it, and where the rule is |
 | `open` | what is not settled |
+| `resolution`, `resolution_reason` | session 118: where the ERW's own work on the fault stands, and why. `fixed`: no ERW table or page shows or computes a wrong figure from it; where the fault is a gap, the gap is stated and nothing is filled. `held_for_approval`: the fix is built and waits for a person, because applying it moves a number on a live page. `open`: something is still to do or to rule on, or cannot be done from these data |
 | `recorded_in` | the session report or method note that holds the measurement |
 
 **Nothing is estimated.** Every figure in `evidence` is one a session measured and wrote down, or one the screening
@@ -65,6 +66,15 @@ Two things the register corrected in what was believed before it was written:
 is above its non-simultaneous one (27 August 2025), and the reports of early 2026 that name their months as 2025. The
 register then holds 26 faults.
 
+**Session 118 added two and gave every entry a resolution.** The two: EIA's unadjusted demand and net generation
+hold values in the millions and billions of MW (PJM on 19 October 2021, SPP on 13 June 2023), which EIA's own Adjusted
+columns do not hold and session 103, measuring the Adjusted column, did not see; and net generation holds impossible
+hours of its own in five grids, which no table screened before. California's hydro gap got its first and last hour:
+7,869 hours in a row, from 2019-10-01T21:00Z to 2020-08-24T17:00Z. The register then holds 28 faults. A fault whose
+fix would move a number on a page open to visitors is `held_for_approval`: the rule is in the builder and applied in
+a trial build only (`warehouse/derived/impossible_hours.py`, `HELD`; `docs/methods/impossible_hours.md` lists what
+each held build would change).
+
 ## To add a fault
 
 An entry in the register, then `python warehouse/derived/data_faults.py --snapshot` under the data lock, the validator,
@@ -76,3 +86,6 @@ coverage, the archive and the Redivis draft, as for any table. The page reads th
 `tests/test_session103.py`: the register is sound (every field, every table in coverage, every source in the
 registry, the dates); the table is the register, row for row; the site's copy holds the table's rows and counts; the
 page reads the copy and is in review.
+
+`tests/test_session118.py`: every entry has one of the three resolutions and a reason; the check refuses an entry
+without one; a fault behind a live page is held, not fixed; the site's copy counts them.

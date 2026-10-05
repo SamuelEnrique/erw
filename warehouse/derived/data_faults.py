@@ -48,12 +48,20 @@ SITE_FILE = os.path.join(ROOT, "site", "data", "data_faults.json")
 COVERAGE = os.path.join(ROOT, "warehouse", "metadata", "coverage.csv")
 SOURCES = os.path.join(ROOT, "warehouse", "metadata", "sources.csv")
 EVENT_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency", "status", "source", "source_url"]
-EXTRA = ["x_title", "x_first", "x_last", "x_dates_note", "x_publisher_source", "x_evidence", "x_erw_does", "x_open", "x_recorded_in", "retrieved_at"]
+EXTRA = ["x_title", "x_first", "x_last", "x_dates_note", "x_publisher_source", "x_evidence", "x_erw_does", "x_open", "x_recorded_in",
+         "x_resolution", "x_resolution_reason", "retrieved_at"]
 STATUSES = ("screened", "corrected", "worked_around", "held_as_published")
 STATUS_WORDS = {"screened": "left out by a stated rule", "corrected": "read as it should have been, by a stated rule",
                 "worked_around": "another source is read for the period", "held_as_published": "held as the publisher gave it"}
+# Session 118: where the ERW's own work on a fault stands. `status` says what the ERW does with the values; this says
+# whether that work is done, done and waiting for a person, or not done.
+RESOLUTIONS = ("fixed", "held_for_approval", "open")
+RESOLUTION_WORDS = {
+    "fixed": "no ERW table or page shows or computes a wrong figure from it; where the fault is a gap, the gap is stated and nothing is filled",
+    "held_for_approval": "the fix is built and waits for a person, because applying it moves a number on a live page",
+    "open": "something is still to do or to rule on, or cannot be done from these data; the reason says which"}
 DAY = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-REQUIRED = ("id", "title", "publisher", "source", "status", "evidence", "erw_does", "recorded_in")
+REQUIRED = ("id", "title", "publisher", "source", "status", "evidence", "erw_does", "recorded_in", "resolution", "resolution_reason")
 
 
 def flat(v):
@@ -84,6 +92,8 @@ def check(faults, tables, sources):
             bad.append(f"{fid}: an id is lower-case letters, digits and underscores")
         if flat(f.get("status")) not in STATUSES:
             bad.append(f"{fid}: status {f.get('status')!r} is not one of {', '.join(STATUSES)}")
+        if flat(f.get("resolution")) not in RESOLUTIONS:
+            bad.append(f"{fid}: resolution {f.get('resolution')!r} is not one of {', '.join(RESOLUTIONS)}")
         if flat(f.get("source")) and flat(f.get("source")) not in sources:
             bad.append(f"{fid}: source {f.get('source')!r} is not in the source registry")
         first, last = flat(f.get("first")), flat(f.get("last"))
@@ -109,7 +119,8 @@ def rows_of(faults, retrieved, today):
             entity_ids=";".join(t.strip() for t in flat(f.get("tables")).split(";") if t.strip()), mw="", price="", currency="",
             status=flat(f["status"]), source=SOURCE, source_url=METHOD_URL, x_title=flat(f["title"]), x_first=first, x_last=last,
             x_dates_note=flat(f.get("dates_note")), x_publisher_source=flat(f["source"]), x_evidence=flat(f["evidence"]),
-            x_erw_does=flat(f["erw_does"]), x_open=flat(f.get("open")), x_recorded_in=flat(f["recorded_in"]), retrieved_at=retrieved))
+            x_erw_does=flat(f["erw_does"]), x_open=flat(f.get("open")), x_recorded_in=flat(f["recorded_in"]),
+            x_resolution=flat(f["resolution"]), x_resolution_reason=flat(f["resolution_reason"]), retrieved_at=retrieved))
     return pd.DataFrame(out, columns=EVENT_COLS + EXTRA)
 
 
@@ -117,11 +128,14 @@ def site_copy(t, built):
     """What the page reads: the rows, newest first day first, and the counts it states."""
     rows = [dict(id=r["event_id"].split(":", 1)[1], title=r["x_title"], publisher=r["parties"], source=r["x_publisher_source"], first=r["x_first"],
                  last=r["x_last"], dates_note=r["x_dates_note"], status=r["status"], tables=[x for x in r["entity_ids"].split(";") if x],
-                 evidence=r["x_evidence"], erw_does=r["x_erw_does"], open=r["x_open"], recorded_in=r["x_recorded_in"])
+                 evidence=r["x_evidence"], erw_does=r["x_erw_does"], open=r["x_open"], recorded_in=r["x_recorded_in"],
+                 resolution=r["x_resolution"], resolution_reason=r["x_resolution_reason"])
             for r in t.to_dict("records")]
     by_status = {s: int((t["status"] == s).sum()) for s in STATUSES}
+    by_resolution = {s: int((t["x_resolution"] == s).sum()) for s in RESOLUTIONS}
     tables = sorted({x for r in rows for x in r["tables"]})
     return {"table": NAME, "built": built, "faults": len(rows), "by_status": by_status, "status_words": STATUS_WORDS,
+            "by_resolution": by_resolution, "resolution_words": RESOLUTION_WORDS,
             "tables_touched": len(tables), "with_open": int((t["x_open"] != "").sum()), "rows": rows}
 
 
@@ -156,7 +170,9 @@ def main(argv=None):
         "Shape: events (docs/datastandard.md v0). event_date: the first day of the fault where a day is recorded; where none is, the day the register "
         "recorded it (x_first is then empty and x_dates_note says what is known). parties: the publisher. entity_ids: the ERW tables it touches. "
         "status: screened (left out by a stated rule), corrected (read as it should have been), worked_around (another source is read for the period) "
-        "or held_as_published. x_evidence: what was measured, in the words of the session that measured it. x_erw_does, x_open, x_recorded_in.",
+        "or held_as_published. x_evidence: what was measured, in the words of the session that measured it. x_erw_does, x_open, x_recorded_in. "
+        "x_resolution (session 118): fixed, held_for_approval (the fix is built and waits for a person because it moves a number on a live page) "
+        "or open, with x_resolution_reason.",
         f"Counts: {len(t)} faults: {counts}. Every figure is one a session measured and recorded; nothing is estimated.",
         f"Retrieved: {run_id} (UTC) by warehouse/derived/data_faults.py", f"Run log: warehouse/output/logs/data_faults_{run_id}.log",
         f"Source: {SOURCE} the ERW's register of faults found in its sources' data (warehouse/faults/faults.yaml), each entry naming where it is recorded",
