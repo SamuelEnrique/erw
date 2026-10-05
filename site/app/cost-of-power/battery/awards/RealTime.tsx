@@ -113,7 +113,8 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
               <p data-rt-energy="1">Over the {whole(energy.days)} days held, the fleet discharged {mwh(energy.discharged)} MWh in real time and had sold {mwh(energy.sold)} MWh day-ahead
                 {energy.soldOfDischarged !== null ? <>: {pct(energy.soldOfDischarged)} of what it put out</> : null}. It charged {mwh(energy.charged)} MWh and had bought {mwh(energy.bought)} MWh day-ahead.
                 {energy.dischargedPerMwDay !== null ? <> That is {two(energy.dischargedPerMwDay)} MWh discharged per MW of the fleet per day; a 2-hour battery emptied once a day would discharge two.</> : null}
-                {energy.pricedShare !== null ? <> A hub price was held for {pct(energy.pricedShare, 2)} of the resource-intervals; the rest are not valued.</> : null}</p>
+                {energy.pricedShare === null ? null : energy.pricedShare === 1 ? <> A hub price was held for every one of the resource-intervals, so all of them are valued.</>
+                  : <> A hub price was held for {pct(energy.pricedShare, 2)} of the resource-intervals; the rest are not valued.</>}</p>
             </div>
             <ToolTable caption="Real-time energy and day-ahead energy by month, MWh" minWidth={760}
               head={["Month", "Discharged in real time, MWh", "Sold day-ahead, MWh", "Sold day-ahead as a share of discharged", "Charged in real time, MWh", "Bought day-ahead, MWh",
@@ -157,7 +158,7 @@ export function RealTimeSection({ months, basis, unread, basisUnread }: {
           ) : (
             <div className="max-w-3xl space-y-2 text-sm">
               <p>This is the second measure, and it is real time. It is not from the months above: it is the week of node prices ERCOT&apos;s public list held when it was read,
-                from {new Date(`${basis.from}T12:00:00Z`).toLocaleString("en-US", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}, at the {whole(basis.nodes)} settlement points storage resources are settled at.</p>
+                from {new Date(`${basis.from}T12:00:00Z`).toLocaleString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}, at the {whole(basis.nodes)} settlement points storage resources are settled at.</p>
               {basis.spreadHub !== null && basis.spreadMedian !== null && basis.wholeDays !== null && basis.nodesWithSpread !== null ? (
                 <p data-rt-spread="1">Take a day&apos;s four dearest hours of real-time prices less its four cheapest: what moving four hours of energy a day could capture, before losses. Over the {whole(basis.wholeDays)} whole
                   days held, that spread averaged USD {two(basis.spreadHub)} per MWh at the hub average. At the storage settlement points the median was USD {two(basis.spreadMedian)}
