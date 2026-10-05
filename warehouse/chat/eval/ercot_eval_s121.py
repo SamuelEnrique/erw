@@ -86,7 +86,8 @@ def score(q, rec, tables=None):
     cites = rec.get("citations") or []
     cited = {c["table"] for c in cites}
     if q["refuse"]:
-        named = [t for t in tables if t in answer] + [t for t in (rec.get("nearest") or []) if t in tables]
+        field = [x.get("table") if isinstance(x, dict) else x for x in (rec.get("nearest") or [])]   # the record's: [{table, holds}]
+        named = [t for t in tables if t in answer] + [t for t in field if t in tables]
         s["nearest"] = bool(named) and (not q.get("nearest") or any(t in q["nearest"] for t in named))
     elif not (q.get("status_any") and status == "not_in_warehouse"):
         complete = bool(cites) and all(c.get("source_report") and c.get("data_version") for c in cites)

@@ -23,12 +23,12 @@ export function callUsd(model: string, u: Anthropic.Usage): number | null {
 }
 
 /** One /ask call, into site_api_calls. A failed write is logged and never fails the answer. */
-export async function recordCall(model: string, resp: Anthropic.Message, requestId?: string | null): Promise<void> {
+export async function recordCall(model: string, resp: Anthropic.Message, requestId?: string | null, step = "site_ask"): Promise<void> {
   const u = resp.usage;
   const cost = callUsd(model, u);
   try {
     await insertRow("site_api_calls", {
-      step: "site_ask",
+      step, // session 121: "site_ask_ercot" for Ask ERCOT, so that its cost can be told from the general chat's
       model,
       input_tokens: u.input_tokens,
       cached_input_tokens: u.cache_read_input_tokens ?? 0,
