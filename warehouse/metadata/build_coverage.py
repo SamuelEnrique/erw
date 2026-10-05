@@ -197,6 +197,7 @@ SECTOR_RULES = [
     (r"^spp_as_quantities$", "power"),  # session 100: SPP reserve MW cleared day-ahead
     (r"^known_data_faults$", "platform"),  # session 103: known faults in source data (every sector's sources)
     (r"^ercot_hub_prices_daily$", "power"),  # session 114: ERCOT hub prices by day (derived), for Ask ERCOT
+    (r"^ercot_storage_dam_awards_monthly$", "power"),  # session 115: storage resources' day-ahead awards by month (derived)
 ]
 
 

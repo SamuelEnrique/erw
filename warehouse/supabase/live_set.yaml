@@ -97,6 +97,10 @@ full:
   # session 114: ERCOT hub prices by day since 2015 (derived, 345,228 rows), whole: the price history Ask ERCOT
   # (/ask/ercot, in review) answers past prices from, in place of the 3,063,570 intervals above. Under review_hold
   - '^ercot_hub_prices_daily$'
+  # session 115: what ERCOT's storage resources were awarded day-ahead, the fleet by month (derived, a few hundred rows),
+  # whole: /cost-of-power/battery/awards (in review) reads it. Under review_hold. The row-level table it is built from,
+  # ercot_dam_esr_awards (a row per resource and hour), is NOT loaded: it is under catalogue_hold below
+  - '^ercot_storage_dam_awards_monthly$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -168,6 +172,9 @@ catalogue_hold:
   # session 109: EIA's daily demand by balancing authority, a history (190,512 rows). The network's replay reads its own
   # files (site/public/network/daily_<year>.json), built from it; nothing reads it from Supabase
   - eia930_daily_demand
+  # session 115: ERCOT's storage resources' day-ahead awards by resource and hour (about 1.8 million rows). Kept out of the
+  # site's database by the session's prompt; the review page reads the monthly table built from it
+  - ercot_dam_esr_awards
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
@@ -185,6 +192,7 @@ review_hold:
   - known_data_faults                  # session 103, /data/faults
   - ercot_large_load_status            # session 106, /datacenters/v2
   - ercot_hub_prices_daily             # session 114, /ask/ercot
+  - ercot_storage_dam_awards_monthly   # session 115, /cost-of-power/battery/awards
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
@@ -202,6 +210,8 @@ sources_hold:
   - ercot:large_load_status_update     # session 106, /datacenters/v2
   - eia930:daily_demand                # session 109, /network/v3's replay
   - erw:ercot_hub_prices_daily         # session 114, /ask/ercot
+  - ercot:NP3-966-ER                   # session 115, ERCOT's 60-day DAM disclosure (/cost-of-power/battery/awards)
+  - erw:ercot_storage_dam_awards       # session 115, /cost-of-power/battery/awards
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

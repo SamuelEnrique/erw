@@ -76,6 +76,7 @@ const PAGES = [
   "/events/caiso-heat-2022",  // session 58
   "/events/cold-2025", "/events/east-heat-2025",  // session 64
   "/grid/caiso/alerts",  // session 60: the Flex Alert scorecard
+  "/cost-of-power/battery/awards", "/data/methods/ercot_storage_dam_awards",  // session 115: the storage fleet's day-ahead awards (in review)
 ];
 
 function visible(html) {
