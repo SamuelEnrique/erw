@@ -79,6 +79,7 @@ const PAGES = [
   "/cost-of-power/battery/awards", "/data/methods/ercot_storage_dam_awards",  // session 115: the storage fleet's day-ahead awards (in review)
   "/data/methods/ercot_storage_dam_offers",  // session 116: what the storage fleet offered day-ahead (in review; the awards page's new section reads it)
   "/data/methods/ercot_storage_realtime",  // session 120: the storage fleet in real time (in review; the awards page's last section reads it)
+  "/mix/clean", "/mix/clean?grid=caiso&year=2026", "/mix/clean?grid=nyiso&year=2024", "/data/methods/clean_energy",  // session 122: how clean, and when (in review)
 ];
 
 function visible(html) {

@@ -112,6 +112,15 @@ full:
   # settlement point and 15-minute interval), are NOT loaded: they are under catalogue_hold below
   - '^ercot_storage_rt_monthly$'
   - '^ercot_storage_node_basis$'
+  # session 122: how clean each grid's generation is by month and year, hourly against annual matching, and load moved
+  # into the cleanest hours (derived, about 27,000 rows), whole. /mix/clean (in review) reads its own copy
+  # (site/data/clean/); the table is loaded for the question-answering tools. Under review_hold. The hourly table it
+  # rests on, clean_energy_hourly (about 463,000 rows), is NOT loaded: it is under catalogue_hold below
+  - '^clean_energy_summary$'
+  # session 123: how hard each grid works by year (derived, about 2,000 rows), whole. /mix/stress (in review) reads its
+  # own copy (site/data/stress/). Under review_hold. (Its hold lines came with session 122's push: the two tables were
+  # built in the same hour, the registry row of its source with them, and a held source's tables must be held.)
+  - '^grid_stress_yearly$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -194,6 +203,9 @@ catalogue_hold:
   # lists (about 190,000 rows). The review page reads the two small tables built from them
   - ercot_sced_esr_hourly
   - ercot_rtm_node_prices
+  # session 122: the carbon-free share of each grid's generation by hour (about 463,000 rows); the review page reads the
+  # monthly and yearly table built beside it
+  - clean_energy_hourly
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
@@ -215,6 +227,8 @@ review_hold:
   - ercot_storage_dam_offers_monthly   # session 116, the same page's section on offers
   - ercot_storage_rt_monthly           # session 120, the same page's section on real time
   - ercot_storage_node_basis
+  - clean_energy_summary               # session 122, /mix/clean
+  - grid_stress_yearly                 # session 123, /mix/stress
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
@@ -238,6 +252,8 @@ sources_hold:
   - ercot:NP3-965-ER                   # session 120, ERCOT's 60-day SCED disclosure (the same page's section on real time)
   # (the node prices' report, ercot:NP6-905-CD, is not held: ercot_rtm_hub_prices already reads it and /terms already lists it)
   - erw:ercot_storage_realtime         # session 120, the same page's section on real time
+  - erw:clean_energy                   # session 122, /mix/clean
+  - erw:grid_stress                    # session 123, /mix/stress (its table was built in the same hour and its registry row came with it)
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv
