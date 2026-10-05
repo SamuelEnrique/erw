@@ -149,6 +149,14 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, send, errors
     if (p.early) {
       const early = await evaluate(`window.__early ?? 0`);
       check(early >= 2 && !!end && end.phase === "done", `${tag}: ${early} frames stamped before the press of the start button did not stop the game`);
+      // the end screen's replay reads its position the same way: started with its first frames stamped early, it still runs
+      await wait(`[...document.querySelectorAll('button')].some((b) => b.innerText.trim() === 'Play the replay')`, 15000, `${tag}: the replay's button`).catch(() => null);
+      await evaluate(EARLY);
+      const began = await evaluate(clickText("button", "Play the replay"));
+      await sleep(2500);
+      const replay = await evaluate(`(() => { const r = document.querySelector('input[aria-label="Replay position"]'); return r ? { at: Number(r.value), early: window.__early ?? 0, pause: [...document.querySelectorAll('button')].some((b) => b.innerText.trim() === 'Pause') } : null; })()`);
+      check(began && !!replay && replay.early >= 2 && replay.pause && replay.at >= 1 && errors.length === 0, `${tag}: the replay, started with ${replay?.early ?? 0} frames stamped early, runs (at interval ${replay?.at ?? "none"} after 2.5 s)`);
+      await evaluate(clickText("button", "Pause"));
     }
     const lines = await wait(`(() => { const ol = document.querySelector('ol[aria-label="Your day in three lines"]'); return ol ? [...ol.querySelectorAll('li')].map((x) => x.innerText.replace(/\\s+/g, ' ').trim()) : null; })()`, 15000, `${tag}: the end screen`).catch(() => null);
     check(Array.isArray(lines) && lines.length === 3, `${tag}: the end screen has three lines`);
