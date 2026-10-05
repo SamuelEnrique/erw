@@ -116,9 +116,23 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python warehouse/health.py run --step "data lock" -- python warehouse/lock.py acquire --task "energy roundup ${{ github.run_id }}" --minutes 90 --wait 60 --github-env
 
+      # Session 119: on Sunday 4 October 2026 the Roundup went out at 23:05 UTC and the run then failed on a git step
+      # (below). The gate above asks whether a run succeeded today, so GitHub's own schedule started a second run at
+      # 01:23, which wrote the whole Roundup again (the model paid twice) before the send guard refused its email. A
+      # scheduled start now asks the guard's own table first: a Roundup already sent is a skip with its reason, and
+      # nothing below runs but the release of the lock. A person's run (once left at 0) writes again as before; the
+      # guard still refuses a second email.
+      - name: Was this week's Roundup already sent
+        id: sent
+        if: env.ERW_LOCK_TOKEN != '' && (github.event_name == 'schedule' || github.event.inputs.once == '1')
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/health.py run --step "already sent" --retries 0 -- python warehouse/news/email_digest.py --roundup --sent-check
+
       - name: Restore tables, pull fuel prices, run the analysis, write the Roundup
         id: main
-        if: env.ERW_LOCK_TOKEN != ''
+        if: env.ERW_LOCK_TOKEN != '' && steps.sent.outputs.status != 'skipped'
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -186,12 +200,12 @@ jobs:
           set -o pipefail
           # not retried: a second try could send twice
           python warehouse/health.py run --step "send the Roundup" --retries 0 -- bash -c "set -o pipefail; python warehouse/news/email_digest.py --roundup 2>&1 | tee -a roundup.log"
-          git add -- docs/digest/email
-          if ! git diff --cached --quiet; then
-            git commit -m "Energy Roundup email rendered" -m "Automated run of .github/workflows/roundup.yml (warehouse/news/email_digest.py --roundup)."
-            git pull --rebase origin main
-            git push origin HEAD:main
-          fi
+          # Session 119: the rendered copy is bookkeeping, and by now the email is out. It is committed by a script that
+          # sets the run's other changes aside before it pulls (on 4 October 2026 this step ran "git pull --rebase" with
+          # the restored tables' metadata still modified: "cannot pull with rebase: You have unstaged changes", exit
+          # 128, and the run failed after its email had been delivered). It runs under health.py, so a failure here is
+          # a row of erw_health and of the day's summary, and never the run's.
+          python warehouse/health.py run --step "commit the rendered email" --retries 0 -- bash warehouse/news/commit_paths.sh "Energy Roundup email rendered" "Automated run of .github/workflows/roundup.yml (warehouse/news/email_digest.py --roundup)." docs/digest/email
 
       # Session 30 (B4): the shadow Roundup from the Haiku shadow scores, to the shadow recipient only, subject
       # "SHADOW HAIKU". Never fails the Roundup. Delete SHADOW_MODEL to stop it; it stops by itself on the expiry in
@@ -218,11 +232,18 @@ jobs:
           REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        # Session 119: the Roundup's model calls add rows to the ledger, so coverage.csv, which came with the checkout, no
+        # longer describes it, and since session 65 the loader refuses a table coverage does not describe ("coverage says
+        # 1110 rows, the file holds 1113", 4 October 2026: the load failed, the upload after it never ran, and the three
+        # rows reached the archive only). Coverage's one row is rebuilt first (build_coverage.py --only: every other row
+        # is carried over word for word). Each of the four is its own step of erw_health: one that fails is recorded and
+        # the next still runs, so a refused load no longer costs the Redivis draft its rows.
         run: |
           if [ -f warehouse/output/api_cost_ledger.csv ]; then
-            python warehouse/archive/archive.py write --tables '^api_cost_ledger$'
-            python warehouse/supabase/load.py --only '^api_cost_ledger$' --no-vacuum
-            python warehouse/redivis/upload.py api_cost_ledger
+            python warehouse/health.py run --step "ledger: coverage row" --retries 0 -- python warehouse/metadata/build_coverage.py --only '^api_cost_ledger$'
+            python warehouse/health.py run --step "ledger: archive" -- python warehouse/archive/archive.py write --tables '^api_cost_ledger$'
+            python warehouse/health.py run --step "ledger: live set" -- python warehouse/supabase/load.py --only '^api_cost_ledger$' --no-vacuum
+            python warehouse/health.py run --step "ledger: Redivis draft" -- python warehouse/redivis/upload.py api_cost_ledger
           fi
 
       - name: Release the data lock
