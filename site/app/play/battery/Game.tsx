@@ -222,7 +222,7 @@ function Replay({ level, rules, mine, perfect, sun }: { level: GameLevel; rules:
     if (!playing) return;
     const t0 = performance.now(), from = t >= n ? 0 : t;
     const tick = (now: number) => {
-      const v = Math.min(n, from + ((now - t0) / 20_000) * n);
+      const v = Math.min(n, from + (Math.max(0, now - t0) / 20_000) * n);  // session 111: a frame can be stamped before t0; never before the day's start
       setT(v);
       if (v < n) raf.current = requestAnimationFrame(tick); else setPlaying(false);
     };

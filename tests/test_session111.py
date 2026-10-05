@@ -104,6 +104,9 @@ class TheGame(unittest.TestCase):
         self.assertIn("return cb(t - 80)", check)                                     # the check forces the case in one play
         self.assertIn('{ label: "Easy", difficulty: "easy", addons: [], early: true }', check)
         self.assertIn("frames stamped before the press of the start button did not stop the game", check)
+        # the end screen's replay read its position the same way (RangeError: Invalid time value, on production)
+        self.assertIn("from + (Math.max(0, now - t0) / 20_000) * n", game)
+        self.assertIn("the replay, started with", check)
 
     def test_with_the_roof_the_announcement_says_the_roof_carries_the_house(self):
         m = node(MODEL)
