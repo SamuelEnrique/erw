@@ -236,7 +236,7 @@ sources_hold:
   - erw:ercot_storage_dam_awards       # session 115, /cost-of-power/battery/awards
   - erw:ercot_storage_dam_offers       # session 116, the same page's section on offers
   - ercot:NP3-965-ER                   # session 120, ERCOT's 60-day SCED disclosure (the same page's section on real time)
-  - ercot:NP6-905-CD                   # session 120, ERCOT's real-time prices at Resource Nodes, hubs and Load Zones
+  # (the node prices' report, ercot:NP6-905-CD, is not held: ercot_rtm_hub_prices already reads it and /terms already lists it)
   - erw:ercot_storage_realtime         # session 120, the same page's section on real time
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.

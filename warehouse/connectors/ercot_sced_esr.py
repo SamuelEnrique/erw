@@ -403,7 +403,7 @@ def day_frames(days_dir=None):
     for p in sorted(glob.glob(os.path.join(days_dir or DAYS, "20??-??-??.csv"))):
         with open(p, encoding="utf-8") as f:
             head = f.readline().lstrip("# ").strip()
-        yield os.path.basename(p)[:10], head, pd.read_csv(p, comment="#", dtype={"resource": str, "qse": str, "hour": str})
+        yield os.path.basename(p)[:10], head, pd.read_csv(p, skiprows=1, dtype={"resource": str, "qse": str, "hour": str})   # a day's file has one header line
 
 
 def settlement_points(out_dir=None):
@@ -462,7 +462,7 @@ def write(log, run_id):
         "Energy Research Warehouse (ERW): ERCOT Energy Storage Resources in real time, by resource and hour, from ERCOT's 60-Day SCED Disclosure Reports, "
         "the file 60d_ESR_Data_in_SCED, each day reduced to resource-hour totals as it was read (session 120)",
         "Shape: series (docs/datastandard.md v0, Decision 40), one row per resource and hour: entity ercot:<Resource Name>, variable net_output_mwh, value the "
-        "resource's Telemetered Net Output integrated over the hour (MWh; positive is discharge; each SCED run's MW held until the resource's next run), ts_utc the "
+        "resource's Telemetered Net Output integrated over the hour (MWh; positive is discharge; each SCED run's MW held until the next SCED run of the day, and never across a run the resource is not in), ts_utc the "
         "hour's start, node its settlement point as the day-ahead disclosure names it (blank when that file never names the resource). The x_ columns: "
         "x_net_q1_mwh to x_net_q4_mwh, the same for each 15-minute Settlement Interval of the hour (they add up to the value); x_discharge_mwh and x_charge_mwh, the "
         "positive and the negative part (charge as a positive number); x_base_point_mwh, the Base Point integrated the same way; x_hsl_mw and x_lsl_mw, the hour's "

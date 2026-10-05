@@ -44,7 +44,8 @@ def node(js):
     exe = shutil.which("node")
     if not exe:
         raise unittest.SkipTest("node is not on this machine")
-    r = subprocess.run([exe, "--input-type=module", "-e", js], cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=120)
+    # the script on standard input: a table's rows do not fit on a Windows command line
+    r = subprocess.run([exe, "--input-type=module"], input=js, cwd=os.path.join(ROOT, "site"), capture_output=True, text=True, timeout=120, encoding="utf-8")
     if r.returncode != 0:
         if "ERR_UNKNOWN_FILE_EXTENSION" in r.stderr or "Unknown file extension" in r.stderr:
             raise unittest.SkipTest("this node does not read TypeScript files")

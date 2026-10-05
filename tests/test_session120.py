@@ -5,6 +5,7 @@ intervals), the node price connector, and the monthly table that sets real-time 
 on saved real samples. No network. tests/fixtures/session120/ holds rows of ERCOT's own files, unaltered (the storage
 file's offer-curve columns left out), three of ERCOT's own price zips whole, and real rows of two ERW tables.
 """
+import csv
 import datetime as dt
 import io
 import os
@@ -335,8 +336,20 @@ class ThePageAndTheHolds(unittest.TestCase):
         self.assertIn("ercot_rtm_node_prices", y["catalogue_hold"])
         self.assertIn("ercot_storage_rt_monthly", y["review_hold"])
         self.assertIn("ercot_storage_node_basis", y["review_hold"])
-        for s in ("ercot:NP3-965-ER", "ercot:NP6-905-CD", "erw:ercot_storage_realtime"):
+        for s in ("ercot:NP3-965-ER", "erw:ercot_storage_realtime"):
             self.assertIn(s, y["sources_hold"])
+
+    def test_the_node_prices_report_was_already_on_the_terms_page_and_its_row_reads_as_it_did(self):
+        # ercot_rtm_hub_prices has read NP6-905-CD since session 1 and /terms, a live page, prints the row's report. This
+        # session's first write reworded it and held it off the page: both would have changed a live page
+        y = yaml.safe_load(src("warehouse", "supabase", "live_set.yaml"))
+        self.assertNotIn("ercot:NP6-905-CD", y["sources_hold"])
+        with open(os.path.join(ROOT, "warehouse", "metadata", "sources.csv"), encoding="utf-8", newline="") as f:
+            row = [r for r in csv.DictReader(f) if r["source"] == "ercot:NP6-905-CD"]
+        self.assertEqual(len(row), 1)
+        self.assertEqual(row[0]["report"], "Settlement Point Prices at Resource Nodes, Hubs and Load Zones")
+        self.assertIn("ercot_rtm_hub_prices", row[0]["tables"].split(";"))
+        self.assertIn('report="Settlement Point Prices at Resource Nodes, Hubs and Load Zones",', src("warehouse", "connectors", "ercot_rt_spp.py"))
 
     def test_the_method_cites_the_protocol_sections(self):
         m = src("docs", "methods", "ercot_storage_realtime.md")
@@ -350,6 +363,56 @@ class ThePageAndTheHolds(unittest.TestCase):
                       ("site", "app", "cost-of-power", "battery", "awards", "RealTime.tsx"), ("site", "lib", "storagerealtime.ts"), ("tests", "test_session120.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts[-1])
         self.assertIn("miso", src("warehouse", "metadata", "paused_sources.csv").lower())
+
+
+class AsBuilt(unittest.TestCase):
+    """The figures the method states for the first build, against the tables of this machine when they are here."""
+
+    def table(self, name):
+        path = os.path.join(ROOT, "warehouse", "output", name + ".csv")
+        if not os.path.exists(path):
+            raise unittest.SkipTest(f"{name} is not on this machine")
+        import iso_prices as ip
+        return pd.read_csv(path, skiprows=ip.header_rows(path))
+
+    def test_the_methods_figures_are_the_tables(self):
+        d = self.table("ercot_storage_rt_monthly")
+        if d["ts_utc"].max() != "2026-08-01T00:00:00Z" or d["ts_utc"].min() != "2026-02-01T00:00:00Z":
+            raise unittest.SkipTest("the table has been rebuilt over other months since the method was written")
+        w = d.assign(m=d["ts_utc"].str[:7]).pivot(index="variable", columns="m", values="value")
+        m = src("docs", "methods", "ercot_storage_realtime.md")
+        full = [c for c in w.columns if w.loc["days_held", c] == w.loc["days_in_month", c]]
+        self.assertEqual(full, ["2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07"])
+        kw = lambda k: f"{w.loc[k, full].sum() / 1000:.2f}"  # noqa: E731
+        self.assertIn(f"day-ahead awards USD {kw('revenue_da_usd_per_mw')};", m)
+        self.assertIn(f"real-time deviations at the hub average's price USD {kw('revenue_rt_deviation_hub_usd_per_mw')};", m)
+        self.assertIn(f"the two together USD {kw('revenue_market_hub_usd_per_mw')}.", m)
+        self.assertIn(f"discharged {round(w.loc['rt_discharge_mwh'].sum()):,} MWh in real time and had sold {round(w.loc['da_sold_mwh'].sum()):,} MWh day-ahead", m)
+        self.assertEqual(int(w.loc["days_held"].sum()), 186)
+        self.assertTrue((w.loc["intervals"] == w.loc["intervals_priced"]).all())   # every resource-interval had a hub price
+        for month in w.columns:                                                    # the identity the page rests on, month by month
+            self.assertAlmostEqual(w.loc["revenue_market_hub_usd", month], w.loc["revenue_da_usd", month] + w.loc["revenue_rt_deviation_hub_usd", month], places=2)
+            self.assertAlmostEqual(w.loc["rt_net_mwh", month], w.loc["rt_discharge_mwh", month] - w.loc["rt_charge_mwh", month], delta=0.01)
+
+    def test_the_day_ahead_side_is_the_awards_tables(self):
+        d, a = self.table("ercot_storage_rt_monthly"), self.table("ercot_storage_dam_awards_monthly")
+        w = d.assign(m=d["ts_utc"].str[:7]).pivot(index="variable", columns="m", values="value")
+        x = a[a["entity"] == "ercot:esr_fleet"].assign(m=lambda t: t["ts_utc"].str[:7]).pivot(index="variable", columns="m", values="value")
+        same = [c for c in w.columns if c in x.columns and x.loc["days_held", c] == w.loc["days_held", c]]
+        self.assertTrue(same)
+        for c in same:
+            self.assertAlmostEqual(w.loc["revenue_da_usd", c], x.loc["revenue_total_usd", c], delta=0.5)
+            self.assertAlmostEqual(w.loc["mw", c], x.loc["mw", c], places=3)
+
+    def test_the_stored_rows_are_under_the_ceiling(self):
+        n = 0
+        for name in ("ercot_sced_esr_hourly", "ercot_rtm_node_prices", "ercot_storage_rt_monthly", "ercot_storage_node_basis"):
+            path = os.path.join(ROOT, "warehouse", "output", name + ".csv")
+            if not os.path.exists(path):
+                raise unittest.SkipTest(f"{name} is not on this machine")
+            with open(path, "rb") as f:
+                n += sum(1 for line in f if not line.startswith(b"#")) - 1
+        self.assertLess(n, sced.MAX_ROWS)
 
 
 if __name__ == "__main__":

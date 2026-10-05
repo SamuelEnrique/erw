@@ -252,9 +252,12 @@ def write(log, run_id):
         f"Source: {SOURCE} ERCOT, Settlement Point Prices at Resource Nodes, Hubs and Load Zones (report type {REPORT_TYPE}), {PAGE}",
         "License: public. ERCOT's terms of use (https://www.ercot.com/help/terms): raw data in public portions of the website may be used, reproduced and redistributed in compilations, charts and analyses.",
     ]
+    out["value"] = pd.to_numeric(out["value"])   # ERCOT prints two decimals; the number is the same number
     ip.write_csv(out, TABLE, header, log, cols=COLS, key=["entity", "variable", "ts_utc"], time_col="ts_utc")
     ip.update_sources([dict(source=SOURCE, publisher="Electric Reliability Council of Texas (ERCOT)",
-                            report="Settlement Point Prices at Resource Nodes, Hubs and Load Zones (NP6-905-CD): the real-time price of each settlement point, each 15-minute interval",
+                            # the registry already holds this report (ercot_rtm_hub_prices reads it) and /terms, a live page, prints its
+                            # words: the same words, so that this table adds a name to the row's tables and changes nothing a visitor reads
+                            report="Settlement Point Prices at Resource Nodes, Hubs and Load Zones",
                             report_url=PAGE, document_list=LIST, license="public", tables=[TABLE])])
     return 0
 

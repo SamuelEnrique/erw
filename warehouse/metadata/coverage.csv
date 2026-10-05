@@ -68,9 +68,13 @@ ercot_interconnection_queue,ERCOT,,1778,snapshot,2026-09-30T23:32:29Z,2026-09-30
 ercot_large_load_status,ERCOT,,1,P1M,2025-05-28T00:00:00Z,2026-03-26T00:00:00Z,29,ercot:large_load_status_update,2026-10-04T20:44:42Z,pass,public,power;datacenters,no,source
 ercot_peak_premium_annual,ERCOT,ercot_rtm,6,P1Y,2015-01-01T00:00:00Z,2026-01-01T00:00:00Z,2016,erw:ercot_peak_premium,2026-09-29T00:55:55Z,pass,public,power,yes,derived
 ercot_peak_premium_monthly,ERCOT,ercot_rtm,6,P1M,2015-01-01T00:00:00Z,2026-09-01T00:00:00Z,23688,erw:ercot_peak_premium,2026-09-29T00:55:55Z,pass,public,power,yes,derived
+ercot_rtm_node_prices,ERCOT,ercot_rtm,310,PT15M,2026-09-28T04:45:00Z,2026-10-05T09:00:00Z,213900,ercot:NP6-905-CD,2026-10-05T09:55:24Z,pass,public,power,no,source
+ercot_sced_esr_hourly,ERCOT,ercot_rtm,291,PT1H,2026-02-01T06:00:00Z,2026-08-06T04:00:00Z,1458735,ercot:NP3-965-ER,2026-10-05T09:52:37Z,pass,public,power,no,source
 ercot_storage_dam_awards_monthly,ERCOT,ercot_dam,1,P1M,2025-12-01T00:00:00Z,2026-08-01T00:00:00Z,252,erw:ercot_storage_dam_awards,2026-10-05T03:29:22Z,pass,public,power,yes,derived
 ercot_storage_dam_offers_daily,ERCOT,ercot_dam,1,P1D,2025-12-06T00:00:00Z,2026-08-05T00:00:00Z,18954,erw:ercot_storage_dam_offers,2026-10-05T04:24:13Z,pass,public,power,yes,derived
 ercot_storage_dam_offers_monthly,ERCOT,ercot_dam,1,P1M,2025-12-01T00:00:00Z,2026-08-01T00:00:00Z,819,erw:ercot_storage_dam_offers,2026-10-05T04:36:35Z,pass,public,power,yes,derived
+ercot_storage_node_basis,ERCOT,ercot_rtm,291,P1W,2026-09-28T00:00:00Z,2026-09-28T00:00:00Z,2050,erw:ercot_storage_realtime,2026-10-05T09:55:34Z,pass,public,power,yes,derived
+ercot_storage_rt_monthly,ERCOT,,1,P1M,2026-02-01T00:00:00Z,2026-08-01T00:00:00Z,329,erw:ercot_storage_realtime,2026-10-05T09:55:34Z,pass,public,power,yes,derived
 ercot_wind_solar_hsl_daily,ERCOT,,1,P1D,2026-09-19T00:00:00Z,2026-10-03T00:00:00Z,90,ercot:np4_732_745,2026-10-04T14:28:57Z,pass,public,power,no,source
 event_study_estimates,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,9,P1D;PT1H,2020-03-01T00:00:00Z,2025-06-28T00:00:00Z,2747,erw:event_study,2026-10-02T12:22:58Z,pass,public,power,yes,derived
 event_window_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,ercot_dam;ercot_rtm;isone_dam;isone_rtm;miso_dam;miso_rtm;nyiso_dam;nyiso_rtm;spp_dam;spp_rtm,10,P1D;P1W,2018-03-04T00:00:00Z,2025-06-28T00:00:00Z,28438,erw:event_window,2026-10-02T12:56:43Z,pass,public,power;carbon,yes,derived
