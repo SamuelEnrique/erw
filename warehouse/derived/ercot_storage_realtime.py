@@ -274,6 +274,27 @@ def node_basis(out_dir=None):
     return pd.DataFrame(rows) if rows else None
 
 
+ALL_NODES = "esr_nodes"   # the entity (ercot:esr_nodes) of the rows that sum the settlement points up
+
+
+def basis_summary(nb):
+    """The settlement points of node_basis() together, each point counted once whatever stands behind it: how many,
+    over how many whole days, the hub's spread, and the points' spread (their median, mean, lowest and highest tenth)
+    and distance from the hub. Only points with every whole day the hub has are in the spread figures. {variable: value}."""
+    w = nb.pivot(index="node", columns="variable", values="value")
+    out = {"nodes": int(len(w)), "intervals_median": float(w["intervals"].median()), "mean_node_median": float(w["mean_node"].median()),
+           "mean_hub": float(w["mean_hub"].median()), "mean_abs_difference_median": float(w["mean_abs_difference"].median())}
+    if "spread_node" in w.columns and w["spread_node"].notna().any():
+        k = w[w["spread_node"].notna()]
+        out.update({"nodes_with_spread": int(len(k)), "whole_days": int(k["whole_days"].iloc[0]), "spread_hub": float(k["spread_hub"].iloc[0]),
+                    "spread_node_median": float(k["spread_node"].median()), "spread_node_mean": float(k["spread_node"].mean()),
+                    "spread_node_p10": float(k["spread_node"].quantile(0.1)), "spread_node_p90": float(k["spread_node"].quantile(0.9)),
+                    "nodes_spread_above_hub": int((k["spread_node"] > k["spread_hub"]).sum())})
+        if k["whole_days"].nunique() != 1 or k["spread_hub"].nunique() != 1:
+            raise RuntimeError("the settlement points do not share one hub spread over the same whole days")
+    return {k_: (v if isinstance(v, int) else round(v, 4)) for k_, v in out.items()}
+
+
 def write_table(name, rows, header, log, out_dir=None):
     out = pd.DataFrame(rows)[COLS].sort_values(["entity", "variable", "ts_utc"]).reset_index(drop=True)
     if out.duplicated(["entity", "variable", "ts_utc"]).any():
@@ -372,12 +393,18 @@ def main(argv=None):
             brow = [dict(entity="ercot:" + r["node"], variable=r["variable"], ts_utc=r["first"][:10] + "T00:00:00Z", value=r["value"],
                          unit="count" if r["variable"] in ("intervals", "whole_days") else "USD/MWh", freq="P1W", geo="US-TX", market="ercot_rtm", node=r["node"],
                          source=SOURCE, source_url=METHOD_URL, retrieved_at=retrieved, vintage="") for r in nb.to_dict("records")]
+            count = ("nodes", "nodes_with_spread", "whole_days", "nodes_spread_above_hub", "intervals_median")
+            brow += [dict(entity="ercot:" + ALL_NODES, variable=k, ts_utc=nb["first"].min()[:10] + "T00:00:00Z", value=val, unit="count" if k in count else "USD/MWh",
+                          freq="P1W", geo="US-TX", market="ercot_rtm", node="", source=SOURCE, source_url=METHOD_URL, retrieved_at=retrieved, vintage="")
+                     for k, val in basis_summary(nb).items()]
             bh = [
                 "Energy Research Warehouse (ERW): the real-time price at each storage resource's settlement point against the hub average, over the days of node "
                 "prices held (derived, session 120)",
                 "Shape: series (docs/datastandard.md v0), entity ercot:<settlement point>, ts_utc the first day held. Variables: intervals (15-minute intervals both "
                 f"prices hold); mean_node, mean_hub (USD/MWh; the hub is {HUB}); mean_abs_difference (the mean of the absolute difference, USD/MWh); spread_node, "
-                "spread_hub (a day's 16 dearest intervals less its 16 cheapest, averaged over whole_days: what moving four hours a day could capture, before losses).",
+                "spread_hub (a day's 16 dearest intervals less its 16 cheapest, averaged over whole_days: what moving four hours a day could capture, before losses). "
+                f"The entity ercot:{ALL_NODES} sums the points up, each counted once: nodes, nodes_with_spread, whole_days, spread_hub, spread_node_median, _mean, _p10, _p90, "
+                "nodes_spread_above_hub, mean_node_median, mean_hub, mean_abs_difference_median, intervals_median.",
                 f"Coverage: {nb['node'].nunique()} settlement points, {nb['first'].min()} to {nb['last'].max()}. ERCOT's public list keeps seven days of node prices: this is "
                 "the week listed when it was pulled, not the months the storage disclosure covers.",
                 f"Retrieved: {run_id} (UTC) by warehouse/derived/ercot_storage_realtime.py",

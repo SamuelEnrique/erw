@@ -2,13 +2,15 @@ import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  ENTITY, MODEL_ENTITY, MODEL_GAP_VARIABLES, MODEL_TABLE, MODEL_VARIABLES, OFFERS_TABLE, OFFER_VARIABLES, TABLE, VARIABLES, energyAwardShare, gapOf, kw, monthName, monthsOf, newestComplete, perKw,
+  ENTITY, MODEL_ENTITY, MODEL_GAP_VARIABLES, MODEL_TABLE, MODEL_VARIABLES, OFFERS_TABLE, OFFER_VARIABLES, TABLE, VARIABLES, MODEL_PREFIX, energyAwardShare, gapOf, kw, monthName, monthsOf, newestComplete, perKw,
   shortMonth, span, summary, whole, years,
   type Month, type Row,
 } from "@/lib/storageawards";
+import { BASIS_ENTITY, BASIS_TABLE, BASIS_VARIABLES, RT_ENTITY, RT_TABLE, RT_VARIABLES, basisOf, rtMonthsOf } from "@/lib/storagerealtime";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../../Tabs";
 import { OFFERS_METHOD, OffersSection } from "./Offers";
+import { RT_METHOD, RealTimeSection } from "./RealTime";
 
 // Session 115: what Texas's storage resources were awarded day-ahead, in the battery page's layout. It reads
 // ercot_storage_dam_awards_monthly (warehouse/derived, from ERCOT's 60-Day DAM Disclosure Reports, the file
@@ -20,6 +22,9 @@ import { OFFERS_METHOD, OffersSection } from "./Offers";
 // Session 116: one more section (./Offers.tsx), what the fleet offered day-ahead and the gap to the model's figure in
 // three parts, from ercot_storage_dam_offers_monthly and the model's rows for the same months. When that table cannot
 // be read the section says so and every section above it is as it was.
+// Session 120: the real-time side (./RealTime.tsx), from ercot_storage_rt_monthly and ercot_storage_node_basis: what
+// the fleet did in real time beside its day-ahead awards, real time valued at the hub average's price and said to be.
+// It states first what it still leaves out. When its tables cannot be read it says so and every section above is as it was.
 export const metadata: Metadata = { title: "What Texas's batteries were awarded day-ahead", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
@@ -37,6 +42,14 @@ async function modelRows(): Promise<Row[]> {
 async function offerRows(): Promise<Row[]> {
   return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${OFFERS_TABLE}`, entity: `eq.${ENTITY}`,
     variable: `in.(${OFFER_VARIABLES.join(",")})`, order: "variable,ts_utc" }, HOURLY);
+}
+async function realTimeRows(): Promise<Row[]> {
+  return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${RT_TABLE}`, entity: `eq.${RT_ENTITY}`,
+    variable: `in.(${RT_VARIABLES.join(",")})`, order: "variable,ts_utc" }, HOURLY);
+}
+async function basisRows(): Promise<Row[]> {
+  return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${BASIS_TABLE}`, entity: `eq.${BASIS_ENTITY}`,
+    variable: `in.(${BASIS_VARIABLES.join(",")})`, order: "variable,ts_utc" }, HOURLY);
 }
 /** The model's rows the offers section sets beside the offers: from the offers table's first month on. */
 async function modelGapRows(from: string): Promise<Row[]> {
@@ -97,7 +110,8 @@ function MonthBars({ ms }: { ms: Month[] }) {
 const notHeld = <span className="text-muted">not held</span>;
 
 export default async function Awards() {
-  const [read, readModel, readOffers] = await Promise.all([attempt(fleetRows), attempt(modelRows), attempt(offerRows)]);
+  const [read, readModel, readOffers, readRt, readBasis] = await Promise.all([attempt(fleetRows), attempt(modelRows), attempt(offerRows), attempt(realTimeRows), attempt(basisRows)]);
+  const rtMonths = readRt.ok ? rtMonthsOf(readRt.data, readModel.ok ? readModel.data : [], MODEL_PREFIX) : [];
   const offers = readOffers.ok ? readOffers.data : [];
   const firstOffer = offers.reduce((a, r) => (a === "" || r.ts_utc < a ? r.ts_utc : a), "");
   const readGapModel = firstOffer ? await attempt(() => modelGapRows(firstOffer)) : null;
@@ -200,18 +214,23 @@ export default async function Awards() {
                     <p>In {monthName(newest.m)}, {whole(newest.resourcesWithAward)} of the {whole(newest.resources)} resources held a day-ahead award of any kind.</p>
                   ) : null}
                   <p>So the distance between the two columns is not a measure of the model&apos;s error. The real-time side would have to be added before the two could be compared.</p>
+                  <p>It is added, with real-time energy at the hub average&apos;s price and not at each battery&apos;s own node, in <a href="#real-time" className="underline">the last section</a>.</p>
                   <p>How much of that distance is capacity that offered nothing day-ahead, how much was offered and not awarded, and how much is price is in <a href="#offers" className="underline">the next section</a>.</p>
                 </div>
               </ToolSection>
 
               <OffersSection gap={gap} unread={offersUnread} loaded={offers.length > 0} />
+
+              <RealTimeSection months={rtMonths} basis={readBasis.ok ? basisOf(readBasis.data) : null} unread={readRt.ok ? null : readRt.reason} basisUnread={readBasis.ok ? null : readBasis.reason} />
             </>
           )}
         </div>
       </div>
-      <SourceLine tables={[TABLE, MODEL_TABLE, OFFERS_TABLE]}
+      <SourceLine tables={[TABLE, MODEL_TABLE, OFFERS_TABLE, RT_TABLE, BASIS_TABLE]}
         note={<>The first table is derived by the ERW from ERCOT&apos;s 60-Day DAM Disclosure Reports (NP3-966-ER), the file 60d_DAM_ESR_Data, which ERCOT posts 60 days after each operating day; the second is the battery page&apos;s model. <Link href={METHOD}>Method</Link>.
-          The third is derived from the same file&apos;s offer curves and from 60d_DAM_ESR_ASOffers. <Link href={OFFERS_METHOD}>Method</Link>.</>} />
+          The third is derived from the same file&apos;s offer curves and from 60d_DAM_ESR_ASOffers. <Link href={OFFERS_METHOD}>Method</Link>.
+          The fourth and fifth are derived from ERCOT&apos;s 60-Day SCED Disclosure Reports (NP3-965-ER), the file 60d_ESR_Data_in_SCED, and from its real-time Settlement Point Prices at Resource Nodes, Hubs
+          and Load Zones (NP6-905-CD). <Link href={RT_METHOD}>Method</Link>.</>} />
     </ToolPage>
   );
 }
