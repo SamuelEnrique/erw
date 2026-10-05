@@ -44,6 +44,11 @@ export type ChartOfWeek = {
   source_line: string; citations: string[]; tables: string[]; params: Record<string, unknown>;
   headline: { label: string; value: number; unit: string; period: string };
   notability_z: number; percentile: number; history_n: number; files: Record<string, string>; option: unknown; rule: string;
+  // session 119: the finding the chart was picked for, in words the engine wrote from the table's numbers; absent on the
+  // charts of the weeks before the rule changed
+  finding?: string | null; picked_by?: string;
+  change?: { compare: string; delta: number; previous_period: string; previous_value: number; score: number | null; earlier_changes: number; new_this_week: boolean } | null;
+  also_moved?: { template: string; title: string; score: number | null; new_this_week: boolean; finding: string }[];
 };
 export type AnalysisResult = {
   template: string; params: Record<string, unknown>; title: string; subtitle: string;

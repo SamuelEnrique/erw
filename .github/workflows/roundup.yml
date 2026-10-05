@@ -141,7 +141,12 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         # not retried: it spends on the model (warehouse/news/roundup.py); its pulls retry their own requests
-        run: python warehouse/health.py run --step "write the Roundup" --retries 0 -- bash -c "set -o pipefail; { python warehouse/redivis/upload.py --restore && python warehouse/connectors/eia_fuels.py && python warehouse/analysis/run.py && python warehouse/news/roundup.py; } 2>&1 | tee roundup.log"
+        # Session 119: the chart of the week now draws on the watch list (warehouse/analysis/watch.py), whose tables are
+        # mostly not rolling-window tables, so the restore above does not bring them. scripts/sync.py restores the ones
+        # the lines read (warehouse/analysis/watch.py --tables prints them as one pattern); a table it cannot restore is
+        # said and its line is skipped and named by the engine, as a template is. It never stops the Roundup.
+        run: |
+          python warehouse/health.py run --step "write the Roundup" --retries 0 -- bash -c "set -o pipefail; { python warehouse/redivis/upload.py --restore && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/watch.py --tables)\" || echo 'the watch list, not every table could be restored, so the lines that read a missing table are skipped and named'; } && python warehouse/connectors/eia_fuels.py && python warehouse/analysis/run.py && python warehouse/news/roundup.py; } 2>&1 | tee roundup.log"
 
       - name: Keep the log
         if: always()
