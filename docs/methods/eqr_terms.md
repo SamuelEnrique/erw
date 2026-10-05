@@ -44,8 +44,8 @@ A row states megawatts when its quantity is filed with the units MW, or kW (divi
 megawatt-hours, per month, per day, or with no units is not a number of megawatts and is not converted. A quantity of
 zero is not a quantity.
 
-**The ceiling.** Some rows file a year's megawatt-hours, or kilowatts, under MW: the largest "MW" in the 2026 Q2 file
-is above 600,000. A contract cannot be for more than the largest power station operating in the United States, which
+**The ceiling.** Some rows file a year's megawatt-hours, or kilowatts, under MW: figures in the hundreds of thousands
+stand in the 2026 Q2 file. A contract cannot be for more than the largest power station operating in the United States, which
 the warehouse holds: 6,809 MW (`eia860m_operating_generators`, vintage 2026-08, summed by plant). A row stating more
 keeps its figure in `mw`, as filed, carries `x_mw_ranked` no, and is left out of the ranking and counted: 45 rows of
 17 contracts in 2026 Q2. A figure under the ceiling can be mislabelled too, and nothing in the filing can tell.
