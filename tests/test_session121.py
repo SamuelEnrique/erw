@@ -28,7 +28,6 @@ import yaml
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "warehouse", "output")
-os.environ.setdefault("ERW_LEDGER", "0")
 for p in ("warehouse/chat", "warehouse/chat/eval", "warehouse"):
     sys.path.insert(0, os.path.join(ROOT, *p.split("/")))
 import ask  # noqa: E402
