@@ -1,7 +1,7 @@
 """Battery discharge against the evening peak (CAISO)."""
 import pandas as pd
 
-from common import NoData, complete_local_days, fetch, r2, render, result  # noqa: F401
+from common import NoData, complete_local_days, fetch, r2, render, result, screened_demand  # noqa: F401
 
 NAME = "storage_evening_peak"
 TITLE = "Batteries and the evening peak"
@@ -22,7 +22,7 @@ def compute(window=30, history=True):
     b = fetch("caiso_battery_storage")
     b = b[b["variable"] == "batteries_mw"]
     d = fetch("eia930_all_demand", ba="ciso")
-    d = d[d["variable"] == "demand_mw"]
+    d = screened_demand(d[d["variable"] == "demand_mw"])  # session 119: California's impossible hours of demand are not used
     bdays = complete_local_days(b, TZ)
     ddays = complete_local_days(d, TZ)
     both = sorted(set(bdays) & set(ddays))
