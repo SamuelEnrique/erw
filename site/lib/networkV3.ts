@@ -8,11 +8,15 @@ import type { NetLink } from "../app/network/Network";
 
 /** A year of the replay (public/network/daily_<year>.json, warehouse/derived/network_daily.py). */
 export type Daily = { year: number; frame: "day"; tz: string; days: string[]; built: string; rule: string; links: NetLink[];
+  /** session 124: for each day, how many pairs hold a flow; and the year's usual count (its median) */
+  pairs_held?: number[]; pairs_usual?: number;
   intensity: Record<string, (number | null)[]>; hub_prices: Record<string, (number | null)[]>;
   /** session 109: each balancing authority's demand, the day's average MW (EIA's daily demand over the day's hours); null where not held or screened out */
   demand?: Record<string, (number | null)[]>;
   missing: { pair_days: number; pair_days_from_other_side: number; pair_days_screened: number; demand_days_held?: number } };
-export type DailyIndex = { first: string; last: string; tz: string; years: Record<string, { file: string; days: number; first: string; last: string; priced: string[]; pair_days_screened: number; pair_days: number }>;
+export type DailyIndex = { first: string; last: string; tz: string;
+  /** session 124: the newest day that holds at least nine tenths of its year's usual pairs; what rule C left out and what was kept */
+  last_complete?: string; pair_days_rule?: number; pair_days_confirmed_both_sides?: number; pair_days_confirmed_by_hours?: number; years: Record<string, { file: string; days: number; first: string; last: string; priced: string[]; pair_days_screened: number; pair_days: number }>;
   left_out_bas: string[]; built: string };
 
 /** A day as a frame's time: noon UTC of the date, so that it reads as the same date in every US time zone. */
@@ -37,6 +41,55 @@ export function easternHours(day: string): number {
   const next = new Date(Date.parse(`${day}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
   return Math.round((at(next) - at(day)) / 3_600_000);
 }
+
+/** Session 124: the frames [from, to) of the month that holds frame i, when the frames are days ("2021-02-15T12:00:00Z"). */
+export function monthSpan(frames: string[], i: number): [number, number] {
+  const m = (frames[i] ?? "").slice(0, 7);
+  let a = i, b = i + 1;
+  while (a > 0 && frames[a - 1].slice(0, 7) === m) a -= 1;
+  while (b < frames.length && frames[b].slice(0, 7) === m) b += 1;
+  return [a, b];
+}
+
+// ------------------------------------------------------------------ the newest complete hour (session 124)
+
+export type Complete = {
+  /** the frame, and its time: the newest hour in which every reporting pair holds a flow; -1 and null when there is none */
+  index: number; hour: string | null;
+  /** the pairs of the week, and those that are reporting */
+  pairs: number; reporting: number;
+  /** the pairs that hold no flow in the last `quiet` hours of the week, each with the last hour it did hold */
+  silent: { a: string; b: string; last: string | null }[];
+  /** the week's newest hour, and how many of the reporting pairs hold it */
+  newest: string; newestPairs: number;
+};
+
+/** The newest hour that is complete for every pair. A pair that has held nothing in the last `quiet` hours of the week
+ * has stopped reporting: it is named, with its last hour, and is not waited for (one such pair would hold the page a week
+ * behind). Among the others, the newest hour in which every one of them holds a flow. */
+export function completeHour(hours: string[], links: { a: string; b: string; mw: (number | null)[] }[], quiet = 48): Complete {
+  const n = hours.length;
+  const lastOf = (l: { mw: (number | null)[] }) => { for (let h = n - 1; h >= 0; h -= 1) if (l.mw[h] !== null && l.mw[h] !== undefined) return h; return -1; };
+  const last = links.map(lastOf);
+  const silent = links.map((l, i) => ({ l, last: last[i] })).filter((x) => x.last < n - quiet)
+    .map((x) => ({ a: x.l.a, b: x.l.b, last: x.last >= 0 ? hours[x.last] : null })).sort((x, y) => `${x.a}-${x.b}`.localeCompare(`${y.a}-${y.b}`));
+  const reporting = links.filter((_, i) => last[i] >= n - quiet);
+  const holds = (h: number) => reporting.filter((l) => l.mw[h] !== null && l.mw[h] !== undefined).length;
+  let index = -1;
+  if (reporting.length) for (let h = n - 1; h >= 0; h -= 1) if (holds(h) === reporting.length) { index = h; break; }
+  return { index, hour: index >= 0 ? hours[index] : null, pairs: links.length, reporting: reporting.length, silent, newest: hours[n - 1] ?? "", newestPairs: n ? holds(n - 1) : 0 };
+}
+
+/** Session 124: a hub price a new page does not show, and the words it shows in its place. */
+export const PAUSED_PRICE: Record<string, string> = {
+  MISO: "Not shown: MISO's own files are paused since 4 October 2026 while a person reviews its terms. Its flows, demand and carbon here are EIA's, which are not paused.",
+};
+
+/** Session 124: a node that is not one network, so nothing is traced through it. CEN is Mexico's operator: its tie to
+ * California (Baja California) and its ties to Texas belong to systems that do not connect inside Mexico. */
+export const ISLANDS: Record<string, string> = {
+  CEN: "Mexico's ties to Texas and to California are separate systems, so nothing is traced through it",
+};
 
 // ------------------------------------------------------------------ the address
 
@@ -83,8 +136,10 @@ export function priceWeight(price: number | null, max: number): number | null {
 // ------------------------------------------------------------------ trace the power
 
 export type TraceStep = { id: string; mwh: number; share: number };
-export type TraceRow = TraceStep & { via: TraceStep[]; frames: number };
-export type Trace = { id: string; inMwh: number; outMwh: number; frames: number; rows: TraceRow[] };
+export type TraceRow = TraceStep & { via: TraceStep[]; frames: number; /** session 124: not one network; nothing is traced through it */ island?: string };
+export type Trace = { id: string; inMwh: number; outMwh: number; frames: number; rows: TraceRow[];
+  /** session 124: the frames of the period in which at least one of the grid's ties holds a flow */
+  held: number };
 
 /** Each neighbour's net flow into `id` over the frames [from, to), MWh: positive, the neighbour supplied it. A frame a
  * tie did not report adds nothing; `frames` counts, per neighbour, the frames it did report. */
@@ -115,10 +170,14 @@ export function trace(links: NetLink[], from: number, to: number, id: string, ho
   const inMwh = suppliers.reduce((a, [, v]) => a + v.mwh, 0);
   const outMwh = first.filter(([, v]) => v.mwh < 0).reduce((a, [, v]) => a - v.mwh, 0);
   const rows = suppliers.map(([n, v]) => {
+    const base = { id: n, mwh: v.mwh, share: inMwh > 0 ? (100 * v.mwh) / inMwh : 0, frames: v.frames };
+    if (ISLANDS[n]) return { ...base, via: [], island: ISLANDS[n] };
     const second = [...netInto(links, from, to, n, hoursOf)].filter(([m, x]) => m !== id && x.mwh > 0).sort((a, b) => b[1].mwh - a[1].mwh || a[0].localeCompare(b[0]));
     const total = second.reduce((a, [, x]) => a + x.mwh, 0);
-    return { id: n, mwh: v.mwh, share: inMwh > 0 ? (100 * v.mwh) / inMwh : 0, frames: v.frames,
-      via: second.slice(0, top).map(([m, x]) => ({ id: m, mwh: x.mwh, share: total > 0 ? (100 * x.mwh) / total : 0 })) };
+    return { ...base, via: second.slice(0, top).map(([m, x]) => ({ id: m, mwh: x.mwh, share: total > 0 ? (100 * x.mwh) / total : 0 })) };
   });
-  return { id, inMwh, outMwh, frames: Math.max(0, to - from), rows };
+  const mine = links.filter((l) => l.a === id || l.b === id);
+  let held = 0;
+  for (let h = from; h < to; h += 1) if (mine.some((l) => l.mw[h] !== null && l.mw[h] !== undefined)) held += 1;
+  return { id, inMwh, outMwh, frames: Math.max(0, to - from), rows, held };
 }
