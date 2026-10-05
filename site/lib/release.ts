@@ -15,6 +15,7 @@ export type Status = "live" | "review";
 export const RELEASE: Record<string, Status> = {
   "/": "live",
   "/cost-of-power/battery": "live",
+  "/cost-of-power/battery/awards": "review",  // session 115: what Texas's storage resources were awarded day-ahead; without its own line it would take the live battery page's status
   "/cost-of-power/seller": "live",
   "/cost-of-power/seller/v2": "review",  // session 107: version 2 of the seller's tab; without its own line it would take the live tab's status
   "/network": "live",
