@@ -241,7 +241,12 @@ class OneTablesCoverageRow(unittest.TestCase):
         self.assertIn('ap.add_argument("--only"', s)
         self.assertIn("files = [p for p in files if re.search(args.only, os.path.basename(p)[:-4])]", s)
         self.assertIn("sys.exit(main() or 0)", s)                           # a failed --only is an exit code a gate can read
-        import build_coverage as bc
+        # by its path: warehouse/validate holds a shim of the same name that runs the builder, and another test puts
+        # that folder first on the path (the full run of this session imported the shim, which stopped on its arguments)
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("erw_build_coverage_119", os.path.join(ROOT, "warehouse", "metadata", "build_coverage.py"))
+        bc = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(bc)
         r = dict(table="x_y", iso="", market="", _variable="v", n_nodes=1, _nodes="a|b", interval="P1D", ts_min="2026-01-01T00:00:00Z",
                  ts_max="2026-01-02T00:00:00Z", n_rows=1234, source_report="s;t", last_run="2026-10-05T00:00:00Z", validator_status="pass",
                  license="public", sector="power;gas", derived="no", tier="source")
