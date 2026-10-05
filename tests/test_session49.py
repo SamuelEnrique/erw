@@ -25,6 +25,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 for d in ("connectors", "derived", "supabase"):
     sys.path.insert(0, os.path.join(ROOT, "warehouse", d))
 OUT = os.path.join(ROOT, "warehouse", "output")
+import eia930_interchange as interchange  # noqa: E402
 import event_study as es  # noqa: E402
 import grid_network as gn  # noqa: E402
 import hub_history as hh  # noqa: E402
@@ -114,7 +115,20 @@ class Interchange(unittest.TestCase):
         t = read("eia930_all_interchange")
         if t is None:
             self.skipTest("table not on this machine")
-        self.assertLessEqual(len(t), 150_000)
+        # Session 113: the ceiling was written as 150,000 rows for the table. That number is the ceiling of one pull
+        # (session 42's prompt; eia930_interchange.CEILING, which counts the rows EIA reports before it pages), and
+        # session 49's pull of 18 days fit it with 127,560 rows. Since then the daily run pulls the last 3 days and
+        # merges them into the table's history, so the table grows by a UTC day each run (about 8,000 rows) and no
+        # fixed number holds: it passed 150,000 with the daily run of 3 October 2026 (151,632 rows) and stood at
+        # 159,144 after 4 October's (20 days, 341 pairs), with nothing wrong in it. What must hold is that a pull stays under its ceiling,
+        # which the connector enforces, and that the table holds no more than its days explain: at most 350 pairs
+        # of balancing authorities reporting 24 hours a day (EIA reported 341 on the fullest day held), so 8,400
+        # rows for each UTC day held, and each pair's hour once.
+        self.assertEqual(interchange.CEILING, 150_000)  # one pull, unchanged
+        days = t["ts_utc"].str[:10]
+        self.assertLessEqual(int(days.value_counts().max()), 8_400)
+        self.assertLessEqual(len(t), 8_400 * days.nunique())
+        self.assertFalse(t.duplicated(["entity", "variable", "ts_utc"]).any())
 
 
 class HubHistory(unittest.TestCase):
