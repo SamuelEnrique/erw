@@ -432,9 +432,15 @@ def main(argv=None):
             header.insert(1, f"The newest quarter is the table {NAME}. Every agreement in force is filed again each quarter: a contract is in this table once for each "
                              "quarter it was filed in, so its rows are never added up across quarters.")
         ip.write_csv(d, table, header, log, cols=COLS, key=["event_id"], time_col="event_date")
+        documents = public_url(url)
+        if args.history:  # the registry's row keeps naming the newest quarter's file; an earlier quarter adds its table only
+            reg = os.path.join(ip.METADATA_DIR, "sources.csv")
+            was = pd.read_csv(reg, dtype=str, keep_default_na=False) if os.path.exists(reg) else pd.DataFrame(columns=["source", "document_list"])
+            kept = was.loc[was["source"] == SOURCE, "document_list"]
+            documents = kept.iloc[0] if len(kept) else documents
         ip.update_sources([dict(source=SOURCE, publisher="Federal Energy Regulatory Commission (FERC)",
                                 report="Electric Quarterly Reports (EQR): contracts, quarterly filings of all companies", report_url=VIEWER,
-                                document_list=public_url(url), license="internal", tables=[table])])
+                                document_list=documents, license="internal", tables=[table])])
         results.append(dict(table=table, market="contracts", status="ok", detail=f"{len(d):,} rows, {counts['companies']:,} companies"))
         print(f"{table}: {len(d):,} rows, {counts['companies']:,} companies, {args.quarter}; {f.requests:,} requests, {f.bytes / 1e9:.2f} GB")
     except Exception:
