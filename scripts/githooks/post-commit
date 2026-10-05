@@ -1,0 +1,15 @@
+#!/bin/sh
+# Energy Research Warehouse (ERW): a commit by a marked chain is a save (session 116; docs/machines.md, "Alerts").
+#
+# The chain watch reads GitHub, where a commit that is not pushed yet is seen by nobody. On the machine that marked a
+# chain as running (.erw/chain.json, written by python scripts/alert.py chain start), each commit sends a beat. On any
+# other machine, and when no chain is marked, this does nothing. It never fails or slows a commit: the beat runs in
+# the background, what it prints is dropped, and the hook always exits 0.
+root="$(cd "$(dirname "$0")/../.." 2>/dev/null && pwd)" || exit 0
+[ -f "$root/.erw/chain.json" ] || exit 0
+py=python
+[ -x "$root/.venv/Scripts/python.exe" ] && py="$root/.venv/Scripts/python.exe"
+[ -x "$root/.venv/bin/python" ] && py="$root/.venv/bin/python"
+command -v "$py" >/dev/null 2>&1 || py=python3
+( "$py" "$root/scripts/alert.py" chain beat </dev/null >/dev/null 2>&1 & ) >/dev/null 2>&1
+exit 0

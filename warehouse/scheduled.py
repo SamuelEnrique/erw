@@ -24,7 +24,9 @@ What this script adds to the builder it starts:
 - nothing else: the builder runs as it does by hand, with the same arguments, and its exit code is this script's.
 
 No step here asks a paused publisher for anything. The only steps that make a request are the two EIA-930 daily
-connectors (EIA's API; --days 5, merged into the table held), and they make none when the table is not on the machine.
+connectors (EIA's API; --days 5, merged into the table held), and they make none when the table is not on the machine;
+and, since session 116, ercot_storage_dam (ERCOT's file list and one zip of its 60-Day DAM Disclosure, the next
+operating day: a standing pull approved in that session's prompt), which makes none when its tables are not here.
 """
 
 import argparse
@@ -64,6 +66,14 @@ JOBS = {
                 "nyiso_rtm_zone_prices", "isone_rtm_zone_prices_hourly"],
         files=["site/data/grid_network.json", "site/public/network/daily_index.json"],
         cmd=["warehouse/derived/network_daily.py", "--daily"]),
+    # session 116, the standing pull (approved): one zip a day of ERCOT's 60-Day DAM Disclosure, the next operating day,
+    # added to the row-level table; then the monthly awards table and the two offers tables. The four tables are rebuilt
+    # from the ERW's archive when the machine lacks them (the runner); without them nothing is requested
+    "ercot_storage_dam": dict(
+        cadence="daily", page="/cost-of-power/battery/awards",
+        tables=["ercot_dam_esr_awards", "ercot_storage_dam_awards_monthly", "ercot_storage_dam_offers_daily", "ercot_storage_dam_offers_monthly"],
+        restore=["ercot_dam_esr_awards", "ercot_storage_dam_awards_monthly", "ercot_storage_dam_offers_daily", "ercot_storage_dam_offers_monthly"],
+        cmd=["warehouse/connectors/ercot_dam_esr.py", "--daily"]),
     "mix_profile": dict(
         cadence="monthly", page="/mix/v2", tables=["caiso_fuel_supply", "carbon_intensity_hourly"], workbooks=ISO_BAS,
         cmd=["warehouse/derived/mix_profile.py", "--snapshot"]),

@@ -293,6 +293,11 @@ run_other battery_stack "$PYTHON" warehouse/health.py run --strict --step "batte
 soft_step eia930_daily_interchange "$PYTHON" warehouse/scheduled.py eia930_daily_interchange
 soft_step eia930_daily_demand "$PYTHON" warehouse/scheduled.py eia930_daily_demand
 soft_step network_replay "$PYTHON" warehouse/scheduled.py network_replay
+# Session 116, the standing pull (approved in that session's prompt): one zip a day of ERCOT's 60-Day DAM Disclosure, the
+# first listed operating day after the last one held, so the storage resources' day-ahead awards and offers stay 60 days
+# behind and no further (docs/methods/ercot_storage_dam_offers.md). A soft step under warehouse/health.py: on the runner
+# its four tables are first rebuilt from the ERW's archive; without them nothing is requested. Never more than one zip
+soft_step ercot_storage_dam "$PYTHON" warehouse/scheduled.py ercot_storage_dam
 # The other six (the hourly mix, the hub price comparison, demand growth, the curtailment profile, the project map and
 # ERCOT's large-load figures): the monthly job, warehouse/run_monthly.sh, with the first daily run on or after the third
 # day of each month (UTC: EIA-930's lag of a day or two is past, so the month before is whole; scheduled.py --monthly-due

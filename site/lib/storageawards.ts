@@ -169,3 +169,142 @@ export function summary(ms: Month[]): string | null {
   return `In ${monthName(r.m)}, ERCOT's disclosure lists ${fleet}; their day-ahead awards came to USD ${kw(r.total)} per kW for the month, `
     + `${kw(r.energy)} from energy net of charging and ${kw(r.ancillary)} from ancillary services.`;
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 116: where the gap comes from. What the fleet offered day-ahead (ercot_storage_dam_offers_monthly, from the
+// Energy Bid/Offer Curves of 60d_DAM_ESR_Data and the blocks of 60d_DAM_ESR_ASOffers) set beside the awards and the
+// model, over the months all three tables hold whole. The gap between the model and the awards is split in three by
+// an identity (docs/methods/ercot_storage_dam_offers.md): capacity that offered nothing day-ahead (an allocation at
+// the model's average), price (energy only), and the rest, offered and not awarded. Nothing is scaled or filled: a
+// month that lacks a day or a figure in any of the three tables is left out and named.
+
+export const OFFERS_TABLE = "ercot_storage_dam_offers_monthly";
+/** The prices, USD per MWh, at or below which the table states what the energy curves offer to sell. */
+export const ENERGY_BANDS = [0, 25, 50, 100, 250, 1000];
+const SERVICE_PARTS = ["offer_mwh", "offer_mwh_le_mcpc", "award_mwh", "unawarded_usd_per_mw"];
+/** The offers table's variables the page reads. */
+export const OFFER_VARIABLES = [
+  "days_held", "days_in_month", "mw", "limit_mwh", "limit_mwh_out", "limit_mwh_no_offer", "limit_mwh_no_offer_out", "limit_mwh_energy_offer", "limit_mwh_as_offer",
+  "limit_mwh_award", "energy_offer_mwh", ...ENERGY_BANDS.map((b) => `energy_offer_mwh_le_${b}`), "energy_offer_mwh_at_clearing", "energy_sold_mwh",
+  "as_offer_mwh", "as_award_mwh", "as_offer_mwh_unlisted",
+  ...PRODUCTS.flatMap((p) => SERVICE_PARTS.map((k) => `${p.key}_${k}`)),
+];
+/** The awards table's variables the gap reads (all among VARIABLES). */
+const GAP_AWARD_VARIABLES = ["days_held", "days_in_month", "revenue_total_usd_per_mw", "revenue_energy_usd_per_mw", ...PRODUCTS.map((p) => `revenue_${p.key}_usd_per_mw`)];
+/** The model's variables the gap reads, without their prefix, and with it (the page's read). */
+const GAP_MODEL = ["days_held", "days_in_month", "revenue_total_usd_per_mw", "revenue_energy_usd_per_mw", "discharged_mwh_per_mw", ...PRODUCTS.map((p) => `revenue_${p.key}_usd_per_mw`)];
+export const MODEL_GAP_VARIABLES = GAP_MODEL.map((v) => MODEL_PREFIX + v);
+
+export type Band = {
+  /** the price, USD per MWh; null is "at any price" */
+  le: number | null;
+  /** offered to sell at that price or less: MWh per MW of the fleet per day, and as a share of what was offered at any price */
+  perMwDay: number; shareOfOffered: number;
+};
+
+export type Service = {
+  key: string; label: string;
+  /** MW-hours as a share of the fleet's limit-hours: offered at any price, offered at or below the hour's clearing price, awarded */
+  offerShare: number; atOrBelowClearingShare: number; awardShare: number;
+  /** awarded over offered */
+  awardOfOffer: number;
+  /** USD per kW over the months: the awards, the model's, their difference, and the offered and unawarded capacity at the hour's clearing price */
+  awardsKw: number; modelKw: number; gapKw: number; unawardedKw: number;
+};
+
+export type Gap = {
+  /** the months all three tables hold whole, and their days */
+  months: string[]; days: number;
+  /** months the awards table holds whole that are not in the sums, each with the reason */
+  leftOut: { m: string; why: string }[];
+  /** USD per kW over the months */
+  modelKw: number; awardsKw: number; gapKw: number;
+  /** shares of the fleet's limit-hours: with no day-ahead offer of any kind; of those, on outage; with status OUT; offering to sell energy; with an ancillary offer; with any award */
+  noOfferShare: number; noOfferOutShare: number; outShare: number; energyOfferShare: number; asOfferShare: number; awardShare: number;
+  /** the gap's three parts, USD per kW: they add up to gapKw */
+  neverOfferedKw: number; priceKw: number; offeredNotAwardedKw: number;
+  /** energy: MWh per MW of the fleet per day, and USD per MWh (the model's per MWh discharged, the awards' net per MWh sold) */
+  energy: {
+    modelKw: number; awardsKw: number; modelPerMwDay: number; soldPerMwDay: number; offeredPerMwDay: number; atClearingPerMwDay: number;
+    modelUsdPerMwh: number; awardsUsdPerMwh: number; bands: Band[];
+    /** the share of what the curves offered to sell that was priced above USD 100 and above USD 1,000 per MWh */
+    above100: number | null; above1000: number | null;
+  };
+  services: Service[];
+  /** ancillary blocks, each once, and the awards, as shares of limit-hours; blocks of resources with no row in ERCOT's ESR data file, MWh */
+  asOfferShareOfLimit: number; asAwardShareOfLimit: number; unlistedMwh: number;
+};
+
+function pivot(rows: Row[], prefix = ""): Map<string, Map<string, number>> {
+  const by = new Map<string, Map<string, number>>();
+  for (const r of rows) {
+    const v = num(r.value);
+    if (v === null || !r.variable.startsWith(prefix)) continue;
+    const m = r.ts_utc.slice(0, 7);
+    if (!by.has(m)) by.set(m, new Map());
+    by.get(m)!.set(r.variable.slice(prefix.length), v);
+  }
+  return by;
+}
+
+/** The gap between the model and the awards over the months held whole, and its three parts; null when no month is
+ * held whole by the awards table, the offers table and the model with every figure the arithmetic needs. */
+export function gapOf(fleet: Row[], offers: Row[], model: Row[]): Gap | null {
+  const A = pivot(fleet), O = pivot(offers), M = pivot(model, MODEL_PREFIX);
+  const months: string[] = [], leftOut: { m: string; why: string }[] = [];
+  const wholeIn = (g: Map<string, number> | undefined) => !!g && g.get("days_held") !== undefined && g.get("days_held") === g.get("days_in_month");
+  const lacks = (g: Map<string, number>, need: string[]) => need.filter((k) => !g.has(k));
+  for (const m of [...A.keys()].sort()) {
+    const a = A.get(m)!, o = O.get(m), x = M.get(m);
+    if (!wholeIn(a)) continue;  // a partial month is never set beside the model
+    const why = !o ? "the offers table has no row for it" : !wholeIn(o) ? "the offers table does not hold every day of it"
+      : !x ? "the model has no row for it" : !wholeIn(x) ? "the model does not hold every day of it"
+      : lacks(a, GAP_AWARD_VARIABLES).length || lacks(o, OFFER_VARIABLES).length || lacks(x, GAP_MODEL).length
+        ? `a figure is not held (${[...lacks(a, GAP_AWARD_VARIABLES), ...lacks(o, OFFER_VARIABLES), ...lacks(x, GAP_MODEL)].slice(0, 3).join(", ")})`
+      : !(o.get("mw")! > 0) || !(o.get("limit_mwh")! > 0) ? "its MW or its limit-hours are not above zero" : null;
+    if (why) leftOut.push({ m, why }); else months.push(m);
+  }
+  if (!months.length) return null;
+  const sum = (T: Map<string, Map<string, number>>, k: string) => months.reduce((s, m) => s + T.get(m)!.get(k)!, 0);
+  /** a month's MWh over the month's own MW, the months added up */
+  const perMw = (k: string) => months.reduce((s, m) => s + O.get(m)!.get(k)! / O.get(m)!.get("mw")!, 0);
+  const days = sum(O, "days_held"), lim = sum(O, "limit_mwh");
+  const modelKw = sum(M, "revenue_total_usd_per_mw") / 1000, awardsKw = sum(A, "revenue_total_usd_per_mw") / 1000;
+  const gapKw = modelKw - awardsKw;
+  const noOfferShare = sum(O, "limit_mwh_no_offer") / lim;
+  // capacity that offered nothing, valued at what the model makes on average: an allocation, not a measurement
+  const neverOfferedKw = modelKw * noOfferShare;
+  // price, energy only: the awards' volume at the difference between the model's and the awards' net USD per MWh
+  const eModelKw = sum(M, "revenue_energy_usd_per_mw") / 1000, eAwardsKw = sum(A, "revenue_energy_usd_per_mw") / 1000;
+  const vm = sum(M, "discharged_mwh_per_mw") / days, va = perMw("energy_sold_mwh") / days;
+  if (!(vm > 0) || !(va > 0)) return null;
+  const pm = (eModelKw * 1000) / (vm * days), pa = (eAwardsKw * 1000) / (va * days);
+  const priceKw = (va * days * (pm - pa)) / 1000;
+  const offered = sum(O, "energy_offer_mwh");
+  const bands: Band[] = [...ENERGY_BANDS.map((b) => ({ le: b as number | null, k: `energy_offer_mwh_le_${b}` })), { le: null, k: "energy_offer_mwh" }]
+    .map(({ le, k }) => ({ le, perMwDay: perMw(k) / days, shareOfOffered: offered > 0 ? sum(O, k) / offered : 0 }));
+  const services: Service[] = PRODUCTS.map((p) => {
+    const off = sum(O, `${p.key}_offer_mwh`), aw = sum(O, `${p.key}_award_mwh`);
+    const sAwards = sum(A, `revenue_${p.key}_usd_per_mw`) / 1000, sModel = sum(M, `revenue_${p.key}_usd_per_mw`) / 1000;
+    return { key: p.key, label: p.label, offerShare: off / lim, atOrBelowClearingShare: sum(O, `${p.key}_offer_mwh_le_mcpc`) / lim, awardShare: aw / lim,
+             awardOfOffer: off > 0 ? aw / off : 0, awardsKw: sAwards, modelKw: sModel, gapKw: sModel - sAwards, unawardedKw: sum(O, `${p.key}_unawarded_usd_per_mw`) / 1000 };
+  });
+  return {
+    months, days, leftOut, modelKw, awardsKw, gapKw,
+    noOfferShare, noOfferOutShare: sum(O, "limit_mwh_no_offer_out") / lim, outShare: sum(O, "limit_mwh_out") / lim,
+    energyOfferShare: sum(O, "limit_mwh_energy_offer") / lim, asOfferShare: sum(O, "limit_mwh_as_offer") / lim, awardShare: sum(O, "limit_mwh_award") / lim,
+    neverOfferedKw, priceKw, offeredNotAwardedKw: gapKw - neverOfferedKw - priceKw,
+    energy: { modelKw: eModelKw, awardsKw: eAwardsKw, modelPerMwDay: vm, soldPerMwDay: va, offeredPerMwDay: perMw("energy_offer_mwh") / days,
+              atClearingPerMwDay: perMw("energy_offer_mwh_at_clearing") / days, modelUsdPerMwh: pm, awardsUsdPerMwh: pa, bands,
+              above100: offered > 0 ? 1 - sum(O, "energy_offer_mwh_le_100") / offered : null, above1000: offered > 0 ? 1 - sum(O, "energy_offer_mwh_le_1000") / offered : null },
+    services,
+    asOfferShareOfLimit: sum(O, "as_offer_mwh") / lim, asAwardShareOfLimit: sum(O, "as_award_mwh") / lim, unlistedMwh: sum(O, "as_offer_mwh_unlisted"),
+  };
+}
+
+/** USD per kW, already per kW, as the page writes it: two decimals, a minus sign for a negative. */
+export const usd = (v: number): string => (v < 0 ? "-" : "") + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+/** A share as a percentage. */
+export const pct = (v: number, digits = 0): string => `${(v * 100).toFixed(digits)}%`;
+/** Words joined as a list: "a", "a and b", "a, b and c". */
+export const list = (xs: string[]): string => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`);

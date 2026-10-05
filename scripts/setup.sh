@@ -51,6 +51,20 @@ fi
 echo "== role"
 $py warehouse/lock.py role "$role" --name "$name"
 
+# session 116: a commit or a push made on the machine that marked a chain sends a beat (docs/machines.md, "Alerts").
+# The hooks are the repository's own files; a checkout that already has hooks of its own is left as it is.
+echo "== git hooks"
+hooks_now="$(git config --get core.hooksPath || true)"
+hooks_dir="$(git rev-parse --git-path hooks 2>/dev/null || echo .git/hooks)"
+if [ "$hooks_now" = "scripts/githooks" ]; then echo "  already set: core.hooksPath = scripts/githooks"
+elif [ -n "$hooks_now" ]; then echo "  left alone: core.hooksPath is already $hooks_now (call scripts/githooks/post-commit and pre-push from its hooks by hand)"
+elif ls "$hooks_dir" 2>/dev/null | grep -qv '\.sample$'; then echo "  left alone: $hooks_dir holds hooks of its own (call scripts/githooks/post-commit and pre-push from them by hand)"
+else
+  chmod +x scripts/githooks/post-commit scripts/githooks/pre-push 2>/dev/null || true
+  git config core.hooksPath scripts/githooks
+  echo "  set: core.hooksPath = scripts/githooks (a commit or a push by a marked chain is a save; undo: git config --unset core.hooksPath)"
+fi
+
 if [ "$dosync" = 1 ]; then
   echo "== sync"
   if [ "$role" = data ]; then $py scripts/sync.py; else $py scripts/sync.py --check; fi

@@ -272,7 +272,7 @@ jobs:
           # tracked too and was missing here, which left it modified after the commit.
           paths=(STATUS.md docs/coverage.md docs/digest warehouse/metadata/coverage.csv
                  warehouse/metadata/run_status.csv warehouse/metadata/sources.csv
-                 warehouse/metadata/redivis_uploads.csv warehouse/output/news_stories.csv
+                 warehouse/metadata/redivis_uploads.csv warehouse/metadata/ercot_dam_esr_missing_days.csv warehouse/output/news_stories.csv
                  warehouse/output/news_index.csv warehouse/output/energy_deals.csv
                  warehouse/output/energy_deals_evidence.csv warehouse/deals/checked.csv
                  warehouse/datacenters/checked.csv warehouse/output/datacenter_projects.csv

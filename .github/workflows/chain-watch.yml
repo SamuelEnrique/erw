@@ -1,10 +1,14 @@
 # Energy Research Warehouse (ERW): the chain watch (session 91; docs/machines.md, "Alerts").
 #
 # Every 15 minutes: is a chain of unattended sessions marked as running (the row "chain" of erw_locks, written by
-# python scripts/alert.py chain start), and has it saved anything in the last 30 minutes (a commit pushed to a wip/ or
-# task/ branch, or a beat)? If it has not, one line by email to the fixed recipients, once at 30 minutes and again
-# every hour after. The check runs here and not on the machine that runs the chain, because the usual reason a chain
-# stops saving is that its machine closed, slept or crashed.
+# python scripts/alert.py chain start), and has it saved anything in the last 30 minutes? If it has not, one line by
+# email to the fixed recipients, once at 30 minutes and again every hour after. The check runs here and not on the
+# machine that runs the chain, because the usual reason a chain stops saving is that its machine closed, slept or crashed.
+#
+# A save (session 116; until then only a push to a wip/ or task/ branch, so a landing read as silence): a commit on
+# any branch, main included, that a scheduled workflow did not write (github-actions[bot] is not the chain); the
+# workflow's merge of a task/ branch into main, which is the chain's own landing; or a beat, which the git hooks in
+# scripts/githooks/ send at each commit and each push on the chain's machine.
 #
 # No chain marked: the run says so and ends. Like every scheduled job since session 61 it never fails on GitHub: its
 # step runs under warehouse/health.py, which records the outcome in erw_health. It reads git and the mark; it writes

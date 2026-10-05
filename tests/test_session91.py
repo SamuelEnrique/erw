@@ -186,11 +186,16 @@ class AChainSavesNothing(unittest.TestCase):
         self.assertIsNone(alert.decide(at(8, 22), m, None)[0])
         self.assertIsNone(alert.decide(at(23, 0), m, None)[0])
 
-    def test_the_newest_push_is_read_from_both_kinds_of_branch(self):
-        answer = {"data": {"repository": {
-            "wip": {"nodes": [{"name": "091-alerts", "target": {"committedDate": "2026-10-04T07:10:00Z", "messageHeadline": "Session 91"}},
-                              {"name": "090-fixes", "target": {"committedDate": "2026-10-04T06:48:00Z", "messageHeadline": "Session 90 report"}}]},
-            "task": {"nodes": [{"name": "092-x", "target": {"committedDate": "2026-10-04T07:20:00+00:00", "messageHeadline": "later"}}]}}}}
+    def test_the_newest_push_is_read_from_every_branch(self):
+        # session 116: this test pinned that only wip/ and task/ branches were read. A landing leaves its commits on
+        # main and deletes the task branch, so the watch read it as silence; every branch is read now, each with its
+        # newest commits and their authors (tests/test_session116_alerts.py has the rule of which commits count).
+        commit = lambda when, head: {"committedDate": when, "messageHeadline": head, "author": {"name": "Samuel Enrique", "email": "s@example.invalid"}}  # noqa: E731
+        branch = lambda name, *commits: {"name": name, "target": {"history": {"nodes": list(commits)}}}  # noqa: E731
+        answer = {"data": {"repository": {"refs": {"nodes": [
+            branch("wip/091-alerts", commit("2026-10-04T07:10:00Z", "Session 91")),
+            branch("wip/090-fixes", commit("2026-10-04T06:48:00Z", "Session 90 report")),
+            branch("task/092-x", commit("2026-10-04T07:20:00+00:00", "later"))]}}}}
         asked = []
 
         def post(url, json=None, timeout=None, headers=None):
@@ -199,9 +204,9 @@ class AChainSavesNothing(unittest.TestCase):
         t, branch, head = alert.newest_push(token="t", post=post)
         self.assertEqual((t, branch, head), (at(7, 20), "task/092-x", "later"))
         self.assertEqual(asked[0][0], "https://api.github.com/graphql")
-        self.assertIn('refPrefix: "refs/heads/wip/"', asked[0][1])
-        self.assertIn('refPrefix: "refs/heads/task/"', asked[0][1])
-        empty = {"data": {"repository": {"wip": {"nodes": []}, "task": {"nodes": []}}}}
+        self.assertIn('refPrefix: "refs/heads/"', asked[0][1])
+        self.assertNotIn('refPrefix: "refs/heads/wip/"', asked[0][1])
+        empty = {"data": {"repository": {"refs": {"nodes": []}}}}
         self.assertIsNone(alert.newest_push(token="t", post=lambda *a, **k: types.SimpleNamespace(status_code=200, json=lambda: empty, text="")))
         with self.assertRaises(RuntimeError):
             alert.newest_push(token="t", post=lambda *a, **k: types.SimpleNamespace(status_code=401, json=lambda: {}, text="Bad credentials"))

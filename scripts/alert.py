@@ -13,10 +13,14 @@ runs with whatever interpreter the machine has, and must not fail for a missing 
                                             Sends one line for a wait for permission or for input, at most one per
                                             session and kind every 10 minutes. Always exits 0: it never stops a session.
                                             ERW_ALERTS=off in the environment (or the file .erw/alerts_off) silences it.
+                                            A wait for input is not said for ten minutes after the session's last words
+                                            held REPORT READY or CHAIN DONE (session 116): it has finished, and says so.
 
     The chain (nothing saved for 30 minutes)
     python scripts/alert.py chain start --name "night of 4 October, sessions 90 to 101" [--hours 16]
-    python scripts/alert.py chain beat      a save that is not a push: renews the mark (a long pull pushes nothing)
+    python scripts/alert.py chain beat      a save GitHub cannot see: renews the mark (a long pull pushes nothing). The
+                                            git hooks in scripts/githooks/ send one at each commit and each push made on
+                                            the machine that marked the chain (session 116)
     python scripts/alert.py chain done      the chain finished: the mark is removed
     python scripts/alert.py chain status
     python scripts/alert.py chain check [--dry-run]     the scheduled check (.github/workflows/chain-watch.yml, every 15
@@ -26,9 +30,16 @@ runs with whatever interpreter the machine has, and must not fail for a missing 
 
 A chain is marked as running by one row, "chain", of the Supabase table erw_locks (migration 016: the data lock's own
 table and functions, so no new table): who started it, its name, when, and when the mark lapses by itself. The token is
-kept in .erw/chain.json on the machine that started it. A save is a commit pushed to a wip/ or task/ branch of the
-repository (read from GitHub, so the check needs nothing from the machine that may have died) or a beat. The check
-emails once when the silence passes 30 minutes and again every hour after (at 90, 150, ... minutes), not every 15
+kept in .erw/chain.json on the machine that started it.
+
+A save (session 116: it was a push to a wip/ or task/ branch only, so a landing read as silence) is any of:
+  - a commit on any branch of the repository on GitHub, main included, that a scheduled workflow did not write (the
+    daily run, the roundup and the vacuum commit as github-actions[bot]: those are not the chain's). Read from GitHub,
+    so the check needs nothing from the machine that may have died;
+  - the workflow's merge of a task/ branch into main: the landing of the chain's own push, written by the same bot;
+  - a beat: by hand, or sent by the git hooks at each commit and each push on the chain's machine (a commit that is
+    not pushed yet is seen by nobody else).
+The check emails once when the silence passes 30 minutes and again every hour after (at 90, 150, ... minutes), not every 15
 minutes. A mark that has lapsed is a chain nobody ended: the check says so once, in the first quarter of an hour after
 it lapsed, and then stays quiet.
 
@@ -57,6 +68,12 @@ QUIET_MIN = 30          # a chain that saved nothing for this long is reported
 AGAIN_MIN = 60          # and again every this many minutes
 EVERY_MIN = 15          # how often the check runs: the width of the window an alert falls in
 HOOK_GAP_S = 600        # one email per session and kind every 10 minutes
+DONE_WORDS = ("REPORT READY", "CHAIN DONE")   # a session that ends on one of these has finished and says so
+DONE_QUIET_S = 600      # a wait for input is not said for this long after them (session 116)
+DONE_KINDS = ("idle_prompt", "agent_needs_input")   # the waits for input; a wait for a permission is always said
+TAIL_BYTES = 512_000    # how much of a transcript's end is read for the session's last words
+BOTS = ("github-actions[bot]",)   # who the scheduled workflows commit as (.github/workflows/*.yml)
+REFS, COMMITS = 20, 30  # the newest branches read from GitHub, and the newest commits of each
 MAX_LINE = 300
 # the kinds of Notification this alerts on, and how the line names them (Claude Code's notification_type)
 WAITS = {"permission_prompt": "a permission", "idle_prompt": "input", "elicitation_dialog": "an answer", "agent_needs_input": "input"}
@@ -171,6 +188,54 @@ def hook_due(session, kind, now, state_dir=None, gap=HOOK_GAP_S, record=False):
     return kind not in last or now - float(last[kind]) >= gap
 
 
+def last_words(path, tail=TAIL_BYTES):
+    """The session's last words in its transcript (Claude Code's JSONL, one entry a line): (the text, when it was said as
+    seconds since the epoch), or None when the newest entry is the person's, or the session has said nothing.
+
+    Read from the end. An entry that is neither the person's nor the session's (a system note, an attachment) and a
+    side chain's are passed over, and so is a session's entry with no text in it (thinking, a tool call). A person's
+    entry met first means the session has not answered it yet: what it said before no longer stands."""
+    with open(path, "rb") as f:
+        f.seek(0, os.SEEK_END)
+        size = f.tell()
+        f.seek(max(0, size - tail))
+        lines = f.read().decode("utf-8", "replace").splitlines()
+    for ln in reversed(lines):
+        try:
+            e = json.loads(ln)
+        except ValueError:
+            continue  # the cut line at the start of the tail, or a line half written
+        if not isinstance(e, dict) or e.get("isSidechain") or e.get("type") not in ("user", "assistant"):
+            continue
+        if e["type"] == "user":
+            return None
+        content = (e.get("message") or {}).get("content")
+        text = content if isinstance(content, str) else " ".join(
+            str(b.get("text") or "") for b in content or [] if isinstance(b, dict) and b.get("type") == "text")
+        if not text.strip():
+            continue
+        try:
+            when = parse(e.get("timestamp")).timestamp()
+        except (TypeError, ValueError, AttributeError):
+            when = os.path.getmtime(path)  # an entry without its time: when the transcript was last written
+        return text, when
+    return None
+
+
+def said_done(event, now, quiet=DONE_QUIET_S):
+    """(the words, seconds ago) when the session's last words held REPORT READY or CHAIN DONE less than `quiet` seconds
+    ago; None otherwise, and None whenever the transcript cannot be read: an alert too many, never one too few."""
+    try:
+        got = last_words(str(event.get("transcript_path") or ""))
+    except Exception:  # no path, no file, not a transcript: nothing is known, so nothing is quieted
+        return None
+    if not got:
+        return None
+    word = next((w for w in DONE_WORDS if w in got[0]), None)
+    ago = now - got[1]
+    return (word, ago) if word and 0 <= ago < quiet else None
+
+
 def silenced():
     return env("ERW_ALERTS").lower() in ("off", "0", "no") or os.path.exists(os.path.join(STATE, "alerts_off"))
 
@@ -192,6 +257,9 @@ def hook(stdin=None, post=http_post, env=env, state_dir=None, now=None):
         if made is None or silenced():
             return "nothing to send"
         session, kind, now = str(event.get("session_id") or "unknown"), wait_kind(event), time.time() if now is None else now
+        done = said_done(event, now) if kind in DONE_KINDS else None
+        if done:
+            return f"quiet: the session said {done[0]} {done[1] / 60:.0f} minutes ago; a wait for input is not said for {DONE_QUIET_S // 60} minutes after"
         if not hook_due(session, kind, now, state_dir):
             return "sent less than 10 minutes ago for this session and kind"
         n = send(made[0], made[1], post=post, env=env)
@@ -228,30 +296,64 @@ def mark():
     return {**m, **{k: parse(m.get(k)) for k in ("acquired", "renewed", "expires")}}
 
 
-def newest_push(token=None, repo=REPO, post=http_post):
-    """The newest commit on any wip/ or task/ branch on GitHub: (time, branch, headline), or None when there is none."""
+def is_workflow(commit):
+    """True for a commit a scheduled workflow wrote (github-actions[bot]): the daily run's metadata, not the chain's work."""
+    author = commit.get("author") or {}
+    return str(author.get("name") or "") in BOTS or "[bot]@" in str(author.get("email") or "")
+
+
+def landing(commit):
+    """The task/ branch a commit landed on main, or None: the workflow's merge of the chain's own push
+    (.github/workflows/code-branch.yml: "Merge task/x: checks passed", or GitHub's "Merge pull request #n from owner/task/x")."""
+    head = str(commit.get("messageHeadline") or "")
+    if head.startswith("Merge task/"):
+        return head.split()[1].rstrip(":")
+    if head.startswith("Merge pull request #") and "/task/" in head:
+        return "task/" + head.split("/task/", 1)[1].split()[0]
+    return None
+
+
+def newest_save(token=None, repo=REPO, post=http_post):
+    """The newest commit on any branch on GitHub that is the chain's: (time, branch, headline), or None when there is none.
+
+    Every branch is read, main included (session 116: only wip/ and task/ were, so a landing, which leaves its commits
+    on main and deletes the task branch, read as silence). A commit a scheduled workflow wrote is not the chain's and
+    is passed over; the workflow's merge of a task/ branch is the chain's landing and counts."""
     token = token or env("GH_TOKEN") or env("GITHUB_TOKEN")
     if not token:
         raise RuntimeError("GH_TOKEN (or GITHUB_TOKEN) is not set")
     owner, name = repo.split("/")
-    part = lambda alias, prefix: (f'{alias}: refs(refPrefix: "refs/heads/{prefix}/", first: 3, orderBy: {{field: TAG_COMMIT_DATE, direction: DESC}}) '
-                                  "{ nodes { name target { ... on Commit { committedDate messageHeadline } } } }")  # noqa: E731
-    q = f'query {{ repository(owner: "{owner}", name: "{name}") {{ {part("wip", "wip")} {part("task", "task")} }} }}'
+    q = (f'query {{ repository(owner: "{owner}", name: "{name}") {{ refs(refPrefix: "refs/heads/", first: {REFS}, orderBy: {{field: TAG_COMMIT_DATE, direction: DESC}}) '
+         f"{{ nodes {{ name target {{ ... on Commit {{ history(first: {COMMITS}) {{ nodes {{ committedDate messageHeadline author {{ name email }} }} }} }} }} }} }} }} }}")
     r = post("https://api.github.com/graphql", json={"query": q}, timeout=30, headers={"Authorization": f"Bearer {token}"})
     if r.status_code != 200 or "errors" in r.json():
         raise RuntimeError(f"GitHub: HTTP {r.status_code} {str(r.json().get('errors') if r.status_code == 200 else r.text)[:200]}")
     best = None
-    for prefix in ("wip", "task"):
-        for n in r.json()["data"]["repository"][prefix]["nodes"]:
-            t = parse((n.get("target") or {}).get("committedDate"))
-            if t and (best is None or t > best[0]):
-                best = (t, f"{prefix}/{n['name']}", n["target"].get("messageHeadline") or "")
+    for ref in r.json()["data"]["repository"]["refs"]["nodes"]:
+        for c in (((ref.get("target") or {}).get("history") or {}).get("nodes") or []):
+            t = parse(c.get("committedDate"))
+            if not t or (is_workflow(c) and not landing(c)):
+                continue
+            # a commit on several branches (a wip/ copy and main) is named by the first branch that shows it
+            if best is None or t > best[0]:
+                best = (t, ref["name"], c.get("messageHeadline") or "")
     return best
+
+
+newest_push = newest_save  # the name it had while only wip/ and task/ branches were read (session 91)
+
+
+def save_words(save):
+    """How the line names a save read from GitHub: (time, branch, headline) as newest_save gives it."""
+    if save[1] != "main":
+        return f"a push to {save[1]}"
+    task = landing({"messageHeadline": save[2] if len(save) > 2 else ""})
+    return f"the landing of {task} on main" if task else "a commit on main"
 
 
 def decide(now, m, push):
     """What the check says: (subject, line) to send, or (None, why it stays quiet). `m` is the mark, `push` the newest
-    push as newest_push gives it."""
+    save on GitHub as newest_save gives it."""
     if m is None:
         return None, "no chain is marked as running"
     name = one_line(m.get("task") or "unnamed", 80)
@@ -267,7 +369,7 @@ def decide(now, m, push):
     if m.get("renewed") and m["renewed"] > m["acquired"]:
         saves.append((m["renewed"], "a beat"))
     if push:
-        saves.append((push[0], f"a push to {push[1]}"))
+        saves.append((push[0], save_words(push)))
     last, what = max(saves, key=lambda s: s[0])
     quiet = (now - last).total_seconds() / 60
     if quiet < QUIET_MIN:
@@ -318,12 +420,12 @@ def chain(a):
         print(f"chain \"{held['name']}\" marked done" if ok else "the mark was already gone; this machine's note of it is removed")
         return 0
     m = mark()
-    push = newest_push() if m else None
+    push = newest_save() if m else None
     made = decide(now, m, push)
     if a.action == "status":
         print("no chain is marked as running" if m is None else
               f"\"{m['task']}\" by {m['holder']}, since {m['acquired']:%Y-%m-%d %H:%M} UTC, until {m['expires']:%Y-%m-%d %H:%M} UTC"
-              + (f"; newest push {push[0]:%H:%M} UTC to {push[1]}" if push else "; no push found"))
+              + (f"; newest save on GitHub {push[0]:%H:%M} UTC, {save_words(push)}" if push else "; no commit of the chain's found on GitHub"))
         print("the check would send: " + made[1] if made[0] else "the check would stay quiet: " + made[1])
         return 0
     if made[0] is None:  # check

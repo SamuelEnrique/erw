@@ -58,6 +58,21 @@ else {
 Step "role"
 & $py warehouse\lock.py role $Role --name $Name
 
+# session 116: a commit or a push made on the machine that marked a chain sends a beat (docs/machines.md, "Alerts").
+# The hooks are the repository's own files; a checkout that already has hooks of its own is left as it is.
+Step "git hooks"
+$hooksNow = (git config --get core.hooksPath)
+$hooksDir = (git rev-parse --git-path hooks)
+$own = @()
+if ($hooksDir -and (Test-Path $hooksDir)) { $own = @(Get-ChildItem $hooksDir -File | Where-Object { $_.Name -notlike "*.sample" }) }
+if ($hooksNow -eq "scripts/githooks") { Write-Host "  already set: core.hooksPath = scripts/githooks" }
+elseif ($hooksNow) { Write-Host "  left alone: core.hooksPath is already $hooksNow (call scripts/githooks/post-commit and pre-push from its hooks by hand)" }
+elseif ($own.Count -gt 0) { Write-Host "  left alone: $hooksDir holds hooks of its own (call scripts/githooks/post-commit and pre-push from them by hand)" }
+else {
+  git config core.hooksPath scripts/githooks
+  Write-Host "  set: core.hooksPath = scripts/githooks (a commit or a push by a marked chain is a save; undo: git config --unset core.hooksPath)"
+}
+
 if (-not $SkipSync) {
   Step "sync"
   if ($Role -eq "data") { & $py scripts\sync.py } else { & $py scripts\sync.py --check }
