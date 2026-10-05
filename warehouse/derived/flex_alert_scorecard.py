@@ -48,6 +48,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 import iso_prices as ip  # noqa: E402
 import eia930_emissions as em  # noqa: E402
+import impossible_hours  # noqa: E402  (session 118: the one rule for impossible values)
 
 EFFECTS, MODEL = "flex_alert_effects", "flex_alert_model"
 SOURCE = "erw:flex_alert_scorecard"
@@ -206,7 +207,11 @@ def demand(log=print):
     s = pd.Series(pd.to_numeric(x["demand_mwh"], errors="coerce").to_numpy(), index=pd.to_datetime(x["ts_utc"], utc=True)).sort_index()
     s = s[~s.index.duplicated()]
     s = s.reindex(pd.date_range(s.index.min(), s.index.max(), freq="h"))
-    bad = suspect(s) & s.notna()
+    # session 118: the ERW has one rule for impossible hours (docs/methods/impossible_hours.md). This table had another
+    # (suspect, above: the starter export's), which marked 27 hours where the one rule marks 37. Built both ways from
+    # the same inputs on 2026-10-05, the two tables are the same in every value (2,973 and 881 rows): the hours that
+    # differ lie before the weather the model needs. So the one rule is applied here, and no number moved
+    bad = impossible_hours.screen(s).isna() & s.notna()
     log(f"CISO demand: {s.notna().sum():,} hours ({url}, last modified {lm}, retrieved {got}); {int(bad.sum())} marked suspect and left out")
     s[bad] = np.nan
     return s, f"{url} (last modified {lm}; extract {os.path.relpath(ex, ROOT)})"

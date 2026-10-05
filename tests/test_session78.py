@@ -243,7 +243,10 @@ class Page(unittest.TestCase):
         self.assertIn("caisoJoinDay()", shown)
         for page, kind in (("app/network/page.tsx", "<CaisoBreakNote "), ("app/emissions/page.tsx", "<CaisoBreakNote />"),
                            ("app/cost-of-power/page.tsx", "<CaisoBreakNote />"), ("app/mix/page.tsx", '<CaisoBreakNote kind="mix" />'),
-                           ("app/grid/page.tsx", '<CaisoBreakNote kind="mix" />'), ("app/grid/[iso]/page.tsx", '<CaisoBreakNote kind="both" />'),
+                           # session 118: the two grid pages no longer draw EIA's California mix, so the sentence that said the
+                           # mix "here is EIA-930's" is gone from them: the overview says why in the card itself
+                           # (CaisoMixWithheld), and the California grid page keeps the carbon sentence alone
+                           ("app/grid/page.tsx", "<CaisoMixWithheld "), ("app/grid/[iso]/page.tsx", '<CaisoBreakNote kind="carbon" />'),
                            ("app/reports/draft/ai-gigawatts/page.tsx", '<CaisoBreakNote kind="imports" />')):
             with open(os.path.join(ROOT, "site", *page.split("/")), encoding="utf-8") as f:
                 self.assertIn(kind, f.read(), page)

@@ -17,11 +17,16 @@ import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
 // Session 34: one more block, the monthly intensity since 2018-07 per ISO (carbon_intensity_monthly). Since session 34
 // the denominators are the workbooks' own Demand and Net generation, so every table reaches back to 2018.
 export const metadata: Metadata = { title: "Emissions" };
+import { carbonLeftOut, carbonLeftOutMonths, monthRuns, CARBON_HYDRO_GAP } from "@/lib/carbonLeftOut";  // session 118
+
 export const revalidate = 3600;
 
 const T = "carbon_intensity_hourly";
 const TM = "carbon_intensity_monthly"; // session 34
 const METHOD = "/data/methods/emissions";
+// session 118: EIA's CO2 estimates often run more than three days behind the clock. With a three-day window the two
+// "now" sections said "no row in the last 3 days" while the table held hours four days old; the page looks back a week
+const LOOK_BACK_DAYS = 7;
 const ISOS = [
   { entity: "eia930:CISO", label: "CAISO", color: "var(--color-fuel-solar)" },
   { entity: "eia930:ERCO", label: "ERCOT", color: "accent" },
@@ -44,7 +49,10 @@ const N = (r?: SeriesRow) =>
   r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}`} raw={r.value}>{shown(r.value)}</Num> : <span className="text-muted">not held</span>;
 
 function Monthly({ rows }: { rows: SeriesRow[] }) {
-  const of = (e: string) => rows.filter((r) => r.entity === e && r.variable === "intensity_generation").sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
+  // session 118: a month computed on an impossible hour, and California's months without hydro, are not shown
+  // (lib/carbonLeftOut.ts): the table behind this page is held as it is until a person approves the rebuilt one
+  const of = (e: string) => rows.filter((r) => r.entity === e && r.variable === "intensity_generation" && !carbonLeftOut(r.entity, r.variable, r.ts_utc)).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
+  const out = carbonLeftOutMonths("intensity_generation");
   const lines: Line[] = ISOS.map((i) => ({ label: i.label, color: i.color, points: of(i.entity).map((r) => ({ t: new Date(r.ts_utc).getTime() / 1000, v: r.value })) }));
   return (
     <>
@@ -68,13 +76,28 @@ function Monthly({ rows }: { rows: SeriesRow[] }) {
         complete; a month with a missing day is left out, so a line can have gaps. The first and the latest complete month
         per ISO are given in figures.
       </p>
+      {out.length ? (
+        <p className="mt-2 max-w-3xl border-l-2 border-accent bg-paper px-3 py-1.5 text-xs" data-carbon-left-out={out.length}>
+          <strong>Left out of this chart: {out.length} months the table still holds.</strong>{" "}
+          {ISOS.filter((i) => out.some((m) => m.entity === i.entity)).map((i, k, a) => (
+            <span key={i.entity}>
+              {i.label}: {monthRuns(out.filter((m) => m.entity === i.entity).map((m) => m.month))}
+              {k < a.length - 1 ? "; " : ". "}
+            </span>
+          ))}
+          California&apos;s months from October 2019 to July 2020 are computed on a file with no hydro in it ({CARBON_HYDRO_GAP.hours.toLocaleString("en-US")} hours
+          in a row, so the intensity reads high); the others hold an hour of net generation that did not happen, and
+          a month&apos;s CO2 over such an hour is not that month&apos;s intensity. Nothing is corrected or filled: the months are not drawn. <Link href="/data/faults">Known data faults</Link>;{" "}
+          <Link href="/data/methods/impossible_hours">the rule</Link>.
+        </p>
+      ) : null}
     </>
   );
 }
 
 export default async function Emissions() {
   const [got, monthly] = await Promise.all([
-    attempt(() => series(T, { since: daysAgo(3) })),
+    attempt(() => series(T, { since: daysAgo(LOOK_BACK_DAYS) })),
     attempt(() => series(TM, { variable: "intensity_generation" })),
   ]);
   const rows = got.ok ? got.data : [];
@@ -106,7 +129,7 @@ export default async function Emissions() {
         {!got.ok ? (
           <NoData what="carbon intensity" reason={got.reason} />
         ) : latest.length === 0 ? (
-          <NoData what="carbon intensity" reason={`${T} has no row in the last 3 days`} />
+          <NoData what="carbon intensity" reason={`${T} has no row in the last ${LOOK_BACK_DAYS} days`} />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[460px] text-sm tabular-nums">
@@ -145,7 +168,7 @@ export default async function Emissions() {
         {got.ok && newest ? (
           <LineChart lines={lines} unit="kg CO2/MWh" height={260} ariaLabel="Carbon intensity of generation per ISO, the last 24 hours" />
         ) : (
-          <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last 3 days` : got.reason} />
+          <NoData what="the last 24 hours" reason={got.ok ? `${T} has no row in the last ${LOOK_BACK_DAYS} days` : got.reason} />
         )}
         <Cite tables={[T]} note={newest ? `Intensity of generation, hourly, the 24 hours to ${utc(new Date(newest).toISOString())} (hour start)` : undefined} />
       </Section>

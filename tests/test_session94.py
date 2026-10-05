@@ -301,8 +301,13 @@ class ThePage(unittest.TestCase):
         page = src("site", "app", "mix", "v2", "page.tsx")
         self.assertNotIn("supabase", page)                                 # the page reads the site's own copy, not the database
         self.assertIn("robots: { index: false, follow: false }", page)
-        r = subprocess.run(["git", "diff", "--stat", "origin/main", "--", "site/app/mix/page.tsx"], cwd=ROOT, capture_output=True, text=True)
-        self.assertEqual(r.stdout.strip(), "")
+        # session 94 left the first version of the page as it was and checked that against origin/main. Session 118 was
+        # asked to change that page (it no longer draws EIA's California generation after the join), so the check is
+        # now of what session 94 meant: the first version is still there, still the first version, and still in review
+        old = src("site", "app", "mix", "page.tsx")
+        self.assertIn('const MONTHLY = "state_generation_mix_monthly";', old)
+        self.assertIn('const LATEST = "eia930_generation_latest";', old)
+        self.assertNotIn("generation_mix_hourly_profile", old)               # the second version's table is not read by the first
 
     def test_every_number_on_the_built_page_where_a_site_is_served(self):
         base = os.environ.get("ERW_SITE_URL")

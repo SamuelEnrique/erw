@@ -100,7 +100,7 @@ isone_dam_zone_prices,ISO-NE,isone_dam,9,PT1H,2026-08-26T04:00:00Z,2026-10-05T03
 isone_interconnection_queue,ISO-NE,,1751,snapshot,2026-09-30T23:33:26Z,2026-09-30T23:33:26Z,1751,isone:interconnection_queue,2026-09-26T00:06:45Z,pass,public,power,no,source
 isone_rtm_zone_prices,ISO-NE,isone_rtm,9,PT15M,2026-08-27T04:00:00Z,2026-10-04T03:45:00Z,26784,isone:rt_lmp_5min,2026-10-04T14:11:43Z,pass,public,power,no,source
 isone_rtm_zone_prices_hourly,ISO-NE,isone_rtm,9,PT1H,2026-08-26T04:00:00Z,2026-10-02T03:00:00Z,7992,isone:rt_lmp_hourly_final,2026-10-04T14:11:43Z,pass,public,power,no,source
-known_data_faults,none,,1,event,2019-01-01T00:00:00Z,2026-10-04T00:00:00Z,26,1 outlets,2026-10-04T20:49:06Z,pass,public,platform,no,derived
+known_data_faults,none,,1,event,2018-07-20T00:00:00Z,2026-10-05T00:00:00Z,28,1 outlets,2026-10-05T07:57:29Z,pass,public,platform,no,derived
 lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-10-01T00:00:00Z,8335,erw:merchant_revenue,2026-10-04T02:26:32Z,pass,public,power;gas,yes,derived
 miso_as_prices,MISO,miso_dam,1,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,54936,miso:asm_expost_damcp,2026-10-04T04:19:52Z,pass,internal,power,no,source

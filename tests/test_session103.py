@@ -81,7 +81,10 @@ class TheRule(unittest.TestCase):
         note = src("docs", "methods", "impossible_hours.md")
         for t in ("cost_of_power_monthly", "ba_supply_monthly", "ai_power_regions"):   # read by a live page: stated as not applied
             self.assertIn(t, note)
-            self.assertNotIn("impossible_hours", src("warehouse", "derived", {"cost_of_power_monthly": "cost_of_power.py", "ba_supply_monthly": "ba_supply.py", "ai_power_regions": "ai_power_regions.py"}[t]))
+            # session 118: the rule is now written into these builders and held there (impossible_hours.HELD): a held
+            # builder writes what it wrote, so the table behind the live page is as it was
+            self.assertIn(t, ih.HELD)
+            self.assertFalse(ih.applies(t) and not os.environ.get("ERW_SCREEN_TRIAL"))
 
 
 class TheRegister(unittest.TestCase):

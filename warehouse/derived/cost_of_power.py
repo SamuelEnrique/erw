@@ -45,6 +45,7 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, HERE)
 import caiso_join as cj  # noqa: E402  (session 82: California's generation from the join)
 import eia930_emissions as em  # noqa: E402
+import impossible_hours as ih  # noqa: E402  (session 118: the one rule for impossible values; held for this table)
 import iso_prices as ip  # noqa: E402
 import price_board as pb  # noqa: E402  (TZ, MAIN, TABLES, HISTORY, read_table, r4)
 
@@ -248,6 +249,10 @@ def main():
             url, lm, got = em.extract_meta(ex)
             used.append(f"{BA[iso]}: {os.path.relpath(ex, ROOT)} ({url}, Last-Modified {lm}, downloaded {got})")
             x = em.read_extract(ex)
+            # session 118: an impossible hour of demand weighs nothing and an impossible hour of net generation divides
+            # nothing (docs/methods/impossible_hours.md). Written here and HELD: this table is behind a live page, so
+            # the rule is applied only when a person has approved the numbers it moves (impossible_hours.HELD)
+            x = ih.screen_extract(x, MONTHLY, log=log)
             x.index = pd.to_datetime(x["ts_utc"], utc=True)
             if iso == "caiso":
                 # session 82: EIA's California values of 2023-11 to 2025-12-02 sit one hour late (cj.true_hours); and from

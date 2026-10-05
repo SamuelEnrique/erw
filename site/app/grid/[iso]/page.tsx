@@ -17,6 +17,8 @@ import { DOCS, render, type GridConfig } from "@/lib/markdown";
 import { TIER_LABEL, TIER_TITLE } from "@/lib/tiers";
 import { Reliability } from "./Reliability";
 import { CaisoBreakNote } from "@/components/CaisoBreakNote";  // session 73
+import { CaisoMixWithheld } from "@/components/CaisoMixWithheld";  // session 118
+import { carbonLeftOut, carbonLeftOutMonths, monthRuns } from "@/lib/carbonLeftOut";  // session 118
 
 // Session 35: "Ask your grid". One template, seven pages (docs/grids/grids.json), for a student in a first energy
 // course: who runs the grid, where the power comes from now, what it costs, how clean it is, what is being built,
@@ -111,6 +113,8 @@ function RightNow({ g, d }: { g: GridConfig; d: GridData }) {
 
 function Power({ g, d }: { g: GridConfig; d: GridData }) {
   const T = "eia930_all_generation";
+  // session 118: EIA-930's generation for California is the series the faults register calls changed; it is not drawn
+  if (g.iso === "CAISO") return <CaisoMixWithheld />;
   const fuelRows = d.gen.filter((r) => r.variable !== "net_generation_mw" && r.variable.startsWith("net_generation_"));
   const totals = d.gen.filter((r) => r.variable === "net_generation_mw");
   if (!fuelRows.length || !totals.length) return <NotYet what={`${g.iso}'s generation by fuel`} where="EIA publishes it in its Hourly Electric Grid Monitor" href={EIA(g)} />;
@@ -226,7 +230,9 @@ function Clean({ g, d }: { g: GridConfig; d: GridData }) {
   if (!last) return <NotYet what={`${g.iso}'s carbon intensity`} where="EIA publishes hourly CO2 estimates per grid in its Grid Monitor workbooks" href={EIA(g)} />;
   const dem = d.ci.find((r) => r.variable === "intensity_demand" && r.ts_utc === last.ts_utc);
   const lt = Date.parse(last.ts_utc);
-  const m = d.monthly.sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
+  // session 118: a month computed on an impossible hour, and California's months without hydro, are not shown
+  const m = d.monthly.filter((r) => !carbonLeftOut(r.entity, r.variable, r.ts_utc)).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
+  const out = carbonLeftOutMonths("intensity_generation", g.entity);
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
@@ -249,6 +255,13 @@ function Clean({ g, d }: { g: GridConfig; d: GridData }) {
             <Num check={key(TM, m.at(-1)!)} raw={m.at(-1)!.value}>{shown(m.at(-1)!.value)}</Num> in {m.at(-1)!.ts_utc.slice(0, 7)} (kg CO2 per MWh generated; months with a missing day are left out)
           </div>
           <LineChart lines={[{ label: "Of generation, monthly", color: "ink", points: m.map((r) => ({ t: Date.parse(r.ts_utc) / 1000, v: r.value })) }]} x="month" unit="kg CO2/MWh" height={180} ariaLabel={`${g.iso} carbon intensity by month since 2018`} />
+          {out.length ? (
+            <p className="mt-1 text-[11px] text-muted" data-carbon-left-out={out.length}>
+              Left out of this line, though the table still holds them: {monthRuns(out.map((x) => x.month))}. Each rests on hours that did
+              not happen or, in California from October 2019 to July 2020, on a file with no hydro in it:{" "}
+              <Link href="/data/faults">known data faults</Link>.
+            </p>
+          ) : null}
           <Cite tables={[TM]} />
         </div>
       ) : null}
@@ -399,7 +412,7 @@ export default async function GridPage({ params }: { params: Promise<{ iso: stri
       <p className="mb-1 text-xs text-muted"><Link href="/grid">Grid</Link> / Your grid</p>
       <h1 className="mb-1 text-3xl">{g.iso}: {g.name}</h1>
       {g.slug === "ercot" ? <AskErcotLink context={{ view: "/grid/ercot", title: "Your grid: ERCOT", settings: { grid: "ERCOT" } }} /> : null}
-      {g.iso === "CAISO" ? <CaisoBreakNote kind="both" /> : null}
+      {g.iso === "CAISO" ? <CaisoBreakNote kind="carbon" /> : null}
       <p className="mb-4 max-w-3xl text-sm text-muted">
         Who runs this grid, where its power comes from, what it costs, how clean it is, what is being built and what makes it different. Numbers come
         from the warehouse&apos;s tables, each with its source; the text is written for this page and cites its sources. Times are {g.tz_label} unless marked UTC.

@@ -48,6 +48,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 sys.path.insert(0, HERE)
+import impossible_hours  # noqa: E402  (session 118: the one rule for impossible values)
 import iso_prices as ip  # noqa: E402
 
 NAME = "ai_power_regions"
@@ -197,6 +198,9 @@ def extract(ba):
     import eia930_emissions as em
     ex = em.latest_extract(ba.lower())
     x = em.read_extract(ex)[["ts_utc", "demand_mwh", "net_generation_mwh"]]
+    # session 118: the rule for impossible hours, over the whole history before the window is cut (the hours around an
+    # hour and the grid's own median need it). HELD until a person approves the numbers it moves (impossible_hours.HELD)
+    x = impossible_hours.without_hydro_gap(impossible_hours.screen_extract(x, "ai_power_regions"), ba, "ai_power_regions")
     x = x[in_window(x["ts_utc"])]
     return x, ex
 
@@ -205,10 +209,7 @@ def screen(it):
     """Pair-days left out as implausible: further than 10 median absolute deviations (at least 500 MWh) from the pair's own
     median over its whole history (2019 on). EIA's daily interchange holds days no tie can carry (SWPP-MISO 2,159,056 MWh on
     2026-07-21, more than SPP's whole daily demand)."""
-    g = it.groupby("entity")["v"]
-    med = g.transform("median")
-    mad = (it["v"] - med).abs().groupby(it["entity"]).transform("median")
-    return (it["v"] - med).abs() > 10 * np.maximum(mad, 500)
+    return impossible_hours.pair_days_far(it)   # session 118: the rule moved to impossible_hours.py, word for word
 
 
 def imports():
