@@ -201,6 +201,7 @@ SECTOR_RULES = [
     (r"^ercot_storage_dam_offers_(daily|monthly)$", "power"),  # session 116: their day-ahead offers, by day and by month (derived)
     (r"^(ercot_sced_esr_hourly|ercot_rtm_node_prices)$", "power"),  # session 120: storage resources in real time by hour; node prices for the week ERCOT lists
     (r"^ercot_storage_(rt_monthly|node_basis)$", "power"),  # session 120: the fleet in real time beside its day-ahead awards, and its nodes against the hub (derived)
+    (r"^grid_stress_yearly$", "power"),  # session 123: evening ramp, lowest net load, fuels in the tightest hours, dark and calm stretches, by grid and year (derived)
     (r"^clean_energy_(hourly|summary)$", "power;carbon"),  # session 122: the carbon-free share of each grid's generation by hour, month and year (derived)
 ]
 

@@ -47,6 +47,7 @@ export const RELEASE: Record<string, Status> = {
   "/curtailment/v2": "review",  // session 98: curtailment, version 2 (California by hour, month and reason, against battery charging)
   "/queues": "review",  // session 95: the interconnection queue explorer
   "/mix/clean": "review",  // session 122: how clean each grid's generation is, and when (hourly against annual matching, the cleanest hours, load moved into them)
+  "/mix/stress": "review",  // session 123: how hard each grid works (evening ramp, lowest net load, fuels in the tightest hours, dark and calm stretches)
   "/mix/v2": "review",  // session 94: the energy mix, version 2 (any grid, any month or year, two grids side by side, the records)
   "/curtailment": "review",
   "/emissions": "review",
