@@ -94,7 +94,10 @@ class TheSample(unittest.TestCase):
         self.assertIn('if ip.paused("ercot"):', code)
         self.assertNotIn("ip.write_csv", code)              # no warehouse table: not in coverage, the archive, Redivis or Supabase
         cov = pd.read_csv(os.path.join(ROOT, "warehouse", "metadata", "coverage.csv"), dtype=str)
-        self.assertFalse(cov["table"].str.contains("60d|esr_awards").any())
+        # session 115: the approved full pull is a table of its own, ercot_dam_esr_awards (warehouse/connectors/ercot_dam_esr.py),
+        # and is in coverage. The sample this script writes, ercot_60d_dam_esr_awards_<month>, still is not
+        self.assertFalse(cov["table"].str.contains("60d|analysis_internal").any())
+        self.assertFalse(cov["table"].str.startswith("ercot_60d_dam_esr_awards").any())
 
     def test_the_note_says_what_was_and_was_not_read(self):
         note = " ".join(src("docs", "methods", "ercot_disclosure_scoping.md").split())
