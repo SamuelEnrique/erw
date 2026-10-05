@@ -19,6 +19,17 @@ What a frame holds:
 - a pair-day that the monthly supply table screens out (ba_supply.screen: further than 10 median absolute deviations, at
   least 500 MWh, from the pair's own median over its history) is null here too, and counted: EIA's daily interchange
   holds days no tie can carry, and one such day would set the scale of a year.
+- session 124: a screened pair-day is KEPT when the record itself shows the tie carried it. Two tests, either is enough:
+  (a) both balancing authorities reported the day and their two figures agree within 5 percent (two operators, one
+  flow: MISO to SPP on 15 February 2021, 95,060 MWh by MISO's report and 95,390 by SPP's); (b) only one side reports
+  (Mexico does not), EIA's hourly record of the same day is held with every hour, and no hour of it is above the
+  largest hour the same tie carried on days the rule accepts, by more than 1 percent (Texas from Mexico, 12 to 14
+  February 2021: 382 MW in hour after hour, the level of its hours on the 11th and the 15th; the days are unusual for
+  how long the tie ran full, not for how much it carried). Of the 2,732 pair-days the rule leaves out, 1,911 pass (a).
+  This is the replay's reading only: ba_supply_monthly applies the rule as it stands (docs/methods/grid_network_v3.md).
+- pairs_held (session 124): for each day, how many pairs hold a flow; the index's last_complete is the newest day that
+  holds at least nine tenths of its year's median, and thin_days the days of a year that hold fewer than half of it
+  (EIA's file is blank for 47 days of late 2025): the page says so on those days and draws nothing in their place.
 - carbon intensity is that day's (intensity_generation, kg CO2/MWh); where it is not held the sphere is grey.
 - a hub price is the mean of the real-time hourly prices of that Eastern day, only when every hour of the day is held.
 - demand (session 109) is the day's MWh from eia930_daily_demand (EIA's daily demand of every balancing authority, its
@@ -114,14 +125,42 @@ def demand_by_day(table, nodes):
     return out, screened
 
 
+AGREE = 0.05        # two reports of one pair-day that agree within this share of the flow are one flow, not a fault
+HOUR_MARGIN = 1.01   # an hour of a screened day may stand this far above the tie's largest hour on accepted days
+EVENT_HOURS = "eia930_event_hourly_interchange"
+
+
+def confirmed(it, hourly=None):
+    """The screened pair-days the record itself confirms (the docstring): a boolean Series over `it`, and the count by
+    each test. it: fr, to, day, v, bad. hourly: entity, ts_utc, value of EIA's hourly record, or None."""
+    other = it.rename(columns={"fr": "to", "to": "fr", "v": "v_other"})[["fr", "to", "day", "v_other"]].drop_duplicates(["fr", "to", "day"])
+    m = it[["fr", "to", "day", "v", "bad"]].merge(other, on=["fr", "to", "day"], how="left")
+    both = (m["bad"] & m["v_other"].notna() & ((m["v"] + m["v_other"]).abs() <= AGREE * m["v"].abs())).values
+    by_hours = pd.Series(False, index=it.index).values.copy()
+    if hourly is not None and len(hourly):
+        h = hourly.assign(day=pd.to_datetime(hourly["ts_utc"], utc=True).dt.tz_convert(TZ).dt.strftime("%Y-%m-%d"), a=hourly["value"].astype(float).abs())
+        day = h.groupby(["entity", "day"]).agg(peak=("a", "max"), n=("a", "size")).reset_index()
+        entity = "eia930:" + it["fr"] + "-" + it["to"]
+        key = pd.DataFrame({"entity": entity.values, "day": it["day"].values, "bad": it["bad"].values, "one_sided": m["v_other"].isna().values})
+        key = key.merge(day, on=["entity", "day"], how="left")
+        # the largest hour of each tie on the days the rule accepts
+        ok = h.merge(key.loc[key["bad"], ["entity", "day"]].assign(b=1), on=["entity", "day"], how="left")
+        ok_peak = ok[ok["b"].isna()].groupby("entity")["a"].max()
+        key["ok_peak"] = key["entity"].map(ok_peak)
+        key["hours_due"] = [day_hours(d) if b else 0 for d, b in zip(key["day"], key["bad"])]
+        by_hours = (key["bad"] & key["one_sided"] & (key["n"] == key["hours_due"]) & key["ok_peak"].notna() & (key["peak"] <= HOUR_MARGIN * key["ok_peak"])).values
+    return pd.Series(both | by_hours, index=it.index), dict(both_sides=int(both.sum()), by_hours=int((by_hours & ~both).sum()))
+
+
 def build_year(year, flows, nodes, ci, prices, last_day, demand=None):
     days = [d.strftime("%Y-%m-%d") for d in pd.date_range(f"{year}-01-01", min(pd.Timestamp(f"{year}-12-31"), pd.Timestamp(last_day)), freq="D")]
     hours = {d: day_hours(d) for d in days}
     f = flows[flows["day"].str[:4] == str(year)]
     by = {}
+    kept = "kept" in f.columns
     for r in f.itertuples():
-        by.setdefault((r.fr, r.to), {})[r.day] = (float(r.v), bool(r.bad))
-    links, from_other, missing, screened = [], 0, 0, 0
+        by.setdefault((r.fr, r.to), {})[r.day] = (float(r.v), bool(r.bad), bool(r.kept) if kept else False)
+    links, from_other, missing, screened, confirmed_days = [], 0, 0, 0, 0
     for p, q in sorted({tuple(sorted(k)) for k in by}):
         own, other = by.get((p, q), {}), by.get((q, p), {})
         mw = []
@@ -139,8 +178,12 @@ def build_year(year, flows, nodes, ci, prices, last_day, demand=None):
                 screened += 1
             else:
                 mw.append(round(sign * got[0] / hours[d], 1))
+                confirmed_days += got[2]
         if any(v is not None for v in mw):
             links.append(dict(a=p, b=q, mw=mw))
+    pairs_held = [sum(k["mw"][i] is not None for k in links) for i in range(len(days))]
+    usual = sorted(pairs_held)[len(pairs_held) // 2] if pairs_held else 0
+    thin = [d for d, n in zip(days, pairs_held) if n < 0.5 * usual]
     intensity = {}
     for ba, g in ci[ci["day"].str[:4] == str(year)].groupby("ba"):
         if ba in nodes:
@@ -158,8 +201,9 @@ def build_year(year, flows, nodes, ci, prices, last_day, demand=None):
             dem[ba] = arr
             demand_days += sum(v is not None for v in arr)
     return dict(year=year, frame="day", tz=TZ, days=days, built=ip.utc_iso(pd.Timestamp.now(tz="UTC")), rule=gn.RULE, links=links,
-                intensity=intensity, hub_prices=hub, demand=dem,
-                missing=dict(pair_days=missing, pair_days_from_other_side=from_other, pair_days_screened=screened, demand_days_held=demand_days),
+                intensity=intensity, hub_prices=hub, demand=dem, pairs_held=pairs_held, pairs_usual=usual,
+                missing=dict(pair_days=missing, pair_days_from_other_side=from_other, pair_days_screened=screened, demand_days_held=demand_days,
+                             pair_days_confirmed=confirmed_days, thin_days=len(thin)),
                 source=[TABLE, DEMAND, "carbon_intensity_daily", "ercot_all_hub_prices_history", "iso_hub_prices_history", "iso_rtm_hub_prices"])
 
 
@@ -225,6 +269,17 @@ def main(argv=None):
     it = it[it["variable"] == "interchange_mwh"].assign(v=lambda z: z["value"].astype(float), day=lambda z: z["ts_utc"].str[:10],
                                                         fr=lambda z: z["entity"].str[7:].str.split("-").str[0], to=lambda z: z["entity"].str[7:].str.split("-").str[1])
     it["bad"] = ba_supply.screen(it)
+    # session 124: a screened pair-day the record itself confirms is kept (the docstring); the hourly record is read where
+    # this machine holds it (the two event windows), and its absence costs only test (b)
+    hourly = None
+    if os.path.exists(os.path.join(ip.OUT_DIR, EVENT_HOURS + ".csv")):
+        hourly = ns.read(EVENT_HOURS, ["entity", "variable", "ts_utc", "value"])
+        hourly = hourly[hourly["variable"] == "interchange_mw"]
+    it["kept"], how = confirmed(it, hourly)
+    screened_all = int(it["bad"].sum())
+    it["bad"] = it["bad"] & ~it["kept"]
+    print(f"rule C leaves out {screened_all:,} pair-days; {how['both_sides']:,} of them are kept because both sides' reports agree within {AGREE:.0%}, "
+          f"{how['by_hours']:,} because the hourly record shows no hour above the tie's own hours; {int(it['bad'].sum()):,} stay out")
     seen = set(it["fr"]) | set(it["to"])
     left_out = sorted(c for c in seen if c not in nodes and c not in gn.REGIONS)
     flows = it[it["fr"].isin(nodes) & it["to"].isin(nodes)]
@@ -238,7 +293,8 @@ def main(argv=None):
     os.makedirs(OUT_DIR, exist_ok=True)
     index = dict(first=f"{FIRST_YEAR}-01-01", last=last_day, tz=TZ, frame="day", rule=gn.RULE, years={}, left_out_bas=left_out,
                  built=ip.utc_iso(pd.Timestamp.now(tz="UTC")), source=TABLE, demand_source=DEMAND, demand_band=list(DEMAND_BAND),
-                 demand_days_screened=demand_screened, demand_bas=sorted(demand))
+                 demand_days_screened=demand_screened, demand_bas=sorted(demand),
+                 pair_days_rule=screened_all, pair_days_confirmed_both_sides=how["both_sides"], pair_days_confirmed_by_hours=how["by_hours"], agree=AGREE)
     index_path = os.path.join(OUT_DIR, "daily_index.json")
     if a.daily:
         # the newest year, and the year before it while its last days are still arriving
@@ -270,6 +326,11 @@ def main(argv=None):
               f"{y['missing']['pair_days']} not reported, prices {sorted(y['hub_prices'])}, {os.path.getsize(path) / 1e3:.0f} kB")
     if a.daily:
         index["years"] = dict(sorted(index["years"].items()))
+    # the newest day that holds at least nine tenths of its year's usual pairs: later days are still arriving at EIA
+    newest = max(index["years"])
+    ny = built[int(newest)][1] if int(newest) in built else json.load(open(os.path.join(OUT_DIR, f"daily_{newest}.json"), encoding="utf-8"))
+    whole = [d for d, n in zip(ny["days"], ny.get("pairs_held", [])) if n >= 0.9 * ny.get("pairs_usual", 0)]
+    index["last_complete"] = whole[-1] if whole else index["last"]
     if a.daily or not a.years:
         with open(index_path, "w", encoding="utf-8", newline="\n") as f:
             json.dump(index, f, indent=1)

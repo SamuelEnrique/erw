@@ -16,7 +16,7 @@
 // Exit 1 on a failure; "not proven" (exit 0) without a browser, or where the browser cannot draw 3D.
 import fs from "node:fs";
 import { withBrowser } from "./browser.mjs";
-import { easternHours, trace } from "../lib/networkV3.ts";
+import { easternHours, trace, PAUSED_PRICE } from "../lib/networkV3.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3093").replace(/\/$/, "");
 let bad = 0, n = 0;
@@ -111,7 +111,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   await evaluate(setDate("2025-07-15"));
   await wait(`document.querySelector('[data-network-view]').getAttribute('data-t') === '2025-07-15'`, 20000, "a day of 2025");
   const y25 = year(2025), j = y25.days.indexOf("2025-07-15");
-  const priced25 = Object.keys(y25.hub_prices).filter((b) => y25.hub_prices[b][j] !== null && b !== "PJM");
+  // session 124: a paused publisher's hub (MISO) has no ring on this page, though the file still holds its price
+  const priced25 = Object.keys(y25.hub_prices).filter((b) => y25.hub_prices[b][j] !== null && b !== "PJM" && !PAUSED_PRICE[b]);
   const scene25 = await wait(`(() => { const s = ${RINGS}; return s.rings === ${priced25.length} ? s : null; })()`, 10000, "the rings of a day of 2025");
   check(scene25.rings === priced25.length && priced25.length >= 5, `a day of 2025 has a ring on ${scene25.rings} grids (${priced25.join(", ")})`);
   const shot = await send("Page.captureScreenshot", { format: "png" });
@@ -129,6 +130,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   check(await evaluate(`document.querySelector('[data-trace]')?.getAttribute('data-trace') === 'off' && !document.querySelector('[data-trace-supplier]')`), "the trace is closed until asked for");
   await evaluate(click(button("Trace the power")));
   await wait(`!!document.querySelector('[data-trace-supplier]')`, 10000, "the traced suppliers");
+  // session 124: in the replay the trace opens on the month of the day shown; the year is one press away
+  check(await evaluate(`document.querySelector('[data-trace-period]')?.getAttribute('data-trace-period') === 'month'`), "in the replay the trace opens on the month of the day shown");
+  await evaluate(click(button("the year")));
+  await wait(`document.querySelector('[data-trace-period]')?.getAttribute('data-trace-period') === 'view'`, 5000, "the trace over the year");
   const want = trace(y21.links, 0, y21.days.length, "CISO", (h) => easternHours(y21.days[h]));
   const got = await evaluate(`[...document.querySelectorAll('[data-trace-supplier]')].map((li) => ({ id: li.getAttribute('data-trace-supplier'), text: li.querySelector('span').innerText, via: [...li.querySelectorAll('[data-trace-via]')].map((v) => v.getAttribute('data-trace-via')) }))`);
   const shares = got.map((g) => num(g.text.match(/: ([\d.]+) percent/)[1]));

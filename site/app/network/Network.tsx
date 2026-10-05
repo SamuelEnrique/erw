@@ -22,7 +22,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
-import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey } from "@/lib/networkV3";
+import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, monthSpan, type Complete } from "@/lib/networkV3";
 
 export type NetNode = { id: string; name: string; iso: string | null; demand_mw: number | null; demand_ts: string | null;
   intensity: number | null; intensity_ts: string | null; volume_mwh: number; x: number; y: number; z: number;
@@ -70,12 +70,17 @@ type View = {
   kind: "live" | "story"; key: string; title: string; hours: string[]; links: NetLink[];
   /** session 93: a frame is a day (the replay), not an hour; hoursOf gives a frame's hours, for MWh */
   frame?: "day"; hoursOf?: (h: number) => number;
+  /** session 124 (the replay): how many pairs hold a flow on each day, and the year's usual count */
+  pairsHeld?: number[]; pairsUsual?: number;
   intensity: (id: string, h: number) => number | null; demand: (id: string, h: number) => number | null;
   battery: (id: string, h: number) => number | null; batteryReported: (id: string) => boolean; batterySource: (id: string) => string;
   price: (id: string, h: number) => number | null; priceKind: (id: string) => string; note?: string;
 };
 
-export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Record<string, Supply>; live: LiveExtras; v3?: { index: DailyIndex } }) {
+/** Session 124 (v3 only): a hub price a new page does not show (MISO, paused) reads as not held; without v3 the price is the view's own. */
+const priceOf = (view: View, v3on: boolean, id: string, h: number) => (v3on && PAUSED_PRICE[id] ? null : view.price(id, h));
+
+export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Record<string, Supply>; live: LiveExtras; v3?: { index: DailyIndex; complete?: Complete } }) {
   const box = useRef<HTMLDivElement>(null);
   const graph = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
   const three = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -96,7 +101,9 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
   }), [snap, live]);
   const [view, setView] = useState<View>(liveView);
   const [range, setRange] = useState<[number, number]>([0, snap.hours.length]);
-  const [hour, setHour] = useState(snap.hours.length - 1);
+  // session 124 (v3 only): the live week opens on the newest hour every reporting pair holds; without v3, on the newest hour as before
+  const openHour = v3?.complete && v3.complete.index >= 0 ? v3.complete.index : snap.hours.length - 1;
+  const [hour, setHour] = useState(openHour);
   const [playing, setPlaying] = useState(false);
   const [pick, setPick] = useState<NetNode | null>(null);
   const [batteriesOn, setBatteriesOn] = useState(false);
@@ -108,6 +115,8 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
   const [pricesOn, setPricesOn] = useState(false);
   const [traceOn, setTraceOn] = useState(false);
   const [restored, setRestored] = useState(!v3);
+  const [tracePeriod, setTracePeriod] = useState<"day" | "month" | "view">("month");  // session 124: in the replay, what the trace covers
+  const dayAsk = useRef(0);  // session 124: the newest day asked for; an older year's file that arrives late is not shown over it
   const years = useRef<Record<string, Daily>>({});
   const isDayView = view.frame === "day";
 
@@ -135,7 +144,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
   // session 93: the highest hub price of the period shown, the scale of the price ring
   const priceMax = useMemo(() => {
     let m = 0;
-    if (pricesOn) for (const n of snap.nodes) for (let h = range[0]; h < range[1]; h++) { const v = view.price(n.id, h); if (v !== null && v > m) m = v; }
+    if (pricesOn) for (const n of snap.nodes) for (let h = range[0]; h < range[1]; h++) { const v = priceOf(view, !!v3, n.id, h); if (v !== null && v > m) m = v; }
     return m;
   }, [view, range, snap.nodes, pricesOn]);
 
@@ -163,7 +172,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
       g.add(ring);
     }
     // session 93: the price ring, outside the batteries' ring: a full circle whose weight follows the hub price
-    const w = pricesOn && n.id !== "PJM" ? priceWeight(view.price(n.id, hour), priceMax) : null;
+    const w = pricesOn && n.id !== "PJM" ? priceWeight(priceOf(view, !!v3, n.id, hour), priceMax) : null;
     if (w !== null) {
       const torus = new THREE.Mesh(new THREE.TorusGeometry(r * 1.8, r * (0.015 + 0.11 * w), 6, 48), new THREE.MeshBasicMaterial({ color: "#2E2D29", transparent: true, opacity: dim ? 0.2 : 0.7 }));
       torus.userData.priceRing = true;
@@ -259,7 +268,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
   };
 
   const watchLive = (play = true) => {
-    setFailed(null); setView(liveView); setRange([0, snap.hours.length]); setHour(snap.hours.length - 1); setPick(null); focusOn(null); setPlaying(play);
+    setFailed(null); setView(liveView); setRange([0, snap.hours.length]); setHour(openHour); setPick(null); focusOn(null); setPlaying(play);
   };
   const watchEvening = (play = true) => {
     // the newest Pacific day whose every hour is in the live week
@@ -314,6 +323,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     if (!d) { setFailed(`${day} is not a date.`); return null; }
     setPlaying(false); setFailed(null);
     const y = d.slice(0, 4);
+    const ask = (dayAsk.current += 1);
     let f = years.current[y];
     if (!f) {
       setLoading("day");
@@ -328,9 +338,11 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
       }
       setLoading(null);
     }
+    if (ask !== dayAsk.current) return f;  // a later day was asked for while this year's file was on its way
     const hrs = f.days.map(easternHours);
     const v: View = {
       kind: "story", key: "day", frame: "day", hoursOf: (h) => hrs[h] ?? 24, title: `The days of ${y}, from EIA's daily interchange`, hours: f.days.map(dayFrame), links: f.links,
+      pairsHeld: f.pairs_held, pairsUsual: f.pairs_usual,
       intensity: (id, h) => f.intensity[id]?.[h] ?? null, demand: (id, h) => f.demand?.[id]?.[h] ?? null,   // session 109: EIA's daily demand, the day's average MW
       battery: () => null, batteryReported: () => false, batterySource: () => "",
       price: (id, h) => f.hub_prices[id]?.[h] ?? null, priceKind: () => "real time, the mean of the day's hours",
@@ -352,16 +364,19 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
   }).filter((x): x is { other: string; imp: number } => !!x).sort((x, y) => y.imp - x.imp) : []), [pick, hour, view]);
   const netImport = ties.reduce((a, t) => a + t.imp, 0);
   // session 93: trace the power over the period shown (the frames of the range), two steps
-  const traced = useMemo(() => (v3 && traceOn && pick ? tracePower(view.links, range[0], range[1], pick.id, hoursOf) : null),
+  // session 124: in the replay the trace covers the day shown, its month (as it opens) or the whole year; elsewhere, the view
+  const traceSpan: [number, number] = isDayView ? (tracePeriod === "day" ? [hour, hour + 1] : tracePeriod === "month" ? monthSpan(view.hours, hour) : range) : range;
+  const traced = useMemo(() => (v3 && traceOn && pick ? tracePower(view.links, traceSpan[0], traceSpan[1], pick.id, hoursOf) : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [v3, traceOn, pick, view, range]);
+    [v3, traceOn, pick, view, traceSpan[0], traceSpan[1]]);
+  const thin = isDayView && view.pairsHeld && view.pairsUsual ? { held: view.pairsHeld[hour] ?? 0, usual: view.pairsUsual } : null;
   const priceRange = useMemo(() => {
     if (!v3 || !pricesOn || !pick) return null;
     const vals: number[] = [];
-    for (let h = range[0]; h < range[1]; h++) { const v = view.price(pick.id, h); if (v !== null) vals.push(v); }
+    for (let h = range[0]; h < range[1]; h++) { const v = priceOf(view, !!v3, pick.id, h); if (v !== null) vals.push(v); }
     return vals.length ? { lo: Math.min(...vals), hi: Math.max(...vals), n: vals.length } : null;
   }, [v3, pricesOn, pick, view, range]);
-  const priceRings = pricesOn ? snap.nodes.filter((n) => n.id !== "PJM" && view.price(n.id, hour) !== null).length : 0;
+  const priceRings = pricesOn ? snap.nodes.filter((n) => n.id !== "PJM" && priceOf(view, !!v3, n.id, hour) !== null).length : 0;
 
   // session 93: the address holds the view. Once, when the page opens, the view the address names is restored (never
   // playing: a shared link shows a moment); from then on every change is written to the address, without a navigation.
@@ -387,7 +402,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     return () => { alive = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const shared = v3 ? sharedQuery({ view: view.key as ViewKey, t: view.key === "live" && hour === snap.hours.length - 1 ? null : (isDayView ? ts.slice(0, 10) : ts),
+  const shared = v3 ? sharedQuery({ view: view.key as ViewKey, t: view.key === "live" && hour === openHour ? null : (isDayView ? ts.slice(0, 10) : ts),
     grid: pick?.id ?? null, batteries: batteriesOn, prices: pricesOn, trace: traceOn }) : "";
   useEffect(() => {
     if (!v3 || !restored || playing) return;  // while it plays the address would change five times a second
@@ -435,6 +450,20 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
       <div className="mb-1 text-xs text-muted" data-network-view={view.key} {...(v3 ? { "data-frame": unit, "data-t": isDayView ? ts.slice(0, 10) : ts, "data-playing": playing ? "1" : "0",
         "data-price-rings": String(priceRings), "data-frames": String(range[1] - range[0]), "data-restored": restored ? "1" : "0" } : {})}>
         Showing: {view.title}.{failed ? <span className="text-accent"> {failed}</span> : null}{view.note ? <> {view.note}</> : null}
+        {v3 && view.key === "live" && v3.complete ? (
+          <span className="block" data-complete-hour={v3.complete.hour ?? "none"}>
+            {v3.complete.hour ? <>The week opens on {v3.complete.hour.slice(0, 13).replace("T", " ")}:00 UTC, the newest hour that every one of the {v3.complete.reporting} reporting pairs holds.
+              {v3.complete.newest !== v3.complete.hour ? <> Later hours, to {v3.complete.newest.slice(0, 13).replace("T", " ")}:00 UTC, are on the slider; the newest holds {v3.complete.newestPairs} of the {v3.complete.reporting}.</> : null}</>
+              : <>No hour of the week holds every reporting pair; the newest hour is shown.</>}
+            {v3.complete.silent.length ? <> Not reporting for two days or more: {v3.complete.silent.map((x) => `${x.a} with ${x.b}${x.last ? ` (last ${x.last.slice(0, 13).replace("T", " ")}:00 UTC)` : " (nothing this week)"}`).join("; ")}.</> : null}
+          </span>
+        ) : null}
+        {thin && thin.held < 0.5 * thin.usual ? (
+          <span className="block text-accent" data-thin-day={`${thin.held}/${thin.usual}`}>
+            {thin.held === 0 ? <>EIA&apos;s file holds no flow for this day: nothing is drawn between the grids, and nothing stands in for it.</>
+              : <>EIA&apos;s file holds {thin.held} of the usual {thin.usual} pairs for this day: what is not drawn was not reported.</>}
+          </span>
+        ) : null}
       </div>
       <div className={`grid grid-cols-[minmax(0,1fr)] gap-3 ${pick ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
         {noGl ? (
@@ -471,7 +500,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
               </div>
               <div>
                 <dt className="text-xs text-muted">Hub price this {unit}</dt>
-                <dd>{pick.id === "PJM" ? "Not shown: PJM's prices are licensed" : (() => { const p = view.price(pick.id, hour); return p !== null ? <>{p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh <span className="text-xs text-muted">({view.priceKind(pick.id)})</span></> : (pick.iso ? `Not held for this ${unit}` : "No public hub price in the warehouse"); })()}
+                <dd>{v3 && PAUSED_PRICE[pick.id] ? <span data-price-paused={pick.id}>{PAUSED_PRICE[pick.id]}</span> : pick.id === "PJM" ? "Not shown: PJM's prices are licensed" : (() => { const p = priceOf(view, !!v3, pick.id, hour); return p !== null ? <>{p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh <span className="text-xs text-muted">({view.priceKind(pick.id)})</span></> : (pick.iso ? `Not held for this ${unit}` : "No public hub price in the warehouse"); })()}
                   {pricesOn && pick.id !== "PJM" && priceRange ? <span className="block text-xs text-muted" data-price-range="1">Over the period shown: {priceRange.lo.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} to {priceRange.hi.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, {priceRange.n.toLocaleString("en-US")} {unit}s held.</span> : null}</dd>
               </div>
               <div>
@@ -508,7 +537,18 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
                 <button type="button" onClick={() => setTraceOn(!traceOn)} aria-expanded={traceOn} className="border border-accent px-2 py-0.5 text-sm text-accent">{traceOn ? "Hide the trace" : "Trace the power"}</button>
                 {traced ? (
                   <div className="mt-2">
-                    <div className="text-xs text-muted">Over the period shown ({traced.frames.toLocaleString("en-US")} {unit}s), who supplied {pick.name}, and who supplied them</div>
+                    {isDayView ? (
+                      <div className="mb-1 flex flex-wrap items-center gap-1 text-xs" role="group" aria-label="What the trace covers" data-trace-period={tracePeriod}>
+                        <span className="text-muted">Over:</span>
+                        {([["day", "this day"], ["month", "its month"], ["view", "the year"]] as const).map(([k, label]) => (
+                          <button key={k} type="button" onClick={() => setTracePeriod(k)} aria-pressed={tracePeriod === k} className={`border px-1.5 py-0.5 ${tracePeriod === k ? "border-ink bg-ink text-white" : "border-rule text-ink"}`}>{label}</button>
+                        ))}
+                      </div>
+                    ) : null}
+                    <div className="text-xs text-muted" data-trace-frames={`${traced.held}/${traced.frames}`}>
+                      {isDayView ? <>{tracePeriod === "day" ? `On ${ts.slice(0, 10)}` : tracePeriod === "month" ? `Over ${new Date(ts).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })}` : `Over ${ts.slice(0, 4)}`}</> : <>Over the period shown</>}
+                      {" "}({traced.held === traced.frames ? `${traced.frames.toLocaleString("en-US")} ${unit}${traced.frames === 1 ? "" : "s"}` : `${traced.held.toLocaleString("en-US")} of its ${traced.frames.toLocaleString("en-US")} ${unit}s hold a flow for ${pick.name}; the others add nothing`}),
+                      who supplied {pick.name}, and who supplied them</div>
                     {traced.rows.length ? (
                       <ol className="mt-1 list-decimal space-y-1 pl-5 tabular-nums">
                         {traced.rows.map((r) => (
@@ -518,7 +558,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
                               <ul className="text-xs text-muted">
                                 {r.via.map((x) => <li key={x.id} data-trace-via={x.id}>supplied by {nameOf(x.id)} <span className="font-mono text-[10px]">{x.id}</span>: {pct(x.share)} percent of what {r.id} took in, {fmt(x.mwh)} MWh</li>)}
                               </ul>
-                            ) : <div className="text-xs text-muted">no neighbour supplied it on net</div>}
+                            ) : <div className="text-xs text-muted" {...(r.island ? { "data-trace-island": r.id } : {})}>{r.island ?? "no neighbour supplied it on net"}</div>}
                           </li>
                         ))}
                       </ol>

@@ -65,7 +65,8 @@ class TheReplayFiles(unittest.TestCase):
         self.assertEqual(len(link["mw"]), len(y["days"]))
         self.assertEqual(link["mw"][:4], [100.0, 20.0, None, None])
         self.assertEqual(link["mw"][-1], 100.0)   # 2,300 MWh over 23 hours
-        self.assertEqual(y["missing"], {"pair_days": len(y["days"]) - 4, "pair_days_from_other_side": 1, "pair_days_screened": 1, "demand_days_held": 0})   # session 109: the count of days with demand; none given here
+        self.assertEqual(y["missing"], {"pair_days": len(y["days"]) - 4, "pair_days_from_other_side": 1, "pair_days_screened": 1, "demand_days_held": 0,
+                                        "pair_days_confirmed": 0, "thin_days": 0})   # session 124: the days kept, and the days that hold few pairs   # session 109: the count of days with demand; none given here
         self.assertEqual(y["intensity"]["AAA"][0], 412.35)
         self.assertIsNone(y["intensity"]["AAA"][1])
         self.assertEqual(y["hub_prices"]["AAA"][1], 31.5)
@@ -179,20 +180,21 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertNotIn("v3", page.replace("/network/v3", ""))
         self.assertIn("pickSnapshot(await fetchHourly(HOURLY), committed)", page)
         v3 = src("site", "app", "network", "v3", "page.tsx")
-        self.assertIn("<Network snap={snap} supply={supply} live={extras} v3={{ index }} />", v3)
+        self.assertIn("<Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} />", v3)   # session 124
         self.assertIn("robots: { index: false, follow: false }", v3)
         d = node("import { statusOf } from './lib/release.ts'; console.log(JSON.stringify([statusOf('/network'), statusOf('/network/v3')]));")
         self.assertEqual(d, ["live", "review"])
 
     def test_everything_new_in_the_component_is_behind_the_prop(self):
         c = src("site", "app", "network", "Network.tsx")
-        self.assertIn("v3?: { index: DailyIndex }", c)
+        self.assertIn("v3?: { index: DailyIndex; complete?: Complete }", c)   # session 124: the newest complete hour comes with the prop
         # the controls, the address, the trace and the scene hook
         for gated in ("{v3 ? (\n          <span className=\"flex flex-wrap items-center gap-2\" data-replay=\"1\">", "{v3 ? (\n          <button type=\"button\" role=\"switch\" aria-checked={pricesOn}",
                       "{v3 ? (\n              <div className=\"mt-2 border-t border-rule pt-2\" data-trace=", "if (!v3) return;", "if (!v3 || !restored || playing) return;", "if (v3) (el as unknown as { __erwGraph?: unknown }).__erwGraph = g;"):
             self.assertIn(gated, c)
         # the price ring needs the switch, and only version 3 has the switch
-        self.assertIn("const w = pricesOn && n.id !== \"PJM\" ? priceWeight(view.price(n.id, hour), priceMax) : null;", c)
+        # session 124: a price is read through priceOf, which is the view's own price unless v3 is on and the hub is a paused publisher's
+        self.assertIn("const w = pricesOn && n.id !== \"PJM\" ? priceWeight(priceOf(view, !!v3, n.id, hour), priceMax) : null;", c)
         self.assertEqual(c.count("setPricesOn("), 2)   # the switch and the restore from an address, both v3's
         # the words of the live page's panel and controls are the ones they were
         for kept in ("Watch:", "Live now", "California&apos;s evening", "Texas during Uri", "The June 2025 heat", "Batteries: {batteriesOn ? \"on\" : \"off\"}", "Who is supplying it, largest first",
