@@ -1,6 +1,6 @@
 # ERW's Roundup, 2026-W40
 
-ERW's weekly roundup of energy news for 2026-09-28 to 2026-10-04, to 2026-10-04 23:05 UTC, from 1692 scored stories.
+ERW's weekly roundup of energy news for 2026-09-28 to 2026-10-04, from 1692 scored stories.
 
 ## Weekend
 
@@ -8,20 +8,20 @@ ERW's weekly roundup of energy news for 2026-09-28 to 2026-10-04, to 2026-10-04 
    Coordinated stock release aims to ease a diesel crunch and affects crude and product price direction. Sources: [Bloomberg.com](https://news.google.com/rss/articles/CBMizwFBVV95cUxOeDZMa1pQNGE2bGtDMzd1Z05kRnZVX2VTbE5TWlk5aVZJUzlESHNHR3RjbUZwZV9idWQ4T3lvNTdxWnBxQ1h5NzY4elRRZjBubFhrazA3SWhnNXdMOEFicGNtSnBFZHJrZzVaS1RwVFBYeWs4TXlOcHoxZ3o5VHpsSjhKd0VYUFlpdVNabXhid3d4dVI2cG9uRmJlbnNjcGN0MENyeDRxUHBqOXdrQXRBSGNFZGRQenZNZ2c1Y2RPWGxHTG5ybTJINE5PaFlKNjQ?oc=5), [Bloomberg.com](https://news.google.com/rss/articles/CBMiwAFBVV95cUxPQTMxeEdxanRNR05raGxkWkVkSm5NdnRfblk2M01PS04tUUNRbVNzcWFYUnFHc3hVejhwUzJaU212TUJxLU5ZUHBiRHQ4QTQxejBSNFJ3RkpXWExpS3M1eDlOM2JNZ2dIRVBTUXlhSzk3X3BfSnl4eXphRE4tWElLS1RIU1VocE1ZbFpiY0VlWVM0YWtPVjg1WUZSSnFGV1FrUjJPRS1YdGxEUXdxcktqSU5YTEw0bHM1RmtHWC1hZGo?oc=5), [Bloomberg.com](https://news.google.com/rss/articles/CBMiogFBVV95cUxNa3VpbFZGeV9pdDRRYXIxemJmRmxDWTZsb1BHMHZLR2xkVTk1czhuM2pQVXRCM2pwMWNaTGRleUtEdlI5eVFjdG4zVXNSTmpQeHBGRjR0MmtsN045UmpBcERtUThuWERUNmppNDMtcXBHUFhFVjE3VXBsMk1iY3gtNWdxQXYxdmVUME1sOW1VVkYtZXV1ZW1IQWRSR09tR0pCY1E?oc=5)
 2. **OPEC+ agrees to keep November oil output targets steady amid Middle East tensions** (oil, 2 stories)  
    OPEC+ decision to keep quotas unchanged sets supply expectations during a tight diesel and crude market. Sources: [WSJ](https://news.google.com/rss/articles/CBMirgFBVV95cUxOYmFlX3pxTllubHhKWkgycEVOdlZ3c2F3TzA5OUU4RmFmWmQ2dWlaY3B1TlFfek85dHhZakt3aFJHZjlEUEJ2Zk9MVldfeTdUVkxoUzN1MU9wUWlUdGhFd3M4T3dNamMxbGprT1A3R3g4UGI0Q2RyU3hrczI0WExYWlpNa3N4RjlNRzFGN0U5d1NPN3p4VlN2R2MzRkc4WXlyV3Z4Z21ZZHVtY3FzYmc?oc=5), [Reuters](https://news.google.com/rss/articles/CBMiwwFBVV95cUxObkpnNDluR1haTkdBX3RldWlkX2pySlFJWlFIdmZhaGt1NTFuYlVJS3Nkc2VNQlJ4bXN2LTc1VTF1SWViaVloM1Y4U1JndkpESXNfb2IxazBFS3RTVjRpUUhVeWNURVNtd2dKcWxRMjdoTEFiRTdwd1FrWEw2OUx4NUY5U1hkNFBqVjUxZlJyVVlQNFBEUmVPVTBYejluWWhMZF9xZlNrQmFqU0R4ZlJGc0N5QzJ0ckNfN0dYdkFQalpkVkk?oc=5)
-3. **OPEC+ has a deal outline for steady November quotas, delegates say** (oil, 1 story)  
+3. **OPEC+ has deal outline for steady November quotas, delegates say** (oil, 1 story)  
    OPEC+ production policy sets the oil supply outlook amid already tight diesel and crude markets. Sources: [Bloomberg.com](https://news.google.com/rss/articles/CBMi0gFBVV95cUxNTE9yb3hHOTFpOVZRS1kyWHlRUXFQTmI4THYzUUVnOFdrTzM3eDd4MUhGVUNQczJkZnIweGxoMUtFVGQ2anZDbXFlcVM2cDdtV3VmdGx0SzllMzdfbllfOHBGMzVRNDNTNkl4TUR0SEJFR3NSUnEtNHgxU29FVld2UUdUdmtEekJqQXh6dU0xTy1CTWZaMktzNU04SDBqNy1kZGJDNlB1VkVQNVE2UUlpZFpRRmk0ZkpEaWRUYlNRTEg4RkJpSTJJd0pUczNqemxISUE?oc=5)
 
 ## The five stories of the week
 
 1. **South Korea to invest $120 billion in U.S. nuclear projects, including eight large reactors** (nuclear, 1 story)  
    Gigawatt-scale reactor buildout at federal sites, part of a $200 billion package, would reshape US nuclear construction. Sources: [ANS Nuclear Newswire](https://www.ans.org/news/2026-10-01/article-8453/south-korea-to-invest-in-us-nuclear-projects-including-8-large-reactors/)
-2. **US Commerce outlines USD120 billion framework for six AP1000 and two APR1400 units** (nuclear, 1 story)  
+2. **USD120 billion framework outlines six AP1000 and two APR1400 units in the USA** (nuclear, 1 story)  
    A multi-reactor, large-scale nuclear build framework would be among the largest US new-build commitments in decades. Sources: [World Nuclear News](https://www.world-nuclear-news.org/articles/usa-south-korea-targeting-six-ap1000-two-apr1400-units)
 3. **Senators strike bipartisan permitting deal that would expand federal role in transmission siting** (policy, 12 stories)  
    Permitting reform affects timelines for transmission, pipelines and generation nationwide, though a vote is not expected until after November. Sources: [Heatmap News](https://heatmap.news/politics/bipartisan-permitting-reform), [Utility Dive](https://www.utilitydive.com/news/senate-permitting-bill-would-expand-federal-role-in-electric-transmission-s/831886/), [Latitude Media](https://www.latitudemedia.com/news/senators-strike-bipartisan-permitting-deal/)
-4. **Constellation and Amazon sign 20-year power deal, 190 MW, for Maryland nuclear plant** (ppa, 6 stories)  
+4. **Constellation and Amazon sign 20-year power deal supporting a Maryland nuclear plant, 190 MW** (ppa, 6 stories)  
    Long-term nuclear offtake with a major buyer supports an existing plant and signals continued demand for firm carbon-free power. Sources: [Reuters](https://news.google.com/rss/articles/CBMixgFBVV95cUxQZXZ3aTZxb1U3ZFZ1UmJER0NVelhZd2M2cGk1VGw1dHppMy04Y011a1NaT1JvSkJSUmVUZ0M4WHFzS0p0ODdna0RFZk9HY1MyelM4Smlfb1dGUnc2UkJuUzdLVHlMaS1Sb0VtMFQ2VVFzbnNDSVdTZk1XR0tKNkpaWEJIQXQyYXZYSmdJc3B1SDRfR3dxZGVjc2hyQVJSVjI2NEZHdUNzUnFpVHp4NFdtYVB4SEFaa1Q2cHNNNERqUnA2RTdHa0E?oc=5), [Data Center Dynamics](https://www.datacenterdynamics.com/en/news/amazon-signs-ppa-with-constellation-for-maryland-nuclear-plant/), [OilPrice.com](https://oilprice.com/Alternative-Energy/Nuclear-Power/Amazon-Secures-20-Years-of-Nuclear-Power-From-Constellation.html)
-5. **FERC only partially approves PJM backstop plan; PJM delays its power auction** (policy, 1 story)  
+5. **PJM delays power auction after FERC only partially approves its backstop plan** (policy, 1 story)  
    The largest US grid operator's reserve shortfall and cost allocation dispute delay new supply procurement, affecting capacity prices and ratepayers. Sources: [Utility Dive](https://www.utilitydive.com/news/pjm-delays-backstop-procurement-ferc-data-center/831751/)
 
 ## Deals of the week
@@ -117,7 +117,7 @@ Table: `policy_actions` (scored with the news rubric) and `policy_reads` (impact
 
 ## ERW's Numbers This Week
 
-Day-ahead power was dearest at NYISO's N.Y.C., 45.94 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 29.60; CAISO's TH_SP15_GEN-APND rose the most, by 7.69, while ERCOT's HB_NORTH fell 4.39. MISO's INDIANA.HUB is missing for the week (144 of 168 hours in the warehouse) and PJM has no price table. The highest real-time price was 1372.09 USD/MWh at N.Y.C. in the interval starting 2026-10-03 22:45 local, and WTI crude rose 10.93 USD/bbl (+12.8%) to 96.16 on 2026-09-29.
+Day-ahead power was dearest at NYISO's N.Y.C., 45.94 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 29.60; CAISO's TH_SP15_GEN-APND rose the most week on week, +7.69, while ERCOT's HB_NORTH fell 4.39. MISO's INDIANA.HUB has no figure this week (144 of 168 hours in the warehouse), and PJM is left out for lack of a price table. The highest real-time price was 1372.09 USD/MWh at N.Y.C. in the interval starting 2026-10-03 22:45 local, and WTI crude closed at 96.16 USD/bbl on 2026-09-29, up 10.93 (+12.8%) on the last close before.
 
 **Day-ahead average, main hub, over the ISO's local week, and the change from the week before**
 
@@ -151,7 +151,7 @@ Tables: [1] `iso_dam_hub_prices` (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expos
 
 ![Energy deals in the news, by month](../analysis/2026-W40/chart_email.png)
 
-The chart counts energy deals in the news by month of event date and by type, from 2025-10 to 2026-09, and the most common type was m and a, with 91. It stands out this week because 2026-09 had the most deals of any month in the window, 59, with a robust z of 2.73 against its own history.
+The chart counts energy deals in the news by month of event date and by type, from 2025-10 to 2026-09, and the most in any month was 59 in 2026-09. That month stands out with a robust z of 2.73 against its own history, and m and a was the most common type, with 91.
 
 Source: ANS Nuclear Newswire, Bloomberg, Bloomberg.com, Data Center Dynamics, Data Center Frontier, Electrek, Energy-Storage.news, Financial Times, Hart Energy, JPT Homepage, LNG Prime, Natural Gas Intelligence, OilPrice.com, Reuters, Rigzone, WSJ, World Nuclear News, hartenergy.com, jpt.spe.org, pv magazine USA via the Energy Research Warehouse (ERW), table energy_deals; data retrieved to 2026-10-04. Template `deals_by_month`; every template's latest run is on [/analysis](/analysis).
 
@@ -161,4 +161,4 @@ ERW
 
 [How this is made.](/about#digest)
 
-<!-- Generated by warehouse/news/roundup.py at 2026-10-04 23:05 UTC; run log warehouse/output/logs/news_roundup_20261004T230528Z.log; model claude-sonnet-5-5. -->
+<!-- Generated by warehouse/news/roundup.py at 2026-10-05 01:28 UTC; run log warehouse/output/logs/news_roundup_20261005T012810Z.log; model claude-sonnet-5-5. -->
