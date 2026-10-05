@@ -17,4 +17,4 @@ week,template,params,period,value,unit,history_n,notability_z,public,picked
 2026-W40,storage_evening_peak,"{""window"": 30}",2026-09-27 to 2026-10-03,6448.79,MW,55,0.91,True,False
 2026-W40,negative_price_hours,"{""hub"": ""HB_WEST"", ""iso"": ""ercot"", ""months"": 24}",2026-09,19.0,hours,1,,True,False
 2026-W40,deals_by_month,"{""ai_power"": ""all"", ""months"": 12}",2026-09,59.0,deals,20,2.73,True,True
-2026-W40,datacenters_by_state,"{""top"": 15}",2026-10-04,251.0,facilities,1,,True,False
+2026-W40,datacenters_by_state,"{""top"": 15}",2026-10-05,251.0,facilities,2,,True,False
