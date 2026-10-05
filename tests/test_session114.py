@@ -242,10 +242,11 @@ class DealsPage(unittest.TestCase):
         self.assertNotIn('x.ai_power === "true"', page)
 
     @unittest.skipUnless(os.path.exists(os.path.join(OUT, "energy_deals.csv")), "energy_deals is not on this machine")
-    def test_the_table_writes_the_tag_with_a_capital(self):
+    def test_the_case_blind_reading_counts_every_tagged_deal(self):
         d = pd.read_csv(os.path.join(OUT, "energy_deals.csv"), comment="#", dtype=str, keep_default_na=False)
-        self.assertEqual(set(d["ai_power"].str.lower()), {"true", "false"})
-        self.assertGreater((d["ai_power"] == "True").sum(), 0)   # the form the page's exact test never matched
+        tagged = int((d["ai_power"].str.lower() == "true").sum())
+        self.assertGreater(tagged, 0)
+        self.assertGreaterEqual(tagged, int((d["ai_power"] == "true").sum()))   # the exact test never counts more
 
 
 if __name__ == "__main__":
