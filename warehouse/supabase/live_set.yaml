@@ -94,6 +94,9 @@ full:
   - '^caiso_curtailment_profile$'
   - '^known_data_faults$'                        # session 103: /data/faults (in review), under review_hold below
   - '^ercot_large_load_status$'                  # session 106: /datacenters/v2 (in review), under review_hold below
+  # session 114: ERCOT hub prices by day since 2015 (derived, 345,228 rows), whole: the price history Ask ERCOT
+  # (/ask/ercot, in review) answers past prices from, in place of the 3,063,570 intervals above. Under review_hold
+  - '^ercot_hub_prices_daily$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -181,6 +184,7 @@ review_hold:
   - caiso_curtailment_profile          # session 98, /curtailment/v2
   - known_data_faults                  # session 103, /data/faults
   - ercot_large_load_status            # session 106, /datacenters/v2
+  - ercot_hub_prices_daily             # session 114, /ask/ercot
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
@@ -197,6 +201,7 @@ sources_hold:
   - erw:known_data_faults              # session 103, /data/faults
   - ercot:large_load_status_update     # session 106, /datacenters/v2
   - eia930:daily_demand                # session 109, /network/v3's replay
+  - erw:ercot_hub_prices_daily         # session 114, /ask/ercot
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

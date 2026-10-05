@@ -75,6 +75,9 @@ restore_before_run:
   # California's carbon intensity of generation reads it from the join (warehouse/derived/caiso_join.py)
   - '^caiso_fuel_supply$'
   - '^battery_stack_(monthly|stress_daily)$'
+  # session 114: ERCOT's hub prices by day keep the days the runner cannot rebuild (no ERCOT history there, and the
+  # rolling price tables hold the newest weeks only)
+  - '^ercot_hub_prices_daily$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.

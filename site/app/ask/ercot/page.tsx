@@ -26,8 +26,9 @@ export default async function AskErcotPage({ searchParams }: { searchParams: Pro
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Every number in an answer comes from a query of a table, and the answer names the table; a number that cannot be traced to a query is not shown. An answer
         that rests on a series comes with a chart and the rows it was drawn from. If the tables do not hold the answer, it says so. On this site the tables are the
-        live set&apos;s: the hub price history before the newest weeks, the reserve prices and Berkeley Lab&apos;s queue are in the warehouse and not yet in the
-        site&apos;s database, and the chat says so when asked for them. At most 10 questions per hour.
+        live set&apos;s: hub prices are held by day since 2015 (each day&apos;s mean, its peak and off-peak means, its lowest and highest price, and its hours
+        below zero and above 200 USD/MWh), and interval by interval for the newest weeks only. A question that needs the single intervals of an older day is
+        answered from the day&apos;s figures, and the chat says what they cannot give. At most 10 questions per hour.
       </p>
       <AskErcot initial={q} context={context} />
     </>
