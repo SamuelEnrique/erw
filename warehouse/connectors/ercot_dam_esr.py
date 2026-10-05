@@ -6,6 +6,7 @@
     python warehouse/connectors/ercot_dam_esr.py --pull --days 2025-12-04          # named operating days only (a probe)
     python warehouse/connectors/ercot_dam_esr.py --pull --offline --from 2025-12-05  # the saved zips only; no request
     python warehouse/connectors/ercot_dam_esr.py --write                           # the table, from the months (data lock)
+    python warehouse/connectors/ercot_dam_esr.py --daily                           # the standing pull: one zip, the next day
 
 Energy Research Warehouse (ERW). Table: ercot_dam_esr_awards, a series table, one row per Energy Storage Resource and
 hour (docs/datastandard.md, Decision 40; method docs/methods/ercot_storage_dam_awards.md).
@@ -28,6 +29,16 @@ downloads. The rules it keeps:
   month's record with its reason, and has no rows.
 
 Values are written as ERCOT prints them (strings, not re-rounded). A blank award is no award and stays blank.
+
+The standing pull (session 116, approved: one zip a day in the daily run, under warehouse/health.py, started by
+warehouse/scheduled.py ercot_storage_dam). --daily asks ERCOT for its list and then for one zip at most: the first
+listed operating day after the last day the table holds. Its rows are added to the end of the table, which must be on
+the machine (the runner restores it from the Redivis draft); then the monthly awards table and the offers tables
+(warehouse/derived/ercot_storage_dam_offers.py --days <day>) are built from it. One zip a run, the oldest first, so no
+day is skipped: after a run that did not happen the table is a day further behind until a person approves a second
+zip. A day that fails a check gets no rows and a line in warehouse/metadata/ercot_dam_esr_missing_days.csv, and the
+next run goes on to the day after it. The 3 GB ceiling above was session 115's pull; a daily zip is not counted
+against it, and a zip above 60 MB (they are 7 to 11) is not requested.
 """
 import argparse
 import csv
@@ -71,6 +82,10 @@ ZIPS = os.path.join(RAW, "zips")      # not a run id, so warehouse/prune_raw.py 
 MONTHS = os.path.join(RAW, "months")
 MANIFEST = os.path.join(ZIPS, "manifest.csv")
 MANIFEST_COLS = ["operating_day", "file", "doc_id", "url", "bytes", "sha256", "published", "retrieved_at", "how"]
+DAILY_MAX_BYTES = 60_000_000  # the standing pull: one zip a run, and not one larger than this (they are 7 to 11 MB)
+MISSING_DAYS = os.path.join(ROOT, "warehouse", "metadata", "ercot_dam_esr_missing_days.csv")  # tracked: days that failed a check
+MONTHLY_BUILDER = os.path.join(ROOT, "warehouse", "derived", "ercot_storage_dam_awards.py")
+OFFERS_BUILDER = os.path.join(ROOT, "warehouse", "derived", "ercot_storage_dam_offers.py")
 
 # ERCOT's column -> the table's column. HSL is the row's value; the rest are x_ columns, as ERCOT gives them.
 X = {"QSE": "x_qse", "DME": "x_dme", "Resource Status": "x_resource_status", "LSL": "x_lsl_mw",
@@ -361,6 +376,10 @@ def write(log, run_id):
     path = os.path.join(ip.OUT_DIR, TABLE + ".csv")
     ip._require_lock(path, f"writing {TABLE}")
     first, last = min(d["day"] for d in held), max(d["day"] for d in held)
+    if os.path.exists(path) and last_day_held(path).isoformat() > last:
+        # the standing pull adds days to the table itself; the months are rebuilt from the saved zips, with no request
+        raise SystemExit(f"the table holds days to {last_day_held(path)} and the months only to {last}: nothing written. "
+                         f"First: --pull --offline --from {last[:8]}01")
     lines = [
         "Energy Research Warehouse (ERW): ERCOT Energy Storage Resources' day-ahead awards, by resource and hour, from ERCOT's 60-Day DAM Disclosure Reports "
         "(NP3-966-ER), the file 60d_DAM_ESR_Data (session 115)",
@@ -408,8 +427,189 @@ def write(log, run_id):
     return 0
 
 
+def last_day_held(path):
+    """The last operating day (local, Central) the table holds: the one its header states ("Operating days held: N,
+    first to last"), or, for a file whose header does not say, the newest hour among its last lines (the connector
+    writes a day after a day). Raises ValueError for a file with no rows."""
+    with open(path, encoding="utf-8", newline="") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            m = re.search(r"Operating days held: \d+, \d{4}-\d\d-\d\d to (\d{4}-\d\d-\d\d)", line)
+            if m:
+                return dt.date.fromisoformat(m.group(1))
+    with open(path, "rb") as f:
+        f.seek(0, os.SEEK_END)
+        f.seek(max(0, f.tell() - 262_144))
+        lines = f.read().decode("utf-8", "replace").splitlines()[1:]
+    ts = [x.split(",")[2] for x in lines if x and not x.startswith("#") and x.count(",") >= len(COLS) - 1 and re.match(r"\d{4}-\d\d-\d\dT", x.split(",")[2])]
+    if not ts:
+        raise ValueError(f"{os.path.basename(path)} has no rows at its end")
+    return pd.Timestamp(max(ts)).tz_convert(TZ).date()
+
+
+def failed_days(path=None):
+    """{operating day: reason} of the days that failed a check in a standing pull (a tracked file)."""
+    path = path or MISSING_DAYS
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8", newline="") as f:
+        return {dt.date.fromisoformat(r["operating_day"]): r["reason"] for r in csv.DictReader(f)}
+
+
+def record_failed_day(day, reason, path=None):
+    path = path or MISSING_DAYS
+    new = not os.path.exists(path)
+    with open(path, "a", encoding="utf-8", newline="") as f:
+        w = csv.writer(f, lineterminator="\n")
+        if new:
+            w.writerow(["operating_day", "reason", "recorded_at"])
+        w.writerow([day.isoformat(), " ".join(str(reason).split())[:300], dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")])
+
+
+def next_day(docs, last, failed=()):
+    """The standing pull's one day: (the first listed operating day after `last` that has not failed a check, its
+    document, how many later days are listed and wait). (None, None, 0) when ERCOT lists nothing newer."""
+    by_day = {}
+    for d in sorted(docs, key=lambda d: d["PublishDate"]):
+        by_day[operating_day(d)] = d  # a day posted twice: the later posting
+    waiting = sorted(d for d in by_day if d > last and d not in failed)
+    if not waiting:
+        return None, None, 0
+    return waiting[0], by_day[waiting[0]], len(waiting) - 1
+
+
+def append_day(path, rows, day, run_id, log_name):
+    """The table with one more day at its end: the header's counts moved on, every row already there copied as it is.
+
+    Raises RuntimeError when the day is not after the table's last, or the rows would pass the row ceiling."""
+    last = last_day_held(path)
+    if day <= last:
+        raise RuntimeError(f"{day} is not after the table's last day, {last}: nothing written")
+    with open(path, encoding="utf-8", newline="") as f:
+        head = []
+        for line in f:
+            if not line.startswith("#"):
+                break
+            head.append(line.rstrip("\r\n"))
+    text = "\n".join(head)
+    days = re.search(r"Operating days held: (\d+), (\d{4}-\d\d-\d\d) to (\d{4}-\d\d-\d\d)", text)
+    holds = re.search(r"File holds ([\d,]+) rows", text)
+    if not days or not holds:
+        raise RuntimeError("the table's header does not state its days and rows: nothing written")
+    n_old = int(holds.group(1).replace(",", ""))
+    if n_old + len(rows) > MAX_ROWS:
+        raise RuntimeError(f"{n_old + len(rows):,} rows would pass the ceiling of {MAX_ROWS:,}: nothing written")
+    text = text.replace(days.group(0), f"Operating days held: {int(days.group(1)) + 1}, {days.group(2)} to {day.isoformat()}")
+    text = text.replace(holds.group(0), f"File holds {n_old + len(rows):,} rows")
+    text = re.sub(r"# Retrieved: \S+ \(UTC\)", f"# Retrieved: {run_id} (UTC)", text)
+    text = re.sub(r"# Run log: \S+", f"# Run log: warehouse/output/logs/{log_name}", text)
+    tmp = path + ".tmp"
+    n = 0
+    with open(path, encoding="utf-8", newline="") as old, open(tmp, "w", encoding="utf-8", newline="") as f:
+        f.write(text + "\n")
+        seen_cols = False
+        for line in old:
+            if line.startswith("#"):
+                continue
+            if not seen_cols:
+                if line.rstrip("\r\n").split(",") != COLS:
+                    raise RuntimeError("the table's columns are not the connector's: nothing written")
+                seen_cols = True
+                f.write(",".join(COLS) + "\n")
+                continue
+            f.write(line if line.endswith("\n") else line + "\n")
+            n += 1
+        rows[COLS].to_csv(f, index=False, header=False, lineterminator="\n")
+    if n != n_old:
+        os.remove(tmp)
+        raise RuntimeError(f"the table holds {n:,} rows and its header says {n_old:,}: nothing written")
+    os.replace(tmp, path)
+    return n_old + len(rows)
+
+
+def daily(log, run_id, get=None, run=None, table_path=None, missing_path=None, pause=PAUSE):
+    """The standing pull: one zip, the next operating day, added to the table; then the tables built from it.
+
+    Returns 0 when a day was added or ERCOT lists nothing newer, 1 when the day failed a check or a builder failed."""
+    import subprocess
+    get = get or requests.get
+    run = run or subprocess.run
+    path = table_path or os.path.join(ip.OUT_DIR, TABLE + ".csv")
+    if ip.paused("ercot"):
+        raise SystemExit(ip.pause_line("ercot"))
+    if not os.path.exists(path):
+        print(f"ercot_storage_dam SKIPPED: {TABLE} is not on this machine, so no zip was requested and nothing was built")
+        return int(os.environ.get("ERW_SKIP_EXIT") or 0)
+    if table_path is None:
+        ip._require_lock(path, f"writing {TABLE}")
+    last = last_day_held(path)
+    r = get(LIST, headers=UA, timeout=120)
+    r.raise_for_status()
+    docs = [x["Document"] for x in json.loads(r.text)["ListDocsByRptTypeRes"]["DocumentList"]]
+    day, doc, waiting = next_day(docs, last, failed_days(missing_path))
+    if day is None:
+        line = f"{TABLE}.csv: rows=unchanged; ERCOT lists no operating day after {last}: nothing requested"
+        print(line, flush=True)
+        log(line)
+        return 0
+    if waiting:
+        line = (f"::notice::{waiting} more operating day{'s' if waiting != 1 else ''} after {day} are listed and not held: one zip a run, so the table is "
+                f"{waiting} day{'s' if waiting != 1 else ''} further behind than ERCOT's 60 until a person approves more")
+        print(line, flush=True)
+        log(line)
+    name, url, size = doc["ConstructedName"], FILE.format(doc=doc["DocID"]), int(doc["ContentSize"])
+    held = held_zips()
+    if name in held:
+        with open(held[name], "rb") as f:
+            content = f.read()
+        when = ({m["file"]: m for m in manifest()}.get(name, {}).get("retrieved_at")
+                or dt.datetime.fromtimestamp(os.path.getmtime(held[name]), dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
+        log(f"{day}: {name} is on this machine; not requested")
+    else:
+        if size > DAILY_MAX_BYTES:
+            raise RuntimeError(f"{day}: its zip is listed at {size:,} bytes, above the {DAILY_MAX_BYTES:,} a daily zip may be: not requested")
+        time.sleep(pause)
+        g = get(url, headers=UA, timeout=300)
+        if g.status_code != 200 or len(g.content) != size:
+            raise IOError(f"{day}: HTTP {g.status_code}, {len(g.content):,} bytes of {size:,}; nothing written (one request, not repeated)")
+        content = g.content
+        when = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        os.makedirs(ZIPS, exist_ok=True)
+        with open(os.path.join(ZIPS, name) + ".tmp", "wb") as f:
+            f.write(content)
+        os.replace(os.path.join(ZIPS, name) + ".tmp", os.path.join(ZIPS, name))
+        manifest_add({"operating_day": day.isoformat(), "file": name, "doc_id": doc["DocID"], "url": url, "bytes": len(content),
+                      "sha256": hashlib.sha256(content).hexdigest(), "published": doc["PublishDate"], "retrieved_at": when, "how": "requested daily"})
+        log(f"{day}: {name}, {len(content):,} bytes requested (the standing pull's one zip)")
+    try:
+        fname, df = read_esr(content)
+        rows = to_rows(df, day, url, when, ip.utc_iso(pd.Timestamp(doc["PublishDate"])))
+    except ValueError as e:
+        record_failed_day(day, e, missing_path)
+        line = f"{TABLE} FAILED: {day} failed a check and has no rows ({e}); recorded in warehouse/metadata/{os.path.basename(MISSING_DAYS)}, the next run goes on"
+        print(line, flush=True)
+        log(line)
+        if table_path is None:
+            ip.write_status("ercot_dam_esr", run_id, [{"table": TABLE, "status": "failed", "detail": f"{day}: {e}"[:300]}])
+        return 1
+    total = append_day(path, rows, day, run_id, os.path.basename(log.path) if hasattr(log, "path") else "")
+    line = f"{TABLE}.csv: rows={total:,} added={len(rows):,} day={day} ({fname})"
+    print(line, flush=True)
+    log("  " + line)
+    if table_path is None:
+        ip.write_status("ercot_dam_esr", run_id, [{"table": TABLE, "status": "ok", "rows": total, "detail": f"the standing pull: {day} added, {len(rows):,} rows"}])
+    rc = 0
+    for cmd in ([sys.executable, MONTHLY_BUILDER], [sys.executable, OFFERS_BUILDER, "--days", day.isoformat()]):
+        code = run(cmd, cwd=ROOT).returncode
+        log(f"{os.path.basename(cmd[1])} {' '.join(cmd[2:])}: exit {code}")
+        rc = rc or code
+    return 1 if rc else 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERCOT 60-Day DAM Disclosure: the Energy Storage Resources' day-ahead awards")
+    ap.add_argument("--daily", action="store_true", help="the standing pull: one zip, the next operating day, added to the table; then the monthly tables")
     ap.add_argument("--pull", action="store_true", help="read each operating day's zip (asking ERCOT for one not held) and write the months")
     ap.add_argument("--write", action="store_true", help="write the table from the months (needs the data lock)")
     ap.add_argument("--from", dest="from_day", help="first operating day, YYYY-MM-DD (default: the first listed)")
@@ -417,12 +617,14 @@ def main(argv=None):
     ap.add_argument("--days", help="named operating days, comma separated: a probe, which writes no month")
     ap.add_argument("--offline", action="store_true", help="no request: the saved file list and the saved zips only")
     a = ap.parse_args(argv)
-    if not (a.pull or a.write):
-        ap.error("--pull or --write")
+    if not (a.pull or a.write or a.daily):
+        ap.error("--pull, --write or --daily")
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     log = ip.Log(os.path.join(ip.LOG_DIR, f"ercot_dam_esr_{run_id}.log"))
     try:
+        if a.daily:
+            return daily(log, run_id)
         if a.pull:
             pull(a, log)
         if a.write:
