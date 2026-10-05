@@ -63,6 +63,7 @@ export const RELEASE: Record<string, Status> = {
   "/companies": "review",
   "/policy": "review",
   "/deals": "review",
+  "/deals/v2": "review",  // session 113: the deals tracker, version 2 (the battery page's layout; the deals already extracted, duplicates shown once)
   "/events": "review",
   "/tour": "review",
   "/learn/problems": "review",
