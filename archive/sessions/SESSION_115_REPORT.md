@@ -237,4 +237,4 @@ The data lock was taken for each write step and released after it; it is free no
 4. **The real-time side** is the three things above, in that order of cost: one month of the SCED file, node prices, the protocols.
 5. **Whether to keep this current.** ERCOT posts a day every day. A daily request of one 11 MB zip would keep the table 60 days behind; it needs your approval as a standing pull.
 
-Energy Research Warehouse (ERW), session 115, on the old laptop (`samueloldlaptop`, data role), 2026-10-05 from about 03:05 UTC to about 04:10 UTC, unattended.
+Energy Research Warehouse (ERW), session 115, on the old laptop (`samueloldlaptop`, data role), 2026-10-05 from about 03:05 UTC to about 04:05 UTC, unattended.
