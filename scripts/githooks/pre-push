@@ -1,0 +1,16 @@
+#!/bin/sh
+# Energy Research Warehouse (ERW): a push by a marked chain is a save (session 116; docs/machines.md, "Alerts").
+#
+# On the machine that marked a chain as running (.erw/chain.json, written by python scripts/alert.py chain start),
+# each push sends a beat, whichever branch it goes to. On any other machine, and when no chain is marked, this does
+# nothing. It never refuses or slows a push: the beat runs in the background, what it prints is dropped, and the hook
+# always exits 0. It decides nothing about the push: rules 8 and 9 of CLAUDE.md do.
+cat >/dev/null 2>&1   # git writes the refs being pushed here; they are read and not used
+root="$(cd "$(dirname "$0")/../.." 2>/dev/null && pwd)" || exit 0
+[ -f "$root/.erw/chain.json" ] || exit 0
+py=python
+[ -x "$root/.venv/Scripts/python.exe" ] && py="$root/.venv/Scripts/python.exe"
+[ -x "$root/.venv/bin/python" ] && py="$root/.venv/bin/python"
+command -v "$py" >/dev/null 2>&1 || py=python3
+( "$py" "$root/scripts/alert.py" chain beat </dev/null >/dev/null 2>&1 & ) >/dev/null 2>&1
+exit 0

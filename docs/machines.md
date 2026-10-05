@@ -247,6 +247,13 @@ in erw), in the chain "night of 4 October": Claude needs your permission to use 
 
 - **At most one email per session and kind every 10 minutes** (`.erw/alerts/`), so a session left open does not fill an
   inbox. A send that failed is not counted.
+- **A session that said it finished is not a wait (session 116).** For ten minutes after a session's last words held
+  `REPORT READY` or `CHAIN DONE`, the "waits for input" line is not sent (`idle_prompt` and `agent_needs_input`): it
+  has finished and said so, and the line used to arrive a minute after every report. The hook reads this from the end
+  of the session's transcript, the file the event names in `transcript_path`: the last entry that is the session's own
+  text, and its time. A person's entry after it means a new prompt, and nothing is quieted. After ten minutes a wait
+  is said as before. A wait for a permission or for an answer is never quieted. A transcript that is missing or
+  cannot be read quiets nothing: an alert too many, never one too few.
 - **It cannot stop or slow a session.** The reference says a Notification hook cannot block (its exit code is
   ignored); the hook is `async`, has a 45-second timeout, prints nothing and always exits 0.
 - **To silence it on a machine:** `ERW_ALERTS=off` in the environment, or an empty file `.erw/alerts_off`. Working at
@@ -260,28 +267,43 @@ in erw), in the chain "night of 4 October": Claude needs your permission to use 
 
 ```bash
 python scripts/alert.py chain start --name "night of 4 October, sessions 90 to 101" --hours 14   # first thing in a chain
-python scripts/alert.py chain beat      # a save that is not a push (a long pull pushes nothing for half an hour)
+python scripts/alert.py chain beat      # a save GitHub cannot see (a long pull pushes nothing for half an hour)
 python scripts/alert.py chain done      # last thing: with "CHAIN DONE"
-python scripts/alert.py chain status    # the mark, the newest push, and what the check would say now
+python scripts/alert.py chain status    # the mark, the newest save on GitHub, and what the check would say now
 python scripts/alert.py chain check --dry-run
 ```
 
 - **The mark** is one row, `chain`, of `erw_locks`, the data lock's own table (migration 016): who started the chain,
   its name, when, and when the mark lapses by itself (`--hours`, default 16). It is not the data lock and blocks nothing.
   The token is in `.erw/chain.json` on the machine that started it; `done` and `beat` work only there.
-- **A save** is a commit pushed to a `wip/` or `task/` branch (read from GitHub), or a beat. Every chain already pushes
-  a `wip/` copy after each working step, so a chain needs to do nothing more than start and end the mark.
+- **A save** is any commit or push by the running chain (session 116). Until then it was a commit pushed to a `wip/`
+  or `task/` branch, so a landing read as silence: the workflow merges the task branch into main and deletes it, and
+  the commits are then on main only. Three things count now:
+  - **a commit on any branch on GitHub, main included,** that a scheduled workflow did not write. The daily run, the
+    roundup and the vacuum commit as `github-actions[bot]`; those are not the chain's and are passed over. The check
+    reads the 20 newest branches and the 30 newest commits of each. The line calls it "a push to wip/x" or "a commit
+    on main";
+  - **the workflow's merge of a `task/` branch into main** ("Merge task/x: checks passed"), written by the same bot
+    and counted, because it is the landing of the chain's own push. The line calls it "the landing of task/x on main";
+  - **a beat.** The git hooks in `scripts/githooks/` (`post-commit`, `pre-push`) send one at each commit and each
+    push on the machine that marked the chain, so a commit that is not pushed yet counts too. They do nothing when
+    `.erw/chain.json` is absent, run the beat in the background and always exit 0: they never refuse or slow a commit
+    or a push. `scripts/setup.ps1` and `setup.sh` install them (`git config core.hooksPath scripts/githooks`) unless
+    the checkout already has hooks of its own; a git worktree has no `.erw/` and sends none.
+
+  GitHub cannot say who pushed a commit: a commit by a person on another machine during a chain counts as a save
+  too. A chain needs to do nothing more than start and end the mark.
 - **The watch** is `.github/workflows/chain-watch.yml`: every 15 minutes it runs `alert.py chain check` on GitHub, not on
   the machine that runs the chain, because the usual reason a chain stops saving is that its machine stopped. No chain
   marked: it says so and ends. A marked chain with no save for 30 minutes: one line, "The chain "..." (machine/session)
   has saved nothing for 37 minutes: its last save was a push to wip/090-fixes at 06:48 UTC. Marked as running since
-  05:52 UTC." It says so **once at 30 minutes and again every hour after** (90, 150, ...), not every quarter of an hour.
+  05:52 UTC." (or "a commit on main", "the landing of task/x on main", "a beat") It says so **once at 30 minutes and again every hour after** (90, 150, ...), not every quarter of an hour.
   A mark that lapsed without `done` is said once.
 - Like every scheduled job it runs under `warehouse/health.py` and never fails on GitHub; its 96 runs a day are in the
   daily health summary. The database's schedule starts it (migration 022, `erw-chain-watch`), and GitHub's own schedule
   too; the second start is skipped.
-- **A long step is a silence.** A pull or a build of more than half an hour pushes nothing: run `chain beat` before it,
-  or expect the line.
+- **A long step is a silence.** A pull or a build of more than half an hour commits and pushes nothing: run
+  `chain beat` before it, or expect the line.
 
 ### The permission allowlist
 
