@@ -1,0 +1,515 @@
+{
+ "meta": {},
+ "data": {
+  "dataSets": [
+   {
+    "structure": 0,
+    "action": "Replace",
+    "series": {
+     "0:0:0:0": {
+      "attributes": [
+       0,
+       null,
+       null
+      ],
+      "observations": {
+       "0": [
+        "55500.13636363636",
+        null,
+        0
+       ],
+       "1": [
+        "55858.175",
+        null,
+        0
+       ],
+       "2": [
+        "55849.36363636364",
+        null,
+        0
+       ],
+       "3": [
+        "55857.27272727273",
+        null,
+        0
+       ],
+       "4": [
+        "55853.53571428571",
+        null,
+        0
+       ],
+       "5": [
+        "55854.52272727273",
+        null,
+        0
+       ],
+       "6": [
+        "55872.86363636364",
+        null,
+        0
+       ],
+       "7": [
+        "55853.75",
+        null,
+        0
+       ]
+      }
+     },
+     "0:1:0:0": {
+      "attributes": [
+       0,
+       null,
+       null
+      ],
+      "observations": {
+       "0": [
+        "12986.60681818182",
+        null,
+        0
+       ],
+       "1": [
+        "12951.345",
+        null,
+        0
+       ],
+       "2": [
+        "12528.70954545455",
+        null,
+        0
+       ],
+       "3": [
+        "12890.68772727273",
+        null,
+        0
+       ],
+       "4": [
+        "13512.15619047619",
+        null,
+        0
+       ],
+       "5": [
+        "13552.04090909091",
+        null,
+        0
+       ],
+       "6": [
+        "13542.82086956522",
+        null,
+        0
+       ],
+       "7": [
+        "14331.26476190476",
+        null,
+        0
+       ]
+      }
+     },
+     "0:2:0:0": {
+      "attributes": [
+       0,
+       null,
+       null
+      ],
+      "observations": {
+       "0": [
+        "131371.4684090909",
+        null,
+        0
+       ],
+       "1": [
+        "149174.50071",
+        null,
+        0
+       ],
+       "2": [
+        "155400.7472318182",
+        null,
+        0
+       ],
+       "3": [
+        "159973.0811727273",
+        null,
+        0
+       ],
+       "4": [
+        "174127.178047619",
+        null,
+        0
+       ],
+       "5": [
+        "166817.139",
+        null,
+        0
+       ],
+       "6": [
+        "156809.1336782609",
+        null,
+        0
+       ],
+       "7": [
+        "148620.000752381",
+        null,
+        0
+       ]
+      }
+     },
+     "0:3:0:0": {
+      "attributes": [
+       0,
+       null,
+       null
+      ],
+      "observations": {
+       "0": [
+        "17710.86363636364",
+        null,
+        0
+       ],
+       "1": [
+        "17173.1035",
+        null,
+        0
+       ],
+       "2": [
+        "17076.29272727273",
+        null,
+        0
+       ],
+       "3": [
+        "17864.91636363636",
+        null,
+        0
+       ],
+       "4": [
+        "18792.74857142857",
+        null,
+        0
+       ],
+       "5": [
+        "17588.28545454545",
+        null,
+        0
+       ],
+       "6": [
+        "16632.36136363636",
+        null,
+        0
+       ],
+       "7": [
+        "16750.5585",
+        null,
+        0
+       ]
+      }
+     },
+     "0:4:0:0": {
+      "attributes": [
+       0,
+       null,
+       null
+      ],
+      "observations": {
+       "0": [
+        "69.71244577045455",
+        null,
+        0
+       ],
+       "1": [
+        "71.298196854",
+        null,
+        0
+       ],
+       "2": [
+        "68.78688868090909",
+        null,
+        0
+       ],
+       "3": [
+        "69.39474462636364",
+        null,
+        0
+       ],
+       "4": [
+        "69.05544365333333",
+        null,
+        0
+       ],
+       "5": [
+        "69.11377193909091",
+        null,
+        0
+       ],
+       "6": [
+        "69.23377817652174",
+        null,
+        0
+       ],
+       "7": [
+        "71.09474744380952",
+        null,
+        0
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "structures": [
+   {
+    "dataSets": [
+     0
+    ],
+    "links": [
+     {
+      "urn": "urn:sdmx:org.sdmx.infomodel.datastructure.Dataflow=IMF.RES:PCPS(9.0.0)",
+      "title": "Dataflow"
+     },
+     {
+      "urn": "urn:sdmx:org.sdmx.infomodel.datastructure.DataStructure=IMF.RES:DSD_PCPS(10.0.0)",
+      "title": "DataStructureDefinition"
+     }
+    ],
+    "dimensions": {
+     "series": [
+      {
+       "id": "COUNTRY",
+       "keyPosition": 0,
+       "roles": [],
+       "values": [
+        {
+         "id": "G001"
+        }
+       ]
+      },
+      {
+       "id": "INDICATOR",
+       "keyPosition": 1,
+       "roles": [],
+       "values": [
+        {
+         "id": "PCOBA"
+        },
+        {
+         "id": "PCOPP"
+        },
+        {
+         "id": "PLITH"
+        },
+        {
+         "id": "PNICK"
+        },
+        {
+         "id": "PURAN"
+        }
+       ]
+      },
+      {
+       "id": "DATA_TRANSFORMATION",
+       "keyPosition": 2,
+       "roles": [],
+       "values": [
+        {
+         "id": "USD"
+        }
+       ]
+      },
+      {
+       "id": "FREQUENCY",
+       "keyPosition": 3,
+       "roles": [],
+       "values": [
+        {
+         "id": "M"
+        }
+       ]
+      }
+     ],
+     "observation": [
+      {
+       "id": "TIME_PERIOD",
+       "keyPosition": 4,
+       "values": [
+        {
+         "value": "2026-M01"
+        },
+        {
+         "value": "2026-M02"
+        },
+        {
+         "value": "2026-M03"
+        },
+        {
+         "value": "2026-M04"
+        },
+        {
+         "value": "2026-M05"
+        },
+        {
+         "value": "2026-M06"
+        },
+        {
+         "value": "2026-M07"
+        },
+        {
+         "value": "2026-M08"
+        }
+       ]
+      }
+     ]
+    },
+    "measures": {
+     "observation": [
+      {
+       "id": "OBS_VALUE",
+       "roles": []
+      }
+     ]
+    },
+    "attributes": {
+     "dimensionGroup": [
+      {
+       "id": "CURRENCY",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "INDICATOR"
+        ]
+       }
+      },
+      {
+       "id": "COMMODITY_CF",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "INDICATOR"
+        ]
+       }
+      },
+      {
+       "id": "PCPS_RY",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "INDICATOR"
+        ]
+       }
+      },
+      {
+       "id": "INDEX_TYPE",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "INDICATOR"
+        ]
+       }
+      },
+      {
+       "id": "PRICES",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "INDICATOR"
+        ]
+       }
+      },
+      {
+       "id": "EXRATE",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "INDICATOR"
+        ]
+       }
+      },
+      {
+       "id": "TRANSFORMATION",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "INDICATOR"
+        ]
+       }
+      }
+     ],
+     "series": [
+      {
+       "id": "SCALE",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "COUNTRY",
+         "INDICATOR",
+         "DATA_TRANSFORMATION",
+         "FREQUENCY"
+        ]
+       },
+       "values": [
+        {
+         "id": "0"
+        }
+       ]
+      },
+      {
+       "id": "DECIMAL_DISPLAYED",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "COUNTRY",
+         "INDICATOR",
+         "DATA_TRANSFORMATION",
+         "FREQUENCY"
+        ]
+       }
+      },
+      {
+       "id": "OVERLAP",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "dimensions": [
+         "COUNTRY",
+         "INDICATOR",
+         "DATA_TRANSFORMATION",
+         "FREQUENCY"
+        ]
+       }
+      }
+     ],
+     "observation": [
+      {
+       "id": "PRECISION",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "observation": {}
+       }
+      },
+      {
+       "id": "DERIVATION_TYPE",
+       "roles": [],
+       "isMandatory": false,
+       "relationship": {
+        "observation": {}
+       },
+       "values": [
+        {
+         "id": "R"
+        }
+       ]
+      }
+     ]
+    },
+    "annotations": []
+   }
+  ]
+ }
+}

@@ -160,7 +160,7 @@ class Repository(unittest.TestCase):
 
     def test_no_em_dash_in_what_the_session_wrote(self):
         for p in (("warehouse", "connectors", "eia_futures.py"), ("warehouse", "derived", "price_board_v4.py"), ("warehouse", "refresh_board_v4.sh"),
-                  ("site", "app", "board", "v4", "page.tsx"), ("site", "lib", "board4.ts"), ("docs", "methods", "price_board_v4.md"), ("tests", "test_session127.py")):
+                  ("site", "app", "_retired", "board-v4", "page.tsx"), ("site", "lib", "board4.ts"), ("docs", "methods", "price_board_v4.md"), ("tests", "test_session127.py")):
             if os.path.exists(os.path.join(ROOT, *p)):
                 text = self.src(*p)
                 self.assertNotIn(chr(0x2014), text, p)
@@ -170,7 +170,7 @@ class Repository(unittest.TestCase):
         rel = self.src("site", "lib", "release.ts")
         for line in ('"/board/v4": "review"', '"/board/v3": "review"', '"/board": "review"'):
             self.assertIn(line, rel)
-        page = self.src("site", "app", "board", "v4", "page.tsx")
+        page = self.src("site", "app", "_retired", "board-v4", "page.tsx")   # session 132: retired, kept unrouted; /board/v4 redirects to /board
         for words in ("@/data/board_v4.json", "data-summary", "Named in the plan, and not on the board", "robots: { index: false", "Formula:", "indicative"):
             self.assertIn(words, page)
         lib = self.src("site", "lib", "board4.ts")

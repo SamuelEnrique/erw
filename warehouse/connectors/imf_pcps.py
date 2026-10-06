@@ -26,6 +26,7 @@ pull reads about 500.
 import argparse
 import datetime as dt
 import io
+import json
 import os
 import re
 import sys
@@ -82,14 +83,9 @@ def parse(body, url, retrieved):
 
 
 def build(run_id, log):
-    def call():
-        r = requests.get(API, headers={"Accept": "application/json"}, timeout=120)
-        if r.status_code != 200:
-            raise RuntimeError(f"IMF HTTP {r.status_code}: {r.text[:200]}")
-        return r
-    r = ip.with_retries("IMF PCPS", call, log)
-    retrieved = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
-    table, empty = parse(r.json(), API, retrieved)
+    content, rec = ip.fetch_raw(CONNECTOR, API, log, fresh=True, headers={"Accept": "application/json"})
+    retrieved = rec["retrieved_at"]
+    table, empty = parse(json.loads(content), API, retrieved)
     got = set(table["entity"].str.rsplit(":", n=1).str[1])
     if got != set(SERIES):
         raise RuntimeError(f"the IMF answered for {sorted(got)}, asked for {sorted(SERIES)}")

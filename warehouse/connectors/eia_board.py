@@ -28,7 +28,9 @@ stream or area, from EIA's description. A month EIA lists with no value (withhel
 POWER PLANT FUEL COSTS: the average cost of coal and of natural gas delivered to the electric power sector (EIA's
 sector 98), every location EIA lists (the US, census divisions, states), from Form EIA-923: cost_per_mmbtu (USD/MMBtu,
 both fuels), and the same cost per physical unit, cost_per_short_ton (coal) and cost_per_mcf (gas). The entity is
-eia:plant_fuel_cost:<location>:<fueltypeid>. EIA withholds a state's cost when few plants report: no row is written.
+eia:plant_fuel_cost:<location>:<fueltypeid>. EIA withholds a state's cost when few plants report, and writes a cost of
+exactly 0 where a state took no deliveries that month (California's coal, for one, in every month): no row is written
+for either. A negative cost is kept as EIA reports it (gas delivered in New Mexico and Arizona in 2024 to 2026).
 
 Ceiling: 1,500,000 rows for session 132's pulls in all (the rows the API returns, the session's probes included).
 The source ids of the retail and first purchase routes carry a suffix (:regional, :streams) so the registry rows of the older tables
@@ -198,7 +200,7 @@ def shape_epod(part, rows, freq):
                     market="", node=str(r.get("stateDescription") or r["location"]).strip(), source=part["source"], source_url=r["_url"], retrieved_at=r["_retrieved"], vintage="")
         for col, (variable, units) in EPOD_COLS.items():
             v = number(r.get(col))
-            if v is None:
+            if v is None or v == 0:     # EIA writes a cost of exactly 0 for a state and month with no deliveries: not a price
                 empty += 1
                 continue
             u = units.get(r.get(f"{col}-units"))

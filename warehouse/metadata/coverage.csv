@@ -54,7 +54,7 @@ eia_lng_exports_monthly,none,,17,P1M,2013-11-01T00:00:00Z,2026-07-01T00:00:00Z,1
 eia_padd_crude_pipeline_flows,none,,11,P1M,1986-01-01T00:00:00Z,2026-07-01T00:00:00Z,4558,eia:petroleum/move/pipe,2026-10-05T14:24:25Z,pass,public,oil,no,source
 eia_petroleum_stocks_weekly,none,,8,P1W,1982-08-20T00:00:00Z,2026-09-25T00:00:00Z,16807,eia:petroleum/stoc/wstk,2026-10-05T14:24:25Z,pass,public,oil;products,no,source
 eia_petroleum_trade_weekly,none,,7,P1W,1990-01-05T00:00:00Z,2026-09-25T00:00:00Z,12572,eia:petroleum/move/wkly,2026-10-05T14:24:25Z,pass,public,oil;products,no,source
-eia_power_plant_fuel_costs,none,,61,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,13958,eia:electricity/electric-power-operational-data:cost,2026-10-06T08:18:26Z,pass,public,coal;gas;power,no,source
+eia_power_plant_fuel_costs,none,,58,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,12898,eia:electricity/electric-power-operational-data:cost,2026-10-06T08:44:58Z,pass,public,coal;gas;power,no,source
 eia_product_spot_prices,none,,9,P1D,1986-06-02T00:00:00Z,2026-09-29T00:00:00Z,71953,eia:petroleum/pri/spt,2026-10-05T14:24:25Z,pass,public,products,no,source
 eia_regional_retail_fuel_prices,none,,29,P1W,2019-01-07T00:00:00Z,2026-09-28T00:00:00Z,16159,eia:petroleum/pri/gnd:regional,2026-10-06T08:18:26Z,pass,public,products,no,source
 eia_retail_electricity_prices,none,,372,P1M,2001-01-01T00:00:00Z,2026-07-01T00:00:00Z,114202,eia:electricity/retail-sales,2026-10-05T14:24:25Z,pass,public,power,no,source

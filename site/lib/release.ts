@@ -37,6 +37,7 @@ export const RELEASE: Record<string, Status> = {
   "/data/methods/storage": "review",
 
   "/board": "review",
+  // session 132: /board/v4, /board/v3 and /markets are retired and redirect to /board (next.config.ts); their lines stay so that an address typed by hand never reads as a page with no status
   "/board/v4": "review",  // session 127: the price board, version 4 (every price held: latest, moves over a day, week, month and year, its one-year range; the spreads; what is not held)
   "/board/v3": "review",  // session 104: the price board, version 3 (power by grid, gas, oil; last value, day, week, thirty days)
   "/markets": "review",
