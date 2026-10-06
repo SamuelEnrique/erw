@@ -40,6 +40,7 @@ export const RELEASE: Record<string, Status> = {
   "/board/v3": "review",  // session 104: the price board, version 3 (power by grid, gas, oil; last value, day, week, thirty days)
   "/markets": "review",
   "/cost-of-power": "review",
+  "/supply": "review",  // session 134: supply and trade (storage, stocks, production, refining, trade and positioning against last week, last year and the five-year average)
   "/prices": "review",
   "/explorer/ercot-peak-premium": "review",
   "/grid": "review",

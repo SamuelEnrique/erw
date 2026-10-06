@@ -48,6 +48,7 @@ const PAGES = [
   "/prices/compare", "/prices/compare?period=month&market=rtm&sort=spread", "/data/methods/hub_price_comparison",  // session 96: where power is cheap, in review
   "/demand", "/demand?area=caiso&rank=peak", "/demand?area=us48&rank=ytd", "/data/methods/demand_growth",  // session 97: the demand growth explorer, in review
   "/curtailment/v2", "/curtailment/v2?period=2026-05", "/curtailment/v2?period=2019", "/data/methods/caiso_curtailment_intervals",  // session 98: curtailment, version 2, in review
+  "/supply", "/supply?g=gasstor,position&s=eia-wcestus1", "/data/methods/supply_and_trade",  // session 134: Supply and trade, in review
   // session 35: the seven grid pages
   "/network/v3", "/network/v3?view=day&t=2021-02-15&grid=ERCO&prices=1&trace=1",  // session 93: version 3, in review
   "/network", "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
