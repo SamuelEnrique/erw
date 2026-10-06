@@ -180,8 +180,10 @@ export function slotLabel(slot: number, freq: "D" | "W" | "M"): string {
 }
 export type Seasonal = { years: number[]; lines: Record<number, (number | null)[]>; lo: (number | null)[]; hi: (number | null)[]; bandYears: number[] };
 /** This year against the same dates in prior years: one line a year by slot, and the lowest and highest of the five
- *  years before the newest as a band. A slot a year does not hold is null in that year's line; the band covers a slot
- *  when at least one of the five years holds it. */
+ *  years before the newest as a band. A slot a year does not hold is null in that year's line. The band of a daily
+ *  series is by the week: the lowest and highest value those five years hold in the seven days the slot falls in (a
+ *  fuel has no weekend, so a band by the single day would narrow wherever a year's date fell on one); of a weekly or
+ *  monthly series, by the slot itself. It covers a slot when at least one of the five years holds a value there. */
 export function seasonal(p: Point[], freq: "D" | "W" | "M"): Seasonal {
   const n = SLOTS[freq];
   const lines: Record<number, (number | null)[]> = {};
@@ -193,9 +195,11 @@ export function seasonal(p: Point[], freq: "D" | "W" | "M"): Seasonal {
   const newest = years[years.length - 1];
   const bandYears = years.filter((y) => y < newest && y >= newest - 5);
   const lo = Array<number | null>(n).fill(null), hi = Array<number | null>(n).fill(null);
-  for (let i = 0; i < n; i++) {
-    const vals = bandYears.map((y) => lines[y][i]).filter((v): v is number => v !== null);
-    if (vals.length) { lo[i] = Math.min(...vals); hi[i] = Math.max(...vals); }
+  const span = freq === "D" ? 7 : 1;
+  for (let i = 0; i < n; i += span) {
+    const vals: number[] = [];
+    for (const y of bandYears) for (let k = i; k < Math.min(n, i + span); k++) { const v = lines[y][k]; if (v !== null) vals.push(v); }
+    if (vals.length) for (let k = i; k < Math.min(n, i + span); k++) { lo[k] = Math.min(...vals); hi[k] = Math.max(...vals); }
   }
   return { years, lines, lo, hi, bandYears };
 }

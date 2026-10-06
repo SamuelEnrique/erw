@@ -62,7 +62,8 @@ test("this year against prior years: one line a year, and a band of the five yea
   const newest = s.years.at(-1);
   assert.deepEqual(s.bandYears, [newest - 5, newest - 4, newest - 3, newest - 2, newest - 1]);
   const slot = b.slotOf(Date.UTC(newest - 1, 5, 15), "D");
-  const vals = s.bandYears.map((y) => s.lines[y][slot]).filter((v) => v !== null);
+  const w0 = Math.floor(slot / 7) * 7;                 // a daily series' band is by the week the slot falls in
+  const vals = s.bandYears.flatMap((y) => s.lines[y].slice(w0, w0 + 7)).filter((v) => v !== null);
   assert.equal(s.lo[slot], Math.min(...vals));
   assert.equal(s.hi[slot], Math.max(...vals));
   assert.equal(b.slotOf(Date.UTC(2024, 2, 1), "D"), b.slotOf(Date.UTC(2023, 2, 1), "D"));      // 1 March lines up in a leap year

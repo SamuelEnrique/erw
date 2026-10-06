@@ -97,7 +97,7 @@ function SeasonChart({ p, freq, name, unit }: { p: Point[]; freq: "D" | "W" | "M
     const band = s.bandYears.length ? `${s.bandYears[0]} to ${s.bandYears[s.bandYears.length - 1]} range` : "";
     chart.setOption({
       textStyle: st.textStyle, animation: false,
-      legend: { type: "scroll", top: 0, left: 0, right: 40, textStyle: { fontSize: 11 }, itemWidth: 14, itemHeight: 8 },
+      legend: { type: "scroll", top: 0, left: 0, right: 40, textStyle: { fontSize: 11 }, itemWidth: 14, itemHeight: 8, data: [...(band ? [band] : []), ...shown.map(String)] },
       toolbox: st.toolbox("erw-price-board-seasons"),
       tooltip: { ...st.tooltip, trigger: "axis", formatter: (ps: { seriesName: string; value: number | null; marker: string; name: string; seriesId?: string }[]) => {
         const i = labels.indexOf(ps[0].name);
@@ -110,11 +110,11 @@ function SeasonChart({ p, freq, name, unit }: { p: Point[]; freq: "D" | "W" | "M
       yAxis: { type: "value", scale: true, name: unit, ...st.axis },
       series: [
         ...(band ? [
-          { name: "low", type: "line", stack: "band", showSymbol: false, lineStyle: { opacity: 0 }, data: s.lo, legendHoverLink: false, tooltip: { show: false } },
-          { name: band, type: "line", stack: "band", showSymbol: false, lineStyle: { opacity: 0 }, areaStyle: { color: token("rule"), opacity: 0.55 }, itemStyle: { color: token("rule") }, data: s.hi.map((h, i) => (h === null || s.lo[i] === null ? null : h - s.lo[i]!)) },
+          { name: "low", type: "line", stack: "band", showSymbol: false, connectNulls: true, lineStyle: { opacity: 0 }, data: s.lo, legendHoverLink: false, tooltip: { show: false } },
+          { name: band, type: "line", stack: "band", showSymbol: false, connectNulls: true, lineStyle: { opacity: 0 }, areaStyle: { color: token("rule"), opacity: 0.55 }, itemStyle: { color: token("rule") }, data: s.hi.map((h, i) => (h === null || s.lo[i] === null ? null : h - s.lo[i]!)) },
         ] : []),
         ...shown.map((y, i) => ({
-          name: String(y), type: "line", showSymbol: freq !== "D", symbolSize: 4, connectNulls: false, data: s.lines[y],
+          name: String(y), type: "line", showSymbol: freq !== "D", symbolSize: 4, connectNulls: true, data: s.lines[y],   // a line joins the dates the year holds (a fuel has no weekend); the mouse reads only values held
           lineStyle: { width: y === newest ? 2 : 1, color: y === newest ? token("accent") : greys[Math.max(0, greys.length - (shown.length - 1) + i)] ?? greys[0] },
           itemStyle: { color: y === newest ? token("accent") : greys[Math.max(0, greys.length - (shown.length - 1) + i)] ?? greys[0] }, z: y === newest ? 5 : 2,
         })),
@@ -270,7 +270,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
         </div>
         <div className="flex flex-wrap items-center gap-1">
           <span className="w-16 text-muted">Overlay</span>
-          <select value={over?.id ?? ""} onChange={(e) => set({ o: e.target.value || null })} className="max-w-[22rem] border border-rule bg-white px-1 py-0.5" aria-label="A second series, from everything on the board" data-overlay="1">
+          <select value={over?.id ?? ""} onChange={(e) => set({ o: e.target.value || null })} className="w-full max-w-[22rem] border border-rule bg-white px-1 py-0.5" aria-label="A second series, from everything on the board" data-overlay="1">
             <option value="">None</option>
             {groupsOf.map(({ g, rows }) => <optgroup key={g.id} label={g.title}>{rows.map((r) => <option key={r.id} value={r.id}>{nameOf(r)} ({r.unit})</option>)}</optgroup>)}
           </select>
@@ -309,7 +309,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
                       <td className="px-2 text-right" data-stat="mean">{n2(s?.mean)}</td>
                       <td className="px-2 text-right" title={s ? when(s.minT) : undefined}>{n2(s?.min)}</td>
                       <td className="px-2 text-right" title={s ? when(s.maxT) : undefined}>{n2(s?.max)}</td>
-                      {hourly ? <><td className="px-2 text-right" data-stat="peak">{n2(d?.peakMean)}</td><td className="px-2 text-right" data-stat="offpeak">{n2(d?.offMean)}</td><td className="px-2 text-right">{d ? d.negative.toLocaleString("en-US") : ""}</td></> : null}
+                      {hourly ? <><td className="px-2 text-right" data-stat="peak">{d ? n2(d.peakMean) : ""}</td><td className="px-2 text-right" data-stat="offpeak">{d ? n2(d.offMean) : ""}</td><td className="px-2 text-right">{d ? d.negative.toLocaleString("en-US") : ""}</td></> : null}
                       <td className="px-2 text-right">{s ? s.n.toLocaleString("en-US") : 0}</td>
                     </tr>
                   );
