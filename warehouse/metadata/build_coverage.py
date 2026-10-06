@@ -119,6 +119,12 @@ SECTOR_RULES = [
     (r"^(carb|rggi)_auction_allowance_prices$", "carbon"),
     (r"^fred_daily_spot_prices$", "oil;gas"),
     (r"^fred_imf_commodity_prices$", "gas;lng;coal;uranium;metals"),
+    # session 134: supply and trade
+    (r"^eia_gas_storage_weekly$", "gas"),                 # weekly working gas in storage, the Lower 48 and its regions
+    (r"^eia_petroleum_supply_weekly$", "oil;products"),   # weekly stocks, crude production, refinery utilization and inputs, trade
+    (r"^eia_gas_trade_monthly$", "gas;lng"),              # monthly pipeline flows with Mexico and Canada, LNG exports by terminal
+    (r"^eia_basin_production_monthly$", "oil;gas"),       # monthly crude and gas production by region (the Outlook's history)
+    (r"^cftc_cot_positions$", "oil;gas;products"),        # managed money positions in four energy futures, weekly
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),
