@@ -5,10 +5,16 @@
 // Rate limit: 10 questions per IP per hour. The count is kept in this server instance's
 // memory, so on a platform that runs several instances (Vercel) each keeps its own count:
 // the limit is per instance, a floor rather than a guarantee.
+// Session 128: the ceilings that hold whatever the instance (lib/chat/limits.ts): before a question goes to a model the
+// database is asked whether the day's and the month's spend are under their ceilings and whether this visitor is under
+// the day's number of questions. When it says no, or cannot be asked, the answer is a plain message and no model is
+// called. Each admitted question is numbered, and every model call it makes carries the number into the cost ledger.
 import { NextResponse } from "next/server";
 import { ask } from "@/lib/chat/ask";
 import { scopeOf } from "@/lib/chat/tools";
 import { cleanContext, cleanHistory, ercotProfile } from "@/lib/chat/ercot";
+import { admit, questionId, readLimits, readSalt } from "@/lib/chat/limits";
+import { rpc } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -65,10 +71,19 @@ export async function POST(req: Request) {
       { status: 429, headers: { "Retry-After": String(gate.retryAfter) } },
     );
   }
+  // session 128: the spending ceilings and the visitor's daily number, counted by the database. A refusal is logged
+  // with its reason and nothing about the visitor or the question.
+  const limits = readLimits();
+  const admitted = await admit(clientIp(req), now, limits, readSalt(), (a) => rpc("site_ask_admit", a as unknown as Record<string, string>));
+  if (!admitted.ok) {
+    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), status: "refused", reason: admitted.reason, why: admitted.why } }));
+    return NextResponse.json({ error: admitted.message, refused: admitted.reason }, { status: admitted.status, headers: { "Cache-Control": "no-store" } });
+  }
+  const qid = questionId();
   const asked = question.trim();
   // session 121: the per-question line of the log also holds what the question cost and how long it took
   const logged = (r: Record<string, unknown>) => console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: asked,
-    status: r.status ?? "answered", cost_usd: r.cost_usd ?? null, seconds: r.seconds ?? null, seconds_first: r.seconds_first ?? null, tool_calls: r.tool_calls ?? null, turns_before: cleanHistory(history).length } }));
+    status: r.status ?? "answered", question_id: qid, cost_usd: r.cost_usd ?? null, seconds: r.seconds ?? null, seconds_first: r.seconds_first ?? null, tool_calls: r.tool_calls ?? null, turns_before: cleanHistory(history).length } }));
   // session 121, Ask ERCOT only: {stream: true} answers as lines of JSON, one per thing a reader can be shown: first
   // {"type":"reading","table":...} as each query starts, then {"type":"result",...} (the same object the plain answer
   // is) or {"type":"error","error":...}. The answer itself is never sent in pieces: it is checked whole first.
@@ -79,7 +94,7 @@ export async function POST(req: Request) {
         const send = (o: unknown) => ctrl.enqueue(enc.encode(JSON.stringify(o) + "\n"));
         send({ type: "started" });
         try {
-          const r = await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), onEvent: send });
+          const r = await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), onEvent: send, questionId: qid });
           logged(r);
           send({ type: "result", ...r });
         } catch (e) {
@@ -94,11 +109,11 @@ export async function POST(req: Request) {
   }
   try {
     const r = profile === "ercot"
-      ? await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history) })
-      : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null);
+      ? await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), questionId: qid })
+      : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid });
     // session 21 (/terms): each question is logged without identity: the time, the question and the
     // outcome, never the IP address (which lives only in memory, for the hourly limit) or any other identifier
-    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: question.trim(), status: (r as { status?: string }).status ?? "answered" } }));
+    console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: question.trim(), status: (r as { status?: string }).status ?? "answered", question_id: qid, cost_usd: (r as { cost_usd?: number | null }).cost_usd ?? null } }));
     return NextResponse.json(r);
   } catch (e) {
     console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), question: question.trim(), status: "error" } }));

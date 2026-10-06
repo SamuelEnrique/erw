@@ -1,0 +1,6 @@
+{
+  "_": "Session 128: the ceilings of the question-answering tools (/api/ask: the general chat and Ask ERCOT). Read by site/lib/chat/limits.ts. An environment variable of the server overrides a value: ASK_DAILY_USD, ASK_MONTHLY_USD, ASK_PER_VISITOR_PER_DAY. Days and months are UTC. A value that is missing or not a number closes the tool: it then answers with a plain message and makes no model call.",
+  "daily_usd": 3,
+  "monthly_usd": 30,
+  "per_visitor_per_day": 15
+}

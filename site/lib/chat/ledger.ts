@@ -23,7 +23,7 @@ export function callUsd(model: string, u: Anthropic.Usage): number | null {
 }
 
 /** One /ask call, into site_api_calls. A failed write is logged and never fails the answer. */
-export async function recordCall(model: string, resp: Anthropic.Message, requestId?: string | null, step = "site_ask"): Promise<void> {
+export async function recordCall(model: string, resp: Anthropic.Message, requestId?: string | null, step = "site_ask", questionId?: string): Promise<void> {
   const u = resp.usage;
   const cost = callUsd(model, u);
   try {
@@ -36,6 +36,8 @@ export async function recordCall(model: string, resp: Anthropic.Message, request
       output_tokens: u.output_tokens,
       usd: cost === null ? null : Number(cost.toFixed(6)),
       request_id: requestId ?? null,
+      // session 128: the question this call belongs to (migration 023), so a question's cost is the sum of its rows
+      ...(questionId ? { question_id: questionId } : {}),
     });
   } catch (e) {
     console.error(`[erw] cost ledger: ${(e as Error).message}`);
