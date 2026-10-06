@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
-# Supply and trade (/supply): its weekly refresh (session 134). WRITTEN, NOT SCHEDULED: no workflow and no line of
-# run_daily.sh calls this while the review freeze is on. The reports it reads come out on Wednesday (petroleum),
-# Thursday (gas storage) and Friday afternoon (CFTC), so a person who switches it on runs it once a day on those three
-# days, or once on Saturday, as a step of its own:
+# Supply and trade (/supply): its weekly refresh (session 134). SCHEDULED since 6 October 2026, on the owner's
+# instruction in that day's chain prompt. The reports it reads come out on Wednesday (petroleum), Thursday (gas
+# storage) and Friday afternoon (CFTC), all after the daily run's hour on their day, so warehouse/run_daily.sh calls
+# it once a week, on Saturday (UTC), when the week's three reports are out (SUPPLY=1 forces it on any day):
 #
 #   run_other supply "$PYTHON" warehouse/health.py run --step "supply" -- bash warehouse/refresh_supply.sh
 #
-# and lets the run's commit step add site/data/supply.json and warehouse/metadata/release_schedule.json.
+# and the run's commit step adds site/data/supply.json and warehouse/metadata/release_schedule.json. The page is in
+# review; no open page reads these files. The page's file is written through warehouse/derived/page_keep.py: a row
+# whose new build is blank, older or shorter than the held one is kept as it was.
 #
 #   bash warehouse/refresh_supply.sh            # under the data lock, each step recorded in erw_health
 #
@@ -27,8 +29,10 @@ PY="${PYTHON:-python}"
 "$PY" warehouse/health.py run --step "supply validate" --retries 0 -- "$PY" warehouse/validate/erw_validate.py \
   warehouse/output/eia_gas_storage_weekly.csv warehouse/output/eia_petroleum_supply_weekly.csv warehouse/output/eia_gas_trade_monthly.csv \
   warehouse/output/eia_basin_production_monthly.csv warehouse/output/cftc_cot_positions.csv
-if [ "${SUPPLY_NO_BURN:-0}" = "1" ]; then
-  "$PY" warehouse/health.py run --step "supply_page" -- "$PY" warehouse/derived/supply_page.py --no-burn
+# the fuel burn needs the hourly generation workbooks; where none is held (or the build with them fails), the page is
+# built without them and page_keep.py keeps the held fuel burn rows as they were
+if [ "${SUPPLY_NO_BURN:-0}" = "1" ] || [ -z "$(find warehouse/raw/eia930_emissions -name '*.xlsx' 2>/dev/null | head -n 1)" ]; then
+  "$PY" warehouse/health.py run --step "supply_page" -- "$PY" warehouse/derived/page_keep.py supply --no-burn
 else
-  "$PY" warehouse/health.py run --step "supply_page" -- "$PY" warehouse/derived/supply_page.py
+  "$PY" warehouse/health.py run --step "supply_page" --retries 0 -- "$PY" warehouse/derived/page_keep.py supply     || "$PY" warehouse/health.py run --step "supply_page without the fuel burn" -- "$PY" warehouse/derived/page_keep.py supply --no-burn
 fi

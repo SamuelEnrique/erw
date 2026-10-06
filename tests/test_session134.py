@@ -332,14 +332,19 @@ class ThePage(unittest.TestCase):
                       "S&P Global", "three months before", "Thursday 10:30", "not the whole country"):
             self.assertIn(words, note, words)
 
-    def test_the_refresh_is_written_and_not_scheduled(self):
+    def test_the_refresh_is_scheduled_once_a_week_through_the_guard(self):
+        # 6 October 2026: the owner had it scheduled (the chain prompt of that day). Until then this test asserted
+        # that nothing called the script; it now asserts the one call, on Saturdays, under health.py, and the guard
         sh = src("warehouse", "refresh_supply.sh")
         for step in ('--step "eia_supply"', '--step "cftc_cot"', '--step "release_schedule"', '--step "supply_page"'):
             self.assertIn("health.py run " + step, sh)
+        self.assertIn("warehouse/derived/page_keep.py supply", sh)
         for wf in os.listdir(os.path.join(ROOT, ".github", "workflows")):
             self.assertNotIn("refresh_supply.sh", src(".github", "workflows", wf), wf)
-        self.assertNotIn("refresh_supply.sh", src("warehouse", "run_daily.sh"))
-        self.assertNotIn("supply_page", src("warehouse", "run_daily.sh"))
+        daily = src("warehouse", "run_daily.sh")
+        self.assertEqual(daily.count('health.py run --step "supply" -- bash warehouse/refresh_supply.sh'), 1)
+        self.assertIn('if [ "$(date -u +%u)" = "6" ] || [ "${SUPPLY:-0}" = "1" ]; then', daily)
+        self.assertIn("site/data/supply.json warehouse/metadata/release_schedule.json", src(".github", "workflows", "daily-prices.yml"))
 
     def test_the_new_tables_are_held_out_of_the_live_set_and_no_miso_request_is_made(self):
         sys.path.insert(0, os.path.join(ROOT, "warehouse", "supabase"))

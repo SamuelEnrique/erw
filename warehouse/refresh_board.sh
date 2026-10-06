@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-# The price board (/board): its daily refresh (session 132). WRITTEN, NOT SCHEDULED: no workflow and no line of
-# run_daily.sh calls this while the review freeze is on. To switch it on, a person adds one step to
-# warehouse/run_daily.sh after "price_board" and "trader_view" (the price tables the board reads are refreshed by then):
+# The price board (/board): its daily refresh (session 132). SCHEDULED since 6 October 2026, on the owner's
+# instruction in that day's chain prompt: warehouse/run_daily.sh calls it once a day after "price_board" and
+# "trader_view" (the price tables the board reads are refreshed by then), as
 #
 #   run_other board "$PYTHON" warehouse/health.py run --step "board" -- bash warehouse/refresh_board.sh
 #
-# and lets the daily run's commit step add site/data/board.json and site/public/board/ (the page reads those files).
+# and the daily run's commit step adds site/data/board.json and site/public/board/ (the page reads those files).
+# The page is in review; no open page reads these files. The last step goes through warehouse/derived/page_keep.py:
+# on the runner the long price histories are absent, and a row whose new build is older or shorter than the held one
+# is kept as it was, never replaced by less.
 #
 #   bash warehouse/refresh_board.sh            # under the data lock, each step recorded in erw_health
 #
@@ -28,4 +31,4 @@ FILES=""
 for t in $NEW; do FILES="$FILES warehouse/output/$t.csv"; done
 # shellcheck disable=SC2086
 "$PY" warehouse/health.py run --step "board validate" --retries 0 -- "$PY" warehouse/validate/erw_validate.py $FILES
-"$PY" warehouse/health.py run --step "board_page" -- "$PY" warehouse/derived/board_page.py
+"$PY" warehouse/health.py run --step "board_page" -- "$PY" warehouse/derived/page_keep.py board
