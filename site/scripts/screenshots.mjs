@@ -50,7 +50,7 @@ const PAGES = [
   ["curtailment", "/curtailment"],
   ["consumption", "/consumption"],
   // session 19
-  ["markets", "/markets"],
+  ["markets", "/board?s=ercot-hb-hubavg-da&x=1"],  // session 132: the markets page is the board's workbench
   ["subscribe", "/subscribe"],
   // session 21
   ["terms", "/terms"],

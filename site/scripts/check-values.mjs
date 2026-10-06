@@ -41,7 +41,6 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/consumption",
   // session 19
-  "/markets",
   // session 35: the seven grid pages
   "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
   // session 36B: the Historical Event Analyzer
