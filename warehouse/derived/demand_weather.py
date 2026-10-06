@@ -89,6 +89,12 @@ METRICS = ("energy", "summer_peak", "winter_peak", "overnight_min")
 PEAKS = ("summer_peak", "winter_peak")
 LABEL = {"energy": "the year's energy", "summer_peak": "the summer peak", "winter_peak": "the winter peak", "overnight_min": "the overnight minimum"}
 FEATURES = ("one", "hd", "hd2", "cd", "cd2", "hd24", "cd24")
+# session 129, the trial with dew point: how far the grid's dew point stands above 60 F in an hour that has cooling
+# degrees (humid air is heavier to cool), and its mean over the 24 hours before. Adopted for every grid, or for none,
+# by the rule of adopt_dew().
+DEW_F = 60.0
+FEATURES_DEW = FEATURES + ("hum", "hum24")
+DEW_WORSE = 0.05   # points of left-out hourly error: dew point is not adopted if it costs any grid more than this
 PLAIN = ("one", "hd", "cd")       # the comparison: the same 48 lines with heating and cooling degrees only
 
 
@@ -142,6 +148,8 @@ def frame(demand, weather, tz, ba=None):
     x["hd2"], x["cd2"] = x["hd"] ** 2, x["cd"] ** 2
     x["hd24"] = x["hd"].shift(1).rolling(LAG, min_periods=LAG_MIN).mean()
     x["cd24"] = x["cd"].shift(1).rolling(LAG, min_periods=LAG_MIN).mean()
+    x["hum"] = ((x["dew_point_f"] - DEW_F).clip(lower=0)).where(x["cd"] > 0, 0.0).where(x["dew_point_f"].notna() & x["cd"].notna())
+    x["hum24"] = x["hum"].shift(1).rolling(LAG, min_periods=LAG_MIN).mean()
     x["shed"] = False
     if ba in SHED:
         x["shed"] = (x["day"] >= SHED[ba][0]) & (x["day"] <= SHED[ba][1])
@@ -252,6 +260,12 @@ def analyse(demand, weather, tz, ba, features=FEATURES):
     model = fit(x, TRAIN, features)
     pred = predict(x, model, features)
     both = x["demand"].notna() & pred.notna()
+    if not both.any():
+        # session 129: no hour could be fitted (a term the weather does not hold, such as a dew point no station gave):
+        # no figure is written for the grid, and none is made up
+        return dict(x=x, pred=pred, years={}, holdout={}, through=None, newest=None, last_day=None,
+                    fit=dict(hours=0, kinds=0, in_sample_mape_pct=None, oos_mape_pct=None, oos_daily_mape_pct=None, oos_by_year={},
+                             hours_not_used=0, hours_held=0, shed_hours=0, hd_max=None, cd_max=None))
     last_day = x["day"][both].max()
     # the newest year's last whole local day with every hour used; its energy and overnight minimum stop there
     newest = int(x["year"][both].max())
@@ -385,12 +399,57 @@ def clean(o):
     return o
 
 
-def equal_weights(demands, log):
+def adopt_dew(base, dew):
+    """Whether dew point goes into the fit: {grid: (left-out hourly error without, with)} for the seven. It does when
+    the mean of the seven errors is lower with it and no grid's error rises by more than DEW_WORSE points."""
+    worse = [g for g in base if dew[g] - base[g] > DEW_WORSE]
+    better = sum(dew.values()) / len(dew) < sum(base.values()) / len(base)
+    return bool(better and not worse), worse
+
+
+def moved(old, new):
+    """What moved from session 126's figures: for every figure both builds hold, the change in the part not explained
+    and whether its reading as a finding changed. old and new: {grid: {year: {figure: dict or None}}}."""
+    rows = []
+    for ba, years in new.items():
+        for y, row in years.items():
+            for m, g in row.items():
+                o = (old.get(ba, {}).get(str(y)) or {}).get(m)
+                if g and o:
+                    rows.append(dict(ba=ba, year=int(y), figure=m, was=o["unexplained_pct"], now=g["unexplained_pct"], change=g["unexplained_pct"] - o["unexplained_pct"],
+                                     was_finding=bool(o.get("finding")), finding=bool(g.get("finding")), was_pm=o.get("uncertainty_pct"), pm=g.get("uncertainty_pct")))
+                elif bool(g) != bool(o):
+                    rows.append(dict(ba=ba, year=int(y), figure=m, was=o["unexplained_pct"] if o else None, now=g["unexplained_pct"] if g else None, change=None,
+                                     was_finding=bool(o and o.get("finding")), finding=bool(g and g.get("finding")), was_pm=None, pm=None))
+    return rows
+
+
+def four_of_five(demands, log, features, grid="ISNE", least=4):
+    """New England under the trial rule: an hour held on at least four of its five stations, the weights restated over
+    those held. Returns the grid's years and fit, or None when NOAA's files and the station table are both absent."""
+    import noaa_grid_weather as ngw
+    try:
+        table = os.path.join(ROOT, "warehouse", "output", ngw.STATION_HOURS + ".csv")
+        if os.path.exists(table):
+            raw, facts = ngw.raw_from_table(table), ngw.facts_from_tables(os.path.join(ROOT, "warehouse", "output"))
+        else:
+            raw, facts, _ = ngw.pull(lambda *a: None, offline=True, census_dir=os.path.join(ROOT, "warehouse", "output"))
+    except Exception as exc:
+        log(f"  the trial with four stations of five was not made: {type(exc).__name__}: {str(exc)[:160]}")
+        return None
+    _, hours, _, _, _ = ngw.build(raw, facts, min_stations={grid.lower(): least})
+    h = hours[grid.lower()]
+    r = analyse(demands[grid][0], h, dg.AREAS[grid]["tz"], grid, features)
+    n_all = int(h["temperature_f"].notna().sum())
+    return dict(years=r["years"], fit=r["fit"], hours_held=n_all, hours=len(h), hours_on_four=int((h["stations"] == least).sum()) if "stations" in h else 0, least=least)
+
+
+def equal_weights(demands, log, features=FEATURES):
     """The trial with five equal weights a grid in place of the stated ones, from the stations' raw files. Returns
     {BA: {year: {metric: unexplained}}}, or None when the raw files are not on this machine."""
     import noaa_grid_weather as ngw
     try:
-        raw, facts, _ = ngw.pull(lambda *a: None, offline=True)
+        raw, facts, _ = ngw.pull(lambda *a: None, offline=True, census_dir=os.path.join(ROOT, "warehouse", "output"))
     except Exception as exc:
         log(f"  the trial with equal weights was not made: {type(exc).__name__}: {str(exc)[:160]}")
         return None
@@ -400,7 +459,7 @@ def equal_weights(demands, log):
     _, hours, _, _, _ = ngw.build(raw, facts, weights={c: 1.0 / n[f["ba"]] for c, f in facts.items()})
     out = {}
     for ba in BAS:
-        r = analyse(demands[ba][0], hours[ba.lower()], dg.AREAS[ba]["tz"], ba)
+        r = analyse(demands[ba][0], hours[ba.lower()], dg.AREAS[ba]["tz"], ba, features)
         out[ba] = {y: {m: (g["unexplained_pct"] if g else None) for m, g in row.items()} for y, row in r["years"].items()}
     return out
 
@@ -412,6 +471,7 @@ def main(argv=None):
     ap.add_argument("--cache", help="a folder keeping each grid's hourly demand between runs")
     ap.add_argument("--weather", help="the hourly weather table (default warehouse/output/noaa_grid_weather_hourly.csv)")
     ap.add_argument("--no-equal", action="store_true", help="skip the trial with equal station weights")
+    ap.add_argument("--before", help="session 126's summary (a copy of its site/data/demand_weather.json), to say what moved")
     args = ap.parse_args(argv)
     weather_path = args.weather or os.path.join(ip.OUT_DIR, WEATHER + ".csv")
     if args.out_dir:
@@ -425,11 +485,23 @@ def main(argv=None):
     weather = read_weather(weather_path)
     retrieved = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
     demands, results, plain, rows, books = {}, {}, {}, [], []
+    base, withdew = {}, {}
     for ba in BAS:
         demands[ba] = read_demand(ba, args.cache)
         books.append(os.path.relpath(demands[ba][1], ROOT).replace("\\", "/"))
         tz = dg.AREAS[ba]["tz"]
-        results[ba] = analyse(demands[ba][0], weather[ba], tz, ba)
+        base[ba] = analyse(demands[ba][0], weather[ba], tz, ba, FEATURES)
+        withdew[ba] = analyse(demands[ba][0], weather[ba], tz, ba, FEATURES_DEW)
+    # session 129: dew point goes in for every grid or for none, by one rule stated before the numbers are read
+    dew_in, dew_worse = adopt_dew({b: base[b]["fit"]["oos_mape_pct"] for b in BAS}, {b: withdew[b]["fit"]["oos_mape_pct"] for b in BAS})
+    used = FEATURES_DEW if dew_in else FEATURES
+    dew = {ba: dict(without=dict(hour=base[ba]["fit"]["oos_mape_pct"], day=base[ba]["fit"]["oos_daily_mape_pct"], hours=base[ba]["fit"]["hours"]),
+                    with_dew=dict(hour=withdew[ba]["fit"]["oos_mape_pct"], day=withdew[ba]["fit"]["oos_daily_mape_pct"], hours=withdew[ba]["fit"]["hours"])) for ba in BAS}
+    log(f"  dew point in the fit: {'adopted' if dew_in else 'not adopted'} (mean left-out hourly error {sum(d['without']['hour'] for d in dew.values()) / 7:.3f} without, "
+        f"{sum(d['with_dew']['hour'] for d in dew.values()) / 7:.3f} with; grids it costs more than {DEW_WORSE}: {dew_worse or 'none'})")
+    for ba in BAS:
+        tz = dg.AREAS[ba]["tz"]
+        results[ba] = withdew[ba] if dew_in else base[ba]
         p = analyse(demands[ba][0], weather[ba], tz, ba, PLAIN)
         plain[ba] = p["fit"]["oos_mape_pct"]
         f = results[ba]["fit"]
@@ -438,17 +510,30 @@ def main(argv=None):
             f"(days {f['oos_daily_mape_pct']:.2f}; in the fit {f['in_sample_mape_pct']:.2f}; with heating and cooling degrees only {plain[ba]:.2f}); "
             f"newest year {results[ba]['newest']} through {results[ba]['through']}")
         rows += rows_of(ba, results[ba], retrieved, dg.AREAS[ba]["geo"])
-    eq = None if args.no_equal else equal_weights(demands, log)
-    moved = None
+    eq = None if args.no_equal else equal_weights(demands, log, used)
+    moved_eq = None
     if eq:
         diffs = [(abs(eq[ba][y][m] - g["unexplained_pct"]), ba, y, m) for ba in BAS for y, row in results[ba]["years"].items()
                  for m, g in row.items() if g and eq[ba].get(y, {}).get(m) is not None]
         e_only = [d for d in diffs if d[3] == "energy"]
-        moved = dict(largest_any=max(diffs)[0], largest_any_where=list(max(diffs)[1:]), largest_energy=max(e_only)[0],
+        moved_eq = dict(largest_any=max(diffs)[0], largest_any_where=list(max(diffs)[1:]), largest_energy=max(e_only)[0],
                      largest_energy_where=list(max(e_only)[1:]), figures=len(diffs))
-        log(f"  with five equal weights a grid: the year's energy not explained moves by at most {moved['largest_energy']:.2f} points "
-            f"({moved['largest_energy_where']}); any figure by at most {moved['largest_any']:.2f} ({moved['largest_any_where']})")
+        log(f"  with five equal weights a grid: the year's energy not explained moves by at most {moved_eq['largest_energy']:.2f} points "
+            f"({moved_eq['largest_energy_where']}); any figure by at most {moved_eq['largest_any']:.2f} ({moved_eq['largest_any_where']})")
     ca = california(results["CISO"])
+    isne4 = four_of_five(demands, log, used)
+    if isne4:
+        log(f"  New England with four stations of five: {isne4['hours_held']:,} of {isne4['hours']:,} hours held ({isne4['hours_on_four']:,} of them on four), against "
+            f"{int(weather['ISNE']['temperature_f'].notna().sum()):,} under the rule")
+    before = None
+    if args.before and os.path.exists(args.before):
+        with open(args.before, encoding="utf-8") as f:
+            old = json.load(f)
+        before = moved({b: g["years"] for b, g in old["grids"].items()}, {b: results[b]["years"] for b in BAS})
+        ch = [r for r in before if r["change"] is not None]
+        log(f"  against session 126: {len(ch)} figures held by both; the part not explained moves by at most {max(abs(r['change']) for r in ch):.2f} points "
+            f"({max(ch, key=lambda r: abs(r['change']))['ba']} {max(ch, key=lambda r: abs(r['change']))['year']} {max(ch, key=lambda r: abs(r['change']))['figure']}); "
+            f"{sum(1 for r in before if r['finding'] != r['was_finding'])} change their reading as a finding")
     t = pd.DataFrame(rows)
     cols = ip.SERIES_COLS + ["ba", "x_finding", "x_window", "x_at", "x_used"]
     through = min(f"{r['newest']}-{r['through']}" for r in results.values())   # the last whole local day every grid's newest year counts
@@ -468,7 +553,7 @@ def main(argv=None):
         f"Derived from: {WEATHER}",
         "Demand: EIA-930 hourly demand (EIA's Adjusted demand), read from the workbooks " + ", ".join(books),
         "input sources: eia:gridmonitor (https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx); noaa:isd_lite; noaa:lcd_v2",
-        f"An hour of demand is used when it passes impossible_hours.screen (session 118). The fit: {TRAIN[0]} to {TRAIN[-1]}, 48 kinds of hour, terms {', '.join(FEATURES[1:])}. "
+        f"An hour of demand is used when it passes impossible_hours.screen (session 118). The fit: {TRAIN[0]} to {TRAIN[-1]}, 48 kinds of hour, terms {', '.join(used[1:])}. "
         f"The newest year is through {through} (local days); its energy and overnight minimum are compared over the same days of {TRAIN[0]} to {TRAIN[-1]}.",
         "License: public. A derived table inherits the most restrictive license of its inputs (Decision 23).",
         "Method: docs/methods/demand_weather.md",
@@ -482,7 +567,9 @@ def main(argv=None):
         grids={ba: dict(name=dg.AREAS[ba]["name"], tz=dg.AREAS[ba]["tz"], fit={**results[ba]["fit"], "plain_oos_mape_pct": plain[ba]},
                         holdout=results[ba]["holdout"], years=results[ba]["years"], through=results[ba]["through"], newest=results[ba]["newest"])
                for ba in BAS},
-        equal_weights=dict(moved=moved, unexplained=eq) if eq else None, california=ca, shed=SHED,
+        equal_weights=dict(moved=moved_eq, unexplained=eq) if eq else None, california=ca, shed=SHED,
+        dew=dict(adopted=dew_in, threshold_f=DEW_F, worse_limit=DEW_WORSE, grids_it_costs=dew_worse, by_grid=dew), features=list(used[1:]),
+        isne_four_of_five=isne4, moved_from_126=before,
     )
     wsum = os.path.join(ROOT, "warehouse", "raw", "noaa_grid_weather", "summary.json")
     if os.path.exists(wsum):

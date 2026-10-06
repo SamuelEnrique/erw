@@ -297,7 +297,7 @@ class Repository(unittest.TestCase):
             self.assertIn('"/demand/weather": "review"', f.read())
         with open(os.path.join(SITE, "app", "demand", "weather", "page.tsx"), encoding="utf-8") as f:
             page = f.read()
-        for words in ("What the remainder is not", "The warehouse cannot split them", "data-summary", "The populations were not retrieved",
+        for words in ("What the remainder is not", "The warehouse cannot split them", "data-summary", "Census Bureau",   # session 129: the weights are the Bureau's
                       "@/data/demand_weather.json", "never interpolated across more than three hours", "robots: { index: false"):
             self.assertIn(words, page)
         with open(os.path.join(SITE, "scripts", "check-routes.mjs"), encoding="utf-8") as f:
@@ -310,7 +310,7 @@ class Repository(unittest.TestCase):
         with open(path, encoding="utf-8") as f:
             text = f.read()
         for words in ("Cite as: NOAA National Centers for Environmental Information (2001): Global Surface Hourly", "WMO Resolution 40",
-                      "https://doi.org/10.25921/96dw-mb77", "The populations were not retrieved", "What the remainder is not"):
+                      "https://doi.org/10.25921/96dw-mb77", "The populations are the Census Bureau's", "What the remainder is not"):
             self.assertIn(words, text)
 
 
@@ -355,7 +355,7 @@ class SiteCopy(unittest.TestCase):
             self.assertGreaterEqual(s["agree"], ngw.AGREE)
             self.assertEqual(s["hours"], s["measured"] + s["interpolated"] + s["missing"])
         for ba, t in tot.items():
-            self.assertAlmostEqual(t, 1.0, places=6)
+            self.assertAlmostEqual(t, 1.0, places=3)     # session 129: shares, not twentieths; the copy rounds each to four decimals
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(OUT, "noaa_grid_weather_hourly.csv")), "the tables are on the data machine")
@@ -376,7 +376,7 @@ class TablesAsBuilt(unittest.TestCase):
         w = s[s["variable"] == "weight"]
         self.assertEqual(len(w), 35)
         for ba, g in w.groupby("ba"):
-            self.assertAlmostEqual(float(g["value"].sum()), 1.0, places=6)
+            self.assertAlmostEqual(float(g["value"].sum()), 1.0, places=5)     # session 129: shares written to six decimals
         src = pd.read_csv(os.path.join(ROOT, "warehouse", "metadata", "sources.csv"), dtype=str, keep_default_na=False)
         for name in ("noaa:isd_lite", "noaa:lcd_v2", "erw:demand_weather"):
             row = src[src["source"] == name]

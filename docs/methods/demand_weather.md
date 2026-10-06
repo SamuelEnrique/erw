@@ -3,7 +3,7 @@
 Table `eia930_demand_weather`, built by `warehouse/derived/demand_weather.py` from EIA-930 hourly demand and
 `noaa_grid_weather_hourly`. The weather tables (`noaa_grid_weather_stations`, `noaa_grid_weather_hourly`,
 `noaa_grid_weather_daily`) are built by `warehouse/connectors/noaa_grid_weather.py`. Page: `/demand/weather`, in review.
-Session 126. Every figure below is the build's own (run of 2026-10-05); this document is written from its summary.
+Sessions 126 and 129. Every figure below is the build's own (run of 2026-10-06); this document is written from its summary.
 
 ## What it answers
 
@@ -87,55 +87,66 @@ A person should confirm that reading before the page opens.
 ### The stations and their weights
 
 **The rule.** For each grid, the five most populous metropolitan areas whose principal city the grid operator serves; for each, the
-principal airport's station; the weight is the area's share of the five areas' population, to the nearest twentieth (largest
-remainders first, so the five add to one).
+principal airport's station; the weight is the area's population over the sum of the grid's five.
 
-**The populations were not retrieved.** The warehouse holds no population table, and the session's one approved pull was NOAA's. The
-twentieths below are therefore a stated parameter of the method, as session 60 stated California's three (0.30, 0.20, 0.50), set from the
-2020 Census counts of metropolitan areas as generally known. No population figure is written to any table. They are rounded this
-coarsely so that a count wrong by a few percent gives the same weight. A person should check them against the Census Bureau's table of
-metropolitan areas before the page opens; replacing them by retrieved figures needs an approved pull of that one file.
-What rests on them: with five equal weights a grid in their place, the year's energy not explained moves by at most 1.2 points in any grid and year
-(CAISO, 2026); a peak moves by up to 7.2 points (NYISO, 2024,
+**The populations are the Census Bureau's** (session 129): `census_metro_population`, from the Population Estimates Program's file of
+metropolitan areas, vintage 2025, the estimates base of 1 April 2020 (`cbsa-est2025-alldata.csv`, 2,806 rows of a ceiling of 5,000). A weight
+is not rounded. New York's area is counted by its part in New York State, the sum of its New York counties as the file lists them: its
+New Jersey part is PJM's. Session 126 had no population table and stated the shares to the nearest twentieth; no stated share was more
+than 0.030 from the Bureau's.
+
+**Where the counts and the stations part.** NYISO: Kiryas Joel-Poughkeepsie-Newburgh, NY (698,330) is more populous than Syracuse, NY (662,063), whose station SYR is held; no station is held for it. Session 129's approved pull was the Census Bureau's and not NOAA's, so the
+station held stays, at a weight of 0.039. A pull of that one station would put the rule's fifth area in its place.
+
+**The Census Bureau's terms, quoted** (its page "Citing our Data, Tools, Technical Documents and Research", read 6 October 2026):
+
+> Proper citation ensures that Census Bureau statistical products and research can be discovered, reused, replicated for verification, and credited for recognition to measure usage and impact. Data users who create their own estimates using data from disseminated tables and other data should cite the Census Bureau as the source of the original data only. Conclusions drawn from any analysis of these data are the sole responsibility of the performing party.
+
+The file was taken from the Bureau's public file server, not through its API, so the API's terms of service (which ask for the notice "This
+product uses the Census Bureau Data API but is not endorsed or certified by the Census Bureau") do not apply to it. Neither page I read
+states a license in so many words; the table is registered `public`, as the Bureau's gazetteer already is, and cites the
+Bureau as the source. A weight computed here is the ERW's, not the Bureau's.
+What rests on them: with five equal weights a grid in their place, the year's energy not explained moves by at most 1.8 points in any grid and year
+(CAISO, 2026); a peak moves by up to 6.0 points (CAISO, 2025,
 where equal weights put four fifths of the weight outside the city that holds most of the load). The energy figures do not rest on the weights; the peaks do.
 
-| Grid | Airport | NOAA station (USAF-WBAN), NOAA's name | Stands for | Weight | Hours measured | Interpolated | Missing | Longest gap, hours |
-|---|---|---|---|---|---|---|---|---|
-| ERCOT | DFW | 722590-03927 Dallas/Ft Worth International Ap | Dallas-Fort Worth-Arlington | 0.35 | 67,680 | 80 | 102 | 91 |
-| ERCOT | IAH | 722430-12960 G Bush Intercontinental Ap/Houston Ap | Houston-The Woodlands-Sugar Land | 0.35 | 67,720 | 45 | 97 | 90 |
-| ERCOT | SAT | 722530-12921 San Antonio International Airport | San Antonio-New Braunfels | 0.15 | 67,699 | 40 | 123 | 90 |
-| ERCOT | AUS | 722540-13904 Austin-Bergstrom Intl Airport | Austin-Round Rock-Georgetown | 0.10 | 67,637 | 117 | 108 | 91 |
-| ERCOT | MFE | 722506-12959 Mc Allen Miller Intl Arpt | McAllen-Edinburg-Mission | 0.05 | 67,573 | 109 | 180 | 91 |
-| CAISO | LAX | 722950-23174 Los Angeles International Airport | Los Angeles-Long Beach-Anaheim | 0.50 | 67,695 | 60 | 107 | 90 |
-| CAISO | SFO | 724940-23234 San Francisco International Airport | San Francisco-Oakland-Berkeley | 0.15 | 67,670 | 60 | 132 | 90 |
-| CAISO | ONT | 747040-03102 Ontario International Arpt | Riverside-San Bernardino-Ontario | 0.15 | 67,673 | 69 | 120 | 91 |
-| CAISO | SAN | 722900-23188 San Diego International Airport | San Diego-Chula Vista-Carlsbad | 0.10 | 67,678 | 58 | 126 | 90 |
-| CAISO | SJC | 724945-23293 N Y. Mineta Sn Jo Intl Apt | San Jose-Sunnyvale-Santa Clara | 0.10 | 67,610 | 87 | 165 | 90 |
-| NYISO | LGA | 725030-14732 La Guardia Airport | New York-Newark-Jersey City (the part in New York State) | 0.80 | 67,700 | 61 | 101 | 90 |
-| NYISO | BUF | 725280-14733 Buffalo Niagara International Airpor | Buffalo-Cheektowaga | 0.05 | 64,280 | 3,485 | 97 | 90 |
-| NYISO | ROC | 725290-14768 Greater Rochester International Ap | Rochester | 0.05 | 64,319 | 3,425 | 118 | 90 |
-| NYISO | ALB | 725180-14735 Albany International Airport | Albany-Schenectady-Troy | 0.05 | 67,690 | 71 | 101 | 90 |
-| NYISO | SYR | 725190-14771 Syracuse Hancock International Ap | Syracuse | 0.05 | 67,680 | 61 | 121 | 90 |
-| ISO-NE | BOS | 725090-14739 Gen E L Logan International Airport | Boston-Cambridge-Newton | 0.50 | 67,611 | 154 | 97 | 90 |
-| ISO-NE | PVD | 725070-14765 Theodore F Green State Airport | Providence-Warwick | 0.15 | 67,579 | 128 | 155 | 90 |
-| ISO-NE | BDL | 725080-14740 Bradley International Airport | Hartford-East Hartford-Middletown | 0.15 | 67,697 | 64 | 101 | 90 |
-| ISO-NE | ORH | 725100-94746 Worcester Regional Airport | Worcester | 0.10 | 67,571 | 102 | 189 | 90 |
-| ISO-NE | BDR | 725040-94702 Igor I Sikorsky Memorial Airport | Bridgeport-Stamford-Norwalk | 0.10 | 67,388 | 147 | 327 | 90 |
-| PJM | ORD | 725300-94846 Chicago O'Hare International Airport | Chicago-Naperville-Elgin | 0.35 | 67,687 | 62 | 113 | 90 |
-| PJM | DCA | 724050-13743 Ronald Reagan Washington Natl Ap | Washington-Arlington-Alexandria | 0.25 | 67,687 | 72 | 103 | 90 |
-| PJM | PHL | 724080-13739 Philadelphia International Airport | Philadelphia-Camden-Wilmington | 0.20 | 67,684 | 58 | 120 | 90 |
-| PJM | BWI | 724060-93721 Baltimore-Washington Intl Airport | Baltimore-Columbia-Towson | 0.10 | 67,718 | 47 | 97 | 90 |
-| PJM | PIT | 725200-94823 Pittsburgh International Airport | Pittsburgh | 0.10 | 67,710 | 45 | 107 | 90 |
-| MISO | DTW | 725370-94847 Detroit Metro Wayne County Airport | Detroit-Warren-Dearborn | 0.30 | 63,829 | 3,918 | 115 | 91 |
-| MISO | MSP | 726580-14922 Minneapolis-St Paul International Ap | Minneapolis-St. Paul-Bloomington | 0.25 | 67,600 | 129 | 133 | 90 |
-| MISO | STL | 724340-13994 Lambert-St Louis International Ap | St. Louis | 0.20 | 67,627 | 113 | 122 | 90 |
-| MISO | IND | 724380-93819 Indianapolis International Airport | Indianapolis-Carmel-Anderson | 0.15 | 67,715 | 50 | 97 | 90 |
-| MISO | MKE | 726400-14839 General Mitchell International Ap | Milwaukee-Waukesha | 0.10 | 67,688 | 61 | 113 | 90 |
-| SPP | MCI | 724460-03947 Kansas City International Airport | Kansas City | 0.35 | 67,701 | 53 | 108 | 91 |
-| SPP | OKC | 723530-13967 Will Rogers World Airport | Oklahoma City | 0.25 | 67,686 | 53 | 123 | 90 |
-| SPP | TUL | 723560-13968 Tulsa International Airport | Tulsa | 0.15 | 67,670 | 70 | 122 | 90 |
-| SPP | OMA | 725500-14942 Eppley Airfield Airport | Omaha-Council Bluffs | 0.15 | 67,557 | 183 | 122 | 90 |
-| SPP | ICT | 724500-03928 Wichita Eisenhower National | Wichita | 0.10 | 67,655 | 79 | 128 | 90 |
+| Grid | Airport | NOAA station (USAF-WBAN), NOAA's name | The Census Bureau's area | People, 1 April 2020 | Weight | Stated by session 126 | Hours measured | Interpolated | Missing | Longest gap, hours |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ERCOT | DFW | 722590-03927 Dallas/Ft Worth International Ap | Dallas-Fort Worth-Arlington, TX | 7,638,294 | 0.3726 | 0.35 | 67,680 | 80 | 102 | 91 |
+| ERCOT | IAH | 722430-12960 G Bush Intercontinental Ap/Houston Ap | Houston-Pasadena-The Woodlands, TX | 7,150,227 | 0.3488 | 0.35 | 67,720 | 45 | 97 | 90 |
+| ERCOT | SAT | 722530-12921 San Antonio International Airport | San Antonio-New Braunfels, TX | 2,558,389 | 0.1248 | 0.15 | 67,699 | 40 | 123 | 90 |
+| ERCOT | AUS | 722540-13904 Austin-Bergstrom Intl Airport | Austin-Round Rock-San Marcos, TX | 2,283,391 | 0.1114 | 0.10 | 67,637 | 117 | 108 | 91 |
+| ERCOT | MFE | 722506-12959 Mc Allen Miller Intl Arpt | McAllen-Edinburg-Mission, TX | 870,788 | 0.0425 | 0.05 | 67,573 | 109 | 180 | 91 |
+| CAISO | LAX | 722950-23174 Los Angeles International Airport | Los Angeles-Long Beach-Anaheim, CA | 13,204,693 | 0.4740 | 0.50 | 67,695 | 60 | 107 | 90 |
+| CAISO | SFO | 724940-23234 San Francisco International Airport | San Francisco-Oakland-Fremont, CA | 4,753,651 | 0.1706 | 0.15 | 67,670 | 60 | 132 | 90 |
+| CAISO | ONT | 747040-03102 Ontario International Arpt | Riverside-San Bernardino-Ontario, CA | 4,601,615 | 0.1652 | 0.15 | 67,673 | 69 | 120 | 91 |
+| CAISO | SAN | 722900-23188 San Diego International Airport | San Diego-Chula Vista-Carlsbad, CA | 3,298,648 | 0.1184 | 0.10 | 67,678 | 58 | 126 | 90 |
+| CAISO | SJC | 724945-23293 N Y. Mineta Sn Jo Intl Apt | San Jose-Sunnyvale-Santa Clara, CA | 2,000,479 | 0.0718 | 0.10 | 67,610 | 87 | 165 | 90 |
+| NYISO | LGA | 725030-14732 La Guardia Airport | New York-Newark-Jersey City, NY-NJ (the part in New York State) | 13,167,758 | 0.7763 | 0.80 | 67,700 | 61 | 101 | 90 |
+| NYISO | BUF | 725280-14733 Buffalo Niagara International Airpor | Buffalo-Cheektowaga, NY | 1,166,897 | 0.0688 | 0.05 | 64,280 | 3,485 | 97 | 90 |
+| NYISO | ROC | 725290-14768 Greater Rochester International Ap | Rochester, NY | 1,065,373 | 0.0628 | 0.05 | 64,319 | 3,425 | 118 | 90 |
+| NYISO | ALB | 725180-14735 Albany International Airport | Albany-Schenectady-Troy, NY | 899,223 | 0.0530 | 0.05 | 67,690 | 71 | 101 | 90 |
+| NYISO | SYR | 725190-14771 Syracuse Hancock International Ap | Syracuse, NY | 662,063 | 0.0390 | 0.05 | 67,680 | 61 | 121 | 90 |
+| ISO-NE | BOS | 725090-14739 Gen E L Logan International Airport | Boston-Cambridge-Newton, MA-NH | 4,944,719 | 0.5160 | 0.50 | 67,611 | 154 | 97 | 90 |
+| ISO-NE | PVD | 725070-14765 Theodore F Green State Airport | Providence-Warwick, RI-MA | 1,676,652 | 0.1750 | 0.15 | 67,579 | 128 | 155 | 90 |
+| ISO-NE | BDL | 725080-14740 Bradley International Airport | Hartford-West Hartford-East Hartford, CT | 1,151,912 | 0.1202 | 0.15 | 67,697 | 64 | 101 | 90 |
+| ISO-NE | ORH | 725100-94746 Worcester Regional Airport | Worcester, MA | 862,093 | 0.0900 | 0.10 | 67,571 | 102 | 189 | 90 |
+| ISO-NE | BDR | 725040-94702 Igor I Sikorsky Memorial Airport | Bridgeport-Stamford-Danbury, CT | 946,700 | 0.0988 | 0.10 | 67,388 | 147 | 327 | 90 |
+| PJM | ORD | 725300-94846 Chicago O'Hare International Airport | Chicago-Naperville-Elgin, IL-IN | 9,454,432 | 0.3465 | 0.35 | 67,687 | 62 | 113 | 90 |
+| PJM | DCA | 724050-13743 Ronald Reagan Washington Natl Ap | Washington-Arlington-Alexandria, DC-VA-MD-WV | 6,278,627 | 0.2301 | 0.25 | 67,687 | 72 | 103 | 90 |
+| PJM | PHL | 724080-13739 Philadelphia International Airport | Philadelphia-Camden-Wilmington, PA-NJ-DE-MD | 6,245,056 | 0.2289 | 0.20 | 67,684 | 58 | 120 | 90 |
+| PJM | BWI | 724060-93721 Baltimore-Washington Intl Airport | Baltimore-Columbia-Towson, MD | 2,848,898 | 0.1044 | 0.10 | 67,718 | 47 | 97 | 90 |
+| PJM | PIT | 725200-94823 Pittsburgh International Airport | Pittsburgh, PA | 2,456,916 | 0.0900 | 0.10 | 67,710 | 45 | 107 | 90 |
+| MISO | DTW | 725370-94847 Detroit Metro Wayne County Airport | Detroit-Warren-Dearborn, MI | 4,392,378 | 0.3015 | 0.30 | 63,829 | 3,918 | 115 | 91 |
+| MISO | MSP | 726580-14922 Minneapolis-St Paul International Ap | Minneapolis-St. Paul-Bloomington, MN-WI | 3,690,272 | 0.2533 | 0.25 | 67,600 | 129 | 133 | 90 |
+| MISO | STL | 724340-13994 Lambert-St Louis International Ap | St. Louis, MO-IL | 2,820,862 | 0.1936 | 0.20 | 67,627 | 113 | 122 | 90 |
+| MISO | IND | 724380-93819 Indianapolis International Airport | Indianapolis-Carmel-Greenwood, IN | 2,089,651 | 0.1434 | 0.15 | 67,715 | 50 | 97 | 90 |
+| MISO | MKE | 726400-14839 General Mitchell International Ap | Milwaukee-Waukesha, WI | 1,574,759 | 0.1081 | 0.10 | 67,688 | 61 | 113 | 90 |
+| SPP | MCI | 724460-03947 Kansas City International Airport | Kansas City, MO-KS | 2,192,063 | 0.3508 | 0.35 | 67,701 | 53 | 108 | 91 |
+| SPP | OKC | 723530-13967 Will Rogers World Airport | Oklahoma City, OK | 1,425,730 | 0.2282 | 0.25 | 67,686 | 53 | 123 | 90 |
+| SPP | TUL | 723560-13968 Tulsa International Airport | Tulsa, OK | 1,015,330 | 0.1625 | 0.15 | 67,670 | 70 | 122 | 90 |
+| SPP | OMA | 725500-14942 Eppley Airfield Airport | Omaha, NE-IA | 967,604 | 0.1549 | 0.15 | 67,557 | 183 | 122 | 90 |
+| SPP | ICT | 724500-03928 Wichita Eisenhower National | Wichita, KS | 647,632 | 0.1036 | 0.10 | 67,655 | 79 | 128 | 90 |
 
 Of 67,862 hours from 1 January 2019 to 2026-09-28 13:00 UTC. Station names and positions are NOAA's (`isd-history.csv`).
 
@@ -177,27 +188,45 @@ within a quarter of the median of the four hours around it, and within the grid'
 For each grid, on the local years 2019 to 2021, one least-squares line for each of 48 kinds of hour (24 hours of the local day, weekday or
 weekend):
 
-    demand = a + b1 HD + b2 HD^2 + b3 CD + b4 CD^2 + b5 HD24 + b6 CD24
+    demand = a + b1 HD + b2 HD^2 + b3 CD + b4 CD^2 + b5 HD24 + b6 CD24 + b7 HUM + b8 HUM24
 
 HD and CD are the grid's heating and cooling degrees of the hour; HD24 and CD24 are their means over the 24 hours before (at least 18
-of them held). Heating and cooling have their own terms, and every kind of hour its own seven numbers. There is no trend, no month and
+of them held). HUM is how far the grid's dew point stands above 60 F in an hour that has cooling degrees, and zero in any other hour; HUM24 is its mean over the 24 hours before. Heating and cooling have their own terms, and every kind of hour its own numbers. There is no trend, no month and
 no holiday in the fit: whatever repeats every year by the calendar is carried by the temperature it travels with.
+
+**Dew point, tried and adopted (session 129).** The rule was set before the numbers were read: dew point goes into the fit for every grid when the mean of the
+seven grids' error on an hour left out is lower with it and no grid's rises by more than 0.05 points; otherwise for none. Mean absolute error, percent:
+
+| Grid | An hour left out, without | With dew point | A day left out, without | With dew point |
+|---|---|---|---|---|
+| ERCOT | 4.19 | 4.12 | 3.78 | 3.70 |
+| CAISO | 6.99 | 6.97 | 6.18 | 6.13 |
+| PJM | 3.77 | 3.61 | 3.29 | 3.14 |
+| MISO | 3.84 | 3.83 | 3.44 | 3.42 |
+| SPP | 3.74 | 3.72 | 3.22 | 3.21 |
+| NYISO | 4.17 | 3.94 | 3.75 | 3.51 |
+| ISO-NE | 5.54 | 5.10 | 4.62 | 4.17 |
+| Mean of the seven | 4.61 | 4.47 | 4.04 | 3.90 |
+
+It helps most where summers are humid (ISO-NE and NYISO) and not at all in MISO. It is a modest gain: the fit's error is still set mostly by what it
+leaves out (sunshine, the calendar), not by humidity.
 
 Texas's hours of 15 to 19 February 2021 are left out of the fit (120 hours): ERCOT was shedding load, so the meter did not record what
 customers would have used. The dates are a stated choice of the method. Those hours stay in the year's own figures.
 
-**The fit's error, by grid.** Mean absolute error, percent of the hour's (or the day's) demand. "Left out": each of 2019, 2020 and 2021 predicted by a fit
+
+**The fit's error, by grid** (the fit as used). Mean absolute error, percent of the hour's (or the day's) demand. "Left out": each of 2019, 2020 and 2021 predicted by a fit
 made on the other two. The last column is the same 48 lines with heating and cooling degrees only, to show what the squares and the day before buy.
 
 | Grid | Hours in the fit | On an hour left out | On a day left out | On the hours it was fitted to | 2019 left out | 2020 | 2021 | With HD and CD only |
 |---|---|---|---|---|---|---|---|---|
-| ERCOT | 26,119 | 4.21 | 3.80 | 3.48 | 3.72 | 3.73 | 5.21 | 4.97 |
-| CAISO | 26,236 | 7.06 | 6.24 | 6.57 | 7.49 | 7.20 | 6.48 | 7.69 |
-| PJM | 26,285 | 3.77 | 3.30 | 3.47 | 3.17 | 4.54 | 3.61 | 4.83 |
-| MISO | 26,286 | 3.83 | 3.43 | 3.49 | 3.66 | 4.57 | 3.26 | 4.62 |
-| SPP | 26,287 | 3.72 | 3.21 | 3.57 | 3.71 | 4.26 | 3.19 | 4.63 |
-| NYISO | 26,290 | 4.20 | 3.78 | 3.87 | 4.11 | 4.81 | 3.68 | 5.07 |
-| ISO-NE | 26,192 | 5.50 | 4.58 | 5.22 | 5.13 | 6.22 | 5.14 | 6.58 |
+| ERCOT | 26,086 | 4.12 | 3.70 | 3.38 | 3.69 | 3.59 | 5.10 | 4.96 |
+| CAISO | 26,232 | 6.97 | 6.13 | 6.46 | 7.42 | 7.02 | 6.47 | 7.63 |
+| PJM | 26,285 | 3.61 | 3.14 | 3.30 | 3.13 | 4.36 | 3.34 | 4.82 |
+| MISO | 26,286 | 3.83 | 3.42 | 3.46 | 3.72 | 4.55 | 3.21 | 4.64 |
+| SPP | 26,287 | 3.72 | 3.21 | 3.52 | 3.78 | 4.20 | 3.18 | 4.63 |
+| NYISO | 26,290 | 3.94 | 3.51 | 3.57 | 4.05 | 4.48 | 3.28 | 5.05 |
+| ISO-NE | 26,122 | 5.10 | 4.17 | 4.81 | 4.70 | 5.90 | 4.70 | 6.62 |
 
 California's fit is the weakest by a wide margin. Its demand as the grid meters it depends on sunshine on rooftops, which temperature at
 five airports does not carry, and three of its five airports sit on the coast.
@@ -226,6 +255,55 @@ same days of 2019 to 2021; its summer is whole but for the last days of Septembe
 **Not held.** ISO-NE 2025, the summer peak; ISO-NE 2025, the overnight minimum; ISO-NE 2026, the winter peak; ISO-NE 2026, the overnight minimum. New England's hours fall just under 95 percent for these: Bridgeport's
 station lacks hours in 2025 and 2026, and a grid's hour needs all five stations. They are left not held; the bar was not lowered to admit them.
 
+### New England under two rules, for a ruling
+
+The second rule: a grid's hour is held when at least 4 of its five stations hold it, each figure the weighted mean over the stations held, their
+weights restated to add to one. New England then holds 67,739 of 67,862 hours, 328 of them on four stations, against 67,411 under the rule of five.
+The tables use the rule of five. Growth not explained by temperature, percent, with its uncertainty:
+
+**The year's energy**
+
+| Year | All five | Give or take | Four of five | Give or take |
+|---|---|---|---|---|
+| 2022 | -0.1 | 1.7 | -0.0 | 1.7 |
+| 2023 | -2.6 (a finding) | 1.7 | -2.6 (a finding) | 1.7 |
+| 2024 | -1.7 (a finding) | 1.7 | -1.7 | 1.7 |
+| 2025 | -1.1 | 1.7 | -1.0 | 1.7 |
+| 2026 | -0.4 | 2.0 | -0.5 | 2.0 |
+
+**The summer peak**
+
+| Year | All five | Give or take | Four of five | Give or take |
+|---|---|---|---|---|
+| 2022 | -0.0 | 7.1 | -0.1 | 7.2 |
+| 2023 | +3.5 | 7.1 | +3.5 | 7.2 |
+| 2024 | +2.1 | 7.1 | +2.1 | 7.2 |
+| 2025 | not held |  | +0.3 | 7.2 |
+| 2026 | -1.6 | 7.1 | -1.4 | 7.2 |
+
+**The winter peak**
+
+| Year | All five | Give or take | Four of five | Give or take |
+|---|---|---|---|---|
+| 2022 | -3.0 | 5.1 | -3.0 | 5.1 |
+| 2023 | -7.4 (a finding) | 5.1 | -7.4 (a finding) | 5.1 |
+| 2024 | -0.9 | 5.1 | -0.8 | 5.1 |
+| 2025 | +2.9 | 5.1 | +2.9 | 5.1 |
+| 2026 | not held |  | +2.9 | 5.1 |
+
+**The overnight minimum**
+
+| Year | All five | Give or take | Four of five | Give or take |
+|---|---|---|---|---|
+| 2022 | +2.0 (a finding) | 1.5 | +2.0 (a finding) | 1.5 |
+| 2023 | +0.4 | 1.5 | +0.3 | 1.5 |
+| 2024 | +3.1 (a finding) | 1.5 | +3.0 (a finding) | 1.5 |
+| 2025 | not held |  | +3.6 (a finding) | 1.5 |
+| 2026 | not held |  | +6.4 (a finding) | 1.7 |
+
+Where both rules hold a figure, the two differ by at most 0.21 points (the summer peak, 2026). The second rule holds 4 figures the first does not: the summer peak 2025; the overnight minimum 2025; the winter peak 2026; the overnight minimum 2026.
+What the second rule costs: in an hour held on four stations the grid's weather is that of four cities, so the figure's meaning shifts a little with which station is missing.
+
 ## The uncertainty
 
 It comes from years the fit has not seen. Each of 2019, 2020 and 2021 is left out in turn; the fit is made on the other two and the left-out
@@ -246,55 +324,55 @@ A grid whose customers did not change should come back near zero. Growth not exp
 
 | Grid | 2019 left out | 2020 left out | 2021 left out | The uncertainty used |
 |---|---|---|---|---|
-| ERCOT | -2.5 | -1.4 | +4.1 | 4.1 |
-| CAISO | -2.0 | -0.6 | +3.0 | 3.0 |
-| PJM | +0.9 | -2.6 | +1.6 | 2.6 |
+| ERCOT | -2.5 | -1.4 | +4.0 | 4.0 |
+| CAISO | -2.1 | -0.6 | +3.2 | 3.2 |
+| PJM | +1.0 | -2.5 | +1.4 | 2.5 |
 | MISO | +2.3 | -2.6 | +0.2 | 2.6 |
-| SPP | +0.6 | -1.5 | +0.8 | 1.5 |
-| NYISO | +2.8 | -2.7 | -0.2 | 2.8 |
-| ISO-NE | +1.1 | -0.9 | -0.4 | 1.1 |
+| SPP | +0.4 | -1.5 | +1.0 | 1.5 |
+| NYISO | +3.0 | -2.6 | -0.5 | 3.0 |
+| ISO-NE | +1.7 | -1.0 | -0.9 | 1.7 |
 
 **The summer peak**
 
 | Grid | 2019 left out | 2020 left out | 2021 left out | The uncertainty used |
 |---|---|---|---|---|
-| ERCOT | -1.6 | -4.7 | +6.6 | 6.6 |
-| CAISO | +2.9 | -9.5 | +9.9 | 9.9 |
-| PJM | +1.8 | -4.4 | +3.8 | 4.4 |
-| MISO | +0.7 | -1.2 | +0.3 | 3.8 |
-| SPP | -3.3 | +2.9 | -0.5 | 3.7 |
-| NYISO | +0.2 | -1.7 | -0.3 | 4.2 |
-| ISO-NE | -1.7 | -0.3 | +1.1 | 5.5 |
+| ERCOT | -0.9 | -4.8 | +6.2 | 6.2 |
+| CAISO | -0.8 | -10.0 | +12.7 | 12.7 |
+| PJM | -1.3 | -2.7 | +3.5 | 3.6 |
+| MISO | -0.9 | -0.3 | -0.7 | 3.8 |
+| SPP | -3.1 | +2.6 | -0.1 | 3.7 |
+| NYISO | -3.6 | +2.6 | -2.4 | 3.9 |
+| ISO-NE | -7.1 | +4.2 | -0.6 | 7.1 |
 
 **The winter peak**
 
 | Grid | 2019 left out | 2020 left out | 2021 left out | The uncertainty used |
 |---|---|---|---|---|
-| ERCOT | not held | +19.9 | -36.7 | 36.7 |
-| CAISO | not held | -6.5 | +4.5 | 7.1 |
-| PJM | not held | +6.4 | -7.6 | 7.6 |
-| MISO | not held | -5.5 | +5.1 | 5.5 |
-| SPP | not held | +3.4 | -8.7 | 8.7 |
-| NYISO | not held | +3.5 | -3.4 | 4.2 |
-| ISO-NE | not held | +4.2 | -4.6 | 5.5 |
+| ERCOT | not held | +20.1 | -37.8 | 37.8 |
+| CAISO | not held | -4.8 | +3.2 | 7.0 |
+| PJM | not held | +6.3 | -7.5 | 7.5 |
+| MISO | not held | -5.4 | +5.1 | 5.4 |
+| SPP | not held | +3.3 | -8.4 | 8.4 |
+| NYISO | not held | +3.5 | -3.5 | 3.9 |
+| ISO-NE | not held | +4.3 | -4.7 | 5.1 |
 
 **The overnight minimum**
 
 | Grid | 2019 left out | 2020 left out | 2021 left out | The uncertainty used |
 |---|---|---|---|---|
-| ERCOT | -3.1 | -1.5 | +4.8 | 4.8 |
-| CAISO | -3.5 | +0.2 | +4.3 | 4.3 |
-| PJM | +0.0 | -2.3 | +2.2 | 2.3 |
-| MISO | +1.2 | -2.3 | +1.0 | 2.3 |
-| SPP | +0.8 | -2.3 | +1.5 | 2.3 |
-| NYISO | +1.0 | -1.9 | +0.8 | 1.9 |
-| ISO-NE | +0.4 | -1.2 | +0.7 | 1.2 |
+| ERCOT | -3.0 | -1.5 | +4.7 | 4.7 |
+| CAISO | -3.4 | +0.3 | +4.5 | 4.5 |
+| PJM | +0.1 | -2.2 | +2.0 | 2.2 |
+| MISO | +1.2 | -2.4 | +1.0 | 2.4 |
+| SPP | +0.7 | -2.3 | +1.6 | 2.3 |
+| NYISO | +1.1 | -1.8 | +0.6 | 1.8 |
+| ISO-NE | +0.8 | -1.5 | +0.4 | 1.5 |
 
-Read for the year's energy: ISO-NE comes back within 1.1 points in each of the three years and SPP within 1.5;
-2020 comes back below zero in all seven grids (-2.7 to -0.6), the year of the lockdowns; Texas's 2021 comes back at +4.1,
+Read for the year's energy: SPP comes back within 1.5 points in each of the three years and ISO-NE within 1.7;
+2020 comes back below zero in all seven grids (-2.6 to -0.6), the year of the lockdowns; Texas's 2021 comes back at +4.0,
 which reads as growth already under way inside the fit's own years. The base of 2019 to 2021 is not a still one, least of all for Texas, and a later figure is growth on top of it.
 
-Texas's winter peak is the method's plain failure: the winter left out that holds February 2021 misses by 37 points, because the grid was shedding load at the
+Texas's winter peak is the method's plain failure: the winter left out that holds February 2021 misses by 38 points, because the grid was shedding load at the
 coldest hours while the fit, made on the mild winter before, reaches far past it. No Texas winter peak is a finding.
 
 ## California across December 2025
@@ -311,23 +389,44 @@ percent, with demand an hour early, as read, and an hour late; and how far meter
 
 | Window | From | An hour early | As read | An hour late | Metered against the fit |
 |---|---|---|---|---|---|
-| the eight weeks before the hours were dated right | 2025-10-07 | 8.44 | 7.10 | 6.98 | +2.86 |
-| the eight weeks from the change in EIA's generation series | 2025-12-16 | 9.49 | 8.75 | 8.86 | +6.32 |
-| the eight weeks before the hours were dated right, a year earlier | 2024-10-07 | 7.89 | 7.02 | 7.17 | +4.61 |
-| the eight weeks from the change in EIA's generation series, a year earlier | 2024-12-16 | 7.62 | 7.18 | 8.00 | +6.16 |
+| the eight weeks before the hours were dated right | 2025-10-07 | 8.35 | 7.00 | 6.88 | +2.92 |
+| the eight weeks from the change in EIA's generation series | 2025-12-16 | 9.41 | 8.67 | 8.79 | +6.36 |
+| the eight weeks before the hours were dated right, a year earlier | 2024-10-07 | 7.81 | 6.97 | 7.13 | +4.76 |
+| the eight weeks from the change in EIA's generation series, a year earlier | 2024-12-16 | 7.56 | 7.12 | 7.94 | +6.16 |
 
-In 3 of the 4 windows the error is smallest as read; in the other the smallest is 0.12 points under it, with demand an hour late, against 1.34 points worse an hour early.
+In 3 of the 4 windows the error is smallest as read; in the other the smallest is 0.12 points under it, with demand an hour late, against 1.35 points worse an hour early.
 That is too little to read as a misdated hour, and too coarse to rule one out: demand follows temperature with a lag, so moving it later costs the fit
 little. The last column rises from autumn to winter in both years. What this check can say is that nothing as large as an hour's shift shows at the change;
 it cannot see a step of a point or two in the level.
 
+## What moved from session 126's figures
+
+Session 126 built these figures on stated weights and without dew point. With the Census Bureau's weights and dew point in the fit, of 136 figures both builds hold:
+
+- the year's energy not explained moves by at most 1.03 points (CAISO, 2026: +6.0 to +5.0);
+- any figure by at most 4.69 points (ISO-NE, 2026, the summer peak: -6.3 to -1.6);
+- 4 figures change their reading:
+
+| Grid | Year | Figure | Session 126 | Now | Give or take, now | Reading |
+|---|---|---|---|---|---|---|
+| CAISO | 2025 | the overnight minimum | +4.4 | +4.4 | 4.5 | no longer a finding |
+| CAISO | 2026 | the overnight minimum | +4.9 | +4.6 | 4.9 | no longer a finding |
+| PJM | 2023 | the summer peak | -4.3 | -4.4 | 3.6 | now a finding |
+| ISO-NE | 2023 | the summer peak | +6.9 | +3.5 | 7.1 | no longer a finding |
+
 ## What is not in it
 
 - A cause for the remainder (above).
-- Humidity, wind, cloud and sunlight. Dew point is in the weather tables and not in the fit.
+- Wind, cloud and sunlight. Dew point is in the fit since session 129.
 - Weather the fit never saw: a peak beyond every hour of 2019 to 2021 is marked and is not a finding.
 - A still base: 2019 to 2021 holds the lockdowns of 2020 and, in Texas, growth already under way.
 - The parts of a grid away from its five largest cities.
 - Demand served behind the meter.
-- The station hours themselves as a table: the grid tables are built from NOAA's files kept on the data machine (`warehouse/raw/noaa_grid_weather/`), each with its URL in a manifest.
+
+## The stations' hours as a table
+
+`noaa_station_weather_hourly` (session 129) holds every station's measured temperature and dew point by the hour, in degrees Fahrenheit to two
+decimals (NOAA's tenth of a degree Celsius turns back from it exactly). Measured values only: an hour NOAA holds no value for has no row, and
+no interpolated value is written. With it the grid tables can be rebuilt with other weights, or another rule, on a machine that never held
+NOAA's files: `python warehouse/connectors/noaa_grid_weather.py --from-table`.
 

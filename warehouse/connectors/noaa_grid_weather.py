@@ -35,13 +35,17 @@ Climatological Data does not carry that report for every station (Austin's diffe
 
 THE STATIONS AND THEIR WEIGHTS (the rule). For each grid, the five most populous metropolitan areas whose principal
 city the grid operator serves; for each, the principal airport's station; the weight is the area's share of the five
-areas' population, to the nearest twentieth (largest remainders first, so the five add to one).
-  THE POPULATIONS WERE NOT RETRIEVED. The warehouse holds no population table and the session's one approved pull was
-  NOAA's. The shares are stated here as a parameter of the method, as session 60 stated California's three, from the
-  2020 Census counts of metropolitan areas as generally known, and rounded to twentieths so that a count wrong by a few
-  percent gives the same weight. No population figure is written to any table. A person should check the twentieths
-  against Census's table of metropolitan areas before the page built on them opens; demand_weather.py reports what
-  changes with five equal weights in their place.
+areas' population.
+  Session 129: THE POPULATIONS ARE THE CENSUS BUREAU'S (census_metro_population, the estimates base of 1 April 2020,
+  vintage 2025). A weight is the area's population over the sum of the grid's five, not rounded. New York's area is
+  counted by its part in New York State (the sum of its New York counties): its New Jersey part is PJM's. Session 126
+  stated the shares to the nearest twentieth without a population table; those twentieths are kept in STATIONS as the
+  record of what its figures were built on, and are used for nothing. By the retrieved counts the rule's five are the
+  five held in every grid but New York's, where Kiryas Joel-Poughkeepsie-Newburgh (698,330) is larger than Syracuse
+  (662,063): no station is held for it (session 129's approved pull was the Census Bureau's, not NOAA's), so Syracuse
+  stays and rule_check() says so in the log and the stations table's header.
+  Session 129 also keeps every station's measured hours as a table (noaa_station_weather_hourly), so the grid tables
+  can be rebuilt with other weights, or another rule, on a machine that never held NOAA's files (--from-table).
 Left out by the rule and worth knowing: the New York area's New Jersey half (PJM's, but the area's principal city is
 NYISO's); Sacramento (its city utility is its own balancing area); MISO's southern states (New Orleans is sixth).
 
@@ -167,6 +171,67 @@ STATIONS = [
 ]
 
 
+# session 129: the metropolitan area of each station in the Census Bureau's table: (CBSA code, the state FIPS of the part
+# counted, or None for the whole area)
+CBSA = {
+    "DFW": ("19100", None), "IAH": ("26420", None), "SAT": ("41700", None), "AUS": ("12420", None), "MFE": ("32580", None),
+    "LAX": ("31080", None), "SFO": ("41860", None), "ONT": ("40140", None), "SAN": ("41740", None), "SJC": ("41940", None),
+    "LGA": ("35620", "36"), "BUF": ("15380", None), "ROC": ("40380", None), "ALB": ("10580", None), "SYR": ("45060", None),
+    "BOS": ("14460", None), "PVD": ("39300", None), "BDL": ("25540", None), "ORH": ("49340", None), "BDR": ("14860", None),
+    "ORD": ("16980", None), "DCA": ("47900", None), "PHL": ("37980", None), "BWI": ("12580", None), "PIT": ("38300", None),
+    "DTW": ("19820", None), "MSP": ("33460", None), "STL": ("41180", None), "IND": ("26900", None), "MKE": ("33340", None),
+    "MCI": ("28140", None), "OKC": ("36420", None), "TUL": ("46140", None), "OMA": ("36540", None), "ICT": ("48620", None),
+}
+# the areas the rule ranks in each grid, beyond the five held: the next most populous whose principal city the operator
+# serves (a stated list; rule_check reports when one of them outranks a station's area)
+OTHERS = {
+    "erco": ["28660", "18580"], "ciso": ["23420", "12540", "37100"], "nyis": ["28880"], "isne": ["35300", "38860", "44140"],
+    "pjm": ["17140", "17410", "18140", "47260"], "miso": ["24340", "35380"], "swpp": ["44180"],
+}
+POPULATION, POP_VAR = "census_metro_population", "population_base_2020"
+STATION_HOURS = "noaa_station_weather_hourly"
+STATION_CEILING = 5_000_000        # rows of the station-hours table (session 129)
+
+
+def census(out_dir=None):
+    """{entity: (population, the Bureau's name)} from census_metro_population, the estimates base of 1 April 2020."""
+    path = os.path.join(out_dir or ip.OUT_DIR, POPULATION + ".csv")
+    if not os.path.exists(path):
+        raise RuntimeError(f"{POPULATION} is not in {os.path.dirname(path)}: the stations' weights come from it (warehouse/connectors/census_metro_population.py)")
+    t = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
+    t = t[t["variable"] == POP_VAR]
+    return {e: (int(float(v)), n) for e, v, n in zip(t["entity"], t["value"], t["node"])}
+
+
+def census_weights(pop):
+    """{airport: dict(weight, population, cbsa, cbsa_name)}: each station's area over the sum of its grid's five."""
+    out = {}
+    for ba, code, usaf, wban, stated, lst, metro in STATIONS:
+        cbsa, part = CBSA[code]
+        ent = f"census:cbsa:{cbsa}" + (f":{part}" if part else "")
+        if ent not in pop:
+            raise RuntimeError(f"{code}: {ent} is not in {POPULATION}")
+        out[code] = dict(ba=ba, population=pop[ent][0], cbsa=cbsa + (f":{part}" if part else ""), cbsa_name=pop[ent][1], stated=stated)
+    for ba in GRIDS:
+        tot = sum(v["population"] for v in out.values() if v["ba"] == ba)
+        for v in out.values():
+            if v["ba"] == ba:
+                v["weight"] = v["population"] / tot
+    return out
+
+
+def rule_check(pop):
+    """Where the retrieved counts rank an area the grid holds no station for above one it does: a list of sentences."""
+    w, out = census_weights(pop), []
+    for ba, others in OTHERS.items():
+        held = sorted(((v["population"], c, v["cbsa_name"]) for c, v in w.items() if v["ba"] == ba))
+        for cbsa in others:
+            ent = f"census:cbsa:{cbsa}"
+            if ent in pop and pop[ent][0] > held[0][0]:
+                out.append(f"{GRIDS[ba][0]}: {pop[ent][1]} ({pop[ent][0]:,}) is more populous than {held[0][2]} ({held[0][0]:,}), whose station {held[0][1]} is held; no station is held for it")
+    return out
+
+
 def ghcn_id(wban):
     return "USW000" + wban
 
@@ -249,10 +314,14 @@ def gaps(s):
     return int(m.sum()), int(len(sizes)), int(sizes.max()) if len(sizes) else 0
 
 
-def grid_hours(st, weights):
+def grid_hours(st, weights, min_stations=None):
     """A grid's hourly weather from its stations' hourly temperature and dew point (degrees F; frames by station with the
     same hourly index, the short runs already interpolated). An hour is held only when every station holds a
-    temperature; its dew point only when every station holds one."""
+    temperature; its dew point only when every station holds one. min_stations (session 129, a trial, never the
+    tables): an hour is held when at least that many stations hold a temperature, and the weights are restated over the
+    stations that do, so the hour's weather is that of the stations held and of no other."""
+    if min_stations is not None and min_stations < len(weights):
+        return grid_hours_some(st, weights, min_stations)
     codes = list(weights)
     w = np.array([weights[c] for c in codes])
     if abs(w.sum() - 1) > 1e-9:
@@ -267,6 +336,28 @@ def grid_hours(st, weights):
     out["cooling_degrees_f"] = np.where(okT, np.nansum(np.clip(T - BASE_F, 0, None) * w, axis=1), np.nan)
     out["dew_point_f"] = np.where(okT & okD, np.nansum(D * w, axis=1), np.nan)
     out["interpolated"] = np.where(okT, I.sum(axis=1), 0)
+    return out
+
+
+def grid_hours_some(st, weights, min_stations):
+    """grid_hours with an hour held on at least min_stations stations: each figure is the weighted mean over the
+    stations that hold it, their weights restated to add to one."""
+    codes = list(weights)
+    w = np.array([weights[c] for c in codes])
+    T = pd.concat([st[c]["temp_f"] for c in codes], axis=1).to_numpy()
+    D = pd.concat([st[c]["dew_f"] for c in codes], axis=1).to_numpy()
+    I = pd.concat([st[c]["interp"] for c in codes], axis=1).to_numpy()
+    hT, hD = ~np.isnan(T), ~np.isnan(D)
+    wT, wD = (hT * w).sum(axis=1), ((hT & hD) * w).sum(axis=1)
+    okT, okD = hT.sum(axis=1) >= min_stations, (hT & hD).sum(axis=1) >= min_stations
+    with np.errstate(invalid="ignore", divide="ignore"):
+        out = pd.DataFrame(index=st[codes[0]].index)
+        out["temperature_f"] = np.where(okT, np.nansum(T * w, axis=1) / wT, np.nan)
+        out["heating_degrees_f"] = np.where(okT, np.nansum(np.clip(BASE_F - T, 0, None) * w, axis=1) / wT, np.nan)
+        out["cooling_degrees_f"] = np.where(okT, np.nansum(np.clip(T - BASE_F, 0, None) * w, axis=1) / wT, np.nan)
+        out["dew_point_f"] = np.where(okT & okD, np.nansum(np.where(hT & hD, D, np.nan) * w, axis=1) / wD, np.nan)
+        out["interpolated"] = np.where(okT, (I * hT).sum(axis=1), 0)
+        out["stations"] = hT.sum(axis=1)
     return out
 
 
@@ -312,7 +403,7 @@ class Ledger:
             raise RuntimeError(f"{self.rows:,} rows read, over the ceiling of {self.ceiling:,}: stopped before writing")
 
 
-def pull(log, offline=False, end=None, refresh=False):
+def pull(log, offline=False, end=None, refresh=False, census_dir=None):
     """Every station's hours, from the raw files where an earlier run saved them. Returns {airport: frame}, per-station
     facts, and the ledger."""
     led = Ledger(CEILING, log)
@@ -321,6 +412,7 @@ def pull(log, offline=False, end=None, refresh=False):
     blob, rec = ip.fetch_raw(NAME, HISTORY, log, offline=offline, headers=UA)
     hist = pd.read_csv(io.BytesIO(blob), dtype=str, keep_default_na=False)
     out, facts = {}, {}
+    weights_now = census_weights(census(census_dir))    # session 129: the Census Bureau's counts, not the stated twentieths
     for ba, code, usaf, wban, weight, lst, metro in STATIONS:
         h = hist[(hist["USAF"] == usaf) & (hist["WBAN"] == wban)]
         if len(h) != 1:
@@ -418,6 +510,8 @@ def pull(log, offline=False, end=None, refresh=False):
                            shared_hours=int(len(both)), agree=agree, agree_synoptic=agree_syn, mean_abs_diff_c=mad, mean_diff_c=bias, lite_end=ip.utc_iso(lite.index.max()),
                            lcd_end=ip.utc_iso(lcd.index.max()), lcd_url=url, lcd_retrieved=str(r["retrieved_at"]), patch=patch_note,
                            lite_retrieved=str(max(u[1] for u in urls)))
+        facts[code].update(weight_stated=weight, weight=weights_now[code]["weight"], population=weights_now[code]["population"],
+                           cbsa=weights_now[code]["cbsa"], cbsa_name=weights_now[code]["cbsa_name"])
         log(f"  {code} ({h['STATION NAME'].strip()}, {usaf}-{wban}): ISD-Lite {n_lite:,} rows to {facts[code]['lite_end']}; Local "
             f"Climatological Data {n_lcd:,} rows to {facts[code]['lcd_end']} ({marked} marked values not read); over {len(both):,} shared hours the "
             f"two agree to a tenth of a degree C in {agree:.2%} of the hours outside the synoptic ones and {agree_syn:.2%} of the synoptic ones "
@@ -460,9 +554,10 @@ def lcd_cached(wban):
     return None
 
 
-def build(raw, facts, weights=None):
+def build(raw, facts, weights=None, min_stations=None):
     """The stations' filled hours, each grid's hours and days, and each station's counts. weights: {airport: weight}
-    in place of the stated ones (demand_weather.py's trial with equal weights)."""
+    in place of the facts' (demand_weather.py's trials). min_stations: {grid: n}, a trial in which a grid's hour is held
+    on at least n of its stations (grid_hours_some); the tables are never built that way."""
     end = min(f.index[f["temp_c"].notna()].max() for f in raw.values())   # the last hour every station reaches
     idx = pd.date_range(START, end, freq="h")
     st, counts = {}, {}
@@ -478,9 +573,59 @@ def build(raw, facts, weights=None):
     hours, days = {}, {}
     for ba, (name, tz, geo) in GRIDS.items():
         w = {c: (weights[c] if weights else f["weight"]) for c, f in facts.items() if f["ba"] == ba}
-        hours[ba] = grid_hours(st, w)
+        hours[ba] = grid_hours(st, w, (min_stations or {}).get(ba))
         days[ba] = grid_days(hours[ba], tz)
     return st, hours, days, counts, idx
+
+
+def station_table(raw, facts, idx):
+    """The stations' measured hours as the table's rows: temperature_f and dew_point_f where NOAA gave a value, and
+    nothing where it did not (an interpolated hour is not a measured one and is not written)."""
+    retrieved = ip.utc_iso(pd.Timestamp(max(max(f["lite_retrieved"], f["lcd_retrieved"]) for f in facts.values())))
+    frames = []
+    for code, x in raw.items():
+        f = facts[code]
+        x = x[(x.index >= idx[0]) & (x.index <= idx[-1])]
+        for col, var in (("temp_c", "temperature_f"), ("dew_c", "dew_point_f")):
+            v = x[col].dropna()
+            src = np.where(v.index < SEAM, SRC_LITE, SRC_LCD)
+            if code in PATCH:
+                lo, hi = pd.Timestamp(PATCH[code][0], tz="UTC"), pd.Timestamp(PATCH[code][1], tz="UTC") + pd.Timedelta(days=1)
+                src = np.where((v.index >= lo) & (v.index < hi), SRC_LCD, src)
+            url = np.where(src == SRC_LITE, LITE + "/" + v.index.strftime("%Y") + "/", API + "?dataset=local-climatological-data-v2")
+            frames.append(series(f"noaa:{ghcn_id(f['wban'])}", var, v.index.strftime("%Y-%m-%dT%H:%M:%SZ"), (v.to_numpy() * 9 / 5 + 32).round(2), "degF", "PT1H",
+                                 f"US-{f['state']}", code, src, url, retrieved, f["ba"]))
+    return pd.concat(frames, ignore_index=True)
+
+
+def raw_from_table(path):
+    """The stations' hours back from noaa_station_weather_hourly: {airport: frame of temp_c and dew_c by UTC hour}, as
+    pull() gives them, so build() can run on a machine that never held NOAA's files. A value of the table is NOAA's
+    tenth of a degree Celsius written in Fahrenheit to two decimals; it turns back exactly."""
+    t = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["variable", "ts_utc", "value", "node"], dtype={"variable": str, "ts_utc": str, "node": str})
+    t["c"] = ((t["value"] - 32) * 5 / 9).round(1)
+    out = {}
+    for code, g in t.groupby("node"):
+        p = g.pivot(index="ts_utc", columns="variable", values="c")
+        p.index = pd.to_datetime(p.index, utc=True)
+        out[code] = pd.DataFrame({"temp_c": p.get("temperature_f"), "dew_c": p.get("dew_point_f")}).sort_index()
+    return out
+
+
+def facts_from_tables(out_dir=None):
+    """The stations' facts for --from-table: who they are from STATIONS, their names and places from the stations
+    table, their weights from the Census table."""
+    d = out_dir or ip.OUT_DIR
+    path = os.path.join(d, STATIONS_T + ".csv")
+    t = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False).drop_duplicates("x_airport").set_index("x_airport")
+    w = census_weights(census(d))
+    facts = {}
+    for ba, code, usaf, wban, stated, lst, metro in STATIONS:
+        r = t.loc[code]
+        facts[code] = dict(ba=ba, usaf=usaf, wban=wban, metro=metro, name=r["x_name"], state=r["geo"][3:], lat=float(r["x_lat"]), lon=float(r["x_lon"]),
+                           weight_stated=stated, weight=w[code]["weight"], population=w[code]["population"], cbsa=w[code]["cbsa"], cbsa_name=w[code]["cbsa_name"],
+                           lite_retrieved=r["retrieved_at"], lcd_retrieved=r["retrieved_at"])
+    return facts
 
 
 def series(ent, var, ts, val, unit, freq, geo, node, source, url, retrieved, ba, **x):
@@ -499,14 +644,14 @@ def tables(facts, hours, days, counts, idx):
     s_rows = []
     for code, f in facts.items():
         c = counts[code]
-        for var, val, unit in (("weight", f["weight"], "ratio"), ("hours_measured", c["measured"], "count"),
+        for var, val, unit in (("weight", round(f["weight"], 6), "ratio"), ("population_base_2020", f["population"], "count"), ("hours_measured", c["measured"], "count"),
                                ("hours_interpolated", c["interpolated"], "count"), ("hours_missing", c["missing"], "count"),
                                ("longest_gap_hours", c["longest_gap"], "count"), ("dew_point_hours_missing", c["dew_missing"], "count")):
             s_rows.append(dict(entity=f"noaa:{ghcn_id(f['wban'])}", variable=var, ts_utc=start, value=val, unit=unit, freq="",
                                geo=f"US-{f['state']}", market="", node=GRIDS[f["ba"]][0], source=SRC_LITE,
                                source_url=f"{LITE}/", retrieved_at=retrieved, vintage="", ba=f["ba"], x_airport=code,
                                x_station=f"{f['usaf']}-{f['wban']}", x_name=f["name"], x_lat=f["lat"], x_lon=f["lon"],
-                               x_metro=f["metro"], x_hours=c["hours"], x_through=ip.utc_iso(idx[-1])))
+                               x_metro=f["metro"], x_hours=c["hours"], x_through=ip.utc_iso(idx[-1]), x_cbsa=f["cbsa"]))
     stations = pd.DataFrame(s_rows)
     h_frames, d_frames = [], []
     for ba, (name, tz, geo) in GRIDS.items():
@@ -535,11 +680,14 @@ def station_lines(facts, counts):
     out = []
     for code, f in facts.items():
         c = counts[code]
-        out.append(f"  {GRIDS[f['ba']][0]} {code} {f['usaf']}-{f['wban']} {f['name']} ({f['metro']}), weight {f['weight']:.2f}: "
-                   f"{c['measured']:,} of {c['hours']:,} hours measured, {c['interpolated']:,} interpolated across at most {MAX_GAP} hours, "
-                   f"{c['missing']:,} missing (longest run {c['longest_gap']} hours); over {f['shared_hours']:,} shared hours the two products agree in "
-                   f"{f['agree']:.2%} of the hours outside the synoptic ones and {f['agree_synoptic']:.2%} of the synoptic ones (mean difference {f['mean_diff_c']:+.3f} C)"
-                   + (f". {f['patch']}" if f.get("patch") else ""))
+        line = (f"  {GRIDS[f['ba']][0]} {code} {f['usaf']}-{f['wban']} {f['name']} ({f['cbsa_name']}, {f['population']:,} people"
+                + (", the part in New York State" if ":" in f["cbsa"] else "") + f"), weight {f['weight']:.4f}: "
+                f"{c['measured']:,} of {c['hours']:,} hours measured, {c['interpolated']:,} interpolated across at most {MAX_GAP} hours, "
+                f"{c['missing']:,} missing (longest run {c['longest_gap']} hours)")
+        if "agree" in f:   # the seam's check is made when NOAA's files are read, not when the hours come from the table
+            line += (f"; over {f['shared_hours']:,} shared hours the two products agree in {f['agree']:.2%} of the hours outside the synoptic ones and "
+                     f"{f['agree_synoptic']:.2%} of the synoptic ones (mean difference {f['mean_diff_c']:+.3f} C)" + (f". {f['patch']}" if f.get("patch") else ""))
+        out.append(line)
     return out
 
 
@@ -550,7 +698,9 @@ def main(argv=None):
     ap.add_argument("--out-dir", help="a trial: the tables under this folder, not warehouse/output")
     ap.add_argument("--refresh", action="store_true", help="ask the data service again for the months since July 2025 (a later day's run)")
     ap.add_argument("--end", help="the last day asked of the data service, YYYY-MM-DD (default today, UTC)")
+    ap.add_argument("--from-table", action="store_true", help=f"session 129: the stations' hours from {STATION_HOURS} in warehouse/output, not from NOAA's files (a machine that never held them); the grid tables and the stations table are rebuilt, the station-hours table is left as it is")
     args = ap.parse_args(argv)
+    in_dir = ip.OUT_DIR
     if ip.paused("noaa"):
         print("noaa is a paused publisher (warehouse/metadata/paused_sources.csv): no request is made", file=sys.stderr)
         return 1
@@ -561,14 +711,23 @@ def main(argv=None):
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"{NAME}_{run_id}.log"))
-    if not args.offline:
+    if not args.offline and not args.from_table:
         ip.RAW.open(NAME, run_id)
     results = []
     try:
         log(f"ERW {NAME} run {run_id}: {len(STATIONS)} stations, ISD-Lite {FIRST_YEAR} to {SEAM.year} and Local Climatological Data from "
             f"{LCD_FROM}; ceiling {CEILING:,} rows ({EXPLORED:,} read by the session's trials are counted)")
-        raw, facts, led = pull(log, offline=args.offline, end=args.end, refresh=args.refresh)
+        if args.from_table:
+            raw, facts = raw_from_table(os.path.join(in_dir, STATION_HOURS + ".csv")), facts_from_tables(in_dir)
+            led = Ledger(CEILING, log)
+            led.rows = 0
+            log(f"  the stations' hours are read from {STATION_HOURS}; no file of NOAA's is opened and nothing is asked of NOAA")
+        else:
+            raw, facts, led = pull(log, offline=args.offline, end=args.end, refresh=args.refresh, census_dir=in_dir)
         st, hours, days, counts, idx = build(raw, facts)
+        checks = rule_check(census(in_dir))
+        for ln in checks:
+            log(f"  the rule, by the retrieved counts: {ln}")
         log(f"  rows read from NOAA: {led.rows:,} of the {CEILING:,} ceiling ({led.requests} requests sent by this run, {led.reused} files "
             f"reused, {led.bytes / 1e6:.1f} MB)")
         for ln in station_lines(facts, counts):
@@ -581,15 +740,18 @@ def main(argv=None):
                 f"station interpolated; {held[ba][3]:,} whole local days")
         summary = dict(run_id=run_id, rows_read=led.rows, ceiling=CEILING, requests=led.requests, reused=led.reused, through=ip.utc_iso(idx[-1]),
                        stations={c: {**f, **counts[c]} for c, f in facts.items()}, grids={b: dict(zip(("hours_held", "hours", "hours_with_interpolation", "days"), v)) for b, v in held.items()})
-        os.makedirs(os.path.join(ip.RAW_DIR, NAME), exist_ok=True)
-        with open(os.path.join(ip.RAW_DIR, NAME, "summary.json"), "w", encoding="utf-8") as f:
-            json.dump(summary, f, indent=1)
+        summary["rule_check"] = checks
+        if not args.from_table:   # the summary of a run from the table would lose the pull's own figures
+            os.makedirs(os.path.join(ip.RAW_DIR, NAME), exist_ok=True)
+            with open(os.path.join(ip.RAW_DIR, NAME, "summary.json"), "w", encoding="utf-8") as f:
+                json.dump(summary, f, indent=1)
         print(f"{NAME}: {led.rows:,} rows read of {CEILING:,} ({led.requests} requests, {led.reused} reused); stations through {summary['through']}")
         if args.fetch_only:
             results.append(dict(table=HOURLY, market="all", status="ok", detail=f"fetch only: {led.rows} rows read"))
         else:
             stations, hourly, daily = tables(facts, hours, days, counts, idx)
-            worst = min(facts.values(), key=lambda f: f["agree"])
+            seam = [f for f in facts.values() if "agree" in f]
+            worst = min(seam, key=lambda f: f["agree"]) if seam else None
             common = [
                 f"Retrieved: {run_id} (UTC) by warehouse/connectors/noaa_grid_weather.py",
                 f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
@@ -598,16 +760,21 @@ def main(argv=None):
                 f"  files: {LITE}/<year>/<USAF>-<WBAN>-<year>.gz, {FIRST_YEAR} to {SEAM.year}; used for hours before {ip.utc_iso(SEAM)}. NOAA's database ends on 27 August 2025.",
                 f"Source: {SRC_LCD} NOAA National Centers for Environmental Information, Local Climatological Data version 2, {PAGE_LCD}",
                 f"  access: {API}?dataset=local-climatological-data-v2 (stations USW000<WBAN>, dataTypes HourlyDryBulbTemperature,HourlyDewPointTemperature), from {LCD_FROM}; used for hours from {ip.utc_iso(SEAM)}. Its times are local standard time, moved to UTC; an hour takes the report from ten minutes before the hour up to the hour, the closest to it (ISD-Lite's rule).",
-                f"The seam, checked: over the hours both products hold from {LCD_FROM} to ISD-Lite's end, every station agrees to a tenth of a degree C in at least {worst['agree']:.2%} of the hours outside the eight synoptic hours of the day (the least: {[c for c, f in facts.items() if f is worst][0]}). At the synoptic hours (00, 03, ... 21 UTC) ISD-Lite takes the on-the-hour synoptic report where a station files one, and the Local Climatological Data does not carry it for every station: there the agreement runs from {min(f['agree_synoptic'] for f in facts.values()):.2%} to {max(f['agree_synoptic'] for f in facts.values()):.2%} by station, and the mean difference over all shared hours from {min(f['mean_diff_c'] for f in facts.values()):+.3f} to {max(f['mean_diff_c'] for f in facts.values()):+.3f} C (the Stations lines give each).",
-                f"Rows read from NOAA: {led.rows:,} of the {CEILING:,} ceiling, the session's trial reads included.",
-                "Weights: each metropolitan area's share of its grid's five, to the nearest twentieth. The populations behind the shares were not retrieved (no population table is held and the one approved pull was NOAA's): they are a stated parameter of the method, to be checked against Census's table before the page opens. Method: docs/methods/demand_weather.md",
+                (f"The seam, checked: over the hours both products hold from {LCD_FROM} to ISD-Lite's end, every station agrees to a tenth of a degree C in at least {worst['agree']:.2%} of the hours outside the eight synoptic hours of the day (the least: {[c for c, f in facts.items() if f is worst][0]}). At the synoptic hours (00, 03, ... 21 UTC) ISD-Lite takes the on-the-hour synoptic report where a station files one, and the Local Climatological Data does not carry it for every station: there the agreement runs from {min(f['agree_synoptic'] for f in seam):.2%} to {max(f['agree_synoptic'] for f in seam):.2%} by station, and the mean difference over all shared hours from {min(f['mean_diff_c'] for f in seam):+.3f} to {max(f['mean_diff_c'] for f in seam):+.3f} C (the Stations lines give each)."
+                 if worst else f"Built from {STATION_HOURS} (--from-table): the seam between the two products was checked when NOAA's files were read, and that table's header holds the result."),
+                (f"Rows read from NOAA: {led.rows:,} of the {CEILING:,} ceiling, the session's trial reads included." if not args.from_table else "Rows read from NOAA by this run: none."),
+                f"Weights (session 129): each station's metropolitan area over the sum of its grid's five, by the Census Bureau's estimates base of 1 April 2020 ({POPULATION}, vintage 2025), not rounded; New York's area by its part in New York State. "
+                + ("The rule, by the retrieved counts: " + "; ".join(checks) + ". " if checks else "By the retrieved counts the five areas held are the rule's five in every grid. ") + "Method: docs/methods/demand_weather.md",
                 f"Missing hours are counted and never interpolated across more than {MAX_GAP} hours. A grid's hour is written only when all five stations hold a temperature (measured, or interpolated across at most {MAX_GAP} hours: x_interpolated counts them).",
                 "License: public. U.S. stations only. NOAA NCEI's record for the database gives a citation and two statements of liability and names no license; its readme restricts only non-U.S. data (WMO Resolution 40). Cite as: NOAA National Centers for Environmental Information (2001): Global Surface Hourly [ISD-Lite]. NOAA National Centers for Environmental Information; and Kantor, Diana; Casey, Nancy W.; Menne, Matthew J.; Buddenberg, Andrew. 2023. Local Climatological Data (LCD), Version 2. NOAA National Centers for Environmental Information. https://doi.org/10.25921/96dw-mb77. NOAA's terms are quoted in docs/methods/demand_weather.md.",
             ]
-            cols_s = ip.SERIES_COLS + ["ba", "x_airport", "x_station", "x_name", "x_lat", "x_lon", "x_metro", "x_hours", "x_through"]
+            cols_s = ip.SERIES_COLS + ["ba", "x_airport", "x_station", "x_name", "x_lat", "x_lon", "x_metro", "x_hours", "x_through", "x_cbsa"]
+            p_s = os.path.join(ip.OUT_DIR, STATIONS_T + ".csv")
+            if os.path.exists(p_s):
+                os.remove(p_s)   # session 129: the table gains a column and a variable; it is small and rebuilt whole
             ip.write_csv(stations[cols_s], STATIONS_T, [
                 "Energy Research Warehouse (ERW): the 35 NOAA stations behind each grid's weighted weather, five a grid, with each one's weight and its hours measured, interpolated and missing (session 126)",
-                "Shape: series (docs/datastandard.md v0), partition column ba. entity noaa:<GHCN identifier>; variables weight (ratio: the station's share of its grid), hours_measured, hours_interpolated, hours_missing, longest_gap_hours, dew_point_hours_missing (count), over x_hours hours from ts_utc to x_through. x_name, x_lat and x_lon are NOAA's (isd-history.csv); x_metro is the metropolitan area the station stands for.",
+                "Shape: series (docs/datastandard.md v0), partition column ba. entity noaa:<GHCN identifier>; variables weight (ratio: the station's share of its grid), population_base_2020 (count: the Census Bureau's estimates base of its metropolitan area x_cbsa, a code with a state after a colon where a part is counted), hours_measured, hours_interpolated, hours_missing, longest_gap_hours, dew_point_hours_missing (count), over x_hours hours from ts_utc to x_through. x_name, x_lat and x_lon are NOAA's (isd-history.csv); x_metro is the metropolitan area the station stands for.",
             ] + common + ["Stations:"] + station_lines(facts, counts), log, cols=cols_s)
             cols_h = ip.SERIES_COLS + ["ba", "x_interpolated"]
             for f in (HOURLY, DAILY):
@@ -623,13 +790,27 @@ def main(argv=None):
                 "Energy Research Warehouse (ERW): each grid's weighted daily temperature, dew point, heating and cooling degree days, from five NOAA airport stations a grid, 2019 to now (session 126)",
                 "Shape: series (docs/datastandard.md v0), partition column ba. entity iso:<grid>; freq P1D, ts_utc the grid's local day (" + "; ".join(f"{v[0]} {v[1]}" for v in GRIDS.values()) + "). temperature_f the mean of the day's hours, temperature_max_f and temperature_min_f its highest and lowest hour, dew_point_f the mean (degF); heating_degree_days and cooling_degree_days the sum of the hours' heating and cooling degrees over 24 (degF-day, base 65 F). A day is written only when every one of its x_hours hours is held.",
             ] + common, log, cols=cols_d)
+            if not args.from_table and (not args.out_dir or os.environ.get("ERW_STATION_TABLE_TRIAL") == "1"):
+                sh = station_table(raw, facts, idx)
+                if len(sh) > STATION_CEILING:
+                    raise RuntimeError(f"{STATION_HOURS}: {len(sh):,} rows, over its ceiling of {STATION_CEILING:,}: not written")
+                p_h = os.path.join(ip.OUT_DIR, STATION_HOURS + ".csv")
+                if os.path.exists(p_h):
+                    os.remove(p_h)
+                ip.write_csv(sh[ip.SERIES_COLS + ["ba"]], STATION_HOURS, [
+                    "Energy Research Warehouse (ERW): hourly temperature and dew point at the 35 NOAA airport stations behind each grid's weighted weather, as NOAA measured them, 2019 to now (session 129)",
+                    "Shape: series (docs/datastandard.md v0), partition column ba (the grid the station stands for). entity noaa:<GHCN identifier>, node the airport; freq PT1H, ts_utc the hour (the reading taken in the ten minutes up to it). temperature_f and dew_point_f, degrees F: NOAA's tenths of a degree C times 9/5 plus 32, to two decimals, which turns back to the tenth exactly. "
+                    "Measured values only: an hour NOAA holds no value for has no row, and no interpolated value is written (the grid tables interpolate runs of at most three hours and count them). "
+                    f"{len(sh):,} rows of a ceiling of {STATION_CEILING:,}. With this table the grid tables can be rebuilt with other weights on a machine that never held NOAA's files (noaa_grid_weather.py --from-table).",
+                ] + common + ["Stations:"] + station_lines(facts, counts), log, cols=ip.SERIES_COLS + ["ba"])
+                results.append(dict(table=STATION_HOURS, market="all", status="ok", detail=f"{len(sh)} rows"))
             if not args.out_dir:
                 pub = "NOAA National Centers for Environmental Information (NCEI)"
                 ip.update_sources([
                     dict(source=SRC_LITE, publisher=pub, report="Integrated Surface Database, ISD-Lite (hourly)", report_url=PAGE_LITE,
-                         document_list=LITE + "/", license="public", tables=[STATIONS_T, HOURLY, DAILY]),
+                         document_list=LITE + "/", license="public", tables=[STATIONS_T, HOURLY, DAILY, STATION_HOURS]),
                     dict(source=SRC_LCD, publisher=pub, report="Local Climatological Data, version 2 (hourly)", report_url=PAGE_LCD,
-                         document_list=API + "?dataset=local-climatological-data-v2", license="public", tables=[HOURLY, DAILY])])
+                         document_list=API + "?dataset=local-climatological-data-v2", license="public", tables=[HOURLY, DAILY, STATION_HOURS])])
             for t, n in ((STATIONS_T, len(stations)), (HOURLY, len(hourly)), (DAILY, len(daily))):
                 results.append(dict(table=t, market="all", status="ok", detail=f"{n} rows; {led.rows} rows read from NOAA"))
     except Exception:

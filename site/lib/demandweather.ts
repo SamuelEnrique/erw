@@ -17,6 +17,7 @@ export type Grid = {
 };
 export type Station = {
   ba: string; usaf: string; wban: string; weight: number; metro: string; name: string; state: string; hours: number; measured: number;
+  population?: number; cbsa?: string; cbsa_name?: string; weight_stated?: number;
   interpolated: number; missing: number; longest_gap: number; agree: number; agree_synoptic: number; mean_diff_c: number; shared_hours: number;
 };
 export type Shift = { mape_pct: number | null; bias_pct: number | null; hours: number };
@@ -24,7 +25,9 @@ export type WeatherFile = {
   built_at: string; table: string; train: number[]; through: string; metrics: string[]; grids: Record<string, Grid>;
   equal_weights: { moved: { largest_energy: number; largest_any: number; figures: number } | null } | null;
   california: { late_to: string; join: string; windows: { label: string; start: string; end: string; a_year_earlier: boolean; shifts: Record<string, Shift> }[] };
-  weather?: { rows_read: number; ceiling: number; through: string; stations: Record<string, Station>; grids: Record<string, { hours_held: number; hours: number; hours_with_interpolation: number; days: number }> };
+  dew?: { adopted: boolean; threshold_f: number; by_grid: Record<string, { without: { hour: number; day: number }; with_dew: { hour: number; day: number } }> };
+  isne_four_of_five?: { years: Record<string, Record<string, Figure | null>>; hours_held: number; hours: number; hours_on_four: number; least: number } | null;
+  weather?: { rows_read: number; ceiling: number; through: string; rule_check?: string[]; stations: Record<string, Station>; grids: Record<string, { hours_held: number; hours: number; hours_with_interpolation: number; days: number }> };
 };
 
 export const TABLE = "eia930_demand_weather";

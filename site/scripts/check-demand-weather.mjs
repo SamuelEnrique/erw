@@ -60,7 +60,7 @@ async function view(slug, year) {
   const t = text(html);
   check(html.includes('data-remainder="1"') && t.includes("What the remainder is not.") && t.includes("The warehouse cannot split them") && t.indexOf("What the remainder is not.") < t.indexOf("By grid and year"), `${tag} what the remainder is not, above the tool`);
   const st = Object.keys(file.weather?.stations ?? {});
-  check(st.length === 35 && st.every((c) => got[`s|${c}|w`] === file.weather.stations[c].weight.toFixed(2)) && t.includes("The populations were not retrieved"), `${tag} ${st.length} stations with their weights, and the words on the populations`);
+  check(st.length === 35 && st.every((c) => got[`s|${c}|w`] === file.weather.stations[c].weight.toFixed(3)) && t.includes("Census Bureau") && st.every((c) => got[`s|${c}|p`] === g.whole(file.weather.stations[c].population)), `${tag} ${st.length} stations with their weights and the Census Bureau's counts`);
   check(!/\bundefined\b|NaN/.test(t), `${tag} no "undefined" and no NaN in the text`);
 }
 

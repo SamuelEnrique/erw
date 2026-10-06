@@ -213,6 +213,10 @@ catalogue_hold:
   - noaa_grid_weather_hourly
   - noaa_grid_weather_daily
   - eia930_demand_weather
+  # session 129: the stations' own measured hours (about 4.7 million rows) and the Census Bureau's metropolitan
+  # populations behind the stations' weights. Not loaded: the same review page reads the site's own copy
+  - noaa_station_weather_hourly
+  - census_metro_population
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
@@ -265,6 +269,7 @@ sources_hold:
   - noaa:isd_lite                      # session 126, /demand/weather (NOAA's hourly station files to July 2025)
   - noaa:lcd_v2                        # session 126, the same page (NOAA's Local Climatological Data from August 2025)
   - erw:demand_weather                 # session 126, the same page
+  - census:popest_cbsa                 # session 129, the same page (the stations' weights)
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

@@ -188,6 +188,8 @@ SECTOR_RULES = [
     (r"^eia930_all_history$", "power"),
     (r"^noaa_isd_hourly$", "power"),
     (r"^noaa_grid_weather_(stations|hourly|daily)$", "power"),  # session 126: each grid's weighted weather, and its stations
+    (r"^noaa_station_weather_hourly$", "power"),                # session 129: the stations' own measured hours
+    (r"^census_metro_population$", "power"),                    # session 129: the Census Bureau's metropolitan populations, the stations' weights
     (r"^rrc_lease_production_monthly$", "oil;gas"),
     # session 102: the tables of sessions 94 to 100, which could not be put in coverage during the freeze
     (r"^generation_mix_(hourly_profile|records)$", "power;carbon"),  # session 94: the energy mix by hour and its records
@@ -242,8 +244,10 @@ def iso_of(table):
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
         return "CAISO;ISO-NE;MISO;NYISO;SPP"
     if table in ("eia930_all_history", "noaa_isd_hourly", "noaa_grid_weather_stations", "noaa_grid_weather_hourly", "noaa_grid_weather_daily",
-                 "eia930_demand_weather"):  # session 49: the seven ISO BAs, and their weather stations; session 126: their weighted weather and demand with it taken out
+                 "eia930_demand_weather", "noaa_station_weather_hourly"):  # session 49: the seven ISO BAs, and their weather stations; session 126: their weighted weather and demand with it taken out
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table == "census_metro_population":  # session 129: metropolitan areas, no ISO
+        return "none"
     if table == "rrc_lease_production_monthly":  # session 49: Texas leases, no ISO
         return "none"
     if table in ("event_window_daily", "event_study_estimates"):  # session 36B Uri in ERCOT; session 36C COVID-19 in the seven ISO BAs and US48; session 47 its event studies
