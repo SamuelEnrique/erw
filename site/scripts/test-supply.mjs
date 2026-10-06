@@ -94,6 +94,8 @@ test("the five headline series are held, and a placeholder exists for every stat
   for (const id of s.HEADLINE) assert.equal(file.rows.find((r) => r.id === id)?.status, "ok", id);
   for (const r of file.rows) if (r.status !== "ok") assert.ok(s.PLACEHOLDER[r.status], r.id);
   assert.deepEqual(Object.values(s.PLACEHOLDER).sort(), ["licensed source needed", "not held yet", "paused while terms are reviewed", "working on it"]);
-  assert.ok(s.rowsOf(file, "cleared").every((r) => r.status !== "ok"));
+  // session 136: the operators that publish it openly hold values; MISO and PJM never do
+  assert.ok(s.rowsOf(file, "cleared").filter((r) => /^cleared-(miso|pjm)$/.test(r.id)).every((r) => r.status !== "ok"));
+  assert.equal(s.rowsOf(file, "cleared").filter((r) => /^cleared-(miso|pjm)$/.test(r.id)).length, 2);
 });
 console.log(`${n} tests pass`);

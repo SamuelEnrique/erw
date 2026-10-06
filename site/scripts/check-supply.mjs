@@ -80,7 +80,9 @@ const text = plain(html);
   check(blank.length > 0 && wrong.length === 0, `the ${blank.length} rows with no value read their placeholder, with the reason on hover and no number${wrong.length ? ` (not ${wrong.map((r) => r.id).join(", ")})` : ""}`);
   const say = (id) => plain(rowHtml(html, id));
   check(say("cleared-miso").includes("paused while terms are reviewed") && say("cleared-pjm").includes("licensed source needed") && say("ice-brent").includes("licensed source needed") && say("gasprod-weekly").includes("licensed source needed")
-    && say("cleared-ercot").includes("not held yet") && say("burn-caiso-oil").includes("not held yet"), "MISO paused, PJM and ICE and weekly gas production licensed, the rest not held yet");
+    && say("burn-caiso-oil").includes("not held yet"), "MISO paused, PJM and ICE and weekly gas production licensed, the rest not held yet");
+  // session 136: the five operators that publish it openly hold a figure; a week is MWh a day
+  check(["cleared-ercot", "cleared-caiso", "cleared-nyiso", "cleared-iso-ne", "cleared-spp"].every((id) => /\d/.test(say(id)) && !say(id).includes("not held yet")), "day-ahead energy cleared holds a figure for ERCOT, CAISO, NYISO, ISO-NE and SPP");
 }
 {
   const rel = Object.fromEntries([...html.matchAll(/data-release="([^"]+)"[^>]*>([^<]*)</g)].map((m) => [m[1], m[2]]));

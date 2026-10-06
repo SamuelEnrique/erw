@@ -278,7 +278,9 @@ class ThePageFile(unittest.TestCase):
         ice = self.rows["ice-brent"]
         self.assertEqual(ice["status"], "licensed")
         self.assertIn("ICE", ice["note"])
-        self.assertEqual((self.rows["cleared-miso"]["status"], self.rows["cleared-pjm"]["status"], self.rows["cleared-ercot"]["status"]), ("paused", "licensed", "not_held"))
+        # session 136: the five operators that publish it openly are held; MISO and PJM stay blank
+        self.assertEqual((self.rows["cleared-miso"]["status"], self.rows["cleared-pjm"]["status"]), ("paused", "licensed"))
+        self.assertIn(self.rows["cleared-ercot"]["status"], ("ok", "not_held"))
         for r in self.file["rows"]:
             if r["status"] != "ok":
                 self.assertTrue(r.get("note"), r["id"])

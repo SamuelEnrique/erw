@@ -225,6 +225,13 @@ catalogue_hold:
   - eia_gas_trade_monthly
   - eia_basin_production_monthly
   - cftc_cot_positions
+  # session 136: day-ahead energy cleared by operator (about 35,000 rows in five tables; ISO-NE's is internal). The review
+  # page /supply reads the site's own file, built from them; nothing reads them from Supabase
+  - ercot_dam_cleared_energy
+  - caiso_dam_cleared_energy
+  - nyiso_dam_cleared_energy
+  - isone_dam_cleared_energy
+  - spp_dam_cleared_energy
   # session 133: the energy mix's added pulls (about 1.5 million rows in five tables). The review page /mix reads the
   # site's own files (site/data/mixplus/, site/data/mix_forecast.json), built from them; nothing reads them from Supabase
   - caiso_fuel_supply_history
@@ -301,6 +308,11 @@ sources_hold:
   - eia:natural-gas/move/poe1:supply
   - eia:steo:basin_production
   - cftc:disaggregated_cot_futures
+  - ercot:NP4-192-CD                   # session 136, /supply (these source rows serve only its new tables)
+  - caiso:ENE_SLRS
+  - nyiso:damenergy
+  - isone:hourlydayaheaddemand
+  - spp:DA-MC:cleared
   - caiso:todays_outlook_fuelsource_history   # session 133, /mix (these source rows serve only its new tables)
   - eia:860m:retired
   - nrc:power_reactor_status
