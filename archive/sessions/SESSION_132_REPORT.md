@@ -145,9 +145,9 @@ EIA's API today (`petroleum/pri/spt`): Brent 113.96 and WTI 96.16 USD a barrel o
 
 ## Checks
 
-- **Session tests:** `tests/test_session132.py`, 30 tests on real samples (EIA's own rows for the three routes, FRED's file across Christmas, the IMF's answer, CARB's sheet with its one Tuesday, four operating days of ERCOT's prices). `site/scripts/test-board.mjs`, 10 tests of the page's arithmetic on the site's own files.
+- **Session tests:** `tests/test_session132.py`, 31 tests on real samples (EIA's own rows for the three routes, FRED's file across Christmas, the IMF's answer, CARB's sheet with its one Tuesday, four operating days of ERCOT's prices). `site/scripts/test-board.mjs`, 10 tests of the page's arithmetic on the site's own files.
 - **Full suite:** 1,307 passed, 19 skipped, 1 failed (the menu test of session 53, which listed `/markets`). I changed that test and it passes; **I did not run the 8-minute suite a second time.**
-- **Site build:** exit 0. **Route check:** exit 0, 8 live pages and 116 in review, 0 failed.
+- **Site build:** exit 0. **Route check:** exit 0, 8 live pages and 116 in review, 0 failed. One class name (the overlay selector's width on a phone) changed after the last build; the type-check passed and I did not build again.
 - **The page's own check** (`site/scripts/check-board.mjs`): 29 of 29, in a real browser: every marked number equals the file; MISO and PJM blank; the three redirects; the workbench opens, docks, expands and reopens from an address; a trend line answers the mouse.
 - **I looked at the page** at desktop and phone width. On a phone the workbench sits above the tables and the tables scroll sideways.
 
