@@ -410,15 +410,21 @@ class ThePage(unittest.TestCase):
         for words in ("Session 132", "5 April 2024", "S&P Global", "International Monetary Fund", "www.ca.gov/use", "7.0 MMBtu/MWh", "10.5 MMBtu/MWh", "paused", "eia_power_plant_fuel_costs"):
             self.assertIn(words, note, words)
 
-    def test_the_refresh_is_written_and_not_scheduled(self):
+    def test_the_refresh_is_scheduled_once_a_day_through_the_guard(self):
+        # 6 October 2026: the owner had it scheduled (the chain prompt of that day). Until then this test asserted
+        # that nothing called the script; it now asserts the one call, under health.py, and the guard on the builder
         sh = src("warehouse", "refresh_board.sh")
         for step in ('--step "eia_board"', '--step "fred_treasury"', '--step "imf_pcps"', '--step "carb_lcfs"', '--step "board_page"'):
             self.assertIn("health.py run " + step, sh)
+        self.assertIn('--step "board_page" -- "$PY" warehouse/derived/page_keep.py board', sh)
         for wf in os.listdir(os.path.join(ROOT, ".github", "workflows")):
             self.assertNotIn("refresh_board.sh", src(".github", "workflows", wf), wf)
         daily = src("warehouse", "run_daily.sh")
-        self.assertNotIn("refresh_board.sh", daily)
-        self.assertNotIn("board_page", daily)
+        call = 'health.py run --step "board" -- bash warehouse/refresh_board.sh'
+        self.assertEqual(daily.count(call), 1)
+        self.assertLess(daily.index("run_other price_board "), daily.index(call))
+        self.assertLess(daily.index("run_other trader_view "), daily.index(call))
+        self.assertIn("site/data/board.json site/public/board", src(".github", "workflows", "daily-prices.yml"))
 
     def test_the_new_tables_are_held_out_of_the_live_set(self):
         sys.path.insert(0, os.path.join(ROOT, "warehouse", "supabase"))

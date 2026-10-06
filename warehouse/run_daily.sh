@@ -266,6 +266,18 @@ run_other ercot_hub_prices_daily "$PYTHON" warehouse/derived/ercot_hub_prices_da
 # carbon auctions (docs/methods/price_board.md). On the runner, the rows built from the ERCOT history (never restored)
 # and from CARB (a known gap there) are carried from the last run's tables, restored from the draft, and said so
 run_other price_board "$PYTHON" warehouse/derived/price_board.py
+# 6 October 2026 (the owner's instruction, the chain prompt of that day): the price board's page files (/board, in
+# review), once a day, under warehouse/health.py. Six small pulls and the builder; the builder's rows are taken only
+# where they are no older and no shorter than the held ones (warehouse/derived/page_keep.py), so the runner, which
+# holds no long history, never writes a thinner board. The commit step adds site/data/board.json and site/public/board/
+run_other board "$PYTHON" warehouse/health.py run --step "board" -- bash warehouse/refresh_board.sh
+# The same day: Supply and trade's page file (/supply, in review), once a week, on Saturdays (UTC), when the week's
+# petroleum, gas storage and positioning reports are all out; SUPPLY=1 forces it on any day
+if [ "$(date -u +%u)" = "6" ] || [ "${SUPPLY:-0}" = "1" ]; then
+  run_other supply "$PYTHON" warehouse/health.py run --step "supply" -- bash warehouse/refresh_supply.sh
+else
+  echo "supply: weekly (Saturdays UTC); skipped today, SUPPLY=1 to force"
+fi
 # Session 67: the battery revenue stack (/cost-of-power/battery). The day-ahead ancillary service prices of ERCOT (its
 # yearly files and the days after them) and of CAISO (the last days; the table is restored from the draft and merged
 # into), then the stack itself, each under warehouse/health.py (a failed step is retried once and recorded in
