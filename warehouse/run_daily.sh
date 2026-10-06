@@ -50,6 +50,8 @@
 #   Session 14: DRY_STORES=1 runs the same sequence but writes to no shared store:
 #   the Supabase load runs with --dry-run and the Redivis upload lists what it
 #   would upload. For testing the workflow logic in a fresh clone; CI never sets it.
+#   Session 131: ERW_FREEZE_HOLD=1 (set by the workflow under a review freeze, only when the hold is switched on in
+#   warehouse/config/freeze_hold.yaml) skips the Supabase load and nothing else; docs/freeze_hold.md.
 #
 # Writes runs/daily_status.txt (gitignored): one line per ISO, used by the
 # workflow for its commit message.
@@ -341,7 +343,14 @@ else
 fi
 
 echo "== Supabase live set (session 10; warehouse/supabase/live_set.yaml)"
-if [ "${DRY_STORES:-0}" = "1" ]; then
+# Session 131, the freeze hold (docs/freeze_hold.md): ERW_FREEZE_HOLD=1 is set by the workflow only while the site is
+# frozen and the hold is switched on. The live set is then not loaded: everything above was fetched, validated and
+# archived, the Redivis draft takes it below, and the first run after the freeze loads it (the loader writes whatever
+# differs from what Supabase holds, however many days that is). Recorded as a skip with its reason.
+if [ "${ERW_FREEZE_HOLD:-0}" = "1" ]; then
+  echo "supabase_load skipped: held by the review freeze (scripts/freeze.py hold); loads with the first run after it ends" >> "$status"
+  echo "supabase_load: held by the review freeze, nothing loaded"
+elif [ "${DRY_STORES:-0}" = "1" ]; then
   run_other supabase_load "$PYTHON" warehouse/supabase/load.py --dry-run
 else
   run_other supabase_load "$PYTHON" warehouse/supabase/load.py

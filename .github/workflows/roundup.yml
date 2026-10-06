@@ -107,6 +107,20 @@ jobs:
       - name: Install Python dependencies
         run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
 
+      # Session 131, the freeze hold (docs/freeze_hold.md). scripts/freeze.py hold answers "hold" only while the site is
+      # frozen (REVIEW_FREEZE) AND warehouse/config/freeze_hold.yaml says enabled: true; otherwise "run", and nothing
+      # below differs from what this job did before. It always exits 0. scripts/held.py restore puts in the working tree
+      # the files earlier runs held back from main (the branch held/scheduled); when nothing is held it does nothing.
+      - name: Freeze hold, run or hold
+        id: freeze
+        run: python scripts/freeze.py hold --github-output --github-env
+      - name: Freeze hold, the files held so far
+        run: |
+          python scripts/held.py restore || {
+            if [ "${ERW_FREEZE_HOLD:-0}" = "1" ]; then echo "::error::the held files could not be read during a freeze; stopping before anything is pulled"; exit 1; fi
+            echo "::warning::scripts/held.py restore failed; no freeze is held, so the run goes on"
+          }
+
       # Session 61: the Roundup writes warehouse tables (the fuel prices, the analysis, the cost ledger), so it takes the
       # data lock like the daily job (since session 59 every data writer refuses without it, so this job would have failed
       # on its first Sunday); a lock still held after an hour is a skip with its reason.
@@ -165,6 +179,12 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Session 131, the freeze hold: the Roundup and the analysis are held with the daily run's files, and the email
+          # below still goes out
+          if [ "${ERW_FREEZE_HOLD:-0}" = "1" ]; then
+            python scripts/held.py commit -m "Energy Roundup, held by the review freeze" -- docs/roundup docs/analysis
+            exit 0
+          fi
           git stash push --include-untracked --quiet -m "energy roundup" || true
           git pull --rebase origin main
           if git stash list | grep -q "energy roundup"; then
@@ -247,7 +267,13 @@ jobs:
           if [ -f warehouse/output/api_cost_ledger.csv ]; then
             python warehouse/health.py run --step "ledger: coverage row" --retries 0 -- python warehouse/metadata/build_coverage.py --only '^api_cost_ledger$'
             python warehouse/health.py run --step "ledger: archive" -- python warehouse/archive/archive.py write --tables '^api_cost_ledger$'
-            python warehouse/health.py run --step "ledger: live set" -- python warehouse/supabase/load.py --only '^api_cost_ledger$' --no-vacuum
+            # Session 131, the freeze hold: no load into the live set under a held freeze; the ledger is archived and in
+            # the Redivis draft, and the first daily run after the freeze loads it
+            if [ "${ERW_FREEZE_HOLD:-0}" = "1" ]; then
+              python warehouse/health.py record --step "ledger: live set" --status skipped --reason "held by the review freeze (scripts/freeze.py hold)"
+            else
+              python warehouse/health.py run --step "ledger: live set" -- python warehouse/supabase/load.py --only '^api_cost_ledger$' --no-vacuum
+            fi
             python warehouse/health.py run --step "ledger: Redivis draft" -- python warehouse/redivis/upload.py api_cost_ledger
           fi
 

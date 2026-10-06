@@ -175,6 +175,20 @@ jobs:
       - name: Install Python dependencies
         run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
 
+      # Session 131, the freeze hold (docs/freeze_hold.md). scripts/freeze.py hold answers "hold" only while the site is
+      # frozen (REVIEW_FREEZE) AND warehouse/config/freeze_hold.yaml says enabled: true; otherwise "run", and nothing
+      # below differs from what this job did before. It always exits 0. scripts/held.py restore puts in the working tree
+      # the files earlier runs held back from main (the branch held/scheduled); when nothing is held it does nothing.
+      - name: Freeze hold, run or hold
+        id: freeze
+        run: python scripts/freeze.py hold --github-output --github-env
+      - name: Freeze hold, the files held so far
+        run: |
+          python scripts/held.py restore || {
+            if [ "${ERW_FREEZE_HOLD:-0}" = "1" ]; then echo "::error::the held files could not be read during a freeze; stopping before anything is pulled"; exit 1; fi
+            echo "::warning::scripts/held.py restore failed; no freeze is held, so the run goes on"
+          }
+
       # Session 61: every step below runs under warehouse/health.py: a skip is a success with its reason, a real failure
       # retries once (not the daily run itself, which spends and sends: its connectors retry their own requests) and goes
       # into the day's health summary, and the job stays green, so GitHub sends no email.
@@ -292,6 +306,13 @@ jobs:
           for f in site/public/network/daily_2*.json; do paths+=("$f"); done
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Session 131, the freeze hold: under a freeze, with the hold switched on, this run's files go to the branch
+          # held/scheduled and nothing is pushed to main, so no scheduled commit redeploys the site. The step still
+          # succeeds, so the steps after it run as on any day.
+          if [ "${ERW_FREEZE_HOLD:-0}" = "1" ]; then
+            python scripts/held.py commit -m "Daily prices $date, held by the review freeze: ok: ${ok:-none}; failed: ${failed:-none}" -- "${paths[@]}"
+            exit 0
+          fi
           # Session 16: run 3 (36284122117) failed here with exit 128. It committed, then ran
           # git pull --rebase with news_index.csv still modified ("cannot pull with rebase: You
           # have unstaged changes"). Now: set this run's changes aside, bring main up to date
@@ -323,12 +344,21 @@ jobs:
           for p in "${paths[@]}"; do
             [ -e "$p" ] && git add -- "$p"
           done
+          # Session 131: the files a freeze held back (scripts/held.py restore, above), now that it has ended: they go to
+          # main with this run's own. The list is empty on every day no freeze was held.
+          if [ -s runs/held_files.txt ]; then
+            while IFS= read -r p; do
+              if [ -e "$p" ]; then git add -- "$p"; fi
+            done < runs/held_files.txt
+          fi
           if git diff --cached --quiet; then
             echo "No tracked file changed today; nothing to commit."
             exit 0
           fi
           git commit -m "Daily prices $date: ok: ${ok:-none}; failed: ${failed:-none}"                      -m "Automated run of .github/workflows/daily-prices.yml. Metadata, docs and digests only; the tables stay out of git (session 9). All tables passed erw_validate."
           git push origin HEAD:main
+          # Session 131: main now holds what the freeze held; the holding branch has done its work
+          if [ -s runs/held_files.txt ]; then python scripts/held.py clear || echo "::warning::held/scheduled could not be deleted; its files are on main"; fi
 
       - name: Release the data lock
         if: always() && env.ERW_LOCK_TOKEN != ''
@@ -381,6 +411,11 @@ jobs:
           python warehouse/health.py summary --day "$day" || { echo "::warning::no health summary for $day"; exit 0; }
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Session 131, the freeze hold: the summary is held with the run's other files and reaches main after the freeze
+          if [ "${ERW_FREEZE_HOLD:-0}" = "1" ]; then
+            python scripts/held.py commit -m "Health summary $day, held by the review freeze" -- "queue/summary/$day-health.md" || echo "::warning::the health summary for $day could not be held"
+            exit 0
+          fi
           git stash push --include-untracked --quiet -m "health summary" || true
           for i in 1 2 3; do
             git pull --quiet --rebase origin main || true

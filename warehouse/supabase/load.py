@@ -67,6 +67,7 @@ import math
 import os
 import re
 import sys
+import time
 import urllib.parse
 
 import pandas as pd
@@ -94,6 +95,14 @@ NUMERIC = {"value", "lat", "lon", "capacity_mw", "mw", "price"}
 SERIES_PARTITION = ["ba", "event"]  # session 36C: event (migration 011), part of the series key
 MIGRATIONS = os.path.join(ROOT, "warehouse", "metadata", "table_migrations.csv")
 TIMESTAMP = {"ts_utc", "retrieved_at", "event_date"}
+# Session 131: the retrieval stamp. A row whose every other column is what Supabase already holds is not written again
+# because its document was fetched again: the stamp is left out of the row comparison (canon) and of the table's hash
+# (rows_sha256). Supabase keeps the stamp of the load that last changed the row. Until then every table a connector
+# rebuilds whole was rewritten whole each day: on 5 October 2026 the daily run wrote 927,833 of the 1,292,645 rows it
+# selected, 681,638 of them the two ERCOT tables it then recorded as failed (docs/loader_stamps.md).
+STAMPS = {"retrieved_at"}
+COUNT_TRIES = 3
+COUNT_WAITS = (10, 30)   # seconds before the second and the third try
 CAT_NUMERIC = {"n_nodes", "n_rows"}
 
 
@@ -431,11 +440,11 @@ def canon(r, shape):
             vals[c] = str(v)
     vals["event"] = r.get("event") or ""  # session 36C: a key column of series, '' for tables without events
     k = (r["table_name"],) + tuple(vals[c] for c in key[1:])
-    body = tuple(vals[c] for c in cols) + (r["license"],)
+    body = tuple(vals[c] for c in cols if c not in STAMPS) + (r["license"],)   # session 131: not the retrieval stamp
     if shape == "series":  # session 29: only when set, so a table without a partition compares as before
         body += tuple((c, r[c]) for c in SERIES_PARTITION if r.get(c) and c != "event")
     if shape != "series":
-        body += (json.dumps(r.get("extra") or {}, sort_keys=True),)
+        body += (json.dumps({k2: v for k2, v in (r.get("extra") or {}).items() if k2 not in STAMPS}, sort_keys=True),)
     return k, body
 
 
@@ -519,11 +528,28 @@ def sync_table(client, name, df, shape, license_, loaded_at, days, now):
 
 
 def rows_sha256(df, license_):
-    """SHA-256 of a table's selected rows: its license, then the rows as CSV."""
+    """SHA-256 of a table's selected rows: its license, then the rows as CSV, without the retrieval stamp (session 131:
+    a table rebuilt from the same documents fetched again is the same table, and is skipped)."""
     h = hashlib.sha256()
     h.update(f"license={license_}\n".encode("utf-8"))
-    h.update(df.to_csv(index=False, lineterminator="\n").encode("utf-8"))
+    h.update(df.drop(columns=[c for c in df.columns if c in STAMPS]).to_csv(index=False, lineterminator="\n").encode("utf-8"))
     return h.hexdigest()
+
+
+def count_rows(client, shape, name, sleep=time.sleep):
+    """count(*) of one ERW table in Supabase, tried COUNT_TRIES times. Session 131: on 5 October 2026 the count of two
+    tables of about 340,000 rows, asked straight after every one of their rows had been written, came back as HTTP 500
+    with no body ("JSON could not be generated": the statement timed out, and a HEAD request carries no message). The
+    tables were whole, and were recorded as failed. The same count answered in under two seconds the next day."""
+    for attempt in range(1, COUNT_TRIES + 1):
+        try:
+            return client.table(shape).select("table_name", count="exact", head=True).eq("table_name", name).execute().count
+        except Exception as exc:
+            if attempt == COUNT_TRIES:
+                raise
+            wait = COUNT_WAITS[min(attempt, len(COUNT_WAITS)) - 1]
+            print(f"WARNING {name}: the count failed, try {attempt} of {COUNT_TRIES} ({type(exc).__name__}: {str(exc)[:120]}); again in {wait} s")
+            sleep(wait)
 
 
 def db_size_mb(client):
@@ -667,8 +693,7 @@ def main(argv=None):
                 written = deleted = 0
             else:
                 written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now)
-            n = client.table(shape).select("table_name", count="exact", head=True) \
-                .eq("table_name", name).execute().count
+            n = count_rows(client, shape, name)
             ok = n == len(df)
             if ok and name == EQR:  # session 90: the page's summary, from the rows just reconciled (migration 021)
                 stored = client.rpc("eqr_summary_store", {"p_summary": eqr_summary(df)}).execute().data

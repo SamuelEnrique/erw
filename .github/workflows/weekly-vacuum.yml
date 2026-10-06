@@ -27,6 +27,20 @@ jobs:
           cache: pip
       - name: Install Python dependencies
         run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+      # Session 131, the freeze hold (docs/freeze_hold.md). scripts/freeze.py hold answers "hold" only while the site is
+      # frozen (REVIEW_FREEZE) AND warehouse/config/freeze_hold.yaml says enabled: true; otherwise "run", and nothing
+      # below differs from what this job did before. It always exits 0. scripts/held.py restore puts in the working tree
+      # the files earlier runs held back from main (the branch held/scheduled); when nothing is held it does nothing.
+      - name: Freeze hold, run or hold
+        id: freeze
+        run: python scripts/freeze.py hold --github-output --github-env
+      - name: Freeze hold, the files held so far
+        run: |
+          python scripts/held.py restore || {
+            if [ "${ERW_FREEZE_HOLD:-0}" = "1" ]; then echo "::error::the held files could not be read during a freeze; stopping before anything is pulled"; exit 1; fi
+            echo "::warning::scripts/held.py restore failed; no freeze is held, so the run goes on"
+          }
+
       # session 59: under the data lock (warehouse/lock.py), taken and released around it; waits up to 60 minutes
       - name: VACUUM (FULL, ANALYZE) the shape tables
         env:
@@ -42,6 +56,13 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Session 131, the freeze hold: the sizes are held with the daily run's files (the vacuum itself changes nothing
+          # a visitor sees and ran above as on any Sunday)
+          if [ "${ERW_FREEZE_HOLD:-0}" = "1" ]; then
+            python warehouse/metadata/run_status.py record
+            python scripts/held.py commit -m "Weekly vacuum $(date -u +%F), held by the review freeze" -- warehouse/metadata/run_status.csv
+            exit 0
+          fi
           # the vacuum changes no tracked file: bring main up to date first, then append this run's rows once
           git pull --rebase origin main
           python warehouse/metadata/run_status.py record

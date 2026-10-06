@@ -1,0 +1,16 @@
+# Energy Research Warehouse (ERW): the freeze hold's one switch (session 131; docs/freeze_hold.md).
+#
+# While a review freeze is on (the file REVIEW_FREEZE; CLAUDE.md, rule 9), should the scheduled jobs hold what a visitor
+# would see? With `enabled: true`, during a freeze:
+#   kept live    the 15-minute prices (latest-prices.yml) and the hourly network (hourly-network.yml): untouched
+#   fetched      every pull, the validator, coverage, the archive and the Redivis draft, as on any day
+#   held         the load into the Supabase live set, and every commit a scheduled job makes to main (the daily run's
+#                files, the health summary, the Sunday Roundup, the weekly vacuum's sizes): they go to the branch
+#                held/scheduled and reach main, and the live set, with the first scheduled run after the freeze ends
+#   still sent   the Energy Digest and the Roundup by email
+# With `enabled: false` (or this file missing or unreadable) the scheduled jobs do exactly what they did before
+# session 131, freeze or no freeze.
+#
+# Only a person changes this line, by the usual route (a task/ branch, the snapshot before and after). It was written
+# as false by session 131, whose prompt said: build it without switching it on.
+enabled: false
