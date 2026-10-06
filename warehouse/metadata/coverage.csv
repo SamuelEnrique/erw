@@ -20,6 +20,7 @@ carb_lcfs_credit_prices,none,,1,P1W,2019-01-07T00:00:00Z,2026-09-14T00:00:00Z,11
 carbon_intensity_daily,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1D,2018-07-02T00:00:00Z,2026-10-03T00:00:00Z,46714,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-06T14:20:17Z,pass,public,power;carbon,yes,derived
 carbon_intensity_hourly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,PT1H,2018-07-02T00:00:00Z,2026-10-03T23:00:00Z,1121493,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-06T14:20:17Z,pass,public,power;carbon,yes,derived
 carbon_intensity_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48,,8,P1M,2018-08-01T00:00:00Z,2026-09-01T00:00:00Z,1275,erw:carbon_intensity;erw:carbon_intensity_caiso,2026-10-06T14:20:17Z,pass,public,power;carbon,yes,derived
+cftc_cot_positions,cftc,nymex,9,P1W,2015-01-06T00:00:00Z,2026-09-29T00:00:00Z,9808,cftc:disaggregated_cot_futures,2026-10-06T10:44:33Z,pass,public,oil;gas;products,no,source
 clean_energy_hourly,clean,,7,PT1H,2019-01-01T05:00:00Z,2026-10-04T06:00:00Z,463459,erw:clean_energy,2026-10-05T11:37:49Z,pass,public,power;carbon,yes,derived
 clean_energy_summary,clean,,7,P1M;P1Y,2019-01-01T00:00:00Z,2026-09-01T00:00:00Z,27012,erw:clean_energy,2026-10-05T11:37:49Z,pass,public,power;carbon,yes,derived
 cost_of_power_carbon,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,7,P1M,2018-07-01T00:00:00Z,2026-10-01T00:00:00Z,712,erw:cost_of_power,2026-10-04T02:26:12Z,pass,public,power;carbon,yes,derived
@@ -46,13 +47,17 @@ eia930_demand_growth,DEMAND,,8,P1Y,2019-01-01T00:00:00Z,2026-01-01T00:00:00Z,241
 eia930_event_hourly_interchange,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,424,PT1H,2021-02-07T06:00:00Z,2025-06-29T03:00:00Z,266833,eia:electricity/rto/interchange-data;eia:electricity/rto/region-data,2026-10-02T22:56:19Z,pass,public,power,no,source
 eia930_generation_latest,GENERATION,,8,PT1H,2026-10-04T14:00:00Z,2026-10-06T05:00:00Z,3012,eia:electricity/rto/fuel-type-data;eia:electricity/rto/region-data,2026-10-06T14:16:51Z,pass,public,power,no,source
 eia_all_futures_prices,none,nymex,4,P1D,2019-01-01T00:00:00Z,2024-04-05T00:00:00Z,21240,eia:nymex_futures_natural_gas;eia:nymex_futures_petroleum,2026-10-05T23:57:38Z,pass,internal,oil;gas;products,no,source
+eia_basin_production_monthly,none,,12,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1668,eia:steo:basin_production,2026-10-06T10:44:17Z,pass,public,oil;gas,no,source
 eia_crude_first_purchase_prices,none,,2,P1M,1977-07-01T00:00:00Z,2026-07-01T00:00:00Z,860,eia:petroleum/pri/dfp1;eia:petroleum/pri/dfp2,2026-10-06T14:22:23Z,pass,public,oil,no,source
 eia_crude_imports_by_country,none,,82,P1M,1920-01-01T00:00:00Z,2026-07-01T00:00:00Z,22633,eia:petroleum/move/impcus,2026-10-06T14:22:23Z,pass,public,oil,no,source
 eia_crude_stream_prices,none,,38,P1M,2019-01-01T00:00:00Z,2026-08-01T00:00:00Z,2982,eia:petroleum/pri/dfp2:streams;eia:petroleum/pri/imc2;eia:petroleum/pri/land2;eia:petroleum/pri/rac2,2026-10-06T08:18:26Z,pass,public,oil,no,source
 eia_fuel_spot_prices,none,,3,P1D,1986-01-02T00:00:00Z,2026-09-29T00:00:00Z,27717,eia:natural-gas/pri/fut;eia:petroleum/pri/spt,2026-10-06T14:21:53Z,pass,public,oil;gas,no,source
+eia_gas_storage_weekly,none,,8,P1W,2010-01-01T00:00:00Z,2026-09-25T00:00:00Z,6992,eia:natural-gas/stor/wkly,2026-10-06T10:44:17Z,pass,public,gas,no,source
+eia_gas_trade_monthly,none,,36,P1M,2015-01-01T00:00:00Z,2026-07-01T00:00:00Z,1979,eia:natural-gas/move/poe1:supply;eia:natural-gas/move/poe2:supply,2026-10-06T10:44:17Z,pass,public,gas;lng,no,source
 eia_lng_exports_monthly,none,,17,P1M,2013-11-01T00:00:00Z,2026-07-01T00:00:00Z,1083,eia:natural-gas/move/poe2,2026-10-06T14:22:23Z,pass,public,lng,no,source
 eia_padd_crude_pipeline_flows,none,,11,P1M,1986-01-01T00:00:00Z,2026-07-01T00:00:00Z,4558,eia:petroleum/move/pipe,2026-10-06T14:22:23Z,pass,public,oil,no,source
 eia_petroleum_stocks_weekly,none,,8,P1W,1982-08-20T00:00:00Z,2026-09-25T00:00:00Z,16807,eia:petroleum/stoc/wstk,2026-10-06T14:22:23Z,pass,public,oil;products,no,source
+eia_petroleum_supply_weekly,none,,30,P1W,2010-01-01T00:00:00Z,2026-09-25T00:00:00Z,26088,eia:petroleum/move/wkly:supply;eia:petroleum/stoc/wstk:supply;eia:petroleum/sum/sndw,2026-10-06T10:44:17Z,pass,public,oil;products,no,source
 eia_petroleum_trade_weekly,none,,7,P1W,1990-01-05T00:00:00Z,2026-09-25T00:00:00Z,12572,eia:petroleum/move/wkly,2026-10-06T14:22:23Z,pass,public,oil;products,no,source
 eia_power_plant_fuel_costs,none,,58,P1M,2019-01-01T00:00:00Z,2026-07-01T00:00:00Z,12898,eia:electricity/electric-power-operational-data:cost,2026-10-06T08:44:58Z,pass,public,coal;gas;power,no,source
 eia_product_spot_prices,none,,9,P1D,1986-06-02T00:00:00Z,2026-09-29T00:00:00Z,71953,eia:petroleum/pri/spt,2026-10-06T14:22:23Z,pass,public,products,no,source

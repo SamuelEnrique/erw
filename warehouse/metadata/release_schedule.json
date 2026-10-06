@@ -1,0 +1,193 @@
+{
+ "retrieved_at": "2026-10-06T10:49:38Z",
+ "timezone": "America/New_York",
+ "reports": [
+  {
+   "id": "wpsr",
+   "name": "Weekly Petroleum Status Report",
+   "publisher": "EIA",
+   "weekday": 2,
+   "time": "10:30",
+   "page": "https://www.eia.gov/petroleum/supply/weekly/schedule.php",
+   "covers": "the week ending the Friday before",
+   "exceptions": [
+    {
+     "week_ending": "2024-12-27",
+     "date": "2025-01-02",
+     "day": "Thursday",
+     "time": "11:00",
+     "holiday": "New Year's Day"
+    },
+    {
+     "week_ending": "2025-01-17",
+     "date": "2025-01-23",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Martin Luther King Jr. Day"
+    },
+    {
+     "week_ending": "2025-02-14",
+     "date": "2025-02-20",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "President's Day"
+    },
+    {
+     "week_ending": "2025-05-23",
+     "date": "2025-05-29",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Memorial Day"
+    },
+    {
+     "week_ending": "2025-08-29",
+     "date": "2025-09-04",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Labor Day"
+    },
+    {
+     "week_ending": "2025-10-10",
+     "date": "2025-10-16",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Columbus Day"
+    },
+    {
+     "week_ending": "2025-11-07",
+     "date": "2025-11-13",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Veterans Day"
+    },
+    {
+     "week_ending": "2025-12-19",
+     "date": "2025-12-29",
+     "day": "Monday",
+     "time": "17:00",
+     "holiday": "Christmas"
+    },
+    {
+     "week_ending": "2026-01-16",
+     "date": "2026-01-22",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Martin Luther King Jr. Day"
+    },
+    {
+     "week_ending": "2026-02-13",
+     "date": "2026-02-19",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "President's Day"
+    },
+    {
+     "week_ending": "2026-05-22",
+     "date": "2026-05-28",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Memorial Day"
+    },
+    {
+     "week_ending": "2026-09-04",
+     "date": "2026-09-10",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Labor Day"
+    },
+    {
+     "week_ending": "2026-10-09",
+     "date": "2026-10-15",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Columbus Day"
+    },
+    {
+     "week_ending": "2026-11-06",
+     "date": "2026-11-12",
+     "day": "Thursday",
+     "time": "12:00",
+     "holiday": "Veterans Day"
+    }
+   ],
+   "read": "the page's holiday table, 14 alternate dates"
+  },
+  {
+   "id": "wngsr",
+   "name": "Weekly Natural Gas Storage Report",
+   "publisher": "EIA",
+   "weekday": 3,
+   "time": "10:30",
+   "page": "https://ir.eia.gov/ngs/schedule.html",
+   "covers": "the week ending the Friday before",
+   "exceptions": [
+    {
+     "date": "2025-01-03",
+     "day": "Friday",
+     "time": "10:30",
+     "holiday": "New Year\u2019s Day"
+    },
+    {
+     "date": "2025-01-08",
+     "day": "Wednesday",
+     "time": "12:00",
+     "holiday": "National Day of Mourning"
+    },
+    {
+     "date": "2025-06-18",
+     "day": "Wednesday",
+     "time": "12:00",
+     "holiday": "Juneteenth National Independence Day"
+    },
+    {
+     "date": "2025-11-14",
+     "day": "Friday",
+     "time": "10:30",
+     "holiday": "Veterans Day"
+    },
+    {
+     "date": "2025-11-26",
+     "day": "Wednesday",
+     "time": "12:00",
+     "holiday": "Thanksgiving Day"
+    },
+    {
+     "date": "2025-12-29",
+     "day": "Monday",
+     "time": "12:00",
+     "holiday": "Christmas Day"
+    },
+    {
+     "date": "2025-12-31",
+     "day": "Wednesday",
+     "time": "12:00",
+     "holiday": "New Year\u2019s Day"
+    },
+    {
+     "date": "2026-11-13",
+     "day": "Friday",
+     "time": "10:30",
+     "holiday": "Veterans Day"
+    },
+    {
+     "date": "2026-11-25",
+     "day": "Wednesday",
+     "time": "12:00",
+     "holiday": "Thanksgiving Day"
+    }
+   ],
+   "read": "the page's holiday table, 9 alternate dates"
+  },
+  {
+   "id": "cot",
+   "name": "Commitments of Traders",
+   "publisher": "CFTC",
+   "weekday": 4,
+   "time": "15:30",
+   "page": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm",
+   "covers": "positions as of the Tuesday before",
+   "exceptions": [],
+   "read": "the standing rule alone: the CFTC's page lists no dates in its text. A federal holiday in the week can move the release"
+  }
+ ]
+}

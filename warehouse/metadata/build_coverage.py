@@ -126,6 +126,12 @@ SECTOR_RULES = [
     (r"^fred_treasury_yields$", "equities"),               # US Treasury yields at 2, 10 and 30 years: the vocabulary has no sector for interest rates, and financial markets is the nearest
     (r"^imf_commodity_prices$", "uranium;metals"),         # IMF monthly prices: uranium, lithium, cobalt, nickel, copper
     (r"^carb_lcfs_credit_prices$", "carbon"),              # California's Low Carbon Fuel Standard credit price, weekly
+    # session 134: supply and trade
+    (r"^eia_gas_storage_weekly$", "gas"),                 # weekly working gas in storage, the Lower 48 and its regions
+    (r"^eia_petroleum_supply_weekly$", "oil;products"),   # weekly stocks, crude production, refinery utilization and inputs, trade
+    (r"^eia_gas_trade_monthly$", "gas;lng"),              # monthly pipeline flows with Mexico and Canada, LNG exports by terminal
+    (r"^eia_basin_production_monthly$", "oil;gas"),       # monthly crude and gas production by region (the Outlook's history)
+    (r"^cftc_cot_positions$", "oil;gas;products"),        # managed money positions in four energy futures, weekly
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),
