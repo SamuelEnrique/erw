@@ -1,0 +1,1462 @@
+{
+ "built": "2026-10-05T23:57:40Z",
+ "table": "price_board_stats",
+ "heat_rate": 7.0,
+ "slack_days": 6,
+ "range_min_days": 180,
+ "gas_back_days": 4,
+ "lines": [
+  {
+   "group": "power_da",
+   "key": "ercot:HB_HUBAVG|da",
+   "label": "ERCOT",
+   "at": "Hub average",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-04",
+    "v": 37.2796
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-03",
+     "v": 43.4038,
+     "change": -6.1242,
+     "pct": -14.11
+    },
+    "1w": {
+     "t": "2026-09-27",
+     "v": 44.7042,
+     "change": -7.4246,
+     "pct": -16.61
+    },
+    "1m": {
+     "t": "2026-09-04",
+     "v": 32.1863,
+     "change": 5.0933,
+     "pct": 15.82
+    },
+    "1y": {
+     "t": "2025-10-04",
+     "v": 26.6533,
+     "change": 10.6263,
+     "pct": 39.87
+    }
+   },
+   "range": {
+    "low": 9.0796,
+    "high": 654.0325,
+    "days": 365,
+    "position": 0.0437
+   }
+  },
+  {
+   "group": "power_da",
+   "key": "caiso:TH_SP15_GEN-APND|da",
+   "label": "CAISO",
+   "at": "SP15",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-04",
+    "v": 56.2213
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-03",
+     "v": 54.3138,
+     "change": 1.9075,
+     "pct": 3.51
+    },
+    "1w": {
+     "t": "2026-09-27",
+     "v": 40.0007,
+     "change": 16.2206,
+     "pct": 40.55
+    },
+    "1m": {
+     "t": "2026-09-04",
+     "v": 33.4267,
+     "change": 22.7946,
+     "pct": 68.19
+    },
+    "1y": {
+     "t": "2025-10-04",
+     "v": 17.9123,
+     "change": 38.309,
+     "pct": 213.87
+    }
+   },
+   "range": {
+    "low": -0.9242,
+    "high": 98.2179,
+    "days": 364,
+    "position": 0.5764
+   }
+  },
+  {
+   "group": "power_da",
+   "key": "nyiso:N.Y.C.|da",
+   "label": "NYISO",
+   "at": "New York City zone",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-05",
+    "v": 43.8354
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-04",
+     "v": 40.15,
+     "change": 3.6854,
+     "pct": 9.18
+    },
+    "1w": {
+     "t": "2026-09-28",
+     "v": 46.2042,
+     "change": -2.3688,
+     "pct": -5.13
+    },
+    "1m": {
+     "t": "2026-09-05",
+     "v": 41.3704,
+     "change": 2.465,
+     "pct": 5.96
+    },
+    "1y": {
+     "t": "2025-10-05",
+     "v": 44.11,
+     "change": -0.2746,
+     "pct": -0.62
+    }
+   },
+   "range": {
+    "low": 29.3788,
+    "high": 834.3808,
+    "days": 365,
+    "position": 0.018
+   }
+  },
+  {
+   "group": "power_da",
+   "key": "spp:SPPNORTH_HUB|da",
+   "label": "SPP",
+   "at": "North hub",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-04",
+    "v": 36.0503
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-03",
+     "v": 30.9433,
+     "change": 5.107,
+     "pct": 16.5
+    },
+    "1w": {
+     "t": "2026-09-27",
+     "v": 38.5538,
+     "change": -2.5035,
+     "pct": -6.49
+    },
+    "1m": {
+     "t": "2026-09-04",
+     "v": 57.2887,
+     "change": -21.2384,
+     "pct": -37.07
+    },
+    "1y": {
+     "t": "2025-10-04",
+     "v": 7.2081,
+     "change": 28.8421,
+     "pct": 400.13
+    }
+   },
+   "range": {
+    "low": -6.2444,
+    "high": 342.0906,
+    "days": 364,
+    "position": 0.1214
+   }
+  },
+  {
+   "group": "power_da",
+   "key": "isone:.H.INTERNAL_HUB|da",
+   "label": "ISO-NE",
+   "at": "Internal hub",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-04",
+    "v": 37.8283
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-03",
+     "v": 37.2221,
+     "change": 0.6062,
+     "pct": 1.63
+    },
+    "1w": {
+     "t": "2026-09-27",
+     "v": 32.8521,
+     "change": 4.9763,
+     "pct": 15.15
+    },
+    "1m": {
+     "t": "2026-09-04",
+     "v": 49.1167,
+     "change": -11.2883,
+     "pct": -22.98
+    },
+    "1y": {
+     "t": "2025-10-04",
+     "v": 38.7579,
+     "change": -0.9296,
+     "pct": -2.4
+    }
+   },
+   "range": {
+    "low": 22.0058,
+    "high": 639.1417,
+    "days": 365,
+    "position": 0.0256
+   }
+  },
+  {
+   "group": "power_rt",
+   "key": "ercot:HB_HUBAVG|rt",
+   "label": "ERCOT",
+   "at": "Hub average",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-03",
+    "v": 52.4105
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 41.2101,
+     "change": 11.2004,
+     "pct": 27.18
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 27.2218,
+     "change": 25.1887,
+     "pct": 92.53
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 32.702,
+     "change": 19.7085,
+     "pct": 60.27
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 32.8583,
+     "change": 19.5522,
+     "pct": 59.5
+    }
+   },
+   "range": {
+    "low": 3.31,
+    "high": 262.8035,
+    "days": 365,
+    "position": 0.1892
+   }
+  },
+  {
+   "group": "power_rt",
+   "key": "caiso:TH_SP15_GEN-APND|rt",
+   "label": "CAISO",
+   "at": "SP15",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-03",
+    "v": 56.0878
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 38.1849,
+     "change": 17.903,
+     "pct": 46.88
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 40.4285,
+     "change": 15.6594,
+     "pct": 38.73
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 30.7416,
+     "change": 25.3462,
+     "pct": 82.45
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 18.3236,
+     "change": 37.7642,
+     "pct": 206.1
+    }
+   },
+   "range": {
+    "low": -3.6641,
+    "high": 195.0858,
+    "days": 364,
+    "position": 0.3006
+   }
+  },
+  {
+   "group": "power_rt",
+   "key": "nyiso:N.Y.C.|rt",
+   "label": "NYISO",
+   "at": "New York City zone",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-03",
+    "v": 58.3449
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 45.2494,
+     "change": 13.0954,
+     "pct": 28.94
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 32.6101,
+     "change": 25.7347,
+     "pct": 78.92
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 51.5683,
+     "change": 6.7765,
+     "pct": 13.14
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 42.9003,
+     "change": 15.4446,
+     "pct": 36.0
+    }
+   },
+   "range": {
+    "low": 22.3838,
+    "high": 515.3995,
+    "days": 355,
+    "position": 0.0729
+   }
+  },
+  {
+   "group": "power_rt",
+   "key": "spp:SPPNORTH_HUB|rt",
+   "label": "SPP",
+   "at": "North hub",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-03",
+    "v": 55.2015
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 27.5802,
+     "change": 27.6213,
+     "pct": 100.15
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 17.216,
+     "change": 37.9855,
+     "pct": 220.64
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 38.8566,
+     "change": 16.3449,
+     "pct": 42.06
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 19.4757,
+     "change": 35.7259,
+     "pct": 183.44
+    }
+   },
+   "range": {
+    "low": -11.1689,
+    "high": 234.4071,
+    "days": 365,
+    "position": 0.2703
+   }
+  },
+  {
+   "group": "power_rt",
+   "key": "isone:.H.INTERNAL_HUB|rt",
+   "label": "ISO-NE",
+   "at": "Internal hub",
+   "unit": "USD/MWh",
+   "formula": null,
+   "last": {
+    "t": "2026-10-03",
+    "v": 40.2664
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 34.1871,
+     "change": 6.0793,
+     "pct": 17.78
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 32.3786,
+     "change": 7.8878,
+     "pct": 24.36
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 47.2824,
+     "change": -7.0159,
+     "pct": -14.84
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 34.6209,
+     "change": 5.6456,
+     "pct": 16.31
+    }
+   },
+   "range": {
+    "low": 9.2784,
+    "high": 426.2784,
+    "days": 337,
+    "position": 0.0743
+   }
+  },
+  {
+   "group": "gas",
+   "key": "eia:henry_hub|spot",
+   "label": "Natural gas",
+   "at": "Henry Hub, Louisiana",
+   "unit": "USD/MMBtu",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 3.18
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 3.13,
+     "change": 0.05,
+     "pct": 1.6
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 2.9,
+     "change": 0.28,
+     "pct": 9.66
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 2.82,
+     "change": 0.36,
+     "pct": 12.77
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 2.93,
+     "change": 0.25,
+     "pct": 8.53
+    }
+   },
+   "range": {
+    "low": 2.54,
+    "high": 30.72,
+    "days": 246,
+    "position": 0.0227
+   }
+  },
+  {
+   "group": "crude",
+   "key": "eia:wti_cushing|spot",
+   "label": "WTI crude oil",
+   "at": "Cushing, Oklahoma",
+   "unit": "USD/bbl",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 96.16
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 99.37,
+     "change": -3.21,
+     "pct": -3.23
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 96.41,
+     "change": -0.25,
+     "pct": -0.26
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 84.57,
+     "change": 11.59,
+     "pct": 13.7
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 64.27,
+     "change": 31.89,
+     "pct": 49.62
+    }
+   },
+   "range": {
+    "low": 55.44,
+    "high": 114.58,
+    "days": 249,
+    "position": 0.6885
+   }
+  },
+  {
+   "group": "crude",
+   "key": "eia:brent|spot",
+   "label": "Brent crude oil",
+   "at": "Europe, FOB",
+   "unit": "USD/bbl",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 113.96
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 119.97,
+     "change": -6.01,
+     "pct": -5.01
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 114.89,
+     "change": -0.93,
+     "pct": -0.81
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 89.75,
+     "change": 24.21,
+     "pct": 26.97
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 69.0,
+     "change": 44.96,
+     "pct": 65.16
+    }
+   },
+   "range": {
+    "low": 59.93,
+    "high": 138.21,
+    "days": 253,
+    "position": 0.6902
+   }
+  },
+  {
+   "group": "products",
+   "key": "eia:EER_EPMRU_PF4_Y35NY_DPG|spot",
+   "label": "Gasoline, conventional regular",
+   "at": "New York Harbor",
+   "unit": "USD/gal",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 3.329
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 3.418,
+     "change": -0.089,
+     "pct": -2.6
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 3.551,
+     "change": -0.222,
+     "pct": -6.25
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 3.527,
+     "change": -0.198,
+     "pct": -5.61
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 1.993,
+     "change": 1.336,
+     "pct": 67.03
+    }
+   },
+   "range": {
+    "low": 1.689,
+    "high": 3.843,
+    "days": 249,
+    "position": 0.7614
+   }
+  },
+  {
+   "group": "products",
+   "key": "eia:EER_EPMRU_PF4_RGC_DPG|spot",
+   "label": "Gasoline, conventional regular",
+   "at": "U.S. Gulf Coast",
+   "unit": "USD/gal",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 3.631
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 3.72,
+     "change": -0.089,
+     "pct": -2.39
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 3.891,
+     "change": -0.26,
+     "pct": -6.68
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 3.742,
+     "change": -0.111,
+     "pct": -2.97
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 2.021,
+     "change": 1.61,
+     "pct": 79.66
+    }
+   },
+   "range": {
+    "low": 1.649,
+    "high": 4.126,
+    "days": 249,
+    "position": 0.8002
+   }
+  },
+  {
+   "group": "products",
+   "key": "eia:EER_EPMRR_PF4_Y05LA_DPG|spot",
+   "label": "Gasoline, reformulated RBOB regular",
+   "at": "Los Angeles",
+   "unit": "USD/gal",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 4.396
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 4.485,
+     "change": -0.089,
+     "pct": -1.98
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 4.139,
+     "change": 0.257,
+     "pct": 6.21
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 4.124,
+     "change": 0.272,
+     "pct": 6.6
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 2.505,
+     "change": 1.891,
+     "pct": 75.49
+    }
+   },
+   "range": {
+    "low": 1.672,
+    "high": 4.561,
+    "days": 249,
+    "position": 0.9429
+   }
+  },
+  {
+   "group": "products",
+   "key": "eia:EER_EPD2DXL0_PF4_Y35NY_DPG|spot",
+   "label": "Diesel, ultra-low sulfur No. 2",
+   "at": "New York Harbor",
+   "unit": "USD/gal",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 4.999
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 4.91,
+     "change": 0.089,
+     "pct": 1.81
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 5.007,
+     "change": -0.008,
+     "pct": -0.16
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 4.351,
+     "change": 0.648,
+     "pct": 14.89
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 2.392,
+     "change": 2.607,
+     "pct": 108.99
+    }
+   },
+   "range": {
+    "low": 2.091,
+    "high": 5.365,
+    "days": 249,
+    "position": 0.8882
+   }
+  },
+  {
+   "group": "products",
+   "key": "eia:EER_EPD2DXL0_PF4_RGC_DPG|spot",
+   "label": "Diesel, ultra-low sulfur No. 2",
+   "at": "U.S. Gulf Coast",
+   "unit": "USD/gal",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 4.866
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 4.788,
+     "change": 0.078,
+     "pct": 1.63
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 4.992,
+     "change": -0.126,
+     "pct": -2.52
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 4.346,
+     "change": 0.52,
+     "pct": 11.97
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 2.282,
+     "change": 2.584,
+     "pct": 113.23
+    }
+   },
+   "range": {
+    "low": 1.946,
+    "high": 5.206,
+    "days": 249,
+    "position": 0.8957
+   }
+  },
+  {
+   "group": "products",
+   "key": "eia:EER_EPD2DC_PF4_Y05LA_DPG|spot",
+   "label": "Diesel, ultra-low sulfur CARB",
+   "at": "Los Angeles",
+   "unit": "USD/gal",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 5.101
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 4.573,
+     "change": 0.528,
+     "pct": 11.55
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 5.12,
+     "change": -0.019,
+     "pct": -0.37
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 4.754,
+     "change": 0.347,
+     "pct": 7.3
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 2.442,
+     "change": 2.659,
+     "pct": 108.89
+    }
+   },
+   "range": {
+    "low": 2.009,
+    "high": 5.516,
+    "days": 249,
+    "position": 0.8817
+   }
+  },
+  {
+   "group": "products",
+   "key": "eia:EER_EPJK_PF4_RGC_DPG|spot",
+   "label": "Jet fuel, kerosene-type",
+   "at": "U.S. Gulf Coast",
+   "unit": "USD/gal",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 4.399
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 4.343,
+     "change": 0.056,
+     "pct": 1.29
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 4.354,
+     "change": 0.045,
+     "pct": 1.03
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 3.805,
+     "change": 0.594,
+     "pct": 15.61
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 2.084,
+     "change": 2.315,
+     "pct": 111.08
+    }
+   },
+   "range": {
+    "low": 1.821,
+    "high": 4.705,
+    "days": 249,
+    "position": 0.8939
+   }
+  },
+  {
+   "group": "products",
+   "key": "eia:EER_EPD2F_PF4_Y35NY_DPG|spot",
+   "label": "Heating oil, No. 2",
+   "at": "New York Harbor",
+   "unit": "USD/gal",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 4.789
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 4.7,
+     "change": 0.089,
+     "pct": 1.89
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 4.797,
+     "change": -0.008,
+     "pct": -0.17
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 4.251,
+     "change": 0.538,
+     "pct": 12.66
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 2.244,
+     "change": 2.545,
+     "pct": 113.41
+    }
+   },
+   "range": {
+    "low": 1.944,
+    "high": 5.163,
+    "days": 249,
+    "position": 0.8838
+   }
+  },
+  {
+   "group": "products",
+   "key": "eia:EER_EPLLPA_PF4_Y44MB_DPG|spot",
+   "label": "Propane",
+   "at": "Mont Belvieu, Texas",
+   "unit": "USD/gal",
+   "formula": null,
+   "last": {
+    "t": "2026-09-29",
+    "v": 0.894
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 0.894,
+     "change": 0.0,
+     "pct": 0.0
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 0.864,
+     "change": 0.03,
+     "pct": 3.47
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 0.68,
+     "change": 0.214,
+     "pct": 31.47
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 0.693,
+     "change": 0.201,
+     "pct": 29.0
+    }
+   },
+   "range": {
+    "low": 0.58,
+    "high": 0.915,
+    "days": 247,
+    "position": 0.9373
+   }
+  },
+  {
+   "group": "spark",
+   "key": "ercot:HB_HUBAVG|spark_spread_7",
+   "label": "ERCOT",
+   "at": "Hub average",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean at the hub - 7 MMBtu/MWh x Henry Hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": 21.1438
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 14.6708,
+     "change": 6.473,
+     "pct": 44.12
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 11.0696,
+     "change": 10.0742,
+     "pct": 91.01
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 14.2329,
+     "change": 6.9109,
+     "pct": 48.56
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 10.7204,
+     "change": 10.4234,
+     "pct": 97.23
+    }
+   },
+   "range": {
+    "low": -176.6208,
+    "high": 478.9625,
+    "days": 365,
+    "position": 0.3017
+   }
+  },
+  {
+   "group": "spark",
+   "key": "caiso:TH_SP15_GEN-APND|spark_spread_7",
+   "label": "CAISO",
+   "at": "SP15",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean at the hub - 7 MMBtu/MWh x Henry Hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": 32.0538
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 28.0234,
+     "change": 4.0304,
+     "pct": 14.38
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 12.9683,
+     "change": 19.0855,
+     "pct": 147.17
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 8.5077,
+     "change": 23.546,
+     "pct": 276.76
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": -0.8329,
+     "change": 32.8867,
+     "pct": null
+    }
+   },
+   "range": {
+    "low": -169.0468,
+    "high": 78.5479,
+    "days": 364,
+    "position": 0.8122
+   }
+  },
+  {
+   "group": "spark",
+   "key": "nyiso:N.Y.C.|spark_spread_7",
+   "label": "NYISO",
+   "at": "New York City zone",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean at the hub - 7 MMBtu/MWh x Henry Hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": 18.8946
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 28.1521,
+     "change": -9.2575,
+     "pct": -32.88
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 15.3379,
+     "change": 3.5567,
+     "pct": 23.19
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 33.0179,
+     "change": -14.1233,
+     "pct": -42.77
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 13.8758,
+     "change": 5.0188,
+     "pct": 36.17
+    }
+   },
+   "range": {
+    "low": -89.0054,
+    "high": 769.0008,
+    "days": 365,
+    "position": 0.1258
+   }
+  },
+  {
+   "group": "spark",
+   "key": "spp:SPPNORTH_HUB|spark_spread_7",
+   "label": "SPP",
+   "at": "North hub",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean at the hub - 7 MMBtu/MWh x Henry Hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": 8.6833
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 10.9922,
+     "change": -2.3089,
+     "pct": -21.0
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 0.0988,
+     "change": 8.5845,
+     "pct": 8687.27
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 37.2686,
+     "change": -28.5853,
+     "pct": -76.7
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 4.9918,
+     "change": 3.6915,
+     "pct": 73.95
+    }
+   },
+   "range": {
+    "low": -90.7381,
+    "high": 276.7106,
+    "days": 364,
+    "position": 0.2706
+   }
+  },
+  {
+   "group": "spark",
+   "key": "isone:.H.INTERNAL_HUB|spark_spread_7",
+   "label": "ISO-NE",
+   "at": "Internal hub",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean at the hub - 7 MMBtu/MWh x Henry Hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": 14.9621
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 17.4387,
+     "change": -2.4767,
+     "pct": -14.2
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 10.6625,
+     "change": 4.2996,
+     "pct": 40.32
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 28.4492,
+     "change": -13.4871,
+     "pct": -47.41
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 9.1488,
+     "change": 5.8133,
+     "pct": 63.54
+    }
+   },
+   "range": {
+    "low": -92.0771,
+    "high": 518.8117,
+    "days": 365,
+    "position": 0.1752
+   }
+  },
+  {
+   "group": "da_rt",
+   "key": "ercot:HB_HUBAVG|da_minus_rt",
+   "label": "ERCOT",
+   "at": "Hub average",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean - real-time daily mean, same day and hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": -9.0067
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": -4.2793,
+     "change": -4.7274,
+     "pct": null
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 6.3178,
+     "change": -15.3245,
+     "pct": -242.56
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 2.1809,
+     "change": -11.1876,
+     "pct": -512.98
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 0.1921,
+     "change": -9.1988,
+     "pct": -4788.55
+    }
+   },
+   "range": {
+    "low": -106.2435,
+    "high": 502.2866,
+    "days": 365,
+    "position": 0.1598
+   }
+  },
+  {
+   "group": "da_rt",
+   "key": "caiso:TH_SP15_GEN-APND|da_minus_rt",
+   "label": "CAISO",
+   "at": "SP15",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean - real-time daily mean, same day and hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": -1.7741
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 12.0985,
+     "change": -13.8726,
+     "pct": -114.66
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": -4.9902,
+     "change": 3.2161,
+     "pct": null
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": -1.5839,
+     "change": -0.1902,
+     "pct": null
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 3.1735,
+     "change": -4.9475,
+     "pct": -155.9
+    }
+   },
+   "range": {
+    "low": -123.5464,
+    "high": 26.773,
+    "days": 364,
+    "position": 0.8101
+   }
+  },
+  {
+   "group": "da_rt",
+   "key": "nyiso:N.Y.C.|da_minus_rt",
+   "label": "NYISO",
+   "at": "New York City zone",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean - real-time daily mean, same day and hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": -17.1903
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 5.1627,
+     "change": -22.3529,
+     "pct": -432.97
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 5.1978,
+     "change": -22.3881,
+     "pct": -430.72
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 2.0996,
+     "change": -19.2899,
+     "pct": -918.75
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": -6.6945,
+     "change": -10.4958,
+     "pct": null
+    }
+   },
+   "range": {
+    "low": -264.0707,
+    "high": 579.3383,
+    "days": 355,
+    "position": 0.2927
+   }
+  },
+  {
+   "group": "da_rt",
+   "key": "spp:SPPNORTH_HUB|da_minus_rt",
+   "label": "SPP",
+   "at": "North hub",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean - real-time daily mean, same day and hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": -24.2582
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 5.672,
+     "change": -29.9302,
+     "pct": -527.68
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 5.3528,
+     "change": -29.611,
+     "pct": -553.19
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 19.0619,
+     "change": -43.3201,
+     "pct": -227.26
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": 7.8462,
+     "change": -32.1044,
+     "pct": -409.17
+    }
+   },
+   "range": {
+    "low": -110.1052,
+    "high": 209.6802,
+    "days": 364,
+    "position": 0.2685
+   }
+  },
+  {
+   "group": "da_rt",
+   "key": "isone:.H.INTERNAL_HUB|da_minus_rt",
+   "label": "ISO-NE",
+   "at": "Internal hub",
+   "unit": "USD/MWh",
+   "formula": "day-ahead daily mean - real-time daily mean, same day and hub",
+   "last": {
+    "t": "2026-10-03",
+    "v": -3.0443
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-10-02",
+     "v": 5.5116,
+     "change": -8.556,
+     "pct": -155.23
+    },
+    "1w": {
+     "t": "2026-09-26",
+     "v": 0.7539,
+     "change": -3.7983,
+     "pct": -503.8
+    },
+    "1m": {
+     "t": "2026-09-03",
+     "v": 1.8168,
+     "change": -4.8611,
+     "pct": -267.57
+    },
+    "1y": {
+     "t": "2025-10-03",
+     "v": -3.1421,
+     "change": 0.0978,
+     "pct": null
+    }
+   },
+   "range": {
+    "low": -80.565,
+    "high": 330.5526,
+    "days": 337,
+    "position": 0.1886
+   }
+  },
+  {
+   "group": "crack",
+   "key": "erw:crack_321_gulf_coast|crack_321",
+   "label": "3-2-1 crack spread",
+   "at": "U.S. Gulf Coast products, WTI at Cushing",
+   "unit": "USD/bbl",
+   "formula": "(2 x Gulf Coast gasoline + 1 x Gulf Coast diesel) x 42 / 3 - WTI",
+   "last": {
+    "t": "2026-09-29",
+    "v": 73.632
+   },
+   "moves": {
+    "1d": {
+     "t": "2026-09-28",
+     "v": 71.822,
+     "change": 1.81,
+     "pct": 2.52
+    },
+    "1w": {
+     "t": "2026-09-22",
+     "v": 82.426,
+     "change": -8.794,
+     "pct": -10.67
+    },
+    "1m": {
+     "t": "2026-08-28",
+     "v": 81.05,
+     "change": -7.418,
+     "pct": -9.15
+    },
+    "1y": {
+     "t": "2025-09-29",
+     "v": 24.266,
+     "change": 49.366,
+     "pct": 203.44
+    }
+   },
+   "range": {
+    "low": 15.002,
+    "high": 90.846,
+    "days": 249,
+    "position": 0.773
+   }
+  }
+ ]
+}

@@ -62,7 +62,10 @@ class Nav(unittest.TestCase):
 
     def test_nothing_removed(self):
         now = {h for g in self.groups for h in g["hrefs"]}
-        self.assertEqual([h for h in BEFORE if h not in now], [])
+        # session 132: a page folded into its tool's one page leaves the menu and its address redirects (next.config.ts)
+        with open(os.path.join(SITE, "next.config.ts"), encoding="utf-8") as f:
+            cfg = f.read()
+        self.assertEqual([h for h in BEFORE if h not in now and f'source: "{h}"' not in cfg], [])
         for h in ("/tour", "/cost-of-power/seller", "/severance/lease"):
             self.assertIn(h, now)
 

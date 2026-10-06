@@ -127,7 +127,7 @@ class OnTheWarehousesTable(unittest.TestCase):
 
 class ThePage(unittest.TestCase):
     def test_in_review_in_the_battery_pages_layout_and_the_old_board_untouched(self):
-        page = src("site", "app", "board", "v3", "page.tsx")
+        page = src("site", "app", "_retired", "board-v3", "page.tsx")   # session 132: retired, kept unrouted; /board/v3 redirects to /board
         for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ToolSection", "ToolTable", "Fold", "SourceLine"):
             self.assertIn(f"<{piece}", page)
         for title in ('title="Power, by grid"', 'title="Natural gas"', 'title="Oil"'):
@@ -143,7 +143,7 @@ class ThePage(unittest.TestCase):
         self.assertNotIn("Session 104", r.stdout)                    # the last commit to touch the old board is not this session's
 
     def test_no_em_dash(self):
-        for rel in ("site/lib/board3.ts", "site/app/board/v3/page.tsx", "tests/test_session104.py"):
+        for rel in ("site/lib/board3.ts", "site/app/_retired/board-v3/page.tsx", "tests/test_session104.py"):
             self.assertNotIn(chr(0x2014), src(*rel.split("/")), rel)
 
 
