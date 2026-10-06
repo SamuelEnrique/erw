@@ -10,7 +10,7 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
-import { runTool, scopeOf, type Scope } from "./tools";
+import { runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
@@ -55,6 +55,13 @@ export type Profile = {
   /** `given`: the question and the other texts whose numbers count as given (session 121: a premise is checked against them) */
   extraProblems: (draft: Draft, results: ToolRecord[], given?: string[]) => string[];
   finish: (status: AskResult["status"], draft: Draft | null, results: ToolRecord[]) => Record<string, unknown>;
+  /** session 137: tools of the profile's own, beside the warehouse's (the site's page files), and their runner (null: not its tool) */
+  tools?: Anthropic.Tool[];
+  ownTool?: (name: string, input: unknown) => Promise<{ out: Record<string, unknown>; isError: boolean }> | null;
+  /** session 137: tables that count as read before any tool call (a text the system prompt already carries) */
+  preRead?: string[];
+  /** session 137: texts the system prompt carries whose numbers count as given (a written page's years and dates) */
+  preSources?: string[];
 };
 
 // ------------------------------------------------------------------ post-check (as ask.py)
@@ -139,10 +146,13 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const model = await pickModel(client);
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: profile ? profile.opening(question, today, context, opts.history) : `Today is ${today} (UTC).\n\nQuestion: ${question}` }];
   const usage = { input: 0, output: 0, cache_write: 0, cache_read: 0, requests: 0 };
-  const given: string[] = [question, ...(profile ? profile.extraSources(context, opts.history) : [])];
+  // session 137: the date the opening line gives the model counts as given, as the question's own numbers do
+  const given: string[] = [question, `Today is ${today} (UTC).`, ...(profile ? profile.extraSources(context, opts.history) : []), ...(profile?.preSources ?? [])];
   const sources: string[] = [...given];
   const records: ToolRecord[] = []; // session 92: every tool result, in order, for a profile's checks and its result
-  const tablesRead = new Set<string>(profile?.knownTables ? profile.knownTables(opts.history) : []);
+  const tablesRead = new Set<string>([...(profile?.knownTables ? profile.knownTables(opts.history) : []), ...(profile?.preRead ?? [])]);
+  // session 137: a profile's own tool is run by the profile; every other name goes to the warehouse's tools as before
+  const runTool = (name: string, input: unknown, sc: Scope) => profile?.ownTool?.(name, input) ?? runWarehouseTool(name, input, sc);
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
   let calls = 0, attempts = 0, retried = false;
 
@@ -151,7 +161,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       model,
       max_tokens: spec.max_tokens,
       system,
-      tools: TOOLS,
+      tools: profile?.tools ? [...TOOLS, ...profile.tools] : TOOLS,
       tool_choice: { type: calls < spec.max_tool_calls ? "auto" : "none" },
       output_config: { effort: profile ? profile.effort : spec.effort, format: { type: "json_schema", schema: profile ? profile.schema : spec.answer_schema } },
       cache_control: { type: "ephemeral" }, // session 30 (B2): the growing conversation is cached, as in ask.py
@@ -223,6 +233,9 @@ export async function ask(question: string, today = new Date().toISOString().sli
     // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
     const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
     const more = profile ? profile.extraProblems(draft, records, given) : [];
+    // session 137: what a draft is sent back for goes to the server's log, never to the reader
+    if (bad.length || uncited.length || noCite || more.length)
+      console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, untraced_numbers: bad.slice(0, 12), uncited_tables: uncited.slice(0, 6), no_citation: noCite, problems: more.slice(0, 6) } }));
     if (!bad.length && !uncited.length && !noCite && !more.length) {
       // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
       const answer = draft.answer.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ");

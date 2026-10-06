@@ -82,7 +82,7 @@ const text = plain(html);
   check(say("cleared-miso").includes("paused while terms are reviewed") && say("cleared-pjm").includes("licensed source needed") && say("ice-brent").includes("licensed source needed") && say("gasprod-weekly").includes("licensed source needed")
     && say("burn-caiso-oil").includes("not held yet"), "MISO paused, PJM and ICE and weekly gas production licensed, the rest not held yet");
   // session 136: the five operators that publish it openly hold a figure; a week is MWh a day
-  check(["cleared-ercot", "cleared-caiso", "cleared-nyiso", "cleared-iso-ne", "cleared-spp"].every((id) => /\d/.test(say(id)) && !say(id).includes("not held yet")), "day-ahead energy cleared holds a figure for ERCOT, CAISO, NYISO, ISO-NE and SPP");
+  check(["cleared-ercot", "cleared-caiso", "cleared-nyiso", "cleared-iso-ne", "cleared-spp"].every((id) => /\d[\d,]* MWh\/d/.test(say(id))), "day-ahead energy cleared holds a figure in MWh a day for ERCOT, CAISO, NYISO, ISO-NE and SPP (a comparison that cannot be made yet stays a placeholder)");
 }
 {
   const rel = Object.fromEntries([...html.matchAll(/data-release="([^"]+)"[^>]*>([^<]*)</g)].map((m) => [m[1], m[2]]));

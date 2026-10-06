@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AskErcotLink } from "@/components/AskErcotLink";
+import { AskPanel } from "@/components/ask/AskPanel";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { notFound } from "next/navigation";
 import { Cite } from "@/components/Cite";
@@ -426,12 +427,15 @@ export default async function GridPage({ params }: { params: Promise<{ iso: stri
         <Written md={first.replace(/^## [^\n]*\n/, "")} slug={g.slug} />
       </Section>
 
+      {/* session 137: on ERCOT's page the box answers right below itself (components/ask/AskPanel.tsx); the six other grids keep the form that opens /ask */}
+      {g.slug === "ercot" ? <div className="mb-8"><AskPanel grid="ercot" inputId="ask-grid" showContext={false} context={{ view: "/grid/ercot", title: "Your grid: ERCOT", settings: { grid: "ERCOT" } }} /></div> : (
       <form action="/ask" method="get" className="mb-8 flex max-w-3xl flex-col gap-2 border border-rule p-3 sm:flex-row sm:items-center">
         <label htmlFor="ask-grid" className="text-sm font-semibold">Ask {g.iso}</label>
         <input type="hidden" name="grid" value={g.slug} />
         <input id="ask-grid" name="q" maxLength={500} placeholder={`For example: what was ${g.iso}'s highest demand this week?`} className="flex-1 border border-rule bg-panel px-3 py-1.5 text-sm" />
         <button type="submit" className="border border-accent px-3 py-1.5 text-sm text-accent">Ask</button>
       </form>
+      )}
 
       <Section title="Right now: demand" aside={<Chip tier="source" />}><RightNow g={g} d={d} /></Section>
       <Section title="Where the power comes from" aside={<Chip tier="source" />}><Power g={g} d={d} /></Section>

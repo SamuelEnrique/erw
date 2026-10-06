@@ -13,6 +13,10 @@ import spec from "./spec_ercot.json";
 import { numbers, unverified, type Draft, type Profile, type ToolRecord } from "./ask";
 import { scopeOf, type Scope } from "./tools";
 import { chartPoints, pointsAreRows } from "./series";
+import { FORMS, FORM_SCHEMA, MIX_HOLDS, MIX_TABLES, NOTES_TABLE, PAGE_TOOL, addendum, notesOf, pageFigures, type Form } from "./panel";
+
+/** session 137: the tables a refusal may name as nearest: the guide's and the energy mix's three */
+const NEAR_TABLES = [...spec.tables, ...MIX_TABLES];
 
 export type Context = { view: string; title?: string; settings?: Record<string, string> };
 export type SeriesRow = { key: string; value: number | null; n?: number; at?: string };
@@ -110,17 +114,19 @@ function known(results: ToolRecord[]): Map<string, [Json, Json]> {
   for (const r of results) {
     if (r.isError) continue;
     for (const [id, out] of resultIds(r.out)) {
-      const args = r.tool === "query" ? r.input : ((r.input[id.endsWith("a") ? "a" : "b"] as Json) ?? {});
+      const args = r.tool === "compare" ? ((r.input[id.endsWith("a") ? "a" : "b"] as Json) ?? {}) : r.input;
       m.set(id, [args, out]);
     }
   }
   return m;
 }
 
-const chartable = (args: Json, out: Json) => !!args.group_by && Array.isArray(out.result) && out.result.length >= spec.min_rows;
+/** session 137: what a result is grouped by: a query's group_by argument, or the grouping a page_figures series states */
+const groupOf = (args: Json, out: Json): string | null => (args.group_by ? String(args.group_by) : typeof out.group_by === "string" ? out.group_by : null);
+const chartable = (args: Json, out: Json) => !!groupOf(args, out) && Array.isArray(out.result) && out.result.length >= spec.min_rows;
 
 function seriesOf(id: string, args: Json, out: Json, chosen: string): Series {
-  const g = String(args.group_by);
+  const g = String(groupOf(args, out));
   const rows = (out.result as Json[]).map((r) => ({
     key: String(r[g]), value: (r.value ?? r.count ?? null) as number | null,
     ...(typeof r.n === "number" ? { n: r.n } : {}), ...(typeof r.at === "string" ? { at: r.at } : {}),
@@ -129,8 +135,8 @@ function seriesOf(id: string, args: Json, out: Json, chosen: string): Series {
   const where = Object.entries((args.where as Json) ?? {}).map(([k, v]) => `${k} ${v}`).join("; ");
   const units = (out.units as string[] | undefined) ?? [];
   return {
-    result_id: id, table: String(out.table), title: `${what}${args.entity ? `, ${args.entity}` : ""}${where ? ` (${where})` : ""}, by ${g}`,
-    group_by: g, kind: TIME_GROUPS.includes(g) ? "line" : "bar", unit: units.length === 1 ? units[0] : null, aggregation: String(args.aggregation),
+    result_id: id, table: String(out.table), title: typeof out.title === "string" ? out.title : `${what}${args.entity ? `, ${args.entity}` : ""}${where ? ` (${where})` : ""}, by ${g}`,
+    group_by: g, kind: TIME_GROUPS.includes(g) ? "line" : "bar", unit: units.length === 1 ? units[0] : null, aggregation: String(args.aggregation ?? "as published"),
     rows, rows_matched: (out.rows_matched as number) ?? null, note: (out.result_note as string) ?? null, source_report: (out.source_report as string) ?? null,
     license: (out.license as string) ?? null, tier: (out.tier as string) ?? null, data_version: (out.data_version as string) ?? null, chosen_by: chosen,
   };
@@ -152,9 +158,19 @@ export function spelled(args: Json): string {
 export function ercotProfile(): Profile {
   const base = scopeOf("ercot");
   if (!base) throw new Error("docs/grids/grids.json has no grid ercot");
-  const scope: Scope = { ...base, tables: spec.tables, filters: spec.filters as Record<string, Record<string, string | string[]>>, max_groups: spec.max_groups, dated_groups: spec.dated_groups };
+  // session 137: the mix tables' rows are a grid's by entity ("iso:ercot"); without this the scope filters on the market column, which they leave empty
+  const mixFilters = Object.fromEntries(MIX_TABLES.map((t) => [t, { entity: `iso:${base.slug}` }]));
+  const scope: Scope = { ...base, tables: [...spec.tables, ...MIX_TABLES], filters: { ...(spec.filters as Record<string, Record<string, string | string[]>>), ...mixFilters }, max_groups: spec.max_groups, dated_groups: spec.dated_groups };
   return {
-    system: spec.system, schema: spec.answer_schema, effort: spec.effort, retry: spec.retry, scope,
+    // session 137: the answer panel. The system prompt carries the panel's rules and the page's written content; the
+    // answer names its form; the board's and Supply and trade's rows are read by a tool of the profile's own
+    system: spec.system + addendum(base.slug, base.iso),
+    schema: { ...(spec.answer_schema as Json), properties: { ...((spec.answer_schema as Json).properties as Json), form: FORM_SCHEMA }, required: [...((spec.answer_schema as Json).required as string[]), "form"] },
+    effort: spec.effort, retry: spec.retry, scope,
+    tools: [PAGE_TOOL],
+    ownTool: (name, input) => (name === PAGE_TOOL.name ? Promise.resolve().then(() => { const out = pageFigures((input ?? {}) as Json, base.slug, base.iso); return { out, isError: "error" in out }; }) : null),
+    preRead: [NOTES_TABLE(base.slug)],
+    preSources: [notesOf(base.slug)],          // the page's written content is in the prompt, so its years and dates count as given
     opening: (question, today, context, history) => {
       const line = contextLine(cleanContext(context));
       const past = historyText(cleanHistory(history));
@@ -170,7 +186,7 @@ export function ercotProfile(): Profile {
     sourceTexts: (_name, input) => [spelled(input)],
     tag: (name, _input, out, n) => {
       if ("error" in out) return out;
-      if (name === "query") return { result_id: `r${n}`, ...out };
+      if (name === "query" || (name === PAGE_TOOL.name && Array.isArray(out.result))) return { result_id: `r${n}`, ...out };
       if (name === "compare") return { ...out, a: { result_id: `r${n}a`, ...(out.a as Json) }, b: { result_id: `r${n}b`, ...(out.b as Json) } };
       return out;
     },
@@ -178,6 +194,12 @@ export function ercotProfile(): Profile {
       const problems: string[] = [];
       const k = known(results);
       const ids = (Array.isArray(draft.series) ? draft.series : []) as string[];
+      // session 137: the form the answer names, and what each form may carry
+      // (a draft that names no form at all is the reference loop's, warehouse/chat/ercot.py: it is checked as it always was)
+      const form = FORMS.includes(draft.form as Form) ? (draft.form as Form) : null;
+      if (draft.form !== undefined && !form) problems.push(`form must be one of ${FORMS.join(", ")}`);
+      if ((form === "words" || form === "sentence") && ids.length) problems.push(`form "${form}" carries no series: leave series empty, or use form "chart" if the question asked how something moved`);
+      if ((form === "chart" || form === "table") && !draft.not_in_warehouse && !ids.length) problems.push(`form "${form}" needs the result it shows named in series; a single figure is form "sentence"`);
       const bad = ids.filter((i) => !k.has(i));
       if (bad.length) problems.push(`series names result ids no tool returned: ${bad.join(", ")}`);
       const flat = ids.filter((i) => k.has(i) && !chartable(...k.get(i)!));
@@ -197,7 +219,7 @@ export function ercotProfile(): Profile {
       // session 121, as ercot.py: a refusal names what is held nearest; a premise's numbers are checked as the answer's
       if (draft.not_in_warehouse) {
         const near = ((Array.isArray(draft.nearest) ? draft.nearest : []) as unknown[]).map(String);
-        if (near.length < 1 || near.length > S121.max_nearest || near.some((t) => !spec.tables.includes(t)))
+        if (near.length < 1 || near.length > S121.max_nearest || near.some((t) => !NEAR_TABLES.includes(t)))
           problems.push(`nearest must name one to ${S121.max_nearest} tables of the guide by their exact names, nearest first (${near.join(", ") || "none"} given)`);
       }
       const loose = unverified(typeof draft.premise === "string" ? draft.premise : "", [...pool, ...given]);
@@ -211,15 +233,20 @@ export function ercotProfile(): Profile {
         ? ((Array.isArray(draft.followups) ? draft.followups : []) as string[]).map((f) => nodash(f.trim())).filter(Boolean).slice(0, 3) : [];
       // session 121: the queries run, for the next question of the conversation; and what a refusal points to
       const calls = results.filter((r) => !r.isError && (r.tool === "query" || r.tool === "compare")).map((r) => ({ tool: r.tool, input: r.input }));
-      const near = (names: string[]): Nearest[] => names.filter((t) => spec.tables.includes(t)).slice(0, S121.max_nearest).map((t) => ({ table: t, holds: S121.holds[t] ?? "" }));
+      const near = (names: string[]): Nearest[] => names.filter((t) => NEAR_TABLES.includes(t)).slice(0, S121.max_nearest).map((t) => ({ table: t, holds: S121.holds[t] ?? MIX_HOLDS[t] ?? "" }));
+      const legacy = !draft || draft.form === undefined;          // the reference loop's draft: series as sessions 92 and 121 chose them
+      const form: Form = draft && FORMS.includes(draft.form as Form) ? (draft.form as Form) : "words";
       if (status === "not_in_warehouse" && draft)
-        return { series: [], followups, profile: "ercot", calls, premise: "", nearest: near(((Array.isArray(draft.nearest) ? draft.nearest : []) as unknown[]).map(String)) };
+        return { series: [], ...(legacy ? {} : { form: "words" }), followups, profile: "ercot", calls, premise: "", nearest: near(((Array.isArray(draft.nearest) ? draft.nearest : []) as unknown[]).map(String)) };
       if (status === "refused_unverified")  // the fixed refusal names nothing: the tables this question read are the nearest known
-        return { series: [], followups, profile: "ercot", calls, premise: "", nearest: near([...new Set([...k.values()].map(([, o]) => String(o.table)))]) };
-      if (status !== "answered" || !draft) return { series: [], followups, profile: "ercot", calls, premise: "", nearest: [] };
-      let ids = ((Array.isArray(draft.series) ? draft.series : []) as string[]).filter((i) => k.has(i) && chartable(...k.get(i)!));
+        return { series: [], ...(legacy ? {} : { form: "words" }), followups, profile: "ercot", calls, premise: "", nearest: near([...new Set([...k.values()].map(([, o]) => String(o.table)))]) };
+      if (status !== "answered" || !draft) return { series: [], ...(legacy ? {} : { form: "words" }), followups, profile: "ercot", calls, premise: "", nearest: [] };
+      // session 137: never a chart for its own sake. An answer in words or in a sentence shows no series, whatever was
+      // fetched to write it; only "chart" and "table" do
+      const shows = legacy || form === "chart" || form === "table";
+      let ids = shows ? ((Array.isArray(draft.series) ? draft.series : []) as string[]).filter((i) => k.has(i) && chartable(...k.get(i)!)) : [];
       let chosen = "the answer";
-      if (!ids.length) {
+      if (shows && !ids.length) {
         // an answer that rests on a series returns it: the last grouped result of a table the answer cites
         const cited = new Set(draft.citations.map((c) => c.table));
         ids = [...k.entries()].filter(([, [a, o]]) => chartable(a, o) && cited.has(String(o.table))).map(([i]) => i).slice(-1);
@@ -230,14 +257,14 @@ export function ercotProfile(): Profile {
       const all = ids.slice(0, spec.max_series).map((i) => {
         const s = seriesOf(i, ...k.get(i)!, chosen);
         const [args, out] = k.get(i)!;
-        const g = String(args.group_by);
+        const g = String(groupOf(args, out));
         const fetched = (out.result as Json[]).map((r) => [String(r[g]), (r.value ?? r.count ?? null) as number | null] as const);
         const same = fetched.length === s.rows.length && fetched.every(([key, v], j) => s.rows[j].key === key && s.rows[j].value === v);
         const d = chartPoints(s.rows);
         return { ...s, check: { rows_fetched: fetched.length, rows: s.rows.length, same: same && pointsAreRows(s.rows, d), points: d.points.length, not_drawn: d.undrawn.length } };
       });
       const premise = nodash(typeof draft.premise === "string" ? draft.premise.trim() : "");
-      return { series: all.filter((s) => s.check.same), series_not_shown: all.filter((s) => !s.check.same).map((s) => s.result_id), followups, profile: "ercot", calls, premise, nearest: [] };
+      return { ...(legacy ? {} : { form }), series: all.filter((s) => s.check.same), series_not_shown: all.filter((s) => !s.check.same).map((s) => s.result_id), followups, profile: "ercot", calls, premise, nearest: [] };
     },
   };
 }

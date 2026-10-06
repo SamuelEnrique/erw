@@ -434,7 +434,8 @@ console.log(JSON.stringify({{ text: historyText(cleanHistory(h)), opening: p.ope
         self.assertNotIn("await recordCall(", loop)
 
     def test_the_page_keeps_the_conversation_and_shows_what_the_session_added(self):
-        page = src("site", "app", "ask", "ercot", "AskErcot.tsx")
+        # session 137: the page's component moved to components/ask/AskPanel.tsx, one box and panel for any page
+        page = src("site", "components", "ask", "AskPanel.tsx")
         for words in ("stream: true", "history", 'data-premise="1"', "data-nearest=", "data-chart-check=", "data-progress=", 'data-new-conversation="1"',
                       "The nearest thing the warehouse does hold", "The question assumes something the tables do not show.", "chartPoints(s.rows)"):
             self.assertIn(words, page)
