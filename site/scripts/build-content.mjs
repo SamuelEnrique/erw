@@ -53,9 +53,12 @@ for (const dir of ["weekly", "roundup"]) {
   }
 }
 
+// Session 135: a method note that stays on the server is not bundled, so no page of the site can show it. Thesis
+// Builder's research plan and scoring rule are internal (the owner's ruling); its readers' note is docs/methods/thesis.md
+const INTERNAL_METHODS = new Set(["thesis_builder"]);
 const methods = {};
 for (const f of fs.readdirSync(path.join(docs, "methods")).sort()) {
-  if (f.endsWith(".md")) methods[f.replace(/\.md$/, "")] = read(path.join(docs, "methods", f));
+  if (f.endsWith(".md") && !INTERNAL_METHODS.has(f.replace(/\.md$/, ""))) methods[f.replace(/\.md$/, "")] = read(path.join(docs, "methods", f));
 }
 
 // Session 15: the run history's EIA-930 gaps and failures, so /grid can say why a day is missing

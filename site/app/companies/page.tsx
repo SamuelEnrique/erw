@@ -34,7 +34,7 @@ export default async function CompaniesPage() {
         <>
           {/* session 27: a blank field arrives from the live set as null (the deal-seeded rows have many); the table reads strings */}
           <CompaniesTable rows={res.data.map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, v ?? ""])) as typeof r)} />
-          <Cite tables={["energy_companies"]} note="Found by warehouse/thesis/build.py from public web sources; method docs/methods/thesis_builder.md" />
+          <Cite tables={["energy_companies"]} note="Found by warehouse/thesis/build.py from public web sources; what its reports hold: docs/methods/thesis.md" />
         </>
       )}
       <Related href="/companies" />

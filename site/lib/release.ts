@@ -70,6 +70,7 @@ export const RELEASE: Record<string, Status> = {
   "/datacenters": "review",
   "/datacenters/v2": "review",  // session 106: the tracker, version 2 (ERCOT's large-load status beside the facilities held)
   "/companies": "review",
+  "/thesis": "review",  // session 135: Thesis Builder (a niche typed, a run queued, the report in tabs, the PitchBook stage); internal, and the page checks the internal cookie itself
   "/policy": "review",
   "/deals": "review",
   "/deals/v2": "review",  // session 113: the deals tracker, version 2 (the battery page's layout; the deals already extracted, duplicates shown once)

@@ -1,0 +1,55 @@
+name: thesis builder
+# Session 135: the runs a person asks for on /thesis (in review). The page queues a row in the internal table
+# public.thesis_runs and the database dispatches this workflow at once (migration 024, thesis_submit, through
+# public.erw_dispatch of migration 015). The job runs the queued run with warehouse/thesis/run.py and writes the report
+# back into that row. There is no schedule: nothing runs unless a person pressed Run, or dispatches this by hand to
+# pick up a run whose dispatch did not arrive (leave run_id empty: every queued run is taken, oldest first).
+#
+# What this job never does: commit to git, write a public table, upload to Redivis, or touch a file the site reads.
+# Its spend is the model's: one run stops at USD 2, and the runs of a UTC day together at USD 8, both counted in
+# warehouse/thesis/run.py from the internal table; the page queues at most six runs a day (the database counts).
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "the run to do (empty: every queued run)"
+        required: false
+        default: ""
+permissions:
+  contents: read
+concurrency:
+  group: thesis
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+      - name: Run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          RUN_ID: ${{ inputs.run_id }}
+          # the run writes no warehouse table: its report goes to its own row of thesis_runs, and its spend is kept
+          # there (usd). The cost ledger's file on this runner is the runner's own and is discarded with it, so the
+          # data lock, which guards the shared warehouse, is not taken
+          ERW_LOCK_EXEMPT: "1"
+        run: |
+          set -uo pipefail
+          if [ -n "${RUN_ID:-}" ]; then
+            python warehouse/thesis/run.py --run-id "$RUN_ID"
+          else
+            python warehouse/thesis/run.py --queue
+          fi
