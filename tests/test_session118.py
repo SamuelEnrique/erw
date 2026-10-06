@@ -295,7 +295,8 @@ class TheMonthsThePagesLeaveOut(unittest.TestCase):
 
     def test_the_older_pages_do_not_draw_eias_california_mix(self):
         self.assertIn('const withheld = ba.code === "ciso";', src("site", "app", "mix", "page.tsx"))
-        self.assertEqual(src("site", "app", "mix", "page.tsx").count("withheld ? <CaisoMixWithheld"), 2)
+        # session 133: the one mix page says it with a short placeholder and the reason on hover, not with the note
+        self.assertEqual(src("site", "app", "mix", "page.tsx").count("withheld ? <Missing why={caiso}"), 2)
         self.assertIn('if (r.ba.code === "ciso") return <CaisoMixWithheld', src("site", "app", "grid", "page.tsx"))
         self.assertIn('if (g.iso === "CAISO") return <CaisoMixWithheld />;', src("site", "app", "grid", "[iso]", "page.tsx"))
         c = src("site", "components", "CaisoMixWithheld.tsx")

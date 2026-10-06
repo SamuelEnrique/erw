@@ -43,7 +43,9 @@ class TheStateDocument(unittest.TestCase):
             if a.startswith("/internal/unlock"):
                 continue
             a = a.replace("<iso>", "ercot").replace("<name>", "battery_stack")
-            self.assertTrue(is_page(a), a)
+            # an address retired since that day still answers: it redirects to its tool's one page (session 132)
+            retired = f'source: "{a}"' in src("site", "next.config.ts")
+            self.assertTrue(is_page(a) or retired, a)
 
     def test_the_six_tools_open_on_that_day_are_in_it_and_marked_open(self):
         top = self.doc.split("## In review: built or rebuilt in this chain")[0]

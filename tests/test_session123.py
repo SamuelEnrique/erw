@@ -283,7 +283,7 @@ class ThePage(unittest.TestCase):
                 self.assertNotIn("mix/stress", src(*f.split("/")), f)
 
     def test_the_definitions_are_on_the_page_as_computed(self):
-        page = src("site", "app", "mix", "stress", "page.tsx")
+        page = src("site", "app", "_retired", "mix-stress", "page.tsx")
         for words in ("Demand less wind less solar", "The largest rise of net load from one hour to the next between {w0}:00 and {w1}:00 local time", "The {f.tight} hours of the year with the highest net load",
                       "less than {f.calm_pct} percent of their installed capacity", "a one-hour rise the next hour takes back", "California is two series, not one.", "data-stress-unreported",
                       "This is what the fleet did, not what it could do", "No fleet can do either"):
@@ -291,7 +291,7 @@ class ThePage(unittest.TestCase):
         self.assertEqual((ms.TIGHT, ms.CALM, ms.WINDOW), (100, 0.10, (14, 22)))
 
     def test_no_figure_is_written_into_the_page(self):
-        page = re.sub(r"^\s*//.*$", "", src("site", "app", "mix", "stress", "page.tsx"), flags=re.M)
+        page = re.sub(r"^\s*//.*$", "", src("site", "app", "_retired", "mix-stress", "page.tsx"), flags=re.M)
         self.assertIsNone(re.search(r">\s*-?\d+\.\d+\s*<", page))
         self.assertIsNone(re.search(r"\b\d{3,} MW\b", page))
         self.assertNotIn("2025-12-16", page)
@@ -328,8 +328,8 @@ console.log(JSON.stringify({ y, last, lastWhole: wholeYear(f, last), ramp: get(f
         self.assertEqual(r["grids"], [True, False])
 
     def test_no_em_dash_and_no_request(self):
-        for parts in (("warehouse", "derived", "mix_stress.py"), ("docs", "methods", "grid_stress.md"), ("site", "app", "mix", "stress", "page.tsx"), ("site", "lib", "stress.ts"),
-                      ("site", "app", "mix", "stress", "data.ts"), ("tests", "test_session123.py")):
+        for parts in (("warehouse", "derived", "mix_stress.py"), ("docs", "methods", "grid_stress.md"), ("site", "app", "_retired", "mix-stress", "page.tsx"), ("site", "lib", "stress.ts"),
+                      ("site", "app", "_retired", "mix-stress", "data.ts"), ("tests", "test_session123.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts[-1])
         self.assertNotIn("requests", src("warehouse", "derived", "mix_stress.py").split('"""', 2)[2])
         self.assertIn("miso", src("warehouse", "metadata", "paused_sources.csv").lower())

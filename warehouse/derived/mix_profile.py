@@ -16,6 +16,10 @@ Inputs (no request is made):
   (caiso_join.JOIN, docs/methods/eia930_caiso_break.md). EIA's generation series for California changed on that day.
   Before it, EIA's hours, with the late ones of 2023-11 to 2025-12-02 set back (caiso_join.true_hours). The local month
   that holds the join (December 2025) is not written: a month is never built on both sources. Demand is EIA's throughout.
+- California's hydro gap (session 133): EIA's file holds no hydro for California from 2019-10-01T21:00Z to
+  2020-08-24T17:00Z, so those hours were never held. The Pacific months October 2019 to August 2020 are read, whole,
+  from CAISO's own supply by fuel (caiso_fuel_supply_history, the same file and reading as caiso_fuel_supply), with
+  EIA's demand, as from the join. Their rows carry the join's source. No cleanest or dirtiest hour is taken from them.
 - carbon_intensity_hourly (intensity_generation, kg CO2/MWh), for the cleanest and the dirtiest hour.
 
 The sources are grouped as the site groups them: natural_gas (NG), coal (COL), nuclear (NUC), wind (WND, WNB), solar
@@ -97,6 +101,9 @@ SOURCE_JOIN = "erw:generation_mix_hourly_caiso"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/generation_mix_hourly.md"
 RAW = os.path.join(ROOT, "warehouse", "raw", "eia930_emissions")
 SITE_DIR = os.path.join(ROOT, "site", "data", "mix")
+HISTORY = "caiso_fuel_supply_history"   # session 133: CAISO's own supply, June 2018 to May 2025
+GAP_MONTHS = ("2019-10", "2020-08")     # the Pacific months of California's hydro gap, read from CAISO's own supply
+NEGATIVE_MW, NIGHT_SOLAR_MW, STUCK_SOLAR_MW = 5.0, 100.0, 1000.0   # own_impossible's three measures
 FIRST = "2019-01"
 NEAR = 0.9          # the share of a month's days that must be complete
 TOLERANCE = 0.05    # the sources of a held hour add up to its net generation within this share
@@ -187,6 +194,53 @@ def caiso_own():
     return grouped(d, OWN)
 
 
+def caiso_gap():
+    """CAISO's own hours of the months of California's hydro gap (GAP_MONTHS), grouped as caiso_own's are; None when the
+    history table is not on this machine. Session 133: EIA's file holds no hydro for California from 2019-10-01T21:00Z
+    to 2020-08-24T17:00Z (impossible_hours.CISO_NO_HYDRO), so none of those hours was held. CAISO's own supply by fuel
+    (caiso_fuel_supply_history) has hydro throughout: the Pacific months October 2019 to August 2020 are read there,
+    whole, so that a month is never built on both sources. Demand stays EIA's."""
+    path = os.path.join(ip.OUT_DIR, HISTORY + ".csv")
+    if not os.path.exists(path):
+        return None
+    f = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value"])
+    if set(f["entity"]) != {"caiso:ISO"}:
+        raise RuntimeError(f"{HISTORY}: entities {sorted(set(f['entity']))}, expected caiso:ISO alone")
+    w = f.pivot(index="ts_utc", columns="variable", values="value").dropna(subset=cj.ALL)      # an hour short of a source is absent, never filled
+    w.index = pd.to_datetime(w.index, utc=True)
+    tz = GRIDS["caiso"]["tz"]
+    a, b = pd.Timestamp(f"{GAP_MONTHS[0]}-01", tz=tz), (pd.Period(GAP_MONTHS[1]) + 1).to_timestamp().tz_localize(tz)
+    w = w[(w.index >= a) & (w.index < b)].copy()
+    w["net_generation"] = w[cj.OWN].sum(axis=1)
+    bad = own_impossible(w, tz)
+    w = w[~bad].copy()          # an impossible hour is absent: its day is then short of an hour and is not a complete day
+    w["demand"] = np.nan
+    w["interchange"] = -w["imports_mw"]
+    return grouped(w, OWN), a, b, int(bad.sum())
+
+
+def own_impossible(w, tz):
+    """The hours of CAISO's own supply that did not happen as written (session 118's rule for impossible values, put to
+    CAISO's file; measured on its 2019 and 2020 days). An hour is impossible when
+      a thermal or hydro source is below zero: natural gas, coal, nuclear, geothermal, biomass, biogas, large or small
+        hydro (CAISO's file has natural gas at -4,098 MW on 1 October 2019);
+      solar is above NIGHT_SOLAR_MW in a local hour from 22:00 to 03:59 (9,969 MW at midnight that day);
+      solar repeats the hour before to the MW while above STUCK_SOLAR_MW (a stuck feed);
+      or its net generation fails impossible_hours.screen (a quarter away from the hours around it, or outside the
+        grid's own range).
+    Returns a boolean Series. Nothing is filled: the hour is left out."""
+    never_negative = ["natural_gas_mw", "coal_mw", "nuclear_mw", "geothermal_mw", "biomass_mw", "biogas_mw", "large_hydro_mw", "small_hydro_mw"]
+    local = w.index.tz_convert(tz)
+    negative = (w[never_negative] < -NEGATIVE_MW).any(axis=1)
+    night = pd.Series((local.hour >= 22) | (local.hour < 4), index=w.index) & (w["solar_mw"] > NIGHT_SOLAR_MW)
+    step = pd.Series(w.index, index=w.index).diff() == pd.Timedelta(hours=1)
+    stuck = step & (w["solar_mw"].diff() == 0) & (w["solar_mw"] > STUCK_SOLAR_MW)
+    # the rule reads the hours around an hour, so it is given every hour of the clock (a missing hour is a blank)
+    clock = pd.date_range(w.index.min(), w.index.max(), freq="h")
+    screened = impossible_hours.screen(w["net_generation"].reindex(clock)).reindex(w.index).isna()
+    return negative | night | stuck | screened
+
+
 def flags(x, grid):
     """Mark each hour of x held or not (the three tests of the docstring), in place; returns the tolerance used and the
     grid's main sources."""
@@ -209,7 +263,17 @@ def hours_of(grid, log):
         own = caiso_own()
         own["demand"] = x["demand"].reindex(own.index)  # demand stays EIA's
         own["side"] = "caiso"
-        x = pd.concat([x[x.index < pd.Timestamp(cj.JOIN)], own]).sort_index()
+        eia = x[x.index < pd.Timestamp(cj.JOIN)]
+        gap = caiso_gap()
+        if gap is None:
+            log(f"  caiso: {HISTORY} is not on this machine, so the months of the hydro gap ({GAP_MONTHS[0]} to {GAP_MONTHS[1]}) stay EIA's and are not held")
+            x = pd.concat([eia, own]).sort_index()
+        else:
+            filled, a, b, impossible = gap
+            filled["demand"] = x["demand"].reindex(filled.index)
+            filled["side"] = "caiso"
+            x = pd.concat([eia[(eia.index < a) | (eia.index >= b)], filled, own]).sort_index()
+            log(f"  caiso: the months of the hydro gap, {GAP_MONTHS[0]} to {GAP_MONTHS[1]}, from CAISO's own supply ({len(filled):,} hours of {HISTORY}; {impossible:,} more left out as impossible: a thermal or hydro source below zero, solar at night, a stuck solar value, or a net generation the screen refuses)")
         log(f"  caiso: EIA's hours to {cj.JOIN}, CAISO's own from it ({len(own):,} hours)")
     x = x[x.index >= pd.Timestamp(f"{FIRST}-01", tz=g["tz"]).tz_convert("UTC")].copy()
     tol, main = flags(x, grid)
@@ -284,6 +348,10 @@ def record_rows(grid, x, ci, retrieved, log=None):
     implied = 1000 * cj.F_GAS * v["natural_gas"].clip(lower=0) / h["net_generation"]
     low = ci.notna() & (ci < 0.5 * implied)
     h["intensity"] = ci.where(~low & ~odd)
+    if grid == "caiso":
+        # session 133: the generation of the hydro gap's months is CAISO's own now, but EIA's carbon intensity of those
+        # hours still divides by a total without hydro: no cleanest or dirtiest hour is taken from them
+        h.loc[impossible_hours.in_hydro_gap(pd.Series(h.index)), "intensity"] = np.nan
     h["year"] = h["day"].str[:4]
     if log:
         log(f"  {grid} records: {len(h):,} held hours; {int(odd.sum()):,} of EIA's not ranked (its balance does not close within {BALANCE:.0%} of demand, or "
@@ -399,7 +467,7 @@ def main(argv=None):
     if a.out_dir:
         ip.set_out_dir(a.out_dir)
     common = [f"Retrieved: {run_id} (UTC) by warehouse/derived/mix_profile.py", f"Run log: warehouse/output/logs/mix_profile_{run_id}.log",
-              "Derived from: caiso_fuel_supply; carbon_intensity_hourly",
+              "Derived from: caiso_fuel_supply; caiso_fuel_supply_history; carbon_intensity_hourly",
               f"Source: {SOURCE} EIA Form EIA-930 hourly net generation by energy source, the per-BA workbooks "
               f"(https://www.eia.gov/electricity/gridmonitor/knownissues/xls/<BA>.xlsx); California from {cj.JOIN} is CAISO's own supply by fuel "
               f"(caiso_fuel_supply; source {SOURCE_JOIN}), the warehouse's one join (docs/methods/eia930_caiso_break.md); read by this run from {'; '.join(paths)}",

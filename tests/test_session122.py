@@ -260,7 +260,7 @@ class ThePage(unittest.TestCase):
                 self.assertNotIn("mix/clean", src(*f.split("/")), f)
 
     def test_it_says_first_what_the_figures_are(self):
-        page = src("site", "app", "mix", "clean", "page.tsx")
+        page = src("site", "app", "_retired", "mix-clean", "page.tsx")
         lead = page[page.index('data-clean-what="1"'):page.index("<div className=\"grid gap-8")]
         for words in ("not what the grid&apos;s customers used", "imported power is not in it", "the average of the hour&apos;s generation, not the marginal plant&apos;s"):
             self.assertIn(words, lead)
@@ -269,7 +269,7 @@ class ThePage(unittest.TestCase):
             self.assertIn(words, page)
 
     def test_no_figure_is_written_into_the_page(self):
-        page = re.sub(r"^\s*//.*$", "", src("site", "app", "mix", "clean", "page.tsx"), flags=re.M)
+        page = re.sub(r"^\s*//.*$", "", src("site", "app", "_retired", "mix-clean", "page.tsx"), flags=re.M)
         self.assertIsNone(re.search(r">\s*-?\d+\.\d+\s*<", page))
         self.assertEqual(re.findall(r"\b\d+(?:\.\d+)? percent of (?:its|the load)", page), [])
         self.assertNotIn("2025-12-16", page)                               # the join's date has one home (tests/test_session78.py)
@@ -304,8 +304,8 @@ console.log(JSON.stringify({ y, years: yearsOf(f), v: yearView(f, y), months: mo
         self.assertEqual(r["sides"][-1], "caiso")                           # California's newest year rests on CAISO's own data
 
     def test_no_em_dash_and_miso_is_still_paused(self):
-        for parts in (("warehouse", "derived", "mix_clean.py"), ("docs", "methods", "clean_energy.md"), ("site", "app", "mix", "clean", "page.tsx"), ("site", "lib", "clean.ts"),
-                      ("site", "app", "mix", "clean", "data.ts"), ("tests", "test_session122.py")):
+        for parts in (("warehouse", "derived", "mix_clean.py"), ("docs", "methods", "clean_energy.md"), ("site", "app", "_retired", "mix-clean", "page.tsx"), ("site", "lib", "clean.ts"),
+                      ("site", "app", "_retired", "mix-clean", "data.ts"), ("tests", "test_session122.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts[-1])
         self.assertIn("miso", src("warehouse", "metadata", "paused_sources.csv").lower())
         self.assertNotIn("requests", src("warehouse", "derived", "mix_clean.py").split('"""', 2)[2])   # the builder asks no one for anything

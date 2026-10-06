@@ -298,13 +298,13 @@ class ThePage(unittest.TestCase):
     def test_the_page_is_in_review_and_the_old_page_is_as_it_was(self):
         d = node("import { statusOf } from './lib/release.ts'; console.log(JSON.stringify([statusOf('/mix'), statusOf('/mix/v2'), statusOf('/data/methods/generation_mix_hourly')]));")
         self.assertEqual(d, ["review", "review", "review"])
-        page = src("site", "app", "mix", "v2", "page.tsx")
+        page = src("site", "app", "_retired", "mix-v2", "page.tsx")   # session 133: retired, kept unrouted; its address redirects to /mix
         self.assertNotIn("supabase", page)                                 # the page reads the site's own copy, not the database
         self.assertIn("robots: { index: false, follow: false }", page)
         # session 94 left the first version of the page as it was and checked that against origin/main. Session 118 was
         # asked to change that page (it no longer draws EIA's California generation after the join), so the check is
         # now of what session 94 meant: the first version is still there, still the first version, and still in review
-        old = src("site", "app", "mix", "page.tsx")
+        old = src("site", "app", "_retired", "mix-original", "page.tsx")   # session 133: the first version, kept unrouted; /mix is now the one page
         self.assertIn('const MONTHLY = "state_generation_mix_monthly";', old)
         self.assertIn('const LATEST = "eia930_generation_latest";', old)
         self.assertNotIn("generation_mix_hourly_profile", old)               # the second version's table is not read by the first
@@ -319,7 +319,7 @@ class ThePage(unittest.TestCase):
 
     def test_no_em_dash_in_what_the_session_wrote(self):
         for parts in (("warehouse", "derived", "mix_profile.py"), ("docs", "methods", "generation_mix_hourly.md"), ("site", "lib", "mix2.ts"),
-                      ("site", "app", "mix", "v2", "page.tsx"), ("site", "app", "mix", "v2", "data.ts"), ("site", "scripts", "check-mix-v2.mjs"),
+                      ("site", "app", "_retired", "mix-v2", "page.tsx"), ("site", "app", "_retired", "mix-v2", "data.ts"), ("site", "scripts", "check-mix-v2.mjs"),
                       ("tests", "test_session94.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts)
 

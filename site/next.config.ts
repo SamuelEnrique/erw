@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
+      // session 133: one tool, one page, one address. The energy mix is /mix; its second version and the two pages beside
+      // it are views of that page now, and their addresses redirect to the view each became (a query is carried over)
+      { source: "/mix/v2", destination: "/mix?view=day", permanent: true },
+      { source: "/mix/clean", destination: "/mix?view=clean", permanent: true },
+      { source: "/mix/stress", destination: "/mix?view=stress", permanent: true },
       { source: "/weekly", destination: "/roundup", permanent: true },
       { source: "/weekly/:week", destination: "/roundup/:week", permanent: true },
     ];
