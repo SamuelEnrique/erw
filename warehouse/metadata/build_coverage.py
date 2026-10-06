@@ -119,6 +119,19 @@ SECTOR_RULES = [
     (r"^(carb|rggi)_auction_allowance_prices$", "carbon"),
     (r"^fred_daily_spot_prices$", "oil;gas"),
     (r"^fred_imf_commodity_prices$", "gas;lng;coal;uranium;metals"),
+    # session 132: the price board's added series
+    (r"^eia_regional_retail_fuel_prices$", "products"),   # weekly retail gasoline and diesel by region, state and city
+    (r"^eia_crude_stream_prices$", "oil"),                 # monthly crude prices by stream and area
+    (r"^eia_power_plant_fuel_costs$", "coal;gas;power"),   # monthly cost of coal and gas delivered to power plants (EIA-923)
+    (r"^fred_treasury_yields$", "equities"),               # US Treasury yields at 2, 10 and 30 years: the vocabulary has no sector for interest rates, and financial markets is the nearest
+    (r"^imf_commodity_prices$", "uranium;metals"),         # IMF monthly prices: uranium, lithium, cobalt, nickel, copper
+    (r"^carb_lcfs_credit_prices$", "carbon"),              # California's Low Carbon Fuel Standard credit price, weekly
+    # session 134: supply and trade
+    (r"^eia_gas_storage_weekly$", "gas"),                 # weekly working gas in storage, the Lower 48 and its regions
+    (r"^eia_petroleum_supply_weekly$", "oil;products"),   # weekly stocks, crude production, refinery utilization and inputs, trade
+    (r"^eia_gas_trade_monthly$", "gas;lng"),              # monthly pipeline flows with Mexico and Canada, LNG exports by terminal
+    (r"^eia_basin_production_monthly$", "oil;gas"),       # monthly crude and gas production by region (the Outlook's history)
+    (r"^cftc_cot_positions$", "oil;gas;products"),        # managed money positions in four energy futures, weekly
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),
@@ -145,6 +158,11 @@ SECTOR_RULES = [
     # session 23: CAISO battery output (Today's Outlook), for the Automated Analysis storage template
     (r"^caiso_battery_storage$", "power"),
     (r"^caiso_fuel_supply$", "power"),  # session 73: CAISO's own supply by fuel source, hourly
+    # session 133: the energy mix's added pulls
+    (r"^caiso_fuel_supply_history$", "power"),            # CAISO's own supply by fuel, June 2018 to May 2025 (the hydro gap's months are read here)
+    (r"^eia860m_retired_generators_all$", "power"),       # every retired generator EIA lists (installed capacity by fuel, month by month)
+    (r"^nrc_reactor_status$", "power;uranium"),           # the NRC's daily power level of each reactor
+    (r"^(caiso|ercot)_wind_solar_forecast$", "power"),    # wind and solar, forecast a day ahead and actual, hourly
     (r"^caiso_grid_emergencies$", "power"),  # session 58: CAISO's Flex Alerts and emergencies
     (r"^caiso_reliability_daily$", "power"),  # session 58: how tight was it (derived)
     (r"^flex_alert_(effects|model)$", "power"),  # session 60: the Flex Alert scorecard (derived)
@@ -163,6 +181,8 @@ SECTOR_RULES = [
     # session 30: price board v2 (derived), the Haiku shadow scores and the API cost ledger (internal)
     (r"^price_board_(latest|peak_offpeak)$", "power"),
     (r"^price_board_spreads$", "power;gas;oil"),
+    (r"^price_board_stats$", "power;gas;oil;products"),  # session 127: the board, version 4 (latest, moves and one-year range of every price held, and the spreads)
+    (r"^eia_all_futures_prices$", "oil;gas;products"),   # session 127: EIA's NYMEX futures, 2019 to 5 April 2024
     (r"^price_board_carbon$", "carbon"),
     (r"^news_scores_shadow$", "news"),
     (r"^api_cost_ledger$", "platform"),
@@ -225,6 +245,8 @@ def iso_of(table):
         return "CAISO;ERCOT"
     if table in ("storage_buildout_monthly", "storage_owners_monthly"):  # session 72 (session 69): the seven grids, and the US outside them; session 87
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table == "price_board_stats":  # session 127: the five grids whose hub prices are public and not paused (no MISO)
+        return "CAISO;ERCOT;ISO-NE;NYISO;SPP"
     if table.startswith("price_board_") or table.startswith("cost_of_power_") or table == "merchant_revenue_monthly":  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
     if table in ("eia930_daily_total_interchange", "eia930_event_hourly_interchange", "ba_supply_monthly", "eia930_daily_demand"):  # session 68: every BA EIA reports

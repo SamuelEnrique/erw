@@ -404,7 +404,7 @@ class BuiltDate(unittest.TestCase):
     """Each of the seven pages prints the built stamp of the file it reads (never the time the page was drawn)."""
     PAGES = {  # page: (its source, the expression that prints the stamp, the files that carry it)
         "/network/v3": ("site/app/network/v3/page.tsx", "built {utc(index.built)}", ["site/public/network/daily_index.json"]),
-        "/mix/v2": ("site/app/mix/v2/page.tsx", "built {file.built.slice(0, 10)}", [f"site/data/mix/{g}.json" for g in ("caiso", "ercot", "isone", "miso", "nyiso", "pjm", "spp")]),
+        "/mix/v2": ("site/app/_retired/mix-v2/page.tsx", "built {file.built.slice(0, 10)}", [f"site/data/mix/{g}.json" for g in ("caiso", "ercot", "isone", "miso", "nyiso", "pjm", "spp")]),
         "/prices/compare": ("site/app/prices/compare/page.tsx", "Built {file.built.slice(0, 10)}", ["site/data/price_compare.json"]),
         "/demand": ("site/app/demand/page.tsx", "built {file.built.slice(0, 10)}", ["site/data/demand_growth.json"]),
         "/curtailment/v2": ("site/app/curtailment/v2/page.tsx", "Built {file.built.slice(0, 10)}", ["site/data/curtailment_profile.json"]),

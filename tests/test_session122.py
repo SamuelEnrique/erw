@@ -180,13 +180,16 @@ class TheTables(unittest.TestCase):
         self.assertFalse(h.duplicated(["entity", "ts_utc"]).any())
 
     def test_californias_hydro_gap_is_in_no_figure(self):
-        import impossible_hours as ih
-        h = self.table(mc.HOURLY)
-        c = h[h["entity"] == "iso:caiso"]
-        self.assertEqual(int(ih.in_hydro_gap(c["ts_utc"]).sum()), 0)
+        # session 133: the months of the hydro gap are read from CAISO's own supply, so their hours and their carbon-free
+        # share are held. What still rests on EIA's total without hydro is the carbon intensity of those hours, and no
+        # carbon figure is made from it: that is the figure the gap stays out of
         s = self.table(mc.SUMMARY)
-        months = set(s[(s["entity"] == "iso:caiso") & (s["variable"] == "carbon_free_share_pct")]["ts_utc"].str[:7])
-        self.assertFalse(months & {f"2020-{m:02d}" for m in range(1, 8)})
+        ca = s[s["entity"] == "iso:caiso"]
+        months = set(ca[ca["variable"] == "carbon_free_share_pct"]["ts_utc"].str[:7])
+        gap = {f"2020-{m:02d}" for m in range(1, 8)}
+        self.assertTrue(gap <= months)
+        self.assertFalse(set(ca[ca["variable"] == "flat_kgco2_per_mwh"]["ts_utc"].str[:7]) & gap)
+        self.assertFalse(set(ca[ca["variable"] == "shift20_carbon_change_pct"]["ts_utc"].str[:7]) & gap)
         import caiso_join as cj
         join_month = pd.Timestamp(cj.JOIN).tz_convert("America/Los_Angeles").strftime("%Y-%m")
         self.assertNotIn(join_month, months)                              # a month is never built on both sources
@@ -260,7 +263,7 @@ class ThePage(unittest.TestCase):
                 self.assertNotIn("mix/clean", src(*f.split("/")), f)
 
     def test_it_says_first_what_the_figures_are(self):
-        page = src("site", "app", "mix", "clean", "page.tsx")
+        page = src("site", "app", "_retired", "mix-clean", "page.tsx")
         lead = page[page.index('data-clean-what="1"'):page.index("<div className=\"grid gap-8")]
         for words in ("not what the grid&apos;s customers used", "imported power is not in it", "the average of the hour&apos;s generation, not the marginal plant&apos;s"):
             self.assertIn(words, lead)
@@ -269,7 +272,7 @@ class ThePage(unittest.TestCase):
             self.assertIn(words, page)
 
     def test_no_figure_is_written_into_the_page(self):
-        page = re.sub(r"^\s*//.*$", "", src("site", "app", "mix", "clean", "page.tsx"), flags=re.M)
+        page = re.sub(r"^\s*//.*$", "", src("site", "app", "_retired", "mix-clean", "page.tsx"), flags=re.M)
         self.assertIsNone(re.search(r">\s*-?\d+\.\d+\s*<", page))
         self.assertEqual(re.findall(r"\b\d+(?:\.\d+)? percent of (?:its|the load)", page), [])
         self.assertNotIn("2025-12-16", page)                               # the join's date has one home (tests/test_session78.py)
@@ -304,8 +307,8 @@ console.log(JSON.stringify({ y, years: yearsOf(f), v: yearView(f, y), months: mo
         self.assertEqual(r["sides"][-1], "caiso")                           # California's newest year rests on CAISO's own data
 
     def test_no_em_dash_and_miso_is_still_paused(self):
-        for parts in (("warehouse", "derived", "mix_clean.py"), ("docs", "methods", "clean_energy.md"), ("site", "app", "mix", "clean", "page.tsx"), ("site", "lib", "clean.ts"),
-                      ("site", "app", "mix", "clean", "data.ts"), ("tests", "test_session122.py")):
+        for parts in (("warehouse", "derived", "mix_clean.py"), ("docs", "methods", "clean_energy.md"), ("site", "app", "_retired", "mix-clean", "page.tsx"), ("site", "lib", "clean.ts"),
+                      ("site", "app", "_retired", "mix-clean", "data.ts"), ("tests", "test_session122.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts[-1])
         self.assertIn("miso", src("warehouse", "metadata", "paused_sources.csv").lower())
         self.assertNotIn("requests", src("warehouse", "derived", "mix_clean.py").split('"""', 2)[2])   # the builder asks no one for anything

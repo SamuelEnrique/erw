@@ -22,9 +22,10 @@ export const GROUPS: Group[] = [
     label: "Prices",
     pages: [
       // session 30: price board v2, the demo's page
-      { href: "/board", label: "Price board", line: "The six ISOs' main hubs on one screen: day-ahead and real-time, moves, peak and off-peak, spark spreads, Henry Hub, Brent minus WTI, and ERCOT since 2015.", tables: "price_board_latest, price_board_peak_offpeak, price_board_spreads, price_board_carbon", related: ["/prices", "/markets"] },
-      { href: "/markets", label: "Markets", line: "Day-ahead against real-time by hub: spreads, on-peak prices, heat rates, volatility and the week's top intervals.", tables: "iso_trader_daily, iso_rt_top_intervals", related: ["/prices", "/grid"] },
+      { href: "/board", label: "Price board", line: "Every price held on one dense screen: power by hub and zone, gas, crude, products, retail fuel and electricity, coal, metals, rates and credits, each with its moves, trend and one-year range, the spreads, and a workbench to compare any two series.", tables: "the ISO price tables, eia_fuel_spot_prices, eia_product_spot_prices and the tables of docs/methods/price_board.md", related: ["/prices", "/explorer/ercot-peak-premium"] },
       // session 37: the cost-of-power model (platform tool 16), under Markets
+      // session 134: supply and trade, for a trader in oil, gas and power
+      { href: "/supply", label: "Supply and trade", line: "Is the market tighter or looser than last week, last year and normal for the season: gas storage, crude and product stocks, production, refining, trade, fuel burned for power and positioning, each against its five-year range.", tables: "eia_gas_storage_weekly, eia_petroleum_supply_weekly, eia_gas_trade_monthly, eia_basin_production_monthly, cftc_cot_positions", related: ["/board", "/mix"] },
       { href: "/cost-of-power", label: "Cost of power", line: "What a MWh costs to buy at each ISO's main hub, weighted by when the grid uses it; when power is cheap by hour of day; cost against carbon; and what a large load pays for energy.", tables: "cost_of_power_monthly, cost_of_power_hourly_profile, cost_of_power_carbon", related: ["/board", "/datacenters"] },
       // session 51: the seller's tab
       { href: "/cost-of-power/seller", label: "What a generator earns", line: "What a merchant solar, wind, battery or gas peaker asset earns month by month at an ISO's main hub, its bad months and stress days, and whether it covers its debt.", tables: "merchant_revenue_monthly", related: ["/cost-of-power", "/board"] },
@@ -32,8 +33,8 @@ export const GROUPS: Group[] = [
       // session 75: in review
       { href: "/shoulder", label: "The shoulder hours", line: "How long the evening stretch between the solar midday and the demand peak lasts in ERCOT and CAISO, how much of it today's batteries cover, and how many hours they would need.", tables: "shoulder_hours_monthly", related: ["/cost-of-power/battery", "/storage/buildout"] },
       { href: "/cost-of-power/battery", label: "What a battery earns", line: "What a grid battery of your size and duration earned in ERCOT and CAISO from energy and ancillary services together, by year and by stream, and whether it covers its debt, with and without a contract.", tables: "battery_stack_monthly, battery_stack_stress_daily", related: ["/cost-of-power/seller", "/storage"] },
-      { href: "/prices", label: "Prices", line: "Every public ISO hub and zone, real-time and day-ahead, with Henry Hub, WTI and Brent.", tables: "ISO price tables, eia_fuel_spot_prices, latest_prices", related: ["/markets", "/explorer/ercot-peak-premium"] },
-      { href: "/explorer/ercot-peak-premium", label: "ERCOT peak premium", line: "How ERCOT real-time prices spread across the day, by hub and year since 2015.", tables: "ercot_peak_premium_annual, ercot_peak_premium_monthly", related: ["/prices", "/markets"] },
+      { href: "/prices", label: "Prices", line: "Every public ISO hub and zone, real-time and day-ahead, with Henry Hub, WTI and Brent.", tables: "ISO price tables, eia_fuel_spot_prices, latest_prices", related: ["/board", "/explorer/ercot-peak-premium"] },
+      { href: "/explorer/ercot-peak-premium", label: "ERCOT peak premium", line: "How ERCOT real-time prices spread across the day, by hub and year since 2015.", tables: "ercot_peak_premium_annual, ercot_peak_premium_monthly", related: ["/prices", "/board"] },
     ],
   },
   {
@@ -42,7 +43,7 @@ export const GROUPS: Group[] = [
       // session 49 (session 42's B4): the 3D network, first under Grid
       { href: "/network", label: "The network", line: "The US balancing authorities in 3D and the power they trade, hour by hour over the latest week.", tables: "eia930_all_interchange, grid_network_nodes, grid_network_links", related: ["/grid", "/emissions"] },
       { href: "/grid", label: "Grid conditions", line: "Yesterday's peak demand, forecast error and generation mix for each ISO and the Lower 48.", tables: "eia930_all_demand, eia930_all_generation", related: ["/mix", "/curtailment"] },
-      { href: "/mix", label: "Energy mix", line: "What generates the power: hourly by grid operator, and monthly by state since 2001.", tables: "eia930_all_generation, eia930_generation_latest, state_generation_mix_monthly", related: ["/grid", "/curtailment"] },
+      { href: "/mix", label: "Energy mix", line: "What generates the power: now, the average day of any month since 2019, the duck curve year after year, the records, how clean and how stressed each grid is, what each source gives against its installed capacity, wind and solar forecasts against actual, and every state since 2001.", tables: "eia930_all_generation, eia930_generation_latest, state_generation_mix_monthly, generation_mix_hourly_profile, clean_energy_summary, grid_stress_yearly and the tables of docs/methods/generation_mix_hourly.md", related: ["/grid", "/curtailment"] },
       { href: "/curtailment", label: "Curtailment", line: "Wind and solar output curtailed, by ISO, daily and monthly, and what each ISO's figure means.", tables: "caiso_curtailment_daily, spp_curtailment_daily, ercot_wind_solar_hsl_daily, iso_curtailment_monthly", related: ["/mix", "/grid"] },
       // session 32: emissions
       { href: "/emissions", label: "Emissions", line: "How much CO2 each ISO's power carries, per MWh made and per MWh used, from EIA's hourly estimates.", tables: "carbon_intensity_hourly, eia930_all_emissions", related: ["/grid", "/storage"] },
@@ -122,7 +123,7 @@ export const GROUPS: Group[] = [
     label: "Data",
     pages: [
       { href: "/data", label: "Data and methods", line: "Every public table with its dates, rows, source and license; the data standard and the methods.", tables: "catalogue" },
-      { href: "/analysis", label: "Automated Analysis", line: "Ten chart templates run on the warehouse every week, the chart of the week picked by rule, and a gallery to run each template with its parameters.", tables: "the ISO price, EIA-930, curtailment, battery, trader view, deal and datacenter tables; docs/analysis/", related: ["/roundup", "/markets"] },
+      { href: "/analysis", label: "Automated Analysis", line: "Ten chart templates run on the warehouse every week, the chart of the week picked by rule, and a gallery to run each template with its parameters.", tables: "the ISO price, EIA-930, curtailment, battery, trader view, deal and datacenter tables; docs/analysis/", related: ["/roundup", "/board"] },
       { href: "/ask", label: "Ask", line: "Ask the warehouse a question; every number in the answer comes from a table it read.", tables: "the live set, through four read-only tools" },
     ],
   },

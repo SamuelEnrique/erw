@@ -1,5 +1,7 @@
 # How clean, and when: the carbon-free share of each grid's generation
 
+> **Session 133 (6 October 2026).** California's months from October 2019 to August 2020 (the hydro gap) are now read from CAISO's own supply by fuel, so their carbon-free share is held; no carbon figure is made for them, because EIA's carbon intensity of those hours still divides by a total without hydro. The page is a view of `/mix` (`/mix?view=clean`); what stood on its face is in this note. Details: `generation_mix_hourly.md`, "Session 133".
+
 Energy Research Warehouse (ERW), session 122 (5 October 2026). Tables: `clean_energy_hourly`,
 `clean_energy_summary`. Code: `warehouse/derived/mix_clean.py`. Page: `/mix/clean` (in review).
 

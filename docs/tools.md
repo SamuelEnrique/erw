@@ -22,6 +22,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | Cost of power: what a battery earns | `/cost-of-power/battery` | What does a grid battery of this size and duration earn from energy and ancillary services together, and does it cover its debt, with and without a contract? | investors and lenders | `battery_stack_monthly`, `battery_stack_stress_daily`; NYISO and SPP in review, in the internal view only (session 86): `battery_stack_review_monthly` |
 | Prices | `/prices`, `/prices/<entity>` | Every public ISO hub and zone price, with Henry Hub, WTI and Brent | everyone | the ISO price tables, `eia_fuel_spot_prices`, `latest_prices` |
 | ERCOT peak premium | `/explorer/ercot-peak-premium` | How do ERCOT's real-time prices spread across the day, by hub and year since 2015? | researchers | `ercot_peak_premium_annual`, `ercot_peak_premium_monthly` |
+| Supply and trade (in review, session 134) | `/supply` | Is the market tighter or looser than last week, last year and normal for the season: gas storage, crude and product stocks, production, refining, trade, fuel burned for power and managed money positioning, each against the three, with the week's surprise marked? | investors and lenders (traders in oil, gas and power) | `eia_gas_storage_weekly`, `eia_petroleum_supply_weekly`, `eia_gas_trade_monthly`, `eia_basin_production_monthly`, `cftc_cot_positions` (the page reads `site/data/supply.json`); method `docs/methods/supply_and_trade.md` |
 
 ## The grid
 

@@ -1,0 +1,32 @@
+# Session 133: New York's (NYIS) coal and nuclear generators of eia860m_retired_generators_all, vintage 2026-08, as held on 6 October 2026; real rows, eight of the table's columns
+entity_id,name,balancing_authority,technology_group,nameplate_mw,operating_year,operating_month,status_date
+eia860:10025:11TG,"RED-Rochester, LLC",NYIS,coal,6.3,1937,11,2007-03-01
+eia860:10025:13TG,"RED-Rochester, LLC",NYIS,coal,10.4,1948,5,2007-03-01
+eia860:10025:14TG,"RED-Rochester, LLC",NYIS,coal,10.4,1948,7,2007-03-01
+eia860:10025:15TG,"RED-Rochester, LLC",NYIS,coal,17.5,1956,10,2007-03-01
+eia860:2497:2,Indian Point 2,NYIS,nuclear,1299,1973,8,2020-04-01
+eia860:2526:7,GMMM Westover,NYIS,coal,43.8,1943,9,2009-12-01
+eia860:2526:8,GMMM Westover,NYIS,coal,75,1951,11,2011-03-01
+eia860:2527:3,Greenidge Generation LLC,NYIS,coal,50,1950,4,2009-12-01
+eia860:2535:1,Cayuga Operating Company,NYIS,coal,155.3,1955,9,2019-10-01
+eia860:2535:2,Cayuga Operating Company,NYIS,coal,167.2,1958,10,2019-10-01
+eia860:2549:63,C R Huntley Generating Station,NYIS,coal,80,1942,8,2006-04-01
+eia860:2549:64,C R Huntley Generating Station,NYIS,coal,100,1948,10,2006-04-01
+eia860:2549:65,C R Huntley Generating Station,NYIS,coal,100,1953,11,2007-06-01
+eia860:2549:66,C R Huntley Generating Station,NYIS,coal,100,1954,1,2007-06-01
+eia860:2549:67,C R Huntley Generating Station,NYIS,coal,200,1957,10,2016-03-01
+eia860:2549:S68,C R Huntley Generating Station,NYIS,coal,200,1958,11,2016-03-01
+eia860:2554:1,Dunkirk Generating Plant,NYIS,coal,96,1950,11,2022-04-01
+eia860:2554:2,Dunkirk Generating Plant,NYIS,coal,96,1950,12,2019-01-01
+eia860:2554:3,Dunkirk Generating Plant,NYIS,coal,217.6,1959,9,2022-04-01
+eia860:2554:ST4,Dunkirk Generating Plant,NYIS,coal,217.6,1960,8,2022-04-01
+eia860:2629:4,Lovett,NYIS,coal,179.5,1966,4,2007-05-01
+eia860:2629:5,Lovett,NYIS,coal,200.6,1969,4,2008-04-01
+eia860:2642:1,Rochester 7,NYIS,coal,46,1948,11,2008-02-01
+eia860:2642:2,Rochester 7,NYIS,coal,62.5,1950,11,2008-03-01
+eia860:2642:3,Rochester 7,NYIS,coal,62.5,1953,9,2008-04-01
+eia860:2642:4,Rochester 7,NYIS,coal,81.6,1957,2,2008-03-01
+eia860:50651:GEN1,Syracuse Energy,NYIS,coal,90.6,1991,8,2013-09-01
+eia860:50651:GEN2,Syracuse Energy,NYIS,coal,10.5,2002,7,2013-09-01
+eia860:6082:1,Somerset Operating Co LLC,NYIS,coal,655.1,1984,8,2020-03-01
+eia860:8907:3,Indian Point 3,NYIS,nuclear,1012,1976,8,2021-04-01
