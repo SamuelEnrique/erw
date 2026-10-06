@@ -119,6 +119,13 @@ SECTOR_RULES = [
     (r"^(carb|rggi)_auction_allowance_prices$", "carbon"),
     (r"^fred_daily_spot_prices$", "oil;gas"),
     (r"^fred_imf_commodity_prices$", "gas;lng;coal;uranium;metals"),
+    # session 132: the price board's added series
+    (r"^eia_regional_retail_fuel_prices$", "products"),   # weekly retail gasoline and diesel by region, state and city
+    (r"^eia_crude_stream_prices$", "oil"),                 # monthly crude prices by stream and area
+    (r"^eia_power_plant_fuel_costs$", "coal;gas;power"),   # monthly cost of coal and gas delivered to power plants (EIA-923)
+    (r"^fred_treasury_yields$", "equities"),               # US Treasury yields at 2, 10 and 30 years: the vocabulary has no sector for interest rates, and financial markets is the nearest
+    (r"^imf_commodity_prices$", "uranium;metals"),         # IMF monthly prices: uranium, lithium, cobalt, nickel, copper
+    (r"^carb_lcfs_credit_prices$", "carbon"),              # California's Low Carbon Fuel Standard credit price, weekly
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),

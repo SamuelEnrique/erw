@@ -210,6 +210,14 @@ catalogue_hold:
   # EIA's NYMEX futures of 2019 to 5 April 2024 (internal by that session's reading, about 21,000 rows). Neither is loaded
   - price_board_stats
   - eia_all_futures_prices
+  # session 132: the series the price board adds (about 51,000 rows in six tables). The review page /board reads the
+  # site's own files (site/data/board.json, site/public/board/), built from them; nothing reads them from Supabase
+  - eia_regional_retail_fuel_prices
+  - eia_crude_stream_prices
+  - eia_power_plant_fuel_costs
+  - fred_treasury_yields
+  - imf_commodity_prices
+  - carb_lcfs_credit_prices
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
@@ -260,6 +268,15 @@ sources_hold:
   - erw:clean_energy                   # session 122, /mix/clean
   - erw:grid_stress                    # session 123, /mix/stress (its table was built in the same hour and its registry row came with it)
   - erw:price_board_v4                 # session 127, /board/v4
+  - eia:petroleum/pri/gnd:regional     # session 132, /board (these source rows serve only its new tables)
+  - eia:petroleum/pri/dfp2:streams
+  - eia:petroleum/pri/land2
+  - eia:petroleum/pri/imc2
+  - eia:petroleum/pri/rac2
+  - eia:electricity/electric-power-operational-data:cost
+  - fred:h15_treasury_yields
+  - imf:pcps
+  - carb:lcfs_weekly_credit_price
   - eia:nymex_futures_petroleum        # session 127, EIA's NYMEX futures to 5 April 2024 (internal; no page shows them)
   - eia:nymex_futures_natural_gas
 
