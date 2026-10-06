@@ -1,0 +1,31 @@
+{
+ "date": "2026-10-06",
+ "fact_id": "ff_3111d8abb0",
+ "kind": "warehouse",
+ "fact": "The highest daily Brent crude spot price in EIA's series, which starts on 1987-05-20, was 143.95 USD/bbl on 2008-07-03.",
+ "second": "That is about 1.3 times the latest close, 113.96 on 2026-09-29.",
+ "structure": "scale",
+ "conjecture": "False",
+ "sources": [
+  {
+   "part": "fact",
+   "label": "ERW table eia_fuel_spot_prices",
+   "table": "eia_fuel_spot_prices",
+   "publisher": "U.S. Energy Information Administration (EIA)",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/fuel_brent_max_20260930T234845Z.txt",
+   "span": "eia_fuel_spot_prices eia:brent: max 143.95 USD/bbl on 2008-07-03; series starts 1987-05-20; latest 113.96 on 2026-09-29; ratio of the max to the latest 1.3",
+   "retrieved_at": "20260930T234845Z"
+  },
+  {
+   "part": "second",
+   "label": "ERW table eia_fuel_spot_prices",
+   "table": "eia_fuel_spot_prices",
+   "publisher": "U.S. Energy Information Administration (EIA)",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/fuel_brent_max_20260930T234845Z.txt",
+   "span": "eia_fuel_spot_prices eia:brent: max 143.95 USD/bbl on 2008-07-03; series starts 1987-05-20; latest 113.96 on 2026-09-29; ratio of the max to the latest 1.3",
+   "retrieved_at": "20260930T234845Z"
+  }
+ ]
+}
