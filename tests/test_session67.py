@@ -258,8 +258,9 @@ def read(*parts):
 class Site(unittest.TestCase):
     """The page, the contract panel and the release gate, read as text: what they must and must not hold."""
 
-    LIVE = ["/", "/cost-of-power/battery", "/cost-of-power/seller", "/network", "/storage", "/about", "/terms",
-            "/data/methods/battery_stack", "/data/methods/cost_of_power", "/data/methods/grid_network", "/data/methods/storage"]
+    # session 126 (the owner's instruction, 5 October 2026): the home page, About, Terms, the seller's tab and the four
+    # methods notes went to review; three pages are open
+    LIVE = ["/cost-of-power/battery", "/network", "/storage"]
 
     def release(self):
         return dict(re.findall(r'^\s*"(/[^"]*)": "(live|review)",', read("site", "lib", "release.ts"), flags=re.M))

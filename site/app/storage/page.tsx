@@ -200,6 +200,15 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
   const get = (e: string, v: string) => rows.filter((r) => r.entity === e && r.variable === v).sort((a, b) => a.ts_utc.localeCompare(b.ts_utc));
   const N = (r?: SeriesRow, whole = false) =>
     r ? <Num check={`series|${T}|${r.entity}|${r.variable}|${r.ts_utc}`} raw={r.value}>{whole ? String(r.value) : shown(r.value)}</Num> : <span className="text-muted">none</span>;
+  // Session 126: the charged MWh of each row's displayed day. A row that charged nothing has no ratio, and neither has
+  // the Lower 48: EIA's national total adds grids that report discharging and no charging. The grids named under the
+  // table are read from these rows, EIA's only (CAISO's row is CAISO's own data).
+  const chargedOf = (entity: string) => {
+    const last = get(entity, "mwh_discharged").at(-1);
+    return last ? get(entity, "mwh_charged").find((r) => r.ts_utc === last.ts_utc) : undefined;
+  };
+  const noCharge = BAS.filter((b) => b.code !== "us48" && chargedOf(b.entity)?.value === 0).map((b) => b.label);
+  const named = noCharge.length === 0 ? "none" : noCharge.length === 1 ? noCharge[0] : `${noCharge.slice(0, -1).join(", ")} and ${noCharge[noCharge.length - 1]}`;
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[640px] text-sm tabular-nums">
@@ -226,7 +235,7 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
                 </td>
                 <td className="pr-2 text-right">{N(last)}</td>
                 <td className="pr-2 text-right">{N(at("mwh_charged"))}</td>
-                <td className="pr-2 text-right">{N(at("round_trip_ratio"))}</td>
+                <td className="pr-2 text-right">{b.code === "us48" || at("mwh_charged")?.value === 0 ? <span data-no-ratio={b.code}>-</span> : N(at("round_trip_ratio"))}</td>
                 <td className="pr-2 text-right">{N(at("peak_discharge_hour"), true)}{at("peak_discharge_hour") ? ":00" : ""}</td>
                 <td className="pr-2 text-right">{N(at("peak_charge_hour"), true)}{at("peak_charge_hour") ? ":00" : ""}</td>
                 <td>
@@ -237,6 +246,9 @@ function Cycle({ rows }: { rows: SeriesRow[] }) {
           })}
         </tbody>
       </table>
+      <p className="mt-1 text-[11px] text-muted" data-no-ratio-note="1">
+        The Lower 48 row has no ratio: some balancing authorities report battery discharging to EIA and no charging ({named} on this day), so the national total is not a balanced account. Read each grid&apos;s own row.
+      </p>
       <p className="mt-1 text-[11px] text-muted">
         From EIA-930&apos;s hourly battery net generation (positive discharging, negative charging), complete local days only;
         CAISO&apos;s row from CAISO&apos;s own 5-minute Total batteries, averaged to hours, complete Pacific days.
