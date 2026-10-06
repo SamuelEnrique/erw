@@ -1,0 +1,186 @@
+# source: Wikipedia (CC BY-SA 4.0), MediaWiki API plain-text extract
+# title: 2021 Texas power crisis
+# url: https://en.wikipedia.org/wiki/2021_Texas_power_crisis
+# revision: 1376998555
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261006T151540Z
+
+In February 2021, the state of Texas suffered a major power crisis, which came about during three severe winter storms sweeping across the United States on February 10–11, 13–17 (known as Winter Storm Uri), and 15–20. The storms triggered the worst energy infrastructure failure in Texas state history, leading to shortages of water, food, and heat. More than 4.5 million homes and businesses were left without power, some for several days. At least 246 people were killed directly or indirectly, with some estimates as high as 702 killed as a result of the crisis.
+State officials, including Republican governor Greg Abbott, initially incorrectly blamed the outages on frozen wind turbines and solar panels. Data showed that failure to winterize traditional power sources, principally natural gas infrastructure but also, to a lesser extent, wind turbines, had caused the grid failure, with a drop in power production from natural gas more than five times greater than that from wind turbines. Texas's power grid has long been separate from the two major national grids to avoid federal oversight, though it is still connected to the other national grids and Mexico's; the limited number of ties made it difficult for the state to import electricity from other states during the crisis. Deregulation of its electricity market beginning in the 1990s resulted in competition in wholesale electricity prices but also cost-cutting for contingency preparation.
+The crisis drew much attention to the state's lack of preparedness for such storms, and to a report from U.S. federal regulators ten years earlier that had warned Texas that its power plants would fail in sufficiently cold conditions. Damages due to the cold wave and winter storm were estimated to be at least $26.5 billion, one of the most expensive disasters in the state's history. According to the Electric Reliability Council of Texas (ERCOT), the Texas power grid was four minutes and 37 seconds away from complete failure when partial grid shutdowns were implemented. During the crisis, some energy firms made billions in profits, while others went bankrupt, due to some firms being able to pass extremely high wholesale prices ($9,000/MWh, typically $50/MWh) on to consumers, while others could not, with this price being allegedly held at the $9,000 cap by ERCOT for two days longer than necessary, creating $16 billion in unnecessary charges.
+
+
+== Background ==
+
+In 2011, Texas was hit by the Groundhog Day blizzard between February 1 and 5, resulting in rolling blackouts across more than 75% of the state. Many roads around Houston were impassable, and boil-water advisories were issued in several areas. Following this disaster, the North American Electric Reliability Corporation made several recommendations for upgrading Texas's electrical infrastructure to prevent a similar event occurring in the future, but these recommendations were ignored due to the cost of winterizing the systems. At the time the blackouts and failures in the power grid were likened to those that occurred in December 1989, after which similar recommendations were made to the state government and ERCOT, which were similarly ignored. On August 16, 2011, a 357-page report was released by the Federal Energy Regulatory Commission in response to the February 2011 power outage in Texas.
+In mid-February 2021, a series of severe winter storms swept across the United States. This outbreak was due to the polar jet stream dipping particularly far south into the U.S., stretching from Washington to Texas, and running back north along the East Coast, allowing a distortion in the polar vortex to bring very cold air across the country and spawning multiple storms along the jet stream track as a result. This weather phenomenon resulted in record low temperatures throughout Texas, with temperatures in Dallas, Austin, Houston, and San Antonio falling below temperatures in Anchorage, Alaska.
+
+On February 10, a winter storm formed north of the Gulf Coast, dropping significant amounts of sleet and ice on many states in the Deep South and the Ohio Valley, including Texas, Georgia, Louisiana, Arkansas, Tennessee, as well as states on the East Coast. A second storm developed off the Pacific Northwest on February 13 and began to gradually develop into an organized storm as it tracked southward toward Texas. It grew even more organized as it turned toward the northeast U.S. before splitting in half - one half continuing into Quebec and the other moving out over the Atlantic Ocean.
+This storm, along with various other storms from the previous two weeks, resulted in over 75% of the contiguous U.S. being covered in snow. This storm was directly responsible for nearly 10 million people losing power, with 5.2 million in the U.S. and 4.7 million in Mexico. A third winter storm caused an additional 4 million power outages, and 29 deaths, with 23 in the U.S. and 6 in Mexico. At least 246 people lost their lives during the winter storms.
+
+
+== Causes ==
+
+
+=== Immediate weather and power plant failures ===
+
+The winter storm caused a record low temperature at Dallas/Fort Worth International Airport of −2 °F (−19 °C) on February 16, the coldest in North Texas in 72 years. Power equipment in Texas was not winterized, leaving it vulnerable to extended periods of cold weather. Natural gas power generating facilities had equipment freeze up and faced shortages of fuel. Texas Governor Greg Abbott and some other politicians initially said renewable energy sources were the cause for the power outages, citing frozen wind turbines as an example of their unreliability.
+Viral images of a helicopter de-icing a wind turbine said to be in Texas were actually taken in 2015 in Sweden. However, wind energy accounts for only 23% of Texas power output. Moreover, equipment for other energy sources such as natural gas power generating facilities either freezing up or having mechanical failures were also responsible. Governor Abbott later acknowledged that coal, natural gas, and nuclear plants had played a role. Five times more natural gas than wind power had been lost. When power was cut, it disabled some compressors that push gas through pipelines, knocking out further gas plants due to lack of supply.
+ERCOT was aware on February 13 that blackouts would be likely and the grid would have to shut off more than 10% of its demand. The next day, electricity demand exceeded 67.2 gigawatts, higher than what the grid operator had ever planned for in extreme winter weather. Overnight ERCOT ordered utilities to drop several thousand megawatts of load, but the grid frequency continued to drop as demand exceeded supply. The grid came within minutes of overloading and shutting down completely, which would have required a slow and costly black start.
+
+
+=== Systemic issues ===
+During the 2011 Groundhog Day blizzard, Texas had faced similar power outages due to frozen power equipment, after which the Federal Energy Regulatory Commission reported that more winterization of power infrastructure was necessary. ERCOT said that some generators since then implemented new winter "best practices," but these were on a voluntary basis and mandatory regulation had not been established. This is likely due to ERCOT's independence of the FERC therefore not having the necessary budget to upgrade the power grid to withstand colder weather after the recommendation during efforts to increase renewable energy sources.
+Unlike other power interconnections, Texas does not require a reserve margin of power capacity beyond what is expected. A 2019 North American Electric Reliability Corporation report found that ERCOT had a low anticipated reserve margin of generation capacity and was the only part of the country without sufficient resources available to meet projected peak summer electricity demand.
+Gov. Abbott's appointees to the Public Utility Commission of Texas ended a contract with the Texas Reliability Entity in November 2020, reducing oversight of the grid. In July, Abbott's commissioners disbanded its Oversight and Enforcement Division, dropping pending cases that ensure reliability. While not a direct cause, the commission's minimal oversight of utility companies, limited budget, and voluntary standards restricted its ability to secure consistent performance.
+
+There was not only insufficient power generation capacity online, but also insufficient natural gas supply to the power plants. The failure of some gas distribution infrastructure, which had not been adequately winterized, resulted in exceedingly high prices for natural gas. Some gas compressor stations lost power when utilities began shutdowns, and overall gas supply fell by 85%. University of Texas professor Michael Webber said, "This is the moral hazard of the market which is when wind or solar or coal or nuclear underperforms, they lose money. And when gas power plants underperform they lose money. But when the gas producers underperform, they made money. And this is why the gas system gets a pass, which is it's very lucrative for it to fail, and that lucrative return shows up as political donations that curries favor that really gets the statewide officials to turn a blind eye to it."
+
+
+== Impact ==
+By February 17, at least 21 people died from causes related to the winter storm. By February 19, the number was updated to at least 32 people who died, with deaths linked to carbon monoxide poisoning, car crashes, drownings, house fires and hypothermia. On February 21, the death toll had increased to 70. As of January 2, 2022, the total loss of life was reported to be 246, with deaths in 77 counties. Victims included children less than a year old to elderly up to 102 years old. Reports found that almost two-thirds died of hypothermia and that 148 deaths were directly caused by the storm, 92 deaths were indirectly caused by the storm, and 6 deaths were found as possibly caused by the storm.
+
+
+=== Power outages ===
+In addition to equipment problems, demand for electricity in Texas hit a record 69,692 megawatts (MW) on February 14 - 3,200 MW higher than the previous record set in January 2018 and 12,329 MW higher than its current capacity. The Electric Reliability Council of Texas (ERCOT) initiated rotating outages at 1:25am on February 15. However, a retrospective Houston Chronicle article a year later said peak demand was even higher: 76,819 megawatts on Feb. 16, 2021.
+The rotating outages prevented electricity demand from overwhelming the grid, a scenario which could have caused equipment to catch fire and power lines to go down, potentially resulting in a much more severe blackout. At the peak, over 5 million people in Texas were without power, with 11 million experiencing an outage at some point, some for more than 3 days.
+During the period of outages, the wholesale electric price was set to $9,000/megawatt-hour which was the "system cap" set by ERCOT, compared to a more typical $25/MWh. Customers with pricing plans based on wholesale prices who had power faced large bills. Some Griddy customers signed up for wholesale variable rates plans allowed by the Texas deregulated electricity market found themselves facing over $5,000 bills for five days of service during the storm.
+Wholesale prices were kept at an artificially inflated level of $9,000 for about four days, an amount normally only hit momentarily, in fear of instability even after electricity demand dropped. Total Texas electricity costs on February 16 alone reached $10.3 billion, greater than the $9.8 billion spent in all of 2020. The legislature allowed issuance of about $5 billion in bonds to pay for it, or $200 per Texan. The then-CEO of ERCOT testified under oath that Governor Abbot had ordered power prices to stay at this level, which led to the bankruptcy of the Brazos Electric co-op.
+
+
+=== Water and food shortages ===
+
+Water service was disrupted for more than 12 million people due to pipes freezing and bursting. More than 200,000 people in Texas lived in areas where water systems were completely non-operational. On February 17, residents of Austin were asked not to drip their faucets despite the risk of pipes freezing as the demand for water in the city was more than 2.5 times the amount supplied on the previous day. The city had lost more than 325 million US gallons (1.23×109 L) of water due to burst pipes by February 18, according to Austin Water Director Greg Meszaros. Nearly 12 million people were advised to boil their tap water before consumption due to low water pressure throughout the pipe network.
+People were seen collecting water from the San Antonio River Walk with trash cans.
+Due to the inclement weather conditions and extensive power outages, most grocery stores statewide could not keep up with the increased demand for food and sundry items. Many stores were forced to close due to lack of power; the few that remained open completely ran out of most staple food items like bread, milk, and eggs. Officials also warned that the shortages could be long term, stating that 60% of the region's grapefruit crop and 100% of the orange crop were lost due to the weather.
+
+
+=== Infrastructure damage ===
+
+The inclement weather caused many fire hydrants to be unusable in emergency situations. In one case, firefighters near the San Antonio area had to rely on water tenders to deliver between 2,000 and 3,000 gallons of water to the scene of a fire as the hydrant was unusable.
+Plumbing in buildings throughout the state burst due to freezing. Structures were damaged by water and streets were flooded. A shortage of plumbers, in part due to excessive licensing requirements kept in place by Governor Abbott despite the legislature removing them, led to months-long waits for repairs.
+
+
+=== Environmental consequences ===
+Significant releases of pollutants due to stopping and starting fossil fuel infrastructure such as chemical plants and fuel refineries were reported. These included one ton of the carcinogen benzene, two tons of sulfur dioxide, twelve tons of natural gas, and thirty-four tons of carbon monoxide.
+Targa Resources' Wildcat and Sand Hills natural gas plants released four times the emissions of the nation's largest refinery during the freeze.
+
+
+=== Agricultural damage ===
+According to Texas A&M AgriLife Extension Service, after the winter storm, Texas agriculture suffered more than $608 million in losses after the storm. These losses included at least $230 million in citrus crops primarily in the Rio Grande Valley, and around $228 million in livestock, and a minimum of $150 million in vegetable crops such as cabbage, onions and leafy greens. Many ranchers lost their harvest, and ranchers lost their sheep, cattle, goats, poultry and livestock grazing due to freezing temperatures and lack of resources. Ranchers had to buy additional expensive feed in order for their livestock to survive. With the loss of crops, the prices of groceries increased affecting not only ranchers and farmers but customers all around Texas.
+
+
+=== Health concerns ===
+
+
+==== Carbon monoxide poisoning ====
+The combination of below freezing temperatures with no power for heat led people to undertake dangerous ways of heating their homes such as using ovens or even burning fences and furniture. Deaths attributed to the storm include cases of carbon monoxide poisoning from people running their cars or generators indoors for heating. Other cases include improper use of generators, heaters, and having vents blocked by ice. At least 300 cases of carbon monoxide poisoning were reported. Out of these cases, at least 19 people died from the poisoning.
+
+
+==== COVID-19 response ====
+The state's response to the COVID-19 pandemic in Texas was somewhat hampered by the power outage. Water and grid supply were cut off from hospitals. Hospitals still were able to operate with their own power generators. Shipments of vaccines were delayed and facilities that would not be able to store vaccines properly were asked to transfer vaccines to those who could. In most cases, vaccinations were delayed because it was too dangerous for people to travel. About 1000 doses of vaccine were lost as a result of problems.
+
+
+==== Hypothermia ====
+Due to the continued power outages across the state, many were faced with freezing temperatures in their homes increasing a risk of hypothermia. The freezing temperatures potentially caused the death of an 11-year-old boy, an 84-year-old widow, and a 75-year-old veteran, among others. Zoo, domesticated, and wild animals were also at risk due to the low temperatures with animal sanctuaries and veterinary clinics identifying an increase in hypothermia cases in the animals.
+
+
+== Response ==
+
+
+=== Government response ===
+
+
+==== State ====
+Governor Abbott issued a disaster declaration on February 12, whereby he mobilized various departments including the Texas Military Department for snow clearance and assistance to stranded motorists. As the situation worsened, Governor Abbott requested a Federal Emergency Declaration on February 13, which President Biden approved on February 14.
+In an effort to alleviate the energy shortage, Governor Abbott ordered natural gas producers not to export gas out of state and to sell it within Texas instead. He also called for the resignation of ERCOT leaders.
+Former Representative Beto O'Rourke ran a virtual phone bank to contact over 780,000 seniors across the state.
+Colorado City, Texas, Mayor Tim Boyd faced extreme backlash after he made comments criticizing citizens for not preparing for the winter storm and stating: "the strong will survive and the weak will perish." He resigned following the controversy.
+Senator Ted Cruz faced heavy scrutiny over his trip to Cancún, Mexico. Though he initially claimed he was dropping off his wife and daughters, text messages from his wife revealed the hastily planned nature of the trip as an escape from the freezing conditions. He received condemnation from his political allies and rivals for leaving the state during a crisis and traveling internationally during the COVID-19 pandemic.
+Later that day, Cruz returned to Texas admitting that the vacation was a mistake, receiving further criticism for appearing to blame his young daughters for the trip, claiming they begged him to go. Cruz on February 22 tweeted the news about the hike of electricity rates in Texas, calling "(s)tate and local regulators should act swiftly to prevent this injustice". This was criticized as hypocrisy because Cruz had been a strong advocate of the Texan power grid deregulation, one of the major cited reasons which led to this mass power outage.
+Former governor Rick Perry said, "Texans would be without electricity for longer than three days to keep the federal government out of their business."
+
+
+==== Federal ====
+
+On February 14, President Biden declared that an emergency existed in the State of Texas, authorizing the Department of Homeland Security and the Federal Emergency Management Agency (FEMA) to provide emergency assistance throughout Texas. FEMA sent 60 generators, as well as water and blankets, to the state.
+
+
+=== Community response ===
+Local churches, community centers and other locations opened warming stations for affected individuals as well as asked for physical and monetary donations to help those affected. Several local mutual aid groups responded with supply delivery and distribution, particularly in the hard-hit Houston and Austin areas. Celebrities such as Beyoncé and Reese Witherspoon teamed up with companies to provide monetary relief, donated personally, and supplied donation links to their social media followers to raise relief and awareness. Through his "We're Texas" virtual benefit concert, Matthew McConaughey and his wife Camila Alves McConaughey raised over $7.7 million to continue support for those affected by the storm.
+Congresswoman Alexandria Ocasio-Cortez organized a fundraiser to provide food, water, and shelter to affected Texans, raising $2 million in its first day. She followed up with a trip to Houston to help alongside volunteers with recovery. She along with other Democrats toured the damage left behind by the storm as well as distribution centers and delivery sites. In the end, she raised $4.7 million.
+
+
+=== Investments and profits ===
+Several rich businessmen in Texas profited from the crisis, including Dallas Cowboys owner Jerry Jones. Comstock Resources Inc., a Texas-based natural gas company that Jones had previously made several investments in, making Jones a majority stockholder, profited significantly by raising prices over 70x the normal rates for natural gas while millions of Texas residents froze and suffered.
+
+
+== Aftermath ==
+Power outages in Harris County, Texas's most populated county and one of its most affected, returned to normal around February 22, 2021. Boil-water advisories lasted in some areas of Texas until February 27, 2021.
+Despite the reforms, Texas energy experts continue to discuss and debate whether the ERCOT power grid in Texas is fully prepared to handle another extreme winter event. [1]
+
+
+=== Investigations ===
+On February 16, 2021, Governor Greg Abbott declared that ERCOT reform is an emergency priority for the state legislature, and there would be an investigation of the power outage to determine long-term solutions. The legislature held hearings with power plant chief executives, but not with natural gas industry leaders.
+In March 2021, Congress launched an investigation into the power crisis by requesting documents relating to winter weather preparedness from the Texas electric grid manager and ERCOT.
+The Railroad Commission blamed power producers for gas supply issues, even though its chair Christi Craddick was aware of gas supply problems prior to the outages. Cold weather disrupted 22 gas processing plants two days before blackouts began.
+The Federal Energy Regulatory Commission is investigating anomalies in the natural gas market, where companies may have illegally manipulated prices. Intrastate pipelines are not required to report their tariffs like interstate pipelines, making it harder to investigate. FERC was unable to say if there was price gouging. Texas attorney general Ken Paxton has not announced investigations into energy prices.
+
+
+=== ERCOT ===
+Five members of ERCOT unaffiliated with Texas entities resigned due to the power failures. All five lived out of state and one lived in Canada.
+The ERCOT board of directors voted to fire its CEO, Bill Magness, who turned down his $800,000 severance package.
+ERCOT admitted that there could be blackouts in winter 2022, reporting that there was enough generation for "normal" winter weather.
+
+
+=== PUC controversy ===
+On March 1, 2021, DeAnn T. Walker, the chairwoman of the Public Utility Commission (PUC), the Texas agency responsible for overseeing ERCOT and the state's electricity grid, resigned after a week of tough questioning from Texas legislators at a round of hearings. Governor Greg Abbott, who had originally appointed Walker, filled the vacant chairperson position by promoting PUC Commissioner Arthur D'Andrea two days later. On March 9, 2021, D'Andrea was recorded reassuring utility investors that he would protect their profits in a 48-minute call that was later leaked to the press. D'Andrea resigned his post a week later, two hours after the call was leaked.
+At issue is $16 billion in alleged overcharges that accrued when the PUC issued orders requiring ERCOT set the price of electricity at the $9,000-a-megawatt-hour maximum for nearly two days after widespread outages ended late the night of February 17 instead of resetting the prices the following day. Power generation entities benefited from the inflated prices, but retail companies and entities that buy the generated power to sell directly to consumers have gone bankrupt.
+
+
+=== Legislation ===
+In March 2021, the Texas State Legislature introduced a package of bills that would put measures in place to prevent a future power outage in extreme temperatures. House Bill 11 defined extreme weather conditions to provide a guideline for regulators and industry to design around, and House Bill 14 would create the Texas Supply Chain Security and Mapping Committee to prioritize energy needs during extreme weather, but neither bill passed.
+In May, the Legislature approved House Bill 4492, which sets up a loan plan for power companies but which excluded direct credits for consumers, and Senate Bill 3, which includes a requirement of certain gas facilities to weatherize. SB 3 limited weatherization requirements to "critical" facilities and excluded an amendment to provide grants for backup power at health care facilities. The original version of the bill would have fined facilities that failed to weatherize, hired a hundred inspectors to ensure compliance, and created a committee to determine the most important gas facilities to power plants, but these provisions were removed by the Texas House of Representatives. Democratic proposals to require energy conservation, increase penalties for failing to weatherize, and require progress within six months of enactment were excluded. Governor Abbott said "everything that needed to be done was done to fix the power grid in Texas" when he signed the bill.
+On June 8, 2021, Governor Abbott signed two bills to address Texas's power grid, Senate Bills 2 and 3. SB 2 changed the number of directors on ERCOT's Board from 16 to 11 and gives the state's politicians greater influence over the board.
+The Railroad Commission then proposed a rule that would allow gas companies to claim their facilities were not prepared for winter operation and exempt themselves from weatherizing. This was condemned in a Senate committee hearing and replaced by a rule proposal without the opt-out provision, but it will not be finalized by winter 2022 and may not be strong enough.
+
+
+=== Utility prices ===
+To cover debt incurred due to high natural gas prices, utilities outside Texas have had to raise prices. Oklahoma Natural Gas is charging customers up to $7.80 per month for the next 25 years to securitize its costs of $1.4 billion during the crisis. The natural gas industry reaped a windfall profit of $11 billion during the crisis. Texas gas utilities were permitted by the Railroad Commission to issue bonds to cover what they paid to suppliers, to be paid off by customers. Municipal gas companies have also added surcharges to bills.
+On February 16, 2021, the Texas PUC set wholesale electricity prices at $9,000 per megawatt-hour to, according to the commission, reflect the need for an increase in electricity production for the aftermath of the winter storm. Because of this, Texans collectively have to pay roughly $37.7 billion in electric bills in the aftermath of the deadly winter storm.
+
+
+=== Lawsuits ===
+On February 19, 2021, a lawsuit was filed in Nueces County and raised allegations against ERCOT, claiming that there were repeated warnings of weaknesses in the state's electric power infrastructure that were ignored. Also named in the lawsuit was the American Electric Power utility company. An additional lawsuit against ERCOT was filed in Fort Bend County. The company has raised claims of sovereign immunity to the legal cases, a legal principle that protects some government agencies from lawsuits if the money spent on legal fees would disrupt "key government services". This defense has been used by ERCOT in other legal cases, and has been upheld by courts.
+A class action lawsuit was filed against Texas electricity retailer Griddy for potential price gouging by a Chambers County resident after receiving a $9,000 bill for electricity during the week of the storm, compared to an average $200 bill.
+CPS Energy in San Antonio filed a lawsuit against Energy Transfer Partners saying it committed price gouging, charging $500 per million British thermal unit (290 kilowatt-hours) rather than a "reasonable" $40.
+Thousands of lawsuits related to wrongful death, personal injury and property damage have been filed against a variety of defendants, including ERCOT, energy transmission companies and electricity providers. The lawsuits have been consolidated in Texas multidistrict litigation. In December 2023, the Texas Supreme Court ruled that ERCOT could not be sued based on the theory of sovereign immunity. In April 2024, a three-judge panel of the 14th Court of Appeals in Houston ruled that gross negligence claims against Oncor and other power distribution companies could proceed. In March 2026, the Texas Supreme Court ended five separate appeals of a state appellate court ruling which dismissed the cases as having "no basis in law or fact.", thereby ending lawsuits against power generators from tens of thousands of residents and small businesses who lost electricity during the storm.
+
+
+=== Recent developments ===
+As of the mid-2022s, limited changes had been made to the electricity system, and experts continued to warn of potential future outages. Power company Vistra, which is investing $80 million to prepare its plants for cold weather, says another power crisis could happen. Additional legislation and infrastructure investments have been proposed, though experts remain divided on whether these measures are sufficient to prevent future larger scale outages. The gas industry is not similarly preparing to ensure operation and is resisting regulation by the Railroad Commission of Texas, which oversees the oil and gas industry but whose commissioners' campaigns are funded by it. While the Texas Legislature required power plants to better prepare for future extreme winters, it was not required for the commission to follow along. Therefore, leaving the gas industry without weather regulations. Gas production fell by 25% on January 2, 2022, when temperatures in West Texas fell to 14 degrees. The CEO of a Texas-based manufacturer of process heating and freeze protection equipment said Texas has not invested in technologies for gas winterization, which would cost $85–200 million per year.
+Governor Abbott said in November 2021, "I can guarantee the lights will stay on," though in February 2022 he said, "No one can guarantee that there won't be a load shed event."
+A cold snap in February 2022 was not as cold or prolonged as that in 2021, so demand did not surpass supply even as 12% of natural gas systems failed.
+
+
+== See also ==
+
+Energy crisis
+List of power stations in Texas
+List of major power outages
+2011 Groundhog Day blizzard, a similar storm where more than 75% of Texas was affected by rolling blackouts
+Winter Storm Goliath, 2015 blizzard that killed more than 30,000 dairy cows in Texas
+Energy entities
+Energy Information Administration (EIA)
+Texas Reliability Entity (Texas RE)
+
+
+== References ==
+
+
+== Further reading ==
+"Report on Outages and Curtailments during the Southwest Cold Weather Event of February 1-5, 2011 - Causes and Recommendations" (PDF). Federal Energy Regulatory Commission. August 2011. 357 pages.
+
+
+== External links ==
+ Media related to 2021 Texas power crisis at Wikimedia Commons
