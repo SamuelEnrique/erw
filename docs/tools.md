@@ -45,6 +45,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 |---|---|---|---|---|
 | Project map | `/map` | Where are the generators, queue positions and datacenters? | investors and lenders | `energy_projects`, `datacenter_facilities` |
 | Datacenters | `/datacenters` | Which datacenters are being built, by whom, where and how large? | investors and lenders | `datacenter_facilities` |
+| Thesis Builder (in review and internal, session 135) | `/thesis` | What does one niche look like to an investor: its scope, five trends, the companies those trends select, the deal funnel, the pipeline, capital, incumbents, risks and policy, every figure with its source? | the owner and invited investors | the internal table `thesis_runs` (never public); reads `energy_companies`, `energy_deals`, `policy_actions` |
 | Companies (the Thesis Builder's output) | `/companies` | Which energy companies has the ERW mapped, at what stage and with what funding? | investors and lenders | `energy_companies` |
 | Deals | `/deals` | Which PPAs, acquisitions and financings happened, with sources? | investors and lenders | `energy_deals` |
 | Power contracts (in review, session 83; internal view only) | `/contracts` | Where are bilateral power contracts being signed: which seller, which buyer, what product, for how long, at what price as filed, delivered where? | investors and lenders | `ferc_eqr_contracts` (internal) |
