@@ -25,10 +25,18 @@ cd "$(dirname "$0")/.."
 PY="${PYTHON:-python}"
 "$PY" warehouse/health.py run --step "eia_supply" -- "$PY" warehouse/connectors/eia_supply.py
 "$PY" warehouse/health.py run --step "cftc_cot" -- "$PY" warehouse/connectors/cftc_cot.py
+# Session 136: day-ahead energy cleared, one connector an operator that publishes it openly (MISO is paused and PJM
+# licensed: neither is asked). Each reads its last days and merges them into its table; ERCOT's report lists 31 days
+# only and reads about 23,000 rows a day to make 24, so its week is the large one (about 185,000 rows read)
+CLEARED=""
+for iso in ercot caiso nyiso isone spp; do
+  "$PY" warehouse/health.py run --step "${iso}_dam_cleared" -- "$PY" "warehouse/connectors/${iso}_dam_cleared.py"
+  [ -f "warehouse/output/${iso}_dam_cleared_energy.csv" ] && CLEARED="$CLEARED warehouse/output/${iso}_dam_cleared_energy.csv"
+done
 "$PY" warehouse/health.py run --step "release_schedule" -- "$PY" warehouse/connectors/release_schedule.py
 "$PY" warehouse/health.py run --step "supply validate" --retries 0 -- "$PY" warehouse/validate/erw_validate.py \
   warehouse/output/eia_gas_storage_weekly.csv warehouse/output/eia_petroleum_supply_weekly.csv warehouse/output/eia_gas_trade_monthly.csv \
-  warehouse/output/eia_basin_production_monthly.csv warehouse/output/cftc_cot_positions.csv
+  warehouse/output/eia_basin_production_monthly.csv warehouse/output/cftc_cot_positions.csv $CLEARED
 # the fuel burn needs the hourly generation workbooks; where none is held (or the build with them fails), the page is
 # built without them and page_keep.py keeps the held fuel burn rows as they were
 if [ "${SUPPLY_NO_BURN:-0}" = "1" ] || [ -z "$(find warehouse/raw/eia930_emissions -name '*.xlsx' 2>/dev/null | head -n 1)" ]; then

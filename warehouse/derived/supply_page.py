@@ -345,9 +345,59 @@ def burn_rows(p, log, hours_from=None, hours_to=None):
     log(f"  burn: {len(weekly)} grid and fuel series")
 
 
-def cleared_rows(p):
-    for grid in ("ERCOT", "CAISO", "NYISO", "ISO-NE", "SPP"):
-        p.grey("cleared", f"cleared|{grid}", "Day-ahead energy cleared", grid, "not_held", "Not pulled yet: session 134 did not reach the operators' day-ahead cleared volumes. Each operator publishes them in its own report.", "MWh/d")
+# Session 136: day-ahead energy cleared, from each operator's own report (one connector an operator,
+# warehouse/connectors/<iso>_dam_cleared.py). grid: (table, the operator's time zone, the source line, the method's words)
+CLEARED = {
+    "ERCOT": ("ercot_dam_cleared_energy", "America/Chicago", "ERCOT, DAM Total Energy Purchased (NP4-192-CD), summed over settlement points"),
+    "CAISO": ("caiso_dam_cleared_energy", "America/Los_Angeles", "CAISO OASIS, Market Schedules (ENE_SLRS), the ISO's total load cleared in the day-ahead market"),
+    "NYISO": ("nyiso_dam_cleared_energy", "America/New_York", "NYISO, Day-Ahead Market Daily Energy Report (P-30), Total Load Scheduled"),
+    "ISO-NE": ("isone_dam_cleared_energy", "America/New_York", "ISO-NE, ISO Express, Day-Ahead Hourly Cleared Demand"),
+    # SPP's file names two balancing authority areas from 1 April 2026. Each is its own row: the first is the area the
+    # file held before that day, so its year-ago comparison is like for like; adding the western area to it would not be
+    "SPP": ("spp_dam_cleared_energy", "America/Chicago", "SPP Marketplace portal, Market Clearing (DA-MC), Total Demand, balancing authority area SPP", "spp:SPP"),
+    "SPP West": ("spp_dam_cleared_energy", "America/Chicago", "SPP Marketplace portal, Market Clearing (DA-MC), Total Demand, balancing authority area SWPW (from 1 April 2026)", "spp:SWPW"),
+}
+STALE_CLEARED = 21        # days: a grid whose newest whole week is older than this is shown as not held
+
+
+def cleared_weekly(name, tz, entity=None):
+    """{the Friday that ends a week: mean MWh a day over its seven whole days} for one operator's table. A day counts
+    when every area the table names that day holds every hour of the operator's own day (23, 24 or 25 at a clock
+    change); an hour's MW over the hour is its MWh. A week counts when all seven days do. Nothing is filled."""
+    path = os.path.join(ip.OUT_DIR, name + ".csv")
+    if not os.path.exists(path):
+        return None
+    t = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "ts_utc", "value"])
+    t = t[t["value"].notna() & ((t["entity"] == entity) if entity else True)]
+    if t.empty:
+        return {}
+    local = pd.to_datetime(t["ts_utc"], utc=True).dt.tz_convert(tz)
+    t = t.assign(day=local.dt.date.values)
+    per = t.groupby(["day", "entity"]).agg(n=("value", "size"), mwh=("value", "sum")).reset_index()
+    hours = {d: int((pd.Timestamp(d + dt.timedelta(days=1), tz=tz) - pd.Timestamp(d, tz=tz)) / pd.Timedelta(hours=1)) for d in per["day"].unique()}
+    per["whole"] = [n == hours[d] for d, n in zip(per["day"], per["n"])]
+    by_day = per.groupby("day").agg(whole=("whole", "all"), mwh=("mwh", "sum"))
+    daily = {d: float(r.mwh) for d, r in by_day.iterrows() if r.whole}
+    wk = {}
+    for day, v in daily.items():
+        wk.setdefault(day + dt.timedelta(days=(4 - day.weekday()) % 7), []).append(v)
+    return {end: sum(v) / 7 for end, v in wk.items() if len(v) == 7}
+
+
+def cleared_rows(p, log=None):
+    newest = dt.date.today()
+    for grid, (name, tz, src, *only) in CLEARED.items():
+        w = cleared_weekly(name, tz, only[0] if only else None)
+        if w is None:
+            p.grey("cleared", f"cleared|{grid}", "Day-ahead energy cleared", grid, "not_held", "The operator's day-ahead cleared energy is not on this machine in this run.", "MWh/d")
+            continue
+        if not w or max(w) < newest - dt.timedelta(days=STALE_CLEARED):
+            since = f"the last whole week held ended {max(w).isoformat()}" if w else "no whole week of seven whole days is held yet"
+            p.grey("cleared", f"cleared|{grid}", "Day-ahead energy cleared", grid, "not_held", f"The operator's report does not yet give a whole recent week here: {since}.", "MWh/d")
+            continue
+        p.add("cleared", f"cleared|{grid}", "Day-ahead energy cleared", grid, "MWh/d", "W", w, 0, src)
+        if log:
+            log(f"  cleared {grid}: {len(w)} whole weeks, newest {max(w).isoformat()}")
     p.grey("cleared", "cleared|MISO", "Day-ahead energy cleared", "MISO", "paused", "MISO's terms forbid automated access to its site; its pulls are paused.", "MWh/d")
     p.grey("cleared", "cleared|PJM", "Day-ahead energy cleared", "PJM", "licensed", "PJM publishes its data under a license and an account the ERW does not hold.", "MWh/d")
 
@@ -397,7 +447,7 @@ def main(argv=None):
             p.grey("burn", f"burn|{fuel}", f"{words} burned for power", "the seven grids", "working", "Not built in this run: the hourly generation files are on a data machine.", HEAT_CONTENT[fuel][1])
     else:
         burn_rows(p, log, a.hours_from, a.hours_to)
-    cleared_rows(p)
+    cleared_rows(p, log)
     position_rows(p, log)
     order = {g["id"]: i for i, g in enumerate(GROUPS)}
     rows = sorted(p.rows, key=lambda r: order[r["group"]])

@@ -76,7 +76,30 @@ The CFTC's Disaggregated Commitments of Traders report, futures only: managed mo
 
 ## Day-ahead energy cleared
 
-Not held. The session did not reach the operators' day-ahead cleared volumes. The rows are listed with "not held yet" (MISO "paused while terms are reviewed", PJM "licensed source needed").
+Held since session 136 for the five operators that publish it openly, each from the operator's own report, by its own connector (`warehouse/connectors/<iso>_dam_cleared.py`). MISO's row reads "paused while terms are reviewed" and PJM's "licensed source needed": neither operator is asked.
+
+| Row | The operator's figure | Report | Unit as published | History held |
+|---|---|---|---|---|
+| ERCOT | energy bought in the day-ahead market, summed over every settlement point of the file | NP4-192-CD, DAM Total Energy Purchased | not named in the file; an amount of energy for the hour, read as MWh | from 23 September 2026 (ERCOT lists 31 days only; the table grows by merging) |
+| CAISO | the ISO's total load cleared in the day-ahead market (`ISO_TOT_LOAD_MW`) | OASIS, Market Schedules (ENE_SLRS) | MW over the hour | from September 2025 |
+| NYISO | Total Load Scheduled | P-30, Day-Ahead Market Daily Energy Report | MW over the hour | from September 2025 |
+| ISO-NE | Day-Ahead Cleared Demand | ISO Express, Day-Ahead Hourly Cleared Demand | MWh | from September 2026 (internal, below) |
+| SPP | Total Demand, balancing authority area SPP | Marketplace portal, Market Clearing (DA-MC) | MW over the hour | from September 2025 |
+| SPP West | Total Demand, balancing authority area SWPW | the same file | MW over the hour | from 1 April 2026, when SPP's file first names the area |
+
+- **What the row shows:** MWh a day, as the mean of the seven whole days of a week ending on Friday, in the operator's own time. An hour's MW over the hour is its MWh. A day counts only when every hour of the operator's day is held (23, 24 or 25 at a clock change); a week counts only when all seven days do. Nothing is filled. The week, the day sum and ERCOT's sum over settlement points are the only arithmetic.
+- **The rows are not the same measure and should not be added or ranked.** Each is the operator's own total. NYISO's Total Load Scheduled and SPP's Total Demand include cleared virtual bids (in SPP's file Total Demand is the sum of its three cleared bid columns, the virtual one among them); ISO-NE's and CAISO's are their cleared demand; ERCOT's is every purchase at every settlement point.
+- **SPP has two rows** because its file names two balancing authority areas from 1 April 2026. The first is the area the file held before, so its comparison with a year earlier is like for like.
+- **A comparison that cannot be made is a placeholder.** ERCOT has one whole week so far, so its change on the week and on the year are blank until the table has grown; no row has five years.
+- **What each run asks for.** ERCOT: the files of the last 8 days, about 23,000 rows each (one row a settlement point and hour) to make 24 hours; a file already kept is not asked for again. CAISO: this month and the last, by half month. NYISO: this month's and last month's files. ISO-NE: the last 14 days, fifteen days a request. SPP: one small file a day, read from the files the reserve-quantity connector already keeps where it has them.
+
+### The operators' terms, as read on 6 October 2026
+
+- **ERCOT**, terms of use, item 5: "Notwithstanding the foregoing, raw data provided in public portions of this website may be used, reproduced, and redistributed in compilations, charts, and analyses without maintaining such notices." Item 6: "Use of this website in a manner that negatively affects the performance of this website or other ERCOT systems is prohibited." (https://www.ercot.com/help/terms). Public.
+- **CAISO**, terms of use: its materials "may be used by you provided that you keep intact all copyright, trademark and other proprietary notices and that you credit the California ISO when using such materials and/or information." Of its API: "Users are prohibited from using the CAISO API in a manner that adversely impacts the performance of CAISO's systems". (https://www.caiso.com/privacy-terms-of-use). Public, with credit.
+- **NYISO**, legal notice: "Access to this Web site does not confer any license or ownership interest in either the form or content of the Web site ... Downloading, republishing, retransmitting, reproducing, or other use of any image or video on this website as a stand-alone file is strictly prohibited". (https://www.nyiso.com/legal-notice). It grants no license and its prohibition names images and video, not data: public with a caution, the ERW's standing reading since session 65. A person can rule otherwise.
+- **ISO-NE**, legal notice: "You are also hereby put on notice that the Content is protected by copyright under United States laws. Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws." (https://www.iso-ne.com/legal-privacy). **Internal**, the ERW's standing reading since session 65: the table is in no public dataset and no download. Its report answers a plain request with HTTP 403 and answers a session that has opened one of ISO Express's pages (an anonymous cookie, no account); ISO Express's own page puts a CAPTCHA on its search of past dates. The connector therefore asks for the last days only and never walks back through the years.
+- **SPP**, terms and conditions: "Permission is implicitly granted to copy and distribute (via computer network or printed form) in whole or in part (with appropriate citation) EXCEPT when such materials will be used, in whole or in part, within a commercial publication ... Any commercial use of these materials requires prior, express written authorization". (https://www.spp.org/terms-conditions/). Public, with citation.
 
 ## The release calendar
 

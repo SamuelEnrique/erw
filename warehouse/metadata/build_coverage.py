@@ -132,6 +132,8 @@ SECTOR_RULES = [
     (r"^eia_gas_trade_monthly$", "gas;lng"),              # monthly pipeline flows with Mexico and Canada, LNG exports by terminal
     (r"^eia_basin_production_monthly$", "oil;gas"),       # monthly crude and gas production by region (the Outlook's history)
     (r"^cftc_cot_positions$", "oil;gas;products"),        # managed money positions in four energy futures, weekly
+    # session 136: day-ahead energy cleared, by operator
+    (r"^(ercot|caiso|nyiso|isone|spp)_dam_cleared_energy$", "power"),
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),

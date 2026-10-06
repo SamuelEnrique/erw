@@ -78,6 +78,9 @@ restore_before_run:
   # session 114: ERCOT's hub prices by day keep the days the runner cannot rebuild (no ERCOT history there, and the
   # rolling price tables hold the newest weeks only)
   - '^ercot_hub_prices_daily$'
+  # session 136: day-ahead energy cleared by operator. Each run reads the operator's last days and merges them; ERCOT
+  # lists 31 days only, so without the table restored its history would begin again each Saturday
+  - '^(ercot|caiso|nyiso|isone|spp)_dam_cleared_energy$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.
