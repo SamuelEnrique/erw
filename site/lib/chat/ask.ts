@@ -30,7 +30,7 @@ export type AskResult = {
 };
 /** Session 121: what a reader can be shown before the answer: the table a tool call has gone to read. */
 export type AskEvent = { type: "reading"; tool: string; table: string | null };
-export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void };
+export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /** session 128: the question's number in the cost ledger */ questionId?: string };
 
 const PRICES = spec.prices as unknown as Record<string, [number, number]>;
 const TOOLS = spec.tools as unknown as Anthropic.Tool[];
@@ -161,7 +161,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       .create(params as unknown as Anthropic.MessageCreateParamsNonStreaming)
       .withResponse();
     const resp = raw.data as Anthropic.Message;
-    ledger.push(recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask")); // session 30: every call into the cost ledger (site_api_calls)
+    ledger.push(recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask", opts.questionId)); // session 30: every call into the cost ledger (site_api_calls)
     if (secondsFirst === null) secondsFirst = Math.round((Date.now() - t0) / 100) / 10;
     usage.input += resp.usage.input_tokens;
     usage.output += resp.usage.output_tokens;
