@@ -16,7 +16,21 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, ".."))
-import build as tb  # noqa: E402
+
+
+def _load(name, path):
+    """A neighbouring module by its path, under a name of its own: "build" and "run" are names other folders use too."""
+    import importlib.util
+    if name in sys.modules:
+        return sys.modules[name]
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+tb = _load("erw_thesis_build", os.path.join(HERE, "..", "build.py"))
 
 ON_MAP = ("trend", "pipeline")
 

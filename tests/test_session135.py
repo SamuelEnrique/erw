@@ -8,9 +8,22 @@ import sys
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(0, os.path.join(ROOT, "warehouse", "thesis"))
-import run as R  # noqa: E402
-import build as tb  # noqa: E402
+import importlib.util  # noqa: E402
+
+
+def load(name, *parts):
+    """By path, under a name of its own: the suite already holds other modules named run and build."""
+    if name in sys.modules:
+        return sys.modules[name]
+    spec = importlib.util.spec_from_file_location(name, os.path.join(ROOT, *parts))
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+R = load("erw_thesis_run", "warehouse", "thesis", "run.py")
+tb = R.tb
 
 
 def src(*parts):
@@ -268,8 +281,7 @@ class Spending(unittest.TestCase):
 
 class Stability(unittest.TestCase):
     def test_overlap_of_runs(self):
-        sys.path.insert(0, os.path.join(ROOT, "warehouse", "thesis", "eval"))
-        import stability as st
+        st = load("erw_thesis_stability", "warehouse", "thesis", "eval", "stability.py")
         c = st.compare([{"a", "b", "c"}, {"a", "b", "d"}, {"a", "b", "c"}])
         self.assertEqual((c["counts"], c["core"], c["union"]), ([3, 3, 3], 2, 4))
         self.assertEqual(c["jaccard"], [0.5, 1.0, 0.5])
