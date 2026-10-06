@@ -193,6 +193,7 @@ Result: California holds 90 months in the mix (79 before), and the years 2019 an
 - **What the inventory still cannot give:** a unit's capacity in an earlier year when it has been uprated or derated since (the inventory holds today's nameplate), and the balancing authority it was in before a change of authority.
 - **Availability** of a fuel, for a year and a season: by local hour, the mean over the held hours of the fuel's output (not below zero) over its installed nameplate MW that month, percent. Seasons are by month within the calendar year: winter is January, February and December; spring March to May; summer June to August; autumn September to November. Hydro and storage are set against their capacity together, as on the stress view. A season needs 60 held hours in every hour of the day.
 - **The 100 tightest hours** of a year are `grid_stress.md`'s: the held hours with the highest net load. The table now gives every fuel for every year from 2019.
+- **Storage is batteries, flywheels, compressed air and pumped storage together**, as EIA's technology groups them; hydro is conventional hydro.
 - **Nameplate is not what a plant can give on a day.** Output over nameplate is low for a fuel that is dispatched (gas), for one that depends on weather, and where units are on outage.
 
 ## The note on nuclear's row
