@@ -163,6 +163,8 @@ SECTOR_RULES = [
     # session 30: price board v2 (derived), the Haiku shadow scores and the API cost ledger (internal)
     (r"^price_board_(latest|peak_offpeak)$", "power"),
     (r"^price_board_spreads$", "power;gas;oil"),
+    (r"^price_board_stats$", "power;gas;oil;products"),  # session 127: the board, version 4 (latest, moves and one-year range of every price held, and the spreads)
+    (r"^eia_all_futures_prices$", "oil;gas;products"),   # session 127: EIA's NYMEX futures, 2019 to 5 April 2024
     (r"^price_board_carbon$", "carbon"),
     (r"^news_scores_shadow$", "news"),
     (r"^api_cost_ledger$", "platform"),
@@ -225,6 +227,8 @@ def iso_of(table):
         return "CAISO;ERCOT"
     if table in ("storage_buildout_monthly", "storage_owners_monthly"):  # session 72 (session 69): the seven grids, and the US outside them; session 87
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table == "price_board_stats":  # session 127: the five grids whose hub prices are public and not paused (no MISO)
+        return "CAISO;ERCOT;ISO-NE;NYISO;SPP"
     if table.startswith("price_board_") or table.startswith("cost_of_power_") or table == "merchant_revenue_monthly":  # session 30; session 37 the same six
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP"
     if table in ("eia930_daily_total_interchange", "eia930_event_hourly_interchange", "ba_supply_monthly", "eia930_daily_demand"):  # session 68: every BA EIA reports

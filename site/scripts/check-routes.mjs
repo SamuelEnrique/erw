@@ -46,6 +46,7 @@ const PAGES = [
   "/mix/v2", "/mix/v2?grid=caiso&period=2026-04&vs=ercot", "/mix/v2?grid=pjm&period=2024", "/data/methods/generation_mix_hourly",  // session 94: the energy mix, version 2, in review
   "/queues", "/queues?grid=ercot&tech=battery", "/queues?grid=miso&tech=offshore_wind", "/data/methods/interconnection_queue_summary",  // session 95: the interconnection queue explorer, in review
   "/prices/compare", "/prices/compare?period=month&market=rtm&sort=spread", "/data/methods/hub_price_comparison",  // session 96: where power is cheap, in review
+  "/board/v4", "/data/methods/price_board_v4",  // session 127: the price board, version 4, in review
   "/demand", "/demand?area=caiso&rank=peak", "/demand?area=us48&rank=ytd", "/data/methods/demand_growth",  // session 97: the demand growth explorer, in review
   "/curtailment/v2", "/curtailment/v2?period=2026-05", "/curtailment/v2?period=2019", "/data/methods/caiso_curtailment_intervals",  // session 98: curtailment, version 2, in review
   // session 35: the seven grid pages
