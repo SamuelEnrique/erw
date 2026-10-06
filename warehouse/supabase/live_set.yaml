@@ -206,6 +206,25 @@ catalogue_hold:
   # session 122: the carbon-free share of each grid's generation by hour (about 463,000 rows); the review page reads the
   # monthly and yearly table built beside it
   - clean_energy_hourly
+  # session 127: the board, version 4's figures (about 300 rows; the review page /board/v4 reads the site's own copy), and
+  # EIA's NYMEX futures of 2019 to 5 April 2024 (internal by that session's reading, about 21,000 rows). Neither is loaded
+  - price_board_stats
+  - eia_all_futures_prices
+  # session 132: the series the price board adds (about 51,000 rows in six tables). The review page /board reads the
+  # site's own files (site/data/board.json, site/public/board/), built from them; nothing reads them from Supabase
+  - eia_regional_retail_fuel_prices
+  - eia_crude_stream_prices
+  - eia_power_plant_fuel_costs
+  - fred_treasury_yields
+  - imf_commodity_prices
+  - carb_lcfs_credit_prices
+  # session 134: supply and trade (about 46,000 rows in five tables). The review page /supply reads the site's own file
+  # (site/data/supply.json), built from them; nothing reads them from Supabase
+  - eia_gas_storage_weekly
+  - eia_petroleum_supply_weekly
+  - eia_gas_trade_monthly
+  - eia_basin_production_monthly
+  - cftc_cot_positions
   # session 133: the energy mix's added pulls (about 1.5 million rows in five tables). The review page /mix reads the
   # site's own files (site/data/mixplus/, site/data/mix_forecast.json), built from them; nothing reads them from Supabase
   - caiso_fuel_supply_history
@@ -262,6 +281,26 @@ sources_hold:
   - erw:ercot_storage_realtime         # session 120, the same page's section on real time
   - erw:clean_energy                   # session 122, /mix/clean
   - erw:grid_stress                    # session 123, /mix/stress (its table was built in the same hour and its registry row came with it)
+  - erw:price_board_v4                 # session 127, /board/v4
+  - eia:petroleum/pri/gnd:regional     # session 132, /board (these source rows serve only its new tables)
+  - eia:petroleum/pri/dfp2:streams
+  - eia:petroleum/pri/land2
+  - eia:petroleum/pri/imc2
+  - eia:petroleum/pri/rac2
+  - eia:electricity/electric-power-operational-data:cost
+  - fred:h15_treasury_yields
+  - imf:pcps
+  - carb:lcfs_weekly_credit_price
+  - eia:nymex_futures_petroleum        # session 127, EIA's NYMEX futures to 5 April 2024 (internal; no page shows them)
+  - eia:nymex_futures_natural_gas
+  - eia:natural-gas/stor/wkly          # session 134, /supply (these source rows serve only its new tables)
+  - eia:petroleum/stoc/wstk:supply
+  - eia:petroleum/sum/sndw
+  - eia:petroleum/move/wkly:supply
+  - eia:natural-gas/move/poe2:supply
+  - eia:natural-gas/move/poe1:supply
+  - eia:steo:basin_production
+  - cftc:disaggregated_cot_futures
   - caiso:todays_outlook_fuelsource_history   # session 133, /mix (these source rows serve only its new tables)
   - eia:860m:retired
   - nrc:power_reactor_status

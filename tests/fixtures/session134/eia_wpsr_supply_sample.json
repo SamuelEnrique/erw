@@ -1,0 +1,86 @@
+{
+ "note": "EIA petroleum/sum/sndw, two weeks of September 2026, crude production, refinery utilization and Gulf Coast crude runs, as the API returned them on 6 October 2026; real rows, unchanged",
+ "response": {
+  "total": 6,
+  "data": [
+   {
+    "period": "2026-09-18",
+    "duoarea": "NUS",
+    "area-name": "U.S.",
+    "product": "EPC0",
+    "product-name": "Crude Oil",
+    "process": "FPF",
+    "process-name": "Field Production",
+    "series": "WCRFPUS2",
+    "series-description": "U.S. Field Production of Crude Oil (Thousand Barrels per Day)",
+    "value": "13939",
+    "units": "MBBL/D"
+   },
+   {
+    "period": "2026-09-18",
+    "duoarea": "R30",
+    "area-name": "PADD 3",
+    "product": "EPC0",
+    "product-name": "Crude Oil",
+    "process": "YIY",
+    "process-name": "Refinery Net Input",
+    "series": "WCRRIP32",
+    "series-description": "Gulf Coast (PADD 3) Refiner Net Input of Crude Oil (Thousand Barrels per Day)",
+    "value": "9496",
+    "units": "MBBL/D"
+   },
+   {
+    "period": "2026-09-18",
+    "duoarea": "NUS",
+    "area-name": "U.S.",
+    "product": "(NA)",
+    "product-name": "Not Applicable",
+    "process": "YUP",
+    "process-name": "% Utilization Refinery Operable Capacity",
+    "series": "WPULEUS3",
+    "series-description": "U.S. Percent Utilization of Refinery Operable Capacity",
+    "value": "94",
+    "units": "%"
+   },
+   {
+    "period": "2026-09-25",
+    "duoarea": "NUS",
+    "area-name": "U.S.",
+    "product": "EPC0",
+    "product-name": "Crude Oil",
+    "process": "FPF",
+    "process-name": "Field Production",
+    "series": "WCRFPUS2",
+    "series-description": "U.S. Field Production of Crude Oil (Thousand Barrels per Day)",
+    "value": "13955",
+    "units": "MBBL/D"
+   },
+   {
+    "period": "2026-09-25",
+    "duoarea": "R30",
+    "area-name": "PADD 3",
+    "product": "EPC0",
+    "product-name": "Crude Oil",
+    "process": "YIY",
+    "process-name": "Refinery Net Input",
+    "series": "WCRRIP32",
+    "series-description": "Gulf Coast (PADD 3) Refiner Net Input of Crude Oil (Thousand Barrels per Day)",
+    "value": "9199",
+    "units": "MBBL/D"
+   },
+   {
+    "period": "2026-09-25",
+    "duoarea": "NUS",
+    "area-name": "U.S.",
+    "product": "(NA)",
+    "product-name": "Not Applicable",
+    "process": "YUP",
+    "process-name": "% Utilization Refinery Operable Capacity",
+    "series": "WPULEUS3",
+    "series-description": "U.S. Percent Utilization of Refinery Operable Capacity",
+    "value": "92.5",
+    "units": "%"
+   }
+  ]
+ }
+}

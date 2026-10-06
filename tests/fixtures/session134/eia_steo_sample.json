@@ -1,0 +1,134 @@
+{
+ "note": "EIA steo, Permian crude and Haynesville gas, April to December 2026 (history, then EIA's forecast), as the API returned them on 6 October 2026; real rows, unchanged",
+ "response": {
+  "total": 18,
+  "data": [
+   {
+    "period": "2026-04",
+    "seriesId": "COPRPM",
+    "seriesDescription": "Crude Oil Production: Permian",
+    "value": "6.819432393",
+    "unit": "million barrels per day"
+   },
+   {
+    "period": "2026-04",
+    "seriesId": "NGMPHA",
+    "seriesDescription": "Natural Gas Haynesville Marketed Production",
+    "value": "16.30378015",
+    "unit": "billion cubic feet per day"
+   },
+   {
+    "period": "2026-05",
+    "seriesId": "COPRPM",
+    "seriesDescription": "Crude Oil Production: Permian",
+    "value": "6.823423755",
+    "unit": "million barrels per day"
+   },
+   {
+    "period": "2026-05",
+    "seriesId": "NGMPHA",
+    "seriesDescription": "Natural Gas Haynesville Marketed Production",
+    "value": "15.93682106",
+    "unit": "billion cubic feet per day"
+   },
+   {
+    "period": "2026-06",
+    "seriesId": "COPRPM",
+    "seriesDescription": "Crude Oil Production: Permian",
+    "value": "6.735286088",
+    "unit": "million barrels per day"
+   },
+   {
+    "period": "2026-06",
+    "seriesId": "NGMPHA",
+    "seriesDescription": "Natural Gas Haynesville Marketed Production",
+    "value": "16.44097261",
+    "unit": "billion cubic feet per day"
+   },
+   {
+    "period": "2026-07",
+    "seriesId": "COPRPM",
+    "seriesDescription": "Crude Oil Production: Permian",
+    "value": "6.75337689",
+    "unit": "million barrels per day"
+   },
+   {
+    "period": "2026-07",
+    "seriesId": "NGMPHA",
+    "seriesDescription": "Natural Gas Haynesville Marketed Production",
+    "value": "16.48854355",
+    "unit": "billion cubic feet per day"
+   },
+   {
+    "period": "2026-08",
+    "seriesId": "COPRPM",
+    "seriesDescription": "Crude Oil Production: Permian",
+    "value": "6.79001279",
+    "unit": "million barrels per day"
+   },
+   {
+    "period": "2026-08",
+    "seriesId": "NGMPHA",
+    "seriesDescription": "Natural Gas Haynesville Marketed Production",
+    "value": "16.64635849",
+    "unit": "billion cubic feet per day"
+   },
+   {
+    "period": "2026-09",
+    "seriesId": "COPRPM",
+    "seriesDescription": "Crude Oil Production: Permian",
+    "value": "6.834065554",
+    "unit": "million barrels per day"
+   },
+   {
+    "period": "2026-09",
+    "seriesId": "NGMPHA",
+    "seriesDescription": "Natural Gas Haynesville Marketed Production",
+    "value": "16.82073253",
+    "unit": "billion cubic feet per day"
+   },
+   {
+    "period": "2026-10",
+    "seriesId": "COPRPM",
+    "seriesDescription": "Crude Oil Production: Permian",
+    "value": "6.84341534",
+    "unit": "million barrels per day"
+   },
+   {
+    "period": "2026-10",
+    "seriesId": "NGMPHA",
+    "seriesDescription": "Natural Gas Haynesville Marketed Production",
+    "value": "16.94235434",
+    "unit": "billion cubic feet per day"
+   },
+   {
+    "period": "2026-11",
+    "seriesId": "COPRPM",
+    "seriesDescription": "Crude Oil Production: Permian",
+    "value": "6.868104866",
+    "unit": "million barrels per day"
+   },
+   {
+    "period": "2026-11",
+    "seriesId": "NGMPHA",
+    "seriesDescription": "Natural Gas Haynesville Marketed Production",
+    "value": "17.04229199",
+    "unit": "billion cubic feet per day"
+   },
+   {
+    "period": "2026-12",
+    "seriesId": "COPRPM",
+    "seriesDescription": "Crude Oil Production: Permian",
+    "value": "6.887998863",
+    "unit": "million barrels per day"
+   },
+   {
+    "period": "2026-12",
+    "seriesId": "NGMPHA",
+    "seriesDescription": "Natural Gas Haynesville Marketed Production",
+    "value": "17.13163984",
+    "unit": "billion cubic feet per day"
+   }
+  ]
+ }
+}

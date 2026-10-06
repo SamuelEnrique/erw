@@ -17,6 +17,12 @@ const nextConfig: NextConfig = {
       { source: "/mix/stress", destination: "/mix?view=stress", permanent: true },
       { source: "/weekly", destination: "/roundup", permanent: true },
       { source: "/weekly/:week", destination: "/roundup/:week", permanent: true },
+      // session 132: one tool, one page, one address. The price board is /board; its earlier versions and the markets
+      // page (now the board's workbench) redirect to it, and so does the method note of version 4
+      { source: "/markets", destination: "/board", permanent: true },
+      { source: "/board/v3", destination: "/board", permanent: true },
+      { source: "/board/v4", destination: "/board", permanent: true },
+      { source: "/data/methods/price_board_v4", destination: "/data/methods/price_board", permanent: true },
     ];
   },
 };
