@@ -29,8 +29,8 @@ export function Chips({ label, items }: { label: string; items: { key: string; l
       <span className="mr-1 text-muted">{label}</span>
       {items.map((i) => i.off
         ? <span key={i.key} title={i.title} className="cursor-help border border-rule/60 px-1.5 py-px text-muted">{i.label}</span>
-        : <Link key={i.key} href={i.href} scroll={false} aria-current={i.on ? "true" : undefined} title={i.title} data-chip={`${label}:${i.key}`}
-            className={`border px-1.5 py-px no-underline ${i.on ? "border-accent bg-accent text-white" : "border-rule bg-white text-ink hover:border-accent"}`}>{i.label}</Link>)}
+        : <Link key={i.key} href={i.href} scroll={false} aria-current={i.on ? "true" : undefined} title={i.title} data-chip={`${label}:${i.key}`} style={{ color: i.on ? "#fff" : "var(--color-ink)" }}
+            className={`border px-1.5 py-px no-underline ${i.on ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{i.label}</Link>)}
     </div>
   );
 }

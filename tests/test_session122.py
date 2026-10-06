@@ -180,13 +180,16 @@ class TheTables(unittest.TestCase):
         self.assertFalse(h.duplicated(["entity", "ts_utc"]).any())
 
     def test_californias_hydro_gap_is_in_no_figure(self):
-        import impossible_hours as ih
-        h = self.table(mc.HOURLY)
-        c = h[h["entity"] == "iso:caiso"]
-        self.assertEqual(int(ih.in_hydro_gap(c["ts_utc"]).sum()), 0)
+        # session 133: the months of the hydro gap are read from CAISO's own supply, so their hours and their carbon-free
+        # share are held. What still rests on EIA's total without hydro is the carbon intensity of those hours, and no
+        # carbon figure is made from it: that is the figure the gap stays out of
         s = self.table(mc.SUMMARY)
-        months = set(s[(s["entity"] == "iso:caiso") & (s["variable"] == "carbon_free_share_pct")]["ts_utc"].str[:7])
-        self.assertFalse(months & {f"2020-{m:02d}" for m in range(1, 8)})
+        ca = s[s["entity"] == "iso:caiso"]
+        months = set(ca[ca["variable"] == "carbon_free_share_pct"]["ts_utc"].str[:7])
+        gap = {f"2020-{m:02d}" for m in range(1, 8)}
+        self.assertTrue(gap <= months)
+        self.assertFalse(set(ca[ca["variable"] == "flat_kgco2_per_mwh"]["ts_utc"].str[:7]) & gap)
+        self.assertFalse(set(ca[ca["variable"] == "shift20_carbon_change_pct"]["ts_utc"].str[:7]) & gap)
         import caiso_join as cj
         join_month = pd.Timestamp(cj.JOIN).tz_convert("America/Los_Angeles").strftime("%Y-%m")
         self.assertNotIn(join_month, months)                              # a month is never built on both sources

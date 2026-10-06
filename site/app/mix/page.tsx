@@ -4,6 +4,7 @@ import { AutoSubmitSelect } from "@/components/AutoSubmit";
 import { Legend } from "@/components/StackedArea";
 import { HOURLY_FUELS, Hourly, LATEST, MONTHLY, Missing, Monthly, Today } from "@/components/mix/Now";
 import { Chips, CleanView, DayView, DuckView, ForecastView, HistoryView, RecordsView, StressView, SupplyView } from "@/components/mix/views";
+import { caisoJoinDay } from "@/lib/caisoJoin";
 import { daysAgo, series } from "@/lib/data";
 import { GRIDS, calName, periodOf } from "@/lib/mix2";
 import { CLEAN, HISTORY, MIX, PLUS, STRESS } from "@/lib/mixdata";
@@ -81,7 +82,7 @@ async function NowView({ c }: { c: Choice }) {
   ]);
   // session 118: EIA-930's generation for California is the series the faults register calls changed; it is not drawn
   const withheld = ba.code === "ciso";
-  const caiso = "EIA's hourly generation series for California changed on 16 December 2025 and is not drawn. California's mix from CAISO's own data is in the views beside this one.";
+  const caiso = `EIA's hourly generation series for California changed on ${caisoJoinDay()} and is not drawn. California's mix from CAISO's own data is in the views beside this one.`;
   const failed = (reason: string) => <Missing why={`The table could not be read just now: ${reason}`} words="working on it" />;
   const h2 = "mb-2 border-b border-accent pb-0.5 font-serif text-lg text-accent";
   return (
@@ -118,8 +119,8 @@ export default async function MixPage({ searchParams }: { searchParams: Promise<
       </header>
       <nav aria-label="Views" className="mb-3 flex flex-wrap gap-1 text-xs" data-views="1">
         {VIEWS.map(([k, label]) => (
-          <a key={k} href={hrefOf(c, { view: k })} aria-current={c.view === k ? "page" : undefined} data-view={k}
-            className={`border px-2 py-1 no-underline ${c.view === k ? "border-accent bg-accent text-white" : "border-rule bg-white text-ink hover:border-accent"}`}>{label}</a>
+          <a key={k} href={hrefOf(c, { view: k })} aria-current={c.view === k ? "page" : undefined} data-view={k} style={{ color: c.view === k ? "#fff" : "var(--color-ink)" }}
+            className={`border px-2 py-1 no-underline ${c.view === k ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{label}</a>
         ))}
       </nav>
       {c.view === "now" ? null : <Controls c={c} />}

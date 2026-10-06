@@ -129,7 +129,7 @@ class TheYear(unittest.TestCase):
         self.assertEqual(t["tight_wind_share_of_capacity_pct"]["value"], 10.0)            # 100 MW of 1,000
         self.assertEqual(t["tight_wind_mw"]["value"], 100.0)
         self.assertNotIn("tight_solar_mw", t)                                            # solar is not in the file this year: no figure, never a zero
-        self.assertNotIn("tight_natural_gas_share_of_capacity_pct", t)                   # 2024: units retired before 2025 are not in the inventory read
+        self.assertIn("tight_natural_gas_share_of_capacity_pct", t)                      # session 133: every retired unit is read now, so 2024 has its capacity too
         self.assertIn("tight_natural_gas_mw", t)
         self.assertEqual(t["solar_reported"]["value"], 0.0)
 
@@ -227,10 +227,13 @@ class TheTable(unittest.TestCase):
 
     def test_the_thermal_fuels_have_no_share_before_2025(self):
         t = self.t()
-        early = t[t["ts_utc"].str[:4].astype(int) < ms.FROM_YEAR]
-        for fuel in ("natural_gas", "coal", "nuclear", "hydro_storage"):
-            self.assertFalse((early["variable"] == f"tight_{fuel}_share_of_capacity_pct").any(), fuel)
-        self.assertTrue((early["variable"] == "tight_wind_share_of_capacity_pct").any())
+        # session 133: the inventory read now holds every retired unit (eia860m_retired_generators_all), so the first
+        # year of capacity is the first year of the hours, and no year is left without the thermal fuels' share
+        self.assertEqual(ms.FROM_YEAR, 2019)
+        self.assertEqual(len(t[t["ts_utc"].str[:4].astype(int) < ms.FROM_YEAR]), 0)
+        first = t[t["ts_utc"].str[:4].astype(int) == ms.FROM_YEAR]
+        for fuel in ("natural_gas", "coal", "nuclear", "hydro_storage", "wind"):
+            self.assertTrue((first["variable"] == f"tight_{fuel}_share_of_capacity_pct").any(), fuel)
 
     def test_new_yorks_solar_is_not_reported_and_is_no_zero(self):
         t = self.t()
@@ -322,7 +325,8 @@ console.log(JSON.stringify({ y, last, lastWhole: wholeYear(f, last), ramp: get(f
         wind = next(x for x in r["fuels"] if x["fuel"] == "wind")
         self.assertEqual(wind["share"], f["years"][y]["tight_wind_share_of_capacity_pct"])
         gas = next(x for x in r["early"] if x["fuel"] == "natural_gas")
-        self.assertEqual((gas["share"], gas["why"]), (None, "installed capacity is held from 2025 only"))
+        # session 133: capacity is held for every year now, so the first year has gas's share and no reason for a blank
+        self.assertEqual((gas["share"], gas["why"]), (f["years"][sorted(f["years"])[0]]["tight_natural_gas_share_of_capacity_pct"], None))
         self.assertEqual((r["nySolar"]["mw"], r["nySolar"]["why"]), (None, "the source file does not report it for this year"))
         self.assertEqual(r["fmt"], ["not held", "19.1%", "15,940", "not held"])
         self.assertEqual(r["grids"], [True, False])

@@ -173,8 +173,10 @@ class TheTablesAsBuilt(unittest.TestCase):
         held = {e[4:]: set(g["ts_utc"].str[:7]) for e, g in p[p["variable"] == "days_held"].groupby("entity")}
         self.assertEqual(set(held), set(mp.GRIDS))
         ca = held["caiso"]
-        for m in ("2019-10", "2019-11", "2020-01", "2020-05", "2020-08", "2025-12"):   # no hydro in EIA's file; the join month
-            self.assertNotIn(m, ca)
+        self.assertNotIn("2025-12", ca)                                                # the join month
+        # session 133: the months of the hydro gap (no hydro in EIA's file) are read from CAISO's own supply, and held
+        for m in ("2019-10", "2019-11", "2020-01", "2020-05", "2020-08"):
+            self.assertIn(m, ca)
         for m in ("2019-08", "2020-09", "2021-01", "2025-11", "2026-01"):
             self.assertIn(m, ca)
         self.assertNotIn("2025-12", held["ercot"])                                     # EIA's "other" repeats the batteries
@@ -184,7 +186,8 @@ class TheTablesAsBuilt(unittest.TestCase):
         self.assertTrue((d["days_held"] <= d["days_in_month"]).all())
         sides = p[p["entity"] == "iso:caiso"].groupby(p["ts_utc"].str[:7])["source"].agg(set)
         for m, s in sides.items():
-            self.assertEqual(s, {mp.SOURCE_JOIN if m > "2025-12" else mp.SOURCE}, m)
+            own = m > "2025-12" or mp.GAP_MONTHS[0] <= m <= mp.GAP_MONTHS[1]       # session 133: the gap's months are CAISO's own too
+            self.assertEqual(s, {mp.SOURCE_JOIN if own else mp.SOURCE}, m)
         self.assertTrue((p[p["entity"] != "iso:caiso"]["source"] == mp.SOURCE).all())
 
     def test_the_shares_of_a_month_sum_to_100_and_are_its_mwh(self):
@@ -244,8 +247,9 @@ class TheSitesCopy(unittest.TestCase):
         part = {f"2026-{i:02d}": dict(m) for i in range(1, 10)}
         self.assertEqual(mp.year_of(part, "2026", "2026-09")["months_due"], 9)     # the year so far
         ca = copy("caiso")
-        self.assertNotIn("2019", ca["years"])
-        self.assertNotIn("2020", ca["years"])
+        # session 133: with the hydro gap's months read from CAISO's own supply, 2019 and 2020 miss one month each and are given
+        self.assertEqual((ca["years"]["2019"]["months"], ca["years"]["2020"]["months"]), (11, 11))
+        self.assertEqual((ca["years"]["2019"]["side"], ca["years"]["2020"]["side"]), ("caiso+eia930", "caiso+eia930"))
         self.assertEqual(ca["years"]["2025"]["missing"], ["2025-12"])
         self.assertEqual((ca["years"]["2025"]["side"], ca["years"]["2026"]["side"]), ("eia930", "caiso"))
 
@@ -256,7 +260,7 @@ class ThePage(unittest.TestCase):
 
     def test_the_choices_from_an_address(self):
         d = node(self.FILES + "console.log(JSON.stringify([m.choices({}, F), m.choices({grid:'caiso', period:'2026-04', vs:'ercot'}, F),"
-                 "m.choices({grid:'caiso', period:'2019-11', vs:'caiso', cal:'13'}, F), m.choices({grid:'pjm', period:'2024'}, F), m.choices({grid:'nowhere', period:'x', cal:'07'}, F),"
+                 "m.choices({grid:'caiso', period:'2019-09', vs:'caiso', cal:'13'}, F), m.choices({grid:'pjm', period:'2024'}, F), m.choices({grid:'nowhere', period:'x', cal:'07'}, F),"
                  "m.href({grid:'caiso', period:'2026-04', vs:'ercot'}), m.href({grid:'pjm'})]));")
         latest = sorted(copy("ercot")["months"])[-1]
         self.assertEqual(d[0], {"grid": "ercot", "vs": None, "period": latest, "cal": latest[5:]})
@@ -281,7 +285,7 @@ class ThePage(unittest.TestCase):
         self.assertAlmostEqual(d["top13"], sum(max(0.0, avg[k][13]) for k in mp.SOURCES), places=3)
         self.assertAlmostEqual(d["n13"], avg["demand"][13] - avg["wind"][13] - avg["solar"][13], places=1)
         self.assertEqual(d["years"][-1], "2026")
-        self.assertNotIn("2020", d["years"])                               # April 2020 is not held for California
+        self.assertIn("2020", d["years"])                                  # session 133: April 2020 is held, from CAISO's own supply
         last = d["last"]
         net = [avg["demand"][h] - avg["wind"][h] - avg["solar"][h] for h in range(24)]
         self.assertAlmostEqual(last["low"]["value"], min(net[9:17]), places=1)
@@ -289,7 +293,8 @@ class ThePage(unittest.TestCase):
         self.assertAlmostEqual(last["ramp"], max(net[16:24]) - min(net[9:17]), places=1)
         self.assertEqual(last["side"], "caiso")
         self.assertIn("2025-12", d["miss"])
-        self.assertIn("2019-11", d["miss"])
+        self.assertIn("2019-09", d["miss"])                                # still not held: EIA's September 2019 fails the mix's own tests
+        self.assertNotIn("2019-11", d["miss"])                             # session 133: read from CAISO's own supply
         self.assertEqual(d["missE"], ["2025-12"])
         self.assertEqual(d["sh"][0], max(mp.SOURCES, key=lambda s: p[f"{s}_share_pct"]))
         self.assertEqual(d["when"], "29 April 2026, 11:00")
