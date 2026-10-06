@@ -225,6 +225,13 @@ catalogue_hold:
   - eia_gas_trade_monthly
   - eia_basin_production_monthly
   - cftc_cot_positions
+  # session 133: the energy mix's added pulls (about 1.5 million rows in five tables). The review page /mix reads the
+  # site's own files (site/data/mixplus/, site/data/mix_forecast.json), built from them; nothing reads them from Supabase
+  - caiso_fuel_supply_history
+  - eia860m_retired_generators_all
+  - nrc_reactor_status
+  - caiso_wind_solar_forecast
+  - ercot_wind_solar_forecast
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
@@ -294,6 +301,12 @@ sources_hold:
   - eia:natural-gas/move/poe1:supply
   - eia:steo:basin_production
   - cftc:disaggregated_cot_futures
+  - caiso:todays_outlook_fuelsource_history   # session 133, /mix (these source rows serve only its new tables)
+  - eia:860m:retired
+  - nrc:power_reactor_status
+  - caiso:SLD_REN_FCST
+  - ercot:NP4-732-CD
+  - ercot:NP4-745-CD
 
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv

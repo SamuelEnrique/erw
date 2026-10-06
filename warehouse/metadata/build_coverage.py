@@ -158,6 +158,11 @@ SECTOR_RULES = [
     # session 23: CAISO battery output (Today's Outlook), for the Automated Analysis storage template
     (r"^caiso_battery_storage$", "power"),
     (r"^caiso_fuel_supply$", "power"),  # session 73: CAISO's own supply by fuel source, hourly
+    # session 133: the energy mix's added pulls
+    (r"^caiso_fuel_supply_history$", "power"),            # CAISO's own supply by fuel, June 2018 to May 2025 (the hydro gap's months are read here)
+    (r"^eia860m_retired_generators_all$", "power"),       # every retired generator EIA lists (installed capacity by fuel, month by month)
+    (r"^nrc_reactor_status$", "power;uranium"),           # the NRC's daily power level of each reactor
+    (r"^(caiso|ercot)_wind_solar_forecast$", "power"),    # wind and solar, forecast a day ahead and actual, hourly
     (r"^caiso_grid_emergencies$", "power"),  # session 58: CAISO's Flex Alerts and emergencies
     (r"^caiso_reliability_daily$", "power"),  # session 58: how tight was it (derived)
     (r"^flex_alert_(effects|model)$", "power"),  # session 60: the Flex Alert scorecard (derived)

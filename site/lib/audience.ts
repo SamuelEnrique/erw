@@ -38,7 +38,7 @@ export const AUDIENCES: Audience[] = [
       { href: "/network/v3", label: "The network, version 3", question: "What did the grid look like on any day since 2019, and who supplied whom?" },
       { href: "/map/v2", label: "The project map", question: "Where is every operating and planned generator and battery, by grid, technology and size?" },
       { href: "/queues", label: "The interconnection queue", question: "How much is waiting to connect, how much of the past got built, and how long did it take?" },
-      { href: "/mix/v2", label: "The energy mix", question: "What generates the power, hour by hour, in any month since 2019?" },
+      { href: "/mix?view=day", label: "The energy mix", question: "What generates the power, hour by hour, in any month since 2019?" },
       { href: "/demand", label: "Demand growth", question: "How fast is each grid's demand and its peak growing?" },
       { href: "/curtailment/v2", label: "Curtailment", question: "When is solar and wind turned down in California, and how much do batteries soak up?" },
       { href: "/battery/customer", label: "What a battery saves a customer", question: "What would a battery take off my own demand charge and energy bill?" },

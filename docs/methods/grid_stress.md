@@ -1,5 +1,7 @@
 # How hard the system works: evening ramp, lowest net load, the tightest hours, dark and calm stretches
 
+> **Session 133 (6 October 2026).** Installed capacity is now read from every retired unit EIA lists (`eia860m_retired_generators_all`), so the share of capacity in the tightest hours is given for natural gas, coal, nuclear, and hydro and storage from 2019, not from 2025 only. The page is a view of `/mix` (`/mix?view=stress`); what stood on its face is in this note. Details: `generation_mix_hourly.md`, "Session 133".
+
 Energy Research Warehouse (ERW), session 123 (5 October 2026). Table: `grid_stress_yearly`. Code:
 `warehouse/derived/mix_stress.py`. Page: `/mix/stress` (in review).
 

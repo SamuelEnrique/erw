@@ -1,0 +1,6 @@
+# Session 133: New York's (NYIS) coal and nuclear generators of eia860m_operating_generators, vintage 2026-08, as held on 6 October 2026; real rows, eight of the table's columns
+entity_id,name,balancing_authority,technology_group,nameplate_mw,operating_year,operating_month,status_date
+eia860:2589:2,Nine Mile Point Nuclear Station,NYIS,nuclear,1259.3,1987,7,1987-07-01
+eia860:2589:1,Nine Mile Point Nuclear Station,NYIS,nuclear,641.8,1969,12,1969-12-01
+eia860:6110:1,James A Fitzpatrick,NYIS,nuclear,883.3,1976,8,1976-08-01
+eia860:6122:1,R E Ginna Nuclear Power Plant,NYIS,nuclear,614.0,1970,7,1970-07-01

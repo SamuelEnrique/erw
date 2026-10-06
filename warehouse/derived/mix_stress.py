@@ -42,6 +42,10 @@ THE DEFINITIONS, AS COMPUTED. Local time is the grid's. A year is the local cale
                             fleet would have to discharge at full power to supply it. Beside it, the same energy over the
                             fleet's energy (MWh): how many times the fleet would have to be emptied
 
+SESSION 133. The inventory read is now the units operating and every unit EIA lists as retired
+(eia860m_retired_generators_all), so capacity is given for every fuel from 2019 (FROM_YEAR), not from 2025 only. The
+paragraph below describes what stood before, and what still holds: today's nameplate is used for every earlier month.
+
 WHAT THE INVENTORY CANNOT GIVE. It lists the units operating now and those retired since January 2025. A unit retired
 before 2025 is in neither, so the capacity of a fuel that lost plants before then is understated for the earlier years,
 and its output would look like a larger share of capacity than it was. So the share of installed capacity is written
@@ -92,11 +96,11 @@ NAME = "grid_stress_yearly"
 SOURCE = "erw:grid_stress"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/grid_stress.md"
 SITE_DIR = os.path.join(ROOT, "site", "data", "stress")
-OPERATING, RETIRED, FLEET = "eia860m_operating_generators", "eia860m_retired_generators", "storage_buildout_monthly"
+OPERATING, RETIRED, FLEET = "eia860m_operating_generators", "eia860m_retired_generators_all", "storage_buildout_monthly"   # session 133: every retired unit EIA lists, not the last two years' only
 FUELS = ["natural_gas", "coal", "nuclear", "wind", "solar", "hydro", "storage"]
 ALL_YEARS = {"wind", "solar"}               # fuels whose installed capacity the inventory gives for every year (the docstring)
 TOGETHER = ("hydro", "storage")              # set against installed capacity as one: grids do not report pumped storage under one name
-FROM_YEAR = 2025                            # the first year the inventory's retirements reach back to
+FROM_YEAR = 2019                            # the first year the inventory's retirements reach back to (session 133: all of them, so the first year of the hours)
 TIGHT = 100
 CALM = 0.10
 WINDOW = (14, 22)                           # the evening: steps between the local hours starting 14:00 and 22:00

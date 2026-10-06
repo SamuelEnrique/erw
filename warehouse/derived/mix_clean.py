@@ -150,6 +150,9 @@ def intensity_of(grid):
         before = cj.true_hours(s[s.index < j].to_frame("v"))["v"]
         s = pd.concat([before[before.index < j], s[s.index >= j]]).sort_index()
         s = s[~s.index.duplicated()]
+        # session 133: the generation of the hydro gap's months is CAISO's own now (mix_profile.caiso_gap), but EIA's
+        # intensity of those hours still divides by a total without hydro: no carbon figure rests on them
+        s = s[~ih.in_hydro_gap(pd.Series(s.index))]
     return s
 
 
