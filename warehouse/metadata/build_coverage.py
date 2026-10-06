@@ -85,6 +85,7 @@ TIERS = ["source", "derived", "model_extracted"]
 # Session 28: first match wins (docs/datastandard.md, "Provenance tiers")
 TIER_RULES = [
     ("model_extracted", r"^(energy_deals|datacenter_projects|policy_reads)(_evidence)?$"),  # extraction from news
+    ("model_extracted", r"^power_deals(_evidence)?$"),    # session 130: the deals tracker, version 3
     ("model_extracted", r"^energy_companies$"),           # the Thesis Builder's research and the deal parties
     ("model_extracted", r"^news_(stories|index)$"),       # the scores and headlines are the model's
     ("model_extracted", r"^policy_actions$"),             # significance, sector and why are the model's
@@ -131,6 +132,7 @@ SECTOR_RULES = [
     (r"^ercot_peak_premium_(annual|monthly)$", "power"),
     # session 15: the deal tracker (tool 6)
     (r"^energy_deals(_evidence)?$", "deals"),
+    (r"^power_deals(_evidence)?$", "deals;power"),  # session 130: power deals, every number with its sentence
     # session 16: the project map (tool 3) and the datacenter power tracker (tool 4)
     (r"^energy_projects$", "power"),
     (r"^datacenter_projects(_evidence)?$", "power;datacenters"),

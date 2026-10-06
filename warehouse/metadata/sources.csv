@@ -1,56 +1,56 @@
 source,publisher,report,report_url,document_list,license,tables,first_seen,last_seen
-ANS Nuclear Newswire,ANS Nuclear Newswire,news stories via feed 'ANS Nuclear Newswire',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-Bloomberg,Bloomberg,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-27,2026-10-05
+ANS Nuclear Newswire,ANS Nuclear Newswire,news stories via feed 'ANS Nuclear Newswire',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+Bloomberg,Bloomberg,news stories,,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-27,2026-10-06
 Bloomberg Media,Bloomberg Media,news stories,,,internal,news_index;news_stories,2026-09-28,2026-10-05
 Bloomberg Mercury,Bloomberg Mercury,news stories,,,internal,news_index;news_stories,2026-09-27,2026-10-05
-Bloomberg.com,Bloomberg.com,news stories via feed 'Bloomberg energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
+Bloomberg.com,Bloomberg.com,news stories via feed 'Bloomberg energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 CTVC,CTVC,news stories via feed 'CTVC',,,internal,news_index;news_stories,2026-09-28,2026-10-05
 California ISO,California ISO,news stories via feed 'CAISO newsroom',,,internal,news_index;news_stories,2026-09-27,2026-10-05
 California Public Advocates Office (.gov),California Public Advocates Office (.gov),news stories,,,internal,news_stories,2026-09-28,2026-10-05
 California Public Utilities Commission (.gov),California Public Utilities Commission (.gov),news stories via feed 'CPUC news',,,internal,news_index;news_stories,2026-09-25,2026-10-05
 California State Portal | CA.gov,California State Portal | CA.gov,news stories via feed 'CPUC news',,,internal,news_index;news_stories,2026-09-26,2026-10-05
-Canary Media,Canary Media,news stories via feed 'Canary Media',,,internal,news_index;news_stories,2026-09-25,2026-10-05
+Canary Media,Canary Media,news stories via feed 'Canary Media',,,internal,news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 CivicPlus,CivicPlus,news stories,,,internal,news_index;news_stories,2026-09-25,2026-10-05
 DOE newsroom,DOE newsroom,news stories via feed 'DOE newsroom',,,internal,news_index;news_stories,2026-09-25,2026-10-05
-Data Center Dynamics,Data Center Dynamics,news stories via feed 'Data Center Dynamics',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-Data Center Frontier,Data Center Frontier,news stories via feed 'Data Center Frontier',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
+Data Center Dynamics,Data Center Dynamics,news stories via feed 'Data Center Dynamics',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+Data Center Frontier,Data Center Frontier,news stories via feed 'Data Center Frontier',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 Data Center Knowledge,Data Center Knowledge,news stories via feed 'Data Center Knowledge',,,internal,datacenter_projects;datacenter_projects_evidence;news_index;news_stories,2026-09-25,2026-10-05
 EIA Today in Energy,EIA Today in Energy,news stories via feed 'EIA Today in Energy',,,internal,news_index;news_stories,2026-09-25,2026-10-05
 EPA's Central Data Exchange (CDX) (.gov),EPA's Central Data Exchange (CDX) (.gov),news stories,,,internal,news_index;news_stories,2026-09-27,2026-10-05
-Electrek,Electrek,news stories via feed 'Electrek',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-Electric Reliability Council of Texas (ERCOT),Electric Reliability Council of Texas (ERCOT),news stories via feed 'ERCOT newsroom',,,internal,news_index;news_stories,2026-09-27,2026-10-05
-Energy-Storage.news,Energy-Storage.news,news stories via feed 'Energy-Storage.news',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
+Electrek,Electrek,news stories via feed 'Electrek',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+Electric Reliability Council of Texas (ERCOT),Electric Reliability Council of Texas (ERCOT),news stories via feed 'ERCOT newsroom',,,internal,news_index;news_stories;power_deals;power_deals_evidence,2026-09-27,2026-10-06
+Energy-Storage.news,Energy-Storage.news,news stories via feed 'Energy-Storage.news',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 FT Channels,FT Channels,news stories,,,internal,news_index;news_stories,2026-09-27,2026-10-05
-Federal Energy Regulatory Commission (.gov),Federal Energy Regulatory Commission (.gov),news stories via feed 'FERC news',,,internal,news_index;news_stories,2026-09-25,2026-10-05
-Financial Times,Financial Times,news stories via feed 'FT energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-Hart Energy,Hart Energy,news stories via feed 'Hart Energy',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-Heatmap News,Heatmap News,news stories via feed 'Heatmap News',,,internal,datacenter_projects;datacenter_projects_evidence;news_index;news_stories,2026-09-25,2026-10-05
-Hydrogen Insight,Hydrogen Insight,news stories via feed 'Hydrogen Insight',,,internal,news_index;news_stories,2026-09-25,2026-10-05
+Federal Energy Regulatory Commission (.gov),Federal Energy Regulatory Commission (.gov),news stories via feed 'FERC news',,,internal,news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+Financial Times,Financial Times,news stories via feed 'FT energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+Hart Energy,Hart Energy,news stories via feed 'Hart Energy',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+Heatmap News,Heatmap News,news stories via feed 'Heatmap News',,,internal,datacenter_projects;datacenter_projects_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+Hydrogen Insight,Hydrogen Insight,news stories via feed 'Hydrogen Insight',,,internal,news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 IEA – International Energy Agency,IEA – International Energy Agency,news stories via feed 'IEA news',,,internal,news_index;news_stories,2026-09-25,2026-10-05
 ISO-NE newsroom,ISO-NE newsroom,news stories via feed 'ISO-NE newsroom',,,internal,news_index;news_stories,2026-10-03,2026-10-05
-JPT Homepage,JPT Homepage,news stories via feed 'JPT (SPE)',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
+JPT Homepage,JPT Homepage,news stories via feed 'JPT (SPE)',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 LNG Prime,LNG Prime,news stories via feed 'LNG Prime',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-Latitude Media,Latitude Media,news stories via feed 'Latitude Media',,,internal,datacenter_projects;datacenter_projects_evidence;news_index;news_stories,2026-09-25,2026-10-05
+Latitude Media,Latitude Media,news stories via feed 'Latitude Media',,,internal,datacenter_projects;datacenter_projects_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 MISO Help Center,MISO Help Center,news stories [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)],,,internal,news_index;news_stories,2026-09-27,2026-10-05
 Midcontinent Independent System Operator,Midcontinent Independent System Operator,news stories [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)],,,internal,news_index;news_stories,2026-09-30,2026-10-05
 Midcontinent Independent System Operator (MISO),Midcontinent Independent System Operator (MISO),news stories [PAUSED 2026-10-04: MISO's terms forbid automated access; pulls paused pending a review of MISO's terms by a person (docs/methods/miso_pause.md)],,,internal,news_index;news_stories,2026-09-25,2026-10-05
 Natural Gas Intelligence,Natural Gas Intelligence,news stories via feed 'Natural Gas Intelligence',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-OilPrice.com,OilPrice.com,news stories via feed 'OilPrice.com',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
+OilPrice.com,OilPrice.com,news stories via feed 'OilPrice.com',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 Organization of the Petroleum Exporting Countries,Organization of the Petroleum Exporting Countries,news stories via feed 'OPEC press releases',,,internal,news_index;news_stories,2026-09-27,2026-10-05
 PJM newsroom,PJM newsroom,news stories via feed 'PJM newsroom',,,internal,news_index;news_stories,2026-09-25,2026-10-05
-POWER Magazine,POWER Magazine,news stories via feed 'POWER Magazine',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
+POWER Magazine,POWER Magazine,news stories via feed 'POWER Magazine',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 PUC Interchange (.gov),PUC Interchange (.gov),news stories via feed 'Texas PUC news',,,internal,news_index;news_stories,2026-09-25,2026-10-05
 Public Utility Commission of Texas (.gov),Public Utility Commission of Texas (.gov),news stories via feed 'Texas PUC news',,,internal,news_index;news_stories,2026-09-26,2026-10-05
-Reuters,Reuters,news stories via feed 'Reuters energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-Rigzone,Rigzone,news stories via feed 'Rigzone',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
+Reuters,Reuters,news stories via feed 'Reuters energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+Rigzone,Rigzone,news stories via feed 'Rigzone',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 Southwest Power Pool,Southwest Power Pool,news stories,,,internal,news_index;news_stories,2026-09-26,2026-10-05
 Southwest Power Pool (SPP),Southwest Power Pool (SPP),news stories via feed 'SPP newsroom',,,internal,news_index;news_stories,2026-10-03,2026-10-05
-T&D World,T&D World,news stories via feed 'T&D World',,,internal,news_index;news_stories,2026-09-25,2026-10-05
+T&D World,T&D World,news stories via feed 'T&D World',,,internal,news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 U.S. Environmental Protection Agency (.gov),U.S. Environmental Protection Agency (.gov),news stories via feed 'EPA news',,,internal,news_index;news_stories,2026-09-25,2026-10-05
-Utility Dive,Utility Dive,news stories via feed 'Utility Dive',,,internal,news_index;news_stories,2026-09-25,2026-10-05
-WSJ,WSJ,news stories via feed 'WSJ energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-World Nuclear News,World Nuclear News,news stories via feed 'World Nuclear News',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
-anthropic:messages-usage,Anthropic,Messages API response usage (tokens per call),https://docs.anthropic.com/en/api/messages,https://docs.anthropic.com/en/docs/about-claude/pricing,internal,api_cost_ledger,2026-09-29,2026-10-05
+Utility Dive,Utility Dive,news stories via feed 'Utility Dive',,,internal,news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+WSJ,WSJ,news stories via feed 'WSJ energy (via Google News)',,,internal,datacenter_projects;datacenter_projects_evidence;energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+World Nuclear News,World Nuclear News,news stories via feed 'World Nuclear News',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
+anthropic:messages-usage,Anthropic,Messages API response usage (tokens per call),https://docs.anthropic.com/en/api/messages,https://docs.anthropic.com/en/docs/about-claude/pricing,internal,api_cost_ledger,2026-09-29,2026-10-06
 aws:locations,Amazon Web Services,Amazon Web Services public list of data center sites and regions,https://b0.p.awsstatic.com/locations/1.0/aws/current/locations.json,,public,datacenter_operator_sites,2026-09-28,2026-10-05
 bloomberg.com,bloomberg.com,news stories,,,internal,news_index;news_stories,2026-09-28,2026-10-05
 caiso.com,caiso.com,news stories via feed 'CAISO newsroom',,,internal,news_index;news_stories,2026-09-25,2026-10-05
@@ -163,7 +163,7 @@ fred:PNGASEUUSDM,Federal Reserve Bank of St. Louis (FRED),"Global price of Natur
 fred:PNGASJPUSDM,Federal Reserve Bank of St. Louis (FRED),"Global price of LNG, Asia (PNGASJPUSDM) (Copyrighted: Citation Required)",https://fred.stlouisfed.org/series/PNGASJPUSDM,https://fred.stlouisfed.org/graph/fredgraph.csv?id=PNGASJPUSDM,internal,fred_imf_commodity_prices,2026-09-25,2026-10-05
 fred:PNICKUSDM,Federal Reserve Bank of St. Louis (FRED),Global price of Nickel (PNICKUSDM) (Copyrighted: Citation Required),https://fred.stlouisfed.org/series/PNICKUSDM,https://fred.stlouisfed.org/graph/fredgraph.csv?id=PNICKUSDM,internal,fred_imf_commodity_prices,2026-09-25,2026-10-05
 fred:PURANUSDM,Federal Reserve Bank of St. Louis (FRED),Global price of Uranium (PURANUSDM) (Copyrighted: Citation Required),https://fred.stlouisfed.org/series/PURANUSDM,https://fred.stlouisfed.org/graph/fredgraph.csv?id=PURANUSDM,internal,fred_imf_commodity_prices,2026-09-25,2026-10-05
-ft.com,ft.com,news stories via feed 'FT energy (via Google News)',,,internal,news_index;news_stories,2026-09-25,2026-10-05
+ft.com,ft.com,news stories via feed 'FT energy (via Google News)',,,internal,news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 google:datacenter-locations,Google,Google public list of data center sites and regions,https://datacenters.google/locations/,,public,datacenter_operator_sites,2026-09-28,2026-10-05
 hartenergy.com,hartenergy.com,news stories,,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
 hydrogeninsight.com,hydrogeninsight.com,news stories,,,internal,news_index;news_stories,2026-10-01,2026-10-05
@@ -205,7 +205,7 @@ partners.wsj.com,partners.wsj.com,news stories,,,internal,news_index;news_storie
 pjm:rpm-clearing-price-summary,PJM Interconnection,RPM Resource Clearing Prices for all RPM Auctions held to date,https://www.pjm.com/markets-and-operations/rpm,https://www.pjm.com/-/media/DotCom/markets-ops/rpm/rpm-auction-info/rpm-auctions-resource-clearing-price-summary.xlsx,internal,iso_all_capacity_prices;pjm_rpm_capacity_prices,2026-09-25,2026-10-05
 plus.reuters.com,plus.reuters.com,news stories,,,internal,news_stories,2026-09-28,2026-10-05
 puct:news,Public Utility Commission of Texas (PUCT),PUCT news releases,https://www.puc.texas.gov/agency/resources/pubs/news/,https://www.puc.texas.gov/agency/resources/pubs/news/,public,policy_actions,2026-09-28,2026-10-05
-pv magazine USA,pv magazine USA,news stories via feed 'pv magazine USA',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories,2026-09-25,2026-10-05
+pv magazine USA,pv magazine USA,news stories via feed 'pv magazine USA',,,internal,energy_deals;energy_deals_evidence;news_index;news_stories;power_deals;power_deals_evidence,2026-09-25,2026-10-06
 rggi:prices-volumes,"Regional Greenhouse Gas Initiative (RGGI, Inc.)",Allowance Prices and Volumes,https://www.rggi.org/auctions/auction-results/prices-volumes,https://www.rggi.org/auctions/auction-results,internal,rggi_auction_allowance_prices,2026-09-25,2026-10-05
 rmb.reuters.com,rmb.reuters.com,news stories,,,internal,news_index;news_stories,2026-09-27,2026-10-05
 rrc:pdq_dump,Railroad Commission of Texas (RRC),Production Data Query dump (PDQ_DSV.zip),https://www.rrc.texas.gov/resource-center/research/data-sets-available-for-download/,https://mft.rrc.texas.gov/link/1f5ddb8d-329a-4459-b7f8-177b4f5ee60d,internal,rrc_lease_production_monthly,2026-10-01,2026-10-01

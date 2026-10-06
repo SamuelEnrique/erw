@@ -206,6 +206,10 @@ catalogue_hold:
   # session 122: the carbon-free share of each grid's generation by hour (about 463,000 rows); the review page reads the
   # monthly and yearly table built beside it
   - clean_energy_hourly
+  # session 130: power deals read from the news, version 3 of the deals tracker (a few hundred rows; the review page
+  # /deals/v3 reads the site's own copy, site/data/deals_v3.json). Not loaded. Its sentences (power_deals_evidence) are
+  # internal and are in no catalogue
+  - power_deals
 
 # Session 102: public tables that a page in review reads, loaded into Supabase but held out of the public catalogue while
 # the page is in review. The loader writes their catalogue row with in_live_set "review" instead of "yes"; the site's
