@@ -143,6 +143,15 @@ class Refusals(unittest.TestCase):
         self.assertEqual(tally["licensed"], 3)
         self.assertEqual({p["reason"] for p in store["pages"].values()}, {"not fetched: licensed source needed"})
 
+    def test_the_site_of_a_licensed_database_is_refused_before_any_request(self):
+        web = Web()
+        urls = ["https://pitchbook.com/profiles/company/509380-30", "https://www.crunchbase.com/organization/some-co", "https://console.harmonic.ai/dashboard/company/1"]
+        store, tally, _ = pull(urls, web)
+        self.assertEqual(web.asked, [])                         # not the page, and not its robots.txt
+        self.assertEqual((tally["licensed"], tally["requests"]), (3, 0))
+        self.assertEqual({p["reason"] for p in store["pages"].values()}, {"not fetched: licensed source needed"})
+        self.assertEqual(pg.never("https://www.pjm.com/about-pjm"), "")             # a plain page of PJM's site is not a Data Miner or API address
+
     def test_an_address_robots_txt_disallows_for_all_agents_is_not_requested(self):
         web = Web(pages={"https://a.example/private/x": (200, HTML, PAGE), "https://a.example/open/y": (200, HTML, PAGE)},
                   robots={"a.example": (200, "User-agent: *\nDisallow: /private/\n\nUser-agent: OtherBot\nDisallow: /\n")})
@@ -441,8 +450,9 @@ class Rule(unittest.TestCase):
             self.assertNotIn(w, rule, w)
         for name in ("pages.py", "store.py"):
             code = src("warehouse", "thesis", name)
-            for w in ("anthropic", "import llm", "messages.create", "pitchbook", "PitchBook"):
+            for w in ("anthropic", "import llm", "messages.create", "connectors", "PITCHBOOK_API_KEY", "mcp"):
                 self.assertNotIn(w, code, (name, w))
+        self.assertIn("pitchbook.com", pg.LICENSED_HOSTS)          # the fetcher's one word about PitchBook: its site is never asked for a page
         code = src("warehouse", "thesis", "run.py")
         body = code.split("def execute(")[1].split("\ndef ")[0]
         self.assertEqual(body.count("r.guard("), 7)                 # the stop still stands before each of the seven paid stages

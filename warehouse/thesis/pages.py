@@ -18,7 +18,9 @@ THE PULL, AS THE OWNER ALLOWED IT (7 October 2026)
     reason, holds no sentences, and is left. A page longer than MAX_BYTES is read to the limit, recorded as
     truncated, and holds no sentences.
   * Never misoenergy.org (paused, warehouse/metadata/paused_sources.csv): "not fetched: paused". Never a PJM Data
-    Miner or API address: "not fetched: licensed source needed". Both are refused before any request.
+    Miner or API address, and never the site of a licensed database the tool reads only through the user's own
+    account (pitchbook.com, crunchbase.com, harmonic.ai): "not fetched: licensed source needed". All are refused
+    before any request.
   * robots.txt: each host's file is read once a day (it counts as a request) and an address it disallows for all
     agents (the group "User-agent: *"; the longest matching rule wins, Allow wins a draw) is "not fetched:
     robots.txt". A robots.txt that cannot be read (401, 403, a server error, no answer) is treated as a refusal of
@@ -65,6 +67,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 PAUSED_FILE = os.path.join(ROOT, "warehouse", "metadata", "paused_sources.csv")
 NEVER_HOSTS = ("misoenergy.org",)                    # the floor: refused here even if the pause file is unreadable
+# The licensed databases the tool reads only through the user's own account (docs/methods/thesis_builder.md, "Bring
+# your own license"): their sites are not asked for a page either. Added at the end of session 147, after four
+# crunchbase.com addresses had been asked for once each that evening (each answered 403; nothing was received).
+LICENSED_HOSTS = ("pitchbook.com", "crunchbase.com", "harmonic.ai")
 LOGIN_WORDS = ("login", "log-in", "signin", "sign-in", "sso", "oauth", "auth", "authenticate", "subscribe", "paywall", "captcha", "register", "account", "wp-login")
 LOGIN_HOSTS = ("login", "signin", "sso", "auth", "account", "accounts", "id", "idp")
 TEXT_TYPES = ("text/html", "application/xhtml+xml", "text/plain")
@@ -134,6 +140,8 @@ def never(url, paused=None):
     for h in (paused if paused is not None else paused_hosts()):
         if host == h or host.endswith("." + h):
             return "not fetched: paused"
+    if any(host == h or host.endswith("." + h) for h in LICENSED_HOSTS):
+        return "not fetched: licensed source needed"
     if host == "pjm.com" or host.endswith(".pjm.com"):
         first = host.split(".")[0]
         if "dataminer" in host or first.startswith("api") or "/api/" in u.path.lower() or "dataminer" in u.path.lower():
