@@ -84,6 +84,7 @@ const PAGES = [
   "/data/methods/ercot_storage_dam_offers",  // session 116: what the storage fleet offered day-ahead (in review; the awards page's new section reads it)
   "/data/methods/ercot_storage_realtime",  // session 120: the storage fleet in real time (in review; the awards page's last section reads it)
   "/mix/clean", "/mix/clean?grid=caiso&year=2026", "/mix/clean?grid=nyiso&year=2024", "/data/methods/clean_energy",  // session 122: how clean, and when (in review)
+  "/resources", "/resources?on=oil_gas_basins,plants_operating&z=2&c=-101,32",  // session 146: where the resources are (in review; scripts/check-resources.mjs opens it in a real browser)
   "/mix/stress", "/mix/stress?grid=caiso&year=2026", "/mix/stress?grid=nyiso&year=2025", "/data/methods/grid_stress",  // session 123: how hard the system works (in review)
 ];
 
