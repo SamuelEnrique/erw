@@ -12,6 +12,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
 import { runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
+import { stageClock, type StageMs, type Step } from "./stages";
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
@@ -27,10 +28,17 @@ export type AskResult = {
   /** session 121: seconds from the question to the full answer, and to the model's first reply (the first thing a reader can be shown) */
   seconds?: number;
   seconds_first?: number | null;
+  /** session 143: the milliseconds of each stage (planning, fetching, drawing, writing, other), which sum to total; the
+   * steps they are summed from; and the seconds to the answer's words. For the evaluation and the log, never the page */
+  stages_ms?: StageMs;
+  steps?: Step[];
+  seconds_words?: number | null;
 };
 /** Session 121: what a reader can be shown before the answer: the table a tool call has gone to read. */
 export type AskEvent = { type: "reading"; tool: string; table: string | null };
-export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /** session 128: the question's number in the cost ledger */ questionId?: string };
+export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /** session 128: the question's number in the cost ledger */ questionId?: string;
+  /** session 143: when the request arrived (the stages are counted from it), and the steps the route took before the loop */
+  startedAt?: number; before?: Step[] };
 
 const PRICES = spec.prices as unknown as Record<string, [number, number]>;
 const TOOLS = spec.tools as unknown as Anthropic.Tool[];
@@ -124,14 +132,19 @@ function cost(model: string, u: AskResult["usage"]): number | null {
 
 export async function ask(question: string, today = new Date().toISOString().slice(0, 10), grid: string | null = null,
   profile: Profile | null = null, context: unknown = null, opts: AskOptions = {}): Promise<AskResult & Record<string, unknown>> {
-  const t0 = Date.now();
+  const t0 = opts.startedAt ?? Date.now();
   let secondsFirst: number | null = null;
+  // session 143: every step is timed; the stages sum to the whole (lib/chat/stages.ts)
+  const clock = stageClock(t0);
+  for (const s of opts.before ?? []) clock.add(s.stage, s.what, s.ms);
   // session 121: the cost ledger's rows are written beside the loop and awaited once, before the answer is returned:
   // a row's insert no longer stands between one model call and the next
   const ledger: Promise<void>[] = [];
   const done = async <T extends object>(r: T) => {
     await Promise.allSettled(ledger);
-    return { ...r, seconds: Math.round((Date.now() - t0) / 100) / 10, seconds_first: secondsFirst };
+    const stages_ms = clock.done();
+    return { ...r, seconds: Math.round((Date.now() - t0) / 100) / 10, seconds_first: secondsFirst, stages_ms, steps: clock.steps,
+      seconds_words: clock.wordsMs === null ? null : Math.round(clock.wordsMs / 100) / 10 };
   };
   // session 35: /ask?grid=<slug>: the grid's block after the system prompt, and the tools scoped to its tables and rows
   const scope = profile ? profile.scope : scopeOf(grid);
@@ -143,7 +156,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) throw new Error("ANTHROPIC_API_KEY is not set on the server");
   const client = new Anthropic({ apiKey: key });
-  const model = await pickModel(client);
+  const model = await clock.time("other", "models", () => pickModel(client));
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: profile ? profile.opening(question, today, context, opts.history) : `Today is ${today} (UTC).\n\nQuestion: ${question}` }];
   const usage = { input: 0, output: 0, cache_write: 0, cache_read: 0, requests: 0 };
   // session 137: the date the opening line gives the model counts as given, as the question's own numbers do
@@ -152,7 +165,13 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const records: ToolRecord[] = []; // session 92: every tool result, in order, for a profile's checks and its result
   const tablesRead = new Set<string>([...(profile?.knownTables ? profile.knownTables(opts.history) : []), ...(profile?.preRead ?? [])]);
   // session 137: a profile's own tool is run by the profile; every other name goes to the warehouse's tools as before
-  const runTool = (name: string, input: unknown, sc: Scope) => profile?.ownTool?.(name, input) ?? runWarehouseTool(name, input, sc);
+  // session 143: each tool call's own milliseconds are kept (they overlap within a turn, so the stage is the turn's wall time)
+  const toolMs: { tool: string; table: string | null; ms: number }[] = [];
+  const runTool = async (name: string, input: unknown, sc: Scope) => {
+    const t = Date.now();
+    try { return await (profile?.ownTool?.(name, input) ?? runWarehouseTool(name, input, sc)); }
+    finally { toolMs.push({ tool: name, table: typeof (input as Record<string, unknown> | null)?.table === "string" ? String((input as Record<string, unknown>).table) : null, ms: Date.now() - t }); }
+  };
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
   let calls = 0, attempts = 0, retried = false;
 
@@ -167,10 +186,14 @@ export async function ask(question: string, today = new Date().toISOString().sli
       cache_control: { type: "ephemeral" }, // session 30 (B2): the growing conversation is cached, as in ask.py
       messages,
     };
-    const raw = await client.messages
-      .create(params as unknown as Anthropic.MessageCreateParamsNonStreaming)
-      .withResponse();
-    const resp = raw.data as Anthropic.Message;
+    // session 143: the call is read as a stream, so that the moment of its first text is known. The request is the same
+    const tCall = Date.now();
+    let firstText: number | null = null;
+    const stream = client.messages.stream(params as unknown as Anthropic.MessageStreamParams);
+    stream.on("text", () => { if (firstText === null) firstText = Date.now() - tCall; });
+    const resp = (await stream.finalMessage()) as Anthropic.Message;
+    const raw = { data: resp, request_id: stream.request_id };
+    clock.add(resp.stop_reason === "tool_use" ? "planning" : "writing", "model", Date.now() - tCall, { model, first_text_ms: firstText, output_tokens: resp.usage.output_tokens, stop: resp.stop_reason });
     ledger.push(recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask", opts.questionId)); // session 30: every call into the cost ledger (site_api_calls)
     if (secondsFirst === null) secondsFirst = Math.round((Date.now() - t0) / 100) / 10;
     usage.input += resp.usage.input_tokens;
@@ -188,7 +211,9 @@ export async function ask(question: string, today = new Date().toISOString().sli
       const slots = blocks.map(() => (calls < spec.max_tool_calls ? ++calls : 0));
       for (const [i, b] of blocks.entries())
         if (slots[i]) opts.onEvent?.({ type: "reading", tool: b.name, table: typeof (b.input as Record<string, unknown> | null)?.table === "string" ? String((b.input as Record<string, unknown>).table) : null });
+      const tTools = Date.now(), firstTool = toolMs.length;
       const outs = await Promise.all(blocks.map((b, i) => (slots[i] ? runTool(b.name, b.input, scope) : null)));
+      clock.add("fetching", "tools", Date.now() - tTools, { calls: toolMs.slice(firstTool) });
       for (const [i, b] of blocks.entries()) {
         let out: Record<string, unknown>, isError: boolean;
         const got = outs[i];
@@ -228,11 +253,13 @@ export async function ask(question: string, today = new Date().toISOString().sli
     if (resp.stop_reason !== "end_turn") throw new Error(`stop_reason ${resp.stop_reason}`);
     const text = resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
     const draft = JSON.parse(text) as Draft;
+    const tCheck = Date.now();
     const bad = unverified(draft.answer, sources);
     const uncited = draft.citations.map((c) => c.table).filter((t) => !tablesRead.has(t));
     // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
     const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
     const more = profile ? profile.extraProblems(draft, records, given) : [];
+    clock.add("writing", "check", Date.now() - tCheck);
     // session 137: what a draft is sent back for goes to the server's log, never to the reader
     if (bad.length || uncited.length || noCite || more.length)
       console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, untraced_numbers: bad.slice(0, 12), uncited_tables: uncited.slice(0, 6), no_citation: noCite, problems: more.slice(0, 6) } }));
@@ -242,7 +269,10 @@ export async function ask(question: string, today = new Date().toISOString().sli
       // session 28: each citation's tier is the warehouse's, whatever the model copied
       const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));
       const status = draft.not_in_warehouse ? ("not_in_warehouse" as const) : ("answered" as const);
-      return done({ ...draft, answer, citations, status, ...base, ...(profile ? profile.finish(status, { ...draft, citations }, records) : {}) });
+      const tDraw = Date.now();
+      const drawn = profile ? profile.finish(status, { ...draft, citations }, records) : {};
+      clock.add("drawing", "series", Date.now() - tDraw);
+      return done({ ...draft, answer, citations, status, ...base, ...drawn });
     }
     attempts += 1;
     if (attempts === 1) {
