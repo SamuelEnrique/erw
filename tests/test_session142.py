@@ -18,7 +18,23 @@ import types
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-os.environ.setdefault("ERW_LEDGER", "0")
+_LEDGER_BEFORE = []
+
+
+def setUpModule():
+    """The ledger is off while this module's tests run and is put back after them: set at import it stayed off for
+    the whole suite, and session 30's ledger test, which runs later, recorded nothing (the first push of this session
+    failed its checks on that; session 36A met the same fault)."""
+    _LEDGER_BEFORE.append(os.environ.get("ERW_LEDGER"))
+    os.environ["ERW_LEDGER"] = "0"
+
+
+def tearDownModule():
+    old = _LEDGER_BEFORE.pop()
+    if old is None:
+        os.environ.pop("ERW_LEDGER", None)
+    else:
+        os.environ["ERW_LEDGER"] = old
 
 
 def load(name, *parts):
