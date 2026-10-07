@@ -81,12 +81,19 @@ export async function POST(req: Request) {
   }
   const qid = questionId();
   const asked = question.trim();
+  // session 143: the stages of an answer are counted from the request's arrival; the admission above is its first step
+  const timing = { startedAt: now, before: [{ stage: "other" as const, what: "admit", ms: Date.now() - now }] };
   // session 121: the per-question line of the log also holds what the question cost and how long it took
   const logged = (r: Record<string, unknown>) => console.log(JSON.stringify({ erw_ask: { at: new Date(now).toISOString(), grid: grid || (profile === "ercot" ? "ercot (reference)" : null), question: asked,
-    status: r.status ?? "answered", question_id: qid, cost_usd: r.cost_usd ?? null, seconds: r.seconds ?? null, seconds_first: r.seconds_first ?? null, tool_calls: r.tool_calls ?? null, turns_before: cleanHistory(history).length } }));
+    status: r.status ?? "answered", question_id: qid, cost_usd: r.cost_usd ?? null, seconds: r.seconds ?? null, seconds_first: r.seconds_first ?? null, tool_calls: r.tool_calls ?? null, turns_before: cleanHistory(history).length,
+    seconds_words: r.seconds_words ?? null, stages_ms: r.stages_ms ?? null } }));
   // session 121, Ask ERCOT only: {stream: true} answers as lines of JSON, one per thing a reader can be shown: first
   // {"type":"reading","table":...} as each query starts, then {"type":"result",...} (the same object the plain answer
   // is) or {"type":"error","error":...}. The answer itself is never sent in pieces: it is checked whole first.
+  // Session 143: between the two a line {"type":"words","answer":...} may come: the answer's words, whole, once their
+  // numbers, their form and their premise have passed the check, while the citations, the series and the questions to
+  // ask next are still being written; the result that follows is the whole answer, checked as before. Should the whole
+  // draft not bear the words out, {"type":"withdrawn"} takes them back before anything else is sent.
   if (profile === "ercot" && stream === true) {
     const enc = new TextEncoder();
     const body = new ReadableStream<Uint8Array>({
@@ -94,7 +101,7 @@ export async function POST(req: Request) {
         const send = (o: unknown) => ctrl.enqueue(enc.encode(JSON.stringify(o) + "\n"));
         send({ type: "started" });
         try {
-          const r = await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), onEvent: send, questionId: qid });
+          const r = await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), onEvent: send, questionId: qid, ...timing });
           logged(r);
           send({ type: "result", ...r });
         } catch (e) {
@@ -109,7 +116,7 @@ export async function POST(req: Request) {
   }
   try {
     const r = profile === "ercot"
-      ? await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), questionId: qid })
+      ? await ask(asked, undefined, null, ercotProfile(), cleanContext(context), { history: cleanHistory(history), questionId: qid, ...timing })
       : await ask(question.trim(), undefined, typeof grid === "string" && grid ? grid : null, null, null, { questionId: qid });
     // session 21 (/terms): each question is logged without identity: the time, the question and the
     // outcome, never the IP address (which lives only in memory, for the hourly limit) or any other identifier
