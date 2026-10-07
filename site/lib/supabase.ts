@@ -55,6 +55,53 @@ function config(): { base: string; key: string } {
   return { base: new URL(url).origin, key };
 }
 
+// Session 148: the pages of one large read are asked for together, PAGES_TOGETHER at a time, outside the build. Until
+// then a read of 9,000 rows was nine requests one after another (session 143: one read of a year of hourly reserve
+// prices took 13.3 seconds). What a caller gets is what it always got: the same rows in the same order, and the same
+// failure (restPaged below says why). While the site is built the reader is the one it always was, one page after
+// another: session 90's rule that the build's reads take turns stands as it was written. ERW_PAGES_TOGETHER on the
+// server sets another number from 1 to 8; 1 is the reader as it was before this session, everywhere.
+export function pagesTogether(v: string | undefined, building = false): number {
+  if (building) return 1;
+  const n = Number(v);
+  return v !== undefined && v !== "" && Number.isInteger(n) && n >= 1 && n <= 8 ? n : 4;
+}
+const PAGES_TOGETHER = pagesTogether(process.env.ERW_PAGES_TOGETHER, BUILDING);
+
+/** One page of a read: the request, its retries and its failure, exactly as the reader always made them. */
+async function onePage<T>(base: string, key: string, table: string, query: Record<string, string>, revalidate: number, offset: number, max: number): Promise<T[]> {
+  const qs = new URLSearchParams({ ...query, limit: String(Math.min(PAGE, max - offset)), offset: String(offset) });
+  let res: Response | null = null;
+  let body = "";
+  // session 39: a retry of a statement timeout (Postgres 57014). A build that runs right after the loader's VACUUM FULL,
+  // or while the daily run loads, meets cold or busy tables, and seven grid pages at once took the anon role past its
+  // 3 s limit. Session 43: two retries, after 1 and 3 seconds (one retry still lost the NYISO and SPP queue reads).
+  for (let attempt = 0; attempt <= WAITS.length; attempt++) {
+    try {
+      // the body of a failed answer is read inside the turn, so the slot is held until the request is over
+      [res, body] = await turn(async () => {
+        const r = await fetch(`${base}/rest/v1/${table}?${qs}`, {
+          headers: { apikey: key, Authorization: `Bearer ${key}` },
+          next: { revalidate, tags: [table] },
+        });
+        return [r, r.ok ? "" : (await r.text()).slice(0, 200)] as [Response, string];
+      });
+    } catch (e) {
+      throw new DataError(`Supabase ${table}: request failed (${(e as Error).message})`);
+    }
+    if (res.ok) break;
+    if (attempt < WAITS.length && res.status === 500 && body.includes("57014")) {
+      await new Promise((r) => setTimeout(r, WAITS[attempt]));
+      continue;
+    }
+    break;
+  }
+  if (!res || !res.ok) {
+    throw new DataError(`Supabase ${table}: HTTP ${res ? res.status : "none"} ${body}`);
+  }
+  return (await res.json()) as T[];
+}
+
 /**
  * Rows of one Supabase table. `query` holds PostgREST parameters, for example
  * { select: "entity,value", table_name: "eq.news_index", order: "ts_utc" }.
@@ -66,41 +113,57 @@ export async function rest<T>(
   revalidate: number,
   max = 50_000,
 ): Promise<T[]> {
+  return restPaged<T>(table, query, revalidate, max, PAGES_TOGETHER);
+}
+
+/**
+ * Session 148: the reader behind rest, with the number of pages asked for at a time given (rest gives the server's;
+ * scripts/compare-paged-reads.mjs and the tests give 1 and 4 and compare). `together` 1 is the reader as it always was:
+ * a page is asked for only when the one before it came back full.
+ *
+ * With `together` above 1 the first page is still asked for alone, by the same request as before, so a read of fewer
+ * than 1,000 rows (almost every read of the site) is unchanged in every respect. Only when it comes back full are the
+ * next pages asked for, `together` at a time, and they are taken in their order:
+ *   - a full page is added and the next is looked at;
+ *   - a page of fewer than 1,000 rows is the last: the rows are returned, and whatever a page asked for beyond it
+ *     answered, rows or a failure, is not part of the read (the reader as it was never asked for it);
+ *   - a page that failed, with every page before it full, fails the read with that page's own error: the page the
+ *     reader as it was would have stopped at, and the error it would have thrown.
+ * So the rows, their order and the failure are the serial reader's. What differs is when the requests are sent, and that
+ * up to `together` less one requests may go to pages beyond the end, which answer with no rows.
+ */
+export async function restPaged<T>(
+  table: string,
+  query: Record<string, string>,
+  revalidate: number,
+  max: number,
+  together: number,
+): Promise<T[]> {
   const { base, key } = config();
   const rows: T[] = [];
-  for (let offset = 0; offset < max; offset += PAGE) {
-    const qs = new URLSearchParams({ ...query, limit: String(Math.min(PAGE, max - offset)), offset: String(offset) });
-    let res: Response | null = null;
-    let body = "";
-    // session 39: a retry of a statement timeout (Postgres 57014). A build that runs right after the loader's VACUUM FULL,
-    // or while the daily run loads, meets cold or busy tables, and seven grid pages at once took the anon role past its
-    // 3 s limit. Session 43: two retries, after 1 and 3 seconds (one retry still lost the NYISO and SPP queue reads).
-    for (let attempt = 0; attempt <= WAITS.length; attempt++) {
-      try {
-        // the body of a failed answer is read inside the turn, so the slot is held until the request is over
-        [res, body] = await turn(async () => {
-          const r = await fetch(`${base}/rest/v1/${table}?${qs}`, {
-            headers: { apikey: key, Authorization: `Bearer ${key}` },
-            next: { revalidate, tags: [table] },
-          });
-          return [r, r.ok ? "" : (await r.text()).slice(0, 200)] as [Response, string];
-        });
-      } catch (e) {
-        throw new DataError(`Supabase ${table}: request failed (${(e as Error).message})`);
-      }
-      if (res.ok) break;
-      if (attempt < WAITS.length && res.status === 500 && body.includes("57014")) {
-        await new Promise((r) => setTimeout(r, WAITS[attempt]));
-        continue;
-      }
-      break;
+  const page = (offset: number) => onePage<T>(base, key, table, query, revalidate, offset, max);
+  if (!(together > 1)) {
+    for (let offset = 0; offset < max; offset += PAGE) {
+      const batch = await page(offset);
+      rows.push(...batch);
+      if (batch.length < PAGE) break;
     }
-    if (!res || !res.ok) {
-      throw new DataError(`Supabase ${table}: HTTP ${res ? res.status : "none"} ${body}`);
+    return rows;
+  }
+  if (max <= 0) return rows;
+  const first = await page(0);
+  rows.push(...first);
+  if (first.length < PAGE) return rows;
+  for (let offset = PAGE; offset < max; ) {
+    const asked: Promise<T[]>[] = [];
+    for (let i = 0; i < together && offset < max; i++, offset += PAGE) asked.push(page(offset));
+    // a page beyond the last may fail after the read has returned: its failure is nobody's, and must not go unhandled
+    for (const p of asked) p.catch(() => {});
+    for (const p of asked) {
+      const batch = await p;          // in order: the first page that failed, with every page before it full, throws here
+      rows.push(...batch);
+      if (batch.length < PAGE) return rows;
     }
-    const batch = (await res.json()) as T[];
-    rows.push(...batch);
-    if (batch.length < PAGE) break;
   }
   return rows;
 }

@@ -11,12 +11,15 @@ import { DataError, HOURLY, rest, restCount } from "@/lib/supabase";
 import spec from "./spec.json";
 import { DOCS, type GridConfig } from "@/lib/markdown";
 import { LIFE_MS, keep, within, type Summary } from "./summaries";
+import { hourlyRefusal } from "./rollup";
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
 // Session 92: a profile's scope (lib/chat/ercot.ts) also names each table's rows outright (filters: {table: {column:
 // value or values}}, as warehouse/chat/tools.py scope_rows) and may raise the rows one grouped result returns.
-export type Scope = (GridConfig & { filters?: Record<string, Record<string, string | string[]>>; max_groups?: number; dated_groups?: boolean }) | null;
+// Session 148: a profile's scope may name an hourly table that has tables of days and months beside it (lib/chat/rollup.ts):
+// while every one of `tables` is in the live set, a query of `hourly` must give a start and span a few weeks at most.
+export type Scope = (GridConfig & { filters?: Record<string, Record<string, string | string[]>>; max_groups?: number; dated_groups?: boolean; rollup?: { hourly: string; tables: string[] } }) | null;
 export const scopeOf = (slug: string | null | undefined): Scope => (slug ? DOCS.grid_config.find((g) => g.slug === slug) ?? null : null);
 const BA_TABLES = new Set(["eia930_all_demand", "eia930_all_generation", "eia930_all_emissions", "eia930_all_storage", "eia930_all_interchange",
   "carbon_intensity_hourly", "carbon_intensity_daily", "carbon_intensity_monthly", "storage_daily_cycle"]);
@@ -98,6 +101,12 @@ async function tableInfo(name: string, scope: Scope = null) {
   const columns: string[] = c.columns ? JSON.parse(c.columns) : [];
   const shape: Shape = columns[0] === "entity_id" ? "entities" : columns[0] === "event_id" ? "events" : "series";
   return { c, columns, shape };
+}
+
+/** Session 148: whether every one of these tables is in the site's live set now, by the catalogue (kept ten minutes). */
+async function allHeld(names: string[]): Promise<boolean> {
+  const rows = await catalogue();
+  return names.every((n) => rows.some((r) => r.table_name === n && (r.in_live_set === "yes" || r.in_live_set === "review")));
 }
 
 const round = (x: number) => Math.round(x * 10 ** DIGITS) / 10 ** DIGITS;
@@ -439,6 +448,13 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (a.start) bounds.push(`${tcol}.gte.${parseTime(a.start, btz)}`);
   if (a.end) bounds.push(`${tcol}.lt.${parseTime(a.end, btz)}`);
   if (bounds.length) q.and = `(${bounds.join(",")})`;
+  // session 148: no question reads a year of hourly reserve prices. While the tables of days and months are in the live
+  // set, a query of the hourly table that gives no start, or spans more than a few weeks, is refused before any row is
+  // read, with a message that names the two tables (lib/chat/rollup.ts). Until they are loaded the table is read as before.
+  if (scope?.rollup && a.table === scope.rollup.hourly && (await allHeld(scope.rollup.tables))) {
+    const why = hourlyRefusal(a.start ? parseTime(a.start, btz) : null, a.end ? parseTime(a.end, btz) : null, Date.now());
+    if (why) throw new ToolError(why);
+  }
   for (const [col, val] of Object.entries(a.where ?? {})) {
     if (!columns.includes(col)) throw new ToolError(`no column ${JSON.stringify(col)} in this table; columns: ${columns.join(", ")}`);
     const vals = Array.isArray(val) ? val : [val];

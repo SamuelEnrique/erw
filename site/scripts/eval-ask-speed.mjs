@@ -107,6 +107,8 @@ for (const q of todo) {
     series: (r.series ?? []).map((s) => ({ table: s.table, rows: (s.rows ?? []).length, same: s.check?.same ?? null })), citations: (r.citations ?? []).map((c) => c.table),
     tool_calls: r.tool_calls ?? null, requests: r.usage?.requests ?? null, retried: r.retried ?? null, cost_usd: cost, cost_known: known, model: r.model ?? null,
     models: [...new Set(steps.filter((s) => s.what === "model").map((s) => `${s.stage}:${s.model}`))],
+    // session 148: whether the read was written by rule and for which shape, and the effort each model call was given
+    planned_by: r.planned_by ?? null, plan_shape: r.plan_shape ?? null, efforts: steps.filter((s) => s.what === "model").map((s) => `${s.role ?? ""}:${s.effort ?? ""}`),
     seconds_first_sign: r1(a.first_sign), seconds_words: r1(a.words_at), words_first: a.words_first ?? false, withdrawn: a.withdrawn ?? 0, seconds: r1(a.seconds),
     server_seconds: r.seconds ?? null, server_seconds_words: r.seconds_words ?? null, stages_ms: r.stages_ms ?? null, steps, answer: String(r.answer ?? a.error ?? "").slice(0, 700) };
   fs.appendFileSync(out, JSON.stringify(line) + "\n");
