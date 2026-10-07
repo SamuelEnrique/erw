@@ -244,7 +244,9 @@ class Page(unittest.TestCase):
         # how long a new large load waits: every grid. Load in line by region: every grid but NYISO, which publishes it
         # (its queue workbook's load sheets), so there the truth is "not held yet"
         self.assertEqual(self.page.count("words={NOWHERE}"), 3)
-        self.assertIn('x.grid === "nyiso" ? <NyLoadCell key="ny" own={x.region} />', self.page)   # session 140: New York's load queue is held and shown
+        # session 140: New York's load queue is held and shown; session 149 (the owner's ruling of 7 October 2026): held
+        # internal, and a placeholder stands where the megawatts stood unless the connector's switch puts them back
+        self.assertIn('x.grid === "nyiso" ? (NY_SHOWN ? <NyLoadCell key="ny" own={x.region} /> : <span key="ny" data-nyload-held="1"><Missing words={NY_HELD_WORDS} why={NY_HELD_WHY} /></span>)', self.page)
         self.assertIn('words = "not held yet"', self.page)
         self.assertIn('"Delivery charges"', self.page)
         for link in ("/mix?view=clean&grid=", "/mix?view=stress&grid=", "/demand?area=", "/queues?grid=", "/datacenters"):

@@ -447,5 +447,98 @@ class IsoNeUndeliveredOnTheWorkbooks(unittest.TestCase):
                       "Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws.", words)
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# 7. NYISO's terms and the load queue rows. The owner's ruling of 7 October 2026: the terms are quoted, and the rows
+#    are shown only if the words allow it. They confer no license and reserve every right, so the rows are held
+#    internal: the table, the registry, the page's file (no request, zone or megawatt) and the page's face.
+# ---------------------------------------------------------------------------------------------------------------
+RAW_NYISO = os.path.join(os.path.dirname(ROOT), "erw", "warehouse", "raw", "nyiso_load_queue")
+
+
+def nyiso_module():
+    p = os.path.join(ROOT, "warehouse", "connectors")
+    if p not in sys.path:
+        sys.path.insert(0, p)
+    try:
+        import nyiso_load_queue
+    except ImportError as exc:
+        raise unittest.SkipTest("the NYISO load queue connector cannot be imported here: %s" % exc)
+    return nyiso_load_queue
+
+
+class NyisoLoadQueueIsHeld(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.q = nyiso_module()
+
+    def test_the_switch_is_off_and_the_license_follows_it(self):
+        q = self.q
+        self.assertIs(q.SHOWN, False)
+        self.assertEqual(q.LICENSE, "internal")
+        text = src("warehouse", "connectors", "nyiso_load_queue.py")
+        self.assertIn('LICENSE = "public" if SHOWN else "internal"', text)
+        self.assertIn("license=LICENSE, tables=[NAME]", text)
+        self.assertIn("write_site(doc if SHOWN else held_site(doc), site_file, log)", text)
+        self.assertIn('("License: internal. Session 149', text)
+
+    def test_every_sentence_that_bears_on_copying_is_quoted(self):
+        q = self.q
+        self.assertEqual(len(q.TERMS_QUOTES), 6)
+        joined = " ".join(q.TERMS_QUOTES)
+        for words in ("does not confer any license or ownership interest", "expressly reserves such rights and property in its entirety",
+                      "republishing, retransmitting, reproducing", "prior written permission", "All Rights Reserved"):
+            self.assertIn(words, joined)
+        note = src("docs", "methods", "datacenter_cost.md")
+        for sentence in q.TERMS_QUOTES:
+            self.assertIn(" ".join(sentence.split()), " ".join(note.split()), sentence[:60])   # word for word in the Method note
+        self.assertIn("They do not allow it.", note)
+        self.assertIn("NYISO's terms do not allow it", note)
+        self.assertIn("does not allow showing the rows", q.TERMS_READING)
+
+    def test_the_file_the_page_reads_holds_no_request(self):
+        q = self.q
+        doc = json.loads(src("site", "data", "nyiso_load_queue.json"))
+        self.assertEqual(sorted(doc), ["built", "license", "shown", "source", "why", "words"])
+        self.assertEqual((doc["shown"], doc["license"], doc["words"], doc["why"]), (False, "internal", q.HELD_WORDS, q.HELD_WHY))
+        self.assertEqual(sorted(doc["source"]), ["name", "publisher", "report_page", "sheet_names", "terms", "url"])
+        self.assertEqual(doc["source"]["terms"]["quotes"], q.TERMS_QUOTES)
+        self.assertEqual(doc["source"]["terms"]["license"], "internal")
+        self.assertLess(len(json.dumps(doc)), 4000)   # it held 74 requests in 74 kB
+
+    def test_the_face_reads_the_placeholder(self):
+        page = src("site", "app", "cost-of-power", "page.tsx")
+        self.assertIn("const NY_SHOWN = NYLOAD.shown !== false && Array.isArray(NYLOAD.rows) && Array.isArray(NYLOAD.zones);", page)
+        self.assertIn('<span key="ny" data-nyload-held="1"><Missing words={NY_HELD_WORDS} why={NY_HELD_WHY} /></span>', page)
+        self.assertIn('{x.grid === "nyiso" && NY_SHOWN ? (', page)
+        self.assertEqual(page.count("<NyLoadCell"), 1)          # only behind the switch
+        self.assertIn("NY_SHOWN ? <NyLoadCell", page)
+        self.assertIn('"/cost-of-power": "review"', src("site", "lib", "release.ts").replace("\n", " ").replace("  ", " "))
+
+    def test_the_registry_says_internal_and_the_live_set_holds_it(self):
+        import csv
+        with open(os.path.join(ROOT, "warehouse", "metadata", "sources.csv"), encoding="utf-8", newline="") as f:
+            row = {r["source"]: r for r in csv.DictReader(f)}["nyiso:load_queue"]
+        self.assertEqual((row["license"], row["tables"]), ("internal", "nyiso_load_queue"))
+        live = src("warehouse", "supabase", "live_set.yaml")
+        self.assertIn("- nyiso_load_queue", live.split("catalogue_hold:", 1)[1].split("review_hold:", 1)[0])
+        self.assertIn("- nyiso:load_queue", live.split("sources_hold:", 1)[1])
+
+    @unittest.skipUnless(os.path.exists(os.path.join(RAW_NYISO, "manifest.csv")), "NYISO's saved legal notice is not on this machine")
+    def test_the_quotes_are_in_the_notice_as_saved(self):
+        import csv
+        import hashlib
+        q = self.q
+        with open(os.path.join(RAW_NYISO, "manifest.csv"), encoding="utf-8", newline="") as f:
+            row = [r for r in csv.DictReader(f) if r["url"] == q.TERMS_URL and r["status"] == "200"][-1]
+        with open(os.path.join(RAW_NYISO, row["file"]), "rb") as f:
+            body = f.read()
+        self.assertEqual(hashlib.sha256(body).hexdigest(), row["sha256"])
+        text = q.page_text(body)
+        for sentence in q.TERMS_QUOTES:
+            self.assertIn(sentence, text, sentence[:60])
+        for grant in ("may be used", "may be reproduced", "you may copy", "permission is granted", "is hereby granted"):
+            self.assertNotIn(grant, text.lower(), grant)   # no sentence of the notice grants leave
+
+
 if __name__ == "__main__":
     unittest.main()

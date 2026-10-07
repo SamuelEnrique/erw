@@ -210,10 +210,22 @@ class SiteFile(unittest.TestCase):
         self.assertEqual((zones["J"]["requests"], zones["J"]["mw"], zones["J"]["by_status"]), (0, 0, []))
 
     def test_zone_sums_equal_the_rows_sums_in_the_file_the_page_reads(self):
+        # Session 149: the file the page reads holds no request (the rows are held internal on the owner's ruling of
+        # 7 October 2026); the sums are checked on what the connector builds from the saved cut, which is what the
+        # file held and what it would hold again if the switch (q.SHOWN) were turned
         self.assertTrue(os.path.exists(SITE), "site/data/nyiso_load_queue.json is not there")
         with open(SITE, encoding="utf-8") as f:
             text = f.read()
-        doc = json.loads(text)
+        held = json.loads(text)
+        self.assertIs(q.SHOWN, False)
+        self.assertEqual((held["shown"], held["license"], held["words"]), (False, "internal", q.HELD_WORDS))
+        self.assertEqual(sorted(held), ["built", "license", "shown", "source", "why", "words"])
+        self.assertEqual(held["source"]["terms"]["quotes"], q.TERMS_QUOTES)
+        self.assertEqual(held["source"]["terms"]["reading"], q.TERMS_READING)
+        self.assertNotIn(chr(0x2014), text)
+        doc = site_doc()
+        text = json.dumps(doc)
+        self.assertEqual(q.held_site(doc)["source"]["terms"], doc["source"]["terms"])
         self.check_sums(doc)
         self.assertEqual(doc["source"]["sheet_names"], ["Load Projects", "Load Project Tracking"])
         self.assertTrue(doc["source"]["url"].startswith("https://www.nyiso.com/"))
@@ -301,11 +313,15 @@ class Stages(unittest.TestCase):
         self.assertEqual(len(lines) - 1, 20)
         self.assertIn("# Source: nyiso:load_queue", text)
         self.assertIn("https://www.nyiso.com/legal-notice", text)
+        self.assertIn("# License: internal.", text)   # session 149: held internal (the owner's ruling of 7 October 2026)
         with open(os.path.join(self.out, "site", "nyiso_load_queue.json"), encoding="utf-8") as f:
-            self.assertEqual(json.load(f)["total"]["requests"], 14)
+            page_file = json.load(f)
+        self.assertIs(page_file["shown"], False)        # the page's file holds no request and no megawatt
+        self.assertNotIn("rows", page_file)
+        self.assertNotIn("total", page_file)
         with open(os.path.join(self.out, "metadata", "sources.csv"), encoding="utf-8", newline="") as f:
             reg = list(csv.DictReader(f))
-        self.assertEqual([(r["source"], r["license"], r["tables"]) for r in reg], [("nyiso:load_queue", "public", "nyiso_load_queue")])
+        self.assertEqual([(r["source"], r["license"], r["tables"]) for r in reg], [("nyiso:load_queue", "internal", "nyiso_load_queue")])
         with open(os.path.join(self.out, "status", "nyiso_load_queue.json"), encoding="utf-8") as f:
             self.assertEqual(json.load(f)["results"][0]["status"], "ok")
 

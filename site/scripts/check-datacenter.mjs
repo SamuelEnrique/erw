@@ -86,12 +86,24 @@ for (const [q, grid, region, buy, x] of [
   check(/<input[^>]*checked=""[^>]*value="ercot"|value="ercot"[^>]*checked=""/.test(m), "an address that names MISO opens the default grid, ERCOT");
   const ny = plain(face((await get("/cost-of-power?grid=nyiso")).html));
   const q = JSON.parse(fs.readFileSync(new URL("../nyiso_load_queue.json", dir), "utf-8"));
-  const nyh = (await get("/cost-of-power?grid=nyiso&region=CENTRL&buy=da")).html, mine = q.zones.find((z) => z.zone_name === "CENTRL");
-  check(/data-nyload="1"/.test(nyh) && new RegExp(`${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL`).test(plain(nyh)) && new RegExp(`${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} requests in New York`).test(plain(nyh))
-    && q.zones.every((z) => nyh.includes(`data-nyload-zone="${z.zone_name}"`)) && /How long a new large load waits\s+not published anywhere yet/.test(ny),
-    `New York's load in line by zone is NYISO's own list: ${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL, ${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} in all, each zone with its statuses and its source on hover`);
-  const inLine = q.rows.filter((r) => r.in_line);
-  check(inLine.length === q.total.requests && inLine.every((r) => nyh.includes(`>${r.queue_position}</a>`)) && nyh.includes(q.source.url), `the ${inLine.length} requests in line are listed one by one, each linked to NYISO's workbook with its sheet and row on hover`);
+  const nyh = (await get("/cost-of-power?grid=nyiso&region=CENTRL&buy=da")).html;
+  if (q.shown === false) {
+    // Session 149 (the owner's ruling of 7 October 2026: the rows are shown only if NYISO's terms allow it; by their
+    // words they do not): the megawatts in line and the fold of requests have left the face; a placeholder with its
+    // reason on hover stands where they stood, and the page's file holds no request
+    check(/data-nyload-held="1"/.test(nyh) && !/data-nyload="1"/.test(nyh) && plain(nyh).includes(`Large load in line, by region ${q.words}`)
+      && nyh.includes(`title="${q.why.replace(/'/g, "&#x27;")}"`) && /How long a new large load waits\s+not published anywhere yet/.test(ny),
+      `New York's load in line reads "${q.words}", with the reason on hover`);
+    check(!("rows" in q) && !("zones" in q) && !("total" in q) && !/New York(&#x27;|')s load in line, request by request/.test(nyh) && !/data-nyload-zone=/.test(nyh),
+      "no request, zone or megawatt of NYISO's load queue is on the page or in its file");
+  } else {
+    const mine = q.zones.find((z) => z.zone_name === "CENTRL");
+    check(/data-nyload="1"/.test(nyh) && new RegExp(`${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL`).test(plain(nyh)) && new RegExp(`${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} requests in New York`).test(plain(nyh))
+      && q.zones.every((z) => nyh.includes(`data-nyload-zone="${z.zone_name}"`)) && /How long a new large load waits\s+not published anywhere yet/.test(ny),
+      `New York's load in line by zone is NYISO's own list: ${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL, ${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} in all, each zone with its statuses and its source on hover`);
+    const inLine = q.rows.filter((r) => r.in_line);
+    check(inLine.length === q.total.requests && inLine.every((r) => nyh.includes(`>${r.queue_position}</a>`)) && nyh.includes(q.source.url), `the ${inLine.length} requests in line are listed one by one, each linked to NYISO's workbook with its sheet and row on hover`);
+  }
   const other = face((await get("/cost-of-power?grid=caiso")).html);
   check(/Delivery charges\s+not held yet/.test(plain(other)), 'another grid shows "delivery charges: not held yet"');
 }
