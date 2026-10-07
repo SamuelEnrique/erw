@@ -226,6 +226,22 @@ class Ceilings(unittest.TestCase):
         self.assertEqual(len(web.asked), 3)
         self.assertEqual(tally["requests"], 3)
 
+    def test_a_page_the_session_already_holds_is_copied_and_not_asked_of_its_publisher_again(self):
+        urls = ["https://h.example/p", "https://h.example/q", "https://other.example/r"]
+        web = Web(pages={u: (200, HTML, PAGE) for u in urls})
+        shelf, _, _ = pull(urls[:2], web)                          # a store of this session, fetched today
+        asked = len(web.asked)
+        store, tally, _ = pull([urls[0], urls[2]], web, shelf=shelf)            # a replay through a store of its own
+        self.assertEqual((tally["copied"], tally["requested"]), (1, 1))
+        self.assertEqual(web.urls()[asked:], ["https://other.example/robots.txt", urls[2]])
+        self.assertEqual(sorted(store["pages"]), [urls[0], urls[2]])           # only what this run asked for: nothing else of the shelf comes along
+        self.assertEqual(store["pages"][urls[0]]["text_sha256"], shelf["pages"][urls[0]]["text_sha256"])
+        self.assertEqual(store["pages"][urls[0]]["copied_from_run"], "run-t")
+        store, tally, _ = pull([urls[1]], web, shelf=shelf, max_run=0)          # with the ceiling at nought no request can be made at all
+        self.assertEqual((tally["copied"], tally["requests"]), (1, 0))
+        store, tally, _ = pull([urls[0]], web, shelf=shelf, day="2026-10-08")   # a shelf from an earlier day is not used
+        self.assertEqual((tally["copied"], tally["requested"]), (0, 1))
+
     def test_the_ceilings_are_the_owners(self):
         self.assertEqual((pg.MAX_ADDRESSES_RUN, pg.MAX_ADDRESSES_SESSION, pg.MAX_BYTES, pg.TIMEOUT, pg.HOST_GAP), (150, 450, 2_000_000, 20, 1.0))
         web = Web(pages={"https://h.example/p": (200, HTML, PAGE)})
@@ -505,6 +521,18 @@ class ByHand(unittest.TestCase):
         a, b = [x["text"] for x in c["ties"][3]["lines"]]
         self.assertNotEqual(tie.sha(a), tie.sha(b))
         self.assertEqual(a[:150], b[:150])
+
+    def test_a_name_made_of_the_niches_own_words_is_named_by_running_text_as_the_rule_was_built(self):
+        """Flagged for the owner, not changed: the third run of 7 October 2026 put "Geothermal Technologies
+        (geothermal.tech)" on the landscape by two sentences about geothermal technologies in general. The name
+        matching is session 142's, untouched: a whole name of two words is matched wherever those words stand."""
+        niche_words = ["geothermal", "mapping", "sensing"]
+        key = tie.name_key("Geothermal Technologies (geothermal.tech)")
+        self.assertEqual(key, "geothermal technologies")
+        aliases = [(key, tie.core_of(key, niche_words))]
+        self.assertEqual(aliases, [("geothermal technologies", "geothermal technologies")])
+        self.assertTrue(tie.names_it("Department of Energy to advance geothermal technologies and field tests.", aliases, niche_words))
+        self.assertTrue(tie.names_it("The DOE Geothermal Technologies Office has been the major funder of geothermal innovation.", aliases, niche_words))
 
 
 class RunPath(unittest.TestCase):
