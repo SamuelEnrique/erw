@@ -11,7 +11,8 @@
 import "server-only";
 import spec from "./spec_ercot.json";
 import { numbers, unverified, type Draft, type Profile, type ToolRecord } from "./ask";
-import { scopeOf, type Scope } from "./tools";
+import { scopeOf, tableSummaries, type Scope } from "./tools";
+import { summaryText } from "./summaries";
 import { chartPoints, pointsAreRows } from "./series";
 import { FORMS, FORM_SCHEMA, MIX_HOLDS, MIX_TABLES, NOTES_TABLE, PAGE_TOOL, addendum, notesOf, pageFigures, type Form } from "./panel";
 
@@ -155,6 +156,23 @@ export function spelled(args: Json): string {
   return words.join(" ");
 }
 
+// Session 143: the order the answer's fields are written in. What the page shows first comes first: the form, whether it
+// is an answer at all, the series it names and a premise, then the answer's words. When the words are whole their
+// numbers, form and premise are checked and the words are shown; the citations, the nearest tables and the questions to
+// ask next are written after, and are checked with the whole draft before they are shown. The fields and what each
+// must hold are the exported spec's (lib/chat/spec_ercot.json): only their order is the site's.
+export const FIELD_ORDER = ["form", "not_in_warehouse", "series", "premise", "answer", "citations", "nearest", "followups"];
+export function inOrder(schema: Json): Json {
+  const props = schema.properties as Json, required = schema.required as string[];
+  const keys = [...FIELD_ORDER.filter((k) => k in props), ...Object.keys(props).filter((k) => !FIELD_ORDER.includes(k))];
+  return { ...schema, properties: Object.fromEntries(keys.map((k) => [k, props[k]])), required: keys.filter((k) => required.includes(k)) };
+}
+/** Session 143: the model of the first turn, the one that decides what to read. "writer": the same model that writes
+ * (the newest Sonnet-class model, as before). A smaller model was tried here ("claude-haiku-4-5") and was slower to its
+ * first word and less exact (docs/methods/ask_ercot.md): ASK_PLANNER on the server names another model for a trial; it
+ * must have a price in lib/chat/spec.json, or it is not used. */
+export const PLANNER = "writer";
+
 export function ercotProfile(): Profile {
   const base = scopeOf("ercot");
   if (!base) throw new Error("docs/grids/grids.json has no grid ercot");
@@ -165,7 +183,36 @@ export function ercotProfile(): Profile {
     // session 137: the answer panel. The system prompt carries the panel's rules and the page's written content; the
     // answer names its form; the board's and Supply and trade's rows are read by a tool of the profile's own
     system: spec.system + addendum(base.slug, base.iso),
-    schema: { ...(spec.answer_schema as Json), properties: { ...((spec.answer_schema as Json).properties as Json), form: FORM_SCHEMA }, required: [...((spec.answer_schema as Json).required as string[]), "form"] },
+    schema: inOrder({ ...(spec.answer_schema as Json), properties: { ...((spec.answer_schema as Json).properties as Json), form: FORM_SCHEMA }, required: [...((spec.answer_schema as Json).required as string[]), "form"] }),
+    // session 143: the planner, the tables' summaries held ready, the head of a draft that may be shown, the writing turn
+    planner: PLANNER,
+    brief: async () => {
+      const { rows, readAt } = await tableSummaries(scope, [...spec.tables, ...MIX_TABLES], MIX_TABLES);
+      return readAt ? summaryText(rows, readAt) : "";
+    },
+    early: (head, results, given) => {
+      // the checks of extraProblems below that need no citation and no follow-up: the form, the series named, the premise
+      const problems: string[] = [];
+      const k = known(results);
+      const ids = (Array.isArray(head.series) ? head.series : []) as string[];
+      const form = FORMS.includes(head.form as Form) ? (head.form as Form) : null;
+      if (!form) problems.push("no form");
+      if ((form === "words" || form === "sentence") && ids.length) problems.push("a series under an answer in words or a sentence");
+      if ((form === "chart" || form === "table") && !head.not_in_warehouse && !ids.length) problems.push("a chart or table that names no series");
+      if (ids.some((i) => !k.has(i) || !chartable(...k.get(i)!)) || ids.length > spec.max_series) problems.push("series that are not results of this question");
+      if (unverified(typeof head.premise === "string" ? head.premise : "", [...results.map((r) => JSON.stringify(r.out)), ...given]).length) problems.push("a premise with an untraced number");
+      return problems;
+    },
+    // a follow-up question that fails its own check is left out, and the answer stands (lib/chat/ask.ts settle)
+    tailOnly: (problems) => problems.length > 0 && problems.every((p) => p.startsWith("follow-up questions contain numbers") || p.startsWith("followups must be two or three")),
+    mend: (draft, results) => {
+      const pool = results.map((r) => JSON.stringify(r.out));
+      const traced = (f: string) => numbers(f).every(([v, d]) => (d === 0 && Number.isInteger(v) && v >= YEAR_LO && v <= YEAR_HI) || !unverified(v.toFixed(d), pool).length);
+      return { ...draft, followups: ((Array.isArray(draft.followups) ? draft.followups : []) as unknown[]).filter((f): f is string => typeof f === "string" && !!f.trim() && traced(f)).slice(0, 3) };
+    },
+    writing: (opening, results) => `${opening}\n\nTHE READING IS DONE. These are the tool calls made for this question, in order, and what each returned. No tool can be called in this turn.\n\n` +
+      results.map((r, i) => `CALL ${i + 1}: ${r.tool} ${JSON.stringify(r.input)}\nRESULT${r.isError ? " (an error)" : ""}: ${JSON.stringify(r.out)}`).join("\n\n") +
+      `\n\nWrite the answer now, as the JSON described, from these results and under every rule above. If they do not hold what the question needs (a call that is needed was not made, a result is an error, a row is missing), do not guess and do not refuse: reply with form "words", not_in_warehouse false, an empty answer and no citations. The question is then read again with the tools.`,
     effort: spec.effort, retry: spec.retry, scope,
     tools: [PAGE_TOOL],
     ownTool: (name, input) => (name === PAGE_TOOL.name ? Promise.resolve().then(() => { const out = pageFigures((input ?? {}) as Json, base.slug, base.iso); return { out, isError: "error" in out }; }) : null),

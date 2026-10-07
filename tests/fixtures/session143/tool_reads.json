@@ -1,0 +1,838 @@
+{
+ "_": "Energy Research Warehouse (ERW), session 143: what three tool calls of Ask ERCOT read from the Supabase live set (the anon key), request by request, recorded by site/scripts/record-ask-fixture.mjs. Real rows; the catalogue is cut to the three tables read; the database's address is a stand-in.",
+ "recorded_at": "2026-10-07T10:33:08.405Z",
+ "calls": [
+  {
+   "name": "query",
+   "input": {
+    "table": "ercot_hub_prices_daily",
+    "aggregation": "mean",
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "start": "2026-09-01",
+    "end": "2026-10-01",
+    "group_by": "day"
+   }
+  },
+  {
+   "name": "query",
+   "input": {
+    "table": "ercot_peak_premium_annual",
+    "aggregation": "latest",
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "group_by": "year"
+   }
+  },
+  {
+   "name": "query",
+   "input": {
+    "table": "carbon_intensity_monthly",
+    "aggregation": "mean",
+    "entity": "eia930:ERCO",
+    "variable": "intensity_generation",
+    "start": "2026-09-01",
+    "end": "2026-10-01"
+   }
+  }
+ ],
+ "reads": {
+  "https://fixture.invalid/rest/v1/catalogue?select=*&order=table_name&limit=1000&offset=0": [
+   {
+    "table_name": "carbon_intensity_monthly",
+    "iso": "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP;US48",
+    "market": null,
+    "n_nodes": 8,
+    "interval": "P1M",
+    "ts_min": "2018-08-01T00:00:00+00:00",
+    "ts_max": "2026-09-01T00:00:00+00:00",
+    "n_rows": 1275,
+    "source_report": "erw:carbon_intensity;erw:carbon_intensity_caiso",
+    "last_run": "2026-10-06T14:20:17+00:00",
+    "validator_status": "pass",
+    "license": "public",
+    "sector": "power;carbon",
+    "derived": "yes",
+    "in_live_set": "yes",
+    "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\", \"ba\"]",
+    "rows_sha256": "b876bab386a5296dba6687210f50cf5fa6b41bc80d0905e47149c8b8b5661371",
+    "tier": "derived"
+   },
+   {
+    "table_name": "ercot_hub_prices_daily",
+    "iso": "ERCOT",
+    "market": "ercot_dam;ercot_rtm",
+    "n_nodes": 6,
+    "interval": "P1D",
+    "ts_min": "2015-01-01T00:00:00+00:00",
+    "ts_max": "2026-10-06T00:00:00+00:00",
+    "n_rows": 345390,
+    "source_report": "erw:ercot_hub_prices_daily",
+    "last_run": "2026-10-06T14:45:12+00:00",
+    "validator_status": "pass",
+    "license": "public",
+    "sector": "power",
+    "derived": "yes",
+    "in_live_set": "review",
+    "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\"]",
+    "rows_sha256": "46090748bca0ed63d642d39e989300cb8d7c649463001cd772b445fa93c4a460",
+    "tier": "derived"
+   },
+   {
+    "table_name": "ercot_peak_premium_annual",
+    "iso": "ERCOT",
+    "market": "ercot_rtm",
+    "n_nodes": 6,
+    "interval": "P1Y",
+    "ts_min": "2015-01-01T00:00:00+00:00",
+    "ts_max": "2026-01-01T00:00:00+00:00",
+    "n_rows": 2016,
+    "source_report": "erw:ercot_peak_premium",
+    "last_run": "2026-09-29T00:55:55+00:00",
+    "validator_status": "pass",
+    "license": "public",
+    "sector": "power",
+    "derived": "yes",
+    "in_live_set": "yes",
+    "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\"]",
+    "rows_sha256": "38e4325bc698d3b6751ca8da101d5fc7f61fdc3e469fb02820f71a43a337c4a7",
+    "tier": "derived"
+   }
+  ],
+  "https://fixture.invalid/rest/v1/series?select=t%3Ats_utc%2Cv%3Avalue%2Centity%2Cvariable%2Cunit&table_name=eq.ercot_hub_prices_daily&order=ts_utc.asc.nullslast&or=%28entity.eq.%22ercot%3AHB_WEST%22%2Cnode.eq.%22ercot%3AHB_WEST%22%29&variable=eq.da_mean&and=%28ts_utc.gte.2026-09-01T00%3A00%3A00.000Z%2Cts_utc.lt.2026-10-01T00%3A00%3A00.000Z%29&limit=1000&offset=0": [
+   {
+    "t": "2026-09-01T00:00:00+00:00",
+    "v": 35.9154,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-02T00:00:00+00:00",
+    "v": 38.5604,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-03T00:00:00+00:00",
+    "v": 36.0729,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-04T00:00:00+00:00",
+    "v": 32.515,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-05T00:00:00+00:00",
+    "v": 36.5783,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-06T00:00:00+00:00",
+    "v": 37.9313,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-07T00:00:00+00:00",
+    "v": 44.6896,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-08T00:00:00+00:00",
+    "v": 40.1154,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-09T00:00:00+00:00",
+    "v": 46.1642,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-10T00:00:00+00:00",
+    "v": 46.39,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-11T00:00:00+00:00",
+    "v": 33.8829,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-12T00:00:00+00:00",
+    "v": 26.3921,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-13T00:00:00+00:00",
+    "v": 28.6254,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-14T00:00:00+00:00",
+    "v": 21.0358,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-15T00:00:00+00:00",
+    "v": 27.6671,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-16T00:00:00+00:00",
+    "v": 30.8542,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-17T00:00:00+00:00",
+    "v": 42.7779,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-18T00:00:00+00:00",
+    "v": 38.2604,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-19T00:00:00+00:00",
+    "v": 41.6888,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-20T00:00:00+00:00",
+    "v": 54.7658,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-21T00:00:00+00:00",
+    "v": 60.2746,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-22T00:00:00+00:00",
+    "v": 50.6013,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-23T00:00:00+00:00",
+    "v": 44.5092,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-24T00:00:00+00:00",
+    "v": 44.1675,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-25T00:00:00+00:00",
+    "v": 37.3863,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-26T00:00:00+00:00",
+    "v": 33.5146,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-27T00:00:00+00:00",
+    "v": 46.84,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-28T00:00:00+00:00",
+    "v": 43.6754,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-29T00:00:00+00:00",
+    "v": 18.3179,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-09-30T00:00:00+00:00",
+    "v": 30.7063,
+    "entity": "ercot:HB_WEST",
+    "variable": "da_mean",
+    "unit": "USD/MWh"
+   }
+  ],
+  "https://fixture.invalid/rest/v1/sources?select=source%2Cpublisher%2Creport%2Creport_url&source=in.%28%22erw%3Aercot_hub_prices_daily%22%29&limit=1000&offset=0": [
+   {
+    "source": "erw:ercot_hub_prices_daily",
+    "publisher": "Energy Research Warehouse (ERW), derived",
+    "report": "ERCOT hub prices by day (docs/methods/ercot_hub_prices_daily.md)",
+    "report_url": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_hub_prices_daily.md"
+   }
+  ],
+  "https://fixture.invalid/rest/v1/series?select=t%3Ats_utc%2Cv%3Avalue%2Centity%2Cvariable%2Cunit&table_name=eq.ercot_peak_premium_annual&order=ts_utc.asc.nullslast&or=%28entity.eq.%22ercot%3AHB_HUBAVG%22%2Cnode.eq.%22ercot%3AHB_HUBAVG%22%29&variable=eq.peak_minus_midday_median&limit=1000&offset=0": [
+   {
+    "t": "2015-01-01T00:00:00+00:00",
+    "v": -0.16,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2016-01-01T00:00:00+00:00",
+    "v": 0.03,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2017-01-01T00:00:00+00:00",
+    "v": 0.09,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2018-01-01T00:00:00+00:00",
+    "v": 0.255,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2019-01-01T00:00:00+00:00",
+    "v": 0.49,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2020-01-01T00:00:00+00:00",
+    "v": 0.57,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2021-01-01T00:00:00+00:00",
+    "v": 3.135,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2022-01-01T00:00:00+00:00",
+    "v": 13.65,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2023-01-01T00:00:00+00:00",
+    "v": 6.495,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2024-01-01T00:00:00+00:00",
+    "v": 8.93,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2025-01-01T00:00:00+00:00",
+    "v": 14.52,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   },
+   {
+    "t": "2026-01-01T00:00:00+00:00",
+    "v": 12.29,
+    "entity": "ercot:HB_HUBAVG",
+    "variable": "peak_minus_midday_median",
+    "unit": "USD/MWh"
+   }
+  ],
+  "https://fixture.invalid/rest/v1/sources?select=source%2Cpublisher%2Creport%2Creport_url&source=in.%28%22erw%3Aercot_peak_premium%22%29&limit=1000&offset=0": [
+   {
+    "source": "erw:ercot_peak_premium",
+    "publisher": "Energy Research Warehouse (ERW), derived",
+    "report": "ERCOT peak premium metrics (docs/methods/ercot_peak_premium.md)",
+    "report_url": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_peak_premium.md"
+   }
+  ],
+  "https://fixture.invalid/rest/v1/series?select=t%3Ats_utc%2Cv%3Avalue%2Centity%2Cvariable%2Cunit&table_name=eq.carbon_intensity_monthly&order=ts_utc.asc.nullslast&ba=eq.erco&or=%28entity.eq.%22eia930%3AERCO%22%2Cnode.eq.%22eia930%3AERCO%22%29&variable=eq.intensity_generation&and=%28ts_utc.gte.2026-09-01T00%3A00%3A00.000Z%2Cts_utc.lt.2026-10-01T00%3A00%3A00.000Z%29&limit=1000&offset=0": [
+   {
+    "t": "2026-09-01T00:00:00+00:00",
+    "v": 340.3496,
+    "entity": "eia930:ERCO",
+    "variable": "intensity_generation",
+    "unit": "kgCO2/MWh"
+   }
+  ],
+  "https://fixture.invalid/rest/v1/sources?select=source%2Cpublisher%2Creport%2Creport_url&source=in.%28%22erw%3Acarbon_intensity%22%2C%22erw%3Acarbon_intensity_caiso%22%29&limit=1000&offset=0": [
+   {
+    "source": "erw:carbon_intensity",
+    "publisher": "Energy Research Warehouse (ERW), derived",
+    "report": "Carbon intensity per balancing authority (docs/methods/emissions.md)",
+    "report_url": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/emissions.md"
+   },
+   {
+    "source": "erw:carbon_intensity_caiso",
+    "publisher": "Energy Research Warehouse (ERW), derived",
+    "report": "California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md)",
+    "report_url": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia930_caiso_break.md"
+   }
+  ]
+ },
+ "results": [
+  {
+   "out": {
+    "aggregation": "mean",
+    "value_column": "value",
+    "filters": {
+     "entity": "ercot:HB_WEST",
+     "variable": "da_mean",
+     "start": "2026-09-01",
+     "end": "2026-10-01"
+    },
+    "rows_matched": 30,
+    "units": [
+     "USD/MWh"
+    ],
+    "variables": [
+     "da_mean"
+    ],
+    "time_span": {
+     "first": "2026-09-01T00:00:00Z",
+     "last": "2026-09-30T00:00:00Z"
+    },
+    "n_groups": 30,
+    "summary": {
+     "rows": 30,
+     "lowest": {
+      "day": "2026-09-29",
+      "value": 18.3179
+     },
+     "highest": {
+      "day": "2026-09-21",
+      "value": 60.2746
+     },
+     "first": {
+      "day": "2026-09-01",
+      "value": 35.9154
+     },
+     "last": {
+      "day": "2026-09-30",
+      "value": 30.7063
+     },
+     "change_first_to_last": -5.2091,
+     "mean_of_rows": 38.362533,
+     "median_of_rows": 38.09585,
+     "all_rows_together": {
+      "value": 38.362533,
+      "n": 30
+     },
+     "note": "lowest, highest, first and last are rows of this result; mean_of_rows and median_of_rows are over the rows' values; all_rows_together is the same aggregation over every matched row at once"
+    },
+    "result": [
+     {
+      "day": "2026-09-01",
+      "value": 35.9154,
+      "n": 1
+     },
+     {
+      "day": "2026-09-02",
+      "value": 38.5604,
+      "n": 1
+     },
+     {
+      "day": "2026-09-03",
+      "value": 36.0729,
+      "n": 1
+     },
+     {
+      "day": "2026-09-04",
+      "value": 32.515,
+      "n": 1
+     },
+     {
+      "day": "2026-09-05",
+      "value": 36.5783,
+      "n": 1
+     },
+     {
+      "day": "2026-09-06",
+      "value": 37.9313,
+      "n": 1
+     },
+     {
+      "day": "2026-09-07",
+      "value": 44.6896,
+      "n": 1
+     },
+     {
+      "day": "2026-09-08",
+      "value": 40.1154,
+      "n": 1
+     },
+     {
+      "day": "2026-09-09",
+      "value": 46.1642,
+      "n": 1
+     },
+     {
+      "day": "2026-09-10",
+      "value": 46.39,
+      "n": 1
+     },
+     {
+      "day": "2026-09-11",
+      "value": 33.8829,
+      "n": 1
+     },
+     {
+      "day": "2026-09-12",
+      "value": 26.3921,
+      "n": 1
+     },
+     {
+      "day": "2026-09-13",
+      "value": 28.6254,
+      "n": 1
+     },
+     {
+      "day": "2026-09-14",
+      "value": 21.0358,
+      "n": 1
+     },
+     {
+      "day": "2026-09-15",
+      "value": 27.6671,
+      "n": 1
+     },
+     {
+      "day": "2026-09-16",
+      "value": 30.8542,
+      "n": 1
+     },
+     {
+      "day": "2026-09-17",
+      "value": 42.7779,
+      "n": 1
+     },
+     {
+      "day": "2026-09-18",
+      "value": 38.2604,
+      "n": 1
+     },
+     {
+      "day": "2026-09-19",
+      "value": 41.6888,
+      "n": 1
+     },
+     {
+      "day": "2026-09-20",
+      "value": 54.7658,
+      "n": 1
+     },
+     {
+      "day": "2026-09-21",
+      "value": 60.2746,
+      "n": 1
+     },
+     {
+      "day": "2026-09-22",
+      "value": 50.6013,
+      "n": 1
+     },
+     {
+      "day": "2026-09-23",
+      "value": 44.5092,
+      "n": 1
+     },
+     {
+      "day": "2026-09-24",
+      "value": 44.1675,
+      "n": 1
+     },
+     {
+      "day": "2026-09-25",
+      "value": 37.3863,
+      "n": 1
+     },
+     {
+      "day": "2026-09-26",
+      "value": 33.5146,
+      "n": 1
+     },
+     {
+      "day": "2026-09-27",
+      "value": 46.84,
+      "n": 1
+     },
+     {
+      "day": "2026-09-28",
+      "value": 43.6754,
+      "n": 1
+     },
+     {
+      "day": "2026-09-29",
+      "value": 18.3179,
+      "n": 1
+     },
+     {
+      "day": "2026-09-30",
+      "value": 30.7063,
+      "n": 1
+     }
+    ],
+    "table": "ercot_hub_prices_daily",
+    "data_version": "Supabase live set (public site); table last run 2026-10-06T14:45:12Z",
+    "source_report": "erw:ercot_hub_prices_daily",
+    "license": "public",
+    "tier": "derived",
+    "citation": "Energy Research Warehouse (ERW), derived. ercot_hub_prices_daily: ERCOT hub prices by day (docs/methods/ercot_hub_prices_daily.md). https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_hub_prices_daily.md. Retrieved 2026-10-06 via the ERW, table ercot_hub_prices_daily, Supabase live set."
+   },
+   "isError": false
+  },
+  {
+   "out": {
+    "aggregation": "latest",
+    "value_column": "value",
+    "filters": {
+     "entity": "ercot:HB_HUBAVG",
+     "variable": "peak_minus_midday_median"
+    },
+    "rows_matched": 12,
+    "units": [
+     "USD/MWh"
+    ],
+    "variables": [
+     "peak_minus_midday_median"
+    ],
+    "time_span": {
+     "first": "2015-01-01T00:00:00Z",
+     "last": "2026-01-01T00:00:00Z"
+    },
+    "n_groups": 12,
+    "summary": {
+     "rows": 12,
+     "lowest": {
+      "year": "2015",
+      "value": -0.16
+     },
+     "highest": {
+      "year": "2025",
+      "value": 14.52
+     },
+     "first": {
+      "year": "2015",
+      "value": -0.16
+     },
+     "last": {
+      "year": "2026",
+      "value": 12.29
+     },
+     "change_first_to_last": 12.45,
+     "mean_of_rows": 5.024583,
+     "median_of_rows": 1.8525,
+     "note": "lowest, highest, first and last are rows of this result; mean_of_rows and median_of_rows are over the rows' values; all_rows_together is the same aggregation over every matched row at once"
+    },
+    "result": [
+     {
+      "year": "2015",
+      "value": -0.16,
+      "at": "2015-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2016",
+      "value": 0.03,
+      "at": "2016-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2017",
+      "value": 0.09,
+      "at": "2017-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2018",
+      "value": 0.255,
+      "at": "2018-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2019",
+      "value": 0.49,
+      "at": "2019-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2020",
+      "value": 0.57,
+      "at": "2020-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2021",
+      "value": 3.135,
+      "at": "2021-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2022",
+      "value": 13.65,
+      "at": "2022-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2023",
+      "value": 6.495,
+      "at": "2023-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2024",
+      "value": 8.93,
+      "at": "2024-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2025",
+      "value": 14.52,
+      "at": "2025-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     },
+     {
+      "year": "2026",
+      "value": 12.29,
+      "at": "2026-01-01T00:00:00Z",
+      "entity": "ercot:HB_HUBAVG",
+      "variable": "peak_minus_midday_median",
+      "unit": "USD/MWh"
+     }
+    ],
+    "table": "ercot_peak_premium_annual",
+    "data_version": "Supabase live set (public site); table last run 2026-09-29T00:55:55Z",
+    "source_report": "erw:ercot_peak_premium",
+    "license": "public",
+    "tier": "derived",
+    "citation": "Energy Research Warehouse (ERW), derived. ercot_peak_premium: ERCOT peak premium metrics (docs/methods/ercot_peak_premium.md). https://github.com/SamuelEnrique/erw/blob/main/docs/methods/ercot_peak_premium.md. Retrieved 2026-09-29 via the ERW, table ercot_peak_premium_annual, Supabase live set."
+   },
+   "isError": false
+  },
+  {
+   "out": {
+    "aggregation": "mean",
+    "value_column": "value",
+    "filters": {
+     "entity": "eia930:ERCO",
+     "variable": "intensity_generation",
+     "start": "2026-09-01",
+     "end": "2026-10-01"
+    },
+    "rows_matched": 1,
+    "units": [
+     "kgCO2/MWh"
+    ],
+    "variables": [
+     "intensity_generation"
+    ],
+    "time_span": {
+     "first": "2026-09-01T00:00:00Z",
+     "last": "2026-09-01T00:00:00Z"
+    },
+    "result": [
+     {
+      "value": 340.3496,
+      "n": 1
+     }
+    ],
+    "table": "carbon_intensity_monthly",
+    "data_version": "Supabase live set (public site); table last run 2026-10-06T14:20:17Z",
+    "source_report": "erw:carbon_intensity;erw:carbon_intensity_caiso",
+    "license": "public",
+    "tier": "derived",
+    "citation": "Energy Research Warehouse (ERW), derived. carbon_intensity: Carbon intensity per balancing authority (docs/methods/emissions.md). https://github.com/SamuelEnrique/erw/blob/main/docs/methods/emissions.md. Energy Research Warehouse (ERW), derived. carbon_intensity_caiso: California's carbon intensity of generation from the join of 16 December 2025 (docs/methods/eia930_caiso_break.md). https://github.com/SamuelEnrique/erw/blob/main/docs/methods/eia930_caiso_break.md. Retrieved 2026-10-06 via the ERW, table carbon_intensity_monthly, Supabase live set."
+   },
+   "isError": false
+  }
+ ]
+}

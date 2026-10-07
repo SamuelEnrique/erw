@@ -90,6 +90,10 @@ export async function POST(req: Request) {
   // session 121, Ask ERCOT only: {stream: true} answers as lines of JSON, one per thing a reader can be shown: first
   // {"type":"reading","table":...} as each query starts, then {"type":"result",...} (the same object the plain answer
   // is) or {"type":"error","error":...}. The answer itself is never sent in pieces: it is checked whole first.
+  // Session 143: between the two a line {"type":"words","answer":...} may come: the answer's words, whole, once their
+  // numbers, their form and their premise have passed the check, while the citations, the series and the questions to
+  // ask next are still being written; the result that follows is the whole answer, checked as before. Should the whole
+  // draft not bear the words out, {"type":"withdrawn"} takes them back before anything else is sent.
   if (profile === "ercot" && stream === true) {
     const enc = new TextEncoder();
     const body = new ReadableStream<Uint8Array>({

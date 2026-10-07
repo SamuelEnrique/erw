@@ -35,6 +35,8 @@ export function stageClock(t0: number, now: () => number = Date.now) {
     },
     /** The moment the answer's words could be shown: once, the first time. */
     wordsAt(at: number = now()): void { if (words === null) words = Math.max(0, Math.round(at - t0)); },
+    /** The words were taken back: the moment is forgotten, and the next words set it again. */
+    wordsReset(): void { words = null; },
     /** Milliseconds from the request to the answer's words, or null when they were never sent before the whole. */
     get wordsMs(): number | null { return words; },
     /** The stages in whole milliseconds. "other" is the whole less the four named stages, so the five sum to total. */
@@ -84,3 +86,8 @@ export function partialDraft(text: string): Record<string, unknown> | null {
     return null;
   }
 }
+
+const inOrder = (v: unknown): unknown => (Array.isArray(v) ? v.map(inOrder) : v && typeof v === "object"
+  ? Object.fromEntries(Object.keys(v as Record<string, unknown>).sort().map((k) => [k, inOrder((v as Record<string, unknown>)[k])])) : v);
+/** A tool call as one string, its arguments with their keys in order: two calls with the same key ask the same thing. */
+export const callKey = (name: string, input: unknown): string => `${name} ${JSON.stringify(inOrder(input ?? {}))}`;

@@ -78,7 +78,12 @@ async function one(q, n) {
 
 const skip = new Set();
 for (const f of (opt("--skip", "") || "").split(",").filter(Boolean)) if (fs.existsSync(f)) for (const l of fs.readFileSync(f, "utf8").split("\n").filter(Boolean)) skip.add(JSON.parse(l).id);
-const todo = SET.questions.filter((q) => (!kinds || kinds.includes(q.kind)) && (!ids || ids.includes(q.id)) && !skip.has(q.id));
+const kept = SET.questions.filter((q) => (!kinds || kinds.includes(q.kind)) && (!ids || ids.includes(q.id)) && !skip.has(q.id));
+// --interleave: one question of each kind in turn (the first left of each, then the second, ...), so that a run the cap
+// stops early has asked about as many of one kind as of another
+const rank = new Map(), seen = {};
+for (const q of kept) { seen[q.kind] = (seen[q.kind] ?? 0) + 1; rank.set(q.id, seen[q.kind]); }
+const todo = args.includes("--interleave") ? [...kept].sort((a, b) => rank.get(a.id) - rank.get(b.id)) : kept;
 fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
 let n = 0, stopped = false, failed = false;
 const tally = {}, r1 = (x) => (x === null || x === undefined ? null : Math.round(x * 10) / 10);

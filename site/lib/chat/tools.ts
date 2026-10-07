@@ -10,6 +10,7 @@ import "server-only";
 import { DataError, HOURLY, rest, restCount } from "@/lib/supabase";
 import spec from "./spec.json";
 import { DOCS, type GridConfig } from "@/lib/markdown";
+import { LIFE_MS, keep, within, type Summary } from "./summaries";
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
@@ -82,7 +83,7 @@ const LIVE_NOTE =
 let catCache: { at: number; rows: Cat[] } | null = null;
 async function catalogue(): Promise<Cat[]> {
   if (catCache && Date.now() - catCache.at < 600_000) return catCache.rows;
-  const rows = await rest<Cat>("catalogue", { select: "*", order: "table_name" }, HOURLY);
+  const rows = await rest<Cat>("catalogue", { select: "*", order: "table_name" }, 600); // session 143: ten minutes, as the summaries that are read from it
   if (!rows.length) throw new DataError("the catalogue returned no rows");
   catCache = { at: Date.now(), rows };
   return rows;
@@ -275,6 +276,60 @@ async function describeTable(a: { table: string }, scope: Scope = null): Promise
   return out;
 }
 
+// ------------------------------------------------------------------ held ready (session 143)
+
+// describe_table reads up to 60,000 rows to list a table's names. Its answer is kept ten minutes (lib/chat/summaries.ts),
+// so a second question that asks it waits for nothing. The answer is the tool's own, unchanged.
+const describeArgs = new Map<string, [{ table: string }, Scope]>();
+const described = keep<Json>(LIFE_MS, (k) => { const [a, sc] = describeArgs.get(k)!; return describeTable(a, sc); });
+async function describeHeld(a: { table: string }, scope: Scope = null): Promise<Json> {
+  const k = `${scope?.slug ?? ""}|${a.table}`;
+  describeArgs.set(k, [a, scope]);
+  return { ...(await described.get(k)) };
+}
+
+const SUMMARY_READ = 600; // seconds a summary's own reads are kept by the data cache: no longer than the summary lives
+type Held = Summary & { at: string };
+// A table's summary is its row of the catalogue (its first and last date as of its last load: one small read serves
+// every table) and, where asked, the variable names of its newest period (one small read). A first version read each
+// table's own first and last row for the grid: on the large interval tables that read took seconds and was cancelled,
+// every question sent it again, and every question waited for it. A read that fails is kept as unread for the summary's
+// life, so that a failing read is sent once in ten minutes and not once a question.
+async function readSummary(name: string, scope: Scope, wantVariables: boolean): Promise<Held> {
+  const at = new Date().toISOString();
+  try {
+    const { c, shape, columns } = await tableInfo(name, scope);
+    const out: Held = { table: name, first: isoTs(c.ts_min), last: isoTs(c.ts_max), rows: null, held: true, dated: shape === "series", at };
+    if (wantVariables && shape === "series" && out.last) {
+      const base = { table_name: `eq.${name}`, ...scopeFilter(scope, name, shape, columns) };
+      const rows = await rest<{ variable: string }>("series", { ...base, select: "variable", ts_utc: `eq.${out.last}`, order: "variable" }, SUMMARY_READ, 3000);
+      out.variables = Array.from(new Set(rows.map((r) => r.variable))).sort();
+    }
+    return out;
+  } catch (e) {
+    if (e instanceof ToolError) return { table: name, first: null, last: null, rows: null, held: false, at };   // not in the live set, or not readable for this grid
+    console.error(`[erw ask] summary of ${name}: ${(e as Error).message}`);
+    return { table: name, first: null, last: null, rows: null, held: true, unread: true, at };
+  }
+}
+const summaryArgs = new Map<string, [string, Scope, boolean]>();
+const summaries = keep<Held>(LIFE_MS, (k) => { const [name, sc, v] = summaryArgs.get(k)!; return readSummary(name, sc, v); });
+
+/** Session 143: each table's summary for a scope (its first and last date and its rows in the live set; for the tables
+ * named in `withVariables`, the variables of its newest period), from the server's memory when it is under ten minutes
+ * old. A question waits at most `waitMs` for a summary that is not ready: the table is then left out of this answer's
+ * list and is ready for the next. `readAt` is the oldest reading among those returned. */
+export async function tableSummaries(scope: Scope, names: string[], withVariables: string[] = [], waitMs = 1500): Promise<{ rows: Summary[]; readAt: string | null }> {
+  const got = await Promise.all(names.map((name) => {
+    const k = `${scope?.slug ?? ""}|${name}`;
+    summaryArgs.set(k, [name, scope, withVariables.includes(name)]);
+    return within(summaries.get(k), waitMs);
+  }));
+  const rows = got.filter((x): x is Held => x !== null && !x.unread);
+  const bare = (h: Held): Summary => { const s: Partial<Held> = { ...h }; delete s.at; return s as Summary; };
+  return { rows: rows.map(bare), readAt: rows.length ? rows.map((r) => r.at).sort()[0] : null };
+}
+
 // ------------------------------------------------------------------ query
 
 type QueryArgs = {
@@ -321,6 +376,28 @@ function aggregate(rows: Row[], agg: string, pct: number | undefined, shape: Sha
   if (agg === "median") return { value: round(percentile(xs, 50)), n: xs.length };
   const sum = xs.reduce((a, b) => a + b, 0);
   return { value: round(agg === "sum" ? sum : sum / xs.length), n: xs.length };
+}
+
+/** Session 143: the summary of a grouped result: its lowest and highest row, its first and last, the change between
+ * them, the mean and the median of the rows' values, and the same aggregation over every matched row at once. Computed
+ * here, by the tool, from the rows of the result itself (every group, also those past the number shown), so that the
+ * model reads them and computes nothing. null for a result of fewer than two rows with a value. */
+export function groupSummary(g: string, res: Json[], rows: Row[], agg: string, pct: number | undefined, shape: Shape): Json | null {
+  const vals = res.map((r) => ({ key: r[g], v: (r.value ?? r.count) as number | null | undefined })).filter((x): x is { key: unknown; v: number } => typeof x.v === "number" && Number.isFinite(x.v));
+  if (vals.length < 2) return null;
+  const pick = (x: { key: unknown; v: number }) => ({ [g]: x.key, value: x.v });
+  const lowest = vals.reduce((a, b) => (b.v < a.v ? b : a)), highest = vals.reduce((a, b) => (b.v > a.v ? b : a));
+  const first = vals[0], last = vals[vals.length - 1];
+  const sorted = vals.map((x) => x.v).sort((a, b) => a - b);
+  const sum = sorted.reduce((a, b) => a + b, 0);
+  const out: Json = {
+    rows: vals.length, lowest: pick(lowest), highest: pick(highest), first: pick(first), last: pick(last),
+    change_first_to_last: round(last.v - first.v), mean_of_rows: round(sum / sorted.length), median_of_rows: round(percentile(sorted, 50)),
+  };
+  if (agg === "sum" || agg === "count") out.sum_of_rows = round(sum);
+  if (agg !== "latest") out.all_rows_together = aggregate(rows, agg, pct, shape);
+  out.note = "lowest, highest, first and last are rows of this result; mean_of_rows and median_of_rows are over the rows' values; all_rows_together is the same aggregation over every matched row at once";
+  return out;
 }
 
 async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
@@ -421,6 +498,10 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     }
     const res = Array.from(groups.keys()).sort().map((k) => ({ [g]: k, ...aggregate(groups.get(k)!, a.aggregation, a.percentile, shape) }));
     out.n_groups = res.length;
+    // session 143: what an answer says about a series besides its rows (its high and low, where it began and ended, its
+    // level) comes with the rows, so a question about a movement is one query, not one query a figure
+    const summary = groupSummary(g, res, rows.filter((r) => (TIME_GROUPS.includes(g) ? !!r.t : r.g !== null)), a.aggregation, a.percentile, shape);
+    if (summary) out.summary = summary;
     const cap = scope?.max_groups ?? MAX_GROUPS; // session 92: a profile may show a month per row since 2018
     if (res.length > cap) out.result_note = `${res.length} groups; the first ${cap} (sorted by ${g}) are shown`;
     out.result = res.slice(0, cap);
@@ -460,7 +541,7 @@ export async function runTool(name: string, input: unknown, scope: Scope = null)
   try {
     const a = (input ?? {}) as Json;
     if (name === "list_tables") return { out: await listTables(a, scope), isError: false };
-    if (name === "describe_table") return { out: await describeTable(a as { table: string }, scope), isError: false };
+    if (name === "describe_table") return { out: await describeHeld(a as { table: string }, scope), isError: false };
     if (name === "query") return { out: await query(a as unknown as QueryArgs, scope), isError: false };
     if (name === "compare") return { out: await compare(a as unknown as { a: QueryArgs; b: QueryArgs }, scope), isError: false };
     if (name === "grid_notes") return { out: gridNotes(a as { grid?: string }, scope), isError: false };
