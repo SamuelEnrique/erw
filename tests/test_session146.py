@@ -240,9 +240,10 @@ class TestManifest(unittest.TestCase):
                           "retrieved_at_utc", "reduction"):
                     self.assertTrue(str(l[k]).strip(), k)
                 self.assertIn(l["kind"], ("grid", "shapes", "points"))
-                if l["kind"] == "grid" or l.get("value_label", "").startswith("no quantity") is False:
-                    if l["kind"] == "grid":
-                        self.assertTrue(l["unit"].strip(), "a grid has a unit")
+                if l["kind"] in ("grid", "points"):
+                    self.assertTrue(l["unit"].strip(), "a grid or a points layer has a unit")
+                if l["id"] == "wind_capacity_factor":
+                    self.assertNotIn("gross", l["title"].lower(), "the source does not call it gross")
                 self.assertTrue(l["source_url"].startswith("https://"))
                 self.assertNotIn("@", l["source_url"])
                 files = [v["file"] for v in l["levels"]] if l["kind"] == "grid" else [l["file"]]
@@ -288,6 +289,27 @@ class TestManifest(unittest.TestCase):
                     self.assertAlmostEqual(chk["mean_weighted_by_source_cells"], chk["source_mean_of_kept_cells"],
                                            delta=g["scale"])
 
+    def test_hydrothermal_and_enhanced_are_separate_layers(self):
+        geo = [l for l in self.man["layers"] if l["group"] == "geothermal"]
+        if not geo:
+            self.skipTest("no geothermal layer on this machine")
+        egs = [l for l in geo if "egs" in l["id"]]
+        hydro = [l for l in geo if "hydrothermal" in l["id"]]
+        self.assertEqual(len(egs) + len(hydro), len(geo))
+        for l in egs:
+            self.assertNotIn("usgs", l["source_file"].lower())
+        for l in hydro:
+            self.assertTrue(l["source_file"].startswith("usgs/"))
+
+    def test_what_is_not_held_says_why(self):
+        missing = {m["id"]: m for m in self.man.get("missing", [])}
+        held = {l["id"] for l in self.man["layers"]}
+        for id in rl.EXPECTED:
+            self.assertTrue(id in held or id in missing, id)
+        for id, m in missing.items():
+            self.assertGreater(len(m["reason"]), 20)
+            self.assertNotEqual(m["reason"], "not built yet")
+
     def test_shapes_and_points_hold_the_fields_the_page_reads(self):
         if not os.path.isdir(WEB):
             self.skipTest("the layer files are not on this machine")
@@ -320,7 +342,10 @@ class TestManifest(unittest.TestCase):
                 self.assertTrue(os.path.exists(p), p)
                 self.assertEqual(rl.sha256_file(p), l["terms_sha256"])
                 text = rl.html_text(p)
-                self.assertIn(" ".join(l["terms_quote"].split()), text)
+                self.assertTrue(l["terms_quotes"])
+                for q in l["terms_quotes"]:
+                    self.assertIn(" ".join(q.split()), text)
+                    self.assertIn(q, l["terms_quote"])
 
 
 class TestNoEmDash(unittest.TestCase):

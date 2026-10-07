@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-07T21:37:41Z",
+ "built_at_utc": "2026-10-07T21:49:29Z",
  "layers": [
   {
    "id": "wind_speed_100m",
@@ -9,6 +9,9 @@
    "source_url": "https://www.nlr.gov/docs/libraries/gis/us-wind-data.zip",
    "terms_url": "https://www.nlr.gov/disclaimer",
    "terms_quote": "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data.",
+   "terms_quotes": [
+    "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data."
+   ],
    "terms_file": "nlr/terms/nlr_disclaimer.html",
    "terms_sha256": "a31b7d7f8d333e16b2a37cae91c8ff5859b9f54e602c21f441cd3c18af5e2a1e",
    "retrieved_at_utc": "2026-10-07T21:33:22Z",
@@ -114,6 +117,61 @@
    "notes_for_method": "The publisher's words: \"This data provides modeled annual average wind speed for the contiguous United States both onshore and offshore for the period 2007-2013.\" \"Raster value: Multi-year (2007-2013) Annual Average Wind Speed, meters per second, at 100 meters above surface level.\" It is a model's long-run average, not a measurement at a mast and not a forecast; it says nothing of a turbine's output, of land that may be used or of the grid. The source's cell is 2 km in a Lambert projection, which is wider than 0.025 degrees of longitude in the north, so the finest level is 0.05 degrees. The landing page that listed the file (NREL's wind resource maps page) no longer exists since the laboratory's site moved to nlr.gov; the file itself is still on the laboratory's server."
   },
   {
+   "id": "wind_capacity_factor",
+   "group": "wind",
+   "title": "Wind capacity factor (supply curve sites)",
+   "kind": "points",
+   "source_url": "https://data.openei.org/files/8314/lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv",
+   "terms_url": "https://data.openei.org/submissions/8314",
+   "terms_quote": "Content is available under Creative Commons Attribution 4.0 unless otherwise noted.",
+   "terms_quotes": [
+    "Content is available under Creative Commons Attribution 4.0 unless otherwise noted."
+   ],
+   "terms_file": "openei/terms/openei_submission_8314.html",
+   "terms_sha256": "fe920bd0f61a40aae2697ff831f3093c2916ba8ce89d6a3042b3e32364248d45",
+   "retrieved_at_utc": "2026-10-07T21:39:41Z",
+   "source_file": "openei/lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv",
+   "source_bytes": 12829421,
+   "source_sha256": "ef13116bd66f31157b2f7db6369831d63f3098877e91c6163766dbe6da47eb7d",
+   "unit": "ratio",
+   "value_label": "Mean capacity factor across 11.5km grid-cell (the source's capacity_factor_ac)",
+   "publisher": "National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL)",
+   "source_title": "United States Land-based Wind Supply Curves 2024, open access siting, 2035 moderate technology, 115 m hub height, 170 m rotor diameter (lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv)",
+   "vintage": "the 2024 edition, published 2025-01-01 on the Open Energy Data Initiative; the file models a 2035 turbine (\"2035 moderate\", 115 m hub height, 170 m rotor diameter); the weather years behind the mean are not stated in the files",
+   "extent": "contiguous United States, land only, where the open access scenario leaves developable area",
+   "source_resolution": "11.5 km (\"Centroid latitude of the 11.5km grid-cell\")",
+   "reduction": "none: every row of the source at the source's own centroid (coordinates to 3 decimals, the capacity factor to 4); the state, county, cost and transmission columns are left out of the web file",
+   "file": "wind_capacity_factor.json",
+   "bytes": 2746451,
+   "rows": 56528,
+   "legend": {
+    "min": 0.0118,
+    "max": 0.5445,
+    "stops": [
+     0.1,
+     0.2,
+     0.3,
+     0.4,
+     0.5
+    ]
+   },
+   "stats": {
+    "n": 56528,
+    "min": 0.011792347,
+    "mean": 0.3115885580584312,
+    "max": 0.54448533
+   },
+   "point_spacing_km": 11.5,
+   "columns_meaning": {
+    "value": "Mean capacity factor across 11.5km grid-cell (ratio)",
+    "resource": "Annual average wind speed at the modeled turbine hub-height (meters/second)",
+    "capacity_ac_mw": "Capacity of the wind power plant (MW)",
+    "area_developable_sq_km": "Developable area after spatial exclusions applied (km2)"
+   },
+   "credit": "U.S. Department of Energy (DOE)/NLR/ALLIANCE; Creative Commons Attribution 4.0",
+   "notes_for_method": "No gross capacity factor raster was found among the files the laboratory offers without a key, so this is not one, and it is not named one. It is the capacity factor column of the laboratory's 2024 land-based wind supply curve, in the source's words: \"Mean capacity factor across 11.5km grid-cell\", unit \"ratio\". The column's name is capacity_factor_ac; the file's column list does not say whether losses are taken off, and the technical report (NREL/TP-6A20-91900) was not read, so the layer does not say gross or net. It is the modelled output of a 2035 turbine (115 m hub, 170 m rotor), one value for each 11.5 km cell that has land left to build on under the \"open access\" siting scenario: a cell with no developable land is absent, which is an absence of land in the model, not of wind. The resource column is the source's \"Annual average wind speed at the modeled turbine hub-height\"."
+  },
+  {
    "id": "solar_ghi",
    "group": "solar",
    "title": "Global Horizontal Irradiance",
@@ -121,6 +179,9 @@
    "source_url": "https://www.nlr.gov/docs/libraries/gis/nsrdbv3_ghi.zip",
    "terms_url": "https://www.nlr.gov/disclaimer",
    "terms_quote": "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data.",
+   "terms_quotes": [
+    "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data."
+   ],
    "terms_file": "nlr/terms/nlr_disclaimer.html",
    "terms_sha256": "a31b7d7f8d333e16b2a37cae91c8ff5859b9f54e602c21f441cd3c18af5e2a1e",
    "retrieved_at_utc": "2026-10-07T21:33:58Z",
@@ -408,6 +469,9 @@
    "source_url": "https://www.nlr.gov/docs/libraries/gis/nsrdbv3_dni.zip",
    "terms_url": "https://www.nlr.gov/disclaimer",
    "terms_quote": "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data.",
+   "terms_quotes": [
+    "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data."
+   ],
    "terms_file": "nlr/terms/nlr_disclaimer.html",
    "terms_sha256": "a31b7d7f8d333e16b2a37cae91c8ff5859b9f54e602c21f441cd3c18af5e2a1e",
    "retrieved_at_utc": "2026-10-07T21:34:33Z",
@@ -684,6 +748,245 @@
    ]
   },
   {
+   "id": "geothermal_hydrothermal_sites",
+   "group": "geothermal",
+   "title": "Identified hydrothermal systems",
+   "kind": "points",
+   "source_url": "https://www.sciencebase.gov/catalog/file/get/6606f534d34e4df16bd58277?f=__disk__ae%2Fbd%2F32%2Faebd32c1cf3b64ce4f19dc6e2535e5a5bc3382da",
+   "terms_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+   "terms_quote": "USGS-authored or produced data and information are considered to be in the U.S. Public Domain. [...] When using information from USGS information products, publications, or websites, we ask that proper credit be given.",
+   "terms_quotes": [
+    "USGS-authored or produced data and information are considered to be in the U.S. Public Domain.",
+    "When using information from USGS information products, publications, or websites, we ask that proper credit be given."
+   ],
+   "terms_file": "usgs/terms/usgs_copyrights_and_credits.html",
+   "terms_sha256": "be68d363d1ab447ea0bea87e436ad6c8614e0f5dc4e17643e2393f7e18504820",
+   "retrieved_at_utc": "2026-10-07T21:39:30Z",
+   "source_file": "usgs/IdentifiedGeothermalSystems/IdentifiedGeothermalSystems.shp",
+   "source_bytes": 7184,
+   "source_sha256": "7724cb19112c68c21e50883d7fb73bbe6b98a872f6e319753b5c8c2f7df2bfc7",
+   "unit": "MWe",
+   "value_label": "Mean Megawatts electric (MWe), the source's MWe_Mean",
+   "publisher": "U.S. Geological Survey (USGS)",
+   "source_title": "Identified Moderate and High Temperature Geothermal Systems (IdentifiedGeothermalSystems.shp), DeAngelo and Williams, 2010, from the 2008 Assessment of moderate- and high-temperature geothermal resources of the United States",
+   "vintage": "the 2008 assessment (USGS Fact Sheet 2008-3082); the data file is dated 2010 and was released again on ScienceBase on 29 March 2024 (metadata date 20240329)",
+   "extent": "United States: the western states, Alaska and Hawaii",
+   "source_resolution": "one point for each identified system",
+   "reduction": "none: every row of the source, at the source's own longitude and latitude (NAD83 read as WGS84, coordinates to 4 decimals)",
+   "file": "geothermal_hydrothermal_sites.json",
+   "bytes": 24677,
+   "rows": 253,
+   "legend": {
+    "min": 0.6,
+    "max": 2209.9,
+    "stops": [
+     1,
+     10,
+     100,
+     1000
+    ]
+   },
+   "stats": {
+    "n": 253,
+    "min": 0.6,
+    "mean": 35.81343873517786,
+    "max": 2209.9
+   },
+   "total_mwe_mean": 9060.8,
+   "columns_meaning": {
+    "value": "Mean Megawatts electric (MWe)",
+    "MWe_P95": "95% likelyhood Megawatts electric (MWe)",
+    "MWe_P5": "5% likelyhood Megawatts electric (MWe)",
+    "Temp_C_Li": "Most likely temperature (C) of reservoir",
+    "Temp_C_Mn": "Minimum temperature (C) of reservoir",
+    "Temp_C_Mx": "Maximum temperature (C) of reservoir",
+    "Vol_km3_Li": "Most likely volume of reservoir (km3)",
+    "Vol_km3_Mn": "Minimum volume of reservoir (km3)",
+    "Vol_km3_Mx": "Maximum volume of reservoir (km3)"
+   },
+   "credit": "Credit: U.S. Geological Survey",
+   "terms_in_file": "Use constraints: None. No warranty, expressed or implied, is made regarding the accuracy or utility of this data for general or scientific purposes, nor shall the act of distribution constitute any such warranty. The U.S. Geological Survey shall not be held liable for improper or incorrect use of this data.",
+   "notes_for_method": "Hydrothermal: the natural hot-water systems already identified. USGS's words: \"This layer contains the locations of identified moderate (90 - 150° C) and high (> 150° C) temperature geothermal systems and associated reservoir volumes, temperatures, and estimated electric power generation potential. These results were used in characterizing the geothermal resource potential in the United States.\" \"This is to be used to identify locations and characteristics of identified geothermal systems.\" Each point is one identified system with USGS's estimate of the electric power it could generate (the mean, and the 95 and 5 percent values). It is an estimate of a reservoir's potential, not a power plant and not what is installed. Undiscovered systems and enhanced geothermal are not in this layer."
+  },
+  {
+   "id": "geothermal_hydrothermal_favorability",
+   "group": "geothermal",
+   "title": "Hydrothermal favorability (western states)",
+   "kind": "shapes",
+   "source_url": "https://www.sciencebase.gov/catalog/file/get/6606ed51d34e4df16bd58251?f=__disk__79%2Fb1%2Fce%2F79b1ce18796d6fc4ae5b9292c58bd8aaee4846e5",
+   "terms_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+   "terms_quote": "USGS-authored or produced data and information are considered to be in the U.S. Public Domain. [...] When using information from USGS information products, publications, or websites, we ask that proper credit be given.",
+   "terms_quotes": [
+    "USGS-authored or produced data and information are considered to be in the U.S. Public Domain.",
+    "When using information from USGS information products, publications, or websites, we ask that proper credit be given."
+   ],
+   "terms_file": "usgs/terms/usgs_copyrights_and_credits.html",
+   "terms_sha256": "be68d363d1ab447ea0bea87e436ad6c8614e0f5dc4e17643e2393f7e18504820",
+   "retrieved_at_utc": "2026-10-07T21:39:32Z",
+   "source_file": "usgs/FavorabilitySurface/FavorabilitySurface.shp",
+   "source_bytes": 3302616,
+   "source_sha256": "d9eb255587626875580aab4c1705031d63717d79080b530ffe0ce30f206eff78",
+   "unit": "class",
+   "value_label": "relative favorability class (the source's GRIDCODE, with its Descript range)",
+   "publisher": "U.S. Geological Survey (USGS)",
+   "source_title": "Geothermal Favorability Map Derived From Logistic Regression Models (FavorabilitySurface.shp), DeAngelo and Williams, 2010",
+   "vintage": "the 2008 assessment; the data file is dated 2010 and was released again on ScienceBase on 29 March 2024 (metadata date 20240329)",
+   "extent": "western United States",
+   "source_resolution": "polygon contours of a favorability surface",
+   "reduction": "the polygons simplified together as one coverage, so that neighbours still meet along one line (tolerance 0.03 degrees); coordinates to 3 decimals; no feature dropped",
+   "file": "geothermal_hydrothermal_favorability.json",
+   "bytes": 1602513,
+   "features": 10,
+   "bounds": [
+    -124.644,
+    31.378,
+    -102.758,
+    49.009
+   ],
+   "classes": [
+    {
+     "value": 1,
+     "label": "< 0.1"
+    },
+    {
+     "value": 2,
+     "label": "0.1 - 0.5"
+    },
+    {
+     "value": 3,
+     "label": "0.5 - 1"
+    },
+    {
+     "value": 4,
+     "label": "1 - 2"
+    },
+    {
+     "value": 5,
+     "label": "2 - 3"
+    },
+    {
+     "value": 6,
+     "label": "3 - 4"
+    },
+    {
+     "value": 7,
+     "label": "4 - 5"
+    },
+    {
+     "value": 8,
+     "label": "5 - 10"
+    },
+    {
+     "value": 9,
+     "label": "10 - 15"
+    },
+    {
+     "value": 10,
+     "label": "> 15"
+    }
+   ],
+   "legend": {
+    "kinds": [
+     "< 0.1",
+     "0.1 - 0.5",
+     "0.5 - 1",
+     "1 - 2",
+     "2 - 3",
+     "3 - 4",
+     "4 - 5",
+     "5 - 10",
+     "10 - 15",
+     "> 15"
+    ]
+   },
+   "stats": null,
+   "credit": "Credit: U.S. Geological Survey",
+   "terms_in_file": "Use constraints: None. No warranty, expressed or implied, is made regarding the accuracy or utility of this data for general or scientific purposes, nor shall the act of distribution constitute any such warranty. The U.S. Geological Survey shall not be held liable for improper or incorrect use of this data.",
+   "notes_for_method": "Hydrothermal, undiscovered: where such systems are more likely to be found. USGS's words: \"This is a surface showing relative favorability for the presence of geothermal systems in the western United States. It is an average of 12 models that correlates different geological and geophysical factors to the known presence of moderate (90 - 150° C) to high (> 150° C) temperature geothermal systems. as discussed in the reference in the 'Larger Work' section of this metadata file. The data is represented as a polygon contour file as well as a raster.\" \"This is intended to highlight areas of elevated potential for the presence of undiscovered moderate (90 - 150° C) to high (> 150° C) temperature geothermal systems. It is not meant to be used to locate exact areas for exploration.\" The file gives ten classes (GRIDCODE 1 to 10), each with a range in its Descript field (from \"< 0.1\" to \"> 15\"); the file's metadata does not say what unit those ranges are in, so the layer shows the class and the range as written and nothing more. It covers the western states only. It is not enhanced geothermal."
+  },
+  {
+   "id": "geothermal_egs_favorability",
+   "group": "geothermal",
+   "title": "Deep enhanced geothermal favorability",
+   "kind": "shapes",
+   "source_url": "https://www.nlr.gov/docs/libraries/gis/egs.zip",
+   "terms_url": "https://www.nlr.gov/disclaimer",
+   "terms_quote": "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data.",
+   "terms_quotes": [
+    "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data."
+   ],
+   "terms_file": "nlr/terms/nlr_disclaimer.html",
+   "terms_sha256": "a31b7d7f8d333e16b2a37cae91c8ff5859b9f54e602c21f441cd3c18af5e2a1e",
+   "retrieved_at_utc": "2026-10-07T21:39:34Z",
+   "source_file": "nlr/egs.zip",
+   "source_bytes": 5773628,
+   "source_sha256": "fdf8bcfb6dcc98252ae9a7d6389d27fa0c579d3a72021790b38bf3eb8b76c6af",
+   "unit": "class",
+   "value_label": "relative favorability of the deep enhanced geothermal resource (the source's CLASS)",
+   "publisher": "National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL)",
+   "source_title": "Geothermal Resource of the United States: favorability of deep enhanced geothermal systems (GeothermalLCOE_NoExclusionsforAtlas.shp)",
+   "vintage": "2009 (the file's metadata: analyses \"performed by NREL (2009)\" on temperature at depth from Southern Methodist University Geothermal Laboratory, Blackwell and Richards, 2009); metadata dated 23 February 2012",
+   "extent": "contiguous United States (the source: \"Temperature at depth data for deep EGS in Alaska and Hawaii not available\")",
+   "source_resolution": "polygons of classes",
+   "reduction": "the polygons simplified together as one coverage, so that neighbours still meet along one line (tolerance 0.02 degrees); coordinates to 3 decimals; no feature dropped",
+   "file": "geothermal_egs_favorability.json",
+   "bytes": 871521,
+   "features": 1007,
+   "bounds": [
+    -124.669,
+    25.167,
+    -66.999,
+    49.417
+   ],
+   "classes": [
+    {
+     "value": 1,
+     "label": "Class 1 (most favorable)",
+     "features": 74
+    },
+    {
+     "value": 2,
+     "label": "Class 2",
+     "features": 385
+    },
+    {
+     "value": 3,
+     "label": "Class 3",
+     "features": 172
+    },
+    {
+     "value": 4,
+     "label": "Class 4",
+     "features": 98
+    },
+    {
+     "value": 5,
+     "label": "Class 5 (least favorable)",
+     "features": 235
+    },
+    {
+     "value": 999,
+     "label": "Class 999 (temperatures less than 150 C at 10 km depth: not assessed for deep EGS potential)",
+     "features": 43
+    }
+   ],
+   "legend": {
+    "kinds": [
+     "Class 1 (most favorable)",
+     "Class 2",
+     "Class 3",
+     "Class 4",
+     "Class 5 (least favorable)",
+     "Class 999 (temperatures less than 150 C at 10 km depth: not assessed for deep EGS potential)"
+    ]
+   },
+   "stats": null,
+   "credit": "NREL (the file's notice); U.S. Department of Energy (DOE)/NLR/ALLIANCE",
+   "terms_notice": "Access to or use of any data or software made available on this server (\"Data\") shall impose the following obligations on the user, and use of the Data constitutes user's agreement to these terms. The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data. The names DOE/NLR/ALLIANCE, however, may not be used in any advertising or publicity to endorse or promote any products or commercial entities unless specific written permission is obtained from DOE/NLR/ ALLIANCE. The user also understands that DOE/NLR/ALLIANCE are not obligated to provide the user with any support, consulting, training or assistance of any kind with regard to the use of the Data or to provide the user with any updates, revisions or new versions thereof. DOE, NLR, and ALLIANCE do not guarantee or endorse any results generated by use of the Data, and user is entirely responsible for the results and any reliance on the results or the Data in general. USER AGREES TO INDEMNIFY DOE/NLR/ALLIANCE AND ITS SUBSIDIARIES, AFFILIATES, OFFICERS, AGENTS, AND EMPLOYEES AGAINST ANY CLAIM OR DEMAND, INCLUDING REASONABLE ATTORNEYS' FEES, RELATED TO USER'S USE OF THE DATA. THE DATA ARE PROVIDED BY DOE/NLR/ALLIANCE \"AS IS,\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL DOE/NLR/ALLIANCE BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER, INCLUDING BUT NOT LIMITED TO CLAIMS ASSOCIATED WITH THE LOSS OF DATA OR PROFITS, THAT MAY RESULT FROM AN ACTION IN CONTRACT, NEGLIGENCE OR OTHER TORTIOUS CLAIM THAT ARISES OUT OF OR IN CONNECTION WITH THE ACCESS, USE OR PERFORMANCE OF THE DATA.",
+   "terms_in_file": "This GIS data was developed by the National Renewable Energy Laboratory (\"NREL\"), which is operated by the Alliance for Sustainable Energy, LLC for the U.S. Department of Energy (\"DOE\"). The user is granted the right, without any fee or cost, to use, copy, modify, alter, enhance and distribute this data for any purpose whatsoever, provided that this entire notice appears in all copies of the data. Further, the user of this data agrees to credit NREL in any publications or software that incorporate or use the data. Access to and use of the GIS data shall further impose the following obligations on the User. The names DOE/NREL may not be used in any advertising or publicity to endorse or promote any product or commercial entity using or incorporating the GIS data unless specific written authorization is obtained from DOE/NREL. The User also understands that DOE/NREL shall not be obligated to provide updates, support, consulting, training or assistance of any kind whatsoever with regard to the use of the GIS data. THE GIS DATA IS PROVIDED \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL DOE/NREL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER, INCLUDING BUT NOT LIMITED TO CLAIMS ASSOCIATED WITH THE LOSS OF DATA OR PROFITS, WHICH MAY RESULT FROM AN ACTION IN CONTRACT, NEGLIGENCE OR OTHER TORTIOUS CLAIM THAT ARISES OUT OF OR IN CONNECTION WITH THE ACCESS OR USE OF THE GIS DATA. The User acknowledges that access to the GIS data is subject to U.S. Export laws and regulations and any use or transfer of the GIS data must be authorized under those regulations. The User shall not use, distribute, transfer, or transmit GIS data or any products incorporating the GIS data except in compliance with U.S. export regulations. If requested by DOE/NREL, the User agrees to sign written assurances and other export-related documentation as may be required to comply with U.S. export regulations.",
+   "notes_for_method": "Enhanced geothermal (EGS): heat in deep rock that would need an engineered reservoir, kept apart from the hydrothermal layers. The publisher's words: \"This dataset is a qualitative assessment of geothermal potential (Enhanced Geothermal System EGS) for the US based on Levelized Cost of Electricity, with CLASS 1 being most favorable, and CLASS 5 being least favorable. This dataset does not include shallow EGS resources located near hydrothermal sites or USGS assessment of undiscovered hydrothermal resources. The source data for deep EGS includes temperature at depth from 3 to 10 km provided by Southern Methodist University Geothermal Laboratory (Blackwell & Richards, 2009) and analyses (for regions with temperatures equal to or greater than 150°C) performed by NREL (2009). CLASS 999 regions have temperatures less than 150°C at 10 km depth and were not assessed for deep EGS potential. Temperature at depth data for deep EGS in Alaska and Hawaii not available.\" The classes rank relative favorability; they are not megawatts, and the ranking rests on a 2009 estimate of the levelized cost of electricity. The landing page that listed the file (NREL's geothermal maps page) no longer exists since the laboratory's site moved to nlr.gov; the file itself is still on the laboratory's server."
+  },
+  {
    "id": "oil_gas_basins",
    "group": "oil and gas",
    "title": "Sedimentary basins",
@@ -691,6 +994,9 @@
    "source_url": "https://www.eia.gov/maps/map_data/SedimentaryBasins_US_EIA.zip",
    "terms_url": "https://www.eia.gov/about/copyrights_reuse.php",
    "terms_quote": "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website or that you receive through our email distribution service. However, if you use or reproduce any of our information products, you should use an acknowledgment, which includes the publication date, such as: \"Source: U.S. Energy Information Administration (Oct 2008).\"",
+   "terms_quotes": [
+    "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website or that you receive through our email distribution service. However, if you use or reproduce any of our information products, you should use an acknowledgment, which includes the publication date, such as: \"Source: U.S. Energy Information Administration (Oct 2008).\""
+   ],
    "terms_file": "eia/terms/eia_copyrights_reuse.html",
    "terms_sha256": "a9747722112b2c558e82d31ec9438336eccfd754cc8eb8a0b04177c567e3f72c",
    "retrieved_at_utc": "2026-10-07T21:26:20Z",
@@ -736,6 +1042,9 @@
    "source_url": "https://www.eia.gov/maps/map_data/TightOil_ShaleGas_Plays_Lower48_EIA.zip",
    "terms_url": "https://www.eia.gov/about/copyrights_reuse.php",
    "terms_quote": "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website or that you receive through our email distribution service. However, if you use or reproduce any of our information products, you should use an acknowledgment, which includes the publication date, such as: \"Source: U.S. Energy Information Administration (Oct 2008).\"",
+   "terms_quotes": [
+    "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website or that you receive through our email distribution service. However, if you use or reproduce any of our information products, you should use an acknowledgment, which includes the publication date, such as: \"Source: U.S. Energy Information Administration (Oct 2008).\""
+   ],
    "terms_file": "eia/terms/eia_copyrights_reuse.html",
    "terms_sha256": "a9747722112b2c558e82d31ec9438336eccfd754cc8eb8a0b04177c567e3f72c",
    "retrieved_at_utc": "2026-10-07T21:26:20Z",
@@ -774,6 +1083,71 @@
    "notes_for_method": "EIA's words: \"General areas for shale plays in the U.S. Source: EIA based on Enverus DrillingInfo Inc., the U.S. Geological Survey, publicly available peer-reviewed research papers, academic theses, and publications of State Geological Agencies. Updated December 2021 with addition of Spraberry and Wolfcamp Plays in the Permian Basin.\" A play's outline is a general area, not a reserve estimate and not a lease map. The file's own limit: \"None (public use). Users are advised to thoroughly review the metadata to understand the appropriate use and limitations of the data.\""
   },
   {
+   "id": "biomass",
+   "group": "biomass",
+   "title": "Solid biomass resources by county",
+   "kind": "shapes",
+   "source_url": "https://www.nlr.gov/docs/libraries/gis/solid-biomass.zip",
+   "terms_url": "https://www.nlr.gov/disclaimer",
+   "terms_quote": "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data.",
+   "terms_quotes": [
+    "The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data."
+   ],
+   "terms_file": "nlr/terms/nlr_disclaimer.html",
+   "terms_sha256": "a31b7d7f8d333e16b2a37cae91c8ff5859b9f54e602c21f441cd3c18af5e2a1e",
+   "retrieved_at_utc": "2026-10-07T21:39:39Z",
+   "source_file": "nlr/solid-biomass.zip",
+   "source_bytes": 73018962,
+   "source_sha256": "f48ee40d6de1859d6f3cabc841b631a55287c4282bfe974719fd89555672f54d",
+   "unit": "dry metric tons/year",
+   "value_label": "all solid biomass resources of the county (the source's Total)",
+   "publisher": "National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL)",
+   "source_title": "Solid biomass resources by county (SolidBiomass.shp), Anelia Milbrandt, NREL",
+   "vintage": "data for 2012 (the file's metadata: \"Data for 2012, in dry metric tons/year\"); published 30 October 2014",
+   "extent": "United States by county: the contiguous states, Alaska and Hawaii",
+   "source_resolution": "county",
+   "reduction": "the polygons simplified together as one coverage, so that neighbours still meet along one line (tolerance 0.03 degrees); coordinates to 3 decimals; no feature dropped",
+   "file": "biomass.json",
+   "bytes": 2047141,
+   "features": 3141,
+   "bounds": [
+    -178.215,
+    18.911,
+    -66.983,
+    71.347
+   ],
+   "legend": {
+    "min": 0.0,
+    "max": 2002700.0,
+    "stops": [
+     63000.0,
+     134000.0,
+     238000.0,
+     315000.0,
+     506000.0
+    ],
+    "stops_are": "the 50th, 75th, 90th, 95th and 99th percentile of the counties"
+   },
+   "stats": {
+    "n": 3141,
+    "min": 0.0,
+    "mean": 100542.11399522446,
+    "max": 2002700.0
+   },
+   "national_total": 315802780.059,
+   "parts": {
+    "CropRes": 173997321.42436415,
+    "ForestRes": 38225028.544192,
+    "PrimMill": 53788530.17651006,
+    "SecMill": 8653964.808,
+    "UrbanWood": 41138049.289000005
+   },
+   "credit": "NREL (the file's notice); U.S. Department of Energy (DOE)/NLR/ALLIANCE",
+   "terms_notice": "Access to or use of any data or software made available on this server (\"Data\") shall impose the following obligations on the user, and use of the Data constitutes user's agreement to these terms. The user is granted the right, without any fee or cost, to use or copy the Data, provided that this entire notice appears in all copies of the Data. Further, the user agrees to credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results from the use of the Data. The names DOE/NLR/ALLIANCE, however, may not be used in any advertising or publicity to endorse or promote any products or commercial entities unless specific written permission is obtained from DOE/NLR/ ALLIANCE. The user also understands that DOE/NLR/ALLIANCE are not obligated to provide the user with any support, consulting, training or assistance of any kind with regard to the use of the Data or to provide the user with any updates, revisions or new versions thereof. DOE, NLR, and ALLIANCE do not guarantee or endorse any results generated by use of the Data, and user is entirely responsible for the results and any reliance on the results or the Data in general. USER AGREES TO INDEMNIFY DOE/NLR/ALLIANCE AND ITS SUBSIDIARIES, AFFILIATES, OFFICERS, AGENTS, AND EMPLOYEES AGAINST ANY CLAIM OR DEMAND, INCLUDING REASONABLE ATTORNEYS' FEES, RELATED TO USER'S USE OF THE DATA. THE DATA ARE PROVIDED BY DOE/NLR/ALLIANCE \"AS IS,\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL DOE/NLR/ALLIANCE BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER, INCLUDING BUT NOT LIMITED TO CLAIMS ASSOCIATED WITH THE LOSS OF DATA OR PROFITS, THAT MAY RESULT FROM AN ACTION IN CONTRACT, NEGLIGENCE OR OTHER TORTIOUS CLAIM THAT ARISES OUT OF OR IN CONNECTION WITH THE ACCESS, USE OR PERFORMANCE OF THE DATA.",
+   "terms_in_file": "This GIS data was developed by the National Renewable Energy Laboratory (\"NREL\"), which is operated by the Alliance for Sustainable Energy, LLC for the U.S. Department of Energy (\"DOE\"). The user is granted the right, without any fee or cost, to use, copy, modify, alter, enhance and distribute this data for any purpose whatsoever, provided that this entire notice appears in all copies of the data. Further, the user of this data agrees to credit NREL in any publications or software that incorporate or use the data. Access to and use of the GIS data shall further impose the following obligations on the User. The names DOE/NREL may not be used in any advertising or publicity to endorse or promote any product or commercial entity using or incorporating the GIS data unless specific written authorization is obtained from DOE/NREL. The User also understands that DOE/NREL shall not be obligated to provide updates, support, consulting, training or assistance of any kind whatsoever with regard to the use of the GIS data. THE GIS DATA IS PROVIDED \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL DOE/NREL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER, INCLUDING BUT NOT LIMITED TO CLAIMS ASSOCIATED WITH THE LOSS OF DATA OR PROFITS, WHICH MAY RESULT FROM AN ACTION IN CONTRACT, NEGLIGENCE OR OTHER TORTIOUS CLAIM THAT ARISES OUT OF OR IN CONNECTION WITH THE ACCESS OR USE OF THE GIS DATA. The User acknowledges that access to the GIS data is subject to U.S. Export laws and regulations and any use or transfer of the GIS data must be authorized under those regulations. The User shall not use, distribute, transfer, or transmit GIS data or any products incorporating the GIS data except in compliance with U.S. export regulations. If requested by DOE/NREL, the User agrees to sign written assurances and other export-related documentation as may be required to comply with U.S. export regulations.",
+   "notes_for_method": "This is the Energy Department laboratory's county file, not the Billion-Ton study (whose county downloads need an account, so they were left). The publisher's words: \"This dataset contains information about the biomass resources generated by county in the United States. It includes the following feedstock categories: crop residues, forest residues, primary mill residues, secondary mill residues, and urban wood waste.\" The Total field: \"This field combines all solid biomass resources by county: crop residues, forest residues, primary mill residues, secondary mill residues, and urban wood waste. Data for 2012, in dry metric tons/year.\" The value is a county's total, so a large county shows more than a small one with the same resource a square mile. Of primary mill residues the file says: \"Note that most of this resource is currently utilized.\" It is a 2012 estimate of what is generated, not of what is available to a new plant at a price. The landing page that listed the file no longer exists since the laboratory's site moved to nlr.gov; the file itself is still on the laboratory's server."
+  },
+  {
    "id": "offshore_wind_leases",
    "group": "offshore wind",
    "title": "Offshore wind lease areas",
@@ -781,6 +1155,9 @@
    "source_url": "https://www.boem.gov/renewable-energy/boem-renewable-energy-shapefiles",
    "terms_url": "https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data",
    "terms_quote": "Note to users: Data downloaded from this site is to be used for informational and planning purposes only.",
+   "terms_quotes": [
+    "Note to users: Data downloaded from this site is to be used for informational and planning purposes only."
+   ],
    "terms_file": "boem/terms/boem_renewable_energy_gis_data.html",
    "terms_sha256": "f337e0627c8370d8b30e16ba4ef4b96deca3bd4ee97d8acd36a02ce6e9fdcd43",
    "retrieved_at_utc": "2026-10-07T21:26:22Z",
@@ -828,6 +1205,9 @@
    "source_url": "https://services7.arcgis.com/G5Ma95RzqJRPKsWL/ArcGIS/rest/services/Wind_Planning_Area_Boundaries__BOEM_/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson",
    "terms_url": "https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data",
    "terms_quote": "Note to users: Data downloaded from this site is to be used for informational and planning purposes only.",
+   "terms_quotes": [
+    "Note to users: Data downloaded from this site is to be used for informational and planning purposes only."
+   ],
    "terms_file": "boem/terms/boem_renewable_energy_gis_data.html",
    "terms_sha256": "f337e0627c8370d8b30e16ba4ef4b96deca3bd4ee97d8acd36a02ce6e9fdcd43",
    "retrieved_at_utc": "2026-10-07T21:28:41Z",
@@ -873,34 +1253,10 @@
  ],
  "missing": [
   {
-   "id": "wind_capacity_factor",
-   "group": "wind",
-   "title": "Wind capacity factor",
-   "reason": "not built yet"
-  },
-  {
-   "id": "geothermal_hydrothermal_sites",
-   "group": "geothermal",
-   "title": "Identified hydrothermal sites",
-   "reason": "not built yet"
-  },
-  {
-   "id": "geothermal_egs_favorability",
-   "group": "geothermal",
-   "title": "Deep enhanced geothermal favorability",
-   "reason": "not built yet"
-  },
-  {
    "id": "hydropower_potential",
    "group": "hydropower",
    "title": "Hydropower potential",
-   "reason": "not built yet"
-  },
-  {
-   "id": "biomass",
-   "group": "biomass",
-   "title": "Biomass resource",
-   "reason": "not built yet"
+   "reason": "Not pulled. USGS publishes no hydropower potential layer. The federal assessments are Oak Ridge National Laboratory's, for the Energy Department (new stream-reach development, 2014, and non-powered dams, 2024, on HydroSource). Their download page asks for a name and an e-mail address in a form before it hands over a file, so the files were left until the owner rules."
   }
  ]
 }

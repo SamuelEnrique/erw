@@ -245,7 +245,8 @@ def html_text(path):
     s = re.sub(r"(?s)<[^>]+>", " ", s)
     s = html.unescape(s).replace(" ", " ")
     s = s.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
-    return re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\s+", " ", s).strip()
+    return re.sub(r" ([.,;:])", r"\1", s)
 
 
 # ---------------------------------------------------------------------------------------------------------
@@ -551,9 +552,22 @@ def clean(v):
     return s if s else None
 
 
-def write_shapes(web_dir, file, gdf, props_fn, tolerance=0.01):
-    """A GeoDataFrame to one GeoJSON FeatureCollection in WGS84. Returns (bytes, features, bounds)."""
+def write_shapes(web_dir, file, gdf, props_fn, tolerance=0.01, coverage=False):
+    """A GeoDataFrame to one GeoJSON FeatureCollection in WGS84. Returns (bytes, features, bounds).
+
+    coverage: the polygons tile an area and share edges (classes, counties). They are simplified together
+    (shapely.coverage_simplify), so that neighbours still meet along one line. Refused when the source's
+    polygons are not a valid coverage: the caller then simplifies one feature at a time.
+    """
+    import shapely
     g = gdf.to_crs(4326) if gdf.crs is not None and gdf.crs.to_epsg() != 4326 else gdf
+    g = g[~(g.geometry.isna() | g.geometry.is_empty)]
+    if coverage:
+        geoms = shapely.make_valid(g.geometry.values) if not g.geometry.is_valid.all() else g.geometry.values
+        if not shapely.coverage_is_valid(geoms):
+            raise ValueError(f"{file}: the source's polygons are not a valid coverage")
+        g = g.set_geometry(shapely.coverage_simplify(geoms, tolerance), crs=g.crs)
+        tolerance = 0
     feats = []
     for _, row in g.iterrows():
         if row.geometry is None or row.geometry.is_empty:
@@ -567,25 +581,69 @@ def write_shapes(web_dir, file, gdf, props_fn, tolerance=0.01):
     return size, len(feats), b
 
 
+def write_points(web_dir, file, columns, rows):
+    """A points file: {"columns": [...], "rows": [[lon, lat, name, value, ...]]}. Returns its size."""
+    if columns[:4] != ["lon", "lat", "name", "value"]:
+        raise ValueError("a points file starts with lon, lat, name, value")
+    return write_json_atomic(os.path.join(web_dir, file), {"columns": columns, "rows": rows})
+
+
 def source_fields(row, skip=("geometry",)):
     return {k: clean(v) for k, v in row.items() if k not in skip}
 
 
 EXPECTED = {
     "wind_speed_100m": ("wind", "Wind speed at 100 m"),
-    "wind_capacity_factor": ("wind", "Wind capacity factor"),
+    "wind_capacity_factor": ("wind", "Wind capacity factor (supply curve sites)"),
     "solar_ghi": ("solar", "Global horizontal irradiance"),
     "solar_dni": ("solar", "Direct normal irradiance"),
-    "geothermal_hydrothermal_sites": ("geothermal", "Identified hydrothermal sites"),
+    "geothermal_hydrothermal_sites": ("geothermal", "Identified hydrothermal systems"),
+    "geothermal_hydrothermal_favorability": ("geothermal", "Hydrothermal favorability (western states)"),
     "geothermal_egs_favorability": ("geothermal", "Deep enhanced geothermal favorability"),
     "oil_gas_basins": ("oil and gas", "Sedimentary basins"),
     "oil_gas_plays": ("oil and gas", "Tight oil and shale gas plays"),
     "hydropower_potential": ("hydropower", "Hydropower potential"),
-    "biomass": ("biomass", "Biomass resource"),
+    "biomass": ("biomass", "Solid biomass resources by county"),
     "offshore_wind_leases": ("offshore wind", "Offshore wind lease areas"),
     "offshore_wind_planning_areas": ("offshore wind", "Offshore wind planning areas"),
 }
 LAYER_ORDER = list(EXPECTED)
+# A layer that was looked for and left, with the reason the page shows on its greyed toggle.
+NOT_HELD = {
+    "hydropower_potential": (
+        "Not pulled. USGS publishes no hydropower potential layer. The federal assessments are Oak Ridge "
+        "National Laboratory's, for the Energy Department (new stream-reach development, 2014, and non-powered "
+        "dams, 2024, on HydroSource). Their download page asks for a name and an e-mail address in a form before "
+        "it hands over a file, so the files were left until the owner rules."),
+}
+# Recorded and left (COMMON.md rule 5): the addresses are kept here so that a ruling needs no new search.
+LEFT_SOURCES = {
+    "ornl_npd": {
+        "publisher": "Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy",
+        "title": "Technical Potential for Hydropower Capacity at Non-powered Dams (2024, revised 25 June 2025)",
+        "landing": "https://hydrosource.ornl.gov/data/datasets/hydropower-capacity-us-npd/",
+        "doi": "10.21951/HydroCapacity_NPD/2570407",
+        "files": {"TechPotentialNPDs.csv": 1594027, "TechPotentialNPDs_field_descriptions.csv": 4650,
+                  "TechPotentialNPDs_Readme.txt": 3992},
+        "terms": "https://hydrosource.ornl.gov/data-use-policy/",
+        "why_left": "the page's file links open a form that requires a name, an e-mail address, a company and "
+                    "an occupation before the download"},
+    "ornl_nsd": {
+        "publisher": "Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy",
+        "title": "Hydropower Potential from New Stream-Reach Development for the Conterminous United States "
+                 "(2014)",
+        "landing": "https://hydrosource.ornl.gov/data/datasets/"
+                   "hydropower-potential-new-stream-reach-development-conterminous-united-states/",
+        "files": {"ORNL_NHAAP_NSD_SR_All_v1.zip": 564790485, "ORNL_NHAAP_NSD_SR_All_v1.xlsx": 619782},
+        "terms": "https://hydrosource.ornl.gov/data-use-policy/",
+        "why_left": "the same form"},
+    "doe_billion_ton_2023": {
+        "publisher": "Oak Ridge National Laboratory (Bioenergy Knowledge Discovery Framework), for the U.S. "
+                     "Department of Energy",
+        "title": "2023 Billion-Ton Report, county data downloads",
+        "landing": "https://bioenergykdf.ornl.gov/bt23-data-portal",
+        "why_left": "the county downloads need an account (\"Log in to download data\")"},
+}
 
 # The publishers' terms pages. The quotes used in the manifest are checked word for word against the saved
 # page by --check-terms (and by the tests when the raw store is on the machine).
@@ -602,6 +660,14 @@ TERMS = {
                      "that this entire notice appears in all copies of the Data. Further, the user agrees to "
                      "credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results "
                      "from the use of the Data."},
+    "usgs": {"url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+             "file": "usgs_copyrights_and_credits.html",
+             "quote": ["USGS-authored or produced data and information are considered to be in the U.S. Public "
+                       "Domain.",
+                       "When using information from USGS information products, publications, or websites, we ask "
+                       "that proper credit be given."]},
+    "openei_8314": {"url": "https://data.openei.org/submissions/8314", "file": "openei_submission_8314.html",
+                    "quote": "Content is available under Creative Commons Attribution 4.0 unless otherwise noted."},
     "boem": {"url": "https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data",
              "file": "boem_renewable_energy_gis_data.html",
              "quote": "Note to users: Data downloaded from this site is to be used for informational and "
@@ -639,6 +705,38 @@ SOURCES = {
                "?where=1%3D1&outFields=*&outSR=4326&f=geojson",
         "file": "Wind_Planning_Area_Boundaries_layer0.geojson"},
 }
+SB = "https://www.sciencebase.gov/catalog/file/get/"
+for _stem, _item, _layer, _parts in (
+    ("IdentifiedGeothermalSystems", "6606f534d34e4df16bd58277", "geothermal_hydrothermal_sites", {
+        "shp": "ae%2Fbd%2F32%2Faebd32c1cf3b64ce4f19dc6e2535e5a5bc3382da",
+        "dbf": "a4%2Ffb%2F25%2Fa4fb257343cfb36fec23c0da4bc1ba243d5c132c",
+        "shx": "ec%2Fdb%2Fbe%2Fecdbbe23f01f970066c35c233071b5ff5ecaef8f",
+        "prj": "84%2Fcc%2F68%2F84cc6899edc8b186b89318986329c3976fdc3394",
+        "xml": "f3%2F34%2F82%2Ff33482fb63f32b2027fd4fb9bb50889a697ea27e"}),
+    ("FavorabilitySurface", "6606ed51d34e4df16bd58251", "geothermal_hydrothermal_favorability", {
+        "shp": "79%2Fb1%2Fce%2F79b1ce18796d6fc4ae5b9292c58bd8aaee4846e5",
+        "dbf": "fc%2Fc5%2Fc7%2Ffcc5c7ec4d94360183d66dd9438b26a40fd6f74c",
+        "shx": "59%2F53%2Fe2%2F5953e29dadb4ec6c1dc42e27a8888289d7052a0a",
+        "prj": "55%2Fce%2F4a%2F55ce4a0577798f1bc84dbe91a4ad54cef8c3b663",
+        "xml": "b0%2F3d%2Fd8%2Fb03dd8396bbe0fc5ed9270e5e3665a9928de7660"}),
+):
+    for _ext, _disk in _parts.items():
+        SOURCES[f"usgs_{_stem}_{_ext}"] = {
+            "source": "usgs", "layers": [_layer], "terms": "usgs",
+            "url": f"{SB}{_item}?f=__disk__{_disk}", "file": f"{_stem}/{_stem}.{_ext}"}
+SOURCES.update({
+    "nlr_egs": {"source": "nlr", "layers": ["geothermal_egs_favorability"], "terms": "nlr",
+                "url": "https://www.nlr.gov/docs/libraries/gis/egs.zip", "file": "egs.zip"},
+    "nlr_biomass": {"source": "nlr", "layers": ["biomass"], "terms": "nlr",
+                    "url": "https://www.nlr.gov/docs/libraries/gis/solid-biomass.zip", "file": "solid-biomass.zip"},
+    "openei_wind_sc": {
+        "source": "openei", "layers": ["wind_capacity_factor"], "terms": "openei_8314",
+        "url": "https://data.openei.org/files/8314/lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv",
+        "file": "lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv"},
+    "openei_wind_sc_lookup": {
+        "source": "openei", "layers": ["wind_capacity_factor"], "terms": "openei_8314",
+        "url": "https://data.openei.org/files/8314/lbw_column_lookup.csv", "file": "lbw_column_lookup.csv"},
+})
 BUILDERS = {}
 
 
@@ -666,8 +764,10 @@ def held(raw_dir, key):
 def base_layer(id, group, title, kind, row, key, **more):
     """The manifest fields every layer carries, from its source's ledger row."""
     t = TERMS[SOURCES[key]["terms"]]
+    quotes = t["quote"] if isinstance(t["quote"], list) else [t["quote"]]
     layer = {"id": id, "group": group, "title": title, "kind": kind,
-             "source_url": row["url"], "terms_url": row["terms_url"], "terms_quote": t["quote"],
+             "source_url": row["url"], "terms_url": row["terms_url"], "terms_quote": " [...] ".join(quotes),
+             "terms_quotes": quotes,
              "terms_file": row["terms_file"], "terms_sha256": row["terms_sha256"],
              "retrieved_at_utc": row["retrieved_at_utc"],
              "source_file": f"{row['source']}/{row['file']}", "source_bytes": int(row["bytes"]),
@@ -818,6 +918,276 @@ def build_ghi(raw_dir, web_dir, manifest):
 @builder("solar_dni")
 def build_dni(raw_dir, web_dir, manifest):
     solar_layer(raw_dir, web_dir, manifest, "solar_dni", "nlr_dni", "dni", "Direct Normal Irradiance")
+
+
+def xml_field(path, tag):
+    """The text of the first <tag> of a metadata file, whitespace collapsed."""
+    import html
+    with open(path, encoding="utf-8", errors="replace") as f:
+        m = re.search(rf"<{tag}[^>]*>(.*?)</{tag}>", f.read(), re.S)
+    if not m:
+        return ""
+    t = re.sub(r"<[^>]+>", " ", html.unescape(m.group(1)))
+    return re.sub(r"\s+", " ", t.replace("\ufffd", " ")).strip()
+
+
+def shapes_any(web_dir, file, gdf, props, tolerance, coverage):
+    """Simplify as a coverage when the source is one; say which was done."""
+    if coverage:
+        try:
+            size, n, b = write_shapes(web_dir, file, gdf, props, tolerance=tolerance, coverage=True)
+            return size, n, b, (f"the polygons simplified together as one coverage, so that neighbours still "
+                                f"meet along one line (tolerance {tolerance} degrees); coordinates to 3 decimals; "
+                                f"no feature dropped")
+        except ValueError as e:
+            log(f"{file}: {e}; simplified one feature at a time")
+    size, n, b = write_shapes(web_dir, file, gdf, props, tolerance=tolerance)
+    return size, n, b, (f"each polygon simplified to {tolerance} degrees with its topology kept (Douglas-Peucker, "
+                        f"one feature at a time: a thin gap or overlap can show between neighbours when zoomed "
+                        f"far in); coordinates to 3 decimals; no feature dropped")
+
+
+USGS_PUBLISHER = "U.S. Geological Survey (USGS)"
+USGS_CREDIT = "Credit: U.S. Geological Survey"
+
+
+@builder("geothermal_hydrothermal_sites")
+def build_geo_sites(raw_dir, web_dir, manifest):
+    import geopandas as gpd
+    row = held(raw_dir, "usgs_IdentifiedGeothermalSystems_shp")
+    for ext in ("dbf", "shx", "prj", "xml"):
+        held(raw_dir, f"usgs_IdentifiedGeothermalSystems_{ext}")
+    g = gpd.read_file(row["path"]).to_crs(4326)
+    extra = ["State", "Temp_C_Li", "Temp_C_Mn", "Temp_C_Mx", "Vol_km3_Li", "Vol_km3_Mn", "Vol_km3_Mx",
+             "MWe_P95", "MWe_P5", "Lat_83", "Lon_83"]
+    rows = [[round(r.geometry.x, 4), round(r.geometry.y, 4), clean(r["Name"]), clean(r["MWe_Mean"])]
+            + [clean(r[c]) for c in extra] for _, r in g.iterrows()]
+    size = write_points(web_dir, "geothermal_hydrothermal_sites.json", ["lon", "lat", "name", "value"] + extra, rows)
+    vals = [r[3] for r in rows]
+    st = shape_stats(vals)
+    meta = row["path"][:-4] + ".xml"
+    manifest_put(manifest, base_layer(
+        "geothermal_hydrothermal_sites", "geothermal", "Identified hydrothermal systems", "points", row,
+        "usgs_IdentifiedGeothermalSystems_shp", unit="MWe",
+        value_label="Mean Megawatts electric (MWe), the source's MWe_Mean", publisher=USGS_PUBLISHER,
+        source_title="Identified Moderate and High Temperature Geothermal Systems "
+                     "(IdentifiedGeothermalSystems.shp), DeAngelo and Williams, 2010, from the 2008 Assessment "
+                     "of moderate- and high-temperature geothermal resources of the United States",
+        vintage="the 2008 assessment (USGS Fact Sheet 2008-3082); the data file is dated 2010 and was released "
+                "again on ScienceBase on 29 March 2024 (metadata date 20240329)",
+        extent="United States: the western states, Alaska and Hawaii",
+        source_resolution="one point for each identified system",
+        reduction="none: every row of the source, at the source's own longitude and latitude (NAD83 read as "
+                  "WGS84, coordinates to 4 decimals)",
+        file="geothermal_hydrothermal_sites.json", bytes=size, rows=len(rows),
+        legend={"min": st["min"], "max": st["max"], "stops": [1, 10, 100, 1000]}, stats=st,
+        total_mwe_mean=round(sum(v for v in vals if v is not None), 1),
+        columns_meaning={"value": "Mean Megawatts electric (MWe)", "MWe_P95": "95% likelyhood Megawatts electric "
+                         "(MWe)", "MWe_P5": "5% likelyhood Megawatts electric (MWe)",
+                         "Temp_C_Li": "Most likely temperature (C) of reservoir",
+                         "Temp_C_Mn": "Minimum temperature (C) of reservoir",
+                         "Temp_C_Mx": "Maximum temperature (C) of reservoir",
+                         "Vol_km3_Li": "Most likely volume of reservoir (km3)",
+                         "Vol_km3_Mn": "Minimum volume of reservoir (km3)",
+                         "Vol_km3_Mx": "Maximum volume of reservoir (km3)"},
+        credit=USGS_CREDIT, terms_in_file="Use constraints: " + xml_field(meta, "useconst") + ". "
+                                          + xml_field(meta, "accconst"),
+        notes_for_method="Hydrothermal: the natural hot-water systems already identified. USGS's words: \""
+                         + xml_field(meta, "abstract") + "\" \"" + xml_field(meta, "purpose") + "\" Each point "
+                         "is one identified system with USGS's estimate of the electric power it could "
+                         "generate (the mean, and the 95 and 5 percent values). It is an estimate of a "
+                         "reservoir's potential, not a power plant and not what is installed. Undiscovered "
+                         "systems and enhanced geothermal are not in this layer."))
+
+
+@builder("geothermal_hydrothermal_favorability")
+def build_geo_fav(raw_dir, web_dir, manifest):
+    import geopandas as gpd
+    row = held(raw_dir, "usgs_FavorabilitySurface_shp")
+    for ext in ("dbf", "shx", "prj", "xml"):
+        held(raw_dir, f"usgs_FavorabilitySurface_{ext}")
+    g = gpd.read_file(row["path"])
+
+    def props(r):
+        p = {"name": clean(r["Descript"]), "kind": "relative favorability class",
+             "value": clean(r["GRIDCODE"]), "value_unit": "class (the source's GRIDCODE, 1 to 10)"}
+        p.update(source_fields(r))
+        return p
+    size, n, b, how = shapes_any(web_dir, "geothermal_hydrothermal_favorability.json", g, props, 0.03, True)
+    meta = row["path"][:-4] + ".xml"
+    classes = [{"value": int(r["GRIDCODE"]), "label": clean(r["Descript"])}
+               for _, r in g.sort_values("GRIDCODE").iterrows()]
+    manifest_put(manifest, base_layer(
+        "geothermal_hydrothermal_favorability", "geothermal", "Hydrothermal favorability (western states)",
+        "shapes", row, "usgs_FavorabilitySurface_shp", unit="class",
+        value_label="relative favorability class (the source's GRIDCODE, with its Descript range)",
+        publisher=USGS_PUBLISHER,
+        source_title="Geothermal Favorability Map Derived From Logistic Regression Models "
+                     "(FavorabilitySurface.shp), DeAngelo and Williams, 2010",
+        vintage="the 2008 assessment; the data file is dated 2010 and was released again on ScienceBase on "
+                "29 March 2024 (metadata date 20240329)",
+        extent="western United States", source_resolution="polygon contours of a favorability surface",
+        reduction=how, file="geothermal_hydrothermal_favorability.json", bytes=size, features=n, bounds=b,
+        classes=classes, legend={"kinds": [c["label"] for c in classes]}, stats=None,
+        credit=USGS_CREDIT, terms_in_file="Use constraints: " + xml_field(meta, "useconst") + ". "
+                                          + xml_field(meta, "accconst"),
+        notes_for_method="Hydrothermal, undiscovered: where such systems are more likely to be found. USGS's "
+                         "words: \"" + xml_field(meta, "abstract") + "\" \"" + xml_field(meta, "purpose") + "\" "
+                         "The file gives ten classes (GRIDCODE 1 to 10), each with a range in its Descript "
+                         "field (from \"< 0.1\" to \"> 15\"); the file's metadata does not say what unit those "
+                         "ranges are in, so the layer shows the class and the range as written and nothing "
+                         "more. It covers the western states only. It is not enhanced geothermal."))
+
+
+EGS_CLASSES = {1: "Class 1 (most favorable)", 2: "Class 2", 3: "Class 3", 4: "Class 4",
+               5: "Class 5 (least favorable)",
+               999: "Class 999 (temperatures less than 150 C at 10 km depth: not assessed for deep EGS potential)"}
+
+
+@builder("geothermal_egs_favorability")
+def build_egs(raw_dir, web_dir, manifest):
+    import geopandas as gpd
+    row = held(raw_dir, "nlr_egs")
+    shp = find_file(unpack(row["path"]), r"GeothermalLCOE_NoExclusionsforAtlas\.shp$")
+    g = gpd.read_file(shp)
+
+    def props(r):
+        c = int(r["CLASS"])
+        return {"name": EGS_CLASSES.get(c, f"Class {c}"), "kind": "deep enhanced geothermal favorability class",
+                "value": c, "value_unit": "class (1 most favorable, 5 least favorable, 999 not assessed)",
+                "CLASS": c}
+    size, n, b, how = shapes_any(web_dir, "geothermal_egs_favorability.json", g, props, 0.02, True)
+    meta = shp + ".xml"
+    counts = {int(k): int(v) for k, v in g["CLASS"].value_counts().items()}
+    classes = [{"value": k, "label": EGS_CLASSES.get(k, f"Class {k}"), "features": counts.get(k, 0)}
+               for k in sorted(counts)]
+    manifest_put(manifest, base_layer(
+        "geothermal_egs_favorability", "geothermal", "Deep enhanced geothermal favorability", "shapes", row,
+        "nlr_egs", unit="class",
+        value_label="relative favorability of the deep enhanced geothermal resource (the source's CLASS)",
+        publisher=NLR_PUBLISHER,
+        source_title="Geothermal Resource of the United States: favorability of deep enhanced geothermal "
+                     "systems (GeothermalLCOE_NoExclusionsforAtlas.shp)",
+        vintage="2009 (the file's metadata: analyses \"performed by NREL (2009)\" on temperature at depth from "
+                "Southern Methodist University Geothermal Laboratory, Blackwell and Richards, 2009); metadata "
+                "dated 23 February 2012",
+        extent="contiguous United States (the source: \"Temperature at depth data for deep EGS in Alaska and "
+               "Hawaii not available\")",
+        source_resolution="polygons of classes", reduction=how,
+        file="geothermal_egs_favorability.json", bytes=size, features=n, bounds=b,
+        classes=classes, legend={"kinds": [c["label"] for c in classes]}, stats=None,
+        credit="NREL (the file's notice); " + NLR_CREDIT, terms_notice=nlr_notice(raw_dir),
+        terms_in_file=xml_field(meta, "useconst"),
+        notes_for_method="Enhanced geothermal (EGS): heat in deep rock that would need an engineered reservoir, "
+                         "kept apart from the hydrothermal layers. The publisher's words: \""
+                         + xml_field(meta, "abstract") + "\" The classes rank relative favorability; they are "
+                         "not megawatts, and the ranking rests on a 2009 estimate of the levelized cost of "
+                         "electricity. The landing page that listed the file (NREL's geothermal maps page) no "
+                         "longer exists since the laboratory's site moved to nlr.gov; the file itself is still "
+                         "on the laboratory's server."))
+
+
+@builder("biomass")
+def build_biomass(raw_dir, web_dir, manifest):
+    import geopandas as gpd
+    row = held(raw_dir, "nlr_biomass")
+    shp = find_file(unpack(row["path"]), r"SolidBiomass\.shp$")
+    g = gpd.read_file(shp)
+    parts = ["CropRes", "ForestRes", "PrimMill", "SecMill", "UrbanWood"]
+
+    def props(r):
+        p = {"name": f"{clean(r['CNTY_NAME'])}, {clean(r['STATE_NAME'])}", "kind": "county",
+             "value": clean(r["Total"]), "value_unit": "dry metric tons/year"}
+        p.update(source_fields(r))
+        return p
+    size, n, b, how = shapes_any(web_dir, "biomass.json", g, props, 0.03, True)
+    meta = shp[:-4] + ".xml"
+    vals = [clean(x) for x in g["Total"]]
+    st = shape_stats(vals)
+    import numpy as np
+    q = [float(x) for x in np.percentile([v for v in vals if v is not None], [50, 75, 90, 95, 99])]
+    manifest_put(manifest, base_layer(
+        "biomass", "biomass", "Solid biomass resources by county", "shapes", row, "nlr_biomass",
+        unit="dry metric tons/year",
+        value_label="all solid biomass resources of the county (the source's Total)", publisher=NLR_PUBLISHER,
+        source_title="Solid biomass resources by county (SolidBiomass.shp), Anelia Milbrandt, NREL",
+        vintage="data for 2012 (the file's metadata: \"Data for 2012, in dry metric tons/year\"); published "
+                "30 October 2014",
+        extent="United States by county: the contiguous states, Alaska and Hawaii",
+        source_resolution="county", reduction=how,
+        file="biomass.json", bytes=size, features=n, bounds=b,
+        legend={"min": st["min"], "max": st["max"], "stops": [round(x, -3) for x in q],
+                "stops_are": "the 50th, 75th, 90th, 95th and 99th percentile of the counties"},
+        stats=st, national_total=float(sum(v for v in vals if v is not None)),
+        parts={c: float(g[c].sum()) for c in parts},
+        credit="NREL (the file's notice); " + NLR_CREDIT, terms_notice=nlr_notice(raw_dir),
+        terms_in_file=xml_field(meta, "useconst"),
+        notes_for_method="This is the Energy Department laboratory's county file, not the Billion-Ton study "
+                         "(whose county downloads need an account, so they were left). The publisher's words: \""
+                         + xml_field(meta, "abstract") + "\" The Total field: \"This field combines all solid "
+                         "biomass resources by county: crop residues, forest residues, primary mill residues, "
+                         "secondary mill residues, and urban wood waste. Data for 2012, in dry metric "
+                         "tons/year.\" The value is a county's total, so a large county shows more than a small "
+                         "one with the same resource a square mile. Of primary mill residues the file says: "
+                         "\"Note that most of this resource is currently utilized.\" It is a 2012 estimate of "
+                         "what is generated, not of what is available to a new plant at a price. The landing "
+                         "page that listed the file no longer exists since the laboratory's site moved to "
+                         "nlr.gov; the file itself is still on the laboratory's server."))
+
+
+@builder("wind_capacity_factor")
+def build_wind_cf(raw_dir, web_dir, manifest):
+    row = held(raw_dir, "openei_wind_sc")
+    look = held(raw_dir, "openei_wind_sc_lookup")
+    with open(look["path"], encoding="utf-8-sig", newline="") as f:
+        lookup = {r["reV Column"]: r for r in csv.DictReader(f)}
+    cf_words = lookup["capacity_factor_ac"]["Description"].strip()
+    extra = ["resource", "capacity_ac_mw", "area_developable_sq_km"]
+    rows, vals = [], []
+    with open(row["path"], encoding="utf-8-sig", newline="") as f:
+        for r in csv.DictReader(f):
+            cf = float(r["capacity_factor_ac"])
+            rows.append([round(float(r["longitude"]), 3), round(float(r["latitude"]), 3), r["sc_point_gid"],
+                         round(cf, 4), round(float(r["resource"]), 2), round(float(r["capacity_ac_mw"]), 1),
+                         round(float(r["area_developable_sq_km"]), 1)])
+            vals.append(cf)
+    size = write_points(web_dir, "wind_capacity_factor.json", ["lon", "lat", "name", "value"] + extra, rows)
+    st = shape_stats(vals)
+    manifest_put(manifest, base_layer(
+        "wind_capacity_factor", "wind", "Wind capacity factor (supply curve sites)", "points", row,
+        "openei_wind_sc", unit=lookup["capacity_factor_ac"]["Units"].strip(),
+        value_label=cf_words + " (the source's capacity_factor_ac)", publisher=NLR_PUBLISHER,
+        source_title="United States Land-based Wind Supply Curves 2024, open access siting, 2035 moderate "
+                     "technology, 115 m hub height, 170 m rotor diameter "
+                     "(lbw_open_access_2035_moderate_115hh_170rd_supply_curve.csv)",
+        vintage="the 2024 edition, published 2025-01-01 on the Open Energy Data Initiative; the file models a "
+                "2035 turbine (\"2035 moderate\", 115 m hub height, 170 m rotor diameter); the weather years "
+                "behind the mean are not stated in the files",
+        extent="contiguous United States, land only, where the open access scenario leaves developable area",
+        source_resolution="11.5 km (\"Centroid latitude of the 11.5km grid-cell\")",
+        reduction="none: every row of the source at the source's own centroid (coordinates to 3 decimals, the "
+                  "capacity factor to 4); the state, county, cost and transmission columns are left out of the web "
+                  "file",
+        file="wind_capacity_factor.json", bytes=size, rows=len(rows),
+        legend={"min": round(st["min"], 4), "max": round(st["max"], 4), "stops": [0.1, 0.2, 0.3, 0.4, 0.5]},
+        stats=st, point_spacing_km=11.5,
+        columns_meaning={c: lookup[k]["Description"].strip() + " (" + lookup[k]["Units"].strip() + ")"
+                         for c, k in (("value", "capacity_factor_ac"), ("resource", "resource"),
+                                      ("capacity_ac_mw", "capacity_ac_mw"),
+                                      ("area_developable_sq_km", "area_developable_sq_km"))},
+        credit=NLR_CREDIT + "; Creative Commons Attribution 4.0",
+        notes_for_method="No gross capacity factor raster was found among the files the laboratory offers "
+                         "without a key, so this is not one, and it is not named one. It is the capacity factor "
+                         "column of the "
+                         "laboratory's 2024 land-based wind supply curve, in the source's words: \"" + cf_words
+                         + "\", unit \"" + lookup["capacity_factor_ac"]["Units"].strip() + "\". The column's name "
+                         "is capacity_factor_ac; the file's column list does not say whether losses are taken "
+                         "off, and the technical report (NREL/TP-6A20-91900) was not read, so the layer does "
+                         "not say gross or net. It is the modelled output of a 2035 turbine (115 m hub, 170 m "
+                         "rotor), one value for each 11.5 km cell that has land left to build on under the "
+                         "\"open access\" siting scenario: a cell with no developable land is absent, which is "
+                         "an absence of land in the model, not of wind. The resource column is the source's "
+                         "\"" + lookup["resource"]["Description"].strip() + "\"."))
 
 
 EIA_ACK = "Source: U.S. Energy Information Administration"
@@ -993,6 +1363,8 @@ def main():
     ap.add_argument("--method-doc", action="store_true",
                     help="rewrite the layer sections of docs/methods/resources.md from the manifest")
     ap.add_argument("--only", default="")
+    ap.add_argument("--registry", action="store_true",
+                    help="add this connector's sources to warehouse/metadata/sources.csv of this copy")
     ap.add_argument("--out-dir", default="")
     ap.add_argument("--raw-dir", default=RAW_DIR)
     args = ap.parse_args()
@@ -1014,10 +1386,10 @@ def main():
         log(f"ledger total: {ledger_total(read_ledger(args.raw_dir))} bytes of {CEILING_BYTES}")
     if args.build:
         man = read_manifest(manifest)
-        known = {l["id"] for l in man["layers"]} | {m["id"] for m in man.get("missing", [])}
+        held_ids = {l["id"] for l in man["layers"]}
         for id, (group, title) in EXPECTED.items():
-            if id not in known:
-                manifest_missing(manifest, id, group, title, "not built yet")
+            if id not in held_ids:
+                manifest_missing(manifest, id, group, title, NOT_HELD.get(id, "not built yet"))
         for id, fn in BUILDERS.items():
             if only and id not in only:
                 continue
@@ -1032,6 +1404,8 @@ def main():
         failed += check_terms(args.raw_dir, manifest)
     if args.method_doc:
         write_method_doc(manifest)
+    if args.registry:
+        write_registry(args.raw_dir)
     if failed:
         log(f"failed: {failed}")
         return 1
@@ -1079,7 +1453,13 @@ def write_method_doc(manifest, path=METHOD_DOC):
                 out.append(f"  | {v['cell_deg']} | `{v['file']}` | {v['ncols']} x {v['nrows']} | "
                            f"{c['cells_with_value']:,} | {v['bytes']:,} | {c['mean_weighted_by_source_cells']:.5g} | "
                            f"{c['source_mean_of_kept_cells']:.5g} | {c['share_of_source_cells_kept']:.2%} |")
-            out.append("")
+            for x in l.get("other_extents", []):
+                files = ", ".join(f"`{v['file']}` ({v['cell_deg']} degrees, {v['bytes']:,} bytes)"
+                                  for v in x["levels"])
+                sx = x["source_stats"]
+                out.append(f"- **Also held: {x['extent']}.** {files}. The source's own cells there: minimum "
+                           f"{fmt_num(sx['min'])}, mean {fmt_num(sx['mean'])}, maximum {fmt_num(sx['max'])} over "
+                           f"{sx['n_valid']:,} cells.")
         else:
             n = l.get("features", l.get("rows"))
             what = "features" if l["kind"] == "shapes" else "rows"
@@ -1094,8 +1474,13 @@ def write_method_doc(manifest, path=METHOD_DOC):
                 f"{c['value']}: {c['label']}" for c in l["classes"]) + ".")
         out.append(f"- **Terms.** <{l['terms_url']}> (saved as `{l['terms_file']}`, sha256 "
                    f"`{l['terms_sha256'][:16]}`): \"{l['terms_quote']}\"")
-        for t in l.get("terms_also", []):
-            out.append(f"  Also <{t['url']}>: \"{t['quote']}\"")
+        if l.get("terms_in_file"):
+            out.append(f"- **The file's own notice.** \"{l['terms_in_file']}\"")
+        if l.get("terms_notice"):
+            out.append("- **The laboratory's notice** travels with the data: it is printed in full at the end of "
+                       "this document.")
+        if l.get("credit"):
+            out.append(f"- **Credit.** {l['credit']}.")
         if l.get("acknowledgment"):
             out.append(f"- **Acknowledgment.** {l['acknowledgment']}.")
         out.append("")
@@ -1104,11 +1489,110 @@ def write_method_doc(manifest, path=METHOD_DOC):
         for m in man["missing"]:
             out.append(f"- **{m['title']}** (`{m['id']}`): {m['reason']}")
         out.append("")
+    out.append("## Looked for and left\n")
+    out.append("A source that asks for a login, an account or a person's details before it hands over a file is "
+               "recorded and left. Nothing below was downloaded.\n")
+    for k, x in LEFT_SOURCES.items():
+        files = "; ".join(f"`{f}` ({b:,} bytes by the server's own count)" for f, b in x.get("files", {}).items())
+        out.append(f"- **{x['title']}.** {x['publisher']}. <{x['landing']}>. Left because {x['why_left']}."
+                   + (f" Files: {files}." if files else "")
+                   + (f" Its data use policy: <{x['terms']}>." if x.get("terms") else ""))
+    out.append("")
+    notice = next((l["terms_notice"] for l in man["layers"] if l.get("terms_notice")), None)
+    if notice:
+        out.append("## The laboratory's notice, in full\n")
+        out.append("The National Laboratory of the Rockies (until 2025 the National Renewable Energy Laboratory) "
+                   "grants the use of its data \"provided that this entire notice appears in all copies of the "
+                   f"Data\". The notice, from <{TERMS['nlr']['url']}> as saved on the day of the pull:\n")
+        out.append("> " + notice)
+        out.append("")
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(out))
     os.replace(tmp, path)
     log(f"method document: {len(man['layers'])} layers, {len(man.get('missing', []))} not held")
+
+
+# The source registry's rows (warehouse/metadata/sources.csv), one a source file. No table yet: the layers
+# are web files; the tables column is filled when the vector layers become entities tables.
+REGISTRY = {
+    "eia:maps:sedimentary_basins": ("eia_basins", "U.S. Energy Information Administration (EIA)",
+                                    "U.S. Sedimentary Basins, shapefile (EIA maps, layer information for "
+                                    "interactive state maps)"),
+    "eia:maps:tight_oil_shale_gas_plays": ("eia_plays", "U.S. Energy Information Administration (EIA)",
+                                           "Tight Oil and Shale Gas Plays in the U.S., Lower 48, shapefile, "
+                                           "updated December 2021"),
+    "boem:renewable_energy_leases": ("boem_shapefiles", "Bureau of Ocean Energy Management (BOEM)",
+                                     "Renewable Energy Leases and Planning Areas, all shapefiles (last file "
+                                     "update 02/05/2025)"),
+    "boem:wind_planning_area_outlines": ("boem_planning", "Bureau of Ocean Energy Management (BOEM)",
+                                         "Offshore Wind Planning Area Outlines (Rescinded July 30, 2025), "
+                                         "public feature service"),
+    "nlr:gis:wind_toolkit_mean_wind_speed": ("nlr_wind", "National Laboratory of the Rockies (NLR, formerly NREL)",
+                                             "WIND Toolkit, Multi-year (2007-2013) Annual Average Wind Speed at "
+                                             "all heights, GeoTIFF, 2 km"),
+    "nlr:gis:nsrdb_psm3_ghi": ("nlr_ghi", "National Laboratory of the Rockies (NLR, formerly NREL)",
+                               "NSRDB Physical Solar Model version 3 Global Horizontal Irradiance, multi-year "
+                               "(1998-2016) annual and monthly averages, GeoTIFF"),
+    "nlr:gis:nsrdb_psm3_dni": ("nlr_dni", "National Laboratory of the Rockies (NLR, formerly NREL)",
+                               "NSRDB Physical Solar Model version 3 Direct Normal Irradiance, multi-year "
+                               "(1998-2016) annual and monthly averages, GeoTIFF"),
+    "nlr:gis:deep_egs_favorability": ("nlr_egs", "National Laboratory of the Rockies (NLR, formerly NREL)",
+                                      "Favorability of deep enhanced geothermal systems, lower 48, shapefile "
+                                      "(2009)"),
+    "nlr:gis:solid_biomass": ("nlr_biomass", "National Laboratory of the Rockies (NLR, formerly NREL)",
+                              "Solid biomass resources by county, shapefile (data for 2012, published 2014)"),
+    "nlr:oedi:land_based_wind_supply_curves_2024": (
+        "openei_wind_sc", "National Laboratory of the Rockies (NLR, formerly NREL)",
+        "United States Land-based Wind Supply Curves 2024, open access, 2035 moderate, 115 m hub height, 170 m "
+        "rotor diameter (Open Energy Data Initiative submission 8314)"),
+    "usgs:identified_geothermal_systems": (
+        "usgs_IdentifiedGeothermalSystems_shp", "U.S. Geological Survey (USGS)",
+        "Identified Moderate and High Temperature Geothermal Systems (2008 assessment; ScienceBase, "
+        "doi:10.5066/P1YJWMFC)"),
+    "usgs:geothermal_favorability": (
+        "usgs_FavorabilitySurface_shp", "U.S. Geological Survey (USGS)",
+        "Geothermal Favorability Map Derived From Logistic Regression Models (2008 assessment; ScienceBase, "
+        "doi:10.5066/P137NMXE)"),
+}
+REGISTRY_PAGES = {
+    "usgs:identified_geothermal_systems": "https://www.sciencebase.gov/catalog/item/6606f534d34e4df16bd58277",
+    "usgs:geothermal_favorability": "https://www.sciencebase.gov/catalog/item/6606ed51d34e4df16bd58251",
+    "nlr:oedi:land_based_wind_supply_curves_2024": "https://data.openei.org/submissions/8314",
+    "boem:renewable_energy_leases": "https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data",
+    "boem:wind_planning_area_outlines":
+        "https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data",
+}
+
+
+def write_registry(raw_dir, path=os.path.join(REPO, "warehouse", "metadata", "sources.csv")):
+    """Add this connector's sources to the registry of the copy it runs in. A row already there keeps its
+    first_seen and its tables; nothing is removed."""
+    with open(path, encoding="utf-8", newline="") as f:
+        rd = csv.DictReader(f)
+        cols = rd.fieldnames
+        rows = {r["source"]: r for r in rd}
+    n = 0
+    for sid, (key, publisher, report) in REGISTRY.items():
+        try:
+            h = held(raw_dir, key)
+        except FileNotFoundError:
+            continue
+        day = h["retrieved_at_utc"][:10]
+        old = rows.get(sid, {})
+        rows[sid] = {"source": sid, "publisher": publisher, "report": report,
+                     "report_url": REGISTRY_PAGES.get(sid, h["url"]), "document_list": h["url"],
+                     "license": "public", "tables": old.get("tables", ""),
+                     "first_seen": old.get("first_seen", day), "last_seen": day}
+        n += 1
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=cols)
+        w.writeheader()
+        for sid in sorted(rows):
+            w.writerow(rows[sid])
+    os.replace(tmp, path)
+    log(f"source registry: {n} rows of this connector in {path}")
 
 
 def check_terms(raw_dir, manifest):
