@@ -235,5 +235,217 @@ class StatusListsAGapThatNamesNoDay(unittest.TestCase):
 
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# 3. ISO-NE's monthly file (Aggregate Monthly DDG Undelivered Energy): pulled under its ceilings, held internal.
+#    No ISO-NE workbook is in the repository (the table is internal). The layout is tested on a workbook made here
+#    that holds the labels and the one line session 144's report already printed (wind, January 2026: delivered
+#    385,416.50 MWh, undelivered 5,879.80 MWh); the whole pull is tested on the workbooks themselves where they are
+#    (the data machine's raw store) and skipped elsewhere.
+# ---------------------------------------------------------------------------------------------------------------
+import io
+
+RAW_ISONE = os.path.join(os.path.dirname(ROOT), "erw", "warehouse", "raw", "isone_ddg_undelivered")
+LABELS = [None, "DE [MWH]", "UE [MWH]", "UE-NonBind [MWH]", "UE-Bind [MWH]", "percent UE", "percent UE-NonBind", "percent UE-Bind"]
+MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def isone_module():
+    p = os.path.join(ROOT, "warehouse", "connectors")
+    if p not in sys.path:
+        sys.path.insert(0, p)
+    try:
+        import isone_ddg_undelivered
+        import openpyxl  # noqa: F401  (the workbook made here, and pandas' reader)
+    except ImportError as exc:
+        raise unittest.SkipTest("the ISO-NE connector cannot be imported here: %s" % exc)
+    return isone_ddg_undelivered
+
+
+def workbook(sheet="2026 System", labels=LABELS, months=MONTH_NAMES, lines=None):
+    """A workbook in ISO-NE's layout: the sheet's mark, the labels, twelve month lines. lines: {month number: cells}."""
+    import openpyxl
+    wb = openpyxl.Workbook()
+    wb.active.title = "Nomenclature"
+    wb.active.append(["ISO-NE Public"])
+    ws = wb.create_sheet(sheet)
+    ws.append([None, None, None, "ISO-NE Public"])
+    ws.append(labels)
+    for i, m in enumerate(months):
+        ws.append([m] + list((lines or {}).get(i + 1, [" ", " ", " ", " ", None, None, None])))
+    out = io.BytesIO()
+    wb.save(out)
+    return out.getvalue()
+
+
+class IsoNeUndelivered(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.c = isone_module()
+
+    def test_the_ceilings_and_the_contact_string(self):
+        c = self.c
+        self.assertEqual((c.MAX_ROWS, c.MAX_REQUESTS, c.MAX_BYTES), (2000, 20, 50 * 1024 * 1024))
+        self.assertEqual(c.UA, {"User-Agent": CONTACT})
+        self.assertIsNone(ADDRESS.search(json.dumps(c.UA)))
+        self.assertLessEqual(c.ROWS_EST, 12 * len(c.COLUMNS))
+
+    def test_a_month_line_as_printed_and_blank_months(self):
+        c = self.c
+        rows = c.parse(workbook(lines={1: [385416.5, 5879.8, " ", " ", None, None, None]}), "2026 Undelivered Wind Energy Aggregate Report")
+        self.assertEqual([(r["variable"], r["year"], r["month"], r["value"], r["unit"]) for r in rows],
+                         [("wind_delivered_mwh", 2026, 1, 385416.5, "MWh"), ("wind_undelivered_mwh", 2026, 1, 5879.8, "MWh")])
+        self.assertEqual(c.parse(workbook(), "2026 Undelivered Solar Energy Aggregate Report"), [])   # nothing published: no row
+
+    def test_the_fuel_and_the_year_come_from_iso_nes_own_description(self):
+        c = self.c
+        line = {1: [385416.5, 5879.8, " ", " ", None, None, None]}
+        self.assertEqual({r["fuel"] for r in c.parse(workbook(sheet="2025 System", lines=line), "2025 Undelivered Solar Energy Aggregate Report")}, {"solar"})
+        for bad in ("", "2026 Something Else", "Undelivered Wind Energy Aggregate Report"):
+            with self.assertRaises(RuntimeError):
+                c.parse(workbook(lines=line), bad)
+        with self.assertRaises(RuntimeError):   # the description's year has no sheet
+            c.parse(workbook(sheet="2025 System", lines=line), "2026 Undelivered Wind Energy Aggregate Report")
+
+    def test_a_layout_that_was_not_read_stops_the_read(self):
+        c = self.c
+        name = "2026 Undelivered Wind Energy Aggregate Report"
+        with self.assertRaises(RuntimeError):   # a column session 149 did not read
+            c.parse(workbook(labels=LABELS + ["UE-Other [MWH]"]), name)
+        with self.assertRaises(RuntimeError):   # the months out of order
+            c.parse(workbook(months=["Feb", "Jan"] + MONTH_NAMES[2:]), name)
+        with self.assertRaises(RuntimeError):   # eleven month lines
+            c.parse(workbook(months=MONTH_NAMES[:11]), name)
+        with self.assertRaises(RuntimeError):   # words where a number should be
+            c.parse(workbook(lines={1: [385416.5, "n/a", " ", " ", None, None, None]}), name)
+
+    def test_the_stop_sits_before_the_request(self):
+        c = self.c
+        asked = []
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(c, "RAW", tmp), mock.patch.object(c, "PAUSE", 0), \
+                mock.patch.object(c, "http_get", side_effect=lambda url: asked.append(url)):
+            for i in range(c.MAX_REQUESTS):
+                c.record(retrieved_at="2026-10-07T00:00:00Z", status=200, bytes=10, sha256="", kind="list", file="", url="u%d" % i)
+            with self.assertRaises(c.CeilingStop):
+                c.fetch("https://www.iso-ne.com/x", "list", "x.json", lambda m: None)
+        self.assertEqual(asked, [])   # the twenty-first request is never made
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(c, "RAW", tmp), mock.patch.object(c, "http_get", side_effect=lambda url: asked.append(url)):
+            with mock.patch.object(c, "counted", return_value=(c.MAX_ROWS - 83, 3, 0)):
+                with self.assertRaises(c.CeilingStop):   # 84 more rows would pass 2,000
+                    c.fetch("https://www.iso-ne.com/y.xlsx", "workbook", "workbooks/y.xlsx", lambda m: None, rows_est=c.ROWS_EST)
+            with mock.patch.object(c, "counted", return_value=(0, 3, c.MAX_BYTES - 10)):
+                with self.assertRaises(c.CeilingStop):   # the bytes
+                    c.fetch("https://www.iso-ne.com/y.xlsx", "workbook", "workbooks/y.xlsx", lambda m: None, bytes_est=c.BYTES_EST)
+        self.assertEqual(asked, [])
+
+    def test_an_access_control_is_recorded_and_left(self):
+        c = self.c
+
+        class Answer:
+            def __init__(self, code, body):
+                self.status_code, self.content = code, body
+        for answer, kind in ((Answer(403, b"denied"), "workbook"), (Answer(200, b"<html>are you a person?</html>"), "workbook")):
+            with tempfile.TemporaryDirectory() as tmp, mock.patch.object(c, "RAW", tmp), mock.patch.object(c, "PAUSE", 0), \
+                    mock.patch.object(c, "http_get", return_value=answer):
+                with self.assertRaises(c.AccessStop):
+                    c.fetch("https://www.iso-ne.com/z.xlsx", kind, "workbooks/z.xlsx", lambda m: None)
+                self.assertEqual([r["kind"] for r in c.manifest()], ["refused"])
+                self.assertEqual(c.workbooks(), {})
+
+    def test_it_is_internal_everywhere_it_is_named(self):
+        c = self.c
+        text = src("warehouse", "connectors", "isone_ddg_undelivered.py")
+        self.assertIn('f"License: internal. The owner\'s ruling of 7 October 2026: pulled and held internal.', text)
+        self.assertIn('license="internal"', text)
+        live = src("warehouse", "supabase", "live_set.yaml")
+        self.assertIn("- " + c.NAME, live.split("catalogue_hold:", 1)[1].split("review_hold:", 1)[0])
+        self.assertIn("- " + c.SOURCE, live.split("sources_hold:", 1)[1])
+        self.assertIn('(r"^isone_ddg_undelivered_monthly$", "power")', src("warehouse", "metadata", "build_coverage.py"))
+        import csv
+        with open(os.path.join(ROOT, "warehouse", "metadata", "sources.csv"), encoding="utf-8", newline="") as f:
+            row = {r["source"]: r for r in csv.DictReader(f)}[c.SOURCE]
+        self.assertEqual((row["license"], row["tables"]), ("internal", c.NAME))
+        self.assertIn("held internal", row["report"])
+        self.assertNotIn("isone_ddg_undelivered", src("warehouse", "run_daily.sh"))   # pulled once: on no schedule
+
+    def test_no_page_reads_it_and_the_placeholder_says_held(self):
+        hits = []
+        for folder in ("app", "lib", "components", "data", "public"):
+            for base, dirs, files in os.walk(os.path.join(ROOT, "site", folder)):
+                dirs[:] = [d for d in dirs if d not in ("node_modules", ".next")]
+                for name in files:
+                    if not name.endswith((".ts", ".tsx", ".json", ".mjs", ".js", ".csv")):
+                        continue
+                    try:
+                        with open(os.path.join(base, name), encoding="utf-8", errors="replace") as f:
+                            if "isone_ddg_undelivered" in f.read():
+                                hits.append(os.path.join(base, name))
+                    except OSError:
+                        continue
+        self.assertEqual(hits, [])
+        face = src("site", "lib", "freeenergy.ts")
+        self.assertIn("the undelivered energy of its dispatchable wind and solar plants. Held, not shown.", face)
+        self.assertNotIn("Not yet in the ERW", face)
+        note = src("docs", "methods", "curtailment.md")
+        self.assertIn("pulled and held internal, not shown", note)
+        self.assertIn('"You are also hereby put on notice that the Content is protected by copyright under United States laws. '
+                      'Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws."', note)
+
+
+@unittest.skipUnless(os.path.exists(os.path.join(RAW_ISONE, "manifest.csv")), "ISO-NE's workbooks are not on this machine")
+class IsoNeUndeliveredOnTheWorkbooks(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.c = isone_module()
+        cls.patch = mock.patch.object(cls.c, "RAW", RAW_ISONE)
+        cls.patch.start()
+        cls.table, cls.lines = cls.c.build()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.patch.stop()
+
+    def test_the_pull_stayed_under_its_ceilings(self):
+        c = self.c
+        rows, requests_made, received = c.counted()
+        self.assertEqual(rows, len(self.table))
+        self.assertLessEqual(rows, c.MAX_ROWS)
+        self.assertLessEqual(requests_made, c.MAX_REQUESTS)
+        self.assertLessEqual(received, c.MAX_BYTES)
+        self.assertEqual(sorted({r["kind"] for r in c.manifest()}), ["list", "terms", "workbook"])   # nothing refused, nothing unread
+        self.assertTrue(all(r["url"].startswith("https://www.iso-ne.com/") for r in c.manifest()))
+
+    def test_the_line_session_144_printed(self):
+        t = self.table.set_index(["variable", "ts_utc"])["value"]
+        self.assertAlmostEqual(t[("wind_delivered_mwh", "2026-01-01T00:00:00Z")], 385416.50, places=2)
+        self.assertAlmostEqual(t[("wind_undelivered_mwh", "2026-01-01T00:00:00Z")], 5879.80, places=2)
+
+    def test_every_month_once_and_iso_nes_figures_agree_with_each_other(self):
+        t = self.table
+        self.assertFalse(t.duplicated(["entity", "variable", "ts_utc"]).any())
+        self.assertEqual(set(t["entity"]), {"isone:system"})
+        self.assertEqual(set(t["freq"]), {"P1M"})
+        self.assertTrue(t["ts_utc"].str.endswith("-01T00:00:00Z").all())
+        w = t.pivot(index="ts_utc", columns="variable", values="value")
+        for fuel in ("wind", "solar"):
+            g = w[[c for c in w.columns if c.startswith(fuel + "_")]].dropna()
+            self.assertGreater(len(g), 0)
+            ue, de = g[fuel + "_undelivered_mwh"], g[fuel + "_delivered_mwh"]
+            self.assertLess((ue - g[fuel + "_undelivered_nonbinding_mwh"] - g[fuel + "_undelivered_binding_mwh"]).abs().max(), 0.01)
+            self.assertLess((g[fuel + "_undelivered_pct"] - 100 * ue / (ue + de)).abs().max(), 1e-6)   # a percent, not a fraction
+            self.assertTrue((g[fuel + "_undelivered_pct"] <= 100).all() and (g >= 0).all().all())
+        self.assertEqual(w["wind_delivered_mwh"].dropna().index.min()[:7], "2018-01")
+
+    def test_the_notice_saved_is_the_notice_quoted(self):
+        import hashlib
+        import html
+        with open(os.path.join(RAW_ISONE, "legal_notice.html"), "rb") as f:
+            body = f.read()
+        row = [r for r in self.c.manifest() if r["kind"] == "terms"][0]
+        self.assertEqual(hashlib.sha256(body).hexdigest(), row["sha256"])
+        words = " ".join(html.unescape(re.sub(r"(?s)<[^>]+>", " ", body.decode("utf-8", "replace"))).split())
+        self.assertIn("You are also hereby put on notice that the Content is protected by copyright under United States laws. "
+                      "Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws.", words)
+
+
 if __name__ == "__main__":
     unittest.main()
