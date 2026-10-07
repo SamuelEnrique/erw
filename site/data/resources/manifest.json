@@ -1,0 +1,242 @@
+{
+ "built_at_utc": "2026-10-07T21:29:15Z",
+ "layers": [
+  {
+   "id": "oil_gas_basins",
+   "group": "oil and gas",
+   "title": "Sedimentary basins",
+   "kind": "shapes",
+   "source_url": "https://www.eia.gov/maps/map_data/SedimentaryBasins_US_EIA.zip",
+   "terms_url": "https://www.eia.gov/about/copyrights_reuse.php",
+   "terms_quote": "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website or that you receive through our email distribution service. However, if you use or reproduce any of our information products, you should use an acknowledgment, which includes the publication date, such as: \"Source: U.S. Energy Information Administration (Oct 2008).\"",
+   "terms_file": "eia/terms/eia_copyrights_reuse.html",
+   "terms_sha256": "a9747722112b2c558e82d31ec9438336eccfd754cc8eb8a0b04177c567e3f72c",
+   "retrieved_at_utc": "2026-10-07T21:26:20Z",
+   "source_file": "eia/SedimentaryBasins_US_EIA.zip",
+   "source_bytes": 440871,
+   "source_sha256": "02a017ccb84bdcc15726838098e3cfa73450b9655cf06e28d2eca6f3c04edcff",
+   "unit": "square miles",
+   "value_label": "area of the basin (the source's Area_sq_mi)",
+   "publisher": "U.S. Energy Information Administration (EIA)",
+   "source_title": "U.S. Sedimentary Basins (SedimentaryBasins_US_May2011_v2.shp)",
+   "vintage": "as of 5-6-2011 (the file's metadata: \"Sedimentary basins associated with the EIA shale plays as of 5-6-2011\"); file modified 10 March 2016",
+   "extent": "contiguous United States",
+   "source_resolution": "polygons, no scale stated by the source",
+   "reduction": "each polygon simplified to 0.01 degrees with its topology kept (Douglas-Peucker, one feature at a time); coordinates to 3 decimals; no feature dropped",
+   "file": "oil_gas_basins.json",
+   "bytes": 68698,
+   "features": 32,
+   "bounds": [
+    -121.978,
+    25.772,
+    -73.604,
+    49.002
+   ],
+   "legend": {
+    "kinds": [
+     "sedimentary basin"
+    ]
+   },
+   "stats": {
+    "n": 32,
+    "min": 1288.99676586,
+    "mean": 35362.66651013469,
+    "max": 160408.411275
+   },
+   "acknowledgment": "Source: U.S. Energy Information Administration (May 2011)",
+   "notes_for_method": "EIA's words: \"Sedimentary basins associated with the EIA shale plays as of 5-6-2011. Sedimentary basin which do not have shale plays as of publication date are not included in this file. Sources for the basins are mostly from the US Geological Survey and state agencies such as the WY Geological Survey.\" It is an outline of where the basins lie, not a measure of oil or gas in place or of what can be recovered. The file's own limit: \"These data and related graphics, if available, are not legal documents and are not intended to be used as such. The information contained in these data is dynamic and may change over time.\""
+  },
+  {
+   "id": "oil_gas_plays",
+   "group": "oil and gas",
+   "title": "Tight oil and shale gas plays",
+   "kind": "shapes",
+   "source_url": "https://www.eia.gov/maps/map_data/TightOil_ShaleGas_Plays_Lower48_EIA.zip",
+   "terms_url": "https://www.eia.gov/about/copyrights_reuse.php",
+   "terms_quote": "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website or that you receive through our email distribution service. However, if you use or reproduce any of our information products, you should use an acknowledgment, which includes the publication date, such as: \"Source: U.S. Energy Information Administration (Oct 2008).\"",
+   "terms_file": "eia/terms/eia_copyrights_reuse.html",
+   "terms_sha256": "a9747722112b2c558e82d31ec9438336eccfd754cc8eb8a0b04177c567e3f72c",
+   "retrieved_at_utc": "2026-10-07T21:26:20Z",
+   "source_file": "eia/TightOil_ShaleGas_Plays_Lower48_EIA.zip",
+   "source_bytes": 323424,
+   "source_sha256": "c09b3bd2982754cfb63d12bbbfde6c6c5e8c02eee73e54d231a7c7de73f0541e",
+   "unit": "square miles",
+   "value_label": "area of the play (the source's Area_sq_mi)",
+   "publisher": "U.S. Energy Information Administration (EIA)",
+   "source_title": "Tight Oil and Shale Gas Plays in the U.S. (ShalePlays_US_EIA_Dec2021.shp)",
+   "vintage": "updated December 2021 (the file's metadata: \"Updated December 2021 with addition of Spraberry and Wolfcamp Plays in the Permian Basin\")",
+   "extent": "contiguous United States (the source's Lower 48)",
+   "source_resolution": "polygons, \"General areas for shale plays in the U.S.\"",
+   "reduction": "each polygon simplified to 0.01 degrees with its topology kept (Douglas-Peucker, one feature at a time); coordinates to 3 decimals; no feature dropped",
+   "file": "oil_gas_plays.json",
+   "bytes": 55755,
+   "features": 50,
+   "bounds": [
+    -121.148,
+    27.489,
+    -74.827,
+    49.0
+   ],
+   "legend": {
+    "kinds": [
+     "tight oil and shale gas play"
+    ]
+   },
+   "stats": {
+    "n": 50,
+    "min": 184.825557581,
+    "mean": 10280.334960034319,
+    "max": 59054.2252868
+   },
+   "acknowledgment": "Source: U.S. Energy Information Administration (Dec 2021)",
+   "notes_for_method": "EIA's words: \"General areas for shale plays in the U.S. Source: EIA based on Enverus DrillingInfo Inc., the U.S. Geological Survey, publicly available peer-reviewed research papers, academic theses, and publications of State Geological Agencies. Updated December 2021 with addition of Spraberry and Wolfcamp Plays in the Permian Basin.\" A play's outline is a general area, not a reserve estimate and not a lease map. The file's own limit: \"None (public use). Users are advised to thoroughly review the metadata to understand the appropriate use and limitations of the data.\""
+  },
+  {
+   "id": "offshore_wind_leases",
+   "group": "offshore wind",
+   "title": "Offshore wind lease areas",
+   "kind": "shapes",
+   "source_url": "https://www.boem.gov/renewable-energy/boem-renewable-energy-shapefiles",
+   "terms_url": "https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data",
+   "terms_quote": "Note to users: Data downloaded from this site is to be used for informational and planning purposes only.",
+   "terms_file": "boem/terms/boem_renewable_energy_gis_data.html",
+   "terms_sha256": "f337e0627c8370d8b30e16ba4ef4b96deca3bd4ee97d8acd36a02ce6e9fdcd43",
+   "retrieved_at_utc": "2026-10-07T21:26:22Z",
+   "source_file": "boem/boem-renewable-energy-shapefiles.zip",
+   "source_bytes": 1031812,
+   "source_sha256": "47c5f33f5d16cede3295394fb54549fbbfc5b7f80f25acf073275939d1404a0b",
+   "unit": "acres",
+   "value_label": "area of the lease (the source's ACRES)",
+   "publisher": "Bureau of Ocean Energy Management (BOEM)",
+   "source_title": "Renewable Energy Leases and Planning Areas, All Shapefile (Offshore_Wind_Leases_outlines.shp)",
+   "vintage": "last file update on 02/05/2025 (BOEM's page); the archive on BOEM's server is dated 6 August 2025",
+   "extent": "US Outer Continental Shelf: Atlantic, Gulf and Pacific",
+   "source_resolution": "lease outlines built from Outer Continental Shelf blocks",
+   "reduction": "coordinates to 3 decimals (about 100 m); no other simplification; no feature dropped",
+   "file": "offshore_wind_leases.json",
+   "bytes": 78536,
+   "features": 51,
+   "bounds": [
+    -124.812,
+    29.028,
+    -68.573,
+    43.341
+   ],
+   "legend": {
+    "kinds": [
+     "lease area (Commercial)",
+     "lease area (Easement)",
+     "lease area (Research)"
+    ]
+   },
+   "stats": {
+    "n": 46,
+    "min": 578,
+    "mean": 75124.08695652174,
+    "max": 176505
+   },
+   "zero_acres": 5,
+   "notes_for_method": "BOEM's words: \"Boundaries of renewable energy lease areas, wind planning areas, and marine hydrokinetic planning areas (last file update on 02/05/2025).\" These are the outlines of leases, easements and research leases BOEM has issued; a lease is a right to propose a project, not a wind farm and not a measure of the wind. A lease's status may have changed since the file's date. Where the source's ACRES field is 0 (some easements and cable routes) no area is shown: the field is kept as the source wrote it and the value is left empty."
+  },
+  {
+   "id": "offshore_wind_planning_areas",
+   "group": "offshore wind",
+   "title": "Offshore wind planning areas (rescinded July 30, 2025)",
+   "kind": "shapes",
+   "source_url": "https://services7.arcgis.com/G5Ma95RzqJRPKsWL/ArcGIS/rest/services/Wind_Planning_Area_Boundaries__BOEM_/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=geojson",
+   "terms_url": "https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data",
+   "terms_quote": "Note to users: Data downloaded from this site is to be used for informational and planning purposes only.",
+   "terms_file": "boem/terms/boem_renewable_energy_gis_data.html",
+   "terms_sha256": "f337e0627c8370d8b30e16ba4ef4b96deca3bd4ee97d8acd36a02ce6e9fdcd43",
+   "retrieved_at_utc": "2026-10-07T21:28:41Z",
+   "source_file": "boem/Wind_Planning_Area_Boundaries_layer0.geojson",
+   "source_bytes": 131232,
+   "source_sha256": "bc0623cee11e64bbc6ac4143265a175d8442b02d825cc0df517c084206ee7b33",
+   "unit": "",
+   "value_label": "no quantity in the source",
+   "publisher": "Bureau of Ocean Energy Management (BOEM)",
+   "source_title": "Offshore Wind Planning Area Outlines (Rescinded July 30, 2025)",
+   "vintage": "data last edited 2025-02-20 (the service's own date); BOEM names the layer \"Offshore Wind Planning Area Outlines (Rescinded July 30, 2025)\"",
+   "extent": "US Outer Continental Shelf",
+   "source_resolution": "planning area outlines built from Outer Continental Shelf blocks",
+   "reduction": "coordinates to 3 decimals (about 100 m); no other simplification; no feature dropped",
+   "file": "offshore_wind_planning_areas.json",
+   "bytes": 28458,
+   "features": 18,
+   "bounds": [
+    -158.664,
+    20.777,
+    -72.002,
+    43.951
+   ],
+   "legend": {
+    "kinds": [
+     "planning area (Central Atlantic Call Area)",
+     "planning area (Central Atlantic Wind Energy Area)",
+     "planning area (Gulf of America WEA)",
+     "planning area (Hawaii Call Area)",
+     "planning area (New York Wind Energy Area)",
+     "planning area (Oregon Proposed Sale Notice (PSN))",
+     "planning area (South Carolina Call Area)"
+    ]
+   },
+   "stats": null,
+   "source_rows": 19,
+   "area_status": {
+    "Active": 10,
+    "Inactive": 8
+   },
+   "notes_for_method": "BOEM's words: \"These data are an outline version of BOEM's offshore wind planning areas. These areas represent the current investigations by BOEM for new areas of interest in wind energy development. Individual blocks within each wind planning area dissolved into single polygons to generate the area outlines.\" BOEM's own name for the layer is \"Offshore Wind Planning Area Outlines (Rescinded July 30, 2025)\": the planning areas were rescinded, and are shown as the record of where BOEM had been looking, not as areas open to leasing. The archive BOEM offers for download holds the leases only; the planning areas come from BOEM's public map service, which BOEM's page links. The service holds 19 rows; one has no shape and no name and is not drawn. Each area's AREA_STATUS (Active or Inactive) is the source's own field and was last edited before the rescission."
+  }
+ ],
+ "missing": [
+  {
+   "id": "wind_speed_100m",
+   "group": "wind",
+   "title": "Wind speed at 100 m",
+   "reason": "not built yet"
+  },
+  {
+   "id": "wind_capacity_factor",
+   "group": "wind",
+   "title": "Wind capacity factor",
+   "reason": "not built yet"
+  },
+  {
+   "id": "solar_ghi",
+   "group": "solar",
+   "title": "Global horizontal irradiance",
+   "reason": "not built yet"
+  },
+  {
+   "id": "solar_dni",
+   "group": "solar",
+   "title": "Direct normal irradiance",
+   "reason": "not built yet"
+  },
+  {
+   "id": "geothermal_hydrothermal_sites",
+   "group": "geothermal",
+   "title": "Identified hydrothermal sites",
+   "reason": "not built yet"
+  },
+  {
+   "id": "geothermal_egs_favorability",
+   "group": "geothermal",
+   "title": "Deep enhanced geothermal favorability",
+   "reason": "not built yet"
+  },
+  {
+   "id": "hydropower_potential",
+   "group": "hydropower",
+   "title": "Hydropower potential",
+   "reason": "not built yet"
+  },
+  {
+   "id": "biomass",
+   "group": "biomass",
+   "title": "Biomass resource",
+   "reason": "not built yet"
+  }
+ ]
+}
