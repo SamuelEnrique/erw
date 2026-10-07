@@ -29,6 +29,11 @@ docs/methods/thesis.md):
        trends by a fetched source that the row cites -> on the landscape -> on the pipeline map when its
        confidence is 60 or more (at most ten, most trends served first).
      A row states the stage it reached and why it stopped.
+     Session 142: "tied to a trend" is no longer the model's opinion. It is decided by warehouse/thesis/tie.py from
+     saved evidence: a fixed order of evidence (the warehouse's tables, then the text of the sources fetched, then
+     sentences reported from the web), a scoring a person can redo by hand, and a fixed tie-break. The evidence of a
+     niche is kept in a store (--evidence-dir) that every later run of the niche reads, and each run's state records
+     what changed since the run before (state["tie"]). None of it is sent to a reader.
   5. Capital, incumbents, risks, policy (the warehouse's policy_actions, as build.py does).
   6. Every number is checked against the fetched passages its row cites (build.check_numbers): one that is not
      there is not written.
@@ -65,6 +70,7 @@ def _load(name, path):
 
 
 tb = _load("erw_thesis_build", os.path.join(HERE, "build.py"))      # also puts the warehouse's folders on the path
+tie = _load("erw_thesis_tie", os.path.join(HERE, "tie.py"))         # session 142: the tie of a company to a trend, in code
 import iso_prices as ip  # noqa: E402
 
 FORMAT = "erw-pitchbook-1"
@@ -105,7 +111,8 @@ SCHEMA_L = obj({
         "fits_stage": {"type": "string", "enum": ["yes", "no", "not stated"]},
         "trends": {"type": "array", "items": INT}, "trend_reason": S,
         "tam": S, "sources": IDS, "found_by": {"type": "array", "items": S},
-        "independent_sources": INT, "latest_source_year": S, "stage_primary": BOOL, "raised_primary": BOOL})},
+        "independent_sources": INT, "latest_source_year": S, "stage_primary": BOOL, "raised_primary": BOOL,
+        "evidence": {"type": "array", "items": obj({"quote": S, "source": S})}})},
 })
 
 
@@ -173,7 +180,7 @@ def warehouse_candidates(niche, r, log, cap=40):
             text = f"{x.get('technology', '')} {x.get('asset', '')} {x.get('parties', '')} {x.get('deal_type', '')}".lower()
             if anchor in text:
                 out.append((sum(w in text for w in head), "energy_deals",
-                            {k: x.get(k, "") for k in ("event_date", "deal_type", "parties", "asset", "technology", "state", "country", "dollars", "status", "source", "source_url")}))
+                            {k: x.get(k, "") for k in ("event_id", "event_date", "deal_type", "parties", "asset", "technology", "state", "country", "dollars", "status", "source", "source_url")}))
     out.sort(key=lambda t: -t[0])
     rows = []
     for _, table, row in out[:cap]:
@@ -255,14 +262,139 @@ def select(orgs, stage_asked, geo_asked, n_trends, known_ids):
         o["score"], o["clause"] = tb.confidence(o)
         seen[key] = o
         rows.append(o)
-    on_map = sorted((o for o in rows if o["reached"] == "trend" and o["score"] >= PIPELINE_MIN),
-                    key=lambda o: (-len(o["trends"]), -o["score"], o["name"].lower()))
+    on_map = sorted((o for o in rows if o["reached"] == "trend" and o["score"] >= PIPELINE_MIN), key=rank)
     for o in on_map[:PIPELINE_MAX]:
         o["reached"] = "pipeline"
     for o in rows:
-        if o["reached"] == "trend" and not o["stopped"]:
-            o["stopped"] = (f"confidence under {PIPELINE_MIN}" if o["score"] < PIPELINE_MIN else f"beyond the {PIPELINE_MAX} the map holds")
+        if o["reached"] == "trend" and not o["stopped"]:      # session 142: a reader is told why, never the threshold or the cap
+            o["stopped"] = "its confidence is too low for the pipeline map" if o["score"] < PIPELINE_MIN else "the pipeline map is full"
     return rows
+
+
+def rank(o):
+    """Session 142, the tie-break (tie.py, rule 4): the total score of its ties, then its best evidence tier, then its
+    normalized name. The same evidence gives the same order every time."""
+    return (-(o.get("tie") or 0), o.get("tier_rank", len(tie.TIER_ORDER)), tb.name_key(o.get("name", "")))
+
+
+# ---------------------------------------------------------------------------------------------
+# session 142: who is tied to a trend is decided by tie.py from saved evidence, never by the model
+# ---------------------------------------------------------------------------------------------
+
+def store_path(evidence_dir, niche, stage, geography):
+    slug = lambda s: re.sub(r"[^a-z0-9]+", "-", (s or "any").lower()).strip("-")[:50] or "any"
+    return os.path.join(evidence_dir, f"{slug(head_of(niche))}__{slug(geography)}__{slug(stage)}.json")
+
+
+def warehouse_rows():
+    """The warehouse tier of the evidence, read whole from the tables as they are now (no model)."""
+    out = {}
+    for name in ("energy_companies", "energy_deals"):
+        t = read_table(name)
+        out[name] = t.to_dict("records") if t is not None else []
+    return out
+
+
+def address_book(r):
+    """{source id of this run: its address}. A web source's address is its URL; a warehouse row's is erw:<table>/<row>."""
+    book = {s["id"]: s["url"] for s in r.sources.values()}
+    for e in r.erw:
+        row, table = e.get("result"), (e.get("args") or {}).get("table")
+        if e.get("tool") != "query" or not isinstance(row, dict):
+            continue
+        if table == "energy_companies" and row.get("name"):
+            book[e["id"]] = f"erw:energy_companies/{row['name']}"
+        elif table == "energy_deals" and row.get("event_id"):
+            book[e["id"]] = f"erw:energy_deals/{row['event_id']}"
+    return book
+
+
+def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, log):
+    """The landscape's rows from the evidence store and the rule. Returns (rows for select(), context for tie_done()).
+
+    This run's fetched sources and the rows the model structured are added to the niche's store; the rule (tie.judge)
+    then reads the whole store and the warehouse's tables. The model's own opinion of which trends a company serves
+    (its "trends" and "trend_reason") is kept in the state for comparison and decides nothing."""
+    today = dt.date.today().isoformat()
+    book = address_book(r)
+    store = tie.load_store(evidence_path, niche, stage, geography)
+    before = store.get("last")
+    orgs = []
+    for o in land["organisations"]:
+        o = dict(o)
+        o["source_urls"] = [book[i] for i in (o.get("sources") or []) if i in book]
+        # a sentence the model attributes to a warehouse row is not evidence: the rule reads the warehouse itself
+        o["evidence"] = [{"quote": q.get("quote", ""), "address": book.get((q.get("source") or "").strip(), "")} for q in (o.get("evidence") or [])
+                         if not book.get((q.get("source") or "").strip(), "erw:").startswith("erw:")]
+        orgs.append(o)
+    changed = tie.add_run(store, run_id, today, [dict(s) for s in r.sources.values()], orgs)
+    wh = warehouse_rows()
+    judged = tie.judge(store, wh, niche, trends)
+    ids = {addr: i for i, addr in sorted(book.items(), key=lambda kv: (kv[0][0], int(kv[0][1:]) if kv[0][1:].isdigit() else 0), reverse=True)}
+    by_name = {x.get("name", ""): x for x in wh["energy_companies"]}
+    by_event = {x.get("event_id", ""): x for x in wh["energy_deals"]}
+
+    def id_of(addr):
+        if addr in ids:
+            return ids[addr]
+        if addr.startswith("erw:"):
+            table, _, rest = addr[4:].partition("/")
+            row = by_name.get(rest) if table == "energy_companies" else by_event.get(rest)
+            if row is None:
+                return None
+            keep = (("name", "description", "niche_tags", "stage", "raised", "location", "founders", "website", "source_url") if table == "energy_companies"
+                    else ("event_id", "event_date", "deal_type", "parties", "asset", "technology", "state", "country", "dollars", "status", "source", "source_url"))
+            ids[addr] = f"E{len(r.erw) + 1}"
+            r.erw.append({"id": ids[addr], "tool": "query", "args": {"table": table}, "result": {k: row.get(k, "") for k in keep}, "error": False})
+            return ids[addr]
+        s = store["sources"].get(addr)
+        if s is None:
+            return None
+        ids[addr] = r.source(addr, s.get("title", ""), s.get("page_age", ""))
+        r.sources[addr]["retrieved"] = s.get("fetched") or r.sources[addr]["retrieved"]      # the day it was fetched, not today
+        for c in s.get("cited") or []:
+            if c not in r.sources[addr]["cited"]:
+                r.sources[addr]["cited"].append(c)
+        return ids[addr]
+
+    model = {}
+    for o in land["organisations"]:                      # the model's own opinion, for the state only
+        model.setdefault(tie.name_key(o.get("name", "")), sorted({t for t in (o.get("trends") or []) if isinstance(t, int)}))
+    rows = []
+    for c in judged:
+        o = dict(c["row"], name=c["name"])
+        tying = [x["address"] for n in c["trends"] for x in c["ties"][n]["lines"]]
+        addresses = list(dict.fromkeys(tying + c["row"]["source_urls"]))
+        o["sources"] = [i for i in (id_of(a) for a in addresses) if i]
+        o["independent_sources"] = len({tie.domain(a) for a in addresses if not a.startswith("erw:") and tie.domain(a)}) + (1 if any(a.startswith("erw:") for a in addresses) else 0)
+        o["trends"], o["tie"] = list(c["trends"]), c["tie"]
+        o["tier_rank"] = tie.TIER_ORDER.index(c["tier"]) if c["tier"] else len(tie.TIER_ORDER)
+        best = c["reason"]
+        o["trend_reason"] = "" if not best else (f"\"{best['text'].strip().rstrip('.')}\" " + ("(ERW companies and deals tables)" if best["address"].startswith("erw:") else f"({tie.domain(best['address']) or 'web'})"))
+        o["model_trends"] = sorted({t for k in c["aliases"] for t in model.get(k, [])})
+        rows.append(o)
+    log(f"  the rule: {len(judged)} companies in the store of this niche ({len(store['rows'])} rows of {len(store['runs'])} runs, {len(store['sources'])} fetched sources, "
+        f"{len(store['quotes'])} reported sentences); tied to a trend {sum(1 for c in judged if c['trends'])}; fetched sources whose text changed {len(changed)}")
+    return rows, {"store": store, "path": evidence_path, "before": before, "judged": judged, "changed": changed, "run_id": run_id}
+
+
+def tie_done(ctx, orgs, log):
+    """After select(): what this run rested on, what changed since the run before, and the store saved."""
+    placed = {tie.name_key(o["name"]): (o["reached"], o["score"]) for o in orgs}
+    snap = tie.snapshot(ctx["run_id"], ctx["judged"], placed)
+    d = tie.diff(ctx["before"], snap)
+    ctx["store"]["last"] = snap
+    if ctx["path"]:
+        tie.save_store(ctx["store"], ctx["path"])
+        log(f"  evidence store saved: {os.path.relpath(ctx['path'], ROOT)}")
+    if ctx["before"]:
+        log(f"  against run {d['from_run']}: {len(d['new_companies'])} new companies, {len(d['moved'])} moved, {d['evidence_changes']} evidence lines added or removed; "
+            f"moved without an explanation: {sum(1 for m in d['moved'] if not m['explained'])}")
+    trace = [{"name": c["name"], "key": c["key"], "aliases": c["aliases"], "trends": c["trends"], "tie": c["tie"], "tier": c["tier"],
+              "reached": placed.get(c["key"], ("", None))[0], "confidence": placed.get(c["key"], ("", None))[1], "facts": {f: c["row"].get(f) for f in tie.FACTS},
+              "ties": {str(n): t for n, t in c["ties"].items() if t["lines"]}, "evidence": c["evidence"]} for c in ctx["judged"]]
+    disagreements = [dict(x, name=c["name"]) for c in ctx["judged"] for x in c["row"].get("disagreements") or []]
+    return {"store": os.path.relpath(ctx["path"], ROOT) if ctx["path"] else "", "diff": d, "changed_sources": ctx["changed"], "disagreements": disagreements, "trace": trace}
 
 
 def confidence_note(o):
@@ -354,6 +486,7 @@ def build_report(niche, stage, geography, r, a, land, rest, pol, plan, log):
                        "chart": {"kind": ch["kind"], "title": clean(ch["title"]), "category": ch["category_column"], "values": ch["value_columns"], "unit": clean(t.get("unit", ""))},
                        "sources": ids})
     orgs = select(land["organisations"], stage, geography, len(a["trends"][:5]), known)
+    place = {clean(o["name"]): n for n, o in enumerate(sorted(orgs, key=rank))}      # session 142: the rule's order (tie.py, rule 4)
     kept_n = {t["n"] for t in trends}
     companies, funnel, pipeline = [], [], []
     for o in orgs:
@@ -377,8 +510,8 @@ def build_report(niche, stage, geography, r, a, land, rest, pol, plan, log):
             pipeline.append({"name": row["name"], "founders": row["founders"], "signal": row["signal"],
                              "access": {"missing": "pitchbook_pending", "note": NOTE["access"]}, "tam": tam,
                              "trends": row["trends"], "confidence": o["score"], "sources": ids})
-    companies.sort(key=lambda c: (-len(c["trends"]), -c["confidence"], c["name"].lower()))
-    pipeline.sort(key=lambda c: (-len(c["trends"]), -c["confidence"], c["name"].lower()))
+    companies.sort(key=lambda c: place.get(c["name"], len(place)))
+    pipeline.sort(key=lambda c: place.get(c["name"], len(place)))
     order = [s for s, _ in STAGES]
     counts = [{"id": sid, "label": label, "n": sum(1 for o in orgs if order.index(o["reached"]) >= i)} for i, (sid, label) in enumerate(STAGES)]
 
@@ -510,7 +643,10 @@ def tb_clean_name(name):
 # What each stage has cost at most in the runs of 6 October 2026, rounded up: the spend a stage must find under the
 # run's ceiling BEFORE it starts. Session 135's last run was stopped by the old rule, which looked only after a call was
 # paid: it paid for every stage, then threw the finished landscape away and passed the session's ceiling by USD 0.12.
-STAGE_USD = {"research a": 0.45, "structure a": 0.16, "landscape": 0.66, "risks": 0.12, "structure landscape": 0.26, "structure rest": 0.16}
+# Session 142: the structure call of the landscape also copies each organisation's quoted sentences, so its reserve is
+# raised from 0.26; and the research of the landscape now copies whole source sentences into its notes, so its reserve
+# is raised from 0.66: the first run of 7 October 2026 paid USD 0.7262 for it (and 0.2199 for the structure call).
+STAGE_USD = {"research a": 0.45, "structure a": 0.16, "landscape": 0.85, "risks": 0.12, "structure landscape": 0.34, "structure rest": 0.16}
 
 
 class Careful(tb.Researcher):
@@ -534,7 +670,7 @@ TREND_RULE = ("Each of the five trends must be about how the niche's own work is
               "capacity, its geography, its age) is background for the scope, never a trend.")
 
 
-def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=None, retrend=False, landscape_only=False):
+def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=None, retrend=False, landscape_only=False, evidence_path=None):
     """The whole run, on a Researcher the caller made (so its spend is known even when the run fails).
     Returns (report, pitchbook_request, key, state)."""
     log(f"run {run_id}: niche {niche!r}; stage {stage or 'any'}; geography {geography or 'any'}; model {r.model}; stop at USD {r.max_usd:.2f}")
@@ -583,7 +719,8 @@ def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=
         "laboratory, a nonprofit); the country and city of its headquarters; founders; stage; amount raised; the signal "
         "that surfaced it (a round, a grant, a pilot, a customer, a patent); and the id of the search that found it (Q1, "
         "Q2, ...). Then, for that organisation, go through the five trends below one by one and name each trend it serves "
-        "with the words of the source that show it. Do not skip a company because little is disclosed about it. Then "
+        "with the source's own sentence that shows it, whole and word for word in quotation marks, and the page it is on. "
+        "Do not skip a company because little is disclosed about it. Then "
         "judge each warehouse candidate below the same way (cite it by its ERW source id). "
         + ("Then, for up to six private companies whose headquarters country no result gave, run one search each to find it. " if lookups else "")
         + ("Then, with up to three more searches, the capital in the niche (rounds, grants, project finance, M&A with dates, "
@@ -591,6 +728,7 @@ def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=
         + "Prefer primary sources. Cite every line.\n\nThe five trends:\n" + trend_lines +
         "\n\nThe searches:\n" + "\n".join(f"{qid}: {q}" for qid, q, _ in plan) + "\n\nWarehouse candidates:\n" + cand_lines),
         len(plan) + lookups + (3 if capital_too else 0), erw_tools=False)
+    r.partial = {"run_id": run_id, "niche": niche, "notes_b": notes_b, "sources": r.sources, "erw": r.erw}      # session 142: a paid answer is kept even when a later stage is refused
     if not (landscape_from or landscape_only):
         r.guard("risks")
     notes_c = "" if (landscape_from or landscape_only) else r.research("research: risks", sysm, (
@@ -607,7 +745,11 @@ def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=
         "shows it serving; trend_reason: one sentence, from that source, saying how. Leave both empty only when no "
         "source shows it serving any of the five. tam: the size of the company's own addressable market only if a cited "
         "source states it, else empty. found_by: the ids of the searches (Q1, Q2, ...) or ERW sources (E1, ...) that "
-        "surfaced it. Public companies stay in this list with their kind.\n\nThe five trends:\n"
+        "surfaced it. evidence: up to six sentences about this organisation that the notes give in quotation marks as a "
+        "source's own words (what it does, builds, sells, was awarded or raised), each copied whole and word for word, "
+        "never a sentence of your own and never a fragment of two or three words, each with the id of the one web "
+        "source (S#) whose page it is from; leave it empty when the notes quote nothing. Public companies stay in this "
+        "list with their kind.\n\nThe five trends:\n"
         + "\n".join(f"{i}. {t['title']}: {t['fact'][:240]}" for i, t in enumerate(a["trends"], 1))), notes_b, SCHEMA_L)
     words = [w for w in re.findall(r"[a-z]{5,}", head_of(niche).lower()) if w not in {"merchant", "operators", "software", "mapping", "sensing"}]
     pol = tb.policy_candidates(words or [niche])
@@ -625,12 +767,16 @@ def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=
     else:
         r.guard("structure rest")
         rest = r.structure_groups("structure", keys, extra, f"{notes_b}\n\n{notes_c}")
-    report, orgs = build_report(niche, stage, geography, r, a, land, rest, pol, plan, log)
+    # session 142: who is tied to a trend is the rule's (tie.py), read from the niche's saved evidence and this run's
+    rows, ctx = tied_rows(r, run_id, niche, stage, geography, a["trends"][:5], land, evidence_path, log)
+    report, orgs = build_report(niche, stage, geography, r, a, dict(land, organisations=rows), rest, pol, plan, log)
+    tied = tie_done(ctx, orgs, log)
     key = secrets.token_urlsafe(32)
     request = pitchbook_request(run_id, niche, geography, orgs, a["trends"], key)
     state = {"run_id": run_id, "niche": niche, "stage": stage, "geography": geography, "model": r.model, "cost": r.cost, "calls": r.calls,
              "searches": r.searches, "sources": r.sources, "erw": r.erw, "notes_a": notes_a, "notes_b": notes_b, "notes_c": notes_c,
-             "a": a, "land": land, "rest": rest, "plan": plan, "funnel": [{k: o.get(k) for k in ("name", "kind", "country", "reached", "stopped", "score", "trends", "found_by")} for o in orgs]}
+             "a": a, "land": land, "rest": rest, "plan": plan, "tie": tied,
+             "funnel": [{k: o.get(k) for k in ("name", "kind", "country", "reached", "stopped", "score", "trends", "found_by", "tie", "model_trends")} for o in sorted(orgs, key=rank)]}
     return report, request, key, state
 
 
@@ -690,11 +836,14 @@ def one(conn, run_id, niche, stage, geography, args, log):
     t0, usd, r = time.time(), 0.0, None
     try:
         r = Careful(log, cap)
-        report, request, key, state = execute(r, run_id, niche, stage, geography, log, searches=args.searches, landscape_from=args.landscape_from, retrend=args.retrend, landscape_only=args.landscape_only)
+        state_dir = getattr(args, "state_dir", None) or STATE_DIR
+        evidence_dir = getattr(args, "evidence_dir", None) or os.path.join(state_dir, "evidence")
+        report, request, key, state = execute(r, run_id, niche, stage, geography, log, searches=args.searches, landscape_from=args.landscape_from, retrend=args.retrend, landscape_only=args.landscape_only,
+                                              evidence_path=None if getattr(args, "no_evidence", False) else store_path(evidence_dir, niche, stage, geography))
         usd = r.cost
-        os.makedirs(STATE_DIR, exist_ok=True)
+        os.makedirs(state_dir, exist_ok=True)
         slug = re.sub(r"[^a-z0-9]+", "-", head_of(niche).lower()).strip("-")[:50]
-        path = os.path.join(STATE_DIR, f"{slug}_{run_id}.json")
+        path = os.path.join(state_dir, f"{slug}_{run_id}.json")
         json.dump(dict(state, report=report), open(path, "w", encoding="utf-8"), default=str)
         log(f"state saved: {os.path.relpath(path, ROOT)}")
         if conn is not None:
@@ -706,6 +855,12 @@ def one(conn, run_id, niche, stage, geography, args, log):
     except tb.Budget as exc:
         usd = r.cost if r is not None else 0.0
         log(f"run {run_id} stopped at its spending limit: {exc}")
+        if getattr(r, "partial", None):               # session 142: the research already paid for is saved, not thrown away
+            keep_dir = getattr(args, "state_dir", None) or STATE_DIR
+            os.makedirs(keep_dir, exist_ok=True)
+            keep = os.path.join(keep_dir, f"partial_{run_id}.json")
+            json.dump(r.partial, open(keep, "w", encoding="utf-8"), default=str)
+            log(f"the research this run paid for is kept: {os.path.relpath(keep, ROOT)}")
         if conn is not None:
             fail(conn, run_id, "The run reached its spending limit before it finished. Nothing partial is shown.", usd)
         print(f"thesis run {run_id} STOPPED at its spending limit", file=sys.stderr)
@@ -737,6 +892,9 @@ def main(argv=None):
     ap.add_argument("--searches", type=int, default=8)
     ap.add_argument("--spent-file", help="a file holding what a session has spent, raised by this run")
     ap.add_argument("--session-cap", type=float, default=6.0)
+    ap.add_argument("--state-dir", help="where the run's state is saved (default: warehouse/output/thesis_state)")
+    ap.add_argument("--evidence-dir", help="where the niche's evidence store is kept (default: <state dir>/evidence)")
+    ap.add_argument("--no-evidence", action="store_true", help="read and save no evidence store: the rule sees this run's evidence only")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")

@@ -2,6 +2,27 @@
 
 Energy Research Warehouse (ERW). Changes a user of the tables, the `erw` package or the site needs to know about, newest first. What a session did and why is in its report, `archive/sessions/SESSION_*_REPORT.md`.
 
+## 2026-10-07, sessions 140, 141 and 144: load zone and zone price histories, New York's load queue, forty entities' large-load statements
+
+**Five new public tables and two internal ones** (`docs/datastandard.md`, Decision 43):
+
+| Table | Tier, license | What |
+|---|---|---|
+| `ercot_zone_prices_history` | source, public | ERCOT's eight load zones: day-ahead from 2015; real time (15-minute) from 2015 for Houston, North, South and West |
+| `iso_zone_prices_history` | source, public | NYISO's eleven zones by the hour from 2019 (day-ahead, and NYISO's own hourly real-time price); CAISO's ZP26 (day-ahead from June 2023, real time from September 2024); SPP South day-ahead, the days pulled so far |
+| `isone_zone_prices_history` | source, internal | ISO-NE's eight load zones by the hour, day-ahead and real time, 2019 to August 2026 |
+| `nyiso_load_queue` | source, public | NYISO's load interconnection requests, one row a request (74), with zone, megawatts, dates and status in NYISO's words |
+| `texas_transmission_matrix` | model extracted, internal | The Texas commission's transmission charge matrices for 2025 (approved) and 2026 (filed, not approved): each provider's cost of service, rate and four-peak demand, each figure with its line |
+| `ercot_wind_solar_hsl_hourly` | source, public | ERCOT's hourly wind and solar output and, system-wide, the high sustained limit, from 28 September 2026 (ERCOT lists about a week) |
+| `ercot_wind_solar_output_hourly` | source, public | ERCOT's system-wide hourly wind and solar output, 2023 to 2025 (no limit) |
+
+**Changed:**
+
+- `large_load_statements` (internal) holds 434 statements from 38 of 40 utilities and operators, with six new columns (the PDF page, the kind of row, the stage class beside the document's own words).
+- `iso_curtailment_monthly` gains the share of available output for CAISO (every month) and SPP (from September 2018).
+- `texas_delivery_charges`: nothing changed in the table; the site's file now shows all four utilities' charges for a transmission-voltage load.
+- The site's `/cost-of-power` judges a flexible load on a rule decided from day-ahead prices, with the same load "if perfectly foreseen" beside it; a Texas load prices at its load zone. Method: `docs/methods/datacenter_cost.md`.
+
 ## 2026-10-07, sessions 138 and 139: hourly load by zone, Texas delivery charges, large-load statements
 
 **Three new public tables and three internal ones** (`docs/datastandard.md`, Decision 42):
