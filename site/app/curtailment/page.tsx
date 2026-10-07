@@ -124,7 +124,6 @@ function DaysAndMonths({ g, monthly, daily, sg }: { g: GridRow; monthly: SeriesR
 function California({ c, period, r }: { c: Choice; period: string; r: Row }) {
   const label = periodName(period);
   const months = Object.keys(profile.months).sort();
-  const cover = reasonCover(r);
   const bm = batteryMonths(profile);
   // the batteries are compared by month: the period's own month, or for a year the newest month of it that holds them
   const battMonth = period.length === 7 ? (hasBattery(r) ? period : null) : bm.filter((m) => m.startsWith(period)).at(-1) ?? null;

@@ -54,7 +54,7 @@ export function FreeEnergy({ file, c }: { file: FreeFile; c: Choice }) {
     <ToolSection title="Where free energy is" id="free-energy">
       <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-free-summary="1">
         Over the twelve months to {endName},{" "}
-        {pairs.texas ? <>West Texas was priced under USD {file.threshold_usd_per_mwh} per MWh in <N k="pair|texas|west|under5">{whole(pairs.texas.west.under5)}</N> hours, <N k="pair|texas|west|negative">{whole(pairs.texas.west.negative)}</N> of them below zero, against Houston&apos;s <N k="pair|texas|houston|under5">{whole(pairs.texas.houston.under5)}</N></>
+        {pairs.texas ? <>the West Texas {pairs.texas.kind === "zone" ? "load zone" : "hub"} was priced under USD {file.threshold_usd_per_mwh} per MWh in <N k="pair|texas|west|under5">{whole(pairs.texas.west.under5)}</N> hours, <N k="pair|texas|west|negative">{whole(pairs.texas.west.negative)}</N> of them below zero, against Houston&apos;s <N k="pair|texas|houston|under5">{whole(pairs.texas.houston.under5)}</N></>
           : <>West Texas against Houston is <Blank why={why(tw)} /></>};{" "}
         {pairs.california ? <>California&apos;s south (SP15) had <N k="pair|california|south|under5">{whole(pairs.california.south.under5)}</N> such hours, <N k="pair|california|south|negative">{whole(pairs.california.south.negative)}</N> below zero, against the north&apos;s (NP15) <N k="pair|california|north|under5">{whole(pairs.california.north.under5)}</N></>
           : <>California north against south is <Blank why={why(ca)} /></>}.

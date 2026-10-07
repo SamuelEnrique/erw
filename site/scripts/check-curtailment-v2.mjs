@@ -1,5 +1,9 @@
 // Energy Research Warehouse (ERW) site, session 98: curtailment, version 2, on the built site.
 //
+// RETIRED in session 144. /curtailment/v2 redirects to /curtailment, the one curtailment page, and every check below
+// (the numbers against the site's copy, the charts, the reason, the batteries, the visitor) is made on that page by
+// scripts/check-curtailment.mjs, which this file now runs. What follows is kept as the record of what was checked.
+//
 //   npm run build && npx next start -p 3098
 //   node --import ./scripts/alias-loader.mjs scripts/check-curtailment-v2.mjs [base-url]      (default http://localhost:3098)
 //
@@ -16,6 +20,8 @@
 import fs from "node:fs";
 import { env } from "./browser.mjs";
 import * as c from "../lib/curtailmentv2.ts";
+
+await import("./check-curtailment.mjs");  // session 144: it ends the process with its own exit code; nothing below runs
 
 const base = (process.argv[2] ?? "http://localhost:3098").replace(/\/$/, "");
 let bad = 0, n = 0;
