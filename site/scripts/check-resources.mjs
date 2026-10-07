@@ -14,7 +14,7 @@
 // In a real browser:
 //   draws      every toggle, switched on alone, changes the drawing, reports what it drew, and shows a legend that
 //              carries the manifest's unit
-//   grids      for every grid layer held, at three zooms (the address, the mouse wheel, the buttons): the level drawn is
+//   grids      for every grid layer held, at four zooms (the address, the mouse wheel, the buttons, zoomed out): the level drawn is
 //              the finest whose cells are 0.75 of a pixel wide or more, and the value on hover equals the file's value
 //              at the pointer's longitude and latitude, decoded here with Buffer and placed with this file's own copy of
 //              the plane; the hover carries the unit, the cell size, the vintage and the publisher; an empty cell reads
@@ -293,6 +293,11 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       await probe("after the buttons", target, false);
       const m3 = await mapData(), search = await evaluate("location.search"), q = new URLSearchParams(search);
       check(q.get("on") === l.id && Math.abs(Number(q.get("z")) - m3.z) < 0.001 && Math.abs(Number((q.get("c") ?? "").split(",")[0]) - m3.lon) < 0.0001 && Math.abs(Number((q.get("c") ?? "").split(",")[1]) - m3.lat) < 0.0001, `${l.id}: the address holds the view after the zoom (${search})`);
+      // zoomed out, by the address: the coarsest level, and still the cell under the pointer
+      await go(`${base}/resources?on=${l.id}&z=0.5&c=${view0.lon},${view0.lat}`);
+      await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
+      await ready([l.id]);
+      await probe("zoomed out, by the address", target, false);
     }
   }
 
