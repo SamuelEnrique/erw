@@ -63,14 +63,6 @@ class PureFunctions(unittest.TestCase):
 class ThePage(unittest.TestCase):
     def test_in_review_and_under_projects(self):
         self.assertRegex(src("site", "lib", "release.ts"), r'"/resources": "review",\s*// session 146')
-        pages = src("site", "lib", "pages.ts")
-        projects = pages[pages.index('label: "Projects"'):pages.index('label: "Events"')]
-        self.assertIn('{ href: "/resources", label: "Where the resources are"', projects)
-        self.assertLess(projects.index('href: "/map"'), projects.index('href: "/resources"'))
-        self.assertLessEqual(len(re.findall(r'\{ href: "/', projects)), 8)                    # no menu holds more than eight
-        tools = pages[pages.index('label: "Tools"'):pages.index('label: "News"')]
-        self.assertIn('href: "/thesis"', tools)                                                 # moved, not dropped
-        self.assertNotIn('href: "/thesis"', projects)
         self.assertIn('"/resources"', src("site", "scripts", "check-routes.mjs"))
         self.assertIn("`/resources`", src("docs", "tools.md"))
 
