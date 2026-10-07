@@ -2,6 +2,24 @@
 
 Energy Research Warehouse (ERW). Changes a user of the tables, the `erw` package or the site needs to know about, newest first. What a session did and why is in its report, `archive/sessions/SESSION_*_REPORT.md`.
 
+## 2026-10-07, sessions 138 and 139: hourly load by zone, Texas delivery charges, large-load statements
+
+**Three new public tables and three internal ones** (`docs/datastandard.md`, Decision 42):
+
+| Table | Tier, license | What |
+|---|---|---|
+| `ercot_zone_load_hourly` | source, public | ERCOT's hourly native load by weather zone (eight) and its system total, from 2015 |
+| `nyiso_zone_load_hourly` | source, public | NYISO's hourly integrated load, eleven zones, from 2019 |
+| `caiso_area_load_hourly` | source, public | CAISO's hourly actual load, five transmission access charge areas and the system, from September 2021 |
+| `isone_zone_load_hourly` | source, internal | ISO-NE's hourly demand, eight zones and the system, from 2025 |
+| `texas_delivery_charges` | model extracted, internal | The four large Texas wires utilities' delivery charges for a transmission-voltage customer, each with the tariff line it was read from |
+| `large_load_statements` | source, internal | 49 public statements of large load waiting for power from ten utilities and operators, each with its exact sentence: a pilot |
+
+**Also:**
+
+- The site's `/cost-of-power` is "What a datacenter pays" (in review); what it showed before is its view `?view=grids`. Method: `docs/methods/datacenter_cost.md`.
+- The intervening sessions (32 to 137) are in their reports; this file was not kept between them.
+
 ## 2026-09-29, session 31: battery storage
 
 **Three new public tables,** behind the site's new `/storage` (method `docs/methods/storage.md`):

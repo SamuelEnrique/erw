@@ -15,7 +15,9 @@ import { gated } from "@/lib/release";
 
 // Session 88: /battery/customer promises that nothing typed is sent. The browser proof (scripts/check-no-request.mjs)
 // caught the footer's links prefetching when the result made the page taller; on that page too the shared links do not.
-export const NO_PREFETCH = ["/severance/lease", "/cost-of-power/battery", "/battery/customer"];
+// Session 138: /cost-of-power makes the same promise for its contract inputs (the rule below is by prefix, so the
+// two tabs beside it are covered too).
+export const NO_PREFETCH = ["/severance/lease", "/cost-of-power/battery", "/battery/customer", "/cost-of-power"];
 
 export function noPrefetch(path: string | null): boolean {
   return !!path && NO_PREFETCH.some((p) => path === p || path.startsWith(p + "/"));

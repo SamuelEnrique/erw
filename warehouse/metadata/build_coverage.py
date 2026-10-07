@@ -93,6 +93,8 @@ TIER_RULES = [
     ("model_extracted", r"^news_scores_shadow$"),
     ("derived", r"^api_cost_ledger$"),
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
+    # session 138: tariff and Commission figures read by a model, each kept only with its line found on the page
+    ("model_extracted", r"^texas_delivery_charges$"),
 ]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
@@ -134,6 +136,10 @@ SECTOR_RULES = [
     (r"^cftc_cot_positions$", "oil;gas;products"),        # managed money positions in four energy futures, weekly
     # session 136: day-ahead energy cleared, by operator
     (r"^(ercot|caiso|nyiso|isone|spp)_dam_cleared_energy$", "power"),
+    # session 138: hourly load by zone or area, from the operators
+    (r"^(ercot_zone|nyiso_zone|isone_zone|caiso_area)_load_hourly$", "power"),
+    # session 138: Texas wires utilities' delivery charges for a load at transmission voltage (internal)
+    (r"^texas_delivery_charges$", "power"),
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),
