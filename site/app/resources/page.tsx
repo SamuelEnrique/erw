@@ -27,7 +27,7 @@ function LayerNote({ l }: { l: Layer }) {
   return (
     <section className="mb-5" data-method-layer={l.id}>
       <h3 className="mb-1 font-serif text-base text-accent">{l.title}</h3>
-      <dl className="grid max-w-3xl grid-cols-[9rem_1fr] gap-x-3 gap-y-1">
+      <dl className="grid max-w-3xl grid-cols-[6.5rem_minmax(0,1fr)] gap-x-3 gap-y-1 sm:grid-cols-[9rem_minmax(0,1fr)] [&>dd]:break-words">
         <dt className="text-muted">What it is</dt>
         <dd>{[l.value_label, l.source_title].filter(Boolean).join(". From: ") || "not stated"}{l.unit ? `, in ${l.unit}` : ""}{l.extent ? `; ${l.extent}` : ""}.{l.source_url ? <> <a href={l.source_url} rel="noreferrer">Source</a>.</> : null}</dd>
         <dt className="text-muted">Publisher</dt><dd>{l.publisher ?? "not stated"}</dd>

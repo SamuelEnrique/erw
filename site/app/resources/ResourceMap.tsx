@@ -299,8 +299,10 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
             if (r < 2.2 && which === "plants_operating") ctx.rect(x - r, y - r, 2 * r, 2 * r); else { ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, 6.2832); }
             n += 1;
           }
-          if (which === "plants_operating") { ctx.globalAlpha = 0.78; ctx.fillStyle = color; ctx.fill(); ctx.globalAlpha = 1; }
-          else { ctx.strokeStyle = color; ctx.lineWidth = 1.4; ctx.stroke(); }
+          // a mark keeps its edge over a layer of its own hue: when the map is at rest, a pale ring under a planned
+          // unit's ring and a pale edge on an operating unit's dot (as the project map draws it)
+          if (which === "plants_operating") { ctx.globalAlpha = 0.78; ctx.fillStyle = color; ctx.fill(); ctx.globalAlpha = 1; if (!moving) { ctx.strokeStyle = p.panel; ctx.lineWidth = 0.5; ctx.stroke(); } }
+          else { if (!moving) { ctx.strokeStyle = p.panel; ctx.lineWidth = 3; ctx.stroke(); } ctx.strokeStyle = color; ctx.lineWidth = 1.4; ctx.stroke(); }
         }
         drawn[which] = n;
       }
