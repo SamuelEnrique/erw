@@ -59,8 +59,11 @@ def src(*parts):
         return f.read()
 
 
-def judged(store=None, warehouse=None):
-    return tie.judge(store if store is not None else copy.deepcopy(FIX["store"]), warehouse if warehouse is not None else FIX["warehouse"], NICHE, TRENDS)
+def judged(store=None, warehouse=None, read="pages"):
+    """Session 147: the rule's web tier reads saved pages. This fixture was cut before any page was saved, so by the
+    rule as it now stands its quoted sentences decide nothing; read="quotes" is session 142's reading, kept in tie.py
+    for comparison, and the by-hand cases below that rest on a quotation ask for it by name."""
+    return tie.judge(store if store is not None else copy.deepcopy(FIX["store"]), warehouse if warehouse is not None else FIX["warehouse"], NICHE, TRENDS, read=read)
 
 
 def by_name(rows):
@@ -251,13 +254,14 @@ class Changes(unittest.TestCase):
         a, _ = self.snap(copy.deepcopy(s), run="a")
         url = "https://example.org/a-page-added-by-this-test"
         s["sources"][url] = {"title": "t", "cited": [], "page_age": "", "fetched": "2026-10-07", "sha": "", "first_run": "b", "last_run": "b", "history": []}
-        s["quotes"].append({"key": target["aliases"][0], "address": url, "fetched": "2026-10-07", "first_run": "b", "sha": "feedfeedfeedfeed",
-                            "text": "TEST SENTENCE, NOT A SOURCE: a distributed acoustic sensing array on optic fiber for monitoring."})
+        # session 147 (changed on purpose): the new source is a saved PAGE whose sentence names the company, not a sentence the model quoted
+        sentence = f"TEST SENTENCE, NOT A SOURCE: {target['name']} of the geothermal trade runs a distributed acoustic sensing array on optic fiber for monitoring."
+        s.setdefault("pages", {})[url] = {"state": "fetched", "status": 200, "truncated": False, "fetched": "2026-10-07", "text": "A heading of the page\n" + sentence}
         b, after = self.snap(s, run="b")
         d = tie.diff(a, b)
         m = next(m for m in d["moved"] if m["name"] == target["name"])
         self.assertEqual((m["from"], m["to"], m["trends_to"]), ("fits", "trend", [2]))
-        self.assertEqual(m["added"], [["web", url, "feedfeedfeedfeed"]])
+        self.assertEqual(m["added"], [["web", url, tie.sha(sentence)]])
         self.assertTrue(m["explained"])
         line = by_name(after)[target["name"]]["ties"][2]["lines"][0]
         self.assertEqual((line["tier"], line["points"], line["phrase"]), ("web", 2, "distributed acoustic sensing"))
@@ -508,20 +512,31 @@ class ByHand(unittest.TestCase):
     ]
 
     def test_the_same_sentence_on_two_addresses_counts_once(self):
-        c = by_name(judged())["Geothermal Strategy Partners (GSP)"]
+        c = by_name(judged(read="quotes"))["Geothermal Strategy Partners (GSP)"]          # session 147 (changed on purpose): the two sentences are quotations
         same = [e for e in c["evidence"] if e["text"].startswith("GSP specializes in risk assessment")]
         self.assertEqual(len(same), 2)
         self.assertEqual(len({e["address"] for e in same}), 2)
         self.assertEqual(len({e["sha"] for e in same}), 1)
         self.assertEqual((c["ties"][4]["score"], c["ties"][4]["tied"], len(c["ties"][4]["lines"])), (1, False, 1))
 
+    def test_quotations_decide_nothing_by_the_rule_as_it_now_stands(self):
+        """Session 147: with no saved page, no company of this fixture has a web line, and the four tied by quotations
+        alone are no longer tied; the warehouse's and the fetched titles' ties stand as they were."""
+        now, then = by_name(judged()), by_name(judged(read="quotes"))
+        self.assertFalse(any(e["tier"] == "web" for c in now.values() for e in c["evidence"]))
+        for name in ("XGS Energy", "Geothermal Radar", "Thermofilic"):
+            self.assertTrue(then[name]["trends"])
+            self.assertEqual(now[name]["trends"], [], name)
+        self.assertEqual(now["Zanskar Geothermal & Minerals"]["ties"][1]["score"], 10)
+        self.assertEqual(now["Zanskar Geothermal & Minerals"]["trends"], then["Zanskar Geothermal & Minerals"]["trends"])
+
     def test_a_single_term_is_never_a_tie(self):
-        quaise = by_name(judged())["Quaise Energy"]
+        quaise = by_name(judged(read="quotes"))["Quaise Energy"]
         self.assertTrue(any("DOE" in e["text"] for e in quaise["evidence"]))
         self.assertEqual(quaise["trends"], [])
 
     def test_each_case(self):
-        rows = by_name(judged())
+        rows = by_name(judged(read="quotes"))          # session 147 (changed on purpose): four of the seven cases rest on quotations; tests/test_session147.py scores saved pages by hand
         self.assertTrue(self.CASES, "no case was written by hand")
         for name, trend, lines, score, tied in self.CASES:
             t = rows[name]["ties"][trend]

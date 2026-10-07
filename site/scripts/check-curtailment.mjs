@@ -20,6 +20,10 @@
 //              is the hours held and labelled the ERW's estimate; SPP "not held yet" with the file's reason
 //   face       one line per grid (FACE), no method or limitation words, no em dash; MISO "paused while terms are
 //              reviewed" and PJM "licensed source needed", neither selectable; an address naming one opens the default
+//   map        (session 149) data/curtailment/zone_shapes.json says which places have a boundary their operator publishes.
+//              For each mapped place: its shape is drawn, its hover gives the count the tile gave, and its centroid lies
+//              inside the published boundary (computed here). Every place not mapped is still a tile, and its hover ends
+//              with the file's reason; the grid says "no boundary published" with the file's reason on hover
 //   redirect   /curtailment/v2 answers 308 to /curtailment, its query carried
 //   visitor    without the cookie the page is the in-review page and carries no number
 // In a real browser: every chart is drawn and answers the mouse with its value and unit (the charts in a fold too); a
@@ -36,6 +40,14 @@ let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 const read = (p) => JSON.parse(fs.readFileSync(new URL(`../data/${p}`, import.meta.url), "utf-8"));
 const profile = read("curtailment_profile.json"), shares = read("curtailment/shares.json"), free = read("curtailment/free_energy.json"), worth = read("curtailment/worth.json"), ercot = read("curtailment/ercot.json");
+const zones = read("curtailment/zone_shapes.json");  // session 149
+/** Is [lon, lat] inside a GeoJSON Polygon or MultiPolygon (rings of [lon, lat]; holes count)? Ray casting, computed here. */
+function inside(point, geometry) {
+  const inRing = ([x, y], ring) => { let on = false; for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) { const [xi, yi] = ring[i], [xj, yj] = ring[j]; if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) on = !on; } return on; };
+  const polys = geometry.type === "Polygon" ? [geometry.coordinates] : geometry.type === "MultiPolygon" ? geometry.coordinates : [];
+  return polys.some((rings) => inRing(point, rings[0]) && !rings.slice(1).some((hole) => inRing(point, hole)));
+}
+let mappedSeen = 0, tilesSeen = 0;
 
 const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((x) => x.split(";")[0]).join("; ");
@@ -168,6 +180,21 @@ for (const [id, g] of Object.entries(free.grids)) {
   check(tiles.length === places.length && tiles.every(([p, count]) => { const l = g.locations.find((x) => x.id === p); return fe.isHeld(l[win]) ? count === String(l[win].under5) : count === ""; })
     && tiles[0][0] === top.id && /A schematic, not a map/.test(html) && new RegExp(`data-tile="${top.id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"[^>]*aria-current="true"`).test(html),
     `${g.name}: the schematic has a tile for each of its ${places.length} hubs and zones with the file's count, says it is a schematic, and opens on ${top.id}, the place with the most hours`);
+  // session 149: the map. A mapped place is a drawn shape with the tile's count on hover and its centroid inside the
+  // published boundary; every other place is still a tile whose hover ends with the file's reason.
+  {
+    const zp = zones.places[id] ?? {}, titles = Object.fromEntries([...html.matchAll(/title="([^"]*)" data-tile="([^"]+)" data-count="(\d*)" data-shape="([a-z]+)"/g)].map((x) => [un(x[2]), { title: un(x[1]), count: x[3], shape: x[4] }]));
+    const mapped = places.filter((l) => zp[l.id]?.status === "mapped"), tiled = places.filter((l) => zp[l.id]?.status !== "mapped");
+    const countText = (l) => (fe.isHeld(l[win]) ? `${c.placeName(l.id)}: ${c.whole(l[win].under5)} hours under USD ${free.threshold_usd_per_mwh}` : `${c.placeName(l.id)}: not held yet`);
+    const badMapped = mapped.filter((l) => { const z = zp[l.id], t = titles[l.id]; const shape = html.includes(`data-zone-shape="${l.id}"`);
+      return !(shape && t && t.shape === "mapped" && t.title.startsWith(countText(l)) && Array.isArray(z.centroid) && inside(z.centroid, z.geometry) && z.source && zones.sources[z.source]); });
+    const badTiles = tiled.filter((l) => { const z = zp[l.id], t = titles[l.id]; return !(z && z.status === "tile" && z.reason && t && t.shape === "tile" && t.title.startsWith(countText(l)) && t.title.endsWith(z.reason)); });
+    mappedSeen += mapped.length; tilesSeen += tiled.length;
+    check(Object.keys(zp).length === places.length && badMapped.length === 0, `${g.name}, map: ${mapped.length} of its ${places.length} places have a boundary their operator publishes${mapped.length ? "; each is drawn, its hover gives the tile's count and its centroid lies inside the boundary" : ""}${badMapped.length ? `: ${badMapped.map((l) => l.id).join(", ")}` : ""}`);
+    check(badTiles.length === 0 && tiled.length === Object.values(zp).filter((z) => z.status === "tile").length, `${g.name}, map: the other ${tiled.length} places are still tiles, each with its count and the file's reason on hover${badTiles.length ? `: ${badTiles.map((l) => l.id).join(", ")}` : ""}`);
+    const note = new RegExp(`data-no-boundary="${id}"><span class="[^"]*"\\s+data-missing="1"\\s+title="([^"]*)">([^<]*)<`).exec(html);
+    check(mapped.length === places.length ? !note : !!note && un(note[1]) === zones.grids[id] && note[2] === "no boundary published", `${g.name}, map: ${mapped.length === places.length ? "every place is mapped" : `the grid reads "no boundary published" with the file's reason on hover`}`);
+  }
   const wantGap = {};
   for (const w of ["year", "month"]) { const x = g.gap[w]; if (fe.hasGap(x)) { wantGap[`gap|${w}`] = c.two(x.gap); wantGap[`gap|${w}|cheapest`] = c.two(x.cheapest.mean); wantGap[`gap|${w}|dearest`] = c.two(x.dearest.mean); } }
   const gw = diff(got, wantGap), noGap = ["year", "month"].filter((w) => !fe.hasGap(g.gap[w]));
@@ -190,6 +217,9 @@ for (const [id, g] of Object.entries(free.grids)) {
     `the summary sentence calls out West Texas against Houston (${want["pair|texas|west|under5"]} hours under USD 5 against ${want["pair|texas|houston|under5"]}) and California south against north (${want["pair|california|south|under5"]} against ${want["pair|california|north|under5"]}), from the file's pairs${wrong.length ? `: ${wrong.join("; ")}` : ""}`);
   check(/title="Hours priced under USD 5 per MWh\. The hours below zero are among them: each hour is counted once\."/.test(html), "the count under USD 5 says on hover that it includes the hours below zero, each counted once");
 }
+
+check(mappedSeen === zones.counts.mapped && tilesSeen === zones.counts.tiles && mappedSeen + tilesSeen === zones.counts.places && Object.values(zones.places).every((g) => Object.values(g).every((z) => z.status === "mapped" || (z.status === "tile" && z.sources.every((s) => zones.sources[s])))),
+  `the map, all grids: ${mappedSeen} places mapped and ${tilesSeen} tiles, as zone_shapes.json counts them (${zones.counts.mapped} and ${zones.counts.tiles}); every source a place names is in the file`);
 
 // ---- what it is worth -----------------------------------------------------------------------------------------------
 for (const [q, period, dur] of [["/curtailment", null, 4], ["/curtailment?period=2025&dur=2", "2025", 2], ["/curtailment?period=2026-04&dur=8", "2026-04", 8], ["/curtailment?period=2019", "2019", 4]]) {

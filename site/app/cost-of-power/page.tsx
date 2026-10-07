@@ -46,8 +46,17 @@ type NyRow = { queue_position: string; name: string; zone: string; zone_name: st
   proposed_in_service_printed: string; status: string; end_use_words: string; utility: string; in_line: boolean; group: string; sheet: string; sheet_row: number };
 type NyZone = { zone: string; zone_name: string; requests: number; mw: number; by_status: { status: string; requests: number; mw: number }[] };
 type NyFile = { built: string; source: { name: string; url: string; report_page: string; retrieved: string; workbook_last_modified: string }; rule: { in_line: string };
-  zones: NyZone[]; total: { requests: number; mw: number }; rows: NyRow[] };
+  zones: NyZone[]; total: { requests: number; mw: number }; rows: NyRow[];
+  // session 149: the file as the connector writes it while the rows are held internal (shown false): no request, no
+  // zone, no megawatt; the placeholder's words and its reason on hover
+  shown?: boolean; words?: string; why?: string };
 const NYLOAD = nyLoadJson as unknown as NyFile;
+// Session 149 (the owner's ruling of 7 October 2026: the rows are shown only if NYISO's terms allow it; by their words
+// they do not, docs/methods/datacenter_cost.md). The switch is the connector's (SHOWN in nyiso_load_queue.py): the
+// page shows the megawatts in line and the fold of requests only when the file holds them.
+const NY_SHOWN = NYLOAD.shown !== false && Array.isArray(NYLOAD.rows) && Array.isArray(NYLOAD.zones);
+const NY_HELD_WORDS = NYLOAD.words ?? "NYISO's terms do not allow it";
+const NY_HELD_WHY = NYLOAD.why ?? "NYISO's legal notice confers no license in the content of its site and reserves its rights in their entirety. The load requests are held and not shown.";
 
 /** A short placeholder with its reason on hover. */
 function Missing({ why, words = "not held yet" }: { why: string; words?: string }) {
@@ -321,14 +330,14 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
                     : x.grid === "ercot" ? <Missing why="ERCOT's large load status table holds no report with these figures." /> : <Missing why={`${g?.name ?? x.grid} publishes no figure of large load approved or running that the warehouse holds.`} />,
                   <Link key="l" href="/datacenters">Datacenters</Link>] },
                 { key: "line", cells: ["Large load in line, by region",
-                  x.grid === "nyiso" ? <NyLoadCell key="ny" own={x.region} />
+                  x.grid === "nyiso" ? (NY_SHOWN ? <NyLoadCell key="ny" own={x.region} /> : <span key="ny" data-nyload-held="1"><Missing words={NY_HELD_WORDS} why={NY_HELD_WHY} /></span>)
                     : x.grid === "ercot" ? <Missing key="m" words={NOWHERE} why="ERCOT publishes the large load seeking interconnection as system totals in slide decks, with no table by zone or county. A search on 7 October 2026 found no public list by place." />
                     : <Missing key="m" words={NOWHERE} why={`A search on 7 October 2026 found no public list of the large load waiting for power in ${g?.name ?? x.grid} by place. The pieces sit in utility planning filings, rate cases and operator reports.`} />, ""] },
                 { key: "waitload", cells: ["How long a new large load waits", <Missing key="m" words={NOWHERE} why="A search on 7 October 2026 found no public dataset of the time from a large load's request to its energization, for any grid. The interconnection queue above is for generators, not loads." />, ""] },
               ]} />
           </ToolSection>
 
-          {x.grid === "nyiso" ? (
+          {x.grid === "nyiso" && NY_SHOWN ? (
             <div className="mb-8 border-t border-rule">
               <Fold title={`New York's load in line, request by request (${whole(NYLOAD.total.requests)})`}>
                 <ToolTable caption="New York's load interconnection requests in line" words minWidth={760} head={["Queue", "Request", "Zone", "County", "MW", "Requested", "Proposed in service", "Status, in NYISO's words"]}

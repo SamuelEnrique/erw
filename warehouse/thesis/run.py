@@ -71,7 +71,11 @@ def _load(name, path):
 
 tb = _load("erw_thesis_build", os.path.join(HERE, "build.py"))      # also puts the warehouse's folders on the path
 tie = _load("erw_thesis_tie", os.path.join(HERE, "tie.py"))         # session 142: the tie of a company to a trend, in code
+pg = _load("erw_thesis_pages", os.path.join(HERE, "pages.py"))      # session 147: the pages a run cites, fetched in code
+es = _load("erw_thesis_store", os.path.join(HERE, "store.py"))      # session 147: where the evidence store is kept
 import iso_prices as ip  # noqa: E402
+
+TABLE_DIR = None                # --in-dir: read the warehouse's tables from another folder (a working copy has few of them)
 
 FORMAT = "erw-pitchbook-1"
 RUN_USD = 2.0                   # one run's hard stop unless --max-usd says less
@@ -151,7 +155,7 @@ def query_plan(niche, geography, trends):
 
 def read_table(name):
     import pandas as pd
-    path = os.path.join(ip.OUT_DIR, name + ".csv")
+    path = os.path.join(TABLE_DIR or ip.OUT_DIR, name + ".csv")
     if not os.path.exists(path):
         return None
     with open(path, encoding="utf-8") as f:
@@ -282,8 +286,18 @@ def rank(o):
 # ---------------------------------------------------------------------------------------------
 
 def store_path(evidence_dir, niche, stage, geography):
-    slug = lambda s: re.sub(r"[^a-z0-9]+", "-", (s or "any").lower()).strip("-")[:50] or "any"
-    return os.path.join(evidence_dir, f"{slug(head_of(niche))}__{slug(geography)}__{slug(stage)}.json")
+    """The local file of a niche's store (session 147: the same name is the object's name in the bucket, store.py)."""
+    return os.path.join(evidence_dir, es.store_name(niche, stage, geography) + ".json")
+
+
+def cited_addresses(orgs, store):
+    """Session 147: the web addresses a run asks for, in order: those its own rows cite (a row's sources and the
+    pages of its quoted sentences), a to z; then those the rows already in the niche's store cite, a to z. An address
+    the store holds from the run's day is not asked for again (pages.fetch_run)."""
+    web = lambda a: bool(a) and re.match(r"https?://", str(a), re.I) is not None
+    own = sorted({a for o in orgs for a in list(o.get("source_urls") or []) + [q.get("address") for q in (o.get("evidence") or [])] if web(a)})
+    kept = sorted({a for x in store.get("rows") or [] for a in x["row"].get("source_urls") or [] if web(a)} | {q["address"] for q in store.get("quotes") or [] if web(q["address"])})
+    return own + [a for a in kept if a not in set(own)]
 
 
 def warehouse_rows():
@@ -309,15 +323,28 @@ def address_book(r):
     return book
 
 
-def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, log):
+def run_day(run_id):
+    """The run's day (UTC): the day in its id (YYYYMMDDTHHMMSSZ-...), else today's."""
+    m = re.match(r"(\d{4})(\d{2})(\d{2})T", run_id or "")
+    return f"{m.group(1)}-{m.group(2)}-{m.group(3)}" if m else dt.datetime.now(dt.timezone.utc).date().isoformat()
+
+
+def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, log, fetch=None, read="pages"):
     """The landscape's rows from the evidence store and the rule. Returns (rows for select(), context for tie_done()).
 
     This run's fetched sources and the rows the model structured are added to the niche's store; the rule (tie.judge)
     then reads the whole store and the warehouse's tables. The model's own opinion of which trends a company serves
-    (its "trends" and "trend_reason") is kept in the state for comparison and decides nothing."""
+    (its "trends" and "trend_reason") is kept in the state for comparison and decides nothing.
+
+    Session 147. evidence_path: a path (the local file), a store handle (store.py: the bucket or the file), or None.
+    fetch: None (no page is asked for: the rule reads the pages the store already holds), or the keyword arguments of
+    pages.fetch_run (count, raw_dir, get, the ceilings): the run then asks, in code, for every web address its rows
+    cite, and the page texts are saved in the store before the rule reads them. No model call is made here.
+    read: "pages", always, for a run; "quotes" is session 142's reading, for a comparison on saved answers only."""
     today = dt.date.today().isoformat()
     book = address_book(r)
-    store = tie.load_store(evidence_path, niche, stage, geography)
+    handle = es.handle_of(evidence_path)
+    store = handle.load(niche, stage, geography) if handle is not None else tie.empty_store(niche, stage, geography)
     before = store.get("last")
     orgs = []
     for o in land["organisations"]:
@@ -328,8 +355,15 @@ def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, l
                          if not book.get((q.get("source") or "").strip(), "erw:").startswith("erw:")]
         orgs.append(o)
     changed = tie.add_run(store, run_id, today, [dict(s) for s in r.sources.values()], orgs)
+    pull = None
+    if fetch is not None:                                # session 147: the pages, asked for in code; a failure here never costs the run its paid answers
+        try:
+            pull = pg.fetch_run(store, cited_addresses(orgs, store), run_id, run_day(run_id), log, **fetch)
+        except Exception as exc:
+            pull = {"error": f"{type(exc).__name__}: {str(exc)[:300]}"}
+            log(f"  pages: THE PULL FAILED ({pull['error']}); the rule reads the pages already saved")
     wh = warehouse_rows()
-    judged = tie.judge(store, wh, niche, trends)
+    judged = tie.judge(store, wh, niche, trends, read=read)
     ids = {addr: i for i, addr in sorted(book.items(), key=lambda kv: (kv[0][0], int(kv[0][1:]) if kv[0][1:].isdigit() else 0), reverse=True)}
     by_name = {x.get("name", ""): x for x in wh["energy_companies"]}
     by_event = {x.get("event_id", ""): x for x in wh["energy_deals"]}
@@ -373,9 +407,13 @@ def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, l
         o["trend_reason"] = "" if not best else (f"\"{best['text'].strip().rstrip('.')}\" " + ("(ERW companies and deals tables)" if best["address"].startswith("erw:") else f"({tie.domain(best['address']) or 'web'})"))
         o["model_trends"] = sorted({t for k in c["aliases"] for t in model.get(k, [])})
         rows.append(o)
+    held = sum(1 for p in (store.get("pages") or {}).values() if tie.page_holds(p))
     log(f"  the rule: {len(judged)} companies in the store of this niche ({len(store['rows'])} rows of {len(store['runs'])} runs, {len(store['sources'])} fetched sources, "
-        f"{len(store['quotes'])} reported sentences); tied to a trend {sum(1 for c in judged if c['trends'])}; fetched sources whose text changed {len(changed)}")
-    return rows, {"store": store, "path": evidence_path, "before": before, "judged": judged, "changed": changed, "run_id": run_id}
+        f"{len(store.get('pages') or {})} pages asked for, {held} holding text, {len(store['quotes'])} reported sentences that decide nothing); "
+        f"tied to a trend {sum(1 for c in judged if c['trends'])}; fetched sources whose text changed {len(changed)}; "
+        f"warehouse rows read: energy_companies {len(wh['energy_companies'])}, energy_deals {len(wh['energy_deals'])}")
+    return rows, {"store": store, "handle": handle, "before": before, "judged": judged, "changed": changed, "run_id": run_id, "pull": pull,
+                  "warehouse": {k: len(v) for k, v in wh.items()}}
 
 
 def tie_done(ctx, orgs, log):
@@ -384,9 +422,24 @@ def tie_done(ctx, orgs, log):
     snap = tie.snapshot(ctx["run_id"], ctx["judged"], placed)
     d = tie.diff(ctx["before"], snap)
     ctx["store"]["last"] = snap
-    if ctx["path"]:
-        tie.save_store(ctx["store"], ctx["path"])
-        log(f"  evidence store saved: {os.path.relpath(ctx['path'], ROOT)}")
+    handle, where, kind = ctx.get("handle"), "", ""
+    if handle is not None:
+        try:
+            where = handle.save(ctx["store"])            # the bucket, or the local file; a refused bucket write falls back to the file and says so
+            kind = handle.kind
+            log(f"  evidence store saved ({kind}): {where}")
+        except Exception as exc:                         # the run's report and state are still written: nothing paid for is lost
+            where, kind = f"NOT SAVED ({type(exc).__name__}: {str(exc)[:200]})", "none"
+            log(f"  EVIDENCE STORE {where}")
+    checks = tie.quote_check(ctx["store"])
+    quotes = {"reported": len(checks), "page_held": sum(1 for q in checks if q["page"] == "held"), "found_on_the_saved_page": sum(1 for q in checks if q["found"]),
+              "not_found_on_the_saved_page": sum(1 for q in checks if q["page"] == "held" and not q["found"]),
+              "page_not_held": sum(1 for q in checks if q["page"] != "held")}
+    pages = ctx["store"].get("pages") or {}
+    page_states = {}
+    for p in pages.values():
+        k = "fetched" if tie.page_holds(p) else (p.get("reason") or p.get("state") or "not held")
+        page_states[k] = page_states.get(k, 0) + 1
     if ctx["before"]:
         log(f"  against run {d['from_run']}: {len(d['new_companies'])} new companies, {len(d['moved'])} moved, {d['evidence_changes']} evidence lines added or removed; "
             f"moved without an explanation: {sum(1 for m in d['moved'] if not m['explained'])}")
@@ -394,7 +447,8 @@ def tie_done(ctx, orgs, log):
               "reached": placed.get(c["key"], ("", None))[0], "confidence": placed.get(c["key"], ("", None))[1], "facts": {f: c["row"].get(f) for f in tie.FACTS},
               "ties": {str(n): t for n, t in c["ties"].items() if t["lines"]}, "evidence": c["evidence"]} for c in ctx["judged"]]
     disagreements = [dict(x, name=c["name"]) for c in ctx["judged"] for x in c["row"].get("disagreements") or []]
-    return {"store": os.path.relpath(ctx["path"], ROOT) if ctx["path"] else "", "diff": d, "changed_sources": ctx["changed"], "disagreements": disagreements, "trace": trace}
+    return {"store": where, "store_kind": kind, "diff": d, "changed_sources": ctx["changed"], "disagreements": disagreements, "trace": trace,
+            "pull": ctx.get("pull"), "pages": page_states, "quotes": quotes, "quote_checks": checks, "warehouse": ctx.get("warehouse")}
 
 
 def confidence_note(o):
@@ -670,7 +724,7 @@ TREND_RULE = ("Each of the five trends must be about how the niche's own work is
               "capacity, its geography, its age) is background for the scope, never a trend.")
 
 
-def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=None, retrend=False, landscape_only=False, evidence_path=None):
+def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=None, retrend=False, landscape_only=False, evidence_path=None, fetch=None):
     """The whole run, on a Researcher the caller made (so its spend is known even when the run fails).
     Returns (report, pitchbook_request, key, state)."""
     log(f"run {run_id}: niche {niche!r}; stage {stage or 'any'}; geography {geography or 'any'}; model {r.model}; stop at USD {r.max_usd:.2f}")
@@ -751,6 +805,7 @@ def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=
         "source (S#) whose page it is from; leave it empty when the notes quote nothing. Public companies stay in this "
         "list with their kind.\n\nThe five trends:\n"
         + "\n".join(f"{i}. {t['title']}: {t['fact'][:240]}" for i, t in enumerate(a["trends"], 1))), notes_b, SCHEMA_L)
+    r.partial["land"] = land                             # session 147: the structured rows are paid for too, and what follows now reaches the network
     words = [w for w in re.findall(r"[a-z]{5,}", head_of(niche).lower()) if w not in {"merchant", "operators", "software", "mapping", "sensing"}]
     pol = tb.policy_candidates(words or [niche])
     keys = ["capital", "incumbents", "risks"]
@@ -768,7 +823,8 @@ def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=
         r.guard("structure rest")
         rest = r.structure_groups("structure", keys, extra, f"{notes_b}\n\n{notes_c}")
     # session 142: who is tied to a trend is the rule's (tie.py), read from the niche's saved evidence and this run's
-    rows, ctx = tied_rows(r, run_id, niche, stage, geography, a["trends"][:5], land, evidence_path, log)
+    # session 147: the pages the rows cite are asked for in code (fetch) and the web tier is read from their saved text
+    rows, ctx = tied_rows(r, run_id, niche, stage, geography, a["trends"][:5], land, evidence_path, log, fetch=fetch)
     report, orgs = build_report(niche, stage, geography, r, a, dict(land, organisations=rows), rest, pol, plan, log)
     tied = tie_done(ctx, orgs, log)
     key = secrets.token_urlsafe(32)
@@ -838,8 +894,17 @@ def one(conn, run_id, niche, stage, geography, args, log):
         r = Careful(log, cap)
         state_dir = getattr(args, "state_dir", None) or STATE_DIR
         evidence_dir = getattr(args, "evidence_dir", None) or os.path.join(state_dir, "evidence")
+        # session 147: the store is the private bucket when the service key is set (the runner has it), else the local file
+        handle = None if getattr(args, "no_evidence", False) else es.open_store(evidence_dir, niche, stage, geography, mode=getattr(args, "evidence_store", "file"), log=log)
+        if getattr(handle, "kind", "") == "bucket":
+            handle.ensure_bucket()
+            handle.load(niche, stage, geography)         # read once before anything is paid for: a store that cannot be read stops the run here
+        if handle is not None:
+            log(f"  evidence store ({handle.kind}): {handle.where}")
+        fetch = None if getattr(args, "no_fetch", True) else {"count": pg.Count(getattr(args, "fetch_count_file", None)), "raw_dir": getattr(args, "raw_dir", None),
+                                                              "max_session": getattr(args, "fetch_session_cap", None) or pg.MAX_ADDRESSES_SESSION}
         report, request, key, state = execute(r, run_id, niche, stage, geography, log, searches=args.searches, landscape_from=args.landscape_from, retrend=args.retrend, landscape_only=args.landscape_only,
-                                              evidence_path=None if getattr(args, "no_evidence", False) else store_path(evidence_dir, niche, stage, geography))
+                                              evidence_path=handle, fetch=fetch)
         usd = r.cost
         os.makedirs(state_dir, exist_ok=True)
         slug = re.sub(r"[^a-z0-9]+", "-", head_of(niche).lower()).strip("-")[:50]
@@ -868,6 +933,12 @@ def one(conn, run_id, niche, stage, geography, args, log):
         usd = r.cost if r is not None else 0.0
         trace = ip.redact(traceback.format_exc())
         log(f"run {run_id} FAILED after USD {usd:.4f}:\n{trace}")
+        if getattr(r, "partial", None):               # session 147: whatever was paid for before the failure is kept
+            keep_dir = getattr(args, "state_dir", None) or STATE_DIR
+            os.makedirs(keep_dir, exist_ok=True)
+            keep = os.path.join(keep_dir, f"partial_{run_id}.json")
+            json.dump(r.partial, open(keep, "w", encoding="utf-8"), default=str)
+            log(f"the answers this run paid for are kept: {os.path.relpath(keep, ROOT)}")
         if conn is not None:
             fail(conn, run_id, "The run failed before it finished. Nothing partial is shown.", usd)
         print(f"thesis run {run_id} FAILED: {trace.strip().splitlines()[-1][:300]}", file=sys.stderr)
@@ -895,7 +966,17 @@ def main(argv=None):
     ap.add_argument("--state-dir", help="where the run's state is saved (default: warehouse/output/thesis_state)")
     ap.add_argument("--evidence-dir", help="where the niche's evidence store is kept (default: <state dir>/evidence)")
     ap.add_argument("--no-evidence", action="store_true", help="read and save no evidence store: the rule sees this run's evidence only")
+    ap.add_argument("--evidence-store", choices=["auto", "bucket", "file"], default="auto",
+                    help="where the niche's evidence store is kept: the private storage bucket when SUPABASE_URL and SUPABASE_SERVICE_KEY are set (auto), else the local file")
+    ap.add_argument("--no-fetch", action="store_true", help="ask for no page: the rule reads the pages the store already holds")
+    ap.add_argument("--fetch-count-file", help="a file holding the addresses and requests a session has made, raised by this run")
+    ap.add_argument("--fetch-session-cap", type=int, help=f"the session's ceiling of addresses with --fetch-count-file (default {pg.MAX_ADDRESSES_SESSION})")
+    ap.add_argument("--raw-dir", help="keep each page as received (bytes) in this folder, named by its SHA-256")
+    ap.add_argument("--in-dir", help="read the warehouse's tables from this folder instead of warehouse/output")
     args = ap.parse_args(argv)
+    if args.in_dir:
+        global TABLE_DIR
+        TABLE_DIR = tb.TABLE_DIR = os.path.abspath(args.in_dir)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"thesis_run_{stamp}.log"))

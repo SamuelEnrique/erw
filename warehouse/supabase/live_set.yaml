@@ -260,6 +260,9 @@ catalogue_hold:
   # workbooks of hourly output; /curtailment (in review) reads the site's own files
   - ercot_wind_solar_hsl_hourly
   - ercot_wind_solar_output_hourly
+  # session 149: ISO-NE's monthly delivered and undelivered energy of its dispatchable wind and solar plants, internal
+  # (the owner's ruling of 7 October 2026: pulled and held, not shown). No page reads it
+  - isone_ddg_undelivered_monthly
   # session 133: the energy mix's added pulls (about 1.5 million rows in five tables). The review page /mix reads the
   # site's own files (site/data/mixplus/, site/data/mix_forecast.json), built from them; nothing reads them from Supabase
   - caiso_fuel_supply_history
@@ -359,6 +362,7 @@ sources_hold:
   - isone:smd_hourly_lmp               # session 140, isone_zone_prices_history (internal)
   - ercot:np4_742_745_region           # session 144, the two hourly ERCOT wind and solar tables
   - ercot:PG7-126-M
+  - isone:ddg_undelivered_monthly      # session 149, isone_ddg_undelivered_monthly (internal)
   - erw:large_load_pilot               # session 139, large_load_statements (internal)
   - caiso:todays_outlook_fuelsource_history   # session 133, /mix (these source rows serve only its new tables)
   - eia:860m:retired

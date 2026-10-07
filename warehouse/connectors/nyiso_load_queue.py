@@ -65,6 +65,14 @@ any image or video on this website as a stand-alone file is strictly prohibited"
 reserves its rights; the one prohibition names images and video, not data. The notice neither permits nor forbids
 showing rows of the queue on a public page. A person can rule otherwise.
 
+SESSION 149, THE RULING APPLIED (the owner, 7 October 2026: NYISO's terms are quoted, and the rows are shown only if
+the words allow it). Read by its words alone, the notice does not allow it: it confers no license in the content of
+the site, "expressly reserves such rights and property in its entirety", and closes "All Rights Reserved"; no sentence
+grants a reader leave to copy, redistribute or display anything. So from session 149 the table is INTERNAL (its
+header, the registry and so the Redivis dataset it goes to), and the page's file (site/data/nyiso_load_queue.json)
+holds the source, the notice's sentences and the reading, and NO request, zone or megawatt: the page reads "NYISO's
+terms do not allow it" where the megawatts in line stood. SHOWN below is the one switch; a person turns it.
+
 MISO and PJM are never requested here. NYISO is asked for only if iso_prices.paused("nyiso") says it is not paused.
 """
 
@@ -103,10 +111,25 @@ TERMS_QUOTES = [
     TERMS_SHORT + ", including any confidential or proprietary information or intellectual property of any kind or nature, "
     "and the NYISO hereby expressly reserves such rights and property in its entirety.",
     "Downloading, republishing, retransmitting, reproducing, or other use of any image or video on this website as a stand-alone file is strictly prohibited",
+    # session 149: the two sentences on NYISO's marks and the notice's closing line, so that every sentence that bears
+    # on copying, redistribution and display is quoted (the apostrophes and the sign are the page's own)
+    "The NYISO\u2019s trademarks (including its logo) are owned by the NYISO and may only be used with the NYISO\u2019s prior written permission.",
+    "Even if prior written permission is obtained, the NYISO may revoke permission to use the NYISO\u2019s trademarks at any time.",
+    "Copyright \u00a9 2026 New York Independent System Operator. All Rights Reserved.",
 ]
-TERMS_READING = ("The notice grants no license and reserves NYISO's rights; what it forbids by name is republishing an image or a "
-                 "video as a stand-alone file, not data. It neither permits nor forbids showing rows of the queue on a public page. "
-                 "The ERW's standing reading since session 65: public, with a caution. A person can rule otherwise.")
+TERMS_READING_140 = ("The notice grants no license and reserves NYISO's rights; what it forbids by name is republishing an image or a "
+                     "video as a stand-alone file, not data. It neither permits nor forbids showing rows of the queue on a public page. "
+                     "The ERW's standing reading since session 65: public, with a caution. A person can rule otherwise.")
+# Session 149, the owner's ruling of 7 October 2026 ("quoted, and the rows shown if they allow it"), read by the words alone
+TERMS_READING = ("By its words the notice does not allow showing the rows. It confers no license in the form or content of the site, "
+                 "reserves NYISO's rights and property in their entirety, and closes with all rights reserved; no sentence grants leave "
+                 "to copy, redistribute or display. What it forbids by name is republishing an image or a video as a stand-alone file, "
+                 "and that is not a grant for anything else. So the requests are held internal and are not shown. A person can rule otherwise.")
+SHOWN = False        # the one switch: True puts the requests, the zones and their megawatts back in the page's file
+LICENSE = "public" if SHOWN else "internal"
+HELD_WORDS = "NYISO's terms do not allow it"
+HELD_WHY = ("NYISO's legal notice confers no license in the content of its site and reserves its rights in their entirety. "
+            "The load requests are held and not shown.")
 SHEET = "Load Projects"
 TRACKING = "Load Project Tracking"
 RAW = os.path.join(ip.ROOT, "warehouse", "raw", CONNECTOR)  # the saved workbook; a trial reads the same file
@@ -712,7 +735,7 @@ def build_site(rows, key, end_use_key, notes, tracking, rec, built):
             "retrieved": rec["retrieved_at"], "workbook_last_modified": rec.get("last_modified", ""),
             "sha256": rec["sha256"], "bytes": int(rec["bytes"]),
             "terms": {"url": TERMS_URL, "read": TERMS_READ, "quotes": TERMS_QUOTES, "reading": TERMS_READING,
-                      "license": "public, with a caution"},
+                      "license": "public, with a caution" if SHOWN else "internal"},
         },
         "rule": {
             "in_line": (f'A request is counted as in line when it is on the sheet "{SHEET}", its "Project Status #" is in the sheet\'s own key, '
@@ -749,6 +772,13 @@ def build_site(rows, key, end_use_key, notes, tracking, rec, built):
     return doc
 
 
+def held_site(doc):
+    """Session 149: the page's file when the rows are not shown: where the list is, the notice's sentences and the
+    reading, and the placeholder's words. No request, no zone, no megawatt, no count of requests in line."""
+    return {"built": doc["built"], "shown": False, "license": "internal", "words": HELD_WORDS, "why": HELD_WHY,
+            "source": {k: doc["source"][k] for k in ("name", "publisher", "url", "report_page", "sheet_names", "terms")}}
+
+
 def write_site(doc, path, log):
     text = json.dumps(doc, indent=1, ensure_ascii=False) + "\n"
     if EM_DASH in text:  # house rule: no em dash in a file of this repository; the table keeps the cell as typed
@@ -759,8 +789,11 @@ def write_site(doc, path, log):
     with open(tmp, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
     os.replace(tmp, path)
-    line = (f"{os.path.basename(path)}: in line {doc['total']['requests']} requests, {doc['total']['mw']} MW; "
-            f"{doc['all_requests_on_sheet']} requests on the sheet; {len(doc['checks'])} difference(s) from the tracking sheet")
+    if doc.get("shown") is False:
+        line = f"{os.path.basename(path)}: the requests are held internal and not shown ({doc['words']}); the file holds no request and no megawatt"
+    else:
+        line = (f"{os.path.basename(path)}: in line {doc['total']['requests']} requests, {doc['total']['mw']} MW; "
+                f"{doc['all_requests_on_sheet']} requests on the sheet; {len(doc['checks'])} difference(s) from the tracking sheet")
     log("  " + line + f" -> {path}")
     print(line)
 
@@ -787,9 +820,13 @@ def header_lines(run_id, rec, df, doc, wb_path):
         f"In line by the page's rule (status in the key, its words neither Withdrawn nor In Service): {t['requests']} requests, {t['mw']} MW. "
         f"Apart: withdrawn {n[WITHDRAWN]['requests']} requests, {n[WITHDRAWN]['mw']} MW; in service {n[IN_SERVICE]['requests']} requests, {n[IN_SERVICE]['mw']} MW.",
         "Snapshot: the table holds the sheet as retrieved; the next run replaces it.",
-        "License: public, with a caution (sessions 65, 85, 136, 138). NYISO's legal notice grants no license and forbids republishing "
-        "\"any image or video on this website as a stand-alone file\", which names images and video, not data (https://www.nyiso.com/legal-notice). "
-        "A person can rule otherwise.",
+        ("License: public, with a caution (sessions 65, 85, 136, 138). NYISO's legal notice grants no license and forbids republishing "
+         "\"any image or video on this website as a stand-alone file\", which names images and video, not data (https://www.nyiso.com/legal-notice). "
+         "A person can rule otherwise.") if SHOWN else
+        ("License: internal. Session 149, on the owner's ruling of 7 October 2026 (the rows are shown only if NYISO's terms allow it): NYISO's legal "
+         "notice confers no license (\"" + TERMS_SHORT + "\") and \"expressly reserves such rights and property in its entirety\" "
+         "(https://www.nyiso.com/legal-notice, read 7 October 2026). Not published, in no public dataset, no download and no page. "
+         "A person can rule otherwise."),
     ]
 
 
@@ -845,10 +882,11 @@ def main(argv=None):
                     source=SOURCE, publisher=PUBLISHER,
                     report=f'NYISO Interconnection Queue workbook, sheets "{SHEET}" and "{TRACKING}" (load interconnection requests) '
                            f'[terms: "{TERMS_SHORT}"; the notice forbids republishing "any image or video on this website as a stand-alone file", '
-                           f"not data ({TERMS_URL}, read 7 October 2026)]",
-                    report_url=PAGE, document_list=URL, license="public", tables=[NAME])])
+                           f"not data ({TERMS_URL}, read 7 October 2026)"
+                           + ("]" if SHOWN else "; held internal from session 149: the notice confers no license and reserves all rights]"),
+                    report_url=PAGE, document_list=URL, license=LICENSE, tables=[NAME])])
                 results.append(dict(table=NAME, market="queue", status="ok", detail=""))
-            write_site(doc, site_file, log)
+            write_site(doc if SHOWN else held_site(doc), site_file, log)
     except Exception:
         tb = ip.redact(traceback.format_exc())
         last = tb.strip().splitlines()[-1]

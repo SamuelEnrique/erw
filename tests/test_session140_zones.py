@@ -240,14 +240,16 @@ class Pull(unittest.TestCase):
         self.assertEqual(z.pull(a, self.log, get=get, sleep=lambda s: None, raw=other), 0)
         self.assertFalse([u for u in get.asked if "mirDownload" in u])
 
-    def test_the_count_is_the_kept_rows_and_a_repeat_counts_again(self):
+    def test_the_count_is_the_kept_rows_and_a_repeat_counts_once(self):
+        # Session 149 (the owner's ruling of 7 October 2026 on the refresh, read narrowly: a row counts once). Until
+        # then this test was "a repeat counts again", and the second copy made the count 2 * 8 * 48
         save_copy(self.raw, "dam", 2015, "1")
         self.assertEqual(z.counted(self.raw), z.bound("dam", 2015))            # not read yet: the most it can hold
         z.parsed(z.manifest(self.raw)[0], self.log, self.raw)
         self.assertEqual(z.counted(self.raw), 8 * 48)                          # read: what it holds
         self.assertEqual(z.counts(self.raw)[z.manifest(self.raw)[0]["sha256"]]["rows_read"], 672)
-        save_copy(self.raw, "dam", 2015, "2")                                  # a second copy of the year
-        self.assertEqual(z.counted(self.raw), 2 * 8 * 48)
+        save_copy(self.raw, "dam", 2015, "2")                                  # a second copy of the year, the same rows
+        self.assertEqual(z.counted(self.raw), 8 * 48)                          # the rows of a workbook downloaded again are not counted again
 
     def test_a_paused_publisher_is_not_requested(self):
         def get(url, **kw):

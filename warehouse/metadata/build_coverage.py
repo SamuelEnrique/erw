@@ -149,6 +149,8 @@ SECTOR_RULES = [
     (r"^(ercot_zone_prices_history|iso_zone_prices_history|isone_zone_prices_history)$", "power"),
     # session 144: ERCOT's hourly wind and solar output with the high sustained limit, and the monthly estimate from it
     (r"^ercot_wind_solar_(hsl_hourly|hsl_monthly|output_hourly)$", "power"),
+    # session 149: ISO-NE's monthly delivered and undelivered energy of its dispatchable wind and solar plants (internal)
+    (r"^isone_ddg_undelivered_monthly$", "power"),
     # session 139: the large-load statements pilot (internal)
     (r"^large_load_statements$", "power"),
     (r"^news_", "news"),
