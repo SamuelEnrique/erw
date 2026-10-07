@@ -135,6 +135,7 @@ iso_zone_prices_history,CAISO;NYISO;SPP,caiso_dam;caiso_rtm;nyiso_dam;nyiso_rtm;
 isone_as_prices,ISO-NE,isone_dam,1,PT1H,2025-03-01T05:00:00Z,2026-10-05T03:00:00Z,55964,isone:daasreservedata,2026-10-04T04:09:40Z,pass,internal,power,no,source
 isone_dam_cleared_energy,ISO-NE,isone_dam,1,PT1H,2026-09-01T04:00:00Z,2026-10-08T03:00:00Z,888,isone:hourlydayaheaddemand,2026-10-06T20:38:33Z,pass,internal,power,no,source
 isone_dam_zone_prices,ISO-NE,isone_dam,9,PT1H,2026-08-26T04:00:00Z,2026-10-08T03:00:00Z,9288,isone:da_lmp_hourly,2026-10-07T14:14:05Z,pass,public,power,no,source
+isone_ddg_undelivered_monthly,ISO-NE,,1,P1M,2018-01-01T00:00:00Z,2026-09-01T00:00:00Z,840,isone:ddg_undelivered_monthly,2026-10-07T22:15:01Z,pass,internal,power,no,source
 isone_interconnection_queue,ISO-NE,,1751,snapshot,2026-10-05T14:40:14Z,2026-10-05T14:40:14Z,1751,isone:interconnection_queue,2026-10-05T14:39:15Z,pass,public,power,no,source
 isone_rtm_zone_prices,ISO-NE,isone_rtm,9,PT15M,2026-08-27T04:00:00Z,2026-10-07T03:45:00Z,29376,isone:rt_lmp_5min,2026-10-07T14:14:05Z,pass,public,power,no,source
 isone_rtm_zone_prices_hourly,ISO-NE,isone_rtm,9,PT1H,2026-08-26T04:00:00Z,2026-10-05T03:00:00Z,8424,isone:rt_lmp_hourly_final,2026-10-07T14:14:05Z,pass,public,power,no,source
