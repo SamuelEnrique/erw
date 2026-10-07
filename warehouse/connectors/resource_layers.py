@@ -622,7 +622,7 @@ LAYER_ORDER = list(EXPECTED)
 # A layer that was looked for and left, with the reason the page shows on its greyed toggle.
 NOT_HELD = {
     "hydropower_potential": (
-        "Not pulled. USGS publishes no hydropower potential layer. The federal assessments are Oak Ridge "
+        "Not pulled. No hydropower potential layer of USGS's own was found. The federal assessments are Oak Ridge "
         "National Laboratory's, for the Energy Department (new stream-reach development, 2014, and non-powered "
         "dams, 2024, on HydroSource). Their download page asks for a name and an e-mail address in a form before "
         "it hands over a file, so the files were left until the owner rules."),

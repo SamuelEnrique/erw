@@ -226,7 +226,7 @@ described, one entry a layer, in `site/data/resources/manifest.json`.
 
 ## Not held
 
-- **Hydropower potential** (`hydropower_potential`): Not pulled. USGS publishes no hydropower potential layer. The federal assessments are Oak Ridge National Laboratory's, for the Energy Department (new stream-reach development, 2014, and non-powered dams, 2024, on HydroSource). Their download page asks for a name and an e-mail address in a form before it hands over a file, so the files were left until the owner rules.
+- **Hydropower potential** (`hydropower_potential`): Not pulled. No hydropower potential layer of USGS's own was found. The federal assessments are Oak Ridge National Laboratory's, for the Energy Department (new stream-reach development, 2014, and non-powered dams, 2024, on HydroSource). Their download page asks for a name and an e-mail address in a form before it hands over a file, so the files were left until the owner rules.
 
 ## Looked for and left
 

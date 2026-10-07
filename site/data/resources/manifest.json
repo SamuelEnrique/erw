@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-07T22:07:49Z",
+ "built_at_utc": "2026-10-07T22:09:03Z",
  "layers": [
   {
    "id": "wind_speed_100m",
@@ -1272,7 +1272,7 @@
    "id": "hydropower_potential",
    "group": "hydropower",
    "title": "Hydropower potential",
-   "reason": "Not pulled. USGS publishes no hydropower potential layer. The federal assessments are Oak Ridge National Laboratory's, for the Energy Department (new stream-reach development, 2014, and non-powered dams, 2024, on HydroSource). Their download page asks for a name and an e-mail address in a form before it hands over a file, so the files were left until the owner rules."
+   "reason": "Not pulled. No hydropower potential layer of USGS's own was found. The federal assessments are Oak Ridge National Laboratory's, for the Energy Department (new stream-reach development, 2014, and non-powered dams, 2024, on HydroSource). Their download page asks for a name and an e-mail address in a form before it hands over a file, so the files were left until the owner rules."
   }
  ]
 }
