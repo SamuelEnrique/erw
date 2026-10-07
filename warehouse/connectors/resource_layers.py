@@ -513,6 +513,11 @@ def round_geom(geom, tolerance, digits=3):
     g = shapely.set_precision(g, 10 ** -digits)
     if g.is_empty:
         g = shapely.set_precision(geom, 10 ** -digits)
+    if not g.is_valid:  # a source polygon that was not valid itself (shells that touch or nest)
+        g = shapely.make_valid(g)
+        if g.geom_type == "GeometryCollection":
+            g = shapely.union_all([x for x in g.geoms if x.geom_type in ("Polygon", "MultiPolygon")])
+        g = shapely.set_precision(g, 10 ** -digits)
     return g
 
 
@@ -552,7 +557,7 @@ def clean(v):
     return s if s else None
 
 
-def write_shapes(web_dir, file, gdf, props_fn, tolerance=0.01, coverage=False):
+def write_shapes(web_dir, file, gdf, props_fn, tolerance=0.01, coverage=False, digits=3):
     """A GeoDataFrame to one GeoJSON FeatureCollection in WGS84. Returns (bytes, features, bounds).
 
     coverage: the polygons tile an area and share edges (classes, counties). They are simplified together
@@ -572,10 +577,10 @@ def write_shapes(web_dir, file, gdf, props_fn, tolerance=0.01, coverage=False):
     for _, row in g.iterrows():
         if row.geometry is None or row.geometry.is_empty:
             continue
-        geom = round_geom(row.geometry, tolerance)
+        geom = round_geom(row.geometry, tolerance, digits)
         if geom.is_empty:
             continue
-        feats.append({"type": "Feature", "properties": props_fn(row), "geometry": geom_json(geom)})
+        feats.append({"type": "Feature", "properties": props_fn(row), "geometry": geom_json(geom, digits)})
     size = write_json_atomic(os.path.join(web_dir, file), {"type": "FeatureCollection", "features": feats})
     b = [round(float(x), 3) for x in g.total_bounds]
     return size, len(feats), b
@@ -1100,7 +1105,7 @@ def build_biomass(raw_dir, web_dir, manifest):
              "value": clean(r["Total"]), "value_unit": "dry metric tons/year"}
         p.update(source_fields(r))
         return p
-    size, n, b, how = shapes_any(web_dir, "biomass.json", g, props, 0.03, True)
+    size, n, b, how = shapes_any(web_dir, "biomass.json", g, props, 0.015, True)
     meta = shp[:-4] + ".xml"
     vals = [clean(x) for x in g["Total"]]
     st = shape_stats(vals)
@@ -1128,7 +1133,9 @@ def build_biomass(raw_dir, web_dir, manifest):
                          "biomass resources by county: crop residues, forest residues, primary mill residues, "
                          "secondary mill residues, and urban wood waste. Data for 2012, in dry metric "
                          "tons/year.\" The value is a county's total, so a large county shows more than a small "
-                         "one with the same resource a square mile. Of primary mill residues the file says: "
+                         "one with the same resource a square mile. The outlines are simplified for the web: a "
+                         "very small county or independent city (a few square miles) can lose much of its "
+                         "shape, and its value is unchanged. Of primary mill residues the file says: "
                          "\"Note that most of this resource is currently utilized.\" It is a 2012 estimate of "
                          "what is generated, not of what is available to a new plant at a price. The landing "
                          "page that listed the file no longer exists since the laboratory's site moved to "
@@ -1281,7 +1288,7 @@ def build_leases(raw_dir, web_dir, manifest):
              "value": clean(r["ACRES"]) or None, "value_unit": "acres"}
         p.update(source_fields(r, skip=("geometry", "Shape_Leng", "Shape_Area")))
         return p
-    size, n, b = write_shapes(web_dir, "offshore_wind_leases.json", g, props, tolerance=0.001)
+    size, n, b = write_shapes(web_dir, "offshore_wind_leases.json", g, props, tolerance=0, digits=4)
     kinds = sorted({f"lease area ({clean(x)})" for x in g["LEASE_TYPE"] if clean(x)})
     manifest_put(manifest, base_layer(
         "offshore_wind_leases", "offshore wind", "Offshore wind lease areas", "shapes", row,
@@ -1293,7 +1300,8 @@ def build_leases(raw_dir, web_dir, manifest):
                 "6 August 2025",
         extent="US Outer Continental Shelf: Atlantic, Gulf and Pacific",
         source_resolution="lease outlines built from Outer Continental Shelf blocks",
-        reduction="coordinates to 3 decimals (about 100 m); no other simplification; no feature dropped",
+        reduction="coordinates to 4 decimals (about 10 m), so that a narrow easement keeps its shape; no "
+                  "other simplification; no feature dropped",
         file="offshore_wind_leases.json", bytes=size, features=n, bounds=b,
         legend={"kinds": kinds},
         stats=shape_stats([clean(x) for x in g["ACRES"] if x]),
@@ -1327,7 +1335,7 @@ def build_planning(raw_dir, web_dir, manifest):
              "value": None, "value_unit": None}
         p.update(source_fields(r, skip=("geometry", "Shape__Area", "Shape__Length")))
         return p
-    size, n, b = write_shapes(web_dir, "offshore_wind_planning_areas.json", g, props, tolerance=0.001)
+    size, n, b = write_shapes(web_dir, "offshore_wind_planning_areas.json", g, props, tolerance=0, digits=4)
     kinds = sorted({f"planning area ({clean(x)})" for x in g["CATEGORY1"] if clean(x)}) or ["planning area"]
     manifest_put(manifest, base_layer(
         "offshore_wind_planning_areas", "offshore wind",
@@ -1339,7 +1347,8 @@ def build_planning(raw_dir, web_dir, manifest):
                 f"\"{meta.get('name')}\"",
         extent="US Outer Continental Shelf",
         source_resolution="planning area outlines built from Outer Continental Shelf blocks",
-        reduction="coordinates to 3 decimals (about 100 m); no other simplification; no feature dropped",
+        reduction="coordinates to 4 decimals (about 10 m), so that a narrow easement keeps its shape; no "
+                  "other simplification; no feature dropped",
         file="offshore_wind_planning_areas.json", bytes=size, features=n, bounds=b,
         legend={"kinds": kinds}, stats=None, source_rows=int(len(g)),
         area_status={str(k): int(v) for k, v in g["AREA_STATUS"].value_counts().items()},
