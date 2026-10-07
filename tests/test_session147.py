@@ -251,6 +251,15 @@ class Ceilings(unittest.TestCase):
         store, tally, _ = pull([urls[0]], web, shelf=shelf, day="2026-10-08")   # a shelf from an earlier day is not used
         self.assertEqual((tally["copied"], tally["requested"]), (0, 1))
 
+    def test_the_pull_of_a_run_stops_asking_after_its_ten_minutes(self):
+        urls = [f"https://slow.example/p{i}" for i in range(6)]
+        web = Web(pages={u: (200, HTML, PAGE) for u in urls}, robots={"slow.example": (200, "User-agent: *\nCrawl-delay: 30\n")})
+        store, tally, clock = pull(urls, web, max_seconds=70)       # each page waits the host's 30 seconds: the third request starts at 60, the fourth would start at 90
+        self.assertEqual(len(web.asked), 4)                          # robots.txt and three pages
+        self.assertIn("ceiling of time", tally["stopped"])
+        self.assertEqual((tally["fetched"], tally["ceiling"]), (3, 3))
+        self.assertEqual(pg.MAX_SECONDS_RUN, 600)
+
     def test_the_ceilings_are_the_owners(self):
         self.assertEqual((pg.MAX_ADDRESSES_RUN, pg.MAX_ADDRESSES_SESSION, pg.MAX_BYTES, pg.TIMEOUT, pg.HOST_GAP), (150, 450, 2_000_000, 20, 1.0))
         web = Web(pages={"https://h.example/p": (200, HTML, PAGE)})

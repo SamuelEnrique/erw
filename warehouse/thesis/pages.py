@@ -28,8 +28,8 @@ THE PULL, AS THE OWNER ALLOWED IT (7 October 2026)
   * The ceilings, set before the first request and checked before each one: MAX_ADDRESSES_RUN addresses a run,
     MAX_ADDRESSES_SESSION a session (the count is kept in a file the runs of a session share), MAX_BYTES a page,
     TIMEOUT seconds a request, at most one request every HOST_GAP seconds to one host (longer when the host's
-    robots.txt asks for a crawl delay, up to MAX_CRAWL_DELAY), and MAX_REQUESTS_RUN and MAX_REQUESTS_SESSION
-    requests of any kind (pages, robots.txt, redirect hops).
+    robots.txt asks for a crawl delay, up to MAX_CRAWL_DELAY), MAX_REQUESTS_RUN and MAX_REQUESTS_SESSION
+    requests of any kind (pages, robots.txt, redirect hops), and MAX_SECONDS_RUN seconds for a run's whole pull.
   * A page the store already holds from the run's own day is not requested again; one held from an earlier day is
     requested again, and when its text differs the store keeps both versions with their days and hashes.
   * PDFs are read with pdfplumber, a page at a time.
@@ -62,6 +62,7 @@ TIMEOUT = 20
 HOST_GAP = 1.0
 MAX_CRAWL_DELAY = 30.0
 MAX_REDIRECTS = 3
+MAX_SECONDS_RUN = 600             # a run's whole pull: the workflow's job has 40 minutes, and the pull comes after the paid calls
 MAX_PDF_PAGES = 200
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -420,7 +421,8 @@ def held_today(store, url, day):
 
 def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get=None, sleep=time.sleep, clock=time.monotonic,
               raw_dir=None, paused=None, max_run=MAX_ADDRESSES_RUN, max_session=MAX_ADDRESSES_SESSION,
-              max_requests_run=MAX_REQUESTS_RUN, max_requests_session=MAX_REQUESTS_SESSION, max_bytes=MAX_BYTES, shelf=None):
+              max_requests_run=MAX_REQUESTS_RUN, max_requests_session=MAX_REQUESTS_SESSION, max_bytes=MAX_BYTES, shelf=None,
+              max_seconds=MAX_SECONDS_RUN):
     """Request every address of the list the store does not hold from this day, in the order given, under the
     ceilings; save each page (or why it was not fetched) in store["pages"] and each robots.txt in store["robots"].
     Returns the run's tally. Never raises for an address: a failure is that address's record.
@@ -437,8 +439,10 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
              "truncated": 0, "empty": 0, "robots_disallowed": 0, "robots_unreadable": 0, "paused": 0, "licensed": 0, "not_web": 0, "login": 0,
              "ceiling": 0, "requests": 0, "robots_requests": 0, "hop_requests": 0, "bytes": 0, "changed": [], "addresses": {},
              "ceilings": {"addresses_run": max_run, "addresses_session": max_session, "requests_run": max_requests_run,
-                          "requests_session": max_requests_session, "bytes_page": max_bytes, "seconds": TIMEOUT, "host_gap_seconds": HOST_GAP}}
+                          "requests_session": max_requests_session, "bytes_page": max_bytes, "seconds": TIMEOUT, "host_gap_seconds": HOST_GAP,
+                          "seconds_run": max_seconds}}
     last = {}                                           # host: when it was last asked
+    began = clock()
 
     class Ceiling(Exception):
         pass
@@ -447,6 +451,8 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
         """One counted request, after the ceilings and the host's gap. Returns (status, headers, body, truncated, error)."""
         if tally["requests"] >= max_requests_run or count.n["requests"] >= max_requests_session:
             raise Ceiling(f"the ceiling of requests is reached (run {tally['requests']} of {max_requests_run}, session {count.n['requests']} of {max_requests_session})")
+        if clock() - began > max_seconds:
+            raise Ceiling(f"the ceiling of time is reached ({max_seconds} seconds for a run's pull)")
         host = host_of(url)
         gap = max(HOST_GAP, min(float((robots.get(origin_of(url)) or {}).get("crawl_delay") or 0), MAX_CRAWL_DELAY))
         wait = gap - (clock() - last[host]) if host in last else 0

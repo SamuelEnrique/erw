@@ -81,7 +81,7 @@ MIN_TERMS = 2
 TIE_MIN = 2
 MAX_ADDRESSES = 3
 PAGE_SENTENCE_MAX = 500          # session 147: what a sentence of a saved page is, not a threshold of the scoring
-STOP ={"the", "and", "for", "with", "from", "that", "this", "into", "their", "new", "not", "general", "only", "based", "using",
+STOP = {"the", "and", "for", "with", "from", "that", "this", "into", "their", "new", "not", "general", "only", "based", "using",
         "technologie", "technology", "companie", "company", "startup", "market", "energy", "power",
         "system", "method", "public", "high"}
 GENERIC = {"energy", "power", "technologies", "technology", "systems", "international", "resources", "minerals", "partners",
