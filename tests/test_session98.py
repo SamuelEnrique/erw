@@ -1,4 +1,6 @@
-"""Session 98: curtailment, version 2 (/curtailment/v2), in review, and the approved pull behind it.
+"""Session 98: curtailment, version 2 (/curtailment/v2), in review, and the approved pull behind it. Since session
+144 version 2 is part of the one page, /curtailment: its address redirects there, its page is kept under
+site/app/_retired/curtailment-v2, and its numbers are checked on the one page by site/scripts/check-curtailment.mjs.
 
 Energy Research Warehouse (ERW). The connector (warehouse/connectors/caiso_curtailment_intervals.py) on a workbook and a
 report made here, with no request; the profile's builder (warehouse/derived/curtailment_profile.py) on rows made here;
@@ -238,7 +240,7 @@ class ThePage(unittest.TestCase):
         c = copy()
         newest = sorted(c["years"])[-1]
         self.assertEqual(d["p"], [newest, "2024-04", newest, "2026"])
-        self.assertEqual(d["href"], "/curtailment/v2?period=2024-04")
+        self.assertEqual(d["href"], "/curtailment?period=2024-04")                                               # session 144: the one page's address
         self.assertEqual(d["cover"], ["none", "part", "all"])
         self.assertEqual((d["cats"], d["batt"]), ([False, True], [False, True]))
         self.assertEqual((d["bm"][0], len(d["bm"])), ("2025-09", 13))
@@ -249,28 +251,31 @@ class ThePage(unittest.TestCase):
         self.assertEqual(d["day"], {"hour": 12, "curtailed": r["avg_curtailed_mw_h12"], "charging": r["avg_battery_charging_mw_h12"]})
         self.assertEqual(d["names"], ["May 2026", "2025", "07:00", "1,361,346", "98.65"])
 
-    def test_the_page_is_in_review_says_what_is_not_located_and_the_old_page_is_as_it_was(self):
+    def test_the_page_is_in_review_and_what_it_said_of_what_is_not_located_is_kept(self):
         d = node("import { statusOf } from './lib/release.ts'; console.log(JSON.stringify([statusOf('/curtailment'), statusOf('/curtailment/v2'), statusOf('/data/methods/caiso_curtailment_intervals')]));")
         self.assertEqual(d, ["review", "review", "review"])
-        page = src("site", "app", "curtailment", "v2", "page.tsx")
+        # session 144: version 2 is part of /curtailment. Its page is kept, not routed (app/_retired); what it said of
+        # what the data does not locate moved, whole, to the Method note; the one page carries the credit
+        self.assertFalse(os.path.exists(os.path.join(SITE, "app", "curtailment", "v2")))
+        page = src("site", "app", "_retired", "curtailment-v2", "page.tsx")
         self.assertNotIn("supabase", page)
         self.assertIn("robots: { index: false, follow: false }", page)
         self.assertIn("The data does not say where.", page)
-        self.assertIn("Credit: California ISO", page)
-        r = subprocess.run(["git", "diff", "--stat", "origin/main", "--", "site/app/curtailment/page.tsx", "warehouse/connectors/curtailment.py"], cwd=ROOT, capture_output=True, text=True)
-        self.assertEqual(r.stdout.strip(), "")
+        self.assertIn("The data does not say where.", src("docs", "methods", "curtailment.md"))
+        self.assertIn("Credit: California ISO", src("site", "app", "curtailment", "page.tsx"))
+        self.assertIn('{ source: "/curtailment/v2", destination: "/curtailment", permanent: true }', src("site", "next.config.ts"))
 
     def test_every_number_on_the_built_page_where_a_site_is_served(self):
         base = os.environ.get("ERW_SITE_URL")
         exe = shutil.which("node")
         if not base or not exe:
-            self.skipTest("ERW_SITE_URL names no served site (or node is absent): node site/scripts/check-curtailment-v2.mjs <base>")
-        r = subprocess.run([exe, "--import", "./scripts/alias-loader.mjs", "scripts/check-curtailment-v2.mjs", base], cwd=SITE, capture_output=True, text=True, timeout=600)
+            self.skipTest("ERW_SITE_URL names no served site (or node is absent): node site/scripts/check-curtailment.mjs <base>")
+        r = subprocess.run([exe, "scripts/check-curtailment.mjs", base], cwd=SITE, capture_output=True, text=True, timeout=900)                 # session 144: the one page's check
         self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-1000:])
 
     def test_no_em_dash_in_what_the_session_wrote(self):
         for parts in (("warehouse", "connectors", "caiso_curtailment_intervals.py"), ("warehouse", "derived", "curtailment_profile.py"), ("docs", "methods", "caiso_curtailment_intervals.md"),
-                      ("site", "lib", "curtailmentv2.ts"), ("site", "app", "curtailment", "v2", "page.tsx"), ("site", "scripts", "check-curtailment-v2.mjs"), ("tests", "test_session98.py")):
+                      ("site", "lib", "curtailmentv2.ts"), ("site", "app", "_retired", "curtailment-v2", "page.tsx"), ("site", "scripts", "check-curtailment-v2.mjs"), ("tests", "test_session98.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts)
 
 

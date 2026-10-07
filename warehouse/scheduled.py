@@ -87,7 +87,7 @@ JOBS = {
         cadence="monthly", page="/demand", workbooks=ISO_BAS + ["US48"],
         cmd=["warehouse/derived/demand_growth.py", "--snapshot"]),
     "curtailment_profile": dict(
-        cadence="monthly", page="/curtailment/v2", tables=["caiso_curtailment_intervals", "caiso_battery_storage"],
+        cadence="monthly", page="/curtailment", tables=["caiso_curtailment_intervals", "caiso_battery_storage"],
         restore=["caiso_curtailment_intervals"], cmd=["warehouse/derived/curtailment_profile.py", "--snapshot"]),
     "project_map": dict(
         cadence="monthly", page="/map/v2", tables=["eia860m_operating_generators", "eia860m_planned_generators"],

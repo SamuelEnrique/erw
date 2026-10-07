@@ -4,7 +4,7 @@
 Energy Research Warehouse (ERW). One derived table, caiso_curtailment_profile, from caiso_curtailment_intervals (CAISO's
 wind and solar curtailment by 5-minute interval to 2025 and by hour from 2026) and caiso_battery_storage (CAISO's
 5-minute battery output, from late August 2025). Method: docs/methods/caiso_curtailment_intervals.md. Page:
-/curtailment/v2 (in review).
+/curtailment (in review; until session 144 its own page, /curtailment/v2, which now redirects there).
 
     python warehouse/derived/curtailment_profile.py                 # the table, under the data lock
     python warehouse/derived/curtailment_profile.py --out-dir DIR   # a trial run: nothing in warehouse/output

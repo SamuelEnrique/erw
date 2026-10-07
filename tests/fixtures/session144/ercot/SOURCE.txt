@@ -1,0 +1,23 @@
+Session 144 fixtures: small real samples of ERCOT's public files, retrieved 7 October 2026 (UTC) by
+warehouse/connectors/ercot_wind_solar_history.py --pull. Nothing in them is changed or made up.
+
+14787_cdr.00014787.0000000000000000.20260930.005513154.WPPHRLYAVGACTGEONP4742_csv.zip
+  NP4-742-CD, Wind Power Production, Hourly Averaged Actual and Forecasted Values by Geographical Region,
+  published 2026-09-30T00:55:12-05:00, as served: https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1280661943
+14787_cdr.00014787.0000000000000000.20260930.235512549.WPPHRLYAVGACTGEONP4742_csv.zip
+  the same report, published 2026-09-30T23:55:12-05:00: https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1281045113
+21809_cdr.00021809.0000000000000000.20260930.005512599.PVGRHRLYAVGACTGEONP4745_csv.zip
+  NP4-745-CD, Solar Power Production, Hourly Averaged Actual and Forecasted Values by Geographical Region,
+  published 2026-09-30T00:55:12-05:00, as served: https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1280661939
+21809_cdr.00021809.0000000000000000.20260930.235512454.PVGRHRLYAVGACTGEONP4745_csv.zip
+  the same report, published 2026-09-30T23:55:12-05:00: https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1281045111
+ERCOT_2025_Hourly_WindSolar_Output_sample.xlsx
+  PG7-126-M, Hourly Aggregated Wind and Solar Output, the 2025 workbook
+  (https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1182433954, 3,204,693 bytes): a cut, not the
+  file. The header row and the rows dated 8, 9, 10 March and 1, 2, 3 November 2025 of the sheets Wind Data and Solar
+  Data, the first eleven columns, every cell as the workbook holds it (the two clock-change days and their
+  neighbours: a 23-hour and a 25-hour day).
+
+Terms: "raw data provided in public portions of this website may be used, reproduced, and redistributed in
+compilations, charts, and analyses without maintaining such notices." (https://www.ercot.com/help/terms, read
+6 October 2026).

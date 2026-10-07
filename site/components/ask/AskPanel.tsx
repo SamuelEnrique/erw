@@ -167,6 +167,8 @@ export function AskPanel({ grid, initial = "", context = null, showContext = tru
   const [turns, setTurns] = useState<Turn[]>([]);
   const [asked, setAsked] = useState("");
   const [reading, setReading] = useState<string[]>([]);
+  // session 143: the answer's words, shown as soon as they have passed the check, while its chart, sources and next questions are still on their way
+  const [early, setEarly] = useState<Turn | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const own = PROFILES.has(grid);
   const name = grid.toUpperCase() === "ISONE" ? "ISO-NE" : grid.toUpperCase();
@@ -177,6 +179,7 @@ export function AskPanel({ grid, initial = "", context = null, showContext = tru
     setErr(null);
     setAsked(question);
     setReading([]);
+    setEarly(null);
     // the turns before this one: each question, its answer and the queries run for it
     const history = turns.filter((t) => t.res.status === "answered" || t.res.status === "not_in_warehouse").slice(-MAX_HISTORY)
       .map((t) => ({ question: t.question, answer: t.res.answer, calls: t.res.calls ?? [], citations: t.res.citations.map((c) => ({ table: c.table })) }));
@@ -200,11 +203,15 @@ export function AskPanel({ grid, initial = "", context = null, showContext = tru
       let buf = "", got = false;
       const take = (line: string) => {
         if (!line.trim()) return;
-        const e = JSON.parse(line) as { type: string; table?: string | null; tool?: string; error?: string } & Partial<Result>;
+        const e = JSON.parse(line) as { type: string; table?: string | null; tool?: string; error?: string; not_in_warehouse?: boolean } & Partial<Result>;
         if (e.type === "reading") setReading((x) => [...x, e.table ?? (e.tool === "grid_notes" ? `the written page about ${name}` : e.tool === "page_figures" ? "the price board and Supply and trade" : "the list of tables")]);
-        else if (e.type === "error") { got = true; setErr(e.error ?? "no answer"); }
+        else if (e.type === "error") { got = true; setEarly(null); setErr(e.error ?? "no answer"); }
+        // session 143: the words first, once checked; the whole answer replaces them when it arrives, and words the whole answer did not bear out are taken back
+        else if (e.type === "words" && typeof e.answer === "string") setEarly({ question, res: { answer: e.answer, citations: [], status: e.not_in_warehouse ? "not_in_warehouse" : "answered", model: "", tool_calls: 0, retried: false, cost_usd: null,
+          form: e.form === "words" || e.form === "sentence" || e.form === "chart" || e.form === "table" ? e.form : "words", series: [], followups: [], premise: e.premise ?? "" } });
+        else if (e.type === "withdrawn") setEarly(null);
         // a whole answer with no type is the route's reply when it did not stream (and the recorded answer the page's check feeds it)
-        else if (e.type === "result" || (e.type === undefined && typeof e.answer === "string" && typeof e.status === "string")) { got = true; setTurns((t) => [...t, { question, res: e as unknown as Result }]); setQ(""); }
+        else if (e.type === "result" || (e.type === undefined && typeof e.answer === "string" && typeof e.status === "string")) { got = true; setEarly(null); setTurns((t) => [...t, { question, res: e as unknown as Result }]); setQ(""); }
       };
       for (;;) {
         const { done, value } = await reader.read();
@@ -218,6 +225,7 @@ export function AskPanel({ grid, initial = "", context = null, showContext = tru
     } catch (x) {
       setErr((x as Error).message);
     } finally {
+      setEarly(null);
       setBusy(false);
     }
   }
@@ -255,7 +263,8 @@ export function AskPanel({ grid, initial = "", context = null, showContext = tru
           <span className="font-semibold text-ink">no answer</span>: {err}
         </div>
       ) : null}
-      {order.map(({ t, n }) => <Answer key={n} turn={t} n={n} last={n === turns.length} busy={busy} onAsk={(f) => { setQ(f); void ask(f); }} />)}
+      {busy && early ? <div data-early="1"><Answer turn={early} n={turns.length + 1} last busy onAsk={() => {}} /></div> : null}
+      {order.map(({ t, n }) => <Answer key={n} turn={t} n={n} last={n === turns.length && !(busy && early)} busy={busy} onAsk={(f) => { setQ(f); void ask(f); }} />)}
     </div>
   );
 }

@@ -407,7 +407,7 @@ class BuiltDate(unittest.TestCase):
         "/mix/v2": ("site/app/_retired/mix-v2/page.tsx", "built {file.built.slice(0, 10)}", [f"site/data/mix/{g}.json" for g in ("caiso", "ercot", "isone", "miso", "nyiso", "pjm", "spp")]),
         "/prices/compare": ("site/app/prices/compare/page.tsx", "Built {file.built.slice(0, 10)}", ["site/data/price_compare.json"]),
         "/demand": ("site/app/demand/page.tsx", "built {file.built.slice(0, 10)}", ["site/data/demand_growth.json"]),
-        "/curtailment/v2": ("site/app/curtailment/v2/page.tsx", "Built {file.built.slice(0, 10)}", ["site/data/curtailment_profile.json"]),
+        "/curtailment": ("site/app/curtailment/page.tsx", "Built {profile.built.slice(0, 10)}", ["site/data/curtailment_profile.json"]),  # session 144: version 2 is part of the one page
         "/map/v2": ("site/app/map/v2/page.tsx", "built {f.built.slice(0, 10)}", ["site/data/map_v2.json"]),
         "/datacenters/v2": ("site/app/datacenters/v2/page.tsx", "built {f.built.slice(0, 10)}", ["site/data/large_load_status.json"]),
     }

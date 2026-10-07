@@ -188,6 +188,12 @@ run_other portwatch "$PYTHON" warehouse/connectors/portwatch.py
 # (docs/methods/curtailment.md)
 run_other curtailment "$PYTHON" warehouse/connectors/curtailment.py
 run_other iso_curtailment_monthly "$PYTHON" warehouse/derived/iso_curtailment_monthly.py
+# Session 144: ERCOT's wind and solar by the hour, with the high sustained limit system-wide. ERCOT's list keeps about
+# seven days of these reports, so a lapse of more than a week loses hours for good: the table (restored from the draft
+# first, warehouse/redivis/config.yaml) takes each day's new hours. Then the file of the Texas section of /curtailment
+# (in review), from that table; the daily run's commit step adds it
+run_other ercot_wind_solar_history "$PYTHON" warehouse/connectors/ercot_wind_solar_history.py --pull --write
+run_other ercot_estimate_page "$PYTHON" warehouse/derived/ercot_estimate_page.py
 # Session 23: CAISO battery storage output (Today's Outlook, 5-minute), the last 30 days, for the Automated
 # Analysis template storage_evening_peak (EIA-930 carries no battery series)
 run_other caiso_outlook "$PYTHON" warehouse/connectors/caiso_outlook.py

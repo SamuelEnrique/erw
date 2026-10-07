@@ -21,6 +21,9 @@ const nextConfig: NextConfig = {
       { source: "/mix/v2", destination: "/mix?view=day", permanent: true },
       { source: "/mix/clean", destination: "/mix?view=clean", permanent: true },
       { source: "/mix/stress", destination: "/mix?view=stress", permanent: true },
+      // session 144: one tool, one page, one address. Curtailment is /curtailment; its second version (California by the
+      // hour, against battery charging) is part of that page now, and its address redirects to it (a query is carried over)
+      { source: "/curtailment/v2", destination: "/curtailment", permanent: true },
       { source: "/weekly", destination: "/roundup", permanent: true },
       { source: "/weekly/:week", destination: "/roundup/:week", permanent: true },
       // session 132: one tool, one page, one address. The price board is /board; its earlier versions and the markets

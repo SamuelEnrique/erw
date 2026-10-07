@@ -40,7 +40,7 @@ export const AUDIENCES: Audience[] = [
       { href: "/queues", label: "The interconnection queue", question: "How much is waiting to connect, how much of the past got built, and how long did it take?" },
       { href: "/mix?view=day", label: "The energy mix", question: "What generates the power, hour by hour, in any month since 2019?" },
       { href: "/demand", label: "Demand growth", question: "How fast is each grid's demand and its peak growing?" },
-      { href: "/curtailment/v2", label: "Curtailment", question: "When is solar and wind turned down in California, and how much do batteries soak up?" },
+      { href: "/curtailment", label: "Curtailment", question: "When is solar and wind turned down in California, and how much do batteries soak up?" },
       { href: "/battery/customer", label: "What a battery saves a customer", question: "What would a battery take off my own demand charge and energy bill?" },
       { href: "/grid", label: "Grid conditions", question: "What were yesterday's peak, forecast error and mix on each grid?" },
       { href: "/ask/ercot", label: "Ask ERCOT", question: "A question about the Texas grid, answered from the tables with its sources." },
