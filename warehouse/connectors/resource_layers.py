@@ -5,7 +5,7 @@ What this connector does
   --pull    downloads each publisher's own file into the raw store, under one ceiling for all of them
             (4 GB). The size is asked first; a download that would pass the ceiling is refused before a
             byte of it is read. Every file, and every terms page, is one row of downloads.csv.
-  --build   reduces each raw file to a web-sized layer in site/public/resources-data/ and describes it in
+  --build   reduces each raw file to a web-sized layer in site/data/resources/layers/ and describes it in
             site/data/resources/manifest.json (the contract with the page). The raw file keeps the full
             resolution; nothing is filled, smoothed or interpolated.
   --only    one layer id (or several, comma separated).
@@ -34,7 +34,7 @@ CEILING_BYTES = 4 * 1024 ** 3
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
 RAW_DIR = os.environ.get("ERW_RESOURCES_RAW") or os.path.join(REPO, "warehouse", "raw", "resources")
-WEB_DIR = os.path.join(REPO, "site", "public", "resources-data")
+WEB_DIR = os.path.join(REPO, "site", "data", "resources", "layers")  # not under public/: a locked page's files are not open to visitors (the page reads them through /resources/layer/<name>)
 MANIFEST = os.path.join(REPO, "site", "data", "resources", "manifest.json")
 PAUSED_FILE = os.path.join(REPO, "warehouse", "metadata", "paused_sources.csv")
 LEDGER_COLS = ["source", "layer", "url", "file", "bytes", "sha256", "retrieved_at_utc", "http_status",

@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "connectors"))
 import resource_layers as rl  # noqa: E402
 
 MANIFEST = os.path.join(ROOT, "site", "data", "resources", "manifest.json")
-WEB = os.path.join(ROOT, "site", "public", "resources-data")
+WEB = os.path.join(ROOT, "site", "data", "resources", "layers")
 RAW = os.environ.get("ERW_RESOURCES_RAW") or r"C:\Users\lossa\Documents\erw\warehouse\raw\resources"
 EM_DASH = chr(0x2014)
 

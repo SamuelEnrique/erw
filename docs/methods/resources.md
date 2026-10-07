@@ -4,7 +4,7 @@ Session 146 (7 October 2026). The page `/resources` draws the natural resource i
 Every layer is a publisher's own file, reduced to a size a browser can draw. The file as downloaded keeps the
 full resolution in the warehouse's raw store (`warehouse/raw/resources/`, with `downloads.csv`: the address,
 the bytes, the hash and the retrieval time of every file and of every terms page). The connector is
-`warehouse/connectors/resource_layers.py`; the layers it writes are in `site/public/resources-data/` and are
+`warehouse/connectors/resource_layers.py`; the layers it writes are in `site/data/resources/layers/` and are
 described, one entry a layer, in `site/data/resources/manifest.json`.
 
 ## What holds for every layer
