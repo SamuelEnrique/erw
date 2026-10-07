@@ -658,6 +658,8 @@ LEFT_SOURCES = {
 
 # The publishers' terms pages. The quotes used in the manifest are checked word for word against the saved
 # page by --check-terms (and by the tests when the raw store is on the machine).
+DOI_QUOTE = ("Generally, materials produced by federal agencies are in the public domain and may be reproduced "
+             "without permission. However, not all materials appearing on this web site are in the public domain.")
 TERMS = {
     "eia": {"url": "https://www.eia.gov/about/copyrights_reuse.php", "file": "eia_copyrights_reuse.html",
             "quote": "U.S. government publications are in the public domain and are not subject to copyright "
@@ -679,8 +681,9 @@ TERMS = {
                        "that proper credit be given."]},
     "openei_8314": {"url": "https://data.openei.org/submissions/8314", "file": "openei_submission_8314.html",
                     "quote": "Content is available under Creative Commons Attribution 4.0 unless otherwise noted."},
+    "doi": {"url": "https://www.doi.gov/copyright", "file": "doi_copyright.html", "quote": DOI_QUOTE},
     "boem": {"url": "https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data",
-             "file": "boem_renewable_energy_gis_data.html",
+             "file": "boem_renewable_energy_gis_data.html", "also": ["doi"],
              "quote": "Note to users: Data downloaded from this site is to be used for informational and "
                       "planning purposes only."},
 }
@@ -767,6 +770,7 @@ def held(raw_dir, key):
         raise FileNotFoundError(f"{key}: not in the raw store ({raw_dir}); run --pull first")
     r = dict(rows[-1])
     r["path"] = os.path.join(raw_dir, r["source"], r["file"])
+    r["raw_dir"] = raw_dir
     if not os.path.exists(r["path"]):
         raise FileNotFoundError(r["path"])
     return r
@@ -783,6 +787,13 @@ def base_layer(id, group, title, kind, row, key, **more):
              "retrieved_at_utc": row["retrieved_at_utc"],
              "source_file": f"{row['source']}/{row['file']}", "source_bytes": int(row["bytes"]),
              "source_sha256": row["sha256"]}
+    for k in t.get("also", []):  # a second terms page of the same publisher, saved and hashed like the first
+        a = TERMS[k]
+        rel = f"{row['source']}/terms/{a['file']}"
+        path = os.path.join(row["raw_dir"], rel)
+        layer.setdefault("terms_also", []).append({
+            "url": a["url"], "file": rel, "quote": a["quote"],
+            "sha256": sha256_file(path) if os.path.exists(path) else ""})
     layer.update(more)
     return layer
 
@@ -1399,6 +1410,8 @@ def main():
             if only and not (set(only) & set(src["layers"])) and key not in only:
                 continue
             try:
+                for more in TERMS[src["terms"]].get("also", []):
+                    fetch_terms(sess, args.raw_dir, src["source"], more)
                 terms = fetch_terms(sess, args.raw_dir, src["source"], src["terms"])
                 fetch(sess, args.raw_dir, src["source"], ";".join(src["layers"]), src["url"], src["file"], terms)
             except Exception as e:  # a pull that fails is recorded with its exact error and left
@@ -1500,6 +1513,9 @@ def write_method_doc(manifest, path=METHOD_DOC):
                 f"{c['value']}: {c['label']}" for c in l["classes"]) + ".")
         out.append(f"- **Terms.** <{l['terms_url']}> (saved as `{l['terms_file']}`, sha256 "
                    f"`{l['terms_sha256'][:16]}`): \"{l['terms_quote']}\"")
+        for t in l.get("terms_also", []):
+            out.append(f"  Also <{t['url']}> (saved as `{t['file']}`, sha256 `{t['sha256'][:16]}`): "
+                       f"\"{t['quote']}\"")
         if l.get("terms_in_file"):
             out.append(f"- **The file's own notice.** \"{l['terms_in_file']}\"")
         if l.get("terms_notice"):
@@ -1772,6 +1788,11 @@ def check_terms(raw_dir, manifest):
         for q in l.get("terms_quotes", [l["terms_quote"]]):
             if re.sub(r"\s+", " ", q).strip() not in text:
                 log(f"terms check {l['id']}: NOT FOUND word for word: {q[:80]}")
+                bad.append(l["id"])
+        for a in l.get("terms_also", []):
+            p2 = os.path.join(raw_dir, a["file"])
+            if not os.path.exists(p2) or re.sub(r"\s+", " ", a["quote"]).strip() not in html_text(p2):
+                log(f"terms check {l['id']}: NOT FOUND in {a['file']}: {a['quote'][:80]}")
                 bad.append(l["id"])
     if not bad:
         log(f"terms check: every quote of {len(man['layers'])} layers is in its saved page")

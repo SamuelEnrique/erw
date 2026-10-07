@@ -366,6 +366,10 @@ class TestManifest(unittest.TestCase):
                 for q in l["terms_quotes"]:
                     self.assertIn(" ".join(q.split()), text)
                     self.assertIn(q, l["terms_quote"])
+                for a in l.get("terms_also", []):
+                    p2 = os.path.join(RAW, a["file"])
+                    self.assertEqual(rl.sha256_file(p2), a["sha256"])
+                    self.assertIn(" ".join(a["quote"].split()), rl.html_text(p2))
 
 
 class TestTables(unittest.TestCase):

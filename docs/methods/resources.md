@@ -210,6 +210,7 @@ described, one entry a layer, in `site/data/resources/manifest.json`.
 - **Reduction.** coordinates to 4 decimals (about 10 m), so that a narrow easement keeps its shape; no other simplification; no feature dropped.
 - **Web file.** `offshore_wind_leases.json`, 208,263 bytes, 51 features. area of the lease (the source's ACRES), in acres: minimum 578, mean 75,124, maximum 176,505 over 46 features.
 - **Terms.** <https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data> (saved as `boem/terms/boem_renewable_energy_gis_data.html`, sha256 `f337e0627c8370d8`): "Note to users: Data downloaded from this site is to be used for informational and planning purposes only."
+  Also <https://www.doi.gov/copyright> (saved as `boem/terms/doi_copyright.html`, sha256 `6d3ba323adc7d2a4`): "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission. However, not all materials appearing on this web site are in the public domain."
 
 ## Offshore wind planning areas (rescinded July 30, 2025) (`offshore_wind_planning_areas`)
 
@@ -221,6 +222,7 @@ described, one entry a layer, in `site/data/resources/manifest.json`.
 - **Reduction.** coordinates to 4 decimals (about 10 m), so that a narrow easement keeps its shape; no other simplification; no feature dropped.
 - **Web file.** `offshore_wind_planning_areas.json`, 82,679 bytes, 18 features.
 - **Terms.** <https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data> (saved as `boem/terms/boem_renewable_energy_gis_data.html`, sha256 `f337e0627c8370d8`): "Note to users: Data downloaded from this site is to be used for informational and planning purposes only."
+  Also <https://www.doi.gov/copyright> (saved as `boem/terms/doi_copyright.html`, sha256 `6d3ba323adc7d2a4`): "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission. However, not all materials appearing on this web site are in the public domain."
 
 ## Not held
 

@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-07T21:59:03Z",
+ "built_at_utc": "2026-10-07T22:07:49Z",
  "layers": [
   {
    "id": "wind_speed_100m",
@@ -1164,6 +1164,14 @@
    "source_file": "boem/boem-renewable-energy-shapefiles.zip",
    "source_bytes": 1031812,
    "source_sha256": "47c5f33f5d16cede3295394fb54549fbbfc5b7f80f25acf073275939d1404a0b",
+   "terms_also": [
+    {
+     "url": "https://www.doi.gov/copyright",
+     "file": "boem/terms/doi_copyright.html",
+     "quote": "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission. However, not all materials appearing on this web site are in the public domain.",
+     "sha256": "6d3ba323adc7d2a4a96eb0fcc1a31e438c3e34a2ea1e21dae16085be5a0f232e"
+    }
+   ],
    "unit": "acres",
    "value_label": "area of the lease (the source's ACRES)",
    "publisher": "Bureau of Ocean Energy Management (BOEM)",
@@ -1214,6 +1222,14 @@
    "source_file": "boem/Wind_Planning_Area_Boundaries_layer0.geojson",
    "source_bytes": 131232,
    "source_sha256": "bc0623cee11e64bbc6ac4143265a175d8442b02d825cc0df517c084206ee7b33",
+   "terms_also": [
+    {
+     "url": "https://www.doi.gov/copyright",
+     "file": "boem/terms/doi_copyright.html",
+     "quote": "Generally, materials produced by federal agencies are in the public domain and may be reproduced without permission. However, not all materials appearing on this web site are in the public domain.",
+     "sha256": "6d3ba323adc7d2a4a96eb0fcc1a31e438c3e34a2ea1e21dae16085be5a0f232e"
+    }
+   ],
    "unit": "",
    "value_label": "no quantity in the source",
    "publisher": "Bureau of Ocean Energy Management (BOEM)",
