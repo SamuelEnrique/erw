@@ -95,6 +95,7 @@ TIER_RULES = [
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     # session 138: tariff and Commission figures read by a model, each kept only with its line found on the page
     ("model_extracted", r"^texas_delivery_charges$"),
+    ("model_extracted", r"^texas_transmission_matrix$"),  # session 140: the Commission's transmission charge matrices, read the same way
     # session 139: statements of large load waiting for power, collected by an AI research agent with web search, each
     # kept only with its sentence found in the document
     ("model_extracted", r"^large_load_statements$"),
@@ -143,6 +144,11 @@ SECTOR_RULES = [
     (r"^(ercot_zone|nyiso_zone|isone_zone|caiso_area)_load_hourly$", "power"),
     # session 138: Texas wires utilities' delivery charges for a load at transmission voltage (internal)
     (r"^texas_delivery_charges$", "power"),
+    # session 140: the Commission's transmission charge matrices (internal); the load zone and zone price histories
+    (r"^texas_transmission_matrix$", "power"),
+    (r"^(ercot_zone_prices_history|iso_zone_prices_history|isone_zone_prices_history)$", "power"),
+    # session 144: ERCOT's hourly wind and solar output with the high sustained limit, and the monthly estimate from it
+    (r"^ercot_wind_solar_(hsl_hourly|hsl_monthly|output_hourly)$", "power"),
     # session 139: the large-load statements pilot (internal)
     (r"^large_load_statements$", "power"),
     (r"^news_", "news"),
@@ -165,6 +171,7 @@ SECTOR_RULES = [
     # session 17: written only if ERCOT publishes a request-level list (warehouse/connectors/ercot_large_load.py)
     (r"^ercot_large_load_queue$", "power;datacenters"),
     (r"^ercot_large_load_status$", "power;datacenters"),  # session 106: the figures ERCOT's monthly status update states in words
+    (r"^nyiso_load_queue$", "power;datacenters"),  # session 140: NYISO's load interconnection requests, by zone
     # session 18: the energy mix explorer (21), the curtailment tracker (22), consumption by sector (23)
     (r"^(eia_state_generation_monthly|state_generation_mix_monthly)$", "power"),
     (r"^((caiso|spp)_curtailment_daily|ercot_wind_solar_hsl_daily|iso_curtailment_monthly)$", "power"),
@@ -275,6 +282,8 @@ def iso_of(table):
         return "ISO-NE;MISO;NYISO;PJM"
     if table == "iso_hub_prices_history":  # session 49: the five ISOs' main hubs (ERCOT's history is its own table)
         return "CAISO;ISO-NE;MISO;NYISO;SPP"
+    if table == "iso_zone_prices_history":  # session 140: NYISO's zones, CAISO's ZP26 and SPP South (ISO-NE's are isone_zone_prices_history, internal)
+        return "CAISO;NYISO;SPP"
     if table in ("eia930_all_history", "noaa_isd_hourly"):  # session 49: the seven ISO BAs, and their weather stations
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
     if table == "rrc_lease_production_monthly":  # session 49: Texas leases, no ISO

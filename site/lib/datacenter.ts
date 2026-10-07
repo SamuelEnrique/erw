@@ -10,9 +10,11 @@ export type Series = { s: number; v: (number | null)[] };
 export type YearFile = {
   grid: string; year: number; hours: number; built: string; regions: Record<string, { rt?: Series; da?: Series }>;
   peak_mw?: number; peak_hour?: number; tight?: number[]; demand_mean_mw?: number;
+  clean?: Series;  // session 140: the carbon-free share of the grid's generation by hour, percent (clean_energy_hourly)
 };
 export type Side = { hours: number; first: string; last: string; basis: string; tables: string[] };
-export type Region = { id: string; entity: string; rt?: Side; da?: Side };
+/** `kind`, `ref` and `name` (session 140): a load zone is where a load settles; `ref` is the trading hub shown beside it. */
+export type Region = { id: string; entity: string; rt?: Side; da?: Side; kind?: "zone" | "hub"; ref?: string; name?: string };
 export type DemandYear = { hours_held: number; hours_due: number; peak_mw?: number; peak_hour?: number; tight_hours?: number; mean_mw?: number; whole?: boolean };
 export type ZoneYear = { mean_mw: number; peak_mw: number; hours_held: number; hours_due: number };
 export type GridIndex = {
@@ -281,3 +283,173 @@ export function whenOf(y: number, hours: number[]): { months: number[]; from: nu
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const monthsWords = (ms: number[]) => ms.map((m) => MON[m - 1]).join(", ");
 export const hh = (h: number) => `${String(h % 24).padStart(2, "0")}:00`;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Session 140: the flexible load judged on a forecast, not on hindsight; and the load's own hours against clean
+// generation. weights() above chooses a load's hours knowing the whole year's prices ("if perfectly foreseen").
+// ruleWeights() below is a rule an operator could follow: every decision for an hour rests on prices published before
+// that hour begins, and never on the price the hour settles at.
+//
+//   hours, share   the load is off in an hour when the hour's DAY-AHEAD price (published the day before) is at or
+//                  above a threshold fixed before the day begins: the k-th dearest hourly day-ahead price of the PRIOR
+//                  days (the 30 days that end where the day begins), with k the share of hours to shed times the hours
+//                  held of those days (at least 1). A day whose prior days are not held (under NEAR of their hours) is
+//                  not decided: the load runs. The load has a budget: the hours a year the reader named (or the
+//                  share of the year's hours). Once a calendar year's budget is used the load runs for the rest of
+//                  that year; on a day with more hours at or above the threshold than are left, the dearest day-ahead
+//                  hours are taken first. So the load is never off in more hours than the reader asked for, and the
+//                  figure "if perfectly foreseen" (the same number of hours, chosen knowing the year) is never worse.
+//   shift          each whole day, the energy moves out of the day's dearest DAY-AHEAD hours into its cheapest
+//                  day-ahead hours (the N dearest and N cheapest day-ahead hours of each day, N = 24 x shift / 100).
+//                  A day with a day-ahead hour missing is not shifted.
+// What the load pays is the price of the market it buys in (real time or day-ahead) in the hours it runs.
+// ---------------------------------------------------------------------------------------------------------------------
+
+export const PRIOR_DAYS = 30;
+export type Rule = "forecast" | "hindsight";
+export type Flex = Pick<Inputs, "run" | "n" | "pct" | "shift">;
+/** The share of hours a load that turns off means to shed. */
+export const shedShare = (x: Flex) => (x.run === "hours" ? Math.min(1, x.n / 8760) : x.run === "share" ? Math.min(1, x.pct / 100) : 0);
+/** The rank the threshold stands at: the k-th dearest of `held` prior hours. 0: never off. */
+export function shedRank(x: Flex, held: number): number {
+  const q = shedShare(x);
+  if (q <= 0 || held <= 0) return 0;
+  return Math.min(held, Math.max(1, Math.round(q * held)));
+}
+
+/** The threshold of each day of consecutive years of day-ahead prices, for a load that turns off: the k-th dearest
+ * hourly day-ahead price of the PRIOR_DAYS days before the day; null for a day that is not decided (its prior days
+ * are not held, or the load sheds nothing). A day's threshold reads no price of that day or of any later day. */
+export function ruleThresholds(da: (number | null)[][], x: Flex): (number | null)[][] {
+  const starts: number[] = [];
+  let total = 0;
+  for (const d of da) { starts.push(total); total += d.length; }
+  const all: (number | null)[] = new Array(total);
+  for (let y = 0; y < da.length; y++) for (let i = 0; i < da[y].length; i++) all[starts[y] + i] = da[y][i];
+  const span30 = 24 * PRIOR_DAYS;
+  return da.map((year, y) => {
+    const out: (number | null)[] = [];
+    for (let d = 0; d + 24 <= year.length; d += 24) {
+      const g = starts[y] + d;  // the day's first hour, counted from the first year's first hour
+      const prior: number[] = [];
+      for (let i = Math.max(0, g - span30); i < g; i++) { const v = all[i]; if (v !== null && v !== undefined) prior.push(v); }
+      if (g < span30 || prior.length < NEAR * span30) { out.push(null); continue; }
+      const k = shedRank(x, prior.length);
+      if (k === 0) { out.push(null); continue; }
+      prior.sort((a, b) => b - a);
+      out.push(prior[k - 1]);
+    }
+    return out;
+  });
+}
+/** The hours a load that turns off may be off in a year of `hours` hours: the hours a year the reader named, or the
+ * named share of the year's hours. */
+export const shedBudget = (x: Flex, hours: number) => Math.round(shedShare(x) * hours);
+
+/** The forecast rule over consecutive years. `pay` and `da` are each year's hourly prices of the market bought in and
+ * of the day-ahead market (the same arrays when the load buys day-ahead), one entry an hour, null where not held; the
+ * years must be consecutive and oldest first (a year not held is passed as nulls). Returns each year's weights, and
+ * for each year the days decided and not decided. The decision for hour h reads da[h], the day-ahead prices of the
+ * hours before h's day and how many hours the load has already been off this year; of pay[] it reads only whether the
+ * hour is held, never a price. `cap` false leaves out the year's budget of hours (the threshold alone: the load may
+ * then be off in more hours than the reader named); the page uses the budget, and scripts/rule-gap.mjs reports both. */
+export function ruleWeights(pay: (number | null)[][], da: (number | null)[][], x: Flex, cap = true): { w: number[][]; decided: number[]; undecided: number[] } {
+  const w = pay.map((p) => p.map((v) => (v === null ? 0 : 1)));
+  const decided = pay.map(() => 0), undecided = pay.map(() => 0);
+  if (x.run === "flat") return { w, decided, undecided };
+  if (x.run === "shift") {
+    const h = (24 * Math.min(50, Math.max(0, x.shift))) / 100, whole = Math.floor(h), part = h - whole;
+    for (let y = 0; y < da.length; y++) for (let d = 0; d + 24 <= da[y].length; d += 24) {
+      const idx: number[] = [];
+      let payHeld = 0;
+      for (let i = d; i < d + 24; i++) { if (da[y][i] !== null) idx.push(i); if (pay[y][i] !== null) payHeld++; }
+      if (idx.length < 24 || payHeld < 24) { undecided[y]++; continue; }
+      decided[y]++;
+      idx.sort((a, b) => (da[y][b] as number) - (da[y][a] as number) || a - b);  // dearest day-ahead hour first
+      for (let j = 0; j < whole; j++) { w[y][idx[j]] -= 1; w[y][idx[23 - j]] += 1; }
+      if (part > 0) { w[y][idx[whole]] -= part; w[y][idx[23 - whole]] += part; }
+    }
+    return { w, decided, undecided };
+  }
+  const thresholds = ruleThresholds(da, x);
+  for (let y = 0; y < da.length; y++) {
+    let left = cap ? shedBudget(x, pay[y].length) : Infinity;  // the year's hours still to be used
+    for (let d = 0, n = 0; d + 24 <= da[y].length; d += 24, n++) {
+      const threshold = thresholds[y][n];
+      if (threshold === null) { undecided[y]++; continue; }
+      decided[y]++;
+      if (left <= 0) continue;
+      const over: number[] = [];
+      for (let i = d; i < d + 24; i++) { const v = da[y][i]; if (v !== null && v >= threshold && pay[y][i] !== null) over.push(i); }
+      over.sort((a, b) => (da[y][b] as number) - (da[y][a] as number) || a - b);  // the dearest day-ahead hour first
+      for (const i of over.slice(0, left)) w[y][i] = 0;
+      left -= Math.min(left, over.length);
+    }
+  }
+  return { w, decided, undecided };
+}
+
+/** The files of a grid as consecutive years, oldest first: a year between two held that has no file is an empty one. */
+function consecutive(files: YearFile[]): YearFile[] {
+  const sorted = [...files].sort((a, b) => a.year - b.year);
+  if (!sorted.length) return [];
+  const by = new Map(sorted.map((f) => [f.year, f]));
+  const out: YearFile[] = [];
+  for (let y = sorted[0].year; y <= sorted[sorted.length - 1].year; y++) out.push(by.get(y) ?? { grid: sorted[0].grid, year: y, hours: hoursIn(y), built: "", regions: {} });
+  return out;
+}
+export type Ruled = { months: Month[]; weights: Map<number, number[]>; prices: Map<number, (number | null)[]>; decided: number; undecided: number; da: boolean };
+/** Every month held of a region and market for a load under a rule, oldest first, with each year's weights and prices.
+ * Under "forecast" a load that is not flat needs the region's day-ahead prices: `da` is false when none is held, and
+ * then no month is returned. */
+export function monthsRuled(files: YearFile[], region: string, buy: Buy, x: Flex, rule: Rule): Ruled {
+  const ys = consecutive(files);
+  const pay = ys.map((f) => expand(f, region, buy));
+  const weightsBy = new Map<number, number[]>(), prices = new Map<number, (number | null)[]>();
+  let decided = 0, undecided = 0, w: number[][];
+  const haveDa = ys.some((f) => f.regions[region]?.da);
+  if (rule === "hindsight" || x.run === "flat") w = pay.map((p) => weights(p, x));
+  else {
+    if (!haveDa) return { months: [], weights: weightsBy, prices, decided: 0, undecided: 0, da: false };
+    const r = ruleWeights(pay, buy === "da" ? pay : ys.map((f) => expand(f, region, "da")), x);
+    w = r.w; decided = r.decided.reduce((a, v) => a + v, 0); undecided = r.undecided.reduce((a, v) => a + v, 0);
+  }
+  const months: Month[] = [];
+  ys.forEach((f, i) => { weightsBy.set(f.year, w[i]); prices.set(f.year, pay[i]); months.push(...monthsOfYear(f.year, pay[i], w[i], f.tight)); });
+  return { months, weights: weightsBy, prices, decided, undecided, da: haveDa };
+}
+
+export function ordinal(k: number): string {
+  const t = k % 100, u = k % 10;
+  return `${k}${t >= 11 && t <= 13 ? "th" : u === 1 ? "st" : u === 2 ? "nd" : u === 3 ? "rd" : "th"}`;
+}
+/** The rule in words, for a hover: what the load does and what it knows when it decides. */
+export function ruleWords(x: Flex): string {
+  if (x.run === "flat") return "";
+  if (x.run === "shift") {
+    const n = ((24 * Math.min(50, Math.max(0, x.shift))) / 100).toLocaleString("en-US", { maximumFractionDigits: 1 });
+    return `Each day the load moves energy out of that day's ${n} dearest day-ahead hours into its ${n} cheapest day-ahead hours. Day-ahead prices are published the day before, so the load knows them when it decides. It pays the price of the market it buys in.`;
+  }
+  const k = shedRank(x, 24 * PRIOR_DAYS);
+  const budget = x.run === "hours" ? `${x.n.toLocaleString("en-US")} hours` : `${x.pct} percent of its hours`;
+  return `The load is off in an hour when that hour's day-ahead price, published the day before, is at or above the ${ordinal(k)} dearest hourly day-ahead price of the prior ${PRIOR_DAYS} days (${24 * PRIOR_DAYS} hours), until it has been off in ${budget} of the calendar year; on a day with more such hours than are left, the dearest day-ahead hours first. It decides before the hour and never sees the price the hour settles at. A day whose prior ${PRIOR_DAYS} days are not held is not decided: the load runs.`;
+}
+
+/** The carbon-free share of the grid's generation in the hours a load runs: the mean of the hours' shares weighted by
+ * the load in each hour, over the hours where the price and the share are both held; and a flat load's over the same
+ * hours. Shares are percent. Null when no such hour is held. */
+export function cleanShare(clean: (number | null)[], p: (number | null)[], w: number[]): { load: number | null; flat: number | null; hours: number; energy: number } {
+  let sw = 0, se = 0, sf = 0, n = 0;
+  for (let i = 0; i < clean.length && i < p.length; i++) {
+    const c = clean[i];
+    if (c === null || c === undefined || p[i] === null) continue;
+    n++; sf += c; sw += c * w[i]; se += w[i];
+  }
+  return { load: se > 0 ? sw / se : null, flat: n ? sf / n : null, hours: n, energy: se };
+}
+/** A year's hourly list from a stored series (the grid's carbon-free share), null where not held. */
+export function expandSeries(s: Series | undefined, hours: number): (number | null)[] {
+  const out: (number | null)[] = Array(hours).fill(null);
+  if (s) for (let i = 0; i < s.v.length; i++) out[s.s + i] = s.v[i];
+  return out;
+}

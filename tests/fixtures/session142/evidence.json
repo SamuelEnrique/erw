@@ -1,0 +1,1552 @@
+{
+ "about": "Saved real evidence of the Thesis Builder runs of session 142 (7 October 2026), cut down to a few companies by runs/session142/make_fixture.py. Web sources by address with the title the search returned; reported sentences as the run saved them; warehouse rows as the tables held them that day. Internal: not a public table.",
+ "from_state": "runs/session142/final/run3.json",
+ "from_store": "runs/session142/final/evidence/geothermal-mapping-and-sensing__united-states__startups.json",
+ "store": {
+  "geography": "United States",
+  "last": null,
+  "niche": "geothermal mapping and sensing, the technologies for finding and characterizing new geothermal resources (subsurface imaging, geophysics, machine-learning prospecting, drilling-data analytics), not geothermal power in general",
+  "quotes": [
+   {
+    "address": "https://heatmap.news/climate-tech/ai-geothermal-discovery",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "key": "zanskar geothermal minerals",
+    "sha": "2adef56b7e33cb96",
+    "text": "By combining exclusive data on the subsurface of the region with AI-driven analysis, the company identified a promising new drilling site, striking what has now become the most productive pumped geothermal well in the U.S."
+   },
+   {
+    "address": "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "key": "zanskar geothermal minerals",
+    "sha": "c598b69f392b930f",
+    "text": "They are Fervo Energy, Zanskar Geothermal, AlterG Resources, Quaise Energy and the University of Utah."
+   },
+   {
+    "address": "https://venturewell.org/rose-rock-ascend-2024/",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "key": "geothermal radar",
+    "sha": "c3538e9426bf22d0",
+    "text": "Geothermal Radar is developing a digital modeling system that connects subsurface and industrial data with geothermal models for real-time simulation, valuation, and feasibility assessment."
+   },
+   {
+    "address": "https://bizwest.com/2024/02/06/innosphere-ventures-selects-2024-cleantech-cohort/",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "key": "thermofilic",
+    "sha": "86b49590d7d15f08",
+    "text": "Thermofilic, led by CEO Sebnem Duzgun, has created an artificial intelligence-based prediction system that supports investment decisions in geothermal energy by using remote sensing data and other data types to scan large areas that produce accurate and targeted footprints of potential subsurface geothermal resources."
+   },
+   {
+    "address": "https://www.businesswire.com/news/home/20221122005787/en/Edens-Electrical-Reservoir-StimulationTM-Technology-Selected-for-%243.5M-ARPA-E-MINER-Award",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "key": "eden",
+    "sha": "d6f04a20fb3e267c",
+    "text": "The company is supported by Good Growth Capital, Ameren, NSF-SBIR, and DOE ARPA-E."
+   },
+   {
+    "address": "https://attheu.utah.edu/research/university-startups/u-spinout-launches-to-support-next-generation-geothermal-development/",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "key": "geothermal strategy partners",
+    "sha": "178dcbde1969da8e",
+    "text": "GSP specializes in risk assessment and analysis across all phases of geothermal project development."
+   },
+   {
+    "address": "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "key": "quaise energy",
+    "sha": "d4d56d758736a819",
+    "text": "Developer Quaise Energy was awarded up to $25 million in funding from DOE to advance its superhot geothermal power plant, 50-MW Project Obsidian, in Central Oregon."
+   },
+   {
+    "address": "https://energycapitalhtx.com/fervo-quaise-xgs-geothermaldoe-funding",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "key": "xgs energy",
+    "sha": "5d055817a257d2d5",
+    "text": "Three Houston-based companies\u2014Fervo Energy, Quaise Energy and XGS Energy\u2014have been selected by the U.S. Department of Energy to advance geothermal technologies and field tests."
+   },
+   {
+    "address": "https://www.esgtoday.com/geothermal-tech-startup-bedrock-raises-12-million-to-scale-carbon-free-hvac-for-buildings/",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "key": "bedrock energy",
+    "sha": "bead18f50ebb5b2a",
+    "text": "The company\u2019s technology combines autonomous drilling and advanced subsurface modeling, substantially increasing the speed and space efficiency of geothermal projects, enabling the use of geothermal HVAC in dense, urban locations."
+   },
+   {
+    "address": "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093803Z-6e3b11",
+    "key": "quaise energy",
+    "sha": "c598b69f392b930f",
+    "text": "They are Fervo Energy, Zanskar Geothermal, AlterG Resources, Quaise Energy and the University of Utah."
+   },
+   {
+    "address": "https://www.cnn.com/2025/12/12/climate/blind-geothermal-clean-energy-discovery",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T094334Z-89faf0",
+    "key": "zanskar geothermal minerals",
+    "sha": "c99390357e239feb",
+    "text": "Geothermal startup, Zanskar, has used AI to discover a hidden geothermal reserve underneath the desert in western Nevada."
+   },
+   {
+    "address": "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T094334Z-89faf0",
+    "key": "xgs energy",
+    "sha": "c7f245caca34ef68",
+    "text": "US geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States."
+   },
+   {
+    "address": "https://www.che.utah.edu/u-spinout-launches-to-support-next-generation-geothermal-development/",
+    "fetched": "2026-10-07",
+    "first_run": "20261007T094334Z-89faf0",
+    "key": "geothermal strategy partners",
+    "sha": "178dcbde1969da8e",
+    "text": "GSP specializes in risk assessment and analysis across all phases of geothermal project development."
+   }
+  ],
+  "rows": [
+   {
+    "key": "zanskar geothermal minerals",
+    "row": {
+     "country": "United States",
+     "description": "AI-driven geothermal exploration company that analyzes subsurface data with machine learning to find geothermal heat resources before drilling.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q1",
+      "Q11",
+      "E10",
+      "E27",
+      "E42",
+      "E57"
+     ],
+     "founders": "Carl Hoiland, Joel Edwards",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "Salt Lake City, Utah",
+     "name": "Zanskar Geothermal & Minerals",
+     "raised": "$115 million Series C (announced 2026-01-21), bringing total equity funding to date to $180 million",
+     "raised_primary": true,
+     "signal": "Series C round led by Spring Lane Capital, 2026-01-21",
+     "source_urls": [
+      "erw:energy_companies/Zanskar Geothermal & Minerals",
+      "https://finance.yahoo.com/news/zanskar-raises-115m-series-c-130000291.html",
+      "https://heatmap.news/climate-tech/ai-geothermal-discovery",
+      "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal"
+     ],
+     "stage": "Series C",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      1,
+      3
+     ],
+     "website": "zanskar.com"
+    },
+    "run_id": "20261007T093046Z-d2db7c",
+    "seq": 1
+   },
+   {
+    "key": "geothermal radar",
+    "row": {
+     "country": "United States",
+     "description": "Startup developing a digital modeling system linking subsurface and industrial data with geothermal models for simulation and valuation.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q5"
+     ],
+     "founders": "not disclosed",
+     "kind": "private company",
+     "latest_source_year": "2024",
+     "location": "Austin, Texas",
+     "name": "Geothermal Radar",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "2024 Rose Rock Ascend cohort",
+     "source_urls": [
+      "https://venturewell.org/rose-rock-ascend-2024/"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T093046Z-d2db7c",
+    "seq": 1
+   },
+   {
+    "key": "thermofilic",
+    "row": {
+     "country": "United States",
+     "description": "AI prediction system using remote sensing data to support geothermal investment decisions.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q5"
+     ],
+     "founders": "not disclosed (CEO Sebnem Duzgun)",
+     "kind": "private company",
+     "latest_source_year": "2024",
+     "location": "Golden, Colorado",
+     "name": "Thermofilic",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "2024 Rose Rock Ascend cohort and 2024 Innosphere incubator cohort",
+     "source_urls": [
+      "https://bizwest.com/2024/02/06/innosphere-ventures-selects-2024-cleantech-cohort/",
+      "https://venturewell.org/rose-rock-ascend-2024/"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      1,
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T093046Z-d2db7c",
+    "seq": 1
+   },
+   {
+    "key": "eden",
+    "row": {
+     "country": "United States",
+     "description": "Reservoir permeability and characterization techniques company; mostly minerals, geothermal secondary.",
+     "fits_stage": "not stated",
+     "found_by": [
+      "Q4"
+     ],
+     "founders": "not disclosed",
+     "kind": "private company",
+     "latest_source_year": "2022",
+     "location": "Somerville, Massachusetts",
+     "name": "Eden",
+     "raised": "ARPA-E awards $3,517,450 and $3.8M",
+     "raised_primary": false,
+     "signal": "ARPA-E MINER award",
+     "source_urls": [
+      "https://www.businesswire.com/news/home/20221122005787/en/Edens-Electrical-Reservoir-StimulationTM-Technology-Selected-for-%243.5M-ARPA-E-MINER-Award"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      3
+     ],
+     "website": "edengeopower.com"
+    },
+    "run_id": "20261007T093046Z-d2db7c",
+    "seq": 1
+   },
+   {
+    "key": "geothermal strategy partners",
+    "row": {
+     "country": "not stated",
+     "description": "University of Utah spinout offering independent risk assessment for enhanced geothermal development.",
+     "fits_stage": "not stated",
+     "found_by": [
+      "Q6"
+     ],
+     "founders": "Milind Deo",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "not disclosed",
+     "name": "Geothermal Strategy Partners (GSP)",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "Spinout launch",
+     "source_urls": [
+      "https://attheu.utah.edu/research/university-startups/u-spinout-launches-to-support-next-generation-geothermal-development/"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T093046Z-d2db7c",
+    "seq": 1
+   },
+   {
+    "key": "quaise energy",
+    "row": {
+     "country": "United States",
+     "description": "Developing millimeter-wave deep drilling to reach superhot rock.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q1",
+      "E10",
+      "E24",
+      "E54"
+     ],
+     "founders": "Carlos Araque (CEO), spun out of MIT in 2018",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "Houston",
+     "name": "Quaise Energy",
+     "raised": "$180M Series B final close (2026-08-27), with $35M from Nabors; total funding $280M; first close was $134M (2026-07-07)",
+     "raised_primary": false,
+     "signal": "DOE award of up to $25 million",
+     "source_urls": [
+      "erw:energy_companies/Quaise Energy",
+      "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal"
+     ],
+     "stage": "Series B",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      3
+     ],
+     "website": "quaise.com"
+    },
+    "run_id": "20261007T093046Z-d2db7c",
+    "seq": 1
+   },
+   {
+    "key": "xgs energy",
+    "row": {
+     "country": "United States",
+     "description": "Heat-harvesting geothermal technology drilling a single directional well into rock at 250 degrees C or higher.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q12",
+      "E10",
+      "E26",
+      "E56"
+     ],
+     "founders": "Led by CEO Josh Prueher, COO Ghazal Izadi and CTO Axel-Pierre Bois",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "Palo Alto, California per E56; Houston per energycapitalhtx.com",
+     "name": "XGS Energy",
+     "raised": "Has raised $56.7 million across 4 funding rounds",
+     "raised_primary": false,
+     "signal": "DOE award",
+     "source_urls": [
+      "erw:energy_companies/XGS Energy",
+      "https://energycapitalhtx.com/fervo-quaise-xgs-geothermaldoe-funding"
+     ],
+     "stage": "Series A (extended)",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      3
+     ],
+     "website": "xgsenergy.com"
+    },
+    "run_id": "20261007T093046Z-d2db7c",
+    "seq": 1
+   },
+   {
+    "key": "bedrock energy",
+    "row": {
+     "country": "United States",
+     "description": "Ground-source geothermal design and drilling combining autonomous drilling and subsurface modeling; adjacent to the niche.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q14",
+      "E10",
+      "E19",
+      "E49"
+     ],
+     "founders": "Joselyn Lai (CEO), Silviu Livescu (CTO)",
+     "kind": "private company",
+     "latest_source_year": "2025",
+     "location": "Austin, Texas",
+     "name": "Bedrock Energy",
+     "raised": "$8.5 million seed led by Wireframe Ventures (2023-10-11); $12 million Series A led by Titanium Ventures, with Energy Impact Partners and Sustainable Future Ventures (2025-01)",
+     "raised_primary": false,
+     "signal": "Series A round",
+     "source_urls": [
+      "erw:energy_companies/Bedrock Energy",
+      "https://www.esgtoday.com/geothermal-tech-startup-bedrock-raises-12-million-to-scale-carbon-free-hvac-for-buildings/"
+     ],
+     "stage": "Series A",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T093046Z-d2db7c",
+    "seq": 1
+   },
+   {
+    "key": "zanskar geothermal minerals",
+    "row": {
+     "country": "United States",
+     "description": "AI-driven geothermal exploration: machine learning plus acoustic and seismic imaging to find heat resources before drilling.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q1",
+      "Q2",
+      "Q7",
+      "Q8",
+      "Q11",
+      "Q12",
+      "E27",
+      "E57"
+     ],
+     "founders": "Carl Hoiland, Joel Edwards",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "Salt Lake City, Utah",
+     "name": "Zanskar Geothermal & Minerals",
+     "raised": "$115 million Series C (announced 2026-01-21), total equity funding to date $180 million",
+     "raised_primary": true,
+     "signal": "Blind geothermal discovery in western Nevada, then the Series C",
+     "source_urls": [
+      "erw:energy_companies/Zanskar Geothermal & Minerals",
+      "https://heatmap.news/climate-tech/ai-geothermal-discovery",
+      "https://heatmap.news/climate-tech/zanskar-series-c",
+      "https://us.cnn.com/2025/12/12/climate/blind-geothermal-clean-energy-discovery",
+      "https://www.ctvc.co/the-heat-beneath-our-feet/",
+      "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal",
+      "https://www.esgtoday.com/geothermal-startup-zanskar-raises-115-million-to-find-and-develop-carbon-free-energy-using-ai/",
+      "https://www.globenewswire.com/news-release/2026/01/21/3222733/0/en/Zanskar-raises-115M-Series-C-Following-Record-Setting-Year-of-Geothermal-Discoveries.html",
+      "https://www.utahbusiness.com/press-releases/2026/01/23/zanskar-raises-115-million-series-c-following-year-geothermal-discoveries/",
+      "https://zanskar.com/"
+     ],
+     "stage": "Series C",
+     "stage_primary": true,
+     "tam": "",
+     "trends": [
+      1,
+      3,
+      5
+     ],
+     "website": "zanskar.com"
+    },
+    "run_id": "20261007T093803Z-6e3b11",
+    "seq": 2
+   },
+   {
+    "key": "quaise energy",
+    "row": {
+     "country": "United States",
+     "description": "Millimeter-wave deep drilling to reach superhot rock; a drilling company, not a mapping company.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q1",
+      "Q3",
+      "Q12",
+      "E24"
+     ],
+     "founders": "Carlos Araque (CEO), spun out of MIT in 2018",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "Houston (CTVC says Cambridge, MA)",
+     "name": "Quaise Energy",
+     "raised": "$180M Series B final close (2026-08-27); total funding $280M",
+     "raised_primary": false,
+     "signal": "Up to $25 million DOE award for Project Obsidian in Central Oregon",
+     "source_urls": [
+      "erw:energy_companies/Quaise Energy",
+      "https://www.businesswire.com/news/home/20260922715014/en/Quaise-Energy-Selected-for-Up-to-$25-Million-in-U.S.-Department-of-Energy-Support-to-Advance-Worlds-First-Commercial-Superhot-Geothermal-Power-Plant",
+      "https://www.ctvc.co/the-heat-beneath-our-feet/",
+      "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal",
+      "https://www.quaise.com/news/quaise-energy-selected-for-up-to-25-million-in-u-s-department-of-energy-support-to-advance-worlds-first-commercial-superhot-geothermal-power-plant"
+     ],
+     "stage": "Series B",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      3
+     ],
+     "website": "quaise.com"
+    },
+    "run_id": "20261007T093803Z-6e3b11",
+    "seq": 2
+   },
+   {
+    "key": "xgs energy",
+    "row": {
+     "country": "United States",
+     "description": "Heat-harvesting geothermal: one directional well into rock at 250 degrees C or higher; not a mapping company.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q1",
+      "Q12",
+      "Q14",
+      "E26"
+     ],
+     "founders": "Led by CEO Josh Prueher, COO Ghazal Izadi and CTO Axel-Pierre Bois",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "Houston per Energy Capital; Palo Alto, California per E26",
+     "name": "XGS Energy",
+     "raised": "$56.7 million across 4 funding rounds (E26); USD 19m in a rebranded round (S248)",
+     "raised_primary": false,
+     "signal": "DOE funding to drill a deep appraisal well in New Mexico",
+     "source_urls": [
+      "erw:energy_companies/XGS Energy",
+      "https://energycapitalhtx.com/fervo-quaise-xgs-geothermaldoe-funding",
+      "https://renewablesnow.com/news/rebranded-us-geothermal-tech-developer-xgs-raises-usd-19m-816713/",
+      "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/"
+     ],
+     "stage": "Series A (extended)",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      3
+     ],
+     "website": "xgsenergy.com"
+    },
+    "run_id": "20261007T093803Z-6e3b11",
+    "seq": 2
+   },
+   {
+    "key": "geothermal radar",
+    "row": {
+     "country": "United States",
+     "description": "Digital modelling linking subsurface and industrial data to geothermal models for simulation, valuation and feasibility.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q5",
+      "Q13"
+     ],
+     "founders": "not disclosed",
+     "kind": "private company",
+     "latest_source_year": "2024",
+     "location": "Austin, Texas",
+     "name": "Geothermal Radar",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "Rose Rock Ascend 2024 cohort",
+     "source_urls": [
+      "https://venturewell.org/rose-rock-ascend-2024/"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T093803Z-6e3b11",
+    "seq": 2
+   },
+   {
+    "key": "thermofilic",
+    "row": {
+     "country": "United States",
+     "description": "AI-powered prediction system for geothermal investment decisions, using remote sensing data.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q5"
+     ],
+     "founders": "not disclosed (Sebnem Duzgun named as CEO)",
+     "kind": "private company",
+     "latest_source_year": "2024",
+     "location": "Golden, Colorado",
+     "name": "Thermofilic",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "Rose Rock Ascend 2024 and Innosphere 2024 cohorts",
+     "source_urls": [
+      "https://bizwest.com/2024/02/06/innosphere-ventures-selects-2024-cleantech-cohort/",
+      "https://venturewell.org/rose-rock-ascend-2024/"
+     ],
+     "stage": "incubator",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      1,
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T093803Z-6e3b11",
+    "seq": 2
+   },
+   {
+    "key": "geothermal strategy partners",
+    "row": {
+     "country": "not stated",
+     "description": "University of Utah spinout giving independent engineering and risk assessment for enhanced geothermal systems.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q6"
+     ],
+     "founders": "Milind Deo, founder and chief science officer",
+     "kind": "university or national laboratory",
+     "latest_source_year": "2026",
+     "location": "not disclosed",
+     "name": "Geothermal Strategy Partners (GSP)",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "Spinout launch",
+     "source_urls": [
+      "https://attheu.utah.edu/research/university-startups/u-spinout-launches-to-support-next-generation-geothermal-development/",
+      "https://www.renewableenergymagazine.com/geothermal/geothermal-strategy-partners-advancing-geothermal-energy-development-20260522"
+     ],
+     "stage": "launch",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T093803Z-6e3b11",
+    "seq": 2
+   },
+   {
+    "key": "bedrock energy",
+    "row": {
+     "country": "United States",
+     "description": "Geothermal design and installation technology with autonomous drilling and subsurface modeling for building heating and cooling.",
+     "fits_stage": "yes",
+     "found_by": [
+      "E49"
+     ],
+     "founders": "Joselyn Lai (CEO), Silviu Livescu (CTO)",
+     "kind": "private company",
+     "latest_source_year": "2025",
+     "location": "Austin, Texas",
+     "name": "Bedrock Energy",
+     "raised": "$8.5 million seed (2023-10-11); $12 million Series A (2025-01)",
+     "raised_primary": false,
+     "signal": "Series A",
+     "source_urls": [
+      "erw:energy_companies/Bedrock Energy",
+      "https://www.businesswire.com/news/home/20250122142479/en/Bedrock-Energy-Raises-$12M-Series-A-to-Scale-Geothermal-Heating-and-Cooling"
+     ],
+     "stage": "Series A",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T093803Z-6e3b11",
+    "seq": 2
+   },
+   {
+    "key": "zanskar geothermal minerals",
+    "row": {
+     "country": "USA",
+     "description": "AI-driven geothermal exploration: machine learning on subsurface, acoustic and seismic data to find geothermal heat before drilling.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q1",
+      "Q7",
+      "Q8",
+      "E10"
+     ],
+     "founders": "Carl Hoiland, Joel Edwards",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "Salt Lake City, Utah",
+     "name": "Zanskar Geothermal & Minerals",
+     "raised": "$115 million Series C (2026-01-21); total equity funding $180 million",
+     "raised_primary": false,
+     "signal": "Series C and the 'Big Blind' discovery of a blind geothermal system in Nevada",
+     "source_urls": [
+      "erw:energy_companies/Zanskar Geothermal & Minerals",
+      "https://www.cnn.com/2025/12/12/climate/blind-geothermal-clean-energy-discovery",
+      "https://www.globenewswire.com/news-release/2026/01/21/3222733/0/en/Zanskar-raises-115M-Series-C-Following-Record-Setting-Year-of-Geothermal-Discoveries.html",
+      "https://zanskar.com/"
+     ],
+     "stage": "Series C",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      1
+     ],
+     "website": "zanskar.com"
+    },
+    "run_id": "20261007T094334Z-89faf0",
+    "seq": 3
+   },
+   {
+    "key": "quaise energy",
+    "row": {
+     "country": "USA",
+     "description": "Millimeter-wave deep drilling to reach superhot rock.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q1",
+      "Q3",
+      "Q12",
+      "E10"
+     ],
+     "founders": "Carlos Araque, Matt Houde, Aaron Mandell",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "Houston (sources also say Cambridge, Massachusetts or Boston)",
+     "name": "Quaise Energy",
+     "raised": "$180M Series B final close (2026-08-27); total funding $280M",
+     "raised_primary": false,
+     "signal": "DOE selection for up to $25 million",
+     "source_urls": [
+      "erw:energy_companies/Quaise Energy",
+      "https://www.businesswire.com/news/home/20260922715014/en/Quaise-Energy-Selected-for-Up-to-$25-Million-in-U.S.-Department-of-Energy-Support-to-Advance-Worlds-First-Commercial-Superhot-Geothermal-Power-Plant",
+      "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal"
+     ],
+     "stage": "Series B",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      3
+     ],
+     "website": "quaise.com"
+    },
+    "run_id": "20261007T094334Z-89faf0",
+    "seq": 3
+   },
+   {
+    "key": "xgs energy",
+    "row": {
+     "country": "USA",
+     "description": "Closed-loop heat harvesting: a single directional well pulling heat from rock at 250 degrees C or higher.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q12",
+      "Q14",
+      "H3",
+      "E10"
+     ],
+     "founders": "Josh Prueher (CEO), Ghazal Izadi (COO), Axel-Pierre Bois (CTO)",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "Palo Alto, California",
+     "name": "XGS Energy",
+     "raised": "$56.7 million across 4 rounds per the warehouse; renewablesnow reports $19m in one round",
+     "raised_primary": false,
+     "signal": "DOE field-test selection for a deep appraisal well in New Mexico",
+     "source_urls": [
+      "erw:energy_companies/XGS Energy",
+      "https://renewablesnow.com/news/rebranded-us-geothermal-tech-developer-xgs-raises-usd-19m-816713/",
+      "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/",
+      "https://www.linkedin.com/company/xgs-energy"
+     ],
+     "stage": "Series A (extended)",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      3
+     ],
+     "website": "xgsenergy.com"
+    },
+    "run_id": "20261007T094334Z-89faf0",
+    "seq": 3
+   },
+   {
+    "key": "thermofilic",
+    "row": {
+     "country": "USA",
+     "description": "AI prediction system using remote sensing data to scan large areas for geothermal footprints.",
+     "fits_stage": "not stated",
+     "found_by": [
+      "Q5"
+     ],
+     "founders": "not disclosed (Sebnem Duzgun is CEO)",
+     "kind": "private company",
+     "latest_source_year": "2024",
+     "location": "Golden, Colorado",
+     "name": "Thermofilic",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "Innosphere 2024 cleantech cohort and Rose Rock Ascend 2024 cohort",
+     "source_urls": [
+      "https://bizwest.com/2024/02/06/innosphere-ventures-selects-2024-cleantech-cohort/",
+      "https://venturewell.org/rose-rock-ascend-2024/"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T094334Z-89faf0",
+    "seq": 3
+   },
+   {
+    "key": "geothermal radar",
+    "row": {
+     "country": "USA",
+     "description": "Digital modeling system for real-time simulation, valuation and feasibility assessment of geothermal.",
+     "fits_stage": "not stated",
+     "found_by": [
+      "Q5"
+     ],
+     "founders": "not disclosed",
+     "kind": "private company",
+     "latest_source_year": "2024",
+     "location": "Austin, Texas",
+     "name": "Geothermal Radar",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "Rose Rock Ascend 2024 cohort",
+     "source_urls": [
+      "https://venturewell.org/rose-rock-ascend-2024/"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T094334Z-89faf0",
+    "seq": 3
+   },
+   {
+    "key": "eden",
+    "row": {
+     "country": "USA",
+     "description": "Reservoir permeability and characterization techniques; electrical reservoir stimulation.",
+     "fits_stage": "not stated",
+     "found_by": [
+      "Q4"
+     ],
+     "founders": "not disclosed",
+     "kind": "private company",
+     "latest_source_year": "2022",
+     "location": "Somerville, Massachusetts",
+     "name": "Eden (Eden GeoPower)",
+     "raised": "Team award of $3,517,450 from ARPA-E MINER led by Idaho National Labs; Eden's share not disclosed",
+     "raised_primary": false,
+     "signal": "2022 ARPA-E MINER award",
+     "source_urls": [
+      "https://www.businesswire.com/news/home/20221122005787/en/Edens-Electrical-Reservoir-StimulationTM-Technology-Selected-for-%243.5M-ARPA-E-MINER-Award"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      3
+     ],
+     "website": "edengeopower.com"
+    },
+    "run_id": "20261007T094334Z-89faf0",
+    "seq": 3
+   },
+   {
+    "key": "geothermal strategy partners",
+    "row": {
+     "country": "USA",
+     "description": "University of Utah spinout giving risk assessment and engineering advice for geothermal projects.",
+     "fits_stage": "yes",
+     "found_by": [
+      "Q6",
+      "H4"
+     ],
+     "founders": "Milind Deo",
+     "kind": "private company",
+     "latest_source_year": "2026",
+     "location": "not disclosed",
+     "name": "Geothermal Strategy Partners (GSP)",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "Spinout launch",
+     "source_urls": [
+      "https://attheu.utah.edu/research/university-startups/u-spinout-launches-to-support-next-generation-geothermal-development/",
+      "https://www.che.utah.edu/u-spinout-launches-to-support-next-generation-geothermal-development/"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [
+      4
+     ],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T094334Z-89faf0",
+    "seq": 3
+   },
+   {
+    "key": "bedrock energy",
+    "row": {
+     "country": "USA",
+     "description": "Autonomous drilling and subsurface modeling for geothermal heating and cooling of buildings.",
+     "fits_stage": "yes",
+     "found_by": [
+      "E10"
+     ],
+     "founders": "Joselyn Lai (CEO), Silviu Livescu (CTO)",
+     "kind": "private company",
+     "latest_source_year": "2025",
+     "location": "Austin, Texas",
+     "name": "Bedrock Energy",
+     "raised": "$8.5 million seed (2023-10-11); $12 million Series A (2025-01)",
+     "raised_primary": false,
+     "signal": "Series A led by Titanium Ventures",
+     "source_urls": [
+      "erw:energy_companies/Bedrock Energy",
+      "https://www.businesswire.com/news/home/20250122142479/en/Bedrock-Energy-Raises-$12M-Series-A-to-Scale-Geothermal-Heating-and-Cooling"
+     ],
+     "stage": "Series A",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [],
+     "website": "not disclosed"
+    },
+    "run_id": "20261007T094334Z-89faf0",
+    "seq": 3
+   }
+  ],
+  "runs": [
+   {
+    "date": "2026-10-07",
+    "run_id": "20261007T093046Z-d2db7c",
+    "seq": 1
+   },
+   {
+    "date": "2026-10-07",
+    "run_id": "20261007T093803Z-6e3b11",
+    "seq": 2
+   },
+   {
+    "date": "2026-10-07",
+    "run_id": "20261007T094334Z-89faf0",
+    "seq": 3
+   }
+  ],
+  "sources": {
+   "https://attheu.utah.edu/research/university-startups/u-spinout-launches-to-support-next-generation-geothermal-development/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "133 days ago",
+    "sha": "2c91c494fa6a458d",
+    "title": "U spinout launches to support next-generation geothermal development"
+   },
+   "https://baytobaynews.com/daily-state-news/stories/zanskar-reveals-big-blind-the-discovery-of-the-first-blind-geothermal-system-in-the-us-by,275569": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "306 days ago",
+    "sha": "de76986b67e50858",
+    "title": "Zanskar Reveals \u2018Big Blind\u2019 - The Discovery of the First Blind Geothermal System in the U.S. by ..."
+   },
+   "https://bizwest.com/2024/02/06/innosphere-ventures-selects-2024-cleantech-cohort/": {
+    "cited": [],
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "973 days ago",
+    "sha": "e3cfe323cbb1293e",
+    "title": "Innosphere Ventures selects 2024 cleantech cohort"
+   },
+   "https://businesswire.com/news/home/20240506288110/en/Zanskar-Raises-%2430-Million-to-Accelerate-Discovery-of-Geothermal-Energy-for-Clean-and-Affordable-Power": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "",
+    "sha": "9cfafc279f20e880",
+    "title": "Zanskar Raises %2430 Million to Accelerate Discovery of Geothermal Energy for Clean and Affordable Power"
+   },
+   "https://craft.co/xgs-energy/locations": {
+    "cited": [],
+    "fetched": "2026-10-07",
+    "first_run": "20261007T094334Z-89faf0",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "",
+    "sha": "35af726e08a44990",
+    "title": "XGS Energy Corporate Headquarters, Office Locations and Addresses"
+   },
+   "https://energycapitalhtx.com/fervo-quaise-xgs-geothermaldoe-funding": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "7 days ago",
+    "sha": "2817fc8aa9afece0",
+    "title": "Houston geothermal companies secure more than $45M in DOE funding"
+   },
+   "https://energycapitalhtx.com/quaise-energy-series-b": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "90 days ago",
+    "sha": "0a955bf5fc898525",
+    "title": "Quaise Energy raises $134M to develop \u2018superhot\u2019 geothermal plant - Energy Capital"
+   },
+   "https://energynews.pro/en/zanskar-raises-115m-to-accelerate-ai-powered-geothermal-exploration-in-the-united-states": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "257 days ago",
+    "sha": "8d0f70d5b5cadf0a",
+    "title": "Zanskar Raises $115M to Accelerate AI-Powered Geothermal Exploration in the United States"
+   },
+   "https://esg-investing.com/2026/01/23/zanskar-raises-115-million-to-scale-ai-driven-geothermal-discovery-and-power-plant-development/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "256 days ago",
+    "sha": "8455de92e7dd6054",
+    "title": "Zanskar Raises $115 Million to Scale AI-Driven Geothermal Discovery and Power Plant Development"
+   },
+   "https://esgnews.com/zanskar-raises-115-million-to-scale-ai-driven-geothermal-discovery-and-power-plant-development/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "256 days ago",
+    "sha": "d9288b5b80d89d31",
+    "title": "Zanskar Raises $115 Million to Scale AI-Driven Geothermal Discovery and Power Plant Development - ESG News"
+   },
+   "https://esgtechreport.com/esg/zanskar-raises-115-million-to-scale-ai-driven-geothermal-energy/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "255 days ago",
+    "sha": "15447b49e3f3903d",
+    "title": "Zanskar Raises $115 Million to Scale AI-Driven Geothermal Energy - ESG Tech Report"
+   },
+   "https://finance.yahoo.com/news/zanskar-raises-115m-series-c-130000291.html": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "258 days ago",
+    "sha": "4ce64b41bc1eb7c5",
+    "title": "Zanskar raises $115M Series C Following Record-Setting Year of Geothermal Discoveries"
+   },
+   "https://finance.yahoo.com/news/zanskar-reveals-big-blind-discovery-130000052.html": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "306 days ago",
+    "sha": "c5f81dd7a97329ae",
+    "title": "Zanskar Reveals \u2018Big Blind\u2019 - The Discovery of the First Blind Geothermal System in the U.S. by Industry in Over 30 Years"
+   },
+   "https://geothermalinsider.com/learn/xgs-energy/": {
+    "cited": [],
+    "fetched": "2026-10-07",
+    "first_run": "20261007T094334Z-89faf0",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "36 days ago",
+    "sha": "f7b833f86de68880",
+    "title": "XGS Energy: Company Profile & Technology \u2014 Geothermal Insider"
+   },
+   "https://ground.news/article/zanskar-raises-115m-series-c-following-record-setting-year-of-geothermal-discoveries_c6c866": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "256 days ago",
+    "sha": "4ce64b41bc1eb7c5",
+    "title": "Zanskar raises $115M Series C Following Record-Setting Year of Geothermal Discoveries"
+   },
+   "https://heatmap.news/climate-tech/ai-geothermal-discovery": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "383 days ago",
+    "sha": "75029fb5acca6b8a",
+    "title": "Old-School Geothermal Is Due for a Comeback, Says AI Startup - Heatmap News"
+   },
+   "https://heatmap.news/climate-tech/zanskar-series-c": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "258 days ago",
+    "sha": "40d72204303bc936",
+    "title": "Zanskar Raises $115 Million to Propel Geothermal Discoveries - Heatmap News"
+   },
+   "https://onestopesg.com/esg-news/zanskar-secures-115-million-series-c-to-advance-ai-driven-geothermal-development-in-the-us-1769091441993": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "186 days ago",
+    "sha": "167042fb8cc5b299",
+    "title": "Zanskar Secures $115 Million Series C to Advance AI-Driven Geothermal Development in the US"
+   },
+   "https://renewablesnow.com/news/rebranded-us-geothermal-tech-developer-xgs-raises-usd-19m-816713/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "1309 days ago",
+    "sha": "f200ca5fc006bce4",
+    "title": "Rebranded US geothermal tech developer XGS raises USD 19m"
+   },
+   "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "7 days ago",
+    "sha": "f7a51b65100395c0",
+    "title": "XGS tapped for DOE funding for geothermal drilling project in New Mexico"
+   },
+   "https://telcomagazine.com/globenewswire/3222733": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "258 days ago",
+    "sha": "4ce64b41bc1eb7c5",
+    "title": "Zanskar raises $115M Series C Following Record-Setting Year of Geothermal Discoveries"
+   },
+   "https://theoutpost.ai/news-story/zanskar-raises-115-m-to-unlock-terawatt-scale-geothermal-energy-using-ai-23166/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "257 days ago",
+    "sha": "6cc20425c851602b",
+    "title": "Zanskar Raises $115M to Find Geothermal Sites with AI"
+   },
+   "https://us.cnn.com/2025/12/12/climate/blind-geothermal-clean-energy-discovery": {
+    "cited": [],
+    "fetched": "2026-10-07",
+    "first_run": "20261007T093803Z-6e3b11",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "298 days ago",
+    "sha": "614907826196dba7",
+    "title": "A startup discovered a hidden source of abundant, clean energy \u2014 and did it in an unusual way"
+   },
+   "https://venturewell.org/rose-rock-ascend-2024/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "816 days ago",
+    "sha": "0c76a6bd1e2c089e",
+    "title": "Meet the 2024 Rose Rock Ascend Cohort - VentureWell"
+   },
+   "https://www.businesswire.com/news/home/20221122005787/en/Edens-Electrical-Reservoir-StimulationTM-Technology-Selected-for-%243.5M-ARPA-E-MINER-Award": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "1414 days ago",
+    "sha": "446c18b5d9a03f33",
+    "title": "Eden\u2019s Electrical Reservoir StimulationTM Technology Selected for $3.5M ARPA-E MINER Award"
+   },
+   "https://www.businesswire.com/news/home/20240506288110/en/Zanskar-Raises-$30-Million-to-Accelerate-Discovery-of-Geothermal-Energy-for-Clean-and-Affordable-Power": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "883 days ago",
+    "sha": "3ad26e40a37013f0",
+    "title": "Zanskar Raises $30 Million to Accelerate Discovery of Geothermal Energy for Clean and Affordable Power"
+   },
+   "https://www.businesswire.com/news/home/20250122142479/en/Bedrock-Energy-Raises-$12M-Series-A-to-Scale-Geothermal-Heating-and-Cooling": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "622 days ago",
+    "sha": "5c5600f976441165",
+    "title": "Bedrock Energy Raises $12M Series A to Scale Geothermal Heating and Cooling"
+   },
+   "https://www.businesswire.com/news/home/20260922715014/en/Quaise-Energy-Selected-for-Up-to-$25-Million-in-U.S.-Department-of-Energy-Support-to-Advance-Worlds-First-Commercial-Superhot-Geothermal-Power-Plant": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "14 days ago",
+    "sha": "d04329fa8d84c88f",
+    "title": "Quaise Energy Selected for Up to $25 Million in U.S. Department of Energy Support to Advance World's First Commercial Superhot Geothermal Power Plant"
+   },
+   "https://www.canarymedia.com/articles/geothermal/geothermal-startup-quaise-raises-40m-for-ultra-deep-drilling": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "1701 days ago",
+    "sha": "4fdf7447a64176e2",
+    "title": "Geothermal startup Quaise raises $40M for ultra-deep\u2026"
+   },
+   "https://www.che.utah.edu/u-spinout-launches-to-support-next-generation-geothermal-development/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "120 days ago",
+    "sha": "4e87fb11aac40393",
+    "title": "U Spinout Launches to Support Next-generation Geothermal Development - Chemical Engineering"
+   },
+   "https://www.cnn.com/2025/12/12/climate/blind-geothermal-clean-energy-discovery": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "298 days ago",
+    "sha": "614907826196dba7",
+    "title": "A startup discovered a hidden source of abundant, clean energy \u2014 and did it in an unusual way"
+   },
+   "https://www.ctvc.co/the-heat-beneath-our-feet/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "1425 days ago",
+    "sha": "91399476f8a1dd48",
+    "title": "The heat beneath our feet"
+   },
+   "https://www.energyglobal.com/other-renewables/07052024/zanskar-raises-funds-to-accelerate-geothermal-discovery/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "882 days ago",
+    "sha": "9f7e5e68c9b8453d",
+    "title": "Zanskar raises funds to accelerate geothermal discovery"
+   },
+   "https://www.energyglobal.com/other-renewables/27032025/xgs-energy-secures-additional-us13-million-to-accelerate-geothermal-deployment/": {
+    "cited": [],
+    "fetched": "2026-10-07",
+    "first_run": "20261007T094334Z-89faf0",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "558 days ago",
+    "sha": "672322e47712ff12",
+    "title": "XGS Energy secures additional US$13 million to accelerate geothermal deployment"
+   },
+   "https://www.energytech.com/renewables/article/55352060/private-investors-back-zanskars-mission-to-harness-hidden-geothermal-resources-with-ai-technology": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "258 days ago",
+    "sha": "c0b052a37da53e7e",
+    "title": "Private Investors Back Zanskar\u2019s Mission to Harness Hidden Geothermal Resources with AI Technology"
+   },
+   "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "11 days ago",
+    "sha": "758b32f2ec5a81a6",
+    "title": "DOE Selects Fervo, Zanskar and Quaise as Part of $99M Funding to Advance Next-Gen Geothermal"
+   },
+   "https://www.esgtoday.com/geothermal-startup-zanskar-raises-115-million-to-find-and-develop-carbon-free-energy-using-ai/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "257 days ago",
+    "sha": "8a630afb52f4a5cc",
+    "title": "Geothermal Startup Zanskar Raises $115 Million to Find and Develop Carbon-Free Energy Using AI - ESG Today"
+   },
+   "https://www.esgtoday.com/geothermal-tech-startup-bedrock-raises-12-million-to-scale-carbon-free-hvac-for-buildings/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "621 days ago",
+    "sha": "7556494251606ff8",
+    "title": "Geothermal Tech Startup Bedrock Raises $12 Million to Scale Carbon-Free HVAC for Buildings - ESG Today"
+   },
+   "https://www.esgtoday.com/quaise-energy-raises-134-million-to-build-first-ever-superhot-geothermal-power-plant/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "90 days ago",
+    "sha": "8f7af1935a0e64b5",
+    "title": "Quaise Energy Raises $134 Million to Build First-Ever Superhot Geothermal Power Plant - ESG Today"
+   },
+   "https://www.globenewswire.com/news-release/2026/01/21/3222733/0/en/Zanskar-raises-115M-Series-C-Following-Record-Setting-Year-of-Geothermal-Discoveries.html": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "258 days ago",
+    "sha": "4ce64b41bc1eb7c5",
+    "title": "Zanskar raises $115M Series C Following Record-Setting Year of Geothermal Discoveries"
+   },
+   "https://www.latitudemedia.com/news/armed-with-115-million-geothermal-startup-zanskar-gets-ready-to-build/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "258 days ago",
+    "sha": "c6320f86cad40106",
+    "title": "Armed with $115 million, geothermal startup Zanskar gets ready to build"
+   },
+   "https://www.linkedin.com/company/xgs-energy": {
+    "cited": [],
+    "fetched": "2026-10-07",
+    "first_run": "20261007T094334Z-89faf0",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "838 days ago",
+    "sha": "6b0581ee166869ef",
+    "title": "XGS Energy"
+   },
+   "https://www.quaise.com/news/quaise-energy-raises-21-million-to-accelerate-terawatt-scale-deep-geothermal-energy": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "703 days ago",
+    "sha": "e103226ce914b13e",
+    "title": "Quaise Energy"
+   },
+   "https://www.quaise.com/news/quaise-energy-selected-for-up-to-25-million-in-u-s-department-of-energy-support-to-advance-worlds-first-commercial-superhot-geothermal-power-plant": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "14 days ago",
+    "sha": "9d13a6318ed288b1",
+    "title": "Quaise Energy Selected for Up to $25 Million in U.S.\u2026"
+   },
+   "https://www.renewableenergymagazine.com/geothermal/geothermal-strategy-partners-advancing-geothermal-energy-development-20260522": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "91 days ago",
+    "sha": "84ce99ace80545ae",
+    "title": "Geothermal Strategy Partners: Advancing Geothermal Energy Development"
+   },
+   "https://www.renewableenergymagazine.com/geothermal/zanskar-reveals-discovery-of-first-blind-geothermal-20251204": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "306 days ago",
+    "sha": "c79cb0f52cde25f6",
+    "title": "Zanskar Reveals Discovery of First Blind Geothermal System in U.S. In Over 30 Years"
+   },
+   "https://www.techbuzz.ai/articles/zanskar-s-115m-bet-on-overlooked-geothermal-power": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "258 days ago",
+    "sha": "ac2bddac1d2c4d24",
+    "title": "Zanskar's $115M bet on overlooked geothermal power"
+   },
+   "https://www.thinkgeoenergy.com/zanskar-raises-115m-for-ai-based-geothermal-expansion/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "255 days ago",
+    "sha": "0ca43b9bf4718213",
+    "title": "Zanskar raises $115M to support expansion of AI-based geothermal discovery platform"
+   },
+   "https://www.thinkgeoenergy.com/zanskar-raises-30-million-to-support-ai-led-geothermal-exploration-technology/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "876 days ago",
+    "sha": "af09a99be1ac7e82",
+    "title": "Zanskar raises $30 million to support AI-led geothermal exploration technology"
+   },
+   "https://www.utahbusiness.com/press-releases/2026/01/23/zanskar-raises-115-million-series-c-following-year-geothermal-discoveries/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "255 days ago",
+    "sha": "07ab3312e3402b73",
+    "title": "Zanskar raises $115M Series C following record-setting year of geothermal discoveries"
+   },
+   "https://www.zoominfo.com/c/xgs-energy-inc/566143300": {
+    "cited": [],
+    "fetched": "2026-10-07",
+    "first_run": "20261007T094334Z-89faf0",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "",
+    "sha": "9aeab430228b90e1",
+    "title": "XGS Energy - Overview, News & Similar companies"
+   },
+   "https://zanskar.com/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "890 days ago",
+    "sha": "52d8300df0abb8e3",
+    "title": "Zanskar Geothermal"
+   },
+   "https://zanskargeothermal.substack.com/p/zanskar-raises-115m-series-c-following?amp=&amp=&amp=&amp=&amp=&amp=&amp=&isFreemail=true&post_id=185294746&publication_id=5303791&r=2764io&triedRedirect=true": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T093046Z-d2db7c",
+    "history": [],
+    "last_run": "20261007T094334Z-89faf0",
+    "page_age": "258 days ago",
+    "sha": "4ce64b41bc1eb7c5",
+    "title": "Zanskar raises $115M Series C Following Record-Setting Year of Geothermal Discoveries"
+   }
+  },
+  "stage": "startups",
+  "version": 1
+ },
+ "trends": [
+  {
+   "search_phrases": [
+    "AI geothermal exploration",
+    "blind geothermal discovery"
+   ],
+   "title": "AI prospecting for blind geothermal systems"
+  },
+  {
+   "search_phrases": [
+    "distributed acoustic sensing",
+    "fiber optic geothermal monitoring"
+   ],
+   "title": "Fiber and DAS sensing for geothermal characterization"
+  },
+  {
+   "search_phrases": [
+    "geothermal resource characterization",
+    "DOE geothermal field tests"
+   ],
+   "title": "Public grants for resource characterization"
+  },
+  {
+   "search_phrases": [
+    "geothermal risk assessment software",
+    "geothermal digital modeling"
+   ],
+   "title": "Prediction and modeling software for geothermal investment decisions"
+  },
+  {
+   "search_phrases": [
+    "high-temperature seismometer",
+    "drone electromagnetic survey"
+   ],
+   "title": "High-temperature and airborne survey methods"
+  }
+ ],
+ "warehouse": {
+  "energy_companies": [
+   {
+    "description": "Designs geothermal design and installation technology combining autonomous drilling and advanced subsurface modeling, for heating and cooling buildings.",
+    "founders": "Joselyn Lai (CEO), Silviu Livescu (CTO)",
+    "location": "Austin, Texas",
+    "name": "Bedrock Energy",
+    "niche_tags": "subsurface heat mapping for geothermal",
+    "raised": "$8.5 million seed led by Wireframe Ventures (2023-10-11); $12 million Series A led by Titanium Ventures, with Energy Impact Partners and Sustainable Future Ventures (2025-01)",
+    "retrieved_at": "2026-09-28T20:42:40Z",
+    "source": "erw:thesis_builder",
+    "source_url": "https://www.nasdaq.com/press-release/bedrock-energy-raises-12m-series-scale-geothermal-heating-and-cooling-2025-01-22",
+    "stage": "Series A",
+    "website": "not disclosed"
+   },
+   {
+    "description": "It is developing millimeter-wave deep drilling to reach superhot rock.",
+    "founders": "Carlos Araque (CEO), spun out of MIT in 2018",
+    "location": "Houston",
+    "name": "Quaise Energy",
+    "niche_tags": "subsurface heat mapping for geothermal",
+    "raised": "$180M Series B final close (2026-08-27), with $35M from Nabors; total funding $280M; first close was $134M (2026-07-07) (not confirmed: 8, 27, 35, 280)",
+    "retrieved_at": "2026-09-30T05:12:39Z",
+    "source": "erw:thesis_builder",
+    "source_url": "https://energy.mit.edu/news/mitei-spinout-quaise-raises-180-million/",
+    "stage": "Series B",
+    "website": "quaise.com"
+   },
+   {
+    "description": "Heat-harvesting geothermal technology that drills a single directional well into rock at 250 degrees C or higher and pulls heat into the well through a network of thermally conductive material.",
+    "founders": "Led by CEO Josh Prueher, COO Ghazal Izadi and CTO Axel-Pierre Bois",
+    "location": "Palo Alto, California",
+    "name": "XGS Energy",
+    "niche_tags": "subsurface heat mapping for geothermal",
+    "raised": "Has raised $56.7 million across 4 funding rounds: $9.7 million led by Constellation Technology Ventures, $14 million Series A led by Anzu Partners, a $20 million Series A extension led by Valo Ventures and VoLo Earth Ventures (2024-05-21, total Series A of $34.5 million), and $13 million in additional financing (2025-03) (not confirmed: 9.7, 14, 2024, 5)",
+    "retrieved_at": "2026-09-30T05:12:39Z",
+    "source": "erw:thesis_builder",
+    "source_url": "https://www.renewableenergymagazine.com/geothermal/xgs-energy-selected-by-u-s-doe-20260928",
+    "stage": "Series A (extended)",
+    "website": "xgsenergy.com"
+   },
+   {
+    "description": "AI-driven geothermal exploration company that analyzes subsurface data with machine learning, acoustic imaging and seismic imaging, using sensors repurposed from oil and gas, to find geothermal heat resources before drilling.",
+    "founders": "Carl Hoiland, Joel Edwards",
+    "location": "Salt Lake City, Utah",
+    "name": "Zanskar Geothermal & Minerals",
+    "niche_tags": "subsurface heat mapping for geothermal",
+    "raised": "$115 million Series C (announced 2026-01-21), bringing total equity funding to date to $180 million",
+    "retrieved_at": "2026-09-30T05:12:39Z",
+    "source": "erw:thesis_builder",
+    "source_url": "https://www.thinkgeoenergy.com/zanskar-raises-115m-for-ai-based-geothermal-expansion/",
+    "stage": "Series C",
+    "website": "zanskar.com"
+   }
+  ],
+  "energy_deals": []
+ }
+}

@@ -290,8 +290,9 @@ jobs:
                  site/data/large_load_status.json
                  site/data/board.json site/public/board
                  site/data/supply.json warehouse/metadata/release_schedule.json
-                 site/data/datacenter)
+                 site/data/datacenter site/data/nyiso_load_queue.json)
           # session 138: the files of "What a datacenter pays" (/cost-of-power, in review), rebuilt on Saturdays
+          # session 140: New York's load queue for the same page, refreshed with the queues on Mondays
           # 6 October 2026: the price board's files (daily) and Supply and trade's (Saturdays), both pages in review
           # session 114: the network's replay, rebuilt by the daily run: the index (above) and the years' files
           for f in site/public/network/daily_2*.json; do paths+=("$f"); done

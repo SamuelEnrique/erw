@@ -4,13 +4,14 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import demandJson from "@/data/demand_growth.json";
 import loadJson from "@/data/large_load_status.json";
+import nyLoadJson from "@/data/nyiso_load_queue.json";
 import queuesJson from "@/data/queues.json";
 import * as clean from "@/lib/clean";
 import {
-  ASSUMED, BUYS, badMonth, expand, gpuHour, gpus, hh, hrefOf, inputsOf, last36, lastTwelve, loadWords, monthName, monthsOf, monthsWords, shortMonth, span, two,
-  usdShort, weights, whenOf, whole, years, type Inputs, type Month, type Span,
+  ASSUMED, BUYS, badMonth, cleanShare, expandSeries, gpuHour, gpus, hh, hrefOf, inputsOf, last36, lastTwelve, loadWords, monthName, monthsOf, monthsRuled, monthsWords,
+  ruleWords, shortMonth, span, two, usdShort, whenOf, whole, years, type Inputs, type Month, type Ruled, type Span,
 } from "@/lib/datacenter";
-import { DELIVERY, INDEX, yearFiles } from "@/lib/datacenterdata";
+import { DELIVERY, INDEX, yearFiles, type MatrixRow } from "@/lib/datacenterdata";
 import type { DemandFile } from "@/lib/demandgrowth";
 import { SLUGS } from "@/lib/demandgrowth";
 import { dayWords, span as loadSpan, type LoadFile } from "@/lib/largeload";
@@ -39,12 +40,26 @@ const METHOD = "/data/methods/datacenter_cost";
 const DEMAND = demandJson as unknown as DemandFile;
 const QUEUES = queuesJson as unknown as QueueFile;
 const LOADS = loadJson as unknown as LoadFile;
+// Session 140: NYISO's load interconnection requests, the one grid that publishes load in line by place
+// (warehouse/connectors/nyiso_load_queue.py; the sheet "Load Projects" of its interconnection queue workbook).
+type NyRow = { queue_position: string; name: string; zone: string; zone_name: string; county: string; mw: number | null; request_date: string; request_date_printed: string;
+  proposed_in_service_printed: string; status: string; end_use_words: string; utility: string; in_line: boolean; group: string; sheet: string; sheet_row: number };
+type NyZone = { zone: string; zone_name: string; requests: number; mw: number; by_status: { status: string; requests: number; mw: number }[] };
+type NyFile = { built: string; source: { name: string; url: string; report_page: string; retrieved: string; workbook_last_modified: string }; rule: { in_line: string };
+  zones: NyZone[]; total: { requests: number; mw: number }; rows: NyRow[] };
+const NYLOAD = nyLoadJson as unknown as NyFile;
 
 /** A short placeholder with its reason on hover. */
 function Missing({ why, words = "not held yet" }: { why: string; words?: string }) {
   return <span className="cursor-help border-b border-dotted border-muted italic text-muted" title={why} data-missing="1">{words}</span>;
 }
 const NOWHERE = "not published anywhere yet";
+const FORESEEN = "if perfectly foreseen";
+const FORESEEN_WHY = "The same load with its hours chosen knowing every price of the year in advance: the most it could have saved. No operator knows them in advance; the figure beside it is what a rule decided before each hour would have paid.";
+/** A figure or a label with its explanation on hover. */
+function Hover({ why, children }: { why: string; children: ReactNode }) {
+  return <span className="cursor-help border-b border-dotted border-muted" title={why}>{children}</span>;
+}
 const usd = (v: number | null, why: string) => (v === null ? <Missing why={why} /> : <>USD {usdShort(v)}</>);
 const perMwh = (v: number | null, why: string) => (v === null ? <Missing why={why} /> : <>{two(v)}</>);
 const day = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
@@ -80,23 +95,41 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
   try { files = yearFiles(x.grid); } catch (e) { failed = (e as Error).message; }
   const region = g?.regions.find((r) => r.id === x.region);
   let side = region?.[x.buy];
-  let ms: Month[] = failed || !side ? [] : monthsOf(files, x.region, x.buy, x);
+  const flex = x.run !== "flat", off = x.run === "hours" || x.run === "share";
+  // session 140: a flexible load is judged on a rule it could follow (decided from day-ahead prices and the prior 30
+  // days, lib/datacenter.ts ruleWeights): that is the page's figure. The same load with its hours chosen knowing the
+  // year's prices stands beside it, labelled "if perfectly foreseen".
+  const none: Ruled = { months: [], weights: new Map(), prices: new Map(), decided: 0, undecided: 0, da: false };
+  let fore: Ruled = failed || !side ? none : monthsRuled(files, x.region, x.buy, x, "forecast");
+  let ms: Month[] = fore.months;
   let l12 = lastTwelve(ms);
   // the address named no market and real time holds no twelve complete months here: day-ahead is shown when it does
   if (!buyGiven && x.buy === "rt" && !l12 && !failed && region?.da) {
-    const da = monthsOf(files, x.region, "da", x);
-    if (lastTwelve(da)) { x = { ...x, buy: "da" }; side = region.da; ms = da; l12 = lastTwelve(da); }
+    const da = monthsRuled(files, x.region, "da", x, "forecast");
+    if (lastTwelve(da.months)) { x = { ...x, buy: "da" }; side = region.da; fore = da; ms = da.months; l12 = lastTwelve(ms); }
   }
+  const noRule = flex && !!side && !failed && !fore.da;  // no day-ahead price is held here, so the rule cannot decide
+  const hind: Ruled = !flex || failed || !side ? fore : monthsRuled(files, x.region, x.buy, x, "hindsight");
+  const h12 = lastTwelve(hind.months), sh12: Span | null = h12 ? span(h12) : null;
+  const ysH = years(hind.months), msH = new Map(hind.months.map((r) => [r.m, r]));
+  const rule = ruleWords(x);
   const s12: Span | null = l12 ? span(l12) : null;
   const w36 = last36(ms);
   const bad = badMonth(w36?.months ?? []);
   const badPer = bad ? bad.cost / bad.energy : null;
   const ys = years(ms);
-  const flex = x.run !== "flat", off = x.run === "hours" || x.run === "share";
   const place = `${x.region} in ${g?.name ?? x.grid}`;
   const market = BUYS[x.buy].toLowerCase();
   const heldFrom = side ? day(side.first) : "";
-  const noYear = `Twelve complete months of ${market} prices are not held for ${x.region}: it is held from ${heldFrom || "no date"}. A month counts when at least 95 percent of its hours are held.`;
+  const noYear = noRule
+    ? `No day-ahead price is held for ${x.region}, and a flexible load decides from day-ahead prices. Its ${market} price is held from ${heldFrom || "no date"}.`
+    : `Twelve complete months of ${market} prices are not held for ${x.region}: it is held from ${heldFrom || "no date"}. A month counts when at least 95 percent of its hours are held.`;
+  const savedH = sh12 && sh12.flat !== null && sh12.per !== null ? sh12.flat - sh12.per : null;
+  // the trading hub beside a load zone: a flat load there over the zone's own twelve months
+  const refId = region?.ref && g?.regions.find((r) => r.id === region.ref)?.[x.buy] ? region.ref : null;
+  const refFrom = l12 ? l12[0].m : "", refTo = l12 ? l12[11].m : "";
+  const refMonths = refId && l12 ? monthsOf(files, refId, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 }).filter((r) => r.m >= refFrom && r.m <= refTo && r.complete) : [];
+  const ref12 = refMonths.length === 12 ? span(refMonths) : null;
   const l12Span = l12 ? `${shortMonth(l12[0].m)} to ${shortMonth(l12[11].m)}` : null;
   const saved = s12 && s12.flat !== null && s12.per !== null ? s12.flat - s12.per : null;
   const gh = s12?.per != null ? gpuHour(s12.per, x.gpu, x.pue) : null;
@@ -105,15 +138,16 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
 
   // the form's lists: every grid held, each region with what is held of it
   const grids = Object.fromEntries(Object.entries(INDEX.grids).map(([id, v]) => [id, { name: v.name,
-    regions: v.regions.map((r) => { const s = r.rt ?? r.da!; return { id: r.id, held: `from ${shortMonth(s.first.slice(0, 7))}` }; }) }]));
+    regions: v.regions.map((r) => { const s = r.rt ?? r.da!; return { id: r.id, held: `from ${shortMonth(s.first.slice(0, 7))}`, kind: r.kind ?? null, name: r.name ?? null }; }) }]));
 
   // every region of the grid over its own last twelve months, flat (the fold)
   const regionRows = (g?.regions ?? []).map((r) => {
     const s = r[x.buy];
-    if (!s || failed) return { id: r.id, per: null as number | null, from: s?.first ?? null, hours: s?.hours ?? 0, sp: null as string | null };
+    const name = r.name ?? (r.kind === "hub" ? "trading hub" : null);
+    if (!s || failed) return { id: r.id, name, per: null as number | null, from: s?.first ?? null, hours: s?.hours ?? 0, sp: null as string | null };
     const m = monthsOf(files, r.id, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 });
     const t = lastTwelve(m);
-    return { id: r.id, per: t ? span(t).flat : null, from: s.first, hours: s.hours, sp: t ? `${shortMonth(t[0].m)} to ${shortMonth(t[11].m)}` : null };
+    return { id: r.id, name, per: t ? span(t).flat : null, from: s.first, hours: s.hours, sp: t ? `${shortMonth(t[0].m)} to ${shortMonth(t[11].m)}` : null };
   });
 
   // will the power be there: the grid's own figures from the mix, demand and (session 138) operator demand files
@@ -128,10 +162,8 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
     const f = files.find((k) => k.year === Number(y));
     const when = f?.tight ? whenOf(Number(y), f.tight) : null;
     let down: number | null = null;
-    if (f?.tight && flex && side && x.run !== "shift") {
-      const p = expand(f, x.region, x.buy), w = weights(p, x);
-      down = f.tight.filter((i) => p[i] !== null && w[i] === 0).length;
-    }
+    const p = fore.prices.get(Number(y)), w = fore.weights.get(Number(y));
+    if (f?.tight && flex && side && x.run !== "shift" && p && w) down = f.tight.filter((i) => p[i] !== null && w[i] === 0).length;
     return { y, d, when, down };
   });
   const lastTight = [...tightRows].reverse().find((r) => r.d.whole) ?? tightRows.at(-1);
@@ -144,12 +176,18 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
 
   // how clean: the grid's figures from the tables behind /mix?view=clean
   const cf = CLEAN[slug], cy = cf ? clean.defaultYear(cf) : null, cv = cf && cy ? clean.yearView(cf, cy) : null;
+  // session 140: this load's own hours. The grid's carbon-free share in each hour, weighted by the load in that hour
+  // (under the rule above), over the hours of the year where the price and the share are both held.
+  const cFile = cy ? files.find((k) => k.year === Number(cy)) : undefined;
+  const cP = cy ? fore.prices.get(Number(cy)) : undefined, cW = cy ? fore.weights.get(Number(cy)) : undefined;
+  const own = cFile?.clean && cP && cW ? cleanShare(expandSeries(cFile.clean, cFile.hours), cP, cW) : null;
 
   // how soon: the interconnection queue, and ERCOT's large-load status
   const qv = viewOf(QUEUES, x.grid, "all")?.whole ?? null;
   const ll = x.grid === "ercot" ? loadSpan(LOADS) : null;
 
   const delivery = x.grid === "ercot" ? DELIVERY.rows : [];
+  const matrix = x.grid === "ercot" ? DELIVERY.matrix ?? [] : [];
   const utilities = [...new Set(delivery.map((r) => r.utility))];
 
   return (
@@ -174,7 +212,7 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
               <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
                 {s12 && s12.per !== null ? (
                   <>{loadWords(x)} at {place}, buying {market}, paid USD <span data-stat="l12_per">{two(s12.per)}</span> per MWh over the last twelve months,
-                    USD <span data-stat="l12_cost">{usdShort(s12.cost * x.mw)}</span> in all{flex && saved !== null ? <>, USD <span data-stat="l12_saved">{two(saved)}</span> per MWh less than a flat load</> : null}: USD <span data-stat="gpu_hour">{gh!.toFixed(4)}</span> per GPU-hour for power alone.</>
+                    USD <span data-stat="l12_cost">{usdShort(s12.cost * x.mw)}</span> in all{flex && saved !== null ? <>, USD <span data-stat="l12_saved">{two(saved)}</span> per MWh less than a flat load{savedH !== null ? <> (<Hover why={FORESEEN_WHY}>USD <span data-stat="l12_saved_foreseen">{two(savedH)}</span> {FORESEEN}</Hover>)</> : null}</> : null}: USD <span data-stat="gpu_hour">{gh!.toFixed(4)}</span> per GPU-hour for power alone.</>
                 ) : (
                   <>{loadWords(x)} at {place}, buying {market}: last twelve months <Missing why={noYear} />.</>
                 )}
@@ -183,7 +221,7 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
               <HeadlineRow>
                 <HeadlineNumber label="Last twelve months, market energy"
                   value={s12 && s12.per !== null ? <>USD {two(s12.per)}<span className="ml-1 font-sans text-sm text-muted">per MWh</span></> : <Missing why={noYear} />}
-                  note={s12 ? <>USD {usdShort(s12.cost * x.mw)} for {whole(s12.energy * x.mw)} MWh, {l12Span}.</> : null} />
+                  note={s12 ? <>USD {usdShort(s12.cost * x.mw)} for {whole(s12.energy * x.mw)} MWh, {l12Span}.{flex && sh12?.per != null ? <> <Hover why={FORESEEN_WHY}><span data-stat="l12_per_foreseen">USD {two(sh12.per)}</span> {FORESEEN}</Hover>.</> : null}</> : null} />
                 <HeadlineNumber label="A bad month: the worst tenth of the last 36"
                   value={badPer !== null ? <>USD {two(badPer)}<span className="ml-1 font-sans text-sm text-muted">per MWh</span></> : <Missing why={noYear} />}
                   note={bad && w36 ? <>{monthName(bad.m)}. One month in ten of the {w36.months.length} held from {monthName(w36.months[0].m)} to {monthName(w36.to)} cost this or more.</> : null} />
@@ -193,8 +231,8 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
               </HeadlineRow>
 
               <ChartFrame title={`Cost by year, USD per MWh, ${x.region}, ${market}`}
-                legend={flex ? [{ label: "Flat load", color: "#6B665E" }, { label: "This load", color: "#8C1515" }, { label: "Incomplete year", color: "#8C1515", hatch: true }] : [{ label: "Flat load", color: "#8C1515" }, { label: "Incomplete year", color: "#8C1515", hatch: true }]}>
-                <YearCost rows={ys.map((r) => ({ y: r.y, flat: r.flat, per: r.per, complete: r.complete, months: r.months, down: r.down }))} flex={flex} off={off}
+                legend={flex ? [{ label: "Flat load", color: "#6B665E" }, { label: "This load", color: "#8C1515" }, { label: "If perfectly foreseen", color: "#2E2D29" }, { label: "Incomplete year", color: "#8C1515", hatch: true }] : [{ label: "Flat load", color: "#8C1515" }, { label: "Incomplete year", color: "#8C1515", hatch: true }]}>
+                <YearCost rows={ys.map((r) => ({ y: r.y, flat: r.flat, per: r.per, complete: r.complete, months: r.months, down: r.down, foreseen: flex ? ysH.find((h) => h.y === r.y)?.per ?? null : null }))} flex={flex} off={off}
                   label={`Cost of power by year at ${place}, ${market}, USD per MWh${flex ? ": a flat load and this load" : ""}`} />
               </ChartFrame>
 
@@ -203,16 +241,21 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
                   rows={[
                     { key: "flat", cells: ["Market energy, a flat load, last twelve months", perMwh(s12?.flat ?? null, noYear), usd(s12 ? s12.flatCost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{l12Span ?? ""}</span>] },
                     ...(flex ? [
-                      { key: "load", highlight: true, cells: ["Market energy, this load, last twelve months", perMwh(s12?.per ?? null, noYear), usd(s12 ? s12.cost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{s12 ? `${whole(s12.energy * x.mw)} MWh` : ""}</span>] },
-                      { key: "saved", cells: ["What the flexibility saves", perMwh(saved, noYear), usd(s12 ? (s12.flatCost - s12.cost) * x.mw : null, noYear),
+                      { key: "load", highlight: true, cells: [<Hover key="h" why={rule}>Market energy, this load, last twelve months</Hover>, perMwh(s12?.per ?? null, noYear), usd(s12 ? s12.cost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{s12 ? `${whole(s12.energy * x.mw)} MWh` : ""}</span>] },
+                      { key: "saved", cells: [<Hover key="h" why={rule}>What the flexibility saves</Hover>, perMwh(saved, noYear), usd(s12 ? (s12.flatCost - s12.cost) * x.mw : null, noYear),
                         <span key="n" className="text-xs text-muted">{s12 ? (x.run === "shift" ? "the same energy, moved within each day" : `off in ${whole(s12.down)} hours; ${whole((s12.held - s12.energy) * x.mw)} MWh not bought`) : ""}</span>] },
+                      { key: "foreseen", cells: [<Hover key="h" why={FORESEEN_WHY}>This load, {FORESEEN}</Hover>, <span key="p" data-foreseen="per">{perMwh(sh12?.per ?? null, noYear)}</span>, usd(sh12 ? sh12.cost * x.mw : null, noYear),
+                        <span key="n" className="text-xs text-muted">{savedH !== null ? `would have saved ${two(savedH)} per MWh${saved !== null && savedH > 0 ? `; the rule kept ${whole((100 * saved) / savedH)} percent of it` : ""}` : ""}</span>] },
                     ] : []),
+                    ...(region?.ref ? [{ key: "ref", cells: [<>The hub beside it, {region.ref}, a flat load</>, <span key="p" data-ref-hub="1">{perMwh(ref12?.flat ?? null, `Twelve complete months of ${market} prices are not held for ${region.ref} over the same months.`)}</span>, usd(ref12 ? ref12.flatCost * x.mw : null, noYear),
+                      <span key="n" className="text-xs text-muted">{ref12?.flat != null && s12?.flat != null ? `the load zone is ${two(Math.abs(s12.flat - ref12.flat))} per MWh ${s12.flat >= ref12.flat ? "above" : "below"} its hub` : ""}</span>] }] : []),
                     { key: "bad", cells: ["A bad month", perMwh(badPer, noYear), usd(bad ? bad.cost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{bad ? monthName(bad.m) : ""}</span>] },
                     { key: "gpu", cells: ["Power per GPU-hour", gh !== null ? gh.toFixed(4) : <Missing key="m" why={noYear} />, "", <span key="n" className="text-xs text-muted">USD per GPU-hour, not per MWh</span>] },
                     ...(x.grid === "ercot"
                       ? (utilities.length || DELIVERY.withheld.length
                         ? [...utilities.map((u) => ({ key: `d-${u}`, cells: [<>Delivery and transmission, {u}</>], wide: <DeliveryCell rows={delivery.filter((r) => r.utility === u)} /> })),
-                          ...DELIVERY.withheld.map((w) => ({ key: `d-${w.utility}`, cells: [<>Delivery and transmission, {w.utility}</>], wide: <Missing words={w.words} why={w.why} /> }))]
+                          ...DELIVERY.withheld.map((w) => ({ key: `d-${w.utility}`, cells: [<>Delivery and transmission, {w.utility}</>], wide: <Missing words={w.words} why={w.why} /> })),
+                          { key: "matrix", cells: ["Wholesale transmission, all of ERCOT"], wide: matrix.length ? <MatrixCell rows={matrix} /> : <Missing why="The Commission's transmission charge matrices are not in this page's files yet." /> }]
                         : [{ key: "delivery", cells: ["Delivery and transmission charges"], wide: <Missing why="The four large Texas wires utilities' tariff charges are not in this page's files yet." /> }])
                       : [{ key: "delivery", cells: ["Delivery charges"], wide: <Missing why={`The delivery and transmission tariffs of ${g.name}'s utilities are not in the warehouse. Texas's four large wires utilities are.`} /> }]),
                   ]} />
@@ -261,7 +304,9 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
                 { key: "match", cells: ["Buying carbon-free energy equal to the load's whole year, shaped like the grid's own",
                   cv?.match.mix?.[100]?.energy != null ? <>{two(cv.match.mix[100].energy!)} percent of the energy matched hour by hour, against 100 percent on the annual count; {two(cv.match.mix[100].hours!)} percent of hours fully covered</> : <Missing why="Not in the clean energy table for this grid and year." />, ""] },
                 { key: "carbon", cells: ["Carbon per MWh, a flat load", cv?.carbon.flat != null ? <>{two(cv.carbon.flat)} kg CO2 per MWh</> : <Missing why="Not in the clean energy table for this grid and year." />, ""] },
-                { key: "own", cells: ["This load's own hours", <Missing key="m" why="The clean energy tables are by grid and for a flat load or a load moved toward the cleanest hours. This load's own hours are not matched against them yet." />, ""] },
+                { key: "own", cells: [<Hover key="h" why={`The grid's carbon-free share in each hour, weighted by this load in that hour, over the hours of ${cy ?? "the year"} in which the price and the share are both held.${rule ? ` ${rule}` : ""}`}>This load&apos;s own hours</Hover>,
+                  own?.load != null ? <><span data-stat="own_clean">{two(own.load)}</span> percent{flex && own.flat !== null ? <>, against {two(own.flat)} for a flat load over the same {whole(own.hours)} hours</> : <> over {whole(own.hours)} hours</>}</>
+                    : <Missing key="m" why={cy ? `The carbon-free share by hour is not held for ${g?.name ?? x.grid} in ${cy} at the hours this region's price is held.` : "No year of the clean energy table is held for this grid."} />, ""] },
               ]} />
           </ToolSection>
 
@@ -276,26 +321,39 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
                     : x.grid === "ercot" ? <Missing why="ERCOT's large load status table holds no report with these figures." /> : <Missing why={`${g?.name ?? x.grid} publishes no figure of large load approved or running that the warehouse holds.`} />,
                   <Link key="l" href="/datacenters">Datacenters</Link>] },
                 { key: "line", cells: ["Large load in line, by region",
-                  x.grid === "nyiso" ? <Missing key="m" why="NYISO publishes its load interconnection requests by zone in its interconnection queue workbook (the sheets Load Projects and Load Project Tracking). The warehouse reads the generator sheets of that workbook and not these yet." />
+                  x.grid === "nyiso" ? <NyLoadCell key="ny" own={x.region} />
                     : x.grid === "ercot" ? <Missing key="m" words={NOWHERE} why="ERCOT publishes the large load seeking interconnection as system totals in slide decks, with no table by zone or county. A search on 7 October 2026 found no public list by place." />
                     : <Missing key="m" words={NOWHERE} why={`A search on 7 October 2026 found no public list of the large load waiting for power in ${g?.name ?? x.grid} by place. The pieces sit in utility planning filings, rate cases and operator reports.`} />, ""] },
                 { key: "waitload", cells: ["How long a new large load waits", <Missing key="m" words={NOWHERE} why="A search on 7 October 2026 found no public dataset of the time from a large load's request to its energization, for any grid. The interconnection queue above is for generators, not loads." />, ""] },
               ]} />
           </ToolSection>
 
+          {x.grid === "nyiso" ? (
+            <div className="mb-8 border-t border-rule">
+              <Fold title={`New York's load in line, request by request (${whole(NYLOAD.total.requests)})`}>
+                <ToolTable caption="New York's load interconnection requests in line" words minWidth={760} head={["Queue", "Request", "Zone", "County", "MW", "Requested", "Proposed in service", "Status, in NYISO's words"]}
+                  rows={NYLOAD.rows.filter((r) => r.in_line).sort((a, b) => (b.mw ?? 0) - (a.mw ?? 0)).map((r) => ({ key: `${r.queue_position}-${r.sheet_row}`, highlight: r.zone_name === x.region,
+                    cells: [<a key="q" href={NYLOAD.source.url} title={`${NYLOAD.source.name}, sheet "${r.sheet}", row ${r.sheet_row}; the workbook as NYISO last changed it on ${NYLOAD.source.workbook_last_modified}, read ${day(NYLOAD.source.retrieved)}.`} className="cursor-help no-underline hover:underline">{r.queue_position}</a>,
+                      <span key="n" title={[r.end_use_words, r.utility ? `utility: ${r.utility}` : ""].filter(Boolean).join("; ") || undefined}>{r.name}</span>, `${r.zone} ${r.zone_name}`, r.county,
+                      r.mw === null ? <Missing key="m" why="NYISO's sheet prints no megawatts for this request." words="not printed" /> : r.mw.toLocaleString("en-US"), r.request_date_printed, r.proposed_in_service_printed, r.status] }))} />
+              </Fold>
+            </div>
+          ) : null}
+
           {!failed && side ? (
             <div className="mb-8 border-t border-rule">
               <Fold title="Every year">
-                <ToolTable caption="Every year" minWidth={620} head={["Year", "Flat load, USD/MWh", ...(flex ? ["This load, USD/MWh"] : []), ...(off ? ["Hours off"] : []), `USD, ${size}`, "Months held"]}
-                  rows={[...ys].reverse().map((r) => ({ key: r.y, muted: !r.complete, cells: [r.y, r.flat === null ? "" : two(r.flat), ...(flex ? [r.per === null ? "" : two(r.per)] : []), ...(off ? [whole(r.down)] : []), usdShort(r.cost * x.mw), `${r.months} of 12`] }))} />
+                <ToolTable caption="Every year" minWidth={620} head={["Year", "Flat load, USD/MWh", ...(flex ? ["This load, USD/MWh", "If perfectly foreseen"] : []), ...(off ? ["Hours off"] : []), `USD, ${size}`, "Months held"]}
+                  rows={[...ys].reverse().map((r) => { const h = ysH.find((k) => k.y === r.y); return { key: r.y, muted: !r.complete, cells: [r.y, r.flat === null ? "" : two(r.flat), ...(flex ? [r.per === null ? "" : two(r.per), h?.per != null ? two(h.per) : ""] : []), ...(off ? [whole(r.down)] : []), usdShort(r.cost * x.mw), `${r.months} of 12`] }; })} />
               </Fold>
               <Fold title="Every month">
-                <ToolTable caption="Every month" minWidth={620} head={["Month", "Flat load, USD/MWh", ...(flex ? ["This load, USD/MWh"] : []), ...(off ? ["Hours off"] : []), `USD, ${size}`, "Hours held"]}
-                  rows={[...ms].reverse().map((r) => ({ key: r.m, muted: !r.complete, cells: [r.m, two(r.flat / r.held), ...(flex ? [r.energy ? two(r.cost / r.energy) : ""] : []), ...(off ? [whole(r.down)] : []), usdShort(r.cost * x.mw), `${whole(r.held)} of ${whole(r.due)}`] }))} />
+                <ToolTable caption="Every month" minWidth={620} head={["Month", "Flat load, USD/MWh", ...(flex ? ["This load, USD/MWh", "If perfectly foreseen"] : []), ...(off ? ["Hours off"] : []), `USD, ${size}`, "Hours held"]}
+                  rows={[...ms].reverse().map((r) => { const h = msH.get(r.m); return { key: r.m, muted: !r.complete, cells: [r.m, two(r.flat / r.held), ...(flex ? [r.energy ? two(r.cost / r.energy) : "", h?.energy ? two(h.cost / h.energy) : ""] : []), ...(off ? [whole(r.down)] : []), usdShort(r.cost * x.mw), `${whole(r.held)} of ${whole(r.due)}`] }; })} />
               </Fold>
+              {matrix.length ? <Fold title="The Commission's transmission charge matrix, ERCOT and the four utilities"><MatrixTable rows={matrix} /></Fold> : null}
               <Fold title={`Every region of ${g.name}, a flat load, ${market}`}>
                 <ToolTable caption="Every region" words minWidth={560} head={["Region", "Last twelve months, USD/MWh", "Held from"]}
-                  rows={regionRows.map((r) => ({ key: r.id, highlight: r.id === x.region, cells: [<Link key="l" href={hrefOf(x, { region: r.id })} scroll={false}>{r.id}</Link>,
+                  rows={regionRows.map((r) => ({ key: r.id, highlight: r.id === x.region, cells: [<span key="l"><Link href={hrefOf(x, { region: r.id })} scroll={false}>{r.id}</Link>{r.name ? <span className="ml-2 text-xs text-muted">{r.name}</span> : null}</span>,
                     r.per !== null ? <>{two(r.per)} <span className="text-xs text-muted">{r.sp}</span></> : <Missing key="m" why={r.from ? `Held from ${day(r.from)}: ${whole(r.hours)} hours, not yet twelve complete months.` : `No ${market} price is held for this region.`} />,
                     r.from ? day(r.from) : ""] }))} />
               </Fold>
@@ -303,17 +361,39 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
           ) : null}
         </div>
       </div>
-      <SourceLine tables={[...INDEX.tables, "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table] : [])]}
+      <SourceLine tables={[...INDEX.tables, "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(cFile?.clean ? ["clean_energy_hourly"] : [])]}
         note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. <Link href={METHOD}>Method note</Link>.</>} />
     </ContractProvider>
   );
 }
 
-/** One utility's delivery charges: each as the tariff prints it, with the line it was read from on hover; and, for the
- * transmission cost recovery factor alone, what it comes to per MWh for a flat load. Its own row: never added to the
- * market cost. */
+/** New York's load in line by zone: megawatts and requests as NYISO's sheet "Load Projects" lists them, the reader's
+ * zone first; each zone's requests by status, and the source, on hover. Sums within NYISO's one list, by its statuses. */
+function NyLoadCell({ own }: { own: string }): ReactNode {
+  const mine = NYLOAD.zones.find((z) => z.zone_name === own);
+  const src = `${NYLOAD.source.name}, sheet "Load Projects" (${NYLOAD.source.url}), as NYISO last changed it on ${NYLOAD.source.workbook_last_modified}. ${NYLOAD.rule.in_line}`;
+  const tip = (z: NyZone) => `${z.zone} ${z.zone_name}: ${z.by_status.map((b) => `${b.status}: ${b.requests} requests, ${b.mw.toLocaleString("en-US")} MW`).join("; ") || "no request in line"}. ${src}`;
+  return (
+    <span className="block" data-nyload="1">
+      {mine ? <span className="mb-1 block"><span className="cursor-help border-b border-dotted border-muted" title={tip(mine)} data-nyload-own="1">{mine.mw.toLocaleString("en-US")} MW in {whole(mine.requests)} requests in {mine.zone_name}</span>; <span className="cursor-help border-b border-dotted border-muted" title={src} data-nyload-total="1">{NYLOAD.total.mw.toLocaleString("en-US")} MW in {whole(NYLOAD.total.requests)} requests in New York</span></span> : null}
+      {NYLOAD.zones.map((z) => (
+        <span key={z.zone} className={`mr-3 inline-block cursor-help whitespace-nowrap text-xs ${z.zone_name === own ? "font-semibold" : ""}`} data-nyload-zone={z.zone_name} title={tip(z)}>{z.zone_name} {z.mw.toLocaleString("en-US")} MW</span>
+      ))}
+    </span>
+  );
+}
+
+/** One utility's delivery charges for a load at transmission voltage, transmission and distribution apart, each as the
+ * tariff prints it, with its document, page, date and the line it was read from on hover; and, for a transmission
+ * factor billed per kW of four-coincident-peak demand, what it comes to per MWh for a flat load. Its own row: never
+ * added to the market cost. */
 function DeliveryCell({ rows }: { rows: typeof DELIVERY.rows }): ReactNode {
-  const tcrf = rows.find((r) => /TCRF|Transmission Cost Recovery/i.test(r.charge) && /4CP/i.test(r.unit) && r.value > 0);
+  const tcrf = rows.find((r) => (r.kind ?? "transmission") === "transmission" && /4CP\s*kW/i.test(r.unit) && r.value > 0);
+  const groups: [string, string, typeof rows][] = [
+    ["transmission", "Transmission", rows.filter((r) => (r.kind ?? "transmission") === "transmission")],
+    ["distribution", "Distribution", rows.filter((r) => r.kind === "distribution")],
+    ["other", "Other riders", rows.filter((r) => r.kind === "other")],
+  ];
   return (
     <span className="block text-ink" data-delivery="1">
       {tcrf ? (
@@ -324,14 +404,50 @@ function DeliveryCell({ rows }: { rows: typeof DELIVERY.rows }): ReactNode {
           </span>
         </span>
       ) : null}
-      {rows.map((r, i) => (
-        <span key={i} className="mr-3 inline-block text-xs">
-          <a href={r.url} title={`${r.document}${r.page ? `, page ${r.page}` : ""}${r.effective ? `, effective ${r.effective}` : ""}. Read from the line: "${r.sentence}"${r.column ? ` (its column ${r.column})` : ""}. ${r.terms}.`} className="cursor-help no-underline hover:underline">
-            {r.charge}: {r.value_as_written.replace(/^\$\s*/, "").replace(/^\(\s*\$?\s*/, "(")} {r.unit.replace(/^\$\//, "USD per ").replace(/^per /, "USD per ")}
-          </a>{i < rows.length - 1 ? ";" : ""}
+      {groups.filter(([, , g]) => g.length).map(([kind, label, g]) => (
+        <span key={kind} className="mb-0.5 block text-xs" data-delivery-kind={kind}>
+          <span className="mr-2 font-semibold">{label}</span>
+          {g.map((r, i) => (
+            <span key={i} className="mr-3 inline-block">
+              <a href={r.url} title={`${r.document}${r.page ? `, page ${r.page}` : ""}${r.effective ? `, effective ${r.effective}` : ""}. Read from the line: "${r.sentence}"${r.column ? ` (its column ${r.column})` : ""}.${r.why ? ` ${r.why}.` : ""}${r.applies ? ` Applies: ${r.applies}.` : ""} ${r.terms}.`} className="cursor-help no-underline hover:underline">
+                {r.charge}: {r.value_as_written.replace(/^\$\s*/, "").replace(/^\(\s*\$?\s*/, "(")} {r.unit.replace(/^\$\//, "USD per ").replace(/^\//, "USD per ").replace(/^per /i, "USD per ")}
+              </a>{i < g.length - 1 ? ";" : ""}
+            </span>
+          ))}
         </span>
       ))}
     </span>
+  );
+}
+
+const matrixTip = (r: MatrixRow) => `${r.document}, filed ${r.filed}, page ${r.page ?? "not printed"} of the attachment${r.scan_page ? ` (page ${r.scan_page} of the filed scan)` : ""}. Column "${r.header}". Read from the line: "${r.sentence}".${r.digits_spaced ? " The text of the file prints this figure with its digits spaced." : ""} ${r.docket_status}.`;
+const matrixName = (r: MatrixRow) => `${r.year}${r.matrix ? `, matrix ${r.matrix}` : ""}`;
+/** The Commission's wholesale transmission rate for all of ERCOT (the postage stamp rate), each year as printed, with
+ * what it comes to per MWh for a flat load. Its own row: never added to the market cost. */
+function MatrixCell({ rows }: { rows: MatrixRow[] }): ReactNode {
+  const rates = rows.filter((r) => r.quantity === "postage_stamp_rate" && r.matrix !== "B");
+  return (
+    <span className="block text-ink" data-matrix="1">
+      {rates.map((r) => (
+        <span key={`${r.year}${r.matrix}`} className="mr-4 inline-block">
+          <a href={r.scan_url || r.url} className="cursor-help no-underline hover:underline" title={matrixTip(r)} data-matrix-rate={r.year}>{r.year}: USD {r.value.toFixed(6)} per kW of four-peak demand a year</a>
+          {" "}<span className="cursor-help border-b border-dotted border-muted text-xs" title={`A flat load's demand in the four summer peak intervals is its size, so ${r.value.toFixed(6)} per kW a year over 8,760 hours is USD ${two((r.value * 1000) / 8760)} per MWh. This is the rate distribution providers pay for the whole grid's transmission; a retail customer pays it through its utility's transmission factor above. Not added to the market cost.`}>USD {two((r.value * 1000) / 8760)} per MWh, a flat load</span>
+          <span className="ml-1 text-xs text-muted">{r.status === "approved" ? "approved" : "filed, not approved"}</span>
+        </span>
+      ))}
+    </span>
+  );
+}
+/** The matrix, row by row: all of ERCOT and the four utilities as transmission providers, each figure as printed. */
+function MatrixTable({ rows }: { rows: MatrixRow[] }): ReactNode {
+  const keys = [...new Set(rows.map((r) => `${r.year}|${r.matrix}|${r.scope}`))];
+  const pick = (k: string, q: string[]) => rows.find((r) => `${r.year}|${r.matrix}|${r.scope}` === k && q.includes(r.quantity));
+  const cell = (r: MatrixRow | undefined, digits: number) => r ? <a href={r.scan_url || r.url} title={matrixTip(r)} className="cursor-help no-underline hover:underline">{r.value.toLocaleString("en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits })}</a> : <Missing why="The matrix prints no such figure in this row." words="not printed" />;
+  return (
+    <ToolTable caption="The Commission's transmission charge matrix" words minWidth={680} head={["", "Transmission cost of service, USD a year", "Rate, USD per kW a year", "Four-peak demand, kW", ""]}
+      rows={keys.map((k) => { const [, , scope] = k.split("|"); const any = rows.find((r) => `${r.year}|${r.matrix}|${r.scope}` === k)!;
+        return { key: k, cells: [`${scope}, ${matrixName(any)}`, cell(pick(k, ["total_transmission_cost_of_service", "transmission_cost_of_service"]), 0), cell(pick(k, ["postage_stamp_rate", "access_fee"]), 6),
+          cell(pick(k, ["total_average_4cp", "average_4cp"]), 0), <span key="s" className="text-xs text-muted">{any.status === "approved" ? "approved" : "filed, not approved"}</span>] }; })} />
   );
 }
 

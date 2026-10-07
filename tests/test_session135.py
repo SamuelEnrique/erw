@@ -114,11 +114,13 @@ class Selection(unittest.TestCase):
         many = [org(f"Co {i:02d}", trends=[1, 2] if i < 3 else [1]) for i in range(14)]
         r = self.rows(many + [weak])
         self.assertEqual(r["Weak"]["reached"], "trend")
-        self.assertIn("confidence under 60", r["Weak"]["stopped"])
+        # session 142: a reader is told why a company is off the pipeline map, never the threshold or the cap (these
+        # two lines pinned "confidence under 60" and "beyond the 10 the map holds"); the order is tests/test_session142.py's
+        self.assertEqual(r["Weak"]["stopped"], "its confidence is too low for the pipeline map")
         on = [n for n, o in r.items() if o["reached"] == "pipeline"]
         self.assertEqual(len(on), 10)
         self.assertTrue({"Co 00", "Co 01", "Co 02"} <= set(on))
-        self.assertIn("beyond the 10", r["Co 13"]["stopped"])
+        self.assertEqual(r["Co 13"]["stopped"], "the pipeline map is full")
 
     def test_the_same_company_twice_is_one_row(self):
         r = R.select([org("Zanskar Geothermal & Minerals, Inc."), org("Zanskar Geothermal & Minerals", sources=["S1", "S2"])], "", "", 5, {"S1", "S2"})
@@ -259,7 +261,7 @@ class Spending(unittest.TestCase):
         with self.assertRaises(tb.Budget) as e:
             r.guard("landscape")
         self.assertIn("not started", str(e.exception))
-        self.researcher(0.40, 1.11).guard("landscape")       # fits: no exception
+        self.researcher(0.20, 1.11).guard("landscape")       # fits: no exception (0.40 until session 142 raised the stage's reserve from 0.66 to 0.85)
 
     def test_a_paid_answer_is_never_discarded(self):
         r = self.researcher(1.20, 1.11)
