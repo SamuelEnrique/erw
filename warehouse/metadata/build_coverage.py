@@ -95,6 +95,9 @@ TIER_RULES = [
     ("derived", r"^known_data_faults$"),  # session 103: the ERW's own register of its sources' faults
     # session 138: tariff and Commission figures read by a model, each kept only with its line found on the page
     ("model_extracted", r"^texas_delivery_charges$"),
+    # session 139: statements of large load waiting for power, collected by an AI research agent with web search, each
+    # kept only with its sentence found in the document
+    ("model_extracted", r"^large_load_statements$"),
 ]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
@@ -140,6 +143,8 @@ SECTOR_RULES = [
     (r"^(ercot_zone|nyiso_zone|isone_zone|caiso_area)_load_hourly$", "power"),
     # session 138: Texas wires utilities' delivery charges for a load at transmission voltage (internal)
     (r"^texas_delivery_charges$", "power"),
+    # session 139: the large-load statements pilot (internal)
+    (r"^large_load_statements$", "power"),
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),
