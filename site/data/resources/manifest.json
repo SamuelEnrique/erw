@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-07T21:55:51Z",
+ "built_at_utc": "2026-10-07T21:59:03Z",
  "layers": [
   {
    "id": "wind_speed_100m",
@@ -24,21 +24,21 @@
      "cell_deg": 0.2,
      "ncols": 319,
      "nrows": 128,
-     "bytes": 109045
+     "bytes": 111014
     },
     {
      "file": "wind_speed_100m_0p1.json",
      "cell_deg": 0.1,
      "ncols": 638,
      "nrows": 256,
-     "bytes": 435701
+     "bytes": 437670
     },
     {
      "file": "wind_speed_100m_0p05.json",
      "cell_deg": 0.05,
      "ncols": 1276,
      "nrows": 512,
-     "bytes": 1742328
+     "bytes": 1744297
     }
    ],
    "legend": {
@@ -194,21 +194,21 @@
      "cell_deg": 0.2,
      "ncols": 291,
      "nrows": 126,
-     "bytes": 97933
+     "bytes": 99902
     },
     {
      "file": "solar_ghi_0p1.json",
      "cell_deg": 0.1,
      "ncols": 582,
      "nrows": 252,
-     "bytes": 391261
+     "bytes": 393230
     },
     {
      "file": "solar_ghi_0p05.json",
      "cell_deg": 0.05,
      "ncols": 1164,
      "nrows": 504,
-     "bytes": 1564576
+     "bytes": 1566545
     }
    ],
    "legend": {
@@ -295,21 +295,21 @@
        "cell_deg": 0.2,
        "ncols": 30,
        "nrows": 19,
-       "bytes": 1675
+       "bytes": 3644
       },
       {
        "file": "solar_ghi_hawaii_0p1.json",
        "cell_deg": 0.1,
        "ncols": 60,
        "nrows": 38,
-       "bytes": 6235
+       "bytes": 8204
       },
       {
        "file": "solar_ghi_hawaii_0p05.json",
        "cell_deg": 0.05,
        "ncols": 120,
        "nrows": 76,
-       "bytes": 24478
+       "bytes": 26447
       }
      ],
      "legend": {
@@ -381,21 +381,21 @@
        "cell_deg": 0.2,
        "ncols": 251,
        "nrows": 45,
-       "bytes": 30276
+       "bytes": 32245
       },
       {
        "file": "solar_ghi_alaska_0p1.json",
        "cell_deg": 0.1,
        "ncols": 502,
        "nrows": 90,
-       "bytes": 120636
+       "bytes": 122605
       },
       {
        "file": "solar_ghi_alaska_0p05.json",
        "cell_deg": 0.05,
        "ncols": 1004,
        "nrows": 180,
-       "bytes": 482080
+       "bytes": 484049
       }
      ],
      "legend": {
@@ -484,21 +484,21 @@
      "cell_deg": 0.2,
      "ncols": 291,
      "nrows": 126,
-     "bytes": 97933
+     "bytes": 99902
     },
     {
      "file": "solar_dni_0p1.json",
      "cell_deg": 0.1,
      "ncols": 582,
      "nrows": 252,
-     "bytes": 391261
+     "bytes": 393230
     },
     {
      "file": "solar_dni_0p05.json",
      "cell_deg": 0.05,
      "ncols": 1164,
      "nrows": 504,
-     "bytes": 1564576
+     "bytes": 1566545
     }
    ],
    "legend": {
@@ -583,21 +583,21 @@
        "cell_deg": 0.2,
        "ncols": 30,
        "nrows": 19,
-       "bytes": 1675
+       "bytes": 3644
       },
       {
        "file": "solar_dni_hawaii_0p1.json",
        "cell_deg": 0.1,
        "ncols": 60,
        "nrows": 38,
-       "bytes": 6235
+       "bytes": 8204
       },
       {
        "file": "solar_dni_hawaii_0p05.json",
        "cell_deg": 0.05,
        "ncols": 120,
        "nrows": 76,
-       "bytes": 24478
+       "bytes": 26447
       }
      ],
      "legend": {
@@ -668,21 +668,21 @@
        "cell_deg": 0.2,
        "ncols": 251,
        "nrows": 45,
-       "bytes": 30276
+       "bytes": 32245
       },
       {
        "file": "solar_dni_alaska_0p1.json",
        "cell_deg": 0.1,
        "ncols": 502,
        "nrows": 90,
-       "bytes": 120636
+       "bytes": 122605
       },
       {
        "file": "solar_dni_alaska_0p05.json",
        "cell_deg": 0.05,
        "ncols": 1004,
        "nrows": 180,
-       "bytes": 482080
+       "bytes": 484049
       }
      ],
      "legend": {
@@ -930,7 +930,7 @@
    "source_resolution": "polygons of classes",
    "reduction": "the polygons simplified together as one coverage, so that neighbours still meet along one line (tolerance 0.02 degrees); coordinates to 3 decimals; no feature dropped",
    "file": "geothermal_egs_favorability.json",
-   "bytes": 871521,
+   "bytes": 873490,
    "features": 1007,
    "bounds": [
     -124.669,
@@ -1108,7 +1108,7 @@
    "source_resolution": "county",
    "reduction": "the polygons simplified together as one coverage, so that neighbours still meet along one line (tolerance 0.015 degrees); coordinates to 3 decimals; no feature dropped",
    "file": "biomass.json",
-   "bytes": 2654199,
+   "bytes": 2656168,
    "features": 3141,
    "bounds": [
     -178.228,

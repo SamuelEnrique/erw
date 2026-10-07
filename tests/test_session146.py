@@ -9,6 +9,9 @@
   every layer of the manifest has a unit, a vintage, a terms quote and a file that exists, and each grid level's
     file is what the manifest says it is;
   every terms quote is in the saved terms page word for word (only on a machine that holds the raw store);
+  the laboratory's notice is in every web file made from its data; hydrothermal and enhanced geothermal are
+    separate layers; a layer that is not held says why;
+  the entities tables are a trial: nothing is written without --out-dir;
   no em dash in the files this session wrote.
 No network. The tests that need numpy, rasterio or the layer files skip when they are absent.
 """
@@ -301,6 +304,23 @@ class TestManifest(unittest.TestCase):
         for l in hydro:
             self.assertTrue(l["source_file"].startswith("usgs/"))
 
+    def test_the_laboratory_notice_travels_with_every_copy(self):
+        if not os.path.isdir(WEB):
+            self.skipTest("the layer files are not on this machine")
+        seen = 0
+        for l in self.man["layers"]:
+            if not l.get("terms_notice"):
+                continue
+            self.assertIn("provided that this entire notice appears in all copies of the Data", l["terms_notice"])
+            files = [v["file"] for v in l["levels"]] if l["kind"] == "grid" else [l["file"]]
+            files += [v["file"] for x in l.get("other_extents", []) for v in x["levels"]]
+            for f in files:
+                with open(os.path.join(WEB, f), encoding="utf-8") as fh:
+                    self.assertEqual(json.load(fh).get("notice"), l["terms_notice"], f)
+                seen += 1
+        if not seen:
+            self.skipTest("no layer of the laboratory on this machine")
+
     def test_what_is_not_held_says_why(self):
         missing = {m["id"]: m for m in self.man.get("missing", [])}
         held = {l["id"] for l in self.man["layers"]}
@@ -346,6 +366,26 @@ class TestManifest(unittest.TestCase):
                 for q in l["terms_quotes"]:
                     self.assertIn(" ".join(q.split()), text)
                     self.assertIn(q, l["terms_quote"])
+
+
+class TestTables(unittest.TestCase):
+    def test_a_date_as_the_source_writes_it(self):
+        self.assertEqual(rl.iso_date("06/01/2023"), "2023-06-01")
+        self.assertEqual(rl.iso_date("3/23/2016"), "2016-03-23")
+        self.assertEqual(rl.iso_date("September 12, 2022"), "", "not guessed")
+        self.assertEqual(rl.iso_date("13/45/2022"), "")
+        self.assertEqual(rl.iso_date(None), "")
+
+    def test_repeated_ids_are_numbered_in_the_source_order(self):
+        self.assertEqual(rl.unique_ids(["a", "b", "a", "c", "a"]), ["a#1", "b", "a#2", "c", "a#3"])
+
+    def test_the_tables_are_a_trial_until_an_out_dir_is_given(self):
+        old = sys.argv
+        try:
+            sys.argv = ["resource_layers.py", "--tables"]
+            self.assertEqual(rl.main(), 2)
+        finally:
+            sys.argv = old
 
 
 class TestNoEmDash(unittest.TestCase):

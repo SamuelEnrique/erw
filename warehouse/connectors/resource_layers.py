@@ -426,7 +426,8 @@ def nice_stops(lo, hi, n=6):
     return out
 
 
-def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells=None, crop=False):
+def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells=None, crop=False,
+               notice=None):
     """One raster to a pyramid of grid files. Returns (levels, legend, stats, source_res_deg).
 
     bounds: (west, south, east, north) in degrees, snapped outward here to 0.2 degrees.
@@ -474,6 +475,8 @@ def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells
         obj = {"lon0": lon0, "lat0": lat0, "dlon": cell, "dlat": cell, "ncols": int(v.shape[1]),
                "nrows": int(v.shape[0]), "scale": scale, "offset": 0.0, "nodata": NODATA,
                "encoding": "uint16-le-base64", "values": encode_grid(v, scale)}
+        if notice:
+            obj["notice"] = notice
         size = write_json_atomic(os.path.join(web_dir, file), obj)
         back = decode_grid(obj)
         okb = np.isfinite(back)
@@ -557,7 +560,7 @@ def clean(v):
     return s if s else None
 
 
-def write_shapes(web_dir, file, gdf, props_fn, tolerance=0.01, coverage=False, digits=3):
+def write_shapes(web_dir, file, gdf, props_fn, tolerance=0.01, coverage=False, digits=3, notice=None):
     """A GeoDataFrame to one GeoJSON FeatureCollection in WGS84. Returns (bytes, features, bounds).
 
     coverage: the polygons tile an area and share edges (classes, counties). They are simplified together
@@ -581,7 +584,10 @@ def write_shapes(web_dir, file, gdf, props_fn, tolerance=0.01, coverage=False, d
         if geom.is_empty:
             continue
         feats.append({"type": "Feature", "properties": props_fn(row), "geometry": geom_json(geom, digits)})
-    size = write_json_atomic(os.path.join(web_dir, file), {"type": "FeatureCollection", "features": feats})
+    fc = {"type": "FeatureCollection", "features": feats}
+    if notice:
+        fc["notice"] = notice
+    size = write_json_atomic(os.path.join(web_dir, file), fc)
     b = [round(float(x), 3) for x in g.total_bounds]
     return size, len(feats), b
 
@@ -814,8 +820,10 @@ def grid_layer(raw_dir, web_dir, manifest, *, id, key, raster, band=1, bounds=No
     """Build one grid layer's pyramid and write its manifest entry. bounds None: all the raster covers,
     cut to the 0.2 degree blocks that hold a value."""
     row = held(raw_dir, key)
+    notice = fields.get("terms_notice")
     levels, legend, st, res = build_grid(id, raster, band, web_dir, bounds or raster_bounds(raster), scale,
-                                         valid=valid, level_cells=level_cells, crop=bounds is None)
+                                         valid=valid, level_cells=level_cells, crop=bounds is None,
+                                         notice=notice)
     layer = base_layer(id, fields.pop("group"), fields.pop("title"), "grid", row, key,
                        levels=levels, legend=legend, source_cell_deg=round(res, 6),
                        source_stats={"n_valid": st["n_valid_in_grid"], "min": st["min_in_grid"],
@@ -825,7 +833,7 @@ def grid_layer(raw_dir, web_dir, manifest, *, id, key, raster, band=1, bounds=No
     # what the source covers beyond the main grid, in files of their own (the page draws the main grid first)
     for tag, (b, extent) in (extras or {}).items():
         lv, lg, sx, _ = build_grid(f"{id}_{tag}", raster, band, web_dir, b, scale, valid=valid,
-                                   level_cells=level_cells)
+                                   level_cells=level_cells, notice=notice)
         layer.setdefault("other_extents", []).append({
             "extent": extent, "levels": lv, "legend": lg, "grid": sx["grid"], "checks": sx["checks"],
             "source_stats": {"n_valid": sx["n_valid_in_grid"], "min": sx["min_in_grid"], "mean": sx["mean"],
@@ -936,17 +944,18 @@ def xml_field(path, tag):
     return re.sub(r"\s+", " ", t.replace("\ufffd", " ")).strip()
 
 
-def shapes_any(web_dir, file, gdf, props, tolerance, coverage):
+def shapes_any(web_dir, file, gdf, props, tolerance, coverage, notice=None):
     """Simplify as a coverage when the source is one; say which was done."""
     if coverage:
         try:
-            size, n, b = write_shapes(web_dir, file, gdf, props, tolerance=tolerance, coverage=True)
+            size, n, b = write_shapes(web_dir, file, gdf, props, tolerance=tolerance, coverage=True,
+                                      notice=notice)
             return size, n, b, (f"the polygons simplified together as one coverage, so that neighbours still "
                                 f"meet along one line (tolerance {tolerance} degrees); coordinates to 3 decimals; "
                                 f"no feature dropped")
         except ValueError as e:
             log(f"{file}: {e}; simplified one feature at a time")
-    size, n, b = write_shapes(web_dir, file, gdf, props, tolerance=tolerance)
+    size, n, b = write_shapes(web_dir, file, gdf, props, tolerance=tolerance, notice=notice)
     return size, n, b, (f"each polygon simplified to {tolerance} degrees with its topology kept (Douglas-Peucker, "
                         f"one feature at a time: a thin gap or overlap can show between neighbours when zoomed "
                         f"far in); coordinates to 3 decimals; no feature dropped")
@@ -1061,7 +1070,8 @@ def build_egs(raw_dir, web_dir, manifest):
         return {"name": EGS_CLASSES.get(c, f"Class {c}"), "kind": "deep enhanced geothermal favorability class",
                 "value": c, "value_unit": "class (1 most favorable, 5 least favorable, 999 not assessed)",
                 "CLASS": c}
-    size, n, b, how = shapes_any(web_dir, "geothermal_egs_favorability.json", g, props, 0.02, True)
+    size, n, b, how = shapes_any(web_dir, "geothermal_egs_favorability.json", g, props, 0.02, True,
+                                notice=nlr_notice(raw_dir))
     meta = shp + ".xml"
     counts = {int(k): int(v) for k, v in g["CLASS"].value_counts().items()}
     classes = [{"value": k, "label": EGS_CLASSES.get(k, f"Class {k}"), "features": counts.get(k, 0)}
@@ -1105,7 +1115,7 @@ def build_biomass(raw_dir, web_dir, manifest):
              "value": clean(r["Total"]), "value_unit": "dry metric tons/year"}
         p.update(source_fields(r))
         return p
-    size, n, b, how = shapes_any(web_dir, "biomass.json", g, props, 0.015, True)
+    size, n, b, how = shapes_any(web_dir, "biomass.json", g, props, 0.015, True, notice=nlr_notice(raw_dir))
     meta = shp[:-4] + ".xml"
     vals = [clean(x) for x in g["Total"]]
     st = shape_stats(vals)
@@ -1372,6 +1382,8 @@ def main():
     ap.add_argument("--method-doc", action="store_true",
                     help="rewrite the layer sections of docs/methods/resources.md from the manifest")
     ap.add_argument("--only", default="")
+    ap.add_argument("--tables", action="store_true",
+                    help="the vector layers as entities tables, a trial into --out-dir")
     ap.add_argument("--registry", action="store_true",
                     help="add this connector's sources to warehouse/metadata/sources.csv of this copy")
     ap.add_argument("--out-dir", default="")
@@ -1415,6 +1427,11 @@ def main():
         write_method_doc(manifest)
     if args.registry:
         write_registry(args.raw_dir)
+    if args.tables:
+        if not args.out_dir:
+            log("--tables is a trial: give --out-dir (the tables are not written into warehouse/output here)")
+            return 2
+        build_tables(args.raw_dir, args.out_dir)
     if failed:
         log(f"failed: {failed}")
         return 1
@@ -1602,6 +1619,143 @@ def write_registry(raw_dir, path=os.path.join(REPO, "warehouse", "metadata", "so
             w.writerow(rows[sid])
     os.replace(tmp, path)
     log(f"source registry: {n} rows of this connector in {path}")
+
+
+# ---------------------------------------------------------------------------------------------------------
+# The vector layers as entities tables (docs/datastandard.md shape b). A trial: --tables needs --out-dir.
+# The entity types below (basin, play, lease_area, planning_area, geothermal_system, county) are not in the
+# standard's vocabulary yet, so the validator blocks these tables until the owner adds them (the session's
+# report, "To finish").
+# ---------------------------------------------------------------------------------------------------------
+
+def iso_date(text):
+    """MM/DD/YYYY as the source writes it to YYYY-MM-DD; anything else is left empty."""
+    m = re.fullmatch(r"\s*(\d{1,2})/(\d{1,2})/(\d{4})\s*", text or "")
+    if not m:
+        return ""
+    try:
+        return dt.date(int(m.group(3)), int(m.group(1)), int(m.group(2))).isoformat()
+    except ValueError:
+        return ""
+
+
+def cell(v):
+    v = clean(v)
+    if v is None:
+        return ""
+    if isinstance(v, float):
+        return repr(round(v, 6)).rstrip("0").rstrip(".") if v != int(v) else str(int(v))
+    return str(v)
+
+
+def unique_ids(ids):
+    """Make repeated ids unique by a counter in the source's row order (the source has no key of its own)."""
+    seen, out = {}, []
+    many = {i for i in ids if ids.count(i) > 1}
+    for i in ids:
+        if i in many:
+            seen[i] = seen.get(i, 0) + 1
+            out.append(f"{i}#{seen[i]}")
+        else:
+            out.append(i)
+    return out
+
+
+def write_table(out_dir, name, row, title, cols, rows, note=""):
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, name + ".csv")
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8", newline="") as f:
+        f.write(f"# Energy Research Warehouse (ERW): {title}\n")
+        f.write(f"# Source file: {row['source']}/{row['file']} ({row['bytes']} bytes, sha256 {row['sha256']})\n")
+        f.write(f"# Source URL: {row['url']}\n")
+        f.write(f"# Retrieved: {row['retrieved_at_utc']}\n")
+        f.write(f"# Terms: {row['terms_url']}\n")
+        f.write("# Shape: entities (docs/datastandard.md). One row a row of the source; x_ columns are the "
+                "source's own fields.\n")
+        if note:
+            f.write(f"# {note}\n")
+        f.write("# Written by warehouse/connectors/resource_layers.py --tables (session 146)\n")
+        w = csv.writer(f, lineterminator="\n")
+        w.writerow(cols)
+        for r in rows:
+            w.writerow([cell(r.get(c)) for c in cols])
+    os.replace(tmp, path)
+    log(f"table: {name}.csv {len(rows)} rows")
+    return path
+
+
+STD = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "operator", "source"]
+
+
+def build_tables(raw_dir, out_dir):
+    import geopandas as gpd
+    done = []
+    row = held(raw_dir, "eia_basins")
+    g = gpd.read_file(find_file(unpack(row["path"]), r"\.shp$"))
+    rows = [{"entity_id": i, "entity_type": "basin", "name": r["NAME"], "source": "eia:maps:sedimentary_basins",
+             "x_area_sq_mi": r["Area_sq_mi"], "x_area_sq_km": r["Area_sq_km"]}
+            for i, (_, r) in zip(unique_ids([f"eia:basin:{clean(x)}" for x in g["NAME"]]), g.iterrows())]
+    done.append(write_table(out_dir, "eia_maps_sedimentary_basins", row, "EIA, U.S. Sedimentary Basins (May 2011)",
+                            ["entity_id", "entity_type", "name", "source", "x_area_sq_mi", "x_area_sq_km"], rows))
+    row = held(raw_dir, "eia_plays")
+    g = gpd.read_file(find_file(unpack(row["path"]), r"\.shp$"))
+    rows = [{"entity_id": i, "entity_type": "play", "name": r["Shale_play"],
+             "source": "eia:maps:tight_oil_shale_gas_plays", "x_basin": r["Basin"], "x_lithology": r["Lithology"],
+             "x_age_shale": r["Age_shale"], "x_area_sq_mi": r["Area_sq_mi"], "x_area_sq_km": r["Area_sq_km"],
+             "x_references": r["References"]}
+            for i, (_, r) in zip(unique_ids([f"eia:play:{clean(x)}" for x in g["ID"]]), g.iterrows())]
+    done.append(write_table(out_dir, "eia_maps_shale_plays", row,
+                            "EIA, Tight Oil and Shale Gas Plays in the U.S. (December 2021)",
+                            ["entity_id", "entity_type", "name", "source", "x_basin", "x_lithology", "x_age_shale",
+                             "x_area_sq_mi", "x_area_sq_km", "x_references"], rows))
+    row = held(raw_dir, "boem_shapefiles")
+    g = gpd.read_file(find_file(unpack(row["path"]), r"Offshore_Wind_Leases_outlines\.shp$"))
+    ids = unique_ids([f"boem:{clean(n)}:{clean(t) or 'lease'}" for n, t in zip(g["LEASE_NUMB"], g["LEASE_TYPE"])])
+    rows = [{"entity_id": i, "entity_type": "lease_area", "name": r["LEASE_NU_1"], "operator": r["COMPANY"],
+             "source": "boem:renewable_energy_leases", "x_lease_number": r["LEASE_NUMB"],
+             "x_lease_type": r["LEASE_TYPE"], "x_lease_date": iso_date(clean(r["LEASE_DATE"])),
+             "x_lease_date_as_written": r["LEASE_DATE"], "x_lease_term": r["LEASE_TERM"], "x_acres": r["ACRES"],
+             "x_state_as_written": r["STATE"], "x_project_name": r["PROJECT_NA"]}
+            for i, (_, r) in zip(ids, g.iterrows())]
+    done.append(write_table(out_dir, "boem_all_wind_lease_outlines", row,
+                            "BOEM, offshore wind lease outlines (file update 02/05/2025)",
+                            ["entity_id", "entity_type", "name", "operator", "source", "x_lease_number",
+                             "x_lease_type", "x_lease_date", "x_lease_date_as_written", "x_lease_term", "x_acres",
+                             "x_state_as_written", "x_project_name"], rows,
+                            note="A lease with several outlines of one type has one row an outline, numbered #1, "
+                                 "#2 in the source's order. x_lease_date is LEASE_DATE (MM/DD/YYYY) as a date."))
+    row = held(raw_dir, "boem_planning")
+    g = gpd.read_file(row["path"])
+    g = g[~(g.geometry.isna() | g.geometry.is_empty)]
+    rows = [{"entity_id": f"boem:planning_area:{clean(r['OBJECTID'])}", "entity_type": "planning_area",
+             "name": r["ADDITIONAL_INFORMATION"], "source": "boem:wind_planning_area_outlines",
+             "x_category": r["CATEGORY1"], "x_area_status": r["AREA_STATUS"],
+             "x_protraction_number": r["PROTRACTION_NUMBER"], "x_url": r["URL1"]} for _, r in g.iterrows()]
+    done.append(write_table(out_dir, "boem_all_wind_planning_areas", row,
+                            "BOEM, Offshore Wind Planning Area Outlines (Rescinded July 30, 2025)",
+                            ["entity_id", "entity_type", "name", "source", "x_category", "x_area_status",
+                             "x_protraction_number", "x_url"], rows,
+                            note="BOEM names the layer rescinded; x_area_status is the source's own field."))
+    row = held(raw_dir, "usgs_IdentifiedGeothermalSystems_shp")
+    g = gpd.read_file(row["path"])
+    ids = unique_ids([f"usgs:geothermal_system:{clean(s_)}:{clean(n)}" for s_, n in zip(g["State"], g["Name"])])
+    extra = ["Temp_C_Li", "Temp_C_Mn", "Temp_C_Mx", "Vol_km3_Li", "Vol_km3_Mn", "Vol_km3_Mx", "MWe_Mean",
+             "MWe_P95", "MWe_P5"]
+    rows = []
+    for i, (_, r) in zip(ids, g.iterrows()):
+        d = {"entity_id": i, "entity_type": "geothermal_system", "name": r["Name"], "geo": f"US-{clean(r['State'])}",
+             "lat": r["Lat_83"], "lon": r["Lon_83"], "source": "usgs:identified_geothermal_systems"}
+        d.update({"x_" + c.lower(): r[c] for c in extra})
+        rows.append(d)
+    done.append(write_table(out_dir, "usgs_all_geothermal_systems", row,
+                            "USGS, Identified Moderate and High Temperature Geothermal Systems (2008 assessment)",
+                            ["entity_id", "entity_type", "name", "geo", "lat", "lon", "source"]
+                            + ["x_" + c.lower() for c in extra], rows,
+                            note="lat and lon are the source's Lat_83 and Lon_83 (NAD83). x_mwe_mean is USGS's "
+                                 "mean estimate of electric power generation potential, not an installed "
+                                 "capacity, so capacity_mw is left empty."))
+    return done
 
 
 def check_terms(raw_dir, manifest):
