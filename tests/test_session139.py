@@ -41,18 +41,20 @@ class Rule(unittest.TestCase):
                     document_date="2026-08-06" if k > 2 else "2026-05-01") for k in range(1, 9)]
         rows.append(row(entity="Some other utility", sentence="Not one of the ten: 9 gigawatts.", quantity_as_written="9 gigawatts"))
         rows.append(row(notes="CAUTION: a third party's copy", mw="99000", quantity_as_written="99 gigawatts", sentence="It is 99 gigawatts."))
-        taken, left = ll.choose(rows)
-        self.assertEqual(len(taken), ll.PER_GROUP)
+        # session 141 takes every verified statement (PER_GROUP is None); the pilot's five an entity is the rule with per_group=5
+        self.assertIsNone(ll.PER_GROUP)
+        taken, left = ll.choose(rows, per_group=5)
+        self.assertEqual(len(taken), 5)
         self.assertEqual([r["mw"] for r in taken], ["8000", "7000", "6000", "5000", "4000"])   # the newest document, its largest figure first
         self.assertEqual({r["entity_group"] for r in taken}, {"Oncor Electric Delivery"})
         why = {r["mw"]: r["why_not_taken"] for r in left}
         self.assertIn("CAUTION", why["99000"])
-        self.assertIn("not one of the ten", why["44000"])
+        self.assertIn("not one of the entities", why["44000"])
         self.assertEqual(len(taken) + len(left), len(rows))   # nothing collected is lost
         # a stage not yet held comes before one that repeats, even when it is smaller
         two = [row(mw=str(m), quantity_as_written=f"{m} MW", sentence=f"It is {m} MW.", stage_as_worded=s) for m, s in
                ((900, "queue"), (800, "queue"), (700, "queue"), (600, "queue"), (500, "queue"), (100, "signed"))]
-        self.assertIn("100", [r["mw"] for r in ll.choose(two)[0]])
+        self.assertIn("100", [r["mw"] for r in ll.choose(two, per_group=5)[0]])
 
     def test_a_row_of_the_table(self):
         r = row(entity_group="Entergy", mw="7000-12000", quantity_as_written="7 to 12 GW", document_date="2026-05", sentence="A pipeline of 7 to 12 GW.")
@@ -63,7 +65,8 @@ class Rule(unittest.TestCase):
         self.assertTrue(out["event_id"].startswith("llstmt:") and len(out["event_id"]) == 23)
         self.assertEqual(out["event_id"], ll.to_row(dict(r), "2026-10-08T00:00:00Z")["event_id"])   # a stable id
         self.assertEqual(list(out), ll.COLS)
-        self.assertEqual(len(ll.GROUPS), 10)
+        self.assertEqual(len(ll.GROUPS), 40)   # session 141: from ten entities to forty
+        self.assertTrue(set(ll.PILOT_TEN) <= set(ll.GROUPS))
 
 
 class Held(unittest.TestCase):

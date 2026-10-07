@@ -1,0 +1,73 @@
+Attachment A
+Public Utility Commission of Texas Final Matrix
+Docket No. 57491
+2025 Net Wholesale Transmission Matrix Charges for ERCOT
+Parameters
+From ERCOT Filing
+From Annual 2024
+Transmission Owners/Load Entities TCOS Docket No. Access Fee ($/KW) * Average 4CP (KW)
+AEP Texas AEP $759,516,345 57309 $9.075870 6,600,061.406
+Austin Energy AENX $90,483,945 53235 $1.248220 2,770,141.065
+Bandera Electric Coop BAND $5,640,517 51420 $0.079465 166,493.132
+Bartlett, City of BART 2,957.307
+Bastrop, City of BAST 17,830.337
+Bellville, City of BELV 13,438.837
+Bluebonnet Electric Coop BLUE $4,536,643 56400 $0.059034 717,218.638
+Boerne, City of BOER 35,141.972
+Brady, City of BRADY 13,706.562
+Brazos Electric Coop BEPC $134,150,563 51019 $1.889954 4,097,095.626
+Brenham, City of BRNM 54,956.930
+Bridgeport, City of BRDG 13,937.405
+Brownsville Public Utilities Board BPUB $9,851,333 51536 $0.138873 263,169.950
+Bryan Texas Utilities BRYN $38,687,685 54945 $0.533694 412,488.419
+Burnet, City of BRNT 19,339.975
+Castroville, City of CAVI 6,969.165
+CenterPoint Energy Houston Electric CNP $663,417,287 57304 $7.927530 20,022,624.006
+Central Texas Electric Coop CTEC 179,314.380
+Cherokee County Electric Coop CCECA $205,261 51535 $0.002892 -
+Coleman, City of COLE 9,129.583
+College Station, City of COCS $5,875,259 52728 $0.082820 219,395.650
+Cross Texas Transmission, LLC CTT $71,468,912 53894 $0.985910 -
+Cuero, City of CUER 21,721.697
+Deaf Smith Electric Cooperative Inc DSEC -
+Deep East Texas Electric Coop DETEC $148,471 51562 $0.002092 -
+Denton Municipal Electric DMEX $25,595,338 56102 $0.333063 400,696.478
+East Texas Electric Coop ETEC $244,902 50295 $0.003530 -
+Electric Transmission Texas ETT $378,012,957 56761 $4.517080 -
+Fannin Electric Coop FANN $152,039 50218 $0.002192 -
+Farmers Electric Coop FECX $670,182 47470 $0.009901 -
+Farmersville, City of COFV 7,970.772
+Fayette Electric Coop FAYT $66,096 55958 $0.000953 70,792.210
+Flatonia, City of FLAT 5,802.966
+Floresville Electric Power System FEPS $446,967 50205 $0.006443 83,883.021
+Fredericksburg, City of FRED 32,962.129
+Garland, City of GARL $64,090,798 51798 $0.908861 466,234.144
+Georgetown, City of GTWN 180,619.816
+GEUS (Formerly Greenville) GEUS $3,877,503 56357 $0.050457 116,008.543
+Giddings, City of GIDN 12,967.857
+Golden Spread Electric Coop GSEC $7,232,452 52828 $0.101955 390,944.896
+Goldsmith, City of GLDSM 1,076.982
+Goldthwaite, City of GLDW 5,391.234
+Gonzales, City of GONZ 17,701.122
+Granbury Municipal Utilities GRBX 21,799.316
+Grayson-Collin Electric Coop GCEC $1,613,260 51464 $0.022728 -
+Greenbelt Electric Coop GBEC -
+Guadalupe Valley Electric Coop GVEC $22,023,527 56601 $0.287087 509,736.001
+Hallettsville, City of HLTS 9,132.489
+Hamilton County Electric Coop HAMC 43,391.590
+Hearne, City of HERN 11,093.891
+Hempstead, City of HEMP 11,885.116
+Houston County Electric Coop HCEC $1,642,777 53652 $0.022662 -
+Kerrville Public Utility Board KPUB $118,149 56097 $0.001703 109,928.337
+LaGrange Utilities LGRG 15,304.970
+Lamar County Electric Coop LCEC $286,820 50036 $0.004135 60,421.549
+Lampasas, City of LMPS 23,512.808
+Lexington, City of LXGN 2,795.293
+Lighthouse Electric Coop LHEC -
+Llano, City of LLAN 10,478.897
+Lockhart, City of LKHT 28,276.278
+Lone Star Transmission LST $96,384,686 52480 $1.358724 -
+Lower Colorado River Authority LCRA $725,115,830 57313 $8.664799 -
+Lubbock Power & Light LP&L $43,611,056 54657 $0.567495 591,635.265
+Docket No. 57491
+Page 1 of 2

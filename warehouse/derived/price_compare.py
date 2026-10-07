@@ -82,11 +82,12 @@ def licenses():
     return lic, paused
 
 
-def read_prices(in_dir, since, log):
+def read_prices(in_dir, since, log, tables=None):
     """Every hub and zone price row from `since` (UTC), one row per (entity, market side, ts): the first table of TABLES
-    that holds it. Columns: entity, side (dam or rtm), ts (UTC), value, freq, geo, table."""
+    (or of `tables`, session 140: the datacenter page reads the load zone and zone histories too) that holds it.
+    Columns: entity, side (dam or rtm), ts (UTC), value, freq, geo, table."""
     parts = []
-    for i, t in enumerate(TABLES):
+    for i, t in enumerate(tables or TABLES):
         path = os.path.join(in_dir, f"{t}.csv")
         if not os.path.exists(path):
             log(f"  {t}: not on this machine")

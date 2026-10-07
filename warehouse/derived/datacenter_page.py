@@ -56,12 +56,38 @@ TIGHT = 0.95  # an hour is tight when the grid's demand is at or above this shar
 NEAR_DEMAND = 0.95  # a year's tight hours are written when at least this share of its hours of demand are held
 # each grid's standard time, hours behind UTC, and its main hub (the default region), as the price board names it
 GRIDS = {
-    "ercot": dict(name="ERCOT", std=6, main="HB_HUBAVG", zone="US Central standard time"),
+    "ercot": dict(name="ERCOT", std=6, main="LZ_NORTH", zone="US Central standard time"),
     "caiso": dict(name="CAISO", std=8, main="TH_SP15_GEN-APND", zone="US Pacific standard time"),
     "nyiso": dict(name="NYISO", std=5, main="N.Y.C.", zone="US Eastern standard time"),
     "isone": dict(name="ISO-NE", std=5, main=".H.INTERNAL_HUB", zone="US Eastern standard time"),
     "spp": dict(name="SPP", std=6, main="SPPNORTH_HUB", zone="US Central standard time"),
 }
+# Session 140: the price tables read. The comparison's own (price_compare.TABLES), and the two histories pulled for this
+# page: ERCOT's load zones, where a Texas load settles (ercot_zone_prices_history); NYISO's zones back to 2019, CAISO's
+# ZP26 and SPP South as far as their operators serve them (iso_zone_prices_history). A table earlier in the list wins
+# an hour both hold.
+# NOT read: ISO-NE's load zones back to 2019 (isone_zone_prices_history, HELD_INTERNAL). It is internal: it comes from
+# the same ISO-NE workbook as the demand the owner ruled internal. It must not even be read and then set aside: the
+# reader keeps the first table that holds an hour, so an internal table in the list would take ISO-NE's hours from the
+# public six-week tables and then be dropped, and those hours would be lost to the page. To show it after a ruling:
+# its license in coverage, and its name moved into TABLES after iso_zone_prices_history.
+HELD_INTERNAL = ["isone_zone_prices_history"]
+TABLES = ["iso_hub_prices_history", "ercot_all_hub_prices_history", "ercot_zone_prices_history", "iso_zone_prices_history"] + [
+    t for t in pc.TABLES if t not in ("iso_hub_prices_history", "ercot_all_hub_prices_history")]
+# ERCOT's load zones, where a load settles, each with its name and the trading hub shown beside it for reference. The
+# four competitive zones have a hub of the same area; the four zones of municipal and cooperative systems (Austin
+# Energy, CPS Energy, the Lower Colorado River Authority, Rayburn) have none of their own and stand beside the hub
+# average. A default region is a load zone (the owner's ruling, session 140: a Texas load prices at its load zone).
+ZONES = {
+    "ercot": {
+        "LZ_NORTH": dict(name="North load zone", ref="HB_NORTH"), "LZ_HOUSTON": dict(name="Houston load zone", ref="HB_HOUSTON"),
+        "LZ_SOUTH": dict(name="South load zone", ref="HB_SOUTH"), "LZ_WEST": dict(name="West load zone", ref="HB_WEST"),
+        "LZ_AEN": dict(name="Austin Energy load zone", ref="HB_HUBAVG"), "LZ_CPS": dict(name="CPS Energy load zone (San Antonio)", ref="HB_HUBAVG"),
+        "LZ_LCRA": dict(name="Lower Colorado River Authority load zone", ref="HB_HUBAVG"), "LZ_RAYBN": dict(name="Rayburn load zone", ref="HB_HUBAVG"),
+    },
+}
+CLEAN_TABLE = "clean_energy_hourly"  # the carbon-free share of each grid's generation by hour (mix_clean.py), public
+
 # the grids shown and blanked, with the words the page shows (the owner's rule, session 138)
 BLANK = {
     "miso": dict(name="MISO", words="paused while terms are reviewed"),
@@ -77,68 +103,120 @@ DEMAND = {
 }
 
 
-# Texas delivery charges (texas_delivery_charges, session 138): the table is internal as a whole. A utility's rows are
-# written to the site's file only where the sentence of its terms that governs reuse, as quoted in the connector and in
-# sources.csv, allows a noncommercial or educational display; the others are named with the words the page shows and
-# the reason, and no figure. A person's ruling changes a line here.
+# Texas delivery charges (texas_delivery_charges, session 138; the owner's ruling of session 140). The table is internal
+# as a whole. Session 138 showed Oncor's rows alone, by its reading of each utility's terms of use. The owner then ruled:
+# all four utilities' charges are shown, each row citing its tariff document, address and date, as public regulatory
+# filings (the tariffs are on file with the Public Utility Commission of Texas). So every row a transmission-voltage
+# load pays is written, with its line, page, address and effective date, and with what the charge is (transmission,
+# distribution, or another rider), which the review of session 140 states row by row
+# (warehouse/derived/texas_delivery_review.json).
 DELIVERY_TABLE = "texas_delivery_charges"
+MATRIX_TABLE = "texas_transmission_matrix"
+REVIEW = os.path.join(HERE, "texas_delivery_review.json")
+FILING = "Shown as a public regulatory filing: the utility's Tariff for Retail Delivery Service, on file with the Public Utility Commission of Texas"
 DELIVERY = {
-    "oncor:retail_delivery_tariff": dict(utility="Oncor", show=True, classes=["Transmission Service"],
-        terms="Oncor's terms allow its content to be copied, displayed and distributed, without modification, for personal, noncommercial and educational purposes"),
-    "centerpoint:retail_delivery_tariff": dict(utility="CenterPoint Energy Houston Electric", show=False, words="licensed source needed",
-        terms="CenterPoint's terms of use forbid copying or publishing its site's content without its written consent. Its tariff's charges are held internally and not shown"),
-    "aeptexas:retail_delivery_tariff": dict(utility="AEP Texas", show=False, words="held while terms are reviewed",
-        terms="AEP's terms authorize copying and display of its content for personal use only, and forbid redistribution for commercial purposes. Whether this page's display is allowed is a person's ruling; until then its tariff's charges are held internally"),
-    "tnmp:retail_delivery_tariff": dict(utility="Texas-New Mexico Power", show=False, words="held while terms are reviewed",
-        terms="Texas-New Mexico Power's terms of use could not be read (its site refused the request on 7 October 2026). Its tariff's charges are held internally until a person reads them"),
+    "oncor:retail_delivery_tariff": dict(utility="Oncor", code="ONC"),
+    "centerpoint:retail_delivery_tariff": dict(utility="CenterPoint Energy Houston Electric", code="CNP"),
+    "aeptexas:retail_delivery_tariff": dict(utility="AEP Texas", code="AEP"),
+    "tnmp:retail_delivery_tariff": dict(utility="Texas-New Mexico Power", code="TNMP"),
 }
-# A figure read from a row of a many-column table: code proves the number is in the line, not which column it is. Such a
-# row is shown only when a person or the session checked its column against the table's header by eye (session 138:
-# Oncor's TCRF, DCRF and MG for Transmission Service). Oncor's EECRF row is NOT shown: the figure read, 0.000446, stands
-# in the column "Transmission Service, Non-Profit"; the for-profit column prints 0.000000.
-EYE_CHECKED = {("oncor:retail_delivery_tariff", "Transmission Cost Recovery Factor (TCRF)"), ("oncor:retail_delivery_tariff", "Distribution Cost Recovery Factor (DCRF)"),
-               ("oncor:retail_delivery_tariff", "Rider MG amount")}
+KINDS = ["transmission", "distribution", "other"]
 GENERIC = {"factor", "transmission service", "rate schedule fee", "base revenue factor", "is", "rce", "transmission service*"}
+# the Commission's matrix: the figures the page shows, statewide and for the four utilities as transmission providers
+MATRIX_STATEWIDE = ["postage_stamp_rate", "total_transmission_cost_of_service", "total_average_4cp"]
+MATRIX_PROVIDER = ["transmission_cost_of_service", "access_fee", "average_4cp"]
+
+
+def delivery_rows(d, review):
+    """The rows of the delivery table a transmission-voltage load pays, as the page shows them, and the counts of the
+    rows left out with the reason. A row is shown only when the review names it (so its class is the transmission-voltage
+    class and its kind is stated), its unit is printed on its page, its figure's column was checked where its line holds
+    more than one figure, and the review does not say it is another customer's column (a non-profit rate)."""
+    by = {r["event_id"]: r for r in review}
+    rows, left = [], {"not the transmission-voltage class, or not reviewed": 0, "no unit printed": 0, "column not checked": 0, "another customer's rate": 0}
+    for _, r in d.iterrows():
+        rule, v = DELIVERY.get(r["source"]), by.get(r["event_id"])
+        if rule is None:
+            continue
+        if v is None:
+            left["not the transmission-voltage class, or not reviewed"] += 1
+            continue
+        if not r["unit_as_written"].strip():
+            left["no unit printed"] += 1
+            continue
+        many = int(r["figures_in_sentence"] or 1) > 1
+        if many and not v["column_checked"]:
+            left["column not checked"] += 1
+            continue
+        applies = str(v.get("applies_to_a_for_profit_datacenter") or "yes")
+        if applies.startswith("no"):
+            left["another customer's rate"] += 1
+            continue
+        name = r["charge_name"].strip()
+        if name.lower() in GENERIC or name == r["rate_class"]:
+            name = re.sub(r"^[\d.]+\s*", "", r["schedule"]).strip() or name
+        rows.append(dict(utility=rule["utility"], rate_class=r["rate_class"], kind=v["kind"], charge=" ".join(name.split()), value=float(r["amount"]),
+                         value_as_written=r["value_as_written"], unit=" ".join(r["unit_as_written"].split()), effective=r["effective_date_as_written"] or None,
+                         document=r["document_title"], url=r["source_url"], page=r["page"] or None, sentence=" ".join(r["sentence"].split()),
+                         column=f"checked against the printed header: {v['header_words']}" if many and v.get("header_words") else "",
+                         applies="" if applies == "yes" else applies, why=" ".join(str(v.get("why") or "").split()), terms=FILING))
+    order = list(DELIVERY)
+    src_of = {v["utility"]: k for k, v in DELIVERY.items()}
+    rows.sort(key=lambda r: (order.index(src_of[r["utility"]]), KINDS.index(r["kind"]) if r["kind"] in KINDS else 9, -abs(r["value"]), r["charge"]))
+    return rows, left
+
+
+def matrix_rows(m):
+    """The Commission's transmission charge matrix as the page shows it: the statewide rate, cost and load, and the four
+    utilities' own rows, for each year and matrix, each as printed with its document, page and line. Nothing computed."""
+    codes = {v["code"]: v["utility"] for v in DELIVERY.values()}
+    out = []
+    for _, r in m.iterrows():
+        q, code = r["quantity"], r["entity_code"]
+        if not ((q in MATRIX_STATEWIDE) or (q in MATRIX_PROVIDER and code in codes)):
+            continue
+        out.append(dict(year=r["year"], matrix=r["matrix"], scope=codes.get(code, "ERCOT"), quantity=q, value=float(r["amount"]), value_as_written=r["value_as_written"],
+                        unit=r["unit_as_written"], header=r["column_header_as_written"], status=r["status"], docket=r["docket"], item=r["item"], filed=r["date_filed"],
+                        document=r["document_title"], url=r["source_url"], page=r["page"] or None, scan_url=r["scan_url"], scan_page=r["scan_page"] or None,
+                        sentence=" ".join(r["sentence"].split()), docket_status=r["docket_status"], digits_spaced=r["digits_spaced_in_text"] == "yes"))
+    scopes = ["ERCOT"] + [v["utility"] for v in DELIVERY.values()]
+    out.sort(key=lambda r: (r["year"], r["matrix"], scopes.index(r["scope"]), (MATRIX_STATEWIDE + MATRIX_PROVIDER).index(r["quantity"])))
+    return out
 
 
 def delivery(in_dir, out_dir, built, log):
     """The site's copy of the Texas delivery charges a transmission-voltage load pays, each as its tariff states it,
-    with the line it was read from. Nothing is computed here. Without the table on this machine the kept file stands."""
-    path = os.path.join(in_dir, f"{DELIVERY_TABLE}.csv")
-    if not os.path.exists(path):
-        log(f"  {DELIVERY_TABLE} is not on this machine; the kept delivery file stands")
+    with the line it was read from, and of the Commission's transmission charge matrix. Nothing is computed here.
+    Without a table on this machine its part of the kept file stands."""
+    path, mpath, kept_path = os.path.join(in_dir, f"{DELIVERY_TABLE}.csv"), os.path.join(in_dir, f"{MATRIX_TABLE}.csv"), os.path.join(out_dir, "texas_delivery.json")
+    kept = {}
+    if os.path.exists(kept_path):
+        with open(kept_path, encoding="utf-8") as f:
+            kept = json.load(f)
+    if not os.path.exists(path) and not os.path.exists(mpath):
+        log(f"  {DELIVERY_TABLE} and {MATRIX_TABLE} are not on this machine; the kept delivery file stands")
         return
-    d = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
-    rows, withheld, no_unit, unchecked = [], [], 0, 0
-    for source, rule in DELIVERY.items():
-        part = d[d["source"] == source]
-        if not rule["show"]:
-            withheld.append(dict(utility=rule["utility"], words=rule["words"], why=rule["terms"] + "."))
-            continue
-        part = part[part["rate_class"].isin(rule["classes"])]
-        for _, r in part.iterrows():
-            if not r["unit_as_written"].strip():
-                no_unit += 1
-                continue  # a figure whose unit is not printed on its page is not shown
-            many = int(r["figures_in_sentence"] or 1) > 1
-            if many and (source, r["charge_name"].strip()) not in EYE_CHECKED:
-                unchecked += 1
-                continue  # its column was not checked against the header
-            name = r["charge_name"].strip()
-            if name.lower() in GENERIC or name == r["rate_class"]:
-                name = re.sub(r"^[\d.]+\s*", "", r["schedule"]).strip() or name
-            rows.append(dict(utility=rule["utility"], rate_class=r["rate_class"], charge=" ".join(name.split()), value=float(r["amount"]),
-                             value_as_written=r["value_as_written"], unit=" ".join(r["unit_as_written"].split()), effective=r["effective_date_as_written"] or None,
-                             document=r["document_title"], url=r["source_url"], page=r["page"] or None, sentence=" ".join(r["sentence"].split()),
-                             column="checked by eye against the table's header" if many else "", terms=rule["terms"]))
-    kind = lambda u: 0 if re.search(r"kW(?!h)|kVA", u, re.I) else 1 if re.search(r"kWh", u, re.I) else 2  # noqa: E731
-    rows.sort(key=lambda r: (list(DELIVERY).index(next(k for k, v in DELIVERY.items() if v["utility"] == r["utility"])), kind(r["unit"]), -abs(r["value"]), r["charge"]))
-    obj = dict(table=DELIVERY_TABLE, built=built, license="internal",
-               note="Each charge as its tariff prints it, read by a model and kept only where the line is found in the page's text with the figure in it. "
-                    "Shown for the utilities whose terms allow a noncommercial display; the others are named and not shown.",
-               rows=rows, withheld=withheld)
-    write_if_changed(os.path.join(out_dir, "texas_delivery.json"), obj)
-    log(f"  delivery: {len(rows)} charges of {sorted({r['utility'] for r in rows})} written; {no_unit} with no unit printed and {unchecked} from a many-column row not checked by eye left out; withheld: {[w['utility'] for w in withheld]}")
+    with open(REVIEW, encoding="utf-8") as f:
+        review = json.load(f)["rows"]
+    if os.path.exists(path):
+        d = pd.read_csv(path, skiprows=ip.header_rows(path), dtype=str, keep_default_na=False)
+        rows, left = delivery_rows(d, review)
+        log(f"  delivery: {len(rows)} charges of {sorted({r['utility'] for r in rows})} written; left out: {left}")
+    else:
+        rows = kept.get("rows", [])
+        log(f"  {DELIVERY_TABLE} is not on this machine; the kept delivery rows stand")
+    if os.path.exists(mpath):
+        m = pd.read_csv(mpath, skiprows=ip.header_rows(mpath), dtype=str, keep_default_na=False)
+        matrix = matrix_rows(m)
+        log(f"  matrix: {len(matrix)} figures of the Commission's transmission charge matrices written, of {len(m)} held")
+    else:
+        matrix = kept.get("matrix", [])
+        log(f"  {MATRIX_TABLE} is not on this machine; the kept matrix rows stand")
+    obj = dict(table=DELIVERY_TABLE, matrix_table=MATRIX_TABLE, built=built, license="internal",
+               note="Each charge as its tariff prints it, read by a model and kept only where the line is found in the page's text with the figure in it; "
+                    "the Commission's matrix figures the same way. Shown as public regulatory filings, each with its document, address and date.",
+               rows=rows, withheld=[], matrix=matrix)
+    write_if_changed(kept_path, obj)
 
 
 def year_hours(y):
@@ -279,9 +357,41 @@ def read_demand(in_dir, grid, std, lic, log):
     return s, source, zone_years(d, total, std)
 
 
+def read_clean(in_dir, grid, std, lic, log):
+    """The carbon-free share of the grid's generation by hour (percent, one decimal), by year: {year: the year's hours
+    in the grid's standard time, nan where not held}. {} when the table is not on this machine (the kept files' series
+    stand) or is not public."""
+    if lic.get(CLEAN_TABLE) not in (None, "public"):
+        return {}
+    path = os.path.join(in_dir, f"{CLEAN_TABLE}.csv")
+    if not os.path.exists(path):
+        log(f"  {grid}: {CLEAN_TABLE} is not on this machine; the kept carbon-free hours stand")
+        return {}
+    if "_clean" not in read_clean.__dict__:
+        d = pd.read_csv(path, skiprows=ip.header_rows(path), usecols=["entity", "variable", "ts_utc", "value"])
+        d = d[d["variable"] == "carbon_free_share_pct"].dropna(subset=["value"])
+        d["ts"] = pd.to_datetime(d["ts_utc"], utc=True)
+        read_clean._clean = d.drop_duplicates(["entity", "ts"], keep="last")
+    d = read_clean._clean
+    d = d[d["entity"] == f"iso:{grid}"]
+    out = {}
+    if d.empty:
+        return out
+    ys, hs = to_std(pd.DatetimeIndex(d["ts"]), std)
+    vals = np.round(d["value"].values.astype(float), 1)
+    for y in np.unique(ys):
+        m = ys == y
+        arr = np.full(year_hours(int(y)), np.nan)
+        arr[hs[m]] = vals[m]
+        out[int(y)] = arr
+    log(f"  {grid}: carbon-free share by hour from {CLEAN_TABLE}, {len(d):,} hours, years {min(out)} to {max(out)}")
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="What a datacenter pays: the site's files for /cost-of-power")
     ap.add_argument("--out-dir", help="a trial run: the files under this directory; nothing in site/data")
+    ap.add_argument("--in-dir", help="read the price tables from this directory instead of warehouse/output (a trial)")
     a = ap.parse_args(argv)
     out_dir = a.out_dir or SITE_DIR
     os.makedirs(out_dir, exist_ok=True)
@@ -291,9 +401,9 @@ def main(argv=None):
     os.makedirs(log_dir, exist_ok=True)
     log = ip.Log(os.path.join(log_dir, f"datacenter_page_{run_id}.log"))
     lic, paused = pc.licenses()
-    internal = [t for t in pc.TABLES if lic.get(t) not in (None, "public")]
+    internal = [t for t in TABLES if lic.get(t) not in (None, "public")]
     log(f"  internal price tables, not read: {internal}; publishers under review, not read: {sorted(paused)}")
-    x = pc.read_prices(ip.OUT_DIR, FIRST, log)
+    x = pc.read_prices(a.in_dir or ip.OUT_DIR, FIRST, log, tables=[t for t in TABLES if t not in internal])   # an internal table is not read at all
     x = x[~x["table"].isin(internal)]
     x["iso"] = x["entity"].str.split(":", n=1).str[0]
     tables_read = sorted(x["table"].unique())
@@ -333,7 +443,26 @@ def main(argv=None):
                     arr[hs[m]] = vals[m]
                     years.setdefault(int(y), {}).setdefault(node, {})[key] = arr
                 how[(node, key)] = dict(basis=basis, tables=sorted(e.loc[e["side"] == side, "table"].unique()))
-        # with the hours of the files already kept
+        # with the hours of the files already kept. Session 140: a region's market is held one way, whole, across
+        # builds too. Where the kept file's hours and this build's are of two kinds (the operator's own hourly report
+        # in one, the mean of four 15-minute prices in the other: the runner holds only the rolling 15-minute tables,
+        # the data machine the hourly history), the kind that holds more hours stands whole and the other adds nothing.
+        old_regions = {r["id"]: r for r in old_index.get("regions", [])}
+        whole_old = set()
+        for (node, key), h in list(how.items()):
+            was = old_regions.get(node, {}).get(key, {})
+            if was.get("basis") and h["basis"] and was["basis"] != h["basis"]:
+                new_hours = sum(int((~np.isnan(years[y][node][key])).sum()) for y in years if key in years[y].get(node, {}))
+                if new_hours > int(was.get("hours") or 0):
+                    for y, f in kept.items():   # this build's kind holds more: the kept hours of the other kind are dropped
+                        f.get("regions", {}).get(node, {}).pop(key, None)
+                    log(f"  {iso} {node} {key}: this build's {h['basis']} hours ({new_hours:,}) stand whole; the kept {was['basis']} hours ({was.get('hours')}) are not mixed in")
+                else:
+                    whole_old.add((node, key))
+                    for y in years:
+                        years[y].get(node, {}).pop(key, None)
+                    how.pop((node, key))
+                    log(f"  {iso} {node} {key}: the kept {was['basis']} hours ({was.get('hours')}) stand whole; this build's {h['basis']} hours ({new_hours:,}) are not mixed in")
         added = 0
         for y, f in kept.items():
             for node, sides in f.get("regions", {}).items():
@@ -352,6 +481,7 @@ def main(argv=None):
                 arr = np.full(year_hours(int(y)), np.nan)
                 arr[hs[m]] = demand.values[m]
                 dem_years[int(y)] = arr
+        clean_years = read_clean(ip.OUT_DIR, iso, g["std"], lic, log)
         withheld = str(demand_source or "").startswith("withheld:")
         demand_summary = {} if withheld else dict(old_index.get("demand", {}))
         for y in sorted(set(years) | set(dem_years)):
@@ -359,6 +489,9 @@ def main(argv=None):
             obj = {"grid": iso, "year": y, "hours": n, "built": built, "regions": {}}
             for node, sides in sorted(years.get(y, {}).items()):
                 obj["regions"][node] = {k: trimmed(arr) for k, arr in sorted(sides.items())}
+            c = merged(untrimmed(kept[y]["clean"], n) if y in kept and "clean" in kept[y] else None, clean_years.get(y))
+            if c is not None and (~np.isnan(c)).any():
+                obj["clean"] = trimmed(c)
             d = dem_years.get(y)
             if d is not None:
                 held = int((~np.isnan(d)).sum())
@@ -385,9 +518,13 @@ def main(argv=None):
                 same += 1
         # the regions, from the hours now in the files
         regions = []
-        old_regions = {r["id"]: r for r in old_index.get("regions", [])}
         for node in sorted({n for y in years for n in years[y]}):
             rec = {"id": node, "entity": f"{iso}:{node}"}
+            zone = ZONES.get(iso, {}).get(node)
+            if zone:
+                rec.update(kind="zone", name=zone["name"], ref=zone["ref"])
+            elif iso in ZONES:
+                rec["kind"] = "hub"
             for key in ("rt", "da"):
                 ys = sorted(y for y in years if key in years[y].get(node, {}))
                 if not ys:

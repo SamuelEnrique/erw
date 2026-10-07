@@ -42,6 +42,18 @@ for t in ercot_zone nyiso_zone isone_zone caiso_area; do
   "$PY" warehouse/health.py run --step "${t}_load" -- "$PY" "warehouse/connectors/${t}_load.py"
   [ -f "warehouse/output/${t}_load_hourly.csv" ] && LOADS="$LOADS warehouse/output/${t}_load_hourly.csv"
 done
+# Session 140: the zone price history from 2019 (iso_zone_prices_history: NYISO's zones, CAISO ZP26, SPP South; and
+# isone_zone_prices_history, ISO-NE's load zones, internal). The newest files only: NYISO's and CAISO's current month,
+# SPP's last nine daily files (about 4 MB each), and ISO-NE's current-year workbook as isone_zone_load.py just kept it
+# (no request of its own). At most 250,000 rows read a run, its own ceiling, apart from the 3,000,000 of the approved
+# pull. Only on a machine that holds the table: the write refuses to start a table from a week's files, and the
+# scheduled runner holds no price history. MISO and PJM are never asked. ERCOT's load zones (ercot_zone_prices_history)
+# are NOT refreshed here: each copy of the current year's workbooks counts against that pull's ceiling, which leaves
+# room for two; a scheduled refresh needs the owner's ruling (archive/sessions/SESSION_140_REPORT.md).
+if [ -f warehouse/output/iso_zone_prices_history.csv ]; then
+  "$PY" warehouse/health.py run --step "zone_price_history pull" -- "$PY" warehouse/connectors/zone_price_history.py --pull --recent 9
+  "$PY" warehouse/health.py run --step "zone_price_history" -- "$PY" warehouse/connectors/zone_price_history.py --write --recent 9
+fi
 # Session 138: the files of "What a datacenter pays" (/cost-of-power, in review): the newest hours of every hub and zone
 # price held and the grids' tight hours from the load tables above, merged into the kept files (an hour only the kept
 # file holds is kept, so the runner, which holds no ERCOT price history, adds hours and never thins a file). No pull.
