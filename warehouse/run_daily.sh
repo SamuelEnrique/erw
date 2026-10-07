@@ -293,6 +293,11 @@ fi
 # erw_health). On the runner the ERCOT price history is absent: the stack rebuilds the months the rolling tables reach
 # and keeps the earlier ones from its own table, restored from the draft (docs/methods/battery_stack.md).
 run_other ercot_as_prices "$PYTHON" warehouse/health.py run --strict --step "ercot_as_prices" -- "$PYTHON" warehouse/connectors/ercot_as_prices.py
+# Session 148: ERCOT's reserve prices by day and by month (ercot_as_prices_daily, ercot_as_prices_monthly, for Ask
+# ERCOT, so that no question reads a year of hourly rows), from the hourly table the step above has just written whole.
+# No request. A day or a month with fewer hours than it has is written with its count, never filled; the two tables are
+# restored from the draft so that an unchanged row keeps its retrieved_at (docs/methods/ercot_as_prices_rollup.md)
+run_other ercot_as_prices_rollup "$PYTHON" warehouse/health.py run --strict --step "ercot_as_prices_rollup" -- "$PYTHON" warehouse/derived/ercot_as_prices_rollup.py
 run_other caiso_as_prices "$PYTHON" warehouse/health.py run --strict --step "caiso_as_prices" -- "$PYTHON" warehouse/connectors/caiso_as_prices.py --start "$("$PYTHON" -c "import datetime as d; print((d.datetime.now(d.timezone.utc) - d.timedelta(days=${DAYS} + 3)).date())")"
 # the capacity prices (internal) change with each auction: the first day of each month only, or any day with CAPACITY=1
 if [ "$(date -u +%d)" = "01" ] || [ "${CAPACITY:-0}" = "1" ]; then

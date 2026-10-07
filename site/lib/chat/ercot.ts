@@ -15,9 +15,11 @@ import { scopeOf, tableSummaries, type Scope } from "./tools";
 import { summaryText } from "./summaries";
 import { chartPoints, pointsAreRows } from "./series";
 import { FORMS, FORM_SCHEMA, MIX_HOLDS, MIX_TABLES, NOTES_TABLE, PAGE_TOOL, addendum, notesOf, pageFigures, type Form } from "./panel";
+import { ROLLUP, ROLLUP_HOLDS, ROLLUP_TABLES, rollupGuide, rollupOffered } from "./rollup";
+import { rulePlan } from "./plan";
 
 /** session 137: the tables a refusal may name as nearest: the guide's and the energy mix's three */
-const NEAR_TABLES = [...spec.tables, ...MIX_TABLES];
+const NEAR_TABLES = [...spec.tables, ...MIX_TABLES, ...ROLLUP_TABLES];   // session 148: and the reserve prices by day and by month
 
 export type Context = { view: string; title?: string; settings?: Record<string, string> };
 export type SeriesRow = { key: string; value: number | null; n?: number; at?: string };
@@ -178,8 +180,16 @@ export function ercotProfile(): Profile {
   if (!base) throw new Error("docs/grids/grids.json has no grid ercot");
   // session 137: the mix tables' rows are a grid's by entity ("iso:ercot"); without this the scope filters on the market column, which they leave empty
   const mixFilters = Object.fromEntries(MIX_TABLES.map((t) => [t, { entity: `iso:${base.slug}` }]));
-  const scope: Scope = { ...base, tables: [...spec.tables, ...MIX_TABLES], filters: { ...(spec.filters as Record<string, Record<string, string | string[]>>), ...mixFilters }, max_groups: spec.max_groups, dated_groups: spec.dated_groups };
-  return {
+  // session 148: the reserve prices by day and by month (lib/chat/rollup.ts) are offered unless the server says
+  // ASK_ROLLUP=off, which leaves the panel as session 143 left it. `held`: whether the site's live set holds both, as the
+  // tables' summaries last said (the query tool asks the catalogue itself before it refuses an hourly read)
+  const offered = rollupOffered();
+  const more = offered ? ROLLUP_TABLES : [];
+  let held = false;
+  // the scope as session 143 left it, and on it, when the two tables are offered, their names, their rows whole and the rule on the hourly table
+  const scope143 = { ...base, tables: [...spec.tables, ...MIX_TABLES], filters: { ...(spec.filters as Record<string, Record<string, string | string[]>>), ...mixFilters }, max_groups: spec.max_groups, dated_groups: spec.dated_groups };
+  const scope: Scope = !offered ? scope143 : { ...scope143, tables: [...scope143.tables, ...more], filters: { ...scope143.filters, ...Object.fromEntries(more.map((t) => [t, {}])) }, rollup: { hourly: ROLLUP.hourly, tables: ROLLUP_TABLES } };
+  const profile: Profile = {
     // session 137: the answer panel. The system prompt carries the panel's rules and the page's written content; the
     // answer names its form; the board's and Supply and trade's rows are read by a tool of the profile's own
     system: spec.system + addendum(base.slug, base.iso),
@@ -187,9 +197,17 @@ export function ercotProfile(): Profile {
     // session 143: the planner, the tables' summaries held ready, the head of a draft that may be shown, the writing turn
     planner: PLANNER,
     brief: async () => {
-      const { rows, readAt } = await tableSummaries(scope, [...spec.tables, ...MIX_TABLES], MIX_TABLES);
+      const { rows, readAt } = await tableSummaries(scope, [...spec.tables, ...MIX_TABLES, ...more], MIX_TABLES);
+      held = offered && ROLLUP_TABLES.every((t) => rows.some((r) => r.table === t && r.held !== false));
       return readAt ? summaryText(rows, readAt) : "";
     },
+    // session 148: a plan made by rule (lib/chat/plan.ts), for a first question only: a question that continues a
+    // conversation takes its meaning from the turns before it, which the rule does not read. A reserve price is planned
+    // only when the summaries have just said that the site holds the two tables it would read
+    plan: (question, today, _context, history) => (cleanHistory(history).length ? null : rulePlan(question, today, { rollup: held })),
+    // what the model is told when the rule's read did not settle the answer and the question is the model's after all
+    resume: (opening, results) => `${opening}\n\nALREADY READ FOR THIS QUESTION, before your turn. These tool calls were made and this is what each returned. Do not repeat them: their results are here. Call tools for whatever else the question needs, all in one turn, then answer.\n\n` +
+      results.map((r, i) => `CALL ${i + 1}: ${r.tool} ${JSON.stringify(r.input)}\nRESULT${r.isError ? " (an error)" : ""}: ${JSON.stringify(r.out)}`).join("\n\n"),
     early: (head, results, given) => {
       // the checks of extraProblems below that need no citation and no follow-up: the form, the series named, the premise
       const problems: string[] = [];
@@ -280,7 +298,7 @@ export function ercotProfile(): Profile {
         ? ((Array.isArray(draft.followups) ? draft.followups : []) as string[]).map((f) => nodash(f.trim())).filter(Boolean).slice(0, 3) : [];
       // session 121: the queries run, for the next question of the conversation; and what a refusal points to
       const calls = results.filter((r) => !r.isError && (r.tool === "query" || r.tool === "compare")).map((r) => ({ tool: r.tool, input: r.input }));
-      const near = (names: string[]): Nearest[] => names.filter((t) => NEAR_TABLES.includes(t)).slice(0, S121.max_nearest).map((t) => ({ table: t, holds: S121.holds[t] ?? MIX_HOLDS[t] ?? "" }));
+      const near = (names: string[]): Nearest[] => names.filter((t) => NEAR_TABLES.includes(t)).slice(0, S121.max_nearest).map((t) => ({ table: t, holds: S121.holds[t] ?? MIX_HOLDS[t] ?? ROLLUP_HOLDS[t] ?? "" }));
       const legacy = !draft || draft.form === undefined;          // the reference loop's draft: series as sessions 92 and 121 chose them
       const form: Form = draft && FORMS.includes(draft.form as Form) ? (draft.form as Form) : "words";
       if (status === "not_in_warehouse" && draft)
@@ -314,4 +332,7 @@ export function ercotProfile(): Profile {
       return { ...(legacy ? {} : { form }), series: all.filter((s) => s.check.same), series_not_shown: all.filter((s) => !s.check.same).map((s) => s.result_id), followups, profile: "ercot", calls, premise, nearest: [] };
     },
   };
+  // session 148: with the two tables offered, their guide follows the guide of the tables and comes before the panel's
+  // rules; switched off, the system prompt is session 143's to the letter
+  return offered ? { ...profile, system: spec.system + rollupGuide() + addendum(base.slug, base.iso) } : profile;
 }

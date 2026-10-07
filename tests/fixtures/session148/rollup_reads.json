@@ -1,0 +1,595 @@
+{
+ "_": "Energy Research Warehouse (ERW), session 148: ERCOT's ECRS reserve price by month, 2025, the five variables of ercot_as_prices_monthly as the trial build of 7 October 2026 wrote them (runs/session148/trial, from ercot_as_prices; written by runs/session148/make_rollup_fixture.py). Real rows. The catalogue rows are a stand-in for the loader's: names, interval and columns only.",
+ "catalogue": [
+  {
+   "table_name": "ercot_as_prices",
+   "iso": "ERCOT",
+   "interval": "PT1H",
+   "ts_min": "2018-01-01T06:00:00+00:00",
+   "ts_max": null,
+   "n_rows": null,
+   "source_report": "ercot:NP4-181-ER;ercot:NP4-188-CD",
+   "last_run": null,
+   "license": "public",
+   "sector": "power",
+   "derived": "no",
+   "tier": "source",
+   "in_live_set": "yes",
+   "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\"]"
+  },
+  {
+   "table_name": "ercot_as_prices_daily",
+   "iso": "ERCOT",
+   "interval": "P1D",
+   "ts_min": "2018-01-01T00:00:00+00:00",
+   "ts_max": null,
+   "n_rows": null,
+   "source_report": "erw:ercot_as_prices_rollup",
+   "last_run": null,
+   "license": "public",
+   "sector": "power",
+   "derived": "yes",
+   "tier": "derived",
+   "in_live_set": "review",
+   "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\"]"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "iso": "ERCOT",
+   "interval": "P1M",
+   "ts_min": "2018-01-01T00:00:00+00:00",
+   "ts_max": null,
+   "n_rows": null,
+   "source_report": "erw:ercot_as_prices_rollup",
+   "last_run": null,
+   "license": "public",
+   "sector": "power",
+   "derived": "yes",
+   "tier": "derived",
+   "in_live_set": "review",
+   "columns": "[\"entity\", \"variable\", \"ts_utc\", \"value\", \"unit\", \"freq\", \"geo\", \"market\", \"node\", \"source\", \"source_url\", \"retrieved_at\", \"vintage\"]"
+  }
+ ],
+ "rows": [
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-01-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-02-01T00:00:00+00:00",
+   "value": 672.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-03-01T00:00:00+00:00",
+   "value": 743.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-04-01T00:00:00+00:00",
+   "value": 720.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-05-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-06-01T00:00:00+00:00",
+   "value": 720.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-07-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-08-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-09-01T00:00:00+00:00",
+   "value": 720.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 721.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-01-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-02-01T00:00:00+00:00",
+   "value": 672.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-03-01T00:00:00+00:00",
+   "value": 743.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-04-01T00:00:00+00:00",
+   "value": 720.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-05-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-06-01T00:00:00+00:00",
+   "value": 720.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-07-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-08-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-09-01T00:00:00+00:00",
+   "value": 720.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 721.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_hours_in_month",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 744.0,
+   "unit": "count"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-01-01T00:00:00+00:00",
+   "value": 44.26,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-02-01T00:00:00+00:00",
+   "value": 270.0,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-03-01T00:00:00+00:00",
+   "value": 56.35,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-04-01T00:00:00+00:00",
+   "value": 55.02,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-05-01T00:00:00+00:00",
+   "value": 238.59,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-06-01T00:00:00+00:00",
+   "value": 42.77,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-07-01T00:00:00+00:00",
+   "value": 136.42,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-08-01T00:00:00+00:00",
+   "value": 130.86,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-09-01T00:00:00+00:00",
+   "value": 17.42,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 26.82,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 103.52,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_max",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 37.7,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-01-01T00:00:00+00:00",
+   "value": 1.3737,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-02-01T00:00:00+00:00",
+   "value": 2.5765,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-03-01T00:00:00+00:00",
+   "value": 2.2418,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-04-01T00:00:00+00:00",
+   "value": 2.4875,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-05-01T00:00:00+00:00",
+   "value": 5.6428,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-06-01T00:00:00+00:00",
+   "value": 2.6617,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-07-01T00:00:00+00:00",
+   "value": 2.2132,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-08-01T00:00:00+00:00",
+   "value": 2.676,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-09-01T00:00:00+00:00",
+   "value": 1.3574,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 1.89,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 2.2964,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_mean",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 2.1207,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-01-01T00:00:00+00:00",
+   "value": 0.02,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-02-01T00:00:00+00:00",
+   "value": 0.02,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-03-01T00:00:00+00:00",
+   "value": 0.02,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-04-01T00:00:00+00:00",
+   "value": 0.03,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-05-01T00:00:00+00:00",
+   "value": 0.04,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-06-01T00:00:00+00:00",
+   "value": 0.04,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-07-01T00:00:00+00:00",
+   "value": 0.04,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-08-01T00:00:00+00:00",
+   "value": 0.05,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-09-01T00:00:00+00:00",
+   "value": 0.04,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-10-01T00:00:00+00:00",
+   "value": 0.04,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-11-01T00:00:00+00:00",
+   "value": 0.06,
+   "unit": "USD/MW-hour"
+  },
+  {
+   "table_name": "ercot_as_prices_monthly",
+   "entity": "ercot:ECRS",
+   "node": "ECRS",
+   "variable": "mcpc_dam_min",
+   "ts_utc": "2025-12-01T00:00:00+00:00",
+   "value": 0.06,
+   "unit": "USD/MW-hour"
+  }
+ ]
+}

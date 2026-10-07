@@ -88,7 +88,22 @@ export type Profile = {
   /** session 143: whether a draft's only problems are in its questions to ask next, and the draft with the ones that fail left out */
   tailOnly?: (problems: string[]) => boolean;
   mend?: (draft: Draft, results: ToolRecord[]) => Draft;
+  /** session 148: the read a rule writes for a question of a known shape, with no reading turn by the model; null for
+   * every question the rule does not account for word by word (lib/chat/plan.ts). Used only under ASK_RULE_PLAN=on */
+  plan?: (question: string, today: string, context: unknown, history?: unknown) => { shape: string; calls: { name: string; input: Record<string, unknown> }[] } | null;
+  /** session 148: the first message of the loop when the rule's read did not settle the answer: the question, and what was already read */
+  resume?: (opening: string, results: ToolRecord[]) => string;
 };
+
+/** Session 148: the effort the reading turn may be given by the server (ASK_READER_EFFORT); anything else is ignored. */
+export const READER_EFFORTS = ["low", "medium", "high"];
+/** The effort of one model call. The reading turn (the first turn of a profile that names a planner: the call that
+ * decides what to read) takes ASK_READER_EFFORT when the server sets one of READER_EFFORTS; every other call, the
+ * writing turn among them, is as it was: ASK_WRITER_EFFORT when set, else the profile's or the spec's own. */
+export function effortOf(role: "planner" | "writer", own: string, env: Record<string, string | undefined> = process.env): string {
+  if (role === "planner" && env.ASK_READER_EFFORT && READER_EFFORTS.includes(env.ASK_READER_EFFORT)) return env.ASK_READER_EFFORT;
+  return env.ASK_WRITER_EFFORT || own;
+}
 
 // ------------------------------------------------------------------ post-check (as ask.py)
 
@@ -226,7 +241,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
       tools: profile?.tools ? [...TOOLS, ...profile.tools] : TOOLS,
       tool_choice: { type: tools === "auto" ? "auto" : "none" },
       // a model that takes no effort setting (the planner's) is sent none
-      output_config: { ...(/haiku-4-5/.test(model) ? {} : { effort: process.env.ASK_WRITER_EFFORT || (profile ? profile.effort : spec.effort) }), format: { type: "json_schema", schema: profile ? profile.schema : spec.answer_schema } },
+      // session 148: the reading turn may be given a lower effort by the server (effortOf above); the writing turn is as it was
+      output_config: { ...(/haiku-4-5/.test(model) ? {} : { effort: effortOf(role, profile ? profile.effort : spec.effort) }), format: { type: "json_schema", schema: profile ? profile.schema : spec.answer_schema } },
       cache_control: { type: "ephemeral" }, // session 30 (B2): the growing conversation is cached, as in ask.py
       messages: msgs,
       ...(opts.thinking ? { thinking: { type: "adaptive", display: "summarized" } } : {}),
@@ -260,7 +276,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
     usage.input += u.input; usage.output += u.output; usage.cache_write += u.cache_write; usage.cache_read += u.cache_read; usage.requests += 1;
     const c = cost(model, u);
     spent = spent === null || c === null ? null : spent + c;
-    return { resp, ms: Date.now() - tCall, note: { model, role, first_text_ms: firstText, words_ms: wordsMs, output_tokens: resp.usage.output_tokens, stop: resp.stop_reason } };
+    return { resp, ms: Date.now() - tCall, note: { model, role, first_text_ms: firstText, words_ms: wordsMs, output_tokens: resp.usage.output_tokens, stop: resp.stop_reason,
+      ...(/haiku-4-5/.test(model) ? {} : { effort: effortOf(role, profile ? profile.effort : spec.effort) }) } };
   };
   const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent });
   const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
@@ -302,6 +319,92 @@ export async function ask(question: string, today = new Date().toISOString().sli
     return { c, answer: null };
   };
 
+  // What a tool result that was read brings: the profile's mark on it (a result id), its record, its texts as sources of
+  // numbers, the tables it read and their tiers. The same for a call the model asked for and for one a rule wrote
+  // (session 148). `n` is the call's ordinal; `raw` the arguments as the model sent them. Returns the result as marked.
+  function take(name: string, input: Record<string, unknown>, got: { out: Record<string, unknown>; isError: boolean }, n: number, raw: unknown = input) {
+    let { out } = got;
+    const { isError } = got;
+    if (profile) {
+      out = profile.tag(name, input, out, n);
+      records.push({ tool: name, input, out, isError });
+      sources.push(...profile.sourceTexts(name, input, out));
+    }
+    sources.push(JSON.stringify(out), JSON.stringify(raw));
+    if (typeof out.table === "string") tablesRead.add(out.table);
+    if (typeof out.table === "string" && typeof out.tier === "string") tiers.set(out.table, out.tier);
+    for (const sub of ["a", "b"]) {
+      const s = out[sub] as Record<string, unknown> | undefined;
+      if (s && typeof s.table === "string") tablesRead.add(s.table);
+      if (s && typeof s.table === "string" && typeof s.tier === "string") tiers.set(s.table, s.tier);
+    }
+    if (name === "list_tables")
+      for (const t of (out.tables as { table: string; tier?: string | null }[]) ?? []) {
+        tablesRead.add(t.table);
+        if (t.tier) tiers.set(t.table, t.tier);
+      }
+    return { out, isError };
+  }
+
+  // The writing turn of the fast path (session 143), also the writing turn after a plan made by rule (session 148,
+  // `path` "rule"): the writer writes from what was read, in a call that can ask for no tool. The answer when a draft
+  // passes the whole check; null when none does, and the loop below takes the question as it always did.
+  const fastWrite = async (path: "fast" | "rule") => {
+    const asked: Anthropic.MessageParam[] = [{ role: "user", content: profile!.writing!(opening, records) }];
+    for (let pass = 0; pass < 2; pass++) {
+      const w = await call(writer, "absent", asked, "answered");
+      clock.add("writing", "model", w.ms, { ...w.note, path: pass ? `${path}, again` : path });
+      if (w.resp.stop_reason !== "end_turn") break;
+      let draft: Draft | null = null;
+      try { draft = JSON.parse(textOf(w.resp)) as Draft; } catch { draft = null; }
+      // an empty answer is the writer saying the results do not hold what the question needs; "not in the
+      // warehouse" after one reading turn is not taken on trust either: both go to the loop below
+      if (!draft || draft.not_in_warehouse || !draft.answer.trim()) break;
+      const s = settle(draft, pass ? `${path} path, again` : `${path} path`);
+      if (s.answer) return s.answer;
+      withdraw();
+      if (pass) break;
+      // one more writing turn, still with no tool to call, with what failed named: a number that cannot be traced
+      // is taken out here in seconds, where the loop below would read everything again
+      retried = true;
+      const problems: string[] = [];
+      if (s.c.bad.length) problems.push(`numbers in no tool result: ${s.c.bad.join(", ")}`);
+      if (s.c.uncited.length) problems.push(`cited tables no tool read: ${s.c.uncited.join(", ")}`);
+      if (s.c.noCite) problems.push("an empty answer, or no citations");
+      problems.push(...s.c.more);
+      asked.push({ role: "assistant", content: w.resp.content }, { role: "user", content: `${profile!.retry.replace("{problems}", problems.join("; "))} No tool can be called in this turn: write only what these results bear out.` });
+    }
+    withdraw();
+    return null;
+  };
+
+  // Session 148, a plan made by rule (ASK_RULE_PLAN=on on the server; unset, nothing here runs). For a question whose
+  // every word the profile's rule accounts for (lib/chat/plan.ts), the read is written by code and made at once: there
+  // is no reading turn by the model. The writer then writes from the rows, in the same writing turn and under the same
+  // checks as the fast path: the numbers, the cited tables, the form, the series against the rows fetched. When that
+  // turn does not settle the answer (a row is missing, the writer says the results do not hold it), nothing is shown and
+  // the question goes to the model with its tools as it always did, told what was already read; the calls the rule made
+  // count toward the limit and are never made twice.
+  if (profile?.plan && profile.writing && profile.resume && process.env.ASK_RULE_PLAN === "on") {
+    const tRule = Date.now();
+    const plan = profile.plan(question, today, context, opts.history);
+    if (plan && plan.calls.length && plan.calls.length <= spec.max_tool_calls) {
+      clock.add("planning", "rule", Date.now() - tRule, { shape: plan.shape, calls: plan.calls.length });
+      const slots = plan.calls.map(() => ++calls);
+      for (const c of plan.calls) opts.onEvent?.({ type: "reading", tool: c.name, table: typeof c.input.table === "string" ? c.input.table : null });
+      const tTools = Date.now();
+      const outs = await Promise.all(plan.calls.map((c) => runTool(c.name, c.input, scope)));
+      clock.add("fetching", "tools", Date.now() - tTools, { calls: toolMs.slice(0), by: "rule" });
+      outs.forEach((got, i) => take(plan.calls[i].name, plan.calls[i].input, got, slots[i]));
+      // a read that came back an error is not written from: the model takes the question
+      if (outs.every((o) => !o.isError)) {
+        const ruled = await fastWrite("rule");
+        if (ruled) return { ...(await ruled), planned_by: "rule", plan_shape: plan.shape };
+      }
+      messages[0] = { role: "user", content: profile.resume(opening, records) };
+    }
+  }
+
   for (;;) {
     // session 143: the first turn is the planner's when the profile names one: it decides what to read
     const planning = planner !== null && turn === 0;
@@ -334,25 +437,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
           ({ out, isError } = got);          // nothing was read: it is no source and no record
         } else {
           fresh += 1;
-          ({ out, isError } = got);
-          if (profile) {
-            out = profile.tag(b.name, (b.input ?? {}) as Record<string, unknown>, out, slots[i]);
-            records.push({ tool: b.name, input: (b.input ?? {}) as Record<string, unknown>, out, isError });
-            sources.push(...profile.sourceTexts(b.name, (b.input ?? {}) as Record<string, unknown>, out));
-          }
-          sources.push(JSON.stringify(out), JSON.stringify(b.input));
-          if (typeof out.table === "string") tablesRead.add(out.table);
-          if (typeof out.table === "string" && typeof out.tier === "string") tiers.set(out.table, out.tier);
-          for (const sub of ["a", "b"]) {
-            const s = out[sub] as Record<string, unknown> | undefined;
-            if (s && typeof s.table === "string") tablesRead.add(s.table);
-            if (s && typeof s.table === "string" && typeof s.tier === "string") tiers.set(s.table, s.tier);
-          }
-          if (b.name === "list_tables")
-            for (const t of (out.tables as { table: string; tier?: string | null }[]) ?? []) {
-              tablesRead.add(t.table);
-              if (t.tier) tiers.set(t.table, t.tier);
-            }
+          ({ out, isError } = take(b.name, (b.input ?? {}) as Record<string, unknown>, got, slots[i], b.input));
         }
         results.push({ type: "tool_result", tool_use_id: b.id, content: JSON.stringify(out), is_error: isError });
       }
@@ -364,31 +449,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
       // the answer. One that does not (the results do not hold what the question needs, a number is untraced, the writer
       // says "not in the warehouse") is not shown: the loop goes on below as it always did, the writer with its tools.
       if (planning && profile?.writing && fresh > 0 && process.env.ASK_FAST !== "off") {
-        const asked: Anthropic.MessageParam[] = [{ role: "user", content: profile.writing(opening, records) }];
-        for (let pass = 0; pass < 2; pass++) {
-          const w = await call(writer, "absent", asked, "answered");
-          clock.add("writing", "model", w.ms, { ...w.note, path: pass ? "fast, again" : "fast" });
-          if (w.resp.stop_reason !== "end_turn") break;
-          let draft: Draft | null = null;
-          try { draft = JSON.parse(textOf(w.resp)) as Draft; } catch { draft = null; }
-          // an empty answer is the writer saying the results do not hold what the question needs; "not in the
-          // warehouse" after one reading turn is not taken on trust either: both go to the loop below
-          if (!draft || draft.not_in_warehouse || !draft.answer.trim()) break;
-          const s = settle(draft, pass ? "fast path, again" : "fast path");
-          if (s.answer) return s.answer;
-          withdraw();
-          if (pass) break;
-          // one more writing turn, still with no tool to call, with what failed named: a number that cannot be traced
-          // is taken out here in seconds, where the loop below would read everything again
-          retried = true;
-          const problems: string[] = [];
-          if (s.c.bad.length) problems.push(`numbers in no tool result: ${s.c.bad.join(", ")}`);
-          if (s.c.uncited.length) problems.push(`cited tables no tool read: ${s.c.uncited.join(", ")}`);
-          if (s.c.noCite) problems.push("an empty answer, or no citations");
-          problems.push(...s.c.more);
-          asked.push({ role: "assistant", content: w.resp.content }, { role: "user", content: `${profile.retry.replace("{problems}", problems.join("; "))} No tool can be called in this turn: write only what these results bear out.` });
-        }
-        withdraw();
+        const fast = await fastWrite("fast");
+        if (fast) return fast;
       }
       continue;
     }
