@@ -10,6 +10,7 @@ import ercotJson from "@/data/curtailment/ercot.json";
 import freeJson from "@/data/curtailment/free_energy.json";
 import sharesJson from "@/data/curtailment/shares.json";
 import worthJson from "@/data/curtailment/worth.json";
+import zoneJson from "@/data/curtailment/zone_shapes.json";
 import profileJson from "@/data/curtailment_profile.json";
 import {
   DURATIONS, GRIDS, MONTHLY, basisName, choiceOf, dayName, gridOf, link, monthName, periodShare, placeName, shareMarks, shareReason, two, whole,
@@ -24,7 +25,7 @@ import { count, price } from "@/lib/format";
 import { FACE, ranked, type FreeFile } from "@/lib/freeenergy";
 import { attempt } from "@/lib/supabase";
 import { XY } from "./Charts";
-import { Blank, FreeEnergy, N, Texas, Worth, freeChoice, type ErcotFile, type WorthFile } from "./Sections";
+import { Blank, FreeEnergy, N, Texas, Worth, freeChoice, type ErcotFile, type WorthFile, type ZoneFile } from "./Sections";
 
 // Session 144: "Curtailment", one tool, one page, one address, in review (lib/release.ts), in the battery page's layout.
 // It holds what /curtailment showed (every grid by day and by month, from the curtailment tables in Supabase) and what
@@ -42,6 +43,7 @@ const shares = sharesJson as unknown as SharesFile;
 const free = freeJson as unknown as FreeFile;
 const worth = worthJson as unknown as WorthFile;
 const ercot = ercotJson as unknown as ErcotFile;
+const zones = zoneJson as unknown as ZoneFile;  // session 149: which places have a published boundary (none yet: every place is a tile)
 const METHOD = "/data/methods/curtailment";
 const D = 86_400_000;
 const exact = (v: number) => (Number.isInteger(v) ? count(v) : price(v));
@@ -303,7 +305,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
           {c.grid === "caiso" ? <California c={keep} period={period} r={r} /> : null}
           {c.grid === "ercot" ? <Texas file={ercot} estimate={FACE.ercot.line} /> : null}
 
-          <FreeEnergy file={free} c={keep} />
+          <FreeEnergy file={free} c={keep} zones={zones} />
           <Worth file={worth} c={{ ...keep, period: c.grid === "caiso" ? period : null }} estimate={FACE.ercot.line} />
 
           <ToolSection title="What each grid's number is" id="whose">

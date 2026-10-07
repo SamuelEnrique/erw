@@ -22,6 +22,10 @@ export const Blank = ({ words = "not held yet", why }: { words?: string; why: st
 const item = (on: boolean) => `no-underline ${on ? "font-semibold text-accent" : "text-ink hover:text-accent"}`;
 const WINDOWS: { id: WindowName; label: string }[] = [{ id: "year", label: "Last twelve months" }, { id: "month", label: "Last month" }];
 const COUNTED = "Hours priced under USD 5 per MWh. The hours below zero are among them: each hour is counted once.";
+/** Session 149: data/curtailment/zone_shapes.json (warehouse/connectors/zone_boundaries.py), as far as the page reads it:
+ * for each place, whether its operator publishes a boundary ("mapped") or not ("tile", with the reason for the hover). */
+export type ZoneFile = { counts: { places: number; mapped: number; tiles: number }; grids: Record<string, string>; places: Record<string, Record<string, { status: "mapped" | "tile"; reason?: string }>> };
+const NO_BOUNDARY = "No published boundary is held for this place, so it stays a tile.";
 
 // ---- where free energy is ----------------------------------------------------------------------------------------
 
@@ -43,7 +47,7 @@ function GapNumber({ g, k, label }: { g: Gap; k: string; label: string }) {
   );
 }
 
-export function FreeEnergy({ file, c }: { file: FreeFile; c: Choice }) {
+export function FreeEnergy({ file, c, zones }: { file: FreeFile; c: Choice; zones: ZoneFile }) {
   const g = file.grids[c.grid];
   const { win, place } = freeChoice(file, c);
   const pairs = summaryPairs(file, "year"), last = summaryPairs(file, "month");
@@ -85,9 +89,12 @@ export function FreeEnergy({ file, c }: { file: FreeFile; c: Choice }) {
                 <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4 lg:grid-cols-6">
                   {order.map((l) => {
                     const w = l[win], held = isHeld(w), s = held ? shade((w as Held).under5, most) : 0;
-                    const text = held ? `${placeName(l.id)}: ${whole((w as Held).under5)} hours under USD ${file.threshold_usd_per_mwh}, ${whole((w as Held).negative)} of them below zero, of ${whole((w as Held).hours_held)} held, ${basisName((w as Held).basis)}` : `${placeName(l.id)}: not held yet. ${(w as NotHeld).missing}`;
+                    const counted = held ? `${placeName(l.id)}: ${whole((w as Held).under5)} hours under USD ${file.threshold_usd_per_mwh}, ${whole((w as Held).negative)} of them below zero, of ${whole((w as Held).hours_held)} held, ${basisName((w as Held).basis)}` : `${placeName(l.id)}: not held yet. ${(w as NotHeld).missing}`;
+                    // session 149: a place is drawn as a shape only where its operator publishes the boundary (zone_shapes.json); none does yet, so each stays a tile and says why
+                    const z = zones.places[c.grid]?.[l.id];
+                    const text = `${counted}. ${z?.reason ?? NO_BOUNDARY}`;
                     return (
-                      <Link key={l.id} href={link({ ...c, place: l.id, win }, "free-energy")} scroll={false} title={text} data-tile={l.id} data-count={held ? (w as Held).under5 : ""} aria-current={l.id === place.id ? "true" : undefined}
+                      <Link key={l.id} href={link({ ...c, place: l.id, win }, "free-energy")} scroll={false} title={text} data-tile={l.id} data-count={held ? (w as Held).under5 : ""} data-shape={z?.status ?? "tile"} aria-current={l.id === place.id ? "true" : undefined}
                         className={`block border px-2 py-2 text-xs no-underline ${l.id === place.id ? "border-ink ring-1 ring-ink" : "border-rule"} ${held ? "" : "bg-paper text-muted"}`}
                         style={held ? { background: `rgba(140, 21, 21, ${(0.06 + 0.84 * s).toFixed(3)})`, color: s > 0.5 ? "#fff" : "var(--color-ink)" } : undefined}>
                         <span className="block font-semibold">{placeName(l.id)}</span>
@@ -98,7 +105,7 @@ export function FreeEnergy({ file, c }: { file: FreeFile; c: Choice }) {
                 </div>
               );
             })()}
-            <p className="mt-2 max-w-3xl text-xs text-muted">A schematic, not a map: the tiles are in order of their count, not placed by geography. Choose a tile for its hours below.</p>
+            <p className="mt-2 max-w-3xl text-xs text-muted">A schematic, not a map: the tiles are in order of their count, not placed by geography. Choose a tile for its hours below. A true map of {g.name}: <span data-no-boundary={c.grid}><Blank words="no boundary published" why={zones.grids[c.grid] ?? NO_BOUNDARY} /></span>.</p>
           </figure>
 
           <ChartFrame title={`${placeName(place.id)}: hours under USD ${file.threshold_usd_per_mwh}, by hour of the day and month`}

@@ -96,14 +96,36 @@ async function setA(): Promise<Question[]> {
     steps: [["Read intensity_generation for each grid: the day's CO2 from generation over its net generation."], ["Subtract: ", iE, " - ", iC, " = ", calc("diff", iE, iC, "kg CO2/MWh"), "."]],
     why: "The same kilowatt-hour carries very different emissions depending on where and when it is made.",
   };
-  const m0 = localMidnight(sd, "America/Chicago"), m1 = localMidnight(day(iso(m0 + 30 * 3_600_000)), "America/Chicago");
-  const dem5 = await series(D, { entity: E, variable: "demand_mw", since: iso(m0) });
-  const dd: V = { v: dem5.filter((r) => Date.parse(r.ts_utc) < m1).reduce((a, r) => a + r.value, 0), k: `series_sum|${D}|demand_mw|${iso(m0)}|${iso(m1)}|${E}`, u: "MWh" };
+  // Session 149: question 5 is asked of the newest day the batteries' table holds for ERCOT whose Central-time day of
+  // hourly demand is held whole (every hour from one local midnight to the next), as question 1 asks for 24 hours.
+  // Until then it took the batteries' newest day whatever the demand table held: on 7 October 2026 the batteries' day
+  // was 5 October and ERCOT's demand ended on 4 October at 23:00 UTC, so the page added no rows, wrote the sum as 0
+  // and the share as infinity. A sum over hours that are not held is not a number: with no such day the answer says so.
+  const TZ = "America/Chicago";
+  const eDays = [...new Set(st.filter((r) => r.entity === E).map((r) => day(r.ts_utc)))].sort().reverse();
+  const dem5 = eDays.length ? await series(D, { entity: E, variable: "demand_mw", since: iso(localMidnight(eDays[eDays.length - 1], TZ)) }) : [];
+  const localDay = (d: string) => {
+    const a = localMidnight(d, TZ), b = localMidnight(day(iso(a + 30 * 3_600_000)), TZ);
+    const rows = dem5.filter((r) => Date.parse(r.ts_utc) >= a && Date.parse(r.ts_utc) < b);
+    return { a, b, rows, whole: new Set(rows.map((r) => Date.parse(r.ts_utc))).size === (b - a) / 3_600_000 };
+  };
+  const d5 = eDays.find((d) => localDay(d).whole);
+  // the answer's parts: the figures of the day when there is one, else the words that say it is not held
+  let asked = "a day", a5: Part[] = ["Not held yet: no day of the batteries' table has every hour of ERCOT's demand in the live set."];
+  let s5: Part[][] = [["The batteries' table holds a day; the hourly demand of that day is not all held yet, so no sum is written."]];
+  if (d5) {
+    const { a: m0, b: m1, rows } = localDay(d5);
+    const b5 = row(S, st.find((r) => r.entity === E && day(r.ts_utc) === d5)!, "MWh");
+    const dd: V = { v: rows.reduce((a, r) => a + r.value, 0), k: `series_sum|${D}|demand_mw|${iso(m0)}|${iso(m1)}|${E}`, u: "MWh" };
+    asked = d5;
+    a5 = [calc("pct", b5, dd, "%"), " of the day's demand."];
+    s5 = [["ERCOT's batteries discharged ", b5, " on that local day."], [`Add ERCOT's hourly demand_mw from ${iso(m0)} to ${iso(m1)} (the Central-time day in UTC): `, dd, "."], ["Divide: ", b5, " / ", dd, " x 100 = ", calc("pct", b5, dd, "%"), "."]];
+  }
   const q5: Question = {
     id: "a5", tables: [S, D],
-    q: `What share of ERCOT's demand on ${sd} (Central time) did its batteries' discharge equal?`,
-    answer: [calc("pct", bE, dd, "%"), " of the day's demand."],
-    steps: [["ERCOT's batteries discharged ", bE, " on that local day."], [`Add ERCOT's hourly demand_mw from ${iso(m0)} to ${iso(m1)} (the Central-time day in UTC): `, dd, "."], ["Divide: ", bE, " / ", dd, " x 100 = ", calc("pct", bE, dd, "%"), "."]],
+    q: `What share of ERCOT's demand on ${asked} (Central time) did its batteries' discharge equal?`,
+    answer: a5,
+    steps: s5,
     why: "Battery output is growing fast, but it is still a small share of all the energy a grid uses.",
   };
   return [q1, q2, q3, q4, q5];
