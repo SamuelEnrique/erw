@@ -242,6 +242,19 @@ catalogue_hold:
   # utilities' delivery charges; the large-load statements pilot). Neither is loaded
   - texas_delivery_charges
   - large_load_statements
+  # session 140: the tables behind "What a datacenter pays" (/cost-of-power, in review): ERCOT's load zone prices (about
+  # 2.5 million rows), the zones' price history of NYISO, CAISO's ZP26 and SPP South, ISO-NE's (internal), New York's
+  # load queue, and the Commission's transmission charge matrices (internal). The page reads the site's own files, built from them;
+  # nothing reads them from Supabase
+  - ercot_zone_prices_history
+  - iso_zone_prices_history
+  - isone_zone_prices_history
+  - nyiso_load_queue
+  - texas_transmission_matrix
+  # session 144: ERCOT's hourly wind and solar output with the high sustained limit (the days ERCOT lists) and its yearly
+  # workbooks of hourly output; /curtailment (in review) reads the site's own files
+  - ercot_wind_solar_hsl_hourly
+  - ercot_wind_solar_output_hourly
   # session 133: the energy mix's added pulls (about 1.5 million rows in five tables). The review page /mix reads the
   # site's own files (site/data/mixplus/, site/data/mix_forecast.json), built from them; nothing reads them from Supabase
   - caiso_fuel_supply_history
@@ -332,6 +345,12 @@ sources_hold:
   - aeptexas:retail_delivery_tariff
   - tnmp:retail_delivery_tariff
   - puct:wholesale_transmission_charges
+  - puct:transmission_charge_matrix    # session 140, texas_transmission_matrix (internal)
+  - nyiso:load_queue                   # session 140, nyiso_load_queue (this source row serves only that table)
+  - nyiso:rtlbmp                       # session 140, iso_zone_prices_history (NYISO's hourly real-time report serves only that table)
+  - isone:smd_hourly_lmp               # session 140, isone_zone_prices_history (internal)
+  - ercot:np4_742_745_region           # session 144, the two hourly ERCOT wind and solar tables
+  - ercot:PG7-126-M
   - erw:large_load_pilot               # session 139, large_load_statements (internal)
   - caiso:todays_outlook_fuelsource_history   # session 133, /mix (these source rows serve only its new tables)
   - eia:860m:retired

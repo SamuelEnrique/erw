@@ -13,9 +13,17 @@ export const INDEX = indexJson as unknown as Index;
 export type DeliveryRow = {
   utility: string; rate_class: string; charge: string; value: number; value_as_written: string; unit: string; effective: string | null;
   document: string; url: string; page: string | null; sentence: string; column: string; terms: string;
+  // session 140: what the charge is (the tariff's own words are in `why`), and whether it applies to every such load
+  kind?: "transmission" | "distribution" | "other"; applies?: string; why?: string;
+};
+/** Session 140: a figure of the Commission's transmission charge matrix, as printed (texas_transmission_matrix). */
+export type MatrixRow = {
+  year: string; matrix: string; scope: string; quantity: string; value: number; value_as_written: string; unit: string; header: string; status: string;
+  docket: string; item: string; filed: string; document: string; url: string; page: string | null; scan_url: string; scan_page: string | null; sentence: string;
+  docket_status: string; digits_spaced: boolean;
 };
 /** `withheld`: a utility whose charges are held internally (its terms), with the words the page shows and why. */
-export type DeliveryFile = { table: string | null; built: string | null; license: string | null; note: string | null; rows: DeliveryRow[]; withheld: { utility: string; words: string; why: string }[] };
+export type DeliveryFile = { table: string | null; built: string | null; license: string | null; note: string | null; rows: DeliveryRow[]; withheld: { utility: string; words: string; why: string }[]; matrix?: MatrixRow[]; matrix_table?: string };
 export const DELIVERY = deliveryJson as unknown as DeliveryFile;
 
 const cache = new Map<string, YearFile[]>();

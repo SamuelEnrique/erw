@@ -7,12 +7,17 @@
 //   opens      200, its title, the three tabs, the four questions, no "undefined", no NaN; it names its Method note
 //   numbers    the summary sentence's figures equal the arithmetic of lib/datacenter.ts over the site's own files, for
 //              a flat load, a load off in 100 hours a year bought day-ahead, and a shifting load in California
-//   uneven     a zone held for weeks reads "not held yet" with the date it is held from on hover, and no number
+//   uneven     a region with no price in the market named reads "not held yet" with its reason on hover, and no number
+//   forecast   (session 140) a flexible load's figures are the forecast rule's (lib/datacenter.ts monthsRuled), with the
+//              same load "if perfectly foreseen" beside them; a load zone shows its trading hub beside it; the load's
+//              own hours against the grid's carbon-free share are the library's figure
+//   new york   (session 140) New York's load in line by zone, from NYISO's queue workbook, and request by request
 //   blank      MISO reads "paused while terms are reviewed" and PJM "licensed source needed", neither selectable; an
 //              address that names one opens the default grid
 //   nowhere    large load in line by region, and how long a new large load waits: "not published anywhere yet"
-//   delivery   Texas: Oncor's charges as a row of their own, each as the tariff prints it with its line; the three
-//              utilities whose terms do not allow it named and blank; another grid "not held yet"
+//   delivery   Texas (session 140, the owner's ruling): the four wires utilities' charges, each a row of its own with
+//              transmission and distribution apart, each charge as the tariff prints it with its line; the Commission's
+//              wholesale transmission rate as a row of its own; another grid "not held yet"
 //   there      ERCOT's tight hours are the file's count, and the hours a flexible load was off in are the library's;
 //              ISO-NE's demand, held internally, reads "licensed source needed"; SPP's "not held yet"
 //   view       ?view=grids is what the tab showed before: its ranking, ERCOT since 2018, the hours of the day, cost
@@ -24,7 +29,7 @@
 // Exit 1 on a failure.
 import fs from "node:fs";
 import { env, withBrowser } from "./browser.mjs";
-import { expand, gpuHour, lastTwelve, monthsOf, span, two, usdShort, weights } from "../lib/datacenter.ts";
+import { cleanShare, expandSeries, gpuHour, lastTwelve, monthsOf, monthsRuled, span, two, usdShort } from "../lib/datacenter.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3138").replace(/\/$/, "");
 let bad = 0, n = 0;
@@ -53,26 +58,40 @@ check((text.match(/not published anywhere yet/g) ?? []).length === 2 && /Large l
   'large load in line by region, and how long a new large load waits, read "not published anywhere yet"');
 
 for (const [q, grid, region, buy, x] of [
-  ["/cost-of-power", "ercot", "HB_HUBAVG", "rt", { run: "flat", n: 0, pct: 0, shift: 0 }],
+  ["/cost-of-power", "ercot", index.grids.ercot.main, "rt", { run: "flat", n: 0, pct: 0, shift: 0 }],
   ["/cost-of-power?grid=ercot&region=HB_WEST&mw=250&run=hours&n=100&buy=da", "ercot", "HB_WEST", "da", { run: "hours", n: 100, pct: 0, shift: 0 }],
   ["/cost-of-power?grid=caiso&run=shift&shift=20&buy=rt", "caiso", index.grids.caiso.main, "rt", { run: "shift", n: 0, pct: 0, shift: 20 }],
 ]) {
   const h = (await get(q)).html;
   const mw = Number(/[?&]mw=(\d+)/.exec(q)?.[1] ?? 100);
-  const s = span(lastTwelve(monthsOf(files(grid), region, buy, x)));
-  const want = { l12_per: two(s.per), l12_cost: usdShort(s.cost * mw), gpu_hour: gpuHour(s.per, 1.3, 1.56).toFixed(4), ...(x.run === "flat" ? {} : { l12_saved: two(s.flat - s.per) }) };
+  // session 140: the page's figure for a flexible load is the forecast rule's; the foreseen figure stands beside it
+  const s = span(lastTwelve(monthsRuled(files(grid), region, buy, x, "forecast").months));
+  const hs = span(lastTwelve(monthsRuled(files(grid), region, buy, x, "hindsight").months));
+  const want = { l12_per: two(s.per), l12_cost: usdShort(s.cost * mw), gpu_hour: gpuHour(s.per, 1.3, 1.56).toFixed(4), ...(x.run === "flat" ? {} : { l12_saved: two(s.flat - s.per), l12_saved_foreseen: two(hs.flat - hs.per) }) };
+  if (x.run !== "flat") check(s.per >= hs.per - 1e-9, `${grid} ${region}, ${x.run}, ${buy}: the forecast rule (USD ${two(s.per)}) never pays less than the same load perfectly foreseen (USD ${two(hs.per)})`);
   const got = Object.fromEntries(Object.keys(want).map((k) => [k, stat(h, k)]));
   check(JSON.stringify(got) === JSON.stringify(want), `${grid} ${region}, ${x.run}, ${buy}, ${mw} MW: USD ${want.l12_per} per MWh over the last twelve months, USD ${want.l12_cost} in all, USD ${want.gpu_hour} per GPU-hour${want.l12_saved ? `, USD ${want.l12_saved} saved` : ""}${JSON.stringify(got) === JSON.stringify(want) ? "" : ` (the page says ${JSON.stringify(got)})`}`);
 }
 {
-  const zone = index.grids.nyiso.regions.find((r) => r.id !== index.grids.nyiso.main).id;
-  const h = face((await get(`/cost-of-power?grid=nyiso&region=${encodeURIComponent(zone)}&buy=da`)).html);
-  const sum = /data-summary="1"[\s\S]*?<\/p>/.exec(h)?.[0] ?? "";
-  check(/data-missing="1"/.test(sum) && /title="[^"]*held from[^"]*"/.test(sum) && plain(sum).includes("not held yet") && !/data-stat=/.test(sum), `a zone held for weeks (NYISO ${zone}) reads "not held yet" with the date it is held from on hover, and no number`);
+  // a region with no price in the market named: ERCOT's four municipal and cooperative load zones hold day-ahead only
+  const short = index.grids.ercot.regions.find((r) => r.kind === "zone" && !r.rt && r.da);
+  if (short) {
+    const h = face((await get(`/cost-of-power?grid=ercot&region=${short.id}&buy=rt`)).html);
+    check(/data-missing="1"/.test(h) && /title="No real time price is held[^"]*"/.test(h) && !/data-stat="l12_per"/.test(h), `a region with no real-time price (ERCOT ${short.id}) reads "not held yet" with its reason on hover, and no number`);
+    const d = (await get(`/cost-of-power?grid=ercot&region=${short.id}`)).html;
+    const sd = span(lastTwelve(monthsOf(files("ercot"), short.id, "da", { run: "flat", n: 0, pct: 0, shift: 0 })));
+    check(stat(d, "l12_per") === two(sd.per) && /buying day-ahead/.test(plain(face(d))), `the same region with no market named shows its day-ahead price, USD ${two(sd.per)} per MWh`);
+  } else check(false, "ERCOT holds a load zone with day-ahead prices only");
   const m = face((await get("/cost-of-power?grid=miso")).html);
   check(/<input[^>]*checked=""[^>]*value="ercot"|value="ercot"[^>]*checked=""/.test(m), "an address that names MISO opens the default grid, ERCOT");
   const ny = plain(face((await get("/cost-of-power?grid=nyiso")).html));
-  check(/Large load in line, by region\s+not held yet/.test(ny) && /How long a new large load waits\s+not published anywhere yet/.test(ny), 'NYISO publishes its load requests by zone, so there the row reads "not held yet", not "not published anywhere yet"');
+  const q = JSON.parse(fs.readFileSync(new URL("../nyiso_load_queue.json", dir), "utf-8"));
+  const nyh = (await get("/cost-of-power?grid=nyiso&region=CENTRL&buy=da")).html, mine = q.zones.find((z) => z.zone_name === "CENTRL");
+  check(/data-nyload="1"/.test(nyh) && new RegExp(`${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL`).test(plain(nyh)) && new RegExp(`${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} requests in New York`).test(plain(nyh))
+    && q.zones.every((z) => nyh.includes(`data-nyload-zone="${z.zone_name}"`)) && /How long a new large load waits\s+not published anywhere yet/.test(ny),
+    `New York's load in line by zone is NYISO's own list: ${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL, ${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} in all, each zone with its statuses and its source on hover`);
+  const inLine = q.rows.filter((r) => r.in_line);
+  check(inLine.length === q.total.requests && inLine.every((r) => nyh.includes(`>${r.queue_position}</a>`)) && nyh.includes(q.source.url), `the ${inLine.length} requests in line are listed one by one, each linked to NYISO's workbook with its sheet and row on hover`);
   const other = face((await get("/cost-of-power?grid=caiso")).html);
   check(/Delivery charges\s+not held yet/.test(plain(other)), 'another grid shows "delivery charges: not held yet"');
 }
@@ -80,20 +99,39 @@ for (const [q, grid, region, buy, x] of [
   // Texas: delivery as rows of its own, shown only where the utility's terms allow, and the tight hours
   const d = JSON.parse(fs.readFileSync(new URL("texas_delivery.json", dir), "utf-8"));
   const e = (await get("/cost-of-power?grid=ercot&run=hours&n=100")).html, et = plain(face(e));
-  const tcrf = d.rows.find((r) => /TCRF/.test(r.charge));
+  const utilities = [...new Set(d.rows.map((r) => r.utility))];
+  const tcrf = d.rows.find((r) => r.utility === "Oncor" && /TCRF/.test(r.charge));
   const per = two((tcrf.value * 12000) / 8760);
-  check(d.rows.every((r) => r.utility === "Oncor") && et.includes(`The transmission factor alone, a flat load: USD ${per} per MWh`) && d.rows.every((r) => e.includes(r.value_as_written.replace(/^\$\s*/, "").replace(/^\(\s*\$?\s*/, "("))),
-    `Oncor's ${d.rows.length} delivery charges are a row of their own, each as the tariff prints it; its transmission factor alone is USD ${per} per MWh for a flat load`);
-  check(d.rows.every((r) => r.sentence && r.url.startsWith("http") && r.page && e.includes(r.sentence.slice(0, 30).replace(/&/g, "&amp;").replace(/"/g, "&quot;"))), "every charge shown carries the line it was read from, its page and its address");
-  check(d.withheld.length === 3 && d.withheld.every((w) => new RegExp(`Delivery and transmission, ${w.utility}\\s+${w.words}`).test(et)) && !/CenterPoint[^.]{0,200}\d\.\d{6}/.test(et),
-    `the three utilities whose terms do not allow it are named and blank: ${d.withheld.map((w) => `${w.utility} "${w.words}"`).join(", ")}`);
+  check(utilities.length === 4 && d.withheld.length === 0 && utilities.every((u) => new RegExp(`Delivery and transmission, ${u}`).test(et)) && et.includes(`The transmission factor alone, a flat load: USD ${per} per MWh`)
+    && d.rows.every((r) => e.includes(r.value_as_written.replace(/^\$\s*/, "").replace(/^\(\s*\$?\s*/, "("))),
+    `the four utilities' ${d.rows.length} delivery charges are rows of their own (${utilities.join(", ")}), each as the tariff prints it; Oncor's transmission factor alone is USD ${per} per MWh for a flat load`);
+  check(d.rows.every((r) => r.sentence && r.url.startsWith("http") && r.page && r.effective && e.includes(r.sentence.slice(0, 30).replace(/&/g, "&amp;").replace(/"/g, "&quot;"))), "every charge shown carries the line it was read from, its page, its date and its address");
+  check(utilities.every((u) => ["transmission", "distribution"].every((k) => d.rows.some((r) => r.utility === u && r.kind === k))) && (e.match(/data-delivery-kind="transmission"/g) ?? []).length === 4
+    && (e.match(/data-delivery-kind="distribution"/g) ?? []).length === 4, "each utility's row shows transmission and distribution apart");
+  const rate = d.matrix.find((r) => r.quantity === "postage_stamp_rate" && r.year === "2025");
+  check(/data-matrix="1"/.test(e) && et.includes(`2025: USD ${rate.value.toFixed(6)} per kW of four-peak demand a year`) && et.includes(`USD ${two((rate.value * 1000) / 8760)} per MWh, a flat load`) && /filed, not approved/.test(et)
+    && e.includes(rate.sentence.slice(0, 30)), `the Commission's wholesale transmission rate is a row of its own: USD ${rate.value.toFixed(6)} per kW a year in 2025 (approved), USD ${two((rate.value * 1000) / 8760)} per MWh for a flat load; 2026 is marked filed, not approved`);
   const E = index.grids.ercot, yrs = Object.keys(E.demand).filter((y) => E.demand[y].whole && E.demand[y].tight_hours !== undefined).sort(), y = yrs.at(-1);
   const f = files("ercot").find((k) => String(k.year) === y);
-  const p = expand(f, "HB_HUBAVG", "rt"), w = weights(p, { run: "hours", n: 100, pct: 0, shift: 0 });
+  const X100 = { run: "hours", n: 100, pct: 0, shift: 0 }, main = E.main;
+  const ruled = monthsRuled(files("ercot"), main, "rt", X100, "forecast"), p = ruled.prices.get(Number(y)), w = ruled.weights.get(Number(y));
   const off = f.tight.filter((i) => p[i] !== null && w[i] === 0).length;
   check(new RegExp(`Hours the grid was tight, ${y}\\s+${E.demand[y].tight_hours} hours`).test(et) && new RegExp(`this load was off in\\s+${off} of ${E.demand[y].tight_hours}`).test(et),
     `ERCOT was tight in ${E.demand[y].tight_hours} hours of ${y} (the file's count), and a load off in the year's 100 dearest hours was off in ${off} of them`);
   check(/data-zone="FWEST"/.test(e) && /Demand by region[\s\S]{0,200}FWEST \+/.test(et), "demand by region: ERCOT's eight weather zones, each with its growth");
+  // session 140: the hub beside the load zone, the foreseen row, and the load's own hours against clean generation
+  const region = E.regions.find((r) => r.id === main);
+  const l12 = lastTwelve(ruled.months), refMs = monthsOf(files("ercot"), region.ref, "rt", { run: "flat", n: 0, pct: 0, shift: 0 }).filter((r) => r.m >= l12[0].m && r.m <= l12[11].m);
+  const refHub = /data-ref-hub="1"[^>]*>([^<]*)</.exec(e)?.[1];
+  check(region.kind === "zone" && refHub === two(span(refMs).flat) && et.includes(`The hub beside it, ${region.ref}, a flat load`), `ERCOT's default region is a load zone (${main}); its trading hub ${region.ref} stands beside it at USD ${two(span(refMs).flat)} per MWh over the same twelve months`);
+  const hind = span(lastTwelve(monthsRuled(files("ercot"), main, "rt", X100, "hindsight").months));
+  check(new RegExp(`This load, if perfectly foreseen\\s+${two(hind.per).replace(".", "\\.")}`).test(et) && /title="[^"]*8th dearest hourly day-ahead price of the prior 30 days[^"]*"/.test(e) && !/8th dearest/.test(et),
+    `the same load if perfectly foreseen (USD ${two(hind.per)}) stands beside the forecast figure; the rule is stated on hover and not on the face`);
+  const cy = /data-stat="own_clean"[^>]*>([^<]*)</.exec(e)?.[1];
+  const cyear = Number(/hours of (\d{4}) in which the price and the share are both held/.exec(e)?.[1]);
+  const cf = files("ercot").find((k) => k.year === cyear);
+  const own = cf ? cleanShare(expandSeries(cf.clean, cf.hours), ruled.prices.get(cyear), ruled.weights.get(cyear)) : null;
+  check(own && cy === two(own.load) && et.includes(`against ${two(own.flat)} for a flat load`), `this load's own hours met ${own ? two(own.load) : "?"} percent carbon-free generation in ${cyear} (a flat load over the same hours: ${own ? two(own.flat) : "?"})${own && cy !== two(own.load) ? ` (the page says ${cy})` : ""}`);
   const ne = plain(face((await get("/cost-of-power?grid=isone&buy=da")).html));
   check(/Hours the grid was tight\s+licensed source needed/.test(ne) && /Demand by region\s+licensed source needed/.test(ne) && !("demand" in index.grids.isone && Object.keys(index.grids.isone.demand).length),
     'ISO-NE\'s demand is held internally: its rows read "licensed source needed" and the site\'s files hold none of it');
@@ -116,7 +154,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, reques
   const tip = await evaluate(`(() => { const el = document.querySelector('[data-year-cost]'); const chart = window.echarts.getInstanceByDom(el);
     chart.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex: 6 });
     return new Promise((ok) => setTimeout(() => ok([...el.querySelectorAll('div')].map((d) => d.innerText || '').filter((t) => /Flat load/.test(t)).sort((x, y) => x.length - y.length)[0] ?? ''), 400)); })()`);
-  check(/2021/.test(tip) && /Flat load: [\d,.]+ USD\/MWh/.test(tip) && /This load: [\d,.]+ USD\/MWh/.test(tip) && /off in 100 hours/.test(tip), `the chart answers the mouse with the year and its figures ("${tip.replace(/\s+/g, " ").slice(0, 140)}")`);
+  check(/2021/.test(tip) && /Flat load: [\d,.]+ USD\/MWh/.test(tip) && /This load: [\d,.]+ USD\/MWh/.test(tip) && /off in \d+ hours/.test(tip) && /If perfectly foreseen: [\d,.]+ USD\/MWh/.test(tip), `the chart answers the mouse with the year, the load under the rule and the load if perfectly foreseen ("${tip.replace(/\s+/g, " ").slice(0, 190)}")`);
+  check(await evaluate(`[...document.querySelectorAll('[data-region] optgroup')].map((o) => o.label).join('|').includes('Load zones')`), "ERCOT's regions are listed as load zones, then trading hubs");
   await sleep(1500);
   const before = requests.length, address = await evaluate("location.href");
   await evaluate(`(() => { const set = (sel, v) => { const el = document.querySelector(sel); const s = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set; s.call(el, v); el.dispatchEvent(new Event('input', { bubbles: true })); };

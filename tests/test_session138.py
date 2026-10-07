@@ -69,7 +69,9 @@ class Builder(unittest.TestCase):
             for y in v["years"]:
                 self.assertTrue(os.path.exists(os.path.join(d, f"{g}_{y}.json")), f"{g}_{y}.json")
         self.assertFalse([f for f in os.listdir(d) if f.startswith(("miso", "pjm"))])
-        self.assertEqual(len(index["grids"]["ercot"]["regions"]), 6)
+        # session 140: ERCOT's six trading hubs and its eight load zones, where a load settles
+        self.assertEqual(len(index["grids"]["ercot"]["regions"]), 14)
+        self.assertEqual(sum(1 for r in index["grids"]["ercot"]["regions"] if r.get("kind") == "zone"), 8)
         self.assertEqual(index["grids"]["ercot"]["years"][0], 2015)
 
 
@@ -86,7 +88,7 @@ class Merge(unittest.TestCase):
 
     def test_the_weekly_refresh_runs_it_and_the_run_commits_its_files(self):
         self.assertIn('--step "datacenter_page" -- "$PY" warehouse/derived/datacenter_page.py', src("warehouse", "refresh_supply.sh"))
-        self.assertIn("site/data/datacenter)", src(".github", "workflows", "daily-prices.yml"))
+        self.assertIn("site/data/datacenter site/data/nyiso_load_queue.json)", src(".github", "workflows", "daily-prices.yml"))   # session 140 added New York's load queue
 
 
 class Demand(unittest.TestCase):
@@ -126,31 +128,37 @@ class Delivery(unittest.TestCase):
     def setUpClass(cls):
         cls.file = json.loads(src("site", "data", "datacenter", "texas_delivery.json"))
 
-    def test_only_a_utility_whose_terms_allow_it_is_shown(self):
-        self.assertEqual({r["utility"] for r in self.file["rows"]}, {"Oncor"})
-        self.assertEqual([(w["utility"], w["words"]) for w in self.file["withheld"]],
-                         [("CenterPoint Energy Houston Electric", "licensed source needed"), ("AEP Texas", "held while terms are reviewed"),
-                          ("Texas-New Mexico Power", "held while terms are reviewed")])
-        self.assertEqual([k for k, v in dp.DELIVERY.items() if v["show"]], ["oncor:retail_delivery_tariff"])
+    def test_all_four_utilities_are_shown_as_public_regulatory_filings(self):
+        # Session 138 showed Oncor's rows alone, by its reading of each utility's terms. The owner's ruling of session 140:
+        # all four are shown, each row citing its tariff document, address and date, as public regulatory filings.
+        self.assertEqual({r["utility"] for r in self.file["rows"]}, {"Oncor", "CenterPoint Energy Houston Electric", "AEP Texas", "Texas-New Mexico Power"})
+        self.assertEqual(self.file["withheld"], [])
+        self.assertEqual(list(dp.DELIVERY), ["oncor:retail_delivery_tariff", "centerpoint:retail_delivery_tariff", "aeptexas:retail_delivery_tariff", "tnmp:retail_delivery_tariff"])
         self.assertEqual(self.file["license"], "internal")
+        for r in self.file["rows"]:
+            self.assertIn("public regulatory filing", r["terms"])
         text = json.dumps(self.file)
-        for other in ("5.048210", "5.956038", "5.156858"):   # the other three utilities' transmission factors
-            self.assertNotIn(other, text)
+        for factor in ("6.260839", "5.048210", "5.956038", "5.156858"):   # the four utilities' transmission factors, as printed
+            self.assertIn(factor, text)
 
     def test_every_charge_shown_has_its_line_its_page_and_its_address(self):
-        self.assertGreaterEqual(len(self.file["rows"]), 8)
+        self.assertGreaterEqual(len(self.file["rows"]), 30)
         for r in self.file["rows"]:
-            self.assertTrue(r["sentence"] and r["page"] and r["url"].startswith("https://") and r["unit"] and r["rate_class"] == "Transmission Service", r)
+            self.assertTrue(r["sentence"] and r["page"] and r["url"].startswith("https://") and r["unit"] and r["rate_class"].startswith("Transmission"), r)
+            self.assertTrue(r["effective"] and r["document"], r)   # the date its sheet prints, and the tariff document
+            self.assertIn(r["kind"], ("transmission", "distribution", "other"))
             digits = re.sub(r"[^0-9.]", "", r["value_as_written"])
             self.assertIn(digits, r["sentence"].replace(",", ""), r["charge"])
 
     def test_a_figure_from_a_many_column_row_is_shown_only_when_its_column_was_checked(self):
         many = [r for r in self.file["rows"] if r["column"]]
         self.assertEqual(sorted(r["charge"] for r in many), ["Distribution Cost Recovery Factor (DCRF)", "Rider MG amount", "Transmission Cost Recovery Factor (TCRF)"])
-        # the energy efficiency factor the model read stands in the non-profit column: not shown
-        self.assertFalse([r for r in self.file["rows"] if "EECRF" in r["charge"]])
-        tcrf = next(r for r in self.file["rows"] if "TCRF" in r["charge"])
-        self.assertEqual((tcrf["value"], tcrf["unit"]), (6.260839, "$/4CP kW"))
+        # the energy efficiency factors the model read stand in non-profit columns (Oncor 0.000446, CenterPoint 0.000621): not shown
+        text = json.dumps(self.file)
+        self.assertNotIn("0.000446", text)
+        self.assertNotIn("0.000621", text)
+        tcrf = next(r for r in self.file["rows"] if r["utility"] == "Oncor" and "TCRF" in r["charge"])
+        self.assertEqual((tcrf["value"], tcrf["unit"], tcrf["kind"]), (6.260839, "$/4CP kW", "transmission"))
         self.assertTrue(tcrf["sentence"].endswith("6.260839"))   # the last column of its row: Transmission Service
 
     def test_delivery_is_never_mixed_into_the_market_cost(self):
@@ -236,7 +244,7 @@ class Page(unittest.TestCase):
         # how long a new large load waits: every grid. Load in line by region: every grid but NYISO, which publishes it
         # (its queue workbook's load sheets), so there the truth is "not held yet"
         self.assertEqual(self.page.count("words={NOWHERE}"), 3)
-        self.assertRegex(self.page, r'x\.grid === "nyiso" \? <Missing key="m" why="NYISO publishes its load interconnection requests')
+        self.assertIn('x.grid === "nyiso" ? <NyLoadCell key="ny" own={x.region} />', self.page)   # session 140: New York's load queue is held and shown
         self.assertIn('words = "not held yet"', self.page)
         self.assertIn('"Delivery charges"', self.page)
         for link in ("/mix?view=clean&grid=", "/mix?view=stress&grid=", "/demand?area=", "/queues?grid=", "/datacenters"):
@@ -248,7 +256,8 @@ class Page(unittest.TestCase):
             self.assertNotIn(word, re.sub(r"//.*", "", face), word)
         self.assertIn("/data/methods/datacenter_cost", self.page)
         note = src("docs", "methods", "datacenter_cost.md")
-        for said in ("most a load could have saved", "Wholesale energy only", "Standard time", "Nothing is filled", "not published anywhere yet", "A hub is not a site"):
+        # session 140: the flexible figure is a rule's; the hours chosen with foresight stand beside it as "the most the load could have saved"
+        for said in ("the most the load could have saved", "never on the price the hour settles at", "Wholesale energy only", "Standard time", "Nothing is filled", "not published anywhere yet", "A hub is not a site"):
             self.assertIn(said, note)
         for name in (("site", "app", "cost-of-power", "page.tsx"), ("site", "app", "cost-of-power", "LoadForm.tsx"), ("site", "app", "cost-of-power", "LoadContract.tsx"),
                      ("site", "app", "cost-of-power", "LoadCharts.tsx"), ("site", "app", "cost-of-power", "GridsView.tsx"), ("site", "lib", "datacenter.ts"),

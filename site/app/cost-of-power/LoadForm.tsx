@@ -11,7 +11,7 @@ const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 const small = "w-20 border border-rule bg-white px-1.5 py-0.5 text-sm";
 const KEYS = ["grid", "region", "mw", "run", "n", "pct", "shift", "buy", "gpu", "pue"] as const;
 
-export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string, { name: string; regions: { id: string; held: string }[] }>; blank: Index["blank"] }) {
+export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string, { name: string; regions: { id: string; held: string; kind?: string | null; name?: string | null }[] }>; blank: Index["blank"] }) {
   const router = useRouter();
   const g = grids[x.grid];
   return (
@@ -46,7 +46,16 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
 
       <label className="block"><span className="mb-1 block font-semibold">Region</span>
         <select name="region" defaultValue={x.region} className={field} data-region="1">
-          {g?.regions.map((r) => <option key={r.id} value={r.id}>{r.id} ({r.held})</option>)}
+          {g?.regions.some((r) => r.kind === "zone") ? (
+            <>
+              <optgroup label="Load zones: where a load settles">
+                {g.regions.filter((r) => r.kind === "zone").map((r) => <option key={r.id} value={r.id} title={r.name ?? undefined}>{r.id} ({r.held})</option>)}
+              </optgroup>
+              <optgroup label="Trading hubs">
+                {g.regions.filter((r) => r.kind !== "zone").map((r) => <option key={r.id} value={r.id}>{r.id} ({r.held})</option>)}
+              </optgroup>
+            </>
+          ) : g?.regions.map((r) => <option key={r.id} value={r.id}>{r.id} ({r.held})</option>)}
         </select>
       </label>
 
