@@ -1,0 +1,12 @@
+# What warehouse/connectors/resource_layers.py --build needs beyond requirements.txt (session 146).
+# Not in requirements.txt on purpose: the daily runner does not build the resource layers, and the tests
+# in tests/test_session146.py skip when one of these is absent.
+#   pip install -r warehouse/connectors/resource_layers.requirements.txt
+rasterio>=1.5      # reads the GeoTIFFs by windows (installed on the laptop: 1.5.2, GDAL 3.12.2)
+pyproj>=3.7        # projected rasters to longitude and latitude
+shapely>=2.1       # simplify with topology kept, coordinate grid
+geopandas>=1.1     # shapefiles, geodatabases and GeoJSON through pyogrio
+pyogrio>=0.11
+numpy>=2.0
+# installed in session 146 and not used by the connector as it stands (kept in case a source ships a
+# TIFF that GDAL cannot read): tifffile 2026.9.20, imagecodecs 2026.8.16, pyshp 3.1.6
