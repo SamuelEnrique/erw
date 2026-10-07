@@ -420,7 +420,7 @@ def nice_stops(lo, hi, n=6):
     return out
 
 
-def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells=None):
+def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells=None, crop=False):
     """One raster to a pyramid of grid files. Returns (levels, legend, stats, source_res_deg).
 
     bounds: (west, south, east, north) in degrees, snapped outward here to 0.2 degrees.
@@ -441,6 +441,13 @@ def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells
     ncols = int(round((snap(e, 0.2, True) - lon0) / 0.2)) * k_top
     nrows = int(round((lat0 - snap(s_, 0.2, False)) / 0.2)) * k_top
     S, C, T, st = accumulate_raster(raster, band, lon0, lat0, base, ncols, nrows, valid=valid)
+    if crop:  # keep the 0.2 degree blocks from the first to the last that hold a source value
+        top = coarsen(C, k_top)
+        rr = np.nonzero(top.sum(axis=1))[0]
+        cc = np.nonzero(top.sum(axis=0))[0]
+        r0, r1, c0, c1 = rr[0] * k_top, (rr[-1] + 1) * k_top, cc[0] * k_top, (cc[-1] + 1) * k_top
+        S, C, T = S[r0:r1, c0:c1], C[r0:r1, c0:c1], T[r0:r1, c0:c1]
+        lon0, lat0 = round(lon0 + c0 * base, 6), round(lat0 - r0 * base, 6)
     src_mean = st["sum"] / st["n_valid"] if st["n_valid"] else float("nan")
     log(f"{id}: source {st['n_valid']} valid cells of {st['n_cells']}, mean {src_mean:.6g}, "
         f"min {st['min']:.6g}, max {st['max']:.6g}; cell {res:.5f} degrees; "
@@ -483,6 +490,10 @@ def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells
     legend = {"min": round(lo, 6), "max": round(hi, 6), "stops": nice_stops(p2, p98)}
     st["mean"] = src_mean
     st["checks"] = checks
+    last = levels[0]
+    st["grid"] = {"lon0": lon0, "lat0": lat0, "west": lon0, "north": lat0,
+                  "east": round(lon0 + last["ncols"] * last["cell_deg"], 6),
+                  "south": round(lat0 - last["nrows"] * last["cell_deg"], 6)}
     return levels, legend, st, res
 
 
@@ -578,6 +589,11 @@ TERMS = {
                      "receive through our email distribution service. However, if you use or reproduce any of "
                      "our information products, you should use an acknowledgment, which includes the "
                      "publication date, such as: \"Source: U.S. Energy Information Administration (Oct 2008).\""},
+    "nlr": {"url": "https://www.nlr.gov/disclaimer", "file": "nlr_disclaimer.html",
+            "quote": "The user is granted the right, without any fee or cost, to use or copy the Data, provided "
+                     "that this entire notice appears in all copies of the Data. Further, the user agrees to "
+                     "credit the U.S. Department of Energy (DOE)/NLR/ALLIANCE in any publication that results "
+                     "from the use of the Data."},
     "boem": {"url": "https://www.boem.gov/renewable-energy/mapping-and-data/renewable-energy-gis-data",
              "file": "boem_renewable_energy_gis_data.html",
              "quote": "Note to users: Data downloaded from this site is to be used for informational and "
@@ -597,6 +613,12 @@ SOURCES = {
     "boem_geodatabase": {"source": "boem", "layers": ["offshore_wind_planning_areas"], "terms": "boem",
                          "url": "https://www.boem.gov/renewable-energy/boem-renewable-energy-geodatabase",
                          "file": "boem-renewable-energy-geodatabase.zip"},
+    "nlr_wind": {"source": "nlr", "layers": ["wind_speed_100m"], "terms": "nlr",
+                 "url": "https://www.nlr.gov/docs/libraries/gis/us-wind-data.zip", "file": "us-wind-data.zip"},
+    "nlr_ghi": {"source": "nlr", "layers": ["solar_ghi"], "terms": "nlr",
+                "url": "https://www.nlr.gov/docs/libraries/gis/nsrdbv3_ghi.zip", "file": "nsrdbv3_ghi.zip"},
+    "nlr_dni": {"source": "nlr", "layers": ["solar_dni"], "terms": "nlr",
+                "url": "https://www.nlr.gov/docs/libraries/gis/nsrdbv3_dni.zip", "file": "nsrdbv3_dni.zip"},
     "boem_planning_meta": {
         "source": "boem", "layers": ["offshore_wind_planning_areas"], "terms": "boem",
         "url": "https://services7.arcgis.com/G5Ma95RzqJRPKsWL/ArcGIS/rest/services/"
@@ -651,6 +673,87 @@ def shape_stats(values):
     if not v:
         return None
     return {"n": len(v), "min": min(v), "mean": sum(v) / len(v), "max": max(v)}
+
+
+def raster_bounds(path):
+    """The raster's extent in longitude and latitude: (west, south, east, north)."""
+    import numpy as np
+    import pyproj
+    import rasterio
+    with rasterio.open(path) as ds:
+        b = ds.bounds
+        if ds.crs.is_geographic:
+            return b.left, b.bottom, b.right, b.top
+        tr = pyproj.Transformer.from_crs(ds.crs, 4326, always_xy=True)
+        xs = np.linspace(b.left, b.right, 200)
+        ys = np.linspace(b.bottom, b.top, 200)
+        edge_x = np.concatenate([xs, xs, np.full(200, b.left), np.full(200, b.right)])
+        edge_y = np.concatenate([np.full(200, b.bottom), np.full(200, b.top), ys, ys])
+        lon, lat = tr.transform(edge_x, edge_y)
+        return float(lon.min()), float(lat.min()), float(lon.max()), float(lat.max())
+
+
+CONUS = (-125.0, 24.4, -66.8, 49.6)  # the contiguous states with their coastal waters, on 0.2 degree lines
+
+
+def grid_layer(raw_dir, web_dir, manifest, *, id, key, raster, band=1, bounds=None, scale, valid=None,
+               level_cells=None, **fields):
+    """Build one grid layer's pyramid and write its manifest entry. bounds None: all the raster covers,
+    cut to the 0.2 degree blocks that hold a value."""
+    row = held(raw_dir, key)
+    levels, legend, st, res = build_grid(id, raster, band, web_dir, bounds or raster_bounds(raster), scale,
+                                         valid=valid, level_cells=level_cells, crop=bounds is None)
+    layer = base_layer(id, fields.pop("group"), fields.pop("title"), "grid", row, key,
+                       levels=levels, legend=legend, source_cell_deg=round(res, 6),
+                       source_stats={"n_valid": st["n_valid"], "n_cells": st["n_cells"], "min": st["min"],
+                                     "mean": st["mean"], "max": st["max"],
+                                     "n_valid_in_grid": st["n_valid_in_grid"]},
+                       checks=st["checks"], grid=st["grid"], **fields)
+    manifest_put(manifest, layer)
+    return layer
+
+
+GRID_REDUCTION = ("each source cell is assigned by its centre to a cell of a longitude and latitude grid (WGS84); "
+                  "a cell's value is the mean of the source's own valid cells in it; a cell with fewer than half "
+                  "of its source cells valid is empty; no interpolation, no filling, no smoothing; no level finer "
+                  "than the source's own cell")
+
+NLR_PUBLISHER = "National Laboratory of the Rockies (NLR), until 2025 the National Renewable Energy Laboratory (NREL)"
+NLR_CREDIT = "U.S. Department of Energy (DOE)/NLR/ALLIANCE"
+
+
+def nlr_notice(raw_dir):
+    """NLR's whole Data and Software notice, from the saved page: its terms ask that it travel with the data."""
+    t = html_text(os.path.join(raw_dir, "nlr", "terms", TERMS["nlr"]["file"]))
+    a = t.index("Access to or use of any data or software made available on this server")
+    b = t.index("ACCESS, USE OR PERFORMANCE OF THE DATA.") + len("ACCESS, USE OR PERFORMANCE OF THE DATA.")
+    return t[a:b]
+
+
+@builder("wind_speed_100m")
+def build_wind_speed(raw_dir, web_dir, manifest):
+    row = held(raw_dir, "nlr_wind")
+    tif = find_file(unpack(row["path"]), r"wtk_conus_100m_mean_masked\.tif$")
+    grid_layer(
+        raw_dir, web_dir, manifest, id="wind_speed_100m", key="nlr_wind", raster=tif, scale=0.001,
+        group="wind", title="Wind speed at 100 m", unit="m/s", value_label="annual mean wind speed",
+        publisher=NLR_PUBLISHER,
+        source_title="Wind Integration National Dataset (WIND) Toolkit, Multi-year Annual Average "
+                     "(wtk_conus_100m_mean_masked.tif)",
+        vintage="2007-2013 (the file's metadata: \"Multi-year (2007-2013) Annual Average Wind Speed, meters "
+                "per second, at 100 meters above surface level\"); publication date 2015",
+        extent="contiguous United States, onshore and offshore", source_resolution="2 km (\"2km x 2km\")",
+        reduction=GRID_REDUCTION, credit=NLR_CREDIT, terms_notice=nlr_notice(raw_dir),
+        notes_for_method="The publisher's words: \"This data provides modeled annual average wind speed for "
+                         "the contiguous United States both onshore and offshore for the period 2007-2013.\" "
+                         "\"Raster value: Multi-year (2007-2013) Annual Average Wind Speed, meters per second, "
+                         "at 100 meters above surface level.\" It is a model's long-run average, not a "
+                         "measurement at a mast and not a forecast; it says nothing of a turbine's output, of "
+                         "land that may be used or of the grid. The source's cell is 2 km in a Lambert "
+                         "projection, which is wider than 0.025 degrees of longitude in the north, so the "
+                         "finest level is 0.05 degrees. The landing page that listed the file (NREL's wind "
+                         "resource maps page) no longer exists since the laboratory's site moved to nlr.gov; "
+                         "the file itself is still on the laboratory's server.")
 
 
 EIA_ACK = "Source: U.S. Energy Information Administration"
@@ -823,6 +926,8 @@ def main():
     ap.add_argument("--pull", action="store_true")
     ap.add_argument("--build", action="store_true")
     ap.add_argument("--check-terms", action="store_true")
+    ap.add_argument("--method-doc", action="store_true",
+                    help="rewrite the layer sections of docs/methods/resources.md from the manifest")
     ap.add_argument("--only", default="")
     ap.add_argument("--out-dir", default="")
     ap.add_argument("--raw-dir", default=RAW_DIR)
@@ -861,10 +966,85 @@ def main():
                 failed.append(id)
     if args.check_terms:
         failed += check_terms(args.raw_dir, manifest)
+    if args.method_doc:
+        write_method_doc(manifest)
     if failed:
         log(f"failed: {failed}")
         return 1
     return 0
+
+
+METHOD_DOC = os.path.join(REPO, "docs", "methods", "resources.md")
+METHOD_MARK = "<!-- The sections below are written from the manifest by resource_layers.py --method-doc -->"
+
+
+def fmt_num(x):
+    if x is None:
+        return "none"
+    if isinstance(x, int) or float(x).is_integer():
+        return f"{int(x):,}"
+    return f"{x:,.4g}" if abs(x) < 1000 else f"{x:,.0f}"
+
+
+def write_method_doc(manifest, path=METHOD_DOC):
+    """One section a layer, from the manifest, under the hand-written head of docs/methods/resources.md."""
+    man = read_manifest(manifest)
+    with open(path, encoding="utf-8") as f:
+        head = f.read().split(METHOD_MARK)[0].rstrip() + "\n\n"
+    out = [head + METHOD_MARK + "\n"]
+    for l in man["layers"]:
+        out.append(f"## {l['title']} (`{l['id']}`)\n")
+        out.append(f"- **What it is.** {l['notes_for_method']}")
+        out.append(f"- **Publisher.** {l['publisher']}. {l['source_title']}.")
+        out.append(f"- **File.** `{l['source_file']}` in the raw store, {l['source_bytes']:,} bytes, sha256 "
+                   f"`{l['source_sha256'][:16]}`, retrieved {l['retrieved_at_utc']} from <{l['source_url']}>.")
+        out.append(f"- **Vintage.** {l['vintage']}.")
+        out.append(f"- **Extent.** {l['extent']}. Source resolution: {l['source_resolution']}.")
+        out.append(f"- **Reduction.** {l['reduction']}.")
+        if l["kind"] == "grid":
+            st = l["source_stats"]
+            out.append(f"- **Unit.** {l['unit']} ({l['value_label']}). The source's own cells: minimum "
+                       f"{fmt_num(st['min'])}, mean {fmt_num(st['mean'])}, maximum {fmt_num(st['max'])} over "
+                       f"{st['n_valid']:,} cells with a value.")
+            out.append("- **Levels.**\n")
+            out.append("  | cell (degrees) | file | columns x rows | cells with a value | bytes | mean weighted by "
+                       "source cells | the source's mean over the same cells | share of the source's cells kept |")
+            out.append("  |---|---|---|---|---|---|---|---|")
+            for v in l["levels"]:
+                c = [x for x in l["checks"] if x["cell_deg"] == v["cell_deg"]][0]
+                out.append(f"  | {v['cell_deg']} | `{v['file']}` | {v['ncols']} x {v['nrows']} | "
+                           f"{c['cells_with_value']:,} | {v['bytes']:,} | {c['mean_weighted_by_source_cells']:.5g} | "
+                           f"{c['source_mean_of_kept_cells']:.5g} | {c['share_of_source_cells_kept']:.2%} |")
+            out.append("")
+        else:
+            n = l.get("features", l.get("rows"))
+            what = "features" if l["kind"] == "shapes" else "rows"
+            line = f"- **Web file.** `{l['file']}`, {l['bytes']:,} bytes, {n:,} {what}."
+            st = l.get("stats")
+            if st:
+                line += (f" {l['value_label']}, in {l['unit']}: minimum {fmt_num(st['min'])}, mean "
+                         f"{fmt_num(st['mean'])}, maximum {fmt_num(st['max'])} over {st['n']:,} {what}.")
+            out.append(line)
+        if l.get("classes"):
+            out.append("- **Classes, in the source's words.** " + "; ".join(
+                f"{c['value']}: {c['label']}" for c in l["classes"]) + ".")
+        out.append(f"- **Terms.** <{l['terms_url']}> (saved as `{l['terms_file']}`, sha256 "
+                   f"`{l['terms_sha256'][:16]}`): \"{l['terms_quote']}\"")
+        for t in l.get("terms_also", []):
+            out.append(f"  Also <{t['url']}>: \"{t['quote']}\"")
+        if l.get("acknowledgment"):
+            out.append(f"- **Acknowledgment.** {l['acknowledgment']}.")
+        out.append("")
+    if man.get("missing"):
+        out.append("## Not held\n")
+        for m in man["missing"]:
+            out.append(f"- **{m['title']}** (`{m['id']}`): {m['reason']}")
+        out.append("")
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8", newline="\n") as f:
+        f.write("\n".join(out))
+    os.replace(tmp, path)
+    log(f"method document: {len(man['layers'])} layers, {len(man.get('missing', []))} not held")
 
 
 def check_terms(raw_dir, manifest):
