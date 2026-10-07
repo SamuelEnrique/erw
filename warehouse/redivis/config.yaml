@@ -84,6 +84,9 @@ restore_before_run:
   # session 138: hourly load by zone or area. Each weekly run reads the operator's newest file or days and merges
   # them; without the table restored its years of history would be replaced by the newest weeks
   - '^(ercot_zone|nyiso_zone|isone_zone|caiso_area)_load_hourly$'
+  # session 144: ERCOT's hourly wind and solar with the high sustained limit. ERCOT lists about seven days; each daily
+  # run merges the new hours, so without the table restored its history would begin again every day
+  - '^ercot_wind_solar_hsl_hourly$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.

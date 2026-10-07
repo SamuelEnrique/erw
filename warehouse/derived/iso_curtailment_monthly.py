@@ -9,14 +9,23 @@ Output, through the merge writer, one derived `series` table:
     iso_curtailment_monthly   freq P1M, MWh, the input's entity and variable names
 
     python warehouse/derived/iso_curtailment_monthly.py
+    python warehouse/derived/iso_curtailment_monthly.py --out-dir DIR   # a trial run: the table under DIR, nothing in warehouse/output
 
 A variable's month is written only when the daily table has that variable for every day of
 the calendar month; a month with a day missing is not written (the log names it), and the
 month in progress never is. The value is the exact decimal sum of the daily values.
 In CI the daily tables hold only the days the run pulled, so the script there writes the
 months it can complete and the merge writer keeps the earlier months.
+
+Session 144: the share of available wind and solar output curtailed is written too, for caiso:ISO and spp:SPP, as five
+more variables of the same table (every earlier row and column is as it was): share_curtailed_pct (pct),
+share_curtailed_mwh and share_output_mwh (MWh, over the days both are held), share_hours_held and
+share_hours_in_month (count). The rule and the sources are warehouse/derived/curtailment_shares.py's; a share is
+written only when curtailment and output are both held for at least 95 percent of the month's hours. If the shares
+cannot be built (an input missing on the machine), the monthly sums are written as before and the log says why.
 """
 
+import argparse
 import datetime as dt
 import os
 import sys
@@ -27,7 +36,9 @@ import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "connectors"))
+sys.path.insert(0, HERE)
 import iso_prices as ip  # noqa: E402
+import curtailment_shares as shares  # noqa: E402
 
 NAME = "iso_curtailment_monthly"
 INPUTS = ["caiso_curtailment_daily", "spp_curtailment_daily", "ercot_wind_solar_hsl_daily"]
@@ -36,21 +47,38 @@ METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/curtai
 SOURCE = "erw:iso_curtailment_monthly"
 
 
-def main():
+def share_rows(in_dir, log, retrieved):
+    """Session 144: the share rows (curtailment_shares.rows), in the table's columns; [] with the reason in the log when
+    they cannot be built, so that the monthly sums are written all the same."""
+    try:
+        grids = shares.build(in_dir, log)
+    except Exception:
+        log("  shares NOT written this run: " + ip.redact(traceback.format_exc()))
+        return []
+    return [{**r, "market": "", "node": "", "source": SOURCE, "source_url": METHOD_URL, "retrieved_at": retrieved, "vintage": ""} for r in shares.rows(grids)]
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description="Curtailment by ISO, monthly")
+    ap.add_argument("--out-dir", help="a trial run: the table, its log and the registry under this directory; nothing in warehouse/output")
+    a = ap.parse_args(argv)
+    in_dir = ip.OUT_DIR
+    if a.out_dir:
+        ip.set_out_dir(a.out_dir)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"curtailment_monthly_{run_id}.log"))
     try:
-        present = [n for n in INPUTS if os.path.exists(os.path.join(ip.OUT_DIR, n + ".csv"))]
+        present = [n for n in INPUTS if os.path.exists(os.path.join(in_dir, n + ".csv"))]
         if not present:
             raise RuntimeError(f"no input table: {INPUTS}")
         frames, srcs = [], set()
         for n in present:
-            d = ip.read_series(os.path.join(ip.OUT_DIR, n + ".csv"), ip.SERIES_COLS)
+            d = ip.read_series(os.path.join(in_dir, n + ".csv"), ip.SERIES_COLS)
             srcs |= set(d["source"])
             frames.append(d)
         df = pd.concat(frames, ignore_index=True)
-        reg = pd.read_csv(os.path.join(ip.METADATA_DIR, "sources.csv"), dtype=str, keep_default_na=False)
+        reg = pd.read_csv(os.path.join(ip.ROOT, "warehouse", "metadata", "sources.csv"), dtype=str, keep_default_na=False)
         lic = dict(zip(reg["source"], reg["license"]))
         missing = [s for s in srcs if s not in lic]
         if missing:
@@ -74,9 +102,12 @@ def main():
                          "value": float(total), "unit": "MWh", "freq": "P1M", "geo": geo, "market": "",
                          "node": "", "source": SOURCE, "source_url": METHOD_URL,
                          "retrieved_at": ip.utc_iso(pd.Timestamp.now(tz="UTC")), "vintage": ""})
-        s = pd.DataFrame(rows, columns=ip.SERIES_COLS).sort_values(["entity", "variable", "ts_utc"])
-        if s.empty:
+        if not rows:
             raise ip.SourceGap("no complete month in the daily tables")
+        sums = len(rows)
+        rows += share_rows(in_dir, log, ip.utc_iso(pd.Timestamp.now(tz="UTC")))
+        s = pd.DataFrame(rows, columns=ip.SERIES_COLS).sort_values(["entity", "variable", "ts_utc"])
+        log(f"{sums} rows of monthly sums; {len(s) - sums} rows of shares (session 144)")
         log(f"{len(s)} rows; {skipped} entity-variable-months not complete, not written")
         header = [
             "Energy Research Warehouse (ERW): Wind and solar curtailment by ISO, monthly, MWh (derived from the "
@@ -91,6 +122,9 @@ def main():
             "A variable's month is the exact sum of its daily values, written only when every day of the month "
             f"is present; the month in progress is never written. {skipped} entity-variable-months were not "
             "complete in this run.",
+            "Session 144: share_curtailed_pct, share_curtailed_mwh, share_output_mwh, share_hours_held, share_hours_in_month for caiso:ISO and "
+            "spp:SPP: curtailed MWh over curtailed plus wind and solar output MWh, over the days both are held, written when they hold at least 95 percent "
+            "of the month's hours (warehouse/derived/curtailment_shares.py). CAISO's output is CAISO's own; SPP's is EIA-930's hourly net generation.",
             f"License: {license_}. A derived table inherits the most restrictive license of its inputs (Decision 23).",
         ]
         ip.write_csv(s, NAME, header, log)

@@ -1,0 +1,18 @@
+# ERW test fixture, session 144: the monthly table's rows of December 2025, CAISO and SPP, as the warehouse held them before session 144. Real rows, cut from warehouse/output/iso_curtailment_monthly.csv on 2026-10-07; only the columns the reader uses.
+entity,variable,ts_utc,value
+spp:SPP,curtailed_solar_economic_mwh,2025-12-01T00:00:00Z,1711.244
+spp:SPP,curtailed_solar_manual_mwh,2025-12-01T00:00:00Z,36.315
+spp:SPP,curtailed_solar_mwh,2025-12-01T00:00:00Z,6536.754
+spp:SPP,curtailed_solar_redispatch_mwh,2025-12-01T00:00:00Z,4789.195
+spp:SPP,curtailed_wind_economic_mwh,2025-12-01T00:00:00Z,247628.815
+spp:SPP,curtailed_wind_manual_mwh,2025-12-01T00:00:00Z,19681.927
+spp:SPP,curtailed_wind_mwh,2025-12-01T00:00:00Z,1113673.925
+spp:SPP,curtailed_wind_redispatch_mwh,2025-12-01T00:00:00Z,846363.184
+caiso:ISO,curtailed_solar_local_mwh,2025-12-01T00:00:00Z,14293.968
+caiso:ISO,curtailed_solar_mwh,2025-12-01T00:00:00Z,23925.213
+caiso:ISO,curtailed_solar_system_mwh,2025-12-01T00:00:00Z,9631.242
+caiso:ISO,curtailed_wind_local_mwh,2025-12-01T00:00:00Z,4134.41
+caiso:ISO,curtailed_wind_mwh,2025-12-01T00:00:00Z,5360.47
+caiso:ISO,curtailed_wind_system_mwh,2025-12-01T00:00:00Z,1226.06
+caiso:ISO,solar_generation_mwh,2025-12-01T00:00:00Z,2661600.756
+caiso:ISO,wind_generation_mwh,2025-12-01T00:00:00Z,1409323.4

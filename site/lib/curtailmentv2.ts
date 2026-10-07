@@ -1,4 +1,4 @@
-// Session 98: curtailment, version 2 (/curtailment/v2, in review). The pure part: what the page chooses from its address
+// Session 98: curtailment, version 2 (then /curtailment/v2; since session 144 part of /curtailment). The pure part: what the page chooses from its address
 // and how it reads the site's own copy of caiso_curtailment_profile (data/curtailment_profile.json, written by
 // warehouse/derived/curtailment_profile.py; docs/methods/caiso_curtailment_intervals.md). No arithmetic beyond adding
 // wind to solar for a bar's height: every number shown is a row of the table, or a year's sum the builder wrote.
@@ -35,7 +35,8 @@ export function choice(q: Record<string, string | undefined>, f: CurtFile): stri
   if (q.period && periodOf(f, q.period)) return q.period;
   return Object.keys(f.years).sort().at(-1) ?? f.last;
 }
-export const href = (period: string) => `/curtailment/v2?period=${period}`;
+// session 144: version 2 is part of the one page now (/curtailment); /curtailment/v2 redirects there (next.config.ts)
+export const href = (period: string) => `/curtailment?period=${period}`;
 
 /** A fuel's MWh by local hour of the day over a period. */
 export const byHour = (r: Row, fuel: string): number[] => Array.from({ length: 24 }, (_, h) => r[`curtailed_${fuel}_mwh_h${pad(h)}`] ?? 0);

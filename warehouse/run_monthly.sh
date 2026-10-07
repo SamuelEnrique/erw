@@ -7,7 +7,7 @@
 #   mix_profile          /mix/v2            generation_mix_hourly_profile, generation_mix_records, site/data/mix/
 #   price_compare        /prices/compare    hub_price_comparison, site/data/price_compare.json
 #   demand_growth        /demand            eia930_demand_growth, site/data/demand_growth.json
-#   curtailment_profile  /curtailment/v2    caiso_curtailment_profile, site/data/curtailment_profile.json
+#   curtailment_profile  /curtailment       caiso_curtailment_profile, site/data/curtailment_profile.json (session 144: /curtailment/v2 is part of /curtailment)
 #   project_map          /map/v2            site/data/map_v2.json (no warehouse table)
 #   large_load_snapshot  /datacenters/v2    site/data/large_load_status.json (no warehouse table)
 #
