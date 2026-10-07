@@ -47,8 +47,8 @@ const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/erco
   "/events/uri-2021",
   // session 36C
   "/events/covid-2020",
-  // session 37: the cost-of-power model
-  "/cost-of-power",
+  // session 37: the cost-of-power model (session 138: what the tab showed until then is the page's view "Grid by grid")
+  "/cost-of-power?view=grids",
   // session 51: the seller's tab, its defaults and three other assets
   "/cost-of-power/seller", "/cost-of-power/seller?asset=battery", "/cost-of-power/seller?asset=peaker", "/cost-of-power/seller?iso=miso&asset=wind",
   // session 38: today's level's price range

@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   // session 90: while the site is built its reads take turns (lib/supabase.ts, BUILD_READS), so a page may wait for the
   // database longer than the default 60 seconds a page is given; a page waiting for its turn is not a page that hangs
   staticPageGenerationTimeout: 300,
+  // session 138: /cost-of-power reads a grid's years of hourly prices from data/datacenter when a request asks for that
+  // grid (lib/datacenterdata.ts); the file names are built at request time, so the folder is named for the server trace
+  outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"] },
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
