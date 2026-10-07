@@ -88,7 +88,7 @@ class Merge(unittest.TestCase):
 
     def test_the_weekly_refresh_runs_it_and_the_run_commits_its_files(self):
         self.assertIn('--step "datacenter_page" -- "$PY" warehouse/derived/datacenter_page.py', src("warehouse", "refresh_supply.sh"))
-        self.assertIn("site/data/datacenter site/data/nyiso_load_queue.json)", src(".github", "workflows", "daily-prices.yml"))   # session 140 added New York's load queue
+        self.assertIn("site/data/datacenter site/data/nyiso_load_queue.json", src(".github", "workflows", "daily-prices.yml"))   # session 140 added New York's load queue; session 144 the Texas file after it
 
 
 class Demand(unittest.TestCase):
