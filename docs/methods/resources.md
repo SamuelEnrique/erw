@@ -29,6 +29,18 @@ described, one entry a layer, in `site/data/resources/manifest.json`.
   reads it and refuses a download that would pass the ceiling.
 - **A resource layer is not a siting study.** It says nothing of land that may be used, of the grid, of permits
   or of cost.
+- **The laboratory's notice travels with its data.** The National Laboratory of the Rockies (until 2025 the
+  National Renewable Energy Laboratory, NREL) grants the use of its data on the condition that its notice
+  appears in every copy. Each web file made from its data (wind speed, the two solar layers, deep enhanced
+  geothermal, biomass) carries the notice of the laboratory's site in a `notice` field, and the notice is
+  printed in full at the end of this document. The archives themselves carry the laboratory's older notice,
+  under NREL's name, as `data-disclaimer-opt.pdf` or in the shapefile's metadata; it is kept in the raw store
+  and quoted below where the shapefile's metadata holds it.
+- **The laboratory's old pages no longer exist.** The wind, solar, geothermal and biomass files were listed
+  on NREL's resource map pages. Since the laboratory's site moved to nlr.gov those pages return "not found",
+  and no page of the new site links the files, which still answer at `www.nlr.gov/docs/libraries/gis/`. The
+  U.S. government's data catalogue (catalog.data.gov) still lists the wind and solar files under their old
+  addresses.
 
 <!-- The sections below are written from the manifest by resource_layers.py --method-doc -->
 
