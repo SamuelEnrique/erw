@@ -238,6 +238,10 @@ catalogue_hold:
   - nyiso_zone_load_hourly
   - isone_zone_load_hourly
   - caiso_area_load_hourly
+  # sessions 138 and 139: two internal tables that keep a figure with the line it was read from (the Texas wires
+  # utilities' delivery charges; the large-load statements pilot). Neither is loaded
+  - texas_delivery_charges
+  - large_load_statements
   # session 133: the energy mix's added pulls (about 1.5 million rows in five tables). The review page /mix reads the
   # site's own files (site/data/mixplus/, site/data/mix_forecast.json), built from them; nothing reads them from Supabase
   - caiso_fuel_supply_history
@@ -323,6 +327,12 @@ sources_hold:
   - nyiso:palIntegrated
   - isone:smd_hourly
   - caiso:SLD_FCST
+  - oncor:retail_delivery_tariff       # session 138, texas_delivery_charges (internal; these source rows serve only that table)
+  - centerpoint:retail_delivery_tariff
+  - aeptexas:retail_delivery_tariff
+  - tnmp:retail_delivery_tariff
+  - puct:wholesale_transmission_charges
+  - erw:large_load_pilot               # session 139, large_load_statements (internal)
   - caiso:todays_outlook_fuelsource_history   # session 133, /mix (these source rows serve only its new tables)
   - eia:860m:retired
   - nrc:power_reactor_status
