@@ -1,5 +1,14 @@
 # Session 145 report: What a generator earns, one page
 
+**Added after the chain's last landing (`5def74b`, checks run 37619232614, Vercel "Deployment has completed" at 12:19:26
+UTC): its snapshot shows 10 differences, all on `/network`, all from that page's own hourly refresh at 12:05 UTC,**
+which ran between the two snapshots (the workflow "hourly network", 12:05:02 to 12:06:09 UTC, before the merge at
+12:17): the newest hour of flows moved from 5 October 03:00 UTC to 6 October 03:00 UTC, the newest demand hour from
+09:00 to 10:00 UTC, with the refresh stamp and the source line. No checked number key differs (3,357 compared);
+`/cost-of-power/battery` and `/storage` show 0 differences. That landing changed this report, three review pages'
+files and metadata, and nothing `/network` reads. Not reverted. This paragraph is the only change of the landing that
+carries it; that landing's own snapshot is in the session's e-mail line.
+
 Run on 7 October 2026 (UTC), unattended, the last session of the chain 140 to 145 (added to the chain after it
 began). The page is at `/cost-of-power/seller`, locked for visitors (`review`); `/cost-of-power/seller/v2` redirects
 to it. An agent built it in a working copy of its own to a written brief; I merged, rebuilt its file with the new
