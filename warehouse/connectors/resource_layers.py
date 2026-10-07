@@ -226,8 +226,10 @@ def find_file(folder, pattern):
     rx = re.compile(pattern, re.I)
     hits = []
     for d, _, files in os.walk(folder):
+        if "__MACOSX" in d:
+            continue
         for f in files:
-            if rx.search(f):
+            if rx.search(f) and not f.startswith("._"):
                 hits.append(os.path.join(d, f))
     if not hits:
         raise FileNotFoundError(f"no file matching {pattern} under {folder}")
@@ -360,7 +362,7 @@ def accumulate_raster(path, band, lon0, lat0, cell, ncols, nrows, valid=None, ch
     c = np.zeros(n)
     t = np.zeros(n)
     st = {"n_valid": 0, "sum": 0.0, "min": math.inf, "max": -math.inf, "n_cells": 0,
-          "n_valid_in_grid": 0, "sum_in_grid": 0.0}
+          "n_valid_in_grid": 0, "sum_in_grid": 0.0, "min_in_grid": math.inf, "max_in_grid": -math.inf}
     with rasterio.open(path) as ds:
         tr = None if ds.crs.is_geographic else pyproj.Transformer.from_crs(ds.crs, 4326, always_xy=True)
         nod = ds.nodatavals[band - 1]
@@ -394,8 +396,11 @@ def accumulate_raster(path, band, lon0, lat0, cell, ncols, nrows, valid=None, ch
                 st["sum"] += float(a[ok].sum())
                 st["min"] = min(st["min"], float(a[ok].min()))
                 st["max"] = max(st["max"], float(a[ok].max()))
+            if m.any():
                 st["n_valid_in_grid"] += int(m.sum())
                 st["sum_in_grid"] += float(a[m].sum())
+                st["min_in_grid"] = min(st["min_in_grid"], float(a[m].min()))
+                st["max_in_grid"] = max(st["max_in_grid"], float(a[m].max()))
     return s.reshape(nrows, ncols), c.reshape(nrows, ncols), t.reshape(nrows, ncols), st
 
 
@@ -448,10 +453,13 @@ def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells
         r0, r1, c0, c1 = rr[0] * k_top, (rr[-1] + 1) * k_top, cc[0] * k_top, (cc[-1] + 1) * k_top
         S, C, T = S[r0:r1, c0:c1], C[r0:r1, c0:c1], T[r0:r1, c0:c1]
         lon0, lat0 = round(lon0 + c0 * base, 6), round(lat0 - r0 * base, 6)
-    src_mean = st["sum"] / st["n_valid"] if st["n_valid"] else float("nan")
-    log(f"{id}: source {st['n_valid']} valid cells of {st['n_cells']}, mean {src_mean:.6g}, "
-        f"min {st['min']:.6g}, max {st['max']:.6g}; cell {res:.5f} degrees; "
-        f"{st['n_valid_in_grid']} valid cells inside the grid")
+    if not st["n_valid_in_grid"]:
+        raise RuntimeError(f"{id}: the source holds no value inside {bounds}")
+    src_mean = st["sum_in_grid"] / st["n_valid_in_grid"]
+    log(f"{id}: source {st['n_valid']} valid cells of {st['n_cells']} (whole file: mean "
+        f"{st['sum'] / st['n_valid']:.6g}, min {st['min']:.6g}, max {st['max']:.6g}); cell {res:.5f} degrees; "
+        f"inside the grid {st['n_valid_in_grid']} valid cells, mean {src_mean:.6g}, "
+        f"min {st['min_in_grid']:.6g}, max {st['max_in_grid']:.6g}")
     levels, checks = [], []
     finest = None
     for cell in sorted(cells, reverse=True):
@@ -469,7 +477,7 @@ def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells
         back = decode_grid(obj)
         okb = np.isfinite(back)
         wmean = float((back[okb] * c[okb]).sum() / c[okb].sum())
-        kept_share = float(c[keep].sum() / st["n_valid"]) if st["n_valid"] else float("nan")
+        kept_share = float(c[keep].sum() / st["n_valid_in_grid"]) if st["n_valid_in_grid"] else float("nan")
         kept_src_mean = float(s[keep].sum() / c[keep].sum())
         checks.append({"cell_deg": cell, "cells_with_value": int(okb.sum()), "mean_of_cells": float(back[okb].mean()),
                        "mean_weighted_by_source_cells": wmean, "source_mean_of_kept_cells": kept_src_mean,
@@ -477,7 +485,7 @@ def build_grid(id, raster, band, web_dir, bounds, scale, valid=None, level_cells
                        "min": float(back[okb].min()), "max": float(back[okb].max())})
         log(f"{id} {cell}: {v.shape[1]}x{v.shape[0]}, {int(okb.sum())} cells with a value, {size} bytes; "
             f"mean weighted by source cells {wmean:.6g} against the source's {kept_src_mean:.6g} over the same "
-            f"cells and {src_mean:.6g} over all ({kept_share:.4%} of the source's valid cells kept); "
+            f"cells and {src_mean:.6g} over all its cells in the grid ({kept_share:.4%} of them kept); "
             f"plain mean of cells {back[okb].mean():.6g}")
         if abs(wmean - kept_src_mean) > scale:
             raise RuntimeError(f"{id} {cell}: the level's mean {wmean} is not the source's {kept_src_mean}")
@@ -697,7 +705,7 @@ CONUS = (-125.0, 24.4, -66.8, 49.6)  # the contiguous states with their coastal 
 
 
 def grid_layer(raw_dir, web_dir, manifest, *, id, key, raster, band=1, bounds=None, scale, valid=None,
-               level_cells=None, **fields):
+               level_cells=None, extras=None, **fields):
     """Build one grid layer's pyramid and write its manifest entry. bounds None: all the raster covers,
     cut to the 0.2 degree blocks that hold a value."""
     row = held(raw_dir, key)
@@ -705,10 +713,18 @@ def grid_layer(raw_dir, web_dir, manifest, *, id, key, raster, band=1, bounds=No
                                          valid=valid, level_cells=level_cells, crop=bounds is None)
     layer = base_layer(id, fields.pop("group"), fields.pop("title"), "grid", row, key,
                        levels=levels, legend=legend, source_cell_deg=round(res, 6),
-                       source_stats={"n_valid": st["n_valid"], "n_cells": st["n_cells"], "min": st["min"],
-                                     "mean": st["mean"], "max": st["max"],
-                                     "n_valid_in_grid": st["n_valid_in_grid"]},
+                       source_stats={"n_valid": st["n_valid_in_grid"], "min": st["min_in_grid"],
+                                     "mean": st["mean"], "max": st["max_in_grid"],
+                                     "n_valid_whole_file": st["n_valid"], "n_cells_whole_file": st["n_cells"]},
                        checks=st["checks"], grid=st["grid"], **fields)
+    # what the source covers beyond the main grid, in files of their own (the page draws the main grid first)
+    for tag, (b, extent) in (extras or {}).items():
+        lv, lg, sx, _ = build_grid(f"{id}_{tag}", raster, band, web_dir, b, scale, valid=valid,
+                                   level_cells=level_cells)
+        layer.setdefault("other_extents", []).append({
+            "extent": extent, "levels": lv, "legend": lg, "grid": sx["grid"], "checks": sx["checks"],
+            "source_stats": {"n_valid": sx["n_valid_in_grid"], "min": sx["min_in_grid"], "mean": sx["mean"],
+                             "max": sx["max_in_grid"]}})
     manifest_put(manifest, layer)
     return layer
 
@@ -754,6 +770,54 @@ def build_wind_speed(raw_dir, web_dir, manifest):
                          "finest level is 0.05 degrees. The landing page that listed the file (NREL's wind "
                          "resource maps page) no longer exists since the laboratory's site moved to nlr.gov; "
                          "the file itself is still on the laboratory's server.")
+
+
+SOLAR_EXTRAS = {"hawaii": ((-160.6, 18.6, -154.6, 22.4), "Hawaii"),
+                "alaska": ((-180.0, 51.0, -129.8, 60.0),
+                           "Alaska south of 60 degrees north, with the part of Canada inside the same box")}
+
+
+def solar_layer(raw_dir, web_dir, manifest, id, key, short, long_name):
+    row = held(raw_dir, key)
+    tif = find_file(unpack(row["path"]), rf"nsrdb3_{short}\.tif$")
+    grid_layer(
+        raw_dir, web_dir, manifest, id=id, key=key, raster=tif, scale=0.001, bounds=CONUS, extras=SOLAR_EXTRAS,
+        group="solar", title=long_name, unit="kWh/m2/day",
+        value_label="annual average daily total solar resource", publisher=NLR_PUBLISHER,
+        source_title=f"Physical Solar Model version 3 {long_name} Multi-year Annual Average "
+                     f"(nsrdb3_{short}.tif), National Solar Radiation Database",
+        vintage="1998-2016 (the file's metadata: \"The data are averaged from hourly model output over 19 "
+                "years (1998-2016)\"); publication date 2018",
+        extent="the box of the contiguous United States, longitude -125.0 to -66.8, latitude 24.4 to 49.6 "
+               "(the source also holds values for the parts of Canada and Mexico inside the box, and they are "
+               "kept); Hawaii and Alaska south of 60 degrees north are in files of their own",
+        source_resolution="0.04 degrees in the file (the metadata: \"surface cells of 0.038 degrees in both "
+                          "latitude and longitude, or nominally 4 km in size\")",
+        reduction=GRID_REDUCTION, credit=NLR_CREDIT, terms_notice=nlr_notice(raw_dir),
+        notes_for_method="The publisher's words: \"This data provides annual average daily total solar "
+                         "resource averaged over surface cells of 0.038 degrees in both latitude and longitude, "
+                         "or nominally 4 km in size. The solar radiation values represent the resource "
+                         "available to solar energy systems.\" \"The data are averaged from hourly model output "
+                         "over 19 years (1998-2016).\" The unit: the metadata's line reads \"Raster value: "
+                         "solar irradiance in kWh/m2/year\", but its description says annual average daily "
+                         "total, and the values are daily totals (a few kWh a square metre); the layer is "
+                         "labelled kWh/m2/day and the values are the file's own, unconverted. It is a "
+                         "satellite-based model's long-run average, not a measurement on the ground, and not "
+                         "the output of a solar plant. The source's file covers most of the Americas up to 60 "
+                         "degrees north; this layer keeps the box of the contiguous states. The landing page "
+                         "that listed the file (NREL's solar resource maps page) no longer exists since the "
+                         "laboratory's site moved to nlr.gov; the file itself is still on the laboratory's "
+                         "server.")
+
+
+@builder("solar_ghi")
+def build_ghi(raw_dir, web_dir, manifest):
+    solar_layer(raw_dir, web_dir, manifest, "solar_ghi", "nlr_ghi", "ghi", "Global Horizontal Irradiance")
+
+
+@builder("solar_dni")
+def build_dni(raw_dir, web_dir, manifest):
+    solar_layer(raw_dir, web_dir, manifest, "solar_dni", "nlr_dni", "dni", "Direct Normal Irradiance")
 
 
 EIA_ACK = "Source: U.S. Energy Information Administration"
