@@ -11,10 +11,11 @@ import type { Index, YearFile } from "@/lib/datacenter";
 export const INDEX = indexJson as unknown as Index;
 
 export type DeliveryRow = {
-  utility: string; rate_class: string; charge: string; value: number; unit: string; effective: string | null;
-  document: string; url: string; page: string | null; sentence: string;
+  utility: string; rate_class: string; charge: string; value: number; value_as_written: string; unit: string; effective: string | null;
+  document: string; url: string; page: string | null; sentence: string; column: string; terms: string;
 };
-export type DeliveryFile = { table: string | null; built: string | null; license: string | null; note: string | null; rows: DeliveryRow[] };
+/** `withheld`: a utility whose charges are held internally (its terms), with the words the page shows and why. */
+export type DeliveryFile = { table: string | null; built: string | null; license: string | null; note: string | null; rows: DeliveryRow[]; withheld: { utility: string; words: string; why: string }[] };
 export const DELIVERY = deliveryJson as unknown as DeliveryFile;
 
 const cache = new Map<string, YearFile[]>();

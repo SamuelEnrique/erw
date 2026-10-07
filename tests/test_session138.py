@@ -73,6 +73,95 @@ class Builder(unittest.TestCase):
         self.assertEqual(index["grids"]["ercot"]["years"][0], 2015)
 
 
+class Merge(unittest.TestCase):
+    def test_a_build_adds_hours_and_never_thins_a_kept_file(self):
+        old = np.array([1.0, 2.0, np.nan, 4.0])
+        new = np.array([np.nan, 2.5, 3.0, np.nan])
+        self.assertEqual(list(dp.merged(old, new)), [1.0, 2.5, 3.0, 4.0])   # the new build's hour where it holds one, the kept hour elsewhere
+        self.assertIs(dp.merged(None, new), new)
+        self.assertIs(dp.merged(old, None), old)
+        back = dp.untrimmed(dp.trimmed(np.array([np.nan, 5.0, np.nan, 7.0, np.nan])), 5)
+        self.assertTrue(np.array_equal(back, np.array([np.nan, 5.0, np.nan, 7.0, np.nan]), equal_nan=True))
+        self.assertEqual(dp.hour_utc(2025, 0, 6), "2025-01-01T06:00:00Z")
+
+    def test_the_weekly_refresh_runs_it_and_the_run_commits_its_files(self):
+        self.assertIn('--step "datacenter_page" -- "$PY" warehouse/derived/datacenter_page.py', src("warehouse", "refresh_supply.sh"))
+        self.assertIn("site/data/datacenter)", src(".github", "workflows", "daily-prices.yml"))
+
+
+class Demand(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.index = json.loads(src("site", "data", "datacenter", "index.json"))
+
+    def test_tight_hours_are_at_or_above_95_percent_of_the_years_peak(self):
+        self.assertEqual((dp.TIGHT, self.index["tight"]), (0.95, 0.95))
+        e = self.index["grids"]["ercot"]
+        self.assertEqual(e["demand_source"], "ercot_zone_load_hourly (ercot:system)")
+        f = json.loads(src("site", "data", "datacenter", "ercot_2025.json"))
+        self.assertEqual(len(f["tight"]), e["demand"]["2025"]["tight_hours"])
+        self.assertEqual(f["peak_mw"], e["demand"]["2025"]["peak_mw"])
+        self.assertIn(f["peak_hour"], f["tight"])
+        self.assertTrue(e["demand"]["2025"]["whole"] and not e["demand"]["2026"]["whole"])
+        self.assertTrue(all(0 <= i < f["hours"] for i in f["tight"]))
+
+    def test_new_york_is_the_sum_of_its_zones_and_its_zones_are_the_price_zones(self):
+        n = self.index["grids"]["nyiso"]
+        self.assertEqual(n["demand_source"], "nyiso_zone_load_hourly (the sum of its 11 zones)")
+        self.assertEqual(sorted(n["zones"]), sorted(r["id"] for r in n["regions"]))
+
+    def test_an_internal_demand_table_is_named_and_nothing_of_it_is_written(self):
+        i = self.index["grids"]["isone"]
+        self.assertEqual(i["demand_source"], "withheld:isone_zone_load_hourly")
+        self.assertEqual((i["demand"], i["zones"]), ({}, {}))
+        for y in i["years"]:
+            f = json.loads(src("site", "data", "datacenter", f"isone_{y}.json"))
+            self.assertFalse({"tight", "peak_mw", "demand_mean_mw"} & set(f))
+        self.assertIn('withheld ? noDemand', src("site", "app", "cost-of-power", "page.tsx"))
+        self.assertIsNone(self.index["grids"]["spp"]["demand_source"])
+
+
+class Delivery(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.file = json.loads(src("site", "data", "datacenter", "texas_delivery.json"))
+
+    def test_only_a_utility_whose_terms_allow_it_is_shown(self):
+        self.assertEqual({r["utility"] for r in self.file["rows"]}, {"Oncor"})
+        self.assertEqual([(w["utility"], w["words"]) for w in self.file["withheld"]],
+                         [("CenterPoint Energy Houston Electric", "licensed source needed"), ("AEP Texas", "held while terms are reviewed"),
+                          ("Texas-New Mexico Power", "held while terms are reviewed")])
+        self.assertEqual([k for k, v in dp.DELIVERY.items() if v["show"]], ["oncor:retail_delivery_tariff"])
+        self.assertEqual(self.file["license"], "internal")
+        text = json.dumps(self.file)
+        for other in ("5.048210", "5.956038", "5.156858"):   # the other three utilities' transmission factors
+            self.assertNotIn(other, text)
+
+    def test_every_charge_shown_has_its_line_its_page_and_its_address(self):
+        self.assertGreaterEqual(len(self.file["rows"]), 8)
+        for r in self.file["rows"]:
+            self.assertTrue(r["sentence"] and r["page"] and r["url"].startswith("https://") and r["unit"] and r["rate_class"] == "Transmission Service", r)
+            digits = re.sub(r"[^0-9.]", "", r["value_as_written"])
+            self.assertIn(digits, r["sentence"].replace(",", ""), r["charge"])
+
+    def test_a_figure_from_a_many_column_row_is_shown_only_when_its_column_was_checked(self):
+        many = [r for r in self.file["rows"] if r["column"]]
+        self.assertEqual(sorted(r["charge"] for r in many), ["Distribution Cost Recovery Factor (DCRF)", "Rider MG amount", "Transmission Cost Recovery Factor (TCRF)"])
+        # the energy efficiency factor the model read stands in the non-profit column: not shown
+        self.assertFalse([r for r in self.file["rows"] if "EECRF" in r["charge"]])
+        tcrf = next(r for r in self.file["rows"] if "TCRF" in r["charge"])
+        self.assertEqual((tcrf["value"], tcrf["unit"]), (6.260839, "$/4CP kW"))
+        self.assertTrue(tcrf["sentence"].endswith("6.260839"))   # the last column of its row: Transmission Service
+
+    def test_delivery_is_never_mixed_into_the_market_cost(self):
+        page = src("site", "app", "cost-of-power", "page.tsx")
+        cell = page.split("function DeliveryCell", 1)[1].split("function ZoneCell", 1)[0]
+        self.assertIn("(tcrf.value * 12000) / 8760", cell)
+        self.assertNotIn("s12", cell)
+        self.assertNotRegex(page, r"s12[^;\n]*tcrf|tcrf[^;\n]*s12")
+        self.assertIn("Not added to the market cost above", cell)
+
+
 class Arithmetic(unittest.TestCase):
     def test_the_node_tests_on_the_saved_real_samples(self):
         exe = shutil.which("node")
@@ -144,7 +233,10 @@ class Page(unittest.TestCase):
         for title in ('title="What will it cost"', 'title="Will the power be there"', 'title="How clean"', 'title="How soon"'):
             self.assertIn(title, self.page)
         self.assertIn('const NOWHERE = "not published anywhere yet"', self.page)
-        self.assertEqual(self.page.count("words={NOWHERE}"), 2)  # load in line by region; how long a new large load waits
+        # how long a new large load waits: every grid. Load in line by region: every grid but NYISO, which publishes it
+        # (its queue workbook's load sheets), so there the truth is "not held yet"
+        self.assertEqual(self.page.count("words={NOWHERE}"), 3)
+        self.assertRegex(self.page, r'x\.grid === "nyiso" \? <Missing key="m" why="NYISO publishes its load interconnection requests')
         self.assertIn('words = "not held yet"', self.page)
         self.assertIn('"Delivery charges"', self.page)
         for link in ("/mix?view=clean&grid=", "/mix?view=stress&grid=", "/demand?area=", "/queues?grid=", "/datacenters"):

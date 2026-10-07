@@ -115,7 +115,41 @@ shape, a settlement point, collateral and a term that are not here.
 
 ### Delivery and transmission charges, Texas
 
-DELIVERY_SECTION
+Shown as rows of their own, never added to the market cost. The table is `texas_delivery_charges`
+(`warehouse/connectors/texas_delivery_charges.py`): the current retail delivery tariffs of the four large Texas wires
+utilities (Oncor, CenterPoint Energy Houston Electric, AEP Texas, Texas-New Mexico Power), the schedule a customer at
+transmission voltage takes and its riders. Each page that holds a rate schedule was read by a Claude model; every
+figure is stored with the line it was read from, its page and the document's address, and was kept only when code
+found that line in the page's text with the figure in it. 73 figures were read and 73 kept. The table is internal.
+
+**What the page shows, and why not all four.** The tariffs are public records filed with the Public Utility Commission
+of Texas, but the copies read were the utilities' own, and each utility's website terms govern reuse:
+
+| Utility | The sentence of its terms | On the page |
+|---|---|---|
+| Oncor | "You may copy, display and distribute Content, without modification, enhancement, customization, or reformatting of any kind, for personal, noncommercial, and/or educational purposes only" (`https://www.oncor.com/content/oncorwww/us/en/home/legal.html`) | shown, each charge as the tariff prints it with its line on hover |
+| CenterPoint | "you agree not to copy, reproduce, modify, create derivative works from, or store any Content ... or to display, perform, publish, distribute, transmit, broadcast or circulate any Content to anyone, or for any commercial purpose, without the express prior written consent of CenterPoint." (`https://www.centerpointenergy.com/en-us/about-us/legal/terms-of-use`) | "licensed source needed" |
+| AEP Texas | "AEP hereby authorizes you to copy and display the content herein, but for your personal use only." and "You may not copy or display for redistribution to third parties for commercial purposes any portion of the content without the prior written permission of AEP." (`https://www.aep.com/terms/`) | "held while terms are reviewed" |
+| Texas-New Mexico Power | not read: its site refused the request on 7 October 2026 | "held while terms are reviewed" |
+
+This is session 138's reading, made without the owner; a person's ruling changes one line of the builder
+(`DELIVERY` in `warehouse/derived/datacenter_page.py`).
+
+**A figure from a many-column table.** Some riders print one row of figures across the rate classes. Code proves the
+figure is in the line, not which column it is. Such a figure is shown only when its column was checked against the
+table's header by reading the page: Oncor's transmission cost recovery factor, its distribution cost recovery factor
+and its mobile generation rider were. Oncor's energy efficiency factor is not shown: the figure the model read stands
+in the column for non-profit transmission customers, and the for-profit column prints zero.
+
+**The one figure computed.** The transmission cost recovery factor is billed each month on the customer's demand in
+the grid's four summer peak intervals (4CP). For a flat load that demand is its size, so the factor times twelve
+months over the 8,760 hours of a year is its cost per MWh. A load that is off in those four intervals pays less; that
+is not computed. No other charge is converted, and no total delivery cost is given: the riders held may not be all
+that apply to a given customer.
+
+**Not held.** The Commission's wholesale transmission charge matrix (each provider's transmission cost of service and
+the rate per kW) was not reached within the documents approved: the docket for 2026 charges has no final order, and
+the document read for 2025 was a proposed order that names the matrix without holding it.
 
 Other grids show "delivery charges: not held yet": their utilities' tariffs are not in the warehouse.
 
@@ -130,7 +164,30 @@ recomputed here.
   [`grid_stress.md`](grid_stress.md)), the newest whole year. Hovering a fuel gives its capacity as a share of that
   hour. Installed capacity is nameplate: it is not what is available in a tight hour.
 
-DEMAND_SECTION
+- **Hours the grid was tight.** From the operator's own hourly demand, pulled in session 138 (four connectors under
+  `warehouse/connectors/`, in the weekly refresh): `ercot_zone_load_hourly` (ERCOT's own system total, from 2015),
+  `caiso_area_load_hourly` (CAISO's system total, from September 2021) and `nyiso_zone_load_hourly` (the sum of its
+  eleven zones in the hours all eleven are held, from 2019). **An hour is counted tight when the grid's demand was at
+  or above 95 percent of that year's highest hour.** A year is counted when at least 95 percent of its hours are held;
+  the newest year is counted up to its last hour held and is not whole. The row shows the newest whole year, with the
+  months and the hours of the day (standard time) the tight hours fall in. This is a count of hours of high demand. It
+  does not know what generation was available, so it is not a count of scarcity or of emergencies.
+- **Of those hours, this load was off in.** The tight hours in which the reader's load, as described, draws nothing:
+  the overlap of the grid's highest demand and the region's highest prices of that year. A flat load is off in none. A
+  shifting load is never off for a whole hour by rule, so the row is not counted for it.
+- **Demand by region.** Each zone's average hourly demand in its newest whole year against its first whole year held.
+  ERCOT's eight are weather zones, which are not its trading hubs or load zones and do not join the prices; NYISO's
+  eleven are the zones of the page's region list (the reader's own in bold); CAISO's five are transmission access
+  charge areas. Hovering a zone gives the megawatts.
+- **ISO-NE: "licensed source needed".** ISO-NE publishes its hourly demand by zone and its legal notice says "Any
+  duplication of the Content or non-personal use may violate copyright, trademark, and other laws."
+  (`https://www.iso-ne.com/legal-privacy`). The table, `isone_zone_load_hourly`, is held internally and nothing of it
+  is written to the page's files.
+- **SPP: "not held yet".** No hourly demand by zone was pulled for SPP.
+- **The hour.** Each new table's hours were set against EIA-930's hourly demand for the same grid over the days both
+  hold: ERCOT, CAISO and NYISO agree at the same hour (correlation above 0.9999) and not one hour either side. ISO-NE's
+  does not settle it (0.935 at the same hour, 0.951 one hour later, on 148 hours: the two series define demand
+  differently), which is one more reason nothing of it is shown.
 
 ## How clean
 
@@ -151,9 +208,14 @@ against them: the row says "not held yet".
 - **ERCOT's large load**: `ercot_large_load_status` (method: [`ercot_large_load_status.md`](ercot_large_load_status.md)):
   the megawatts with approval to energize and the megawatts ERCOT has observed running, from ERCOT's newest status
   report held.
-- **Large load in line by region, and how long a new large load waits: "not published anywhere yet".** No operator
-  or agency publishes either as a dataset. The pieces sit in utility planning filings, rate cases and operator
-  reports. This is true of every grid on the page.
+- **Large load in line by region: "not published anywhere yet", except New York.** A search on 7 October 2026
+  (`docs/paper/related_projects_notes.md`, section 3) found no public list of the large load waiting for power by
+  place for ERCOT (which publishes system totals in slide decks), CAISO, ISO-NE or SPP. NYISO does publish one: its
+  interconnection queue workbook has the sheets "Load Projects" and "Load Project Tracking", with megawatts by zone
+  and status. The warehouse reads that workbook's generator sheets and not these, so for NYISO the row reads "not held
+  yet". "Not published anywhere yet" means that a search found none, not that none can exist.
+- **How long a new large load waits: "not published anywhere yet".** The same search found no public dataset of the
+  time from a large load's request to its energization, for any grid.
 
 ## Tests
 
@@ -165,5 +227,7 @@ its energy; an hour not held is left out. `tests/test_session138.py` runs it and
 
 ## Refresh
 
-`python warehouse/derived/datacenter_page.py` rebuilds every file; `--since <year>` rewrites only that year's files on.
-A past year's file is rewritten only when its content changes.
+`python warehouse/derived/datacenter_page.py` rebuilds the files; the weekly refresh (`warehouse/refresh_supply.sh`,
+Saturdays) runs it after the load connectors. A build is merged into the kept files: an hour the new build holds is
+the new build's, an hour only the kept file holds is kept, so a machine with a shorter history (the scheduled runner
+holds no ERCOT price history) adds hours and never thins a file. A file is rewritten only when its content changes.

@@ -235,6 +235,7 @@ class Built(unittest.TestCase):
 
 class Page(unittest.TestCase):
     def test_the_sentence_no_longer_says_under_review_and_links_the_method(self):
+        # session 138: what /cost-of-power showed is its view "Grid by grid" (GridsView.tsx), and the sentence went with it
         with open(os.path.join(ROOT, "site", "components", "CaisoBreakNote.tsx"), encoding="utf-8") as f:
             note = f.read()
         shown = note.split("export function CaisoBreakNote", 1)[1]
@@ -242,7 +243,7 @@ class Page(unittest.TestCase):
         self.assertIn('href="/data/methods/eia930_caiso_break"', shown)
         self.assertIn("caisoJoinDay()", shown)
         for page, kind in (("app/network/page.tsx", "<CaisoBreakNote "), ("app/emissions/page.tsx", "<CaisoBreakNote />"),
-                           ("app/cost-of-power/page.tsx", "<CaisoBreakNote />"), ("app/_retired/mix-original/page.tsx", '<CaisoBreakNote kind="mix" />'),
+                           ("app/cost-of-power/GridsView.tsx", "<CaisoBreakNote />"), ("app/_retired/mix-original/page.tsx", '<CaisoBreakNote kind="mix" />'),
                            # session 118: the two grid pages no longer draw EIA's California mix, so the sentence that said the
                            # mix "here is EIA-930's" is gone from them: the overview says why in the card itself
                            # (CaisoMixWithheld), and the California grid page keeps the carbon sentence alone

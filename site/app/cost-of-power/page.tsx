@@ -136,6 +136,11 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
   });
   const lastTight = [...tightRows].reverse().find((r) => r.d.whole) ?? tightRows.at(-1);
   const zones = g?.zones ?? {};
+  // a demand table held internally (its publisher's terms restrict republishing) is named, and nothing of it is shown
+  const withheld = !!g?.demand_source?.startsWith("withheld:");
+  const noDemand = withheld
+    ? <Missing words="licensed source needed" why={`${g?.name} publishes its hourly demand by zone, and its legal notice restricts duplication of its content. The table is held internally and nothing of it is shown here.`} />
+    : <Missing why={`The operator's own hourly demand is not held for ${g?.name ?? x.grid}, so its tight hours are not counted.`} />;
 
   // how clean: the grid's figures from the tables behind /mix?view=clean
   const cf = CLEAN[slug], cy = cf ? clean.defaultYear(cf) : null, cv = cf && cy ? clean.yearView(cf, cy) : null;
@@ -205,8 +210,9 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
                     { key: "bad", cells: ["A bad month", perMwh(badPer, noYear), usd(bad ? bad.cost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{bad ? monthName(bad.m) : ""}</span>] },
                     { key: "gpu", cells: ["Power per GPU-hour", gh !== null ? gh.toFixed(4) : <Missing key="m" why={noYear} />, "", <span key="n" className="text-xs text-muted">USD per GPU-hour, not per MWh</span>] },
                     ...(x.grid === "ercot"
-                      ? (utilities.length
-                        ? utilities.map((u) => ({ key: `d-${u}`, cells: [<>Delivery and transmission, {u}</>], wide: <DeliveryCell rows={delivery.filter((r) => r.utility === u)} /> }))
+                      ? (utilities.length || DELIVERY.withheld.length
+                        ? [...utilities.map((u) => ({ key: `d-${u}`, cells: [<>Delivery and transmission, {u}</>], wide: <DeliveryCell rows={delivery.filter((r) => r.utility === u)} /> })),
+                          ...DELIVERY.withheld.map((w) => ({ key: `d-${w.utility}`, cells: [<>Delivery and transmission, {w.utility}</>], wide: <Missing words={w.words} why={w.why} /> }))]
                         : [{ key: "delivery", cells: ["Delivery and transmission charges"], wide: <Missing why="The four large Texas wires utilities' tariff charges are not in this page's files yet." /> }])
                       : [{ key: "delivery", cells: ["Delivery charges"], wide: <Missing why={`The delivery and transmission tariffs of ${g.name}'s utilities are not in the warehouse. Texas's four large wires utilities are.`} /> }]),
                   ]} />
@@ -232,17 +238,17 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
                   ""] },
                 { key: "tight", cells: [`Hours the grid was tight${lastTight ? `, ${lastTight.y}` : ""}`,
                   lastTight ? <>{whole(lastTight.d.tight_hours!)} hours{lastTight.when ? <>, in {monthsWords(lastTight.when.months)}, between {hh(lastTight.when.from)} and {hh(lastTight.when.to + 1)}</> : null}</>
-                    : <Missing why={`The operator's own hourly demand is not held for ${g?.name ?? x.grid}, so its tight hours are not counted.`} />,
+                    : noDemand,
                   <span key="n" className="cursor-help border-b border-dotted border-muted text-xs text-muted" title={`An hour is counted tight when the grid's demand was at or above ${INDEX.tight * 100} percent of that year's highest hour. Hours are in ${g?.std_name ?? "standard time"}.`}>tight: within {Math.round((1 - INDEX.tight) * 100)} percent of the year&apos;s peak</span>] },
                 { key: "down", cells: ["Of those hours, this load was off in",
-                  !lastTight ? <Missing why={`The operator's own hourly demand is not held for ${g?.name ?? x.grid}.`} />
+                  !lastTight ? noDemand
                     : x.run === "flat" ? <>none: a flat load runs in every hour</>
                     : x.run === "shift" ? <Missing why="A load that shifts energy within the day is never off for a whole hour by rule, so its tight hours are not counted here." words="not counted for a shifting load" />
                     : lastTight.down === null ? <Missing why="No price is held for this region in that year." />
                     : <>{whole(lastTight.down)} of {whole(lastTight.d.tight_hours!)}</>,
                   ""] },
                 { key: "zones", cells: ["Demand by region",
-                  Object.keys(zones).length ? <ZoneCell zones={zones} /> : <Missing why={`Hourly demand by region is not held for ${g?.name ?? x.grid}.`} />,
+                  Object.keys(zones).length ? <ZoneCell zones={zones} own={x.region} /> : withheld ? noDemand : <Missing why={`Hourly demand by region is not held for ${g?.name ?? x.grid}.`} />,
                   ""] },
               ]} />
           </ToolSection>
@@ -269,8 +275,11 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
                   ll ? <>{whole(ll.last.approved!)} MW, of which {whole(ll.last.nonsimultaneous!)} MW observed running (ERCOT, {dayWords(ll.last.day)})</>
                     : x.grid === "ercot" ? <Missing why="ERCOT's large load status table holds no report with these figures." /> : <Missing why={`${g?.name ?? x.grid} publishes no figure of large load approved or running that the warehouse holds.`} />,
                   <Link key="l" href="/datacenters">Datacenters</Link>] },
-                { key: "line", cells: ["Large load in line, by region", <Missing key="m" words={NOWHERE} why="No operator or agency publishes how much large load is waiting for power by place as a dataset. The pieces sit in utility planning filings, rate cases and operator reports." />, ""] },
-                { key: "waitload", cells: ["How long a new large load waits", <Missing key="m" words={NOWHERE} why="No public dataset records the time from a large load's request to its service. The interconnection queue above is for generators, not loads." />, ""] },
+                { key: "line", cells: ["Large load in line, by region",
+                  x.grid === "nyiso" ? <Missing key="m" why="NYISO publishes its load interconnection requests by zone in its interconnection queue workbook (the sheets Load Projects and Load Project Tracking). The warehouse reads the generator sheets of that workbook and not these yet." />
+                    : x.grid === "ercot" ? <Missing key="m" words={NOWHERE} why="ERCOT publishes the large load seeking interconnection as system totals in slide decks, with no table by zone or county. A search on 7 October 2026 found no public list by place." />
+                    : <Missing key="m" words={NOWHERE} why={`A search on 7 October 2026 found no public list of the large load waiting for power in ${g?.name ?? x.grid} by place. The pieces sit in utility planning filings, rate cases and operator reports.`} />, ""] },
+                { key: "waitload", cells: ["How long a new large load waits", <Missing key="m" words={NOWHERE} why="A search on 7 October 2026 found no public dataset of the time from a large load's request to its energization, for any grid. The interconnection queue above is for generators, not loads." />, ""] },
               ]} />
           </ToolSection>
 
@@ -294,20 +303,31 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
           ) : null}
         </div>
       </div>
-      <SourceLine tables={[...INDEX.tables, "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table] : [])]}
+      <SourceLine tables={[...INDEX.tables, "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table] : [])]}
         note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. <Link href={METHOD}>Method note</Link>.</>} />
     </ContractProvider>
   );
 }
 
-/** One utility's delivery charges: each as the tariff states it, with the sentence it was read from on hover. */
+/** One utility's delivery charges: each as the tariff prints it, with the line it was read from on hover; and, for the
+ * transmission cost recovery factor alone, what it comes to per MWh for a flat load. Its own row: never added to the
+ * market cost. */
 function DeliveryCell({ rows }: { rows: typeof DELIVERY.rows }): ReactNode {
+  const tcrf = rows.find((r) => /TCRF|Transmission Cost Recovery/i.test(r.charge) && /4CP/i.test(r.unit) && r.value > 0);
   return (
     <span className="block text-ink" data-delivery="1">
+      {tcrf ? (
+        <span className="mb-1 block">
+          <span className="cursor-help border-b border-dotted border-muted" data-delivery-per-mwh="1"
+            title={`${tcrf.value_as_written} ${tcrf.unit} is billed each month on the load's demand in the grid's four summer peak intervals. For a flat load that demand is its size, so a year costs ${tcrf.value} x 12 per kW, over 8,760 hours: USD ${two((tcrf.value * 12000) / 8760)} per MWh. Not added to the market cost above.`}>
+            The transmission factor alone, a flat load: USD {two((tcrf.value * 12000) / 8760)} per MWh
+          </span>
+        </span>
+      ) : null}
       {rows.map((r, i) => (
-        <span key={i} className="mr-3 inline-block">
-          <a href={r.url} title={`${r.document}${r.page ? `, page ${r.page}` : ""}${r.effective ? `, effective ${r.effective}` : ""}: "${r.sentence}"`} className="cursor-help no-underline hover:underline">
-            {r.charge}: {r.value.toLocaleString("en-US", { maximumFractionDigits: 6 })} {r.unit}
+        <span key={i} className="mr-3 inline-block text-xs">
+          <a href={r.url} title={`${r.document}${r.page ? `, page ${r.page}` : ""}${r.effective ? `, effective ${r.effective}` : ""}. Read from the line: "${r.sentence}"${r.column ? ` (its column ${r.column})` : ""}. ${r.terms}.`} className="cursor-help no-underline hover:underline">
+            {r.charge}: {r.value_as_written.replace(/^\$\s*/, "").replace(/^\(\s*\$?\s*/, "(")} {r.unit.replace(/^\$\//, "USD per ").replace(/^per /, "USD per ")}
           </a>{i < rows.length - 1 ? ";" : ""}
         </span>
       ))}
@@ -316,7 +336,7 @@ function DeliveryCell({ rows }: { rows: typeof DELIVERY.rows }): ReactNode {
 }
 
 /** Demand by region: each zone's average demand in the newest whole year against the first whole year held. */
-function ZoneCell({ zones }: { zones: NonNullable<(typeof INDEX.grids)[string]["zones"]> }): ReactNode {
+function ZoneCell({ zones, own }: { zones: NonNullable<(typeof INDEX.grids)[string]["zones"]>; own: string }): ReactNode {
   const rows = Object.entries(zones).map(([z, ys]) => {
     const wholeYears = Object.keys(ys).filter((y) => ys[y].hours_held >= 0.95 * ys[y].hours_due && ys[y].hours_due >= 8760).sort();
     const a = wholeYears[0], b = wholeYears.at(-1);
@@ -326,7 +346,7 @@ function ZoneCell({ zones }: { zones: NonNullable<(typeof INDEX.grids)[string]["
   return (
     <span className="block" data-zones="1">
       {rows.map((r) => (
-        <span key={r.z} className="mr-3 inline-block whitespace-nowrap" title={`${r.z}: average demand ${whole(r.from!)} MW in ${r.a}, ${whole(r.to!)} MW in ${r.b}; highest hour of ${r.b}: ${whole(r.peak!)} MW`}>
+        <span key={r.z} className={`mr-3 inline-block cursor-help whitespace-nowrap ${r.z === own ? "font-semibold" : ""}`} data-zone={r.z} title={`${r.z}: average demand ${whole(r.from!)} MW in ${r.a}, ${whole(r.to!)} MW in ${r.b}; highest hour of ${r.b}: ${whole(r.peak!)} MW`}>
           {r.z} {r.to! >= r.from! ? "+" : ""}{two((100 * (r.to! - r.from!)) / r.from!)}%
         </span>
       ))}

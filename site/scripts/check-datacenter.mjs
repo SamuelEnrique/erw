@@ -11,6 +11,10 @@
 //   blank      MISO reads "paused while terms are reviewed" and PJM "licensed source needed", neither selectable; an
 //              address that names one opens the default grid
 //   nowhere    large load in line by region, and how long a new large load waits: "not published anywhere yet"
+//   delivery   Texas: Oncor's charges as a row of their own, each as the tariff prints it with its line; the three
+//              utilities whose terms do not allow it named and blank; another grid "not held yet"
+//   there      ERCOT's tight hours are the file's count, and the hours a flexible load was off in are the library's;
+//              ISO-NE's demand, held internally, reads "licensed source needed"; SPP's "not held yet"
 //   view       ?view=grids is what the tab showed before: its ranking, ERCOT since 2018, the hours of the day, cost
 //              against carbon and the calculator
 //   visitor    without the cookie the page is the in-review page
@@ -20,7 +24,7 @@
 // Exit 1 on a failure.
 import fs from "node:fs";
 import { env, withBrowser } from "./browser.mjs";
-import { gpuHour, lastTwelve, monthsOf, span, two, usdShort } from "../lib/datacenter.ts";
+import { expand, gpuHour, lastTwelve, monthsOf, span, two, usdShort, weights } from "../lib/datacenter.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3138").replace(/\/$/, "");
 let bad = 0, n = 0;
@@ -67,8 +71,34 @@ for (const [q, grid, region, buy, x] of [
   check(/data-missing="1"/.test(sum) && /title="[^"]*held from[^"]*"/.test(sum) && plain(sum).includes("not held yet") && !/data-stat=/.test(sum), `a zone held for weeks (NYISO ${zone}) reads "not held yet" with the date it is held from on hover, and no number`);
   const m = face((await get("/cost-of-power?grid=miso")).html);
   check(/<input[^>]*checked=""[^>]*value="ercot"|value="ercot"[^>]*checked=""/.test(m), "an address that names MISO opens the default grid, ERCOT");
+  const ny = plain(face((await get("/cost-of-power?grid=nyiso")).html));
+  check(/Large load in line, by region\s+not held yet/.test(ny) && /How long a new large load waits\s+not published anywhere yet/.test(ny), 'NYISO publishes its load requests by zone, so there the row reads "not held yet", not "not published anywhere yet"');
   const other = face((await get("/cost-of-power?grid=caiso")).html);
   check(/Delivery charges\s+not held yet/.test(plain(other)), 'another grid shows "delivery charges: not held yet"');
+}
+{
+  // Texas: delivery as rows of its own, shown only where the utility's terms allow, and the tight hours
+  const d = JSON.parse(fs.readFileSync(new URL("texas_delivery.json", dir), "utf-8"));
+  const e = (await get("/cost-of-power?grid=ercot&run=hours&n=100")).html, et = plain(face(e));
+  const tcrf = d.rows.find((r) => /TCRF/.test(r.charge));
+  const per = two((tcrf.value * 12000) / 8760);
+  check(d.rows.every((r) => r.utility === "Oncor") && et.includes(`The transmission factor alone, a flat load: USD ${per} per MWh`) && d.rows.every((r) => e.includes(r.value_as_written.replace(/^\$\s*/, "").replace(/^\(\s*\$?\s*/, "("))),
+    `Oncor's ${d.rows.length} delivery charges are a row of their own, each as the tariff prints it; its transmission factor alone is USD ${per} per MWh for a flat load`);
+  check(d.rows.every((r) => r.sentence && r.url.startsWith("http") && r.page && e.includes(r.sentence.slice(0, 30).replace(/&/g, "&amp;").replace(/"/g, "&quot;"))), "every charge shown carries the line it was read from, its page and its address");
+  check(d.withheld.length === 3 && d.withheld.every((w) => new RegExp(`Delivery and transmission, ${w.utility}\\s+${w.words}`).test(et)) && !/CenterPoint[^.]{0,200}\d\.\d{6}/.test(et),
+    `the three utilities whose terms do not allow it are named and blank: ${d.withheld.map((w) => `${w.utility} "${w.words}"`).join(", ")}`);
+  const E = index.grids.ercot, yrs = Object.keys(E.demand).filter((y) => E.demand[y].whole && E.demand[y].tight_hours !== undefined).sort(), y = yrs.at(-1);
+  const f = files("ercot").find((k) => String(k.year) === y);
+  const p = expand(f, "HB_HUBAVG", "rt"), w = weights(p, { run: "hours", n: 100, pct: 0, shift: 0 });
+  const off = f.tight.filter((i) => p[i] !== null && w[i] === 0).length;
+  check(new RegExp(`Hours the grid was tight, ${y}\\s+${E.demand[y].tight_hours} hours`).test(et) && new RegExp(`this load was off in\\s+${off} of ${E.demand[y].tight_hours}`).test(et),
+    `ERCOT was tight in ${E.demand[y].tight_hours} hours of ${y} (the file's count), and a load off in the year's 100 dearest hours was off in ${off} of them`);
+  check(/data-zone="FWEST"/.test(e) && /Demand by region[\s\S]{0,200}FWEST \+/.test(et), "demand by region: ERCOT's eight weather zones, each with its growth");
+  const ne = plain(face((await get("/cost-of-power?grid=isone&buy=da")).html));
+  check(/Hours the grid was tight\s+licensed source needed/.test(ne) && /Demand by region\s+licensed source needed/.test(ne) && !("demand" in index.grids.isone && Object.keys(index.grids.isone.demand).length),
+    'ISO-NE\'s demand is held internally: its rows read "licensed source needed" and the site\'s files hold none of it');
+  const sp = plain(face((await get("/cost-of-power?grid=spp")).html));
+  check(/Hours the grid was tight\s+not held yet/.test(sp), 'SPP, whose hourly demand was not pulled, reads "not held yet"');
 }
 {
   const g = await get("/cost-of-power?view=grids");
