@@ -4,18 +4,21 @@
 // months first, the long-run averages beside them and labeled as such. Every figure comes from the live tab's own
 // model (lib/merchant.ts on data/merchant_snapshot.json), month by month; this file only adds the months up over a
 // span. Nothing is filled: a span that is not whole is "not held".
+// Session 145: version 2 is folded into the one page, /cost-of-power/seller, and its address redirects there. The spans
+// are that page's now, for the battery (energy only, the model's 4-hour battery unless the reader sizes it) as well.
 
 import { HEAT_RATE, VOM, months as merchantMonths, type Asset, type Inputs, type Month, type Snapshot } from "@/lib/merchant";
 
-export type SellerAsset = Extract<Asset, "solar" | "wind" | "peaker">;
+export type SellerAsset = Asset;
 export const ASSETS: { id: SellerAsset; name: string; noun: string }[] = [
   { id: "solar", name: "Solar", noun: "a merchant solar plant" },
   { id: "wind", name: "Wind", noun: "a merchant wind plant" },
+  { id: "battery", name: "Battery", noun: "a merchant battery selling energy alone" },
   { id: "peaker", name: "Gas peaker", noun: "a merchant gas peaker" },
 ];
-/** The grids of the page, with the hub each is priced at, in words. MISO is on the live tab and not here: its pulls
- *  are paused since 4 October 2026 and its terms forbid derivative works, so a new page shows no figure of its prices
- *  (session 96's reading, as on /prices/compare and /board/v3). */
+/** The grids of the page, with the hub each is priced at, in words. MISO is not here: its pulls are paused since
+ *  4 October 2026 and its terms forbid derivative works, so the page shows no figure of its prices (session 96's
+ *  reading, as on /prices/compare and the price board). */
 export const GRIDS: { id: string; name: string; at: string }[] = [
   { id: "ercot", name: "ERCOT", at: "the hub average" },
   { id: "caiso", name: "CAISO", at: "SP15" },
@@ -23,17 +26,17 @@ export const GRIDS: { id: string; name: string; at: string }[] = [
   { id: "spp", name: "SPP", at: "the North hub" },
   { id: "isone", name: "ISO-NE", at: "the Internal hub" },
 ];
-export const PAUSED = { name: "MISO", words: "MISO is not shown: its pulls are paused since 4 October 2026 while a person reviews its terms, which forbid automated access and derivative works. The live seller tab is as it was." };
+export const PAUSED = { name: "MISO", words: "MISO is not shown: its pulls are paused since 4 October 2026 while a person reviews its terms, which forbid automated access and derivative works." };
 
 export type Choice = { grid: string; asset: SellerAsset };
 export function choiceOf(q: Record<string, string | undefined>): Choice {
   return { grid: GRIDS.some((g) => g.id === q.iso) ? (q.iso as string) : "ercot", asset: ASSETS.some((a) => a.id === q.asset) ? (q.asset as SellerAsset) : "solar" };
 }
-export const href = (c: Choice) => `/cost-of-power/seller/v2?iso=${c.grid}&asset=${c.asset}`;
+export const href = (c: Choice) => `/cost-of-power/seller?iso=${c.grid}&asset=${c.asset}`;
 
 /** The months of one grid and asset from the live tab's model, per MW of nameplate, at the model's defaults. */
 export function monthsOf(snap: Snapshot, c: Choice): Month[] {
-  const x: Inputs = { iso: c.grid, asset: c.asset, mw: 1, mwh: 0, ds: 0, hr: HEAT_RATE, vom: VOM, fom: 0 };
+  const x: Inputs = { iso: c.grid, asset: c.asset, mw: 1, mwh: c.asset === "battery" ? 4 : 0, ds: 0, hr: HEAT_RATE, vom: VOM, fom: 0 };
   return merchantMonths(snap, x);
 }
 
