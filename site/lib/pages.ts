@@ -66,10 +66,10 @@ export const GROUPS: Group[] = [
     label: "Projects",
     pages: [
       { href: "/map", label: "Project map", line: "Every EIA generator and ISO queue position on one US map, with filters.", tables: "energy_projects, datacenter_facilities", related: ["/datacenters", "/deals"] },
+      // session 146: the natural resource itself, beside the project map (in review). The menu holds eight with it: Thesis Builder moved to Tools
+      { href: "/resources", label: "Where the resources are", line: "The natural resource itself on one map: wind, sun, geothermal heat, oil and gas basins and plays, hydropower, biomass and offshore wind areas, each from its publisher at its own grain, with the plants, the queue and the datacenters laid over it.", tables: "the resource layers of docs/methods/resources.md; eia860m_operating_generators, eia860m_planned_generators, energy_projects, datacenter_facilities", related: ["/map", "/datacenters"] },
       { href: "/datacenters", label: "Datacenters", line: "Datacenter facilities from the news, nine operators' site lists and the ISO queues: operator, place, MW, status.", tables: "datacenter_facilities", related: ["/map", "/deals"] },
       { href: "/companies", label: "Companies", line: "Energy companies the ERW has found and sourced: stage, raised, location, founders and a confidence score, from Thesis Builder runs and the parties of the deal tracker.", tables: "energy_companies", related: ["/deals", "/datacenters"] },
-      // session 135: Thesis Builder as a tool of the site (in review, and internal: the page answers only the internal view). In Projects, beside the companies its runs find; the menu holds eight with it
-      { href: "/thesis", label: "Thesis Builder", line: "Type a niche and get a sourced investment map of it: scope and definitions, trends, the company landscape, the deal funnel, the pipeline, capital, incumbents, risks and policy, every figure with its source.", tables: "thesis_runs (internal)", related: ["/companies", "/deals"] },
       // session 87: who owns the batteries, from EIA-860M's reporting company (in review; reads the site's own copy of the table). In Projects: the Grid menu holds eight
       { href: "/storage/owners", label: "Who owns the batteries", line: "Operating and planned battery storage by the company that reports each plant, on each US grid: MW, MWh, average duration, and the largest owners.", tables: "storage_owners_monthly", related: ["/storage/buildout", "/storage"] },
       { href: "/policy", label: "Policy", line: "Energy rules, proposed rules and notices from the Federal Register and agency news, scored, with impact reads of the significant ones.", tables: "policy_actions, policy_reads", related: ["/digest", "/deals"] },
@@ -110,6 +110,8 @@ export const GROUPS: Group[] = [
       // session 53: the lease tool, listed (session 45)
       // session 88: a calculator on the reader's own bill; no ERW table is read, and nothing typed leaves the browser (in review)
       { href: "/battery/customer", label: "What a battery saves a customer", line: "Type your peak demand, your demand charge, your energy rates and a battery's size: the bill saved by shaving the peak and shifting energy. Your own numbers, worked out in your browser; nothing is sent.", tables: "", related: ["/cost-of-power/battery", "/learn/bill"] },
+      // session 135: Thesis Builder as a tool of the site (in review, and internal: the page answers only the internal view). Session 146: moved here from Projects, which holds eight with "Where the resources are"
+      { href: "/thesis", label: "Thesis Builder", line: "Type a niche and get a sourced investment map of it: scope and definitions, trends, the company landscape, the deal funnel, the pipeline, capital, incumbents, risks and policy, every figure with its source.", tables: "thesis_runs (internal)", related: ["/companies", "/deals"] },
       { href: "/severance/lease", label: "Lease tool", line: "The severance calculator for every well and month of a lease file, computed in the browser: nothing is sent.", tables: "site/data/severance_rules.json; eia_fuel_spot_prices (default prices)", related: ["/severance"] },
     ],
   },
