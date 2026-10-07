@@ -69,8 +69,10 @@ GRIDS = {
 # NOT read: ISO-NE's load zones back to 2019 (isone_zone_prices_history, HELD_INTERNAL). It is internal: it comes from
 # the same ISO-NE workbook as the demand the owner ruled internal. It must not even be read and then set aside: the
 # reader keeps the first table that holds an hour, so an internal table in the list would take ISO-NE's hours from the
-# public six-week tables and then be dropped, and those hours would be lost to the page. To show it after a ruling:
-# its license in coverage, and its name moved into TABLES after iso_zone_prices_history.
+# public six-week tables and then be dropped, and those hours would be lost to the page. RULED on 7 October 2026 (the
+# owner, applied in session 149): ISO-NE's zone prices stay internal; nothing of them is shown. (What showing them
+# would take, were the ruling ever changed: its license in coverage, and its name moved into TABLES after
+# iso_zone_prices_history.)
 HELD_INTERNAL = ["isone_zone_prices_history"]
 TABLES = ["iso_hub_prices_history", "ercot_all_hub_prices_history", "ercot_zone_prices_history", "iso_zone_prices_history"] + [
     t for t in pc.TABLES if t not in ("iso_hub_prices_history", "ercot_all_hub_prices_history")]

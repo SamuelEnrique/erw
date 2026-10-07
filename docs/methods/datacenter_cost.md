@@ -98,8 +98,9 @@ weeks of prices and had no year.
   ISO-NE's yearly workbook of hourly zonal information, the same file as the hourly demand the owner ruled internal,
   under the same notice ("Any duplication of the Content or non-personal use may violate copyright, trademark, and
   other laws.", `https://www.iso-ne.com/legal-privacy`). So ISO-NE's zones still read "not held yet" for the last
-  twelve months, from the six weeks of the public tables; its Internal Hub has its year from the hub history. Showing
-  them is one table's license.
+  twelve months, from the six weeks of the public tables; its Internal Hub has its year from the hub history.
+  **Ruled on 7 October 2026 (the owner): ISO-NE's zone prices stay internal. Nothing of them is shown.** Session 140
+  had held them internal by its own decision and asked; the question is closed.
 - **The hour.** Each market was set against the six-week table over the days both hold: day-ahead prices equal to the
   cent at the same hour in every market (NYISO 10,824 hours, ISO-NE 1,152, CAISO 960, SPP 960), and not one hour
   either side. That settles ISO-NE's workbook: its hour is the hour ending in Eastern prevailing time, so the demand
@@ -154,6 +155,8 @@ in the other years since 2015). With the budget the load is never off in more ho
 figure "if perfectly foreseen" is never worse than the rule's, and the two compare like for like. The cost of the
 budget is real: the rule spends its hours on the first dear days of a year and has none left for a later, dearer
 event. `site/scripts/rule-gap.mjs` prints the rule, the foreseen figure and the threshold alone, by grid and year.
+**Ruled on 7 October 2026 (the owner): the page keeps the budget of hours.** Session 140 added it without being
+asked and put both versions before the owner; the rule stands as built.
 
 **What the rule kept.** At ERCOT's North load zone, real time, off in 100 hours a year, the rule kept between 14 and
 41 percent of the foreseen saving in each year from 2015 to 2025 (2021: a flat load USD 150.61 per MWh, the rule

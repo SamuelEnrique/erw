@@ -48,8 +48,10 @@ done
 # (no request of its own). At most 250,000 rows read a run, its own ceiling, apart from the 3,000,000 of the approved
 # pull. Only on a machine that holds the table: the write refuses to start a table from a week's files, and the
 # scheduled runner holds no price history. MISO and PJM are never asked. ERCOT's load zones (ercot_zone_prices_history)
-# are NOT refreshed here: each copy of the current year's workbooks counts against that pull's ceiling, which leaves
-# room for two; a scheduled refresh needs the owner's ruling (archive/sessions/SESSION_140_REPORT.md).
+# are NOT refreshed here. Session 140 left them unscheduled and asked (each copy of the current year's workbooks
+# counted against that pull's ceiling, which left room for two). RULED on 7 October 2026 (the owner): a daily refresh is
+# approved; a row now counts once against the same ceiling, and the refresh runs on the data machine, where the table
+# and the saved workbooks are (warehouse/run_data_machine.sh, session 149).
 if [ -f warehouse/output/iso_zone_prices_history.csv ]; then
   "$PY" warehouse/health.py run --step "zone_price_history pull" -- "$PY" warehouse/connectors/zone_price_history.py --pull --recent 9
   "$PY" warehouse/health.py run --step "zone_price_history" -- "$PY" warehouse/connectors/zone_price_history.py --write --recent 9

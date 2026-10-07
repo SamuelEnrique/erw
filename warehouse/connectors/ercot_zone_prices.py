@@ -28,11 +28,22 @@ kept and the LZEW row is left in the saved file, as ercot_rtm_node_prices does (
 interval). The DC ties (LZ_DC and LZ_DCEW rows) are not kept. Real time for the four non-opt-in zones is in the saved
 workbooks and is not written: it would pass the ceiling.
 
-THE CEILING counts the load zone rows kept, once for every copy of a workbook ever downloaded (a repeat of the current
-year counts again). Before a workbook is asked for, the most rows it could add (every hour of its year, every zone
-kept) is added to the count so far; if that would pass the ceiling the pull stops before the request. --write counts
-the kept rows of every saved copy and refuses to write past the ceiling. The rows of the files read (hubs, LZEW and
-the rest, discarded) are counted apart and logged. --ceiling lowers or raises the number: only on the owner's word.
+THE CEILING, as session 140 counted it: the load zone rows kept, once for every copy of a workbook ever downloaded (a
+repeat of the current year counted again), which left room for two refreshes. Session 140 asked for a ruling: "a new
+ceiling, or count only new rows". THE RULING (the owner, 7 October 2026): a daily refresh is approved "at the ceiling
+asked". No number was asked, so session 149 took the narrower reading: the ceiling stays 3,000,000 and A ROW COUNTS
+ONCE. A year's first copy counts every row it keeps; a later copy of the same year (ERCOT posts the current year's
+workbook again each Sunday) counts only the rows it adds, the intervals no earlier copy held. The rows of a workbook
+downloaded again are never counted again. Before a workbook is asked for, the most rows it could still add (every
+interval of its year and every zone kept, less the rows of that year already held) is added to the count so far; if
+that would pass the ceiling the pull stops BEFORE the request. --write counts the same way and refuses to write past
+the ceiling. Every run writes the count to its log. The rows of the files read (hubs, LZEW and the rest, discarded)
+are counted apart and logged. --ceiling lowers or raises the number: only on the owner's word.
+
+THE DAILY REFRESH (session 149): --refresh is --pull --write for the years still growing (this year, and last year
+until its final copy is held). It runs on the data machine, in warehouse/run_data_machine.sh, where the table and
+the saved workbooks are: ERCOT's two lists are asked each day (two requests) and a workbook only when the list names
+a document this machine does not hold, which is once a week.
 
 TWO STAGES. --pull needs no data lock: it asks ERCOT for each report's document list (saved), then downloads each
 year's workbook once to warehouse/raw/ercot_zone_prices/ (one request at a time, a pause between them; manifest.csv
@@ -196,15 +207,50 @@ def bound(market, year):
     return hours_in_year(int(year)) * m["per_hour"] * len(m["zones"])
 
 
-def counted(raw=None):
-    """The rows counted against the ceiling so far: for every copy ever saved, its kept rows (as parsed), or, for a
-    copy not parsed yet, the most it can hold. A repeat of a year counts again."""
-    c = counts(raw)
-    total = 0
+def year_copies(raw=None):
+    """{(market, year): its saved copies, oldest first}."""
+    out = collections.defaultdict(list)
     for m in manifest(raw):
-        entry = c.get(m["sha256"])
-        total += int(entry["rows_kept"]) if entry else bound(m["market"], m["year"])
-    return total
+        out[(m["market"], int(m["year"]))].append(m)
+    return out
+
+
+def distinct_rows(market, year, copies, raw=None, log=None):
+    """The rows of one market and year counted against the ceiling: each (zone, interval) once, however many copies of
+    the year's workbook hold it (session 149). One copy: the rows it keeps. Several: the rows of their union, read
+    from the parsed copies and remembered in counts.json under the copies' hashes. A copy not parsed yet could hold
+    anything up to the whole year, so until it is read the year counts as full: the count never understates."""
+    c = counts(raw)
+    if any(m["sha256"] not in c for m in copies):
+        return bound(market, year)
+    if len(copies) == 1:
+        return int(c[copies[0]["sha256"]]["rows_kept"])
+    key, shas = f"distinct:{market}:{year}", [m["sha256"] for m in copies]
+    held = c.get(key)
+    if held and held.get("copies") == shas:
+        return int(held["rows"])
+    seen = set()
+    for m in copies:
+        lines, _ = parsed(m, log or (lambda msg: None), raw)
+        rows, _ = shape(lines, market, int(year))
+        seen.update(zip(rows["node"], rows["interval_start"]))
+        del lines, rows
+    counts_set(key, {"copies": shas, "rows": len(seen), "rows_of_every_copy": sum(int(c[x]["rows_kept"]) for x in shas)}, raw)
+    return len(seen)
+
+
+def counted(raw=None, log=None):
+    """The rows counted against the ceiling so far (session 149: a row counts once). A year's first copy counts the
+    rows it keeps; a later copy of the same year counts only the rows it adds. A copy not parsed yet counts the most
+    its year can hold. Until session 149 every copy counted in full, a repeat of a year again."""
+    return sum(distinct_rows(market, year, copies, raw, log) for (market, year), copies in year_copies(raw).items())
+
+
+def room_needed(market, year, raw=None, log=None):
+    """The most rows a new copy of a year's workbook can add to the count: every interval of the year and every zone
+    kept, less the rows of that year already counted."""
+    copies = year_copies(raw).get((market, int(year)), [])
+    return bound(market, year) - (distinct_rows(market, year, copies, raw, log) if copies else 0)
 
 
 # ---------------------------------------------------------------------------
@@ -306,12 +352,13 @@ def pull(a, log, get=None, sleep=time.sleep, raw=None):
                 log(f"  {market} {year}: listed at {size:,} bytes, more than a year's workbook: not requested")
                 failed += 1
                 continue
-            so_far = counted(raw)
-            most = bound(market, year)
+            so_far = counted(raw, log)
+            most = room_needed(market, year, raw, log)   # session 149: only the rows a new copy can add, never the rows held
             if so_far + most > ceiling:
-                log(f"STOPPED before {market} {year}: {so_far:,} rows counted so far and this workbook can hold up to {most:,} "
-                    f"kept rows, which would pass the ceiling of {ceiling:,}. Nothing more is requested.")
+                log(f"STOPPED before {market} {year}: {so_far:,} rows counted so far and this workbook can add up to {most:,} "
+                    f"new rows, which would pass the ceiling of {ceiling:,}. Nothing more is requested.")
                 return 3
+            log(f"  {market} {year}: {so_far:,} rows counted of {ceiling:,}; a new copy can add at most {most:,}: asked")
             file_url = FILE_URL.format(doc=d["DocID"])
             g = None
             for attempt in range(3):
@@ -337,10 +384,11 @@ def pull(a, log, get=None, sleep=time.sleep, raw=None):
                          "bytes": len(g.content), "sha256": sha, "published": d["PublishDate"],
                          "friendly_name": d.get("FriendlyName", ""), "retrieved_at": now_iso(), "how": "requested"})
             log(f"  {market} {year}: saved {name}, {len(g.content):,} bytes, published {d['PublishDate']}; "
-                f"counted against the ceiling: {counted(raw):,} of {ceiling:,}")
+                f"counted against the ceiling until it is read (its year as if full): {counted(raw, log):,} of {ceiling:,}")
     reqs = _read_csv(os.path.join(raw, "requests.csv"))
     log(f"this run made {made} requests; in all {len(reqs)} requests and {sum(int(x['bytes']) for x in reqs):,} bytes; "
-        f"{len(manifest(raw))} workbooks held; counted against the ceiling {counted(raw):,} of {ceiling:,}")
+        f"{len(manifest(raw))} workbooks held; counted against the ceiling {counted(raw, log):,} of {ceiling:,} "
+        "(a row counts once; a copy not read yet counts its year as full)")
     return 1 if failed else 0
 
 
@@ -585,10 +633,11 @@ def write(a, log, run_id, raw=None):
     for m in man:                                # every copy is read (once) so the ceiling is counted, not estimated
         parsed(m, log, raw)
     c = counts(raw)
-    kept_all = sum(int(c[m["sha256"]]["rows_kept"]) for m in man)
+    kept_all = counted(raw, log)                 # session 149: each row once, however many copies of its year hold it
+    every_copy = sum(int(c[m["sha256"]]["rows_kept"]) for m in man)
     read_all = sum(int(c[m["sha256"]]["rows_read"]) for m in man)
-    log(f"counted against the ceiling: {kept_all:,} load zone rows kept in {len(man)} saved copies (ceiling {a.ceiling:,}); "
-        f"rows in the files read: {read_all:,}")
+    log(f"counted against the ceiling: {kept_all:,} load zone rows, each once, in {len(man)} saved copies (ceiling {a.ceiling:,}); "
+        f"the copies' rows added up, a repeat counted again as before session 149: {every_copy:,}; rows in the files read: {read_all:,}")
     if kept_all > a.ceiling:
         raise RuntimeError(f"{kept_all:,} kept rows pass the ceiling of {a.ceiling:,}: nothing is written")
     tmp = os.path.join(raw, f"tmp_write_{run_id}")
@@ -720,7 +769,8 @@ def _header(run_id, a, first_ts, last_ts, used, kept_all, read_all, per, notes, 
         "workbooks are in ercot_all_hub_prices_history. A zone's second real-time row (Settlement Point Type LZEW) and the DC ties "
         "stay in the saved workbooks. Real time for LZ_AEN, LZ_CPS, LZ_LCRA and LZ_RAYBN is not written: it would pass the ceiling.",
         f"Ceiling (the owner's approval of 7 October 2026): {a.ceiling:,} rows, USD 0. Counted against it: {kept_all:,} load zone rows "
-        f"kept, every saved copy of a workbook counted; rows in the files read (hubs and the rest, discarded): {read_all:,}.",
+        "kept, each counted once: a later copy of a year's workbook counts only the rows it adds (the owner's ruling of 7 October 2026 "
+        f"on the refresh, session 149); rows in the files read (hubs and the rest, discarded): {read_all:,}.",
         "Rows by market and zone: " + "; ".join(f"{mk} {node} {n}" for (mk, node), n in sorted(per.items())),
         "DST: interval starts are UTC. The hour the clocks skip in spring does not exist; the hour they repeat in autumn is in "
         "ERCOT's workbook twice (Repeated Hour Flag N, then Y) and is two distinct UTC hours here.",
@@ -787,6 +837,15 @@ def check(a, log, raw=None):
     return 1 if bad else 0
 
 
+def growing_years(raw=None, now_year=None):
+    """The years a refresh asks about: this year, and last year until a copy ERCOT published after it ended is held
+    for both markets."""
+    year = now_year or this_year()
+    copies = year_copies(raw)
+    last_done = all(any(final_copy(m) for m in copies.get((market, year - 1), [])) for market in MARKETS)
+    return [year] if last_done else [year - 1, year]
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERCOT load zone prices, day-ahead and real time, from 2015 (session 140)")
     ap.add_argument("--pull", action="store_true", help="ERCOT's lists, then each year's workbook not yet held (no data lock)")
@@ -794,17 +853,22 @@ def main(argv=None):
     ap.add_argument("--write", action="store_true", help="the table from the saved workbooks (data lock; no request)")
     ap.add_argument("--check", action="store_true", help="the saved workbooks' hub rows against ercot_all_hub_prices_history")
     ap.add_argument("--years", type=int, nargs="*", help="only these years (default: 2015 to this year)")
+    ap.add_argument("--refresh", action="store_true",
+                    help="session 149, the daily refresh: --pull --write for the years still growing (this year, and last year until its final copy is held)")
     ap.add_argument("--markets", nargs="*", choices=sorted(MARKETS), help="only these markets (default: both)")
     ap.add_argument("--ceiling", type=int, default=CEILING, help=f"rows kept, every saved copy counted (default {CEILING:,}, the owner's approval)")
     ap.add_argument("--out-dir", help="a trial: the table, log, registry and status under this directory, no lock")
     ap.add_argument("--raw-dir", help="where the workbooks are saved and read (default warehouse/raw/ercot_zone_prices)")
     ap.add_argument("--hub-table", help="with --check: the hub history file (default warehouse/output)")
     a = ap.parse_args(argv)
-    if not (a.pull or a.write or a.check):
-        ap.error("--pull, --write or --check")
+    if not (a.pull or a.write or a.check or a.refresh):
+        ap.error("--pull, --write, --check or --refresh")
     if a.out_dir:
         ip.set_out_dir(a.out_dir)
     raw = os.path.abspath(a.raw_dir) if a.raw_dir else RAW
+    if a.refresh:
+        a.pull = a.write = True
+        a.years = growing_years(raw)
     os.makedirs(raw, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     if a.write or a.out_dir:

@@ -540,5 +540,202 @@ class NyisoLoadQueueIsHeld(unittest.TestCase):
             self.assertNotIn(grant, text.lower(), grant)   # no sentence of the notice grants leave
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# 4. ERCOT's load zones, daily, at the ceiling asked. Session 140 asked "a new ceiling, or count only new rows" and
+#    named no number; the owner approved "at the ceiling asked"; the narrower reading is taken: the ceiling stays
+#    3,000,000 and a row counts once. On the saved real days of session 140's fixtures (tests/fixtures/session140).
+# ---------------------------------------------------------------------------------------------------------------
+import hashlib
+import shutil
+
+FIX140 = os.path.join(ROOT, "tests", "fixtures", "session140")
+
+
+def zone_module():
+    p = os.path.join(ROOT, "warehouse", "connectors")
+    if p not in sys.path:
+        sys.path.insert(0, p)
+    try:
+        import ercot_zone_prices
+        import openpyxl  # noqa: F401
+    except ImportError as exc:
+        raise unittest.SkipTest("the load zone connector cannot be imported here: %s" % exc)
+    return ercot_zone_prices
+
+
+def first_day_only(content):
+    """ERCOT's two-day fixture workbook with its second sheet (the November day) taken out: an earlier copy of a
+    year's workbook, as ERCOT posts it before the later days exist. Real rows; none is changed."""
+    import openpyxl
+    wb = openpyxl.load_workbook(io.BytesIO(content))
+    for ws in wb.worksheets[1:]:
+        wb.remove(ws)
+    out = io.BytesIO()
+    wb.save(out)
+    return out.getvalue()
+
+
+class TheLoadZoneCeilingCountsARowOnce(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.z = zone_module()
+        with open(os.path.join(FIX140, "dam_2015_two_days.xlsx"), "rb") as f:
+            cls.whole = f.read()
+        cls.early = first_day_only(cls.whole)
+
+    def setUp(self):
+        self.raw = tempfile.mkdtemp(prefix="erw_s149_zone_raw_")
+        self.addCleanup(shutil.rmtree, self.raw, ignore_errors=True)
+        self.lines = []
+
+    def log(self, m):
+        self.lines.append(str(m))
+
+    def save(self, content, doc, published, year=2015):
+        z = self.z
+        name = "dam_%d_%s.zip" % (year, doc)
+        with open(os.path.join(self.raw, name), "wb") as f:
+            f.write(content)
+        z._append_csv(os.path.join(self.raw, "manifest.csv"), z.MANIFEST_COLS,
+                      {"market": "dam", "year": year, "file": name, "doc_id": doc, "url": z.FILE_URL.format(doc=doc), "bytes": len(content),
+                       "sha256": hashlib.sha256(content).hexdigest(), "published": published, "friendly_name": "",
+                       "retrieved_at": "2026-10-07T09:00:00Z", "how": "requested"})
+
+    def read_all(self):
+        for m in self.z.manifest(self.raw):
+            self.z.parsed(m, self.log, self.raw)
+
+    def test_the_ceiling_is_the_one_already_set(self):
+        self.assertEqual(self.z.CEILING, 3_000_000)
+        text = src("warehouse", "connectors", "ercot_zone_prices.py")
+        self.assertIn("A ROW COUNTS", text)
+        self.assertIn('"at the ceiling\nasked"'.replace("\n", " "), " ".join(text.split()))
+
+    def test_a_later_copy_counts_only_the_rows_it_adds(self):
+        z = self.z
+        self.save(self.early, "1", "2015-03-15T08:01:37-05:00")       # the March day: 23 hours, eight zones
+        self.read_all()
+        self.assertEqual(z.counted(self.raw), 8 * 23)
+        self.save(self.whole, "2", "2015-11-08T08:01:37-05:00")       # ERCOT posts the year again: the March day and a November day
+        self.assertEqual(z.counted(self.raw), z.bound("dam", 2015))    # not read yet: the year as if full, never an undercount
+        self.read_all()
+        self.assertEqual(z.counted(self.raw), 8 * 48)                  # each row once: 184 held and 200 new
+        every_copy = sum(int(z.counts(self.raw)[m["sha256"]]["rows_kept"]) for m in z.manifest(self.raw))
+        self.assertEqual(every_copy, 8 * 23 + 8 * 48)                  # what the count was until session 149
+        self.assertEqual(z.counts(self.raw)["distinct:dam:2015"]["rows"], 8 * 48)
+        self.save(self.whole, "3", "2015-11-15T08:01:37-05:00")       # the same workbook downloaded again
+        self.assertEqual(z.counted(self.raw), 8 * 48)                  # counts nothing
+
+    def test_the_request_that_would_pass_the_ceiling_is_refused_before_it_is_made(self):
+        z = self.z
+        import test_session140_zones as t140
+        self.save(self.early, "1", "2015-03-15T08:01:37-05:00")
+        self.read_all()
+        room = z.room_needed("dam", 2015, self.raw)
+        self.assertEqual(room, z.bound("dam", 2015) - 8 * 23)          # the most a new copy can add: the year less what is held
+        get = t140.Getter([2015], "dam")
+        a = t140.args(years=[2015], markets=["dam"], ceiling=8 * 23 + room - 1)
+        self.assertEqual(z.pull(a, self.log, get=get, sleep=lambda s: None, raw=self.raw), 3)
+        self.assertEqual([u for u in get.asked if "mirDownload" in u], [])      # the list was read; no workbook was asked for
+        self.assertTrue(any(line.startswith("STOPPED before dam 2015") for line in self.lines))
+        get = t140.Getter([2015], "dam")
+        a = t140.args(years=[2015], markets=["dam"], ceiling=8 * 23 + room)     # exactly enough room: asked
+        self.assertEqual(z.pull(a, self.log, get=get, sleep=lambda s: None, raw=self.raw), 0)
+        self.assertEqual(len([u for u in get.asked if "mirDownload" in u]), 1)
+        self.assertTrue(any("counted against the ceiling" in line for line in self.lines))   # the count is in every run's log
+
+    def test_the_refresh_asks_only_about_the_years_still_growing(self):
+        z = self.z
+        self.assertEqual(z.growing_years(self.raw, now_year=2026), [2025, 2026])      # no final copy of 2025 held
+        self.save(self.whole, "9", "2026-01-01T08:44:09-05:00", year=2025)            # published after its year ended
+        self.assertEqual(z.growing_years(self.raw, now_year=2026), [2025, 2026])      # real time's final copy is not held yet
+        text = src("warehouse", "connectors", "ercot_zone_prices.py")
+        self.assertIn("a.pull = a.write = True", text)
+        self.assertIn("a.years = growing_years(raw)", text)
+
+
+sys.path.insert(0, os.path.join(ROOT, "tests"))
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# 5 and 6. The page files rebuilt with SPP South's years, and the data machine's daily run that rebuilds them.
+# ---------------------------------------------------------------------------------------------------------------
+class SppSouthHasItsYears(unittest.TestCase):
+    def test_the_datacenter_page_holds_spp_south_from_2019(self):
+        index = json.loads(src("site", "data", "datacenter", "index.json"))
+        spp = index["grids"]["spp"]
+        self.assertEqual(spp["years"], list(range(2019, 2027)))
+        south = [r for r in spp["regions"] if "SOUTH" in json.dumps(r).upper()][0]
+        self.assertEqual(south["da"]["first"], "2019-01-01T06:00:00Z")
+        self.assertGreater(south["da"]["hours"], 68000)
+        for year in range(2019, 2027):
+            self.assertTrue(os.path.exists(os.path.join(ROOT, "site", "data", "datacenter", "spp_%d.json" % year)), year)
+
+    def test_the_capture_file_holds_spp_south_from_2019(self):
+        cap = json.loads(src("site", "data", "seller", "capture.json"))
+        south = [h for h in cap["grids"]["spp"]["hubs"] if "SOUTH" in json.dumps({k: v for k, v in h.items() if not isinstance(v, dict)}).upper()][0]
+        self.assertEqual(south["da"]["first"], "2019-01-01T06:00:00Z")
+        self.assertGreater(south["da"]["hours"], 68000)
+        self.assertIn("2019-01", south["da"]["wind"])
+
+
+class TheDataMachinesDailyRun(unittest.TestCase):
+    SCRIPT = os.path.join("warehouse", "run_data_machine.sh")
+
+    def run_script(self, *args, **env):
+        bash = shutil.which("bash")
+        if not bash:
+            self.skipTest("bash is not on this machine")
+        full = dict(os.environ)
+        full.update(env)
+        return subprocess.run([bash, self.SCRIPT.replace(os.sep, "/")] + list(args), cwd=ROOT, env=full, capture_output=True, text=True, timeout=120)
+
+    def test_it_refuses_on_the_runner_before_anything_else(self):
+        r = self.run_script(GITHUB_ACTIONS="true", ERW_ROLE="data")
+        self.assertEqual(r.returncode, 0)
+        self.assertTrue(r.stdout.startswith("run_data_machine REFUSED: this is the GitHub runner"), r.stdout[:200])
+        text = src("warehouse", "run_data_machine.sh").split("set -uo pipefail", 1)[1]   # the commands, past the header's words
+        self.assertLess(text.index('"${GITHUB_ACTIONS:-}" = "true"'), text.index("warehouse/lock.py role"))
+        self.assertLess(text.index("REFUSED: this is the GitHub runner"), text.index("soft_step dm_sync"))
+
+    def test_it_refuses_on_a_machine_that_is_not_a_data_machine_or_holds_no_history(self):
+        r = self.run_script("--check", GITHUB_ACTIONS="", ERW_ROLE="code")
+        self.assertEqual(r.returncode, 0)
+        self.assertIn("REFUSED: this machine's role is 'code', not data", r.stdout)
+        if not os.path.exists(os.path.join(ROOT, "warehouse", "output", "ercot_all_hub_prices_history.csv")):
+            r = self.run_script("--check", GITHUB_ACTIONS="", ERW_ROLE="data")
+            self.assertEqual(r.returncode, 0)
+            self.assertIn("REFUSED: this machine does not hold the price histories", r.stdout)
+
+    def test_every_builder_is_a_recorded_step_and_no_workflow_calls_it(self):
+        text = src("warehouse", "run_data_machine.sh")
+        self.assertIn(". warehouse/soft_step.sh", text)            # under warehouse/health.py: tried once more, recorded, never stops the run
+        for step, builder in (("dm_datacenter_page", "warehouse/derived/datacenter_page.py"), ("dm_capture_price", "warehouse/derived/capture_price.py"),
+                              ("dm_curtailment_shares", "warehouse/derived/curtailment_shares.py"), ("dm_free_energy", "warehouse/derived/free_energy.py"),
+                              ("dm_curtailment_worth", "warehouse/derived/curtailment_worth.py"),
+                              ("dm_ercot_zone_prices", "warehouse/connectors/ercot_zone_prices.py --refresh")):
+            self.assertIn('soft_step %s "$PYTHON" %s' % (step, builder), text)
+        self.assertIn('"$PYTHON" warehouse/health.py run --step "$name" -- "$@"', src("warehouse", "soft_step.sh"))
+        self.assertNotIn("soft_step dm_ercot_estimate", text)       # the runner builds the Texas file every day, from a newer table
+        self.assertNotIn("ercot_estimate_page.py", text.split("set -uo pipefail", 1)[1])
+        self.assertNotIn(chr(0x2014), text)
+        for name in os.listdir(os.path.join(ROOT, ".github", "workflows")):
+            self.assertNotIn("run_data_machine", src(".github", "workflows", name), name)
+        self.assertNotIn("run_data_machine.sh", src("warehouse", "run_daily.sh").split("set -", 1)[-1])
+        self.assertIn("The data machine's daily run (session 149)", src("docs", "machines.md"))
+
+    def test_the_gate_is_not_piped_and_the_commit_names_its_paths(self):
+        text = src("warehouse", "run_data_machine.sh")
+        gate = [ln for ln in text.splitlines() if ln.lstrip().startswith('"$PYTHON" warehouse/validate/erw_validate.py')]
+        self.assertEqual(len(gate), 1)
+        self.assertNotIn("|", gate[0])
+        self.assertIn("rc=$?", text.split(gate[0], 1)[1].splitlines()[1])
+        self.assertIn('if [ "$branch" != "main" ]; then', text)
+        self.assertIn("site/data/datacenter site/data/seller/capture.json site/data/curtailment/shares.json", text)
+        self.assertNotIn("git add -A", text)
+        self.assertNotIn("git add .", text)
+        self.assertNotIn("--force", text)
+
+
 if __name__ == "__main__":
     unittest.main()

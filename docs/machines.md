@@ -171,6 +171,53 @@ never fails the run.
 - The daily workflow commits the site's copies the steps rebuild (`site/public/network/daily_*.json`, `site/data/mix/`
   and the five other files). Each page prints the date its copy was built.
 
+### The data machine's daily run (session 149)
+
+Five page files are rebuilt whole from the price histories, and the GitHub runner holds none: built there they would
+come out thinner (sessions 144 and 145 left them to a person). `warehouse/run_data_machine.sh` builds them on a data
+machine, once a day, after the runner's daily run:
+
+| Step | What | Recorded as |
+|---|---|---|
+| sync | `scripts/sync.py`: main fast-forwarded, and every table behind the Redivis draft brought up to it | `dm_sync` |
+| ERCOT's load zones | `ercot_zone_prices.py --refresh`: ERCOT's two lists each day, a workbook only when the list names a document not held (ERCOT posts the current year again on Sundays); the count against the ceiling of 3,000,000 rows in the step's log on every run, the request that would pass it refused before it is made | `dm_ercot_zone_prices` |
+| its stores, when rows were added | the validator (a gate), `build_coverage.py --only`, `archive.py write`, the Redivis draft | `dm_zone_archive`, `dm_zone_redivis` |
+| the page files | `datacenter_page.py`, `capture_price.py`, `curtailment_shares.py`, `free_energy.py`, `curtailment_worth.py` | `dm_datacenter_page`, `dm_capture_price`, `dm_curtailment_shares`, `dm_free_energy`, `dm_curtailment_worth` |
+| the files' own tests | `test-capture.mjs`, `test-freeenergy.mjs`, `test-datacenter-rule.mjs`; a file whose builder or test fails is put back as committed | `dm_test_*` |
+| the commit | the page files and the metadata the refresh changed, committed to main and pushed, only on the branch main | `dm_commit` |
+
+- **Every step runs under `warehouse/health.py`** (`warehouse/soft_step.sh`): a failure is tried once more, recorded in
+  `erw_health` and in `runs/data_machine_status.txt`, and never stops the run.
+- **It refuses to run on the runner.** In this order: `GITHUB_ACTIONS` is `true` (GitHub sets it in every job); the
+  machine's role is not `data`; or one of the three price histories (`ercot_all_hub_prices_history`,
+  `ercot_zone_prices_history`, `iso_zone_prices_history`) is not in `warehouse/output`. One line, nothing built, exit 0.
+  `bash warehouse/run_data_machine.sh --check` says which holds and what would run, and does nothing else. No workflow
+  calls the script.
+- **It runs under the data lock**, in the checkout that holds the tables and the saved workbooks:
+
+  ```bash
+  .venv/Scripts/python.exe warehouse/lock.py run --task "data machine daily" --wait 60 -- bash warehouse/run_data_machine.sh > runs/data_machine_daily.out 2>&1; echo "exit=$?"
+  ```
+
+- **When.** After the day's prices are in: the runner's daily run starts at 14:00 UTC and holds the data lock until
+  about 16:00 UTC; 17:00 UTC leaves room, and `--wait 60` waits for the lock if the runner is late.
+- **What starts it.** Nothing in the repository: GitHub cannot reach a laptop, and the schedule in the database only
+  dispatches workflows. A person runs the command above, or registers it once with the machine's own scheduler. On
+  Windows, once, from a terminal of the person who owns the checkout (10:00 Pacific is 17:00 UTC in summer and 18:00
+  UTC in winter, both after the runner):
+
+  ```
+  schtasks /Create /TN "ERW data machine daily" /SC DAILY /ST 10:00 /TR "\"C:\Program Files\Git\bin\bash.exe\" -lc \"cd /c/Users/<you>/Documents/erw && .venv/Scripts/python.exe warehouse/lock.py run --task 'data machine daily' --wait 60 -- bash warehouse/run_data_machine.sh >> runs/data_machine_daily.out 2>&1\""
+  ```
+
+  `schtasks /Delete /TN "ERW data machine daily"` removes it. This is the one schedule that lives on a machine and not
+  in GitHub Actions or the database; it is the owner's to register or not. A day the machine is closed is a day the
+  files keep the copy they have: nothing is thinned.
+- **What it does not do.** It downloads no EIA-930 workbook: the capture price and SPP's shares advance only as far as
+  the workbooks under `warehouse/raw/eia930_emissions` on the machine. It does not build
+  `site/data/curtailment/ercot.json`, which the runner builds every day from a table that is newer there. A commit to
+  main deploys, as the daily workflow's does; the files are read by pages in review only.
+
 ## Code work: branches, checks, merge
 
 A code task works on its own branch, `task/<NNN>-<slug>`. A push to `task/**` runs `.github/workflows/code-branch.yml`:
