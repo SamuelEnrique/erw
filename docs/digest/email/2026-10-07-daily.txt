@@ -1,0 +1,49 @@
+ERW's Energy Digest, 2026-10-07
+
+Top 5 of the day
+
+1. Google and Constellation announce 890 MW nuclear plan on PJM grid; Constellation to invest $4.3 billion
+   Long-term offtake underwrites new nuclear capacity and extends existing plant operations. 890 MW; $4.3 billion; parties: Google; Constellation Energy; Oracle.
+   World Nuclear News: https://www.world-nuclear-news.org/articles/new-end-user-agreements-support-long-term-us-plant-operations
+2. Vistra gets conditional $4.2B DOE loan for nuclear uprates in Ohio and Pennsylvania
+   Large federal loan supports nuclear uprates and preserves baseload supply in PJM, where capacity is tight. 433 MW; $4.2B; parties: Vistra; DOE.
+   Rigzone: https://www.rigzone.com/news/vistra_gets_conditional_42b_doe_loan_for_pjm_nuclear_fleet-06-oct-2026-184787-article/?rss=true
+3. Emera to buy Canadian Utilities in C$14.3 Billion deal
+   Large utility consolidation reshapes Canadian regulated utility ownership. C$14.3 Billion; parties: Emera; Canadian Utilities.
+   Bloomberg.com: https://news.google.com/rss/articles/CBMinwFBVV95cUxQSFVrMng4ckFsdW1iRkx6b1hkUWxxbVBudERWQUNtLTZBbkdsdDBQTXlwN3Fta0gyNzFweUhGdzg2aDR6VUJKajRHVTB0MUJnYTZyejB6ZFhoNnVqalVtV2VIdlZrOEQtSHFNQjVrU3Y5VGR3TzlzVkZIbDNLZmR0VnVSaWJKcFhWbElldmhYYlFRNFRvVHVTWnJrSVVUNzQ?oc=5
+4. Black Hills plans $1.8 billion investment to power Google's data center
+   A utility capital build of this size to serve one large load signals rate base growth. $1.8 billion; parties: Black Hills; Google.
+   Reuters: https://news.google.com/rss/articles/CBMiuAFBVV95cUxOQkl1VUxHdjl1Q2g0c0xiXy12bG8tYWVPMC1mV1RpQ1RnTzcteWgwVGRBcmdpMG5iSE4yYllhZkFWVWdYVWdUM0FLVFVtV0phVEZlbHVWVE9KQ1pRV3FtbW94Tmw4bHRKalV4TDNfaG8zcUF2WTc1WlI1TWUxSU5DVnFYYVBkaml0b1doaHVuOFVUTXU0M0w5UEV1eU9BNTNSSzVaSmk0TUhpR29HSnZ3bnVIYXhoVWFv?oc=5
+5. Data center cancellations top $260 billion in 2026, new data suggests
+   Cancelled projects remove large expected power load, with the pace of cancellations rising, which affects utility load forecasts and generation plans. $260 billion; parties: Heatmap Pro.
+   Heatmap News: https://heatmap.news/daily/260-billion-data-center-opposition
+
+ERW's Numbers Today
+
+Day-ahead power was dearest at CAISO's TH_SP15_GEN-APND, 74.19 USD/MWh, and cheapest at ISO-NE's internal hub, 29.53, on 2026-10-06. MISO's INDIANA.HUB had no prices in the warehouse for that day, and PJM has no price table. The highest real-time price was 196.51 USD/MWh at ERCOT's HB_WEST, in the interval starting 2026-10-06 18:45 local; the latest fuel closes, on 2026-09-29, were 3.18 USD/MMBtu for Henry Hub, 96.16 USD/bbl for WTI and 113.96 USD/bbl for Brent.
+Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
+  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-10-06; Average USD/MWh: 40.93; Table: [1]
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-10-06; Average USD/MWh: 74.19; Table: [1]
+  ISO: NYISO; Hub or zone: N.Y.C.; Operating day: 2026-10-06; Average USD/MWh: 38.08; Table: [2]
+  ISO: MISO; Hub or zone: INDIANA.HUB; Operating day: 2026-10-06; Average USD/MWh: not in the warehouse (0 of 24 hours); Table: [1]
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-10-06; Average USD/MWh: 31.07; Table: [1]
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-10-06; Average USD/MWh: 29.53; Table: [3]
+  ISO: PJM; Average USD/MWh: no PJM price table (no API key)
+Highest real-time price, yesterday: 196.51 USD/MWh at HB_WEST (ERCOT), interval starting 2026-10-06 18:45 local (2026-10-06 23:45 UTC), PT15M spp_rtm [4].
+Latest fuel spot closes (EIA, trading dates):
+- Henry Hub natural gas: 3.18 USD/MMBtu on 2026-09-29 [5]
+- WTI Cushing crude: 96.16 USD/bbl on 2026-09-29 [5]
+- Brent crude: 113.96 USD/bbl on 2026-09-29 [5]
+Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] iso_rtm_hub_prices (caiso:PRC_INTVL_LMP, ercot:NP6-785-ER, ercot:NP6-905-CD, miso:rt_lmp_final, miso:rt_lmp_prelim, spp:RTBM-LMP-SL); real-time tables read: iso_rtm_hub_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices; [5] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+ERW's Fun Fact
+
+In 2001, hydro made 65.9% of the electricity generated in Washington; in 2025 it made 63.2%.
+Sources: state_generation_mix_monthly (Energy Research Warehouse (ERW), derived).
+
+ERW
+
+All of ERW's Energy Digest: https://erw-flame.vercel.app/digest/2026-10-07
+How this is made: https://erw-flame.vercel.app/about#digest
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.

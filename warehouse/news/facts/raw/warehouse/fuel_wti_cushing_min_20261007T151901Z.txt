@@ -1,0 +1,8 @@
+# table: eia_fuel_spot_prices
+# source reports: U.S. Energy Information Administration (EIA): Natural Gas Spot and Futures Prices (NYMEX), daily (https://www.eia.gov/dnav/ng/ng_pri_fut_s1_d.htm); U.S. Energy Information Administration (EIA): Spot Prices for Crude Oil and Petroleum Products (https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm)
+# table retrieved: 20261007T142133Z
+# computed by: warehouse/news/funfact.py
+# note: em dashes in the source are stored as hyphens
+# retrieved_at: 20261007T151901Z
+
+eia_fuel_spot_prices eia:wti_cushing: min -36.98 USD/bbl on 2020-04-20; series starts 1986-01-02; latest 96.16 on 2026-09-29; ratio of the min to the latest 0.4

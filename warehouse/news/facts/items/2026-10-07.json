@@ -1,0 +1,21 @@
+{
+ "date": "2026-10-07",
+ "fact_id": "ff_0c1f93fe21",
+ "kind": "warehouse",
+ "fact": "In 2001, hydro made 65.9% of the electricity generated in Washington; in 2025 it made 63.2%.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "part": "fact",
+   "label": "ERW table state_generation_mix_monthly",
+   "table": "state_generation_mix_monthly",
+   "publisher": "Energy Research Warehouse (ERW), derived",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/share_wa_hydro_20260928T083003Z.txt",
+   "span": "state_generation_mix_monthly eia:WA: hydro share of net generation 65.9% in 2001, 63.2% in 2025 (sums of monthly MWh over complete years)",
+   "retrieved_at": "20260928T083003Z"
+  }
+ ]
+}
