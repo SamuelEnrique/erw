@@ -627,8 +627,11 @@ def merge_companies(rows, niche, run_id, log):
 # the run
 # ---------------------------------------------------------------------------------------------
 
+TABLE_DIR = None        # session 147: run.py --in-dir reads the warehouse's tables from another folder
+
+
 def policy_candidates(niche_words):
-    path = os.path.join(ip.OUT_DIR, "policy_actions.csv")
+    path = os.path.join(TABLE_DIR or ip.OUT_DIR, "policy_actions.csv")
     if not os.path.exists(path):
         return pd.DataFrame()
     with open(path, encoding="utf-8") as f:

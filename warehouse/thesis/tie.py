@@ -14,8 +14,17 @@ THE RULE
      fetched     text the run holds from a source it fetched: the title of a search result, and any passage the
                  search tool returned as cited, when that text names the company. Also a reported sentence (below)
                  that is found word for word in the held text of its source.
-     web         a sentence the research reported from a web page, with the page's address, that the run does not
-                 hold as fetched text.
+     web         a sentence of a page the run saved (session 147): the run fetches, in code, the address of every web
+                 result its rows cite and keeps the page's text with its hash and the day it was retrieved
+                 (pages.py). Every sentence of a saved page that names the company is evidence, whichever company's
+                 row cited the page. A page that was refused, disallowed, truncated or not text holds no sentence.
+                 Until session 147 this tier was the sentences the research QUOTED from a page; a quoted sentence
+                 now decides nothing: when it is on the saved page and names the company it is simply one of the
+                 page's sentences, and when it is not on the saved page it is not evidence. The quotations are still
+                 saved, and quote_check() says of each whether the saved page holds it.
+   A sentence of a page is a run of text inside one block of the page (a paragraph, a heading, a list item), cut at
+   its sentence ends, of 12 to PAGE_SENTENCE_MAX (500) characters: a longer run without a sentence end is a menu, a
+   list or a table, not a sentence (the longest sentence the research ever quoted had 369).
    A text "names the company" when it holds the company's whole normalized name, or its core name (the name without
    trailing generic words such as Energy or Technologies). A name or core name of one word must have four letters
    or more and the text must also hold a word of the niche's own name.
@@ -45,9 +54,12 @@ THE RULE
    that leads two or more longer names that are not themselves one company is ambiguous and is merged with none.
    The company keeps its longest name (most words, then most letters, then a to z).
 
-6. What is saved. The evidence store of a niche (one JSON file) keeps every fetched source by address with the hash
-   of its text and the date fetched, every reported sentence with its address, and every row a run wrote about a
-   company. A run reads what is saved plus what it newly fetched, so a run differs from the one before only because
+6. What is saved. The evidence store of a niche (one JSON document: an object of a private storage bucket since
+   session 147, a local file where no key is set; store.py) keeps every fetched source by address with the hash
+   of its text and the date fetched, every reported sentence with its address, every row a run wrote about a
+   company, and since session 147 every page a run asked for, by address: its text, the SHA-256 of what was
+   received and of the text, the day retrieved, the HTTP status, the bytes, and each earlier version whose text
+   differed. A run reads what is saved plus what it newly fetched, so a run differs from the one before only because
    a source was added, changed or disappeared, and diff() says which, by company and source. A company's facts
    (kind, country, location, stage fit) and its descriptive cells are the first values saved for it: a fact not yet
    stated can be filled by a later run, with that run's sources, and a later run that reads a stated fact
@@ -68,6 +80,7 @@ STRONG_TERMS = 3
 MIN_TERMS = 2
 TIE_MIN = 2
 MAX_ADDRESSES = 3
+PAGE_SENTENCE_MAX = 500          # session 147: what a sentence of a saved page is, not a threshold of the scoring
 STOP = {"the", "and", "for", "with", "from", "that", "this", "into", "their", "new", "not", "general", "only", "based", "using",
         "technologie", "technology", "companie", "company", "startup", "market", "energy", "power",
         "system", "method", "public", "high"}
@@ -152,7 +165,11 @@ def support(text, terms, phrases, own=()):
 
 def names_it(text, aliases, niche_words):
     """True when the text names the company: (full name, core name) pairs, as rule 1 says."""
-    t = " " + " ".join(words(text)) + " "
+    return names_norm(" " + " ".join(words(text)) + " ", aliases, niche_words)
+
+
+def names_norm(t, aliases, niche_words):
+    """names_it on a text already written as its words between single spaces, with a space at each end."""
     in_niche = any(f" {w} " in t for w in niche_words)
     for full, core in aliases:
         for n in (full, core):
@@ -229,14 +246,18 @@ def clusters(names, niche_words=()):
 # ---------------------------------------------------------------------------------------------
 
 def empty_store(niche="", stage="", geography=""):
-    return {"version": 1, "niche": niche, "stage": stage, "geography": geography, "runs": [], "sources": {}, "quotes": [],
-            "rows": [], "last": None}
+    """Session 147: version 2 holds the saved pages by address (pages) and each host's robots.txt rules (robots)."""
+    return {"version": 2, "niche": niche, "stage": stage, "geography": geography, "runs": [], "sources": {}, "quotes": [],
+            "rows": [], "pages": {}, "robots": {}, "last": None}
 
 
 def load_store(path, niche="", stage="", geography=""):
     if path and os.path.exists(path):
         with open(path, encoding="utf-8") as f:
-            return json.load(f)
+            store = json.load(f)
+        store.setdefault("pages", {})                 # a store written before session 147 holds no page
+        store.setdefault("robots", {})
+        return store
     return empty_store(niche, stage, geography)
 
 
@@ -336,9 +357,40 @@ def sentences(text):
     return [s.strip() for s in re.split(r"(?<=[.!?])\s+(?=[A-Z0-9\"])", re.sub(r"\s+", " ", text or "")) if len(s.strip()) >= 12]
 
 
-def judge(store, warehouse, niche, trends):
+def page_sentences(text):
+    """The sentences of a saved page (rule 1): each block of the page is a line of the saved text; a line is cut at its
+    sentence ends, and a run longer than PAGE_SENTENCE_MAX is not a sentence."""
+    return [s for line in (text or "").split("\n") for s in sentences(line) if len(s) <= PAGE_SENTENCE_MAX]
+
+
+def page_holds(page):
+    """True when a saved page holds sentences: fetched whole, with text. A refused, disallowed or truncated page holds none."""
+    return bool(page) and page.get("state") == "fetched" and not page.get("truncated") and bool(page.get("text"))
+
+
+def quote_check(store):
+    """Of every quotation the research reported: does the saved page of its address hold it, word for word? For the
+    run's record only: a quotation decides nothing (rule 1). Returns [{key, address, sha, page, found}] where page is
+    "held", "not held" (no sentence could be read from it) or "never asked for"."""
+    pages, flat, out = store.get("pages") or {}, {}, []
+    for q in sorted(store.get("quotes") or [], key=lambda q: (q["address"], q["sha"], q["key"])):
+        p = pages.get(q["address"])
+        state = "never asked for" if p is None else ("held" if page_holds(p) else "not held")
+        found = False
+        if state == "held":
+            if q["address"] not in flat:
+                flat[q["address"]] = " " + " ".join(words(p["text"])) + " "
+            found = (" " + " ".join(words(q["text"])) + " ") in flat[q["address"]]
+        out.append({"key": q["key"], "address": q["address"], "sha": q["sha"], "page": state, "found": found})
+    return out
+
+
+def judge(store, warehouse, niche, trends, read="pages"):
     """Every company of the store with its evidence, its score for each trend and its order.
 
+    read: "pages" (the rule since session 147: the web tier is the sentences of the saved pages) or "quotes" (the web
+    tier as session 142 built it, the sentences the research quoted: kept so that the two readings can be compared on
+    the same saved answers, and used by no run).
     warehouse: {"energy_companies": [row dicts], "energy_deals": [row dicts]} as read from the tables now.
     Returns a list of companies in the order of rule 4, each:
       {key, name, aliases, row (resolved), evidence: [{tier, address, text, sha, fetched}],
@@ -353,6 +405,13 @@ def judge(store, warehouse, niche, trends):
         if x["key"] in cl:
             groups.setdefault(cl[x["key"]], []).append(x)
     specs = [trend_terms(niche, t) for t in trends]
+    saved = []                                         # session 147: every sentence of every saved page, cut once
+    if read == "pages":
+        for url in sorted(store.get("pages") or {}):
+            p = store["pages"][url]
+            if page_holds(p):
+                saved.append((url, p.get("fetched", ""), " " + " ".join(words(p["text"])) + " ",
+                              [(s, " " + " ".join(words(s)) + " ") for s in page_sentences(p["text"])]))
     out = []
     for (ckey, cname), rows in sorted(groups.items()):
         raw_keys = sorted({x["key"] for x in rows})
@@ -375,8 +434,14 @@ def judge(store, warehouse, niche, trends):
             for text in [s.get("title", "")] + list(s.get("cited") or []):
                 if len(text) >= 12 and names_it(text, aliases, niche_words):
                     ev.append({"tier": "fetched", "address": url, "text": text, "sha": sha(text), "fetched": s.get("fetched", "")})
-        for q in sorted(store["quotes"], key=lambda q: (q["address"], q["sha"])):
-            if q["key"] not in raw_keys:
+        for url, day, flat, sents in saved:           # session 147: the web tier is read from the saved pages
+            if not any(n and f" {n} " in flat for pair in aliases for n in pair):
+                continue                               # the page does not hold the company's name at all
+            for s, norm in sents:
+                if names_norm(norm, aliases, niche_words):
+                    ev.append({"tier": "web", "address": url, "text": s, "sha": sha(s), "fetched": day})
+        for q in sorted(store["quotes"], key=lambda q: (q["address"], q["sha"])) if read == "quotes" else []:
+            if q["key"] not in raw_keys:              # session 142's reading, for comparison only: no run uses it
                 continue
             held = store["sources"].get(q["address"])
             inside = held is not None and " ".join(words(q["text"])) in " ".join(words(source_text(held)))
