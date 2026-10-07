@@ -127,10 +127,14 @@ async function all(table, params) {
 async function truth(check) {
   const p = check.split("|");
   if (p[0] === "catalogue") {
-    if (p[1] === "count") return q("catalogue", { select: "table_name", license: "eq.public" }, true);
-    if (p[1] === "n_pass") return q("catalogue", { select: "table_name", license: "eq.public", validator_status: "eq.pass" }, true);
-    if (p[1] === "sum_n_rows") return (await all("catalogue", { select: "n_rows", license: "eq.public" })).reduce((a, r) => a + Number(r.n_rows), 0);
-    if (p[1] === "max_last_run") return (await q("catalogue", { select: "last_run", license: "eq.public", order: "last_run.desc.nullslast", limit: "1" }))[0].last_run;
+    // session 149: the home page counts the tables a visitor may see: public, and not held for a page in review
+    // (in_live_set "review": lib/data.ts catalogue(), session 102's review_hold). The check asks Supabase the same
+    // question; until now it counted every public row, so it read 113 tables where the page, rightly, showed 97.
+    const SEEN = { license: "eq.public", in_live_set: "neq.review" };
+    if (p[1] === "count") return q("catalogue", { select: "table_name", ...SEEN }, true);
+    if (p[1] === "n_pass") return q("catalogue", { select: "table_name", ...SEEN, validator_status: "eq.pass" }, true);
+    if (p[1] === "sum_n_rows") return (await all("catalogue", { select: "n_rows", ...SEEN })).reduce((a, r) => a + Number(r.n_rows), 0);
+    if (p[1] === "max_last_run") return (await q("catalogue", { select: "last_run", ...SEEN, order: "last_run.desc.nullslast", limit: "1" }))[0].last_run;
     return (await q("catalogue", { select: "n_rows", table_name: `eq.${p[1]}` }))[0]?.n_rows;
   }
   if (p[0] === "latest_prices") {
@@ -271,7 +275,9 @@ async function truth(check) {
     const m = rows.filter((r) => String(r.event_date).slice(0, 7) === month);
     if (what === "month_count") return m.length;
     if (what === "month_mw") return m.reduce((a, r) => a + (r.mw === null ? 0 : Number(r.mw)), 0);
-    if (what === "month_ai_pct") return m.length ? Math.round((100 * m.filter((r) => r.ai === "true").length) / m.length) : null;
+    // session 149: energy_deals writes the tag as "True" (rows extracted to 3 October 2026) and as "true" (since): one
+    // flag, two spellings. The page has read both since session 114; the check read only "true" and so undercounted.
+    if (what === "month_ai_pct") return m.length ? Math.round((100 * m.filter((r) => String(r.ai ?? "").toLowerCase() === "true").length) / m.length) : null;
   }
   if (p[0] === "event") {
     const [, table, id, field] = p;
