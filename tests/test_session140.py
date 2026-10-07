@@ -198,18 +198,23 @@ class Rule(unittest.TestCase):
 
 class Page(unittest.TestCase):
     def test_new_yorks_load_in_line_is_nyisos_own_list(self):
+        # Session 149 (the owner's ruling of 7 October 2026: the rows are shown only if NYISO's terms allow it; by
+        # their words they do not). Until then this test read the 53 requests in line from the page's file. The file
+        # now holds no request, zone or megawatt; the sums over NYISO's list are tested on the saved cut
+        # (tests/test_session140_loadqueue.py), and the page keeps its code behind the connector's switch.
         q = json.loads(src("site", "data", "nyiso_load_queue.json"))
-        in_line = [r for r in q["rows"] if r["in_line"]]
-        self.assertEqual((len(in_line), q["total"]["requests"]), (53, 53))
-        self.assertAlmostEqual(sum(r["mw"] for r in in_line), q["total"]["mw"], places=6)
-        self.assertAlmostEqual(sum(z["mw"] for z in q["zones"]), q["total"]["mw"], places=6)
-        self.assertFalse([r for r in in_line if re.search(r"withdrawn|in service", r["status"], re.I)])
-        self.assertEqual(len(q["zones"]), 11)
+        self.assertIs(q["shown"], False)
+        self.assertEqual(q["license"], "internal")
+        self.assertEqual(q["words"], "NYISO's terms do not allow it")
+        for gone in ("rows", "zones", "total", "not_in_line", "nyiso_summary", "checks", "all_requests_on_sheet"):
+            self.assertNotIn(gone, q, gone)
+        self.assertNotIn("MW", json.dumps({k: v for k, v in q.items() if k != "source"}))
         page = src("site", "app", "cost-of-power", "page.tsx")
         self.assertIn('import nyLoadJson from "@/data/nyiso_load_queue.json"', page)
-        self.assertIn("NYLOAD.rows.filter((r) => r.in_line)", page)
+        self.assertIn("NYLOAD.rows.filter((r) => r.in_line)", page)   # kept, behind the switch
+        self.assertIn('x.grid === "nyiso" && NY_SHOWN ?', page)
+        self.assertIn("NY_SHOWN ? <NyLoadCell", page)
         self.assertNotIn("developer", page.lower())   # no request's developer is shown
-        self.assertNotIn("developer", json.dumps(q["rows"]).lower())
 
     def test_the_loads_own_hours_against_clean_generation(self):
         page = src("site", "app", "cost-of-power", "page.tsx")

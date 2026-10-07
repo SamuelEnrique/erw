@@ -35,7 +35,7 @@ export const FACE: Record<string, { whose: "operator" | "estimate" | "none"; lin
   caiso: { whose: "operator", line: "CAISO's own figure: the wind and solar energy its market or its operators turned down." },
   spp: { whose: "operator", line: "SPP's own figure: the wind and solar energy curtailed in its balancing authority area. The share is the ERW's, on EIA's hourly output." },
   ercot: { whose: "estimate", line: "The ERW's estimate: output below the limit the plants reported they could sustain. ERCOT publishes no curtailment figure." },
-  isone: { whose: "operator", line: "ISO-NE's own figure, by month only: the undelivered energy of its dispatchable wind and solar plants. Not yet in the ERW." },
+  isone: { whose: "operator", line: "ISO-NE's own figure, by month only: the undelivered energy of its dispatchable wind and solar plants. Held, not shown." },
   nyiso: { whose: "operator", line: "NYISO prints a monthly figure in a report, as a document and not as data. Not in the ERW." },
   miso: { whose: "none", line: "Paused while terms are reviewed." },
   pjm: { whose: "none", line: "Licensed source needed." },
