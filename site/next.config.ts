@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
+      // session 145: one tool, one page, one address. What a generator earns is /cost-of-power/seller; its second version
+      // is folded into it and its address redirects there (a query is carried over)
+      { source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true },
       // session 133: one tool, one page, one address. The energy mix is /mix; its second version and the two pages beside
       // it are views of that page now, and their addresses redirect to the view each became (a query is carried over)
       { source: "/mix/v2", destination: "/mix?view=day", permanent: true },

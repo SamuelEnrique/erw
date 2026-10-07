@@ -19,6 +19,7 @@ export const RELEASE: Record<string, Status> = {
   "/cost-of-power/battery": "live",
   "/cost-of-power/battery/awards": "review",  // session 115: what Texas's storage resources were awarded day-ahead; without its own line it would take the live battery page's status
   "/cost-of-power/seller": "review",
+  // session 145: /cost-of-power/seller/v2 is retired and redirects to /cost-of-power/seller (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/cost-of-power/seller/v2": "review",  // session 107: version 2 of the seller's tab; without its own line it would take the live tab's status
   "/network": "live",
   "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace); without its own line it would take /network's status

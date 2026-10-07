@@ -7,6 +7,8 @@ import { caisoJoinDay } from "@/lib/caisoJoin";  // session 78: the join's date 
 import { HEAT_RATE, VOM, type Snapshot } from "@/lib/merchant";
 import { ASSETS, GRIDS, PAUSED, choiceOf, href, monthName, monthsOf, sentence, spans, usd, whole, years, type Span } from "@/lib/seller2";
 
+// Session 145: retired and kept unrouted, as it stood. /cost-of-power/seller/v2 redirects to /cost-of-power/seller
+// (next.config.ts), which holds everything this page showed.
 // Session 107: the seller's tab, version 2, in the battery page's layout and its framing: the last twelve months
 // first, the long-run averages beside them and labeled as long-run averages. Solar, wind and the gas peaker, from the
 // live tab's own model and snapshot (lib/merchant.ts, data/merchant_snapshot.json): no figure here is computed another

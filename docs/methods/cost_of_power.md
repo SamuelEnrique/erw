@@ -235,7 +235,7 @@ A large load's delivered cost is therefore above the hub price. EIA's retail pri
   - Trailing-twelve-month coverage is twelve consecutive held months over the annual debt service.
   - Months and windows under 1.0x and 1.25x are counted and flagged.
 
-**Merchant only, and labelled so:** no PPA, hedge, capacity payment or ancillary service. Real assets are rarely fully merchant, because lenders size debt on contracted cash flows. The page's "How a lender should read this" lists the rest:
+**Merchant only, and labelled so:** no PPA, hedge, capacity payment or ancillary service. Real assets are rarely fully merchant, because lenders size debt on contracted cash flows. The list "How a lender should read the page" stood on the page until session 145 and stands in full in that session's section below; in short:
 - the battery is an upper bound;
 - the fleet is not a site;
 - the hub is not the node;
@@ -253,3 +253,94 @@ Recomputed from the source files, not through the builder:
 | One battery day, 2023-08-10, 2 hours | the DP equals brute force over every action sequence of the day's 12 evening hours (5,195.4751 USD/MW, equal to a ten-thousandth of a dollar: the DP keys each state to 1e-9 MWh). The full day's plan charges at 04:00, 08:00 and 09:00 and discharges at 15:00 and 16:00, Central time; replayed by hand it earns its value, 5,676.3210 USD/MW, within one cycle |
 
 The snapshot equals the table for every asset, month and metric.
+
+## Session 145: one page, the capture price, a contract and a hybrid
+
+`/cost-of-power/seller` is one page in the battery page's layout. It holds everything the seller's tab (session 51) and its version 2 (session 107) showed; `/cost-of-power/seller/v2` redirects to it and carries its query. The two retired pages are kept, unrouted, under `site/app/_retired/`. The page face carries no method: every definition, assumption and limit is in this note, and a figure that is missing is a short placeholder with its reason on hover.
+
+- **The builder of the new figures:** `warehouse/derived/capture_price.py`, which writes `site/data/seller/capture.json`. No warehouse table is written and no request is made.
+- **The page's arithmetic for them:** `site/lib/capture.ts` (no imports), shared with `site/scripts/check-seller.mjs` and `site/scripts/test-capture.mjs`.
+- **The model of sessions 51 and 107 is unchanged:** `site/lib/merchant.ts` and `site/lib/seller2.ts` on `site/data/merchant_snapshot.json`, with the same check keys (`mr|<inputs>|<stat>`).
+
+### What left the page face and stands here
+
+**Merchant only.** No power purchase agreement, hedge, capacity payment or ancillary service: the asset sells every MWh at the hub's real-time price. Real projects are rarely fully merchant, because lenders size debt on contracted cash flows; the page shows what is left when the contract is gone, or what an uncontracted tail earns.
+
+**How a lender should read the page:**
+- **Size on the bad months, not the average.** The 10th-percentile month and the worst three are what debt must survive; the trailing-twelve-month coverage shows whether a bad stretch outlasts a year.
+- **The battery is an upper bound.** It knows each day's prices in advance; a real one captures a fraction of this. The peaker runs on perfect hourly information too, with no start costs.
+- **Solar and wind are the fleet, not your site.** Hourly output per MW is the whole balancing authority's, so a single site's curtailment, congestion and node price are not here, and new capacity listed late in EIA-860M inflates the early hours of a new fleet.
+- **The hub, not your node.** A plant is paid its own node's price; the gap to the hub (basis) can be large and negative exactly in the windy, sunny hours.
+- **Gas is Henry Hub.** A peaker in New England or New York pays a delivered gas price that spikes in winter; Henry Hub understates it there, so the peaker's margin is overstated.
+- **The few months outside ERCOT.** The other hubs' prices start in September 2024: about two years is a short sample of weather and gas, not a distribution.
+
+**The stress days.** Revenue on the local days of each event (`event_window_daily`'s window) against the same event's baseline days, the same days or weekdays of earlier years. A normal week is seven times the mean of the baseline days. A merchant asset's best days are the grid's worst: what it earns in a storm depends on being available in it, which the model assumes (no outage, no frozen equipment, no fuel shortage).
+
+**The spans (session 107).** The last twelve months are the newest twelve held in a row, so they overlap the newest full year where one is held. A long-run average is the sum over its full calendar years divided by their number; a year with a month missing is in none. A month is held when at least 90 percent of its hours are (a battery: its days). Figures are per kW of nameplate, before any cost but the peaker's fuel: no fixed cost, debt, tax or contract. With fewer than three full years held, one unusual season moves every figure. On the chart an incomplete year is pale: it holds fewer than twelve months and is in no long-run average. The battery joined the spans in session 145: energy alone, priced as the reader's battery, the model's 4-hour battery by default.
+
+**What the model does not tell you.** What a plant with a contract earns (most solar and wind is sold under one, not at the hub); what your site earns (this is a fleet's output at a hub's price); whether it pays (no cost is taken off but the peaker's fuel, outside the debt coverage, which takes fixed O&M and the debt payments the reader gives); next year.
+
+**The monthly chart.** A month in cardinal earned less than one month of debt payments (the dashed line, the annual debt payments over twelve). A grey month holds less than 90 percent of its hours (a battery: days) and is shown, not counted.
+
+**MISO and PJM.** MISO is blank, "paused while terms are reviewed": its pulls are paused since 4 October 2026 and its terms forbid automated access and derivative works (`docs/methods/miso_pause.md`). The seller's tab showed MISO's Indiana Hub until session 145; the snapshot and the table still hold it, and the page shows none of it. An address that names MISO opens ERCOT. PJM reads "licensed source needed": no PJM hub or zone price is held in a public table.
+
+### (a) The capture price
+
+For a hub or zone, a fuel (solar, wind) and a market (real time, day-ahead), over a span of hours:
+
+| Figure | Definition |
+|---|---|
+| Generation-weighted price | sum(price x generation) / sum(generation), USD per MWh |
+| Flat average | sum(price) / hours, over the same hours |
+| Premium or discount | the first less the second, in USD per MWh, and as a percent of the flat average |
+
+- **The hours** are those in which both the price and the fuel's generation are held.
+- **The price** is every public hub and zone price held, read by `price_compare.read_prices`: an hour of real time is the mean of its four 15-minute prices and is held only when all four are; where a real-time price is held two ways (ISO-NE), the one that holds more hours is used whole. Real time is shown first where a hub holds twelve months of it, with day-ahead beside it; where only day-ahead holds twelve months (New York City, the ISO-NE Internal hub, ERCOT's four non-competitive load zones), day-ahead is shown first, and each figure says which market it is.
+- **The tables read:** `iso_hub_prices_history`, `ercot_all_hub_prices_history`, `iso_dam_hub_prices`, `iso_rtm_hub_prices`, the ISO-NE and NYISO zone tables, and the two histories of session 140 when they are on the machine (`ercot_zone_prices_history` was; `iso_zone_prices_history` was not on 7 October 2026, so the New York and New England zones, SPP South and ZP26 hold weeks and read "not held yet"). A table marked internal in `coverage.csv`, or absent from it and without "License: public" in its own header, is not read.
+- **The generation** is the grid's whole fleet by hour: the hours of `mix_profile.hours_of`, which are EIA-930's hourly net generation by source from 2019, and for California from 16 December 2025 CAISO's own supply by fuel (the warehouse's one join, `docs/methods/eia930_caiso_break.md`). **It is the fleet's shape, not a site's:** a plant with trackers, a different wind regime, a curtailment order or a different node will differ. California's last twelve months and December 2025 hold both sources, EIA's hours before the join and CAISO's from it.
+- **Which hours of generation count:** those in which the fuel's own value is not blank. The mix's test of a whole hour (do all the sources add up to the total) is not applied, because it asks about every source: in Texas from 6 to 14 December 2025 it fails because EIA's "other" repeats the batteries' output, while solar and wind stand as reported. With that test December 2025 would hold 87 percent of its hours and Texas would have no twelve months to September 2026. Hours used that fail it: ERCOT 49, NYISO 37, ISO-NE 20, SPP 197, CAISO 7,912 (7,904 of them the hydro gap of 2019 and 2020, before any California price is held).
+- **Generation below zero** (a plant's own use at night; California's solar in 27,885 hours) weighs nothing, and the hour stays in the flat average.
+- **A month counts** when the hours with both are at least 95 percent of the month's hours, in the grid's local time. **The last twelve months** are the newest counted month and the eleven before it, when all twelve count. **A year** is whole with twelve counted months; otherwise it is marked partial and holds its counted months only. A month under 95 percent is in no figure: nothing is filled or scaled up.
+- **New York's solar:** EIA-930 itemizes no solar generation for New York (every hour is zero), so there is no generation to weigh a price by and no figure.
+
+**Why this figure and the model's capture price differ.** The model's capture price (the spans table, the months table) is monthly, at the main hub, and weighs each hour by the fleet's output per MW of nameplate installed that month (EIA-860M); the new figure weighs by the generation itself, at every hub. A fleet that grows within the span weighs its later months more in the new figure. The model counts a month at 90 percent of its hours and reads California from EIA throughout; the new figure counts a month at 95 percent and reads California from CAISO after the join. At the main hubs the two are close: ERCOT solar over October 2025 to September 2026, 23.20 by the model and 23.27 by generation; CAISO SP15 solar, 13.83 and 13.86.
+
+**The figures on 7 October 2026**, last twelve months (October 2025 to September 2026), USD per MWh received against the flat average:
+
+| Main hub | Market | Solar | Wind |
+|---|---|---|---|
+| ERCOT, hub average | real time | 23.27 against 32.17: -8.90 (-27.7 percent) | 27.60: -4.57 (-14.2 percent) |
+| CAISO, SP15 | real time | 13.86 against 28.53: -14.66 (-51.4 percent) | 25.88: -2.65 (-9.3 percent) |
+| NYISO, New York City | day-ahead | no solar itemized | 77.93 against 73.10: +4.83 (+6.6 percent) |
+| ISO-NE, Internal hub | day-ahead | 55.93 against 74.19: -18.26 (-24.6 percent) | 76.25: +2.06 (+2.8 percent) |
+| SPP, North hub | real time | 41.21 against 30.79: +10.42 (+33.8 percent) | 25.05: -5.75 (-18.7 percent) |
+
+63 of the 156 hub, market and fuel series hold twelve months. The widest solar discount in dollars is ERCOT's West load zone in real time (19.98 against 35.24: -15.26, -43.3 percent) and in percent CAISO's SP15; the widest solar premium is SPP's North hub. The widest wind discount is ERCOT's West hub in real time (23.86 against 30.63: -6.76, -22.1 percent); no hub pays wind a real-time premium, and New York City pays the widest day-ahead one.
+
+### (b) Your contract
+
+A contracted share of the energy (percent) and a price (USD per MWh), typed in the browser: the state of one component, in no form, with no field name, never in the address, a request, storage or a log. The arithmetic is the datacenter page's (`lib/datacenter.ts`, `contractResult`), which is the battery page's: the contracted share at the typed price, the rest at the market's figure for the same twelve months.
+
+- **The energy** is the model's output per MW of nameplate over the capture price's last twelve months, times the reader's MW.
+- **The market's figure** is the generation-weighted price at the hub chosen, in the market shown first.
+- **Revenue without the contract** is therefore the energy times that price. At the main hub it differs slightly from the model's twelve-month revenue, by the difference in weights described above.
+- **Solar and wind only.** A gas peaker runs only when the price is above its cost and a battery buys as well as sells, so a share of their energy at a fixed price is not this arithmetic; the battery page has a contract per kW-month.
+- **Not in it:** the contract's settlement point and basis, shape or hourly settlement terms, curtailment and negative-price clauses, credit and collateral, and renewable energy certificates.
+
+### (c) A solar plant with a battery beside it
+
+For ERCOT and CAISO, the two grids the battery page's model is open for:
+
+- **The battery alone** is the battery page's own figure for that size, duration (2, 4 or 8 hours) and strategy: its last twelve months from `battery_stack_monthly`, by `lib/batterystack.ts` (`stat`, `l12:total`), read with the battery page's own query. Energy and ancillary services, split hour by hour. Every limit of that model applies (`docs/methods/battery_stack.md`): with perfect foresight it is an upper bound.
+- **The solar plant alone** is the model's revenue per MW over the same twelve months, at the main hub, where both models are priced.
+- **Combined** is the two revenues added, and nothing else: two assets at one hub, each priced as if it stood alone. There is no shared interconnection limit, the battery does not charge from the plant's own output, no clipped or curtailed energy is recovered, and no tax credit rule is applied. The battery page's model does none of these either. A real hybrid behind one interconnection earns less than this sum when its limit binds and may earn more where it recovers energy the plant would have lost.
+- **Per MW:** each asset per MW of itself; the combined figure per MW of the solar plant.
+- **Other grids:** NYISO's and SPP's battery models are in review and ISO-NE's reserve prices need a license, so the section reads "not modeled for this grid".
+
+### (d) Where free energy is
+
+The page links to `/curtailment?grid=<grid>&place=<hub id>#free-energy` for the hub chosen (session 144's section).
+
+### Tests and checks (session 145)
+
+`tests/test_session145.py` and `site/scripts/test-capture.mjs`, on a saved real week (`tests/fixtures/session145/`: the price rows of ERCOT's West hub for the week from 1 June 2026 and the grid's solar and wind generation of the same hours): the generation-weighted price by hand; a plant that generates the same in every hour captures the flat average exactly; the premium in dollars and in percent agree; a month under 95 percent writes no figure; MISO has no number; the contract arithmetic equals the battery page's; the combined figure is the sum of its two parts. `site/scripts/check-seller.mjs` reads the built page as HTML and in a real browser.
