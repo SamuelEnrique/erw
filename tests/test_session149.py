@@ -129,5 +129,111 @@ class NoPersonalAddressInAContact(unittest.TestCase):
                                   "send exactly %r" % CONTACT)
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# 2. The daily run's failed steps (run 37633030030 of 7 October 2026, and every run from 2 or 4 October).
+#    grid_network: the raw folder of the interchange connector holds the data lock's own check, whose whole answer
+#    is the JSON value true; read as an EIA page it raised AttributeError. build_status: the interchange connector's
+#    gap row names no day (its market is "pairs") and its table has two columns of its own, which read_series refuses.
+# ---------------------------------------------------------------------------------------------------------------
+import json
+import tempfile
+from unittest import mock
+
+
+def src(*parts):
+    with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
+        return f.read()
+
+
+class TheNetworkBuildPassesOverAnAnswerThatIsNotAPage(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        for d in ("connectors", "derived"):
+            p = os.path.join(ROOT, "warehouse", d)
+            if p not in sys.path:
+                sys.path.insert(0, p)
+        try:
+            import grid_network
+        except ImportError as exc:  # a machine without pandas
+            raise unittest.SkipTest("grid_network cannot be imported here: %s" % exc)
+        cls.gn = grid_network
+
+    def raw(self, files):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        run = os.path.join(tmp.name, "eia930_interchange", "20261007T142035Z")
+        os.makedirs(run)
+        for name, text in files.items():
+            with open(os.path.join(run, name), "w", encoding="utf-8") as f:
+                f.write(text)
+        return tmp.name
+
+    def test_the_lock_check_saved_beside_the_pages_does_not_stop_the_build(self):
+        # the file the runner holds: 20261007T142059.123456Z_00009_erw_lock_check, four bytes
+        page = {"response": {"total": 1, "data": [
+            {"period": "2026-10-05T01", "fromba": "ERCO", "fromba-name": "Electric Reliability Council of Texas, Inc.",
+             "toba": "SWPP", "toba-name": "Southwest Power Pool", "value": "-55"}]}}
+        root = self.raw({
+            "20261007T142040.000001Z_00001_data_frequency_hourly": json.dumps(page),
+            "20261007T142059.000001Z_00009_erw_lock_check": "true",
+            "20261007T142059.000002Z_00010_erw_lock_renew": "false",
+            "20261007T142059.000003Z_00011_a_list": "[1, 2]",
+            "20261007T142059.000004Z_00012_a_number": "3",
+            "20261007T142059.000005Z_00013_response_true": json.dumps({"response": True}),
+            "20261007T142059.000006Z_00014_data_null": json.dumps({"response": {"data": None}}),
+            "20261007T142059.000007Z_00015_rows_not_rows": json.dumps({"response": {"data": [True, "x"]}}),
+            "20261007T142059.000008Z_00016_not_json": "<html>busy</html>",
+            "manifest.csv": "retrieved_at,status,bytes,sha256,last_modified,file,url\n",
+        })
+        with mock.patch.object(self.gn.ip, "RAW_DIR", root):
+            names = self.gn.ba_names()
+        self.assertEqual(names["SWPP"], "Southwest Power Pool")
+        self.assertEqual(names["ERCO"], "Electric Reliability Council of Texas, Inc.")
+
+    def test_the_fault_was_the_bool(self):
+        # what the builder did until session 149, on the same four bytes
+        with self.assertRaises(AttributeError) as c:
+            json.loads("true").get("response", {})
+        self.assertIn("'bool' object has no attribute 'get'", str(c.exception))
+
+
+class StatusListsAGapThatNamesNoDay(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        for d in ("connectors", "metadata"):
+            p = os.path.join(ROOT, "warehouse", d)
+            if p not in sys.path:
+                sys.path.insert(0, p)
+        try:
+            import build_status
+        except ImportError as exc:
+            raise unittest.SkipTest("build_status cannot be imported here: %s" % exc)
+        cls.bs = build_status
+
+    def test_a_day_is_a_calendar_day(self):
+        for good in ("2026-10-06", "2024-02-29"):
+            self.assertTrue(self.bs.is_day(good), good)
+        for bad in ("pairs", "", "2026-10-06..2026-10-07", "2026-13-01", "2026-10-06T00", "20261006", None):
+            self.assertFalse(self.bs.is_day(bad), bad)
+
+    def test_the_interchange_gap_is_not_read_as_a_day(self):
+        # the runner's file: the series columns and the table's own two, which read_series refuses
+        ip = self.bs.ip
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, "eia930_all_interchange.csv"), "w", encoding="utf-8", newline="\n") as f:
+                f.write("# Energy Research Warehouse (ERW): a header line\n" + ",".join(ip.SERIES_COLS + ["ba", "x_to_ba"]) + "\n")
+            with mock.patch.object(ip, "OUT_DIR", tmp):
+                with self.assertRaises(RuntimeError):  # the refusal that failed the step, still the reader's rule
+                    ip.read_series(os.path.join(tmp, "eia930_all_interchange.csv"))
+                self.assertIsNone(self.bs.day_complete("eia930_all_interchange", "pairs"))
+                self.assertIsNone(self.bs.day_complete("eia930_all_interchange", "2026-10-06"))
+
+    def test_the_builder_lists_such_a_gap(self):
+        text = src("warehouse", "metadata", "build_status.py")
+        self.assertIn("if not is_day(g.day):", text)
+        self.assertIn("listed, not re-checked", text)
+
+
+
 if __name__ == "__main__":
     unittest.main()
