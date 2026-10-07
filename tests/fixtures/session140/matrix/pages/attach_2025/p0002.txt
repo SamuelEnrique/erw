@@ -1,0 +1,59 @@
+Attachment A
+Public Utility Commission of Texas Final Matrix
+Docket No. 57491
+2025 Net Wholesale Transmission Matrix Charges for ERCOT
+Parameters
+From ERCOT Filing
+From Annual 2024
+Transmission Owners/Load Entities TCOS Docket No. Access Fee ($/KW) * Average 4CP (KW)
+Luling, City of LULG 12,931.941
+Lyntegar Electric Coop LYEC $788,374 49943 $0.011365 -
+Magic Valley Electric Coop MVEC -
+Mason, City of MASN 5,835.930
+Medina Electric Coop MECX -
+Moulton, City of MULT 2,413.134
+New Braunfels Utilities NWBU $3,512,623 56440 $0.045710 339,700.877
+Oncor Electric Delivery ONC $1,488,366,495 55282 $19.401534 28,908,860.870
+Pedernales Electric Coop - AEP PECX1 6,622.528
+Pedernales Electric Coop PECX2 $40,378,941 57500 $0.482510 1,871,622.213
+Rayburn Country RCEC $60,803,941 55466 $0.792607 1,240,092.241
+Rio Grande Electric Coop RGEC $683,887 50302 $0.009859 -
+Rio Grande Electric Coop 1 RGEC1 74,403.458
+Robstown Utility System, City of CORUS 18,645.971
+San Antonio City Public Service SA-CPST $230,207,965 54035 $3.175706 5,079,225.951
+San Bernard Electric Coop SBEC $0 56639 $0.000000 -
+Sanger, City of SANG 15,233.144
+San Marcos, City of SANM 128,046.587
+San Miguel Electric Coop SMEC $1,422,163 49900 $0.020501 -
+San Saba, City of SNSB 8,971.590
+Schulenburg, City of SCHL 13,423.771
+Seguin, City of SEGN 68,827.476
+Seymour, City of SEYM 7,227.567
+Sharyland Utilities (TDSP) SHRY $39,968,817 51611 $0.563436 -
+Shiner, City of SHNR 7,668.578
+Smithville, City of SMTH 9,251.098
+South Texas Electric Coop STEC $109,536,882 56170 $1.308915 1,631,481.794
+Southwest Rural Electric Association INC (EDSP) SWREA -
+Southwest Texas Electric Coop SWTE $65,961 50201 $0.000951 -
+Taylor Electric Coop TECX -
+Texas Municipal Power Agency TMPA $30,910,381 51439 $0.435470 -
+Texas-New Mexico Power Company TNMP $163,541,527 56860 $1.954246 2,388,443.561
+Tex-La Electric Coop TXLA 167,424.381
+Trinity Valley Electric Coop TVEC $720,727 48828 $0.010713 -
+Waelder, City of WAEL 4,177.675
+Wood County Electric Coop WCEC $134,777 51546 $0.001899 -
+Weatherford, City of WEAT 96,760.455
+Weimer, City of WEIM 7,316.177
+Western Farmers Electric Coop WFEC 789.959
+Whiteboro, City of WHIT 9,384.060
+Wind Energy Transmission Texas, LLC WETT $120,653,774 56602 $1.441757 -
+Yoakum, City of YOKM 18,297.557
+TOTAL $ 5 ,446,864,795 $68.547301 81,042,657
+Total ERCOT Postage Stamp Rate $/KW $68.547301
+Hourly Transmission Rate for the Delivery of Power to be Exported $/KW-hour** $0.007825
+* The charges shown in this matrix only represent charges based upon the approved TCOS Access Fee in effect at the time the Net Payment
+Matrix is developed. TCOS Access Fee(s) approved after this date, and any Rate Case Expense Surcharge(s) or other charges or credits, shall
+be obtained from the Commission approved Final Order in the corresponding Docket.
+** Aggregate charges for the use of the ERCOT transmission system in delivering power to be exported from ERCOT as specified in §25.192(e).
+Docket No. 57491
+Page 2 of 2
