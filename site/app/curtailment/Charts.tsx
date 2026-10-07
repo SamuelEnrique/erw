@@ -44,7 +44,7 @@ export function XY({ id, x, series, unit, unit2, label, height = 280, notes, dim
         } },
       grid: { left: 64, right: two ? 54 : 16, top: 30, bottom: zoom ? 58 : 28 },
       xAxis: { type: "category", data: x, ...st.axis, axisLabel: { ...st.axis.axisLabel, interval: every ?? "auto" }, splitLine: { show: false } },
-      yAxis: [{ type: "value", name: unit, scale: !zero, ...st.axis }, { type: "value", name: unit2 ?? "", show: two, min: 0, ...st.axis, splitLine: { show: false } }],
+      yAxis: [{ type: "value", name: unit, scale: !zero, ...st.axis }, { type: "value", name: unit2 ?? "", show: two, ...st.axis, splitLine: { show: false } }],
       ...(zoom ? { dataZoom: [{ type: "slider", height: 18, bottom: 6, borderColor: token("rule"), textStyle: { color: token("muted"), fontSize: 10 } }, { type: "inside" }] } : {}),
       series: series.map((s) => {
         const kind = s.kind ?? "bar", c = col(s.color);
