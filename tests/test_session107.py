@@ -1,5 +1,9 @@
 """Session 107: the seller's tab, version 2 (/cost-of-power/seller/v2, in review).
 
+Session 145: version 2 is folded into /cost-of-power/seller and its address redirects there. Its page file is kept,
+unrouted, under site/app/_retired/seller-v2; the spans of site/lib/seller2.ts are the one page's now, and the battery
+(energy alone, the model's 4-hour battery) is one of its assets. The tests below read the retired file and the one page.
+
 The spans (the last twelve months, the two long-run averages) recomputed here from the live tab's own snapshot and set
 against site/lib/seller2.ts; the rules of a span on months made for the test; the page in review with its own line in
 the release list; the live tab untouched. No network.
@@ -40,7 +44,11 @@ def by_hand(snap, grid, asset):
     """The three spans from the snapshot, the long way: revenue per kW a year, and the months of the last twelve."""
     s = snap["isos"][grid]
     near = snap["defaults"]["near"]
-    held = {m: r[asset] for m, r in s["months"].items() if asset in r and r[asset]["hours"] / r["him"] >= near - 1e-9}
+    if asset == "battery":   # session 145: the battery is the model's 4-hour battery, held by its days
+        import calendar
+        held = {m: r["battery_4h"] for m, r in s["months"].items() if "battery_4h" in r and r["battery_4h"]["hours"] / calendar.monthrange(int(m[:4]), int(m[5:7]))[1] >= near - 1e-9}
+    else:
+        held = {m: r[asset] for m, r in s["months"].items() if asset in r and r[asset]["hours"] / r["him"] >= near - 1e-9}
     twelve = None
     for m in sorted(held, reverse=True):
         if all(prev(m, k) in held for k in range(12)):
@@ -95,7 +103,7 @@ class TheSpans(unittest.TestCase):
     def test_new_york_has_no_solar_and_says_so(self):
         self.assertEqual(self.got["nyiso|solar"]["held"], 0)
         self.assertIsNone(self.got["nyiso|solar"]["sentence"])
-        page = src("site", "app", "cost-of-power", "seller", "v2", "page.tsx")
+        page = src("site", "app", "_retired", "seller-v2", "page.tsx")
         self.assertIn("so no number is shown", page)
 
     def test_miso_is_not_shown_and_the_page_says_why(self):
@@ -103,7 +111,7 @@ class TheSpans(unittest.TestCase):
         out = node("const b = await import('./lib/seller2.ts'); console.log(JSON.stringify({ g: b.GRIDS.map((x) => x.id), p: b.PAUSED.words, c: b.choiceOf({ iso: 'miso', asset: 'battery' }) }));")
         self.assertEqual(out["g"], ["ercot", "caiso", "nyiso", "spp", "isone"])
         self.assertIn("paused since 4 October 2026", out["p"])
-        self.assertEqual(out["c"], {"grid": "ercot", "asset": "solar"})    # MISO and the battery are not choices of this page
+        self.assertEqual(out["c"], {"grid": "ercot", "asset": "battery"})  # MISO is not a choice of the page; session 145: the battery is
 
 
 class TheRules(unittest.TestCase):
@@ -142,18 +150,24 @@ class ThePage(unittest.TestCase):
         self.assertRegex(rel, r'"/cost-of-power/seller":\s*"review"')            # session 126: the tab itself went to review on 5 October 2026 (the owner's instruction)
         out = node("const r = await import('./lib/release.ts'); console.log(JSON.stringify([r.statusOf('/cost-of-power/seller/v2'), r.statusOf('/cost-of-power/seller/v2?iso=caiso'), r.statusOf('/cost-of-power/seller')]));")
         self.assertEqual(out, ["review", "review", "review"])
-        page = src("site", "app", "cost-of-power", "seller", "v2", "page.tsx")
+        page = src("site", "app", "_retired", "seller-v2", "page.tsx")
         for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "Fold", "SourceLine"):
             self.assertIn(f"<{piece}", page)
         self.assertIn("Last twelve months", page)
         self.assertEqual(page.count("Long-run average, a year"), 2)                # both averages are labeled as long-run averages
         self.assertIn("Incomplete year", page)
+        one = src("site", "app", "cost-of-power", "seller", "page.tsx")   # session 145: the one page holds the same pieces
+        for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "Fold", "SourceLine"):
+            self.assertIn(f"<{piece}", one)
+        self.assertEqual(one.count("Long-run average, a year"), 2)
+        self.assertIn("Incomplete year", one)
+        self.assertIn('{ source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true }', src("site", "next.config.ts"))
         r = subprocess.run(["git", "log", "--format=%s", "-1", "--", "site/app/cost-of-power/seller/page.tsx", "site/lib/merchant.ts", "site/data/merchant_snapshot.json"],
                            cwd=ROOT, capture_output=True, text=True)
         self.assertNotIn("Session 107", r.stdout)
 
     def test_no_em_dash(self):
-        for rel in ("site/lib/seller2.ts", "site/app/cost-of-power/seller/v2/page.tsx", "tests/test_session107.py"):
+        for rel in ("site/lib/seller2.ts", "site/app/_retired/seller-v2/page.tsx", "site/app/cost-of-power/seller/page.tsx", "tests/test_session107.py"):
             self.assertNotIn(chr(0x2014), src(*rel.split("/")), rel)
 
 

@@ -18,8 +18,8 @@ export const AUDIENCES: Audience[] = [
     id: "investors", label: "Investors and lenders", line: "What an asset earns, what power costs and who is buying it.",
     tools: [
       { href: "/cost-of-power/battery", label: "What a battery earns", question: "What did a grid battery earn from energy and reserves, by year and over the last twelve months?" },
-      { href: "/cost-of-power/seller", label: "What a generator earns", question: "What did merchant solar, wind, a battery or a gas peaker earn at the hub, and in its bad months?" },
-      { href: "/cost-of-power/seller/v2", label: "What a generator earns, version 2", question: "The last twelve months of solar, wind and a peaker beside their long-run averages." },
+      // session 145: one tool, one page. Version 2 is folded into /cost-of-power/seller and its address redirects there
+      { href: "/cost-of-power/seller", label: "What a generator earns", question: "What did solar, wind, a battery or a gas peaker earn at the hub, what price did it capture against the flat average, and how were its bad months?" },
       { href: "/board", label: "The price board", question: "Where do power, gas and oil prices stand, and how did they move on the day and the week?" },
       { href: "/prices/compare", label: "Where power is cheap", question: "Which hubs and zones were cheapest over the last twelve months?" },
       { href: "/shoulder", label: "The shoulder hours", question: "How long is the evening stretch batteries are built for, and how much of it does the fleet cover?" },

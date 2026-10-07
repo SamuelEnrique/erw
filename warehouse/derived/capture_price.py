@@ -19,7 +19,7 @@ What a capture price is. For a hub, a fuel (solar, wind) and a market (real time
 
 over the hours in which both the price and the fuel's generation are held. The generation is the grid's whole fleet
 (the hours of warehouse/derived/mix_profile.py, hours_of: EIA-930's hourly net generation by source, and for
-California from 16 December 2025 CAISO's own supply by fuel), so the shape is the fleet's and not a site's. An hour of
+California from the join CAISO's own supply by fuel: caiso_join.JOIN), so the shape is the fleet's and not a site's. An hour of
 generation is held when the fuel's own value is not blank. The mix's test of a whole hour (do all the sources add up to
 the total) is not applied: it asks about every source, and it fails in Texas from 6 to 14 December 2025 because EIA's
 "other" repeats the batteries' output there, while solar and wind stand as reported; with it, December 2025 would hold
