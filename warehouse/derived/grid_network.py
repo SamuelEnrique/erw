@@ -70,18 +70,9 @@ def ba_names():
             continue
         try:
             with open(f, encoding="utf-8") as fh:
-                doc = json.load(fh)
-            # Session 149: the raw folder holds every answer the connector's process received, not only EIA's pages.
-            # Since the data lock (session 59) that includes the lock's own check, whose whole answer is the JSON
-            # value true: read as a page it raised AttributeError ("'bool' object has no attribute 'get'") and the
-            # daily build failed on every run from 4 October 2026. An answer that is not an EIA page is passed over.
-            resp = doc.get("response") if isinstance(doc, dict) else None
-            data = resp.get("data") if isinstance(resp, dict) else None
-            for r in data if isinstance(data, list) else []:
-                if not isinstance(r, dict):
-                    continue
-                names[r["fromba"]] = r.get("fromba-name") or names.get(r["fromba"], r["fromba"])
-                names[r["toba"]] = r.get("toba-name") or names.get(r["toba"], r["toba"])
+                for r in json.load(fh).get("response", {}).get("data", []):
+                    names[r["fromba"]] = r.get("fromba-name") or names.get(r["fromba"], r["fromba"])
+                    names[r["toba"]] = r.get("toba-name") or names.get(r["toba"], r["toba"])
         except (ValueError, KeyError, OSError, UnicodeDecodeError):
             continue
     for f in sorted(glob.glob(os.path.join(ip.RAW_DIR, "eia930_interchange", "checkpoints", "*.csv"))):
