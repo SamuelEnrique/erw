@@ -12,6 +12,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import spec from "./spec.json";
 import { runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
+import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
@@ -27,10 +28,22 @@ export type AskResult = {
   /** session 121: seconds from the question to the full answer, and to the model's first reply (the first thing a reader can be shown) */
   seconds?: number;
   seconds_first?: number | null;
+  /** session 143: the milliseconds of each stage (planning, fetching, drawing, writing, other), which sum to total; the
+   * steps they are summed from; and the seconds to the answer's words. For the evaluation and the log, never the page */
+  stages_ms?: StageMs;
+  steps?: Step[];
+  seconds_words?: number | null;
 };
 /** Session 121: what a reader can be shown before the answer: the table a tool call has gone to read. */
-export type AskEvent = { type: "reading"; tool: string; table: string | null };
-export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /** session 128: the question's number in the cost ledger */ questionId?: string };
+export type AskEvent = { type: "reading"; tool: string; table: string | null }
+  /** session 143: the answer's words, once its numbers, its form and its premise have passed the check, before the chart, the sources and the questions to ask next; and their withdrawal when the whole draft did not bear them out */
+  | { type: "words"; answer: string; form: string | null; not_in_warehouse: boolean; premise: string }
+  | { type: "withdrawn" };
+export type AskOptions = { history?: unknown; onEvent?: (e: AskEvent) => void; /** session 128: the question's number in the cost ledger */ questionId?: string;
+  /** session 143: when the request arrived (the stages are counted from it), and the steps the route took before the loop */
+  startedAt?: number; before?: Step[];
+  /** session 143, a session's own diagnosis only (scripts/probe-ask-ercot.mjs): asks for the summary of the model's reasoning and hands it over */
+  thinking?: (text: string) => void };
 
 const PRICES = spec.prices as unknown as Record<string, [number, number]>;
 const TOOLS = spec.tools as unknown as Anthropic.Tool[];
@@ -62,6 +75,19 @@ export type Profile = {
   preRead?: string[];
   /** session 137: texts the system prompt carries whose numbers count as given (a written page's years and dates) */
   preSources?: string[];
+  /** session 143: a smaller model for the first turn, the one that decides what to read (lib/chat/ask.ts says when its own answer stands) */
+  planner?: string;
+  /** session 143: "between_tools" asks the writer for its lowest thinking setting */
+  thinking?: string;
+  /** session 143: the tables' summaries, held ready, as a second block of the system prompt ("" when none is ready) */
+  brief?: () => Promise<string>;
+  /** session 143: the reasons the head of a draft (its form, series, premise and answer, before its citations and follow-ups are written) may not be shown yet */
+  early?: (head: Draft, results: ToolRecord[], given: string[]) => string[];
+  /** session 143: the message of the writing turn of the fast path: the question and everything the reading turn fetched */
+  writing?: (opening: string, results: ToolRecord[]) => string;
+  /** session 143: whether a draft's only problems are in its questions to ask next, and the draft with the ones that fail left out */
+  tailOnly?: (problems: string[]) => boolean;
+  mend?: (draft: Draft, results: ToolRecord[]) => Draft;
 };
 
 // ------------------------------------------------------------------ post-check (as ask.py)
@@ -124,14 +150,19 @@ function cost(model: string, u: AskResult["usage"]): number | null {
 
 export async function ask(question: string, today = new Date().toISOString().slice(0, 10), grid: string | null = null,
   profile: Profile | null = null, context: unknown = null, opts: AskOptions = {}): Promise<AskResult & Record<string, unknown>> {
-  const t0 = Date.now();
+  const t0 = opts.startedAt ?? Date.now();
   let secondsFirst: number | null = null;
+  // session 143: every step is timed; the stages sum to the whole (lib/chat/stages.ts)
+  const clock = stageClock(t0);
+  for (const s of opts.before ?? []) clock.add(s.stage, s.what, s.ms);
   // session 121: the cost ledger's rows are written beside the loop and awaited once, before the answer is returned:
   // a row's insert no longer stands between one model call and the next
   const ledger: Promise<void>[] = [];
   const done = async <T extends object>(r: T) => {
     await Promise.allSettled(ledger);
-    return { ...r, seconds: Math.round((Date.now() - t0) / 100) / 10, seconds_first: secondsFirst };
+    const stages_ms = clock.done();
+    return { ...r, seconds: Math.round((Date.now() - t0) / 100) / 10, seconds_first: secondsFirst, stages_ms, steps: clock.steps,
+      seconds_words: clock.wordsMs === null ? null : Math.round(clock.wordsMs / 100) / 10 };
   };
   // session 35: /ask?grid=<slug>: the grid's block after the system prompt, and the tools scoped to its tables and rows
   const scope = profile ? profile.scope : scopeOf(grid);
@@ -143,44 +174,145 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) throw new Error("ANTHROPIC_API_KEY is not set on the server");
   const client = new Anthropic({ apiKey: key });
-  const model = await pickModel(client);
-  const messages: Anthropic.MessageParam[] = [{ role: "user", content: profile ? profile.opening(question, today, context, opts.history) : `Today is ${today} (UTC).\n\nQuestion: ${question}` }];
+  // session 143: the list of models and the tables' summaries are asked for together; a summary that fails is left out
+  const [writer, brief] = await clock.time("other", "models and summaries", () => Promise.all([pickModel(client), profile?.brief ? profile.brief().catch(() => "") : Promise.resolve("")]));
+  if (brief) system.push({ type: "text", text: brief, cache_control: { type: "ephemeral" } });
+  // session 143: the smaller model that plans the reading, when the profile names one that has a price (a call with no
+  // price would close the tool: lib/chat/limits.ts). ASK_PLANNER=off on the server leaves every call to the writer.
+  const named = profile?.planner ? (process.env.ASK_PLANNER || profile.planner) : null;   // ASK_PLANNER names another model for a trial
+  const planner = named === "writer" ? writer : named && named !== "off" && PRICES[named] ? named : null;
+  const opening = profile ? profile.opening(question, today, context, opts.history) : `Today is ${today} (UTC).\n\nQuestion: ${question}`;
+  const messages: Anthropic.MessageParam[] = [{ role: "user", content: opening }];
   const usage = { input: 0, output: 0, cache_write: 0, cache_read: 0, requests: 0 };
+  let spent: number | null = 0; // session 143: the calls of one answer may be two models': each is priced as its own
   // session 137: the date the opening line gives the model counts as given, as the question's own numbers do
   const given: string[] = [question, `Today is ${today} (UTC).`, ...(profile ? profile.extraSources(context, opts.history) : []), ...(profile?.preSources ?? [])];
   const sources: string[] = [...given];
   const records: ToolRecord[] = []; // session 92: every tool result, in order, for a profile's checks and its result
   const tablesRead = new Set<string>([...(profile?.knownTables ? profile.knownTables(opts.history) : []), ...(profile?.preRead ?? [])]);
   // session 137: a profile's own tool is run by the profile; every other name goes to the warehouse's tools as before
-  const runTool = (name: string, input: unknown, sc: Scope) => profile?.ownTool?.(name, input) ?? runWarehouseTool(name, input, sc);
+  // session 143: each tool call's own milliseconds are kept (they overlap within a turn, so the stage is the turn's wall
+  // time). A call already made for this question, with the same arguments, is not made again: the model is told that
+  // its result is above (the tool as it stood asked the same query up to eight times, a model call each)
+  const toolMs: { tool: string; table: string | null; ms: number; args?: unknown; repeat?: boolean }[] = [];
+  const ran = new Set<string>();
+  type Ran = { out: Record<string, unknown>; isError: boolean; repeat?: boolean };
+  const runTool = async (name: string, input: unknown, sc: Scope): Promise<Ran> => {
+    const t = Date.now(), k = profile ? callKey(name, input) : null;
+    const repeat = k !== null && ran.has(k);
+    if (k !== null) ran.add(k);
+    try {
+      if (repeat) return { out: { note: "this exact call was already made for this question and its result is above: answer from it; do not call it again" }, isError: false, repeat: true };
+      return await (profile?.ownTool?.(name, input) ?? runWarehouseTool(name, input, sc));
+    } finally {
+      toolMs.push({ tool: name, table: typeof (input as Record<string, unknown> | null)?.table === "string" ? String((input as Record<string, unknown>).table) : null, ms: Date.now() - t, args: input, ...(repeat ? { repeat: true } : {}) });
+    }
+  };
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
-  let calls = 0, attempts = 0, retried = false;
+  let calls = 0, attempts = 0, retried = false, turn = 0, forceWrite = false, wordsOut = false;
+  const nodash = (t: string) => t.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ");
+  const withdraw = () => { if (wordsOut) { wordsOut = false; clock.wordsReset(); opts.onEvent?.({ type: "withdrawn" }); } };
 
-  for (;;) {
-    const params = {
+  // One model call, read as a stream (session 143). `tools`: whether the call may ask for tools at all (the writing
+  // turn of the fast path may not). `show`: whose words may be shown before the whole draft is in: "any" answer's, only
+  // an answer in "words" (the planner's own), only an "answered" one, or "none". The words are shown when the answer's
+  // string has closed and its numbers, its form and its premise have passed the same checks the whole draft passes
+  // below; the whole draft is still checked when it is in, and words that it does not bear out are taken back.
+  const call = async (model: string, tools: "auto" | "none" | "absent", msgs: Anthropic.MessageParam[], show: "any" | "words" | "answered" | "none", role: "planner" | "writer" = "writer") => {
+    const params: Record<string, unknown> = {
       model,
       max_tokens: spec.max_tokens,
       system,
       tools: profile?.tools ? [...TOOLS, ...profile.tools] : TOOLS,
-      tool_choice: { type: calls < spec.max_tool_calls ? "auto" : "none" },
-      output_config: { effort: profile ? profile.effort : spec.effort, format: { type: "json_schema", schema: profile ? profile.schema : spec.answer_schema } },
+      tool_choice: { type: tools === "auto" ? "auto" : "none" },
+      // a model that takes no effort setting (the planner's) is sent none
+      output_config: { ...(/haiku-4-5/.test(model) ? {} : { effort: process.env.ASK_WRITER_EFFORT || (profile ? profile.effort : spec.effort) }), format: { type: "json_schema", schema: profile ? profile.schema : spec.answer_schema } },
       cache_control: { type: "ephemeral" }, // session 30 (B2): the growing conversation is cached, as in ask.py
-      messages,
+      messages: msgs,
+      ...(opts.thinking ? { thinking: { type: "adaptive", display: "summarized" } } : {}),
+      // the writer's lowest thinking setting, where the profile or the server asks for it and the model takes it
+      ...(!opts.thinking && /sonnet-5-5/.test(model) && (process.env.ASK_THINKING || profile?.thinking) === "between_tools" ? { thinking: { type: "between_tools" } } : {}),
     };
-    const raw = await client.messages
-      .create(params as unknown as Anthropic.MessageCreateParamsNonStreaming)
-      .withResponse();
-    const resp = raw.data as Anthropic.Message;
+    if (tools === "absent") { delete params.tools; delete params.tool_choice; }
+    const tCall = Date.now();
+    let firstText: number | null = null, tried = false, wordsMs: number | null = null;
+    const stream = client.messages.stream(params as unknown as Anthropic.MessageStreamParams);
+    stream.on("text", (_delta, snapshot) => {
+      if (firstText === null) firstText = Date.now() - tCall;
+      if (tried || wordsOut || show === "none" || !profile?.early || !opts.onEvent) return;
+      const head = partialDraft(snapshot);
+      if (!head) return;
+      tried = true; // once a call: the answer's string has closed
+      const words = String(head.answer);
+      if (!words.trim() || (show === "words" && head.form !== "words") || (show === "answered" && head.not_in_warehouse)) return;
+      if (unverified(words, sources).length || profile.early(head as Draft, records, given).length) return;
+      wordsOut = true;
+      wordsMs = Date.now() - tCall;
+      clock.wordsAt();
+      opts.onEvent({ type: "words", answer: nodash(words), form: typeof head.form === "string" ? head.form : null, not_in_warehouse: head.not_in_warehouse === true, premise: typeof head.premise === "string" ? nodash(head.premise.trim()) : "" });
+    });
+    const resp = (await stream.finalMessage()) as Anthropic.Message;
+    const raw = { data: resp, request_id: stream.request_id };
+    if (opts.thinking) opts.thinking(JSON.stringify(resp.content.map((b) => (b.type === "thinking" ? { thinking: b.thinking } : b.type === "text" ? { text: b.text.slice(0, 300) } : b.type === "tool_use" ? { tool_use: b.name } : { type: b.type }))));
     ledger.push(recordCall(model, resp, raw.request_id, profile ? "site_ask_ercot" : "site_ask", opts.questionId)); // session 30: every call into the cost ledger (site_api_calls)
     if (secondsFirst === null) secondsFirst = Math.round((Date.now() - t0) / 100) / 10;
-    usage.input += resp.usage.input_tokens;
-    usage.output += resp.usage.output_tokens;
-    usage.cache_write += resp.usage.cache_creation_input_tokens ?? 0;
-    usage.cache_read += resp.usage.cache_read_input_tokens ?? 0;
-    usage.requests += 1;
+    const u = { input: resp.usage.input_tokens, output: resp.usage.output_tokens, cache_write: resp.usage.cache_creation_input_tokens ?? 0, cache_read: resp.usage.cache_read_input_tokens ?? 0, requests: 1 };
+    usage.input += u.input; usage.output += u.output; usage.cache_write += u.cache_write; usage.cache_read += u.cache_read; usage.requests += 1;
+    const c = cost(model, u);
+    spent = spent === null || c === null ? null : spent + c;
+    return { resp, ms: Date.now() - tCall, note: { model, role, first_text_ms: firstText, words_ms: wordsMs, output_tokens: resp.usage.output_tokens, stop: resp.stop_reason } };
+  };
+  const base = () => ({ model: writer, ...(planner ? { planner } : {}), tool_calls: calls, retried, usage, cost_usd: spent });
+  const textOf = (resp: Anthropic.Message) => resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
+  // The check of a whole draft, as it always was: every number in a tool result, every cited table read, an answer and
+  // a citation, and the profile's own reasons.
+  const check = (draft: Draft) => {
+    const tCheck = Date.now();
+    const bad = unverified(draft.answer, sources);
+    const uncited = draft.citations.map((c) => c.table).filter((t) => !tablesRead.has(t));
+    // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
+    const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
+    const more = profile ? profile.extraProblems(draft, records, given) : [];
+    clock.add("writing", "check", Date.now() - tCheck);
+    const ok = !bad.length && !uncited.length && !noCite && !more.length;
+    return { ok, bad, uncited, noCite, more };
+  };
+  // session 137: what a draft is sent back for goes to the server's log, never to the reader
+  const logCheck = (c: ReturnType<typeof check>, where: string) => console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, where, untraced_numbers: c.bad.slice(0, 12), uncited_tables: c.uncited.slice(0, 6), no_citation: c.noCite, problems: c.more.slice(0, 6) } }));
+  const accept = (draft: Draft) => {
+    // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
+    const answer = nodash(draft.answer);
+    // session 28: each citation's tier is the warehouse's, whatever the model copied
+    const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));
+    const status = draft.not_in_warehouse ? ("not_in_warehouse" as const) : ("answered" as const);
+    const tDraw = Date.now();
+    const drawn = profile ? profile.finish(status, { ...draft, citations }, records) : {};
+    clock.add("drawing", "series", Date.now() - tDraw);
+    return done({ ...draft, answer, citations, status, ...base(), ...drawn });
+  };
+
+  // session 143: a draft whose answer passes every check and whose only fault is in its questions to ask next (a
+  // number in one of them, or too few of them) stands, without the questions that failed: nothing unchecked is shown,
+  // and the reader's answer is not written again for the sake of a suggestion. null: the draft does not stand.
+  const settle = (draft: Draft, where: string) => {
+    const c = check(draft);
+    if (c.ok) return { c, answer: accept(draft) };
+    logCheck(c, where);
+    if (!c.bad.length && !c.uncited.length && !c.noCite && profile?.mend && profile.tailOnly?.(c.more)) return { c, answer: accept(profile.mend(draft, records)) };
+    return { c, answer: null };
+  };
+
+  for (;;) {
+    // session 143: the first turn is the planner's when the profile names one: it decides what to read
+    const planning = planner !== null && turn === 0;
+    turn += 1;
+    const model = planning ? planner : writer;
+    const { resp, ms, note } = await call(model, calls < spec.max_tool_calls && !forceWrite ? "auto" : "none", messages, planning && planner !== writer ? "words" : "any", planning ? "planner" : "writer");
     messages.push({ role: "assistant", content: resp.content });
 
     if (resp.stop_reason === "tool_use") {
+      clock.add("planning", "model", ms, note);
+      withdraw();
       const results: Anthropic.ToolResultBlockParam[] = [];
       // session 121: the tool calls of one model turn are read together, not one after another. Each keeps the ordinal it
       // would have had (0: past the limit), so the result ids are the ones a sequential loop gives
@@ -188,14 +320,20 @@ export async function ask(question: string, today = new Date().toISOString().sli
       const slots = blocks.map(() => (calls < spec.max_tool_calls ? ++calls : 0));
       for (const [i, b] of blocks.entries())
         if (slots[i]) opts.onEvent?.({ type: "reading", tool: b.name, table: typeof (b.input as Record<string, unknown> | null)?.table === "string" ? String((b.input as Record<string, unknown>).table) : null });
+      const tTools = Date.now(), firstTool = toolMs.length;
       const outs = await Promise.all(blocks.map((b, i) => (slots[i] ? runTool(b.name, b.input, scope) : null)));
+      clock.add("fetching", "tools", Date.now() - tTools, { calls: toolMs.slice(firstTool) });
+      let fresh = 0;
       for (const [i, b] of blocks.entries()) {
         let out: Record<string, unknown>, isError: boolean;
         const got = outs[i];
         if (!got) {
           out = { error: `tool call limit (${spec.max_tool_calls}) reached; answer now` };
           isError = true;
+        } else if (got.repeat) {
+          ({ out, isError } = got);          // nothing was read: it is no source and no record
         } else {
+          fresh += 1;
           ({ out, isError } = got);
           if (profile) {
             out = profile.tag(b.name, (b.input ?? {}) as Record<string, unknown>, out, slots[i]);
@@ -219,43 +357,77 @@ export async function ask(question: string, today = new Date().toISOString().sli
         results.push({ type: "tool_result", tool_use_id: b.id, content: JSON.stringify(out), is_error: isError });
       }
       messages.push({ role: "user", content: results });
+      // session 143: a turn that only repeated calls already made has nothing new to read: the next call must write
+      if (profile && blocks.length && fresh === 0) forceWrite = true;
+      // session 143, the fast path: after the planner's one reading turn the writer writes from what was read, in a
+      // call that can ask for no tool, so its words arrive as they are written. A draft that passes the whole check is
+      // the answer. One that does not (the results do not hold what the question needs, a number is untraced, the writer
+      // says "not in the warehouse") is not shown: the loop goes on below as it always did, the writer with its tools.
+      if (planning && profile?.writing && fresh > 0 && process.env.ASK_FAST !== "off") {
+        const asked: Anthropic.MessageParam[] = [{ role: "user", content: profile.writing(opening, records) }];
+        for (let pass = 0; pass < 2; pass++) {
+          const w = await call(writer, "absent", asked, "answered");
+          clock.add("writing", "model", w.ms, { ...w.note, path: pass ? "fast, again" : "fast" });
+          if (w.resp.stop_reason !== "end_turn") break;
+          let draft: Draft | null = null;
+          try { draft = JSON.parse(textOf(w.resp)) as Draft; } catch { draft = null; }
+          // an empty answer is the writer saying the results do not hold what the question needs; "not in the
+          // warehouse" after one reading turn is not taken on trust either: both go to the loop below
+          if (!draft || draft.not_in_warehouse || !draft.answer.trim()) break;
+          const s = settle(draft, pass ? "fast path, again" : "fast path");
+          if (s.answer) return s.answer;
+          withdraw();
+          if (pass) break;
+          // one more writing turn, still with no tool to call, with what failed named: a number that cannot be traced
+          // is taken out here in seconds, where the loop below would read everything again
+          retried = true;
+          const problems: string[] = [];
+          if (s.c.bad.length) problems.push(`numbers in no tool result: ${s.c.bad.join(", ")}`);
+          if (s.c.uncited.length) problems.push(`cited tables no tool read: ${s.c.uncited.join(", ")}`);
+          if (s.c.noCite) problems.push("an empty answer, or no citations");
+          problems.push(...s.c.more);
+          asked.push({ role: "assistant", content: w.resp.content }, { role: "user", content: `${profile.retry.replace("{problems}", problems.join("; "))} No tool can be called in this turn: write only what these results bear out.` });
+        }
+        withdraw();
+      }
       continue;
     }
-    const base = { model, tool_calls: calls, retried, usage, cost_usd: cost(model, usage) };
     if (resp.stop_reason === "refusal") {
-      return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "model_refusal" as const, ...base, ...(profile ? profile.finish("model_refusal", null, records) : {}) });
+      clock.add("writing", "model", ms, note);
+      withdraw();
+      return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "model_refusal" as const, ...base(), ...(profile ? profile.finish("model_refusal", null, records) : {}) });
     }
     if (resp.stop_reason !== "end_turn") throw new Error(`stop_reason ${resp.stop_reason}`);
-    const text = resp.content.map((b) => (b.type === "text" ? b.text : "")).join("");
-    const draft = JSON.parse(text) as Draft;
-    const bad = unverified(draft.answer, sources);
-    const uncited = draft.citations.map((c) => c.table).filter((t) => !tablesRead.has(t));
-    // session 35, as ask.py: an empty or uncited answer is sent back; "not in the warehouse" needs no citation
-    const noCite = !draft.not_in_warehouse && (!draft.citations.length || !draft.answer.trim());
-    const more = profile ? profile.extraProblems(draft, records, given) : [];
-    // session 137: what a draft is sent back for goes to the server's log, never to the reader
-    if (bad.length || uncited.length || noCite || more.length)
-      console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, untraced_numbers: bad.slice(0, 12), uncited_tables: uncited.slice(0, 6), no_citation: noCite, problems: more.slice(0, 6) } }));
-    if (!bad.length && !uncited.length && !noCite && !more.length) {
-      // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
-      const answer = draft.answer.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ");
-      // session 28: each citation's tier is the warehouse's, whatever the model copied
-      const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));
-      const status = draft.not_in_warehouse ? ("not_in_warehouse" as const) : ("answered" as const);
-      return done({ ...draft, answer, citations, status, ...base, ...(profile ? profile.finish(status, { ...draft, citations }, records) : {}) });
+    const draft = JSON.parse(textOf(resp)) as Draft;
+    if (planning && planner !== writer) {
+      // session 143: a planner that is another model than the writer answered without reading. Its answer stands only when it is an answer in words (an
+      // idea from the page's text, or a refusal that says where to look) and passes the whole check; anything else is
+      // set aside unseen and the writer takes the question from the start, as before this session.
+      const c = draft.form === "words" ? check(draft) : null;
+      if (c?.ok) { clock.add("writing", "model", ms, { ...note, path: "planner" }); return accept(draft); }
+      clock.add("planning", "model", ms, { ...note, set_aside: true });
+      if (c) logCheck(c, "planner");
+      withdraw();
+      messages.pop();
+      continue;
     }
+    clock.add("writing", "model", ms, note);
+    const { c, answer: settled } = settle(draft, "loop");
+    if (settled) return settled;
+    withdraw();
     attempts += 1;
     if (attempts === 1) {
       retried = true;
       const problems: string[] = [];
-      if (bad.length) problems.push(`numbers in no tool result: ${bad.join(", ")}`);
-      if (uncited.length) problems.push(`cited tables no tool read: ${uncited.join(", ")}`);
-      if (noCite) problems.push("an empty answer, or no citations");
-      problems.push(...more);
+      if (c.bad.length) problems.push(`numbers in no tool result: ${c.bad.join(", ")}`);
+      if (c.uncited.length) problems.push(`cited tables no tool read: ${c.uncited.join(", ")}`);
+      if (c.noCite) problems.push("an empty answer, or no citations");
+      problems.push(...c.more);
       messages.push({ role: "user", content: (profile ? profile.retry : spec.retry).replace("{problems}", problems.join("; ")) });
+      forceWrite = false; // the retry may read again
       continue;
     }
-    return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base, retried: true,
+    return done({ answer: spec.refusal, citations: [], not_in_warehouse: false, status: "refused_unverified" as const, ...base(), retried: true,
       ...(profile ? profile.finish("refused_unverified", null, records) : {}) });
   }
 }

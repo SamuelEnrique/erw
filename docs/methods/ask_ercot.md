@@ -54,6 +54,49 @@ The last three answers go with the next question, so "and the year before?" is r
 
 The site reads the live set of the warehouse, a part of it. Hub prices are held by day since 2015 (each day's mean, its peak and off-peak means, its lowest and highest price, and its hours below zero and above 200 USD/MWh), and interval by interval for the newest weeks only. A question that needs the single intervals of an older day is answered from the day's figures, and the answer says what they cannot give. The price board and Supply and trade are read as the pages hold them: the newest value of each row, its changes, and its recent points (the last 30 for the board, the last 52 weeks for Supply and trade).
 
+## How long an answer takes
+
+An answer is made in stages. The site records how long each took for every answer, in its own log and in the record of its test questions; none of it is shown on the page.
+
+| Stage | What happens in it |
+|---|---|
+| Planning | The model reads the question and names what to read: which tables, which rows, which sums |
+| Fetching | Those reads are run, all of one turn together |
+| Writing | The model writes the answer from what was read, and its numbers are checked |
+| Drawing | The series under a chart or table is built and set against the rows fetched |
+| Other | The check of the spending ceilings before anything is sent to the model, and the cost record |
+
+The five sum to the whole wait, to the millisecond.
+
+Measured on 7 October 2026 on 78 of the 100 test questions (the spending cap of the session stopped the run before the other 22; they are listed in the session's record and none is counted here). Seconds from the question to what a reader sees, median, with the 90th percentile in brackets. "Before" is the same 78 questions in the record of 6 October.
+
+| The question | Before: the whole answer | Now: the answer's words | Now: the whole answer |
+|---|---|---|---|
+| About an idea (20 questions) | 3.4 (5.4) | 2.3 (3.1) | 3.3 (4.3) |
+| For one figure (19) | 17.1 (24.6) | 6.5 (15.0) | 7.2 (15.1) |
+| How something moved, with a chart (20) | 13.4 (24.8) | 6.3 (21.5) | 7.7 (21.5) |
+| Not answered, with where to look (19) | 3.0 (5.2) | 2.1 (3.6) | 3.1 (4.2) |
+
+77 of the 78 answers passed the rule of their kind, as 77 of the same 78 did before: one that failed before passes now (the year's highest hourly demand, now read from the table of each year's hardest hours) and one that passed before failed (how the batteries charge and discharge across the hours of a day: it answered with daily figures and no chart).
+
+The aims were 5 seconds to the words for a question about numbers and 2 for a question about an idea. Neither is met at the median: 6.4 seconds for numbers (11 of 39 under 5) and 2.3 for ideas (2 of 20 under 2).
+
+What shortened the wait:
+
+- **One reading turn, then one writing turn.** The model names everything it needs at once and the reads run together. It then writes from the results in a turn in which no tool can be called. Before, a question about numbers took six or seven model calls, most of them the same query asked again; now it takes two or three.
+- **No query twice.** A call already made for a question, with the same arguments, is not made again: the model is told its result is above.
+- **A series comes with its own summary.** A result grouped by day, month, year or category carries its lowest and highest row, its first and last, the change between them and its mean, computed by the query. An answer about a movement no longer runs one query a figure.
+- **The tables' dates are held ready.** Each table's first and last date, and for the energy mix's tables their variable names, are read from the warehouse's catalogue and kept for ten minutes, so no question spends a model call finding them. The list says where to look and nothing more: a recent day is still queried before it is called not held, and every number of an answer still comes from a query.
+- **The words first.** The answer's words are shown as soon as they are whole and their numbers, their form and their premise have passed the check: about a second before the sources, the chart or table and the questions to ask next. Nothing is shown in pieces and nothing unchecked is shown. If the whole answer then failed a check the words would be taken back; that did not happen in the 78.
+- **A suggested next question that fails its own check is left out.** The answer stands; before, the whole answer was written again.
+
+What was tried and not kept:
+
+- **A smaller model for the reading turn.** On seven questions it took 2.9 seconds at the median for its turn against 2.8 for the model that writes, so it saved nothing; and it called a tool for a question about an idea, and wrote a refusal without the nearest tables, so those two answers were made twice. The model is the one it was.
+- **The model's lowest setting of thought.** One of seven answers that passed with the usual setting failed with it, and the reading turn was no shorter. The setting is the one it was.
+
+Where the rest of the time goes, for a question about numbers that is read once and written once (29 of the 39): about 2.7 seconds for the reading turn, a fifth of a second for the reads, and 2.2 seconds of the writing turn until the words are whole. The slowest answers are those the first reading did not settle (10 of the 39, from 8 to 44 seconds) and those that read a whole year of hourly rows a thousand at a time (the reserve prices of a year: 13 seconds for one read).
+
 ## Limits
 
 The tool has a spending ceiling for the day and for the month and a number of questions per visitor per day. When one is reached it answers with a plain message and your question is not sent to the model. They are described in [the limits note](/data/methods/ask_limits).
