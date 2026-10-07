@@ -352,8 +352,15 @@ export function along(ramp: Rgb[], t: number): Rgb {
  *  the stops and the maximum are spaced evenly and a value sits in proportion between the two it lies between: the
  *  manifest's stops mark where the layer's values crowd, and the color follows them. */
 export function position(v: number, lg: Legend): number {
-  if (!(lg.max > lg.min)) return 0.5;
-  const knots = [lg.min, ...(lg.stops ?? []).filter((s) => s > lg.min && s < lg.max).sort((a, b) => a - b), lg.max].filter((s, i, a) => i === 0 || s > a[i - 1]);
+  return positionOn(knotsOf(lg), v);
+}
+/** The legend's minimum, stops and maximum in order: made once for a layer, then every value is placed on them. */
+export function knotsOf(lg: Legend): number[] {
+  if (!(lg.max > lg.min)) return [];
+  return [lg.min, ...(lg.stops ?? []).filter((s) => s > lg.min && s < lg.max).sort((a, b) => a - b), lg.max].filter((s, i, a) => i === 0 || s > a[i - 1]);
+}
+export function positionOn(knots: number[], v: number): number {
+  if (knots.length < 2) return 0.5;
   if (v <= knots[0]) return 0;
   for (let i = 1; i < knots.length; i++) if (v <= knots[i]) return (i - 1 + (v - knots[i - 1]) / (knots[i] - knots[i - 1])) / (knots.length - 1);
   return 1;

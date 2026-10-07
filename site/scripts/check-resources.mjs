@@ -309,7 +309,6 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       if (d < bestD && levels.every((v) => storedAt(gridOf(v.file), lon, lat) !== null)) { bestD = d; target = { lon, lat }; }
     }
     if (!target) { console.log(`note: ${l.id}, ${part.extent}: no cell holds a value at every level; it was not probed`); continue; }
-    const before = requests.length;
     await go(`${base}/resources?on=${l.id}&z=6&c=${(target.lon + 0.7).toFixed(4)},${(target.lat - 0.4).toFixed(4)}`);
     await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
     const m0 = await mapData(), k = scaleOf(m0.box, m0.z), want = levelAt(levels, k), key = `${l.id}:${part.extent}`;
@@ -318,10 +317,12 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     const m = await mapData(), [x, y] = pixelOf(m.box, m, target.lon, target.lat), g = gridOf(want.file);
     const h = await hoverAt(x, y), row = h?.rows.find((r) => r.id === l.id);
     const file = valueOf(g, target.lon, target.lat), shown = row && row.value !== "" ? Number(row.value) : null;
-    const others = (l.other_extents ?? []).filter((o) => o !== part).flatMap((o) => (o.levels ?? []).map((v) => stem(v.file)));
-    const asked = requests.slice(before).map((r) => r.url.split("/resources/layer/")[1]).filter(Boolean);
-    check(row && file !== null && shown !== null && Math.abs(shown - file) <= g.scale / 2 + 1e-9 && row.sub.includes(`Cell of ${want.cell_deg} degrees`) && asked.includes(stem(want.file)) && !asked.some((a) => others.includes(a)),
-      `${l.id}, ${part.extent}: its own files are read when the map shows it (${asked.join(", ")}); at ${target.lat.toFixed(4)} N ${(-target.lon).toFixed(4)} W the hover reads ${row?.text ?? "nothing"} and the file holds ${file === null ? "no value" : file}`);
+    // the page's own record of the pyramids it holds a level of (the grid reader works off the page's thread, so
+    // its requests are not among the page's own): this part, and no other part the map does not show
+    const held = Object.keys(JSON.parse(await evaluate(`document.querySelector('[data-map]').dataset.levels || '{}'`)));
+    const others = (l.other_extents ?? []).filter((o) => o !== part).map((o) => `${l.id}:${o.extent}`);
+    check(row && file !== null && shown !== null && Math.abs(shown - file) <= g.scale / 2 + 1e-9 && row.sub.includes(`Cell of ${want.cell_deg} degrees`) && held.includes(key) && !held.some((a) => others.includes(a)),
+      `${l.id}, ${part.extent}: its own files are read when the map shows it, and no other part's (${held.join(", ")}); at ${target.lat.toFixed(4)} N ${(-target.lon).toFixed(4)} W the hover reads ${row?.text ?? "nothing"} and the file holds ${file === null ? "no value" : file}`);
   }
 
   // shapes: the feature under the pointer
@@ -440,7 +441,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
   }
 
   const made = requests.slice(start), off = made.filter((r) => !r.url.startsWith(`${base}/`) && !/^(data|blob|about|chrome|devtools):/.test(r.url));
-  check(made.length > 20 && off.length === 0, `the page asks nothing of any other site: ${made.length} requests while it was open, all to this one${off.length ? ` but ${off.length} (${off[0].url.slice(0, 120)})` : ""}`);
+  check(made.length > 20 && off.length === 0, `the page asks nothing of any other site: ${made.length} requests of its own while it was open, all to this one${off.length ? ` but ${off.length} (${off[0].url.slice(0, 120)})` : ""} (its grid reader, off the page's thread, asks only for the address the page hands it, which tests/test_session146_page.py holds to this site)`);
   check(errors.length === 0, `no script error on the page${errors.length ? `: ${errors[0].slice(0, 200)}` : ""}`);
   return 0;
 }, { width: 1400, height: 1000 });

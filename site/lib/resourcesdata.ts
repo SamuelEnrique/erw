@@ -12,6 +12,7 @@ import type { GeometryCollection, Topology } from "topojson-specification";
 import countiesTopo from "us-atlas/counties-10m.json";
 import mapJson from "@/data/map_v2.json";
 import type { MapFile } from "@/lib/map2";
+import { STATES } from "@/lib/regions";
 import { boxOf, filesOf, inGeometry, stemOf, type Geometry, type Layer, type Manifest } from "@/lib/resources";
 import { HOURLY, rest } from "@/lib/supabase";
 
@@ -88,11 +89,27 @@ function counties(): County[] {
   });
   return COUNTIES;
 }
+// A county by its name and state, for a row whose point the outline does not hold (a county of islands, whose point
+// the simplified outline leaves at sea): the state's code to its name, the name to the outline file's state number.
+let STATE_NUMBER: Map<string, string> | null = null;
+const bare = (s: string) => s.toLowerCase().replace(/\b(county|parish|borough|census area|municipality)\b/g, "").replace(/[^a-z]/g, "");
+function countyNamed(state: string | null, county: string | null): County | null {
+  if (!state || !county) return null;
+  if (!STATE_NUMBER) {
+    const topo = countiesTopo as unknown as Topology<{ states: GeometryCollection<{ name: string }> }>;
+    STATE_NUMBER = new Map(feature(topo, topo.objects.states).features.map((f) => [f.properties.name, String(f.id)]));
+  }
+  const number = STATE_NUMBER.get(STATES[state] ?? "");
+  if (!number) return null;
+  const hits = counties().filter((c) => c.id.startsWith(number) && bare(c.name) === bare(county));
+  return hits.length === 1 ? hits[0] : null;
+}
 const round3 = (c: unknown): unknown => (Array.isArray(c) ? c.map(round3) : typeof c === "number" ? Math.round(c * 1000) / 1000 : c);
 
 /** The interconnection queue's rows of energy_projects in the live set, by county. A row the table places at a county
  *  is counted in the county whose published shape (us-atlas, from the Census Bureau's cartographic boundary files)
- *  holds the table's point for it; the county is what is drawn, never a site. A row with coordinates of its own is a
+ *  holds the table's point for it, or, where the simplified shape leaves that point at sea, in the one county of that
+ *  name in that state; the county is what is drawn, never a site. A row with coordinates of its own is a
  *  point. A row with neither is counted and not drawn. */
 export async function queue() {
   const rows = await rest<QueueRow>("entities", {
@@ -110,7 +127,7 @@ export async function queue() {
     const key = `${r.lon},${r.lat}`;
     if (!byPoint.has(key)) {
       const lon = r.lon, lat = r.lat;
-      byPoint.set(key, counties().find((c) => lon >= c.box[0] && lon <= c.box[2] && lat >= c.box[1] && lat <= c.box[3] && inGeometry(c.geometry, lon, lat)) ?? null);
+      byPoint.set(key, counties().find((c) => lon >= c.box[0] && lon <= c.box[2] && lat >= c.box[1] && lat <= c.box[3] && inGeometry(c.geometry, lon, lat)) ?? countyNamed(r.state, r.county));
     }
     const county = byPoint.get(key);
     if (!county) { noShape += 1; continue; }

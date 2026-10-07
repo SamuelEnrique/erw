@@ -17,7 +17,9 @@ import * as R from "@/lib/resources";
 type GridImg = { grid: R.Grid; canvas: HTMLCanvasElement; cell: number; decimals: number };
 type Feat = { path: Path2D; box: [number, number, number, number]; geometry: R.Geometry; props: Record<string, unknown>; fill: string; stroke: string; line: boolean };
 type Dot = { lon: number; lat: number; props: Record<string, unknown> };
-type Still = { canvas: HTMLCanvasElement; west: number; north: number; perDeg: number };
+/** A still picture of a heavy layer: `image` is what is drawn (the canvas it was painted on, then the browser's own
+ *  bitmap of it once that is made, which it keeps ready to draw). */
+type Still = { image: CanvasImageSource; width: number; height: number; west: number; north: number; perDeg: number };
 type ShapeSet = { feats: Feat[]; dots: Dot[]; kinds: { kind: string; fill: string; stroke: string }[]; fill: string; stroke: string; vertices: number; still: Still | null };
 type PointSet = { columns: string[]; rows: unknown[][]; iName: number; iValue: number; bins: number[][]; colors: string[]; stroke: string; sideDeg: number; still: Still | null; box: [number, number, number, number] };
 type Plants = {
@@ -28,6 +30,8 @@ type Queue = { rows: number; drawn: number; counties: number; not_placed: number
 type Centers = { rows: number; drawn: number; not_placed: number; vintage: string; points: { lon: number; lat: number; id: string; operator: string; site: string; mw: number | null; status: string; state: string; city: string; county: string; prec: string; src: string }[] };
 type HoverRow = { id: string; title: string; text: string; sub: string; value: number | null; feature?: string; empty?: boolean };
 type Hover = { x: number; y: number; w: number; h: number; lon: number; lat: number; rows: HoverRow[] };
+/** The longest of each kind of work so far, in ms: what the frame-time script reads to say where a slow frame came from. */
+type Slow = { moving: number; rest: number; decode: number };
 type Chosen = { on: string[]; fuel: string[] | null };
 
 const NO_VALUE = "no value in the source here";
@@ -79,21 +83,20 @@ function nearLine(g: R.Geometry, lon: number, lat: number, tol: number): boolean
 }
 
 /** A grid as a picture, one pixel a cell, colored along the layer's ramp; an empty cell is clear. */
-function gridImage(file: R.GridFile, layer: R.Layer, ramp: R.Rgb[]): GridImg {
-  const grid = R.decodeGrid(file);
+function gridImage(grid: R.Grid, layer: R.Layer, ramp: R.Rgb[]): GridImg {
   let legend = R.legendOf(layer);
   if (!legend) {   // the manifest gives no range: the file's own lowest and highest stored values
     let lo = 65536, hi = -1;
     for (let i = 0; i < grid.data.length; i++) { const s = grid.data[i]; if (s !== grid.nodata) { if (s < lo) lo = s; if (s > hi) hi = s; } }
     legend = { min: lo * grid.scale + grid.offset, max: hi * grid.scale + grid.offset };
   }
-  const classes = layer.classes ?? null, tones = classes ? R.classTones(classes) : [];
+  const classes = layer.classes ?? null, tones = classes ? R.classTones(classes) : [], knots = R.knotsOf(legend);
   const lut = new Uint32Array(65536);
   for (let s = 0; s < 65536; s++) {
     const v = s * grid.scale + grid.offset;
     const ci = classes ? classes.findIndex((c) => Math.abs(c.value - v) < 1e-9) : -1;
     if (classes && ci < 0) continue;
-    const tone = classes ? tones[ci] : R.position(v, legend);
+    const tone = classes ? tones[ci] : R.positionOn(knots, v);
     const c = tone === null ? ([184, 178, 167] as R.Rgb) : R.along(ramp, tone);
     lut[s] = ((235 << 24) | (c[2] << 16) | (c[1] << 8) | c[0]) >>> 0;
   }
@@ -112,14 +115,16 @@ function gridImage(file: R.GridFile, layer: R.Layer, ramp: R.Rgb[]): GridImg {
 function stillOf(box: [number, number, number, number], paint: (ctx: CanvasRenderingContext2D, k: number) => void): Still | null {
   const spanX = (box[2] - box[0]) * R.KX, spanY = box[3] - box[1];
   if (!(spanX > 0) || !(spanY > 0)) return null;
-  const perDeg = Math.min(60, 3600 / spanX, 2400 / spanY);
+  const perDeg = Math.min(40, 2000 / spanX, 1250 / spanY);
   const canvas = document.createElement("canvas");
   canvas.width = Math.max(1, Math.ceil(spanX * perDeg)); canvas.height = Math.max(1, Math.ceil(spanY * perDeg));
   const ctx = canvas.getContext("2d");
   if (!ctx) return null;
   ctx.setTransform(perDeg, 0, 0, perDeg, -X(box[0]) * perDeg, -Y(box[3]) * perDeg);
   paint(ctx, perDeg);
-  return { canvas, west: box[0], north: box[3], perDeg };
+  const still: Still = { image: canvas, width: canvas.width, height: canvas.height, west: box[0], north: box[3], perDeg };
+  if (typeof createImageBitmap === "function") createImageBitmap(canvas).then((bitmap) => { still.image = bitmap; }).catch(() => { /* the canvas stays the picture */ });
+  return still;
 }
 function paintShapes(ctx: CanvasRenderingContext2D, k: number, set: ShapeSet, view?: [number, number, number, number]): number {
   let n = 0;
@@ -159,12 +164,14 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const store = useRef({
     grids: new Map<string, GridImg>(), shapes: new Map<string, ShapeSet>(), points: new Map<string, PointSet>(), asked: new Set<string>(),
     plants: null as Plants | null, plantIdx: null as Record<string, number[][]> | null, queue: null as (Queue & { set: ShapeSet }) | null, centers: null as Centers | null,
-    drawnGrid: {} as Record<string, GridImg | undefined>, drawn: {} as Record<string, number>, frames: 0,
+    drawnGrid: {} as Record<string, GridImg | undefined>, drawn: {} as Record<string, number>, frames: 0, slow: { moving: 0, rest: 0, decode: 0 } as Slow,
   });
   const live = useRef({ on, fuel, touched: false, ready: false, dragging: false, moving: false });
   const pal = useRef<{ ink: R.Rgb; land: string; sea: string; panel: string; ramp: Record<string, R.Rgb[]>; fuel: Record<string, string> } | null>(null);
   const base = useRef<{ nation: Path2D; states: Path2D } | null>(null);
   const settleRef = useRef<() => void>(() => {}), readRef = useRef<((x: number, y: number) => Hover) | null>(null);
+  // the reader of grid files, off this thread (grid.worker.ts); null where the browser gives none, and the page reads them itself
+  const reader = useRef<{ worker: Worker; next: number; waiting: Map<number, { file: string; ok: (g: R.Grid) => void; no: (e: Error) => void }> } | null>(null);
   const raf = useRef(0), settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null), hoverRaf = useRef(0), lastPointer = useRef<{ x: number; y: number } | null>(null);
 
   const byId = useMemo(() => new Map(layers.map((l) => [l.id, l])), [layers]);
@@ -183,12 +190,21 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     const ctx = cv.getContext("2d");
     if (!ctx) return;
     const { w, h, dpr } = size.current, v = view.current, S = store.current, shown = live.current.on, moving = live.current.moving;
-    const k = R.fitK(w, h) * v.z;
+    const k = R.fitK(w, h) * v.z, began = performance.now();
     const screen = () => ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const world = () => ctx.setTransform(dpr * k, 0, 0, dpr * k, dpr * (w / 2 - X(v.lon) * k), dpr * (h / 2 - Y(v.lat) * k));
     const [west, north] = R.toPlace(v, w, h, 0, 0), [east, south] = R.toPlace(v, w, h, w, h);
     const place = (lon: number, lat: number): [number, number] => [(lon - v.lon) * R.KX * k + w / 2, (v.lat - lat) * k + h / 2];
-    const stillDraw = (s: Still) => { const [x0, y0] = place(s.west, s.north); ctx.imageSmoothingEnabled = true; ctx.drawImage(s.canvas, x0, y0, (s.canvas.width / s.perDeg) * k, (s.canvas.height / s.perDeg) * k); };
+    // a still picture is drawn as a grid is: only the part of it the map shows, so that far zoomed in the browser is
+    // not asked to stretch the whole picture over a surface many screens wide (the first such frame took half a second)
+    const stillDraw = (s: Still) => {
+      const sx0 = Math.max(0, (west - s.west) * R.KX * s.perDeg), sx1 = Math.min(s.width, (east - s.west) * R.KX * s.perDeg);
+      const sy0 = Math.max(0, (s.north - north) * s.perDeg), sy1 = Math.min(s.height, (s.north - south) * s.perDeg);
+      if (sx1 <= sx0 || sy1 <= sy0) return;
+      const [x0, y0] = place(s.west + sx0 / (R.KX * s.perDeg), s.north - sy0 / s.perDeg);
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(s.image, sx0, sy0, sx1 - sx0, sy1 - sy0, x0, y0, ((sx1 - sx0) / s.perDeg) * k, ((sy1 - sy0) / s.perDeg) * k);
+    };
     const drawn: Record<string, number> = {};
     screen();
     ctx.fillStyle = p.sea; ctx.fillRect(0, 0, w, h);
@@ -311,6 +327,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     }
     S.drawn = drawn;
     S.frames += 1;
+    const took = performance.now() - began;
+    if (moving) S.slow.moving = Math.max(S.slow.moving, took); else S.slow.rest = Math.max(S.slow.rest, took);
   }, [byId, pyramids]);
   const redraw = useCallback(() => { if (!raf.current) raf.current = requestAnimationFrame(draw); }, [draw]);
 
@@ -322,6 +340,14 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     const { w, h } = size.current, v = view.current, k = R.fitK(w, h) * v.z;
     const [west, north] = R.toPlace(v, w, h, 0, 0), [east, south] = R.toPlace(v, w, h, w, h);
     const done = (id: string) => { mark(id, "ready"); redraw(); settleRef.current(); };
+    const readGrid = (file: string): Promise<R.Grid> => {
+      const rd = reader.current;
+      if (!rd) return getJson<R.GridFile>(R.layerHref(file)).then((f) => R.decodeGrid(f));
+      return new Promise((ok, no) => { rd.next += 1; rd.waiting.set(rd.next, { file, ok, no }); rd.worker.postMessage({ id: rd.next, url: new URL(R.layerHref(file), window.location.origin).href }); });
+    };
+    const timed = <T,>(work: () => T): T => { const t = performance.now(); const out = work(); S.slow.decode = Math.max(S.slow.decode, performance.now() - t); return out; };
+    // a still picture is drawn once, one pixel of it, when it is made: the browser readies it then, not in the first frame of a drag
+    const warm = (s: Still | null) => { const ctx = canvas.current?.getContext("2d"); if (s && ctx) { ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 0.01; ctx.drawImage(s.image, 0, 0, s.width, s.height, 0, 0, 1, 1); ctx.restore(); } };
     for (const id of ids) {
       const l = byId.get(id);
       if (l && l.kind === "grid") {
@@ -333,7 +359,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           S.asked.add(want.file);
           const none = () => !py.levels.some((x) => S.grids.has(x.file));
           if (main && none()) mark(id, "loading");
-          getJson<R.GridFile>(R.layerHref(want.file)).then((file) => { S.grids.set(want.file, gridImage(file, l, ramp)); if (main) done(id); else { redraw(); settleRef.current(); } })
+          readGrid(want.file).then((grid) => { S.grids.set(want.file, timed(() => gridImage(grid, l, ramp))); if (main) done(id); else { redraw(); settleRef.current(); } })
             .catch((e: Error) => { S.asked.delete(want.file); if (main && none()) mark(id, `not read: ${e.message}`); });
         }
       } else if (l) {
@@ -341,8 +367,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
         if (!file || S.asked.has(file)) continue;
         S.asked.add(file);
         mark(id, "loading");
-        const ramp = p.ramp[R.groupId(l.group)] ?? p.ramp.other, li = groupIndex.get(id) ?? 0, lg = R.legendOf(l);
-        getJson<unknown>(R.layerHref(file)).then((body) => {
+        const ramp = p.ramp[R.groupId(l.group)] ?? p.ramp.other, li = groupIndex.get(id) ?? 0, lg = R.legendOf(l), knots = lg ? R.knotsOf(lg) : [];
+        getJson<unknown>(R.layerHref(file)).then((body) => timed(() => {
           if (l.kind === "points") {
             const f = body as { columns?: string[]; rows?: unknown[][] };
             const columns = f.columns ?? [], find = (re: RegExp, d: number) => { const i = columns.findIndex((c) => re.test(c)); return i < 0 ? d : i; };
@@ -352,7 +378,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
             let bw = Infinity, bs = Infinity, be = -Infinity, bn = -Infinity;
             rows.forEach((r, i) => {
               const val = r[iValue], lon = r[0] as number, lat = r[1] as number;
-              bins[lg && typeof val === "number" ? Math.min(BINS - 1, Math.floor(R.position(val, lg) * BINS)) : 0].push(i);
+              bins[lg && typeof val === "number" ? Math.min(BINS - 1, Math.floor(R.positionOn(knots, val) * BINS)) : 0].push(i);
               bw = Math.min(bw, lon); be = Math.max(be, lon); bs = Math.min(bs, lat); bn = Math.max(bn, lat);
             });
             const sideDeg = typeof l.point_spacing_km === "number" && l.point_spacing_km > 0 ? l.point_spacing_km / 111.2 : 0;
@@ -368,6 +394,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
                   ctx.fillStyle = set.colors[bi]; ctx.fill();
                 }
               });
+              warm(set.still);
             }
             S.points.set(id, set);
           } else {
@@ -389,18 +416,18 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
               const kc = kindColors[seen.indexOf(String(props.kind ?? ""))];
               const val = typeof props.value === "number" ? props.value : null;
               const ci = classes && val !== null ? classes.findIndex((c) => c.value === val) : -1;
-              const tone = ci >= 0 ? tones[ci] : lg && val !== null ? R.position(val, lg) : undefined;
+              const tone = ci >= 0 ? tones[ci] : lg && val !== null ? R.positionOn(knots, val) : undefined;
               const fill = tone === undefined ? kc.fill : tone === null ? "rgba(184,178,167,0.6)" : R.css(R.along(ramp, tone), 0.82);
               const stroke = tone === undefined ? kc.stroke : lg && !classes ? R.css(p.ink, 0.22) : fill;
               set.feats.push({ path, box: bx, geometry: f.geometry, props, line: isLine(f.geometry), fill, stroke });
               bw = Math.min(bw, bx[0]); bs = Math.min(bs, bx[1]); be = Math.max(be, bx[2]); bn = Math.max(bn, bx[3]);
             }
-            if (set.vertices > HEAVY_VERTICES) set.still = stillOf([bw, bs, be, bn], (ctx, kk) => { paintShapes(ctx, kk, set); });
+            if (set.vertices > HEAVY_VERTICES) { set.still = stillOf([bw, bs, be, bn], (ctx, kk) => { paintShapes(ctx, kk, set); }); warm(set.still); }
             S.shapes.set(id, set);
             setKinds((s) => ({ ...s, [id]: set.kinds }));
           }
           done(id);
-        }).catch((e: Error) => { S.asked.delete(file); mark(id, `not read: ${e.message}`); });
+        })).catch((e: Error) => { S.asked.delete(file); mark(id, `not read: ${e.message}`); });
       } else if (id === "plants_operating" || id === "plants_planned") {
         if (S.asked.has("plants")) continue;
         S.asked.add("plants"); mark("plants", "loading");
@@ -428,6 +455,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           if (set.vertices > HEAVY_VERTICES && set.feats.length) {
             const bb = set.feats.reduce((a, f) => [Math.min(a[0], f.box[0]), Math.min(a[1], f.box[1]), Math.max(a[2], f.box[2]), Math.max(a[3], f.box[3])] as [number, number, number, number], [Infinity, Infinity, -Infinity, -Infinity] as [number, number, number, number]);
             set.still = stillOf(bb, (ctx, kk) => { paintShapes(ctx, kk, set); });
+            warm(set.still);
           }
           S.queue = { ...d, set }; setQueue(d); done("queue");
         }).catch((e: Error) => { S.asked.delete("queue"); mark("queue", `not read: ${e.message}`); });
@@ -454,7 +482,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       if (el) {
         el.dataset.z = String(v.z); el.dataset.lon = String(v.lon); el.dataset.lat = String(v.lat);
         el.dataset.w = String(size.current.w); el.dataset.h = String(size.current.h); el.dataset.levels = JSON.stringify(lv);
-        el.dataset.drawn = JSON.stringify(S.drawn); el.dataset.frames = String(S.frames); el.dataset.settled = String(Date.now());
+        el.dataset.drawn = JSON.stringify(S.drawn); el.dataset.frames = String(S.frames); el.dataset.slow = JSON.stringify(S.slow); el.dataset.settled = String(Date.now());
       }
       const lp = lastPointer.current;
       if (lp && !L.dragging && readRef.current) setHover(readRef.current(lp.x, lp.y));
@@ -485,6 +513,23 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     trace(states, mesh(topo, topo.objects.states, (a, b) => a !== b) as R.Geometry);
     base.current = { nation, states };
 
+    try {
+      const worker = new Worker(new URL("./grid.worker.ts", import.meta.url));
+      const waiting = new Map<number, { file: string; ok: (g: R.Grid) => void; no: (e: Error) => void }>();
+      worker.onmessage = (e: MessageEvent<{ id: number; ok: boolean; grid?: R.Grid; error?: string }>) => {
+        const ask = waiting.get(e.data.id);
+        if (!ask) return;
+        waiting.delete(e.data.id);
+        if (e.data.ok && e.data.grid) ask.ok(e.data.grid); else ask.no(new Error(e.data.error ?? "the file was not read"));
+      };
+      worker.onerror = () => {   // the reader did not start: this thread reads what was asked of it, and everything after
+        reader.current = null;
+        for (const ask of waiting.values()) getJson<R.GridFile>(R.layerHref(ask.file)).then((f) => ask.ok(R.decodeGrid(f)), ask.no);
+        waiting.clear();
+      };
+      reader.current = { worker, next: 0, waiting };
+    } catch { reader.current = null; }
+
     const shown = R.parseShown(window.location.search, layers);
     view.current = shown.view;
     live.current.on = shown.on; live.current.fuel = shown.fuel; live.current.ready = true;
@@ -508,7 +553,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       moved(R.zoomAbout(view.current, size.current.w, size.current.h, e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * 0.0015)));
     };
     cv.addEventListener("wheel", wheel, { passive: false });
-    return () => { ro.disconnect(); cv.removeEventListener("wheel", wheel); };
+    return () => { ro.disconnect(); cv.removeEventListener("wheel", wheel); reader.current?.worker.terminate(); reader.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
