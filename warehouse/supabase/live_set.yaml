@@ -121,6 +121,11 @@ full:
   # own copy (site/data/stress/). Under review_hold. (Its hold lines came with session 122's push: the two tables were
   # built in the same hour, the registry row of its source with them, and a held source's tables must be held.)
   - '^grid_stress_yearly$'
+  # session 148: ERCOT's reserve prices by day and by month (derived from ercot_as_prices above; 70,070 and 2,325 rows
+  # on the first build), whole: Ask ERCOT (/ask/ercot, in review) reads them for any span longer than a few weeks, so
+  # that no question reads a year of hourly rows. Under review_hold. The hourly table above stays as it is: the live
+  # battery page reads it, and nothing it reads changes
+  - '^ercot_as_prices_(daily|monthly)$'
 
 # Only rows whose time is within the last `days` days (series: ts_utc). Older rows
 # of these tables are deleted from Supabase on each load, so the window rolls.
@@ -285,6 +290,8 @@ review_hold:
   - ercot_storage_node_basis
   - clean_energy_summary               # session 122, /mix/clean
   - grid_stress_yearly                 # session 123, /mix/stress
+  - ercot_as_prices_daily              # session 148, /ask/ercot
+  - ercot_as_prices_monthly            # session 148, /ask/ercot
 
 # Session 102: sources that serve only tables whose pages are in review, held off /terms (a live page that lists the
 # registry and counts it) until one of those pages opens. Read by the site's build (site/scripts/build-content.mjs);
@@ -303,6 +310,7 @@ sources_hold:
   - ercot:large_load_status_update     # session 106, /datacenters/v2
   - eia930:daily_demand                # session 109, /network/v3's replay
   - erw:ercot_hub_prices_daily         # session 114, /ask/ercot
+  - erw:ercot_as_prices_rollup         # session 148, /ask/ercot (this source row serves only the two rollup tables)
   - ercot:NP3-966-ER                   # session 115, ERCOT's 60-day DAM disclosure (/cost-of-power/battery/awards)
   - erw:ercot_storage_dam_awards       # session 115, /cost-of-power/battery/awards
   - erw:ercot_storage_dam_offers       # session 116, the same page's section on offers

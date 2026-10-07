@@ -87,6 +87,10 @@ restore_before_run:
   # session 144: ERCOT's hourly wind and solar with the high sustained limit. ERCOT lists about seven days; each daily
   # run merges the new hours, so without the table restored its history would begin again every day
   - '^ercot_wind_solar_hsl_hourly$'
+  # session 148: ERCOT's reserve prices by day and by month are rebuilt whole from the hourly table on every run;
+  # restored so that an unchanged day or month keeps its retrieved_at and Supabase is not rewritten daily, and so
+  # that a period the hourly table on a machine holds no hour of keeps its rows
+  - '^ercot_as_prices_(daily|monthly)$'
 
 # Record of the last upload of each table (sha256 of its data rows), used to upload
 # only the tables a run changed. Tracked in git with the other metadata.

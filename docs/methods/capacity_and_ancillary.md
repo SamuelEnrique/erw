@@ -68,6 +68,8 @@ The day-ahead Market Clearing Price for Capacity (MCPC), hourly, from 2018-01-01
 
 **Never filled.** A (service, Central day) is written only when every hour of the day is there: 24, or 23 and 25 at the clock changes. An empty cell is no row. Session 65's run left out no day: 335,972 rows, against a ceiling of 500,000.
 
+**By day and by month.** Since session 148 two derived tables, `ercot_as_prices_daily` and `ercot_as_prices_monthly`, hold each service's mean, lowest and highest price and its count of hours for every Central day and month: `docs/methods/ercot_as_prices_rollup.md`. This table is unchanged.
+
 **License: public.** ERCOT's terms (`https://www.ercot.com/help/terms`, item 5): "raw data provided in public portions of this website may be used, reproduced, and redistributed in compilations, charts, and analyses".
 
 ## CAISO ancillary service prices: `caiso_as_prices`
