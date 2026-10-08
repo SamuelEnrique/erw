@@ -1,0 +1,895 @@
+event_id,agency,action_type,field,held,trial,title
+federalregister:2026-04552,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Li"
+federalregister:2026-10650,FERC,notice,sector_tags,storage,gas;storage,"Egan Hub Storage, LLC; Notice of Availability of the Environmental Assessment for the Proposed Egan Cavern Expansion Pro"
+federalregister:2026-10989,FERC,notice,sector_tags,,gas,"UGI Auburn, LLC, UGI Auburn Gathering, LLC; Notice of Amendment of Application and Establishing Intervention Deadline"
+federalregister:2026-13088,FERC,notice,sector_tags,transmission,gas,"Constitution Pipeline Company, LLC; Iroquois Gas Transmission System, L.P.: Notice of Schedule for the Preparation of an"
+federalregister:2026-03948,FERC,notice,sector_tags,transmission,gas,"Iroquois Gas Transmission System, L.P.; Notice of Petition and Establishing Intervention Deadline"
+federalregister:2026-19447,FERC,notice,sector_tags,,gas,"Cheniere Corpus Christi Pipeline, LP, Corpus Christi Liquefaction Stage IV, LLC, Corpus Christi Liquefaction, LLC; Notic"
+federalregister:2026-08654,FERC,notice,sector_tags,,gas,"Cheniere Corpus Christi Pipeline, L.P; Corpus Christi Liquefaction Stage IV, LLC; Corpus Christi Liquefaction, LLC: Noti"
+federalregister:2025-20403,FERC,notice,sector_tags,,gas,"Trans-Foreland Pipeline Company, LLC; Notice of Request for Extension of Time"
+federalregister:2026-07128,FERC,notice,sector_tags,,gas,"Saguaro Connector Pipeline, LLC; Notice of Request for Extension of Time"
+federalregister:2026-07123,FERC,notice,sector_tags,,gas,"MountainWest Overthrust Pipeline, LLC; Notice of Motion To Vacate Certificate in Part"
+federalregister:2025-19970,FERC,notice,sector_tags,transmission,gas,"WBI Energy Transmission, Inc.; Notice of Request for Extension of Time"
+federalregister:2026-06766,FERC,notice,sector_tags,,gas,"Sabine Pass Liquefaction, LLC; Sabine Pass Liquefaction Stage V, LLC; Sabine Crossing Pipeline, LLC; Cheniere Creole Tra"
+federalregister:2026-19983,FERC,notice,sector_tags,,gas,"Sabine Pass Liquefaction, LLC, Sabine Pass Liquefaction Stage V, LLC, Sabine Crossing Pipeline, LLC, Cheniere Creole Tra"
+federalregister:2026-10397,FERC,notice,sector_tags,,gas,"Venice Gathering System, L.L.C.; Notice of Request for Extension of Time"
+federalregister:2025-20914,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Availability of the Environmental Assessment for the Proposed Sou"
+federalregister:2025-21711,FERC,notice,sector_tags,transmission,gas,Great Basin Gas Transmission Company; Notice of Availability of the Environmental Assessment for the Proposed 2026 Great
+federalregister:2025-24189,FERC,notice,sector_tags,power,power;gas,"Gulf South Pipeline Company, LLC; Notice of Availability of the Environmental Assessment for the Proposed Southeast Comp"
+federalregister:2025-20919,FERC,notice,sector_tags,storage,gas;storage,"Magnum Gas Storage, LLC; Notice of Revised Schedule for Environmental Review of the 2025 Amendment Project"
+federalregister:2026-02873,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request for Extension of Time"
+federalregister:2026-09207,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request for Extension of Time"
+federalregister:2025-23297,FERC,notice,sector_tags,,gas,"Northwest Pipeline, LLC; Notice of Availability of the Environmental Assessment for the Proposed; Wild Trail Project"
+federalregister:2026-14076,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice; Notice of Request of Extension of Time"
+federalregister:2026-01166,FERC,notice,sector_tags,,gas,"TTC Connector, LLC; Notice of Availability of the Environmental Assessment for the Proposed TTC Connector Project"
+federalregister:2025-20704,FERC,notice,sector_tags,,gas,Notice Of Schedule for the Preparation of an Environmental Assessment for the TTC Connector Project
+federalregister:2025-20661,FERC,notice,sector_tags,,gas,"Nueva Era Dos, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Nueva Era Dos Pipeline"
+federalregister:2026-02426,FERC,notice,sector_tags,,gas,"Nueva Era Dos, LLC; Notice of Availability of the Environmental Assessment for the Proposed Nueva Era Dos Pipeline Proje"
+federalregister:2025-20698,FERC,notice,sector_tags,power;transmission;storage,power;gas;storage,"Eastern Gas Transmission and Storage, Inc; Notice of Schedule for the Preparation of an Environmental Assessment for the"
+federalregister:2026-04268,FERC,notice,sector_tags,power;transmission;storage,power;gas;storage,"Eastern Gas Transmission and Storage, Inc.; Notice of Availability of the Environmental Assessment for the Proposed Appa"
+federalregister:2025-21036,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Schedule for the Preparation of an Environmental Assessment for the Danville C"
+federalregister:2026-00407,FERC,notice,sector_tags,,gas,Notice of Amendment to Application and Establishing Intervention Deadline
+federalregister:2025-21029,FERC,notice,sector_tags,,gas,"Pine Prairie Energy Center, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Pine Prai"
+federalregister:2026-01706,FERC,notice,sector_tags,,gas,"Pine Prairie Energy Center, LLC; Notice of Availability of the Environmental Assessment for the Proposed Pine Prairie En"
+federalregister:2025-22783,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Schedule for the Preparation of an Environmental Assessment for the Donaldson "
+federalregister:2025-22942,FERC,notice,sector_tags,power;storage,power;gas;storage,"Rockies Express Pipeline LLC; Cheyenne Connector, LLC; East Cheyenne Gas Storage, LLC; Notice of Schedule for the Prepar"
+federalregister:2026-12637,FERC,notice,sector_tags,power;storage,power;gas;storage,"Rockies Express Pipeline LLC; Cheyenne Connector, LLC; East Cheyenne Gas Storage, LLC; Notice of Scoping Period Requesti"
+federalregister:2026-12623,FERC,notice,sector_tags,power;storage,power;gas;storage,"Rockies Express Pipeline LLC, Cheyenne Connector, LLC, East Cheyenne Gas Storage, LLC; Notice of Revised Schedule for En"
+federalregister:2026-15287,FERC,notice,sector_tags,transmission,gas,"Gulf South Pipeline Company, LLC, Texas Gas Transmission, LLC; Notice of Availability of the Final Environmental Impact "
+federalregister:2026-06635,FERC,notice,sector_tags,transmission,gas,"Gulf South Pipeline Company, LLC, Texas Gas Transmission, LLC; Notice of Availability of the Draft Environmental Impact "
+federalregister:2025-19422,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and P"
+federalregister:2026-05271,FERC,notice,sector_tags,transmission,gas,Great Basin Gas Transmission Company; Notice of Availability of the Environmental Assessment for the Proposed Gabbs Late
+federalregister:2025-20674,FERC,notice,sector_tags,transmission,gas,Great Basin Gas Transmission Company; Notice of Schedule for the Preparation of an Environmental Assessment for the Gabs
+federalregister:2026-11090,FERC,notice,sector_tags,transmission,gas,"Algonquin Gas Transmission, LLC; Notice of Availability of the Environmental Assessment for the Proposed Cape Cod Canal "
+federalregister:2025-22551,FERC,notice,sector_tags,transmission,gas,"Algonquin Gas Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Cape Cod "
+federalregister:2026-06097,FERC,notice,sector_tags,transmission,gas,"Algonquin Gas Transmission, LLC; Notice of Revised Schedule for Environmental Review of the Cape Cod Canal Pipeline Relo"
+federalregister:2026-04757,FERC,notice,sector_tags,,gas,"Equitrans, L.P.; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline"
+federalregister:2026-04871,FERC,notice,sector_tags,,gas,"Venture Global Gator Express, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Prote"
+federalregister:2025-21487,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed P"
+federalregister:2025-23711,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed P"
+federalregister:2026-12853,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Availability of the Environmental Assessment for the Proposed Pulaski Project"
+federalregister:2026-00405,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Pulaski P"
+federalregister:2026-05191,FERC,notice,sector_tags,,gas,"Gulf South Pipeline Company, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-08650,FERC,notice,sector_tags,,gas,"Gulf South Pipeline Company, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed "
+federalregister:2026-05190,FERC,notice,sector_tags,,gas,"Gulf South Pipeline Company, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-12230,FERC,notice,sector_tags,,gas,"Gulf South Pipeline Company, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Petal Ca"
+federalregister:2025-20912,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and P"
+federalregister:2026-05189,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention"
+federalregister:2026-07836,FERC,notice,sector_tags,,gas,Kinder Morgan Louisiana Pipeline LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Propo
+federalregister:2026-10094,FERC,notice,sector_tags,,gas,Kinder Morgan Louisiana Pipeline LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Texa
+federalregister:2026-05704,FERC,notice,sector_tags,,gas,Kinder Morgan Louisiana Pipeline LLC; Notice of Application and Establishing Intervention Deadline
+federalregister:2026-19445,FERC,notice,sector_tags,,gas,Kinder Morgan Louisiana Pipeline LLC; Notice of Availability of the Environmental Assessment for the Proposed Texas Acce
+federalregister:2026-05428,FERC,notice,sector_tags,transmission,gas,Great Lakes Gas Transmission Limited Partnership; Notice of Request Under Blanket Authorization and Establishing Interve
+federalregister:2026-16435,FERC,notice,sector_tags,,gas,"Mountain Valley Pipeline, LLC; Notice of Availability of the Environmental Assessment for the Proposed Mountain Valley P"
+federalregister:2026-00990,FERC,notice,sector_tags,,gas,"Mountain Valley Pipeline, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Mountain Va"
+federalregister:2025-20781,FERC,notice,sector_tags,,gas,"Mountain Valley Pipeline, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed MVP"
+federalregister:2026-12229,FERC,notice,sector_tags,transmission;minerals,gas;minerals,"Texas Eastern Transmission, LP; Notice of Schedule for the Preparation of An Environmental Assessment for the Longwall M"
+federalregister:2026-09811,FERC,notice,sector_tags,transmission;minerals,gas;minerals,"Texas Gas Transmission, LP; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Longwa"
+federalregister:2026-06886,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Application and Establishing Intervention Deadline"
+federalregister:2025-20958,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-07211,FERC,notice,sector_tags,transmission,gas,"WBI Energy Transmission, Inc.; Notice Of Application and Establishing Intervention Deadline"
+federalregister:2026-13086,FERC,notice,sector_tags,transmission,gas,"WBI Energy Transmission, Inc.; Notice of Schedule for the Preparation of an Environmental Assessment for the Line Sectio"
+federalregister:2026-09685,FERC,notice,sector_tags,transmission,gas,"WBI Energy Transmission, Inc.; Notice of Scoping Period Requesting Comments on Environmental Issues and Notice of On-Sit"
+federalregister:2026-00989,FERC,notice,sector_tags,transmission,gas,"Texas Gas Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Carnation Pro"
+federalregister:2025-22235,FERC,notice,sector_tags,transmission,gas,"Texas Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Carna"
+federalregister:2025-20187,FERC,notice,sector_tags,transmission,gas,"Texas Gas Transmission, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-09686,FERC,notice,sector_tags,transmission,gas,"Texas Gas Transmission, LLC; Notice of Availability of the Environmental Assessment for the Proposed Carnation Project"
+federalregister:2026-07325,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2025-23224,FERC,notice,sector_tags,,gas,Leaf River Energy Center LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Leaf
+federalregister:2025-20186,FERC,notice,sector_tags,,gas,"Leaf River Energy Center, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-00988,FERC,notice,sector_tags,,gas,Leaf River Energy Center LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Leaf River C
+federalregister:2026-09922,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed At"
+federalregister:2026-15099,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Schedule for the Preparation of an Environmental Assessment for the Athens Opt"
+federalregister:2026-07542,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Application and Establishing Intervention Deadline"
+federalregister:2025-20185,FERC,notice,sector_tags,,gas,Northwest Pipeline LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline
+federalregister:2026-07447,FERC,notice,sector_tags,transmission,gas,"WBI Energy Transmission, Inc.; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest D"
+federalregister:2026-07657,FERC,notice,sector_tags,,gas,"Scout V Hugoton Gathering, LP, Pan-Hugoton Gathering Company LLC; Notice of Application and Establishing Intervention De"
+federalregister:2026-15884,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Availability of the Environmental Assessment for the Proposed NKY Gate Enhance"
+federalregister:2025-21490,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-00144,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed NK"
+federalregister:2026-03788,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the NKY Gate E"
+federalregister:2026-08214,FERC,notice,sector_tags,,gas,Kinder Morgan Louisiana Pipeline LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Pr
+federalregister:2025-21334,FERC,notice,sector_tags,transmission,gas,"Enable Mississippi River Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the"
+federalregister:2026-07326,FERC,notice,sector_tags,transmission,gas,"Enable Mississippi River Transmission, LLC; Notice of Availability of the Environmental Assessment for the Proposed Amer"
+federalregister:2026-00715,FERC,notice,sector_tags,transmission,gas,"Enable Mississippi River Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for th"
+federalregister:2025-21488,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-03787,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Southeast "
+federalregister:2026-02425,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Cancellation of Public Scoping Session for the Southeast Virginia Energy Stora"
+federalregister:2026-00825,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed So"
+federalregister:2026-05185,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Virtual Scoping Session for the Proposed Southeast Virginia Energy Storage Pro"
+federalregister:2026-14834,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Availability of the Environmental Assessment for the Proposed Southeast Virgin"
+federalregister:2025-21493,FERC,notice,sector_tags,,gas,National Fuel Gas Supply Corporation; Notice of Request Under Blanket Authorization and Establishing Intervention and Pr
+federalregister:2026-08457,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention"
+federalregister:2025-21329,FERC,notice,sector_tags,storage,gas;storage,Saltville Gas Storage Company L.L.C.; Notice of Request Under Blanket Authorization and Establishing Intervention and Pr
+federalregister:2026-00987,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Hunt Stora"
+federalregister:2025-24096,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Hu"
+federalregister:2026-14212,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Availability of the Environmental Assessment for the Proposed Hunt Storage Fie"
+federalregister:2025-21710,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2025-23948,FERC,notice,sector_tags,storage,gas;storage,Mangum Gas Storage LLC; Notice of Availability of the Environmental Assessment for the Proposed 2025 Amendment Project
+federalregister:2025-21709,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-00986,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Schedule for the Preparation of an Environmental Assessment for the Kosciusko "
+federalregister:2025-23502,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, L.P.; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed "
+federalregister:2026-09562,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Availability of the Environmental Assessment for the Proposed Kosciusko Compre"
+federalregister:2025-21757,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-00985,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Maysville"
+federalregister:2026-00404,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed M"
+federalregister:2026-16633,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Availability of the Environmental Assessment for the Proposed Maysville Proje"
+federalregister:2026-02607,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Virtual Scoping Session for the Proposed Maysville Project"
+federalregister:2026-09302,FERC,notice,sector_tags,storage,gas;storage,"Black Bayou Gas Storage, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2025-21799,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and P"
+federalregister:2025-21328,FERC,notice,sector_tags,,gas,"Rockies Express Pipeline, LLC; Notice Of Request Under Blanket Authorization and Establishing Intervention and Protest D"
+federalregister:2025-21763,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and P"
+federalregister:2026-09066,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2025-22232,FERC,notice,sector_tags,transmission,gas,"Enable Mississippi River Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention "
+federalregister:2025-22341,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and P"
+federalregister:2026-17944,FERC,notice,sector_tags,,gas,Forza Pipeline LLC; Notice of Availability of the Environmental Assessment for the Proposed Forza Pipeline Project
+federalregister:2026-02037,FERC,notice,sector_tags,,gas,"Forza Pipeline LLC, Bull Run Pipeline LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the "
+federalregister:2025-23496,FERC,notice,sector_tags,,gas,"Corpus Christi Liquefaction, LLC, CCL Midscale 8-9, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2025-23947,FERC,notice,sector_tags,transmission;storage,gas;storage,"Eastern Gas Transmission and Storage, Inc.; Notice of Request Under Blanket Authorization and Establishing Intervention "
+federalregister:2025-23946,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention"
+federalregister:2025-20782,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for th"
+federalregister:2026-08170,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Availability of the Environmental Assessment for the Proposed Nor"
+federalregister:2026-00406,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for t"
+federalregister:2025-23945,FERC,notice,sector_tags,,gas,National Fuel Gas Corporation; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest D
+federalregister:2025-24193,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-00403,FERC,notice,sector_tags,storage,gas;storage,"Egan Hub Storage, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-01579,FERC,notice,sector_tags,storage,gas;storage,"Egan Hub Storage, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Egan Cavern"
+federalregister:2026-04873,FERC,notice,sector_tags,storage,gas;storage,"Egan Hub Storage, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Proposed Egan Caver"
+federalregister:2025-24088,FERC,notice,sector_tags,transmission,gas,"Columbia Gulf Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest"
+federalregister:2026-09561,FERC,notice,sector_tags,,gas,"Kinetica Energy Express, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest De"
+federalregister:2025-24160,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-09687,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention"
+federalregister:2025-24188,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-00019,FERC,notice,sector_tags,,gas,"Cheniere Creole Trail Pipeline, L.P.; Notice of Request Under Blanket Authorization and Establishing Intervention and Pr"
+federalregister:2026-10223,FERC,notice,sector_tags,storage,gas;storage,Southwest Gas Storage Company; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest D
+federalregister:2026-10783,FERC,notice,sector_tags,,gas,"Texas-Kansas-Oklahoma Gas, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-10789,FERC,notice,sector_tags,storage,gas;storage,"Monroe Gas Storage Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest"
+federalregister:2026-11604,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-13600,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Ma"
+federalregister:2026-18772,FERC,notice,sector_tags,transmission;storage,gas;storage,"Columbia Gas Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Majorsvill"
+federalregister:2026-11250,FERC,notice,sector_tags,,gas,"Equitrans, L.P.; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline"
+federalregister:2026-11440,FERC,notice,sector_tags,,gas,National Fuel Gas Supply Corporation; Notice of Application and Establishing Intervention Deadline
+federalregister:2026-12228,FERC,notice,sector_tags,transmission,gas,"Texas Gas Transmission, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-13275,FERC,notice,sector_tags,transmission,gas,"Texas Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Dearb"
+federalregister:2026-15780,FERC,notice,sector_tags,transmission,gas,"Texas Gas Transmission, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Dearborn Coun"
+federalregister:2026-12226,FERC,notice,sector_tags,,gas,Northwest Pipeline LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline
+federalregister:2026-12627,FERC,notice,sector_tags,,gas,"Puget Sound Energy, Inc., Sumas Pipeline Company, Sumas Dry Kilns, Inc.; Notice of Application and Establishing Interven"
+federalregister:2026-00018,FERC,notice,sector_tags,transmission,gas,"Texas Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Dea"
+federalregister:2026-12847,FERC,notice,sector_tags,,gas,"Double E Pipeline, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline"
+federalregister:2026-18992,FERC,notice,sector_tags,,gas,"Southeast Supply Header, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Tupelo Trail"
+federalregister:2026-15100,FERC,notice,sector_tags,,gas,"Southeast Supply Header, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Tupe"
+federalregister:2026-13598,FERC,notice,sector_tags,,gas,"Southeast Supply Header, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-13599,FERC,notice,sector_tags,storage,gas;storage,"Vinton Dome Storage Hub, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-18991,FERC,notice,sector_tags,storage,gas;storage,"Vinton Dome Storage Hub, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Vinton Dome "
+federalregister:2026-15694,FERC,notice,sector_tags,storage,gas;storage,"Vinton Dome Storage Hub, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Vint"
+federalregister:2026-13597,FERC,notice,sector_tags,,gas,Steel Reef Pipelines US LLC; Notice of Application and Establishing Intervention Deadline
+federalregister:2026-14081,FERC,notice,sector_tags,,gas,Steel Reef Pipelines US LLC; Notice of Application and Establishing Intervention Deadline
+federalregister:2026-15101,FERC,notice,sector_tags,,gas,Steel Reef Pipelines US LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Flat 
+federalregister:2026-18771,FERC,notice,sector_tags,,gas,Steel Reef Pipelines US LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Flat Lake Acc
+federalregister:2026-13695,FERC,notice,sector_tags,,gas,"Wyoming Interstate Company, L.L.C., Fort Union Gas Gathering, L.L.C.; Notice of Application and Establishing Interventio"
+federalregister:2026-17632,FERC,notice,sector_tags,,gas,"Gulf South Pipeline Company, LLC;"
+federalregister:2026-14213,FERC,notice,sector_tags,,gas,"Gulf South Pipeline Company, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-19907,FERC,notice,sector_tags,,gas,"Guardian Pipeline, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Guardian 3 Expansi"
+federalregister:2026-14488,FERC,notice,sector_tags,,gas,"Guardian Pipeline, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-15693,FERC,notice,sector_tags,,gas,"Guardian Pipeline, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Guardian 3"
+federalregister:2026-14686,FERC,notice,sector_tags,,gas,"ETC Tiger Pipeline, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-17631,FERC,notice,sector_tags,,gas,"ETC Tiger Pipeline, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Franklin "
+federalregister:2026-18148,FERC,notice,sector_tags,,gas,"MountainWest Overthrust Pipeline, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Prop"
+federalregister:2026-14590,FERC,notice,sector_tags,,gas,"MountainWest Overthrust Pipeline, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-15292,FERC,notice,sector_tags,transmission;gas,gas,Portland Natural Gas Transmission System; Notice of Request Under Blanket Authorization and Establishing Intervention an
+federalregister:2026-19663,FERC,notice,sector_tags,storage,gas;storage,Tres Palacios Gas Storage LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Tre
+federalregister:2026-15883,FERC,notice,sector_tags,storage,gas;storage,Tres Palacios Gas Storage LLC; Notice of Application and Establishing Intervention Deadline
+federalregister:2026-16065,FERC,notice,sector_tags,,gas,"Gulf South Pipeline Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protes"
+federalregister:2026-16236,FERC,notice,sector_tags,,gas,National Fuel Gas Supply Corporation; Notice of Request Under Blanket Authorization and Establishing Intervention and Pr
+federalregister:2026-00401,FERC,notice,sector_tags,storage,gas;storage,"Boardwalk Storage Company, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-16436,FERC,notice,sector_tags,,gas,Dauphin Island Gathering Partners; Notice of Application and Establishing Intervention Deadline
+federalregister:2026-19202,FERC,notice,sector_tags,,gas,Dauphin Island Gathering Partners; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed
+federalregister:2026-16835,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-18037,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and P"
+federalregister:2026-18360,FERC,notice,sector_tags,storage,gas;storage,"Golden Triangle Storage, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-18230,FERC,notice,sector_tags,transmission,gas,"Enable Gas Transmission, LLC Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Dea"
+federalregister:2026-18228,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention"
+federalregister:2026-19067,FERC,notice,sector_tags,transmission,gas,"Enable Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest De"
+federalregister:2026-19440,FERC,notice,sector_tags,,gas,"High Island Offshore System, L.L.C.; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-19066,FERC,notice,sector_tags,,gas,National Fuel Gas Supply Corporation; Notice of Request Under Blanket Authorization and Establishing Intervention and Pr
+federalregister:2026-19580,FERC,notice,sector_tags,,gas,"Transcontinental Gas Pipe Line Company, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-19441,FERC,notice,sector_tags,,gas,"Transwestern Pipeline Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Prot"
+federalregister:2026-19819,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-19984,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and P"
+federalregister:2026-20108,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and P"
+federalregister:2026-01477,FERC,notice,sector_tags,,gas,"Trans-Foreland Pipeline Company, LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-01476,FERC,notice,sector_tags,,gas,ANR Pipeline Company; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline
+federalregister:2026-01349,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-01164,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-01663,FERC,notice,sector_tags,transmission,gas,"Columbia Gas Transmission, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-01666,FERC,notice,sector_tags,storage,gas;storage,"Tres Palacios Gas Storage, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-01439,FERC,notice,sector_tags,,gas,"Sabine Pipe Line, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline"
+federalregister:2026-01924,FERC,notice,sector_tags,,gas,"Equitrans, L.P.; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline"
+federalregister:2026-15293,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Availability of the Environmental Assessment for the Proposed Line 31 Expansio"
+federalregister:2026-02759,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-12231,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, L.P.; Notice of Revised Schedule for Environmental Review of the Line 31 Expansion Project"
+federalregister:2026-06887,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Schedule for the Preparation of an Environmental Assessment for the Line 31 Ex"
+federalregister:2026-02870,FERC,notice,sector_tags,transmission,gas,"Texas Eastern Transmission, LP; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest "
+federalregister:2026-03005,FERC,notice,sector_tags,,gas,"Transwestern Pipeline Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Prot"
+federalregister:2026-18455,FERC,notice,sector_tags,,gas,"Transwestern Pipeline Company, LLC; Notice of Availability of the Environmental Assessment for the Proposed Green Chile "
+federalregister:2026-07448,FERC,notice,sector_tags,,gas,"Transwestern Pipeline Company, LLC; Notice of Staff Protest to Proposed Blanket Certificate Activity"
+federalregister:2026-15286,FERC,notice,sector_tags,,gas,"Transwestern Pipeline Company, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for the Green "
+federalregister:2026-03402,FERC,notice,sector_tags,,gas,"Corpus Christi Liquefaction Stage IV, LLC, Corpus Christi Liquefaction, LLC, Cheniere Corpus Christi Pipeline, L.P.; Not"
+federalregister:2026-03117,FERC,notice,sector_tags,transmission,gas,"Florida Gas Transmission Company, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and P"
+federalregister:2026-03837,FERC,notice,sector_tags,storage,gas;storage,"Golden Triangle Storage, LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest De"
+federalregister:2026-04357,FERC,notice,sector_tags,,gas,Northwest Pipeline LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline
+federalregister:2026-04758,FERC,notice,sector_tags,storage,gas;storage,Spire Storage West LLC; Notice of Request Under Blanket Authorization and Establishing Intervention and Protest Deadline
+federalregister:2026-01475,FERC,notice,sector_tags,,power;renewables,"Wagon Wheel Associates, Inc., Wagon Wheel Associates; Notice of Petition for Declaratory Order and Soliciting Comments, "
+federalregister:2025-20780,FERC,notice,sector_tags,,power;renewables,"City of Chignik ; Notice of Declaration of Intention and Soliciting Comments, Protests, and Motions To Intervene"
+federalregister:2026-08354,FERC,notice,sector_tags,power,power;renewables,"Chugach Electric Association, Inc.; Notice Reopening Comment Period"
+federalregister:2026-05705,FERC,notice,sector_tags,power,power;renewables,"Chugach Electric Association, Inc.; Notice of Declaration of Intention and Soliciting Comments, Protests, and Motions To"
+federalregister:2026-05706,FERC,notice,sector_tags,power,power;renewables,"Chugach Electric Association, Inc.; Notice of Declaration of Intention and Soliciting Comments, Protests, and Motions To"
+federalregister:2026-08353,FERC,notice,sector_tags,power,power;renewables,"Chugach Electric Association, Inc.; Notice Reopening Comment Period"
+federalregister:2025-21489,FERC,notice,sector_tags,,gas,"Corpus Christi Liquefaction Stage IV, LLC, Corpus Christi Liquefaction, LLC, Cheniere Corpus Christi Pipeline, L.P.; Not"
+federalregister:2026-19581,FERC,notice,sector_tags,,gas,"LED Enterprises, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Planned Yuma Pipeline"
+federalregister:2026-09197,FERC,notice,sector_tags,transmission,gas,"WBI Energy Transmission, Inc.; Notice of Scoping Period Requesting Comments on Environmental Issues for the Planned Bakk"
+federalregister:2026-08459,FERC,notice,sector_tags,transmission,gas,Great Basin Gas Transmission Company
+federalregister:2026-13460,FERC,notice,sector_tags,,gas,ANR Pipeline Company; Notice of Scoping Period Requesting Comments on Environmental Issues for the Planned Northwoods Pr
+federalregister:2026-11538,FERC,notice,sector_tags,transmission,gas,"Algonquin Gas Transmission, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Planned Al"
+federalregister:2026-13880,FERC,notice,sector_tags,,gas,"Transwestern Pipeline Company, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Planned"
+federalregister:2026-06767,FERC,notice,sector_tags,transmission,gas,"Constitution Pipeline Company, LLC; Iroquois Gas Transmission System, L.P.: Notice of Scoping Period Requesting Comments"
+federalregister:2026-17399,FERC,notice,sector_tags,transmission,gas,"Constitution Pipeline Company, LLC, Iroquois Gas Transmission System, L.P.; Notice of Availability of the Environmental "
+federalregister:2026-00481,FERC,notice,sector_tags,,gas,"Constitution Pipeline Company, LLC; Notice of Petition and Establishing Intervention Deadline"
+federalregister:2026-14079,FERC,notice,sector_tags,storage,gas;storage,"Rockies Express Pipeline LLC; Cheyenne Connector, LLC; East Cheyenne Gas Storage, LLC: Notice of Onsite Environmental Re"
+federalregister:2026-10651,FERC,notice,sector_tags,,gas,Rockies Express Pipeline LLC; Notice of Amendment and Establishing Intervention Deadline
+federalregister:2025-20188,FERC,notice,sector_tags,,gas,Rockies Express Pipeline LLC; Notice of Amendment to Application and Establishing Intervention Deadline
+federalregister:2025-23225,FERC,notice,sector_tags,,gas,Rockies Express Pipeline LLC; Notice of Availability of the Environmental Assessment for the Proposed Decatur Lateral Pr
+federalregister:2026-04874,FERC,notice,sector_tags,,gas,"Forza Pipeline, LLC, Bull Run Pipeline, LLC; Notice of Schedule for the Preparation of an Environmental Assessment for t"
+federalregister:2025-23501,FERC,notice,sector_tags,,gas,"Forza Pipeline LLC, Bull Run Pipeline LLC; Notice of Application and Establishing Intervention Deadline"
+federalregister:2026-08961,FERC,notice,sector_tags,,gas,"Leaf River Energy Center, LLC; Notice of Availability of the Environmental Assessment for the Proposed Leaf River Capaci"
+federalregister:2026-00980,FERC,notice,sector_tags,renewables,power;renewables,"City of Pelican, AK; Notice of Scoping Period Requesting Comments on Environmental Issues for the Pelican Hydroelectric "
+federalregister:2025-23941,FERC,notice,sector_tags,,power;renewables,"City of Pelican, AK; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protests"
+federalregister:2026-04359,FERC,notice,sector_tags,,power;renewables,"City of Pelican, AK; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recommendations, Te"
+federalregister:2026-10225,FERC,notice,sector_tags,,power;renewables,"City of Pelican, AK; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-19180,FERC,notice,sector_tags,,power;renewables,"City of Aspen, Colorado; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protests"
+federalregister:2026-07835,FERC,notice,sector_tags,,power;renewables,"Northbrook Virginia Hydro, LLC; City of Danville, Virginia; Notice of Intent to File License Application, Filing of Pre-"
+federalregister:2026-09303,FERC,notice,sector_tags,renewables,power;renewables,"Sweetwater Hydroelectric, LLC; Notice of Intent To File License Application, Filing of Pre-Application Document, and App"
+federalregister:2026-12625,FERC,notice,sector_tags,,power;renewables,"Sugar River Hydro II, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-04551,FERC,notice,sector_tags,,power;renewables,"Sugar River Hydro II, LLC; Notice of Revised Schedule for Environmental Assessment"
+federalregister:2026-09996,FERC,notice,sector_tags,,power;renewables,"Secesh United, LLC; Notice of Application for Conduit Exemption Amendment Accepted for Filing, Soliciting Comments, Moti"
+federalregister:2026-18362,FERC,notice,sector_tags,,power;renewables,"City of Lewiston, Maine; Notice of Authorization for Continued Project Operation"
+federalregister:2026-16924,FERC,notice,sector_tags,power,power;renewables,Pacific Gas & Electric Company; Notice of Authorization for Continued Project Operation
+federalregister:2025-22548,FERC,notice,sector_tags,,power;renewables,City of Abbeville; Notice of Application Tendered for Filing With The Commission and Soliciting Additional Study Request
+federalregister:2026-18358,FERC,notice,sector_tags,,power;renewables,City of Thief River Falls Municipal Utilities; Notice of Application Tendered for Filing With the Commission and Solicit
+federalregister:2026-01915,FERC,notice,sector_tags,,power;renewables,Black River Limited Partnership Notice of Availability of Environmental Assessment
+federalregister:2026-17101,FERC,notice,sector_tags,,power;renewables,"Georgia Power Company; Notice of Application for Temporary Variance Accepted for Filing, Soliciting Comments, Motions To"
+federalregister:2025-20404,FERC,notice,sector_tags,,power;renewables,Loup River Public Power District; Notice of Availability of Environmental Assessment
+federalregister:2026-07653,FERC,notice,sector_tags,,power;renewables,Tygart LLC; Notice of Effectiveness of Withdrawal of Extension of Time Request
+federalregister:2025-22451,FERC,notice,sector_tags,,power;renewables,Tygart LLC; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-00560,FERC,notice,sector_tags,,power;renewables,Tygart LLC; Notice of Availability of Environmental Assessment
+federalregister:2026-09426,FERC,notice,sector_tags,renewables,power;renewables,"Northern Illinois Hydropower, LLC; Notice of Waiver Period for Water Quality Certification Application"
+federalregister:2026-02516,FERC,notice,sector_tags,renewables,power;renewables,"Northern Illinois Hydropower, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-14487,FERC,notice,sector_tags,renewables,power;renewables,"Northern Illinois Hydropower, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-19199,FERC,notice,sector_tags,,power;renewables,"Greenwood County, South Carolina; Notice of Application Accepted for Filing and Soliciting Comments, Motions To Interven"
+federalregister:2026-01664,FERC,notice,sector_tags,renewables,power;renewables,"Jordan Hydroelectric Limited Partnership, Virginia; Notice of Application for Surrender of License Accepted for Filing, "
+federalregister:2025-21947,FERC,notice,sector_tags,,power;renewables,Swan Lake North Hydro LLC; Notice Reopening Comment Period
+federalregister:2025-24027,FERC,notice,sector_tags,,power;renewables,"Igiugig Village Council; Notice Of Intent to File License Application, Filing of Pre-Application Document, And Approving"
+federalregister:2026-18150,FERC,notice,sector_tags,renewables,power;renewables,"Juneau Hydropower, Inc.; Notice of Request for Extension of Time To Commence and Complete Construction Accepted for Fili"
+federalregister:2026-10501,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-12016,FERC,notice,sector_tags,power,power;renewables,Pacific Gas & Electric Company; Notice of Availability of Environmental Assessment
+federalregister:2026-17395,FERC,notice,sector_tags,,power;renewables,"FFP Missouri 12, LLC, J3M Allegheny 2 Hydro, LLC; Notice of Application of Transfer of License and Soliciting Comments, "
+federalregister:2026-17394,FERC,notice,sector_tags,,power;renewables,"FFP Missouri 5, LLC, J3M Emsworth Main Hydro, LLC; Notice of Application of Transfer of License and Soliciting Comments,"
+federalregister:2026-17393,FERC,notice,sector_tags,renewables,power;renewables,"Solia 6 Hydroelectric, LLC, J3M Montgomery Hydro, LLC; Notice of Application of Transfer of License and Soliciting Comme"
+federalregister:2026-10988,FERC,notice,sector_tags,,power;renewables,"Southern California Edison Company; Notice of Application Accepted for Filing With the Commission, Soliciting Motions To"
+federalregister:2026-19279,FERC,notice,sector_tags,,power;renewables,Southern California Edison; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-16453,FERC,notice,sector_tags,,power;renewables,Southern California Edison Company; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2025-22736,FERC,notice,sector_tags,,power;renewables,Southern California Edison Company; Notice of Revised Procedural Schedule
+federalregister:2026-02756,FERC,notice,sector_tags,,power;renewables,Yuba County Water Agency; Notice of Authorization for Continued Project Operation
+federalregister:2025-21756,FERC,notice,sector_tags,,power;renewables,Yuba County Water Agency; Notice of Revised Procedural Schedule for Environmental Assessment for the Proposed Project Re
+federalregister:2026-09813,FERC,notice,sector_tags,,power;renewables,Yuba County Water Agency; Notice of Availability of Environmental Assessment
+federalregister:2026-00141,FERC,notice,sector_tags,,power;renewables,St. Anthony Hydro LLC; Notice of Application Tendered for Filing With the Commission and Soliciting Additional Study Req
+federalregister:2026-09997,FERC,notice,sector_tags,renewables,power;renewables,"New England Hydropower Company, LLC; Notice of Effectiveness of Withdrawal of Application for Amendment of Exemption"
+federalregister:2025-19157,FERC,notice,sector_tags,storage,power;renewables;storage,"Black Canyon Hydro, LLC; Notice of Availability of the Draft Environmental Impact Statement for the Seminoe Pumped Stora"
+federalregister:2026-04953,FERC,notice,sector_tags,storage,power;renewables;storage,"Black Canyon Hydro, LLC; Notice of Revised Schedule for the Seminoe Pumped Storage Project"
+federalregister:2026-12220,FERC,notice,sector_tags,storage,power;renewables;storage,"Black Canyon Hydro, LLC; Notice of Availability of the Final Environmental Impact Statement for the Seminoe Pumped Stora"
+federalregister:2026-18988,FERC,notice,sector_tags,storage,power;renewables;storage,"Black Canyon Hydro, LLC; Notice of Intent To Prepare a Supplemental Environmental Impact Statement for the Seminoe Pumpe"
+federalregister:2026-17628,FERC,notice,sector_tags,,power;renewables,"GreenGenStorage, LLC; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protests"
+federalregister:2026-05057,FERC,notice,sector_tags,storage,power;renewables;storage,"White Pine Waterpower, LLC; Notice of Revised Schedule for White Pine Pumped Storage Project"
+federalregister:2026-16060,FERC,notice,sector_tags,,power;renewables,"Scott's Mill Hydro, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-23219,FERC,notice,sector_tags,,power;renewables,Grand River Dam Authority; Notice of Revised Procedural Schedule for Filing Contaminated Sediment Report for the Propose
+federalregister:2026-04866,FERC,notice,sector_tags,renewables,power;renewables,"Erie Boulevard Hydropower, L.P. Notice of Availability of Environmental Assessment"
+federalregister:2026-18227,FERC,notice,sector_tags,,power;renewables,Bard College; Notice of Effectiveness of Withdrawal of Exhibit F Drawings
+federalregister:2026-17255,FERC,notice,sector_tags,,power;renewables,"One Drop Hydro, LLC; Notice of Revised Procedural Schedule"
+federalregister:2025-21706,FERC,notice,sector_tags,,power;renewables,"Current Hydro Project 19, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-09187,FERC,notice,sector_tags,,power;renewables,"Current Hydro Project 19, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-22781,FERC,notice,sector_tags,,power;renewables,"Current Hydro Project 19, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2025-22353,FERC,notice,sector_tags,,power;renewables,Northern States Power Company; Notice of Availability of Environmental Assessment
+federalregister:2026-05888,FERC,notice,sector_tags,,power;renewables,"Ohio Power and Light, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-00979,FERC,notice,sector_tags,,power;renewables,"Ohio Power and Light, LLC; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recommendatio"
+federalregister:2026-02064,FERC,notice,sector_tags,renewables,power;renewables,"Ohio Power and Light, LLC; Notice Of Schedule for The Final License Order for The Robert C. Byrd Locks and Dam Hydroelec"
+federalregister:2026-20107,FERC,notice,sector_tags,,power;renewables,"Ohio Power and Light, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-22780,FERC,notice,sector_tags,renewables,power;renewables,Pike Island Hydropower Corporation; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-09186,FERC,notice,sector_tags,renewables,power;renewables,Pike Island Hydroelectric Corporation; Notice of Availability of Environmental Assessment
+federalregister:2025-21705,FERC,notice,sector_tags,renewables,power;renewables,Pike Island Hydropower Corporation; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-09425,FERC,notice,sector_tags,storage,power;renewables;storage,"Lewis Ridge Pumped Storage, LLC; Notice of Intent To Prepare an Environmental Impact Statement for the Lewis Ridge Pumpe"
+federalregister:2026-13696,FERC,notice,sector_tags,storage,power;renewables;storage,"Lewis Ridge Pumped Storage, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2025-20926,FERC,notice,sector_tags,storage,power;renewables;storage,"Lewis Ridge Pumped Storage, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed L"
+federalregister:2025-20703,FERC,notice,sector_tags,storage,power;renewables;storage,"Lewis Ridge Pumped Storage, LLC; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Prote"
+federalregister:2026-02358,FERC,notice,sector_tags,storage,power;renewables;storage,"Lewis Ridge Pumped Storage, LLC; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recomme"
+federalregister:2026-10655,FERC,notice,sector_tags,,power;renewables,"Lock+TM Hydro Friends Fund X, LLC; Notice of Intent To File License Application, Filing of Pre-Application Document (Pad"
+federalregister:2025-22450,FERC,notice,sector_tags,storage,power;renewables;storage,"Neptune Pumped Storage 1, LLC; Notice of Surrender of Preliminary Permit"
+federalregister:2025-22121,FERC,notice,sector_tags,storage,power;renewables;storage,"Neptune Pumped Storage 2, LLC; Notice of Surrender of Preliminary Permit"
+federalregister:2026-11446,FERC,notice,sector_tags,storage,power;renewables;storage,"MQR Storage, LLC; Notice of Surrender of Preliminary Permit"
+federalregister:2025-22547,FERC,notice,sector_tags,storage,power;renewables;storage,"Cabin Run Pumped Storage, LLC; Notice of Surrender of Preliminary Permit"
+federalregister:2025-22546,FERC,notice,sector_tags,storage,power;renewables;storage,"Jupiter Pumped Storage 1, LLC; Notice of Surrender of Preliminary Permit"
+federalregister:2026-15109,FERC,notice,sector_tags,,power;renewables,"Kram Hydro 1, LLC; Notice of Intent To File License Application, Filing of Pre-Application Document, Approving Use of th"
+federalregister:2026-15110,FERC,notice,sector_tags,,power;renewables,"Kram Hydro 3, LLC; Notice of Intent To File License Application, Filing of Pre-Application Document, Approving Use of th"
+federalregister:2026-15689,FERC,notice,sector_tags,,power;renewables,"Marlow Hydro, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-16327,FERC,notice,sector_tags,,power;renewables,"Marlow Hydro, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-09816,FERC,notice,sector_tags,,power;renewables,"Marlow Hydro, LLC; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recommendations, Term"
+federalregister:2026-16526,FERC,notice,sector_tags,,power;renewables,"Stone Ridge Hydro, LLC; Notice of Effectiveness of Withdrawal of License Application"
+federalregister:2026-08649,FERC,notice,sector_tags,renewables,power;renewables,"New England Hydropower Company, LLC; Notice of Surrender of Preliminary Permit"
+federalregister:2025-20785,FERC,notice,sector_tags,,power;renewables,"Robertson Power Company, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Moti"
+federalregister:2025-20923,FERC,notice,sector_tags,,power;renewables,"Robertson Power Company, LLC; Notice Extending Comment Period"
+federalregister:2026-01925,FERC,notice,sector_tags,storage,power;renewables;storage,"HGE Energy Storage 9, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Motions"
+federalregister:2026-14080,FERC,notice,sector_tags,,power;renewables,"Molitor, LLC; Notice of Intent To File License Application, Filing of Pre-Application Document, and Approving Use of the"
+federalregister:2026-15111,FERC,notice,sector_tags,,power;renewables,"Maynard Hydro LLC; Notice of Intent To File License Application, Filing of Pre-Application Document, Approving Use of th"
+federalregister:2026-00139,FERC,notice,sector_tags,,power;renewables,Nightfall Renewables Inc.; Notice of Effectiveness of Withdrawal of Preliminary Permit Application
+federalregister:2026-01075,FERC,notice,sector_tags,,power;renewables,"Zachary Miller; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Motions To Interve"
+federalregister:2026-07445,FERC,notice,sector_tags,storage,power;renewables;storage,"Western Maine Energy Storage, LLC; Notice of Intent To File License Application, Filing of Pre-Application Document, and"
+federalregister:2026-01074,FERC,notice,sector_tags,renewables,power;renewables,"Renewable Energy Aggregators, Inc.; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments"
+federalregister:2026-11536,FERC,notice,sector_tags,,power;renewables,"Millwood Hydro AE, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Motions To"
+federalregister:2026-11628,FERC,notice,sector_tags,,power;renewables,"Aberdeen Hydro AE, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Motions To"
+federalregister:2026-02869,FERC,notice,sector_tags,,power;renewables,"Bluestone Hydro AE, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Motions T"
+federalregister:2026-10876,FERC,notice,sector_tags,,power;renewables,"Nature and People First Arizona PHS, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Co"
+federalregister:2026-17392,FERC,notice,sector_tags,power,power;renewables,"Chugach Electric Association, Inc.; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments"
+federalregister:2026-18151,FERC,notice,sector_tags,,power;renewables,"DeepGreen Cook Inlet SPV, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Mot"
+federalregister:2026-17254,FERC,notice,sector_tags,,power;renewables,"DeepGreen Western Passage SPV LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments,"
+federalregister:2026-12624,FERC,notice,sector_tags,storage,power;renewables;storage,"Bluff Spur Pumped Storage, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Mo"
+federalregister:2026-08655,FERC,notice,sector_tags,renewables,power;renewables,"Marine Renewable Energy Collaborative of New England, Inc.; Notice of Preliminary Permit Application Accepted for Filing"
+federalregister:2026-20238,FERC,notice,sector_tags,,power;renewables,"RamaFlux Sierra PSH, LLC; Notice of Preliminary Permit Application Accepted for Filing and Soliciting Comments, Motions "
+federalregister:2026-09301,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice of Authorization for Continued Project Operation
+federalregister:2026-15882,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice of Availability of Environmental Assessment
+federalregister:2025-19424,FERC,notice,sector_tags,,power;renewables,"Idaho Power Company; Notice of Application Accepted for Amendment Filing, Soliciting Comments, Motions To Intervene, and"
+federalregister:2026-01165,FERC,notice,sector_tags,,power;renewables,NorthWestern Energy; Notice of Authorization for Continued Project Operation
+federalregister:2026-19241,FERC,notice,sector_tags,,power;renewables,"NorthWestern Energy; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests, Ready for "
+federalregister:2026-05524,FERC,notice,sector_tags,,power;renewables,NorthWestern Corporation; Notice of Application for Non-Capacity Amendment of License Accepted for Filing and Soliciting
+federalregister:2026-02423,FERC,notice,sector_tags,renewables;storage,power;renewables;storage,FirstLight MA Hydro LLC; Northfield Mountain LLC: Notice of Availability of the Final Environmental Impact Statement for
+federalregister:2026-15541,FERC,notice,sector_tags,,power;renewables,"Dominion Energy South Carolina, Inc; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-13596,FERC,notice,sector_tags,,power;renewables,"Dominion Energy South Carolina, Inc.; Notice of Application for Amendment to Turbine Venting Plan and Article 401(B) In "
+federalregister:2026-18869,FERC,notice,sector_tags,,power;renewables,"Dominion Energy South Carolina, Inc.; Notice of Availability of Environmental Assessment"
+federalregister:2025-21950,FERC,notice,sector_tags,power,power;renewables,"Moon Lake Electric Association, Inc.; Notice Reopening Comment Period"
+federalregister:2026-02422,FERC,notice,sector_tags,renewables,power;renewables,"Great River Hydro, LLC; Notice of Availability of the Final Environmental Impact Statement for the Vernon, Bellows Falls"
+federalregister:2026-11442,FERC,notice,sector_tags,,power;renewables,Southern California Edison Company; Notice of Application Tendered for Filing With the Commission and Establishing Proce
+federalregister:2026-18456,FERC,notice,sector_tags,renewables,power;renewables,Idaho Power Company; Notice of Availability of the Final Supplemental Environmental Impact Statement for the Hells Canyo
+federalregister:2026-00983,FERC,notice,sector_tags,,power;renewables,Idaho Power Company; Notice of Availability of the Draft Supplemental Environmental Impact Statement and Revised Procedu
+federalregister:2025-23642,FERC,notice,sector_tags,power,power;renewables,"Pacific Gas & Electric Company; Notice of Application for a Flow Variance Under Article 401 Accepted for Filing, Solicit"
+federalregister:2026-17099,FERC,notice,sector_tags,power,power;renewables,Portland General Electric Company; Confederated Tribes of the Warm Springs Reservation of Oregon; Notice of Application 
+federalregister:2026-04132,FERC,notice,sector_tags,,power;renewables,"Great River Hydro, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-22347,FERC,notice,sector_tags,,power;renewables,"Great River Hydro, LLC; Notice of Application for Temporary Variance Accepted for Filing, Soliciting Comments, Motions T"
+federalregister:2026-02035,FERC,notice,sector_tags,,power;renewables,"Great River Hydro, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-19438,FERC,notice,sector_tags,,power;renewables,"Great River Hydro, LLC; Notice of Application for Temporary Variance Accepted for Filing, Soliciting Comments, Motions T"
+federalregister:2026-03175,FERC,notice,sector_tags,,power;renewables,PacifiCorp; Notice Reopening Comment Period
+federalregister:2026-00264,FERC,notice,sector_tags,,power;renewables,"PacifiCorp; Notice of Application for Non-Capacity Amendment of License Accepted for Filing, Soliciting Comments, Motion"
+federalregister:2026-07656,FERC,notice,sector_tags,,power;renewables,PacifiCorp; Notice of Availability of Environmental Assessment
+federalregister:2026-03666,FERC,notice,sector_tags,,power;renewables,PacifiCorp; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-11878,FERC,notice,sector_tags,,power;renewables,California Department of Water Resources; Notice of Availability and Adoption of Final Environmental Assessment
+federalregister:2026-04956,FERC,notice,sector_tags,,power;renewables,"California Department of Water Resources; Notice of Application To Amend Recreation Plan Accepted for Filing, Soliciting"
+federalregister:2026-03360,FERC,notice,sector_tags,,power;renewables,"Alabama Power Company; Notice of Application Accepted for Filing and Soliciting Comments, Motions To Intervene, and Prot"
+federalregister:2026-13462,FERC,notice,sector_tags,,power;renewables,"Alabama Power Company; Notice of Application Accepted for Filing and Soliciting Comments, Motions To Intervene, and Prot"
+federalregister:2025-19971,FERC,notice,sector_tags,,power;renewables,Public Service Company of Colorado; Notice of Availability of Environmental Assessment
+federalregister:2026-12851,FERC,notice,sector_tags,,power;renewables,"Consolidated Water Power Company; Notice of Application for a Non-Capacity Amendment of License Accepted for Filing, Sol"
+federalregister:2026-17105,FERC,notice,sector_tags,,power;renewables,"Brookfield White Pine LLC; Notice of Application for Temporary Variance Accepted for Filing, Soliciting Comments, Motion"
+federalregister:2026-05268,FERC,notice,sector_tags,,power;renewables,"Duke Energy Progress, LLC; Duke Energy Carolinas, LLC; Notice of Application of Transfer of License and Soliciting Comme"
+federalregister:2025-20928,FERC,notice,sector_tags,,power;renewables,"Appalachian Power Company; Notice of Application for Recreation Management Plan Amendment Accepted for Filing, Solicitin"
+federalregister:2026-16324,FERC,notice,sector_tags,,power;renewables,Appalachian Power Company; Notice of Effectiveness of Withdrawal of Application for Amendment to Water Management Plan
+federalregister:2026-01665,FERC,notice,sector_tags,,power;renewables,"Duke Energy Indiana, LLC; Notice of Application Accepted for Filing and Soliciting Comments, Motions To Intervene, and P"
+federalregister:2025-22452,FERC,notice,sector_tags,,power;renewables,"Domtar Paper Company, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-21708,FERC,notice,sector_tags,,power;renewables,"Domtar Paper Company, LLC; Notice of Revised Schedule for Environmental Assessment"
+federalregister:2026-15444,FERC,notice,sector_tags,,power;renewables,"Domtar Paper Company, LLC; Notice of Application for Non-Capacity Amendment of License Accepted for Filing, Soliciting C"
+federalregister:2025-21049,FERC,notice,sector_tags,,power;renewables,"Duke Energy Carolinas, LLC; Notice of Application for Recreation Management Plan Amendment Accepted for Filing, Soliciti"
+federalregister:2026-14083,FERC,notice,sector_tags,,power;renewables,"Duke Energy Carolinas, LLC; Notice of Application for Temporary Variance Accepted for Filing, Soliciting Comments, Motio"
+federalregister:2025-22735,FERC,notice,sector_tags,,power;renewables,Georgia Power Company; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-02611,FERC,notice,sector_tags,,power;renewables,Georgia Power Company; Notice of Availability of Environmental Assessment
+federalregister:2026-12078,FERC,notice,sector_tags,power,power;renewables,Eugene Water & Electric Board; Notice of Availability of Environmental Assessment
+federalregister:2026-02034,FERC,notice,sector_tags,power,power;renewables,Eugene Water & Electric Board; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-03835,FERC,notice,sector_tags,,power;renewables,"Public Service Company of Colorado; Notice of Application for Surrender of License Accepted for Filing, Soliciting Comme"
+federalregister:2026-13595,FERC,notice,sector_tags,,power;renewables,Public Service Company of Colorado; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-02612,FERC,notice,sector_tags,power,power;renewables,"Seneca Generation, LLC; Notice of Effectiveness of Withdrawal of Operating Plan and Operation Compliance and Monitoring "
+federalregister:2025-22734,FERC,notice,sector_tags,,power;renewables,Southern California Edison Company; Notice of Revised Procedural Schedule
+federalregister:2026-18356,FERC,notice,sector_tags,,power;renewables,"Brookfield White Pine Hydro, LLC; Notice of Authorization for Continued Project Operation"
+federalregister:2026-01581,FERC,notice,sector_tags,,power;renewables,"Brookfield White Pine Hydro, LLC; Notice of Revised Schedule for Environmental Assessment"
+federalregister:2026-12227,FERC,notice,sector_tags,,power;renewables,"Brookfield White Pine Hydro, LLC; Notice of Revised Schedule for Environmental Assessment"
+federalregister:2026-16171,FERC,notice,sector_tags,power,power;renewables,"Pacific Gas & Electric Company; Notice of Application for Minimum Flow Variance Accepted for Filing, Soliciting Comments"
+federalregister:2026-02519,FERC,notice,sector_tags,,power;renewables,"Dominion Energy South Carolina, Inc.; Notice of Availability of Environmental Assessment"
+federalregister:2026-00473,FERC,notice,sector_tags,,power;renewables,"Dominion Energy South Carolina, Inc.; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2025-22733,FERC,notice,sector_tags,,power;renewables,"Brookfield White Pine Hydro, LLC; Shawmut Holdco, LLC; Notice of Application of Transfer of License and Soliciting Comme"
+federalregister:2025-22732,FERC,notice,sector_tags,,power;renewables,"Brookfield White Pine Hydro, LLC; Weston Holdco, LLC; Notice of Application of Transfer of License and Soliciting Commen"
+federalregister:2026-09298,FERC,notice,sector_tags,power,power;renewables,"PE Hydro Generation, LLC; Notice of Application for Amendment to Operations Compliance Monitoring Plan and Modification "
+federalregister:2026-00558,FERC,notice,sector_tags,,power;renewables,"Midwest Hydro, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-00559,FERC,notice,sector_tags,,power;renewables,"Midwest Hydro, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-11088,FERC,notice,sector_tags,,power;renewables,"Georgia Power Company; Notice of Application for Non-Capacity Amendment of License Accepted for Filing, Soliciting Comme"
+federalregister:2026-01922,FERC,notice,sector_tags,,power;renewables,"Midwest Hydro, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-01079,FERC,notice,sector_tags,,power;renewables,"Andro Hydro, LLC; Notice of Application for Amendment of License, Soliciting Comments, Motions To Intervene, and Protest"
+federalregister:2026-05833,FERC,notice,sector_tags,,power;renewables,"Andro Hydro, LLC; Notice of Effectiveness of Withdrawal of Request for Non-Capacity Amendment Application"
+federalregister:2026-15103,FERC,notice,sector_tags,,power;renewables,"Eagle Creek Reusens Hydro, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-19161,FERC,notice,sector_tags,,power;renewables,"Eagle Creek Reusens Hydro, LLC; Notice Of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-18642,FERC,notice,sector_tags,,power;renewables,PacifiCorp; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-12336,FERC,notice,sector_tags,,power;renewables,"PacifiCorp; Notice of Application Accepted for Filing, Intent To Waive Scoping, Soliciting Motions To Intervene and Prot"
+federalregister:2026-12466,FERC,notice,sector_tags,,power;renewables,PacifiCorp; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2025-23944,FERC,notice,sector_tags,power,power;renewables,"PE Hydro Generation, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-08167,FERC,notice,sector_tags,,power;renewables,Ampersand Gilman Hydro LP; Notice of Availability of Environmental Assessment
+federalregister:2025-22119,FERC,notice,sector_tags,,power;renewables,"Eagle Creek Schoolfield, LLC, City of Danville, Virginia; Notice of Availability of Environmental Assessment"
+federalregister:2026-11443,FERC,notice,sector_tags,,power;renewables,"Aquenergy Systems, LLC; Notice of Application Accepted for Filing and Soliciting Comments, Motions To Intervene, and Pro"
+federalregister:2025-23489,FERC,notice,sector_tags,,power;renewables,Northern States Power Company; Notice Of Authorization For Continued Project Operation
+federalregister:2026-13959,FERC,notice,sector_tags,,power;renewables,"Northern States Power Company; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recommend"
+federalregister:2026-11252,FERC,notice,sector_tags,,power;renewables,"Great Lakes Hydro America, LLC; Notice of Application for Temporary Variance Accepted for Filing and Soliciting Comments"
+federalregister:2025-23943,FERC,notice,sector_tags,power,power;renewables,"PE Hydro Generation, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-07126,FERC,notice,sector_tags,,power;renewables,California Department of Water Resources & Los Angeles Department of Water and Power; Notice of Revised Procedural Sched
+federalregister:2025-20662,FERC,notice,sector_tags,,power;renewables,California Department of Water Resources; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2025-22731,FERC,notice,sector_tags,,power;renewables,"California Department of Water Resources, Los Angeles Department of Water and Power; Notice of Availability of Environme"
+federalregister:2026-01921,FERC,notice,sector_tags,renewables,power;renewables,"STS Hydropower, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-06706,FERC,notice,sector_tags,,power;renewables,"ALLETE, Inc.; Notice of Application Tendered for Filing With the Commission and Establishing Procedural Schedule for Rel"
+federalregister:2026-18990,FERC,notice,sector_tags,,power;renewables,"Great Lakes Hydro America, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-13461,FERC,notice,sector_tags,,power;renewables,"Great Lakes Hydro America, LLC; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests,"
+federalregister:2026-03116,FERC,notice,sector_tags,power,power;renewables,"Lake Lynn Generation, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-12335,FERC,notice,sector_tags,,power;renewables,Green Mountain Power Corporation; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-10500,FERC,notice,sector_tags,,power;renewables,Green Mountain Power Corporation; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-04955,FERC,notice,sector_tags,,power;renewables,"Green Mountain Power Corporation; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recomm"
+federalregister:2025-22181,FERC,notice,sector_tags,,power;renewables,"Duke Energy Carolinas, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-23942,FERC,notice,sector_tags,power,power;renewables,"PE Hydro Generation, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-05523,FERC,notice,sector_tags,,power;renewables,"Hawks Nest Hydro, LLC; Notice of Application for Non-Capacity Amendment of License Accepted for Filing, Soliciting Comme"
+federalregister:2026-12334,FERC,notice,sector_tags,,power;renewables,"Hawks Nest Hydro, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-19985,FERC,notice,sector_tags,,power;renewables,"Hawks Nest Hydro, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-20697,FERC,notice,sector_tags,,power;renewables,Green Mountain Power Corporation; Notice of Revised Procedural Schedule
+federalregister:2026-09427,FERC,notice,sector_tags,,power;renewables,Green Mountain Power Corporation; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-07446,FERC,notice,sector_tags,,power;renewables,Green Mountain Power Corporation; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-02518,FERC,notice,sector_tags,,power;renewables,"Green Mountain Power Corporation; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protest"
+federalregister:2026-03575,FERC,notice,sector_tags,power,power;renewables,"PE Hydro Generation, LLC; Notice of Application for Temporary Variance of Water Veil Requirement Pursuant to Article 406"
+federalregister:2026-06707,FERC,notice,sector_tags,,power;renewables,"ALLETE, Inc.; Notice of Application Tendered for Filing With the Commission and Establishing Procedural Schedule for Rel"
+federalregister:2026-16170,FERC,notice,sector_tags,renewables,power;renewables,"Erie Boulevard Hydropower, L.P.; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests"
+federalregister:2026-06432,FERC,notice,sector_tags,renewables,power;renewables,Erie Boulevard Hydropower L.P.; Notice of Application for Non-Capacity Amendment of License Accepted for Filing and Soli
+federalregister:2026-12626,FERC,notice,sector_tags,renewables,power;renewables,Erie Boulevard Hydropower L.P.; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-06708,FERC,notice,sector_tags,,power;renewables,Avista Corporation; Notice of Availability of Environmental Assessment
+federalregister:2025-23709,FERC,notice,sector_tags,,power;renewables,Avista Corporation; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-17398,FERC,notice,sector_tags,,power;renewables,"Village of Swanton, Vermont; Notice of Revised Schedule for Environmental Assessment"
+federalregister:2025-20405,FERC,notice,sector_tags,,power;renewables,"Village of Swanton, Vermont; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-00721,FERC,notice,sector_tags,,power;renewables,"Village of Swanton, Vermont; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-12716,FERC,notice,sector_tags,,power;renewables,"Northbrook Lyons Falls, LLC; Notice of Authorization for Continued Project Operation"
+federalregister:2026-12015,FERC,notice,sector_tags,,power;renewables,"Northbrook Lyons Falls, LLC; Notice of Revised Procedural Schedule"
+federalregister:2026-09065,FERC,notice,sector_tags,,power;renewables,"Wiscons8, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-01078,FERC,notice,sector_tags,,power;renewables,"Wiscons8, LLC; Notice of Application Ready For Environmental Analysis and Soliciting Comments, Recommendations, Terms an"
+federalregister:2025-20700,FERC,notice,sector_tags,,power;renewables,"Wiscons8, LLC; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protests"
+federalregister:2026-07545,FERC,notice,sector_tags,,power;renewables,"Wiscons8, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-16169,FERC,notice,sector_tags,renewables,power;renewables,"Erie Boulevard Hydropower, L.P.; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests"
+federalregister:2026-13459,FERC,notice,sector_tags,,power;renewables,"Great Lakes Hydro America, LLC; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests,"
+federalregister:2026-18989,FERC,notice,sector_tags,,power;renewables,"Great Lakes Hydro America, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2025-22552,FERC,notice,sector_tags,,power;renewables,"Merimil Limited Partnership; Lockwood Holdco, LLC; Notice of Application of Transfer of License and Soliciting Comments,"
+federalregister:2026-06201,FERC,notice,sector_tags,,power;renewables,"FirstLight CT Housatonic LLC; Notice of Application To Update Shoreline Management Plan Accepted for Filing, Soliciting "
+federalregister:2026-10786,FERC,notice,sector_tags,,power;renewables,Northern States Power Company; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2025-21484,FERC,notice,sector_tags,,power;renewables,Northern States Power Company; Notice Of Availability of Environmental Assessment
+federalregister:2025-22730,FERC,notice,sector_tags,,power;renewables,"Bangor-Pacific Hydro Associates; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests"
+federalregister:2026-17406,FERC,notice,sector_tags,,power;renewables,Bangor-Pacific Hydro Associates; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-17257,FERC,notice,sector_tags,,power;renewables,Bangor-Pacific Hydro Associates; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-04663,FERC,notice,sector_tags,renewables,power;renewables,"Spencer Mountain Hydropower, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-21486,FERC,notice,sector_tags,,power;renewables,Northern States Power Company; Notice of Availability of Environmental Assessment
+federalregister:2026-10784,FERC,notice,sector_tags,,power;renewables,Northern States Power Company; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-05427,FERC,notice,sector_tags,,power;renewables,"City of Hamilton, Ohio and American Municipal Power, Inc.; Notice of Authorization for Continued Project Operation"
+federalregister:2026-03574,FERC,notice,sector_tags,,power;renewables,"City of Hamilton, Ohio and American Municipal Power, Inc.; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-03344,FERC,notice,sector_tags,,power;renewables,Lockhart Power Company; Notice of Effectiveness of Withdrawal of Request To Determine if Unite Replacement Is Handled Un
+federalregister:2026-03665,FERC,notice,sector_tags,,power;renewables,"Village of Morrisville, Vermont; Notice of Settlement Agreement and Soliciting Comments"
+federalregister:2026-16923,FERC,notice,sector_tags,renewables,power;renewables,"Erie Boulevard Hydropower, L.P.; Notice of Authorization for Continued Project Operation"
+federalregister:2026-16168,FERC,notice,sector_tags,renewables,power;renewables,"Erie Boulevard Hydropower, L.P.; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests"
+federalregister:2025-22729,FERC,notice,sector_tags,,power;renewables,"Indiana Michigan Power Company; Notice of Intent To File License Application, Filing of Pre-Application Document (Pad), "
+federalregister:2026-06709,FERC,notice,sector_tags,,power;renewables,"ALLETE, Inc.; Notice of Application Tendered for Filing With the Commission and Establishing Procedural Schedule for Rel"
+federalregister:2025-23497,FERC,notice,sector_tags,,power;renewables,Northern States Power Company; Notice of Authorization for Continued Project Operation
+federalregister:2026-13958,FERC,notice,sector_tags,,power;renewables,"Northern States Power Company; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recommend"
+federalregister:2026-07124,FERC,notice,sector_tags,power,power;renewables,"Virginia Electric and Power Company d/b/a Dominion Energy Virginia, Allegheny Generating Company, and Bath County Energy"
+federalregister:2026-01077,FERC,notice,sector_tags,power,power;renewables,"Virginia Electric and Power Company d/b/a Dominion Energy Virginia, Allegheny Generating Company, and Bath County Energy"
+federalregister:2026-09921,FERC,notice,sector_tags,power,power;renewables,"Virginia Electric and Power Company d/b/a Dominion Energy Virginia, Allegheny Generating Company, and Bath County Energy"
+federalregister:2026-15880,FERC,notice,sector_tags,,power;renewables,PacifiCorp; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-16325,FERC,notice,sector_tags,,power;renewables,"City of Hamilton, Ohio; Notice of Intent To File License Application, Filing of Pre-Application Document, and Approving "
+federalregister:2026-16064,FERC,notice,sector_tags,,power;renewables,Oglethorpe Power Corporation; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-17256,FERC,notice,sector_tags,,power;renewables,Oglethorpe Power Corporation; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2025-23706,FERC,notice,sector_tags,,power;renewables,"Green Mountain Power Corporation; Notice of Application Accepted for Filing, Soliciting Comments, Motions To Intervene, "
+federalregister:2026-20239,FERC,notice,sector_tags,,power;renewables,"Green Mountain Power Corporation; Notice of Intent To File License Application, Filing of Pre-Application Document (Pad)"
+federalregister:2026-09297,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice of Authorization for Continued Project Operation
+federalregister:2026-16421,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice of Availability of Environmental Assessment
+federalregister:2026-04660,FERC,notice,sector_tags,power,power;renewables,Pacific Gas & Electric Company; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-20241,FERC,notice,sector_tags,,power;renewables,"Green Mountain Power Company; Notice of Intent To File License Application, Filing of Pre-Application Document (Pad), Co"
+federalregister:2026-04267,FERC,notice,sector_tags,,power;renewables,"Duke Energy Carolinas, LLC; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests, Rea"
+federalregister:2026-01920,FERC,notice,sector_tags,,power;renewables,"Duke Energy Carolinas, LLC; Notice of Revised Procedural Schedule for Processing of Relicense Application"
+federalregister:2026-08215,FERC,notice,sector_tags,,power;renewables,"Duke Energy Carolinas, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-10228,FERC,notice,sector_tags,,power;renewables,"Duke Energy Carolinas, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-12014,FERC,notice,sector_tags,power,power;renewables,Copper Valley Electric Association; Notice of Application Tendered for Filing With the Commission and Soliciting Additio
+federalregister:2026-16063,FERC,notice,sector_tags,power,power;renewables,"Kodiak Electric Association, Inc.; Notice of Intent To File License Application, Filing of Pre-Application Document (Pad"
+federalregister:2026-04131,FERC,notice,sector_tags,,power;renewables,"Solano Irrigation District; Notice of Intent To File License Application, Filing of Pre-Application Document, and Approv"
+federalregister:2026-17397,FERC,notice,sector_tags,renewables,power;renewables,"Boott Hydropower, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-06430,FERC,notice,sector_tags,renewables,power;renewables,"Boott Hydropower, LLC; Notice of Revised Procedural Schedule for Processing of Relicense Application"
+federalregister:2026-11606,FERC,notice,sector_tags,renewables,power;renewables,"Boott Hydropower, LLC; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests, Ready fo"
+federalregister:2026-03573,FERC,notice,sector_tags,,power;renewables,"South Columbia Irrigation District, East Columbia Irrigation District, Quincy Columbia Irrigation District; Notice of Ap"
+federalregister:2026-17945,FERC,notice,sector_tags,renewables,power;renewables,"Columbia Basin Hydropower; Notice of Intent To File License Application, Filing of Pre-Application Document (Pad), Comme"
+federalregister:2026-08089,FERC,notice,sector_tags,,power;renewables,"City of Idaho Falls, Idaho; Notice of Application for a License Variance Accepted for Filing, Soliciting Comments, Motio"
+federalregister:2026-05650,FERC,notice,sector_tags,,power;renewables,"Idaho Power Company; Notice of Intent To File License Application, Filing of Pre-Application Document, and Approving Use"
+federalregister:2026-17946,FERC,notice,sector_tags,renewables,power;renewables,"Columbia Basin Hydropower; Notice of Intent To File License Application, Filing of Pre-Application Document (Pad), Comme"
+federalregister:2026-19446,FERC,notice,sector_tags,,power;renewables,"Pontook Operating Limited Partnership, New Hampshire Department of Environmental Services; Notice of Scoping Comment Ses"
+federalregister:2026-19198,FERC,notice,sector_tags,,power;renewables,Pontook Operating Limited Partnership & New Hampshire Department of Environmental Services; Notice of Intent To File Lic
+federalregister:2025-21952,FERC,notice,sector_tags,,power;renewables,Green Mountain Power Corporation; Notice of Application for Non-Capacity Amendment of License Accepted for Filing and So
+federalregister:2026-17396,FERC,notice,sector_tags,,power;renewables,"GP Big Island, LLC; Notice of Intent To File License Application, Filing of Pre-Application Document, and Approving Use "
+federalregister:2026-19197,FERC,notice,sector_tags,,power;renewables,"Southeast Alaska Power Agency; Notice of Application Accepted for Filing and Soliciting Comments, Motions To Intervene, "
+federalregister:2026-00016,FERC,notice,sector_tags,,power;renewables,"East Bay Municipal Utility District; Notice of Intent To File License Application, Filing of Pre-Application Document (P"
+federalregister:2026-08960,FERC,notice,sector_tags,,power;renewables,Presumpscot Hydro LLC and Relevate Power Maine LLC; Notice of Effectiveness of Withdrawal of Exhibit F Drawing
+federalregister:2026-20105,FERC,notice,sector_tags,,power;renewables,"The City of Columbus, Ohio; Notice of Application for Surrender of Exemption Accepted for Filing, Soliciting Comments, M"
+federalregister:2026-18149,FERC,notice,sector_tags,,power;renewables,"City of Sturgis, Michigan; Notice of Application for Temporary Variance Accepted for Filing, Soliciting Comments, Motion"
+federalregister:2025-21050,FERC,notice,sector_tags,,power;renewables,South Sutter Water District; Notice of Revised Procedural Schedule for Environmental Assessment for the Proposed Project
+federalregister:2026-04870,FERC,notice,sector_tags,,power;renewables,South Sutter Water District; Notice of Availability of Environmental Assessment
+federalregister:2026-01580,FERC,notice,sector_tags,,power;renewables,Southeast Alaska Power Agency; Notice of Availability of Environmental Assessment
+federalregister:2026-13271,FERC,notice,sector_tags,,power;renewables,"Southeast Alaska Power Agency; Notice of Intent To File License Application, Filing of Pre-Application Document, and App"
+federalregister:2026-19196,FERC,notice,sector_tags,,power;renewables,"Southeast Alaska Power Agency; Notice of Application Accepted for Filing and Soliciting Comments, Motions To Intervene, "
+federalregister:2026-05187,FERC,notice,sector_tags,,power;renewables,Blackstone Hydro Associates; Notice of Effectiveness of Withdrawal of Operation Compliance Monitoring Plan
+federalregister:2026-05186,FERC,notice,sector_tags,,power;renewables,Blackstone Hydro Associates; Notice of Effectiveness of Withdrawal of Downstream Fishway Effectiveness Monitoring Plan
+federalregister:2026-04954,FERC,notice,sector_tags,,power;renewables,"Blackstone Hydro Associates; Notice of Application for Non-Capacity Amendment of License Accepted for Filing, Soliciting"
+federalregister:2026-16523,FERC,notice,sector_tags,,power;renewables,Blue Earth County; Notice of Availability of Environmental Assessment
+federalregister:2025-20618,FERC,notice,sector_tags,,power;renewables,Blue Earth County; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-05426,FERC,notice,sector_tags,,power;renewables,Blue Earth County; Notice of Revised Schedule for Environmental Assessment
+federalregister:2026-12464,FERC,notice,sector_tags,,power;renewables,City of Spokane; Notice of Scoping Comment Sessions and Environmental Site Review
+federalregister:2026-11781,FERC,notice,sector_tags,,power;renewables,"City of Spokane; Notice of Intent To File License Application, Filing of Pre-Application Document (PAD), Commencement of"
+federalregister:2026-12723,FERC,notice,sector_tags,,power;renewables,"Lyonsdale Associates, LLC; Notice of Authorization for Continued Project Operation"
+federalregister:2026-16326,FERC,notice,sector_tags,,power;renewables,"Lyonsdale Associates, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-12225,FERC,notice,sector_tags,,power;renewables,"Lyonsdale Associates, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-11089,FERC,notice,sector_tags,,power;renewables,"ECOsponsible, LLC; Notice of Proposed Termination of License by Implied Surrender and Soliciting Comments, Motions To In"
+federalregister:2026-17947,FERC,notice,sector_tags,renewables,power;renewables,"Columbia Basin Hydropower; Notice of Intent To File License Application, Filing of Pre-Application Document (Pad), Comme"
+federalregister:2025-19425,FERC,notice,sector_tags,,power;renewables,Briar Hydro Associates; Notice of Availability of Environmental Assessment
+federalregister:2026-06637,FERC,notice,sector_tags,,power;renewables,Big Wood Canal Company; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protests
+federalregister:2025-23494,FERC,notice,sector_tags,,power;renewables,"Brown Bear II Hydro, Inc.; Notice of Authorization for Continued Project Operation"
+federalregister:2026-19280,FERC,notice,sector_tags,,power;renewables,"Brown Bear II Hydro, Inc.; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-00982,FERC,notice,sector_tags,,power;renewables,"Brown Bear II Hydro, Inc.; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests, Read"
+federalregister:2026-03013,FERC,notice,sector_tags,,power;renewables,"Brown Bear II Hydro, Inc.; Notice Granting Extension of Time"
+federalregister:2026-03662,FERC,notice,sector_tags,,power;renewables,Beaver Falls Municipal Authority; Notice of Availability of Environmental Assessment
+federalregister:2026-19817,FERC,notice,sector_tags,power,power;renewables,"French Broad Electric Membership Corporation; Notice of Application for Surrender of Exemption Accepted for Filing, Soli"
+federalregister:2026-17104,FERC,notice,sector_tags,,power;renewables,"Alabama Power Company; Notice of Application Accepted for Filing and Soliciting Comments, Motions To Intervene, and Prot"
+federalregister:2026-12224,FERC,notice,sector_tags,,power;renewables,"KEI (Maine) Power Management (III), LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-12333,FERC,notice,sector_tags,,power;renewables,"KEI (Maine) Power Management (III), LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2025-20918,FERC,notice,sector_tags,renewables,power;renewables,KEI (Maine) Power Management (III) LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Pro
+federalregister:2026-05890,FERC,notice,sector_tags,,power;renewables,"KEI (Maine) Power Management (III) LLC; Notice of Application Ready for Environmental Analysis and Soliciting Comments, "
+federalregister:2026-06200,FERC,notice,sector_tags,,power;renewables,City of Aspen; Notice of Availability of Environmental Assessment
+federalregister:2026-03115,FERC,notice,sector_tags,,power;renewables,City of Aspen; Notice of Revised Schedule for Environmental Assessment
+federalregister:2026-00984,FERC,notice,sector_tags,,power;renewables,"Southern California Edison Company; Lower Tule Hydro, LLC; Notice of Application Accepted for Filing and Soliciting Comm"
+federalregister:2026-03547,FERC,notice,sector_tags,,power;renewables,"Sugarloaf Hydro, LLC, Leadville Hydro, LLC; Notice of Application of Transfer of License and Soliciting Comments, Motion"
+federalregister:2026-10499,FERC,notice,sector_tags,,power;renewables,"City of St. Cloud, Minnesota; Notice of Availability of Environmental Assessment"
+federalregister:2026-05425,FERC,notice,sector_tags,,power;renewables,"Oswego Hydro Partners, LP; Notice of Authorization for Continued Project Operation"
+federalregister:2026-15442,FERC,notice,sector_tags,,power;renewables,"Oswego Hydro Partners, LP; Notice of Availability of Environmental Assessment"
+federalregister:2026-14078,FERC,notice,sector_tags,,power;renewables,"Oswego Hydro Partners, LP; Notice of Waiver of Water Quality Certification"
+federalregister:2026-16928,FERC,notice,sector_tags,,power;renewables,"Lower Saranac Hydro Partners, LLC; Notice of Revised Procedural Schedule"
+federalregister:2026-05269,FERC,notice,sector_tags,,power;renewables,"Duke Energy Progress, LLC, Duke Energy Carolinas, LLC; Notice of Application of Transfer of License and Soliciting Comme"
+federalregister:2026-09296,FERC,notice,sector_tags,power,power;renewables,EONY Generation Limited; Notice of Authorization for Continued Project Operation
+federalregister:2026-10987,FERC,notice,sector_tags,power,power;renewables,EONY Generation Limited; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-08090,FERC,notice,sector_tags,power,power;renewables,EONY Generation Limited; Notice of Availability of Environmental Assessment
+federalregister:2026-05714,FERC,notice,sector_tags,,power;renewables,"City of Tacoma, Washington; Notice of Application for Non-Capacity Amendment of License Accepted for Filing, Soliciting "
+federalregister:2025-22943,FERC,notice,sector_tags,,power;renewables,"GR Catalyst Two, LLC; Notice of Revised Procedural Schedule"
+federalregister:2026-13881,FERC,notice,sector_tags,,power;renewables,"GR Catalyst Two, LLC ; Notice of Revised Procedural Schedule"
+federalregister:2026-05424,FERC,notice,sector_tags,,power;renewables,New York Power Authority; Notice of Availability of Environmental Assessment
+federalregister:2026-10657,FERC,notice,sector_tags,,power;renewables,New York Power Authority; Notice of Availability of Environmental Assessment
+federalregister:2026-19583,FERC,notice,sector_tags,,power;renewables,"GR Catalyst One, LLC; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protests"
+federalregister:2026-19582,FERC,notice,sector_tags,renewables,power;renewables,"GR Catalyst One, LLC; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Stillwater H"
+federalregister:2026-02610,FERC,notice,sector_tags,,power;renewables,"BIF III Holtwood LLC; Notice of Application for Non-Project Use of Project Land and Waters Accepted for Filing, Soliciti"
+federalregister:2026-01917,FERC,notice,sector_tags,,power;renewables,"Forestport Hydro, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2025-21051,FERC,notice,sector_tags,,power;renewables,"Forestport Hydro, LLC; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recommendations, "
+federalregister:2026-01918,FERC,notice,sector_tags,,power;renewables,"Forestport Hydro, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-12713,FERC,notice,sector_tags,,power;renewables,"Ampersand Kayuta Lake Hydro, LLC; Notice of Authorization for Continued Project Operation"
+federalregister:2025-22782,FERC,notice,sector_tags,,power;renewables,Ampersand Kayuta Lake Hydro LLC; Notice of Availability of Environmental Assessment
+federalregister:2025-23295,FERC,notice,sector_tags,power,power;renewables,"Fall River Rural Electric Cooperative, Inc.; Notice of Waiver Period for Water Quality Certification Application"
+federalregister:2025-21052,FERC,notice,sector_tags,power,power;renewables,"Fall River Rural Electric Cooperative, Inc.; Notice of Application Ready for Environmental Analysis and Soliciting Comme"
+federalregister:2026-15692,FERC,notice,sector_tags,power,power;renewables,"Fall River Electric Cooperative, Inc.; Notice of Revised Schedule for Environmental Assessment"
+federalregister:2025-23296,FERC,notice,sector_tags,power,power;renewables,"Fall River Electric Cooperative, Inc.; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2025-22342,FERC,notice,sector_tags,,power;renewables,International Falls Power Company; Notice of Application Tendered for Filing With the Commission and Soliciting Addition
+federalregister:2026-02613,FERC,notice,sector_tags,,power;renewables,New Hampshire Department of Environmental Services; Notice of Availability of Environmental Assessment
+federalregister:2026-11338,FERC,notice,sector_tags,,power;renewables,Seattle City Light; Notice of Settlement Agreement and Soliciting Comments
+federalregister:2026-12223,FERC,notice,sector_tags,power,power;renewables,"Pacific Gas & Electric Company; Notice of Intent To File License Application, Filing of Pre-Application Document, and Ap"
+federalregister:2026-01163,FERC,notice,sector_tags,,power;renewables,Triton Power Company; Notice of Authorization for Continued Project Operation
+federalregister:2026-16431,FERC,notice,sector_tags,,power;renewables,Triton Power Company; Notice of Application Tendered for Filing With the Commission and Soliciting Additional Study Requ
+federalregister:2026-02755,FERC,notice,sector_tags,,power;renewables,Santa Clara Valley Water District; Notice of Availability of the Final Environmental Impact Statement for Dam Retrofit a
+federalregister:2026-11598,FERC,notice,sector_tags,,power;renewables,"Town of Dover-Foxcroft; Notice of Application for Surrender of Exemption Accepted for Filing, Soliciting Comments, Motio"
+federalregister:2026-15542,FERC,notice,sector_tags,,power;renewables,Town of Dover-Foxcroft; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-18639,FERC,notice,sector_tags,,power;renewables,Seefeld Corporation; Notice of Waiver Period for Water Quality Certification Application
+federalregister:2026-17103,FERC,notice,sector_tags,,power;renewables,"Seefeld Corporation: Notice of Application for Surrender of Exemption Accepted for Filing, Soliciting Comments, Motions "
+federalregister:2026-05423,FERC,notice,sector_tags,,power;renewables,McCallum Enterprises I Limited Partnership and Shelton Canal Company; Notice of Authorization for Continued Project Oper
+federalregister:2026-11253,FERC,notice,sector_tags,power,power;renewables,Pacific Gas & Electric Company and the City of Santa Clara; Notice of Application for Modification of Water Quality Cert
+federalregister:2026-11086,FERC,notice,sector_tags,,power;renewables,City of Chignik; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-05651,FERC,notice,sector_tags,,power;renewables,"City of Chignik; Notice of Application for Surrender of License Accepted for Filing, Soliciting Comments, Motions To Int"
+federalregister:2026-16652,FERC,notice,sector_tags,,power;renewables,"City of Chignik, Alaska; Notice of Availability of Environmental Assessment"
+federalregister:2025-22728,FERC,notice,sector_tags,,power;renewables,"Brooks Energy, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-07544,FERC,notice,sector_tags,,power;renewables,"Brooks Energy, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-05884,FERC,notice,sector_tags,,power;renewables,"Hackett Mills Hydro Associates, LLC; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Rec"
+federalregister:2026-12222,FERC,notice,sector_tags,,power;renewables,"Hackett Mills Hydro Associates, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-12332,FERC,notice,sector_tags,,power;renewables,"Hackett Mills Hydro Associates, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-18640,FERC,notice,sector_tags,,power;renewables,"The Dam, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-09295,FERC,notice,sector_tags,,power;renewables,Battenkill Hydro Associates; Notice of Authorization for Continued Project Operation
+federalregister:2026-02754,FERC,notice,sector_tags,,power;renewables,Battenkill Hydro Associates; Notice of Authorization for Continued Project Operation
+federalregister:2025-20866,FERC,notice,sector_tags,renewables,power;renewables,Battenkill Hydro Associates; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Upper
+federalregister:2026-09294,FERC,notice,sector_tags,,power;renewables,"Ampersand Hollow Dam Hydro, LLC; Notice of Authorization for Continued Project Operation"
+federalregister:2026-03343,FERC,notice,sector_tags,,power;renewables,Ampersand Hollow Dam Hydro LLC; Notice of Availability of Environmental Assessment
+federalregister:2025-21707,FERC,notice,sector_tags,,power;renewables,"Kinneytown Hydro Company, Inc., Connecticut Brownfield Land Bank, Inc.; Notice of Transfer of Exemption"
+federalregister:2026-16239,FERC,notice,sector_tags,,power;renewables,"Consolidated Hydro New York, LLC; Notice of Settlement Agreement and Soliciting Comments"
+federalregister:2026-02463,FERC,notice,sector_tags,,power;renewables,"Missisquoi, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-04549,FERC,notice,sector_tags,,power;renewables,"Neenah Paper FR, LLC, Appleton Dam, LLC; Notice of Application of Transfer of License and Soliciting Comments, Motions T"
+federalregister:2025-19972,FERC,notice,sector_tags,,power;renewables,"Town of Wells, New York; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-18457,FERC,notice,sector_tags,,power;renewables,Town of Wells; Notice of Availability of Environmental Assessment
+federalregister:2026-07548,FERC,notice,sector_tags,,power;renewables,"Glencoe Mill, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-17102,FERC,notice,sector_tags,,power;renewables,"Glencoe Mill, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2026-05649,FERC,notice,sector_tags,,power;renewables,"Ampersand Olcott Harbor Hydro, LLC; Notice of Effectiveness of Withdrawal of Application for Amendment of Exemption"
+federalregister:2025-21335,FERC,notice,sector_tags,,power;renewables,"James D. Sysko; Notice of Proposed Termination of Exemption by Implied Surrender and Soliciting Comments, Motions To Int"
+federalregister:2025-21953,FERC,notice,sector_tags,power,power;renewables,Pacific Gas & Electric Company; Notice Extending Comment Period
+federalregister:2025-20915,FERC,notice,sector_tags,power,power;renewables,"Pacific Gas & Electric Company; Notice of Application for Non-Capacity Amendment of License Accepted for Filing, Solicit"
+federalregister:2025-20916,FERC,notice,sector_tags,power,power;renewables,"Pacific Gas & Electric Company; Notice of Application for Surrender of License and Non-Project Use of Project Lands, Acc"
+federalregister:2025-21945,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice Extending Comment Period
+federalregister:2026-10658,FERC,notice,sector_tags,power,power;renewables,"Pacific Gas and Electric Company; Notice of Scoping Meetings and Request for Comments on Proposed Surrender, Decommissio"
+federalregister:2026-16833,FERC,notice,sector_tags,power,power;renewables,"Pacific Gas and Electric Company; Notice of Additional Scoping Sessions on Proposed Surrender, Decommissioning, and Non-"
+federalregister:2026-03786,FERC,notice,sector_tags,power,power;renewables,"Pacific Gas & Electric Company; Notice Of Application For Temporary Flow Modification Accepted For Filing, Soliciting Co"
+federalregister:2026-06883,FERC,notice,sector_tags,,power;renewables,"Powerhouse Systems, LLC; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests, Ready "
+federalregister:2026-17321,FERC,notice,sector_tags,,power;renewables,"Power House Systems, LLC; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-13594,FERC,notice,sector_tags,,power;renewables,"Powerhouse Systems, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-15104,FERC,notice,sector_tags,,power;renewables,"Ashuelot River Hydro, Inc.; Notice of Authorization for Continued Project Operation"
+federalregister:2026-10656,FERC,notice,sector_tags,,power;renewables,"Ashuelot River Hydro, Inc.; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-03342,FERC,notice,sector_tags,,power;renewables,"Ashuelot River Hydro, Inc.; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recommendati"
+federalregister:2026-09559,FERC,notice,sector_tags,,power;renewables,"Ashuelot River Hydro, Inc.; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2025-20784,FERC,notice,sector_tags,,power;renewables,"Ashuelot River Hydro, Inc.; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protests"
+federalregister:2026-15105,FERC,notice,sector_tags,,power;renewables,Comtu Falls Corporation; Notice of Authorization for Continued Project Operation
+federalregister:2025-22120,FERC,notice,sector_tags,renewables,power;renewables,"Columbia Mills Hydroelectric, LP, Columbia Mills Hydroelectric, LLC; Notice of Transfer of Exemption"
+federalregister:2026-09299,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice of Availability of Final Environmental Assessment
+federalregister:2026-04191,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice of Application for Temporary Variance of Flow Requirements Accepted for Filing 
+federalregister:2026-06884,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-05422,FERC,notice,sector_tags,renewables,power;renewables,Methuen Falls Hydroelectric Company; Notice of Authorization for Continued Project Operation
+federalregister:2026-15691,FERC,notice,sector_tags,,power;renewables,"Alaska Energy Authority; Notice of Application for Non-Capacity Amendment of License Accepted for Filing, Soliciting Com"
+federalregister:2026-03176,FERC,notice,sector_tags,,power;renewables,"Eagle Creek Sartell Hydro, LLC; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protests,"
+federalregister:2026-09812,FERC,notice,sector_tags,,power;renewables,"Eagle Creek Sartell Hydro, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-18643,FERC,notice,sector_tags,,power;renewables,Village of Saranac Lake; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-13269,FERC,notice,sector_tags,,power;renewables,"Village of Saranac Lake; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recommendations"
+federalregister:2026-06298,FERC,notice,sector_tags,renewables,power;renewables,Village of Saranac Lake; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Lake Flow
+federalregister:2026-06299,FERC,notice,sector_tags,,power;renewables,Village of Saranac Lake; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protests
+federalregister:2025-20701,FERC,notice,sector_tags,,power;renewables,Village of Saranac Lake; Notice of Application Tendered for Filing With the Commission and Soliciting Additional Study R
+federalregister:2026-18038,FERC,notice,sector_tags,,power;renewables,Village of Saranac Lake; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-11087,FERC,notice,sector_tags,,power;renewables,"Green Mountain Power Corporation; Notice of Application Accepted for Filing, Soliciting Motions To Intervene and Protest"
+federalregister:2026-18359,FERC,notice,sector_tags,,power;renewables,Green River Power Corporation; Notice of Reasonable Period of Time for Water Quality Certification Application
+federalregister:2026-17316,FERC,notice,sector_tags,,power;renewables,Green Mountain Power Corporation; Notice of Intent To Prepare an Environmental Assessment
+federalregister:2026-11535,FERC,notice,sector_tags,renewables,power;renewables,"Erie Boulevard Hydropower, L.P.; Errata Notice and Notice of Reasonable Period of Time for Water Quality Certification A"
+federalregister:2026-03661,FERC,notice,sector_tags,renewables,power;renewables,"Erie Boulevard Hydropower, L.P.; Notice of Waiver of Water Quality Certification"
+federalregister:2025-23490,FERC,notice,sector_tags,,power;renewables,Fiske Hydro Inc.; Notice of Authorization for Continued Project Operation
+federalregister:2026-07655,FERC,notice,sector_tags,,power;renewables,"City of Kankakee, Illinois; Notice of Application Tendered for Filing With the Commission and Soliciting Additional Stud"
+federalregister:2026-11444,FERC,notice,sector_tags,renewables,power;renewables,"R.J. Fortier Hydropower, Inc.; Notice of Application for Surrender of Exemption Accepted for Filing, Soliciting Comments"
+federalregister:2026-09919,FERC,notice,sector_tags,renewables,power;renewables,"R.J. Fortier Hydropower, Inc.; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-14591,FERC,notice,sector_tags,renewables,power;renewables,"R.J. Fortier Hydropower, Inc.; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-00981,FERC,notice,sector_tags,,power;renewables,"Black Canyon Bliss, LLC; JK Potatoes, LLC; Notice of Application of Transfer of License and Soliciting Comments, Motions"
+federalregister:2026-16926,FERC,notice,sector_tags,,power;renewables,"Banister Hydro, Inc.; Notice of Authorization for Continued Project Operation"
+federalregister:2025-20917,FERC,notice,sector_tags,renewables,power;renewables,"Banister Hydro, Inc.; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Halifax Hydr"
+federalregister:2026-04662,FERC,notice,sector_tags,,power;renewables,"Banister Hydro, Inc.; Notice of Application Ready for Environmental Analysis and Soliciting Comments, Recommendations, T"
+federalregister:2026-16241,FERC,notice,sector_tags,,power;renewables,"Banister Hydro, Inc.; Notice of Reasonable Period of Time for Water Quality Certification Application"
+federalregister:2026-12331,FERC,notice,sector_tags,,power;renewables,"Banister Hydro, Inc.; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-08352,FERC,notice,sector_tags,,power;renewables,"Cushaw Hydro, LLC; Notice of Application for Non-Capacity License Amendment Accepted for Filing, Soliciting Comments, Mo"
+federalregister:2026-11445,FERC,notice,sector_tags,,power;renewables,"Boralex Hydro Operations, Inc.; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protes"
+federalregister:2026-16654,FERC,notice,sector_tags,renewables,power;renewables,"Boralex Hydro Operations, Inc.; Notice of Scoping Period Requesting Comments on Environmental Issues for the Proposed Wa"
+federalregister:2026-10226,FERC,notice,sector_tags,,power;renewables,"Sugar River Power LLC; Notice of Intent To File License Application, Filing of Pre-Application Document, and Approving U"
+federalregister:2025-20702,FERC,notice,sector_tags,renewables,power;renewables,"Pine Valley Hydroelectric Power Company, LLC; Notice of Application Tendered for Filing With the Commission and Soliciti"
+federalregister:2025-22345,FERC,notice,sector_tags,,power;renewables,"Kezar Falls Hydro, LLC; Notice of Intent To File License Application, Filing of Pre-Application Document, and Approving "
+federalregister:2026-01916,FERC,notice,sector_tags,,power;renewables,"Grenfell, LLC; Flat River Power, LLC: Notice of Transfer of Exemption"
+federalregister:2026-00017,FERC,notice,sector_tags,power,power;renewables,Pacific Gas and Electric Company; Notice of Availability of Environmental Assessment
+federalregister:2026-15106,FERC,notice,sector_tags,,power;renewables,"One Hundred River Street, LLC; Notice of Authorization for Continued Project Operation"
+federalregister:2026-15107,FERC,notice,sector_tags,,power;renewables,Lovejoy Tool Company Inc.; Notice of Authorization for Continued Project Operation
+federalregister:2026-15108,FERC,notice,sector_tags,,power;renewables,"Factory Falls, Inc.; Notice of Authorization for Continued Project Operation"
+federalregister:2026-12221,FERC,notice,sector_tags,,power;renewables,"Wiscons8, LLC; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-08963,FERC,notice,sector_tags,,power;renewables,"Wiscons8, LLC; Notice of Application for Surrender of Exemption Accepted for Filing, Soliciting Comments, Motions To Int"
+federalregister:2026-16651,FERC,notice,sector_tags,,power;renewables,"Wiscons8, LLC; Notice of Availability of Environmental Assessment"
+federalregister:2025-23217,FERC,notice,sector_tags,,power;renewables,"Valatie Falls Hydro Power, Inc.; Notice of Application Tendered for Filing With the Commission and Soliciting Additional"
+federalregister:2026-03114,FERC,notice,sector_tags,renewables,power;renewables,"STS Hydropower, LLC; Charter Township of Van Buren, Michigan; Notice of Intent To Prepare an Environmental Assessment"
+federalregister:2026-03113,FERC,notice,sector_tags,renewables,power;renewables,"STS Hydropower, LLC; Charter Township of Van Buren, Michigan; Notice of Reasonable Period of Time for Water Quality Cert"
+federalregister:2025-22227,FERC,notice,sector_tags,renewables,power;renewables,"STS Hydropower, LLC; Charter Township of Van Buren, Michigan, Notice of Application Accepted for Filing, Soliciting Moti"
+federalregister:2026-01346,FERC,notice,sector_tags,renewables,power;renewables,"Charter Township of Van Buren, Michigan, STS Hydropower, LLC; Notice of Application for Non-Project Use Accepted for Fil"
+federalregister:2026-00265,FERC,notice,sector_tags,power,power;renewables,"Rivers Electric, LLC; Notice of Revised Procedural Schedule"
+federalregister:2026-10877,FERC,notice,sector_tags,power,power;renewables,"Rivers Electric, LLC; Notice of Application Accepted for Filing and Soliciting Motions To Intervene and Protests"
+federalregister:2026-04867,FERC,notice,sector_tags,power,power;renewables,"Albany Engineering Corporation, Albany Electric Corporation; Notice of Application of Transfer of License and Soliciting"
+federalregister:2026-05188,FERC,notice,sector_tags,,power;renewables,"Great Lake Hydro America, LLC; Notice of Revised Procedural Schedule for Processing of Relicense Applications"
+federalregister:2026-05637,EPA,proposed_rule,states,VA;WV,WV,Approval and Promulgation of State Plans for Designated Facilities and Pollutants; West Virginia; Control of Emissions F
+federalregister:2025-19238,EPA,rule,states,VA;WV,WV,Approval and Promulgation of Air Quality Implementation Plans; West Virginia; Revisions to Regulation for Control of Ozo
+federalregister:2026-02830,EPA,proposed_rule,states,VA;WV,WV,Partial Approval and Promulgation of State Plan for Designated Facilities and Pollutants; West Virginia; Control of Emis
+federalregister:2026-06458,EPA,notice,states,WA,,Endangered Species Committee
+federalregister:2026-04731,BLM,notice,states,VA;WV;WY,WV;WY,"Public Hearing and Request for Comment on the Maximum Economic Recovery, Fair Market Value, and Review of Environmental "
+federalregister:2026-05037,Interior,notice,states,WA,,"Notice of Intended Repatriation: U.S. Department of Energy, Office of Petroleum Reserves, Washington, DC"
+federalregister:2026-05790,Interior,notice,states,WA,,Notice of Intent To Prepare an Environmental Impact Statement for Redevelopment at the Robert F. Kennedy Memorial Stadiu
+federalregister:2026-12482,Interior,rule,states,VA;WV,WV,West Virginia Regulatory Program
+federalregister:2026-03413,Interior,rule,states,VA;WV,WV,West Virginia Regulatory Program
+federalregister:2025-21791,Interior,rule,states,VA;WV,WV,West Virginia Regulatory Program
+federalregister:2025-21782,Interior,rule,states,VA;WV,WV,West Virginia Regulatory Program
+federalregister:2026-10817,NRC,proposed_rule,sector_tags,,nuclear,Regulation for Federal Financial Assistance
+nrc:541e75f88f44,NRC,press_release,sector_tags,,nuclear,NRC Streamlines Environmental Reviews with Two New Rules
+nrc:914deaf5424d,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Point Beach Power Plant Performance
+nrc:fb96bc99c8a1,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC Kicks Off Environmental Review of Pioneer Construction Permit Application
+nrc:c573a15ae5b2,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC Chairman Nieh to Speak at CERAWeek
+nrc:2d20881a56a6,NRC,press_release,sector_tags,,nuclear,NRC Marks One Year of Modernization Under Presidential Order
+nrc:4553fb063ac6,NRC,press_release,sector_tags,,nuclear,NRC Receives Westinghouse Application to Update AP1000 Design Certification
+nrc:b930671acdc3,NRC,press_release,sector_tags,,nuclear,NRC Appoints New General Counsel and Research Director
+nrc:ec4f32e3368e,NRC,press_release,sector_tags,,nuclear,NRC Schedules Public Workshop on Probabilistic Risk Assessment
+nrc:ec4f32e3368e,NRC,press_release,event_date,2025-12-20,2025-12-19,NRC Schedules Public Workshop on Probabilistic Risk Assessment
+nrc:084a1db9eb9a,NRC,press_release,sector_tags,,nuclear,NRC Finds No Significant Environmental Impact from Proposed Crane Clean Energy Center Restart
+nrc:4c8d0c0d02ba,NRC,press_release,sector_tags,,nuclear,NRC Advisory: NRC to Hold Mandatory Hearing on Belews Creek Early Site Permit
+nrc:bce3e874dc91,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC to Hold Public Meeting on Proposed Changes to Contested Hearings
+nrc:bce3e874dc91,NRC,press_release,event_date,2026-03-06,2026-03-05,Media Advisory: NRC to Hold Public Meeting on Proposed Changes to Contested Hearings
+nrc:11f4389c45e7,NRC,press_release,sector_tags,,nuclear,NRC Advisory: NRC to Hold Virtual Public Meetings on Proposed Rules
+nrc:b2c7fd3c0847,NRC,press_release,sector_tags,,nuclear,"NRC Proposes $72,000 Civil Penalty Against Missouri-based Company"
+nrc:4cec785a9cad,NRC,press_release,sector_tags,,nuclear,NRC Proposes Major Modernization of Environmental Review Process
+nrc:346d11ef0818,NRC,press_release,sector_tags,power,power;nuclear,"NRC Renews Hatch Licenses in Under 12 Months, Preserving 1.8 Gigawatts on the Grid for 20 More Years"
+nrc:2b9c00abc22a,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC to Hold Public Webinar to Discuss NRC Website Modernization
+nrc:4ef0ea2caea6,NRC,press_release,sector_tags,,nuclear,"Media Advisory: NRC to Discuss Crystal River License Termination Plan, Gather Public Comments During May 12 Meeting"
+nrc:e06bfe17b686,NRC,press_release,sector_tags,,nuclear,Registration Open for NRC Jan. 28 Standards Forum
+nrc:816a73ee0740,NRC,press_release,sector_tags,,nuclear,NRC Makes Nine Mile Point Subsequent License Renewal Application Available
+nrc:dcb9f8bb4dc9,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Fermi Power Plant Performance
+nrc:766e6ea59940,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Public Outreach to Discuss Diablo Canyon Power Plant Performance
+nrc:8d5b0a812281,NRC,press_release,sector_tags,,nuclear,NRC to Host Public Symposium on Artificial Intelligence
+nrc:fed3d05f600d,NRC,press_release,sector_tags,,nuclear,NRC Announces Opportunity to Request Hearing for Crane Clean Energy Center Restart License Amendments
+nrc:dc8fc5875107,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC Posts Construction Permit Application for Eden Radioisotope Production Facility
+nrc:177493c7c4e5,NRC,press_release,sector_tags,,nuclear,‌NRC Atomic Safety and Licensing Board Reschedules Oral Argument on Long Mott Construction Permit Application‌
+nrc:177493c7c4e5,NRC,press_release,event_date,2025-11-21,2025-11-20,‌NRC Atomic Safety and Licensing Board Reschedules Oral Argument on Long Mott Construction Permit Application‌
+nrc:50685b7aac77,NRC,press_release,sector_tags,,nuclear,"NRC Accepts University of Illinois Application to Build Advanced Microreactor, Kicking Off Formal Review"
+nrc:a710b08f63cc,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC to Hold Hybrid Public Meeting on Part 53
+nrc:75acfb37d22d,NRC,press_release,sector_tags,,nuclear,"NRC Proposes $18,000 Civil Penalty Against Indiana-Based Company"
+nrc:700966371e45,NRC,press_release,sector_tags,,nuclear,NRC Announces Opportunity to Request Hearing for Duane Arnold Energy Center License Transfer
+nrc:5e7c9cf88580,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Byron Power Plant Performance
+nrc:7cc733b8baa9,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC Announces Opportunity to Request a Hearing on Nine Mile Point Subsequent License Renewal Application
+nrc:8f61d0ef7013,NRC,press_release,sector_tags,,nuclear,NRC to Hold First Public Meeting on Executive Order 14300 RulemakingsNRC to Hold First Public Meeting on Executive Order
+nrc:8f61d0ef7013,NRC,press_release,event_date,2026-02-27,2026-02-26,NRC to Hold First Public Meeting on Executive Order 14300 RulemakingsNRC to Hold First Public Meeting on Executive Order
+nrc:f2af956636ad,NRC,press_release,sector_tags,,nuclear,NRC to Host 7th Artificial Intelligence Workshop
+nrc:68e649e1c650,NRC,press_release,sector_tags,,nuclear,NRC Reflects on 2025 Successes
+nrc:09ad0f5a575b,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC to Hold Public Meeting of the Advisory Committee on the Medical Uses of Isotopes
+nrc:430d52d9fc77,NRC,press_release,sector_tags,,nuclear,NRC to Hold Public Meeting to Discuss Progress on Potential Restart of Crane Clean Energy Center
+nrc:430d52d9fc77,NRC,press_release,event_date,2026-01-23,2026-01-22,NRC to Hold Public Meeting to Discuss Progress on Potential Restart of Crane Clean Energy Center
+nrc:7da17aebc02f,NRC,press_release,sector_tags,,nuclear,NRC Atomic Safety and Licensing Board to Hold Oral Argument on Long Mott Construction Permit Application
+nrc:3b6bc99f4be7,NRC,press_release,sector_tags,,nuclear,"NRC Launches Faster, Smarter Environmental Review Program Saving Time and Resources"
+nrc:a44a425bfb5e,NRC,press_release,sector_tags,,nuclear,NRC Advisory: NRC to Hold Virtual Public Meeting on Proposed Rule To Modernize Radiation Protection Framework
+nrc:177041c7503a,NRC,press_release,sector_tags,,nuclear,NRC Completes Safety Review of Construction Permit Application For Kemmerer Power Station in Wyoming
+nrc:177041c7503a,NRC,press_release,event_date,2025-12-02,2025-12-01,NRC Completes Safety Review of Construction Permit Application For Kemmerer Power Station in Wyoming
+nrc:5d64cc65b8ea,NRC,press_release,sector_tags,,nuclear,NRC Proposes Significantly Restructured Hearing Timeline to Minimize Delays
+nrc:a5ff2dc3df4b,NRC,press_release,sector_tags,,nuclear,NRC to Hold Public Meeting on Development of 2026-2030 Strategic Plan and Agency Priority Questions
+nrc:201b573fc9ff,NRC,press_release,sector_tags,,nuclear,Ho Nieh Named 20th NRC Chairman
+nrc:201b573fc9ff,NRC,press_release,event_date,2026-01-09,2026-01-08,Ho Nieh Named 20th NRC Chairman
+nrc:aa724b5be875,NRC,press_release,sector_tags,,nuclear,NRC Advisory: NRC Kicks Off Environmental Review of Cooper License Renewal
+nrc:39c8a871c744,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Prairie Island Power Plant Performance
+nrc:a018430dfbe1,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Public Outreach to Discuss Columbia Generating Station Performance
+nrc:9b959ad035ca,NRC,press_release,sector_tags,,nuclear,NRC Announces Acceptance of Cooper Subsequent License Renewal Application
+nrc:9b959ad035ca,NRC,press_release,event_date,2026-06-06,2026-06-05,NRC Announces Acceptance of Cooper Subsequent License Renewal Application
+nrc:211a8cc7b916,NRC,press_release,sector_tags,,nuclear,NRC to Hold Public Meeting to Discuss Seabrook Station 2025 Safety Performance
+nrc:cd0b94fef235,NRC,press_release,sector_tags,,nuclear,Douglas W. Weaver Sworn in as NRC Commissioner
+nrc:41948a0625ff,NRC,press_release,sector_tags,power,power;nuclear,NRC Holds Open House to Discuss Quad Cities Power Plant Performance
+nrc:11ab02180263,NRC,press_release,sector_tags,,nuclear,NRC Beats Schedule for Completing Long Mott Environmental Review
+nrc:22852ab92ddf,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Dresden Power Plant Performance
+nrc:038a2431edce,NRC,press_release,sector_tags,,nuclear,"NRC Proposes Caps to Signal Predictability to Incentivize Industry, Spur Innovation"
+nrc:3eb5e8c650e3,NRC,press_release,sector_tags,,nuclear,"NRC’s ACRS Elects 2026 Leadership, Announces New Member and Confirms Meeting Schedule"
+nrc:e2f0ab049625,NRC,press_release,sector_tags,,nuclear,NRC Names Victor Hall as Director of International Programs
+nrc:8cf33e30e1f0,NRC,press_release,sector_tags,,nuclear,*Updated* NRC to Hold Virtual Public Meeting on Proposed NEPA Rule Changes
+nrc:a6bd7f3c554a,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Donald C. Cook Power Plant Performance
+nrc:5e77aa679aa0,NRC,press_release,sector_tags,,nuclear,NRC Licenses TRISO-X LLC Fuel Fabrication Facility in Tennessee
+nrc:5e77aa679aa0,NRC,press_release,event_date,2026-02-14,2026-02-13,NRC Licenses TRISO-X LLC Fuel Fabrication Facility in Tennessee
+nrc:24c88f5095b3,NRC,press_release,sector_tags,,nuclear,NRC Receives Application for Advanced Microreactor at University of Illinois
+nrc:6e4ec4b50bdd,NRC,press_release,sector_tags,,nuclear,NRC Names Jody C. Martin as New Secretary of the Commission
+nrc:ad36bb76ed39,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Monticello Power Plant Performance
+nrc:94f1fc1d51c3,NRC,press_release,sector_tags,,nuclear,NRC Announces Opportunity to Request Hearing for Grand Gulf Early Site Permit Renewal
+nrc:94f1fc1d51c3,NRC,press_release,event_date,2026-02-03,2026-02-02,NRC Announces Opportunity to Request Hearing for Grand Gulf Early Site Permit Renewal
+nrc:63aae81a3afc,NRC,press_release,event_date,2026-03-26,2026-03-25,NRC Unveils First New Reactor Licensing Process in Decades to Speed Deployment While Maintaining Safety
+nrc:ebe17c06b090,NRC,press_release,sector_tags,,nuclear,NRC Issues 100th Renewed License with Diablo Canyon Approvals
+nrc:01f25ce62451,NRC,press_release,sector_tags,,nuclear,"NRC Major Reorganization Supports Efficiency, Innovation"
+nrc:443bd39718b8,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Braidwood Power Plant Performance
+nrc:3b3f4825521b,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Davis-Besse Power Plant Performance
+nrc:fe641be00a59,NRC,press_release,event_date,2026-05-22,2026-05-21,NRC Launches Accelerated Review of New U.S. Uranium Enrichment Facility to Strengthen Nuclear Fuel Supply
+nrc:c606d3e0a39d,NRC,press_release,sector_tags,,nuclear,NRC Starts Licensing Review for a New Medical Isotope Facility in New Mexico
+nrc:ad3801e3e1bf,NRC,press_release,event_date,2026-06-19,2026-06-18,NRC Proposes Rule Changes to Accelerate Advanced Nuclear Fuel Infrastructure
+nrc:8b3741debcb2,NRC,press_release,sector_tags,,nuclear,NRC Advisory: NRC Accepts Ginna Subsequent License Renewal Application for Review
+nrc:37752cfbcced,NRC,press_release,event_date,2026-02-11,2026-02-10,"NRC Proposes $9,000 Fine Against Puerto Rico Medical Facility for Loss of Radioactive Material"
+nrc:26c160c1bd33,NRC,press_release,sector_tags,,nuclear,NRC Advisory: NRC to Hold Virtual Public Meeting on Reducing Barriers to Medical Use Licensing
+nrc:e80dc88798bd,NRC,press_release,event_date,2026-04-24,2026-04-23,"NRC Completes Fastest-Ever Reactor License Renewal, Extending Operations To 2050"
+nrc:8eb7f64c8b90,NRC,press_release,sector_tags,,nuclear,NRC Considering Wyoming’s Request to Amend State Agreement
+nrc:7b8b6275b916,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC to Hold Two Public Meetings on Fusion Machines Proposed Rule
+nrc:6ebbbb0c1eba,NRC,press_release,sector_tags,,nuclear,NRC Renews Clinton and Dresden Operating Licenses
+nrc:47eed7ef772f,NRC,press_release,sector_tags,,nuclear,NRC Advisory: NRC Posts Ginna’s Subsequent License Renewal Application
+nrc:99c8ac8d8ad6,NRC,press_release,sector_tags,,nuclear,‌NRC Names Mike King as Executive Director for Operations
+nrc:99c8ac8d8ad6,NRC,press_release,event_date,2025-12-20,2025-12-19,‌NRC Names Mike King as Executive Director for Operations
+nrc:865393b498fd,NRC,press_release,sector_tags,,nuclear,NRC Names Christopher Carroll as Chief Financial Officer
+nrc:865393b498fd,NRC,press_release,event_date,2026-01-27,2026-01-26,NRC Names Christopher Carroll as Chief Financial Officer
+nrc:de7ea8e66676,NRC,press_release,sector_tags,,nuclear,"NRC Proposes Modernization of Radiation Protection Rules, Reaffirms Current Safety Standards"
+nrc:b43bb85a61cd,NRC,press_release,sector_tags,,nuclear,NRC Announces Opportunity to Request a Hearing on Holtec’s Limited Work Authorization Application at Palisades
+nrc:830f9673f30f,NRC,press_release,sector_tags,,nuclear,NRC Names Anna Bradford as New NRR Office Director
+nrc:a4c4650c90c5,NRC,press_release,event_date,2026-03-04,2026-03-03,NRC Begins Special Inspection at Hope Creek Nuclear Power Plant
+nrc:7cc0ab2a4511,NRC,press_release,sector_tags,,nuclear,NRC Announces Opportunity to Request a Hearing on Paducah Laser Enrichment Facility License Application
+nrc:7cc0ab2a4511,NRC,press_release,event_date,2026-03-07,2026-03-06,NRC Announces Opportunity to Request a Hearing on Paducah Laser Enrichment Facility License Application
+nrc:18549ea09628,NRC,press_release,sector_tags,,nuclear,NRC Schedules Public Outreach to Discuss Grand Gulf Plant Performance
+nrc:3fffab44632c,NRC,press_release,sector_tags,,nuclear,NRC Reviews Indiana’s Bid to Become 41st Agreement State
+nrc:56f2df5dd5ba,NRC,press_release,sector_tags,,nuclear,NRC Announces Headquarters Leadership Appointments
+nrc:56f2df5dd5ba,NRC,press_release,event_date,2026-01-07,2026-01-06,NRC Announces Headquarters Leadership Appointments
+nrc:5062646bfe17,NRC,press_release,sector_tags,,nuclear,NRC Kickstarts Process for Creating Regulatory Framework for Fusion Machines: 90-Day Comment Period Begins
+nrc:09644dee5970,NRC,press_release,sector_tags,power,power;nuclear,*Updated* NRC Schedules Open House to Discuss Clinton Power Plant Performance
+nrc:79a1b936249c,NRC,press_release,sector_tags,,nuclear,‌Ho Nieh Sworn in as NRC Commissioner
+nrc:263dfd170436,NRC,press_release,sector_tags,,nuclear,"NRC Schedules Virtual Meeting to Discuss Browns Ferry, Sequoyah and Watts Bar Performance"
+nrc:7a5a60612d64,NRC,press_release,sector_tags,,nuclear,NRC Advisory: NRC to Hold Virtual Public Meeting on Proposed Transportation Rule
+nrc:4e006933e672,NRC,press_release,sector_tags,,nuclear,Registration Open for NRC’s 38th Annual Regulatory Information Conference
+nrc:90c9e017242d,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC Posts Cooper’s Subsequent License Renewal Application
+nrc:21003f6770c8,NRC,press_release,sector_tags,minerals,nuclear;minerals,‌NRC Approves License Amendment for Homestake Mining Company
+nrc:21003f6770c8,NRC,press_release,event_date,2025-12-20,2025-12-19,‌NRC Approves License Amendment for Homestake Mining Company
+nrc:e74cca8db9a8,NRC,press_release,sector_tags,,nuclear,NRC Advisory: NRC to Update Public on Crane Clean Energy Center Restart
+nrc:4ea56bc7dbf0,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss LaSalle Power Plant Performance
+nrc:7c857bbd864d,NRC,press_release,sector_tags,,nuclear,NRC Announces Opportunity to Request Hearing for Duane Arnold Energy Center Restart License Amendments
+nrc:49a41ed68635,NRC,press_release,sector_tags,,nuclear,Doug Weaver Sworn in as NRC Commissioner
+nrc:524fae296567,NRC,press_release,sector_tags,,nuclear,NRC Makes Available Partial Atomic Alchemy Construction Permit Application
+nrc:3dbf5d07dcae,NRC,press_release,sector_tags,,nuclear,NRC Renews Browns Ferry Operating License
+nrc:3dbf5d07dcae,NRC,press_release,event_date,2025-12-13,2025-12-12,NRC Renews Browns Ferry Operating License
+nrc:7d6400822a50,NRC,press_release,sector_tags,power,power;nuclear,NRC Schedules Open House to Discuss Perry Power Plant Performance
+nrc:de5116a5d070,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC to Hold a Public Meeting on Proposed Rule and Related ASME Codes
+nrc:0750999be55a,NRC,press_release,sector_tags,power,power;nuclear,NRC Advisory: NRC to Hold Mandatory Hearing on Proposed Long Mott Generating Station
+nrc:b4bde50eaefe,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC Chairman Nieh to Deliver Key Insights at Two Energy Summits
+nrc:f6318b575575,NRC,press_release,sector_tags,,nuclear,NRC Schedules Public Outreach to Discuss South Texas Project Plant Performance
+nrc:127cffebb459,NRC,press_release,sector_tags,,nuclear,Media Advisory: NRC Chairman Nieh to Open Operation Gigawatt Summit
+nrc:9b818bbbc3dc,NRC,press_release,sector_tags,,nuclear,NRC Makes Belews Creek Early Site Permit Application Available for Public Review
+nrc:9b818bbbc3dc,NRC,press_release,event_date,2026-01-10,2026-01-09,NRC Makes Belews Creek Early Site Permit Application Available for Public Review
+nrc:98d0db060fd6,NRC,press_release,sector_tags,,nuclear,NRC Taps Jeremy Bowen to Lead New Office for Advanced Reactors
+nrc:21b869547671,NRC,press_release,sector_tags,,nuclear,"NRC Proposes a New Licensing Framework to Accelerate Safe, High-Volume Deployment of Microreactors"
+federalregister:2026-17145,NRC,rule,sector_tags,,nuclear,Environmental Protection Regulations for Domestic Licensing and Related Regulatory Functions
+federalregister:2026-15962,NRC,notice,sector_tags,,nuclear,"NuFuels, Inc.; Establishment of Atomic Safety and Licensing Board"
+federalregister:2026-09763,NRC,notice,sector_tags,power,power;nuclear,"Constellation Energy Generation, LLC; Establishment of Atomic Safety and Licensing Board"
+federalregister:2026-13004,NRC,notice,sector_tags,,nuclear,"NextEra Energy Duane Arnold, LLC; Establishment of Atomic Safety and Licensing Board"
+federalregister:2026-03415,NRC,notice,sector_tags,power,power;nuclear,"Atomic Safety and Licensing Board Panel; Before Administrative Judges: Stefan R. Wolfe, Chair; Dr. David A. Smith; Nicho"
+federalregister:2026-09553,NRC,notice,sector_tags,,nuclear,"Global Laser Enrichment, LLC; Establishment of Atomic Safety and Licensing Board"
+federalregister:2026-04474,NRC,notice,sector_tags,,nuclear,"Global Laser Enrichment, LLC; (Paducah Laser Enrichment Facility); Notice of Receipt of Application for License; Notice "
+federalregister:2026-16372,NRC,notice,sector_tags,,nuclear,Orano Enrichment USA LLC; (Project Ike Enrichment Facility); Notice of Receipt of Application for License; Notice of Con
+federalregister:2025-23099,NRC,notice,sector_tags,power;nuclear;storage,power;nuclear,Environmental Assessment and Finding of No Significant Impact of Independent Spent Fuel Storage Facilities Decommissioni
+federalregister:2026-03245,NRC,notice,sector_tags,nuclear;storage,nuclear,U.S. Department of Energy Idaho Operations Office; Three Mile Island Unit 2 Independent Spent Fuel Storage Installation;
+federalregister:2026-08102,NRC,notice,sector_tags,nuclear;storage,nuclear,U.S. Department of Energy; Three Mile Island Unit 2 Independent Spent Fuel Storage Installation; License Amendment
+federalregister:2026-09949,NRC,notice,sector_tags,,nuclear,"Global Laser Enrichment, LLC; Establishment of Atomic Safety and Licensing Board"
+federalregister:2026-16929,NRC,notice,sector_tags,nuclear;storage,nuclear,"EnergySolutions, LLC and Bridgepoint Group, PLC; Approval of Transfer of Licenses"
+federalregister:2026-12045,NRC,notice,sector_tags,nuclear;storage,nuclear,"EnergySolutions, LLC and Bridgepoint Group PLC; Consideration of Approval of Transfer of Licenses"
+federalregister:2026-05153,NRC,notice,sector_tags,nuclear;storage,nuclear,"In the Matter of Holtec Big Rock Point, LLC; Big Rock Point Plant; Direct Transfer of License"
+federalregister:2026-04327,NRC,notice,sector_tags,nuclear;storage,nuclear,"Holtec Decommissioning International, LLC; Big Rock Point Independent Spent Fuel Storage Installation; Exemption"
+federalregister:2026-09887,NRC,notice,sector_tags,power;nuclear;storage,power;nuclear,Tennessee Valley Authority; Browns Ferry Nuclear Power Plant; Independent Spent Fuel Storage Installation; Exemption
+federalregister:2026-17529,NRC,notice,sector_tags,power;nuclear;storage,power;nuclear,"NextEra Energy, Inc.; Dominion Energy, Inc.; Virginia Electric and Power Company; Dominion Energy Nuclear Connecticut; D"
+federalregister:2026-17147,NRC,notice,sector_tags,power;nuclear;storage,power;nuclear,"Duke Energy Progress, LLC; Brunswick Steam Electric Plant, Units 1 and 2, Shearon Harris Nuclear Power Plant, Unit 1, H."
+federalregister:2026-06498,NRC,notice,sector_tags,nuclear;storage,nuclear,"In the Matter of NextEra Energy Duane Arnold, LLC; Central Iowa Power Cooperative; Corn Belt Power Cooperative; Duane Ar"
+federalregister:2026-01752,NRC,notice,sector_tags,nuclear;storage,nuclear,"NextEra Energy Duane Arnold, LLC; Central Iowa Power Cooperative; Corn Belt Power Cooperative; Duane Arnold Energy Cente"
+federalregister:2026-17577,NRC,notice,sector_tags,power;nuclear;storage,power;nuclear,Southern Nuclear Operating Company; Vogtle Electric Generating Plant Units 1 & 2; Independent Spent Fuel Storage Install
+federalregister:2026-12287,NRC,notice,sector_tags,nuclear;storage,nuclear,"In the Matter of STP Nuclear Operating Company; South Texas Project, Units 1 and 2 and the Associated Independent Spent "
+federalregister:2026-17590,NRC,notice,sector_tags,,nuclear,"Global Laser Enrichment, llc; Paducah Laser Enrichment Facility; Commissioners: Ho. K. Nieh, Chairman; David A. Wright; "
+federalregister:2026-07742,NRC,notice,sector_tags,nuclear;storage,nuclear,"Duke Energy Carolinas, LLC; Catawba Nuclear Station, Units 1 and 2; Independent Spent Fuel Storage Installation; Environ"
+federalregister:2026-08219,NRC,notice,sector_tags,nuclear;storage,nuclear,"Duke Energy Carolinas, LLC; Catawba Nuclear Station, Units 1 and 2; Independent Spent Fuel Storage Installation; Exempti"
+federalregister:2026-09881,NRC,notice,sector_tags,power;nuclear;storage,power;nuclear,"In the Matter of Arizona Public Service Company; El Paso Electric Company; Palo Verde Nuclear Generating Station, Units "
+federalregister:2026-06544,NRC,notice,sector_tags,power;nuclear;storage,power;nuclear,"El Paso Electric Company; Palo Verde Nuclear Generating Station, Units 1, 2, and 3; Consideration of Approval of Transfe"
+federalregister:2026-17244,NRC,notice,sector_tags,power;nuclear;storage,power;nuclear,"Arizona Public Service Company; Palo Verde Nuclear Generating Station, Units 1, 2, and 3; Indirect Transfer of Control o"
+federalregister:2026-11137,NRC,notice,sector_tags,power;nuclear;storage,power;nuclear,"Arizona Public Service Company; Palo Verde Nuclear Generating Station, Units 1, 2, and 3; Consideration of Approval of T"
+federalregister:2026-01948,NRC,rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: TN Americas LLC, NUHOMS® EOS Dry Spent Fuel Storage System, Certificate of Co"
+federalregister:2025-22229,NRC,rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: NAC International, Inc., NAC-UMS® Universal Storage System, Certificate of Co"
+federalregister:2025-22230,NRC,proposed_rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: NAC International, Inc., NAC-UMS® Universal Storage System, Certificate of Co"
+federalregister:2026-01842,NRC,rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: NAC International, Inc., NAC-UMS® Universal Storage System, Certificate of Co"
+federalregister:C1-2026-08550,NRC,proposed_rule,sector_tags,,nuclear,Licensing Requirements for Microreactors and Other Reactors With Comparable Risk Profiles
+federalregister:2026-09328,NRC,notice,sector_tags,,nuclear,Regulatory Issue Summary: Combined License Review Performance and Reporting
+federalregister:2026-16618,NRC,notice,sector_tags,,nuclear,Unified Agenda of Federal Regulatory and Deregulatory Actions
+federalregister:2026-01647,NRC,rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: TN Americas LLC, NUHOMS® EOS Dry Spent Fuel Storage System, Certificate of Co"
+federalregister:2026-05287,NRC,rule,sector_tags,nuclear;storage,nuclear,List of Approved Spent Fuel Storage Casks: TN Americas LLC NUHOMS® EOS Dry Spent Fuel Storage System Certificate of Comp
+federalregister:2026-01650,NRC,proposed_rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: TN Americas LLC, NUHOMS® EOS Dry Spent Fuel Storage System, Certificate of Co"
+federalregister:2026-12702,NRC,proposed_rule,sector_tags,power;nuclear;storage,power;nuclear,Modernizing Materials Licensing
+federalregister:2026-06374,NRC,proposed_rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: Holtec International HI-STORM UMAX Canister Storage System, Certificate of Co"
+federalregister:2026-06373,NRC,rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: Holtec International HI-STORM UMAX Canister Storage System, Certificate of Co"
+federalregister:2026-10935,NRC,rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: Holtec International HI-STORM UMAX Canister Storage System, Certificate of Co"
+federalregister:2026-05108,NRC,notice,sector_tags,,nuclear,Regulatory Issue Summary: Process for Scheduling and Allocating Resources for Fiscal Years 2026-2028 for the Review of N
+federalregister:2026-13261,NRC,proposed_rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: NAC International, Inc., MAGNASTOR® Storage System, Certificate of Compliance"
+federalregister:2026-13260,NRC,rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: NAC International, Inc., MAGNASTOR® Storage System, Certificate of Compliance"
+federalregister:2026-16398,NRC,rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: NAC International, Inc., MAGNASTOR® Storage System, Certificate of Compliance"
+federalregister:2026-18107,NRC,rule,sector_tags,nuclear;renewables;storage,nuclear;renewables,"List of Approved Spent Fuel Storage Casks: Holtec International HI-STORM Flood/Wind System, Certificate of Compliance No"
+federalregister:2026-14876,NRC,rule,sector_tags,nuclear;renewables;storage,nuclear;renewables,"List of Approved Spent Fuel Storage Casks: Holtec International HI-STORM Flood/Wind System, Certificate of Compliance No"
+federalregister:2026-14879,NRC,proposed_rule,sector_tags,nuclear;renewables;storage,nuclear;renewables,"List of Approved Spent Fuel Storage Casks: Holtec International HI-STORM Flood/Wind System, Certificate of Compliance No"
+federalregister:2026-17445,NRC,rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: TN Americas, LLC Standardized NUHOMS® Horizontal Modular Storage System for I"
+federalregister:2026-17446,NRC,proposed_rule,sector_tags,nuclear;storage,nuclear,"List of Approved Spent Fuel Storage Casks: TN Americas, LLC Standardized NUHOMS® Horizontal Modular Storage System for I"
+federalregister:2026-19294,NRC,notice,sector_tags,,nuclear,Establishment of Atomic Safety and Licensing Board
+puct:5b9f96774ac4,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces $2.3 Million In Grant Funding For Electric Reliability In The Panhandle
+puct:cb76fa1c0dd6,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces $113 Million In Grants For Electric Reliability In The Panhandle And South Plains
+puct:dc4d236bdafb,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces $8.8 Million In Grants For Electric Reliability In The South Plains
+puct:371d769a0834,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,"Governor Abbott Announces Texas Energy Fund Loan To 1,350 MW West Texas Natural Gas Power Plant"
+puct:51c45a38b922,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Greg Abbott Announces Texas Energy Fund Grant To Strengthen Electric Reliability In East Texas
+puct:7217171ed2b9,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces Texas Energy Fund Loan For 860 MW Of New Power In West Texas
+puct:b6f4c17f012b,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces Texas Energy Fund Loan For 570 MW North Texas Natural Gas Power Plant
+puct:219344ae951e,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces More Than $22 Million In Grants For Electric Reliability In Northwest Texas
+puct:fc71c633d26b,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Appoints Johnson To Public Utility Commission Of Texas
+puct:4d3bab07553e,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces Texas Energy Fund Loan To 460 MW Natural Gas Facility In Freestone County
+puct:1c4ea8977ec8,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces Texas Energy Fund Loan To 455 MW Natural Gas Power Plant In Houston
+puct:e950a2ee31b2,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces Nearly $30 Million In Grants For Electric Reliability In The Panhandle
+puct:237f5d48d937,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces $200 Million Grant For Electric Reliability In Southeast Texas
+puct:4fd951cb60b9,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Greg Abbott Announces $200 Million Texas Energy Fund Grant For Electric Reliability In Northeast Texas
+puct:161533489d42,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,"Governor Abbott Announces More Than $795,000 In Grant Funding To Strengthen Electric Reliability In Northwest Texas"
+puct:1fcba98100c4,PUCT,press_release,parties,PUCT,Office of the Texas Governor;PUCT,Governor Abbott Announces More Than $8 Million Electric Reliability Grant For Panhandle and South Plains

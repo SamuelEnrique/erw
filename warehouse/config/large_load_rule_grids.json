@@ -1,0 +1,42 @@
+{
+  "what": "Which grid operator a state commission's row is placed under on /cost-of-power (the block Rules in motion), when the row is about one named utility. warehouse/derived/rules_in_motion.py reads this file. A row is about one utility when the caption of its docket (the proceeding's title, or the docket number where the commission prints the utility there) holds one of the names below. Such a row goes under that utility's operator and no other; where 'operator' is null the row is placed under no grid and counted in not_on_page with the reason. A caption that names a company, cooperative or corporation this file does not list is placed only where the docket's own documents name an operator, else under no grid. A row whose caption names no company is a statewide rule and goes under the state's operators (STATE_GRIDS in the builder).",
+  "sources": {
+    "EL26-67": "https://www.ferc.gov/sites/default/files/2026-06/EL26-67-000.pdf",
+    "EL26-68": "https://www.ferc.gov/sites/default/files/2026-06/EL26-68-000.pdf",
+    "EL26-70": "https://www.ferc.gov/sites/default/files/2026-06/EL26-70-000.pdf",
+    "EL26-71": "https://www.ferc.gov/sites/default/files/2026-06/EL26-71-000.pdf",
+    "how": "FERC's orders of 18 June 2026 instituting proceedings on each operator's tariff name, in their captions, the operator and its transmission owners. A utility whose 'source' is one of these dockets stands by name in that order's caption (checked by a test against the saved order where the raw store is held). A utility whose 'source' is 'stated plainly' is not in a caption read: its operator is written here as common knowledge of the US power system, with the reason."
+  },
+  "utilities": [
+    {"state": "TX", "utility": "El Paso Electric Company", "names": ["El Paso Electric"], "operator": null, "source": "stated plainly", "why": "El Paso Electric is outside the ERCOT region, in the Western Interconnection, and in no organized market on the page"},
+    {"state": "TX", "utility": "Southwestern Electric Power Company", "names": ["Southwestern Electric Power Company"], "operator": "SPP", "source": "EL26-68", "why": "a transmission owner of SPP, by the caption of FERC's order in EL26-68"},
+    {"state": "TX", "utility": "Southwestern Public Service Company", "names": ["Southwestern Public Service Company"], "operator": "SPP", "source": "EL26-68", "why": "a transmission owner of SPP, by the caption of FERC's order in EL26-68"},
+
+    {"state": "VA", "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)", "names": ["Virginia Electric and Power Company"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+    {"state": "VA", "utility": "Appalachian Power Company", "names": ["Appalachian Power Company"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+    {"state": "VA", "utility": "Rappahannock Electric Cooperative", "names": ["Rappahannock Electric Cooperative"], "operator": "PJM", "source": "stated plainly", "why": "a distribution cooperative in Virginia's PJM territory and a member of Old Dominion Electric Cooperative, which the caption of EL26-67 lists; the cooperative itself is in no caption read"},
+    {"state": "VA", "utility": "Mecklenburg Electric Cooperative", "names": ["Mecklenburg Electric Cooperative"], "operator": "PJM", "source": "stated plainly", "why": "a distribution cooperative in Virginia's PJM territory and a member of Old Dominion Electric Cooperative, which the caption of EL26-67 lists; its own order in PUR-2025-00160 names PJM"},
+    {"state": "VA", "utility": "Shenandoah Valley Electric Cooperative", "names": ["Shenandoah Valley Electric Cooperative"], "operator": "PJM", "source": "stated plainly", "why": "a distribution cooperative in Virginia's PJM territory and a member of Old Dominion Electric Cooperative, which the caption of EL26-67 lists; the cooperative itself is in no caption read"},
+    {"state": "VA", "utility": "Northern Virginia Electric Cooperative", "names": ["Northern Virginia Electric Cooperative"], "operator": "PJM", "source": "stated plainly", "why": "a distribution cooperative whose territory is inside PJM's Dominion zone; no document read says so, and it is in no caption read"},
+
+    {"state": "OH", "utility": "Ohio Power Company (AEP Ohio)", "names": ["Ohio Power Company"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+    {"state": "OH", "utility": "Duke Energy Ohio, Inc.", "names": ["Duke Energy Ohio"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+    {"state": "OH", "utility": "Ohio Edison, Cleveland Electric Illuminating and Toledo Edison (FirstEnergy's Ohio companies)", "names": ["Ohio Edison Company", "Cleveland Electric Illuminating Company", "Toledo Edison Company"], "operator": "PJM", "source": "stated plainly", "why": "FirstEnergy's Ohio distribution companies; their transmission owner, American Transmission Systems, Incorporated, is in the caption of EL26-67, the three companies themselves are not"},
+    {"state": "OH", "utility": "The Dayton Power and Light Company (AES Ohio)", "names": ["Dayton Power and Light"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+
+    {"state": "PA", "utility": "PPL Electric Utilities Corporation", "names": ["PPL Electric Utilities"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+    {"state": "PA", "utility": "PECO Energy Company", "names": ["PECO Energy Company"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+    {"state": "PA", "utility": "Duquesne Light Company", "names": ["Duquesne Light Company"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+
+    {"state": "IL", "utility": "Commonwealth Edison Company", "names": ["Commonwealth Edison Company"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+    {"state": "IL", "utility": "Ameren Illinois Company", "names": ["Ameren Illinois"], "operator": "MISO", "source": "EL26-70", "why": "a transmission owner of MISO, by the caption of FERC's order in EL26-70; MISO is paused and shows no row"},
+
+    {"state": "IN", "utility": "Indiana Michigan Power Company", "names": ["Indiana Michigan Power Company"], "operator": "PJM", "source": "EL26-67", "why": "a transmission owner of PJM, by the caption of FERC's order in EL26-67"},
+    {"state": "IN", "utility": "Northern Indiana Public Service Company (NIPSCO) and NIPSCO Generation LLC", "names": ["NIPSCO", "Northern Indiana Public Service Company"], "operator": "MISO", "source": "EL26-70", "why": "Northern Indiana Public Service Company is a transmission owner of MISO, by the caption of FERC's order in EL26-70; MISO is paused and shows no row"},
+    {"state": "IN", "utility": "Indianapolis Power & Light Company (AES Indiana)", "names": ["Indianapolis Power & Light Company", "AES Indiana"], "operator": "MISO", "source": "EL26-70", "why": "a transmission owner of MISO, by the caption of FERC's order in EL26-70; MISO is paused and shows no row"},
+
+    {"state": "CA", "utility": "Pacific Gas and Electric Company", "names": ["Pacific Gas and Electric Company", "PG&E"], "operator": "CAISO", "source": "EL26-71", "why": "a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71"},
+    {"state": "CA", "utility": "Southern California Edison Company", "names": ["Southern California Edison"], "operator": "CAISO", "source": "EL26-71", "why": "a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71"},
+    {"state": "CA", "utility": "San Diego Gas & Electric Company", "names": ["San Diego Gas"], "operator": "CAISO", "source": "EL26-71", "why": "a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71"}
+  ]
+}
