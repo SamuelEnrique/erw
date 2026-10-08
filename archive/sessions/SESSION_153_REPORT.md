@@ -106,7 +106,14 @@ copy of its own to a written brief (`runs/session153/BRIEF.md`), in two phases; 
 
 ## The landing
 
-- **Not landed when this was written**; the landing follows with its snapshot, and a line is added here.
+- **Added after the landing.** Pushed as `task/153-ask-tables` (`7b0fd94`): checks passed (run 37714785350), merged
+  as `9103f10`. The whole suite in a clean copy: 2,109 tests, passed. On the merged build: `check-routes` 0 failed,
+  the Ask panel 13 of 13, the words before the chart 9 of 9, `check-values` 7,026 of 7,026.
+- **Vercel built it:** "Deployment has completed" for `9103f10` at 01:55:45 UTC on 8 October.
+- **Snapshot before** (`153_before`, 01:48:40 UTC) **and after** (`153_after`, 01:55:55 UTC): **0 differences** on
+  the 25 live addresses, 3,357 checked number keys. Nothing was reverted.
+- **On production, in the internal view, with recorded answers and no model call:** the panel's check 13 of 13 and
+  the words-before-chart check 9 of 9.
 - Nothing a live page renders or reads is changed: `site/lib/supabase.ts`, `site/lib/pages.ts`, `next.config.ts`,
   the live set and every `site/data` file are untouched.
 
