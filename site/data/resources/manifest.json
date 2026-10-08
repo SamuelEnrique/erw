@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-07T22:09:03Z",
+ "built_at_utc": "2026-10-08T08:52:45Z",
  "layers": [
   {
    "id": "wind_speed_100m",
@@ -1083,6 +1083,179 @@
    "notes_for_method": "EIA's words: \"General areas for shale plays in the U.S. Source: EIA based on Enverus DrillingInfo Inc., the U.S. Geological Survey, publicly available peer-reviewed research papers, academic theses, and publications of State Geological Agencies. Updated December 2021 with addition of Spraberry and Wolfcamp Plays in the Permian Basin.\" A play's outline is a general area, not a reserve estimate and not a lease map. The file's own limit: \"None (public use). Users are advised to thoroughly review the metadata to understand the appropriate use and limitations of the data.\""
   },
   {
+   "id": "hydropower_npd",
+   "group": "hydropower",
+   "title": "Hydropower potential at non-powered dams",
+   "kind": "points",
+   "source_url": "https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/hydropower-capacity-us-npd/TechPotentialNPDs.csv",
+   "terms_url": "https://hydrosource.ornl.gov/data-use-policy/",
+   "terms_quote": "Data hosted on HydroSource is openly shared, without restriction, in accordance with Department of Energy's Public Access Plan. [...] Bibliographic citations should be included in the References section of publications and other media to acknowledge those who have created the data, services, and tools provided by HydroSource. Proper citations include the authors, title, publisher, and Digital Object Identifier (DOI) and will allow the products to be discovered and re-used by others. The proper citation for each HydroSource product is provided on its landing page.",
+   "terms_quotes": [
+    "Data hosted on HydroSource is openly shared, without restriction, in accordance with Department of Energy's Public Access Plan.",
+    "Bibliographic citations should be included in the References section of publications and other media to acknowledge those who have created the data, services, and tools provided by HydroSource. Proper citations include the authors, title, publisher, and Digital Object Identifier (DOI) and will allow the products to be discovered and re-used by others. The proper citation for each HydroSource product is provided on its landing page."
+   ],
+   "terms_file": "ornl/terms/hydrosource_data_use_policy.html",
+   "terms_sha256": "b6560e74d46f6c13590bc35fe1725e33c0a95fe477e991d1016d1495441a6608",
+   "retrieved_at_utc": "2026-10-08T08:45:07Z",
+   "source_file": "ornl/npd/TechPotentialNPDs.csv",
+   "source_bytes": 1594027,
+   "source_sha256": "84635b4faecc332c31ab53fbbd7c42be7469d75bb2c1ca3c6827d2ac296aaf2f",
+   "unit": "MW",
+   "value_label": "Nominal capacity (the source's cap_mw)",
+   "publisher": "Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy",
+   "source_title": "Technical Potential for Hydropower Capacity at Non-powered Dams (TechPotentialNPDs.csv), Oak Ridge National Laboratory and Idaho National Laboratory, doi:10.21951/HydroCapacity_NPD/2570407",
+   "vintage": "published 3 October 2024, revised 25 June 2025 (HydroSource's page; the file on its server is dated 25 June 2025); the file's readme: \"These estimates represent the conditions over the historical period of 1980-2015\"",
+   "extent": "conterminous United States (the readme: \"2,616 NPDs in the conterminous US\")",
+   "source_resolution": "one row for each dam, at the dam's own latitude and longitude",
+   "reduction": "none: every row of the source at the source's own longitude and latitude (North American Datum 83 read as WGS84, coordinates to 4 decimals); the capacity, the generation and the capacity factor are the file's own figures, unconverted; the monthly columns are left out of the web file",
+   "file": "hydropower_npd.json",
+   "bytes": 401438,
+   "rows": 2616,
+   "legend": {
+    "min": 0.001,
+    "max": 222.069,
+    "stops": [
+     0.1,
+     1,
+     10,
+     100
+    ]
+   },
+   "stats": {
+    "n": 2616,
+    "min": 0.001,
+    "mean": 1.505836391437309,
+    "max": 222.069
+   },
+   "total_cap_mw": 3939.268,
+   "total_gen_mwh_yr": 15244926.849,
+   "hover_fields": [
+    [
+     "gen_mwh_yr",
+     "Annual average generation, MWh"
+    ],
+    [
+     "cf_yr",
+     "Median annual capacity factor"
+    ],
+    [
+     "waterway",
+     "River"
+    ],
+    [
+     "state_abbr",
+     "State"
+    ],
+    [
+     "nididfull",
+     "National Inventory of Dams id"
+    ]
+   ],
+   "columns_meaning": {
+    "value": "Nominal capacity (MW)",
+    "gen_mwh_yr": "Annual average generation (MWh)",
+    "cf_yr": "Median annual capacity factor (ratio of estimated annual generation to the generation possible at capacity for the same time period); If 0, average value is <0.001.",
+    "state_abbr": "Two-character state code where the dam is located",
+    "waterway": "Name of the river, reported in the USACE NID",
+    "nididfull": "Identifier used in the USACE National Inventory of Dams, combined nidId and otherStructureId fields",
+    "county": "Name of county where the dam is located, reported in the USACE NID",
+    "head_ft_yr": "Hydraulic head, averaged across all months (feet)",
+    "q30_cfs": "Flow that is exceeded 30% of the historical record (often referred to as Q30) (cfs)",
+    "inputdata": "Source of flow and hydraulic head data (either gaged or modeled flow, and either historical or estimated head)"
+   },
+   "credit": "Citation, as the publisher asks: Hansen, CH, J Gallego Calderon, C Bastidas Pachecho, C Davis, R Mendadhala, and G Russell. 2025. Technical Potential for Hydropower Capacity at Nonpowered Dams. HydroSource. Oak Ridge National Laboratory, Oak Ridge, Tennessee, USA. https://hydrosource.ornl.gov/data/datasets/hydropower-capacity-us-npd/",
+   "notes_for_method": "Oak Ridge's words (the file's readme): \"In the last decade, retrofits of existing nonpowered dams (NPDs) have made up the largest share of capacity increases for US hydropower. Accurate estimates of potential capacity and generation at NPDs help identify sites that may be worth investing in detailed feasibility analyses and design exploration. This dataset contains estimates of technical potential capacity and generation at 2,616 NPDs in the conterminous US. This is based on a subset of dams that were found by earlier resource assessments to have at least 100kW of theoretical potential. Historical daily streamflow (modeled or from USGS gauge records) and hydraulic head (based on historical observations or primary purpose and dam height) are the main inputs to the HydroGenerate model, which determines design flow, turbine efficiencies, and assumed friction losses and then calculates nominal capacity, daily generation, and capacity factor. These estimates represent the conditions over the historical period of 1980-2015, and are summarized on a monthly basis (i.e., averaged for each month of the year) and overall (i.e., nominal capacity, average annual generation (MWh), and average annual capacity factor). A total of nearly 4 GW capacity is estimated across all 2,616 NPDs included in the dataset.\" \"Data were acquired from the NID (USACE, 2024), and subset based on estimated hydropower potential from the 2012 resource assessment (Hadjerioua et al, 2012) and spatial proximity to the National Hydrography Dataset, medium resolution network (NHDPlusV2). Design flow was determined as the 30% exceedance flow based on historical modeled streamflow data (Ganesh et al, 2024) or observed streamflow records from USGS gages. Turbine type, efficiency, and nominal capacity were then calculated, along with a daily time series of estimated generation. Finally, capacity factor was determined on a daily basis (daily generation compared to the 24-hour generation at design capacity). All of these values were summarized on a monthly and annual basis.\" A non-powered dam is a dam that exists and has no power plant. Each point is one such dam with the laboratory's own estimate of the capacity a retrofit could have, the generation of an average year and the capacity factor, from a model of 1980 to 2015 flows; nothing is estimated again here. It is a technical potential: not a plant, not a proposal, not a finding that a retrofit would pay, and not every dam in the country (the file holds the dams an earlier assessment gave at least 100 kW). Alaska and Hawaii are not in the file. The publisher is Oak Ridge National Laboratory, with Idaho National Laboratory; it is not a USGS layer. The file was fetched by its own address, the one HydroSource's dataset page prints, with a plain request; the download form on that page (a name, an e-mail address, a company, an occupation) was not filled and nothing was sent to it (the owner's ruling of 8 October 2026)."
+  },
+  {
+   "id": "hydropower_nsd",
+   "group": "hydropower",
+   "title": "Hydropower potential of new stream-reach development",
+   "kind": "shapes",
+   "source_url": "https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/hydropower-potential-new-stream-reach-development-conterminous-united-states/ORNL_NHAAP_NSD_SR_All_v1.zip",
+   "terms_url": "https://hydrosource.ornl.gov/data-use-policy/",
+   "terms_quote": "Data hosted on HydroSource is openly shared, without restriction, in accordance with Department of Energy's Public Access Plan. [...] Bibliographic citations should be included in the References section of publications and other media to acknowledge those who have created the data, services, and tools provided by HydroSource. Proper citations include the authors, title, publisher, and Digital Object Identifier (DOI) and will allow the products to be discovered and re-used by others. The proper citation for each HydroSource product is provided on its landing page.",
+   "terms_quotes": [
+    "Data hosted on HydroSource is openly shared, without restriction, in accordance with Department of Energy's Public Access Plan.",
+    "Bibliographic citations should be included in the References section of publications and other media to acknowledge those who have created the data, services, and tools provided by HydroSource. Proper citations include the authors, title, publisher, and Digital Object Identifier (DOI) and will allow the products to be discovered and re-used by others. The proper citation for each HydroSource product is provided on its landing page."
+   ],
+   "terms_file": "ornl/terms/hydrosource_data_use_policy.html",
+   "terms_sha256": "b6560e74d46f6c13590bc35fe1725e33c0a95fe477e991d1016d1495441a6608",
+   "retrieved_at_utc": "2026-10-08T08:47:16Z",
+   "source_file": "ornl/nsd/ORNL_NHAAP_NSD_SR_All_v1.zip",
+   "source_bytes": 564790485,
+   "source_sha256": "a8ab06e4dfea4a31f1dd293d6358af932bd839f4a41d59a181600a3877fb28f9",
+   "unit": "MW",
+   "value_label": "The HUC10-level Total Potential capacity from identified stream-reaches with capacity greater than 1MW (the source's P_MW_Sum, a HUC10 total)",
+   "publisher": "Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy",
+   "source_title": "Hydropower Potential from New Stream-Reach Development, Aggregated Summary of HUC10 Watersheds for the Conterminous United States (ORNL_NHAAP_NSD_SR_All_v1.shp, version 1), Oak Ridge National Laboratory",
+   "vintage": "published 31 December 2014 (HydroSource's page); the file's own metadata is dated 10 January 2014 and its workbook was created on 2013-03-15, version 1; the years of flow behind the estimate are not stated in the files",
+   "extent": "conterminous United States, by HUC10 watershed (the file's words: \"Hydropower Potential from New Stream-Reach Development, Aggregated Summary of HUC10 Watersheds for the Conterminous United States.\")",
+   "source_resolution": "the HUC10 watershed of the Watershed Boundary Dataset: 15,401 watersheds in the file, each a total over its stream-reaches of more than 1 MW",
+   "reduction": "each polygon simplified to 0.01 degrees with its topology kept (Douglas-Peucker, one feature at a time: a thin gap or overlap can show between neighbours when zoomed far in); coordinates to 3 decimals; no feature dropped; only the 2,027 watersheds for which the file gives a capacity are in the web file",
+   "file": "hydropower_nsd.json",
+   "bytes": 1717503,
+   "features": 2027,
+   "bounds": [
+    -124.644,
+    26.2,
+    -67.914,
+    49.002
+   ],
+   "legend": {
+    "min": 1.000319,
+    "max": 922.209219,
+    "stops": [
+     10,
+     25,
+     50,
+     100,
+     250
+    ]
+   },
+   "stats": {
+    "n": 2027,
+    "min": 1.000319,
+    "mean": 25.414510963492848,
+    "max": 922.209219
+   },
+   "hover_fields": [
+    [
+     "NUMREACH",
+     "Number of Stream-reaches"
+    ],
+    [
+     "E_MWh_Sm",
+     "Potential Annual Energy, MWh"
+    ],
+    [
+     "Cf_yr",
+     "Capacity Factor"
+    ]
+   ],
+   "watersheds_in_file": 15401,
+   "watersheds_with_capacity": 2027,
+   "watersheds_no_reach": 9484,
+   "watersheds_coded_minus_999": 3890,
+   "total_p_mw": 51515.214,
+   "total_reaches": 11041,
+   "total_e_mwh": 301946637.325,
+   "watersheds_with_energy": 2026,
+   "watersheds_without_energy": [
+    "1705010103"
+   ],
+   "columns_meaning": {
+    "NUMREACH": "Number of >1MW stream-reaches identified by the ORNL NSD assessment (Number of stream-reaches, HUC10 total)",
+    "P_MW_Sum": "The HUC10-level Total Potential capacity from identified stream-reaches with capacity greater than 1MW (MW, HUC10 total)",
+    "E_MWh_Sm": "Estimated potential annual energy at stream-reaches. See NSD methodology report for more details. (MWh, HUC10 total)",
+    "Cf_yr": "Capacity factor, estimated by (Potential Annual Energy in MWh) / (Potential Capacity in MW * 365 * 24) (ratio, HUC10 average)",
+    "H_ft_Avg": "Hydraulic head, estimated by reference height (ft) calculated from the FEMA 100-year flood elevation (ft, HUC10 average)",
+    "Q30cfsAg": "Hydraulic capacity, estimated by the 30% exceedance quantile from the flow-duration curve (cfs, HUC10 average)"
+   },
+   "credit": "The file asks: \"The ORNL should be acknowledged as the data source in products derived from these data.\" Source: Oak Ridge National Laboratory, New Stream-reach Development Resource Assessment, 2014. Funding and support for the Oak Ridge National Laboratory (ORNL) New Stream-reach Development (NSD) Resource Assessment were provided by the Department of Energy (DOE) Office of Energy Efficiency and Renewable Energy (EERE) Water Power Program. Support from the U.S. Army Corps of Engineers (USACE), Bureau of Reclamation (Reclamation), U.S. Geological Survey (USGS), National Hydropower Association (NHA), and external reviewers are crucial and deeply appreciated.",
+   "terms_in_file": "The distributor shall not be held liable for improper or incorrect use of this data, based on the description of appropriate/inappropriate uses described in this metadata document. It is strongly recommended that this data is directly acquired from the distributor and not indirectly through other sources which may have changed the data in some way. The ORNL should be acknowledged as the data source in products derived from these data. The New Stream-reach Potential is public information and may be interpreted by all organizations, agencies, units of government, or others based on needs; however, they are responsible for the appropriate application of the data. The limitations of computed potential hydropower energy and capacity are described by Hadjerioua et al (2013), in which these estimates do not represent the actual numbers feasible for engineering design. It will be the users' sole responsibility to determine whether if any site is worthy for further investment.",
+   "notes_for_method": "Oak Ridge's words (the file's metadata): \"This dataset is a summary of hydropower potential from new stream-reach development (NSD). This dataset consists of geo-referenced digital data and associated attributes created by the DOE/ORNL NSD Resource Assessment (http://nhaap.ornl.gov/nsd).\" New stream-reach development is the hydropower that could be built on stretches of river that have no dam and no plant today. Oak Ridge publishes it summed to the HUC10 watershed (a drainage area of the federal Watershed Boundary Dataset), and that is what is drawn: each watershed is shaded by the file's own total for it, in the file's words \"The HUC10-level Total Potential capacity from identified stream-reaches with capacity greater than 1MW\". The figure belongs to the watershed as a whole: the file does not say where in it the reaches lie, so nothing is drawn at a site and nothing is spread or estimated again here. A larger watershed can show more than a smaller one with the same rivers. Of the 15,401 watersheds in the file, 2,027 hold a capacity and are drawn; 9,484 count no stream-reach above 1 MW and 3,890 carry the file's code -999 in that count (the file does not say what the code stands for); both carry -9999 as their capacity and are not drawn. For 1 of the watersheds drawn (1705010103) the shapefile holds no annual energy and no capacity factor, where the publisher's workbook writes 0: none is shown. It is a potential before any study of a site. The file's own limit: \"The distributor shall not be held liable for improper or incorrect use of this data, based on the description of appropriate/inappropriate uses described in this metadata document. It is strongly recommended that this data is directly acquired from the distributor and not indirectly through other sources which may have changed the data in some way. The ORNL should be acknowledged as the data source in products derived from these data. The New Stream-reach Potential is public information and may be interpreted by all organizations, agencies, units of government, or others based on needs; however, they are responsible for the appropriate application of the data. The limitations of computed potential hydropower energy and capacity are described by Hadjerioua et al (2013), in which these estimates do not represent the actual numbers feasible for engineering design. It will be the users' sole responsibility to determine whether if any site is worthy for further investment.\" Alaska and Hawaii are not in this file. The publisher is Oak Ridge National Laboratory; it is not a USGS layer. The outlines are simplified for the web. The file was fetched by its own address, the one HydroSource's dataset page prints, with a plain request; the download form on that page (a name, an e-mail address, a company, an occupation) was not filled and nothing was sent to it (the owner's ruling of 8 October 2026)."
+  },
+  {
    "id": "biomass",
    "group": "biomass",
    "title": "Solid biomass resources by county",
@@ -1269,10 +1442,10 @@
  ],
  "missing": [
   {
-   "id": "hydropower_potential",
-   "group": "hydropower",
-   "title": "Hydropower potential",
-   "reason": "Not pulled. No hydropower potential layer of USGS's own was found. The federal assessments are Oak Ridge National Laboratory's, for the Energy Department (new stream-reach development, 2014, and non-powered dams, 2024, on HydroSource). Their download page asks for a name and an e-mail address in a form before it hands over a file, so the files were left until the owner rules."
+   "id": "wind_gross_capacity_factor",
+   "group": "wind",
+   "title": "Gross capacity factor",
+   "reason": "Not fetched: no gross capacity factor was found among the files the laboratory (NLR, until 2025 NREL) offers without a key, its developer service needs a key issued to a named person, and no key is asked for."
   }
  ]
 }

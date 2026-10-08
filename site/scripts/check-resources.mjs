@@ -119,7 +119,24 @@ check(LAYERS.every((l) => !l.terms_quote || note.includes(plain(l.terms_quote).t
   check(sentences.length > 10 && found.length === 0 && !WORDS.test(face), `no method prose on the face: none of the Method note's ${sentences.length} sentences is on it${found.length ? ` (found "${found[0].slice(0, 80)}")` : ""}${WORDS.test(face) ? ` (found the word "${WORDS.exec(face)[0]}")` : ""}`);
 }
 check(!/\bhubs?\b|\bzones?\b/i.test(face), "no hub or zone is named on the face");
-check(!/MISO|PJM/.test(face + note) || (/paused while terms are reviewed/.test(face + note) && /licensed source needed/.test(face + note)), "MISO and PJM are not named (or only with their two fixed phrases)");
+// session 159: the Method note states the queue grid by grid. MISO is named with its fixed phrase and NYISO with what its
+// terms say; PJM, which this page shows nothing of, is not named (or only with its own fixed phrase).
+check(!/MISO/.test(face) && /MISO: paused while terms are reviewed/.test(note) && /NYISO: NYISO's terms do not allow it/.test(note) && /You agree not use any automated means/.test(note) && /does not confer any license or ownership interest/.test(note)
+  && (!/PJM/.test(face + note) || /licensed source needed/.test(face + note)),
+  'the Method note states the queue grid by grid: "MISO: paused while terms are reviewed" and "NYISO\'s terms do not allow it", each with the operator\'s own sentence; PJM is not named');
+{
+  // session 159: hydropower is held (two toggles, no greyed placeholder), and the gross capacity factor is a greyed
+  // placeholder that says in one sentence why it is not fetched; the Method note says the same sentence
+  const hydro = LAYERS.filter((l) => l.group === "hydropower"), block = faceHtml.slice(faceHtml.indexOf('data-group="hydropower"'), faceHtml.indexOf('data-group="biomass"'));
+  check(hydro.length === 2 && hydro.every((l) => block.includes(`data-toggle="${l.id}"`)) && !/data-missing=/.test(block) && !/not held/.test(plain(block)),
+    `hydropower is held: ${hydro.map((l) => `"${l.title}"`).join(" and ")} are toggles, and no greyed "not held" placeholder is left in the group`);
+  const gross = /<label[^>]*title="([^"]*)"[^>]*data-missing="wind:wind_gross_capacity_factor"[^>]*>([\s\S]*?)<\/label>/.exec(faceHtml);
+  const reason = (MANIFEST.missing ?? []).find((x) => x.id === "wind_gross_capacity_factor")?.reason ?? "";
+  check(gross && plain(gross[2]).includes("Gross capacity factor") && plain(gross[2]).includes("not held") && /key issued to a named person/.test(gross[1]) && /no key is asked for/.test(gross[1]) && reason.length > 20 && note.includes(reason),
+    'the gross capacity factor is a greyed placeholder: its hover says it needs a key issued to a named person and is not fetched, and the Method note says the same sentence');
+  check(hydro.every((l) => /Oak Ridge National Laboratory/.test(l.publisher ?? "") && note.includes("openly shared, without restriction")) && !note.includes("@"),
+    "the Method note names Oak Ridge National Laboratory as the publisher of the hydropower layers and quotes its data use policy; no e-mail address is in the note");
+}
 {
   const toggles = [...faceHtml.matchAll(/data-toggle="([A-Za-z0-9_]+)"/g)].map((m) => m[1]);
   check(LAYERS.length > 0 && LAYERS.every((l) => toggles.includes(l.id)), `each of the ${LAYERS.length} layers of the manifest is a toggle (${LAYERS.map((l) => l.id).join(", ")})`);
@@ -171,12 +188,17 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: x + 30, y: y + 30 });
     await sleep(60);
     await send("Input.dispatchMouseEvent", { type: "mouseMoved", x, y });
+    // session 159: the hover is taken once it has stopped changing (the same place in two readings 120 ms apart), so
+    // that the hover of the first movement, 30 px away, is never read as the hover of the second (met once in two
+    // runs, on a small watershed: the first place lay outside it and the check read "no row")
+    let prev = null;
     for (let i = 0; i < 25; i++) {
       await sleep(120);
       const h = await evaluate(`(() => { const h = document.querySelector('[data-hover]'); if (!h) return null; return { lon: Number(h.dataset.hoverLon), lat: Number(h.dataset.hoverLat), rows: [...h.querySelectorAll('[data-hover-layer]')].map((r) => ({ id: r.dataset.hoverLayer, value: r.dataset.hoverValue, feature: r.dataset.hoverFeature, empty: r.dataset.hoverEmpty, text: r.querySelector('[data-hover-text]').innerText, sub: r.querySelector('[data-hover-sub]').innerText })) }; })()`);
-      if (h) return h;
+      if (h && prev && h.lon === prev.lon && h.lat === prev.lat && h.rows.length === prev.rows.length) return h;
+      prev = h;
     }
-    return null;
+    return prev;
   };
   const awayFromMap = () => send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 5, y: 5 });
   const click = (sel) => evaluate(`(() => { const el = document.querySelector(${JSON.stringify(sel)}); if (!el) return false; el.click(); return true; })()`);
@@ -363,6 +385,61 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     check(row && near.includes(row.feature) && (!l.vintage || row.sub.includes(l.vintage)), `${l.id}: the hover names the row of the source under the pointer (${row?.text ?? "no row"}), with the vintage`);
   }
 
+  // session 159: hydropower, in the form published. A dam's hover gives the file's own capacity, generation and
+  // capacity factor with the vintage; a watershed's hover gives the file's own total for that HUC10 and its count
+  // of stream-reaches. Each value is read here from the layer's file on the disk.
+  {
+    const num = (v) => v.toLocaleString("en-US", { maximumFractionDigits: 4 });
+    const npd = LAYERS.find((l) => l.id === "hydropower_npd"), nsd = LAYERS.find((l) => l.id === "hydropower_nsd");
+    if (npd) {
+      const f = JSON.parse(fs.readFileSync(diskPath(npd.file), "utf-8")), col = (name) => f.columns.indexOf(name);
+      // the largest dam of the file, and one of middling size: neither is chosen by hand
+      const byCap = [...f.rows].sort((a, b) => b[col("value")] - a[col("value")]);
+      for (const [label, r] of [["the largest", byCap[0]], ["a middling one", byCap[Math.floor(byCap.length / 2)]]]) {
+        await go(`${base}/resources?on=hydropower_npd&z=60&c=${(r[0] + 0.02).toFixed(4)},${(r[1] - 0.012).toFixed(4)}`);
+        await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
+        await ready(["hydropower_npd"]);
+        const m = await mapData(), [x, y] = pixelOf(m.box, m, r[0], r[1]), k = scaleOf(m.box, m.z);
+        const h = await hoverAt(x, y), row = (h?.rows ?? []).find((q) => q.id === "hydropower_npd");
+        // the hover answers with the nearest dam within its reach: the row itself, unless another dam lies nearer the pointer
+        const near = f.rows.filter((q) => Math.hypot((q[0] - r[0]) * KX * k, (q[1] - r[1]) * k) <= 6);
+        const got = row ? near.find((q) => String(q[col("name")]) === row.feature && q[col("value")] === Number(row.value)) : null;
+        check(row && got && row.text === `${got[col("name")]}: ${num(got[col("value")])} ${npd.unit}` && row.sub.includes(`${npd.hover_fields.find((x) => x[0] === "gen_mwh_yr")[1]}: ${num(got[col("gen_mwh_yr")])}`) && row.sub.includes(`${npd.hover_fields.find((x) => x[0] === "cf_yr")[1]}: ${num(got[col("cf_yr")])}`) && row.sub.includes(npd.vintage) && row.sub.includes(npd.publisher),
+          `hydropower_npd, ${label}: the hover reads "${row?.text ?? "nothing"}" and the file holds ${got ? `${got[col("value")]} MW, ${got[col("gen_mwh_yr")]} MWh a year, capacity factor ${got[col("cf_yr")]}` : "no such row at the pointer"}; with the generation, the capacity factor, the vintage and the publisher${row ? "" : " (no hover row)"}`);
+      }
+      const legend = await evaluate(`(() => { const el = document.querySelector('[data-legend="hydropower_npd"]'); return el ? { unit: el.dataset.unit, text: el.innerText, ticks: [...el.querySelectorAll('[data-legend-tick]')].map((t) => Number(t.dataset.legendTick)) } : null; })()`);
+      check(legend && legend.unit === "MW" && legend.text.includes("MW") && legend.ticks[0] === npd.legend.min && legend.ticks.at(-1) === npd.legend.max, `hydropower_npd: the legend is in the manifest's unit (MW) and runs from the file's lowest capacity to its highest (${legend?.ticks[0]} to ${legend?.ticks.at(-1)})`);
+    } else check(false, "hydropower_npd is not among the layers held");
+    if (nsd) {
+      const fc = JSON.parse(fs.readFileSync(diskPath(nsd.file), "utf-8"));
+      const cands = fc.features.map((f) => ({ f, at: placeIn(f.geometry) })).filter((x) => x.at && x.at.w > 0.05).sort((a, b) => b.f.properties.value - a.f.properties.value);
+      for (const [label, pick] of [["the largest total", cands[0]], ["a middling one", cands[Math.floor(cands.length / 2)]]]) {
+        const z = Math.min(40, Math.max(4, 6 / pick.at.w));
+        await go(`${base}/resources?on=hydropower_nsd&z=${z.toFixed(3)}&c=${(pick.at.lon + 0.6 / z).toFixed(4)},${(pick.at.lat - 0.4 / z).toFixed(4)}`);
+        await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
+        await ready(["hydropower_nsd"]);
+        const m = await mapData(), [x, y] = pixelOf(m.box, m, pick.at.lon, pick.at.lat);
+        const h = await hoverAt(x, y), rows = (h?.rows ?? []).filter((q) => q.id === "hydropower_nsd"), p = pick.f.properties;
+        const row = rows.find((q) => q.feature === p.name);
+        const under = fc.features.filter((f) => inside(f.geometry, pick.at.lon, pick.at.lat)).map((f) => f.properties.name);
+        check(row && rows.every((q) => under.includes(q.feature)) && Number(row.value) === p.value && row.text === `${p.name} (HUC10 watershed): ${num(p.value)} ${nsd.unit}` && row.sub.includes(`${nsd.hover_fields.find((q) => q[0] === "NUMREACH")[1]}: ${num(p.NUMREACH)}`) && (p.E_MWh_Sm === null || row.sub.includes(`${nsd.hover_fields.find((q) => q[0] === "E_MWh_Sm")[1]}: ${num(p.E_MWh_Sm)}`)) && row.sub.includes(nsd.vintage) && row.sub.includes(nsd.publisher),
+          `hydropower_nsd, ${label}: the hover reads "${row?.text ?? "nothing"}" and the file holds ${p.value} MW for that HUC10, a total of ${p.NUMREACH} stream-reaches; with the count, the annual energy, the vintage and the publisher`);
+      }
+      // a place in no watershed that holds a capacity: nothing is shown for the layer there (nothing is spread)
+      {
+        const m = await mapData();
+        let spot = null;
+        for (let i = 1; i < 40 && !spot; i++) { const lon = m.lon + (i % 7 - 3) * 0.9 / m.z * 10, lat = m.lat + (Math.floor(i / 7) - 2) * 0.6 / m.z * 10; if (!fc.features.some((f) => inside(f.geometry, lon, lat))) { const [x, y] = pixelOf(m.box, m, lon, lat); if (x > m.box.left + 10 && x < m.box.left + m.box.w - 10 && y > m.box.top + 10 && y < m.box.top + m.box.h - 10) spot = { lon, lat, x, y }; } }
+        if (spot) {
+          const h = await hoverAt(spot.x, spot.y);
+          check(h && !h.rows.some((q) => q.id === "hydropower_nsd"), `hydropower_nsd: at ${spot.lat.toFixed(3)} N ${(-spot.lon).toFixed(3)} W, in no watershed for which the file gives a capacity, the hover shows nothing for the layer`);
+        } else console.log("note: hydropower_nsd: no place outside every drawn watershed was found in the view; the empty place was not probed");
+      }
+      const legend = await evaluate(`(() => { const el = document.querySelector('[data-legend="hydropower_nsd"]'); return el ? { unit: el.dataset.unit, text: el.innerText } : null; })()`);
+      check(legend && legend.unit === "MW" && legend.text.includes("MW"), "hydropower_nsd: the legend is in the manifest's unit (MW)");
+    } else check(false, "hydropower_nsd is not among the layers held");
+  }
+
   // the overlays: the counts are the tables' own, and each answers the pointer
   {
     const ov = async (name) => JSON.parse((await get(`/resources/overlay/${name}`)).buf.toString("utf-8"));
@@ -398,8 +475,26 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       await ready(["queue"]);
       const c = await evaluate(`Object.fromEntries([...document.querySelectorAll('[data-count-value]')].map((e) => [e.dataset.countValue, Number(e.innerText.replace(/,/g, ''))]))`);
       const title = await evaluate(`document.querySelector('[data-count="queue"] [title]')?.title ?? ''`);
-      check(c.queue_drawn === queue.drawn && c.queue_counties === queue.counties && c.queue_not_drawn === queue.not_placed + queue.no_shape && queue.drawn + queue.not_placed + queue.no_shape === queue.rows && title.length > 20,
-        `the queue: ${queue.drawn.toLocaleString("en-US")} rows drawn in ${queue.counties} counties and ${queue.not_placed + queue.no_shape} not drawn, counted in a short line with a hover; together the ${queue.rows.toLocaleString("en-US")} rows the live set holds`);
+      check(c.queue_drawn === queue.drawn && c.queue_counties === queue.counties && c.queue_not_drawn === queue.not_placed + queue.no_shape && queue.drawn + queue.not_placed + queue.no_shape + (queue.withheld ?? 0) === queue.rows && title.length > 20,
+        `the queue: ${queue.drawn.toLocaleString("en-US")} rows drawn in ${queue.counties} counties and ${queue.not_placed + queue.no_shape} not drawn, counted in a short line with a hover; with the ${queue.withheld ?? 0} of grids that are not shown, together the ${queue.rows.toLocaleString("en-US")} rows the live set holds`);
+      // session 159: grid by grid. The page's lines are the overlay's own counts; the two grids that are not shown
+      // read their fixed words, with the operator's sentence on hover; no row of theirs is in what the page was sent
+      {
+        const lines = await evaluate(`[...document.querySelectorAll('[data-queue-grid]')].map((e) => ({ id: e.dataset.queueGrid, shown: e.dataset.queueShown, rows: Number(e.dataset.queueRows), drawn: Number(e.dataset.queueDrawn), notDrawn: Number(e.dataset.queueNotDrawn), text: e.innerText.trim(), title: e.querySelector('[title]')?.title ?? '' }))`);
+        const grids = queue.grids ?? [], shownGrids = grids.filter((g) => g.shown && g.rows > 0), by = Object.fromEntries(lines.map((l) => [l.id, l]));
+        const sum = (k) => shownGrids.reduce((a, g) => a + g[k], 0);
+        check(shownGrids.length > 0 && shownGrids.every((g) => by[g.id] && by[g.id].shown === "1" && by[g.id].rows === g.rows && by[g.id].drawn === g.drawn && by[g.id].notDrawn === g.not_drawn && by[g.id].text === `${g.label} ${g.drawn.toLocaleString("en-US")}` && by[g.id].title.includes(`${g.not_drawn.toLocaleString("en-US")} not drawn`))
+          && sum("drawn") === queue.drawn && sum("not_drawn") === queue.not_placed + queue.no_shape && sum("rows") + (queue.withheld ?? 0) === queue.rows,
+          `the queue, grid by grid, as the live set gives it: ${shownGrids.map((g) => `${g.label} ${g.drawn.toLocaleString("en-US")} drawn and ${g.not_drawn} not drawn`).join("; ")}; the grids' counts add up to the overlay's`);
+        const miso = by.miso, nyiso = by.nyiso, held = (id) => grids.find((g) => g.id === id)?.rows ?? 0;
+        check(miso && miso.shown === "0" && miso.text === "MISO: paused while terms are reviewed" && miso.drawn === 0 && miso.rows === held("miso") && /paused since 4 October 2026/.test(miso.title) && /You agree not use any automated means/.test(miso.title),
+          `the queue: MISO's line reads "${miso?.text ?? "nothing"}", with the pause and the sentence of MISO's terms on hover; ${held("miso")} of its rows are in the table the overlay reads and none is drawn`);
+        check(nyiso && nyiso.shown === "0" && nyiso.text === "NYISO's terms do not allow it" && nyiso.drawn === 0 && nyiso.rows === held("nyiso") && /does not confer any license or ownership interest/.test(nyiso.title) && /All Rights Reserved/.test(nyiso.title),
+          `the queue: NYISO's line reads "${nyiso?.text ?? "nothing"}", with the sentences of its legal notice on hover; ${held("nyiso")} of its rows are in the table the overlay reads and none is drawn`);
+        const sent = JSON.stringify([queue.shapes, queue.points]);
+        check((queue.withheld ?? 0) === held("miso") + held("nyiso") && !/\b(MISO|NYISO)\b/i.test(sent) && queue.shapes.features.reduce((a, f) => a + f.properties.requests, 0) + queue.points.length === queue.drawn,
+          `the queue: what the page is sent holds the ${queue.drawn.toLocaleString("en-US")} rows drawn and no row of a grid that is not shown (${queue.withheld ?? 0} left out)`);
+      }
       const m = await mapData(), [x, y] = pixelOf(m.box, m, county.at.lon, county.at.lat);
       const h = await hoverAt(x, y), row = (h?.rows ?? []).find((r) => r.id === "queue");
       check(row && row.feature === county.f.properties.name && row.text.includes(`${county.f.properties.requests.toLocaleString("en-US")} request`) && /A county, not a site/.test(row.sub),

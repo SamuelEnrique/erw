@@ -7,6 +7,11 @@
 // The overlays (plants, the queue by county, datacenters) are read the same way, on their toggle. The map is drawn on
 // a plane where a grid cell is a rectangle (lib/resources.ts), so a grid is drawn cell for cell with no smoothing, and
 // the hover reads the stored value of the cell under the pointer. Nothing leaves the site.
+// Session 159: hydropower is two layers of the manifest like any other (dams as points, watersheds as shapes), and a
+// layer's entry may name fields of its source for the hover to list (hover_fields); the queue's count is given grid
+// by grid as the overlay sends it, and a grid whose operator's terms do not allow its rows reads its short words
+// with the operator's sentence on hover (lib/resources.ts, QUEUE_GRIDS); a still picture's bitmap is taken up only
+// when the map is at rest.
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
@@ -19,19 +24,21 @@ type Feat = { path: Path2D; box: [number, number, number, number]; geometry: R.G
 type Dot = { lon: number; lat: number; props: Record<string, unknown> };
 /** A still picture of a heavy layer: `image` is what is drawn (the canvas it was painted on, then the browser's own
  *  bitmap of it once that is made, which it keeps ready to draw). */
-type Still = { image: CanvasImageSource; width: number; height: number; west: number; north: number; perDeg: number };
+type Still = { image: CanvasImageSource; width: number; height: number; west: number; north: number; perDeg: number; pending: ImageBitmap | null };
 type ShapeSet = { feats: Feat[]; dots: Dot[]; kinds: { kind: string; fill: string; stroke: string }[]; fill: string; stroke: string; vertices: number; still: Still | null };
 type PointSet = { columns: string[]; rows: unknown[][]; iName: number; iValue: number; bins: number[][]; colors: string[]; stroke: string; sideDeg: number; still: Still | null; box: [number, number, number, number] };
 type Plants = {
   vintage: string; techs: { slug: string; name: string }[]; statuses: { slug: string; name: string }[]; states: string[]; names: string[];
   n: number[]; s: number[]; t: number[]; st: number[]; mw: number[]; y: number[]; lo: (number | null)[]; la: (number | null)[];
 };
-type Queue = { rows: number; drawn: number; counties: number; not_placed: number; no_shape: number; vintage_first: string; vintage_last: string; shapes: { features: { properties: Record<string, unknown>; geometry: R.Geometry }[] }; points: { lon: number; lat: number; id: string; mw: number | null; status: string; tech: string; state: string }[] };
+type Queue = { rows: number; drawn: number; counties: number; not_placed: number; no_shape: number; withheld?: number; grids?: R.QueueGridCount[]; vintage_first: string; vintage_last: string; shapes: { features: { properties: Record<string, unknown>; geometry: R.Geometry }[] }; points: { lon: number; lat: number; id: string; mw: number | null; status: string; tech: string; state: string }[] };
 type Centers = { rows: number; drawn: number; not_placed: number; vintage: string; points: { lon: number; lat: number; id: string; operator: string; site: string; mw: number | null; status: string; state: string; city: string; county: string; prec: string; src: string }[] };
 type HoverRow = { id: string; title: string; text: string; sub: string; value: number | null; feature?: string; empty?: boolean };
 type Hover = { x: number; y: number; w: number; h: number; lon: number; lat: number; rows: HoverRow[] };
 /** The longest of each kind of work so far, in ms: what the frame-time script reads to say where a slow frame came from. */
-type Slow = { moving: number; rest: number; decode: number };
+type Slow = { moving: number; rest: number; decode: number; kept?: number };
+/** The picture last drawn in full, with the view it was drawn at: what a heavy map shows of itself while it moves. */
+type Kept = { canvas: HTMLCanvasElement; z: number; lon: number; lat: number; w: number; h: number };
 type Chosen = { on: string[]; fuel: string[] | null };
 
 const NO_VALUE = "no value in the source here";
@@ -39,6 +46,19 @@ const ASPECT = (R.HOME.spanLon * R.KX) / R.HOME.spanLat;
 const BINS = 12;              // steps of color for points drawn by value
 const HEAVY_VERTICES = 30000; // a set of shapes with more corners than this is drawn from a still picture while the map moves
 const HEAVY_POINTS = 6000;    // and so is a set of points with more rows than this
+// Session 159: with every layer and overlay on at once, a frame drawn in full while the map moved took the page 12 to
+// 30 ms on the session's laptop, and one frame in six ran past 50 ms once the browser had painted it. Every resource
+// layer alone, and all fourteen together, took the page 3.4 ms or less; the operating plants at the widest view took
+// it 10. When a frame drawn in full while the map moves
+// takes the page more than this many ms, the frames that follow are that frame's own picture, moved and scaled with
+// the view over the bare states, for as long as the picture still covers half of the map and is scaled by no more than
+// KEPT_SCALE either way; then a frame is drawn in full again, and timed again. At rest everything is drawn as it is.
+// A map that draws more than HEAVY_MARKS marks one by one (plants, points and shapes that have no still picture of
+// their own) is heavy before it is timed: the picture drawn at rest is kept, so the first frame of a movement is
+// already that picture (drawn in full, that one frame took 70 to 107 ms with everything on).
+const HEAVY_FRAME_MS = 6;
+const HEAVY_MARKS = 12000;
+const KEPT_SCALE = 4, KEPT_COVERS = 0.5;
 const X = (lon: number) => lon * R.KX, Y = (lat: number) => -lat;
 const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -46,6 +66,13 @@ const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1,
 const sizeOf = (mw: number) => Math.min(18, Math.max(3, 2 + Math.sqrt(Math.max(mw, 0)) * 0.2));
 const cssVar = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#888888";
 const never = () => () => {};
+/** A field of the source on a hover, as the file writes it: a number with its own decimals (no more than four). */
+const fieldText = (v: unknown) => (typeof v === "number" ? v.toLocaleString("en-US", { maximumFractionDigits: 4 }) : String(v));
+/** The fields of the source a layer's manifest entry asks the hover to list (session 159), each under its own words;
+ *  a field the source leaves empty is left out, never shown as a zero. */
+function listed(l: R.Layer, get: (field: string) => unknown): string[] {
+  return (l.hover_fields ?? []).flatMap(([field, words]) => { const v = get(field); return v === null || v === undefined || v === "" ? [] : [`${words}: ${fieldText(v)}`]; });
+}
 
 function trace(p: Path2D, g: R.Geometry | null | undefined): number {
   if (!g) return 0;
@@ -112,7 +139,7 @@ function gridImage(grid: R.Grid, layer: R.Layer, ramp: R.Rgb[]): GridImg {
 }
 
 /** A still picture of a heavy layer over its own box, drawn once: what the map shows of it while it moves. */
-function stillOf(box: [number, number, number, number], paint: (ctx: CanvasRenderingContext2D, k: number) => void): Still | null {
+function stillOf(box: [number, number, number, number], paint: (ctx: CanvasRenderingContext2D, k: number) => void, arrived?: () => void): Still | null {
   const spanX = (box[2] - box[0]) * R.KX, spanY = box[3] - box[1];
   if (!(spanX > 0) || !(spanY > 0)) return null;
   const perDeg = Math.min(40, 2000 / spanX, 1250 / spanY);
@@ -122,9 +149,18 @@ function stillOf(box: [number, number, number, number], paint: (ctx: CanvasRende
   if (!ctx) return null;
   ctx.setTransform(perDeg, 0, 0, perDeg, -X(box[0]) * perDeg, -Y(box[3]) * perDeg);
   paint(ctx, perDeg);
-  const still: Still = { image: canvas, width: canvas.width, height: canvas.height, west: box[0], north: box[3], perDeg };
-  if (typeof createImageBitmap === "function") createImageBitmap(canvas).then((bitmap) => { still.image = bitmap; }).catch(() => { /* the canvas stays the picture */ });
+  const still: Still = { image: canvas, width: canvas.width, height: canvas.height, west: box[0], north: box[3], perDeg, pending: null };
+  // session 159: the browser's bitmap arrives a moment later and is only kept here; the map takes it up when it is at
+  // rest (adoptStills). Drawn for the first time in the middle of a drag, it cost that frame 140 to 160 ms.
+  if (typeof createImageBitmap === "function") createImageBitmap(canvas).then((bitmap) => { still.pending = bitmap; arrived?.(); }).catch(() => { /* the canvas stays the picture */ });
   return still;
+}
+/** A still picture is drawn once, one pixel of it, when it is made or its bitmap is taken up: the browser readies it
+ *  then, not in the first frame of a drag. */
+function warmStill(cv: HTMLCanvasElement | null, s: Still | null) {
+  const ctx = cv?.getContext("2d");
+  if (!s || !ctx) return;
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 0.01; ctx.drawImage(s.image, 0, 0, s.width, s.height, 0, 0, 1, 1); ctx.restore();
 }
 function paintShapes(ctx: CanvasRenderingContext2D, k: number, set: ShapeSet, view?: [number, number, number, number]): number {
   let n = 0;
@@ -164,7 +200,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
   const store = useRef({
     grids: new Map<string, GridImg>(), shapes: new Map<string, ShapeSet>(), points: new Map<string, PointSet>(), asked: new Set<string>(),
     plants: null as Plants | null, plantIdx: null as Record<string, number[][]> | null, queue: null as (Queue & { set: ShapeSet }) | null, centers: null as Centers | null,
-    drawnGrid: {} as Record<string, GridImg | undefined>, drawn: {} as Record<string, number>, frames: 0, slow: { moving: 0, rest: 0, decode: 0 } as Slow,
+    drawnGrid: {} as Record<string, GridImg | undefined>, drawn: {} as Record<string, number>, frames: 0, slow: { moving: 0, rest: 0, decode: 0, kept: 0 } as Slow,
+    kept: null as Kept | null, heavy: false,
   });
   const live = useRef({ on, fuel, touched: false, ready: false, dragging: false, moving: false });
   const pal = useRef<{ ink: R.Rgb; land: string; sea: string; panel: string; ramp: Record<string, R.Rgb[]>; fuel: Record<string, string> } | null>(null);
@@ -206,10 +243,30 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       ctx.drawImage(s.image, sx0, sy0, sx1 - sx0, sy1 - sy0, x0, y0, ((sx1 - sx0) / s.perDeg) * k, ((sy1 - sy0) / s.perDeg) * k);
     };
     const drawn: Record<string, number> = {};
+    let oneByOne = 0;   // the marks this frame draws one by one, or would if the map moved (a set with a still picture is not among them)
     screen();
     ctx.fillStyle = p.sea; ctx.fillRect(0, 0, w, h);
     world();
     ctx.fillStyle = p.land; ctx.fill(b.nation, "evenodd");
+
+    // session 159: a heavy map moves as the picture of itself last drawn in full (HEAVY_FRAME_MS), over the bare
+    // states; only the part of that picture the map shows is asked of the browser. When the picture no longer covers
+    // half of the map, or is scaled too far, this frame is drawn in full below and becomes the picture.
+    const kept = S.kept;
+    if (moving && S.heavy && kept && kept.w === w && kept.h === h) {
+      const f = v.z / kept.z, [cx, cy] = place(kept.lon, kept.lat), x0 = cx - (w / 2) * f, y0 = cy - (h / 2) * f;
+      const sx0 = Math.max(0, -x0 / f), sx1 = Math.min(w, (w - x0) / f), sy0 = Math.max(0, -y0 / f), sy1 = Math.min(h, (h - y0) / f);
+      if (f <= KEPT_SCALE && f >= 1 / KEPT_SCALE && sx1 > sx0 && sy1 > sy0 && (sx1 - sx0) * (sy1 - sy0) * f * f >= KEPT_COVERS * w * h) {
+        ctx.strokeStyle = R.css(p.ink, 0.38); ctx.lineWidth = 0.7 / k; ctx.stroke(b.states);
+        screen();
+        const q = kept.canvas.width / w;
+        ctx.imageSmoothingEnabled = true;
+        ctx.drawImage(kept.canvas, sx0 * q, sy0 * q, (sx1 - sx0) * q, (sy1 - sy0) * q, x0 + sx0 * f, y0 + sy0 * f, (sx1 - sx0) * f, (sy1 - sy0) * f);
+        S.frames += 1; S.slow.kept = (S.slow.kept ?? 0) + 1;
+        S.slow.moving = Math.max(S.slow.moving, performance.now() - began);
+        return;
+      }
+    }
 
     // grids: for each pyramid of a layer, the level the zoom calls for when it is loaded, else the nearest that is
     screen();
@@ -243,6 +300,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       if (moving && set.still) { screen(); stillDraw(set.still); drawn[id] = set.feats.length + set.dots.length; continue; }
       world();
       drawn[id] = paintShapes(ctx, k, set, [west, south, east, north]) + set.dots.length;
+      if (!set.still) oneByOne += drawn[id];
     }
     // points drawn by value: a square the size of the source's own spacing where the manifest gives it
     for (const id of shown) {
@@ -266,6 +324,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
         if (round) { ctx.strokeStyle = set.stroke; ctx.lineWidth = 0.8; ctx.stroke(); }
       }
       drawn[id] = n;
+      if (!set.still) oneByOne += n;
     }
     // the states, over the layers, so a place can be read
     world();
@@ -305,6 +364,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           else { if (!moving) { ctx.strokeStyle = p.panel; ctx.lineWidth = 3; ctx.stroke(); } ctx.strokeStyle = color; ctx.lineWidth = 1.4; ctx.stroke(); }
         }
         drawn[which] = n;
+        oneByOne += n;
       }
     }
     // the queue's rows with coordinates of their own, and the datacenters: a diamond
@@ -326,11 +386,22 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       }
       ctx.fill(); ctx.stroke();
       drawn.datacenters = n;
+      oneByOne += n;
     }
     S.drawn = drawn;
     S.frames += 1;
     const took = performance.now() - began;
+    // A frame drawn in full is kept as a picture, with its view, when the map is heavy: when it draws more than
+    // HEAVY_MARKS marks one by one, or, while it moves, when the frame took the page more than HEAVY_FRAME_MS (a frame
+    // at rest draws every shape in full and is not timed for this). The moving frames after it are that picture.
     if (moving) S.slow.moving = Math.max(S.slow.moving, took); else S.slow.rest = Math.max(S.slow.rest, took);
+    S.heavy = oneByOne > HEAVY_MARKS || (moving && took > HEAVY_FRAME_MS);
+    if (S.heavy) {
+      let c2 = S.kept?.canvas;
+      if (!c2 || c2.width !== cv.width || c2.height !== cv.height) { c2 = document.createElement("canvas"); c2.width = cv.width; c2.height = cv.height; }
+      const kctx = c2.getContext("2d");
+      if (kctx) { kctx.drawImage(cv, 0, 0); S.kept = { canvas: c2, z: v.z, lon: v.lon, lat: v.lat, w, h }; } else S.heavy = false;
+    }
   }, [byId, pyramids]);
   const redraw = useCallback(() => { if (!raf.current) raf.current = requestAnimationFrame(draw); }, [draw]);
 
@@ -348,8 +419,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       return new Promise((ok, no) => { rd.next += 1; rd.waiting.set(rd.next, { file, ok, no }); rd.worker.postMessage({ id: rd.next, url: new URL(R.layerHref(file), window.location.origin).href }); });
     };
     const timed = <T,>(work: () => T): T => { const t = performance.now(); const out = work(); S.slow.decode = Math.max(S.slow.decode, performance.now() - t); return out; };
-    // a still picture is drawn once, one pixel of it, when it is made: the browser readies it then, not in the first frame of a drag
-    const warm = (s: Still | null) => { const ctx = canvas.current?.getContext("2d"); if (s && ctx) { ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 0.01; ctx.drawImage(s.image, 0, 0, s.width, s.height, 0, 0, 1, 1); ctx.restore(); } };
+    const warm = (s: Still | null) => warmStill(canvas.current, s);
+    const arrived = () => settleRef.current();   // a still's bitmap has arrived: taken up when the map next rests
     for (const id of ids) {
       const l = byId.get(id);
       if (l && l.kind === "grid") {
@@ -395,7 +466,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
                   for (const i of bins[bi]) { const r = rows[i]; ctx.rect(X(r[0] as number) - (sideDeg * R.KX) / 2, Y(r[1] as number) - sideDeg / 2, sideDeg * R.KX, sideDeg); }
                   ctx.fillStyle = set.colors[bi]; ctx.fill();
                 }
-              });
+              }, arrived);
               warm(set.still);
             }
             S.points.set(id, set);
@@ -424,7 +495,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
               set.feats.push({ path, box: bx, geometry: f.geometry, props, line: isLine(f.geometry), fill, stroke });
               bw = Math.min(bw, bx[0]); bs = Math.min(bs, bx[1]); be = Math.max(be, bx[2]); bn = Math.max(bn, bx[3]);
             }
-            if (set.vertices > HEAVY_VERTICES) { set.still = stillOf([bw, bs, be, bn], (ctx, kk) => { paintShapes(ctx, kk, set); }); warm(set.still); }
+            if (set.vertices > HEAVY_VERTICES) { set.still = stillOf([bw, bs, be, bn], (ctx, kk) => { paintShapes(ctx, kk, set); }, arrived); warm(set.still); }
             S.shapes.set(id, set);
             setKinds((s) => ({ ...s, [id]: set.kinds }));
           }
@@ -456,7 +527,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
           }
           if (set.vertices > HEAVY_VERTICES && set.feats.length) {
             const bb = set.feats.reduce((a, f) => [Math.min(a[0], f.box[0]), Math.min(a[1], f.box[1]), Math.max(a[2], f.box[2]), Math.max(a[3], f.box[3])] as [number, number, number, number], [Infinity, Infinity, -Infinity, -Infinity] as [number, number, number, number]);
-            set.still = stillOf(bb, (ctx, kk) => { paintShapes(ctx, kk, set); });
+            set.still = stillOf(bb, (ctx, kk) => { paintShapes(ctx, kk, set); }, arrived);
             warm(set.still);
           }
           S.queue = { ...d, set }; setQueue(d); done("queue");
@@ -477,6 +548,16 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
     settleTimer.current = setTimeout(() => {
       const L = live.current, v = view.current, S = store.current, el = box.current;
       if (L.moving) { L.moving = false; draw(); }
+      // session 159: a still picture's bitmap that arrived since the last rest is taken up now and readied, so that no
+      // frame of a drag is the first to draw it
+      {
+        let taken = false;
+        const adopt = (st: Still | null | undefined) => { if (st?.pending) { st.image = st.pending; st.pending = null; warmStill(canvas.current, st); taken = true; } };
+        for (const set of S.shapes.values()) adopt(set.still);
+        for (const set of S.points.values()) adopt(set.still);
+        adopt(S.queue?.set.still);
+        if (taken) redraw();
+      }
       load(L.on);
       const lv: Record<string, number> = {};
       for (const id of L.on) for (const py of pyramids.get(id) ?? []) { const g = S.drawnGrid[py.key]; if (g) lv[py.key] = g.cell; }
@@ -490,7 +571,7 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
       if (lp && !L.dragging && readRef.current) setHover(readRef.current(lp.x, lp.y));
       if (L.ready && L.touched) window.history.replaceState(null, "", `${window.location.pathname}${R.shownQuery({ on: L.on, view: v, fuel: L.fuel })}`);
     }, 160);
-  }, [draw, load, pyramids]);
+  }, [draw, load, pyramids, redraw]);
 
   const moved = useCallback((v: R.View) => {
     view.current = R.clampView(v);
@@ -592,7 +673,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
         for (const props of hits.slice(0, 4)) {
           const val = typeof props.value === "number" ? props.value : null, name = String(props.name ?? "not named in the source");
           const amount = l.classes || props.value === undefined || props.value === null || props.value === "" ? "" : `: ${typeof props.value === "number" ? R.plainNumber(props.value) : props.value} ${props.value_unit ?? l.unit ?? ""}`.trimEnd();
-          rows.push({ id, title: l.title, value: val, feature: name, text: `${name}${props.kind && !l.classes ? ` (${props.kind})` : ""}${amount}`, sub: `${l.classes && props.kind ? `${String(props.kind).replace(/^./, (c) => c.toUpperCase())}. ` : ""}${tail(l)}` });
+          const more = listed(l, (field) => props[field]);
+          rows.push({ id, title: l.title, value: val, feature: name, text: `${name}${props.kind && !l.classes ? ` (${props.kind})` : ""}${amount}`, sub: `${l.classes && props.kind ? `${String(props.kind).replace(/^./, (c) => c.toUpperCase())}. ` : ""}${more.length ? `${more.join("; ")}. ` : ""}${tail(l)}` });
         }
       } else {
         const set = S.points.get(id);
@@ -604,7 +686,8 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
         }
         if (!best) continue;
         const r = best, val = typeof r[set.iValue] === "number" ? (r[set.iValue] as number) : null, name = String(r[set.iName] ?? "not named in the source");
-        const rest = set.columns.map((c, i) => (i > 1 && i !== set.iName && i !== set.iValue && r[i] !== null && r[i] !== "" && r[i] !== undefined ? `${c.replace(/_/g, " ")}: ${r[i]}` : "")).filter(Boolean).slice(0, 5);
+        const rest = l.hover_fields?.length ? listed(l, (field) => r[set.columns.indexOf(field)])
+          : set.columns.map((c, i) => (i > 1 && i !== set.iName && i !== set.iValue && r[i] !== null && r[i] !== "" && r[i] !== undefined ? `${c.replace(/_/g, " ")}: ${r[i]}` : "")).filter(Boolean).slice(0, 5);
         rows.push({ id, title: l.title, value: val, feature: name, text: `${name}${val !== null ? `: ${R.plainNumber(val)} ${l.unit ?? ""}`.trimEnd() : ""}`, sub: `${rest.length ? `${rest.join("; ")}. ` : ""}${tail(l)}` });
       }
     }
@@ -740,6 +823,23 @@ export function ResourceMap({ layers, groups, manifestReason }: { layers: R.Laye
               <span data-count-value="queue_drawn">{whole(queue.drawn)}</span> queue rows in <span data-count-value="queue_counties">{whole(queue.counties)}</span> counties;{" "}
               <span className={hint} title="These rows name neither a county the Census Bureau's county outlines hold nor coordinates, so they have no place on the map."><span data-count-value="queue_not_drawn">{whole(queue.not_placed + queue.no_shape)}</span> not drawn</span>
             </p>
+          ) : null}
+          {on.includes("queue") && queue?.grids ? (
+            <ul className="mt-1 text-xs text-muted" data-count="queue-grids">
+              {queue.grids.filter((g) => g.shown && g.rows > 0).map((g) => (
+                <li key={g.id} data-queue-grid={g.id} data-queue-shown="1" data-queue-rows={g.rows} data-queue-drawn={g.drawn} data-queue-not-drawn={g.not_drawn}>
+                  <span className={hint} title={`${g.label}: ${whole(g.rows)} queue rows in the table this overlay reads, ${whole(g.drawn)} drawn and ${whole(g.not_drawn)} not drawn (no county the outlines hold).`}>{g.label} {whole(g.drawn)}</span>
+                </li>
+              ))}
+              {R.QUEUE_GRIDS.filter((g) => !g.shown).map((g) => {
+                const held = queue.grids?.find((x) => x.id === g.id)?.rows ?? 0;
+                return (
+                  <li key={g.id} data-queue-grid={g.id} data-queue-shown="0" data-queue-rows={held} data-queue-drawn={0} data-queue-not-drawn={held}>
+                    <span className={hint} title={`${g.why} The table this overlay reads holds ${whole(held)} of its rows today; none is drawn.`}>{R.queueLine(g)}</span>
+                  </li>
+                );
+              })}
+            </ul>
           ) : null}
           {on.includes("datacenters") && centers ? (
             <p className="mt-2 text-xs text-muted" data-count="datacenters">

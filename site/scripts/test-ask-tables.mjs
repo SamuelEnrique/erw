@@ -297,7 +297,11 @@ await test("a resource layer gives its unit, publisher, vintage and range, the v
   const all = pf.pageFile({ view: "layers" });
   assert.equal(all.layers_held, m.layers.length);
   for (const l of m.layers) { const row = all.layers.find((x) => x.layer === l.id); assert.ok(row && row.unit === (l.unit ?? "") && row.publisher === l.publisher && row.vintage === l.vintage, l.id); }
-  assert.ok(all.not_held.some((x) => x.layer === "hydropower_potential"));
+  // session 159: hydropower is held (two layers of Oak Ridge National Laboratory's), so it is no longer among what is
+  // not held; what the list of layers names as not held, each with its reason, is what this view says is not held
+  assert.deepEqual(all.not_held, (m.missing ?? []).map((x) => ({ layer: x.id, why: x.reason })));
+  assert.ok(all.not_held.some((x) => x.layer === "wind_gross_capacity_factor" && x.why.includes("key issued to a named person")));
+  assert.ok(!all.not_held.some((x) => /hydro/.test(x.layer)) && ["hydropower_npd", "hydropower_nsd"].every((id) => all.layers.some((x) => x.layer === id && x.unit === "MW" && x.publisher.startsWith("Oak Ridge National Laboratory"))));
   const one = pf.pageFile({ view: "layer", layer: "wind_capacity_factor" });
   assert.ok(one.what_it_is_not.includes("it is not named one") && one.is_not.includes("not a gross capacity factor"));
   // the cell under a place, by the page's own decoder (lib/resources.ts), at the finest level the page draws
@@ -316,7 +320,11 @@ await test("a resource layer gives its unit, publisher, vintage and range, the v
   const names = pf.pageFile({ view: "features", layer: "oil_gas_basins" });
   assert.deepEqual(names.result.map((r) => r.name), basins.map((b) => b.properties.name));
   assert.ok(pf.pageFile({ view: "features", layer: "wind_speed_100m" }).error.includes("is a grid"));
-  assert.ok(pf.pageFile({ view: "layer", layer: "hydropower" }).error.startsWith("no resource layer"));
+  // session 159: "hydropower" is part of two layers' names now, so it finds one (the first the list holds); a name that
+  // is no layer's, "tidal", is still answered with the layers there are
+  assert.equal(pf.pageFile({ view: "layer", layer: "hydropower" }).layer, "hydropower_npd");
+  assert.equal(pf.pageFile({ view: "layer", layer: "hydropower_nsd" }).unit, "MW");
+  assert.ok(pf.pageFile({ view: "layer", layer: "tidal" }).error.startsWith("no resource layer"));
 });
 
 await test("a result with rows is marked like a query's and charted from its own rows; a figure alone is not", async () => {
