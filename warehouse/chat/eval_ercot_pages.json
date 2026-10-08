@@ -17,7 +17,7 @@
   "capture": "2026-10-07T21:50:35Z",
   "shares": "2026-10-07T21:56:41Z",
   "free_energy": "2026-10-07T21:57:12Z",
-  "texas": "2026-10-07T14:31:33Z",
+  "texas": "2026-10-08T14:42:58Z",
   "resources": "2026-10-08T08:52:45Z",
   "tables_read": {
    "ercot_large_load_status": true,
@@ -352,7 +352,7 @@
    "page": "/curtailment",
    "q": "Over the days held, what percent of the limit its plants reported was Texas wind and solar output below?",
    "expect": [
-    4.57
+    4.51
    ],
    "cite": "site\\/data\\/curtailment\\/ercot\\.json|ercot_wind_solar_hsl_daily",
    "source": "site/data/curtailment/ercot.json",
