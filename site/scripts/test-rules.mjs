@@ -17,6 +17,8 @@
 //   6. the status: the regulator's words where it words one, else the class, else "not stated";
 //   7. the hover of the docket is the exact sentence with the page and the topic; the read is shown only when the file
 //      marks it as a model's, with the model and what it was made from on hover; else "no read yet";
+//   7b. a regulator whose text the file does not copy: the file's phrase stands in place of the sentence and the class in
+//      place of the worded status; a row with neither a sentence nor that phrase is not shown;
 //   8. where data/datacenter/rules.json is on the machine: every grid of it gives a block, and what each shows is printed.
 // Prints one line per assertion; exits 1 if any fails.
 import fs from "node:fs";
@@ -136,6 +138,23 @@ ok(same([...R.RULE_GRIDS], ["ercot", "caiso", "nyiso", "isone", "spp", "miso", "
     "what the file holds and does not put on the page is a count with the file's reason; a reason with a municipal word in it is not carried to a hover");
 }
 
+// 7b. a regulator whose text is not copied: the file's phrase in place of the sentence, the class in place of the status
+{
+  const phrase = "Made-up: this commission's terms ask leave to copy its text; open the document";
+  const w = row("w", "2026-07-01", { sentence: null, status_as_worded: null, status_class: "open", sentence_withheld: phrase, page: 4, read: "Made-up line.", read_by: "model", read_model: "made-up-model", read_from: "the document" });
+  const tip = R.docketTip(w);
+  ok(tip === `${phrase}. Page 4 of the document. Topic: large-load tariff. Tags: large_load.` && !tip.includes('"') && R.hoverKind(w) === "withheld" && R.withheldOf(w) === phrase,
+    "a row whose sentence the file does not copy: the hover is the file's phrase, then the page and the topic, and no sentence");
+  const st = R.statusOf(w);
+  ok(st.words === "open" && st.stated && /not copied/.test(st.why) && !/words no status/.test(st.why) && R.readOf(w).line === "Made-up line.", "its status is the class, the hover says the regulator's words are not copied, and its read is shown as a model's");
+  const both = row("b", "2026-07-02", { sentence_withheld: phrase }), neither = row("n", "2026-07-03", { sentence: null, status_as_worded: null }), blank = row("k", "2026-07-04", { sentence: "  ", sentence_withheld: "  " });
+  ok(R.hoverKind(both) === "sentence" && R.docketTip(both).startsWith('"Made-up sentence of document b."') && R.withheldOf(both) === "" && R.hoverKind(neither) === "neither" && R.hoverKind(blank) === "neither",
+    "a row that holds its sentence shows the sentence, whatever else it holds");
+  const c = R.choose([w, both, neither, blank]);
+  ok(same(c.rows.map((r) => r.id), ["b", "w"]) && same(c.dropped.map((d) => d.id), ["n", "k"]) && c.dropped.every((d) => /neither/.test(d.why)), "a row with neither a sentence nor the phrase in its place is not shown, and counted: no sentence is made here");
+  ok(R.statusOf(row("u", "2026-07-05", { sentence: null, status_as_worded: null, status_class: "not stated", sentence_withheld: phrase })).stated === false, 'with no class either, the status reads "not stated"');
+}
+
 // 8. the real file, where it is on the machine
 {
   const at = path.join(here, "..", "data", "datacenter", "rules.json");
@@ -150,10 +169,10 @@ ok(same([...R.RULE_GRIDS], ["ercot", "caiso", "nyiso", "isone", "spp", "miso", "
         const b = R.blockOf(real, g);
         const all = [...b.rows, ...b.federal];
         if (g === "miso" && (b.state !== "paused" || all.length)) fine = false;
-        if (!all.every((r) => R.linkOf(r) && R.municipalWord(R.wordsOf(r)) === null)) fine = false;
-        lines.push(`${g}: ${b.state}, ${b.rows.length} rows (${b.rows.filter((r) => R.readOf(r).line).length} with a read), federal ${b.federal.length} (${b.federal.filter((r) => R.readOf(r).line).length} with a read), not shown ${b.dropped.length}`);
+        if (!all.every((r) => R.linkOf(r) && R.municipalWord(R.wordsOf(r)) === null && R.hoverKind(r) !== "neither")) fine = false;
+        lines.push(`${g}: ${b.state}, ${b.rows.length} rows (${b.rows.filter((r) => R.readOf(r).line).length} with a read, ${b.rows.filter((r) => R.hoverKind(r) === "withheld").length} with the sentence not copied), federal ${b.federal.length} (${b.federal.filter((r) => R.readOf(r).line).length} with a read), not shown ${b.dropped.length}${b.dropped.length ? ` (${b.dropped.map((d) => `${d.id}: ${d.why}${d.word ? ` "${d.word}"` : ""}`).join("; ")})` : ""}`);
       }
-      ok(fine, "the real file: MISO shows no row, and every row shown has a source address and no municipal word");
+      ok(fine, "the real file: MISO shows no row, and every row shown has a source address, no municipal word, and its sentence or the phrase in its place");
       for (const l of lines) console.log(`     ${l}`);
     }
   }

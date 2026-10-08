@@ -25,7 +25,9 @@
 //   visitor    without the cookie the page is the in-review page
 //   rules      (session 154) "Rules in motion" in the section "How soon", for each of the seven grids an address can name:
 //              the block is there; every row shown is a row of data/datacenter/rules.json in the order of lib/rules.ts,
-//              with its date, its status, a link whose address is the file's and whose hover holds the file's sentence,
+//              with its date, its status, a link whose address is the file's and whose hover holds the file's sentence
+//              (or, where the file does not copy a regulator's text, the file's phrase in its place and the status's
+//              class: never neither, never a sentence the file does not hold),
 //              and a read marked as a model's or the placeholder "no read yet"; eight rows of a group stand before its
 //              fold; MISO shows the fixed words and no row; PJM shows the file's rows, and the rest of its address is
 //              what the default address shows; the block holds no municipal word, on its face or on hover; its face
@@ -196,13 +198,14 @@ function rowsOfPage(b) {
     const linkTag = cells[2]?.match(/<a[^>]*\bdata-rule-link="[^"]*"[^>]*>/), link = linkTag ? attrs(linkTag[0]) : null;
     const linkWords = linkTag ? words(cells[2].slice(linkTag.index + linkTag[0].length, cells[2].indexOf("</a>", linkTag.index))) : null;
     const mark = firstTag(cells[3] ?? "", /<span[^>]*\bdata-rule-mark="model"[^>]*>/), gap = firstTag(cells[3] ?? "", /<span[^>]*\bdata-missing="1"[^>]*>/);
-    out.push({ id: a["data-rule"], group: a["data-rule-group"], date: a["data-rule-date"], dateWords: words(cells[0] ?? ""), status: words(cells[1] ?? ""), linkId: link?.["data-rule-link"] ?? null, href: link?.href ?? null, tip: link?.title ?? null, linkWords,
+    out.push({ id: a["data-rule"], group: a["data-rule-group"], date: a["data-rule-date"], dateWords: words(cells[0] ?? ""), status: words(cells[1] ?? ""), linkId: link?.["data-rule-link"] ?? null, hover: link?.["data-rule-hover"] ?? null, href: link?.href ?? null, tip: link?.title ?? null, linkWords,
       read: words(cells[3] ?? ""), marked: "data-rule-mark" in mark, markTip: mark.title ?? null, gapTip: gap.title ?? null, folded: b.lastIndexOf("<details", m.index) > b.lastIndexOf("</details>", m.index) });
   }
   return out;
 }
 const RULE_PAGES = {};
-let noMunicipal = true, municipalFound = "", foldsRight = true, shownTotal = 0, foldGrid = null;
+let noMunicipal = true, municipalFound = "", foldsRight = true, shownTotal = 0, foldGrid = null, rowsWrong = 0;
+const hovers = { sentence: 0, withheld: 0, neither: 0 };
 for (const g of RULE_GRIDS) {
   const r = await get(`/cost-of-power?grid=${g}`);
   const b = blockOfPage(face(r.html));
@@ -222,8 +225,19 @@ for (const g of RULE_GRIDS) {
     if (p.dateWords !== (dayWords(x.date) ?? "not stated")) bad.push("date");
     if (!st.words || p.status !== norm(st.words)) bad.push("status");
     if (p.linkId !== p.id || p.href !== x.url || p.href !== linkOf(x) || p.linkWords !== norm(docketWords(x))) bad.push("link");
-    if (p.tip !== docketTip(x) || (x.sentence && !p.tip.includes(`"${String(x.sentence).trim()}"`))) bad.push("sentence on hover");
+    // the docket's hover leads with the file's sentence, in quotes, or, where the file does not copy the regulator's text,
+    // with the file's phrase in its place; after it stand only the page, the topic and the tags as the file has them:
+    // never neither, and never a sentence the file does not hold
+    const s = typeof x.sentence === "string" ? x.sentence.trim() : "", w = typeof x.sentence_withheld === "string" ? x.sentence_withheld.trim() : "";
+    const lead = s ? `"${s}"` : w, after = lead && typeof p.tip === "string" && p.tip.startsWith(lead) ? p.tip.slice(lead.length).replace(/^\.?\s*/, "") : null;
+    const tail = [s && x.sentence_from ? `Sentence from: ${x.sentence_from}.` : "", x.page !== null && x.page !== undefined && String(x.page).trim() ? `Page ${String(x.page).trim()} of the document.` : "", x.topic ? `Topic: ${x.topic}.` : "",
+      Array.isArray(x.tags) && x.tags.length ? `Tags: ${x.tags.join(", ")}.` : ""].filter(Boolean).join(" ");
+    if (!lead) bad.push("neither a sentence nor the phrase in its place");
+    else if (after !== tail || p.tip !== docketTip(x) || p.hover !== (s ? "sentence" : "withheld")) bad.push(s ? "sentence on hover" : "the phrase in place of the sentence on hover");
+    if (!s && w && (p.status !== (["open", "decided", "closed"].includes(x.status_class) ? x.status_class : "not stated") || (x.status_as_worded && p.status === norm(x.status_as_worded)))) bad.push("the status's class in place of its wording");
+    hovers[s ? "sentence" : w ? "withheld" : "neither"] += 1;
     if (rd.line ? !(p.marked && p.read === `${norm(rd.line)} model's read` && p.markTip === rd.why && x.read_by === "model") : !(p.read === NO_READ && !p.marked && p.gapTip === NO_READ_WHY)) bad.push("read");
+    if (bad.length) rowsWrong += 1;
     if (bad.length && wrong.length < 4) wrong.push(`${x.id}: ${bad.join(", ")}`);
   });
   // the fold: eight rows of a group stand before it, the rest inside it
@@ -256,6 +270,7 @@ for (const g of RULE_GRIDS) {
   check(outside(RULE_PAGES.pjm ?? "") === outside(page.html) && /data-grid="pjm"[^>]*data-open="0"[\s\S]{0,400}?licensed source needed/.test(RULE_PAGES.pjm ?? ""),
     'an address that names PJM shows, outside the block, what the default address shows: ERCOT, and PJM\'s prices still read "licensed source needed"');
   check(outside(RULE_PAGES.miso ?? "") === outside(page.html), "an address that names MISO shows, outside the block, what the default address shows");
+  check(hovers.neither === 0 && rowsWrong === 0, `every row shown has on its docket's hover either the file's sentence (${hovers.sentence} over the seven addresses) or, where the file does not copy the regulator's text, the file's phrase in its place with the status's class (${hovers.withheld}); neither: ${hovers.neither}; and nothing else but the page, the topic and the tags`);
   check(foldsRight, `eight rows of a group stand before its fold and the rest inside it (${shownTotal} rows over the seven addresses${foldGrid ? "" : "; no group holds more than eight, so no fold is drawn"})`);
   check(noMunicipal, `the block holds none of the words ${MUNICIPAL.map((w) => `"${w}"`).join(", ")}, on its face or on hover${municipalFound ? ` (found:${municipalFound})` : ""}`);
   // the face holds no sentence of the Method note

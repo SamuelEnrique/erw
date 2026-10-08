@@ -13,15 +13,22 @@
 //                 words is a municipal one: federal regulators, state commissions and grid operators only;
 //   a read        is a line a model wrote from the document, marked as a model's read; a line the file does not mark
 //                 as a model's is not shown, and the row reads "no read yet";
+//   a sentence    on the docket's hover is the file's own, exactly; where the regulator's terms restrict copying its
+//                 text the file holds no sentence and no worded status, and a short phrase saying so
+//                 (`sentence_withheld`): the hover then shows that phrase, and the status its class. A row with
+//                 neither a sentence nor that phrase is not shown; no sentence is ever made here;
 //   nothing       is filled: a date, a status or a docket the document does not state is a short placeholder.
 
 export type RuleRow = {
   id: string; date: string; regulator: string; jurisdiction: string; state: string; docket: string; title: string;
-  row_kind: string; topic: string; tags: string[]; status_as_worded: string; status_class: string; url: string;
-  page: string | number | null; sentence: string; read: string | null; read_by: string | null; read_model: string | null;
+  row_kind: string; topic: string; tags: string[]; status_as_worded: string | null; status_class: string; url: string;
+  page: string | number | null; sentence: string | null; read: string | null; read_by: string | null; read_model: string | null;
   read_from: string | null; why_here: string | null;
   /** where the builder took the sentence from, when it says (for a federal action held with no document text: its title) */
   sentence_from?: string | null;
+  /** the coordinator's change of 8 October 2026: a short phrase in place of the sentence (then null, with the worded
+   * status) for a regulator whose terms restrict copying its text, or whose terms are not quoted */
+  sentence_withheld?: string | null;
 };
 export type RuleGrid = { state: string; rows?: RuleRow[]; words?: string; why?: string };
 export type RuleSource = { regulator: string; terms_url: string; terms_quote: string };
@@ -122,6 +129,7 @@ export function choose(list: unknown): { rows: RuleRow[]; dropped: Dropped[] } {
     const word = municipalWord(wordsOf(r));
     if (!linkOf(r)) dropped.push({ id, why: "no address of a source document" });
     else if (word) dropped.push({ id, why: "a word of it is outside this page's scope", word });
+    else if (!text(r.sentence) && !withheldOf(r)) dropped.push({ id, why: "neither a sentence of its document nor the reason it is not copied" });
     else if (seen.has(id)) dropped.push({ id, why: "listed twice" });
     else { seen.add(id); rows.push(r); }
   }
@@ -170,8 +178,15 @@ export function statusOf(r: RuleRow): { words: string; stated: boolean; why: str
   const kind = text(r.row_kind);
   const of = kind ? ` The row is ${/^[aeiou]/i.test(kind) ? "an" : "a"} ${kind}.` : "";
   if (worded) return { words: worded, stated: true, why: `The regulator's own words. Class: ${cls}.${of}` };
+  // the regulator's text is not copied for this row: its class stands in place of the worded status
+  if (withheldOf(r)) return { words: cls, stated: cls !== "not stated", why: `The class of the row's status. The regulator's own words are not copied here.${of}` };
   if (cls === "not stated") return { words: "not stated", stated: false, why: `The document states no status.${of}` };
   return { words: cls, stated: true, why: `The document words no status; ${cls} is its class.${of}` };
+}
+
+/** The phrase the file gives in place of a sentence it does not copy, or "". A row that holds its sentence has none. */
+export function withheldOf(r: RuleRow): string {
+  return text(r.sentence) ? "" : text(r.sentence_withheld);
 }
 
 /** The link's words: the regulator and the docket number. */
@@ -179,11 +194,17 @@ export function docketWords(r: RuleRow): string {
   const who = text(r.regulator), no = text(r.docket);
   return who && no ? `${who}, ${no}` : who || no || "source document";
 }
-/** The link's hover: the exact sentence, the page and the topic. */
+/** The link's hover: the exact sentence, the page and the topic; or, where the file does not copy the regulator's
+ * text, the file's phrase saying so in place of the sentence. Never a sentence of this page's making. */
 export function docketTip(r: RuleRow): string {
-  const s = text(r.sentence), page = text(r.page), topic = text(r.topic);
+  const s = text(r.sentence), held = withheldOf(r), page = text(r.page), topic = text(r.topic);
   const tags = Array.isArray(r.tags) ? r.tags.map(text).filter(Boolean) : [], from = text(r.sentence_from);
-  return [s ? `"${s}"` : "No sentence of the document is held for this row.", s && from ? `Sentence from: ${from}.` : "", page ? `Page ${page} of the document.` : "", topic ? `Topic: ${topic}.` : "", tags.length ? `Tags: ${tags.join(", ")}.` : ""].filter(Boolean).join(" ");
+  const first = s ? `"${s}"` : held ? `${held}${/[.!?]$/.test(held) ? "" : "."}` : "No sentence of the document is held for this row.";
+  return [first, s && from ? `Sentence from: ${from}.` : "", page ? `Page ${page} of the document.` : "", topic ? `Topic: ${topic}.` : "", tags.length ? `Tags: ${tags.join(", ")}.` : ""].filter(Boolean).join(" ");
+}
+/** What the docket's hover leads with: the document's sentence, or the phrase in its place. */
+export function hoverKind(r: RuleRow): "sentence" | "withheld" | "neither" {
+  return text(r.sentence) ? "sentence" : withheldOf(r) ? "withheld" : "neither";
 }
 
 /** The read a row shows: the line and the hover of its mark, or no line and the placeholder's reason. */

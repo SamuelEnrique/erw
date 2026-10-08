@@ -2,12 +2,13 @@ import type { ReactNode } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ToolTable } from "@/components/tool/ToolPage";
 import { hrefOf, type Inputs } from "@/lib/datacenter";
-import { NO_READ, NONE_WORDS, RULE_GRIDS, blockOf, dayWords, docketTip, docketWords, droppedTip, foldOf, leftOf, linkOf, readOf, rulesGrid, sourcesOf, statusOf, termsTip, type RuleRow } from "@/lib/rules";
+import { NO_READ, NONE_WORDS, RULE_GRIDS, blockOf, dayWords, docketTip, docketWords, droppedTip, foldOf, hoverKind, leftOf, linkOf, readOf, rulesGrid, sourcesOf, statusOf, termsTip, type RuleRow } from "@/lib/rules";
 import { rulesFile } from "@/lib/rulesdata";
 
 // Session 154: "Rules in motion", in the section "How soon" of "What a datacenter pays" (/cost-of-power, in review):
 // the regulatory actions in motion for the grid the address names, newest first, each with its date, its status, the
-// regulator and docket number as a link to the source document (the exact sentence, the page and the topic on hover)
+// regulator and docket number as a link to the source document (the exact sentence, the page and the topic on hover;
+// where the file does not copy a regulator's text, its phrase saying so in place of the sentence, and the status's class)
 // and a one-line read marked as a model's; then the group "Federal, all grids". Eight rows of each group are shown and
 // the rest are behind a fold (a details element: it answers the mouse and the keyboard, with no script). Everything is
 // read from one site file, data/datacenter/rules.json (lib/rulesdata.ts); what is shown and in what order is
@@ -23,7 +24,7 @@ const longDay = (iso: string) => { const d = new Date(iso); return Number.isNaN(
 
 function rowCells(r: RuleRow, group: string): { key: string; cells: ReactNode[] } {
   const date = dayWords(r.date), status = statusOf(r), read = readOf(r), href = linkOf(r)!;
-  const where = (r.why_here ?? "").trim(), title = (r.title ?? "").trim();
+  const where = (r.why_here ?? "").trim(), title = (r.title ?? "").trim(), topic = (r.topic ?? "").trim();
   return {
     key: `${group}-${r.id}`,
     cells: [
@@ -34,8 +35,9 @@ function rowCells(r: RuleRow, group: string): { key: string; cells: ReactNode[] 
         {status.stated ? <span className={dotted} title={status.why}>{status.words}</span> : <Missing words={status.words} why={status.why} />}
       </span>,
       <span key="l" className="block">
-        <a href={href} title={docketTip(r)} className="cursor-help" data-rule-link={r.id}>{docketWords(r)}</a>
-        {title ? <span className={`block text-xs text-muted ${where ? "cursor-help" : ""}`} title={where || undefined} data-rule-title={r.id}>{title}</span> : null}
+        <a href={href} title={docketTip(r)} className="cursor-help" data-rule-link={r.id} data-rule-hover={hoverKind(r)}>{docketWords(r)}</a>
+        {/* the document's title; where the file holds none (a regulator whose text is not copied), the row's topic */}
+        {title || topic ? <span className={`block text-xs text-muted ${where ? "cursor-help" : ""}`} title={where || undefined} data-rule-title={r.id} data-rule-small={title ? "title" : "topic"}>{title || topic}</span> : null}
       </span>,
       <span key="r" className="block" data-rule-read={r.id}>
         {read.line

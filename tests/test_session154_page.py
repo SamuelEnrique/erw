@@ -173,7 +173,10 @@ class TheFile(unittest.TestCase):
                    "    days: [b.rows, b.federal].map((l) => l.map((r) => (R.dayWords(r.date) ? r.date : ''))),"
                    "    links: rows.every((r) => R.linkOf(r) === r.url), municipal: rows.map((r) => R.municipalWord(R.wordsOf(r))).filter(Boolean),"
                    "    reads: rows.every((r) => { const x = R.readOf(r); return x.line === null || (r.read_by === 'model' && x.line === r.read.trim()); }),"
-                   "    status: rows.every((r) => R.statusOf(r).words.length > 0), tips: rows.every((r) => !r.sentence || R.docketTip(r).includes('\"' + r.sentence.trim() + '\"')) }; }"
+                   "    status: rows.every((r) => R.statusOf(r).words.length > 0),"
+                   # the hover leads with the file's sentence or, where the file does not copy it, with the file's phrase: never neither
+                   "    tips: rows.every((r) => { const s = typeof r.sentence === 'string' ? r.sentence.trim() : '', w = typeof r.sentence_withheld === 'string' ? r.sentence_withheld.trim() : '';"
+                   "      return s ? R.docketTip(r).startsWith('\"' + s + '\"') : !!w && R.docketTip(r).startsWith(w) && !r.status_as_worded; }) }; }"
                    "console.log(JSON.stringify(out));")
         self.assertEqual(sorted(got), sorted(GRIDS))
         self.assertEqual((got["miso"]["state"], got["miso"]["own"], got["miso"]["federal"]), ("paused", 0, 0))
