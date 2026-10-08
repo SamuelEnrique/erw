@@ -341,6 +341,78 @@ class TheClosingWords(unittest.TestCase):
         self.assertNotIn(DASH, note)
 
 
+class TheRecord(unittest.TestCase):
+    """Phase 2: the 120 questions asked once on 8 October 2026 (warehouse/chat/eval_ercot_ready_results_156.csv)."""
+
+    def rows(self):
+        with open(os.path.join(ROOT, "warehouse", "chat", "eval_ercot_ready_results_156.csv"), encoding="utf-8", newline="") as f:
+            return list(csv.DictReader(line for line in f if not line.startswith("#")))
+
+    def median(self, values):
+        v = sorted(values)
+        return (v[len(v) // 2] + v[(len(v) - 1) // 2]) / 2
+
+    def test_every_question_was_asked_once_and_none_again(self):
+        rows = self.rows()
+        self.assertEqual(collections.Counter(r["set"] for r in rows), {"new": 20, "old": 100})   # no question failed, so none was asked again
+        self.assertEqual(len({r["id"] for r in rows}), 120)
+        old = {q["id"] for q in json.loads(src("warehouse", "chat", "eval_ercot_panel.json"))["questions"]}
+        new = {q["id"] for q in json.loads(src("warehouse", "chat", "eval_ercot_pages.json"))["questions"]}
+        self.assertEqual({r["id"] for r in rows if r["set"] == "old"}, old)
+        self.assertEqual({r["id"] for r in rows if r["set"] == "new"}, new)
+        self.assertTrue(all(r["status"] in ("answered", "not_in_warehouse") for r in rows))  # no error, no answer that could not be verified
+        self.assertAlmostEqual(sum(float(r["usd"]) for r in rows), 2.2513, places=4)        # what the site's ledger holds for the 194 model calls
+        self.assertLess(sum(float(r["usd"]) for r in rows), 3.70)                          # under the stop
+
+    def test_the_counts_the_method_note_gives_are_the_records(self):
+        rows = self.rows()
+        note = src("docs", "methods", "ask_ercot.md")
+        old = [r for r in rows if r["set"] == "old"]
+        new = [r for r in rows if r["set"] == "new"]
+        self.assertEqual((sum(int(r["pass"]) for r in old), sum(int(r["pass"]) for r in new)), (100, 20))
+        numbers = [float(r["seconds_words"]) for r in old if r["kind"] in ("chart", "sentence")]
+        ideas = [float(r["seconds_words"]) for r in old if r["kind"] == "conceptual"]
+        refused = [float(r["seconds_words"]) for r in old if r["kind"] == "refuse"]
+        self.assertEqual((round(self.median(numbers), 2), sum(1 for x in numbers if x < 5)), (4.6, 30))
+        self.assertEqual((round(self.median(ideas), 2), sum(1 for x in ideas if x < 2)), (2.1, 8))
+        self.assertEqual((round(self.median(refused), 2), sum(1 for x in refused if x < 2)), (2.1, 7))
+        self.assertEqual(round(self.median([float(r["seconds_words"]) for r in old]), 2), 2.45)
+        self.assertEqual(round(sum(float(r["usd"]) for r in old) / 100, 4), 0.0169)
+        self.assertEqual(round(sum(float(r["usd"]) for r in new) / 20, 4), 0.0279)
+        self.assertEqual(round(self.median([float(r["seconds_words"]) for r in new]), 2), 4.15)
+        self.assertEqual(sum(1 for r in new if r["kind"] != "refuse" and float(r["seconds_words"]) < 5), 13)
+        for words in ("| The 100, all | 100 of 100 (98, 98) | 2.45 (2.8, 4.05) | | 0.0169 (0.0171, 0.0202) |", "| About numbers (50; target 5 seconds) | 50 (48, 48) | 4.6 (4.75, 5.6) | 30 (27, 11) | |",
+                      "| About an idea (25; target 2 seconds) | 25 (25, 25) | 2.1 (2.1, 2.4) | 8 (7, 3) | |", "| Refused (25) | 25 (25, 25) | 2.1 (2.0, 2.1) | 7 under 2 seconds (11, 4) | |",
+                      "| The 20 of the four pages | 20 of 20 (19 in session 153) | 4.15 (5.0) | 13 of the 18 about numbers under 5 seconds (7) | 0.0279 (0.0281) |",
+                      "Each question was asked once."):
+            self.assertIn(words, note, words)
+        # the earlier sessions' figures in brackets are those sessions' own records
+        self.assertEqual((sum(int(r["s148_pass"]) for r in old), sum(int(r["s153_pass"]) for r in old), sum(int(r["s153_pass"]) for r in new)), (98, 98, 19))
+
+    def test_the_questions_that_failed_or_were_slow_are_one_read_each_with_the_new_forms(self):
+        rows = {r["id"]: r for r in self.rows()}
+        want = {"h13": "query:eia930_all_storage+hour_of_day+newest", "h24": "query:generation_mix_hourly_profile+hour_of_day+newest", "h14": "query:ercot_interconnection_queue+date_column",
+                "h03": "query:eia930_all_demand+newest", "s12": "query:eia930_all_demand+newest", "p14": "page_file:share"}
+        for i, tools in want.items():
+            r = rows[i]
+            self.assertEqual((r["pass"], r["model_calls"], r["tool_calls"], r["tools"]), ("1", "2", "1", tools), i)
+            self.assertLess(float(r["seconds_words"]), 6, i)
+        # each took 15 to 28 seconds, or failed, in the two sessions before
+        self.assertEqual([rows[i]["s148_pass"] for i in ("h14", "h24")], ["0", "0"])
+        self.assertEqual([rows[i]["s153_pass"] for i in ("h13", "h14", "p14")], ["0", "0", "0"])
+        for i in ("h13", "h03", "s12"):
+            self.assertGreater(float(rows[i]["s148_seconds_words"]), 19, i)
+        self.assertEqual((rows["h13"]["series_rows"], rows["h24"]["series_rows"], rows["h14"]["series_rows"], rows["h03"]["series_rows"]), ("24", "24", "8", "24"))
+        # two sources for one figure: both were read in one turn and both are cited, the operator's own first
+        s16 = rows["s16"]
+        self.assertEqual((s16["pass"], s16["model_calls"], s16["tools"], s16["citations"]), ("1", "2", "page_file:demand query:grid_stress_yearly", "site/data/datacenter/index.json grid_stress_yearly"))
+        # the rule planned sixteen, all pass; the thirteen refusals about another grid all pass under the stricter judge
+        ruled = [r for r in rows.values() if r["planned_by"] == "rule"]
+        self.assertEqual((len(ruled), sum(int(r["pass"]) for r in ruled)), (16, 16))
+        self.assertTrue(all(rows[i]["pass"] == "1" and rows[i]["status"] == "not_in_warehouse" for i in OTHER_GRID + ["p19", "p20"]))
+        self.assertNotIn(DASH, src("warehouse", "chat", "eval_ercot_ready_results_156.csv") + src("warehouse", "chat", "eval", "ercot_ready_results_156.py"))
+
+
 class TheNodeTests(unittest.TestCase):
     def test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set(self):
         node = shutil.which("node")

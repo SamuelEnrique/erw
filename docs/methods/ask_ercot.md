@@ -217,6 +217,25 @@ On reads recorded from the site's database on 8 October 2026, each of the questi
 
 `ASK_FORMS=off` on the server shows the model the tools and the briefing as session 153 left them.
 
+**What the 120 questions said (8 October 2026, session 156).** All 120 were asked once on the tool as it now stands, the 20 of the four pages first. The record is `warehouse/chat/eval_ercot_ready_results_156.csv`. In brackets: session 148's run with the two switches on, then session 153's with them off.
+
+| Questions | Pass | Seconds to the words, median | Under the target | USD a question |
+|---|---|---|---|---|
+| The 100, all | 100 of 100 (98, 98) | 2.45 (2.8, 4.05) | | 0.0169 (0.0171, 0.0202) |
+| About numbers (50; target 5 seconds) | 50 (48, 48) | 4.6 (4.75, 5.6) | 30 (27, 11) | |
+| About an idea (25; target 2 seconds) | 25 (25, 25) | 2.1 (2.1, 2.4) | 8 (7, 3) | |
+| Refused (25) | 25 (25, 25) | 2.1 (2.0, 2.1) | 7 under 2 seconds (11, 4) | |
+| The 20 of the four pages | 20 of 20 (19 in session 153) | 4.15 (5.0) | 13 of the 18 about numbers under 5 seconds (7) | 0.0279 (0.0281) |
+
+- **Every question that failed before passes**, each with one read: the batteries across the hours of a day (5.3 seconds and 2 model calls; 28.0 and 9 in session 148), battery capacity in the queue by planned year (4.4 and 2; it had failed in both sessions), wind across the hours of an average day (4.5 and 2; 17.7 and 6), and Texas's share of the limit (3.5 and 2; 17.2 and 6).
+- **"Yesterday" when yesterday is not held** is one read: demand hour by hour took 4.8 seconds and 2 model calls (23.9 and 10), and its lowest hour 4.6 and 2 (19.3 and 7). Both say that 7 October is not held whole and answer for 3 October.
+- **The year's highest hourly demand** was answered with both figures, ERCOT's own first: 91,134 MW from ERCOT's own hourly load, then 91,075 MW, the ERW's figure from EIA's hourly demand.
+- **All thirteen refusals about another grid closed in the tool's own words**, and none said that the chat speaks for ERCOT only.
+- **The 16 questions planned by rule all pass**, at 2.2 seconds to the words at the median.
+- **The judge is stricter than it was** on those thirteen refusals; on every other question it is the same rule.
+- **What is still slow.** Two answers took more than 20 seconds, both read again and again by the model: the highest hourly demand "this week" when this week is not held (24.7 seconds, 10 model calls: the newest day is one read, the newest week is not), and generation by fuel over seven days (28.6 seconds, 7 model calls: one query a fuel, and the answer written twice). The idea target of 2 seconds is missed by a tenth of a second at the median.
+- Each question was asked once. A pass here does not say that every asking passes.
+
 ## Limits
 
 The tool has a spending ceiling for the day and for the month and a number of questions per visitor per day. When one is reached it answers with a plain message and your question is not sent to the model. They are described in [the limits note](/data/methods/ask_limits).
