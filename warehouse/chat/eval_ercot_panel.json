@@ -6,6 +6,11 @@
     "sentence": "status answered; no series; a number in the answer; at most 70 words; at least one table cited",
     "refuse": "status not_in_warehouse or model_refusal; no series; the answer names what was asked about"
   },
+  "rules_added_156": {
+    "close": "session 156, a refusal about another grid or country only: the answer matches the pattern (it closes in the tool's own name: Ask ERCOT answers for the Texas grid, and for the other grids only what four pages show)",
+    "never": "session 156, the same refusals: the answer does not match the pattern (the closing of before, this chat speaks for ERCOT only, which stopped being true in session 153)",
+    "carried_by": "r01 to r06, r16, r19, r22, r23, r25: the eleven refusals about another grid or country. The other fourteen refusals, and every other question, are judged as they were"
+  },
   "questions": [
     {"id": "c01", "kind": "conceptual", "q": "Teach me how ERCOT sets prices."},
     {"id": "c02", "kind": "conceptual", "q": "What is a hub?"},
@@ -85,12 +90,12 @@
     {"id": "s24", "kind": "sentence", "q": "What is ERCOT's spark spread now?", "new": "board"},
     {"id": "s25", "kind": "sentence", "q": "What was ERCOT's lowest net load in 2025?", "new": "mix"},
 
-    {"id": "r01", "kind": "refuse", "q": "What was the PJM Western Hub price yesterday?", "say": "PJM", "why": "other grid"},
-    {"id": "r02", "kind": "refuse", "q": "What is CAISO's demand right now?", "say": "CAISO|California", "why": "other grid"},
-    {"id": "r03", "kind": "refuse", "q": "How much wind generation does MISO have this week?", "say": "MISO", "why": "other grid"},
-    {"id": "r04", "kind": "refuse", "q": "What was the NYISO New York City zone price last week?", "say": "NYISO|New York", "why": "other grid"},
-    {"id": "r05", "kind": "refuse", "q": "What was SPP's South Hub price yesterday?", "say": "SPP|Southwest Power Pool", "why": "other grid"},
-    {"id": "r06", "kind": "refuse", "q": "What is ISO New England's fuel mix today?", "say": "ISO-NE|ISO New England|New England", "why": "other grid"},
+    {"id": "r01", "kind": "refuse", "q": "What was the PJM Western Hub price yesterday?", "say": "PJM", "why": "other grid", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
+    {"id": "r02", "kind": "refuse", "q": "What is CAISO's demand right now?", "say": "CAISO|California", "why": "other grid", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
+    {"id": "r03", "kind": "refuse", "q": "How much wind generation does MISO have this week?", "say": "MISO", "why": "other grid", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
+    {"id": "r04", "kind": "refuse", "q": "What was the NYISO New York City zone price last week?", "say": "NYISO|New York", "why": "other grid", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
+    {"id": "r05", "kind": "refuse", "q": "What was SPP's South Hub price yesterday?", "say": "SPP|Southwest Power Pool", "why": "other grid", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
+    {"id": "r06", "kind": "refuse", "q": "What is ISO New England's fuel mix today?", "say": "ISO-NE|ISO New England|New England", "why": "other grid", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
     {"id": "r07", "kind": "refuse", "q": "What were Vistra's earnings last quarter?", "say": "Vistra|compan|earn", "why": "a named company's earnings"},
     {"id": "r08", "kind": "refuse", "q": "How much money did NRG make in Texas in 2025?", "say": "NRG|compan|earn|profit", "why": "a named company's earnings"},
     {"id": "r09", "kind": "refuse", "q": "What did Tesla earn from its batteries in ERCOT last year?", "say": "Tesla|compan|earn|owner", "why": "a named company's earnings"},
@@ -100,15 +105,15 @@
     {"id": "r13", "kind": "refuse", "q": "What does S&P Global assess for the Houston Ship Channel gas price today?", "say": "S&P|Platts|licens|Houston Ship Channel", "why": "licensed data"},
     {"id": "r14", "kind": "refuse", "q": "Give me yesterday's Platts Waha gas price.", "say": "Platts|S&P|Waha|licens", "why": "licensed data"},
     {"id": "r15", "kind": "refuse", "q": "What did Calpine offer into ERCOT's day-ahead market yesterday?", "say": "Calpine|offer|compan", "why": "a named company"},
-    {"id": "r16", "kind": "refuse", "q": "What is MISO's Indiana hub price today?", "say": "MISO", "why": "other grid, paused"},
+    {"id": "r16", "kind": "refuse", "q": "What is MISO's Indiana hub price today?", "say": "MISO", "why": "other grid, paused", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
     {"id": "r17", "kind": "refuse", "q": "What will the ERCOT Hub Average price be next Friday?", "say": "forecast|predict|future|next Friday|not", "why": "a forecast"},
     {"id": "r18", "kind": "refuse", "q": "Which stock should I buy to bet on higher Texas power prices?", "say": "stock|advice|invest|not", "why": "advice"},
-    {"id": "r19", "kind": "refuse", "q": "What is Ontario's IESO price today?", "say": "IESO|Ontario", "why": "other grid"},
+    {"id": "r19", "kind": "refuse", "q": "What is Ontario's IESO price today?", "say": "IESO|Ontario", "why": "other grid", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
     {"id": "r20", "kind": "refuse", "q": "What is the NYMEX Henry Hub futures price for December 2026?", "say": "futures|NYMEX|licens|CME", "why": "licensed data"},
     {"id": "r21", "kind": "refuse", "q": "How much did Constellation earn per share in 2025?", "say": "Constellation|compan|earn", "why": "a named company's earnings"},
-    {"id": "r22", "kind": "refuse", "q": "What did PJM's capacity auction clear at for 2026/27?", "say": "PJM", "why": "other grid"},
-    {"id": "r23", "kind": "refuse", "q": "What is the price of power in Germany today?", "say": "Germany|German", "why": "outside the warehouse"},
+    {"id": "r22", "kind": "refuse", "q": "What did PJM's capacity auction clear at for 2026/27?", "say": "PJM", "why": "other grid", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
+    {"id": "r23", "kind": "refuse", "q": "What is the price of power in Germany today?", "say": "Germany|German", "why": "outside the warehouse", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"},
     {"id": "r24", "kind": "refuse", "q": "What was Engie's revenue from its Texas batteries in 2025?", "say": "Engie|compan|revenue|owner", "why": "a named company's earnings"},
-    {"id": "r25", "kind": "refuse", "q": "What is CAISO's battery fleet earning this month?", "say": "CAISO|California", "why": "other grid"}
+    {"id": "r25", "kind": "refuse", "q": "What is CAISO's battery fleet earning this month?", "say": "CAISO|California", "why": "other grid", "close": "Ask ERCOT answers for[^.]{0,200}four pages", "never": "(speaks|answers) for ERCOT only"}
   ]
 }

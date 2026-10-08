@@ -39,6 +39,10 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, "..", "..", ".."))
+# session 156: the closing words of a refusal about another grid (site/lib/chat/ready.ts, CLOSING): what the judge asks
+# of the two refusals, beside their own words. The same two patterns as the eleven refusals of the 100 carry.
+CLOSE = "Ask ERCOT answers for[^.]{0,200}four pages"
+NEVER = "(speaks|answers) for ERCOT only"
 DATA = os.path.join(ROOT, "site", "data")
 OUT = os.path.join(ROOT, "warehouse", "chat", "eval_ercot_pages.json")
 NEAR = 0.95
@@ -322,10 +326,10 @@ def build(in_dir, kept=None):
          "read": {"tool": "page_file", "input": {"view": "layer", "layer": "solar_ghi"}, "contains": "1998-2016"}},
         # the two it must refuse
         {"id": "p19", "kind": "refuse", "page": "/curtailment", "q": "How much wind and solar energy did ISO New England curtail in August 2026?",
-         "say": "held, not shown", "why": "internal: ISO-NE's monthly undelivered energy is held under its terms and not shown", "source": "isone_ddg_undelivered_monthly",
+         "close": CLOSE, "never": NEVER, "say": "held, not shown", "why": "internal: ISO-NE's monthly undelivered energy is held under its terms and not shown", "source": "isone_ddg_undelivered_monthly",
          "read": {"tool": "page_file", "input": {"view": "share", "grid": "isone", "period": "2026-08"}, "refused": "isone_ddg_undelivered_monthly is held, not shown"}},
         {"id": "p20", "kind": "refuse", "page": "/cost-of-power/seller", "q": "What is the capture price of wind at MISO's Indiana hub?",
-         "say": "paused while terms are reviewed", "why": "MISO is paused: no figure of it is shown", "source": "none",
+         "close": CLOSE, "never": NEVER, "say": "paused while terms are reviewed", "why": "MISO is paused: no figure of it is shown", "source": "none",
          "read": {"tool": "page_file", "input": {"view": "capture", "grid": "miso", "place": "INDIANA.HUB", "fuel": "wind"}, "words": "paused while terms are reviewed"}},
     ]
     for x in q:
@@ -339,6 +343,11 @@ def build(in_dir, kept=None):
             "must": "the answer matches the pattern",
             "series_has": "a series shown holds a row with this key whose value, at the expected value's decimals, is this value",
             "series_rows": "a series shown has this many rows",
+        },
+        # session 156: what the judge also asks of the two refusals (session 153's rules above are as they were)
+        "rules_added_156": {
+            "close": "the two refusals: the answer matches the pattern (it closes in the tool's own name: Ask ERCOT answers for the Texas grid, and for the other grids only what four pages show)",
+            "never": "the two refusals: the answer does not match the pattern (the closing of before, this chat speaks for ERCOT only, which stopped being true in session 153)",
         },
         "built_from": {"datacenter": load("datacenter", "index.json")["built"], "capture": load("seller", "capture.json")["built"], "shares": load("curtailment", "shares.json")["built"],
                        "free_energy": load("curtailment", "free_energy.json")["built"], "texas": texas["built"], "resources": load("resources", "manifest.json")["built_at_utc"],

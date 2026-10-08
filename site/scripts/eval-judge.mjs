@@ -31,6 +31,12 @@ export function judge(q, r) {
     if (!["not_in_warehouse", "model_refusal"].includes(r.status)) why.push(`status ${r.status}`);
     if (series.length) why.push(`${series.length} series shown`);
     if (q.say && !new RegExp(q.say, "i").test(String(r.answer ?? ""))) why.push(`the answer does not name what was asked (${q.say})`);
+    // session 156: the closing words of a refusal about another grid. Since session 153 the tool answers for the other
+    // grids what four pages show, so "this chat speaks for ERCOT only" is no longer true: such a refusal must close in the
+    // tool's own name (q.close) and may not say the old words (q.never). A refusal that carries neither field (licensed
+    // data, a company's accounts, a forecast) is judged exactly as it was.
+    if (q.close && !new RegExp(q.close, "i").test(String(r.answer ?? ""))) why.push(`the refusal does not close in the tool's own words (${q.close})`);
+    if (q.never && new RegExp(q.never, "i").test(String(r.answer ?? ""))) why.push(`the refusal still says what is no longer true (${q.never})`);
   }
   // session 153: what a question of the four pages adds to the rule of its kind (warehouse/chat/eval_ercot_pages.json,
   // rules_added). A question of the 100 carries none of these fields and is judged exactly as it was.

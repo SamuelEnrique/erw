@@ -23,9 +23,23 @@ const FIX = JSON.parse(read("../../tests/fixtures/session143/tool_reads.json"));
 process.env.SUPABASE_URL = "https://fixture.invalid";
 process.env.SUPABASE_ANON_KEY = "fixture";
 let requests = 0;
+// Session 156: the query tool asks for a series by its entity alone, as a term of the request's "and"; when these reads
+// were recorded it asked "this entity or this node" in one "or". The rows are the same (an entity is namespace:id, a
+// node the id alone: no node bears an entity's name), so a recorded read is found by what it asks for, whichever way
+// the entity is written. Everything else of a request must be as recorded, or the test fails as before.
+const readKey = (url) => {
+  const u = new URL(String(url)), q = Object.fromEntries(u.searchParams);
+  let entity = null;
+  const or = /^\(entity\.eq\.("[^"]*"),node\.eq\.\1\)$/.exec(q.or ?? "");
+  if (or) { entity = or[1]; delete q.or; }
+  const and = /^\(entity\.eq\.("[^"]*")(?:,(.*))?\)$/.exec(q.and ?? "");
+  if (and) { entity = and[1]; if (and[2]) q.and = `(${and[2]})`; else delete q.and; }
+  return JSON.stringify([u.pathname, entity, Object.keys(q).sort().map((k) => [k, q[k]])]);
+};
+const READS = new Map(Object.entries(FIX.reads).map(([k, v]) => [readKey(k), v]));
 globalThis.fetch = async (url) => {
   requests += 1;
-  const body = FIX.reads[String(url)];
+  const body = READS.get(readKey(url));
   if (body === undefined) throw new Error(`a read that was not recorded: ${String(url).slice(0, 200)}`);
   await new Promise((r) => setTimeout(r, 1 + (requests % 3)));       // reads end in another order than they began
   return new Response(JSON.stringify(body), { status: 200, headers: { "content-type": "application/json" } });
@@ -399,7 +413,7 @@ const rolledDb = (catalogue = ROLLED.catalogue) => {
       const table = q.table_name.replace(/^eq\./, ""), variable = (q.variable ?? "").replace(/^eq\./, "");
       const [, lo, hi] = /ts_utc\.gte\.([^,)]+),ts_utc\.lt\.([^,)]+)/.exec(q.and ?? "") ?? [];
       if (table !== "ercot_as_prices_monthly") throw new Error(`a read of ${table} that the fixture does not hold`);
-      assert.ok(q.or.includes('"ercot:ECRS"'));
+      assert.ok(/entity\.eq\."ercot:ECRS"/.test(q.and ?? "") && q.or === undefined);          // session 156: the entity alone, a term of "and" (it was "entity or node")
       body = ROLLED.rows.filter((r) => r.table_name === table && (!variable || r.variable === variable) && (!lo || Date.parse(r.ts_utc) >= Date.parse(lo)) && (!hi || Date.parse(r.ts_utc) < Date.parse(hi)))
         .sort((x, y) => (x.ts_utc < y.ts_utc ? -1 : x.ts_utc > y.ts_utc ? 1 : 0)).map((r) => ({ t: r.ts_utc, v: r.value, entity: r.entity, variable: r.variable, unit: r.unit }));
     } else throw new Error(`a request the fixture does not hold: ${u.pathname}`);
@@ -605,25 +619,29 @@ await test148("a question that continues a conversation is never planned by rule
   assert.ok(resume.includes('CALL 1: query {"table":"ercot_as_prices_monthly"') && resume.includes('"value":1.3737') && resume.includes("Do not repeat them"));
 });
 
-await test148("the two switches are off unless the server sets them, and the writing turn's effort is as it was", () => {
+await test148("the two switches are on unless the server turns them off (session 156, the owner's ruling), and the writing turn's effort is as it was", () => {
+  // Session 148 left both off, and this test held that. The owner ruled on 8 October 2026 that both are set: the default
+  // is lib/chat/switches.ts's, the server variable still turns each off, and the loop holds no default of its own.
   const loop = read("../lib/chat/ask.ts");
-  assert.ok(loop.includes('if (profile?.plan && profile.writing && profile.resume && process.env.ASK_RULE_PLAN === "on") {'));
-  assert.equal(loop.split("process.env.ASK_RULE_PLAN").length - 1, 1);
+  assert.ok(loop.includes("if (profile?.plan && profile.writing && profile.resume && rulePlanOn()) {"));
+  assert.equal(loop.split("rulePlanOn()").length - 1, 1);
+  assert.ok(!loop.includes("process.env.ASK_RULE_PLAN") && !loop.includes("env.ASK_READER_EFFORT"));      // the loop reads neither variable itself
   // the rule's read is made before any model call, is written from under the same checks, and falls back to the loop
-  assert.ok(loop.indexOf('process.env.ASK_RULE_PLAN === "on"') < loop.indexOf("for (;;) {"));
+  assert.ok(loop.indexOf("rulePlanOn()) {") < loop.indexOf("for (;;) {"));
   assert.ok(loop.includes('const ruled = await fastWrite("rule");') && loop.includes('const fast = await fastWrite("fast");'));
   assert.ok(loop.includes("messages[0] = { role: \"user\", content: profile.resume(opening, records) };"));
   assert.ok(loop.includes("if (outs.every((o) => !o.isError)) {"));
   assert.equal(loop.split("const s = settle(draft,").length - 1, 1);              // one writing turn, one check, for both paths
   assert.deepEqual(ask.READER_EFFORTS, ["low", "medium", "high"]);
-  assert.equal(ask.effortOf("planner", "medium", {}), "medium");                   // nothing set: as it was
-  assert.equal(ask.effortOf("writer", "medium", {}), "medium");
+  assert.equal(ask.effortOf("planner", "medium", {}), "low");                      // nothing set: the reading turn is lower (it was "medium" until session 156)
+  assert.equal(ask.effortOf("writer", "medium", {}), "medium");                    // the writing turn as it was
+  assert.equal(ask.effortOf("planner", "medium", { ASK_READER_EFFORT: "off" }), "medium");           // the server turns it off
   assert.equal(ask.effortOf("planner", "medium", { ASK_READER_EFFORT: "low" }), "low");
   assert.equal(ask.effortOf("writer", "medium", { ASK_READER_EFFORT: "low" }), "medium");            // the writing turn as it is
   assert.equal(ask.effortOf("planner", "medium", { ASK_READER_EFFORT: "none" }), "medium");          // a value the API does not take is ignored
   assert.equal(ask.effortOf("planner", "medium", { ASK_READER_EFFORT: "low", ASK_WRITER_EFFORT: "high" }), "low");
   assert.equal(ask.effortOf("writer", "medium", { ASK_WRITER_EFFORT: "high" }), "high");             // session 143's switch, as it was
-  assert.equal(ask.effortOf("planner", "medium", { ASK_WRITER_EFFORT: "high" }), "high");
+  assert.equal(ask.effortOf("planner", "medium", { ASK_WRITER_EFFORT: "high", ASK_READER_EFFORT: "off" }), "high");
   assert.ok(loop.includes('effort: effortOf(role, profile ? profile.effort : spec.effort)'));
   assert.equal(JSON.parse(read("../lib/chat/spec_ercot.json")).effort, "medium");
   for (const k of ["ASK_RULE_PLAN", "ASK_READER_EFFORT", "ASK_ROLLUP", "ERW_PAGES_TOGETHER"]) assert.equal(process.env[k], undefined, `${k} is set where the tests run`);
@@ -705,7 +723,7 @@ await test148("with the rule on, a planned question is one model call: the read 
 
 await test148("with the rule off, the same question is the model's as before: a reading turn with the tools, then the writing turn", async () => {
   const script = (body, n) => (n === 1 ? { tools: [{ name: "query", input: WEST_CALL }] } : { text: draft() });
-  const { r, sent, events } = await through(byId.h16, {}, script);
+  const { r, sent, events } = await through(byId.h16, { ASK_RULE_PLAN: "off", ASK_READER_EFFORT: "off" }, script);      // session 156: off is now said, not left unset
   assert.equal(sent.length, 2);
   assert.ok(sent[0].tools.some((t) => t.name === "query") && sent[0].tool_choice.type === "auto");
   assert.equal(sent[1].tools, undefined);
@@ -722,11 +740,11 @@ await test148("with the rule off, the same question is the model's as before: a 
 
 await test148("lower effort goes to the reading turn only; a question answered without reading has that one turn", async () => {
   const script = (body, n) => (n === 1 ? { tools: [{ name: "query", input: WEST_CALL }] } : { text: draft() });
-  const low = await through(byId.h16, { ASK_READER_EFFORT: "low" }, script);
+  const low = await through(byId.h16, { ASK_RULE_PLAN: "off", ASK_READER_EFFORT: "low" }, script);   // session 156: the rule is on unless turned off, and this test is of the model's own reading turn
   assert.deepEqual(low.sent.map((b) => b.output_config.effort), ["low", "medium"]);    // the reading turn lower, the writing turn as it is
   assert.equal(low.r.status, "answered");
   assert.deepEqual(low.r.steps.filter((s) => s.what === "model").map((s) => `${s.role}:${s.effort}`), ["planner:low", "writer:medium"]);
-  const odd = await through(byId.h16, { ASK_READER_EFFORT: "lowest" }, script);        // not a setting the API takes: ignored
+  const odd = await through(byId.h16, { ASK_RULE_PLAN: "off", ASK_READER_EFFORT: "lowest" }, script);        // not a setting the API takes: ignored
   assert.deepEqual(odd.sent.map((b) => b.output_config.effort), ["medium", "medium"]);
   // with the rule on there is no reading turn to lower: the one call is the writer's
   const both = await through(byId.h16, { ASK_RULE_PLAN: "on", ASK_READER_EFFORT: "low" }, () => ({ text: draft() }));

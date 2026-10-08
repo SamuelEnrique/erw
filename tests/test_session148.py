@@ -435,7 +435,10 @@ class AskReadsTheRollup(unittest.TestCase):
         self.assertIn("if (scope?.rollup && a.table === scope.rollup.hourly && (await allHeld(scope.rollup.tables))) {", t)
         self.assertIn('return names.every((n) => rows.some((r) => r.table_name === n && (r.in_live_set === "yes" || r.in_live_set === "review")));', t)
         # the refusal comes before the rows are read, and the number of rows one query may read is as it was
-        self.assertLess(t.index("const why = hourlyRefusal("), t.index("const raw = await rest<Json>(shape, q, HOURLY, MAX_ROWS + 1);"))
+        # (session 156: the rows are read by the query's own reader, which asks for a series by its entity first; the read
+        # of the rows is still the statement after the refusal, and still of at most MAX_ROWS and one row more)
+        self.assertLess(t.index("const why = hourlyRefusal("), t.index("let raw = nothingHeld ? [] : await read(bounds);"))
+        self.assertIn("const read = async (bounds: string[], more: Record<string, string> = {}, max = MAX_ROWS + 1): Promise<Json[]> => {", t)
         self.assertIn("const MAX_ROWS = 60_000;", t)
 
     def test_nothing_the_battery_page_reads_was_changed(self):
@@ -517,10 +520,16 @@ class PagesReadTogether(unittest.TestCase):
 
 class TheRuleAndTheSwitches(unittest.TestCase):
     def test_the_plan_made_by_rule_is_off_unless_the_server_sets_it(self):
+        # Session 156, the owner's ruling of 8 October 2026: the two switches are set. This test held that the rule ran
+        # only under ASK_RULE_PLAN=on; it now holds that the loop asks one function, whose default (on) is in
+        # site/lib/chat/switches.ts, and that the server can still turn it off. The test's name is session 148's.
         loop = src("site", "lib", "chat", "ask.ts")
-        self.assertIn('if (profile?.plan && profile.writing && profile.resume && process.env.ASK_RULE_PLAN === "on") {', loop)
-        self.assertEqual(loop.count("ASK_RULE_PLAN ==="), 1)
-        self.assertLess(loop.index('process.env.ASK_RULE_PLAN === "on"'), loop.index("for (;;) {"))
+        self.assertIn("if (profile?.plan && profile.writing && profile.resume && rulePlanOn()) {", loop)
+        self.assertEqual(loop.count("rulePlanOn()"), 1)
+        self.assertNotIn("process.env.ASK_RULE_PLAN", loop)
+        self.assertLess(loop.index("rulePlanOn()) {"), loop.index("for (;;) {"))
+        switches = src("site", "lib", "chat", "switches.ts")
+        self.assertIn('return (given(env.ASK_RULE_PLAN) ?? SWITCH_DEFAULTS.ASK_RULE_PLAN) === "on";', switches)   # "off" on the server is off
         plan = src("site", "lib", "chat", "plan.ts")
         for words in ("if (left.some((w) => !FILLER[shape].has(w))) return null;", "if (products.length + hubs.length + fuels.length !== 1) return null;",
                       "if (bad || periods.length > 1) return null;", "if (!opts.rollup || markets.includes(\"rt\") || stat === \"share\") return null;"):
@@ -542,7 +551,9 @@ class TheRuleAndTheSwitches(unittest.TestCase):
 
     def test_lower_effort_is_for_the_reading_turn_only_and_off_unless_set(self):
         loop = src("site", "lib", "chat", "ask.ts")
-        self.assertIn('if (role === "planner" && env.ASK_READER_EFFORT && READER_EFFORTS.includes(env.ASK_READER_EFFORT)) return env.ASK_READER_EFFORT;', loop)
+        # session 156: the reader's effort is "low" unless the server says otherwise (site/lib/chat/switches.ts); it is
+        # still the reading turn's only, and a value that is not a setting ("off") still leaves that turn as every other
+        self.assertIn('const reader = readerEffort(env);\n  if (role === "planner" && READER_EFFORTS.includes(reader)) return reader;', loop)
         self.assertIn("return env.ASK_WRITER_EFFORT || own;", loop)
         self.assertIn('export const READER_EFFORTS = ["low", "medium", "high"];', loop)
         self.assertIn('const w = await call(writer, "absent", asked, "answered");', loop)   # the writing turn is called as the writer: its effort is as it was
@@ -637,10 +648,15 @@ class TheMeasuredRecord(unittest.TestCase):
         self.assertIn("reask_effort_off: fail", rows["h24"]["asked_again"])
         self.assertIn("reask_rollup_off: pass", rows["h24"]["asked_again"])
         self.assertEqual(sum(1 for r in rows.values() if r["asked_again"]), 2)
-        # 98 of 100 is not all 100: neither switch was turned on in the code
+        # 98 of 100 is not all 100: session 148 turned neither switch on in the code, and its record (the rows above) says
+        # so. Session 156: the owner ruled on 8 October 2026 that both are set, so the code's default is now on, in one
+        # place, and each can still be turned off on the server. What this test held of the code is held of that place.
+        switches = src("site", "lib", "chat", "switches.ts")
+        self.assertIn('export const SWITCH_DEFAULTS = { ASK_RULE_PLAN: "on", ASK_READER_EFFORT: "low" } as const;', switches)
+        self.assertIn("THE OWNER'S RULING OF 8 OCTOBER 2026", switches)
         loop = src("site", "lib", "chat", "ask.ts")
-        self.assertIn('process.env.ASK_RULE_PLAN === "on"', loop)
-        self.assertIn('if (role === "planner" && env.ASK_READER_EFFORT && READER_EFFORTS.includes(env.ASK_READER_EFFORT)) return env.ASK_READER_EFFORT;', loop)
+        self.assertIn("rulePlanOn()", loop)
+        self.assertIn("const reader = readerEffort(env);", loop)
         # and session 143's own record is as it was
         old = src("warehouse", "chat", "eval_ercot_speed_results.csv")
         self.assertTrue(any("session 143" in l for l in old.split("\n") if l.startswith("#")))
