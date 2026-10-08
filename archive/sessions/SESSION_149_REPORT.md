@@ -12,10 +12,11 @@ checks myself.
   "NYISO's terms do not allow it". One switch puts it back (`SHOWN` in `warehouse/connectors/nyiso_load_queue.py`).
   The six sentences are below. **The same notice covers every NYISO table the ERW publishes** (zone prices, the
   interconnection queue): I changed only the load queue.
-- **`/network` will change at the next daily run (14:00 UTC), and that is this session's doing.** The daily build of
-  the grid network has failed on every run since 4 October (a code fault, below), so the live page's carbon
-  intensity is of 29 September. The fix is in this session. The deploy itself changes no number; the next daily run
-  rebuilds intensity, nodes and positions for the first time since 1 October. Not on your list: my addition.
+- **`/network`'s carbon intensity is of 29 September, and the fix is held until the reviewer's window closes.** The
+  daily build of the grid network has failed on every run since 4 October (a code fault, below). I wrote the fix
+  (not on your list: my addition) and then held it out of the landing: once on main, the next daily run rebuilds
+  intensity, nodes and positions, which changes what a live page shows. It is one commit on
+  `wip/held-grid-network`, to land after 18:00 UTC on 8 October ("To finish").
 - **Two things need a person.** (a) `nyiso_load_queue` sits in the public Redivis dataset; the move out is
   `upload.py --check-license --fix`, which the uploader reserves for a person. I did not write the table as internal
   tonight, so no check fails yet; the runner's queue run of Monday 12 October will, so run the lines under "To
@@ -128,8 +129,20 @@ checks myself.
 
 ## The landing
 
-- **Not landed when this was written.** `REVIEW_FREEZE` reads frozen through 7 October (UTC) and ends by its own
-  dates at 00:00 UTC. The landing follows then, with the snapshot before and after, and a line is added here.
+- **Added after the landing.** You moved the freeze's end to 8 October (the reviewer's window runs to 18:00 UTC) and
+  allowed landings of locked pages under the snapshot. Landed with session 147 in one push (`task/149-loose-ends`,
+  commit `4edd163`): checks passed (run 37703400483), merged as `6a856bb`.
+- **The grid network fix is NOT in that landing: I held it.** Landed before 14:00 UTC, it would let the daily run
+  rebuild what `/network` shows while the reviewer's window is open. It is one commit on `wip/held-grid-network`
+  (`752e24c`), with its test; landed after 18:00 UTC on 8 October, the run of 9 October applies it. So the second
+  point at the top of this report now reads: `/network`'s carbon intensity stays of 29 September until that lands.
+- **Vercel built it:** "Deployment has completed" for `6a856bb` at 23:45:04 UTC on 7 October.
+- **Snapshot before** (`149_before`, 23:38:07 UTC) **and after** (`149_after`, 23:46:36 UTC): **0 differences** on
+  the 25 live addresses, 3,357 checked number keys. Nothing was reverted.
+- **On production, in the internal view:** the datacenter page 39 of 39, the curtailment page 118 of 118, the
+  generator page 43 of 43.
+- The whole suite in a clean copy of the landed tree: 1,932 tests, passed.
+- `REVIEW_FREEZE` now ends 2026-10-08, changed on your instruction; it went out with the chain's first landing.
 - Written under the lock tonight, nothing released: `iso_zone_prices_history` and `isone_ddg_undelivered_monthly`
   (validator, coverage, the archive, the Redivis draft: exit 0 each; ISO-NE's to the internal dataset only).
   Neither is loaded into Supabase; no live page reads either.
@@ -170,6 +183,18 @@ PY='C:\Users\lossa\Documents\erw\.venv\Scripts\python.exe'
 # the data machine's daily run: look, then a first run by hand after 16:00 UTC, then register it (the line is in docs/machines.md)
 bash warehouse/run_data_machine.sh --check
 .venv/Scripts/python.exe warehouse/lock.py run --task "data machine daily" --wait 60 -- 'C:\Program Files\Git\bin\bash.exe' warehouse/run_data_machine.sh > runs/data_machine_daily.out 2>&1; echo "exit=$?"
+```
+
+```bash
+# after 18:00 UTC on 8 October, from the main copy on main (the grid network fix; the daily run of 9 October then rebuilds /network's base)
+git fetch origin
+git checkout -B land/held-grid origin/wip/held-grid-network
+git merge --no-edit origin/main; echo "exit=$?"
+node site/scripts/snapshot-live.mjs take held_grid_before; echo "exit=$?"
+git push origin HEAD:refs/heads/task/held-grid-network
+# when the checks have passed and Vercel has built it:
+node site/scripts/snapshot-live.mjs take held_grid_after; echo "exit=$?"
+node site/scripts/snapshot-live.mjs compare held_grid_before held_grid_after; echo "exit=$?"
 ```
 
 ## The five most interesting numbers

@@ -17,10 +17,11 @@ Projects, titled "Where the resources are", locked for visitors (`review`).
   without a key. What is held is the 2024 wind supply curve's `capacity_factor_ac`, in the source's words "Mean
   capacity factor across 11.5km grid-cell", for a 2035 turbine; the files say neither gross nor net. Shown under
   the title "Wind capacity factor (supply curve sites)".
-- **The menu changes on every page, the three live ones included.** Projects gains "Where the resources are"
-  (greyed for a visitor), as you asked. To keep the menu's limit of eight entries a group, which a test enforces,
-  **"Thesis Builder" moved from Projects to Tools**: not asked for. The landing's snapshot should show those menu
-  lines on the live pages and no number.
+- **The menu change is held, on your instruction, until 18:00 UTC on 8 October.** The page agent added "Where the
+  resources are" under Projects, as you asked, and, to keep the menu's limit of eight entries a group (a test
+  enforces it), **moved "Thesis Builder" from Projects to Tools**: not asked for. The menu is drawn on every page,
+  the live ones too, so both changes are one commit on `wip/held-menu` and are not on the site. The page is
+  reached by its address.
 - **The laboratory's terms are new in kind.** NREL (now at nlr.gov) grants use "provided that this entire notice
   appears in all copies of the Data": the whole notice is carried in each web file made from its data and in the
   Method note. The notice also holds an indemnity clause, the first among this warehouse's sources. Its four files
@@ -122,9 +123,19 @@ Projects, titled "Where the resources are", locked for visitors (`review`).
 
 ## The landing
 
-- **Not landed when this was written.** `REVIEW_FREEZE` reads frozen through 7 October (UTC) and ends by its own
-  dates at 00:00 UTC. The landing follows then, with the snapshot before and after, and a line is added here.
-- Expected on the live pages: the menu's lines, no number.
+- **Added after the landing.** You moved the freeze's end to 8 October and allowed landings of locked pages under
+  the snapshot, with the menu change held. Landed as `task/146-resources` (commit `0dbc55e`): checks passed (run
+  37704216663), merged as `7ae13c1`.
+- **The menu did not change.** The Projects entry and Thesis Builder's move are one commit on `wip/held-menu`
+  (`6b16d4a`), to land after 18:00 UTC on 8 October ("To finish"). Until then `/resources` is reached by its
+  address only, in the internal view. The third point at the top of this report describes that held commit.
+- **Vercel built it:** "Deployment has completed" for `7ae13c1` at 23:56:38 UTC on 7 October.
+- **Snapshot before** (`146_before`, 23:46:59 UTC) **and after** (`146_after`, 23:57:01 UTC): **0 differences** on
+  the 25 live addresses, 3,357 checked number keys. Nothing was reverted.
+- **On production, in the internal view, the page's check passes 79 of 79**; the layer files are in the server's
+  trace there (all 30).
+- The whole suite in a clean copy of the landed tree: 1,964 tests, passed; the page checks on the landed build:
+  79, 39, 118 and 43, `check-routes` 0 failed, `check-values` 6,990 of 6,990.
 
 ## Checks
 
@@ -138,7 +149,7 @@ Projects, titled "Where the resources are", locked for visitors (`review`).
 
 1. Hydropower left unpulled (the form).
 2. The supply curve's capacity factor shown under its own name, as points, not as a "gross" grid.
-3. "Thesis Builder" moved to Tools to keep eight entries under Projects.
+3. "Thesis Builder" moved to Tools to keep eight entries under Projects (in the held commit).
 4. The layer files moved out of the public folder.
 5. Plants are read from the project map's own copy of EIA-860M; the queue is shaded by county, completed requests
    with the active ones, as the live set holds them.
@@ -154,6 +165,18 @@ Projects, titled "Where the resources are", locked for visitors (`review`).
 # the five vector layers as entities tables, once the data standard names their entity types:
 .venv/Scripts/python.exe warehouse/connectors/resource_layers.py --tables --out-dir runs/session146/tables_trial
 .venv/Scripts/python.exe warehouse/validate/erw_validate.py runs/session146/tables_trial/*.csv; echo "exit=$?"
+```
+
+```bash
+# after 18:00 UTC on 8 October, from the main copy on main (the menu: the Projects entry and Thesis Builder's move)
+git fetch origin
+git checkout -B land/held-menu origin/wip/held-menu
+git merge --no-edit origin/main; echo "exit=$?"
+node site/scripts/snapshot-live.mjs take held_menu_before; echo "exit=$?"
+git push origin HEAD:refs/heads/task/held-menu
+# when the checks have passed and Vercel has built it (expected on the live pages: the menu's lines, no number):
+node site/scripts/snapshot-live.mjs take held_menu_after; echo "exit=$?"
+node site/scripts/snapshot-live.mjs compare held_menu_before held_menu_after; echo "exit=$?"
 ```
 
 ## The five most interesting numbers
