@@ -18,10 +18,12 @@ Tables read (the first --in-dir that holds a table wins; a table none holds is l
 What is "in motion": a proceeding whose status class is open; an order or rule dated in the last 12 months; a tagged
 federal action held of the last 12 months.
 
-Which grid sees which action: an action whose own words name a grid operator is under that operator and no other; a
-state commission's action that names none is under the operators that serve that state's utilities (STATE_GRIDS,
-written down below with its source); a federal action that names no operator is in a group of its own, "Federal, all
-grids". MISO's block holds
+Which grid sees which action. A state commission's row about one named utility is under that utility's own operator
+and no other, as warehouse/config/large_load_rule_grids.json states it with its source (FERC's orders of 18 June 2026
+name each operator's transmission owners in their captions), and under no grid where the file says the utility is in
+no organized market on the page (El Paso Electric) or does not list it and the docket's documents name no operator. A
+statewide rule is under the operator its own documents name, else the state's operators (STATE_GRIDS below). A federal
+action is under the operator its own words name, else in a group of its own, "Federal, all grids". MISO's block holds
 the words "paused while terms are reviewed" and no row. Georgia, Arizona and Oregon have no grid on the page: their
 actions are in the table and not in the file.
 
@@ -263,6 +265,34 @@ def withheld_words(regulator, terms):
     return t.get("withheld_words") or f"The {regulator}'s terms on copying its text were not read; open the document"
 
 
+GRIDS_FILE = os.path.join(ROOT, "warehouse", "config", "large_load_rule_grids.json")
+# A caption that holds one of these words names a company: the row is about one utility, not a statewide rule.
+COMPANY_WORDS = re.compile(r"\b(Company|Cooperative|Corporation|Inc\.|LLC|L\.L\.C\.|d/b/a|dba|Electric Power|Power & Light|PG&E)\b|PG&E")
+KEY_OF = {v: k for k, v in GRID_NAMES.items()}
+
+
+def load_utilities(path=None):
+    path = path or GRIDS_FILE
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)["utilities"]
+
+
+def utility_of(state, caption, utilities):
+    """(scope, the listed utility or None) of a state commission's docket, from its caption (the proceeding's title,
+    with the docket number where the commission prints the utility there). 'one utility': the caption holds a name
+    the mapping file lists for the state. 'one utility, not listed': it names a company the file does not list.
+    'statewide': it names no company (a rulemaking, an investigation, a conference)."""
+    low = caption.lower()
+    for u in utilities:
+        if u["state"] == state and any(n.lower() in low for n in u["names"]):
+            return "one utility", u
+    if COMPANY_WORDS.search(caption):
+        return "one utility, not listed", None
+    return "statewide", None
+
+
 def docket_base(number):
     """A docket number without its sub-docket (EL26-67-000 and EL26-67-001 are one docket)."""
     return re.sub(r"-\d{3}$", "", number or "")
@@ -288,6 +318,8 @@ def table_rows(dirs, cutoff, notes):
             reads = {x["rule_event_id"]: x for x in r.to_dict("records") if x["read"].strip()}
     out, off, found = [], {}, False
     loaded = []
+    utilities = load_utilities()
+    captions = {}       # a docket's caption: every title its rows give it, and its number
     docket_grids = {}   # the operators any document of a docket names: its other rows, which name none, take them
     for name in TABLES:
         p = find(name, dirs)
@@ -295,9 +327,11 @@ def table_rows(dirs, cutoff, notes):
             t, head = read_events(p)
             loaded.append((name, t, head))
             for a in t.to_dict("records"):
+                key = (a["regulator"], docket_base(a["docket_number"]))
+                captions.setdefault(key, set()).update([a["proceeding_title"], a["docket_number"]])
                 for x in a["grids"].split(";"):
                     if x.strip():
-                        docket_grids.setdefault((a["regulator"], docket_base(a["docket_number"])), set()).add(x.strip())
+                        docket_grids.setdefault(key, set()).add(x.strip())
     for name, t, head in loaded:
         found = True
         public = license_of(head) == "public"
@@ -333,6 +367,8 @@ def table_rows(dirs, cutoff, notes):
                 "read": rd["read"] if rd else None, "read_by": "model" if rd else None,
                 "read_model": rd["model_id"] if rd else None, "read_from": rd["read_from"] if rd else None,
                 "named": named,
+                "placing": utility_of(a["state"], " | ".join(sorted(captions[(a["regulator"], docket_base(a["docket_number"]))])), utilities)
+                if a["jurisdiction"] == "state" else ("federal", None),
             })
     if not found:
         notes.append("large_load_rules is not built yet: the file holds the federal actions held only")
@@ -340,22 +376,48 @@ def table_rows(dirs, cutoff, notes):
 
 
 def place(rows):
-    """{grid: [rows]}, the federal group, and the rows with no grid on the page, by the mapping above."""
+    """{grid: [rows]}, the federal group, and the rows with no grid on the page [(row, reason)], by the mapping.
+
+    A state commission's row (session 154, the mapping corrected):
+      - about one utility the mapping file lists: under that utility's operator and no other; under no grid where the
+        file says the utility is in no organized market on the page;
+      - about one utility the file does not list: under the operator the docket's own documents name, else no grid;
+      - a statewide rule: under the operator the docket's own documents name, else the state's operators.
+    A federal action: under the operator its own words name, else in the group Federal, all grids."""
     grids = {g: [] for g in GRIDS}
     federal, nowhere = [], []
     for r in rows:
         named = r.pop("named")
+        scope, u = r.pop("placing", ("statewide", None))
         if r["jurisdiction"] == "state":
             base, why = STATE_GRIDS.get(r["state"], ([], f"{r['state']}: no mapping written for this state"))
-            if named:   # the document's own words win over the state's mapping
+            r = dict(r, scope="one utility" if scope.startswith("one utility") else "statewide", utility=u["utility"] if u else None)
+            if u is not None:
+                if not u["operator"]:
+                    nowhere.append((r, f"{u['utility']}: in no organized market on the page"))
+                elif not base and KEY_OF[u["operator"]] not in base and r["state"] in ("GA", "AZ", "OR"):
+                    nowhere.append((r, f"{r['state']}: no grid on the page"))
+                else:
+                    g = KEY_OF[u["operator"]]
+                    grids[g].append(dict(r, why_here=f"A case of {u['utility']}: {u['why']}."))
+                continue
+            if scope == "one utility, not listed":
+                if named:
+                    for g in named:
+                        grids[g].append(dict(r, why_here=f"The document's own words name {GRID_NAMES[g]}."))
+                elif not base:
+                    nowhere.append((r, f"{r['state']}: no grid on the page"))
+                else:
+                    nowhere.append((r, f"{r['state']}: names a utility whose operator the mapping file does not state"))
+                continue
+            if named:   # a statewide rule whose own documents name the operator
                 for g in named:
-                    grids[g].append(dict(r, why_here=f"The document's own words name {GRID_NAMES[g]}."))
-                continue
-            if not base:
-                nowhere.append((r, why))
-                continue
-            for g in base:
-                grids[g].append(dict(r, why_here=why))
+                    grids[g].append(dict(r, why_here=f"A statewide rule; the document's own words name {GRID_NAMES[g]}."))
+            elif not base:
+                nowhere.append((r, f"{r['state']}: no grid on the page"))
+            else:
+                for g in base:
+                    grids[g].append(dict(r, why_here="A statewide rule. " + why))
         elif named:
             for g in named:
                 grids[g].append(dict(r, why_here=f"A federal action whose own words name {GRID_NAMES[g]}."))
@@ -394,8 +456,7 @@ def build(dirs, today):
         kept.append(r)
     grids, federal, nowhere = place(kept)
     for r, why in nowhere:
-        k = f"{r['state']}: no grid on the page"
-        off[k] = off.get(k, 0) + 1
+        off[why] = off.get(why, 0) + 1
     elsewhere = {r["id"] for g in GRIDS if g != "miso" for r in grids[g]}
     miso_only = sum(1 for r in grids["miso"] if r["id"] not in elsewhere)
     if miso_only:

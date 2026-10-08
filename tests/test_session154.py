@@ -26,6 +26,7 @@ FF = chr(12)
 MINE = [("warehouse", "connectors", "large_load_rules.py"), ("warehouse", "derived", "policy_action_tags.py"),
         ("warehouse", "derived", "rules_in_motion.py"), ("warehouse", "policy", "rule_reads.py"),
         ("warehouse", "config", "policy_tag_rules.json"), ("warehouse", "config", "large_load_rule_terms.json"),
+        ("warehouse", "config", "large_load_rule_grids.json"),
         ("docs", "methods", "policy_action_tags.md"), ("docs", "methods", "datacenter_cost.md"),
         ("docs", "accelerator", "rules_in_motion.md"), ("site", "data", "datacenter", "rules.json"),
         ("tests", "test_session154.py")]
@@ -549,6 +550,90 @@ class SiteFile(unittest.TestCase):
         for s in obj["sources"]:
             self.assertTrue(s["regulator"] and s["terms_url"] and s["terms_quote"] and s["terms_class"])
         self.assertEqual(obj["not_on_page"]["count"], sum(obj["not_on_page"]["by_reason"].values()))
+
+
+class Mapping(unittest.TestCase):
+    """The mapping corrected (session 154): a row about one utility goes under that utility's own operator."""
+
+    def row(self, state, placing, named=()):
+        return {"id": f"madeup:{state}:{placing[0]}:{placing[1]['utility'] if placing[1] else ''}", "date": "2026-06-01", "jurisdiction": "state",
+                "state": state, "named": list(named), "placing": placing}   # MADE UP
+
+    def test_a_caption_says_whether_a_row_is_one_utilitys_or_a_statewide_rule(self):
+        us = rim.load_utilities()
+        scope, u = rim.utility_of("TX", "Application of El Paso Electric Company for Approval of a Tariff | 59611", us)
+        self.assertEqual((scope, u["operator"]), ("one utility", None))
+        scope, u = rim.utility_of("TX", "Application of Southwestern Electric Power Company for Authority to Amend Tariffs", us)
+        self.assertEqual((scope, u["operator"]), ("one utility", "SPP"))
+        self.assertEqual(rim.utility_of("TX", "Application of Southwestern Public Service Company | 60332", us)[1]["operator"], "SPP")
+        self.assertEqual(rim.utility_of("TX", "Rulemaking to Implement Large Load Interconnection Standards under PURA 37.0561 | 58481", us), ("statewide", None))
+        self.assertEqual(rim.utility_of("TX", "Review of ERCOT's Interconnection Processes for Large Loads | 59142", us), ("statewide", None))
+        self.assertEqual(rim.utility_of("VA", "Ex Parte: Electric Utilities and Data Center Load Growth", us), ("statewide", None))
+        self.assertEqual(rim.utility_of("IL", "Ameren Illinois Company d/b/a Ameren Illinois: revisions", us)[1]["operator"], "MISO")
+        self.assertEqual(rim.utility_of("IL", "Illinois Commerce Commission on its own motion v. Commonwealth Edison Company", us)[1]["operator"], "PJM")
+        self.assertEqual(rim.utility_of("IN", "NIPSCO Generation LLC: generation resources", us)[1]["operator"], "MISO")
+        self.assertEqual(rim.utility_of("IN", "Indiana Michigan Power Company: modifications", us)[1]["operator"], "PJM")
+        self.assertEqual(rim.utility_of("CA", " | Resolution E-5420 (PG&E Advice Letter 7569-E)", us)[1]["operator"], "CAISO")
+        self.assertEqual(rim.utility_of("TX", "Application of A Made-Up Power Company for a Tariff", us), ("one utility, not listed", None))
+        self.assertEqual(rim.utility_of("VA", "Application of El Paso Electric Company", us)[0], "one utility, not listed")   # a name counts in its own state only
+
+    def test_a_row_about_one_utility_goes_under_that_utilitys_operator_or_nowhere(self):
+        us = {u["utility"]: u for u in rim.load_utilities()}
+        rows = [self.row("TX", ("one utility", us["El Paso Electric Company"])),
+                self.row("TX", ("one utility", us["Southwestern Electric Power Company"])),
+                self.row("TX", ("statewide", None)),
+                self.row("IL", ("one utility", us["Ameren Illinois Company"])),
+                self.row("IL", ("one utility", us["Commonwealth Edison Company"])),
+                self.row("IL", ("one utility, not listed", None)),
+                self.row("IN", ("one utility, not listed", None), named=["pjm"]),
+                self.row("TX", ("statewide", None), named=["ercot"])]
+        rows[2]["id"], rows[7]["id"] = "madeup:TX:rule", "madeup:TX:rule named"
+        grids, federal, nowhere = rim.place(rows)
+        self.assertEqual(sorted(r["id"] for r in grids["ercot"]), ["madeup:TX:rule", "madeup:TX:rule named"])
+        self.assertEqual([r["utility"] for r in grids["spp"]], ["Southwestern Electric Power Company"])
+        self.assertEqual([r["utility"] for r in grids["miso"]], ["Ameren Illinois Company"])   # and MISO shows no row
+        self.assertEqual([r["utility"] for r in grids["pjm"]], ["Commonwealth Edison Company", None])
+        self.assertEqual([why for _, why in nowhere], ["El Paso Electric Company: in no organized market on the page",
+                                                       "IL: names a utility whose operator the mapping file does not state"])
+        self.assertTrue(all(r["scope"] in ("one utility", "statewide") for g in grids.values() for r in g))
+
+    def test_the_mapping_file_states_each_operator_with_its_source(self):
+        us = rim.load_utilities()
+        with open(rim.GRIDS_FILE, encoding="utf-8") as f:
+            sources = json.load(f)["sources"]
+        self.assertGreaterEqual(len(us), 20)
+        for u in us:
+            self.assertIn(u["operator"], (None, "ERCOT", "PJM", "MISO", "CAISO", "NYISO", "ISO-NE", "SPP"), u["utility"])
+            self.assertTrue(u["why"] and u["names"] and u["state"] in rim.STATE_GRIDS, u["utility"])
+            self.assertTrue(u["source"] == "stated plainly" or sources[u["source"]].startswith("https://www.ferc.gov/"), u["utility"])
+        base = os.environ.get("ERW_RAW_ROOT") or os.path.join(ROOT, "warehouse", "raw")
+        if not os.path.exists(os.path.join(base, "large_load_rules", "A", "text", "ferc__EL26-67-000.pdf.txt")):
+            self.skipTest("the saved FERC orders are not on this machine")
+        n = 0
+        for u in us:   # a utility sourced to a FERC caption stands by name in that order's first pages
+            if u["source"] != "stated plainly":
+                with open(os.path.join(base, "large_load_rules", "A", "text", f"ferc__{u['source']}-000.pdf.txt"), encoding="utf-8", errors="replace") as f:
+                    caption = llr.norm(f.read())[:6000]
+                self.assertTrue(any(name in caption for name in u["names"]), u["utility"])
+                n += 1
+        self.assertGreaterEqual(n, 14)
+
+    def test_the_built_file_places_no_utility_under_another_operator(self):
+        if not os.path.exists(SITE_FILE):
+            self.skipTest("site/data/datacenter/rules.json is not built on this machine")
+        with open(SITE_FILE, encoding="utf-8") as f:
+            obj = json.load(f)
+        ops = {u["utility"]: u["operator"] for u in rim.load_utilities()}
+        for g, v in obj["grids"].items():
+            for r in v["rows"]:
+                if r["jurisdiction"] == "state":
+                    self.assertIn(r["scope"], ("one utility", "statewide"), r["id"])
+                    if r.get("utility"):
+                        self.assertEqual(rim.KEY_OF[ops[r["utility"]]], g, r["id"])
+        shown = json.dumps(obj["grids"]["ercot"])
+        for name in ("El Paso Electric", "Southwestern Electric Power", "Southwestern Public Service"):
+            self.assertNotIn(name, shown)
+        self.assertIn("El Paso Electric Company: in no organized market on the page", obj["not_on_page"]["by_reason"])
 
 
 class Files(unittest.TestCase):

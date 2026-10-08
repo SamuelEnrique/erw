@@ -437,32 +437,67 @@ decided or closed, or whose status no document states, is in the table and not i
 
 **Which grid sees which action.** By rule:
 
-- An action whose own words name a grid operator (ERCOT, PJM, MISO, CAISO, NYISO, ISO-NE, SPP, by name or by the
-  operator's full name) is under that operator and no other. For a proceeding or order this is the operator the
-  collecting pass recorded from the document (`grids`), or the operator another document of the same docket names;
-  a pass leaves out an operator named only in passing. So a Texas case of a utility in SPP is under SPP, not ERCOT,
-  and an Indiana order that names MISO is under MISO, where no row is shown. A federal notice tagged by its docket
-  number is under the operator that docket is about.
-- A state commission's action that names no operator is under the operators that serve that state's utilities. The mapping is stated here
-  plainly as common knowledge of the US power system, the states listed; no federal table of it is cited in this
-  repository:
+- **A state commission's row about one named utility is under that utility's own operator, and no other.** A row
+  is about one utility when the caption of its docket (the proceeding's title, or the docket number where the
+  commission prints the utility there) holds a name that `warehouse/config/large_load_rule_grids.json` lists for
+  that state. Where the file says the utility is in no organized market on the page, the row is placed under no
+  grid and counted in `not_on_page` with the reason (El Paso Electric, which is outside the ERCOT region). A
+  utility in MISO is under MISO, where no row is shown. A caption that names a company, cooperative or corporation
+  the file does not list is placed only where the docket's own documents name an operator, else under no grid.
+  The utilities listed, each with its operator and its source. The source is the caption of FERC's order of 18
+  June 2026 on that operator's tariff, which names the operator and its transmission owners (a test checks each
+  name in the saved order); "stated plainly" means no caption read holds the name and the operator is written here
+  as common knowledge, with the reason in the file:
 
-  | State | Grid on the page | Why |
+  | State | Utility | Operator | Source |
+  |---|---|---|---|
+  | TX | El Paso Electric Company | none on the page | stated plainly |
+  | TX | Southwestern Electric Power Company | SPP | the caption of FERC's order in EL26-68 |
+  | TX | Southwestern Public Service Company | SPP | the caption of FERC's order in EL26-68 |
+  | VA | Virginia Electric and Power Company (Dominion Energy Virginia) | PJM | the caption of FERC's order in EL26-67 |
+  | VA | Appalachian Power Company | PJM | the caption of FERC's order in EL26-67 |
+  | VA | Rappahannock Electric Cooperative | PJM | stated plainly |
+  | VA | Mecklenburg Electric Cooperative | PJM | stated plainly |
+  | VA | Shenandoah Valley Electric Cooperative | PJM | stated plainly |
+  | VA | Northern Virginia Electric Cooperative | PJM | stated plainly |
+  | OH | Ohio Power Company (AEP Ohio) | PJM | the caption of FERC's order in EL26-67 |
+  | OH | Duke Energy Ohio, Inc. | PJM | the caption of FERC's order in EL26-67 |
+  | OH | Ohio Edison, Cleveland Electric Illuminating and Toledo Edison (FirstEnergy's Ohio companies) | PJM | stated plainly |
+  | OH | The Dayton Power and Light Company (AES Ohio) | PJM | the caption of FERC's order in EL26-67 |
+  | PA | PPL Electric Utilities Corporation | PJM | the caption of FERC's order in EL26-67 |
+  | PA | PECO Energy Company | PJM | the caption of FERC's order in EL26-67 |
+  | PA | Duquesne Light Company | PJM | the caption of FERC's order in EL26-67 |
+  | IL | Commonwealth Edison Company | PJM | the caption of FERC's order in EL26-67 |
+  | IL | Ameren Illinois Company | MISO | the caption of FERC's order in EL26-70 |
+  | IN | Indiana Michigan Power Company | PJM | the caption of FERC's order in EL26-67 |
+  | IN | Northern Indiana Public Service Company (NIPSCO) and NIPSCO Generation LLC | MISO | the caption of FERC's order in EL26-70 |
+  | IN | Indianapolis Power & Light Company (AES Indiana) | MISO | the caption of FERC's order in EL26-70 |
+  | CA | Pacific Gas and Electric Company | CAISO | the caption of FERC's order in EL26-71 |
+  | CA | Southern California Edison Company | CAISO | the caption of FERC's order in EL26-71 |
+  | CA | San Diego Gas & Electric Company | CAISO | the caption of FERC's order in EL26-71 |
+
+- **A statewide rule** (a caption that names no company: a rulemaking, an investigation, a conference) is under the
+  operator its own documents name (the operator the collecting pass recorded from the document, `grids`, or the
+  operator another document of the same docket names; a pass leaves out an operator named only in passing), else
+  under the operators of the state, stated plainly as common knowledge of the US power system:
+
+  | State | Grid on the page for a statewide rule | Why |
   |---|---|---|
-  | Texas | ERCOT | The Texas commission regulates the ERCOT region. The parts of Texas in SPP and MISO see a Texas action only when its own words name them |
-  | Virginia | PJM | Dominion Energy Virginia and Appalachian Power are in PJM |
-  | Ohio | PJM | AEP Ohio, FirstEnergy's Ohio companies, AES Ohio and Duke Energy Ohio are in PJM |
-  | Pennsylvania | PJM | PECO, PPL Electric, FirstEnergy's Pennsylvania company and Duquesne Light are in PJM |
-  | Illinois | PJM and MISO | Commonwealth Edison is in PJM; Ameren Illinois is in MISO. MISO shows no row, so an Illinois action is seen under PJM |
-  | Indiana | PJM and MISO | Indiana Michigan Power is in PJM; the state's other utilities are in MISO. Seen under PJM |
-  | California | CAISO | PG&E, Southern California Edison and SDG&E are in CAISO |
-  | Georgia | none | Georgia's utilities are in no organized market: in the table, not in the block |
-  | Arizona | none | Arizona's utilities are in no organized market operator's footprint: in the table, not in the block |
-  | Oregon | none | Oregon's utilities are in no organized market operator's footprint: in the table, not in the block |
+  | Texas | ERCOT | The Texas commission's statewide large-load rules (the Senate Bill 6 projects, its review of ERCOT's process) are for the ERCOT region |
+  | Virginia | PJM | Virginia's utilities are in PJM |
+  | Ohio | PJM | Ohio's utilities are in PJM |
+  | Pennsylvania | PJM | Pennsylvania's utilities are in PJM |
+  | Illinois | PJM and MISO | Commonwealth Edison is in PJM; Ameren Illinois is in MISO. MISO shows no row, so a statewide Illinois rule is seen under PJM |
+  | Indiana | PJM and MISO | Indiana Michigan Power is in PJM; the state's other utilities are in MISO. A statewide Indiana rule is seen under PJM |
+  | California | CAISO | California's investor-owned utilities are in CAISO |
+  | Georgia, Arizona, Oregon | none | Their utilities are in no organized market operator's footprint on the page: in the tables, not in the block |
 
-  The mapping is coarse: a state's action that names no operator is shown under every grid the state is mapped
-  to (an Illinois action under PJM, since MISO shows no row; a Texas case of El Paso Electric, which is in neither
-  ERCOT nor SPP, under ERCOT). Each row's hover says why it is under the grid.
+  As first built on 8 October 2026 a state's row that named no operator went under every grid of its state, which
+  put two rows of El Paso Electric and two of Southwestern Electric Power Company under ERCOT and four rows of
+  MISO utilities (NIPSCO three, Ameren Illinois one) under PJM. That was an error and was corrected the same day:
+  those eight rows are now under SPP (two) or under no grid (six). Each row's hover says why it is under its grid.
+- A federal action whose own words name a grid operator is under that operator; a federal notice tagged by its
+  docket number is under the operator that docket is about.
 - A federal action that names no operator is under every grid, in a group of its own: "Federal, all grids".
 - **MISO: "paused while terms are reviewed", and no row.** MISO's own site is never requested
   ([`miso_pause.md`](miso_pause.md)); the block shows nothing under MISO, including federal orders that name it.
@@ -484,8 +519,8 @@ time with the copied run named back to the model); every answer paid for is kept
 model's too. The line is never the regulator's words: the regulator's sentence is on the docket's hover, and the
 link opens the document. Every call goes through the cost ledger, with the stop before each call.
 
-**Kept out of the file, and counted in it** (`not_on_page`): a state with no grid on the page; a row under MISO
-alone; a state commission's news release held in `policy_actions`; a row whose shown title, sentence, read or status
+**Kept out of the file, and counted in it** (`not_on_page`): a state with no grid on the page; a utility in no
+organized market on the page; a row under MISO alone; a state commission's news release held in `policy_actions`; a row whose shown title, sentence, read or status
 holds one of the words "zoning", "permit", "city council" or "county board" (the block never shows them, so an order
 that uses "permit" as a verb would be kept out too; it stays in the table; none was on 8 October 2026); a row whose
 shown words hold an em dash (none).

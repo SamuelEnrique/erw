@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-08T04:47:42Z",
+ "built_at_utc": "2026-10-08T04:59:37Z",
  "as_of": "2026-10-08",
  "window_months": 12,
  "window_from": "2025-10-08",
@@ -26,12 +26,6 @@
    "regulator": "Public Utility Commission of Texas",
    "terms_url": "https://www.puc.texas.gov/agency/about/policies/linkpolicy/",
    "terms_quote": "Although the content of PUCT web sites is available to the public, certain information on the PUCT web sites may be trademarked, service marked, or otherwise protected as the PUCT's intellectual property, and all PUCT content is protected by federal copyright laws.",
-   "terms_class": "restricted"
-  },
-  {
-   "regulator": "Indiana Utility Regulatory Commission",
-   "terms_url": "https://www.in.gov/core/terms_of_use.html",
-   "terms_quote": "Except as may otherwise be allowed by law (including but not limited to the Indiana Access to Public Records Law), the viewing, printing, or downloading of any content, graphic, form, or document from the Portal grants you only a limited, nonexclusive license for use solely by you for your own personal use, and not for republication, distribution, assignment, sublicense, sale, preparation of derivative works or other use.",
    "terms_class": "restricted"
   }
  ],
@@ -64,7 +58,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,486 characters of the document), nothing else",
-     "why_here": "The document's own words name ERCOT."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name ERCOT."
     },
     {
      "id": "txpuc:59142:order:306a57435e",
@@ -91,7 +87,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (3,665 characters of the document), nothing else",
-     "why_here": "The document's own words name ERCOT."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name ERCOT."
     },
     {
      "id": "txpuc:58482:proceeding:378c9b5cba",
@@ -118,34 +116,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,486 characters of the document), nothing else",
-     "why_here": "The document's own words name ERCOT."
-    },
-    {
-     "id": "txpuc:59611:order:5a2d59d8d9",
-     "date": "2026-07-09",
-     "regulator": "Public Utility Commission of Texas",
-     "jurisdiction": "state",
-     "state": "TX",
-     "docket": "59611",
-     "title": "",
-     "row_kind": "order",
-     "topic": "large-load tariff",
-     "tags": [],
-     "status_as_worded": null,
-     "status_class": "decided",
-     "url": "https://interchange.puc.texas.gov/Documents/59611_27_1664195.PDF",
-     "page": 2,
-     "sentence": null,
-     "sentence_withheld": "The Public Utility Commission of Texas's terms ask permission to copy its text; open the document",
-     "sentence_from": "order text",
-     "sentence_kind": "document",
-     "flags": [],
-     "terms_class": "restricted",
-     "read": null,
-     "read_by": null,
-     "read_model": null,
-     "read_from": null,
-     "why_here": "The Texas commission regulates the ERCOT region, where most of the state's load is served; the parts of Texas in SPP and MISO see a Texas action only when its own words name them."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name ERCOT."
     },
     {
      "id": "txpuc:58000:proceeding:c0b1587c3e",
@@ -172,34 +145,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (5,178 characters of the document), nothing else",
-     "why_here": "The document's own words name ERCOT."
-    },
-    {
-     "id": "txpuc:59611:proceeding:aab0639947",
-     "date": "2026-04-07",
-     "regulator": "Public Utility Commission of Texas",
-     "jurisdiction": "state",
-     "state": "TX",
-     "docket": "59611",
-     "title": "",
-     "row_kind": "proceeding",
-     "topic": "large-load tariff",
-     "tags": [],
-     "status_as_worded": null,
-     "status_class": "open",
-     "url": "https://interchange.puc.texas.gov/Documents/59611_1_1617202.PDF",
-     "page": 2,
-     "sentence": null,
-     "sentence_withheld": "The Public Utility Commission of Texas's terms ask permission to copy its text; open the document",
-     "sentence_from": "application or request",
-     "sentence_kind": "document",
-     "flags": [],
-     "terms_class": "restricted",
-     "read": null,
-     "read_by": null,
-     "read_model": null,
-     "read_from": null,
-     "why_here": "The Texas commission regulates the ERCOT region, where most of the state's load is served; the parts of Texas in SPP and MISO see a Texas action only when its own words name them."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name ERCOT."
     },
     {
      "id": "txpuc:58479:order:b93d54d6af",
@@ -226,7 +174,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,122 characters of the document), nothing else",
-     "why_here": "The document's own words name ERCOT."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name ERCOT."
     },
     {
      "id": "txpuc:58480:order:a24826c925",
@@ -253,7 +203,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,459 characters of the document), nothing else",
-     "why_here": "The document's own words name ERCOT."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name ERCOT."
     },
     {
      "id": "txpuc:59142:proceeding:9cc7d70767",
@@ -280,61 +232,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (1,069 characters of the document), nothing else",
-     "why_here": "The document's own words name ERCOT."
-    },
-    {
-     "id": "txpuc:58796:order:eef0dcc78f",
-     "date": "2025-12-12",
-     "regulator": "Public Utility Commission of Texas",
-     "jurisdiction": "state",
-     "state": "TX",
-     "docket": "58796",
-     "title": "",
-     "row_kind": "order",
-     "topic": "large-load tariff",
-     "tags": [],
-     "status_as_worded": null,
-     "status_class": "decided",
-     "url": "https://interchange.puc.texas.gov/Documents/58796_32_1566088.PDF",
-     "page": 2,
-     "sentence": null,
-     "sentence_withheld": "The Public Utility Commission of Texas's terms ask permission to copy its text; open the document",
-     "sentence_from": "order text",
-     "sentence_kind": "document",
-     "flags": [],
-     "terms_class": "restricted",
-     "read": "SWEPCO proposes a standard contract for customers seeking 75 or more megawatts of contract capacity, and this order sets the issues the Commission will review before deciding whether to approve the terms.",
-     "read_by": "model",
-     "read_model": "claude-sonnet-5-5",
-     "read_from": "the document's own sentence and the saved text around it (4,367 characters of the document), nothing else",
-     "why_here": "The Texas commission regulates the ERCOT region, where most of the state's load is served; the parts of Texas in SPP and MISO see a Texas action only when its own words name them."
-    },
-    {
-     "id": "txpuc:58796:proceeding:c351b1af36",
-     "date": "2025-10-03",
-     "regulator": "Public Utility Commission of Texas",
-     "jurisdiction": "state",
-     "state": "TX",
-     "docket": "58796",
-     "title": "",
-     "row_kind": "proceeding",
-     "topic": "large-load tariff",
-     "tags": [],
-     "status_as_worded": null,
-     "status_class": "open",
-     "url": "https://interchange.puc.texas.gov/Documents/58796_1_1545167.PDF",
-     "page": 2,
-     "sentence": null,
-     "sentence_withheld": "The Public Utility Commission of Texas's terms ask permission to copy its text; open the document",
-     "sentence_from": "application or request",
-     "sentence_kind": "document",
-     "flags": [],
-     "terms_class": "restricted",
-     "read": "SWEPCO asks Texas regulators to add a standard contract for new customers of 75 MW or more, such as data centers, with minimum billing, termination fees and collateral, with no change to rates.",
-     "read_by": "model",
-     "read_model": "claude-sonnet-5-5",
-     "read_from": "the document's own sentence and the saved text around it (4,334 characters of the document), nothing else",
-     "why_here": "The Texas commission regulates the ERCOT region, where most of the state's load is served; the parts of Texas in SPP and MISO see a Texas action only when its own words name them."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name ERCOT."
     },
     {
      "id": "txpuc:58317:proceeding:c7ce57a0a7",
@@ -361,71 +261,15 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,329 characters of the document), nothing else",
-     "why_here": "The document's own words name ERCOT."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name ERCOT."
     }
    ]
   },
   "pjm": {
    "state": "shown",
    "rows": [
-    {
-     "id": "iurc:46393:order:d731118e33",
-     "date": "2026-10-07",
-     "regulator": "Indiana Utility Regulatory Commission",
-     "jurisdiction": "state",
-     "state": "IN",
-     "docket": "46393",
-     "title": "",
-     "row_kind": "order",
-     "topic": "large-load tariff",
-     "tags": [],
-     "status_as_worded": null,
-     "status_class": "decided",
-     "url": "https://www.in.gov/iurc/files/ord_46393_100726.pdf",
-     "page": 3,
-     "sentence": null,
-     "sentence_withheld": "The Indiana Utility Regulatory Commission's site terms limit copying to personal use, except as the public records law allows; open the document",
-     "sentence_from": "order text",
-     "sentence_kind": "document",
-     "flags": [
-      "single-customer contract or agreement, not a rule for others"
-     ],
-     "terms_class": "restricted",
-     "read": "The Commission rejects the Industrial Group's challenge and leaves its earlier order unchanged, so NIPSCO's arrangements to serve its second megaload customer, including the GenCo Pool and One-Time Payment, stay in place.",
-     "read_by": "model",
-     "read_model": "claude-sonnet-5-5",
-     "read_from": "the document's own sentence and the saved text around it (2,973 characters of the document), nothing else",
-     "why_here": "Indiana is served by PJM (Indiana Michigan Power) and by MISO (the state's other utilities)."
-    },
-    {
-     "id": "iurc:46442:proceeding:86c22c00a0",
-     "date": "2026-10-05",
-     "regulator": "Indiana Utility Regulatory Commission",
-     "jurisdiction": "state",
-     "state": "IN",
-     "docket": "46442",
-     "title": "",
-     "row_kind": "proceeding",
-     "topic": "large-load tariff",
-     "tags": [],
-     "status_as_worded": null,
-     "status_class": "open",
-     "url": "https://www.in.gov/iurc/files/Hearings%20List for wk of October 5, 2026.pdf",
-     "page": 1,
-     "sentence": null,
-     "sentence_withheld": "The Indiana Utility Regulatory Commission's site terms limit copying to personal use, except as the public records law allows; open the document",
-     "sentence_from": "hearings list",
-     "sentence_kind": "record",
-     "flags": [
-      "single-customer contract or agreement, not a rule for others"
-     ],
-     "terms_class": "restricted",
-     "read": "A hearing is set on a NIPSCO and GenCo petition asking the Commission to approve amendments to NIPSCO's special contract with Amazon Data Services and to a related power purchase agreement, plus accounting authority.",
-     "read_by": "model",
-     "read_model": "claude-sonnet-5-5",
-     "read_from": "the document's own sentence and the saved text around it (4,210 characters of the document), nothing else",
-     "why_here": "Indiana is served by PJM (Indiana Michigan Power) and by MISO (the state's other utilities)."
-    },
     {
      "id": "puco:26-0113-EL-ATA:order:de5a9db8fd",
      "date": "2026-09-30",
@@ -451,7 +295,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,349 characters of the document), nothing else",
-     "why_here": "Ohio's utilities (AEP Ohio, FirstEnergy's Ohio companies, AES Ohio, Duke Energy Ohio) are in PJM."
+     "scope": "one utility",
+     "utility": "Ohio Power Company (AEP Ohio)",
+     "why_here": "A case of Ohio Power Company (AEP Ohio): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "papuc:M-2026-3065062:proceeding:02e31c9caa",
@@ -478,7 +324,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,152 characters of the document), nothing else",
-     "why_here": "Pennsylvania's utilities (PECO, PPL Electric, FirstEnergy's Pennsylvania company, Duquesne Light) are in PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule. Pennsylvania's utilities (PECO, PPL Electric, FirstEnergy's Pennsylvania company, Duquesne Light) are in PJM."
     },
     {
      "id": "puco:26-0755-EL-ATA:order:7c5c63541b",
@@ -505,7 +353,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,338 characters of the document), nothing else",
-     "why_here": "Ohio's utilities (AEP Ohio, FirstEnergy's Ohio companies, AES Ohio, Duke Energy Ohio) are in PJM."
+     "scope": "one utility",
+     "utility": "Duke Energy Ohio, Inc.",
+     "why_here": "A case of Duke Energy Ohio, Inc.: a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "vascc:PUR-2025-00160:order:342576517d",
@@ -532,7 +382,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,309 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "one utility",
+     "utility": "Mecklenburg Electric Cooperative",
+     "why_here": "A case of Mecklenburg Electric Cooperative: a distribution cooperative in Virginia's PJM territory and a member of Old Dominion Electric Cooperative, which the caption of EL26-67 lists; its own order in PUR-2025-00160 names PJM."
     },
     {
      "id": "vascc:PUR-2025-00058:order:606921b366",
@@ -559,7 +411,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (3,738 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "one utility",
+     "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
+     "why_here": "A case of Virginia Electric and Power Company (Dominion Energy Virginia): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "vascc:PUR-2026-00131:proceeding:1085dc9077",
@@ -586,7 +440,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,681 characters of the document), nothing else",
-     "why_here": "Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule. Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
     },
     {
      "id": "vascc:PUR-2025-00058:order:f7cfbda633",
@@ -613,7 +469,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (3,119 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "one utility",
+     "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
+     "why_here": "A case of Virginia Electric and Power Company (Dominion Energy Virginia): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "vascc:PUR-2026-00114:proceeding:b6a3ea6743",
@@ -640,34 +498,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,264 characters of the document), nothing else",
-     "why_here": "Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
-    },
-    {
-     "id": "ilcc:26-0625:proceeding:dad7fbe87b",
-     "date": "2026-08-19",
-     "regulator": "Illinois Commerce Commission",
-     "jurisdiction": "state",
-     "state": "IL",
-     "docket": "26-0625",
-     "title": "Upcoming Suspension End Dates (the commission's list of suspended tariff cases)",
-     "row_kind": "proceeding",
-     "topic": "large-load tariff",
-     "tags": [],
-     "status_as_worded": "Initial",
-     "status_class": "open",
-     "url": "https://icc.illinois.gov/docket/list/suspension-cases",
-     "page": null,
-     "sentence": "Filing proposing revisions to terms and conditions for large electric customers. (Tariffs filed July 10, 2026).",
-     "sentence_withheld": null,
-     "sentence_from": "list of suspended cases",
-     "sentence_kind": "record",
-     "flags": [],
-     "terms_class": "public record",
-     "read": "Ameren Illinois has filed proposed revisions to terms and conditions for large electric customers, and the commission has suspended the filing until December 6, 2026, so the changes may not take effect before then.",
-     "read_by": "model",
-     "read_model": "claude-sonnet-5-5",
-     "read_from": "the document's own sentence and the saved text around it (4,999 characters of the document), nothing else",
-     "why_here": "Illinois is served by PJM in the north (Commonwealth Edison) and MISO elsewhere (Ameren Illinois)."
+     "scope": "one utility",
+     "utility": "Northern Virginia Electric Cooperative",
+     "why_here": "A case of Northern Virginia Electric Cooperative: a distribution cooperative whose territory is inside PJM's Dominion zone; no document read says so, and it is in no caption read."
     },
     {
      "id": "ilcc:26-0364:order:07e09878cb",
@@ -696,7 +529,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (6,079 characters of the document), nothing else",
-     "why_here": "Illinois is served by PJM in the north (Commonwealth Edison) and MISO elsewhere (Ameren Illinois)."
+     "scope": "one utility",
+     "utility": "Commonwealth Edison Company",
+     "why_here": "A case of Commonwealth Edison Company: a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "federalregister:2026-16175",
@@ -754,7 +589,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (5,862 characters of the document), nothing else",
-     "why_here": "Ohio's utilities (AEP Ohio, FirstEnergy's Ohio companies, AES Ohio, Duke Energy Ohio) are in PJM."
+     "scope": "one utility",
+     "utility": "Ohio Power Company (AEP Ohio)",
+     "why_here": "A case of Ohio Power Company (AEP Ohio): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "federalregister:2026-15779",
@@ -812,7 +649,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (6,275 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "one utility",
+     "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
+     "why_here": "A case of Virginia Electric and Power Company (Dominion Energy Virginia): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "puco:26-0755-EL-ATA:proceeding:32e0338c8d",
@@ -839,7 +678,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,338 characters of the document), nothing else",
-     "why_here": "Ohio's utilities (AEP Ohio, FirstEnergy's Ohio companies, AES Ohio, Duke Energy Ohio) are in PJM."
+     "scope": "one utility",
+     "utility": "Duke Energy Ohio, Inc.",
+     "why_here": "A case of Duke Energy Ohio, Inc.: a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "papuc:M-2025-3054271:order:ee1054b0a9",
@@ -866,7 +707,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,876 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name PJM."
     },
     {
      "id": "puco:26-0697-EL-ATA:proceeding:5fbec2c262",
@@ -893,7 +736,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (3,678 characters of the document), nothing else",
-     "why_here": "Ohio's utilities (AEP Ohio, FirstEnergy's Ohio companies, AES Ohio, Duke Energy Ohio) are in PJM."
+     "scope": "one utility",
+     "utility": "Ohio Edison, Cleveland Electric Illuminating and Toledo Edison (FirstEnergy's Ohio companies)",
+     "why_here": "A case of Ohio Edison, Cleveland Electric Illuminating and Toledo Edison (FirstEnergy's Ohio companies): FirstEnergy's Ohio distribution companies; their transmission owner, American Transmission Systems, Incorporated, is in the caption of EL26-67, the three companies themselves are not."
     },
     {
      "id": "papuc:L-2025-3059032:order:566b61974f",
@@ -920,7 +765,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,015 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name PJM."
     },
     {
      "id": "ferc:EL26-67-000:proceeding:59004bc8e9",
@@ -977,35 +824,6 @@
      "why_here": "A federal action whose own words name PJM."
     },
     {
-     "id": "iurc:46362:order:dde970cdb2",
-     "date": "2026-06-17",
-     "regulator": "Indiana Utility Regulatory Commission",
-     "jurisdiction": "state",
-     "state": "IN",
-     "docket": "46362",
-     "title": "",
-     "row_kind": "order",
-     "topic": "large-load tariff",
-     "tags": [],
-     "status_as_worded": null,
-     "status_class": "decided",
-     "url": "https://www.in.gov/iurc/files/ord_46362_061726.pdf",
-     "page": 11,
-     "sentence": null,
-     "sentence_withheld": "The Indiana Utility Regulatory Commission's site terms limit copying to personal use, except as the public records law allows; open the document",
-     "sentence_from": "order text",
-     "sentence_kind": "document",
-     "flags": [
-      "single-customer contract or agreement, not a rule for others"
-     ],
-     "terms_class": "restricted",
-     "read": "The Indiana commission finds GenCo's generation resources reasonable and necessary to supply NIPSCO's expected megaload growth, while not pre-approving cost recovery from NIPSCO's non-megaload customers.",
-     "read_by": "model",
-     "read_model": "claude-sonnet-5-5",
-     "read_from": "the document's own sentence and the saved text around it (3,475 characters of the document), nothing else",
-     "why_here": "Indiana is served by PJM (Indiana Michigan Power) and by MISO (the state's other utilities)."
-    },
-    {
      "id": "papuc:R-2025-3057164:order:398967f7a1",
      "date": "2026-06-11",
      "regulator": "Pennsylvania Public Utility Commission",
@@ -1030,7 +848,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (6,177 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "one utility",
+     "utility": "PPL Electric Utilities Corporation",
+     "why_here": "A case of PPL Electric Utilities Corporation: a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "papuc:M-2025-3054271:order:ccfbd2caf6",
@@ -1057,7 +877,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,256 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name PJM."
     },
     {
      "id": "vascc:PUR-2026-00011:order:4c878ce17d",
@@ -1084,7 +906,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (6,261 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "one utility",
+     "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
+     "why_here": "A case of Virginia Electric and Power Company (Dominion Energy Virginia): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "papuc:M-2025-3054271:order:2af7a06fd5",
@@ -1111,7 +935,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (6,164 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name PJM."
     },
     {
      "id": "ilcc:25-0677-25-0679-Consol.:order:cf24869a0d",
@@ -1138,7 +964,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (5,383 characters of the document), nothing else",
-     "why_here": "Illinois is served by PJM in the north (Commonwealth Edison) and MISO elsewhere (Ameren Illinois)."
+     "scope": "one utility",
+     "utility": "Commonwealth Edison Company",
+     "why_here": "A case of Commonwealth Edison Company: a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "ilcc:26-0364:proceeding:4161276e93",
@@ -1167,7 +995,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (5,641 characters of the document), nothing else",
-     "why_here": "Illinois is served by PJM in the north (Commonwealth Edison) and MISO elsewhere (Ameren Illinois)."
+     "scope": "one utility",
+     "utility": "Commonwealth Edison Company",
+     "why_here": "A case of Commonwealth Edison Company: a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "ilcc:25-0680:order:4fc617c186",
@@ -1196,7 +1026,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (6,140 characters of the document), nothing else",
-     "why_here": "Illinois is served by PJM in the north (Commonwealth Edison) and MISO elsewhere (Ameren Illinois)."
+     "scope": "one utility",
+     "utility": "Commonwealth Edison Company",
+     "why_here": "A case of Commonwealth Edison Company: a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "vascc:PUR-2025-00048:order:6407ca34eb",
@@ -1223,7 +1055,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (5,562 characters of the document), nothing else",
-     "why_here": "Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
+     "scope": "one utility",
+     "utility": "Rappahannock Electric Cooperative",
+     "why_here": "A case of Rappahannock Electric Cooperative: a distribution cooperative in Virginia's PJM territory and a member of Old Dominion Electric Cooperative, which the caption of EL26-67 lists; the cooperative itself is in no caption read."
     },
     {
      "id": "ilcc:25-0677-25-0679-Consol.:order:9e07db3fab",
@@ -1250,7 +1084,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (6,187 characters of the document), nothing else",
-     "why_here": "Illinois is served by PJM in the north (Commonwealth Edison) and MISO elsewhere (Ameren Illinois)."
+     "scope": "one utility",
+     "utility": "Commonwealth Edison Company",
+     "why_here": "A case of Commonwealth Edison Company: a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "vascc:PUR-2026-00011:proceeding:49bfff2861",
@@ -1277,7 +1113,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,186 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "one utility",
+     "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
+     "why_here": "A case of Virginia Electric and Power Company (Dominion Energy Virginia): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "puco:26-0113-EL-ATA:proceeding:50bd40f2f5",
@@ -1304,7 +1142,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,762 characters of the document), nothing else",
-     "why_here": "Ohio's utilities (AEP Ohio, FirstEnergy's Ohio companies, AES Ohio, Duke Energy Ohio) are in PJM."
+     "scope": "one utility",
+     "utility": "Ohio Power Company (AEP Ohio)",
+     "why_here": "A case of Ohio Power Company (AEP Ohio): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "vascc:PUR-2024-00144:order:92da65e473",
@@ -1331,7 +1171,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,545 characters of the document), nothing else",
-     "why_here": "Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule. Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
     },
     {
      "id": "papuc:L-2025-3059032:proceeding:0ebb127b0c",
@@ -1360,7 +1202,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,576 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name PJM."
     },
     {
      "id": "ferc:EL25-49-000:order:41e41381b2",
@@ -1414,7 +1258,9 @@
      "read_by": null,
      "read_model": null,
      "read_from": null,
-     "why_here": "Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
+     "scope": "one utility",
+     "utility": "Shenandoah Valley Electric Cooperative",
+     "why_here": "A case of Shenandoah Valley Electric Cooperative: a distribution cooperative in Virginia's PJM territory and a member of Old Dominion Electric Cooperative, which the caption of EL26-67 lists; the cooperative itself is in no caption read."
     },
     {
      "id": "vascc:PUR-2025-00058:order:9dad5ddb1b",
@@ -1441,7 +1287,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (6,129 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "one utility",
+     "utility": "Virginia Electric and Power Company (Dominion Energy Virginia)",
+     "why_here": "A case of Virginia Electric and Power Company (Dominion Energy Virginia): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     },
     {
      "id": "papuc:M-2025-3054271:order:b188a0e66b",
@@ -1468,7 +1316,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (5,244 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name PJM."
     },
     {
      "id": "vascc:PUR-2024-00144:order:d9455588d5",
@@ -1495,7 +1345,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (5,796 characters of the document), nothing else",
-     "why_here": "Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule. Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
     },
     {
      "id": "papuc:M-2025-3054271:proceeding:5db84917d7",
@@ -1522,7 +1374,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (3,656 characters of the document), nothing else",
-     "why_here": "The document's own words name PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule; the document's own words name PJM."
     },
     {
      "id": "ferc:EL25-49-000:proceeding:4df19737f2",
@@ -1576,7 +1430,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,697 characters of the document), nothing else",
-     "why_here": "Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule. Virginia's investor-owned utilities (Dominion Energy Virginia, Appalachian Power) are in PJM."
     },
     {
      "id": "puco:24-0508-EL-ATA:proceeding:2b6aad334d",
@@ -1603,7 +1459,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,721 characters of the document), nothing else",
-     "why_here": "Ohio's utilities (AEP Ohio, FirstEnergy's Ohio companies, AES Ohio, Duke Energy Ohio) are in PJM."
+     "scope": "one utility",
+     "utility": "Ohio Power Company (AEP Ohio)",
+     "why_here": "A case of Ohio Power Company (AEP Ohio): a transmission owner of PJM, by the caption of FERC's order in EL26-67."
     }
    ]
   },
@@ -1640,7 +1498,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,849 characters of the document), nothing else",
-     "why_here": "The document's own words name CAISO."
+     "scope": "one utility",
+     "utility": "Pacific Gas and Electric Company",
+     "why_here": "A case of Pacific Gas and Electric Company: a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71."
     },
     {
      "id": "federalregister:2026-16166",
@@ -1729,7 +1589,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,092 characters of the document), nothing else",
-     "why_here": "The document's own words name CAISO."
+     "scope": "one utility",
+     "utility": "Pacific Gas and Electric Company",
+     "why_here": "A case of Pacific Gas and Electric Company: a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71."
     },
     {
      "id": "cpuc:Resolution-E-5455-PG-E-Advice-Letter-7785-E:order:372453736d",
@@ -1759,7 +1621,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,034 characters of the document), nothing else",
-     "why_here": "California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
+     "scope": "one utility",
+     "utility": "Pacific Gas and Electric Company",
+     "why_here": "A case of Pacific Gas and Electric Company: a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71."
     },
     {
      "id": "ferc:EL26-71-000:proceeding:a6c402606b",
@@ -1840,7 +1704,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,926 characters of the document), nothing else",
-     "why_here": "California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule. California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
     },
     {
      "id": "cpuc:R.26-04-009:proceeding:0cb213c7b5",
@@ -1867,7 +1733,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,787 characters of the document), nothing else",
-     "why_here": "California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule. California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
     },
     {
      "id": "cpuc:Resolution-E-5433-PG-E-Advice-Letter-7667-E:order:9e2093f3c5",
@@ -1897,7 +1765,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,049 characters of the document), nothing else",
-     "why_here": "California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
+     "scope": "one utility",
+     "utility": "Pacific Gas and Electric Company",
+     "why_here": "A case of Pacific Gas and Electric Company: a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71."
     },
     {
      "id": "cpuc:R.24-01-018:order:77243542b6",
@@ -1924,7 +1794,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (6,362 characters of the document), nothing else",
-     "why_here": "California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule. California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
     },
     {
      "id": "cpuc:Resolution-E-5439-PG-E-Advice-Letter-7635-E:order:ba56b09d65",
@@ -1954,7 +1826,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,018 characters of the document), nothing else",
-     "why_here": "California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
+     "scope": "one utility",
+     "utility": "Pacific Gas and Electric Company",
+     "why_here": "A case of Pacific Gas and Electric Company: a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71."
     },
     {
      "id": "cpuc:Resolution-E-5420-PG-E-Advice-Letter-7569-E:order:ff5e0ab8d8",
@@ -1984,7 +1858,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,013 characters of the document), nothing else",
-     "why_here": "California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
+     "scope": "one utility",
+     "utility": "Pacific Gas and Electric Company",
+     "why_here": "A case of Pacific Gas and Electric Company: a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71."
     },
     {
      "id": "cpuc:A.24-11-007:proceeding:1b0e33b49a",
@@ -2011,7 +1887,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (751 characters of the document), nothing else",
-     "why_here": "The document's own words name CAISO."
+     "scope": "one utility",
+     "utility": "Pacific Gas and Electric Company",
+     "why_here": "A case of Pacific Gas and Electric Company: a participating transmission owner of CAISO, by the caption of FERC's order in EL26-71."
     },
     {
      "id": "cpuc:R.24-01-018:proceeding:8412bf139a",
@@ -2038,7 +1916,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (657 characters of the document), nothing else",
-     "why_here": "California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
+     "scope": "statewide",
+     "utility": null,
+     "why_here": "A statewide rule. California's investor-owned utilities (PG&E, Southern California Edison, SDG&E) are in CAISO."
     }
    ]
   },
@@ -2223,7 +2103,9 @@
      "read_by": "model",
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (2,558 characters of the document), nothing else",
-     "why_here": "The document's own words name SPP."
+     "scope": "one utility",
+     "utility": "Southwestern Public Service Company",
+     "why_here": "A case of Southwestern Public Service Company: a transmission owner of SPP, by the caption of FERC's order in EL26-68."
     },
     {
      "id": "txpuc:60332:proceeding:c93c2a1420",
@@ -2250,7 +2132,9 @@
      "read_by": null,
      "read_model": null,
      "read_from": null,
-     "why_here": "The document's own words name SPP."
+     "scope": "one utility",
+     "utility": "Southwestern Public Service Company",
+     "why_here": "A case of Southwestern Public Service Company: a transmission owner of SPP, by the caption of FERC's order in EL26-68."
     },
     {
      "id": "federalregister:2026-16174",
@@ -2363,6 +2247,64 @@
      "read_model": "claude-sonnet-5-5",
      "read_from": "the document's own sentence and the saved text around it (4,462 characters of the document), nothing else",
      "why_here": "A federal action whose own words name SPP."
+    },
+    {
+     "id": "txpuc:58796:order:eef0dcc78f",
+     "date": "2025-12-12",
+     "regulator": "Public Utility Commission of Texas",
+     "jurisdiction": "state",
+     "state": "TX",
+     "docket": "58796",
+     "title": "",
+     "row_kind": "order",
+     "topic": "large-load tariff",
+     "tags": [],
+     "status_as_worded": null,
+     "status_class": "decided",
+     "url": "https://interchange.puc.texas.gov/Documents/58796_32_1566088.PDF",
+     "page": 2,
+     "sentence": null,
+     "sentence_withheld": "The Public Utility Commission of Texas's terms ask permission to copy its text; open the document",
+     "sentence_from": "order text",
+     "sentence_kind": "document",
+     "flags": [],
+     "terms_class": "restricted",
+     "read": "SWEPCO proposes a standard contract for customers seeking 75 or more megawatts of contract capacity, and this order sets the issues the Commission will review before deciding whether to approve the terms.",
+     "read_by": "model",
+     "read_model": "claude-sonnet-5-5",
+     "read_from": "the document's own sentence and the saved text around it (4,367 characters of the document), nothing else",
+     "scope": "one utility",
+     "utility": "Southwestern Electric Power Company",
+     "why_here": "A case of Southwestern Electric Power Company: a transmission owner of SPP, by the caption of FERC's order in EL26-68."
+    },
+    {
+     "id": "txpuc:58796:proceeding:c351b1af36",
+     "date": "2025-10-03",
+     "regulator": "Public Utility Commission of Texas",
+     "jurisdiction": "state",
+     "state": "TX",
+     "docket": "58796",
+     "title": "",
+     "row_kind": "proceeding",
+     "topic": "large-load tariff",
+     "tags": [],
+     "status_as_worded": null,
+     "status_class": "open",
+     "url": "https://interchange.puc.texas.gov/Documents/58796_1_1545167.PDF",
+     "page": 2,
+     "sentence": null,
+     "sentence_withheld": "The Public Utility Commission of Texas's terms ask permission to copy its text; open the document",
+     "sentence_from": "application or request",
+     "sentence_kind": "document",
+     "flags": [],
+     "terms_class": "restricted",
+     "read": "SWEPCO asks Texas regulators to add a standard contract for new customers of 75 MW or more, such as data centers, with minimum billing, termination fees and collateral, with no change to rates.",
+     "read_by": "model",
+     "read_model": "claude-sonnet-5-5",
+     "read_from": "the document's own sentence and the saved text around it (4,334 characters of the document), nothing else",
+     "scope": "one utility",
+     "utility": "Southwestern Electric Power Company",
+     "why_here": "A case of Southwestern Electric Power Company: a transmission owner of SPP, by the caption of FERC's order in EL26-68."
     }
    ]
   }
@@ -2513,16 +2455,17 @@
   }
  ],
  "not_on_page": {
-  "count": 42,
-  "why": "4 AZ: no grid on the page; 1 GA: no grid on the page; 5 OR: no grid on the page; 13 a proceeding whose status class is not open; 2 a state commission's news release held (in the tags table; the block shows a state's dockets, not its releases); 12 an order older than 12 months; 5 under MISO alone (MISO is paused and shows no row)",
+  "count": 48,
+  "why": "4 AZ: no grid on the page; 2 El Paso Electric Company: in no organized market on the page; 1 GA: no grid on the page; 5 OR: no grid on the page; 13 a proceeding whose status class is not open; 2 a state commission's news release held (in the tags table; the block shows a state's dockets, not its releases); 12 an order older than 12 months; 9 under MISO alone (MISO is paused and shows no row)",
   "by_reason": {
    "AZ: no grid on the page": 4,
+   "El Paso Electric Company: in no organized market on the page": 2,
    "GA: no grid on the page": 1,
    "OR: no grid on the page": 5,
    "a proceeding whose status class is not open": 13,
    "a state commission's news release held (in the tags table; the block shows a state's dockets, not its releases)": 2,
    "an order older than 12 months": 12,
-   "under MISO alone (MISO is paused and shows no row)": 5
+   "under MISO alone (MISO is paused and shows no row)": 9
   }
  },
  "notes": []
