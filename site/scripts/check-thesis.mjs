@@ -18,10 +18,20 @@
 // words are never read as markup, a tab is kept in the address, the PitchBook answer is submitted once and every figure
 // of it carries its tag, a run asked for on the form is queued and re-read until it ends, and a phone's width does not
 // scroll sideways. Against a real database those are "not proven here".
+//
+// Session 150, the data providers: POST /api/thesis/provider answers 404 with an empty body without the internal
+// cookie and never 200 to a bad request; against the stand-in the panel offers PitchBook, Harmonic and Crunchbase with
+// PitchBook chosen, the request text changes with the choice, an answer in another provider's format is refused in
+// plain words and stores nothing, an answer of Harmonic and one of Crunchbase are accepted once each, every figure
+// stands with its provider's label (whose hover holds the terms line and the hash of the pasted text), a fact two
+// providers give differently is marked on each line with every value kept, and what a provider returned that the page
+// does not use is counted as not mapped. The answers are the made-up ones of scripts/thesis-providers-fixtures.mjs.
 // Exit 1 on a failure.
 import { env, withBrowser } from "./browser.mjs";
 import { EMPTY_TAB, PB_PENDING, PB_PENDING_WHY, TABS } from "../lib/thesis/view.ts";
 import { DONE, FAILED, KEY, QUEUED, fixtureAnswer } from "./thesis-stub.mjs";
+import { crunchbaseAnswer, harmonicAnswer } from "./thesis-providers-fixtures.mjs";
+import { PROVIDERS, TERMS } from "../lib/thesis/providers.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3135").replace(/\/$/, "");
 let bad = 0, n = 0;
@@ -115,6 +125,30 @@ const unread = html.includes('data-thesis-unread="1"');
   check([a, b, c, d, e, f, short, wrong, whole, big].every((r) => r.status !== 200), "none of them is 200");
 }
 
+// ---- session 150, the providers' route: the internal cookie is the credential, and nothing but a good answer is 200
+{
+  const post = (body, o = {}) => ask("/api/thesis/provider", { method: "POST", body, ...o });
+  const good = { run_id: "no-such-run", provider: "harmonic", pasted: JSON.stringify(harmonicAnswer("no-such-run")) };
+  const out = await post(good, { withCookie: false });
+  const wrong = await post(good, { wrong: true });
+  check(out.status === 404 && out.html === "" && wrong.status === 404 && wrong.html === "" && /no-store/.test(out.cache), `without the internal cookie, or with a wrong one, POST /api/thesis/provider answers ${out.status} and ${wrong.status} with an empty body`);
+  const a = await post("{not json");
+  const b = await post({ ...good, provider: "another" });
+  const c = await post({ ...good, extra: 1 });
+  const d = await post({ ...good, pasted: "no json here" });
+  const e = await post({ ...good, pasted: JSON.stringify(crunchbaseAnswer("no-such-run")) });
+  const f = await post({ ...good, run_id: "another-run" });
+  const g = await post({ ...good, run_id: "../x" });
+  check([a, b, c, d, e, f, g].every((r) => r.status === 400 && r.json?.ok === false && typeof r.json.reason === "string" && r.json.reason.length > 8 && /no-store/.test(r.cache)),
+    `a body that is not JSON, an unknown provider, an unknown key, a text with no JSON, another provider's format, another run and an id that cannot be a run's are 400 with a reason (${[a, b, c, d, e, f, g].map((r) => r.status).join(", ")})`);
+  check(e.json?.reason === `This answer is in the format "erw-crunchbase-1", Crunchbase's. The provider chosen is Harmonic, which takes "erw-harmonic-1". Choose Crunchbase above, or paste Harmonic's answer.`, `another provider's format is named plainly ("${e.json?.reason}")`);
+  const none = await post(good);
+  check(none.status === 404 || none.status === 502, `a good answer for a run that is not held is ${none.status}${none.status === 502 ? " (this database does not hold the providers' store: migration 025 is not applied)" : ""}, never 200`);
+  const big = await post({ ...good, pasted: JSON.stringify({ ...harmonicAnswer("no-such-run"), filler: "x".repeat(420_000) }) });
+  check(big.status === 413, `an answer over 400 KB is ${big.status}`);
+  check([out, wrong, a, b, c, d, e, f, g, none, big].every((r) => r.status !== 200), "none of them is 200");
+}
+
 // ---- the fixture runs of the stand-in
 const fixture = html.includes(`data-run="${DONE}"`);
 if (!fixture) {
@@ -165,6 +199,11 @@ if (!fixture) {
     check(main.html.includes('data-thesis-pitchbook="pending"') && main.text.includes(PB_PENDING) && main.text.includes("Asked for 2 companies") && /data-thesis-asked="1"[\s\S]*?Example Storage Inc\.[\s\S]*?Sample Grid Co/.test(main.html)
       && /<textarea[^>]*readOnly=""[^>]*data-thesis-paste="1"[^>]*>FIXTURE REQUEST for run fixture-done/i.test(main.html) && />Copy<\/button>/.test(main.html) && main.text.includes("Paste Claude's answer here") && />Submit<\/button>/.test(main.html),
       "the PitchBook panel: pending, the companies asked for, the request in a read-only box with Copy, and the box for the answer with Submit");
+    const radios = [...main.html.matchAll(/<input[^>]*data-thesis-provider-choice="([a-z]+)"[^>]*>/g)].map((m) => [m[1], /\schecked=""/.test(m[0]), /\sdisabled=""/.test(m[0])]);
+    check(JSON.stringify(radios) === JSON.stringify([["pitchbook", true, false], ["harmonic", false, false], ["crunchbase", false, false]]) && main.text.includes("Data provider") && main.html.includes('data-thesis-provider="pitchbook"'),
+      `the panel offers the three providers, PitchBook first and chosen (${radios.map((r) => `${r[0]}${r[1] ? " chosen" : ""}`).join(", ")})`);
+    const queuedProvider = await ask("/api/thesis/provider", { method: "POST", body: { run_id: QUEUED, provider: "harmonic", pasted: JSON.stringify(harmonicAnswer(QUEUED)) } });
+    check(queuedProvider.status === 404 && queuedProvider.json?.reason === "No finished run is held under this address.", `a provider's answer for a run that has not finished is ${queuedProvider.status}: "${queuedProvider.json?.reason}"`);
     const failed = await tab("scope", FAILED);
     check(failed.html.includes('data-thesis-failed="1"') && failed.text.includes("Fixture: the run stopped because the fixture says so.") && !failed.html.includes("data-thesis-pitchbook") && !failed.html.includes("data-thesis-report"), "a failed run shows its note, and no report or PitchBook panel");
     const queued = await tab("scope", QUEUED);
@@ -223,6 +262,81 @@ if (!fixture) {
     await go(`${base}/thesis?run=${DONE}&tab=pipeline`);
     check(await evaluate(`!!document.querySelector('[data-company="Example Storage Inc."] [data-pb-block]') && [...document.querySelectorAll('[data-pb-figure]')].every((e) => !!e.querySelector('[data-pb-tag]')) && !!document.querySelector('[data-company="Sample Grid Co"] [data-missing="pitchbook_absent"]')`),
       "in the Pipeline map too; a cell PitchBook's answer holds nothing for says so");
+
+    // session 150: the other two providers, after PitchBook's answer is held
+    await go(`${base}/thesis?run=${DONE}&tab=funnel`);
+    await wait(`!!document.querySelector('[data-thesis-pitchbook="received"] [data-thesis-providers="1"]')`, 20000, "the panel after PitchBook");
+    const state = () => evaluate(`[...document.querySelectorAll('[data-thesis-provider-choice]')].map((e) => [e.value, e.checked, e.disabled])`);
+    check(JSON.stringify(await state()) === JSON.stringify([["pitchbook", false, true], ["harmonic", true, false], ["crunchbase", false, false]])
+      && (await evaluate(`document.querySelector('[data-thesis-pitchbook]').innerText`)).includes("PitchBook received"),
+      "once PitchBook's answer is held it reads received and cannot be chosen again; the next provider is chosen");
+    const pasteBox = () => evaluate(`document.querySelector('[data-thesis-paste="1"]').value`);
+    const harmonicText = await pasteBox();
+    check(harmonicText.startsWith("You have a Harmonic connector.") && harmonicText.includes(`Run: ${DONE}`) && harmonicText.includes("1. Example Storage Inc. (https://www.example.com)") && harmonicText.includes('"format": "erw-harmonic-1"')
+      && !harmonicText.includes(KEY) && (await evaluate(`document.querySelector('label[for="thesis-paste"]').innerText`)) === "Paste this into a Claude chat that has a Harmonic connector",
+      "with Harmonic chosen the request is Harmonic's: the run, the companies asked for, the format erw-harmonic-1, and no key");
+    await evaluate(`document.querySelector('[data-thesis-provider-choice="crunchbase"]').click()`);
+    await wait(`document.querySelector('[data-thesis-paste="1"]').value.startsWith('You have a Crunchbase connector.')`, 5000, "the request of Crunchbase");
+    const crunchbaseText = await pasteBox();
+    check(crunchbaseText.includes('"format": "erw-crunchbase-1"') && crunchbaseText.includes("2. Sample Grid Co") && crunchbaseText !== harmonicText && (await evaluate(`document.querySelector('[data-thesis-pitchbook]').dataset.thesisProvider`)) === "crunchbase",
+      "the request text changes with the provider chosen");
+    await evaluate(`document.querySelector('[data-thesis-provider-choice="harmonic"]').click()`);
+    await wait(`document.querySelector('[data-thesis-paste="1"]').value.startsWith('You have a Harmonic connector.')`, 5000, "the request of Harmonic again");
+    await type(JSON.stringify(crunchbaseAnswer()));
+    await wait(`!document.querySelector('[data-thesis-submit="1"]').disabled`, 5000, "the Submit button");
+    await evaluate(`document.querySelector('[data-thesis-submit="1"]').click()`);
+    const refusal = await wait(`document.querySelector('[data-thesis-pitchbook] [data-thesis-said="1"]')?.innerText`, 15000, "the refusal of another provider's format");
+    check(refusal === `This answer is in the format "erw-crunchbase-1", Crunchbase's. The provider chosen is Harmonic, which takes "erw-harmonic-1". Choose Crunchbase above, or paste Harmonic's answer.`
+      && !(await evaluate(`!!document.querySelector('[data-thesis-provider-received]')`)), `the answer box takes only the format of the provider chosen, and says which it was given ("${refusal}")`);
+    const harmonicPasted = "Here is the answer:\n```json\n" + JSON.stringify(harmonicAnswer(), null, 1) + "\n```";
+    await type(harmonicPasted);
+    await evaluate(`document.querySelector('[data-thesis-submit="1"]').click()`);
+    await wait(`!!document.querySelector('[data-thesis-provider-received="harmonic"]')`, 20000, "Harmonic received");
+    const gotH = (await evaluate(`document.querySelector('[data-thesis-provider-received="harmonic"]').innerText`)).replace(/\s+/g, " ");
+    check(/Harmonic received/.test(gotH) && /Pulled on 7 Oct 2026/.test(gotH) && /2 of 2 companies found/.test(gotH) && /1 more found by Harmonic/.test(gotH) && /3 saved searches/.test(gotH) && /\d+ not mapped/.test(gotH),
+      `Harmonic's answer pasted from a chat is accepted: "${gotH.slice(0, 150)}"`);
+    const lines = () => evaluate(`[...document.querySelectorAll('[data-company="Example Storage Inc."] [data-provider-block] [data-provider-figure]')].map((e) => [e.dataset.provider, e.dataset.providerFigure, e.dataset.disagree ?? '', e.innerText.replace(/\\s+/g, ' ').trim()])`);
+    let figs = await lines();
+    const of = (id) => figs.filter((f) => f[1] === id).map((f) => f[3]);
+    check(figs.length >= 20 && figs.every((f) => f[3].endsWith(PROVIDERS[f[0]].label)) && (await evaluate(`[...document.querySelectorAll('[data-provider-figure]')].every((e) => !!e.querySelector('[data-provider-tag]'))`))
+      && (await evaluate(`document.querySelector('[data-tab="funnel"]') && [...document.querySelectorAll('th')].some((t) => t.innerText.trim().toUpperCase() === 'DATA PROVIDERS')`)),
+      `in the Deal funnel the column is the providers', and every one of the ${figs.length} figures of the company stands with its provider's label ("${figs.find((f) => f[0] === "harmonic")?.[3]}")`);
+    check(JSON.stringify(of("total_raised")) === JSON.stringify(["DIFFERS Total raised: USD 18 million PitchBook", "DIFFERS Total raised: 18,200,000 Harmonic"]) && JSON.stringify(of("founded_year")) === JSON.stringify(["Founded: 2019 PitchBook", "Founded: 2019 Harmonic"])
+      && JSON.stringify(of("hq")) === JSON.stringify(["DIFFERS Headquarters: Austin, TX PitchBook", "DIFFERS Headquarters: Austin, Texas, United States Harmonic"]),
+      `a fact two providers give differently is marked on each line and both values are kept; one they agree on is not marked ("${of("total_raised").join('" | "')}")`);
+    const hover = await evaluate(`(() => { const li = [...document.querySelectorAll('[data-company="Example Storage Inc."] [data-provider="harmonic"]')][0]; return [li.querySelector('[data-provider-tag="harmonic"]').title, document.querySelector('[data-company="Example Storage Inc."] [data-disagree-mark]').title, document.querySelector('[data-company="Example Storage Inc."] [data-pb-tag]').title]; })()`);
+    const digest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(harmonicPasted)))].map((x) => x.toString(16).padStart(2, "0")).join("");
+    check(hover[0].includes(TERMS.harmonic) && hover[0].includes("Figures as returned from Harmonic through the user's own account; not checked by the ERW.") && hover[0].includes("Format erw-harmonic-1.") && /Pasted \d+ \w+ \d{4}, \d\d:\d\d UTC\./.test(hover[0])
+      && hover[0].includes(`Hash of the pasted text: ${digest.slice(0, 12)}.`) && hover[1] === "The providers give this differently. Each value is shown as its provider gave it.",
+      `the label's hover holds the terms line, the format, the time pasted and the hash of the pasted text (${digest.slice(0, 12)})`);
+    check(hover[2].includes(TERMS.pitchbook) && /Hash of the pasted text: [0-9a-f]{12}\./.test(hover[2]) && hover[2].includes("Figures as returned from PitchBook through the user's own account; not checked by the ERW."),
+      "PitchBook's label keeps its note and now holds its terms line and the hash of the text its answer was pasted as");
+    const notMapped = await evaluate(`(() => { const e = document.querySelector('[data-company="Example Storage Inc."] [data-not-mapped]'); return e ? [e.dataset.notMapped, e.innerText.replace(/\\s+/g, ' ').trim(), e.querySelector('span').title] : null; })()`);
+    check(notMapped && notMapped[0] === "6" && notMapped[1] === "6 fields not mapped Harmonic" && notMapped[2].includes("company.stage") && notMapped[2].includes("company.fixture_undocumented_field.nested") && notMapped[2].startsWith("Returned by Harmonic, kept as given and not used here:"),
+      `what Harmonic returned that the page does not use is counted and named on hover ("${notMapped?.[1]}")`);
+    const grid = await evaluate(`document.querySelector('[data-company="Sample Grid Co"] [data-provider-block]').innerText.replace(/\\s+/g, ' ').trim()`);
+    check(/Headquarters: Reno, Nevada, United States Harmonic/.test(grid) && /Employees: 8 Harmonic/.test(grid) && /not found in PitchBook/.test(grid), `a company one provider found and another did not shows the one's figures and says so of the other ("${grid.slice(0, 120)}")`);
+    const foundBy = await evaluate(`document.querySelector('[data-provider-additional="harmonic"]')?.innerText.replace(/\\s+/g, ' ') ?? ''`);
+    check(/Found by Harmonic/.test(foundBy) && /Harmonic Fixture Later LLC/.test(foundBy) && /Fixture: matched the search words\./.test(foundBy) && /Harmonic saved search of investors: Fixture saved search of investors/.test(foundBy) && /Fixture Fund Three/.test(foundBy) && /investment_count: 31/.test(foundBy)
+      && /Harmonic saved search of companies: Fixture saved search of companies/.test(foundBy) && /Saved Fixture Co/.test(foundBy) && (await evaluate(`!!document.querySelector('[data-pb-additional="1"]') && [...document.querySelectorAll('[data-provider-additional="harmonic"] li[data-provider-figure]')].every((e) => !!e.querySelector('[data-provider-tag="harmonic"]'))`)),
+      "the companies Harmonic found beyond those asked, and the results of its saved searches of companies, investors and people, are listed with its label; PitchBook's own list stands as it did");
+    const againH = await evaluate(`fetch('/api/thesis/provider', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: ${JSON.stringify(JSON.stringify({ run_id: DONE, provider: "harmonic", pasted: JSON.stringify(harmonicAnswer()) }))} }).then(async (r) => [r.status, (await r.json()).reason])`);
+    check(againH[0] === 409 && againH[1] === "This run already holds Harmonic's answer.", `one answer a provider and run: a second is ${againH[0]} ("${againH[1]}")`);
+    check(JSON.stringify(await state()) === JSON.stringify([["pitchbook", false, true], ["harmonic", false, true], ["crunchbase", true, false]]), "Harmonic now reads received; Crunchbase is the one left to choose");
+    await type(JSON.stringify(crunchbaseAnswer()));
+    await wait(`!document.querySelector('[data-thesis-submit="1"]').disabled`, 5000, "the Submit button");
+    await evaluate(`document.querySelector('[data-thesis-submit="1"]').click()`);
+    await wait(`!!document.querySelector('[data-thesis-provider-received="crunchbase"]')`, 20000, "Crunchbase received");
+    check(!(await evaluate(`!!document.querySelector('[data-thesis-providers="1"]')`)) && /Crunchbase received/.test(await evaluate(`document.querySelector('[data-thesis-pitchbook="received"]').innerText`)), "with all three held the panel shows the three as received and offers no request");
+    figs = await lines();
+    check(JSON.stringify(of("founded_year")) === JSON.stringify(["DIFFERS Founded: 2019 PitchBook", "DIFFERS Founded: 2019 Harmonic", "DIFFERS Founded: 2018 Crunchbase"]) && JSON.stringify(of("employees")) === JSON.stringify(["Employees: 42 PitchBook", "Employees: 42 Harmonic", "Employees: 11 to 50 Crunchbase"])
+      && JSON.stringify(of("total_raised")) === JSON.stringify(["DIFFERS Total raised: USD 18 million PitchBook", "DIFFERS Total raised: 18,200,000 Harmonic", "DIFFERS Total raised: USD 18 million Crunchbase"]),
+      `with three providers each value of a fact they differ on is kept with its label, none averaged or dropped ("${of("founded_year").join('" | "')}"); a count inside another's range is not marked`);
+    await go(`${base}/thesis?run=${DONE}&tab=landscape`);
+    const cells3 = await evaluate(`[...document.querySelectorAll('[data-company="Example Storage Inc."] td > [data-provider-figure]')].map((e) => e.innerText.replace(/\\s+/g, ' ').trim())`);
+    check(cells3.includes("Founders: A. Fixture, C. Fixture PitchBook") && cells3.includes("Founders: A. Fixture, C. Fixture Harmonic") && cells3.includes("Founders: A. Fixture, C. Fixture Crunchbase") && cells3.includes("DIFFERS Headquarters: Austin, Texas, United States Crunchbase")
+      && (await evaluate(`[...document.querySelectorAll('[data-pb-figure]')].every((e) => !!e.querySelector('[data-pb-tag]')) && !!document.querySelector('[data-company="Unasked Example LLC"] td') && document.querySelector('[data-company="Unasked Example LLC"]').innerText.includes('USD 2 million') && !document.querySelector('[data-company="Unasked Example LLC"] td:nth-child(4) [data-provider-tag]')`)),
+      "in the Company landscape a cell the providers answer holds each provider's figure with its label, and a figure with no provider keeps the label it had");
 
     // a run asked for on the form: queued, then re-read every 15 seconds until it ends
     await go(`${base}/thesis`);

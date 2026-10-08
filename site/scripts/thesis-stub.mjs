@@ -163,7 +163,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       provided.push({ run_id: a.p_run_id, provider: a.p_provider, format: want, pasted_at: new Date().toISOString(), pasted_sha256: a.p_sha256, payload: p });
       return { ok: true, companies: p ? p.companies.length : 0 };
     },
-    thesis_provider_results: (a) => provided.filter((x) => x.run_id === a.p_run_id).map(({ run_id: _run, ...row }) => row),
+    thesis_provider_results: (a) => provided.filter((x) => x.run_id === a.p_run_id).map((x) => ({ provider: x.provider, format: x.format, pasted_at: x.pasted_at, pasted_sha256: x.pasted_sha256, payload: x.payload })),
   };
   http.createServer((req, res) => {
     const send = (status, body) => { res.writeHead(status, { "Content-Type": "application/json" }); res.end(JSON.stringify(body)); };

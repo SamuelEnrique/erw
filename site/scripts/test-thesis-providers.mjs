@@ -71,7 +71,7 @@ test("PitchBook: a pasted erw-pitchbook-1 answer is read as before, byte for byt
     assert.equal(r.ok, true, `${c.name}: ${r.reason}`);
     assert.equal(JSON.stringify(r.payload), c.read, c.name);              // what main stored, to the byte
     assert.equal(sha(JSON.stringify(r.payload)), c.read_sha256, c.name);
-    const { key: _key, ...payload } = pb.extractJson(c.pasted).value;
+    const payload = Object.fromEntries(Object.entries(pb.extractJson(c.pasted).value).filter(([k]) => k !== "key"));
     assert.equal(JSON.stringify(pb.validatePitchbook(payload, c.run_id, READ.this_year).payload), c.read);   // and what the old path writes today
     assert.equal(JSON.stringify(pv.PROVIDERS.pitchbook.read(payload, c.run_id, READ.this_year).payload), c.read);
     assert.equal("provider" in r.payload, false, "a PitchBook answer is stored as before: no new key");

@@ -27,7 +27,7 @@ export function ProviderTag({ s }: { s: Stamp }) {
   return <>{" "}<span className={TAG} title={hoverOf(s)} data-provider-tag={s.provider} {...(s.provider === "pitchbook" ? { "data-pb-tag": "1" } : {})}>{label}</span></>;
 }
 function Differs() {
-  return <span className="mr-1 cursor-help whitespace-nowrap border border-accent bg-white px-1 text-[10px] uppercase tracking-wide text-accent" title={DIFFER} data-disagree-mark="1">differs</span>;
+  return <><span className="cursor-help whitespace-nowrap border border-accent bg-white px-1 text-[10px] uppercase tracking-wide text-accent" title={DIFFER} data-disagree-mark="1">differs</span>{" "}</>;
 }
 /** One figure of one provider: its name, its value, its provider. */
 function Figure({ f, marked }: { f: Fact; marked: boolean }): ReactNode {
