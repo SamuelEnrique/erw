@@ -1,0 +1,175 @@
+{
+ "_note": "FIXTURE, made up for a test. An erw-pitchbook-1 request as warehouse/thesis/run.py of main made it before session 150 (the commit below, the file unchanged). Every company in it is made up and is no company's; the key is forty-three letters k and opens nothing; the values in the format's example block are the template's examples, not figures of any company.",
+ "made_from_commit": "7ae13c1e2df1e4355a09616ee57430bc95bccc17",
+ "run_py_changed_when_made": false,
+ "inputs": {
+  "run_id": "20261006T200000Z-abc123",
+  "niche": "fixture: storage for example loads, the technologies",
+  "geography": "United States",
+  "orgs": [
+   {
+    "name": "Example Storage Inc. (Example Storage)",
+    "website": "https://www.example.com",
+    "description": "",
+    "kind": "private company",
+    "country": "United States",
+    "location": "Reno, Nevada",
+    "founders": "",
+    "stage": "Seed",
+    "raised": "",
+    "signal": "",
+    "fits_stage": "yes",
+    "trends": [
+     1
+    ],
+    "trend_reason": "Fixture reason.",
+    "tam": "",
+    "sources": [
+     "S1"
+    ],
+    "found_by": [
+     "Q1"
+    ],
+    "independent_sources": 2,
+    "latest_source_year": "2026",
+    "stage_primary": true,
+    "raised_primary": false
+   },
+   {
+    "name": "Sample Grid Co",
+    "website": "",
+    "description": "",
+    "kind": "private company",
+    "country": "United States",
+    "location": "Reno, Nevada",
+    "founders": "",
+    "stage": "Seed",
+    "raised": "",
+    "signal": "",
+    "fits_stage": "yes",
+    "trends": [
+     1
+    ],
+    "trend_reason": "Fixture reason.",
+    "tam": "",
+    "sources": [
+     "S1"
+    ],
+    "found_by": [
+     "Q1"
+    ],
+    "independent_sources": 2,
+    "latest_source_year": "2026",
+    "stage_primary": true,
+    "raised_primary": false
+   },
+   {
+    "name": "Listed Example Co",
+    "website": "",
+    "description": "",
+    "kind": "public company",
+    "country": "United States",
+    "location": "Reno, Nevada",
+    "founders": "",
+    "stage": "Seed",
+    "raised": "",
+    "signal": "",
+    "fits_stage": "yes",
+    "trends": [
+     1
+    ],
+    "trend_reason": "Fixture reason.",
+    "tam": "",
+    "sources": [
+     "S1"
+    ],
+    "found_by": [
+     "Q1"
+    ],
+    "independent_sources": 2,
+    "latest_source_year": "2026",
+    "stage_primary": true,
+    "raised_primary": false
+   }
+  ],
+  "key": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+  "trends": [
+   {
+    "title": "Trend 1",
+    "search_phrases": [
+     "phrase 1 a",
+     "phrase 1 b"
+    ]
+   },
+   {
+    "title": "Trend 2",
+    "search_phrases": [
+     "phrase 2 a",
+     "phrase 2 b"
+    ]
+   },
+   {
+    "title": "Trend 3",
+    "search_phrases": [
+     "phrase 3 a",
+     "phrase 3 b"
+    ]
+   },
+   {
+    "title": "Trend 4",
+    "search_phrases": [
+     "phrase 4 a",
+     "phrase 4 b"
+    ]
+   },
+   {
+    "title": "Trend 5",
+    "search_phrases": [
+     "phrase 5 a",
+     "phrase 5 b"
+    ]
+   }
+  ]
+ },
+ "request": {
+  "format": "erw-pitchbook-1",
+  "run_id": "20261006T200000Z-abc123",
+  "companies": [
+   {
+    "name": "Example Storage Inc.",
+    "website": "https://www.example.com",
+    "lookups": [
+     "company profile: legal name, headquarters, year founded, one-line description, employees",
+     "financing status and the last financing: date, type, size, post-money valuation where PitchBook shows one",
+     "total raised to date",
+     "investors, with the lead investors named",
+     "founders and the chief executive"
+    ]
+   },
+   {
+    "name": "Sample Grid Co",
+    "website": "",
+    "lookups": [
+     "company profile: legal name, headquarters, year founded, one-line description, employees",
+     "financing status and the last financing: date, type, size, post-money valuation where PitchBook shows one",
+     "total raised to date",
+     "investors, with the lead investors named",
+     "founders and the chief executive"
+    ]
+   }
+  ],
+  "discover": {
+   "keywords": [
+    "fixture",
+    "phrase 1 a",
+    "phrase 2 a",
+    "phrase 3 a",
+    "phrase 4 a",
+    "phrase 5 a"
+   ],
+   "hq": "United States"
+  },
+  "paste_text": "You have a PitchBook connector. Please pull the following from PitchBook for an ERW Thesis Builder run and answer with ONE JSON code block in the exact format below, and nothing else after it.\n\nRun: 20261006T200000Z-abc123\nKey: kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk\nNiche: fixture: storage for example loads, the technologies\n\nA. For each company in this list, look it up in PitchBook by name (use the website to pick the right one) and return:\n   - company profile: legal name, headquarters, year founded, one-line description, employees\n   - financing status and the last financing: date, type, size, post-money valuation where PitchBook shows one\n   - total raised to date\n   - investors, with the lead investors named\n   - founders and the chief executive\n\n1. Example Storage Inc. (https://www.example.com)\n2. Sample Grid Co\n\nB. Then search PitchBook for companies this list is missing: keywords 'fixture', 'phrase 1 a', 'phrase 2 a', 'phrase 3 a', 'phrase 4 a', 'phrase 5 a'; headquarters: United States; private, venture-backed or grant-backed, founded 2012 or later. Return up to 25 that are not in the list above, as \"additional_companies\", each with \"why\": the keyword or PitchBook industry that matched.\n\nRules: report only what PitchBook shows. If PitchBook has no record of a company, return it with \"found\": false and nothing else. Leave out any field PitchBook does not show; do not estimate, and do not fill a field from memory or from the web. Money is in millions of US dollars as numbers (12.5, not \"$12.5M\"). Dates are YYYY-MM-DD, or YYYY-MM, or YYYY.\n\nFormat:\n```json\n{\n  \"format\": \"erw-pitchbook-1\",\n  \"run_id\": \"20261006T200000Z-abc123\",\n  \"key\": \"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk\",\n  \"pulled_on\": \"YYYY-MM-DD\",\n  \"companies\": [\n    {\n      \"name\": \"the name exactly as in the list above\",\n      \"found\": true,\n      \"pitchbook_name\": \"the name PitchBook uses\",\n      \"hq\": \"City, State, Country\",\n      \"founded_year\": 2019,\n      \"description\": \"one line\",\n      \"employees\": 25,\n      \"financing_status\": \"Venture Capital-Backed\",\n      \"last_round\": { \"date\": \"2025-03-01\", \"type\": \"Series A\", \"size_usd_m\": 12.5, \"post_valuation_usd_m\": 60.0 },\n      \"total_raised_usd_m\": 20.1,\n      \"investors\": [\"Investor One\", \"Investor Two\"],\n      \"lead_investors\": [\"Investor One\"],\n      \"founders\": [\"First Founder\", \"Second Founder\"]\n    },\n    { \"name\": \"a company PitchBook does not hold\", \"found\": false }\n  ],\n  \"additional_companies\": [\n    { \"name\": \"A company not in the list\", \"found\": true, \"why\": \"keyword: ...\", \"hq\": \"City, State, Country\", \"total_raised_usd_m\": 3.0 }\n  ]\n}\n```"
+ },
+ "paste_text_sha256": "15d8078786105de365f120ade0a501c54cad1edd7ffd6d42d53fbe7e60d5a7e1"
+}
