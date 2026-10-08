@@ -269,7 +269,7 @@ class Tools(unittest.TestCase):
             self.assertEqual(row["status"], fetch.HELD)
             self.assertEqual((st.requests, st.bytes), (0, 0))   # neither ceiling counts it
             self.assertIsNotNone(st.have("federalregister:2026-17394", "text"))
-            with open(held, "rb") as f:
+            with open(held, "rb") as f:   # the copy's hash is the held file's, whatever its line ends on this machine
                 self.assertEqual(row["sha256"], hashlib.sha256(f.read()).hexdigest())
             self.assertTrue(os.path.exists(os.path.join(tmp, "audit", row["file"])))
             again = fetch.Store(os.path.join(tmp, "audit"))   # the manifest is read back
@@ -309,7 +309,11 @@ class Fetch(unittest.TestCase):
         self.assertEqual(len(listed), 8)
         for m in listed:
             with open(os.path.join(FIX, m["fixture"]), "rb") as f:
-                self.assertEqual(hashlib.sha256(f.read()).hexdigest(), m["sha256_of_the_response"], m["fixture"])
+                data = f.read()
+            # the Register's files hold no carriage return; a Windows checkout may add one to each line end
+            data = data.replace(b"\r\n", b"\n")
+            self.assertEqual(hashlib.sha256(data).hexdigest(), m["sha256_of_the_response"], m["fixture"])
+            self.assertEqual(len(data), int(m["bytes"]), m["fixture"])
 
 
 class Files(unittest.TestCase):
