@@ -833,7 +833,8 @@ export function factsOfCompany(h: Held, c: PbCompany | PvCompany | null | undefi
 export function companyIn(h: Held, name: unknown): PbCompany | PvCompany | null {
   const k = nameKey(name);
   if (!k) return null;
-  return (arr(h.payload.companies) as (PbCompany | PvCompany)[]).find((c) => nameKey(c?.name) === k) ?? null;
+  // session 155: the two providers' company lists are one list here; cast before arr(), whose one type argument cannot be a union of two arrays (the build's type check failed on it, and Vercel's deployment of 41c3115 with it)
+  return arr(h.payload.companies as (PbCompany | PvCompany)[] | null | undefined).find((c) => nameKey(c?.name) === k) ?? null;
 }
 /** Every fact every provider holds for one company, in the order of FACTS and then of the providers. */
 export function factsFor(held: Held[], name: unknown): Fact[] {
