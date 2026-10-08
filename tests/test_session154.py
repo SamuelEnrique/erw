@@ -573,18 +573,15 @@ class Files(unittest.TestCase):
         for name in ("large_load_rules", "large_load_rule_reads", "policy_action_tags"):
             self.assertIn(name, src)
         import re
-        import yaml
         sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
         import build_coverage as bc
         for name in ("large_load_rules", "large_load_rules_internal", "large_load_rule_reads"):
             self.assertEqual(bc.tier_by_rule(name, "no"), "model_extracted", name)   # collected or written by a model
             self.assertEqual([sec for pat, sec in bc.SECTOR_RULES if re.match(pat, name)][:1], ["power;datacenters"], name)
         self.assertEqual([sec for pat, sec in bc.SECTOR_RULES if re.match(pat, "policy_action_tags")][:1], ["news"])
-        with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
-            live = yaml.safe_load(f)
-        for name in ("large_load_rules", "large_load_rules_internal", "large_load_rule_reads", "policy_action_tags"):
-            self.assertIn(name, live["catalogue_hold"])   # nothing of this session is loaded
-            self.assertIn("erw:" + name, live["sources_hold"])
+        # The hold lists of warehouse/supabase/live_set.yaml are NOT changed on this branch: session 153's test forbids
+        # touching that file before the freeze ends, and session 102's asks that a held source be in the registry
+        # first. The lines to add at the landing are in the session's report (hand-over).
 
     def test_the_real_tags_when_the_tables_are_held(self):
         main = os.environ.get("ERW_TABLES_DIR") or os.path.join(ROOT, "warehouse", "output")
