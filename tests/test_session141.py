@@ -30,8 +30,9 @@ def row(**over):
 
 class Rule(unittest.TestCase):
     def test_forty_entities_and_the_pilots_ten_among_them(self):
-        self.assertEqual(len(ll.GROUPS), 40)
-        self.assertTrue(set(ll.PILOT_TEN) <= set(ll.GROUPS))
+        self.assertEqual(len(ll.FORTY_141), 40)   # session 151: GROUPS holds eighty now, the forty of this session first
+        self.assertEqual(list(ll.GROUPS)[:40], ll.FORTY_141)
+        self.assertTrue(set(ll.PILOT_TEN) <= set(ll.FORTY_141))
         self.assertNotIn("MISO", " ".join(ll.GROUPS))   # MISO's own site is not requested while its terms are under review
         self.assertIn("MISO is not among them", ll.ENTITIES_141)
         # PPL's and FirstEnergy's submissions that PJM posts are theirs now, not PJM's
@@ -51,7 +52,9 @@ class Rule(unittest.TestCase):
         self.assertFalse(ll.figure_in_sentence(row(quantity_as_written="six gigawatts", sentence="It holds six gigawatts.")))   # a megawatt figure in words: kept beside the table
         said = []
         good, failed = ll.checked([row(), wait, row(sentence=""), row(verified="no"), row(document_date="summer 2026"), row(document_date="", page="12")], said.append)
-        self.assertEqual((len(good), failed), (2, 4))   # a PDF (it has a page) must state its date
+        # session 151: a PDF that prints no date is filed on the day it was read, as an undated web page was here (until then it was not taken)
+        self.assertEqual((len(good), failed), (3, 3))
+        self.assertEqual(ll.to_row(dict(row(document_date="", page="12"), entity_group="Oncor Electric Delivery"), "x")["event_date_basis"], "undated document: the day it was read")
 
     def test_every_verified_statement_is_taken_once_and_a_third_partys_copy_is_not(self):
         rows = [row(mw=str(1000 * k), quantity_as_written=f"{k} gigawatts", sentence=f"It is {k} gigawatts.", stage_as_worded=f"stage {k}") for k in range(1, 9)]
@@ -116,7 +119,7 @@ class Vocabulary(unittest.TestCase):
         self.assertEqual(f["Xcel Energy"]["verdict"], "not placed")                    # its own order runs against the stages' order
         self.assertTrue(f["Xcel Energy"]["against_order"])
         self.assertEqual(f["Salt River Project"]["verdict"], "not placed")             # no stage words held
-        self.assertEqual(len(f), 40)
+        self.assertEqual(len(f), len(ll.GROUPS))   # forty here, eighty since session 151
 
     def test_a_class_is_one_of_five_or_none(self):
         self.assertEqual(ll.class_of("4 signed service agreement"), "4 signed service agreement")
