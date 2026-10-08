@@ -101,7 +101,7 @@ TIER_RULES = [
     ("model_extracted", r"^large_load_statements$"),
     # session 154: proceedings and orders collected from public dockets by an AI research agent, each kept only with its
     # sentence found in the document; and the one-line reads a model wrote from that sentence and the text around it
-    ("model_extracted", r"^large_load_rules$"),
+    ("model_extracted", r"^large_load_rules(_internal)?$"),
     ("model_extracted", r"^large_load_rule_reads$"),
 ]
 # erw.filter(sector=...) vocabulary (session 7)
@@ -157,7 +157,7 @@ SECTOR_RULES = [
     (r"^isone_ddg_undelivered_monthly$", "power"),
     # session 139: the large-load statements pilot (internal)
     (r"^large_load_statements$", "power"),
-    (r"^large_load_rule(s|_reads)$", "power;datacenters"),  # session 154: rules in motion for large loads
+    (r"^large_load_rule(s|s_internal|_reads)$", "power;datacenters"),  # session 154: rules in motion for large loads
     (r"^policy_action_tags$", "news"),  # session 154: tags of the policy actions held, by a written rule
     (r"^news_", "news"),
     # session 8

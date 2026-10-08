@@ -251,6 +251,7 @@ catalogue_hold:
   # model's one-line reads of them, and the tags of the policy actions held. None is loaded: the block on
   # /cost-of-power (in review) reads the site's own file (site/data/datacenter/rules.json), built from them
   - large_load_rules
+  - large_load_rules_internal
   - large_load_rule_reads
   - policy_action_tags
   # session 140: the tables behind "What a datacenter pays" (/cost-of-power, in review): ERCOT's load zone prices (about
@@ -382,6 +383,7 @@ sources_hold:
   - isone:ddg_undelivered_monthly      # session 149, isone_ddg_undelivered_monthly (internal)
   - erw:large_load_pilot               # session 139, large_load_statements (internal)
   - erw:large_load_rules               # session 154, large_load_rules (not loaded)
+  - erw:large_load_rules_internal      # session 154, large_load_rules_internal (internal, not loaded)
   - erw:large_load_rule_reads          # session 154, large_load_rule_reads (not loaded)
   - erw:policy_action_tags             # session 154, policy_action_tags (not loaded)
   - caiso:todays_outlook_fuelsource_history   # session 133, /mix (these source rows serve only its new tables)
