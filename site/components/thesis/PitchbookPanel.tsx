@@ -12,10 +12,15 @@
 // another provider's format is not sent anywhere, and the panel says which format it was given. PitchBook's answer
 // goes where it always went, unchanged; the other two go to POST /api/thesis/provider. A provider whose answer the
 // run holds reads "received" and cannot be chosen again. Nothing the panel showed before is dropped.
+//
+// Session 158: a provider whose answers are not kept (NOT_KEPT in lib/thesis/providers.ts: Crunchbase, until its terms
+// are ruled on) stays in the choice, but cannot be chosen: its button is off and a short mark beside it reads "not yet
+// available", the plain reason on hover. Its request text is never put in the box, so it cannot be copied. A run that
+// already holds such a provider's answer shows it as received, as before.
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { extractJson, type PitchbookPayload } from "@/lib/thesis/pitchbook";
-import { PROVIDERS, PROVIDER_IDS, formatFault, providerOfFormat, type ProviderId } from "@/lib/thesis/providers";
+import { NOT_KEPT_MARK, PROVIDERS, PROVIDER_IDS, formatFault, notKept, providerOfFormat, type ProviderId } from "@/lib/thesis/providers";
 import type { PitchbookRequest } from "@/lib/thesis/types";
 import { PB_PENDING, arr, str, whenWords } from "@/lib/thesis/view";
 
@@ -33,7 +38,7 @@ export function PitchbookPanel({ runId, niche = "", request, pitchbookKey, pitch
   const [copied, setCopied] = useState(false);
 
   const have = (id: ProviderId) => (id === "pitchbook" ? !!pitchbook : others.some((o) => o.provider === id));
-  const open = PROVIDER_IDS.filter((id) => !have(id));
+  const open = PROVIDER_IDS.filter((id) => !have(id) && !notKept(id));       // session 158: one whose answers are not kept is never open
   // the provider chosen: the one picked while it is still open, otherwise the first that is (PitchBook first)
   const chosen: ProviderId | null = open.includes(picked) ? picked : open[0] ?? null;
   const provider = chosen ? PROVIDERS[chosen] : null;
@@ -147,12 +152,13 @@ export function PitchbookPanel({ runId, niche = "", request, pitchbookKey, pitch
       </ul>
       <fieldset className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs" data-thesis-providers="1">
         <legend className="mb-1 text-xs text-muted">Data provider</legend>
-        {PROVIDER_IDS.map((id) => { const p = PROVIDERS[id], done = have(id);
+        {PROVIDER_IDS.map((id) => { const p = PROVIDERS[id], done = have(id), off = done ? null : notKept(id);
           return (
-            <label key={id} className={`inline-flex items-center gap-1 ${done ? "text-muted" : "cursor-pointer"}`} title={p.terms}>
-              <input type="radio" name="thesis-provider" value={id} checked={id === chosen} disabled={done || busy} onChange={() => { setPicked(id); setSaid(""); setCopied(false); }} data-thesis-provider-choice={id} />
+            <label key={id} className={`inline-flex items-center gap-1 ${done || off ? "text-muted" : "cursor-pointer"}`} title={p.terms}>
+              <input type="radio" name="thesis-provider" value={id} checked={id === chosen} disabled={done || busy || !!off} onChange={() => { setPicked(id); setSaid(""); setCopied(false); }} data-thesis-provider-choice={id} />
               <span className={id === chosen ? "font-semibold" : ""}>{p.label}</span>
               {done ? <span className="italic">received</span> : null}
+              {off ? <span className="cursor-help whitespace-nowrap border-b border-dotted border-muted text-[11px] italic" title={off} data-thesis-provider-unavailable={id}>{NOT_KEPT_MARK}</span> : null}
             </label>
           ); })}
       </fieldset>

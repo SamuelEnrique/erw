@@ -16,6 +16,9 @@
 // column becomes the providers' column (components/thesis/ProviderBlock.tsx): every figure with the label of the
 // provider that supplied it, the terms line on the label's hover, and a short mark where two providers give the same
 // fact differently. A figure with no provider keeps the label it had.
+//
+// Session 158: where the sentence under "Why it is here" comes from a public page of a data vendor the report says so
+// (reason_vendor), and the cell shows the short mark "vendor page" after the sentence, its reason on hover.
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ProviderBlock, ProviderCell, ProviderFound } from "@/components/thesis/ProviderBlock";
@@ -39,6 +42,12 @@ const HEAD = "border-b border-rule text-[10px] uppercase tracking-wide text-mute
 
 function Gap({ words, why, kind }: { words: string; why: string; kind: string }) {
   return <span className={MISSING} title={why} data-missing={kind}>{words}</span>;
+}
+/** Session 158: the short mark after a "Why it is here" sentence that comes from a data vendor's public page. */
+function VendorMark({ v }: { v: { mark?: unknown; note?: unknown } | null | undefined }) {
+  const mark = str(v?.mark);
+  if (!mark) return null;
+  return <>{" "}<span className="cursor-help whitespace-nowrap rounded-sm border border-muted px-1 align-baseline text-[10px] not-italic text-muted" title={str(v?.note) || "The report gives no reason."} data-vendor-page="1">{mark}</span></>;
 }
 /** The visible tag every PitchBook figure carries; its hover says where the figure came from. */
 function PbTag({ ctx }: { ctx: Ctx }) {
@@ -242,7 +251,7 @@ function Landscape({ r, ctx }: { r: Report; ctx: Ctx }) {
                 <td className={`${TD} tabular-nums`}><CellView cell={c?.raised} ctx={ctx} company={name} field="raised" /></td>
                 <td className={TD}><CellView cell={c?.location} ctx={ctx} company={name} field="location" /></td>
                 <td className={`${TD} max-w-[14rem] text-xs`}>{str(c?.signal)}</td>
-                <td className={`${TD} max-w-[16rem] text-xs`} data-reason="1">{str(c?.reason)}{arr(c?.trends).length ? <span className="mt-1 block"><TrendChips ns={c?.trends} ctx={ctx} /></span> : null}</td>
+                <td className={`${TD} max-w-[16rem] text-xs`} data-reason="1">{str(c?.reason)}<VendorMark v={c?.reason_vendor} />{arr(c?.trends).length ? <span className="mt-1 block"><TrendChips ns={c?.trends} ctx={ctx} /></span> : null}</td>
                 <td className={`${TD} max-w-[14rem]`}><Confidence n={c?.confidence} note={str(c?.confidence_note)} /></td>
                 {ctx.pbColumn ? <td className={TD}><PbBlock name={name} ctx={ctx} /></td> : null}
               </tr>

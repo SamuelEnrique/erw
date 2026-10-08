@@ -12,6 +12,10 @@ to Redivis, and no file under site/ or docs/ is written.
     python warehouse/thesis/run.py --niche "..." [--stage ...] [--geography ...] --store      # a run started here
     python warehouse/thesis/run.py --niche "..." --landscape-from <state.json> --store        # the landscape stage again
                                                                                                # on a saved run's trends
+    python warehouse/thesis/run.py --niche "..." --landscape-from bucket:<name> --store       # session 158: the same, from
+                                                                                               # a state kept in the private
+                                                                                               # bucket (the runner holds no
+                                                                                               # file of an earlier run)
 
 The order of work (the full method is internal: docs/methods/thesis_builder.md; what a reader may know is in
 docs/methods/thesis.md):
@@ -86,6 +90,8 @@ STATE_DIR = os.path.join(ip.OUT_DIR, "thesis_state")
 STOP = {"the", "and", "for", "with", "from", "that", "this", "into", "their", "new", "not", "general", "only", "based", "using",
         "technologies", "technology", "companies", "company", "startups", "startup", "market", "markets", "energy", "power"}
 RULE = "A company is on this map when it is a private company that fits the stage and geography asked for and a fetched source ties it to at least one of the five trends."
+VENDOR_MARK = "vendor page"      # session 158: shown beside a "Why it is here" sentence that comes from a data vendor's public page
+VENDOR_NOTE = "This sentence is from a public page of a data vendor ({vendor}), not from the company or the press."
 NOTE = {
     "not_disclosed": "No fetched source gives this.",
     "not_confirmed": "A figure was offered but does not appear in a fetched source, so it is not shown.",
@@ -364,7 +370,7 @@ def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, l
             pull = {"error": f"{type(exc).__name__}: {str(exc)[:300]}"}
             log(f"  pages: THE PULL FAILED ({pull['error']}); the rule reads the pages already saved")
     wh = warehouse_rows()
-    judged = tie.judge(store, wh, niche, trends, read=read)
+    judged = tie.judge(store, wh, niche, trends, read=read, vendors=pg.vendor_pages())      # session 158: a data vendor's page is labeled
     ids = {addr: i for i, addr in sorted(book.items(), key=lambda kv: (kv[0][0], int(kv[0][1:]) if kv[0][1:].isdigit() else 0), reverse=True)}
     by_name = {x.get("name", ""): x for x in wh["energy_companies"]}
     by_event = {x.get("event_id", ""): x for x in wh["energy_deals"]}
@@ -407,6 +413,8 @@ def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, l
         best = c["reason"]
         o["trend_reason"] = "" if not best else (f"\"{best['text'].strip().rstrip('.')}\" " + ("(ERW companies and deals tables)" if best["address"].startswith("erw:") else f"({tie.domain(best['address']) or 'web'})"))
         o["model_trends"] = sorted({t for k in c["aliases"] for t in model.get(k, [])})
+        if best and best.get("vendor"):                  # session 158: the sentence a reader is shown comes from a data vendor's public page
+            o["reason_vendor"] = best["vendor"]
         rows.append(o)
     held = sum(1 for p in (store.get("pages") or {}).values() if tie.page_holds(p))
     log(f"  the rule: {len(judged)} companies in the store of this niche ({len(store['rows'])} rows of {len(store['runs'])} runs, {len(store['sources'])} fetched sources, "
@@ -446,10 +454,27 @@ def tie_done(ctx, orgs, log):
             f"moved without an explanation: {sum(1 for m in d['moved'] if not m['explained'])}")
     trace = [{"name": c["name"], "key": c["key"], "aliases": c["aliases"], "trends": c["trends"], "tie": c["tie"], "tier": c["tier"],
               "reached": placed.get(c["key"], ("", None))[0], "confidence": placed.get(c["key"], ("", None))[1], "facts": {f: c["row"].get(f) for f in tie.FACTS},
-              "ties": {str(n): t for n, t in c["ties"].items() if t["lines"]}, "evidence": c["evidence"]} for c in ctx["judged"]]
+              "ties": {str(n): t for n, t in c["ties"].items() if t["lines"]}, "evidence": c["evidence"],
+              "name_rule": c.get("name_rule"), "near_duplicates": c.get("near_duplicates") or []} for c in ctx["judged"]]
     disagreements = [dict(x, name=c["name"]) for c in ctx["judged"] for x in c["row"].get("disagreements") or []]
+    # session 158, for the run's record: the names matched as proper nouns only, the remarks counted once, the vendor pages
+    proper = [dict(c["name_rule"], name=c["name"], reached=placed.get(c["key"], ("", None))[0]) for c in ctx["judged"] if c.get("name_rule")]
+    merged = [dict(m, name=c["name"]) for c in ctx["judged"] for m in c.get("near_duplicates") or []]
+    vendor_lines = [{"name": c["name"], "trend": n, "address": x["address"], "vendor": x["vendor"], "points": x["points"], "tied": t["tied"]}
+                    for c in ctx["judged"] for n, t in c["ties"].items() for x in t["lines"] if x.get("vendor")]
+    vendors = {"pages": {u: {"vendor": tie.vendor_of(u, pg.vendor_pages()), "holds_text": tie.page_holds(p), "state": p.get("reason") or p.get("state")}
+                         for u, p in sorted(pages.items()) if tie.vendor_of(u, pg.vendor_pages())},
+               "sentences_labeled": sum(1 for c in ctx["judged"] for e in c["evidence"] if e.get("vendor")), "lines": vendor_lines,
+               "reasons_shown": [c["name"] for c in ctx["judged"] if (c.get("reason") or {}).get("vendor") and placed.get(c["key"], ("", None))[0] in ("trend", "pipeline")]}
+    log(f"  the name rule (session 158): {len(proper)} companies whose name is made of the niche's own words"
+        + ("" if not proper else ": " + "; ".join(f"{x['name']} (counted {x['counted']}, not counted {x['not_counted']})" for x in proper))
+        + f"; remarks printed twice and counted once: {len(merged)} pairs; sentences from data vendors' pages: {vendors['sentences_labeled']} labeled, "
+        f"{len(vendor_lines)} scoring lines, {len(vendors['reasons_shown'])} shown as a reason")
     return {"store": where, "store_kind": kind, "diff": d, "changed_sources": ctx["changed"], "disagreements": disagreements, "trace": trace,
-            "pull": ctx.get("pull"), "pages": page_states, "quotes": quotes, "quote_checks": checks, "warehouse": ctx.get("warehouse")}
+            "pull": ctx.get("pull"), "pages": page_states, "quotes": quotes, "quote_checks": checks, "warehouse": ctx.get("warehouse"),
+            "name_rule": {"companies": proper, "sentences_not_counted": sum(x["not_counted"] for x in proper)},
+            "near_duplicates": {"pairs": len(merged), "list": merged, "same_share": tie.NEAR_SAME, "least_words": tie.NEAR_MIN_WORDS},
+            "vendor_pages": vendors}
 
 
 def confidence_note(o):
@@ -557,6 +582,8 @@ def build_report(niche, stage, geography, r, a, land, rest, pol, plan, log):
                "signal": clean(tb.check_numbers(r, o.get("signal", ""), ids, log, f"signal {o['name']}")),
                "trends": [t for t in o["trends"] if t in kept_n], "reason": clean(tb.check_numbers(r, o.get("trend_reason", ""), ids, log, f"reason {o['name']}")),
                "sources": ids, "confidence": o["score"], "confidence_note": confidence_note(o), "sourcing": srcg}
+        if o.get("reason_vendor"):                       # session 158: a short mark with a hover, drawn beside the sentence
+            row["reason_vendor"] = {"mark": VENDOR_MARK, "note": VENDOR_NOTE.format(vendor=clean(o["reason_vendor"]))}
         companies.append(row)
         if o["reached"] == "pipeline":
             tam = C(o.get("tam"), ids, f"tam {o['name']}")
@@ -876,6 +903,36 @@ def fail(conn, run_id, note, usd):
     conn.execute("update public.thesis_runs set status = 'failed', finished_at = now(), usd = %s, note = %s where run_id = %s", (usd, note[:300], run_id))
 
 
+BUCKET_STATE = "bucket:"        # --landscape-from bucket:<name>: a saved state kept in the private bucket (store.py, states/<name>.json.gz)
+
+
+def ledger_rows():
+    """This process's rows of the cost ledger, as the ledger wrote them. On the runner the ledger's file is the runner's
+    own and is discarded with it, so a run's rows travel in its state (session 158). [] when the ledger is off."""
+    try:
+        import llm
+        rows = llm.read_ledger()
+        mine = os.environ.get("ERW_RUN_ID", "").strip() or llm._START
+        return rows[rows["run_id"] == mine].to_dict("records")
+    except Exception:
+        return []
+
+
+def keep_in_bucket(handle, in_bucket, name, state, log):
+    """Session 158: a run whose evidence store is the bucket (the runner) keeps its state there too. The runner's files
+    are discarded with it; the state holds the answers the run paid for (the notes, the structured rows) and its rows
+    of the cost ledger. A refusal is logged and never costs the run: the local file is already written."""
+    if not in_bucket or handle is None or not hasattr(handle, "keep_state"):
+        return ""
+    try:
+        where = handle.keep_state(name, dict(state, ledger=ledger_rows()))
+        log(f"state kept (bucket): {where}")
+        return where
+    except Exception as exc:
+        log(f"STATE NOT KEPT IN THE BUCKET ({type(exc).__name__}: {str(exc)[:200]}); it is in the local file only")
+        return ""
+
+
 def one(conn, run_id, niche, stage, geography, args, log):
     """Run one claimed run and store it. Returns the spend."""
     cap = min(args.max_usd, RUN_USD)
@@ -891,6 +948,7 @@ def one(conn, run_id, niche, stage, geography, args, log):
         log(f"run {run_id}: the spending limit is reached; not started")
         return 0.0
     t0, usd, r = time.time(), 0.0, None
+    in_bucket, handle = False, None
     try:
         r = Careful(log, cap)
         state_dir = getattr(args, "state_dir", None) or STATE_DIR
@@ -902,9 +960,18 @@ def one(conn, run_id, niche, stage, geography, args, log):
             handle.load(niche, stage, geography)         # read once before anything is paid for: a store that cannot be read stops the run here
         if handle is not None:
             log(f"  evidence store ({handle.kind}): {handle.where}")
+        in_bucket = getattr(handle, "kind", "") == "bucket"      # session 158: asked before the run, since a refused write turns the handle to the file
+        landscape_from = args.landscape_from
+        if landscape_from and str(landscape_from).startswith(BUCKET_STATE):
+            # session 158: the saved state of an earlier run, read from the private bucket before anything is paid for
+            name = str(landscape_from)[len(BUCKET_STATE):]
+            os.makedirs(state_dir, exist_ok=True)
+            landscape_from = os.path.join(state_dir, f"from_bucket_{name}.json")
+            json.dump(es.read_state(name), open(landscape_from, "w", encoding="utf-8"), default=str)
+            log(f"  the saved state {name} is read from the private bucket ({es.BUCKET}/{es.state_object(name)})")
         fetch = None if getattr(args, "no_fetch", True) else {"count": pg.Count(getattr(args, "fetch_count_file", None)), "raw_dir": getattr(args, "raw_dir", None),
                                                               "max_session": getattr(args, "fetch_session_cap", None) or pg.MAX_ADDRESSES_SESSION}
-        report, request, key, state = execute(r, run_id, niche, stage, geography, log, searches=args.searches, landscape_from=args.landscape_from, retrend=args.retrend, landscape_only=args.landscape_only,
+        report, request, key, state = execute(r, run_id, niche, stage, geography, log, searches=args.searches, landscape_from=landscape_from, retrend=args.retrend, landscape_only=args.landscape_only,
                                               evidence_path=handle, fetch=fetch)
         usd = r.cost
         os.makedirs(state_dir, exist_ok=True)
@@ -912,6 +979,7 @@ def one(conn, run_id, niche, stage, geography, args, log):
         path = os.path.join(state_dir, f"{slug}_{run_id}.json")
         json.dump(dict(state, report=report), open(path, "w", encoding="utf-8"), default=str)
         log(f"state saved: {os.path.relpath(path, ROOT)}")
+        keep_in_bucket(handle, in_bucket, f"{slug}_{run_id}", dict(state, report=report), log)
         if conn is not None:
             finish(conn, run_id, report, request, key, usd)
         f = report["funnel"]["stages"]
@@ -927,6 +995,7 @@ def one(conn, run_id, niche, stage, geography, args, log):
             keep = os.path.join(keep_dir, f"partial_{run_id}.json")
             json.dump(r.partial, open(keep, "w", encoding="utf-8"), default=str)
             log(f"the research this run paid for is kept: {os.path.relpath(keep, ROOT)}")
+            keep_in_bucket(handle, in_bucket, f"partial_{run_id}", r.partial, log)
         if conn is not None:
             fail(conn, run_id, "The run reached its spending limit before it finished. Nothing partial is shown.", usd)
         print(f"thesis run {run_id} STOPPED at its spending limit", file=sys.stderr)
@@ -940,6 +1009,7 @@ def one(conn, run_id, niche, stage, geography, args, log):
             keep = os.path.join(keep_dir, f"partial_{run_id}.json")
             json.dump(r.partial, open(keep, "w", encoding="utf-8"), default=str)
             log(f"the answers this run paid for are kept: {os.path.relpath(keep, ROOT)}")
+            keep_in_bucket(handle, in_bucket, f"partial_{run_id}", r.partial, log)
         if conn is not None:
             fail(conn, run_id, "The run failed before it finished. Nothing partial is shown.", usd)
         print(f"thesis run {run_id} FAILED: {trace.strip().splitlines()[-1][:300]}", file=sys.stderr)
@@ -957,7 +1027,8 @@ def main(argv=None):
     ap.add_argument("--stage", default="")
     ap.add_argument("--geography", default="")
     ap.add_argument("--store", action="store_true", help="with --niche: keep the run in the internal table")
-    ap.add_argument("--landscape-from", help="a saved state: its scope and trends are reused and the landscape stage runs again")
+    ap.add_argument("--landscape-from", help="a saved state: its scope and trends are reused and the landscape stage runs again "
+                                             "(a file, or bucket:<name> for a state kept in the private bucket)")
     ap.add_argument("--retrend", action="store_true", help="with --landscape-from: write the scope and trends again from the saved research")
     ap.add_argument("--landscape-only", action="store_true", help="scope, trends and the landscape only: no capital, incumbents, risks or policy")
     ap.add_argument("--max-usd", type=float, default=RUN_USD)

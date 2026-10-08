@@ -1,0 +1,16 @@
+# Energy Research Warehouse (ERW), Thesis Builder: the data vendors whose public pages a run may read and must label (session 158). INTERNAL.
+# The owner's ruling of 8 October 2026: "data vendors' public pages are read but labeled as vendor pages in the report".
+# A data vendor here is a business that sells a database of companies, rounds or investors by subscription. Its public pages are fetched
+# like any other page a run cites (one plain request, robots.txt honoured, the ceilings of pages.py), and every sentence read from one
+# carries the vendor's name: the report shows the mark "vendor page" beside a "Why it is here" sentence that comes from one.
+# The label changes no point of the rule. A host matches a row when it is the domain or one of its subdomains (app.dealroom.co).
+# The sites of the licensed databases the tool reads only through the user's own account (pitchbook.com, crunchbase.com, harmonic.ai)
+# are NOT here: they are refused before any request (pages.LICENSED_HOSTS) and stay refused.
+# Source of each row: the pages the runs of 7 October 2026 cited (session 147's evidence store, runs/session147/agent_report.md).
+# Add a row only for a vendor a run has met, with the day and what was met. Read by warehouse/thesis/pages.py (vendor_pages).
+domain,vendor,reason,first_met,met
+cbinsights.com,CB Insights,A database of private companies and their funding sold by subscription; its public company pages hold text,2026-10-07,3 addresses fetched with text in session 147
+dealroom.co,Dealroom,A database of startups and investors sold by subscription; its public pages hold text,2026-10-07,2 addresses fetched with text in session 147 and 2 of app.dealroom.co answered 403
+sacra.com,Sacra,Research and revenue estimates on private companies sold by subscription; its public company page holds text,2026-10-07,1 address fetched with text in session 147
+zoominfo.com,ZoomInfo,A database of companies and contacts sold by subscription,2026-10-07,1 address answered 403 in session 147 (nothing received)
+ventureradar.com,VentureRadar,A database of startups and their rankings sold by subscription,2026-10-07,1 address disallowed by its robots.txt in session 147 (not requested)

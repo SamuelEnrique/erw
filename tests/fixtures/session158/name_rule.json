@@ -1,0 +1,300 @@
+{
+ "note": "Session 158. Cut by runs/session158/make_fixture.py from session 147's saved evidence (the pages the three runs of 7 October 2026 fetched; the company was first named by the third run, 20261007T215433Z-596e3d). Each page is an excerpt: only the lines of the saved text that hold the words of the company's name; saved_text_sha256 is the hash of the whole saved text.",
+ "store": {
+  "geography": "United States",
+  "last": null,
+  "niche": "geothermal mapping and sensing, the technologies for finding and characterizing new geothermal resources (subsurface imaging, geophysics, machine-learning prospecting, drilling-data analytics), not geothermal power in general",
+  "pages": {
+   "https://energy.sandia.gov/programs/renewable-energy/geothermal-research/projects-technologies/": {
+    "address": "https://energy.sandia.gov/programs/renewable-energy/geothermal-research/projects-technologies/",
+    "bytes": 314494,
+    "content_type": "text/html; charset=UTF-8",
+    "copied_from_run": "20261007T214812Z-2b3411",
+    "excerpt": true,
+    "extractor": 3,
+    "fetched": "2026-10-07",
+    "fetched_at": "2026-10-07T21:53:53Z",
+    "final": "https://energy.sandia.gov/programs/renewable-energy/geothermal-research/projects-technologies/",
+    "first_fetched": "2026-10-07",
+    "first_run": "20261007T214812Z-2b3411",
+    "history": [],
+    "kind": "html",
+    "last_run": "20261007T214812Z-2b3411",
+    "reason": "",
+    "saved_text_characters": 16642,
+    "saved_text_sha256": "5105ece47d133bf88c138d5874e1e08e57f7866afe088c869218b484a5dd2fb3",
+    "sha256": "8d8d8da2b68d583f1a8c44a396798553b62255e39cbfd32b389cfee643408b60",
+    "state": "fetched",
+    "status": 200,
+    "text": "Funded by the Department of Energy\u2019s Geothermal Technologies Office, the EGS Collab unites researchers from multiple national laboratories to increase researchers\u2019 understanding of enhanced geothermal systems. The EGS Collab conducts experiments and test series to bridge small- and large-scale understanding of EGS. Sandia contributes to the effort as an experiment field operation lead and technology developer.\nResistivity imaging is a powerful method for geothermal energy resource exploration. Led by Sandia and funded by the Department of Energy\u2019s Geothermal Technologies Office, the BRIDGE research project is developing a workflow to increase the efficiency and efficacy of discovering and characterizing hidden geothermal energy systems in the Basin and Range Province of the western United States. Resistivity methods are sensitive to the attributes of geothermal systems and thus are a crucial part of the workflow proposed and used by the BRIDGE project team. The effort uses a helicopter-borne electromagnetic surveying method for rapid, regional-scale imaging of the shallow subsurface to detect resistivity signals associated with hydrothermal outflow features, such as a clay cap and/or hydrothermal alteration. The data and workflow generated from this project will be made publicly available to facilitate the discovery and characterization of hidden geothermal resources.",
+    "text_sha256": "b31e3fbe432701d392066cc142a486e28d5d62e9b5fe68d1a87f4052a707ea3f",
+    "truncated": false
+   },
+   "https://energycapitalhtx.com/fervo-quaise-xgs-geothermaldoe-funding": {
+    "address": "https://energycapitalhtx.com/fervo-quaise-xgs-geothermaldoe-funding",
+    "bytes": 229952,
+    "content_type": "text/html; charset=utf-8",
+    "copied_from_run": "20261007T213554Z-b7eae2",
+    "excerpt": true,
+    "extractor": 3,
+    "fetched": "2026-10-07",
+    "fetched_at": "2026-10-07T21:42:42Z",
+    "final": "https://energycapitalhtx.com/fervo-quaise-xgs-geothermaldoe-funding",
+    "first_fetched": "2026-10-07",
+    "first_run": "20261007T213554Z-b7eae2",
+    "history": [],
+    "kind": "html",
+    "last_run": "20261007T213554Z-b7eae2",
+    "reason": "",
+    "saved_text_characters": 9141,
+    "saved_text_sha256": "8e0316b21b04019c7b6201a34328001aa1e5b086eddf57175a3b2bfed0a7f361",
+    "sha256": "06cac8e78ddfa39bf5798095ab8758729d5e20d62f5936a4901651439ea34943",
+    "state": "fetched",
+    "status": 200,
+    "text": "Three Houston-based companies\u2014Fervo Energy, Quaise Energy and XGS Energy\u2014have been selected by the U.S. Department of Energy to advance geothermal technologies and field tests.\nThree Houston-based companies\u2014Fervo Energy, Quaise Energy and XGS Energy\u2014have been selected by the U.S. Department of Energy to advance geothermal technologies and field tests.\nThree Houston-based companies\u2014Fervo Energy, Quaise Energy and XGS Energy\u2014have been selected by the U.S. Department of Energy to advance geothermal technologies and field tests.\nThree Houston-based companies\u2014Fervo Energy, Quaise Energy and XGS Energy\u2014have been selected by the U.S. Department of Energy to advance geothermal technologies and field tests.\n\u201cWe are grateful to the Department of Energy for funding these grants. We believe this is a clear indication from the federal government that expanding geothermal energy to new states is a national priority,\u201d Jack Norbeck, CTO and co-founder of Fervo Energy, said in a news release. \u201cWe expect this funding to accelerate Fervo\u2019s pipeline and advance the cutting edge of geothermal technologies.\u201d",
+    "text_sha256": "f939b5bbe4d4c0a7a91d88eaaff07c26ef1205e286f0a7b03d2707ea00ae457a",
+    "truncated": false
+   },
+   "https://geothermal.tech/": {
+    "address": "https://geothermal.tech/",
+    "bytes": 170308,
+    "content_type": "text/html; charset=UTF-8",
+    "copied_from_run": "20261007T215433Z-596e3d",
+    "excerpt": true,
+    "extractor": 3,
+    "fetched": "2026-10-07",
+    "fetched_at": "2026-10-07T21:58:59Z",
+    "final": "https://geothermal.tech/",
+    "first_fetched": "2026-10-07",
+    "first_run": "20261007T215433Z-596e3d",
+    "history": [],
+    "kind": "html",
+    "last_run": "20261007T215433Z-596e3d",
+    "reason": "",
+    "saved_text_characters": 17404,
+    "saved_text_sha256": "6538e4aa970b3dcc7d482d57a875989afb37a7bc3edcba19cfc3308760cd060b",
+    "sha256": "6a03786787064918ce453d3f7093824a2264ef9b426c9719b01eaa807cc6b2e0",
+    "state": "fetched",
+    "status": 200,
+    "text": "Geothermal Technologies is developing the technology to provide clean, economically competitive energy. Learn more about what we do.\nGeothermal Technologies is developing the technology to provide clean, economically competitive energy. Learn more about what we do.\nGeothermal Technologies is developing the technology to provide clean, economically competitive energy. Learn more about what we do.\nGeothermal Technologies\u2019 GenaSysTM Geothermal Energy Harvesting System revolutionizes how we harness renewable energy.\nGeothermal Technologies\u2019 innovative technologies, when coupled with recently developed oil & gas and power generation technologies, allow us to produce clean, renewable, low cost, baseload electricity, throughout the world, for decades to come.\nGeothermal Technologies, Inc. to Present Paper and Lead a Panel at the Geothermal Rising Annual Meeting in Reno\nBaltimore, MD \u2013 Geothermal Technologies, Inc. (GTI), a leading innovator in sustainable energy solutions, is proud to announce that it will be presenting a paper on its technology entitled: \u201cMAXIMIZING THE THERMAL LONGEVITY OF UNCONVENTIONAL GEOTHERMAL...\nGeothermal Technologies is developing the technology to provide clean, economically competitive energy.",
+    "text_sha256": "6863669c2707e1ec713305bf6e90459a0cfb5eb948e068ae6477f4402ad3898a",
+    "truncated": false
+   },
+   "https://www.ctvc.co/the-heat-beneath-our-feet/": {
+    "address": "https://www.ctvc.co/the-heat-beneath-our-feet/",
+    "bytes": 61252,
+    "content_type": "text/html; charset=utf-8",
+    "copied_from_run": "20261007T214812Z-2b3411",
+    "excerpt": true,
+    "extractor": 3,
+    "fetched": "2026-10-07",
+    "fetched_at": "2026-10-07T21:53:59Z",
+    "final": "https://www.ctvc.co/the-heat-beneath-our-feet/",
+    "first_fetched": "2026-10-07",
+    "first_run": "20261007T214812Z-2b3411",
+    "history": [],
+    "kind": "html",
+    "last_run": "20261007T214812Z-2b3411",
+    "reason": "",
+    "saved_text_characters": 11905,
+    "saved_text_sha256": "e14436b1619bb06e7dcddd4813879dad331d73509ba5c390d678fbc7d2283df0",
+    "sha256": "488d102babbe1da8da6f0fcbe9a836a5cb207d6dae697e6fcca3bd9dd88714da",
+    "state": "fetched",
+    "status": 200,
+    "text": "Government: The DOE Geothermal Technologies Office has been the major funder of geothermal innovation \u2013 responsible for R&D grants and common resources like FORGE and EGS Collab. But their budget is a fraction of other DOE technology offices and their resources are limited. Agencies across the TRL scale can get involved, from NSF, to ARPA-E (disclosure: Michael\u2019s former employer), to the DOE Loan Programs Office.",
+    "text_sha256": "909c538d34cd7bdf99c6ef0390531ded608d70409d50a604ec5f05c61dee3020",
+    "truncated": false
+   },
+   "https://www.energystartups.org/top/geothermal/": {
+    "address": "https://www.energystartups.org/top/geothermal/",
+    "bytes": 33010,
+    "content_type": "text/html; charset=UTF-8",
+    "copied_from_run": "20261007T213554Z-b7eae2",
+    "excerpt": true,
+    "extractor": 3,
+    "fetched": "2026-10-07",
+    "fetched_at": "2026-10-07T21:43:59Z",
+    "final": "https://www.energystartups.org/top/geothermal/",
+    "first_fetched": "2026-10-07",
+    "first_run": "20261007T213554Z-b7eae2",
+    "history": [],
+    "kind": "html",
+    "last_run": "20261007T213554Z-b7eae2",
+    "reason": "",
+    "saved_text_characters": 9386,
+    "saved_text_sha256": "8dfe0c4e9e004578825adceb2cb033acd4ea0f895fb16124ba9285f6ce7bcb16",
+    "sha256": "d52ebf8c79eb5838761dd59c25f8808cdbf8467d5c3545b818157d8d1eeb4aa3",
+    "state": "fetched",
+    "status": 200,
+    "text": "Eavor is developing next-generation geothermal technologies. Unlike traditional geothermal systems (which require either direct access to hot aquifers or hydraulic fracturing), Eavor-Loop extracts heat from hot rock through conduction. Hot rock is found virtually everywhere beneath our feet, meaning Eavor can extract energy from virtually anywhere on the planet. Eavor-Loop is a closed-loop geothermal system drilled deep into the Earth via a series of multi-lateral wells. The system contains and circulates a patented working fluid that transfers heat from the rock. The fluid circulates naturally, without the need for an external pump, thanks to the thermosiphon effect. The heat is then used in commercial heating systems (e.g., greenhouses, district heating) or to generate electricity using conventional heat to power motors.\nMazama Energy is a geothermal startup targeting deeper and hotter rock. It has drilled past 10,000 feet in 15 days on its way to about 15,000 feet deep. At those depths, the company can access 400\u02daC heat, which at high pressures turns water into a \u201csupercritical\u201d fluid that\u2019s neither fully liquid nor fully gas \u2014 a state that lets it absorb far more energy than ordinary steam. Mazama says that will allow each well to produce up to 10 times more power than traditional geothermal technologies. Company's first site in Oregon is capable of producing 10 gigawatts of electricity.\nRenascent Energy Management is a privately held, technology-focused energy firm that is looking at several geothermal technologies to implement in the US and abroad.",
+    "text_sha256": "e9c3eb291c09cd0c9fac683578e85baad19754a9bc58a3f4aba0861e57094883",
+    "truncated": false
+   },
+   "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal": {
+    "address": "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal",
+    "bytes": 199699,
+    "content_type": "text/html;charset=utf-8",
+    "copied_from_run": "20261007T213554Z-b7eae2",
+    "excerpt": true,
+    "extractor": 3,
+    "fetched": "2026-10-07",
+    "fetched_at": "2026-10-07T21:44:01Z",
+    "final": "https://www.energytech.com/renewables/news/55407907/doe-selects-fervo-zanskar-and-quaise-as-part-of-99m-funding-to-advance-next-gen-geothermal",
+    "first_fetched": "2026-10-07",
+    "first_run": "20261007T213554Z-b7eae2",
+    "history": [],
+    "kind": "html",
+    "last_run": "20261007T213554Z-b7eae2",
+    "reason": "",
+    "saved_text_characters": 6448,
+    "saved_text_sha256": "0a279ee7d3ef1768deb23b8b591f2856eab283ea3d3e50dfb2b66f822d718746",
+    "sha256": "7d04511d6eaacac898f2fac549b9566e8c9ac363f9d8e77a6ce1a2b3de6bc6d0",
+    "state": "fetched",
+    "status": 200,
+    "text": "\u201cWe\u2019re advancing next-generation geothermal technologies that can lower costs, strengthen American energy dominance and turn more of our vast domestic geothermal resources into reliable and affordable power,\u201d Haustveit added.",
+    "text_sha256": "fbbdb453b6e9fc8f82ccc595a2c19cc7b5db16fa792911d7848fea85a569dd57",
+    "truncated": false
+   },
+   "https://www.nlr.gov/geothermal/resource-exploration-characterization": {
+    "address": "https://www.nlr.gov/geothermal/resource-exploration-characterization",
+    "bytes": 74973,
+    "content_type": "text/html; charset=utf-8",
+    "copied_from_run": "20261007T213554Z-b7eae2",
+    "excerpt": true,
+    "extractor": 3,
+    "fetched": "2026-10-07",
+    "fetched_at": "2026-10-07T21:44:13Z",
+    "final": "https://www.nlr.gov/geothermal/resource-exploration-characterization",
+    "first_fetched": "2026-10-07",
+    "first_run": "20261007T213554Z-b7eae2",
+    "history": [],
+    "kind": "html",
+    "last_run": "20261007T213554Z-b7eae2",
+    "reason": "",
+    "saved_text_characters": 24418,
+    "saved_text_sha256": "5dfbf68ed1093d4b4dd9a61172df123c6e0a3e77f43642aad3e7b602026f08cd",
+    "sha256": "cb7c828a2d8466b091b81446d7ed48bd4ab6f211cee30a947a854dcb29d2e849",
+    "state": "fetched",
+    "status": 200,
+    "text": "in Lardarello, Italy, and it is still in use today. Next-generation geothermal technologies\nIt provides free access to data generated from projects funded by DOE's Geothermal Technologies Office to facilitate the open transfer of knowledge, fuel innovation, reduce duplication of effort, and promote scientific discovery in the geothermal\nNLR scientists explore geothermal technologies for creating fresh water from otherwise",
+    "text_sha256": "8d5c6a5582e67433361301c29b7c8c9732cc307f6728389045c41e482f58821e",
+    "truncated": false
+   }
+  },
+  "quotes": [],
+  "robots": {},
+  "rows": [
+   {
+    "key": "geothermal technologies",
+    "row": {
+     "country": "United States",
+     "description": "Non-seismic geophysics team; match with Baltimore profile unconfirmed.",
+     "fits_stage": "not stated",
+     "found_by": [
+      "Q11"
+     ],
+     "founders": "not disclosed",
+     "kind": "private company",
+     "latest_source_year": "not stated",
+     "location": "Baltimore, Maryland",
+     "name": "Geothermal Technologies (geothermal.tech)",
+     "raised": "not disclosed",
+     "raised_primary": false,
+     "signal": "Website bios",
+     "source_urls": [
+      "https://geothermal.tech/"
+     ],
+     "stage": "not disclosed",
+     "stage_primary": false,
+     "tam": "",
+     "trends": [],
+     "website": "geothermal.tech"
+    },
+    "run_id": "20261007T215433Z-596e3d",
+    "seq": 3
+   }
+  ],
+  "runs": [
+   {
+    "date": "2026-10-07",
+    "run_id": "20261007T213554Z-b7eae2",
+    "seq": 1
+   },
+   {
+    "date": "2026-10-07",
+    "run_id": "20261007T214812Z-2b3411",
+    "seq": 2
+   },
+   {
+    "date": "2026-10-07",
+    "run_id": "20261007T215433Z-596e3d",
+    "seq": 3
+   }
+  ],
+  "sources": {
+   "https://geothermal.tech/": {
+    "cited": [],
+    "fetched": "2026-10-06",
+    "first_run": "20261007T213554Z-b7eae2",
+    "history": [],
+    "last_run": "20261007T215433Z-596e3d",
+    "page_age": "664 days ago",
+    "sha": "1176bed1eb2a38d8",
+    "title": "Geothermal Technologies - Home - Geothermal Energy"
+   },
+   "https://geothermal.tech/about-geothermal-technologies/": {
+    "cited": [],
+    "fetched": "2026-10-07",
+    "first_run": "20261007T215433Z-596e3d",
+    "history": [],
+    "last_run": "20261007T215433Z-596e3d",
+    "page_age": "957 days ago",
+    "sha": "68da1d1712211105",
+    "title": "About Geothermal Technologies - Geothermal Technologies"
+   }
+  },
+  "stage": "startups",
+  "version": 2
+ },
+ "trends": [
+  {
+   "search_phrases": [
+    "AI geothermal exploration",
+    "blind geothermal discovery"
+   ],
+   "title": "AI prospecting for blind geothermal systems"
+  },
+  {
+   "search_phrases": [
+    "distributed acoustic sensing",
+    "fiber optic geothermal monitoring"
+   ],
+   "title": "Fiber and DAS sensing for geothermal characterization"
+  },
+  {
+   "search_phrases": [
+    "geothermal resource characterization",
+    "DOE geothermal field tests"
+   ],
+   "title": "Public grants for resource characterization"
+  },
+  {
+   "search_phrases": [
+    "geothermal risk assessment software",
+    "geothermal digital modeling"
+   ],
+   "title": "Prediction and modeling software for geothermal investment decisions"
+  },
+  {
+   "search_phrases": [
+    "high-temperature seismometer",
+    "drone electromagnetic survey"
+   ],
+   "title": "High-temperature and airborne survey methods"
+  }
+ ],
+ "warehouse": {
+  "energy_companies": [],
+  "energy_deals": []
+ }
+}

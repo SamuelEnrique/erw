@@ -8,11 +8,41 @@ name: thesis builder
 # What this job never does: commit to git, write a public table, upload to Redivis, or touch a file the site reads.
 # Its spend is the model's: one run stops at USD 2, and the runs of a UTC day together at USD 8, both counted in
 # warehouse/thesis/run.py from the internal table; the page queues at most six runs a day (the database counts).
+#
+# Session 158: a run can also be started by hand on the trends of a saved run, the like-for-like run sessions 142 and
+# 147 made on a laptop (the landscape stage only, the five trends held fixed). Give niche (with stage and geography),
+# landscape_from (the name of a saved state kept in the private bucket erw-thesis, states/<name>.json.gz) and max_usd
+# (the run's own stop, at most 2). The run is stored in thesis_runs as the page's runs are, uses the same evidence
+# store and fetches its pages the same way. With niche empty nothing changes: the page's runs go as before.
 on:
   workflow_dispatch:
     inputs:
       run_id:
         description: "the run to do (empty: every queued run)"
+        required: false
+        default: ""
+      niche:
+        description: "by hand: the niche of a run started here (empty: the page's runs, as before)"
+        required: false
+        default: ""
+      stage:
+        description: "by hand: the stage asked for"
+        required: false
+        default: ""
+      geography:
+        description: "by hand: the geography asked for"
+        required: false
+        default: ""
+      landscape_from:
+        description: "by hand: bucket:<name> of a saved state whose scope and trends are held fixed"
+        required: false
+        default: ""
+      max_usd:
+        description: "by hand: the run's own stop in USD (empty: 2)"
+        required: false
+        default: ""
+      session:
+        description: "by hand: the session number the cost ledger's rows carry (empty: daily)"
         required: false
         default: ""
 permissions:
@@ -42,13 +72,25 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           RUN_ID: ${{ inputs.run_id }}
+          NICHE: ${{ inputs.niche }}
+          STAGE: ${{ inputs.stage }}
+          GEOGRAPHY: ${{ inputs.geography }}
+          LANDSCAPE_FROM: ${{ inputs.landscape_from }}
+          MAX_USD: ${{ inputs.max_usd }}
+          ERW_SESSION: ${{ inputs.session }}
           # the run writes no warehouse table: its report goes to its own row of thesis_runs, and its spend is kept
           # there (usd). The cost ledger's file on this runner is the runner's own and is discarded with it, so the
           # data lock, which guards the shared warehouse, is not taken
           ERW_LOCK_EXEMPT: "1"
         run: |
           set -uo pipefail
-          if [ -n "${RUN_ID:-}" ]; then
+          if [ -n "${NICHE:-}" ]; then
+            # session 158: a run started by hand; it is kept in thesis_runs (--store) as the page's runs are
+            extra=()
+            if [ -n "${LANDSCAPE_FROM:-}" ]; then extra+=(--landscape-from "$LANDSCAPE_FROM"); fi
+            if [ -n "${MAX_USD:-}" ]; then extra+=(--max-usd "$MAX_USD"); export ERW_SPEND_CAP_USD="$MAX_USD"; fi
+            python warehouse/thesis/run.py --niche "$NICHE" --stage "${STAGE:-}" --geography "${GEOGRAPHY:-}" --store ${extra[@]+"${extra[@]}"}
+          elif [ -n "${RUN_ID:-}" ]; then
             python warehouse/thesis/run.py --run-id "$RUN_ID"
           else
             python warehouse/thesis/run.py --queue

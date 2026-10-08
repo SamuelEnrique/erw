@@ -3,7 +3,12 @@
 // `pasted` is the text a person pasted on /thesis, whole: the route finds the JSON in it, checks it against the format
 // of the provider chosen (lib/thesis/providers.ts) and stores what the reader writes out, with the time and the
 // SHA-256 of the pasted text, once a run and provider (migration 025).
-//   harmonic, crunchbase   the answer is stored here.
+//   harmonic               the answer is stored here.
+//   crunchbase             session 158, the owner's ruling of 8 October 2026: a Crunchbase answer is not kept until its
+//                          terms are ruled on (NOT_KEPT in lib/thesis/providers.ts). The request is refused with those
+//                          plain words (400) as soon as it names the provider: the pasted text is not looked at, no
+//                          hash of it is made, nothing of it is written to a log, and the database is not asked. An
+//                          answer in Crunchbase's format pasted under another provider is refused with the same words.
 //   pitchbook              nothing of the answer is stored here: it goes, as since session 135, to
 //                          POST /api/thesis/pitchbook under the run's one-time key. This route then records only the
 //                          time and the hash of the text it was read from, and only when the run already holds
@@ -17,7 +22,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { COOKIE } from "@/lib/release";
 import { MAX_BODY } from "@/lib/thesis/pitchbook";
-import { PROVIDERS, checkPaste, isProviderId, sameJson, type ProviderPayload } from "@/lib/thesis/providers";
+import { PROVIDERS, checkPaste, isProviderId, notKept, sameJson, type ProviderPayload } from "@/lib/thesis/providers";
 import { NO_STORE, acceptProvider, getRun, internalOk } from "@/lib/thesis/server";
 import { RUN_ID } from "@/lib/thesis/view";
 
@@ -43,6 +48,9 @@ export async function POST(req: NextRequest) {
   if (extra) return no(`The request holds a key it does not have: "${extra.slice(0, 40)}".`, 400);
   if (typeof body.run_id !== "string" || !RUN_ID.test(body.run_id)) return no("The run this answer is for is not named.", 400);
   if (!isProviderId(body.provider)) return no("The provider is not one of PitchBook, Harmonic and Crunchbase.", 400);
+  // session 158: a provider whose answers are not kept is refused here, before the pasted text is read, hashed or stored
+  const held = notKept(body.provider);
+  if (held) return no(held, 400);
   if (typeof body.pasted !== "string" || !body.pasted.trim()) return no("Nothing was pasted.", 400);
   if (Buffer.byteLength(body.pasted, "utf8") > MAX_BODY) return no("The answer is larger than 400 KB.", 413);
   const runId = body.run_id, provider = PROVIDERS[body.provider];

@@ -50,6 +50,22 @@ BY_ID = {p.id: p for p in PROVIDERS}
 BY_FORMAT = {p.format: p for p in PROVIDERS}
 DEFAULT = PITCHBOOK
 
+# Session 158, the owner's ruling of 8 October 2026: "Crunchbase answers are not kept until I rule on its terms." A
+# provider named here is still listed (its format and its terms line stand, and nothing stored is rewritten), but an
+# answer of it is refused with the plain message below and nothing of the pasted text is read, hashed or stored. The
+# site holds the same list (site/lib/thesis/providers.ts, NOT_KEPT) and refuses in POST /api/thesis/provider before
+# anything else is done with the text. PitchBook and Harmonic are as they were.
+NOT_KEPT = {"crunchbase": "Crunchbase answers are not kept until its terms are ruled on"}
+
+
+def kept(provider_id):
+    """True when an answer of this provider may be kept: the provider is not in NOT_KEPT."""
+    return provider_id not in NOT_KEPT
+
+
+class NotKept(ValueError):
+    """An answer of a provider whose answers are not kept: the message is the plain one a person reads."""
+
 
 def provider_of(record):
     """The provider of a stored record (a request, an answer). One that names its provider is that provider's; one
@@ -67,5 +83,7 @@ def stamp(provider_id, pasted_text, pasted_at):
     """What every fact of a provider's answer carries: the provider's id, the format, the time pasted and the SHA-256
     of the pasted text (its UTF-8 bytes, as pasted)."""
     p = BY_ID[provider_id]
+    if not kept(p.id):                                 # session 158: no stamp, and so no stored fact, of an answer that is not kept
+        raise NotKept(NOT_KEPT[p.id])
     return {"provider": p.id, "format": p.format, "pasted_at": pasted_at,
             "pasted_sha256": hashlib.sha256(pasted_text.encode("utf-8")).hexdigest()}
