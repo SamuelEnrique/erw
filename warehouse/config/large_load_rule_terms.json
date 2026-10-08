@@ -1,0 +1,136 @@
+{
+  "what": "For each of the eleven regulators of large_load_rules: the sentence of its own terms or public-records statement that decides whether its text may be shown, word for word as the pull pass of 8 October 2026 saved it, and the class it falls in. warehouse/connectors/large_load_rules.py reads this file to put a regulator's rows in the public table (class 'allowed' or 'public record') or in the internal one ('restricted' or 'not quoted'); warehouse/derived/rules_in_motion.py reads it to show or withhold a row's sentence on the page. A decision made for the owner to confirm: change a regulator's class here, or use the two constants in rules_in_motion.py.",
+  "classes": {
+    "allowed": "The quoted terms say the content may be copied or distributed, or is in the public domain. Public table; sentence shown.",
+    "public record": "The quoted statement is about access to public records, not about reuse. Public table; sentence shown; flagged for the owner, who may rule otherwise.",
+    "restricted": "The quoted terms claim copyright, reserve all rights, limit copying to personal use or ask that permission be requested. Internal table; the page shows the row's facts, its link and the model's read, never the regulator's sentence or its worded status.",
+    "not quoted": "No terms page of the regulator was read (it answered 404, a browser check, or none was met). Internal table; shown as a restricted regulator is, until terms are read."
+  },
+  "regulators": [
+    {
+      "regulator": "California Public Utilities Commission",
+      "class": "allowed",
+      "terms_url": "https://www.cpuc.ca.gov/about-cpuc/conditions-of-use",
+      "terms_quote": "In general, information presented on this web site, unless otherwise indicated, is considered in the public domain. It may be distributed or copied as permitted by law.",
+      "retrieved": "2026-10-08T04:24:01Z",
+      "sha256": "8c49fa90dd820d4f3cb80714d7ae89a309cefb19e3409f7dd9671e27620f45c3",
+      "saved_text": "warehouse/raw/large_load_rules/C/text/ca_conditions_of_use.html.txt",
+      "quoted_by": "pass C",
+      "decided_by": "the words: the only regulator of the eleven whose terms say content may be distributed or copied"
+    },
+    {
+      "regulator": "Oregon Public Utility Commission",
+      "class": "public record",
+      "terms_url": "https://www.oregon.gov/pages/terms-and-conditions.aspx",
+      "terms_quote": "Most information collected by state government is assumed to be open to the public unless specifically exempted.",
+      "second_url": "https://www.oregon.gov/puc/filing-center/Pages/Public-Records-Requests.aspx",
+      "second_quote": "The PUC will make public records available unless the records are exempt from disclosure by law.",
+      "retrieved": "2026-10-08T04:37:21Z",
+      "sha256": "a85cd8ed6af63b0f4fcabf5d27504ff6f7404958138c739e52271aff8565ffd3",
+      "second_sha256": "f1163abca2be02fc95dff11b072ddb98c93bb379e614466e42740e3c2e55b662",
+      "quoted_by": "pass C",
+      "decided_by": "the coordinator of session 154: a statement of access to public records, not of reuse; no sentence permits or forbids reuse"
+    },
+    {
+      "regulator": "Arizona Corporation Commission",
+      "class": "public record",
+      "terms_url": "https://www.azcc.gov/privacy-policy",
+      "terms_quote": "In other words, much of the information you disclose to us becomes a matter of public record as required by law.",
+      "retrieved": "2026-10-08T04:23:48Z",
+      "sha256": "9afd6435558e1ccb4ecd435ac7791363df2d4845d4b4bacbe3e2db78b76ebe2f",
+      "saved_text": "warehouse/raw/large_load_rules/C/text/az_privacy_policy.html.txt",
+      "quoted_by": "pass C",
+      "decided_by": "the coordinator of session 154: a statement about public records, not about reuse; the page has no sentence on reuse of the site's content"
+    },
+    {
+      "regulator": "Pennsylvania Public Utility Commission",
+      "class": "public record",
+      "terms_url": "https://www.puc.pa.gov/filing-resources/issues-laws-regulations/right-to-know-policies-and-procedures/",
+      "terms_quote": "Persons requesting copies of public records maintained by the Commission must submit a written request to the Commission’s Open Records Officer.",
+      "retrieved": "2026-10-08T04:26:40Z",
+      "sha256": "6c8c682ab8c1bbb615a7b8bb0961440eb3baa2a89252151f9947f93c27a52250",
+      "quoted_by": "pass B",
+      "decided_by": "the build agent, by the rule the coordinator applied to Oregon and Arizona: a statement of access to public records; the page states no rule on reuse and reserves no right"
+    },
+    {
+      "regulator": "Illinois Commerce Commission",
+      "class": "public record",
+      "terms_url": "https://icc.illinois.gov/privacy.htm",
+      "terms_quote": "Information collected and received through the Illinois Commerce Commission web site may become public record and therefore subject to disclosure under the Illinois Freedom of Information Act.",
+      "retrieved": "2026-10-08T04:26:43Z",
+      "sha256": "1308fa4664daabd2817e52231cd62dfd3ca4a24efdf3ae6f171608a127f79fd2",
+      "saved_text": "warehouse/raw/large_load_rules/B/text/il__privacy.htm.txt",
+      "quoted_by": "pass B",
+      "also": "A docket's own page answered a plain request with: \"Please, no robots or crawlers beyond this point.\" One request, then left; no docket page was asked again. Every Illinois row is cut from the commission's open meeting minutes, agendas or its list of suspended cases.",
+      "decided_by": "the build agent, by the rule the coordinator applied to Oregon and Arizona: a statement about public records; the page states no rule on reuse and reserves no right"
+    },
+    {
+      "regulator": "Public Utility Commission of Texas",
+      "class": "restricted",
+      "terms_url": "https://www.puc.texas.gov/agency/about/policies/linkpolicy/",
+      "terms_quote": "Although the content of PUCT web sites is available to the public, certain information on the PUCT web sites may be trademarked, service marked, or otherwise protected as the PUCT's intellectual property, and all PUCT content is protected by federal copyright laws.",
+      "second_quote": "Site owners should contact the PUCT to request permission to use or copy content from the PUCT's website.",
+      "retrieved": "2026-10-08T04:24:28Z",
+      "sha256": "ce2831de052a716c429d91433339f275210aa64f6100c2adf37197a1cfd79c11",
+      "saved_text": "warehouse/raw/large_load_rules/A/text/tx__link_policy.html.txt",
+      "quoted_by": "pass A",
+      "withheld_words": "The Public Utility Commission of Texas's terms ask permission to copy its text; open the document",
+      "decided_by": "the coordinator of session 154"
+    },
+    {
+      "regulator": "Indiana Utility Regulatory Commission",
+      "class": "restricted",
+      "terms_url": "https://www.in.gov/core/terms_of_use.html",
+      "terms_quote": "Except as may otherwise be allowed by law (including but not limited to the Indiana Access to Public Records Law), the viewing, printing, or downloading of any content, graphic, form, or document from the Portal grants you only a limited, nonexclusive license for use solely by you for your own personal use, and not for republication, distribution, assignment, sublicense, sale, preparation of derivative works or other use.",
+      "retrieved": "2026-10-08T04:26:57Z",
+      "sha256": "2c92c4dd21422852dff86fbb7cca9eedf0ea401e25ce19f933ddf4bc509bf362",
+      "saved_text": "warehouse/raw/large_load_rules/B/text/in__terms_of_use.html.txt",
+      "quoted_by": "pass B",
+      "withheld_words": "The Indiana Utility Regulatory Commission's site terms limit copying to personal use, except as the public records law allows; open the document",
+      "decided_by": "the coordinator of session 154; whether a quoted sentence of an order is inside the public records law's exception is the owner's to rule"
+    },
+    {
+      "regulator": "Georgia Public Service Commission",
+      "class": "restricted",
+      "terms_url": "https://psc.ga.gov/open-records-requests/",
+      "terms_quote": "Request in writing by any person pursuant to the Georgia Open Records Act, O.C.G.A. Section 50-18-70, et seq.",
+      "second_quote": "2026 Georgia Public Service Commission. All rights reserved.",
+      "second_quote_note": "the footer of every page of the site, after a copyright sign, as pass C records it",
+      "retrieved": "2026-10-08T04:37:01Z",
+      "sha256": "2fe67dc328efe559d80cf50204b736f85d7cb046b4b7b6fc2bb20d361249cf36",
+      "quoted_by": "pass C",
+      "withheld_words": "The Georgia Public Service Commission's site reserves all rights in its text; open the document",
+      "decided_by": "the coordinator of session 154: no terms page; an open-records statement of access; a footer that reserves all rights"
+    },
+    {
+      "regulator": "Public Utilities Commission of Ohio",
+      "class": "not quoted",
+      "terms_url": "",
+      "terms_quote": "",
+      "why_none": "puco.ohio.gov answered 404 to six plain requests, its privacy notice among them (pass B); no terms page could be read",
+      "quoted_by": "pass B",
+      "withheld_words": "The Public Utilities Commission of Ohio's terms on copying its text were not read; open the document",
+      "decided_by": "the rule: a regulator with no terms quoted by integration time is held internal"
+    },
+    {
+      "regulator": "Virginia State Corporation Commission",
+      "class": "not quoted",
+      "terms_url": "",
+      "terms_quote": "",
+      "why_none": "one guessed web policy address answered 404, so no terms page was met (pass A)",
+      "quoted_by": "pass A",
+      "withheld_words": "The Virginia State Corporation Commission's terms on copying its text were not read; open the document",
+      "decided_by": "the rule: a regulator with no terms quoted by integration time is held internal"
+    },
+    {
+      "regulator": "Federal Energy Regulatory Commission",
+      "class": "not quoted",
+      "terms_url": "",
+      "terms_quote": "",
+      "why_none": "every ferc.gov page answered HTTP 403 with a browser check, recorded once and left; only order files at known addresses answered (pass A). No terms page of the Commission, of the Federal Register or of govinfo.gov was read",
+      "quoted_by": "pass A",
+      "withheld_words": "The Federal Energy Regulatory Commission's terms on copying its text were not read; open the document",
+      "decided_by": "the rule: a regulator with no terms quoted by integration time is held internal. For the owner: a FERC order is a work of the United States government; no pass quoted a page that says so"
+    }
+  ]
+}
