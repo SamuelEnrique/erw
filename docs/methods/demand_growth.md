@@ -98,6 +98,43 @@ site's copy and on the page for California.
 A weather adjustment; the larger balancing authorities outside the seven; who is using the power; demand served behind
 the meter (rooftop solar lowers the demand a grid sees at midday); a forecast.
 
+## On the page
+
+Since session 152 demand growth is one page at one address, `/demand`, in review, with two views kept in the address:
+
+- **As metered** (`/demand`, with `?area=` and `?rank=`): this table. It is what `/demand` showed before, chart for
+  chart and number for number.
+- **With the weather taken out** (`/demand?view=weather`, with `?figure=` and `?year=`): the table
+  `eia930_demand_weather`, whose method is [demand growth with the weather taken out](demand_weather.md). It was built
+  as a page of its own at `/demand/weather`, which redirects to the view.
+
+No method or limitation is written out on the page face. What stood there in prose is now this note, and on the page
+a few words that show the same sentence when the mouse rests on them:
+
+| On the face before | Now |
+|---|---|
+| The boxed paragraph "Weather is not removed" | The words "Weather is not removed." with the paragraph as their hover, and a link to the second view |
+| The fold "How it is computed" | "Which hours are used", under the chart of the years, with the rule as its hover; the rule in full is "Which hours are used" above. The counts of hours left out for the grid chosen (standing apart from their neighbours, at or below zero, blank) are shown beside it |
+| The fold "What is not here" | "What the table does not hold" above, and the list below |
+| The notes under the heat map, the ranking and California's check | "How to read the cells", "What is ranked" and "What this check is", each with the note as its hover |
+| The reason the Lower 48 has no peak | "No peak is given for the Lower 48", with the reason as its hover |
+
+What the page's fold "What is not here" listed, in full:
+
+- A weather adjustment. Nothing is normalized to a typical year (the second view is that adjustment, with its own
+  method and its own limits).
+- The larger balancing authorities outside the seven grid operators (the Tennessee Valley Authority, Southern Company,
+  Bonneville, Duke, Florida Power and Light and others): the warehouse does not hold their hourly demand since 2019.
+  It is the same public EIA record and can be added by a pull.
+- Who is using the power: data centers, industry, electrification and population are not told apart in a grid's demand.
+- Demand served behind the meter. Rooftop solar lowers the demand a grid sees at midday, so a falling cell there can
+  be more solar and not less use.
+- The instant peak. An hour's figure is the average over the hour; an operator's own record peak is a few minutes and
+  reads a little higher.
+- A forecast.
+
+Every chart answers the mouse: a bar, a cell or a mark shows its own figure with its unit beside the pointer.
+
 ## Rebuilding
 
 ```bash

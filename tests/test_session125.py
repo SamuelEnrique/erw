@@ -262,6 +262,17 @@ class ThePull(unittest.TestCase):
         self.assertIn("table = HISTORY if args.history else NAME", code)
         self.assertIn("documents = kept.iloc[0] if len(kept) else documents", code)                 # the registry's row keeps naming the newest quarter's file
 
+    def test_a_filing_that_is_not_a_zip_is_asked_for_twice_then_left_out_and_counted(self):
+        code = src("warehouse", "connectors", "ferc_eqr_contracts.py")
+        loop = code[code.find("unreadable = []"):code.find("if args.fetch_only:")]
+        self.assertEqual(loop.count("except zipfile.BadZipFile:"), 2)                               # the first read, and the second
+        self.assertEqual(loop.count("member(f, name, ctype, csize, off)"), 2)
+        self.assertIn("unreadable=True", loop)
+        self.assertIn("the filing is left out and counted", loop)
+        self.assertIn('if name in index and index[name].get("unreadable"):', loop)                  # a later run does not ask for it again
+        self.assertIn("left out because the file FERC serves for them is not a zip file (named in the run log)", code)
+        self.assertNotIn("except Exception:\n                    continue", loop)                    # no other failure is passed over
+
     def test_the_registry_row_shown_on_terms_kept_its_words(self):
         import csv
         with open(os.path.join(ROOT, "warehouse", "metadata", "sources.csv"), encoding="utf-8", newline="") as f:

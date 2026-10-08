@@ -3,12 +3,13 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteLink } from "@/components/SiteLink";
-import { PitchbookPanel } from "@/components/thesis/PitchbookPanel";
+import { PitchbookPanel, type ProviderReceived } from "@/components/thesis/PitchbookPanel";
 import { ReportTabs } from "@/components/thesis/Report";
 import { RunForm } from "@/components/thesis/RunForm";
 import { RunWatch } from "@/components/thesis/RunWatch";
 import { COOKIE } from "@/lib/release";
-import { getRun, internalOk, listRuns } from "@/lib/thesis/server";
+import { heldOf, notMapped, notMappedOf, type ProviderPayload } from "@/lib/thesis/providers";
+import { getProviderResults, getRun, internalOk, listRuns } from "@/lib/thesis/server";
 import type { Run, RunRow } from "@/lib/thesis/types";
 import { METHOD, arr, choiceOf, hrefOf, str, whenWords } from "@/lib/thesis/view";
 
@@ -18,6 +19,9 @@ import { METHOD, arr, choiceOf, hrefOf, str, whenWords } from "@/lib/thesis/view
 // page checks the internal view's cookie itself; without it the address is not found. A run is read from the database
 // through functions that check the internal token (migration 024); the public key reads nothing of the table.
 // Nothing on the page says how a report is made: that is the Method note's, one link. The whole state is in the address.
+// Session 150: the stage of the data providers takes PitchBook, Harmonic or Crunchbase (lib/thesis/providers.ts). The
+// person chooses the provider in the panel before copying the request; the answers of the two new providers are read
+// beside the run (migration 025) and the run's own row is read exactly as before.
 export const metadata: Metadata = { title: "Thesis Builder", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
@@ -57,6 +61,17 @@ function Runs({ runs, selected }: { runs: RunRow[]; selected: string | null }) {
   );
 }
 
+/** What the panel says of each answer of Harmonic or Crunchbase the run holds. */
+function received(run: Run): ProviderReceived[] {
+  return heldOf(run).filter((h) => h.provider !== "pitchbook").map((h) => {
+    const p = h.payload as ProviderPayload;
+    const all = [...arr(p.companies), ...arr(p.additional_companies)];
+    const fields = [...notMapped(p.not_mapped), ...all.flatMap((c) => notMappedOf(c)), ...arr(p.lists).flatMap((l) => arr(l?.results).flatMap((r) => notMapped(r?.not_mapped)))];
+    return { provider: h.provider, pulled_on: str(p.pulled_on), pasted_at: h.pasted_at, found: arr(p.companies).filter((c) => c?.found).length, asked: arr(p.companies).length,
+      more: arr(p.additional_companies).filter((c) => c?.found).length, lists: arr(p.lists).length, not_mapped: fields.length };
+  });
+}
+
 function Selected({ run, choice }: { run: Run; choice: ReturnType<typeof choiceOf> }) {
   const status = str(run.status);
   const report = run.report && typeof run.report === "object" ? run.report : null;
@@ -78,7 +93,7 @@ function Selected({ run, choice }: { run: Run; choice: ReturnType<typeof choiceO
           {str(run.note) ? <p className="mt-0.5">{str(run.note)}</p> : null}
         </div>
       ) : null}
-      {status === "done" ? <PitchbookPanel runId={run.run_id} request={run.pitchbook_request ?? null} pitchbookKey={run.pitchbook_key ?? null} pitchbook={run.pitchbook ?? null} receivedAt={run.pitchbook_received_at ?? null} /> : null}
+      {status === "done" ? <PitchbookPanel runId={run.run_id} niche={str(run.niche)} request={run.pitchbook_request ?? null} pitchbookKey={run.pitchbook_key ?? null} pitchbook={run.pitchbook ?? null} receivedAt={run.pitchbook_received_at ?? null} others={received(run)} /> : null}
       {report ? <ReportTabs run={run} choice={choice} /> : status === "done" ? <p className="text-sm text-muted" data-thesis-empty="1">This run holds no report.</p> : null}
     </section>
   );
@@ -103,6 +118,15 @@ export default async function Thesis({ searchParams }: { searchParams: Promise<R
     } catch (e) {
       unread = true;
       console.error(`[erw] thesis: the run could not be read: ${(e as Error).message}`);
+    }
+    if (run && run.status === "done") {
+      // the answers of the providers beside PitchBook, kept beside the run. A database that does not hold their
+      // store yet (migration 025) answers with an error: the run is then shown as it always was, PitchBook's alone.
+      try {
+        run = { ...run, providers: arr(await getProviderResults(run.run_id)) };
+      } catch (e) {
+        console.error(`[erw] thesis: the providers' answers could not be read: ${(e as Error).message}`);
+      }
     }
   }
 

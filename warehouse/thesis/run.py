@@ -73,11 +73,12 @@ tb = _load("erw_thesis_build", os.path.join(HERE, "build.py"))      # also puts 
 tie = _load("erw_thesis_tie", os.path.join(HERE, "tie.py"))         # session 142: the tie of a company to a trend, in code
 pg = _load("erw_thesis_pages", os.path.join(HERE, "pages.py"))      # session 147: the pages a run cites, fetched in code
 es = _load("erw_thesis_store", os.path.join(HERE, "store.py"))      # session 147: where the evidence store is kept
+pv = _load("erw_thesis_providers", os.path.join(HERE, "providers.py"))   # session 150: the data providers of the fetch stage
 import iso_prices as ip  # noqa: E402
 
 TABLE_DIR = None                # --in-dir: read the warehouse's tables from another folder (a working copy has few of them)
 
-FORMAT = "erw-pitchbook-1"
+FORMAT = pv.PITCHBOOK.format     # "erw-pitchbook-1": the request a run writes is PitchBook's, as before session 150
 RUN_USD = 2.0                   # one run's hard stop unless --max-usd says less
 DAY_USD = 8.0                   # the tool's spend in a UTC day, counted from thesis_runs, for runs the page starts
 PIPELINE_MIN, PIPELINE_MAX = 60, 10
