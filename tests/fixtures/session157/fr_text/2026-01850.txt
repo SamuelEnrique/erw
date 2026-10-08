@@ -1,0 +1,273 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 20 (Friday, January 30, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 20 (Friday, January 30, 2026)]
+[Notices]
+[Pages 4114-4120]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-01850]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[NRC-2025-2062]
+
+
+State of Wyoming: NRC Staff Assessment of a Proposed Amendment to 
+the Agreement Between the Nuclear Regulatory Commission and the State 
+of Wyoming
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Proposed amendment to state agreement; request for comment.
+
+-----------------------------------------------------------------------
+
+SUMMARY: As required by Section 274e. of the Atomic Energy Act of 1954, 
+as amended (AEA), the U.S. Nuclear Regulatory Commission (NRC or 
+Commission) is publishing the proposed Agreement for public comment 
+(Appendix A). The NRC is also publishing the summary of a draft 
+assessment by the NRC staff of the State of Wyoming's regulatory source 
+material program. Comments are requested on the proposed amendment to 
+the Agreement and its effect on public health and safety. Comments are 
+also requested on the draft staff assessment, the adequacy of the State 
+of Wyoming's source material program, and the adequacy of the staffing 
+of the State's program, as discussed in this document.
+
+DATES: Submit comments by March 2, 2026. Comments received after this 
+date will be considered if it is practical to do so, but the Commission 
+is able to ensure consideration only for comments received on or before 
+this date.
+
+ADDRESSES: You may submit comments by any of the following methods; 
+however, the NRC encourages electronic comment submission through the 
+Federal Rulemaking website:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2025-2062. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#d597a7bcb1b2b0a1fb96a0a7a7b4bb95bba7b6fbb2baa3"><span class="__cf_email__" data-cfemail="f6b4849f92919382d8b58384849798b6988495d8919980">[email&#160;protected]</span></a>. For technical 
+questions, contact the individuals listed in the For Further 
+Information Contact section of this document.
+    <bullet> Mail Comments to: Office of Administration, Mail Stop: 
+TWFN-5-A85, U.S. Nuclear Regulatory Commission, Washington, DC 20555-
+0001, ATTN: Program Management, Announcements and Editing Staff.
+    For additional direction on obtaining information and submitting 
+comments, see ``Obtaining Information and Submitting Comments'' in the 
+SUPPLEMENTARY INFORMATION section of this document.
+
+FOR FURTHER INFORMATION CONTACT: Allyce Bolger, telephone: 301-415-
+
+[[Page 4115]]
+
+0855; email: <a href="/cdn-cgi/l/email-protection#4c0d2020352f29620e23202b293e0c223e2f622b233a"><span class="__cf_email__" data-cfemail="1c5d7070657f79325e73707b796e5c726e7f327b736a">[email&#160;protected]</span></a> and Huda Akhavannik, telephone: 301-
+415-5253; email: <a href="/cdn-cgi/l/email-protection#efa79a8b8ec1ae84878e998e81818684af819d8cc1888099"><span class="__cf_email__" data-cfemail="cd85b8a9ace38ca6a5acbbaca3a3a4a68da3bfaee3aaa2bb">[email&#160;protected]</span></a>. Both are staff of the Office 
+of Nuclear Material Safety and Safeguards at the U.S. Nuclear 
+Regulatory Commission, Washington, DC 20555-0001.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Obtaining Information and Submitting Comments
+
+A. Obtaining Information
+
+    Please refer to Docket ID NRC-2025-2062 when contacting the NRC 
+about the availability of information for this action. You may obtain 
+publicly available information related to this action by any of the 
+following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2025-2062.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#d5859187fb87b0a6baa0a7b6b095bba7b6fbb2baa3"><span class="__cf_email__" data-cfemail="1f4f5b4d314d7a6c706a6d7c7a5f716d7c31787069">[email&#160;protected]</span></a>. For the convenience of the reader, 
+instructions about obtaining materials referenced in this document are 
+provided in the ``Availability of Documents'' section.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#346470661a6651475b41465751745a46571a535b42"><span class="__cf_email__" data-cfemail="c4948096ea96a1b7abb1b6a7a184aab6a7eaa3abb2">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+B. Submitting Comments
+
+    The NRC encourages electronic comment submission through the 
+Federal Rulemaking website (<a href="https://www.regulations.gov">https://www.regulations.gov</a>). Please 
+include Docket ID NRC-2025-2062 in your comment submission.
+    The NRC cautions you not to include identifying or contact 
+information that you do not want to be publicly disclosed in your 
+comment submission. The NRC will post all comment submissions at 
+<a href="https://www.regulations.gov">https://www.regulations.gov</a> as well as enter the comment submissions 
+into ADAMS. The NRC does not routinely edit comment submissions to 
+remove identifying or contact information.
+    If you are requesting or aggregating comments from other persons 
+for submission to the NRC, then you should inform those persons not to 
+include identifying or contact information that they do not want to be 
+publicly disclosed in their comment submission. Your request should 
+state that the NRC does not routinely edit comment submissions to 
+remove such information before making the comment submissions available 
+to the public or entering the comment into ADAMS.
+
+SUPPLEMENTARY INFORMATION: By letter dated August 5, 2025, Governor 
+Mark Gordon of the State of Wyoming requested that the U.S. Nuclear 
+Regulatory Commission (NRC or Commission) amend its Agreement with the 
+State of Wyoming as authorized by Section 274b. of the Atomic Energy 
+Act of 1954, as amended (AEA). Under the proposed amendment to the 
+Agreement, the Commission would discontinue, and the State of Wyoming 
+would assume, regulatory authority over source material recovered from 
+any mineral resources processed primarily for purposes other than its 
+uranium or thorium content. Since 2018, Wyoming's existing Agreement 
+allows the State to assume regulatory authority over byproduct 
+materials as defined in Section 11e.(2) of the AEA, and source 
+materials involved in the extraction or concentration of uranium or 
+thorium in source material and ores at milling facilities.
+
+II. Additional Information on Agreements Entered Under Section 274 of 
+the AEA
+
+    Under the proposed amended Agreement, the NRC would discontinue its 
+authority over source material recovered from any mineral resources 
+processed primarily for purposes other than its uranium or thorium 
+content and would transfer its regulatory authority to the State of 
+Wyoming. There is currently one NRC licensee that would be transferred 
+to the State of Wyoming under this proposed amended Agreement. The NRC 
+periodically reviews the performance of the Agreement States to assure 
+compliance with the provisions of Section 274.
+    Section 274e. of the AEA requires that the terms of the proposed 
+Agreement be published in the Federal Register for public comment once 
+each week for four consecutive weeks. This document is being published 
+in fulfillment of that requirement.
+
+III. Proposed Amended Agreement With the State of Wyoming
+
+Background
+
+    (a) Section 274b. of the AEA provides the mechanism for a State to 
+assume regulatory authority from the NRC over certain radioactive 
+materials and activities that involve use of these materials. The 
+radioactive materials, sometimes referred to as ``Agreement 
+materials,'' are byproduct materials as defined in Sections 11e.(1), 
+11e.(2), 11e.(3), and 11e.(4) of the AEA; source material as defined in 
+Section 11z. of the AEA; and special nuclear material as defined in 
+Section 11aa. of the AEA, restricted to quantities not sufficient to 
+form a critical mass.
+    The State of Wyoming has requested authority over a subcategory of 
+source material in this amendment to its Agreement, specifically:
+    (a) source material recovered from any mineral resources processed 
+primarily for purposes other than its uranium or thorium content.
+    (b) The proposed amended Agreement contains articles that:
+
+    (i) Specify the materials and activities over which authority 
+was transferred in 2018 and in this amendment;
+    (ii) Specify the materials and activities over which the 
+Commission will retain regulatory authority;
+    (iii) Continue the authority of the Commission to safeguard 
+special nuclear material, protect restricted data, and protect 
+common defense and security;
+    (iv) Commit the State of Wyoming and the NRC to exchange 
+information as necessary to maintain coordinated and compatible 
+programs;
+    (v) Provide for the reciprocal recognition of licenses;
+    (vi) Provide for the suspension or termination of the amended 
+Agreement; and
+    (vii) Specify the effective date of the proposed amended 
+Agreement.
+
+    The Commission reserves the option to modify the terms of the 
+proposed amendment to the Agreement in response to comments, to correct 
+errors, and to make editorial changes. The final text of the proposed 
+amended Agreement, with the effective date, will be published after the 
+amended Agreement is approved by the Commission and signed by the NRC 
+Chairman and the Governor of Wyoming.
+    (c) The regulatory program is authorized by law under the Wyoming 
+Environmental Quality Act, Wyoming Statutes Sec. Sec.  35-11-2001 
+through 2004, Sec. Sec.  35-11-101 et seq., and Sec. Sec.  16-3-101 et 
+seq., which provides the Governor with the authority to enter into an 
+Agreement with the Commission. The State of Wyoming law contains
+
+[[Page 4116]]
+
+provisions for the orderly transfer of regulatory authority over 
+affected licenses from the NRC to the State. In a letter dated August 
+5, 2025, Governor Gordon certified that the State of Wyoming has a 
+program for the control of radiation hazards that is adequate to 
+protect public health and safety within the State of Wyoming for the 
+materials and activities specified in the proposed amended Agreement, 
+and that the State desires to assume regulatory responsibility for 
+these materials and activities. After the effective date of the amended 
+Agreement, the license issued by the NRC would continue in effect as a 
+State of Wyoming license until the license expires or is replaced by 
+State-issued license.
+    (d) The draft staff assessment finds that the Wyoming Department of 
+Environmental Quality's Source Material Program is adequate to protect 
+public health and safety and is compatible with the NRC's regulatory 
+program for the regulation of source material recovered from any 
+mineral resources processed primarily for purposes other than its 
+uranium or thorium content.
+
+Summary of the Draft NRC Staff Assessment of the State of Wyoming's 
+Program for the Regulation of Source Material
+
+    The NRC staff has examined the State of Wyoming's request for an 
+amended Agreement with respect to the ability of the State's radiation 
+control program to regulate source material recovered from any mineral 
+resources processed primarily for purposes other than its uranium or 
+thorium content. The examination was based on the Commission's Policy 
+Statement, ``Criteria for Guidance of States and NRC in Discontinuance 
+of NRC Regulatory Authority and Assumption Thereof by States Through 
+Agreement,'' (46 FR 7540, January 23, 1981, as amended by Policy 
+Statements published at 46 FR 36969, July 16, 1981, and at 48 FR 33376, 
+July 21, 1983) (Policy Statement), and the Office of Nuclear Material 
+Safety and Safeguards Procedure SA-700, ``Processing an Agreement'' and 
+its associated Handbook. The Policy Statement has 28 criteria that 
+serve as the basis for the NRC staff's assessment of the State of 
+Wyoming's request for an amended Agreement. The following section will 
+reference the appropriate criteria numbers from the Policy Statement 
+that apply to each section. Criteria 9b, 15, and 22 do not apply to the 
+proposed Agreement since Wyoming's authority will be limited to the 
+regulation of uranium recovery facilities and source material recovered 
+from any mineral resources processed primarily for purposes other than 
+its uranium or thorium content.
+    (a) Organization and Personnel. The NRC staff reviewed these areas 
+under Criteria 1, 2, 20, and 24 in the draft staff assessment. The 
+State of Wyoming's proposed amended Agreement program for the 
+regulation of source material is called the ``Source Material 
+Program,'' and will be located within the Land Quality Division in the 
+Department of Environmental Quality along with the existing Agreement 
+program that regulates uranium recovery facilities.
+    The educational requirements for the Source Material Program staff 
+are specified in the State of Wyoming's personnel position descriptions 
+and meet the NRC criteria with respect to formal education or combined 
+education and experience requirements. All current staff members meet 
+the requirements of a bachelor's degree in the physical, life science, 
+or engineering; or an equivalent combination of education and 
+experience has been substituted for the degree. All have training and 
+work experience in radiation protection. Supervisory level staff each 
+have at least 20 years of working experience in radiation protection.
+    The State of Wyoming performed an analysis of the expected workload 
+under the proposed amended Agreement. Based on the NRC staff review of 
+the State of Wyoming's analysis, the State has an adequate number of 
+staff to regulate source material under the terms of the proposed 
+amended Agreement. The State of Wyoming will employ the equivalent of 3 
+full-time equivalent professional and technical staff to support the 
+Source Material Program.
+    The State of Wyoming has indicated that the Source Material Program 
+has an adequate number of trained and qualified staff in place. The 
+State of Wyoming has developed qualification procedures for license 
+reviewers and inspectors that are similar to the NRC's procedures. The 
+Source Material Program staff has accompanied the NRC staff on 
+inspections of the NRC licensee in Wyoming. The Source Material Program 
+staff is also actively supplementing its experience through meetings, 
+discussions, and through self-study, in-house training, and formal 
+training.
+    Overall, the NRC staff concluded that the Source Material Program 
+staff identified by the State of Wyoming to participate in the 
+Agreement program has sufficient knowledge and experience in radiation 
+protection, the use of radioactive materials, the standards for the 
+evaluation of applications for licensing, and the techniques of 
+i

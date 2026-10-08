@@ -1,0 +1,287 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 39 (Friday, February 27, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 39 (Friday, February 27, 2026)]
+[Proposed Rules]
+[Pages 9793-9798]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-03937]
+
+
+-----------------------------------------------------------------------
+
+ENVIRONMENTAL PROTECTION AGENCY
+
+40 CFR Part 52
+
+[EPA-R05-OAR-2024-0137; EPA-R05-OAR-2025-0235; FRL-13185-01-R5]
+
+
+Air Plan Approval; Michigan; 2015 Ozone Moderate Reasonably 
+Available Control Technology
+
+AGENCY: Environmental Protection Agency (EPA).
+
+ACTION: Proposed rule.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The Environmental Protection Agency (EPA) is proposing to 
+approve revisions and additions to Michigan Air Pollution Control Rules 
+(MAPCR) Parts 6 and 8 for inclusion in the Michigan State 
+Implementation Plan (SIP). Michigan submitted these SIP revisions to 
+meet the Moderate Volatile Organic Compound (VOC) and Nitrogen Oxide 
+(NO<INF>X</INF>) Reasonably Available Control Technology (RACT) 
+requirements for the Western Michigan nonattainment areas (Berrien, 
+Western portion of Allegan, and Western portion of Muskegon counties) 
+under the 2015 ozone National Ambient Air Quality Standard (NAAQS or 
+standard). The EPA is also proposing to approve MAPCR Rules that limit 
+VOC emissions from consumer products and architectural and industrial 
+maintenance coatings, as SIP strengthening measures for the Western 
+Michigan nonattainment areas under the 2015 ozone standard. The 
+Michigan Department of Environment, Great Lakes, and Energy (Michigan 
+or EGLE) submitted the VOC SIP revisions on March 7, 2024, 
+supplementing the submittal on May 2, 2024, and submitted the 
+NO<INF>X</INF> SIP revisions on May 5, 2025, supplementing the 
+submittal on August 6, 2025.
+
+DATES: Comments must be received on or before March 30, 2026.
+
+ADDRESSES: Submit your comments, identified by Docket ID No. EPA-R05-
+OAR-2024-0137 (for VOC RACT) or EPA-R05-OAR-2025-0235 (for NOx RACT) at 
+<a href="https://www.regulations.gov">https://www.regulations.gov</a>, or via email to <a href="/cdn-cgi/l/email-protection#1e7f6c6c7f306d7f6c7f765e7b6e7f30797168"><span class="__cf_email__" data-cfemail="8cedfefeeda2ffedfeede4cce9fceda2ebe3fa">[email&#160;protected]</span></a>. For 
+comments submitted at <a href="http://Regulations.gov">Regulations.gov</a>, follow the online instructions 
+for submitting comments. Once submitted, comments cannot be edited or 
+removed from the docket. The EPA may publish any comment received to 
+its public docket. Do not submit to the EPA's docket at <a href="https://www.regulations.gov">https://www.regulations.gov</a> any information you consider to be Confidential 
+Business Information (CBI), Proprietary Business Information (PBI), or 
+other information whose disclosure is restricted by statute. Multimedia
+
+[[Page 9794]]
+
+submissions (audio, video, etc.) must be accompanied by a written 
+comment. The written comment is considered the official comment and 
+should include discussion of all points you wish to make. The EPA will 
+generally not consider comments or comment contents located outside of 
+the primary submission (i.e. on the web, cloud, or other file sharing 
+system). For additional submission methods, please contact the person 
+identified in the FOR FURTHER INFORMATION CONTACT section. For the full 
+EPA public comment policy, information about CBI, PBI, or multimedia 
+submissions, and general guidance on making effective comments, please 
+visit <a href="https://www.epa.gov/dockets/commenting-epa-dockets">https://www.epa.gov/dockets/commenting-epa-dockets</a>.
+
+FOR FURTHER INFORMATION CONTACT: Katie Caskey, Air and Radiation 
+Division (AR-18J), Environmental Protection Agency, Region 5, 77 West 
+Jackson Boulevard, Chicago, Illinois 60604, (312) 353-3490, 
+<a href="/cdn-cgi/l/email-protection#e88b899b838d91c683899c80848d8d86a88d9889c68f879e"><span class="__cf_email__" data-cfemail="167577657d736f387d77627e7a7373785673667738717960">[email&#160;protected]</span></a>. The EPA Region 5 office is open from 8:30 a.m. 
+to 4:30 p.m., Monday through Friday, excluding Federal holidays.
+
+SUPPLEMENTARY INFORMATION: Throughout this document whenever ``we,'' 
+``us,'' or ``our'' is used, we mean the EPA.
+
+I. What is the EPA proposing?
+
+    Michigan's Part 6 rules regulate existing sources of VOC emissions, 
+while Michigan's Part 8 rules regulate existing sources of 
+NO<INF>X</INF> emissions. The EPA is proposing to approve various 
+revisions and additions to MAPCR Parts 6 and 8, except for MAPCR Rule 
+336.1601(a), which Michigan requested that the EPA not incorporate into 
+the SIP. The EPA is also proposing to remove the current SIP approved 
+version of R 336.1632, except for subrule (15), and is proposing to 
+approve Michigan's updated version of R 336.1632 (effective April 18, 
+2023), except for subrule (9), which Michigan requested the EPA not 
+incorporate into the SIP. Michigan submitted these SIP revisions to 
+meet the Moderate VOC and NO<INF>X</INF> RACT requirements for the 
+Western Michigan nonattainment areas under the 2015 ozone standard.
+    The EPA is proposing to approve MAPCR Rules 336.1660 and 336.1662, 
+which limit VOC emissions from consumer products and architectural and 
+industrial maintenance coatings, as SIP strengthening measures for the 
+areas. Although Michigan requested SIP revisions to Rules 336.1841(8), 
+336.1842(10), and 336.1844(9), the EPA is not proposing action on these 
+revisions in this action.
+    Finally, Michigan did not request EPA action on R. 336.1801, 
+336.1802, 336.1803, 336.1810, and 336.1818, which are responsive to 
+different CAA requirements and will be considered in a separate 
+rulemaking.
+    EGLE submitted the VOC SIP revisions on March 7, 2024, 
+supplementing them on May 2, 2024, and submitted the NO<INF>X</INF> SIP 
+revisions on May 5, 2025, supplementing them on August 6, 2025.
+
+II. What is the background for this action?
+
+    Under Clean Air Act (CAA) section 109, the EPA has established 
+primary and secondary NAAQS for certain air pollutants (referred to as 
+``criteria pollutants'') and conducts periodic reviews of the NAAQS to 
+determine whether they should be revised or whether new NAAQS should be 
+established. The primary NAAQS represent ambient air quality standards 
+which the EPA has determined are necessary to protect the public health 
+with an adequate margin of safety. The secondary NAAQS represent 
+ambient air quality standards which the EPA has determined are 
+necessary to protect the public welfare from any known or anticipated 
+adverse effects associated with the presence of such air pollutant in 
+the ambient air. One such criteria pollutant is ground-level ozone.
+    Ozone forms from complex chemical reactions in ambient air between 
+NO<INF>X</INF> and VOCs. Cars, trucks, buses, engines, industries, 
+power plants, and products such as solvents and paints are among the 
+major manmade sources of ozone-forming emissions. Exposure to ozone can 
+harm the respiratory system, aggravate asthma and other lung diseases, 
+and is linked to premature death from respiratory causes.
+    On October 26, 2015, the EPA promulgated a new 8-hour primary ozone 
+NAAQS of 70 parts per billion (ppb) at 40 CFR 50.19, which is met at an 
+ambient air quality monitoring site when the 3-year average of the 
+annual fourth-highest daily maximum 8-hour average ozone concentration 
+is less than or equal to 0.070 ppm, as determined in accordance with 
+appendix U of 40 CFR part 50.\1\ Upon promulgation of a new or revised 
+NAAQS, the EPA is required to designate all areas of the country as 
+either ``attainment'' (meets the standard), ``nonattainment'' (does not 
+meet the standard), or ``unclassifiable'' (any area that cannot be 
+classified on the basis of available information).\2\
+---------------------------------------------------------------------------
+
+    \1\ 80 FR 65292 (October 26, 2015).
+    \2\ CAA section 107(d)(1)(A).
+---------------------------------------------------------------------------
+
+    Under the cooperative federalism framework of CAA section 110, 
+States and the EPA each play a unique role in ensuring attainment and 
+maintenance of the NAAQS. States are primarily responsible for 
+developing plans for attaining and maintaining the NAAQS in areas 
+within their jurisdiction, based on CAA requirements, planning rules, 
+and guidance promulgated by the EPA. These planning requirements 
+include (but are not limited to) provisions for implementing emissions 
+controls, tracking progress toward attainment and monitoring and 
+reporting air quality data, with the overarching goal of attaining and 
+maintaining the NAAQS as expeditiously as practical, but no later than 
+the CAA's maximum attainment date.
+    Effective on August 3, 2018, the EPA initially designated 51 areas 
+throughout the country as nonattainment for the 2015 ozone NAAQS, 
+including the Western Michigan nonattainment areas.\3\ In a separate 
+action, the EPA assigned classification thresholds based on the 
+severity of an area's ozone levels, determined by the area's monitored 
+design value (DV).\4\ As a result of that action, the Western Michigan 
+nonattainment areas were initially classified as Marginal. Also in that 
+action, the EPA established the attainment dates for Marginal, 
+Moderate, Serious, Severe, and Extreme nonattainment areas as 3 years, 
+6 years, 9 years, 15 years, and 20 years, respectively, from the 
+effective date of the final designations.\5\ Therefore, the attainment 
+dates for each nonattainment area classification for the 2015 ozone 
+NAAQS were/are as follows: August 3, 2021, for Marginal areas, August 
+3, 2024, for Moderate areas, August 3, 2027, for Serious areas, August 
+3, 2033, for Severe areas, and August 3, 2038, for Extreme areas.
+---------------------------------------------------------------------------
+
+    \3\ 83 FR 25776 (June 4, 2018).
+    \4\ 83 FR 10376 (March 9, 2018).
+    \5\ Id. 10380.
+---------------------------------------------------------------------------
+
+    The EPA also promulgated a rulemaking clarifying the CAA's ozone 
+nonattainment area implementation requirements for the 2015 ozone NAAQS 
+(herein referred to as the ``2015 Ozone SIP Requirements Rule'').\6\ 
+That implementation rulemaking articulated the CAA's substantive 
+requirements for ozone nonattainment areas for each classification 
+level and established deadlines for submission of plan
+
+[[Page 9795]]
+
+revisions to address those requirements.\7\
+---------------------------------------------------------------------------
+
+    \6\ 83 FR 62998 (December 6, 2018).
+    \7\ Id.; 40 CFR 51.1300-1319.
+---------------------------------------------------------------------------
+
+    Effective November 7, 2022, the EPA determined that the Western 
+Michigan nonattainment areas failed to attain by the Marginal area 
+attainment date and the areas were reclassified by operation of law to 
+Moderate.\8\ Effective January 16, 2025, the EPA determined that the 
+Western Michigan nonattainment areas failed to attain by the Moderate 
+area attainment date and the areas were reclassified to Serious by 
+operation of law.\9\ Michigan's Serious RACT SIP was due on January 1, 
+2026, but this action addresses RACT for Moderate nonattainment 
+only.\10\
+---------------------------------------------------------------------------
+
+    \8\ 87 FR 60897 (October 7, 2022).
+    \9\ 89 FR 101901 (December 17, 2024).
+    \10\ 90 FR 5651 (January 17, 2025).
+---------------------------------------------------------------------------
+
+II. RACT Requirements for Ozone
+
+    RACT is an important strategy for reducing NO<INF>X</INF> and VOC 
+emissions from major stationary sources and sources covered by a 
+control techniques guideline (CTG) document. Since the 1970s, the EPA 
+has defined RACT as the lowest emission limit that a particular source 
+is capable of meeting by the application of the control technology that 
+is reasonably available considering technological and economic 
+feasibility.\11\
+---------------------------------------------------------------------------
+
+    \11\ Guidance for Determining Acceptability of SIP Regulations 
+in Non-Attainment Areas (December 9, 1976) and 44 FR 53762 
+(September 17, 1979).
+---------------------------------------------------------------------------
+
+    Areas designated nonattainment for an ozone NAAQS are subject to 
+the general nonattainment area planning requirements of CAA section 
+172. Section 172(c)(1) of the CAA provides that SIPs for nonattainment 
+areas must include reasonably available control measures (RACM), 
+including emissions reductions from existing sources through the 
+adoption of RACT. Further, section 182(b)(2) of the CAA sets forth 
+three specific RACT requirements for ozone nonattainment areas 
+classified as Moderate or higher.
+    First, section 182(b)(2)(A) requires that States submit a revision 
+to their SIP requiring implementation of RACT for each category of VOC 
+sources in the nonattainment area covered by a CTG document issued by 
+the EPA between November 15, 1990, and the date of attainment. Second, 
+section 182(b)(2)(B) requires a SIP revision to implement RACT for all 
+VOC sources in the nonattainment area covered by any CTG issued before 
+November 15, 1990. Third, section 182(b)(2)(C) requires a SIP revision 
+implementing RACT for any other major stationary source of VOCs located 
+in the nonattainment area. This RACT requirement is extended to major 
+stationary sources of NO<INF>X</INF> in section 182(f) of the CAA, 
+which subjects major stationary sources of NO<INF>X</INF> to the same 
+requirements that are applicable to major stationary sources of VOCs. 
+These ozone RACT requirements are sometimes referred to collectively as 
+VOC CTG RACT, non-CTG major source VOC RACT, and major source 
+NO<INF>X</INF> RACT.
+    A ``major source'' is defined based on the source's potential to 
+emit (PTE) of NO<INF>X</INF>, VOC, or both pollutants, and the 
+applicable thresholds differ based on the classification of the 
+nonattainment area in which the source is located.\12\
+---------------------------------------------------------------------------
+
+    \12\ See CAA sections 182(c)-(f) and 302(j).
+---------------------------------------------------------------------------
+
+    The EPA has affirmed RACT requirements through implementation rules 
+for each ozone NAAQS as well as through guidance. The EPA's 2015 Ozone 
+SIP Requirements Rule outlined the requirements that States with ozone 
+nonattainment areas need to address for the 2015 ozone NAAQS, which 
+include RACT requirements.\13\
+---------------------------------------------------------------------------
+
+    \13\ 40 CFR 51.1312.
+---------------------------------------------------------------------------
+
+    The preamble to the 2015 ozone implementation rule, consistent with 
+the EPA's prior guidance, says that when determining what is RACT for a 
+particular source or category of sources, air agencies should consider 
+all relevant information (including recent technical information and 
+information received during the State's public comment period) that is 
+available at the time they develop their RACT SIPs.\14\ The EPA 
+informally refers to this assessment process as a ``due diligence 
+review'' and considers it a necessary component of approvable RACT 
+determinations.\15\
+---------------------------------------------------------------------------
+
+    \14\ 83 FR at 63007.
+    \15\ See Ozone NAAQS Resource Document: Due Diligence Review 
+Framework for Air Agencies Developing RACT SIP Revisions (Dec. 19, 
+2024).
+---------------------------------------------------------------------------
+
+    Further, an air agency that has previously implemented RACT 

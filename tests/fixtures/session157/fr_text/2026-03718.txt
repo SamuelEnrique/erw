@@ -1,0 +1,92 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 37 (Wednesday, February 25, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 37 (Wednesday, February 25, 2026)]
+[Notices]
+[Page 9303]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-03718]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket No. 50-352; NRC 2026-0793]
+
+
+Constellation Energy Generation, LLC; Limerick Generating 
+Station, Unit 1; License Amendment Application; Withdrawal by Applicant
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) has granted the 
+request of Constellation Energy Generation, LLC, to withdraw its 
+application dated October 9, 2025, for a proposed amendment to Renewed 
+Facility Operating License No. NPF-39. The licensee requested to 
+withdraw its license amendment request to modify the facility technical 
+specifications to allow a one-time extension to performing local 
+leakage rate tests for four primary containment isolation valves.
+
+DATES: This document was published in the Federal Register on February 
+25, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2026-0793 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2026-0793. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#6527170c010200114b26101717040b250b17064b020a13"><span class="__cf_email__" data-cfemail="89cbfbe0edeeecfda7cafcfbfbe8e7c9e7fbeaa7eee6ff">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual(s) listed in the For Further 
+Information Contact section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#b5e5f1e79be7d0c6dac0c7d6d0f5dbc7d69bd2dac3"><span class="__cf_email__" data-cfemail="f6a6b2a4d8a493859983849593b6988495d8919980">[email&#160;protected]</span></a>. The ADAMS accession number for each document 
+referenced (if it is available in ADAMS) is provided the first time 
+that it is mentioned in this document.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#d2829680fc80b7a1bda7a0b1b792bca0b1fcb5bda4"><span class="__cf_email__" data-cfemail="49190d1b671b2c3a263c3b2a2c09273b2a672e263f">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: Audrey L. Klett, Office of Nuclear 
+Reactor Regulation, U.S. Nuclear Regulatory Commission, Washington, DC 
+20555-0001; telephone: 301-415-0489; email: <a href="/cdn-cgi/l/email-protection#95d4e0f1e7f0ecbbdef9f0e1e1d5fbe7f6bbf2fae3"><span class="__cf_email__" data-cfemail="2f6e5a4b5d4a560164434a5b5b6f415d4c01484059">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION: The NRC has granted Constellation Energy 
+Generation, LLC's (the licensee's), request dated January 30, 2026 
+(ML26030A252), to withdraw its application dated October 9, 2025 
+(ML25282A072) for a proposed amendment to Renewed Facility Operating 
+License No. NPF-39 for the Limerick Generation Station, Unit 1, located 
+in Limerick, PA.
+    The licensee requested the NRC to modify the facility technical 
+specifications to allow a one-time extension to performing local 
+leakage rate tests for four primary containment isolation valves.
+    A notice of consideration of issuance and proposed no significant 
+hazards consideration determination for the license amendment request 
+was published in the Federal Register (91 FR 2375) on January 20, 2026.
+
+    Dated: February 23, 2026.
+
+    For the Nuclear Regulatory Commission.
+Audrey Klett,
+Senior Project Manager, Plant Licensing Branch I, Division of Operating 
+Reactor Licensing, Office of Nuclear Reactor Regulation.
+[FR Doc. 2026-03718 Filed 2-24-26; 8:45 am]
+BILLING CODE 7590-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

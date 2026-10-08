@@ -121,6 +121,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW policy audit: checks by code")
     ap.add_argument("--in-dir", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--session", default="154", help="the session whose sample this is (the dossier's heading)")
     args = ap.parse_args(argv)
     acts = read_events(os.path.join(args.in_dir, "policy_actions.csv")).set_index("event_id")
     reads = read_events(os.path.join(args.in_dir, "policy_reads.csv")).set_index("action_event_id")
@@ -128,7 +129,8 @@ def main(argv=None):
     with open(os.path.join(args.out, "sample.csv"), encoding="utf-8") as f:
         sample = [r["event_id"] for r in csv.DictReader(ln for ln in f if not ln.startswith("#"))]
     man = list(csv.DictReader(open(os.path.join(args.out, "manifest.csv"), encoding="utf-8")))
-    doc = {(m["key"], m["kind"]): m for m in man if m["status"] == "200"}
+    # "held" (session 157): a printed text copied from the connector's own store, which asked for it once
+    doc = {(m["key"], m["kind"]): m for m in man if m["status"] in ("200", "held")}
     checks, md = [], []
 
     def add(eid, field, cls, row_val, src_val, note=""):
@@ -266,7 +268,7 @@ def main(argv=None):
         w.writeheader()
         w.writerows(checks)
     with open(os.path.join(args.out, "dossier.md"), "w", encoding="utf-8", newline="\n") as f:
-        f.write("# Session 154 audit dossier: each sampled row beside its source document\n" + "".join(md))
+        f.write(f"# Session {args.session} audit dossier: each sampled row beside its source document\n" + "".join(md))
     c = pd.DataFrame(checks)
     print(c.groupby(["field", "cls"]).size().unstack(fill_value=0).to_string())
     return 0

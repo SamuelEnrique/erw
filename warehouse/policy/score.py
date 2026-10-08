@@ -10,6 +10,16 @@ warehouse/policy/scores.csv (in git, so an action is scored once) and in the tab
 
     python warehouse/policy/score.py                  # every unscored action
     python warehouse/policy/score.py --max-usd 6      # stop before the spend passes this (default 6)
+
+Session 157 (the audit: 1,086 of 1,843 actions were scored on a title alone, because a FERC notice has no abstract
+in the Register's record, and every unsupported "why" and "sector" the audit found was such a row):
+  - the summary given to the scorer is the abstract, else the first paragraph of the document's printed text
+    (first_paragraph, which policy_sources.py reads once), else the status line;
+  - one line is added to the scorer's instructions (POLICY_NOTE): with an empty summary it says what the title says
+    and no more;
+  - model_recheck and model_rechecked_at: "rechecked", "not rechecked" or "source not reachable" for the actions
+    held when session 157 rescored them against the source text (warehouse/policy/recheck.py); an action first scored
+    after it with a summary or a first paragraph is "scored on the source text".
 """
 
 import argparse
@@ -32,7 +42,18 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse"))
 NAME = "policy_actions"
 SCORES = os.path.join(HERE, "scores.csv")
 BATCH = 40
-SCORE_COLS = ["significance", "sector", "why", "model_id", "scored_at"]
+SCORE_COLS = ["significance", "sector", "why", "model_id", "scored_at", "model_recheck", "model_rechecked_at"]
+POLICY_NOTE = ("\n\nPolicy actions: the summary of an item is the document's own summary or the first paragraph of its "
+               "printed text. When the summary is empty, say what the title says and no more: do not infer what the "
+               "document decides, whom it affects or why it matters from a company's name, an agency's name or a "
+               "docket number, and choose the sector only from words the title itself holds.")
+ON_TEXT = "scored on the source text"
+
+
+def item_of(r):
+    """What the scorer is given for one action (session 157: the first paragraph where the abstract is empty)."""
+    return {"id": r["event_id"], "feed_beat": "policy", "title": r["title"],
+            "summary": (r.get("abstract") or r.get("first_paragraph") or r.get("status") or "")[:600]}
 
 
 def read_table(path):
@@ -61,10 +82,11 @@ def first_list(obj):
     raise RuntimeError("no result list in the scorer's answer")
 
 
-def score_batch(client, model, items):
+def score_batch(client, model, items, max_tokens=16000):
     from score import SCHEMA, SYSTEM, nodash
     resp = client.messages.create(
-        model=model, max_tokens=16000, system=[{"type": "text", "text": SYSTEM, "cache_control": {"type": "ephemeral"}}],
+        model=model, max_tokens=max_tokens,
+        system=[{"type": "text", "text": SYSTEM + POLICY_NOTE, "cache_control": {"type": "ephemeral"}}],
         output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}},
         messages=[{"role": "user", "content": json.dumps({"stories": items}, ensure_ascii=False)}])
     if resp.stop_reason != "end_turn":
@@ -88,6 +110,9 @@ def main(argv=None):
         head, df = read_table(path)
         old = pd.read_csv(SCORES, dtype=str, keep_default_na=False) if os.path.exists(SCORES) else \
             pd.DataFrame(columns=["event_id"] + SCORE_COLS)
+        for c in SCORE_COLS:   # session 157: a scores file from before has no recheck columns
+            if c not in old.columns:
+                old[c] = ""
         todo = df[~df["event_id"].isin(set(old["event_id"]))]
         log(f"{len(df)} actions, {len(old)} scored before, {len(todo)} to score")
         new = []
@@ -96,8 +121,8 @@ def main(argv=None):
             client = llm.client("policy_score", log)
             model = pick_model(client, log)
             price = PRICES.get(model)
-            items = [{"id": r["event_id"], "feed_beat": "policy", "title": r["title"],
-                      "summary": (r["abstract"] or r["status"])[:600]} for r in todo.to_dict("records")]
+            items = [item_of(r) for r in todo.to_dict("records")]
+            on_text = {r["event_id"] for r in todo.to_dict("records") if r.get("abstract") or r.get("first_paragraph")}
             batches = [items[i:i + BATCH] for i in range(0, len(items), BATCH)]
             per_call = 0.12  # a ceiling per call, USD; the run stops before a group would pass --max-usd
             with cf.ThreadPoolExecutor(4) as pool:
@@ -116,7 +141,8 @@ def main(argv=None):
                         c = (u.input_tokens * price[0] + u.output_tokens * price[1]) / 1e6 if price else 0
                         cost += c
                         now = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
-                        new += [dict(event_id=i, significance=str(s_), sector=sec, why=w, model_id=model, scored_at=now)
+                        new += [dict(event_id=i, significance=str(s_), sector=sec, why=w, model_id=model, scored_at=now,
+                                     model_recheck=ON_TEXT if i in on_text else "", model_rechecked_at="")
                                 for i, (s_, sec, w) in res.items()]
                         log(f"  batch {k + 1} of {len(batches)}: {len(res)} scored, USD {c:.4f}; total USD {cost:.4f}")
         known = set(df["event_id"])
@@ -124,7 +150,9 @@ def main(argv=None):
         allsc = pd.concat([old, pd.DataFrame(new, columns=["event_id"] + SCORE_COLS)], ignore_index=True) \
             .drop_duplicates("event_id", keep="last")
         allsc.to_csv(SCORES, index=False, lineterminator="\n")
-        df = df.drop(columns=SCORE_COLS).merge(allsc, on="event_id", how="left").fillna("")
+        import policy_sources as ps   # session 157: the table takes the scores with the recheck laid over them
+        shown = ps.with_recheck(allsc.copy())[["event_id"] + SCORE_COLS]
+        df = df.drop(columns=[c for c in SCORE_COLS if c in df.columns]).merge(shown, on="event_id", how="left").fillna("")
         cols = [c for c in read_table(path)[1].columns]
         write_table(path, head, df[cols], f"by warehouse/policy/score.py at {run_id} (UTC); run log "
                                           f"warehouse/output/logs/policy_score_{run_id}.log")

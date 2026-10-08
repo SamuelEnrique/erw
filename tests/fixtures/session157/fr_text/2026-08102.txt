@@ -1,0 +1,177 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 80 (Monday, April 27, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 80 (Monday, April 27, 2026)]
+[Notices]
+[Pages 22551-22553]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-08102]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket No. 72-20; NRC-2025-0841]
+
+
+U.S. Department of Energy; Three Mile Island Unit 2 Independent 
+Spent Fuel Storage Installation; License Amendment
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice of issuance.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) reviewed an 
+application from the U.S. Department of Energy (DOE or the licensee) 
+for an amendment to Special Nuclear Materials (SNM) License No. SNM-
+2508, for the Three Mile Island Unit 2 (TMI-2) independent spent fuel 
+storage installation (ISFSI). The TMI-2 ISFSI is located at the Idaho 
+National Laboratory within the perimeter of the Idaho Nuclear 
+Technology and Engineering Center site in Scoville, Butte County, 
+Idaho. The amendment revises certain license conditions and technical 
+specifications (TS) by changing the description of the DOE official, 
+who is responsible for the operation and nuclear safety of the TMI-2 
+ISFSI and for ensuring its compliance with NRC requirements, changing 
+reference to a regulation and removing outdated language, adjusting 
+references to relevant organizational components of DOE, and otherwise 
+making clerical changes.
+
+DATES: The license amendment was issued and effective on March 27, 
+2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2025-0841 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2025-0841. Address
+
+[[Page 22552]]
+
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#7e3c0c171a191b0a503d0b0c0c1f103e100c1d50191108"><span class="__cf_email__" data-cfemail="a5e7d7ccc1c2c0d18be6d0d7d7c4cbe5cbd7c68bc2cad3">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual listed in the ``For Further 
+Information Contact'' section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#1e4e5a4c304c7b6d716b6c7d7b5e706c7d30797168"><span class="__cf_email__" data-cfemail="451501176b1720362a30372620052b37266b222a33">[email&#160;protected]</span></a>. For the convenience of the reader, 
+instructions about obtaining materials referenced in this document are 
+provided in the ``Availability of Documents'' section.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#217165730f7344524e54534244614f53420f464e57"><span class="__cf_email__" data-cfemail="cb9b8f99e599aeb8a4beb9a8ae8ba5b9a8e5aca4bd">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: Kristina Banovac, Office of Nuclear 
+Material Safety and Safeguards, U.S. Nuclear Regulatory Commission, 
+Washington, DC 20555-0001; telephone: 301-415-7116; email: 
+<a href="/cdn-cgi/l/email-protection#c68db4afb5b2afa8a7e884a7a8a9b0a7a586a8b4a5e8a1a9b0"><span class="__cf_email__" data-cfemail="cd86bfa4beb9a4a3ace38faca3a2bbacae8da3bfaee3aaa2bb">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Introduction
+
+    By letter dated November 21, 2024, DOE submitted to the NRC an 
+application to amend the license and TS for the TMI-2 ISFSI, located in 
+Scoville, Butte County, Idaho. Special Nuclear Materials License No. 
+SNM-2508 authorizes the licensee to receive, possess, store, and 
+transfer canisters containing core debris and damaged spent nuclear 
+fuel from the TMI-2 reactor, in addition to other authorized uses. The 
+proposed amendment revises the license and TS so that they explicitly 
+designate the Manager for the Idaho Cleanup Project (ICP) as the DOE 
+official who is responsible for the operation and nuclear safety of the 
+TMI-2 ISFSI and for ensuring its compliance with NRC license conditions 
+and regulatory requirements. Additionally, the amendment includes an 
+editorial change to TS 5.5.1.b regarding section 72.48 of title 10 of 
+the Code of Federal Regulations (10 CFR) to remove outdated language. 
+The amendment includes title changes to refer to DOE ICP instead of DOE 
+Idaho Operations Office, and clerical changes throughout the document 
+such as changes to spacing.
+    In an email dated January 8, 2026, the NRC notified DOE that the 
+application was acceptable to begin a detailed review. The NRC's Office 
+of Nuclear Materials Safety and Safeguards docketed this application 
+under Docket No. 72-20. In accordance with 10 CFR 72.16(e), the NRC 
+published a notice of docketing in the Federal Register on February 19, 
+2026.
+    The NRC prepared a safety evaluation report (SER) to document its 
+review and evaluation of the amendment request. As further explained in 
+the SER, the NRC has determined that the license amendment is 
+administrative in nature and satisfies the criterion of 10 CFR 
+51.22(c)(10) for categorical exclusion from the requirement to prepare 
+an environmental assessment or an environmental impact statement. This 
+action qualifies for categorical exclusion under 10 CFR 51.22(c)(10) 
+because it is an amendment to a materials license issued under 10 CFR 
+chapter I which merely changes the position titles of relevant 
+officials of the licensee and makes certain editorial, corrective, and 
+minor revisions, as described previously. Consequently, neither an 
+environmental assessment nor an environmental impact statement is 
+required.
+    Upon completing its review, the NRC staff determined the 
+application complies with the standards and requirements of the Atomic 
+Energy Act of 1954, as amended (the Act), and the NRC's regulations. 
+The NRC has made appropriate findings as required by the Act and the 
+NRC's regulations in 10 CFR part 72, which are set forth in the license 
+amendment. The license amendment, Amendment No. 6 to License No. SNM-
+2508, was issued and effective on March 27, 2026.
+    In accordance with 10 CFR 72.46(b)(2), the NRC has determined that 
+Amendment No. 6 does not present a genuine issue as to whether the 
+health and safety of the public will be significantly affected. 
+Therefore, the publication of a notice of proposed action and an 
+opportunity for hearing or a notice of hearing is not warranted. Notice 
+is hereby given of the right of interested persons to request a hearing 
+on whether the action should be rescinded or modified.
+
+II. Availability of Documents
+
+    The documents identified in this notice are available to interested 
+persons through ADAMS.
+
+----------------------------------------------------------------------------------------------------------------
+                    Document description                                     ADAMS accession No.
+----------------------------------------------------------------------------------------------------------------
+DOE Letter--License Amendment Request to Update the          ML24326A350 (Package)
+ Licensee Designation of Authority Title for the Three Mile
+ Island, Unit 2, Independent Spent Fuel Storage
+ Installation, Docket 72-20, Materials License No. SNM-2508
+ (CLN240550), dated November 21, 2024.
+NRC Email--Acceptance of Department of Energy, Idaho         ML26008A286
+ Cleanup Project License Amendment Request to Update the
+ Licensee Designation of Authority Title for the Three Mile
+ Island Unit 2 Independent Spent Fuel Storage Installation,
+ dated January 8, 2026.
+Federal Register notice, ``U.S. Department of Energy Idaho   91 FR 8025
+ Operations Office; Three Mile Island Unit 2 Independent
+ Spent Fuel Storage Installation; License Amendment
+ Application,'' published February 19, 2026.
+Amendment No. 6 to Renewed Special Nuclear Materials         ML26082A207
+ License No. SNM-2508, dated March 27, 2026.                 ML26082A208
+SNM-2508 Technical Specifications, dated March 27, 2026....  ML26082A209
+NRC Safety Evaluation Report, dated March 27, 2026.........  ML26082A210
+----------------------------------------------------------------------------------------------------------------
+
+
+[[Page 22553]]
+
+    Authority: 42 U.S.C. 2011 et seq.
+
+    Dated: April 22, 2026.
+
+    For the Nuclear Regulatory Commission.
+Yoira Diaz-Sanabria,
+Chief, Storage and Transportation Licensing Branch, Division of Fuel 
+Management, Office of Nuclear Material Safety and Safeguards.
+[FR Doc. 2026-08102 Filed 4-24-26; 8:45 am]
+BILLING CODE 7590-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

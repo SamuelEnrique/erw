@@ -1,0 +1,289 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 123 (Monday, June 29, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 123 (Monday, June 29, 2026)]
+[Rules and Regulations]
+[Pages 39019-39027]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-13027]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+ENVIRONMENTAL PROTECTION AGENCY
+
+40 CFR Parts 52 and 81
+
+[EPA-R05-OAR-2025-3654; FRL-13297-02-R5]
+
+
+Air Plan Approval; Ohio; Redesignation of the Cleveland, OH Area 
+to Attainment of the 2015 Ozone Standard
+
+AGENCY: Environmental Protection Agency (EPA).
+
+ACTION: Final rule.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The Environmental Protection Agency (EPA) is approving the 
+request from the Ohio Environmental Protection Agency (Ohio EPA) to 
+redesignate the Cleveland, Ohio area to attainment for the 2015 ozone 
+National Ambient Air Quality Standards (NAAQS) because the request 
+meets the statutory requirements for redesignation under the Clean Air 
+Act (CAA). Ohio EPA submitted this request on December 8, 2025. The EPA 
+is approving, as a revision to the Ohio State Implementation Plan 
+(SIP), the State's plan for maintaining the 2015 ozone NAAQS through 
+2038 in the Cleveland area. The EPA is also finding adequate and 
+approving Ohio's 2032 and 2038 volatile organic compound (VOC) and 
+oxides of nitrogen (NO<INF>X</INF>) motor vehicle emissions budgets 
+(budgets) for the Cleveland area. Additionally, the EPA is adjusting 
+the deadline for Ohio to submit Serious SIP revisions for the Cleveland 
+area. Finally, the EPA is approving the Enhanced motor vehicle 
+inspection and maintenance (I/M) program certification and clean fuel 
+vehicle program (CFVP) certification SIP revisions submitted by Ohio 
+EPA on December 19, 2025, and January 12, 2026, pursuant to section 110 
+and part D of the CAA, because they satisfy Serious SIP requirements 
+for the Cleveland area under the 2015 ozone NAAQS.
+
+DATES: This final rule is effective on June 29, 2026.
+
+ADDRESSES: The EPA has established a docket for this action under 
+Docket ID No. EPA-R05-OAR-2025-3654. All documents in the docket are 
+listed on the <a href="https://www.regulations.gov">https://www.regulations.gov</a> website. Although listed in 
+the index, some information is not publicly available, i.e., 
+Confidential Business Information (CBI), Proprietary Business 
+Information (PBI), or other information whose disclosure is restricted 
+by statute. Certain other material, such as copyrighted material, is 
+not placed on the internet and will be publicly available only in hard 
+copy form. Publicly available docket materials are available either 
+through <a href="https://www.regulations.gov">https://www.regulations.gov</a> or please contact the person 
+identified in the FOR FURTHER INFORMATION CONTACT section for 
+additional information.
+
+FOR FURTHER INFORMATION CONTACT: Cecilia Magos, Air and Radiation 
+Division (AR-18J), Environmental Protection Agency, Region 5, 77 West 
+Jackson Boulevard, Chicago, Illinois 60604, telephone number: (312) 
+886-7336, email address: <a href="/cdn-cgi/l/email-protection#711c10161e025f121412181d1810311401105f161e07"><span class="__cf_email__" data-cfemail="0f626e68607c216c6a6c6663666e4f6a7f6e21686079">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION: Throughout this document whenever ``we,'' 
+``us,'' or ``our'' is used, we mean the EPA. We use multiple acronyms 
+and terms in this preamble. While this list may not be exhaustive, to 
+ease the reading of this preamble and for reference purposes, the EPA 
+defines the following terms and acronyms here:
+
+CAA Clean Air Act
+CAIR Clean Air Interstate Rule
+CBI Confidential Business Information
+CDD Clean Data Determination
+CSAPR Cross-State Air Pollution Rule
+CFVP Clean Fuel Vehicle Program
+EPA Environmental Protection Agency
+EMP Enhanced Monitoring Plan
+GHG Greenhouse Gas
+I/M Inspection and Maintenance
+MOVES Motor Vehicle Emission Simulator
+NAAQS National Ambient Air Quality Standard
+NO<INF>X</INF> Oxides of Nitrogen
+NSR New Source Review
+Ohio EPA Ohio Environmental Protection Agency
+PBI Proprietary Business Information
+ppm parts per million
+PSD Prevention of Significant Deterioration
+PSM Performance Standard Modeling
+RACM Reasonable Available Control Measures
+RACT Reasonable Available Control Technology
+RFP Reasonable Further Progress
+SIP State Implementation Plan
+VOC Volatile Organic Compound
+
+    Organization of this document. This supplementary information 
+section is arranged as follows:
+
+I. Executive Summary and Background
+II. What action is the EPA taking?
+III. Response to Comments
+    A. Serious SIP Deadline Extension
+    B. Planning Requirements
+    C. Repealed Federal Rules
+    D. Nonattainment New Source Review
+IV. Statutory and Executive Order Reviews
+
+I. Executive Summary and Background
+
+    The EPA is redesignating the Cleveland area to attainment of the 
+2015 ozone standard, in accordance with Ohio EPA's December 8, 2025, 
+submission. The Cleveland area includes Cuyahoga, Geauga, Lake, Lorain, 
+Medina, Portage, and Summit Counties. The background of this action was 
+discussed in detail in the EPA's proposal dated April 10, 2026 (91 FR 
+18355). In that proposal, we noted that, under the CAA, the EPA may 
+redesignate nonattainment areas to attainment if complete, quality-
+assured data show that the area has attained the standard and the area 
+meets the other CAA redesignation requirements in section 107(d)(3)(E). 
+The proposed rule provides a detailed discussion of how Ohio has met 
+these CAA requirements
+
+[[Page 39020]]
+
+and the EPA's rationale for approving the redesignation request.
+    As discussed in the proposed rule, quality-assured and certified 
+monitoring data for 2023-2025 show that the area has attained the 2015 
+ozone standard, and the EPA has determined that attainment is due to 
+permanent and enforceable measures. The EPA is approving, as a revision 
+to the Ohio SIP, the State's maintenance plan for the area. The 
+maintenance plan is designed to keep the Cleveland area in attainment 
+of the 2015 ozone NAAQS through 2038. Additionally, the EPA is finding 
+adequate and approving Ohio's newly adopted 2032 and 2038 motor vehicle 
+emissions budgets for NO<INF>X</INF> and VOC in the area that are 
+supported by Ohio's maintenance demonstration.
+    The EPA is also adjusting the deadline for Ohio to submit Serious 
+SIP revisions for the Cleveland area to no later than December 5, 2026. 
+Finally, as discussed in the proposed rule, the EPA is approving 
+several elements which meet section 110 and part D of the CAA and the 
+EPA's regulations for an area which is classified as Serious 
+nonattainment for the 2015 ozone NAAQS. These elements include Enhanced 
+I/M certification and CFVP certification SIP revisions submitted by 
+Ohio EPA on December 19, 2025, and supplemented on January 12, 2026. In 
+separate actions, the EPA is approving Ohio's VOC and NO<INF>X</INF> 
+reasonably available control technology (RACT) submissions as meeting 
+the requirements for Moderate nonattainment areas. With these approvals 
+of Ohio's SIP submissions, all SIP requirements applicable to 
+redesignation are fully approved.
+    After publication of the proposed redesignation rule, the EPA 
+finalized an additional rulemaking related to attainment of the 2015 
+ozone standard in the Cleveland nonattainment area. The EPA issued a 
+determination that the area is attaining the 2015 ozone NAAQS based on 
+air quality monitoring data from 2023 through 2025, i.e., a clean data 
+determination (CDD), on May 14, 2026 (91 FR 27211). In issuing the CDD, 
+the EPA took notice and comment on its concurrence with a December 8, 
+2025, exceptional event demonstration submitted by Ohio EPA. The 
+demonstration requested exclusion of wildfire event-influenced data 
+from the 2023-2025 design value period for the 2015 ozone NAAQS for the 
+Cleveland nonattainment area.
+
+II. What action is the EPA taking?
+
+    The EPA finds that the Cleveland area is meeting the requirements 
+for redesignation under section 107(d)(3)(E) of the CAA. The EPA is 
+changing the legal designation of the Cleveland area from nonattainment 
+to attainment for the 2015 ozone NAAQS in accordance with Ohio EPA's 
+December 8, 2025, request. The EPA is approving the State's plan for 
+maintaining the 2015 ozone NAAQS in the Cleveland area through 2038. As 
+part of the maintenance plan, the EPA is finding adequate and approving 
+the newly established 2032 and 2038 motor vehicle emissions budgets for 
+the Cleveland area. The EPA is adjusting the deadline for Ohio to 
+submit Serious SIP revisions for the Cleveland area to no later than 
+December 5, 2026. Finally, pursuant to section 110 and part D of the 
+CAA, the EPA is approving the Enhanced I/M certification and CFVP 
+certification SIP revisions submitted by Ohio EPA on December 19, 2025, 
+and supplemented on January 12, 2026.
+    In accordance with 5 U.S.C. 553(d), the EPA finds there is good 
+cause for these actions to become effective immediately upon 
+publication. This is because a delayed effective date is unnecessary 
+due to the nature of a redesignation to attainment, which relieves the 
+area from certain CAA requirements that would otherwise apply to it. 
+The immediate effective date for this action is authorized under both 5 
+U.S.C. 553(d)(1), which provides that rulemaking actions may become 
+effective less than 30 days after publication if the rule ``grants or 
+recognizes an exemption or relieves a restriction,'' and section 
+553(d)(3), which allows an effective date less than 30 days after 
+publication ``as otherwise provided by the agency for good cause found 
+and published with the rule.'' The purpose of the 30-day waiting period 
+prescribed in section 553(d) is to give affected parties a reasonable 
+time to adjust their behavior and prepare before the final rule takes 
+effect. This rule, however, does not create any new regulatory 
+requirements such that affected parties would need time to prepare 
+before the rule takes effect. Rather, this rule relieves the State of 
+planning requirements for this ozone nonattainment area. For these 
+reasons, the EPA finds good cause under 5 U.S.C. 553(d)(3) for these 
+actions to become effective on the date of publication of these 
+actions.
+
+III. Response to Comments
+
+    The EPA provided a 30-day review and comment period for the April 
+10, 2026 (91 FR 18355) proposed rule. The comment period ended on May 
+11, 2026. The EPA received one supportive and two adverse comment 
+submissions. Summaries of the adverse comments and the EPA's responses 
+are provided below. All comments submitted during the public comment 
+period are available in the docket of this action.
+    Comment: A commenter raises several issues and calls for 
+supplementing the record for greater transparency. The commenter 
+requests further explanation of the exceptional event days related to 
+attainment and a discussion of how the affected days approved or not 
+would impact the design value calculation.
+    Response: These comments appear to be based on a misunderstanding 
+of this action. This action is finalizing the proposed approval of Ohio 
+EPA's December 8, 2025, request to redesignate the Cleveland area based 
+on attaining monitoring data for 2023-2025, and the EPA's determination 
+that the area meets all other requirements for redesignation at CAA 
+section 107(d)(3)(E). In a separate final action, a CDD, the EPA 
+determined that the Cleveland area is attaining the 2015 ozone NAAQS, 
+in accordance with 40 CFR 50.19 and appendix U of part 50, based on 
+three complete, consecutive calendar years of quality-assured air 
+quality data for all monitoring sites in the area. See 91 FR 27211, May 
+14, 2026. Per the CDD, the EPA took final agency action on Ohio EPA's 
+exceptional events request submitted on December 8, 2025, and the EPA's 
+concurrence issued on January 12, 2026. The EPA's technical support 
+document and Ohio EPA's exceptional events demonstration data and 
+analysis are included in the docket of that action. Comments regarding 
+the explanation of exceptional event days and impact on the design 
+value calculation fall outside of the scope of this action. These 
+concerns would have been more appropriately raised in the context of 
+the Cleveland CDD notice.
+    Comment: The commenter requests information on why the EPA believes 
+the design value threshold is sufficient to support approval of the 
+redesignation and maintenance plan approval through 2038.
+    Response: Regarding the sufficiency of the design value threshold, 
+the design values are consistent with the individual NAAQS as described 
+in 40 CFR part 50 and are used to assess progress towards meeting the 
+NAAQS. To attain the 2015 ozone NAAQS, the ozone design value for the 
+area must not exceed 0.070 parts per million (ppm) at each monitor, 
+calculated as the 3-year average of the annual fourth-highest daily 
+maximum 8-hour average ozone concentrations when truncated after the 
+thousandth decimal place, at all of the ozone monitoring sites in the 
+area. See 40 CFR 50.19 and appendix U to 40 CFR
+
+[[Page 39021]]
+
+part 50. Under CAA section 107(d)(3)(E)(i), for redesignation of a 
+nonattainment area to attainment, the CAA requires the EPA to determine 
+that the area has attained the applicable NAAQS. The statute does not 
+require the EPA to assess by what margin the area is attaining. The 
+Cleveland area's 3-year ozone design value for 2023-2025 is 0.070 ppm, 
+which meets the 2015 ozone NAAQS, and is therefore supportive of a 
+redesignation. The margin by which the area (or monitor) attains the 
+NAAQS is not relevant to the question of whether or not the area is 
+attaining the NAAQS and furthermore, its eligibility for redesignation.
+    As stated in the proposed rule, CAA section 107(d)(3)(E)(iv) 
+provides that the Administrator must fully approve a ``maintenance plan 
+for the area as meeting the requirements of sections 175A.'' CAA 
+section 175A sets forth the elements of a maintenance plan for areas 
+seeking redesignation from nonattainment to attainment, including a 
+demonstration of continued attainment of the NAAQS for at least 10 
+years after the Administrator approves a redesignation to attainment. 
+Ohio has demonstrated maintenance of the 2015 ozone NAAQS for the 
+Cleveland area through 2038 by projecting that current and future 
+emissions of VOC and NO<INF>X</INF>, the pollutant precursors that 
+contribute to ozone formation, remain at or below attainment year 
+emission levels. The requirement for a maintenance plan includes the 
+requirement for contingency provisions to be triggered should an area 
+violate the NAAQS after redesignation, which illustrates that the CAA 
+anticipates some possibility that areas may in the future violate the 
+NAAQS despite meetings all requirements under CAA section 107(d)(3)(E). 
+In this final rule, the EPA finds the design values sufficient to 
+support redesignation and approves Ohio's plan for maintaining the 
+NAAQS through 2038, as described in the proposed rule.
+    Comment: The commenter requests information on contingencies 
+available in case future monitoring changes prior to final action.
+    Response: With respect to the contingencies available in case of 
+future monitoring changes, as stated in the proposed rule, the EPA will 
+not take final action to redesignate the Cleveland area to attainment 
+if the design value of a monitoring site in the area violates the NAAQS 
+prior to final approval of the redesignation. Further, any modification 
+to a State's ambient air quality monitoring network is subject to 
+review and approval by the Regional Administrator. See 40 CFR 58.14 and 
+appendix D to 40 CFR part 58. Also, as

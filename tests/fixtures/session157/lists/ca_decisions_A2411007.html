@@ -1,0 +1,512 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<meta http-equiv="x-ua-compatible" content="IE=edge" />
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:htmldb="http://htmldb.oracle.com" xmlns:apex="http://apex.oracle.com">
+
+
+<head>
+  <title>Proceeding - Decisions</title>
+
+  <link rel="icon" href="/i/favicon.ico" type="image/x-icon">
+
+  <link rel="shortcut icon" href="/i/favicon.ico" type="image/x-icon">
+
+<link rel="canonical" href="/apex/f?p=401:59:0"/>
+  <link rel="stylesheet" href="/i/libraries/oraclejet/9.1.0/css/libs/oj/v9.1.0/redwood/oj-redwood-cssvars-notag-min.css?v=20.2.0.00.20" type="text/css" />
+<link rel="stylesheet" href="/i/app_ui/css/Core.min.css?v=20.2.0.00.20" type="text/css" />
+<link rel="stylesheet" href="/i/app_ui/css/Theme-Standard.min.css?v=20.2.0.00.20" type="text/css" />
+
+<link rel="stylesheet" href="/i/legacy_ui/css/5.0.min.css?v=20.2.0.00.20" type="text/css" />
+
+<style type="text/css">
+/* Global Style */
+
+.center_modal_popup_contents {
+    position: relative;
+    width: 595px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ltBlueText {
+    color: #278db0;
+}
+
+div.sHorizontalTabs {
+    padding: 0;
+}
+
+div.sHorizontalTabs div.sHorizontalTabsInner {
+    padding: 0;
+}
+
+/* Button Style */
+
+.addPubComm {
+    margin-left: 290px;
+}
+
+.btnRtMargin {
+    margin-right: 30px;
+}
+
+.btnStyle {
+   height: 26px;
+   color:#000000;   
+   font: bold 100% sans serif ;
+   cursor: hand;
+   background-color: #A9A9A9; 
+   filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#FDCDCDC',EndColorStr='#696969');
+}
+
+.btnStyleDisabled {
+   height: 26px;
+   font: bold 100% sans serif;
+   background-color: #A9A9A9; 
+}
+
+#success-message-jp {
+    margin: 0 auto;
+    font: bold 14px/20px Arial, sans-serif;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    color: #155724;
+    background: url(../images/sReportBG.png) 0 -200px #d4edda repeat-x;
+    width: 560px;
+    padding: 15px;
+    border: 1px solid #c3e6cb;
+    border: 1px solid rgba(0,0,0,.5);
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgba(0, 0, 0, 0.5);
+    border-top: none;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    text-align: center;
+}
+
+
+/***** Report Style *****/
+
+.tblstyle {
+/*  width: 700px; */
+    padding: 5px;
+    border: 1px solid #808080;
+}
+
+.table-even {
+    background-color: #D9E2F3;
+}
+
+/* Bold styling */
+.bol {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.commLoc {
+    position: absolute;
+    left: 300px;
+    width: 300px;
+}
+
+.zip {
+    padding-left: 20px;
+}
+
+/* body styling (comment, reason, etc) */
+.bod {
+    font-size: 12px;
+}
+
+/* date time styling */
+.datetime {
+    font-size: 12px;
+}
+
+/* time styling */
+.time {
+    padding-left: 10px;
+}
+
+/***** Pagination Style (Not being used as of 2/20/19) *****/
+#pagination_width {
+    width: 100%;
+    min-width: 745px;
+    max-width: 1890px;
+}
+/*
+.paginationPrev {
+    position: absolute;
+    left: 600px;
+}
+
+.paginationInfo {
+    position: absolute;
+    left: 660px;
+}
+
+.paginationNext {
+    position: absolute;
+    left: 700px;
+}
+*/
+
+/***** Form Styling *****/
+.itemMarginRt {
+    margin-right: 15px;
+}
+
+.innaFontStyle {
+    font-weight: bold;
+}
+
+.u-Processing  {  
+display:none !important; 
+}
+
+.asteriskAlign {
+    position: relative;
+    bottom: 79px;
+    right: 14px;
+    font-weight: bold;
+    color: blue;
+}
+
+.asterisk {
+    color: blue;
+    font-weight: bold;
+}
+
+#P65_FLAG_REASON_CHAR_COUNTER {
+    margin-left: 10px;
+}
+</style>
+
+
+
+
+
+<script>
+var apex_img_dir = "/i/", htmldb_Img_Dir = apex_img_dir;
+</script>
+<script src="/i/libraries/apex/minified/desktop_all.min.js?v=20.2.0.00.20"></script>
+<script src="wwv_flow.js_messages?p_app_id=401&p_lang=en&p_version=20.2.0.00.20-38879929386"></script>
+<script src="/i/libraries/apex/minified/legacy_pre18.min.js?v=20.2.0.00.20"></script>
+<script src="/i/libraries/apex/minified/legacy_18.min.js?v=20.2.0.00.20"></script>
+<script src="/i/libraries/jquery-migrate/3.3.0/jquery-migrate-3.3.0.min.js?v=20.2.0.00.20"></script>
+
+
+<script type="text/javascript">
+// This function validates if the email passed in has the correct email format
+
+ function validateEmail(email) {
+  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  return emailReg.test( email );
+}
+
+/////////////////
+// This function checks if the key entered is a letter. If its not, nothing will be inputted in the object.
+
+function isLetterKey(evt)
+      {
+         var charCode = (evt.which) ? evt.which : event.keyCode
+         if (charCode > 31 && (charCode < 65 || charCode > 90) && (charCode < 65+32 || charCode > 90+32))
+            return false;
+
+         return true;
+      }
+
+/////////////////
+
+// This function checks if the key entered is a number. If its not, nothing will be inputted in the object. [Ex: <INPUT id="txtChar" onkeypress="return isNumberKey(event)" type="text" name="txtChar">]
+
+function isNumberKey(evt)
+      {
+         var charCode = (evt.which) ? evt.which : event.keyCode
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+         return true;
+      }
+
+/////////////////
+
+// This function checks if the key entered is a number or a dash. If its not, nothing will be inputted in the object. [Ex: <INPUT id="txtChar" onkeypress="return isNumberDashKey(event)" type="text" name="txtChar">]
+
+function isNumberDashKey(evt)
+{
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+
+    if (charCode != 45  && charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+    return true;
+}
+
+/////////////////
+
+/*****************************************************************************
+Created by Malik Owens
+This function validates the phone number for public comments and complaints (flagged comments.) 
+Used in DA:
+    JS - Populate Hidden PC form items, JS Validate, and Review. (Sequence 15)
+    JS - SUBMIT Populate Hidden FC form items. (Sequence 15)
+******************************************************************************/
+
+function check_phone_number(ph_num) {
+       var phone = ph_num
+       var valid = 1;
+       
+       // If phone length is null, then return valid 1
+       if (phone.length == 0) {
+          return valid;
+       }
+       
+       // Check to ensure the phone number is the correct length
+       if (phone.length != 12) {
+              valid = 0;
+       }
+       
+	// Ensure the phone number only contains numbers
+	// and position 3 and 7 are only dashes
+       for (i = 0; i < 12; i++) {
+              if (i != 3 && i != 7) {
+                     if (phone.charCodeAt(i) > 57 || phone.charCodeAt(i) < 48) {
+                           valid = 0;
+                     }
+              } else if (phone.charAt(3) != '-' || phone.charAt(7) != '-') {
+                     valid = 0;
+       	      }
+       }
+       
+       return valid;
+}
+
+</script>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+  <link rel="stylesheet" href="/i/themes/theme_7/css/theme_4_0.css" type="text/css" />
+
+  <!-- Script for Captchas -->
+  <script type="text/javascript">
+      var verifyCallback = function(response) {
+        alert(response);
+      };
+      var pc_captcha;        // widget 1
+      var complaint_captcha;  // widget 2
+      var onloadCallback = function() {
+        // Renders the HTML element with id 'pc_captcha_div' as a reCAPTCHA widget.
+        // The id of the reCAPTCHA widget is assigned to 'pc_captcha'.
+        pc_captcha = grecaptcha.render(document.getElementById('pc_captcha_div'), {
+          'sitekey' : '6LeB-X8UAAAAAIJ_9thAr9a6Y91PQTM62OiVCICJ',
+          'theme' : 'white'
+        });
+        complaint_captcha = grecaptcha.render(document.getElementById('complaint_captcha_div'), {
+          'sitekey' : '6LeB-X8UAAAAAIJ_9thAr9a6Y91PQTM62OiVCICJ'
+        });
+      };
+    </script>
+
+  <!--[if IE]><link rel="stylesheet" href="/i/themes/theme_7/css/theme_4_0_ie.css" type="text/css" /><![endif]-->
+  <!--[if IE 6]><link rel="stylesheet" href="/i/themes/theme_7/css/theme_4_0_ie6.css" type="text/css" /><![endif]-->
+  <!--[if IE 7]><link rel="stylesheet" href="/i/themes/theme_7/css/theme_4_0_ie7.css" type="text/css" /><![endif]-->
+</head>
+<body  style="min-width: 775px;">
+<!--[if lte IE 6]><div id="outdated-browser">You are using an outdated web browser. For a list of supported browsers, please reference the Oracle Application Express Installation Guide.</div><![endif]-->
+<form action="wwv_flow.accept" method="post" name="wwv_flow" id="wwvFlowForm" data-oj-binding-provider="none" novalidate >
+<input type="hidden" name="p_flow_id" value="401" id="pFlowId" /><input type="hidden" name="p_flow_step_id" value="59" id="pFlowStepId" /><input type="hidden" name="p_instance" value="5574108641092" id="pInstance" /><input type="hidden" name="p_page_submission_id" value="18179014561703043912410818088881917753" id="pPageSubmissionId" /><input type="hidden" name="p_request" value="" id="pRequest" /><input type="hidden" name="p_reload_on_submit" value="A" id="pReloadOnSubmit" /><input type="hidden" value="18179014561703043912410818088881917753" id="pSalt" />
+<td id="logo" valign="top"><img src="/apeximg/cpuc_page_heading.gif" class="apex-logo-img" /><br /></td>
+<div id="navi_bar"><div class="" id="R235410534922805026199" >
+  <div class="bl-top">
+<!-- <div class="bl-title">DCID List</div> -->
+    <div class="bl-buttons"></div>
+  </div>
+  <div class="bl-body"><div class="sHorizontalTabs">
+	<div class="sHorizontalTabsInner">
+		<ul><li><a href="f?p=401:56::::::"><span>Proceeding</span></a></li><li><a href="f?p=401:57::::::"><span>Documents</span></a></li><li><a href="f?p=401:58::::::"><span>Rulings</span></a></li><li class="active"><a href="f?p=401:59::::::"><span>Decisions</span></a></li><li><a href="f?p=401:65::::::"><span>Public Comments</span></a></li>		</ul>
+	</div>
+</div></div>
+</div>
+<div class="clear"></div></div>
+<div id="tabs" style="filter:progid:DXImageTransform.Microsoft.Gradient   
+(GradientType=0,StartColorStr='#DBE1E8',EndColorStr='#93A6B9'">
+
+</div>
+
+
+<div id="messages"><span id="APEX_SUCCESS_MESSAGE" data-template-id="237169964601954467626_S" class="apex-page-success u-hidden"></span><span id="APEX_ERROR_MESSAGE" data-template-id="237169964601954467626_E" class="apex-page-error u-hidden"></span></div>
+<div id="body">
+  <table class="tbl-body" cellspacing="0" cellpadding="0" border="0" summary="">
+    <tbody>
+      <tr>
+        <td class="tbl-main" width="100%"><div class="borderless-region" id="R235410531222540007091" >
+  <div class="bl-top">
+<!--    <div class="bg">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspNavi Bar Region</div> -->
+   </div> 
+ <!-- <div class="bl-body"></div> -->
+</div>
+ <!-- <div class="clear"></div> -->
+<div class="" id="R235442854921225225051" >
+  <div class="bl-top">
+<!-- <div class="bl-title">P0 Hidden Items</div> -->
+    <div class="bl-buttons"></div>
+  </div>
+  <div class="bl-body"><input type="hidden" id="P0_HID_USER_ID" name="P0_HID_USER_ID" value=""><input type="hidden" data-for="P0_HID_USER_ID" value="n7gqsXwEdYdFG4nrLVR_J-AATs2QPrgY-c_P_TVij1nAN73loipZ0B1weQntZKzoGOy7P9iJEZZEewMi8p5mwA"></div>
+</div>
+<div class="clear"></div><div class="borderless-region" id="R237203348065210084106" >
+  <div class="bl-body"><table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td align="right"><input type="button" onclick="javascript:apex.navigation.redirect(&#x27;f?p=401:5::::RP::&#x27;);" value="Search Results" class="t14Button" 
+style="
+       height: 26px; color:#000000;   
+       font: bold 100% sans serif ;
+       cursor:hand;
+       background-color:#A9A9A9; 
+       filter:progid:DXImageTransform.Microsoft.Gradient   
+(GradientType=0,StartColorStr='#FDCDCDC',EndColorStr='#696969');
+"/><input type="button" onclick="javascript:apex.navigation.redirect(&#x27;f?p=401:1::::RP::&#x27;);" value="Main Page" class="t14Button" 
+style="
+       height: 26px; color:#000000;   
+       font: bold 100% sans serif ;
+       cursor:hand;
+       background-color:#A9A9A9; 
+       filter:progid:DXImageTransform.Microsoft.Gradient   
+(GradientType=0,StartColorStr='#FDCDCDC',EndColorStr='#696969');
+"/></td></tr></table><h1>A2411007 - Decisions</h1>
+This page includes links to <b>Decision Documents</b> adopted or under consideration by the Commission related to this proceeding, including <i>final Commission decisions and resolutions, proposed decisions, Presiding Officer Decisions, Rulemakings, and Investigations.</i>
+<br>
+<br>
+<b>Tip:</b> This is a sortable list. You can sort columns by clicking on the column headers. 
+<br>
+You may download your search results as a <b><font color="green">Microsoft Excel Spreadsheet</b></font> by clicking the <b>Download</b> button below.
+<br>
+<br>
+Click on the actual <b>Proceeding Number</b> for details related to that proceeding.
+<br>
+<br><div id="R237203348065210084106_ir" class="a-IRR-container"><div id="R237203348065210084106_worksheet_region" aria-live="polite"><div id="R237203348065210084106_single_row_view" class="a-IRR-singleRowView"></div><div id="R237203348065210084106_full_view" class="a-IRR-fullView"><div id="R237203348065210084106_toolbar" class="a-IRR-toolbar"><div id="R237203348065210084106_toolbar_controls" class="a-IRR-controls"><div class="a-IRR-controlGroup a-IRR-controlGroup--search a-IRR-controlGroup--hidden"><div class="a-IRR-search"><input type="hidden" id="R237203348065210084106_column_search_current_column" /><input type="hidden" id="R237203348065210084106_search_field" value="" /></div></div><div class="a-IRR-controlGroup a-IRR-controlGroup--views"></div><div class="a-IRR-controlGroup a-IRR-controlGroup--options"><div class="a-IRR-rowSelector"><label for="R237203348065210084106_row_select">Rows</label><select class="a-IRR-selectList" size="1" id="R237203348065210084106_row_select" name="p_accept_processing"><option  value="1">1</option><option  value="5">5</option><option  value="10">10</option><option  value="15">15</option><option  value="20">20</option><option  value="25">25</option><option  value="30">30</option><option  value="50">50</option><option selected="selected" value="100">100</option><option  value="200">200</option></select></div></div></div><div class="a-IRR-buttons"><input type="button" onclick="javascript:apex.navigation.redirect(&#x27;f?p=401:59::CSV::::&#x27;);" value="Download" class="t14Button" 
+style="
+       height: 26px; color:#000000;   
+       font: bold 100% sans serif ;
+       cursor:hand;
+       background-color:#A9A9A9; 
+       filter:progid:DXImageTransform.Microsoft.Gradient   
+(GradientType=0,StartColorStr='#FDCDCDC',EndColorStr='#696969');
+"/><input type="button" onclick="javascript:apex.navigation.redirect(&#x27;f?p=401:59::::RIR::&#x27;);" value="Reset" class="t14Button" 
+style="
+       height: 26px; color:#000000;   
+       font: bold 100% sans serif ;
+       cursor:hand;
+       background-color:#A9A9A9; 
+       filter:progid:DXImageTransform.Microsoft.Gradient   
+(GradientType=0,StartColorStr='#FDCDCDC',EndColorStr='#696969');
+"/></div></div><div id="R237203348065210084106_content" class="a-IRR-content"><div id="R237203348065210084106_dialog_js" class="a-IRR-dialogBody" style="display:none"></div><input type="hidden" id="R237203348065210084106_worksheet_id" value="237203348185945084106" />
+<input type="hidden" id="R237203348065210084106_app_user" value="APEX_PUBLIC_USER" />
+<input type="hidden" id="R237203348065210084106_report_id" value="237203349883417115910" />
+<input type="hidden" id="R237203348065210084106_view_mode" value="REPORT" />
+<style id="R237203348065210084106_worksheet_css" type="text/css">
+</style>
+<div id="R237203348065210084106_chart" class="a-IRR-chartView"></div><div id="R237203348065210084106_group_by" class="a-IRR-groupByView"></div><div id="R237203348065210084106_pivot" class="a-IRR-pivotView"></div><div id="R237203348065210084106_data_panel" class="a-IRR-reportView"><div class="a-IRR-paginationWrap a-IRR-paginationWrap--top"><ul class="a-IRR-pagination"><li aria-hidden="true" class="a-IRR-pagination-item is-disabled"></li><li class="a-IRR-pagination-item"><span class="a-IRR-pagination-label">                   1 -                    4 of                    4</span></li><li aria-hidden="true" class="a-IRR-pagination-item is-disabled"></li></ul></div><div class="a-IRR-tableContainer"><table aria-label="Region = Decisions, Report = Primary Default, View = Report, Displayed Rows Start = 1, Displayed Rows End = 4, Total Rows = 4" class="a-IRR-table" id="237203348185945084106">
+<tr><th class="a-IRR-header u-tL" id="ADOPTED_FILED_DATE"><a class="a-IRR-headerLink" data-column="237204399180691364159" href="#">Adopted/Filed Date</a></th><th class="a-IRR-header u-tL" id="FILING_DATE"><a class="a-IRR-headerLink" data-column="237204399262400364159" href="#">Effective Date</a></th><th class="a-IRR-header u-tL" id="ISSUED_DATE"><a class="a-IRR-headerLink" data-column="237204399358145364159" href="#">Issued Date</a></th><th class="a-IRR-header u-tL" id="DOCUMENT_TYPE"><a class="a-IRR-headerLink" data-column="237203348866518084117" href="#">Document Type</a></th><th class="a-IRR-header u-tL" id="DESCRIPTION"><a class="a-IRR-headerLink" data-column="237203349071744084118" href="#">Description</a></th></tr>
+<tr ><td class=" u-tL" headers="ADOPTED_FILED_DATE">June 20, 2025</td><td class=" u-tL" headers="FILING_DATE">-</td><td class=" u-tL" headers="ISSUED_DATE">-</td><td class=" u-tL" headers="DOCUMENT_TYPE"><a href="https://docs.cpuc.ca.gov/SearchRes.aspx?DocFormat=ALL&DocID=570424771"><span style="color:blue"><u>PROPOSED DECISION</u></span></a></td><td class=" u-tL" headers="DESCRIPTION">Proposed Decision granting and partly denying Pacific Gas and Electric Companys motion for interim implementation of Electric Rule Number 30. Opening comments, which shall not exceed 15 pages, are due no later than July 10, 2025. Reply comments, which shall not exceed 5 pages, are due within five days after the last day for filing opening comments.</td></tr><tr ><td class=" u-tL" headers="ADOPTED_FILED_DATE">September 03, 2026</td><td class=" u-tL" headers="FILING_DATE">September 03, 2026</td><td class=" u-tL" headers="ISSUED_DATE">September 08, 2026</td><td class=" u-tL" headers="DOCUMENT_TYPE"><a href="https://docs.cpuc.ca.gov/SearchRes.aspx?DocFormat=ALL&DocID=618383226"><span style="color:blue"><u>DECISION</u></span></a></td><td class=" u-tL" headers="DESCRIPTION">Decision D2609016 - Order Extending Statutory Deadline. This decision extends the statutory deadline in this proceeding to and through February 26, 2027.</td></tr><tr ><td class=" u-tL" headers="ADOPTED_FILED_DATE">July 24, 2025</td><td class=" u-tL" headers="FILING_DATE">July 24, 2025</td><td class=" u-tL" headers="ISSUED_DATE">July 28, 2025</td><td class=" u-tL" headers="DOCUMENT_TYPE"><a href="https://docs.cpuc.ca.gov/SearchRes.aspx?DocFormat=ALL&DocID=574875643"><span style="color:blue"><u>DECISION</u></span></a></td><td class=" u-tL" headers="DESCRIPTION">Decision D2507039 - Decision Partly Granting And Partly Denying Pacific Gas And Electric Company&#x27;s Motion For Interim Implementation Of Electric Rule Number 30. Application 24-11-007 remains open.</td></tr><tr ><td class=" u-tL" headers="ADOPTED_FILED_DATE">-</td><td class=" u-tL" headers="FILING_DATE">December 19, 2024</td><td class=" u-tL" headers="ISSUED_DATE">-</td><td class=" u-tL" headers="DOCUMENT_TYPE"><a href="https://docs.cpuc.ca.gov/SearchRes.aspx?DocFormat=ALL&DocID=550147923"><span style="color:blue"><u>RESOLUTION ALJ-176 CATEGORIZATION</u></span></a></td><td class=" u-tL" headers="DESCRIPTION">RESOLUTION ALJ 176-3556.  Preliminary determinations of category for proceedings initiated by application pursuant to Rule 7.1 of the Commissions Rules of Practice and Procedure.</td></tr></table></div><div class="a-IRR-paginationWrap a-IRR-paginationWrap--bottom"><ul class="a-IRR-pagination"><li aria-hidden="true" class="a-IRR-pagination-item is-disabled"></li><li class="a-IRR-pagination-item"><span class="a-IRR-pagination-label">                   1 -                    4 of                    4</span></li><li aria-hidden="true" class="a-IRR-pagination-item is-disabled"></li></ul></div></div></div></div></div><div class="a-IRR-sortWidget" id="R237203348065210084106_sort_widget" style="display:none;"><ul class="a-IRR-sortWidget-actions" id="R237203348065210084106_sort_widget_actions"><li class="a-IRR-sortWidget-actions-item" id="R237203348065210084106_sort_widget_action_up"><button class="a-Button a-IRR-button a-IRR-sortWidget-button" type="button" title="Sort Ascending" data-option="up"><span class="a-Icon icon-irr-sort-asc"></span></button></li><li class="a-IRR-sortWidget-actions-item" id="R237203348065210084106_sort_widget_action_down"><button class="a-Button a-IRR-button a-IRR-sortWidget-button" type="button" title="Sort Descending" data-option="down"><span class="a-Icon icon-irr-sort-desc"></span></button></li><li class="a-IRR-sortWidget-actions-item" id="R237203348065210084106_sort_widget_action_hide"><button class="a-Button a-IRR-button a-IRR-sortWidget-button" type="button" title="Hide Column" data-option="hide"><span class="a-Icon icon-irr-remove-col"></span></button></li><li class="a-IRR-sortWidget-actions-item" id="R237203348065210084106_sort_widget_action_break"><button class="a-Button a-IRR-button a-IRR-sortWidget-button" type="button" title="Control Break" data-option="break"><span class="a-Icon icon-irr-control-break"></span></button></li><li class="a-IRR-sortWidget-actions-item" id="R237203348065210084106_sort_widget_action_help"><button class="a-Button a-IRR-button a-IRR-sortWidget-button" type="button" title="Column Information" data-option="help"><span class="a-Icon icon-irr-help"></span></button></li><li class="a-IRR-sortWidget-actions-item" id="R237203348065210084106_sort_widget_action_computation"><button class="a-Button a-IRR-button a-IRR-sortWidget-button" type="button" title="Compute" data-option="computation"><span class="a-Icon icon-irr-calculator"></span></button></li></ul><div class="a-IRR-sortWidget-help" id="R237203348065210084106_sort_widget_help"></div><div class="a-IRR-sortWidget-search" id="R237203348065210084106_sort_widget_search"><label for="R237203348065210084106_sort_widget_search_field" class="a-IRR-sortWidget-searchLabel"><span class="u-VisuallyHidden">Search</span></label><input id="R237203348065210084106_sort_widget_search_field" class="a-IRR-sortWidget-searchField" type="text" placeholder="Filter..." /><div class="a-IRR-sortWidget-rows" id="R237203348065210084106_sort_widget_rows"></div></div></div></div><table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td align="right"><input type="button" onclick="javascript:apex.navigation.redirect(&#x27;f?p=401:5::::RP::&#x27;);" value="Search Results" class="t14Button" 
+style="
+       height: 26px; color:#000000;   
+       font: bold 100% sans serif ;
+       cursor:hand;
+       background-color:#A9A9A9; 
+       filter:progid:DXImageTransform.Microsoft.Gradient   
+(GradientType=0,StartColorStr='#FDCDCDC',EndColorStr='#696969');
+"/><input type="button" onclick="javascript:apex.navigation.redirect(&#x27;f?p=401:1::::RP::&#x27;);" value="Main Page" class="t14Button" 
+style="
+       height: 26px; color:#000000;   
+       font: bold 100% sans serif ;
+       cursor:hand;
+       background-color:#A9A9A9; 
+       filter:progid:DXImageTransform.Microsoft.Gradient   
+(GradientType=0,StartColorStr='#FDCDCDC',EndColorStr='#696969');
+"/></td></tr></table></div>
+</div></td>
+        <td class="tbl-sidebar"></td>
+      </tr>
+    </tbody>
+  </table>
+</div><input type="hidden" id="pPageFormRegionChecksums" value="&#x5B;&#x5D;">
+<input type="hidden" id="pPageItemsRowVersion" value="" /><input type="hidden" id="pPageItemsProtected" value="UDBfSElEX1VTRVJfSUQ&#x2F;s0ltfuYh2wwRwzDhJlLM4UrUuYWpa9I3ojNfBdg0l8THqz5kOrBXd-rm6QSwzV5wVNYjgVPbAdV-JNP_ZItBtw" /></form>
+<div id="footer"><div class="content">
+  
+  <div id="customize"></div>&nbsp;
+</div></div>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+        async defer>
+</script>
+
+
+<script type="text/javascript">
+apex.da.initDaEventList = function(){
+apex.da.gEventList = [
+{"bindEventType":"ready","anyActionsFireOnInit":true,actionList:[{"eventResult":true,"executeOnPageInit":true,"stopExecutionOnError":false,"waitForResult":false,javascriptFunction:apex.da.executePlSqlCode,"ajaxIdentifier":"REEgVFlQRX5-MjM1NDUzOTg4OTYzNDE4NDc1NTQx\u002F_iMWeP-tEeRtGeg-gCUaw_nhUBoTfZwVwBuwcCDA32OrKwSMpdEeRjtO2MeU-gPwWB7IeKYyhx8e8f-geFdSbw","attribute02":"#P0_PRIVACY_LINK","attribute04":"N","attribute05":"sync","action":"NATIVE_EXECUTE_PLSQL_CODE"},{"eventResult":true,"executeOnPageInit":false,"stopExecutionOnError":true,javascriptFunction:function (){ var privacy_div = document.createElement('DIV');
+privacy_div.style.textAlign = 'center';
+
+var link = document.createElement('A');
+link.style.color = '#6495ed';
+link.style.fontSize = 'medium';
+link.href = '';
+link.target = '_blank';
+link.innerHTML = 'Privacy Policy';
+
+privacy_div.appendChild(link);
+document.body.appendChild(privacy_div); 
+},"action":"NATIVE_JAVASCRIPT_CODE"}]},
+{"bindEventType":"ready","anyActionsFireOnInit":true,actionList:[{"eventResult":true,"executeOnPageInit":true,"stopExecutionOnError":true,"affectedElementsType":"REGION",javascriptFunction:apex.da.hide,"attribute01":"N","action":"NATIVE_HIDE"},{"eventResult":true,"executeOnPageInit":true,"stopExecutionOnError":true,"affectedElementsType":"REGION",javascriptFunction:apex.da.hide,"attribute01":"N","action":"NATIVE_HIDE"},{"eventResult":true,"executeOnPageInit":true,"stopExecutionOnError":true,"affectedElementsType":"REGION",javascriptFunction:apex.da.hide,"attribute01":"N","action":"NATIVE_HIDE"},{"eventResult":true,"executeOnPageInit":true,"stopExecutionOnError":true,"affectedElementsType":"REGION",javascriptFunction:apex.da.hide,"attribute01":"N","action":"NATIVE_HIDE"},{"eventResult":true,"executeOnPageInit":true,"stopExecutionOnError":true,"affectedElementsType":"REGION",javascriptFunction:apex.da.hide,"attribute01":"N","action":"NATIVE_HIDE"}]},
+{"bindEventType":"ready","anyActionsFireOnInit":false,actionList:[{"eventResult":true,"executeOnPageInit":false,"stopExecutionOnError":true,javascriptFunction:function (){ document.getElementsByClassName('sHorizontalTabs')[0].style.margin= '0';
+document.getElementsByClassName('sHorizontalTabs')[0].style.padding = '0';
+document.getElementsByClassName('sHorizontalTabsInner')[0].style.padding = '0';
+},"action":"NATIVE_JAVASCRIPT_CODE"}]}];
+}
+</script>
+
+
+
+
+
+
+<script src="/i/libraries/apex/minified/widget.interactiveReport.min.js?v=20.2.0.00.20"></script>
+<script src="/i/libraries/apex/minified/interactiveGrid.min.js?v=20.2.0.00.20"></script>
+<script src="/i/libraries/oraclejet/9.1.0/js/libs/require/require.js?v=20.2.0.00.20"></script>
+<script>
+define("jquery",[],function(){return apex.jQuery});
+define("hammerjs",[],function(){return Hammer});
+define("jqueryui-amd/widget",[],function(){return apex.jQuery.widget});
+define("jqueryui-amd/focusable",[],function(){return apex.jQuery.ui.focusable});
+define("jqueryui-amd/position",[],function(){return apex.jQuery.ui.position});
+define("jqueryui-amd/keycode",[],function(){return apex.jQuery.ui.keyCode});
+define("jqueryui-amd/tabbable",[],function(){return { tabbable: function(){ apex.debug.info("Unexpected call: jQuery UI tabbable function"); }}});
+define("jqueryui-amd/unique-id",[],function(){return apex.jQuery.fn});
+</script>
+<script src="/i/libraries/apex/minified/requirejs.jetConfig.min.js?v=20.2.0.00.20"></script>
+<script src="/i/libraries/apex/minified/jetCommonBundle.min.js?v=20.2.0.00.20"></script>
+<script src="/i/libraries/apex/minified/chartBundle.min.js?v=20.2.0.00.20"></script>
+<script type="text/javascript">
+apex.jQuery( function() {
+apex.page.init( this, function() {
+apex.jQuery.when.apply( apex.jQuery, apex.page.loadingDeferreds ).done(function() {
+try {
+(function(){apex.jQuery('#R237203348065210084106_ir').interactiveReport({"regionId":"R237203348065210084106","searchField":false,"rowsPerPageSelect":true,"reportsSelect":false,"actionsMenu":false,"selectColumns":false,"filter":false,"currentRowsPerPage":100,"maxRowsPerPage":"200","maxRowCount":"100000","sort":false,"controlBreak":false,"highlight":false,"compute":false,"aggregate":false,"chart":false,"groupBy":false,"pivot":false,"flashback":false,"saveReport":false,"help":false,"subscription":false,"fixedHeader":"NONE","actionsMenuStructure":"LEGACY","ajaxIdentifier":"UkVHSU9OIFRZUEV-fjIzNzIwMzM0ODA2NTIxMDA4NDEwNg\u002FRJSVf0CbPbAZw-DhhpnYLMWF2B-uC37mZgM_T-VnpLri9UPK4E66Y7SplMxy6gyaOlgAWmxkmdGwhAtA7yr6kg"});})();
+(function(){apex.da.initDaEventList();})();
+(function(){apex.da.init();})();
+
+
+apex.item( 'R237203348065210084106_search_field' ).setFocus();
+} finally {
+apex.event.trigger(apex.gPageContext$,'apexreadyend');
+}
+});
+});
+});</script>
+
+
+</body>
+</html>

@@ -216,6 +216,10 @@ def held_rows(dirs, cutoff, notes):
     for aid, g in tags.groupby("action_event_id", sort=False):
         a = by.loc[aid].to_dict()
         a["event_id"] = aid
+        if a["agency"] in ("Treasury", "IRS"):   # session 157: the tax credits are in the policy monitor's view, not here
+            k = "a Treasury or IRS action held (tax credits: shown in the policy monitor, not in this block)"
+            off[k] = off.get(k, 0) + 1
+            continue
         if a["agency"] not in FEDERAL:
             off["a state commission's news release held (in the tags table; the block shows a state's dockets, not its releases)"] = \
                 off.get("a state commission's news release held (in the tags table; the block shows a state's dockets, not its releases)", 0) + 1
@@ -303,9 +307,10 @@ def in_motion(a, cutoff):
     return (kind == "proceeding" and cls == "open") or (kind == "order" and day >= cutoff.isoformat())
 
 
-def table_rows(dirs, cutoff, notes):
+def table_rows(dirs, cutoff, notes, every=False):
     """The proceedings and orders in motion, as ROWs, from the public table and the internal one; (rows, counted-out
-    reasons). A row of the public table carries its sentence and its worded status. A row of the internal table
+    reasons). every (session 157, the policy monitor's file): every row held, in motion or not, each with the key
+    "in_motion"; the block's own file is built with every False and is unchanged. A row of the public table carries its sentence and its worded status. A row of the internal table
     carries its facts only (date, regulator, docket number, status class, topic, the link) and the model's read:
     "sentence" and "status_as_worded" are null, the title is empty and "sentence_withheld" says why, unless its
     regulator is in SHOW_SENTENCE_REGULATORS; a regulator in OFF_PAGE_REGULATORS has no row in the file at all."""
@@ -338,7 +343,8 @@ def table_rows(dirs, cutoff, notes):
         if public != (name == "large_load_rules"):
             raise RuntimeError(f"{name}: its header's license is not the one its name says; nothing is written")
         for a in t.to_dict("records"):
-            if not in_motion(a, cutoff):
+            moving = in_motion(a, cutoff)
+            if not moving and not every:
                 why = "a proceeding whose status class is not open" if a["row_kind"] == "proceeding" else "an order older than 12 months"
                 off[why] = off.get(why, 0) + 1
                 continue
@@ -370,6 +376,8 @@ def table_rows(dirs, cutoff, notes):
                 "placing": utility_of(a["state"], " | ".join(sorted(captions[(a["regulator"], docket_base(a["docket_number"]))])), utilities)
                 if a["jurisdiction"] == "state" else ("federal", None),
             })
+            if every:
+                out[-1]["in_motion"] = moving
     if not found:
         notes.append("large_load_rules is not built yet: the file holds the federal actions held only")
     return out, off

@@ -1,0 +1,233 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 102 (Thursday, May 28, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 102 (Thursday, May 28, 2026)]
+[Proposed Rules]
+[Pages 31684-31686]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-10641]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+ENVIRONMENTAL PROTECTION AGENCY
+
+40 CFR Parts 22, 124, and 257
+
+[EPA-HQ-OLEM-2019-0361; FRL-7080-06-OLEM]
+RIN 2050-AH07
+
+
+Hazardous and Solid Waste Management System: Disposal of Coal 
+Combustion Residuals From Electric Utilities; Federal CCR Permit 
+Program; Reopening of Comment Period
+
+AGENCY: Environmental Protection Agency (EPA).
+
+ACTION: Proposed rule; reopening of comment period.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The Environmental Protection Agency (EPA) issued a proposed 
+rule on February 20, 2020, to establish a Federal permit program for 
+disposal of coal combustion residuals (CCR). The EPA is reopening the 
+comment period on that proposed rule and requesting comment on several 
+issues in particular.
+
+DATES: The comment period for the proposed rule published on February 
+20, 2020 (85 FR 9940) closed April 20, 2020. The comment period was 
+extended on April 14, 2020 (85 FR 20625) and May 19, 2020 (85 FR 29878) 
+to close on July 19, 2020 and was reopened on July 31, 2020 to close on 
+August 7, 2020 (85 FR 46046). With this document, EPA is reopening the 
+comment period until June 29, 2026. Comments must be received on or 
+before June 29, 2026.
+
+ADDRESSES: Submit your comments, identified by Docket ID No. EPA-HQ-
+OLEM-2019-0361, online at <a href="https://www.regulations.gov">https://www.regulations.gov</a>. Follow the 
+detailed online instructions provided under ADDRESSES in the Federal 
+Register document published on February 20, 2020 (85 FR 9940). Do not
+
+[[Page 31685]]
+
+submit electronically any information you consider to be Confidential 
+Business Information (CBI) or other information whose disclosure is 
+restricted by statute. Additional instruction on commenting and 
+visiting the docket, along with more information about dockets 
+generally, is available at <a href="https://www.epa.gov/dockets">https://www.epa.gov/dockets</a>.
+
+FOR FURTHER INFORMATION CONTACT: Jessica Schumacher, Region 5, Land, 
+Chemicals, and Redevelopment Division, Environmental Protection Agency, 
+1200 Pennsylvania Avenue NW, MC: 5304T, Washington, DC 20460; telephone 
+number: (312) 886-0769; email address: <a href="/cdn-cgi/l/email-protection#cebdada6bba3afada6abbce0a4abbdbda7adaf8eabbeafe0a9a1b8"><span class="__cf_email__" data-cfemail="cbb8a8a3bea6aaa8a3aeb9e5a1aeb8b8a2a8aa8baebbaae5aca4bd">[email&#160;protected]</span></a>, or 
+Phoebe O'Connor, Office of Resource Conservation and Recovery, Waste 
+Information, Notice, and Generators Division, Environmental Protection 
+Agency, 1200 Pennsylvania Avenue NW, MC: 5304T, Washington, DC 20460; 
+telephone number: (202) 566-1451; email address: 
+<a href="/cdn-cgi/l/email-protection#e48b878b8a8a8b96ca948c8b818681a4819485ca838b92"><span class="__cf_email__" data-cfemail="4b24282425252439653b23242e292e0b2e3b2a652c243d">[email&#160;protected]</span></a>. For more information on this rulemaking please 
+visit <a href="https://www.epa.gov/coal-combustion-residuals">https://www.epa.gov/coal-combustion-residuals</a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. General Information
+
+    On April 17, 2015, EPA published a final rule creating 40 CFR part 
+257, subpart D, which established a comprehensive set of minimum 
+Federal requirements for the disposal of CCR in landfills and surface 
+impoundments (80 FR 21302) (2015 CCR Rule or Federal CCR regulations). 
+The rule established a set of self-implementing regulations that apply 
+directly to CCR units, including requirements for the location, design, 
+operating criteria, recordkeeping, notifications, groundwater 
+monitoring and corrective action, as well as the closure and post-
+closure care of CCR units. It also requires recordkeeping and 
+notifications for CCR units.
+    In 2016, Congress passed the Water Infrastructure Improvements for 
+the Nation (WIIN) Act, which--among other things--authorized EPA to 
+issue permits under RCRA for CCR units located in Indian country or in 
+a State that has not been approved to issue its own CCR permits (a 
+``nonparticipating State''). And under the WIIN Act, once an EPA (or 
+State) permit is issued and in effect, the requirements of that permit 
+apply in lieu of the federal regulations. On February 20, 2020, EPA 
+proposed a rule (85 FR 9940) (2020 Proposed Rule) to establish a 
+Federal CCR permit program. The original comment period closed on 
+August 7, 2020. With this document, EPA reopens the public comment 
+period on the entire proposal for 30 days.
+    Since publication of the 2020 Proposed Rule, EPA established 
+regulations applicable to inactive surface impoundments at inactive 
+facilities (legacy CCR surface impoundments) under 40 CFR part 257, 
+subpart D (89 FR 38950, May 8, 2024) (2024 Legacy Final Rule). In the 
+2024 Legacy Final Rule, EPA established regulations requiring owners 
+and operators of legacy CCR surface impoundments to comply with the 
+existing CCR regulations that apply to other inactive CCR surface 
+impoundments, and established new compliance deadlines to ensure the 
+owners or operators of these units have time to come into compliance 
+with these newly applicable regulatory requirements. In addition, EPA 
+established requirements to address the risks from solid waste 
+management activities involving the direct placement of CCR on the land 
+at CCR facilities; EPA regulated these activities as CCR management 
+units or CCRMU. EPA extended a subset of the existing requirements in 
+40 CFR part 257, subpart D to CCRMU, which include CCR surface 
+impoundments and landfills that closed prior to the effective date of 
+the 2015 CCR Rule, inactive CCR landfills, and other areas where CCR is 
+managed directly on the land at CCR facilities. The additional 
+requirements for CCRMU apply to all active CCR facilities, all inactive 
+facilities with legacy CCR surface impoundments, and those active 
+facilities (i.e., facilities producing electricity for the grid as of 
+October 19, 2015) that ceased placing CCR in onsite CCR units prior to 
+the effective date of the 2015 CCR Rule.
+    EPA has recently proposed several further revisions to subpart D 
+that would exempt CCR dewatering structures and modify certain legacy 
+CCR surface impoundment and CCR management unit provisions (91 FR 
+18968, April 13, 2026) (``2026 Proposed Rule''). Additionally, EPA 
+proposed to establish new provisions that would allow a CCR permit 
+authority to establish alternative requirements in light of site-
+specific conditions for the groundwater monitoring and corrective 
+action points of compliance, the cleanup levels for corrective action, 
+the appropriate closure requirements, closure timeframes; and extend 
+the closure deadlines timeframes for CCR units where CCR is being 
+extracted from the unit for beneficial use during closure. The Agency 
+also proposed to revise the definition of beneficial use by eliminating 
+the requirement for an environmental demonstration for the non-roadway 
+use of more than 12,400 tons of unencapsulated CCR on land; to 
+establish a definition of CCR storage pile; and to exclude specific 
+beneficial uses from Federal CCR regulations.
+
+II. Requests for Comment
+
+    Although EPA is soliciting comment on all aspects of the proposal, 
+EPA is specifically seeking comments on: (1) The estimated timeframes 
+to compile materials that would be needed under all of the various 
+proposals discussed in the 2026 Proposed Rule, to aid the Agency in 
+determining the permit application deadline; (2) Shortening the 
+deadline for the first tier of permit applications to the effective 
+date of the final permitting rule, which would be six months after 
+publication of the final permitting rule in the Federal Register; and 
+(3) Implementing an electronic permitting process for both EPA-issued 
+CCR permits as well as for States that are implementing the CCR 
+permitting program in lieu of EPA. Each of these are discussed in more 
+detail below.
+
+A. Deadlines for Federal CCR Permit Applications
+
+    In the 2020 Proposed Rule, EPA proposed that all owners and 
+operators of a CCR unit in a nonparticipating State or in Indian 
+country must apply for and obtain a Federal CCR permit in accordance 
+with Sec.  257.123(a). EPA planned to establish tiers of deadlines for 
+the owners and operators of a CCR unit to submit a permit application, 
+and proposed at Sec.  257.124(a)(1) that the first tier of permit 
+applications would be due 18 months after the effective date of the 
+final rule. As it relates to this first set of deadlines, EPA requests 
+comment on the amount of time that facilities estimate would be 
+necessary to compile the materials needed for all of the various site-
+specific decisions that the permit authority would make under the 
+provisions discussed in the 2026 Proposed Rule. For example, EPA 
+requests estimates of how long it would take a CCR facility to conduct 
+a site-specific risk assessment and compile the documents needed to 
+support a request for alternative closure requirements. In order to 
+expediate processing permit applications, EPA also requests comment on 
+shortening the deadline for submission of the first tier of permit 
+applications to the effective date of the final permitting rule, which 
+would be six months after publication of the final permitting rule in 
+the Federal Register, and whether this is enough time to compile 
+materials needed for the permit application.
+
+[[Page 31686]]
+
+    EPA is also seeking comment on the approaches or criteria to 
+tiering permit applications that EPA identified in the 2020 Proposed 
+Rule; such as, prioritizing CCR units located in States that 
+affirmatively declare to EPA that they do not intend to pursue program 
+approval.\1\ Further EPA is seeking comment from State agencies that 
+have not yet submitted an application package to confirm interest in 
+seeking program approval and approximate timelines, as it has been six 
+years since the initial proposal, and up-to-date information may be 
+used for tiering permit applications.
+---------------------------------------------------------------------------
+
+    \1\ See further examples at 85 FR 9951 (February 20, 2020).
+---------------------------------------------------------------------------
+
+B. Electronic Permitting
+
+    In the Federal CCR permit program proposed rule, EPA proposed to 
+use an electronic permitting process whereby applicants would 
+electronically submit a permit application to EPA. This included 
+proposing development of a CCR module in the RCRAInfo system which 
+would allow for improved effectiveness and efficiency in the permitting 
+process. EPA is seeking comment on how best to implement this 
+electronic permitting process, including use of required forms that 
+would provide basic information about each CCR unit at the facility as 
+part of the permit application process.
+    In addition, EPA is considering implementing the electronic 
+permitting process for both EPA-issued CCR permits as well as for 
+States that are implementing the CCR permitting program in lieu of EPA 
+to provide for national data consistency. This would require the state 
+to enter permit data into an EPA data management system to track the 
+status of state-issued permits in the same database as federal-issued 
+permits, in line with the practice for RCRA hazardous waste Part B 
+permits for the treatment, storage, and disposal of hazardous waste. 
+EPA requests comment on this provision.
+
+III. Public Participation
+
+Written Comments
+
+    To submit comments or access the docket, please follow the detailed 
+instructions provided under ADDRESSES in the Federal Register document 
+published on February 20, 2020 (85 FR 9940). Comments previously 
+submitted need not be resubmitted as they are already incorporated into 
+the public record and will be considered in the final action as 
+appropriate. If you have questions, consult the people listed under FOR 
+FURTHER INFORMATION CONTACT.
+
+Steven Cook,
+Principal Deputy Assistant Administrator, Office of Land and Emergency 
+Management.
+[FR Doc. 2026-10641 Filed 5-27-26; 8:45 am]
+BILLING CODE 6560-50-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

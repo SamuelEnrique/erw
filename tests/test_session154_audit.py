@@ -224,7 +224,12 @@ class AuditTools(unittest.TestCase):
         # this module puts the folder on sys.path: a file named tabulate.py there once hid the tabulate package from
         # gridstatus and broke the import of every connector, so each name carries the prefix
         self.assertEqual([n for n in names if not n.startswith("audit_")], [])
-        self.assertEqual(len(names), 7)
+        # session 157 added two modules to the folder (audit_findings_s157.py, audit_truth.py), each with the prefix:
+        # the seven of session 154 must all still be there, and a later session may add more
+        self.assertGreaterEqual(len(names), 7)
+        for n in ("audit_check.py", "audit_compare.py", "audit_fetch.py", "audit_findings.py", "audit_refix.py",
+                  "audit_sample.py", "audit_table.py"):
+            self.assertIn(n, names)
         paths = [os.path.join(audit, n) for n in names]
         paths += [os.path.join(ROOT, "warehouse", "connectors", "policy_sources.py"), os.path.abspath(__file__)]
         paths += [os.path.join(FIX, n) for n in os.listdir(FIX)]
