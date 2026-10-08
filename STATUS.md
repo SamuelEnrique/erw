@@ -1,20 +1,20 @@
 # ERW status
 
-Generated 2026-09-30 23:49 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
+Generated 2026-10-08 15:42 UTC by `warehouse/metadata/build_status.py`, which the daily run regenerates after coverage; the daily workflow commits it. Every number below is read from `warehouse/metadata/coverage.csv`, `warehouse/metadata/run_status.csv` or Supabase.
 
 ## Tables
 
 | | Tables | Rows |
 |---|---|---|
-| All | 82 | 10,425,611 |
-| Public | 70 | 10,285,889 |
-| Internal (never shown publicly) | 12 | 139,722 |
+| All | 198 | 36,946,620 |
+| Public | 164 | 34,263,800 |
+| Internal (never shown publicly) | 34 | 2,682,820 |
 
-Newest table refresh: 2026-09-30 23:39:58 UTC. Validator: 82 of 82 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
+Newest table refresh: 2026-10-08 15:14:10 UTC. Validator: 197 of 198 tables pass. Per-table detail: [`docs/coverage.md`](docs/coverage.md).
 
 ## Health gate
 
-**Closed.** The latest daily run on GitHub (2026-09-30) has 2 failed tables outside the known-gap list below: `digest`, `digest`. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
+**Closed.** The latest daily run on GitHub (2026-10-08) has 3 failed tables outside the known-gap list below: `carb_lcfs_credit_prices`, `grid_network_nodes`, `spp_rtm_hub_prices`. While the gate is closed, no session adds a new source or a new tool (`PRIORITIES.md`); fixing the failures, or a human adding one to the list, opens it. `python warehouse/metadata/build_status.py --gate` exits 1 while it is closed.
 
 ### Known gaps
 
@@ -30,9 +30,9 @@ Failures a human has accepted for now (`warehouse/metadata/known_gaps.csv`, edit
 
 | Workflow | Last run (UTC) | Outcome |
 |---|---|---|
-| daily prices, on GitHub | 2026-09-30 23:49 | 449 ok, 16 failed, 48 gap, 15 skipped (table results of that day) |
-| daily run, local | 2026-09-30 06:28 | 5 ok, 9 gap (table results of that day) |
-| latest prices, every 15 minutes | 2026-09-30 23:07 | 39 hubs and zones in `latest_prices` (newest retrieval) |
+| daily prices, on GitHub | 2026-10-08 15:42 | 167 ok, 5 failed, 21 gap, 6 skipped (table results of that day) |
+| daily run, local | 2026-10-05 07:57 | 9 ok (table results of that day) |
+| latest prices, every 15 minutes | 2026-10-08 15:31 | 39 hubs and zones in `latest_prices` (newest retrieval) |
 
 A table that failed is not written that day; nothing partial is. The reasons are in `warehouse/metadata/run_status.csv`.
 
@@ -40,16 +40,17 @@ A table that failed is not written that day; nothing partial is. The reasons are
 
 | Table | Run | Reason |
 |---|---|---|
-| `carb_auction_allowance_prices` | 20260930T232935Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
+| `carb_auction_allowance_prices` | 20261008T143945Z | RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202') |
+| `carb_lcfs_credit_prices` | 20261008T150555Z | RuntimeError: https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports failed after 4 attempts: RuntimeError('HTTP 202 for https: |
 | `coverage` | 20260929T185935Z | price_board_carbon: input tables ['carb_auction_allowance_prices'] are not in warehouse/output; fixed in 670ba69 (session 33); recorded in session 34 from the j |
-| `digest` | 20260930T234902Z |     - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this. |
-| `digest` | 20260930T234902Z | RuntimeError: the shadow digest was not written (exit 1); see the brief's log |
-| `ercot_large_load_queue` | 20260930T233331Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
-| `nyiso_interconnection_queue` | 20260930T233227Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
+| `ercot_large_load_queue` | 20261005T144020Z | iso_prices.SourceGap: ERCOT publishes no request-level large-load list: https://www.ercot.com/services/rq/large-load-integration links 3 spreadsheets, none a st |
+| `grid_network_nodes` | 20261008T142708Z | AttributeError: 'bool' object has no attribute 'get' |
+| `nyiso_interconnection_queue` | 20261005T143915Z | RuntimeError: nyiso queue failed after 4 attempts: RuntimeError('GET https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx failed: <Res |
+| `spp_rtm_hub_prices` | 20261008T141233Z | SourceGap: SPP has no daily RTBM file for 2026-10-07 and its interval file for 2026-10-07 23:10:00-05:00 is missing: SPP RTBM interval 2026-10-07 23:10:00-05:00 |
 
 ## Open gaps
 
-Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 803; filled since: 27; open: 776.
+Days a per-day connector could not write complete, re-checked against the table with the connector's own completeness rule. Recorded gap days: 917; filled since: 78; open: 839.
 
 | Table | Day | State | First recorded reason |
 |---|---|---|---|
@@ -688,20 +689,33 @@ Days a per-day connector could not write complete, re-checked against the table 
 | `eia930_all_emissions` | 2026-09-27 | still incomplete in the table | 18 of 24 hours with co2_emissions_oil; not written for this day |
 | `eia930_all_emissions` | 2026-09-28 | still incomplete in the table | 20 of 24 hours with co2_emissions_oil; not written for this day |
 | `eia930_all_emissions` | 2026-09-28 | still incomplete in the table | 9 of 24 hours with co2_emissions_oil; not written for this day |
-| `eia930_all_emissions` | 2026-09-29 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-09-29 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-09-29 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-09-29 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-09-29 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-09-29 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-09-29 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
-| `eia930_all_emissions` | 2026-09-29 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-09-29 | still incomplete in the table | 16 of 24 hours with co2_emissions_oil; not written for this day |
+| `eia930_all_emissions` | 2026-10-03 | still incomplete in the table | 4 of 24 hours with co2_emissions_oil; not written for this day |
+| `eia930_all_emissions` | 2026-10-04 | still incomplete in the table | 0 of 24 hours with co2_emissions_oil; not written for this day |
+| `eia930_all_emissions` | 2026-10-05 | still incomplete in the table | 20 of 24 hours with co2_emissions_oil; not written for this day |
+| `eia930_all_emissions` | 2026-10-06 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-06 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-06 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-06 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-06 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-06 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-06 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-06 | still incomplete in the table | 4 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-07 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-07 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-07 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-07 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-07 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-07 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-07 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
+| `eia930_all_emissions` | 2026-10-07 | still incomplete in the table | 0 of 24 hours with both CO2 values; not written for this day |
 | `eia930_all_emissions` | ciso 2018-07-20..2026-08-19 | a range recorded by a history build (run_status.csv) | 275 UTC days without 24 hours with co2_emissions_coal, not written (first 2018-07-20, 2019-05-28, 2019-08-25; last 2026-08-19) |
 | `eia930_all_emissions` | ciso 2018-07-20..2026-08-20 | a range recorded by a history build (run_status.csv) | 10 UTC days without 24 hours with co2_emissions_natural_gas, not written (first 2018-07-20, 2019-08-25, 2019-12-19; last 2026-08-20) |
 | `eia930_all_emissions` | ciso 2018-07-20..2026-09-27 | a range recorded by a history build (run_status.csv) | 189 UTC days without 24 hours with co2_emissions_oil, not written (first 2018-07-20, 2019-03-15, 2019-03-16; last 2026-09-27) |
 | `eia930_all_emissions` | isne 2024-07-19..2026-09-27 | a range recorded by a history build (run_status.csv) | 366 UTC days without 24 hours with co2_emissions_coal, not written (first 2024-07-19, 2024-07-20, 2024-07-21; last 2026-09-27) |
 | `eia930_all_emissions` | isne 2024-09-06..2026-09-27 | a range recorded by a history build (run_status.csv) | 318 UTC days without 24 hours with co2_emissions_oil, not written (first 2024-09-06, 2024-09-07, 2024-09-08; last 2026-09-27) |
 | `eia930_all_emissions` | miso 2018-07-02..2026-09-27 | a range recorded by a history build (run_status.csv) | 2982 UTC days without 24 hours with co2_emissions_oil, not written (first 2018-07-02, 2018-07-03, 2018-07-04; last 2026-09-27) |
+| `eia930_all_interchange` | pairs | names no single day (run_status.csv): listed, not re-checked | 351 pair-days with fewer than 24 hours not written: AECI-MISO 2026-10-07 (5 h); AECI-SIKE 2026-10-07 (5 h); AECI-SPA 2026-10-07 (5 h); AECI- |
 | `eia930_all_storage` | 2024-07-15 | still incomplete in the table | net_generation_battery_mw: 19 of 24 hours; day not written |
 | `eia930_all_storage` | 2024-07-16 | still incomplete in the table | net_generation_battery_mw: 5 of 24 hours; day not written |
 | `eia930_all_storage` | 2024-07-17 | still incomplete in the table | net_generation_battery_mw: 0 of 24 hours; day not written |
@@ -819,13 +833,63 @@ Days a per-day connector could not write complete, re-checked against the table 
 | `eia930_all_storage` | 2026-02-04 | still incomplete in the table | net_generation_battery_mw: 18 of 24 hours; day not written |
 | `eia930_erco_demand` | 2026-09-04 | still incomplete in the table | demand_forecast_mw: 5 of 24 hours (19 missing, 0 published as null; first missing ['2026-09-04T05:00:00Z', '2026-09-04T06:00:00Z', '2026-09- |
 | `eia930_erco_demand` | 2026-09-05 | still incomplete in the table | demand_forecast_mw: 19 of 24 hours (5 missing, 0 published as null; first missing ['2026-09-05T00:00:00Z', '2026-09-05T01:00:00Z', '2026-09- |
+| `eia930_erco_demand` | 2026-10-05 | still incomplete in the table | demand_forecast_mw: 5 of 24 hours (19 missing, 0 published as null; first missing ['2026-10-05T05:00:00Z', '2026-10-05T06:00:00Z', '2026-10- |
+| `eia930_erco_demand` | 2026-10-06 | still incomplete in the table | demand_forecast_mw: 19 of 24 hours (5 missing, 0 published as null; first missing ['2026-10-06T00:00:00Z', '2026-10-06T01:00:00Z', '2026-10- |
 | `eia930_nyis_demand` | 2026-09-04 | still incomplete in the table | demand_forecast_mw: 4 of 24 hours (20 missing, 0 published as null; first missing ['2026-09-04T04:00:00Z', '2026-09-04T05:00:00Z', '2026-09- |
 | `eia930_nyis_demand` | 2026-09-05 | still incomplete in the table | demand_forecast_mw: 20 of 24 hours (4 missing, 0 published as null; first missing ['2026-09-05T00:00:00Z', '2026-09-05T01:00:00Z', '2026-09- |
 | `eia930_swpp_demand` | 2026-09-28 | still incomplete in the table | demand_forecast_mw: 5 of 24 hours (19 missing, 0 published as null; first missing ['2026-09-28T05:00:00Z', '2026-09-28T06:00:00Z', '2026-09- |
 | `eia930_swpp_demand` | 2026-09-29 | still incomplete in the table | demand_forecast_mw: 19 of 24 hours (5 missing, 0 published as null; first missing ['2026-09-29T00:00:00Z', '2026-09-29T01:00:00Z', '2026-09- |
+| `iso_hub_prices_history` | 2025-09-03 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2025-09-03T04:45:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2025-09-10 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2025-09-10T15:41:00Z |
+| `iso_hub_prices_history` | 2025-09-15 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 94 rows, expected 96, missing 2 (first ['2025-09-15T06:30:00Z', '2025-09-15T07:15:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2025-09-16 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 89 rows, expected 96, missing 7 (first ['2025-09-16T18:15:00Z', '2025-09-16T18:30:00Z', '2025-09-16T18:45:0 |
+| `iso_hub_prices_history` | 2025-09-25 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 94 rows, expected 96, missing 2 (first ['2025-09-25T15:00:00Z', '2025-09-25T15:15:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2025-10-22 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2025-10-22T13:30:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2025-10-23 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2025-10-23T15:35:05Z |
+| `iso_hub_prices_history` | 2025-10-26 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2025-10-26T09:40:01Z |
+| `iso_hub_prices_history` | 2025-11-01 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2025-11-02T02:45:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2025-11-02 | not on this machine, not verifiable here | day incomplete: TH_NP15_GEN-APND: 24 rows, expected 25, missing 1 (first ['2025-11-03T07:00:00Z']), extra 0; TH_SP15_GEN-APND: 24 rows, expe |
+| `iso_hub_prices_history` | 2025-11-02 | not on this machine, not verifiable here | day incomplete: TH_NP15_GEN-APND: 96 rows, expected 100, missing 4 (first ['2025-11-03T07:00:00Z', '2025-11-03T07:15:00Z', '2025-11-03T07:30 |
+| `iso_hub_prices_history` | 2025-11-12 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2025-11-12T15:25:00Z |
+| `iso_hub_prices_history` | 2025-11-19 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 89 rows, expected 96, missing 7 (first ['2025-11-19T20:45:00Z', '2025-11-19T21:00:00Z', '2025-11-19T21:15:0 |
+| `iso_hub_prices_history` | 2025-11-23 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2025-11-23T11:00:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2025-12-01 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2025-12-01T16:05:03Z |
+| `iso_hub_prices_history` | 2025-12-06 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 90 rows, expected 96, missing 6 (first ['2025-12-06T19:30:00Z', '2025-12-06T19:45:00Z', '2025-12-06T20:00:0 |
+| `iso_hub_prices_history` | 2025-12-09 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 93 rows, expected 96, missing 3 (first ['2025-12-09T21:15:00Z', '2025-12-09T21:30:00Z', '2025-12-09T21:45:0 |
+| `iso_hub_prices_history` | 2025-12-10 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2025-12-10T20:45:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2025-12-30 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2025-12-30T12:25:02Z |
+| `iso_hub_prices_history` | 2026-02-03 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 91 rows, expected 96, missing 5 (first ['2026-02-03T19:45:00Z', '2026-02-03T20:00:00Z', '2026-02-03T20:15:0 |
+| `iso_hub_prices_history` | 2026-02-07 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2026-02-07T14:40:02Z |
+| `iso_hub_prices_history` | 2026-03-27 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2026-03-27T13:50:05Z |
+| `iso_hub_prices_history` | 2026-04-10 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-04-10T04:15:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-04-21 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-04-21T05:00:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-04-28 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 79 rows, expected 96, missing 17 (first ['2026-04-28T21:00:00Z', '2026-04-28T21:15:00Z', '2026-04-28T21:30: |
+| `iso_hub_prices_history` | 2026-05-21 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 89 rows, expected 96, missing 7 (first ['2026-05-21T18:15:00Z', '2026-05-21T18:30:00Z', '2026-05-21T18:45:0 |
+| `iso_hub_prices_history` | 2026-05-27 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 80 rows, expected 96, missing 16 (first ['2026-05-28T00:00:00Z', '2026-05-28T00:15:00Z', '2026-05-28T00:30: |
+| `iso_hub_prices_history` | 2026-06-04 | not on this machine, not verifiable here | DAM 2026-06-04 failed after 4 attempts: KeyError('Interval End') |
+| `iso_hub_prices_history` | 2026-06-06 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 92 rows, expected 96, missing 4 (first ['2026-06-06T10:15:00Z', '2026-06-06T13:15:00Z', '2026-06-06T17:15:0 |
+| `iso_hub_prices_history` | 2026-06-12 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2026-06-12T11:05:02Z |
+| `iso_hub_prices_history` | 2026-06-30 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 91 rows, expected 96, missing 5 (first ['2026-06-30T13:30:00Z', '2026-06-30T18:30:00Z', '2026-06-30T18:45:0 |
+| `iso_hub_prices_history` | 2026-07-01 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-07-01T04:30:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-07-03 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2026-07-03T22:25:05Z |
+| `iso_hub_prices_history` | 2026-07-20 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-07-20T11:00:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-07-22 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 89 rows, expected 96, missing 7 (first ['2026-07-22T19:30:00Z', '2026-07-22T19:45:00Z', '2026-07-22T20:00:0 |
+| `iso_hub_prices_history` | 2026-07-24 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-07-24T12:45:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-07-27 | not on this machine, not verifiable here | day incomplete: 1 intervals longer than 5 minutes (a missing time stamp), first at N.Y.C. 2026-07-28T00:15:00Z |
+| `iso_hub_prices_history` | 2026-07-30 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 93 rows, expected 96, missing 3 (first ['2026-07-30T20:15:00Z', '2026-07-30T20:30:00Z', '2026-07-30T22:00:0 |
+| `iso_hub_prices_history` | 2026-08-25 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-08-25T19:45:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-09-02 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-03T03:45:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-09-11 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-12T03:45:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-09-12 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-12T04:15:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-09-13 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 94 rows, expected 96, missing 2 (first ['2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0 |
+| `iso_hub_prices_history` | 2026-09-15 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 88 rows, expected 96, missing 8 (first ['2026-09-15T18:00:00Z', '2026-09-15T18:15:00Z', '2026-09-15T18:30:0 |
+| `iso_hub_prices_history` | 2026-09-25 | not on this machine, not verifiable here | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0 |
 | `isone_rtm_zone_prices` | 2026-09-02 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-03T03:45:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expecte |
 | `isone_rtm_zone_prices` | 2026-09-11 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-12T03:45:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expecte |
 | `isone_rtm_zone_prices` | 2026-09-12 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-12T04:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expecte |
 | `isone_rtm_zone_prices` | 2026-09-13 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 94 rows, expected 96, missing 2 (first ['2026-09-13T04:00:00Z', '2026-09-13T04:15:00Z']), extra 0; .Z.CONNE |
 | `isone_rtm_zone_prices` | 2026-09-15 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 88 rows, expected 96, missing 8 (first ['2026-09-15T18:00:00Z', '2026-09-15T18:15:00Z', '2026-09-15T18:30:0 |
 | `isone_rtm_zone_prices` | 2026-09-25 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 95 rows, expected 96, missing 1 (first ['2026-09-25T17:15:00Z']), extra 0; .Z.CONNECTICUT: 95 rows, expecte |
+| `isone_rtm_zone_prices` | 2026-10-01 | still incomplete in the table | day incomplete: .H.INTERNAL_HUB: 94 rows, expected 96, missing 2 (first ['2026-10-01T04:00:00Z', '2026-10-01T04:15:00Z']), extra 0; .Z.CONNE |
+| `isone_rtm_zone_prices_hourly` | 2026-10-02 | still incomplete in the table | RTM_HOURLY 2026-10-02 failed after 4 attempts: EmptyDataError('No columns to parse from file') |
+| `isone_rtm_zone_prices_hourly` | 2026-10-07 | still incomplete in the table | RTM_HOURLY 2026-10-07 failed after 4 attempts: EmptyDataError('No columns to parse from file') |
