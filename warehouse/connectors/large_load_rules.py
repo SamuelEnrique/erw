@@ -33,9 +33,26 @@ filer's e-mail address (the owner has not ruled on such addresses); a document o
 a grid operator's (a news article, a law firm's note and a search summary are never the source of a row); a row whose
 title or sentence is about municipal permitting, zoning or a local hearing.
 
-License. Public only if every regulator with a row has terms or a public-records statement, quoted word for word by
-the passes and written in warehouse/config/large_load_rule_terms.json, that allow reuse; else internal, and then no
-row of the table is on any page. The header says which.
+License, by regulator (warehouse/config/large_load_rule_terms.json holds the sentence that decides each, word for
+word as its pass saved it). A table has one license, so the rows are written to two tables, as session 140 wrote
+ISO-NE's zone prices beside the public ones:
+    large_load_rules            public: the regulators whose own quoted terms allow reuse (class "allowed") or are a
+                                statement about public records (class "public record": about access, not reuse; flagged
+                                for the owner);
+    large_load_rules_internal   internal: the regulators whose terms restrict copying (class "restricted") or whose
+                                terms no pass read (class "not quoted"). A page may show such a row's facts (date,
+                                regulator, docket number, status class, topic, the link) and a model's read of it, never
+                                its sentence or its worded status.
+
+Three columns say what a row rests on. sentence_from: what the sentence is cut from (order text, docket card, meeting
+minutes, meeting agenda, list of suspended cases, news release, docket page, draft resolution ...), by SENTENCE_FROM.
+sentence_kind: "document" (the document's own text) or "record" (the regulator's own summary or record of it), counted
+apart: Ohio's document viewer answers with a reCAPTCHA and Illinois's docket pages with a robot check, so those rows
+are cut from the docket card and from the commission's minutes, agendas and suspension list; Arizona's decisions are
+scans, so its rows are cut from the commission's own releases and docket record. row_flag: a docket number that is not
+in the row's own document (kept where the commission's agenda or other minutes tie it; left out where only a match of
+company, subject and date does: DOCKET_NOT_TIED); a single-customer contract (SINGLE_CUSTOMER); a draft (a California
+draft resolution as posted for the agenda: its status class is "not stated" here, since no adopted text was read).
 
     python warehouse/connectors/large_load_rules.py                              # writes the table: needs the data lock
     python warehouse/connectors/large_load_rules.py --out-dir DIR                # a trial run: the table under DIR
@@ -61,6 +78,10 @@ import iso_prices as ip  # noqa: E402
 
 NAME = "large_load_rules"
 SOURCE = "erw:large_load_rules"
+# The rows of a regulator whose own terms do not allow reuse, or whose terms no pass quoted, are held in a table of
+# their own, internal, as session 140 held ISO-NE's zone prices beside the public ones: a table has one license.
+NAME_HELD = "large_load_rules_internal"
+SOURCE_HELD = "erw:large_load_rules_internal"
 RAW = os.path.join(ROOT, "warehouse", "raw", "large_load_rules")
 TERMS_FILE = os.path.join(ROOT, "warehouse", "config", "large_load_rule_terms.json")
 METHOD = "docs/methods/datacenter_cost.md"
@@ -73,9 +94,45 @@ PASS_COLS = ["regulator", "jurisdiction", "state", "grids", "docket_number", "pr
 EVENTS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency", "status", "source",
           "source_url"]
 EXTRA = ["regulator", "jurisdiction", "state", "grids", "docket_number", "proceeding_title", "row_kind", "topic",
-         "document_title", "status_as_worded", "status_class", "docket_url", "page", "sentence", "text_file",
-         "text_sha256", "proved_how", "collected_in", "notes", "terms_url", "retrieved_at"]
+         "document_title", "status_as_worded", "status_class", "docket_url", "page", "sentence", "sentence_from",
+         "sentence_kind", "row_flag", "text_file", "text_sha256", "proved_how", "collected_in", "notes", "terms_url",
+         "retrieved_at"]
 COLS = EVENTS + EXTRA
+# What a sentence is cut from, by the saved file's name and the document's title, first match (session 154: twenty rows
+# of pass B and several of pass C do not rest on an order's own text, because the documents sit behind a robot check or
+# are scans). sentence_kind counts the two kinds apart: "document" (the document's own text) and "record" (the
+# regulator's own summary or record of it: a docket card or page, minutes, an agenda, a list, a news release).
+SENTENCE_FROM = [
+    (r"/oh/card_", "", "docket card", "record"),
+    (r"il_minutes", "", "meeting minutes", "record"),
+    (r"il_agendas", "", "meeting agenda", "record"),
+    (r"il/suspension", "", "list of suspended cases", "record"),
+    (r"in_hearings", "", "hearings list", "record"),
+    (r"az_news", "", "news release", "record"),
+    (r"az_api_docket|_docket\.html|ca_proc_", "", "docket page", "record"),
+    ("", r"^draft resolution", "draft resolution", "document"),
+    ("", r"regulatory agenda", "regulatory agenda", "record"),
+    ("", r"^notice of|^secretarial letter", "notice or letter", "document"),
+    ("", r"^application|^request for approval|^control number request", "application or request", "document"),
+    ("", r"^staff memo", "staff memo", "document"),
+    ("", r"^proposal for publication", "proposed rule", "document"),
+    ("", r"^motion of", "commissioner's motion", "document"),
+    ("", r"ruling", "judge's ruling", "document"),
+    ("", r"order|decision|opinion|resolution", "order text", "document"),
+]
+# Single-customer contracts and agreements placed under a topic as the nearest fit (the passes' notes say so): kept,
+# flagged, and never among the ten rules of the month unless the order sets a rule for others too (none listed does).
+SINGLE_CUSTOMER = {
+    "Indiana Utility Regulatory Commission": ["46183", "46322", "46362", "46393", "46394", "46442"],   # pass B, notes point 9
+    "California Public Utilities Commission": ["Resolution E-5420", "Resolution E-5439", "Resolution E-5433", "Resolution E-5455"],
+    "Arizona Corporation Commission": ["E-01933A-25-0187"],   # one utility's supply agreement with one customer
+}
+# A row whose docket number the pass could tie to its document only by matching company, subject and date across two
+# of the commission's lists, not by the regulator's own words: left out (session 154, the coordinator's ruling).
+DOCKET_NOT_TIED = [("Illinois Commerce Commission", "26-0625", "order")]
+FLAG_DOCKET = "docket number not in the row's own document (tied by another document of the commission: see notes)"
+FLAG_SINGLE = "single-customer contract or agreement, not a rule for others"
+FLAG_DRAFT = "draft as posted for the agenda: no adopted text was read"
 # The eleven regulators: the words a pass may name each by, its two-letter state and the id's first part.
 REGULATORS = {
     "ferc": ("Federal Energy Regulatory Commission", "", ["federal energy regulatory commission", "ferc"]),
@@ -300,6 +357,31 @@ def row_check(r):
     return why
 
 
+def sentence_from(r):
+    """(what the sentence is cut from, its kind) by SENTENCE_FROM."""
+    lf = r.get("local_file", "").replace("\\", "/").lower()
+    title = norm(r.get("document_title", "")).lower()
+    for file_pat, title_pat, words, kind in SENTENCE_FROM:
+        if file_pat and re.search(file_pat, lf):
+            return words, kind
+        if title_pat and re.search(title_pat, title):
+            return words, kind
+    return "document text", "document"
+
+
+def flags_of(r, name):
+    """The flags of a row, by rule: its docket number is not in its own document (a pass B row whose notes do not
+    say 'docket number in the document'); a single-customer contract (SINGLE_CUSTOMER); a draft."""
+    out = []
+    if r["collected_in"] == "pass B" and "docket number in the document" not in r["notes"]:
+        out.append(FLAG_DOCKET)
+    if any(r["docket_number"].startswith(d) for d in SINGLE_CUSTOMER.get(name, [])):
+        out.append(FLAG_SINGLE)
+    if norm(r["document_title"]).lower().startswith("draft") or norm(r["status_as_worded"]).upper() == "DRAFT":
+        out.append(FLAG_DRAFT)
+    return out
+
+
 def event_id(key, r):
     h = hashlib.sha1((r["document_url"] + "|" + norm(r["sentence"])).encode("utf-8")).hexdigest()[:10]
     d = re.sub(r"[^A-Za-z0-9.-]+", "-", r["docket_number"]).strip("-")
@@ -310,6 +392,13 @@ def to_row(r, page, text_file, sha, how, raw_root):
     key = regulator_key(r["regulator"])
     name = REGULATORS[key][0]
     rel = os.path.relpath(text_file, os.path.dirname(raw_root)).replace("\\", "/")
+    cut, kind = sentence_from(r)
+    flags = flags_of(r, name)
+    notes = norm(r["notes"])
+    if FLAG_DRAFT in flags and r["status_class"] != "not stated":
+        # a draft's adoption rests on no adopted text: the class is not stated, and the pass's reading stays in notes
+        notes += f" [status class {r['status_class']} by the pass, on another draft's word; set to not stated here: no adopted text was read]"
+        r = dict(r, status_class="not stated")
     return {
         "event_id": event_id(key, r), "event_date": r["document_date"],
         "event_type": "regulatory_" + r["row_kind"], "parties": name, "entity_ids": "", "mw": "", "price": "",
@@ -320,8 +409,9 @@ def to_row(r, page, text_file, sha, how, raw_root):
         "topic": ";".join(t.strip() for t in r["topic"].split(";") if t.strip()),
         "document_title": norm(r["document_title"]), "status_as_worded": norm(r["status_as_worded"]),
         "status_class": r["status_class"], "docket_url": r["docket_url"], "page": page, "sentence": norm(r["sentence"]),
+        "sentence_from": cut, "sentence_kind": kind, "row_flag": "; ".join(flags),
         "text_file": "warehouse/raw/" + rel, "text_sha256": sha, "proved_how": how, "collected_in": r["collected_in"],
-        "notes": norm(r["notes"]), "terms_url": r["terms_url"], "retrieved_at": r["retrieved_at"],
+        "notes": notes, "terms_url": r["terms_url"], "retrieved_at": r["retrieved_at"],
     }
 
 
@@ -345,11 +435,26 @@ def load_terms(path=TERMS_FILE):
         return {t["regulator"]: t for t in json.load(f)["regulators"]}
 
 
+PUBLIC_CLASSES = ("allowed", "public record")
+HELD_CLASSES = ("restricted", "not quoted")
+
+
+def class_of(regulator, terms):
+    """The class of a regulator's terms (large_load_rule_terms.json): allowed, public record, restricted or not
+    quoted. A regulator the file does not name, or one whose class needs a quotation and has none, is not quoted."""
+    t = terms.get(regulator) or {}
+    c = t.get("class", "not quoted")
+    if c in ("allowed", "public record", "restricted") and not t.get("terms_quote"):
+        return "not quoted"
+    return c if c in PUBLIC_CLASSES + HELD_CLASSES else "not quoted"
+
+
 def license_of(regulators, terms):
-    """('public' or 'internal', the regulators that keep it internal): public only if every regulator with a row has a
-    quoted statement that allows reuse."""
-    missing = [r for r in sorted(regulators) if not (terms.get(r, {}).get("allows_reuse") is True and terms[r].get("terms_quote"))]
-    return ("public" if not missing else "internal"), missing
+    """({regulator: 'public' or 'internal'}, {regulator: its class}): a regulator's rows are public only if its own
+    quoted terms allow reuse or are a public-records statement; a regulator whose terms restrict copying, or whose
+    terms no pass quoted, has its rows in the internal table."""
+    classes = {r: class_of(r, terms) for r in sorted(regulators)}
+    return {r: ("public" if c in PUBLIC_CLASSES else "internal") for r, c in classes.items()}, classes
 
 
 def build(base, log):
@@ -364,6 +469,10 @@ def build(base, log):
         collected += rows
         for r in rows:
             why = row_check(r)
+            key = regulator_key(r["regulator"])
+            if key and (REGULATORS[key][0], r["docket_number"], r["row_kind"]) in DOCKET_NOT_TIED and "docket number in the document" not in r["notes"]:
+                why.append("its docket number is tied to its document only by matching company, subject and date across two "
+                           "lists, not by the regulator's own words")
             page = text_file = sha = how = ""
             if not why:
                 why, page, text_file, sha, how = proved(r, base, letter, cache)
@@ -410,55 +519,90 @@ def main(argv=None):
         log.close()
         return 1
     terms = load_terms()
-    lic, missing = license_of(set(out["regulator"]), terms)
+    lic, classes = license_of(set(out["regulator"]), terms)
     counts = {p: pass_counts(base, p) for p in PASSES}
     reqs, byts = sum(v[0] for v in counts.values()), sum(v[1] for v in counts.values())
-    by_reg = out.groupby("regulator").size().to_dict()
-    by_kind = out.groupby("row_kind").size().to_dict()
-    by_class = out.groupby("status_class").size().to_dict()
-    lic_line = ("License: public. Every regulator with a row states that its records may be reused; each statement is quoted "
-                "word for word in warehouse/config/large_load_rule_terms.json and in " + METHOD + ".") if lic == "public" else (
-                "License: internal. No statement that allows reuse is held for: " + "; ".join(missing) + ". Until one is, no row of "
-                "this table is on any page, in the public Redivis dataset or in the live set.")
-    header = [
-        "Energy Research Warehouse (ERW): proceedings and orders on large-load interconnection, large-load tariffs, "
-        "transmission cost allocation and interconnection reform at FERC and ten state utility commissions, each with "
-        "the exact sentence that states what it does (session 154)",
-        "Shape: events (docs/datastandard.md v0), event_type regulatory_proceeding (the docket itself: its opening order, "
-        "notice or petition is the document) or regulatory_order (an order, rule or decision in it). event_date is the "
-        "date on the document. status is the status class; status_as_worded is the regulator's own wording where its "
-        "page or the document states one, else empty.",
-        f"Retrieved: {run_id} (UTC) by warehouse/connectors/large_load_rules.py from the research passes of 8 October 2026 "
-        f"(warehouse/raw/large_load_rules/A, B and C, not in git; read in this run: {' '.join(b['read']) or 'none'}; not there: "
-        f"{' '.join(b['absent']) or 'none'}): the rows, the rejects, every document opened, every request, the notes, the "
-        "documents as downloaded and their extracted text",
-        f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
-        f"Source: {SOURCE}: each row's source_url is the regulator's own document (source names the regulator's dockets); "
-        "docket_url is the docket's own page where one answers a plain request. Method: " + METHOD + ".",
-        f"This run: {len(b['collected'])} rows collected by the passes, {len(out)} taken ({by_kind}), {len(left)} not taken "
-        f"({NAME}_not_taken.csv, each with its reason). By regulator: {by_reg}. By status class: {by_class}.",
-        f"The pull against its ceiling of {ROW_CEILING} rows: rows collected {len(b['collected'])}; requests {reqs} and bytes {byts} "
-        "by the passes' own requests.csv (" + "; ".join(f"{p}: {v[0]} requests, {v[1]} bytes" for p, v in counts.items()) + ").",
-        "Every sentence is a literal substring of the saved document's text (white space normalized), proved again by this "
-        "script; page is the PDF page found here. Nothing is filled: a field a document does not state is empty. "
-        "status_class and topic are the collecting pass's reading, beside the regulator's words, not a person's review.",
-        "Not legal advice and not complete: a docket system cannot be proved complete from outside. Federal regulators "
-        "and state commissions only: nothing municipal (permitting, zoning, local hearings) is recorded.",
-        lic_line,
-    ]
-    ip.write_snapshot(out, NAME, header, lambda m: log(m.strip()), COLS)
-    ip.update_sources([{"source": SOURCE, "publisher": "Energy Research Warehouse (ERW), collected from the public dockets of FERC and ten state "
-                        "utility commissions by an AI research agent, each sentence proved by code",
-                        "report": "Proceedings and orders on large loads, 8 October 2026: FERC and the commissions of Texas, Virginia, Ohio, Georgia, "
-                                  "Indiana, Arizona, Pennsylvania, Illinois, Oregon and California (docs/accelerator/rules_in_motion.md)",
-                        "report_url": METHOD_URL, "document_list": "", "license": lic, "tables": [NAME]}])
-    detail = (f"passes {' '.join(b['read'])}; collected {len(b['collected'])}, taken {len(out)}, not taken {len(left)}; "
-              f"license {lic}; requests {reqs}, bytes {byts}")
+    by_kind_all = out.groupby("sentence_kind").size().to_dict()
+    parts = {NAME: out[out["regulator"].map(lic) == "public"], NAME_HELD: out[out["regulator"].map(lic) == "internal"]}
+    summary = []
+    for name, part in parts.items():
+        public = name == NAME
+        source = SOURCE if public else SOURCE_HELD
+        path = os.path.join(ip.OUT_DIR, name + ".csv")
+        if not len(part):
+            if os.path.exists(path):
+                raise RuntimeError(f"{name} would be empty and a file of it exists: not replaced by nothing; a person removes it")
+            summary.append(f"{name}: no row")
+            continue
+        part = part.reset_index(drop=True)
+        regs = sorted(set(part["regulator"]))
+        by_reg = part.groupby("regulator").size().to_dict()
+        by_kind = part.groupby("row_kind").size().to_dict()
+        by_class = part.groupby("status_class").size().to_dict()
+        by_cut = part.groupby("sentence_from").size().to_dict()
+        other = NAME_HELD if public else NAME
+        if public:
+            lic_line = ("License: public. This table holds only the rows of regulators whose own quoted terms allow reuse or are a "
+                        "public-records statement (" + "; ".join(f"{r}: {classes[r]}" for r in regs) + "); each sentence that decided it is quoted "
+                        "word for word in warehouse/config/large_load_rule_terms.json and in " + METHOD + ". A public-records statement is "
+                        "about access, not reuse: a decision for the owner to confirm.")
+        else:
+            lic_line = ("License: internal. These regulators' own terms restrict copying, or no terms of theirs were read ("
+                        + "; ".join(f"{r}: {classes[r]}" for r in regs) + "; warehouse/config/large_load_rule_terms.json). Not in the public "
+                        "Redivis dataset and not in the live set. A page may show a row's facts (date, regulator, docket number, status "
+                        "class, topic, the link) and a model's read of it, never the sentence or the worded status.")
+        header = [
+            "Energy Research Warehouse (ERW): proceedings and orders on large-load interconnection, large-load tariffs, "
+            "transmission cost allocation and interconnection reform at FERC and ten state utility commissions, each with "
+            "the exact sentence that states what it does (session 154): " + ("the rows of the regulators whose terms allow "
+            "their text to be shown" if public else "the rows of the regulators whose terms restrict copying or were not read") +
+            f". The other rows are in {other}: one table, one license.",
+            "Shape: events (docs/datastandard.md v0), event_type regulatory_proceeding (the docket itself: its opening order, "
+            "notice or petition is the document) or regulatory_order (an order, rule or decision in it). event_date is the "
+            "date on the document. status is the status class; status_as_worded is the regulator's own wording where its "
+            "page or the document states one, else empty.",
+            f"Retrieved: {run_id} (UTC) by warehouse/connectors/large_load_rules.py from the research passes of 8 October 2026 "
+            f"(warehouse/raw/large_load_rules/A, B and C, not in git; read in this run: {' '.join(b['read']) or 'none'}; not there: "
+            f"{' '.join(b['absent']) or 'none'}): the rows, the rejects, every document opened, every request, the notes, the "
+            "documents as downloaded and their extracted text",
+            f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
+            f"Source: {source}: each row's source_url is the regulator's own document (source names the regulator's dockets); "
+            "docket_url is the docket's own page where one answers a plain request. Method: " + METHOD + ".",
+            f"This run, both tables: {len(b['collected'])} rows collected by the passes, {len(out)} taken, {len(left)} not taken "
+            f"({NAME}_not_taken.csv, each with its reason). This table: {len(part)} rows ({by_kind}). By regulator: {by_reg}. By "
+            f"status class: {by_class}.",
+            f"What a sentence is cut from (sentence_from): {by_cut}. sentence_kind counts two kinds apart: document (the "
+            "document's own text) and record (the regulator's own summary or record of it: a docket card or page, meeting "
+            "minutes, an agenda, a list, a news release), where the document sits behind a robot check or is a scan. row_flag: "
+            "a docket number that is not in the row's own document; a single-customer contract; a draft.",
+            f"The pull against its ceiling of {ROW_CEILING} rows: rows collected {len(b['collected'])}; requests {reqs} and bytes {byts} "
+            "by the passes' own requests.csv (" + "; ".join(f"{p}: {v[0]} requests, {v[1]} bytes" for p, v in counts.items()) + ").",
+            "Every sentence is a literal substring of the saved document's text (white space normalized), proved again by this "
+            "script; page is the PDF page found here. Nothing is filled: a field a document does not state is empty. "
+            "status_class and topic are the collecting pass's reading, beside the regulator's words, not a person's review.",
+            "Not legal advice and not complete: a docket system cannot be proved complete from outside. Federal regulators "
+            "and state commissions only: nothing municipal (permitting, zoning, local hearings) is recorded.",
+            lic_line,
+        ]
+        ip.write_snapshot(part, name, header, lambda m: log(m.strip()), COLS)
+        ip.update_sources([{"source": source, "publisher": "Energy Research Warehouse (ERW), collected from the public dockets of FERC and ten state "
+                            "utility commissions by an AI research agent, each sentence proved by code",
+                            "report": "Proceedings and orders on large loads, 8 October 2026 (docs/accelerator/rules_in_motion.md): "
+                                      + ("the regulators whose terms allow their text to be shown: " if public else
+                                         "the regulators whose terms restrict copying or were not read: ") + "; ".join(regs),
+                            "report_url": METHOD_URL, "document_list": "", "license": "public" if public else "internal", "tables": [name]}])
+        summary.append(f"{name}: {len(part)} rows, {by_reg}; kinds {by_kind}; status classes {by_class}")
+    detail = (f"passes {' '.join(b['read'])}; collected {len(b['collected'])}, taken {len(out)} ({len(parts[NAME])} public, "
+              f"{len(parts[NAME_HELD])} internal), not taken {len(left)}; sentences cut from {by_kind_all}; requests {reqs}, bytes {byts}")
     ip.write_status(NAME, run_id, [dict(table=NAME, market="all", status="ok", detail=detail)])
     log(detail)
     print(f"{NAME}: {detail}")
-    print(f"  by regulator: {by_reg}")
-    print(f"  by kind: {by_kind}; by status class: {by_class}; license: {lic}" + (f" (no reuse statement held for: {'; '.join(missing)})" if missing else ""))
+    for ln in summary:
+        print("  " + ln)
+        log("  " + ln)
+    print("  terms classes: " + "; ".join(f"{r}: {c}" for r, c in classes.items()))
+    print("  flags: " + str(out["row_flag"].replace("", "none").str.split("; ").explode().value_counts().to_dict()))
+    print("  sentence_from: " + str(out.groupby(["sentence_kind", "sentence_from"]).size().to_dict()))
     log.close()
     return 0
 

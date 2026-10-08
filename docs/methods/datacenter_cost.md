@@ -373,6 +373,163 @@ is the average of the hour, not the marginal plant.
 - **How long a new large load waits: "not published anywhere yet".** The same search found no public dataset of the
   time from a large load's request to its energization, for any grid.
 
+### Rules in motion (session 154)
+
+The block "Rules in motion" in "How soon" lists, for the grid chosen, the regulatory actions that are moving and
+that bear on a large load seeking power: the date, the status, the regulator and docket number (a link to the
+regulator's own document), and one line on what it would change. The page reads one file,
+`site/data/datacenter/rules.json`, written whole by `warehouse/derived/rules_in_motion.py`. No table is read from
+Supabase for it and nothing is loaded.
+
+**What it is not.** Not legal advice. Not complete: a docket system cannot be proved complete from outside, and each
+commission's list was found through its own search page, its large-load page or a known docket's document list, not
+through a register of everything it has open. Federal regulators, state utility commissions and grid operators only:
+nothing municipal (permitting, zoning, local hearings) is recorded, tagged or shown, even where a document mentions
+it. A row is what a document said on its date; a later order may have changed it.
+
+**Where the rows come from.** Two places.
+
+1. `large_load_rules` and `large_load_rules_internal` (`warehouse/connectors/large_load_rules.py`; two tables, one
+   for each license, see "Each regulator's terms" below): proceedings and orders on large-load
+   interconnection, large-load tariffs, transmission cost allocation and interconnection reform at the Federal
+   Energy Regulatory Commission and the utility commissions of Texas, Virginia, Ohio, Georgia, Indiana, Arizona,
+   Pennsylvania, Illinois, Oregon and California. One row a proceeding (the docket itself: its opening order, notice
+   or petition is the document) and one row for each order in it. Three research passes, each an AI research agent,
+   read the regulators' public dockets on 8 October 2026 under the owner's approved pull (USD 0, a ceiling of
+   20,000 rows) and saved every document they opened. The connector makes no request. It proves each row again by
+   its own code: the sentence, white space normalized, is a literal substring of the saved document's text, and for
+   a PDF the page is found by the connector, not taken from the pass. A row that does not prove, or that lacks a
+   real document date, a docket number, a topic of the four, or an address on a regulator's or grid operator's own
+   host, is left out and listed with its reason. Nothing is filled: a field the document does not state is empty.
+   `status_as_worded` is the regulator's wording where its page or the document states one; `status_class` (open,
+   decided, closed, not stated) is the collecting pass's reading and always stands beside those words. Never taken:
+   an address on MISO's site or PJM's Data Miner or API; an address that holds a filer's e-mail address; a news
+   article, a law firm's note or a search summary. On 8 October 2026 the passes collected 118 rows; 116 were taken
+   (49 proceedings and 67 orders, of 11 regulators) and 2 left out: an Oregon docket page that prints no date, and
+   an Illinois order whose docket number the pass could tie to the minutes only by matching company, subject and
+   date across two of the commission's lists, not by the commission's own words.
+   - **What a sentence is cut from** (`sentence_from`, and on the page the docket's hover). 87 of the 116 sentences
+     are the document's own text (an order, decision, notice, proposed rule, application, letter; `sentence_kind`
+     `document`). 29 are the regulator's own record of the document, not its text (`sentence_kind` `record`),
+     because the document sits behind a check or is a scan: Ohio's 10 rows are the docket card's one-line summary
+     of each filing (the document viewer answers with a reCAPTCHA and was not requested); 9 Illinois rows are from
+     the commission's open meeting minutes (5), agendas (3) and its list of suspended cases (1), since a docket's
+     own page answers with a robot check; 4 Arizona rows are the commission's own news releases, since its
+     decisions are scans whose text layer misreads letters; 4 are docket pages (California 2, Oregon 1, Arizona
+     1); 1 is Indiana's weekly hearings list; 1 is FERC's regulatory agenda in the Federal Register. A sentence of
+     the minutes is what the Chair said the order does, not the order's words.
+   - **Flags** (`row_flag`). 4 rows carry a docket number that is not in their own document and is tied to it by
+     another document of the same commission (an agenda item of the same meeting, later minutes, the docket's own
+     page): 3 from Illinois, 1 from Pennsylvania. 12 rows are a contract or agreement with one customer, placed
+     under the nearest topic by the pass (Indiana 6, California 4, Arizona 2): kept, flagged, never among the ten
+     rules of the month. 4 California rows are draft resolutions as posted for the agenda: their status reads
+     "DRAFT" as the document words it and their status class is "not stated", since no adopted text was read.
+2. The federal policy actions held in `policy_actions` that the tags' rule marks (`policy_action_tags`; method and
+   the rule's measurement: [`policy_action_tags.md`](policy_action_tags.md)): large loads, interconnection,
+   transmission cost, tax credits. The rule is a list of terms that code applies to the title and the abstract, with
+   stated exclusions (the interconnection of a gas pipeline is not the grid's; a bill credit is not a tax credit;
+   nothing municipal) and a list of dockets by number. A state commission's news release that the rule tags stays
+   in the tags table: the block shows a state's dockets, not its releases.
+
+**What "in motion" means.** A proceeding whose status class is open, whatever its date; an order or rule dated in
+the 12 months before the file was built; a tagged federal action held of those 12 months. A proceeding that is
+decided or closed, or whose status no document states, is in the table and not in the block.
+
+**Which grid sees which action.** By rule:
+
+- An action whose own words name a grid operator (ERCOT, PJM, MISO, CAISO, NYISO, ISO-NE, SPP, by name or by the
+  operator's full name) is under that operator and no other. For a proceeding or order this is the operator the
+  collecting pass recorded from the document (`grids`), or the operator another document of the same docket names;
+  a pass leaves out an operator named only in passing. So a Texas case of a utility in SPP is under SPP, not ERCOT,
+  and an Indiana order that names MISO is under MISO, where no row is shown. A federal notice tagged by its docket
+  number is under the operator that docket is about.
+- A state commission's action that names no operator is under the operators that serve that state's utilities. The mapping is stated here
+  plainly as common knowledge of the US power system, the states listed; no federal table of it is cited in this
+  repository:
+
+  | State | Grid on the page | Why |
+  |---|---|---|
+  | Texas | ERCOT | The Texas commission regulates the ERCOT region. The parts of Texas in SPP and MISO see a Texas action only when its own words name them |
+  | Virginia | PJM | Dominion Energy Virginia and Appalachian Power are in PJM |
+  | Ohio | PJM | AEP Ohio, FirstEnergy's Ohio companies, AES Ohio and Duke Energy Ohio are in PJM |
+  | Pennsylvania | PJM | PECO, PPL Electric, FirstEnergy's Pennsylvania company and Duquesne Light are in PJM |
+  | Illinois | PJM and MISO | Commonwealth Edison is in PJM; Ameren Illinois is in MISO. MISO shows no row, so an Illinois action is seen under PJM |
+  | Indiana | PJM and MISO | Indiana Michigan Power is in PJM; the state's other utilities are in MISO. Seen under PJM |
+  | California | CAISO | PG&E, Southern California Edison and SDG&E are in CAISO |
+  | Georgia | none | Georgia's utilities are in no organized market: in the table, not in the block |
+  | Arizona | none | Arizona's utilities are in no organized market operator's footprint: in the table, not in the block |
+  | Oregon | none | Oregon's utilities are in no organized market operator's footprint: in the table, not in the block |
+
+  The mapping is coarse: a state's action that names no operator is shown under every grid the state is mapped
+  to (an Illinois action under PJM, since MISO shows no row; a Texas case of El Paso Electric, which is in neither
+  ERCOT nor SPP, under ERCOT). Each row's hover says why it is under the grid.
+- A federal action that names no operator is under every grid, in a group of its own: "Federal, all grids".
+- **MISO: "paused while terms are reviewed", and no row.** MISO's own site is never requested
+  ([`miso_pause.md`](miso_pause.md)); the block shows nothing under MISO, including federal orders that name it.
+- **PJM: rows are shown**, although the rest of the page reads "licensed source needed" for PJM's prices: a
+  regulator's filing about PJM is the regulator's public document. They are read from FERC, the state commissions
+  and PJM's public committee documents, never from PJM's Data Miner or API.
+
+**The one-line read is a model's, and is marked so.** `warehouse/policy/rule_reads.py` gives a model the row's own
+sentence and the saved text of the same document around it (2,500 characters before the sentence and 3,500 after,
+white space normalized), under one heading line made of the row's own fields, and nothing else; for a federal action
+held, its title and abstract as the Federal Register prints them. The model writes one line: what the action would
+change for a large load seeking power. Code keeps the line only if every number in it stands in the text the model
+was given, numbers written as words included; it is one line of at most 320 characters with no em dash; it holds
+none of the words the block never shows; and, where the row's regulator restricts copying or its terms were not
+read, it holds no run of more than five consecutive words of the document, so that the line states facts and quotes
+nothing. A line that fails is not shown: the row reads "no read yet". A row was asked at most three times (the last
+time with the copied run named back to the model); every answer paid for is kept beside the table. On 8 October
+2026: 92 rows in motion with a saved text, 87 with a line, 5 without. A federal action that already has a read in `policy_reads` uses that read's plain line, which is a
+model's too. The line is never the regulator's words: the regulator's sentence is on the docket's hover, and the
+link opens the document. Every call goes through the cost ledger, with the stop before each call.
+
+**Kept out of the file, and counted in it** (`not_on_page`): a state with no grid on the page; a row under MISO
+alone; a state commission's news release held in `policy_actions`; a row whose shown title, sentence, read or status
+holds one of the words "zoning", "permit", "city council" or "county board" (the block never shows them, so an order
+that uses "permit" as a verb would be kept out too; it stays in the table; none was on 8 October 2026); a row whose
+shown words hold an em dash (none).
+
+**Each regulator's terms, and what the page shows of its rows.** A decision made for the owner to confirm. A table
+has one license, so the rows are in two tables, as session 140 held ISO-NE's zone prices beside the public ones.
+`warehouse/config/large_load_rule_terms.json` holds, for each regulator, the sentence that decided it, word for
+word as the pass that read the page saved it, with the saved page's hash.
+
+- **Allowed or a public-records statement: `large_load_rules`, public.** The row is shown with the regulator's
+  sentence and its worded status.
+- **Restricted, or not quoted: `large_load_rules_internal`.** The page shows the row's facts (the date, the
+  regulator, the docket number, the status class, the topic, the link to the regulator's own document) and the
+  model's read, which quotes nothing. It shows neither the regulator's sentence nor its worded status nor the
+  document's title: the hover says why and says to open the document.
+- Two lines in `warehouse/derived/rules_in_motion.py` let the owner rule either way: a regulator named in
+  `OFF_PAGE_REGULATORS` has no row on the page at all; one named in `SHOW_SENTENCE_REGULATORS` has its sentences
+  shown.
+
+| Regulator | Class | The sentence that decided it (the regulator's own words) | Page read |
+|---|---|---|---|
+| California Public Utilities Commission | allowed | "In general, information presented on this web site, unless otherwise indicated, is considered in the public domain. It may be distributed or copied as permitted by law." | `www.cpuc.ca.gov/about-cpuc/conditions-of-use`, 2026-10-08, sha256 `8c49fa90dd82` |
+| Oregon Public Utility Commission | public record | "Most information collected by state government is assumed to be open to the public unless specifically exempted." and "The PUC will make public records available unless the records are exempt from disclosure by law." | `www.oregon.gov/pages/terms-and-conditions.aspx`, 2026-10-08, sha256 `a85cd8ed6af6` |
+| Arizona Corporation Commission | public record | "In other words, much of the information you disclose to us becomes a matter of public record as required by law." | `www.azcc.gov/privacy-policy`, 2026-10-08, sha256 `9afd6435558e` |
+| Pennsylvania Public Utility Commission | public record | "Persons requesting copies of public records maintained by the Commission must submit a written request to the Commission’s Open Records Officer." | `www.puc.pa.gov/filing-resources/issues-laws-regulations/right-to-know-policies-and-procedures/`, 2026-10-08, sha256 `6c8c682ab8c1` |
+| Illinois Commerce Commission | public record | "Information collected and received through the Illinois Commerce Commission web site may become public record and therefore subject to disclosure under the Illinois Freedom of Information Act." | `icc.illinois.gov/privacy.htm`, 2026-10-08, sha256 `1308fa4664da` |
+| Public Utility Commission of Texas | restricted | "Although the content of PUCT web sites is available to the public, certain information on the PUCT web sites may be trademarked, service marked, or otherwise protected as the PUCT's intellectual property, and all PUCT content is protected by federal copyright laws." and "Site owners should contact the PUCT to request permission to use or copy content from the PUCT's website." | `www.puc.texas.gov/agency/about/policies/linkpolicy/`, 2026-10-08, sha256 `ce2831de052a` |
+| Indiana Utility Regulatory Commission | restricted | "Except as may otherwise be allowed by law (including but not limited to the Indiana Access to Public Records Law), the viewing, printing, or downloading of any content, graphic, form, or document from the Portal grants you only a limited, nonexclusive license for use solely by you for your own personal use, and not for republication, distribution, assignment, sublicense, sale, preparation of derivative works or other use." | `www.in.gov/core/terms_of_use.html`, 2026-10-08, sha256 `2c92c4dd2142` |
+| Georgia Public Service Commission | restricted | "Request in writing by any person pursuant to the Georgia Open Records Act, O.C.G.A. Section 50-18-70, et seq." and "2026 Georgia Public Service Commission. All rights reserved." (the footer of every page of the site, after a copyright sign, as pass C records it) | `psc.ga.gov/open-records-requests/`, 2026-10-08, sha256 `2fe67dc328ef` |
+| Public Utilities Commission of Ohio | not quoted | None: puco.ohio.gov answered 404 to six plain requests, its privacy notice among them (pass B); no terms page could be read | none |
+| Virginia State Corporation Commission | not quoted | None: one guessed web policy address answered 404, so no terms page was met (pass A) | none |
+| Federal Energy Regulatory Commission | not quoted | None: every ferc.gov page answered HTTP 403 with a browser check, recorded once and left; only order files at known addresses answered (pass A). No terms page of the Commission, of the Federal Register or of govinfo.gov was read | none |
+
+Only California's terms speak of reuse ("may be distributed or copied"). **Oregon's, Arizona's, Pennsylvania's and
+Illinois's statements are about access to public records, not about reuse**: they say that records are open or how
+to ask for them, and no sentence of theirs permits or forbids copying. They are shown with their sentences on that
+footing (Oregon and Arizona by the session coordinator's ruling, Pennsylvania and Illinois by the same rule applied
+by the build agent), and the owner may rule otherwise in one line. Illinois's docket pages also answer "Please, no
+robots or crawlers beyond this point.": one request was made and none after, and every Illinois row is cut from the
+commission's minutes, agendas or list. Indiana's terms carve out what "the Indiana Access to Public Records Law"
+allows; whether one quoted sentence of an order is inside that exception is the owner's to rule. FERC's orders are
+works of the United States government, but every page of ferc.gov answered a browser check and no terms page of
+the Commission, the Federal Register or govinfo.gov was read, so by the rule FERC stands as not quoted.
+
 ## Tests
 
 `site/scripts/test-datacenter.mjs`, on saved real samples (`tests/fixtures/session138`: ERCOT HB_HUBAVG, every hour of
@@ -388,6 +545,15 @@ prices are); each day's threshold and each hour shed are worked by hand; the fir
 is never off in more hours of a year than named; the rule never pays less than the same hours perfectly foreseen; the
 30 days are read across the boundary between two years' files; and the clean share of a load's own hours.
 `tests/test_session140.py` runs it and checks the builder's new parts and the page.
+
+`tests/test_session154.py` (session 154, rules in motion): the tags' rule on made-up rows and on the table held (a
+company's name is not a topic, a gas pipeline's interconnection is not the grid's, a bill credit is not a tax
+credit, nothing municipal, a docket listed by number); the connector (a sentence proves and its page is found, a
+sentence over a page break, a row that does not prove, never MISO's site or an address with an e-mail address, what
+a sentence is cut from, the flags, a regulator's rows public only by its own quoted terms, each quoted sentence
+found in the page its pass saved); the reads (no number the text lacks, no quotation of a restricted regulator, the
+stop before the call); the site's file (which grid sees which action, MISO paused, a row of the internal table
+with its facts and never its sentence, the owner's two switches, the built file against its contract); the ten.
 
 ## Refresh
 

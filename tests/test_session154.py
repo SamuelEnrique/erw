@@ -214,14 +214,76 @@ class Connector(unittest.TestCase):
         self.assertTrue(r["event_id"].startswith("ferc:EL99-1-000:order:"))
         self.assertEqual(list(b["out"].columns), llr.COLS)
 
-    def test_public_only_if_every_regulator_allows_reuse(self):
-        terms = {"Federal Energy Regulatory Commission": {"allows_reuse": True, "terms_quote": "MADE UP: may be reused."},
-                 "Public Utilities Commission of Ohio": {"allows_reuse": None, "terms_quote": ""}}
-        self.assertEqual(llr.license_of({"Federal Energy Regulatory Commission"}, terms), ("public", []))
-        lic, missing = llr.license_of({"Federal Energy Regulatory Commission", "Public Utilities Commission of Ohio",
-                                       "Georgia Public Service Commission"}, terms)
-        self.assertEqual(lic, "internal")
-        self.assertEqual(missing, ["Georgia Public Service Commission", "Public Utilities Commission of Ohio"])
+    def test_a_regulators_rows_are_public_only_by_its_own_quoted_terms(self):
+        terms = {"A": {"class": "allowed", "terms_quote": "MADE UP: may be copied."},
+                 "B": {"class": "public record", "terms_quote": "MADE UP: records are open."},
+                 "C": {"class": "restricted", "terms_quote": "MADE UP: all rights reserved."},
+                 "D": {"class": "not quoted", "terms_quote": ""},
+                 "E": {"class": "allowed", "terms_quote": ""}}   # a class that needs a quotation and has none
+        lic, classes = llr.license_of({"A", "B", "C", "D", "E", "F"}, terms)
+        self.assertEqual(lic, {"A": "public", "B": "public", "C": "internal", "D": "internal", "E": "internal", "F": "internal"})
+        self.assertEqual((classes["E"], classes["F"]), ("not quoted", "not quoted"))
+
+    def test_the_terms_file_classes_each_of_the_eleven_with_its_sentence(self):
+        terms = llr.load_terms()
+        self.assertEqual(sorted(terms), sorted(v[0] for v in llr.REGULATORS.values()))
+        for name, t in terms.items():
+            self.assertIn(t["class"], llr.PUBLIC_CLASSES + llr.HELD_CLASSES, name)
+            if t["class"] == "not quoted":
+                self.assertEqual(t["terms_quote"], "")
+                self.assertTrue(t["why_none"], name)
+            else:
+                self.assertTrue(t["terms_quote"] and t["terms_url"].startswith("https://") and len(t["sha256"]) == 64, name)
+            if t["class"] in llr.HELD_CLASSES:
+                self.assertTrue(t["withheld_words"].endswith("; open the document"), name)
+        self.assertEqual(terms["California Public Utilities Commission"]["class"], "allowed")
+        self.assertEqual(terms["Public Utility Commission of Texas"]["class"], "restricted")
+
+    def test_each_quoted_sentence_stands_in_the_page_its_pass_saved(self):
+        base = os.environ.get("ERW_RAW_ROOT") or os.path.join(ROOT, "warehouse", "raw")
+        if not os.path.exists(os.path.join(base, "large_load_rules", "A", "actions.csv")):
+            self.skipTest("the passes' files are not on this machine")
+        n = 0
+        for name, t in llr.load_terms().items():
+            if t.get("saved_text"):
+                with open(os.path.join(os.path.dirname(base), "..", t["saved_text"]) if False else os.path.join(base, t["saved_text"].split("warehouse/raw/", 1)[1]), encoding="utf-8", errors="replace") as f:
+                    text = llr.norm(llr.html_text(f.read()))
+                self.assertIn(llr.norm(t["terms_quote"]), text, name)
+                n += 1
+        self.assertGreaterEqual(n, 5)
+
+    def test_what_a_sentence_is_cut_from(self):
+        self.assertEqual(llr.sentence_from(pass_row(local_file="raw/oh/card_26-0113_all.html", document_title="Finding & Order")), ("docket card", "record"))
+        self.assertEqual(llr.sentence_from(pass_row(local_file="raw/il_minutes/m03.pdf", document_title="Suspension Order, as recorded")), ("meeting minutes", "record"))
+        self.assertEqual(llr.sentence_from(pass_row(local_file="raw/az_news_2026.html", document_title="ACC Approves")), ("news release", "record"))
+        self.assertEqual(llr.sentence_from(pass_row(local_file="raw/ca_res_1.pdf", document_title="Draft Resolution E-0000")), ("draft resolution", "document"))
+        self.assertEqual(llr.sentence_from(pass_row(document_title="ORDER GRANTING JOINT PETITION OF A COMPANY")), ("order text", "document"))
+        self.assertEqual(llr.sentence_from(pass_row(document_title="Application (item 1)")), ("application or request", "document"))
+
+    def test_flags_a_draft_is_never_decided_and_a_single_customer_contract_is_marked(self):
+        d = self.folder("One." + FF + "The Commission directs the operator to file a made-up tariff.")
+        import csv
+        rows = [pass_row(regulator="California Public Utilities Commission", jurisdiction="state", state="CA", grids="",
+                         docket_number="Resolution E-5420 (MADE UP)", document_title="Draft Resolution E-5420", status_as_worded="DRAFT",
+                         status_class="decided", document_url="https://docs.cpuc.ca.gov/made-up.pdf"),
+                pass_row(regulator="Illinois Commerce Commission", jurisdiction="state", state="IL", grids="", docket_number="26-0625",
+                         document_url="https://icc.illinois.gov/made-up.pdf", collected_in="pass B",
+                         sentence="The Commission directs the operator to file a made-up tariff.")]
+        with open(os.path.join(d, "B", "actions.csv") if os.path.isdir(os.path.join(d, "B")) else os.path.join(d, "A", "actions.csv"), "w", encoding="utf-8", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=llr.PASS_COLS, extrasaction="ignore")
+            w.writeheader()
+            w.writerows(rows)
+        b = llr.build(d, lambda m: None)
+        r = b["out"].iloc[0]
+        self.assertEqual(len(b["out"]), 1)   # the Illinois order whose docket is tied only by a match across two lists is left out
+        self.assertIn("not by the regulator's own words", b["left"][0]["why_not_taken"])
+        ca = b["out"][b["out"]["state"] == "CA"].iloc[0]
+        self.assertEqual(ca["status_class"], "not stated")   # no adopted text was read
+        self.assertIn(llr.FLAG_DRAFT, ca["row_flag"])
+        self.assertIn(llr.FLAG_SINGLE, ca["row_flag"])
+        self.assertTrue(llr.FLAG_SINGLE.startswith(rim.SINGLE_FLAG))
+        self.assertEqual(("Illinois Commerce Commission", "26-0625", "order") in llr.DOCKET_NOT_TIED, True)
+        self.assertEqual(r["sentence_kind"], "document")
 
 
 class Reads(unittest.TestCase):
@@ -242,6 +304,17 @@ class Reads(unittest.TestCase):
         self.assertTrue(rr.check_read("x" * (rr.MAX_CHARS + 1), self.TEXT))
         self.assertTrue(rr.check_read("Large loads need a zoning change.", self.TEXT))
         self.assertTrue(rr.check_read("The order would permit earlier service.", self.TEXT))
+
+    def test_a_line_about_a_restricted_regulator_quotes_nothing(self):
+        text = "SENTENCE: A large load customer must execute an intermediate agreement before it is included in a study."
+        quoting = "A large load customer must execute an intermediate agreement first."
+        own = "Large customers have to sign an interim agreement to be studied."
+        self.assertTrue(rr.check_read(quoting, text, no_quote=True))
+        self.assertEqual(rr.check_read(quoting, text, no_quote=False), [])
+        self.assertEqual(rr.check_read(own, text, no_quote=True), [])
+        self.assertEqual(rr.copied_run("must execute an intermediate agreement", text), "")   # five words: allowed
+        self.assertTrue(rr.copied_run("customer must execute an intermediate agreement", text))   # six: a quotation
+        self.assertIn("never copy more than five consecutive words", rr.SYSTEM)
 
     def test_the_model_is_given_the_sentence_and_the_text_around_it(self):
         whole = "a" * 5000 + " The order does this. " + "b" * 5000
@@ -279,6 +352,8 @@ class SiteFile(unittest.TestCase):
                                              self.row(id="madeup:4", state="CA"), self.row(id="madeup:5", state="GA")])
         self.assertEqual([r["id"] for r in grids["pjm"]], ["madeup:1", "madeup:2"])
         self.assertEqual([r["id"] for r in grids["miso"]], ["madeup:2"])
+        named = rim.place([self.row(id="madeup:6", state="TX", named=["spp"]), self.row(id="madeup:7", state="IN", named=["miso"])])[0]
+        self.assertEqual(([r["id"] for r in named["spp"]], named["ercot"], named["pjm"]), (["madeup:6"], [], []))   # own words win
         self.assertEqual([r["id"] for r in grids["ercot"]], ["madeup:3"])
         self.assertEqual([r["id"] for r in grids["caiso"]], ["madeup:4"])
         self.assertEqual([r["id"] for r, _ in nowhere], ["madeup:5"])
@@ -309,16 +384,18 @@ class SiteFile(unittest.TestCase):
         for s in ("GA", "AZ", "OR"):
             self.assertEqual(rim.STATE_GRIDS[s][0], [])
 
-    def build_from(self, license_line, kind="order", cls="decided", date="2026-06-01", sentence="The Commission adopts a made-up tariff.", state="VA"):
+    def build_from(self, license_line, kind="order", cls="decided", date="2026-06-01", sentence="The Commission adopts a made-up tariff.", state="VA",
+                   table="large_load_rules", regulator="Virginia State Corporation Commission", flag="", grids=""):
         """A build over a temporary folder holding one MADE UP table of one row."""
         import pandas as pd
         d = tempfile.mkdtemp()
         r = {c: "" for c in llr.COLS}
         r.update(event_id="vascc:PUR-0000-00000:order:0000000000", event_date=date, event_type="regulatory_" + kind, status=cls,
-                 source="vascc:dockets", source_url="https://www.scc.virginia.gov/made-up.pdf", regulator="Virginia State Corporation Commission",
+                 source="vascc:dockets", source_url="https://www.scc.virginia.gov/made-up.pdf", regulator=regulator,
                  jurisdiction="state", state=state, docket_number="PUR-0000-00000", proceeding_title="A made-up case", row_kind=kind,
-                 topic="large-load tariff", document_title="A made-up order", status_class=cls, page="3", sentence=sentence)
-        with open(os.path.join(d, "large_load_rules.csv"), "w", encoding="utf-8", newline="") as f:
+                 topic="large-load tariff", document_title="A made-up order", status_class=cls, page="3", sentence=sentence,
+                 status_as_worded="Final Order", sentence_from="order text", sentence_kind="document", row_flag=flag, grids=grids)
+        with open(os.path.join(d, table + ".csv"), "w", encoding="utf-8", newline="") as f:
             f.write("# MADE UP for a test\n# " + license_line + "\n")
             pd.DataFrame([r], columns=llr.COLS).to_csv(f, index=False, lineterminator="\n")
         return rim.build([d], dt.date(2026, 10, 8))
@@ -333,11 +410,37 @@ class SiteFile(unittest.TestCase):
         self.assertEqual(len(self.build_from("License: public. MADE UP.", kind="proceeding", cls="open", date="2024-03-01")["grids"]["pjm"]["rows"]), 1)
         self.assertEqual(self.build_from("License: public. MADE UP.", kind="proceeding", cls="closed")["grids"]["pjm"]["state"], "none")
 
-    def test_no_row_of_an_internal_table_is_in_the_file(self):
-        obj = self.build_from("License: internal. MADE UP.")
-        self.assertEqual(obj["grids"]["pjm"]["state"], "none")
-        self.assertEqual(obj["federal_all_grids"], [])
-        self.assertEqual(obj["not_on_page"]["count"], 1)
+    def test_a_row_of_the_internal_table_shows_its_facts_and_never_its_sentence(self):
+        obj = self.build_from("License: internal. MADE UP.", table="large_load_rules_internal")
+        row = obj["grids"]["pjm"]["rows"][0]
+        self.assertIsNone(row["sentence"])
+        self.assertIsNone(row["status_as_worded"])
+        self.assertEqual(row["title"], "")
+        self.assertTrue(row["sentence_withheld"].endswith("; open the document"))
+        self.assertEqual((row["date"], row["docket"], row["status_class"], row["topic"], row["url"]),
+                         ("2026-06-01", "PUR-0000-00000", "decided", "large-load tariff", "https://www.scc.virginia.gov/made-up.pdf"))
+        self.assertNotIn("The Commission adopts a made-up tariff.", json.dumps(obj))
+        shown = self.build_from("License: public. MADE UP.")["grids"]["pjm"]["rows"][0]
+        self.assertEqual((shown["sentence"], shown["status_as_worded"], shown["sentence_withheld"]), ("The Commission adopts a made-up tariff.", "Final Order", None))
+
+    def test_a_table_whose_license_is_not_its_names_is_refused(self):
+        with self.assertRaises(RuntimeError):
+            self.build_from("License: public. MADE UP.", table="large_load_rules_internal")
+        with self.assertRaises(RuntimeError):
+            self.build_from("License: internal. MADE UP.")
+
+    def test_the_owners_two_switches(self):
+        name = "Virginia State Corporation Commission"
+        old = rim.OFF_PAGE_REGULATORS, rim.SHOW_SENTENCE_REGULATORS
+        try:
+            rim.OFF_PAGE_REGULATORS = (name,)
+            self.assertEqual(self.build_from("License: internal. MADE UP.", table="large_load_rules_internal")["grids"]["pjm"]["state"], "none")
+            rim.OFF_PAGE_REGULATORS, rim.SHOW_SENTENCE_REGULATORS = (), (name,)
+            row = self.build_from("License: internal. MADE UP.", table="large_load_rules_internal")["grids"]["pjm"]["rows"][0]
+            self.assertEqual((row["sentence"], row["sentence_withheld"]), ("The Commission adopts a made-up tariff.", None))
+        finally:
+            rim.OFF_PAGE_REGULATORS, rim.SHOW_SENTENCE_REGULATORS = old
+        self.assertEqual(old, ((), ()))   # as shipped: neither switch is thrown
 
     def test_miso_is_paused_and_holds_no_row(self):
         obj = self.build_from("License: public. MADE UP.", state="IL")
@@ -348,6 +451,9 @@ class SiteFile(unittest.TestCase):
         obj = self.build_from("License: public. MADE UP.", sentence="The made-up order would permit earlier service.")
         self.assertEqual(obj["grids"]["pjm"]["state"], "none")
         self.assertEqual(obj["not_on_page"]["count"], 1)
+        # a withheld sentence is not shown, so its words keep no row out
+        obj = self.build_from("License: internal. MADE UP.", table="large_load_rules_internal", sentence="The made-up order would permit earlier service.")
+        self.assertEqual(len(obj["grids"]["pjm"]["rows"]), 1)
 
     def test_a_state_with_no_grid_on_the_page_is_counted_not_shown(self):
         obj = self.build_from("License: public. MADE UP.", state="GA")
@@ -373,7 +479,14 @@ class SiteFile(unittest.TestCase):
         with open(os.path.join(d, "large_load_rules.csv"), "w", encoding="utf-8", newline="") as f:
             f.write("# MADE UP for a test\n# License: public. MADE UP.\n")
             pd.DataFrame(rows, columns=llr.COLS).to_csv(f, index=False, lineterminator="\n")
+        single = dict(rows[1], event_id="txpuc:D99:order:1111111111", docket_number="D99", event_date="2026-10-07",
+                      row_flag="single-customer contract or agreement, not a rule for others")
+        rows.append(single)
+        with open(os.path.join(d, "large_load_rules.csv"), "w", encoding="utf-8", newline="") as f:
+            f.write("# MADE UP for a test\n# License: public. MADE UP.\n")
+            pd.DataFrame(rows, columns=llr.COLS).to_csv(f, index=False, lineterminator="\n")
         ten, pool = rim.ten_rules([d], dt.date(2026, 10, 8))
+        self.assertNotIn("D99", [r["docket"] for r in ten])   # a contract with one customer sets no rule for others
         self.assertEqual((len(ten), pool), (10, 14))
         self.assertEqual(len({(r["regulator"], r["docket"]) for r in ten}), 10)
         self.assertTrue(all(sum(1 for r in ten if r["regulator"] == x["regulator"]) <= rim.TEN_PER_REGULATOR for x in ten))
@@ -413,7 +526,16 @@ class SiteFile(unittest.TestCase):
             self.assertIn(r["status_class"], ("open", "decided", "closed", "not stated"))
             self.assertTrue(r["url"].startswith("http"), r["id"])
             self.assertNotIn("misoenergy.org", r["url"])
-            self.assertTrue(r["sentence"] and r["regulator"] and r["why_here"], r["id"])
+            self.assertTrue(r["regulator"] and r["why_here"], r["id"])
+            if r["sentence"] is None:   # a regulator whose terms restrict copying, or were not read: facts only
+                self.assertIsNone(r["status_as_worded"], r["id"])
+                self.assertEqual(r["title"], "", r["id"])
+                self.assertTrue(r["sentence_withheld"].endswith("; open the document"), r["id"])
+                self.assertIn(r["terms_class"], ("restricted", "not quoted"), r["id"])
+            else:
+                self.assertIsNone(r["sentence_withheld"], r["id"])
+                self.assertNotIn(r["terms_class"], ("restricted", "not quoted"), r["id"])
+            self.assertTrue(r["sentence_from"], r["id"])
             if r["read"] is None:
                 self.assertEqual((r["read_by"], r["read_model"]), (None, None), r["id"])
             else:
@@ -425,7 +547,7 @@ class SiteFile(unittest.TestCase):
         for r in obj["federal_all_grids"]:
             self.assertEqual(r["jurisdiction"], "federal")
         for s in obj["sources"]:
-            self.assertTrue(s["regulator"] and s["terms_url"] and s["terms_quote"])
+            self.assertTrue(s["regulator"] and s["terms_url"] and s["terms_quote"] and s["terms_class"])
         self.assertEqual(obj["not_on_page"]["count"], sum(obj["not_on_page"]["by_reason"].values()))
 
 

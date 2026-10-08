@@ -29,8 +29,10 @@ CHARS_PER_TOKEN characters a token and max_tokens of output, at the model's conf
     python warehouse/policy/rule_reads.py ... --stop-usd 3.70      # the batch, newest first
     --ledger-dir DIR   keep the cost ledger under DIR (a working copy's own warehouse/output) instead of --out-dir
 
-Writes large_load_rule_reads (events shape, event_type rule_read; one row a kept line). License: that of
-large_load_rules (internal while that table is internal).
+Writes large_load_rule_reads (events shape, event_type rule_read; one row a kept line). License: public: the lines
+are the ERW's own. A line about a row of large_load_rules_internal (a regulator whose terms restrict copying or were
+not read) must not quote the document: code rejects a line that holds a run of more than QUOTE_WORDS consecutive words
+of the text the model was given.
 """
 
 import argparse
@@ -56,8 +58,9 @@ SOURCE = "erw:large_load_rule_reads"
 METHOD = "docs/methods/datacenter_cost.md"
 METHOD_URL = "https://github.com/SamuelEnrique/erw/blob/main/" + METHOD
 BEFORE, AFTER = 2500, 3500
-MAX_CHARS = 240
+MAX_CHARS = 320   # 240 at first; raised after the first 27 answers: an order with several conditions ran past it. The other checks are unchanged
 MAX_TOKENS = 700
+QUOTE_WORDS = 5   # a line about a regulator that restricts copying holds no run of more than this many of its words
 CHARS_PER_TOKEN = 2.5   # a low figure on purpose: the reserve must be a worst case
 SYSTEM_TOKENS = 700
 EM = chr(0x2014)
@@ -76,6 +79,7 @@ Rules:
   whom. If the action is a proposal or an open proceeding, say it would or may, not that it does.
 - No number, date, amount, threshold or percentage that is not written in the excerpt, and write each exactly as the
   excerpt writes it.
+- Write in your own words: never copy more than five consecutive words from the excerpt.
 - No advice, no opinion, no hype, no em dashes. Do not use the words zoning, permit, city council or county board.
 - If the excerpt does not support any line about large loads seeking power, return an empty string.
 Return a JSON object with one field, "read"."""
@@ -99,8 +103,26 @@ def num_tokens(text):
     return {m.group(0).replace(",", "").rstrip(".") for m in NUM.finditer(text)}
 
 
-def check_read(line, given):
-    """The reasons a line is not kept; [] when it is. given is the whole text the model was shown."""
+def words_of(text):
+    return re.findall(r"[a-z0-9]+(?:'[a-z]+)?", text.lower().replace(chr(0x2019), "'"))
+
+
+def copied_run(line, given, n=None):
+    """The first run of more than QUOTE_WORDS consecutive words of the line that stands in the text given, or ''."""
+    n = (QUOTE_WORDS + 1) if n is None else n
+    lw = words_of(line)
+    hay = " " + " ".join(words_of(given)) + " "
+    for i in range(len(lw) - n + 1):
+        run = " ".join(lw[i:i + n])
+        if " " + run + " " in hay:
+            return run
+    return ""
+
+
+def check_read(line, given, no_quote=False):
+    """The reasons a line is not kept; [] when it is. given is the whole text the model was shown. no_quote: the row's
+    regulator restricts copying (or its terms were not read), so the line must not quote the document: no run of more
+    than QUOTE_WORDS consecutive words of the text given."""
     why = []
     if not line.strip():
         return ["the model returned no line (the excerpt supports none)"]
@@ -124,6 +146,10 @@ def check_read(line, given):
     hit = [w for w in BLOCK_WORDS if w in line.lower()]
     if hit:
         why.append(f"a word the block never shows: {hit}")
+    if no_quote:
+        run = copied_run(line, given)
+        if run:
+            why.append(f"quotes the document (more than {QUOTE_WORDS} consecutive words of it): '{run}'")
     return why
 
 
@@ -140,12 +166,15 @@ def candidates(dirs, raw_base, today, log):
     """The rows to read, newest first: [{id, date, url, regulator, docket, kind, heading, given, read_from, sha}]."""
     cutoff = rim.months_back(today, rim.WINDOW_MONTHS)
     out = []
-    p = rim.find(RULES, dirs)
-    if p:
-        t, _ = rim.read_events(p)
+    for name in rim.TABLES:
+        p = rim.find(name, dirs)
+        if not p:
+            continue
+        t, head = rim.read_events(p)
+        internal = rim.license_of(head) != "public"
         for a in t.to_dict("records"):
             kind, cls, day = a["row_kind"], a["status_class"], a["event_date"][:10]
-            if not ((kind == "proceeding" and cls == "open") or (kind == "order" and day >= cutoff.isoformat())):
+            if not rim.in_motion(a, cutoff):
                 continue
             path = os.path.join(raw_base, a["text_file"])
             if not os.path.exists(path):
@@ -164,7 +193,8 @@ def candidates(dirs, raw_base, today, log):
                        f"{a['document_title'] or a['proceeding_title']}")
             out.append({"id": a["event_id"], "date": day, "url": a["source_url"], "regulator": a["regulator"],
                         "docket": a["docket_number"], "kind": kind, "heading": heading, "given": body,
-                        "status_class": cls,
+                        "status_class": cls, "table": name,
+                        "no_quote": internal and a["regulator"] not in rim.SHOW_SENTENCE_REGULATORS,
                         "read_from": f"the document's own sentence and the saved text around it "
                                      f"({len(body):,} characters of the document), nothing else"})
     pa, pt = rim.find(ACTIONS, dirs), rim.find(TAGS, dirs)
@@ -186,7 +216,7 @@ def candidates(dirs, raw_base, today, log):
             body = "SENTENCE: " + norm(a["title"]) + "\n\n" + norm(a["abstract"])
             out.append({"id": aid, "date": a["event_date"][:10], "url": a["source_url"],
                         "regulator": rim.AGENCY_NAMES[a["agency"]], "docket": rim.docket_words(a.to_dict()),
-                        "kind": "federal action", "status_class": rim.ACTION_CLASS.get(a["action_type"], "not stated"),
+                        "kind": "federal action", "table": ACTIONS, "no_quote": False, "status_class": rim.ACTION_CLASS.get(a["action_type"], "not stated"),
                         "heading": f"{rim.AGENCY_NAMES[a['agency']]}, {a['action_type'].replace('_', ' ')}, published {a['event_date'][:10]}",
                         "given": body,
                         "read_from": "the action's title and abstract as the Federal Register prints them, nothing else"})
@@ -225,7 +255,9 @@ def session_spent(llm, extra_ledgers):
 
 
 def table_from_answers(ans_dir, cands, lic, log):
-    """The kept lines of every saved answer whose text is still the row's text (a changed document is read again)."""
+    """The kept lines of every saved answer whose text is still the row's text (a changed document is read again).
+    Each saved line is checked again here against the text the model was given (check_read), so the table always
+    holds exactly the lines the code's checks pass today, and a saved answer is never asked for twice."""
     by = {c["id"]: c for c in cands}
     rows = []
     for n in sorted(os.listdir(ans_dir)) if os.path.isdir(ans_dir) else []:
@@ -234,7 +266,11 @@ def table_from_answers(ans_dir, cands, lic, log):
         with open(os.path.join(ans_dir, n), encoding="utf-8") as f:
             a = json.load(f)
         c = by.get(a["id"])
-        if not c or not a.get("kept") or a["text_sha256"] != c["sha"]:
+        if not c or a["text_sha256"] != c["sha"]:
+            continue
+        why = check_read(a.get("read", ""), c["given"], c["no_quote"])
+        if why:
+            log(f"  {a['id']}: saved line NOT kept: {'; '.join(why)}")
             continue
         rows.append({"event_id": "ruleread:" + c["id"], "event_date": c["date"], "event_type": "rule_read",
                      "parties": c["regulator"], "entity_ids": "", "mw": "", "price": "", "currency": "", "status": "",
@@ -255,6 +291,9 @@ def main(argv=None):
     ap.add_argument("--stop-usd", type=float, default=3.70)
     ap.add_argument("--limit", type=int, help="read at most this many rows (1: measure one)")
     ap.add_argument("--plan", action="store_true", help="no call: print the rows to read and the worst-case reserve")
+    ap.add_argument("--again-not-kept", action="store_true", help="ask once more for each row whose saved line fails "
+                    "today's checks (the earlier answer is kept under answers/superseded/); never a third time")
+    ap.add_argument("--max-asks", type=int, default=2, help="with --again-not-kept: a row is never asked more than this many times")
     ap.add_argument("--again", help="a file of ids to ask again although an answer is saved")
     ap.add_argument("--today")
     ap.add_argument("--model", help="the model id (default: the newest Sonnet-class model the API lists)")
@@ -276,6 +315,19 @@ def main(argv=None):
             with open(os.path.join(ans_dir, n), encoding="utf-8") as f:
                 a = json.load(f)
             done[a["id"]] = a
+    sup_dir = os.path.join(ans_dir, "superseded")
+    if args.again_not_kept:   # one more ask, once only, for a row whose saved line fails today's checks
+        earlier = {}   # how many answers of a row were set aside already
+        for n in (os.listdir(sup_dir) if os.path.isdir(sup_dir) else []):
+            earlier[n.rsplit(".", 2)[0]] = earlier.get(n.rsplit(".", 2)[0], 0) + 1
+        for c in cands:
+            a = done.get(c["id"])
+            if a and a["text_sha256"] == c["sha"] and 1 + earlier.get(safe(c["id"]), 0) < args.max_asks and check_read(a.get("read", ""), c["given"], c["no_quote"]):
+                again.add(c["id"])
+                run = copied_run(a.get("read", ""), c["given"]) if c["no_quote"] else ""
+                if run:   # the code's own finding about the earlier line, and nothing else, goes back to the model
+                    c["feedback"] = ("\n\nAn earlier line was set aside because it copied this run of words from the excerpt: '" + run +
+                                     "'. Write the line again wholly in your own words: no six consecutive words of it may stand in the excerpt.")
     todo = [c for c in cands if c["id"] in again or c["id"] not in done or done[c["id"]]["text_sha256"] != c["sha"]]
     log(f"{len(cands)} rows in motion with a saved text; {len(cands) - len(todo)} already answered; {len(todo)} to read")
     import llm
@@ -301,7 +353,7 @@ def main(argv=None):
             from score import pick_model
             model = pick_model(client, log)
         for c in todo[: args.limit] if args.limit else todo:
-            msg = c["heading"] + "\n\nExcerpt of the document:\n" + c["given"]
+            msg = c["heading"] + "\n\nExcerpt of the document:\n" + c["given"] + c.get("feedback", "")
             res = reserve_usd(model, len(msg), llm)
             spent = session_spent(llm, args.also_ledger)
             if not may_call(spent, res, args.stop_usd):   # the stop, BEFORE the call
@@ -326,7 +378,7 @@ def main(argv=None):
             text = next((b.text for b in resp.content if b.type == "text"), "")
             try:
                 line = norm(json.loads(text).get("read", "")) if resp.stop_reason == "end_turn" else ""
-                why = check_read(line, c["given"]) if resp.stop_reason == "end_turn" else [f"stop_reason {resp.stop_reason}"]
+                why = check_read(line, c["given"], c["no_quote"]) if resp.stop_reason == "end_turn" else [f"stop_reason {resp.stop_reason}"]
             except (ValueError, AttributeError) as exc:
                 line, why = "", [f"the answer is not the JSON asked for: {exc!r}"[:160]]
             now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -334,17 +386,20 @@ def main(argv=None):
                    "usd": round(usd, 6), "input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens,
                    "text_sha256": c["sha"], "text_chars": len(c["given"]), "raw_answer": text,
                    "request_id": getattr(resp, "_request_id", None)}
-            with open(os.path.join(ans_dir, safe(c["id"]) + ".json"), "w", encoding="utf-8", newline="\n") as f:
+            dest = os.path.join(ans_dir, safe(c["id"]) + ".json")
+            if os.path.exists(dest):   # a paid answer is never discarded: the earlier one moves beside, numbered
+                os.makedirs(sup_dir, exist_ok=True)
+                k = 1
+                while os.path.exists(os.path.join(sup_dir, f"{safe(c['id'])}.{k}.json")):
+                    k += 1
+                os.replace(dest, os.path.join(sup_dir, f"{safe(c['id'])}.{k}.json"))
+            with open(dest, "w", encoding="utf-8", newline="\n") as f:
                 json.dump(ans, f, ensure_ascii=False, indent=1)
             n_kept += 0 if why else 1
             log(f"  {c['id']}: {'kept' if not why else 'NOT kept: ' + '; '.join(why)}; USD {usd:.4f}; {line[:200]}")
     if args.ledger_dir or args.out_dir:
         ip.set_out_dir(out_dir)
-    rules_path = rim.find(RULES, dirs)
-    lic = "public"
-    if rules_path:
-        _, head = rim.read_events(rules_path)
-        lic = rim.license_of(head)
+    lic = "public"   # the lines are the ERW's own (a model's), and quote no restricted regulator's text
     table = table_from_answers(ans_dir, cands, lic, log)
     answered = len([n for n in os.listdir(ans_dir) if n.endswith(".json")])
     if len(table):
@@ -363,9 +418,11 @@ def main(argv=None):
             f"it ({BEFORE} characters before, {AFTER} after), or a federal action's title and abstract. A line is kept "
             "only if code finds every number in it in that text, it is one line with no em dash, and it holds none of "
             "the words zoning, permit, city council, county board. Method: " + METHOD + ".",
-            f"Derived from: {RULES}, {ACTIONS}, {TAGS}",
-            f"Source: {SOURCE}. License: {lic} (that of {RULES}: the lines are the ERW's; while that table is internal, so "
-            "are they).",
+            f"Rows read: the rows in motion of {RULES} and {RULES}_internal, and the tagged federal actions of {ACTIONS} "
+            "that have an abstract and no read in policy_reads. Each line is made from the saved document, not from a table.",
+            f"Source: {SOURCE}. License: public. The lines are the ERW's own (a model's). A line about a row of "
+            f"{RULES}_internal (a regulator whose terms restrict copying, or whose terms were not read) is kept only if it "
+            f"holds no run of more than {QUOTE_WORDS} consecutive words of the document: it states facts and quotes nothing.",
         ]
         ip.write_snapshot(table, NAME, header, log, COLS)
         ip.update_sources([dict(source=SOURCE, publisher="Energy Research Warehouse (ERW)",

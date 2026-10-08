@@ -35,8 +35,21 @@ building permit, conditional use permit, special use permit, local hearing, muni
 
 **Dockets listed by number.** Some notices carry only the names of the parties in their title and have no abstract,
 so no term can match. Where the docket of such a notice is a proceeding whose own order was read (the rule file
-lists each docket with the order's address), the notice takes that proceeding's tags; the matched field is `docket`
-and the matched term is the docket number.
+lists each docket with the order's address and the grid operator it is about), the notice takes that proceeding's
+tags; the matched field is `docket` and the matched term is the docket number. Nine dockets are listed, all FERC's:
+EL26-67 to EL26-72 (the proceedings of 18 June 2026 on each operator's tariff provisions for interconnecting large
+loads), EL25-49 (co-located load in PJM), ER26-247 (SPP's high impact large loads) and RM26-4 (the interconnection
+of large loads). A notice whose docket field lists more than three docket numbers is a combined notice (a notice of
+staff attendance at a meeting lists every docket that may be spoken of) and takes no docket's tags.
+
+## What the rule tags (8 October 2026)
+
+1,843 actions read, **14 tagged, 30 rows**: `large_load` 10, `interconnection` 8, `transmission_cost` 12,
+`tax_credit` 0. Eight of the 14 are FERC's notices in dockets EL26-67 to EL26-72, tagged by docket with all three
+tags; six are tagged by a term (four federal: Order No. 1920's extension of time, the workshop on transmission
+formula rates, the notice of staff attendance at the conference on emerging large loads, Rate Order No. WAPA-211;
+two state releases: the Texas commission's on ERCOT's process for data centers, the California commission's on its
+transmission advocacy). 12 of the 14 are federal; all 14 are of the last 12 months.
 
 ## The rule measured: 40 and 40
 
@@ -58,7 +71,10 @@ the session's agent, row by row.
 - **The one correction (version 2).** (a) "formula rate(s)" now needs "transmission service", "transmission formula"
   or "transmission rate" beside it, not the bare word "transmission": the two WAPA-222 notices leave. (b) "transmission"
   with "electricity customers", "ratepayer(s)", "customer bills" or "who pays" now tags: the California release
-  enters. (c) The dockets listed by number, above. After the correction every tagged action was read again.
+  enters. (c) The dockets listed by number, above. After the correction every tagged action was read again: 14 of
+  14 touch their tag's topic (the eight docket notices by the proceeding's own order; the notice of staff attendance
+  is of little weight but is about large loads). The untagged sample drawn again under version 2 shares 18 of its
+  40 rows with the first; the 22 new ones were read too: none is a miss. 62 untagged actions read in all, no miss.
 - **Tax credits: no action held.** No title or abstract of the 1,843 holds a tax credit term. The six federal
   agencies read do not include the Treasury or the Internal Revenue Service, where the credit rules are published;
   the tag is empty because the table lacks the publisher, not because nothing is in motion.

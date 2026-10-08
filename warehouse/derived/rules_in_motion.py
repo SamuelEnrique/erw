@@ -11,21 +11,28 @@ docs/methods/datacenter_cost.md, section "Rules in motion".
 
 Tables read (the first --in-dir that holds a table wins; a table none holds is left out and named in the file):
     policy_actions, policy_action_tags, policy_reads      the federal actions held, their tags and their reads
-    large_load_rules, large_load_rule_reads               the proceedings and orders of FERC and ten state commissions
-                                                          (warehouse/connectors/large_load_rules.py) and the model's
-                                                          one-line reads (warehouse/policy/rule_reads.py)
+    large_load_rules, large_load_rules_internal           the proceedings and orders of FERC and ten state commissions
+                                                          (warehouse/connectors/large_load_rules.py)
+    large_load_rule_reads                                 the model's one-line reads (warehouse/policy/rule_reads.py)
 
 What is "in motion": a proceeding whose status class is open; an order or rule dated in the last 12 months; a tagged
 federal action held of the last 12 months.
 
-Which grid sees which action: an action whose own words name a grid operator is under that operator; a state
-commission's action is under the operators that serve that state's utilities (STATE_GRIDS, written down below with its
-source); a federal action that names no operator is in a group of its own, "Federal, all grids". MISO's block holds
+Which grid sees which action: an action whose own words name a grid operator is under that operator and no other; a
+state commission's action that names none is under the operators that serve that state's utilities (STATE_GRIDS,
+written down below with its source); a federal action that names no operator is in a group of its own, "Federal, all
+grids". MISO's block holds
 the words "paused while terms are reviewed" and no row. Georgia, Arizona and Oregon have no grid on the page: their
 actions are in the table and not in the file.
 
-Never in the file: a row of a table whose license is internal; anything municipal (a row whose title, sentence or
-read holds one of MUNICIPAL_WORDS is kept out and counted); a read line a model did not write; a filled field.
+Two tables, by the regulator's own terms (warehouse/config/large_load_rule_terms.json): a row of large_load_rules
+(public) is in the file with its sentence and its worded status; a row of large_load_rules_internal is in the file
+with its facts, its link and the model's read only ("sentence" and "status_as_worded" null, "sentence_withheld" says
+why). OFF_PAGE_REGULATORS and SHOW_SENTENCE_REGULATORS below are the owner's two switches.
+
+Never in the file: the sentence or the worded status of a row of the internal table; anything municipal (a row whose
+shown title, sentence, read or status holds one of MUNICIPAL_WORDS is kept out and counted); a read line a model did
+not write; a filled field.
 """
 
 import argparse
@@ -83,6 +90,17 @@ TAG_TOPICS = {"large_load": "large loads", "interconnection": "interconnection",
               "transmission_cost": "transmission cost", "tax_credit": "tax credits"}
 # The status class of a held federal action, from its type alone (the Register gives no docket status).
 ACTION_CLASS = {"rule": "decided", "proposed_rule": "open", "notice": "not stated", "press_release": "not stated"}
+TABLES = ["large_load_rules", "large_load_rules_internal"]
+# Two switches for the owner, one line each (session 154). A regulator whose terms restrict copying, or whose terms no
+# pass read, has its rows in large_load_rules_internal: the file then holds such a row's facts, its link and the
+# model's read, and neither its sentence nor its worded status.
+#   OFF_PAGE_REGULATORS: name a regulator here and none of its rows is in the file at all.
+#   SHOW_SENTENCE_REGULATORS: name a regulator here and its rows carry their sentence and worded status although the
+#   table is internal (the owner's ruling that its text may be shown; its class in large_load_rule_terms.json should
+#   then change too, which moves its rows to the public table at the next build of the connector).
+SINGLE_FLAG = "single-customer contract"   # the connector's flag (large_load_rules.FLAG_SINGLE begins with it)
+OFF_PAGE_REGULATORS = ()
+SHOW_SENTENCE_REGULATORS = ()
 READ_FROM_HELD = ("the action's own text in the Federal Register or the agency's release; kept only where its "
                   "supporting quotations were found word for word in that text (policy_reads)")
 
@@ -181,6 +199,18 @@ def held_rows(dirs, cutoff, notes):
         if license_of(rhead) == "public":
             extra = {x["rule_event_id"]: x for x in r.to_dict("records") if x["read"].strip()}
     by = acts.set_index("event_id")
+    docket_ops = {}
+    rules_file = os.path.join(ROOT, "warehouse", "config", "policy_tag_rules.json")
+    if os.path.exists(rules_file):
+        with open(rules_file, encoding="utf-8") as f:
+            docket_ops = {d["docket"]: d.get("grids", []) for d in json.load(f).get("dockets", {}).get("list", [])}
+
+    def g_tags(aid, tags):
+        return tags[(tags["action_event_id"] == aid) & (tags["matched_field"] == "docket")]
+
+    def g_terms(g_rows):
+        return list(g_rows["matched_term"])
+
     for aid, g in tags.groupby("action_event_id", sort=False):
         a = by.loc[aid].to_dict()
         a["event_id"] = aid
@@ -205,57 +235,107 @@ def held_rows(dirs, cutoff, notes):
             "topic": "; ".join(TAG_TOPICS[t] for t in g["tag"]), "tags": list(g["tag"]),
             "status_as_worded": a["status"] if a["status"] not in ("", "news release") else "",
             "status_class": ACTION_CLASS.get(a["action_type"], "not stated"), "url": a["source_url"], "page": None,
-            "sentence": sent, "sentence_from": sfrom,
+            "sentence": sent, "sentence_withheld": None, "sentence_from": "the action's " + sfrom, "sentence_kind": "document",
+            "flags": [], "terms_class": "",
             "read": rd["plain_read"] if rd else (ex["read"] if ex else None),
             "read_by": "model" if (rd or ex) else None,
             "read_model": rd["model_id"] if rd else (ex["model_id"] if ex else None),
             "read_from": READ_FROM_HELD if rd else (ex["read_from"] if ex else None),
             "named": operators_named(a["title"] + " " + a["abstract"]),
         }
+        for g in GRIDS:   # a notice tagged by its docket number is under the operator that docket is about
+            if any(GRID_NAMES[g] in docket_ops.get(t, []) for t in g_terms(g_rows=g_tags(aid, tags))) and g not in row["named"]:
+                row["named"].append(g)
         out.append(row)
     return out, off
 
 
+def load_terms(path=None):
+    path = path or TERMS_FILE
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        return {t["regulator"]: t for t in json.load(f)["regulators"]}
+
+
+def withheld_words(regulator, terms):
+    t = terms.get(regulator) or {}
+    return t.get("withheld_words") or f"The {regulator}'s terms on copying its text were not read; open the document"
+
+
+def docket_base(number):
+    """A docket number without its sub-docket (EL26-67-000 and EL26-67-001 are one docket)."""
+    return re.sub(r"-\d{3}$", "", number or "")
+
+
+def in_motion(a, cutoff):
+    kind, cls, day = a["row_kind"], a["status_class"], a["event_date"][:10]
+    return (kind == "proceeding" and cls == "open") or (kind == "order" and day >= cutoff.isoformat())
+
+
 def table_rows(dirs, cutoff, notes):
-    """The proceedings and orders in motion, as ROWs; (rows, counted-out reasons, the regulators with a row)."""
-    p = find("large_load_rules", dirs)
-    if not p:
-        notes.append("large_load_rules is not built yet: the file holds the federal actions held only")
-        return [], {}
-    t, head = read_events(p)
-    if license_of(head) != "public":
-        notes.append("large_load_rules is internal: none of its rows is in the file")
-        return [], {"internal table": len(t)}
+    """The proceedings and orders in motion, as ROWs, from the public table and the internal one; (rows, counted-out
+    reasons). A row of the public table carries its sentence and its worded status. A row of the internal table
+    carries its facts only (date, regulator, docket number, status class, topic, the link) and the model's read:
+    "sentence" and "status_as_worded" are null, the title is empty and "sentence_withheld" says why, unless its
+    regulator is in SHOW_SENTENCE_REGULATORS; a regulator in OFF_PAGE_REGULATORS has no row in the file at all."""
+    terms = load_terms()
     reads = {}
     rp = find("large_load_rule_reads", dirs)
     if rp:
         r, rhead = read_events(rp)
         if license_of(rhead) == "public":
             reads = {x["rule_event_id"]: x for x in r.to_dict("records") if x["read"].strip()}
-    out, off = [], {}
-    for a in t.to_dict("records"):
-        kind, cls, day = a["row_kind"], a["status_class"], a["event_date"][:10]
-        moving = (kind == "proceeding" and cls == "open") or (kind == "order" and day >= cutoff.isoformat())
-        if not moving:
-            why = "a proceeding whose status class is not open" if kind == "proceeding" else "an order older than 12 months"
-            off[why] = off.get(why, 0) + 1
-            continue
-        rd = reads.get(a["event_id"])
-        named = [g for g in GRIDS if GRID_NAMES[g] in [x.strip() for x in a["grids"].split(";")]]
-        for g in operators_named(" ".join([a["proceeding_title"], a["document_title"], a["sentence"]])):
-            if g not in named:
-                named.append(g)
-        out.append({
-            "id": a["event_id"], "date": day, "regulator": a["regulator"], "jurisdiction": a["jurisdiction"],
-            "state": a["state"], "docket": a["docket_number"], "title": a["document_title"] or a["proceeding_title"],
-            "row_kind": kind, "topic": a["topic"].replace(";", "; "), "tags": [],
-            "status_as_worded": a["status_as_worded"], "status_class": cls, "url": a["source_url"],
-            "page": int(a["page"]) if a["page"].strip().isdigit() else None, "sentence": a["sentence"],
-            "sentence_from": "document",
-            "read": rd["read"] if rd else None, "read_by": "model" if rd else None,
-            "read_model": rd["model_id"] if rd else None, "read_from": rd["read_from"] if rd else None,
-            "named": named,
-        })
+    out, off, found = [], {}, False
+    loaded = []
+    docket_grids = {}   # the operators any document of a docket names: its other rows, which name none, take them
+    for name in TABLES:
+        p = find(name, dirs)
+        if p:
+            t, head = read_events(p)
+            loaded.append((name, t, head))
+            for a in t.to_dict("records"):
+                for x in a["grids"].split(";"):
+                    if x.strip():
+                        docket_grids.setdefault((a["regulator"], docket_base(a["docket_number"])), set()).add(x.strip())
+    for name, t, head in loaded:
+        found = True
+        public = license_of(head) == "public"
+        if public != (name == "large_load_rules"):
+            raise RuntimeError(f"{name}: its header's license is not the one its name says; nothing is written")
+        for a in t.to_dict("records"):
+            if not in_motion(a, cutoff):
+                why = "a proceeding whose status class is not open" if a["row_kind"] == "proceeding" else "an order older than 12 months"
+                off[why] = off.get(why, 0) + 1
+                continue
+            if a["regulator"] in OFF_PAGE_REGULATORS:
+                k = f"{a['regulator']}: turned off the page (OFF_PAGE_REGULATORS)"
+                off[k] = off.get(k, 0) + 1
+                continue
+            show = public or a["regulator"] in SHOW_SENTENCE_REGULATORS
+            rd = reads.get(a["event_id"])
+            # the operators the document's own words name, as the collecting pass recorded them (grids): a pass leaves
+            # out an operator named only in passing (a capacity auction mentioned once), which a word search would not
+            own = [x.strip() for x in a["grids"].split(";") if x.strip()] or sorted(docket_grids.get((a["regulator"], docket_base(a["docket_number"])), []))
+            named = [g for g in GRIDS if GRID_NAMES[g] in own]
+            out.append({
+                "id": a["event_id"], "date": a["event_date"][:10], "regulator": a["regulator"],
+                "jurisdiction": a["jurisdiction"], "state": a["state"], "docket": a["docket_number"],
+                "title": (a["document_title"] or a["proceeding_title"]) if show else "",
+                "row_kind": a["row_kind"], "topic": a["topic"].replace(";", "; "), "tags": [],
+                "status_as_worded": a["status_as_worded"] if show else None, "status_class": a["status_class"],
+                "url": a["source_url"], "page": int(a["page"]) if a["page"].strip().isdigit() else None,
+                "sentence": a["sentence"] if show else None,
+                "sentence_withheld": None if show else withheld_words(a["regulator"], terms),
+                "sentence_from": a.get("sentence_from", "") or "document text", "sentence_kind": a.get("sentence_kind", ""),
+                "flags": [x for x in a.get("row_flag", "").split("; ") if x],
+                "terms_class": (terms.get(a["regulator"]) or {}).get("class", "not quoted"),
+                "read": rd["read"] if rd else None, "read_by": "model" if rd else None,
+                "read_model": rd["model_id"] if rd else None, "read_from": rd["read_from"] if rd else None,
+                "named": named,
+            })
+    if not found:
+        notes.append("large_load_rules is not built yet: the file holds the federal actions held only")
     return out, off
 
 
@@ -267,13 +347,15 @@ def place(rows):
         named = r.pop("named")
         if r["jurisdiction"] == "state":
             base, why = STATE_GRIDS.get(r["state"], ([], f"{r['state']}: no mapping written for this state"))
-            where = list(dict.fromkeys(list(base) + named))
-            if not where:
+            if named:   # the document's own words win over the state's mapping
+                for g in named:
+                    grids[g].append(dict(r, why_here=f"The document's own words name {GRID_NAMES[g]}."))
+                continue
+            if not base:
                 nowhere.append((r, why))
                 continue
-            for g in where:
-                extra = "" if g in base else f" Its own words name {GRID_NAMES[g]}."
-                grids[g].append(dict(r, why_here=(why + extra).strip()))
+            for g in base:
+                grids[g].append(dict(r, why_here=why))
         elif named:
             for g in named:
                 grids[g].append(dict(r, why_here=f"A federal action whose own words name {GRID_NAMES[g]}."))
@@ -302,17 +384,22 @@ def build(dirs, today):
             k = "a row that holds a word the block never shows (" + ", ".join(MUNICIPAL_WORDS) + "): in the table, not in the file"
             off[k] = off.get(k, 0) + 1
             continue
-        if r["url"] + "|" + r["row_kind"] + "|" + r["docket"] in seen:
+        if any(chr(0x2014) in str(r.get(k) or "") for k in ("title", "sentence", "status_as_worded", "read", "docket")):
+            k = "a row whose own words hold an em dash, which no file of this repository holds: in the table, not in the file"
+            off[k] = off.get(k, 0) + 1
             continue
-        seen.add(r["url"] + "|" + r["row_kind"] + "|" + r["docket"])
+        if r["id"] in seen:
+            continue
+        seen.add(r["id"])
         kept.append(r)
     grids, federal, nowhere = place(kept)
     for r, why in nowhere:
         k = f"{r['state']}: no grid on the page"
         off[k] = off.get(k, 0) + 1
-    miso_rows = len(grids["miso"])
-    if miso_rows:
-        off["under MISO only or also (MISO shows no row)"] = miso_rows
+    elsewhere = {r["id"] for g in GRIDS if g != "miso" for r in grids[g]}
+    miso_only = sum(1 for r in grids["miso"] if r["id"] not in elsewhere)
+    if miso_only:
+        off["under MISO alone (MISO is paused and shows no row)"] = miso_only
     out_grids = {}
     for g in GRIDS:
         if g == "miso":
@@ -324,13 +411,11 @@ def build(dirs, today):
                             "why": "No proceeding or order held names this grid or comes from a state it serves; "
                                    "the federal actions that name no grid are in the group Federal, all grids."}
     sources = []
-    if os.path.exists(TERMS_FILE):
-        with open(TERMS_FILE, encoding="utf-8") as f:
-            terms = json.load(f)["regulators"]
-        shown = {r["regulator"] for g in out_grids.values() for r in g["rows"]} | {r["regulator"] for r in federal}
-        for t in terms:
-            if t["regulator"] in shown and t.get("terms_quote"):
-                sources.append({"regulator": t["regulator"], "terms_url": t["terms_url"], "terms_quote": t["terms_quote"]})
+    shown = {r["regulator"] for g in out_grids.values() for r in g["rows"]} | {r["regulator"] for r in federal}
+    for t in load_terms().values():
+        if t["regulator"] in shown and t.get("terms_quote"):
+            sources.append({"regulator": t["regulator"], "terms_url": t["terms_url"], "terms_quote": t["terms_quote"],
+                            "terms_class": t["class"]})
     n_off = sum(off.values())
     why = "; ".join(f"{v} {k}" for k, v in sorted(off.items())) if off else "Every row in motion held is in the file."
     return {
@@ -344,7 +429,7 @@ def build(dirs, today):
 
 # ---------------------------------------------------------------- the ten rules of the month (session 154, part e)
 TEN = 10
-TEN_PER_REGULATOR = 3
+TEN_PER_REGULATOR = 2   # 3 at first: see the note in ten_rules
 MONTH_DAYS = 31
 DIRECTNESS = {"large-load interconnection": 3, "large-load tariff": 3, "transmission cost allocation": 2,
               "interconnection reform": 1}
@@ -376,16 +461,14 @@ def ten_rules(dirs, today):
            from today;
         2. how directly it sets when or at what cost a large load is served: its topic's DIRECTNESS (interconnection
            standards and tariffs with minimum terms and collateral, then who pays for transmission, then
-           interconnection reform at large); two topics add;
+           interconnection reform at large); a document on two topics counts by its more direct one (as first written the
+           two were added and three rows a regulator allowed: that left FERC's show cause orders, the broadest
+           actions held, out of the ten behind two-topic state orders; corrected once, on 8 October 2026);
         3. breadth: a federal action before a state's; more grids named before fewer;
         4. the newest document first.
     At most TEN_PER_REGULATOR rows a regulator, so that ten rows are not one commission's docket list. Ten rows, no
     more. Returns (the rows, the size of the pool)."""
-    p = find("large_load_rules", dirs)
-    if not p:
-        return [], 0
-    t, head = read_events(p)
-    lic = license_of(head)
+    terms = load_terms()
     reads = {}
     rp = find("large_load_rule_reads", dirs)
     if rp:
@@ -393,20 +476,30 @@ def ten_rules(dirs, today):
         reads = {x["rule_event_id"]: x for x in r.to_dict("records") if x["read"].strip()}
     cutoff = months_back(today, WINDOW_MONTHS)
     month_from, month_to = today - dt.timedelta(days=MONTH_DAYS), today + dt.timedelta(days=MONTH_DAYS)
-    pool = {}
-    for a in t.to_dict("records"):
-        kind, cls, day = a["row_kind"], a["status_class"], a["event_date"][:10]
-        if not ((kind == "proceeding" and cls == "open") or (kind == "order" and day >= cutoff.isoformat())):
+    pool, single = {}, 0
+    for name in TABLES:
+        p = find(name, dirs)
+        if not p:
             continue
-        key =(a["regulator"], re.sub(r"-\d{3}$", "", a["docket_number"]))
-        if key not in pool or (day, a["event_id"]) > (pool[key]["event_date"][:10], pool[key]["event_id"]):
-            pool[key] = a
+        t, head = read_events(p)
+        lic = license_of(head)
+        for a in t.to_dict("records"):
+            if not in_motion(a, cutoff):
+                continue
+            if SINGLE_FLAG in a.get("row_flag", ""):
+                single += 1   # a contract with one customer sets no rule for others: never among the ten
+                continue
+            a["table_license"] = lic
+            day = a["event_date"][:10]
+            key = (a["regulator"], re.sub(r"-\d{3}$", "", a["docket_number"]))
+            if key not in pool or (day, a["event_id"]) > (pool[key]["event_date"][:10], pool[key]["event_id"]):
+                pool[key] = a
     scored = []
     for a in pool.values():
         day = dt.date.fromisoformat(a["event_date"][:10])
         ahead = [d for d in dates_in(a["notes"] + " " + a["status_as_worded"]) if today <= d <= month_to]
         this_month = day >= month_from or bool(ahead)
-        direct = sum(DIRECTNESS.get(x.strip(), 0) for x in a["topic"].split(";"))
+        direct = max([DIRECTNESS.get(x.strip(), 0) for x in a["topic"].split(";")] or [0])
         named = [g for g in a["grids"].split(";") if g.strip()]
         breadth = (2 if a["jurisdiction"] == "federal" else 0) + min(len(named), 3)
         scored.append(((1 if this_month else 0, direct, breadth, a["event_date"][:10], a["event_id"]), a, ahead))
@@ -417,17 +510,79 @@ def ten_rules(dirs, today):
             continue
         per[a["regulator"]] = per.get(a["regulator"], 0) + 1
         rd = reads.get(a["event_id"])
+        show = a["table_license"] == "public" or a["regulator"] in SHOW_SENTENCE_REGULATORS
         out.append({"rank": len(out) + 1, "regulator": a["regulator"], "state": a["state"], "docket": a["docket_number"],
                     "date": a["event_date"][:10], "row_kind": a["row_kind"], "topic": a["topic"].replace(";", "; "),
                     "status_as_worded": a["status_as_worded"], "status_class": a["status_class"],
                     "title": a["document_title"] or a["proceeding_title"], "sentence": a["sentence"], "url": a["source_url"],
                     "page": a["page"], "grids": a["grids"], "read": rd["read"] if rd else None,
                     "read_model": rd["model_id"] if rd else None,
+                    "sentence_from": a.get("sentence_from", ""), "row_flag": a.get("row_flag", ""),
                     "this_month": bool(score[0]), "date_ahead": ahead[0].isoformat() if ahead else "",
-                    "directness": score[1], "breadth": score[2], "table_license": lic, "id": a["event_id"]})
+                    "directness": score[1], "breadth": score[2], "table_license": a["table_license"],
+                    "show_sentence": show, "sentence_withheld": "" if show else withheld_words(a["regulator"], terms),
+                    "id": a["event_id"]})
         if len(out) == TEN:
             break
     return out, len(pool)
+
+
+def ten_markdown(rows, pool, today, full=False):
+    """The one page of the ten rules, written by code so that every sentence is the table's, character for character.
+    full=False (docs/accelerator/rules_in_motion.md, in the public repository): a row of a regulator whose terms
+    restrict copying, or were not read, shows its facts, its link and the model's read, not its sentence or its worded
+    status. full=True (the session's report, not in the repository): every row with its sentence."""
+    out = [
+        "# Rules in motion: the ten a datacenter buyer most needs to know this month",
+        "",
+        f"As of {today.isoformat()} (UTC). Written by `warehouse/derived/rules_in_motion.py --ten --ten-doc` from the tables "
+        "`large_load_rules` (public) and `large_load_rules_internal` and the model's one-line reads in "
+        "`large_load_rule_reads`; nothing here is typed by hand. Method: "
+        "[`docs/methods/datacenter_cost.md`](../methods/datacenter_cost.md), section \"Rules in motion\".",
+        "",
+        "**Not legal advice, and not complete**: a docket system cannot be proved complete from outside. Federal "
+        "regulators and state utility commissions only; nothing municipal. A row's sentence is the regulator's own, "
+        "proved by code as a literal substring of the saved document; where it is cut from the regulator's own record "
+        "of an order (a docket card, meeting minutes, a news release) and not from the order's text, the row says so. "
+        "Each \"read\" line is **a model's read**, not the regulator's words."
+        + ("" if full else " Where a regulator's own terms restrict copying, or no terms of it were read, this page gives "
+           "the row's facts, the link to the regulator's document and the model's read, and not the sentence."),
+        "",
+        f"**How the ten were chosen**, by rule, from the {pool} dockets with a row in motion (an open proceeding, or an order "
+        "of the last 12 months), one row a docket (its newest): (1) this month first: the document is dated in the "
+        f"{MONTH_DAYS} days up to {today.isoformat()}, or the row states a deadline, hearing or effective date in the {MONTH_DAYS} days "
+        "after it; (2) then how directly it sets when or at what cost a large load is served: large-load "
+        "interconnection and large-load tariffs (minimum terms, collateral) before who pays for transmission, before "
+        "interconnection reform at large; (3) then breadth: a federal action before a state's, more grids named before "
+        f"fewer; (4) then the newest. At most {TEN_PER_REGULATOR} rows a regulator. A contract or agreement with one customer "
+        "is never among the ten: it sets no rule for others.",
+        "",
+    ]
+    if len(rows) < TEN:
+        out += [f"**Fewer than ten qualify: {len(rows)}.**", ""]
+    for r in rows:
+        show = full or r["show_sentence"]
+        if show:
+            status = (f"\"{r['status_as_worded']}\" ({r['status_class']})" if r["status_as_worded"] else f"{r['status_class']} (the regulator words no status)")
+        else:
+            status = r["status_class"]
+        where = f", page {r['page']}" if r["page"] else ""
+        why = "this month" if r["this_month"] else "not this month"
+        if r["date_ahead"]:
+            why += f" (the row states {r['date_ahead']})"
+        out += [f"## {r['rank']}. {r['regulator']}, {r['docket']}", ""]
+        out += [f"- **What**: {r['title']} ({r['row_kind']}; {r['topic']})" if show else f"- **What**: {r['row_kind']}; {r['topic']}"]
+        out += [f"- **Date**: {r['date']}. **Status**: {status}."]
+        if show:
+            out += [f"- **The sentence** (cut from: {r['sentence_from']}): \"{r['sentence']}\""]
+        else:
+            out += [f"- **The sentence**: not shown here. {r['sentence_withheld']}."]
+        out += [f"- **Source**: <{r['url']}>{where}",
+                ("- **A model's read** (" + r["read_model"] + "): " + r["read"]) if r["read"] else "- **A model's read**: no read yet"]
+        if r["row_flag"]:
+            out += [f"- Flag: {r['row_flag']}."]
+        out += [f"- Why here: {why}; directness {r['directness']}; breadth {r['breadth']}" + (f"; grids named: {r['grids']}" if r["grids"] else "") + ".", ""]
+    return "\n".join(out)
 
 
 def write_whole(path, obj):
@@ -446,6 +601,9 @@ def main(argv=None):
                     "once, the first that holds a table wins (default: warehouse/output)")
     ap.add_argument("--out-dir", help="a trial run: rules.json under this directory; nothing in site/data")
     ap.add_argument("--ten", help="also write the ten rules of the month to this file (JSON); no site file changes for it")
+    ap.add_argument("--ten-full", action="store_true", help="with --ten-doc: every row with its sentence (for a report that is "
+                    "not in the repository); without it, a restricted regulator's sentence is not written")
+    ap.add_argument("--ten-doc", help="with --ten: also write the one page (docs/accelerator/rules_in_motion.md)")
     ap.add_argument("--today", help="YYYY-MM-DD (default: today, UTC): the day the 12 months are counted back from")
     args = ap.parse_args(argv)
     dirs = [os.path.abspath(d) for d in args.in_dir] or [os.path.join(ROOT, "warehouse", "output")]
@@ -467,6 +625,14 @@ def main(argv=None):
         rows, pool = ten_rules(dirs, today)
         write_whole(os.path.abspath(args.ten), {"as_of": today.isoformat(), "pool": pool, "rows": rows})
         print(f"  the ten: {len(rows)} rows from a pool of {pool} dockets in motion: {os.path.abspath(args.ten)}")
+        if args.ten_doc:
+            text = ten_markdown(rows, pool, today, full=args.ten_full)
+            if chr(0x2014) in text:
+                raise RuntimeError("an em dash in the ten rules' page: a sentence holds one; the page is not written")
+            with open(os.path.abspath(args.ten_doc) + ".tmp", "w", encoding="utf-8", newline="\n") as f:
+                f.write(text)
+            os.replace(os.path.abspath(args.ten_doc) + ".tmp", os.path.abspath(args.ten_doc))
+            print(f"  the ten, one page: {os.path.abspath(args.ten_doc)}")
     return 0
 
 

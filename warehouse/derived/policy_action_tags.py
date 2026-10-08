@@ -111,7 +111,8 @@ def tag_action(row, rules):
             if hit:
                 break
         if not hit:   # the dockets listed by number: a notice whose title is only the parties' names
-            for d in rules.get("dockets", {}).get("list", []):
+            many = len([x for x in re.split(r"[;,]", row.get("docket", "") or "") if re.search(r"\d", x)]) > rules.get("dockets", {}).get("max_dockets_in_a_notice", 3)
+            for d in ([] if many else rules.get("dockets", {}).get("list", [])):
                 if tag in d["tags"] and docket_holds(row.get("docket", ""), d["docket"]):
                     hit = {"tag": tag, "matched_term": d["docket"], "matched_field": "docket"}
                     break

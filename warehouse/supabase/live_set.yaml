@@ -247,6 +247,12 @@ catalogue_hold:
   # utilities' delivery charges; the large-load statements pilot). Neither is loaded
   - texas_delivery_charges
   - large_load_statements
+  # session 154: rules in motion for large loads. The proceedings and orders of FERC and ten state commissions, the
+  # model's one-line reads of them, and the tags of the policy actions held. None is loaded: the block on
+  # /cost-of-power (in review) reads the site's own file (site/data/datacenter/rules.json), built from them
+  - large_load_rules
+  - large_load_rule_reads
+  - policy_action_tags
   # session 140: the tables behind "What a datacenter pays" (/cost-of-power, in review): ERCOT's load zone prices (about
   # 2.5 million rows), the zones' price history of NYISO, CAISO's ZP26 and SPP South, ISO-NE's (internal), New York's
   # load queue, and the Commission's transmission charge matrices (internal). The page reads the site's own files, built from them;
@@ -375,6 +381,9 @@ sources_hold:
   - ercot:PG7-126-M
   - isone:ddg_undelivered_monthly      # session 149, isone_ddg_undelivered_monthly (internal)
   - erw:large_load_pilot               # session 139, large_load_statements (internal)
+  - erw:large_load_rules               # session 154, large_load_rules (not loaded)
+  - erw:large_load_rule_reads          # session 154, large_load_rule_reads (not loaded)
+  - erw:policy_action_tags             # session 154, policy_action_tags (not loaded)
   - caiso:todays_outlook_fuelsource_history   # session 133, /mix (these source rows serve only its new tables)
   - eia:860m:retired
   - nrc:power_reactor_status
