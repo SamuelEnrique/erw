@@ -143,8 +143,12 @@ The brief set no row ceiling, as session 141's did not; each pass had about an h
 
 ## The landing
 
-- **Not landed when this was written.** No site file changes: the connector, the tests, the summary, the data
-  standard's note. The landing follows with its snapshot, and a line is added here.
+- **Added after the landing.** No site file changes: the connector, the tests, the summary, the data standard's
+  note. Pushed as `task/151-large-load` (`a77e5ca`): checks passed (run 37713204962), merged as `84bb450`. The
+  whole suite in a clean copy: 2,092 tests, passed.
+- **Vercel built it:** "Deployment has completed" for `84bb450` at 01:38:05 UTC on 8 October.
+- **Snapshot before** (`151_before`, 01:29:30 UTC) **and after** (`151_after`, 01:38:27 UTC): **0 differences** on
+  the 25 live addresses, 3,357 checked number keys. Nothing was reverted.
 - Written under the lock, nothing released: `large_load_statements` 796 rows (362 new, 434 replaced, every earlier
   id kept); validator, coverage, the archive, the internal Redivis draft: exit 0 each.
 
