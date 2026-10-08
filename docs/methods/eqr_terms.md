@@ -29,6 +29,13 @@ under a ceiling of 800,000 contract rows for the pull, at no cost.
   stays one quarter, the newest: every agreement in force is filed again each quarter, so one table of four quarters
   would hold most contracts four times, and the page, the buyers' tables and the live set read one.
 - `--also` names the pull's other quarters, whose rows on disk count toward the ceiling. The run refuses to pass it.
+- **What was pulled:** 2026 Q1, 4,016 filings and 191,996 contract rows; 2025 Q4, 3,912 of 3,914 filings and 191,132
+  rows; 2025 Q3, 3,768 filings and 190,877 rows. 574,005 rows of the 800,000 allowed.
+- **What it cost FERC's server:** 2026 Q1, 4,018 requests and 3.74 GB; 2025 Q3, 3,770 and 3.95 GB; 2025 Q4 in two runs,
+  the first stopped by an unreadable filing after more than 2,502 requests and 2.6 GB, the second 1,218 and 0.84 GB.
+  A filing's zip holds its transactions too; only its contracts file is kept, about 200 MB for the three quarters.
+- A filing whose zip cannot be opened is asked for once more; if it is the same again it is left out, named in the
+  run log and counted in the table's header. Any other failure stops the run.
 - The registry's row for FERC keeps its words and its document; an earlier quarter adds its table only.
 
 ## Megawatts, where a quantity is stated
@@ -37,8 +44,8 @@ A row states megawatts when its quantity is filed with the units MW, or kW (divi
 megawatt-hours, per month, per day, or with no units is not a number of megawatts and is not converted. A quantity of
 zero is not a quantity.
 
-**The ceiling.** Some rows file a year's megawatt-hours, or kilowatts, under MW: the largest "MW" in the 2026 Q2 file
-is above 600,000. A contract cannot be for more than the largest power station operating in the United States, which
+**The ceiling.** Some rows file a year's megawatt-hours, or kilowatts, under MW: figures in the hundreds of thousands
+stand in the 2026 Q2 file. A contract cannot be for more than the largest power station operating in the United States, which
 the warehouse holds: 6,809 MW (`eia860m_operating_generators`, vintage 2026-08, summed by plant). A row stating more
 keeps its figure in `mw`, as filed, carries `x_mw_ranked` no, and is left out of the ranking and counted: 45 rows of
 17 contracts in 2026 Q2. A figure under the ceiling can be mislabelled too, and nothing in the filing can tell.
@@ -68,7 +75,13 @@ words only when number and unit leave one reading. All of these must hold; the f
 | read | exactly one amount, its unit, at most a quantity beside it | "$42.50 per MWh"; "40 MW; $8.00/kW-month" | 23 |
 
 - **23 rows are read; 104,929 remain unread.** The record's prices in words are almost all not prices: 97 percent
-  of them hold no dollar amount at all.
+  of them hold no dollar amount at all. The commonest are "Market Based" in its several spellings and "No Rates in
+  this Contract".
+- **For energy, capacity and tolling alone:** 66,656 rows, 24,384 with a number, 42,246 with words, of which 21 are
+  read.
+- **A figure with a unit and no dollar sign** ("2.50 per MWH") stands in 47 of the rows with no dollar amount. The
+  rule does not read them: the currency is not stated, and most are one component of a charge (a variable operating
+  cost) or a term of a formula. They are counted here so that the size of what the dollar sign leaves out is known.
 - The units read are FERC's own: `$/MWH`, `$/KWH`, `$/KW-MO`, `$/MW-MO`, `$/MW-DAY`, `$/KW-DAY`, `$/KW-YR`, `$/MW-YR`,
   `$/KW-WK`, `$/MW-WK`, written in the words as "/MWh", "per kW-month" and the like.
 - `x_price_words` and `x_price_words_unit` keep what was read, in its own unit. `price` (USD per MWh) is filled only
@@ -107,22 +120,36 @@ other: new is in force in the later and not in the earlier, gone the reverse, ke
 its contracts makes one gone and one new, so both counts are ceilings on real change. `x_first_quarter` and
 `x_quarters_held` on each row of the terms table say how far back the contract is held.
 
-As built on 5 October 2026 at 13:14 UTC, with 2026 Q1 and 2026 Q2 held (2025 Q4 and 2025 Q3 were still being fetched;
-the session's report has the table with all four):
+The four quarters of the pull, from their raw files (5 October 2026):
 
 | Filed for | Product | Contracts in force | New | Gone | Kept |
 |---|---|---|---|---|---|
-| 2026 Q1 | every product | 68,981 | | | |
-| 2026 Q1 | energy | 22,161 | | | |
-| 2026 Q1 | capacity | 12,205 | | | |
-| 2026 Q1 | tolling | 211 | | | |
+| 2025 Q3 | every product | 67,680 | | | |
+| 2025 Q3 | energy | 21,904 | | | |
+| 2025 Q3 | capacity | 12,080 | | | |
+| 2025 Q3 | tolling | 209 | | | |
+| 2025 Q4 | every product | 67,914 | 11,863 | 11,629 | 56,051 |
+| 2025 Q4 | energy | 21,997 | 5,141 | 5,048 | 16,856 |
+| 2025 Q4 | capacity | 12,023 | 3,796 | 3,853 | 8,227 |
+| 2025 Q4 | tolling | 215 | 29 | 23 | 186 |
+| 2026 Q1 | every product | 68,981 | 12,201 | 11,134 | 56,780 |
+| 2026 Q1 | energy | 22,161 | 5,361 | 5,197 | 16,800 |
+| 2026 Q1 | capacity | 12,205 | 4,122 | 3,940 | 8,083 |
+| 2026 Q1 | tolling | 211 | 39 | 43 | 172 |
 | 2026 Q2 | every product | 70,277 | 13,561 | 12,265 | 56,716 |
 | 2026 Q2 | energy | 22,808 | 5,453 | 4,806 | 17,355 |
 | 2026 Q2 | capacity | 12,598 | 4,258 | 3,865 | 8,340 |
 | 2026 Q2 | tolling | 216 | 53 | 48 | 163 |
 
-About one contract in five in force in 2026 Q2 was not in force in the quarter before, and nearly as many left. Short-term
-sales and renumbered contracts are in both counts.
+- **About one contract in six is new each quarter, and about as many leave** (16 to 19 percent of those in force).
+  Short-term sales and renumbered contracts are in both counts.
+- **Three in four have stood for a year.** Of the 70,277 contracts in force in 2026 Q2, 52,994 are filed in all four
+  quarters, 2,189 in three, 2,261 in two and 12,833 in that quarter only. For energy: 16,739 of 22,808 in all four.
+- **Two filings of 2025 Q4 are left out.** The zip FERC serves for each is cut off inside its transactions file and
+  has no directory (read twice, the same bytes). Their contracts files come first and are whole by the zip's own
+  CRC-32 (102 and 323 rows), but the file that names the filer comes after the break, so the rows cannot be given a
+  company identifier and a contract cannot be followed across quarters. They are 425 of 191,557 rows; those filers'
+  contracts count as gone in 2025 Q4 and as new in 2026 Q1.
 
 ## FERC's terms for this data
 
