@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-08T04:18:12Z",
+ "built_at_utc": "2026-10-08T04:29:41Z",
  "as_of": "2026-10-08",
  "window_months": 12,
  "window_from": "2025-10-08",
@@ -136,10 +136,10 @@
    "page": null,
    "sentence": "Pacific Alternating Current Intertie Point-to-Point Transmission Service-Rate Order No. WAPA-211",
    "sentence_from": "title",
-   "read": null,
-   "read_by": null,
-   "read_model": null,
-   "read_from": null,
+   "read": "Interim formula rates for Sierra Nevada region PACI point-to-point transmission service are approved with no changes to existing rates, so transmission customers, including any large load buyers using this service, see no rate change.",
+   "read_by": "model",
+   "read_model": "claude-sonnet-5-5",
+   "read_from": "the action's title and abstract as the Federal Register prints them, nothing else",
    "why_here": "A federal action that names no grid operator: it is under every grid."
   }
  ],
