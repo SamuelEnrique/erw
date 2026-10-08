@@ -3,6 +3,7 @@
 // /thesis sees: it is written on the server (warehouse/thesis/) and only drawn here. Any list may be empty, and a
 // report from a run that stopped early may lack a part: the page reads every field as possibly absent.
 import type { PitchbookPayload } from "./pitchbook";
+import type { ProviderRow } from "./providers";
 
 export type Text = { text: string; sources: string[] };
 export type Missing = { missing: "not_disclosed" | "not_confirmed" | "not_held" | "pitchbook_pending"; note: string };
@@ -50,6 +51,9 @@ export type Run = {
   run_id: string; niche: string; stage: string; geography: string; status: RunStatus; note: string;
   requested_at: string; started_at: string | null; finished_at: string | null; report: Report | null;
   pitchbook_request: PitchbookRequest | null; pitchbook_key: string | null; pitchbook: PitchbookPayload | null; pitchbook_received_at: string | null;
+  /** Session 150: the rows of the store of provider results (migration 025), read beside the run and attached by the
+   * page. Absent on every record of thesis_get: a run that holds none reads as before, its answer PitchBook's. */
+  providers?: ProviderRow[] | null;
 };
 /** A row of thesis_list: a run without its report. */
 export type RunRow = {

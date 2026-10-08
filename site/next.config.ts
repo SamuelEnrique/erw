@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
       // session 144: one tool, one page, one address. Curtailment is /curtailment; its second version (California by the
       // hour, against battery charging) is part of that page now, and its address redirects to it (a query is carried over)
       { source: "/curtailment/v2", destination: "/curtailment", permanent: true },
+      // session 152: one tool, one page, one address. Demand growth is /demand; the page built at /demand/weather (demand
+      // growth with the weather taken out, sessions 126 and 129) is the second view of that page, and its address
+      // redirects to it (a query is carried over)
+      { source: "/demand/weather", destination: "/demand?view=weather", permanent: true },
       { source: "/weekly", destination: "/roundup", permanent: true },
       { source: "/weekly/:week", destination: "/roundup/:week", permanent: true },
       // session 132: one tool, one page, one address. The price board is /board; its earlier versions and the markets
