@@ -159,13 +159,13 @@ export function WeekView({ today, rows, bodies, topics, grids, dropped, droppedW
                       <tr>
                         <th className="w-36 py-1 pr-2 text-left font-normal text-muted">Agency</th>
                         {topics.map((t) => (
-                          <th key={t.key} className="px-0.5 py-1 align-bottom font-normal">
+                          <th key={t.key} className="px-1.5 py-1 align-bottom font-normal">
                             <button type="button" aria-pressed={c.topic === t.key} onClick={() => set({ topic: c.topic === t.key ? "" : t.key })} data-tip={`${t.label}: ${t.why}`} data-week-col={t.key}
                               className={`w-full cursor-pointer leading-tight ${c.topic === t.key ? "font-semibold text-accent" : "text-muted hover:text-accent"}`}>{t.label}</button>
                           </th>
                         ))}
-                        <th className="px-0.5 py-1 align-bottom font-normal text-muted"><span data-tip="Actions with none of the eight topics.">No topic</span></th>
-                        <th className="px-0.5 py-1 align-bottom font-normal text-muted">All</th>
+                        <th className="px-1.5 py-1 align-bottom font-normal text-muted"><span data-tip="Actions with none of the eight topics.">No topic</span></th>
+                        <th className="px-1.5 py-1 align-bottom font-normal text-muted">All</th>
                       </tr>
                     </thead>
                     <tbody>
