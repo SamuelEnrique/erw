@@ -144,6 +144,9 @@ isone_rtm_zone_prices_hourly,ISO-NE,isone_rtm,9,PT1H,2026-08-26T04:00:00Z,2026-1
 isone_zone_load_hourly,ISO-NE,isone_load,9,PT1H,2025-01-01T05:00:00Z,2026-09-01T03:00:00Z,131319,isone:smd_hourly,2026-10-07T01:47:43Z,pass,internal,power,no,source
 isone_zone_prices_history,ISO-NE,isone_dam;isone_rtm,8,PT1H,2019-01-01T05:00:00Z,2026-09-01T03:00:00Z,1075024,isone:smd_hourly_lmp,2026-10-07T11:53:48Z,pass,internal,power,no,source
 known_data_faults,none,,1,event,2018-07-20T00:00:00Z,2026-10-05T00:00:00Z,28,1 outlets,2026-10-05T07:57:29Z,pass,public,platform,no,derived
+large_load_rule_reads,none,,1,event,2024-01-25T00:00:00Z,2026-10-07T00:00:00Z,87,1 outlets,2026-10-08T05:01:16Z,pass,public,power;datacenters,no,model_extracted
+large_load_rules,none,,5,event,2024-01-25T00:00:00Z,2026-09-22T00:00:00Z,43,5 outlets,2026-10-08T05:09:36Z,pass,public,power;datacenters,no,model_extracted
+large_load_rules_internal,none,,6,event,2024-05-13T00:00:00Z,2026-10-07T00:00:00Z,73,6 outlets,2026-10-08T05:09:36Z,pass,internal,power;datacenters,no,model_extracted
 large_load_statements,none,,1,event,2024-05-01T00:00:00Z,2026-10-08T00:00:00Z,796,1 outlets,2026-10-08T01:24:02Z,pass,internal,power,no,model_extracted
 lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-10-01T00:00:00Z,8335,erw:merchant_revenue,2026-10-04T02:26:32Z,pass,public,power;gas,yes,derived
@@ -166,6 +169,7 @@ nyiso_load_queue,NYISO,,74,snapshot,2026-10-07T09:09:14Z,2026-10-07T09:09:14Z,74
 nyiso_rtm_zone_prices,NYISO,nyiso_rtm,11,PT15M,2026-08-26T04:00:00Z,2026-10-07T03:45:00Z,44352,nyiso:realtime,2026-10-07T14:09:23Z,pass,public,power,no,source
 nyiso_zone_load_hourly,NYISO,nyiso_load,11,PT1H,2019-01-01T05:00:00Z,2026-10-07T00:00:00Z,748660,nyiso:palIntegrated,2026-10-07T01:48:15Z,pass,public,power,no,source
 pjm_rpm_capacity_prices,PJM,bra,18,P1Y,2007-06-01T00:00:00Z,2028-06-01T00:00:00Z,234,pjm:rpm-clearing-price-summary,2026-10-07T14:28:34Z,pass,internal,capacity,no,source
+policy_action_tags,none,,1,event,2026-01-26T00:00:00Z,2026-08-07T00:00:00Z,30,1 outlets,2026-10-08T05:01:07Z,pass,public,news,no,source
 policy_actions,none,,5,event,2025-10-01T00:00:00Z,2026-10-07T00:00:00Z,1855,5 outlets,2026-10-07T14:42:41Z,pass,public,news,no,model_extracted
 policy_reads,none,,1,event,2025-10-01T00:00:00Z,2026-10-06T00:00:00Z,239,1 outlets,2026-10-03T14:44:57Z,pass,public,news,no,model_extracted
 policy_reads_evidence,none,,1,event,2025-10-01T00:00:00Z,2026-10-06T00:00:00Z,1894,1 outlets,2026-10-04T14:42:28Z,pass,internal,news,no,model_extracted
