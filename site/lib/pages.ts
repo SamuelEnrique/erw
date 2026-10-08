@@ -44,6 +44,8 @@ export const GROUPS: Group[] = [
       { href: "/network", label: "The network", line: "The US balancing authorities in 3D and the power they trade, hour by hour over the latest week.", tables: "eia930_all_interchange, grid_network_nodes, grid_network_links", related: ["/grid", "/emissions"] },
       { href: "/grid", label: "Grid conditions", line: "Yesterday's peak demand, forecast error and generation mix for each ISO and the Lower 48.", tables: "eia930_all_demand, eia930_all_generation", related: ["/mix", "/curtailment"] },
       { href: "/mix", label: "Energy mix", line: "What generates the power: now, the average day of any month since 2019, the duck curve year after year, the records, how clean and how stressed each grid is, what each source gives against its installed capacity, wind and solar forecasts against actual, and every state since 2001.", tables: "eia930_all_generation, eia930_generation_latest, state_generation_mix_monthly, generation_mix_hourly_profile, clean_energy_summary, grid_stress_yearly and the tables of docs/methods/generation_mix_hourly.md", related: ["/grid", "/curtailment"] },
+      // session 159 (the owner's instruction of 8 October 2026): demand growth, one page with two views (as metered, and with the weather taken out; sessions 97 and 152), in review. The Grid menu holds eight with it: Consumption moved to Data
+      { href: "/demand", label: "Demand growth", line: "How much more power each grid uses than in 2019, by year, month and hour of the day, and the same growth with the weather taken out.", tables: "eia930_demand_growth, eia930_demand_weather", related: ["/grid", "/mix"] },
       { href: "/curtailment", label: "Curtailment", line: "Wind and solar output curtailed, by grid, by day, month and hour, as a share of available output; where power is priced under USD 5 per MWh, by hub and zone; and what the curtailed energy was worth to a load or a battery.", tables: "caiso_curtailment_daily, spp_curtailment_daily, ercot_wind_solar_hsl_daily, iso_curtailment_monthly, caiso_curtailment_profile, ercot_wind_solar_hsl_hourly and the hub and zone price tables", related: ["/mix", "/grid"] },
       // session 32: emissions
       { href: "/emissions", label: "Emissions", line: "How much CO2 each ISO's power carries, per MWh made and per MWh used, from EIA's hourly estimates.", tables: "carbon_intensity_hourly, eia930_all_emissions", related: ["/grid", "/storage"] },
@@ -51,7 +53,6 @@ export const GROUPS: Group[] = [
       { href: "/storage", label: "Storage", line: "The US battery fleet by ISO, state and planned year, and how the batteries charge and discharge each hour and day.", tables: "storage_capacity, storage_daily_cycle, eia930_all_storage", related: ["/grid", "/mix"] },
       // session 72 (session 69's finish): in review
       { href: "/storage/buildout", label: "Storage build-out", line: "How much battery storage each US grid has built, of what duration, how it compares with solar, and what is planned.", tables: "storage_buildout_monthly", related: ["/storage", "/cost-of-power/seller"] },
-      { href: "/consumption", label: "Consumption", line: "Electricity sold by state and sector, and where industrial and commercial load grows fastest.", tables: "eia_retail_sales_monthly, eia_sector_energy_consumption_monthly", related: ["/mix", "/datacenters"] },
     ],
   },
   {
@@ -129,6 +130,8 @@ export const GROUPS: Group[] = [
       { href: "/data", label: "Data and methods", line: "Every public table with its dates, rows, source and license; the data standard and the methods.", tables: "catalogue" },
       { href: "/analysis", label: "Automated Analysis", line: "Ten chart templates run on the warehouse every week, the chart of the week picked by rule, and a gallery to run each template with its parameters.", tables: "the ISO price, EIA-930, curtailment, battery, trader view, deal and datacenter tables; docs/analysis/", related: ["/roundup", "/board"] },
       { href: "/ask", label: "Ask", line: "Ask the warehouse a question; every number in the answer comes from a table it read.", tables: "the live set, through four read-only tools" },
+      // session 159: moved here from Grid, which holds eight with "Demand growth"
+      { href: "/consumption", label: "Consumption", line: "Electricity sold by state and sector, and where industrial and commercial load grows fastest.", tables: "eia_retail_sales_monthly, eia_sector_energy_consumption_monthly", related: ["/mix", "/datacenters"] },
     ],
   },
   {
