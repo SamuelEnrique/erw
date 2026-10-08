@@ -117,7 +117,12 @@ What is left, exactly:
 
 ## The landing
 
-- Lands with sessions 156 and 159 in one push, with its snapshot; a line is added here.
+- **Added after the landing.** Pushed with sessions 156, 157 and 159 as `task/156-157-159` (`bc1fba0`): checks passed (run
+  37764344933), merged as `a161ec5`. **Vercel built it:** "Deployment has completed" at 10:43:19 UTC on 8 October.
+- **Snapshot before** (`157_before`, 10:34:04 UTC) **and after** (`157_after`, 10:43:32 UTC): **0 differences** on the
+  25 live addresses, 3,357 checked number keys. Nothing was reverted.
+- **On production, in the internal view:** the policy page's check 45 of 45, the resource map's 97 of 97, the Ask
+  panel's 13 of 13 (recorded answers).
 - Under the lock, nothing released and nothing loaded. I first restored the three policy tables from Redivis (the
   runner's newer copies: 1,855 actions, 239 reads), so no row of 4 to 7 October was lost; then the writes:
   `policy_actions` 1,877 rows, `policy_reads` 239 (226 rechecked, 8 not, 5 newer kept as they are),
