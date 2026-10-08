@@ -167,6 +167,13 @@ class ProperNoun(unittest.TestCase):
                      "A team from Geothermal Technologies Inc drilled the test well."):                               # written for this test: a legal form after it
             self.assertEqual(self.how(text), "capital", text)
 
+    def test_a_dash_parts_two_names_and_a_joining_hyphen_does_not(self):
+        # the first is a real search result's title (zoominfo.com, 7 October 2026); the others are written for this test
+        self.assertEqual(self.how("Geothermal Technologies - Overview, News & Similar companies"), "capital")
+        self.assertEqual(self.how("The Nevada-Geothermal Technologies venture drilled a well."), "not a proper noun")
+        self.assertEqual(self.how("A partner of Geothermal Technologies-Utah drilled a well."), "not a proper noun")
+        self.assertEqual(self.how("Utah – Geothermal Technologies drilled a well."), "capital")
+
     def test_a_heading_with_every_word_capitalized_shows_no_proper_noun(self):
         heading = "Geothermal Technologies, Inc. to Present Paper and Lead a Panel at the Geothermal Rising Annual Meeting in Reno"
         self.assertEqual(self.how(heading), "not a proper noun")

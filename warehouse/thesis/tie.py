@@ -35,7 +35,7 @@ THE RULE
    term ("Geothermal Technologies" in a geothermal niche). For such a company the text must hold the name's words as
    before AND one of three things must be true:
      capital   the name stands in the text with the capitals the company's rows write it with, and is not part of a
-               longer capitalized name: the word just before it (only spaces or a hyphen between) does not start with
+               longer capitalized name: the word just before it (only spaces between, or one joining hyphen) does not start with
                a capital, unless it is one of SMALL_WORDS (The, In, And, ...), and the word just after it does not
                start with a capital, unless it is a legal form (Inc, LLC, ...) or a role (CEO, Founder, ...). So
                "the DOE Geothermal Technologies Office" is not the company. A name of one word that opens the
@@ -232,7 +232,7 @@ def names_norm(t, aliases, niche_words):
 # ---------------------------------------------------------------------------------------------
 
 _TOKEN = re.compile(r"[A-Za-z0-9]+")
-_BESIDE = re.compile(r"[ \t -]*\Z")                  # two words stand side by side: only spaces or a hyphen between them
+_BESIDE = re.compile(r"(?:[ \t\u00a0]+|-)\Z")           # two words stand side by side: only spaces between them, or one hyphen joining them
 _CUT = re.compile(r"[,;|•·]|\s&\s|\band\b|\bor\b")
 GENERIC_FOLDED = {fold(w) for w in GENERIC} | STOP
 
