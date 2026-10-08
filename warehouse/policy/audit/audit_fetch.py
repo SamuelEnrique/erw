@@ -36,6 +36,9 @@ MAX_REQUESTS, MAX_BYTES = 200, 200 * 1024 * 1024
 FORBIDDEN = ("misoenergy.org", "dataminer", "api.pjm.com")
 FR_API = "https://www.federalregister.gov/api/v1/documents/{}.json"
 MAN_COLS = ["n", "key", "kind", "url", "status", "bytes", "sha256", "content_type", "retrieved_at", "file", "error"]
+# Session 157: the manifest status of a printed text copied from the connector's own store (it was requested once,
+# by the connector), for which this tool makes no request. It counts toward neither ceiling's request count.
+HELD = "held"
 
 
 class Store:
@@ -48,14 +51,38 @@ class Store:
 
     @property
     def requests(self):
-        return len(self.rows)
+        return sum(1 for r in self.rows if r["status"] != HELD)   # a text taken from the store is no request
 
     @property
     def bytes(self):
-        return sum(int(r["bytes"] or 0) for r in self.rows)
+        return sum(int(r["bytes"] or 0) for r in self.rows if r["status"] != HELD)
 
     def have(self, key, kind):
-        return next((r for r in self.rows if r["key"] == key and r["kind"] == kind and r["status"] == "200"), None)
+        return next((r for r in self.rows if r["key"] == key and r["kind"] == kind and r["status"] in ("200", HELD)),
+                    None)
+
+    def save(self):
+        with open(self.man, "w", encoding="utf-8", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=MAN_COLS, lineterminator="\n")
+            w.writeheader()
+            w.writerows(self.rows)
+
+    def take_held(self, key, kind, url, path, ext):
+        """Session 157: the connector already holds this printed text (its store, by document number). The file is
+        copied here and listed with status 'held' and its sha256, and no request is made."""
+        with open(path, "rb") as f:
+            content = f.read()
+        name = re.sub(r"[^A-Za-z0-9_.-]+", "_", key) + f".{kind}.{ext}"
+        with open(os.path.join(self.raw, name), "wb") as f:
+            f.write(content)
+        when = dt.datetime.fromtimestamp(os.path.getmtime(path), dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        row = dict(n=str(len(self.rows) + 1), key=key, kind=kind, url=url, status=HELD, bytes=str(len(content)),
+                   sha256=hashlib.sha256(content).hexdigest(), content_type="", retrieved_at=when, file="raw/" + name,
+                   error="held (the connector's store): " + path.replace(os.sep, "/") + "; no request made here")
+        self.rows.append(row)
+        self.save()
+        print(f"  {row['n']:>3} {key} {kind}: held in the connector's store, {row['bytes']} bytes, no request")
+        return row
 
     def tried(self, key, kind):
         return any(r["key"] == key and r["kind"] == kind for r in self.rows)
@@ -71,7 +98,7 @@ class Store:
         wait = 1.1 - (time.time() - self.last.get(host, 0))
         if wait > 0:
             time.sleep(wait)
-        row = dict(n=str(self.requests + 1), key=key, kind=kind, url=url, status="", bytes="0", sha256="",
+        row = dict(n=str(len(self.rows) + 1), key=key, kind=kind, url=url, status="", bytes="0", sha256="",
                    content_type="", retrieved_at=dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                    file="", error="")
         try:
@@ -91,10 +118,7 @@ class Store:
             self.last[host] = time.time()
             row.update(status="error", error=repr(exc)[:300])
         self.rows.append(row)
-        with open(self.man, "w", encoding="utf-8", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=MAN_COLS, lineterminator="\n")
-            w.writeheader()
-            w.writerows(self.rows)
+        self.save()
         print(f"  {row['n']:>3} {key} {kind}: {row['status']} {row['bytes']} bytes {row['error']}")
         return row
 
@@ -108,6 +132,8 @@ def main(argv=None):
     ap.add_argument("--sample")
     ap.add_argument("--out", required=True)
     ap.add_argument("--url", action="append", default=[], help="KEY=URL: one more named document (kind 'extra')")
+    ap.add_argument("--store", help="session 157: the connector's store of printed Federal Register texts, one file "
+                                    "a document number (<number>.txt); a text held there is copied, not requested")
     args = ap.parse_args(argv)
     st = Store(args.out)
     if args.sample:
@@ -122,7 +148,10 @@ def main(argv=None):
                 rec = st.have(key, "api")
                 if rec and not st.tried(key, "text"):
                     meta = json.load(open(os.path.join(args.out, rec["file"]), encoding="utf-8"))
-                    if meta.get("raw_text_url"):
+                    held = os.path.join(args.store, num + ".txt") if args.store else ""
+                    if meta.get("raw_text_url") and held and os.path.isfile(held) and os.path.getsize(held) > 0:
+                        st.take_held(key, "text", meta["raw_text_url"], held, "txt")
+                    elif meta.get("raw_text_url"):
                         st.get(key, "text", meta["raw_text_url"], "txt")
             elif not st.tried(key, "page"):
                 st.get(key, "page", s["source_url"], ext_of(s["source_url"]))
@@ -131,7 +160,9 @@ def main(argv=None):
         if not st.tried(key, "extra"):
             st.get(key, "extra", url, ext_of(url))
     ok = sum(1 for r in st.rows if r["status"] == "200")
-    print(f"{st.requests} requests of {MAX_REQUESTS}, {st.bytes} bytes of {MAX_BYTES}; {ok} answered 200")
+    held = sum(1 for r in st.rows if r["status"] == HELD)
+    print(f"{st.requests} requests of {MAX_REQUESTS}, {st.bytes} bytes of {MAX_BYTES}; {ok} answered 200"
+          + (f"; {held} printed texts taken from the connector's store, no request" if held else ""))
     return 0
 
 
