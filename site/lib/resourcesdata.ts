@@ -13,7 +13,7 @@ import countiesTopo from "us-atlas/counties-10m.json";
 import mapJson from "@/data/map_v2.json";
 import type { MapFile } from "@/lib/map2";
 import { STATES } from "@/lib/regions";
-import { boxOf, filesOf, inGeometry, stemOf, type Geometry, type Layer, type Manifest } from "@/lib/resources";
+import { QUEUE_GRIDS, boxOf, filesOf, inGeometry, queueGridOf, stemOf, type Geometry, type Layer, type Manifest, type QueueGridCount } from "@/lib/resources";
 import { HOURLY, rest } from "@/lib/supabase";
 
 // Where a layer's file may be: the site's own data folder first (not served to visitors), then the folder the data
@@ -76,7 +76,7 @@ export function plants() {
 
 type QueueRow = {
   entity_id: string; lat: number | null; lon: number | null; capacity_mw: number | null; status: string | null; vintage: string | null;
-  tech: string | null; state: string | null; county: string | null; prec: string | null;
+  tech: string | null; state: string | null; county: string | null; prec: string | null; src: string | null;
 };
 type County = { id: string; name: string; geometry: Geometry; box: [number, number, number, number] };
 let COUNTIES: County[] | null = null;
@@ -113,32 +113,45 @@ const round3 = (c: unknown): unknown => (Array.isArray(c) ? c.map(round3) : type
  *  point. A row with neither is counted and not drawn. */
 export async function queue() {
   const rows = await rest<QueueRow>("entities", {
-    select: "entity_id,lat,lon,capacity_mw,status,vintage,tech:extra->>technology_group,state:extra->>state,county:extra->>county,prec:extra->>geo_precision",
+    select: "entity_id,lat,lon,capacity_mw,status,vintage,tech:extra->>technology_group,state:extra->>state,county:extra->>county,prec:extra->>geo_precision,src:extra->>source_table",
     table_name: "eq.energy_projects", "extra->>kind": "eq.queue", order: "entity_id",
   }, HOURLY, 100_000);
   type Agg = { county: County; state: string; requests: number; mw: number; noMw: number; status: Record<string, number> };
   const byPoint = new Map<string, County | null>(), byCounty = new Map<string, Agg>();
   const points: { lon: number; lat: number; id: string; mw: number | null; status: string; tech: string; state: string }[] = [];
-  let notPlaced = 0, noShape = 0, drawn = 0;
-  const vintages = rows.map((r) => r.vintage ?? "").filter(Boolean).sort();
+  let notPlaced = 0, noShape = 0, drawn = 0, withheld = 0;
+  // session 159: the count grid by grid, as the live set gives it. A grid whose operator's terms do not allow its
+  // rows on the map (QUEUE_GRIDS, shown: false) is counted and left out: no row of it reaches the page.
+  const grids = new Map<string, QueueGridCount>(QUEUE_GRIDS.map((g) => [g.id, { id: g.id, label: g.label, shown: g.shown, rows: 0, drawn: 0, not_drawn: 0 }]));
+  const gridOf = (r: QueueRow): QueueGridCount => {
+    const id = queueGridOf(r.src);
+    if (!grids.has(id)) grids.set(id, { id, label: "Another table", shown: true, rows: 0, drawn: 0, not_drawn: 0 });
+    return grids.get(id) as QueueGridCount;
+  };
+  const vintages: string[] = [];
   for (const r of rows) {
-    if (r.lat === null || r.lon === null || !["county", "point"].includes(r.prec ?? "")) { notPlaced += 1; continue; }
-    if (r.prec === "point") { points.push({ lon: r.lon, lat: r.lat, id: r.entity_id, mw: r.capacity_mw, status: r.status ?? "", tech: r.tech ?? "", state: r.state ?? "" }); drawn += 1; continue; }
+    const grid = gridOf(r);
+    grid.rows += 1;
+    if (!grid.shown) { withheld += 1; continue; }
+    if (r.vintage) vintages.push(r.vintage);
+    if (r.lat === null || r.lon === null || !["county", "point"].includes(r.prec ?? "")) { notPlaced += 1; grid.not_drawn += 1; continue; }
+    if (r.prec === "point") { points.push({ lon: r.lon, lat: r.lat, id: r.entity_id, mw: r.capacity_mw, status: r.status ?? "", tech: r.tech ?? "", state: r.state ?? "" }); drawn += 1; grid.drawn += 1; continue; }
     const key = `${r.lon},${r.lat}`;
     if (!byPoint.has(key)) {
       const lon = r.lon, lat = r.lat;
       byPoint.set(key, counties().find((c) => lon >= c.box[0] && lon <= c.box[2] && lat >= c.box[1] && lat <= c.box[3] && inGeometry(c.geometry, lon, lat)) ?? countyNamed(r.state, r.county));
     }
     const county = byPoint.get(key);
-    if (!county) { noShape += 1; continue; }
+    if (!county) { noShape += 1; grid.not_drawn += 1; continue; }
     const a = byCounty.get(county.id) ?? { county, state: r.state ?? "", requests: 0, mw: 0, noMw: 0, status: {} };
     a.requests += 1;
     if (r.capacity_mw === null) a.noMw += 1; else a.mw += Number(r.capacity_mw);
     const s = r.status || "not stated";
     a.status[s] = (a.status[s] ?? 0) + 1;
     byCounty.set(county.id, a);
-    drawn += 1;
+    drawn += 1; grid.drawn += 1;
   }
+  vintages.sort();
   const features = [...byCounty.values()].sort((a, b) => a.county.id.localeCompare(b.county.id)).map((a) => ({
     type: "Feature" as const,
     properties: { name: `${a.county.name}, ${a.state}`, kind: "county", fips: a.county.id, requests: a.requests, mw: Math.round(a.mw * 10) / 10, without_mw: a.noMw, status: a.status },
@@ -146,6 +159,8 @@ export async function queue() {
   }));
   return {
     ok: true as const, tables: ["energy_projects"], rows: rows.length, drawn, counties: features.length, not_placed: notPlaced, no_shape: noShape,
+    // rows of a grid whose operator's terms do not allow them on the map: counted, never sent to the page
+    withheld, grids: [...grids.values()],
     vintage_first: vintages[0] ?? "", vintage_last: vintages.at(-1) ?? "", shapes: { type: "FeatureCollection" as const, features }, points,
   };
 }
