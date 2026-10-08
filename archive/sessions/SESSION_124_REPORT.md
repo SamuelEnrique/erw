@@ -1,6 +1,6 @@
 # Session 124 report: the network, version 3, to launch-ready
 
-**Done and merged to main. Vercel had not built the merge 40 minutes later, so production still serves the page as it was before this session: see "The live pages" first.** The live `/network` was not replaced and reads as it did (snapshot below). No model call, no request to any publisher.
+**Done, merged and on production since 13:46 UTC.** Vercel did not build this session's own merge; the next merge, 56 minutes later, carried it (see "The live pages"). The live `/network` was not replaced and reads as it did (snapshot below). No model call, no request to any publisher.
 
 **Verdict: ready to open, once two things are decided by you.** The page now opens on a complete hour and says which; its trace agrees with two cases worked by hand; its replay survives its worst days; it works at phone width; MISO is shown as paused. What stands between it and replacing `/network` is not code: four parts of the live page are not on this one yet, and MISO's price would disappear. Both are in the table "What replacing it would change".
 
@@ -20,7 +20,7 @@
    - It said "365 days" for 2025, of which 47 hold no flow. It now says how many days of the period hold a flow.
    - Under Texas it said "CEN supplied by CISO, 100 percent": Mexico's operator is one name in EIA's file, but its California tie and its Texas ties do not connect inside Mexico. Nothing is traced through it now, and the page says why.
    - It reads each tie once by the network's rule, which is not always the grid's own report (BANC to California: 3,559,578 MWh by BANC, 3,297,404 by California). The page now says which reading it uses.
-6. **The page opens on a complete hour.** The newest hour of the week is held by few pairs. The live week now opens on the newest hour every reporting pair holds, and says which. On the local build with the 13:05 UTC refresh: 2 October 06:00 UTC, held by all 155 pairs of the week; the newest hour of all, 4 October 03:00, holds 154 of them. An hour earlier the week still held a 156th pair (Southwestern Power Administration with SPP), silent since 26 September: it was named and not waited for, and has since left the week. Not yet read on production (see "The live pages").
+6. **The page opens on a complete hour.** The newest hour of the week is held by few pairs. The live week now opens on the newest hour every reporting pair holds, and says which. On the local build with the 13:05 UTC refresh: 2 October 06:00 UTC, held by all 155 pairs of the week; the newest hour of all, 4 October 03:00, holds 154 of them. An hour earlier the week still held a 156th pair (Southwestern Power Administration with SPP), silent since 26 September: it was named and not waited for, and has since left the week. Read on production at 13:48 UTC: the same sentence, the same figures.
 7. **The replay through its hardest days: nothing broke that a visitor would see as an error, and two things were wrong.** A day for which EIA's file is blank drew an empty network with no word; it now says so (47 such days in late 2025; the replay's last day holds 29 of 149 pairs and says so). And, by the code's reading, a year's file that arrived late could replace a newer day asked for after it; a guard now prevents it, and three years asked for in a row show the last.
 8. **Phone and slow machine.** At 390 px nothing is wider than the screen and the panel sits under the network. With the processor slowed six times the live week and the stories hold 52 to 56 frames a second; the replay playing a year drops to 14, with a longest frame of 0.4 seconds. Measured, not fixed: that drawing code is the live page's.
 9. **MISO is shown as paused, in words.** No price ring and no price in its panel, in the live week, the stories and the replay; the panel and the fold say why. Its flows, demand and carbon are EIA's and are shown.
@@ -68,6 +68,17 @@ So before a swap: move those four parts across, and decide MISO's price. The che
 - **`docs/methods/grid_network_v3.md`**: a section for all of the above, with the table of what a swap would change.
 
 ## The live pages
+
+**Update, 13:48 UTC: on production, and nothing unmeant moved.** Session 125's merge (`b2f09c5`, 13:45 UTC) was built by Vercel at 13:46 and carries this session's code.
+
+- `before-124` (12:43:28 UTC) against `after-124b` (13:47:23 UTC), 25 pages, 4,037 checked numbers: **38 differences, all of them the clock.**
+  - `/`: 32. The price board's newest real-time price of five hubs (ERCOT 70.17 to 43.02, California 54.24 to 52.18, New York 38.05 to 29.66, SPP 29.99 to 23.62, New England 56.28 to 20.40 USD/MWh, each an hour later), their interval lines, and three lines giving a table's age in days (5.8 to 5.7, 5.7 to 5.6, 4.7 to 4.6). Expected: the 15-minute prices.
+  - `/network`: 6. "refreshed 12:05 UTC" to "13:05 UTC" and the demand's newest hour, 10:00 to 11:00 UTC, in three lines each way. Expected: the hourly refresh.
+  - The other 23 pages: 0.
+- `before-125` (13:38:03) against `after-125` (13:47:09), around the build itself: **0 differences** on all 25 pages.
+- `/network/v3` on production opens on 2 October 06:00 UTC, "the newest hour that every one of the 155 reporting pairs holds", and renders in the internal view; a visitor finds it closed.
+
+What follows is as written at 13:30 UTC, before that build.
 
 **The deploy has not reached production.** One push, `task/124-network-v3`: run 37311550214, checks passed, merged to main as `e511e2e` at 12:49:56 UTC.
 

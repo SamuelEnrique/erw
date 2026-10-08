@@ -134,7 +134,7 @@ export default async function Demand({ searchParams }: { searchParams: Promise<R
           See also <SiteLink href="/queues">the interconnection queue</SiteLink> and <SiteLink href="/prices/compare">where power is cheap</SiteLink>.</>} />
       <p className="mb-8 max-w-3xl border-l-2 border-accent bg-paper px-3 py-2 text-sm" data-weather="1">
         <span className="font-semibold">Weather is not removed.</span> A year&apos;s demand is what was metered that year, hot summer and cold snap included. A grid whose {file.last_year} was mild shows less growth than its customers added, and a single heat wave can set a peak.
-        These are differences between years, not a trend line.
+        These are differences between years, not a trend line. <SiteLink href="/demand/weather">The same growth with the weather taken out</SiteLink> is its own page.
       </p>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside>
