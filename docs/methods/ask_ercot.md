@@ -236,6 +236,29 @@ On reads recorded from the site's database on 8 October 2026, each of the questi
 - **What is still slow.** Two answers took more than 20 seconds, both read again and again by the model: the highest hourly demand "this week" when this week is not held (24.7 seconds, 10 model calls: the newest day is one read, the newest week is not), and generation by fuel over seven days (28.6 seconds, 7 model calls: one query a fuel, and the answer written twice). The idea target of 2 seconds is missed by a tenth of a second at the median.
 - Each question was asked once. A pass here does not say that every asking passes.
 
+## A day's hours as a line, and two slow answers (session 161, 8 October 2026)
+
+Three things session 156 left open.
+
+- **The average day by hour is a line.** The 24 values of an average day ("how the batteries charge and discharge across the hours of a day") were shown as a table of 24 rows, because the site's chart could only place points in time. The chart now has an axis of the hours of a day, 00:00 to 23:00, used only when a series is grouped by the hour of the day. The answer shows one line through the 24 values, each point the row the query returned; pointing at the line gives the hour and its value. The 24 rows are still there, folded under the line. An hour with no value held is not a point, and nothing is drawn in its place. Every other chart on the site is drawn exactly as before.
+- **"This week" is one call.** Asked for the highest hourly demand "this week" when the week was not held, the model tried one start after another: 24.7 seconds and 10 model calls. The query now takes the week itself: the local calendar week now running, Monday to today. One read; the result is over the days of that week that are held and lists every day with its rows (held whole, held in part, not held). The answer says which days it covers. When no day of the week is held yet, the result is over the newest seven local days held, and the answer says first that this week is not held. Nothing is filled.
+- **Generation by fuel over a stretch of days is two reads, written by rule.** The model asked one query for each fuel and wrote the answer twice: 28.6 seconds and 7 model calls. For "generation by fuel over the past N days" (3 to 35 days, the days of hourly generation the site holds) the read is now written by code, with no reading turn: one read gives every fuel's mean output over the period, and a second gives the total rolled up by day, which is the line shown. No table of generation by fuel by day is held; the days are added up from the hourly rows in that one read.
+
+**Measured on the test questions, 8 October 2026, each asked once.** The session's spending cap of USD 2 stopped the run after 104 of the 120: all 100 of session 137, and 4 of the 20 of the four pages. The 16 not asked are not counted anywhere below. The record is `warehouse/chat/eval_ercot_results_161.csv`.
+
+| | Passed | Seconds to the words, median (session 156) | Under the target |
+|---|---|---|---|
+| Questions about numbers (50; target 5 seconds) | 50 | 4.65 (4.6) | 28 under 5 seconds (30) |
+| About an idea (25; target 2 seconds) | 25 | 2.4 (2.1) | 4 under 2 seconds (8) |
+| Refused (25) | 25 | 2.5 (2.1) | 1 under 2 seconds (7) |
+| The 4 asked of the four pages | 4 of 4 | 4.15 | |
+
+- **No answer took more than 20 seconds** (two did in session 156). "This week" took 6.8 seconds and 2 model calls (24.7 and 10), and said which days of the week are held. Generation by fuel over seven days took 2.8 seconds and 1 model call (28.6 and 7).
+- **The slowest answer was 16.1 seconds**: daily peak demand over two weeks, written three times because its first two drafts did not pass the number check. The hourly demand it read is held in part for 4, 6 and 7 October and not at all for 5 October.
+- **Ideas and refusals were slower than in session 156**, by 0.3 and 0.4 seconds at the median, with answers of the same length. The model's first word came after 1.2 seconds at the median, against 0.7. The instructions the model is given are about 3,500 characters longer. One asking does not say whether that or the hour of the day is the cause.
+- **A question cost USD 0.0171** on the 100 (0.0169 in session 156). The first question of a run pays for writing the instructions to the model's cache: that fell on one of the 100 here (USD 0.16) and on one of the 20 in session 156. The other 99 cost 0.0156 each, against 0.0169.
+- Each question was asked once. A pass here does not say that every asking passes.
+
 ## Limits
 
 The tool has a spending ceiling for the day and for the month and a number of questions per visitor per day. When one is reached it answers with a plain message and your question is not sent to the model. They are described in [the limits note](/data/methods/ask_limits).

@@ -13,7 +13,7 @@ import spec from "./spec_ercot.json";
 import { numbers, unverified, type Draft, type Profile, type ToolRecord } from "./ask";
 import { scopeOf, tableSummaries, type Scope } from "./tools";
 import { summaryText } from "./summaries";
-import { chartPoints, pointsAreRows } from "./series";
+import { HOUR_GROUP, chartPoints, pointsAreRows } from "./series";
 import { FORMS, FORM_SCHEMA, MIX_HOLDS, MIX_TABLES, NOTES_TABLE, PAGE_TOOL, addendum, notesOf, pageFigures, type Form } from "./panel";
 import { ROLLUP, ROLLUP_HOLDS, ROLLUP_TABLES, rollupGuide, rollupOffered } from "./rollup";
 import { rulePlan } from "./plan";
@@ -142,7 +142,7 @@ function seriesOf(id: string, args: Json, out: Json, chosen: string): Series {
   const units = (out.units as string[] | undefined) ?? [];
   return {
     result_id: id, table: String(out.table), title: typeof out.title === "string" ? out.title : `${what}${args.entity ? `, ${args.entity}` : ""}${where ? ` (${where})` : ""}, by ${g}`,
-    group_by: g, kind: TIME_GROUPS.includes(g) ? "line" : "bar", unit: units.length === 1 ? units[0] : null, aggregation: String(args.aggregation ?? "as published"),
+    group_by: g, kind: TIME_GROUPS.includes(g) || g === HOUR_GROUP ? "line" : "bar", unit: units.length === 1 ? units[0] : null, aggregation: String(args.aggregation ?? "as published"),
     rows, rows_matched: (out.rows_matched as number) ?? null, note: (out.result_note as string) ?? null, source_report: (out.source_report as string) ?? null,
     license: (out.license as string) ?? null, tier: (out.tier as string) ?? null, data_version: (out.data_version as string) ?? null, chosen_by: chosen,
   };
@@ -329,8 +329,8 @@ function profile148(): Profile {
         const g = String(groupOf(args, out));
         const fetched = (out.result as Json[]).map((r) => [String(r[g]), (r.value ?? r.count ?? null) as number | null] as const);
         const same = fetched.length === s.rows.length && fetched.every(([key, v], j) => s.rows[j].key === key && s.rows[j].value === v);
-        const d = chartPoints(s.rows);
-        return { ...s, check: { rows_fetched: fetched.length, rows: s.rows.length, same: same && pointsAreRows(s.rows, d), points: d.points.length, not_drawn: d.undrawn.length } };
+        const d = chartPoints(s.rows, s.group_by);
+        return { ...s, check: { rows_fetched: fetched.length, rows: s.rows.length, same: same && pointsAreRows(s.rows, d, s.group_by), points: d.points.length, not_drawn: d.undrawn.length } };
       });
       const premise = nodash(typeof draft.premise === "string" ? draft.premise.trim() : "");
       return { ...(legacy ? {} : { form }), series: all.filter((s) => s.check.same), series_not_shown: all.filter((s) => !s.check.same).map((s) => s.result_id), followups, profile: "ercot", calls, premise, nearest: [] };

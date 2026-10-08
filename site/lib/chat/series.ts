@@ -22,11 +22,21 @@ export function keySeconds(key: string): number | null {
   return Date.UTC(Number(m[1]), m[2] ? Number(m[2]) - 1 : 0, m[3] ? Number(m[3]) : 1, m[4] ? Number(m[4]) : 0) / 1000;
 }
 
-/** The points a line chart of these rows shows, and the rows it leaves to the table. Nothing is filled between points. */
-export function chartPoints(rows: SeriesRow[]): Drawn {
+/** Session 161: the group whose keys are the 24 local hours of a day, "00" to "23" (lib/chat/forms.ts, HOUR_OF_DAY). */
+export const HOUR_GROUP = "hour_of_day";
+/** A key of that group as its hour, 0 to 23; null for anything else. */
+export function keyHour(key: string): number | null {
+  return /^([01]\d|2[0-3])$/.test(key) ? Number(key) : null;
+}
+/** Where a row's key stands on the chart's axis: seconds for a time, the hour for the hours of a day (`group`). */
+export const keyAt = (key: string, group?: string): number | null => (group === HOUR_GROUP ? keyHour(key) : keySeconds(key));
+
+/** The points a line chart of these rows shows, and the rows it leaves to the table. Nothing is filled between points.
+ * `group` is the series' group_by: for the hours of a day a point's t is its hour, 0 to 23, and not a time. */
+export function chartPoints(rows: SeriesRow[], group?: string): Drawn {
   const points: Point[] = [], undrawn: Drawn["undrawn"] = [];
   for (const r of rows) {
-    const t = keySeconds(r.key);
+    const t = keyAt(r.key, group);
     if (r.value === null || r.value === undefined || !Number.isFinite(r.value)) undrawn.push({ key: r.key, why: "no value" });
     else if (t === null) undrawn.push({ key: r.key, why: "not a time" });
     else points.push({ t, v: r.value });
@@ -39,14 +49,14 @@ export const isDrawn = (kind: string, d: Drawn): boolean => kind === "line" && d
 
 /** The drawn points against the fetched rows: every point is a fetched row's own key and value, in the rows' order,
  * and every fetched row is either a point or named as not drawn. True when the chart shows the rows and nothing else. */
-export function pointsAreRows(rows: SeriesRow[], d: Drawn): boolean {
+export function pointsAreRows(rows: SeriesRow[], d: Drawn, group?: string): boolean {
   if (d.points.length + d.undrawn.length !== rows.length) return false;
   let i = 0;
   const left = new Set(d.undrawn.map((u) => u.key));
   for (const r of rows) {
     if (left.has(r.key)) continue;
     const p = d.points[i++];
-    if (!p || p.t !== keySeconds(r.key) || p.v !== r.value) return false;
+    if (!p || p.t !== keyAt(r.key, group) || p.v !== r.value) return false;
   }
   return i === d.points.length;
 }

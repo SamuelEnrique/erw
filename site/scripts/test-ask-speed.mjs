@@ -531,10 +531,11 @@ await test148("the rule plans sixteen of the 100 questions, in three shapes, and
     h01: "hub price", h02: "hub price", h15: "hub price", h16: "hub price", s01: "hub price", s03: "hub price", s11: "hub price", s13: "hub price",
     h06: "generation", h07: "generation", h18: "generation", h20: "generation", s05: "generation", s08: "generation", s14: "generation",
     h12: "reserve",
+    h05: "generation by fuel",   // session 161: every fuel over a stretch of days, one read grouped by fuel and one rolled up by day
   });
   assert.ok(SET.filter((q) => q.kind === "conceptual" || q.kind === "refuse").every((q) => planOf(q.q) === null));
-  // without the two tables in the live set the reserve question is the model's: fifteen
-  assert.equal(SET.filter((q) => planOf(q.q, false)).length, 15);
+  // without the two tables in the live set the reserve question is the model's: sixteen (fifteen until session 161 planned h05)
+  assert.equal(SET.filter((q) => planOf(q.q, false)).length, 16);
   assert.equal(planOf(byId.h12, false), null);
 });
 

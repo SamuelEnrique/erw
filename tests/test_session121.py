@@ -437,7 +437,7 @@ console.log(JSON.stringify({{ text: historyText(cleanHistory(h)), opening: p.ope
         # session 137: the page's component moved to components/ask/AskPanel.tsx, one box and panel for any page
         page = src("site", "components", "ask", "AskPanel.tsx")
         for words in ("stream: true", "history", 'data-premise="1"', "data-nearest=", "data-chart-check=", "data-progress=", 'data-new-conversation="1"',
-                      "The nearest thing the warehouse does hold", "The question assumes something the tables do not show.", "chartPoints(s.rows)"):
+                      "The nearest thing the warehouse does hold", "The question assumes something the tables do not show.", "chartPoints(s.rows, s.group_by)"):   # session 161: the group says whether a key is a time or an hour of the day
             self.assertIn(words, page)
         self.assertIn('"/ask/ercot": "review"', src("site", "lib", "release.ts"))
 

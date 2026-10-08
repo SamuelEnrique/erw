@@ -29,7 +29,7 @@
 // Behind the server switch ASK_RULE_PLAN=on (lib/chat/ask.ts). Unset, no question is planned by rule.
 
 export type PlannedCall = { name: "query"; input: Record<string, unknown> };
-export type RulePlan = { shape: "hub price" | "generation" | "reserve"; calls: PlannedCall[] };
+export type RulePlan = { shape: "hub price" | "generation" | "generation by fuel" | "reserve"; calls: PlannedCall[] };
 
 const MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
 const MONTH = `(${MONTHS.join("|")})`;
@@ -50,10 +50,15 @@ const FILLER: Record<RulePlan["shape"], Set<string>> = {
   "hub price": new Set([...COMMON, "price", "prices", "moved", "move", "changed", "change", "compare"]),
   generation: new Set([...COMMON, "generation", "generate", "generated", "electricity", "much", "from", "grown", "grow", "changed", "change", "came", "come"]),
   reserve: new Set([...COMMON, "price", "prices", "reserve", "reserves", "moved", "move", "changed", "change"]),
+  "generation by fuel": new Set([...COMMON, "generation", "generate", "generated", "electricity", "much", "from", "mix"]),
 };
-const NEEDS: Record<RulePlan["shape"], RegExp> = { "hub price": /\bprices?\b/, generation: /\b(generation|generate|generated|electricity)\b/, reserve: /\bprices?\b/ };
+const NEEDS: Record<RulePlan["shape"], RegExp> = { "hub price": /\bprices?\b/, generation: /\b(generation|generate|generated|electricity)\b/, reserve: /\bprices?\b/, "generation by fuel": /\b(generation|generate|generated|electricity)\b/ };
 /** The first day each table holds, for the count of groups a series without a start would have. */
-const FIRST: Record<RulePlan["shape"], string> = { "hub price": "2015-01-01", generation: "2019-01-01", reserve: "2018-01-01" };
+const FIRST: Record<RulePlan["shape"], string> = { "hub price": "2015-01-01", generation: "2019-01-01", reserve: "2018-01-01", "generation by fuel": "2019-01-01" };
+/** Session 161: the days of hourly generation by fuel the site holds (warehouse/supabase/live_set.yaml, recent): a longer stretch is not planned by rule. */
+export const MAX_FUEL_DAYS = 35;
+// a count of days written as a word ("the past seven days"), read as its number
+const DAY_WORDS: Record<string, number> = { two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, fourteen: 14, thirty: 30 };
 export const MAX_PLAN_GROUPS = 120;   // the rows one grouped result shows (lib/chat/spec_ercot.json, max_groups)
 
 type Period = { kind: "day" | "month" | "year" | "span" | "open"; start?: string; end?: string };
@@ -83,6 +88,13 @@ export function rulePlan(question: string, today: string, opts: { rollup?: boole
   let s = ` ${question.toLowerCase().replace(/[‘’]/g, "'").replace(/\bercot's\b/g, "ercot").replace(/[?.!,]/g, " ").replace(/\s+/g, " ").trim()} `;
   if (/[^a-z0-9 '\-]/.test(s)) return null;                                  // a sign the rule does not read
   const thisYear = Number(today.slice(0, 4)), thisMonth = Number(today.slice(5, 7));
+  // session 161: "by fuel" names every source at once: one read grouped by fuel and one rolled up by day, written here.
+  // Only then is a count of days read as a word, so no question of the three older shapes is read differently.
+  const allFuels = /\bby (fuel type|fuel|source)\b/.test(s);
+  if (allFuels) {
+    s = s.replace(/\bby (fuel type|fuel|source)\b/g, " ");
+    s = s.replace(new RegExp(`\\b(last|past) (${Object.keys(DAY_WORDS).join("|")}) days\\b`), (_m, a: string, w: string) => `${a} ${DAY_WORDS[w]} days`);
+  }
 
   // ---- the period: at most one, named outright
   const periods: Period[] = [];
@@ -113,8 +125,9 @@ export function rulePlan(question: string, today: string, opts: { rollup?: boole
   // (taken out before the statistic: "Hub Average" is a hub's name, not a request for an average)
   const found = (list: [RegExp, string][]) => { const out: string[] = []; for (const [re, id] of list) { const t = take(s, re); s = t.rest; if (t.hits.length) out.push(id); } return out; };
   const products = found(PRODUCTS), hubs = found(HUBS), fuels = found(FUELS);
-  if (products.length + hubs.length + fuels.length !== 1) return null;
-  const shape: RulePlan["shape"] = hubs.length ? "hub price" : products.length ? "reserve" : "generation";
+  if (allFuels) { if (products.length + hubs.length + fuels.length) return null; }      // session 161: "by fuel" names every source, so none is named beside it
+  else if (products.length + hubs.length + fuels.length !== 1) return null;
+  const shape: RulePlan["shape"] = allFuels ? "generation by fuel" : hubs.length ? "hub price" : products.length ? "reserve" : "generation";
 
   // ---- the grain, the market, the statistic
   const grains: string[] = [];
@@ -144,6 +157,16 @@ export function rulePlan(question: string, today: string, opts: { rollup?: boole
   if (grain && (groups() > MAX_PLAN_GROUPS || groups() < 3)) return null;      // fewer than three rows is no series (spec_ercot.json, min_rows)
   const when = { ...(period?.start ? { start: period.start } : {}), ...(period?.end ? { end: period.end } : {}) };
   const q = (input: Record<string, unknown>): PlannedCall => ({ name: "query", input });
+
+  if (shape === "generation by fuel") {
+    // a stretch of whole local days, at most what the site holds of the hourly table; every fuel's mean in one read,
+    // and the total rolled up by day in a second: no call for each fuel, and no reading turn
+    if (markets.length || stats.length || (grain && grain !== "day") || period?.kind !== "span" || !bounded) return null;
+    const n = daysBetween(period.start!, period.end!);
+    if (n < 3 || n > MAX_FUEL_DAYS) return null;
+    const table = "eia930_all_generation", entity = "eia930:ERCO", tz = "America/Chicago";
+    return { shape, calls: [q({ table, aggregation: "mean", entity, ...when, tz, group_by: "variable" }), q({ table, aggregation: "mean", entity, variable: "net_generation_mw", ...when, tz, group_by: "day" })] };
+  }
 
   if (shape === "hub price") {
     if (!markets.length || stat === "share") return null;

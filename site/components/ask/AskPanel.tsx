@@ -17,7 +17,7 @@
 import { useState } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { LineChart } from "@/components/LineChart";
-import { chartPoints, isDrawn, keySeconds } from "@/lib/chat/series";
+import { HOUR_GROUP, chartPoints, isDrawn, keySeconds } from "@/lib/chat/series";
 import { PAGE_FILE_HREF } from "@/lib/chat/pagelinks";
 
 export { keySeconds };
@@ -60,7 +60,8 @@ export function sourceHref(table: string): { href: string; what: string } {
 }
 
 function SeriesBlock({ s, form }: { s: Series; form: Form }) {
-  const drawn = chartPoints(s.rows);
+  const drawn = chartPoints(s.rows, s.group_by);
+  const hours = s.group_by === HOUR_GROUP;   // session 161: the average day by hour is one line over the 24 local hours
   const points = drawn.points;
   const chart = form !== "table" && isDrawn(s.kind, drawn);
   const unit = s.unit ?? "";
@@ -70,15 +71,15 @@ function SeriesBlock({ s, form }: { s: Series; form: Form }) {
       <h3 className="mb-1 text-sm font-semibold">{s.title}</h3>
       {chart ? (
         <>
-          <LineChart lines={[{ label: s.title, points, color: "accent" }]} unit={unit} height={240} x={s.group_by === "year" ? "year" : s.group_by === "month" ? "month" : "minute"}
+          <LineChart lines={[{ label: s.title, points, color: "accent" }]} unit={unit} height={240} x={hours ? HOUR_GROUP : s.group_by === "year" ? "year" : s.group_by === "month" ? "month" : "minute"}
             ariaLabel={`${s.title}, ${s.rows.length} rows of ${s.table}`} />
           <p className="mt-1 text-xs text-muted" data-chart-check={`${points.length}/${s.rows.length}`}
             title={drawn.undrawn.length ? `Not on the chart, and in the table: ${drawn.undrawn.slice(0, 6).map((u) => `${u.key} (${u.why === "no value" ? "no value held" : "not a point in time"})`).join(", ")}` : "Every row fetched is a point of the chart."}>
-            {points.length === s.rows.length ? `${s.rows.length} rows` : `${points.length} of ${s.rows.length} rows`}
+            {points.length === s.rows.length ? `${s.rows.length} rows` : `${points.length} of ${s.rows.length} rows`}{hours ? ", one for each local hour of the day" : ""}
           </p>
         </>
       ) : null}
-      <details className="mt-2 text-sm" open={!chart || s.rows.length <= SHOWN}>
+      <details className="mt-2 text-sm" open={!chart || (s.rows.length <= SHOWN && !hours)}>
         <summary className="cursor-pointer text-muted">Table: {s.rows.length} rows</summary>
         <div className="overflow-x-auto">
           <table className="mt-1 w-full tabular-nums">

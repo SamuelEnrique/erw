@@ -173,8 +173,10 @@ await test("24 values are one series the page can show, and the judge's rule for
     assert.equal(done.series.length, 1, id);
     assert.equal(done.series[0].group_by, "hour_of_day");
     assert.deepEqual(done.series[0].rows.map((x) => [x.key, x.value]), r.out.result.map((x) => [x.hour_of_day, x.value]));
-    // the hours of a day are not points in time: the page shows them as a table of 24 rows, each row the row fetched
-    assert.deepEqual(done.series[0].check, { rows_fetched: 24, rows: 24, same: true, points: 0, not_drawn: 24 });
+    // session 161: the hours of a day are the 24 points of one line (the shared chart has an hour-of-day axis now), each
+    // point the row fetched; until then the page showed them as a table of 24 rows (points 0, not_drawn 24)
+    assert.deepEqual(done.series[0].check, { rows_fetched: 24, rows: 24, same: true, points: 24, not_drawn: 0 });
+    assert.equal(done.series[0].kind, "line");
     assert.deepEqual(judge({ kind: "chart" }, { status: "answered", answer: "The batteries charge at midday and discharge in the evening.", citations: draft.citations, series: done.series }), []);
   }
 });
@@ -441,7 +443,7 @@ await test("the model is shown the query with its three arguments, in compare's 
   assert.equal(JSON.stringify(spec.tools), before);                        // nothing is changed in place
   const q = more.find((t) => t.name === "query"), cmp = more.find((t) => t.name === "compare");
   for (const s of [q.input_schema, cmp.input_schema.properties.a, cmp.input_schema.properties.b]) {
-    assert.deepEqual(s.properties.day.enum, ["newest"]);
+    assert.deepEqual(s.properties.day.enum, ["newest", "this_week"]);   // session 161: the week now running, one call
     assert.equal(s.properties.date_column.type, "string");
     assert.ok(s.properties.group_by.description.includes('"hour_of_day"') && s.properties.group_by.description.startsWith(spec.tools.find((t) => t.name === "query").input_schema.properties.group_by.description));
     assert.equal(s.additionalProperties, false);

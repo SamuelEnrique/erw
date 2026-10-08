@@ -96,7 +96,7 @@ class TheComponent(unittest.TestCase):
     def test_a_chart_is_drawn_only_for_the_forms_that_call_for_one(self):
         c = src("site", "components", "ask", "AskPanel.tsx")
         self.assertIn('const chart = form !== "table" && isDrawn(s.kind, drawn);', c)
-        self.assertIn("chartPoints(s.rows)", c)
+        self.assertIn("chartPoints(s.rows, s.group_by)", c)   # session 161: the group says whether a key is a time or an hour of the day
         e = src("site", "lib", "chat", "ercot.ts")
         self.assertIn('const shows = legacy || form === "chart" || form === "table";', e)      # legacy: the reference loop's draft, which names no form
         self.assertIn("let ids = shows ? (", e)
