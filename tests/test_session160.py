@@ -582,7 +582,7 @@ class MergedByDomain(unittest.TestCase):
         names = [c["name"] for c in report["landscape"]["companies"]]
         self.assertEqual(names, ["Terra AI, Inc.", "XGS Energy"])            # Teverra LLC is not tied: its one line was a title
         row = report["landscape"]["companies"][0]
-        self.assertEqual(row["also"], ["Terra AI", "TerraAI (Terra AI)"])
+        self.assertEqual(row["also"], ["TerraAI (Terra AI)"])       # "Terra AI" differs from the name shown only by its legal form: not repeated
         self.assertNotIn("also", report["landscape"]["companies"][1])
         self.assertEqual([(x["name"], x["domains"], x["kind"]) for x in tied["merged_by_domain"]], [("Terra AI, Inc.", ["terraai.com"], "private company")])
         self.assertEqual([x["name"] for x in tied["titles_not_counted"]["list"] if x["name"] == "Teverra LLC"], ["Teverra LLC"])

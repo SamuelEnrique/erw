@@ -431,8 +431,11 @@ def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, l
             o["reason_vendor"] = best["vendor"]
         if best and best.get("kept"):                    # session 160: the sentence a reader is shown is from a page's last good text
             o["reason_kept"] = best["kept"]
-        if c.get("also"):                                # session 160: the company's other names, as written
-            o["also_written"] = list(c["also"])
+        # session 160: the company's other names, as written. A name that differs from the one shown only by its legal
+        # form or its punctuation ("Thermofilic" beside "Thermofilic, LLC") is the same name and is not repeated
+        also = [n for n in c.get("also") or [] if tie.name_key(n) != c["key"]]
+        if also:
+            o["also_written"] = also
         rows.append(o)
     held = sum(1 for p in (store.get("pages") or {}).values() if tie.page_holds(p))
     log(f"  the rule: {len(judged)} companies in the store of this niche ({len(store['rows'])} rows of {len(store['runs'])} runs, {len(store['sources'])} fetched sources, "
