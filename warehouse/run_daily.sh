@@ -335,6 +335,14 @@ soft_step ercot_storage_dam "$PYTHON" warehouse/scheduled.py ercot_storage_dam
 # requested. Both tables are in the live set's hold lists (warehouse/supabase/live_set.yaml): nothing here is loaded,
 # and no live page (/cost-of-power/battery, /network, /storage) reads either table.
 soft_step policy_monitor_refresh "$PYTHON" warehouse/connectors/policy_monitor_refresh.py
+# Session 157: the policy monitor's site files that follow the tables (site/data/policy/state_rules.json, refresh.json
+# with the refresh step's last run, action_tags.json), rebuilt after the refresh so that the "What changed this week"
+# view of /policy (in review) shows a row the day the step finds it. No request, no model, no table written. Never a
+# thinner file: a table that is not on the machine and cannot be rebuilt from the archive means nothing is written (a
+# skip); a file with fewer rows or reads than the one held is not written; a file that would only change its build
+# time is left as it is. No live page (/cost-of-power/battery, /network, /storage) reads any file under
+# site/data/policy. The commit step of the workflow adds site/data/policy.
+soft_step policy_monitor_site "$PYTHON" warehouse/derived/policy_monitor_site.py --daily
 # The other six (the hourly mix, the hub price comparison, demand growth, the curtailment profile, the project map and
 # ERCOT's large-load figures): the monthly job, warehouse/run_monthly.sh, with the first daily run on or after the third
 # day of each month (UTC: EIA-930's lag of a day or two is past, so the month before is whole; scheduled.py --monthly-due

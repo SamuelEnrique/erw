@@ -1,0 +1,138 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 54 (Friday, March 20, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 54 (Friday, March 20, 2026)]
+[Notices]
+[Pages 13644-13645]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-05489]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket No. 50-261; SEIS-429-00-000-1764730803; NRC-2025-0076]
+
+
+Duke Energy Progress, LLC; H.B. Robinson Steam Electric Plant, 
+Unit No. 2; Final Environmental Impact Statement
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice; issuance.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC, the Commission) 
+has published a final environmental impact statement (EIS), which is a 
+supplement to NUREG-1437 and is issued as ``Generic Environmental 
+Impact Statement for License Renewal of Nuclear Plants, Supplement 13, 
+Second Renewal, Regarding Subsequent License Renewal for H.B. Robinson 
+Steam Electric Plant, Unit No. 2, Final Report.'' This final EIS 
+evaluates the environmental impacts of the proposed subsequent license 
+renewal of Renewed Facility Operating License No. DRP-23 for an 
+additional 20 years of operation for H.B. Robinson Steam Electric 
+Plant, Unit No. 2 (RNP). RNP is located in Darlington County, South 
+Carolina, approximately 5 miles west-northwest of Hartsville, South 
+Carolina.
+
+DATES: ``Generic Environmental Impact Statement for License Renewal of 
+Nuclear Plants, Supplement 13, Second Renewal, Regarding Subsequent 
+License Renewal for H.B. Robinson Steam Electric Plant, Unit No. 2, 
+Final Report'' is available as of March 12, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2025-0076 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2025-0076. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#5210203b363537267c11272020333c123c20317c353d24"><span class="__cf_email__" data-cfemail="4200302b262527366c01373030232c022c30216c252d34">[email&#160;protected]</span></a>. For technical 
+questions contact the individual listed in the For Further Information 
+Contact section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may access publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#a6f6e2f488f4c3d5c9d3d4c5c3e6c8d4c588c1c9d0"><span class="__cf_email__" data-cfemail="401004126e1225332f35322325002e32236e272f36">[email&#160;protected]</span></a>. ``Generic Environmental Impact Statement for 
+License Renewal of Nuclear Plants, Supplement 13, Second Renewal, 
+Regarding Subsequent License Renewal for H.B. Robinson Steam Electric 
+Plant, Unit No. 2, Final Report'' is available in ADAMS under Accession 
+No. ML26062A118.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#f8a8bcaad6aa9d8b978d8a9b9db8968a9bd69f978e"><span class="__cf_email__" data-cfemail="7d2d392f532f180e12080f1e183d130f1e531a120b">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time, Monday through Friday, except Federal 
+holidays.
+    <bullet> Public Library: A copy of ``Generic Environmental Impact 
+Statement for License Renewal of Nuclear Plants, Supplement 13, Second 
+Renewal, Regarding Subsequent License Renewal for H.B. Robinson Steam 
+Electric Plant, Unit No. 2, Final Report'' will be available for public 
+review at the Hartsville Memorial Library, 147 West College Ave., 
+Hartsville, South Carolina 29550.
+
+FOR FURTHER INFORMATION CONTACT: Karen Loomis, Office of Nuclear 
+Material Safety and Safeguards, U.S. Nuclear Regulatory Commission, 
+Washington, DC 20555-0001; telephone: 301-415-5142; email: 
+<a href="/cdn-cgi/l/email-protection#9dd6fceff8f3b3d1f2f2f0f4eeddf3effeb3faf2eb"><span class="__cf_email__" data-cfemail="63280211060d4d2f0c0c0e0a10230d11004d040c15">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Background
+
+    In accordance with section 51.118 of title 10 of the Code of 
+Federal Regulations, ``Final environmental impact statement--notice of 
+availability,'' the NRC is making available for public inspection 
+``Generic Environmental Impact Statement for License Renewal of Nuclear 
+Plants, Supplement 13, Second Renewal, Regarding Subsequent License 
+Renewal for H.B. Robinson Steam Electric Plant, Unit No. 2, Final 
+Report'' regarding the proposed subsequent license renewal of Renewed 
+Facility Operating License No. DRP-23 for an additional 20 years of 
+operation for RNP. A notice of availability of the draft EIS was 
+published in the Federal Register (FR) on January 9, 2026 (91 FR 1007). 
+The U.S. Environmental Protection Agency also issued its notice of 
+availability of the draft EIS on January 9, 2026 (91 FR 997). The 
+public comment period on the draft EIS ended on February 23, 2026,
+
+[[Page 13645]]
+
+and the comments received on the draft EIS are addressed in the final 
+EIS.
+
+II. Discussion
+
+    The draft EIS was issued for public comment on January 9, 2026. The 
+final EIS addresses the comments received on the draft EIS. As 
+discussed in Chapter 4 of the final EIS, the NRC staff has determined 
+that the adverse environmental impacts of subsequent license renewal 
+for RNP (i.e., the continued operation of RNP for a period of 20 years 
+beyond the expiration date of the renewed license) are not so great 
+that preserving the option of subsequent license renewal for energy-
+planning decision-makers would be unreasonable. This recommendation is 
+based on: (1) the analysis and findings in NUREG-1437, Revision 2, 
+``Generic Environmental Impact Statement for License Renewal of Nuclear 
+Plants, Final Report,'' dated August 2024; (2) information provided in 
+the environmental report, and other documents submitted by Duke Energy 
+Progress, LLC; (3) the NRC staff's consultation with Federal, State, 
+and local governmental agencies and Indian Tribes; (4) the NRC staff's 
+independent environmental review; and (5) the NRC staff's consideration 
+of public comments received during the scoping process and on the draft 
+EIS.
+
+    Dated: March 16, 2026.
+
+    For the Nuclear Regulatory Commission.
+Kimyata Savoy,
+Acting Deputy Director, Division of Rulemaking, Environmental, and 
+Financial Support, Office of Nuclear Material Safety, and Safeguards.
+[FR Doc. 2026-05489 Filed 3-19-26; 8:45 am]
+BILLING CODE 7590-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

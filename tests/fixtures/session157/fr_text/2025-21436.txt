@@ -1,0 +1,285 @@
+<html>
+<head>
+<title>Federal Register, Volume 90 Issue 227 (Friday, November 28, 2025)</title>
+</head>
+<body><pre>
+[Federal Register Volume 90, Number 227 (Friday, November 28, 2025)]
+[Notices]
+[Pages 54766-54768]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2025-21436]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket No. 50-608; NRC-2021-0140]
+
+
+SHINE Technologies, LLC; SHINE Medical Isotope Production 
+Facility; Environmental Assessment and Finding of No Significant Impact
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice; issuance.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) is issuing an 
+environmental assessment (EA) and finding of no significant impact 
+(FONSI) regarding the SHINE Technologies, LLC (SHINE, the licensee) 
+request to amend Construction Permit No. CPMIF-001 for the SHINE 
+Medical Isotope Production Facility (SHINE facility) in Rock County, 
+Wisconsin. The amendment request seeks NRC approval to extend the 
+latest date for completion of the construction of the SHINE facility 
+from December 31, 2025, to December 31, 2029.
+
+DATES: The EA and FONSI referenced in this document are available on 
+November 28, 2025.
+
+ADDRESSES: Please refer to Docket ID NRC-2021-0140 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2021-0140. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#8dcfffe4e9eae8f9a3cef8ffffece3cde3ffeea3eae2fb"><span class="__cf_email__" data-cfemail="01437368656664752f42747373606f416f73622f666e77">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual listed in the For Further Information 
+Contact section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#bcecf8ee92eed9cfd3c9cedfd9fcd2cedf92dbd3ca"><span class="__cf_email__" data-cfemail="603024324e3205130f15120305200e12034e070f16">[email&#160;protected]</span></a>. For the convenience of the reader, 
+instructions about obtaining materials referenced in this document are 
+provided in the ``Availability of Documents'' section.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#164652443844736579636475735678647538717960"><span class="__cf_email__" data-cfemail="f1a1b5a3dfa394829e84839294b19f8392df969e87">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: Michael Balazik, Office of Nuclear 
+Reactor Regulation, U.S. Nuclear Regulatory Commission, Washington, DC 
+20555-0001; telephone: 301-415-2856; email: <a href="/cdn-cgi/l/email-protection#87caeee4efe6e2eba9c5e6ebe6fdeeecc7e9f5e4a9e0e8f1"><span class="__cf_email__" data-cfemail="bbf6d2d8d3daded795f9dad7dac1d2d0fbd5c9d895dcd4cd">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Introduction
+
+    The NRC is considering issuance of an amendment to Construction 
+Permit No. CPMIF-001, issued to SHINE for the construction of the SHINE 
+facility in Rock County, Wisconsin. SHINE requested the amendment by 
+letter dated August 14, 2025, in accordance with section 50.90 of title 
+10 of the Code of Federal Regulations (10 CFR), ``Application for 
+amendment of license, construction permit, or early site permit,'' and 
+10 CFR 50.55(b). The amendment would extend the latest date for 
+completion of the construction of the SHINE facility from December 31, 
+2025, to December 31, 2029.
+    In accordance with 10 CFR 51.21, ``Criteria for and identification 
+of
+
+[[Page 54767]]
+
+licensing and regulatory actions requiring environmental assessments,'' 
+the NRC prepared an EA, pursuant to 10 CFR 51.30, ``Environmental 
+assessment,'' that analyzes the environmental impacts of the proposed 
+amendment and alternatives, as appropriate. Based on the results of 
+this EA, which is set forth in section II of this document, and in 
+accordance with 10 CFR 51.31(a), the NRC has determined not to prepare 
+an environmental impact statement for the proposed amendment and is 
+issuing a FONSI, which is set forth in section III of this document.
+
+II. Environmental Assessment
+
+Description of the Proposed Action
+
+    The proposed action would amend Construction Permit No. CPMIF-001 
+to extend the latest date for completion of the construction of the 
+SHINE facility from December 31, 2025, to December 31, 2029. The 
+proposed action is requested in the licensee's application dated August 
+14, 2025.
+    The proposed action would not allow any work to be performed that 
+is not already authorized by the construction permit. The proposed 
+action would grant SHINE more time to complete the construction of the 
+SHINE facility in accordance with the construction permit.
+
+Need for the Proposed Action
+
+    SHINE completed a review of the construction schedule for the SHINE 
+facility and determined that construction will not be completed by 
+December 31, 2025, the latest date for completion of the construction 
+of the SHINE facility prescribed by the construction permit. SHINE 
+stated that developmental effort delays have occurred due to the first-
+of-a-kind nature of the SHINE facility, including efforts contributing 
+to engineering detailed design progression, procurement of unique and 
+one-of-a-kind components, construction of a first-of-a-kind facility, 
+and progression of an operating license application that has no 
+precedent. SHINE now expects the construction of the SHINE facility to 
+be substantially completed in 2027, and the remaining uncompleted items 
+of construction completed in 2029. To accommodate this construction 
+schedule and to incorporate conservatism, SHINE is requesting to extend 
+the latest date for completion of the construction of the SHINE 
+facility to December 31, 2029.
+    The NRC regulation in 10 CFR 50.55(b) states that upon good cause 
+shown, the Commission will extend the completion date for a reasonable 
+period of time and that the Commission will recognize, among other 
+things, ``developmental problems attributable to the experimental 
+nature of the facility or fire, flood, explosion, strike, sabotage, 
+domestic violence, enemy action, an act of the elements, and other acts 
+beyond the control of the permit holder,'' as a basis for extending the 
+completion date.
+
+Environmental Impacts of the Proposed Action
+
+    The NRC has completed its environmental review of the proposed 
+action and concludes that there are no significant environmental 
+impacts associated with the proposed action.
+    The proposed action would only extend the period of construction 
+activities already authorized by the construction permit and would not 
+authorize any new construction activities, any additional land 
+disturbance, or any modifications to the facility from the terms in the 
+construction permit.
+    In 2015, the NRC evaluated the environmental impacts associated 
+with constructing, operating, and decommissioning the SHINE facility in 
+NUREG-2183, ``Environmental Impact Statement for the Construction 
+Permit for the SHINE Medical Radioisotope Production Facility.'' NUREG-
+2183 concluded that the environmental impacts associated with the 
+construction of the SHINE facility would be small for all resource 
+areas with the exception of traffic, which would incur moderate 
+impacts. In 2022, the NRC issued NUREG-2183, Supplement 1, 
+``Environmental Impact Statement Related to the Operating License for 
+the SHINE Medical Isotope Production Facility: Draft Report for 
+Comment,'' which updated NUREG-2183 and only covered matters that 
+differ from those or that reflect significant new information relative 
+to that discussed in NUREG-2183. NUREG-2183, Supplement 1 considered 
+any different information since NUREG-2183 and concluded that there is 
+no significant new information with respect to the environmental 
+impacts of the SHINE facility.
+    In May 2019, SHINE commenced site-preparation work and NRC-
+authorized construction of the exterior of the SHINE facility. SHINE 
+completed the construction of the main production facility building in 
+March 2021. Therefore, most of the construction impacts discussed in 
+NUREG-2183 and NUREG-2183, Supplement 1 have already occurred. Since 
+the proposed action would only extend the period of already authorized 
+construction activities, it does not involve any different impacts or 
+significant changes to those impacts described and analyzed in the 
+previous environmental documents. Therefore, there would be no 
+significant non-radiological or radiological environmental impacts 
+associated with the proposed action. Specifically:
+    <bullet> The proposed action would not result in additional worker 
+vehicles, additional truck deliveries, new land disturbance, new 
+construction, or modification of the SHINE facility from what was 
+previously assessed in NUREG-2183 and NUREG-2183, Supplement 1.
+    <bullet> No changes to the facility's Wisconsin Pollutant Discharge 
+Elimination System permit are needed.
+    <bullet> There would be no changes to the types or quantity of non-
+radiological effluents previously assessed in NUREG-2183 and NUREG-
+2183, Supplement 1.
+    <bullet> The proposed action would not represent a change in the 
+types or quantity of radioactive materials in effluents, wastes, and 
+products of the SHINE facility.
+    <bullet> SHINE must continue to comply with occupational dose 
+limits for adults (10 CFR part 20, subpart C) and radiation dose limits 
+for individual members of the public (10 CFR part 20, subpart D) at all 
+times.
+    <bullet> The proposed action would not have a significant adverse 
+effect on the probability of an accident occurring.
+
+Environmental Impacts of the Alternatives to the Proposed Action
+
+    As an alternative to the proposed action, the NRC staff considered 
+denial of the proposed action (i.e., the ``no-action'' alternative). 
+Denial of the amendment request would result in the licensee being 
+unable to complete construction and begin operation of the SHINE 
+facility. However, because the direct impacts on land use and water 
+resources from construction have largely already occurred and because 
+the remaining construction, operating, and decommissioning impacts 
+would generally be small as evaluated in NUREG-2183 and NUREG-2183, 
+Supplement 1, the environmental impacts of the proposed action and the 
+alternative action are similar.
+
+Alternative Use of Resources
+
+    There are no unresolved conflicts concerning alternative uses of 
+available resources under the proposed action. The proposed action does 
+not involve the use of any resources not previously considered in 
+NUREG-2183 and NUREG-2183, Supplement 1.
+
+[[Page 54768]]
+
+Agencies and Persons Consulted
+
+    No additional agencies or persons were consulted regarding the 
+environmental impact of the proposed action. On November 17, 2025, the 
+NRC notified the Wisconsin Department of Health Services of the EA and 
+FONSI. The state provided no comments. The NRC staff determined that 
+the proposed action would have no effect on Federally listed threatened 
+or endangered species or critical habitat that could occur on or near 
+the SHINE facility site and would have no effect on any historic 
+properties. Therefore, consultation was not required under section 7 of 
+the Endangered Species Act of 1973, as amended, or under section 106 of 
+the National Historic Preservation Act of 1966, as amended.
+
+III. Finding of No Significant Impact
+
+    The proposed action is the issuance of an amendment to SHINE 
+Construction Permit No. CPMIF-001 to extend the latest date for 
+completion of the construction of the SHINE facility from December 31, 
+2025, to December 31, 2029. Consistent with 10 CFR 51.21, the NRC 
+prepared an EA to determine the impacts of the proposed action. On the 
+basis of the EA included in section II of this document and 
+incorporated by reference in this finding, the NRC concludes that the 
+proposed action would not have a significant adverse effect on the 
+probability of an accident occurring and would not have any significant 
+radiological or non-radiological impacts. Therefore, the NRC concludes 
+that the proposed action will not have a significant effect on the 
+quality of the human environment. Accordingly, the NRC has determined 
+not to prepare an environmental impact statement for the proposed 
+action.
+    Other than the application dated August 14, 2025, the related 
+environmental documents are NUREG-2183, ``Environmental Impact 
+Statement for the Construction Permit for the SHINE Medical 
+Radioisotope Production Facility,'' and NUREG-2183, Supplement 1, 
+``Environmental Impact Statement Related to the Operating License for 
+the SHINE Medical Isotope Production Facility: Draft Report for 
+Comment,'' which provide the latest environmental review of the 
+construction, operation, and decommissioning of the SHINE facility and 
+description of the environmental conditions at the SHINE facility site.
+    This EA and FONSI and other related documents are accessible online 
+in the ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. Persons who do not have access to ADAMS or who 
+encounter problems in accessing the documents located in ADAMS should 
+contact the NRC's PDR reference staff at 1-800-397-4209 or 301-415-
+4737, or by email to <a href="/cdn-cgi/l/email-protection#6a3a2e3844380f19051f18090f2a041809440d051c"><span class="__cf_email__" data-cfemail="247460760a7641574b51564741644a56470a434b52">[email&#160;protected]</span></a>.
+
+IV. Availability of Documents
+
+    The documents identified in the following table are available to 
+interested persons through ADAMS, as indicated.
+
+------------------------------------------------------------------------
+                   Document                       ADAMS accession No.
+------------------------------------------------------------------------
+NUREG-2183, ``Environmental Impact Statement   ML15288A046
+ for the Construction Permit for the SHINE
+ Medical Radioisotope Production Facility,''
+ dated October 2015.
+NUREG-2183, Supplement 1, ``Environmental      ML22179A346
+ Impact Statement Related to the Operating
+ License for the SHINE Medical Isotope
+ Production Facility: Draft Report for
+ Comment,'' dated June 2022.
+Construction Permit No. CPMIF-001 for the      ML16041A471
+ SHINE Medical Isotope Production Facility,
+ dated February 29, 2016.
+SHINE Medical Technologies, LLC--Issuance of   ML22292A319
+ Order and Amendment No. 3 to Construction
+ Permit No. CPMIF-001, dated November 30,
+ 2022.
+SHINE Technologies, LLC Request to Amend       ML25226A150
+ Construction Permit No. CPMIF-001, dated
+ August 14, 2025.
+---------------------------------------------------

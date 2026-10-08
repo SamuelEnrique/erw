@@ -24,7 +24,9 @@
       "EPA",
       "NRC",
       "BLM",
-      "Interior"
+      "Interior",
+      "Treasury",
+      "IRS"
     ],
     "state": [
       "PUCT",
@@ -431,7 +433,7 @@
     },
     {
       "version": "3",
-      "what": "Session 157. The terms, the exclusions and the listed dockets are those of version 2, unchanged. The one change: the rule now also reads 'first_paragraph', the first paragraph of the action's printed text in the Federal Register (policy_sources.py reads each document's printed text once), because a FERC notice has no abstract in the Register's record and its title is often only the parties' names. The municipal phrases, each tag's exclusions and 'needs_any' are read across the three fields. The site applies this same file to the rows it reads (site/data/policy/tag_rules.json is a byte-for-byte copy)."
+      "what": "Session 157. The terms, the exclusions and the listed dockets are those of version 2, unchanged. Two changes. (a) The rule now also reads 'first_paragraph', the first paragraph of the action's printed text in the Federal Register (policy_sources.py reads each document's printed text once), because a FERC notice has no abstract in the Register's record and its title is often only the parties' names. The municipal phrases, each tag's exclusions and 'needs_any' are read across the three fields. (b) The agencies in scope gain the Treasury Department and the Internal Revenue Service ('Treasury', 'IRS'): session 154 found the tag tax_credit matched nothing because no Treasury or IRS source was held, and policy_sources.py now lists the two agencies' Federal Register documents on energy. The site applies this same file to the rows it reads (site/data/policy/tag_rules.json is a byte-for-byte copy)."
     }
   ],
   "dockets": {

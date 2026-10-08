@@ -11,6 +11,16 @@ site/data/policy/, each whole, by rename. Method: docs/methods/policy_monitor.md
     python warehouse/derived/policy_monitor_site.py --in-dir ... --last-run FILE      # the refresh step's last run
     python warehouse/derived/policy_monitor_site.py --in-dir ... --cases FIXTURE --cases-full FILE
                                                     # also the tag cases both the Python and the page's rule are held to
+    python warehouse/derived/policy_monitor_site.py --daily
+                                                    # the daily run's soft step, after policy_monitor_refresh: the three
+                                                    # files that follow the tables (state_rules, refresh, action_tags)
+
+The daily step never writes a thinner file. The tables are read from warehouse/output; on a machine without the
+three large-load tables (GitHub's runner) each is first rebuilt from the ERW's archive, and if one is still missing
+nothing is written (a skip, with the reason). A state file with fewer rows, or fewer reads, than the one held is not
+written (the step fails and says so). action_tags.json is written only from a policy_actions that has the column
+first_paragraph. A file whose content is the same apart from its build time and day is left as it is, so a day with
+nothing new commits nothing. No live page (/cost-of-power/battery, /network, /storage) reads any of these files.
 
 The files (the first --in-dir that holds a table wins):
     tag_rules.json     a byte-for-byte copy of warehouse/config/policy_tag_rules.json: the page applies the same rule
@@ -57,7 +67,22 @@ def now_iso():
     return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def write_whole(path, obj):
+def same_but_time(path, obj):
+    """True when the file held has the content of obj apart from built_at_utc and as_of."""
+    if not os.path.exists(path):
+        return False
+    try:
+        with open(path, encoding="utf-8") as f:
+            old = json.load(f)
+    except ValueError:
+        return False
+    strip = lambda d: {k: v for k, v in d.items() if k not in ("built_at_utc", "as_of")}
+    return isinstance(old, dict) and strip(old) == strip(json.loads(json.dumps(obj)))
+
+
+def write_whole(path, obj, keep_if_same=False):
+    if keep_if_same and same_but_time(path, obj):
+        return False
     os.makedirs(os.path.dirname(path), exist_ok=True)
     text = json.dumps(obj, indent=1, ensure_ascii=False) + "\n"
     if EM in text:
@@ -65,6 +90,60 @@ def write_whole(path, obj):
     with open(path + ".tmp", "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
     os.replace(path + ".tmp", path)
+    return True
+
+
+DAILY_TABLES = ["large_load_rules", "large_load_rules_internal", "large_load_rule_reads"]
+
+
+def daily(out_dir, today, in_dirs=None, last_run=None):
+    """The daily run's soft step (see the module's note): returns the exit code. in_dirs (a trial, a test): the
+    tables are read from there and nothing is rebuilt from the archive."""
+    import subprocess
+    import iso_prices as ip
+    skip = int(os.environ.get("ERW_SKIP_EXIT", "75"))
+    held = lambda t: rim.find(t, in_dirs) if in_dirs else (os.path.join(ip.OUT_DIR, t + ".csv") if os.path.exists(os.path.join(ip.OUT_DIR, t + ".csv")) else None)
+    for t in DAILY_TABLES:
+        path = os.path.join(ip.OUT_DIR, t + ".csv")
+        if not in_dirs and not os.path.exists(path):
+            print(f"policy_monitor_site: {t} is not on this machine; rebuilding it from the archive (erw-archive)")
+            r = subprocess.run([sys.executable, os.path.join(ROOT, "warehouse", "archive", "restore.py"), t, "--from-bucket",
+                                "--out", path], cwd=ROOT)
+            if r.returncode != 0 and os.path.exists(path):
+                os.remove(path)   # a rebuild that did not finish is not an input
+    missing = [t for t in DAILY_TABLES if not held(t)]
+    if missing:
+        print(f"policy_monitor_site SKIPPED: {', '.join(missing)} not on this machine and not rebuilt from the archive; "
+              "no file is written (a thinner file is never written)")
+        return skip
+    dirs, rules, done = (in_dirs or [ip.OUT_DIR]), pat.load_rules(RULES), []
+    obj = state_rules(dirs, today)
+    path = os.path.join(out_dir, "state_rules.json")
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            old = json.load(f)
+        was, now = len(old["rows"]), len(obj["rows"])
+        was_r, now_r = sum(1 for r in old["rows"] if r.get("read")), sum(1 for r in obj["rows"] if r.get("read"))
+        if now < was or now_r < was_r:
+            raise RuntimeError(f"state_rules.json would be thinner ({now} rows, {now_r} with a read) than the file held "
+                               f"({was} rows, {was_r} with a read); nothing is written")
+    done.append(f"state_rules.json ({len(obj['rows'])} rows): "
+                + ("written" if write_whole(path, obj, keep_if_same=True) else "unchanged, left as it is"))
+    obj = refresh_file(last_run or os.path.join(ip.RAW_DIR, "policy_monitor_refresh", "last_run.json"))
+    if obj is not None:
+        done.append("refresh.json: " + ("written" if write_whole(os.path.join(out_dir, "refresh.json"), obj, keep_if_same=True)
+                                        else "unchanged, left as it is"))
+    apath = rim.find("policy_actions", dirs)
+    if apath and "first_paragraph" in pat.read_events(apath).columns:
+        obj, _ = action_tags(dirs, rules)
+        done.append(f"action_tags.json ({obj['actions_tagged']} of {obj['actions_read']} actions tagged): "
+                    + ("written" if write_whole(os.path.join(out_dir, "action_tags.json"), obj, keep_if_same=True)
+                       else "unchanged, left as it is"))
+    else:
+        done.append("action_tags.json left as it is: policy_actions is not on this machine or has no first_paragraph yet")
+    for d in done:
+        print("policy_monitor_site:", d)
+    return 0
 
 
 def copy_rules(out_dir):
@@ -210,10 +289,13 @@ def main(argv=None):
     ap.add_argument("--cases", help="also write the tag cases (the fixture both rules are held to) to this file")
     ap.add_argument("--cases-full", help="also write every action held as a case to this file (not for git)")
     ap.add_argument("--only", help="comma separated: tag_rules, action_tags, grids, state_rules, refresh")
+    ap.add_argument("--daily", action="store_true", help="the daily run's soft step (see the module's note)")
     args = ap.parse_args(argv)
     dirs = [os.path.abspath(d) for d in args.in_dir]
     out_dir = os.path.abspath(args.out_dir) if args.out_dir else SITE_DIR
     today = dt.date.fromisoformat(args.today) if args.today else dt.datetime.now(dt.timezone.utc).date()
+    if args.daily:
+        return daily(out_dir, today, dirs or None, args.last_run)
     only = set(args.only.split(",")) if args.only else {"tag_rules", "action_tags", "grids", "state_rules", "refresh"}
     rules = pat.load_rules(RULES)
     done = []

@@ -1,0 +1,275 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 29 (Thursday, February 12, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 29 (Thursday, February 12, 2026)]
+[Proposed Rules]
+[Pages 6604-6608]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-02830]
+
+
+
+[[Page 6604]]
+
+-----------------------------------------------------------------------
+
+ENVIRONMENTAL PROTECTION AGENCY
+
+40 CFR Part 62
+
+[EPA-R03-OAR-2025-0043; FRL-11453-01-R3]
+
+
+Partial Approval and Promulgation of State Plan for Designated 
+Facilities and Pollutants; West Virginia; Control of Emissions From 
+Existing Commercial and Industrial Solid Waste Incineration (CISWI) 
+Units, Plan Revision
+
+AGENCY: Environmental Protection Agency (EPA).
+
+ACTION: Proposed rule.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The Environmental Protection Agency (EPA) is proposing to 
+partially approve revisions to the state plan for designated facilities 
+and pollutants applicable to existing Commercial and Industrial Solid 
+Waste Incineration (CISWI) units in the State of West Virginia (``West 
+Virginia''). This proposed action will partially approve West 
+Virginia's revisions to its state plan to include rules implementing 
+the EPA's amended emission guidelines for CISWI units developed under 
+sections 111(d) and 129 of the Clean Air Act (CAA). The EPA is 
+proposing to approve the state plan in part and to amend the agency 
+regulations in accordance with the requirements of the CAA.
+
+DATES: Written comments must be received on or before March 16, 2026.
+
+ADDRESSES: Submit your comments, identified by Docket ID No. EPA-R03-
+OAR-2025-0043 at <a href="http://www.regulations.gov">www.regulations.gov</a>, or via email to 
+<a href="/cdn-cgi/l/email-protection#0a7e6b66666f73246e6b7c636e4a6f7a6b246d657c"><span class="__cf_email__" data-cfemail="0f7b6e63636a76216b6e79666b4f6a7f6e21686079">[email&#160;protected]</span></a>. For comments submitted at <a href="http://Regulations.gov">Regulations.gov</a>, follow 
+the online instructions for submitting comments. Once submitted, 
+comments cannot be edited or removed from <a href="http://Regulations.gov">Regulations.gov</a>. For either 
+manner of submission, the EPA may publish any comment received to its 
+public docket. Do not submit electronically any information you 
+consider to be confidential business information (CBI) or other 
+information whose disclosure is restricted by statute. Multimedia 
+submissions (audio, video, etc.) must be accompanied by a written 
+comment. The written comment is considered the official comment and 
+should include discussion of all points you wish to make. The EPA will 
+generally not consider comments or comment contents located outside of 
+the primary submission (i.e., on the web, cloud, or other file sharing 
+system). For additional submission methods, please contact the person 
+identified in the For Further Information Contact section. For the full 
+EPA public comment policy, information about CBI or multimedia 
+submissions, and general guidance on making effective comments, please 
+visit <a href="http://www.epa.gov/dockets/commenting-epa-dockets">www.epa.gov/dockets/commenting-epa-dockets</a>.
+
+FOR FURTHER INFORMATION CONTACT: Krystal Stankunas, Permits Branch 
+(3AD10), Air and Radiation Division, U.S. Environmental Protection 
+Agency, Region III, 1600 John F. Kennedy Blvd., Philadelphia, 
+Pennsylvania 19103 at (215) 814-5271 or by email at 
+<a href="/cdn-cgi/l/email-protection#2c5f584d424759424d5f02475e555f584d406c495c4d024b435a"><span class="__cf_email__" data-cfemail="a8dbdcc9c6c3ddc6c9db86c3dad1dbdcc9c4e8cdd8c986cfc7de">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Background
+
+    The CAA section 129 requires the EPA to promulgate performance 
+standards and emission guidelines pursuant to CAA section 111(d) for 
+all categories of existing solid waste incineration units, including 
+CISWI units to control certain pollutants (particulate matter, opacity 
+(as applicable), carbon monoxide, dioxins/furans, sulfur dioxide, 
+nitrogen oxides, hydrogen chloride, lead, mercury, and cadmium). State 
+regulatory agencies implement the emission guidelines and compliance 
+times using a state plan developed under CAA sections 111(d) and 129. 
+Section 111(d) of the CAA establishes general requirements and 
+procedures on state plan submittals for the control of designated 
+pollutants. The regulations at 40 Code of Federal Regulations (CFR) 
+part 60, subpart B sets forth the procedures for adoption and submittal 
+of the state plan. Section 129(b)(2) of the CAA mandates that all state 
+plan requirements be at least as protective as the promulgated emission 
+guidelines. The state plan requirements implementing the emission 
+guidelines become federally enforceable upon approval by the EPA. Such 
+plan includes fixed final compliance dates, fixed compliance schedules, 
+and title V permitting requirements for all affected sources. Section 
+129(b)(2) of the CAA also requires that state plans be submitted to the 
+EPA within one year after the EPA's promulgation of the emission 
+guidelines and compliance times. Under CAA section 129(b)(3), if a 
+state does not submit an approvable state plan within two years after 
+the promulgation of the emission guidelines, the Federal plan applies 
+in that state until the state has an approved state plan.
+    On December 1, 2000, the EPA promulgated new source performance 
+standards (NSPS) and emission guidelines to reduce air pollution from 
+CISWI units, which are codified at 40 CFR part 60, subparts CCCC and 
+DDDD, respectively. See 65 FR 75338. EPA finalized emission limitations 
+for CISWI units and definitions for Non-Hazardous Secondary Materials 
+(NHSM) that are Solid Waste, both under the same publication (February 
+7, 2013, 78 FR 9112). This 2013 document reflects the EPA's revisions 
+to the CISWI rule originally published at 76 FR 15704 on March 21, 
+2011, resulting from the EPA's reconsideration of certain issues after 
+further public comments. The 2013 document also included final 
+amendments to the NHSM rule. The definition of solid waste in the NHSM 
+rule determines whether a particular incinerator is covered under 
+another incinerator rule. Subsequently, the EPA received petitions to 
+further reconsider certain provisions of the 2013 NSPS and emission 
+guidelines for CISWI units. On January 21, 2015, the EPA granted 
+reconsideration on four specific issues, and it finalized 
+reconsideration of those issues on June 23, 2016. See 81 FR 40956. On 
+April 16, 2019, 84 FR 15846, the EPA clarified and corrected the June 
+23, 2016 CISWI rules regarding: (1) an alternative equivalent emission 
+limit for mercury (Hg) for waste-burning kilns, (2) timing of initial 
+test and initial performance evaluation, (3) extension of electronic 
+data reporting requirement, (4) non-delegated authorities, (5) 
+demonstrating initial and continuous compliance when using a continuous 
+emissions monitoring system (CEMS), (6) continuous opacity monitoring 
+requirements, (7) other CEMS requirements, (8) clarification about 
+reduced testing requirements, (9) deviation reporting requirements for 
+continuous monitoring data, and (10) clarification of air curtain 
+incinerator requirements (ACI), as well as corrections to typographical 
+errors. On October 7, 2020, 85 FR 63394. EPA updated regulations for 
+source testing of emissions, which included revisions to 40 CFR part 60 
+subpart DDDD. The regulations at 40 CFR part 60, subpart DDDD sets 
+forth the emission guidelines for existing CISWIs which include the 
+model rule.\1\
+---------------------------------------------------------------------------
+
+    \1\ 40 CFR 60.2560 explains that the model rule provisions are 
+the portion of the emission guidelines that address regulatory 
+requirements applicable to existing CISWIs.
+---------------------------------------------------------------------------
+
+    On December 11, 2024 (89 FR 100092), EPA published the Federal plan 
+for existing CISWI units. The CISWI Federal plan applies to those 
+states that do not have an approved state plan for existing CISWIs in 
+place by January 10, 2025. See 89 FR 100092 at 100095. Furthermore, if 
+a state plan is partially approved,\2\ the Federal plan
+
+[[Page 6605]]
+
+applies to affected CISWI units in lieu of the remaining portions of 
+the state plan until the state has a fully approved state plan. See 89 
+FR 100092 at 100095.
+---------------------------------------------------------------------------
+
+    \2\ EPA may partially approve a state plan per 40 CFR 60.27(c).
+---------------------------------------------------------------------------
+
+    The EPA approved the initial West Virginia CISWI plan, and related 
+state rule, (WV title 45, Code of State Rules, chapter 18 (WV45CSR18)), 
+effective June 10, 2003 (68 FR 17738, April 11, 2003). The state plan 
+approval is codified in 40 CFR part 62, subpart XX. On May 11, 2009, 
+the West Virginia Department of Environmental Protection (WVDEP) 
+submitted to the EPA a formal 111(d)/129 state plan revision for CISWI 
+units as part of an effort to streamline and consolidate applicable CAA 
+section 129 incinerator regulatory requirements under one state rule, 
+WV45CSR18. This revision and related state rule were approved by the 
+EPA effective October 2, 2009 (74 FR 38344, August 3, 2009).
+    On May 1, 2023, WVDEP submitted to the EPA a plan revision request 
+\3\ in response to amendments to the existing CISWI emission guidelines 
+at 40 CFR part 60, subpart DDDD, Emission Guidelines and Compliance 
+Times for Commercial and Industrial Solid Waste Incineration Units (84 
+FR 15846, April 16, 2019) and amendments to Test Methods and 
+Performance Specifications for Air Emission Sources which included 
+revisions to 40 CFR part 60 subpart DDDD (85 FR 63394, October 7, 
+2020). The state rule revision to WV45CSR18 adopted language equivalent 
+to that of the model rule \4\ in order to meet the emission guidelines 
+criteria and became effective on April 1, 2022.\5\ As discussed in more 
+detail in the next section, it was discovered that along with an 
+inconsistent assumption of authority reserved to the EPA Administrator 
+at WV45CSR18 section 9.6.l. and a few errors found in WV45CSR18 section 
+9.13.b and table 45-18M, that sections 9.7.g.2 and 9.7.j.2 had not 
+accounted for the amendments to the EPA Method 23-Determination of 
+Polychlorinated Dibenzo-p-Dioxins and Polychlorinated Dibenzofurans 
+from Stationary Sources which included revisions to 40 CFR part 60 
+subpart DDDD (88 FR 16732, March 20, 2023).
+---------------------------------------------------------------------------
+
+    \3\ On December 10, 2024, WVDEP also submitted a commitment 
+letter as a supplement to the state's May 1, 2023 plan revision 
+request. This letter is included in the docket and discussed below.
+    \4\ In fact, the language of West Virginia's CISWI regulations 
+is nearly the same as the language of the model rule.
+    \5\ The version of WV45CSR18 that the state submitted to the EPA 
+on May 1, 2023 also includes rules related to other incinerator 
+categories such as large municipal waste combustors, small municipal 
+waste combustion units, hospital/medical/infectious waste 
+incinerators, other solid waste incineration units, and sewage 
+sludge incineration units. The portions of WV45CSR18 related to 
+these categories are outside the scope of this proposed approval 
+which is limited to the state plan for existing CISWIs.
+---------------------------------------------------------------------------
+
+II. Analysis of State Submittal
+
+    The emission guidelines and compliance times are codified in 40 CFR 
+part 60, subpart DDDD. Federal regulations require that state plans 
+must contain specific information and the legal mechanisms necessary to 
+implement the emission guidelines and compliance times. Under 40 CFR 
+60.2515 and CAA section 129(b), the specific requirements are as 
+follows:
+    <bullet> Inventory of affected CISWI units, including those that 
+have ceased operation but have not been dismantled.
+    <bullet> Inventory of emissions from affected CISWI units in West 
+Virginia.\6\
+---------------------------------------------------------------------------
+
+    \6\ The EPA's June 2003 approval of West Virginia's CISWI plan 
+identified E.I. Du Pont de Nemours and Company, Washington Works 
+(``DuPont'') located in Wood County, West Virginia as the state's 
+only existing CISWI source. West Virginia's May 1, 2023 submittal of 
+its state plan revision continues to identify the same facility as 
+operating the only CISWI unit, only now it is known as The Chemours 
+Company FC, LLC, Washington Works.
+---------------------------------------------------------------------------
+
+    <bullet> Compliance schedules for each affected CISWI unit with a 
+final compliance date no later than February 7, 2018 or three (3) years 
+after the effective date of state plan approval, whichever is earlier.
+    <bullet> Emission limitations, operator training and qualification 
+requirements, a waste management plan, and operating limits for 
+affected CISWI units that are at least as protective as the emission 
+guidelines contained in subpart DDDD.
+    <bullet> Performance testing, recordkeeping, and reporting 
+requirements.
+    <bullet> Certification that the hearing on the state plan was held, 
+a list of witnesses and organizational affiliations, if any, appearing 
+at the hearing, and a brief written summary of each presentation or 
+written submission.
+    <bullet> Provision for State progress reports to EPA.
+    <bullet> Identification of enforceable State mechanisms selected 
+for implementing the emission guidelines of subpart DDDD.
+    <bullet> Demonstration of West Virginia's legal authority to carry 
+out the CAA sections 111(d) and 129 state plan.
+    West Virginia's May 1, 2023 state plan revision established 
+operating and emission limits for existing CISWI units and provided 
+mechanisms for the implementation and enforcement of those limits. West 
+Virginia adopted the emission limits, testing, monitoring, reporting 
+and recordkeeping requirements, and other aspects of the model rule for 
+existing CISWI units. The state plan revision addressed increments of 
+progress, operator training, initial and continuous compliance 
+requirements, title V requirements, and ACI requirements. The state 
+plan revision also included definitions and a waste management plan 
+from the model rule. The EPA is proposing to approve West Virginia rule 
+WV45CSR18 sections 2 (specifically 2.1-2.13, 2.16, 2.18, 2.19-2.27), 9, 
+and 13.3 and tables 45CSR18E through 18M as containing the applicable 
+requirements that are as protective as 40 CFR part 60, subpart DDDD 
+with the exception of provisions discussed below.
+    Certain provisions of WV45CSR18 are not as protective as the 
+emission guidelines. Three of these provisions cause the state plan to 
+be less stringent as a result of errors found in West Virginia's 
+regulations or as a result of the intervening amendment to the emission 
+guidelines described above in section I of this preamble. For these 
+three provisions in the state plan revision which the EPA is not 
+proposing to include in the approval, the corresponding Federal plan 
+provisions will apply until West Virginia submits and the EPA approves 
+a fully approvable state plan. 40 CFR 60.2525(b).
+    There is a fourth provision which is inconsistent with certain 
+requirements of 40 CFR part 60, subpart DDDD. This provision could be 
+read to give authority that is reserved to the EPA Administrator to 
+WVDEP's Secretary instead. WVDEP has addressed this inconsistency via a 
+commitment letter dated December 10, 2024 which is discussed below, and 
+thus the provision in question is included in the proposed partial 
+approval.
+    

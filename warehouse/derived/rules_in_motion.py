@@ -216,6 +216,10 @@ def held_rows(dirs, cutoff, notes):
     for aid, g in tags.groupby("action_event_id", sort=False):
         a = by.loc[aid].to_dict()
         a["event_id"] = aid
+        if a["agency"] in ("Treasury", "IRS"):   # session 157: the tax credits are in the policy monitor's view, not here
+            k = "a Treasury or IRS action held (tax credits: shown in the policy monitor, not in this block)"
+            off[k] = off.get(k, 0) + 1
+            continue
         if a["agency"] not in FEDERAL:
             off["a state commission's news release held (in the tags table; the block shows a state's dockets, not its releases)"] = \
                 off.get("a state commission's news release held (in the tags table; the block shows a state's dockets, not its releases)", 0) + 1

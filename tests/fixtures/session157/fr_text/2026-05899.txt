@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 58 (Thursday, March 26, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 58 (Thursday, March 26, 2026)]
+[Notices]
+[Pages 14689-14690]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-05899]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+DEPARTMENT OF ENERGY
+
+
+Energy Conservation Program for Consumer Products: Representative 
+Average Unit Costs of Energy
+
+AGENCY: Office of Critical Minerals and Energy Innovation, Department 
+of Energy.
+
+ACTION: Notice.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Department of Energy (DOE) forecasts the 
+representative average unit costs of five residential energy sources 
+for the year 2025 pursuant to the Energy Policy and Conservation Act 
+(Act). The five sources are electricity, natural gas, No. 2 heating 
+oil, propane, and kerosene.
+
+DATES: The representative average unit costs of energy contained in 
+this notice will become effective April 27, 2026 and will remain in 
+effect until further notice.
+
+FOR FURTHER INFORMATION CONTACT: 
+    Mr. Troy Watson, U.S. Department of Energy, Office of Critical 
+Minerals and Energy Innovation, EE-5B, 1000 Independence Avenue SW, 
+Washington, DC 20585-0121, Telephone: (202) 449-9387, Email: 
+<a href="/cdn-cgi/l/email-protection#d392a3a3bfbab2bdb0b680a7b2bdb7b2a1b7a082a6b6a0a7babcbda093b6b6fdb7bcb6fdb4bca5"><span class="__cf_email__" data-cfemail="9bdaebebf7f2faf5f8fec8effaf5fffae9ffe8caeefee8eff2f4f5e8dbfefeb5fff4feb5fcf4ed">[email&#160;protected]</span></a>.
+    Mr. Peter Cochran, U.S. Department of Energy, Office of General 
+Counsel, GC-33, 1000 Independence Avenue SW, Washington, DC 20585-0103, 
+Telephone: (202) 586-4798, Email: <a href="/cdn-cgi/l/email-protection#99e9fcedfcebb7faf6faf1ebf8f7d9f1e8b7fdf6fcb7fef6ef"><span class="__cf_email__" data-cfemail="8afaeffeeff8a4e9e5e9e2f8ebe4cae2fba4eee5efa4ede5fc">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION: DOE is required to prescribe test procedures 
+for measuring the estimated annual operating costs or other measures of 
+energy consumption for certain consumer products, as specified in 
+Section 323 of the Energy Policy and Conservation Act (the Act) (42 
+U.S.C. 6293(b)(3)). These test procedures are found in Title 10 of the 
+Code of Federal Regulations (CFR) part 430, subpart B.
+    The estimated annual operating costs of a covered product must be 
+calculated from measurements of energy use in a representative average 
+use cycle or period of use and from representative average unit costs 
+of the energy needed to operate the product during the cycle (Section 
+323(b)(3) of the Act). (42 U.S.C. 6293(b)(3) and (b)(4)) DOE must 
+provide information to manufacturers regarding the representative 
+average unit costs of energy. (42 U.S.C. 6293(b)(4)) This cost 
+information should be used by manufacturers to meet their obligations 
+under Section 323(c) of the Act. These costs are also used to comply 
+with Federal Trade Commission (FTC) requirements for labeling. 
+Manufacturers are required to use the revised DOE representative 
+average unit costs when the FTC publishes new ranges of comparability 
+for specific covered products (16 CFR part 305). Interested parties can 
+also find information covering the FTC labeling requirements at <a href="https://www.ftc.gov/appliances">https://www.ftc.gov/appliances</a>.
+    DOE last published representative average unit costs of residential 
+energy in a Federal Register notice entitled, ``Energy Conservation 
+Program for Consumer Products: Representative Average Unit Costs of 
+Energy'', dated October 17, 2024, 89 FR 83672. DOE's Energy Information 
+Administration (EIA) developed the 2025 representative average unit 
+after-tax residential costs found in this notice. EIA based these costs 
+for electricity, natural gas, and No. 2 heating oil on its September 
+2025, EIA Short-Term Energy Outlook (EIA releases the Outlook monthly). 
+The representative average unit after-tax costs for propane and 
+kerosene are based on the projected 2025 U.S. residential sector prices 
+found in EIA's Annual Energy Outlook 2025 (AEO2025) (April 15, 2025). 
+The Short-Term Energy Outlook and the Annual Energy Outlook are 
+available on the EIA website at <a href="https://www.eia.gov">https://www.eia.gov</a>. For more 
+information on the data sources used in this notice, contact the 
+National Energy Information Center, Forrestal Building, EI-30, 1000 
+Independence Avenue SW, Washington, DC 20585, Telephone: (202) 586-
+8800, Email: <a href="/cdn-cgi/l/email-protection#e0898e868f839492a0858981ce848f85ce878f96"><span class="__cf_email__" data-cfemail="bbd2d5ddd4d8cfc9fbded2da95dfd4de95dcd4cd">[email&#160;protected]</span></a>.
+    The 2025 representative average unit costs under section 323(b)(4) 
+of the Act are set forth in Table 1, and will become effective April 
+27, 2026. They will remain in effect until further notice.
+
+Signing Authority
+
+    This document of the Department of Energy was signed on March 17, 
+2026, by Audrey Robertson, Assistant Secretary (EERE) for Critical 
+Minerals and Energy Innovation, pursuant to delegated authority from 
+the Secretary of Energy. That document with the original signature and 
+date is maintained by DOE. For administrative purposes only, and in 
+compliance with requirements of the Office of the Federal Register, the 
+undersigned DOE Federal Register Liaison Officer has been authorized to 
+sign and submit the document in electronic format for publication, as 
+an official document of the Department of Energy. This administrative 
+process in no way alters the legal effect of this document upon 
+publication in the Federal Register.
+
+    Signed in Washington, DC, on March 24, 2026.
+Jennifer Hartzell,
+Alternate Federal Register Liaison Officer, U.S. Department of Energy.
+
+            Table 1--Representative Average Unit Costs of Energy for Five Residential Energy Sources
+                                                     [2025]
+----------------------------------------------------------------------------------------------------------------
+                                           $ Per million                                  As required by test
+             Type of energy                   Btu \1\       In commonly used terms             procedure
+----------------------------------------------------------------------------------------------------------------
+Electricity.............................           50.47  17.22 [cent]/kWh \2\ \3\..  $0.1722/kWh.
+Natural Gas.............................           14.37  $1.43/therm \4\ or $14.9/   $0.00001437/Btu.
+                                                           MCF \5\ \6\.
+No. 2 Heating Oil.......................           25.91  $3.56/gallon \7\..........  $0.00002591/Btu.
+Propane.................................           25.68  $2.35/gallon \8\..........  $0.00002568/Btu.
+Kerosene................................           25.11  $3.39/gallon \9\..........  $0.00002511/Btu.
+----------------------------------------------------------------------------------------------------------------
+Sources: U.S. Energy Information Administration, Short-Term Energy Outlook (September 9, 2025) and Annual Energy
+  Outlook (April 15, 2025).
+Notes: Prices include taxes.
+\1\ Btu stands for British thermal units.
+\2\ kWh stands for kilowatt hour.
+\3\ 1 kWh = 3,412 Btu.
+
+[[Page 14690]]
+
+ 
+\4\ 1 therm = 100,000 Btu.
+\5\ MCF stands for 1,000 cubic feet.
+\6\ For the purposes of this table, one cubic foot of natural gas has an energy equivalence of 1,037 Btu.
+\7\ For the purposes of this table, one gallon of No. 2 heating oil has an energy equivalence of 137,381 Btu.
+\8\ For the purposes of this table, one gallon of liquid propane has an energy equivalence of 91,333 Btu.
+\9\ For the purposes of this table, one gallon of kerosene has an energy equivalence of 135,000 Btu.
+
+[FR Doc. 2026-05899 Filed 3-25-26; 8:45 am]
+BILLING CODE 6450-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
