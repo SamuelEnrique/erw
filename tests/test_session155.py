@@ -181,6 +181,52 @@ class Ceilings(unittest.TestCase):
         self.assertFalse(e.search("https://www.ercot.com/files/docs/2026/09/17/Tesla-comments-_-ERCOT-VRT-_-LLWG_9.17.26_vFinal.pdf"))
 
 
+class FakeNet:
+    """Stands where the network would be for the current copies: canned pages, and a list of what was asked."""
+    def __init__(self, pages):
+        self.pages, self.asked = pages, []
+
+    def get(self, url, kind, rows_reserve=0, timeout=120):
+        self.asked.append((url, kind))
+        return "200", self.pages.get(url, b"%PDF-1.7 made up for the test"), {}
+
+
+class CurrentCopies(unittest.TestCase):
+    def test_only_the_queue_is_asked_for_among_the_files_a_page_links(self):
+        d = tempfile.mkdtemp(prefix="erw155_")
+        grant = (b'<a href="/images/2026/Transmission-Queue/GrantPUD_OATT_2026-06-22.pdf">tariff</a>'
+                 b'<a href="/images/2026/Transmission-Queue/LGIA%20V1%2003122026.pdf">agreement</a>'
+                 b'<a href="/images/2026/Transmission-Queue/Transmission Queue 20260730.pdf">queue</a>')
+        llwg = b'<a href="/calendar/09172026-LLWG-Meeting">meeting</a> <a href="/calendar/01012099-LLWG-Meeting">a meeting to come</a>'
+        meeting = (b'<a href="/files/docs/2026/09/17/Some-comments-_-LLWG_9.17.26.pdf">comments</a>'
+                   b'<a href="/files/docs/2026/09/16/September-TAC-Report.pdf">status</a>')
+        net = FakeNet({w.CURRENT["grantpud_page"]: grant, w.CURRENT["ercot_pages"][0]: llwg, w.CURRENT["ercot_pages"][1]: b"<p>no meeting listed</p>",
+                       "https://www.ercot.com/calendar/09172026-LLWG-Meeting": meeting})
+        w.do_pull_current(d, net, lambda m: None)
+        asked = [u for u, _ in net.asked]
+        self.assertIn(w.CURRENT["nyiso"], asked)
+        self.assertIn("https://www.grantpud.org/images/2026/Transmission-Queue/Transmission%20Queue%2020260730.pdf", asked)
+        self.assertIn("https://www.ercot.com/files/docs/2026/09/16/September-TAC-Report.pdf", asked)
+        for other in ("OATT", "LGIA", "Some-comments", "01012099"):
+            self.assertFalse([u for u in asked if other in u], other)
+        self.assertEqual(len(asked), 7)   # the workbook; Grant's page and its queue; ERCOT's two pages, one meeting and one report
+        rows = w.read_captures(d)
+        self.assertEqual(len(rows), 7)
+        self.assertTrue(all(len(r["sha256"]) == 64 and r["retrieved_at"] and r["status"] == "200" for r in rows))
+
+    def test_a_terms_quote_that_is_not_in_the_saved_page_fails_the_stage(self):
+        d = tempfile.mkdtemp(prefix="erw155_")
+        whole = {t["ask"]: ("<p>" + " ".join(t["quotes"]) + "</p>").encode("utf-8") for t in w.TERMS.values() if t["ask"]}
+        w.do_terms(d, FakeNet(whole), lambda m: None)
+        saved = {t["name"]: t for t in w.terms_saved(d)}
+        self.assertTrue(all(ok for _, ok in saved["ercot"]["quotes"]))
+        self.assertEqual(len(saved["ercot"]["sha256"]), 64)
+        self.assertEqual(saved["nyiso"]["file"], "")   # saved by another session's connector: not on this made-up machine, and never asked for here
+        d2 = tempfile.mkdtemp(prefix="erw155_")
+        with self.assertRaises(RuntimeError):
+            w.do_terms(d2, FakeNet({t["ask"]: b"<p>a page that says something else</p>" for t in w.TERMS.values() if t["ask"]}), lambda m: None)
+
+
 class Following(unittest.TestCase):
     def copies(self, *copies):
         return [dict(publisher="nyiso", date=day, stamp=day, url="https://web.archive.org/web/x", file=day, rows=rows) for day, rows in copies]
