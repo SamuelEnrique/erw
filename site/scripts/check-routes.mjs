@@ -48,6 +48,8 @@ const PAGES = [
   "/prices/compare", "/prices/compare?period=month&market=rtm&sort=spread", "/data/methods/hub_price_comparison",  // session 96: where power is cheap, in review
   "/data/methods/price_board",  // session 132: the one price board (/board/v3, /board/v4 and /markets redirect to it)
   "/demand", "/demand?area=caiso&rank=peak", "/demand?area=us48&rank=ytd", "/data/methods/demand_growth",  // session 97: the demand growth explorer, in review
+  "/demand?view=weather", "/demand?view=weather&figure=night&year=2026", "/demand?view=weather&figure=winter&year=2023", "/data/methods/demand_weather",  // session 152: the second view of the one demand page (demand growth with the weather taken out, sessions 126 and 129), in review
+  "/demand/weather", "/demand/weather?figure=night&year=2026",  // session 126: the address the view was built at (since session 152 these redirect to /demand?view=weather)
   "/curtailment/v2", "/curtailment/v2?period=2026-05", "/curtailment/v2?period=2019", "/data/methods/caiso_curtailment_intervals",  // session 98: curtailment, version 2 (since session 144 these redirect to /curtailment)
   "/curtailment?grid=ercot&place=HB_WEST", "/curtailment?grid=spp", "/curtailment?grid=nyiso", "/data/methods/curtailment",  // session 144: the one curtailment page, in review
   "/supply", "/supply?g=gasstor,position&s=eia-wcestus1", "/data/methods/supply_and_trade",  // session 134: Supply and trade, in review
@@ -83,6 +85,7 @@ const PAGES = [
   "/cost-of-power/battery/awards", "/data/methods/ercot_storage_dam_awards",  // session 115: the storage fleet's day-ahead awards (in review)
   "/data/methods/ercot_storage_dam_offers",  // session 116: what the storage fleet offered day-ahead (in review; the awards page's new section reads it)
   "/data/methods/ercot_storage_realtime",  // session 120: the storage fleet in real time (in review; the awards page's last section reads it)
+  "/cost-of-power?grid=pjm", "/cost-of-power?grid=miso", "/cost-of-power?grid=caiso",  // session 154: "Rules in motion" in the section "How soon" (in review): an address that names PJM shows PJM's rules, one that names MISO the pause; scripts/check-datacenter.mjs reads the block against its file
   "/mix/clean", "/mix/clean?grid=caiso&year=2026", "/mix/clean?grid=nyiso&year=2024", "/data/methods/clean_energy",  // session 122: how clean, and when (in review)
   "/resources", "/resources?on=oil_gas_basins,plants_operating&z=2&c=-101,32",  // session 146: where the resources are (in review; scripts/check-resources.mjs opens it in a real browser)
   "/mix/stress", "/mix/stress?grid=caiso&year=2026", "/mix/stress?grid=nyiso&year=2025", "/data/methods/grid_stress",  // session 123: how hard the system works (in review)

@@ -100,8 +100,13 @@ empty store, like for like with 0.833.
 
 ## The landing
 
-- **Not landed when this was written.** `REVIEW_FREEZE` reads frozen through 7 October (UTC); it ends by its own
-  dates at 00:00 UTC. The landing follows then, with the snapshot before and after, and a line is added here.
+- **Added after the landing.** You moved the freeze's end to 8 October and allowed landings of locked pages under
+  the snapshot. Landed with session 149 in one push (`task/149-loose-ends`, commit `4edd163`): checks passed (run
+  37703400483), merged as `6a856bb`.
+- **Vercel built it:** "Deployment has completed" for `6a856bb` at 23:45:04 UTC on 7 October.
+- **Snapshot before** (`149_before`, 23:38:07 UTC) **and after** (`149_after`, 23:46:36 UTC): **0 differences** on
+  the 25 live addresses, 3,357 checked number keys. Nothing was reverted.
+- The whole suite in a clean copy of the landed tree: 1,932 tests, passed.
 - Nothing a live page shows or reads is touched: no site file, no table but the ledger.
 
 ## Checks

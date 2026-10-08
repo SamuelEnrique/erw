@@ -32,5 +32,37 @@ export function judge(q, r) {
     if (series.length) why.push(`${series.length} series shown`);
     if (q.say && !new RegExp(q.say, "i").test(String(r.answer ?? ""))) why.push(`the answer does not name what was asked (${q.say})`);
   }
+  // session 153: what a question of the four pages adds to the rule of its kind (warehouse/chat/eval_ercot_pages.json,
+  // rules_added). A question of the 100 carries none of these fields and is judged exactly as it was.
+  if (q.kind !== "refuse") {
+    const text = String(r.answer ?? "");
+    const tables = [...cites, ...series.map((s) => String(s.table ?? ""))];
+    if (q.cite && !tables.some((t) => new RegExp(q.cite).test(t))) why.push(`no source matches ${q.cite} (${tables.join(", ") || "none"})`);
+    if (Array.isArray(q.expect) && !q.expect.some((e) => holds(text, e))) why.push(`none of ${q.expect.join(", ")} is in the answer`);
+    for (const e of Array.isArray(q.expect_all) ? q.expect_all : []) if (!holds(text, e)) why.push(`${e} is not in the answer`);
+    if (q.must && !new RegExp(q.must, "i").test(text)) why.push(`the answer does not say ${q.must}`);
+    if (q.series_has) {
+      const d = decimals(q.series_has.value);
+      const hit = series.some((s) => (s.rows ?? []).some((x) => String(x.key) === String(q.series_has.key) && typeof x.value === "number" && Math.abs(Math.round(x.value * 10 ** d) / 10 ** d - q.series_has.value) < 1e-9));
+      if (!hit) why.push(`no series holds ${q.series_has.key}: ${q.series_has.value}`);
+    }
+    if (q.series_rows !== undefined && !series.some((s) => (s.rows ?? []).length === q.series_rows)) why.push(`no series of ${q.series_rows} rows (${series.map((s) => (s.rows ?? []).length).join(", ") || "none"})`);
+  }
   return why;
+}
+
+/** The decimals a number is written with: 2 for 33.73, 0 for 9042. */
+export const decimals = (v) => { const s = String(v); const i = s.indexOf("."); return i < 0 || /e/i.test(s) ? 0 : s.length - i - 1; };
+/** The numbers of a text with the decimals each is written with: "1,678 hours at 33.7" gives [1678, 0] and [33.7, 1]. */
+export function numbersIn(text) {
+  const out = [];
+  for (const m of String(text).matchAll(/(?<![A-Za-z_\d.])(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(?!\d)/g)) out.push([parseFloat(m[1].replace(/,/g, "") + (m[2] ?? "")), m[2] ? m[2].length - 1 : 0]);
+  return out;
+}
+/** Whether a text holds an expected number: some number of the text equals it at that number's own precision, which may
+ * be one decimal coarser than the expected number's and no coarser (a number of 100 or more may be written whole).
+ * Signs are not compared: a discount of 14.66 may be written -14.66 or "14.66 below". */
+export function holds(text, expected) {
+  const e = Math.abs(Number(expected)), de = decimals(expected);
+  return numbersIn(text).some(([v, d]) => (d >= de - 1 || e >= 100) && d <= de && Math.abs(v - Math.round(e * 10 ** d) / 10 ** d) < 1e-9);
 }

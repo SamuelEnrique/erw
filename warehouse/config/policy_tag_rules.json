@@ -1,0 +1,550 @@
+{
+  "version": "2",
+  "written": "2026-10-08",
+  "what": "The rule that tags a held policy action (policy_actions) as touching large loads, interconnection, transmission cost or tax credits. Code applies it (warehouse/derived/policy_action_tags.py); no model reads a row. Method: docs/methods/policy_action_tags.md.",
+  "how_text_is_read": "The title and the abstract of the action, each on its own: lower case; every hyphen and dash becomes a space; white space collapsed. The phrases under 'strip' are taken out first (a company's name is not a topic). A term matches when its words stand in the text as whole words, in order.",
+  "fields_matched": [
+    "title",
+    "abstract"
+  ],
+  "fields_for_exclusion": [
+    "title",
+    "abstract",
+    "docket"
+  ],
+  "fields_recorded": [
+    "agency",
+    "action_type"
+  ],
+  "agencies_in_scope": {
+    "federal": [
+      "FERC",
+      "DOE",
+      "EPA",
+      "NRC",
+      "BLM",
+      "Interior"
+    ],
+    "state": [
+      "PUCT",
+      "CPUC"
+    ]
+  },
+  "action_types_in_scope": [
+    "rule",
+    "proposed_rule",
+    "notice",
+    "press_release"
+  ],
+  "strip": [
+    "pjm interconnection, l.l.c.",
+    "pjm interconnection l.l.c.",
+    "pjm interconnection, llc",
+    "pjm interconnection",
+    "eastern interconnection",
+    "western interconnection",
+    "texas interconnection"
+  ],
+  "municipal": {
+    "rule": "An action whose title or abstract holds one of these phrases is about municipal permitting, zoning or a local hearing: it is out of scope and never tagged, whatever else it says.",
+    "terms": [
+      "zoning",
+      "rezoning",
+      "city council",
+      "county board",
+      "county commission",
+      "county commissioners",
+      "board of supervisors",
+      "planning commission",
+      "town board",
+      "township board",
+      "building permit",
+      "conditional use permit",
+      "special use permit",
+      "local hearing",
+      "municipal permit",
+      "local permit"
+    ]
+  },
+  "tags": {
+    "large_load": {
+      "what": "The action names large electricity customers or the connecting of them.",
+      "terms": [
+        {
+          "term": "large load"
+        },
+        {
+          "term": "large loads"
+        },
+        {
+          "term": "data center"
+        },
+        {
+          "term": "data centers"
+        },
+        {
+          "term": "datacenter"
+        },
+        {
+          "term": "datacenters"
+        },
+        {
+          "term": "large power user"
+        },
+        {
+          "term": "large power users"
+        },
+        {
+          "term": "large electricity user"
+        },
+        {
+          "term": "large electricity users"
+        },
+        {
+          "term": "large electric customer"
+        },
+        {
+          "term": "large electric customers"
+        },
+        {
+          "term": "large customer"
+        },
+        {
+          "term": "large customers"
+        },
+        {
+          "term": "co located load"
+        },
+        {
+          "term": "co located loads"
+        },
+        {
+          "term": "colocated load"
+        },
+        {
+          "term": "co location"
+        },
+        {
+          "term": "colocation"
+        },
+        {
+          "term": "hyperscale"
+        },
+        {
+          "term": "hyperscaler"
+        },
+        {
+          "term": "hyperscalers"
+        },
+        {
+          "term": "large flexible load"
+        },
+        {
+          "term": "large flexible loads"
+        },
+        {
+          "term": "load growth"
+        },
+        {
+          "term": "demand growth"
+        }
+      ],
+      "exclude_any": [
+        "large electric generating unit",
+        "large electric generating units"
+      ],
+      "exclude_docket_prefix": []
+    },
+    "interconnection": {
+      "what": "The action is about connecting generation or load to the power grid. The interconnection of gas pipelines, of liquefied natural gas plant or of telecommunications is not the power grid's.",
+      "terms": [
+        {
+          "term": "interconnection"
+        },
+        {
+          "term": "interconnections"
+        },
+        {
+          "term": "interconnect"
+        },
+        {
+          "term": "interconnected"
+        },
+        {
+          "term": "interconnecting"
+        },
+        {
+          "term": "interconnection queue"
+        },
+        {
+          "term": "queue reform"
+        }
+      ],
+      "exclude_any": [
+        "pipeline",
+        "pipelines",
+        "natural gas",
+        "liquefied",
+        "lng",
+        "gas transmission",
+        "telecommunications",
+        "broadband",
+        "fiber optic"
+      ],
+      "exclude_docket_prefix": [
+        "CP",
+        "RP",
+        "PF",
+        "IS",
+        "OR"
+      ],
+      "exclude_docket_contains": [
+        "-LNG"
+      ]
+    },
+    "transmission_cost": {
+      "what": "The action is about what electric transmission costs or who pays for it: rates, formula rates, cost allocation, charges. A transmission line's siting or environmental review is not a cost action, and neither is a gas pipeline company with 'Transmission' in its name.",
+      "terms": [
+        {
+          "term": "cost allocation",
+          "needs_any": [
+            "transmission"
+          ]
+        },
+        {
+          "term": "transmission formula rate"
+        },
+        {
+          "term": "transmission formula rates"
+        },
+        {
+          "term": "transmission rate"
+        },
+        {
+          "term": "transmission rates"
+        },
+        {
+          "term": "transmission cost"
+        },
+        {
+          "term": "transmission costs"
+        },
+        {
+          "term": "transmission charge"
+        },
+        {
+          "term": "transmission charges"
+        },
+        {
+          "term": "transmission access charge"
+        },
+        {
+          "term": "transmission service rate"
+        },
+        {
+          "term": "transmission service rates"
+        },
+        {
+          "term": "transmission revenue requirement"
+        },
+        {
+          "term": "transmission incentive"
+        },
+        {
+          "term": "transmission incentives"
+        },
+        {
+          "term": "network upgrade"
+        },
+        {
+          "term": "network upgrades"
+        },
+        {
+          "term": "formula rate",
+          "needs_any": [
+            "transmission service",
+            "transmission formula",
+            "transmission rate",
+            "transmission rates"
+          ]
+        },
+        {
+          "term": "formula rates",
+          "needs_any": [
+            "transmission service",
+            "transmission formula",
+            "transmission rate",
+            "transmission rates"
+          ]
+        },
+        {
+          "term": "transmission",
+          "needs_any": [
+            "electricity customers",
+            "ratepayer",
+            "ratepayers",
+            "customer bills",
+            "who pays"
+          ]
+        }
+      ],
+      "exclude_any": [
+        "pipeline",
+        "pipelines",
+        "natural gas",
+        "gas transmission",
+        "liquefied"
+      ],
+      "exclude_docket_prefix": [
+        "CP",
+        "RP",
+        "PF",
+        "IS",
+        "OR"
+      ]
+    },
+    "tax_credit": {
+      "what": "The action is about a federal or state energy tax credit. A bill credit (California's climate credit), a credit rating, an emissions credit or allowance, a renewable energy certificate and an engineering 'credit' taken in a safety analysis are not tax credits.",
+      "terms": [
+        {
+          "term": "tax credit"
+        },
+        {
+          "term": "tax credits"
+        },
+        {
+          "term": "investment tax credit"
+        },
+        {
+          "term": "production tax credit"
+        },
+        {
+          "term": "clean electricity investment credit"
+        },
+        {
+          "term": "clean electricity production credit"
+        },
+        {
+          "term": "energy credit",
+          "needs_any": [
+            "tax",
+            "internal revenue",
+            "section 48"
+          ]
+        },
+        {
+          "term": "section 45y"
+        },
+        {
+          "term": "section 48e"
+        },
+        {
+          "term": "section 45x"
+        },
+        {
+          "term": "section 45q"
+        },
+        {
+          "term": "section 45v"
+        },
+        {
+          "term": "section 45u"
+        },
+        {
+          "term": "section 45z"
+        },
+        {
+          "term": "section 48c"
+        },
+        {
+          "term": "section 48"
+        },
+        {
+          "term": "section 45"
+        },
+        {
+          "term": "45y"
+        },
+        {
+          "term": "48e"
+        },
+        {
+          "term": "45x"
+        },
+        {
+          "term": "45q"
+        },
+        {
+          "term": "45v"
+        },
+        {
+          "term": "45u"
+        },
+        {
+          "term": "beginning of construction",
+          "needs_any": [
+            "credit",
+            "tax"
+          ]
+        },
+        {
+          "term": "prohibited foreign entity"
+        },
+        {
+          "term": "foreign entity of concern",
+          "needs_any": [
+            "credit",
+            "tax"
+          ]
+        },
+        {
+          "term": "elective pay"
+        },
+        {
+          "term": "direct pay",
+          "needs_any": [
+            "credit",
+            "tax"
+          ]
+        }
+      ],
+      "exclude_any": [
+        "climate credit",
+        "climate credits",
+        "credit rating",
+        "emission credit",
+        "emissions credit",
+        "renewable energy certificate"
+      ],
+      "exclude_docket_prefix": []
+    }
+  },
+  "changes": [
+    {
+      "version": "1",
+      "what": "The rule as first written, before any row was read (run of 8 October 2026: 7 actions tagged)."
+    },
+    {
+      "version": "2",
+      "what": "The one correction after reading the 7 tagged and 40 untagged actions of seed 154. (a) transmission_cost: 'formula rate' and 'formula rates' now need 'transmission service', 'transmission formula' or 'transmission rate' beside them, not the bare word 'transmission': version 1 tagged the two notices of Rate Order No. WAPA-222, the rates of a balancing authority's ancillary services (scheduling, reserves, imbalance), which are not what transmission costs. (b) transmission_cost: the word 'transmission' with 'electricity customers', 'ratepayer', 'ratepayers', 'customer bills' or 'who pays' in the title or abstract now tags: version 1 missed the California commission's release on its transmission advocacy for electricity customers at FERC, whose title holds no cost word. (c) Dockets listed by number: version 1 could not tag the notices in FERC dockets EL26-67 to EL26-72, whose titles hold only the names of an operator and its transmission owners; a notice whose docket field holds a listed docket now takes that docket's tags."
+    }
+  ],
+  "dockets": {
+    "rule": "A notice whose title holds only the parties' names and that has no abstract cannot match a term. Where its docket field holds one of these docket numbers (a whole number: EL26-67 stands in 'Docket No. EL26-67-000'), it takes that docket's tags; the matched field is 'docket' and the matched term the docket number. Each docket is listed with the regulator's own order that says what the proceeding is, read in session 154 (large_load_rules holds its sentence). The municipal rule, the agencies in scope and each tag's exclusions hold for these rows too. A notice whose docket field lists more than three docket numbers is a combined notice (a notice of staff attendance at a meeting lists every docket that may be spoken of): it takes no docket's tags. 'grids' names the grid operator each docket is about, by the order's own caption.",
+    "list": [
+      {
+        "docket": "EL26-67",
+        "tags": [
+          "large_load",
+          "interconnection",
+          "transmission_cost"
+        ],
+        "what": "FERC's order of 18 June 2026 instituting a proceeding under section 206 of the Federal Power Act on the tariff's provisions for interconnecting large loads (PJM)",
+        "source": "https://www.ferc.gov/sites/default/files/2026-06/EL26-67-000.pdf",
+        "grids": [
+          "PJM"
+        ]
+      },
+      {
+        "docket": "EL26-68",
+        "tags": [
+          "large_load",
+          "interconnection",
+          "transmission_cost"
+        ],
+        "what": "FERC's order of 18 June 2026 instituting a proceeding under section 206 of the Federal Power Act on the tariff's provisions for interconnecting large loads (SPP)",
+        "source": "https://www.ferc.gov/sites/default/files/2026-06/EL26-68-000.pdf",
+        "grids": [
+          "SPP"
+        ]
+      },
+      {
+        "docket": "EL26-69",
+        "tags": [
+          "large_load",
+          "interconnection",
+          "transmission_cost"
+        ],
+        "what": "FERC's order of 18 June 2026 instituting a proceeding under section 206 of the Federal Power Act on the tariff's provisions for interconnecting large loads (NYISO)",
+        "source": "https://www.ferc.gov/sites/default/files/2026-06/EL26-69-000.pdf",
+        "grids": [
+          "NYISO"
+        ]
+      },
+      {
+        "docket": "EL26-70",
+        "tags": [
+          "large_load",
+          "interconnection",
+          "transmission_cost"
+        ],
+        "what": "FERC's order of 18 June 2026 instituting a proceeding under section 206 of the Federal Power Act on the tariff's provisions for interconnecting large loads (MISO)",
+        "source": "https://www.ferc.gov/sites/default/files/2026-06/EL26-70-000.pdf",
+        "grids": [
+          "MISO"
+        ]
+      },
+      {
+        "docket": "EL26-71",
+        "tags": [
+          "large_load",
+          "interconnection",
+          "transmission_cost"
+        ],
+        "what": "FERC's order of 18 June 2026 instituting a proceeding under section 206 of the Federal Power Act on the tariff's provisions for interconnecting large loads (CAISO)",
+        "source": "https://www.ferc.gov/sites/default/files/2026-06/EL26-71-000.pdf",
+        "grids": [
+          "CAISO"
+        ]
+      },
+      {
+        "docket": "EL26-72",
+        "tags": [
+          "large_load",
+          "interconnection",
+          "transmission_cost"
+        ],
+        "what": "FERC's notice of the same proceeding for ISO New England (Federal Register, 24 June 2026)",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2026-06-24/pdf/2026-12705.pdf",
+        "grids": [
+          "ISO-NE"
+        ]
+      },
+      {
+        "docket": "EL25-49",
+        "tags": [
+          "large_load",
+          "interconnection"
+        ],
+        "what": "FERC's show cause proceeding on co-located large loads in PJM (instituted 20 February 2025; order of 18 December 2025)",
+        "source": "https://www.ferc.gov/sites/default/files/2025-02/EL25-49-000.pdf",
+        "grids": [
+          "PJM"
+        ]
+      },
+      {
+        "docket": "ER26-247",
+        "tags": [
+          "large_load",
+          "interconnection"
+        ],
+        "what": "FERC's order of 14 January 2026 accepting SPP's tariff revisions for high impact large loads",
+        "source": "https://spp.org/documents/75725/20260114_order%20-%20revisions%20to%20add%20the%20high%20impact%20large%20load%20processes%20and%20generation%20assessment_er26-247-000.pdf",
+        "grids": [
+          "SPP"
+        ]
+      },
+      {
+        "docket": "RM26-4",
+        "tags": [
+          "large_load",
+          "interconnection"
+        ],
+        "what": "FERC's rulemaking docket on the interconnection of large loads, opened on the Secretary of Energy's proposal of 23 October 2025",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2026-08-14/pdf/2026-16616.pdf",
+        "grids": []
+      }
+    ],
+    "max_dockets_in_a_notice": 3
+  }
+}

@@ -8,6 +8,11 @@ Energy Research Warehouse (ERW), session 23. Weekly, before the Energy Roundup (
     python warehouse/analysis/run.py --week 2026-W39
     python warehouse/analysis/run.py --no-gallery     # skip the parameter grid
     python warehouse/analysis/run.py --no-model       # the note and caption from the template's own sentences
+    python warehouse/analysis/run.py --dry-run        # session 152: the choosing step only (steps 1 and 2): every
+                                                      # candidate with its score and the reason it competes or does not,
+                                                      # the pick and the runner-up, printed. No model is called and no
+                                                      # file is written: no log, no status row, no chart, nothing under
+                                                      # docs/ or warehouse/output. Tables elsewhere: set ERW_DATA_DIR
 
 Steps:
   1. Run every template in warehouse/analysis/templates/ at its default parameters, and every line of the watch list
@@ -255,6 +260,92 @@ def stored_history(template, params):
 
 
 # ---------------------------------------------------------------------------------------------
+# session 152: the choosing step alone, printed (--dry-run)
+# ---------------------------------------------------------------------------------------------
+
+def reason(res, eligible):
+    """Why a measure competes for the chart of the week, or the first condition of the rule it does not meet."""
+    ch, mod = res["_change"], res["_mod"]
+    if eligible:
+        return "competes: a measurement of the system, its newest period new this week, its change ranked among enough earlier ones"
+    if not mod.PUBLIC:
+        return "never chosen: an internal template"
+    if ch["about"] != "system":
+        return "never chosen: a count of what the ERW itself has collected, not a measurement of the energy system"
+    if ch.get("delta") is None:
+        return "does not compete: its newest period has no period to be compared with"
+    if ch["score"] is None:
+        return f"does not compete: {ch['n']} earlier changes, and {MIN_HISTORY} are needed"
+    if not ch["new"]:
+        return "does not compete: an earlier week's run already showed this period as its headline (docs/analysis/history.csv)"
+    if ch["age"] > MAX_AGE_NEW:
+        return f"does not compete: its newest period ended {ch['age']} days ago, and {MAX_AGE_NEW} is the most allowed"
+    return "does not compete"
+
+
+def candidates(results):
+    """Every measure that ran, as the chooser saw it: competing ones first, by score, then z, then template order."""
+    order = lambda r: -templates.ORDER.index(r[0]["template"])  # noqa: E731
+    rows = []
+    for r in sorted(results, key=lambda r: (r[4], r[0]["_change"]["score"] if r[0]["_change"]["score"] is not None else -1.0,
+                                            r[0]["_change"]["z"] or 0, order(r)), reverse=True):
+        res, z, n_hist, rank, eligible = r
+        h, ch = res["headline"], res["_change"]
+        found = finding(h, ch, ch["compare"]) if ch.get("delta") is not None else None
+        rows.append({"template": res["template"], "title": res["title"], "label": h["label"], "period": h["period"], "value": h["value"],
+                     "unit": h["unit"], "about": ch["about"], "compare": ch["compare"],
+                     "change": None if ch.get("delta") is None else round(ch["delta"], 4), "previous_period": ch.get("prev_period"),
+                     "previous_value": ch.get("prev_value"), "score": ch["score"], "change_z": ch["z"], "earlier_changes": ch["n"],
+                     "new_this_week": ch["new"], "age_days": ch["age"], "level_z": z, "history_n": n_hist, "eligible": bool(eligible),
+                     "reason": reason(res, eligible), "finding": " ".join(x for x in found if x) if found else None,
+                     "tables": res["tables"]})
+    return rows
+
+
+def print_choice(label, rows, best, how_picked, skipped, out=print):
+    """The dry run's report: the rule, each candidate, the pick, the runner-up, what was skipped."""
+    out(f"chart of the week, {label}: the choosing step only (dry run; no model call, nothing written)")
+    out(f"rule: {RULE}")
+    out("score: the share, in percent, of the measure's own earlier changes (the last "
+        f"{WINDOW['week']} weekly or {WINDOW['month']} monthly) that were smaller in size than this one; ties go to the "
+        "higher robust z of the change over the same window, then to template order")
+    out(f"candidates: {len(rows)} measures ran, {sum(1 for r in rows if r['eligible'])} compete, {len(skipped)} skipped")
+    for i, r in enumerate(rows, 1):
+        out(f"{i:>3}. {r['template']}: score {r['score']}, z {r['change_z']}, {r['earlier_changes']} earlier changes; "
+            f"{r['label']} {r['period']} = {r['value']} {r['unit']}; change {r['change']} ({r['compare']}); new {r['new_this_week']}; "
+            f"ended {r['age_days']} days ago; {r['reason']}")
+        if r["finding"]:
+            out(f"       {r['finding']}")
+    pick = next(r for r in rows if r["template"] == best)
+    out(f"pick: {pick['template']} ({pick['title']}), by {how_picked}: score {pick['score']}, z {pick['change_z']}, among {pick['earlier_changes']} earlier changes")
+    if pick["finding"]:
+        out(f"      {pick['finding']}")
+    others = [r for r in rows if r["template"] != best and r["eligible"]] or [r for r in rows if r["template"] != best and r["score"] is not None and r["about"] == "system"]
+    if others:
+        ru = others[0]
+        out(f"runner-up: {ru['template']} ({ru['title']}): score {ru['score']}, z {ru['change_z']}, among {ru['earlier_changes']} earlier changes"
+            + ("" if ru["eligible"] else " (it does not compete: the largest change among those that do not)"))
+        if ru["finding"]:
+            out(f"      {ru['finding']}")
+    for sk in skipped:
+        out(f"skipped: {sk['template']}: {sk['reason']}")
+
+
+class PrintLog:
+    """The dry run's log: lines go to the screen and no file is opened."""
+
+    def __init__(self, quiet=False):
+        self.quiet = quiet
+
+    def __call__(self, msg):
+        if not self.quiet:
+            print(f"  log: {msg}")
+
+    def close(self):
+        pass
+
+
+# ---------------------------------------------------------------------------------------------
 # the note and the caption: drafted by the model, kept only under the literal-number check
 # ---------------------------------------------------------------------------------------------
 
@@ -402,10 +493,18 @@ def main(argv=None):
     ap.add_argument("--gallery-only", action="store_true", help="recompute only the gallery (and templates.json)")
     ap.add_argument("--tables-only", action="store_true",
                     help="session 119: write only docs/analysis/tables.json (which public table each template and watch line reads)")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="session 152: the choosing step only: print every candidate, its score and its reason, the pick and the "
+                         "runner-up; call no model and write nothing")
     args = ap.parse_args(argv)
-    os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    log = ip.Log(os.path.join(ip.LOG_DIR, f"analysis_{run_id}.log"))
+    if args.dry_run:
+        if args.gallery_only or args.tables_only:
+            ap.error("--dry-run is the choosing step alone: not with --gallery-only or --tables-only")
+        log = PrintLog()
+    else:
+        os.makedirs(ip.LOG_DIR, exist_ok=True)
+        log = ip.Log(os.path.join(ip.LOG_DIR, f"analysis_{run_id}.log"))
     status = dict(table="analysis", market="weekly", status="ok", detail="")
     try:
         now = pd.Timestamp.now(tz="UTC")
@@ -461,7 +560,7 @@ def main(argv=None):
             new = not seen_before(mod.NAME, res["params"], h["period"], label)
             res["_change"] = dict(ch or {}, z=cz, n=n_ch, compare=compare, about=about, new=new, age=age, score=score)
             eligible = bool(mod.PUBLIC and about == "system" and score is not None and new and age <= MAX_AGE_NEW)
-            res["_option"] = mod.render(res, "site")
+            res["_option"] = None if args.dry_run else mod.render(res, "site")  # session 152: a dry run draws nothing
             res["_mod"] = mod
             results.append((res, z, n_hist, rank, eligible))
             hist_rows.append({"week": label, "template": mod.NAME, "params": json.dumps(res["params"], sort_keys=True),
@@ -494,6 +593,9 @@ def main(argv=None):
         res, z, n_hist, rank, _ = best
         mod = res["_mod"]
         ch = res["_change"]
+        if args.dry_run:  # session 152: the choice is made; say it and stop before the note (a model call) and every file
+            print_choice(label, candidates(results), mod.NAME, how_picked, skipped)
+            return 0
         found = finding(res["headline"], ch, ch["compare"]) if ch.get("delta") is not None else None
         log(f"chart of the week: {mod.NAME} ({how_picked}; score {ch['score']}, z {ch['z']}, among {ch['n']} earlier changes; level z {z})")
         if found:
@@ -569,6 +671,8 @@ def main(argv=None):
         log(f"FAILED:\n{tb}")
         print(f"analysis FAILED: {tb.strip().splitlines()[-1]}", file=sys.stderr)
         status.update(status="failed", detail=tb.strip().splitlines()[-1][:300])
+    if args.dry_run:  # a dry run that failed: said above, and no status row is written
+        return 1
     ip.write_status("analysis", run_id, [status])
     log.close()
     return 0 if status["status"] == "ok" else 1

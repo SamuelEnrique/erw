@@ -341,8 +341,12 @@ def main(argv=None):
                 prior += sum(m["rows"] for m in json.load(open(p, encoding="utf-8")).values())
         if args.also:
             log(f"  the approved pull's other quarters ({', '.join(args.also)}) hold {prior:,} contract rows; its ceiling is {PULL_CEILING:,}")
+        unreadable = []   # session 125: filings in the quarter's file that are not a zip file, read twice; left out and counted
         for k, (name, ctype, csize, fsize, off) in enumerate(todo, 1):
             raw_path = os.path.join(raw_dir, name + ".contracts.csv")
+            if name in index and index[name].get("unreadable"):
+                unreadable.append(name)   # found unreadable by an earlier run of this quarter: not asked for again, not a filing read
+                continue
             if name in index and (index[name]["rows"] == 0 or os.path.exists(raw_path)):
                 meta = index[name]  # fetched by an earlier run of this quarter: the contracts file is on disk
                 raw = open(raw_path, "rb").read() if meta["rows"] else b""
@@ -350,7 +354,25 @@ def main(argv=None):
                 rows = [r for r in recs[1:] if any(c.strip() for c in r)]
                 cid, cname = meta["company_id"], meta["company_name"]
             else:
-                rows, raw, cid, cname, fq = read_filing(member(f, name, ctype, csize, off))
+                try:
+                    rows, raw, cid, cname, fq = read_filing(member(f, name, ctype, csize, off))
+                except zipfile.BadZipFile:
+                    # 2025 Q4 holds a filing that is not a zip file. It is asked for once more (a broken read would differ);
+                    # if it is the same again it is the source's, and the filing is left out, named in the log and counted
+                    # in the header. Nothing is put in its place.
+                    time.sleep(PAUSE)
+                    blob = member(f, name, ctype, csize, off)
+                    try:
+                        rows, raw, cid, cname, fq = read_filing(blob)
+                    except zipfile.BadZipFile:
+                        log(f"  {name}: not a zip file in two reads (compression method {ctype}, {len(blob):,} bytes, sha256 {hashlib.sha256(blob).hexdigest()[:16]}, beginning {blob[:8].hex()}); "
+                            "the filing is left out and counted")
+                        index[name] = dict(company_id="", company_name="", filing_quarter="", rows=0, zip_bytes=fsize, sha256="", unreadable=True,
+                                           retrieved_at=ip.utc_iso(pd.Timestamp.now(tz="UTC")))
+                        json.dump(index, open(index_path, "w", encoding="utf-8"))
+                        unreadable.append(name)
+                        time.sleep(PAUSE)
+                        continue
                 time.sleep(PAUSE)   # a filing at a time, and a breath between two
                 if rows:
                     with open(raw_path, "wb") as out:
@@ -376,7 +398,7 @@ def main(argv=None):
         json.dump(index, open(index_path, "w", encoding="utf-8"))
         if args.fetch_only:
             line = (f"{args.quarter}: fetched only: {len(filings):,} filings, {n_rows:,} contract rows, {f.requests:,} requests, {f.bytes / 1e9:.2f} GB, "
-                    f"{time.time() - t0:,.0f} s; no table written")
+                    f"{time.time() - t0:,.0f} s; {len(unreadable):,} filings not a zip file and left out; no table written")
             log("  " + line)
             print(line)
             log.close()
@@ -396,7 +418,9 @@ def main(argv=None):
             "rate when its units are $/MWH (currency USD). status: terminated when an actual termination date is filed, else in_force. "
             "x_<column>: FERC's own contract columns, as filed; x_company_id FERC's company identifier of the filer; x_filing the "
             "filing's zip; x_quarter the quarter.",
-            f"Counts: {len(members):,} filings in the quarter's file, {len(filings):,} read; {counts['companies']:,} companies; "
+            f"Counts: {len(members):,} filings in the quarter's file, {len(filings):,} read"
+            + (f", {len(unreadable):,} left out because the file FERC serves for them is not a zip file (named in the run log)" if unreadable else "")
+            + f"; {counts['companies']:,} companies; "
             f"{counts['superseded_filings']:,} earlier filings of a company left out (the newest filing is the company's); "
             f"{n_rows:,} contract rows read, {counts['undated_rows']:,} left out for an execution date that cannot be read and "
             f"{counts['out_of_range_rows']:,} for one outside {DATE_MIN} to {DATE_MAX}, the dates the standard can hold "

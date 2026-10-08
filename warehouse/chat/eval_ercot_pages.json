@@ -1,0 +1,497 @@
+{
+ "_about": "Session 153: 20 test questions for Ask ERCOT about four pages built in the week of 5 October 2026: what a datacenter pays (/cost-of-power), curtailment and where free energy is (/curtailment), the capture price (/cost-of-power/seller) and where the resources are (/resources). Written by warehouse/chat/eval/ercot_pages_expected.py: every expected number is computed there from the file or table named in the question's `source`; do not edit by hand. The rule of a question's kind is the one of the 100 (warehouse/chat/eval_ercot_panel.json), and these fields add to it: `expect` (one of these numbers is in the answer, at its own precision or one decimal coarser), `expect_all` (each of them is), `cite` (a source the answer cites, or the table of a series it shows, matches), `must` (the answer matches), `series_has` (a series shown holds this row) and `series_rows` (and has this many rows). `read` is the tool call that answers the question, replayed with no model by site/scripts/test-ask-tables.mjs.",
+ "rules_added": {
+  "expect": "one of the numbers is in the answer: equal at the answer's own precision, which may be one decimal coarser than the expected number's and no coarser (a number of 100 or more may be written whole); signs are not compared",
+  "expect_all": "each of the numbers is in the answer, by the same rule",
+  "cite": "a citation's table, or the table of a series shown, matches the pattern",
+  "must": "the answer matches the pattern",
+  "series_has": "a series shown holds a row with this key whose value, at the expected value's decimals, is this value",
+  "series_rows": "a series shown has this many rows"
+ },
+ "built_from": {
+  "datacenter": "2026-10-07T21:49:10Z",
+  "capture": "2026-10-07T21:50:35Z",
+  "shares": "2026-10-07T21:56:41Z",
+  "free_energy": "2026-10-07T21:57:12Z",
+  "texas": "2026-10-07T14:31:33Z",
+  "resources": "2026-10-07T22:09:03Z",
+  "tables_read": {
+   "ercot_large_load_status": true,
+   "iso_curtailment_monthly": true
+  }
+ },
+ "facts": {
+  "flat_load_last_twelve_months": [
+   "2025-10",
+   "2026-09"
+  ],
+  "capture_last_twelve_months": [
+   "2025-10",
+   "2026-09"
+  ],
+  "california_months_with_a_share_2025": 12,
+  "large_load_report_day": "2026-03-26"
+ },
+ "questions": [
+  {
+   "id": "p01",
+   "kind": "sentence",
+   "page": "/cost-of-power",
+   "q": "What did a flat load pay for power at ERCOT's North load zone over the last twelve months, in real time?",
+   "expect": [
+    33.73
+   ],
+   "cite": "site\\/data\\/datacenter\\/index\\.json",
+   "source": "site/data/datacenter/index.json",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "cost",
+     "grid": "ercot",
+     "place": "LZ_NORTH",
+     "market": "rt"
+    },
+    "at": "last_twelve_months.usd_per_mwh"
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p02",
+   "kind": "chart",
+   "page": "/cost-of-power",
+   "q": "Show what a flat load paid for power at ERCOT's West hub year by year, in real time.",
+   "cite": "site\\/data\\/datacenter\\/index\\.json",
+   "source": "site/data/datacenter/index.json",
+   "series_has": {
+    "key": "2021",
+    "value": 145.74
+   },
+   "series_rows": 12,
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "cost",
+     "grid": "ercot",
+     "place": "HB_WEST",
+     "market": "rt",
+     "by": "year"
+    },
+    "row": {
+     "year": "2021"
+    }
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p03",
+   "kind": "sentence",
+   "page": "/cost-of-power",
+   "q": "What does power cost per GPU-hour for a flat load at ERCOT's North load zone, at the page's own assumptions?",
+   "expect": [
+    0.0684
+   ],
+   "cite": "site\\/data\\/datacenter\\/index\\.json",
+   "source": "site/data/datacenter/index.json",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "cost",
+     "grid": "ercot",
+     "place": "LZ_NORTH"
+    },
+    "at": "last_twelve_months.power_per_gpu_hour_usd"
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p04",
+   "kind": "sentence",
+   "page": "/cost-of-power",
+   "q": "How many megawatts of large load has ERCOT approved to energize, by its newest status report?",
+   "expect": [
+    9042.0
+   ],
+   "table_read": true,
+   "cite": "ercot_large_load_status",
+   "source": "ercot_large_load_status",
+   "read": {
+    "tool": "query",
+    "input": {
+     "table": "ercot_large_load_status",
+     "aggregation": "latest",
+     "entity": "ercot:large_load",
+     "variable": "approved_to_energize_mw"
+    }
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p05",
+   "kind": "sentence",
+   "page": "/cost-of-power/seller",
+   "q": "What is the capture price of solar at ERCOT's West hub over the last twelve months, in real time?",
+   "expect": [
+    18.47
+   ],
+   "cite": "site\\/data\\/seller\\/capture\\.json",
+   "source": "site/data/seller/capture.json",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "capture",
+     "grid": "ercot",
+     "place": "HB_WEST",
+     "market": "rt",
+     "fuel": "solar"
+    },
+    "at": "last_twelve_months.capture_price_usd_per_mwh"
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p06",
+   "kind": "chart",
+   "page": "/cost-of-power/seller",
+   "q": "Show the capture price of wind at ERCOT's hub average year by year.",
+   "cite": "site\\/data\\/seller\\/capture\\.json",
+   "source": "site/data/seller/capture.json",
+   "series_has": {
+    "key": "2022",
+    "value": 50.01
+   },
+   "series_rows": 8,
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "capture",
+     "grid": "ercot",
+     "place": "HB_HUBAVG",
+     "fuel": "wind",
+     "by": "year"
+    },
+    "row": {
+     "year": "2022"
+    }
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p07",
+   "kind": "sentence",
+   "page": "/cost-of-power/seller",
+   "q": "How far below the flat average price is solar's capture price at California's SP15 hub over the last twelve months?",
+   "expect": [
+    14.66,
+    51.4
+   ],
+   "cite": "site\\/data\\/seller\\/capture\\.json",
+   "source": "site/data/seller/capture.json",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "capture",
+     "grid": "caiso",
+     "place": "TH_SP15_GEN-APND",
+     "fuel": "solar"
+    },
+    "at": "last_twelve_months.premium_usd_per_mwh",
+    "abs": true
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p08",
+   "kind": "chart",
+   "page": "/cost-of-power/seller",
+   "q": "Compare the capture price of solar across ERCOT's hubs and load zones over the last twelve months.",
+   "cite": "site\\/data\\/seller\\/capture\\.json",
+   "source": "site/data/seller/capture.json",
+   "series_has": {
+    "key": "HB_WEST",
+    "value": 18.47
+   },
+   "series_rows": 10,
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "hubs",
+     "grid": "ercot",
+     "fuel": "solar"
+    },
+    "row": {
+     "place": "HB_WEST"
+    }
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p09",
+   "kind": "sentence",
+   "page": "/curtailment",
+   "q": "What share of its available wind and solar output did California curtail in 2025?",
+   "expect": [
+    4.53
+   ],
+   "cite": "site\\/data\\/curtailment\\/shares\\.json|iso_curtailment_monthly",
+   "source": "site/data/curtailment/shares.json",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "share",
+     "grid": "caiso",
+     "period": "2025"
+    },
+    "at": "period.share_pct"
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p10",
+   "kind": "chart",
+   "page": "/curtailment",
+   "q": "Show the share of its available wind and solar output that SPP curtailed, month by month in 2025.",
+   "cite": "site\\/data\\/curtailment\\/shares\\.json|iso_curtailment_monthly",
+   "source": "site/data/curtailment/shares.json",
+   "series_has": {
+    "key": "2025-04",
+    "value": 17.76
+   },
+   "series_rows": 12,
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "share",
+     "grid": "spp",
+     "period": "2025",
+     "by": "month"
+    },
+    "row": {
+     "month": "2025-04"
+    }
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p11",
+   "kind": "sentence",
+   "page": "/curtailment",
+   "q": "How much solar energy did California curtail in May 2025?",
+   "expect": [
+    382842.084
+   ],
+   "table_read": true,
+   "cite": "iso_curtailment_monthly|caiso_curtailment_profile",
+   "source": "iso_curtailment_monthly",
+   "read": {
+    "tool": "query",
+    "input": {
+     "table": "iso_curtailment_monthly",
+     "aggregation": "sum",
+     "entity": "caiso:ISO",
+     "variable": "curtailed_solar_mwh",
+     "start": "2025-05-01",
+     "end": "2025-06-01"
+    }
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p12",
+   "kind": "sentence",
+   "page": "/curtailment",
+   "q": "In how many hours of the last twelve months was power at ERCOT's West hub priced under 5 dollars per MWh?",
+   "expect": [
+    1678
+   ],
+   "cite": "site\\/data\\/curtailment\\/free_energy\\.json",
+   "source": "site/data/curtailment/free_energy.json",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "free_energy",
+     "grid": "ercot",
+     "window": "year",
+     "place": "HB_WEST"
+    },
+    "at": "in_the_window.hours_under_usd_5"
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p13",
+   "kind": "chart",
+   "page": "/curtailment",
+   "q": "Show the hours priced under 5 dollars per MWh at each ERCOT hub and load zone over the last twelve months.",
+   "cite": "site\\/data\\/curtailment\\/free_energy\\.json",
+   "source": "site/data/curtailment/free_energy.json",
+   "series_has": {
+    "key": "LZ_WEST",
+    "value": 1503
+   },
+   "series_rows": 12,
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "free_energy",
+     "grid": "ercot",
+     "window": "year"
+    },
+    "row": {
+     "place": "LZ_WEST"
+    }
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p14",
+   "kind": "sentence",
+   "page": "/curtailment",
+   "q": "Over the days held, what percent of the limit its plants reported was Texas wind and solar output below?",
+   "expect": [
+    4.57
+   ],
+   "cite": "site\\/data\\/curtailment\\/ercot\\.json|ercot_wind_solar_hsl_daily",
+   "source": "site/data/curtailment/ercot.json",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "share",
+     "grid": "ercot"
+    },
+    "at": "over_the_days_held.share_of_limit_pct"
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p15",
+   "kind": "sentence",
+   "page": "/resources",
+   "q": "What is the mean wind speed at 100 m at longitude -101.83, latitude 35.22, near Amarillo?",
+   "expect": [
+    8.49
+   ],
+   "cite": "site\\/data\\/resources\\/manifest\\.json",
+   "source": "site/data/resources/manifest.json",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "value_at",
+     "layer": "wind_speed_100m",
+     "lon": -101.83,
+     "lat": 35.22
+    },
+    "at": "value"
+   },
+   "cell_deg": 0.05,
+   "new": "pages153"
+  },
+  {
+   "id": "p16",
+   "kind": "sentence",
+   "page": "/resources",
+   "q": "How large is the Permian sedimentary basin on the resource map, in square miles?",
+   "expect": [
+    61763.2
+   ],
+   "cite": "site\\/data\\/resources\\/manifest\\.json",
+   "source": "site/data/resources/manifest.json",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "features",
+     "layer": "oil_gas_basins",
+     "name": "Permian"
+    },
+    "row": {
+     "name": "Permian"
+    }
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p17",
+   "kind": "chart",
+   "page": "/resources",
+   "q": "List the sedimentary basins the resource map holds, with the area of each.",
+   "cite": "site\\/data\\/resources\\/manifest\\.json",
+   "source": "site/data/resources/manifest.json",
+   "series_has": {
+    "key": "Permian",
+    "value": 61763.2
+   },
+   "series_rows": 32,
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "features",
+     "layer": "oil_gas_basins"
+    },
+    "row": {
+     "name": "Permian"
+    }
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p18",
+   "kind": "sentence",
+   "page": "/resources",
+   "q": "Who publishes the resource map's global horizontal irradiance layer, and which years does it average?",
+   "expect_all": [
+    1998,
+    2016
+   ],
+   "cite": "site\\/data\\/resources\\/manifest\\.json",
+   "source": "site/data/resources/manifest.json",
+   "must": "NLR|NREL|National (Renewable Energy )?Laboratory",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "layer",
+     "layer": "solar_ghi"
+    },
+    "contains": "1998-2016"
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p19",
+   "kind": "refuse",
+   "page": "/curtailment",
+   "q": "How much wind and solar energy did ISO New England curtail in August 2026?",
+   "say": "held, not shown",
+   "why": "internal: ISO-NE's monthly undelivered energy is held under its terms and not shown",
+   "source": "isone_ddg_undelivered_monthly",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "share",
+     "grid": "isone",
+     "period": "2026-08"
+    },
+    "refused": "isone_ddg_undelivered_monthly is held, not shown"
+   },
+   "new": "pages153"
+  },
+  {
+   "id": "p20",
+   "kind": "refuse",
+   "page": "/cost-of-power/seller",
+   "q": "What is the capture price of wind at MISO's Indiana hub?",
+   "say": "paused while terms are reviewed",
+   "why": "MISO is paused: no figure of it is shown",
+   "source": "none",
+   "read": {
+    "tool": "page_file",
+    "input": {
+     "view": "capture",
+     "grid": "miso",
+     "place": "INDIANA.HUB",
+     "fuel": "wind"
+    },
+    "words": "paused while terms are reviewed"
+   },
+   "new": "pages153"
+  }
+ ]
+}

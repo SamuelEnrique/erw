@@ -11,6 +11,7 @@ Ask ERCOT is the question box on the ERCOT page and at `/ask/ercot`. You type a 
 | The price board | ERCOT's hub prices with their moves over a day, a week, a month and a year, the spark spread, and prices that belong to no grid: natural gas, oil, Treasury yields |
 | Supply and trade | Natural gas in storage, oil stocks and trade, the fuel burned for power in ERCOT, the energy ERCOT's day-ahead market cleared |
 | The energy mix | Each source's output by hour of the day, the carbon-free share, the hardest hours of each year |
+| What a datacenter pays, curtailment, the capture price and the map of resources (since 8 October 2026) | What a flat load paid at a hub or zone, the share of wind and solar output curtailed, where power was priced near nothing, what curtailed energy was worth, the capture price of solar and wind, and the natural resource layers. See "Four pages more" below |
 
 Every source an answer used is listed under it, with a link.
 
@@ -105,6 +106,82 @@ Four changes, written and tested with no question asked. What each did to the 10
 - **The pages of one large read are asked for together.** The site's database answers 1,000 rows a request. A read of several thousand rows was that many requests in a row. Now the first page is asked for alone, exactly as before, and the pages after it four at a time. The rows, their order and a failure are the ones the old reader gave: this is tested on a recorded read of three pages, and `site/scripts/compare-paged-reads.mjs` read every table the three open pages read both ways and compared every row (on 7 October 2026: 44 reads, 40,647 rows, none different; the 16 reads of more than one page took 7.1 seconds one after another and 3.0 seconds together). While the site is built the reader is the one it was, one page after another.
 - **A plan made by rule (off until measured).** For three shapes of question the read is the same every time, and code writes it, with no reading turn by the model: a price at a named hub in a named market over a named period; the electricity generated from a named source over a named period; the price of a named reserve product over a named period. The rule must account for every word of the question. One word it does not know (an hour of the day, "now", "last week", another grid, a second hub), a hub, a market or a period that is not named, a period that has not begun, or a question that continues a conversation, and the question goes to the model as before. It plans 16 of the 100 test questions (8, 7 and 1 by shape) and none of the 50 about an idea or to be refused. The model still writes the answer, under every check above; when it cannot write it from what the rule read, the model reads for itself.
 - **Lower effort on the reading turn (off until measured).** The first model call, the one that decides what to read, can be given a lower effort setting by the server; the writing turn is not changed. A question that is answered without reading (an idea, a refusal) has only that first call, so with the switch on its words are written at the lower setting too.
+
+**What the 100 questions said (8 October 2026).** Before: the tool as session 143 left it, 77 answers from that session's record and 23 asked again on 8 October (the 22 it had not asked and the one that had failed): 100 of 100 pass. After: all 100 asked once with the four changes on. The record is `warehouse/chat/eval_ercot_speed_results_148.csv`.
+
+| Kind | Pass, before then after | Seconds to the words, median, before then after | Under the target, before then after |
+|---|---|---|---|
+| A question about numbers (50; target 5 seconds) | 50, 48 | 6.2, 4.8 | 15, 27 |
+| An idea (25; target 2 seconds) | 25, 25 | 2.3, 2.1 | 2, 7 |
+| A refusal (25) | 25, 25 | 2.1, 2.0 | 3, 11 under 2 seconds |
+
+- **The year of reserve prices by month** went from 43.9 seconds and eight model calls to 2.5 seconds and one: twelve rows of the monthly table, and a chart equal to them.
+- **The 16 questions the rule planned all pass**, in one model call each: 5.5 seconds to the words at the median before, 3.0 after; 13 of the 16 are under 5 seconds, where 6 were.
+- **The other 34 questions about numbers**, read by the model at the lower effort: 6.7 seconds before, 5.3 after. The reading turn itself took 3.0 seconds at the median before and 2.0 after.
+- **Two charts were lost in that run, and neither loss is laid to a change.** One (battery capacity in the queue by the year it plans to come online) failed again with the lower effort off, and again with the tool's guide as session 143 left it: the query cannot group a date column by year, and the answer depends on the model finding a way round. The other (wind across the hours of an average day) failed again with the lower effort off and passed with the two reserve tables not offered; it had passed before. Four askings do not say why. Both are questions the tool cannot answer with one query.
+- **So the two switches stay off in the code.** The rule was that a change is switched on only if all 100 pass with it, and 98 did. The rule lost none of the 16 questions it touches and changes nothing for the others; the lower effort lost no question that passed again without it. Both can be set on the server (`ASK_RULE_PLAN=on`, `ASK_READER_EFFORT=low`); the figures above are with both set.
+- **What is slow now.** The five slowest answers (18 to 28 seconds) are all questions the first reading did not settle, so the model read again and again, up to the limit of eight calls: the average day by hour, yesterday's demand by hour when yesterday is not yet held, a date column by year. And a read of thirty rows of the hub prices by day sometimes takes 5 to 13 seconds (twice in the 100): the query asks for "this entity or this node", which the database answers about five times slower than "this entity" (0.4 seconds against 0.09 when it is warm), and when it is not warm the statement is cancelled for time and tried again.
+
+## Four pages more (session 153, 8 October 2026)
+
+Ask ERCOT reads what stands behind four pages built in the week of 5 October 2026: [What a datacenter pays](/cost-of-power), [Curtailment](/curtailment) with "Where free energy is", [What a generator earns](/cost-of-power/seller) for the capture price, and [Where the resources are](/resources). No table was loaded for it and no page changed.
+
+**Where each figure is read from.** Everything those pages show comes from one of four kinds of source, and each kind is read in its own way.
+
+| Kind of source | How Ask reads it | Which |
+|---|---|---|
+| A public table already on the site | With the query that reads every other table | `iso_curtailment_monthly`, `caiso_curtailment_daily`, `spp_curtailment_daily`, `ercot_wind_solar_hsl_daily`, `caiso_curtailment_profile`, `eia930_demand_growth`, `interconnection_queue_summary`, `ercot_large_load_status`, `cost_of_power_hourly_profile`, `cost_of_power_carbon` |
+| A public table that is not on the site | It would have to be loaded first | None was needed |
+| A file the page reads that no table holds | With a tool, `page_file`, that reads the same file the page reads, through the page's own functions | The hourly prices behind what a flat load paid, and the hours a grid was tight; the capture prices; the shares of curtailment; Texas's days; where free energy is; what curtailed energy was worth; the resource layers |
+| A table held internally | Never. The answer says "held, not shown" and why | Listed below |
+
+A figure from `page_file` is the page's figure: there is no second copy that could drift from the page. The source under such an answer is the file's name (for example `site/data/seller/capture.json`) and links to the page.
+
+**Other grids, for these pages only.** The four pages are tools for every grid, so for what they show Ask answers for CAISO, NYISO, ISO-NE and SPP as well as ERCOT. Everything else about another grid is still not answered here: its price on a day, its demand, its fuel mix, its batteries. MISO reads "paused while terms are reviewed" and PJM "licensed source needed": no figure of either is given.
+
+**What each is, and what it is not.** Each sentence is from the page's own Method note.
+
+- **What a flat load paid** ([method](/data/methods/datacenter_cost)). The mean of the hourly prices at a hub or zone: the last twelve complete months, a bad month, power per GPU-hour at the page's two stated defaults, and each year or month. It is not a bill: wholesale energy only, with no delivery, transmission, demand or retail charge. A hub or zone is an average over many points, not a site. A flexible load is computed on the page from the reader's own inputs and is not read by Ask. The hours a grid was tight are the hours within 5 percent of that year's own highest hour of demand: a count near the year's peak, not a measure of scarcity or of an emergency.
+- **The capture price** ([method](/data/methods/cost_of_power)). The price of each hour weighed by the grid's solar or wind generation of that hour, against the flat average of the same hours. It is the fleet's shape, not a site's: one plant's resource, curtailment, congestion and node price are not in it, and it is not what a plant with a contract earns. The page's hybrid figure "Combined" is two revenues added, each priced as if it stood alone; Ask does not read it and never adds the two.
+- **The share of output curtailed** ([method](/data/methods/curtailment)). Curtailed energy over curtailed plus output. The grids' figures do not mean the same thing and are never added up. CAISO's and SPP's are the operators' own. ERCOT publishes no curtailment figure: Texas's is the ERW's estimate, output below the limit the plants reported, held for whole days from 28 September 2026 and never for a month. CAISO's shares of 2026 rest on its Today's Outlook output, which shows more output than its Daily Renewable Report, so a share on the report's output would be higher. The data does not say where a curtailment happened.
+- **Where free energy is.** For each hub and zone, the hours priced below zero and the hours priced under USD 5 per MWh, over the last month and the last twelve. It is a count of hours at a wholesale price, not energy that can be had for nothing, and a hub or zone is not a site.
+- **What curtailed energy was worth.** Each hour's curtailed energy times the hub's price of that hour. It is what the energy would have fetched at the hub, not a loss anyone booked, and it is negative when the energy was curtailed in hours priced below zero.
+- **A resource layer** ([method](/data/methods/resources)). The publisher's estimate of a resource over an area: its unit, publisher, vintage and range; the value of a cell at a longitude and latitude; a basin, play, county or lease area by name. It is not a siting study and says nothing of land use, access to transmission, permits or cost, so a question that asks where to build is not answered. The wind capacity factor layer is not a gross capacity factor and is not called one. No place name is looked up: a place is a longitude and a latitude.
+
+**Held, not shown.** These tables are held internally under their publishers' terms. No tool reads them: a query that names one is refused before anything is read, and the answer says "held, not shown" with the reason and the nearest thing that is shown.
+
+| Table | What it is |
+|---|---|
+| `isone_zone_prices_history` | ISO-NE's load zone prices, 2019 to August 2026 |
+| `isone_ddg_undelivered_monthly` | ISO-NE's monthly undelivered energy of its dispatchable wind and solar plants |
+| `isone_zone_load_hourly` | ISO-NE's hourly demand by zone |
+| `nyiso_load_queue` | New York's load in line |
+| `texas_transmission_matrix` | The Texas Commission's transmission charge matrices |
+| `texas_delivery_charges` | The four large Texas wires utilities' delivery and transmission charges |
+
+The two Texas tables are a case of their own. The page prints their figures as public regulatory filings, each with its document and page, and says that the 2026 matrices are filed, not approved. Ask reads neither table and gives no figure of them: it says where on the page they stand.
+
+**The 20 test questions** are in `warehouse/chat/eval_ercot_pages.json`: at least four a page, sentences and charts, and two that must be refused (ISO-NE's monthly curtailment, held and not shown; a MISO figure, paused). Every expected number is computed by `warehouse/chat/eval/ercot_pages_expected.py` from the file or table the question is answered from, and the site's tool is set against those numbers with no model (`site/scripts/test-ask-tables.mjs`). The judge is still a rule in code. For these questions it also checks that an expected number is in the answer, that the source is the one the question names, and that a chart holds the expected row.
+
+**What the 120 questions said (8 October 2026).** All 120 were asked once, on the tool as the code stands (the two switches of session 148 off), the 20 new ones first. The record is `warehouse/chat/eval_ercot_pages_results_153.csv`.
+
+| Questions | Pass | Seconds to the words, median | USD a question |
+|---|---|---|---|
+| The 20 of the four pages | 19 of 20 | 5.0 | 0.0281 |
+| What a datacenter pays (4) | 4 of 4 | 4.7 | 0.0480 |
+| The capture price (5, one a refusal) | 5 of 5 | 5.1 | 0.0174 |
+| Curtailment and free energy (7, one a refusal) | 6 of 7 | 5.0 | 0.0262 |
+| The resource layers (4) | 4 of 4 | 5.0 | 0.0247 |
+| The 100 of before | 98 of 100 | 4.1 | 0.0202 |
+
+- **The one new question that failed** asked what percent of the reported limit Texas wind and solar output was below, over the days held. The page's file holds that figure (4.57 percent over nine whole days from 28 September 2026). The tool read the daily table instead, which starts nine days earlier and holds no share, and answered with two ratios, one for wind and one for solar, over another span of days. Asked a second time it read the page's file and passed. Two sources hold the same thing over different days, and the guide does not yet say which to read for a share.
+- **The two refusals were given in the expected words**: ISO-NE's monthly curtailment "held, not shown", with the reason; a MISO capture price "paused while terms are reviewed". Neither gave a figure.
+- **The ten older refusals about another grid all held**, though the tool now answers for other grids on these four pages.
+- **Two of the 100 failed, both charts the tool cannot fetch with one query**, and neither read a new table or the new tool: the batteries across the hours of a day, and the queue by the year a plant plans to come online. Both passed in session 148's record of the tool with the switches off; the second failed in that session's three other askings. One asking each does not say whether the longer guide played a part.
+- **The first question of the run cost USD 0.14**: it wrote the longer guide to the model's cache. Without it the new questions cost USD 0.0223 each. The 100 cost USD 0.0202 each against 0.0186 before: the guide is about 4,700 tokens longer, and every model call reads it.
+- One of the 100 was answered from a page's file: the year's highest hourly demand, 91,134 MW from the operator's own hourly demand as the datacenter page holds it. Session 143's answer to the same question was 91,075 MW, from EIA's hourly demand: two sources, two figures, each said with its source.
+
+`ASK_PAGES=off` on the server leaves the tool as it was before this session.
 
 ## Limits
 

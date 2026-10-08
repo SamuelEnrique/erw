@@ -99,6 +99,10 @@ TIER_RULES = [
     # session 139: statements of large load waiting for power, collected by an AI research agent with web search, each
     # kept only with its sentence found in the document
     ("model_extracted", r"^large_load_statements$"),
+    # session 154: proceedings and orders collected from public dockets by an AI research agent, each kept only with its
+    # sentence found in the document; and the one-line reads a model wrote from that sentence and the text around it
+    ("model_extracted", r"^large_load_rules(_internal)?$"),
+    ("model_extracted", r"^large_load_rule_reads$"),
 ]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
@@ -153,6 +157,8 @@ SECTOR_RULES = [
     (r"^isone_ddg_undelivered_monthly$", "power"),
     # session 139: the large-load statements pilot (internal)
     (r"^large_load_statements$", "power"),
+    (r"^large_load_rule(s|s_internal|_reads)$", "power;datacenters"),  # session 154: rules in motion for large loads
+    (r"^policy_action_tags$", "news"),  # session 154: tags of the policy actions held, by a written rule
     (r"^news_", "news"),
     # session 8
     (r"^eia860m_(operating|planned|retired)_generators$", "power"),
@@ -229,6 +235,9 @@ SECTOR_RULES = [
     (r"^iso_hub_prices_history$", "power"),
     (r"^eia930_all_history$", "power"),
     (r"^noaa_isd_hourly$", "power"),
+    (r"^noaa_grid_weather_(stations|hourly|daily)$", "power"),  # session 126: each grid's weighted weather, and its stations
+    (r"^noaa_station_weather_hourly$", "power"),                # session 129: the stations' own measured hours
+    (r"^census_metro_population$", "power"),                    # session 129: the Census Bureau's metropolitan populations, the stations' weights
     (r"^rrc_lease_production_monthly$", "oil;gas"),
     # session 102: the tables of sessions 94 to 100, which could not be put in coverage during the freeze
     (r"^generation_mix_(hourly_profile|records)$", "power;carbon"),  # session 94: the energy mix by hour and its records
@@ -287,8 +296,11 @@ def iso_of(table):
         return "CAISO;ISO-NE;MISO;NYISO;SPP"
     if table == "iso_zone_prices_history":  # session 140: NYISO's zones, CAISO's ZP26 and SPP South (ISO-NE's are isone_zone_prices_history, internal)
         return "CAISO;NYISO;SPP"
-    if table in ("eia930_all_history", "noaa_isd_hourly"):  # session 49: the seven ISO BAs, and their weather stations
+    if table in ("eia930_all_history", "noaa_isd_hourly", "noaa_grid_weather_stations", "noaa_grid_weather_hourly", "noaa_grid_weather_daily",
+                 "eia930_demand_weather", "noaa_station_weather_hourly"):  # session 49: the seven ISO BAs, and their weather stations; session 126: their weighted weather and demand with it taken out
         return "CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP"
+    if table == "census_metro_population":  # session 129: metropolitan areas, no ISO
+        return "none"
     if table == "rrc_lease_production_monthly":  # session 49: Texas leases, no ISO
         return "none"
     if table in ("event_window_daily", "event_study_estimates"):  # session 36B Uri in ERCOT; session 36C COVID-19 in the seven ISO BAs and US48; session 47 its event studies

@@ -22,6 +22,7 @@ import { GridsView } from "./GridsView";
 import { YearCost } from "./LoadCharts";
 import { ContractInputs, ContractProvider, ContractResult } from "./LoadContract";
 import { LoadForm } from "./LoadForm";
+import { RulesInMotion } from "./RulesInMotion";
 import { CostTabs } from "./Tabs";
 
 // Session 138: "What a datacenter pays", the mirror of /cost-of-power/battery for a buyer. A load the reader describes
@@ -92,12 +93,12 @@ export default async function CostOfPower({ searchParams }: { searchParams: Prom
         lead={<>What a large load pays for power, whether the power is there when it is needed, how clean it is and how soon it can be had, for a load you describe. <Link href={METHOD}>Method note</Link>.</>}
       />
       <ViewNav x={x} />
-      {x.view === "grids" ? <GridsView /> : <LoadView x={x} buyGiven={typeof sp.buy === "string"} />}
+      {x.view === "grids" ? <GridsView /> : <LoadView x={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined} />}
     </ToolPage>
   );
 }
 
-function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
+function LoadView({ x: asked, buyGiven, gridAsked }: { x: Inputs; buyGiven: boolean; gridAsked?: string }) {
   let x = asked;
   const g = INDEX.grids[x.grid];
   let files: ReturnType<typeof yearFiles> = [], failed: string | null = null;
@@ -335,6 +336,8 @@ function LoadView({ x: asked, buyGiven }: { x: Inputs; buyGiven: boolean }) {
                     : <Missing key="m" words={NOWHERE} why={`A search on 7 October 2026 found no public list of the large load waiting for power in ${g?.name ?? x.grid} by place. The pieces sit in utility planning filings, rate cases and operator reports.`} />, ""] },
                 { key: "waitload", cells: ["How long a new large load waits", <Missing key="m" words={NOWHERE} why="A search on 7 October 2026 found no public dataset of the time from a large load's request to its energization, for any grid. The interconnection queue above is for generators, not loads." />, ""] },
               ]} />
+            {/* session 154: the regulatory actions in motion for the grid the address names (MISO and PJM too); one site file */}
+            <RulesInMotion x={x} asked={gridAsked} names={{ ...Object.fromEntries(Object.entries(INDEX.blank).map(([id, v]) => [id, v.name])), ...Object.fromEntries(Object.entries(INDEX.grids).map(([id, v]) => [id, v.name])) }} />
           </ToolSection>
 
           {x.grid === "nyiso" && NY_SHOWN ? (

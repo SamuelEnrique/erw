@@ -2,6 +2,12 @@
 
 Energy Research Warehouse (ERW). Changes a user of the tables, the `erw` package or the site needs to know about, newest first. What a session did and why is in its report, `archive/sessions/SESSION_*_REPORT.md`.
 
+## 2026-10-08, session 151: eighty entities' large-load statements, and the wait figures
+
+- `large_load_statements` (internal) holds 796 statements: 761 from 70 of 80 utilities and operators and 35 from 13 regulators, federal bodies and other parties that state a figure. 200 of them state a duration: 171 distinct wait figures, 12 of them measured.
+- Seven new columns (`docs/datastandard.md`, Decision 45): `entity_list`, `source_flag`, `wait_basis`, `load_scope`, `wait_counted`, `wait_figure`, `wait_figure_holder`. The 434 rows held before keep their ids.
+- One page: `docs/accelerator/large_load_eighty.md`.
+
 ## 2026-10-07, sessions 140, 141 and 144: load zone and zone price histories, New York's load queue, forty entities' large-load statements
 
 **Five new public tables and two internal ones** (`docs/datastandard.md`, Decision 43):
