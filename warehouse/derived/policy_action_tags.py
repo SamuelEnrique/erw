@@ -177,7 +177,7 @@ def main(argv=None):
             f"reads a row. Method: {METHOD}.",
             f"Retrieved: {run_id} (UTC) by warehouse/derived/policy_action_tags.py",
             f"Run log: warehouse/output/logs/{NAME}_{run_id}.log",
-            f"Derived from: {ACTIONS}.",
+            f"Derived from: {ACTIONS}",
             f"Actions read: {len(actions)}; actions tagged: {n_actions}; rows: {len(table)} ({by_tag}).",
             "Source: erw:policy_action_tags. License: public (US and state government publications; the tags are "
             "the ERW's own).",
