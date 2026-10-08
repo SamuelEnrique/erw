@@ -18,6 +18,8 @@ import { FORMS, FORM_SCHEMA, MIX_HOLDS, MIX_TABLES, NOTES_TABLE, PAGE_TOOL, adde
 import { ROLLUP, ROLLUP_HOLDS, ROLLUP_TABLES, rollupGuide, rollupOffered } from "./rollup";
 import { rulePlan } from "./plan";
 import { HELD_WORDS, PAGES_FILTERS, PAGES_HOLDS, PAGES_NEAR, PAGES_TABLES, PAGE_FILE_TOOL, heldIn, heldRefusal, pageFile, pagesGuide, pagesOffered } from "./pagefiles";
+import { extendTools, formsGuide, formsOffered } from "./forms";
+import { precedenceOf, readyGuide, reworded } from "./ready";
 
 /** session 137: the tables a refusal may name as nearest: the guide's and the energy mix's three */
 const NEAR_TABLES = [...spec.tables, ...MIX_TABLES, ...ROLLUP_TABLES, ...PAGES_NEAR];   // session 148: and the reserve prices by day and by month; session 153: and what stands behind four pages
@@ -345,7 +347,8 @@ function profile148(): Profile {
 // files, the guide says what each is and is not, and a table held internally is refused by its name by every tool,
 // before anything is read. A result of page_file that holds rows is marked like a query's, so it can be charted.
 export const PAGES_TOOL_NAME = PAGE_FILE_TOOL.name;
-export function ercotProfile(): Profile {
+/** The profile as session 153 left it: session 148's, and on it what stands behind the four pages (session 156 gave it this name). */
+export function profile153(): Profile {
   const p = profile148();
   if (!pagesOffered() || !p.scope) return p;
   const scope: Scope = { ...p.scope, tables: [...p.scope.tables, ...PAGES_TABLES], filters: { ...p.scope.filters, ...PAGES_FILTERS } };
@@ -364,3 +367,31 @@ export function ercotProfile(): Profile {
   };
 }
 export { HELD_WORDS };
+
+// Session 156, Ask ERCOT to ready: the profile the route serves. On the profile above, unless the server says
+// ASK_FORMS=off (then it is session 153's to the letter):
+//   - the model is shown the query tool, and the two queries of compare, with three more arguments (lib/chat/forms.ts:
+//     the average day by hour, a date column by year, the newest day held), and their guide follows the prompt;
+//   - and, where the four pages are offered, the owner's rulings of 8 October 2026 (lib/chat/ready.ts): the rule of
+//     source precedence, with a note on every tool result that holds a figure held twice (which source is the
+//     operator's own, which is derived, which leads); the sentence that says which source holds Texas's curtailment
+//     share; and the closing words of a refusal about another grid, which name the tool as it now is: the two
+//     sentences of the older prompts that say the chat speaks for ERCOT only are reworded here, in the prompt the model
+//     is given, and stay as they were in the exported spec and in the panel's own text (true without the four pages).
+// The two speed switches of session 148 are on by default since this session: that default is lib/chat/switches.ts's.
+export function ercotProfile(): Profile {
+  const p = profile153();
+  if (!formsOffered() || !p.scope) return p;
+  const pages = pagesOffered();
+  const tagged = p.tag;
+  return {
+    ...p,
+    system: (pages ? reworded(p.system, p.scope.iso).system : p.system) + formsGuide(pages) + (pages ? readyGuide() : ""),
+    retool: (tools) => extendTools(tools as unknown as Parameters<typeof extendTools>[0]) as unknown as typeof tools,
+    tag: (name, input, out, n) => {
+      const marked = tagged(name, input, out, n);
+      const note = pages && !("error" in marked) ? precedenceOf(name, input) : null;
+      return note ? { ...marked, source_precedence: note } : marked;
+    },
+  };
+}

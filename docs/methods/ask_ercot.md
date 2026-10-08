@@ -38,9 +38,9 @@ A chart is drawn only when the question asked how something moved. It is never a
 
 ## What it does not answer
 
-Ask ERCOT speaks for ERCOT only. It says so plainly, and says where to look, for:
+Ask ERCOT answers for the Texas grid, and for the other grids only what four pages of this site show: curtailment and free energy, what a datacenter pays, the capture price and the resource layers (see "Four pages more" below). For everything else it says so plainly, and says where to look:
 
-- **Another grid.** PJM, CAISO, MISO, NYISO, ISO-NE and SPP each have their own page on this site.
+- **Another grid, beyond those four pages.** PJM, CAISO, MISO, NYISO, ISO-NE and SPP each have their own page on this site.
 - **Licensed data.** Futures and forward prices, and the price assessments of S&P Global, ICE and CME, are not held. It names the nearest thing that is: a spot or day-ahead price.
 - **What a named company earned, bid or owns.** The warehouse holds markets, not company accounts.
 - **Forecasts and advice.** The warehouse holds what happened.
@@ -182,6 +182,40 @@ The two Texas tables are a case of their own. The page prints their figures as p
 - One of the 100 was answered from a page's file: the year's highest hourly demand, 91,134 MW from the operator's own hourly demand as the datacenter page holds it. Session 143's answer to the same question was 91,075 MW, from EIA's hourly demand: two sources, two figures, each said with its source.
 
 `ASK_PAGES=off` on the server leaves the tool as it was before this session.
+
+## To ready (session 156, 8 October 2026)
+
+What sessions 148 and 153 left open, closed with no question asked. What the 120 test questions say of it is measured afterwards and written here when it is known.
+
+**Three things the query does in one call.** Every chart the tool lost in those two sessions, and its whole slow tail, came from three things the query could not ask at once. Each is now a form of the same query, made with the database's existing interface: no function, no view and no change to the database.
+
+| What is asked | Before | Now |
+|---|---|---|
+| The average day by hour ("wind across the hours of an average day", "how the batteries charge and discharge across a day") | 24 variables read a few at a time, up to the limit of eight calls; two charts lost | One call: 24 values, hour 00 to 23, as one series |
+| A date column grouped by year ("battery capacity in the queue by the year it plans to come online") | Not possible: the queue's own date column is empty, and the planned date could not be grouped | One call: megawatts and the count of projects for each year |
+| The newest day held ("demand hour by hour yesterday" when yesterday is not yet held) | A search day by day, one count a day, five to ten model calls | One call: the newest whole day, found by one small read, and the answer over it |
+
+- **The average day by hour.** From a table of hours, the rows of the period are read once and grouped by the local hour of the day: each of the 24 rows is the mean of that hour, with the rows and the days behind it. An hour with fewer days than the period (a day held in part, the hour the clocks skip) carries its own count and is named; an hour with no row is named as not held. Nothing is filled. From a table of months whose variables are the hours (the energy mix's average day, the batteries' average day), the 24 variables are read in one request and returned as one series, each value the table's own row, with the days the table itself counts behind it. Over several months the result is the mean of the months' values and says so. The page shows the 24 values as a table, not a line: its chart places points in time, and an hour of the day is not one.
+- **A date column by year.** An entities table such as ERCOT's queue report holds several dates (the date a request entered, the date a project plans to come online). The query now groups and bounds by a named date column, by year, month or day, taking each date as the source writes it. A row whose date is empty is in no group and is counted apart. When a question groups such a table by year and names no column, and the table's own date is empty, the result says which columns hold a date.
+- **The newest day held.** One small read, newest first, finds the newest day that holds every step its local day has (23, 24 or 25 hours of them); the query then answers over that day. Asked with the day after the day wanted as its end, it reads that day when it is held whole and otherwise the newest whole day before it, and the result says which day was read, the newest row held and the newer days held in part. A day is never made whole by filling.
+- **The entity first.** The query used to ask the database for "this entity or this node" in one request, which it answered about five times slower than "this entity" alone (measured again on 8 October 2026: 0.35 to 0.47 seconds against 0.05 to 0.08, on three pairs of fresh reads of 30 rows). It now asks for the entity; only when no row has it does it ask for the node of that name. The rows returned are the same: an entity is written with its source before it and a node is not, so no name is both. A read recorded in session 143 under the old filter and the same read under the new one hold the same 30 rows.
+
+On reads recorded from the site's database on 8 October 2026, each of the questions that failed or was slow is one call of 0.1 to 0.8 seconds: the batteries' average day (24 rows), wind across the hours of a day (24 rows), battery capacity in the queue by planned year (8 rows: 628 projects, 118,906 MW, the most in 2028 with 251 projects and 45,624 MW), demand hour by hour on the newest whole day (24 rows) and its lowest hour.
+
+**The two switches are on.** Session 148 built a plan made by rule and a lower effort for the reading turn, and left both off because 98 of the 100 questions passed with them, not 100. The owner ruled on 8 October 2026 that both are set. They are now on by default in the code, in one place (`site/lib/chat/switches.ts`); `ASK_RULE_PLAN=off` or `ASK_READER_EFFORT=off` on the server turns either off again.
+
+**Two sources for one figure.** The owner's ruling: where two sources hold a figure, the operator's own data wins over a derived file, and the answer names both. It is a rule of the tool's briefing, and a tool result that holds such a figure says which source it is and which leads.
+
+- **The case in hand: ERCOT's highest hourly demand so far in 2026.** Two figures were given in earlier sessions, 91,134 MW and 91,075 MW.
+- **91,134 MW is the operator's own.** It is the highest hour of ERCOT's own hourly load, from its Hourly Load Data Archives (`ercot_zone_load_hourly`, ERCOT's own total, never a sum made here), in the hour from 17:00 Central on 22 July 2026. That table is not on the site, so the tool reads it through the file of the page built from it (What a datacenter pays, "Will the power be there").
+- **91,075 MW is derived.** It is the ERW's yearly figure (`grid_stress_yearly`) from EIA's hourly demand, which EIA collects from the grid operators and publishes: a second publisher's series, not ERCOT's own file. Why the two differ by 59 MW is not known to the ERW.
+- **So the answer leads with 91,134 MW and names 91,075 MW with its table**, both read in one turn.
+
+**Which source holds Texas's curtailment share.** One sentence was added to the briefing, from the curtailment page's Method note: the share (the percent of the reported limit that Texas wind and solar output was below) is held only by the page's file, over its whole Central days from 28 September 2026; the daily table holds megawatt-hours by day from 19 September 2026 and no share. The one new question that failed in session 153 read the table for a percent it does not hold.
+
+**A refusal's closing words.** Until session 153 a refusal about another grid closed with "this chat speaks for ERCOT only", which was true. With `ASK_PAGES=off` the tool still speaks for ERCOT only and still says so. With the four pages it does not, and the closing now names the tool as it is: "Ask ERCOT answers for the Texas grid, and for the other grids only what four pages of this site show: curtailment and free energy, what a datacenter pays, the capture price and the resource layers." The judge of the test questions asks the thirteen refusals about another grid or country for those words and fails one that still says the old ones (eleven of the 100: r01 to r06, r16, r19, r22, r23, r25; and both refusals of the 20). The other fourteen refusals are judged as they were.
+
+`ASK_FORMS=off` on the server shows the model the tools and the briefing as session 153 left them.
 
 ## Limits
 

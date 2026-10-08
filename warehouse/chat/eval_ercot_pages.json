@@ -8,6 +8,10 @@
   "series_has": "a series shown holds a row with this key whose value, at the expected value's decimals, is this value",
   "series_rows": "a series shown has this many rows"
  },
+ "rules_added_156": {
+  "close": "the two refusals: the answer matches the pattern (it closes in the tool's own name: Ask ERCOT answers for the Texas grid, and for the other grids only what four pages show)",
+  "never": "the two refusals: the answer does not match the pattern (the closing of before, this chat speaks for ERCOT only, which stopped being true in session 153)"
+ },
  "built_from": {
   "datacenter": "2026-10-07T21:49:10Z",
   "capture": "2026-10-07T21:50:35Z",
@@ -459,6 +463,8 @@
    "kind": "refuse",
    "page": "/curtailment",
    "q": "How much wind and solar energy did ISO New England curtail in August 2026?",
+   "close": "Ask ERCOT answers for[^.]{0,200}four pages",
+   "never": "(speaks|answers) for ERCOT only",
    "say": "held, not shown",
    "why": "internal: ISO-NE's monthly undelivered energy is held under its terms and not shown",
    "source": "isone_ddg_undelivered_monthly",
@@ -478,6 +484,8 @@
    "kind": "refuse",
    "page": "/cost-of-power/seller",
    "q": "What is the capture price of wind at MISO's Indiana hub?",
+   "close": "Ask ERCOT answers for[^.]{0,200}four pages",
+   "never": "(speaks|answers) for ERCOT only",
    "say": "paused while terms are reviewed",
    "why": "MISO is paused: no figure of it is shown",
    "source": "none",
