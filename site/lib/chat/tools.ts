@@ -12,7 +12,7 @@ import spec from "./spec.json";
 import { DOCS, type GridConfig } from "@/lib/markdown";
 import { LIFE_MS, keep, within, type Summary } from "./summaries";
 import { hourlyRefusal } from "./rollup";
-import { HOUR_OF_DAY, NEWEST, NEWEST_READ, NEWEST_READ_DATED, dateColumns, dateLabel, hourFamily, newestWholeDay, stepsPerHour } from "./forms";
+import { HOUR_OF_DAY, NEWEST, THIS_WEEK, NEWEST_READ, NEWEST_READ_DATED, dateColumns, dateLabel, hourFamily, newestWholeDay, stepsPerHour } from "./forms";
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
@@ -414,6 +414,7 @@ export function groupSummary(g: string, res: Json[], rows: Row[], agg: string, p
 }
 
 const nextDay = (day: string) => new Date(Date.parse(`${day}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
+const shiftDay = (day: string, n: number) => new Date(Date.parse(`${day}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
 
 async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
@@ -446,6 +447,7 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     sel.push(`g:${colRef(shape, gc)}`);
   }
   if (shape === "series") sel.push("entity", "variable", "unit");
+  if (shape === "series" && a.day === THIS_WEEK) sel.push("freq");   // session 161: the step, to say whether a day of the week is whole
   if (shape === "entities") sel.push("id:entity_id");
   // a read by a date column is in the order of the rows' own ids, so that a read of more than one page holds each row once
   const order = dcol ? (shape === "entities" ? "entity_id.asc" : "event_id.asc") : `${tcol}.asc.nullslast`;
@@ -501,8 +503,21 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   // this table, entity and variable (before `end` when it is given); the query then answers over that day.
   let newest: Json | null = null, nothingHeld = false;
   const bounds: string[] = [];
-  if (a.day !== undefined) {
-    if (a.day !== NEWEST) throw new ToolError(`day must be "${NEWEST}"; for a named day give start and end`);
+  // session 161: "this week" (lib/chat/forms.ts): the local calendar week now running, Monday to today. The one read is
+  // of that week; the result says which of its days are held and is over those. When none is held yet, one more read
+  // finds the newest day held and the result is over the seven local days that end there, and says so.
+  const thisWeek = a.day === THIS_WEEK;
+  let weekOf: { monday: string; today: string } | null = null;
+  if (thisWeek) {
+    if (shape !== "series") throw new ToolError(`day "${THIS_WEEK}" applies to series tables only`);
+    if (a.start || a.end) throw new ToolError(`day "${THIS_WEEK}" finds the week itself: give no start and no end`);
+    if (dated && !(c.interval ?? "").split(";").every((f) => f === "P1D")) throw new ToolError(`${a.table} is a table of months or years: it has no days of a week. Ask its newest row with day "${NEWEST}"`);
+    const today = tzKey(new Date(Date.now()).toISOString(), tz, "day");
+    const monday = shiftDay(today, -((new Date(`${today}T00:00:00Z`).getUTCDay() + 6) % 7));
+    weekOf = { monday, today };
+    bounds.push(`${tcol}.gte.${parseTime(monday, btz)}`, `${tcol}.lt.${parseTime(nextDay(today), btz)}`);
+  } else if (a.day !== undefined) {
+    if (a.day !== NEWEST) throw new ToolError(`day must be "${NEWEST}" or "${THIS_WEEK}"; for a named day give start and end`);
     if (shape !== "series") throw new ToolError(`day "${NEWEST}" applies to series tables only`);
     if (a.start) throw new ToolError(`day "${NEWEST}" finds the day itself: give no start (end may be given: the newest whole day before it)`);
     const before = a.end ? [`${tcol}.lt.${parseTime(a.end, btz)}`] : [];
@@ -549,6 +564,42 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   }
 
   let raw = nothingHeld ? [] : await read(bounds);
+  let week: Json | null = null;
+  if (weekOf) {
+    const { monday, today } = weekOf;
+    let from = monday, to = today;
+    const inWeek = raw.length > 0;
+    if (!inWeek) {
+      // no day of the week is held: the newest row before it, and the seven local days that end on its day
+      const recent = await read([`${tcol}.lt.${parseTime(monday, btz)}`], { select: "t:ts_utc", order: "ts_utc.desc.nullslast" }, 1);
+      if (recent.length) {
+        to = tzKey(String(recent[0].t), btz, "day");
+        from = shiftDay(to, -6);
+        raw = await read([`${tcol}.gte.${parseTime(from, btz)}`, `${tcol}.lt.${parseTime(nextDay(to), btz)}`]);
+      }
+    }
+    // each day of the period read, with the rows it holds and the rows a whole day has (one series only: several
+    // entities or variables together have no one count of a whole day)
+    const one = new Set(raw.map((r) => `${r.entity}|${r.variable}`)).size === 1;
+    const per = dated ? null : stepsPerHour(raw.map((r) => r.freq as string | null));
+    const hours = (day: string) => (Date.parse(parseTime(nextDay(day), tz)) - Date.parse(parseTime(day, tz))) / 3_600_000;
+    const count = new Map<string, number>();
+    for (const r of raw) if (r.t) { const d = tzKey(String(r.t), btz, "day"); count.set(d, (count.get(d) ?? 0) + 1); }
+    const days: { day: string; rows: number; of: number | null; whole: boolean | null }[] = [];
+    for (let d = from; d <= to && days.length < 14; d = nextDay(d)) {
+      const rows = count.get(d) ?? 0, of = !one ? null : dated ? 1 : per === null ? null : Math.round(per * hours(d));
+      days.push({ day: d, rows, of, whole: of === null ? null : rows === of });
+    }
+    const heldDays = days.filter((d) => d.rows > 0).map((d) => d.day);
+    week = {
+      asked: THIS_WEEK, tz, week: { from: monday, to: today }, held: inWeek, period_read: raw.length ? { from, to } : null, days,
+      days_held: heldDays, days_not_held: days.filter((d) => d.rows === 0).map((d) => d.day), days_held_in_part: days.filter((d) => d.rows > 0 && d.whole === false).map((d) => d.day),
+      newest_row_at: raw.length ? isoTs(raw[raw.length - 1].t) : null,
+      note: !raw.length ? "no row is held for these filters, in this week or before it"
+        : inWeek ? "the result is over the days of this week that are held (days_held); a day under days_not_held holds no row yet and one under days_held_in_part holds some of its rows; nothing is filled. Say which days the answer covers and answer from this result"
+        : "no day of this week is held yet: the result is over the newest seven local days held instead (period_read). Say first that this week is not held, then give the figure and the days it covers",
+    };
+  }
   if (raw.length > MAX_ROWS) throw new ToolError(`more than ${MAX_ROWS} rows match; narrow the query (entity, variable, start, end)`);
   // a date column is bounded here, on the dates as the rows write them; a row with no date is in no period
   let undated = 0;
@@ -576,13 +627,14 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     rows_matched: rows.length,
   };
   if (newest) out.newest = newest;
+  if (week) out.week = week;
   if (dcol) out.date_column = { column: dcol, rows_without_a_date: undated, note: "rows are grouped and bounded by this column's date as the source writes it; a row whose date is empty is in no group and is counted in rows_without_a_date" };
   if (shape === "series" && rows.length) {
     const vars = Array.from(new Set(rows.map((r) => r.variable!))).sort();
     out.units = Array.from(new Set(rows.map((r) => r.unit!))).sort();
     out.variables = vars.slice(0, 10);
     out.time_span = { first: isoTs(rows[0].t), last: isoTs(rows[rows.length - 1].t) };
-    if (vars.length > 1 && !family && !["count", "latest"].includes(a.aggregation)) out.warning = "more than one variable matched: the aggregation mixes them; filter by variable";
+    if (vars.length > 1 && !family && g !== "variable" && !["count", "latest"].includes(a.aggregation)) out.warning = "more than one variable matched: the aggregation mixes them; filter by variable";
   }
   if (!rows.length) {
     out.result = [];

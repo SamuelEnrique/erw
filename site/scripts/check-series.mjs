@@ -22,11 +22,11 @@ for (const f of files) {
     answers += 1;
     for (const s of rec.series) {
       series += 1;
-      const d = chartPoints(s.rows);
+      const d = chartPoints(s.rows, s.group_by);
       rows += s.rows.length;
       undrawn += d.undrawn.length;
       if (isDrawn(s.kind, d)) { charts += 1; points += d.points.length; }
-      const ok = pointsAreRows(s.rows, d);
+      const ok = pointsAreRows(s.rows, d, s.group_by);
       if (!s.check) unchecked += 1;
       if (!ok || (s.check && !s.check.same)) {
         bad += 1;
