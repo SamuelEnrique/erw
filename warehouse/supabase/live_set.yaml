@@ -254,6 +254,9 @@ catalogue_hold:
   - large_load_rules_internal
   - large_load_rule_reads
   - policy_action_tags
+  # session 155: how long large loads waited, measured between dated copies of two public queues (internal: NYISO's
+  # notice confers no license). Not loaded; no page reads it
+  - large_load_waits
   # session 140: the tables behind "What a datacenter pays" (/cost-of-power, in review): ERCOT's load zone prices (about
   # 2.5 million rows), the zones' price history of NYISO, CAISO's ZP26 and SPP South, ISO-NE's (internal), New York's
   # load queue, and the Commission's transmission charge matrices (internal). The page reads the site's own files, built from them;
@@ -386,6 +389,8 @@ sources_hold:
   - erw:large_load_rules_internal      # session 154, large_load_rules_internal (internal, not loaded)
   - erw:large_load_rule_reads          # session 154, large_load_rule_reads (not loaded)
   - erw:policy_action_tags             # session 154, policy_action_tags (not loaded)
+  - nyiso:interconnection_queue_dated_copies     # session 155, large_load_waits (internal, not loaded)
+  - grantpud:interconnection_queue_dated_copies  # session 155, large_load_waits (internal, not loaded)
   # session 154: one registry row a regulator for the rows of large_load_rules (public) and large_load_rules_internal:
   # coverage sets a table's license from its rows' sources. Held off /terms with their tables
   - azcc:dockets                       # session 154, large_load_rules (public, not loaded)
