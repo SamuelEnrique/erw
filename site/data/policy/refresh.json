@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-08T09:53:05Z",
+ "built_at_utc": "2026-10-08T10:20:16Z",
  "what": "For FERC and the ten state commissions of large_load_rules: the regulator's own open list that the daily step warehouse/connectors/policy_monitor_refresh.py asks by plain request, whether it is asked at all, and if not the exact reason. A regulator with refreshed false is never requested by the step. The site's copy is site/data/policy/refresh.json (built by warehouse/derived/policy_monitor_site.py, which adds built_at_utc and the facts of the last run). Terms: the class, address and quotation of warehouse/config/large_load_rule_terms.json, word for word. Session 157.",
  "ceilings": {
   "requests_a_day": 120,
