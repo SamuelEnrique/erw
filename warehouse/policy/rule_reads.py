@@ -28,6 +28,7 @@ CHARS_PER_TOKEN characters a token and max_tokens of output, at the model's conf
     python warehouse/policy/rule_reads.py ... --limit 1            # measure one
     python warehouse/policy/rule_reads.py ... --stop-usd 3.70      # the batch, newest first
     --ledger-dir DIR   keep the cost ledger under DIR (a working copy's own warehouse/output) instead of --out-dir
+    python warehouse/policy/rule_reads.py --no-call                # the table from the saved answers; nothing is spent
 
 Writes large_load_rule_reads (events shape, event_type rule_read; one row a kept line). License: public: the lines
 are the ERW's own. A line about a row of large_load_rules_internal (a regulator whose terms restrict copying or were
@@ -291,6 +292,7 @@ def main(argv=None):
     ap.add_argument("--stop-usd", type=float, default=3.70)
     ap.add_argument("--limit", type=int, help="read at most this many rows (1: measure one)")
     ap.add_argument("--plan", action="store_true", help="no call: print the rows to read and the worst-case reserve")
+    ap.add_argument("--no-call", action="store_true", help="no call and no spend: write the table from the answers already saved")
     ap.add_argument("--again-not-kept", action="store_true", help="ask once more for each row whose saved line fails "
                     "today's checks (the earlier answer is kept under answers/superseded/); never a third time")
     ap.add_argument("--max-asks", type=int, default=2, help="with --again-not-kept: a row is never asked more than this many times")
@@ -305,7 +307,8 @@ def main(argv=None):
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(os.path.join(out_dir, "logs"), exist_ok=True)
     log = ip.Log(os.path.join(out_dir, "logs", f"{NAME}_{run_id}.log"))
-    ans_dir = os.path.join(out_dir, "raw", NAME, "answers")
+    # a trial keeps the answers under its own folder; the table of record keeps them in the raw store
+    ans_dir = os.path.join(out_dir, "raw", NAME, "answers") if args.out_dir else os.path.join(ROOT, "warehouse", "raw", NAME, "answers")
     os.makedirs(ans_dir, exist_ok=True)
     cands = candidates(dirs, os.path.abspath(args.raw_base), today, log)
     again = {x.strip() for x in open(args.again, encoding="utf-8")} if args.again else set()
@@ -329,6 +332,9 @@ def main(argv=None):
                     c["feedback"] = ("\n\nAn earlier line was set aside because it copied this run of words from the excerpt: '" + run +
                                      "'. Write the line again wholly in your own words: no six consecutive words of it may stand in the excerpt.")
     todo = [c for c in cands if c["id"] in again or c["id"] not in done or done[c["id"]]["text_sha256"] != c["sha"]]
+    if args.no_call:   # the table from the answers already saved, and nothing else: no client is built, nothing is spent
+        log(f"--no-call: {len(todo)} rows have no saved answer for their text and are left without a line")
+        todo = []
     log(f"{len(cands)} rows in motion with a saved text; {len(cands) - len(todo)} already answered; {len(todo)} to read")
     import llm
     if args.ledger_dir or args.out_dir:
