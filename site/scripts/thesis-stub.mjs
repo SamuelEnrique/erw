@@ -10,6 +10,10 @@
 // other request answers with no rows. It writes nothing, and no page code knows it exists: the site reads it only
 // because SUPABASE_URL points at it.
 //
+// Session 150: it also answers thesis_provider_accept and thesis_provider_results (migration 025) as the functions
+// do: behind the internal token, for a finished run, one answer a provider and run, PitchBook's row holding no
+// payload. The answers it is given are the made-up ones of scripts/thesis-providers-fixtures.mjs.
+//
 // THE RUNS BELOW ARE A FIXTURE. Every company, figure, source and date in them is made up for the check and is no
 // company's: nothing here is data of the warehouse, and none of it is ever loaded, published or shown on the site.
 // The fixture is shaped to exercise the page: a cell of each missing kind, a row a chart must leave out, a source with
@@ -119,6 +123,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const token = env("INTERNAL_COSTS_TOKEN") ?? "";
   const runs = fixtureRuns();
   let made = 0;
+  const provided = [];          // the rows of thesis_provider_results
   const fns = {
     thesis_list: () => runs.map((r) => ({ run_id: r.run_id, niche: r.niche, stage: r.stage, geography: r.geography, status: r.status, note: r.note, requested_at: r.requested_at, started_at: r.started_at, finished_at: r.finished_at,
       companies: r.report?.landscape?.companies?.length ?? 0, pitchbook: r.pitchbook ? "received" : r.pitchbook_request ? "pending" : "none" })),
@@ -142,6 +147,23 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       runs.unshift(run);
       return { ok: true, run_id: run.run_id, dispatched: false };
     },
+    // session 150, migration 025: the answers of the providers, kept beside the runs
+    thesis_provider_accept: (a) => {
+      const want = { pitchbook: "erw-pitchbook-1", harmonic: "erw-harmonic-1", crunchbase: "erw-crunchbase-1" }[a.p_provider];
+      if (!want || a.p_format !== want || typeof a.p_sha256 !== "string" || !/^[0-9a-f]{64}$/.test(a.p_sha256)) return { ok: false, reason: "shape" };
+      const r = runs.find((x) => x.run_id === a.p_run_id);
+      if (!r || r.status !== "done") return { ok: false, reason: "run" };
+      const p = a.p_payload ?? null;
+      if (a.p_provider === "pitchbook") {
+        if (!r.pitchbook || p !== null) return { ok: false, reason: "shape" };
+      } else if (!p || typeof p !== "object" || Array.isArray(p) || !Array.isArray(p.companies) || p.companies.length > 300 || JSON.stringify(p).length > 400000 || p.format !== want || p.run_id !== a.p_run_id) {
+        return { ok: false, reason: "shape" };
+      }
+      if (provided.some((x) => x.run_id === a.p_run_id && x.provider === a.p_provider)) return { ok: false, reason: "held" };
+      provided.push({ run_id: a.p_run_id, provider: a.p_provider, format: want, pasted_at: new Date().toISOString(), pasted_sha256: a.p_sha256, payload: p });
+      return { ok: true, companies: p ? p.companies.length : 0 };
+    },
+    thesis_provider_results: (a) => provided.filter((x) => x.run_id === a.p_run_id).map(({ run_id: _run, ...row }) => row),
   };
   http.createServer((req, res) => {
     const send = (status, body) => { res.writeHead(status, { "Content-Type": "application/json" }); res.end(JSON.stringify(body)); };

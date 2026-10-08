@@ -9,6 +9,7 @@
 import "server-only";
 import { digest } from "@/lib/release";
 import { rpc } from "@/lib/supabase";
+import type { ProviderId, ProviderPayload, ProviderRow } from "./providers";
 import type { PitchbookPayload, Run, RunRow } from "./types";
 
 /** Nothing of a run is cached, by a browser or anything between. */
@@ -36,3 +37,11 @@ export const getRun = (runId: string) => rpc<Run | null>("thesis_get", { p_token
  * its arguments through JSON.stringify, and its type names strings only because every earlier function took strings. */
 export const acceptPitchbook = (runId: string, key: string, payload: PitchbookPayload) =>
   rpc<{ ok: boolean; reason?: string; companies?: number }>("thesis_pitchbook_accept", { p_run_id: runId, p_key: key, p_payload: payload } as unknown as Record<string, string>);
+
+// Session 150: the answers of the providers beside PitchBook (migration 025), behind the internal token as the run is.
+// PitchBook's own answer stays where session 135 put it (acceptPitchbook above, the run's row); for PitchBook this
+// store holds only the time and the hash of the pasted text, so `payload` is null.
+export type ProviderAccepted = { ok: boolean; reason?: "shape" | "run" | "held"; companies?: number };
+export const acceptProvider = (runId: string, provider: ProviderId, format: string, sha256: string, payload: ProviderPayload | null) =>
+  rpc<ProviderAccepted>("thesis_provider_accept", { p_token: token(), p_run_id: runId, p_provider: provider, p_format: format, p_sha256: sha256, p_payload: payload } as unknown as Record<string, string>);
+export const getProviderResults = (runId: string) => rpc<ProviderRow[] | null>("thesis_provider_results", { p_token: token(), p_run_id: runId });

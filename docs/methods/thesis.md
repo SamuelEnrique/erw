@@ -56,6 +56,17 @@ The ERW cannot sign in to PitchBook and holds no PitchBook data of its own. A fi
 - They are kept with the run, in the internal table, and nowhere else.
 - The key in the request works once, for that run only.
 
+## Harmonic and Crunchbase
+
+Since session 150 the same stage takes two more providers. In the panel of a finished run you choose the provider before copying the request: PitchBook (chosen when the panel opens), Harmonic or Crunchbase. The request text changes with the choice, and the answer box takes only the format of the provider chosen: given another provider's answer it stores nothing and says which format it was given.
+
+- **Whose data it is.** As with PitchBook, the ERW signs in to neither and holds no data of theirs. What you paste is your own licensed copy, brought by you from your own account and shown to you. It is not published, not redistributed and not kept in the public warehouse: it is kept with the run, in the internal tables, and nowhere else.
+- **The label.** Every figure a provider supplied stands with that provider's name. The label's hover says where the figure came from, the provider's own sentence on redistribution where its public terms could be read, the format, when the answer was pasted and the first characters of the hash of the pasted text. A figure with no provider keeps the label it has always had.
+- **Where two providers differ.** When two providers give the same fact differently (total raised, the last round's date or amount, the post-money valuation, the headquarters, the founding year, the number of employees, the founders, the investors, the lead investors of the last round), each value is shown as its provider gave it and the lines are marked "differs". None is averaged, none is preferred and none is dropped. Descriptions and other prose are shown side by side and are not marked.
+- **Which fields are read.** Only fields that the provider's own public documentation names, under its own names. Anything else in an answer is kept exactly as given, is not used for any figure, and is counted beside its company as "not mapped", with its names on hover.
+- **Harmonic's amounts.** Harmonic's documentation does not state the currency of a company's total funding or last round, so those two are shown as the plain numbers Harmonic returned. Its valuations are documented as US dollars.
+- **Crunchbase's employees.** Crunchbase gives a range, not a count. It is shown as the range and is marked as differing from another provider's count only when the count falls outside it.
+
 ## What the report cannot tell you
 
 - **It finds what is written down.** A company with no public trace, in stealth or with no press, is not found.

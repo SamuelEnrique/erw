@@ -10,13 +10,27 @@
 //   confidence   the number, and the one line that explains it, beside it
 // Any part may be absent or empty: a tab with nothing in it says so. A server component: only the charts and the
 // forms run in the browser.
+//
+// Session 150: a run may also hold an answer of Harmonic or of Crunchbase (lib/thesis/providers.ts). A run that holds
+// PitchBook's answer alone, or none, is drawn exactly as before. Once another provider's answer is held, the PitchBook
+// column becomes the providers' column (components/thesis/ProviderBlock.tsx): every figure with the label of the
+// provider that supplied it, the terms line on the label's hover, and a short mark where two providers give the same
+// fact differently. A figure with no provider keeps the label it had.
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ProviderBlock, ProviderCell, ProviderFound } from "@/components/thesis/ProviderBlock";
 import { FunnelChart, TrendChart } from "@/components/thesis/ThesisCharts";
+import { heldOf, hoverOf, type FactId, type Held } from "@/lib/thesis/providers";
 import type { Cell, PitchbookPayload, Report, Run, Source, Text } from "@/lib/thesis/types";
 import { EMPTY_TAB, PB_PENDING, PB_PENDING_WHY, PLACEHOLDER, TABS, arr, chartOf, hrefOf, isMissing, nameKey, num, pbFigureFor, pbFigures, pitchbookFor, safeUrl, str, whenWords, type Choice, type TabId } from "@/lib/thesis/view";
 
-type Ctx = { choice: Choice; sources: Map<string, Source>; pb: PitchbookPayload | null; asked: Set<string>; pbColumn: boolean; notes: Map<string, string> };
+type Ctx = {
+  choice: Choice; sources: Map<string, Source>; pb: PitchbookPayload | null; asked: Set<string>; pbColumn: boolean; notes: Map<string, string>;
+  /** Session 150: every provider's answer the run holds, PitchBook's first; `others` when one of them is not PitchBook's. */
+  held: Held[]; others: boolean;
+};
+/** The fact of the providers that answers a cell of the report: the same four cells PitchBook has answered since session 135. */
+const CELL_FACT: Record<string, FactId> = { founders: "founders", raised: "total_raised", location: "hq", stage: "last_round" };
 
 const MISSING = "cursor-help whitespace-nowrap border-b border-dotted border-muted text-[11px] italic text-muted";
 const TH = "py-1 pr-3 text-left align-bottom font-normal";
@@ -28,7 +42,9 @@ function Gap({ words, why, kind }: { words: string; why: string; kind: string })
 }
 /** The visible tag every PitchBook figure carries; its hover says where the figure came from. */
 function PbTag({ ctx }: { ctx: Ctx }) {
-  return <>{" "}<span className="whitespace-nowrap rounded-sm border border-accent px-1 align-baseline text-[10px] font-semibold not-italic text-accent" title={str(ctx.pb?.received_note) || "PitchBook"} data-pb-tag="1">PitchBook</span></>;
+  // the hover keeps the note it has carried since session 135 and adds the terms line and the answer's stamp
+  const stamp = ctx.held.find((h) => h.provider === "pitchbook");
+  return <>{" "}<span className="whitespace-nowrap rounded-sm border border-accent px-1 align-baseline text-[10px] font-semibold not-italic text-accent" title={stamp ? hoverOf(stamp) : str(ctx.pb?.received_note) || "PitchBook"} data-pb-tag="1">PitchBook</span></>;
 }
 
 /** The sources of a fact, a row or a cell: small raised ids, each opening its source. */
@@ -66,6 +82,11 @@ function Fact({ t, ctx, className = "mb-3 max-w-4xl text-sm" }: { t: Text | stri
 function CellView({ cell, ctx, company, field }: { cell: Cell | null | undefined; ctx: Ctx; company?: string; field?: string }) {
   if (isMissing(cell)) {
     if (cell.missing !== "pitchbook_pending") return <Gap words={PLACEHOLDER[cell.missing] ?? "not held"} why={str(cell.note) || "The report gives no reason."} kind={cell.missing} />;
+    if (ctx.others && company && field && CELL_FACT[field]) {
+      // every provider that holds this figure, each with its label; with none, the cell reads as it did
+      const figures = ProviderCell({ held: ctx.held, company, fact: CELL_FACT[field] });
+      if (figures) return figures;
+    }
     if (!ctx.pb) return <Gap words={PB_PENDING} why={PB_PENDING_WHY} kind="pitchbook_pending" />;
     const fig = company && field ? pbFigureFor(pitchbookFor(ctx.pb, company), field) : null;
     if (!fig) return <Gap words="not in PitchBook's answer" why="PitchBook's answer holds no figure for this cell." kind="pitchbook_absent" />;
@@ -77,6 +98,7 @@ function CellView({ cell, ctx, company, field }: { cell: Cell | null | undefined
 
 /** The PitchBook block of one company: pending until the answer is submitted, then every figure with its tag. */
 function PbBlock({ name, ctx }: { name: string; ctx: Ctx }) {
+  if (ctx.others) return <ProviderBlock name={name} held={ctx.held} asked={ctx.asked.has(nameKey(name))} />;
   if (!ctx.pb) {
     return ctx.asked.has(nameKey(name))
       ? <Gap words={PB_PENDING} why={PB_PENDING_WHY} kind="pitchbook_pending" />
@@ -205,7 +227,7 @@ function Landscape({ r, ctx }: { r: Report; ctx: Ctx }) {
       {cs.length ? (
         <Table min={ctx.pbColumn ? 1320 : 1080} caption={str(l?.rule)} head={<>
           <th className={`${TH} pl-1`}>Company</th><th className={TH}>Founders</th><th className={TH}>Stage</th><th className={TH}>Raised</th><th className={TH}>Location</th>
-          <th className={TH}>Signal</th><th className={TH}>Why it is here</th><th className={TH}>Confidence</th>{ctx.pbColumn ? <th className={TH}>PitchBook</th> : null}
+          <th className={TH}>Signal</th><th className={TH}>Why it is here</th><th className={TH}>Confidence</th>{ctx.pbColumn ? <th className={TH}>{ctx.others ? "Data providers" : "PitchBook"}</th> : null}
         </>}>
           {cs.map((c, i) => { const name = str(c?.name);
             return (
@@ -235,14 +257,15 @@ function Funnel({ r, ctx }: { r: Report; ctx: Ctx }) {
   const stages = arr(r.funnel?.stages).filter((s) => s && typeof s.n === "number" && Number.isFinite(s.n)).map((s) => ({ id: str(s.id), label: str(s.label) || str(s.id), n: s.n }));
   const cs = arr(r.funnel?.companies);
   const more = arr(ctx.pb?.additional_companies).filter((c) => c?.found);
-  if (!stages.length && !cs.length && !more.length) return <Nothing />;
+  const found = ctx.held.filter((h) => h.provider !== "pitchbook");
+  if (!stages.length && !cs.length && !more.length && !found.length) return <Nothing />;
   const label = (id: string) => stages.find((s) => s.id === id)?.label ?? id;
   return (
     <>
       {stages.length ? <figure className="mb-5 max-w-3xl"><figcaption className="mb-1 text-xs text-muted">Companies at each stage of the funnel</figcaption><FunnelChart stages={stages} /></figure> : null}
       {cs.length ? (
         <Table min={ctx.pbColumn ? 1080 : 820} head={<>
-          <th className={`${TH} pl-1`}>Company</th><th className={TH}>Reached</th><th className={TH}>Stopped</th><th className={TH}>Score</th><th className={TH}>Sourcing</th>{ctx.pbColumn ? <th className={TH}>PitchBook</th> : null}
+          <th className={`${TH} pl-1`}>Company</th><th className={TH}>Reached</th><th className={TH}>Stopped</th><th className={TH}>Score</th><th className={TH}>Sourcing</th>{ctx.pbColumn ? <th className={TH}>{ctx.others ? "Data providers" : "PitchBook"}</th> : null}
         </>}>
           {cs.map((c, i) => { const name = str(c?.name);
             return (
@@ -273,6 +296,7 @@ function Funnel({ r, ctx }: { r: Report; ctx: Ctx }) {
           </ul>
         </section>
       ) : null}
+      {found.map((h) => <ProviderFound key={h.provider} h={h} heading={(children) => <H2>{children}</H2>} />)}
     </>
   );
 }
@@ -283,7 +307,7 @@ function Pipeline({ r, ctx }: { r: Report; ctx: Ctx }) {
   return (
     <Table min={ctx.pbColumn ? 1240 : 980} head={<>
       <th className={`${TH} pl-1`}>Company</th><th className={TH}>Founders</th><th className={TH}>Signal</th><th className={TH}>Access</th><th className={TH} title="Total addressable market">Market size (TAM)</th>
-      <th className={TH}>Trends</th><th className={TH}>Confidence</th>{ctx.pbColumn ? <th className={TH}>PitchBook</th> : null}
+      <th className={TH}>Trends</th><th className={TH}>Confidence</th>{ctx.pbColumn ? <th className={TH}>{ctx.others ? "Data providers" : "PitchBook"}</th> : null}
     </>}>
       {cs.map((c, i) => { const name = str(c?.name);
         return (
@@ -392,11 +416,13 @@ function Policy({ r }: { r: Report }) {
 export function ReportTabs({ run, choice }: { run: Run; choice: Choice }) {
   const r = run.report as Report;
   const pb = run.pitchbook && typeof run.pitchbook === "object" ? run.pitchbook : null;
+  const held = heldOf(run);
+  const others = held.some((h) => h.provider !== "pitchbook");
   const ctx: Ctx = {
-    choice, pb,
+    choice, pb, held, others,
     sources: new Map(arr(r.sources).filter((s) => s && typeof s.id === "string").map((s) => [s.id, s])),
     asked: new Set(arr(run.pitchbook_request?.companies).map((c) => nameKey(c?.name)).filter(Boolean)),
-    pbColumn: !!pb || !!run.pitchbook_request,
+    pbColumn: !!pb || !!run.pitchbook_request || others,
     notes: new Map(arr(r.landscape?.companies).filter((c) => c && str(c.confidence_note)).map((c) => [nameKey(c.name), str(c.confidence_note)])),
   };
   const body: Record<TabId, ReactNode> = {
