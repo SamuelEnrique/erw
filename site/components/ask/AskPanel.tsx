@@ -18,6 +18,7 @@ import { useState } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { LineChart } from "@/components/LineChart";
 import { chartPoints, isDrawn, keySeconds } from "@/lib/chat/series";
+import { PAGE_FILE_HREF } from "@/lib/chat/pagelinks";
 
 export { keySeconds };
 
@@ -54,6 +55,7 @@ export function sourceHref(table: string): { href: string; what: string } {
   if (table.startsWith("docs/grids/")) return { href: `/grid/${table.slice(11, -3)}`, what: "Written page" };
   if (table === "site/data/board.json") return { href: "/board", what: "Price board" };
   if (table === "site/data/supply.json") return { href: "/supply", what: "Supply and trade" };
+  if (PAGE_FILE_HREF[table]) return PAGE_FILE_HREF[table];   // session 153: a page's own file, read by the tool page_file
   return { href: `/data#${table}`, what: "ERW table" };
 }
 
