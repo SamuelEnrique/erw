@@ -2,7 +2,7 @@
 // 137 (warehouse/chat/eval_ercot_panel.json), stage by stage, under one spending cap for the whole session.
 //
 //   node scripts/eval-ask-speed.mjs <base-url> <out.jsonl> --run <name> --spend <spend.json> --stop <USD>
-//        [--reserve USD] [--ids c01,h02,...] [--kind conceptual,...] [--skip <earlier.jsonl>] [--offset N]
+//        [--reserve USD] [--ids c01,h02,...] [--kind conceptual,...] [--skip <earlier.jsonl>] [--offset N] [--set <questions.json>]
 //
 // Each question is asked once on the running site's own route (POST /api/ask, profile ercot, streamed), one after
 // another, and judged by the rule of its kind (scripts/eval-judge.mjs, the same rule as session 137). One line per
@@ -30,8 +30,11 @@ import { judge, words } from "./eval-judge.mjs";
 import { mayAsk, sessionSpend } from "./eval-spend.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const SET = JSON.parse(fs.readFileSync(path.resolve(here, "..", "..", "warehouse", "chat", "eval_ercot_panel.json"), "utf8"));
 const args = process.argv.slice(2);
+// session 153: --set <file> names another set of questions in the same form (warehouse/chat/eval_ercot_pages.json: the
+// 20 questions of four pages); without it the set is the 100 of session 137, as before
+const setArg = args.indexOf("--set") >= 0 ? args[args.indexOf("--set") + 1] : null;
+const SET = JSON.parse(fs.readFileSync(setArg ? path.resolve(setArg) : path.resolve(here, "..", "..", "warehouse", "chat", "eval_ercot_panel.json"), "utf8"));
 const base = (args[0] ?? "").replace(/\/$/, ""), out = args[1];
 const opt = (name, d) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : d; };
 const run = opt("--run", ""), spendFile = opt("--spend", ""), stop = Number(opt("--stop", "NaN")), reserve = Number(opt("--reserve", "0.15"));
@@ -103,8 +106,8 @@ for (const q of todo) {
   tally[q.kind] ??= { n: 0, pass: 0 };
   tally[q.kind].n += 1; tally[q.kind].pass += pass ? 1 : 0;
   const steps = Array.isArray(r.steps) ? r.steps : [];
-  const line = { run, id: q.id, kind: q.kind, new: q.new ?? null, q: q.q, pass, why, status: r.status ?? null, form: r.form ?? null, words: words(r.answer),
-    series: (r.series ?? []).map((s) => ({ table: s.table, rows: (s.rows ?? []).length, same: s.check?.same ?? null })), citations: (r.citations ?? []).map((c) => c.table),
+  const line = { run, id: q.id, kind: q.kind, new: q.new ?? null, page: q.page ?? null, q: q.q, pass, why, status: r.status ?? null, form: r.form ?? null, words: words(r.answer),
+    series: (r.series ?? []).map((s) => ({ table: s.table, rows: (s.rows ?? []).length, same: s.check?.same ?? null })), not_in_warehouse: r.not_in_warehouse ?? null, nearest: (r.nearest ?? []).map((n) => n.table), citations: (r.citations ?? []).map((c) => c.table),
     tool_calls: r.tool_calls ?? null, requests: r.usage?.requests ?? null, retried: r.retried ?? null, cost_usd: cost, cost_known: known, model: r.model ?? null,
     models: [...new Set(steps.filter((s) => s.what === "model").map((s) => `${s.stage}:${s.model}`))],
     // session 148: whether the read was written by rule and for which shape, and the effort each model call was given

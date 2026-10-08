@@ -17,9 +17,10 @@ import { chartPoints, pointsAreRows } from "./series";
 import { FORMS, FORM_SCHEMA, MIX_HOLDS, MIX_TABLES, NOTES_TABLE, PAGE_TOOL, addendum, notesOf, pageFigures, type Form } from "./panel";
 import { ROLLUP, ROLLUP_HOLDS, ROLLUP_TABLES, rollupGuide, rollupOffered } from "./rollup";
 import { rulePlan } from "./plan";
+import { HELD_WORDS, PAGES_FILTERS, PAGES_HOLDS, PAGES_NEAR, PAGES_TABLES, PAGE_FILE_TOOL, heldIn, heldRefusal, pageFile, pagesGuide, pagesOffered } from "./pagefiles";
 
 /** session 137: the tables a refusal may name as nearest: the guide's and the energy mix's three */
-const NEAR_TABLES = [...spec.tables, ...MIX_TABLES, ...ROLLUP_TABLES];   // session 148: and the reserve prices by day and by month
+const NEAR_TABLES = [...spec.tables, ...MIX_TABLES, ...ROLLUP_TABLES, ...PAGES_NEAR];   // session 148: and the reserve prices by day and by month; session 153: and what stands behind four pages
 
 export type Context = { view: string; title?: string; settings?: Record<string, string> };
 export type SeriesRow = { key: string; value: number | null; n?: number; at?: string };
@@ -175,7 +176,8 @@ export function inOrder(schema: Json): Json {
  * must have a price in lib/chat/spec.json, or it is not used. */
 export const PLANNER = "writer";
 
-export function ercotProfile(): Profile {
+/** The profile as session 148 left it: the guide's tables, the energy mix's, the reserve prices by day and month, and the board and Supply and trade. */
+function profile148(): Profile {
   const base = scopeOf("ercot");
   if (!base) throw new Error("docs/grids/grids.json has no grid ercot");
   // session 137: the mix tables' rows are a grid's by entity ("iso:ercot"); without this the scope filters on the market column, which they leave empty
@@ -298,7 +300,7 @@ export function ercotProfile(): Profile {
         ? ((Array.isArray(draft.followups) ? draft.followups : []) as string[]).map((f) => nodash(f.trim())).filter(Boolean).slice(0, 3) : [];
       // session 121: the queries run, for the next question of the conversation; and what a refusal points to
       const calls = results.filter((r) => !r.isError && (r.tool === "query" || r.tool === "compare")).map((r) => ({ tool: r.tool, input: r.input }));
-      const near = (names: string[]): Nearest[] => names.filter((t) => NEAR_TABLES.includes(t)).slice(0, S121.max_nearest).map((t) => ({ table: t, holds: S121.holds[t] ?? MIX_HOLDS[t] ?? ROLLUP_HOLDS[t] ?? "" }));
+      const near = (names: string[]): Nearest[] => names.filter((t) => NEAR_TABLES.includes(t)).slice(0, S121.max_nearest).map((t) => ({ table: t, holds: S121.holds[t] ?? MIX_HOLDS[t] ?? ROLLUP_HOLDS[t] ?? PAGES_HOLDS[t] ?? "" }));
       const legacy = !draft || draft.form === undefined;          // the reference loop's draft: series as sessions 92 and 121 chose them
       const form: Form = draft && FORMS.includes(draft.form as Form) ? (draft.form as Form) : "words";
       if (status === "not_in_warehouse" && draft)
@@ -336,3 +338,29 @@ export function ercotProfile(): Profile {
   // rules; switched off, the system prompt is session 143's to the letter
   return offered ? { ...profile, system: spec.system + rollupGuide() + addendum(base.slug, base.iso) } : profile;
 }
+
+// Session 153: what stands behind four pages built this week (lib/chat/pagefiles.ts): /cost-of-power, /curtailment,
+// /cost-of-power/seller and /resources. On the profile above, unless the server says ASK_PAGES=off (then it is session
+// 148's to the letter): eight public tables of the live set join the scope, the tool page_file reads the pages' own
+// files, the guide says what each is and is not, and a table held internally is refused by its name by every tool,
+// before anything is read. A result of page_file that holds rows is marked like a query's, so it can be charted.
+export const PAGES_TOOL_NAME = PAGE_FILE_TOOL.name;
+export function ercotProfile(): Profile {
+  const p = profile148();
+  if (!pagesOffered() || !p.scope) return p;
+  const scope: Scope = { ...p.scope, tables: [...p.scope.tables, ...PAGES_TABLES], filters: { ...p.scope.filters, ...PAGES_FILTERS } };
+  const inner = { ownTool: p.ownTool, tag: p.tag };
+  return {
+    ...p, scope, system: p.system + pagesGuide(),
+    tools: [...(p.tools ?? []), PAGE_FILE_TOOL as unknown as NonNullable<Profile["tools"]>[number]],
+    ownTool: (name, input) => {
+      // held, not shown: a query, a description or a comparison that names an internal table is refused here, by name
+      const held = heldIn(input);
+      if (held) return Promise.resolve({ out: heldRefusal(held), isError: true });
+      if (name === PAGES_TOOL_NAME) return Promise.resolve().then(() => { const out = pageFile(input); return { out, isError: "error" in out }; });
+      return inner.ownTool ? inner.ownTool(name, input) : null;
+    },
+    tag: (name, input, out, n) => (name === PAGES_TOOL_NAME ? ("error" in out || !Array.isArray(out.result) ? out : { result_id: `r${n}`, ...out }) : inner.tag(name, input, out, n)),
+  };
+}
+export { HELD_WORDS };

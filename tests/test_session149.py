@@ -329,7 +329,10 @@ class IsoNeUndelivered(unittest.TestCase):
                                 hits.append(os.path.join(base, name))
                     except OSError:
                         continue
-        self.assertEqual(hits, [])
+        # session 153: Ask ERCOT's tool names the table in one file, in order to refuse it by its name ("held, not
+        # shown"); that file reads no file and no row of it (tests/test_session153.py holds what its lines may say)
+        refuser = os.path.normcase(os.path.join(ROOT, "site", "lib", "chat", "pagefiles.ts"))
+        self.assertEqual([h for h in hits if os.path.normcase(h) != refuser], [])
         face = src("site", "lib", "freeenergy.ts")
         self.assertIn("the undelivered energy of its dispatchable wind and solar plants. Held, not shown.", face)
         self.assertNotIn("Not yet in the ERW", face)
