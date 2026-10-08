@@ -13,7 +13,8 @@
 // The comparison reports, chart by chart: a chart on one side only; a difference in a chart's settings (the path and
 // both values); and, apart, a difference in a series' points (how many, and whether the earlier points are all still
 // there). It does not judge a difference in the points: EIA publishes new hours by itself. A difference in settings is
-// the component's.
+// the component's. Where a range slider starts and ends is the time of the first and last point, so a difference there
+// is listed with the points (RANGE) and is not counted as a setting.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -86,7 +87,10 @@ function compare(x, y) {
       const diffs = [];
       walk({ label: ca.label, height: ca.height, settings: ca.settings }, { label: cb.label, height: cb.height, settings: cb.settings }, "", diffs);
       walk(ca.series.map((s) => s.name), cb.series.map((s) => s.name), ".series_names", diffs);
-      for (const d of diffs) { settings += 1; console.log(`SETTINGS ${what} ${d}`); }
+      // where a range slider starts and ends is the first and last point's own time: a difference there is the points'
+      const range = diffs.filter((d) => /^\.settings\.dataZoom\.\d+\.(startValue|endValue):/.test(d));
+      for (const d of diffs.filter((x) => !range.includes(x))) { settings += 1; console.log(`SETTINGS ${what} ${d}`); }
+      for (const d of range) console.log(`RANGE ${what} ${d} (the slider's ends follow the points)`);
       for (let j = 0; j < Math.min(ca.series.length, cb.series.length); j += 1) {
         const sa = JSON.stringify(ca.series[j].points), sb = JSON.stringify(cb.series[j].points);
         if (sa === sb) continue;
