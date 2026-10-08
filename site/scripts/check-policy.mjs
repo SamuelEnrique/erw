@@ -87,7 +87,7 @@ const month = await get("/policy?view=week&days=30");
     const on = sentences.find((s) => faces.some((f) => f.includes(s)));
     check(sentences.length > 10 && !on, `the view's face holds no sentence of the Method note (${sentences.length} sentences of ${METHOD.doc}, seven days and thirty)${on ? `: "${on.slice(0, 120)}"` : ""}`);
     const m = await get(METHOD.href);
-    check(m.status === 200 && week.html.includes(`href="${METHOD.href}"`), `the Method note is linked and opens (${METHOD.href}: ${m.status})`);
+    check(m.status === 200 && !m.html.includes('data-in-review="1"') && week.html.includes(METHOD.href), `the Method note is named and its page opens (${METHOD.href}: ${m.status})`);
   } else check(false, `${METHOD.doc} is beside the site, so the view's face can be read against it and its link opens`);
   check(!/How it is computed|What is not here|Limitations|Method:/.test(t), "no method heading on the face");
 }
@@ -124,6 +124,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
   const seven = await read();
   check(seven.days === 7 && seven.path === "/policy" && same(query(seven.search), { view: "week" }) && same(seven.window, ["7"]) && same(seven.agency, [""]) && same(seven.topic, [""]) && same(seven.grid, [""]) && !seven.large,
     `the view opens with seven days and no filter (${seven.shown} rows; today ${seven.today})`);
+  const method = await wait(`(document.querySelector('[data-method="1"] a') || { getAttribute: () => '' }).getAttribute('href')`, 15000, "the Method note's link");
+  check(method === METHOD.href, `the Method note is linked from the view (${method})`);
 
   // windows: the mouse, then the keyboard
   const thirty = await click('[data-week-window-choice="30"]', `document.querySelector('[data-week="1"]').dataset.weekDays === '30'`, "thirty days");
