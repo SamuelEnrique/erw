@@ -572,6 +572,81 @@ class TheRuleAndTheSwitches(unittest.TestCase):
             self.assertNotIn(dash, src(*parts), parts)
 
 
+class TheMeasuredRecord(unittest.TestCase):
+    """Phase 2: the 100 questions before and after, as warehouse/chat/eval/ercot_speed_results_148.py wrote them."""
+    STAGES = ["planning", "fetching", "drawing", "writing", "other"]
+    RULED = ["h01", "h02", "h06", "h07", "h12", "h15", "h16", "h18", "h20", "s01", "s03", "s05", "s08", "s11", "s13", "s14"]
+
+    def rows(self):
+        text = src("warehouse", "chat", "eval_ercot_speed_results_148.csv")
+        self.assertTrue(any("session 148" in l for l in text.split("\n") if l.startswith("#")))
+        return list(csv.DictReader(io.StringIO("\n".join(l for l in text.split("\n") if not l.startswith("#")))))
+
+    def test_all_100_questions_were_asked_before_and_after_and_the_stages_sum_to_the_whole(self):
+        rows = self.rows()
+        self.assertEqual(len(rows), 100)
+        self.assertEqual(len({r["id"] for r in rows}), 100)
+        for when in ("before", "after"):
+            for r in rows:
+                self.assertNotEqual(r[f"{when}_total_ms"], "", r["id"])
+                self.assertEqual(sum(int(r[f"{when}_{s}_ms"]) for s in self.STAGES), int(r[f"{when}_total_ms"]), r["id"])
+                self.assertIn(r[f"{when}_pass"], ("0", "1"))
+        # before: session 143's own record for 77 questions, and this session's run of the same tool for the 23 it left
+        runs = [r["before_run"] for r in rows]
+        self.assertEqual((sum(x in ("after_sample", "after_rest") for x in runs), runs.count("before23")), (77, 23))
+        self.assertEqual({r["after_run"] for r in rows}, {"after100"})
+        self.assertAlmostEqual(sum(float(r["before_usd"]) for r in rows if r["before_run"] == "before23"), 0.5201, delta=0.002)
+
+    def test_the_pass_counts_and_the_medians_are_the_ones_the_method_note_gives(self):
+        import statistics
+        rows = self.rows()
+        num = [r for r in rows if r["kind"] in ("chart", "sentence")]
+        idea = [r for r in rows if r["kind"] == "conceptual"]
+        med = lambda part, when: f'{statistics.median(float(r[f"{when}_seconds_words"]) for r in part):.2f}'  # noqa: E731
+        self.assertEqual((sum(int(r["before_pass"]) for r in rows), sum(int(r["after_pass"]) for r in rows)), (100, 98))
+        self.assertEqual(sorted(r["id"] for r in rows if r["after_pass"] == "0"), ["h14", "h24"])
+        self.assertEqual({r["after_why"] for r in rows if r["after_pass"] == "0"}, {"no series"})
+        self.assertEqual((med(num, "before"), med(num, "after")), ("6.20", "4.75"))    # the note writes them to one decimal: 6.2 and 4.8
+        self.assertEqual((med(idea, "before"), med(idea, "after")), ("2.30", "2.10"))
+        under = lambda part, when, t: sum(float(r[f"{when}_seconds_words"]) < t for r in part)  # noqa: E731
+        self.assertEqual((under(num, "before", 5), under(num, "after", 5)), (15, 27))
+        self.assertEqual((under(idea, "before", 2), under(idea, "after", 2)), (2, 7))
+        note = src("docs", "methods", "ask_ercot.md")
+        for words in ("| A question about numbers (50; target 5 seconds) | 50, 48 | 6.2, 4.8 | 15, 27 |", "| An idea (25; target 2 seconds) | 25, 25 | 2.3, 2.1 | 2, 7 |",
+                      "So the two switches stay off in the code."):
+            self.assertIn(words, note, words)
+
+    def test_the_rule_planned_sixteen_and_lost_none_and_every_reading_turn_was_at_the_lower_effort(self):
+        rows = self.rows()
+        ruled = [r for r in rows if r["after_planned_by"] == "rule"]
+        self.assertEqual(sorted(r["id"] for r in ruled), self.RULED)
+        self.assertTrue(all(r["after_pass"] == "1" and r["after_model_calls"] == "1" and r["after_efforts"] == "writer:medium" for r in ruled))
+        self.assertEqual(sorted({r["after_plan_shape"] for r in ruled}), ["generation", "hub price", "reserve"])
+        for r in rows:
+            if r["after_planned_by"] != "rule":
+                calls = r["after_efforts"].split(";")
+                self.assertEqual(calls[0], "planner:low", r["id"])                       # the first call, and only it, at the lower effort
+                self.assertTrue(all(c == "writer:medium" for c in calls[1:]), r["id"])
+        h12 = next(r for r in rows if r["id"] == "h12")
+        self.assertEqual((h12["before_seconds_words"], h12["after_seconds_words"], h12["before_model_calls"], h12["after_model_calls"]), ("43.9", "2.5", "8", "1"))
+
+    def test_the_two_lost_charts_were_asked_again_with_one_change_off_and_the_switches_stayed_off(self):
+        rows = {r["id"]: r for r in self.rows()}
+        self.assertIn("reask_effort_off: fail", rows["h14"]["asked_again"])
+        self.assertIn("reask_rollup_off: fail", rows["h14"]["asked_again"])              # it fails with the tool's guide as session 143 left it too
+        self.assertIn("reask_effort_off: fail", rows["h24"]["asked_again"])
+        self.assertIn("reask_rollup_off: pass", rows["h24"]["asked_again"])
+        self.assertEqual(sum(1 for r in rows.values() if r["asked_again"]), 2)
+        # 98 of 100 is not all 100: neither switch was turned on in the code
+        loop = src("site", "lib", "chat", "ask.ts")
+        self.assertIn('process.env.ASK_RULE_PLAN === "on"', loop)
+        self.assertIn('if (role === "planner" && env.ASK_READER_EFFORT && READER_EFFORTS.includes(env.ASK_READER_EFFORT)) return env.ASK_READER_EFFORT;', loop)
+        # and session 143's own record is as it was
+        old = src("warehouse", "chat", "eval_ercot_speed_results.csv")
+        self.assertTrue(any("session 143" in l for l in old.split("\n") if l.startswith("#")))
+        self.assertNotIn(chr(0x2014), src("warehouse", "chat", "eval_ercot_speed_results_148.csv") + src("warehouse", "chat", "eval", "ercot_speed_results_148.py"))
+
+
 class TheNodeTests(unittest.TestCase):
     def test_the_sessions_own_tests_pass_with_no_request_and_no_switch_set(self):
         node = shutil.which("node")
