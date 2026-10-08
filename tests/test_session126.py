@@ -28,7 +28,7 @@ SITE = os.path.join(ROOT, "site")
 COPY = os.path.join(SITE, "data", "demand_weather.json")
 OUT = os.path.join(ROOT, "warehouse", "output")
 NEW = ["warehouse/connectors/noaa_grid_weather.py", "warehouse/derived/demand_weather.py", "docs/methods/demand_weather.md",
-       "site/app/demand/weather/page.tsx", "site/lib/demandweather.ts", "tests/test_session126.py"]
+       "site/app/_retired/demand-weather/page.tsx", "site/lib/demandweather.ts", "tests/test_session126.py"]
 
 
 def read(name, mode="rb"):
@@ -295,7 +295,7 @@ class Repository(unittest.TestCase):
     def test_the_page_is_in_review_and_says_what_the_remainder_is_not(self):
         with open(os.path.join(SITE, "lib", "release.ts"), encoding="utf-8") as f:
             self.assertIn('"/demand/weather": "review"', f.read())
-        with open(os.path.join(SITE, "app", "demand", "weather", "page.tsx"), encoding="utf-8") as f:
+        with open(os.path.join(SITE, "app", "_retired", "demand-weather", "page.tsx"), encoding="utf-8") as f:  # session 152: the page file as built is kept there; the view is components/demand/Weather.tsx (tests/test_session152.py)
             page = f.read()
         for words in ("What the remainder is not", "The warehouse cannot split them", "data-summary", "Census Bureau",   # session 129: the weights are the Bureau's
                       "@/data/demand_weather.json", "never interpolated across more than three hours", "robots: { index: false"):

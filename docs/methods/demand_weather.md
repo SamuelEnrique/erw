@@ -2,7 +2,8 @@
 
 Table `eia930_demand_weather`, built by `warehouse/derived/demand_weather.py` from EIA-930 hourly demand and
 `noaa_grid_weather_hourly`. The weather tables (`noaa_grid_weather_stations`, `noaa_grid_weather_hourly`,
-`noaa_grid_weather_daily`) are built by `warehouse/connectors/noaa_grid_weather.py`. Page: `/demand/weather`, in review.
+`noaa_grid_weather_daily`) are built by `warehouse/connectors/noaa_grid_weather.py`. Page: `/demand?view=weather`, the second view of the
+one demand growth page, in review (built as `/demand/weather`, which redirects to it: "On the page" below).
 Sessions 126 and 129. Every figure below is the build's own (run of 2026-10-06); this document is written from its summary.
 
 ## What it answers
@@ -422,6 +423,26 @@ Session 126 built these figures on stated weights and without dew point. With th
 - A still base: 2019 to 2021 holds the lockdowns of 2020 and, in Texas, growth already under way.
 - The parts of a grid away from its five largest cities.
 - Demand served behind the meter.
+
+## On the page
+
+Since session 152 this table is the second view of the one demand growth page: `/demand?view=weather`, in review, with
+the figure and the year in the address (`?figure=energy|summer|winter|night`, `?year=`). The first view, `/demand`, is
+growth as metered ([demand growth](demand_growth.md)). The page was built at `/demand/weather`, which redirects to the
+view with its choices kept.
+
+No method or limitation is written out on the page face. What stood there in prose is this note, and on the page a few
+words that show the same sentence when the mouse rests on them:
+
+| On the face before | Now |
+|---|---|
+| The boxed paragraph "What the remainder is not" | The words "What the remainder is not." with the paragraph as their hover; "What the remainder is not" above |
+| The notes under the chart and the table | "How to read the bars" and "What the columns mean", each with the note as its hover; "The figures" and "The uncertainty" above |
+| The fold "How it is computed" | "The fit" above |
+| The fold "What is not here" | "What is not in it" above |
+| The prose of the folds "The check", "The stations and their weights", "New England under two rules" and "California across December 2025" | The four tables stay on the page, each under a few words whose hover is that prose; the sections of the same names above |
+
+The chart answers the mouse: each bar shows its grid, its year and its figure, with its give or take, beside the pointer.
 
 ## The stations' hours as a table
 

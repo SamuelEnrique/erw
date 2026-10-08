@@ -1,4 +1,5 @@
-// Session 126: demand growth with the weather taken out (/demand/weather, in review). Pure functions over the site's
+// Session 126: demand growth with the weather taken out (since session 152 the second view of /demand, in review:
+// lib/demandpage.ts; built as /demand/weather). Pure functions over the site's
 // own copy of eia930_demand_weather (data/demand_weather.json, written by warehouse/derived/demand_weather.py
 // --snapshot). Nothing is computed here that the table does not hold: these choose, order and format.
 
@@ -43,7 +44,9 @@ export const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 export const one = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 /** A growth figure with its sign, to one decimal: "+7.2" or "-0.4". */
 export const signed = (v: number) => `${v > 0 ? "+" : ""}${one(v)}`;
-export const href = (figure: string, year: string | number) => `/demand/weather?figure=${figure}&year=${year}`;
+/** The address of a figure and year: the second view of the one demand page (session 152; until then the page stood at
+ *  /demand/weather, which now redirects here: next.config.ts). */
+export const href = (figure: string, year: string | number) => `/demand?view=weather&figure=${figure}&year=${year}`;
 
 /** The years after the fit's, in order. */
 export function years(f: WeatherFile): string[] {
