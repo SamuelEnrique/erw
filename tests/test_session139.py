@@ -65,7 +65,7 @@ class Rule(unittest.TestCase):
         self.assertTrue(out["event_id"].startswith("llstmt:") and len(out["event_id"]) == 23)
         self.assertEqual(out["event_id"], ll.to_row(dict(r), "2026-10-08T00:00:00Z")["event_id"])   # a stable id
         self.assertEqual(list(out), ll.COLS)
-        self.assertEqual(len(ll.GROUPS), 40)   # session 141: from ten entities to forty
+        self.assertEqual(len(ll.FORTY_141), 40)   # session 141: from ten entities to forty (session 151: to eighty, the forty first)
         self.assertTrue(set(ll.PILOT_TEN) <= set(ll.GROUPS))
 
 
