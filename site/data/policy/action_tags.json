@@ -1,0 +1,198 @@
+{
+ "built_at_utc": "2026-10-08T09:03:21Z",
+ "rule_version": "3",
+ "actions_read": 1843,
+ "actions_tagged": 14,
+ "fields_read": [
+  "title",
+  "abstract",
+  "first_paragraph"
+ ],
+ "counts": {
+  "large_load": 10,
+  "interconnection": 8,
+  "transmission_cost": 12,
+  "tax_credit": 0
+ },
+ "tags": {
+  "cpuc:d200cc71ca33": [
+   {
+    "tag": "transmission_cost",
+    "matched_term": "transmission",
+    "matched_field": "title"
+   }
+  ],
+  "federalregister:2026-03321": [
+   {
+    "tag": "large_load",
+    "matched_term": "large loads",
+    "matched_field": "title"
+   }
+  ],
+  "federalregister:2026-05701": [
+   {
+    "tag": "transmission_cost",
+    "matched_term": "transmission formula rate",
+    "matched_field": "title"
+   }
+  ],
+  "federalregister:2026-15779": [
+   {
+    "tag": "large_load",
+    "matched_term": "EL26-67",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "interconnection",
+    "matched_term": "EL26-67",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "transmission_cost",
+    "matched_term": "EL26-67",
+    "matched_field": "docket"
+   }
+  ],
+  "federalregister:2026-16175": [
+   {
+    "tag": "large_load",
+    "matched_term": "EL26-67",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "interconnection",
+    "matched_term": "EL26-67",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "transmission_cost",
+    "matched_term": "EL26-67",
+    "matched_field": "docket"
+   }
+  ],
+  "federalregister:2026-16174": [
+   {
+    "tag": "large_load",
+    "matched_term": "EL26-68",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "interconnection",
+    "matched_term": "EL26-68",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "transmission_cost",
+    "matched_term": "EL26-68",
+    "matched_field": "docket"
+   }
+  ],
+  "federalregister:2026-16173": [
+   {
+    "tag": "large_load",
+    "matched_term": "EL26-69",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "interconnection",
+    "matched_term": "EL26-69",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "transmission_cost",
+    "matched_term": "EL26-69",
+    "matched_field": "docket"
+   }
+  ],
+  "federalregister:2026-16167": [
+   {
+    "tag": "large_load",
+    "matched_term": "EL26-70",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "interconnection",
+    "matched_term": "EL26-70",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "transmission_cost",
+    "matched_term": "EL26-70",
+    "matched_field": "docket"
+   }
+  ],
+  "federalregister:2026-16166": [
+   {
+    "tag": "large_load",
+    "matched_term": "EL26-71",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "interconnection",
+    "matched_term": "EL26-71",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "transmission_cost",
+    "matched_term": "EL26-71",
+    "matched_field": "docket"
+   }
+  ],
+  "federalregister:2026-16165": [
+   {
+    "tag": "large_load",
+    "matched_term": "EL26-71",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "interconnection",
+    "matched_term": "EL26-71",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "transmission_cost",
+    "matched_term": "EL26-71",
+    "matched_field": "docket"
+   }
+  ],
+  "federalregister:2026-16172": [
+   {
+    "tag": "large_load",
+    "matched_term": "EL26-72",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "interconnection",
+    "matched_term": "EL26-72",
+    "matched_field": "docket"
+   },
+   {
+    "tag": "transmission_cost",
+    "matched_term": "EL26-72",
+    "matched_field": "docket"
+   }
+  ],
+  "federalregister:2026-11539": [
+   {
+    "tag": "transmission_cost",
+    "matched_term": "cost allocation",
+    "matched_field": "title"
+   }
+  ],
+  "federalregister:2026-01329": [
+   {
+    "tag": "transmission_cost",
+    "matched_term": "transmission service rate",
+    "matched_field": "title"
+   }
+  ],
+  "puct:537c766a4c02": [
+   {
+    "tag": "large_load",
+    "matched_term": "data centers",
+    "matched_field": "title"
+   }
+  ]
+ },
+ "first_paragraph": {}
+}
