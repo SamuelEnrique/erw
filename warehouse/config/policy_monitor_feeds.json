@@ -21,6 +21,10 @@
         {
           "host": "ferc.gov",
           "what": "Every ferc.gov page (news, media, docket pages) answered HTTP 403 with a browser check (\"Just a moment...\"), recorded once on 8 October 2026 and left; eLibrary is a form and was not tried. The Commission's own pages are never requested: its documents are read from the Federal Register."
+        },
+        {
+          "host": "unblock.federalregister.gov",
+          "what": "A page of federalregister.gov (reader-aids/developer-resources/rest-api, asked once on 8 October 2026 for its terms) answered HTTP 302 to unblock.federalregister.gov: not followed. The Register's API answers a plain request and is what the step asks; no terms page of the Register was read."
         }
       ],
       "terms_class": "not quoted",
@@ -54,13 +58,16 @@
       "state": "VA",
       "refreshed": true,
       "list_name": "The docket search's two public listings: the case list by caption and a case's document list",
-      "list_url": "https://www.scc.virginia.gov/DocketSearchAPI/breeze/CaseDetails/GetDocuments",
+      "list_url": "https://www.scc.virginia.gov/docketsearchapi/breeze/casedetails/getdocuments",
       "reason": null,
       "refused": [],
       "terms_class": "not quoted",
-      "terms_url": null,
-      "terms_quote": null,
-      "last_run": null
+      "terms_url": "https://www.scc.virginia.gov/accessibility-and-web-policy/",
+      "terms_quote": "Information on the SCC website is public and should not be used for commercial purposes beyond its intended public availability. Permission is granted to make fair use of the contents of the SCC website. Attribution of the source of the information is encouraged.",
+      "last_run": null,
+      "terms_retrieved": "2026-10-08T08:58:09Z",
+      "terms_sha256": "f34ee72c0e4cd0400c1b9c182db249d3bebec23409dc9d477ff212358acb4479",
+      "terms_note": "Read for the first time in session 157 (no pass of session 154 met a terms page of the commission). The class stays 'not quoted', as warehouse/config/large_load_rule_terms.json holds it, until the owner rules on these words: the commission's rows stay in the internal table and their sentences stay withheld."
     },
     {
       "key": "puco",
