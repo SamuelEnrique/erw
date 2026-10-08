@@ -74,6 +74,10 @@ import iso_prices as ip  # noqa: E402
 NAME = "policy_actions"
 ROOT = ip.ROOT
 SCORES = os.path.join(ROOT, "warehouse", "policy", "scores.csv")
+# Session 157: the scores made again against the source text, and the mark of every action scored before it, in a file
+# of their own (the scorer's own file, scores.csv, is appended to by every daily run: a second file cannot collide
+# with it when a branch is merged). with_recheck lays it over the scores.
+RECHECK = os.path.join(ROOT, "warehouse", "policy", "scores_recheck_s157.csv")
 FR = "https://www.federalregister.gov/api/v1/documents.json"
 UA = {"User-Agent": "Mozilla/5.0 (ERW energy research warehouse; https://github.com/SamuelEnrique/erw)"}
 AGENCIES = {"energy-department": "DOE", "federal-energy-regulatory-commission": "FERC",
@@ -87,6 +91,12 @@ ENERGY = re.compile(r"\b(energy|electric\w*|power plant|power sector|utilit(y|ie
                     r"methane|petroleum|crude|refiner\w*|nuclear|uranium|renewable|solar|wind|geothermal|hydro\w*|"
                     r"transmission|offshore|lease sale|leasing|fuel|emission guidelines|greenhouse gas|carbon capture|"
                     r"battery|batteries|lithium|critical mineral\w*|LNG|biofuel|ethanol|hydrogen|mining claim)\b", re.I)
+# Session 157: a Treasury or IRS document is kept only when its title or abstract names an energy subject by one of
+# these words. The wider list above let in the comptroller's home loan data rule, on the word "utility" (2 of the 10
+# documents the two agencies added on 8 October 2026).
+TAX_AGENCIES = {"Treasury", "IRS"}
+TAX_ENERGY = re.compile(r"\b(energy|electric\w*|fuel|fuels|renewable|solar|wind|nuclear|hydrogen|carbon|oil|natural gas|"
+                        r"coal|biofuel|battery|batteries|critical mineral\w*)\b", re.I)
 ROUTINE = re.compile(r"(Combined Notice of Filings|Information Collection|Paperwork Reduction|Sunshine Act|"
                      r"Privacy Act of 1974|Meeting\b|Advisory (Committee|Board)|Environmental Impact Statements; Notice of "
                      r"Availability|Notice of Filing\b|Notice of Institution of Section 206|Records Governing Off-the-Record|"
@@ -189,7 +199,8 @@ def states(text):
 #   3. a postal address: a state followed by a ZIP code, a state in a street's name ("1001 Louisiana Street"),
 #      Washington, DC, and Rockville, Maryland (the NRC's seat);
 #   4. a river, county, city, falls, lake or valley that carries a state's name ("the Colorado River", "Kansas City",
-#      "Delaware County", "Lake Michigan", "Tennessee Valley Authority").
+#      "Delaware County", "Lake Michigan", "Tennessee Valley Authority"), and a county in a list of counties
+#      ("Washington and Greene Counties, Pennsylvania": Washington is a county there, Pennsylvania the state).
 # Where the title, the abstract and the first paragraph name no state, the place is read from place_words: the first
 # sentence in the opening PLACE_REACH characters of the printed text (footnotes apart) that places something in a
 # county, parish or borough of a state ("42 miles of pipeline in Rowan, Fleming, and Mason Counties, Kentucky").
@@ -218,6 +229,38 @@ IN_A_COUNTY = re.compile(r"\b(?:Count(?:y|ies)|Parish(?:es)?|Borough|Township)s?
 PUBLIC_BODY = re.compile(r"\b(City|Town|Village|County|Borough|State|Commonwealth|Department|Commission|District|"
                          r"Authority|Tribe|Tribes|Nation|Board|Agency|Bureau|University)\b")
 DATE_LINE = re.compile(r"(?:Issued:? )?[A-Z][a-z]+ \d{1,2}, \d{4}\.?")
+
+
+TWO_WORD_STATE = re.compile(r"\b(?:" + "|".join(n for n in sorted(STATES, key=len, reverse=True) if " " in n) + r")\b")
+LIST_END = re.compile(r"\b(?:Counties|Parishes|counties|parishes)\b")
+PLACE_UNIT = re.compile(r"(?:County|Counties|Parish|Parishes|Borough|Township),?$", re.I)
+
+
+def county_lists(text):
+    """The text with the names of a list of counties taken out ("in Washington and Greene Counties, Pennsylvania"
+    keeps "Counties, Pennsylvania"). The list is read backwards from "Counties" or "Parishes": capitalised words,
+    commas and "and"; it ends at any other word, and before a name that follows a county word ("Jefferson County,
+    Texas, and Beauregard and Allen Parishes, Louisiana": Texas is the state of Jefferson County, not a parish)."""
+    glue = chr(1)   # a state's name of two words is one word while the list is read ("Counties, North Carolina, and York ...")
+    text = TWO_WORD_STATE.sub(lambda m: m.group(0).replace(" ", glue), text or "")
+    out, last = [], 0
+    for m in LIST_END.finditer(text or ""):
+        toks = list(re.finditer(r"\S+", text[last:m.start()]))
+        cut = len(toks)
+        for k in range(len(toks) - 1, -1, -1):
+            w = toks[k].group(0)
+            if w == "and":
+                continue
+            if not re.match(r"[A-Z]", w) or (k > 0 and PLACE_UNIT.search(toks[k - 1].group(0))):
+                break
+            cut = k
+        while cut < len(toks) and toks[cut].group(0) == "and":
+            cut += 1
+        start = last + (toks[cut].start() if cut < len(toks) else m.start() - last)
+        out.append(text[last:start])
+        last = m.start()
+    out.append((text or "")[last:])
+    return (" ".join(out) if len(out) > 1 else (text or "")).replace(glue, " ")
 
 
 def title_parties(title):
@@ -253,7 +296,7 @@ def not_a_place(text, parties=()):
         if re.search(r"\b(?:" + STATE_NAMES + r")\b", sname):
             t = re.sub(r"\b" + re.escape(sname) + r"\b", " ", t)
     t = ADDRESS.sub(" ", t)                            # 3. a postal address
-    return NAMED_AFTER.sub(" ", t)                     # 4. a river, county or city with a state's name
+    return county_lists(NAMED_AFTER.sub(" ", t))       # 4. a river, county or city with a state's name; a list of counties
 
 
 def place_states(title, abstract, first_paragraph, place_words=""):
@@ -287,6 +330,12 @@ def printed(raw, record_title=""):
     body = text[m.end():] if m else text
     end = re.search(r"\n\[FR Doc\. [^\]]*Filed[^\]]*\]", body)   # the document's own last line
     body = body[:end.start()] if end else body
+    # the running head of a page ("  Federal Register / Vol. 91, No. 103 / Friday, May 29, 2026 / Proposed" and, on the
+    # next line, "Rules") is not a paragraph
+    # (the Register sets it between NUL characters)
+    body = re.sub(chr(0) + "+[^" + chr(0) + "]*" + chr(0) + "+", chr(10), body).replace(chr(0), "")
+    body = re.sub(r"\n[ \t]*Federal Register / Vol\. [^\n]*\n(?:(?:Rules and Regulations|Proposed Rules|Rules|Notices|"
+                  r"Regulations|Presidential Documents)[ \t]*\n)?", "\n", body)
     body = re.sub(r"\n[ \t]*\n+\[\[Page \d+\]\][ \t]*\n[ \t]*\n+", "\n", body)   # a page break inside a paragraph
     nl = chr(10)
     lines = []
@@ -309,17 +358,25 @@ def printed(raw, record_title=""):
     if at is None:
         return {"title": "", "first_paragraph": "", "place_words": ""}
     title = one(blocks[at])
-    paras = [p for p in re.split(r"\n(?= {4}\S)|\n[ \t]*\n", nl + nl.join(b + nl for b in blocks[at + 1:at + 60]))
+    paras = [p for p in re.split(r"\n(?= {4}\S)|\n[ \t]*\n|\n(?=[A-Z]{4,}:)", nl + nl.join(b + nl for b in blocks[at + 1:at + 60]))
              if p.strip() and not re.match(r"\s*\\\d+\\", p) and not p.strip().startswith("[")]
     paras = [x for x in (one(p) for p in paras) if not DATE_LINE.fullmatch(x)]   # a notice's own date line is no paragraph
-    if title.endswith(";") and paras and TITLE_WORD.match(paras[0]) and not re.search(r"\.\s+[A-Z]", paras[0]):
+    # a title that ends at a semicolon goes on in the paragraph under it, when that paragraph is a heading and not a
+    # sentence: it begins with a title word, or ends without a full stop; it holds no sentence break and is short
+    if (title.endswith(";") and paras and len(paras[0]) <= 300 and not re.search(r"\.\s+[A-Z]", paras[0])
+            and not re.match(r"[A-Z]{4,}:", paras[0]) and (TITLE_WORD.match(paras[0]) or not paras[0].rstrip().endswith("."))):
         title, paras = f"{title} {paras[0]}", paras[1:]
-    m = re.search(r"(?:^|\n)SUMMARY:\s*(.*?)(?:\n[ \t]*\n|\Z)", (nl + nl).join(blocks[at + 1:at + 14]), re.S)
+    m = re.search(r"(?:^|\n)SUMMARY:\s*(.*?)(?:\n[ \t]*\n|\Z)", (nl + nl).join(blocks[at + 1:at + 80]), re.S)
     if m:
         first = one(m.group(1))
     else:
-        paras = [p for p in paras if not re.match(r"(AGENCY|ACTION|DATES|ADDRESSES):", p)]
+        # the heading's own lines are not a paragraph: a label, an agency's name in capitals, a CFR or RIN line, the
+        # title printed again (a document that opens a separate part has a cover before its heading)
+        paras = [p for p in paras if not re.match(r"(AGENCY|ACTION|DATES|ADDRESSES):", p) and re.search(r"[a-z]", p)
+                 and not re.match(r"(\d+ CFR|RIN )", p) and p.strip().lower() != title.strip().lower()]
         first = paras[0] if paras else ""
+        if first.startswith("SUMMARY:"):
+            first = first[len("SUMMARY:"):].strip()
         if first.endswith(":"):
             for p in paras[1:]:
                 if not re.match(r"[a-z]\. ", p) or len(first) + len(p) > PARA_MAX:
@@ -521,6 +578,8 @@ def federal_register(since, log):
         text = f"{title} {abstract} {' '.join(x.get('topics') or [])}"
         if agency not in ALWAYS_ENERGY and not ENERGY.search(text):
             continue
+        if agency in TAX_AGENCIES and not TAX_ENERGY.search(f"{title} {abstract}"):
+            continue
         if ROUTINE.search(title):
             continue
         rins = [r_ for r_ in x.get("regulation_id_numbers") or [] if r_]
@@ -686,6 +745,29 @@ def link_news(frame, log):
     return frame
 
 
+def with_recheck(s, path=None):
+    """The scores (a frame, one row an event_id) with session 157's recheck laid over them: an action scored again
+    takes its new significance, sector, why, model and time and the mark "rechecked"; an action the recheck did not
+    reach keeps its score and takes its mark ("not rechecked" or "source not reachable"). An action scored after the
+    session is not in the recheck file and is left as the scorer wrote it."""
+    for c in SCORE_COLS:
+        if c not in s.columns:
+            s[c] = ""
+    path = path or RECHECK
+    if not os.path.exists(path) or not len(s):
+        return s
+    r = pd.read_csv(path, dtype=str, keep_default_na=False).drop_duplicates("event_id", keep="last").set_index("event_id")
+    s = s.drop_duplicates("event_id", keep="last").set_index("event_id")
+    both = [i for i in r.index if i in s.index]
+    redone = [i for i in both if r.at[i, "significance"] != ""]
+    for c in SCORE_COLS:
+        s.loc[redone, c] = r.loc[redone, c]
+    marked = [i for i in both if r.at[i, "significance"] == ""]
+    s.loc[marked, "model_recheck"] = r.loc[marked, "model_recheck"]
+    s.loc[marked, "model_rechecked_at"] = ""
+    return s.reset_index()
+
+
 def held_table():
     """{event_id: row} of the table held (any columns it has), {} when there is none."""
     path = os.path.join(ip.OUT_DIR, NAME + ".csv")
@@ -782,11 +864,16 @@ def main(argv=None):
         else:   # a run that did not ask every source cannot fold the releases again: the links held are kept
             f["related_urls"] = [held.get(i, {}).get("related_urls", "") for i in f["event_id"]]
         f = link_news(f, log)
+        if not set(asked) >= {"federalregister", "nrc", "doe", "puct", "cpuc"}:
+            # a run that did not ask every source (a trial, a hand-over on a machine whose news tables are days behind)
+            # keeps the links to news an earlier whole run made, where this run's linking found none
+            for i, eid in zip(f.index, f["event_id"]):
+                if not f.at[i, "news_story_ids"] and held.get(eid, {}).get("news_story_ids"):
+                    f.at[i, "news_story_ids"] = held[eid]["news_story_ids"]
+                    f.at[i, "news_story_urls"] = held[eid].get("news_story_urls", "")
         if os.path.exists(SCORES):  # the scores warehouse/policy/score.py wrote, kept across runs
             s = pd.read_csv(SCORES, dtype=str, keep_default_na=False).drop_duplicates("event_id", keep="last")
-            for c in SCORE_COLS:
-                if c not in s.columns:
-                    s[c] = ""
+            s = with_recheck(s)
             f = f.drop(columns=SCORE_COLS).merge(s[["event_id"] + SCORE_COLS], on="event_id", how="left").fillna("")
         f = f[COLS].sort_values(["event_date", "event_id"])
         header = [

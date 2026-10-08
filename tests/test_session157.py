@@ -351,6 +351,17 @@ class Recheck(unittest.TestCase):
             out = {r["action_event_id"]: r for r in csv.DictReader(l for l in open(os.path.join(work, "out", "policy_reads.csv"), encoding="utf-8") if not l.startswith("#"))}
             sc = {r["event_id"]: r for r in csv.DictReader(open(os.path.join(work, "out", "scores.csv"), encoding="utf-8"))}
             ch = list(csv.DictReader(open(os.path.join(work, "out", "recheck_s157_changes.csv"), encoding="utf-8")))
+            import pandas as pd
+            over_path = os.path.join(work, "out", "scores_recheck_s157.csv")
+            over = {r["event_id"]: r for r in csv.DictReader(open(over_path, encoding="utf-8"))}
+            laid = ps.with_recheck(pd.read_csv(scores, dtype=str, keep_default_na=False), over_path).set_index("event_id")
+        # the hand-over file: a row scored again holds its new fields, any other its mark alone; laid over the scorer's
+        # own file it gives the scores as they now stand
+        self.assertEqual(over["federalregister:2026-1"]["significance"], "3")
+        self.assertEqual((over["nrc:madeup"]["significance"], over["nrc:madeup"]["model_recheck"]), ("", "not rechecked"))
+        for i, r in sc.items():
+            for c in ("significance", "sector", "why", "model_recheck"):
+                self.assertEqual(laid.at[i, c], r[c], (i, c))
         a, b, c = (out[f"federalregister:2026-{i}"] for i in (1, 2, 3))
         self.assertEqual((a["recheck"], a["rechecked_at"]), ("rechecked", "2026-10-08T10:00:00Z"))
         self.assertEqual(a["affected_states"], "ID", "the state the text does not name is taken out")

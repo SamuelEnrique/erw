@@ -34,6 +34,8 @@ A row whose rating, sector, why or read changes keeps its old value in warehouse
     ... --step title --limit 1         # one batch of 40
     ... --step reads | title | rest    # the batch, until the stop
     ... --build                        # no call: the tables, the scores file and the before-and-after from the answers
+    python warehouse/policy/recheck.py --apply --work WORK     # the hand-over, from the main copy under the data lock:
+                                       # the rechecked reads and their evidence into warehouse/output (no call, no request)
 """
 
 import argparse
@@ -64,8 +66,8 @@ import iso_prices as ip  # noqa: E402
 SESSION = "157"
 CHARS_PER_TOKEN = 2.5        # a low figure on purpose: the reserve must be a worst case
 READ_MAX_TOKENS = 8000       # as reads.py (session 26)
-SCORE_MAX_TOKENS = 6000      # 40 items a batch; an answer is about 70 tokens an item
-BATCH = 40
+SCORE_MAX_TOKENS = 6000      # 20 items a batch; measured: the news scorer's answer is about 150 tokens an item
+BATCH = 20                   # (the first measured batch held 40 and was cut at 6,000 tokens: its whole items are kept)
 WORKERS = 4
 CHANGES = os.path.join(HERE, "eval", "recheck_s157_changes.csv")
 SUMMARY = os.path.join(HERE, "eval", "recheck_s157_summary.json")
@@ -104,11 +106,15 @@ class Budget:
     """The stop, BEFORE a call. spent is what the session's ledger held when the run began plus every call since;
     held is the worst-case reserve of the calls in flight."""
 
-    def __init__(self, stop, spent):
-        self.stop, self.spent, self.held, self.lock = stop, spent, 0.0, threading.Lock()
+    def __init__(self, stop, spent, stop_file=None):
+        self.stop, self.spent, self.held, self.lock, self.stop_file = stop, spent, 0.0, threading.Lock(), stop_file
 
     def take(self, reserve):
         with self.lock:
+            # a person or an agent stops a batch by creating the stop file: no new call starts, and the calls in
+            # flight finish and are saved (killing the process loses the answers of the calls in flight)
+            if self.stop_file and os.path.exists(self.stop_file):
+                return False
             if not may_call(self.spent + self.held, reserve, self.stop):
                 return False
             self.held += reserve
@@ -284,9 +290,51 @@ def score_groups(actions):
     return fr[fr["abstract"] == ""], fr[fr["abstract"] != ""]
 
 
-def batches_of(frame, S):
-    """Batches of BATCH actions whose printed text is read, in the frame's order: [(key, [items], [ids])]."""
-    rows = [r for r in frame.to_dict("records") if r.get("text_status") == "read"]
+def item_key(item):
+    return hashlib.sha256(json.dumps(item, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def results_of(a):
+    """The scorer's results in a saved answer, each a whole item. An answer cut at max_tokens is not discarded: every
+    item it holds whole is read (the JSON objects of its list, one by one, up to the cut); the items after the cut
+    have no result and are asked again."""
+    text = a.get("answer") or ""
+    if a.get("stop_reason") == "end_turn":
+        try:
+            obj = json.loads(text)
+            if isinstance(obj, list):
+                return obj
+            return next((v for v in obj.values() if isinstance(v, list)), [])
+        except ValueError:
+            pass
+    out, dec = [], json.JSONDecoder()
+    i = text.find("[")
+    while i >= 0:
+        j = text.find("{", i)
+        if j < 0:
+            break
+        try:
+            obj, end = dec.raw_decode(text, j)
+        except ValueError:
+            break
+        out.append(obj)
+        i = end
+    return [x for x in out if isinstance(x, dict) and "id" in x and "significance" in x and "one_line_why" in x]
+
+
+def answered_items(a_scores):
+    """The items a saved answer already covers with a result (the same action, title and summary): never asked twice."""
+    done = set()
+    for a in a_scores.values():
+        got = {x.get("id") for x in results_of(a)}
+        done |= {item_key(it) for it in a.get("items", []) if it["id"] in got}
+    return done
+
+
+def batches_of(frame, S, done=()):
+    """Batches of BATCH actions whose printed text is read and that no saved answer covers, in the frame's order:
+    [(key, [items], [ids])]."""
+    rows = [r for r in frame.to_dict("records") if r.get("text_status") == "read" and item_key(S.item_of(r)) not in done]
     out = []
     for i in range(0, len(rows), BATCH):
         part = rows[i:i + BATCH]
@@ -298,20 +346,31 @@ def batches_of(frame, S):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW session 157: recheck the model's reads and scores against the source text")
-    ap.add_argument("--actions", required=True, help="policy_actions.csv with the printed text's columns (a trial's)")
-    ap.add_argument("--reads", required=True, help="policy_reads.csv as held")
+    ap.add_argument("--actions", help="policy_actions.csv with the printed text's columns (a trial's)")
+    ap.add_argument("--reads", help="policy_reads.csv as held")
     ap.add_argument("--evidence", help="policy_reads_evidence.csv as held (for --build)")
-    ap.add_argument("--text-dir", required=True, help="the store of printed texts by document number")
+    ap.add_argument("--text-dir", help="the store of printed texts by document number")
     ap.add_argument("--work", required=True, help="answers, texts, fetched releases and the built tables go here")
-    ap.add_argument("--ledger-dir", required=True, help="the cost ledger's directory (a working copy's own)")
+    ap.add_argument("--ledger-dir", help="the cost ledger's directory (a working copy's own)")
+    ap.add_argument("--apply", action="store_true", help="the hand-over: write the built reads into warehouse/output (locked)")
+    ap.add_argument("--out-dir", help="with --apply, a trial: write under this directory instead of warehouse/output")
     ap.add_argument("--also-ledger", action="append", default=[], help="another ledger whose session rows count as spent")
     ap.add_argument("--stop-usd", type=float, default=5.50)
     ap.add_argument("--step", choices=["reads", "title", "rest"])
     ap.add_argument("--limit", type=int, help="at most this many calls")
     ap.add_argument("--plan", action="store_true")
+    ap.add_argument("--workers", type=int, default=WORKERS,
+                    help="calls at a time (1 near the stop: no reserve is then held for calls in flight)")
+    ap.add_argument("--held-only", action="store_true",
+                    help="reads: leave for a later run, unmarked, a Register action whose printed text is not in the store yet")
     ap.add_argument("--build", action="store_true")
     args = ap.parse_args(argv)
     work = os.path.abspath(args.work)
+    if args.apply:
+        return apply(work, args.out_dir)
+    for need in ("actions", "reads", "text_dir", "ledger_dir"):
+        if not getattr(args, need):
+            ap.error(f"--{need.replace('_', '-')} is required")
     os.makedirs(work, exist_ok=True)
     os.environ["ERW_SESSION"] = SESSION
     ip.set_out_dir(os.path.abspath(args.ledger_dir))   # the ledger, its registry line and this run's log: not warehouse/output
@@ -336,7 +395,8 @@ def main(argv=None):
         p = llm.prices()["models"][model]
         r_res = [reserve_usd(model, len(R.SYSTEM) + len(json.dumps(R.SCHEMA)) + R.MAX_TEXT + 400, READ_MAX_TOKENS, llm)
                  for r in read_rows if r["event_id"] not in a_reads]
-        tb, rb = batches_of(title, S), batches_of(rest, S)
+        done_items = answered_items(a_scores)
+        tb, rb = batches_of(title, S, done_items), batches_of(rest, S, done_items)
         s_res = lambda bs: [reserve_usd(model, len(NEWS["SYSTEM"]) + len(S.POLICY_NOTE) + len(json.dumps(NEWS["SCHEMA"]))
                                         + len(json.dumps(items)), SCORE_MAX_TOKENS, llm) for k, items, _ in bs if k not in a_scores]
         print(f"plan at {now_iso()}: model {model} (USD {p['input']} a million input tokens, {p['output']} output); "
@@ -346,15 +406,16 @@ def main(argv=None):
         for name, frame, bs in (("title", title, tb), ("rest", rest, rb)):
             res = s_res(bs)
             n_text = sum(len(ids) for _, _, ids in bs)
-            print(f"  {name}: {len(frame)} Register actions, {n_text} with their printed text read, in {len(bs)} batches of "
-                  f"{BATCH}; {sum(1 for k, _, _ in bs if k in a_scores)} batches answered; worst-case reserve of the rest "
-                  f"USD {sum(res):.2f} ({max(res) if res else 0:.4f} a call)")
+            n_read = int((frame["text_status"] == "read").sum()) if "text_status" in frame.columns else 0
+            print(f"  {name}: {len(frame)} Register actions, {n_read} with their printed text read, {n_read - n_text} of them "
+                  f"answered already; {n_text} to ask in {len(bs)} batches of {BATCH}; worst-case reserve USD {sum(res):.2f} "
+                  f"({max(res) if res else 0:.4f} a call)")
         log.close()
         return 0
     os.environ.setdefault("ERW_SPEND_CAP_USD", f"{args.stop_usd:.2f}")
     client = llm.client("policy_recheck_" + args.step, log)
     model = NEWS["pick_model"](client, log)
-    budget = Budget(args.stop_usd, spent0)
+    budget = Budget(args.stop_usd, spent0, os.path.join(work, "STOP"))
     done = {"calls": 0, "usd": 0.0, "stopped": "", "skipped": 0}
     state = {"lock": threading.Lock(), "last": {}, "requests": 0, "bytes": 0}
     text_dir = os.path.abspath(args.text_dir)
@@ -402,16 +463,19 @@ def main(argv=None):
     if args.step == "reads":
         todo = [r for r in read_rows if r["event_id"] not in a_reads
                 and not os.path.exists(os.path.join(work, "no_text", safe(r["event_id"]) + ".json"))]
+        if args.held_only:
+            todo = [r for r in todo if not r["fr_document_number"]
+                    or os.path.exists(os.path.join(text_dir, safe(r["fr_document_number"]) + ".txt"))]
         fn = one_read
     else:
-        todo = [b for b in batches_of(title if args.step == "title" else rest, S) if b[0] not in a_scores]
+        todo = batches_of(title if args.step == "title" else rest, S, answered_items(a_scores))
         fn = one_batch
     if args.limit:
         todo = todo[:args.limit]
     log(f"{args.step}: {len(todo)} to do; session spent so far USD {spent0:.4f}; stop USD {args.stop_usd:.2f}; model {model}")
     # the first call alone (it writes the prompt cache), then WORKERS at a time
     first, others = todo[:1], todo[1:]
-    for group, workers in ((first, 1), (others, WORKERS)):
+    for group, workers in ((first, 1), (others, max(1, args.workers))):
         if done["stopped"] or not group:
             continue
         with cf.ThreadPoolExecutor(workers) as pool:
@@ -436,6 +500,56 @@ def guarded(fn, x, log):
         return fn(x)
     except Exception as exc:   # a failed call is logged and the batch goes on; what was paid is in the ledger
         return 0.0, f"FAILED: {ip.redact(repr(exc))[:300]}"
+
+
+def apply(work, out_dir=None):
+    """The hand-over (no call, no request): the reads --build made, into the table held, as reads.py itself writes a
+    read done again. Run from the main copy under the data lock. policy_reads: the table held gains the two recheck
+    columns (empty), then every built row replaces the row of the same event_id; a row the table gained since the
+    build (a read the daily run made) is kept as it is. policy_reads_evidence: the spans of every read made again
+    replace that read's old spans; the others are kept."""
+    import reads as R
+    if out_dir:
+        ip.set_out_dir(out_dir)
+    os.makedirs(ip.LOG_DIR, exist_ok=True)
+    run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    log = ip.Log(os.path.join(ip.LOG_DIR, f"policy_recheck_apply_{run_id}.log"))
+    built = read_events(os.path.join(work, "out", "policy_reads.csv"))
+    held_path = os.path.join(ip.OUT_DIR, R.NAME + ".csv")
+    if not os.path.exists(held_path):
+        raise SystemExit(f"{held_path} is not there: nothing to apply the rechecked reads to")
+    R.widen_held(log)
+    held = read_events(held_path)
+    marks = built["recheck"].value_counts().to_dict()
+    hdr = [ln[2:].rstrip("\n") for ln in head_lines(held_path) if not ln.startswith(("# File holds", "# Session 157"))]
+    hdr.append(f"Session 157: {marks.get('rechecked', 0)} of {len(built)} reads made again from the source text by "
+               f"warehouse/policy/recheck.py (recheck, rechecked_at); {marks.get('not rechecked', 0)} not rechecked, "
+               f"{marks.get('source not reachable', 0)} whose source was not reachable: those rows are as they were. "
+               f"Applied {run_id} (UTC); log warehouse/output/logs/policy_recheck_apply_{run_id}.log")
+    ip.write_csv(built[R.READ_COLS], R.NAME, hdr, log, cols=R.READ_COLS, key=["event_id"], time_col="event_date")
+    ev_built = os.path.join(work, "out", "policy_reads_evidence.csv")
+    ev_path = os.path.join(ip.OUT_DIR, R.EVID + ".csv")
+    if os.path.exists(ev_built) and os.path.exists(ev_path):
+        new = read_events(ev_built)
+        redone = set(built[built["recheck"] == "rechecked"]["event_id"])
+        new = new[new["read_id"].isin(redone)]
+        ip._require_lock(ev_path, f"replacing the evidence of the reads made again in {R.EVID}")
+        head = head_lines(ev_path)
+        old = read_events(ev_path)
+        old = old[~old["read_id"].isin(redone)]
+        with open(ev_path + ".tmp", "w", encoding="utf-8", newline="") as fh:
+            fh.writelines(head)
+            old.to_csv(fh, index=False, lineterminator="\n")
+        os.replace(ev_path + ".tmp", ev_path)
+        ehdr = [ln[2:].rstrip("\n") for ln in head if not ln.startswith("# File holds")]
+        ip.write_csv(new[R.EVID_COLS], R.EVID, ehdr, log, cols=R.EVID_COLS, key=["event_id"], time_col="event_date")
+    after = read_events(held_path)
+    line = (f"policy_reads: {len(held)} rows held, {len(built)} built rows applied ({marks}), {len(after)} rows now; "
+            f"rows the table had gained since the build and kept as they are: {len(set(after['event_id']) - set(built['event_id']))}")
+    log(line)
+    print(line)
+    log.close()
+    return 0
 
 
 # ---------------------------------------------------------------- the tables, from the saved answers (no call)
@@ -492,7 +606,7 @@ def build(args, actions, reads, work, S, log):
                                  "event_type": "policy_read_evidence", "parties": "", "entity_ids": "", "mw": "", "price": "",
                                  "currency": "", "status": "", "source": "erw:policy_reads", "source_url": old["source_url"],
                                  "read_id": rid, "field": name, "span": s_.replace(R.EM, "-"),
-                                 "source_text_file": "runs/session157/recheck/texts/" + os.path.basename(a["text_file"])})
+                                 "source_text_file": "warehouse/raw/policy_reads/recheck_s157/texts/" + os.path.basename(a["text_file"])})
             kinds["rechecked"] += 1
             for f_ in READ_FIELDS:
                 if old.get(f_, "") != row[f_]:
@@ -538,14 +652,9 @@ def build(args, actions, reads, work, S, log):
     sc = {r["event_id"]: r for r in old_scores.to_dict("records")}
     got, bad_batches = {}, []
     for key, a in sorted(a_scores.items(), key=lambda kv: kv[1]["at"]):
+        res = results_of(a)
         if a.get("stop_reason") != "end_turn":
-            bad_batches.append(key)
-            continue
-        try:
-            res = S.first_list(json.loads(a["answer"]))
-        except (ValueError, RuntimeError):
-            bad_batches.append(key)
-            continue
+            bad_batches.append(f"{key}: {a.get('stop_reason')}, {len(res)} of {len(a['ids'])} items whole and kept")
         for x in res:
             if x.get("id") in a["ids"]:
                 got[x["id"]] = (str(int(x["significance"])), x["sector"], NEWS["nodash"](x.get("one_line_why") or ""),
@@ -590,7 +699,14 @@ def build(args, actions, reads, work, S, log):
         by_kind[kind][mark] += 1
         sc[i] = row
     allsc = pd.DataFrame(list(sc.values()))[["event_id"] + S.SCORE_COLS]
-    allsc.to_csv(os.path.join(out_dir, "scores.csv"), index=False, lineterminator="\n")
+    allsc.to_csv(os.path.join(out_dir, "scores.csv"), index=False, lineterminator="\n")   # the scores as they now stand
+    # the hand-over: a file of its own (warehouse/policy/scores_recheck_s157.csv), laid over the scorer's file by
+    # policy_sources.with_recheck. A row scored again holds its new fields; any other holds its mark alone.
+    over = allsc[allsc["model_recheck"] != ""].copy()
+    blank = over["model_recheck"] != "rechecked"
+    for c in ("significance", "sector", "why", "model_id", "scored_at"):
+        over.loc[blank, c] = ""
+    over.to_csv(os.path.join(out_dir, "scores_recheck_s157.csv"), index=False, lineterminator="\n")
     summary["scores"] = dict(marks, by_kind=by_kind, moved=moved, batches=len(a_scores), batches_not_readable=bad_batches,
                              scores_file_rows=len(allsc))
     pd.DataFrame(changes, columns=["kind", "event_id", "field", "before", "after", "rechecked_at"]).to_csv(

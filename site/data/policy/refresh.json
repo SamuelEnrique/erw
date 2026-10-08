@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-08T09:03:21Z",
+ "built_at_utc": "2026-10-08T09:53:05Z",
  "what": "For FERC and the ten state commissions of large_load_rules: the regulator's own open list that the daily step warehouse/connectors/policy_monitor_refresh.py asks by plain request, whether it is asked at all, and if not the exact reason. A regulator with refreshed false is never requested by the step. The site's copy is site/data/policy/refresh.json (built by warehouse/derived/policy_monitor_site.py, which adds built_at_utc and the facts of the last run). Terms: the class, address and quotation of warehouse/config/large_load_rule_terms.json, word for word. Session 157.",
  "ceilings": {
   "requests_a_day": 120,
@@ -31,7 +31,13 @@
    "terms_class": "not quoted",
    "terms_url": null,
    "terms_quote": null,
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 1,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "0 list lines read in 10 dockets held; new since 2026-10-06: 0"
+   }
   },
   {
    "key": "txpuc",
@@ -48,7 +54,13 @@
    "terms_class": "restricted",
    "terms_url": "https://www.puc.texas.gov/agency/about/policies/linkpolicy/",
    "terms_quote": "Although the content of PUCT web sites is available to the public, certain information on the PUCT web sites may be trademarked, service marked, or otherwise protected as the PUCT's intellectual property, and all PUCT content is protected by federal copyright laws.",
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 13,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "936 list lines read in 11 dockets held; new since 2026-10-06: 0"
+   }
   },
   {
    "key": "vascc",
@@ -65,7 +77,13 @@
    "terms_class": "not quoted",
    "terms_url": "https://www.scc.virginia.gov/accessibility-and-web-policy/",
    "terms_quote": "Information on the SCC website is public and should not be used for commercial purposes beyond its intended public availability. Permission is granted to make fair use of the contents of the SCC website. Attribution of the source of the information is encouraged.",
-   "last_run": null,
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 25,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "1093 list lines read in 9 dockets held; new since 2026-10-06: 0; the first invocation's one request answered HTTP 307 (a redirect to the lower-case path on the same host, which the step then did not follow); the step now follows a redirect to the regulator's own listed host, and Virginia's lists were asked in a second invocation at 2026-10-08T08:57:12Z"
+   },
    "terms_retrieved": "2026-10-08T08:58:09Z",
    "terms_sha256": "f34ee72c0e4cd0400c1b9c182db249d3bebec23409dc9d477ff212358acb4479",
    "terms_note": "Read for the first time in session 157 (no pass of session 154 met a terms page of the commission). The class stays 'not quoted', as warehouse/config/large_load_rule_terms.json holds it, until the owner rules on these words: the commission's rows stay in the internal table and their sentences stay withheld."
@@ -94,7 +112,13 @@
    "terms_class": "not quoted",
    "terms_url": null,
    "terms_quote": null,
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 0,
+    "new_rows": 0,
+    "status": "not requested",
+    "detail": "Not refreshed: the commission's document viewer (dis.puc.state.oh.us/ViewImage.aspx) answers with a Google reCAPTCHA, and its main site puco.ohio.gov answered 404 to six plain requests on 8 October 2026, so no terms page could be read; the daily step requests neither host."
+   }
   },
   {
    "key": "iurc",
@@ -116,7 +140,13 @@
    "terms_class": "restricted",
    "terms_url": "https://www.in.gov/core/terms_of_use.html",
    "terms_quote": "Except as may otherwise be allowed by law (including but not limited to the Indiana Access to Public Records Law), the viewing, printing, or downloading of any content, graphic, form, or document from the Portal grants you only a limited, nonexclusive license for use solely by you for your own personal use, and not for republication, distribution, assignment, sublicense, sale, preparation of derivative works or other use.",
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 1,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "5 list lines read in 7 dockets held; new since 2026-10-06: 0"
+   }
   },
   {
    "key": "papuc",
@@ -133,7 +163,13 @@
    "terms_class": "public record",
    "terms_url": "https://www.puc.pa.gov/filing-resources/issues-laws-regulations/right-to-know-policies-and-procedures/",
    "terms_quote": "Persons requesting copies of public records maintained by the Commission must submit a written request to the Commission’s Open Records Officer.",
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 4,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "931 list lines read in 4 dockets held; new since 2026-10-06: 0"
+   }
   },
   {
    "key": "ilcc",
@@ -155,7 +191,13 @@
    "terms_class": "public record",
    "terms_url": "https://icc.illinois.gov/privacy.htm",
    "terms_quote": "Information collected and received through the Illinois Commerce Commission web site may become public record and therefore subject to disclosure under the Illinois Freedom of Information Act.",
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 0,
+    "new_rows": 0,
+    "status": "not requested",
+    "detail": "Not refreshed: a docket's own page (icc.illinois.gov/docket/P2025-0677) answered \"Please, no robots or crawlers beyond this point.\" and a CAPTCHA on 8 October 2026; the daily step requests no page of the commission."
+   }
   },
   {
    "key": "gapsc",
@@ -172,7 +214,13 @@
    "terms_class": "restricted",
    "terms_url": "https://psc.ga.gov/open-records-requests/",
    "terms_quote": "Request in writing by any person pursuant to the Georgia Open Records Act, O.C.G.A. Section 50-18-70, et seq.",
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 1,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "100 list lines read in 1 dockets held; new since 2026-10-06: 0"
+   }
   },
   {
    "key": "azcc",
@@ -198,7 +246,13 @@
    "terms_class": "public record",
    "terms_url": "https://www.azcc.gov/privacy-policy",
    "terms_quote": "In other words, much of the information you disclose to us becomes a matter of public record as required by law.",
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 2,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "1 list lines read in 4 dockets held; new since 2026-10-06: 0"
+   }
   },
   {
    "key": "orpuc",
@@ -215,7 +269,13 @@
    "terms_class": "public record",
    "terms_url": "https://www.oregon.gov/pages/terms-and-conditions.aspx",
    "terms_quote": "Most information collected by state government is assumed to be open to the public unless specifically exempted.",
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 2,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "391 list lines read in 3 dockets held; new since 2026-10-06: 0"
+   }
   },
   {
    "key": "cpuc",
@@ -232,7 +292,13 @@
    "terms_class": "allowed",
    "terms_url": "https://www.cpuc.ca.gov/about-cpuc/conditions-of-use",
    "terms_quote": "In general, information presented on this web site, unless otherwise indicated, is considered in the public domain. It may be distributed or copied as permitted by law.",
-   "last_run": null
+   "last_run": {
+    "at_utc": "2026-10-08T08:55:25Z",
+    "requests": 3,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "18 list lines read in 7 dockets held; new since 2026-10-06: 0"
+   }
   }
  ],
  "federal_feeds": [

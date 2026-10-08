@@ -150,7 +150,9 @@ def main(argv=None):
         allsc = pd.concat([old, pd.DataFrame(new, columns=["event_id"] + SCORE_COLS)], ignore_index=True) \
             .drop_duplicates("event_id", keep="last")
         allsc.to_csv(SCORES, index=False, lineterminator="\n")
-        df = df.drop(columns=[c for c in SCORE_COLS if c in df.columns]).merge(allsc, on="event_id", how="left").fillna("")
+        import policy_sources as ps   # session 157: the table takes the scores with the recheck laid over them
+        shown = ps.with_recheck(allsc.copy())[["event_id"] + SCORE_COLS]
+        df = df.drop(columns=[c for c in SCORE_COLS if c in df.columns]).merge(shown, on="event_id", how="left").fillna("")
         cols = [c for c in read_table(path)[1].columns]
         write_table(path, head, df[cols], f"by warehouse/policy/score.py at {run_id} (UTC); run log "
                                           f"warehouse/output/logs/policy_score_{run_id}.log")
