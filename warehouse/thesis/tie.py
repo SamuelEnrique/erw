@@ -101,6 +101,38 @@ THE RULE
 7. Data vendors' public pages (session 158). A page of a data vendor (the list is one file, vendor_pages.csv, read by
    pages.py and handed to judge) is read like any other page, and every sentence from it carries the vendor's name
    ("vendor" on the evidence line and on a tying line). It changes no point: the label is for the reader.
+   Session 160 (the owner's ruling of 8 October 2026: "a vendor page's sentence may tie a company but is labeled as a
+   vendor page"): such a sentence counts toward the tie like any other sentence, as it has since session 158.
+
+SESSION 160: THE OWNER'S FOUR RULINGS OF 8 OCTOBER 2026 (evening). No point, threshold, tie or tie-break changed.
+
+8. A page's last good text is kept when the page later refuses (pages.py). A kept page (state "kept") holds its
+   sentences like a fetched one. Every sentence read from it carries "kept": the day the good text was retrieved, the
+   day and reason of the attempt that failed, and the text's age in days at that attempt. There is no age limit: the
+   owner gave none. A page that never gave text holds no sentence.
+
+9. A search result's title is not evidence. The fetched tier is now only the passages the search tool returned as
+   cited (text of the page), when they name the company. A title scores nothing and ties nothing, also when it is
+   the company's own name. A title that names the company stays in the company's record as how a page was found
+   ("titles_not_counted"). One line of judge changed: the texts of a fetched source it reads.
+
+10. One company under several names is merged by domain. Two names whose rows state the same COMPANY DOMAIN are
+   one company: one row, the longest name kept (rule 5), the other names kept as "also written", the evidence pooled
+   (one sentence of one address counts once, and the same remark once, as rule 3 says). A company with no domain is
+   never merged by this rule (rule 5 alone merges names).
+   The test of a company domain (company_domain, shared_hosts). A website gives a company domain unless:
+     (a) it is written with a path (linkedin.com/company/x is a page on a host, not a domain);
+     (b) its domain is, or is under, one of HOSTS_OF_MANY (social networks, directories, encyclopedias, code and
+         site hosts, government sites: a fixed list);
+     (c) its domain is, or is under, a data vendor's or a licensed database's (rule 7's list);
+     (d) in this niche's store a row of another website cites a page at that domain: the domain hosts pages that
+         are evidence for a company whose own site is elsewhere, as a news site does.
+   Which reading stands. For a company merged by domain, a fact (kind, country, location, stage fit) is no longer
+   the first value saved under whichever name came first: of the values its rows state, under all its names, the one
+   that stands is (1) the value stated by the most rows (one row is one run's reading under one name); on a draw
+   (2) a value stated by a row that itself states the company's domain; on a further draw (3) the value whose first
+   statement is the latest. Every other value is kept as a disagreement, as before. For every company that is not
+   merged by domain rule 6 is unchanged: the first value saved stands.
 """
 
 import collections
@@ -134,6 +166,15 @@ SMALL_WORDS = {"the", "a", "an", "and", "but", "or", "nor", "in", "on", "at", "b
                "than", "via", "per", "when", "while", "after", "before", "since", "both", "also", "its", "their", "our", "your", "this", "that",
                "these", "those", "if", "how", "why", "what", "where", "who", "is", "are", "was", "were", "will", "been", "have", "more", "most",
                "about", "amid", "near", "onto", "upon"}
+# Session 160, rule 10. None of these is a threshold of the scoring. Hosts of many companies: a website at one of them
+# (or under it) is a page about a company, never the company's own domain. Data vendors and licensed databases are
+# added from rule 7's list, and the hosts a store shows to be shared by shared_hosts().
+HOSTS_OF_MANY = ("linkedin.com", "facebook.com", "x.com", "twitter.com", "instagram.com", "youtube.com", "tiktok.com", "threads.net", "bsky.app",
+                 "github.com", "github.io", "gitlab.com", "medium.com", "substack.com", "wordpress.com", "blogspot.com", "wixsite.com", "squarespace.com",
+                 "webflow.io", "notion.site", "google.com", "wikipedia.org", "wikidata.org", "angel.co", "wellfound.com", "f6s.com", "ycombinator.com",
+                 "climatebase.org", "builtin.com", "bloomberg.com", "reuters.com", "prnewswire.com", "businesswire.com", "globenewswire.com",
+                 "sec.gov", "energy.gov", "osti.gov", "sbir.gov", "nsf.gov", "arpa-e.energy.gov", "usaspending.gov")
+KEPT = "kept"                    # session 160, rule 8: the state of a page whose last good text is kept (pages.KEPT)
 FACTS = ("kind", "country", "location", "fits_stage")
 CELLS = ("website", "description", "founders", "stage", "raised", "signal", "tam")
 
@@ -406,17 +447,54 @@ def vendor_of(address, vendors):
 # duplicate names
 # ---------------------------------------------------------------------------------------------
 
-def clusters(names, niche_words=()):
-    """names: [(name, website)]. Returns {raw key: (canonical key, canonical name)}; the same for any input order."""
+def under(d, hosts):
+    """True when a domain is one of the hosts or under one of them."""
+    return any(d == h or d.endswith("." + h) for h in hosts)
+
+
+def company_domain(site, shared=()):
+    """The company domain a website gives (rule 10), or "": not when it is written with a path, nor when its domain
+    is, or is under, a host of many companies (HOSTS_OF_MANY and the hosts given)."""
+    d = domain(site)
+    if not d:
+        return ""
+    rest = re.sub(r"^(?:https?://)?[^/?#]*", "", (site or "").strip())
+    if rest.strip("/?#"):
+        return ""                                    # a page on a host, not a domain
+    return "" if under(d, HOSTS_OF_MANY) or under(d, shared) else d
+
+
+def shared_hosts(store, vendors=None):
+    """The domains that are not a company's own in this store (rule 10, tests c and d): every data vendor's and
+    licensed database's domain, and every domain at which a row of ANOTHER website cites a page (a row that states
+    no website shows nothing)."""
+    out = set(vendors or {})
+    for x in store.get("rows") or []:
+        own = domain(x["row"].get("website") or "")
+        if not own:
+            continue
+        for u in x["row"].get("source_urls") or []:
+            d = domain(u)
+            if d and not str(u).startswith("erw:") and d != own and not d.endswith("." + own) and not own.endswith("." + d):
+                out.add(d)
+    return out
+
+
+def clusters(names, niche_words=(), shared=(), by_domain=True):
+    """names: [(name, website)]. Returns {raw key: (canonical key, canonical name)}; the same for any input order.
+    Session 160: names whose websites give the same company domain are one company (rule 10). shared: the hosts that
+    are not a company's own domain, beside HOSTS_OF_MANY. by_domain False reads the names as before session 160."""
     by_key = {}
     for name, site in names:
         k = name_key(name)
         if not k:
             continue
-        e = by_key.setdefault(k, {"names": set(), "domains": set()})
+        e = by_key.setdefault(k, {"names": set(), "domains": set(), "own": set()})
         e["names"].add(re.sub(r"\s+", " ", name).strip())
         if domain(site):
             e["domains"].add(domain(site))
+        if by_domain and company_domain(site, shared):
+            e["own"].add(company_domain(site, shared))
     keys = sorted(by_key)
     core = {k: core_of(k, niche_words) for k in keys}
     parent = {k: k for k in keys}
@@ -453,6 +531,10 @@ def clusters(names, niche_words=()):
             if da and db and not (da & db):
                 continue
             union(next(k for k in keys if core[k] == a), next(k for k in keys if core[k] == b))
+    for d in sorted({d for k in keys for d in by_key[k]["own"]}):     # session 160, rule 10: the names of one company domain
+        same = [k for k in keys if d in by_key[k]["own"]]
+        for k in same[1:]:
+            union(same[0], k)
     out = {}
     for root in sorted({find(k) for k in keys}):
         members = [k for k in keys if find(k) == root]
@@ -538,15 +620,36 @@ def add_run(store, run_id, date, sources, orgs):
     return changed
 
 
-def resolve(rows):
+def resolve(rows, domains=None):
     """One row for a company from every saved row of it (rule 6): the first value saved stands. rows: the store's
-    entries, any order. The row's "disagreements" lists every later reading of a fact that differs."""
+    entries, any order. The row's "disagreements" lists every later reading of a fact that differs.
+    Session 160, rule 10. domains: None, or for a company merged by domain the company domains that merged its
+    names. Then, of the values its rows state for a fact, the one that stands is the value most rows state; on a
+    draw a value stated by a row that itself states one of the domains; on a further draw the value first stated
+    latest. "read_by" says of each fact which of the three decided ("rows", "domain", "later"), or is absent."""
     rows = sorted(rows, key=lambda x: (x["seq"], x["key"]))
     out = {"disagreements": [], "stated_by": {}}
+    if domains:
+        out["read_by"] = {}
     for f in FACTS:
         stated = [(x["run_id"], str(x["row"].get(f)).strip()) for x in rows if str(x["row"].get(f) or "").strip().lower() not in BLANK]
+        if domains and len({v.lower() for _, v in stated}) > 1:
+            says = [x for x in rows if str(x["row"].get(f) or "").strip().lower() not in BLANK]
+            rank = {}
+            for x in says:                              # value: [rows stating it, a row stating the domain, the seq of its first statement]
+                r = rank.setdefault(str(x["row"].get(f)).strip().lower(), [0, 0, x["seq"]])
+                r[0] += 1
+                r[1] = max(r[1], 1 if domain(x["row"].get("website") or "") in domains else 0)
+            best = max(rank, key=lambda v: (rank[v][0], rank[v][1], rank[v][2], v))
+            top = [v for v in rank if rank[v][0] == rank[best][0]]
+            out["read_by"][f] = "rows" if len(top) == 1 else ("domain" if sum(1 for v in top if rank[v][1] == rank[best][1]) == 1 else "later")
+            says.sort(key=lambda x: (str(x["row"].get(f)).strip().lower() != best, x["seq"], x["key"]))      # the rows of the value that stands come first
+            rows_f = says
+            stated = [(x["run_id"], str(x["row"].get(f)).strip()) for x in rows_f]
+        else:
+            rows_f = rows
         out[f] = stated[0][1] if stated else ("not stated" if f != "kind" else "other")
-        first = next((x for x in rows if str(x["row"].get(f) or "").strip().lower() not in BLANK), None)
+        first = next((x for x in rows_f if str(x["row"].get(f) or "").strip().lower() not in BLANK), None)
         if first is not None:
             out["stated_by"][f] = {"run_id": first["run_id"], "sources": list(first["row"].get("source_urls") or [])}
         seen = {out[f].lower()}
@@ -586,8 +689,26 @@ def page_sentences(text):
 
 
 def page_holds(page):
-    """True when a saved page holds sentences: fetched whole, with text. A refused, disallowed or truncated page holds none."""
-    return bool(page) and page.get("state") == "fetched" and not page.get("truncated") and bool(page.get("text"))
+    """True when a saved page holds sentences: fetched whole, with text. A refused, disallowed or truncated page holds none.
+    Session 160, rule 8: a page whose last good text is kept (state "kept") holds that text's sentences."""
+    if not page or not page.get("text"):
+        return False
+    return page.get("state") == KEPT or (page.get("state") == "fetched" and not page.get("truncated"))
+
+
+def page_kept(page):
+    """What a sentence of a kept page carries (rule 8), or None for a page fetched whole: the day its text was
+    retrieved, the day, status and reason of the attempt that failed, and the text's age in days at that attempt."""
+    if not page or page.get("state") != KEPT:
+        return None
+    ref = page.get("refusal") or {}
+    return {"retrieved": str(page.get("retrieved") or ""), "refused": str(ref.get("day") or page.get("fetched") or ""), "status": ref.get("status"),
+            "reason": ref.get("reason") or page.get("reason") or "", "age_days": page.get("age_days")}
+
+
+def page_day(page):
+    """The day a page's text was retrieved: for a kept page the day of its good read, not of the attempt that failed."""
+    return str((page.get("retrieved") if page.get("state") == KEPT else page.get("fetched")) or "")
 
 
 def quote_check(store):
@@ -607,7 +728,7 @@ def quote_check(store):
     return out
 
 
-def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=True, remarks=True):
+def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=True, remarks=True, titles=False, kept=True, by_domain=True):
     """Every company of the store with its evidence, its score for each trend and its order.
 
     read: "pages" (the rule since session 147: the web tier is the sentences of the saved pages) or "quotes" (the web
@@ -618,6 +739,12 @@ def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=Tr
     proper, remarks: True, always, for a run. False reads the saved evidence as before session 158 (a name made of the
     niche's own words matched wherever its words stand; a remark printed twice counted twice), so that what each
     ruling changes can be measured on the same saved answers; no run uses it.
+    Session 160. titles, kept, by_domain: False, True, True, always, for a run. The other values read the saved
+    evidence as before session 160 (titles True: a search result's title is read in the fetched tier; kept False: a
+    kept page holds no sentence; by_domain False: names are not merged by domain), for the same measurement; no run
+    uses them. Each company also carries also (its other names as written), merged_by_domain (None, or the domains
+    that made one company of its names and the names), and titles_not_counted (the titles that name it: how a
+    page was found, never evidence).
     Session 158: each company also carries name_rule (None, or for a name made of the niche's own words the tests
     that counted its sentences and those not counted) and near_duplicates (the pairs of sentences read as one remark).
     Returns a list of companies in the order of rule 4, each:
@@ -627,7 +754,9 @@ def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=Tr
     """
     niche_words = [w for w in words(head_of(niche)) if len(w) >= 4 and fold(w) not in STOP]
     names = [(x["row"].get("name") or x["key"], x["row"].get("website") or "") for x in store["rows"]]
-    cl = clusters(names, niche_words)
+    shared = shared_hosts(store, vendors) if by_domain else set()       # session 160, rule 10: the hosts that are no company's own domain
+    cl = clusters(names, niche_words, shared, by_domain)
+    cl_names = clusters(names, niche_words, by_domain=False) if by_domain else cl      # the names as rule 5 alone merges them
     groups = {}
     for x in store["rows"]:
         if x["key"] in cl:
@@ -642,9 +771,9 @@ def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=Tr
     if read == "pages":
         for url in sorted(store.get("pages") or {}):
             p = store["pages"][url]
-            if page_holds(p):
-                saved.append((url, p.get("fetched", ""), " " + " ".join(words(p["text"])) + " ",
-                              [(s, " " + " ".join(words(s)) + " ") for s in page_sentences(p["text"])], p["text"]))
+            if page_holds(p) and (kept or p.get("state") != KEPT):
+                saved.append((url, page_day(p), " " + " ".join(words(p["text"])) + " ",
+                              [(s, " " + " ".join(words(s)) + " ") for s in page_sentences(p["text"])], p["text"], page_kept(p)))
     out = []
     for (ckey, cname), rows in sorted(groups.items()):
         raw_keys = sorted({x["key"] for x in rows})
@@ -666,6 +795,7 @@ def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=Tr
                     doms.add(domain(inner.strip()))
         doms = sorted(doms - {""})
         counted, refused = {"capital": 0, "list": 0, "domain": 0}, []
+        found_by_title = []
 
         def named(text, norm, address="", page_text="", page_carries=None):
             """How a text names this company: "" (it does not), "name" (as before session 158), or the test of rule 1."""
@@ -696,13 +826,16 @@ def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=Tr
         for url in sorted(store["sources"]):
             s = store["sources"][url]
             carries = any(on_domain(url, d) or carries_domain(source_text(s), d) for d in doms) if strict else None
-            for text in [s.get("title", "")] + list(s.get("cited") or []):
+            title = s.get("title", "")
+            if not titles and len(title) >= 12 and names_norm(flat_of(title), aliases, niche_words):
+                found_by_title.append({"address": url, "title": title})      # session 160, rule 9: how a page was found, never evidence
+            for text in ([title] if titles else []) + list(s.get("cited") or []):
                 how = named(text, flat_of(text), url, page_carries=carries) if len(text) >= 12 else ""
                 if how:
                     ev.append({"tier": "fetched", "address": url, "text": text, "sha": sha(text), "fetched": s.get("fetched", "")})
                     if how != "name":
                         ev[-1]["named"] = how
-        for url, day, flat, sents, raw in saved:      # session 147: the web tier is read from the saved pages
+        for url, day, flat, sents, raw, was_kept in saved:      # session 147: the web tier is read from the saved pages
             if not any(n and f" {n} " in flat for pair in aliases for n in pair):
                 continue                               # the page does not hold the company's name at all
             carries = any(on_domain(url, d) or carries_domain(raw, d) for d in doms) if strict else None
@@ -712,6 +845,8 @@ def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=Tr
                     ev.append({"tier": "web", "address": url, "text": s, "sha": sha(s), "fetched": day})
                     if how != "name":
                         ev[-1]["named"] = how
+                    if was_kept:                       # session 160, rule 8: from a kept text, with the day it was retrieved
+                        ev[-1]["kept"] = was_kept
         for q in sorted(store["quotes"], key=lambda q: (q["address"], q["sha"])) if read == "quotes" else []:
             if q["key"] not in raw_keys:              # session 142's reading, for comparison only: no run uses it
                 continue
@@ -740,6 +875,8 @@ def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=Tr
                 line = {"address": e["address"], "tier": e["tier"], "points": pts, "terms": matched, "phrase": phrase, "text": e["text"], "sha": e["sha"]}
                 if e.get("vendor"):
                     line["vendor"] = e["vendor"]
+                if e.get("kept"):
+                    line["kept"] = e["kept"]
                 old = per_addr.get(e["address"])
                 if old is None or (-pts, TIER_ORDER.index(e["tier"]), e["sha"]) < (-old["points"], TIER_ORDER.index(old["tier"]), old["sha"]):
                     per_addr[e["address"]] = line
@@ -773,13 +910,19 @@ def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=Tr
                 for x in lines:
                     if not best_tier or TIER_ORDER.index(x["tier"]) < TIER_ORDER.index(best_tier):
                         best_tier = x["tier"]
-        row = resolve(rows)
+        # session 160, rule 10: names that rule 5 alone leaves apart and one company domain joins
+        apart = sorted({cl_names[k][0] for k in raw_keys if k in cl_names})
+        own_domains = sorted({company_domain(x["row"].get("website") or "", shared) for x in rows} - {""}) if by_domain and len(apart) > 1 else []
+        written = sorted({re.sub(r"\s+", " ", x["row"].get("name") or "").strip() for x in rows} - {"", cname})
+        by_dom = {"domains": own_domains, "names": [cname] + written, "apart_by_name": apart} if own_domains else None
+        row = resolve(rows, own_domains or None)
         for sb in row["stated_by"].values():          # which of the sources behind a fact were first fetched by the run that stated it
             sb["new_sources"] = [u for u in sb["sources"] if (store["sources"].get(u) or {}).get("first_run") == sb["run_id"]]
         name_rule = None if not strict else {"names": [k for k, _ in strict], "written": [" ".join(f) for f in forms], "domains": doms, "counted": counted,
                                              "not_counted": len(refused), "not_counted_examples": refused[:5]}
         out.append({"key": ckey, "name": cname, "aliases": raw_keys, "row": row, "evidence": uniq, "ties": ties,
-                    "trends": tied, "tie": total, "tier": best_tier, "reason": best_line, "name_rule": name_rule, "near_duplicates": merged})
+                    "trends": tied, "tie": total, "tier": best_tier, "reason": best_line, "name_rule": name_rule, "near_duplicates": merged,
+                    "also": written, "merged_by_domain": by_dom, "titles_not_counted": found_by_title})
     out.sort(key=order_key)
     return out
 

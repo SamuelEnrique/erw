@@ -34,6 +34,24 @@ THE PULL, AS THE OWNER ALLOWED IT (7 October 2026)
     requested again, and when its text differs the store keeps both versions with their days and hashes.
   * PDFs are read with pdfplumber, a page at a time.
 
+THE LAST GOOD TEXT IS KEPT (session 160, the owner's ruling of 8 October 2026: "keep a page's last good text when it
+later refuses, with the retrieval date shown")
+
+  * When an address the store holds a good text of (fetched whole, with text) is asked again and the attempt fails or
+    is refused (any status that is not 200, a redirect that leads nowhere, no answer or a timeout, an empty or
+    non-text body, a truncated body, a robots.txt that now disallows the address or cannot be read), the store keeps
+    the good text as the page's text. The record's state is "kept"; "retrieved" and "retrieved_at" are the day and
+    time the good text was read; "refusal" holds the failed attempt (its state, status, reason, day, time, run), and
+    "refusals" every such attempt since the good read. "fetched" stays the day the address was last asked, so a page is
+    still asked at most once a day. A later good read replaces the kept text as any new read does.
+  * A page that never gave text holds no sentence, as before. So does a page the pull itself refuses before any
+    request (OUR_REFUSALS: a paused publisher, a licensed database, not a public web address): that is this code's
+    refusal by a rule of the owner's, not the page's, and nothing of such a host is read from an earlier day.
+  * No age limit: the owner gave none. The age of every kept text (days from its retrieval to the attempt that
+    failed) is in the record so that he can set one.
+  * A store written before session 160 holds such pages with the failed attempt as the record and the good text in
+    its history: restore_kept() rebuilds them (the history is left as it is).
+
 No model call. The only network call is transport(), which a test replaces.
 """
 
@@ -453,6 +471,79 @@ class Count:
 
 
 # ---------------------------------------------------------------------------------------------
+# session 160: a page's last good text is kept when the page later refuses
+# ---------------------------------------------------------------------------------------------
+
+KEPT = "kept"
+# The pull's own refusals, made before any request by a rule of the owner's: they keep no earlier text.
+OUR_REFUSALS = ("not fetched: paused", "not fetched: licensed source needed", "not fetched: not a web address", "not fetched: not a public web address")
+_HISTORY_KEYS = ("fetched", "fetched_at", "state", "status", "reason", "bytes", "sha256", "text_sha256", "text", "last_run")
+_KEPT_KEYS = ("retrieved", "retrieved_at", "retrieved_run", "refusal")
+
+
+def holds_good(p):
+    """True when a page record (or an entry of a page's history) holds a good text: fetched whole with text, or kept."""
+    if not p or not p.get("text"):
+        return False
+    return p.get("state") == KEPT or (p.get("state") == "fetched" and not p.get("truncated"))
+
+
+def days_between(a, b):
+    """Whole days from day a to day b (YYYY-MM-DD), or None when either is not a day."""
+    try:
+        return (dt.date.fromisoformat(str(b)[:10]) - dt.date.fromisoformat(str(a)[:10])).days
+    except ValueError:
+        return None
+
+
+def kept_record(good, rec):
+    """The record of an address after an attempt. good: what the store held of it before (a record, an entry of a
+    history, or None). rec: the record of the attempt just made. When the attempt gave a good text, or nothing good
+    was held, or the refusal is this code's own (OUR_REFUSALS), rec is returned as it is. Otherwise the good text
+    stays the page's text and the failed attempt is recorded beside it."""
+    if holds_good(rec) or not holds_good(good) or (rec.get("reason") or "") in OUR_REFUSALS:
+        return rec
+    retrieved = good.get("retrieved") or good.get("fetched") or ""
+    refusal = {"state": rec.get("state"), "status": rec.get("status"), "reason": rec.get("reason"), "day": rec.get("fetched"), "at": rec.get("fetched_at"),
+               "run": rec.get("last_run"), "bytes": rec.get("bytes"), "truncated": bool(rec.get("truncated"))}
+    out = dict(rec)
+    out.update(state=KEPT, text=good["text"], text_sha256=good.get("text_sha256") or hashlib.sha256(good["text"].encode("utf-8")).hexdigest(), truncated=False,
+               retrieved=retrieved, retrieved_at=good.get("retrieved_at") or good.get("fetched_at") or "", retrieved_run=good.get("retrieved_run") or good.get("last_run") or "",
+               refusal=refusal, refusals=list(good.get("refusals") or []) + [refusal], age_days=days_between(retrieved, rec.get("fetched")))
+    for k in ("kind", "extractor"):
+        if good.get(k) is not None:
+            out[k] = good[k]
+    return out
+
+
+def restore_kept(store):
+    """A store written before session 160: a page whose record is a failed attempt and whose history holds an earlier
+    good text becomes a kept page (the latest good text of its history). The history is left as it is. Returns the
+    addresses restored, a to z. A store already in the new form is unchanged."""
+    done = []
+    for url in sorted(store.get("pages") or {}):
+        p = store["pages"][url]
+        if holds_good(p) or (p.get("reason") or "") in OUR_REFUSALS:
+            continue
+        good = next((h for h in reversed(p.get("history") or []) if holds_good(h)), None)
+        if good is None:
+            continue
+        store["pages"][url] = kept_record(good, p)
+        done.append(url)
+    return done
+
+
+def _face(p):
+    """What a change of a page is measured by: its text and whether it holds one. A good text that is kept is the same page."""
+    return (p.get("text_sha256"), "fetched" if p.get("state") == KEPT else p.get("state"))
+
+
+def _past(old):
+    """A record as an entry of its page's history."""
+    return {k: old.get(k) for k in _HISTORY_KEYS + tuple(k for k in _KEPT_KEYS if k in old)}
+
+
+# ---------------------------------------------------------------------------------------------
 # one run's pull
 # ---------------------------------------------------------------------------------------------
 
@@ -479,7 +570,7 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
     vendors = vendor_pages() if vendors is None else vendors          # session 158: a data vendor's page is fetched as before, and labeled
     pages, robots = store.setdefault("pages", {}), store.setdefault("robots", {})
     tally = {"run_id": run_id, "day": day, "user_agent": UA, "cited": 0, "held": 0, "copied": 0, "requested": 0, "fetched": 0, "refused": {}, "failed": 0, "not_text": 0,
-             "truncated": 0, "empty": 0, "robots_disallowed": 0, "robots_unreadable": 0, "paused": 0, "licensed": 0, "not_web": 0, "login": 0,
+             "truncated": 0, "empty": 0, "kept": {}, "robots_disallowed": 0, "robots_unreadable": 0, "paused": 0, "licensed": 0, "not_web": 0, "login": 0,
              "ceiling": 0, "requests": 0, "robots_requests": 0, "hop_requests": 0, "bytes": 0, "changed": [], "addresses": {},
              "ceilings": {"addresses_run": max_run, "addresses_session": max_session, "requests_run": max_requests_run,
                           "requests_session": max_requests_session, "bytes_page": max_bytes, "seconds": TIMEOUT, "host_gap_seconds": HOST_GAP,
@@ -553,14 +644,19 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
         rec = dict(rec, address=url, fetched=day, fetched_at=dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), last_run=run_id)
         rec["first_run"] = (old or {}).get("first_run") or run_id
         rec["first_fetched"] = (old or {}).get("first_fetched") or day
+        rec = kept_record(old, rec)                       # session 160: a failed attempt after a good read keeps the good text
+        if old is not None and old.get("refusals") and "refusals" not in rec:
+            rec["refusals"] = list(old["refusals"])       # a good read after refusals: the refusals stay on record
         hist = list((old or {}).get("history") or [])
-        if old is not None and (old.get("text_sha256"), old.get("state")) != (rec.get("text_sha256"), rec.get("state")):
-            hist.append({k: old.get(k) for k in ("fetched", "fetched_at", "state", "status", "reason", "bytes", "sha256", "text_sha256", "text", "last_run")})
+        if old is not None and _face(old) != _face(rec):
+            hist.append(_past(old))
             tally["changed"].append(url)
         rec["history"] = hist
         if vendor_of(url, vendors):
             rec["vendor"] = vendor_of(url, vendors)
         pages[url] = rec
+        if rec["state"] == KEPT:
+            tally["kept"][url] = {"retrieved": rec["retrieved"], "reason": rec["reason"], "status": rec.get("status"), "age_days": rec.get("age_days")}
         tally["addresses"][url] = rec["reason"] if rec["state"] != "fetched" else "fetched"
 
     def one(url):
@@ -639,7 +735,13 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
         if shelf is not None and held_today(shelf, url, day):
             rec = json.loads(json.dumps(shelf["pages"][url]))
             rec.update(history=list((pages.get(url) or {}).get("history") or []), first_run=run_id, last_run=run_id, copied_from_run=shelf["pages"][url].get("last_run"))
+            old = pages.get(url)
+            rec = kept_record(old, rec)                   # session 160: the copy of a failed attempt keeps the good text this store holds
+            if holds_good(old) and _face(old) != _face(rec):
+                rec["history"] = rec["history"] + [_past(old)]      # a text this store held is never dropped by a copy
             pages[url] = rec
+            if rec["state"] == KEPT:
+                tally["kept"][url] = {"retrieved": rec["retrieved"], "reason": rec["reason"], "status": rec.get("status"), "age_days": rec.get("age_days")}
             org = origin_of(rec.get("final") or url)
             for o in {origin_of(url), org}:
                 if o in (shelf.get("robots") or {}) and o not in robots:
@@ -660,10 +762,10 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
             tally["failed"] += 1
             record(url, {"state": "refused", "status": None, "reason": f"not read: {type(exc).__name__}: {str(exc)[:160]}", "bytes": 0, "sha256": "", "text_sha256": "", "text": "", "truncated": False})
     tally["stopped"] = stopped
-    tally["vendor_pages_held"] = sum(1 for u in tally["vendor_pages"] if (pages.get(u) or {}).get("state") == "fetched" and not pages[u].get("truncated") and pages[u].get("text"))
+    tally["vendor_pages_held"] = sum(1 for u in tally["vendor_pages"] if holds_good(pages.get(u)))
     tally["session"] = dict(count.n)
     log(f"  pages: cited {tally['cited']}; held from today {tally['held']}; copied from the session's shelf {tally['copied']}; requested {tally['requested']}; fetched with text {tally['fetched']}; refused by status {tally['refused'] or 'none'}; "
-        f"no answer {tally['failed']}; not text {tally['not_text']}; empty {tally['empty']}; truncated {tally['truncated']}; redirects to a login {tally['login']}; "
+        f"no answer {tally['failed']}; not text {tally['not_text']}; empty {tally['empty']}; truncated {tally['truncated']}; redirects to a login {tally['login']}; kept with the last good text {len(tally['kept'])}; "
         f"robots.txt disallows {tally['robots_disallowed']}; robots.txt unreadable {tally['robots_unreadable']}; paused {tally['paused']}; licensed {tally['licensed']}; "
         f"left by the ceiling {tally['ceiling']}; requests {tally['requests']} ({tally['robots_requests']} robots.txt, {tally['hop_requests']} redirect hops); bytes {tally['bytes']:,}; "
         f"session so far: {count.n['addresses']} addresses, {count.n['requests']} requests")
