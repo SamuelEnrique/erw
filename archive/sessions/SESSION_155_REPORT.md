@@ -118,7 +118,15 @@ page, in no live set, in no public dataset. No NYISO request, name or megawatt i
 - No site file changes. Under the lock, nothing released and nothing loaded: `large_load_waits` 491 rows;
   validator, coverage, the archive, the internal Redivis draft: exit 0 each; the table and its sources are in the
   live set's hold lists.
-- The landing follows with its snapshot; a line is added here.
+- **Added after the landing.** Pushed with session 158's first phase as `task/155-158` (`22b1c34`): checks passed (run
+  37758726757), merged as `41c3115`. **Vercel's deployment of it failed**: a type error in the Thesis Builder's
+  provider file (session 158's landing, not this session's code) fails the site build's type check in a fresh
+  build. Production stayed on the deployment before it, the live pages untouched. The fix, `task/155-typefix`
+  (`e715868`): checks passed (run 37761190030), merged as `8614540`; **Vercel: "Deployment has completed" at
+  10:14:56 UTC on 8 October.**
+- **Snapshot before the first push** (`155_before`, 09:43:57 UTC) **and after the fixed deployment** (`155b_after`,
+  10:15:15 UTC): **6 differences, all on `/network`, all its own hourly refresh at 10:05 UTC**; no checked number
+  moved (3,357 keys). Nothing was reverted.
 
 ## Checks
 
