@@ -62,8 +62,10 @@ def src(*parts):
         return f.read()
 
 
-def judged(store=None, warehouse=None, read="pages"):
-    return tie.judge(store if store is not None else copy.deepcopy(FIX["store"]), warehouse if warehouse is not None else FIX["warehouse"], NICHE, TRENDS, read=read)
+def judged(store=None, warehouse=None, read="pages", titles=False):
+    """Session 160 (changed on purpose): titles=True reads a search result's title in the fetched tier, as the rule did
+    until the owner's ruling of 8 October 2026; the by-hand cases scored then ask for it by name."""
+    return tie.judge(store if store is not None else copy.deepcopy(FIX["store"]), warehouse if warehouse is not None else FIX["warehouse"], NICHE, TRENDS, read=read, titles=titles)
 
 
 def by_name(rows):
@@ -504,7 +506,7 @@ class ByHand(unittest.TestCase):
     ]
 
     def test_each_case(self):
-        rows = by_name(judged())
+        rows = by_name(judged(titles=True))            # session 160 (changed on purpose): two lines of the first case are titles, read as they were then
         for name, trend, lines, score, tied in self.CASES:
             t = rows[name]["ties"][trend]
             got = [(x["tier"], x["address"], x["terms"], x["phrase"], x["points"]) for x in t["lines"]]

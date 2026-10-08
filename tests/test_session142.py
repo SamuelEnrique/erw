@@ -59,11 +59,14 @@ def src(*parts):
         return f.read()
 
 
-def judged(store=None, warehouse=None, read="pages"):
-    """Session 147: the rule's web tier reads saved pages. This fixture was cut before any page was saved, so by the
+def judged(store=None, warehouse=None, read="pages", titles=False):
+    """Session 160 (changed on purpose): a search result's title is no longer evidence (the owner's ruling of 8 October
+    2026). The by-hand cases below were scored when a title was read in the fetched tier; they ask for that reading by
+    name (titles=True), as they ask for the quotations. tests/test_session160.py scores the rule as it now stands.
+    Session 147: the rule's web tier reads saved pages. This fixture was cut before any page was saved, so by the
     rule as it now stands its quoted sentences decide nothing; read="quotes" is session 142's reading, kept in tie.py
     for comparison, and the by-hand cases below that rest on a quotation ask for it by name."""
-    return tie.judge(store if store is not None else copy.deepcopy(FIX["store"]), warehouse if warehouse is not None else FIX["warehouse"], NICHE, TRENDS, read=read)
+    return tie.judge(store if store is not None else copy.deepcopy(FIX["store"]), warehouse if warehouse is not None else FIX["warehouse"], NICHE, TRENDS, read=read, titles=titles)
 
 
 def by_name(rows):
@@ -522,7 +525,7 @@ class ByHand(unittest.TestCase):
     def test_quotations_decide_nothing_by_the_rule_as_it_now_stands(self):
         """Session 147: with no saved page, no company of this fixture has a web line, and the four tied by quotations
         alone are no longer tied; the warehouse's and the fetched titles' ties stand as they were."""
-        now, then = by_name(judged()), by_name(judged(read="quotes"))
+        now, then = by_name(judged(titles=True)), by_name(judged(read="quotes", titles=True))      # session 160: the titles as they were then read
         self.assertFalse(any(e["tier"] == "web" for c in now.values() for e in c["evidence"]))
         for name in ("XGS Energy", "Geothermal Radar", "Thermofilic"):
             self.assertTrue(then[name]["trends"])
@@ -536,7 +539,7 @@ class ByHand(unittest.TestCase):
         self.assertEqual(quaise["trends"], [])
 
     def test_each_case(self):
-        rows = by_name(judged(read="quotes"))          # session 147 (changed on purpose): four of the seven cases rest on quotations; tests/test_session147.py scores saved pages by hand
+        rows = by_name(judged(read="quotes", titles=True))          # session 147 (changed on purpose): four of the seven cases rest on quotations; tests/test_session147.py scores saved pages by hand. Session 160 (changed on purpose): and two lines of one case on titles
         self.assertTrue(self.CASES, "no case was written by hand")
         for name, trend, lines, score, tied in self.CASES:
             t = rows[name]["ties"][trend]

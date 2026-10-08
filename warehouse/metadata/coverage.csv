@@ -148,7 +148,7 @@ large_load_rule_reads,none,,1,event,2024-01-25T00:00:00Z,2026-10-07T00:00:00Z,87
 large_load_rules,none,,5,event,2024-01-25T00:00:00Z,2026-09-22T00:00:00Z,43,5 outlets,2026-10-08T05:09:36Z,pass,public,power;datacenters,no,model_extracted
 large_load_rules_internal,none,,6,event,2024-05-13T00:00:00Z,2026-10-07T00:00:00Z,73,6 outlets,2026-10-08T05:09:36Z,pass,internal,power;datacenters,no,model_extracted
 large_load_statements,none,,1,event,2024-05-01T00:00:00Z,2026-10-08T00:00:00Z,796,1 outlets,2026-10-08T01:24:02Z,pass,internal,power,no,model_extracted
-large_load_waits,none,,2,event,2014-09-04T00:00:00Z,2026-09-11T00:00:00Z,491,2 outlets,2026-10-08T09:32:05Z,pass,internal,power;datacenters,no,derived
+large_load_waits,none,,2,event,2014-09-04T00:00:00Z,2026-09-11T00:00:00Z,491,2 outlets,2026-10-08T21:02:37Z,pass,internal,power;datacenters,no,derived
 lbnl_interconnection_queue,CAISO;ERCOT;ISO-NE;MISO;NYISO;PJM;SPP,,38201,snapshot,2026-10-02T09:16:25Z,2026-10-02T09:16:25Z,38201,lbnl:queued_up,,pass,public,power,no,source
 merchant_revenue_monthly,CAISO;ERCOT;ISO-NE;MISO;NYISO;SPP,caiso_rtm;ercot_rtm;isone_rtm;miso_rtm;nyiso_rtm;spp_rtm,6,P1M,2018-06-01T00:00:00Z,2026-10-01T00:00:00Z,8335,erw:merchant_revenue,2026-10-04T02:26:32Z,pass,public,power;gas,yes,derived
 miso_as_prices,MISO,miso_dam,1,PT1H,2024-09-01T05:00:00Z,2026-10-04T04:00:00Z,54936,miso:asm_expost_damcp,2026-10-04T04:19:52Z,pass,internal,power,no,source

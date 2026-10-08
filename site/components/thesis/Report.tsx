@@ -19,6 +19,11 @@
 //
 // Session 158: where the sentence under "Why it is here" comes from a public page of a data vendor the report says so
 // (reason_vendor), and the cell shows the short mark "vendor page" after the sentence, its reason on hover.
+//
+// Session 160: where that sentence is from a page's last good text, kept because the page did not give its text when
+// it was asked again (reason_kept), the cell shows the day the text was retrieved as a short mark, its reason on
+// hover. And a company that sources write under several names is one row: the other names stand under its name
+// ("also written", `also`).
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ProviderBlock, ProviderCell, ProviderFound } from "@/components/thesis/ProviderBlock";
@@ -48,6 +53,12 @@ function VendorMark({ v }: { v: { mark?: unknown; note?: unknown } | null | unde
   const mark = str(v?.mark);
   if (!mark) return null;
   return <>{" "}<span className="cursor-help whitespace-nowrap rounded-sm border border-muted px-1 align-baseline text-[10px] not-italic text-muted" title={str(v?.note) || "The report gives no reason."} data-vendor-page="1">{mark}</span></>;
+}
+/** Session 160: the short mark after a "Why it is here" sentence read from a page's kept text: the day it was retrieved. */
+function KeptMark({ v }: { v: { mark?: unknown; note?: unknown } | null | undefined }) {
+  const mark = str(v?.mark);
+  if (!mark) return null;
+  return <>{" "}<span className="cursor-help whitespace-nowrap rounded-sm border border-muted px-1 align-baseline text-[10px] not-italic text-muted" title={str(v?.note) || "The report gives no reason."} data-kept-text="1">{mark}</span></>;
 }
 /** The visible tag every PitchBook figure carries; its hover says where the figure came from. */
 function PbTag({ ctx }: { ctx: Ctx }) {
@@ -243,6 +254,7 @@ function Landscape({ r, ctx }: { r: Report; ctx: Ctx }) {
               <tr key={`${name}|${i}`} className="border-b border-rule/70" data-company={name}>
                 <th scope="row" className={`${TD} max-w-[18rem] pl-1 text-left font-normal`}>
                   <span className="font-semibold">{name}</span><Src ids={c?.sources} ctx={ctx} /><Site url={c?.website} />
+                  {arr(c?.also).length ? <span className="mt-0.5 block text-[11px] text-muted" data-also="1">also written: {arr(c?.also).map((n) => str(n)).filter(Boolean).join("; ")}</span> : null}
                   {str(c?.description) ? <span className="mt-0.5 block text-xs text-muted">{str(c?.description)}</span> : null}
                   {arr(c?.sourcing).length ? <span className="mt-1 block"><Chips words={c?.sourcing} /></span> : null}
                 </th>
@@ -251,7 +263,7 @@ function Landscape({ r, ctx }: { r: Report; ctx: Ctx }) {
                 <td className={`${TD} tabular-nums`}><CellView cell={c?.raised} ctx={ctx} company={name} field="raised" /></td>
                 <td className={TD}><CellView cell={c?.location} ctx={ctx} company={name} field="location" /></td>
                 <td className={`${TD} max-w-[14rem] text-xs`}>{str(c?.signal)}</td>
-                <td className={`${TD} max-w-[16rem] text-xs`} data-reason="1">{str(c?.reason)}<VendorMark v={c?.reason_vendor} />{arr(c?.trends).length ? <span className="mt-1 block"><TrendChips ns={c?.trends} ctx={ctx} /></span> : null}</td>
+                <td className={`${TD} max-w-[16rem] text-xs`} data-reason="1">{str(c?.reason)}<VendorMark v={c?.reason_vendor} /><KeptMark v={c?.reason_kept} />{arr(c?.trends).length ? <span className="mt-1 block"><TrendChips ns={c?.trends} ctx={ctx} /></span> : null}</td>
                 <td className={`${TD} max-w-[14rem]`}><Confidence n={c?.confidence} note={str(c?.confidence_note)} /></td>
                 {ctx.pbColumn ? <td className={TD}><PbBlock name={name} ctx={ctx} /></td> : null}
               </tr>

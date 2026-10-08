@@ -92,6 +92,17 @@ STOP = {"the", "and", "for", "with", "from", "that", "this", "into", "their", "n
 RULE = "A company is on this map when it is a private company that fits the stage and geography asked for and a fetched source ties it to at least one of the five trends."
 VENDOR_MARK = "vendor page"      # session 158: shown beside a "Why it is here" sentence that comes from a data vendor's public page
 VENDOR_NOTE = "This sentence is from a public page of a data vendor ({vendor}), not from the company or the press."
+# Session 160: shown beside a "Why it is here" sentence read from a page's last good text, kept because the page did
+# not give its text when it was asked again. The mark is the day the text was retrieved; the hover says why.
+KEPT_MARK = "retrieved {day}"
+KEPT_NOTE = "This sentence is from the page as it was read on {day}. The page did not give its text when it was asked again on {again}."
+MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+
+
+def day_words(day):
+    """A day (YYYY-MM-DD) as a reader sees it: 7 October 2026. A value that is not a day is returned as it is."""
+    m = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", str(day or "")[:10])
+    return f"{int(m.group(3))} {MONTHS[int(m.group(2)) - 1]} {m.group(1)}" if m and 1 <= int(m.group(2)) <= 12 else str(day or "")
 NOTE = {
     "not_disclosed": "No fetched source gives this.",
     "not_confirmed": "A figure was offered but does not appear in a fetched source, so it is not shown.",
@@ -353,6 +364,9 @@ def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, l
     handle = es.handle_of(evidence_path)
     store = handle.load(niche, stage, geography) if handle is not None else tie.empty_store(niche, stage, geography)
     before = store.get("last")
+    restored = pg.restore_kept(store)                    # session 160: a store written before it holds a refused page's good text in its history
+    if restored:
+        log(f"  pages: {len(restored)} pages whose last good text was in their history are kept pages again: " + "; ".join(restored))
     orgs = []
     for o in land["organisations"]:
         o = dict(o)
@@ -415,13 +429,20 @@ def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, l
         o["model_trends"] = sorted({t for k in c["aliases"] for t in model.get(k, [])})
         if best and best.get("vendor"):                  # session 158: the sentence a reader is shown comes from a data vendor's public page
             o["reason_vendor"] = best["vendor"]
+        if best and best.get("kept"):                    # session 160: the sentence a reader is shown is from a page's last good text
+            o["reason_kept"] = best["kept"]
+        # session 160: the company's other names, as written. A name that differs from the one shown only by its legal
+        # form or its punctuation ("Thermofilic" beside "Thermofilic, LLC") is the same name and is not repeated
+        also = [n for n in c.get("also") or [] if tie.name_key(n) != c["key"]]
+        if also:
+            o["also_written"] = also
         rows.append(o)
     held = sum(1 for p in (store.get("pages") or {}).values() if tie.page_holds(p))
     log(f"  the rule: {len(judged)} companies in the store of this niche ({len(store['rows'])} rows of {len(store['runs'])} runs, {len(store['sources'])} fetched sources, "
         f"{len(store.get('pages') or {})} pages asked for, {held} holding text, {len(store['quotes'])} reported sentences that decide nothing); "
         f"tied to a trend {sum(1 for c in judged if c['trends'])}; fetched sources whose text changed {len(changed)}; "
         f"warehouse rows read: energy_companies {len(wh['energy_companies'])}, energy_deals {len(wh['energy_deals'])}")
-    return rows, {"store": store, "handle": handle, "before": before, "judged": judged, "changed": changed, "run_id": run_id, "pull": pull,
+    return rows, {"store": store, "handle": handle, "before": before, "judged": judged, "changed": changed, "run_id": run_id, "pull": pull, "restored": restored,
                   "warehouse": {k: len(v) for k, v in wh.items()}}
 
 
@@ -455,7 +476,8 @@ def tie_done(ctx, orgs, log):
     trace = [{"name": c["name"], "key": c["key"], "aliases": c["aliases"], "trends": c["trends"], "tie": c["tie"], "tier": c["tier"],
               "reached": placed.get(c["key"], ("", None))[0], "confidence": placed.get(c["key"], ("", None))[1], "facts": {f: c["row"].get(f) for f in tie.FACTS},
               "ties": {str(n): t for n, t in c["ties"].items() if t["lines"]}, "evidence": c["evidence"],
-              "name_rule": c.get("name_rule"), "near_duplicates": c.get("near_duplicates") or []} for c in ctx["judged"]]
+              "name_rule": c.get("name_rule"), "near_duplicates": c.get("near_duplicates") or [],
+              "also": c.get("also") or [], "merged_by_domain": c.get("merged_by_domain")} for c in ctx["judged"]]
     disagreements = [dict(x, name=c["name"]) for c in ctx["judged"] for x in c["row"].get("disagreements") or []]
     # session 158, for the run's record: the names matched as proper nouns only, the remarks counted once, the vendor pages
     proper = [dict(c["name_rule"], name=c["name"], reached=placed.get(c["key"], ("", None))[0]) for c in ctx["judged"] if c.get("name_rule")]
@@ -467,6 +489,22 @@ def tie_done(ctx, orgs, log):
                          for u, p in sorted(pages.items()) if tie.vendor_of(u, names)},
                "sentences_labeled": sum(1 for c in ctx["judged"] for e in c["evidence"] if e.get("vendor")), "lines": vendor_lines,
                "reasons_shown": [c["name"] for c in ctx["judged"] if (c.get("reason") or {}).get("vendor") and placed.get(c["key"], ("", None))[0] in ("trend", "pipeline")]}
+    # session 160, for the run's record: the kept pages and their age, the titles not counted, the names merged by domain
+    kept_pages = {u: dict(tie.page_kept(p), retrieved_at=p.get("retrieved_at"), refused_at=(p.get("refusal") or {}).get("at"), refusals=len(p.get("refusals") or []))
+                  for u, p in sorted(pages.items()) if p.get("state") == tie.KEPT}
+    kept_lines = [{"name": c["name"], "trend": n, "address": x["address"], "points": x["points"], "tied": t["tied"], "retrieved": x["kept"]["retrieved"], "age_days": x["kept"]["age_days"]}
+                  for c in ctx["judged"] for n, t in c["ties"].items() for x in t["lines"] if x.get("kept")]
+    kept = {"pages": kept_pages, "restored_from_history": list(ctx.get("restored") or []), "age_limit": None,
+            "sentences": sum(1 for c in ctx["judged"] for e in c["evidence"] if e.get("kept")), "lines": kept_lines,
+            "reasons_shown": [c["name"] for c in ctx["judged"] if (c.get("reason") or {}).get("kept") and placed.get(c["key"], ("", None))[0] in ("trend", "pipeline")]}
+    titles = [dict(x, name=c["name"]) for c in ctx["judged"] for x in c.get("titles_not_counted") or []]
+    by_domain = [dict(c["merged_by_domain"], name=c["name"], reached=placed.get(c["key"], ("", None))[0], kind=c["row"].get("kind"), read_by=c["row"].get("read_by") or {})
+                 for c in ctx["judged"] if c.get("merged_by_domain")]
+    log(f"  session 160: pages kept with their last good text {len(kept_pages)}"
+        + ("" if not kept_pages else " (" + "; ".join(f"{u}: retrieved {k['retrieved']}, refused {k['refused']} ({k['reason']}), {k['age_days']} days" for u, k in kept_pages.items()) + ")")
+        + f", {kept['sentences']} sentences read from them, {len(kept_lines)} scoring lines, {len(kept['reasons_shown'])} shown as a reason; "
+        f"search results' titles that name a company and are not counted: {len(titles)}; companies merged by domain: {len(by_domain)}"
+        + ("" if not by_domain else " (" + "; ".join(f"{x['name']} = {', '.join(x['names'][1:])} [{', '.join(x['domains'])}]" for x in by_domain) + ")"))
     log(f"  the name rule (session 158): {len(proper)} companies whose name is made of the niche's own words"
         + ("" if not proper else ": " + "; ".join(f"{x['name']} (counted {x['counted']}, not counted {x['not_counted']})" for x in proper))
         + f"; remarks printed twice and counted once: {len(merged)} pairs; sentences from data vendors' pages: {vendors['sentences_labeled']} labeled, "
@@ -475,7 +513,8 @@ def tie_done(ctx, orgs, log):
             "pull": ctx.get("pull"), "pages": page_states, "quotes": quotes, "quote_checks": checks, "warehouse": ctx.get("warehouse"),
             "name_rule": {"companies": proper, "sentences_not_counted": sum(x["not_counted"] for x in proper)},
             "near_duplicates": {"pairs": len(merged), "list": merged, "same_share": tie.NEAR_SAME, "least_words": tie.NEAR_MIN_WORDS},
-            "vendor_pages": vendors}
+            "vendor_pages": vendors,
+            "kept_pages": kept, "titles_not_counted": {"count": len(titles), "list": titles}, "merged_by_domain": by_domain}
 
 
 def confidence_note(o):
@@ -585,6 +624,12 @@ def build_report(niche, stage, geography, r, a, land, rest, pol, plan, log):
                "sources": ids, "confidence": o["score"], "confidence_note": confidence_note(o), "sourcing": srcg}
         if o.get("reason_vendor"):                       # session 158: a short mark with a hover, drawn beside the sentence
             row["reason_vendor"] = {"mark": VENDOR_MARK, "note": VENDOR_NOTE.format(vendor=clean(o["reason_vendor"]))}
+        if o.get("reason_kept"):                         # session 160: the day the kept text was retrieved, a short mark with a hover
+            k = o["reason_kept"]
+            row["reason_kept"] = {"mark": KEPT_MARK.format(day=day_words(k.get("retrieved"))), "retrieved": str(k.get("retrieved") or ""),
+                                  "note": KEPT_NOTE.format(day=day_words(k.get("retrieved")), again=day_words(k.get("refused")))}
+        if o.get("also_written"):                        # session 160: one company under several names is one row
+            row["also"] = [clean(n) for n in o["also_written"]]
         companies.append(row)
         if o["reached"] == "pipeline":
             tam = C(o.get("tam"), ids, f"tam {o['name']}")

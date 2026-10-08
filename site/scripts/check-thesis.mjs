@@ -34,10 +34,13 @@
 // providers' answers (the stand-in's "fixture-three", there when the stand-in is started with the alias loader) is
 // still drawn with every figure and label. And a "Why it is here" sentence from a data vendor's public page carries
 // the short mark "vendor page" with its reason on hover.
+//
+// Session 160: a "Why it is here" sentence read from a page's kept text carries the day that text was retrieved as a
+// short mark with its reason on hover, and a company written under several names shows the others under its name.
 // Exit 1 on a failure.
 import { env, withBrowser } from "./browser.mjs";
 import { EMPTY_TAB, PB_PENDING, PB_PENDING_WHY, TABS } from "../lib/thesis/view.ts";
-import { DONE, FAILED, KEY, QUEUED, THREE, VENDOR_NOTE, fixtureAnswer } from "./thesis-stub.mjs";
+import { ALSO, DONE, FAILED, KEPT_MARK, KEPT_NOTE, KEY, QUEUED, THREE, VENDOR_NOTE, fixtureAnswer } from "./thesis-stub.mjs";
 import { crunchbaseAnswer, harmonicAnswer } from "./thesis-providers-fixtures.mjs";
 import { NOT_KEPT, PROVIDERS, TERMS } from "../lib/thesis/providers.ts";
 
@@ -204,6 +207,14 @@ if (!fixture) {
     check(marks.length === 1 && marks[0][2] === "vendor page" && marks[0][1].replace(/&#x27;/g, "'") === VENDOR_NOTE && /Fixture reason two\.[\s\S]*data-vendor-page="1"/.test(cellOf("Sample Grid Co"))
       && !cellOf("Example Storage Inc.").includes("data-vendor-page") && !cellOf("Unasked Example LLC").includes("data-vendor-page") && !TABS.some((x) => x.id !== "landscape" && tabs[x.id].html.includes("data-vendor-page")),
       `a "Why it is here" sentence from a data vendor's page reads "${marks[0]?.[2]}" after it, with the reason on hover, and no other sentence does (${marks.length} mark)`);
+    // session 160: a sentence from a page's kept text carries the day it was retrieved, its reason on hover; other names stand under the name
+    const kept = [...h.matchAll(/<span[^>]*title="([^"]*)"[^>]*data-kept-text="1"[^>]*>([^<]*)<\/span>/g)];
+    check(kept.length === 1 && kept[0][2] === KEPT_MARK && kept[0][1].replace(/&#x27;/g, "'") === KEPT_NOTE && /Fixture reason three\.[\s\S]*data-kept-text="1"/.test(cellOf("Unasked Example LLC"))
+      && !cellOf("Example Storage Inc.").includes("data-kept-text") && !cellOf("Sample Grid Co").includes("data-kept-text") && !TABS.some((x) => x.id !== "landscape" && tabs[x.id].html.includes("data-kept-text")),
+      `a "Why it is here" sentence from a page's kept text reads "${kept[0]?.[2]}" after it, with the reason on hover, and no other sentence does (${kept.length} mark)`);
+    const also = [...h.matchAll(/<span[^>]*data-also="1"[^>]*>([\s\S]*?)<\/span>/g)].map((m) => m[1].replace(/<!-- -->/g, ""));
+    check(also.length === 1 && also[0] === `also written: ${ALSO.join("; ")}` && new RegExp(`data-company="Unasked Example LLC"[\\s\\S]*?data-also="1"`).test(h),
+      `a company written under several names shows the others under its name ("${also[0]}"), and no other company does (${also.length})`);
     check(/data-confidence="1"><span[^>]*>72<\/span><span[^>]*>Fixture note: two sources agree\.<\/span>/.test(h), "the confidence score is the number with its one line beside it");
     const pend = [...h.matchAll(/title="([^"]*)"[^>]*data-missing="pitchbook_pending"[^>]*>([^<]*)</g)];
     check(pend.length >= 4 && pend.every((m) => m[1] === PB_PENDING_WHY && m[2] === PB_PENDING), `the ${pend.length} cells the PitchBook stage will fill read "${PB_PENDING}", with the hover "${PB_PENDING_WHY}"`);
@@ -313,6 +324,9 @@ if (!fixture) {
     // session 158: the vendor page mark, in the browser
     const vm = await evaluate(`(() => { const m = document.querySelectorAll('[data-vendor-page="1"]'); return [m.length, m[0] ? m[0].innerText.trim() : '', m[0] ? m[0].title : '', m[0] ? m[0].closest('tr').dataset.company : '', m[0] ? getComputedStyle(m[0]).cursor : '', m[0] ? m[0].closest('td').dataset.reason : '']; })()`);
     check(vm[0] === 1 && vm[1] === "vendor page" && vm[2] === VENDOR_NOTE && vm[3] === "Sample Grid Co" && vm[4] === "help" && vm[5] === "1", `in the browser the mark "${vm[1]}" stands after the "Why it is here" sentence of ${vm[3]} and answers the mouse with its reason`);
+    // session 160: the kept text's mark, in the browser
+    const km = await evaluate(`(() => { const m = document.querySelectorAll('[data-kept-text="1"]'); return [m.length, m[0] ? m[0].innerText.trim() : '', m[0] ? m[0].title : '', m[0] ? m[0].closest('tr').dataset.company : '', m[0] ? getComputedStyle(m[0]).cursor : '', m[0] ? m[0].closest('td').dataset.reason : '']; })()`);
+    check(km[0] === 1 && km[1] === KEPT_MARK && km[2] === KEPT_NOTE && km[3] === "Unasked Example LLC" && km[4] === "help" && km[5] === "1", `in the browser the mark "${km[1]}" stands after the "Why it is here" sentence of ${km[3]} and answers the mouse with its reason`);
     await go(`${base}/thesis?run=${DONE}&tab=pipeline`);
     check(await evaluate(`!!document.querySelector('[data-company="Example Storage Inc."] [data-pb-block]') && [...document.querySelectorAll('[data-pb-figure]')].every((e) => !!e.querySelector('[data-pb-tag]')) && !!document.querySelector('[data-company="Sample Grid Co"] [data-missing="pitchbook_absent"]')`),
       "in the Pipeline map too; a cell PitchBook's answer holds nothing for says so");
