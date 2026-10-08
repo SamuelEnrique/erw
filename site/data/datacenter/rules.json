@@ -1,0 +1,156 @@
+{
+ "built_at_utc": "2026-10-08T04:18:12Z",
+ "as_of": "2026-10-08",
+ "window_months": 12,
+ "window_from": "2025-10-08",
+ "sources": [],
+ "grids": {
+  "ercot": {
+   "state": "none",
+   "rows": [],
+   "why": "No proceeding or order held names this grid or comes from a state it serves; the federal actions that name no grid are in the group Federal, all grids."
+  },
+  "pjm": {
+   "state": "none",
+   "rows": [],
+   "why": "No proceeding or order held names this grid or comes from a state it serves; the federal actions that name no grid are in the group Federal, all grids."
+  },
+  "miso": {
+   "state": "paused",
+   "words": "paused while terms are reviewed",
+   "rows": []
+  },
+  "caiso": {
+   "state": "none",
+   "rows": [],
+   "why": "No proceeding or order held names this grid or comes from a state it serves; the federal actions that name no grid are in the group Federal, all grids."
+  },
+  "nyiso": {
+   "state": "none",
+   "rows": [],
+   "why": "No proceeding or order held names this grid or comes from a state it serves; the federal actions that name no grid are in the group Federal, all grids."
+  },
+  "isone": {
+   "state": "none",
+   "rows": [],
+   "why": "No proceeding or order held names this grid or comes from a state it serves; the federal actions that name no grid are in the group Federal, all grids."
+  },
+  "spp": {
+   "state": "none",
+   "rows": [],
+   "why": "No proceeding or order held names this grid or comes from a state it serves; the federal actions that name no grid are in the group Federal, all grids."
+  }
+ },
+ "federal_all_grids": [
+  {
+   "id": "federalregister:2026-11539",
+   "date": "2026-06-09",
+   "regulator": "Federal Energy Regulatory Commission",
+   "jurisdiction": "federal",
+   "state": "",
+   "docket": "RM21-17-000",
+   "title": "Building for the Future Through Electric Regional Transmission Planning and Cost Allocation; Notice of Motion for Extension of Time To Comply",
+   "row_kind": "federal action",
+   "topic": "transmission cost",
+   "tags": [
+    "transmission_cost"
+   ],
+   "status_as_worded": "",
+   "status_class": "not stated",
+   "url": "https://www.federalregister.gov/documents/2026/06/09/2026-11539/building-for-the-future-through-electric-regional-transmission-planning-and-cost-allocation-notice",
+   "page": null,
+   "sentence": "Building for the Future Through Electric Regional Transmission Planning and Cost Allocation; Notice of Motion for Extension of Time To Comply",
+   "sentence_from": "title",
+   "read": null,
+   "read_by": null,
+   "read_model": null,
+   "read_from": null,
+   "why_here": "A federal action that names no grid operator: it is under every grid."
+  },
+  {
+   "id": "federalregister:2026-05701",
+   "date": "2026-03-24",
+   "regulator": "Federal Energy Regulatory Commission",
+   "jurisdiction": "federal",
+   "state": "",
+   "docket": "AD26-5-000",
+   "title": "Transmission Formula Rate Processes; Notice of Staff-Led Workshop",
+   "row_kind": "federal action",
+   "topic": "transmission cost",
+   "tags": [
+    "transmission_cost"
+   ],
+   "status_as_worded": "",
+   "status_class": "not stated",
+   "url": "https://www.federalregister.gov/documents/2026/03/24/2026-05701/transmission-formula-rate-processes-notice-of-staff-led-workshop",
+   "page": null,
+   "sentence": "Transmission Formula Rate Processes; Notice of Staff-Led Workshop",
+   "sentence_from": "title",
+   "read": null,
+   "read_by": null,
+   "read_model": null,
+   "read_from": null,
+   "why_here": "A federal action that names no grid operator: it is under every grid."
+  },
+  {
+   "id": "federalregister:2026-03321",
+   "date": "2026-02-20",
+   "regulator": "Federal Energy Regulatory Commission",
+   "jurisdiction": "federal",
+   "state": "",
+   "docket": "FR Doc. 2026-03321",
+   "title": "Notice of Staff Attendance at North American Electric Reliability Corporation Emerging Large Loads Technical Conference",
+   "row_kind": "federal action",
+   "topic": "large loads",
+   "tags": [
+    "large_load"
+   ],
+   "status_as_worded": "",
+   "status_class": "not stated",
+   "url": "https://www.federalregister.gov/documents/2026/02/20/2026-03321/notice-of-staff-attendance-at-north-american-electric-reliability-corporation-emerging-large-loads",
+   "page": null,
+   "sentence": "Notice of Staff Attendance at North American Electric Reliability Corporation Emerging Large Loads Technical Conference",
+   "sentence_from": "title",
+   "read": null,
+   "read_by": null,
+   "read_model": null,
+   "read_from": null,
+   "why_here": "A federal action that names no grid operator: it is under every grid."
+  },
+  {
+   "id": "federalregister:2026-01329",
+   "date": "2026-01-26",
+   "regulator": "Department of Energy",
+   "jurisdiction": "federal",
+   "state": "",
+   "docket": "FR Doc. 2026-01329",
+   "title": "Pacific Alternating Current Intertie Point-to-Point Transmission Service-Rate Order No. WAPA-211",
+   "row_kind": "federal action",
+   "topic": "transmission cost",
+   "tags": [
+    "transmission_cost"
+   ],
+   "status_as_worded": "Notice of rate order concerning transmission service formula rates.",
+   "status_class": "not stated",
+   "url": "https://www.federalregister.gov/documents/2026/01/26/2026-01329/pacific-alternating-current-intertie-point-to-point-transmission-service-rate-order-no-wapa-211",
+   "page": null,
+   "sentence": "Pacific Alternating Current Intertie Point-to-Point Transmission Service-Rate Order No. WAPA-211",
+   "sentence_from": "title",
+   "read": null,
+   "read_by": null,
+   "read_model": null,
+   "read_from": null,
+   "why_here": "A federal action that names no grid operator: it is under every grid."
+  }
+ ],
+ "not_on_page": {
+  "count": 2,
+  "why": "2 a state commission's news release held (in the tags table; the block shows a state's dockets, not its releases)",
+  "by_reason": {
+   "a state commission's news release held (in the tags table; the block shows a state's dockets, not its releases)": 2
+  }
+ },
+ "notes": [
+  "large_load_rules is not built yet: the file holds the federal actions held only"
+ ]
+}
