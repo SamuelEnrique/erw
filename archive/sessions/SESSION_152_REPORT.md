@@ -90,9 +90,18 @@ What is left, exactly:
 
 ## The landing
 
-- **Not landed when this was written**; the landing follows with its snapshot, and a line is added here.
-- The freeze runs through 8 October; a landing changes locked pages only. `site/lib/pages.ts` and
-  `site/lib/supabase.ts` are untouched. `site/next.config.ts` gains one redirect (`/demand/weather`).
+- **Added after the landing.** Landed with session 150 in one push (`task/150-152`, commit `e705393`): checks
+  passed (run 37711233439), merged as `b7684f6`. The whole suite in a clean copy: 2,077 tests, passed.
+- **Vercel built it:** "Deployment has completed" for `b7684f6` at 01:15:32 UTC on 8 October.
+- **Snapshot before** (`150_before`, 01:06:08 UTC) **and after** (`150_after`, 01:15:53 UTC): **6 differences, all on
+  `/network`, all its own hourly refresh at 01:05 UTC**: expected, and not this deploy. **No checked number moved**
+  (3,357 keys). Nothing was reverted.
+- **On production, in the internal view:** the demand page 102 of 102, the weather view 78 of 78.
+- Under the lock, nothing released and nothing loaded: coverage rebuilt from the ten tables (the weather tables and
+  the contract tables), the archive (0 rows new), the Redivis drafts (12 of 12 tables, counts equal).
+- The remotes of `wip/129-demand-weather-finished`, `wip/126-demand-weather`, `wip/125-contracts` and
+  `wip/124-network-v3` are deleted: each was wholly on main.
+- `site/lib/pages.ts` and `site/lib/supabase.ts` are untouched. `site/next.config.ts` gains one redirect.
 
 ## Checks
 

@@ -79,8 +79,17 @@ stays `review` and internal.
 
 ## The landing
 
-- **Not landed when this was written**; it lands with session 152 in one push, with its snapshot, and a line is
-  added here. `site/lib/pages.ts` and everything the three live pages render or read are untouched.
+- **Added after the landing.** Landed with session 152 in one push (`task/150-152`, commit `e705393`): checks
+  passed (run 37711233439), merged as `b7684f6`. The whole suite in a clean copy: 2,077 tests, passed.
+- **Vercel built it:** "Deployment has completed" for `b7684f6` at 01:15:32 UTC on 8 October.
+- **Snapshot before** (`150_before`, 01:06:08 UTC) **and after** (`150_after`, 01:15:53 UTC): **6 differences, all on
+  `/network`, all its own hourly refresh at 01:05 UTC** (the refresh stamp, the newest demand hour from 22:00 to
+  23:00 UTC, the source line's build stamp): expected, and not this deploy. **No checked number moved** (3,357
+  keys). Nothing was reverted.
+- **The migration** (`025_thesis_providers.sql`) applied at 01:16 UTC, exit 0. Snapshot after it
+  (`150_after_migration`) against `150_after`: **0 differences.**
+- **On production, in the internal view, the page's check passes 29 of 29**; it stores nothing and queues nothing.
+- `site/lib/pages.ts` and everything the three live pages render or read are untouched.
 
 ## Checks
 
