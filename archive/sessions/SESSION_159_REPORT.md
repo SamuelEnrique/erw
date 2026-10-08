@@ -73,9 +73,28 @@ working copy of its own to a written brief (`runs/session159/BRIEF.md`); I prepa
   25 live addresses, 3,357 checked number keys. Nothing was reverted.
 - **On production, in the internal view:** the policy page's check 45 of 45, the resource map's 97 of 97, the Ask
   panel's 13 of 13 (recorded answers).
-- **The menu**, after 18:00 UTC: `wip/held-menu` (the Projects entry for `/resources`, Thesis Builder's move to
-  Tools, `/demand` in Grid, Consumption's move to Data), then the removal of `REVIEW_FREEZE`, which you authorized;
-  then production read as a visitor. Lines are added here.
+- **The menu, after 18:00 UTC.** `wip/held-menu` with today's main, pushed at 18:01 UTC as `task/held-menu` (`d571a9f`):
+  checks passed (run 37821065000), merged as `537bb05`. **Vercel: "Deployment has completed" at 18:10:04 UTC.** Before
+  the push: the merged commit built in the main copy (exit 0), `check-routes` 0 failed, `check-values` 7,034 of 7,034,
+  the whole suite in a clean copy 2,440 tests, passed.
+- **Snapshot before** (`menu_before`, 18:01:02 UTC) **and after** (`menu_after`, 18:10 UTC): **56 differences, every one
+  expected.** Each of the 25 addresses gained exactly two lines of menu, "Demand growth in review" and "Where the
+  resources are in review" (50); `/network` shows 6 more, its own hourly refresh at 18:05 UTC (the refresh stamp, the
+  newest demand hour from 15:00 to 16:00 UTC, the source line's build stamp). **No checked number moved** (3,357
+  keys). Nothing was reverted. (Thesis Builder's and Consumption's moves change no line of text: the same words
+  stand in another group.)
+- **Production, read as a visitor:** `/storage`, `/network` and `/cost-of-power/battery` answer 200 and each shows
+  "Demand growth" and "Where the resources are" once, greyed, with no link to either address; `/demand`,
+  `/resources` and `/policy` answer the in-review page.
+- **`REVIEW_FREEZE` is removed, on your authorization of 8 October**, in the push that carries this line (after
+  18:00 UTC, after the menu). Its snapshot is taken before and after as the rule says. **If it shows any difference
+  beyond the network page's own refresh, a line is added at the very top of this report; no such line means none.**
+- **A test of session 153 had to be loosened first** (landed at 17:48 UTC as `e120320`, 6 differences, all the
+  network page's own refresh): two of its tests pinned a question's expected number to a file the daily run
+  rebuilds each day (Texas's curtailment share: 4.57 on 7 October, 4.51 on 8 October), so the suite failed on main
+  after today's daily run and would have blocked every landing. The moving figure is now held to its shape.
+- Today's daily run (14:00 UTC): ok but for `spp` real time, `carbon_auctions` (CARB answers 202), `supabase_load`
+  (the count's timeout, as on the days before) and `grid_network` (the held fix).
 - `wip/held-grid-network` is still held: you did not name it, and it lets the next daily run change what
   `/network` shows.
 
