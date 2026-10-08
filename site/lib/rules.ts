@@ -82,10 +82,11 @@ export function dayWords(iso: unknown): string | null {
   return `${d} ${MONTHS[mo - 1]} ${m[1]}`;
 }
 
-/** The address of the source document, when it is one a link may carry. */
+/** The address of the source document, when it is one a link may carry: http or https, as the file writes it. A space
+ * inside it is kept (Illinois's and Indiana's commissions publish files named with spaces; a browser encodes them). */
 export function linkOf(r: RuleRow): string | null {
   const u = text(r.url);
-  return /^https?:\/\/[^\s"'<>]+$/i.test(u) ? u : null;
+  return /^https?:\/\/[^\s"'<>]+( [^\s"'<>]+)*$/i.test(u) ? u : null;
 }
 
 /** Every word of a row that the block would show, on its face or on hover. */

@@ -321,14 +321,18 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     } else console.log("note: the file holds no row for this grid yet; the keyboard's focus on a row's link was not tried");
     if (foldGrid) {
       const sel = `[data-rules-fold="${foldGrid.group}"]`;
-      const seen = `(() => { const d = document.querySelector('${sel}'); const rows = [...d.querySelectorAll('[data-rule]')]; return { open: d.open, rows: rows.length, seen: rows.filter((r) => r.getClientRects().length > 0).length }; })()`;
+      const seen = `(() => { const d = document.querySelector('${sel}'); const rows = [...d.querySelectorAll('[data-rule]')]; return { open: d.open, rows: rows.length, seen: rows.filter((r) => (r.checkVisibility ? r.checkVisibility() : r.getClientRects().length > 0)).length }; })()`;  // a closed details keeps its rows' boxes and does not draw them: checkVisibility says which
       const before = await evaluate(seen);
-      const at = await evaluate(`(() => { const s = document.querySelector('${sel} summary'); s.scrollIntoView({ block: 'center' }); const r = s.getBoundingClientRect(); return { x: r.left + 12, y: r.top + r.height / 2 }; })()`);
+      // the summary is brought into the window at once (the site scrolls smoothly by default), then measured where it rests
+      await evaluate(`document.querySelector('${sel} summary').scrollIntoView({ block: 'center', behavior: 'instant' })`);
+      await sleep(400);
+      const at = await evaluate(`(() => { const r = document.querySelector('${sel} summary').getBoundingClientRect(); return { x: r.left + 12, y: r.top + r.height / 2 }; })()`);
+      await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: at.x, y: at.y });
       await send("Input.dispatchMouseEvent", { type: "mousePressed", x: at.x, y: at.y, button: "left", clickCount: 1 });
       await send("Input.dispatchMouseEvent", { type: "mouseReleased", x: at.x, y: at.y, button: "left", clickCount: 1 });
       await sleep(300);
       const clicked = await evaluate(seen);
-      check(!before.open && before.rows === foldGrid.folded && before.seen === 0 && clicked.open && clicked.seen === foldGrid.folded, `the fold opens to a click: ${foldGrid.folded} earlier rows of ${NAMES[g]}'s ${foldGrid.group === "grid" ? "own" : "federal"} group, hidden before it and shown after`);
+      check(!before.open && before.rows === foldGrid.folded && before.seen === 0 && clicked.open && clicked.seen === foldGrid.folded, `the fold opens to a click: ${foldGrid.folded} earlier rows of ${NAMES[g]}'s ${foldGrid.group === "grid" ? "own" : "federal"} group, hidden before it and shown after${clicked.open && before.seen === 0 && !before.open ? "" : ` (before: ${JSON.stringify(before)}; after the click at ${Math.round(at.x)}, ${Math.round(at.y)}: ${JSON.stringify(clicked)})`}`);
       await evaluate(`(() => { const d = document.querySelector('${sel}'); d.open = false; d.querySelector('summary').focus(); })()`);
       await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, nativeVirtualKeyCode: 13, text: "\r" });
       await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, nativeVirtualKeyCode: 13 });
