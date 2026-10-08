@@ -494,8 +494,10 @@ class ByHand(unittest.TestCase):
         ("Geothermal Radar", 4, [("web", VENTUREWELL, ["modeling", "assessment", "digital"], "geothermal digital modeling", 2)], 2, True),
         # XGS Energy, trend 3: the page draws its article with JavaScript; the sentence is the page's own description, in its head (1), strong by four terms and a whole phrase (+1)
         ("XGS Energy", 3, [("web", RENEWABLESNOW, ["grant", "doe", "field", "test"], "DOE geothermal field tests", 2)], 2, True),
-        # Quaise Energy, trend 3: one quotation of its chief executive, printed on two pages with two different endings: two sentences of two terms (1 each)
-        ("Quaise Energy", 3, [("web", HTX, ["doe", "field"], "", 1), ("web", QUAISE, ["doe", "field"], "", 1)], 2, True),
+        # Quaise Energy, trend 3: one quotation of its chief executive, printed on two pages with two different endings. Until
+        # session 158 it was two sentences of two terms (1 each, tied at 2). The owner's ruling of 8 October 2026: the same
+        # remark counts once, so one line of 1 point, and Quaise is not tied (changed on purpose in session 158)
+        ("Quaise Energy", 3, [("web", HTX, ["doe", "field"], "", 1)], 1, False),
         # Bedrock Energy: no sentence of a saved page holds two terms of a trend, and the warehouse's row holds one ("subsurface modeling")
         ("Bedrock Energy", 4, [], 0, False),
         ("Mazama Energy", 3, [], 0, False),
@@ -517,7 +519,10 @@ class ByHand(unittest.TestCase):
                     self.assertIn(sentence, tie.page_sentences(FIX["store"]["pages"][address]["text"]), (name, address))
 
     def test_the_landscape_of_the_fixture_in_the_rules_order(self):
-        self.assertEqual([c["name"] for c in judged() if c["trends"]], ["Zanskar Geothermal & Minerals", "Thermofilic", "Geothermal Radar", "Quaise Energy", "XGS Energy"])
+        # session 158: Quaise Energy stood here by one remark counted twice; the ruling counts it once (changed on purpose)
+        self.assertEqual([c["name"] for c in judged() if c["trends"]], ["Zanskar Geothermal & Minerals", "Thermofilic", "Geothermal Radar", "XGS Energy"])
+        self.assertEqual([c["name"] for c in tie.judge(copy.deepcopy(FIX["store"]), FIX["warehouse"], NICHE, TRENDS, remarks=False) if c["trends"]],
+                         ["Zanskar Geothermal & Minerals", "Thermofilic", "Geothermal Radar", "Quaise Energy", "XGS Energy"])
 
     def test_the_xgs_sentence_is_on_its_page_only_in_what_the_page_says_of_itself(self):
         """The quotation session 142's third run turned on. The research quoted it in every run; a plain GET of the page
@@ -534,17 +539,22 @@ class ByHand(unittest.TestCase):
         self.assertEqual(pg.html_text(html_page), "X Co Inc was selected for a federal grant.\nX Co tapped\nX Co Inc was selected & funded.\nIt drills wells.\nMenu one")
 
     def test_one_quotation_printed_with_two_endings_counts_as_two_sentences_as_the_rule_was_built(self):
-        """Flagged for the owner, not changed: the rule counts the same sentence on two addresses once, by its exact
-        words; a press release printed twice with different attributions is two sentences to it."""
-        c = by_name(judged())["Quaise Energy"]
+        """Session 147 flagged it and did not change it: the rule counted the same sentence on two addresses once, by its
+        exact words, so a press release printed twice with different attributions was two sentences to it. Session 158
+        (the owner's ruling): it is one remark and counts once. The reading as the rule was built is kept under
+        remarks=False, for comparison only; tests/test_session158.py holds the rule as it now stands."""
+        c = by_name(tie.judge(copy.deepcopy(FIX["store"]), FIX["warehouse"], NICHE, TRENDS, remarks=False))["Quaise Energy"]
         a, b = [x["text"] for x in c["ties"][3]["lines"]]
         self.assertNotEqual(tie.sha(a), tie.sha(b))
         self.assertEqual(a[:150], b[:150])
+        self.assertEqual(len(by_name(judged())["Quaise Energy"]["ties"][3]["lines"]), 1)
 
     def test_a_name_made_of_the_niches_own_words_is_named_by_running_text_as_the_rule_was_built(self):
         """Flagged for the owner, not changed: the third run of 7 October 2026 put "Geothermal Technologies
         (geothermal.tech)" on the landscape by two sentences about geothermal technologies in general. The name
-        matching is session 142's, untouched: a whole name of two words is matched wherever those words stand."""
+        matching is session 142's, untouched: a whole name of two words is matched wherever those words stand.
+        Session 158 (the owner's ruling): names_it is still that matching, and every other company is still matched by
+        it; a name made of the niche's own words must also pass tie.proper_noun, which refuses both sentences."""
         niche_words = ["geothermal", "mapping", "sensing"]
         key = tie.name_key("Geothermal Technologies (geothermal.tech)")
         self.assertEqual(key, "geothermal technologies")
@@ -552,6 +562,9 @@ class ByHand(unittest.TestCase):
         self.assertEqual(aliases, [("geothermal technologies", "geothermal technologies")])
         self.assertTrue(tie.names_it("Department of Energy to advance geothermal technologies and field tests.", aliases, niche_words))
         self.assertTrue(tie.names_it("The DOE Geothermal Technologies Office has been the major funder of geothermal innovation.", aliases, niche_words))
+        forms = tie.written_names(["Geothermal Technologies (geothermal.tech)"])
+        self.assertEqual(tie.proper_noun("Department of Energy to advance geothermal technologies and field tests.", forms, ["geothermal.tech"]), "not a proper noun")
+        self.assertEqual(tie.proper_noun("The DOE Geothermal Technologies Office has been the major funder of geothermal innovation.", forms, ["geothermal.tech"]), "not a proper noun")
 
 
 class RunPath(unittest.TestCase):

@@ -30,6 +30,19 @@ const REQ = fixture("pitchbook_request_main.json");
 const READ = fixture("pitchbook_read_main.json");
 const run = { run_id: REQ.inputs.run_id, niche: REQ.inputs.niche, request: REQ.request };
 const exampleOf = (text) => JSON.parse(text.split("```json")[1].split("```")[0]);
+// Session 158: Crunchbase answers are not kept, so checkPaste refuses one before it reads the text. Crunchbase's
+// format and reader are kept as they were (a ruling can open the provider again, and a run that already holds an
+// answer is still drawn), and are tested here by themselves: the same steps as checkPaste, without its refusal.
+const PLAIN = "Crunchbase answers are not kept until its terms are ruled on";
+const readAs = (id, pasted, runId, year) => {
+  if (!pv.NOT_KEPT[id]) return pv.checkPaste(id, pasted, runId, year);
+  const got = pb.extractJson(pasted);
+  if (!got.ok) return got;
+  const { key, ...payload } = got.value;
+  if (payload.format !== pv.PROVIDERS[id].format) return { ok: false, reason: `the format is ${payload.format}` };
+  const r = pv.PROVIDERS[id].read(payload, runId, year);
+  return r.ok ? { ok: true, provider: id, payload: r.payload, key: typeof key === "string" && key.trim() ? key.trim() : null } : r;
+};
 
 test("three providers behind one interface, PitchBook first and the default", () => {
   assert.deepEqual(pv.providerList().map((p) => [p.id, p.label, p.format]), [["pitchbook", "PitchBook", "erw-pitchbook-1"], ["harmonic", "Harmonic", "erw-harmonic-1"], ["crunchbase", "Crunchbase", "erw-crunchbase-1"]]);
@@ -123,9 +136,9 @@ for (const id of ["harmonic", "crunchbase"]) {
     // the example block: refused as it stands (its date is a placeholder), accepted with the date filled, and every
     // field in it is a mapped one
     const example = exampleOf(text);
-    assert.equal(pv.checkPaste(id, text, run.run_id).ok, false);
-    assert.match(pv.checkPaste(id, text, run.run_id).reason, /"pulled_on"/);
-    const r = pv.checkPaste(id, text.replace('"pulled_on": "YYYY-MM-DD"', '"pulled_on": "2026-10-07"'), run.run_id);
+    assert.equal(readAs(id, text, run.run_id).ok, false);
+    assert.match(readAs(id, text, run.run_id).reason, /"pulled_on"/);
+    const r = readAs(id, text.replace('"pulled_on": "YYYY-MM-DD"', '"pulled_on": "2026-10-07"'), run.run_id);
     assert.equal(r.ok, true, r.reason);
     assert.equal(r.payload.provider, id);
     assert.equal(r.payload.label, p.label);
@@ -153,17 +166,65 @@ test("an answer in another provider's format is refused, and the page is told pl
   const h = JSON.stringify(harmonicAnswer()), c = JSON.stringify(crunchbaseAnswer()), p = JSON.stringify(fixtureAnswer());
   assert.equal(pv.checkPaste("pitchbook", h, RUN).reason, 'This answer is in the format "erw-harmonic-1", Harmonic\'s. The provider chosen is PitchBook, which takes "erw-pitchbook-1". Choose Harmonic above, or paste PitchBook\'s answer.');
   assert.equal(pv.checkPaste("harmonic", p, RUN).reason, 'This answer is in the format "erw-pitchbook-1", PitchBook\'s. The provider chosen is Harmonic, which takes "erw-harmonic-1". Choose PitchBook above, or paste Harmonic\'s answer.');
-  assert.match(pv.checkPaste("crunchbase", h, RUN).reason, /"erw-harmonic-1", Harmonic's\. The provider chosen is Crunchbase/);
-  assert.match(pv.checkPaste("harmonic", c, RUN).reason, /"erw-crunchbase-1", Crunchbase's/);
+  // session 158: the words for a format are the function's, as before (three assertions that went through checkPaste
+  // with Crunchbase chosen, or with Crunchbase's answer, now ask the function itself or expect the plain refusal)
+  assert.match(pv.formatFault("crunchbase", "erw-harmonic-1"), /"erw-harmonic-1", Harmonic's\. The provider chosen is Crunchbase/);
+  assert.equal(pv.checkPaste("harmonic", c, RUN).reason, `${PLAIN}.`);
+  assert.equal(pv.checkPaste("pitchbook", c, RUN).reason, `${PLAIN}.`);
   assert.equal(pv.checkPaste("harmonic", JSON.stringify({ ...harmonicAnswer(), format: "erw-harmonic-2" }), RUN).reason, 'This answer names the format "erw-harmonic-2". The provider chosen is Harmonic, which takes "erw-harmonic-1".');
-  assert.equal(pv.checkPaste("crunchbase", JSON.stringify({ companies: [] }), RUN).reason, 'This answer names no format. The provider chosen is Crunchbase, which takes "erw-crunchbase-1".');
+  assert.equal(pv.formatFault("crunchbase", undefined), 'This answer names no format. The provider chosen is Crunchbase, which takes "erw-crunchbase-1".');
   assert.equal(pv.checkPaste("harmonic", "no json here", RUN).reason, "No JSON object could be read in the pasted text.");
   assert.equal(pv.checkPaste("harmonic", "  ", RUN).reason, "Nothing was pasted.");
-  for (const [id, text] of [["harmonic", h], ["crunchbase", c], ["pitchbook", p]]) assert.equal(pv.checkPaste(id, "Here it is:\n```json\n" + text + "\n```\nDone.", RUN, 2026).ok, true, id);
+  for (const [id, text] of [["harmonic", h], ["pitchbook", p]]) assert.equal(pv.checkPaste(id, "Here it is:\n```json\n" + text + "\n```\nDone.", RUN, 2026).ok, true, id);
+  assert.equal(readAs("crunchbase", "Here it is:\n```json\n" + c + "\n```\nDone.", RUN, 2026).ok, true, "Crunchbase's reader still reads its format");
+});
+
+test("session 158: a Crunchbase answer is refused with the plain words before the pasted text is read, and nothing of it reaches the store", () => {
+  assert.deepEqual(pv.NOT_KEPT, { crunchbase: PLAIN });
+  assert.equal(pv.notKept("crunchbase"), `${PLAIN}.`);
+  assert.equal(pv.notKept("pitchbook"), null);
+  assert.equal(pv.notKept("harmonic"), null);
+  assert.equal(pv.NOT_KEPT_MARK, "not yet available");
+  // whatever is pasted, the answer is the same and holds nothing of the text: a good answer, one wrapped in a code
+  // block, a text with no JSON, an empty text (each of which checkPaste answers differently for a provider it reads)
+  const good = JSON.stringify(crunchbaseAnswer());
+  for (const text of [good, "Here it is:\n```json\n" + good + "\n```", "no json here", "  ", JSON.stringify(harmonicAnswer()), JSON.stringify({ ...crunchbaseAnswer(), run_id: "another-run" })]) {
+    assert.deepEqual(pv.checkPaste("crunchbase", text, RUN, 2026), { ok: false, reason: `${PLAIN}.` });
+  }
+  // an answer in Crunchbase's format under another provider: the same words, and the page is not told to choose Crunchbase
+  for (const id of ["pitchbook", "harmonic"]) {
+    assert.equal(pv.formatFault(id, "erw-crunchbase-1"), `${PLAIN}.`);
+    assert.equal(pv.checkPaste(id, good, RUN, 2026).ok, false);
+    assert.ok(!/Choose Crunchbase/.test(pv.checkPaste(id, good, RUN, 2026).reason));
+  }
+  // the route: the refusal stands before the pasted text is looked at, before the reader, the hash and the store
+  const route = read("site", "app", "api", "thesis", "provider", "route.ts");
+  const at = (w) => { const i = route.indexOf(w); assert.ok(i > 0, `the route does not hold ${w}`); return i; };
+  const refuse = at("const held = notKept(body.provider);");
+  assert.ok(route.slice(refuse).startsWith("const held = notKept(body.provider);\n  if (held) return no(held, 400);") || route.slice(refuse).startsWith("const held = notKept(body.provider);\r\n  if (held) return no(held, 400);"));
+  for (const later of ["typeof body.pasted", "Buffer.byteLength(body.pasted", "checkPaste(provider.id", 'createHash("sha256")', "getRun(runId)", "acceptProvider(runId"]) assert.ok(refuse < at(later), `the refusal must stand before ${later}`);
+  assert.ok(at("if (!isProviderId(body.provider))") < refuse);
+  assert.equal(route.split("acceptProvider(").length, 2, "the store is asked in one place only");
+  assert.ok(!/console\.(log|error|warn)\([^)]*pasted/.test(route), "nothing of the pasted text is written to a log");
+  // the panel: such a provider is never the one chosen, so its request text is never in the box to copy
+  const panel = read("site", "components", "thesis", "PitchbookPanel.tsx");
+  assert.ok(panel.includes("PROVIDER_IDS.filter((id) => !have(id) && !notKept(id))"));
+  assert.ok(panel.includes("data-thesis-provider-unavailable={id}") && panel.includes("title={off}") && panel.includes("disabled={done || busy || !!off}"));
+  // the format, the request text and the reader are kept as they were
+  assert.equal(pv.PROVIDERS.crunchbase.format, "erw-crunchbase-1");
+  assert.equal(pv.providerOfFormat("erw-crunchbase-1").id, "crunchbase");
+  assert.equal(pv.validateCrunchbase(crunchbaseAnswer(), RUN).ok, true);
+});
+
+test("session 158: PitchBook and Harmonic are as they were", () => {
+  assert.equal(pv.checkPaste("harmonic", JSON.stringify(harmonicAnswer()), RUN).ok, true);
+  assert.equal(pv.checkPaste("pitchbook", JSON.stringify(fixtureAnswer()), RUN, 2026).ok, true);
+  assert.equal(pv.formatFault("pitchbook", "erw-harmonic-1"), 'This answer is in the format "erw-harmonic-1", Harmonic\'s. The provider chosen is PitchBook, which takes "erw-pitchbook-1". Choose Harmonic above, or paste PitchBook\'s answer.');
+  assert.equal(sha(pv.PROVIDERS.pitchbook.requestText(run)), REQ.paste_text_sha256);
 });
 
 const H = () => pv.checkPaste("harmonic", JSON.stringify(harmonicAnswer()), RUN).payload;
-const C = () => pv.checkPaste("crunchbase", JSON.stringify(crunchbaseAnswer()), RUN).payload;
+const C = () => readAs("crunchbase", JSON.stringify(crunchbaseAnswer()), RUN).payload;      // session 158: the reader by itself (see readAs)
 
 test("Harmonic: a documented field with its documented shape is mapped; everything else is kept as given, not mapped", () => {
   const p = H();
@@ -269,7 +330,7 @@ test("Crunchbase: the documented fields and objects are mapped; everything else 
   assert.deepEqual(p.companies[1], { name: "Sample Grid Co", found: false, record: {} });
   assert.deepEqual(p.additional_companies[0].record, { identifier: { value: "Crunchbase Fixture Later LLC" }, num_funding_rounds: 1 });
   assert.deepEqual(p.lists, []);
-  const bad = (f, re) => { const a = crunchbaseAnswer(); f(a); const r = pv.checkPaste("crunchbase", JSON.stringify(a), RUN); assert.equal(r.ok, false); assert.match(r.reason, re); };
+  const bad = (f, re) => { const a = crunchbaseAnswer(); f(a); const r = readAs("crunchbase", JSON.stringify(a), RUN); assert.equal(r.ok, false); assert.match(r.reason, re); };
   bad((a) => { a.run_id = "another-run"; }, /"run_id" is not the run/);
   bad((a) => { a.companies[0].found = 1; }, /found is required/);
   bad((a) => { a.additional_companies = {}; }, /"additional_companies" must be a list/);
@@ -278,7 +339,7 @@ test("Crunchbase: the documented fields and objects are mapped; everything else 
   odd.companies[0].organization.funding_total = { value: 18000000, currency: "USD", value_usd: 18000000, fixture_extra: true };
   odd.companies[0].organization.founder_identifiers = [{ value: "A. Fixture" }, { fixture: "no name" }];
   odd.companies[0].organization.founded_on = { value: "2018", precision: "year" };
-  const r = pv.checkPaste("crunchbase", JSON.stringify(odd), RUN).payload.companies[0];
+  const r = readAs("crunchbase", JSON.stringify(odd), RUN).payload.companies[0];
   assert.ok(!("funding_total" in r.record) && !("founder_identifiers" in r.record) && !("founded_on" in r.record));
   assert.deepEqual(r.not_mapped.organization.funding_total, { value: 18000000, currency: "USD", value_usd: 18000000, fixture_extra: true });
   assert.deepEqual(r.not_mapped.organization.founder_identifiers, [{ value: "A. Fixture" }, { fixture: "no name" }]);
@@ -403,6 +464,11 @@ test("the two lists of providers say the same: the site's and the server's (ware
     assert.ok(p.terms.startsWith(`${p.label} figures here are your own licensed copy: brought by you from your own account, shown to you, and not published, redistributed or kept in the public warehouse.`));
   }
   assert.ok(py.includes("your own licensed copy: brought by you from your own account, shown to you, and not"));
+  // session 158: the providers whose answers are not kept, and the plain words, are the same on both sides
+  const held = /^NOT_KEPT\s*=\s*\{([^}]*)\}/m.exec(py);
+  assert.ok(held, "warehouse/thesis/providers.py holds no NOT_KEPT");
+  assert.deepEqual(Object.fromEntries([...held[1].matchAll(/"([a-z]+)"\s*:\s*"([^"]*)"/g)].map((m) => [m[1], m[2]])), pv.NOT_KEPT);
+  assert.ok(/^def kept\(provider_id\):/m.test(py));
   assert.ok(read("warehouse", "thesis", "run.py").includes("FORMAT = pv.PITCHBOOK.format"));
 });
 

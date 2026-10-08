@@ -65,7 +65,8 @@ class Tags(unittest.TestCase):
     def test_the_rule_file_names_the_four_tags_and_its_version(self):
         rules = pat.load_rules()
         self.assertEqual(list(rules["tags"]), ["large_load", "interconnection", "transmission_cost", "tax_credit"])
-        self.assertEqual(rules["fields_matched"], ["title", "abstract"])
+        # session 157: version 3 of the rule also reads the first paragraph of the printed text (tests/test_session157.py)
+        self.assertEqual(rules["fields_matched"][:2], ["title", "abstract"])
         self.assertTrue(rules["version"])
         self.assertTrue(rules["changes"], "the correction after the 40 and 40 is written in the rule file")
 

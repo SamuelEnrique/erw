@@ -86,3 +86,32 @@ the session's agent, row by row.
 Not a reading of the document, not a judgment of its weight, and not complete. Nothing municipal. The table's tier
 in `coverage.csv` is `model_extracted` because its input, `policy_actions`, carries a model's scores; the tags use
 none of those columns.
+
+## Version 3 (session 157, 8 October 2026)
+
+The rule file is now version 3. **Its terms, its exclusions and its listed dockets are those of version 2, unchanged.**
+Two things changed, and the rule file's own "changes" says the same:
+
+- **The rule also reads `first_paragraph`**, the first paragraph of the action's printed text in the Federal
+  Register, which `policy_sources.py` now reads once for every document (a FERC notice has no abstract in the
+  Register's record, and its title is often only the parties' names). The fields are read in this order: title,
+  abstract, first paragraph; the municipal phrases, each tag's exclusions and "needs_any" are read across the three.
+  The matched field of a row can therefore be `first_paragraph`.
+- **The agencies in scope gain the Treasury and the IRS**, whose Federal Register documents on energy the connector
+  now lists, so the tag `tax_credit` has something to match.
+
+On the table of 8 October 2026 (1,875 actions) the rule tags **22 actions in 38 rows**: large load 13, transmission
+cost 12, interconnection 8, tax credit 5 (version 2 on 1,843 actions: 14 actions, 30 rows, no tax credit). All eight
+new actions were read: five IRS documents on the section 45, 45Y and 45Z credits (matched in the title or the
+abstract), and three FERC notices of gas pipeline projects (dockets CP26-80 and CP26-549) whose first paragraph
+says the gas is for the power plant of a data center; they carry `large_load` and, by the rule's own exclusion of
+gas dockets, not `interconnection`. No action tagged by version 2 lost a tag. Of the untagged actions, the 156 that
+hold a term of the rule in some field were listed and the first 14 that hold more than the bare word
+"interconnection" read: gas pipeline companies with "Transmission" in their name and a transmission line's habitat
+plan, none a miss.
+
+The site applies the same file to the rows it reads from the live set (`site/data/policy/tag_rules.json` is a copy,
+byte for byte), so that an action is tagged the day it arrives; `tests/fixtures/session157/policy_tag_cases.json`
+(378 cases: every tagged action, every untagged one that holds a term, and 200 others by seed 157) holds the Python
+rule and the page's rule to the same answers. The whole method of the monitor is in
+[`policy_monitor.md`](policy_monitor.md).

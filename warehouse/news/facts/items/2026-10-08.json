@@ -1,0 +1,21 @@
+{
+ "date": "2026-10-08",
+ "fact_id": "ff_293801e734",
+ "kind": "warehouse",
+ "fact": "The lowest daily WTI crude at Cushing spot price in EIA's series, which starts on 1986-01-02, was -36.98 USD/bbl on 2020-04-20: below zero, sellers paid buyers to take the oil.",
+ "second": "",
+ "structure": "none",
+ "conjecture": "False",
+ "sources": [
+  {
+   "part": "fact",
+   "label": "ERW table eia_fuel_spot_prices",
+   "table": "eia_fuel_spot_prices",
+   "publisher": "U.S. Energy Information Administration (EIA)",
+   "url": "/data",
+   "raw": "warehouse/news/facts/raw/warehouse/fuel_wti_cushing_min_20261007T151901Z.txt",
+   "span": "eia_fuel_spot_prices eia:wti_cushing: min -36.98 USD/bbl on 2020-04-20; series starts 1986-01-02; latest 96.16 on 2026-09-29; ratio of the min to the latest 0.4",
+   "retrieved_at": "20261007T151901Z"
+  }
+ ]
+}

@@ -28,6 +28,30 @@ THE RULE
    A text "names the company" when it holds the company's whole normalized name, or its core name (the name without
    trailing generic words such as Energy or Technologies). A name or core name of one word must have four letters
    or more and the text must also hold a word of the niche's own name.
+   Session 158 (the owner's ruling of 8 October 2026). A company whose name is MADE OF THE NICHE'S OWN WORDS is named
+   by a text only as a proper noun. The name is made of the niche's own words when every word of it (normalized and
+   folded as above) is a word of the niche's own name, a term of one of the five trends (rule 2), or one of the
+   generic or stop words below (GENERIC, STOP), and at least one of them is a word of the niche's name or a trend's
+   term ("Geothermal Technologies" in a geothermal niche). For such a company the text must hold the name's words as
+   before AND one of three things must be true:
+     capital   the name stands in the text with the capitals the company's rows write it with, and is not part of a
+               longer capitalized name: the word just before it (only spaces between, or one joining hyphen) does not start with
+               a capital, unless it is one of SMALL_WORDS (The, In, And, ...), and the word just after it does not
+               start with a capital, unless it is a legal form (Inc, LLC, ...) or a role (CEO, Founder, ...). So
+               "the DOE Geothermal Technologies Office" is not the company. A name of one word that opens the
+               sentence shows nothing by its capital. Nor does any name in a heading written with every word
+               capitalized: when the text has two or more words of four letters or more outside the name that are
+               not SMALL_WORDS and every one of them starts with a capital, this test fails.
+     list      the name, with its capitals, is one whole item of an enumeration of LIST_MIN (3) or more capitalized
+               names standing side by side: the text is cut at each comma, semicolon, bar or bullet and at "and",
+               "or" and "&"; an item is a capitalized name when it is one to six words that each start with a
+               capital; before the first item of a sentence and after its last there may be other words (so the
+               first counts by the capitalized word it ends with, the last by the one it starts with). A table cell
+               or list item that is the name alone is the name with its capitals standing alone: the first test.
+     domain    the text holds the company's website domain, or the page (or fetched source) the text is from is at
+               that domain or holds it in its text.
+   Every other company is matched as before. Each company's record says which test counted each sentence and how
+   many sentences held the name's words and were not counted.
 
 2. A trend's own terms. From the trend's title and its search phrases: every word of four letters or more, and
    every word written in capitals of two letters or more (AI, DAS, DOE), lower case, a final "s" dropped, without
@@ -42,7 +66,14 @@ THE RULE
    terms. A company's score for a trend is the sum, over at most MAX_ADDRESSES (3) addresses, of the best supporting
    sentence of each address (highest first). One sentence counts once however many addresses carry it: the same
    words on two pages are one piece of evidence (the third run of 7 October 2026 found one press release sentence on
-   two pages of one university). The company is TIED to the trend when that score is TIE_MIN (2) or more: one
+   two pages of one university). Session 158: nor does the same REMARK printed with small differences. The words
+   of a sentence as a remark: lower case, punctuation removed, and, when the sentence holds a quotation of
+   NEAR_MIN_WORDS (8) words or more, only the words inside its quotation marks (the words around a quotation say who
+   spoke). Two sentences are the same remark when both have NEAR_MIN_WORDS words or more and the words they share,
+   each counted as often as both hold it, are NEAR_SAME (90 percent) or more of the words of the longer one. Of the
+   copies, the one read first in the order above counts (highest points, then the higher tier, then the address a to
+   z), so the higher-tier copy is kept; every merged pair is in the run's record.
+   The company is TIED to the trend when that score is TIE_MIN (2) or more: one
    warehouse sentence, one fetched sentence, one strong web sentence, or two different web sentences from two
    addresses.
 
@@ -66,8 +97,13 @@ THE RULE
    differently changes nothing; its reading is kept in the run's record as a disagreement for a person to rule on.
    (The first version of this rule let the value with the most sources win. The second run of 7 October 2026 then
    moved a company because the model called a university spinout a university: an opinion, not a source.)
+
+7. Data vendors' public pages (session 158). A page of a data vendor (the list is one file, vendor_pages.csv, read by
+   pages.py and handed to judge) is read like any other page, and every sentence from it carries the vendor's name
+   ("vendor" on the evidence line and on a tying line). It changes no point: the label is for the reader.
 """
 
+import collections
 import hashlib
 import json
 import os
@@ -87,6 +123,17 @@ STOP = {"the", "and", "for", "with", "from", "that", "this", "into", "their", "n
 GENERIC = {"energy", "power", "technologies", "technology", "systems", "international", "resources", "minerals", "partners",
            "labs", "group", "solutions", "services", "company", "industries"}
 BLANK = {"", "not stated", "not disclosed", "unknown", "n/a", "none", "undisclosed"}
+# Session 158. None of these is a threshold of the scoring (TIERS, STRONG_POINT, STRONG_TERMS, MIN_TERMS, TIE_MIN and
+# MAX_ADDRESSES above are untouched): they say what "the same remark" and "a proper noun" are.
+NEAR_SAME = 0.90                 # two sentences are one remark when they share this share of the longer one's words
+NEAR_MIN_WORDS = 8               # and each has at least this many words; also the least a quotation holds to be the remark
+LIST_MIN = 3                     # an enumeration of this many capitalized names is a list of companies
+LEGAL = ("inc", "llc", "ltd", "corp", "corporation", "co", "plc", "lp", "sa", "ag", "gmbh", "limited", "holdings")      # as name_key drops them
+ROLES = {"ceo", "cto", "cfo", "coo", "founder", "cofounder", "president", "chairman", "chief"}
+SMALL_WORDS = {"the", "a", "an", "and", "but", "or", "nor", "in", "on", "at", "by", "for", "from", "with", "as", "to", "of", "into", "over", "under",
+               "than", "via", "per", "when", "while", "after", "before", "since", "both", "also", "its", "their", "our", "your", "this", "that",
+               "these", "those", "if", "how", "why", "what", "where", "who", "is", "are", "was", "were", "will", "been", "have", "more", "most",
+               "about", "amid", "near", "onto", "upon"}
 FACTS = ("kind", "country", "location", "fits_stage")
 CELLS = ("website", "description", "founders", "stage", "raised", "signal", "tam")
 
@@ -178,6 +225,181 @@ def names_norm(t, aliases, niche_words):
             if " " in n or (len(n) >= 4 and in_niche):
                 return True
     return False
+
+
+# ---------------------------------------------------------------------------------------------
+# session 158: a name made of the niche's own words is named only as a proper noun
+# ---------------------------------------------------------------------------------------------
+
+_TOKEN = re.compile(r"[A-Za-z0-9]+")
+_BESIDE = re.compile(r"(?:[ \t\u00a0]+|-)\Z")           # two words stand side by side: only spaces between them, or one hyphen joining them
+_CUT = re.compile(r"[,;|•·]|\s&\s|\band\b|\bor\b")
+GENERIC_FOLDED = {fold(w) for w in GENERIC} | STOP
+
+
+def niche_own(niche, trends):
+    """The niche's own words: the words of its name (four letters or more, not a stop word) and the terms of its
+    trends, each folded, exactly as judge and trend_terms compute them."""
+    own = {fold(w) for w in words(head_of(niche)) if len(w) >= 4 and fold(w) not in STOP}
+    for t in trends or []:
+        own |= set(trend_terms(niche, t)[0])
+    return own
+
+
+def made_of_niche(key, own):
+    """True when a normalized name is made of the niche's own words: every word of it is one of them or a generic or
+    stop word, and at least one is one of them."""
+    toks = tokens(key)
+    return bool(toks) and any(t in own for t in toks) and all(t in own or t in GENERIC_FOLDED for t in toks)
+
+
+def written_names(names):
+    """The ways a company's rows write its name: each as its words in their own capitals, without what stands in
+    brackets and without legal forms (as name_key drops them)."""
+    out = []
+    for name in names:
+        toks = [t for t in _TOKEN.findall(re.sub(r"\(.*?\)", " ", name or "")) if t.lower() not in LEGAL]
+        if toks and toks not in out:
+            out.append(toks)
+    return out
+
+
+def carries_domain(text, d):
+    """True when a text holds a website domain as written (not as part of a longer one)."""
+    return bool(d) and re.search(r"(?<![a-z0-9.-])" + re.escape(d) + r"(?![a-z0-9-])(?!\.[a-z0-9])", (text or "").lower()) is not None
+
+
+def on_domain(address, d):
+    h = domain(address)
+    return bool(d) and bool(h) and (h == d or h.endswith("." + d))
+
+
+def _capital(text, toks, i, form):
+    """The first test of rule 1: the name at token i with the company's own capitals, not part of a longer capitalized name."""
+    n = len(form)
+    if [t[0] for t in toks[i:i + n]] != form:
+        return False
+    if n == 1 and i == 0:
+        return False                                   # one word opening the sentence: its capital shows nothing
+    if i > 0:
+        w = toks[i - 1]
+        if _BESIDE.match(text[w[2]:toks[i][1]]) and w[0][0].isupper() and w[0].lower() not in SMALL_WORDS:
+            return False
+    if i + n < len(toks):
+        w = toks[i + n]
+        if _BESIDE.match(text[toks[i + n - 1][2]:w[1]]) and w[0][0].isupper() and w[0].lower() not in LEGAL and w[0].lower() not in ROLES:
+            return False
+    rest = [t[0] for k, t in enumerate(toks) if not i <= k < i + n and len(t[0]) >= 4 and t[0][0].isalpha() and t[0].lower() not in SMALL_WORDS]
+    if len(rest) >= 2 and all(w[0].isupper() for w in rest):
+        return False                                   # a heading with every word capitalized shows no proper noun
+    return True
+
+
+def _in_a_list(text, toks, i, form):
+    """The second test of rule 1: the name at token i, with its capitals, is one whole item of an enumeration of
+    LIST_MIN or more capitalized names side by side."""
+    n = len(form)
+    if [t[0] for t in toks[i:i + n]] != form:
+        return False
+    edges = [0] + [x for m in _CUT.finditer(text) for x in m.span()] + [len(text)]
+    items = []
+    for a, b in zip(edges[0::2], edges[1::2]):
+        inside = [k for k, t in enumerate(toks) if a <= t[1] and t[2] <= b]
+        if inside:
+            items.append(inside)
+    at = next((m for m, it in enumerate(items) if i in it), None)
+    if at is None or any(k not in items[at] for k in range(i, i + n)):
+        return False
+
+    def cap(k):
+        return toks[k][0][0].isupper()
+
+    def whole(it):
+        return 1 <= len(it) <= 6 and all(cap(k) for k in it)
+
+    first, last = 0, len(items) - 1
+    before = [k for k in items[at] if k < i]
+    after = [k for k in items[at] if k >= i + n]
+    while after and toks[after[0]][0].lower() in LEGAL:
+        after = after[1:]
+    if before and not (at == first and not cap(before[-1])):
+        return False
+    if after and not (at == last and not cap(after[0])):
+        return False
+    count = 1
+    for m in range(at - 1, -1, -1):
+        if (m > first and whole(items[m])) or (m == first and cap(items[m][-1])):
+            count += 1
+        else:
+            break
+    for m in range(at + 1, len(items)):
+        if (m < last and whole(items[m])) or (m == last and cap(items[m][0])):
+            count += 1
+        else:
+            break
+    return count >= LIST_MIN
+
+
+def proper_noun(text, forms, domains=(), address="", page_text="", page_carries=None):
+    """How a text names a company whose name is made of the niche's own words (rule 1, session 158).
+    forms: the name as its rows write it (written_names), and its core name. domains: the company's website domains.
+    address, page_text: the page or fetched source the text is from. Returns "capital", "list" or "domain" (the test
+    that holds, tried in that order), "not a proper noun" when the name's words are there and no test holds, or ""
+    when the name's words are not in the text at all. page_carries: what the caller already knows of the page (it is
+    at one of the domains or holds one), so that a page is searched once and not once a sentence."""
+    toks = [(m.group(), m.start(), m.end()) for m in _TOKEN.finditer(text or "")]
+    low = [t[0].lower() for t in toks]
+    found, listed = False, False
+    for form in forms:
+        n, want = len(form), [w.lower() for w in form]
+        for i in range(len(toks) - n + 1):
+            if low[i:i + n] != want:
+                continue
+            found = True
+            if _capital(text, toks, i, form):
+                return "capital"
+            listed = listed or _in_a_list(text, toks, i, form)
+    if not found:
+        return ""
+    if listed:
+        return "list"
+    if page_carries is None:
+        page_carries = any(on_domain(address, d) or carries_domain(page_text, d) for d in domains)
+    if page_carries or any(carries_domain(text, d) for d in domains):
+        return "domain"
+    return "not a proper noun"
+
+
+# ---------------------------------------------------------------------------------------------
+# session 158: the same remark printed twice counts once; a data vendor's page is labeled
+# ---------------------------------------------------------------------------------------------
+
+def remark(text):
+    """The words of a sentence as a remark is compared (rule 3): lower case, no punctuation; when the sentence holds a
+    quotation of NEAR_MIN_WORDS words or more, only the words inside its quotation marks."""
+    parts = re.split("[\"“”«»]", text or "")
+    inside = [w for seg in parts[1::2] for w in words(seg)]
+    return inside if len(inside) >= NEAR_MIN_WORDS else words(text)
+
+
+def remark_share(a, b):
+    """The words two remarks share, each counted as often as both hold it, over the words of the longer one."""
+    if not a or not b:
+        return 0.0
+    return sum((collections.Counter(a) & collections.Counter(b)).values()) / max(len(a), len(b))
+
+
+def same_remark(a, b):
+    return len(a) >= NEAR_MIN_WORDS and len(b) >= NEAR_MIN_WORDS and remark_share(a, b) >= NEAR_SAME
+
+
+def vendor_of(address, vendors):
+    """The data vendor whose page an address is (rule 7), or "". vendors: {domain: the vendor's name}."""
+    h = domain(address)
+    for d in sorted(vendors or {}):
+        if h and (h == d or h.endswith("." + d)):
+            return vendors[d]
+    return ""
 
 
 # ---------------------------------------------------------------------------------------------
@@ -385,13 +607,19 @@ def quote_check(store):
     return out
 
 
-def judge(store, warehouse, niche, trends, read="pages"):
+def judge(store, warehouse, niche, trends, read="pages", vendors=None, proper=True, remarks=True):
     """Every company of the store with its evidence, its score for each trend and its order.
 
     read: "pages" (the rule since session 147: the web tier is the sentences of the saved pages) or "quotes" (the web
     tier as session 142 built it, the sentences the research quoted: kept so that the two readings can be compared on
     the same saved answers, and used by no run).
     warehouse: {"energy_companies": [row dicts], "energy_deals": [row dicts]} as read from the tables now.
+    vendors: {domain: name} of the data vendors whose public pages are labeled (rule 7; pages.vendor_pages()), or None.
+    proper, remarks: True, always, for a run. False reads the saved evidence as before session 158 (a name made of the
+    niche's own words matched wherever its words stand; a remark printed twice counted twice), so that what each
+    ruling changes can be measured on the same saved answers; no run uses it.
+    Session 158: each company also carries name_rule (None, or for a name made of the niche's own words the tests
+    that counted its sentences and those not counted) and near_duplicates (the pairs of sentences read as one remark).
     Returns a list of companies in the order of rule 4, each:
       {key, name, aliases, row (resolved), evidence: [{tier, address, text, sha, fetched}],
        ties: {trend number: {score, tied, lines: [{address, tier, points, terms, phrase, text}]}},
@@ -405,18 +633,53 @@ def judge(store, warehouse, niche, trends, read="pages"):
         if x["key"] in cl:
             groups.setdefault(cl[x["key"]], []).append(x)
     specs = [trend_terms(niche, t) for t in trends]
+    own_words = niche_own(niche, trends)               # session 158: a name made only of these is named as a proper noun only
+
+    def flat_of(text):
+        return " " + " ".join(words(text)) + " "
+
     saved = []                                         # session 147: every sentence of every saved page, cut once
     if read == "pages":
         for url in sorted(store.get("pages") or {}):
             p = store["pages"][url]
             if page_holds(p):
                 saved.append((url, p.get("fetched", ""), " " + " ".join(words(p["text"])) + " ",
-                              [(s, " " + " ".join(words(s)) + " ") for s in page_sentences(p["text"])]))
+                              [(s, " " + " ".join(words(s)) + " ") for s in page_sentences(p["text"])], p["text"]))
     out = []
     for (ckey, cname), rows in sorted(groups.items()):
         raw_keys = sorted({x["key"] for x in rows})
         aliases = sorted({(k, core_of(k, niche_words)) for k in raw_keys})
         cores = {c for _, c in aliases}
+        # session 158: the aliases made of the niche's own words are matched as proper nouns only; the others as before
+        strict = [(k, c) for k, c in aliases if proper and made_of_niche(k, own_words)]
+        loose = [a for a in aliases if a not in strict]
+        forms, doms = [], set()
+        for k, c in strict:
+            for w in written_names([x["row"].get("name") or "" for x in rows if x["key"] == k]):
+                for form in (w, w[:len(c.split())]):
+                    if form and form not in forms:
+                        forms.append(form)
+        for x in rows if strict else []:
+            doms.add(domain(x["row"].get("website") or ""))
+            for inner in re.findall(r"\(([^)]*)\)", x["row"].get("name") or ""):       # a domain written in the name's brackets
+                if re.match(r"(?:https?://)?(?:www\.)?[a-z0-9.-]+\.[a-z]{2,}/?\Z", inner.strip().lower()):
+                    doms.add(domain(inner.strip()))
+        doms = sorted(doms - {""})
+        counted, refused = {"capital": 0, "list": 0, "domain": 0}, []
+
+        def named(text, norm, address="", page_text="", page_carries=None):
+            """How a text names this company: "" (it does not), "name" (as before session 158), or the test of rule 1."""
+            if names_norm(norm, loose, niche_words):
+                return "name"
+            if not strict or not names_norm(norm, strict, niche_words):
+                return ""
+            why = proper_noun(text, forms, doms, address, page_text, page_carries)
+            if why in counted:
+                counted[why] += 1
+                return why
+            refused.append({"address": address, "text": text})
+            return ""
+
         ev = []
         for x in warehouse.get("energy_companies") or []:
             k = name_key(x.get("name", ""))
@@ -426,20 +689,29 @@ def judge(store, warehouse, niche, trends, read="pages"):
                     ev.append({"tier": "warehouse", "address": addr, "text": s, "sha": sha(s), "fetched": x.get("retrieved_at", "")[:10]})
         for x in warehouse.get("energy_deals") or []:
             cells = " | ".join(str(x.get(c) or "") for c in ("deal_type", "parties", "asset", "technology") if x.get(c))
-            if names_it(str(x.get("parties") or "") + " " + str(x.get("asset") or "") + " " + str(x.get("technology") or ""), aliases, niche_words):
+            deal = str(x.get("parties") or "") + " " + str(x.get("asset") or "") + " " + str(x.get("technology") or "")
+            if named(deal, flat_of(deal), str(x.get("source_url") or "")):
                 ev.append({"tier": "warehouse", "address": f"erw:energy_deals/{x.get('event_id', '')}", "text": cells, "sha": sha(cells),
                            "fetched": str(x.get("extracted_at") or x.get("event_date") or "")[:10]})
         for url in sorted(store["sources"]):
             s = store["sources"][url]
+            carries = any(on_domain(url, d) or carries_domain(source_text(s), d) for d in doms) if strict else None
             for text in [s.get("title", "")] + list(s.get("cited") or []):
-                if len(text) >= 12 and names_it(text, aliases, niche_words):
+                how = named(text, flat_of(text), url, page_carries=carries) if len(text) >= 12 else ""
+                if how:
                     ev.append({"tier": "fetched", "address": url, "text": text, "sha": sha(text), "fetched": s.get("fetched", "")})
-        for url, day, flat, sents in saved:           # session 147: the web tier is read from the saved pages
+                    if how != "name":
+                        ev[-1]["named"] = how
+        for url, day, flat, sents, raw in saved:      # session 147: the web tier is read from the saved pages
             if not any(n and f" {n} " in flat for pair in aliases for n in pair):
                 continue                               # the page does not hold the company's name at all
+            carries = any(on_domain(url, d) or carries_domain(raw, d) for d in doms) if strict else None
             for s, norm in sents:
-                if names_norm(norm, aliases, niche_words):
+                how = named(s, norm, url, page_carries=carries)
+                if how:
                     ev.append({"tier": "web", "address": url, "text": s, "sha": sha(s), "fetched": day})
+                    if how != "name":
+                        ev[-1]["named"] = how
         for q in sorted(store["quotes"], key=lambda q: (q["address"], q["sha"])) if read == "quotes" else []:
             if q["key"] not in raw_keys:              # session 142's reading, for comparison only: no run uses it
                 continue
@@ -451,7 +723,11 @@ def judge(store, warehouse, niche, trends, read="pages"):
             ident = (e["address"], e["sha"])
             if ident not in seen:
                 seen.add(ident)
+                v = vendor_of(e["address"], vendors) if e["tier"] != "warehouse" else ""
+                if v:                                  # session 158: a sentence from a data vendor's public page carries its label
+                    e["vendor"] = v
                 uniq.append(e)
+        merged = []                                    # session 158: the pairs of sentences read as one remark
         own = {t for k in raw_keys for t in tokens(k)}
         ties, tied, total, best_tier, best_line = {}, [], 0, "", None
         for n, (terms, phrases) in enumerate(specs, 1):
@@ -462,13 +738,28 @@ def judge(store, warehouse, niche, trends, read="pages"):
                     continue
                 pts = TIERS[e["tier"]] + (STRONG_POINT if phrase or len(matched) >= STRONG_TERMS else 0)
                 line = {"address": e["address"], "tier": e["tier"], "points": pts, "terms": matched, "phrase": phrase, "text": e["text"], "sha": e["sha"]}
+                if e.get("vendor"):
+                    line["vendor"] = e["vendor"]
                 old = per_addr.get(e["address"])
                 if old is None or (-pts, TIER_ORDER.index(e["tier"]), e["sha"]) < (-old["points"], TIER_ORDER.index(old["tier"]), old["sha"]):
                     per_addr[e["address"]] = line
-            lines, said = [], set()
+            lines, said, kept = [], set(), []
             for x in sorted(per_addr.values(), key=lambda x: (-x["points"], TIER_ORDER.index(x["tier"]), x["address"])):
                 if x["sha"] not in said:              # the same sentence on a second address is not a second piece of evidence
+                    mine = remark(x["text"])
+                    twin = next((y for y, theirs in kept if same_remark(mine, theirs)), None) if remarks else None
+                    if twin is not None:              # session 158: nor is the same remark printed with small differences
+                        pair = {"kept": {"address": twin["address"], "sha": twin["sha"], "tier": twin["tier"]},
+                                "dropped": {"address": x["address"], "sha": x["sha"], "tier": x["tier"]},
+                                "share": round(remark_share(mine, remark(twin["text"])), 4), "trends": [n]}
+                        old = next((m for m in merged if m["kept"] == pair["kept"] and m["dropped"] == pair["dropped"]), None)
+                        if old is None:
+                            merged.append(pair)
+                        else:
+                            old["trends"].append(n)
+                        continue
                     said.add(x["sha"])
+                    kept.append((x, mine))
                     lines.append(x)
             lines = lines[:MAX_ADDRESSES]
             score = sum(x["points"] for x in lines)
@@ -485,8 +776,10 @@ def judge(store, warehouse, niche, trends, read="pages"):
         row = resolve(rows)
         for sb in row["stated_by"].values():          # which of the sources behind a fact were first fetched by the run that stated it
             sb["new_sources"] = [u for u in sb["sources"] if (store["sources"].get(u) or {}).get("first_run") == sb["run_id"]]
+        name_rule = None if not strict else {"names": [k for k, _ in strict], "written": [" ".join(f) for f in forms], "domains": doms, "counted": counted,
+                                             "not_counted": len(refused), "not_counted_examples": refused[:5]}
         out.append({"key": ckey, "name": cname, "aliases": raw_keys, "row": row, "evidence": uniq, "ties": ties,
-                    "trends": tied, "tie": total, "tier": best_tier, "reason": best_line})
+                    "trends": tied, "tie": total, "tier": best_tier, "reason": best_line, "name_rule": name_rule, "near_duplicates": merged})
     out.sort(key=order_key)
     return out
 

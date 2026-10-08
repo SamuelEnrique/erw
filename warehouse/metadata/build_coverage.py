@@ -103,6 +103,8 @@ TIER_RULES = [
     # sentence found in the document; and the one-line reads a model wrote from that sentence and the text around it
     ("model_extracted", r"^large_load_rules(_internal)?$"),
     ("model_extracted", r"^large_load_rule_reads$"),
+    # session 155: durations the ERW's code computes between dated copies of public queues (no model reads anything)
+    ("derived", r"^large_load_waits$"),
 ]
 # erw.filter(sector=...) vocabulary (session 7)
 SECTORS = ["power", "gas", "oil", "products", "lng", "coal", "uranium", "carbon", "capacity",
@@ -158,6 +160,7 @@ SECTOR_RULES = [
     # session 139: the large-load statements pilot (internal)
     (r"^large_load_statements$", "power"),
     (r"^large_load_rule(s|s_internal|_reads)$", "power;datacenters"),  # session 154: rules in motion for large loads
+    (r"^large_load_waits$", "power;datacenters"),  # session 155: measured waits of large loads, from dated copies of queues (internal)
     (r"^policy_action_tags$", "news"),  # session 154: tags of the policy actions held, by a written rule
     (r"^news_", "news"),
     # session 8

@@ -1,0 +1,397 @@
+{
+ "built_at_utc": "2026-10-08T15:15:39Z",
+ "what": "For FERC and the ten state commissions of large_load_rules: the regulator's own open list that the daily step warehouse/connectors/policy_monitor_refresh.py asks by plain request, whether it is asked at all, and if not the exact reason. A regulator with refreshed false is never requested by the step. The site's copy is site/data/policy/refresh.json (built by warehouse/derived/policy_monitor_site.py, which adds built_at_utc and the facts of the last run). Terms: the class, address and quotation of warehouse/config/large_load_rule_terms.json, word for word. Session 157.",
+ "ceilings": {
+  "requests_a_day": 120,
+  "seconds_between_requests_to_a_host": 1
+ },
+ "scope": "Federal regulators, state commissions and grid operators only; nothing municipal.",
+ "regulators": [
+  {
+   "key": "ferc",
+   "regulator": "Federal Energy Regulatory Commission",
+   "short": "FERC",
+   "agency": "FERC",
+   "jurisdiction": "federal",
+   "state": "",
+   "refreshed": true,
+   "list_name": "The Federal Register's public list of the Commission's documents (the Office of the Federal Register's API; each document's printed copy is at govinfo.gov)",
+   "list_url": "https://www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=federal-energy-regulatory-commission",
+   "reason": null,
+   "refused": [
+    {
+     "host": "ferc.gov",
+     "what": "Every ferc.gov page (news, media, docket pages) answered HTTP 403 with a browser check (\"Just a moment...\"), recorded once on 8 October 2026 and left; eLibrary is a form and was not tried. The Commission's own pages are never requested: its documents are read from the Federal Register."
+    },
+    {
+     "host": "unblock.federalregister.gov",
+     "what": "A page of federalregister.gov (reader-aids/developer-resources/rest-api, asked once on 8 October 2026 for its terms) answered HTTP 302 to unblock.federalregister.gov: not followed. The Register's API answers a plain request and is what the step asks; no terms page of the Register was read."
+    }
+   ],
+   "terms_class": "not quoted",
+   "terms_url": null,
+   "terms_quote": null,
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 1,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "0 list lines read in 10 dockets held; new since 2026-10-06: 0"
+   }
+  },
+  {
+   "key": "txpuc",
+   "regulator": "Public Utility Commission of Texas",
+   "short": "Texas PUC",
+   "agency": "PUCT",
+   "jurisdiction": "state",
+   "state": "TX",
+   "refreshed": true,
+   "list_name": "The Interchange: each project's or docket's filing list, and the docket search by case style",
+   "list_url": "https://interchange.puc.texas.gov/search/filings/",
+   "reason": null,
+   "refused": [],
+   "terms_class": "restricted",
+   "terms_url": "https://www.puc.texas.gov/agency/about/policies/linkpolicy/",
+   "terms_quote": "Although the content of PUCT web sites is available to the public, certain information on the PUCT web sites may be trademarked, service marked, or otherwise protected as the PUCT's intellectual property, and all PUCT content is protected by federal copyright laws.",
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 13,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "936 list lines read in 11 dockets held; new since 2026-10-06: 0"
+   }
+  },
+  {
+   "key": "vascc",
+   "regulator": "Virginia State Corporation Commission",
+   "short": "Virginia SCC",
+   "agency": null,
+   "jurisdiction": "state",
+   "state": "VA",
+   "refreshed": true,
+   "list_name": "The docket search's two public listings: the case list by caption and a case's document list",
+   "list_url": "https://www.scc.virginia.gov/docketsearchapi/breeze/casedetails/getdocuments",
+   "reason": null,
+   "refused": [],
+   "terms_class": "not quoted",
+   "terms_url": "https://www.scc.virginia.gov/accessibility-and-web-policy/",
+   "terms_quote": "Information on the SCC website is public and should not be used for commercial purposes beyond its intended public availability. Permission is granted to make fair use of the contents of the SCC website. Attribution of the source of the information is encouraged.",
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 12,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "1093 list lines read in 9 dockets held; new since 2026-10-06: 0"
+   },
+   "terms_retrieved": "2026-10-08T08:58:09Z",
+   "terms_sha256": "f34ee72c0e4cd0400c1b9c182db249d3bebec23409dc9d477ff212358acb4479",
+   "terms_note": "Read for the first time in session 157 (no pass of session 154 met a terms page of the commission). The class stays 'not quoted', as warehouse/config/large_load_rule_terms.json holds it, until the owner rules on these words: the commission's rows stay in the internal table and their sentences stay withheld."
+  },
+  {
+   "key": "puco",
+   "regulator": "Public Utilities Commission of Ohio",
+   "short": "Ohio PUC",
+   "agency": null,
+   "jurisdiction": "state",
+   "state": "OH",
+   "refreshed": false,
+   "list_name": "The docketing information system (case records)",
+   "list_url": null,
+   "reason": "Not refreshed: the commission's document viewer (dis.puc.state.oh.us/ViewImage.aspx) answers with a Google reCAPTCHA, and its main site puco.ohio.gov answered 404 to six plain requests on 8 October 2026, so no terms page could be read; the daily step requests neither host.",
+   "refused": [
+    {
+     "host": "dis.puc.state.oh.us",
+     "what": "a reCAPTCHA on the document viewer"
+    },
+    {
+     "host": "puco.ohio.gov",
+     "what": "HTTP 404 to six plain requests (the home page, news, the electricity page, the privacy notice)"
+    }
+   ],
+   "terms_class": "not quoted",
+   "terms_url": null,
+   "terms_quote": null,
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 0,
+    "new_rows": 0,
+    "status": "not requested",
+    "detail": "Not refreshed: the commission's document viewer (dis.puc.state.oh.us/ViewImage.aspx) answers with a Google reCAPTCHA, and its main site puco.ohio.gov answered 404 to six plain requests on 8 October 2026, so no terms page could be read; the daily step requests neither host."
+   }
+  },
+  {
+   "key": "iurc",
+   "regulator": "Indiana Utility Regulatory Commission",
+   "short": "Indiana URC",
+   "agency": null,
+   "jurisdiction": "state",
+   "state": "IN",
+   "refreshed": true,
+   "list_name": "The commission's weekly orders page (the orders of the latest conference)",
+   "list_url": "https://www.in.gov/iurc/docketed-cases/find-a-docketed-case/weekly-orders",
+   "reason": null,
+   "refused": [
+    {
+     "host": "iurc.portal.in.gov",
+     "what": "the Online Services Portal's case search is a form inside an application that asks for sign-in to file: not used"
+    }
+   ],
+   "terms_class": "restricted",
+   "terms_url": "https://www.in.gov/core/terms_of_use.html",
+   "terms_quote": "Except as may otherwise be allowed by law (including but not limited to the Indiana Access to Public Records Law), the viewing, printing, or downloading of any content, graphic, form, or document from the Portal grants you only a limited, nonexclusive license for use solely by you for your own personal use, and not for republication, distribution, assignment, sublicense, sale, preparation of derivative works or other use.",
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 1,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "5 list lines read in 7 dockets held; new since 2026-10-06: 0"
+   }
+  },
+  {
+   "key": "papuc",
+   "regulator": "Pennsylvania Public Utility Commission",
+   "short": "Pennsylvania PUC",
+   "agency": null,
+   "jurisdiction": "state",
+   "state": "PA",
+   "refreshed": true,
+   "list_name": "Each docket's own page (its case summary, daily actions and documents)",
+   "list_url": "https://www.puc.pa.gov/docket/",
+   "reason": null,
+   "refused": [],
+   "terms_class": "public record",
+   "terms_url": "https://www.puc.pa.gov/filing-resources/issues-laws-regulations/right-to-know-policies-and-procedures/",
+   "terms_quote": "Persons requesting copies of public records maintained by the Commission must submit a written request to the Commission’s Open Records Officer.",
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 4,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "931 list lines read in 4 dockets held; new since 2026-10-06: 0"
+   }
+  },
+  {
+   "key": "ilcc",
+   "regulator": "Illinois Commerce Commission",
+   "short": "Illinois CC",
+   "agency": null,
+   "jurisdiction": "state",
+   "state": "IL",
+   "refreshed": false,
+   "list_name": "The e-Docket (a docket's own page)",
+   "list_url": null,
+   "reason": "Not refreshed: a docket's own page (icc.illinois.gov/docket/P2025-0677) answered \"Please, no robots or crawlers beyond this point.\" and a CAPTCHA on 8 October 2026; the daily step requests no page of the commission.",
+   "refused": [
+    {
+     "host": "icc.illinois.gov",
+     "what": "\"Please, no robots or crawlers beyond this point.\" and a CAPTCHA on a docket's own page"
+    }
+   ],
+   "terms_class": "public record",
+   "terms_url": "https://icc.illinois.gov/privacy.htm",
+   "terms_quote": "Information collected and received through the Illinois Commerce Commission web site may become public record and therefore subject to disclosure under the Illinois Freedom of Information Act.",
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 0,
+    "new_rows": 0,
+    "status": "not requested",
+    "detail": "Not refreshed: a docket's own page (icc.illinois.gov/docket/P2025-0677) answered \"Please, no robots or crawlers beyond this point.\" and a CAPTCHA on 8 October 2026; the daily step requests no page of the commission."
+   }
+  },
+  {
+   "key": "gapsc",
+   "regulator": "Georgia Public Service Commission",
+   "short": "Georgia PSC",
+   "agency": null,
+   "jurisdiction": "state",
+   "state": "GA",
+   "refreshed": true,
+   "list_name": "A docket's list of filings, as its own page loads it",
+   "list_url": "https://psc.ga.gov/search/service-facts-docket/",
+   "reason": null,
+   "refused": [],
+   "terms_class": "restricted",
+   "terms_url": "https://psc.ga.gov/open-records-requests/",
+   "terms_quote": "Request in writing by any person pursuant to the Georgia Open Records Act, O.C.G.A. Section 50-18-70, et seq.",
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 1,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "100 list lines read in 1 dockets held; new since 2026-10-06: 0"
+   }
+  },
+  {
+   "key": "azcc",
+   "regulator": "Arizona Corporation Commission",
+   "short": "Arizona CC",
+   "agency": null,
+   "jurisdiction": "state",
+   "state": "AZ",
+   "refreshed": true,
+   "list_name": "The eDocket record of a docket (the address the public page loads), for the dockets whose record number the commission's own releases link",
+   "list_url": "https://efiling.azcc.gov/api/eDocket/docket/",
+   "reason": null,
+   "refused": [
+    {
+     "host": "docket.images.azcc.gov",
+     "what": "HTTP 500 to three requests on 8 October 2026: left, not requested"
+    },
+    {
+     "host": "images.edocket.azcc.gov",
+     "what": "a certificate mismatch: not requested"
+    }
+   ],
+   "terms_class": "public record",
+   "terms_url": "https://www.azcc.gov/privacy-policy",
+   "terms_quote": "In other words, much of the information you disclose to us becomes a matter of public record as required by law.",
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 2,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "1 list lines read in 4 dockets held; new since 2026-10-06: 0"
+   }
+  },
+  {
+   "key": "orpuc",
+   "regulator": "Oregon Public Utility Commission",
+   "short": "Oregon PUC",
+   "agency": null,
+   "jurisdiction": "state",
+   "state": "OR",
+   "refreshed": true,
+   "list_name": "The eDockets docket summary (every action, order number and disposition)",
+   "list_url": "https://apps.puc.state.or.us/edockets/DocketNoLayout.asp",
+   "reason": null,
+   "refused": [],
+   "terms_class": "public record",
+   "terms_url": "https://www.oregon.gov/pages/terms-and-conditions.aspx",
+   "terms_quote": "Most information collected by state government is assumed to be open to the public unless specifically exempted.",
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 2,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "391 list lines read in 3 dockets held; new since 2026-10-06: 0"
+   }
+  },
+  {
+   "key": "cpuc",
+   "regulator": "California Public Utilities Commission",
+   "short": "California PUC",
+   "agency": "CPUC",
+   "jurisdiction": "state",
+   "state": "CA",
+   "refreshed": true,
+   "list_name": "A proceeding's decisions list (the decisions tab of its proceeding page)",
+   "list_url": "https://apps.cpuc.ca.gov/apex/f?p=401:59",
+   "reason": null,
+   "refused": [],
+   "terms_class": "allowed",
+   "terms_url": "https://www.cpuc.ca.gov/about-cpuc/conditions-of-use",
+   "terms_quote": "In general, information presented on this web site, unless otherwise indicated, is considered in the public domain. It may be distributed or copied as permitted by law.",
+   "last_run": {
+    "at_utc": "2026-10-08T15:14:13Z",
+    "requests": 3,
+    "new_rows": 0,
+    "status": "ok",
+    "detail": "18 list lines read in 7 dockets held; new since 2026-10-06: 0"
+   }
+  }
+ ],
+ "federal_feeds": [
+  {
+   "agency": "FERC",
+   "name": "Federal Energy Regulatory Commission",
+   "list_name": "Federal Register API: rules, proposed rules and notices (warehouse/connectors/policy_sources.py, daily)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "FERC",
+   "name": "Federal Energy Regulatory Commission",
+   "list_name": "FERC's own news and eLibrary pages",
+   "refreshed": false,
+   "reason": "Not refreshed: FERC's own news and eLibrary pages answer with a browser check; FERC's actions come from the Federal Register."
+  },
+  {
+   "agency": "DOE",
+   "name": "Department of Energy",
+   "list_name": "Federal Register API: rules, proposed rules and notices (warehouse/connectors/policy_sources.py, daily)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "DOE",
+   "name": "Department of Energy",
+   "list_name": "DOE newsroom feed (www.energy.gov/rss/newsroom.xml, daily)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "EPA",
+   "name": "Environmental Protection Agency",
+   "list_name": "Federal Register API: rules, proposed rules and notices on energy subjects (warehouse/connectors/policy_sources.py, daily)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "NRC",
+   "name": "Nuclear Regulatory Commission",
+   "list_name": "Federal Register API: rules, proposed rules and notices (warehouse/connectors/policy_sources.py, daily)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "NRC",
+   "name": "Nuclear Regulatory Commission",
+   "list_name": "NRC news releases feed (www.nrc.gov/public-involve/rss?feed=news, daily)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "BLM",
+   "name": "Bureau of Land Management",
+   "list_name": "Federal Register API: rules, proposed rules and notices on energy subjects (warehouse/connectors/policy_sources.py, daily)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "Interior",
+   "name": "Department of the Interior",
+   "list_name": "Federal Register API: rules, proposed rules and notices on energy subjects (warehouse/connectors/policy_sources.py, daily)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "Treasury",
+   "name": "Department of the Treasury",
+   "list_name": "Federal Register API: rules, proposed rules and notices on energy subjects (warehouse/connectors/policy_sources.py, daily; added in session 157)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "IRS",
+   "name": "Internal Revenue Service",
+   "list_name": "Federal Register API: rules, proposed rules and notices on energy subjects (warehouse/connectors/policy_sources.py, daily; added in session 157)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "PUCT",
+   "name": "Public Utility Commission of Texas",
+   "list_name": "The commission's news page (www.puc.texas.gov/agency/resources/pubs/news/, daily)",
+   "refreshed": true,
+   "reason": null
+  },
+  {
+   "agency": "CPUC",
+   "name": "California Public Utilities Commission",
+   "list_name": "The commission's news list (www.cpuc.ca.gov/news-and-updates/all-news, daily)",
+   "refreshed": true,
+   "reason": null
+  }
+ ]
+}

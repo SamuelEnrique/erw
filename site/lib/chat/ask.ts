@@ -13,6 +13,7 @@ import spec from "./spec.json";
 import { runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
+import { readerEffort, rulePlanOn } from "./switches";
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
@@ -89,19 +90,26 @@ export type Profile = {
   tailOnly?: (problems: string[]) => boolean;
   mend?: (draft: Draft, results: ToolRecord[]) => Draft;
   /** session 148: the read a rule writes for a question of a known shape, with no reading turn by the model; null for
-   * every question the rule does not account for word by word (lib/chat/plan.ts). Used only under ASK_RULE_PLAN=on */
+   * every question the rule does not account for word by word (lib/chat/plan.ts). Used unless ASK_RULE_PLAN=off (session 156) */
   plan?: (question: string, today: string, context: unknown, history?: unknown) => { shape: string; calls: { name: string; input: Record<string, unknown> }[] } | null;
   /** session 148: the first message of the loop when the rule's read did not settle the answer: the question, and what was already read */
   resume?: (opening: string, results: ToolRecord[]) => string;
+  /** session 156: the tools as the model is shown them, after the profile's own are added: a profile may give one of the
+   * warehouse's tools more arguments (lib/chat/forms.ts gives query and compare three). The tool that runs is the same */
+  retool?: (tools: Anthropic.Tool[]) => Anthropic.Tool[];
 };
 
 /** Session 148: the effort the reading turn may be given by the server (ASK_READER_EFFORT); anything else is ignored. */
 export const READER_EFFORTS = ["low", "medium", "high"];
 /** The effort of one model call. The reading turn (the first turn of a profile that names a planner: the call that
- * decides what to read) takes ASK_READER_EFFORT when the server sets one of READER_EFFORTS; every other call, the
- * writing turn among them, is as it was: ASK_WRITER_EFFORT when set, else the profile's or the spec's own. */
+ * decides what to read) takes the reader's effort when it is one of READER_EFFORTS; every other call, the writing turn
+ * among them, is as it was: ASK_WRITER_EFFORT when set, else the profile's or the spec's own.
+ * Session 156, the owner's ruling of 8 October 2026: the reader's effort is "low" unless the server's ASK_READER_EFFORT
+ * says otherwise ("off", or any value that is not a setting, leaves the reading turn as every other call). The default
+ * lives in lib/chat/switches.ts and nowhere else. */
 export function effortOf(role: "planner" | "writer", own: string, env: Record<string, string | undefined> = process.env): string {
-  if (role === "planner" && env.ASK_READER_EFFORT && READER_EFFORTS.includes(env.ASK_READER_EFFORT)) return env.ASK_READER_EFFORT;
+  const reader = readerEffort(env);
+  if (role === "planner" && READER_EFFORTS.includes(reader)) return reader;
   return env.ASK_WRITER_EFFORT || own;
 }
 
@@ -249,6 +257,8 @@ export async function ask(question: string, today = new Date().toISOString().sli
       // the writer's lowest thinking setting, where the profile or the server asks for it and the model takes it
       ...(!opts.thinking && /sonnet-5-5/.test(model) && (process.env.ASK_THINKING || profile?.thinking) === "between_tools" ? { thinking: { type: "between_tools" } } : {}),
     };
+    // session 156: a profile may show the model one of the warehouse's tools with more arguments (the same tool runs)
+    if (profile?.retool) params.tools = profile.retool(params.tools as Anthropic.Tool[]);
     if (tools === "absent") { delete params.tools; delete params.tool_choice; }
     const tCall = Date.now();
     let firstText: number | null = null, tried = false, wordsMs: number | null = null;
@@ -378,14 +388,15 @@ export async function ask(question: string, today = new Date().toISOString().sli
     return null;
   };
 
-  // Session 148, a plan made by rule (ASK_RULE_PLAN=on on the server; unset, nothing here runs). For a question whose
+  // Session 148, a plan made by rule. Session 156, the owner's ruling of 8 October 2026: it is on by default
+  // (lib/chat/switches.ts holds the default; ASK_RULE_PLAN=off on the server turns it off). For a question whose
   // every word the profile's rule accounts for (lib/chat/plan.ts), the read is written by code and made at once: there
   // is no reading turn by the model. The writer then writes from the rows, in the same writing turn and under the same
   // checks as the fast path: the numbers, the cited tables, the form, the series against the rows fetched. When that
   // turn does not settle the answer (a row is missing, the writer says the results do not hold it), nothing is shown and
   // the question goes to the model with its tools as it always did, told what was already read; the calls the rule made
   // count toward the limit and are never made twice.
-  if (profile?.plan && profile.writing && profile.resume && process.env.ASK_RULE_PLAN === "on") {
+  if (profile?.plan && profile.writing && profile.resume && rulePlanOn()) {
     const tRule = Date.now();
     const plan = profile.plan(question, today, context, opts.history);
     if (plan && plan.calls.length && plan.calls.length <= spec.max_tool_calls) {

@@ -13,6 +13,8 @@ import { AskErcot } from "./AskErcot";
 // checked against the rows fetched.
 // Session 137: the box and the answer panel are one component (components/ask/AskPanel.tsx); what the page said about
 // how answers are made is in docs/methods/ask_ercot.md, linked under the box.
+// Session 156: the line under the title said that the panel spoke for one grid only. Since session 153 the tool answers
+// for the other grids what four pages show, so the line now says that (as a refusal's closing words do, lib/chat/ready.ts).
 export const metadata: Metadata = { title: "Ask ERCOT", robots: { index: false, follow: false } };
 
 export default async function AskErcotPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
@@ -23,7 +25,8 @@ export default async function AskErcotPage({ searchParams }: { searchParams: Pro
     <>
       <h1 className="mb-1 text-3xl">Ask ERCOT</h1>
       <p className="mb-4 max-w-3xl text-sm">
-        A question about the Texas grid, answered from the ERCOT tables of the warehouse and the ERCOT page&apos;s own text. This panel speaks for ERCOT only;
+        A question about the Texas grid, answered from the ERCOT tables of the warehouse and the ERCOT page&apos;s own text. For the other grids it answers
+        only what four pages show: curtailment, what a datacenter pays, the capture price and the resource layers;
         {" "}<Link href="/ask">the general chat</Link> covers the whole warehouse.
       </p>
       <AskErcot initial={q} context={context} />

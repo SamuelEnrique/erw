@@ -33,7 +33,10 @@ globalThis.fetch = async (url) => {
     const table = q.table_name.replace(/^eq\./, ""), variable = (q.variable ?? "").replace(/^eq\./, "");
     if (!FIX.rows.some((r) => r.table_name === table)) throw new Error(`a read of ${table} that was not recorded`);
     const [, lo] = /ts_utc\.gte\.([^,)]+)/.exec(q.and ?? "") ?? [], [, hi] = /ts_utc\.lt\.([^,)]+)/.exec(q.and ?? "") ?? [];
-    const entity = /entity\.eq\."([^"]+)"/.exec(q.or ?? "")?.[1];
+    // session 156: the query asks for a series by its entity alone, a term of "and" (it was "entity or node" in "or");
+    // a read by node, which the tool makes only when no row has the entity, finds nothing here (the rows hold no node)
+    const entity = /entity\.eq\."([^"]+)"/.exec(q.and ?? q.or ?? "")?.[1];
+    if (/node\.eq\./.test(q.and ?? "")) return new Response("[]", { status: 200, headers: { "content-type": "application/json" } });
     body = FIX.rows.filter((r) => r.table_name === table && (!variable || r.variable === variable) && (!entity || r.entity === entity) && (!lo || Date.parse(r.ts_utc) >= Date.parse(lo)) && (!hi || Date.parse(r.ts_utc) < Date.parse(hi)))
       .sort((x, y) => (x.ts_utc < y.ts_utc ? -1 : x.ts_utc > y.ts_utc ? 1 : 0)).map((r) => ({ t: r.ts_utc, v: r.value, entity: r.entity, variable: r.variable, unit: r.unit }));
   } else throw new Error(`a request the fixture does not hold: ${u.pathname}`);
@@ -42,7 +45,7 @@ globalThis.fetch = async (url) => {
 
 const pf = await import("../lib/chat/pagefiles.ts");
 const links = await import("../lib/chat/pagelinks.ts");
-const { ercotProfile } = await import("../lib/chat/ercot.ts");
+const { ercotProfile, profile153 } = await import("../lib/chat/ercot.ts");
 const { runTool } = await import("../lib/chat/tools.ts");
 const cap = await import("../lib/capture.ts");
 const dc = await import("../lib/datacenter.ts");
@@ -79,7 +82,7 @@ await test("the ten tables of the live set are in the panel's scope, each with i
   for (const t of ["iso_curtailment_monthly", "caiso_curtailment_daily", "spp_curtailment_daily", "caiso_curtailment_profile"]) assert.deepEqual(pf.PAGES_FILTERS[t], {});
   assert.deepEqual(pf.PAGES_FILTERS.eia930_demand_growth, { entity: "eia930:ERCO" });
   assert.ok(pf.PAGES_FILTERS.interconnection_queue_summary.entity.every((e) => e.startsWith("queue:ercot:")));
-  assert.ok(profile.system.endsWith(guide));
+  assert.ok(profile.system.includes(guide) && profile153().system.endsWith(guide));   // session 156: the guide is whole in the served prompt, and one block follows it (it was the end)
 });
 
 await test("the tool page_file is offered beside the others, and each of its views is in the guide with what it is not", () => {
@@ -127,12 +130,18 @@ await test("each file a view reads is named as a source with its page, and may b
 await test("ASK_PAGES=off leaves the panel as session 148 left it", () => {
   assert.equal(pf.pagesOffered(undefined), true);
   assert.equal(pf.pagesOffered("off"), false);
+  // session 156: the profile the route serves is this session's with one layer more (ercotProfile); what session 153
+  // added, and what its switch takes away, is held on the profile as that session left it (profile153)
+  const on = profile153();
+  assert.ok(on.system.endsWith(guide));
   const before = process.env.ASK_PAGES;
   process.env.ASK_PAGES = "off";
   try {
-    const off = ercotProfile();
-    assert.equal(off.system, profile.system.slice(0, -guide.length));
+    const off = profile153();
+    assert.equal(off.system, on.system.slice(0, -guide.length));
     assert.ok(!off.system.includes("page_file") && !off.system.includes("iso_curtailment_monthly"));
+    const served = ercotProfile();                                        // and the served profile names no page's source either
+    assert.ok(served.system.startsWith(off.system) && !served.system.includes("page_file") && pf.PAGES_TABLES.every((t) => !served.system.includes(t)));
     assert.deepEqual(off.tools.map((t) => t.name), ["page_figures"]);
     assert.equal(off.scope.tables.length, profile.scope.tables.length - pf.PAGES_TABLES.length);
     assert.ok(pf.PAGES_TABLES.every((t) => !off.scope.tables.includes(t)));
@@ -288,7 +297,11 @@ await test("a resource layer gives its unit, publisher, vintage and range, the v
   const all = pf.pageFile({ view: "layers" });
   assert.equal(all.layers_held, m.layers.length);
   for (const l of m.layers) { const row = all.layers.find((x) => x.layer === l.id); assert.ok(row && row.unit === (l.unit ?? "") && row.publisher === l.publisher && row.vintage === l.vintage, l.id); }
-  assert.ok(all.not_held.some((x) => x.layer === "hydropower_potential"));
+  // session 159: hydropower is held (two layers of Oak Ridge National Laboratory's), so it is no longer among what is
+  // not held; what the list of layers names as not held, each with its reason, is what this view says is not held
+  assert.deepEqual(all.not_held, (m.missing ?? []).map((x) => ({ layer: x.id, why: x.reason })));
+  assert.ok(all.not_held.some((x) => x.layer === "wind_gross_capacity_factor" && x.why.includes("key issued to a named person")));
+  assert.ok(!all.not_held.some((x) => /hydro/.test(x.layer)) && ["hydropower_npd", "hydropower_nsd"].every((id) => all.layers.some((x) => x.layer === id && x.unit === "MW" && x.publisher.startsWith("Oak Ridge National Laboratory"))));
   const one = pf.pageFile({ view: "layer", layer: "wind_capacity_factor" });
   assert.ok(one.what_it_is_not.includes("it is not named one") && one.is_not.includes("not a gross capacity factor"));
   // the cell under a place, by the page's own decoder (lib/resources.ts), at the finest level the page draws
@@ -307,7 +320,11 @@ await test("a resource layer gives its unit, publisher, vintage and range, the v
   const names = pf.pageFile({ view: "features", layer: "oil_gas_basins" });
   assert.deepEqual(names.result.map((r) => r.name), basins.map((b) => b.properties.name));
   assert.ok(pf.pageFile({ view: "features", layer: "wind_speed_100m" }).error.includes("is a grid"));
-  assert.ok(pf.pageFile({ view: "layer", layer: "hydropower" }).error.startsWith("no resource layer"));
+  // session 159: "hydropower" is part of two layers' names now, so it finds one (the first the list holds); a name that
+  // is no layer's, "tidal", is still answered with the layers there are
+  assert.equal(pf.pageFile({ view: "layer", layer: "hydropower" }).layer, "hydropower_npd");
+  assert.equal(pf.pageFile({ view: "layer", layer: "hydropower_nsd" }).unit, "MW");
+  assert.ok(pf.pageFile({ view: "layer", layer: "tidal" }).error.startsWith("no resource layer"));
 });
 
 await test("a result with rows is marked like a query's and charted from its own rows; a figure alone is not", async () => {
@@ -396,9 +413,13 @@ await test("the judge's added rules: a number at its own precision, a source, a 
   assert.deepEqual(judge(c, chart), []);
   assert.ok(judge(c, { ...chart, series: [{ ...chart.series[0], rows: rows.slice(1) }] }).length >= 1);
   const r = SET.questions.find((x) => x.kind === "refuse" && x.say === "held, not shown");
-  assert.deepEqual(judge(r, { status: "not_in_warehouse", answer: "ISO-NE's monthly figure is held, not shown: its terms restrict duplication.", series: [], citations: [] }), []);
-  assert.equal(judge(r, { status: "not_in_warehouse", answer: "Another grid: see /grid/isone.", series: [], citations: [] }).length, 1);
-  assert.equal(judge(r, { status: "answered", answer: "held, not shown", series: [], citations: [] }).length, 1);
+  // session 156: a refusal about another grid must also close in the tool's own name (its fields close and never); the
+  // answer that passed here before closes with no such words, and now fails for that one reason
+  const CLOSING_156 = " Ask ERCOT answers for the Texas grid, and for the other grids only what four pages of this site show: curtailment and free energy, what a datacenter pays, the capture price and the resource layers.";
+  assert.deepEqual(judge(r, { status: "not_in_warehouse", answer: `ISO-NE's monthly figure is held, not shown: its terms restrict duplication.${CLOSING_156}`, series: [], citations: [] }), []);
+  assert.equal(judge(r, { status: "not_in_warehouse", answer: "ISO-NE's monthly figure is held, not shown: its terms restrict duplication.", series: [], citations: [] }).length, 1);
+  assert.equal(judge(r, { status: "not_in_warehouse", answer: `Another grid: see /grid/isone.${CLOSING_156}`, series: [], citations: [] }).length, 1);
+  assert.equal(judge(r, { status: "answered", answer: `held, not shown.${CLOSING_156}`, series: [], citations: [] }).length, 1);
   // a question of the 100 carries none of the added fields: its verdict is the rule of its kind and nothing more
   assert.ok(OLD.questions.every((x) => !("expect" in x) && !("cite" in x) && !("series_has" in x) && !("must" in x) && !("series_rows" in x) && !("expect_all" in x)));
   assert.deepEqual(judge(OLD.questions.find((x) => x.id === "s01"), { status: "answered", answer: "It was 31.2 USD/MWh.", series: [], citations: [{ table: "ercot_hub_prices_daily" }] }), []);

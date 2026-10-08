@@ -199,7 +199,11 @@ def check_cap():
     """Refuse a call once the session's ledger total reached ERW_SPEND_CAP_USD (when set)."""
     cap = os.environ.get("ERW_SPEND_CAP_USD", "").strip()
     if cap:
-        spent = session_total()
+        # Session 157: the ledger is read under the same lock its writer holds. With several threads on Windows, one
+        # thread reading the file here while another replaced it in record() made the replace fail (PermissionError)
+        # after the call had been paid for: the call's row and its answer were lost (one call, 8 October 2026).
+        with _LOCK:
+            spent = session_total()
         if spent >= float(cap):
             raise SpendCapReached(f"session {session()} has spent USD {spent:.4f}, at or over the cap "
                                   f"USD {float(cap):.2f} (ERW_SPEND_CAP_USD); no further model call")

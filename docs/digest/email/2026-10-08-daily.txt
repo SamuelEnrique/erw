@@ -1,0 +1,49 @@
+ERW's Energy Digest, 2026-10-08
+
+Top 5 of the day
+
+1. Shell advances LNG Canada growth plan with Phase 2 final investment decision
+   An LNG FID adds Pacific-coast export capacity and signals long-term gas demand from Asia. parties: Shell; LNG Canada.
+   JPT Homepage: https://news.google.com/rss/articles/CBMif0FVX3lxTE9lUUtaVWNrZDZIb1FpbzVNRFNGRFpGOHY1d0pLbnJDV3c2WUJBUUhnZUJLRzJhWndJc0l4a3Z5U2pUYW0tZnNlTTQtLTljYjFBRDI1TjRWbEIxTV94ak1hbjhpQ18xSlNudjBicmJWLTB5WTJIQTBCcnBaeE82WVE?oc=5
+2. Google and Constellation sign 20-year PPA backing 890 MW of nuclear uprates at 11 PJM reactors
+   Customer-funded uprates at 11 PJM reactors add firm capacity by 2032 without new plants. 890 MW; $4.3 billion; parties: Google; Constellation Energy; PJM Interconnection.
+   POWER Magazine: https://www.powermag.com/google-deal-backs-890-mw-of-constellation-nuclear-uprates-at-11-pjm-reactors/
+3. Sesterce to invest $10bn in 600MW AI data center campus in Jämsä, Finland
+   A 600 MW load with a secured anchor customer adds sizable demand to the Finnish grid. 600 MW; $10bn; parties: Sesterce.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/sesterce-to-invest-10bn-in-600mw-ai-data-center-campus-in-j%C3%A4ms%C3%A4-finland/
+4. BKV signs $800MM Texas power deal, a step toward a hyperscaler PPA
+   Gas-fired power transaction of hundreds of millions of dollars signals developing offtake for large loads in Texas. $800MM; parties: BKV.
+   Hart Energy: https://news.google.com/rss/articles/CBMinAFBVV95cUxPN19qMHA5NDc0X25sQk1NVHREQWxqNm40eFpoTWNzTEVvbl9TUVQ3VEF3aGNYbW95OXhUSFVSSjR6c0tKbXdSNmpadHRtMFhtXzdJQXNoR0lTdEkzM0UyTlJSZzVzU3R0eFZsTWMyVDhmbE9zVDA1dm5HTTJUTVdNd0Y5VW1udjZzbGcta3J5aUh6eUFWMHZDenhSaGo?oc=5
+5. Emera to acquire Canadian Utilities for $10B; merger enterprise value is around $50.47 billion
+   Largest merger between two Canadian companies, combining utility assets at roughly $50.47 billion enterprise value, reshaping Canadian utility ownership. $10B; parties: Emera; Canadian Utilities.
+   Rigzone: https://www.rigzone.com/news/emera_to_acquire_canadian_utilities_for_10b-08-oct-2026-184801-article/?rss=true
+
+ERW's Numbers Today
+
+Day-ahead power was dearest at CAISO's TH_SP15_GEN-APND, 67.60 USD/MWh, and cheapest at NYISO's N.Y.C., 39.86, on 2026-10-07; MISO's INDIANA.HUB had no prices in the warehouse and PJM has no price table. The highest real-time price was 371.00 USD/MWh at ERCOT's HB_WEST, in the interval starting 2026-10-07 18:45 local. Henry Hub closed at 3.03 USD/MMBtu on 2026-10-06, with WTI at 96.24 USD/bbl and Brent at 125.44 USD/bbl.
+Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
+  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-10-07; Average USD/MWh: 57.39; Table: [1]
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-10-07; Average USD/MWh: 67.60; Table: [1]
+  ISO: NYISO; Hub or zone: N.Y.C.; Operating day: 2026-10-07; Average USD/MWh: 39.86; Table: [2]
+  ISO: MISO; Hub or zone: INDIANA.HUB; Operating day: 2026-10-07; Average USD/MWh: not in the warehouse (0 of 24 hours); Table: [1]
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-10-07; Average USD/MWh: 52.63; Table: [1]
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-10-07; Average USD/MWh: 36.87; Table: [3]
+  ISO: PJM; Average USD/MWh: no PJM price table (no API key)
+Highest real-time price, yesterday: 371.00 USD/MWh at HB_WEST (ERCOT), interval starting 2026-10-07 18:45 local (2026-10-07 23:45 UTC), PT15M spp_rtm [4].
+Latest fuel spot closes (EIA, trading dates):
+- Henry Hub natural gas: 3.03 USD/MMBtu on 2026-10-06 [5]
+- WTI Cushing crude: 96.24 USD/bbl on 2026-10-06 [5]
+- Brent crude: 125.44 USD/bbl on 2026-10-06 [5]
+Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] iso_rtm_hub_prices (caiso:PRC_INTVL_LMP, ercot:NP6-785-ER, ercot:NP6-905-CD, miso:rt_lmp_final, miso:rt_lmp_prelim, spp:RTBM-LMP-SL); real-time tables read: iso_rtm_hub_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices; [5] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+ERW's Fun Fact
+
+The lowest daily WTI crude at Cushing spot price in EIA's series, which starts on 1986-01-02, was -36.98 USD/bbl on 2020-04-20: below zero, sellers paid buyers to take the oil.
+Sources: eia_fuel_spot_prices (U.S. Energy Information Administration (EIA)).
+
+ERW
+
+All of ERW's Energy Digest: https://erw-flame.vercel.app/digest/2026-10-08
+How this is made: https://erw-flame.vercel.app/about#digest
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.

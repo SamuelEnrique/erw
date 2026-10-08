@@ -1,0 +1,276 @@
+<html>
+<head>
+<title>Federal Register, Volume 90 Issue 247 (Wednesday, December 31, 2025)</title>
+</head>
+<body><pre>
+[Federal Register Volume 90, Number 247 (Wednesday, December 31, 2025)]
+[Notices]
+[Pages 61435-61438]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2025-24101]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket No. 50-171; NRC-2025-1141]
+
+
+Constellation Energy Generation, LLC; Peach Bottom Atomic Power 
+Station, Unit 1; Exemption
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice; issuance.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC, or Commission) 
+has issued an exemption in response to a request from Constellation 
+Energy Generation, LLC to allow the completion of decommissioning 
+beyond 60 years of permanent cessation of operations for the Peach 
+Bottom Atomic Power Station, Unit 1.
+
+DATES: The exemption was issued on December 23, 2025.
+
+ADDRESSES: Please refer to Docket ID NRC-2025-1141 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2025-1141. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-10003; email: <a href="/cdn-cgi/l/email-protection#b0f2c2d9d4d7d5c49ef3c5c2c2d1def0dec2d39ed7dfc6"><span class="__cf_email__" data-cfemail="30724259545755441e73454242515e705e42531e575f46">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual(s) listed in the FOR FURTHER 
+INFORMATION CONTACT section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#80d0c4d2aed2e5f3eff5f2e3e5c0eef2e3aee7eff6"><span class="__cf_email__" data-cfemail="bbebffe995e9dec8d4cec9d8defbd5c9d895dcd4cd">[email&#160;protected]</span></a>. The ADAMS accession number for each document 
+referenced (if it is available in ADAMS) is provided the first time 
+that it is mentioned in this document.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#164652443844736579636475735678647538717960"><span class="__cf_email__" data-cfemail="18485c4a364a7d6b776d6a7b7d58766a7b367f776e">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: Tanya Hood, Office of Nuclear Material 
+Safety and Safeguards, U.S. Nuclear Regulatory Commission, Washington 
+DC 20555-0001; telephone: 301-415-1387; email: <a href="/cdn-cgi/l/email-protection#6e3a0f00170f402601010a2e001c0d40090118"><span class="__cf_email__" data-cfemail="1145707f68703f597e7e75517f63723f767e67">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION: The text of the exemption is attached.
+
+    Dated: December 29, 2025.
+
+    For the Nuclear Regulatory Commission.
+Tanya Hood,
+Project Manager, Reactor Decommissioning Branch, Division of 
+Decommissioning, Uranium Recovery and Waste Programs, Office of Nuclear 
+Material Safety and Safeguards.
+
+Attachment--Exemption.
+
+NUCLEAR REGULATORY COMMISSION
+
+Docket No. 50-171
+
+Constellation Energy Generation, LLC
+
+Peach Bottom Atomic Power Station, Unit 1 Exemption
+
+I. Background
+
+    By letter dated October 20, 2023 (Agencywide Documents Access and 
+Management System Accession No. ML23293A305), as supplemented by 
+letters dated May 13, 2024, and August 1, 2024 (ML24134A179 and 
+ML24214A323, respectively), Constellation Energy Generation, LLC (the 
+licensee), submitted a request for Peach Bottom Atomic Power Station 
+Unit 1 (Peach Bottom Unit 1) that would allow the completion of 
+decommissioning for Peach Bottom Unit 1 beyond 60 years of permanent 
+cessation of operations.
+    The Peach Bottom Atomic Power Station is in York County, PA and is 
+composed of three reactor licenses: Peach Bottom Unit 1 (License No. 
+DPR-12), which is presently in a long-term storage condition for a 
+permanently shut down nuclear power plant, referred to as SAFSTOR and 
+is the subject of this request, along with Peach Bottom Unit 2 (DPR-44) 
+and Peach Bottom Unit 3 (DPR-56), which are actively operating. Peach 
+Bottom Unit 1 is licensed pursuant to Section 104(b) of the Atomic 
+Energy Act of 1954, as amended, and Title 10 of the Code of Federal 
+Regulations (10 CFR) Part 50, Paragraph 50.82(a)(2) to possess but not 
+operate the facility. Peach Bottom Unit 1 was a high-temperature gas-
+cooled reactor (HTGR) that permanently ceased operations on October 31, 
+1974. All Peach Bottom Unit 1 spent fuel containing special nuclear 
+material was removed from the site and shipped to a U.S. Department of 
+Energy facility in Idaho. Peach Bottom Unit 1 has been monitored and 
+controlled in SAFSTOR in accordance with the Facility Operating 
+License, Technical Specifications as amended, and Decommissioning Plan.
+
+II. Request/Action
+
+    The regulation at 10 CFR 50.82(a)(3) requires power reactor 
+licensees to complete decommissioning within 60 years of permanent 
+cessation of operations. The regulation provides that completion of 
+decommissioning beyond 60 years will be considered by the U.S. Nuclear 
+Regulatory Commission (NRC or Commission) only when necessary to 
+protect public health and safety, with site-specific factors considered 
+when reviewing such requests, including the presence of other nuclear 
+facilities at the site.
+    The licensee requested an alternative to the 60 year 
+decommissioning schedule requirements in 10 CFR 50.82(a)(3) to 
+decommission Peach Bottom Unit 1 to coincide with the eventual 
+decommissioning of Peach Bottom Units 2 and 3. The licensee stated its 
+alternative request ``meets the evaluation factors in 10 CFR 
+50.82(a)(3) due to the potential impact on public health and safety 
+with other nuclear facilities present at the site'' and that ``[t]his 
+request is to allow [the licensee] to complete the decommissioning of 
+[Peach Bottom], Unit 1, in a time frame more suitable with the 
+decommissioning of [Peach Bottom], Units 2 and 3, in order to reduce 
+the overall risk and increase the margin to public health and safety.''
+    The licensee is requesting that the decommissioning schedule for 
+Peach
+
+[[Page 61436]]
+
+Bottom Unit 1 be completed no later than 20 years following the 
+permanent shutdown of Peach Bottom Units 2 and 3, pending a decision to 
+modify the expiration dates for Peach Bottom's subsequent renewed 
+facility operating licenses DPR-44 and DPR-56 for Peach Bottom Units 2 
+and 3, per an application dated July 10, 2018 (ML18193A689). On March 
+5, 2020, the NRC issued subsequent renewed facility operating licenses 
+for Peach Bottom (ML20010F285), which included the expiration dates of 
+August 8, 2053, for Peach Bottom Unit 2 and July 2, 2054, for Peach 
+Bottom Unit 3. On February 2022, in CLI-22-04 (ML22055A557), the 
+Commission determined that the environmental review associated with 
+that licensing action was incomplete and therefore directed the NRC 
+staff to complete this environmental review and to change the licenses' 
+expiration dates to match the expiration dates of the previous licenses 
+until the completion of the environmental review. Therefore, on March 
+25, 2022 (ML22073A193), in accordance with the Commission's direction, 
+the NRC staff modified the expiration dates of these subsequent renewed 
+licenses to reflect the end dates of the previous renewed licenses. On 
+September 30, 2025 (ML25209A020), the NRC staff issued its decision to 
+restore the end dates of the subsequent renewed licenses for Peach 
+Bottom Atomic Power Station, Units 2 and 3 to August 8, 2053, and to 
+July 2, 2054, respectively.
+    To support its review of the request for an alternative 
+decommissioning schedule, the NRC staff conducted a regulatory audit of 
+the application onsite at the Peach Bottom Atomic Power Station. The 
+NRC staff issued an audit plan to the licensee on March 28, 2024 
+(ML24088A318), which provided the scope of the audit.
+
+III. Discussion
+
+    Under 10 CFR 50.82(a)(3), the Commission will approve an 
+alternative that provides for completion of decommissioning beyond 60 
+years of permanent cessation of operations only when necessary to 
+protect public health and safety. In evaluating whether an alternative 
+is necessary, the regulations provide that the NRC will consider 
+factors such as unavailability of waste disposal capacity; or other 
+site-specific factors affecting the licensee's capability to carry out 
+decommissioning, including presence of other nuclear facilities at the 
+site. Prior to this request for an alternative decommissioning 
+schedule, Peach Bottom, Unit 1, was required to complete 
+decommissioning by October 31, 2034.
+    The NRC staff's approach in evaluating the 10 CFR 50.82(a)(3) 
+criteria is documented, in part, in SECY-24-0073, ``Site-Specific 
+Considerations for Review of Requests to Complete Power Reactor 
+Decommissioning Beyond 60 Years from Permanent Cessation of 
+Operations,'' dated September 3, 2024 (ML24100A760). In conducting the 
+Peach Bottom review, which was the first time the NRC staff applied the 
+approach outlined in the SECY, the NRC staff remained mindful of the 
+approach outlined, and also applied additional risk insights and site-
+specific considerations, as explained in SECY-25-0095, ``Staff's 
+Planned Approval of Peach Bottom Atomic Power Station Unit 1 Exemption 
+Request for Alternative Decommissioning Schedule,'' dated December 10, 
+2025 (ML25150A317). The NRC has determined that the licensee has met 
+the ``only when necessary to protect public health and safety'' 
+criterion because the licensee showed that Peach Bottom Unit 1 
+decommissioning activities could result in site-specific impacts on 
+public health and safety due to the increased risk to systems and 
+structures supporting the adjacent operating Peach Bottom Units 2 and 
+3.
+
+Presence of Other Nuclear Facilities
+
+    The licensee's request for an alternative decommissioning schedule 
+was based on the potential impacts to public health and safety from 
+decommissioning Peach Bottom Unit 1 while there are two other operating 
+nuclear facilities at the site. In support of its exemption request, 
+the licensee noted that many portions of the original Peach Bottom Unit 
+1 facilities have been refurbished to support ongoing power operations 
+support functions at Peach Bottom Units 2 and 3. Specifically, the 
+Peach Bottom Technical Support Center (TSC) and Control Room Simulator 
+support regulatory required functions for the operating units at the 
+site for Emergency Planning and Operations Training, respectively. The 
+licensee also indicated that there are interconnectivity issues between 
+the operational support facilities (i.e., the TSC, Control Room 
+Simulator, and administration building) and portions of Peach Bottom 
+Unit 1 site. The buildings housing these functions are not within 
+radiological areas of Peach Bottom Unit 1, and thus, are not within the 
+scope of decommissioning for license termination. However, the licensee 
+stated that portions of the facilities are physically attached to the 
+Peach Bottom Unit 1 containment structure, which is within a 
+radiologically controlled area boundary and which the licensee 
+indicates would need to be decommissioned to terminate the Peach Bottom 
+Unit 1 license. Therefore, the licensee states that decommissioning the 
+attached containment structure could impact the TSC and Control Room 
+Simulator, and their use by Peach Bottom Units 2 and 3, due to their 
+current location on the Peach Bottom Unit 1 footprint near the Peach 
+Bottom Unit 1 reactor.
+    Additionally, the licensee notes other connectivity impacts of 
+decommissioning Peach Bottom Unit 1 while Peach Bottom Units 2 and 3 
+continue to operate. The Peach Bottom Unit 1 footprint that must be 
+decommissioned does not have any systems, structures, or components 
+(SSCs) important to safety that are shared between Peach Bottom Unit 1 
+and Peach Bottom Units 2 and 3. However, the licensee's audit response 
+explains that accessing the systems for removal in the containment 
+structure at Peach Bottom Unit 1 would pose challenges due to the 
+proximity and location of the administration building. In its audit 
+response and with regard to impacts, the licensee explained that, 
+``while the adjacent administrative/training buildings to the east and 
+south are not radiologically controlled or within the scope of 
+decommissioning for license termination, elimination of these 
+interfacing interferences following [Peach Bottom Units 2 and 3] 
+operations would improve the access and ability to perform safe 
+decommissioning of the containment building and internal SSCs. Physical 
+space for an adequate confinement structure and associated engineered 
+controls, including ventilation and radiological monitoring, are 
+critical aspects of performing decommissioning activities related to 
+the graphite components within the reactor vessel of this HTGR.''
+    Also, the containment building at the Peach Bottom Unit 1 facility 
+contains the radioactive reactor vessel, reactor internals, and 
+graphite, and consists of a 100-foot diameter steel containment vessel 
+reinforced by stiffening rings with a concrete floor. The steel 
+containment vessel is on an approximately 3-foot-thick concrete 
+foundation constructed on bedrock. The containment building is an 
+important component because the containment building performs a safety 
+function in confining radioactive material so that there is no 
+exceedance of the radiation protection requirements outlined in 10 CFR 
+part 20. The licensee's SAFSTOR program will continue for the extended 
+period of decommissioning and the licensee should update its program
+
+[[Page 61437]]
+
+accordingly. For the period beyond 60 years, the NRC will continue its 
+inspection of the SAFSTOR program as outlined in the Updated Final 
+Safety Analysis Report, technical specifications, and licensee 
+procedures, including the material condition of the Peach Bottom Unit 1 
+buildings, such as the Unit 1 containment.
+    In evaluating this information, the NRC staff determined that the 
+licensee presented a reasonable argument that the proximity of Peach 
+Bottom Units 2 and 3, and specifically, the support facilities 
+associated with them in relation to the decommissioning facility, is a 
+site-specific factor that affects the licensee's capability to safely 
+carry out decommissioning. The NRC staff agrees that the proximity of 
+the support facilities to Peach Bottom Unit 1 is likely to impact the 
+manner in which the licensee would decommission Peach Bottom Unit 1 
+such that the overall risk to the public health and safety due to 
+decommissioning would likely be decreased if the decommissioning of 
+Peach Bottom Unit 1 occurred after Peach Bottom Units 2 and 3 were no 
+longer operating. Because of this, the NRC staff concludes that the 
+presence of these other nuclear facilities impacts the method in which 
+the 

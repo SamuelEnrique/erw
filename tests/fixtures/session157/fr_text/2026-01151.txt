@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 14 (Thursday, January 22, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 14 (Thursday, January 22, 2026)]
+[Notices]
+[Pages 2802-2803]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-01151]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket Nos. 50-280, 50-281, 50-338, and 50-339; NRC-2026-0331]
+
+
+Virginia Electric and Power Company; North Anna Power Station, 
+Units 1 and 2; Surry Power Station, Units 1 and 2; Withdrawal by 
+Applicant
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice.
+
+-----------------------------------------------------------------------
+
+[[Page 2803]]
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) is announcing the 
+withdrawal of a license amendment application from Virginia Electric 
+Power Company (the licensee), dated May 16, 2025, for a proposed 
+amendment to North Anna Power Station, Units 1 and 2, and Surry Power 
+Station, Units 1 and 2, License Nos. NPF-4 and NPF-7, and DPR-32 and 
+DPR-37. The proposed amendment would have updated the Main Steam Line 
+Break Alternate Source Term dose consequence analysis for both sites.
+
+DATES: This document was published in the Federal Register on January 
+22, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2026-0331 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2026-0331. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#1456667d707371603a57616666757a547a66773a737b62"><span class="__cf_email__" data-cfemail="6624140f02010312482513141407082608140548010910">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual listed in the FOR FURTHER INFORMATION 
+CONTACT section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#f8a8bcaad6aa9d8b978d8a9b9db8968a9bd69f978e"><span class="__cf_email__" data-cfemail="eabaaeb8c4b88f99859f98898faa849889c48d859c">[email&#160;protected]</span></a>. The ADAMS accession number for each document 
+referenced (if it is available in ADAMS) is provided the first time 
+that it is mentioned in this document.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#48180c1a661a2d3b273d3a2b2d08263a2b662f273e"><span class="__cf_email__" data-cfemail="5f0f1b0d710d3a2c302a2d3c3a1f312d3c71383029">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: John Klos, Office of Nuclear Reactor 
+Regulation, U.S. Nuclear Regulatory Commission, Washington, DC 20555-
+0001; telephone: 301-415-5136; email: <a href="/cdn-cgi/l/email-protection#81cbeee9efafcaedeef2c1eff3e2afe6eef7"><span class="__cf_email__" data-cfemail="4e04212620600522213d0e203c2d60292138">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Discussion
+
+    On May 16, 2025, the licensee submitted a request to amend licenses 
+NPF-4 and NPF-7, and DPR-32 and DPR-37 for the North Anna Power 
+Station, Units 1 and 2, and the Surry Power Station, Units 1 and 2 
+(ADAMS Accession No. ML25136A297). Notice of this request was published 
+in the Federal Register on August 6, 2025 (90 FR 37891). The requested 
+license amendment proposed to update the Main Steam Line Break 
+Alternate Source Term dose consequence analysis for both sites. By 
+letter dated October 2, 2025, the licensee withdrew its application and 
+stated it is no longer seeking review and approval of its May 16, 2025, 
+request (ADAMS Accession No. ML25276A031).
+
+    Dated: January 20, 2026.
+
+    For the Nuclear Regulatory Commission.
+Lee Klos,
+Project Manager, Plant Licensing Branch II-1, Division of Operating 
+Reactor Licensing, Office of Nuclear Reactor Regulation.
+[FR Doc. 2026-01151 Filed 1-21-26; 8:45 am]
+BILLING CODE 7590-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

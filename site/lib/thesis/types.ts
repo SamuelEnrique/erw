@@ -19,6 +19,9 @@ export type Trend = {
 export type LandscapeCompany = {
   name: string; website: string; description: string; founders: Cell; stage: Cell; raised: Cell; location: Cell; signal: string; trends: number[];
   reason: string; sources: string[]; confidence: number; confidence_note: string; sourcing: string[];
+  /** Session 158: present when the sentence of `reason` comes from a public page of a data vendor. `mark` is the
+   * short words shown beside it ("vendor page") and `note` its hover. Absent on every report written before. */
+  reason_vendor?: { mark: string; note: string } | null;
 };
 export type FunnelStage = { id: string; label: string; n: number };
 export type FunnelCompany = { name: string; reached: string; stopped: string; score: number | null; sourcing: string[]; sources: string[] };

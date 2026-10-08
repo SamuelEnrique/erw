@@ -1,0 +1,57 @@
+{
+ "built_at_utc": "2026-10-08T09:52:04Z",
+ "session": "157",
+ "reads": {
+  "rechecked": 226,
+  "not rechecked": 8,
+  "source not reachable": 0,
+  "rows": 234,
+  "answers_not_readable": [],
+  "what_changes_blank_before": 55,
+  "what_changes_blank_after": 12,
+  "plain_read_blank_before": 39,
+  "plain_read_blank_after": 6,
+  "why_not": [
+   "not requested: gov.texas.gov is not the site of a federal regulator, a state commission or a grid operator"
+  ],
+  "evidence_rows": 1955
+ },
+ "scores": {
+  "rechecked": 953,
+  "not rechecked": 900,
+  "source not reachable": 0,
+  "by_kind": {
+   "title": {
+    "rechecked": 853,
+    "not rechecked": 0,
+    "source not reachable": 0,
+    "changed": 738
+   },
+   "rest": {
+    "rechecked": 100,
+    "not rechecked": 662,
+    "source not reachable": 0,
+    "changed": 58
+   },
+   "news release": {
+    "rechecked": 0,
+    "not rechecked": 238,
+    "source not reachable": 0,
+    "changed": 0
+   }
+  },
+  "moved": {
+   "significance": 667,
+   "sector": 414,
+   "why": 953,
+   "to_5_or_more": 123,
+   "below_5": 8
+  },
+  "batches": 47,
+  "batches_not_readable": [
+   "938c8068697c4621: max_tokens, 33 of 40 items whole and kept"
+  ],
+  "scores_file_rows": 1855
+ },
+ "changes_rows": 3790
+}

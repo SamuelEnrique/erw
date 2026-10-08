@@ -1,0 +1,9 @@
+fixture,url,sha256_of_the_response,bytes,retrieved_at,audit_sample
+fr_2026-17632.api.json,https://www.federalregister.gov/api/v1/documents/2026-17632.json,0d3f53a8415ef9ae34db7268649653dbdcc8e309776e3965fc41b73a3bbdd46a,2530,2026-10-08T04:13:45Z,154
+fr_2026-17632.text.txt,https://www.federalregister.gov/documents/full_text/text/2026/08/28/2026-17632.txt,30079fd6702e055060f1b252bea8d7e104694e0500018f77c67ee0115a4c0c47,25934,2026-10-08T04:13:46Z,154
+fr_2026-07325.api.json,https://www.federalregister.gov/api/v1/documents/2026-07325.json,63acf3c5e86d42729f537b6f91f4ca01b44f85b65c755e5f89eb4b84d3c54ea2,2648,2026-10-08T08:50:23Z,157
+fr_2026-07325.text.txt,https://www.federalregister.gov/documents/full_text/text/2026/04/15/2026-07325.txt,b97aae2478d7d5b9794053a7977c1792a5d1fe7d49c4b9a5274b866a9a45cb97,12377,2026-10-08T08:50:25Z,157
+fr_2026-17394.api.json,https://www.federalregister.gov/api/v1/documents/2026-17394.json,8466dce0f4b68239200b91f29d598732cfb5b6621892548a6959fb3a287c1f09,2713,2026-10-08T08:50:31Z,157
+fr_2026-17394.text.txt,https://www.federalregister.gov/documents/full_text/text/2026/08/26/2026-17394.txt,2648ac68acaaee6c49b4e165e56ccd4621f8968244e620427330107267fd2e17,4502,2026-10-08T08:50:33Z,157
+fr_2026-20107.api.json,https://www.federalregister.gov/api/v1/documents/2026-20107.json,9c6d20c8070aa3045ce0e929e443e6619cb393642f88241d2df2f04da6759b3e,2583,2026-10-08T08:51:11Z,157
+fr_2026-20107.text.txt,https://www.federalregister.gov/documents/full_text/text/2026/10/01/2026-20107.txt,de06966bceaed135b370240aee9f23e3ec328ff416971a7ed2e7ee81d4509109,4984,2026-10-08T08:51:12Z,157

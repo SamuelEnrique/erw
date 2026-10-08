@@ -31,17 +31,24 @@ const base = (argv[0] && !argv[0].startsWith("--") ? argv[0] : "http://localhost
 const HEADLESS = argv.includes("--headless");
 const IDLE = argv.includes("--idle");
 const REST = Number(flag("--rest", "2500"));   // ms waited at each zoom for a finer level to arrive, not recorded
-const PORT = 9346;
+const PORT = Number(flag("--port", "9346"));
+// session 159: --size WIDTHxHEIGHT is the browser window's size (the default is the first session's 1400 by 1000; a
+// laptop's is 1366x768); --all adds one scenario with EVERY layer of the manifest and every overlay on at once; "all" in
+// --only stands for that scenario ("--only nothing;all" measures the bare map, then everything).
+const SIZE = /^\d+x\d+$/.test(flag("--size", "")) ? flag("--size", "").split("x").map(Number) : [1400, 1000];
 const manifest = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "resources", "manifest.json"), "utf-8"));
 const grids = (manifest.layers ?? []).filter((l) => l.kind === "grid").map((l) => l.id);
+const OVERLAY_IDS = ["plants_operating", "plants_planned", "queue", "datacenters"];
+const EVERYTHING = [...(manifest.layers ?? []).map((l) => l.id), ...OVERLAY_IDS];
 const only = flag("--only", "");
-const scenarios = only ? only.split(";").map((s) => (s === "nothing" ? [] : s.split(","))) : [...grids.map((g) => [g]), [...grids.slice(0, 2), "plants_operating", "plants_planned", "queue", "datacenters"]];
+const scenarios = only ? only.split(";").map((s) => (s === "nothing" ? [] : s === "all" ? EVERYTHING : s.split(",")))
+  : [...grids.map((g) => [g]), [...grids.slice(0, 2), ...OVERLAY_IDS], ...(argv.includes("--all") ? [EVERYTHING] : [])];
 
 const exe = browserPath();
 if (!exe) { console.log("no Chrome or Edge on this machine: the frame time was not measured"); process.exit(1); }
 const token = env("INTERNAL_COSTS_TOKEN");
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), "erw-frametime-"));
-const chrome = spawn(exe, [`--remote-debugging-port=${PORT}`, `--user-data-dir=${profile}`, "--no-first-run", "--no-default-browser-check", "--new-window", "--window-size=1400,1000", "--window-position=0,0",
+const chrome = spawn(exe, [`--remote-debugging-port=${PORT}`, `--user-data-dir=${profile}`, "--no-first-run", "--no-default-browser-check", "--new-window", `--window-size=${SIZE[0]},${SIZE[1]}`, "--window-position=0,0",
   ...(HEADLESS ? ["--headless=new"] : []), "about:blank"], { stdio: "ignore" });
 let code = 0;
 try {
@@ -71,6 +78,8 @@ try {
   // frames only run in a window that is being shown: a locked or sleeping screen, or a window behind another, gives none
   const probe = await run("Promise.race([new Promise((r) => requestAnimationFrame(() => r('frames run'))), new Promise((r) => setTimeout(() => r('no frame in 3 s'), 3000))])");
   console.log(`animation-frame probe: ${probe}; visibility ${await run("document.visibilityState")}${HEADLESS ? "; headless" : "; a window on the screen"}; between zooms the mouse ${IDLE ? "is still" : "keeps moving over the map"}`);
+  // session 159: what the measurement ran on, in the browser's own words: the window, the screen, and the graphics it draws with
+  console.log(`window asked ${SIZE[0]} by ${SIZE[1]}; ${await run("'viewport ' + innerWidth + ' by ' + innerHeight + ', outer ' + outerWidth + ' by ' + outerHeight + ', screen ' + screen.width + ' by ' + screen.height + ', pixel ratio ' + devicePixelRatio + ', focus ' + document.hasFocus()")}; graphics: ${await run("(() => { try { const gl = document.createElement('canvas').getContext('webgl'); const e = gl.getExtension('WEBGL_debug_renderer_info'); return e ? gl.getParameter(e.UNMASKED_RENDERER_WEBGL) : 'not named'; } catch (e) { return 'not named'; } })()")}`);
   if (probe !== "frames run") throw new Error("the window draws no frames (the screen is locked or the window is hidden); run again with the screen on, or with --headless");
 
   for (const ids of scenarios) {
@@ -124,7 +133,7 @@ try {
     const where = await run(`(() => { const n = {}; const out = []; for (const [step, dt] of window.__at) { n[step] = (n[step] || 0) + 1; if (dt > 50) out.push(dt + ' ms at frame ' + n[step] + ' of "' + step + '"'); } return out.join('; '); })()`);
     const smooth = r.frames > 0 && r.p50 <= 33.4 && r.over100 === 0;
     const f = (v) => (typeof v === "number" ? v.toFixed(1) : v);
-    console.log(`${ids.join(" + ") || "nothing on (the states alone)"}: ${smooth ? "smooth" : "NOT SMOOTH"}; window ${vis}, map ${Math.round(box.w)} by ${Math.round(box.h)} px; levels drawn (degrees) ${[...seen].filter(Boolean).join(", ")}; ${r.frames} frames while dragging and zooming: median ${f(r.p50)} ms, 95th percentile ${f(r.p95)} ms, longest ${f(r.max)} ms, over 33.4 ms ${r.over33}, over 100 ms ${r.over100}; the page's own longest work, ms: a frame while moving ${f(slow.moving)}, a frame at rest ${f(slow.rest)}, reading a file into a picture ${f(slow.decode)}${where ? `; frames over 50 ms: ${where}` : ""}; tasks of the page's thread over 50 ms while recording: ${(await run("window.__long.join(', ')")) || "none"}`);
+    console.log(`${ids.join(" + ") || "nothing on (the states alone)"}: ${smooth ? "smooth" : "NOT SMOOTH"}; window ${vis}, map ${Math.round(box.w)} by ${Math.round(box.h)} px; levels drawn (degrees) ${[...seen].filter(Boolean).join(", ")}; ${r.frames} frames while dragging and zooming: median ${f(r.p50)} ms, 95th percentile ${f(r.p95)} ms, longest ${f(r.max)} ms, over 33.4 ms ${r.over33}, over 100 ms ${r.over100}; the page's own longest work, ms: a frame while moving ${f(slow.moving)}, a frame at rest ${f(slow.rest)}, reading a file into a picture ${f(slow.decode)}; frames drawn from the picture kept at rest (a heavy map while it moves) ${slow.kept ?? 0}${where ? `; frames over 50 ms: ${where}` : ""}; tasks of the page's thread over 50 ms while recording: ${(await run("window.__long.join(', ')")) || "none"}`);
     if (!smooth || (!HEADLESS && vis !== "visible")) code = 1;
   }
   console.log(`page errors: ${errors.length ? errors.join(" | ") : "none"}`);

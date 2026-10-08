@@ -1,0 +1,273 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 61 (Tuesday, March 31, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 61 (Tuesday, March 31, 2026)]
+[Notices]
+[Pages 16020-16021]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-06168]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket No. 030-37587; License No. 24-32636-01; EAF-RIII-2024-0017; 
+NRC-2026-1256]
+
+
+In the Matter of Metro Cardiovascular Diagnostics Order Imposing 
+Civil Monetary Penalty
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice; issuance.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) issued an Order 
+Imposing Civil Monetary Penalty (Order) to Metro Cardiovascular 
+Diagnostics. This Order was issued because the licensee was previously 
+issued a Notice of Violation and Proposed Imposition of Civil Penalty 
+(Notice) in the amount of $36,000 on July 28, 2025. The licensee failed 
+to respond to the Notice or pay the civil penalty. Despite multiple 
+attempts by the NRC to contact the licensee, no response was received; 
+therefore, the NRC is imposing the civil penalty through this Order. 
+The NRC staff has determined that the violations occurred as described 
+in the Notice and that the $36,000 civil penalty proposed for the 
+violations is appropriate and will be imposed. This Order is effective 
+upon issuance.
+
+DATES: This order was issued on March 4, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2026-1256 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2026-1256. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#f8ba8a919c9f9d8cd6bb8d8a8a9996b8968a9bd69f978e"><span class="__cf_email__" data-cfemail="1f5d6d767b787a6b315c6a6d6d7e715f716d7c31787069">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual(s) listed in the For Further 
+Information Contact section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#e0b0a4b2ceb285938f95928385a08e9283ce878f96"><span class="__cf_email__" data-cfemail="cf9f8b9de19daabca0babdacaa8fa1bdace1a8a0b9">[email&#160;protected]</span></a>.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#540410067a0631273b21263731143a26377a333b22"><span class="__cf_email__" data-cfemail="09594d5b275b6c7a667c7b6a6c49677b6a276e667f">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: Carmen Rivera, Office of Enforcement, 
+U.S. Nuclear Regulatory Commission, Washington, DC 20555-0001; 
+telephone: 301-415-0296; email: <a href="/cdn-cgi/l/email-protection#3a795b48575f541468534c5f485b7a544859145d554c"><span class="__cf_email__" data-cfemail="f2b193809f979cdca09b84978093b29c8091dc959d84">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION: The text of the order is attached.
+
+    Dated: March 26, 2026.
+
+    For the Nuclear Regulatory Commission.
+Bo Pham,
+Acting Director, Office of Enforcement.
+
+Attachment--Order Imposing Civil Monetary Penalty
+
+United States of America
+
+Nuclear Regulatory Commission
+
+In the Matter of: Metro Cardiovascular Diagnostics, 030-37587, 
+Florissant, Missouri, 24-32636-01, EAF-RIII-2024-0017
+
+Order Imposing Civil Monetary Penalty
+
+I
+
+    Metro Cardiovascular Diagnostics (Licensee) is the holder of NRC 
+Materials License No. 24-32636-01 issued on July 17, 2018, by the 
+U.S. Nuclear Regulatory Commission (NRC or Commission) pursuant to 
+Part 30 of Title 10 of the Code of Federal Regulations (10 CFR). The 
+license authorizes the operation of Metro Cardiovascular Diagnostics 
+(facility) in accordance with conditions specified therein. The 
+facility is located on the Licensee's site in Florissant, Missouri.
+
+II
+
+    An investigation of the Licensee's activities was initiated on 
+October 5, 2023, and completed on September 11, 2024. The results of 
+this investigation indicated that the Licensee had not conducted its 
+activities in full compliance with NRC requirements. A written 
+Notice of Violation and Proposed Imposition of Civil Penalties 
+(Notice) was served upon the Licensee by letter dated July 28, 2025. 
+The Notice states the nature of the violations, the provisions of 
+the NRC's requirements that the Licensee violated, and the amount of 
+the civil penalties proposed for the violations. As of the date of 
+this Order, the Licensee has neither provided a written response to 
+the Notice nor paid the proposed civil penalty. NRC staff have 
+unsuccessfully attempted to contact the Licensee multiple times 
+since the issuance of the Notice regarding payment of the proposed 
+civil penalties.
+
+III
+
+    Because the Licensee did not respond to the Notice, there are no 
+additional facts, explanation, or other information to consider. The 
+NRC has determined that the violations occurred as stated and that 
+the penalties proposed for the violations designated in the Notice 
+should be imposed.
+
+IV
+
+    In view of the foregoing and pursuant to Section 234 of the 
+Atomic Energy Act of 1954, as amended (Act), 42 U.S.C. 2282, and 10 
+CFR 2.205, it is hereby ordered that:
+
+[[Page 16021]]
+
+    The Licensee shall pay the civil penalties in the amount of 
+$36,000 within 30 days of the date of this Order by submitting the 
+payment in accordance with NUREG/BR-0254.
+    In addition, at the time payment is made, the Licensee shall 
+submit a statement indicating when and by what method payment was 
+made, to the Director, Office of Enforcement, U.S. Nuclear 
+Regulatory Commission, One White Flint North, 11555 Rockville Pike, 
+Rockville, MD 20852-2738.
+
+V
+
+    In accordance with 10 CFR 2.202, Metro Cardiovascular 
+Diagnostics must, and any other person adversely affected by this 
+Order may, submit an answer to this Order within 30 days of its 
+publication in the Federal Register. In addition, Metro 
+Cardiovascular Diagnostics and any other person adversely affected 
+by this Order may request a hearing on this Order within 30 days of 
+its publication in the Federal Register. Where good cause is shown, 
+consideration will be given to extending the time to answer or 
+request a hearing. A request for extension of time must be directed 
+to the Director, Office of Enforcement, U.S. Nuclear Regulatory 
+Commission, and include a statement of good cause for the extension.
+    All documents filed in NRC adjudicatory proceedings, including 
+documents filed by an interested State, local governmental body, 
+Federally recognized Indian Tribe, or designated agency thereof that 
+requests to participate under 10 CFR 2.315(c), must be filed in 
+accordance with 10 CFR 2.302. The E-Filing process requires 
+participants to submit and serve all adjudicatory documents over the 
+internet, or in some cases, to mail copies on electronic storage 
+media, unless an exemption permitting an alternative filing method, 
+as further discussed, is granted. Detailed guidance on electronic 
+submissions is located in the ``Guidance for Electronic Submissions 
+to the NRC'' (ADAMS Accession No. ML13031A056) and on the NRC's 
+public website (<a href="https://www.nrc.gov/site-help/e-submittals.html">https://www.nrc.gov/site-help/e-submittals.html</a>). 
+Participants may not submit paper copies of their filings unless 
+they seek an exemption in accordance with the procedures described 
+below.
+    To comply with the procedural requirements of E-Filing, at least 
+10 days prior to the filing deadline, the participant should contact 
+the Office of the Secretary by email at <a href="/cdn-cgi/l/email-protection#7139141003181f165f351e121a1405311f03125f161e07"><span class="__cf_email__" data-cfemail="357d5054475c5b521b715a565e5041755b47561b525a43">[email&#160;protected]</span></a>, or 
+by telephone at 301-415-1677, to (1) request a digital 
+identification (ID) certificate, which allows the participant (or 
+their counsel or representative) to digitally sign submissions and 
+access the E-Filing system for any proceeding in which it is 
+participating; and (2) advise the Secretary that the participant 
+will be submitting a petition or other adjudicatory document (even 
+in instances in which the participant, or their counsel or 
+representative, already holds an NRC-issued digital ID certificate). 
+Based upon this information, the Secretary will establish an 
+electronic docket for the proceeding if the Secretary has not 
+already established an electronic docket.
+    Information about applying for a digital ID certificate is 
+available on the NRC's public website (<a href="https://www.nrc.gov/site-help/e-submittals/getting-started.html">https://www.nrc.gov/site-help/e-submittals/getting-started.html</a>). After a digital ID 
+certificate is obtained and a docket is created, the participant 
+must submit adjudicatory documents in Portable Document Format 
+(PDF). Guidance on submissions is available on the NRC's public 
+website (<a href="https://www.nrc.gov/site-help/electronic-sub-ref-mat.html">https://www.nrc.gov/site-help/electronic-sub-ref-mat.html</a>). 
+A filing is considered complete at the time the document is 
+submitted through the NRC's E-Filing system. To be timely, an 
+electronic filing must be submitted to the E-Filing system no later 
+than 11:59 p.m. ET on the due date. Upon receipt of a transmission, 
+the E-Filing system timestamps the document and sends the submitter 
+an email confirming receipt of the document. The E-Filing system 
+also distributes an email that provides access to the document to 
+the NRC's Office of the General Counsel and any others who have 
+advised the Office of the Secretary that they wish to participate in 
+the proceeding, so that the filer need not serve the document on 
+those participants separately. Therefore, applicants and other 
+participants (or their counsel or representative) must apply for and 
+receive a digital ID certificate before adjudicatory documents are 
+filed in order to obtain access to the documents via the E-Filing 
+system.
+    A person filing electronically using the NRC's adjudicatory E-
+Filing system may seek assistance by contacting the NRC's Electronic 
+Filing Help Desk through the ``Contact Us'' link located on the 
+NRC's public website (<a href="https://www.nrc.gov/sitehelp/e-submittals.html">https://www.nrc.gov/sitehelp/e-submittals.html</a>), by email to <a href="/cdn-cgi/l/email-protection#97dac4dfd3b9c5f2e4f8e2e5f4f2d7f9e5f4b9f0f8e1"><span class="__cf_email__" data-cfemail="2d607e6569037f485e42585f4e486d435f4e034a425b">[email&#160;protected]</span></a>, or by a toll-
+free call at 1-866-672-7640. The NRC Electronic Filing Help Desk is 
+available between 9 a.m. and 6 p.m., ET, Monday through Friday, 
+except Federal holidays.
+    Participants who believe that they have good cause for not 
+submitting documents electronically must file an exemption request, 
+in accordance with 10 CFR 2.302(g), with their initial paper filing 
+stating why there is good cause for not filing electronically and 
+requesting authorization to continue to submit documents in paper 
+format. Such filings must be submitted by: (1) first class mail 
+addressed to the Office of the Secretary of the Commission, U.S. 
+Nuclear Regulatory Commission, Washington, DC 20555-0001, Attention: 
+Rulemaking and Adjudications Staff; or (2) courier, express mail, or 
+expedited delivery service to the Office of the Secretary, 11555 
+Rockville Pike, Rockville, Maryland 20852, Attention: Rulemaking and 
+Adjudications Staff. Participants filing adjudicatory documents in 
+this manner are responsible for serving the document on all other 
+participants. Filing is considered complete by first-class mail as 
+of the time of deposit in the mail, or by courier, express mail, or 
+expedited delivery service upon depositing the document with the 
+provider of the service. A presiding officer, having granted an 
+exemption request from using E-Filing, may require a participant or 
+party to use EFiling if the presiding officer subsequently 
+determines that the reason for granting the exemption from use of E-
+Filing no longer exists.
+    Documents submitted in adjudicatory proceedings will appear in 
+the NRC's electronic hearing docket, which is publicly available on 
+the NRC's public website (<a href="https://adams.nrc.gov/ehd">https://adams.nrc.gov/ehd</a>), unless 
+otherwise excluded pursuant to an order of the presiding officer. If 
+you do not have an NRC-issued digital ID certificate as previously 
+described, click ``cancel'' when the link requests certificates and 
+you will be automatically directed to the NRC's electronic hearing 
+docket where you will be able to access any publicly available 
+documents in a J. Siddiqui--8--particular hearing docket. 
+Participants are requested not to include personal privacy 
+information such as social security numbers, home addresses, or 
+personal phone numbers in their filings unless an NRC regulation or 
+other law requires submission of such information. With respect to 
+copyrighted works, except for limited excerpts that serve the 
+purpose of the adjudicatory filings and would constitute a Fair Use 
+application, participants should not include copyrighted materials 
+in their submission.
+    If a person other than Metro Cardiovascular Diagnostics requests 
+a hearing, that person shall set forth with particularity the manner 
+in which his interest is adversely affected by this Order and shall 
+address the criteria set forth in 10 CFR 2.309(d) and (f).
+    If a hearing is requested by a licensee or a person whose 
+interest is adversely affected, the Commission will issue an Order 
+designating the time and place of any hearings. If a hearing is 
+held, the issue to be considered at such hearing shall be whether 
+this Order should be sustained. Pursuant to 10 CFR 2.202(c)(2)(i), 
+Metro Cardiovascular Diagnostics or any other person adversely 
+affected by this Order, may, in addition to demanding a hearing, at 
+the time the answer is filed or sooner, move the presiding officer 
+to set aside the immediate effectiveness of the Order on the ground 
+that the Order, including the need for immediate effectiveness, is 
+not based on adequate evidence but on mere suspicion, unfounded 
+allegations, or error. In the absence of any request for hearing, or 
+written approval of an extension of time in which to request a 
+hearing, the provisions specified in Section IV above shall be final 
+30 days from the date this Order is published in the Federal 
+Register without further order or proceedings. If an extension of 
+time for requesting a hearing has been approved, the provisions 
+specified in Section IV shall be final when the extension expires if 
+a hearing request has not been received. An Answer or a Request for 
+Hearing Shall Not Stay the

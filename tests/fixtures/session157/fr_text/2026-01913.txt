@@ -1,0 +1,180 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 20 (Friday, January 30, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 20 (Friday, January 30, 2026)]
+[Rules and Regulations]
+[Pages 4016-4017]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-01913]
+
+
+-----------------------------------------------------------------------
+
+ENVIRONMENTAL PROTECTION AGENCY
+
+40 CFR Part 423
+
+[EPA-HQ-OW-2009-0819; FRL-8794.3-05-OW]
+RIN 2040-AG54
+
+
+Effluent Limitations Guidelines and Standards for the Steam 
+Electric Power Generating Point Source Category--Deadline Extensions; 
+Correction
+
+AGENCY: Environmental Protection Agency (EPA).
+
+ACTION: Final rule; correction.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Environmental Protection Agency (the EPA or Agency) 
+is issuing a notice to correct some of the deadlines listed in the 
+final rule, ``Effluent Limitations Guidelines and
+
+[[Page 4017]]
+
+Standards for the Steam Electric Generating Point Source Category--
+Deadline Extensions,'' which published in the Federal Register on 
+December 31, 2025. After publication, the EPA became aware of post-
+signature typographical errors in the published regulatory text 
+concerning compliance deadlines for pretreatment standards and related 
+reporting recordkeeping requirements in the rule. This correction will 
+ensure that the rule's compliance deadlines and reporting and 
+recordkeeping deadlines match those in the version of the rule signed 
+by the EPA Administrator.
+
+DATES: Effective on March 2, 2026.
+
+ADDRESSES: The EPA has established a docket for this action under 
+Docket ID No. EPA-HQ-OW-2009-0819. All documents in the docket are 
+listed on the <a href="https://www.regulations.gov">https://www.regulations.gov</a> website. Although listed in 
+the index, some information is not publicly available, e.g., 
+confidential business information (CBI) or other information whose 
+disclosure is restricted by statute. Certain other material, such as 
+copyrighted material, is not placed on the internet and will be 
+publicly available only in hard copy form. Publicly available docket 
+materials are available electronically through <a href="https://www.regulations.gov">https://www.regulations.gov</a>.
+
+FOR FURTHER INFORMATION CONTACT: Richard Benware, Engineering and 
+Science Division, Office of Water (Mail Code 4303T), Environmental 
+Protection Agency, 1200 Pennsylvania Avenue NW; Washington, DC 20460; 
+telephone number: 202-566-1369; email address: <a href="/cdn-cgi/l/email-protection#c3a1a6adb4a2b1a6edb1aaa0aba2b1a783a6b3a2eda4acb5"><span class="__cf_email__" data-cfemail="93f1f6fde4f2e1f6bde1faf0fbf2e1f7d3f6e3f2bdf4fce5">[email&#160;protected]</span></a>. 
+Information about the Steam Electric Effluent Limitations Guidelines 
+and Standards (ELGs) is available online at: <a href="https://www.epa.gov/eg/steam-electric-power-generating-effluent-guidelines">https://www.epa.gov/eg/steam-electric-power-generating-effluent-guidelines</a>.
+
+SUPPLEMENTARY INFORMATION: The final rule, ``Effluent Limitations 
+Guidelines and Standards for the Steam Electric Generating Point Source 
+Category--Deadline Extensions,'' which published in the Federal 
+Register on December 31, 2025 (90 FR 61328), contained several 
+typographical errors that were introduced during the publication 
+process. These typographical errors, which appear in 40 CFR 423.16 and 
+423.19, pertain to compliance dates for achievement of certain 
+pretreatment standards. These errors do not reflect the correct dates 
+set forth in the rule, as signed by the EPA Administrator on December 
+23, 2025. This action ensures that the correct dates appear in the CFR. 
+The Agency finds that it has good cause under section 553(b)(B) of the 
+Administrative Procedure Act, 5 U.S.C. 553, to dispense with notice and 
+comment on this correction because it is unnecessary, as the correction 
+merely redresses a typographical error in the regulatory text made by 
+OFR in the post-signature publication process. Moreover, as the 
+correction is being made before the effective date of the Deadline 
+Extensions Rule, there should be no confusion as to the applicable 
+compliance dates.
+
+Corrections
+
+0
+1. Effective March 2, 2026, in rule document 2025-24102 at 90 FR 61328 
+in the issue of December 31, 2025, on page 61353, in the second column, 
+in amendatory instruction 3, paragraphs (e)(3), (g)(3), and (j)(1) are 
+corrected to read as follows:
+
+
+Sec.  423.16  [Corrected]
+
+    (e) * * *
+    (3) 2024 PSES. Except as provided for in paragraph (e)(4) of this 
+section, for any electric generating unit with a total nameplate 
+generating capacity of more than 50 megawatts and that is not an oil-
+fired unit:
+    (i) Dischargers must meet the standards in paragraph (e)(1) of this 
+section by January 1, 2029. The standards in paragraph (e)(1) of this 
+section apply to the discharge of FGD wastewater generated on and after 
+January 1, 2029.
+    (ii) By the dates in paragraph (e)(3)(ii)(A) or (B) of this section 
+there shall be no discharge of pollutants in FGD wastewater:
+    (A) January 2, 2029; or
+    (B) Where a certification statement has been submitted pursuant to 
+Sec.  423.19(p), December 31, 2034.
+* * * * *
+    (g) * * *
+    (3) 2024 PSES. Except as provided for in paragraph (g)(4) of this 
+section, for any electric generating unit with a total nameplate 
+generating capacity of more than 50 megawatts and that is not an oil-
+fired unit:
+    (i) Dischargers must meet the standards in paragraph (g)(1) of this 
+section by January 1, 2029. The standards in paragraph (g)(1) of this 
+section apply to the discharge of bottom ash transport water generated 
+on and after January 1, 2029.
+    (ii) By the dates in paragraph (g)(3)(ii)(A) or (B) of this 
+section, there shall be no discharge of pollutants in bottom ash 
+transport water:
+    (A) January 2, 2029; or
+    (B) Where a certification statement has been submitted pursuant to 
+Sec.  423.19(p), December 31, 2034.
+* * * * *
+    (j) * * *
+    (1) 2024 PSES. Until and including the dates specified in 
+paragraphs (j)(1)(i) and (ii), or paragraph (j)(2) of this section, the 
+EPA is declining to establish PSES for combustion residual leachate and 
+is reserving such standards to be established by the control authority 
+on a case-by-case.
+    (i) Except for those discharges to which paragraph (j)(1)(ii) of 
+this section applies, by the dates in paragraph (j)(1)(i)(A) or (B) of 
+this section, there shall be no discharge of pollutants in combustion 
+residual leachate:
+    (A) January 2, 2029; or
+    (B) Where a certification statement has been submitted pursuant to 
+section 423.19(p), December 31, 2034.
+    (ii) After the retirement of all units at a facility, the quantity 
+of pollutants in CRL shall not exceed the quantity determined by 
+multiplying the flow of CRL permeate times the concentrations listed in 
+the table 7 to Sec.  423.13(g)(3)(i) or the flow of CRL distillate 
+times the concentrations listed in the table in Sec.  423.15(b)(13).
+
+0
+2. Effective March 2, 2026, in rule document 2025-24102 at 90 FR 61328 
+in the issue of December 31, 2025, on page 61354, in the first column, 
+in amendatory instruction 5, paragraph (p) is corrected to read as 
+follows:
+
+
+Sec.  423.19   [Corrected]
+
+    (p) Requirements for facilities subject to zero discharge 
+pretreatment standards for existing sources by 2034. For sources 
+seeking to be subject to the second tier of the tiered standards in 
+Sec.  423.16(e)(3)(ii)(B), (g)(3)(ii)(B), or (j)(2)(i)(B), a 
+certification statement shall be submitted to the control authority by 
+January 1, 2029, stating that the facility has submitted a permit 
+application, permit renewal application, or permit modification request 
+to its permitting authority seeking an as soon as possible date for 
+achieving the corresponding generally applicable zero discharge 
+limitations in Sec.  423.13(g)(4)(i), (k)(4)(i), or (l)(1)(i), subject 
+to the considerations in Sec.  423.11(t). Furthermore, the 
+certification statement will include an affirmative statement that the 
+facility will also cease its indirect discharge by the as soon as 
+possible date determined in this permitting action.
+* * * * *
+
+Jessica L. Kramer,
+Assistant Administrator.
+[FR Doc. 2026-01913 Filed 1-29-26; 8:45 am]
+BILLING CODE 6560-50-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

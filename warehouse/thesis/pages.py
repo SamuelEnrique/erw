@@ -72,6 +72,16 @@ NEVER_HOSTS = ("misoenergy.org",)                    # the floor: refused here e
 # your own license"): their sites are not asked for a page either. Added at the end of session 147, after four
 # crunchbase.com addresses had been asked for once each that evening (each answered 403; nothing was received).
 LICENSED_HOSTS = ("pitchbook.com", "crunchbase.com", "harmonic.ai")
+# Session 158, the owner's ruling of 8 October 2026: the public pages of DATA VENDORS (cbinsights, dealroom, sacra and
+# the like) are read as any other page, and labeled. The list is one file with the reason for each row; a page of
+# one carries the vendor's name in its record ("vendor") and every sentence the rule reads from it carries it too
+# (tie.py, rule 7). It is a label, never a refusal: the hosts above stay refused, and nothing else changes in the pull.
+VENDOR_FILE = os.path.join(HERE, "vendor_pages.csv")
+# The three licensed databases are data vendors too. Their sites are never requested (above), but the SEARCH tool of
+# the research returns titles and passages of their public pages, and the rule has read those in its fetched tier
+# since session 142. Such a line carries the vendor's label like any other vendor's (labeled_vendors); no page of
+# theirs is fetched for it.
+LICENSED_NAMES = {"pitchbook.com": "PitchBook", "crunchbase.com": "Crunchbase", "harmonic.ai": "Harmonic"}
 LOGIN_WORDS = ("login", "log-in", "signin", "sign-in", "sso", "oauth", "auth", "authenticate", "subscribe", "paywall", "captcha", "register", "account", "wp-login")
 LOGIN_HOSTS = ("login", "signin", "sso", "auth", "account", "accounts", "id", "idp")
 TEXT_TYPES = ("text/html", "application/xhtml+xml", "text/plain")
@@ -95,6 +105,38 @@ def paused_hosts(path=None):
                     if re.fullmatch(r"[a-z0-9.-]+\.[a-z]{2,}", o):
                         hosts.add(o)
     return hosts
+
+
+def vendor_pages(path=None):
+    """{domain: the vendor's name} of the data vendors whose public pages are labeled (vendor_pages.csv, session 158)."""
+    import csv
+    out = {}
+    path = path or VENDOR_FILE
+    if os.path.exists(path):
+        with open(path, encoding="utf-8", newline="") as f:
+            for row in csv.DictReader(ln for ln in f if not ln.startswith("#")):
+                d = (row.get("domain") or "").strip().lower()
+                if re.fullmatch(r"[a-z0-9.-]+\.[a-z]{2,}", d) and (row.get("vendor") or "").strip():
+                    out[d] = row["vendor"].strip()
+    return out
+
+
+def labeled_vendors(path=None):
+    """{domain: name} of every site whose sentences carry the vendor label: the vendors of vendor_pages.csv, whose
+    pages are fetched, and the three licensed databases, whose pages are not (only what the search tool returned of
+    them is held)."""
+    return dict(vendor_pages(path), **LICENSED_NAMES)
+
+
+def vendor_of(url, vendors=None):
+    """The data vendor whose page an address is, or "" (the host is a listed domain or one of its subdomains)."""
+    host = host_of(url)
+    host = host[4:] if host.startswith("www.") else host
+    vendors = vendor_pages() if vendors is None else vendors
+    for d in sorted(vendors):
+        if host == d or host.endswith("." + d):
+            return vendors[d]
+    return ""
 
 
 def to_login(url, asked):
@@ -422,7 +464,7 @@ def held_today(store, url, day):
 def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get=None, sleep=time.sleep, clock=time.monotonic,
               raw_dir=None, paused=None, max_run=MAX_ADDRESSES_RUN, max_session=MAX_ADDRESSES_SESSION,
               max_requests_run=MAX_REQUESTS_RUN, max_requests_session=MAX_REQUESTS_SESSION, max_bytes=MAX_BYTES, shelf=None,
-              max_seconds=MAX_SECONDS_RUN):
+              max_seconds=MAX_SECONDS_RUN, vendors=None):
     """Request every address of the list the store does not hold from this day, in the order given, under the
     ceilings; save each page (or why it was not fetched) in store["pages"] and each robots.txt in store["robots"].
     Returns the run's tally. Never raises for an address: a failure is that address's record.
@@ -434,6 +476,7 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
     get = get or transport
     count = count or Count()
     paused = paused if paused is not None else paused_hosts()
+    vendors = vendor_pages() if vendors is None else vendors          # session 158: a data vendor's page is fetched as before, and labeled
     pages, robots = store.setdefault("pages", {}), store.setdefault("robots", {})
     tally = {"run_id": run_id, "day": day, "user_agent": UA, "cited": 0, "held": 0, "copied": 0, "requested": 0, "fetched": 0, "refused": {}, "failed": 0, "not_text": 0,
              "truncated": 0, "empty": 0, "robots_disallowed": 0, "robots_unreadable": 0, "paused": 0, "licensed": 0, "not_web": 0, "login": 0,
@@ -515,6 +558,8 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
             hist.append({k: old.get(k) for k in ("fetched", "fetched_at", "state", "status", "reason", "bytes", "sha256", "text_sha256", "text", "last_run")})
             tally["changed"].append(url)
         rec["history"] = hist
+        if vendor_of(url, vendors):
+            rec["vendor"] = vendor_of(url, vendors)
         pages[url] = rec
         tally["addresses"][url] = rec["reason"] if rec["state"] != "fetched" else "fetched"
 
@@ -585,6 +630,7 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
 
     todo = list(dict.fromkeys(a for a in addresses if a and not str(a).startswith("erw:")))
     tally["cited"] = len(todo)
+    tally["vendor_pages"] = {u: vendor_of(u, vendors) for u in todo if vendor_of(u, vendors)}      # session 158: every cited address of a data vendor, by name
     stopped = ""
     for n, url in enumerate(todo):
         if held_today(store, url, day):
@@ -614,10 +660,13 @@ def fetch_run(store, addresses, run_id, day, log=lambda s: None, count=None, get
             tally["failed"] += 1
             record(url, {"state": "refused", "status": None, "reason": f"not read: {type(exc).__name__}: {str(exc)[:160]}", "bytes": 0, "sha256": "", "text_sha256": "", "text": "", "truncated": False})
     tally["stopped"] = stopped
+    tally["vendor_pages_held"] = sum(1 for u in tally["vendor_pages"] if (pages.get(u) or {}).get("state") == "fetched" and not pages[u].get("truncated") and pages[u].get("text"))
     tally["session"] = dict(count.n)
     log(f"  pages: cited {tally['cited']}; held from today {tally['held']}; copied from the session's shelf {tally['copied']}; requested {tally['requested']}; fetched with text {tally['fetched']}; refused by status {tally['refused'] or 'none'}; "
         f"no answer {tally['failed']}; not text {tally['not_text']}; empty {tally['empty']}; truncated {tally['truncated']}; redirects to a login {tally['login']}; "
         f"robots.txt disallows {tally['robots_disallowed']}; robots.txt unreadable {tally['robots_unreadable']}; paused {tally['paused']}; licensed {tally['licensed']}; "
         f"left by the ceiling {tally['ceiling']}; requests {tally['requests']} ({tally['robots_requests']} robots.txt, {tally['hop_requests']} redirect hops); bytes {tally['bytes']:,}; "
         f"session so far: {count.n['addresses']} addresses, {count.n['requests']} requests")
+    log(f"  pages of data vendors (read and labeled, session 158): cited {len(tally['vendor_pages'])}; holding text {tally['vendor_pages_held']}"
+        + ("" if not tally["vendor_pages"] else ": " + "; ".join(f"{u} ({v})" for u, v in sorted(tally["vendor_pages"].items()))))
     return tally

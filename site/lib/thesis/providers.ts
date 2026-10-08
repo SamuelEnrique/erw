@@ -573,6 +573,19 @@ export const PROVIDERS: Record<ProviderId, Provider> = {
   },
 };
 export const providerList = (): Provider[] => PROVIDER_IDS.map((id) => PROVIDERS[id]);
+/**
+ * Session 158, the owner's ruling of 8 October 2026: a provider whose answers are not kept, with the plain words said
+ * of it. An answer of such a provider is refused before anything of the pasted text is read (checkPaste below, and
+ * POST /api/thesis/provider before it), nothing of it is stored, and the choice on /thesis shows the provider as not
+ * yet available with these words on hover. The provider's format, request text and reader stay as they are, so that
+ * a ruling can open it again by removing its line here. The server's list says the same (warehouse/thesis/providers.py,
+ * NOT_KEPT). PitchBook and Harmonic are as they were.
+ */
+export const NOT_KEPT: Partial<Record<ProviderId, string>> = { crunchbase: "Crunchbase answers are not kept until its terms are ruled on" };
+/** The sentence shown for a provider whose answers are not kept, or null for one whose answers are. */
+export const notKept = (id: ProviderId): string | null => (NOT_KEPT[id] ? `${NOT_KEPT[id]}.` : null);
+/** The words of the short mark beside such a provider in the choice on /thesis. */
+export const NOT_KEPT_MARK = "not yet available";
 export const isProviderId = (v: unknown): v is ProviderId => typeof v === "string" && (PROVIDER_IDS as readonly string[]).includes(v);
 /** The provider a format id belongs to, or null. */
 export const providerOfFormat = (format: unknown): Provider | null => providerList().find((p) => p.format === format) ?? null;
@@ -596,6 +609,8 @@ export function formatFault(chosen: ProviderId, given: unknown): string | null {
   const p = PROVIDERS[chosen];
   if (given === p.format) return null;
   const other = providerOfFormat(given);
+  // session 158: an answer of a provider whose answers are not kept is not to be pasted under another provider either
+  if (other && notKept(other.id)) return notKept(other.id);
   if (other) return `This answer is in the format "${other.format}", ${other.label}'s. The provider chosen is ${p.label}, which takes "${p.format}". Choose ${other.label} above, or paste ${p.label}'s answer.`;
   return `This answer names ${typeof given === "string" && given.trim() ? `the format "${given.trim().slice(0, 40)}"` : "no format"}. The provider chosen is ${p.label}, which takes "${p.format}".`;
 }
@@ -604,9 +619,13 @@ export type Pasted = { ok: true; provider: ProviderId; payload: AnyPayload; key:
  * A pasted answer read for the provider chosen: the JSON found in the text, its format checked against the provider
  * chosen before anything else, then the provider's own reader. A format of another provider is said plainly, with
  * both names. A "key" beside the fields (PitchBook's one-time key) is taken out and handed back, never stored.
+ * Session 158: for a provider whose answers are not kept (NOT_KEPT) the answer is refused with the plain words, before
+ * the pasted text is looked at.
  */
 export function checkPaste(chosen: ProviderId, pasted: string, runId: string, thisYear?: number): Pasted {
   const p = PROVIDERS[chosen];
+  const held = notKept(chosen);
+  if (held) return { ok: false, reason: held };          // session 158: refused before the pasted text is read at all
   const got = extractJson(pasted);
   if (!got.ok) return { ok: false, reason: got.reason };
   const { key: inside, ...payload } = got.value as Obj;
@@ -814,7 +833,8 @@ export function factsOfCompany(h: Held, c: PbCompany | PvCompany | null | undefi
 export function companyIn(h: Held, name: unknown): PbCompany | PvCompany | null {
   const k = nameKey(name);
   if (!k) return null;
-  return (arr(h.payload.companies) as (PbCompany | PvCompany)[]).find((c) => nameKey(c?.name) === k) ?? null;
+  // session 155: the two providers' company lists are one list here; cast before arr(), whose one type argument cannot be a union of two arrays (the build's type check failed on it, and Vercel's deployment of 41c3115 with it)
+  return arr(h.payload.companies as (PbCompany | PvCompany)[] | null | undefined).find((c) => nameKey(c?.name) === k) ?? null;
 }
 /** Every fact every provider holds for one company, in the order of FACTS and then of the providers. */
 export function factsFor(held: Held[], name: unknown): Fact[] {
