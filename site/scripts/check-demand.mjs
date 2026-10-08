@@ -80,9 +80,9 @@ async function view(slug, rankSlug) {
   check(html.includes('data-weather="1"') && t.includes("Weather is not removed.") && t.indexOf("Weather is not removed.") < t.indexOf("Year by year") && /title="[^"]*hot summer and cold snap included[^"]*"/.test(html) && !t.includes("hot summer and cold snap included"),
     `${tag} "weather is not removed", above the tool: a short placeholder, its sentence in the hover`);
   const hints = [...html.matchAll(/data-hint="1"/g)].length;
-  check(html.includes('data-demand="metered"') && html.includes('data-view="metered"') && html.includes('data-view="weather"') && html.includes('href="/data/methods/demand_growth"') && hints >= 5 && !t.includes("How it is computed") && !t.includes("What is not here")
+  check(html.includes('data-demand="metered"') && html.includes('data-view="metered"') && html.includes('data-view="weather"') && html.includes('data-method="1"') && t.includes("Method, sources and gaps") && hints >= 5 && !t.includes("How it is computed") && !t.includes("What is not here")
     && got["screen|jumps"] === g.whole(a.screened.jumps) && got["screen|zero"] === g.whole(a.screened.not_positive) && got["screen|blank"] === g.whole(a.screened.blank),
-    `${tag} the two views and the Method note are linked; ${hints} placeholders with a hover; the hours left out are the copy's; no method prose folded on the face`);
+    `${tag} the two views are linked and the Method note is named; ${hints} placeholders with a hover; the hours left out are the copy's; no method prose folded on the face`);
   const peak = a.at[last.year]?.peak_demand_mw;
   check(peak ? t.includes(g.localHour(peak, a.tz)) : t.includes("No peak is given for the Lower 48"), `${tag} ${peak ? `the peak of ${last.year} is dated ${g.localHour(peak, a.tz)}` : "no peak for the Lower 48, and the reason"}`);
   check((ba === "CISO") === html.includes('data-break="1"'), `${tag} the check across December 2025 is ${ba === "CISO" ? "shown" : "not shown"}`);
@@ -130,6 +130,8 @@ await view("pjm", "ytd");
         })()`);
         check(typeof tip === "string" && re.test(tip), `${path}: the chart "${id}" answers the mouse ("${String(tip).slice(0, 110)}")`);
       }
+      const method = await evaluate(`(document.querySelector('[data-method="1"] a') || { getAttribute: () => '' }).getAttribute('href')`);
+      check(/^\/data\/methods\/demand_(growth|weather)$/.test(String(method)), `${path}: the Method note is linked (${method})`);
       const still = await evaluate(`[...document.querySelectorAll('svg[data-chart]')].filter((s) => !s.closest('[data-hover="1"]')).length + document.querySelectorAll('svg[data-chart] title').length`);
       check(still === 0, `${path}: no chart stands outside a hover frame, and none keeps a browser tooltip of its own`);
     }

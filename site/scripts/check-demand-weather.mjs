@@ -67,8 +67,8 @@ async function view(slug, year) {
   const hints = [...html.matchAll(/data-hint="1"/g)].length;
   check(html.includes('data-remainder="1"') && t.includes("What the remainder is not.") && !t.includes("The warehouse cannot split them") && /title="[^"]*The warehouse cannot split them[^"]*"/.test(html) && t.indexOf("What the remainder is not.") < t.indexOf("By grid and year"),
     `${tag} what the remainder is not, above the tool: a short placeholder, its sentence in the hover`);
-  check(html.includes('data-demand="weather"') && html.includes('data-view="metered"') && html.includes('data-view="weather"') && html.includes('href="/data/methods/demand_weather"') && hints >= 5 && !t.includes("How it is computed") && !t.includes("What is not here"),
-    `${tag} the two views and the Method note are linked; ${hints} placeholders with a hover; no method prose folded on the face`);
+  check(html.includes('data-demand="weather"') && html.includes('data-view="metered"') && html.includes('data-view="weather"') && html.includes('data-method="1"') && t.includes("Method, sources and gaps") && hints >= 5 && !t.includes("How it is computed") && !t.includes("What is not here"),
+    `${tag} the two views are linked and the Method note is named; ${hints} placeholders with a hover; no method prose folded on the face`);
   const st = Object.keys(file.weather?.stations ?? {});
   check(st.length === 35 && st.every((c) => got[`s|${c}|w`] === file.weather.stations[c].weight.toFixed(3)) && t.includes("Census Bureau") && st.every((c) => got[`s|${c}|p`] === g.whole(file.weather.stations[c].population)), `${tag} ${st.length} stations with their weights and the Census Bureau's counts`);
   check(!/\bundefined\b|NaN/.test(t), `${tag} no "undefined" and no NaN in the text`);
@@ -113,6 +113,8 @@ for (const y of g.years(file)) await view("energy", y);
         })()`);
         check(typeof tip === "string" && re.test(tip), `${path}: the chart "${id}" answers the mouse ("${String(tip).slice(0, 110)}")`);
       }
+      const method = await evaluate(`(document.querySelector('[data-method="1"] a') || { getAttribute: () => '' }).getAttribute('href')`);
+      check(/^\/data\/methods\/demand_(growth|weather)$/.test(String(method)), `${path}: the Method note is linked (${method})`);
       const still = await evaluate(`[...document.querySelectorAll('svg[data-chart]')].filter((s) => !s.closest('[data-hover="1"]')).length + document.querySelectorAll('svg[data-chart] title').length`);
       check(still === 0, `${path}: no chart stands outside a hover frame, and none keeps a browser tooltip of its own`);
     }
