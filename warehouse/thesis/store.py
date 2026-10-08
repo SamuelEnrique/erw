@@ -9,6 +9,10 @@ store did not outlive a run there. From session 147 the store is one object of a
     object   evidence/<niche>__<geography>__<stage>.json.gz   the store, written whole and read whole (gzip of JSON)
     object   evidence/history/<niche>__<geography>__<stage>/<YYYYMMDDTHHMMSSZ>.json.gz
                                                          the object as it was, copied here before it is replaced
+    object   states/<name>.json.gz                       session 158: a run's saved state (its paid answers, its report
+                                                         and its rows of the cost ledger), written once by a run whose
+                                                         store is the bucket: the runner's own files are discarded with
+                                                         it. Never replaced. run.py --landscape-from bucket:<name> reads one
 
 It is a bucket of its own, not a prefix of erw-archive: the archive is append-only and its scripts list and restore
 everything under it. Credentials: SUPABASE_URL and SUPABASE_SERVICE_KEY from the environment or the repository's .env,
@@ -33,6 +37,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 BUCKET = "erw-thesis"
 PREFIX = "evidence"
+STATES = "states"
+
+
+def state_object(name):
+    """The object of a saved state. The name is a run's file name without its ending: letters, digits, "-", "_", "."."""
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,150}", name or "") or ".." in name:
+        raise ValueError(f"not the name of a saved state: {name!r}")
+    return f"{STATES}/{name}.json.gz"
 
 
 def slug(s):
@@ -155,6 +167,26 @@ class BucketStore:
         self.log(f"  created the private storage bucket {self.bucket}")
         return "created"
 
+    def keep_state(self, name, state):
+        """Session 158: a run's state as an object of its own, written once and never replaced (x-upsert false). An
+        object already there under the name is left as it is, and said so. Returns where it is."""
+        path = f"object/{self.bucket}/{state_object(name)}"
+        body = gzip.compress(json.dumps(state, sort_keys=True, default=str).encode("utf-8"), mtime=0)
+        status, data = self._call("POST", path, body, {"Content-Type": "application/gzip", "x-upsert": "false"})
+        where = f"supabase storage (private): {self.bucket}/{state_object(name)}"
+        if status in (200, 201):
+            return f"{where} ({len(body):,} bytes)"
+        if status in (400, 409) and (b"exist" in (data or b"").lower() or b"duplicate" in (data or b"").lower()):
+            return f"{where} (already held, not replaced)"
+        raise RuntimeError(f"the storage API answered {status} on the state's write")
+
+    def read_state(self, name):
+        """A saved state by its name, or an error that says what the storage API answered."""
+        status, data = self._call("GET", f"object/{self.bucket}/{state_object(name)}")
+        if status != 200:
+            raise RuntimeError(f"saved state {self.bucket}/{state_object(name)}: the storage API answered {status} on read")
+        return json.loads(gzip.decompress(data).decode("utf-8"))
+
     def _read(self):
         """The object as it is now. A read just after a write was answered with the version before it for a few
         seconds (probed on 7 October 2026: runs/session147/bucket_probe.out); a read with a query of its own was not,
@@ -224,3 +256,12 @@ def handle_of(x):
     if x is None or hasattr(x, "load"):
         return x
     return FileStore(x)
+
+
+def read_state(name, env=None, send=None):
+    """Session 158: a saved state from the private bucket (run.py --landscape-from bucket:<name>). The credentials are
+    those of the evidence store; without them there is no bucket to read and this says so."""
+    base, key = secret("SUPABASE_URL", env), secret("SUPABASE_SERVICE_KEY", env)
+    if not (base and key):
+        raise RuntimeError("a saved state was asked of the bucket, and SUPABASE_URL or SUPABASE_SERVICE_KEY is not set")
+    return BucketStore(base, key, "state", send=send).read_state(name)
