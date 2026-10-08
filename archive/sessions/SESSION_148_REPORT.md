@@ -118,8 +118,13 @@ effort on.
   rows): Supabase matched both counts. **Snapshot before** (`148_load_before`, 23:36:19 UTC) **and after**
   (`148_load_after`, 23:37:28 UTC): **0 differences.**
 - Written under the lock, nothing released: validator, coverage, the archive and the Redivis draft, exit 0 each.
-- **Phase 2** (the record of all 100, its script, the method's paragraph, the tests) lands with this report; its
-  snapshot is in a line added below.
+- **Phase 2** (the record of all 100, its script, the method's paragraph, the tests, this report): pushed as
+  `task/148-record` (`f24e5e4`), checks passed (run 37708506009), merged as `74e9ab3`. **Vercel built it:**
+  "Deployment has completed" at 00:41:56 UTC on 8 October. The whole suite in a clean copy: 1,968 tests, passed.
+- **Snapshot before** (`148b_before`, 00:34:31 UTC) **and after** (`148b_after`, 00:42:08 UTC): **6 differences, all
+  on `/network`, all its own hourly refresh at 00:05 UTC** (the refresh stamp, the newest demand hour from 21:00 to
+  22:00 UTC, the source line's build stamp): expected, and not this deploy, which holds no site code. **No checked
+  number moved** (3,357 keys). Nothing was reverted. (Line added after the landing.)
 
 ## Checks
 
