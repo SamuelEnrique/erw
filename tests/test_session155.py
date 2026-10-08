@@ -81,7 +81,7 @@ class Ceilings(unittest.TestCase):
         return w.Budget(d, **over), d
 
     def test_the_ceilings_are_the_owners(self):
-        self.assertEqual((w.CEILING_ROWS, w.CEILING_REQUESTS, w.CEILING_BYTES, w.CEILING_LISTINGS_OTHER), (3_000_000, 1_500, 3 * 1024 ** 3, 60))
+        self.assertEqual((w.CEILING_ROWS, w.CEILING_REQUESTS, w.CEILING_BYTES, w.CEILING_LISTINGS_OTHER), (2_000_000, 1_500, 3 * 1024 ** 3, 60))   # session 160: the owner's ceiling for the second pull, the lower of the two
         self.assertGreaterEqual(w.ARCHIVE_PAUSE, 2.0)   # one request every two seconds to the Archive at most
 
     def test_a_request_past_the_request_ceiling_is_refused_before_it_is_made(self):
@@ -227,6 +227,7 @@ class CurrentCopies(unittest.TestCase):
         meeting = (b'<a href="/files/docs/2026/09/17/Some-comments-_-LLWG_9.17.26.pdf">comments</a>'
                    b'<a href="/files/docs/2026/09/16/September-TAC-Report.pdf">status</a>')
         net = FakeNet({w.CURRENT["grantpud_page"]: grant, w.CURRENT["ercot_pages"][0]: llwg, w.CURRENT["ercot_pages"][1]: b"<p>no meeting listed</p>",
+                       w.CURRENT["ercot_pages"][2]: b"<p>no meeting listed</p>", w.CURRENT["ercot_pages"][3]: b"<p>no report linked</p>",
                        "https://www.ercot.com/calendar/09172026-LLWG-Meeting": meeting})
         w.do_pull_current(d, net, lambda m: None)
         asked = [u for u, _ in net.asked]
@@ -235,9 +236,9 @@ class CurrentCopies(unittest.TestCase):
         self.assertIn("https://www.ercot.com/files/docs/2026/09/16/September-TAC-Report.pdf", asked)
         for other in ("OATT", "LGIA", "Some-comments", "01012099"):
             self.assertFalse([u for u in asked if other in u], other)
-        self.assertEqual(len(asked), 7)   # the workbook; Grant's page and its queue; ERCOT's two pages, one meeting and one report
+        self.assertEqual(len(asked), 9)   # the workbook; Grant's page and its queue; ERCOT's four pages (session 160: two more), one meeting and one report
         rows = w.read_captures(d)
-        self.assertEqual(len(rows), 7)
+        self.assertEqual(len(rows), 9)
         self.assertTrue(all(len(r["sha256"]) == 64 and r["retrieved_at"] and r["status"] == "200" for r in rows))
 
     def test_a_terms_quote_that_is_not_in_the_saved_page_fails_the_stage(self):

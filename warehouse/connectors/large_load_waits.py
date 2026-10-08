@@ -81,7 +81,7 @@ CONTACT = "ERW research project, github.com/SamuelEnrique/erw"   # the owner's r
 UA = {"User-Agent": CONTACT}
 RAW_DEFAULT = os.path.join(ROOT, "warehouse", "raw")
 
-CEILING_ROWS = 3_000_000
+CEILING_ROWS = 2_000_000             # session 160: the owner's ceiling for this pull (session 155's was 3,000,000); counted across both
 CEILING_REQUESTS = 1_500
 CEILING_BYTES = 3 * 1024 ** 3
 CEILING_LISTINGS_OTHER = 60          # CDX listings of queues that could be followed next (nothing of theirs is fetched)
@@ -109,6 +109,15 @@ LISTINGS = [
      "every address of Grant County PUD's site that names a queue"),
     ("ercot", "ercot.com/files/docs/", "prefix", "(?i).*(large[-_ .%20]*load|LLI[-_ .]|LFL[-_ .]|TAC[-_ .]*Report).*",
      "the meeting documents of ERCOT whose name says large load, LLI, LFL or TAC Report"),
+    # session 160: the first listing's filter missed a name written with %20 after LLI or LFL ("LLI%20Queue%20Status%20Update")
+    # and the status reports named for the queue alone. One listing a year since the interim process began (March 2022).
+] + [
+    ("ercot", f"ercot.com/files/docs/{y}/", "prefix", "(?i).*(LLI|LFL|large.{0,3}load|queue.{0,3}status|interconnection.{0,3}status|LLWG).*",
+     f"session 160: ERCOT's meeting documents of {y} whose name says LLI, LFL, large load, queue status, interconnection status or LLWG")
+    for y in range(2022, 2027)
+] + [
+    ("grantpud", "grantpud.org/", "prefix", "(?i).*(large.{0,3}(load|power)|load.{0,3}(interconnect|queue|request)|wait.{0,3}list).*",
+     "session 160: every address of Grant County PUD's site that names a large load, a large power request or a waiting list"),
 ]
 
 
@@ -374,12 +383,15 @@ WANTED = {
     # Grant County PUD: the queue's own PDF, by its name (the drafts of tariffs in the folder Transmission-Queue are not the queue)
     "grantpud": re.compile(r"(?i)/[^/]*queue[^/]*\.pdf(\?|$)"),
     # ERCOT: a document whose name says it is a status update of the large load queue, or the monthly report to TAC
+    # (session 160: also the working group's monthly report, as a file or as the meeting's zip, which holds the status update since April 2026)
     "ercot": re.compile(r"(?i)/[^/]*(queue[-_ ]*status|lli[-_ ]*status|status[-_ %20]*update|interconnection(%20|[-_ ])*status|aggregate[-_ ]*data|"
-                        r"(?:" + MONTH_NAMES + r")[-_ ]*tac[-_ ]*report|large[-_ ]*load[-_ ]*update)[^/]*\.(pdf|pptx|docx)(\?|$)"),
+                        r"(?:" + MONTH_NAMES + r")[-_ ]*tac[-_ ]*report|large[-_ ]*load[-_ ]*update|llwg[-_ ]*report)[^/]*\.(pdf|pptx|docx|zip)(\?|$)"),
 }
 # not a copy of a queue: Grant County PUD's staging host and the tariff drafts beside its queue; ERCOT's documents of before 2020
 # (TAC's reports to the board) and its regional planning group's project updates
-NOT_WANTED = re.compile(r"(?i)staging\.grantpud\.org|(OATT|LGIA|SGIA|LGIP|SGIP|Rate%20Schedule|PUBLIC%20NOTICE)|ercot\.com/files/docs/(19|200|201)\d/|_RPG\.")
+# (session 160: a "status update" of a study or of a regional planning project is not the queue's status report)
+NOT_WANTED = re.compile(r"(?i)staging\.grantpud\.org|(OATT|LGIA|SGIA|LGIP|SGIP|Rate%20Schedule|PUBLIC%20NOTICE)|ercot\.com/files/docs/(19|200|201)\d/|_RPG\.|"
+                        r"Voltage-Ride|Transmission-Upgrades|/EIR[-_]|RPG[-_]")
 
 
 def wanted_captures(raw):
@@ -416,10 +428,11 @@ def save_answer(raw, publisher, capture_ts, original, content):
     return f"{publisher}/{os.path.basename(path)}"
 
 
-def do_pull_archive(raw, net, log):
+def do_pull_archive(raw, net, log, only=()):
     """Each distinct capture (by the Archive's digest) once, in its raw form. A capture already in captures.csv is not
-    asked for again. Returns counts by publisher."""
+    asked for again. Returns counts by publisher. only: the publishers this run may ask for (empty: all)."""
     want, rest = wanted_captures(raw)
+    want = [(pub, c) for pub, c in want if not only or pub in only]
     have = {(r["publisher"], r["digest"]) for r in read_captures(raw) if r["digest"]}
     asked = {(r["publisher"], r["original"], r["capture"]) for r in read_captures(raw)}
     counts = {}
@@ -824,6 +837,11 @@ def read_copies(raw, log):
 
 
 ERCOT_STAGES = ["No Studies Submitted", "Under ERCOT Review", "Planning Studies Approved", "Approved to Energize", "Observed Energized"]
+# session 160. The one sentence each report writes out in words: megawatts approved to energize and megawatts observed
+# consuming, for the whole system. Kept as ERCOT wrote it; it is a total, not a request's wait, and no wait is made from it.
+ERCOT_A2E = re.compile(r"Of the ([\d,]+) ?MW that have received Approval to Energize, ERCOT has observed a non-\s*simultaneous (monthly )?peak consumption of ([\d,]+) ?MW", re.I)
+# the words a list of requests would carry as a column head: a report that prints one is read by a person before anything is followed
+ERCOT_LISTS = re.compile(r"(?i)\b(project name|project id|project number|customer name|queue position|queue number|request id|request number)\b")
 
 
 def document_pages(name, content):
@@ -881,13 +899,21 @@ def read_ercot(raw, log):
                 first = pages[0] if pages else ""
                 if not (re.search(r"Large\s+Load\s+Interconnection", first, re.I) and re.search(r"Status|Requests", first, re.I)):
                     continue
-                m = re.search(r"(" + MONTH_NAMES + r")\s+(\d{1,2}),\s*(\d{4})", first, re.I)
+                # session 160: a month written whole or by its first three letters, a day with or without "st", "nd", "rd", "th"
+                m = re.search(r"(" + MONTH_NAMES + r"|jan|feb|mar|apr|jun|jul|aug|sept?|oct|nov|dec)\.?\s+(\d{1,2})(?:st|nd|rd|th)?\s*,\s*(\d{4})", first, re.I)
                 if not m:
                     continue
-                day = dt.date(int(m.group(3)), months.index(m.group(1).lower()) + 1, int(m.group(2))).strftime("%Y-%m-%d")
+                day = dt.date(int(m.group(3)), [x[:3] for x in months].index(m.group(1).lower()[:3]) + 1, int(m.group(2))).strftime("%Y-%m-%d")
                 text = " ".join(pages)
+                m2 = ERCOT_A2E.search(text)
                 out.setdefault(day, dict(day=day, document=name.split("/")[-1], where=where, held_by=held, pages=len(pages),
-                                         stages_named=[x for x in ERCOT_STAGES if x.lower() in text.lower()]))
+                                         stages_named=[x for x in ERCOT_STAGES if x.lower() in text.lower()],
+                                         sha256=hashlib.sha256(body).hexdigest(),
+                                         names_a_request=bool(ERCOT_LISTS.search(text)),
+                                         approved_to_energize_mw=m2.group(1).replace(",", "") if m2 else "",
+                                         observed_consuming_mw=m2.group(3).replace(",", "") if m2 else "",
+                                         observed_basis=("the month's non-simultaneous peak" if m2.group(2) else "the all-time non-simultaneous peak") if m2 else "",
+                                         sentence=" ".join(m2.group(0).split()) if m2 else ""))
         except Exception as ex:   # a document that cannot be read is recorded and left
             log(f"  ercot {os.path.basename(path)}: cannot be read: {type(ex).__name__}: {ex}")
     return [out[k] for k in sorted(out)]
@@ -1240,9 +1266,14 @@ def compare(rows, wait_figures):
 CURRENT = {
     "nyiso": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
     "grantpud_page": "https://www.grantpud.org/transmission-information",
-    "ercot_pages": ["https://www.ercot.com/committees/tac/llwg", "https://www.ercot.com/committees/tac"],
+    # session 160: the task force that held the status updates from 2022 to 2024 (ERCOT lists it as inactive), and the service page
+    "ercot_pages": ["https://www.ercot.com/committees/tac/llwg", "https://www.ercot.com/committees/tac",
+                    "https://www.ercot.com/committees/inactive/lfltf", "https://www.ercot.com/services/rq/large-load-integration"],
 }
-ERCOT_MEETING = re.compile(r'(?:https://www\.ercot\.com)?(/calendar/(\d{2})(\d{2})(\d{4})-(?:Special-)?(?:LLWG|TAC)-Meeting[^"\s]*)"')
+ERCOT_MEETING = re.compile(r'(?:https://www\.ercot\.com)?(/calendar/(\d{2})(\d{2})(\d{4})-(?:Special-)?(?:LLWG|TAC|LFLTF)-Meeting[^"\s]*)"')
+# a committee page's own earlier years (session 160): /committees/tac/llwg/2025, /committees/inactive/lfltf/2022
+ERCOT_YEAR = re.compile(r'href="(?:https://www\.ercot\.com)?(/committees/(?:tac/llwg|tac|inactive/lfltf)/(20\d\d))"')
+FIRST_YEAR = 2022   # the interim large load interconnection process began in March 2022
 # the terms pages, and the sentences quoted from each: a quoted sentence must stand in the saved page word for word
 TERMS = {
     "internet_archive": dict(
@@ -1292,40 +1323,78 @@ def page_text(content):
     return re.sub(r"\s+", " ", t).strip()
 
 
-def do_pull_current(raw, net, log, ip=None):
+def do_pull_current(raw, net, log, ip=None, only=()):
     """The current copies, by plain request to each publisher: NYISO's workbook; the queue that Grant County PUD's
     transmission page links (the PDF whose name says it is the queue, nothing else in its folder); ERCOT's status
-    updates on the pages of the meetings its two committee pages list. A publisher that is paused is not asked."""
+    updates on the pages of the meetings its committee pages list (session 160: each committee page's earlier years
+    too, back to 2022, and the task force ERCOT lists as inactive). A publisher that is paused is not asked; only:
+    the publishers this run may ask (empty: all). An address already saved with a 200 is not asked for again."""
     def paused(scope):
         return ip is not None and ip.paused(scope)
+
+    def on(pub):
+        return not only or pub in only
+    held = {r["original"] for r in read_captures(raw) if r["status"] == "200" and r["file"] and not r["archive_url"]
+            and re.search(r"(?i)\.(pdf|pptx|docx|zip|xlsx?)(\?|$)", r["original"])}
     try:
-        if paused("nyiso"):
-            log("current nyiso: " + ip.pause_line("nyiso"))
-        else:
-            st, content, fname = do_fetch_current(raw, net, log, "nyiso", CURRENT["nyiso"])
-            log(f"current nyiso: {st}, {len(content):,} bytes, {fname}")
-        st, content, _ = do_fetch_current(raw, net, log, "grantpud", CURRENT["grantpud_page"], kind="page that links the current copy", rows_reserve=0)
-        for href in sorted(set(re.findall(r'href="([^"]+)"', content.decode("utf-8", "replace")))):
-            url = (href if href.startswith("http") else "https://www.grantpud.org" + href).replace(" ", "%20")
-            if WANTED["grantpud"].search(url) and not NOT_WANTED.search(url):
-                st, body, fname = do_fetch_current(raw, net, log, "grantpud", url)
-                log(f"current grantpud: {url} -> {st}, {len(body):,} bytes, {fname}")
+        if on("nyiso"):
+            if paused("nyiso"):
+                log("current nyiso: " + ip.pause_line("nyiso"))
+            else:
+                st, content, fname = do_fetch_current(raw, net, log, "nyiso", CURRENT["nyiso"])
+                log(f"current nyiso: {st}, {len(content):,} bytes, {fname}")
+        if on("grantpud"):
+            st, content, _ = do_fetch_current(raw, net, log, "grantpud", CURRENT["grantpud_page"], kind="page that links the current copy", rows_reserve=0)
+            n = 0
+            for href in sorted(set(re.findall(r'href="([^"]+)"', content.decode("utf-8", "replace")))):
+                url = (href if href.startswith("http") else "https://www.grantpud.org" + href).replace(" ", "%20")
+                if WANTED["grantpud"].search(url) and not NOT_WANTED.search(url):
+                    n += 1
+                    if url in held:
+                        log(f"current grantpud: {url} is already saved from the publisher; not asked for again")
+                        continue
+                    st, body, fname = do_fetch_current(raw, net, log, "grantpud", url)
+                    log(f"current grantpud: {url} -> {st}, {len(body):,} bytes, {fname}")
+            if not n:
+                log(f"current grantpud: the page answered {st} with {len(content):,} bytes and links no queue file: {page_text(content)[:160]!r}")
+        if not on("ercot"):
+            return
         if paused("ercot"):
             log("current ercot: " + ip.pause_line("ercot"))
             return
         seen = set()
+        today = now_utc().strftime("%Y%m%d")
         for index in CURRENT["ercot_pages"]:
             st, content, _ = do_fetch_current(raw, net, log, "ercot", index, kind="page that lists the meetings", rows_reserve=0)
-            for path, mm, dd, yyyy in sorted(set(ERCOT_MEETING.findall(content.decode("utf-8", "replace")))):
-                if path in seen or f"{yyyy}{mm}{dd}" > now_utc().strftime("%Y%m%d"):
+            pages = [content]
+            own = index.replace("https://www.ercot.com", "")
+            for path, year in sorted(set(ERCOT_YEAR.findall(content.decode("utf-8", "replace")))):
+                if path.rsplit("/", 1)[0] != own or int(year) < FIRST_YEAR or path in seen:
                     continue
+                if own == "/committees/tac" and int(year) < 2025:
+                    continue   # the status update reached TAC's meetings with the working group in 2025; before, it was the task force's
                 seen.add(path)
-                st, page, _ = do_fetch_current(raw, net, log, "ercot", "https://www.ercot.com" + path, kind="meeting page", rows_reserve=0)
-                for href in sorted(set(re.findall(r'href="([^"]+\.(?:pdf|pptx|docx))"', page.decode("utf-8", "replace"), re.I))):
-                    url = href if href.startswith("http") else "https://www.ercot.com" + href
-                    if WANTED["ercot"].search(url) and not NOT_WANTED.search(url) and url not in seen:
-                        seen.add(url)
-                        do_fetch_current(raw, net, log, "ercot", url)
+                st, more, _ = do_fetch_current(raw, net, log, "ercot", "https://www.ercot.com" + path, kind="page that lists the meetings of an earlier year", rows_reserve=0)
+                pages.append(more)
+            docs = set()
+            for page in pages:
+                text = page.decode("utf-8", "replace")
+                docs |= set(re.findall(r'href="([^"]+\.(?:pdf|pptx|docx|zip))"', text, re.I))   # a status report the committee page links itself
+                for path, mm, dd, yyyy in sorted(set(ERCOT_MEETING.findall(text))):
+                    if path in seen or f"{yyyy}{mm}{dd}" > today or int(yyyy) < FIRST_YEAR:
+                        continue
+                    seen.add(path)
+                    st, meeting, _ = do_fetch_current(raw, net, log, "ercot", "https://www.ercot.com" + path, kind="meeting page", rows_reserve=0)
+                    docs |= set(re.findall(r'href="([^"]+\.(?:pdf|pptx|docx|zip))"', meeting.decode("utf-8", "replace"), re.I))
+            for href in sorted(docs):
+                url = (href if href.startswith("http") else "https://www.ercot.com" + href).replace(" ", "%20")
+                if "ercot.com/" not in url or not WANTED["ercot"].search(url) or NOT_WANTED.search(url) or url in seen:
+                    continue
+                seen.add(url)
+                if url in held:
+                    log(f"current ercot: {url} is already saved from the publisher; not asked for again")
+                    continue
+                do_fetch_current(raw, net, log, "ercot", url)
     except Refused as e:
         log(f"current copies: REFUSED before the request: {e}")
 
@@ -1409,13 +1478,18 @@ def build(raw, log):
     latest = {}
     for c in copies:
         latest[c["publisher"]] = max(latest.get(c["publisher"], ""), c["date"])
-    got = max((c["retrieved_at"] for c in read_captures(raw) if c["retrieved_at"]), default=stamp())
+    # session 160: a row's retrieved_at is the last retrieval of a copy of ITS publisher's queue. Before, it was the last
+    # retrieval of anything in the store, so reading ERCOT's reports again would have marked every New York row as changed.
+    got = {}
+    for c in copies:
+        for cap in c["captures"]:
+            got[c["publisher"]] = max(got.get(c["publisher"], ""), cap["retrieved_at"])
     rows = []
     for (pub, rid), obs in sorted(followed.items()):
         for r in durations(pub, rid, obs, latest[pub]):
             key = "|".join([pub, rid, r["interval"], r["stage_as_worded"], r["start_later_date"]])
             r.update(event_id="llwait:" + hashlib.sha1(key.encode("utf-8")).hexdigest()[:16], event_type="large_load_wait", parties=r["entity"], entity_ids="",
-                     price="", currency="", status=r["stage_as_worded"] or r["status_in_last_copy"], retrieved_at=got,
+                     price="", currency="", status=r["stage_as_worded"] or r["status_in_last_copy"], retrieved_at=got.get(pub) or stamp(),
                      mw=float(r["mw"]) if r["mw"] else "")
             rows.append(r)
     ids = [r["event_id"] for r in rows]
@@ -1475,6 +1549,10 @@ def write_beside(d, b, figs, comparison, counts):
     dump(f"{NAME}_not_followed.csv", ["publisher", "id", "copies_seen", "first_copy", "last_copy", "why"], b["not_followed"])
     dump(f"{NAME}_figures.csv", list(figs[0]) if figs else ["entity"], figs)
     dump(f"{NAME}_comparison.csv", list(comparison[0]) if comparison else ["entity_group"], comparison)
+    # session 160: ERCOT's status reports, one a report day, with what each holds (system totals; no request)
+    dump(f"{NAME}_ercot_reports.csv", ["day", "document", "held_by", "where", "sha256", "pages", "names_a_request", "approved_to_energize_mw",
+                                       "observed_consuming_mw", "observed_basis", "sentence", "stages_named"],
+         [dict(r, stages_named="; ".join(r["stages_named"])) for r in counts.get("ercot", {}).get("reports", [])])
     with open(os.path.join(d, f"{NAME}_counts.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(counts, f, indent=1)
 
@@ -1522,7 +1600,9 @@ def header_lines(run_id, b, counts):
         "nyiso:interconnection_queue_dated_copies: NYISO Interconnection Queue workbook, the sheet Load Projects and the rows of type L of the other sheets. "
         "grantpud:interconnection_queue_dated_copies: Grant PUD Interconnection Queue (PDF), the rows of type Load. ERCOT's large load status reports list no "
         "request (system totals by stage): no row comes from them.",
-        f"This run: {per}. {len(b['rows'])} rows: " + ", ".join(f"{k} {v}" for k, v in c["rows_by_label"].items()) + ".",
+        f"This run: {per}. {len(b['rows'])} rows: " + ", ".join(f"{k} {v}" for k, v in c["rows_by_label"].items()) + "."
+        + (f" ERCOT (session 160): {c['ercot']['status_reports']} status reports read ({c['ercot']['first']} to {c['ercot']['last']}), "
+           f"{c['ercot'].get('reports_naming_a_request', 0)} name a request, no row." if c.get("ercot") else ""),
         "License: internal. NYISO's legal notice confers no license in the content of its site and reserves all rights (session 149); Grant County PUD's site "
         "states no terms of use for its documents. Not on the site, not in a public Redivis dataset, not in the live set. A person can rule otherwise.",
     ]
@@ -1588,6 +1668,39 @@ def summary_lines(counts):
     return lines
 
 
+TEXAS_GROUPS = ("ERCOT", "Oncor Electric Delivery")
+
+
+def texas_stated(stated):
+    """The wait figures large_load_statements holds for ERCOT and for Oncor (wait_figures.csv), as written: what the
+    measurement is set beside. Nothing is converted and nothing is ranked."""
+    out = []
+    for f in stated:
+        if f.get("entity_group") in TEXAS_GROUPS and f.get("wait_counted") == "yes":
+            out.append(dict(entity_group=f["entity_group"], as_written=f["quantity_as_written"], basis=f["wait_basis"], what=f["status"],
+                            stage_class=f["stage_class"], date=f["event_date"], source_url=f["source_url"], page=f.get("page", "")))
+    out.sort(key=lambda x: (x["entity_group"] != "Oncor Electric Delivery", x["basis"] != "measured", x["date"], x["as_written"]))
+    return out
+
+
+def texas_lines(counts):
+    """The Texas lines of the one-page summary (session 160), made from the counts and nothing else."""
+    e = counts["ercot"]
+    lines = [f"- **ERCOT**: {e['status_reports']} large load status reports read, {e['first']} to {e['last']} "
+             f"({e.get('held_by_archive', 0)} held by the Internet Archive, {e.get('held_by_publisher', 0)} read from ERCOT); "
+             f"reports that name a request: {e.get('reports_naming_a_request', 0)}; requests followed: {e['requests_listed']}; measured waits: none."]
+    with_totals = [r for r in e["reports"] if r.get("approved_to_energize_mw")]
+    if with_totals:
+        a, z = with_totals[0], with_totals[-1]
+        lines.append(f"- What the reports do print, for the whole system ({len(with_totals)} of the {e['status_reports']} write the sentence out): on {a['day']}, "
+                     f"{int(a['approved_to_energize_mw']):,} MW approved to energize and {int(a['observed_consuming_mw']):,} MW observed consuming ({a['observed_basis']}); "
+                     f"on {z['day']}, {int(z['approved_to_energize_mw']):,} MW and {int(z['observed_consuming_mw']):,} MW ({z['observed_basis']}). "
+                     "A total over time is not a request's wait: no wait is made from it.")
+    for x in counts.get("texas_stated", []):
+        lines.append(f"- **{x['entity_group']}** wrote \"{x['as_written']}\" ({x['basis']}; {x['what']}; {x['date']}).")
+    return lines
+
+
 def comparison_lines(counts):
     lines = []
     for x in counts["comparison"]:
@@ -1612,12 +1725,13 @@ def main(argv=None):
     ap.add_argument("--write", action="store_true", help="build the table from the saved copies; no request")
     ap.add_argument("--summary", metavar="DIR", help="print the summary's lines of numbers from DIR/large_load_waits_counts.json; no request, nothing written")
     ap.add_argument("--out-dir", help="a trial: the table, its log and the working files under this directory")
+    ap.add_argument("--publishers", default="", help="session 160: only these publishers are listed and pulled, comma separated (nyiso, grantpud, ercot); default all")
     ap.add_argument("--raw-root", default=RAW_DEFAULT, help="the directory that holds large_load_waits/ and large_load_statements/")
     a = ap.parse_args(argv)
     if a.summary:
         with open(os.path.join(a.summary, f"{NAME}_counts.json"), encoding="utf-8") as f:
             counts = json.load(f)
-        print("\n".join(summary_lines(counts) + [""] + comparison_lines(counts)))
+        print("\n".join(summary_lines(counts) + [""] + comparison_lines(counts) + [""] + texas_lines(counts)))
         return 0
     if not (a.list or a.pull or a.terms or a.count or a.write):
         ap.error("name a stage: --list, --pull, --terms, --count or --write")
@@ -1639,11 +1753,14 @@ def main(argv=None):
             os.makedirs(raw, exist_ok=True)
             budget = Budget(raw)
             net = Net(budget, say)
+            only = {p.strip() for p in a.publishers.split(",") if p.strip()}
+            if only - set(WANTED):
+                raise RuntimeError(f"--publishers names {sorted(only - set(WANTED))}; the publishers are {sorted(WANTED)}")
             if a.list:
-                do_list(raw, net, say)
+                do_list(raw, net, say, [l for l in LISTINGS if not only or l[0] in only])
             if a.pull:
-                do_pull_archive(raw, net, say)
-                do_pull_current(raw, net, say, ip)
+                do_pull_archive(raw, net, say, only)
+                do_pull_current(raw, net, say, ip, only)
                 count_rows(raw, say)
             if a.terms:
                 do_terms(raw, net, say)
@@ -1668,7 +1785,14 @@ def main(argv=None):
             counts = counts_of(b, comparison, no_expectation)
             ercot = read_ercot(raw, say)
             counts["ercot"] = {"status_reports": len(ercot), "first": ercot[0]["day"] if ercot else "", "last": ercot[-1]["day"] if ercot else "",
-                               "requests_listed": 0, "reports": ercot}
+                               "requests_listed": 0, "reports": ercot,
+                               "held_by_archive": sum(1 for r in ercot if r["held_by"] == "the Internet Archive"),
+                               "held_by_publisher": sum(1 for r in ercot if r["held_by"] != "the Internet Archive"),
+                               "reports_naming_a_request": sum(1 for r in ercot if r["names_a_request"])}
+            counts["texas_stated"] = texas_stated(stated)
+            naming = [r["document"] for r in ercot if r["names_a_request"]]
+            if naming:
+                say(f"  ERCOT: {len(naming)} report(s) print a column head of a list of requests and must be read by a person before anything is said of them: {naming}")
             say(f"  ERCOT: {len(ercot)} status reports read ({counts['ercot']['first']} to {counts['ercot']['last']}); they give megawatts by stage for the "
                 "system and list no request: nothing is followed and no wait is made from them")
             counts["other_queues"], counts["other_listings_with_no_capture"] = other_queues(raw)

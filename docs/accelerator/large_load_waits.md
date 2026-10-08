@@ -1,6 +1,7 @@
 # How long large loads waited, measured from dated copies of public queues: one page
 
-Session 155, 8 October 2026. Facts only. The table is **internal** and is not in this repository (which is public):
+Session 155, 8 October 2026; Texas and Grant County PUD read again in Session 160 the same day (the section "Texas"
+below). Facts only. The table is **internal** and is not in this repository (which is public):
 `warehouse/output/large_load_waits.csv` on the data machine, built by `warehouse/connectors/large_load_waits.py` from
 the copies saved under `warehouse/raw/large_load_waits/`. No request is named here and no megawatt of a request is
 given. It follows [`large_load_eighty.md`](large_load_eighty.md), which found that no utility, operator or regulator
@@ -61,11 +62,45 @@ publishes how long its large loads waited, and that successive copies of a queue
 - No copy shows a signed agreement for a New York load: those under construction or in service went there from a
   study status, so "study to agreement" holds lower bounds only. By size: in the table and the session's report, not
   here (a size is a megawatt figure of a request).
-- **ERCOT: nothing can be followed.** 11 of its large load status reports were read (26 April 2022 to 26 March 2026):
-  each gives megawatts by stage for the whole system and lists no request. A stage's megawatts over time is not a
-  request's wait, and no wait was made from them.
+- **ERCOT: nothing can be followed.** Session 155 read 11 of its large load status reports and session 160 every one
+  that could be found, 32 (26 April 2022 to 19 June 2026): each gives megawatts by stage for the whole system and
+  names no request. A stage's megawatts over time is not a request's wait, and no wait was made from them.
 - **Grant County PUD's public queue holds one load request.** Its large power queue (about 692 megawatts by its own
   resource plan) was not found published as a list. Two older copies are pictures of the page and were not read.
+
+## Texas: what can be measured, beside what was stated
+
+Session 160 asked the Internet Archive for every dated copy of ERCOT's large load status reports under the names its
+task force and working group gave them, and ERCOT's own site for the reports it still lists (its meeting pages of
+2022 to 2026). The table gained no row: there is no request to follow.
+
+- **ERCOT**: 32 large load status reports read, 2022-04-26 to 2026-06-19 (20 held by the Internet Archive, 12 read from ERCOT); reports that name a request: 0; requests followed: 0; measured waits: none.
+- What the reports do print, for the whole system (25 of the 32 write the sentence out): on 2023-05-31, 2,620 MW approved to energize and 2,072 MW observed consuming (the all-time non-simultaneous peak); on 2026-06-19, 8,927 MW and 3,900 MW (the month's non-simultaneous peak). A total over time is not a request's wait: no wait is made from it.
+- **Oncor Electric Delivery** wrote "687 days" (measured; retail transmission interconnections placed in service (from initial submission to energizing the interconnection); 2025-08-25).
+- **Oncor Electric Delivery** wrote "825 days" (measured; retail transmission interconnections placed in service (from initial submission to energizing the interconnection); 2025-08-25).
+- **ERCOT** wrote "approximately 220 days" (measured; in-service (delay against the in-service date); 2025-05-01).
+- **ERCOT** wrote "a few days to many weeks" (general statement; Under ERCOT Review; 2025-12-15).
+- **ERCOT** wrote "ten Business Days" (expected; review of the preliminary study report; 2025-12-15).
+- **ERCOT** wrote "13 weeks" (expected; Batch Zero study, step 1: Case Build; 2026-05-05).
+- **ERCOT** wrote "14 weeks" (expected; Batch Zero study, step 4: FAC-002 Stability and Batch Refinement Study (after the developer commitment deadline); 2026-05-05).
+- **ERCOT** wrote "15 weeks" (expected; Batch Zero study, step 2: Steady State Analysis; 2026-05-05).
+- **ERCOT** wrote "16 weeks" (expected; Batch Zero study, step 3: Stability Screening Study and Final Report; 2026-05-05).
+- **ERCOT** wrote "several months" (expected; Batch Zero study process (classification paused for the verification and audit); 2026-08-10).
+- **Why no request is named, in ERCOT's words** (its reports of 2026, under the chart by transmission provider): "The
+  Other category includes categories in which there are less than five customers and is aggregated to protect
+  Customer data".
+- The reports of 2025 and 2026 carry charts of megawatts by the date a project was submitted and by its in-service
+  date. They are pictures in the files, and megawatts by transmission provider, not requests: no number was read
+  off them.
+- No status report was found on the working group's or the committee's meeting pages after 19 June 2026: the
+  meetings of July to September 2026 list updates on the batch study instead.
+- **So the only measured Texas wait held is Oncor's own**: an average of 825 days and a median of 687 days from
+  first submission to energizing, for 79 retail transmission interconnections placed in service from 2022 through
+  2024. It is Oncor's measurement, not one made here, and nothing here can confirm or contradict it. ERCOT's four
+  batch study steps, as written, are 13, 15, 16 and 14 weeks; ERCOT wrote the steps, not their sum.
+- **Grant County PUD, again**: its page links the same copy as in the morning (30 July 2026), so its one request's
+  lower bound stands. A second listing of its site found no file of a large power queue: 158 captures of 22
+  addresses, all pages about large power service and one rate schedule.
 
 ## Against what the same entities said to expect
 
@@ -103,8 +138,11 @@ Listings only (16 of the 60 allowed): no copy of these was fetched, and none was
 
 ## The pull, and the terms
 
-96 requests of a ceiling of 1,500; 32.2 MB of 3 GB; 975 rows of requests of 3,000,000. One request every 2.5 seconds
-to the Archive. Every request carried "ERW research project, github.com/SamuelEnrique/erw" and no address of a
+Session 155: 96 requests of a ceiling of 1,500; 32.2 MB of 3 GB; 975 rows of requests of 3,000,000. Session 160
+(ERCOT and Grant County PUD only; New York's workbook was not asked for): 146 more requests (24 to the Archive, 121
+to ERCOT, 1 to Grant County PUD), 36.4 MB, no new row of a request, against the owner's ceiling of 2,000,000 rows;
+242 requests and 68.6 MB in all. One capture was refused by the Archive (403) and left; the same report was read
+from ERCOT. One request every 2.5 seconds to the Archive. Every request carried "ERW research project, github.com/SamuelEnrique/erw" and no address of a
 person. MISO and PJM were not requested. Each terms page is saved with its hash (`captures.csv`).
 
 - **Internet Archive** (its Terms of Use of 31 Dec 2014, read in its own capture of 1 June 2024, since the page
