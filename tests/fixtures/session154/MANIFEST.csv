@@ -1,0 +1,10 @@
+fixture,url,sha256_of_the_response,bytes,retrieved_at
+"nrc_26-001-i.txt (the text of the PDF, by pdfplumber)",https://www.nrc.gov/sites/default/files/cdn/doc-collection-news/2026/26-001-i.pdf,e7d7ad4ac4305afaf57571ef7394967ca809ac4d53577bcb815e8ee7ee369d04,353771,2026-10-08T04:12:34Z
+fr_2026-19580.api.json,https://www.federalregister.gov/api/v1/documents/2026-19580.json,1892b0ce950af00280980b762b15c08e6f05dab4f31b75571eff9018a7d9ea00,2613,2026-10-08T04:12:35Z
+fr_2026-02830.api.json,https://www.federalregister.gov/api/v1/documents/2026-02830.json,5142523ac69717bc13ba301b696593f51885710995806dd082372f52b15f7f88,5557,2026-10-08T04:12:56Z
+fr_2026-06708.api.json,https://www.federalregister.gov/api/v1/documents/2026-06708.json,ca89ce4ef9a9c2c95a92eeac3683a5042ce891e49e6884a6055756df21903599,2556,2026-10-08T04:13:02Z
+fr_2026-16633.api.json,https://www.federalregister.gov/api/v1/documents/2026-16633.json,e39adb8efb484e4222432570d47697a0597e208983ba5207026718ee4bd065f3,2682,2026-10-08T04:13:21Z
+fr_2026-18359.text.txt,https://www.federalregister.gov/documents/full_text/text/2026/09/09/2026-18359.txt,19abcb2faa43f9b84a6c648ccfa92077f7cb68d25d0358d3a37584104ab0953b,1919,2026-10-08T04:13:41Z
+fr_2026-06373.api.json,https://www.federalregister.gov/api/v1/documents/2026-06373.json,aba40bba9f554559d9720953aef523b62bfa798e8a2783cc2a1a80950e31379a,4815,2026-10-08T04:13:42Z
+fr_2026-13027.api.json,https://www.federalregister.gov/api/v1/documents/2026-13027.json,d95ba9101ebea6c4792dc6b0f1c6bafaa523a7848221e026af29aed1abee3234,7510,2026-10-08T04:14:02Z
+nrc_feed.xml,https://www.nrc.gov/public-involve/rss?feed=news,f07296a86e05dd3c5c43005c8697b3ed2d201a8549d3f57aa1f6c37f6d72fb22,53644,2026-10-08T04:22:46Z

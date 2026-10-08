@@ -110,18 +110,51 @@ STOP = set("the and for of to in on a an by with from at as is are be or its tha
            "proposed commission department agency federal u.s. us announces approves".split())
 
 
+# Session 154 (the audit of 50 rows against their source documents, runs/session154/agent_report_audit.md): five
+# rules below were wrong for a class of documents. Each is tested on the real documents in tests/fixtures/session154/.
+INLINE = re.compile(r"</?(?:INF|SUB|SUP|E|I|B|EM|STRONG|SMALL)\b[^>]*>", re.I)  # the Register's inline markup
+NOT_A_STATE = re.compile(r"\bWashington,? D\.? ?C\b\.?|\bDistrict of Columbia\b")
+GAS_DOCKET = re.compile(r"\b(?:CP|PF)\d{2}-\d+")  # FERC: a natural gas certificate docket, or its pre-filing
+HYDRO_DOCKET = re.compile(r"\bProject Nos?\. ?\d|\bDI\d{2}-\d+")  # FERC: a hydropower project, or a declaration of intention
+NRC_STORAGE = re.compile(r"\b(batter(y|ies)|energy storage)\b", re.I)
+EASTERN = "America/New_York"  # NRC and DOE date a release by the day in Washington, not by the UTC day of the feed
+
+
 def clean(s):
-    s = H.unescape(re.sub(r"<[^>]+>", " ", s or ""))
+    # NO<INF>X</INF> is "NOX": inline markup goes without a space (it left "NO X " in 2026-13027's abstract)
+    s = H.unescape(re.sub(r"<[^>]+>", " ", INLINE.sub("", s or "")))
     s = s.replace(chr(0x2014), ", ").replace(chr(0x2013), "-")
     return re.sub(r"\s+", " ", s).strip()
 
 
-def tags(text):
-    return ";".join(t for t, p in SECTOR_TAGS if re.search(p, text, re.I))
+def tags(text, agency="", docket=""):
+    """The sector tags: the keyword rules on the text, and (session 154) what the agency and the docket say where the
+    text cannot. A FERC notice has no abstract in the Register's API, so its tags rested on a title that is often only
+    the applicant's name: a CP docket is a natural gas certificate (and "Transmission" in a pipeline company's name is
+    not the electric transmission sector), a Project No. or DI docket is a hydropower project. Every NRC document is
+    nuclear; "storage" in one is spent fuel or waste storage unless it speaks of batteries or energy storage."""
+    got = {t for t, p in SECTOR_TAGS if re.search(p, text, re.I)}
+    if agency == "FERC" and GAS_DOCKET.search(docket or ""):
+        got = (got | {"gas"}) - {"transmission"}
+    if agency == "FERC" and HYDRO_DOCKET.search(docket or ""):
+        got |= {"power", "renewables"}
+    if agency == "NRC":
+        got.add("nuclear")
+        if not NRC_STORAGE.search(text):
+            got.discard("storage")
+    return ";".join(t for t, _ in SECTOR_TAGS if t in got)
 
 
 def states(text):
-    return ";".join(sorted({c for n, c in STATES.items() if re.search(rf"\b{n}\b", text)}))
+    """US states named in the text. Session 154: the longest name is read first and taken out, so "West Virginia" is
+    not also Virginia (2026-02830 held VA;WV), and "Washington, DC" is not the state of Washington."""
+    t = NOT_A_STATE.sub(" ", text or "")
+    out = set()
+    for n, c in sorted(STATES.items(), key=lambda kv: -len(kv[0])):
+        t, k = re.subn(rf"\b{n}\b", " ", t)
+        if k:
+            out.add(c)
+    return ";".join(sorted(out))
 
 
 def get(url, log, **kw):
@@ -168,13 +201,14 @@ def federal_register(since, log):
         if ROUTINE.search(title):
             continue
         rins = [r_ for r_ in x.get("regulation_id_numbers") or [] if r_]
+        docket = ";".join([d_ for d_ in x.get("docket_ids") or [] if d_] + rins)
         out.append({"event_id": f"federalregister:{x['document_number']}", "event_date": x["publication_date"],
                     "event_type": "filing", "parties": ";".join(n for n in names if n), "status": clean(x.get("action")),
                     "source": "federalregister:api", "source_url": x["html_url"], "agency": agency,
                     "action_type": TYPES.get(x["type"], "notice"), "title": title, "abstract": abstract[:1500],
-                    "docket": ";".join([d_ for d_ in x.get("docket_ids") or [] if d_] + rins), "rin": ";".join(rins),
-                    "fr_document_number": x["document_number"], "sector_tags": tags(text), "states": states(text),
-                    "retrieved_at": x["_got"]})
+                    "docket": docket, "rin": ";".join(rins),
+                    "fr_document_number": x["document_number"], "sector_tags": tags(text, agency, docket),
+                    "states": states(text), "retrieved_at": x["_got"]})
     log(f"  Federal Register: {len(seen)} documents, {len(out)} kept (energy, not routine)")
     return out
 
@@ -182,26 +216,42 @@ def federal_register(since, log):
 def rss(name, agency, url, since, log):
     r = get(url, log)
     got = ip.utc_iso(pd.Timestamp.now(tz="UTC"))
-    root = ET.fromstring(r.content)
-    out = []
-    for it in root.iter("item"):
-        title, link = clean(it.findtext("title")), (it.findtext("link") or "").strip()
-        when = pd.to_datetime(it.findtext("pubDate"), utc=True, errors="coerce")
-        if not link or pd.isna(when) or when.strftime("%Y-%m-%d") < since:
-            continue
-        desc = clean(it.findtext("description"))
-        text = f"{title} {desc}"
-        out.append(press(name, agency, link, when.strftime("%Y-%m-%d"), title, text, got,
-                         "TX" if agency == "PUCT" else "CA" if agency == "CPUC" else states(text)))
+    out = rss_rows(name, agency, r.content, since, got)
     log(f"  {name}: {len(out)} items since {since} (the feed's window)")
     return out
 
 
+def release_day(pub_date):
+    """The day a feed item was released, as the agency dates it (session 154). The NRC's feed gives GMT times, so a
+    release of the evening in Washington carried the next day's date: 24 of the feed's 167 items on 8 October 2026,
+    and each of the 7 releases opened states the Eastern day. None when the feed's date cannot be read."""
+    when = pd.to_datetime(pub_date, utc=True, errors="coerce")
+    return None if pd.isna(when) else when.tz_convert(EASTERN).strftime("%Y-%m-%d")
+
+
+def rss_rows(name, agency, content, since, got):
+    """The rows of one feed (its bytes), apart from the request so that a saved feed can be read again."""
+    out = []
+    for it in ET.fromstring(content).iter("item"):
+        title, link = clean(it.findtext("title")), (it.findtext("link") or "").strip()
+        day = release_day(it.findtext("pubDate"))
+        if not link or day is None or day < since:
+            continue
+        desc = clean(it.findtext("description"))
+        text = f"{title} {desc}"
+        out.append(press(name, agency, link, day, title, text, got,
+                         "TX" if agency == "PUCT" else "CA" if agency == "CPUC" else states(text)))
+    return out
+
+
 def press(name, agency, link, date, title, text, got, st):
+    # session 154: the PUCT's news page also lists releases of the Governor's office (gov.texas.gov); the row stays
+    # under the commission that lists it, and parties names who issued it
+    parties = f"Office of the Texas Governor;{agency}" if "gov.texas.gov" in link.lower() else agency
     return {"event_id": f"{name}:{hashlib.sha1(link.encode()).hexdigest()[:12]}", "event_date": date,
-            "event_type": "announcement", "parties": agency, "status": "news release", "source": f"{name}:news",
+            "event_type": "announcement", "parties": parties, "status": "news release", "source": f"{name}:news",
             "source_url": link, "agency": agency, "action_type": "press_release", "title": title, "abstract": "",
-            "docket": "", "rin": "", "fr_document_number": "", "sector_tags": tags(text), "states": st,
+            "docket": "", "rin": "", "fr_document_number": "", "sector_tags": tags(text, agency), "states": st,
             "retrieved_at": got}
 
 
@@ -314,7 +364,11 @@ def link_news(frame, log):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW policy sources")
     ap.add_argument("--since", default="2025-10-01")
+    ap.add_argument("--out-dir", help="session 154: a trial run, every output (the table, logs, raw files, registry, "
+                                      "status) under this directory and nothing under warehouse/output")
     args = ap.parse_args(argv)
+    if args.out_dir:
+        ip.set_out_dir(args.out_dir)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"policy_sources_{run_id}.log"))
