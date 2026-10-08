@@ -63,7 +63,7 @@ publishes how long its large loads waited, and that successive copies of a queue
   each gives megawatts by stage for the whole system and lists no request. A stage's megawatts over time is not a
   request's wait, and no wait was made from them.
 - **Grant County PUD's public queue holds one load request.** Its large power queue (about 692 megawatts by its own
-  resource plan) is not published as a list. Two older copies are pictures of the page and were not read.
+  resource plan) was not found published as a list. Two older copies are pictures of the page and were not read.
 
 ## Against what the same entities said to expect
 
@@ -93,8 +93,9 @@ Listings only (16 of the 60 allowed): no copy of these was fetched, and none was
 | Alberta Electric System Operator, monthly project list (Canada) | 535 captures, 164 distinct, 167 addresses | 2017-07-07 | 2026-10-01 | to be confirmed; not the United States |
 
 - No capture by these listings: SPP, Western Area Power Administration, Tri-State, Salt River Project, ISO New
-  England (no large load queue is posted yet), and the OASIS folders of Avista, Puget Sound Energy, Bonneville and
-  Grant County PUD. One wider listing of bpa.gov failed and was left.
+  England, and the OASIS folders of Avista, Puget Sound Energy, Bonneville and Grant County PUD. A listing that
+  returns nothing may be the listing's limit, not the Archive's holdings. One wider listing of bpa.gov failed and
+  was left.
 - **Keep every new copy of the two queues followed here** (New York ISO's workbook each month, Grant County PUD's
   PDF), and of the queues [`large_load_eighty.md`](large_load_eighty.md) names as coming.
 
