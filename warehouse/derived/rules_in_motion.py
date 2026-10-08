@@ -342,6 +342,94 @@ def build(dirs, today):
     }
 
 
+# ---------------------------------------------------------------- the ten rules of the month (session 154, part e)
+TEN = 10
+TEN_PER_REGULATOR = 3
+MONTH_DAYS = 31
+DIRECTNESS = {"large-load interconnection": 3, "large-load tariff": 3, "transmission cost allocation": 2,
+              "interconnection reform": 1}
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
+          "December"]
+DATE_WORDS = re.compile(r"\b(" + "|".join(MONTHS) + r")\s+(\d{1,2}),?\s+(\d{4})\b|\b(\d{4})-(\d{2})-(\d{2})\b")
+
+
+def dates_in(text):
+    """The dates a text writes ('October 20, 2026' or '2026-10-20'), as dates."""
+    out = []
+    for m in DATE_WORDS.finditer(text or ""):
+        try:
+            if m.group(1):
+                out.append(dt.date(int(m.group(3)), MONTHS.index(m.group(1)) + 1, int(m.group(2))))
+            else:
+                out.append(dt.date(int(m.group(4)), int(m.group(5)), int(m.group(6))))
+        except ValueError:
+            pass
+    return out
+
+
+def ten_rules(dirs, today):
+    """The ten rules a datacenter buyer most needs to know this month, by a stated rule (docs/accelerator/
+    rules_in_motion.md says it in words). The pool: every row in motion of large_load_rules, whichever the state (a
+    state with no grid on the page is in the pool). One row a docket: its newest row in motion. Ordered by
+        1. this month first: the document is dated in the MONTH_DAYS days up to today, or its row states a date
+           (a comment deadline, a hearing, an effective date, in notes or status_as_worded) in the MONTH_DAYS days
+           from today;
+        2. how directly it sets when or at what cost a large load is served: its topic's DIRECTNESS (interconnection
+           standards and tariffs with minimum terms and collateral, then who pays for transmission, then
+           interconnection reform at large); two topics add;
+        3. breadth: a federal action before a state's; more grids named before fewer;
+        4. the newest document first.
+    At most TEN_PER_REGULATOR rows a regulator, so that ten rows are not one commission's docket list. Ten rows, no
+    more. Returns (the rows, the size of the pool)."""
+    p = find("large_load_rules", dirs)
+    if not p:
+        return [], 0
+    t, head = read_events(p)
+    lic = license_of(head)
+    reads = {}
+    rp = find("large_load_rule_reads", dirs)
+    if rp:
+        r, _ = read_events(rp)
+        reads = {x["rule_event_id"]: x for x in r.to_dict("records") if x["read"].strip()}
+    cutoff = months_back(today, WINDOW_MONTHS)
+    month_from, month_to = today - dt.timedelta(days=MONTH_DAYS), today + dt.timedelta(days=MONTH_DAYS)
+    pool = {}
+    for a in t.to_dict("records"):
+        kind, cls, day = a["row_kind"], a["status_class"], a["event_date"][:10]
+        if not ((kind == "proceeding" and cls == "open") or (kind == "order" and day >= cutoff.isoformat())):
+            continue
+        key =(a["regulator"], re.sub(r"-\d{3}$", "", a["docket_number"]))
+        if key not in pool or (day, a["event_id"]) > (pool[key]["event_date"][:10], pool[key]["event_id"]):
+            pool[key] = a
+    scored = []
+    for a in pool.values():
+        day = dt.date.fromisoformat(a["event_date"][:10])
+        ahead = [d for d in dates_in(a["notes"] + " " + a["status_as_worded"]) if today <= d <= month_to]
+        this_month = day >= month_from or bool(ahead)
+        direct = sum(DIRECTNESS.get(x.strip(), 0) for x in a["topic"].split(";"))
+        named = [g for g in a["grids"].split(";") if g.strip()]
+        breadth = (2 if a["jurisdiction"] == "federal" else 0) + min(len(named), 3)
+        scored.append(((1 if this_month else 0, direct, breadth, a["event_date"][:10], a["event_id"]), a, ahead))
+    scored.sort(key=lambda x: x[0], reverse=True)
+    out, per = [], {}
+    for score, a, ahead in scored:
+        if per.get(a["regulator"], 0) >= TEN_PER_REGULATOR:
+            continue
+        per[a["regulator"]] = per.get(a["regulator"], 0) + 1
+        rd = reads.get(a["event_id"])
+        out.append({"rank": len(out) + 1, "regulator": a["regulator"], "state": a["state"], "docket": a["docket_number"],
+                    "date": a["event_date"][:10], "row_kind": a["row_kind"], "topic": a["topic"].replace(";", "; "),
+                    "status_as_worded": a["status_as_worded"], "status_class": a["status_class"],
+                    "title": a["document_title"] or a["proceeding_title"], "sentence": a["sentence"], "url": a["source_url"],
+                    "page": a["page"], "grids": a["grids"], "read": rd["read"] if rd else None,
+                    "read_model": rd["model_id"] if rd else None,
+                    "this_month": bool(score[0]), "date_ahead": ahead[0].isoformat() if ahead else "",
+                    "directness": score[1], "breadth": score[2], "table_license": lic, "id": a["event_id"]})
+        if len(out) == TEN:
+            break
+    return out, len(pool)
+
+
 def write_whole(path, obj):
     """The file written whole beside itself, then renamed over the old one (a reader never sees half a file)."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -357,6 +445,7 @@ def main(argv=None):
     ap.add_argument("--in-dir", action="append", default=[], help="a directory of tables; may be given more than "
                     "once, the first that holds a table wins (default: warehouse/output)")
     ap.add_argument("--out-dir", help="a trial run: rules.json under this directory; nothing in site/data")
+    ap.add_argument("--ten", help="also write the ten rules of the month to this file (JSON); no site file changes for it")
     ap.add_argument("--today", help="YYYY-MM-DD (default: today, UTC): the day the 12 months are counted back from")
     args = ap.parse_args(argv)
     dirs = [os.path.abspath(d) for d in args.in_dir] or [os.path.join(ROOT, "warehouse", "output")]
@@ -374,6 +463,10 @@ def main(argv=None):
           f"not on the page {obj['not_on_page']['count']}")
     for n in obj["notes"]:
         print(f"  note: {n}")
+    if args.ten:
+        rows, pool = ten_rules(dirs, today)
+        write_whole(os.path.abspath(args.ten), {"as_of": today.isoformat(), "pool": pool, "rows": rows})
+        print(f"  the ten: {len(rows)} rows from a pool of {pool} dockets in motion: {os.path.abspath(args.ten)}")
     return 0
 
 

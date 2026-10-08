@@ -111,6 +111,16 @@ class Tags(unittest.TestCase):
         self.assertEqual(tags_of(title="Large Loads", abstract="The city council will hold a hearing."), {})
         self.assertEqual(tags_of(title="Data Centers and the Grid", agency="City of Somewhere"), {})
 
+    def test_a_docket_listed_by_number_tags_a_notice_whose_title_is_only_names(self):
+        self.assertTrue(pat.docket_holds("Docket No. EL26-67-000", "EL26-67"))
+        self.assertFalse(pat.docket_holds("Docket No. EL26-670-000", "EL26-67"))
+        self.assertFalse(pat.docket_holds("Docket No. XEL26-67-000", "EL26-67"))
+        rules = dict(pat.load_rules(), dockets={"list": [{"docket": "EL99-1", "tags": ["large_load", "interconnection"]}]})   # MADE UP docket
+        hits = pat.tag_action(action(title="PJM Interconnection, L.L.C.", docket="Docket No. EL99-1-000"), rules)
+        self.assertEqual({h["tag"]: (h["matched_term"], h["matched_field"]) for h in hits},
+                         {"large_load": ("EL99-1", "docket"), "interconnection": ("EL99-1", "docket")})
+        self.assertEqual(pat.tag_action(action(title="PJM Interconnection, L.L.C.", docket="Docket No. EL99-2-000"), rules), [])
+
     def test_one_row_an_action_and_tag(self):
         import pandas as pd
         acts = pd.DataFrame([action(event_id="madeup:1", title="Large Loads and Transmission Cost Allocation"),
@@ -343,6 +353,40 @@ class SiteFile(unittest.TestCase):
         obj = self.build_from("License: public. MADE UP.", state="GA")
         self.assertTrue(all(not g["rows"] for g in obj["grids"].values()))
         self.assertIn("GA: no grid on the page", obj["not_on_page"]["by_reason"])
+
+    def test_the_ten_are_ten_at_most_one_a_docket_and_this_month_first(self):
+        import pandas as pd
+        d = tempfile.mkdtemp()
+        rows = []
+        for i in range(14):   # MADE UP: fourteen dockets of five regulators
+            reg, st, ns = [("Virginia State Corporation Commission", "VA", "vascc"), ("Public Utility Commission of Texas", "TX", "txpuc"),
+                           ("Federal Energy Regulatory Commission", "", "ferc"), ("Georgia Public Service Commission", "GA", "gapsc"),
+                           ("Public Utilities Commission of Ohio", "OH", "puco")][i % 5]
+            r = {c: "" for c in llr.COLS}
+            r.update(event_id=f"{ns}:D{i}:order:{i:010d}", event_date=f"2026-{(i % 9) + 1:02d}-15", event_type="regulatory_order",
+                     status="decided", source=f"{ns}:dockets", source_url=f"https://example.gov/{i}.pdf", regulator=reg,
+                     jurisdiction="federal" if ns == "ferc" else "state", state=st, docket_number=f"D{i}", row_kind="order",
+                     topic="large-load tariff" if i % 2 else "interconnection reform", document_title=f"A made-up order {i}",
+                     status_class="decided", sentence=f"A made-up sentence {i}.", notes="Comments due October 20, 2026." if i == 3 else "")
+            rows.append(r)
+        rows.append(dict(rows[0], event_id="vascc:D0:order:9999999999", event_date="2026-09-30", sentence="A later made-up sentence."))
+        with open(os.path.join(d, "large_load_rules.csv"), "w", encoding="utf-8", newline="") as f:
+            f.write("# MADE UP for a test\n# License: public. MADE UP.\n")
+            pd.DataFrame(rows, columns=llr.COLS).to_csv(f, index=False, lineterminator="\n")
+        ten, pool = rim.ten_rules([d], dt.date(2026, 10, 8))
+        self.assertEqual((len(ten), pool), (10, 14))
+        self.assertEqual(len({(r["regulator"], r["docket"]) for r in ten}), 10)
+        self.assertTrue(all(sum(1 for r in ten if r["regulator"] == x["regulator"]) <= rim.TEN_PER_REGULATOR for x in ten))
+        flags = [r["this_month"] for r in ten]
+        self.assertEqual(flags, sorted(flags, reverse=True))   # this month first
+        self.assertIn("D3", [r["docket"] for r in ten if r["this_month"]])   # a deadline within the month
+        d0 = next(r for r in ten if r["docket"] == "D0")
+        self.assertEqual(d0["sentence"], "A later made-up sentence.")   # a docket's newest row in motion
+        self.assertEqual([r["rank"] for r in ten], list(range(1, 11)))
+
+    def test_dates_a_row_states(self):
+        self.assertEqual(rim.dates_in("Comments due October 20, 2026; hearing 2026-11-03; February 30, 2026"),
+                         [dt.date(2026, 10, 20), dt.date(2026, 11, 3)])
 
     def test_the_built_file_keeps_the_contract(self):
         if not os.path.exists(SITE_FILE):

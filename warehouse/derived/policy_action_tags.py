@@ -11,6 +11,10 @@ and no request is made. Method: docs/methods/policy_action_tags.md.
     python warehouse/derived/policy_action_tags.py --sample 40 --seed 154 --in-dir DIR --out-dir DIR2
                                                                          # also writes the two samples a person reads
 
+Dockets listed by number (the rule file's "dockets"): a notice whose title holds only the parties' names takes the
+tags of a proceeding whose own order was read, when its docket field holds that docket number; the matched field is
+then "docket". The municipal rule, the agencies in scope and each tag's exclusions hold for these rows too.
+
 How a row is read (the rule file says the same): the title and the abstract, each on its own, lower case, every
 hyphen and dash a space, white space collapsed, the stripped phrases (a company's name) taken out. A term matches as
 whole words in order. An action with a municipal phrase in its title or abstract is never tagged. A tag's own
@@ -106,9 +110,20 @@ def tag_action(row, rules):
                     break
             if hit:
                 break
+        if not hit:   # the dockets listed by number: a notice whose title is only the parties' names
+            for d in rules.get("dockets", {}).get("list", []):
+                if tag in d["tags"] and docket_holds(row.get("docket", ""), d["docket"]):
+                    hit = {"tag": tag, "matched_term": d["docket"], "matched_field": "docket"}
+                    break
         if hit:
             out.append(hit)
     return out
+
+
+def docket_holds(docket, number):
+    """The row's docket field holds the docket number as a whole number (EL26-67 stands in 'Docket No. EL26-67-000',
+    not in 'EL26-670-000')."""
+    return re.search(r"(?<![A-Za-z0-9])" + re.escape(number) + r"(?![0-9])", docket or "") is not None
 
 
 def read_events(path):
