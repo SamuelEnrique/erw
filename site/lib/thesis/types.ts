@@ -22,6 +22,12 @@ export type LandscapeCompany = {
   /** Session 158: present when the sentence of `reason` comes from a public page of a data vendor. `mark` is the
    * short words shown beside it ("vendor page") and `note` its hover. Absent on every report written before. */
   reason_vendor?: { mark: string; note: string } | null;
+  /** Session 160: present when the sentence of `reason` is from a page's last good text, kept because the page did
+   * not give its text when it was asked again. `mark` is the short words shown beside it (the day the text was
+   * retrieved), `note` its hover, `retrieved` that day (YYYY-MM-DD). Absent on every report written before. */
+  reason_kept?: { mark: string; note: string; retrieved?: string } | null;
+  /** Session 160: the company's other names as sources write them, when several names are one company. */
+  also?: string[] | null;
 };
 export type FunnelStage = { id: string; label: string; n: number };
 export type FunnelCompany = { name: string; reached: string; stopped: string; score: number | null; sourcing: string[]; sources: string[] };

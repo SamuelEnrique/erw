@@ -34,6 +34,11 @@ import { env } from "./browser.mjs";
 
 export const DONE = "fixture-done", QUEUED = "fixture-queued", FAILED = "fixture-failed", THREE = "fixture-three";
 export const VENDOR_NOTE = "Fixture: this sentence is from a public page of a data vendor (Fixture Vendor), not from the company or the press.";
+// Session 160: one company of the fixture report carries reason_kept (its sentence is from a page's kept text, with
+// the day that text was retrieved) and also (its other names as written). Made up for the check, like the rest.
+export const KEPT_MARK = "retrieved 7 October 2026";
+export const KEPT_NOTE = "Fixture: this sentence is from the page as it was read on 7 October 2026. The page did not give its text when it was asked again on 8 October 2026.";
+export const ALSO = ["Unasked Example", "UnaskedExample (UE)"];
 export const KEY = "fixture-key-0123456789abcdefghijklmnopqrstu";      // 43 characters, as the database writes them
 export const PROBE = "<img src=x onerror=window.__thesis_probe=1>";
 
@@ -75,7 +80,7 @@ export function fixtureReport() {
           signal: "Fixture signal one.", trends: [1, 2], reason: "Fixture reason one.", sources: ["S1", "S3"], confidence: 72, confidence_note: "Fixture note: two sources agree.", sourcing: ["fixture channel"] },
         { name: "Sample Grid Co", website: "javascript:window.__thesis_probe=3", description: "Fixture description two.", founders: gap("not_disclosed", "Fixture: the company names no founder."), stage: gap("not_confirmed", "Fixture: one source only."),
           raised: gap("not_held", "Fixture: no round is held."), location: "Austin, TX", signal: "Fixture signal two.", trends: [1], reason: "Fixture reason two.", reason_vendor: { mark: "vendor page", note: VENDOR_NOTE }, sources: ["S2"], confidence: 41, confidence_note: "Fixture note: one source.", sourcing: [] },
-        { name: "Unasked Example LLC", website: "", description: "", founders: "A. Fixture", stage: "Seed", raised: "USD 2 million", location: "Reno, NV", signal: "", trends: [], reason: "Fixture reason three.", sources: [], confidence: 55, confidence_note: "", sourcing: ["fixture channel", "second fixture channel"] },
+        { name: "Unasked Example LLC", website: "", description: "", founders: "A. Fixture", stage: "Seed", raised: "USD 2 million", location: "Reno, NV", signal: "", trends: [], reason: "Fixture reason three.", reason_kept: { mark: KEPT_MARK, note: KEPT_NOTE, retrieved: "2026-10-07" }, also: ALSO, sources: [], confidence: 55, confidence_note: "", sourcing: ["fixture channel", "second fixture channel"] },
       ],
     },
     funnel: {

@@ -265,7 +265,8 @@ class FalseMatch(unittest.TestCase):
             "https://example.org/b": "Geothermal Technologies wins a DOE grant for resource field tests"})            # written for this test: the company
         c = by_name(tie.judge(s, {"energy_companies": [], "energy_deals": [
             {"event_id": "d1", "parties": "DOE Geothermal Technologies Office; Fervo Energy", "asset": "field test grant", "technology": "resource characterization"},
-            {"event_id": "d2", "parties": "Geothermal Technologies; DOE", "asset": "field test grant", "technology": "resource characterization"}]}, NICHE, TRENDS))[COMPANY]
+            {"event_id": "d2", "parties": "Geothermal Technologies; DOE", "asset": "field test grant", "technology": "resource characterization"}]}, NICHE, TRENDS,
+            titles=True))[COMPANY]         # session 160 (changed on purpose): a title is no longer evidence; this reads it as the rule did when the name rule was built
         self.assertEqual(sorted((e["tier"], e["address"]) for e in c["evidence"]), [("fetched", "https://example.org/b"), ("warehouse", "erw:energy_deals/d2")])
 
 
@@ -491,6 +492,9 @@ class VendorPages(unittest.TestCase):
         self.assertEqual(set(pg.vendor_pages()) & set(pg.LICENSED_HOSTS), set())
         url = "https://www.crunchbase.com/organization/heatwell-labs"
         s = store_of([("Heatwell Labs", "heatwell.example", [])], {}, sources={url: "Heatwell Labs - a DOE grant for resource field tests"})       # written for this test
+        # session 160 (changed on purpose): a title is no longer evidence, so the labeled line is the passage the search tool returned as cited
+        s["sources"][url]["cited"] = [s["sources"][url]["title"]]
+        self.assertEqual(judge_store(copy.deepcopy(s), vendors=names)["Heatwell Labs"]["titles_not_counted"], [{"address": url, "title": s["sources"][url]["title"]}])
         c = judge_store(s, vendors=names)["Heatwell Labs"]
         self.assertEqual([(e["tier"], e["address"], e["vendor"]) for e in c["evidence"]], [("fetched", url, "Crunchbase")])
         self.assertEqual(c["reason"]["vendor"], "Crunchbase")

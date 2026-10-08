@@ -1,0 +1,539 @@
+{
+ "geography": "United States",
+ "niche": "geothermal mapping and sensing, the technologies for finding and characterizing new geothermal resources (subsurface imaging, geophysics, machine-learning prospecting, drilling-data analytics), not geothermal power in general",
+ "note": "Saved real evidence of the Thesis Builder, cut by runs/session160/make_fixture.py from the bucket's evidence store as it was after session 147's three runs (runs/session147/bucket_final.json, 7 October 2026) and after the runner's run 20261008T101706Z-605e62 (runs/session158/bucket_after_runner.json, 8 October 2026). The rows are as the runs saved them. Each page's text is cut to the lines that hold a sentence the rule scored for the company; saved_text_sha256 and saved_text_chars are the saved text's own. Nothing here is written for a test.",
+ "rows": [
+  {
+   "key": "terraai",
+   "row": {
+    "country": "USA",
+    "description": "AI modeling and optimisation for reservoir, wind and mineral development projects.",
+    "fits_stage": "not stated",
+    "found_by": [
+     "Q1"
+    ],
+    "founders": "not disclosed",
+    "kind": "private company",
+    "latest_source_year": "2026",
+    "location": "Palo Alto, California",
+    "name": "TerraAI (Terra AI)",
+    "raised": "not disclosed",
+    "raised_primary": false,
+    "signal": "Startup listing; founded 2023.",
+    "source_urls": [
+     "https://dealroom.co/companies/terra-ai/",
+     "https://www.crunchbase.com/organization/terra-ai",
+     "https://www.ventureradar.com/startup/Geothermal"
+    ],
+    "stage": "not disclosed",
+    "stage_primary": false,
+    "tam": "",
+    "trends": [
+     4
+    ],
+    "website": "not disclosed"
+   },
+   "run_id": "20261007T213554Z-b7eae2",
+   "seq": 1
+  },
+  {
+   "key": "xgs energy",
+   "row": {
+    "country": "USA",
+    "description": "Single-well heat-harvesting geothermal technology; DOE selected it to drill an appraisal well in New Mexico.",
+    "fits_stage": "yes",
+    "found_by": [
+     "Q12",
+     "E56"
+    ],
+    "founders": "Josh Prueher (CEO), Ghazal Izadi (COO), Axel-Pierre Bois (CTO)",
+    "kind": "private company",
+    "latest_source_year": "2026",
+    "location": "Palo Alto, California per E56; Houston-based per Q12 source",
+    "name": "XGS Energy",
+    "raised": "$56.7 million across 4 funding rounds",
+    "raised_primary": false,
+    "signal": "DOE funding selection.",
+    "source_urls": [
+     "erw:energy_companies/XGS Energy",
+     "https://renewablesnow.com/news/rebranded-us-geothermal-tech-developer-xgs-raises-usd-19m-816713/",
+     "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/"
+    ],
+    "stage": "Series A (extended)",
+    "stage_primary": false,
+    "tam": "",
+    "trends": [
+     3
+    ],
+    "website": "xgsenergy.com"
+   },
+   "run_id": "20261007T213554Z-b7eae2",
+   "seq": 1
+  },
+  {
+   "key": "xgs energy",
+   "row": {
+    "country": "United States",
+    "description": "Heat-harvesting geothermal technology drilling a single directional well into rock at 250 degrees C or higher.",
+    "fits_stage": "yes",
+    "found_by": [
+     "Q12",
+     "E56"
+    ],
+    "founders": "CEO Josh Prueher, COO Ghazal Izadi, CTO Axel-Pierre Bois",
+    "kind": "private company",
+    "latest_source_year": "2026",
+    "location": "Houston (Q12 notes); Palo Alto, California (E56)",
+    "name": "XGS Energy",
+    "raised": "$56.7 million across 4 funding rounds",
+    "raised_primary": false,
+    "signal": "Selected by DOE for funding to drill a deep appraisal well in New Mexico.",
+    "source_urls": [
+     "erw:energy_companies/XGS Energy",
+     "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/"
+    ],
+    "stage": "Series A (extended)",
+    "stage_primary": false,
+    "tam": "",
+    "trends": [
+     3
+    ],
+    "website": "xgsenergy.com"
+   },
+   "run_id": "20261007T214812Z-2b3411",
+   "seq": 2
+  },
+  {
+   "key": "terra ai",
+   "row": {
+    "country": "United States",
+    "description": "AI models of subsurface geology for mining and reservoir projects; listed as TerraAI.",
+    "fits_stage": "not stated",
+    "found_by": [
+     "Q1"
+    ],
+    "founders": "not disclosed",
+    "kind": "other",
+    "latest_source_year": "not stated",
+    "location": "Palo Alto, California",
+    "name": "Terra AI",
+    "raised": "not disclosed",
+    "raised_primary": false,
+    "signal": "Listing in geothermal start-up directory.",
+    "source_urls": [
+     "https://sacra.com/c/terra-ai/",
+     "https://www.crunchbase.com/organization/terra-ai",
+     "https://www.ventureradar.com/startup/Geothermal"
+    ],
+    "stage": "not stated",
+    "stage_primary": false,
+    "tam": "",
+    "trends": [],
+    "website": "terraai.com"
+   },
+   "run_id": "20261007T214812Z-2b3411",
+   "seq": 2
+  },
+  {
+   "key": "xgs energy",
+   "row": {
+    "country": "United States",
+    "description": "Single-well heat-harvesting geothermal technology for rock at 250 degrees C or higher.",
+    "fits_stage": "yes",
+    "found_by": [
+     "Q12",
+     "E56"
+    ],
+    "founders": "Josh Prueher, Ghazal Izadi, Axel-Pierre Bois",
+    "kind": "private company",
+    "latest_source_year": "2026",
+    "location": "Houston",
+    "name": "XGS Energy",
+    "raised": "$56.7 million across 4 funding rounds",
+    "raised_primary": false,
+    "signal": "DOE award to drill an appraisal well in New Mexico",
+    "source_urls": [
+     "erw:energy_companies/XGS Energy",
+     "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/"
+    ],
+    "stage": "Series A (extended)",
+    "stage_primary": false,
+    "tam": "",
+    "trends": [
+     3
+    ],
+    "website": "xgsenergy.com"
+   },
+   "run_id": "20261007T215433Z-596e3d",
+   "seq": 3
+  },
+  {
+   "key": "terraai",
+   "row": {
+    "country": "United States",
+    "description": "AI subsurface modeling for reservoir, wind and mineral projects; geothermal not named.",
+    "fits_stage": "yes",
+    "found_by": [
+     "Q1"
+    ],
+    "founders": "John Mern, Anthony Corso",
+    "kind": "private company",
+    "latest_source_year": "not stated",
+    "location": "Palo Alto, California",
+    "name": "TerraAI (Terra AI)",
+    "raised": "$26M in Seed and Series A Funding (headline)",
+    "raised_primary": false,
+    "signal": "Directory listing",
+    "source_urls": [
+     "https://www.ventureradar.com/startup/Geothermal"
+    ],
+    "stage": "Series A",
+    "stage_primary": false,
+    "tam": "",
+    "trends": [
+     4
+    ],
+    "website": "terraai.com"
+   },
+   "run_id": "20261007T215433Z-596e3d",
+   "seq": 3
+  },
+  {
+   "key": "teverra",
+   "row": {
+    "country": "US",
+    "description": "Atlanta firm with DOE SBIR awards, including geothermal drilling geomechanics work.",
+    "fits_stage": "not stated",
+    "found_by": [
+     "Q4",
+     "F1"
+    ],
+    "founders": "not disclosed",
+    "kind": "private company",
+    "latest_source_year": "not stated",
+    "location": "Atlanta, Georgia",
+    "name": "Teverra LLC",
+    "raised": "not disclosed",
+    "raised_primary": false,
+    "signal": "DOE SBIR awards",
+    "source_urls": [
+     "https://www.sbir.gov/portfolio/1541897",
+     "https://www.thinkgeoenergy.com/teverra-secures-us-doe-grant-to-develop-geothermal-geomechanics-tool/"
+    ],
+    "stage": "not disclosed",
+    "stage_primary": false,
+    "tam": "",
+    "trends": [
+     3
+    ],
+    "website": "teverra.com"
+   },
+   "run_id": "20261008T101706Z-605e62",
+   "seq": 4
+  },
+  {
+   "key": "terra ai",
+   "row": {
+    "country": "US",
+    "description": "AI modeling of subsurface geology, with geothermal and carbon-storage applications.",
+    "fits_stage": "yes",
+    "found_by": [
+     "Q1",
+     "F2"
+    ],
+    "founders": "not disclosed",
+    "kind": "private company",
+    "latest_source_year": "2026",
+    "location": "Palo Alto, California (other profiles say Sunnyvale or Redwood City)",
+    "name": "Terra AI, Inc.",
+    "raised": "$20 million Series A led by Khosla Ventures with BHP Ventures, 2026-06-03",
+    "raised_primary": true,
+    "signal": "Series A",
+    "source_urls": [
+     "https://sacra.com/c/terra-ai/",
+     "https://www.prnewswire.com/news-releases/terra-ai-raises-20m-to-accelerate-mineral-and-reservoir-exploration-to-meet-global-critical-mineral-and-energy-demands-302789507.html",
+     "https://www.ventureradar.com/startup/Geothermal"
+    ],
+    "stage": "Series A",
+    "stage_primary": true,
+    "tam": "",
+    "trends": [
+     4
+    ],
+    "website": "terraai.com"
+   },
+   "run_id": "20261008T101706Z-605e62",
+   "seq": 4
+  },
+  {
+   "key": "xgs energy",
+   "row": {
+    "country": "US",
+    "description": "Heat-harvesting geothermal technology drilling a single directional well into rock at 250 degrees C or higher; drilling-focused.",
+    "fits_stage": "yes",
+    "found_by": [
+     "Q12",
+     "E56"
+    ],
+    "founders": "Josh Prueher, Ghazal Izadi, Axel-Pierre Bois (leadership)",
+    "kind": "private company",
+    "latest_source_year": "2026",
+    "location": "Houston-based per notes; Palo Alto, California per E56",
+    "name": "XGS Energy",
+    "raised": "$56.7 million across 4 funding rounds",
+    "raised_primary": false,
+    "signal": "DOE grant for a New Mexico appraisal well",
+    "source_urls": [
+     "erw:energy_companies/XGS Energy",
+     "https://energycapitalhtx.com/fervo-quaise-xgs-geothermaldoe-funding",
+     "https://renewablesnow.com/news/rebranded-us-geothermal-tech-developer-xgs-raises-usd-19m-816713/",
+     "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/"
+    ],
+    "stage": "Series A (extended)",
+    "stage_primary": false,
+    "tam": "",
+    "trends": [
+     3
+    ],
+    "website": "xgsenergy.com"
+   },
+   "run_id": "20261008T101706Z-605e62",
+   "seq": 4
+  }
+ ],
+ "runs": [
+  {
+   "date": "2026-10-07",
+   "run_id": "20261007T213554Z-b7eae2",
+   "seq": 1
+  },
+  {
+   "date": "2026-10-07",
+   "run_id": "20261007T214812Z-2b3411",
+   "seq": 2
+  },
+  {
+   "date": "2026-10-07",
+   "run_id": "20261007T215433Z-596e3d",
+   "seq": 3
+  },
+  {
+   "date": "2026-10-08",
+   "run_id": "20261008T101706Z-605e62",
+   "seq": 4
+  }
+ ],
+ "sources": {
+  "https://dealroom.co/companies/terra-ai/": {
+   "cited": [],
+   "fetched": "2026-10-07",
+   "first_run": "20261007T213554Z-b7eae2",
+   "last_run": "20261008T101706Z-605e62",
+   "page_age": "",
+   "sha": "2cbc2ee89c656c6d",
+   "title": "Terra AI \u2014 venture-backed company profile"
+  },
+  "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/": {
+   "cited": [],
+   "fetched": "2026-10-06",
+   "first_run": "20261007T213554Z-b7eae2",
+   "last_run": "20261008T101706Z-605e62",
+   "page_age": "7 days ago",
+   "sha": "f7a51b65100395c0",
+   "title": "XGS tapped for DOE funding for geothermal drilling project in New Mexico"
+  },
+  "https://sacra.com/c/terra-ai/": {
+   "cited": [],
+   "fetched": "2026-10-07",
+   "first_run": "20261007T213554Z-b7eae2",
+   "last_run": "20261008T101706Z-605e62",
+   "page_age": "",
+   "sha": "061829b7bd15d530",
+   "title": "Terra AI news & analysis"
+  },
+  "https://www.prnewswire.com/news-releases/terra-ai-raises-20m-to-accelerate-mineral-and-reservoir-exploration-to-meet-global-critical-mineral-and-energy-demands-302789507.html": {
+   "cited": [],
+   "fetched": "2026-10-07",
+   "first_run": "20261007T213554Z-b7eae2",
+   "last_run": "20261008T101706Z-605e62",
+   "page_age": "126 days ago",
+   "sha": "116651f29241ae37",
+   "title": "Terra AI raises $20M to Accelerate Mineral and Reservoir Exploration to Meet Global Critical Mineral and Energy Demands"
+  }
+ },
+ "stage": "startups",
+ "terra_pages": {
+  "https://dealroom.co/companies/terra-ai/": {
+   "address": "https://dealroom.co/companies/terra-ai/",
+   "bytes": 66373,
+   "content_type": "text/html; charset=utf-8",
+   "extractor": 3,
+   "fetched": "2026-10-08",
+   "fetched_at": "2026-10-08T10:23:54Z",
+   "final": "https://dealroom.co/companies/terra-ai/",
+   "first_run": "20261007T213554Z-b7eae2",
+   "kind": "html",
+   "last_run": "20261008T101706Z-605e62",
+   "reason": "",
+   "saved_text_chars": 6694,
+   "saved_text_sha256": "86aa9898c86d05f0c62dae22ffe3800ebdf63dca818bb4cb6e06a66ec53f8b92",
+   "sha256": "62b3db72a65a46a643db626c7b162d25f1597507c1af47ba3b1bc2aa86326d1d",
+   "state": "fetched",
+   "status": 200,
+   "text": "Terra AI's core business revolves around providing AI-based decision-support tools that mitigate subsurface risk, enhance operational performance, and accelerate the energy transition. The company targets clients in the energy and mineral exploration sectors, offering them solutions to complex challenges in their operations. By leveraging artificial intelligence, Terra AI aims to revolutionize how natural resource projects are designed and executed, leading to more efficient and cost-effective outcomes.",
+   "text_sha256": "01b9fdf7cb9ebe4d0f2cefdfd5d0802381c6ba3a5f6a8ecf4ff4219ce3a5e6f9",
+   "truncated": false
+  },
+  "https://sacra.com/c/terra-ai/": {
+   "address": "https://sacra.com/c/terra-ai/",
+   "bytes": 226964,
+   "content_type": "text/html; charset=utf-8",
+   "extractor": 3,
+   "fetched": "2026-10-08",
+   "fetched_at": "2026-10-08T10:22:54Z",
+   "final": "https://sacra.com/c/terra-ai/",
+   "first_run": "20261007T214812Z-2b3411",
+   "kind": "html",
+   "last_run": "20261008T101706Z-605e62",
+   "reason": "",
+   "saved_text_chars": 17807,
+   "saved_text_sha256": "5028bc5928058dcb1a517f58f9373e23ebd438d8127e5e7ac31c8ad87e82e254",
+   "sha256": "84ee4799cecfd9e46dde607dc067e12790cb8c5a936054f025ecd74c856840c3",
+   "state": "fetched",
+   "status": 200,
+   "text": "For mining teams, this translates into campaign decisions such as which targets to screen first, how to design a survey program, where to drill in the next round, and how many holes are needed to characterize a deposit. Terra AI focuses on the post-discovery phase of exploration, which the company describes as the longest lead-time bottleneck in mine development, the period between finding a target and having enough confidence to commit capital.\nIts cross-vertical architecture is a business advantage. The same probabilistic modeling and decision-optimization engine applies across copper, gold, rare earth elements, geothermal, and carbon storage, letting Terra AI amortize R&D across adjacent sectors that share the same core technical problem without rebuilding the product from scratch for each new market.",
+   "text_sha256": "3e523f717b2730788591e42d792aab97cadd48b6593e193472c7409c36ff8a45",
+   "truncated": false
+  },
+  "https://www.prnewswire.com/news-releases/terra-ai-raises-20m-to-accelerate-mineral-and-reservoir-exploration-to-meet-global-critical-mineral-and-energy-demands-302789507.html": {
+   "address": "https://www.prnewswire.com/news-releases/terra-ai-raises-20m-to-accelerate-mineral-and-reservoir-exploration-to-meet-global-critical-mineral-and-energy-demands-302789507.html",
+   "bytes": 216202,
+   "content_type": "text/html; charset=UTF-8",
+   "extractor": 3,
+   "fetched": "2026-10-08",
+   "fetched_at": "2026-10-08T10:23:32Z",
+   "final": "https://www.prnewswire.com/news-releases/terra-ai-raises-20m-to-accelerate-mineral-and-reservoir-exploration-to-meet-global-critical-mineral-and-energy-demands-302789507.html",
+   "first_run": "20261008T101706Z-605e62",
+   "kind": "html",
+   "last_run": "20261008T101706Z-605e62",
+   "reason": "",
+   "saved_text_chars": 6813,
+   "saved_text_sha256": "c53160758d745d831c0390d394f8603963cec2ef22f12a4bfbc79bae0ab57233",
+   "sha256": "0858807cbe2734c23b3126238c283b5f2849a50eda6bb85bde0521988abd7e88",
+   "state": "fetched",
+   "status": 200,
+   "text": "Terra AI's patented technology integrates nearly every type of exploration data to generate millions of geological models, enabling teams to evaluate a comprehensive range of potential subsurface scenarios. This allows project teams to identify the best drilling and geophysical approaches to reduce key uncertainty and rigorously assess project economics earlier than ever before. By going beyond geological visualization and delivering risk-quantified decision insights, Terra AI helps explorers on virtually every important decision across their portfolio from determining which assets to acquire in a portfolio to accelerating and de-risking resource development efforts. The outcome: resource pipelines are developed faster and more efficiently to help the world meet its resource needs.\nTerra AI solves the world's most critical subsurface problems with cutting-edge artificial intelligence. The company's patented platform fuses geophysics, geochemistry, and drilling data to generate probabilistic models of the underground\u2014driving faster, more accurate, and lower-cost resource exploration. Backed by Khosla Ventures, BHP Ventures, Rio Tinto, and others, Terra AI is already being adopted in the field and creating value for priority projects with the world's leading resource companies. Learn more at www.terraai.com.",
+   "text_sha256": "05a58eb61c830bcc4335cc4c691e54f3149f0a3c43f521e39c8c94a202a8f39d",
+   "truncated": false
+  }
+ },
+ "teverra": {
+  "address": "https://www.thinkgeoenergy.com/teverra-secures-us-doe-grant-to-develop-geothermal-geomechanics-tool/",
+  "source": {
+   "cited": [],
+   "fetched": "2026-10-08",
+   "first_run": "20261008T101706Z-605e62",
+   "last_run": "20261008T101706Z-605e62",
+   "page_age": "614 days ago",
+   "sha": "1df2f8d2842107f1",
+   "title": "Teverra secures US DOE grant to develop geothermal geomechanics tool"
+  }
+ },
+ "trends": [
+  {
+   "search_phrases": [
+    "AI geothermal exploration",
+    "blind geothermal discovery"
+   ],
+   "title": "AI prospecting for blind geothermal systems"
+  },
+  {
+   "search_phrases": [
+    "distributed acoustic sensing",
+    "fiber optic geothermal monitoring"
+   ],
+   "title": "Fiber and DAS sensing for geothermal characterization"
+  },
+  {
+   "search_phrases": [
+    "geothermal resource characterization",
+    "DOE geothermal field tests"
+   ],
+   "title": "Public grants for resource characterization"
+  },
+  {
+   "search_phrases": [
+    "geothermal risk assessment software",
+    "geothermal digital modeling"
+   ],
+   "title": "Prediction and modeling software for geothermal investment decisions"
+  },
+  {
+   "search_phrases": [
+    "high-temperature seismometer",
+    "drone electromagnetic survey"
+   ],
+   "title": "High-temperature and airborne survey methods"
+  }
+ ],
+ "xgs": {
+  "address": "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/",
+  "after": {
+   "address": "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/",
+   "bytes": 5858,
+   "content_type": "text/html; charset=UTF-8",
+   "fetched": "2026-10-08",
+   "fetched_at": "2026-10-08T10:22:53Z",
+   "final": "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/",
+   "first_run": "20261007T213554Z-b7eae2",
+   "history": [
+    {
+     "bytes": 476897,
+     "fetched": "2026-10-07",
+     "fetched_at": "2026-10-07T21:43:23Z",
+     "last_run": "20261007T213554Z-b7eae2",
+     "reason": "",
+     "saved_text_chars": 5948,
+     "saved_text_sha256": "fec5b5209b705bef9f9e6a8f6b05a1a3457e9a97e382bf6c16f77ab2b9c1fa00",
+     "sha256": "47c286f0a26be0961e10511c862c09ae795782ecb34f86702a5169261dc5b984",
+     "state": "fetched",
+     "status": 200,
+     "text": "US geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States.\nUS geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States.\nUS geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States.\nUS geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States.",
+     "text_sha256": "aa4d4f01f1e6497c316cca01e94a038d5e40dbfc8295820a23a80a2820776217"
+    }
+   ],
+   "last_run": "20261008T101706Z-605e62",
+   "reason": "answered 403",
+   "saved_text_chars": 0,
+   "saved_text_sha256": "",
+   "sha256": "032ecc87923c412b3c7a0d2d75a0488abbe097bf76a72a9a957b72e484213e0b",
+   "state": "refused",
+   "status": 403,
+   "text": "",
+   "text_sha256": "",
+   "truncated": false
+  },
+  "before": {
+   "address": "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/",
+   "bytes": 476897,
+   "content_type": "text/html; charset=utf-8",
+   "extractor": 3,
+   "fetched": "2026-10-07",
+   "fetched_at": "2026-10-07T21:43:23Z",
+   "final": "https://renewablesnow.com/news/xgs-tapped-for-doe-funding-for-geothermal-drilling-project-in-new-mexico-1302041/",
+   "first_run": "20261007T213554Z-b7eae2",
+   "kind": "html",
+   "last_run": "20261007T213554Z-b7eae2",
+   "reason": "",
+   "saved_text_chars": 5948,
+   "saved_text_sha256": "fec5b5209b705bef9f9e6a8f6b05a1a3457e9a97e382bf6c16f77ab2b9c1fa00",
+   "sha256": "47c286f0a26be0961e10511c862c09ae795782ecb34f86702a5169261dc5b984",
+   "state": "fetched",
+   "status": 200,
+   "text": "US geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States.\nUS geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States.\nUS geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States.\nUS geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States.",
+   "text_sha256": "aa4d4f01f1e6497c316cca01e94a038d5e40dbfc8295820a23a80a2820776217",
+   "truncated": false
+  },
+  "sentence": "US geothermal technology company XGS Energy Inc has been selected by the Department of Energy (DOE) for funding to drill a deep appraisal well in New Mexico in one of 21 projects tapped to win a federal grant for field tests and exploration of geothermal sources across the United States."
+ }
+}
