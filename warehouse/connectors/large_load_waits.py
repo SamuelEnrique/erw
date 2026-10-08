@@ -10,7 +10,9 @@ live set.
     python -I warehouse/connectors/large_load_waits.py --terms               # the Archive's and each publisher's terms, saved with their hashes
     python -I warehouse/connectors/large_load_waits.py --write               # the table (needs the data lock); no request
     python -I warehouse/connectors/large_load_waits.py --write --out-dir DIR # a trial: the table, its log and the summary's counts under DIR
-    [--raw-root DIR]   the directory that holds large_load_waits/ (default: this copy's warehouse/raw)
+    python -I warehouse/connectors/large_load_waits.py --count               # read the saved copies and count their rows against the ceiling; no request
+    python -I warehouse/connectors/large_load_waits.py --summary DIR         # the summary's lines of numbers, from DIR/large_load_waits_counts.json
+    [--raw-root DIR]   the directory that holds large_load_waits/ and large_load_statements/ (default: this copy's warehouse/raw)
 
 (-I: a file fetched from an archive is untrusted. Python is started isolated and every workbook is opened read-only.)
 
@@ -28,16 +30,29 @@ and that address is left. Every request carries the User-Agent "ERW research pro
 and nothing else that names anyone. MISO and PJM are never requested. A login, a form, a CAPTCHA or a browser check
 is recorded and left.
 
-FOLLOWING A REQUEST. A request is followed by the publisher's own identifier (NYISO's Queue Number; Grant County
-PUD's queue number). Where a list prints none, by a name and megawatts that are the same in every copy; a name that
-changes spelling, or two requests of one name, is not followed and is counted with the reason.
+A COPY IS DATED BY ITS PUBLISHER, never by the day the Archive captured it (an old address can answer with a newer
+file): NYISO's workbook by the day it was last saved (its own properties), or the publisher's Last-Modified for the
+.xls workbooks of 2014 to 2019; Grant County PUD's PDF by the day printed at its top. One file captured many times
+is one copy (its sha256).
 
-A DURATION IS A RANGE BETWEEN COPIES, NEVER A MIDPOINT. An event (entering the list, a change of stage, in service)
-happened between the last copy that does not show it and the first that does: both are on the row. A printed date
-(a queue date, an in-service date) is used as printed. A duration is `measured` only when both ends are bounded:
-at least (the later bound of its start to the earlier bound of its end), at most (the earlier bound of its start to
-the later bound of its end). A request not yet energized gives a `lower bound`; a request seen in two copies only
-gives a lower bound labeled `two copies only`. Nothing is interpolated, and no average is taken over lower bounds.
+FOLLOWING A REQUEST. A request is followed by the publisher's own identifier: NYISO's queue position (leading zeros
+aside); Grant County PUD's queue position with its queue date, the description being the same in every copy. A
+request seen in one copy only is not followed; neither is one whose identifier stands on two differing rows of one
+copy, or whose printed queue date differs between copies. Each is counted with its reason (follow()). Megawatts are
+kept as written in each copy, and a change is recorded, not corrected.
+
+A DURATION IS A RANGE BETWEEN COPIES, NEVER A MIDPOINT. An event (a change of stage, in service, withdrawal) came
+between the last copy that does not show it and the first that does: both are on the row. The queue date the copies
+print is used as printed. At least: the later bound of the start to the earlier bound of the end. At most: the
+earlier bound of the start to the later bound of the end. Labels (measure()): `measured` (the end lies between two
+copies that hold the request, and the start is printed or bounded); `lower bound` (the end has not come, or a side
+is not bounded); `two copies only` (the request is seen in two copies: a lower bound, labeled so); `upper bound`
+(the end had already come in the first copy that holds the request). A stage is counted only where a copy shows it
+in the publisher's words. Nothing is interpolated; no average is taken over lower bounds; a figure on fewer than
+five requests is its values, not a median (figure()).
+
+ERCOT's status reports give megawatts by stage for the whole system and list no request: they are read and dated
+(read_ercot()), and no wait is made from them.
 
 License: internal. NYISO's legal notice confers no license (session 149): its requests, names and megawatts are in
 no tracked file. The Archive's terms, Grant County PUD's and ERCOT's are quoted in docs/accelerator/large_load_waits.md.

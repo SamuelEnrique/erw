@@ -191,6 +191,32 @@ class FakeNet:
         return "200", self.pages.get(url, b"%PDF-1.7 made up for the test"), {}
 
 
+class Captures(unittest.TestCase):
+    def test_the_same_file_captured_twice_is_fetched_once_in_its_raw_form(self):
+        d = tempfile.mkdtemp(prefix="erw155_")
+        address = "https://www.grantpud.org/images/2026/Transmission-Queue/Transmission%20Queue%2020260730.pdf"
+        listing = b'[["timestamp","original","mimetype","statuscode","digest","length"],' \
+                  b'["20260801000000","' + address.encode() + b'","application/pdf","200","AAAA","10"],' \
+                  b'["20260901000000","' + address.encode() + b'","application/pdf","200","AAAA","10"],' \
+                  b'["20260915000000","' + address.encode() + b'","application/pdf","200","BBBB","10"],' \
+                  b'["20260915000000","https://www.grantpud.org/images/2026/Transmission-Queue/LGIA%20V1.pdf","application/pdf","200","CCCC","10"]]'
+        one_listing = [("grantpud", "grantpud.org", "domain", "(?i).*queue.*", "made up for the test")]
+        net = FakeNet({w.cdx_url("grantpud.org", "domain", "(?i).*queue.*"): listing})
+        w.do_list(d, net, lambda m: None, listings=one_listing)
+        self.assertEqual(len(net.asked), 1)
+        w.do_list(d, net, lambda m: None, listings=one_listing)   # already listed: not asked again
+        self.assertEqual(len(net.asked), 1)
+        counts = w.do_pull_archive(d, net, lambda m: None)
+        fetched = [u for u, kind in net.asked if kind == "capture"]
+        self.assertEqual(fetched, [f"https://web.archive.org/web/20260801000000id_/{address}", f"https://web.archive.org/web/20260915000000id_/{address}"])
+        self.assertEqual((counts["grantpud"]["listed"], counts["grantpud"]["distinct"], counts["grantpud"]["fetched"]), (3, 2, 2))
+        rows = w.read_captures(d)
+        self.assertEqual([r["digest"] for r in rows], ["AAAA", "BBBB"])
+        self.assertEqual(list(rows[0])[:9], ["publisher", "original", "capture", "archive_url", "digest", "bytes", "sha256", "retrieved_at", "status"])
+        w.do_pull_archive(d, net, lambda m: None)   # a second run asks for nothing
+        self.assertEqual(len([u for u, kind in net.asked if kind == "capture"]), 2)
+
+
 class CurrentCopies(unittest.TestCase):
     def test_only_the_queue_is_asked_for_among_the_files_a_page_links(self):
         d = tempfile.mkdtemp(prefix="erw155_")
