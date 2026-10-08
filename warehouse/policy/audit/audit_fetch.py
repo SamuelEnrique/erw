@@ -46,7 +46,10 @@ class Store:
         self.out, self.raw = out, os.path.join(out, "raw")
         os.makedirs(self.raw, exist_ok=True)
         self.man = os.path.join(out, "manifest.csv")
-        self.rows = list(csv.DictReader(open(self.man, encoding="utf-8"))) if os.path.exists(self.man) else []
+        self.rows = []
+        if os.path.exists(self.man):
+            with open(self.man, encoding="utf-8") as f:
+                self.rows = list(csv.DictReader(f))
         self.last = {}
 
     @property

@@ -35,11 +35,59 @@ def read_events(path):
     return pd.read_csv(path, skiprows=len(head), dtype=str, keep_default_na=False)
 
 
+def error_table(df):
+    """The lines of the error table (markdown) for a frame of findings: one line a field, a count in every cell."""
+    lines = ["| field | rows checked | correct or supported | wrong | missing | not in source | unsupported | "
+             "contradicted | judgment or no direction claimed | source silent, blank or not applicable | not reachable | "
+             "errors of rows checked | errors of rows where the source or the row states the field |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    for group, fields in (("extracted", EXTRACTED), ("model", MODEL), ("read", READ)):
+        for fld in fields:
+            d = df[(df["group"] == group) & (df["field"] == fld)]
+            c = d["cls"].value_counts().to_dict()
+            good = sum(c.get(k, 0) for k in GOOD)
+            bad = sum(c.get(k, 0) for k in BAD)
+            states = good + bad
+            rate = lambda a, b: f"{a} of {b} ({100 * a / b:.0f}%)" if b else "0 of 0"
+            lines.append(f"| {fld}{' (read)' if group == 'read' else ''} | {len(d)} | {good} | {c.get('wrong', 0)} | "
+                         f"{c.get('missing', 0)} | {c.get('not_in_source', 0)} | {c.get('unsupported', 0)} | "
+                         f"{c.get('contradicted', 0)} | {c.get('judgment', 0) + c.get('no_direction', 0)} | "
+                         f"{c.get('source_silent', 0) + c.get('blank', 0)} | {c.get('not_reachable', 0)} | "
+                         f"{rate(bad, len(d))} | {rate(bad, states)} |")
+    return lines
+
+
+def combine(paths, out_table):
+    """Session 157: one error table over the findings of several samples (the 100 of sessions 154 and 157). Reads the
+    findings files, writes the table, changes nothing else."""
+    df = pd.concat([pd.read_csv(p, dtype=str, keep_default_na=False) for p in paths], ignore_index=True)
+    lines = error_table(df)
+    bad = df[df["cls"].isin(BAD)]
+    tail = (f"\n{len(df)} checks on {df['event_id'].nunique()} rows ({int(df['group'].eq('read').sum())} on "
+            f"{df[df['group'] == 'read']['event_id'].nunique()} impact reads); {len(bad)} errors in "
+            f"{bad['event_id'].nunique()} rows. Findings read: {', '.join(os.path.basename(p) for p in paths)}.")
+    with open(out_table, "w", encoding="utf-8", newline="\n") as f:
+        f.write("\n".join(lines) + "\n" + tail + "\n")
+    print("\n".join(lines) + tail)
+    return df
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW policy audit: the error table")
-    ap.add_argument("--in-dir", required=True)
-    ap.add_argument("--out", required=True)
+    ap.add_argument("--in-dir")
+    ap.add_argument("--out")
+    ap.add_argument("--findings", default="audit_findings",
+                    help="the module that holds what a person read (session 157: audit_findings_s157)")
+    ap.add_argument("--combine", nargs="+", help="session 157: findings files of several samples, for one table")
+    ap.add_argument("--out-table", help="with --combine: the table file to write")
     args = ap.parse_args(argv)
+    if args.combine:
+        combine(args.combine, args.out_table)
+        return 0
+    if not args.in_dir or not args.out:
+        ap.error("--in-dir and --out are required")
+    import importlib
+    F = importlib.import_module(args.findings)   # the sample's own findings; session 154's by default
     acts = read_events(os.path.join(args.in_dir, "policy_actions.csv")).set_index("event_id")
     reads = read_events(os.path.join(args.in_dir, "policy_reads.csv")).set_index("action_event_id")
     with open(os.path.join(args.out, "sample.csv"), encoding="utf-8") as f:
@@ -96,7 +144,8 @@ def main(argv=None):
         add(n, eid, "model", "significance", "judgment", r.significance,
             F.SIGNIFICANCE_FLAGS.get(n, "follows the rubric's bands"), F.SIGNIFICANCE_NOTES.get(n, ""))
         if n in F.SECTOR_UNSUPPORTED:
-            add(n, eid, "model", "sector", "unsupported", r.sector, F.SECTOR_UNSUPPORTED[n][1])
+            entry = F.SECTOR_UNSUPPORTED[n]   # (the sector held, the source's words[, a class: session 157])
+            add(n, eid, "model", "sector", entry[2] if len(entry) > 2 else "unsupported", r.sector, entry[1])
         else:
             add(n, eid, "model", "sector", "supported", r.sector, "")
         if n in F.WHY_UNSUPPORTED:
@@ -116,23 +165,7 @@ def main(argv=None):
     df = pd.DataFrame(out)
     df.to_csv(os.path.join(args.out, "findings.csv"), index=False, lineterminator="\n")
     df[df["cls"].isin(BAD)].to_csv(os.path.join(args.out, "errors.csv"), index=False, lineterminator="\n")
-    lines = ["| field | rows checked | correct or supported | wrong | missing | not in source | unsupported | "
-             "contradicted | judgment or no direction claimed | source silent, blank or not applicable | not reachable | "
-             "errors of rows checked | errors of rows where the source or the row states the field |",
-             "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
-    for group, fields in (("extracted", EXTRACTED), ("model", MODEL), ("read", READ)):
-        for fld in fields:
-            d = df[(df["group"] == group) & (df["field"] == fld)]
-            c = d["cls"].value_counts().to_dict()
-            good = sum(c.get(k, 0) for k in GOOD)
-            bad = sum(c.get(k, 0) for k in BAD)
-            states = good + bad
-            rate = lambda a, b: f"{a} of {b} ({100 * a / b:.0f}%)" if b else "0 of 0"
-            lines.append(f"| {fld}{' (read)' if group == 'read' else ''} | {len(d)} | {good} | {c.get('wrong', 0)} | "
-                         f"{c.get('missing', 0)} | {c.get('not_in_source', 0)} | {c.get('unsupported', 0)} | "
-                         f"{c.get('contradicted', 0)} | {c.get('judgment', 0) + c.get('no_direction', 0)} | "
-                         f"{c.get('source_silent', 0) + c.get('blank', 0)} | {c.get('not_reachable', 0)} | "
-                         f"{rate(bad, len(d))} | {rate(bad, states)} |")
+    lines = error_table(df)
     with open(os.path.join(args.out, "error_table.md"), "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(lines) + "\n")
     print("\n".join(lines))
