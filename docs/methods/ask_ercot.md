@@ -163,6 +163,24 @@ The two Texas tables are a case of their own. The page prints their figures as p
 
 **The 20 test questions** are in `warehouse/chat/eval_ercot_pages.json`: at least four a page, sentences and charts, and two that must be refused (ISO-NE's monthly curtailment, held and not shown; a MISO figure, paused). Every expected number is computed by `warehouse/chat/eval/ercot_pages_expected.py` from the file or table the question is answered from, and the site's tool is set against those numbers with no model (`site/scripts/test-ask-tables.mjs`). The judge is still a rule in code. For these questions it also checks that an expected number is in the answer, that the source is the one the question names, and that a chart holds the expected row.
 
+**What the 120 questions said (8 October 2026).** All 120 were asked once, on the tool as the code stands (the two switches of session 148 off), the 20 new ones first. The record is `warehouse/chat/eval_ercot_pages_results_153.csv`.
+
+| Questions | Pass | Seconds to the words, median | USD a question |
+|---|---|---|---|
+| The 20 of the four pages | 19 of 20 | 5.0 | 0.0281 |
+| What a datacenter pays (4) | 4 of 4 | 4.7 | 0.0480 |
+| The capture price (5, one a refusal) | 5 of 5 | 5.1 | 0.0174 |
+| Curtailment and free energy (7, one a refusal) | 6 of 7 | 5.0 | 0.0262 |
+| The resource layers (4) | 4 of 4 | 5.0 | 0.0247 |
+| The 100 of before | 98 of 100 | 4.1 | 0.0202 |
+
+- **The one new question that failed** asked what percent of the reported limit Texas wind and solar output was below, over the days held. The page's file holds that figure (4.57 percent over nine whole days from 28 September 2026). The tool read the daily table instead, which starts nine days earlier and holds no share, and answered with two ratios, one for wind and one for solar, over another span of days. Asked a second time it read the page's file and passed. Two sources hold the same thing over different days, and the guide does not yet say which to read for a share.
+- **The two refusals were given in the expected words**: ISO-NE's monthly curtailment "held, not shown", with the reason; a MISO capture price "paused while terms are reviewed". Neither gave a figure.
+- **The ten older refusals about another grid all held**, though the tool now answers for other grids on these four pages.
+- **Two of the 100 failed, both charts the tool cannot fetch with one query**, and neither read a new table or the new tool: the batteries across the hours of a day, and the queue by the year a plant plans to come online. Both passed in session 148's record of the tool with the switches off; the second failed in that session's three other askings. One asking each does not say whether the longer guide played a part.
+- **The first question of the run cost USD 0.14**: it wrote the longer guide to the model's cache. Without it the new questions cost USD 0.0223 each. The 100 cost USD 0.0202 each against 0.0186 before: the guide is about 4,700 tokens longer, and every model call reads it.
+- One of the 100 was answered from a page's file: the year's highest hourly demand, 91,134 MW from the operator's own hourly demand as the datacenter page holds it. Session 143's answer to the same question was 91,075 MW, from EIA's hourly demand: two sources, two figures, each said with its source.
+
 `ASK_PAGES=off` on the server leaves the tool as it was before this session.
 
 ## Limits

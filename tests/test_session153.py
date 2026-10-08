@@ -273,6 +273,49 @@ class TheMethodNote(unittest.TestCase):
         self.assertNotIn(DASH, note)
 
 
+class TheRecord(unittest.TestCase):
+    """The 120 questions as they were asked on 8 October 2026 (phase 2). The record is in git; the answers are not."""
+
+    def rows(self):
+        import csv
+        with open(os.path.join(ROOT, "warehouse", "chat", "eval_ercot_pages_results_153.csv"), encoding="utf-8", newline="") as f:
+            return list(csv.DictReader(l for l in f if not l.startswith("#")))
+
+    def test_every_question_was_asked_once_and_none_twice_but_the_one_named(self):
+        rows = self.rows()
+        new = [r for r in rows if r["set"] == "new"]
+        old = [r for r in rows if r["set"] == "old"]
+        again = [r for r in rows if r["set"] == "reask"]
+        self.assertEqual(sorted(r["id"] for r in new), sorted(q["id"] for q in questions()["questions"]))
+        self.assertEqual(sorted(r["id"] for r in old), sorted(q["id"] for q in json.loads(src("warehouse", "chat", "eval_ercot_panel.json"))["questions"]))
+        self.assertEqual([r["id"] for r in again], ["p14"])
+        self.assertEqual(len(rows), 121)
+        self.assertTrue(all(float(r["usd"]) > 0 for r in rows))                         # every answer's cost is known: none is counted at a guess
+
+    def test_the_counts_the_method_note_gives_are_the_records(self):
+        rows = self.rows()
+        new = [r for r in rows if r["set"] == "new"]
+        old = [r for r in rows if r["set"] == "old"]
+        self.assertEqual((sum(int(r["pass"]) for r in new), sum(int(r["pass"]) for r in old)), (19, 98))
+        self.assertEqual(sorted(r["id"] for r in rows if r["set"] != "reask" and not int(r["pass"])), ["h13", "h14", "p14"])
+        self.assertEqual(int(next(r for r in rows if r["set"] == "reask")["pass"]), 1)
+        total = sum(float(r["usd"]) for r in rows)
+        self.assertLess(total, 2.80)                                                     # under the session's stop
+        self.assertEqual(round(total, 4), 2.6096)
+        self.assertEqual(round(sum(float(r["usd"]) for r in new) / 20, 4), 0.0281)
+        self.assertEqual(round(sum(float(r["usd"]) for r in old) / 100, 4), 0.0202)
+        # the two refusals were refusals, and the ten older questions about another grid still are
+        self.assertTrue(all(r["status"] == "not_in_warehouse" and int(r["pass"]) for r in new if r["kind"] == "refuse"))
+        other = ("r01", "r02", "r03", "r04", "r05", "r06", "r16", "r19", "r22", "r25")
+        self.assertTrue(all(r["status"] == "not_in_warehouse" and int(r["pass"]) for r in old if r["id"] in other))
+        # no answer was shown and taken back, and no series was shown under a refusal
+        self.assertEqual(sum(int(r["withdrawn"]) for r in new), 0)
+        note = src("docs", "methods", "ask_ercot.md")
+        for words in ("| The 20 of the four pages | 19 of 20 | 5.0 | 0.0281 |", "| The 100 of before | 98 of 100 | 4.1 | 0.0202 |", "warehouse/chat/eval_ercot_pages_results_153.csv"):
+            self.assertIn(words, note, words)
+        self.assertNotIn(DASH, src("warehouse", "chat", "eval_ercot_pages_results_153.csv") + src("warehouse", "chat", "eval", "ercot_pages_results.py"))
+
+
 class TheNodeTests(unittest.TestCase):
     def test_the_sessions_own_tests_pass_with_no_request(self):
         node = shutil.which("node")
