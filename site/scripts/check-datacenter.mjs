@@ -23,13 +23,23 @@
 //   view       ?view=grids is what the tab showed before: its ranking, ERCOT since 2018, the hours of the day, cost
 //              against carbon and the calculator
 //   visitor    without the cookie the page is the in-review page
+//   rules      (session 154) "Rules in motion" in the section "How soon", for each of the seven grids an address can name:
+//              the block is there; every row shown is a row of data/datacenter/rules.json in the order of lib/rules.ts,
+//              with its date, its status, a link whose address is the file's and whose hover holds the file's sentence,
+//              and a read marked as a model's or the placeholder "no read yet"; eight rows of a group stand before its
+//              fold; MISO shows the fixed words and no row; PJM shows the file's rows, and the rest of its address is
+//              what the default address shows; the block holds no municipal word, on its face or on hover; its face
+//              holds no sentence of the Method note. Before the file exists the block reads "not held yet".
 // In a real browser: the chart is drawn and answers the mouse with the year and its figures; the contract's terms make
 // no request, leave the address as it was, write nothing to storage or cookies, and show the result; choosing another
-// grid opens that grid with its own regions.
+// grid opens that grid with its own regions. Session 154: the rows of "Rules in motion" carry the file's address and
+// sentence in the page as the browser holds it, a row's link takes the keyboard's focus, and a fold opens to a real
+// click and to the Enter key.
 // Exit 1 on a failure.
 import fs from "node:fs";
 import { env, withBrowser } from "./browser.mjs";
 import { cleanShare, expandSeries, gpuHour, lastTwelve, monthsOf, monthsRuled, span, two, usdShort } from "../lib/datacenter.ts";
+import { MUNICIPAL, NO_READ, NO_READ_WHY, PAUSED_WORDS, PAUSE_WHY, RULE_GRIDS, SHOWN, blockOf, dayWords, docketTip, docketWords, fileOf, linkOf, readOf, statusOf } from "../lib/rules.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3138").replace(/\/$/, "");
 let bad = 0, n = 0;
@@ -159,7 +169,106 @@ for (const [q, grid, region, buy, x] of [
   check(!v.html.includes('data-summary="1"') && /in review/i.test(plain(v.html)), "without the cookie a visitor gets the in-review page");
 }
 
-const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, requests, errors, sleep }) => {
+// ---------------------------------------------------------------------------------------------------------------------
+// session 154: "Rules in motion", read against the one file the block reads
+// ---------------------------------------------------------------------------------------------------------------------
+const rulesAt = new URL("rules.json", dir);
+const RULES = fs.existsSync(rulesAt) ? fileOf(JSON.parse(fs.readFileSync(rulesAt, "utf-8"))) : null;
+const NAMES = { ...Object.fromEntries(Object.entries(index.blank).map(([k, v]) => [k, v.name])), ...Object.fromEntries(Object.entries(index.grids).map(([k, v]) => [k, v.name])) };
+const decode = (t) => t.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16))).replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d))).replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+const attrs = (tag) => Object.fromEntries([...tag.matchAll(/([a-zA-Z_:-]+)="([^"]*)"/g)].map((m) => [m[1], decode(m[2])]));
+const firstTag = (h, re) => { const m = h.match(re); return m ? attrs(m[0]) : {}; };
+const words = (h) => decode(h.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+/** The block's HTML: from its own element to the end of the section "How soon", of which it is the last part. */
+const blockOfPage = (h) => { const i = h.indexOf('data-rules="1"'); if (i < 0) return null; const from = h.lastIndexOf("<div", i), to = h.indexOf("</section>", i); return h.slice(from, to < 0 ? undefined : to); };
+/** The heading of the section the block stands in. */
+const lastHeading = (f) => { const pre = f.slice(0, f.indexOf('data-rules="1"')); return words(pre.slice(pre.lastIndexOf("<h2")).match(/<h2[^>]*>[\s\S]*?<\/h2>/)?.[0] ?? ""); };
+const norm = (t) => String(t).replace(/\s+/g, " ").trim();
+/** The page's face outside the block, as text. */
+const outside = (h) => { const f = face(h), b = blockOfPage(f); return plain(b ? f.replace(b, " ") : f); };
+/** The rows the block shows, in the page's order: what a reader sees and what each hover says. */
+function rowsOfPage(b) {
+  const out = [];
+  for (const m of b.matchAll(/<span[^>]*\bdata-rule="[^"]*"[^>]*>/g)) {
+    const a = attrs(m[0]);
+    const end = b.indexOf("</tr>", m.index), row = b.slice(m.index, end < 0 ? undefined : end);
+    const cells = row.split(/<\/t[hd]>/);
+    const linkTag = cells[2]?.match(/<a[^>]*\bdata-rule-link="[^"]*"[^>]*>/), link = linkTag ? attrs(linkTag[0]) : null;
+    const linkWords = linkTag ? words(cells[2].slice(linkTag.index + linkTag[0].length, cells[2].indexOf("</a>", linkTag.index))) : null;
+    const mark = firstTag(cells[3] ?? "", /<span[^>]*\bdata-rule-mark="model"[^>]*>/), gap = firstTag(cells[3] ?? "", /<span[^>]*\bdata-missing="1"[^>]*>/);
+    out.push({ id: a["data-rule"], group: a["data-rule-group"], date: a["data-rule-date"], dateWords: words(cells[0] ?? ""), status: words(cells[1] ?? ""), linkId: link?.["data-rule-link"] ?? null, href: link?.href ?? null, tip: link?.title ?? null, linkWords,
+      read: words(cells[3] ?? ""), marked: "data-rule-mark" in mark, markTip: mark.title ?? null, gapTip: gap.title ?? null, folded: b.lastIndexOf("<details", m.index) > b.lastIndexOf("</details>", m.index) });
+  }
+  return out;
+}
+const RULE_PAGES = {};
+let noMunicipal = true, municipalFound = "", foldsRight = true, shownTotal = 0, foldGrid = null;
+for (const g of RULE_GRIDS) {
+  const r = await get(`/cost-of-power?grid=${g}`);
+  const b = blockOfPage(face(r.html));
+  RULE_PAGES[g] = r.html;
+  const want = blockOf(RULES, g), expect = [...want.rows.map((x) => ({ x, group: "grid" })), ...want.federal.map((x) => ({ x, group: "federal" }))];
+  if (!b) { check(false, `${NAMES[g]}: the block "Rules in motion" is in the section "How soon"`); continue; }
+  const head = attrs(b.slice(0, b.indexOf(">") + 1)), got = rowsOfPage(b), text = words(b);
+  const there = r.status === 200 && head["data-rules-for"] === g && head["data-rules-state"] === want.state && words(b.match(/<h3[^>]*>[\s\S]*?<\/h3>/)?.[0] ?? "").replace(/ ,/g, ",") === `Rules in motion, ${NAMES[g]}`
+    && RULE_GRIDS.every((k) => b.includes(`data-rules-choice="${k}"`)) && lastHeading(face(r.html)) === "How soon";
+  const wrong = [];
+  if (!there) wrong.push(`the block is not as the file says (for ${head["data-rules-for"]}, state ${head["data-rules-state"]}; the file gives ${want.state}), or its heading, its seven choices or its section is not`);
+  if (got.length !== expect.length) wrong.push(`${got.length} rows on the page, ${expect.length} in the file`);
+  expect.forEach(({ x, group }, i) => {
+    const p = got[i], st = statusOf(x), rd = readOf(x);
+    if (!p || p.id !== String(x.id) || p.group !== group) { if (wrong.length < 4) wrong.push(`row ${i + 1} is ${p?.id ?? "missing"}, not ${x.id}`); return; }
+    const bad = [];
+    if (p.dateWords !== (dayWords(x.date) ?? "not stated")) bad.push("date");
+    if (!st.words || p.status !== norm(st.words)) bad.push("status");
+    if (p.linkId !== p.id || p.href !== x.url || p.href !== linkOf(x) || p.linkWords !== norm(docketWords(x))) bad.push("link");
+    if (p.tip !== docketTip(x) || (x.sentence && !p.tip.includes(`"${String(x.sentence).trim()}"`))) bad.push("sentence on hover");
+    if (rd.line ? !(p.marked && p.read === `${norm(rd.line)} model's read` && p.markTip === rd.why && x.read_by === "model") : !(p.read === NO_READ && !p.marked && p.gapTip === NO_READ_WHY)) bad.push("read");
+    if (bad.length && wrong.length < 4) wrong.push(`${x.id}: ${bad.join(", ")}`);
+  });
+  // the fold: eight rows of a group stand before it, the rest inside it
+  for (const group of ["grid", "federal"]) {
+    const all = got.filter((p) => p.group === group), open = all.filter((p) => !p.folded).length;
+    if (open !== Math.min(all.length, SHOWN) || (all.length > SHOWN) !== b.includes(`data-rules-fold="${group}"`)) foldsRight = false;
+    if (all.length > SHOWN && !foldGrid) foldGrid = { g, group, folded: all.length - SHOWN };
+  }
+  shownTotal += got.length;
+  const withRead = expect.filter(({ x }) => readOf(x).line).length;
+  const gapTip = firstTag(b, /<span[^>]*\bdata-missing="1"[^>]*>/).title;
+  if (g === "miso") {
+    check(there && want.state === "paused" && got.length === 0 && !/<table|<details|data-rule=/.test(b) && /data-rules-paused="1"/.test(b) && text.endsWith(PAUSED_WORDS) && gapTip === PAUSE_WHY,
+      `MISO: the block reads "${PAUSED_WORDS}", with the pause's reason on hover, and shows no row, federal ones included`);
+  } else if (want.state === "shown") {
+    check(!wrong.length, `${NAMES[g]}: ${want.rows.length} rows and ${want.federal.length} federal, newest first, each with its date, its status, a link to the file's address with the file's sentence on hover, and a read marked as a model's (${withRead}) or "${NO_READ}" (${expect.length - withRead})${wrong.length ? `: ${wrong.join("; ")}` : ""}`);
+  } else {
+    check(!wrong.length && b.includes(`data-rules-empty="${want.state}"`) && text.includes(want.state === "none" ? want.words : "not held yet") && !!gapTip && (want.state !== "none" || gapTip === want.why),
+      `${NAMES[g]}: ${want.state === "none" ? `no row of its own ("${want.words}", with the file's reason on hover)` : `"not held yet" with its reason on hover (${RULES ? "the file holds no entry for it" : "data/datacenter/rules.json is not there yet"})`}${RULES ? `, and ${want.federal.length} federal rows (${withRead} with a read marked as a model's)` : ""}${wrong.length ? `: ${wrong.join("; ")}` : ""}`);
+  }
+  // no municipal word in anything the block shows: its text and every hover (an address is not a word of the block)
+  const said = `${text} ${[...b.matchAll(/\btitle="([^"]*)"/g)].map((m) => decode(m[1])).join(" ")}`.toLowerCase().replace(/\s+/g, " ");
+  const hit = MUNICIPAL.find((w) => said.includes(w));
+  if (hit) { noMunicipal = false; municipalFound += ` ${g}: "${hit}"`; }
+}
+{
+  const held = Array.isArray(RULES?.grids?.pjm?.rows) ? RULES.grids.pjm.rows.length : 0, kept = blockOf(RULES, "pjm").rows.length;
+  const shown = rowsOfPage(blockOfPage(face(RULE_PAGES.pjm ?? "")) ?? "").filter((p) => p.group === "grid").length;
+  check(held > 0 ? shown > 0 && shown === kept : shown === 0, held > 0 ? `PJM shows rows: ${shown} of the ${held} the file holds for it` : `PJM: the file holds no row for it${RULES ? "" : " (it is not there yet)"}, and the block shows none`);
+  check(outside(RULE_PAGES.pjm ?? "") === outside(page.html) && /data-grid="pjm"[^>]*data-open="0"[\s\S]{0,400}?licensed source needed/.test(RULE_PAGES.pjm ?? ""),
+    'an address that names PJM shows, outside the block, what the default address shows: ERCOT, and PJM\'s prices still read "licensed source needed"');
+  check(outside(RULE_PAGES.miso ?? "") === outside(page.html), "an address that names MISO shows, outside the block, what the default address shows");
+  check(foldsRight, `eight rows of a group stand before its fold and the rest inside it (${shownTotal} rows over the seven addresses${foldGrid ? "" : "; no group holds more than eight, so no fold is drawn"})`);
+  check(noMunicipal, `the block holds none of the words ${MUNICIPAL.map((w) => `"${w}"`).join(", ")}, on its face or on hover${municipalFound ? ` (found:${municipalFound})` : ""}`);
+  // the face holds no sentence of the Method note
+  const note = new URL("../../docs/methods/datacenter_cost.md", import.meta.url);
+  if (fs.existsSync(note)) {
+    const sentences = [...new Set(fs.readFileSync(note, "utf-8").split(/\r?\n/).filter((l) => !/^\s*(\||#|```)/.test(l)).join(" ").replace(/[*_`]/g, "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").split(/(?<=[.!?])\s+/).map((t) => t.replace(/\s+/g, " ").trim()).filter((t) => t.length >= 40))];
+    const faces = RULE_GRIDS.map((g) => plain(blockOfPage(face(RULE_PAGES[g] ?? "")) ?? ""));
+    const on = sentences.find((t) => faces.some((f) => f.includes(t)));
+    check(sentences.length > 20 && !on, `the block's face holds no sentence of the Method note (${sentences.length} sentences of docs/methods/datacenter_cost.md, seven addresses)${on ? `: "${on.slice(0, 120)}"` : ""}`);
+  } else check(false, "docs/methods/datacenter_cost.md is beside the site, so the block's face can be read against it");
+}
+
+const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, requests, errors, sleep }) => {
   await open(base);
   await go(`${base}/cost-of-power?grid=ercot&run=hours&n=100`);
   await wait(`!!document.querySelector('[data-year-cost] canvas')`, 40000, "the chart");
@@ -183,6 +292,49 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, reques
   await wait(`location.search.includes('grid=caiso') && [...document.querySelectorAll('[data-region] option')].some((o) => o.value.includes('SP15'))`, 20000, "CAISO's regions");
   check(!(await evaluate(`[...document.querySelectorAll('[data-region] option')].some((o) => o.value.startsWith('HB_'))`)), "choosing another grid opens it with its own regions");
   check(await evaluate(`document.querySelector('[data-contract="share"]').value === '40'`), "the contract's terms survive the change of grid");
+  {
+    // session 154: the rows as the browser holds them, the keyboard, and the fold
+    const g = foldGrid?.g ?? "pjm", want = blockOf(RULES, g), all = [...want.rows, ...want.federal];
+    await go(`${base}/cost-of-power?grid=${g}`);
+    await wait(`!!document.querySelector('[data-rules="1"]')`, 20000, "the block Rules in motion");
+    const dom = await evaluate(`[...document.querySelectorAll('[data-rules="1"] a[data-rule-link]')].map((a) => ({ id: a.dataset.ruleLink, href: a.getAttribute('href'), title: a.title, tab: a.tabIndex }))`);
+    check(dom.length === all.length && all.every((x, i) => dom[i].id === String(x.id) && dom[i].href === x.url && dom[i].title === docketTip(x) && dom[i].tab === 0),
+      all.length ? `in the browser, ${NAMES[g]}: the ${all.length} rows' links carry the file's addresses, and each hover is the file's sentence with its page and topic` : `in the browser, ${NAMES[g]}: no row is in the file, and no row's link is on the page`);
+    if (all.length) {
+      check(await evaluate(`(() => { const a = document.querySelector('[data-rules="1"] a[data-rule-link]'); a.focus(); const m = document.querySelector('[data-rules="1"] [data-rule-mark], [data-rules="1"] [data-rule-read] [data-missing]'); return document.activeElement === a && !!a.title && !!m && !!m.title; })()`),
+        "a row's link takes the keyboard's focus, and its hover and the read's are the elements' titles");
+    } else console.log("note: the file holds no row for this grid yet; the keyboard's focus on a row's link was not tried");
+    if (foldGrid) {
+      const sel = `[data-rules-fold="${foldGrid.group}"]`;
+      const seen = `(() => { const d = document.querySelector('${sel}'); const rows = [...d.querySelectorAll('[data-rule]')]; return { open: d.open, rows: rows.length, seen: rows.filter((r) => r.getClientRects().length > 0).length }; })()`;
+      const before = await evaluate(seen);
+      const at = await evaluate(`(() => { const s = document.querySelector('${sel} summary'); s.scrollIntoView({ block: 'center' }); const r = s.getBoundingClientRect(); return { x: r.left + 12, y: r.top + r.height / 2 }; })()`);
+      await send("Input.dispatchMouseEvent", { type: "mousePressed", x: at.x, y: at.y, button: "left", clickCount: 1 });
+      await send("Input.dispatchMouseEvent", { type: "mouseReleased", x: at.x, y: at.y, button: "left", clickCount: 1 });
+      await sleep(300);
+      const clicked = await evaluate(seen);
+      check(!before.open && before.rows === foldGrid.folded && before.seen === 0 && clicked.open && clicked.seen === foldGrid.folded, `the fold opens to a click: ${foldGrid.folded} earlier rows of ${NAMES[g]}'s ${foldGrid.group === "grid" ? "own" : "federal"} group, hidden before it and shown after`);
+      await evaluate(`(() => { const d = document.querySelector('${sel}'); d.open = false; d.querySelector('summary').focus(); })()`);
+      await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, nativeVirtualKeyCode: 13, text: "\r" });
+      await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, nativeVirtualKeyCode: 13 });
+      await sleep(300);
+      const keyed = await evaluate(seen);
+      check(keyed.open && keyed.seen === foldGrid.folded, "the fold opens to the keyboard: Enter on its summary");
+    } else console.log("note: no group of the file holds more than eight rows, so the page draws no fold; it was not opened here (the fold's rule is tested in scripts/test-rules.mjs)");
+    // the seven choices of the block: links that name each grid; MISO's opens the pause, PJM's opens PJM's rules
+    await wait(`document.querySelectorAll('[data-rules-nav] [data-rules-choice] a').length === ${RULE_GRIDS.length}`, 20000, "the block's seven choices as links");
+    const choices = await evaluate(`[...document.querySelectorAll('[data-rules-nav] [data-rules-choice]')].map((s) => ({ id: s.dataset.rulesChoice, href: s.querySelector('a').getAttribute('href'), tab: s.querySelector('a').tabIndex }))`);
+    await evaluate(`document.querySelector('[data-rules-choice="miso"] a').click()`);
+    await wait(`document.querySelector('[data-rules="1"]')?.dataset.rulesFor === 'miso'`, 20000, "MISO's block");
+    const miso = await evaluate(`(() => { const b = document.querySelector('[data-rules="1"]'); const m = b.querySelector('[data-rules-paused] [data-missing]'); return { words: m?.innerText ?? '', why: m?.title ?? '', rows: b.querySelectorAll('[data-rule], table, details').length, ercot: document.querySelector('[data-grid="ercot"] input').checked }; })()`);
+    await evaluate(`document.querySelector('[data-rules-choice="pjm"] a').click()`);
+    await wait(`document.querySelector('[data-rules="1"]')?.dataset.rulesFor === 'pjm'`, 20000, "PJM's block");
+    const pjm = await evaluate(`({ rows: document.querySelectorAll('[data-rules="1"] [data-rule]').length, ercot: document.querySelector('[data-grid="ercot"] input').checked, chosen: document.querySelector('[data-rules-choice="pjm"]').dataset.rulesChosen })`);
+    const pjmWant = blockOf(RULES, "pjm");
+    check(choices.length === RULE_GRIDS.length && choices.every((c, i) => c.id === RULE_GRIDS[i] && c.href.includes(`grid=${c.id}`) && c.tab === 0) && miso.words === PAUSED_WORDS && miso.why === PAUSE_WHY && miso.rows === 0 && miso.ercot
+      && pjm.rows === pjmWant.rows.length + pjmWant.federal.length && pjm.ercot && pjm.chosen === "1",
+      `the block's seven choices are links a keyboard reaches; MISO's opens "${PAUSED_WORDS}" and no row, PJM's opens PJM's block (${pjmWant.rows.length} rows and ${pjmWant.federal.length} federal), and the rest of the page stays ERCOT`);
+  }
   check(errors.length === 0, `no script error on the page${errors.length ? `: ${errors[0].slice(0, 160)}` : ""}`);
   return 0;
 });
