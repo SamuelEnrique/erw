@@ -147,6 +147,26 @@ REGULATORS = {
     "orpuc": ("Oregon Public Utility Commission", "OR", ["oregon public utility commission", "public utility commission of oregon"]),
     "cpuc": ("California Public Utilities Commission", "CA", ["california public utilities commission", "cpuc"]),
 }
+# Each regulator's docket system, as the passes used it: the registry row of its rows' source (<id>:dockets). Coverage
+# sets a table's license from the license of every source its rows name, so each regulator has a registry row of its
+# own beside the table's (erw:large_load_rules or erw:large_load_rules_internal). The ids are new: the registry's
+# puct:news and cpuc:news are the two commissions' news releases (policy_actions), a different report, and are not
+# reused; the Texas commission's dockets keep the id txpuc:dockets that every row's event_id already carries.
+DOCKET_SYSTEMS = {
+    "ferc": ("https://www.ferc.gov/", "https://www.ferc.gov/sites/default/files/",
+             "order files at known addresses on ferc.gov, the Federal Register at govinfo.gov, and the copies of FERC orders that PJM and SPP post"),
+    "txpuc": ("https://interchange.puc.texas.gov/", "https://interchange.puc.texas.gov/search/filings/", "the Interchange filing lists and documents"),
+    "vascc": ("https://www.scc.virginia.gov/docketsearch", "https://www.scc.virginia.gov/docketsearch/DOCS/", "the docket search's case and document listings"),
+    "puco": ("https://dis.puc.state.oh.us/", "https://dis.puc.state.oh.us/CaseRecord.aspx", "the docketing system's case cards (the document viewer answers with a reCAPTCHA and was not requested)"),
+    "gapsc": ("https://psc.ga.gov/search/", "https://services.psc.ga.gov/", "the docket and document search and its files"),
+    "iurc": ("https://www.in.gov/iurc/", "https://www.in.gov/iurc/files/", "the commission's order files, weekly orders page, hearings lists and agendas"),
+    "azcc": ("https://edocket.azcc.gov/", "https://www.azcc.gov/news", "the eDocket record and the commission's own news releases (its decisions are scans)"),
+    "papuc": ("https://www.puc.pa.gov/docket/", "https://www.puc.pa.gov/pcdocs/", "the docket pages and their documents"),
+    "ilcc": ("https://icc.illinois.gov/", "https://icc.illinois.gov/docket/list/suspension-cases",
+             "the commission's open meeting minutes and agendas and its list of suspended cases (a docket's own page answers with a robot check)"),
+    "orpuc": ("https://apps.puc.state.or.us/edockets/", "https://apps.puc.state.or.us/orders/", "the eDockets docket summaries and the orders"),
+    "cpuc": ("https://apps.cpuc.ca.gov/apex/f?p=401", "https://docs.cpuc.ca.gov/", "the proceeding pages and the documents"),
+}
 TOPICS = ["large-load interconnection", "large-load tariff", "transmission cost allocation", "interconnection reform"]
 KINDS = ["proceeding", "order"]
 CLASSES = ["open", "decided", "closed", "not stated"]
@@ -457,6 +477,22 @@ def license_of(regulators, terms):
     return {r: ("public" if c in PUBLIC_CLASSES else "internal") for r, c in classes.items()}, classes
 
 
+def registry_entries(part, name, lic):
+    """The registry rows for a table's rows: one a regulator (its <id>:dockets source), with the license of that
+    regulator's rows ('public' where its terms class shows the sentence, 'internal' where its terms restrict copying
+    or were not read) and the table its rows are in."""
+    out = []
+    for source in sorted(set(part["source"])):
+        key = source.split(":")[0]
+        regulator = REGULATORS[key][0]
+        url, docs, how = DOCKET_SYSTEMS[key]
+        out.append({"source": source, "publisher": regulator,
+                    "report": f"Dockets of the {regulator}: proceedings and orders on large loads, read on 8 October 2026 from {how} "
+                              "(session 154; docs/methods/datacenter_cost.md)",
+                    "report_url": url, "document_list": docs, "license": lic[regulator], "tables": [name]})
+    return out
+
+
 def build(base, log):
     read, absent, collected, left, taken = [], [], [], [], {}
     cache = {}
@@ -590,7 +626,8 @@ def main(argv=None):
                             "report": "Proceedings and orders on large loads, 8 October 2026 (docs/accelerator/rules_in_motion.md): "
                                       + ("the regulators whose terms allow their text to be shown: " if public else
                                          "the regulators whose terms restrict copying or were not read: ") + "; ".join(regs),
-                            "report_url": METHOD_URL, "document_list": "", "license": "public" if public else "internal", "tables": [name]}])
+                            "report_url": METHOD_URL, "document_list": "", "license": "public" if public else "internal", "tables": [name]}]
+                          + registry_entries(part, name, lic))
         summary.append(f"{name}: {len(part)} rows, {by_reg}; kinds {by_kind}; status classes {by_class}")
     detail = (f"passes {' '.join(b['read'])}; collected {len(b['collected'])}, taken {len(out)} ({len(parts[NAME])} public, "
               f"{len(parts[NAME_HELD])} internal), not taken {len(left)}; sentences cut from {by_kind_all}; requests {reqs}, bytes {byts}")

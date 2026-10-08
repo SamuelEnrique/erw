@@ -253,6 +253,37 @@ class Connector(unittest.TestCase):
                 n += 1
         self.assertGreaterEqual(n, 5)
 
+    def test_every_source_of_both_tables_has_a_registry_row_with_its_license(self):
+        """Coverage sets a table's license from the registry row of every source its rows name (build_coverage.py,
+        events_row), so the connector registers one row a regulator beside the table's own."""
+        self.assertEqual(sorted(llr.DOCKET_SYSTEMS), sorted(llr.REGULATORS))
+        import pandas as pd
+        lic = {v[0]: ("public" if k in ("cpuc", "orpuc") else "internal") for k, v in llr.REGULATORS.items()}   # MADE UP licenses
+        part = pd.DataFrame([{"source": "cpuc:dockets"}, {"source": "cpuc:dockets"}, {"source": "orpuc:dockets"}])
+        rows = llr.registry_entries(part, "large_load_rules", lic)
+        self.assertEqual([(r["source"], r["publisher"], r["license"], r["tables"]) for r in rows],
+                         [("cpuc:dockets", "California Public Utilities Commission", "public", ["large_load_rules"]),
+                          ("orpuc:dockets", "Oregon Public Utility Commission", "public", ["large_load_rules"])])
+        for r in rows:
+            self.assertTrue(r["report_url"].startswith("https://") and r["document_list"].startswith("https://") and r["report"])
+            self.assertNotIn(r["source"], ("puct:news", "cpuc:news"))   # the news releases' ids are another report's
+        base = os.environ.get("ERW_RAW_ROOT") or os.path.join(ROOT, "warehouse", "raw")
+        if not os.path.exists(os.path.join(base, "large_load_rules", "A", "actions.csv")):
+            self.skipTest("the passes' files are not on this machine")
+        out = llr.build(os.path.join(base, "large_load_rules"), lambda m: None)["out"]
+        lic, classes = llr.license_of(set(out["regulator"]), llr.load_terms())
+        registry = {}
+        for name, want in (("large_load_rules", "public"), ("large_load_rules_internal", "internal")):
+            part = out[out["regulator"].map(lic) == want]
+            for r in llr.registry_entries(part, name, lic):
+                registry[r["source"]] = r
+            for src_id in set(part["source"]):   # every source value of the table has a row, with the table's license
+                self.assertEqual((registry[src_id]["license"], registry[src_id]["tables"]), (want, [name]), src_id)
+        self.assertEqual(sorted(registry), ["azcc:dockets", "cpuc:dockets", "ferc:dockets", "gapsc:dockets", "ilcc:dockets", "iurc:dockets",
+                                            "orpuc:dockets", "papuc:dockets", "puco:dockets", "txpuc:dockets", "vascc:dockets"])
+        self.assertEqual(sorted(k for k, r in registry.items() if r["license"] == "public"),
+                         ["azcc:dockets", "cpuc:dockets", "ilcc:dockets", "orpuc:dockets", "papuc:dockets"])
+
     def test_what_a_sentence_is_cut_from(self):
         self.assertEqual(llr.sentence_from(pass_row(local_file="raw/oh/card_26-0113_all.html", document_title="Finding & Order")), ("docket card", "record"))
         self.assertEqual(llr.sentence_from(pass_row(local_file="raw/il_minutes/m03.pdf", document_title="Suspension Order, as recorded")), ("meeting minutes", "record"))
@@ -657,9 +688,11 @@ class Files(unittest.TestCase):
             src = f.read()
         for name in ("large_load_rules", "large_load_rule_reads", "policy_action_tags"):
             self.assertIn(name, src)
+        import importlib.util   # by path: warehouse/validate holds a script of the same name that RUNS the builder
         import re
-        sys.path.insert(0, os.path.join(ROOT, "warehouse", "metadata"))
-        import build_coverage as bc
+        spec = importlib.util.spec_from_file_location("erw_build_coverage_154", os.path.join(ROOT, "warehouse", "metadata", "build_coverage.py"))
+        bc = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(bc)
         for name in ("large_load_rules", "large_load_rules_internal", "large_load_rule_reads"):
             self.assertEqual(bc.tier_by_rule(name, "no"), "model_extracted", name)   # collected or written by a model
             self.assertEqual([sec for pat, sec in bc.SECTOR_RULES if re.match(pat, name)][:1], ["power;datacenters"], name)
