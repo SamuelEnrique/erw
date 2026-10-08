@@ -89,6 +89,7 @@ const PAGES = [
   "/mix/clean", "/mix/clean?grid=caiso&year=2026", "/mix/clean?grid=nyiso&year=2024", "/data/methods/clean_energy",  // session 122: how clean, and when (in review)
   "/resources", "/resources?on=oil_gas_basins,plants_operating&z=2&c=-101,32",  // session 146: where the resources are (in review; scripts/check-resources.mjs opens it in a real browser)
   "/mix/stress", "/mix/stress?grid=caiso&year=2026", "/mix/stress?grid=nyiso&year=2025", "/data/methods/grid_stress",  // session 123: how hard the system works (in review)
+  "/policy?view=week", "/policy?view=week&days=30", "/policy?view=week&days=30&agency=ferc&topic=large_load&grid=pjm&large=1", "/policy?view=week&grid=miso",  // session 157: "What changed this week", the second view of the policy monitor (in review; scripts/check-policy.mjs opens it in a real browser)
 ];
 
 function visible(html) {
