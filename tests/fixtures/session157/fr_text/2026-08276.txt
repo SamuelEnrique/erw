@@ -1,0 +1,243 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 82 (Wednesday, April 29, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 82 (Wednesday, April 29, 2026)]
+[Notices]
+[Pages 23122-23124]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-08276]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket No. 50-220; NRC-2021-0082]
+
+
+Constellation Energy Generation, LLC; Nine Mile Point Nuclear 
+Station, Unit 1; Subsequent License Renewal Application
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Acceptance for docketing; opportunity to request a hearing and 
+to petition for leave to intervene.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC, the Commission) 
+is considering an application for the subsequent renewal of Renewed 
+Facility Operating License No. DPR-63, which authorizes Constellation 
+Energy Generation, LLC to operate Nine Mile Point Nuclear Station, Unit 
+1 (NMP1). The subsequent renewed license would authorize Constellation 
+Energy Generation, LLC to operate NMP1 for an additional 20 years 
+beyond the period specified in the current renewed license. The current 
+renewed license for NMP1 expires August 22, 2029.
+
+DATES: Requests for a hearing or petitions for leave to intervene must 
+be filed by June 29, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2021-0082 when contacting the 
+NRC about the availability of information for this action. You may 
+obtain publicly available information related to this action using any 
+of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2021-0082. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email <a href="/cdn-cgi/l/email-protection#a3e1d1cac7c4c6d78de0d6d1d1c2cde3cdd1c08dc4ccd5"><span class="__cf_email__" data-cfemail="2d6f5f44494a4859036e585f5f4c436d435f4e034a425b">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual(s) listed in the FOR FURTHER 
+INFORMATION CONTACT section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#114155433f4374627e64637274517f63723f767e67"><span class="__cf_email__" data-cfemail="6e3e2a3c403c0b1d011b1c0d0b2e001c0d40090118">[email&#160;protected]</span></a>. The subsequent license renewal application is 
+available in ADAMS under Package Accession No. ML26084A179.
+    <bullet> Public Library: A copy of the subsequent license renewal 
+application can be accessed at the following public library: Oswego 
+Public Library, 120 E 2nd St., Oswego, NY 13126.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#762632245824130519030415133618041558111900"><span class="__cf_email__" data-cfemail="164652443844736579636475735678647538717960">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: Vaughn Thomas, Office of Nuclear 
+Reactor Regulation, U.S. Nuclear Regulatory Commission, Washington, DC 
+20555-0001; telephone: 301-415-5897; email: <a href="/cdn-cgi/l/email-protection#db8dbaaebcb3b5f58fb3b4b6baa89bb5a9b8f5bcb4ad"><span class="__cf_email__" data-cfemail="3c6a5d495b545212685453515d4f7c524e5f125b534a">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Introduction
+
+    The NRC received a subsequent license renewal application (SLRA) 
+from Constellation Energy Generation, LLC, dated March 25, 2026, 
+requesting subsequent renewal of Renewed Facility Operating License No. 
+DPR-63, which authorizes Constellation Energy Generation, LLC to 
+operate NMP1 up to 1,850 megawatts thermal. NMP1 is located in Oswego 
+County, New York. Constellation Energy Generation, LLC submitted the 
+SLRA pursuant to part 54 of title 10 of the Code of Federal Regulations 
+(10 CFR), ``Requirements for Renewal of Operating Licenses for Nuclear 
+Power Plants.'' A notice of receipt of the SLRA was published in the 
+Federal Register on April 15, 2026 (91 FR 20183).
+    The NRC staff has determined that Constellation Energy Generation, 
+LLC has submitted sufficient information in accordance with 10 CFR 
+54.19, 54.21, 54.22, 54.23, 51.45, and 51.53(c) to enable the staff to 
+undertake a review of the SLRA and that, therefore, the SLRA is 
+acceptable for docketing. The current docket number, 50-220, for 
+Renewed Facility Operating License No. DPR-63 will be retained. The 
+determination to accept the SLRA for docketing does not constitute a 
+determination that a subsequent renewed license should be issued and 
+does not preclude the NRC staff from requesting additional information 
+as the review proceeds.
+    Before issuance of the requested subsequent renewed license, the 
+NRC will have made the findings required by the Atomic Energy Act of 
+1954, as amended (the Act), and the Commission's rules and regulations. 
+In accordance with 10 CFR 54.29, the NRC may issue a subsequent renewed 
+license on the basis of its review if it finds that actions have been 
+identified and have been or will be taken with respect to: (1) managing 
+the effects of aging during the period of extended operation on the 
+functionality of structures and components that have been identified as 
+requiring aging management review; and (2) time-limited aging analyses 
+that have been identified as requiring review, such that there is 
+reasonable assurance that the activities authorized by the subsequent 
+renewed license will continue to be conducted in accordance with the 
+current licensing basis and that any changes made to the plant's 
+current licensing basis will comply with the Act and the Commission's 
+regulations.
+    The NRC staff will also complete an environmental review of the 
+SLRA and will document its findings in accordance with the National 
+Environmental Policy Act of 1969, as amended (NEPA), and the 
+Commission's regulations in 10 CFR part 51, ``Environmental Protection 
+Regulations for Domestic Licensing and Related Regulatory Functions.'' 
+The staff will prepare an environmental assessment that will be used to 
+determine whether an environmental impact statement is necessary, or a 
+finding of no significant impact is warranted to satisfy the NRC's NEPA 
+obligations. In considering the SLRA, 10 CFR 54.29 requires that the 
+Commission must find that the applicable requirements of subpart A of 
+10 CFR part 51 have been satisfied and that any matters raised under 10 
+CFR 2.335, ``Consideration of Commission
+
+[[Page 23123]]
+
+rules and regulations in adjudicatory proceedings,'' have been 
+addressed.
+
+II. Opportunity To Request a Hearing and Petition for Leave To 
+Intervene
+
+    Within 60 days after the date of publication of this notice, any 
+person (petitioner) whose interest may be affected by this action may 
+file a request for a hearing and petition for leave to intervene 
+(petition) with respect to the action. Petitions shall be filed in 
+accordance with the Commission's ``Agency Rules of Practice and 
+Procedure'' in 10 CFR part 2. Interested persons should consult 10 CFR 
+2.309. If a petition is filed, the presiding officer will rule on the 
+petition and, if appropriate, a notice of a hearing will be issued.
+    Petitions must be filed no later than 60 days from the date of 
+publication of this notice in accordance with the filing instructions 
+in the ``Electronic Submissions (E-Filing)'' section of this document. 
+Petitions and motions for leave to file new or amended contentions that 
+are filed after the deadline will not be entertained absent a 
+determination by the presiding officer that the filing demonstrates 
+good cause by satisfying the three factors in 10 CFR 2.309(c)(1)(i) 
+through (iii).
+    A State, local governmental body, Federally recognized Indian 
+Tribe, or designated agency thereof, may submit a petition to the 
+Commission to participate as a party under 10 CFR 2.309(h) no later 
+than 60 days from the date of publication of this notice. 
+Alternatively, a State, local governmental body, Federally recognized 
+Indian Tribe, or agency thereof may participate as a non-party under 10 
+CFR 2.315(c).
+    For information about filing a petition and about participation by 
+a person not a party under 10 CFR 2.315, see ADAMS Accession No. 
+ML20340A053 (<a href="https://adamswebsearch2.nrc.gov/webSearch2/main.jsp?AccessionNumber=ML20340A053">https://adamswebsearch2.nrc.gov/webSearch2/main.jsp?AccessionNumber=ML20340A053</a>), and on the NRC's public website 
+(<a href="https://www.nrc.gov/about-nrc/regulatory/adjudicatory/hearing.html#participate">https://www.nrc.gov/about-nrc/regulatory/adjudicatory/hearing.html#participate</a>).
+
+III. Electronic Submissions (E-Filing)
+
+    All documents filed in NRC adjudicatory proceedings, including 
+documents filed by an interested State, local governmental body, 
+Federally recognized Indian Tribe, or designated agency thereof that 
+requests to participate under 10 CFR 2.315(c), must be filed in 
+accordance with 10 CFR 2.302. The E-Filing process requires 
+participants to submit and serve all adjudicatory documents over the 
+internet, or in some cases, to mail copies on electronic storage media, 
+unless an exemption permitting an alternative filing method, as further 
+discussed, is granted. Detailed guidance on electronic submissions is 
+located in the ``Guidance for Electronic Submissions to the NRC'' 
+(ADAMS Accession No. ML13031A056), and on the NRC's public website 
+(<a href="https://www.nrc.gov/site-help/e-submittals.html">https://www.nrc.gov/site-help/e-submittals.html</a>).
+    To comply with the procedural requirements of E-Filing, at least 10 
+days prior to the filing deadline, the participant should contact the 
+Office of the Secretary by email at <a href="/cdn-cgi/l/email-protection#3a725f5b4853545d147e5559515f4e7a544859145d554c"><span class="__cf_email__" data-cfemail="125a7773607b7c753c567d71797766527c60713c757d64">[email&#160;protected]</span></a>, or by 
+telephone at 301-415-1677, to (1) request a digital identification (ID) 
+certificate, which allows the participant (or its counsel or 
+representative) to digitally sign submissions and access the E-Filing 
+system for any proceeding in which it is participating; and (2) advise 
+the Secretary that the participant will be submitting a petition or 
+other adjudicatory document (even in instances in which the 
+participant, or its counsel or representative, already holds an NRC-
+issued digital ID certificate). Based upon this information, the 
+Secretary will establish an electronic docket for the proceeding if the 
+Secretary has not already established an electronic docket.
+    Information about applying for a digital ID certificate is 
+available on the NRC's public website (<a href="https://www.nrc.gov/site-help/e-submittals/getting-started.html">https://www.nrc.gov/site-help/e-submittals/getting-started.html</a>). After a digital ID certificate is 
+obtained and a docket created, the participant must submit adjudicatory 
+documents in Portable Document Format. Guidance on submissions is 
+available on the NRC's public website (<a href="https://www.nrc.gov/site-help/electronic-sub-ref-mat.html">https://www.nrc.gov/site-help/electronic-sub-ref-mat.html</a>). A filing is considered complete at the 
+time the document is submitted through the NRC's E-Filing system. To be 
+timely, an electronic filing must be submitted to the E- Filing system 
+no later than 11:59 p.m. ET on the due date. Upon receipt of a 
+transmission, the E-Filing system time-stamps the document and sends 
+the submitter an email confirming receipt of the document. The E-Filing 
+system also distributes an email that provides access to the document 
+to the NRC's Office of the General Counsel and any others who have 
+advised the Office of the Secretary that they wish to participate in 
+the proceeding, so that the filer need not serve the document on those 
+participants separately. Therefore, applicants and other participants 
+(or their counsel or representative) must apply for and receive a 
+digital ID certificate before adjudicatory documents are filed to 
+obtain access to the documents via the E-Filing system.
+    A person filing electronically using the NRC's adjudicatory E-
+Filing system may seek assistance by contacting the NRC's Electronic 
+Filing Help Desk through the ``Contact Us'' link located on the NRC's 
+public website (<a href="https://www.nrc.gov/site-help/e-submittals.html">https://www.nrc.gov/site-help/e-submittals.html</a>), by 
+email to <a href="/cdn-cgi/l/email-protection#87cad4cfc3a9d5e2f4e8f2f5e4e2c7e9f5e4a9e0e8f1"><span class="__cf_email__" data-cfemail="3c716f7478126e594f53494e5f597c524e5f125b534a">[email&#160;protected]</span></a>, or by a toll-free call at 1-866-672-
+7640. The NRC Electronic Filing Help Desk is available between 9 a.m. 
+and 6 p.m., ET, Monday through Friday, except Federal holidays.
+    Participants who believe that they have good cause for not 
+submitting documents electronically must file an exemption request, in 
+accordance with 10 CFR 2.302(g), with their initial paper filing 
+stating why there is good cause for not filing electronically and 
+requesting authorization to continue to submit documents in paper 
+format. Such filings must be submitted in accordance with 10 CFR 
+2.302(b)-(d). Participants filing adjudicatory documents in this manner 
+are responsible for serving their documents on all other participants. 
+Participants granted an exemption under 10 CFR 2.302(g)(2) must still 
+meet the electronic formatting requirement in 10 CFR 2.302(g)(1), 
+unless the participant also seeks and is granted an exemption from 10 
+CFR 2.302(g)(1).
+    Documents submitted in adjudicatory proceedings will appear in the 
+NRC's electronic hearing docket, which is publicly available at <a href="https://adams.nrc.gov/ehd">https://adams.nrc.gov/ehd</a>, unless excluded pursuant to an order of the 
+presiding officer. If you do not have an NRC issued digital ID 
+certificate as previously described, click ``cancel'' when the link 
+requests certificates and you will be automatically directed to the 
+NRC's electronic hearing docket where you will be able to access any 
+publicly available documents in a particular hearing docket. 
+Participants are requested not to include personal privacy information 
+such as social security numbers, home addresses, or personal phone 
+numbers in their filings unless an NRC regulation or other law requires 
+submission of such information. With respect to copyrighted works, 
+except for limited excerpts that serve the purpose of the adjudicatory 
+filings and would constitute a Fair Use application, participants 
+should not include copyrighted materials in their submission.
+    Detailed information about the license renewal process can be found 
+under the Reactor License Renewal section icon at <a href="https://www.nrc.gov/reactors/operating/licensing/renewal.html">https://www.nrc.gov/reactors/operating/licensing/renewal.html</a> on the NRC's
+
+[[Page 23124]]
+
+public website. Th

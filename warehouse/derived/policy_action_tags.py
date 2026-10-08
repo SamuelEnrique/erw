@@ -15,8 +15,10 @@ Dockets listed by number (the rule file's "dockets"): a notice whose title holds
 tags of a proceeding whose own order was read, when its docket field holds that docket number; the matched field is
 then "docket". The municipal rule, the agencies in scope and each tag's exclusions hold for these rows too.
 
-How a row is read (the rule file says the same): the title and the abstract, each on its own, lower case, every
-hyphen and dash a space, white space collapsed, the stripped phrases (a company's name) taken out. A term matches as
+How a row is read (the rule file says the same): the title, the abstract and (session 157, rule version 3) the first
+paragraph of the action's printed text in the Federal Register, each on its own, lower case, every hyphen and dash a
+space, white space collapsed, the stripped phrases (a company's name) taken out. A table from before session 157
+has no first_paragraph: the field is then empty and the rule reads the other two. A term matches as
 whole words in order. An action with a municipal phrase in its title or abstract is never tagged. A tag's own
 exclusions (a phrase in the title or abstract, a docket prefix) keep an action out of that tag only.
 
@@ -187,8 +189,8 @@ def main(argv=None):
             "transmission cost, tax credits (session 154)",
             "Shape: events (docs/datastandard.md v0), event_type policy_tag; one row for each action and tag; a snapshot "
             "(a later rule replaces the rows). event_date is the action's. matched_term is the rule's term that "
-            "matched and matched_field the field it matched in (title or abstract); action_url is the action's own "
-            "document.",
+            "matched and matched_field the field it matched in (title, abstract, first_paragraph: the first paragraph of "
+            "the printed text, or docket: a docket the rule lists by number); action_url is the action's own document.",
             f"Rule: warehouse/config/policy_tag_rules.json, version {rules['version']}, applied by code; no model "
             f"reads a row. Method: {METHOD}.",
             f"Retrieved: {run_id} (UTC) by warehouse/derived/policy_action_tags.py",

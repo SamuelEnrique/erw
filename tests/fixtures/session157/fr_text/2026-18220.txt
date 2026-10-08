@@ -1,0 +1,256 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 172 (Tuesday, September 8, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 172 (Tuesday, September 8, 2026)]
+[Notices]
+[Pages 57168-57172]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-18220]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[NRC-2026-3829]
+
+
+Application for Amendment to Facility Operating License Involving 
+Proposed No Significant Hazards Consideration Determination and 
+Containing Sensitive Unclassified Non-Safeguards Information and Order 
+Imposing Procedures for Access to Sensitive Unclassified Non-Safeguards 
+Information
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: License amendment request; notice of opportunity to comment, 
+request a hearing, and petition for leave to intervene; order imposing 
+procedures.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) received, and is 
+considering approval of, one amendment request. The amendment request 
+is for Shearon Harris Nuclear Power Plant, Unit 1. For the amendment 
+request, the NRC proposes to determine that it involves no significant 
+hazards consideration (NSHC). Because the amendment request contains 
+sensitive unclassified non-safeguards information (SUNSI), the NRC is 
+issuing an order imposing procedures to obtain access to SUNSI for 
+contention preparation by persons who file a hearing request or 
+petition for leave to intervene.
+
+DATES: Comments must be filed by October 8, 2026. A request for a 
+hearing or petitions for leave to intervene must be filed by November 
+9, 2026. Any potential party as defined in section 2.4 of title 10 of 
+the Code of Federal Regulations (10 CFR) who believes access to SUNSI 
+is necessary to respond to this notice must request document access by 
+September 18, 2026.
+
+ADDRESSES: You may submit comments by any of the following methods; 
+however, the NRC encourages electronic comment submission through the 
+Federal rulemaking website.
+    <bullet> Federal rulemaking website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2026-3829. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#e5a7978c81828091cba6909797848ba58b9786cb828a93"><span class="__cf_email__" data-cfemail="edaf9f84898a8899c3ae989f9f8c83ad839f8ec38a829b">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual(s) listed in the FOR FURTHER 
+INFORMATION CONTACT section of this document.
+    <bullet> Mail comments to: Office of Nuclear Material Safety and 
+Safeguards, Mail Stop: TWFN-5-A85, U.S. Nuclear Regulatory Commission, 
+Washington, DC 20555-0001, ATTN: Guidance and Publications Branch.
+    For additional direction on obtaining information and submitting 
+comments, see ``Obtaining Information and Submitting Comments'' in the 
+SUPPLEMENTARY INFORMATION section of this document.
+
+FOR FURTHER INFORMATION CONTACT: Susan Lent, Office of Nuclear Reactor 
+Regulation, U.S. Nuclear Regulatory Commission, Washington, DC 20555-
+0001; telephone: 301-415-1365; email: <a href="/cdn-cgi/l/email-protection#376442445659197b5259437759455419505841"><span class="__cf_email__" data-cfemail="297a5c5a484707654c475d69475b4a074e465f">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Obtaining Information and Submitting Comments
+
+A. Obtaining Information
+
+    Please refer to Docket ID NRC-2026-3829, facility name, unit 
+number, docket number, application date, and subject when contacting 
+the NRC about the availability of information for this action. You may 
+obtain publicly available information related to this action by any of 
+the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2026-3829.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#69392d3b473b0c1a061c1b0a0c29071b0a470e061f"><span class="__cf_email__" data-cfemail="461602146814233529333425230628342568212930">[email&#160;protected]</span></a>. The ADAMS accession number for each document 
+referenced (if it is available in ADAMS) is provided the first time 
+that it is mentioned in this document.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#e6b6a2b4c8b483958993948583a6889485c8818990"><span class="__cf_email__" data-cfemail="81d1c5d3afd3e4f2eef4f3e2e4c1eff3e2afe6eef7">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+B. Submitting Comments
+
+    The NRC encourages electronic comment submission through the 
+Federal rulemaking website (<a href="https://www.regulations.gov">https://www.regulations.gov</a>). Please 
+include Docket ID NRC-2026-3829, facility name, unit number, docket 
+number, application date, and subject, in your comment submission.
+    The NRC cautions you not to include identifying or contact 
+information that you do not want to be publicly
+
+[[Page 57169]]
+
+disclosed in your comment submission. The NRC will post all comment 
+submissions at <a href="https://www.regulations.gov">https://www.regulations.gov</a> as well as enter the comment 
+submissions into ADAMS. The NRC does not routinely edit comment 
+submissions to remove identifying or contact information.
+    If you are requesting or aggregating comments from other persons 
+for submission to the NRC, then you should inform those persons not to 
+include identifying or contact information that they do not want to be 
+publicly disclosed in their comment submission. Your request should 
+state that the NRC does not routinely edit comment submissions to 
+remove such information before making the comment submissions available 
+to the public or entering the comment into ADAMS.
+
+II. Background
+
+    Pursuant to section 189a.(1)-(2) of the Atomic Energy Act of 1954, 
+as amended (the Act), the NRC is publishing this notice. The Act 
+requires the Commission to publish notice of any amendments issued or 
+proposed to be issued and grants the Commission the authority to issue 
+and make immediately effective any amendment to an operating license or 
+combined license, as applicable, upon a determination by the Commission 
+that such amendment involves NSHC, notwithstanding the pendency before 
+the Commission of a request for a hearing from any person.
+    This notice includes a notice of an amendment containing SUNSI.
+
+III. Notice of Consideration of Issuance of an Amendment to Facility 
+Operating License, Proposed No Significant Hazards Consideration 
+Determination, and Opportunity for a Hearing
+
+    The Commission has made a proposed determination that the following 
+amendment request involves NSHC. Under the Commission's regulations in 
+10 CFR 50.92, this means that operation of the facility in accordance 
+with the proposed amendment would not (1) involve a significant 
+increase in the probability or consequences of an accident previously 
+evaluated, or (2) create the possibility of a new or different kind of 
+accident from any accident previously evaluated, or (3) involve a 
+significant reduction in a margin of safety. The basis for this 
+proposed determination for the amendment request is shown as follows.
+    The Commission is seeking public comments on this proposed NSHC 
+determination. Any comments received within 30 days after the date of 
+publication of this notice will be considered in making any final 
+determination.
+    Normally, the Commission will not issue the amendment until the 
+expiration of 60 days after the date of publication of this notice. The 
+Commission may issue the license amendment before expiration of the 60-
+day period provided that its final determination is that the amendment 
+involves NSHC. In addition, the Commission may issue the amendment 
+prior to the expiration of the 30-day comment period if circumstances 
+change during the 30-day comment period such that failure to act in a 
+timely way would result, for example, in derating or shutdown of the 
+facility. If the Commission takes action on the amendment prior to the 
+expiration of either the comment period or the notice period, it will 
+publish a notice of issuance in the Federal Register. If the Commission 
+makes a final NSHC determination for the amendment, any hearing on this 
+amendment will take place after issuance. The Commission expects that 
+the need to take this action will occur very infrequently.
+
+A. Opportunity To Request a Hearing and Petition for Leave To Intervene
+
+    Within 60 days after the date of publication of this notice, any 
+person (petitioner) whose interest may be affected by any of these 
+actions may file a request for a hearing and petition for leave to 
+intervene (petition) with respect to that action. Petitions shall be 
+filed in accordance with the Commission's ``Agency Rules of Practice 
+and Procedure'' in 10 CFR part 2. Interested persons should consult 10 
+CFR 2.309. If a petition is filed, the Commission or a presiding 
+officer will rule on the petition and, if appropriate, a notice of a 
+hearing will be issued.
+    Petitions must be filed no later than 60 days from the date of 
+publication of this notice in accordance with the filing instructions 
+in the ``Electronic Submissions (E-Filing)'' section of this document. 
+Petitions and motions for leave to file new or amended contentions that 
+are filed after the deadline will not be entertained absent a 
+determination by the presiding officer that the filing demonstrates 
+good cause by satisfying the three factors in 10 CFR 2.309(c)(1)(i) 
+through (iii).
+    If a hearing is requested, and the Commission has not made a final 
+determination on the issue of no significant hazards consideration, the 
+Commission will make a final determination on the issue of no 
+significant hazards consideration, which will serve to establish when 
+the hearing is held. If the final determination is that the license 
+amendment request involves no significant hazards consideration, the 
+Commission may issue the amendment and make it immediately effective, 
+notwithstanding the request for a hearing. Any hearing would take place 
+after issuance of the amendment. If the final determination is that the 
+license amendment request involves a significant hazards consideration, 
+then any hearing held would take place before the issuance of the 
+amendment unless the Commission finds an imminent danger to the health 
+or safety of the public, in which case it will issue an appropriate 
+order or rule under 10 CFR part 2.
+    A State, local governmental body, Federally recognized Indian 
+Tribe, or designated agency thereof, may submit a petition to the 
+Commission to participate as a party under 10 CFR 2.309(h) no later 
+than 60 days from the date of publication of this notice. 
+Alternatively, a State, local governmental body, Federally recognized 
+Indian Tribe, or designated agency thereof, may participate as a non-
+party under 10 CFR 2.315(c).
+    For information about filing a petition and about participation by 
+a person not a party under 10 CFR 2.315, see ADAMS Accession No. 
+ML20340A053 (<a href="https://adamswebsearch2.nrc.gov/webSearch2/main.jsp?AccessionNumber=ML20340A053">https://adamswebsearch2.nrc.gov/webSearch2/main.jsp?AccessionNumber=ML20340A053</a>) and the NRC's public website 
+<a href="https://www.nrc.gov/about-nrc/regulatory/adjudicatory/hearing.html#participate">https://www.nrc.gov/about-nrc/regulatory/adjudicatory/hearing.html#participate</a>).
+
+B. Electronic Submissions (E-Filing)
+
+    All documents filed in NRC adjudicatory proceedings, including 
+documents filed by an interested State, local governmental body, 
+Federally recognized Indian Tribe, or designated agency thereof that 
+requests to participate under 10 CFR 2.315(c), must be filed in 
+accordance with 10 CFR 2.302. The E-Filing process requires 
+participants to submit and serve all adjudicatory documents over the 
+internet, or in some cases, to mail copies on electronic storage media, 
+unless an exemption permitting an alternative filing method, as further 
+discussed, is granted. Detailed guidance on electronic submissions is 
+located in the ``Guidance for Electronic Submissions to the NRC'' 
+(ADAMS Accession No. ML13031A056), and on the NRC's public website 
+(<a href="https://www.nrc.gov/site-help/e-submittals.html">https://www.nrc.gov/site-help/e-submittals.html</a>).
+    To comply with the procedural requirements of E-Filing, at least 10 
+days prior to the filing deadline, the participant should contact the 
+Office of the Secretary by email at <a href="/cdn-cgi/l/email-protection#347c5155465d5a531a705b575f5140745a46571a535b42"><span class="__cf_email__" data-cfemail="bef6dbdfccd7d0d990fad1ddd5dbcafed0ccdd90d9d1c8">[email&#160;protected]</span></a>, or by
+
+[[Page 57170]]
+
+telephone at 301-415-1677, to: (1) request a digital identification 
+(ID) certificate, which allows the participant (or their counsel or 
+representative) to digitally sign submissions and access the E-Filing 
+system for any proceeding in which it is participating; and (2) advise 
+the Secretary that the participant will be submitting a petition or 
+other adjudicatory document (even in instances in which the 
+participant, or their counsel or representative, already holds an NRC-
+issued digital ID certificate). Based upon this information, the 
+Secretary will establish an electronic docket for the proceeding if the 
+Secretary has not already established an electronic docket.
+    Information about applying for a digital ID certificate is 
+available on the NRC's public website (<a href="https://www.nrc.gov/site-help/e-submittals/getting-started.html">https://www.nrc.gov/site-help/e-submittals/getting-started.html</a>). After a digital ID certificate is 
+obtained and a docket is created, the participant must submit 
+adjudicatory documents in the Portable Document Format. Guidance on 
+submissions is available on the NRC's public website (<a href="https://www.nrc.gov/site-help/electronic-sub-ref-mat.html">https://www.nrc.gov/site-help/electronic-sub-ref-mat.html</a>). A filing is 
+considered complete at the time the document is submitted through the 
+NRC's E-Filing system. To be timely, an electronic filing must be 
+submitted to the E-Filing system no later than 11:59 p.m. ET on the due 
+date. Upon receipt of a transmission, the E-Filing system time-stamps 
+the document and sends the submitter an email confirming receipt of the 
+document. The E-Filing system also distributes an email that provides 
+access to the document to the NRC's Office of the General Counsel and 
+any others who have advised the Office of the Secretary that they wish 
+to participate in the proceeding, so that the filer need not serve the 
+document on those participants separately. Therefore, applicants and 
+other participants (or their counsel or representative) must apply for 
+and receive a digital ID certificate before adjudicatory documents are 
+filed in order to obtain access to the documents v

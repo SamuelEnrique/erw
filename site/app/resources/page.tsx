@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { DOCS, render } from "@/lib/markdown";
-import { filesOf, pyramidsOf, toggleGroups, KX, MIN_CELL_PX, type Layer } from "@/lib/resources";
+import { filesOf, pyramidsOf, toggleGroups, KX, MIN_CELL_PX, QUEUE_GRIDS, type Layer } from "@/lib/resources";
 import { readManifest } from "@/lib/resourcesdata";
 import { ResourceMap } from "./ResourceMap";
 
@@ -13,6 +13,9 @@ import { ResourceMap } from "./ResourceMap";
 // list, so a layer that arrives later needs no code. What is built or planned is laid over it from tables the site
 // already holds. The face is the title, one sentence, the toggles, the map and the legends: everything of method is in
 // the Method note at the foot, closed until it is opened. No hub or zone is drawn: no operator's boundary is held.
+// Session 159: hydropower is held (Oak Ridge National Laboratory's two assessments, in the form published); the gross
+// capacity factor is a greyed toggle whose hover says why it is not fetched; the Method note states the queue grid by
+// grid: each grid that is not shown reads its operator's own words, which are written once, in lib/resources.ts.
 
 export const metadata: Metadata = { title: "Where the resources are", robots: { index: false, follow: false } };
 
@@ -55,6 +58,7 @@ export default function Resources() {
     id: l.id, group: l.group, title: l.title, kind: l.kind, unit: l.unit, publisher: l.publisher, vintage: l.vintage, extent: l.extent,
     levels: l.levels, file: l.kind === "grid" ? undefined : filesOf(l)[0], legend: l.legend, classes: l.classes,
     other_extents: l.other_extents?.map((x) => ({ extent: x.extent, levels: x.levels, legend: x.legend, grid: x.grid })), point_spacing_km: l.point_spacing_km,
+    hover_fields: Array.isArray(l.hover_fields) ? l.hover_fields.filter((f) => Array.isArray(f) && typeof f[0] === "string" && typeof f[1] === "string") : undefined,
   }));
   const doc = DOCS.methods?.resources;
   const missing = groups.flatMap((g) => g.items.flatMap((it) => (it.held ? [] : [{ group: g.label, label: it.label, reason: it.reason }])));
@@ -75,6 +79,7 @@ export default function Resources() {
             <li>A resource layer is the publisher&apos;s estimate of a resource over an area. It is not a siting study, and it says nothing of land use, access to transmission, permits or cost.</li>
             <li>No price hub or zone is drawn: no operator&apos;s published boundary or coordinates are held, and none is invented.</li>
             <li>The address holds what is switched on, the zoom and the centre, so a view can be shared. Every file is read from this site; the page asks nothing of any other.</li>
+            <li>While the map is being moved, a layer of many shapes or points is shown as a still picture of itself, and a map with very many marks on it at once (every layer and every overlay, or the operating plants at the widest view) is shown as the picture last drawn in full, moved and scaled with the view over the bare states. When the map comes to rest everything is drawn again as it is. No value is read from a picture: the hover is read from the files, at rest.</li>
           </ul>
 
           {manifest.layers.map((l) => <LayerNote key={l.id} l={l} />)}
@@ -90,7 +95,7 @@ export default function Resources() {
             <h3 className="mb-1 font-serif text-base text-accent">What is built or planned</h3>
             <ul className="max-w-3xl list-disc space-y-1 pl-5">
               <li><strong>Plants.</strong> Every operating and planned generating unit of the U.S. Energy Information Administration&apos;s monthly inventory, Form EIA-860M (public domain), at the coordinates EIA gives for its plant, from the tables <code className="font-mono text-xs">eia860m_operating_generators</code> and <code className="font-mono text-xs">eia860m_planned_generators</code> as the project map&apos;s own copy holds them. A mark is a unit, not a plant; its color is its fuel, as on the project map, and its size grows with its nameplate MW. The form covers plants of 1 MW and more.</li>
-              <li><strong>The interconnection queue.</strong> The queue rows of the table <code className="font-mono text-xs">energy_projects</code> in the live set, which holds requests that are not withdrawn, from the queue reports whose rows the live set holds today: ERCOT, CAISO, SPP and ISO-NE. The reports give a county, not a site. A row is counted in the county whose published outline (the Census Bureau&apos;s cartographic boundary files, as the us-atlas package carries them) holds the point the table gives for that county, or, where the outline leaves that point at sea, in the one county of that name in that state; the county is shaded, darker with more MW asked for, and nothing is drawn at a site. A row that names neither a county the Census Bureau&apos;s county list holds nor coordinates is not drawn and is counted. A request is not a plant: most are withdrawn before they are built.</li>
+              <li><strong>The interconnection queue.</strong> The queue rows of the table <code className="font-mono text-xs">energy_projects</code> in the live set, which holds requests that are not withdrawn, from the queue reports of the grids whose operators allow it: {QUEUE_GRIDS.filter((g) => g.shown).map((g) => g.label).join(", ")}. The count of rows drawn and not drawn, in all and for each grid, is the live set&apos;s own each time the overlay is read. {QUEUE_GRIDS.filter((g) => !g.shown).map((g) => <span key={g.id} data-method-queue-grid={g.id}>{g.label}: {g.words}. {g.why} Any row of {g.label}&apos;s that the table holds is counted and left out of the map. </span>)}The reports give a county, not a site. A row is counted in the county whose published outline (the Census Bureau&apos;s cartographic boundary files, as the us-atlas package carries them) holds the point the table gives for that county, or, where the outline leaves that point at sea, in the one county of that name in that state; the county is shaded, darker with more MW asked for, and nothing is drawn at a site. A row that names neither a county the Census Bureau&apos;s county list holds nor coordinates is not drawn and is counted. A request is not a plant: most are withdrawn before they are built.</li>
               <li><strong>Datacenters.</strong> The facilities of the table <code className="font-mono text-xs">datacenter_facilities</code> that the table places: at the operator&apos;s own coordinates, or at the point of the county or city a source names, which is not the site. It is not a census of every facility, and MW is shown only where a source states it.</li>
             </ul>
           </section>

@@ -220,7 +220,10 @@ class TheSources(unittest.TestCase):
 
     def test_the_profile_adds_the_pages_on_session_148s_and_the_exported_spec_is_untouched(self):
         e = src("site", "lib", "chat", "ercot.ts")
-        for words in ("function profile148(): Profile {", "export function ercotProfile(): Profile {\n  const p = profile148();\n  if (!pagesOffered() || !p.scope) return p;",
+        # session 156: the profile of this session keeps its body and has a name of its own (profile153); the profile the
+        # route serves, ercotProfile, is that one with session 156's layer on it
+        for words in ("function profile148(): Profile {", "export function profile153(): Profile {\n  const p = profile148();\n  if (!pagesOffered() || !p.scope) return p;",
+                      "export function ercotProfile(): Profile {\n  const p = profile153();",
                       "system: p.system + pagesGuide(),", "const held = heldIn(input);\n      if (held) return Promise.resolve({ out: heldRefusal(held), isError: true });",
                       "...ROLLUP_TABLES, ...PAGES_NEAR];", "?? PAGES_HOLDS[t] ?? \"\"",
                       # what sessions 137 and 148 pinned is still there, word for word
@@ -274,7 +277,13 @@ class TheMethodNote(unittest.TestCase):
                       "from 28 September 2026", "the 2026 matrices are filed, not approved", '"held, not shown"', '"paused while terms are reviewed"', '"licensed source needed"',
                       "`ASK_PAGES=off`", "warehouse/chat/eval_ercot_pages.json"):
             self.assertIn(words, note, words)
-        self.assertIn("Ask ERCOT speaks for ERCOT only.", note)                          # what stood before still stands
+        # what stood before still stands: every refusal of the section "What it does not answer". Its first sentence was
+        # "Ask ERCOT speaks for ERCOT only."; session 156 reworded it, on the owner's instruction of 8 October 2026,
+        # because with these four pages it stopped being true (the note still says when the tool speaks for ERCOT only)
+        for words in ("## What it does not answer", "**Licensed data.**", "**What a named company earned, bid or owns.**", "**Forecasts and advice.**", "each have their own page on this site"):
+            self.assertIn(words, note, words)
+        self.assertIn("Ask ERCOT answers for the Texas grid, and for the other grids only what four pages of this site show", note)
+        self.assertIn("still speaks for ERCOT only", note)
         self.assertNotIn(DASH, note)
 
 

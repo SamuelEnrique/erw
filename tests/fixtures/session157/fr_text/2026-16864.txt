@@ -1,0 +1,285 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 159 (Wednesday, August 19, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 159 (Wednesday, August 19, 2026)]
+[Notices]
+[Pages 53669-53674]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-16864]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket No. 50-255; NRC-2026-3796]
+
+
+Palisades Energy, LLC; Palisades Nuclear Plant; Exemption
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice; issuance.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) has issued an 
+exemption in response to a request dated July 10, 2026, as supplemented 
+by letter dated July 30, 2026, from Palisades Energy, LLC. The 
+exemption authorizes a one-time exemption to allow Operations personnel 
+use of the less restrictive work hour limitations described in NRC 
+regulations for a period of no more than 60 days commencing upon core 
+reload, or until Palisades is connected to the electrical grid, 
+whichever occurs first.
+
+DATES: The exemption was issued on August 12, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2026-3796 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2026-3796. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a> to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#e8aa9a818c8f8d9cc6ab9d9a9a8986a8869a8bc68f879e"><span class="__cf_email__" data-cfemail="1d5f6f74797a7869335e686f6f7c735d736f7e337a726b">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual(s) listed in the  For Further 
+Information Contact section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#267662740874435549535445436648544508414950"><span class="__cf_email__" data-cfemail="abfbeff985f9ced8c4ded9c8ceebc5d9c885ccc4dd">[email&#160;protected]</span></a>. The ADAMS accession number for each document 
+referenced (if it is available in ADAMS) is provided the first time 
+that it is mentioned in this document.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#f0a0b4a2dea295839f85829395b09e8293de979f86"><span class="__cf_email__" data-cfemail="500014027e0235233f25223335103e22337e373f26">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: Brent Ballard, Office of Nuclear 
+Reactor Regulation, U.S. Nuclear Regulatory Commission, Washington, DC 
+20555-0001; telephone: 301-415-0680; email: <a href="/cdn-cgi/l/email-protection#206252454e540e62414c4c415244604e52430e474f56"><span class="__cf_email__" data-cfemail="420030272c366c00232e2e233026022c30216c252d34">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION: The text of the exemption is attached.
+    Authority: 42 U.S.C. 2011 et seq.
+
+    Dated: August 14, 2026.
+
+
+[[Page 53670]]
+
+
+    For the Nuclear Regulatory Commission.
+Brent Ballard,
+Project Manager, Operating Reactor Licensing Branch 3, Division of 
+Licensing Projects 1, Office of Nuclear Reactor Regulation.
+
+Attachment--Exemption
+
+NUCLEAR REGULATORY COMMISSION
+
+Docket No. 50-255
+
+Palisades Energy, LLC; Palisades Nuclear Plant; Exemption
+
+I. Background
+
+    Palisades Energy, LLC (Palisades Energy, the licensee), is the 
+holder of Renewed Facility Operating License No. DPR-20, which 
+authorizes operation of the Palisades Nuclear Plant (Palisades). The 
+license provides, among other things, that the facility is subject 
+to all rules, regulations, and orders of the U.S. Nuclear Regulatory 
+Commission (NRC, the Commission) now or hereafter in effect. The 
+facility consists of one pressurized-water reactor located in Van 
+Buren County, Michigan.
+    Palisades Energy became subject to the work hour requirements in 
+Title 10 of the Code of Federal Regulations (10 CFR) Part 26, 
+``Fitness for Duty Programs,'' Section 26.205, ``Work hours,'' after 
+Palisades entered an outage status on August 25, 2025. The 
+regulatory history of the Palisades restart effort as it relates to 
+the work hour requirements is presented in the third work hours 
+exemption issued to Palisades Energy on March 18, 2026 (91 Federal 
+Register [FR] 13073). However, in the fourth work hours exemption 
+issued to Palisades Energy on June 18, 2026, (91 FR 38035), the NRC 
+staff determined that a graded Fitness for Duty (FFD) approach for 
+fatigue management could be applied to Palisades until nine days 
+before initial fuel load due to a combination of factors that 
+include the NRC staff's risk assessment, continued applicability of 
+the remainder of Subpart I to 10 CFR part 26, and the unique 
+circumstances of restarting a decommissioning power reactor. 
+Therefore, the NRC staff issued an exemption for the Palisades 
+Nuclear Plant to allow the use of the less restrictive outage work 
+hour limitations until nine days before the start of the unit's 
+initial fuel load into the reactor for various covered individuals 
+as described in that exemption, which includes 10 CFR 26.4(a)(1) 
+[Operations] personnel.
+
+II. Request/Action
+
+    By letter dated July 10, 2026 (ML26191A405), the licensee 
+requested a one-time exemption from the Fitness for Duty (FFD) 
+Program work hour requirements in 10 CFR 26.205(d), ``Work hour 
+controls,'' pursuant to 10 CFR 26.9, ``Specific exemptions.'' 
+Specifically, the licensee requested to use the outage work hour 
+controls in 10 CFR 26.205(d)(4) in lieu of the non-outage work hour 
+controls described in 10 CFR 26.205(d)(3) and (d)(7) for a period of 
+no more than 60 days commencing with core reload, or until Palisades 
+is connected to the electrical grid, whichever occurs first, for 
+individuals specified in Paragraphs (a)(1) of 10 CFR 26.4, ``FFD 
+program applicability to categories of individuals.''
+    Section 26.205(d)(3) of 10 CFR requires licensees to comply with 
+the requirements for individuals to have a minimum number of days 
+off per week depending on the duration of shift schedules, averaged 
+over the shift cycle, and the duties being performed. Individuals 
+working 8-hour shift schedules shall have at least 1 day off per 
+week, and individuals who are working 10-hour shift schedules shall 
+have at least 2 days off per week. Individuals working 12-hour shift 
+schedules while performing the duties described in 10 CFR 26.4(a)(1) 
+through (a)(3) shall have at least 2.5 days off per week and 
+individuals working 12-hour shift schedules while performing duties 
+described in 10 CFR 26.4(a)(4) shall have at least 2 days off per 
+week. Section 26.205(d)(7) of 10 CFR, requires licensees to comply 
+with the requirements for maximum average work hours wherein 
+individuals may not work more than a weekly average of 54 hours, 
+calculated using an averaging period of up to 6 weeks, which 
+advances by 7 consecutive calendar days at the finish of every 
+averaging period. The licensee seeks a one-time exemption from the 
+requirements of 10 CFR 26.205(d)(3) and (d)(7).
+    The requirements in 10 CFR 26.205(d)(4) provide that during the 
+first 60 days of a unit outage, licensees need not meet the 
+requirements of 10 CFR 26.205(d)(3) or (d)(7) for individuals 
+specified in 10 CFR 26.4(a)(1) through (a)(4), while those 
+individuals are working on outage activities. However, 10 CFR 
+26.205(d)(4) does require the licensee to ensure individuals 
+specified in 10 CFR 26.4(a)(1) through (a)(3) have at least 3 days 
+off in each successive (i.e., non-rolling) 15-day period, and that 
+the individuals specified in 10 CFR 26.4(a)(4) have at least 1 day 
+off in any 7-day period. This is collectively known as the outage 
+minimum days off (MDO) requirement.
+    In the exemption request, the licensee stated they re-evaluated 
+the operational support necessary to safely conduct core reload, 
+startup, and plant restoration activities through synchronization to 
+the electrical grid. Pursuant to 10 CFR 26.5, for the purposes of 
+Part 26, a unit outage means, for electricity-generation units, that 
+the reactor unit is disconnected from the electrical grid. The 
+licensee asserted that the outage work hour provisions of 10 CFR 
+26.205(d)(4) are necessary for Operations personnel during the 
+requested exemption period. Concurrently with this exemption 
+request, the licensee requested that the portion of the previous 
+exemption from 10 CFR 26.205(d)(3) and (d)(7) for 10 CFR 26.4(a)(1) 
+[Operations] personnel currently in effect until nine days before 
+core reload be rescinded and replaced by this exemption.
+
+III. Discussion
+
+    Pursuant to 10 CFR 26.9, the Commission may, upon application by 
+any interested person or upon its own initiative, grant exemptions 
+from the requirements of 10 CFR part 26 when the exemptions are 
+authorized by law and will not endanger life or property or the 
+common defense and security; and are otherwise in the public 
+interest.
+
+A. The Exemption Is Authorized by Law
+
+    The exemption would authorize a one-time exemption from the 
+requirements of 10 CFR 26.205(d)(3) and (d)(7) for personnel 
+performing duties under 10 CFR 26.4(a)(1) to allow the use of the 
+less restrictive work hour controls in 10 CFR 26.205(d)(4) for a 
+period not to exceed 60 days commencing with core reload, or until 
+Palisades is connected to the electrical grid. As stated, 10 CFR 
+26.9 allows the NRC to grant exemptions from the requirements of 10 
+CFR part 26. After reviewing the exemption, the NRC staff has 
+determined that granting the proposed exemption will not result in a 
+violation of the Atomic Energy Act of 1954, as amended, other laws, 
+or the Commission's regulations. Therefore, the exemption is 
+authorized by law.
+
+B. The Exemption Will Not Endanger Life or Property
+
+    The purpose of Subpart I, ``Managing Fatigue,'' of 10 CFR part 
+26 is to ensure that worker fatigue does not compromise the 
+abilities of individuals to perform their duties safely and 
+competently. The purpose of 10 CFR 26.205(d)(4) is to provide 
+licensees flexibility for a limited period in scheduling required 
+days off while accommodating more intense work schedules associated 
+with a unit outage.
+    During the proposed exemption period, personnel performing 
+duties in 10 CFR 26.4(a)(1) would be permitted to work in accordance 
+with the outage MDO requirements for up to a 60-day period. In the 
+July 10, 2026, submittal, the licensee asserted that the exemption 
+and the use of the outage work hour controls are ``necessary for 
+Operations personnel during this period to maintain continuity of 
+experienced operators and supervisors, minimize personnel turnovers, 
+preserve operational knowledge, and support effective decision-
+making during safety-significant startup evolutions.'' In addition, 
+the licensee asserted that the requested exemption provides 
+``necessary flexibility to safely complete remaining restart 
+activities while maintaining fatigue-management protections, 
+enhancing human performance, and supporting safe, reliable startup 
+execution.'' The licensee also requested that the previously issued 
+exemption on June 18, 2026, (ML26156A018) be rescinded for 10 CFR 
+26.4(a)(1) personnel and replaced with this exemption request dated 
+July 10, 2026. The exemption issued on June 18, 2026, applied to 
+personnel performing duties specified in 10 CFR 26.4(a)(1), (a)(2), 
+(a)(3), (a)(4) and granted the licensee to utilize the outage work 
+hour controls in 10 CFR 26.205(d)(4) until nine days before initial 
+fuel load. The licensee seeks to rescind the portion of the fourth 
+exemption specifically for 10 CFR 26.4(a)(1) personnel and instead 
+utilize the flexibility provided by the MDO requirements under this 
+fifth exemption for 10 CFR 26.4(a)(1) personnel.
+    Palisades Energy provides several reasons for the proposed 
+exemption. The licensee stated that the exemption period will 
+encompass safety-significant activities that require heightened 
+operational focus, close coordination across plant organizations, 
+and
+
+[[Page 53671]]
+
+conservative decision-making by experienced licensed operators and 
+supervisors. The licensee described reactor startup as a highly 
+operationally intensive period requiring continuous oversight by 
+Reactor Operators and Senior Reactor Operators to direct fuel load 
+activities, authorize plant mode changes, ensure Technical 
+Specification compliance, and manage plant evolutions. In addition, 
+Operations personnel will perform system restorations, integrated 
+testing, plant configuration changes, operator training, and 
+emergent issue resolution, which the licensee stated significantly 
+increases operational workload and the need for continuity of 
+experienced staff.
+    The licensee asserted that applying outage work-hour controls 
+during the exemption period will support safer startup execution by 
+reducing unnecessary turnovers, preserving operational knowledge, 
+and ensuring critical operational decisions are made by personnel 
+most familiar with current plant conditions. Palisades Energy stated 
+that outage controls provide greater staffing stability, improve 
+oversight and mentoring opportunities for less experienced 
+operators, enhance troubleshooting and issue resolution, and support 
+efficient completion of startup testing and system restoration while 
+maintaining established fatigue-management protections.
+    Palisades Energy noted that it maintains sufficient licensed 
+operator staffing to meet the requirements of 10 CFR 50.54(m) and to 
+safely conduct startup activities. However, the licensee stated that 
+the exemption is necessary to maintain continuity of experienced 
+Operations personnel during the startup period.
+    The licensee asserted that the proposed exemption will not 
+endanger life or property because the requested relief is limited to 
+Operations personnel for up to 60 days under a highly controlled 
+environment with extensive procedural guidance, management 
+oversight, testing requirements, and operational reviews. The 
+licensee stated that Operations personnel routinely work under 
+outage work-hour controls during refueling outages, consistent with 
+industry practice, and that applying these controls during the 
+exemption period enhances nuclear safety by maintaining continuity, 
+reducing turnovers, preserving plant status awareness, and 
+supporting conservative decisions during safety-significant 
+evolutions. The licensee added that using outage controls minimizes 
+risks associated with personnel transitions, loss of operational 
+context, and fragmented ownership of plant conditions.
+    In the section of the submittal titled ``Mitigating Strategy'' 
+the licensee proposed two commitments and several fatigue management 
+actions for the duration of the exemption. The first commitment

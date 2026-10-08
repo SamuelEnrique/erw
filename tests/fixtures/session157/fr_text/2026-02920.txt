@@ -1,0 +1,139 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 30 (Friday, February 13, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 30 (Friday, February 13, 2026)]
+[Notices]
+[Pages 6906-6907]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-02920]
+
+
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[Docket No. 70-7027; NRC-2022-0201]
+
+
+TRISO-X, LLC; Special Nuclear Material License Application for 
+the TRISO-X Fuel Fabrication Facility; Final Environmental Impact 
+Statement
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice; issuance.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) has issued a 
+final Environmental Impact Statement (EIS) for a Special Nuclear 
+Material License Application for the TRISO-X Fuel Fabrication Facility 
+(FFF). TRISO-X, LLC (TRISO-X) would be authorized to possess and use 
+special nuclear material to manufacture high-assay low enriched uranium 
+(HALEU) fuel. The proposed fuel fabrication facility would be located 
+on a 110-acre site at the Horizon Center in Oak Ridge, Roane County, 
+Tennessee.
+
+DATES: The FEIS referenced in this document was made publicly available 
+on February 12, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2022-0201 when contacting the
+
+[[Page 6907]]
+
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2022-0201.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#1d4d594f334f786e72686f7e785d736f7e337a726b"><span class="__cf_email__" data-cfemail="3d6d796f136f584e52484f5e587d534f5e135a524b">[email&#160;protected]</span></a>. The final EIS is available in ADAMS under 
+Accession No. ML26033A130.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#d4849086fa86b1a7bba1a6b7b194baa6b7fab3bba2"><span class="__cf_email__" data-cfemail="0a5a4e5824586f79657f78696f4a647869246d657c">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time (ET), Monday through Friday, except 
+Federal holidays.
+    <bullet> Public Library: A copy of the final EIS for a Special 
+Nuclear Material License Application for the TRISO-X FFF will be 
+available for public review at the Oak Ridge Public Library, 1401 Oak 
+Ridge Turnpike, Oak Ridge, TN 37830.
+
+FOR FURTHER INFORMATION CONTACT: Jill Caverly, Office of Nuclear 
+Material Safety and Safeguards, U.S. Nuclear Regulatory Commission, 
+Washington, DC 20555-0001; telephone: 301-415-7674; email: 
+<a href="/cdn-cgi/l/email-protection#165c7f7a7a3855776073647a6f5678647538717960"><span class="__cf_email__" data-cfemail="98d2f1f4f4b6dbf9eefdeaf4e1d8f6eafbb6fff7ee">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Background
+
+    In accordance with section 51.118 of title 10 of the Code of 
+Federal Regulations (10 CFR) ``Final environmental impact statement--
+notice of availability,'' the NRC is providing notice that the final 
+EIS for a Special Nuclear Material License Application for the TRISO-X 
+FFF is available for public inspection. The NRC issued a draft EIS for 
+this action on September 26, 2025 (ADAMS Accession No. ML25267A128) and 
+published a Federal Register (FR) notice on October 23, 2025 (90 FR 
+48508) to request comments on the draft EIS. On November 17, 2025, the 
+NRC extended the public comment period for the draft EIS until December 
+8, 2025 (90 FR 51412). The final EIS includes responses to comments on 
+the draft EIS and conforming changes where appropriate.
+
+II. Discussion
+
+    The NRC has prepared a final EIS as part of its environmental 
+review of the TRISO-X application for a 40-year license to possess and 
+use special nuclear material at a FFF that would be located on a 110-
+acre greenfield site in Oak Ridge, Roane County, Tennessee. This final 
+EIS assesses the potential environmental impacts of the TRISO-X license 
+application and the associated proposal to construct, operate, and 
+decommission the FFF, as well as the no-action alternative to the 
+proposed action.
+    The proposed Federal action is the issuance of a license, under 10 
+CFR part 70, ``Domestic Licensing of Special Nuclear Material,'' to 
+authorize TRISO-X to possess and use special nuclear material to 
+manufacture HALEU fuel at a to-be-constructed FFF. The facility would 
+produce tri-structural isotropic-based coated particles and final fuel 
+forms using uranium enriched to less than 20 weight percent uranium-
+235. Issuance of a license enabling the possession and use of special 
+nuclear material at the FFF would be for a first-of-its-kind 
+fabrication operation in the United States.
+    The final EIS for TRISO-X's license application includes the NRC 
+staff's analysis that evaluates the environmental impacts of the 
+proposed action and the no-action alternative to the proposed action. 
+The final EIS also contains the NRC staff's final recommendation on the 
+action to be taken, which is based on the following factors:
+    <bullet> The NRC staff's review of TRISO-X's environmental report 
+(included as part of the TRISO-X license application) and associated 
+responses from TRISO-X to requests from the NRC staff for clarifying 
+information;
+    <bullet> The NRC staff's review of comments received as part of the 
+scoping process;
+    <bullet> The NRC staff's communications with Federal, State, and 
+local agencies, as well as Tribal officials;
+    <bullet> The NRC staff's review of comments on the draft EIS; and
+    <bullet> The NRC staff's independent environmental review.
+    The NRC staff's final recommendation, unless safety issues mandate 
+otherwise, is that the NRC issue the license to possess and use special 
+nuclear material to TRISO-X.
+
+    Dated: February 9, 2026.
+
+    For the Nuclear Regulatory Commission.
+Robert Sun,
+Chief, Environmental Project Management, Branch 2, Division of 
+Rulemaking, Environmental, and Financial Support, Office of Nuclear 
+Material Safety, and Safeguards.
+[FR Doc. 2026-02920 Filed 2-12-26; 8:45 am]
+BILLING CODE 7590-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

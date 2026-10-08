@@ -1,0 +1,294 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 63 (Thursday, April 2, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 63 (Thursday, April 2, 2026)]
+[Rules and Regulations]
+[Pages 16541-16546]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-06373]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+10 CFR Part 72
+
+[NRC-2026-0562]
+RIN 3150-AL66
+
+
+List of Approved Spent Fuel Storage Casks: Holtec International 
+HI-STORM UMAX Canister Storage System, Certificate of Compliance No. 
+1040, Amendment No. 5
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Direct final rule.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) is amending its 
+spent fuel storage regulations by revising the Holtec International HI-
+STORM UMAX Canister Storage System listing within the ``List of 
+approved spent fuel storage casks'' to include Amendment No. 5 to 
+Certificate of Compliance No. 1040. Amendment No. 5 revises the 
+certificate of compliance to include two new versions of the HI-STORM 
+UMAX design (Version B1 and B2).
+
+DATES: This direct final rule is effective June 16, 2026, unless 
+significant adverse comments are received by May 4, 2026. If this 
+direct final rule is withdrawn as a result of such comments, timely 
+notice of the withdrawal will be published in the Federal Register. 
+Comments received after this date will be considered if it is practical 
+to do so, but the NRC is able to ensure consideration only for comments 
+received on or before this date. Comments received on this direct final 
+rule will also be considered to be comments on a companion proposed 
+rule published in the Proposed Rules section of this issue of the 
+Federal Register.
+
+ADDRESSES: Submit your comments, identified by Docket ID NRC-2026-0562, 
+at <a href="https://www.regulations.gov">https://www.regulations.gov</a>. If your material cannot be submitted 
+using <a href="https://www.regulations.gov">https://www.regulations.gov</a>, call or email the individual listed 
+in the FOR FURTHER INFORMATION CONTACT section of this document for 
+alternate instructions.
+
+[[Page 16542]]
+
+    Do not include any personally identifiable information (such as 
+name, address, or other contact information) or confidential business 
+information that you do not want publicly disclosed. All comments are 
+public records; they are publicly displayed exactly as received, and 
+will not be deleted, modified, or redacted. Comments may be submitted 
+anonymously.
+    Follow the search instructions on <a href="https://www.regulations.gov">https://www.regulations.gov</a> to 
+view public comments.
+    You can read a plain language description of this direct final rule 
+at <a href="https://www.regulations.gov/docket/NRC-2026-0562">https://www.regulations.gov/docket/NRC-2026-0562</a>. For additional 
+direction on obtaining information and submitting comments, see 
+``Obtaining Information and Submitting Comments'' in the SUPPLEMENTARY 
+INFORMATION section of this document.
+
+FOR FURTHER INFORMATION CONTACT: Amy McKenna, U.S. Nuclear Regulatory 
+Commission, Washington, DC 20555-0001; email: Amy <a href="/cdn-cgi/l/email-protection#e4a987af818a8a85a48a9687ca838b92"><span class="__cf_email__" data-cfemail="377a547c525959567759455419505841">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+Table of Contents
+
+I. Obtaining Information and Submitting Comments
+II. Rulemaking Procedure
+III. Background
+IV. Discussion of Changes
+V. Voluntary Consensus Standards
+VI. Agreement State Compatibility
+VII. Plain Writing
+VIII. Environmental Assessment and Finding of No Significant Impact
+IX. Regulatory Planning and Review
+X. Paperwork Reduction Act Statement
+XI. Regulatory Flexibility Certification
+XII. Regulatory Analysis
+XIII. Backfitting and Issue Finality
+XIV. Congressional Review Act
+XV. Availability of Documents
+
+I. Obtaining Information and Submitting Comments
+
+A. Obtaining Information
+
+    Please refer to Docket ID NRC-2026-0562 when contacting the NRC 
+about the availability of information for this action. You may obtain 
+publicly available information related to this action by any of the 
+following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2026-0562. Address 
+questions about NRC dockets to Helen Chang, telephone: 301-415-3228, 
+email: <a href="/cdn-cgi/l/email-protection#88c0ede4ede6a6cbe0e9e6efc8e6faeba6efe7fe"><span class="__cf_email__" data-cfemail="3b735e575e551578535a555c7b554958155c544d">[email&#160;protected]</span></a>. For technical questions contact the 
+individual listed in the FOR FURTHER INFORMATION CONTACT section of 
+this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#f4a4b0a6daa691879b81869791b49a8697da939b82"><span class="__cf_email__" data-cfemail="570713057905322438222534321739253479303821">[email&#160;protected]</span></a>. For the convenience of the reader, 
+instructions about obtaining materials referenced in this document are 
+provided in the ``Availability of Documents'' section.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#277763750975425448525544426749554409404851"><span class="__cf_email__" data-cfemail="8fdfcbdda1ddeafce0fafdeceacfe1fdeca1e8e0f9">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time, Monday through Friday, except Federal 
+holidays.
+
+B. Submitting Comments
+
+    The NRC encourages electronic comment submission through the 
+Federal rulemaking website (<a href="https://www.regulations.gov">https://www.regulations.gov</a>). Please 
+include Docket ID NRC-2026-0562 in your comment submission.
+    The NRC cautions you not to include identifying or contact 
+information that you do not want to be publicly disclosed in your 
+comment submission. The NRC will post all comment submissions at 
+<a href="https://www.regulations.gov">https://www.regulations.gov</a> as well as enter the comment submissions 
+into ADAMS. The NRC does not routinely edit comment submissions to 
+remove identifying or contact information.
+    If you are requesting or aggregating comments from other persons 
+for submission to the NRC, then you should inform those persons not to 
+include identifying or contact information that they do not want to be 
+publicly disclosed in their comment submission. Your request should 
+state that the NRC does not routinely edit comment submissions to 
+remove such information before making the comment submissions available 
+to the public or entering the comment into ADAMS.
+
+II. Rulemaking Procedure
+
+    This rule is limited to the changes contained in Amendment No. 5 to 
+Certificate of Compliance No. 1040 and does not include other aspects 
+of the Holtec International HI-STORM UMAX Cask System design. The NRC 
+is using the ``direct final rule procedure'' to issue this amendment 
+because it represents a limited and routine change to an existing 
+certificate of compliance that is expected to be non-controversial. 
+Adequate protection of public health and safety continues to be 
+reasonably assured. The amendment to the rule will become effective on 
+June 16, 2026. However, if the NRC receives any significant adverse 
+comment on this direct final rule by May 4, 2026, then the NRC will 
+publish a document that withdraws this action and will subsequently 
+address the comments received in a final rule as a response to the 
+companion proposed rule published in the Proposed Rules section of this 
+issue of the Federal Register or as otherwise appropriate. In general, 
+absent significant modifications to the proposed revisions requiring 
+republication, the NRC will not initiate a second comment period on 
+this action.
+    A significant adverse comment is a comment where the commenter 
+explains why the rule would be inappropriate, including challenges to 
+the rule's underlying premise or approach, or would be ineffective or 
+unacceptable without a change. A comment is adverse and significant if:
+    (1) The comment opposes the rule and provides a reason sufficient 
+to require a substantive response in a notice-and-comment process. For 
+example, a substantive response is required when:
+    (a) The comment causes the NRC to reevaluate (or reconsider) its 
+position or conduct additional analysis;
+    (b) The comment raises an issue serious enough to warrant a 
+substantive response to clarify or complete the record; or
+    (c) The comment raises a relevant issue that was not previously 
+addressed or considered by the NRC.
+    (2) The comment proposes a change or an addition to the rule, and 
+it is apparent that the rule would be ineffective or unacceptable 
+without incorporation of the change or addition.
+    (3) The comment causes the NRC to make a change (other than 
+editorial) to the rule, certificate of compliance, or technical 
+specifications.
+
+III. Background
+
+    Section 218(a) of the Nuclear Waste Policy Act of 1982, as amended, 
+requires that ``[t]he Secretary [of the Department of Energy] shall 
+establish a demonstration program, in cooperation with the private 
+sector, for the dry storage of spent nuclear fuel at civilian nuclear 
+power reactor sites, with the objective of establishing one or more 
+technologies that the [Nuclear Regulatory] Commission may, by rule, 
+approve for use at the sites of civilian nuclear power reactors 
+without, to the maximum extent practicable, the need for additional 
+site-specific approvals by the Commission.'' Section 133 of the Nuclear 
+Waste Policy Act states, in part, that ``[t]he Commission shall, by 
+rule,
+
+[[Page 16543]]
+
+establish procedures for the licensing of any technology approved by 
+the Commission under Section 219(a) [sic: 218(a)] for use at the site 
+of any civilian nuclear power reactor.''
+    To implement this mandate, the Commission approved dry storage of 
+spent nuclear fuel in NRC-approved casks under a general license by 
+publishing a final rule that added a new subpart K in part 72 of title 
+10 of the Code of Federal Regulations (10 CFR) entitled ``General 
+License for Storage of Spent Fuel at Power Reactor Sites'' (55 FR 
+29181; July 18, 1990). This rule also established a new subpart L in 10 
+CFR part 72 entitled ``Approval of Spent Fuel Storage Casks,'' which 
+contains procedures and criteria for obtaining NRC approval of spent 
+fuel storage cask designs. The NRC subsequently issued a final rule on 
+March 6, 2015 (80 FR 12073), as corrected (80 FR 15679; March 25, 
+2015), that approved the Holtec International HI-STORM UMAX Canister 
+Storage System design and added it to the list of NRC-approved cask 
+designs in Sec.  72.214 as Certificate of Compliance No. 1040.
+
+IV. Discussion of Changes
+
+    On December 14, 2023 (ML23348A302), Holtec International submitted 
+a request to the NRC to amend Certificate of Compliance No. 1040. 
+Holtec International supplemented its request on the following dates: 
+April 18, 2024 (ML24136A189), September 19, 2024 (ML24263A280), January 
+31, 2025 (ML25031A419), August 4, 2025 (ML25216A284), and October 6, 
+2025 (ML25279A207). Amendment No. 5 revises the certificate of 
+compliance to include two new versions of the HI-STORM UMAX design 
+(Version B1 and B2) with new lid features designed to enhance the 
+safety of the cask system by minimizing exposure of the canisters to 
+air with salt particles.
+    As documented in the preliminary safety evaluation report, the NRC 
+performed a safety evaluation of the proposed certificate of compliance 
+amendment request. The NRC determined that this amendment does not 
+reflect a significant change in design or fabrication of the cask. 
+Specifically, the NRC determined that the design of the cask would 
+continue to maintain confinement, shielding, and criticality control in 
+the event of each evaluated accident condition. In addition, any 
+resulting occupational exposure or offsite dose rates from the 
+implementation of Amendment No. 5 would remain well within the limits 
+specified by 10 CFR part 20, ``Standards for Protection Against 
+Radiation.'' Thus, the NRC found there will be no significant change in 
+the types or amounts of any effluent released, no significant increase 
+in the individual or cumulative radiation exposure, and no significant 
+increase in the potential for or consequences from radiological 
+accidents.
+    The NRC staff determined that the amended Holtec International HI-
+STORM UMAX Canister Storage System cask design, when used under the 
+conditions specified in the certificate of compliance, the technical 
+specifications, and the NRC's regulations, will meet the requirements 
+of 10 CFR part 72; therefore, adequate protection of public health and 
+safety will continue to be reasonably assured. When this direct final 
+rule becomes effective, persons who hold a general license under Sec.  
+72.210 may, consistent with the license conditions under Sec.  72.212, 
+load spent nuclear fuel into Holtec International HI-STORM UMAX 
+Canister Storage System casks that meet the criteria of Amendment No. 5 
+to Certificate of Compliance No. 1040.
+
+V. Voluntary Consensus Standards
+
+    The National Technology Transfer and Advancement Act of 1995 (Pub. 
+L. 104-113) requires that Federal agencies use technical standards that 
+are developed or adopted by voluntary consensus standards bodies unless 
+the use of such a standard is inconsistent with applicable law or 
+otherwise impractical. In this direct final rule, the NRC revises the 
+Holtec International HI-STORM UMAX Canister Storage System cask design 
+listed in Sec.  72.214, ``List of approved spent fuel storage casks.'' 
+This action does not constitute the establishment of a standard that 
+contains generally applicable requirements.
+
+VI. Agreement State Compatibility
+
+    Under the ``Agreement State Program Policy Statement'' approved by 
+the Commission on October 2, 2017, and published in the Federal 
+Register on October 18, 2017 (82 FR 48535), this rule is classified as 
+Compatibility Category NRC--Areas of Exclusive NRC Regulatory 
+Authority. The NRC program elements in this category are those that 
+relate directly to areas of regulation reserved to the NRC by the 
+Atomic Energy Act of 1954, as amended, or the provisions of 10 CFR 
+chapter I. Therefore, compatibility is not required for program 
+elements in this category.
+
+VII. Plain Writing
+
+    The Plain Writing Act of 2010 (Pub. L. 111-274) requires Federal 
+agencies to write documents in a clear, concise, and well-organized 
+manner. The NRC has written this document to be consistent with the 
+Plain Writing Act as well as the Presidential Memorandum, ``Plain 
+Language in Government Writing,'' published June 10, 1998 (63 FR 
+31885).
+
+VIII. Environmental Assessment and Finding of No Significant Impact
+
+    Under the National Environmental Policy Act of 1969, as amended, 
+and the NRC's regulations in 10 CFR part 51, ``Environmental Protection 
+Regulations for Domestic Licensing and Related Regulatory Functions,'' 
+the NRC has determined that this direct final rule, if ad

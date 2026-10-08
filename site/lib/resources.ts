@@ -21,6 +21,8 @@ export type Layer = {
   levels?: Level[]; other_extents?: Extent[]; file?: string; files?: (string | { file: string })[]; bytes?: number;
   legend?: Legend; classes?: { value: number; label: string }[]; notes_for_method?: string;
   point_spacing_km?: number; columns_meaning?: Record<string, string>;
+  /** Session 159: fields of the source the hover lists under a feature's value, each with the words to show for it. */
+  hover_fields?: [string, string][];
 };
 export type Missing = { id?: string; group?: string; title?: string; reason?: string; why?: string };
 export type Manifest = { built_at_utc?: string; layers: Layer[]; missing?: Missing[] };
@@ -258,6 +260,39 @@ export const OVERLAYS = [
   { id: "datacenters", label: "Datacenters", source: "datacenters" },
 ] as const;
 export type OverlayId = (typeof OVERLAYS)[number]["id"];
+
+// Session 159: the interconnection queue, grid by grid. The overlay draws the queue rows the live set holds for a
+// grid only where that grid's operator allows it; `shown: false` leaves a grid's rows out whatever the live set
+// holds, and the page says why in the operator's own words (the short words on the face, the sentences on hover).
+// This is the one list; a person turns a switch.
+//   MISO: every pull of MISO's servers is paused since 4 October 2026 while a person reviews its terms
+//     (docs/methods/miso_pause.md); rows pulled before the pause are not newly shown while the review lasts.
+//   NYISO: its site's legal notice confers no license and reserves every right (read 7 October 2026 by session 149,
+//     which ruled NYISO's load queue internal on it; the queue workbook is on the same site).
+export type QueueGrid = { id: string; label: string; shown: boolean; words: string; why: string };
+export const QUEUE_GRIDS: QueueGrid[] = [
+  { id: "ercot", label: "ERCOT", shown: true, words: "", why: "" },
+  { id: "spp", label: "SPP", shown: true, words: "", why: "" },
+  { id: "caiso", label: "CAISO", shown: true, words: "", why: "" },
+  { id: "isone", label: "ISO-NE", shown: true, words: "", why: "" },
+  {
+    id: "miso", label: "MISO", shown: false, words: "paused while terms are reviewed",
+    why: "Pulls of MISO's servers are paused since 4 October 2026 while a person reviews MISO's terms, which say: \"You agree not use any automated means, including, without limitation, agents, robots, scripts, or spiders, to access, monitor, or copy any part of this Website or the App.\" MISO's queue rows are not drawn while the review lasts.",
+  },
+  {
+    id: "nyiso", label: "NYISO", shown: false, words: "NYISO's terms do not allow it",
+    why: "NYISO's legal notice (www.nyiso.com/legal-notice, read 7 October 2026) grants no reuse: \"Access to this Web site does not confer any license or ownership interest in either the form or content of the Web site, including any confidential or proprietary information or intellectual property of any kind or nature, and the NYISO hereby expressly reserves such rights and property in its entirety.\" \"Copyright © 2026 New York Independent System Operator. All Rights Reserved.\" NYISO's queue rows are not shown.",
+  },
+];
+/** The grid a queue row belongs to, from the name of the table it came from ("ercot_interconnection_queue"); "other"
+ *  for a table of none of the grids listed. */
+export function queueGridOf(sourceTable: string | null | undefined): string {
+  const id = (sourceTable ?? "").toLowerCase().replace(/_interconnection_queue$/, "");
+  return QUEUE_GRIDS.some((g) => g.id === id) ? id : "other";
+}
+/** The short line a grid that is not shown reads on the face: its label, then its words, unless the words name it. */
+export const queueLine = (g: QueueGrid) => (g.words.startsWith(g.label) ? g.words : `${g.label}: ${g.words}`);
+export type QueueGridCount = { id: string; label: string; shown: boolean; rows: number; drawn: number; not_drawn: number };
 export type Shown = { on: string[]; view: View; fuel: string[] | null };
 
 /** The layer a bare address opens with: wind speed where it is held, else the first layer held. */

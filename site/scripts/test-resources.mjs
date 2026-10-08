@@ -158,6 +158,62 @@ check(R.levelFor([], 10) === null && R.levelFor([{ file: "a", cell_deg: 0.1 }], 
   }
 }
 
+// session 159: hydropower as the manifest holds it, the gross capacity factor's placeholder, the queue grid by grid
+{
+  // a held hydropower layer takes the place of the expected placeholder; a missing layer the manifest names keeps its own reason
+  const m = {
+    layers: [
+      { id: "wind_capacity_factor", group: "wind", title: "Wind capacity factor (supply curve sites)", kind: "points", file: "wind_capacity_factor.json" },
+      { id: "hydropower_npd", group: "hydropower", title: "Hydropower potential at non-powered dams", kind: "points", file: "hydropower_npd.json" },
+      { id: "hydropower_nsd", group: "hydropower", title: "Hydropower potential of new stream-reach development", kind: "shapes", file: "hydropower_nsd.json" },
+    ],
+    missing: [{ id: "wind_gross_capacity_factor", group: "wind", title: "Gross capacity factor", reason: "Not fetched: it needs a key." }],
+  };
+  const by = Object.fromEntries(R.toggleGroups(m).map((x) => [x.id, x]));
+  check(by.hydropower.items.length === 2 && by.hydropower.items.every((x) => x.held), "two hydropower layers held are two toggles, and no greyed hydropower placeholder is left beside them");
+  const gross = by.wind.items.filter((x) => !x.held && x.label === "Gross capacity factor");
+  check(gross.length === 1 && gross[0].reason === "Not fetched: it needs a key." && by.wind.items.some((x) => x.held && x.layer.id === "wind_capacity_factor"),
+    "the gross capacity factor is one greyed placeholder with the manifest's own reason, beside the capacity factor layer that is held");
+
+  const ids = R.QUEUE_GRIDS.map((g) => g.id).join();
+  const shown = R.QUEUE_GRIDS.filter((g) => g.shown).map((g) => g.id).join(), miso = R.QUEUE_GRIDS.find((g) => g.id === "miso"), nyiso = R.QUEUE_GRIDS.find((g) => g.id === "nyiso");
+  check(ids === "ercot,spp,caiso,isone,miso,nyiso" && shown === "ercot,spp,caiso,isone", "the queue overlay knows six grids and draws four: ERCOT, SPP, CAISO, ISO-NE");
+  check(miso && !miso.shown && miso.words === "paused while terms are reviewed" && R.queueLine(miso) === "MISO: paused while terms are reviewed" && miso.why.includes("You agree not use any automated means, including, without limitation, agents, robots, scripts, or spiders, to access, monitor, or copy any part of this Website or the App."),
+    'MISO is not shown and reads "MISO: paused while terms are reviewed", with the sentence of its terms on hover');
+  check(nyiso && !nyiso.shown && nyiso.words === "NYISO's terms do not allow it" && R.queueLine(nyiso) === "NYISO's terms do not allow it" && nyiso.why.includes("Access to this Web site does not confer any license or ownership interest in either the form or content of the Web site") && nyiso.why.includes("All Rights Reserved."),
+    'NYISO is not shown and reads "NYISO\'s terms do not allow it", with the sentences of its notice on hover');
+  check(R.QUEUE_GRIDS.filter((g) => g.shown).every((g) => g.words === "" && g.why === "") && R.QUEUE_GRIDS.filter((g) => !g.shown).every((g) => g.words.length > 10 && g.why.length > 80 && !/PJM/.test(g.words + g.why)), "a grid that is shown needs no words; one that is not has its short words and its reason");
+  check(R.queueGridOf("ercot_interconnection_queue") === "ercot" && R.queueGridOf("miso_interconnection_queue") === "miso" && R.queueGridOf("NYISO_interconnection_queue") === "nyiso" && R.queueGridOf("lbnl_interconnection_queue") === "other" && R.queueGridOf(null) === "other" && R.queueGridOf("") === "other",
+    "a queue row's grid is read from the name of the table it came from; a table of none of the six is counted apart");
+}
+
+// session 159: the two hydropower files, where they are on the machine, against the manifest's own description
+{
+  const manifestPath = path.join(here, "..", "data", "resources", "manifest.json"), dir = path.join(here, "..", "data", "resources", "layers");
+  const m = fs.existsSync(manifestPath) ? JSON.parse(fs.readFileSync(manifestPath, "utf-8")) : null;
+  const npd = m?.layers?.find((l) => l.id === "hydropower_npd"), nsd = m?.layers?.find((l) => l.id === "hydropower_nsd");
+  if (!npd || !nsd || !fs.existsSync(path.join(dir, npd.file)) || !fs.existsSync(path.join(dir, nsd.file))) console.log("note: the hydropower layers are not on this machine; their files were not read");
+  else {
+    const dams = JSON.parse(fs.readFileSync(path.join(dir, npd.file), "utf-8")), iv = dams.columns.indexOf("value");
+    const caps = dams.rows.map((r) => r[iv]);
+    check(npd.kind === "points" && npd.unit === "MW" && dams.rows.length === npd.rows && caps.every((v) => typeof v === "number" && v > 0) && close(Math.min(...caps), npd.stats.min) && close(Math.max(...caps), npd.stats.max) && close(caps.reduce((a, b) => a + b, 0) / caps.length, npd.stats.mean, 1e-9) && close(caps.reduce((a, b) => a + b, 0), npd.total_cap_mw, 1e-6),
+      `the dams: ${dams.rows.length.toLocaleString("en-US")} points in MW; the file's minimum, mean, maximum and total are the manifest's (${npd.stats.min}, ${npd.stats.mean.toFixed(4)}, ${npd.stats.max}, ${npd.total_cap_mw})`);
+    check(npd.hover_fields.every(([f]) => dams.columns.includes(f)) && npd.hover_fields.some(([f]) => f === "gen_mwh_yr") && npd.hover_fields.some(([f]) => f === "cf_yr") && !dams.columns.includes("dam_owner"),
+      "the dams: the hover's fields are columns of the file, the generation and the capacity factor among them; no owner's name is in the file");
+    const sheds = JSON.parse(fs.readFileSync(path.join(dir, nsd.file), "utf-8")), vals = sheds.features.map((f) => f.properties.value);
+    check(nsd.kind === "shapes" && nsd.unit === "MW" && sheds.features.length === nsd.features && sheds.features.length === nsd.watersheds_with_capacity && vals.every((v) => typeof v === "number" && v > 0) && close(Math.min(...vals), nsd.stats.min) && close(Math.max(...vals), nsd.stats.max) && close(vals.reduce((a, b) => a + b, 0), nsd.total_p_mw, 1e-2),
+      `the watersheds: ${sheds.features.length.toLocaleString("en-US")} HUC10 outlines in MW, each with the file's own total; minimum, maximum and total are the manifest's (${nsd.stats.min}, ${nsd.stats.max}, ${nsd.total_p_mw})`);
+    check(sheds.features.every((f) => f.properties.kind === "HUC10 watershed" && /^\d{10}$/.test(f.properties.HUC10) && f.properties.P_MW_Sum === f.properties.value && Object.values(f.properties).every((v) => v !== -9999 && v !== -999)) && nsd.watersheds_in_file === nsd.watersheds_with_capacity + nsd.watersheds_no_reach + nsd.watersheds_coded_minus_999,
+      `the watersheds: each is a HUC10 with the source's own capacity, none carries a no-value code as a number, and the ${nsd.watersheds_in_file.toLocaleString("en-US")} of the file are the ${nsd.watersheds_with_capacity.toLocaleString("en-US")} drawn, ${nsd.watersheds_no_reach.toLocaleString("en-US")} with no stream-reach and ${nsd.watersheds_coded_minus_999.toLocaleString("en-US")} coded -999`);
+    const text = JSON.stringify([npd, nsd]) + fs.readFileSync(path.join(dir, npd.file), "utf-8") + fs.readFileSync(path.join(dir, nsd.file), "utf-8");
+    check(!text.includes("@") && /Oak Ridge National Laboratory/.test(npd.publisher) && /Oak Ridge National Laboratory/.test(nsd.publisher) && !/^U\.S\. Geological Survey/.test(npd.publisher) && npd.terms_quote.includes("openly shared, without restriction") && nsd.terms_quote.includes("openly shared, without restriction"),
+      "hydropower: the publisher is Oak Ridge National Laboratory, its data use policy is quoted, and no e-mail address is in the layers or their manifest entries");
+  }
+  const gone = (m?.missing ?? []).find((x) => /hydro/i.test(`${x.id} ${x.title}`)), gross = (m?.missing ?? []).find((x) => x.id === "wind_gross_capacity_factor");
+  if (m) check(!gone && gross && /key issued to a named person/.test(gross.reason) && /no key is asked for/.test(gross.reason) && gross.reason.split(/(?<=\.)\s+/).length === 1,
+    "the manifest names no hydropower layer as missing, and says in one sentence that a gross capacity factor needs a personal key and is not fetched");
+}
+
 // no em dash in the page's own files
 {
   const files = ["lib/resources.ts", "lib/resourcesdata.ts", "app/resources/page.tsx", "app/resources/ResourceMap.tsx", "app/resources/layer/[name]/route.ts", "app/resources/overlay/plants/route.ts",

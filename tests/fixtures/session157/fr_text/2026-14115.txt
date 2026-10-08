@@ -1,0 +1,279 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 133 (Tuesday, July 14, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 133 (Tuesday, July 14, 2026)]
+[Proposed Rules]
+[Pages 43051-43054]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-14115]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+ENVIRONMENTAL PROTECTION AGENCY
+
+40 CFR Parts 22, 124, and 257
+
+[EPA-HQ-OLEM-2026-4159; FRL-7080.1-01-OLEM]
+RIN 2050-AH50
+
+
+Hazardous and Solid Waste Management System: Disposal of Coal 
+Combustion Residuals From Electric Utilities; Federal CCR Permit 
+Program; General Permit Provisions
+
+AGENCY: Environmental Protection Agency (EPA).
+
+ACTION: Advance notice of proposed rulemaking.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The Environmental Protection Agency (EPA) issued a proposed 
+rule on February 20, 2020, to establish a Federal permit program for 
+disposal of coal combustion residuals (CCR). On April 13, 2026, the EPA 
+proposed to establish new compliance pathways that would allow site-
+specific considerations to be taken into account during permitting for 
+owners or operators of CCR units complying with groundwater monitoring, 
+corrective action, and closure requirements under a federal or 
+participating-State CCR permit. The EPA is considering whether a 
+general permit could be developed to allow such facilities to 
+temporarily obtain permit coverage until an individual permit issued by 
+EPA or an approved state CCR permit program is in effect. This advance 
+notice of proposed rulemaking (ANPRM) does not propose any regulatory 
+requirements or change any existing regulatory requirements.
+
+DATES: Comments must be received on or before October 13, 2026.
+
+[[Page 43052]]
+
+
+ADDRESSES: You may send comments, identified by Docket ID No. EPA-HQ-
+OLEM-2026-4159, by any of the following methods:
+    <bullet> Federal eRulemaking Portal: <a href="https://www.regulations.gov/">https://www.regulations.gov/</a> 
+(our preferred method). Follow the online instructions for submitting 
+comments.
+    <bullet> Mail: U.S. Environmental Protection Agency, EPA Docket 
+Center, Office of Land and Emergency Management Docket, Mail Code 
+28221T, 1200 Pennsylvania Avenue NW, Washington, DC 20460.
+    <bullet> Hand Delivery or Courier: EPA Docket Center, WJC West 
+Building, Room 3334, 1301 Constitution Avenue NW, Washington, DC 20004. 
+The Docket Center's hours of operations are 8:30 a.m.-4:30 p.m., 
+Monday-Friday (except Federal Holidays).
+    Instructions: All submissions received must include the Docket ID 
+No. for this rulemaking. Comments received may be posted without change 
+to <a href="https://www.regulations.gov/">https://www.regulations.gov/</a>, including any personal information 
+provided. For detailed instructions on sending comments and additional 
+information on the rulemaking process, see the ``Public Participation'' 
+heading of the SUPPLEMENTARY INFORMATION section of this document.
+
+FOR FURTHER INFORMATION CONTACT: Jessica Schumacher, Region 5, Land, 
+Chemicals, and Redevelopment Division, Environmental Protection Agency, 
+1200 Pennsylvania Avenue NW, MC: 5304T, Washington, DC 20460; telephone 
+number: (312) 886-0769; email address: <a href="/cdn-cgi/l/email-protection#4e3d2d263b232f2d262b3c60242b3d3d272d2f0e2b3e2f60292138"><span class="__cf_email__" data-cfemail="7b0818130e161a18131e0955111e080812181a3b1e0b1a551c140d">[email&#160;protected]</span></a>, or 
+Phoebe O'Connor, Office of Resource Conservation and Recovery, Waste 
+Information, Notice, and Generators Division, Environmental Protection 
+Agency, 1200 Pennsylvania Avenue NW, MC: 5304T, Washington, DC 20460; 
+telephone number: (202) 566-1451; email address: 
+<a href="/cdn-cgi/l/email-protection#107f737f7e7e7f623e60787f757275507560713e777f66"><span class="__cf_email__" data-cfemail="432c202c2d2d2c316d332b2c262126032633226d242c35">[email&#160;protected]</span></a>. For more information on this rulemaking please 
+visit <a href="https://www.epa.gov/coal-combustion-residuals">https://www.epa.gov/coal-combustion-residuals</a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Public Participation
+
+    Submit your comments, identified by Docket ID No. EPA-HQ-OLEM-2026-
+4159, at <a href="https://www.regulations.gov">https://www.regulations.gov</a> (our preferred method), or the 
+other methods identified in the ADDRESSES section. Once submitted, 
+comments cannot be edited or removed from the docket. The EPA may 
+publish any comment received to its public docket. Do not submit to 
+EPA's docket at <a href="https://www.regulations.gov">https://www.regulations.gov</a> any information you 
+consider to be Confidential Business Information (CBI), Proprietary 
+Business Information (PBI), or other information whose disclosure is 
+restricted by statute. Multimedia submissions (audio, video, etc.) must 
+be accompanied by a written comment. The written comment is considered 
+the official comment and should include discussion of all points you 
+wish to make. The EPA will generally not consider comments or comment 
+contents located outside of the primary submission (i.e., on the web, 
+cloud, or other file sharing system). Please visit <a href="https://www.epa.gov/dockets/commenting-epa-dockets">https://www.epa.gov/dockets/commenting-epa-dockets</a> for additional submission methods; the 
+full EPA public comment policy; information about CBI, PBI, or 
+multimedia submissions; and general guidance on making effective 
+comments.
+    Be aware that there are several CCR actions EPA is requesting 
+comment on or recently requested comment on. Please ensure you are 
+commenting on the correct action. This ANPRM is separate from the 
+Hazardous and Solid Waste Management System: Disposal of Coal 
+Combustion Residuals From Electric Utilities; Federal CCR Permit 
+Program; Reopening of Comment Period (``2026 CCR Federal Permit Program 
+Comment Period Reopening'') (May 28, 2026, 91 FR 31684; FRL-7080-06-
+OLEM; RIN 2050-AH07); comments related to the 2026 CCR Federal Permit 
+Program Comment Period Reopening should be submitted to the Docket ID 
+No. EPA-HQ-OLEM-2019-0361. This ANPRM is also separate from Hazardous 
+and Solid Waste Management System: Disposal of Coal Combustion 
+Residuals From Electric Utilities; Legacy/CCRMU Amendments proposed 
+rule (``2026 Proposed Rule'') (April 13, 2026, 91 FR 18968; FRL-7814.3-
+01-OLEM; RIN 2050-AH39); the comment period for that action closed on 
+June 29.
+
+II. General Information
+
+A. Does this action apply to me?
+
+    This action may be of interest to electric utilities and 
+independent power producers that fall within the North American 
+Industry Classification System (NAICS) code 221112. The reference to 
+NAICS code 221112 is not intended to be exhaustive but rather provides 
+a guide for readers regarding entities likely to be affected by this 
+action. This discussion lists the types of entities that EPA is now 
+aware could potentially be affected by this action. Other types of 
+entities not described here could also be affected. To determine 
+whether your entity is affected by this action, you should carefully 
+examine the applicability criteria found in Sec.  257.50 of title 40 of 
+the Code of Federal Regulations (CFR). If you have questions regarding 
+the applicability of this action to a particular entity, consult the 
+person listed in the FOR FURTHER INFORMATION CONTACT section.
+
+B. What action is the agency taking?
+
+    An ANPRM is a notice intended to solicit information from the 
+public as the EPA considers proposing an action. The EPA issued a 
+proposed rule on February 20, 2020 (85 FR 9940) (2020 Proposed Rule), 
+to establish a Federal permit program for disposal of CCR. The comment 
+period was extended on April 14, 2020 (85 FR 20625) and May 19, 2020 
+(85 FR 29878) to close on July 19, 2020, was reopened on July 31, 2020 
+to close on August 7, 2020 (85 FR 46046), and was reopened on May 28, 
+2026 to close on June 29, 2026 (91 FR 31684). On April 13, 2026, the 
+EPA proposed to establish new provisions that would allow a CCR permit 
+authority to establish alternative requirements (91 FR 18968; ``2026 
+Proposed Rule''). The EPA is considering whether a general permit could 
+be developed to allow owners and operators of CCR facilities to 
+temporarily obtain permit coverage until an individual permit issued by 
+the EPA or an approved state CCR permit program is in effect, and is 
+requesting comment on this approach. This ANPRM is independent from the 
+2026 Proposed Rule (April 13, 2026, 91 FR 18968) and progress on the 
+2026 Proposed Rule is not contingent or otherwise relying on this 
+ANPRM.
+
+C. What is the agency's authority for taking this action?
+
+    This ANPRM solicits comment on potential revisions to the federal 
+CCR regulations, which are established under the authority of sections 
+1008(a), 2002(a), 4004, and 4005(a) and (d) of the Solid Waste Disposal 
+Act of 1970, as amended, RCRA, as amended by the Hazardous and Solid 
+Waste Amendments of 1984 and the Water Infrastructure Improvements for 
+the Nation (WIIN) Act of 2016, 42 U.S.C. 6907(a), 6912(a), 6944, and 
+6945(a) and (d).
+
+III. Background
+
+A. CCR Regulatory Background
+
+    On April 17, 2015, the EPA published a final rule creating 40 CFR 
+part 257, subpart D, which established a comprehensive set of minimum 
+Federal requirements for the disposal of CCR in landfills and surface 
+impoundments (80 FR 21302) (2015 CCR Rule or Federal
+
+[[Page 43053]]
+
+CCR regulations). The rule established a set of self-implementing 
+regulations that apply directly to CCR units, including requirements 
+for the location, design, operating criteria, recordkeeping, 
+notifications, groundwater monitoring and corrective action, as well as 
+the closure and post-closure care of CCR units. It also required 
+recordkeeping and notifications for CCR units.
+    In 2016, Congress passed the Water Infrastructure Improvements for 
+the Nation (WIIN) Act, which--among other things--authorized the EPA to 
+issue permits under RCRA for CCR units located in Indian country or in 
+a State that has not been approved to issue its own CCR permits (a 
+``nonparticipating State''). And under the WIIN Act, once an EPA (or 
+State) permit is issued and in effect, the requirements of that permit 
+apply in lieu of the federal regulations. On February 20, 2020, the EPA 
+proposed a rule (85 FR 9940) to establish a Federal CCR permit program.
+    On April 13, 2026, the EPA proposed a rule (91 FR 18968; ``2026 
+Proposed Rule''; Docket ID No. EPA-HQ-OLEM-2020-0107) to establish new 
+compliance pathways that would allow a Federal or approved state CCR 
+permit authority to take site-specific conditions into account when 
+establishing permit requirements for groundwater monitoring and 
+corrective action points of compliance, certain cleanup levels for 
+corrective action, and unit closure, including extensions of the 
+closure deadline timeframes for CCR units where CCR is being extracted 
+from the unit for beneficial use during closure. If, after 
+consideration of the public comments, the EPA adopts these provisions, 
+these pathways would be available upon promulgation of a final rule to 
+facilities seeking a Federal permit; it would not be available for 
+facilities located in participating states (i.e., those with an EPA 
+approved CCR permit program) until the state adopts these provisions 
+into its regulations and the EPA approves the revision. In some states, 
+this process can take years. Consequently, concerns have been raised 
+that the new compliance pathways would not be available to any facility 
+that must comply with the self-implementing regulations while waiting 
+for the state to obtain EPA approval for the new provisions. EPA is 
+considering whether a general permit could be developed to allow such 
+owners or operators of CCR facilities to temporarily obtain permit 
+coverage until their state CCR permit program incorporates these new 
+pathways and is approved. If the EPA decides to establish a general 
+permit, it would be done through a new rulemaking, separate from the 
+CCR rulemakings discussed above. The EPA believes a new rulemaking is 
+more appropriate than folding this action into those pending related 
+rulemaking efforts to differentiate the action and allow for more 
+targeted comments.
+
+B. General Permits Provisions
+
+    In the 2020 Proposed Rule, the EPA proposed at 40 CFR 257.127 to 
+establish procedures for issuance of one or more general permits, as an 
+alternative to individual permits. The Agency implements other federal 
+environmental permitting programs that contain general permits, 
+including Clean Water Act National Pollutant Discharge Elimination 
+System (NPDES) permits issued under 40 CFR part 122, which are issued 
+generally to a category of facilities with similar operations.
+    For CCR units, the EPA proposed that the Administrator could issue 
+a general CCR permit to an identified category of CCR units involving 
+the same, or substantially similar, operations, which are all subject 
+to the same applicable requirements of subpart D and would require the 
+same permit terms and conditions to achieve compliance with subpart 
+D.\1\ See proposed Sec.  257.127(a). A general permit would be issued 
+when, in the opinion of the Administrator, it would be more appropriate 
+to regulate those units under a general CCR permit than under 
+individual CCR permits. A general CCR permit would be proposed in the 
+Federal Register and finalized in accordance with the applicable 
+requirements of parts 122 and 124. Through the process proposed at 
+Sec.  257.127, the Administrator could issue a general CCR permit that 
+would be available to an identified category of CCR units and would 
+require the same permit terms and conditions to achieve compliance with 
+subpart D. Once a general permit is final, the owner or operator of 
+eligible CCR units could apply for coverage under the general permit 
+instead of obtaining an individual federal CCR permit.
+---------------------------------------------------------------------------
+
+    \1\ See further discussion at 85 FR 9953 through 9954 (February 
+20, 2020).
+---------------------------------------------------------------------------
+
+    As noted above, a general permit would apply to a defined category 
+of CCR units (e.g., a surface impoundment closing with waste in place, 
+undergoing corrective action implementing a pump and treat system). 
+Therefore, the EPA is seeking comment on criteria that could be used to 
+define which CCR units would be eligible for general permit coverage, 
+and on the terms and conditions that would achieve compliance with the 
+technical requirements in subpart D applicable to those CCR units.\2\ 
+Furthermore, the EPA is seeking comment on whether, in this 
+circumstance, any general permit coverage should be time limited or 
+temporary, e.g., issued with an expiration date or until a permit is 
+issued by an approved state. Additionally, the EPA seeks comments on 
+whether multiple rulemakings would be needed to establish all of the 
+categories of general permits that would be necessary.
+---------------------------------------------------------------------------
+
+    \2\ See discussion about requirements in a general permit at 85 
+FR 9954 (February 20, 2020).
+---------------------------------------------------------------------------
+
+    The EPA is requesting comment on whether the use of general permits 
+would be effective and appropriate in this circumstance, whether there 
+are categories of CCR units for which general permits may be 
+appropriate, whether the Agency should issue multiple general permits 
+or one general permit for which different categories of facility may be 
+eligible, the information that should be included in the ap

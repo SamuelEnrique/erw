@@ -25,6 +25,19 @@ per field). Actions already read are not read again (warehouse/policy/read_done.
 
     python warehouse/policy/reads.py                  # every unread action scored 5 or more
     python warehouse/policy/reads.py --max-usd 3
+
+Session 157 (the audit of 100 actions against their source documents, docs/methods/policy_monitor.md):
+  - the reader's prompt gained three corrections: states only where the action applies; a price direction only where
+    the text speaks of prices, rates or bills; a sector only if its own keyword occurs in the text read. Code holds
+    the answer to the same three (enforce below), so a field that breaks one is corrected and the correction recorded.
+  - the number check: a number in a field is accepted when it stands in the field's quotations or, since session 157,
+    in the text the model read. Before, it had to stand in the field's own one to three quotations, which dropped
+    what_changes in 29 of the 234 reads held (the other 26 blank ones: a quotation not found word for word, most often
+    for the Register's own quote marks, footnote marks and line-end hyphens, which norm now reads as the model does).
+  - a Federal Register document's text comes from the store of printed texts (warehouse/raw/policy_sources/fr_text,
+    kept by policy_sources.py) when it is held there: it is not asked for twice.
+  - recheck and rechecked_at: whether a read was rechecked against the source text in session 157 ("rechecked",
+    "not rechecked", "source not reachable"), or "read with the corrected reader" for a read first made after it.
 """
 
 import argparse
@@ -65,10 +78,14 @@ EM = chr(0x2014)
 SYSTEM = """You read one US energy policy action (a Federal Register document or an agency news release) for the Energy
 Research Warehouse (ERW) and return a JSON object with five fields. Use only the source text given.
 - what_changes: text, one or two plain sentences on what the action changes.
-- who_affected: sectors (from the list given), isos (US grid operators named or clearly covered by the text; empty if
-  none), states (two-letter codes of states the text names), and why in text.
+- who_affected: sectors (from the list given; a sector only if the source text itself uses that sector's own word, for
+  example "nuclear", "pipeline" or "natural gas", "transmission"), isos (US grid operators named or clearly covered by
+  the text; empty if none), states (two-letter codes of the states where the action applies, as the text says it: the
+  place of the project, plant or plan. Not a contact's or an applicant's address, not a filing room, not a state that
+  stands only in a company's name; empty if the text names no such place), and why in text.
 - direction: the direction of the action's effect on supply, demand, prices and buildout, each one of up, down, none,
-  unclear; unclear unless the text supports a direction.
+  unclear; unclear unless the text supports a direction. prices is up or down only where the text itself speaks of
+  prices, rates or bills; otherwise unclear.
 - timeline: text: when it takes effect, comment deadlines, or what comes next, as the text states.
 - plain_read: text, exactly two plain-language sentences for a non-specialist.
 Every field has spans: one to three exact quotes copied character for character from the source text (each at most 300
@@ -95,7 +112,10 @@ READ_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "m
              "source", "source_url", "action_event_id", "agency", "action_type", "title", "significance",
              "what_changes", "affected_sectors", "affected_isos", "affected_states", "direction_supply",
              "direction_demand", "direction_prices", "direction_buildout", "timeline", "plain_read", "fields_kept",
-             "fields_dropped", "news_story_urls", "model_id", "read_at"]
+             "fields_dropped", "news_story_urls", "model_id", "read_at", "recheck", "rechecked_at"]
+READ_COLS_S154 = READ_COLS[:-2]   # the table before session 157
+AFTER_157 = "read with the corrected reader"
+PRICE_WORDS = re.compile(r"\b(prices?|priced|pricing|rates?|ratepayers?|bills?)\b", re.I)
 EVID_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency", "status",
              "source", "source_url", "read_id", "field", "span", "source_text_file"]
 
@@ -103,6 +123,12 @@ EVID_COLS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "m
 def norm(s):
     s = (s or "").replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
     s = s.replace("–", "-").replace(EM, "-").replace(" ", " ").replace("­", "")
+    # session 157: the Register prints quote marks as `` and '', footnote marks as a number between backslashes, and
+    # breaks a word at a line end with a hyphen and a space; a model copies them as ", nothing and a joined word
+    s = s.replace("``", '"').replace("''", '"')
+    s = re.sub(r"\\\d+\\", "", s)
+    s = re.sub(r"(?<=[a-z])- (?=[a-z])", "-", s)
+    s = re.sub(r"\s+([.,;:])", r"\1", s)
     return re.sub(r"\s+", " ", s).strip().casefold()
 
 
@@ -120,6 +146,9 @@ def html_text(s):
 def source_text(r, log):
     """(text, url) of the action's own text, fetched now (stored raw by the ERW's request hook)."""
     if r["fr_document_number"]:
+        held = stored_text(r["fr_document_number"])   # session 157: read once by policy_sources.py, not asked twice
+        if held is not None:
+            return register_text(r["title"], held), f"https://www.federalregister.gov/d/{r['fr_document_number']}"
         meta = requests.get(f"https://www.federalregister.gov/api/v1/documents/{r['fr_document_number']}.json",
                             params={"fields[]": ["raw_text_url", "abstract", "title"]}, headers=UA, timeout=60)
         meta.raise_for_status()
@@ -194,8 +223,53 @@ def accepted_dates(words, text):
     return out
 
 
-def check_field(name, val, text):
-    """The reasons a field fails, [] if it is kept."""
+def stored_text(number):
+    """The printed text of a Register document from the store policy_sources.py keeps (session 157), or None."""
+    path = os.path.join(ip.RAW_DIR, "policy_sources", "fr_text", re.sub(r"[^A-Za-z0-9_.-]", "_", number) + ".txt")
+    if not os.path.exists(path):
+        return None
+    with open(path, "rb") as f:
+        return f.read().decode("utf-8", "replace")
+
+
+def register_text(title, raw):
+    """The text a read is made from, of a Register document's printed text: from its SUMMARY on (from its heading
+    where it has none), white space collapsed, at most MAX_TEXT characters, under the title."""
+    body = html_text(raw) if "<" in raw[:200] else re.sub(r"\s+", " ", raw)
+    i = body.find("SUMMARY:")
+    if i < 0:
+        m = re.search(r"\[FR Doc No: [^\]]+\]", body)
+        i = m.end() if m else 0
+    return title + ". " + body[i:][:MAX_TEXT].strip()
+
+
+def enforce(out, text):
+    """Session 157: the three corrections of the prompt, held by code. Changes the answer in place and returns the
+    notes of what it changed: a sector whose own keyword (policy_sources.SECTOR_TAGS) the text lacks is taken out; a
+    state the text does not name as a place (policy_sources.not_a_place, then states) is taken out; a price direction
+    of up or down becomes unclear where the text does not speak of prices, rates or bills."""
+    import policy_sources as ps
+    notes = []
+    wa, dr = out.get("who_affected", {}), out.get("direction", {})
+    pats = dict(ps.SECTOR_TAGS)
+    gone = [x for x in wa.get("sectors", []) if x in pats and not re.search(pats[x], text, re.I)]
+    if gone:
+        wa["sectors"] = [x for x in wa["sectors"] if x not in gone]
+        notes.append(f"sectors taken out, their keyword is not in the text: {gone}")
+    named = set(ps.states(ps.not_a_place(text)).split(";")) - {""}
+    gone = [x for x in wa.get("states", []) if re.fullmatch(r"[A-Z]{2}", x) and x not in named]
+    if gone:
+        wa["states"] = [x for x in wa["states"] if x not in gone]
+        notes.append(f"states taken out, the text does not name them as a place: {gone}")
+    if dr.get("prices") in ("up", "down") and not PRICE_WORDS.search(text):
+        notes.append(f"direction of prices {dr['prices']} made unclear: the text does not speak of prices, rates or bills")
+        dr["prices"] = "unclear"
+    return notes
+
+
+def check_field(name, val, text, notes=None):
+    """The reasons a field fails, [] if it is kept. notes (a list) gains a line when a number is accepted from the
+    text outside the field's quotations."""
     import ask as chat_ask
     spans = [s for s in val.get("spans", []) if s.strip()]
     if not spans:
@@ -209,7 +283,11 @@ def check_field(name, val, text):
         return ["empty"]
     nums = chat_ask.unverified(accepted_dates(words, text), spans)
     if nums:
-        return [f"numbers not in the spans: {nums}"]
+        left = chat_ask.unverified(accepted_dates(words, text), [text])   # session 157: the text read counts too
+        if left:
+            return [f"numbers not in the text: {left}"]
+        if notes is not None:
+            notes.append(f"{name}: numbers in the text, outside its quotations: {nums}")
     return []
 
 
@@ -247,6 +325,28 @@ def reads_header(run_id, model):
             f"Raw files: warehouse/raw/policy_reads/{run_id}/ (not in git; texts/ holds the text each read used)",
             "Source: erw:policy_reads, from policy_actions (the Federal Register and agency news releases).",
             "License: public (the model's fields and links; the evidence spans are in policy_reads_evidence, internal)."]
+
+
+def widen_held(log, out_dir=None):
+    """Session 157: the table held from before has no recheck columns, and the merge refuses a file of another
+    shape. A file with exactly the earlier columns gains the two, empty; no value changes."""
+    path = os.path.join(out_dir or ip.OUT_DIR, NAME + ".csv")
+    if not os.path.exists(path):
+        return False
+    n = ip.header_rows(path)
+    old = pd.read_csv(path, skiprows=n, dtype=str, keep_default_na=False)
+    if list(old.columns) != READ_COLS_S154:
+        return False
+    ip._require_lock(path, f"widening {NAME}")
+    with open(path, encoding="utf-8") as fh:
+        head = [next(fh) for _ in range(n)]
+    old["recheck"], old["rechecked_at"] = "", ""
+    with open(path + ".tmp", "w", encoding="utf-8", newline="") as fh:
+        fh.writelines(head)
+        old[READ_COLS].to_csv(fh, index=False, lineterminator=chr(10))
+    os.replace(path + ".tmp", path)
+    log(f"  {NAME}: the table held gained recheck and rechecked_at, empty ({len(old)} rows, no value changed)")
+    return True
 
 
 def rebuild_restored_header(log):
@@ -340,8 +440,9 @@ def main(argv=None):
                             continue
                         cost += c
                         kept, dropped = [], []
+                        fixed = enforce(out, text)   # session 157: the three corrections, held by code
                         for name in FIELDS:
-                            why = check_field(name, out[name], text)
+                            why = check_field(name, out[name], text, fixed)
                             (dropped if why else kept).append(name if not why else f"{name} ({'; '.join(why)})")
                         k = {x.split(" ")[0] for x in kept}
                         rid = "policyread:" + r["event_id"]
@@ -360,8 +461,9 @@ def main(argv=None):
                             **{f"direction_{d}": dr[d] if "direction" in k else "" for d in ("supply", "demand", "prices", "buildout")},
                             "timeline": out["timeline"]["text"].replace(EM, ",") if "timeline" in k else "",
                             "plain_read": out["plain_read"]["text"].replace(EM, ",") if "plain_read" in k else "",
-                            "fields_kept": ";".join(sorted(k)), "fields_dropped": " | ".join(dropped),
-                            "news_story_urls": r["news_story_urls"], "model_id": reader.model, "read_at": now})
+                            "fields_kept": ";".join(sorted(k)), "fields_dropped": " | ".join(dropped + fixed),
+                            "news_story_urls": r["news_story_urls"], "model_id": reader.model, "read_at": now,
+                            "recheck": AFTER_157, "rechecked_at": ""})
                         for name in k:
                             for s in out[name]["spans"]:
                                 evid.append({"event_id": f"{rid}#{name}#{len(evid)}", "event_date": r["event_date"],
@@ -373,6 +475,7 @@ def main(argv=None):
                         log(f"  {r['event_id']}: kept {sorted(k)}; dropped {dropped}; USD {c:.4f}")
         if reads:
             hdr = reads_header(run_id, reads[0]["model_id"])
+            widen_held(log)
             ip.write_csv(pd.DataFrame(reads)[READ_COLS], NAME, hdr, log, cols=READ_COLS, key=["event_id"], time_col="event_date")
             ehdr = ["Energy Research Warehouse (ERW): the evidence spans of each kept field of policy_reads",
                     "Shape: events (docs/datastandard.md v0), event_type policy_read_evidence; one row per span.",

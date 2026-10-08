@@ -1,0 +1,284 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 100 (Tuesday, May 26, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 100 (Tuesday, May 26, 2026)]
+[Proposed Rules]
+[Pages 30532-30538]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-10388]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+ENVIRONMENTAL PROTECTION AGENCY
+
+40 CFR Part 84
+
+[EPA-HQ-OAR-2026-2905; FRL-13327-01-OAR]
+RIN 2060-AX04
+
+
+Phasedown of Hydrofluorocarbons: Excluding Road and Intermodal 
+Container Transport Refrigeration Units From the Hydrofluorocarbon Leak 
+Repair Requirements
+
+AGENCY: Environmental Protection Agency (EPA).
+
+ACTION: Proposed rule.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Environmental Protection Agency (EPA) is proposing an 
+exemption for road and intermodal container transport refrigeration 
+units (TRUs) from the leak repair requirements established under the 
+American Innovation and Manufacturing (AIM) Act. In the final rule 
+``Phasedown of Hydrofluorocarbons: Management of Certain 
+Hydrofluorocarbons and Substitutes Under the American Innovation and 
+Manufacturing Act of 2020,'' the EPA established, among other 
+provisions, leak repair requirements for refrigerant-containing 
+appliances with a charge size of 15 pounds or more that contain a 
+hydrofluorocarbon (HFC) or certain substitutes for HFCs. The EPA 
+intended to exempt refrigerant-containing road and intermodal container 
+TRUs from the leak repair requirements and is issuing this proposal to 
+clarify the applicability of these requirements. The EPA is not 
+proposing other amendments or taking comment on any other aspects of 
+the 2024 ``Phasedown of Hydrofluorocarbons: Management of Certain 
+Hydrofluorocarbons and Substitutes Under the American Innovation and 
+Manufacturing Act of 2020.''
+
+DATES: Comments on this notice of proposed rulemaking must be received 
+on or before July 10, 2026. Public hearing: Any party requesting a 
+public hearing must notify the contact listed under the FOR FURTHER 
+INFORMATION CONTACT section, which is Annie Kee at email address: 
+<a href="/cdn-cgi/l/email-protection#4b202e2e652a2525222e0b2e3b2a652c243d"><span class="__cf_email__" data-cfemail="f8939d9dd6999696919db89d8899d69f978e">[email&#160;protected]</span></a> by 5 p.m. Eastern Daylight Time on or before June 1, 
+2026. If a public hearing is held, it will take place on or before June 
+10, 2026. Please refer to the SUPPLEMENTARY INFORMATION section for 
+additional information on the public hearing.
+
+ADDRESSES: You may send comments, identified by Docket ID No. EPA-HQ-
+OAR-2026-2905, by any of the following methods:
+    <bullet> Federal eRulemaking Portal: <a href="https://www.regulations.gov/">https://www.regulations.gov/</a> 
+(our preferred method). Follow the online instructions for submitting 
+comments.
+    <bullet> Email: <a href="/cdn-cgi/l/email-protection#6c0d410d0208411e4128030f0709182c091c0d420b031a"><span class="__cf_email__" data-cfemail="c6a7eba7a8a2ebb4eb82a9a5ada3b286a3b6a7e8a1a9b0">[email&#160;protected]</span></a>. Include Docket ID No. EPA-
+HQ-OAR-2026-2905 in the subject line of the message.
+    <bullet> Mail: U.S. Environmental Protection Agency, EPA Docket 
+Center, Air and Radiation Docket, Mail Code 28221T, 1200 Pennsylvania 
+Avenue NW, Washington, DC 20460.
+    <bullet> Hand Delivery or Courier: EPA Docket Center, WJC West 
+Building, Room 3334, 1301 Constitution Avenue NW, Washington, DC 20004. 
+The Docket Center's hours of operations are 8:30 a.m. to 4:30 p.m., 
+Monday-Friday (except Federal Holidays).
+    Instructions: All submissions received must include the Docket ID 
+No. for this rulemaking. Comments received may be posted without change 
+to <a href="https://www.regulations.gov">https://www.regulations.gov</a>, including personal information 
+provided. For detailed instructions on sending comments and additional 
+information on the rulemaking process, see the ``Public Participation'' 
+heading of the SUPPLEMENTARY INFORMATION section of this document. For 
+information on EPA Docket Center services, please visit us online at 
+<a href="https://www.epa.gov/dockets">https://www.epa.gov/dockets</a>.
+    Docket: The EPA has established a docket for this rulemaking under 
+Docket ID No. EPA-HQ-OAR-2026-2905. All documents in the docket are 
+listed at <a href="https://www.regulations.gov">https://www.regulations.gov</a>. Although listed, some 
+information is not publicly available, e.g., Confidential Business 
+Information (CBI) or other information whose disclosure is restricted 
+by statute. The EPA does not place certain other material, such as 
+copyrighted material, on the internet; this material is publicly 
+available only as portable document format (PDF) versions accessible 
+only on EPA computers in the docket office reading room. The public 
+cannot download certain databases and physical items from the docket 
+but may request these items by contacting the docket office at (202) 
+566-1744. The docket office has 10 business days to respond to such 
+requests. With the exception of such material, publicly available 
+docket materials are available electronically at <a href="https://www.regulations.gov">https://www.regulations.gov</a> or on EPA computers in the docket office reading 
+room at the EPA Docket Center, WJC West Building, Room Number 3334, 
+1301 Constitution Ave. NW, Washington, DC. The Public Reading Room 
+hours of operation are 8:30 a.m. to 4:30 p.m. ET, Monday through 
+Friday. The telephone number for the Public Reading Room is (202) 566-
+1744.
+    If a virtual public hearing is requested on or before June 1, 2026, 
+the EPA will post an update at <a href="https://www.epa.gov/climate-hfcs-reduction">https://www.epa.gov/climate-hfcs-reduction</a>. The EPA does not intend to publish a document in the Federal 
+Register announcing the public hearing or any other updates to any 
+aspects of the hearing. If a virtual public hearing is held, it will be 
+on or before June 10, 2026. Information on the virtual hearing, 
+including the time and how to participate, will be posted on the EPA's 
+Hydrofluorocarbon Phasedown website at <a href="https://www.epa.gov/climate-hfcs-reduction">https://www.epa.gov/climate-hfcs-reduction</a>. Refer to the section titled, ``Public Participation'' 
+for additional information.
+
+FOR FURTHER INFORMATION CONTACT: For information about this proposed 
+rule, contact Annie Kee, Chemicals, Coatings, and Products Division, 
+Office of Clean Air Programs (Mail Code 6205A), Environmental 
+Protection Agency, 1200 Pennsylvania Ave. NW, Washington, DC 20460; 
+telephone number: (202) 564-2056; email address: <a href="/cdn-cgi/l/email-protection#701b15155e111e1e1915301500115e171f06"><span class="__cf_email__" data-cfemail="761d1313581718181f133613061758111900">[email&#160;protected]</span></a>.
+
+[[Page 30533]]
+
+Notices and rulemakings under the AIM Act are available on the EPA's 
+website at <a href="https://www.epa.gov/climate-hfcs-reduction/notices-and-rulemakings">https://www.epa.gov/climate-hfcs-reduction/notices-and-rulemakings</a>.
+
+SUPPLEMENTARY INFORMATION: 
+    Preamble acronyms and abbreviations. Throughout this preamble, the 
+use of ``we,'' ``us,'' or ``our'' is intended to refer to the EPA. We 
+use multiple acronyms and terms in this preamble. While this list may 
+not be exhaustive, to ease the reading of this preamble and for 
+reference purposes, the EPA defines the following terms and acronyms 
+here:
+
+AIM Act American Innovation and Manufacturing Act
+CAA Clean Air Act
+CBI Confidential Business Information
+EPA Environmental Protection Agency
+ER&R Emissions Reduction and Reclamation
+FR Federal Register
+GWP Global warming potential
+HFC Hydrofluorocarbon
+NAICS North American Industry Classification System
+OMB Office of Management and Budget
+PBI Proprietary Business Information
+RIA Regulatory impact analysis
+TRU Transport refrigeration unit
+U.S.C. United States Code
+
+Table of Contents
+
+I. Executive Summary
+    A. Purpose of the Proposed Action
+    B. Summary of the Major Provisions of the Proposed Action
+II. Public Participation
+    A. Written Comments
+    B. Participation in Virtual Public Hearing
+III. General Information
+    A. Does this action apply to me?
+    B. What action is the Agency proposing to take?
+    C. What is the Agency's authority for taking this action?
+    D. What are road and intermodal container transport 
+refrigeration units?
+IV. What is the EPA proposing in this action?
+    A. What is the EPA proposing to explicitly exempt from the leak 
+repair requirements?
+    B. What are the cost and environmental impacts of this proposed 
+action?
+V. On which topics is the EPA specifically requesting comment?
+VI. Statutory and Executive Order Reviews
+    A. Executive Order 12866: Regulatory Planning and Review and 
+Executive Order 13563: Improving Regulation and Regulatory Review
+    B. Executive Order 14192: Unleashing Prosperity Through 
+Deregulation
+    C. Paperwork Reduction Act (PRA)
+    D. Regulatory Flexibility Act (RFA)
+    E. Unfunded Mandates Reform Act (UMRA)
+    F. Executive Order 13132: Federalism
+    G. Executive Order 13175: Consultation and Coordination With 
+Indian Tribal Governments
+    H. Executive Order 13045: Protection of Children From 
+Environmental Health Risks and Safety Risks
+    I. Executive Order 13211: Actions Concerning Regulations That 
+Significantly Affect Energy Supply, Distribution, or Use
+    J. National Technology Transfer and Advancement Act (NTTAA)
+
+I. Executive Summary
+
+A. Purpose of the Proposed Action
+
+    The EPA is proposing to exempt road and intermodal container TRUs 
+from the leak repair requirements promulgated under subsection (h) of 
+the AIM Act and codified at 40 CFR 84.106. In the 2024 rule, 
+``Phasedown of Hydrofluorocarbons: Management of Certain 
+Hydrofluorocarbons and Substitutes Under the American Innovation and 
+Manufacturing Act of 2020,'' (hereafter referred to as the 2024 
+Emissions Reduction and Reclamation (ER&R) rule), among other 
+provisions, the EPA established leak repair requirements.\1\ Under 
+these requirements, as of January 1, 2026, owners or operators must 
+comply with leak repair requirements for refrigerant-containing 
+appliances with a full charge size of 15 pounds or more that contain an 
+HFC or certain HFC substitutes, with certain limited exceptions as 
+specified in the regulations.\2\ The EPA did not intend to subject 
+refrigerant-containing road and intermodal container TRUs to the leak 
+repair requirements. In this action, the EPA is clarifying the 
+applicability of these requirements and is proposing to exempt 
+refrigerant-containing road and intermodal container TRUs from the ER&R 
+leak repair requirements.
+---------------------------------------------------------------------------
+
+    \1\ 89 FR 82682 (October 10, 2024).
+    \2\ Pursuant to 40 CFR 84.106(a)(2), the leak repair 
+requirements only apply where the refrigerant in the appliance 
+contains an HFC and/or a substitute for an HFC with a global warming 
+potential (GWP) greater than 53, based on the GWPs listed in table 1 
+of 40 CFR 84.64(b).
+---------------------------------------------------------------------------
+
+B. Summary of the Major Provisions of the Proposed Action
+
+    This action proposes to exempt road and intermodal container TRUs 
+from the leak repair requirements in 40 CFR 84.106, which became 
+effective as of January 1, 2026, for refrigerant-containing appliances 
+with a charge size of 15 pounds or more that contain an HFC or certain 
+HFC substitutes. Under this proposal, all road and intermodal container 
+TRUs would be exempt from the leak repair requirements, regardless of 
+their charge size. The proposed exemption, if finalized, would appear 
+as an amendment to subpart C of 40 Code of Federal Regulations (CFR) 
+part 84, by adding paragraph (iii) to 84.106(a)(3), ``Leak repair,'' to 
+include ``Road and intermodal container transport refrigeration units'' 
+as exempt from the leak repair requirements. The EPA is not proposing 
+other amendments or seeking comment on any other aspects of the 2024 
+ER&R rule. The specific proposed regulatory amendment to the leak 
+repair provisions appears at the end of this document as proposed 
+regulatory text.
+
+II. Public Participation
+
+A. Written Comments
+
+    Submit your comments, identified by Docket ID No. EPA-HQ-OAR-2026-
+2905, at <a href="https://www.regulations.gov">https://www.regulations.gov</a> (our preferred method), or the 
+other methods identified in the ADDRESSES section. Once submitted, 
+comments cannot be edited or removed from the docket. The EPA may 
+publish any comment received in the public docket. Do not submit to the 
+EPA's docket at <a href="https://www.regulations.gov">https://www.regulations.gov</a> any information you 
+consider to be CBI, Proprietary Business Information (PBI), or other 
+information whose disclosure is restricted by statute. Multimedia 
+submissions (audio, video, etc.) must be accompanied by a written 
+comment. The written comment is considered the official comment and 
+should include discussion of all points you wish to make. The EPA will 
+generally not consider comments or comment contents located outside of 
+the primary submission (i.e., on the web, cloud, or other file sharing 
+system). Please visit <a href="https://www.epa.gov/dockets/commenting-epa-docket">https://www.epa.gov/dockets/commenting-epa-docket</a>s for additional submission methods; the full EPA public comment 
+policy; information about CBI, PBI, or multimedia submissions; and 
+general guidance on making effective comments.
+    The EPA recognizes that given the nature of this proposed 
+rulemaking, potentially affected entities may wish to submit CBI. CBI 
+should not be submitted through <a href="https://www.regulations.gov">https://www.regulations.gov</a>. For 
+submission of confidential comments or data, please work with the 
+person listed in the FOR FURTHER INFORMATION CONTACT section if 
+submitting a comment containing CBI.
+
+B. Participation in Virtual Public Hearing
+
+    The EPA may hold a virtual public hearing if the Agency receives a 
+request to hold one. Any party requesting a public hearing must notify 
+the contact listed in the FOR FURTHER INFORMATION CONTACT section, 
+which is Annie Kee at email address: <a href="/cdn-cgi/l/email-protection#620907074c030c0c0b07220712034c050d14"><span class="__cf_email__" data-cfemail="026967672c636c6c6b67426772632c656d74">[email&#160;protected]</span></a> by 5 p.m. 
+Eastern Daylight Time on or before June 1, 2026. If a virtual public 
+hearing
+
+[[Page 30534]]
+
+is held, it will take place on or before June 10, 2026 and further 
+information will be provided on the EPA's Hydrofluorocarbon Phasedown 
+website at <a href="https://www.epa.gov/climate-hfcs-reduction">https://www.epa.gov/climate-hfcs-reduction</a>.
+    The EPA will make every effort to follow the schedule as closely as 
+possible on the day of the hearing; however, please plan for the 
+hearings to run either ahead of schedule or behind schedule. The EPA 
+anticipates each commenter will have three to five minutes to provide 
+oral testimony. The EPA encourages commenters to provide a copy of 
+their oral testimony electronically by emailing it to 
+<a href="/cdn-cgi/l/email-protection#462d2323682728282f230623362768212930"><span class="__cf_email__" data-cfemail="046f61612a656a6a6d61446174652a636b72">[email&#160;protected]</span></a>. The EPA also recommends submitting the text of your 
+oral comments as written comments to the rulemaking docket EPA-HQ-OAR-
+2026-2905. Written statements and supporting information submitted 
+during the comment period will be considered with the same weight as 
+oral comments and supporting information presented at the public 
+hearin

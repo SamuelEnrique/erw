@@ -3,17 +3,68 @@ import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Related } from "@/components/Related";
 import { Section } from "@/components/Section";
+import { SiteLink } from "@/components/SiteLink";
 import { policyActions, policyReads, renderTime } from "@/lib/data";
+import { METHOD, VIEWS, chosenOf, viewHref, viewOf, type View } from "@/lib/policyweek";
+import { weekData } from "@/lib/policyweekdata";
 import { attempt } from "@/lib/supabase";
 import { PolicyTable, type Row } from "./PolicyTable";
+import { WeekView } from "./WeekView";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Policy" };
 
 const TYPE: Record<string, string> = { rule: "Final rule", proposed_rule: "Proposed rule", notice: "Notice", press_release: "News release" };
 
+// Session 157: the page's two views, both in the address (lib/policyweek.ts), and the Method note. One tool, one page,
+// one address: /policy is the page as it was (every action, scored); /policy?view=week is "What changed this week".
+function Views({ view }: { view: View }) {
+  return (
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+      <nav aria-label="Views" className="flex flex-wrap gap-1 text-xs" data-views="1">
+        {VIEWS.map(([k, label]) => (
+          <a key={k} href={viewHref(k)} aria-current={view === k ? "page" : undefined} data-view={k} style={{ color: view === k ? "#fff" : "var(--color-ink)" }}
+            className={`border px-2 py-1 no-underline ${view === k ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{label}</a>
+        ))}
+      </nav>
+      <p className="text-xs text-muted" data-method="1"><SiteLink href={METHOD.href}>Method, sources and gaps</SiteLink></p>
+    </div>
+  );
+}
+
+// Session 157: "What changed this week" (app/policy/WeekView.tsx). The rows are read and worded on the server
+// (lib/policyweekdata.ts); the window and the filters the address names are the ones the view opens with.
+async function Week({ q }: { q: Record<string, string | undefined> }) {
+  const d = await weekData(renderTime());
+  const chosen = chosenOf(q, { bodies: d.bodies.map((b) => b.key), topics: d.topics.map((t) => t.key), grids: d.grids.map((g) => g.key) });
+  return (
+    <>
+      <p className="mb-5 max-w-3xl">
+        The regulatory actions of the last seven and thirty days, by agency and topic: federal regulators, state commissions and grid operators.
+      </p>
+      <Section title="What changed this week">
+        <WeekView today={d.today} rows={d.rows} bodies={d.bodies} topics={d.topics} grids={d.grids} dropped={d.dropped.length} missing={d.missing} droppedWhy={d.droppedWhy} held={d.held} chosen={chosen} />
+        <Cite tables={["policy_actions", "policy_reads"]} note="Proceedings and orders of FERC and the state commissions from the site's own file, data/policy/state_rules.json" />
+      </Section>
+      <Related href="/policy" />
+    </>
+  );
+}
+
 // Session 24: the policy and regulatory monitor (platform tool 12)
-export default async function PolicyPage() {
+export default async function PolicyPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const sp = await searchParams;
+  const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
+  const view = viewOf(q);
+  if (view === "week") {
+    return (
+      <div data-policy="week">
+        <h1 className="mb-1 text-3xl">Policy</h1>
+        <Views view={view} />
+        <Week q={q} />
+      </div>
+    );
+  }
   const [a, r] = await Promise.all([attempt(policyActions), attempt(policyReads)]);
   const now = renderTime();
   if (!a.ok) return <NoData what="policy actions" reason={a.reason} />;
@@ -22,8 +73,9 @@ export default async function PolicyPage() {
   const since = new Date(now - 7 * 86_400_000).toISOString().slice(0, 10);
   const week = rows.filter((x) => x.event_date >= since && Number(x.significance) >= 5).sort((p, q) => Number(q.significance) - Number(p.significance)).slice(0, 6);
   return (
-    <>
+    <div data-policy="all">
       <h1 className="mb-1 text-3xl">Policy</h1>
+      <Views view={view} />
       <p className="mb-2 max-w-3xl">
         Energy rules, proposed rules and notices of DOE, FERC, EPA, NRC, BLM and Interior from the Federal Register, and news releases of the NRC, DOE,
         the Texas PUC and the CPUC, since 2025-10-01, each scored for significance and, when it scores 5 or more, read for its impact.
@@ -55,6 +107,6 @@ export default async function PolicyPage() {
         <Cite tables={["policy_actions", "policy_reads"]} note="Scores from warehouse/policy/score.py (the news rubric); reads from warehouse/policy/reads.py; the evidence spans are kept in the internal policy_reads_evidence" />
       </Section>
       <Related href="/policy" />
-    </>
+    </div>
   );
 }

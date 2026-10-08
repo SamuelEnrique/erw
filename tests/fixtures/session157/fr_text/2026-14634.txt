@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 138 (Tuesday, July 21, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 138 (Tuesday, July 21, 2026)]
+[Notices]
+[Page 45833]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-14634]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+[NRC-2017-0091]
+
+
+Regulatory Analysis Guidelines; Regulatory Analysis Technical 
+Evaluation Handbook; Withdrawal and Resolution of Public Comments
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Notice.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) is withdrawing 
+NUREG/BR-0058, Revision 5, ``Regulatory Analysis Guidelines of the U.S. 
+Nuclear Regulatory Commission,'' and NUREG/BR-0184, ``Regulatory 
+Analysis Technical Evaluation Handbook.'' The NRC continues to prepare 
+regulatory analyses for rulemakings and other regulatory actions 
+consistent with the principles of Office of Management and Budget (OMB) 
+Circular A-4, ``Regulatory Analysis,'' and is discontinuing issuance of 
+related NRC-specific guidance.
+
+DATES: The withdrawal is effective July 21, 2026.
+
+ADDRESSES: Please refer to Docket ID NRC-2017-0091 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking Website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2017-0091. Address 
+questions about Docket IDs in <a href="http://Regulations.gov">Regulations.gov</a>to Bridget Curran; 
+telephone: 301-415-1003; email: <a href="/cdn-cgi/l/email-protection#c486b6ada0a3a1b0ea87b1b6b6a5aa84aab6a7eaa3abb2"><span class="__cf_email__" data-cfemail="c280b0aba6a5a7b6ec81b7b0b0a3ac82acb0a1eca5adb4">[email&#160;protected]</span></a>. For technical 
+questions, contact the individual(s) listed in the FOR FURTHER 
+INFORMATION CONTACT section of this document.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#0d5d495f235f687e62787f6e684d637f6e236a627b"><span class="__cf_email__" data-cfemail="2d7d697f037f485e42585f4e486d435f4e034a425b">[email&#160;protected]</span></a>. The ADAMS accession number for each document 
+referenced (if it is available in ADAMS) is provided the first time 
+that it is mentioned in this document.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#a8f8ecfa86facddbc7dddacbcde8c6dacb86cfc7de"><span class="__cf_email__" data-cfemail="4e1e0a1c601c2b3d213b3c2d2b0e203c2d60292138">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. Eastern Time (ET), Monday through Friday, except 
+Federal holidays.
+
+FOR FURTHER INFORMATION CONTACT: David Suchy, Office of Nuclear 
+Material Safety and Safeguards, U.S. Nuclear Regulatory Commission, 
+Washington, DC 20555-0001; telephone: 301-415-4130; email: 
+<a href="/cdn-cgi/l/email-protection#d692b7a0bfb2f885a3b5beaf96b8a4b5f8b1b9a0"><span class="__cf_email__" data-cfemail="e6a287908f82c8b593858e9fa6889485c8818990">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION: The NRC is withdrawing agency-specific 
+regulatory analysis guidance documents NUREG/BR-0058, Revision 5, 
+``Regulatory Analysis Guidelines of the U.S. Nuclear Regulatory 
+Commission,'' (ADAMS Accession No. ML17100A480) and NUREG/BR-0184, 
+``Regulatory Analysis Technical Evaluation Handbook'' (ADAMS Accession 
+No. ML050190193). The NRC previously issued NUREG/BR-0058, Revision 5, 
+and various appendixes, for public comment. See 82 FR 18163, 86 FR 
+20208, and 87 FR 40280. The draft appendices also incorporated 
+pertinent information from NUREG/BR-0184, ``Regulatory Analysis 
+Technical Handbook.''
+    The six public comments associated with Docket ID NRC-2017-0091 
+were considered during the past revision efforts but the NRC will not 
+be responding due to the withdrawal of NUREG/BR-0058 entirely, not just 
+revision 5. The NRC is taking this action in response to Executive 
+Order (E.O.) 14192, ``Unleashing Prosperity Through Deregulation'' (90 
+FR 9065; January 31, 2025) and E.O. 14215, ``Ensuring Accountability 
+for All Agencies'' (90 FR 10447; February 18, 2025). Accordingly, the 
+NRC will be preparing regulatory analyses for rulemakings and other 
+regulatory actions consistent with the principles of OMB Circular A-4, 
+``Regulatory Analysis'', making NUREG/BR-0058 and NUREG/BR-0184 
+unnecessary.
+
+(Authority: 42 U.S.C. 2011 et seq.)
+
+    Dated: July 16, 2026.
+
+    For the Nuclear Regulatory Commission.
+Araceli Billoch Colon,
+Acting Director, Division of Guidance, Rulemaking, Economic Analysis, 
+and Technical Editing, Office of Nuclear Material Safety and 
+Safeguards.
+[FR Doc. 2026-14634 Filed 7-20-26; 8:45 am]
+BILLING CODE 7590-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

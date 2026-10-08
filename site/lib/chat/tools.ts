@@ -12,6 +12,7 @@ import spec from "./spec.json";
 import { DOCS, type GridConfig } from "@/lib/markdown";
 import { LIFE_MS, keep, within, type Summary } from "./summaries";
 import { hourlyRefusal } from "./rollup";
+import { HOUR_OF_DAY, NEWEST, NEWEST_READ, NEWEST_READ_DATED, dateColumns, dateLabel, hourFamily, newestWholeDay, stepsPerHour } from "./forms";
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
@@ -353,6 +354,9 @@ type QueryArgs = {
   value_column?: string;
   group_by?: string;
   tz?: string;
+  /** session 156 (lib/chat/forms.ts): a date column of an entities or events table to group and bound by; "newest" for the newest whole day held */
+  date_column?: string;
+  day?: string;
 };
 
 type Row = { t: string | null; v: number | null; g: string | null; entity?: string; variable?: string; unit?: string; id?: string };
@@ -409,6 +413,8 @@ export function groupSummary(g: string, res: Json[], rows: Row[], agg: string, p
   return out;
 }
 
+const nextDay = (day: string) => new Date(Date.parse(`${day}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
+
 async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (!AGGREGATIONS.includes(a.aggregation)) throw new ToolError(`aggregation must be one of ${AGGREGATIONS.join(", ")}`);
   const { c, columns, shape } = await tableInfo(a.table, scope);
@@ -417,43 +423,51 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
   if (a.aggregation !== "count" && !columns.includes(vcol)) throw new ToolError(`no column ${JSON.stringify(vcol)} in ${a.table}`);
   const tz = a.tz ?? "UTC";
   const g = a.group_by;
-  if (g && !TIME_GROUPS.includes(g) && g !== "entity" && !columns.includes(g)) {
-    throw new ToolError(`group_by must be one of ${[...TIME_GROUPS, "entity"].join(", ")} or a text column of the table`);
+  // session 156: the average day by hour (lib/chat/forms.ts): 24 rows, "00" to "23", as one series
+  const hod = g === HOUR_OF_DAY;
+  if (g && !TIME_GROUPS.includes(g) && !hod && g !== "entity" && !columns.includes(g)) {
+    throw new ToolError(`group_by must be one of ${[...TIME_GROUPS, HOUR_OF_DAY, "entity"].join(", ")} or a text column of the table`);
+  }
+  if (hod && shape !== "series") throw new ToolError(`group_by "${HOUR_OF_DAY}" applies to series tables only: an entities or events table has no hours`);
+  const timed = !!g && TIME_GROUPS.includes(g);
+  // session 156: a date column of an entities or events table, to group by (year, month, day) and to bound (start, end)
+  const dcol = a.date_column;
+  if (dcol !== undefined) {
+    if (shape === "series") throw new ToolError("date_column applies to entities and events tables only: a series table's rows are grouped by their own time (group_by year, month, day or hour)");
+    if (!columns.includes(dcol)) throw new ToolError(`no column ${JSON.stringify(dcol)} in ${a.table}; its date columns: ${dateColumns(columns).join(", ") || "none"}`);
+    if (g === "hour") throw new ToolError("a date column gives a year, a month or a day, not an hour");
+    for (const b of [a.start, a.end]) if (b !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(b)) throw new ToolError(`with date_column, start and end are plain dates (2027-01-01), not ${JSON.stringify(b)}`);
   }
 
-  const sel = [`t:${tcol}`];
+  const sel = [`t:${dcol ? colRef(shape, dcol) : tcol}`];
   if (a.aggregation !== "count") sel.push(`v:${colRef(shape, vcol)}`);
-  if (g && !TIME_GROUPS.includes(g)) {
+  if (g && !timed && !hod) {
     const gc = g === "entity" ? { series: "entity", entities: "entity_id", events: "source" }[shape] : g;
     sel.push(`g:${colRef(shape, gc)}`);
   }
   if (shape === "series") sel.push("entity", "variable", "unit");
   if (shape === "entities") sel.push("id:entity_id");
-  const q: Record<string, string> = { select: sel.join(","), table_name: `eq.${a.table}`, order: `${tcol}.asc.nullslast`, ...scopeFilter(scope, a.table, shape, columns) };
-  if (a.entity) {
-    q.or = shape === "series" ? `(entity.eq.${quote(a.entity)},node.eq.${quote(a.entity)})`
-      : shape === "entities" ? `(entity_id.eq.${quote(a.entity)},name.eq.${quote(a.entity)})`
-      : `(source.eq.${quote(a.entity)})`;
-  }
-  if (a.variable) {
-    if (shape !== "series") throw new ToolError("variable applies to series tables only; use where for entities and events tables");
-    q.variable = `eq.${a.variable}`;
+  // a read by a date column is in the order of the rows' own ids, so that a read of more than one page holds each row once
+  const order = dcol ? (shape === "entities" ? "entity_id.asc" : "event_id.asc") : `${tcol}.asc.nullslast`;
+  const q: Record<string, string> = { select: sel.join(","), table_name: `eq.${a.table}`, order, ...scopeFilter(scope, a.table, shape, columns) };
+  if (a.entity && shape !== "series") {
+    q.or = shape === "entities" ? `(entity_id.eq.${quote(a.entity)},name.eq.${quote(a.entity)})` : `(source.eq.${quote(a.entity)})`;
   }
   // session 20, as warehouse/chat/tools.py: a series table of days or longer labels each row with its
   // local date at 00:00Z (Decision 11), so a date bound is that label; reading it in tz returned the
   // next day's row (evaluation questions s20q10 and s20q12)
   const dated = shape === "series" && (c.interval ?? "").split(";").every((f) => ["P1D", "P1W", "P1M", "P1Y"].includes(f)) && !!c.interval;
   const btz = dated ? "UTC" : tz;
-  const bounds: string[] = [];
-  if (a.start) bounds.push(`${tcol}.gte.${parseTime(a.start, btz)}`);
-  if (a.end) bounds.push(`${tcol}.lt.${parseTime(a.end, btz)}`);
-  if (bounds.length) q.and = `(${bounds.join(",")})`;
-  // session 148: no question reads a year of hourly reserve prices. While the tables of days and months are in the live
-  // set, a query of the hourly table that gives no start, or spans more than a few weeks, is refused before any row is
-  // read, with a message that names the two tables (lib/chat/rollup.ts). Until they are loaded the table is read as before.
-  if (scope?.rollup && a.table === scope.rollup.hourly && (await allHeld(scope.rollup.tables))) {
-    const why = hourlyRefusal(a.start ? parseTime(a.start, btz) : null, a.end ? parseTime(a.end, btz) : null, Date.now());
-    if (why) throw new ToolError(why);
+  // session 156: on a table of days or longer the hours of a day are its variables (avg_wind_mw_h00 to _h23): the 24 are
+  // read in one request, with the table's own counts of days (a family of days beside a family of means; days_held)
+  const family = hod && dated ? hourFamily(a.variable) : null;
+  if (hod && dated && !family) {
+    throw new ToolError(`${a.table} is a table of days or longer periods: its rows have no hour of their own. Where its variables are the hours of a day (names that end _h00 to _h23), give variable as the stem without the hour, for example "avg_wind_mw_h", with group_by "${HOUR_OF_DAY}"`);
+  }
+  const DAYS_HELD = "days_held";
+  if (a.variable) {
+    if (shape !== "series") throw new ToolError("variable applies to series tables only; use where for entities and events tables");
+    q.variable = family ? `in.(${[...family.names, ...(family.days ?? []), DAYS_HELD].map(quote).join(",")})` : `eq.${a.variable}`;
   }
   for (const [col, val] of Object.entries(a.where ?? {})) {
     if (!columns.includes(col)) throw new ToolError(`no column ${JSON.stringify(col)} in this table; columns: ${columns.join(", ")}`);
@@ -461,9 +475,88 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     q[colRef(shape, col)] = `in.(${vals.map((v) => quote(String(v))).join(",")})`;
   }
 
-  const raw = await rest<Json>(shape, q, HOURLY, MAX_ROWS + 1);
+  // Session 156: a series is asked for by its entity first. Until now the filter was "this entity or this node" in one
+  // request, which the database answered about five times slower than "this entity" alone (session 148 measured 0.4
+  // seconds against 0.06 to 0.17, and one read of 30 rows that took 12.6 seconds). The entity is now a term of the
+  // request's own "and", beside the time bounds, so it also stands beside a scope's filter on the same column and never
+  // replaces it. Only when no row has that entity is the same read made for the node of that name (a node as the ISO
+  // writes it, "HB_NORTH"). An entity is written namespace:id and a node is the id alone (docs/datastandard.md), so no
+  // name is both: the rows returned are the rows the one request returned.
+  let entityCol: "entity" | "node" | null = null;
+  const read = async (bounds: string[], more: Record<string, string> = {}, max = MAX_ROWS + 1): Promise<Json[]> => {
+    const one = (col: "entity" | "node" | null) => {
+      const terms = [...(col ? [`${col}.eq.${quote(a.entity!)}`] : []), ...bounds];
+      return rest<Json>(shape, { ...q, ...more, ...(terms.length ? { and: `(${terms.join(",")})` } : {}) }, HOURLY, max);
+    };
+    if (shape !== "series" || !a.entity) return one(null);
+    if (entityCol) return one(entityCol);
+    const byEntity = await one("entity");
+    if (byEntity.length) { entityCol = "entity"; return byEntity; }
+    const byNode = await one("node");
+    if (byNode.length) entityCol = "node";
+    return byNode;
+  };
+
+  // session 156: "the newest day held" (lib/chat/forms.ts). One small read, newest first, finds the newest whole day of
+  // this table, entity and variable (before `end` when it is given); the query then answers over that day.
+  let newest: Json | null = null, nothingHeld = false;
+  const bounds: string[] = [];
+  if (a.day !== undefined) {
+    if (a.day !== NEWEST) throw new ToolError(`day must be "${NEWEST}"; for a named day give start and end`);
+    if (shape !== "series") throw new ToolError(`day "${NEWEST}" applies to series tables only`);
+    if (a.start) throw new ToolError(`day "${NEWEST}" finds the day itself: give no start (end may be given: the newest whole day before it)`);
+    const before = a.end ? [`${tcol}.lt.${parseTime(a.end, btz)}`] : [];
+    const recent = await read(before, { select: "t:ts_utc,entity,variable,freq", order: "ts_utc.desc.nullslast", ...(family ? { variable: `eq.${family.names[0]}` } : {}) }, dated ? NEWEST_READ_DATED : NEWEST_READ);
+    const pairs = new Set(recent.map((r) => `${r.entity}|${r.variable}`));
+    if (pairs.size > 1) throw new ToolError(`day "${NEWEST}" is one series' own newest day, and these filters match more than one entity and variable (${Array.from(pairs).slice(0, 4).join(", ")}): give entity and variable`);
+    // the day before `end`, in the same clock as the days: what "yesterday" is when end is today's date
+    const asked = a.end ? { before: a.end, day_before: tzKey(new Date(Date.parse(parseTime(a.end, btz)) - 1).toISOString(), btz, "day") } : null;
+    if (!recent.length) {
+      nothingHeld = true;
+      newest = { asked: NEWEST, held: false, ...(asked ?? {}), note: `no row is held for these filters${a.end ? ` before ${a.end}` : ""}` };
+    } else if (dated) {
+      // a table of days, months or years: the newest row's own date (its label at 00:00Z)
+      const t = new Date(String(recent[0].t)).getTime();
+      const label = new Date(t).toISOString().slice(0, 10);
+      bounds.push(`${tcol}.gte.${new Date(t).toISOString()}`, `${tcol}.lt.${new Date(t + 1000).toISOString()}`);
+      newest = { asked: NEWEST, held: true, day: label, newest_row_at: isoTs(recent[0].t), step: Array.from(new Set(recent.map((r) => String(r.freq ?? "")))).filter(Boolean).join(";"),
+        ...(asked ? { ...asked, day_before_held: label === asked.day_before } : {}),
+        note: "a table of days or longer periods: day is the date of its newest row (a month's or a year's row is dated its first day); whether that period is complete is the table's own to say (its days_held or hours variables)" };
+    } else {
+      const per = stepsPerHour(recent.map((r) => r.freq as string | null));
+      const hours = (day: string) => (Date.parse(parseTime(nextDay(day), tz)) - Date.parse(parseTime(day, tz))) / 3_600_000;
+      const { days, pick } = newestWholeDay(recent.map((r) => String(r.t)), (t) => tzKey(t, tz, "day"), (day) => (per === null ? null : Math.round(per * hours(day))), recent.length >= NEWEST_READ);
+      const day = pick!.day;
+      bounds.push(`${tcol}.gte.${parseTime(day, tz)}`, `${tcol}.lt.${parseTime(nextDay(day), tz)}`);
+      newest = { asked: NEWEST, held: true, day, tz, whole: pick!.whole, rows: pick!.rows, rows_in_a_whole_day: pick!.of, newest_row_at: isoTs(recent[0].t),
+        newer_days_not_whole: days.filter((d) => d.day > day).map((d) => ({ day: d.day, rows: d.rows, of: d.of })),
+        ...(asked ? { ...asked, day_before_held: day === asked.day_before && pick!.whole === true } : {}),
+        note: pick!.whole === true ? "day is the newest local day that holds every step it has; days after it are held in part only and are listed, with their rows, under newer_days_not_whole"
+          : pick!.whole === false ? "no day among the newest rows is whole: day is the newest day held, in part only (rows of rows_in_a_whole_day); nothing is filled" : "the table's step is not one the tool can count a whole day by: day is the newest day held, and whether it is whole is not known" };
+    }
+  } else if (!dcol) {
+    if (a.start) bounds.push(`${tcol}.gte.${parseTime(a.start, btz)}`);
+    if (a.end) bounds.push(`${tcol}.lt.${parseTime(a.end, btz)}`);
+  }
+  // session 148: no question reads a year of hourly reserve prices. While the tables of days and months are in the live
+  // set, a query of the hourly table that gives no start, or spans more than a few weeks, is refused before any row is
+  // read, with a message that names the two tables (lib/chat/rollup.ts). Until they are loaded the table is read as before.
+  // (Session 156: a query of "the newest day" spans one day, the one its own small read found.)
+  if (scope?.rollup && a.table === scope.rollup.hourly && (await allHeld(scope.rollup.tables))) {
+    const bound = (op: string) => bounds.find((b) => b.startsWith(`${tcol}.${op}.`))?.slice(tcol.length + op.length + 2) ?? null;
+    const why = hourlyRefusal(bound("gte"), bound("lt"), Date.now());
+    if (why && !nothingHeld) throw new ToolError(why);
+  }
+
+  let raw = nothingHeld ? [] : await read(bounds);
   if (raw.length > MAX_ROWS) throw new ToolError(`more than ${MAX_ROWS} rows match; narrow the query (entity, variable, start, end)`);
-  const rows: Row[] = raw.map((r) => ({
+  // a date column is bounded here, on the dates as the rows write them; a row with no date is in no period
+  let undated = 0;
+  if (dcol) {
+    undated = raw.filter((r) => dateLabel(r.t as string | null, "day") === null).length;
+    if (a.start || a.end) raw = raw.filter((r) => { const d = dateLabel(r.t as string | null, "day"); return d !== null && (!a.start || d >= a.start) && (!a.end || d < a.end); });
+  }
+  const all: Row[] = raw.map((r) => ({
     t: (r.t as string) ?? null,
     v: r.v === null || r.v === undefined || r.v === "" ? null : Number(r.v),
     g: r.g === null || r.g === undefined ? null : String(r.g),
@@ -472,19 +565,24 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     unit: r.unit as string | undefined,
     id: r.id as string | undefined,
   }));
+  // of a family of hours, the rows of the answer are the 24 variables; the counts of days read beside them are set apart
+  const rows = family ? all.filter((r) => family.names.includes(r.variable ?? "")) : all;
 
   const out: Json = {
     aggregation: a.aggregation,
     value_column: a.aggregation === "count" ? null : vcol,
-    filters: Object.fromEntries(Object.entries({ entity: a.entity, variable: a.variable, start: a.start, end: a.end, where: a.where, percentile: a.percentile, tz: ((g && TIME_GROUPS.includes(g)) || a.start || a.end) && tz !== "UTC" ? tz : undefined }).filter(([, v]) => v !== undefined)),
+    filters: Object.fromEntries(Object.entries({ entity: a.entity, variable: a.variable, start: a.start, end: a.end, where: a.where, percentile: a.percentile, date_column: dcol, day: a.day,
+      tz: (((g && TIME_GROUPS.includes(g)) || a.start || a.end || a.day || (hod && !family)) && tz !== "UTC") ? tz : undefined }).filter(([, v]) => v !== undefined)),
     rows_matched: rows.length,
   };
+  if (newest) out.newest = newest;
+  if (dcol) out.date_column = { column: dcol, rows_without_a_date: undated, note: "rows are grouped and bounded by this column's date as the source writes it; a row whose date is empty is in no group and is counted in rows_without_a_date" };
   if (shape === "series" && rows.length) {
     const vars = Array.from(new Set(rows.map((r) => r.variable!))).sort();
     out.units = Array.from(new Set(rows.map((r) => r.unit!))).sort();
     out.variables = vars.slice(0, 10);
     out.time_span = { first: isoTs(rows[0].t), last: isoTs(rows[rows.length - 1].t) };
-    if (vars.length > 1 && !["count", "latest"].includes(a.aggregation)) out.warning = "more than one variable matched: the aggregation mixes them; filter by variable";
+    if (vars.length > 1 && !family && !["count", "latest"].includes(a.aggregation)) out.warning = "more than one variable matched: the aggregation mixes them; filter by variable";
   }
   if (!rows.length) {
     out.result = [];
@@ -507,20 +605,60 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
     const groups = new Map<string, Row[]>();
     for (const r of rows) {
       // session 92, as tools.py under a scope that asks for it: rows of a day or longer are grouped by their own label
-      const k = TIME_GROUPS.includes(g) ? (r.t ? tzKey(r.t, dated ? "UTC" : tz, g) : null) : r.g;
+      // session 156: the hour of the day (the last two digits of a family's variable, or the row's local hour); a date column's own date
+      const k = hod ? (family ? (r.variable ?? "").slice(-2) : r.t ? tzKey(r.t, tz, "hour").slice(11, 13) : null)
+        : timed ? (dcol ? dateLabel(r.t, g) : r.t ? tzKey(r.t, dated ? "UTC" : tz, g) : null) : r.g;
       if (k === null) continue;
       if (!groups.has(k)) groups.set(k, []);
       groups.get(k)!.push(r);
     }
-    const res = Array.from(groups.keys()).sort().map((k) => ({ [g]: k, ...aggregate(groups.get(k)!, a.aggregation, a.percentile, shape) }));
+    // the days behind an hour of the day: the local days of its rows; or, of a family of hours, the table's own count
+    // for each period read (the family of days beside it, else days_held), added up; left out when a period has none
+    const stamp = (t: string | null) => (t ? new Date(t).getTime() : NaN);
+    const counted = new Map<string, number>();
+    if (family) for (const r of all) if (r.v !== null && (r.variable === DAYS_HELD || family.days?.includes(r.variable ?? ""))) counted.set(`${r.variable}|${stamp(r.t)}`, r.v);
+    const daysOf = (hour: string, rs: Row[]): number | null => {
+      // of several periods, the newest, the lowest or the highest row is one period's: the days of all of them are not its count
+      if (family && rs.length > 1 && ["latest", "min", "max"].includes(a.aggregation)) return null;
+      if (!family) return new Set(rs.filter((r) => r.t).map((r) => tzKey(r.t!, tz, "day"))).size;
+      let sum = 0;
+      for (const r of rs) {
+        const own = family.days ? counted.get(`${family.days[Number(hour)]}|${stamp(r.t)}`) : undefined;
+        const n = own ?? counted.get(`${DAYS_HELD}|${stamp(r.t)}`);
+        if (n === undefined) return null;
+        sum += n;
+      }
+      return round(sum);
+    };
+    const res: Json[] = Array.from(groups.keys()).sort().map((k) => {
+      const days = hod ? daysOf(k, groups.get(k)!) : null;
+      return { [g]: k, ...aggregate(groups.get(k)!, a.aggregation, a.percentile, shape), ...(days === null ? {} : { days }) };
+    });
     out.n_groups = res.length;
     // session 143: what an answer says about a series besides its rows (its high and low, where it began and ended, its
     // level) comes with the rows, so a question about a movement is one query, not one query a figure
-    const summary = groupSummary(g, res, rows.filter((r) => (TIME_GROUPS.includes(g) ? !!r.t : r.g !== null)), a.aggregation, a.percentile, shape);
+    const summary = groupSummary(g, res, rows.filter((r) => (hod ? (family ? true : !!r.t) : timed ? (dcol ? dateLabel(r.t, g) !== null : !!r.t) : r.g !== null)), a.aggregation, a.percentile, shape);
     if (summary) out.summary = summary;
     const cap = scope?.max_groups ?? MAX_GROUPS; // session 92: a profile may show a month per row since 2018
     if (res.length > cap) out.result_note = `${res.length} groups; the first ${cap} (sorted by ${g}) are shown`;
     out.result = res.slice(0, cap);
+    if (hod) {
+      const held = new Set(res.map((r) => String(r[g])));
+      const missing = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0")).filter((h) => !held.has(h));
+      if (family) {
+        const periods = Array.from(new Set(rows.map((r) => isoTs(r.t)?.slice(0, 10) ?? ""))).filter(Boolean).sort();
+        out.average_day = { hours: res.length, of: 24, hours_not_held: missing, periods: periods.length, first_period: periods[0] ?? null, last_period: periods[periods.length - 1] ?? null,
+          note: `each row is the table's own variable for that hour of the local day (${family.stem}00 to ${family.stem}23)${periods.length > 1 ? `: the ${a.aggregation} over the ${periods.length} periods read (n is the periods behind the hour), not weighted by their days` : ", for the one period read"}; days is the table's own count of days behind the hour (${family.days ? `${family.days[0]} to ${family.days[23]}, else ` : ""}${DAYS_HELD}), added over the periods, and is left out where the table gives none; an hour the table does not hold is under hours_not_held; nothing is filled` };
+      } else {
+        const inPeriod = new Set(rows.filter((r) => r.t).map((r) => tzKey(r.t!, tz, "day"))).size;
+        out.average_day = { hours: res.length, of: 24, hours_not_held: missing, tz, days_in_period: inPeriod,
+          short_hours: res.filter((r) => typeof r.days === "number" && (r.days as number) < inPeriod).map((r) => ({ [g]: r[g], days: r.days })),
+          note: `each row is an hour of the local day (${tz}): the ${a.aggregation} of that hour's rows over the period; n is the rows and days the local days behind it. An hour with fewer days than days_in_period (a day held in part, the hour the clocks skip) is under short_hours with its own count; an hour with no row is under hours_not_held; nothing is filled` };
+      }
+    } else if (timed && !dcol && shape !== "series" && !res.length) {
+      // session 156: an entities or events table whose own time column is empty groups into nothing: say what to give
+      out.note = `no row of ${a.table} has a ${tcol}, so group_by ${g} finds no group. To group by another date of the table give date_column${dateColumns(columns).filter((x) => x !== tcol).length ? ` (its date columns: ${dateColumns(columns).filter((x) => x !== tcol).join(", ")})` : ""}`;
+    }
   }
   Object.assign(out, await provenance(a.table));
   return out;
@@ -547,7 +685,8 @@ async function compare(a: { a: QueryArgs; b: QueryArgs }, scope: Scope = null): 
 function gridNotes(a: { grid?: string }, scope: Scope): Json {
   const g = scopeOf(a.grid);
   if (!g) throw new ToolError(`no grid ${JSON.stringify(a.grid)}; grids: ${DOCS.grid_config.map((x) => x.slug).join(", ")}`);
-  if (scope && g.slug !== scope.slug) throw new ToolError(`this chat speaks for ${scope.iso} only; its notes are grid_notes ${JSON.stringify(scope.slug)}`);
+  // session 156: the words say what is read here and no more (Ask ERCOT answers for other grids what four pages show; no chat reads another grid's notes)
+  if (scope && g.slug !== scope.slug) throw new ToolError(`this chat reads the written notes of ${scope.iso} only (grid_notes ${JSON.stringify(scope.slug)}); ${g.iso}'s are on its own page, /grid/${g.slug}`);
   const table = `docs/grids/${g.slug}.md`;
   return { table, grid: g.slug, tier: "written", license: "public", source_report: `${table}: text written for the ERW's grid page; each section names its ISO and EIA sources`, data_version: "the site's build", text: DOCS.grids[g.slug] };
 }

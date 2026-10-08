@@ -606,6 +606,7 @@ def source_fields(row, skip=("geometry",)):
 EXPECTED = {
     "wind_speed_100m": ("wind", "Wind speed at 100 m"),
     "wind_capacity_factor": ("wind", "Wind capacity factor (supply curve sites)"),
+    "wind_gross_capacity_factor": ("wind", "Gross capacity factor"),   # not held, and not fetched (NOT_HELD)
     "solar_ghi": ("solar", "Global horizontal irradiance"),
     "solar_dni": ("solar", "Direct normal irradiance"),
     "geothermal_hydrothermal_sites": ("geothermal", "Identified hydrothermal systems"),
@@ -613,41 +614,42 @@ EXPECTED = {
     "geothermal_egs_favorability": ("geothermal", "Deep enhanced geothermal favorability"),
     "oil_gas_basins": ("oil and gas", "Sedimentary basins"),
     "oil_gas_plays": ("oil and gas", "Tight oil and shale gas plays"),
-    "hydropower_potential": ("hydropower", "Hydropower potential"),
+    # session 159 (the owner's ruling of 8 October 2026): hydropower in the form its publisher publishes it
+    "hydropower_npd": ("hydropower", "Hydropower potential at non-powered dams"),
+    "hydropower_nsd": ("hydropower", "Hydropower potential of new stream-reach development"),
     "biomass": ("biomass", "Solid biomass resources by county"),
     "offshore_wind_leases": ("offshore wind", "Offshore wind lease areas"),
     "offshore_wind_planning_areas": ("offshore wind", "Offshore wind planning areas"),
 }
 LAYER_ORDER = list(EXPECTED)
-# A layer that was looked for and left, with the reason the page shows on its greyed toggle.
+# An id an earlier session wrote into the manifest's missing list and that no longer stands for a layer: session
+# 146's one greyed "hydropower_potential" is two layers of Oak Ridge's since session 159.
+RETIRED_IDS = {"hydropower_potential"}
+# A layer that was looked for and left, with the reason the page shows on its greyed toggle. (Session 146 left
+# hydropower here: Oak Ridge's download page puts a form asking for a name and an e-mail address in front of its
+# files. The owner ruled on 8 October 2026 that the published files are fetched by their own addresses with a
+# plain request, no form filled and no name or address sent; SOURCES below holds them since session 159.)
 NOT_HELD = {
-    "hydropower_potential": (
-        "Not pulled. No hydropower potential layer of USGS's own was found. The federal assessments are Oak Ridge "
-        "National Laboratory's, for the Energy Department (new stream-reach development, 2014, and non-powered "
-        "dams, 2024, on HydroSource). Their download page asks for a name and an e-mail address in a form before "
-        "it hands over a file, so the files were left until the owner rules."),
+    # the owner's ruling of 8 October 2026: "a gross capacity factor layer that needs a personal key is not
+    # fetched". One sentence, shown on the greyed toggle's hover and in the Method note. No key was asked for.
+    "wind_gross_capacity_factor": (
+        "Not fetched: no gross capacity factor was found among the files the laboratory (NLR, until 2025 NREL) "
+        "offers without a key, its developer service needs a key issued to a named person, and no key is "
+        "asked for."),
 }
 # Recorded and left (COMMON.md rule 5): the addresses are kept here so that a ruling needs no new search.
 LEFT_SOURCES = {
-    "ornl_npd": {
-        "publisher": "Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy",
-        "title": "Technical Potential for Hydropower Capacity at Non-powered Dams (2024, revised 25 June 2025)",
-        "landing": "https://hydrosource.ornl.gov/data/datasets/hydropower-capacity-us-npd/",
-        "doi": "10.21951/HydroCapacity_NPD/2570407",
-        "files": {"TechPotentialNPDs.csv": 1594027, "TechPotentialNPDs_field_descriptions.csv": 4650,
-                  "TechPotentialNPDs_Readme.txt": 3992},
-        "terms": "https://hydrosource.ornl.gov/data-use-policy/",
-        "why_left": "the page's file links open a form that requires a name, an e-mail address, a company and "
-                    "an occupation before the download"},
-    "ornl_nsd": {
+    "ornl_nsd_ea": {
         "publisher": "Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy",
         "title": "Hydropower Potential from New Stream-Reach Development for the Conterminous United States "
-                 "(2014)",
+                 "(2014): the environmental attributes (the files named EA)",
         "landing": "https://hydrosource.ornl.gov/data/datasets/"
                    "hydropower-potential-new-stream-reach-development-conterminous-united-states/",
-        "files": {"ORNL_NHAAP_NSD_SR_All_v1.zip": 564790485, "ORNL_NHAAP_NSD_SR_All_v1.xlsx": 619782},
+        "files": {"ORNL_NHAAP_NSD_EA_All_v1.zip": 564645432, "ORNL_NHAAP_NSD_EA_All_v1.xlsx": 575614},
         "terms": "https://hydrosource.ornl.gov/data-use-policy/",
-        "why_left": "the same form"},
+        "why_left": "they describe the environment of each watershed, not the hydropower resource, so the map "
+                    "has no layer for them; the page's file links also open a form that asks for a name, an "
+                    "e-mail address, a company and an occupation, which is never filled"},
     "doe_billion_ton_2023": {
         "publisher": "Oak Ridge National Laboratory (Bioenergy Knowledge Discovery Framework), for the U.S. "
                      "Department of Energy",
@@ -686,6 +688,16 @@ TERMS = {
              "file": "boem_renewable_energy_gis_data.html", "also": ["doi"],
              "quote": "Note to users: Data downloaded from this site is to be used for informational and "
                       "planning purposes only."},
+    # session 159: HydroSource's data use policy, its two paragraphs in full (use, then citation)
+    "ornl": {"url": "https://hydrosource.ornl.gov/data-use-policy/", "file": "hydrosource_data_use_policy.html",
+             "quote": ["Data hosted on HydroSource is openly shared, without restriction, in accordance with "
+                       "Department of Energy's Public Access Plan.",
+                       "Bibliographic citations should be included in the References section of publications "
+                       "and other media to acknowledge those who have created the data, services, and tools "
+                       "provided by HydroSource. Proper citations include the authors, title, publisher, and "
+                       "Digital Object Identifier (DOI) and will allow the products to be discovered and "
+                       "re-used by others. The proper citation for each HydroSource product is provided on its "
+                       "landing page."]},
 }
 SOURCES = {
     "eia_basins": {"source": "eia", "layers": ["oil_gas_basins"], "terms": "eia",
@@ -750,6 +762,26 @@ SOURCES.update({
     "openei_wind_sc_lookup": {
         "source": "openei", "layers": ["wind_capacity_factor"], "terms": "openei_8314",
         "url": "https://data.openei.org/files/8314/lbw_column_lookup.csv", "file": "lbw_column_lookup.csv"},
+})
+# Session 159, the owner's ruling of 8 October 2026: Oak Ridge National Laboratory's hydropower assessments on
+# HydroSource, each file by its own address (the addresses the dataset pages themselves print), with a plain
+# request. The pages' download buttons open a form (name, e-mail, company, occupation): it is never filled and
+# nothing but the User-Agent above is sent. A file whose address refuses a plain request is recorded and left.
+ORNL = "https://hydrosource.s3.us-east-2.amazonaws.com/files/data/datasets/"
+ORNL_NPD = ORNL + "hydropower-capacity-us-npd/"
+ORNL_NSD = ORNL + "hydropower-potential-new-stream-reach-development-conterminous-united-states/"
+SOURCES.update({
+    "ornl_npd": {"source": "ornl", "layers": ["hydropower_npd"], "terms": "ornl",
+                 "url": ORNL_NPD + "TechPotentialNPDs.csv", "file": "npd/TechPotentialNPDs.csv"},
+    "ornl_npd_fields": {"source": "ornl", "layers": ["hydropower_npd"], "terms": "ornl",
+                        "url": ORNL_NPD + "TechPotentialNPDs_field_descriptions.csv",
+                        "file": "npd/TechPotentialNPDs_field_descriptions.csv"},
+    "ornl_npd_readme": {"source": "ornl", "layers": ["hydropower_npd"], "terms": "ornl",
+                        "url": ORNL_NPD + "TechPotentialNPDs_Readme.txt", "file": "npd/TechPotentialNPDs_Readme.txt"},
+    "ornl_nsd_xlsx": {"source": "ornl", "layers": ["hydropower_nsd"], "terms": "ornl",
+                      "url": ORNL_NSD + "ORNL_NHAAP_NSD_SR_All_v1.xlsx", "file": "nsd/ORNL_NHAAP_NSD_SR_All_v1.xlsx"},
+    "ornl_nsd_zip": {"source": "ornl", "layers": ["hydropower_nsd"], "terms": "ornl",
+                     "url": ORNL_NSD + "ORNL_NHAAP_NSD_SR_All_v1.zip", "file": "nsd/ORNL_NHAAP_NSD_SR_All_v1.zip"},
 })
 BUILDERS = {}
 
@@ -1385,6 +1417,250 @@ def build_planning(raw_dir, web_dir, manifest):
                          "Inactive) is the source's own field and was last edited before the rescission."))
 
 
+# ---------------------------------------------------------------------------------------------------------
+# Session 159: hydropower, in the form its publisher publishes it. Oak Ridge National Laboratory's two
+# assessments for the Energy Department, on HydroSource. Nothing is re-estimated here and nothing is spread
+# over an area it was not published for: a dam is a point with the file's own capacity, generation and
+# capacity factor; new stream-reach development is the file's own total a HUC10 watershed.
+# ---------------------------------------------------------------------------------------------------------
+
+ORNL_PUBLISHER = "Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy"
+ORNL_FETCHED = ("The file was fetched by its own address, the one HydroSource's dataset page prints, with a plain "
+                "request; the download form on that page (a name, an e-mail address, a company, an occupation) "
+                "was not filled and nothing was sent to it (the owner's ruling of 8 October 2026).")
+
+
+def readme_section(path, heading):
+    """The lines under a heading of a publisher's readme, up to the next blank line, as one string."""
+    with open(path, encoding="utf-8", errors="replace") as f:
+        lines = [x.strip() for x in f.read().splitlines()]
+    out, on = [], False
+    for x in lines:
+        if on and not x:
+            if out:
+                break
+            continue
+        if on:
+            out.append(x)
+        if x.rstrip(":").strip().lower() == heading.lower():
+            on = True
+    return " ".join(out).strip()
+
+
+def as_number(text):
+    """A cell of a publisher's file as the number it writes; an empty cell is None (never a zero)."""
+    s = (text or "").strip()
+    if not s:
+        return None
+    v = float(s)
+    return int(v) if v.is_integer() and "." not in s and "e" not in s.lower() else v
+
+
+@builder("hydropower_npd")
+def build_hydro_npd(raw_dir, web_dir, manifest):
+    row = held(raw_dir, "ornl_npd")
+    fields_row = held(raw_dir, "ornl_npd_fields")
+    readme_row = held(raw_dir, "ornl_npd_readme")
+    with open(fields_row["path"], encoding="utf-8-sig", newline="") as f:
+        fields = {r["Field Name"].strip(): r for r in csv.DictReader(f)}
+    with open(row["path"], encoding="utf-8-sig", newline="") as f:
+        src = list(csv.DictReader(f))
+    if not src:
+        raise RuntimeError("the non-powered dams file holds no row")
+    # the file's own column for longitude is "long"; its field descriptions call it "lon"
+    lon_col = "long" if "long" in src[0] else "lon"
+    # the owner's name (the file's dam_owner) is left out of the web file: some owners are private persons
+    extra = ["gen_mwh_yr", "cf_yr", "state_abbr", "waterway", "nididfull", "county", "head_ft_yr", "q30_cfs",
+             "inputdata"]
+    numeric = {"gen_mwh_yr", "cf_yr", "head_ft_yr", "q30_cfs"}
+    rows, caps, gens = [], [], []
+    for r in src:
+        cap = as_number(r["cap_mw"])
+        rows.append([round(float(r[lon_col]), 4), round(float(r["lat"]), 4), clean(r["dam_name"]), cap]
+                    + [(as_number(r[c]) if c in numeric else clean(r[c])) for c in extra])
+        if cap is not None:
+            caps.append(cap)
+        g = as_number(r["gen_mwh_yr"])
+        if g is not None:
+            gens.append(g)
+    size = write_points(web_dir, "hydropower_npd.json", ["lon", "lat", "name", "value"] + extra, rows)
+    st = shape_stats(caps)
+
+    def meaning(c):
+        d = fields[c]
+        u = d["Units"].strip()
+        return d["Description"].strip() + (f" ({u})" if u and u != "unitless" else "")
+    abstract = readme_section(readme_row["path"], "Abstract")
+    method = readme_section(readme_row["path"], "Methodology")
+    citation = readme_section(readme_row["path"], "Citation")
+    manifest_put(manifest, base_layer(
+        "hydropower_npd", "hydropower", "Hydropower potential at non-powered dams", "points", row, "ornl_npd",
+        unit=fields["cap_mw"]["Units"].strip(),
+        value_label=fields["cap_mw"]["Description"].strip() + " (the source's cap_mw)",
+        publisher=ORNL_PUBLISHER,
+        source_title="Technical Potential for Hydropower Capacity at Non-powered Dams (TechPotentialNPDs.csv), "
+                     "Oak Ridge National Laboratory and Idaho National Laboratory, "
+                     "doi:10.21951/HydroCapacity_NPD/2570407",
+        vintage="published 3 October 2024, revised 25 June 2025 (HydroSource's page; the file on its server is "
+                "dated 25 June 2025); the file's readme: \"These estimates represent the conditions over the "
+                "historical period of 1980-2015\"",
+        extent="conterminous United States (the readme: \"2,616 NPDs in the conterminous US\")",
+        source_resolution="one row for each dam, at the dam's own latitude and longitude",
+        reduction="none: every row of the source at the source's own longitude and latitude (North American "
+                  "Datum 83 read as WGS84, coordinates to 4 decimals); the capacity, the generation and the "
+                  "capacity factor are the file's own figures, unconverted; the monthly columns are left out of "
+                  "the web file",
+        file="hydropower_npd.json", bytes=size, rows=len(rows),
+        legend={"min": st["min"], "max": st["max"], "stops": [0.1, 1, 10, 100]}, stats=st,
+        total_cap_mw=round(sum(caps), 3), total_gen_mwh_yr=round(sum(gens), 3),
+        # what the hover lists under the capacity: the file's own fields, named in the file's own words
+        hover_fields=[["gen_mwh_yr", fields["gen_mwh_yr"]["Description"].strip() + ", "
+                       + fields["gen_mwh_yr"]["Units"].strip()],
+                      ["cf_yr", fields["cf_yr"]["Description"].split(" (")[0].strip()],
+                      ["waterway", "River"], ["state_abbr", "State"],
+                      ["nididfull", "National Inventory of Dams id"]],
+        columns_meaning={"value": meaning("cap_mw"), "gen_mwh_yr": meaning("gen_mwh_yr"), "cf_yr": meaning("cf_yr"),
+                         "state_abbr": meaning("state_abbr"), "waterway": meaning("waterway"),
+                         "nididfull": meaning("nididfull"), "county": meaning("county"),
+                         "head_ft_yr": meaning("head_ft_yr"), "q30_cfs": meaning("q30_cfs"),
+                         "inputdata": meaning("inputdata")},
+        credit="Citation, as the publisher asks: " + citation,
+        notes_for_method="Oak Ridge's words (the file's readme): \"" + abstract + "\" \"" + method + "\" A "
+                         "non-powered dam is a dam that exists and has no power plant. Each point is one such "
+                         "dam with the laboratory's own estimate of the capacity a retrofit could have, the "
+                         "generation of an average year and the capacity factor, from a model of 1980 to 2015 "
+                         "flows; nothing is estimated again here. It is a technical potential: not a plant, not "
+                         "a proposal, not a finding that a retrofit would pay, and not every dam in the country "
+                         "(the file holds the dams an earlier assessment gave at least 100 kW). Alaska and "
+                         "Hawaii are not in the file. The publisher is Oak Ridge National Laboratory, with "
+                         "Idaho National Laboratory; it is not a USGS layer. " + ORNL_FETCHED))
+
+
+def workbook_sheets(path, names):
+    """The named sheets of a publisher's workbook as lists of rows, each cell in its own column (an empty cell
+    is None; empty cells at the end of a row and wholly empty rows are dropped)."""
+    import openpyxl
+    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    out = {}
+    for n in names:
+        rows = []
+        for r in wb[n].iter_rows(values_only=True):
+            r = list(r)
+            while r and r[-1] is None:
+                r.pop()
+            if r:
+                rows.append(r)
+        out[n] = rows
+    wb.close()
+    return out
+
+
+NSD_NO_VALUE = (-9999, -999)   # the file's own codes where it gives no figure for a watershed
+
+
+@builder("hydropower_nsd")
+def build_hydro_nsd(raw_dir, web_dir, manifest):
+    """New stream-reach development, at the unit Oak Ridge publishes it at: the HUC10 watershed, whose outlines
+    are in the publisher's own shapefile. A watershed's figure is the file's own total for it (P_MW_Sum); a
+    watershed for which the file gives no capacity (its code -9999) is not drawn. Nothing is computed here."""
+    import geopandas as gpd
+    import numpy as np
+    row = held(raw_dir, "ornl_nsd_zip")
+    book_row = held(raw_dir, "ornl_nsd_xlsx")
+    shp = find_file(unpack(row["path"]), r"ORNL_NHAAP_NSD_SR_All_v1\.shp$")
+    sheets = workbook_sheets(book_row["path"], ["NSD", "NSD_Columns", "NSD_Metadata"])
+    cols = {r[0]: {"long": r[1], "units": r[2], "how": r[3], "words": re.sub(r"\s+", " ", str(r[4])).strip()}
+            for r in sheets["NSD_Columns"][1:] if len(r) >= 5 and all(x is not None for x in r[:5])}
+    # the metadata sheet's contact and creator rows hold persons' e-mail addresses: they are never read into a layer
+    meta = {str(r[0]).strip(): re.sub(r"\s+", " ", str(r[1])).strip() for r in sheets["NSD_Metadata"]
+            if len(r) >= 2 and r[0] is not None and r[1] is not None and str(r[0]).strip() not in ("contact", "creator")}
+    # every watershed's attributes (no outline read): the counts of what the file gives and does not give
+    import pyogrio
+    att = pyogrio.read_dataframe(shp, read_geometry=False)
+    with_value = att[att["NUMREACH"] > 0]
+    if not (with_value["P_MW_Sum"] > 0).all() or (att[att["NUMREACH"] <= 0]["P_MW_Sum"] > 0).any():
+        raise RuntimeError("the watershed file's capacity and its count of stream-reaches do not agree")
+    # the workbook beside the archive lists the same watersheds with the same totals: read both, compare
+    book = [r for r in sheets["NSD"] if len(r) >= 4 and isinstance(r[0], (int, float)) and isinstance(r[3], (int, float))]
+    book_total = float(sum(r[3] for r in book))
+    if len(book) != len(with_value) or abs(book_total - float(with_value["P_MW_Sum"].sum())) > 1e-3:
+        raise RuntimeError(f"the workbook ({len(book)} watersheds, {book_total} MW) and the shapefile "
+                           f"({len(with_value)}, {float(with_value['P_MW_Sum'].sum())} MW) do not agree")
+    g = gpd.read_file(shp, where="NUMREACH > 0")
+    if len(g) != len(with_value):
+        raise RuntimeError(f"{len(g)} outlines read, {len(with_value)} watersheds hold a capacity")
+    keep = ["HUC10", "HUC10_NAME", "NUMREACH", "P_MW_Sum", "E_MWh_Sm", "Cf_yr", "H_ft_Avg", "Q30cfsAg"]
+
+    def props(r):
+        p = {"name": f"{clean(r['HUC10_NAME'])} ({clean(r['HUC10'])})", "kind": "HUC10 watershed",
+             "value": clean(r["P_MW_Sum"]), "value_unit": cols["P_MW_Sum"]["units"]}
+        for c in keep:
+            v = clean(r[c])
+            p[c] = None if isinstance(v, (int, float)) and v in NSD_NO_VALUE else v
+        return p
+    size, n, b, how = shapes_any(web_dir, "hydropower_nsd.json", g, props, 0.01, True)
+    vals = [float(x) for x in g["P_MW_Sum"]]
+    st = shape_stats(vals)
+    energy = [float(x) for x in g["E_MWh_Sm"] if x is not None and np.isfinite(x) and x not in NSD_NO_VALUE]
+    # a watershed whose annual energy the shapefile leaves empty, and what the workbook writes in the same cell
+    no_energy = sorted(str(h) for h, x in zip(g["HUC10"], g["E_MWh_Sm"]) if x is None or not np.isfinite(x))
+    book_e = {str(int(r[0])).zfill(10): r[4] for r in book if len(r) >= 5}
+    book_says = [("%g" % book_e[h]) if isinstance(book_e.get(h), (int, float)) else "nothing" for h in no_energy]
+    label = {c: f"{cols[c]['long']}" + (f", {cols[c]['units']}" if cols[c]["units"] not in ("n/a", "ratio") and
+                                        cols[c]["units"].lower() != cols[c]["long"].lower() else "")
+             for c in ("NUMREACH", "E_MWh_Sm", "Cf_yr", "H_ft_Avg", "Q30cfsAg")}
+    manifest_put(manifest, base_layer(
+        "hydropower_nsd", "hydropower", "Hydropower potential of new stream-reach development", "shapes", row,
+        "ornl_nsd_zip", unit=cols["P_MW_Sum"]["units"],
+        value_label=cols["P_MW_Sum"]["words"] + " (the source's P_MW_Sum, a HUC10 total)",
+        publisher=ORNL_PUBLISHER,
+        source_title=meta["title"].rstrip(".") + " (ORNL_NHAAP_NSD_SR_All_v1.shp, version " + meta["version"]
+                     + "), Oak Ridge National Laboratory",
+        vintage="published 31 December 2014 (HydroSource's page); the file's own metadata is dated 10 January "
+                "2014 and its workbook was created on " + meta["creation date"][:10] + ", version "
+                + meta["version"] + "; the years of flow behind the estimate are not stated in the files",
+        extent="conterminous United States, by HUC10 watershed (the file's words: \"" + meta["title"] + "\")",
+        source_resolution="the HUC10 watershed of the Watershed Boundary Dataset: " + f"{len(att):,}"
+                          + " watersheds in the file, each a total over its stream-reaches of more than 1 MW",
+        reduction=how + f"; only the {n:,} watersheds for which the file gives a capacity are in the web file",
+        file="hydropower_nsd.json", bytes=size, features=n, bounds=b,
+        legend={"min": st["min"], "max": st["max"], "stops": [10, 25, 50, 100, 250]}, stats=st,
+        hover_fields=[[c, label[c]] for c in ("NUMREACH", "E_MWh_Sm", "Cf_yr")],
+        watersheds_in_file=int(len(att)), watersheds_with_capacity=int(len(with_value)),
+        watersheds_no_reach=int((att["NUMREACH"] == 0).sum()),
+        watersheds_coded_minus_999=int((att["NUMREACH"] == -999).sum()),
+        total_p_mw=round(float(sum(vals)), 3), total_reaches=int(with_value["NUMREACH"].sum()),
+        total_e_mwh=round(float(sum(energy)), 3), watersheds_with_energy=len(energy),
+        watersheds_without_energy=no_energy,
+        columns_meaning={c: f"{cols[c]['words']} ({cols[c]['units']}, {cols[c]['how']})" for c in keep[2:]},
+        credit="The file asks: \"The ORNL should be acknowledged as the data source in products derived from "
+               "these data.\" Source: Oak Ridge National Laboratory, New Stream-reach Development Resource "
+               "Assessment, 2014. " + meta["dataset credit"],
+        terms_in_file=meta["use constraints"],
+        notes_for_method="Oak Ridge's words (the file's metadata): \"" + meta["description"] + "\" New "
+                         "stream-reach development is the hydropower that could be built on stretches of "
+                         "river that have no dam and no plant today. Oak Ridge publishes it summed to the "
+                         "HUC10 watershed (a drainage area of the federal Watershed Boundary Dataset), and that "
+                         "is what is drawn: each watershed is shaded by the file's own total for it, in the "
+                         "file's words \"" + cols["P_MW_Sum"]["words"] + "\". The figure belongs to the "
+                         "watershed as a whole: the file does not say where in it the reaches lie, so nothing "
+                         "is drawn at a site and nothing is spread or estimated again here. A larger watershed "
+                         "can show more than a smaller one with the same rivers. Of the "
+                         + f"{len(att):,} watersheds in the file, {len(with_value):,} hold a capacity and are "
+                         f"drawn; {int((att['NUMREACH'] == 0).sum()):,} count no stream-reach above 1 MW and "
+                         f"{int((att['NUMREACH'] == -999).sum()):,} carry the file's code -999 in that count "
+                         "(the file does not say what the code stands for); both carry -9999 as their "
+                         "capacity and are not drawn. "
+                         + (f"For {len(no_energy):,} of the watersheds drawn ({', '.join(no_energy)}) the "
+                            "shapefile holds no annual energy and no capacity factor, where the publisher's "
+                            f"workbook writes {', '.join(sorted(set(book_says)))}: none is shown. "
+                            if no_energy else "")
+                         + "It is a potential before any study of a site. The file's own limit: \""
+                         + meta["use constraints"] + "\" Alaska and Hawaii are not in this file. The publisher "
+                         "is Oak Ridge National Laboratory; it is not a USGS layer. The outlines are "
+                         "simplified for the web. " + ORNL_FETCHED))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--pull", action="store_true")
@@ -1420,6 +1696,9 @@ def main():
         log(f"ledger total: {ledger_total(read_ledger(args.raw_dir))} bytes of {CEILING_BYTES}")
     if args.build:
         man = read_manifest(manifest)
+        if any(m["id"] in RETIRED_IDS for m in man.get("missing", [])):  # an id that stands for no layer now
+            man["missing"] = [m for m in man["missing"] if m["id"] not in RETIRED_IDS]
+            write_manifest(manifest, man)
         held_ids = {l["id"] for l in man["layers"]}
         for id, (group, title) in EXPECTED.items():
             if id not in held_ids:
@@ -1596,8 +1875,20 @@ REGISTRY = {
         "usgs_FavorabilitySurface_shp", "U.S. Geological Survey (USGS)",
         "Geothermal Favorability Map Derived From Logistic Regression Models (2008 assessment; ScienceBase, "
         "doi:10.5066/P137NMXE)"),
+    # session 159: Oak Ridge's two hydropower assessments (HydroSource)
+    "ornl:hydrosource:npd_technical_potential": (
+        "ornl_npd", "Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy",
+        "Technical Potential for Hydropower Capacity at Non-powered Dams (2024, revised 25 June 2025; "
+        "doi:10.21951/HydroCapacity_NPD/2570407)"),
+    "ornl:hydrosource:nsd_huc10": (
+        "ornl_nsd_zip", "Oak Ridge National Laboratory (HydroSource), for the U.S. Department of Energy",
+        "Hydropower Potential from New Stream-Reach Development for the Conterminous United States, aggregated "
+        "summary of HUC10 watersheds (2014, version 1)"),
 }
 REGISTRY_PAGES = {
+    "ornl:hydrosource:npd_technical_potential": "https://hydrosource.ornl.gov/data/datasets/hydropower-capacity-us-npd/",
+    "ornl:hydrosource:nsd_huc10": "https://hydrosource.ornl.gov/data/datasets/"
+                                  "hydropower-potential-new-stream-reach-development-conterminous-united-states/",
     "usgs:identified_geothermal_systems": "https://www.sciencebase.gov/catalog/item/6606f534d34e4df16bd58277",
     "usgs:geothermal_favorability": "https://www.sciencebase.gov/catalog/item/6606ed51d34e4df16bd58251",
     "nlr:oedi:land_based_wind_supply_curves_2024": "https://data.openei.org/submissions/8314",

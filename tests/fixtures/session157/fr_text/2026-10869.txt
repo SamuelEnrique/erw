@@ -1,0 +1,137 @@
+<html>
+<head>
+<title>Federal Register, Volume 91 Issue 104 (Monday, June 1, 2026)</title>
+</head>
+<body><pre>
+[Federal Register Volume 91, Number 104 (Monday, June 1, 2026)]
+[Rules and Regulations]
+[Pages 32323-32324]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2026-10869]
+
+
+=======================================================================
+-----------------------------------------------------------------------
+
+NUCLEAR REGULATORY COMMISSION
+
+10 CFR Parts 2 and 13
+
+[NRC-2023-0211]
+RIN 3150-AL13
+
+
+Adjustment of Civil Penalties for Inflation for Fiscal Year 2026
+
+AGENCY: Nuclear Regulatory Commission.
+
+ACTION: Discontinuation of rulemaking activity.
+
+-----------------------------------------------------------------------
+
+SUMMARY: The U.S. Nuclear Regulatory Commission (NRC) is notifying the 
+public that its civil monetary penalty amounts will not increase for 
+the 2026 calendar year, and is discontinuing the rulemaking activity, 
+``Adjustment of Civil Penalties for Inflation for Fiscal Year 2026.'' 
+This rulemaking activity will no longer be reported in the NRC's 
+portion of the Unified Agenda of Regulatory and Deregulatory Actions 
+(the Unified Agenda).
+
+DATES: Effective June 1, 2026, the rulemaking activity discussed in 
+this document is discontinued.
+
+ADDRESSES: Please refer to Docket ID NRC-2023-0211 when contacting the 
+NRC about the availability of information regarding this document. You 
+may obtain publicly available information related to this document 
+using any of the following methods:
+    <bullet> Federal Rulemaking website: Go to <a href="https://www.regulations.gov">https://www.regulations.gov</a> and search for Docket ID NRC-2023-0211. Address 
+questions about NRC dockets to Helen Chang; telephone: 301-415-3228; 
+email: <a href="/cdn-cgi/l/email-protection#afe7cac3cac181ecc7cec1c8efc1ddcc81c8c0d9"><span class="__cf_email__" data-cfemail="3179545d545f1f7259505f56715f43521f565e47">[email&#160;protected]</span></a>.
+    <bullet> NRC's Agencywide Documents Access and Management System 
+(ADAMS): You may obtain publicly available documents online in the 
+ADAMS Public Documents collection at <a href="https://www.nrc.gov/reading-rm/adams.html">https://www.nrc.gov/reading-rm/adams.html</a>. To begin the search, select ``Begin ADAMS Public Search.'' 
+For problems with ADAMS, please contact the NRC's Public Document Room 
+(PDR) reference staff at 1-800-397-4209, at 301-415-4737, or by email 
+to <a href="/cdn-cgi/l/email-protection#673723354935021408121504022709150449000811"><span class="__cf_email__" data-cfemail="78283c2a562a1d0b170d0a1b1d38160a1b561f170e">[email&#160;protected]</span></a>. For the convenience of the reader, the ADAMS 
+accession numbers are provided in the ``Availability of Documents'' 
+section of this document.
+    <bullet> NRC's PDR: The PDR, where you may examine and order copies 
+of publicly available documents, is open by appointment. To make an 
+appointment to visit the PDR, please send an email to 
+<a href="/cdn-cgi/l/email-protection#742430265a2611071b01061711341a06175a131b02"><span class="__cf_email__" data-cfemail="a0f0e4f28ef2c5d3cfd5d2c3c5e0ced2c38ec7cfd6">[email&#160;protected]</span></a> or call 1-800-397-4209 or 301-415-4737, between 8 
+a.m. and 4 p.m. eastern time, Monday through Friday, except Federal 
+holidays.
+
+FOR FURTHER INFORMATION CONTACT: David Suchy, Office of Nuclear 
+Material Safety and Safeguards, U.S. Nuclear Regulatory Commission, 
+Washington, DC 20555-0001; telephone: 301-415-4130; email: 
+<a href="/cdn-cgi/l/email-protection#f0b491869994dea385939889b09e8293de979f86"><span class="__cf_email__" data-cfemail="d89cb9aeb1bcf68badbbb0a198b6aabbf6bfb7ae">[email&#160;protected]</span></a>.
+
+SUPPLEMENTARY INFORMATION:
+
+I. Background
+
+    Congress passed the Federal Civil Penalties Inflation Adjustment 
+Act of 1990 (FCPIAA) to allow for regular adjustment for inflation of 
+civil monetary penalties (CMPs), maintain the deterrent effect of such 
+penalties and promote compliance with the law, and improve the 
+collection of CMPs by the Federal government (Pub. L. 101-410, 104 
+Stat. 890; 28 U.S.C. 2461 note). On November 2, 2015, Congress amended 
+the FCPIAA through the Federal Civil Penalties Inflation Adjustment Act 
+Improvements Act of 2015 (2015 Improvements Act) (Sec. 701, Pub. L. 
+114-74, 129 Stat. 599). The 2015 Improvements Act requires that the 
+head of each agency continue to adjust CMP amounts, rounded to the 
+nearest dollar, on an annual basis. Specifically, each CMP is to be 
+adjusted based on the percentage change between the Consumer Price 
+Index (CPI) for the month of October, and the CPI for the month of 
+October for the previous year. The NRC most recently adjusted its civil 
+penalties for inflation according to this statutory formula on January 
+15, 2025 (90 FR 3612).
+
+II. Discussion
+
+    In a memorandum dated April 17, 2026, the Office of Management and
+
+[[Page 32324]]
+
+Budget (OMB) directed all Executive Branch agencies to cancel the 
+inflation adjustment for fiscal year 2026 based on the lack of October 
+2025 Consumer Price Index for All Urban Consumers (CPI-U) data due to 
+the lapse in appropriations at the beginning of fiscal year 2026.
+    Per the 2015 Improvements Act, the annual civil monetary penalties 
+cost-of-living adjustment is based on the Bureau of Labor Statistics 
+(BLS) data from the month of October of the prior year. Due to the 
+government shutdown in October 2026, BLS was unable to produce the 
+October 2025 data. Based on the lack of October 2025 CPI-U data, which 
+is needed to make adjustments under the 2015 Improvements Act, there 
+will be no updated cost-of-living adjustment multiplier for 2026. The 
+NRC maximum civil monetary penalty for a violation of the Atomic Energy 
+Act of 1954, as amended (AEA), or any regulation or order issued under 
+the AEA, will remain $372,240 per violation, per day. Additionally, the 
+NRC provisions concerning program fraud civil penalties and the maximum 
+civil monetary penalty under the Program Fraud Civil Remedies Act will 
+remain $14,308 for each false claim or statement.
+
+III. Conclusion
+
+    The NRC is discontinuing the Adjustment of Civil Penalties for 
+Inflation for Fiscal Year 2026 rulemaking. In the next edition of the 
+Unified Agenda, the NRC will update the entry for this rulemaking 
+activity and reference this document to indicate that the rulemaking 
+activity is no longer being pursued. This rulemaking will appear in the 
+completed actions section of that edition of the Unified Agenda but 
+will not appear in future editions. The NRC will inform the public of 
+future civil penalty adjustments to account for inflation through new 
+rulemaking entries in the Unified Agenda.
+
+    Dated: May 28, 2026.
+
+    For the Nuclear Regulatory Commission.
+Michael King,
+Executive Director for Operations.
+[FR Doc. 2026-10869 Filed 5-29-26; 8:45 am]
+BILLING CODE 7590-01-P
+
+
+</pre><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

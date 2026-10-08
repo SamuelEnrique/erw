@@ -1,0 +1,65 @@
+{
+ "grids": [
+  {
+   "key": "ercot",
+   "name": "ERCOT",
+   "words": [
+    "ERCOT",
+    "Electric Reliability Council of Texas"
+   ]
+  },
+  {
+   "key": "pjm",
+   "name": "PJM",
+   "words": [
+    "PJM"
+   ]
+  },
+  {
+   "key": "miso",
+   "name": "MISO",
+   "words": [
+    "MISO",
+    "Midcontinent Independent System Operator"
+   ]
+  },
+  {
+   "key": "caiso",
+   "name": "CAISO",
+   "words": [
+    "CAISO",
+    "California Independent System Operator",
+    "California ISO"
+   ]
+  },
+  {
+   "key": "nyiso",
+   "name": "NYISO",
+   "words": [
+    "NYISO",
+    "New York Independent System Operator",
+    "New York ISO"
+   ]
+  },
+  {
+   "key": "isone",
+   "name": "ISO-NE",
+   "words": [
+    "ISO-NE",
+    "ISO New England"
+   ]
+  },
+  {
+   "key": "spp",
+   "name": "SPP",
+   "words": [
+    "SPP",
+    "Southwest Power Pool"
+   ]
+  }
+ ],
+ "paused": {
+  "miso": "paused while terms are reviewed"
+ },
+ "rule": "A federal action is under a grid when one of the grid's words stands in its title, abstract or first paragraph as a whole word (a word holding a space in any case, a single word in its own case), or when a docket listed in tag_rules.json that tagged it names the grid. An action that names no operator is under every grid but MISO. MISO shows its fixed words and no row."
+}
