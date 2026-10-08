@@ -1,6 +1,6 @@
 # The missing dataset, from forty entities to eighty, and how long a load waits: one page for the letter
 
-Session 151, 8 October 2026. Facts only. The table is internal and is not in this repository (which is public): it is
+**Session 155 measured waits from dated copies of two public queues: [`large_load_waits.md`](large_load_waits.md).** Session 151, 8 October 2026. Facts only. The table is internal and is not in this repository (which is public): it is
 `warehouse/output/large_load_statements.csv` on the data machine, with every downloaded document and each pass's
 files under `warehouse/raw/`. The rule is the pilot's ([`large_load_pilot.md`](large_load_pilot.md), then
 [`large_load_forty.md`](large_load_forty.md)): no number without its sentence; nothing summed across entities.

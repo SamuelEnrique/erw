@@ -14,6 +14,14 @@
 // do: behind the internal token, for a finished run, one answer a provider and run, PitchBook's row holding no
 // payload. The answers it is given are the made-up ones of scripts/thesis-providers-fixtures.mjs.
 //
+// Session 158: one company of the fixture report carries reason_vendor (the sentence under "Why it is here" comes from a
+// data vendor's public page), and when the stand-in is started with the alias loader,
+//   node --import ./scripts/alias-register.mjs scripts/thesis-stub.mjs [port]
+// it also holds a fourth run, "fixture-three", that already holds the answers of all three providers, each read by
+// the site's own readers from the made-up answers. Since this session the page's route refuses a Crunchbase answer,
+// so the check can no longer paste one: this run is how it still sees a run that holds one drawn as before. Started
+// without the loader the stand-in says that this run is not there, and the check says what it could not prove.
+//
 // THE RUNS BELOW ARE A FIXTURE. Every company, figure, source and date in them is made up for the check and is no
 // company's: nothing here is data of the warehouse, and none of it is ever loaded, published or shown on the site.
 // The fixture is shaped to exercise the page: a cell of each missing kind, a row a chart must leave out, a source with
@@ -24,7 +32,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { env } from "./browser.mjs";
 
-export const DONE = "fixture-done", QUEUED = "fixture-queued", FAILED = "fixture-failed";
+export const DONE = "fixture-done", QUEUED = "fixture-queued", FAILED = "fixture-failed", THREE = "fixture-three";
+export const VENDOR_NOTE = "Fixture: this sentence is from a public page of a data vendor (Fixture Vendor), not from the company or the press.";
 export const KEY = "fixture-key-0123456789abcdefghijklmnopqrstu";      // 43 characters, as the database writes them
 export const PROBE = "<img src=x onerror=window.__thesis_probe=1>";
 
@@ -65,7 +74,7 @@ export function fixtureReport() {
         { name: "Example Storage Inc.", website: "https://www.example.com", description: "Fixture description one.", founders: pending(), stage: "Series A", raised: pending(), location: pending(),
           signal: "Fixture signal one.", trends: [1, 2], reason: "Fixture reason one.", sources: ["S1", "S3"], confidence: 72, confidence_note: "Fixture note: two sources agree.", sourcing: ["fixture channel"] },
         { name: "Sample Grid Co", website: "javascript:window.__thesis_probe=3", description: "Fixture description two.", founders: gap("not_disclosed", "Fixture: the company names no founder."), stage: gap("not_confirmed", "Fixture: one source only."),
-          raised: gap("not_held", "Fixture: no round is held."), location: "Austin, TX", signal: "Fixture signal two.", trends: [1], reason: "Fixture reason two.", sources: ["S2"], confidence: 41, confidence_note: "Fixture note: one source.", sourcing: [] },
+          raised: gap("not_held", "Fixture: no round is held."), location: "Austin, TX", signal: "Fixture signal two.", trends: [1], reason: "Fixture reason two.", reason_vendor: { mark: "vendor page", note: VENDOR_NOTE }, sources: ["S2"], confidence: 41, confidence_note: "Fixture note: one source.", sourcing: [] },
         { name: "Unasked Example LLC", website: "", description: "", founders: "A. Fixture", stage: "Seed", raised: "USD 2 million", location: "Reno, NV", signal: "", trends: [], reason: "Fixture reason three.", sources: [], confidence: 55, confidence_note: "", sourcing: ["fixture channel", "second fixture channel"] },
       ],
     },
@@ -124,6 +133,27 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const runs = fixtureRuns();
   let made = 0;
   const provided = [];          // the rows of thesis_provider_results
+  // session 158: a finished run that already holds the three providers' answers, read by the site's own readers
+  try {
+    const crypto = await import("node:crypto");
+    const pb = await import("../lib/thesis/pitchbook.ts");
+    const pv = await import("../lib/thesis/providers.ts");
+    const fx = await import("./thesis-providers-fixtures.mjs");
+    const sha = (s) => crypto.createHash("sha256").update(s, "utf8").digest("hex");
+    const need = (r, what) => { if (!r.ok) throw new Error(`${what}: ${r.reason}`); return r.payload; };
+    const done = runs[0];
+    const answers = { pitchbook: fixtureAnswer(THREE), harmonic: fx.harmonicAnswer(THREE), crunchbase: fx.crunchbaseAnswer(THREE) };
+    const payloads = { pitchbook: need(pb.validatePitchbook(answers.pitchbook, THREE, 2026), "PitchBook"), harmonic: need(pv.PROVIDERS.harmonic.read(answers.harmonic, THREE), "Harmonic"),
+      crunchbase: need(pv.PROVIDERS.crunchbase.read(answers.crunchbase, THREE), "Crunchbase") };
+    runs.push({ ...done, run_id: THREE, niche: "fixture: a run that holds three providers' answers", requested_at: "2026-10-05T10:00:00+00:00", started_at: "2026-10-05T10:01:00+00:00", finished_at: "2026-10-05T10:15:00+00:00",
+      pitchbook_request: { ...done.pitchbook_request, run_id: THREE, paste_text: `FIXTURE REQUEST for run ${THREE}: answer in the format erw-pitchbook-1.` }, pitchbook_key: null,
+      pitchbook: payloads.pitchbook, pitchbook_received_at: "2026-10-05T11:00:00+00:00" });
+    for (const [id, at] of [["pitchbook", "2026-10-05T11:00:01+00:00"], ["harmonic", "2026-10-05T12:00:00+00:00"], ["crunchbase", "2026-10-05T13:00:00+00:00"]]) {
+      provided.push({ run_id: THREE, provider: id, format: pv.PROVIDERS[id].format, pasted_at: at, pasted_sha256: sha(JSON.stringify(answers[id])), payload: id === "pitchbook" ? null : payloads[id] });
+    }
+  } catch (e) {
+    console.log(`thesis stub: the run "${THREE}" is not held (${String(e?.message ?? e).split(/[\r\n]/)[0].slice(0, 160)}); start the stand-in with --import ./scripts/alias-register.mjs to hold it`);
+  }
   const fns = {
     thesis_list: () => runs.map((r) => ({ run_id: r.run_id, niche: r.niche, stage: r.stage, geography: r.geography, status: r.status, note: r.note, requested_at: r.requested_at, started_at: r.started_at, finished_at: r.finished_at,
       companies: r.report?.landscape?.companies?.length ?? 0, pitchbook: r.pitchbook ? "received" : r.pitchbook_request ? "pending" : "none" })),
