@@ -98,8 +98,9 @@ weeks of prices and had no year.
   ISO-NE's yearly workbook of hourly zonal information, the same file as the hourly demand the owner ruled internal,
   under the same notice ("Any duplication of the Content or non-personal use may violate copyright, trademark, and
   other laws.", `https://www.iso-ne.com/legal-privacy`). So ISO-NE's zones still read "not held yet" for the last
-  twelve months, from the six weeks of the public tables; its Internal Hub has its year from the hub history. Showing
-  them is one table's license.
+  twelve months, from the six weeks of the public tables; its Internal Hub has its year from the hub history.
+  **Ruled on 7 October 2026 (the owner): ISO-NE's zone prices stay internal. Nothing of them is shown.** Session 140
+  had held them internal by its own decision and asked; the question is closed.
 - **The hour.** Each market was set against the six-week table over the days both hold: day-ahead prices equal to the
   cent at the same hour in every market (NYISO 10,824 hours, ISO-NE 1,152, CAISO 960, SPP 960), and not one hour
   either side. That settles ISO-NE's workbook: its hour is the hour ending in Eastern prevailing time, so the demand
@@ -154,6 +155,8 @@ in the other years since 2015). With the budget the load is never off in more ho
 figure "if perfectly foreseen" is never worse than the rule's, and the two compare like for like. The cost of the
 budget is real: the rule spends its hours on the first dear days of a year and has none left for a later, dearer
 event. `site/scripts/rule-gap.mjs` prints the rule, the foreseen figure and the threshold alone, by grid and year.
+**Ruled on 7 October 2026 (the owner): the page keeps the budget of hours.** Session 140 added it without being
+asked and put both versions before the owner; the rule stands as built.
 
 **What the rule kept.** At ERCOT's North load zone, real time, off in 100 hours a year, the rule kept between 14 and
 41 percent of the foreseen saving in each year from 2015 to 2025 (2021: a flat load USD 150.61 per MWh, the rule
@@ -326,24 +329,47 @@ is the average of the hour, not the marginal plant.
 - **ERCOT's large load**: `ercot_large_load_status` (method: [`ercot_large_load_status.md`](ercot_large_load_status.md)):
   the megawatts with approval to energize and the megawatts ERCOT has observed running, from ERCOT's newest status
   report held.
-- **Large load in line by region: "not published anywhere yet", except New York.** A search on 7 October 2026
+- **Large load in line by region: "not published anywhere yet"; New York's is held and not shown.** A search on 7 October 2026
   (`docs/paper/related_projects_notes.md`, section 3) found no public list of the large load waiting for power by
   place for ERCOT (which publishes system totals in slide decks), CAISO, ISO-NE or SPP. "Not published anywhere yet"
   means that a search found none, not that none can exist.
-- **New York's load in line** (session 140). NYISO is the one grid that publishes load in line by place:
-  `nyiso_load_queue` (`warehouse/connectors/nyiso_load_queue.py`) reads the sheet "Load Projects" of its
-  interconnection queue workbook, one row a request (74 on the workbook of 11 September 2026). **In line** means: on
-  that sheet, with a status in the sheet's own key whose words say neither "Withdrawn" nor "In Service" (53 requests,
-  14,232.9 MW); withdrawn requests (17) and requests in service (4) are counted apart and never added. Megawatts are
-  the sheet's "Peak MW load" as printed, summed within NYISO's one list. The page shows megawatts and requests by
-  zone, the reader's zone first, each zone's requests by status on hover, and every request in a fold with its sheet
-  and row. The sheet "Load Project Tracking" is NYISO's own summary of the same rows; its total by status, 14,473.1
-  MW, includes 360.2 MW already in service and leaves out one request of 120 MW, so the page's total is the rows' sum
-  and not that cell. No request's developer is shown. The sheet prints no in-service date for any request, so a wait
-  cannot be measured from it. NYISO's legal notice: "Access to this Web site does not confer any license or ownership
-  interest in either the form or content of the Web site, including any confidential or proprietary information or
-  intellectual property of any kind or nature, and the NYISO hereby expressly reserves such rights and property in its
-  entirety." (`https://www.nyiso.com/legal-notice`); the rows are shown by the owner's approval of the pull.
+- **New York's load in line: "NYISO's terms do not allow it"** (session 140; ruled on 7 October 2026 and applied in
+  session 149). NYISO is the one grid that publishes load in line by place: `nyiso_load_queue`
+  (`warehouse/connectors/nyiso_load_queue.py`) reads the sheet "Load Projects" of its interconnection queue workbook,
+  one row a request. **In line** means: on that sheet, with a status in the sheet's own key whose words say neither
+  "Withdrawn" nor "In Service"; withdrawn requests and requests in service are counted apart and never added.
+  Megawatts are the sheet's "Peak MW load" as printed, summed within NYISO's one list. The sheet prints no in-service
+  date for any request, so a wait cannot be measured from it.
+  - **The ruling.** The owner, 7 October 2026: NYISO's terms for the queue rows are to be quoted, and the rows shown
+    if they allow it. Session 140 had shown megawatts and requests by zone and every request in a fold, on the
+    owner's approval of the pull.
+  - **The notice, every sentence that bears on copying, redistribution and display, word for word**
+    (`https://www.nyiso.com/legal-notice`, read 7 October 2026; the page is saved beside the workbook with its hash,
+    sha256 `8b693099a6e75854479d3aecaa4d35989f238bb7682e403f21bb4dc91d7fa580`, and the connector checks each
+    sentence in it before it writes):
+    1. "The NYISO maintains this Web site for the benefit of its Market Participants and other authorized users."
+    2. "Access to this Web site does not confer any license or ownership interest in either the form or content of the
+       Web site, including any confidential or proprietary information or intellectual property of any kind or nature,
+       and the NYISO hereby expressly reserves such rights and property in its entirety."
+    3. "Downloading, republishing, retransmitting, reproducing, or other use of any image or video on this website as
+       a stand-alone file is strictly prohibited"
+    4. "The NYISO’s trademarks (including its logo) are owned by the NYISO and may only be used with the
+       NYISO’s prior written permission."
+    5. "Even if prior written permission is obtained, the NYISO may revoke permission to use the NYISO’s
+       trademarks at any time."
+    6. "Copyright © 2026 New York Independent System Operator. All Rights Reserved."
+  - **The reading, by the words alone.** They do not allow it. The notice confers no license in the form or content
+    of the site, reserves NYISO's rights and property in their entirety, and closes with all rights reserved. No
+    sentence grants a reader leave to copy, redistribute or display anything. The one thing it forbids by name is
+    republishing an image or a video as a stand-alone file; that says nothing in favour of anything else. A notice
+    that reserves every right and grants none does not allow a public page to show its rows.
+  - **What follows.** The megawatts in line by zone, each zone's requests by status and the fold of requests have
+    left the page: the row reads "NYISO's terms do not allow it", with the reason on hover. The table is internal
+    (its header, the source registry, the internal Redivis dataset), and the page's file
+    (`site/data/nyiso_load_queue.json`) holds the source, these sentences and the reading, and no request, zone or
+    megawatt. One switch puts them back (`SHOWN` in the connector) if a person rules that the notice allows it, or
+    NYISO gives leave in writing. The same notice covers every NYISO table the ERW publishes (its prices by zone, its
+    interconnection queue): this ruling was asked and applied for the load queue only.
 - **How long a new large load waits: "not published anywhere yet".** The same search found no public dataset of the
   time from a large load's request to its energization, for any grid.
 

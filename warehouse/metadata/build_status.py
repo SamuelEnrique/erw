@@ -100,8 +100,20 @@ def partition_counts(table, path):
     return _COUNTS[table]
 
 
+def is_day(text):
+    """Session 149: whether a gap's day is a calendar day (YYYY-MM-DD). The interchange connector records one gap row
+    for all its incomplete pair-days, with the market "pairs": it names no day, so there is no day to re-check."""
+    try:
+        return len(str(text)) == 10 and dt.date.fromisoformat(str(text)) is not None
+    except ValueError:
+        return False
+
+
 def day_complete(table, day, part=None, variable=None):
-    """True or False from the table on disk, None if the table is not on this machine."""
+    """True or False from the table on disk, None if the table is not on this machine (or, session 149, if the gap
+    names no day, or the table is of another shape than the per-day re-check reads)."""
+    if not is_day(day):
+        return None
     path = os.path.join(ip.OUT_DIR, table + ".csv")
     if not os.path.exists(path):  # session 29: a member of a consolidated table, where consolidate.py build moved it
         path = os.path.join(ip.OUT_DIR, "members", table + ".csv")
@@ -114,6 +126,11 @@ def day_complete(table, day, part=None, variable=None):
         want = {variable} if variable else CORE_OF.get(table, eia930.CORE)
         present = {v for (b, v, d) in counts if b == part} & want
         return bool(present) and all(counts.get((part, v, day), 0) == 24 for v in present) and present == want
+    if cols != ip.SERIES_COLS:
+        # Session 149: a table with columns of its own (eia930_all_interchange: ba, x_to_ba) and a gap that names no
+        # partition. read_series refuses a file of another shape, and that refusal failed the STATUS.md step on every
+        # daily run from 2 October 2026. Such a gap is listed, not re-checked.
+        return None
     df = ip.read_series(path)
     ts = pd.to_datetime(df["ts_utc"], utc=True)
     if table.startswith("eia930_"):  # EIA-930: UTC days, the core variables complete
@@ -253,6 +270,10 @@ def main():
     for g in gaps.itertuples():
         if ".." in g.day:
             open_rows.append((g.table, f"{g.part} {g.day}", "a range recorded by a history build (run_status.csv)",
+                              g.detail[:140].replace("|", "/")))
+            continue
+        if not is_day(g.day):  # session 149: a gap row for many days at once ("pairs"): listed, not re-checked
+            open_rows.append((g.table, g.market, "names no single day (run_status.csv): listed, not re-checked",
                               g.detail[:140].replace("|", "/")))
             continue
         state = day_complete(g.table, g.day, g.part, g.var)
