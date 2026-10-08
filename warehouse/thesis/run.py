@@ -370,7 +370,7 @@ def tied_rows(r, run_id, niche, stage, geography, trends, land, evidence_path, l
             pull = {"error": f"{type(exc).__name__}: {str(exc)[:300]}"}
             log(f"  pages: THE PULL FAILED ({pull['error']}); the rule reads the pages already saved")
     wh = warehouse_rows()
-    judged = tie.judge(store, wh, niche, trends, read=read, vendors=pg.vendor_pages())      # session 158: a data vendor's page is labeled
+    judged = tie.judge(store, wh, niche, trends, read=read, vendors=pg.labeled_vendors())      # session 158: a data vendor's page is labeled
     ids = {addr: i for i, addr in sorted(book.items(), key=lambda kv: (kv[0][0], int(kv[0][1:]) if kv[0][1:].isdigit() else 0), reverse=True)}
     by_name = {x.get("name", ""): x for x in wh["energy_companies"]}
     by_event = {x.get("event_id", ""): x for x in wh["energy_deals"]}
@@ -462,8 +462,9 @@ def tie_done(ctx, orgs, log):
     merged = [dict(m, name=c["name"]) for c in ctx["judged"] for m in c.get("near_duplicates") or []]
     vendor_lines = [{"name": c["name"], "trend": n, "address": x["address"], "vendor": x["vendor"], "points": x["points"], "tied": t["tied"]}
                     for c in ctx["judged"] for n, t in c["ties"].items() for x in t["lines"] if x.get("vendor")]
-    vendors = {"pages": {u: {"vendor": tie.vendor_of(u, pg.vendor_pages()), "holds_text": tie.page_holds(p), "state": p.get("reason") or p.get("state")}
-                         for u, p in sorted(pages.items()) if tie.vendor_of(u, pg.vendor_pages())},
+    names = pg.labeled_vendors()
+    vendors = {"pages": {u: {"vendor": tie.vendor_of(u, names), "holds_text": tie.page_holds(p), "state": p.get("reason") or p.get("state")}
+                         for u, p in sorted(pages.items()) if tie.vendor_of(u, names)},
                "sentences_labeled": sum(1 for c in ctx["judged"] for e in c["evidence"] if e.get("vendor")), "lines": vendor_lines,
                "reasons_shown": [c["name"] for c in ctx["judged"] if (c.get("reason") or {}).get("vendor") and placed.get(c["key"], ("", None))[0] in ("trend", "pipeline")]}
     log(f"  the name rule (session 158): {len(proper)} companies whose name is made of the niche's own words"

@@ -475,6 +475,21 @@ class VendorPages(unittest.TestCase):
         self.assertEqual((c["trends"], c["tie"]), (plain["trends"], plain["tie"]))
         self.assertTrue(all("vendor" not in e for e in plain["evidence"]))
 
+    def test_a_search_result_of_a_licensed_database_is_labeled_too_and_its_site_is_still_never_asked(self):
+        """The search tool returns titles of crunchbase.com and pitchbook.com pages; the rule has read them in its
+        fetched tier since session 142. They carry the label; no page of theirs is fetched for it."""
+        names = pg.labeled_vendors()
+        self.assertEqual({k: names[k] for k in pg.LICENSED_HOSTS}, {"pitchbook.com": "PitchBook", "crunchbase.com": "Crunchbase", "harmonic.ai": "Harmonic"})
+        self.assertEqual({k: v for k, v in names.items() if k not in pg.LICENSED_HOSTS}, pg.vendor_pages())
+        self.assertEqual(set(pg.vendor_pages()) & set(pg.LICENSED_HOSTS), set())
+        url = "https://www.crunchbase.com/organization/heatwell-labs"
+        s = store_of([("Heatwell Labs", "heatwell.example", [])], {}, sources={url: "Heatwell Labs - a DOE grant for resource field tests"})       # written for this test
+        c = judge_store(s, vendors=names)["Heatwell Labs"]
+        self.assertEqual([(e["tier"], e["address"], e["vendor"]) for e in c["evidence"]], [("fetched", url, "Crunchbase")])
+        self.assertEqual(c["reason"]["vendor"], "Crunchbase")
+        self.assertEqual(pg.never(url), "not fetched: licensed source needed")
+        self.assertIn("pg.labeled_vendors()", src("warehouse", "thesis", "run.py"))
+
     def run_once(self, pages, cited):
         r = Saved()
         for u in cited:

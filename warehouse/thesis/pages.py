@@ -77,6 +77,11 @@ LICENSED_HOSTS = ("pitchbook.com", "crunchbase.com", "harmonic.ai")
 # one carries the vendor's name in its record ("vendor") and every sentence the rule reads from it carries it too
 # (tie.py, rule 7). It is a label, never a refusal: the hosts above stay refused, and nothing else changes in the pull.
 VENDOR_FILE = os.path.join(HERE, "vendor_pages.csv")
+# The three licensed databases are data vendors too. Their sites are never requested (above), but the SEARCH tool of
+# the research returns titles and passages of their public pages, and the rule has read those in its fetched tier
+# since session 142. Such a line carries the vendor's label like any other vendor's (labeled_vendors); no page of
+# theirs is fetched for it.
+LICENSED_NAMES = {"pitchbook.com": "PitchBook", "crunchbase.com": "Crunchbase", "harmonic.ai": "Harmonic"}
 LOGIN_WORDS = ("login", "log-in", "signin", "sign-in", "sso", "oauth", "auth", "authenticate", "subscribe", "paywall", "captcha", "register", "account", "wp-login")
 LOGIN_HOSTS = ("login", "signin", "sso", "auth", "account", "accounts", "id", "idp")
 TEXT_TYPES = ("text/html", "application/xhtml+xml", "text/plain")
@@ -114,6 +119,13 @@ def vendor_pages(path=None):
                 if re.fullmatch(r"[a-z0-9.-]+\.[a-z]{2,}", d) and (row.get("vendor") or "").strip():
                     out[d] = row["vendor"].strip()
     return out
+
+
+def labeled_vendors(path=None):
+    """{domain: name} of every site whose sentences carry the vendor label: the vendors of vendor_pages.csv, whose
+    pages are fetched, and the three licensed databases, whose pages are not (only what the search tool returned of
+    them is held)."""
+    return dict(vendor_pages(path), **LICENSED_NAMES)
 
 
 def vendor_of(url, vendors=None):

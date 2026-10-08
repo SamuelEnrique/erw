@@ -446,6 +446,7 @@ Each provider's terms line says whose copy the data is, and quotes the provider'
 - **Labeled.** Every sentence the rule reads from such a page (and every title or passage fetched from one) carries the vendor's name (`vendor` on the evidence line and on a scoring line). The label changes no point.
 - **On the page.** When the sentence shown under "Why it is here" comes from one, the report's row carries `reason_vendor` and the page draws the short mark "vendor page" after the sentence, with the hover "This sentence is from a public page of a data vendor (NAME), not from the company or the press." Nothing else of this is on the page face.
 - **Still refused before any request:** pitchbook.com, crunchbase.com, harmonic.ai (`LICENSED_HOSTS`), and misoenergy.org. They are not in the vendor file and a test holds them out of it.
+- **The licensed databases' search results are labeled too.** Their sites are never requested, but the research's search tool returns titles and passages of their public pages, and the rule has read those in its fetched tier since session 142 (the two local runs of session 158 hold 13 such search results, 6 of pitchbook.com and 7 of crunchbase.com; none scores). They carry the same label (`pages.labeled_vendors`); no page of theirs is fetched for it. Whether such search results should be held at all is the owner's to rule.
 
 ### Crunchbase answers are not kept
 
