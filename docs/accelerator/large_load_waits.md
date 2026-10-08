@@ -56,6 +56,8 @@ publishes how long its large loads waited, and that successive copies of a queue
 
 - **Two loads were followed from request to in service**, both in New York: between 1,028 and 1,151 days, and
   between 1,270 and 1,339 days. 51 more have waited at least 105 to 3,636 days and are not in service.
+- "Request to study" ends at the first study status a copy shows. For most New York requests that is "SRIS/SIS
+  Pending": the study is then waiting to begin, not begun.
 - No copy shows a signed agreement for a New York load: those under construction or in service went there from a
   study status, so "study to agreement" holds lower bounds only. By size: in the table and the session's report, not
   here (a size is a megawatt figure of a request).
