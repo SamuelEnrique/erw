@@ -90,8 +90,10 @@ JOBS = {
         cadence="monthly", page="/curtailment", tables=["caiso_curtailment_intervals", "caiso_battery_storage"],
         restore=["caiso_curtailment_intervals"], cmd=["warehouse/derived/curtailment_profile.py", "--snapshot"]),
     "project_map": dict(
-        cadence="monthly", page="/map/v2", tables=["eia860m_operating_generators", "eia860m_planned_generators"],
-        restore=["eia860m_operating_generators", "eia860m_planned_generators"], cmd=["warehouse/derived/project_map.py"]),
+        # session 167: /map is one page; its file (site/data/map.json) also reads the queue positions and the datacenters
+        cadence="monthly", page="/map", tables=["eia860m_operating_generators", "eia860m_planned_generators", "energy_projects", "datacenter_facilities"],
+        restore=["eia860m_operating_generators", "eia860m_planned_generators", "energy_projects", "datacenter_facilities"],
+        cmd=["warehouse/derived/project_map.py"]),
     "large_load_snapshot": dict(
         cadence="monthly", page="/datacenters/v2", tables=["ercot_large_load_status"], restore=["ercot_large_load_status"],
         cmd=["warehouse/derived/large_load_snapshot.py"]),

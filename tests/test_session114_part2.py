@@ -94,7 +94,7 @@ class Schedule(unittest.TestCase):
     def test_the_workflow_commits_what_the_schedule_rebuilds(self):
         wf = text(".github", "workflows", "daily-prices.yml")
         for p in ("site/public/network/daily_index.json", "site/data/mix", "site/data/price_compare.json", "site/data/demand_growth.json",
-                  "site/data/curtailment_profile.json", "site/data/map_v2.json", "site/data/large_load_status.json", "site/public/network/daily_2*.json"):
+                  "site/data/curtailment_profile.json", "site/data/map_v2.json", "site/data/map.json", "site/data/large_load_status.json", "site/public/network/daily_2*.json"):
             self.assertIn(p, wf)
         self.assertIn("MONTHLY: ${{ github.event.inputs.monthly || '0' }}", wf)
 
@@ -232,7 +232,7 @@ class SkipWithoutInputs(unittest.TestCase):
             return True
         rc, _ = self.step("project_map", restore=restore)
         self.assertEqual(rc, 0)
-        self.assertEqual(asked, ["eia860m_operating_generators", "eia860m_planned_generators"])
+        self.assertEqual(asked, ["eia860m_operating_generators", "eia860m_planned_generators", "energy_projects", "datacenter_facilities"])  # session 167: the one page reads four
         self.assertEqual(len(self.ran), 1)
         self.assertTrue(self.ran[0][1].replace("\\", "/").endswith("warehouse/derived/project_map.py"))
 
@@ -408,7 +408,7 @@ class BuiltDate(unittest.TestCase):
         "/prices/compare": ("site/app/prices/compare/page.tsx", "Built {file.built.slice(0, 10)}", ["site/data/price_compare.json"]),
         "/demand": ("site/app/demand/page.tsx", "built {file.built.slice(0, 10)}", ["site/data/demand_growth.json"]),
         "/curtailment": ("site/app/curtailment/page.tsx", "Built {profile.built.slice(0, 10)}", ["site/data/curtailment_profile.json"]),  # session 144: version 2 is part of the one page
-        "/map/v2": ("site/app/map/v2/page.tsx", "built {f.built.slice(0, 10)}", ["site/data/map_v2.json"]),
+        "/map": ("site/app/map/page.tsx", "built {f.built.slice(0, 10)}", ["site/data/map.json", "site/data/map_v2.json"]),  # session 167: /map is one page (/map/v2 redirects to it)
         "/datacenters/v2": ("site/app/datacenters/v2/page.tsx", "built {f.built.slice(0, 10)}", ["site/data/large_load_status.json"]),
     }
 

@@ -136,8 +136,8 @@ class TheLogic(unittest.TestCase):
 
 class ThePage(unittest.TestCase):
     def test_in_review_in_the_battery_pages_layout_and_says_what_is_left_out(self):
-        page = src("site", "app", "map", "v2", "page.tsx")
-        client = src("site", "app", "map", "v2", "MapV2.tsx")
+        page = src("site", "app", "_retired", "map-v2", "page.tsx")   # session 167: retired, kept unrouted
+        client = src("site", "app", "_retired", "map-v2", "MapV2.tsx")
         for piece in ("ToolPage", "ToolHeader", "Fold", "SourceLine"):
             self.assertIn(f"<{piece}", page)
         for piece in ("InputPanel", "HeadlineRow", "ToolSection", "ToolTable"):
@@ -156,7 +156,7 @@ class ThePage(unittest.TestCase):
         self.assertNotIn("Session 105", r.stdout)            # the older map is not this session's to touch
 
     def test_no_em_dash(self):
-        for rel in ("site/lib/map2.ts", "site/app/map/v2/page.tsx", "site/app/map/v2/MapV2.tsx", "site/scripts/check-map-v2.mjs", "warehouse/derived/project_map.py"):
+        for rel in ("site/lib/map2.ts", "site/app/_retired/map-v2/page.tsx", "site/app/_retired/map-v2/MapV2.tsx", "site/scripts/check-map-v2.mjs", "warehouse/derived/project_map.py"):
             self.assertNotIn(chr(0x2014), src(*rel.split("/")), rel)
 
 
