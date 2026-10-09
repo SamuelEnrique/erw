@@ -44,8 +44,11 @@ const VOCAB = new Set(["planned", "under construction", "operating", "withdrawn"
   const noCountry = (p.html.match(/data-no-country="1"/g) ?? []).length;
   check(noCountry === noUs && /title="No source the ERW reads states a country/.test(p.html), `${noCountry} rows read "country not stated", with the reason on hover, as many as the summary says`);
   const firmusRows = rows.filter((r) => /Firmus/.test(r));
+  // the bars' own items (the strip's hover names Firmus as an example, and that is not a bar)
   const barsHtml = p.html.slice(p.html.indexOf('aria-label="Summary"'), p.html.indexOf('aria-label="Facilities"'));
-  check(firmusRows.length >= 1 && firmusRows.every((r) => /data-no-country="1"/.test(r)) && !/Firmus/.test(barsHtml), `Firmus's ${firmusRows.length} rows stay in the table without a country, and no bar names Firmus`);
+  const barItems = [...barsHtml.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((m) => plain(m[1]));
+  check(firmusRows.length >= 1 && firmusRows.every((r) => /data-no-country="1"/.test(r)) && barItems.length > 0 && !barItems.some((t) => /Firmus/.test(t)),
+    `Firmus's ${firmusRows.length} rows stay in the table without a country, and none of the ${barItems.length} bars names Firmus`);
   check(/Stated MW by state[^<]*US rows not cancelled/.test(text) && /Top operators by MW \(US rows not cancelled\)/.test(text), "the two bars say they count US rows not cancelled");
   const v = await get("/datacenters", false);
   check(!v.html.includes('aria-label="Summary"') && /in review/i.test(plain(v.html)), "without the cookie a visitor gets the in-review page");
@@ -53,9 +56,9 @@ const VOCAB = new Set(["planned", "under construction", "operating", "withdrawn"
 {
   const p = await get("/datacenters/v2");
   const text = plain(p.html);
-  const m = /The ERW holds ([\d,]+) datacenter sites: ([\d,]+) in a named US state, ([\d,]+) of those in Texas, and ([\d,]+) with no US state stated, sites outside the US among them\./.exec(text);
+  const m = /The ERW holds ([\d,]+) datacenter sites: ([\d,]+) in a named US state, ([\d,]+) of those in Texas, and ([\d,]+) with no US state stated, sites outside the US among them\s*\./.exec(text);
   const k = (s) => Number(s.replace(/,/g, ""));
-  check(p.status === 200 && !!m && k(m[2]) + k(m[4]) === k(m[1]) && k(m[3]) <= k(m[2]), m ? `/datacenters/v2: ${m[1]} sites, ${m[2]} in a named US state (${m[3]} in Texas), ${m[4]} with no US state stated; they add up` : "/datacenters/v2 states the sites held, in a named US state and with no US state stated");
+  check(p.status === 200 && !!m && k(m[2]) + k(m[4]) === k(m[1]) && k(m[3]) <= k(m[2]), m ? `/datacenters/v2: ${m[1]} sites, ${m[2]} in a named US state (${m[3]} in Texas), ${m[4]} with no US state stated; they add up` : `/datacenters/v2 states the sites held, in a named US state and with no US state stated (the page says: "${(/The ERW holds[^.]{0,200}/.exec(text) ?? [""])[0]}")`);
   check(/title="No source the ERW reads states a country/.test(p.html), "the reason stands on hover");
   const v = await get("/datacenters/v2", false);
   check(!v.html.includes('data-facilities-summary="1"') && /in review/i.test(plain(v.html)), "without the cookie a visitor gets the in-review page");
