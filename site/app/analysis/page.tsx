@@ -1,41 +1,51 @@
 import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { AnalysisGallery } from "@/components/AnalysisGallery";
+import { FindingCard } from "@/components/analysis/FindingCard";
+import { RequestForm } from "@/components/analysis/RequestForm";
 import { Section } from "@/components/Section";
 import { DOCS, analysisWeeks } from "@/lib/markdown";
-import { ChartOfWeekView } from "./view";
+import { METHOD, loadCards, loadCatalogue } from "@/lib/findings";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Automated Analysis" };
 
-// Session 23: Automated Analysis (platform tool 26). warehouse/analysis/run.py runs every template weekly, scores each
-// result against its own history by a rule, and picks the chart of the week; this page shows it, the archive, this
-// week's results for every public template, and the gallery.
+// Session 23: Automated Analysis (platform tool 26). warehouse/analysis/run.py runs every template weekly and picks
+// the chart of the week by rule. Session 170: the page is rebuilt around finding cards (warehouse/analysis/findings/):
+// each a question put to the warehouse, answered with one comparing chart, before-and-after callouts, a why paragraph
+// and a method footnote, with its data, Python and Stata do-file to download. A person picks a finding and its inputs;
+// the request waits in a queue and runs on the data machine. The chart of the week the code disowned (W40, a count of
+// what the ERW had read) is no longer drawn here; each week's chart stays on its own page in the archive below.
 export default function AnalysisPage() {
   const weeks = analysisWeeks();
   const a = DOCS.analysis;
-  if (weeks.length === 0) {
-    return (
-      <>
-        <h1 className="mb-2 text-3xl">Automated Analysis</h1>
-        <p className="text-sm text-muted">no data: no week has been analysed yet (docs/analysis/ is empty).</p>
-      </>
-    );
-  }
   const week = weeks[0];
-  const res = a.results[week];
+  const res = week ? a.results[week] : undefined;
+  const cards = loadCards();
+  const catalogue = loadCatalogue();
   return (
     <>
       <h1 className="mb-1 text-3xl">Automated Analysis</h1>
       <p className="mb-6 max-w-3xl text-sm text-muted">
-        Ten chart templates run on the warehouse every week; a fixed rule picks the chart of the week, the result that stands furthest from
-        its own history. Every chart names its tables, and every number in a note is checked against the template&apos;s output.
+        Findings from the warehouse, on demand: a question, one chart that compares, the before and after numbers, the why, and a method
+        footnote. Every number on a card is checked against the code that computed it, and each card downloads its data, its Python and a
+        Stata do-file. Ten chart templates still run every week; the chart of the week is the measure whose latest change ranks highest
+        against its own earlier changes. <Link href={METHOD}>Method note</Link>.
       </p>
-      <Section title={`ERW's Chart of the Week, ${week}`} aside={<Link href={`/analysis/${week}`}>This week&apos;s page</Link>}>
-        <ChartOfWeekView c={a.weeks[week]} />
+      <Section title="Findings" aside={cards.length ? `${cards.length} card${cards.length === 1 ? "" : "s"}` : undefined}>
+        {cards.length === 0 ? (
+          <p className="text-sm text-muted" data-finding-cards="0">no card yet: no finding has run (data/findings/ is empty).</p>
+        ) : (
+          <div className="flex flex-col gap-10" data-finding-cards={cards.length}>
+            {cards.map((c) => <FindingCard key={c.card_id} card={c} />)}
+          </div>
+        )}
+      </Section>
+      <Section title="Ask for a finding">
+        <RequestForm catalogue={catalogue} />
       </Section>
       {res ? (
-        <Section title="This week's results">
+        <Section title={`This week's results, ${week}`} aside={<Link href={`/analysis/${week}`}>This week&apos;s chart</Link>}>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -70,8 +80,10 @@ export default function AnalysisPage() {
             </table>
           </div>
           <p className="mt-2 text-xs text-muted">
-            The rule: robust z = |value minus the median of its history| over 1.4826 times the median absolute deviation, capped at 10; a template needs at
-            least 8 earlier values and a headline period that ended within 45 days. Internal templates (chokepoint transits) run on the
+            The rule: only a measurement of the energy system competes (a count of what the ERW itself has collected is shown and never chosen);
+            the statistic is the headline&apos;s change from the period it is compared with, ranked among the same measure&apos;s own earlier changes
+            (the last 104 weekly or 36 monthly; at least 8), its score the share of them that were smaller; the period must be new and have ended
+            within 100 days; the highest score wins, a tie going to the higher robust z. Internal templates (chokepoint transits) run on the
             warehouse&apos;s machines only.{" "}
             {res.skipped.length ? `Skipped this week: ${res.skipped.map((s) => `${s.template} (${s.reason})`).join("; ")}.` : null}
           </p>
@@ -84,14 +96,18 @@ export default function AnalysisPage() {
           cache; the whole grid is recomputed every week{a.gallery.computed_at ? ` (last ${a.gallery.computed_at.slice(0, 10)})` : ""}.
         </p>
       </Section>
-      <Section title="Archive">
-        <ul className="text-sm">
-          {weeks.map((w) => (
-            <li key={w}>
-              <Link href={`/analysis/${w}`}>{w}</Link>: {a.weeks[w].title}
-            </li>
-          ))}
-        </ul>
+      <Section title="Archive: the chart of each week">
+        {weeks.length === 0 ? (
+          <p className="text-sm text-muted">no week has been analysed yet (docs/analysis/ is empty).</p>
+        ) : (
+          <ul className="text-sm">
+            {weeks.map((w) => (
+              <li key={w}>
+                <Link href={`/analysis/${w}`}>{w}</Link>: {a.weeks[w].title}
+              </li>
+            ))}
+          </ul>
+        )}
       </Section>
     </>
   );

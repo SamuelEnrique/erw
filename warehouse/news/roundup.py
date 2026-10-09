@@ -107,12 +107,23 @@ def chart_of_the_week(label, log):
     email-size PNG, the title, the two-sentence note and the source line, as markdown. The note passed
     the literal-number check when the engine wrote it and is copied here as written."""
     import json
+    # Session 170: a finding chosen on /analysis ("Use in Roundup") for this week comes first; none chosen, or nothing
+    # readable, the rule's chart of the week stands and is labeled as the rule's pick. Never stops the Roundup.
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "analysis", "findings"))
+        import roundup_pick
+        got = roundup_pick.chosen(label, log)
+    except Exception as exc:
+        log(f"  roundup pick: {type(exc).__name__}: {str(exc)[:150]}; the rule's chart stands")
+        got = None
+    if got:
+        return got[1]
     meta = os.path.join(ANALYSIS_DIR, label, "chart_of_the_week.json")
     if not os.path.exists(meta):
         log(f"  chart of the week: none in docs/analysis/{label}/")
         return ["- no chart of the week was picked for this week (warehouse/analysis/run.py has not run for it)."]
     m = json.load(open(meta, encoding="utf-8"))
-    L = [f"**{m['title']}**", "", f"![{m['title']}](../analysis/{label}/{m['files']['email']})", ""]
+    L = [f"**{m['title']}** (the rule's pick; no finding was chosen for this week)", "", f"![{m['title']}](../analysis/{label}/{m['files']['email']})", ""]
     if m.get("note"):
         L += [m["note"], ""]
     L.append(f"{m['source_line']} Template `{m['template']}`; every template's latest run is on "

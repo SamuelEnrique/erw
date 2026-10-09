@@ -1,0 +1,110 @@
+[
+ {
+  "id": "batteries_lunch",
+  "title": "BATTERIES ATE THEIR OWN LUNCH?",
+  "kind": "econometric",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "iso_rtm_hub_prices",
+   "storage_buildout_monthly",
+   "ercot_zone_load_hourly",
+   "eia_fuel_spot_prices"
+  ],
+  "inputs": {
+   "hub": {
+    "label": "Hub",
+    "default": "HB_HUBAVG",
+    "choices": [
+     "HB_HUBAVG",
+     "HB_NORTH",
+     "HB_SOUTH",
+     "HB_WEST",
+     "HB_HOUSTON",
+     "HB_BUSAVG"
+    ],
+    "words": {
+     "HB_HUBAVG": "ERCOT hub average",
+     "HB_NORTH": "ERCOT North Hub",
+     "HB_SOUTH": "ERCOT South Hub",
+     "HB_WEST": "ERCOT West Hub",
+     "HB_HOUSTON": "ERCOT Houston Hub",
+     "HB_BUSAVG": "ERCOT bus average"
+    }
+   },
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019,
+     2020,
+     2021
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "gas_sets_price",
+  "title": "GAS SETS THE PRICE LESS OFTEN?",
+  "kind": "visual",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "iso_rtm_hub_prices",
+   "nyiso_rtm_zone_prices",
+   "isone_zone_prices_history",
+   "eia_fuel_spot_prices"
+  ],
+  "inputs": {
+   "heat_rate": {
+    "label": "Heat rate (MMBtu per MWh)",
+    "default": 7.0,
+    "choices": [
+     6.5,
+     7.0,
+     8.0
+    ],
+    "words": {}
+   },
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019,
+     2020,
+     2021
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "queue_divorce",
+  "title": "TILL QUEUE DO US PART",
+  "kind": "visual",
+  "tables": [
+   "lbnl_interconnection_queue"
+  ],
+  "inputs": {
+   "first_year": {
+    "label": "First request year",
+    "default": 2000,
+    "choices": [
+     2000,
+     2005,
+     2010
+    ],
+    "words": {}
+   },
+   "last_year": {
+    "label": "Last request year",
+    "default": 2020,
+    "choices": [
+     2015,
+     2018,
+     2020
+    ],
+    "words": {}
+   }
+  }
+ }
+]
