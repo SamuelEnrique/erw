@@ -1,7 +1,8 @@
 # How long large loads waited, measured from dated copies of public queues: one page
 
 Session 155, 8 October 2026; Texas and Grant County PUD read again in Session 160 the same day (the section "Texas"
-below). Facts only. The table is **internal** and is not in this repository (which is public):
+below). Bonneville Power Administration and Alberta's system operator (Canada, kept apart
+below) were added in Session 165, 9 October 2026. Facts only. The table is **internal** and is not in this repository (which is public):
 `warehouse/output/large_load_waits.csv` on the data machine, built by `warehouse/connectors/large_load_waits.py` from
 the copies saved under `warehouse/raw/large_load_waits/`. No request is named here and no megawatt of a request is
 given. It follows [`large_load_eighty.md`](large_load_eighty.md), which found that no utility, operator or regulator
@@ -21,15 +22,38 @@ publishes how long its large loads waited, and that successive copies of a queue
   request. Nothing is interpolated. Lower bounds are counted apart and never averaged.
 - **A stage is counted only where a copy shows it** in the publisher's words; the words are kept beside the class
   (the five stages of `large_load_statements`). A figure on fewer than 5 requests is its values, not a median.
+- **Session 165.** A status word that no copy of its publisher explains is kept as printed and placed on no stage;
+  where it is the last word a copy shows, no lower bound is made to a milestone. A file saved again long after the
+  month it is named for is not used: the day its list stood so is not known.
 
 ## What was followed, and the measured waits (days)
 
 - **New York ISO**: 37 dated copies read, 2014-09-04 to 2026-09-11; load requests: 78 seen, **73 followed**, 5 not (seen in one copy only: 5); 4 in service and 17 withdrawn in the last copy.
 - **Grant County Public Utility District**: 5 dated copies read, 2025-06-30 to 2026-07-30 (3 more could not be read); load requests: 1 seen, **1 followed**, 0 not (none); 0 in service and 0 withdrawn in the last copy.
-- **The table**: 491 rows, one a request and stage interval: measured 159, lower bound 279, two copies only 5, upper bound 48.
+- **Bonneville Power Administration**: 22 dated copies read, 2010-05-27 to 2026-10-08; load requests: 458 seen, **433 followed**, 25 not (the queue date printed for it differs between copies: 2; seen in one copy only: 23); 85 in service and 166 withdrawn in the last copy.
+- **The table**: 2622 rows, one a request and stage interval: measured 1142, lower bound 1097, two copies only 47, upper bound 336.
 
 | Entity | Interval, or the stage as worded | Requests | Measured | Measured, days | Lower bounds, days at least | Two copies only | Upper bounds, days at most |
 |---|---|---|---|---|---|---|---|
+| Bonneville Power Administration | request to study | 268 | 75 | median at least 193, at most 449; all within 2 to 5127 | 4 (266 to 1245) | 0 | 189 (37 to 3214) |
+| Bonneville Power Administration | request to agreement | 152 | 29 | median at least 1363, at most 1755; all within 492 to 4487 | 123 (232 to 7857) | 0 | 0 |
+| Bonneville Power Administration | request to energized | 233 | 76 | median at least 2045.5, at most 3950.5; all within 43 to 6527 | 148 (232 to 7857) | 0 | 9 (393 to 3199) |
+| Bonneville Power Administration | study to agreement | 145 | 27 | median at least 456, at most 1588; all within 64 to 4487 | 118 (0 to 5978) | 0 | 0 |
+| Bonneville Power Administration | agreement to energized | 29 | 4 | 967 to 1588; 967 to 1588; 967 to 1588; 967 to 1588 | 25 (0 to 1196) | 0 | 0 |
+| Bonneville Power Administration | request to withdrawal | 166 | 89 | median at least 606, at most 973; all within 14 to 6064 | 0 | 0 | 77 (254 to 3221) |
+| Bonneville Power Administration | in stage: RECEIVED | 103 | 99 | median at least 213, at most 575; all within 2 to 4201 | 4 (266 to 1245) | 0 | 0 |
+| Bonneville Power Administration | in stage: STUDY | 195 | 108 | median at least 513, at most 1588; all within 0 to 6527 | 87 (0 to 1652) | 0 | 0 |
+| Bonneville Power Administration | in stage: STUDY COMPLETED | 47 | 15 | median at least 456, at most 3586; all within 456 to 4209 | 32 (0 to 1652) | 0 | 0 |
+| Bonneville Power Administration | in stage: E&P EXECUTED | 3 | 2 | 513 to 1196; 513 to 1196 | 1 (1196 to 1196) | 0 | 0 |
+| Bonneville Power Administration | in stage: CONST AGRMT EXE | 30 | 6 | median at least 967, at most 1588; all within 513 to 1588 | 24 (0 to 1196) | 0 | 0 |
+| Bonneville Power Administration | in stage: BPA COMPLETED | 35 | 1 | 253 to 577 | 34 (0 to 742) | 0 | 0 |
+| Bonneville Power Administration | in stage: COMPLETED | 1 | 1 | 521 to 3854 | 0 | 0 | 0 |
+| Bonneville Power Administration | in stage: CONFIRMED | 18 | 18 | median at least 1027, at most 5554; all within 1027 to 6034 | 0 | 0 | 0 |
+| Bonneville Power Administration | in stage, then withdrawn: RECEIVED | 31 | 31 | median at least 422, at most 930; all within 14 to 5699 | 0 | 0 | 0 |
+| Bonneville Power Administration | in stage, then withdrawn: STUDY | 49 | 49 | median at least 456, at most 956; all within 0 to 6064 | 0 | 0 | 0 |
+| Bonneville Power Administration | in stage, then withdrawn: STUDY COMPLETED | 3 | 3 | 456 to 2057; 456 to 2327; 456 to 3401 | 0 | 0 | 0 |
+| Bonneville Power Administration | in stage, then withdrawn: BPA COMPLETED | 3 | 3 | 66 to 347; 253 to 574; 326 to 966 | 0 | 0 | 0 |
+| Bonneville Power Administration | in stage, then withdrawn: CONFIRMED | 3 | 3 | 0 to 908; 1027 to 5168; 1027 to 5218 | 0 | 0 | 0 |
 | Grant County Public Utility District | request to agreement | 1 | 0 |  | 0 | 0 | 1 (2264 to 2264) |
 | Grant County Public Utility District | request to construction | 1 | 0 |  | 1 (2659 to 2659) | 0 | 0 |
 | Grant County Public Utility District | request to energized | 1 | 0 |  | 1 (2659 to 2659) | 0 | 0 |
@@ -67,6 +91,23 @@ publishes how long its large loads waited, and that successive copies of a queue
   names no request. A stage's megawatts over time is not a request's wait, and no wait was made from them.
 - **Grant County PUD's public queue holds one load request.** Its large power queue (about 692 megawatts by its own
   resource plan) was not found published as a list. Two older copies are pictures of the page and were not read.
+- **Bonneville's list is of line and load interconnections** (its Connection Type `LL`): a request of a customer
+  utility for a line or a load. No copy says which is a large load, so every `LL` request is followed and none is
+  called a large load here. 22 copies: 7 of 2010 to 2013 and 15 of 2022 to 2026, with none between 19 March 2013 and
+  31 March 2022 (3,299 days). An end that fell in that gap is measured, by the rule, with a range as wide as the gap.
+- **Bonneville, request to energized: 76 measured.** For the 30 whose end lies between two copies of 2022 to 2026 (at
+  most 454 days apart): median at least 2,868 days, at most 3,243.5; all within 43 to 6,015. For the 46 whose end fell
+  in the nine years with no copy: median at least 1,477.5, at most 4,776.5. 148 more are **lower bounds**, at least
+  232 to 7,857 days, and are not energized.
+- Bonneville, the ends outside those nine years only: request to study, 72 of the 75 measured, median at least 187
+  days, at most 421; request to a construction agreement, all 29, median at least 1,363, at most 1,755; request to
+  withdrawal, 70 of the 89, median at least 517, at most 848.5.
+- Bonneville's words `CONFIRMED`, `COMPLETED` and `BPA COMPLETED` are explained in no copy: they are kept and placed on
+  no stage, and a request whose last copy shows one gives no lower bound to a milestone (35 requests read `BPA
+  COMPLETED` in the newest copy). Bonneville prints no construction status, so it has no "request to construction".
+- **ISO New England: nothing can be followed.** Its posted queue, read once on 9 October 2026, lists 1,751 requests
+  whose Type is G (1,569), ETU (170) or TS (12): generators, elective transmission upgrades and transmission service.
+  No row is a load, and no wait was made from it (the section "What could be followed next" quotes its columns).
 
 ## Texas: what can be measured, beside what was stated
 
@@ -108,6 +149,9 @@ task force and working group gave them, and ERCOT's own site for the reports it 
 measured duration is a range: above the stated figure when even its least is longer, below when even its most is
 shorter, otherwise the stated figure lies inside the range. No ranking across entities.
 
+- **Bonneville Power Administration** said "180 Calendar Days" (LLI System Impact Study (SIS), 2026-09-09): no comparison: no interval measured here covers this step.
+- **Bonneville Power Administration** said "7-8 years" (study of the transmission service request queue in batches, 2025-12-17): no comparison: no interval measured here covers this step.
+- **Bonneville Power Administration** said "5-6 years" (request to service, 2025-07-09): no comparison: no interval measured here covers this step.
 - **New York ISO** said "90-day" (System Impact Study (SIS), 2026-07-23), taken as 90 days. Measured, system impact study, pending or in progress to approved: 22 durations, 21 above, 0 below, 1 with the stated figure inside the measured range; 32 lower bounds, 30 already longer.
 - **New York ISO** said "90-day" (System Impact Study (SIS), 2026-07-23), taken as 90 days. Measured, in stage: SRIS/SIS in Progress: 22 durations, 14 above, 0 below, 8 with the stated figure inside the measured range; 16 lower bounds, 10 already longer.
 - **New York ISO** said "nine months" (System Impact Study (SIS), 2025-11-07), taken as 274 days. Measured, system impact study, pending or in progress to approved: 22 durations, 20 above, 0 below, 2 with the stated figure inside the measured range; 32 lower bounds, 18 already longer.
@@ -117,24 +161,83 @@ shorter, otherwise the stated figure lies inside the range. No ranking across en
 - The "nine months" runs from the customer's study selection, a day no copy shows: so two measures stand beside it.
   The "90-day" is a step of a procedure proposed in July 2026, not the one these requests went through. **ERCOT**
   states expectations (its study steps, in weeks) and nothing of its can be measured here: no comparison. The other
-  104 expectations are of entities with no request followed here, ERCOT's among them.
+  101 expectations (104 before Bonneville was followed) are of entities with no request followed here, ERCOT's
+  among them.
+- Bonneville's three statements have no measured interval set beside them. Its "180 Calendar Days" is of a system
+  impact study, and its copies show a study's status, not the day a study began or ended. Its "5-6 years" and "7-8
+  years" are ranges of years, not one figure, and a range is not converted here. They stand as written.
+
+## Canada: Alberta, apart from the United States
+
+Canada is not the United States: no figure, median or table row above is Alberta's (the one count above that includes
+Canada is the table's whole row count). The Alberta Electric System Operator posts a connection project list each month; one capture a month was read (the Internet Archive's latest of
+each monthly file) and the newest file from the operator's own page. A load is a row the list itself marks so (MW
+Type `Load`, and from 2024 `Data Load`, `Distribution Load` and `Industrial Load`); a generator listed with a load and
+a change to an existing contract are not taken.
+
+- **Alberta Electric System Operator (Canada)**: 97 dated copies read, 2016-09-26 to 2026-09-01 (3 more could not be read); load requests: 236 seen, **213 followed**, 23 not (seen in one copy only: 22; the queue date printed for it differs between copies: 1); 50 in service and 39 withdrawn in the last copy.
+- **Canada's rows in the table**: 617 of the 2622.
+
+| Entity | Interval, or the stage as worded | Requests | Measured | Measured, days | Lower bounds, days at least | Two copies only | Upper bounds, days at most |
+|---|---|---|---|---|---|---|---|
+| Alberta Electric System Operator (Canada) | request to energized | 173 | 38 | median at least 540, at most 579; all within 28 to 4527 | 109 (98 to 3038) | 15 (83 to 996) | 11 (41 to 1664) |
+| Alberta Electric System Operator (Canada) | request to withdrawal | 39 | 37 | median at least 629, at most 662; all within 46 to 4759 | 0 | 0 | 2 (37 to 902) |
+| Alberta Electric System Operator (Canada) | in stage: Stage 1 | 113 | 92 | median at least 69.5, at most 156; all within 0 to 821 | 19 (43 to 594) | 2 (28 to 57) | 0 |
+| Alberta Electric System Operator (Canada) | in stage: Stage 2 | 91 | 44 | median at least 121.5, at most 411.5; all within 0 to 1789 | 45 (0 to 761) | 2 (0 to 0) | 0 |
+| Alberta Electric System Operator (Canada) | in stage: Stage 3 | 62 | 43 | median at least 59, at most 390; all within 0 to 1891 | 15 (0 to 1839) | 4 (0 to 0) | 0 |
+| Alberta Electric System Operator (Canada) | in stage: Stage 4 | 35 | 26 | median at least 106, at most 349; all within 0 to 1575 | 2 (235 to 425) | 7 (0 to 0) | 0 |
+| Alberta Electric System Operator (Canada) | in stage: Stage 5 | 52 | 22 | median at least 378.5, at most 592.5; all within 0 to 4527 | 19 (0 to 1709) | 11 (0 to 247) | 0 |
+| Alberta Electric System Operator (Canada) | in stage: Stage 6 | 15 | 5 | median at least 31, at most 90; all within 0 to 489 | 9 (0 to 33) | 1 (0 to 0) | 0 |
+| Alberta Electric System Operator (Canada) | in stage, then withdrawn: Stage 1 | 10 | 10 | median at least 64, at most 183.5; all within 0 to 1090 | 0 | 0 | 0 |
+| Alberta Electric System Operator (Canada) | in stage, then withdrawn: Stage 2 | 19 | 19 | median at least 427, at most 662; all within 21 to 2285 | 0 | 0 | 0 |
+| Alberta Electric System Operator (Canada) | in stage, then withdrawn: Stage 3 | 4 | 4 | 22 to 122; 364 to 1552; 1003 to 1622; 1036 to 1080 | 0 | 0 | 0 |
+| Alberta Electric System Operator (Canada) | in stage, then withdrawn: Stage 5 | 4 | 4 | 1739 to 2133; 1772 to 4712; 1772 to 4712; 1772 to 4759 | 0 | 0 | 0 |
+
+- **Alberta Electric System Operator (Canada)**: 46 of its 213 followed requests are in no later copy and no copy says why (not shown in service, not shown withdrawn): each lower bound of theirs ends at the last copy that held the request and is not a wait still running.
+- **Alberta Electric System Operator (Canada)** states no expectation of a wait in the table: no comparison.
+- **The list numbers its stages 0 to 6 and no copy says what a number stands for.** The guide to the list is a
+  separate document and was not in the approved pull. The numbers are kept as printed and placed on none of the five
+  stages, so Alberta has no "request to study" or "request to agreement" here. Energized and cancelled are the list's
+  own words (`Recently Energized`, `Recently Cancelled`), printed from April 2021; before then a project that left
+  the list left with no word.
+- **Alberta, request to energized: 38 measured**, each between two monthly copies: median at least 540 days, at most
+  579. 77 more still stand in the newest copy (1 September 2026) and are **lower bounds**, at least 98 to 2,609 days.
+- **Data centres, by the list's own mark** (MW Type `Data Load`): 52 projects were ever so marked and 45 stand in the
+  newest copy. None is shown energized. 38 are followed and still wait: 37 **lower bounds** and 1 seen in two copies
+  only, at least 186 to 876 days since each applied; of the 37, 26 stand at `Stage 2` and 11 at `Stage 1`. 10 more
+  were cancelled, all within 46 to 769 days of applying.
+- 3 of the 100 monthly files could not be used: each was saved again long after the month it is named for (February
+  2018, March 2026, April 2026). The lists of 2016 to 2020 give a project one row a phase: where its rows show one
+  stage the first is read, and where they differ the project is not followed.
 
 ## What could be followed next
 
-Listings only (16 of the 60 allowed): no copy of these was fetched, and none was opened.
+Session 155 listed three queues to follow next; session 165 followed them. Listings of other queues so far: 20 of
+the 60 allowed.
 
-| Publisher | The Archive's captures of the queue file | First | Last | A request's identifier |
-|---|---|---|---|---|
-| Bonneville Power Administration, `InterconnectionQueueOutput.xlsx` (bpa.gov) | 16 captures, 14 distinct files, 2 addresses | 2022-04-01 | 2026-02-22 | to be confirmed on the first copy |
-| The same workbook on its earlier site (transmission.bpa.gov) | 7 captures, 7 distinct, 3 addresses | 2010-05-27 | 2013-03-19 | to be confirmed |
-| Alberta Electric System Operator, monthly project list (Canada) | 535 captures, 164 distinct, 167 addresses | 2017-07-07 | 2026-10-01 | to be confirmed; not the United States |
+| Publisher | What was found | Followed |
+|---|---|---|
+| Bonneville Power Administration, `InterconnectionQueueOutput` | 23 captures, 21 distinct files, and the current file: 22 dated copies read | yes: 433 requests |
+| Alberta Electric System Operator, monthly project list (Canada) | 535 captures of 100 monthly files; one capture a month and the current file: 97 dated copies read | yes: 213 projects, kept apart |
+| ISO New England, posted queue (`irtt.iso-ne.com/reports/external`) | one current copy read: 1,751 requests of Type G, ETU or TS | no: it lists no load |
+| Pennsylvania's utilities (PPL Electric, PECO, Duquesne Light, FirstEnergy) | listings only: no address of a load queue | no: none is published |
 
-- No capture by these listings: SPP, Western Area Power Administration, Tri-State, Salt River Project, ISO New
-  England, and the OASIS folders of Avista, Puget Sound Energy, Bonneville and Grant County PUD. A listing that
-  returns nothing may be the listing's limit, not the Archive's holdings. One wider listing of bpa.gov failed and
-  was left.
-- **Keep every new copy of the two queues followed here** (New York ISO's workbook each month, Grant County PUD's
-  PDF), and of the queues [`large_load_eighty.md`](large_load_eighty.md) names as coming.
+- **ISO New England's columns, as its page prints them:** "Cluster", "QP", "Updated", "Type", "Requested", "Alternative
+  Name", "Unit", "Fuel Type", "Net MW", "Summer MW", "Winter MW", "County", "ST", "Op Date", "Sync Date", "W/D Date",
+  "POI", "Serv", "SIS", "I39", "TO Report", "Dev", "Zone", "FS", "SIS", "OS", "FAC", "IA", "Project Status", "Status",
+  "Jurisdiction". The Type column holds G, ETU and TS and nothing else. It was taken before Pennsylvania because its
+  queue page answered first, with a queue that has an identifier (QP) and dated captures; what it lacks is a load.
+- **Pennsylvania:** the Internet Archive lists, for PPL Electric, one capture of one tariff rule about large load
+  interconnections (August 2026: a rule, not a queue; not opened); for FirstEnergy, Maryland's generator and community
+  solar queues; for Duquesne Light, style files of its site; for PECO, nothing. No queue of load requests under the
+  model tariff was found published. No other lead was taken in its place: none of session 155's other listings names
+  a queue of loads.
+- No capture by session 155's listings: SPP, Western Area Power Administration, Tri-State, Salt River Project, and the
+  OASIS folders of Avista, Puget Sound Energy, Bonneville and Grant County PUD. A listing that returns nothing may be
+  the listing's limit, not the Archive's holdings.
+- **Keep every new copy of the queues followed here** (New York ISO's workbook, Grant County PUD's PDF, Bonneville's
+  workbook, Alberta's monthly file), and of the queues [`large_load_eighty.md`](large_load_eighty.md) names as coming.
+  Alberta's guide to its list would place its stage numbers on the five stages: one document, for a person to approve.
 
 ## The pull, and the terms
 
@@ -144,6 +247,12 @@ to ERCOT, 1 to Grant County PUD), 36.4 MB, no new row of a request, against the 
 242 requests and 68.6 MB in all. One capture was refused by the Archive (403) and left; the same report was read
 from ERCOT. One request every 2.5 seconds to the Archive. Every request carried "ERW research project, github.com/SamuelEnrique/erw" and no address of a
 person. MISO and PJM were not requested. Each terms page is saved with its hash (`captures.csv`).
+
+Session 165 (Bonneville, Alberta, ISO New England, and listings for Pennsylvania): 136 more requests (125 to the
+Archive: 121 captures and 4 listings; 5 to Alberta's operator, 3 to Bonneville, 3 to ISO New England), 14.1 MB, and
+9,730 more rows of requests (Bonneville 6,359, Alberta 3,371), against the owner's ceiling of 1,500,000 rows; 378
+requests of 1,500, 82.7 MB of 3 GB and 10,705 rows in all. No 429 or 503, no refusal, no login or check met. The same
+contact string and no address of a person. Every file fetched as a copy is the queue's own; no picture was met or read.
 
 - **Internet Archive** (its Terms of Use of 31 Dec 2014, read in its own capture of 1 June 2024, since the page
   today is drawn by a script and a plain request returns no text): "Access to the Archive’s Collections is provided at no cost to you and is granted for scholarship and research purposes only."
@@ -158,3 +267,17 @@ person. MISO and PJM were not requested. Each terms page is saved with its hash 
   "© Public Utility District No. 2 of Grant County, WA, All Rights Reserved" Held internal until a person rules.
 - **ERCOT** (the sentences session 144 quoted, in the page as it reads today): "The publicly available contents of this website may be used, reproduced, and redistributed, provided that the contents are not modified and that you maintain all copyright and other notices contained in the contents, including this Agreement."
   "Notwithstanding the foregoing, raw data provided in public portions of this website may be used, reproduced, and redistributed in compilations, charts, and analyses without maintaining such notices."
+- **Bonneville Power Administration** (its site links one legal page, a privacy policy, and states no terms of use for
+  its documents; it is an agency of the United States government): "When you visit our website to read pages or download information, we automatically collect and store the following information only:"
+  "We use this information to measure the number of visitors to the different sections of our site, and to help make our site more useful to visitors."
+  Held internal until a person rules.
+- **Alberta Electric System Operator, Canada** (its Legal page, Terms and Conditions): "All material on this Web site is protected by copyright."
+  "The material may be used and copied for non-commercial, personal or educational purposes, provided that the material is not modified and that copyright notices are not deleted."
+  "Any other use of this material without the AESO's written permission is prohibited."
+  The use here is research and nothing of Alberta's is published: held internal. Whether this project's use is
+  "non-commercial" is the owner's to weigh.
+- **ISO New England** (its Legal and Privacy page, read before its queue): "By using this website, you signify your assent to these Terms and Conditions."
+  "You are also hereby put on notice that the Content is protected by copyright under United States laws."
+  "Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws."
+  Nothing of its queue is in the table.
+- The Internet Archive's terms are the ones quoted above, unchanged.

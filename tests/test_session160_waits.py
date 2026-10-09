@@ -136,10 +136,10 @@ class OnlyThePublishersNamed(unittest.TestCase):
 
 class Ceiling(unittest.TestCase):
     def test_the_rows_ceiling_is_two_million_and_refuses_before_the_request(self):
-        self.assertEqual(w.CEILING_ROWS, 2_000_000)
+        self.assertLessEqual(w.CEILING_ROWS, 2_000_000)   # session 165 lowered it to the owner's 1,500,000 for the third pull
         d = tempfile.mkdtemp(prefix="erw160_")
         b = w.Budget(d)
-        b.add_rows(2_000_000 - w.ROWS_RESERVE + 1)
+        b.add_rows(w.CEILING_ROWS - w.ROWS_RESERVE + 1)
         with self.assertRaises(w.Refused):
             b.ask("https://web.archive.org/web/1id_/https://www.ercot.com/a.pdf", "capture", rows_reserve=w.ROWS_RESERVE)
         self.assertEqual(b.requests, 0)   # refused before it was made
