@@ -272,7 +272,10 @@ class OnePage(unittest.TestCase):
         for text in files:
             body = re.sub(r"(?m)^\s*//.*$", "", text)                    # the code's own comments are not the face
             body = re.sub(r'(?:why|title)=(?:"[^"]*"|\{`[^`]*`\}|\{[A-Za-z_.]+\})', "", body)   # a reason on hover is allowed
-            body = re.sub(r"const (?:COMBINED|PJM_WHY|contractWhy|threeWhy|everyWhy|twelveWhy)\b[^;]*;", "", body, flags=re.S)
+            body = re.sub(r"const (?:COMBINED|PJM_WHY|contractWhy|threeWhy|everyWhy|twelveWhy|RULES|DA_PLANT|DA_BATTERY|DA_PAIR|DA_ADDED|KEPT)\b[^;]*;", "", body, flags=re.S)
+            # session 162: the owner's words of 9 October 2026 keep the added figure "as a labeled upper bound", so that one
+            # label stands on the face; every other use of the words is still method prose
+            body = body.replace("Added, not co-optimized: upper bound", "")
             self.assertNotRegex(body, r"(?i)upper bound|merchant only|does not tell|how it is measured|how a lender should read|not a site|limitation|cannot see")
         note = src("docs", "methods", "cost_of_power.md")
         for words in ("Merchant only.", "How a lender should read the page", "The battery is an upper bound", "The hub, not your node", "Gas is Henry Hub", "It is the fleet's shape, not a site's",

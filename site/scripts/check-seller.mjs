@@ -47,10 +47,12 @@ const page = await get("/cost-of-power/seller");
 const html = face(page.html), text = plain(html);
 check(page.status === 200 && text.includes("What a generator earns") && !/\bundefined\b|NaN/.test(text) && !page.html.includes(String.fromCharCode(0x2014)), '/cost-of-power/seller opens as "What a generator earns", with no "undefined", no NaN and no em dash');
 check(["What a datacenter pays", "What a generator earns", "What a battery earns"].every((t) => plain(/<nav[^>]*aria-label="Cost of power"[\s\S]*?<\/nav>/.exec(page.html)?.[0] ?? "").includes(t)), "the three tabs: What a datacenter pays, What a generator earns, What a battery earns");
-check(["capture", "capture-years", "spans", "contract", "hybrid", "months", "coverage"].every((id) => html.includes(`<section id="${id}"`)) && html.includes('data-summary="1"') && (html.match(/class="border-t-2 border-accent pt-2"/g) ?? []).length === 3,
+check(["capture", "capture-years", "hub-years", "spans", "contract", "hybrid", "profile", "months", "coverage"].every((id) => html.includes(`<section id="${id}"`)) && html.includes('data-summary="1"') && (html.match(/class="border-t-2 border-accent pt-2"/g) ?? []).length === 3,
   "the battery page's layout: the summary sentence, three headline numbers, and the sections capture, by year, spans, contract, hybrid, months and coverage");
 check(page.html.includes("/data/methods/cost_of_power") || text.includes("Method note"), "the page names its Method note");
-check(!METHOD_WORDS.test(text), `no method prose on the page face${METHOD_WORDS.test(text) ? ` (found "${METHOD_WORDS.exec(text)[0]}")` : ""}`);
+// session 162: the owner's words of 9 October 2026 keep the added figure "as a labeled upper bound": that one label stands on the face
+const faceText = text.split("Added, not co-optimized: upper bound").join(" ");
+check(!METHOD_WORDS.test(faceText), `no method prose on the page face${METHOD_WORDS.test(faceText) ? ` (found "${METHOD_WORDS.exec(faceText)[0]}")` : ""}`);
 check(["the median month earned", "10th-percentile month", "The worst three months", "Over trailing twelve months, coverage was", "Stress days: Uri, Elliott and the 2023 heat", "Winter Storm Uri", "Every month: revenue, energy, capture price and rate, coverage",
   "Hours above installed nameplate", "Hours EIA reports negative", "Annual debt payments, USD", "Fixed O&M, USD per kW a year"].every((w) => text.includes(w)) && /data-check="mr\|iso=ercot&amp;asset=solar[^"]*\|median"/.test(html) && /data-check="mr\|[^"]*\|stress_total:uri_2021"/.test(html),
   "what the seller's tab showed is here: the months held, the median and the bad months, debt coverage, the stress days, every month, the fleet's hours, with their check keys");
@@ -126,8 +128,9 @@ for (const [grid, q] of [["ercot", "/cost-of-power/seller"], ["caiso", "/cost-of
     check(raw("battery") !== null && raw("battery") === theirs && raw("plant") !== null && raw("combined") === C.combined(raw("plant"), raw("battery")),
       `${grid}, ${bmw} MW ${dur}-hour battery, ${strat}: the battery's USD ${raw("battery")?.toLocaleString("en-US")} is the battery page's own figure, and with the solar plant's USD ${raw("plant")?.toLocaleString("en-US")} the combined figure is their sum, USD ${raw("combined")?.toLocaleString("en-US")}`);
   }
-  const w = plain(face((await get("/cost-of-power/seller?asset=wind")).html));
-  check(/With a battery beside it\s+A solar plant with a 2, 4 or 8 hour battery/.test(w), "for another asset the hybrid section points to solar");
+  // session 162: wind has its hybrid too, so the asset that points to solar is the gas peaker
+  const w = plain(face((await get("/cost-of-power/seller?asset=peaker")).html));
+  check(/With a battery beside it\s+A solar or wind plant with a 2, 4 or 8 hour battery/.test(w), "for another asset the hybrid section points to solar");
 }
 {
   const r = await get("/cost-of-power/seller/v2?iso=caiso&asset=wind");
