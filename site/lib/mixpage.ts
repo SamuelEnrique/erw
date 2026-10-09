@@ -22,7 +22,24 @@ export const HOURS = Array.from({ length: 24 }, (_, h) => `${String(h).padStart(
 export type Choice = {
   view: View; grids: GridSlug[]; period: string | null; cal: string | null; year: string | null; season: string; norm: "mw" | "peak"; factor: Factor;
   src: "wind" | "solar"; states: string[]; ba: string | null; state: string | null;
+  /** Session 168: the grids "Select grids" shows on the views that open with every grid ("Now and by state",
+   *  "Wind and solar forecasts"): every grid unless the address names some. On the other views it is `grids`. */
+  shown: GridSlug[];
 };
+/** Session 168: "Select grids" stands on every view. What each view does with the choice:
+ *    compare  draws the grids chosen side by side, four at most (the seven views that always had the control);
+ *    filter   opens with every grid and draws only the grids chosen once some are (the opening view and the forecasts);
+ *    none     cannot use it: the control is greyed and its hover says why (the history since 2001 is by state). */
+export const ALL_GRIDS: GridSlug[] = GRIDS.map((g) => g.slug);
+export const gridUse = (view: View): "compare" | "filter" | "none" => (view === "now" || view === "forecast" ? "filter" : view === "history" ? "none" : "compare");
+export const NO_GRID_CHOICE = "This view is by state: EIA's record since 2001 is not kept by grid.";
+/** The filter views' click: with every grid shown, a click shows that grid alone; a click on the only grid shown
+ *  shows every grid again; otherwise the grid is added or taken off. Always in the page's own order of grids. */
+export function filtered(shown: GridSlug[], g: GridSlug): GridSlug[] {
+  if (shown.length === ALL_GRIDS.length) return [g];
+  if (shown.includes(g)) return shown.length === 1 ? ALL_GRIDS : shown.filter((x) => x !== g);
+  return ALL_GRIDS.filter((x) => x === g || shown.includes(x));
+}
 type Query = Record<string, string | string[] | undefined>;
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 const isGrid = (g: string): g is GridSlug => GRIDS.some((x) => x.slug === g);
@@ -33,7 +50,11 @@ export function choiceOf(q: Query): Choice {
   const view = VIEWS.some(([k]) => k === one(q.view)) ? (one(q.view) as View) : "now";
   const listed = (one(q.grids) ?? "").split(",").filter(isGrid);
   const old = [one(q.grid), one(q.vs)].filter((g): g is string => !!g).filter(isGrid);
-  const grids = [...new Set([...listed, ...old])].slice(0, MAX_GRIDS);
+  const named = [...new Set([...listed, ...old])];
+  // session 168: on a view that opens with every grid, an address naming all seven names none
+  const every = gridUse(view) === "filter" && named.length === ALL_GRIDS.length;
+  const grids = every ? [] : named.slice(0, MAX_GRIDS);
+  const shown = !named.length || every ? ALL_GRIDS : gridUse(view) === "filter" ? ALL_GRIDS.filter((g) => named.includes(g)) : grids;
   const period = one(q.period);
   const factor = FACTORS.some(([k]) => k === one(q.factor)) ? (one(q.factor) as Factor) : "none";
   const states = [...new Set((one(q.states) ?? "").split(",").filter((s) => /^[A-Z]{2}$/.test(s)))].slice(0, MAX_GRIDS);
@@ -41,7 +62,7 @@ export function choiceOf(q: Query): Choice {
     view, grids: grids.length ? grids : ["ercot"], period: period && /^\d{4}(-\d{2})?$/.test(period) ? period : null,
     cal: /^(0[1-9]|1[0-2])$/.test(one(q.cal) ?? "") ? one(q.cal)! : null, year: /^\d{4}$/.test(one(q.year) ?? "") ? one(q.year)! : null,
     season: SEASON_NAMES.some(([k]) => k === one(q.season)) ? one(q.season)! : "all", norm: one(q.norm) === "peak" ? "peak" : "mw", factor,
-    src: one(q.src) === "solar" ? "solar" : "wind", states: states.length ? states : ["US"], ba: one(q.ba) ?? null, state: one(q.state) ?? null,
+    src: one(q.src) === "solar" ? "solar" : "wind", states: states.length ? states : ["US"], ba: one(q.ba) ?? null, state: one(q.state) ?? null, shown,
   };
 }
 /** The address of a choice: only what is not the default is written. */
@@ -49,9 +70,13 @@ export function hrefOf(c: Choice, patch: Partial<Choice> = {}): string {
   const n = { ...c, ...patch };
   const q = new URLSearchParams();
   if (n.view !== "now") q.set("view", n.view);
-  if (n.view === "now") { if (n.ba) q.set("ba", n.ba); if (n.state) q.set("state", n.state); }
+  // session 168: the grids chosen are carried to every view that uses them. Nothing chosen (every grid on the two
+  // views that open with every grid, ERCOT alone on the others) writes nothing, so the opening addresses are as they were
+  const every = n.shown.length === ALL_GRIDS.length;
+  if (n.view === "now") { if (n.ba && every) q.set("ba", n.ba); if (n.state) q.set("state", n.state); }
   else if (n.view === "history") { if (n.states.join(",") !== "US") q.set("states", n.states.join(",")); }
-  else if (n.view !== "forecast" && n.grids.join(",") !== "ercot") q.set("grids", n.grids.join(","));
+  if (gridUse(n.view) === "filter") { if (!every) q.set("grids", n.shown.join(",")); }
+  else if (gridUse(n.view) === "compare" && (n.grids.join(",") !== "ercot" || !every)) q.set("grids", n.grids.join(","));
   if (n.view === "day" && n.period) q.set("period", n.period);
   if (n.view === "duck" && n.cal) q.set("cal", n.cal);
   if (["duck", "records", "clean", "stress", "supply"].includes(n.view) && n.year) q.set("year", n.year);
