@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-09T00:55:28Z",
+ "built_at_utc": "2026-10-09T01:16:47Z",
  "built_by": "warehouse/derived/how_soon.py",
  "holds": "aggregates only: counts, bounds and medians by stage, and stated figures with their documents; no request, no name, no queue position and no size of a request",
  "unit": "days",
@@ -17,8 +17,8 @@
  "tables": {
   "large_load_waits": {
    "license": "internal",
-   "rows": 491,
-   "retrieved": "20261008T210237Z"
+   "rows": 2622,
+   "retrieved": "20261009T011433Z"
   },
   "large_load_statements": {
    "license": "internal",
@@ -452,7 +452,7 @@
   }
  },
  "left_out": {
-  "entities": 1,
+  "entities": 3,
   "interval_rows": 156,
   "intervals": [
    "in stage",
