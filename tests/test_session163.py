@@ -352,9 +352,16 @@ class AgainstTheTables(unittest.TestCase):
             cls.file = json.load(f)
 
     def test_the_file_is_what_the_builder_gives_from_the_tables_today(self):
+        # what the page shows: the grids, the rule and the summary's stages. Not the stamps and not the tables' row counts:
+        # a table read again, or rows of an entity on none of the page's grids appended (session 165), changes no figure
+        def shown(f):
+            def drop(v):
+                if isinstance(v, dict):
+                    return {k: drop(x) for k, x in v.items() if k != "retrieved"}
+                return [drop(x) for x in v] if isinstance(v, list) else v
+            return drop({k: f[k] for k in ("grids", "rule", "paused", "summary", "unit")})
         fresh, _ = hs.build(self.w_head, self.waits, self.s_head, self.stmts)
-        self.assertEqual({k: v for k, v in fresh.items() if k != "built_at_utc"}, {k: v for k, v in self.file.items() if k != "built_at_utc"},
-                         "the tables have changed since the file was built: run warehouse/derived/how_soon.py again")
+        self.assertEqual(shown(fresh), shown(self.file), "a figure of the tables has changed since the file was built: run warehouse/derived/how_soon.py again")
 
     def test_each_aggregate_worked_again_from_the_raw_rows(self):
         days = lambda t: float(t)                                           # noqa: E731
