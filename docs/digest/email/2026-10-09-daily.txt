@@ -1,0 +1,49 @@
+ERW's Energy Digest, 2026-10-09
+
+Top 5 of the day
+
+1. BKV locks in 1,200 MW of gas generation equipment, backed by a hyperscaler, for Dallas-Fort Worth
+   Gigawatt-scale gas generation equipment secured with investment-grade financial backing, selling power into the DFW market. 1,200 MW; parties: BKV; unnamed hyperscaler.
+   Natural Gas Intelligence: https://naturalgasintel.com/news/hyperscaler-backs-bkvs-12-gw-natural-gas-power-push-near-dallas/
+2. Constellation and Google pursue nuclear uprates as the administration seeks 5 gigawatts of carbon-free capacity by 2029
+   Uprates add carbon-free capacity without new reactors, showing a faster nuclear path with a major corporate buyer. parties: Constellation Energy; Google; Trump administration.
+   Canary Media: https://www.canarymedia.com/articles/nuclear/constellation-google-nuclear-uprates
+3. PJM accepts first three expedited interconnection projects, two batteries and a gas upgrade totaling more than 2,100 MW
+   Two batteries and a gas upgrade show the fast-track process moving to meet demand growth. 2,100 MW; parties: PJM.
+   PJM newsroom: https://insidelines.pjm.com/pjm-accepts-first-expedited-interconnection-track-projects/
+4. ContourGlobal breaks ground on 509 MW solar-plus-storage project in Arizona, with power for Tesla
+   A large solar-plus-storage build backed by a long-term corporate PPA supplying over 1 TWh a year to a single buyer. 509 MW; parties: ContourGlobal; Tesla.
+   pv magazine USA: https://pv-magazine-usa.com/2026/10/09/contourglobal-breaks-ground-on-509-mw-solar-plus-storage-project-in-arizona/
+5. Tribunal rules Venture Global breached LNG supply deal with Galp
+   Arbitration ruling on Calcasieu Pass contract sets precedent on LNG supply obligations and exposes Venture Global to damages. parties: Venture Global; Galp.
+   Reuters: https://news.google.com/rss/articles/CBMirgFBVV95cUxQWEgxQzJIWjlpem9jZUZxcnpLRTZWRkdNeFR4cmJLZkJvZ2VsV01FSWNYTW1LNHZmMHVxMlFqdUg2VW5qeHBxNkdPTW1LQ1VLd2hUVGZkbk9wU1A2eXYzTXVNWXo4RFhNRVZCalBUdlhKTVM3LS1wN1hJbmxXaXpJaXpVZkZHdXViLVpsLW1sQTFNTjdPQlJkbnRSMEVrcFh1VVlub0VZRjZTZWZ3Qnc?oc=5
+
+ERW's Numbers Today
+
+Day-ahead power on 2026-10-08 was dearest at ERCOT's HB_NORTH, 59.70 USD/MWh, and cheapest at ISO-NE's internal hub, 35.77. The highest real-time price was 726.09 USD/MWh at N.Y.C. (NYISO) in the interval starting 2026-10-08 08:00 local; MISO had no day-ahead data in the warehouse and PJM has no price table. Latest EIA closes on 2026-10-06 were 3.03 USD/MMBtu for Henry Hub gas, 96.24 USD/bbl for WTI and 125.44 USD/bbl for Brent.
+Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
+  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-10-08; Average USD/MWh: 59.70; Table: [1]
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-10-08; Average USD/MWh: 55.10; Table: [1]
+  ISO: NYISO; Hub or zone: N.Y.C.; Operating day: 2026-10-08; Average USD/MWh: 40.34; Table: [2]
+  ISO: MISO; Hub or zone: INDIANA.HUB; Operating day: 2026-10-08; Average USD/MWh: not in the warehouse (0 of 24 hours); Table: [1]
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-10-08; Average USD/MWh: 37.94; Table: [1]
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-10-08; Average USD/MWh: 35.77; Table: [3]
+  ISO: PJM; Average USD/MWh: no PJM price table (no API key)
+Highest real-time price, yesterday: 726.09 USD/MWh at N.Y.C. (NYISO), interval starting 2026-10-08 08:00 local (2026-10-08 12:00 UTC), PT15M lmp_rtm_15m_mean (a 15-minute mean of 5-minute prices) [4].
+Latest fuel spot closes (EIA, trading dates):
+- Henry Hub natural gas: 3.03 USD/MMBtu on 2026-10-06 [5]
+- WTI Cushing crude: 96.24 USD/bbl on 2026-10-06 [5]
+- Brent crude: 125.44 USD/bbl on 2026-10-06 [5]
+Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] nyiso_rtm_zone_prices (nyiso:realtime); real-time tables read: iso_rtm_hub_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices; [5] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+ERW's Fun Fact
+
+California increased wind on the grid from 10 MW in 1981 to 1700 MW in the early 1990s. That is one way to get a law's winds of change blowing.
+Sources: Wikipedia, Public Utility Regulatory Policies Act (https://en.wikipedia.org/wiki/Public_Utility_Regulatory_Policies_Act).
+
+ERW
+
+All of ERW's Energy Digest: https://erw-flame.vercel.app/digest/2026-10-09
+How this is made: https://erw-flame.vercel.app/about#digest
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.
