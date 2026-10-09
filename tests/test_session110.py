@@ -47,9 +47,11 @@ class TheThreeWaysIn(unittest.TestCase):
             self.assertEqual(statuses, sorted(statuses, key=lambda s: s != "live"), a["id"])   # live first, then review
             self.assertEqual(sorted(h for h, _, _ in a["listed"]), sorted(a["written"]))      # no tool lost, none added
         # session 126: this asked that every way in open on something a visitor can use. Since the owner's lock of
-        # 5 October 2026 three pages are open, and the students' list holds none of them; the
-        # draft is in review itself. What still must hold: a way in that does open on an open page lists it first.
-        self.assertTrue(any("live" in [s for _, s, _ in a["listed"]] for a in self.out["audiences"]))
+        # 5 October 2026 three pages were open, and the students' list held none of them; the draft is in review itself.
+        # Session 166 (the owner's instruction of 8 October 2026): no page is live, so no way in opens on an open page;
+        # what still must hold: every listed status is the gate's, and the gate holds no live page.
+        self.assertEqual(self.out["live"], [])
+        self.assertTrue(all(s == "review" for a in self.out["audiences"] for _, s, _ in a["listed"]))
 
     def test_every_tool_has_a_page_and_a_question(self):
         for a in self.out["audiences"]:

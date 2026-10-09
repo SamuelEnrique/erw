@@ -186,7 +186,10 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertFalse(os.path.exists(os.path.join(SITE, "app", "network", "v3", "page.tsx")))
         self.assertIn('{ source: "/network/v3", destination: "/network", permanent: true }', src("site", "next.config.ts"))
         d = node("import { statusOf } from './lib/release.ts'; console.log(JSON.stringify([statusOf('/network'), statusOf('/network/v3')]));")
-        self.assertEqual(d, ["live", "review"])
+        # session 166 (the owner's instruction of 8 October 2026): the network page is in review; no page is live
+        self.assertEqual(d, ["review", "review"])
+        self.assertIn('"/network": "review"', src("site", "lib", "release.ts"))
+        self.assertIn('"/network/v3": "review"', src("site", "lib", "release.ts"))   # its line stays: an address typed by hand never reads as a page with no status
 
     def test_everything_new_in_the_component_is_behind_the_prop(self):
         c = src("site", "app", "network", "Network.tsx")

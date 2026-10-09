@@ -281,8 +281,10 @@ class TheSwitchesAndTheLayers(unittest.TestCase):
         self.assertEqual((limits["daily_usd"], limits["monthly_usd"], limits["per_visitor_per_day"]), (3, 30, 15))
         release = src("site", "lib", "release.ts")
         self.assertIn('"/ask/ercot": "review"', release)
+        # session 166 (the owner's instruction of 8 October 2026): the three pages that were open are in review; no page is live
         for path in ("/cost-of-power/battery", "/network", "/storage"):
-            self.assertIn(f'"{path}": "live"', release)
+            self.assertIn(f'"{path}": "review"', release)
+        self.assertEqual(re.findall(r'"(/[^"]*)":\s*"live"', release), [])
         # the three forms were made with the database's existing interface: the tool sends reads of its tables and nothing else
         tools = src("site", "lib", "chat", "tools.ts")
         self.assertNotIn("rpc(", tools)

@@ -257,8 +257,10 @@ class ThePage(unittest.TestCase):
     def test_the_page_stays_in_review_and_the_live_list_is_unchanged(self):
         r = src("site", "lib", "release.ts")
         self.assertRegex(r, r'"/curtailment": "review"')
-        live = sorted(re.findall(r'"(/[^"]*)": "live"', r))
-        self.assertEqual(live, ["/cost-of-power/battery", "/network", "/storage"])
+        # session 166 (the owner's instruction of 8 October 2026): the three pages that were open are in review; no page is live
+        for path in ("/cost-of-power/battery", "/network", "/storage"):
+            self.assertRegex(r, rf'"{path}": "review"')
+        self.assertEqual(re.findall(r'"(/[^"]*)": "live"', r), [])
 
     def test_the_method_note_states_the_rule_and_quotes_the_terms(self):
         m = src("docs", "methods", "curtailment.md")

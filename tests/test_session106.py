@@ -137,7 +137,7 @@ class TheTableAndTheCopy(unittest.TestCase):
         out = node("const m = await import('./lib/largeload.ts'); const f = JSON.parse((await import('node:fs')).default.readFileSync('data/large_load_status.json', 'utf-8'));"
                    "console.log(JSON.stringify({ s: m.summary(f), odd: m.impossible(f).map((r) => r.day), wrong: f.reports.filter(m.monthMismatch).map((r) => r.day), span: m.span(f),"
                    " none: m.summary({ ...f, reports: [] }),"
-                   " fac: m.facilityCounts([{ name: 'a', operator: null, status: 'planned', capacity_mw: 300, state: 'TX', kind: 'news' }, { name: 'b', operator: 'x', status: '', capacity_mw: null, state: 'VA', kind: 'operator' }]) }));")
+                   " fac: m.facilityCounts([{ name: 'a', operator: null, status: 'planned', capacity_mw: 300, state: 'TX', kind: 'news', country: 'US' }, { name: 'b', operator: 'x', status: '', capacity_mw: null, state: 'VA', kind: 'operator', country: '' }]) }));")
         f = json.loads(src("site", "data", "large_load_status.json"))
         last, first = out["span"]["last"], out["span"]["first"]
         self.assertEqual((first["day"], last["day"]), (f["reports"][0]["day"], f["reports"][-1]["day"]))
@@ -146,7 +146,8 @@ class TheTableAndTheCopy(unittest.TestCase):
         self.assertIsNone(out["none"])
         self.assertEqual(out["odd"], ["2025-08-27"])                 # the one report whose two peaks cannot both be right
         self.assertEqual(out["wrong"], ["2026-01-21", "2026-02-25", "2026-03-13"])   # months written as 2025 in reports of 2026
-        self.assertEqual(out["fac"], {"all": 2, "texas": 1, "withMw": 1, "mw": 300, "texasWithMw": 1, "texasMw": 300, "byKind": {"news": 1, "operator": 1}})
+        # session 166 (the owner's instruction of 8 October 2026, part F): the counts say how many rows are US and how many state no country
+        self.assertEqual(out["fac"], {"all": 2, "us": 1, "noCountry": 1, "texas": 1, "withMw": 1, "mw": 300, "texasWithMw": 1, "texasMw": 300, "byKind": {"news": 1, "operator": 1}})
 
 
 class ThePage(unittest.TestCase):

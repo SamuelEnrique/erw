@@ -259,8 +259,10 @@ class Site(unittest.TestCase):
     """The page, the contract panel and the release gate, read as text: what they must and must not hold."""
 
     # session 126 (the owner's instruction, 5 October 2026): the home page, About, Terms, the seller's tab and the four
-    # methods notes went to review; three pages are open
-    LIVE = ["/cost-of-power/battery", "/network", "/storage"]
+    # methods notes went to review; three pages stayed open. Session 166 (the owner's instruction of 8 October 2026):
+    # those three went to review too; no page is live
+    LIVE = []
+    LOCKED = ["/cost-of-power/battery", "/network", "/storage"]   # the three that were open until session 166: each keeps its own line
 
     def release(self):
         return dict(re.findall(r'^\s*"(/[^"]*)": "(live|review)",', read("site", "lib", "release.ts"), flags=re.M))
@@ -268,6 +270,8 @@ class Site(unittest.TestCase):
     def test_the_release_list_holds_every_page_and_the_live_ones_are_the_approved_ones(self):
         rel = self.release()
         self.assertEqual(sorted(k for k, v in rel.items() if v == "live"), sorted(self.LIVE))
+        for path in self.LOCKED:
+            self.assertEqual(rel[path], "review", path)
         hrefs = set(re.findall(r'\{ href: "(/[^"]*)", label:', read("site", "lib", "pages.ts")))
         self.assertGreater(len(hrefs), 30)
 

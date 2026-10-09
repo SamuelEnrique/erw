@@ -216,7 +216,10 @@ class Page(unittest.TestCase):
     def test_the_page_is_locked_for_visitors(self):
         release = src("site", "lib", "release.ts")
         self.assertIn('"/cost-of-power": "review"', release)
-        self.assertEqual(re.findall(r'"(/[^"]*)": "live"', release), ["/cost-of-power/battery", "/network", "/storage"])
+        # session 166 (the owner's instruction of 8 October 2026): the three pages that were open are in review; no page is live
+        for path in ("/cost-of-power/battery", "/network", "/storage"):
+            self.assertIn(f'"{path}": "review"', release)
+        self.assertEqual(re.findall(r'"(/[^"]*)": "live"', release), [])
 
     def test_the_inputs_the_owner_named(self):
         for name in ('name="grid"', 'name="region"', 'name="mw"', 'name="run"', 'name="n"', 'name="pct"', 'name="shift"', 'name="buy"', 'name="gpu"', 'name="pue"'):
