@@ -165,11 +165,16 @@ check(/Large load approved to energize\s+[\d,]+ MW, of which [\d,]+ MW observed 
     }
     if (cur || rec.length) { rec.push(cur); recs.push(rec); }
     const head = recs[0], col = (name) => head.indexOf(name);
+    // Session 163, after session 165's write: only the entities the file shows can put a request on the page (the
+    // builder leaves every other entity out of the file, and prints it). Their requests' names are the ones searched
+    // for. A queue of another entity holds requests named in everyday words ("Data Center", "New Load"), which stand
+    // in the page's own prose: a match there says nothing about a request.
+    const shown = new Set(Object.values(FILE.grids ?? {}).map((g) => String(g?.entity ?? "")).filter(Boolean));
     const names = new Set();
-    for (const r of recs.slice(1)) for (const v of [r[col("request_name")] ?? "", ...(r[col("request_names_seen")] ?? "").split(/[;|]/)]) if (v.trim().length >= 4) names.add(v.trim().toLowerCase());
+    for (const r of recs.slice(1).filter((x) => shown.has(x[col("entity")]))) for (const v of [r[col("request_name")] ?? "", ...(r[col("request_names_seen")] ?? "").split(/[;|]/)]) if (v.trim().length >= 4) names.add(v.trim().toLowerCase());
     const texts = Object.values(pages).map((p) => unescape(p.html).toLowerCase());
     const found = [...names].filter((nm) => texts.some((t) => t.includes(nm)));
-    check(names.size > 10 && found.length === 0, `no request's name of the internal table (${names.size} names, ${recs.length - 1} rows) is anywhere in the seven pages${found.length ? `: ${found.length} found` : ""}`);
+    check(names.size > 10 && found.length === 0, `no request's name of the entities shown (${[...shown].join(", ")}: ${names.size} names; the internal table holds ${recs.length - 1} rows) is anywhere in the seven pages${found.length ? `: ${found.length} found` : ""}`);
   }
 }
 
