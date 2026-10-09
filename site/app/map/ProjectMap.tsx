@@ -4,7 +4,8 @@
 // list a multi-select with "Select all" and "Clear", kept in the address; the summary sentence and the totals by status
 // of what is chosen; the map with hover, a click on a state that chooses it, a click on a unit that opens its card; the
 // table by technology of what is chosen. Everything is computed in the browser from the page's own copy of the tables
-// (data/map.json, lib/projectmap.ts); nothing is asked of a server, the card included.
+// (data/map.json, lib/projectmap.ts). The card's fields of the same file are read once, at the first click on a unit,
+// from /map/card (built with the site): they would more than double what a phone loads with the page.
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { geoAlbersUsa } from "d3-geo";
 import { baseStyle, token, useEChart } from "@/components/echarts";
@@ -12,7 +13,7 @@ import { InputPanel, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { STATES } from "@/lib/regions";
 import {
   COLOR, COLOR_KEY, EVERYTHING, KIND, cardOf, clickState, dateOf, one, optionsOf, parseChoice, queryOf, select, sizeOf, tidy, toggle, totals, whole,
-  type Choice, type Filter, type MapFile,
+  type CardPart, type Choice, type Filter, type MapFace, type MapFile,
 } from "@/lib/projectmap";
 
 const NAME_TO_CODE: Record<string, string> = Object.fromEntries(Object.entries(STATES).map(([code, name]) => [name, code]));
@@ -27,7 +28,7 @@ const KIND_WORD = ["Generating units", "Generating units", "Queue positions", "D
 
 const and = (words: string[]) => (words.length < 2 ? words.join("") : `${words.slice(0, -1).join(", ")} and ${words.at(-1)}`);
 
-export function ProjectMap({ file: f, statesGeo }: { file: MapFile; statesGeo: unknown }) {
+export function ProjectMap({ file: f, statesGeo }: { file: MapFace; statesGeo: unknown }) {
   // the choice: what the address says until the reader changes it; every change is written back to the address
   const search = useSyncExternalStore(never, () => window.location.search, () => "");
   const fromAddress = useMemo(() => parseChoice(search, f), [search, f]);
@@ -37,7 +38,20 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFile; statesGeo: u
   useEffect(() => {
     if (own) window.history.replaceState(window.history.state, "", `${window.location.pathname}${queryOf(own, f)}${window.location.hash}`);
   }, [own, f]);
-  const [card, setCard] = useState<number | null>(null);
+  const [card, setShown] = useState<number | null>(null);
+  // the card's fields: read once, at the first click on a unit, from /map/card (the same file, built with the site)
+  const [part, setPart] = useState<CardPart | { error: string } | "loading" | null>(null);
+  const reading = useRef(false);
+  const setCard = useCallback((i: number | null) => {
+    setShown(i);
+    if (i === null || reading.current) return;
+    reading.current = true;
+    setPart("loading");
+    fetch("/map/card")
+      .then(async (r) => (r.ok ? ((await r.json()) as CardPart) : { error: `HTTP ${r.status}` }))
+      .catch((e: Error) => ({ error: e.message }))
+      .then((p) => { setPart(p); if ("error" in p) reading.current = false; });
+  }, []);
 
   const xy = useMemo(() => {
     const x: (number | null)[] = [], y: (number | null)[] = [];
@@ -55,7 +69,7 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFile; statesGeo: u
 
   // the chart's handlers read the newest setters through refs (the chart is built once and redrawn)
   const act = useRef({ change, setCard });
-  useEffect(() => { act.current = { change, setCard }; }, [change]);
+  useEffect(() => { act.current = { change, setCard }; }, [change, setCard]);
   const chosenStates = choice.state;
   const box = useEChart(
     (chart, lib) => {
@@ -85,7 +99,7 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFile; statesGeo: u
             if (p.componentType === "geo") return `${p.name}: click to choose it, click again to take it away`;
             const i = (p.value as number[])[2];
             const kind = f.k[i], mw = f.mw[i];
-            const name = (f.names[f.n[i]] || f.id[i]).replace(/</g, "&lt;");
+            const name = (f.names[f.n[i]] || "No name in the source").replace(/</g, "&lt;");
             const what = kind === KIND.datacenter ? "Datacenter" : f.techs[f.t[i]].name;
             const st2 = f.statuses[f.st[i]].name;
             const grid = f.grids[f.g[i]];
@@ -185,7 +199,7 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFile; statesGeo: u
             </ul>
           ) : null}
           <div ref={cardBox} className="mt-4">
-            <UnitCard f={f} i={card} close={() => setCard(null)} />
+            <UnitCard f={f} part={part} i={card} close={() => setCard(null)} />
           </div>
         </ToolSection>
 
@@ -246,7 +260,7 @@ function Multi({ which, label, names, list, set, open, shown, groups, columns, t
   );
 }
 
-function Sentence({ f, choice, sum, sized }: { f: MapFile; choice: Choice; sum: ReturnType<typeof totals>; sized: boolean }) {
+function Sentence({ f, choice, sum, sized }: { f: MapFace; choice: Choice; sum: ReturnType<typeof totals>; sized: boolean }) {
   if (sum.rows === 0) return <>Nothing on this map matches these choices.</>;
   const grids = choice.grid === null ? "every grid" : choice.grid.length === 1 ? f.grids[choice.grid[0]].name : `${whole(choice.grid.length)} grids`;
   const states = choice.state === null ? "every state" : choice.state.length === 1 ? (STATES[f.states[choice.state[0]]] ?? "no state stated") : `${whole(choice.state.length)} states`;
@@ -267,7 +281,7 @@ function Sentence({ f, choice, sum, sized }: { f: MapFile; choice: Choice; sum: 
 }
 
 /** The plain key of the marks: what a shape and a color mean, for what is chosen. It toggles nothing. */
-function Key({ f, picked }: { f: MapFile; picked: number[] }) {
+function Key({ f, picked }: { f: MapFace; picked: number[] }) {
   const kinds = new Set<number>(), hues = new Set<string>();
   for (const i of picked) { kinds.add(f.k[i]); if (f.k[i] !== KIND.datacenter) hues.add(COLOR[f.techs[f.t[i]].slug] ?? "--color-fuel-other"); }
   const mark = (shape: string) => (
@@ -296,8 +310,8 @@ function Key({ f, picked }: { f: MapFile; picked: number[] }) {
   );
 }
 
-/** Version 1's card (session 16), read from the page's own file. */
-function UnitCard({ f, i, close }: { f: MapFile; i: number | null; close: () => void }) {
+/** Version 1's card (session 16), read from the page's own file: its columns, and the card's fields of the same file. */
+function UnitCard({ f, part, i, close }: { f: MapFace; part: CardPart | { error: string } | "loading" | null; i: number | null; close: () => void }) {
   if (i === null) {
     return (
       <aside className="border border-dashed border-rule bg-paper p-3 text-sm text-muted" data-map-card="empty">
@@ -305,7 +319,17 @@ function UnitCard({ f, i, close }: { f: MapFile; i: number | null; close: () => 
       </aside>
     );
   }
-  const c = cardOf(f, i);
+  const name = f.names[f.n[i]] || "No name in the source";
+  if (part === null || part === "loading") return <aside className="border border-rule bg-paper p-3 text-sm text-muted" data-map-card="loading">Reading the card of {name}...</aside>;
+  if ("error" in part || part.built !== f.built) {
+    return (
+      <aside className="border border-rule bg-paper p-3 text-sm" role="status" data-map-card="error">
+        <span className="font-semibold">The card could not be read</span> for {name}: {"error" in part ? part.error : "the map's file was rebuilt since this page was loaded; reload the page"}.
+        <button type="button" onClick={close} className="ml-2 text-muted underline hover:text-accent">Close</button>
+      </aside>
+    );
+  }
+  const c = cardOf({ ...f, ...part } as MapFile, i);
   return (
     <aside className="border border-rule bg-paper p-3 text-sm" aria-live="polite" data-map-card={c.id}>
       <div className="mb-1 flex items-start justify-between gap-2">
@@ -336,7 +360,7 @@ function UnitCard({ f, i, close }: { f: MapFile; i: number | null; close: () => 
 
 /** Version 1's table (session 16): count and MW by technology group and kind, now of what is chosen. Datacenters have no
  *  technology; they are not in it. */
-function ByTechnology({ f, sum, kindOn }: { f: MapFile; sum: ReturnType<typeof totals>; kindOn: (k: number) => boolean }) {
+function ByTechnology({ f, sum, kindOn }: { f: MapFace; sum: ReturnType<typeof totals>; kindOn: (k: number) => boolean }) {
   const kinds = [KIND.operating, KIND.planned, KIND.queue].filter((k) => kindOn(k));
   const rows = f.techs.map((t, ti) => ({ t, cells: kinds.map((k) => sum.byTech[ti][k]) })).filter((r) => r.t.slug !== "datacenter" && r.cells.some((c) => c.rows > 0));
   const head: ReactNode[] = ["Technology group"];

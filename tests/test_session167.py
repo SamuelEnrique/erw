@@ -199,6 +199,15 @@ class ThePage(unittest.TestCase):
                      "legendselectchanged", "/api/entity"):
             self.assertNotIn(gone, page + client, gone)
         self.assertNotIn("legend:", client)                         # the chart has no legend that toggles; the key is plain
+        # the card's fields: left out of the page, read once from /map/card, a route built from the same file (never Supabase)
+        self.assertIn("faceOf(f)", page)
+        self.assertIn('fetch("/map/card")', client)
+        route = src("site", "app", "map", "card", "route.ts")
+        self.assertIn('import mapJson from "@/data/map.json"', route)
+        self.assertIn('export const dynamic = "force-static"', route)
+        self.assertNotRegex(route, r"from \"@/lib/(supabase|data)\"")
+        keys = re.search(r"CARD_KEYS = \[([^\]]+)\] as const", src("site", "lib", "projectmap.ts")).group(1)
+        self.assertEqual(tuple(pm.CARD_KEYS), tuple(k.strip().strip('"') for k in keys.split(",")))
         method = src("docs", "methods", "energy_projects.md")
         for moved in ("existing and proposed generating units at electric power plants with 1 megawatt or greater of combined nameplate capacity",
                       "Retired units", "Energy for planned batteries", "A row is a generating unit, not a plant", "Hybrid is a queue position naming more than one technology"):

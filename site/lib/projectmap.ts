@@ -22,6 +22,19 @@ export type MapFile = {
   };
 };
 
+/** What only the unit card reads. The page leaves it out and reads it once, at the first click on a unit, from
+ *  /map/card (app/map/card/route.ts), the same file. */
+export const CARD_KEYS = ["id", "o", "c", "tx", "operators", "counties", "technologies", "more"] as const;
+export type CardKey = (typeof CARD_KEYS)[number];
+export type MapFace = Omit<MapFile, CardKey>;
+export type CardPart = Pick<MapFile, CardKey | "built">;
+/** The page's columns without the card's. */
+export function faceOf(f: MapFile): MapFace {
+  const face: Record<string, unknown> = { ...f };
+  for (const k of CARD_KEYS) delete face[k];
+  return face as MapFace;
+}
+
 export const KIND = { operating: 0, planned: 1, queue: 2, datacenter: 3 } as const;
 /** The five choices that are lists. `null`: every one (no choice made); a list: those positions only (an empty list: none). */
 export const FILTERS = ["kind", "grid", "tech", "status", "state"] as const;

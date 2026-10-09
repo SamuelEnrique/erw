@@ -122,7 +122,7 @@ PAGE_TECHS = TECHS[:-1] + [("queue_storage", "Storage (queue positions)"), ("hyb
                            ("datacenter", "Datacenter (a load)"), TECHS[-1]]
 NO_GRID = ("none", "Grid not stated")
 PRECISION = {"point": 0, "county": 1, "place": 2, "operator": 3, "none": 4, "": 4}
-CARD_KEYS = ("id", "o", "c", "tx", "d", "operators", "counties", "technologies", "more")   # what the unit card adds to the file
+CARD_KEYS = ("id", "o", "c", "tx", "operators", "counties", "technologies", "more")   # what only the unit card reads (the page reads them from /map/card)
 
 
 def _date(text):
