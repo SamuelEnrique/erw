@@ -146,14 +146,18 @@ class ThePage(unittest.TestCase):
         self.assertIn('if (view === "week")', page)
         self.assertEqual(page.count("<WeekView "), 1)
         # everything the page showed before is still in it, in the view an address without view=week opens
-        for said in ("Energy rules, proposed rules and notices of DOE, FERC, EPA, NRC, BLM and Interior from the Federal Register", "Significance uses the same rubric as the news digest",
-                     '<Section title="This week in policy">', '<Section title="Every action">', "<PolicyTable rows={rows} />", "Number(x.significance) >= 5",
+        # Session 164 (the owner's rule, no method prose on a page face): the method paragraph's three sentences are the
+        # hovers of the lead's own words (FIRST_VIEW_METHOD in lib/policyweek.ts) and the table has a Tag filter, so the
+        # lead is looked for in pieces and the table's element by its opening.
+        for said in ("Energy rules, proposed rules and notices of DOE,", "EPA, NRC, BLM and Interior from the Federal Register", "scored for significance", "read for its impact",
+                     '<Section title="This week in policy">', '<Section title="Every action">', "<PolicyTable rows={rows} ", "Number(x.significance) >= 5",
                      'tables={["policy_actions", "policy_reads"]} note="Scores from warehouse/policy/score.py (the news rubric)', '<Related href="/policy" />'):
             self.assertIn(said, page)
         table = src("site", "app", "policy", "PolicyTable.tsx")
         for label in ('sel("Agency"', 'sel("Type"', 'sel("Sector"', 'sel("State"', 'sel("Significance"', 'type="date"', "<Detail r={r} />"):
             self.assertIn(label, table)
-        self.assertNotRegex(table, r"policyweek|WeekView")       # the table of every action is not changed for the view
+        self.assertIn("Significance uses the same rubric as the news digest", src("site", "lib", "policyweek.ts"))   # kept, as a hover
+        self.assertNotRegex(table, r"WeekView|weekHref|shownRows")       # the table of every action is not changed for the view
         self.assertFalse(os.path.exists(os.path.join(SITE, "app", "policy", "week")), "the view is a view of /policy, not a second page")
 
     def test_what_the_view_reads_and_that_no_model_is_called(self):

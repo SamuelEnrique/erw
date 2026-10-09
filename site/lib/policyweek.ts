@@ -473,3 +473,42 @@ export function emptyWhy(c: Chosen, today: string, bodies: Body[], topics: Topic
     c.grid ? `under ${gridNames[c.grid] ?? c.grid.toUpperCase()}` : "", c.large ? "that touches large loads" : ""].filter(Boolean).join(" ");
   return `No action${said ? ` ${said}` : ""} is held that is dated ${dayWords(sinceDay(today, c.days))} or later.`;
 }
+
+// ---- the first view's tag filter (session 164) -------------------------------------------------------------------------
+// The view of every action lists the whole table, so it is where a reader reaches every tagged action whatever its
+// date (the second view's windows end at thirty days, and the newest tagged action can be older). The tags are the same
+// rule's: the rule on the row as read, united with the tags the warehouse's run gave from the printed text.
+
+/** A tag as the first view shows it on a row: its chip's words and its hover. */
+export type TagChip = { key: string; label: string; why: string };
+/** The filter's choice for "every tagged action", whatever the tag. */
+export const ANY_TAG = "any";
+/** The chips of an action's tags, in the rule's order, worded as the second view words them. */
+export function chipsOf(hits: TagHit[], topics: Topic[], rules: TagRules): TagChip[] {
+  const by = new Map(topics.filter((t) => t.kind === "tag").map((t) => [t.key, t]));
+  return hits.filter((h) => by.has(h.tag)).map((h) => ({ key: h.tag, label: by.get(h.tag)!.label,
+    why: `Tagged by the written rule, version ${rules.version}: "${h.matched_term}" in the ${TAG_FIELD[h.matched_field] ?? h.matched_field}. Not by a model.` }));
+}
+/** The tag an address chooses in the first view: one of the rule's tags, "any", or none. */
+export function tagOf(q: Record<string, string | undefined>, tags: string[]): string {
+  const s = (q.tag ?? "").trim().toLowerCase();
+  return s === ANY_TAG || tags.includes(s) ? s : "";
+}
+/** The address of the first view with a tag chosen; with none, the page's own address. */
+export const tagHref = (tag: string): string => (tag ? `/policy?tag=${encodeURIComponent(tag)}` : "/policy");
+/** A row carries the tag chosen ("any": at least one). No choice: every row. */
+export function hasTag(chips: TagChip[] | undefined, tag: string): boolean {
+  if (!tag) return true;
+  const mine = chips ?? [];
+  return tag === ANY_TAG ? mine.length > 0 : mine.some((c) => c.key === tag);
+}
+
+// ---- the first view's method, off the face (session 164) ---------------------------------------------------------------
+// The paragraph that stood under the first view's lead until session 164, sentence by sentence: each is now the hover of
+// the words of the lead it explains, and all three stand in the Method note (docs/methods/policy_monitor.md, "The first
+// view"). Nothing it said is dropped.
+export const FIRST_VIEW_METHOD = {
+  scored: "Significance uses the same rubric as the news digest.",
+  read: "An impact read is written by a model from the action's own text, and each field is kept only when the exact words it rests on are found in that text; a blank field was dropped for that reason.",
+  ferc: "FERC's own pages cannot be read automatically, so FERC appears through the Federal Register.",
+} as const;

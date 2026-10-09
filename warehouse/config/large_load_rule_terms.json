@@ -62,6 +62,12 @@
       "saved_text": "warehouse/raw/large_load_rules/B/text/il__privacy.htm.txt",
       "quoted_by": "pass B",
       "also": "A docket's own page answered a plain request with: \"Please, no robots or crawlers beyond this point.\" One request, then left; no docket page was asked again. Every Illinois row is cut from the commission's open meeting minutes, agendas or its list of suspended cases.",
+      "robots_url": "https://icc.illinois.gov/robots.txt",
+      "robots_quote": "User-agent: *\nDisallow: /",
+      "robots_note": "Read for the first time in session 164. The file disallows every path of the site to every robot but four it names (Elastic-Crawler, Elastic, SiteimproveBot-Crawler, SiteimproveBot). No document, docket page, minutes or terms page of the commission was requested in session 164, and none will be by a script of this project until the owner rules. Session 154's pass B had asked this host 80 times (the minutes, agendas, lists and the privacy page the rows and the quotation above rest on) without reading this file: reported to the owner.",
+      "robots_retrieved": "2026-10-09T00:41:53Z",
+      "robots_sha256": "1d74ca83ef02b2e17246a201fcecb57ecf4b71d25b4a514f6219074d199cfd85",
+      "robots_saved": "warehouse/raw/large_load_rules/D/raw/robots/icc.illinois.gov.txt",
       "decided_by": "the build agent, by the rule the coordinator applied to Oregon and Arizona: a statement about public records; the page states no rule on reuse and reserves no right"
     },
     {
@@ -108,6 +114,13 @@
       "terms_url": "",
       "terms_quote": "",
       "why_none": "puco.ohio.gov answered 404 to six plain requests, its privacy notice among them (pass B); no terms page could be read",
+      "why_none_164": "Asked again in session 164 (9 October 2026, 00:43 UTC): https://puco.ohio.gov/wps/portal/gov/puco/help-center/privacy-notice-and-policies answered 404 again (5,290 bytes, sha256 9959509cba0e1bdc532de4e7d750bbc7de4aaf2fed72682708f72991fc7aaf2b), and so did https://puco.ohio.gov/robots.txt and https://ohio.gov/robots.txt. Ohio's terms are still not read.",
+      "robots_url": "https://dis.puc.state.oh.us/robots.txt",
+      "robots_quote": "User-agent: anthropic-ai\nUser-agent: Claude-Web\nUser-agent: ClaudeBot\nDisallow: /",
+      "robots_note": "Read for the first time in session 164. The docketing system's file names 40 robots in one group, among them GPTBot, ChatGPT-User, CCBot, PerplexityBot, Scrapy and the three of Anthropic quoted here (the three lines are not adjacent in the file; the Disallow line closes the group), and disallows them every path; it has no rule for other robots. This project's requests are made by an AI agent built on Anthropic's Claude and what they fetch is read by a Claude model, so session 164 asked the host for no document, whatever name the request would carry, and handed the question to the owner. Session 154's pass B had asked this host 42 times (the docket cards the ten Ohio rows rest on) without reading this file: reported to the owner.",
+      "robots_retrieved": "2026-10-09T00:41:50Z",
+      "robots_sha256": "4bc63d197dabf96cc2963ca43742bc52f58d681a5a08346aa4b801319b007cb3",
+      "robots_saved": "warehouse/raw/large_load_rules/D/raw/robots/dis.puc.state.oh.us.txt",
       "quoted_by": "pass B",
       "withheld_words": "The Public Utilities Commission of Ohio's terms on copying its text were not read; open the document",
       "decided_by": "the rule: a regulator with no terms quoted by integration time is held internal"

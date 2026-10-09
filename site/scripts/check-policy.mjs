@@ -49,8 +49,12 @@ const rowsIn = (html) => [...html.matchAll(/<tr[^>]*data-week-row="([^"]+)"[^>]*
   const p = await get("/policy");
   const t = face(p.html);
   check(p.status === 200 && !p.html.includes('data-in-review="1"') && p.html.includes('data-policy="all"') && !p.html.includes('data-week="1"'), "/policy opens in the internal view, as the page it was (the view of every action)");
-  const kept = ["Energy rules, proposed rules and notices of DOE, FERC, EPA, NRC, BLM and Interior from the Federal Register", "each scored for significance and, when it scores 5 or more, read for its impact",
-    "Significance uses the same rubric as the news digest", "so FERC appears through the Federal Register", "This week in policy", "Every action", "Agency", "Type", "Sector", "State", "Significance", "From", "5 or more", "7 or more",
+  // Session 164: the method paragraph is off the face (each sentence the hover of the words it explains), so the lead is
+  // read in pieces around its three hovers and the paragraph's sentences are looked for in the hovers, not on the face.
+  const hovers = decode(p.html);
+  check(["Significance uses the same rubric as the news digest", "so FERC appears through the Federal Register"].every((w) => hovers.includes(w) && !t.includes(w)), "the first view's method sentences are in its hovers, and not on its face");
+  const kept = ["Energy rules, proposed rules and notices of DOE,", "EPA, NRC, BLM and Interior from the Federal Register", "scored for significance", "and, when it scores 5 or more,", "read for its impact",
+    "This week in policy", "Every action", "Agency", "Type", "Sector", "State", "Significance", "Tag", "From", "5 or more", "7 or more",
     "Date", "Title", "Scores from warehouse/policy/score.py (the news rubric)", "policy_actions", "policy_reads"];
   const lost = kept.filter((w) => !t.includes(w));
   const tableRows = (p.html.match(/<tr class="cursor-pointer/g) ?? []).length;
@@ -302,10 +306,10 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
 
   // the other view still works in the browser
   await go(`${base}/policy`);
-  await wait(`document.querySelectorAll('tr.cursor-pointer').length > 0 && document.querySelectorAll('select').length >= 5`, 30000, "the table of every action");
+  await wait(`document.querySelectorAll('tr.cursor-pointer').length > 0 && document.querySelectorAll('select').length >= 6`, 30000, "the table of every action");
   const old = await evaluate(`(() => { const rows = document.querySelectorAll('tr.cursor-pointer').length; rows && document.querySelector('tr.cursor-pointer').click(); return { rows, selects: document.querySelectorAll('select').length, date: document.querySelectorAll('input[type="date"]').length }; })()`);
   await wait(`!!document.querySelector('td[colspan="6"]')`, 15000, "a row of the table opened");
-  check(old.rows > 0 && old.selects === 5 && old.date === 1, `the view of every action still works in the browser: ${old.rows} rows drawn, five selects and a date, and a row opens to its detail`);
+  check(old.rows > 0 && old.selects === 6 && old.date === 1, `the view of every action still works in the browser: ${old.rows} rows drawn, six selects (the Tag filter since session 164) and a date, and a row opens to its detail`);
   check(errors.length === 0, `no script error on the page${errors.length ? `: ${errors.slice(0, 2).join(" | ").slice(0, 200)}` : ""}`);
   return 0;
 });
