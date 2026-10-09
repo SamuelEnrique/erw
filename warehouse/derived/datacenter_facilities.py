@@ -5,6 +5,9 @@ Energy Research Warehouse (ERW), session 22 (Task 2c and 2d). Method:
 docs/methods/datacenter_facilities.md.
 
     python warehouse/derived/datacenter_facilities.py
+    python warehouse/derived/datacenter_facilities.py --in-dir DIR --out-dir DIR2 --no-gazetteer   # a trial (session 166):
+        the inputs read from DIR, every output (the table, the queue positions, logs, registry, status) under DIR2,
+        and no request to the Census for the gazetteer: a queue row then keeps no point (a trial's rows say so)
 
 Inputs, three kinds (the kind column):
 - news: datacenter_projects (warehouse/datacenters/extract.py), facilities named in scored
@@ -30,8 +33,14 @@ status from the news (dated), else the operator; every member's id and source li
 
 Shape: entities (docs/datastandard.md), entity_type datacenter, a snapshot. A derived table
 (Decision 23): source erw:datacenter_facilities, source_url the method doc.
+
+Session 166 (accuracy): country is "US" when the row states a US state (or the District of Columbia) and empty
+otherwise; no source records a country, so a row without a US state has none (Firmus's Tasmanian rows among them),
+and geo is "US-<state>" or empty, never "US" for a row whose country no source states. The page counts only rows
+with country "US" whose status is not withdrawn (cancelled) in its totals and bars.
 """
 
+import argparse
 import datetime as dt
 import math
 import os
@@ -72,16 +81,24 @@ OPERATOR_ALIASES = {
 }
 STD = ["entity_id", "entity_type", "name", "geo", "lat", "lon", "capacity_mw", "status", "status_date",
        "operator", "source", "source_url", "retrieved_at", "vintage"]
-EXTRA = ["kind", "kinds", "site_type", "developer", "state", "county", "city", "mw", "mw_span", "mw_from",
+EXTRA = ["kind", "kinds", "site_type", "developer", "state", "county", "city", "country", "mw", "mw_span", "mw_from",
          "queue_mw", "project_status", "phase", "planned_year", "power_source", "utility", "confidence",
          "first_story_at", "geo_precision", "geo_note", "n_members", "member_ids", "source_urls"]
 NEWS_ONLY = ["phase", "planned_year", "power_source", "utility", "confidence", "first_story_at"]
 COLS = STD + EXTRA
 PRIORITY = {"operator": 0, "news": 1, "queue": 2}
+US_STATES = set(ep.STATES.values())  # the 50 states and the District of Columbia, as postal codes
+IN_DIR = None  # session 166: --in-dir reads the inputs from another directory (a trial); None reads ip.OUT_DIR
+GAZETTEER = True  # --no-gazetteer: no request to the Census; a queue row is then not placed
+
+
+def country_of(state):
+    """Session 166: "US" when the row states a US state; empty when no source states a country."""
+    return "US" if state in US_STATES else ""
 
 
 def read(name):
-    path = os.path.join(ip.OUT_DIR, name + ".csv")
+    path = os.path.join(IN_DIR or ip.OUT_DIR, name + ".csv")
     if not os.path.exists(path):
         return None
     with open(path, encoding="utf-8") as f:
@@ -159,10 +176,13 @@ def members(log):
     qp = queue_positions(log)
     look = None
     for r in qp.to_dict("records"):
-        if look is None:
+        if look is None and GAZETTEER:
             run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
             look, _ = ep.load_gazetteer(run_id, log)
-        a, b, p, note = ep.geocode(r["state"], r["county"], look)
+        if look is None:
+            a, b, p, note = None, None, "none", "not placed: the gazetteer was not read (--no-gazetteer, a trial)"
+        else:
+            a, b, p, note = ep.geocode(r["state"], r["county"], look)
         out.append(dict(kind="queue", id=r["entity_id"], name=r["name"], operator=r["operator"], developer="",
                         state=r["state"], county=r["county"], city="", lat=f"{a:.6f}" if a is not None else "",
                         lon=f"{b:.6f}" if b is not None else "", mw="", mw_span="", status=r["status"],
@@ -281,11 +301,23 @@ def facility(g, now):
     if mw_member:
         r["mw"] = r["capacity_mw"] = mw_member["mw"]
         r["mw_span"], r["mw_from"] = mw_member["mw_span"], f"{mw_member['kind']}:{mw_member['id']}"
-    r["geo"] = f"US-{r['state']}" if r["state"] else "US"
+    # session 166: a country only where a US state is stated; geo is never "US" on the word of no source
+    r["country"] = country_of(r["state"])
+    r["geo"] = f"US-{r['state']}" if r["country"] else ""
     return r
 
 
-def main():
+def main(argv=None):
+    global IN_DIR, GAZETTEER
+    ap = argparse.ArgumentParser(description="The datacenter tracker's one table (the module docstring)")
+    ap.add_argument("--in-dir", help="read the input tables from this directory (a trial)")
+    ap.add_argument("--out-dir", help="write the table, the queue positions, logs, registry and status under this directory (a trial)")
+    ap.add_argument("--no-gazetteer", action="store_true", help="no request to the Census: queue rows are not placed (a trial)")
+    a = ap.parse_args(argv)
+    if a.out_dir:
+        ip.set_out_dir(a.out_dir)
+    IN_DIR = os.path.abspath(a.in_dir) if a.in_dir else None
+    GAZETTEER = not a.no_gazetteer
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     log = ip.Log(os.path.join(ip.LOG_DIR, f"datacenter_facilities_{run_id}.log"))
@@ -312,7 +344,9 @@ def main():
             f"Derived from: {NEWS}, {OPS}, " + ", ".join(QUEUES) + f". Method: {METHOD}.",
             f"Deduplication: operator (aliases) plus location (same state and county or city, or within {MATCH_KM:g} km); "
             "an operator's own separately listed sites are never merged with each other.",
-            f"Facilities: {len(table)}; with a stated MW: {n_mw}.",
+            f"Facilities: {len(table)}; with a stated MW: {n_mw}; with a US state stated (country US): "
+            f"{int((table['country'] == 'US').sum())}. No source records a country: a row without a US state has none, "
+            "and geo is empty for it (session 166).",
             "License: public (the news rows carry no outlet text; operator and queue facts are public).",
         ]
         ip.write_snapshot(table, NAME, header, log, COLS)
