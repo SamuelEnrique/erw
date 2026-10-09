@@ -55,7 +55,17 @@ The merged row takes its name, place and coordinates from the operator site, if 
 
 ## Columns
 
-The entities standard columns come first, then: `kind` (the first member's kind), `kinds`, `site_type` (region, campus, facility, announced_site, queue_position or empty for news), `developer`, `state`, `county`, `city`, `mw`, `mw_span`, `mw_from`, `queue_mw`, `project_status` (the source's own word), `geo_precision` (operator, point, county, place or none), `geo_note`, `n_members`, `member_ids` and `source_urls`.
+The entities standard columns come first, then: `kind` (the first member's kind), `kinds`, `site_type` (region, campus, facility, announced_site, queue_position or empty for news), `developer`, `state`, `county`, `city`, `mw`, `mw_span`, `mw_from`, `queue_mw`, `project_status` (the source's own word), `geo_precision` (operator, point, county, place or none), `geo_note`, `n_members`, `member_ids` and `source_urls`; since session 166 also `country` (after `city`).
+
+## Country, and what the tracker's totals count (session 166)
+
+No source the ERW reads records a country: the news extractor asks for a US state, and the operators' lists are read for US sites. So `country` is `US` where a row states a US state (the 50 states, the District of Columbia and Puerto Rico, the gazetteer's list) and empty otherwise, and `geo` is `US-<state>` or empty: never `US` on no source's word. A row without a US state may be outside the US (Firmus's two Tasmanian rows, a Stargate Norway row and a Karlsruhe row are among the 119 such rows of 8 October 2026) or a US site whose story or page names no state (Azure's "East US").
+
+The tracker's totals and its two bars (stated MW by state, top operators by MW) count only rows with `country` `US` whose `status` is not `withdrawn` (the extractor's "cancelled"). Every other row stays in the table: a row without a country reads "country not stated", with the reason on hover. The Status column and filter show `status`, the entities vocabulary, never a source's raw word (`project_status` keeps that word in the table).
+
+## The news extractor's merge rule (session 166)
+
+The news extractor (`warehouse/datacenters/extract.py`) lets the model mark a facility as one already held (`same_as`). Since session 166 that mark is accepted only when the two name the same operator or developer (either side's), the same site name, or the same county or city in the same state; a state alone joins nothing, and the run log names each refusal. Before the rule, the 2025 story of a USD 2B Utah datacenter (no operator, no county) was joined to the 2026 Valar Atomics 9.4 GW story on the word "Utah" alone, and took its 9,400 MW (`datacenter:868a5b4c04ff1f44`). The rule does not split a row already joined: that row stays as it is until `--reextract` (a model run) rebuilds the news table.
 
 ## Limits
 
