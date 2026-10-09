@@ -1,0 +1,462 @@
+{
+ "built_at_utc": "2026-10-09T00:55:28Z",
+ "built_by": "warehouse/derived/how_soon.py",
+ "holds": "aggregates only: counts, bounds and medians by stage, and stated figures with their documents; no request, no name, no queue position and no size of a request",
+ "unit": "days",
+ "rule": {
+  "min_for_median": 5,
+  "min_for_bounds": 2,
+  "too_few": "too few to show"
+ },
+ "summary": {
+  "service": "request to energized",
+  "lead": [
+   "system impact study, pending or in progress to approved"
+  ]
+ },
+ "tables": {
+  "large_load_waits": {
+   "license": "internal",
+   "rows": 491,
+   "retrieved": "20261008T210237Z"
+  },
+  "large_load_statements": {
+   "license": "internal",
+   "rows": 796,
+   "retrieved": "20261008T012402Z"
+  }
+ },
+ "paused": [
+  "miso"
+ ],
+ "grids": {
+  "nyiso": {
+   "state": "measured",
+   "entity": "New York ISO",
+   "copies": {
+    "n": 37,
+    "first": "2014-09-04",
+    "last": "2026-09-11",
+    "requests_seen": 78,
+    "requests_followed": 73,
+    "what": "NYISO's interconnection queue workbook (its load requests)",
+    "read_from": "the Internet Archive's Wayback Machine and the publisher's own site",
+    "retrieved": "2026-10-08T08:47:50Z"
+   },
+   "stages": [
+    {
+     "interval": "request to study",
+     "label": "Request to the first study status",
+     "phrase": "from request to the first study status",
+     "requests": 57,
+     "measured": {
+      "n": 21,
+      "form": "median",
+      "median_at_least": 26,
+      "median_at_most": 86,
+      "least": 1,
+      "most": 782
+     },
+     "waiting": {
+      "n": 1,
+      "lower_bound": true,
+      "form": "too few",
+      "words": "too few to show"
+     },
+     "two_copies_only": {
+      "n": 1,
+      "lower_bound": true
+     },
+     "ended_before_first_copy": {
+      "n": 34
+     },
+     "stated": [
+      {
+       "stated_by": "New York ISO",
+       "figure": "2 weeks",
+       "basis": "expected",
+       "statistic": "",
+       "covers": "project scoping call",
+       "document": "NYISO Technical Bulletin 266: Load Interconnection Projects System Impact Study Procedure (11/07/2025)",
+       "document_type": "operator report",
+       "date": "2025-11-07",
+       "date_basis": "document",
+       "page": "1",
+       "url": "https://www.nyiso.com/documents/20142/2931465/TB266-LoadInterconnection-20251107-Final.pdf/556d0622-8558-1f5e-6d3f-64b25cd7ea14",
+       "mark": "",
+       "note": "Not the same start or end: NYISO's figure runs from its finding a request complete to its scheduling a scoping call, and no copy shows either day."
+      }
+     ]
+    },
+    {
+     "interval": "system impact study, pending or in progress to approved",
+     "label": "System impact study, pending to approved",
+     "phrase": "through the system impact study from pending to approved",
+     "requests": 54,
+     "measured": {
+      "n": 22,
+      "form": "median",
+      "median_at_least": 414,
+      "median_at_most": 680,
+      "least": 0,
+      "most": 1239
+     },
+     "waiting": {
+      "n": 32,
+      "lower_bound": true,
+      "form": "range",
+      "least": 30,
+      "most": 522
+     },
+     "two_copies_only": {
+      "n": 0,
+      "lower_bound": true
+     },
+     "ended_before_first_copy": {
+      "n": 0
+     },
+     "stated": [
+      {
+       "stated_by": "New York ISO",
+       "figure": "nine months",
+       "basis": "expected",
+       "statistic": "",
+       "covers": "System Impact Study (SIS)",
+       "document": "NYISO Technical Bulletin 266: Load Interconnection Projects System Impact Study Procedure (11/07/2025)",
+       "document_type": "operator report",
+       "date": "2025-11-07",
+       "date_basis": "document",
+       "page": "3",
+       "url": "https://www.nyiso.com/documents/20142/2931465/TB266-LoadInterconnection-20251107-Final.pdf/556d0622-8558-1f5e-6d3f-64b25cd7ea14",
+       "mark": "",
+       "note": "Not the same start: NYISO's figure runs from the customer's study selection, a day no copy shows; the measurement runs from the first copy that shows the study pending."
+      },
+      {
+       "stated_by": "New York ISO",
+       "figure": "90-day",
+       "basis": "expected",
+       "statistic": "",
+       "covers": "System Impact Study (SIS)",
+       "document": "NYISO, Large Load FERC Show Cause Order (ESPWG/TPAS/ICAPWG, July 23, 2026)",
+       "document_type": "operator report",
+       "date": "2026-07-23",
+       "date_basis": "document",
+       "page": "29",
+       "url": "https://www.nyiso.com/documents/20142/58620525/04_FERC%20Large%20Load%20Show%20Cause%20Order%20-%20ESPWG.pdf/3b66b965-05ad-51e6-a4c5-c9846eeada4c",
+       "mark": "proposed",
+       "note": "A step of a procedure NYISO proposed in July 2026, not the one the measured requests went through."
+      }
+     ]
+    },
+    {
+     "interval": "request to agreement",
+     "label": "Request to a signed agreement",
+     "phrase": "from request to a signed agreement",
+     "requests": 48,
+     "measured": {
+      "n": 0,
+      "form": "none"
+     },
+     "waiting": {
+      "n": 47,
+      "lower_bound": true,
+      "form": "range",
+      "least": 105,
+      "most": 2881
+     },
+     "two_copies_only": {
+      "n": 1,
+      "lower_bound": true
+     },
+     "ended_before_first_copy": {
+      "n": 0
+     },
+     "stated": []
+    },
+    {
+     "interval": "study to agreement",
+     "label": "First study status to a signed agreement",
+     "phrase": "from the first study status to a signed agreement",
+     "requests": 46,
+     "measured": {
+      "n": 0,
+      "form": "none"
+     },
+     "waiting": {
+      "n": 46,
+      "lower_bound": true,
+      "form": "range",
+      "least": 30,
+      "most": 2682
+     },
+     "two_copies_only": {
+      "n": 0,
+      "lower_bound": true
+     },
+     "ended_before_first_copy": {
+      "n": 0
+     },
+     "stated": []
+    },
+    {
+     "interval": "request to construction",
+     "label": "Request to under construction",
+     "phrase": "from request to under construction",
+     "requests": 52,
+     "measured": {
+      "n": 4,
+      "form": "bounds",
+      "least": 1153,
+      "most": 2366
+     },
+     "waiting": {
+      "n": 47,
+      "lower_bound": true,
+      "form": "range",
+      "least": 105,
+      "most": 2881
+     },
+     "two_copies_only": {
+      "n": 1,
+      "lower_bound": true
+     },
+     "ended_before_first_copy": {
+      "n": 0
+     },
+     "stated": []
+    },
+    {
+     "interval": "request to energized",
+     "label": "Request to in service",
+     "phrase": "from request to in service",
+     "requests": 56,
+     "measured": {
+      "n": 2,
+      "form": "bounds",
+      "least": 1028,
+      "most": 1339
+     },
+     "waiting": {
+      "n": 51,
+      "lower_bound": true,
+      "form": "range",
+      "least": 105,
+      "most": 3636
+     },
+     "two_copies_only": {
+      "n": 1,
+      "lower_bound": true
+     },
+     "ended_before_first_copy": {
+      "n": 2
+     },
+     "stated": []
+    },
+    {
+     "interval": "request to withdrawal",
+     "label": "Request to withdrawal",
+     "phrase": "from request to withdrawal",
+     "requests": 17,
+     "measured": {
+      "n": 6,
+      "form": "median",
+      "median_at_least": 322,
+      "median_at_most": 760.5,
+      "least": 28,
+      "most": 915
+     },
+     "waiting": {
+      "n": 0,
+      "lower_bound": true,
+      "form": "none"
+     },
+     "two_copies_only": {
+      "n": 0,
+      "lower_bound": true
+     },
+     "ended_before_first_copy": {
+      "n": 11
+     },
+     "stated": []
+    }
+   ],
+   "stated": [],
+   "place": "New York"
+  },
+  "ercot": {
+   "state": "not measured here",
+   "entity": "ERCOT",
+   "stages": [],
+   "stated": [
+    {
+     "stated_by": "ERCOT",
+     "figure": "approximately 220 days",
+     "basis": "measured",
+     "statistic": "average",
+     "covers": "in-service (delay against the in-service date)",
+     "document": "ERCOT, Update on ERCOT's Adjusted Load Forecast and Request for Good Cause Exception for 2025 Regional Transmission Plan (Public Utility Commission of Texas, Project No. 55999, item 121)",
+     "document_type": "commission filing",
+     "date": "2025-05-01",
+     "date_basis": "document",
+     "page": "8",
+     "url": "https://interchange.puc.texas.gov/Documents/55999_121_1495046.PDF",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "Oncor Electric Delivery",
+     "figure": "825 days",
+     "basis": "measured",
+     "statistic": "average",
+     "covers": "retail transmission interconnections placed in service (from initial submission to energizing the interconnection)",
+     "document": "Response of Oncor Electric Delivery Company LLC to Google LLC's First Request for Information, PUC Docket No. 58306 (Oncor's rate case), item 210, first file (questions 1-01 to 1-12)",
+     "document_type": "commission filing",
+     "date": "2025-08-25",
+     "date_basis": "document",
+     "page": "64",
+     "url": "https://interchange.puc.texas.gov/Documents/58306_210_1533872.PDF",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "Oncor Electric Delivery",
+     "figure": "687 days",
+     "basis": "measured",
+     "statistic": "median",
+     "covers": "retail transmission interconnections placed in service (from initial submission to energizing the interconnection)",
+     "document": "Response of Oncor Electric Delivery Company LLC to Google LLC's First Request for Information, PUC Docket No. 58306 (Oncor's rate case), item 210, first file (questions 1-01 to 1-12)",
+     "document_type": "commission filing",
+     "date": "2025-08-25",
+     "date_basis": "document",
+     "page": "64",
+     "url": "https://interchange.puc.texas.gov/Documents/58306_210_1533872.PDF",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "ERCOT",
+     "figure": "ten Business Days",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "review of the preliminary study report",
+     "document": "ERCOT, Questions and Answers About the Large Load Interconnection Process (Rev. 12.15.25)",
+     "document_type": "operator report",
+     "date": "2025-12-15",
+     "date_basis": "document",
+     "page": "9",
+     "url": "https://www.ercot.com/files/docs/2025/12/24/Large-Load-Interconnection-Process-Q-A.pdf",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "ERCOT",
+     "figure": "13 weeks",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Batch Zero study, step 1: Case Build",
+     "document": "ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32)",
+     "document_type": "operator report",
+     "date": "2026-05-05",
+     "date_basis": "document",
+     "page": "18",
+     "url": "https://interchange.puc.texas.gov/Documents/59142_32_1638268.PDF",
+     "mark": "",
+     "note": "ERCOT wrote each step and not their sum: the steps are not added here."
+    },
+    {
+     "stated_by": "ERCOT",
+     "figure": "15 weeks",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Batch Zero study, step 2: Steady State Analysis",
+     "document": "ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32)",
+     "document_type": "operator report",
+     "date": "2026-05-05",
+     "date_basis": "document",
+     "page": "18",
+     "url": "https://interchange.puc.texas.gov/Documents/59142_32_1638268.PDF",
+     "mark": "",
+     "note": "ERCOT wrote each step and not their sum: the steps are not added here."
+    },
+    {
+     "stated_by": "ERCOT",
+     "figure": "16 weeks",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Batch Zero study, step 3: Stability Screening Study and Final Report",
+     "document": "ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32)",
+     "document_type": "operator report",
+     "date": "2026-05-05",
+     "date_basis": "document",
+     "page": "18",
+     "url": "https://interchange.puc.texas.gov/Documents/59142_32_1638268.PDF",
+     "mark": "",
+     "note": "ERCOT wrote each step and not their sum: the steps are not added here."
+    },
+    {
+     "stated_by": "ERCOT",
+     "figure": "14 weeks",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Batch Zero study, step 4: FAC-002 Stability and Batch Refinement Study (after the developer commitment deadline)",
+     "document": "ERCOT Large Load Batch Study Update, letter and presentation to the Public Utility Commission of Texas (Project No. 59142, item 32)",
+     "document_type": "operator report",
+     "date": "2026-05-05",
+     "date_basis": "document",
+     "page": "18",
+     "url": "https://interchange.puc.texas.gov/Documents/59142_32_1638268.PDF",
+     "mark": "",
+     "note": "ERCOT wrote each step and not their sum: the steps are not added here."
+    },
+    {
+     "stated_by": "ERCOT",
+     "figure": "several months",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Batch Zero study process (classification paused for the verification and audit)",
+     "document": "ERCOT's Requests for Good Cause Exceptions Relating to Batch Zero Deadlines and Status Update on Additional Matters Including the Long-Term Load Forecast (Public Utility Commission of Texas, Project No. 59142, item 42)",
+     "document_type": "commission filing",
+     "date": "2026-08-10",
+     "date_basis": "document",
+     "page": "2",
+     "url": "https://interchange.puc.texas.gov/Documents/59142_42_1672561.PDF",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "ERCOT",
+     "figure": "a few days to many weeks",
+     "basis": "general statement",
+     "statistic": "",
+     "covers": "Under ERCOT Review",
+     "document": "ERCOT, Questions and Answers About the Large Load Interconnection Process (Rev. 12.15.25)",
+     "document_type": "operator report",
+     "date": "2025-12-15",
+     "date_basis": "document",
+     "page": "5",
+     "url": "https://www.ercot.com/files/docs/2025/12/24/Large-Load-Interconnection-Process-Q-A.pdf",
+     "mark": "",
+     "note": ""
+    }
+   ],
+   "reports": {
+    "n": 32,
+    "first": "2022-04-26",
+    "last": "2026-06-19",
+    "requests_named": 0,
+    "what": "large load status reports",
+    "why": "Each report gives totals by stage for the whole system and names no request, so no request can be followed from copy to copy and no wait is measured from them.",
+    "read_from": "the Internet Archive's Wayback Machine and the publisher's own site"
+   },
+   "place": "Texas"
+  }
+ },
+ "left_out": {
+  "entities": 1,
+  "interval_rows": 156,
+  "intervals": [
+   "in stage",
+   "in stage, then withdrawn"
+  ]
+ }
+}
