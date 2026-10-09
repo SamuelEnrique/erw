@@ -630,6 +630,26 @@ def merge_companies(rows, niche, run_id, log):
 TABLE_DIR = None        # session 147: run.py --in-dir reads the warehouse's tables from another folder
 
 
+# Session 169: the short words of the domain. The words a niche is looked for by were those of four letters or more
+# (run.words_of) or five (the policy candidates), so "oil", "gas", "EV", "AI" and "LNG" were never searched. These are
+# kept, each as a whole word only ("oil" is not in "soil"); every longer word is read as before.
+SHORT = ("oil", "gas", "ev", "ai", "lng", "smr", "ccs", "dac", "pv", "h2", "co2")
+_SHORT_WORD = re.compile(r"(?<![a-z0-9-])(?:" + "|".join(SHORT) + r")(?![a-z0-9-])")
+
+
+def short_in(text, w):
+    """Is the short domain word in the text as a whole word? (lower case text)"""
+    return re.search(rf"(?<![a-z0-9]){re.escape(w)}(?![a-z0-9])", text) is not None
+
+
+def policy_words(text, drop=()):
+    """The words the policy candidates are looked for by: the text's words of five letters or more that are not in
+    `drop` (as before session 169), then its short domain words (SHORT), each once, in the order written."""
+    low = text.lower()
+    words = [w for w in re.findall(r"[a-z]{5,}", low) if w not in drop]
+    return words + [w for w in dict.fromkeys(_SHORT_WORD.findall(low)) if w not in words]
+
+
 def policy_candidates(niche_words):
     path = os.path.join(TABLE_DIR or ip.OUT_DIR, "policy_actions.csv")
     if not os.path.exists(path):
@@ -637,7 +657,8 @@ def policy_candidates(niche_words):
     with open(path, encoding="utf-8") as f:
         skip = sum(1 for ln in f if ln.startswith("#"))
     a = pd.read_csv(path, skiprows=skip, dtype=str, keep_default_na=False)
-    pat = "|".join(re.escape(w) for w in niche_words)
+    # session 169: a short domain word matches as a whole word only; a longer word anywhere, as before
+    pat = "|".join(rf"(?<![a-z0-9]){re.escape(w)}(?![a-z0-9])" if w.lower() in SHORT else re.escape(w) for w in niche_words)
     m = a[(a["title"] + " " + a["abstract"] + " " + a["sector_tags"]).str.contains(pat, case=False, regex=True)]
     m = m.assign(sig=pd.to_numeric(m["significance"], errors="coerce").fillna(0)).sort_values("sig", ascending=False)
     return m.head(40)
@@ -707,7 +728,7 @@ def main(argv=None):
                            "sources": r.sources, "erw": r.erw, "notes": notes}, open(research_path, "w", encoding="utf-8"),
                           default=str)
                 log(f"research saved: {os.path.relpath(research_path, ROOT)}")
-            words = [w for w in re.findall(r"[a-z]{5,}", args.niche.lower()) if w not in {"merchant", "operators", "software", "mapping"}]
+            words = policy_words(args.niche, {"merchant", "operators", "software", "mapping"})      # session 169: the short domain words too
             pol = policy_candidates(words or [args.niche])
             # session 30 (B5): the sheets in one call (structure_all), the policy sheet with them when there are candidates
             keys = ["scope", "fundamentals", "trends", "landscape", "capital", "incumbents", "risks"]

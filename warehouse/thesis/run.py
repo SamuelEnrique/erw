@@ -147,8 +147,21 @@ def head_of(niche):
     return re.split(r"[,:;(]", niche, maxsplit=1)[0].strip()
 
 
+# Session 169: the short words of the domain. words_of kept only words of four letters or more, so "oil" and "gas" (and
+# "EV", "AI", "LNG") were never looked for: a niche named with them matched on its other words alone. A short word is
+# kept when it is one of these and stands as a whole word; every longer word is read exactly as before.
+SHORT = tb.SHORT
+_WORD = re.compile(r"[a-z][a-z-]{3,}|(?<![a-z0-9-])(?:" + "|".join(SHORT) + r")(?![a-z0-9-])")
+
+
 def words_of(text):
-    return [w for w in re.findall(r"[a-z][a-z-]{3,}", text.lower()) if w not in STOP]
+    return [w for w in _WORD.findall(text.lower()) if w not in STOP]
+
+
+def has_word(text, w):
+    """Is the word in the (lower case) text? A long word anywhere, as before; a short domain word only as a whole
+    word ("oil" is not in "soil", "ev" is not in "development")."""
+    return tb.short_in(text, w) if w in SHORT else w in text
 
 
 def query_plan(niche, geography, trends):
@@ -193,15 +206,15 @@ def warehouse_candidates(niche, r, log, cap=40):
     if comp is not None:
         for x in comp.to_dict("records"):
             text = f"{x.get('description', '')} {x.get('niche_tags', '')} {x.get('sector', '')} {x.get('name', '')}".lower()
-            if anchor in text:
-                out.append((sum(w in text for w in head), "energy_companies",
+            if has_word(text, anchor):
+                out.append((sum(has_word(text, w) for w in head), "energy_companies",
                             {k: x.get(k, "") for k in ("name", "description", "niche_tags", "stage", "raised", "location", "founders", "website", "source_url")}))
     deals = read_table("energy_deals")
     if deals is not None:
         for x in deals.to_dict("records"):
             text = f"{x.get('technology', '')} {x.get('asset', '')} {x.get('parties', '')} {x.get('deal_type', '')}".lower()
-            if anchor in text:
-                out.append((sum(w in text for w in head), "energy_deals",
+            if has_word(text, anchor):
+                out.append((sum(has_word(text, w) for w in head), "energy_deals",
                             {k: x.get(k, "") for k in ("event_id", "event_date", "deal_type", "parties", "asset", "technology", "state", "country", "dollars", "status", "source", "source_url")}))
     out.sort(key=lambda t: -t[0])
     rows = []
@@ -880,7 +893,7 @@ def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=
         "list with their kind.\n\nThe five trends:\n"
         + "\n".join(f"{i}. {t['title']}: {t['fact'][:240]}" for i, t in enumerate(a["trends"], 1))), notes_b, SCHEMA_L)
     r.partial["land"] = land                             # session 147: the structured rows are paid for too, and what follows now reaches the network
-    words = [w for w in re.findall(r"[a-z]{5,}", head_of(niche).lower()) if w not in {"merchant", "operators", "software", "mapping", "sensing"}]
+    words = tb.policy_words(head_of(niche), {"merchant", "operators", "software", "mapping", "sensing"})      # session 169: the short domain words too
     pol = tb.policy_candidates(words or [niche])
     keys = ["capital", "incumbents", "risks"]
     extra = f"Niche: {niche}."
