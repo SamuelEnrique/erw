@@ -245,3 +245,13 @@ The workbook carries no other notice. License: public. The same words would cove
 `warehouse/refresh_board.sh`: the four connectors, the validator and the builder, each under `warehouse/health.py`. Written, not scheduled: no workflow and no line of `run_daily.sh` calls it. The page shows the day it was built until it is.
 
 Before it is scheduled, one thing should be ruled: the workbench's files are about 18 MB in the repository and every one is rewritten each day. Git stores the daily change compactly, but the files could instead go to the public storage bucket the network map already uses (`erw-public`), with the page reading them from there.
+
+## Where the workbench opens (session 168, 9 October 2026)
+
+Before any row is clicked, the workbench's place holds a quiet empty panel: the same box the workbench takes (docked on
+the right from the extra-wide width, 42 percent of the board and at least 460 px; above the tables below that width),
+the faint outline of a chart drawn in SVG (two axes and three light grid lines, no picture file) and one line, "Click
+any row to open the markets workbench here." A click on a row puts the workbench in that box, as before. Measured in a
+browser on 9 October 2026: at 1440 px the box and the tables do not move on a click; on narrower screens the box keeps
+its place and width, and its height becomes the workbench's own (614 to 1,669 px by row, against the panel's 736 px),
+while the row clicked stays where it was on the screen.
