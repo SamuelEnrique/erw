@@ -108,10 +108,11 @@ the sentence it came from.**
   outside of Stanford and scale to meet real-world sustainability challenges"; "We seek project ideas with
   transformative rather than incremental potential"; projects positioned "to scale beyond Stanford within three
   years" (`call_requirements.md`, section 2).
-- Facts on stage: the warehouse exists and runs daily (177 tables, 24,434,036 rows, all passing the validator, as of 7
-  October 2026: `warehouse/metadata/coverage.csv`); 1,475 tests were collected on 7 October before sessions 138 and
-  139 added theirs; three site pages are open to visitors and the rest are in review; nothing has been released on
-  Redivis (`evidence_pack.md`, sections 2, 5 and 6; `redivis_release_checklist.md`).
+- Facts on stage: the warehouse exists and runs daily (198 tables, 36,948,751 rows, all passing the validator, as of
+  the daily run of 9 October 2026: `warehouse/metadata/coverage.csv`; 177 tables and 24,434,036 rows on 7 October);
+  1,475 tests were collected on 7 October before sessions 138 and 139 added theirs, 2,610 passed in a clean copy on 9
+  October (session 165's landing); every site page is in review since 9 October 2026 (three were open to visitors until
+  then); nothing has been released on Redivis (`evidence_pack.md`, sections 2, 5 and 6; `redivis_release_checklist.md`).
 - Facts on what funding would be for, from the pilot: people's time on dockets and on the stage vocabulary, access to
   commission sites, review of publishers' terms, and time (waits can only be measured from successive copies of the
   queues). No budget is proposed here.
@@ -174,9 +175,10 @@ potential to scale ... whether through growth or replication".
 Feasibility assessment will consider (1) team constitution, (2) technical, economic, and political feasibility, (3)
 projected market demand and (4) any other key dynamics".
 
-- **The warehouse runs.** 177 tables, 24,434,036 rows, 260 sources in the registry, 148 tables public and 29
-  internal, all passing the validator (`coverage.csv`, `sources.csv`, 7 October 2026). A daily run on GitHub Actions,
-  a 15-minute price run, a weekly roundup (`CLAUDE.md`).
+- **The warehouse runs.** 198 tables, 36,948,751 rows, 307 sources in the registry, 164 tables public and 34
+  internal, all passing the validator (`coverage.csv`, `sources.csv`, the daily run of 9 October 2026; on 7 October:
+  177 tables, 24,434,036 rows, 260 sources, 148 public and 29 internal). A daily run on GitHub Actions, a 15-minute
+  price run, a weekly roundup (`CLAUDE.md`).
 - **The gate works.** One validator in front of every table; 28 known faults in source data recorded with what was
   done (`evidence_pack.md`, section 7).
 - **The pilot is done** (section 4 above), and its table is in the warehouse's standard shape, validated, archived
