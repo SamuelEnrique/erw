@@ -428,6 +428,17 @@ aggregates only.** The page reads no table of requests; the two tables stay inte
   interconnections placed in service, ERCOT's own measured delay against in-service dates, and ERCOT's expected
   weeks for each step of its batch study. ERCOT wrote the steps and not their sum: they are never added. An
   entity's own measurement is labeled its own; nothing measured here confirms or contradicts it.
+- **PJM's grid: Virginia (Dominion), session 171.** "How long a large load waits, Virginia" reads "not measured
+  yet": no dated copy of Dominion's large-load connection queue has been read, because the Virginia State Corporation
+  Commission's robots file, read first on 9 October 2026, disallows every path for every agent it does not name, and
+  nothing more was sent (`docs/methods/large_load_waits.md`, the Virginia section, quotes it). Under it stand
+  Dominion's own stated timelines, held in `large_load_statements` since sessions 151 and 154: seven figures, each an
+  expectation of Dominion's for a stage of its proposed process (feasibility, development, execution, its engineering
+  study, its service agreements), each a link to Dominion's own document (its filings in case PUR-2026-00011 and its
+  letter to PJM's load analysis team) with the day and page on hover, labeled "expected by Dominion Energy Virginia".
+  Statements about Dominion by others (Amazon's, Google's) are not Dominion's and are not shown. PJM's prices stay
+  "licensed source needed". The builder's lines: `STATED_GROUPS["pjm"]`, `PLACES["pjm"]` and, for the day the waits
+  table holds Dominion's requests, `ENTITY_GRID["Dominion Energy Virginia"]`.
 - **Every other grid reads "not measured yet"**: no dated copies of a public list of its large load requests have
   been read. MISO reads "paused while terms are reviewed" and the file holds nothing for it. An entity of the waits
   table is shown only where the builder's `ENTITY_GRID` places it on one of the page's grids; any other (Grant

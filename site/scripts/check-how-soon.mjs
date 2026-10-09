@@ -125,11 +125,31 @@ for (const g of ["nyiso", "ercot", "caiso", "isone", "spp", "pjm", "miso"]) page
 }
 
 // ---- every other grid ---------------------------------------------------------------------------------------------
-for (const g of ["caiso", "isone", "spp", "pjm"]) {
+for (const g of ["caiso", "isone", "spp"]) {
   const b = blockHtml(face(pages[g].html)), text = plain(b), want = blockOf(FILE, g);
   const tag = /<p[^>]*data-waits-empty="yet"[^>]*><span[^>]*>/.exec(b)?.[0] ?? "";
   check(want.state === "not measured yet" && new RegExp(`data-waits-for="${g}"`).test(b) && new RegExp(`data-waits-empty="yet"[^>]*>\\s*<span[^>]*>${NOT_YET}<`).test(b) && attr(/<span[^>]*>$/.exec(tag)?.[0] ?? "", "title") === notYetWhy(NAMES[g])
     && text.includes(`${NAMES[g]}: ${NOT_YET}.`) && !/data-waits-measured=|data-waits-stated=/.test(b), `${NAMES[g]} reads "${NOT_YET}" with its reason on hover, and shows no stage and no figure`);
+}
+// ---- PJM: Virginia (Dominion), session 171 ------------------------------------------------------------------------
+// "Not measured yet" (no dated copy of Dominion's queue has been read: the commission's robots file disallows every agent
+// it does not name), and under it Dominion's own stated timelines, each labeled Dominion's, each a link to Dominion's own
+// document with its day and page on hover. No stage and no measured figure. PJM's prices still read "licensed source needed".
+{
+  const g = "pjm", b = blockHtml(face(pages[g].html)), text = plain(b), want = blockOf(FILE, g), entry = want.entry, place = entry?.place ?? NAMES[g];
+  const tag = /<p[^>]*data-waits-empty="yet"[^>]*><span[^>]*>/.exec(b)?.[0] ?? "";
+  check(want.state === "not measured yet" && new RegExp(`data-waits-for="${g}"`).test(b) && new RegExp(`data-waits-empty="yet"[^>]*>\\s*<span[^>]*>${NOT_YET}<`).test(b) && attr(/<span[^>]*>$/.exec(tag)?.[0] ?? "", "title") === notYetWhy(NAMES[g])
+    && text.includes(`${place}: ${NOT_YET}.`) && !/data-waits-measured=/.test(b), `${NAMES[g]} (${place}) reads "${NOT_YET}" with its reason on hover, and shows no stage`);
+  const stated = statedOf(entry), own = stated.filter((s) => s.stated_by === "Dominion Energy Virginia");
+  check(stated.length > 0 && own.length === stated.length && stated.every((s) => s.basis === "expected"), `every figure under PJM is Dominion's own (${stated.length}), each an expectation and none a measurement made here`);
+  check(new RegExp(`data-waits-stated-table="${stated.length}"`).test(b) && (b.match(/data-waits-stated=/g) ?? []).length === stated.length, `the stated table holds the file's ${stated.length} figures and no other`);
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const html = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  check(stated.every((s) => new RegExp(`<a href="${esc(html(s.url))}"[^>]*title="${esc(html(statedTip(s)))}"`).test(b) && text.includes(s.figure) && text.includes(basisWords(s))),
+    "each of Dominion's figures is a link to Dominion's own document, with the document, its day and page on hover, and labeled whose it is");
+  check(text.includes(`What ${place}'s own entities measured and stated`) && (b.match(/<table/g) ?? []).length === 1, `one table, "What ${place}'s own entities measured and stated", and no measured table`);
+  check(/licensed source needed/i.test(plain(face(pages[g].html))), 'the page still reads "licensed source needed" for PJM\'s prices');
+  check(!/\bundefined\b|NaN/.test(text) && !METHOD_PROSE.test(text), `${place}: no method prose on the block's face, no "undefined", no NaN`);
 }
 {
   const b = blockHtml(face(pages.miso.html)), tag = /<p[^>]*data-waits-paused="1"[^>]*><span[^>]*>/.exec(b)?.[0] ?? "";

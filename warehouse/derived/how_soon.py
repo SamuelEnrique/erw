@@ -63,14 +63,22 @@ ENTITY_GRID = {
     "ISO New England": "isone",
     "Southwest Power Pool": "spp",
     "PJM Interconnection": "pjm",
+    # session 171: Virginia (Dominion) under PJM's region. The line takes effect when the waits table holds Dominion's
+    # requests followed from dated copies; on 9 October 2026 it holds none (the commission's robots file disallows every
+    # agent not named, so no filing of PUR-2026-00011 was fetched: docs/methods/large_load_waits.md).
+    "Dominion Energy Virginia": "pjm",
 }
 # Whose stated figures stand under which grid (entity_group of large_load_statements). Texas: ERCOT and Oncor, the two
 # session 160's table lists. Another grid's line is added here when a person wants its entities' figures shown.
+# Session 171: Dominion's own stated timelines (its filings in PUR-2026-00011 and its PJM load forecast documentation,
+# read by sessions 151 and 154) stand under PJM's grid, labeled Dominion's; the statements of others about Dominion
+# (Amazon's, Google's) are not Dominion's and are not shown. PJM's prices stay licensed and unshown: this is the waits block.
 STATED_GROUPS = {
     "nyiso": ["New York ISO"],
     "ercot": ["ERCOT", "Oncor Electric Delivery"],
+    "pjm": ["Dominion Energy Virginia"],
 }
-PLACES = {"nyiso": "New York", "ercot": "Texas"}
+PLACES = {"nyiso": "New York", "ercot": "Texas", "pjm": "Virginia"}
 PAUSED = ["miso"]
 # The page's grids that are not measured and have no line above read "not measured yet" (the site's words, lib/howsoon.ts).
 
@@ -336,7 +344,14 @@ def check(file, w_rows):
         if k.lower() in FORBIDDEN_KEYS or "mw" in re.split(r"[^a-z]+", k.lower()):
             raise SystemExit(f"the file holds a request-level field: {k}")
     low = text.lower()
+    # session 171: the names of the requests of the entities whose rows are in the file (the measured grids). A request of an
+    # entity the file leaves out cannot be in it; its name can only match by chance a phrase the page's own documents use
+    # (a Bonneville request named "Data Center" against the title of a Dominion letter about data center load). The same rule
+    # as the page check of session 163. A request's own values stay refused whatever its entity (FORBIDDEN_KEYS above).
+    shown = {g.get("entity") for g in file.get("grids", {}).values() if g.get("state") == "measured"}
     for r in w_rows:
+        if r.get("entity") not in shown:
+            continue
         for name in [r.get("request_name", "")] + re.split(r"[;|]", r.get("request_names_seen", "")):
             name = name.strip().lower()
             if len(name) >= 4 and name in low:

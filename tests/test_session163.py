@@ -399,11 +399,18 @@ class AgainstTheTables(unittest.TestCase):
 
     def test_no_request_name_or_queue_position_is_in_the_file(self):
         names, positions = set(), set()
-        for r in self.waits:                                                # every entity of the table, shown or not
+        # session 171: the names of the requests of the entities the file shows (the page check has searched those since session
+        # 163's merge). A request of an entity the file leaves out cannot be in it, and its name can match by chance the words of
+        # another entity's document (Bonneville's request "Data Center" against the title of a Dominion letter about data center
+        # load). Queue positions: every entity of the table, shown or not, as before.
+        shown = {g.get("entity") for g in self.file["grids"].values() if g.get("state") == "measured"}
+        for r in self.waits:
+            positions |= {r["request_id"].strip().lower(), r["request_id_as_printed"].strip().lower()}
+            if r["entity"] not in shown:
+                continue
             for n in [r["request_name"]] + re.split(r"[;|]", r["request_names_seen"]):
                 if len(n.strip()) >= 4:
                     names.add(n.strip().lower())
-            positions |= {r["request_id"].strip().lower(), r["request_id_as_printed"].strip().lower()}
         positions.discard("")
         self.assertGreater(len(names), 10)
         marked = {p for p in positions if len(p) >= 4 or re.search(r"[a-z]", p)}

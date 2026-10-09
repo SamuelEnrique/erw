@@ -1,5 +1,5 @@
 {
- "built_at_utc": "2026-10-09T01:16:47Z",
+ "built_at_utc": "2026-10-09T07:51:41Z",
  "built_by": "warehouse/derived/how_soon.py",
  "holds": "aggregates only: counts, bounds and medians by stage, and stated figures with their documents; no request, no name, no queue position and no size of a request",
  "unit": "days",
@@ -449,6 +449,118 @@
     "read_from": "the Internet Archive's Wayback Machine and the publisher's own site"
    },
    "place": "Texas"
+  },
+  "pjm": {
+   "state": "not measured yet",
+   "stages": [],
+   "stated": [
+    {
+     "stated_by": "Dominion Energy Virginia",
+     "figure": "3 years",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "CLOA: from the order of long lead equipment to energization",
+     "document": "Dominion Energy letter to the PJM Load Analysis Team: summary of its data center large load adjustment for the 2026 PJM load forecast (PJM Manual 19 Attachment B), signed Stanley L. Blackwell",
+     "document_type": "load forecast report",
+     "date": "2026-01-06",
+     "date_basis": "document",
+     "page": "2",
+     "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "Dominion Energy Virginia",
+     "figure": "9 to 12 months",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "ELOA engineering study",
+     "document": "Dominion Energy letter to the PJM Load Analysis Team: summary of its data center large load adjustment for the 2026 PJM load forecast (PJM Manual 19 Attachment B), signed Stanley L. Blackwell",
+     "document_type": "load forecast report",
+     "date": "2026-01-06",
+     "date_basis": "document",
+     "page": "2",
+     "url": "https://www.pjm.com/-/media/DotCom/planning/res-adeq/load-forecast/dominion-documentation.pdf",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "Dominion Energy Virginia",
+     "figure": "8-12 months",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Feasibility stage",
+     "document": "PUR-2026-00011, Exhibit 5: direct testimony of Jacqueline R. Vitiello for Virginia Electric and Power Company, filed February 2, 2026, with Schedule 1, the Large-Load Connection Queue Process Standards",
+     "document_type": "commission filing",
+     "date": "2026-02-02",
+     "date_basis": "document",
+     "page": "17",
+     "url": "https://www.scc.virginia.gov/docketsearch/DOCS/8c2x01!.PDF",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "Dominion Energy Virginia",
+     "figure": "20 to 48 months",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Project Development stage",
+     "document": "PUR-2026-00011, Exhibit 5: direct testimony of Jacqueline R. Vitiello for Virginia Electric and Power Company, filed February 2, 2026, with Schedule 1, the Large-Load Connection Queue Process Standards",
+     "document_type": "commission filing",
+     "date": "2026-02-02",
+     "date_basis": "document",
+     "page": "17",
+     "url": "https://www.scc.virginia.gov/docketsearch/DOCS/8c2x01!.PDF",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "Dominion Energy Virginia",
+     "figure": "24 to 48 months",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Project Execution stage",
+     "document": "PUR-2026-00011, Exhibit 5: direct testimony of Jacqueline R. Vitiello for Virginia Electric and Power Company, filed February 2, 2026, with Schedule 1, the Large-Load Connection Queue Process Standards",
+     "document_type": "commission filing",
+     "date": "2026-02-02",
+     "date_basis": "document",
+     "page": "18",
+     "url": "https://www.scc.virginia.gov/docketsearch/DOCS/8c2x01!.PDF",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "Dominion Energy Virginia",
+     "figure": "approximately one year",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Electric Service Agreements offered before energization of service",
+     "document": "PUR-2026-00011 (Dominion's large-load connection queue), Exhibit 16: direct testimony of Kevin C. Miller on behalf of Old Dominion Electric Cooperative, filed April 15, 2026, with Dominion's discovery answers attached",
+     "document_type": "commission filing",
+     "date": "2026-04-15",
+     "date_basis": "document",
+     "page": "48",
+     "url": "https://www.scc.virginia.gov/docketsearch/DOCS/8c2%2301!.PDF",
+     "mark": "",
+     "note": ""
+    },
+    {
+     "stated_by": "Dominion Energy Virginia",
+     "figure": "12 months",
+     "basis": "expected",
+     "statistic": "",
+     "covers": "Project Feasibility stage",
+     "document": "PUR-2026-00011 (Dominion's large-load connection queue), Exhibit 16: direct testimony of Kevin C. Miller on behalf of Old Dominion Electric Cooperative, filed April 15, 2026, with Dominion's discovery answers attached",
+     "document_type": "commission filing",
+     "date": "2026-04-15",
+     "date_basis": "document",
+     "page": "50",
+     "url": "https://www.scc.virginia.gov/docketsearch/DOCS/8c2%2301!.PDF",
+     "mark": "",
+     "note": ""
+    }
+   ],
+   "place": "Virginia"
   }
  },
  "left_out": {
