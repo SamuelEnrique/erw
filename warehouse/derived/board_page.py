@@ -371,6 +371,12 @@ def build_power(b, store, holidays, log):
 def build_as(b, holidays, log):
     for iso, table in (("ercot", "ercot_as_prices"), ("caiso", "caiso_as_prices"), ("nyiso", "nyiso_as_prices"), ("spp", "spp_as_prices")):
         grid, tz = ISO[iso]
+        if not os.path.exists(os.path.join(ip.OUT_DIR, table + ".csv")):
+            # session 166: on the runner NYISO's and SPP's tables are held out of the restore, and ERCOT's is written
+            # later in the run; the rows of a table not on the machine are left to page_keep.py, which keeps the
+            # held ones (the builder failed here on 7 and 8 October 2026 and the board stayed on 6 October)
+            log(f"  {grid} ancillary services: {table} not on this machine, skipped (page_keep.py keeps the held rows)")
+            continue
         t = pb.read_table(table, since=START)
         t = t[t["value"].notna()]
         n = 0

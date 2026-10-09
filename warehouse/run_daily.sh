@@ -279,7 +279,9 @@ run_other price_board "$PYTHON" warehouse/derived/price_board.py
 # review), once a day, under warehouse/health.py. Six small pulls and the builder; the builder's rows are taken only
 # where they are no older and no shorter than the held ones (warehouse/derived/page_keep.py), so the runner, which
 # holds no long history, never writes a thinner board. The commit step adds site/data/board.json and site/public/board/
-run_other board "$PYTHON" warehouse/health.py run --step "board" -- bash warehouse/refresh_board.sh
+# Session 166 (9 October 2026): the board step moved below, after the ancillary service connectors, so that on the runner
+# ercot_as_prices exists when the board is built (it is not restored from the draft; the step failed here on 7 and 8
+# October with FileNotFoundError, and the board stayed on 6 October).
 # The same day: Supply and trade's page file (/supply, in review), once a week, on Saturdays (UTC), when the week's
 # petroleum, gas storage and positioning reports are all out; SUPPLY=1 forces it on any day
 if [ "$(date -u +%u)" = "6" ] || [ "${SUPPLY:-0}" = "1" ]; then
@@ -306,6 +308,10 @@ else
   echo "iso_capacity_prices: monthly (the first day of the month, UTC); skipped today, CAPACITY=1 to force"
 fi
 run_other battery_stack "$PYTHON" warehouse/health.py run --strict --step "battery_stack" -- "$PYTHON" warehouse/derived/battery_stack.py
+# The price board (see the note above, where it stood until session 166). The builder now skips an ancillary service
+# table that is not on the machine (NYISO's and SPP's are held out of the runner), and page_keep.py keeps the held rows
+# for them, so the runner never writes a thinner board.
+run_other board "$PYTHON" warehouse/health.py run --step "board" -- bash warehouse/refresh_board.sh
 
 # Session 114: the builders that were run by hand, on a schedule (session 112's state document, item 5). Each is a soft
 # step (warehouse/soft_step.sh): under warehouse/health.py without --strict, so a failure is tried once more, recorded in
@@ -386,10 +392,15 @@ else
 fi
 
 echo "== Supabase live set (session 10; warehouse/supabase/live_set.yaml)"
+# Session 166 (9 October 2026): the load runs under warehouse/health.py, so a failed load is a row of erw_health, a line
+# of the day's health summary and one line by email the same day (the workflow's "Tell a person what failed" step reads
+# erw_health). Until then a failed load was only a word in the commit message: the loader failed on 5, 6, 7 and 8 October
+# (ercot_as_prices, the API's statement timeout) and nobody was told. --strict keeps the exit code, so the status file
+# still records "supabase_load failed". A failed load is tried once more a minute later (the load is idempotent).
 if [ "${DRY_STORES:-0}" = "1" ]; then
-  run_other supabase_load "$PYTHON" warehouse/supabase/load.py --dry-run
+  run_other supabase_load "$PYTHON" warehouse/health.py run --strict --step "supabase_load" -- "$PYTHON" warehouse/supabase/load.py --dry-run
 else
-  run_other supabase_load "$PYTHON" warehouse/supabase/load.py
+  run_other supabase_load "$PYTHON" warehouse/health.py run --strict --step "supabase_load" -- "$PYTHON" warehouse/supabase/load.py
 fi
 
 echo "== Energy Digest (docs/digest/), Monday to Friday"

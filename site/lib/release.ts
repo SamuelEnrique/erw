@@ -16,14 +16,14 @@ export const RELEASE: Record<string, Status> = {
   // Session 126 (the owner's instruction, 5 October 2026): the home page, About, Terms, the seller's tab and the four
   // methods notes are in review. Three pages are open: /cost-of-power/battery, /network and /storage.
   "/": "review",
-  "/cost-of-power/battery": "live",
+  "/cost-of-power/battery": "review",  // session 166 (the owner's instruction of 8 October 2026): no page is live
   "/cost-of-power/battery/awards": "review",  // session 115: what Texas's storage resources were awarded day-ahead; without its own line it would take the live battery page's status
   "/cost-of-power/seller": "review",
   // session 145: /cost-of-power/seller/v2 is retired and redirects to /cost-of-power/seller (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/cost-of-power/seller/v2": "review",  // session 107: version 2 of the seller's tab; without its own line it would take the live tab's status
-  "/network": "live",
+  "/network": "review",  // session 166: in review
   "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace); without its own line it would take /network's status
-  "/storage": "live",
+  "/storage": "review",  // session 166: in review
   "/storage/buildout": "review",
   "/battery/customer": "review",  // session 88: what a battery saves a customer; the reader's own numbers, in the browser
   "/storage/owners": "review",  // session 87: without its own line it would take /storage's status
