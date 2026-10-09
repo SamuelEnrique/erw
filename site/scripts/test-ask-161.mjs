@@ -128,7 +128,8 @@ await test("a series over time is drawn as it was: the hours of a day are not ti
 // ================================================================== 2. this week, one call
 
 await test("every recorded call returns, from the recorded reads, what it returned from the live set", async () => {
-  for (const c of CALLS) assert.deepEqual(JSON.parse(JSON.stringify(await at(c))), FIX.results[c.id], c.id);
+  // session 168: the local words beside each time (lib/chat/plaintime.ts) are newer than the recording and are set apart
+  for (const c of CALLS) assert.deepEqual(JSON.parse(JSON.stringify(await at(c), (k, v) => (k.endsWith("_local") ? undefined : v))), FIX.results[c.id], c.id);
 });
 
 await test("this week, when its days are held: one result over those days, each day listed with its rows, the figure worked again here", async () => {

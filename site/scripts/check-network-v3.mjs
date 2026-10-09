@@ -3,7 +3,8 @@
 //   npm run build && npx next start -p 3093
 //   node scripts/check-network-v3.mjs [base-url]      (default http://localhost:3093)
 //
-// One check per addition, on /network/v3 (in review, so in the internal view), and one that the live page is as it was:
+// Session 168: version 3 is the network page, at /network (/network/v3 redirects to it), so every check below is made
+// there. One check per addition (the page is in review, so in the internal view), and one of the move itself:
 //   a  replay    the date picker loads a day of 2021 from the year's file; the frame is a day; "Play the year" plays
 //                and the day advances; the panel's net imports of that day equal the file's own arithmetic
 //   b  address   the address holds the view, the day, the grid and the switches; opening that address again restores
@@ -12,7 +13,8 @@
 //                file gives; the panel gains the period's range; PJM never has one
 //   d  trace     the panel lists the grid's suppliers and their suppliers with shares that sum to 100, equal to
 //                lib/networkV3.ts's trace over the same links, and says physical flows, not contracts
-//   live         /network holds no date picker, no Prices switch, no trace, and leaves its address alone
+//   moved        /network/v3 redirects to /network with its shared view; the "Newest hour" line is carried over; the
+//                folded sections moved to the Method note are off the page face and in the note; one source line
 // Exit 1 on a failure; "not proven" (exit 0) without a browser, or where the browser cannot draw 3D.
 import fs from "node:fs";
 import { withBrowser } from "./browser.mjs";
@@ -33,7 +35,7 @@ const num = (s) => Number(String(s).replace(/,/g, ""));
 
 const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, errors, send }) => {
   await unlock(base);
-  await go(`${base}/network/v3`);
+  await go(`${base}/network`);
   await wait(`!!document.querySelector('[data-network-view][data-restored="1"]')`, 20000, "the page to be ready");
   if (await evaluate(`document.body.innerText.includes('This browser cannot draw 3D')`)) { console.log("check-network-v3: NOT PROVEN: this browser cannot draw 3D (WebGL)"); return null; }
   await wait(`!!document.querySelector('canvas')`, 30000, "the network's canvas");
@@ -146,29 +148,31 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   s = await evaluate(STATE);
   const q = Object.fromEntries(new URLSearchParams(s.search));
   check(q.view === "day" && q.t === "2021-02-15" && q.grid === "CISO" && q.prices === "1" && q.trace === "1" && !("batteries" in q), `the address holds the view, the day, the grid and the switches: ${s.search}`);
-  await go(`${base}/network/v3${s.search}`);
+  await go(`${base}/network${s.search}`);
   const back = await wait(`(() => { const s = ${STATE}; return s && s.restored === '1' && s.view === 'day' && s.panel === 'CISO' && s.rings > 0 && document.querySelector('[data-trace-supplier]') ? s : null; })()`, 30000, "the shared view to be restored");
   check(back.t === "2021-02-15" && back.playing === "0" && back.rings === priced.length && back.search === s.search, `the same address opens the same view, not playing (${back.t}, ${back.panel}, ${back.rings} rings)`);
-  await go(`${base}/network/v3?view=uri_2021&t=2021-02-15T12:00:00Z&grid=ERCO&batteries=1`);
+  await go(`${base}/network?view=uri_2021&t=2021-02-15T12:00:00Z&grid=ERCO&batteries=1`);
   const story = await wait(`(() => { const s = ${STATE}; return s && s.restored === '1' && s.view === 'uri_2021' && s.panel === 'ERCO' ? s : null; })()`, 30000, "a story's shared view");
   check(story.t === "2021-02-15T12:00:00Z" && story.playing === "0" && (await evaluate(`${button("Batteries: on")} !== undefined`)), `a story's hour, grid and Batteries switch are restored too (${story.t})`);
-  await go(`${base}/network/v3?view=nonsense&t=yesterday&grid=%3Cscript%3E&prices=yes`);
+  await go(`${base}/network?view=nonsense&t=yesterday&grid=%3Cscript%3E&prices=yes`);
   const odd = await wait(`(() => { const s = ${STATE}; return s && s.restored === '1' ? s : null; })()`, 30000, "an address it does not understand");
   check(odd.view === "live" && odd.panel === null && odd.rings === 0, "an address it does not understand opens the page as it opens by default");
 
-  // the live page is as it was
+  // session 168: version 3 is the network page. Its old address redirects to /network and carries the shared view; the
+  // page face holds the line carried over from the page it replaced and none of the folded sections moved to the note
+  await go(`${base}/network/v3?view=uri_2021&t=2021-02-15T12:00:00Z&grid=ERCO&batteries=1`);
+  const redirected = await wait(`(() => { const s = ${STATE}; return s && s.restored === '1' && s.view === 'uri_2021' && s.panel === 'ERCO' ? { ...s, path: window.location.pathname } : null; })()`, 30000, "the view shared from /network/v3");
+  check(redirected.path === "/network" && redirected.t === "2021-02-15T12:00:00Z" && new URLSearchParams(redirected.search).get("grid") === "ERCO", `/network/v3 redirects to /network and the shared view opens there (${redirected.path}${redirected.search})`);
   await go(`${base}/network`);
-  await wait(`!!document.querySelector('[data-network-view]')`, 20000);
-  await sleep(2500);
-  const liveShot = await send("Page.captureScreenshot", { format: "png" });
-  fs.writeFileSync(new URL("../../runs/session93/live_network.png", import.meta.url), Buffer.from(liveShot.data, "base64"));
-  check(await evaluate(`document.querySelector('[aria-label^="A 3D network"]').__erwGraph === undefined`), "/network exposes nothing of version 3");
-  const live = await evaluate(`({ picker: !!document.querySelector('#replay-day'), prices: [...document.querySelectorAll('button')].some((b) => b.innerText.startsWith('Prices')), year: [...document.querySelectorAll('button')].some((b) => b.innerText.includes('Play the year')),
-    attrs: document.querySelector('[data-network-view]').getAttributeNames().sort().join(','), search: window.location.search })`);
-  check(!live.picker && !live.prices && !live.year && live.attrs === "class,data-network-view" && live.search === "", `/network is as it was: no date picker, no Prices switch, no Play the year, its address untouched (${JSON.stringify(live)})`);
-  await evaluate(`(() => { const sel = document.querySelector('select'); Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set.call(sel, 'ERCO'); sel.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
-  await wait(`document.querySelector('[data-panel]')?.getAttribute('data-panel') === 'ERCO'`);
-  check(await evaluate(`!document.querySelector('[data-trace]') && window.location.search === '' && document.querySelector('[data-panel]').innerText.includes('Hub price this hour')`), "/network's panel has no trace and writes nothing to the address");
+  await wait(`!!document.querySelector('[data-network-view][data-restored="1"]')`, 20000, "the page to be ready");
+  const face = await evaluate(`({ line: document.querySelector('[data-newest-hour]')?.innerText ?? '', folds: [...document.querySelectorAll('summary')].map((x) => x.innerText.trim()), source: [...document.querySelectorAll('p')].filter((x) => x.innerText.startsWith('Source: ERW tables')).length,
+    method: !!document.querySelector('a[href="/data/methods/grid_network"]'), caiso: !!document.querySelector('[data-caiso-break]'), text: document.querySelector('main')?.innerText ?? document.body.innerText })`);
+  check(/^Newest hour: \d{4}-\d\d-\d\d \d\d:\d\d UTC \(.+ Eastern\), refreshed \d{4}-\d\d-\d\d \d\d:\d\d UTC/.test(face.line) && face.line.includes("Demand of the seven ISOs: newest hour"), `the "Newest hour ... Demand of the seven ISOs" line is carried over ("${face.line.slice(0, 90)}...")`);
+  const MOVED = ["Who supplies each ISO grid: three measures", "What this is, and what it is not", "How fresh each layer is", "The replay: what a day is", "Prices, and what the ring does not say", "Trace the power: what it is, and what it is not"];
+  check(MOVED.every((t) => !face.folds.includes(t) && !face.text.includes(t)) && !face.text.includes("on the network page") && !face.caiso, "the six folded sections, the pointer line and the California note are off the page face");
+  const note = fs.readFileSync(new URL("../../docs/methods/grid_network.md", import.meta.url), "utf-8");
+  check(MOVED.every((t) => note.includes(t)) && note.includes("MISO has no ring: it is paused."), "each of them is in the Method note (docs/methods/grid_network.md), under its own heading");
+  check(face.source === 1 && face.method, "the page keeps one source line at the bottom, with its link to the Method note");
   if (errors.length) check(false, `the pages threw: ${errors.slice(0, 3).join(" | ").slice(0, 300)}`);
   return bad ? 1 : 0;
 });

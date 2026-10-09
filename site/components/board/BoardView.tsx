@@ -7,6 +7,9 @@
 // (components/board/Workbench.tsx); the row, the filters and the workbench's view are kept in the address. The page
 // face carries no method: a number that is missing is a short placeholder with its reason on hover, and everything
 // else is in the Method note (docs/methods/price_board.md).
+// Session 168: before any row is clicked, the workbench's place holds a quiet empty panel (BenchPlaceholder): the same
+// box the workbench takes, docked on the right on wide screens and above the tables on narrow ones, the faint outline of
+// a chart drawn in SVG, and one line. A click on a row puts the workbench in that box, exactly as before.
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { SiteLink } from "@/components/SiteLink";
@@ -18,6 +21,30 @@ import {
 
 const METHOD = "/data/methods/price_board";
 const PERCENT = (r: Row) => !r.formula && r.unit !== "USD/MWh" && r.unit !== "USD/MW-hour" && r.unit !== "percent";
+
+/** The aside the workbench is docked in: on the right from the xl width, above the tables below it. One string, so the
+ *  placeholder and the workbench take the same box (session 168). */
+const BENCH_ASIDE = "min-w-0 max-xl:order-first xl:sticky xl:top-2 xl:max-h-[calc(100vh-1rem)] xl:self-start xl:overflow-y-auto";
+const BENCH_GRID = "grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(460px,42%)]";
+
+/** Session 168: the workbench's place before a row is clicked: an empty panel with the outline of a chart (axes and
+ *  three light grid lines, drawn, not a picture) and one small line. Its height is the workbench's own as it opens
+ *  (the chart panel's 340 px with the header, the controls and the figures around it), so nothing moves on a click. */
+function BenchPlaceholder() {
+  return (
+    <div className="relative flex h-[46rem] flex-col border border-rule bg-paper/30 p-3 text-sm xl:h-[calc(100vh-1rem)]" data-bench-placeholder="1">
+      <p className="text-[11px] text-muted">Click any row to open the markets workbench here.</p>
+      <svg aria-hidden="true" className="mt-3 w-full flex-1 text-rule" viewBox="0 0 400 240" preserveAspectRatio="none" data-outline="1">
+        <g stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="none">
+          <line x1="34" y1="60" x2="392" y2="60" strokeDasharray="3 4" opacity="0.7" vectorEffect="non-scaling-stroke" />
+          <line x1="34" y1="110" x2="392" y2="110" strokeDasharray="3 4" opacity="0.7" vectorEffect="non-scaling-stroke" />
+          <line x1="34" y1="160" x2="392" y2="160" strokeDasharray="3 4" opacity="0.7" vectorEffect="non-scaling-stroke" />
+          <polyline points="34,12 34,210 392,210" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+        </g>
+      </svg>
+    </div>
+  );
+}
 
 /** The last 30 points as a line that answers the mouse: the nearest point's value, date and series. */
 function Spark({ row }: { row: Row }) {
@@ -344,11 +371,15 @@ export function BoardView({ file }: { file: BoardFile }) {
       </nav>
       <p className="mb-3 text-[11px] text-muted">Click any row to open it in the markets workbench.</p>
       {openRow && bench.x ? <div className="mb-6"><Workbench file={file} bench={bench} row={openRow} set={setBench} /></div> : null}
-      <div className={openRow && !bench.x ? "grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(460px,42%)]" : ""}>
+      <div className={!openRow || !bench.x ? BENCH_GRID : ""}>
         {tables}
         {openRow && !bench.x ? (
-          <aside className="min-w-0 max-xl:order-first xl:sticky xl:top-2 xl:max-h-[calc(100vh-1rem)] xl:self-start xl:overflow-y-auto" aria-label="Markets workbench">
+          <aside className={BENCH_ASIDE} aria-label="Markets workbench">
             <Workbench file={file} bench={bench} row={openRow} set={setBench} />
+          </aside>
+        ) : !openRow ? (
+          <aside className={BENCH_ASIDE} aria-label="Markets workbench">
+            <BenchPlaceholder />
           </aside>
         ) : null}
       </div>

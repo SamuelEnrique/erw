@@ -33,9 +33,8 @@ export const AUDIENCES: Audience[] = [
   {
     id: "operators", label: "Operators and developers", line: "What the grid is doing, what is being built and where the queue stands.",
     tools: [
-      { href: "/network", label: "The network", question: "Which balancing authorities are trading power with which, hour by hour?" },
+      { href: "/network", label: "The network", question: "Which balancing authorities are trading power with which, hour by hour, and what did the grid look like on any day since 2019?" },  // session 168: version 3 is this page; its own entry is folded in
       { href: "/storage", label: "Storage", question: "How big is the battery fleet, and how does it charge and discharge?" },
-      { href: "/network/v3", label: "The network, version 3", question: "What did the grid look like on any day since 2019, and who supplied whom?" },
       { href: "/map", label: "The project map", question: "Where is every operating and planned generator and battery, by grid, technology and size?" },
       { href: "/queues", label: "The interconnection queue", question: "How much is waiting to connect, how much of the past got built, and how long did it take?" },
       { href: "/mix?view=day", label: "The energy mix", question: "What generates the power, hour by hour, in any month since 2019?" },

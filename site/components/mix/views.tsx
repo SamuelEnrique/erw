@@ -28,7 +28,7 @@ export function Chips({ label, items }: { label: string; items: { key: string; l
     <div className="flex flex-wrap items-center gap-1 text-[11px]" role="group" aria-label={label}>
       <span className="mr-1 text-muted">{label}</span>
       {items.map((i) => i.off
-        ? <span key={i.key} title={i.title} className="cursor-help border border-rule/60 px-1.5 py-px text-muted">{i.label}</span>
+        ? <span key={i.key} title={i.title} data-chip-off={`${label}:${i.key}`} className="cursor-help border border-rule/60 px-1.5 py-px text-muted">{i.label}</span>
         : <Link key={i.key} href={i.href} scroll={false} aria-current={i.on ? "true" : undefined} title={i.title} data-chip={`${label}:${i.key}`} style={{ color: i.on ? "#fff" : "var(--color-ink)" }}
             className={`border px-1.5 py-px no-underline ${i.on ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{i.label}</Link>)}
     </div>
@@ -392,11 +392,16 @@ const NO_FORECAST: [string, string, string][] = [
   ["PJM", "licensed source needed", "PJM publishes its data under a license and an account the ERW does not hold."],
 ];
 
+/** Session 168: the grid of each row of "The other grids", for "Select grids". */
+const NO_FORECAST_SLUG: Record<string, string> = { NYISO: "nyiso", "ISO-NE": "isone", SPP: "spp", MISO: "miso", PJM: "pjm" };
+
 export function ForecastView({ c }: { c: Choice }) {
   const src = c.src;
+  // session 168: the view opens with every grid (c.shown); once grids are chosen, only theirs are drawn
+  const others = NO_FORECAST.filter(([name]) => (c.shown as string[]).includes(NO_FORECAST_SLUG[name]));
   return (
     <>
-      {Object.entries(FORECAST.grids).map(([slug, g]) => {
+      {Object.entries(FORECAST.grids).filter(([slug]) => (c.shown as string[]).includes(slug)).map(([slug, g]) => {
         const s = g.sources[src];
         if (!s) return <Block key={slug} title={`${g.name}: ${src} forecast against actual`}><NH why={`No hour of ${g.name} holds both a ${src} forecast and its actual output yet.`} /></Block>;
         const months = Object.keys(s.months).sort();
@@ -419,9 +424,11 @@ export function ForecastView({ c }: { c: Choice }) {
           </div>
         );
       })}
-      <Block title="The other grids">
-        <Table caption="Grids with no forecast held" head={["Grid", "Wind and solar forecast"]} rows={NO_FORECAST.map(([name, words, why]) => ({ key: name, cells: [name, <NH key="w" why={why} words={words} />] }))} />
-      </Block>
+      {others.length ? (
+        <Block title="The other grids">
+          <Table caption="Grids with no forecast held" head={["Grid", "Wind and solar forecast"]} rows={others.map(([name, words, why]) => ({ key: name, cells: [name, <NH key="w" why={why} words={words} />] }))} />
+        </Block>
+      ) : null}
     </>
   );
 }

@@ -42,8 +42,45 @@ test("a choice and its address go round", () => {
 test("what a view does not use is not written to its address", () => {
   const c = m.choiceOf({ view: "day", grids: "caiso", period: "2025-06", factor: "price", norm: "peak" });
   assert.equal(m.hrefOf(c, { view: "clean" }), "/mix?view=clean&grids=caiso");
-  assert.equal(m.hrefOf(c, { view: "forecast" }), "/mix?view=forecast");
-  assert.equal(m.hrefOf(c, { view: "now" }), "/mix");
+  // session 168 (the owner's instruction of 8 October 2026): "Select grids" stands on every view, and the views that open
+  // with every grid draw the grids chosen, so the grid chosen here is carried to them (it was dropped until session 168)
+  assert.equal(m.hrefOf(c, { view: "forecast" }), "/mix?view=forecast&grids=caiso");
+  assert.equal(m.hrefOf(c, { view: "now" }), "/mix?grids=caiso");
+  assert.equal(m.hrefOf(c, { view: "history" }), "/mix?view=history&norm=peak");                         // by state: the choice is not used
+  const opening = m.choiceOf({ view: "day", period: "2025-06" });                                  // ERCOT, chosen by no one
+  assert.equal(m.hrefOf(opening, { view: "forecast" }), "/mix?view=forecast");
+  assert.equal(m.hrefOf(opening, { view: "now" }), "/mix");
+});
+test("session 168: Select grids on every view; the opening state of each view and its address are as they were", () => {
+  assert.deepEqual(m.VIEWS.map(([k]) => [k, m.gridUse(k)]), [["now", "filter"], ["day", "compare"], ["duck", "compare"], ["records", "compare"], ["clean", "compare"],
+    ["stress", "compare"], ["supply", "compare"], ["forecast", "filter"], ["history", "none"]]);
+  for (const q of [{}, { view: "forecast" }, { view: "forecast", src: "solar" }, { view: "history" }, { ba: "erco", state: "TX" }]) {
+    const c = m.choiceOf(q);
+    assert.deepEqual(c.shown, m.ALL_GRIDS, JSON.stringify(q));                                     // every grid, as the view opens
+    assert.equal(m.hrefOf(c), m.hrefOf({ ...c, shown: m.ALL_GRIDS }));
+  }
+  assert.equal(m.hrefOf(m.choiceOf({ ba: "erco", state: "TX" })), "/mix?ba=erco&state=TX");
+  assert.equal(m.hrefOf(m.choiceOf({ view: "forecast", src: "solar" })), "/mix?view=forecast&src=solar");
+  assert.ok(m.NO_GRID_CHOICE.length < 90 && !m.NO_GRID_CHOICE.includes("\u2014") && /^[^.]+\.$/.test(m.NO_GRID_CHOICE), "one short sentence");
+});
+test("session 168: the filter views' click (every grid, one alone, every grid again)", () => {
+  const all = m.ALL_GRIDS;
+  assert.deepEqual(m.filtered(all, "caiso"), ["caiso"]);                                          // every grid on: a click shows that grid alone
+  assert.deepEqual(m.filtered(["caiso"], "caiso"), all);                                          // the only grid shown: every grid again
+  assert.deepEqual(m.filtered(["caiso"], "ercot"), ["ercot", "caiso"]);                          // added, in the page's order
+  assert.deepEqual(m.filtered(["ercot", "caiso"], "ercot"), ["caiso"]);
+  const c = m.choiceOf({ view: "forecast", grids: "spp,caiso,ercot,pjm,miso" });
+  assert.deepEqual(c.shown, ["ercot", "caiso", "pjm", "miso", "spp"]);                            // five: a filter is not held to four
+  assert.equal(m.hrefOf(c), "/mix?view=forecast&grids=ercot%2Ccaiso%2Cpjm%2Cmiso%2Cspp");
+  assert.deepEqual(m.choiceOf({ view: "forecast", grids: all.join(",") }).shown, all);            // all seven named is none named
+  assert.equal(m.hrefOf(m.choiceOf({ view: "forecast", grids: all.join(",") })), "/mix?view=forecast");
+  const now = m.choiceOf({ grids: "ercot,caiso", ba: "pjm", state: "TX" });
+  assert.equal(m.hrefOf(now), "/mix?state=TX&grids=ercot%2Ccaiso");                               // the operator list gives way to the choice
+  assert.equal(m.hrefOf(now, { view: "day" }), "/mix?view=day&grids=ercot%2Ccaiso");
+  for (const q of [{ grids: "caiso" }, { view: "forecast", grids: "ercot,nyiso" }, { view: "day", grids: "ercot" }, { grids: "pjm,miso", state: "TX" }]) {
+    const x = m.choiceOf(q);
+    assert.deepEqual(m.choiceOf(Object.fromEntries(new URLSearchParams(m.hrefOf(x).split("?")[1] ?? ""))), x, JSON.stringify(q));
+  }
 });
 test("bad values fall back", () => {
   const c = m.choiceOf({ view: "nonsense", period: "April", cal: "44", year: "20x6", factor: "gold", season: "monsoon", states: "tx,ZZ1" });

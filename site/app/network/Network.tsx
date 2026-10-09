@@ -22,7 +22,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
-import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, monthSpan, type Complete } from "@/lib/networkV3";
+import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
 
 export type NetNode = { id: string; name: string; iso: string | null; demand_mw: number | null; demand_ts: string | null;
   intensity: number | null; intensity_ts: string | null; volume_mwh: number; x: number; y: number; z: number;
@@ -500,7 +500,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
               </div>
               <div>
                 <dt className="text-xs text-muted">Hub price this {unit}</dt>
-                <dd>{v3 && PAUSED_PRICE[pick.id] ? <span data-price-paused={pick.id}>{PAUSED_PRICE[pick.id]}</span> : pick.id === "PJM" ? "Not shown: PJM's prices are licensed" : (() => { const p = priceOf(view, !!v3, pick.id, hour); return p !== null ? <>{p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh <span className="text-xs text-muted">({view.priceKind(pick.id)})</span></> : (pick.iso ? `Not held for this ${unit}` : "No public hub price in the warehouse"); })()}
+                <dd>{v3 && PAUSED_PRICE[pick.id] ? <span data-price-paused={pick.id} title={PAUSED_PRICE[pick.id]} className="cursor-help border-b border-dotted border-muted italic text-muted">{PAUSED_WORDS}</span> : pick.id === "PJM" ? "Not shown: PJM's prices are licensed" : (() => { const p = priceOf(view, !!v3, pick.id, hour); return p !== null ? <>{p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh <span className="text-xs text-muted">({view.priceKind(pick.id)})</span></> : (pick.iso ? `Not held for this ${unit}` : "No public hub price in the warehouse"); })()}
                   {pricesOn && pick.id !== "PJM" && priceRange ? <span className="block text-xs text-muted" data-price-range="1">Over the period shown: {priceRange.lo.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} to {priceRange.hi.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, {priceRange.n.toLocaleString("en-US")} {unit}s held.</span> : null}</dd>
               </div>
               <div>
@@ -523,7 +523,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
                   return (
                     <>
                       {s.hasDemand ? <>Net imports {pct(s.share[HEADLINE]!)} percent of demand ({MEASURES[HEADLINE]})</> : <>Net imports {fmt(s.mwh[HEADLINE] ?? 0)} MWh ({MEASURES[HEADLINE]}; its demand is not held, so no share)</>}.
-                      {range3 ? <> The three measures disagree: {pct(Math.min(...range3))} to {pct(Math.max(...range3))} percent (see below).</> : null}
+                      {range3 ? <> The three measures disagree: {pct(Math.min(...range3))} to {pct(Math.max(...range3))} percent ({v3 ? "see the Method note" : "see below"}).</> : null}
                       {top ? <> Largest supplier: {nameOf(top.id)}{top.share !== null ? <>, {pct(top.share)} percent of demand</> : <>, {fmt(top.mwh)} MWh</>}.</> : null}
                       <span className="block text-xs text-muted">{s.months[0]} to {s.months.at(-1)}; {s.daysHeld} days held, {s.daysLeftOut} left out{s.thin ? `, ${s.thin} thin month${s.thin > 1 ? "s" : ""}` : ""}.</span>
                     </>

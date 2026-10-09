@@ -31,6 +31,9 @@ const nextConfig: NextConfig = {
       // session 167: one tool, one page, one address. The project map is /map; its second version is the base of that page
       // now, and its address redirects to it (a query is carried over)
       { source: "/map/v2", destination: "/map", permanent: true },
+      // session 168: one tool, one page, one address. The grid network is /network; version 3 is that page now, and its
+      // address redirects to it (a query is carried over, so a view shared from /network/v3 opens the same view)
+      { source: "/network/v3", destination: "/network", permanent: true },
       { source: "/weekly", destination: "/roundup", permanent: true },
       { source: "/weekly/:week", destination: "/roundup/:week", permanent: true },
       // session 132: one tool, one page, one address. The price board is /board; its earlier versions and the markets

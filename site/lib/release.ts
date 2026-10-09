@@ -22,7 +22,8 @@ export const RELEASE: Record<string, Status> = {
   // session 145: /cost-of-power/seller/v2 is retired and redirects to /cost-of-power/seller (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/cost-of-power/seller/v2": "review",  // session 107: version 2 of the seller's tab; without its own line it would take the live tab's status
   "/network": "review",  // session 166: in review
-  "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace); without its own line it would take /network's status
+  // session 168: version 3 is the network page now, at /network; /network/v3 is retired and redirects to it (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
+  "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace)
   "/storage": "review",  // session 166: in review
   "/storage/buildout": "review",
   "/battery/customer": "review",  // session 88: what a battery saves a customer; the reader's own numbers, in the browser

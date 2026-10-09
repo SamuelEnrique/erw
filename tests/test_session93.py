@@ -175,13 +175,16 @@ class TheModel(unittest.TestCase):
 
 class TheLivePageIsAsItWas(unittest.TestCase):
     def test_the_live_page_passes_nothing_of_version_3(self):
-        page = src("site", "app", "network", "page.tsx")
+        # session 168 (the owner's instruction of 8 October 2026): version 3 is the network page. The page that passed no
+        # version 3 is kept, unrouted, in app/_retired/network-original; version 3's page stands at /network
+        page = src("site", "app", "_retired", "network-original", "page.tsx")
         self.assertIn("<Network snap={snap} supply={supply} live={extras} />", page)
-        self.assertNotIn("v3", page.replace("/network/v3", ""))
+        self.assertNotIn("v3=", page)
         self.assertIn("pickSnapshot(await fetchHourly(HOURLY), committed)", page)
-        v3 = src("site", "app", "network", "v3", "page.tsx")
+        v3 = src("site", "app", "network", "page.tsx")
         self.assertIn("<Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} />", v3)   # session 124
-        self.assertIn("robots: { index: false, follow: false }", v3)
+        self.assertFalse(os.path.exists(os.path.join(SITE, "app", "network", "v3", "page.tsx")))
+        self.assertIn('{ source: "/network/v3", destination: "/network", permanent: true }', src("site", "next.config.ts"))
         d = node("import { statusOf } from './lib/release.ts'; console.log(JSON.stringify([statusOf('/network'), statusOf('/network/v3')]));")
         self.assertEqual(d, ["live", "review"])
 
@@ -217,7 +220,7 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertNotIn("NOT PROVEN", r.stdout)
 
     def test_no_em_dash_in_what_the_session_wrote(self):
-        for rel in ("tests/test_session93.py", "warehouse/derived/network_daily.py", "site/lib/networkV3.ts", "site/app/network/v3/page.tsx", "site/app/network/data.ts",
+        for rel in ("tests/test_session93.py", "warehouse/derived/network_daily.py", "site/lib/networkV3.ts", "site/app/network/page.tsx", "site/app/network/data.ts",
                     "site/app/network/Network.tsx", "site/scripts/check-network-v3.mjs", "site/scripts/browser.mjs", "site/public/network/daily_index.json"):
             self.assertNotIn(chr(0x2014), src(*rel.split("/")), rel)
 

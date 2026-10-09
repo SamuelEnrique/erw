@@ -80,6 +80,8 @@ export function completeHour(hours: string[], links: { a: string; b: string; mw:
   return { index, hour: index >= 0 ? hours[index] : null, pairs: links.length, reporting: reporting.length, silent, newest: hours[n - 1] ?? "", newestPairs: n ? holds(n - 1) : 0 };
 }
 
+/** Session 168: the fixed words the panel shows where a paused publisher's price would stand; the sentence below is its hover. */
+export const PAUSED_WORDS = "paused while terms are reviewed";
 /** Session 124: a hub price a new page does not show, and the words it shows in its place. */
 export const PAUSED_PRICE: Record<string, string> = {
   MISO: "Not shown: MISO's own files are paused since 4 October 2026 while a person reviews its terms. Its flows, demand and carbon here are EIA's, which are not paused.",

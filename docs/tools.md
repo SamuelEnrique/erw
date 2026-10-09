@@ -28,7 +28,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 
 | Tool | Route | The question it answers | Audience | Data |
 |---|---|---|---|---|
-| The network | `/network` | Which balancing authorities trade power, and how much, hour by hour? | students and teachers | `eia930_all_interchange`, `grid_network_nodes`, `grid_network_links` (snapshot `site/data/grid_network.json`) |
+| The network | `/network` (version 3 since session 168; `/network/v3` redirects to it) | Which balancing authorities trade power, and how much, hour by hour and on any day since 2019? | students and teachers | `eia930_all_interchange`, `grid_network_nodes`, `grid_network_links` (snapshot `site/data/grid_network.json`), `eia930_daily_interchange`, `eia930_daily_demand` (the replay, `site/public/network/`) |
 | Grid conditions | `/grid` | What were yesterday's peak demand, forecast error and generation mix in each ISO? | everyone | `eia930_all_demand`, `eia930_all_generation` |
 | Your grid (seven pages) | `/grid/ercot`, `/grid/caiso`, `/grid/pjm`, `/grid/nyiso`, `/grid/isone`, `/grid/miso`, `/grid/spp` | What is this grid, and what is it doing today? | students and teachers | `eia930_all_*`, ISO prices, `storage_capacity`, queues, news |
 | Energy mix | `/mix` | What generates the power, by grid operator hourly and by state monthly? | everyone | `eia930_all_generation`, `eia930_generation_latest`, `state_generation_mix_monthly` |

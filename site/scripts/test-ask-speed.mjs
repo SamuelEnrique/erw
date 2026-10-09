@@ -104,7 +104,11 @@ await test("tool calls read together return what the same calls return one after
   const again = await Promise.all([...FIX.calls].reverse().map((c) => runTool(c.name, c.input, profile.scope)));
   assert.deepEqual(together, one);
   assert.deepEqual(again.reverse(), one);
-  assert.deepEqual(JSON.parse(JSON.stringify(one)), FIX.results);       // and what the live set returned when it was recorded
+  // and what the live set returned when it was recorded; session 168 adds the local words beside each time (lib/chat/plaintime.ts),
+  // which the recording, made before, does not hold: they are set apart and checked on their own
+  const local = JSON.stringify(one, (k, v) => (k.endsWith("_local") ? undefined : v));
+  assert.deepEqual(JSON.parse(local), FIX.results);
+  assert.deepEqual([one[0].out.time_span.first_local, one[0].out.time_span.last_local], ["1 September 2026", "30 September 2026"]);
   assert.ok(one.every((r) => !r.isError));
 });
 
@@ -793,6 +797,19 @@ await test148("on the rule's path a number that is in no row fetched is not show
   assert.ok(twice.sent[2].tools.length > 0 && said(twice.sent[2]).includes("ALREADY READ FOR THIS QUESTION"));
   assert.deepEqual([twice.r.status, twice.r.planned_by], ["answered", undefined]);
   assert.ok(!JSON.stringify(twice.r.answer).includes("99.99"));
+});
+
+// session 168: a UTC stamp the model copies from a tool result passes the number check as written and reaches the
+// reader in plain local words (lib/chat/plaintime.ts); the tool result carries the same words beside the stamp
+// (its own count, so that the counts of sessions 143 and 148 that other tests read stay as they were)
+const test168 = async (name, fn) => { await fn(); console.log(`ok   168: ${name}`); };
+await test168("an answer that copies a stamp is answered, and the reader sees the date in words, never the stamp", async () => {
+  const stamp = WEST.time_span.first;                                                   // 2026-09-01T00:00:00Z: a table of days labels its day so
+  const answer = `The West hub's day-ahead price ranged from ${WEST.summary.lowest.value} to ${WEST.summary.highest.value} USD/MWh from ${stamp} (ercot_hub_prices_daily).`;
+  const { r, sent } = await through(byId.h16, { ASK_RULE_PLAN: "on" }, () => ({ text: draft({ answer }) }));
+  assert.equal(r.status, "answered");                                                  // the number check passed on the text as written
+  assert.ok(!/\d{4}-\d{2}-\d{2}T/.test(r.answer) && r.answer.includes("from 1 September 2026 (ercot_hub_prices_daily)"), r.answer);
+  assert.ok(said(sent[0]).includes('"first_local":"1 September 2026"'));               // what the writer read: the words beside the stamp
 });
 
 console.log(`${m} tests of session 148 pass`);

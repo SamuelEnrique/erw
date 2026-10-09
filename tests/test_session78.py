@@ -242,7 +242,9 @@ class Page(unittest.TestCase):
         self.assertNotIn("under review", shown)
         self.assertIn('href="/data/methods/eia930_caiso_break"', shown)
         self.assertIn("caisoJoinDay()", shown)
-        for page, kind in (("app/network/page.tsx", "<CaisoBreakNote "), ("app/emissions/page.tsx", "<CaisoBreakNote />"),
+        # session 168: version 3 is the network page; the page that showed the sentence is kept in app/_retired/network-original,
+        # and the sentence is in the Method note (docs/methods/grid_network.md), off the page face
+        for page, kind in (("app/_retired/network-original/page.tsx", "<CaisoBreakNote "), ("app/emissions/page.tsx", "<CaisoBreakNote />"),
                            ("app/cost-of-power/GridsView.tsx", "<CaisoBreakNote />"), ("app/_retired/mix-original/page.tsx", '<CaisoBreakNote kind="mix" />'),
                            # session 118: the two grid pages no longer draw EIA's California mix, so the sentence that said the
                            # mix "here is EIA-930's" is gone from them: the overview says why in the card itself
