@@ -149,9 +149,9 @@ class TheCatalogueAndTheCards(unittest.TestCase):
 
     def test_no_em_dash_in_the_cards_or_the_words(self):
         for name in run_finding.FINDINGS:
-            self.assertNotIn("—", json.dumps(card(name), ensure_ascii=False), name)
-            self.assertNotIn("—", src("warehouse", "analysis", "findings", name + ".py"), name)
-        self.assertNotIn("—", src("docs", "voice.md"))
+            self.assertNotIn("\u2014", json.dumps(card(name), ensure_ascii=False), name)
+            self.assertNotIn("\u2014", src("warehouse", "analysis", "findings", name + ".py"), name)
+        self.assertNotIn("\u2014", src("docs", "voice.md"))
 
     def test_causal_words_stay_within_the_design(self):
         c = card("batteries_lunch")
