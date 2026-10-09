@@ -8,7 +8,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { geoAlbersUsa } from "d3-geo";
 import { baseStyle, token, useEChart } from "@/components/echarts";
-import { HeadlineNumber, InputPanel, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { InputPanel, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import { STATES } from "@/lib/regions";
 import {
   COLOR, COLOR_KEY, EVERYTHING, KIND, cardOf, clickState, dateOf, one, optionsOf, parseChoice, queryOf, select, sizeOf, tidy, toggle, totals, whole,
@@ -96,7 +96,7 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFile; statesGeo: u
         },
         geo: {
           map: "erw-us-one", roam: true, scaleLimit: { min: 1, max: 20 }, projection: { project: (p: number[]) => p, unproject: (p: number[]) => p },
-          top: 24, bottom: 4, itemStyle: { areaColor: paper, borderColor: rule, borderWidth: 0.7 }, emphasis: { itemStyle: { areaColor: panel }, label: { show: false } },
+          top: 24, bottom: 4, left: 4, right: 4, itemStyle: { areaColor: paper, borderColor: rule, borderWidth: 0.7 }, emphasis: { itemStyle: { areaColor: panel }, label: { show: false } },
           select: { disabled: true }, tooltip: { show: true },
           regions: chosen.map((name) => ({ name, itemStyle: { areaColor: panel, borderColor: accent, borderWidth: 1.5 } })),
         },
@@ -152,13 +152,21 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFile; statesGeo: u
         <p className="mb-6 max-w-3xl text-lg leading-relaxed" data-map-summary="1">
           <Sentence f={f} choice={choice} sum={sum} sized={sized} />
         </p>
-        <div className="mb-10 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 xl:grid-cols-4" data-map-totals="1">
-          {f.statuses.map((s, i) => {
-            const t = sum.byStatus[i];
-            if (!t.rows) return null;
-            const label = s.kind === KIND.queue ? `Queue: ${s.name}` : s.kind === KIND.datacenter ? `Datacenters: ${s.name}` : s.name;
-            const note = s.kind === KIND.queue ? <>{whole(t.rows)} positions, MW requested</> : s.kind === KIND.datacenter ? <>{whole(t.rows)} facilities, MW stated at {whole(t.withMw)}</> : <>{whole(t.rows)} units</>;
-            return <HeadlineNumber key={s.slug} label={label} value={<span data-map-total={s.slug}>{t.withMw ? whole(t.mw) : "not stated"}</span>} unit={t.withMw ? "MW" : undefined} note={note} />;
+        <div className="mb-10 space-y-5" data-map-totals="1">
+          {[0, 2, 3].map((group) => {
+            const tiles = f.statuses.map((s, i) => ({ s, t: sum.byStatus[i] })).filter(({ s, t }) => t.rows > 0 && (group === 0 ? s.kind <= KIND.planned : s.kind === group));
+            if (!tiles.length) return null;
+            return (
+              <div key={group}>
+                <h3 className="mb-2 text-xs uppercase tracking-wide text-muted">{group === 0 ? "Generating units, by EIA's status" : group === KIND.queue ? "Queue positions, by status (MW requested)" : "Datacenters, by status (MW where stated)"}</h3>
+                <div className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 xl:grid-cols-4">
+                  {tiles.map(({ s, t }) => (
+                    <Tile key={s.slug} label={s.name} value={<span data-map-total={s.slug}>{t.withMw ? whole(t.mw) : "not stated"}</span>} unit={t.withMw ? "MW" : undefined}
+                      note={s.kind === KIND.queue ? count(t.rows, "position") : s.kind === KIND.datacenter ? <>{count(t.rows, "facility", "facilities")}, {t.withMw ? `MW stated at ${whole(t.withMw)}` : "no MW stated"}</> : count(t.rows, "unit")} />
+                  ))}
+                </div>
+              </div>
+            );
           })}
         </div>
 
@@ -183,6 +191,19 @@ export function ProjectMap({ file: f, statesGeo }: { file: MapFile; statesGeo: u
 
         <ByTechnology f={f} sum={sum} kindOn={kindOn} />
       </div>
+    </div>
+  );
+}
+
+const count = (n: number, word: string, words = `${word}s`) => `${whole(n)} ${n === 1 ? word : words}`;
+
+/** A total by status: version 2's headline number, smaller, so that a status for each of EIA's codes fits a phone. */
+function Tile({ label, value, unit, note }: { label: string; value: ReactNode; unit?: string; note: ReactNode }) {
+  return (
+    <div className="border-t-2 border-accent pt-1.5">
+      <div className="text-[11px] uppercase leading-snug tracking-wide text-muted">{label}</div>
+      <div className="mt-0.5 font-serif text-xl tabular-nums text-ink sm:text-2xl">{value}{unit ? <span className="ml-1 font-sans text-xs text-muted">{unit}</span> : null}</div>
+      <div className="text-xs leading-snug text-muted">{note}</div>
     </div>
   );
 }

@@ -286,7 +286,7 @@ jobs:
                  warehouse/metadata/archive_manifest.csv
                  site/data/grid_network.json
                  site/public/network/daily_index.json site/data/mix site/data/price_compare.json
-                 site/data/demand_growth.json site/data/curtailment_profile.json site/data/map_v2.json
+                 site/data/demand_growth.json site/data/curtailment_profile.json site/data/map_v2.json site/data/map.json
                  site/data/large_load_status.json
                  site/data/board.json site/public/board
                  site/data/supply.json warehouse/metadata/release_schedule.json

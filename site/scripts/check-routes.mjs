@@ -53,6 +53,7 @@ const PAGES = [
   "/curtailment/v2", "/curtailment/v2?period=2026-05", "/curtailment/v2?period=2019", "/data/methods/caiso_curtailment_intervals",  // session 98: curtailment, version 2 (since session 144 these redirect to /curtailment)
   "/curtailment?grid=ercot&place=HB_WEST", "/curtailment?grid=spp", "/curtailment?grid=nyiso", "/data/methods/curtailment",  // session 144: the one curtailment page, in review
   "/supply", "/supply?g=gasstor,position&s=eia-wcestus1", "/data/methods/supply_and_trade",  // session 134: Supply and trade, in review
+  "/map?kind=operating,planned&grid=ercot,caiso&status=u,v&state=CA,TX", "/map?kind=none", "/map/v2", "/map/v2?grid=ercot", "/data/methods/energy_projects",  // session 167: the one project map (/map/v2 redirects to it), in review
   "/thesis", "/thesis?run=no-such-run&tab=funnel",  // session 135: Thesis Builder, in review and internal (the page only: the check never queues a run; scripts/check-thesis.mjs covers its two API routes)
   // session 35: the seven grid pages
   "/network/v3", "/network/v3?view=day&t=2021-02-15&grid=ERCO&prices=1&trace=1",  // session 93: version 3, in review
