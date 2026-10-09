@@ -14,6 +14,7 @@ import {
 import { DELIVERY, INDEX, yearFiles, type MatrixRow } from "@/lib/datacenterdata";
 import type { DemandFile } from "@/lib/demandgrowth";
 import { SLUGS } from "@/lib/demandgrowth";
+import { waitsGrid } from "@/lib/howsoon";
 import { dayWords, span as loadSpan, type LoadFile } from "@/lib/largeload";
 import { CLEAN, STRESS, type Slug } from "@/lib/mixdata";
 import { viewOf, type QueueFile } from "@/lib/queues";
@@ -22,6 +23,7 @@ import { GridsView } from "./GridsView";
 import { YearCost } from "./LoadCharts";
 import { ContractInputs, ContractProvider, ContractResult } from "./LoadContract";
 import { LoadForm } from "./LoadForm";
+import { LoadWaits, WaitsWord } from "./LoadWaits";
 import { RulesInMotion } from "./RulesInMotion";
 import { CostTabs } from "./Tabs";
 
@@ -196,6 +198,8 @@ function LoadView({ x: asked, buyGiven, gridAsked }: { x: Inputs; buyGiven: bool
   const qv = viewOf(QUEUES, x.grid, "all")?.whole ?? null;
   const ll = x.grid === "ercot" ? loadSpan(LOADS) : null;
 
+  // the names of the seven grids an address can name, for the two blocks that follow the address (sessions 154 and 163)
+  const gridNames: Record<string, string> = { ...Object.fromEntries(Object.entries(INDEX.blank).map(([id, v]) => [id, v.name])), ...Object.fromEntries(Object.entries(INDEX.grids).map(([id, v]) => [id, v.name])) };
   const delivery = x.grid === "ercot" ? DELIVERY.rows : [];
   const matrix = x.grid === "ercot" ? DELIVERY.matrix ?? [] : [];
   const utilities = [...new Set(delivery.map((r) => r.utility))];
@@ -334,10 +338,13 @@ function LoadView({ x: asked, buyGiven, gridAsked }: { x: Inputs; buyGiven: bool
                   x.grid === "nyiso" ? (NY_SHOWN ? <NyLoadCell key="ny" own={x.region} /> : <span key="ny" data-nyload-held="1"><Missing words={NY_HELD_WORDS} why={NY_HELD_WHY} /></span>)
                     : x.grid === "ercot" ? <Missing key="m" words={NOWHERE} why="ERCOT publishes the large load seeking interconnection as system totals in slide decks, with no table by zone or county. A search on 7 October 2026 found no public list by place." />
                     : <Missing key="m" words={NOWHERE} why={`A search on 7 October 2026 found no public list of the large load waiting for power in ${g?.name ?? x.grid} by place. The pieces sit in utility planning filings, rate cases and operator reports.`} />, ""] },
-                { key: "waitload", cells: ["How long a new large load waits", <Missing key="m" words={NOWHERE} why="A search on 7 October 2026 found no public dataset of the time from a large load's request to its energization, for any grid. The interconnection queue above is for generators, not loads." />, ""] },
+                { key: "waitload", cells: ["How long a new large load waits", <WaitsWord key="m" grid={x.grid} name={g?.name ?? x.grid} />, ""] },
               ]} />
+            {/* session 163: how long a large load waits, for the grid the address names: the durations measured by stage with their
+                counts, the lower bounds marked, the entity's own stated figures beside them; one site file of aggregates */}
+            <LoadWaits grid={waitsGrid(gridAsked, x.grid)} name={gridNames[waitsGrid(gridAsked, x.grid)] ?? waitsGrid(gridAsked, x.grid).toUpperCase()} />
             {/* session 154: the regulatory actions in motion for the grid the address names (MISO and PJM too); one site file */}
-            <RulesInMotion x={x} asked={gridAsked} names={{ ...Object.fromEntries(Object.entries(INDEX.blank).map(([id, v]) => [id, v.name])), ...Object.fromEntries(Object.entries(INDEX.grids).map(([id, v]) => [id, v.name])) }} />
+            <RulesInMotion x={x} asked={gridAsked} names={gridNames} />
           </ToolSection>
 
           {x.grid === "nyiso" && NY_SHOWN ? (
