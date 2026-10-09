@@ -35,6 +35,43 @@ import { env } from "./browser.mjs";
 export const DONE = "fixture-done", QUEUED = "fixture-queued", FAILED = "fixture-failed", THREE = "fixture-three";
 /** Session 169: a finished run started with "Run anyway", its report flagged (the runner copies thesis_runs.gate onto it). */
 export const FORCED = "fixture-forced";
+/** Session 169: a finished run of the market research (report version 2): no company of the ERW's own, five trends of
+ * which two are drawn with a series, the timing and the references; and the same run once a PitchBook answer is pasted. */
+export const MARKET = "fixture-market", MARKET_PB = "fixture-market-pb";
+
+export function marketReport() {
+  const series = (n, id, title) => ({ id, source: "EIA", title, unit: "fixture units", freq: "annual", url: "https://www.eia.gov/opendata/browser/fixture", retrieved: "2026-10-09",
+    points: 3, cut: false, source_line: `Source: U.S. Energy Information Administration (9 October 2026), ${title}.`, source_id: "S9" });
+  const drawn = (n, title) => ({ n, title: `Fixture market trend ${n}`, fact: T(`Fixture fact ${n}: the series rose to 12.5 in 2025.`, "S1", "S9"), sources: ["S1", "S9"],
+    table: { columns: ["Period", title], rows: [["2023", "10"], ["2024", "11.25"], ["2025", "12.5"]] }, chart: { kind: "line", title, category: 0, values: [1], unit: "fixture units" },
+    series: series(n, `eia:fixture:${n}`, title), no_series: "" });
+  const bare = (n) => ({ n, title: `Fixture market trend ${n}`, fact: T(`Fixture fact ${n}, from a cited page.`, "S1"), sources: ["S1"], table: { columns: [], rows: [] },
+    chart: { kind: "none", title: "", category: 0, values: [1], unit: "" }, series: null, no_series: "Fixture: no real series measures this trend, so it is not drawn." });
+  return {
+    version: 2, niche: "fixture: a market run", stage: "", geography: "", built: "2026-10-09T07:15:00Z",
+    sources: [{ id: "S1", kind: "web", title: "Fixture market source", url: "https://example.com/market", retrieved: "2026-10-09" },
+      { id: "S9", kind: "web", title: "EIA API v2: fixture series", url: "https://www.eia.gov/opendata/browser/fixture", retrieved: "2026-10-09" }],
+    scope: { definition: T("Fixture definition of the market.", "S1"), value_chain: [], excluded: [{ niche: "Fixture out", why: "Fixture reason." }], definitions: [],
+      in_scope: [T("Fixture in scope.", "S1")], sub_segments: [{ name: "Fixture segment", what: T("Fixture segment text.", "S1") }] },
+    trends: [drawn(1, "Fixture series one"), bare(2), drawn(3, "Fixture series three"), bare(4), bare(5)],
+    landscape: { fact: T(""), rule: "", companies: [] }, funnel: { stages: [], companies: [] }, pipeline: { companies: [] },
+    capital: { fact: T("Fixture capital fact.", "S1"), rounds: [] }, incumbents: { fact: T("Fixture incumbents fact.", "S1"), players: [] }, risks: [], policy: { fact: "", actions: [] },
+    timing: { stage: "being installed", text: T("Fixture timing text.", "S1"), evidence: [T("Fixture evidence.", "S1")] },
+    connector_tabs: { note: "Connect PitchBook or Harmonic to fill this", columns: {
+      landscape: ["Company", "What it sells", "Founders", "Stage", "Raised", "Investors", "Founded", "Location", "Signal", "Source"],
+      funnel: ["Company", "What it sells", "Stage", "Funnel stage", "Date sourced", "Sourced by", "Next step", "Status", "Notes", "Source"],
+      pipeline: ["Company", "What it sells", "Founders", "Stage", "Raised", "Investors", "Founded", "Location", "Signal", "Source"],
+      success: ["Company", "What it sells", "Outcome", "Date", "Raised before", "Investors", "Source"],
+      investors: ["Investor", "Companies backed in this niche", "Lead in", "Latest round seen", "Source"] } },
+  };
+}
+/** A PitchBook answer to the market run, as the site's validator leaves it: made up for the check, no company's. */
+export const MARKET_ANSWER = { format: "erw-pitchbook-1", run_id: "fixture-market-pb", pulled_on: "2026-10-09", label: "PitchBook", received_note: "Figures as returned from PitchBook through the user's own account; not checked by the ERW.", companies: [],
+  additional_companies: [
+    { name: "Fixture Seed Co", found: true, why: "keyword: fixture", description: "Fixture sensors", hq: "Austin, TX", founded_year: 2021, financing_status: "Venture Capital-Backed", last_round: { date: "2025-03", type: "Seed", size_usd_m: 3 }, total_raised_usd_m: 4, investors: ["Fund One", "Fund Two"], lead_investors: ["Fund One"], founders: ["A. Fixture"] },
+    { name: "Fixture Exit Co", found: true, why: "keyword: fixture", description: "Fixture software", financing_status: "Acquired/Merged", last_round: { date: "2024-06", type: "Merger/Acquisition" }, total_raised_usd_m: 20, investors: ["Fund One"] },
+    { name: "Not Found Co", found: false, why: "keyword: fixture" },
+  ] };
 export const VENDOR_NOTE = "Fixture: this sentence is from a public page of a data vendor (Fixture Vendor), not from the company or the press.";
 // Session 160: one company of the fixture report carries reason_kept (its sentence is from a page's kept text, with
 // the day that text was retrieved) and also (its other names as written). Made up for the check, like the rest.
@@ -161,6 +198,11 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   } catch (e) {
     console.log(`thesis stub: the run "${THREE}" is not held (${String(e?.message ?? e).split(/[\r\n]/)[0].slice(0, 160)}); start the stand-in with --import ./scripts/alias-register.mjs to hold it`);
   }
+  // session 169: a finished run of the market research, and the same with a PitchBook answer pasted
+  runs.push({ ...runs[0], run_id: MARKET, niche: "fixture: a market run", stage: "", geography: "", requested_at: "2026-10-03T10:00:00+00:00", report: marketReport(), pitchbook_key: null,
+    pitchbook_request: { ...runs[0].pitchbook_request, run_id: MARKET, companies: [] } });
+  runs.push({ ...runs[0], run_id: MARKET_PB, niche: "fixture: a market run with a PitchBook answer", stage: "", geography: "", requested_at: "2026-10-02T10:00:00+00:00", report: marketReport(), pitchbook_key: null,
+    pitchbook_request: { ...runs[0].pitchbook_request, run_id: MARKET_PB, companies: [] }, pitchbook: MARKET_ANSWER, pitchbook_received_at: "2026-10-09T08:00:00+00:00" });
   // session 169: a finished run started with "Run anyway" on a niche the gate refused
   runs.push({ ...runs[0], run_id: FORCED, niche: "oil & gas demand", stage: "", geography: "", requested_at: "2026-10-04T10:00:00+00:00", pitchbook_key: null,
     report: { ...runs[0].report, niche: "oil & gas demand", gate: { forced: true, why: "sector_only", topic: "oil_gas", at: "2026-10-04T10:00:00.000Z" } } });

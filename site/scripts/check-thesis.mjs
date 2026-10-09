@@ -48,7 +48,8 @@
 // Exit 1 on a failure.
 import { env, withBrowser } from "./browser.mjs";
 import { EMPTY_TAB, PB_PENDING, PB_PENDING_WHY, TABS } from "../lib/thesis/view.ts";
-import { ALSO, DONE, FAILED, FORCED, KEPT_MARK, KEPT_NOTE, KEY, QUEUED, THREE, VENDOR_NOTE, fixtureAnswer } from "./thesis-stub.mjs";
+import { ALSO, DONE, FAILED, FORCED, KEPT_MARK, KEPT_NOTE, KEY, MARKET, MARKET_PB, QUEUED, THREE, VENDOR_NOTE, fixtureAnswer } from "./thesis-stub.mjs";
+import { CONNECTOR_NOTE } from "../lib/thesis/view.ts";
 import * as niche from "../lib/thesis/niche.ts";
 import { crunchbaseAnswer, harmonicAnswer } from "./thesis-providers-fixtures.mjs";
 import { NOT_KEPT, PROVIDERS, TERMS } from "../lib/thesis/providers.ts";
@@ -477,6 +478,39 @@ if (!fixture) {
     await go(`${base}/thesis?run=${DONE}`);
     await wait(`!!document.querySelector('[data-thesis-report]')`, 20000, "the done run's report");
     check(await evaluate(`!document.querySelector('[data-thesis-forced]')`), "a run that passed the gate carries no mark");
+    // session 169: the market research's report (version 2), and the connector tabs
+    await go(`${base}/thesis?run=${MARKET}&tab=trends`);
+    await wait(`document.querySelectorAll('[data-trend]').length === 5`, 20000, "the market run's trends");
+    const tr = await evaluate(`[...document.querySelectorAll('[data-trend]')].map((s) => [s.dataset.series, !!s.querySelector('[data-chart="trend"]'), (s.querySelector('[data-fact]')?.innerText ?? '').slice(0, 5), s.querySelector('[data-source-line]')?.innerText ?? '', s.querySelector('[data-missing="no_series"]')?.title ?? ''])`);
+    check(tr.filter((t) => t[1]).length === 2 && tr[0][0] === "eia:fixture:1" && tr[0][3].startsWith("Source: U.S. Energy Information Administration") && tr.every((t) => t[2] === "Fact:")
+      && tr[1][4] === "Fixture: no real series measures this trend, so it is not drawn." && !tr[1][1], "a market trend states its Fact; two draw their series with the publisher's source line; the others say they are not drawn, the reason on hover");
+    const mtip = await evaluate(`(() => { const el = document.querySelector('[data-chart="trend"]'); const chart = window.echarts.getInstanceByDom(el); chart.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex: 2 });
+      return new Promise((ok) => setTimeout(() => ok([...el.querySelectorAll('div')].map((d) => d.innerText || '').filter((t) => /\\d/.test(t)).sort((x, y) => y.length - x.length)[0] ?? ''), 500)); })()`);
+    check(/12\.5/.test(String(mtip)) && /2025/.test(String(mtip)), `a market trend's chart answers the mouse with the period and the value as published ("${String(mtip).replace(/\s+/g, " ").slice(0, 80)}")`);
+    for (const tab of ["landscape", "funnel", "pipeline", "success", "investors"]) {
+      await go(`${base}/thesis?run=${MARKET}&tab=${tab}`);
+      await wait(`!!document.querySelector('[data-thesis-tab="${tab}"]')`, 20000, `the ${tab} tab`);
+      const c = await evaluate(`(() => { const d = document.querySelector('[data-connector="${tab}"]'); return d ? [d.innerText.split('\\n')[0], d.querySelectorAll('th').length] : null; })()`);
+      check(!!c && c[0].includes(CONNECTOR_NOTE) && c[1] >= 5, `the ${tab} tab of a market run is the greyed placeholder "${CONNECTOR_NOTE}" with its ${c ? c[1] : 0} columns`);
+    }
+    for (const [tab, want] of [["landscape", 2], ["pipeline", 1], ["success", 1], ["investors", 2], ["funnel", 2]]) {
+      await go(`${base}/thesis?run=${MARKET_PB}&tab=${tab}`);
+      await wait(`!!document.querySelector('[data-thesis-tab="${tab}"]')`, 20000, `the ${tab} tab with PitchBook`);
+      const n = await evaluate(`[document.querySelectorAll('[data-connector-row="${tab}"]').length, [...document.querySelectorAll('[data-connector-row="${tab}"]')].every((r) => !!r.querySelector('[data-pb-tag]'))]`);
+      check(n[0] === want && n[1], `with a PitchBook answer pasted the ${tab} tab holds ${n[0]} rows (${want} expected), each with the PitchBook tag`);
+    }
+    await go(`${base}/thesis?run=${MARKET}&tab=timing`);
+    await wait(`!!document.querySelector('[data-timing]')`, 20000, "the timing tab");
+    check((await evaluate(`document.querySelector('[data-timing]').innerText`)).toLowerCase().includes("being installed"), "the Timing tab says whether the market is being installed or deploying, with its evidence");
+    await go(`${base}/thesis?run=${MARKET}&tab=references`);
+    await wait(`!!document.querySelector('[data-references]')`, 20000, "the references tab");
+    check(await evaluate(`document.querySelectorAll('[data-reference]').length === 2 && !!document.querySelector('[data-reference="S9"] a[href^="https://www.eia.gov/"]')`), "the References tab lists every source the report cites, each with its link");
+    await go(`${base}/thesis?run=${DONE}&tab=landscape`);
+    await wait(`!!document.querySelector('[data-thesis-tab="landscape"]')`, 20000, "an old run's landscape");
+    check(await evaluate(`!document.querySelector('[data-connector="landscape"]') && document.querySelectorAll('[data-company]').length > 0`), "a run written before keeps its own company landscape as it was drawn");
+    await go(`${base}/thesis?run=${DONE}&tab=timing`);
+    await wait(`!!document.querySelector('[data-thesis-tab="timing"]')`, 20000, "an old run's timing tab");
+    check((await evaluate(`document.querySelector('[data-thesis-tab="timing"]').innerText`)).includes("This run was written before the Timing tab existed."), "a run written before says it has no Timing tab");
     check(errors.length === 0, `no script error on the page${errors.length ? `: ${errors[0].slice(0, 160)}` : ""}`);
     await sleep(100);
     return 0;

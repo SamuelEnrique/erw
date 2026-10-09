@@ -11,6 +11,7 @@ No network, no model call, no database. The tables a test reads are written by t
 (every row there is made up for the test and says so); a machine without the warehouse's tables runs every test.
 """
 import importlib.util
+import json
 import os
 import re
 import sys
@@ -225,6 +226,213 @@ class RunAnyway(unittest.TestCase):
         self.assertIn('report["gate"] = flag', text)
         self.assertIn('ap.add_argument("--run-anyway"', text)
         self.assertEqual(R.main.__module__, R.__name__)
+
+
+# ---------------------------------------------------------------------------------------------
+# Part C: the market research is the ERW's; companies come from a connector
+# ---------------------------------------------------------------------------------------------
+
+SR = R.sr
+
+
+class Usage:
+    def __init__(self, i=100, o=50):
+        self.input_tokens, self.output_tokens, self.cache_read_input_tokens, self.cache_creation_input_tokens, self.server_tool_use = i, o, 0, 0, None
+
+
+class Block:
+    def __init__(self, text):
+        self.type, self.text = "text", text
+
+
+class Resp:
+    def __init__(self, obj):
+        self.content, self.usage, self.stop_reason, self.model = [Block(json.dumps(obj))], Usage(), "end_turn", "stand-in"
+
+
+class FakeClient:
+    """Answers the three direct calls of the market run (series pick, writing, policy pick) with answers written for the test."""
+
+    def __init__(self, answers):
+        self.answers, self.asked = answers, []
+        self.messages = self
+
+    def create(self, **k):
+        self.asked.append(k)
+        name = next(n for n in self.answers if n in json.dumps(k["output_config"]["format"]["schema"]))
+        return Resp(self.answers[name](k))
+
+
+M1 = {"scope": {"definition": "Test niche: sensors that map heat underground, written for the test, 2 kinds.", "definition_sources": ["S1"],
+                "in_scope": [{"item": "Test sensing hardware", "sources": ["S1"]}], "out_of_scope": [{"item": "Test drilling", "why": "written for the test"}],
+                "sub_segments": [{"name": "Test segment", "what": "A sub-segment written for the test.", "sources": ["S1"]}],
+                "definitions": [{"term": "Test term", "meaning": "A meaning written for the test.", "sources": ["S1"]}, {"term": "Unsourced", "meaning": "dropped", "sources": []}]},
+      "trends": [{"title": f"Test trend {w}", "claim": f"The claim of trend {w}, written for the test.", "sources": ["S1"], "measure": "a test statistic"} for w in ("one", "two", "three", "four", "five")],
+      "timing": {"stage": "being installed", "evidence": [{"text": "A pilot written for the test in 2025.", "sources": ["S1"]}]},
+      "policy_fact": "No policy, written for the test."}
+M2 = {"capital": {"fact": "", "fact_sources": [], "rounds": [{"date": "2025", "company": "Test Program", "kind": "grant", "amount": "12", "currency": "USD million",
+                                                             "investors": "", "sources": ["S1"], "investors_spans": [], "date_span": ""}]},
+      "incumbents": {"fact": "", "fact_sources": [], "players": [{"name": "Test Incumbent", "kind": "public company", "ticker": "", "metric": "Role in the niche", "value": "makes test sensors", "as_of": "", "sources": ["S1"]}]},
+      "risks": {"risks": [{"risk": "A test risk", "how_it_breaks_the_thesis": "written for the test", "not_known": "", "sources": ["S1"]}]}}
+SERIES = {"id": "eia:generation:GEO", "source": "EIA", "title": "geothermal (US net generation, geothermal, all sectors)", "unit": "thousand megawatthours", "freq": "annual",
+          "url": "https://api.eia.gov/v2/electricity/electric-power-operational-data/data/?frequency=annual", "retrieved": "2026-10-09",
+          "points": [["2021", 15975.5], ["2022", 16087.0], ["2023", 16500.25]], "cut": False, "note": "EIA API v2"}      # values written for the test
+
+
+class FakeR(R.Careful):
+    """A Careful researcher with no client of its own: research and structure answer from the test's fixtures."""
+
+    def __init__(self, client, cap=1.0):
+        self.log, self.max_usd, self.cost, self.calls, self.searches = (lambda *_: None), cap, 0.0, 0, 0
+        self.sources, self.erw, self.model, self.price, self.client = {}, [], "stand-in-sonnet", (2.0, 10.0), client
+        self.guarded = []
+
+    def guard(self, stage):
+        self.guarded.append(stage)
+        super().guard(stage)
+
+    def charge(self, resp, what, model=None):
+        self.calls += 1
+
+    def research(self, what, system, prompt, max_searches, erw_tools=True, max_turns=24, model=None):
+        self.research_args = {"model": model, "erw_tools": erw_tools, "max_searches": max_searches, "prompt": prompt}
+        self.source("https://test.invalid/a", "A page written for the test", cited="2 kinds; 2025; 12 million; written for the test")
+        return "notes written for the test [S1]"
+
+    def structure(self, what, system, notes, schema, model=None):
+        self.structure_models = getattr(self, "structure_models", []) + [model]
+        return json.loads(json.dumps(M1 if "trends" in schema["properties"] else M2))
+
+
+class MarketRun(unittest.TestCase):
+    def setUp(self):
+        self.real = (SR.pull, SR.catalog, R.tb.policy_candidates)
+        SR.catalog = lambda table_dir, log=None: [dict(SR.BY_ID["eia:generation:GEO"])]
+        SR.pull = lambda entry, count, table_dir=None, log=None, raw_dir=None: json.loads(json.dumps(SERIES))
+        import pandas as pd
+        R.tb.policy_candidates = lambda words: pd.DataFrame()
+        self.client = FakeClient({
+            "picks": lambda k: {"picks": [{"trend": 1, "series_id": "eia:generation:GEO", "why": "written for the test"}, {"trend": 2, "series_id": "not:in:catalog", "why": "x"},
+                                          {"trend": 3, "series_id": "eia:generation:GEO", "why": "used twice"}]},
+            "timing": lambda k: {"trends": [{"n": 1, "fact": "US geothermal generation was 16,500 thousand MWh in 2023, up from 15,976 in 2021."},
+                                            {"n": 2, "fact": "The second trend grew by 99 percent."}], "timing": "The market is being installed: a pilot in 2025.",
+                                 "capital": "A grant of 12 million.", "incumbents": "Test Incumbent makes test sensors."},
+        })
+
+    def tearDown(self):
+        SR.pull, SR.catalog, R.tb.policy_candidates = self.real
+
+    def run_it(self):
+        r = FakeR(self.client)
+        report, request, key, state = R.execute_market(r, "20261009T070000Z-test01", "Geothermal mapping and sensing", "", "US", lambda *_: None)
+        return r, report, request, state
+
+    def test_the_switch_is_off_and_the_old_run_is_kept(self):
+        self.assertIs(R.COMPANY_SEARCH, False)
+        self.assertTrue(callable(R.execute) and callable(R.tied_rows) and callable(R.select))      # kept whole, behind the switch
+        self.assertEqual(R.RUN_USD, 1.0)
+        self.assertEqual(R.SMALL, "claude-haiku-4-5")
+
+    def test_no_company_is_searched_and_the_small_model_extracts(self):
+        r, report, request, state = self.run_it()
+        self.assertEqual(r.research_args["model"], R.SMALL)
+        self.assertFalse(r.research_args["erw_tools"])
+        self.assertIn("Do not search for lists of startups", r.research_args["prompt"])
+        self.assertIn("never argues which company or approach will win", r.research_args["prompt"])
+        self.assertEqual(r.structure_models, [R.SMALL, R.SMALL])
+        models = [k["model"] for k in self.client.asked]
+        self.assertEqual(models, [R.SMALL, "stand-in-sonnet"])                          # the pick on the small model, the writing on the run's
+        self.assertEqual(r.guarded, ["market research", "market structure", "market structure rest", "series pick", "market write"])
+        self.assertEqual(request["companies"], [])
+        self.assertIn("This run names no company", request["paste_text"])
+        self.assertIn("erw-pitchbook-1", request["paste_text"])
+        self.assertFalse(state["company_search"])
+
+    def test_the_report_keeps_every_key_and_empties_the_connector_tabs(self):
+        _, report, _, _ = self.run_it()
+        self.assertEqual(report["version"], 2)
+        for k in ("sources", "scope", "trends", "landscape", "funnel", "pipeline", "capital", "incumbents", "risks", "policy", "timing", "connector_tabs"):
+            self.assertIn(k, report)
+        self.assertEqual((report["landscape"]["companies"], report["funnel"]["companies"], report["funnel"]["stages"], report["pipeline"]["companies"]), ([], [], [], []))
+        self.assertEqual(report["connector_tabs"]["note"], "Connect PitchBook or Harmonic to fill this")
+        self.assertEqual(report["connector_tabs"]["columns"]["landscape"], ["Company", "What it sells", "Founders", "Stage", "Raised", "Investors", "Founded", "Location", "Signal", "Source"])
+        self.assertEqual(set(report["connector_tabs"]["columns"]), {"landscape", "funnel", "pipeline", "success", "investors"})
+        self.assertEqual([d["term"] for d in report["scope"]["definitions"]], ["Test term"])      # an unsourced definition is left out
+        self.assertEqual(report["scope"]["sub_segments"][0]["name"], "Test segment")
+        self.assertEqual(report["timing"]["stage"], "being installed")
+
+    def test_a_trend_is_drawn_only_with_a_real_series(self):
+        _, report, _, state = self.run_it()
+        t1, t2, t3 = report["trends"][:3]
+        self.assertEqual(t1["chart"], {"kind": "line", "title": SERIES["title"], "category": 0, "values": [1], "unit": "thousand megawatthours"})
+        self.assertEqual(t1["table"]["rows"], [["2021", "15975.5"], ["2022", "16087"], ["2023", "16500.25"]])      # as published, never rounded or filled
+        self.assertEqual(t1["series"]["source_line"], "Source: U.S. Energy Information Administration (9 October 2026), geothermal (US net generation, geothermal, all sectors).")
+        self.assertEqual(t1["series"]["url"], "https://www.eia.gov/opendata/browser/electricity/electric-power-operational-data")
+        self.assertEqual(t1["no_series"], "")
+        for t in (t2, t3):                                   # an id not in the catalog, and a series used twice, are none
+            self.assertIsNone(t["series"])
+            self.assertEqual(t["chart"]["kind"], "none")
+            self.assertEqual(t["table"]["rows"], [])
+            self.assertEqual(t["no_series"], R.NO_SERIES)
+        self.assertEqual(state["picks"], {1: {"id": "eia:generation:GEO", "why": "written for the test"}})
+
+    def test_the_literal_number_check_runs_on_the_written_text(self):
+        _, report, _, _ = self.run_it()
+        f1, f2 = report["trends"][0]["fact"]["text"], report["trends"][1]["fact"]["text"]
+        self.assertEqual(f1, "US geothermal generation was 16,500 thousand MWh in 2023, up from 15,976 in 2021.")      # every number is in the series
+        self.assertEqual(f2, "The claim of trend two, written for the test.")       # a written number no source holds: the cited claim stands instead
+        self.assertEqual(report["trends"][2]["fact"]["text"], "The claim of trend three, written for the test.")      # no sentence written: the cited claim
+        self.assertEqual(report["capital"]["fact"]["text"], "A grant of 12 million.")
+        self.assertIn(report["trends"][0]["series"]["source_id"], report["trends"][0]["fact"]["sources"])
+
+    def test_the_stages_fit_the_run_and_one_stops_before_it_starts(self):
+        self.assertLessEqual(sum(R.MARKET_USD[k] for k in R.MARKET_STAGES), R.RUN_USD)
+        r = FakeR(self.client, cap=0.30)
+        with self.assertRaises(R.tb.Budget):
+            R.execute_market(r, "20261009T070000Z-test02", "Geothermal mapping and sensing", "", "", lambda *_: None)
+        self.assertEqual(r.guarded, ["market research"])
+
+
+class CarefulCharge(unittest.TestCase):
+    """Session 169's first paid run failed here: the careful researcher's charge did not take the call's model."""
+
+    def test_a_call_on_another_model_is_charged_at_its_price(self):
+        r = R.Careful.__new__(R.Careful)
+        r.log, r.max_usd, r.cost, r.calls, r.searches, r.model, r.price = (lambda *_: None), 1.0, 0.0, 0, 0, "claude-sonnet-5-5", (2.0, 10.0)
+        r.charge(Resp({}), "a call on the small model", "claude-haiku-4-5")      # 100 in, 50 out at USD 1 and 5 a million
+        self.assertAlmostEqual(r.cost, (100 * 1.0 + 50 * 5.0) / 1e6)
+        r.charge(Resp({}), "a call on the run's model")
+        self.assertAlmostEqual(r.cost, (100 * 1.0 + 50 * 5.0) / 1e6 + (100 * 2.0 + 50 * 10.0) / 1e6)
+        self.assertEqual(r.calls, 2)
+
+
+class SeriesModule(unittest.TestCase):
+    def test_the_contact_string_and_no_key_in_an_address(self):
+        self.assertEqual(SR.UA, "ERW research project, github.com/SamuelEnrique/erw")
+        self.assertEqual(SR.redact("https://api.eia.gov/v2/x/?a=1&api_key=SECRET&b=2"), "https://api.eia.gov/v2/x/?a=1&api_key=<key>&b=2")
+
+    def test_the_ceiling_stops_before_the_request(self):
+        c = SR.Count(None, ceiling=1)
+        c.take("https://api.eia.gov/robots.txt")
+        with self.assertRaises(SR.Ceiling):
+            c.take("https://api.eia.gov/v2/")
+        self.assertEqual(c.n["requests"], 1)
+
+    def test_only_the_named_publishers_and_the_left_ones_are_said(self):
+        self.assertEqual({e["source"] for e in SR.OUTSIDE}, {"EIA"})
+        self.assertEqual(set(SR.LEFT), {"FRED", "BLS", "Census"})
+        self.assertTrue(all(e["route"].startswith("https://api.eia.gov/v2/") for e in SR.OUTSIDE))
+
+    def test_a_series_is_described_with_every_value(self):
+        d = SR.describe(dict(SERIES))
+        for v in ("2021: 15975.5", "2023: 16500.2", "3 values"):
+            self.assertIn(v, d)
+        self.assertNotIn("e+", SR.describe(dict(SERIES, points=[["1936", 392528.0], ["2024", 335163.0]])))
+
+    def test_the_warehouse_catalog_skips_cleanly_without_the_tables(self):
+        self.assertEqual(SR.warehouse_catalog(None), [])
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(SR.warehouse_catalog(tmp), [])
 
 
 if __name__ == "__main__":

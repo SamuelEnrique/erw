@@ -15,6 +15,10 @@ export type Trend = {
   n: number; title: string; fact: Text; table: { columns: string[]; rows: Cell[][] };
   chart: { kind: "bar" | "line" | "none"; title: string; category: number; values: number[]; unit: string };
   sources: string[];
+  /** Session 169: the real series the chart draws (the table holds its values as published), or null when no series
+   * measures the trend, and then `no_series` says so. Absent on every report written before. */
+  series?: { id: string; source: string; title: string; unit: string; freq: string; url: string; retrieved: string; points: number; cut: boolean; source_line: string; source_id: string } | null;
+  no_series?: string;
 };
 export type LandscapeCompany = {
   name: string; website: string; description: string; founders: Cell; stage: Cell; raised: Cell; location: Cell; signal: string; trends: number[];
@@ -38,9 +42,11 @@ export type Risk = { risk: string; how: string; not_known: string; sources: stri
 export type PolicyAction = { date: string; agency: string; title: string; why: string; url: string; read: string };
 
 export type Report = {
-  version: 1; niche: string; stage: string; geography: string; built: string;      // built: ISO UTC
+  version: 1 | 2; niche: string; stage: string; geography: string; built: string;      // built: ISO UTC; version 2 since session 169
   sources: Source[];
-  scope: { definition: Text; value_chain: { stage: string; what: Text }[]; excluded: { niche: string; why: string }[]; definitions: { term: string; meaning: Text }[] };
+  scope: { definition: Text; value_chain: { stage: string; what: Text }[]; excluded: { niche: string; why: string }[]; definitions: { term: string; meaning: Text }[];
+    /** Session 169 (version 2): what is in scope, and the sub-segments. */
+    in_scope?: Text[]; sub_segments?: { name: string; what: Text }[] };
   trends: Trend[];
   landscape: { fact: Text; rule: string; companies: LandscapeCompany[] };
   funnel: { stages: FunnelStage[]; companies: FunnelCompany[] };
@@ -49,6 +55,10 @@ export type Report = {
   incumbents: { fact: Text; players: Player[] };
   risks: Risk[];
   policy: { fact: string; actions: PolicyAction[] };
+  /** Session 169 (version 2): is the market still being installed or already deploying, with the evidence. */
+  timing?: { stage: string; text: Text; evidence: Text[] } | null;
+  /** Session 169 (version 2): the columns each connector tab will hold once a provider's answer is pasted. */
+  connector_tabs?: { note: string; columns: Record<string, string[]> } | null;
   /** Session 169: present when the run was started with "Run anyway" on a niche the gate refused (lib/thesis/niche.ts;
    * thesis_runs.gate, migration 026, copied here by the runner). Absent on every other report. */
   gate?: { forced?: boolean; why?: string; topic?: string | null; at?: string } | null;

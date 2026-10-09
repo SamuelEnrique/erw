@@ -4,7 +4,40 @@ Thesis Builder maps one niche for an investor. You type a niche on `/thesis`, wi
 
 The tool is internal. Runs and their results are kept in an internal table of the ERW. They are not published, not part of any public dataset, and the page has no download.
 
-## The tabs
+## Since 9 October 2026: the market is the ERW's work, the companies come from a connector
+
+The owner's ruling of 8 October 2026. A run now studies the market of one niche: what it is, five trends each drawn with a real series, where capital goes, policy, risks, the incumbents its sources name, and timing. **The ERW does not search for companies.** The company landscape, the deal funnel, the pipeline, success stories and investors are filled from a data provider (PitchBook or Harmonic) once its answer is pasted; until then each of those tabs shows "Connect PitchBook or Harmonic to fill this" and the columns it will hold. The report is neutral: it describes the market and never argues which company or approach will win.
+
+**A niche, not a sector.** The form refuses a sector ("geothermal", "oil & gas") or a market topic ("oil & gas demand") before anything is spent, and offers three to five narrower niches to click. A niche names what a startup sells, or to whom. A curated table answers the common broad inputs; for another input one small model call gives the narrower niches, and if it fails the rules decide alone. "Run anyway" starts the run all the same; the run is then marked "run anyway" beside its niche, with the reason on hover.
+
+| Tab | What it holds (a run since 9 October 2026) |
+|---|---|
+| Scope and definitions | What the niche is, what is in scope and out, its sub-segments, the terms a newcomer needs |
+| Trends | Five trends. Each has one sentence, its Fact, with its number, and one chart of a real series with the publisher's source line under it (the values themselves fold out below it). A trend that no real series measures says "no real series: not drawn" and has no chart |
+| Capital | Where money goes, from public sources only: programs, grants, loans, project finance and announced rounds |
+| Policy | The ERW's own policy actions (its policy monitor's tables) that bear on the niche |
+| Risks | What could go wrong for the market, and what is not known |
+| Incumbents | The established companies the sources name as active in the niche, and their role |
+| Timing | Whether the market is still being installed (research, pilots, first demonstrations) or already deploying, with the evidence |
+| References | Every source the report cites, with its link and the day it was read |
+| Company landscape, Deal funnel, Pipeline map, Success stories, Investors | Connector tabs: "Connect PitchBook or Harmonic to fill this", with their columns. Once a PitchBook answer is pasted they hold its companies, every row labeled PitchBook's: the landscape all of them; the funnel each as sourced from PitchBook; the pipeline those at an early stage (seed to series B, grants, accelerators); success stories those acquired, merged or listed; investors each investor named and the companies of the answer it backed |
+
+**The series a trend is drawn with.** The ERW's own tables first (its source tables of a monthly, weekly or annual interval); otherwise the U.S. Energy Information Administration's API. A small model picks, for each trend, the one series that measures it or the activity it is about, or none; a series about something else is never used to fill a gap. A series is drawn as its publisher gives it: every value as published, at its own frequency, never filled, smoothed or rescaled. The Fact sentence is written from the series' own numbers (or from the cited pages when there is no series) and every number in it is checked against those: a sentence holding a number no source holds is not shown, and the trend's cited claim stands in its place.
+
+The publishers the ruling named and what was done with each (read 9 October 2026):
+
+| Publisher | Used | Terms, word for word |
+|---|---|---|
+| EIA (api.eia.gov, API v2, with the ERW's key) | Yes | "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website or that you receive through our email distribution service. However, if you use or reproduce any of our information products, you should use an acknowledgment, which includes the publication date, such as: "Source: U.S. Energy Information Administration (Oct 2008)."" (www.eia.gov/about/copyrights_reuse.php, SHA-256 28ef6560399ba7c7..., read 06:59:31 UTC). Every EIA chart's source line is written that way. api.eia.gov holds no robots.txt: every path answers with the API's own "No api_key was supplied" |
+| Census (api.census.gov) | No | Its robots.txt allows the path, but the API answered "Missing Key" to a request without one, and the ERW holds no Census key. Its terms ask that a product using it say: "This product uses the Census Bureau Data API but is not endorsed or certified by the Census Bureau." (www.census.gov/data/developers/about/terms-of-service.html, SHA-256 12659f08763e185b..., read 06:59:32 UTC) |
+| BLS (api.bls.gov) | No | Its robots.txt reads "User-agent: *" and "Disallow: /", and www.bls.gov refused the request for its terms (HTTP 403) |
+| FRED | No | Its API needs a key the ERW does not hold. FRED series the warehouse already holds would be drawn from the warehouse |
+
+A run asks the EIA for at most five series (one request each, and its robots file), under a ceiling of 20 requests a run.
+
+**Runs written before 9 October 2026** open as they always did: their company landscape, deal funnel and pipeline map are drawn exactly as before, with every PitchBook figure; their trends keep the table and chart they had. They have no Timing tab (it says so); their References tab lists the sources they cite; their Success stories and Investors tabs are connector tabs.
+
+## The tabs of a run written before 9 October 2026
 
 | Tab | What it holds |
 |---|---|

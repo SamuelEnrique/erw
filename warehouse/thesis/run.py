@@ -78,12 +78,13 @@ tie = _load("erw_thesis_tie", os.path.join(HERE, "tie.py"))         # session 14
 pg = _load("erw_thesis_pages", os.path.join(HERE, "pages.py"))      # session 147: the pages a run cites, fetched in code
 es = _load("erw_thesis_store", os.path.join(HERE, "store.py"))      # session 147: where the evidence store is kept
 pv = _load("erw_thesis_providers", os.path.join(HERE, "providers.py"))   # session 150: the data providers of the fetch stage
+sr = _load("erw_thesis_series", os.path.join(HERE, "series.py"))     # session 169: the real series a trend is drawn with
 import iso_prices as ip  # noqa: E402
 
 TABLE_DIR = None                # --in-dir: read the warehouse's tables from another folder (a working copy has few of them)
 
 FORMAT = pv.PITCHBOOK.format     # "erw-pitchbook-1": the request a run writes is PitchBook's, as before session 150
-RUN_USD = 2.0                   # one run's hard stop unless --max-usd says less
+RUN_USD = 1.0                   # one run's hard stop unless --max-usd says less (session 169: the owner lowered it from 2.00)
 DAY_USD = 8.0                   # the tool's spend in a UTC day, counted from thesis_runs, for runs the page starts
 PIPELINE_MIN, PIPELINE_MAX = 60, 10
 STATE_DIR = os.path.join(ip.OUT_DIR, "thesis_state")
@@ -721,6 +722,8 @@ def pitchbook_request(run_id, niche, geography, orgs, trends, key):
     kw = [head_of(niche)] + [p for t in trends for p in (t.get("search_phrases") or [])[:1]]
     discover = {"keywords": list(dict.fromkeys(k.strip() for k in kw if k.strip()))[:8], "hq": geography or "any"}
     names = "\n".join(f"{i}. {c['name']}" + (f" ({c['website']})" if c["website"] else "") for i, c in enumerate(companies, 1))
+    if not companies:          # session 169: the ERW does not search for companies; the list is PitchBook's own (part B)
+        names = "(This run names no company: the ERW does not search for companies. Return \"companies\": [] and put every company in \"additional_companies\".)"
     paste = f"""You have a PitchBook connector. Please pull the following from PitchBook for an ERW Thesis Builder run and answer with ONE JSON code block in the exact format below, and nothing else after it.
 
 Run: {run_id}
@@ -736,7 +739,7 @@ A. For each company in this list, look it up in PitchBook by name (use the websi
 
 {names}
 
-B. Then search PitchBook for companies this list is missing: keywords {", ".join(repr(k) for k in discover["keywords"])}; headquarters: {discover["hq"]}; private, venture-backed or grant-backed, founded 2012 or later. Return up to 25 that are not in the list above, as "additional_companies", each with "why": the keyword or PitchBook industry that matched.
+B. Then search PitchBook for companies this list is missing: keywords {", ".join(repr(k) for k in discover["keywords"])}; headquarters: {discover["hq"]}; private, venture-backed or grant-backed, founded 2012 or later. Return up to {25 if companies else 60} that are not in the list above, as "additional_companies", each with "why": the keyword or PitchBook industry that matched.
 
 Rules: report only what PitchBook shows. If PitchBook has no record of a company, return it with "found": false and nothing else. Leave out any field PitchBook does not show; do not estimate, and do not fill a field from memory or from the web. Money is in millions of US dollars as numbers (12.5, not "$12.5M"). Dates are YYYY-MM-DD, or YYYY-MM, or YYYY.
 
@@ -793,14 +796,14 @@ STAGE_USD = {"research a": 0.45, "structure a": 0.16, "landscape": 0.85, "risks"
 class Careful(tb.Researcher):
     """A Researcher that asks before a stage whether the stage fits under the ceiling, and never discards a paid answer."""
 
-    def charge(self, resp, what):
+    def charge(self, resp, what, model=None):
         try:
-            super().charge(resp, what)
+            super().charge(resp, what, model) if model else super().charge(resp, what)
         except tb.Budget:
             self.log(f"  the ceiling of USD {self.max_usd:.2f} is passed at USD {self.cost:.4f}: the answer is kept, and no further stage starts")
 
     def guard(self, stage):
-        need = STAGE_USD[stage]
+        need = STAGE_USD[stage] if stage in STAGE_USD else MARKET_USD[stage]      # session 169: the market run's stages
         if self.cost + need > self.max_usd:
             raise tb.Budget(f"{stage} needs up to USD {need:.2f} and USD {self.max_usd - self.cost:.4f} is left under the ceiling of USD {self.max_usd:.2f}; not started")
 
@@ -924,6 +927,317 @@ def execute(r, run_id, niche, stage, geography, log, searches=8, landscape_from=
 
 
 # ---------------------------------------------------------------------------------------------
+# session 169: the market research is the ERW's work; companies come from a connector
+# ---------------------------------------------------------------------------------------------
+#
+# The owner's ruling of 8 October 2026: "The ERW does not search for companies. Companies, the deal funnel, the
+# pipeline, success stories and investors come from PitchBook or Harmonic once a connector works." The report keeps
+# scope and definitions, five trends each drawn with a real series, where capital goes (public sources only), policy
+# (the policy monitor's tables first), risks, the incumbents the sources name, timing and the references. No point of
+# view: it never argues who the winners are. Classification and extraction on the small model, writing on the run's
+# Sonnet-class model with the literal-number check (build.check_numbers), RUN_USD 1.00.
+#
+# COMPANY_SEARCH is the one switch. False (the ruling): no web search for companies, no tie checks, no page fetch;
+# the five connector tabs are placeholders until a provider's answer is pasted. True: the run as it was before this
+# session (execute above, kept whole), reversible by this one line.
+
+COMPANY_SEARCH = False
+SMALL = "claude-haiku-4-5"         # the small model the site's gate and the Ask planner already use
+REPORT_VERSION = 2
+# What each stage of the market run may cost at most, rounded up from the small call measured on 9 October 2026 (the
+# session's spend plan, runs/session169/spend_plan.md): the spend a stage must find under the run's ceiling before it starts
+MARKET_USD = {"market research": 0.45, "market structure": 0.12, "market structure rest": 0.12, "series pick": 0.06, "market write": 0.12, "policy pick": 0.04}
+MARKET_STAGES = ("market research", "market structure", "market structure rest", "series pick", "market write", "policy pick")
+CONNECTOR_NOTE = "Connect PitchBook or Harmonic to fill this"
+COMPANY_COLUMNS = ["Company", "What it sells", "Founders", "Stage", "Raised", "Investors", "Founded", "Location", "Signal", "Source"]
+# The owner: "for the funnel: the MCJ workbook's columns". The workbook is not on this machine (session 169 looked);
+# these stand in for its columns until it is, and the session's report says so.
+FUNNEL_COLUMNS = ["Company", "What it sells", "Stage", "Funnel stage", "Date sourced", "Sourced by", "Next step", "Status", "Notes", "Source"]
+CONNECTOR_TABS = {
+    "landscape": COMPANY_COLUMNS, "funnel": FUNNEL_COLUMNS, "pipeline": COMPANY_COLUMNS,
+    "success": ["Company", "What it sells", "Outcome", "Date", "Raised before", "Investors", "Source"],
+    "investors": ["Investor", "Companies backed in this niche", "Lead in", "Latest round seen", "Source"],
+}
+NO_SERIES = "No real series that measures this trend was found in the warehouse or at the EIA, so it is not drawn."
+
+ARR = lambda items: {"type": "array", "items": items}      # noqa: E731
+SCHEMA_M1 = obj({
+    "scope": obj({"definition": S, "definition_sources": IDS,
+                  "in_scope": ARR(obj({"item": S, "sources": IDS})),
+                  "out_of_scope": ARR(obj({"item": S, "why": S})),
+                  "sub_segments": ARR(obj({"name": S, "what": S, "sources": IDS})),
+                  "definitions": ARR(obj({"term": S, "meaning": S, "sources": IDS}))}),
+    "trends": ARR(obj({"title": S, "claim": S, "sources": IDS, "measure": S})),
+    "timing": obj({"stage": {"type": "string", "enum": ["being installed", "deploying", "not clear from the sources"]},
+                   "evidence": ARR(obj({"text": S, "sources": IDS}))}),
+    "policy_fact": S,
+})
+SCHEMA_M2 = obj({"capital": tb.SCHEMAS["capital"], "incumbents": tb.SCHEMAS["incumbents"], "risks": tb.SCHEMAS["risks"]})
+SCHEMA_PICK = obj({"picks": ARR(obj({"trend": INT, "series_id": S, "why": S}))})
+SCHEMA_WRITE = obj({"trends": ARR(obj({"n": INT, "fact": S})), "timing": S, "capital": S, "incumbents": S})
+SCHEMA_POLICY = obj({"fact": S, "actions": ARR(obj({"event_id": S, "why_it_matters": S}))})
+
+NEUTRAL = ("The report is neutral: it describes the market and never argues which company or approach will win, never "
+           "ranks companies and never recommends an investment.")
+MARKET_RESEARCH = (
+    "Research this niche for an investor who is new to it, with web search. Find and cite: (1) what the niche is exactly: "
+    "its definition, what is in scope and what is out, its sub-segments, and the terms a newcomer needs; (2) the five "
+    "trends that most shape it now, each with the measurable statistic that shows it (what is measured, by whom, the "
+    "numbers over time), preferring trends that a public US statistic tracks over the years (the EIA, the BLS, the Census "
+    "Bureau, FRED) and naming that statistic; (3) where capital goes, from public sources only: federal and state programs, grants, loans, "
+    "project finance, and funding rounds the press or the companies announced, with dates, amounts and who gave them; "
+    "(4) the established companies (incumbents) the sources name as active in it; (5) the policy that bears on it; "
+    "(6) the risks; (7) timing: whether the market is still being installed (research, pilots, first demonstrations) or "
+    "already deploying at scale, with the evidence. " + NEUTRAL + " Do not search for lists of startups. Write notes: "
+    "one fact per sentence, each cited, numbers exactly as the source gives them.")
+
+
+def ask_json(r, what, system, user, schema, model=None, max_tokens=8000):
+    """One call that answers JSON in the schema given, charged to the run (the cost ledger records it too)."""
+    m = model or r.model
+    resp = r.client.messages.create(
+        model=m, max_tokens=max_tokens, system=system, messages=[{"role": "user", "content": user}],
+        output_config={**({} if "haiku" in m else {"effort": "medium"}), "format": {"type": "json_schema", "schema": schema}})
+    r.charge(resp, what, model)
+    if resp.stop_reason != "end_turn":
+        raise RuntimeError(f"{what}: stop_reason {resp.stop_reason}")
+    return json.loads(next(b.text for b in resp.content if b.type == "text"))
+
+
+def plain_num(v):
+    """A value as the table holds it: never in exponent form, never rounded."""
+    return str(int(v)) if float(v).is_integer() else f"{v:.6f}".rstrip("0").rstrip(".")
+
+
+def browse_url(s):
+    """The address a reader may open for a series: the publisher's own browser page (the API needs a key)."""
+    if s["source"] == "EIA" and s["url"].startswith("https://api.eia.gov/v2/"):
+        route = s["url"].split("?", 1)[0][len("https://api.eia.gov/v2/"):].rstrip("/")
+        route = route[:-len("/data")] if route.endswith("/data") else route
+        return "https://www.eia.gov/opendata/browser/" + route
+    return s["url"]
+
+
+def pick_series(r, trends, cat, log):
+    """The classification call: one catalog id a trend, or none. Ids not in the catalog are none."""
+    ids = {e["id"] for e in cat}
+    trend_lines = "\n".join(f"{n}. {t['title']}: {t['claim'][:300]} (what would measure it: {t.get('measure', '')[:200]})" for n, t in enumerate(trends, 1))
+    got = ask_json(r, "classify: a series for each trend", (
+        "You match each trend of a market report to at most one statistical series from a catalog. Pick the series that "
+        "measures the trend itself, or else the activity in the niche's own market that the trend is about (for example US "
+        "geothermal generation for a trend about geothermal deployment, or US natural gas vented and flared for a trend "
+        "about methane emissions from oil and gas), in the United States or for the whole market. Answer \"none\" when no "
+        "series in the catalog is about the same activity: a series about something else is never picked to fill a gap. "
+        "When an ERW series and an outside series fit equally, pick the ERW one. Use each series for one trend at most."),
+        f"Trends:\n{trend_lines}\n\nCatalog (id | publisher | title | unit | frequency; span):\n{sr.lines(cat)}", SCHEMA_PICK, model=SMALL, max_tokens=2000)
+    out, used = {}, set()
+    for p in got.get("picks") or []:
+        n, sid = p.get("trend"), (p.get("series_id") or "").strip()
+        if isinstance(n, int) and 1 <= n <= len(trends) and sid in ids and sid not in used:
+            out[n] = {"id": sid, "why": clean(p.get("why", ""))[:300]}
+            used.add(sid)
+    log(f"  series picked: {', '.join(f'trend {n}: {v['id']}' for n, v in sorted(out.items())) or 'none'}")
+    return out
+
+
+def execute_market(r, run_id, niche, stage, geography, log, series_count=None, raw_dir=None):
+    """The run since session 169. Returns (report, pitchbook_request, key, state)."""
+    log(f"run {run_id}: niche {niche!r}; stage {stage or 'any'}; geography {geography or 'any'}; the market research (no company search); "
+        f"writer {r.model}, small model {SMALL}; stop at USD {r.max_usd:.2f}")
+    sysm = (f"You research one niche for an investor's market report, for the Energy Research Warehouse (ERW). Niche: {niche}. "
+            f"Stage of interest: {stage or 'any'}. Geography: {geography or 'any, US first'}. Rules: state facts with their numbers "
+            "exactly as the source gives them, and cite them. Write \"not disclosed\" where a source does not give a figure. Never "
+            "invent a company, a number, a round or an investor.")
+    r.guard("market research")
+    notes = r.research("research: the market", sysm, MARKET_RESEARCH, 8, erw_tools=False, model=SMALL)
+    r.partial = {"run_id": run_id, "niche": niche, "notes": notes, "sources": r.sources, "erw": r.erw}      # a paid answer is kept
+    r.guard("market structure")
+    m1 = r.structure("structure (scope, trends, timing)", (
+        f"Niche: {niche}. Write the scope (definition; what is in scope and out; the sub-segments; the terms a newcomer needs "
+        "with their meanings), exactly five trends (a short title; the claim in one or two sentences as the sources state it; "
+        "what statistic would measure it), the timing (is the market still being installed or already deploying, and the "
+        "evidence sentences from the notes), and one sentence on the policy that bears on it. " + NEUTRAL), notes, SCHEMA_M1, model=SMALL)
+    m1["trends"] = m1["trends"][:5]
+    r.partial["m1"] = m1
+    r.guard("market structure rest")
+    m2 = r.structure("structure (capital, incumbents, risks)", (
+        f"Niche: {niche}. Capital: where money goes in this niche, from public sources only (programs, grants, loans, project "
+        "finance, announced rounds), each row dated and cited. Incumbents: the established companies the notes name as "
+        "active in the niche; metric is \"Role in the niche\" and value is one line from the sources on what it does there. "
+        "Risks: what could go wrong for the market, each cited. " + NEUTRAL), notes, SCHEMA_M2, model=SMALL)
+    r.partial["m2"] = m2
+    # the series: the warehouse's first, then the EIA's; one classification call, then the pulls in code
+    cat = sr.catalog(TABLE_DIR or ip.OUT_DIR, log)
+    r.guard("series pick")
+    picks = pick_series(r, m1["trends"], cat, log)
+    by_id = {e["id"]: e for e in cat}
+    count = series_count or sr.Count(None)
+    series, pulls = {}, []
+    for n, p in sorted(picks.items()):
+        try:
+            s = sr.pull(by_id[p["id"]], count, TABLE_DIR or ip.OUT_DIR, log, raw_dir)
+            series[n] = dict(s, why=p["why"])
+            pulls.append({"trend": n, "id": p["id"], "ok": True, "points": len(s["points"])})
+        except Exception as exc:
+            pulls.append({"trend": n, "id": p["id"], "ok": False, "error": f"{type(exc).__name__}: {str(exc)[:200]}"})
+            log(f"  trend {n}: the series {p['id']} could not be pulled ({type(exc).__name__}: {str(exc)[:160]}); the trend is not drawn")
+    # each series is a source of the run: its numbers are the text its sentence is checked against
+    series_ids = {}
+    for n, s in series.items():
+        if s["source"] == "ERW":
+            eid = f"E{len(r.erw) + 1}"
+            r.erw.append({"id": eid, "tool": "series", "args": {"table": s["url"][4:]}, "result": sr.describe(s), "error": False})
+            series_ids[n] = eid
+        else:
+            series_ids[n] = r.source(browse_url(s), f"{s['note']}: {s['title']}", cited=sr.describe(s))
+            r.sources[browse_url(s)]["retrieved"] = s["retrieved"]
+    # the writing: one call on the run's model, every number from the material given
+    blocks = []
+    for n, t in enumerate(m1["trends"], 1):
+        passages = " | ".join(x[:400] for x in r.texts_of(t["sources"])[:6])
+        blocks.append(f"Trend {n}: {t['title']}\nClaim (cited): {t['claim']}\nCited passages: {passages or 'none'}\n"
+                      f"Series: {sr.describe(series[n]) if n in series else 'none'}")
+    cap_lines = "\n".join(f"- {x['date']} {x['company']} {x['kind']} {x['amount']} {x['currency']} ({', '.join(x['sources'])})" for x in m2["capital"]["rounds"][:20])
+    inc_lines = "\n".join(f"- {x['name']} ({x['kind']}): {x['value']}" for x in m2["incumbents"]["players"][:20])
+    tim = m1["timing"]
+    r.guard("market write")
+    w = ask_json(r, "write: facts, timing, capital, incumbents", (
+        "You write short, plain sentences for an investor's market report. Use only the numbers given in the material, "
+        "copied exactly as written there (you may round a value to fewer digits, never change it). Never invent a number, "
+        "a company or a date. " + NEUTRAL + " No em dashes."),
+        f"Niche: {niche}\n\nFor each trend write ONE sentence, the trend's Fact, that states the trend with its number: from "
+        "the series when one is given (its latest value and the change over the years shown), else from the cited passages. "
+        "Take every number from the series or the cited passages only, never from the claim alone: a number that is not "
+        "in them is not written. "
+        f"Then: timing, two sentences on whether the market is still being installed or already deploying ({tim['stage']}), "
+        "from the evidence; capital, two sentences on where money goes, from the rows; incumbents, one sentence on who they are.\n\n"
+        + "\n\n".join(blocks) + "\n\nTiming evidence:\n" + "\n".join(f"- {e['text']}" for e in tim["evidence"][:8])
+        + f"\n\nCapital rows:\n{cap_lines or 'none'}\n\nIncumbents:\n{inc_lines or 'none'}", SCHEMA_WRITE, max_tokens=4000)
+    facts = {x["n"]: x["fact"] for x in w.get("trends") or [] if isinstance(x.get("n"), int)}
+    # policy: the policy monitor's tables first (policy_actions), the small model picks those that bear on the niche
+    words = tb.policy_words(head_of(niche), {"merchant", "operators", "software", "mapping", "sensing"})
+    pol = tb.policy_candidates(words or [niche])
+    chosen = {"fact": m1.get("policy_fact", ""), "actions": []}
+    if len(pol):
+        r.guard("policy pick")
+        chosen = ask_json(r, "classify: policy actions", "You pick, from a list of policy actions, those that bear directly on a niche, by event_id. " + NEUTRAL,
+                          f"Niche: {niche}\n\nCandidate policy actions (the ERW table policy_actions):\n" + "\n".join(
+                              f"{x['event_id']} | {x['agency']} {x['action_type']} {x['event_date']} | {x['title'][:200]}" for x in pol.to_dict("records")),
+                          SCHEMA_POLICY, model=SMALL, max_tokens=2000)
+    report = market_report(niche, stage, geography, r, m1, m2, series, series_ids, facts, w, chosen, pol, log)
+    key = secrets.token_urlsafe(32)
+    request = pitchbook_request(run_id, niche, geography, [], [{"search_phrases": [t["title"]]} for t in m1["trends"]], key)
+    state = {"run_id": run_id, "niche": niche, "stage": stage, "geography": geography, "model": r.model, "small_model": SMALL, "cost": r.cost, "calls": r.calls,
+             "searches": r.searches, "sources": r.sources, "erw": r.erw, "notes": notes, "m1": m1, "m2": m2, "picks": picks, "pulls": pulls,
+             "series_requests": count.n, "write": w, "policy": chosen, "company_search": COMPANY_SEARCH}
+    return report, request, key, state
+
+
+def market_report(niche, stage, geography, r, m1, m2, series, series_ids, facts, w, chosen, pol, log):
+    """The report of a run since session 169 (version 2). It keeps every key of version 1, so a page that reads only
+    those still draws it: the connector tabs' keys hold empty lists."""
+    known = {s["id"] for s in r.sources.values()} | {e["id"] for e in r.erw}
+    keep = lambda ids: [i for i in (ids or []) if i in known]      # noqa: E731
+    used = set()
+
+    def T(t, ids, where):
+        ids = keep(ids)
+        used.update(ids)
+        return text(t, r, ids, log, where)
+
+    sc = m1["scope"]
+    scope = {"definition": T(sc["definition"], sc["definition_sources"], "scope definition"),
+             "value_chain": [], "excluded": [{"niche": clean(x["item"]), "why": clean(x["why"])} for x in sc["out_of_scope"]],
+             "definitions": [{"term": clean(d["term"]), "meaning": T(d["meaning"], d["sources"], "definition")} for d in sc["definitions"] if keep(d["sources"])],
+             "in_scope": [T(x["item"], x["sources"], "in scope") for x in sc["in_scope"] if keep(x["sources"])],
+             "sub_segments": [{"name": clean(x["name"]), "what": T(x["what"], x["sources"], "sub-segment")} for x in sc["sub_segments"] if keep(x["sources"])]}
+    trends, checked = [], {"facts": 0, "unconfirmed": 0}
+    for n, t in enumerate(m1["trends"], 1):
+        s = series.get(n)
+        ids = keep(t["sources"]) + ([series_ids[n]] if n in series_ids else [])
+        used.update(ids)
+        fact = text(facts.get(n) or t["claim"], r, ids, log, f"trend {n} fact")
+        checked["facts"] += 1
+        if facts.get(n) and "not confirmed" in fact["text"]:
+            # a written Fact holding a number no source holds is not shown: the trend's cited claim stands in its place
+            checked["unconfirmed"] += 1
+            log(f"    trend {n}: the written Fact holds a number no source holds; the cited claim is shown instead")
+            fact = text(t["claim"], r, ids, log, f"trend {n} claim")
+        item = {"n": n, "title": clean(t["title"]), "fact": fact, "sources": ids, "table": {"columns": [], "rows": []},
+                "chart": {"kind": "none", "title": "", "category": 0, "values": [1], "unit": ""}, "series": None, "no_series": NO_SERIES}
+        if s:
+            item["table"] = {"columns": ["Period", clean(s["title"])], "rows": [[p, plain_num(v)] for p, v in s["points"]]}
+            item["chart"] = {"kind": "line", "title": clean(s["title"]), "category": 0, "values": [1], "unit": clean(s["unit"])}
+            item["series"] = {"id": s["id"], "source": s["source"], "title": clean(s["title"]), "unit": clean(s["unit"]), "freq": s["freq"],
+                              "url": browse_url(s) if s["source"] != "ERW" else "", "retrieved": s["retrieved"], "points": len(s["points"]), "cut": s["cut"],
+                              "source_line": series_line(s), "source_id": series_ids.get(n, "")}
+            item["no_series"] = ""
+        trends.append(item)
+    log(f"  the literal-number check: {checked['facts']} trend facts, {checked['unconfirmed']} written with a number no source holds (replaced by the cited claim)")
+    r.checked = checked
+    cap = m2["capital"]
+    rounds = []
+    for x in cap["rounds"]:
+        ids = keep(x["sources"])
+        if not ids:
+            continue
+        used.update(ids)
+        x = dict(x, sources=ids)
+        date, investors = tb.capital_checked(r, x, log)
+        rounds.append({"date": cell(date, r, ids, log, "capital date"), "company": clean(x["company"]), "kind": clean(x["kind"]),
+                       "amount": cell(f"{x['amount']} {x['currency']}".strip() if x["amount"] else "", r, ids, log, f"capital {x['company']}"),
+                       "investors": cell(investors, r, ids, log, "capital investors"), "sources": ids})
+    cap_ids = sorted({i for x in rounds for i in x["sources"]})
+    players = [{"name": clean(p["name"]), "kind": clean(p["kind"]), "ticker": clean(p["ticker"]), "metric": clean(p["metric"]) or "Role in the niche",
+                "value": cell(p["value"], r, keep(p["sources"]), log, f"incumbent {p['name']}"), "as_of": clean(p["as_of"]), "sources": keep(p["sources"])}
+               for p in m2["incumbents"]["players"] if keep(p["sources"])]
+    inc_ids = sorted({i for p in players for i in p["sources"]})
+    risks = [{"risk": clean(x["risk"]), "how": clean(tb.check_numbers(r, x["how_it_breaks_the_thesis"], keep(x["sources"]), log, "risk")),
+              "not_known": clean(x["not_known"]), "sources": keep(x["sources"])} for x in m2["risks"]["risks"] if keep(x["sources"])]
+    for x in risks + players:
+        used.update(x["sources"])
+    policy = {"fact": clean(chosen.get("fact") or m1.get("policy_fact", "")), "actions": []}
+    if pol is not None and len(pol):
+        by = {x["event_id"]: x for x in pol.to_dict("records")}
+        reads = read_table("policy_reads")
+        read_by = {x["event_id"]: x for x in reads.to_dict("records")} if reads is not None and "event_id" in reads.columns else {}
+        for x in chosen.get("actions") or []:
+            p = by.get(x.get("event_id"))
+            if p:
+                rd = read_by.get(x["event_id"], {})
+                policy["actions"].append({"date": p.get("event_date", "")[:10], "agency": p.get("agency", ""), "title": clean(p.get("title", "")),
+                                          "why": clean(x.get("why_it_matters", "")), "url": p.get("source_url", ""), "read": clean(rd.get("read", "") or rd.get("plain_read", ""))})
+    tim = m1["timing"]
+    timing = {"stage": tim["stage"], "text": T(w.get("timing", ""), sorted({i for e in tim["evidence"] for i in e["sources"]}), "timing"),
+              "evidence": [T(e["text"], e["sources"], "timing evidence") for e in tim["evidence"] if keep(e["sources"])]}
+    report = {"version": REPORT_VERSION, "niche": niche, "stage": stage, "geography": geography, "built": ip.utc_iso(dt.datetime.now(dt.timezone.utc)),
+              "sources": [], "scope": scope, "trends": trends,
+              "landscape": {"fact": {"text": "", "sources": []}, "rule": "", "companies": []}, "funnel": {"stages": [], "companies": []}, "pipeline": {"companies": []},
+              "capital": {"fact": T(w.get("capital", "") or cap["fact"], cap_ids or cap["fact_sources"], "capital fact"), "rounds": rounds},
+              "incumbents": {"fact": T(w.get("incumbents", "") or m2["incumbents"]["fact"], inc_ids or m2["incumbents"]["fact_sources"], "incumbents fact"), "players": players},
+              "risks": risks, "policy": policy, "timing": timing,
+              "connector_tabs": {"note": CONNECTOR_NOTE, "columns": CONNECTOR_TABS}}
+    by_id = {s["id"]: s for s in r.sources.values()}
+    erw = {e["id"]: e for e in r.erw}
+    for i in sorted(used, key=lambda s: (s[0], int(s[1:]) if s[1:].isdigit() else 0)):
+        if i in by_id:
+            s = by_id[i]
+            report["sources"].append({"id": i, "kind": "web", "title": clean(s["title"])[:200], "url": s["url"], "retrieved": s.get("retrieved", "")})
+        elif i in erw:
+            report["sources"].append({"id": i, "kind": "erw", "title": f"ERW table {erw[i]['args'].get('table') or 'query'}", "url": "", "retrieved": dt.date.today().isoformat()})
+    return report
+
+
+def series_line(s):
+    """The source line under a trend's chart, in the words each publisher's terms ask for."""
+    if s["source"] == "ERW":
+        return f"Source: ERW table {s['url'][4:]}" + (f", retrieved {day_words(s['retrieved'])}" if s.get("retrieved") else "") + "."
+    if s["source"] == "EIA":
+        return f"Source: U.S. Energy Information Administration ({day_words(s['retrieved'])}), {s['title']}."
+    return f"Source: {s['source']}, {s['title']}, retrieved {day_words(s['retrieved'])}."
+
+
+# ---------------------------------------------------------------------------------------------
 # the internal table (service connection; never the site's public key)
 # ---------------------------------------------------------------------------------------------
 
@@ -1032,7 +1346,9 @@ def one(conn, run_id, niche, stage, geography, args, log):
         cap = min(cap, args.session_cap - spent)
     elif conn is not None:
         cap = min(cap, DAY_USD - spent_today(conn))
-    first = STAGE_USD["landscape"] + STAGE_USD["structure landscape"] + (0 if args.landscape_from else STAGE_USD["research a"] + STAGE_USD["structure a"])
+    market = not COMPANY_SEARCH and not args.landscape_from and not args.landscape_only      # session 169
+    first = (sum(MARKET_USD[k] for k in MARKET_STAGES) if market else
+             STAGE_USD["landscape"] + STAGE_USD["structure landscape"] + (0 if args.landscape_from else STAGE_USD["research a"] + STAGE_USD["structure a"]))
     if cap < first:          # a run that cannot reach its landscape is not started: nothing is spent on a report that cannot be written
         if conn is not None:
             fail(conn, run_id, "The spending limit for Thesis Builder is reached. The run did not start.", 0)
@@ -1045,7 +1361,7 @@ def one(conn, run_id, niche, stage, geography, args, log):
         state_dir = getattr(args, "state_dir", None) or STATE_DIR
         evidence_dir = getattr(args, "evidence_dir", None) or os.path.join(state_dir, "evidence")
         # session 147: the store is the private bucket when the service key is set (the runner has it), else the local file
-        handle = None if getattr(args, "no_evidence", False) else es.open_store(evidence_dir, niche, stage, geography, mode=getattr(args, "evidence_store", "file"), log=log)
+        handle = None if (getattr(args, "no_evidence", False) or market) else es.open_store(evidence_dir, niche, stage, geography, mode=getattr(args, "evidence_store", "file"), log=log)
         if getattr(handle, "kind", "") == "bucket":
             handle.ensure_bucket()
             handle.load(niche, stage, geography)         # read once before anything is paid for: a store that cannot be read stops the run here
@@ -1062,8 +1378,13 @@ def one(conn, run_id, niche, stage, geography, args, log):
             log(f"  the saved state {name} is read from the private bucket ({es.BUCKET}/{es.state_object(name)})")
         fetch = None if getattr(args, "no_fetch", True) else {"count": pg.Count(getattr(args, "fetch_count_file", None)), "raw_dir": getattr(args, "raw_dir", None),
                                                               "max_session": getattr(args, "fetch_session_cap", None) or pg.MAX_ADDRESSES_SESSION}
-        report, request, key, state = execute(r, run_id, niche, stage, geography, log, searches=args.searches, landscape_from=landscape_from, retrend=args.retrend, landscape_only=args.landscape_only,
-                                              evidence_path=handle, fetch=fetch)
+        if market:          # session 169: the market research; no company search, no tie checks, no page fetch
+            report, request, key, state = execute_market(r, run_id, niche, stage, geography, log,
+                                                         series_count=sr.Count(getattr(args, "series_count_file", None), getattr(args, "series_cap", None) or sr.MAX_REQUESTS_RUN),
+                                                         raw_dir=getattr(args, "raw_dir", None))
+        else:
+            report, request, key, state = execute(r, run_id, niche, stage, geography, log, searches=args.searches, landscape_from=landscape_from, retrend=args.retrend, landscape_only=args.landscape_only,
+                                                  evidence_path=handle, fetch=fetch)
         usd = r.cost
         # session 169: a run started with "Run anyway" on a niche the gate refused carries the flag on its report
         flag = gate_flag({"forced": True, "why": "command_line"}) if getattr(args, "run_anyway", False) else gate_of(conn, run_id)
@@ -1079,8 +1400,9 @@ def one(conn, run_id, niche, stage, geography, args, log):
         if conn is not None:
             finish(conn, run_id, report, request, key, usd)
         f = report["funnel"]["stages"]
-        line = (f"thesis run {run_id}: {r.calls} calls, {r.searches} searches, USD {usd:.4f}, {(time.time() - t0) / 60:.1f} min; trends {len(report['trends'])}; "
-                f"funnel {' > '.join(str(s['n']) for s in f)}; state {os.path.relpath(path, ROOT)}")
+        drawn = sum(1 for t in report["trends"] if t.get("series"))
+        line = (f"thesis run {run_id}: {r.calls} calls, {r.searches} searches, USD {usd:.4f}, {(time.time() - t0) / 60:.1f} min; trends {len(report['trends'])}"
+                + (f" ({drawn} drawn with a real series)" if market else "") + f"; funnel {' > '.join(str(s['n']) for s in f) or 'a connector tab'}; state {os.path.relpath(path, ROOT)}")
         log(line); print(line)
     except tb.Budget as exc:
         usd = r.cost if r is not None else 0.0
@@ -1142,6 +1464,8 @@ def main(argv=None):
     ap.add_argument("--fetch-session-cap", type=int, help=f"the session's ceiling of addresses with --fetch-count-file (default {pg.MAX_ADDRESSES_SESSION})")
     ap.add_argument("--raw-dir", help="keep each page as received (bytes) in this folder, named by its SHA-256")
     ap.add_argument("--in-dir", help="read the warehouse's tables from this folder instead of warehouse/output")
+    ap.add_argument("--series-count-file", help="session 169: a file holding the series requests a session has made, raised by this run")
+    ap.add_argument("--series-cap", type=int, help=f"session 169: the ceiling of series requests (default {sr.MAX_REQUESTS_RUN}, one run's)")
     args = ap.parse_args(argv)
     if args.in_dir:
         global TABLE_DIR
