@@ -259,6 +259,22 @@ Three things session 156 left open.
 - **A question cost USD 0.0171** on the 100 (0.0169 in session 156). The first question of a run pays for writing the instructions to the model's cache: that fell on one of the 100 here (USD 0.16) and on one of the 20 in session 156. The other 99 cost 0.0156 each, against 0.0169.
 - Each question was asked once. A pass here does not say that every asking passes.
 
+## Times in plain local words, and the question as asked (session 168, 9 October 2026)
+
+- **Where the stamp came from.** The query tool gives each time it reports (the hour of a maximum or a minimum, the
+  newest row) as the table holds it, a UTC stamp such as `2026-10-03T21:00:00Z`; every number of an answer must be in a
+  tool result, so the model copied the stamp. Since session 168 the tool also gives the same moment in the grid's own
+  local words beside it (`at_local`: "4 pm Central, 3 October 2026"; on a table of days, the day's label as a date,
+  "3 October 2026"), computed with the zone database (`site/lib/chat/plaintime.ts`), so daylight saving is the
+  database's. The words are in the tool result, so an answer that copies them passes the same number check.
+- **No stamp reaches the reader.** A stamp the model writes anyway is turned into the same words before the answer is
+  shown (the words the tool gave for that stamp; else ERCOT's zone, Central; a 00:00 UTC stamp, the label of a day on
+  the ERW's tables of days, reads as a date). The number check runs first, on the text as the model wrote it.
+- **The question as asked.** A question pasted with a quote mark at its end, or a pair around it, is asked, logged and
+  echoed above its answer without it; an apostrophe or a quoted word inside is kept.
+- Only Ask ERCOT's answers are rewritten. The general chat and the other grids' panels show answers as before; their
+  tool results carry the same local words beside each time, where the entity names one of the seven grids.
+
 ## Limits
 
 The tool has a spending ceiling for the day and for the month and a number of questions per visitor per day. When one is reached it answers with a plain message and your question is not sent to the model. They are described in [the limits note](/data/methods/ask_limits).

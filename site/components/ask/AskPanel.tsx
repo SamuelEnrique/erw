@@ -19,6 +19,7 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { LineChart } from "@/components/LineChart";
 import { HOUR_GROUP, chartPoints, isDrawn, keySeconds } from "@/lib/chat/series";
 import { PAGE_FILE_HREF } from "@/lib/chat/pagelinks";
+import { cleanQuestion } from "@/lib/chat/plaintime";
 
 export { keySeconds };
 
@@ -176,7 +177,9 @@ export function AskPanel({ grid, initial = "", context = null, showContext = tru
   const own = PROFILES.has(grid);
   const name = grid.toUpperCase() === "ISONE" ? "ISO-NE" : grid.toUpperCase();
 
-  async function ask(question: string) {
+  async function ask(typed: string) {
+    // session 168: the question is echoed above its answer as it was asked, less a stray quote mark it was pasted with
+    const question = cleanQuestion(typed);
     if (!question.trim() || busy) return;
     setBusy(true);
     setErr(null);

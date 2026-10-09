@@ -14,6 +14,7 @@ import { runTool as runWarehouseTool, scopeOf, type Scope } from "./tools";
 import { recordCall } from "./ledger";
 import { callKey, partialDraft, stageClock, type StageMs, type Step } from "./stages";
 import { readerEffort, rulePlanOn } from "./switches";
+import { plainTimes } from "./plaintime";
 
 export type Citation = { table: string; source_report: string; data_version: string; tier: string };
 export type AskResult = {
@@ -61,6 +62,8 @@ export type Profile = {
   retry: string;
   scope: Scope;
   opening: (question: string, today: string, context: unknown, history?: unknown) => string;
+  /** session 168: the grid's own zone: a UTC stamp left in an answer is shown in its plain local words (lib/chat/plaintime.ts) */
+  zone?: string;
   extraSources: (context: unknown, history?: unknown) => string[];
   /** session 121: tables an earlier answer of the conversation cited (citing one again is not citing a table unread) */
   knownTables?: (history: unknown) => string[];
@@ -234,6 +237,10 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const tiers = new Map<string, string>(); // session 28: each table's tier, from the tool results
   let calls = 0, attempts = 0, retried = false, turn = 0, forceWrite = false, wordsOut = false;
   const nodash = (t: string) => t.split(String.fromCharCode(0x2014)).join(" - ").replace(/ {2}- {2}/g, " - ");
+  // session 168: the local words the tool results gave for each stamp, and a profile's text with no UTC stamp left in it.
+  // Applied to what the reader is shown, after the number check has run on the text as the model wrote it
+  const localWords = new Map<string, string>();
+  const plain = (t: string) => (profile?.zone ? plainTimes(t, profile.zone, localWords) : t);
   const withdraw = () => { if (wordsOut) { wordsOut = false; clock.wordsReset(); opts.onEvent?.({ type: "withdrawn" }); } };
 
   // One model call, read as a stream (session 143). `tools`: whether the call may ask for tools at all (the writing
@@ -275,7 +282,7 @@ export async function ask(question: string, today = new Date().toISOString().sli
       wordsOut = true;
       wordsMs = Date.now() - tCall;
       clock.wordsAt();
-      opts.onEvent({ type: "words", answer: nodash(words), form: typeof head.form === "string" ? head.form : null, not_in_warehouse: head.not_in_warehouse === true, premise: typeof head.premise === "string" ? nodash(head.premise.trim()) : "" });
+      opts.onEvent({ type: "words", answer: plain(nodash(words)), form: typeof head.form === "string" ? head.form : null, not_in_warehouse: head.not_in_warehouse === true, premise: typeof head.premise === "string" ? plain(nodash(head.premise.trim())) : "" });
     });
     const resp = (await stream.finalMessage()) as Anthropic.Message;
     const raw = { data: resp, request_id: stream.request_id };
@@ -308,12 +315,13 @@ export async function ask(question: string, today = new Date().toISOString().sli
   const logCheck = (c: ReturnType<typeof check>, where: string) => console.log(JSON.stringify({ erw_ask_check: { question_id: opts.questionId ?? null, attempt: attempts + 1, where, untraced_numbers: c.bad.slice(0, 12), uncited_tables: c.uncited.slice(0, 6), no_citation: c.noCite, problems: c.more.slice(0, 6) } }));
   const accept = (draft: Draft) => {
     // no em dashes in ERW copy (CLAUDE.md): model text is normalised, as in ask.py
-    const answer = nodash(draft.answer);
+    const answer = plain(nodash(draft.answer));
     // session 28: each citation's tier is the warehouse's, whatever the model copied
     const citations = draft.citations.map((c) => ({ ...c, tier: tiers.get(c.table) ?? c.tier ?? "" }));
     const status = draft.not_in_warehouse ? ("not_in_warehouse" as const) : ("answered" as const);
     const tDraw = Date.now();
-    const drawn = profile ? profile.finish(status, { ...draft, citations }, records) : {};
+    const drawn: Record<string, unknown> = profile ? profile.finish(status, { ...draft, citations }, records) : {};
+    if (typeof drawn.premise === "string") drawn.premise = plain(drawn.premise);
     clock.add("drawing", "series", Date.now() - tDraw);
     return done({ ...draft, answer, citations, status, ...base(), ...drawn });
   };
@@ -335,6 +343,11 @@ export async function ask(question: string, today = new Date().toISOString().sli
   function take(name: string, input: Record<string, unknown>, got: { out: Record<string, unknown>; isError: boolean }, n: number, raw: unknown = input) {
     let { out } = got;
     const { isError } = got;
+    // session 168: the stamps the tools gave words for (lib/chat/plaintime.ts addLocalTimes), for the answer's text
+    const words = (o: unknown) => { if (!o || typeof o !== "object") return; for (const [k, v] of Object.entries(o as Record<string, unknown>)) {
+      if (k.endsWith("_local") && typeof v === "string") { const at = (o as Record<string, unknown>)[k.slice(0, -6)]; if (typeof at === "string") localWords.set(at, v); }
+      else if (v && typeof v === "object") words(v); } };
+    if (profile?.zone) words(out);
     if (profile) {
       out = profile.tag(name, input, out, n);
       records.push({ tool: name, input, out, isError });

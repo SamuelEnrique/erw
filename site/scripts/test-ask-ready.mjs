@@ -77,7 +77,8 @@ await test("every recorded call returns, from the recorded reads, what it return
   assert.ok(!JSON.stringify(FIX).includes("supabase.co") && !/eyJ[A-Za-z0-9_-]{20,}/.test(JSON.stringify(FIX)));   // no address of the database, no key
   for (const c of FIX.calls) {
     const r = await runTool(c.name, c.input, profile.scope);
-    assert.deepEqual(JSON.parse(JSON.stringify(r)), CALL[c.id].recorded, c.id);
+    // session 168: the local words beside each time (lib/chat/plaintime.ts) are newer than the recording and are set apart
+    assert.deepEqual(JSON.parse(JSON.stringify(r, (k, v) => (k.endsWith("_local") ? undefined : v))), CALL[c.id].recorded, c.id);
   }
 });
 
@@ -252,6 +253,7 @@ await test("the newest day held: one small read finds the newest whole day, and 
   assert.deepEqual([days[0], counts.get(days[0])], ["2026-10-04", 19]);  // the newest day is held to 18:00 Central: not whole
   assert.deepEqual([days[1], counts.get(days[1])], ["2026-10-03", 24]);
   assert.deepEqual(r.out.newest, { asked: "newest", held: true, day: "2026-10-03", tz: "America/Chicago", whole: true, rows: 24, rows_in_a_whole_day: 24, newest_row_at: "2026-10-04T23:00:00Z",
+    newest_row_at_local: "6 pm Central, 4 October 2026",  // session 168: the same moment in ERCOT's words (lib/chat/plaintime.ts)
     newer_days_not_whole: [{ day: "2026-10-04", rows: 19, of: 24 }], before: "2026-10-08", day_before: "2026-10-07", day_before_held: false, note: r.out.newest.note });
   // the day itself, hour by hour: each value the recorded row's
   assert.equal(day._rows.length, 24);
@@ -263,7 +265,8 @@ await test("the newest day held: one small read finds the newest whole day, and 
   const s = await run("s12_newest_min");
   assert.equal(s.sent.length, 2);
   const low = day._rows.reduce((a, b) => (Number(b.v) < Number(a.v) ? b : a));
-  assert.deepEqual(s.out.result, [{ value: Number(low.v), n: 24, at: "2026-10-03T09:00:00Z", entity: "eia930:ERCO" }]);
+  // session 168: the hour of the lowest demand comes with its words in ERCOT's own time, for the answer to copy (lib/chat/plaintime.ts)
+  assert.deepEqual(s.out.result, [{ value: Number(low.v), n: 24, at: "2026-10-03T09:00:00Z", at_local: "4 am Central, 3 October 2026", entity: "eia930:ERCO" }]);
   assert.deepEqual(s.out.newest, r.out.newest);
 });
 
