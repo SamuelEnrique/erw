@@ -171,6 +171,40 @@ as the document states them, while 2 rows that had been right only by a company'
 2: 85 of 87 right, against 54); the other 7 are news releases, whose text the connector does not read. 25 of the new sample's 28 tag errors are already changed by session 154's rules; the tag "hydrogen" read
 off "hydrogen chloride" is fixed in session 157. The model's fields were made again as section 4 says.
 
+### The same 100, read again after the recheck (session 164)
+
+On 9 October 2026 the same 100 rows were read again as they stand in the table and in the live set
+(`warehouse/policy/audit/audit_recheck_s164.py`; no request and no model call). A value that had not changed keeps
+its finding. A changed `states` is set against the place the document names (`audit_states_truth.csv`). Other
+changed values are settled by code where code can (a summary the audit recorded cut at 500 characters, a read that
+now claims no direction, an empty field) and otherwise were read again by session 164's agent against the row's
+title, summary and first paragraph, or the spans a read kept: 127 values, each with the words it rests on, in
+`warehouse/policy/eval/audit_s164_judgments.csv`. An error is a value classed wrong, missing, not in the source,
+unsupported or contradicted; a judgment (every significance; a kind read off FERC's project docket) is not counted.
+
+| Field | Errors before | Errors now | What changed |
+|---|---|---|---|
+| date | 1 | 0 | the day in Washington |
+| title | 1 | 0 | completed from the printed document |
+| abstract | 2 | 0 | "NO X" is NOX |
+| agency | 2 | 2 | two releases of the Texas Governor's office still carry the agency PUCT |
+| docket | 1 | 1 | the Register's own record leaves out two ids |
+| action type, RIN, document number, source, address, status | 0 each | 0 each | |
+| **states** | **40** | **9** | 33 fixed from the printed text; 7 news releases still lack their place; 2 that were right only by a company's name lost it |
+| **sector tags** (the keyword rule) | **47** | **2** | 45 fixed; 2 documents name their sector only in their text |
+| sector (a model's) | 8 | 0 | all 8 were among the 50 rows rechecked |
+| why (a model's) | 8 | 3 | 7 fixed; 1 not rechecked (a news release); 2 new in the rechecked lines |
+| the read's price direction | 2 | 0 | both now claim no direction |
+| the read's sectors; states | 1; 1 | 1; 1 | both old ones fixed; one new each ("transmission" from a company's name; New York dropped) |
+| the read's other fields | 0 | 0 | |
+| **All 1,850 checks** | **114 (6.2%), in 69 rows** | **19 (1.0%), in 18 rows** | copied or rule-made fields 94 to 14 of 1,400; a model's fields 20 to 5 of 450 |
+
+Of the 100 actions, 50 had their score, sector and why made again from the source text (all 50 lines changed, 24
+sectors, 36 scores: 34 up, 2 down, 5 across the line of 5) and 50 did not (37 Register actions the money did not
+reach, 13 news releases). Of their 15 reads, 13 were rechecked. The two new errors in `why` are a line that calls
+"small" a header "capable of wheeling up to 5,000,000 dekatherms per day" and a line that names a state the text
+does not. A rate on 100 rows is a sample: 19 in 1,850 is 1.0 percent, about 0.6 to 1.6.
+
 ## 6. The tags
 
 Four tags say which actions touch what a large load cares about: `large_load`, `interconnection`,
@@ -221,7 +255,36 @@ ruled on): session 154's rule, unchanged. Also never requested: misoenergy.org (
 and API, Arizona's two document hosts (HTTP 500; a certificate fault), Indiana's portal (a sign-in form).
 
 The trial of 8 October: 55 requests of the 120, 5.4 MB, nine regulators asked, **no new row** (the lists had been
-read by hand the same night).
+read by hand the same night). The first run on GitHub's runner, 8 October 2026 at 15:14 UTC: 39 requests of the 120,
+5.3 MB, no new row, no regulator failed, two not requested (`warehouse/metadata/run_status.csv`).
+
+### Ohio and Illinois: each host's robots file, read in session 164, and why no filing was requested
+
+Session 164 was to read the public PDFs of the filings that Ohio's docket cards and Illinois's minutes name. Before
+the first document of a host its `robots.txt` was saved and read (9 October 2026, 00:41 UTC;
+`warehouse/raw/large_load_rules/D/raw/robots/`, hashes in `warehouse/config/large_load_rule_terms.json`). **No
+document was requested from either host**: 0 of the 400 allowed.
+
+- **Illinois Commerce Commission**, `https://icc.illinois.gov/robots.txt` (329 bytes), its first rule, word for word:
+  "User-agent: *" "Disallow: /". Four robots are then named and allowed (Elastic-Crawler, Elastic,
+  SiteimproveBot-Crawler, SiteimproveBot). Every path of the site is closed to this project's script, the minutes,
+  the agendas and the terms page with it. **Session 154 had asked this host 80 times without reading the file** (the
+  nine Illinois rows and the terms quoted above rest on those pages). The rows are kept as they are and marked as
+  before; whether they stay, and whether a person may fetch the filings by hand, is the owner's to rule.
+- **Public Utilities Commission of Ohio**, `https://dis.puc.state.oh.us/robots.txt` (1,045 bytes): one group of 40
+  named robots and "Disallow: /". Among the names, word for word: "User-agent: anthropic-ai", "User-agent:
+  Claude-Web", "User-agent: ClaudeBot" (and GPTBot, ChatGPT-User, CCBot, PerplexityBot, Scrapy and others). The file
+  has no rule for other robots. This project's requests are made by an AI agent built on Anthropic's Claude, and
+  what they fetch is read by a Claude model: a rule that names the asker is not got round by a request that carries
+  another name, so no document was asked for (`ASKED_BY` in `warehouse/connectors/large_load_filings.py`; only the
+  owner empties it). **Session 154 had asked this host 42 times for docket cards without reading the file.** The
+  commission's own site still answers 404 to a plain request (`puco.ohio.gov/robots.txt`, its privacy notice, and
+  `ohio.gov/robots.txt`, 9 October 2026), so **Ohio's terms are still not read** and nothing can be said of reuse.
+- What each host's terms say about reuse: Illinois's privacy page (read in session 154) speaks of public records and
+  disclosure and states no rule on reuse; Ohio's could not be read. Neither was read again in session 164.
+
+So Ohio's 10 rows still hold the docket card's line and Illinois's 9 the minutes', agendas' or list's, with no page
+for a docket card or an agenda. No model read anything in session 164 (USD 0.00 of the cap of USD 5.00).
 
 ## 8. What the page reads
 
@@ -235,11 +298,34 @@ after the refresh step and **never writes a thinner file**: without the tables n
 fewer rows or reads than the one held is refused, and a file that would only change its build time is left. No
 live page (`/cost-of-power/battery`, `/network`, `/storage`) reads any of these tables or files.
 
+### The first view, "Every action, scored" (session 164)
+
+The first view lists every action of `policy_actions`, scored. Until session 164 a paragraph of method stood under
+its lead; a page face carries no method, so each of its three sentences is now the hover of the words of the lead it
+explains, and all three stand here, word for word:
+
+- On "scored for significance": Significance uses the same rubric as the news digest.
+- On "read for its impact": An impact read is written by a model from the action's own text, and each field is kept only when the exact words it rests on are found in that text; a blank field was dropped for that reason.
+- On "FERC": FERC's own pages cannot be read automatically, so FERC appears through the Federal Register.
+
+**The Tag filter and the chips (session 164).** The second view's windows end at thirty days, and the newest tagged
+action can be older (on 9 October 2026 the newest of the 22 was of 4 September), so no tag chip could be seen there.
+The first view holds the whole table, so it has a seventh filter, Tag, kept in the address (`/policy?tag=large_load`,
+`interconnection`, `transmission_cost`, `tax_credit`, or `tag=any` for every tagged action). A tagged row shows a
+chip a tag under its title; a chip's hover names the rule's version, the term that matched and the field it matched
+in. The tags are the one rule's (section 6): the rule applied to the row as the view reads it (its title and its
+docket), united with the tags the warehouse's run gave from the summary and the printed text
+(`site/data/policy/action_tags.json`). Choosing a tag lifts the view's significance floor, so no tagged action is
+hidden by it. `site/scripts/check-policy-tags.mjs` sees each of the four chips on a real row in a real browser.
+The table `policy_action_tags` is not in the live set and the page does not need it there.
+
 ## 9. Limits
 
 - A docket system cannot be proved complete from outside; the refresh searches for new dockets only where a list
   can be searched by a plain address (Texas, Virginia, FERC through the Register). Ohio's and Illinois's rows are
-  as session 154 left them.
+  as session 154 left them: session 164 read each host's robots file and requested no filing (section 7).
+- 900 scores are still not rechecked against the source text (662 Register actions, 238 news releases whose text is
+  not held), and each row says so.
 - The place is what the document's own opening words name: a notice that names its place only deep in its text, or
   only in a company's name, has none.
 - News releases are scored on their titles and their places are not read from their text.

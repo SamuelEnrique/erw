@@ -15,8 +15,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { HOURLY, attempt, rest } from "./supabase";
 import {
-  actionRow, bodiesOf, dayOf, docketRow, droppedTip, gridsOfAction, inWindow, sinceDay, tagAction, topicsOf, uniteTags,
-  type Action, type ActionRead, type ActionTagsFile, type Body, type Dropped, type GridsFile, type RefreshFile, type StateFile, type TagRules, type Topic, type WeekRow,
+  actionRow, bodiesOf, chipsOf, dayOf, docketRow, droppedTip, gridsOfAction, inWindow, sinceDay, tagAction, topicsOf, uniteTags,
+  type Action, type ActionRead, type ActionTagsFile, type Body, type Dropped, type GridsFile, type RefreshFile, type StateFile, type TagChip, type TagRules, type Topic, type WeekRow,
 } from "./policyweek";
 
 /** The longest window the view offers, in days: the rows read. */
@@ -40,6 +40,10 @@ function siteFile<T>(at: string, isIt: (v: unknown) => boolean): { file: T | nul
 }
 const obj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "object" && !Array.isArray(v);
 
+/** The rule file and the file of the tags the warehouse's run gave: read by both views. */
+const rulesFile = () => siteFile<TagRules>(path.join(process.cwd(), "data", "policy", "tag_rules.json"), (v) => obj(v) && obj(v.tags) && Array.isArray(v.fields_matched) && obj(v.municipal) && obj(v.agencies_in_scope));
+const tagsFile = () => siteFile<ActionTagsFile>(path.join(process.cwd(), "data", "policy", "action_tags.json"), (v) => obj(v) && obj(v.tags));
+
 /** The rule that tags nothing: what stands in when the rule file is not there. */
 const NO_RULES: TagRules = { version: "", fields_matched: [], strip: [], agencies_in_scope: { federal: [], state: [] }, action_types_in_scope: [], municipal: { terms: [] }, tags: {} };
 
@@ -61,8 +65,8 @@ export type WeekData = {
 /** Everything the view shows, for the render at `now`. */
 export async function weekData(now: number): Promise<WeekData> {
   const today = dayOf(now), since = sinceDay(today, LONGEST);
-  const rulesAt = siteFile<TagRules>(path.join(process.cwd(), "data", "policy", "tag_rules.json"), (v) => obj(v) && obj(v.tags) && Array.isArray(v.fields_matched) && obj(v.municipal) && obj(v.agencies_in_scope));
-  const tagsAt = siteFile<ActionTagsFile>(path.join(process.cwd(), "data", "policy", "action_tags.json"), (v) => obj(v) && obj(v.tags));
+  const rulesAt = rulesFile();
+  const tagsAt = tagsFile();
   const gridsAt = siteFile<GridsFile>(path.join(process.cwd(), "data", "policy", "grids.json"), (v) => obj(v) && Array.isArray(v.grids));
   const stateAt = siteFile<StateFile>(path.join(process.cwd(), "data", "policy", "state_rules.json"), (v) => obj(v) && Array.isArray(v.rows));
   const refreshAt = siteFile<RefreshFile>(path.join(process.cwd(), "data", "policy", "refresh.json"), (v) => obj(v) && Array.isArray(v.regulators));
@@ -108,4 +112,37 @@ export async function weekData(now: number): Promise<WeekData> {
     today, rows, bodies, topics, grids, dropped, droppedWhy: dropped.length ? droppedTip(dropped, rules) : "", missing,
     held: { actions: nActions, dockets: nDockets, ruleVersion: rules.version, docketsBuilt: (stateAt.file?.built_at_utc ?? "").slice(0, 10) || null, docketsInFile: stateAt.file?.rows?.length ?? 0 },
   };
+}
+
+// ---- the first view's tags (session 164) -------------------------------------------------------------------------------
+
+/** What the first view reads of an action to tag it: the fields the table's own read holds. */
+export type TaggedRow = { event_id: string; agency?: string | null; action_type?: string | null; title?: string | null; docket?: string | null };
+export type AllTags = {
+  /** the rule's tags, as the filter's choices */
+  topics: Topic[];
+  /** each tagged action's chips, by event id; an action with no tag is not in it */
+  chips: Record<string, TagChip[]>;
+  ruleVersion: string;
+  /** a file that is not there: what, and the reason for its hover */
+  missing: { what: string; why: string }[];
+};
+/** The tags of every action the first view lists: the one rule file applied to each row as read, united with the tags
+ * the warehouse's run gave from the printed text (data/policy/action_tags.json). No request, no model. */
+export function allTags(rows: TaggedRow[]): AllTags {
+  const rulesAt = rulesFile();
+  const tagsAt = tagsFile();
+  const missing: AllTags["missing"] = [];
+  const note = (what: string, name: string, error: string | null) => { if (error) missing.push({ what, why: error === "not there" ? `The site's file ${name} is not in this page's files yet.` : `The site's file ${name} could not be read: ${error}.` }); };
+  note("the tag rule", "data/policy/tag_rules.json", rulesAt.error);
+  note("the tags of the printed text", "data/policy/action_tags.json", tagsAt.error);
+  const rules = rulesAt.file ?? NO_RULES;
+  const topics = topicsOf(rules, []);
+  const chips: Record<string, TagChip[]> = {};
+  for (const x of rows) {
+    const read = { ...x, first_paragraph: tagsAt.file?.first_paragraph?.[x.event_id] ?? null };
+    const mine = chipsOf(uniteTags(tagAction(read, rules), tagsAt.file?.tags?.[x.event_id], rules), topics, rules);
+    if (mine.length) chips[x.event_id] = mine;
+  }
+  return { topics, chips, ruleVersion: rules.version, missing };
 }

@@ -1,21 +1,32 @@
 "use client";
 // Session 24: the /policy table: filters by agency, type, sector, state, significance and date; each row expands to its
 // impact read, the sectors, ISOs and states it affects, and its sources.
+// Session 164: a seventh filter, Tag (the written rule's four tags: large loads, interconnection, transmission cost,
+// tax credits), kept in the address (/policy?tag=large_load, or tag=any for every tagged action), and each tagged row's
+// chips under its title, each with the rule's matched term and field on hover. The table holds every action, so this is
+// where a reader reaches a tagged action of any date. Choosing a tag lifts the significance floor, so that no tagged
+// action is hidden by it; the count beside the filters says how many are listed.
 import { Fragment, useMemo, useState } from "react";
 import type { PolicyAction, PolicyRead } from "@/lib/data";
+import { ANY_TAG, hasTag, tagHref, type TagChip } from "@/lib/policyweek";
 
-export type Row = PolicyAction & { read: PolicyRead | null };
+export type Row = PolicyAction & { read: PolicyRead | null; tags?: TagChip[] };
+export type TagChoice = { key: string; label: string; why: string };
 
 const TYPE: Record<string, string> = { rule: "Final rule", proposed_rule: "Proposed rule", notice: "Notice", press_release: "News release" };
 const split = (s: string | null | undefined) => (s ? s.split(";").filter(Boolean) : []);
 const uniq = (xs: string[]) => Array.from(new Set(xs)).sort();
 
-export function PolicyTable({ rows }: { rows: Row[] }) {
+export function PolicyTable({ rows, tags = [], tag: tagAtOpen = "", missing = [] }: { rows: Row[]; tags?: TagChoice[]; tag?: string; missing?: { what: string; why: string }[] }) {
   const [agency, setAgency] = useState("");
   const [type, setType] = useState("");
   const [sector, setSector] = useState("");
   const [state, setState] = useState("");
-  const [minSig, setMinSig] = useState("5");
+  const [tag, setTagOnly] = useState(tagAtOpen);
+  const [minSig, setMinSig] = useState(tagAtOpen ? "" : "5");
+  /** A tag choice changes the rows and the address together, and lifts the significance floor. */
+  const setTag = (next: string) => { setTagOnly(next); if (next) setMinSig(""); window.history.replaceState(null, "", tagHref(next)); };
+  const tagged = useMemo(() => rows.filter((r) => (r.tags ?? []).length > 0).length, [rows]);
   const [from, setFrom] = useState("");
   const [open, setOpen] = useState<string | null>(null);
   const sectors = useMemo(() => uniq(rows.flatMap((r) => [...split(r.sector_tags), ...split(r.read?.affected_sectors)])), [rows]);
@@ -26,6 +37,7 @@ export function PolicyTable({ rows }: { rows: Row[] }) {
       (!type || r.action_type === type) &&
       (!sector || split(r.sector_tags).includes(sector) || split(r.read?.affected_sectors).includes(sector)) &&
       (!state || split(r.states).includes(state) || split(r.read?.affected_states).includes(state)) &&
+      hasTag(r.tags, tag) &&
       (!minSig || Number(r.significance) >= Number(minSig)) &&
       (!from || r.event_date >= from),
   );
@@ -49,11 +61,15 @@ export function PolicyTable({ rows }: { rows: Row[] }) {
         {sel("Sector", sector, setSector, [["", "All"], ...sectors.map((s) => [s, s] as [string, string])])}
         {sel("State", state, setState, [["", "All"], ...states.map((s) => [s, s] as [string, string])])}
         {sel("Significance", minSig, setMinSig, [["5", "5 or more"], ["7", "7 or more"], ["", "All"]])}
+        <span data-policy-tag-filter={tag} data-policy-tagged={tagged}>
+          {tags.length ? sel("Tag", tag, setTag, [["", "All"], [ANY_TAG, `Any tag (${tagged})`], ...tags.map((t) => [t.key, t.label] as [string, string])])
+            : <span className="cursor-help border-b border-dotted border-muted text-xs italic text-muted" title={missing.map((m) => m.why).join(" ") || "The tag rule is not in this page's files yet."} data-missing="1">tags not held yet</span>}
+        </span>
         <label className="flex flex-col text-xs text-muted">
           From
           <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" />
         </label>
-        <span className="text-xs text-muted">
+        <span className="text-xs text-muted" data-policy-shown={shown.length}>
           {shown.length} of {rows.length} actions
         </span>
       </div>
@@ -72,13 +88,18 @@ export function PolicyTable({ rows }: { rows: Row[] }) {
           <tbody>
             {shown.slice(0, 400).map((r) => (
               <Fragment key={r.event_id}>
-                <tr className="cursor-pointer border-b border-rule align-top hover:bg-panel" onClick={() => setOpen(open === r.event_id ? null : r.event_id)}>
+                <tr className="cursor-pointer border-b border-rule align-top hover:bg-panel" data-policy-row={r.event_id} onClick={() => setOpen(open === r.event_id ? null : r.event_id)}>
                   <td className="whitespace-nowrap py-1 pr-3 font-mono text-xs">{r.event_date}</td>
                   <td className="py-1 pr-3">{r.agency}</td>
                   <td className="whitespace-nowrap py-1 pr-3">{TYPE[r.action_type] ?? r.action_type}</td>
                   <td className="py-1 pr-3">
                     {r.title}
                     {r.read ? <span className="ml-1 text-xs text-accent">(read)</span> : null}
+                    {(r.tags ?? []).length ? (
+                      <span className="mt-0.5 block text-xs" data-policy-tags={(r.tags ?? []).map((t) => t.key).join(" ")}>
+                        {(r.tags ?? []).map((t) => <span key={t.key} title={t.why} data-policy-tag={t.key} data-policy-tag-of={r.event_id} className="mb-0.5 mr-1 inline-block cursor-help whitespace-nowrap border border-rule bg-white px-1">{t.label}</span>)}
+                      </span>
+                    ) : null}
                   </td>
                   <td className="py-1 pr-3 text-xs">{split(r.sector_tags).join(", ")}</td>
                   <td className="py-1 text-right">{r.significance || "not scored"}</td>

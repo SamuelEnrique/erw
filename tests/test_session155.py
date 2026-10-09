@@ -81,7 +81,7 @@ class Ceilings(unittest.TestCase):
         return w.Budget(d, **over), d
 
     def test_the_ceilings_are_the_owners(self):
-        self.assertEqual((w.CEILING_ROWS, w.CEILING_REQUESTS, w.CEILING_BYTES, w.CEILING_LISTINGS_OTHER), (2_000_000, 1_500, 3 * 1024 ** 3, 60))   # session 160: the owner's ceiling for the second pull, the lower of the two
+        self.assertEqual((w.CEILING_ROWS, w.CEILING_REQUESTS, w.CEILING_BYTES, w.CEILING_LISTINGS_OTHER), (1_500_000, 1_500, 3 * 1024 ** 3, 60))   # session 165: the owner's ceiling for the third pull, the lowest of the three (160: 2,000,000)
         self.assertGreaterEqual(w.ARCHIVE_PAUSE, 2.0)   # one request every two seconds to the Archive at most
 
     def test_a_request_past_the_request_ceiling_is_refused_before_it_is_made(self):
@@ -236,9 +236,12 @@ class CurrentCopies(unittest.TestCase):
         self.assertIn("https://www.ercot.com/files/docs/2026/09/16/September-TAC-Report.pdf", asked)
         for other in ("OATT", "LGIA", "Some-comments", "01012099"):
             self.assertFalse([u for u in asked if other in u], other)
-        self.assertEqual(len(asked), 9)   # the workbook; Grant's page and its queue; ERCOT's four pages (session 160: two more), one meeting and one report
+        # the workbook; Grant's page and its queue; ERCOT's four pages (session 160: two more), one meeting and one report;
+        # session 165: Bonneville's workbook and Alberta's page (which links no monthly list here, so no list is asked for)
+        self.assertEqual(len(asked), 11)
+        self.assertEqual([u for u in asked if "bpa.gov" in u or "aeso.ca" in u], [w.CURRENT["bpa"], w.CURRENT["aeso_page"]])
         rows = w.read_captures(d)
-        self.assertEqual(len(rows), 9)
+        self.assertEqual(len(rows), 11)
         self.assertTrue(all(len(r["sha256"]) == 64 and r["retrieved_at"] and r["status"] == "200" for r in rows))
 
     def test_a_terms_quote_that_is_not_in_the_saved_page_fails_the_stage(self):
@@ -492,7 +495,7 @@ class Summary(unittest.TestCase):
     def test_the_summarys_counts_equal_the_tables(self):
         b, counts = built()
         page = src(*self.PAGE)
-        stated = dict(re.findall(r"\*\*(New York ISO|Grant County Public Utility District)\*\*: \d+ dated copies read, \d{4}-\d{2}-\d{2} to (\d{4}-\d{2}-\d{2})", page))
+        stated = dict(re.findall(r"\*\*([^*\n]+)\*\*: \d+ dated copies read, \d{4}-\d{2}-\d{2} to (\d{4}-\d{2}-\d{2})", page))   # session 165: every entity followed, whatever its name
         self.assertEqual(set(stated), set(counts["copies"]))
         if any(counts["copies"][e]["last"] != stated[e] for e in stated):
             self.skipTest("the raw store holds a newer copy than the page was written from: write the page again from --summary")

@@ -5,8 +5,8 @@ import { Related } from "@/components/Related";
 import { Section } from "@/components/Section";
 import { SiteLink } from "@/components/SiteLink";
 import { policyActions, policyReads, renderTime } from "@/lib/data";
-import { METHOD, VIEWS, chosenOf, viewHref, viewOf, type View } from "@/lib/policyweek";
-import { weekData } from "@/lib/policyweekdata";
+import { FIRST_VIEW_METHOD, METHOD, VIEWS, chosenOf, tagOf, viewHref, viewOf, type View } from "@/lib/policyweek";
+import { allTags, weekData } from "@/lib/policyweekdata";
 import { attempt } from "@/lib/supabase";
 import { PolicyTable, type Row } from "./PolicyTable";
 import { WeekView } from "./WeekView";
@@ -14,6 +14,7 @@ import { WeekView } from "./WeekView";
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Policy" };
 
+const dotted = "cursor-help border-b border-dotted border-muted";
 const TYPE: Record<string, string> = { rule: "Final rule", proposed_rule: "Proposed rule", notice: "Notice", press_release: "News release" };
 
 // Session 157: the page's two views, both in the address (lib/policyweek.ts), and the Method note. One tool, one page,
@@ -69,21 +70,22 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
   const now = renderTime();
   if (!a.ok) return <NoData what="policy actions" reason={a.reason} />;
   const reads = new Map((r.ok ? r.data : []).map((x) => [x.action_event_id, x]));
-  const rows: Row[] = a.data.map((x) => ({ ...x, event_date: x.event_date.slice(0, 10), read: reads.get(x.event_id) ?? null }));
+  // Session 164: the rule's tags of every action, so that a reader reaches each tagged action whatever its date.
+  const tagged = allTags(a.data);
+  const rows: Row[] = a.data.map((x) => ({ ...x, event_date: x.event_date.slice(0, 10), read: reads.get(x.event_id) ?? null, tags: tagged.chips[x.event_id] ?? [] }));
+  const tag = tagOf(q, tagged.topics.map((t) => t.key));
   const since = new Date(now - 7 * 86_400_000).toISOString().slice(0, 10);
   const week = rows.filter((x) => x.event_date >= since && Number(x.significance) >= 5).sort((p, q) => Number(q.significance) - Number(p.significance)).slice(0, 6);
   return (
     <div data-policy="all">
       <h1 className="mb-1 text-3xl">Policy</h1>
       <Views view={view} />
-      <p className="mb-2 max-w-3xl">
-        Energy rules, proposed rules and notices of DOE, FERC, EPA, NRC, BLM and Interior from the Federal Register, and news releases of the NRC, DOE,
-        the Texas PUC and the CPUC, since 2025-10-01, each scored for significance and, when it scores 5 or more, read for its impact.
-      </p>
-      <p className="mb-5 max-w-3xl text-sm text-muted">
-        Significance uses the same rubric as the news digest. An impact read is written by a model from the action&apos;s own text, and each field is kept only
-        when the exact words it rests on are found in that text; a blank field was dropped for that reason. FERC&apos;s own pages cannot be read automatically,
-        so FERC appears through the Federal Register.
+      {/* Session 164: the method paragraph that stood here is off the face. Each of its three sentences is the hover of
+          the words it explains (lib/policyweek.ts, FIRST_VIEW_METHOD) and stands in the Method note. */}
+      <p className="mb-5 max-w-3xl" data-policy-lead="1">
+        Energy rules, proposed rules and notices of DOE, <span className={dotted} title={FIRST_VIEW_METHOD.ferc} data-policy-hover="ferc">FERC</span>, EPA, NRC, BLM and Interior from the Federal Register, and news releases of the NRC, DOE,
+        the Texas PUC and the CPUC, since 2025-10-01, each <span className={dotted} title={FIRST_VIEW_METHOD.scored} data-policy-hover="scored">scored for significance</span> and, when it scores 5 or more,{" "}
+        <span className={dotted} title={FIRST_VIEW_METHOD.read} data-policy-hover="read">read for its impact</span>.
       </p>
       <Section title="This week in policy">
         {week.length === 0 ? (
@@ -103,7 +105,7 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
         )}
       </Section>
       <Section title="Every action">
-        <PolicyTable rows={rows} />
+        <PolicyTable rows={rows} tags={tagged.topics.map((t) => ({ key: t.key, label: t.label, why: t.why }))} tag={tag} missing={tagged.missing} />
         <Cite tables={["policy_actions", "policy_reads"]} note="Scores from warehouse/policy/score.py (the news rubric); reads from warehouse/policy/reads.py; the evidence spans are kept in the internal policy_reads_evidence" />
       </Section>
       <Related href="/policy" />

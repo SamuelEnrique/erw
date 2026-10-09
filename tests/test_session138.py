@@ -243,7 +243,9 @@ class Page(unittest.TestCase):
         self.assertIn('const NOWHERE = "not published anywhere yet"', self.page)
         # how long a new large load waits: every grid. Load in line by region: every grid but NYISO, which publishes it
         # (its queue workbook's load sheets), so there the truth is "not held yet"
-        self.assertEqual(self.page.count("words={NOWHERE}"), 3)
+        # session 163: how long a load waits is now measured for New York and reads "not measured here" or "not measured
+        # yet" elsewhere (LoadWaits.tsx), so the words stand twice, both for the load in line by region
+        self.assertEqual(self.page.count("words={NOWHERE}"), 2)
         # session 140: New York's load queue is held and shown; session 149 (the owner's ruling of 7 October 2026): held
         # internal, and a placeholder stands where the megawatts stood unless the connector's switch puts them back
         self.assertIn('x.grid === "nyiso" ? (NY_SHOWN ? <NyLoadCell key="ny" own={x.region} /> : <span key="ny" data-nyload-held="1"><Missing words={NY_HELD_WORDS} why={NY_HELD_WHY} /></span>)', self.page)

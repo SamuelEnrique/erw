@@ -159,3 +159,85 @@ export const signed = (v: number, digits = 2) => `${v < 0 ? "-" : "+"}${Math.abs
 export const premiumWord = (v: number) => (v < 0 ? "discount" : "premium");
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const monthName = (m: string) => `${MON[Number(m.slice(5, 7)) - 1]} ${m.slice(0, 4)}`;
+
+// Session 162: (b) the capture price by hub and year, one table for every public hub and zone of every grid.
+
+/** One hub, fuel, market and year: the capture price, the simple average over the same hours, the ratio of the two in
+ *  percent, the hours used of the year's hours, the generation weighed and its revenue (price x generation, summed),
+ *  the months counted and whether the year is whole. Capture price x generation = revenue. */
+export type YearCell = { price: number; flat: number; premium: number; pct: number | null; ratio: number | null; hours: number; hoursInYear: number; mwh: number; revenue: number; months: number; whole: boolean };
+export type HubYearRow = {
+  grid: string; gridName: string; id: string; name: string; main: boolean;
+  tables: Partial<Record<Market, string[]>>;
+  cells: Record<Market, Record<Fuel, Record<string, YearCell | null>>>;
+  twelve: Record<Market, Record<Fuel, Span | null>>;
+  why: Record<Market, Record<Fuel, Record<string, string>>>;
+  /** why the hub holds no last twelve months, where it holds none */
+  whyTwelve: Record<Market, Record<Fuel, string>>;
+};
+export type HubYears = { years: string[]; rows: HubYearRow[]; blank: { id: string; name: string; words: string }[]; workbooks: Record<string, string> };
+
+const hoursInYear = (y: string) => { const n = Number(y); return (n % 4 === 0 && n % 100 !== 0) || n % 400 === 0 ? 8784 : 8760; };
+
+/** A year's cell from its counted months, or null when no month counts or the months hold no generation. */
+export function yearCell(months: Months | undefined, y: string, near: number): YearCell | null {
+  if (!months) return null;
+  const ms = Object.keys(months).filter((m) => m.slice(0, 4) === y && counted(months[m], near));
+  if (!ms.length) return null;
+  const f = figure(ms.map((m) => months[m]));
+  if (!f) return null;
+  const revenue = ms.reduce((s, m) => s + months[m][4], 0);
+  return { price: f.price, flat: f.flat, premium: f.premium, pct: f.pct, ratio: f.flat > 0 ? (100 * f.price) / f.flat : null, hours: f.hours, hoursInYear: hoursInYear(y), mwh: f.mwh, revenue, months: ms.length, whole: ms.length === 12 };
+}
+
+/** Why a hub, fuel, market and year holds no figure, in words for a hover. */
+export function whyNoYear(side: Side | undefined, fuel: Fuel, market: Market, y: string, near: number): string {
+  const mk = MARKETS[market].toLowerCase();
+  if (!side) return `No ${mk} price is held for this hub.`;
+  const since = `The ${mk} price here is held from ${side.first.slice(0, 10)} to ${side.last.slice(0, 10)}.`;
+  if (y < side.first.slice(0, 4) || y > side.last.slice(0, 4)) return `${since} ${y} is outside it.`;
+  const months = side[fuel];
+  if (!months) return `${since} The grid's ${fuel} generation is not held in any of those hours.`;
+  const ms = Object.keys(months).filter((m) => m.slice(0, 4) === y);
+  if (!ms.some((m) => counted(months[m], near))) return `${since} No month of ${y} holds at least ${Math.round(near * 100)} percent of its hours with both a price and the grid's ${fuel} generation.`;
+  return `${since} The grid's ${fuel} generation, as its source reports it, is zero in every hour of ${y} held, so there is no generation to weigh a price by.`;
+}
+
+/** Every public hub and zone by year, both fuels and both markets: the page's table (b). MISO and PJM are rows of
+ *  words, never of numbers. */
+export function hubYears(file: CaptureFile): HubYears {
+  const rows: HubYearRow[] = [];
+  const all = new Set<string>();
+  for (const id of ORDER) {
+    const g = file.grids[id];
+    if (!g) continue;
+    for (const h of g.hubs) for (const m of ["rt", "da"] as Market[]) for (const f of FUELS) for (const k of Object.keys(h[m]?.[f] ?? {})) all.add(k.slice(0, 4));
+  }
+  const years = [...all].sort();
+  const workbooks: Record<string, string> = {};
+  for (const id of ORDER) {
+    const g = file.grids[id];
+    if (!g) continue;
+    workbooks[id] = g.workbook;
+    for (const h of g.hubs) {
+      const row: HubYearRow = { grid: id, gridName: g.name, id: h.id, name: hubName(h.id), main: h.id === g.main, tables: {},
+        cells: { rt: { solar: {}, wind: {} }, da: { solar: {}, wind: {} } }, twelve: { rt: { solar: null, wind: null }, da: { solar: null, wind: null } },
+        why: { rt: { solar: {}, wind: {} }, da: { solar: {}, wind: {} } }, whyTwelve: { rt: { solar: "", wind: "" }, da: { solar: "", wind: "" } } };
+      for (const m of ["rt", "da"] as Market[]) {
+        if (h[m]) row.tables[m] = h[m]!.tables;
+        for (const f of FUELS) {
+          row.twelve[m][f] = twelve(h[m]?.[f], file.near);
+          if (!row.twelve[m][f]) row.whyTwelve[m][f] = whyNot(h[m], f, file.near);
+          for (const y of years) {
+            const c = yearCell(h[m]?.[f], y, file.near);
+            row.cells[m][f][y] = c;
+            if (!c) row.why[m][f][y] = whyNoYear(h[m], f, m, y, file.near);
+          }
+        }
+      }
+      rows.push(row);
+    }
+  }
+  const blank = ORDER.filter((id) => file.blank[id]).map((id) => ({ id, name: file.blank[id].name, words: file.blank[id].words }));
+  return { years, rows, blank, workbooks };
+}

@@ -372,6 +372,82 @@ is the average of the hour, not the marginal plant.
     interconnection queue): this ruling was asked and applied for the load queue only.
 - **How long a new large load waits: "not published anywhere yet".** The same search found no public dataset of the
   time from a large load's request to its energization, for any grid.
+  **Since session 163 the row no longer reads so**: New York's waits are measured from dated copies of its queue,
+  Texas reads "not measured here" and every other grid "not measured yet" (the section "How long a large load
+  waits" below). The search's finding stands and is on the hover of "not measured yet".
+
+### How long a large load waits (session 163)
+
+The block "How long a large load waits" in "How soon" stands above "Rules in motion" and follows the grid the address
+names. It reads one site file, `site/data/datacenter/how_soon.json`, written by `warehouse/derived/how_soon.py` from
+two internal tables, `large_load_waits` (sessions 155 and 160; one page: `docs/accelerator/large_load_waits.md`) and
+`large_load_statements` (sessions 139, 141 and 151; `docs/accelerator/large_load_eighty.md`). **The file holds
+aggregates only.** The page reads no table of requests; the two tables stay internal, in no live set and on no page.
+
+- **What a measured wait is.** A load request is followed by its publisher's own identifier through successive dated
+  copies of a public queue. An event (a study approved, a load in service) came between the last copy that does not
+  show it and the first that does, so a duration is a range and never a midpoint: at least, from the later bound of
+  its start to the earlier bound of its end; at most, from the earlier bound of its start to the later bound of its
+  end. A request is "measured" through a stage when the stage's end lies between two copies that hold it and its
+  start is printed or bounded. Nothing is filled, interpolated or smoothed.
+- **The bounds, and the counts.** Each stage shows the count of requests behind its figure. On five or more measured
+  requests the face gives the median as two bounds ("median at least 414, at most 680 days": the median of the
+  least possible durations and the median of the greatest), and the hover the range all of them lie within. On two
+  to four it gives the count and the group's two bounds (the least any of them can have taken and the most), not
+  each request's own range and no median. On one it gives the count and "too few to show": a figure on one request
+  is that request's own row. The two thresholds are `MIN_FOR_MEDIAN = 5` (the table's own rule, session 155) and
+  `MIN_FOR_BOUNDS = 2` in the builder. A stage's count of requests is the sum of its four parts: measured, still
+  waiting, seen in two copies only, and finished before the first copy that holds them.
+- **Why a lower bound is one.** A request that had not reached the end of a stage in the last copy that holds it has
+  waited at least that long and is still waiting: its days so far are a lower bound on its wait, not a wait. The
+  face marks every such figure "lower bound" and writes it "at least"; lower bounds are counted apart, never
+  averaged and never mixed with the measured figures. The measured requests are the ones that finished, so they
+  alone understate the wait of a queue in which most requests are still waiting: the count still waiting stands
+  beside them for that reason. A request seen in two copies only, and one that had finished a stage before the
+  first copy that holds it (for which only the most it can have taken is known), are given as counts on the hover.
+- **The stated figure beside it.** Where the entity itself states an expectation for the same stage (NYISO's "nine
+  months" for a system impact study), the figure stands beside the measurement as written, with who stated it and a
+  link to the stater's own document; the hover names the document, its day and page and what the figure covers.
+  NYISO's nine months runs from the customer's study selection, a day no copy shows, and the measurement from the
+  first copy that shows the study pending: the two do not start on the same day, the hover says so, and the face
+  sets the two figures side by side and argues nothing. A stated duration is never converted to days. NYISO's
+  "90-day" study is marked "proposed": a step of a procedure it proposed in July 2026, not the one the measured
+  requests went through.
+- **Whose words are shown.** A stated figure is shown as the figure, never as the document's sentence:
+  `large_load_statements` is internal until a person rules on each publisher's terms, and session 154's rule
+  (`SHOW_SENTENCE_REGULATORS` in `warehouse/derived/rules_in_motion.py`, empty) allows no entity's sentence. The
+  file holds, for each figure, the figure as written, whether it is the entity's own measurement or an expectation,
+  the stage it covers in a few words, the document's title, date, page and address. A figure is taken only where
+  the table counts it as a large load's wait, where its document is the stater's own (no third party's copy, no
+  statement about another entity) and where its address holds no person's e-mail address.
+- **Why Texas has none.** Sessions 155 and 160 read 32 of ERCOT's large load status reports (26 April 2022 to 19 June
+  2026): each gives totals by stage for the whole system and none names a request, so no request can be followed
+  from copy to copy. A stage's total over time is not a request's wait, and none was made from them. The face reads
+  "not measured here", with the reports and their days on the hover, and lists what Texas's own entities measured
+  and stated, each labeled whose figure it is and what it covers: Oncor's own average and median for its
+  interconnections placed in service, ERCOT's own measured delay against in-service dates, and ERCOT's expected
+  weeks for each step of its batch study. ERCOT wrote the steps and not their sum: they are never added. An
+  entity's own measurement is labeled its own; nothing measured here confirms or contradicts it.
+- **Every other grid reads "not measured yet"**: no dated copies of a public list of its large load requests have
+  been read. MISO reads "paused while terms are reviewed" and the file holds nothing for it. An entity of the waits
+  table is shown only where the builder's `ENTITY_GRID` places it on one of the page's grids; any other (Grant
+  County PUD today; the queues session 165 appends) is left out of the file and named in the builder's printed
+  summary until a person adds its line.
+- **The summary sentence** is written by code (`sentenceOf` in `site/lib/howsoon.ts`) from the file's numbers, for
+  whatever the file holds: the place, the requests followed from request to in service with their count, those
+  still waiting as a lower bound, and the stage beside which the entity states a figure. No model writes a word of
+  the block. Every number in the sentence is a number of the file (tested).
+- **What is not shown, and why.** No request's name, queue position, megawatts or size class, and no row of a single
+  request: NYISO's legal notice confers no license in the content of its site (above), and sessions 155 and 160
+  kept every request out of tracked files. The time shown in each status in the publisher's own words (the table's
+  "in stage" rows) and the figures by size are not in the file: a size is a megawatt figure of a request. Each
+  request's own range where fewer than five are measured. No comparison of a measured figure with a stated one
+  ("longer than", "shorter than"): the two start on different days. No sum of ERCOT's steps. No sentence of any
+  document. Grant County PUD's one request: it is on none of the page's grids, and a figure on it would be one
+  request's row.
+- **Terms.** No source was pulled for this block. The copies behind `large_load_waits` were read by sessions 155 and
+  160 under the terms those sessions quote (`docs/accelerator/large_load_waits.md`: the Internet Archive, NYISO,
+  Grant County PUD, ERCOT); NYISO's notice is quoted in full above.
 
 ### Rules in motion (session 154)
 
@@ -581,6 +657,13 @@ is never off in more hours of a year than named; the rule never pays less than t
 30 days are read across the boundary between two years' files; and the clean share of a load's own hours.
 `tests/test_session140.py` runs it and checks the builder's new parts and the page.
 
+`tests/test_session163.py` (session 163, how long a large load waits): the builder on made-up rows (a median only
+on five or more, a small group as its count and two bounds, one request too few to show, lower bounds marked, an
+entity on none of the page's grids left out and named, a file that would hold a request refused); the file (no
+request-level field, the counts add up); against the tables where they are on the machine (each aggregate worked
+again from the raw rows, no request's name or queue position in the file); the sentence's numbers are the file's.
+`site/scripts/test-howsoon.mjs` tests the page's words; `site/scripts/check-how-soon.mjs` the built page in a browser.
+
 `tests/test_session154.py` (session 154, rules in motion): the tags' rule on made-up rows and on the table held (a
 company's name is not a topic, a gas pipeline's interconnection is not the grid's, a bill credit is not a tax
 credit, nothing municipal, a docket listed by number); the connector (a sentence proves and its page is found, a
@@ -591,6 +674,10 @@ stop before the call); the site's file (which grid sees which action, MISO pause
 with its facts and never its sentence, the owner's two switches, the built file against its contract); the ten.
 
 ## Refresh
+
+`python warehouse/derived/how_soon.py` rebuilds the file of measured waits (session 163) from the two internal tables,
+on the machine that holds them (`--in-dir` names another directory of tables); it is not on a schedule, and is run
+after `large_load_waits` or `large_load_statements` is written.
 
 `python warehouse/derived/datacenter_page.py` rebuilds the files; the weekly refresh (`warehouse/refresh_supply.sh`,
 Saturdays) runs it after the load connectors and, on a machine that holds the table, after the newest files of the

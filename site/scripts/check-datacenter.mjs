@@ -14,7 +14,8 @@
 //   new york   (session 140) New York's load in line by zone, from NYISO's queue workbook, and request by request
 //   blank      MISO reads "paused while terms are reviewed" and PJM "licensed source needed", neither selectable; an
 //              address that names one opens the default grid
-//   nowhere    large load in line by region, and how long a new large load waits: "not published anywhere yet"
+//   nowhere    large load in line by region: "not published anywhere yet"; how long a new large load waits (session 163):
+//              "not measured here" for ERCOT, "measured, below" for New York (the block: scripts/check-how-soon.mjs)
 //   delivery   Texas (session 140, the owner's ruling): the four wires utilities' charges, each a row of its own with
 //              transmission and distribution apart, each charge as the tariff prints it with its line; the Commission's
 //              wholesale transmission rate as a row of its own; another grid "not held yet"
@@ -66,8 +67,10 @@ check(page.html.includes("/data/methods/datacenter_cost") && !/upper bound|Whole
 check(/data-grid="miso"[^>]*data-open="0"[\s\S]{0,400}?paused while terms are reviewed/.test(html) && /data-grid="pjm"[^>]*data-open="0"[\s\S]{0,400}?licensed source needed/.test(html)
   && /<input[^>]*disabled=""[^>]*value="miso"|value="miso"[^>]*disabled=""/.test(html), 'MISO reads "paused while terms are reviewed" and PJM "licensed source needed"; neither can be chosen');
 check(["ercot", "caiso", "nyiso", "isone", "spp"].every((g) => new RegExp(`data-grid="${g}"[^>]*data-open="1"`).test(html)), "the five public grids can each be chosen");
-check((text.match(/not published anywhere yet/g) ?? []).length === 2 && /Large load in line, by region\s+not published anywhere yet/.test(text) && /How long a new large load waits\s+not published anywhere yet/.test(text),
-  'large load in line by region, and how long a new large load waits, read "not published anywhere yet"');
+// session 163: how long a load waits is measured for New York and reads "not measured here" for Texas (the block below the table,
+// scripts/check-how-soon.mjs); the load in line by region still reads "not published anywhere yet"
+check((text.match(/not published anywhere yet/g) ?? []).length === 1 && /Large load in line, by region\s+not published anywhere yet/.test(text) && /How long a new large load waits\s+not measured here/.test(text),
+  'large load in line by region reads "not published anywhere yet"; how long a new large load waits reads "not measured here" for ERCOT');
 
 for (const [q, grid, region, buy, x] of [
   ["/cost-of-power", "ercot", index.grids.ercot.main, "rt", { run: "flat", n: 0, pct: 0, shift: 0 }],
@@ -104,14 +107,14 @@ for (const [q, grid, region, buy, x] of [
     // words they do not): the megawatts in line and the fold of requests have left the face; a placeholder with its
     // reason on hover stands where they stood, and the page's file holds no request
     check(/data-nyload-held="1"/.test(nyh) && !/data-nyload="1"/.test(nyh) && plain(nyh).includes(`Large load in line, by region ${q.words}`)
-      && nyh.includes(`title="${q.why.replace(/'/g, "&#x27;")}"`) && /How long a new large load waits\s+not published anywhere yet/.test(ny),
+      && nyh.includes(`title="${q.why.replace(/'/g, "&#x27;")}"`) && /How long a new large load waits\s+measured, below/.test(ny),
       `New York's load in line reads "${q.words}", with the reason on hover`);
     check(!("rows" in q) && !("zones" in q) && !("total" in q) && !/New York(&#x27;|')s load in line, request by request/.test(nyh) && !/data-nyload-zone=/.test(nyh),
       "no request, zone or megawatt of NYISO's load queue is on the page or in its file");
   } else {
     const mine = q.zones.find((z) => z.zone_name === "CENTRL");
     check(/data-nyload="1"/.test(nyh) && new RegExp(`${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL`).test(plain(nyh)) && new RegExp(`${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} requests in New York`).test(plain(nyh))
-      && q.zones.every((z) => nyh.includes(`data-nyload-zone="${z.zone_name}"`)) && /How long a new large load waits\s+not published anywhere yet/.test(ny),
+      && q.zones.every((z) => nyh.includes(`data-nyload-zone="${z.zone_name}"`)) && /How long a new large load waits\s+measured, below/.test(ny),
       `New York's load in line by zone is NYISO's own list: ${mine.mw.toLocaleString("en-US")} MW in ${mine.requests} requests in CENTRL, ${q.total.mw.toLocaleString("en-US")} MW in ${q.total.requests} in all, each zone with its statuses and its source on hover`);
     const inLine = q.rows.filter((r) => r.in_line);
     check(inLine.length === q.total.requests && inLine.every((r) => nyh.includes(`>${r.queue_position}</a>`)) && nyh.includes(q.source.url), `the ${inLine.length} requests in line are listed one by one, each linked to NYISO's workbook with its sheet and row on hover`);
@@ -186,8 +189,10 @@ const blockOfPage = (h) => { const i = h.indexOf('data-rules="1"'); if (i < 0) r
 /** The heading of the section the block stands in. */
 const lastHeading = (f) => { const pre = f.slice(0, f.indexOf('data-rules="1"')); return words(pre.slice(pre.lastIndexOf("<h2")).match(/<h2[^>]*>[\s\S]*?<\/h2>/)?.[0] ?? ""); };
 const norm = (t) => String(t).replace(/\s+/g, " ").trim();
-/** The page's face outside the block, as text. */
-const outside = (h) => { const f = face(h), b = blockOfPage(f); return plain(b ? f.replace(b, " ") : f); };
+/** Session 163: the block "How long a large load waits" stands above "Rules in motion" and follows the address too: its HTML, from its own element to the rules block's. */
+const waitsOfPage = (h) => { const i = h.indexOf('data-waits="1"'); if (i < 0) return null; const from = h.lastIndexOf("<div", i), j = h.indexOf('data-rules="1"', i); return h.slice(from, j < 0 ? undefined : h.lastIndexOf("<div", j)); };
+/** The page's face outside the two blocks that follow the grid an address names (sessions 154 and 163), as text. */
+const outside = (h) => { let f = face(h); const w = waitsOfPage(f); if (w) f = f.replace(w, " "); const b = blockOfPage(f); return plain(b ? f.replace(b, " ") : f); };
 /** The rows the block shows, in the page's order: what a reader sees and what each hover says. */
 function rowsOfPage(b) {
   const out = [];
@@ -268,8 +273,8 @@ for (const g of RULE_GRIDS) {
   const shown = rowsOfPage(blockOfPage(face(RULE_PAGES.pjm ?? "")) ?? "").filter((p) => p.group === "grid").length;
   check(held > 0 ? shown > 0 && shown === kept : shown === 0, held > 0 ? `PJM shows rows: ${shown} of the ${held} the file holds for it` : `PJM: the file holds no row for it${RULES ? "" : " (it is not there yet)"}, and the block shows none`);
   check(outside(RULE_PAGES.pjm ?? "") === outside(page.html) && /data-grid="pjm"[^>]*data-open="0"[\s\S]{0,400}?licensed source needed/.test(RULE_PAGES.pjm ?? ""),
-    'an address that names PJM shows, outside the block, what the default address shows: ERCOT, and PJM\'s prices still read "licensed source needed"');
-  check(outside(RULE_PAGES.miso ?? "") === outside(page.html), "an address that names MISO shows, outside the block, what the default address shows");
+    'an address that names PJM shows, outside the two blocks that follow the address, what the default address shows: ERCOT, and PJM\'s prices still read "licensed source needed"');
+  check(outside(RULE_PAGES.miso ?? "") === outside(page.html), "an address that names MISO shows, outside the two blocks that follow the address, what the default address shows");
   check(hovers.neither === 0 && rowsWrong === 0, `every row shown has on its docket's hover either the file's sentence (${hovers.sentence} over the seven addresses) or, where the file does not copy the regulator's text, the file's phrase in its place with the status's class (${hovers.withheld}); neither: ${hovers.neither}; and nothing else but the page, the topic and the tags`);
   check(foldsRight, `eight rows of a group stand before its fold and the rest inside it (${shownTotal} rows over the seven addresses${foldGrid ? "" : "; no group holds more than eight, so no fold is drawn"})`);
   check(noMunicipal, `the block holds none of the words ${MUNICIPAL.map((w) => `"${w}"`).join(", ")}, on its face or on hover${municipalFound ? ` (found:${municipalFound})` : ""}`);
