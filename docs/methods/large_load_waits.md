@@ -150,6 +150,60 @@ adds each source of session 165, its terms word for word, what was pulled and wh
 - Each saved file is listed in `warehouse/raw/large_load_waits/captures.csv` (not in git) with its address, sha256 and
   retrieval time; each request in `requests.csv` beside it.
 
+## Virginia (Dominion), session 171: the commission's robots file forbids, and nothing more was sent
+
+- **The case.** Virginia State Corporation Commission case PUR-2026-00011, "Application of Virginia Electric and Power
+  Company, for approval of its large-load connection queue process standards", docket search matter number 146728.
+  Confirmed without a request from the document list session 154 saved on 8 October 2026
+  (`warehouse/raw/large_load_rules/A/raw/va/docs_PUR-2026-00011.json`, 127 documents, 2 February to 26 August 2026)
+  and from the two orders saved then: Dominion's application proposes four stages for delivery point requests
+  (Project Initiation, Project Feasibility, Project Development, Project Execution), says it holds requests of about
+  70,000 MW and is processing about 25,000 MW with connection dates to 2031, and the Commission's interim order of
+  12 May 2026 asks for a public queue database and estimated study timelines in revised standards.
+- **What each document type holds, from the list's own titles.** Dominion's own filings that can carry its queue
+  and stage durations: the application and two direct testimonies (2 February 2026), two rebuttal testimonies (23
+  April), its status report (12 June), and its answers to interrogatories entered as hearing exhibits (Exhibits 7, 11,
+  12, 20, 23, 24 and 26, 28 to 30 April), with Exhibit 6 ("Delivery Point Request Stage Timeline", Walmart's revised
+  exhibit) and the Commission staff's two testimonies (15 April). The rest: 32 notices of participation, counsel and
+  pro hac vice papers; 11 memoranda attaching public comments; 8 hearing examiner's rulings and orders; 6 hearing
+  transcripts; 13 briefs of the parties (30 June); other parties' testimonies and exhibits. Sixteen filings were
+  named for the pull (`VA_DOCIDS` in the connector) and none was fetched.
+- **The robots file, read first** (`https://www.scc.virginia.gov/robots.txt`, saved 9 October 2026 07:44:27 UTC as
+  `warehouse/raw/large_load_waits/vascc/20261009074426_robots.txt`, 707 bytes, sha256
+  `33f96f5c9080365c333c66b98064d269cff79840a057c3964bdb2cf5879a7338`). It names six agents it allows (its own
+  Terminalfour Nutch spider, googlebot, googlebot-image, duckduckbot, bingbot, SiteimproveBot, msnbot) and ends, word
+  for word:
+  "User-agent: *"
+  "Disallow: /"
+  Every path for every other agent. The stage stops there by its own rule (`do_virginia`, `robots_forbids`): the
+  policy page, the document list and the filings were not asked for. **One request, 707 bytes**, of a ceiling of 150
+  requests and 500 MB; status 200; no login, CAPTCHA or browser check met.
+- **The terms**, not asked for today, as session 157 read and saved them on 8 October 2026 08:58:09 UTC
+  (`https://www.scc.virginia.gov/accessibility-and-web-policy/`, sha256
+  `f34ee72c0e4cd0400c1b9c182db249d3bebec23409dc9d477ff212358acb4479`, recorded in
+  `warehouse/config/policy_monitor_feeds.json`), word for word:
+  "Information on the SCC website is public and should not be used for commercial purposes beyond its intended public availability."
+  "Permission is granted to make fair use of the contents of the SCC website."
+  "Attribution of the source of the information is encouraged."
+  The policy speaks of fair use and attribution and not of automated requests; the robots file does, and governs.
+- **The alternative.** (1) Link out: the docket is public and a person opens it in a browser at
+  `https://www.scc.virginia.gov/docketsearch` (case PUR-2026-00011); the page shows Dominion's stated timelines with
+  links to its filings, which is a link-out and no request of ours. (2) Ask the commission for permission to fetch the
+  filings of one case by script, naming the contact string. (3) A person downloads the sixteen filings by hand and
+  places them under `warehouse/raw/large_load_waits/vascc/` with a line each in `captures.csv`: a later session reads
+  them for Dominion's queue and stage durations, without a request. No reader of those filings was written: there is
+  nothing to read.
+- **What reached the table and the page.** No row: the table holds 2,622 rows as session 165 left it, byte for byte
+  (`tests/test_session171.py`). On `/cost-of-power`, under PJM's grid, "How long a large load waits, Virginia" reads
+  "not measured yet" and lists Dominion's own stated timelines held in `large_load_statements` since sessions 151 and
+  154 (seven figures, each an expectation of Dominion's, each a link to Dominion's own document), through
+  `STATED_GROUPS["pjm"]` and `PLACES["pjm"]` in `warehouse/derived/how_soon.py`; `ENTITY_GRID` names "Dominion Energy
+  Virginia" under `pjm` for the day the table holds its requests. PJM's prices stay licensed and unshown.
+- **Other requests to the commission.** `warehouse/connectors/policy_monitor_refresh.py` (session 157) asks the docket
+  search's case and document lists on its schedule, and sessions 151, 154 and 157 read filings from it. The robots
+  file as read today disallows those too. Nothing of theirs was changed here; whether to pause `vascc` in
+  `warehouse/metadata/paused_sources.csv` is a person's ruling.
+
 ## What stays internal, and what a tracked file may hold
 
 No request, project name or megawatt of a request of any publisher here is in a tracked file: the summary and this

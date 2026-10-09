@@ -71,6 +71,14 @@ same rules, and their rows are added; the rows of New York and Grant County PUD 
     load: nothing of it is read. No queue of loads was found published by Pennsylvania's utilities.
 The method, the pull against its ceilings and each new publisher's terms word for word: docs/methods/large_load_waits.md.
 No request, name or megawatt of a request of the new publishers is in a tracked file either.
+
+SESSION 171 (the owner's words, 9 October 2026: "filling the PJM hole with Virginia's public record": the Virginia State
+Corporation Commission's case PUR-2026-00011, Dominion's large-load connection queue standards; "Read the SCC's robots
+file and terms first. If either forbids automated requests, send nothing more"; at most 150 requests and 500 MB, one
+request every 2.5 seconds). The stage --virginia (do_virginia) reads the robots file first, then the web policy, then the
+case's document list, then Dominion's own filings by DocID (VA_DOCIDS), under Virginia's own ceilings (Budget.va). On 9
+October 2026 the robots file ended "User-agent: *" "Disallow: /": the stage stopped after that one request (707 bytes)
+and nothing else was sent. No reader of the filings exists: none was fetched. The table is unchanged (2,622 rows).
 """
 
 import argparse
@@ -106,6 +114,31 @@ ARCHIVE_PAUSE = 2.5                  # seconds between two requests to the Archi
 PUBLISHER_PAUSE = 2.0
 BACKOFF = 60                         # seconds waited once after a 429 or a 503, before that address is left
 NEVER = ("misoenergy.org", "pjm.com")   # no request for any reason (dataminer and api are hosts of pjm.com)
+
+# session 171: the Virginia State Corporation Commission's docket of Dominion's large-load connection queue standards
+# (PUR-2026-00011). Its own ceilings (the owner's words, 9 October 2026): at most 150 requests and 500 MB, one request
+# every 2.5 seconds, one process at a time, counted in requests.csv by host across every run, the stop before the
+# request. Its robots file and terms are read first; the documents are asked for only when neither forbids it.
+VA_HOST = "scc.virginia.gov"
+VA_CEILING_REQUESTS = 150
+VA_CEILING_BYTES = 500 * 1024 ** 2
+VA_BYTES_RESERVE = 40 * 1024 ** 2    # the most one filing is taken to be, set aside before it is fetched
+VA_PAUSE = 2.5
+VA_CASE = "PUR-2026-00011"
+VA_MATTER = 146728                   # the docket search's own number for the case (session 154's saved case list)
+VA_ROBOTS = "https://www.scc.virginia.gov/robots.txt"
+VA_TERMS = "https://www.scc.virginia.gov/accessibility-and-web-policy/"
+VA_DOCS_LIST = ("https://www.scc.virginia.gov/docketsearchapi/breeze/casedetails/getdocuments?$filter=MATTER_NO%20eq%20"
+                f"{VA_MATTER}&$select=Document_Name%2CDate_Filed%2CDocID%2CFileName")
+VA_DOC = "https://www.scc.virginia.gov/docketsearch/DOCS/{f}"
+# the paths this session asks under; a robots rule that disallows one of them for every agent stops the pull
+VA_PATHS = ("/robots.txt", "/accessibility-and-web-policy/", "/docketsearchapi/", "/docketsearch/DOCS/")
+# the filings of Dominion's own that can hold its queue and its stage durations, by the docket's DocID (the saved
+# document list of session 154 and the list read again today): the application, its two direct testimonies, its two
+# rebuttal testimonies, its status report, its answers to interrogatories entered as exhibits, the stage timeline
+# exhibit, and the Commission staff's two testimonies about them
+VA_DOCIDS = (386713, 386714, 386715, 389790, 388906, 388611, 388612, 388907, 388911, 388912, 388890, 388893, 388894, 388896, 388388, 388389)
+VA_FORBIDS = re.compile(r"(?i)\b(automat\w*|robot\w*|scrap\w*|crawl\w*|spider\w*|harvest\w*|bots?)\b")
 
 CDX = "https://web.archive.org/cdx/search/cdx"
 WAYBACK = "https://web.archive.org/web/{ts}id_/{url}"
@@ -166,12 +199,16 @@ class Budget:
         self.bytes = 0
         self.rows = 0
         self.other_listings = 0
+        self.va = {"requests": 0, "bytes": 0}   # session 171: Virginia's commission, under its own ceilings, across every run
         if os.path.exists(self.path):
             with open(self.path, encoding="utf-8", newline="") as f:
                 for r in csv.DictReader(f):
                     self.requests += 1
                     self.bytes += int(r["bytes"] or 0)
                     self.other_listings += r["kind"] == "listing of another queue"
+                    if r["host"].endswith(VA_HOST):
+                        self.va["requests"] += 1
+                        self.va["bytes"] += int(r["bytes"] or 0)
         # rows: a request's row in a copy. Counted in copies.csv once a copy has been read; a copy fetched and not yet
         # read is taken at the most one copy may hold (ROWS_RESERVE), so the count never runs behind the pull
         counted = {}
@@ -202,12 +239,21 @@ class Budget:
             raise Refused(f"{self.rows:,} rows counted; one more copy of up to {rows_reserve:,} would pass the ceiling of {self.ceiling['rows']:,} rows")
         if kind == "listing of another queue" and self.other_listings + 1 > CEILING_LISTINGS_OTHER:
             raise Refused(f"the listing would be number {self.other_listings + 1} of the queues to follow next, past the ceiling of {CEILING_LISTINGS_OTHER}")
+        if host.endswith(VA_HOST):   # session 171: Virginia's own ceilings, the stop before the request
+            if self.va["requests"] + 1 > VA_CEILING_REQUESTS:
+                raise Refused(f"the request to Virginia's commission would be number {self.va['requests'] + 1}, past its ceiling of {VA_CEILING_REQUESTS} requests")
+            if self.va["bytes"] + VA_BYTES_RESERVE > VA_CEILING_BYTES:
+                raise Refused(f"{self.va['bytes']:,} bytes read from Virginia's commission; one more answer of up to {VA_BYTES_RESERVE:,} would pass its ceiling of {VA_CEILING_BYTES:,} bytes")
+            return min(VA_BYTES_RESERVE, VA_CEILING_BYTES - self.va["bytes"], self.ceiling["bytes"] - self.bytes)
         return min(bytes_reserve, self.ceiling["bytes"] - self.bytes)
 
     def spend(self, url, kind, status, nbytes, note=""):
         self.requests += 1
         self.bytes += nbytes
         self.other_listings += kind == "listing of another queue"
+        if host_of(url).endswith(VA_HOST):
+            self.va["requests"] += 1
+            self.va["bytes"] += nbytes
         os.makedirs(self.raw, exist_ok=True)
         new = not os.path.exists(self.path)
         with open(self.path, "a", encoding="utf-8", newline="") as f:
@@ -240,7 +286,7 @@ class Net:
             raise Refused(f"left alone after {self.left_alone[url]}")
         room = self.budget.ask(url, kind, rows_reserve)
         host = host_of(url)
-        pause = ARCHIVE_PAUSE if host.endswith("archive.org") else PUBLISHER_PAUSE
+        pause = ARCHIVE_PAUSE if host.endswith("archive.org") else VA_PAUSE if host.endswith(VA_HOST) else PUBLISHER_PAUSE
         wait = self.last.get(host, 0) + pause - time.time()
         if wait > 0:
             self.sleep(wait)
@@ -1593,7 +1639,142 @@ TERMS = {
             "You are also hereby put on notice that the Content is protected by copyright under United States laws.",
             "Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws.",
         ]),
+    # session 171
+    "vascc": dict(
+        who="Virginia State Corporation Commission", url=VA_TERMS, ask="",
+        note="the commission's Accessibility and Web Policy page, the one page of its site that speaks of the use of its contents, read by session 157 "
+             "(sha256 f34ee72c0e4cd0400c1b9c182db249d3bebec23409dc9d477ff212358acb4479, 2026-10-08T08:58:09Z, warehouse/config/policy_monitor_feeds.json). "
+             "Not asked for by --terms: the commission's robots file (read first by session 171) disallows every path for every agent it does not name, "
+             "so --virginia stops after the robots file and the page is asked for only when a robots file read on the day allows it. The sentences permit "
+             "fair use and ask for attribution and say nothing of automated requests; the robots file does. Held internal",
+        quotes=[
+            "Information on the SCC website is public and should not be used for commercial purposes beyond its intended public availability.",
+            "Permission is granted to make fair use of the contents of the SCC website.",
+            "Attribution of the source of the information is encouraged.",
+        ]),
 }
+
+
+def robots_forbids(text, paths, agent="*"):
+    """The rules of a robots file that disallow one of the paths for every agent (or for the agent named): a list of
+    (user-agent, disallow) pairs; [] where nothing forbids. A plain reading: a group's Disallow lines apply where its
+    User-agent is * or holds the agent's words; a path is forbidden where a Disallow rule is a prefix of it."""
+    groups, cur = [], None
+    for line in text.splitlines():
+        line = line.split("#")[0].strip()
+        if not line or ":" not in line:
+            continue
+        k, v = [x.strip() for x in line.split(":", 1)]
+        if k.lower() == "user-agent":
+            if cur is None or cur["rules"]:
+                cur = {"agents": [], "rules": []}
+                groups.append(cur)
+            cur["agents"].append(v)
+        elif k.lower() in ("disallow", "allow") and cur is not None:
+            cur["rules"].append((k.lower(), v))
+    out = []
+    for g in groups:
+        if not any(a == "*" or a.lower() == agent.lower() for a in g["agents"]):
+            continue
+        for kind, rule in g["rules"]:
+            if kind != "disallow" or not rule:
+                continue
+            anchored = rule.endswith("$")
+            pat = "^" + re.escape(rule.rstrip("$")).replace(r"\*", ".*") + ("$" if anchored else "")
+            for p in paths:
+                if re.match(pat, p):
+                    out.append((", ".join(g["agents"]), rule))
+    return out
+
+
+def do_virginia(raw, net, log, docids=VA_DOCIDS):
+    """Session 171. One process, one request every VA_PAUSE seconds, under Virginia's own ceilings (Budget). In this
+    order, each saved under the raw store with its address, hash and retrieval time (captures.csv): the commission's
+    robots file; its web policy page (TERMS, the quoted sentences checked word for word); the docket search's document
+    list of the case; then the filings named by DocID. The robots file and the policy are read BEFORE anything else:
+    a rule that disallows a path asked under, or a sentence of the policy that speaks of automated requests, robots,
+    scraping or crawling, stops the stage before the next request, and the words are written to the log. A filing
+    already saved with a 200 is not asked for again. Nothing here is read for a number."""
+    held = {r["original"]: r["file"] for r in read_captures(raw) if r["status"] == "200" and r["file"]}
+    ts = now_utc().strftime("%Y%m%d%H%M%S")
+    st, robots, headers = net.get(VA_ROBOTS, "robots file")
+    fname = save_answer(raw, "vascc", ts, VA_ROBOTS, robots) if robots else ""
+    append_capture(raw, dict(publisher="vascc", original=VA_ROBOTS, capture=ts, bytes=len(robots), sha256=hashlib.sha256(robots).hexdigest() if robots else "",
+                             retrieved_at=stamp(), status=st, file=fname, note="robots file, read before anything else of the commission's"))
+    text = robots.decode("utf-8", "replace") if robots else ""
+    log(f"virginia robots: {st}, {len(robots):,} bytes, {fname}; {len(text.splitlines())} lines")
+    if st == "200":
+        bad = robots_forbids(text, VA_PATHS)
+        if bad:
+            for agents, rule in bad:
+                log(f"virginia robots: User-agent {agents}: Disallow: {rule} covers a path this session asks under; nothing more is sent")
+            return dict(stopped="robots", rules=bad, requests=0)
+        log("virginia robots: no rule for every agent disallows " + ", ".join(VA_PATHS))
+    elif st == "404":
+        log("virginia robots: the commission publishes no robots file (404): nothing is disallowed by one")
+    else:
+        log(f"virginia robots: the file answered {st}: not read as permission; nothing more is sent")
+        return dict(stopped="robots unreadable", requests=1)
+    # the policy page: saved as a terms page, the quoted sentences checked, and read for any word on automated requests
+    t = TERMS["vascc"]
+    ts = now_utc().strftime("%Y%m%d%H%M%S")
+    st, content, headers = net.get(VA_TERMS, "terms page")
+    fname = save_answer(raw, "terms", ts, "vascc.html", content) if st == "200" and content else ""
+    append_capture(raw, dict(publisher="terms", original=t["url"], capture=ts, bytes=len(content), sha256=hashlib.sha256(content).hexdigest() if content else "",
+                             retrieved_at=stamp(), status=st, file=fname, note="terms page. " + t["note"]))
+    ptext = page_text(content) if content else ""
+    for q in t["quotes"]:
+        log(f"terms vascc: {'found' if q in ptext else 'NOT FOUND'} word for word: \"{q}\"")
+    if st != "200" or not ptext:
+        log(f"virginia terms: the policy page answered {st}: not read as permission; nothing more is sent")
+        return dict(stopped="terms unreadable", requests=2)
+    hits = [s.strip() for s in re.split(r"(?<=[.!?])\s+", ptext) if VA_FORBIDS.search(s)]
+    if hits:
+        for s in hits:
+            log(f"virginia terms: a sentence that speaks of automated access, robots, scraping or crawling: \"{s[:300]}\"; nothing more is sent until a person reads it")
+        return dict(stopped="terms", sentences=hits, requests=2)
+    log("virginia terms: no sentence of the policy speaks of automated requests, robots, scraping, crawling or harvesting")
+    # the document list of the case, then the filings
+    st, listing, lname = do_fetch_current(raw, net, log, "vascc", VA_DOCS_LIST, kind="document list of the case", rows_reserve=0)
+    docs = []
+    if st == "200" and listing:
+        try:
+            docs = json.loads(listing.decode("utf-8", "replace"))
+        except ValueError as e:
+            log(f"virginia list: the answer is not JSON ({e}); nothing more is sent")
+            return dict(stopped="list unreadable", requests=3)
+    else:
+        log(f"virginia list: answered {st}; nothing more is sent")
+        return dict(stopped="list unreadable", requests=3)
+    by_id = {int(d.get("DocID") or 0): d for d in docs}
+    log(f"virginia list: {len(docs)} documents in the docket search's list of {VA_CASE}; {lname}")
+    got, missing = [], []
+    for did in docids:
+        d = by_id.get(int(did))
+        if not d:
+            missing.append(did)
+            log(f"virginia doc {did}: not in the case's document list; not asked for")
+            continue
+        from urllib.parse import quote
+        url = VA_DOC.format(f=quote(d.get("FileName") or "", safe="!."))
+        if url in held:
+            log(f"virginia doc {did}: {url} is already saved from the commission; not asked for again")
+            got.append((did, held[url]))
+            continue
+        ts = now_utc().strftime("%Y%m%d%H%M%S")
+        try:
+            st, body, headers = net.get(url, "document")
+        except Refused as e:
+            log(f"virginia doc {did}: REFUSED before the request: {e}")
+            break
+        fname = save_answer(raw, "vascc", f"{ts}_{did}", url, body) if st == "200" and body else ""
+        append_capture(raw, dict(publisher="vascc", original=url, capture=ts, bytes=len(body), sha256=hashlib.sha256(body).hexdigest() if body else "",
+                                 retrieved_at=stamp(), status=st, file=fname, last_modified=headers.get("Last-Modified", ""),
+                                 note=f"{VA_CASE} DocID {did}, filed {str(d.get('Date_Filed', ''))[:10]}: {squeeze(d.get('Document_Name', ''))[:200]}"))
+        log(f"virginia doc {did}: {st}, {len(body):,} bytes, {fname}: {squeeze(d.get('Document_Name', ''))[:120]}")
+        if st == "200" and body:
+            got.append((did, fname))
+    return dict(stopped="", documents=len(docs), fetched=got, missing=missing, requests=3 + len(got))
 
 
 def page_text(content):
@@ -2100,6 +2281,8 @@ def main(argv=None):
     ap.add_argument("--list", action="store_true", help="the Internet Archive's listings of each address (one request an address)")
     ap.add_argument("--pull", action="store_true", help="each distinct capture once, and the current copies from the publishers")
     ap.add_argument("--terms", action="store_true", help="the Archive's and the publishers' terms pages, saved with their hashes, the quoted sentences checked")
+    ap.add_argument("--virginia", action="store_true", help="session 171: the Virginia commission's robots file and web policy first, then the case's document list and Dominion's filings")
+    ap.add_argument("--va-docs", default="", help="session 171: the DocIDs to ask for, comma separated (default: VA_DOCIDS)")
     ap.add_argument("--count", action="store_true", help="read the saved copies and write copies.csv in the raw store; no request")
     ap.add_argument("--write", action="store_true", help="build the table from the saved copies; no request")
     ap.add_argument("--summary", metavar="DIR", help="print the summary's lines of numbers from DIR/large_load_waits_counts.json; no request, nothing written")
@@ -2113,8 +2296,8 @@ def main(argv=None):
         print("\n".join(summary_lines(counts) + [""] + gone_lines(counts) + [""] + comparison_lines(counts) + [""] + texas_lines(counts)
                         + ["", "CANADA (apart):"] + canada_lines(counts) + [""] + gone_lines(counts, canada=True)))
         return 0
-    if not (a.list or a.pull or a.terms or a.count or a.write):
-        ap.error("name a stage: --list, --pull, --terms, --count or --write")
+    if not (a.list or a.pull or a.terms or a.count or a.write or a.virginia):
+        ap.error("name a stage: --list, --pull, --terms, --virginia, --count or --write")
     import iso_prices as ip
     raw = os.path.join(a.raw_root, CONNECTOR)
     if a.out_dir:
@@ -2129,7 +2312,7 @@ def main(argv=None):
 
     status = dict(table=NAME, market="large_load", status="ok", detail="")
     try:
-        if a.list or a.pull or a.terms:
+        if a.list or a.pull or a.terms or a.virginia:
             os.makedirs(raw, exist_ok=True)
             budget = Budget(raw)
             net = Net(budget, say)
@@ -2144,6 +2327,13 @@ def main(argv=None):
                 count_rows(raw, say)
             if a.terms:
                 do_terms(raw, net, say, only)
+            if a.virginia:
+                if ip.paused("vascc"):
+                    say("virginia: " + ip.pause_line("vascc"))
+                else:
+                    got = do_virginia(raw, net, say, tuple(int(x) for x in a.va_docs.split(",") if x.strip()) or VA_DOCIDS)
+                    say(f"virginia: {'stopped: ' + got['stopped'] if got['stopped'] else str(len(got['fetched'])) + ' filings held'}; "
+                        f"requests to the commission {budget.va['requests']} of {VA_CEILING_REQUESTS}, bytes {budget.va['bytes']:,} of {VA_CEILING_BYTES:,}")
             say(f"requests {budget.requests:,} of {CEILING_REQUESTS:,}; bytes {budget.bytes:,} of {CEILING_BYTES:,}; rows {Budget(raw).rows:,} of {CEILING_ROWS:,}")
         if a.count:
             count_rows(raw, say)

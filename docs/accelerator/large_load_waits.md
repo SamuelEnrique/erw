@@ -2,7 +2,8 @@
 
 Session 155, 8 October 2026; Texas and Grant County PUD read again in Session 160 the same day (the section "Texas"
 below). Bonneville Power Administration and Alberta's system operator (Canada, kept apart
-below) were added in Session 165, 9 October 2026. Facts only. The table is **internal** and is not in this repository (which is public):
+below) were added in Session 165, 9 October 2026. Virginia's commission was asked in Session 171 the same day and
+its robots file forbids (the sections "What could be followed next" and "The pull, and the terms"). Facts only. The table is **internal** and is not in this repository (which is public):
 `warehouse/output/large_load_waits.csv` on the data machine, built by `warehouse/connectors/large_load_waits.py` from
 the copies saved under `warehouse/raw/large_load_waits/`. No request is named here and no megawatt of a request is
 given. It follows [`large_load_eighty.md`](large_load_eighty.md), which found that no utility, operator or regulator
@@ -221,6 +222,7 @@ the 60 allowed.
 | Alberta Electric System Operator, monthly project list (Canada) | 535 captures of 100 monthly files; one capture a month and the current file: 97 dated copies read | yes: 213 projects, kept apart |
 | ISO New England, posted queue (`irtt.iso-ne.com/reports/external`) | one current copy read: 1,751 requests of Type G, ETU or TS | no: it lists no load |
 | Pennsylvania's utilities (PPL Electric, PECO, Duquesne Light, FirstEnergy) | listings only: no address of a load queue | no: none is published |
+| Virginia State Corporation Commission, case PUR-2026-00011 (Dominion's large-load connection queue standards; session 171) | 127 documents in the docket, 16 of Dominion's own named for the pull; its robots file, read first, disallows every path for every agent it does not name: one request, nothing else sent | no: the robots file forbids; a link-out, a request to the commission, or filings placed by hand (`docs/methods/large_load_waits.md`) |
 
 - **ISO New England's columns, as its page prints them:** "Cluster", "QP", "Updated", "Type", "Requested", "Alternative
   Name", "Unit", "Fuel Type", "Net MW", "Summer MW", "Winter MW", "County", "ST", "Op Date", "Sync Date", "W/D Date",
@@ -254,6 +256,17 @@ Archive: 121 captures and 4 listings; 5 to Alberta's operator, 3 to Bonneville, 
 requests of 1,500, 82.7 MB of 3 GB and 10,705 rows in all. No 429 or 503, no refusal, no login or check met. The same
 contact string and no address of a person. Every file fetched as a copy is the queue's own; no picture was met or read.
 
+Session 171 (Virginia's commission, under its own ceilings of 150 requests and 500 MB, one request every 2.5 seconds):
+1 request, 707 bytes, its robots file; nothing else was sent, since the file ends "User-agent: *" "Disallow: /". 379
+requests of 1,500 and 82.7 MB of 3 GB in all; no new row of a request. The same contact string and no address of a
+person. No MISO or PJM request.
+
+- **Virginia State Corporation Commission** (its Accessibility and Web Policy, read by session 157 on 8 October 2026
+  and not asked for again under the robots file): "Information on the SCC website is public and should not be used for commercial purposes beyond its intended public availability."
+  "Permission is granted to make fair use of the contents of the SCC website."
+  "Attribution of the source of the information is encouraged."
+  Its robots file, read first on 9 October 2026 and saved with its hash, disallows every path for every agent it does
+  not name: no filing of the docket was fetched and nothing of the commission's is in the table.
 - **Internet Archive** (its Terms of Use of 31 Dec 2014, read in its own capture of 1 June 2024, since the page
   today is drawn by a script and a plain request returns no text): "Access to the Archive’s Collections is provided at no cost to you and is granted for scholarship and research purposes only."
   "You agree to abide by all applicable laws and regulations, including intellectual property laws, in connection with your use of the Archive."
