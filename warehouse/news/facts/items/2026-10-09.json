@@ -1,0 +1,19 @@
+{
+ "date": "2026-10-09",
+ "fact_id": "ff_4ff252c8af",
+ "kind": "history",
+ "fact": "California increased wind on the grid from 10 MW in 1981 to 1700 MW in the early 1990s.",
+ "second": "That is one way to get a law's winds of change blowing.",
+ "structure": "pun",
+ "conjecture": "False",
+ "sources": [
+  {
+   "label": "Wikipedia, Public Utility Regulatory Policies Act",
+   "url": "https://en.wikipedia.org/wiki/Public_Utility_Regulatory_Policies_Act",
+   "raw": "warehouse/news/facts/raw/wikipedia/public_utility_regulatory_policies_act_20260930T201134Z.txt",
+   "retrieved_at": "20260930T201134Z",
+   "part": "fact",
+   "span": "California increased wind on the grid from 10 MW in 1981 to 1700 MW in the early 1990s."
+  }
+ ]
+}
