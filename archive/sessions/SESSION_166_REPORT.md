@@ -125,9 +125,12 @@ Run on 9 October 2026 (UTC), 06:31 to about 08:15, then paused, then 22:05 to th
 ## Checks
 
 - `tests/test_session166.py` 12 tests, `test_session166_datacenters.py` 9: exit 0. The validator on every table
-  (198): exit 0. `npm run build` of the merged tree in the main copy: exit 0. The whole suite in a clean copy of the
-  pre-merge commit `0261d49`: 2,660 tests, 20 failed, all pinning the old live pages or the old map and network
-  addresses (listed in `runs/session166/suite_clean.out`; the fix is in progress, see E).
+  (198): exit 0. `npm run build` of the merged tree in the main copy: exit 0. The whole suite in a clean copy: at
+  `0261d49` 20 tests failed, all pinning the old live pages or the old map and network addresses
+  (`runs/session166/suite_clean.out`); after the fixes of E, at the pushed commit `5c7c7b5`: 2,660 tests, OK, 226 skipped
+  (`suite_clean2.out`). `check-values` against production: 6,925 of 6,925.
+- The one local commit main held before the chain (`859ee58`, the reports of 162 to 165) is the base of `wip/166-health`
+  and reaches `origin/main` with its landing. The main copy is left checked out on `wip/166-health`.
 
 ## Decisions made without you
 
