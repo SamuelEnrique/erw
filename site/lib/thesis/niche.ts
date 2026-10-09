@@ -185,11 +185,11 @@ export function readAnswer(a: unknown): ModelAnswer | null {
   const seen = new Set<string>();
   const suggestions = (Array.isArray(o.suggestions) ? o.suggestions : [])
     .filter((s): s is string => typeof s === "string")
-    .map((s) => s.replace(/[—–]/g, ", ").replace(/\s+/g, " ").trim().replace(/[.;:,]+$/, ""))
+    .map((s) => s.replace(/[\u2014\u2013]/g, ", ").replace(/\s+/g, " ").trim().replace(/[.;:,]+$/, ""))
     .filter((s) => s.length >= 8 && s.length <= 90 && !/[<>{}\[\]\\`]|https?:/i.test(s) && gate(s).verdict !== "refuse")
     .filter((s) => { const k = s.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; })
     .slice(0, 5);
-  return { verdict: o.verdict, reason: typeof o.reason === "string" ? o.reason.replace(/[—–]/g, ", ").replace(/\s+/g, " ").trim().slice(0, 240) : "", suggestions };
+  return { verdict: o.verdict, reason: typeof o.reason === "string" ? o.reason.replace(/[\u2014\u2013]/g, ", ").replace(/\s+/g, " ").trim().slice(0, 240) : "", suggestions };
 }
 
 export type Decision = {

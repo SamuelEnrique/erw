@@ -76,7 +76,7 @@ await test("the curated table holds the thirteen broad inputs, and the owner's t
     assert.equal(new Set(t.suggestions).size, t.suggestions.length, t.id);
     for (const s of t.suggestions) {
       assert.equal(n.gate(s).verdict, "pass", `${t.id}: ${s}`);            // a chip never leads to a second refusal or a question
-      assert.ok(!/[—–]/.test(s), s);
+      assert.ok(!/[\u2014\u2013]/.test(s), s);
     }
   }
   for (const s of n.DEFAULT_SUGGESTIONS) assert.equal(n.gate(s).verdict, "pass", s);
@@ -141,7 +141,7 @@ await test("a refusal always shows three to five chips, whatever the model gives
 });
 
 await test("a model's answer is read as data: its dashes, its length and its shape", () => {
-  const a = n.readAnswer({ verdict: "too_wide", reason: "wide — very", suggestions: ["Sensors — for wells", 7, null, "short", "Drilling tools for geothermal wells."] });
+  const a = n.readAnswer({ verdict: "too_wide", reason: "wide \u2014 very", suggestions: ["Sensors \u2014 for wells", 7, null, "short", "Drilling tools for geothermal wells."] });
   assert.deepEqual(a, { verdict: "too_wide", reason: "wide , very", suggestions: ["Sensors , for wells", "Drilling tools for geothermal wells"] });
   assert.equal(n.readAnswer(null), null);
   assert.equal(n.readAnswer({ verdict: "refuse" }), null);
