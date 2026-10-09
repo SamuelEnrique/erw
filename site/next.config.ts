@@ -28,6 +28,9 @@ const nextConfig: NextConfig = {
       // growth with the weather taken out, sessions 126 and 129) is the second view of that page, and its address
       // redirects to it (a query is carried over)
       { source: "/demand/weather", destination: "/demand?view=weather", permanent: true },
+      // session 167: one tool, one page, one address. The project map is /map; its second version is the base of that page
+      // now, and its address redirects to it (a query is carried over)
+      { source: "/map/v2", destination: "/map", permanent: true },
       { source: "/weekly", destination: "/roundup", permanent: true },
       { source: "/weekly/:week", destination: "/roundup/:week", permanent: true },
       // session 132: one tool, one page, one address. The price board is /board; its earlier versions and the markets

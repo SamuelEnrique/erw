@@ -1,43 +1,38 @@
 import type { Metadata } from "next";
+import { feature } from "topojson-client";
+import type { GeometryCollection, Topology } from "topojson-specification";
+import statesTopo from "us-atlas/states-albers-10m.json";
 import { Related } from "@/components/Related";
-import { Term } from "@/components/Term";
-import { NoData } from "@/components/NoData";
-import { datacenterPoints, projectPoints } from "@/lib/data";
-import { attempt } from "@/lib/supabase";
-import { Body } from "./Body";
+import { SiteLink as Link } from "@/components/SiteLink";
+import { SourceLine, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
+import mapJson from "@/data/map.json";
+import { whole, type MapFile } from "@/lib/projectmap";
+import { ProjectMap } from "./ProjectMap";
 
-export const revalidate = 3600;
-export const metadata: Metadata = { title: "Project map" };
+// Session 167: the project map, one page. Version 2's layout and data (session 105: the "Choose" panel, the summary
+// sentence, the totals by status, the map with hover, the source line) with what version 1 offered carried over
+// (sessions 16 and 22: the unit card, the state filter both ways, the four kinds, the table by technology, Reset).
+// Every filter is a multi-select with "Select all" and "Clear", and the address keeps the choice. The page reads the
+// site's own copy of four tables (data/map.json, warehouse/derived/project_map.py); the card is read from it too, so a
+// click asks no server. Both earlier versions are kept unrouted in app/_retired/map-v1 and map-v2; /map/v2 redirects
+// here. Method: docs/methods/energy_projects.md, "The page".
 
-export default async function MapPage() {
-  const res = await attempt(projectPoints);
-  // the datacenter power tracker's facilities, the fourth kind; the map stands without them
-  const dc = await attempt(datacenterPoints);
+export const metadata: Metadata = { title: "The project map", robots: { index: false, follow: false } };
+
+const METHOD = "/data/methods/energy_projects";
+
+export default function MapPage() {
+  const f = mapJson as unknown as MapFile;
+  const topo = statesTopo as unknown as Topology<{ states: GeometryCollection }>;
+  const c = f.counts;
   return (
-    <>
-      <h1 className="mb-1 text-3xl">Energy project map</h1>
-      <p className="mb-2 max-w-3xl">
-        Every operating and planned generator in <Term t="EIA" first />&apos;s monthly inventory, every active interconnection queue position of six <Term t="ISO" first />s, and
-        datacenters, on one map, from EIA-860M, the ISOs&apos; queue reports, the news the ERW scores and the operators&apos; own site lists.
-      </p>
-      <p className="mb-2 max-w-3xl text-sm">
-        Scope: datacenters are from the news since 2025-01-01, the public site lists of nine operators and the ISOs&apos; queues; this is not a
-        census of every facility.
-      </p>
-      <p className="mb-5 max-w-3xl text-sm text-muted">
-        The queues are those of <Term t="ERCOT" first />, <Term t="CAISO" first />, <Term t="NYISO" first />, <Term t="MISO" first />, <Term t="SPP" first /> and <Term t="ISO-NE" first />. EIA gives each plant&apos;s coordinates. The ISOs give only a county, so a queue position is drawn at its county&apos;s
-        internal point from the Census Bureau&apos;s gazetteer, as a ring rather than a dot. Withdrawn queue positions are not on the map. Datacenters
-        are the fourth kind.
-      </p>
-      {!res.ok ? (
-        <NoData what="the project map" reason={res.reason} />
-      ) : res.data.length === 0 ? (
-        <NoData what="the project map" reason="energy_projects has no rows in the live set yet" />
-      ) : (
-        <Body rows={dc.ok ? [...res.data, ...dc.data.map((p) => ({ ...p, kind: "datacenter" }))] : res.data} />
-      )}
+    <ToolPage>
+      <ToolHeader title="The project map"
+        lead={<>Every generating unit in EIA&apos;s monthly inventory, operating and planned (<span data-map-units="1">{whole(c.units)}</span> units as of {f.vintage}), the interconnection queue positions that are not withdrawn, and the datacenters the ERW holds, on one map. Choose any grids, technologies, statuses, states, kinds and sizes; click a unit for its card. <Link href={METHOD}>Method</Link>.</>} />
+      <ProjectMap file={f} statesGeo={feature(topo, topo.objects.states)} />
+      <SourceLine tables={f.tables}
+        note={<>U.S. Energy Information Administration, Form EIA-860M, {f.vintage} (public domain), retrieved {f.retrieved.slice(0, 10)}; the ISOs&apos; queues as energy_projects holds them, {f.vintages.queue}; the datacenter tracker, {f.vintages.datacenter}. This page is in review and reads the site&apos;s own copy of the tables, built {f.built.slice(0, 10)}.</>} />
       <Related href="/map" />
-    </>
+    </ToolPage>
   );
 }
-

@@ -69,9 +69,9 @@ export const RELEASE: Record<string, Status> = {
   "/grid/isone": "review",
   "/grid/miso": "review",
   "/grid/spp": "review",
-  "/map": "review",
+  "/map": "review",  // session 167: the one project map (version 2's layout and data with version 1's card, state filter, kinds, table by technology and Reset)
   "/resources": "review",  // session 146: where the resources are (the natural resource layers on one map, with the plants, the queue and the datacenters over them); its layer files are read through /resources/layer and /resources/overlay, which take this line's status
-  "/map/v2": "review",  // session 105: the project map, version 2 (EIA-860M's operating and planned units, with the queue beside it)
+  "/map/v2": "review",  // session 105: the project map, version 2 (EIA-860M's operating and planned units, with the queue beside it); since session 167 it redirects to /map
   "/datacenters": "review",
   "/datacenters/v2": "review",  // session 106: the tracker, version 2 (ERCOT's large-load status beside the facilities held)
   "/companies": "review",

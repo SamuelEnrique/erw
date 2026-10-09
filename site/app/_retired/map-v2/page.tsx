@@ -10,6 +10,8 @@ import queuesJson from "@/data/queues.json";
 import { whole, type MapData, type MapFile, type QueueViews } from "@/lib/map2";
 import { MapV2 } from "./MapV2";
 
+// Session 167: retired and kept unrouted, as it stood. /map/v2 redirects to /map (next.config.ts), the one project map,
+// built on this version's layout and data; the session 167 report lists every block of this page and where it went.
 // Session 105: the project map, version 2, in the battery page's layout. Every operating and planned generating unit
 // of EIA's monthly inventory (Form EIA-860M), batteries among them, on a map: filtered by grid, technology, status and
 // size, with the queue's active capacity for the same grid beside it and a table of what is selected. The page reads
