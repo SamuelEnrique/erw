@@ -53,13 +53,13 @@ REPLAY_DAYS = "5"  # EIA's daily tables: the days asked for again each day (EIA 
 # warehouse/raw/eia930_emissions the builder reads, saved by the day's eia930_emissions step. files: other files required.
 JOBS = {
     "eia930_daily_interchange": dict(
-        cadence="daily", page="/network/v3", tables=["eia930_daily_interchange"], restore=["eia930_daily_interchange"],
+        cadence="daily", page="/network", tables=["eia930_daily_interchange"], restore=["eia930_daily_interchange"],
         cmd=["warehouse/connectors/eia930_daily_interchange.py", "--days", REPLAY_DAYS]),
     "eia930_daily_demand": dict(
-        cadence="daily", page="/network/v3", tables=["eia930_daily_demand"], restore=["eia930_daily_demand"],
+        cadence="daily", page="/network", tables=["eia930_daily_demand"], restore=["eia930_daily_demand"],
         cmd=["warehouse/connectors/eia930_daily_demand.py", "--days", REPLAY_DAYS]),
     "network_replay": dict(
-        cadence="daily", page="/network/v3",
+        cadence="daily", page="/network",
         # the two daily tables, the day's carbon intensity, and the price tables of the six hubs the replay prices
         # (price_board.TABLES; the ERCOT price history is not required: where it is absent the file's own prices are kept)
         tables=["eia930_daily_interchange", "eia930_daily_demand", "carbon_intensity_daily", "iso_rtm_hub_prices", "iso_hub_prices_history",

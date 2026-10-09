@@ -55,7 +55,8 @@ const PAGES = [
   "/supply", "/supply?g=gasstor,position&s=eia-wcestus1", "/data/methods/supply_and_trade",  // session 134: Supply and trade, in review
   "/thesis", "/thesis?run=no-such-run&tab=funnel",  // session 135: Thesis Builder, in review and internal (the page only: the check never queues a run; scripts/check-thesis.mjs covers its two API routes)
   // session 35: the seven grid pages
-  "/network/v3", "/network/v3?view=day&t=2021-02-15&grid=ERCO&prices=1&trace=1",  // session 93: version 3, in review
+  "/network/v3", "/network/v3?view=day&t=2021-02-15&grid=ERCO&prices=1&trace=1",  // session 93: version 3 (since session 168 these redirect to /network, which is version 3)
+  "/network?view=day&t=2021-02-15&grid=ERCO&prices=1&trace=1",  // session 168: a shared view of the one network page
   "/network", "/grid/ercot", "/grid/caiso", "/grid/pjm", "/grid/nyiso", "/grid/isone", "/grid/miso", "/grid/spp",
   // session 36B: the Historical Event Analyzer
   "/events", "/events/uri-2021", "/events/covid-2020",

@@ -1,5 +1,7 @@
 # The grid network, version 3: replay, a shareable address, prices, trace the power
 
+**Since session 168 (9 October 2026) version 3 is the network page: it stands at `/network`, and `/network/v3` redirects there.** Where this note says `/network/v3`, read `/network`; where it says "the live page" or "`/network` today", read the page that stood there until session 168 (kept, unrouted, in `site/app/_retired/network-original`). The folded sections of both pages are in [`grid_network.md`](grid_network.md), "What stood on the page face until session 168".
+
 Version 3 of the network (`/network/v3`, in review) is the network of [`grid_network.md`](grid_network.md) with four
 additions. Its look is unchanged: free-floating, a light background, carbon intensity as the sphere color, names on
 hover, the four Watch buttons, the panel and the Batteries switch. The live page `/network` passes none of this and is
