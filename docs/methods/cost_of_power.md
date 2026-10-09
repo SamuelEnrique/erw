@@ -344,3 +344,79 @@ The page links to `/curtailment?grid=<grid>&place=<hub id>#free-energy` for the 
 ### Tests and checks (session 145)
 
 `tests/test_session145.py` and `site/scripts/test-capture.mjs`, on a saved real week (`tests/fixtures/session145/`: the price rows of ERCOT's West hub for the week from 1 June 2026 and the grid's solar and wind generation of the same hours): the generation-weighted price by hand; a plant that generates the same in every hour captures the flat average exactly; the premium in dollars and in percent agree; a month under 95 percent writes no figure; MISO has no number; the contract arithmetic equals the battery page's; the combined figure is the sum of its two parts. `site/scripts/check-seller.mjs` reads the built page as HTML and in a real browser.
+
+## Session 162: the hybrid co-optimized, the capture price by hub and year, your plant's profile
+
+`/cost-of-power/seller` gains three blocks. Nothing session 145 showed is removed: its hybrid figures stand in a row of their own. The page face still carries no method, with one exception the owner asked for by name (9 October 2026): the added figure is labeled "upper bound" on the face.
+
+- **The builder:** `warehouse/derived/seller_hybrid.py` writes `site/data/seller/hybrid.json` and `site/public/seller/prices/<grid>_<year>.json`. No warehouse table is written and no request is made. It reads the capture price's own public price tables and the seller's model's generation shapes, and nothing else.
+- **The arithmetic:** `site/lib/sellerhybrid.ts` (no imports), used by the page on the server, by the profile box in the browser and by `site/scripts/test-hybrid.mjs`.
+
+### (a) The plant and the battery, co-optimized
+
+For ERCOT and CAISO (the grids the battery page's model is open for), a solar or a wind plant and a 2, 4 or 8 hour battery behind one interconnection.
+
+- **Prices:** the main hub's hourly day-ahead price (ERCOT's hub average, CAISO's SP15), from the tables the capture price reads, the first table that holds an hour.
+- **The plant's output:** the seller's model's shape, EIA-930's hourly generation of the fuel over the fuel's installed nameplate that month (EIA-860M), times the reader's MW. A fleet's shape. An hour below zero (a plant's own use at night) is zero, the capture price's rule.
+- **The program, one local day at a time.** With the hour's price p, the plant's output g, the battery's power P, its energy E (P times its hours) and the interconnection limit L:
+  - maximize the sum of p x (g + discharge - charge);
+  - charge between 0 and min(P, L + g): the battery charges from the plant's own output or from the grid, and what the plant does not supply is bought, the purchase inside the limit;
+  - discharge between 0 and min(P, L - g): the pair's export stays inside the limit;
+  - the state of charge, the sum of eta x charge less discharge over eta with eta the square root of 0.86 (the battery page's round trip), stays between empty and full, each day from empty;
+  - at most one full cycle a day (the battery page's rule);
+  - no discharge in an hour priced below zero. In an hour priced at zero or more, charging and discharging together never pays, and a tie that left both is netted, so in every hour the battery charges or discharges, never both.
+- **The limit L** is the plant's capacity, or its highest hour of the twelve months when that is higher (EIA-860M lags new plants, so the fleet's output per MW of nameplate passes 1 in some hours). The plant alone therefore never loses energy to the limit; the limit binds on the battery, which cannot discharge at full power while the plant is near its capacity.
+- **The plant sells every hour at its price,** as the seller's model does, with no curtailment at a negative price. The pair's revenue is the plant's plus what the battery adds; an idle battery is always allowed, so the pair never earns less than the plant alone, and with a battery of zero size the pair is the plant.
+- **Perfect knowledge of the day.** Each day's schedule is the best one against that day's day-ahead prices, all known when it is made. That is an upper bound for a schedule made the day before, when offers are written without knowing where the market clears.
+- **Energy only.** No ancillary service, no capacity payment, no tax credit rule, no degradation, no outage.
+- **Charging from the plant** is an account, not a choice: at one hub price a MWh from the plant and a MWh from the grid cost the same. The page reports the share of the charging energy that the plant's output covered in the same hour.
+- **The days.** A local day (23, 24 or 25 hours) is solved only when every hour of its price and of the fuel's output is held. A month counts with at least 90 percent of its days solved (the battery page's rule); the twelve months are the newest counted month and the eleven before it. Days left out are counted and shown on hover, never filled.
+
+**What the section shows, side by side** (USD for the reader's sizes; per MW on hover):
+
+| Row | Plant alone | Battery alone | Co-optimized pair | Added, not co-optimized: upper bound |
+|---|---|---|---|---|
+| Energy at day-ahead prices | the plant under the program's prices and days | the same battery with no plant and an interconnection of its own, same days, prices and rules | the program above | the first two added |
+| Plant at real-time prices, battery with ancillary services (session 145's figures, kept) | the seller's model, real time | the figure of What a battery earns, energy and ancillary services, for the strategy chosen | not modeled | session 145's combined figure |
+
+- **In the first row the added figure is a true upper bound of the pair:** the pair is the same two assets, on the same prices and days, under one more limit. The difference is what sharing the interconnection costs.
+- **The second row is session 145's "Combined", kept and labeled an upper bound as the owner asked.** It is on other prices (the plant in real time) and holds ancillary revenue the co-optimized pair does not, so it is not a bound of the first row's pair by arithmetic. Where the first row's pair comes out above it, the page marks it on the face ("below the co-optimized pair") and says so in the hover. On the real numbers of 9 October 2026 it does not happen at the default sizes: for a 100 MW plant with a 100 MW battery, in ERCOT and CAISO, solar and wind, at 2, 4 and 8 hours and under both strategies (24 cases, read from the built page by `site/scripts/check-seller-deeper.mjs`), the co-optimized pair is below the kept figure in every one. The nearest is ERCOT wind with a 2-hour battery under the day-ahead schedule: the pair USD 12,088,452 against a kept figure of USD 13,463,570. Other sizes are not ruled out, which is why the page carries the mark.
+- **The battery alone against the battery page's own program.** `warehouse/derived/battery_stack.py`, `solve_day`, with no ancillary product, on the same days and prices, gives this file's figure on every day of ERCOT's twelve months at 2, 4 and 8 hours and of CAISO's at 2 and 4 hours. At 8 hours in CAISO, 7 days differ, by USD 5.92 per MW in a year of USD 63,384 (0.009 percent): the battery page's program may discharge at a price below zero to make room, and this one does not.
+- **One implementation, checked by a second.** The page's function is a simplex of its own in TypeScript; the builder solves the same program with scipy's HiGHS and writes its figures in the file; `site/scripts/test-hybrid.mjs` holds the two to one part in a million on every case written (they agree to one part in ten billion).
+
+Per MW of plant, a 4-hour battery of the plant's size, October 2025 to September 2026 (built 9 October 2026):
+
+| Grid, plant | Plant alone | Battery alone | Co-optimized pair | The two added | Charging from the plant |
+|---|---|---|---|---|---|
+| ERCOT solar (364 days, 1 left out) | 63,285 | 53,881 | 116,379 | 117,166 | 60.2 percent |
+| ERCOT wind (364 days, 1 left out) | 90,830 | 53,881 | 137,601 | 144,711 | 34.7 percent |
+| CAISO solar (363 days, 2 left out) | 29,833 | 39,046 | 68,726 | 68,879 | 60.5 percent |
+| CAISO wind (363 days, 2 left out) | 66,621 | 39,046 | 101,905 | 105,667 | 25.5 percent |
+
+Other grids read "not modeled for this grid". MISO is blank, paused while terms are reviewed; PJM reads "licensed source needed".
+
+### (b) Capture price by hub and year
+
+One table: every public hub and zone the capture file holds (39 of five grids) as rows, the calendar years 2019 to 2026 and the last twelve months as columns, solar or wind and day-ahead or real time by a switch (day-ahead first: every hub holds it). A click on a year sorts by it.
+
+- **A cell** is the capture price of the year's counted months, from `site/data/seller/capture.json` by `lib/capture.ts` (`hubYears`, `yearCell`): the sum of price x generation over the sum of generation. Capture price times generation equals revenue; the tests hold it for every cell.
+- **On hover:** the hub's simple average price over the same hours, the capture ratio (the capture price over that average, in percent), the hours held of the year (hours used over the year's 8,760 or 8,784), the months counted when the year is partial, and the source (the price tables and the EIA-930 workbook).
+- **The generation shape for a hub is its grid's whole fleet of that fuel by hour,** as the rest of the page uses it (EIA-930; California from the join from CAISO's own supply). Two hubs of one grid differ by their prices only.
+- **A partial year** (fewer than twelve counted months) is marked "partial" in the cell and holds its counted months only. **A year not held** reads "not held" with the reason on hover: the price is not held that year, no month holds 95 percent of its hours, or the grid's generation of that fuel is zero (New York's solar in EIA-930).
+- **Shading** is the capture ratio: red below the hub's simple average, grey above it.
+- **No MISO hub, no PJM hub and nothing internal:** the file is built from public tables only; MISO and PJM are rows of words.
+
+### (c) Your plant's profile
+
+A box for solar and wind: the reader pastes or uploads one calendar year of hourly output, and revenue, the capture price and the pair with a battery are computed in the browser.
+
+- **Nothing is sent and nothing is stored.** The profile lives in the page's memory and nowhere else: it is in no request, no address, no cookie, no local or session storage and no log, and a file chosen is read on the device by the browser's own file reader. The fields have no name and stand in no form. The only request the box makes is a plain GET for the static file of the hub's prices for the year chosen, `/seller/prices/<grid>_<year>.json`, which is asked for when the page opens and when another year is chosen and carries nothing of the reader's. `site/scripts/check-seller-deeper.mjs` proves it in a real browser: after a paste no request leaves the page, the address is unchanged and storage and cookies hold nothing of it.
+- **What is accepted, exactly.** 8,760 values for a common year or 8,784 for a leap year, one for each hour of the year chosen, in order. One number a line, or a CSV (comma, semicolon or tab) with exactly one column that is a number in every row; a first line that holds no number is read as a header; empty lines after the last value are ignored. A number is plain digits with an optional decimal point and exponent: no thousands separator, no unit. Each value is the plant's output in that hour in MW (the hour's average) or MWh in the hour, which are the same number.
+- **The year and the time zone.** Hour 1 runs from 00:00 to 01:00 on 1 January of the year chosen in the grid's local standard time, with no daylight saving shift all year: UTC-6 for ERCOT and SPP, UTC-8 for CAISO, UTC-5 for NYISO and ISO-NE.
+- **What is refused,** with a plain sentence that names the line: any other count of values, a value below zero, an empty line or empty value between values (a gap), a value that is not a number, rows of unequal width, and more than one column of numbers. Nothing is filled, cut to length or repaired.
+- **The prices** are the main hub's hourly day-ahead prices of the year chosen (ERCOT's hub average, SP15, the New York City zone, ISO-NE's Internal hub, SPP's North hub), whatever hub is chosen on the page. A year is offered when at least 95 percent of its hours hold a price: ERCOT and NYISO 2019 to 2025; CAISO, ISO-NE and SPP 2025. An hour without a price (CAISO's 2025 holds 8,735 of 8,760) is in no figure: revenue, the capture price and the simple average are over the priced hours, and the box says how many.
+- **The pair** is section (a)'s program with the form's battery, each day 24 hours of local standard time, on the days whose 24 hours all hold a price (the others left out and counted). The limit is the profile's highest hour. It is shown for ERCOT and CAISO; the other grids read "not modeled for this grid", as in section (a).
+
+### Tests and checks (session 162)
+
+`tests/test_session162.py` and `site/scripts/test-hybrid.mjs`, on the site's own files of real rows: capture price times generation equals revenue for every hub, fuel, market and year of the table (to a cent in a million dollars) and for the hybrid's plants hour by hour; the pair is never below the plant alone on any day; state of charge, power, the limit and the one cycle hold in every hour; with a battery of zero size the pair is the plant; the two added are never below the pair; the page's function and the builder's agree; the battery alone is the battery page's program with no ancillary product; a profile of the wrong length, with a value below zero, a gap or a value that is not a number is refused; a flat profile captures the simple average exactly. `site/scripts/check-seller-deeper.mjs` reads the built page as HTML and in a real browser (the figures of the hybrid for both grids, both fuels, the three durations and both strategies; every cell of the table; the switch, the sort and the hover; the pasted profile sends and stores nothing).

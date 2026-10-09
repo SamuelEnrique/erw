@@ -7,10 +7,11 @@ import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import captureJson from "@/data/seller/capture.json";
+import hybridJson from "@/data/seller/hybrid.json";
 import * as B from "@/lib/batterystack";
 import { caisoJoinDay } from "@/lib/caisoJoin";  // session 78: the join's date is written in one place
 import {
-  FUELS, MARKETS, ORDER, combined, freeEnergyHref, hubAt, hubName, hubOf, lastTwelve as captureTwelve, monthName as shortMonth, premiumWord, signed, twelve, two, whyNot, years as captureYears,
+  FUELS, MARKETS, ORDER, combined, freeEnergyHref, hubAt, hubName, hubOf, hubYears, lastTwelve as captureTwelve, monthName as shortMonth, premiumWord, signed, twelve, two, whyNot, years as captureYears,
   type CaptureFile, type Fuel, type Hub, type Market, type Span as CaptureSpan,
 } from "@/lib/capture";
 import { shown } from "@/lib/format";
@@ -19,11 +20,14 @@ import {
   type Asset, type Snapshot,
 } from "@/lib/merchant";
 import { ASSETS, GRIDS, PAUSED, sentence, spans, usd, whole, years, type Span } from "@/lib/seller2";
+import * as H from "@/lib/sellerhybrid";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
 import { CoverageLine, MonthlyRevenue, PremiumYears, RevenueYears, type PremiumRow } from "./SellerCharts";
 import { ContractInputs, ContractProvider, ContractResult } from "./SellerContract";
 import { SellerForm, type FormGrid } from "./SellerForm";
+import { SellerHubYears, type HyCell, type HyRow, type HyTable } from "./SellerHubYears";
+import { SellerProfile } from "./SellerProfile";
 
 // Session 145: "What a generator earns", one page at one address. It holds what the seller's tab (session 51) and its
 // version 2 (session 107, /cost-of-power/seller/v2, which redirects here) each showed, in the battery page's layout,
@@ -36,6 +40,13 @@ import { SellerForm, type FormGrid } from "./SellerForm";
 // The page face carries no method: a figure that is missing is a short placeholder with its reason on hover, and the
 // rest is in the Method note (docs/methods/cost_of_power.md). MISO is blank while its terms are reviewed; PJM needs a
 // licensed source.
+//
+// Session 162, "deeper": (a) the plant and the battery co-optimized behind one interconnection against the day-ahead
+// prices (lib/sellerhybrid.ts on data/seller/hybrid.json, warehouse/derived/seller_hybrid.py), side by side with the
+// plant alone, the battery alone and the two added, session 145's added figure kept in its own row and labeled an
+// upper bound, for solar and now for wind; (b) the capture price by hub and year, one table for every public hub
+// (SellerHubYears.tsx on lib/capture.ts, hubYears); (c) "Your plant's profile", a year of hourly output pasted or
+// uploaded and computed in the browser, never sent or stored (SellerProfile.tsx). Nothing session 145 showed is gone.
 export const metadata: Metadata = { title: "What a generator earns" };
 export const dynamic = "force-dynamic";
 
@@ -44,6 +55,45 @@ const CAPTURE = captureJson as unknown as CaptureFile;
 const NEAR = CAPTURE.near;
 const BATTERY_GRIDS = ["ercot", "caiso"];  // the grids the battery page's model is open for
 const PJM_WHY = "PJM's prices come from a licensed source; none is held in a public table, so no figure is shown.";
+const HYBRID = hybridJson as unknown as H.HybridFile;
+const ZONES: Record<string, string> = { "-5": "Eastern Standard Time (UTC-5)", "-6": "Central Standard Time (UTC-6)", "-8": "Pacific Standard Time (UTC-8)" };
+const STANDARD: Record<string, number> = { ercot: -6, caiso: -8, nyiso: -5, isone: -5, spp: -6 };
+
+// (a) the co-optimized pair of the reader's sizes: one day's program at a time (about a tenth of a second for the
+// twelve months), kept while the server lives
+const PAIRS = new Map<string, H.Totals>();
+function pairOf(grid: string, fuel: Fuel, mw: number, bmw: number, dur: number): H.Totals | null {
+  const g = HYBRID.grids[grid];
+  if (!g || !g.fuels[fuel]) return null;
+  const k = `${grid}|${fuel}|${mw}|${bmw}|${dur}`;
+  let t = PAIRS.get(k);
+  if (!t) {
+    t = H.totals(H.daysOf(g, fuel, mw), bmw, dur, mw);
+    if (PAIRS.size > 300) PAIRS.clear();
+    PAIRS.set(k, t);
+  }
+  return t;
+}
+
+// (b) every public hub and zone by year, made small for the browser: a held cell is four numbers, a cell not held
+// the index of its reason
+let HUB_YEARS: HyTable | null = null;
+function hubYearsTable(): HyTable {
+  if (HUB_YEARS) return HUB_YEARS;
+  const t = hubYears(CAPTURE);
+  const whys: string[] = [], at = new Map<string, number>();
+  const why = (w: string) => { let i = at.get(w); if (i === undefined) { i = whys.length; whys.push(w); at.set(w, i); } return i; };
+  const r4 = (v: number) => Math.round(v * 1e4) / 1e4;
+  const both = <T,>(f: (m: Market, fuel: Fuel) => T) => ({ rt: { solar: f("rt", "solar"), wind: f("rt", "wind") }, da: { solar: f("da", "solar"), wind: f("da", "wind") } });
+  const rows: HyRow[] = t.rows.map((r) => ({
+    grid: r.grid, gridName: r.gridName, id: r.id, name: r.name, main: r.main, src: { rt: r.tables.rt?.join(", "), da: r.tables.da?.join(", ") },
+    c: both((m, f) => t.years.map((y): HyCell => { const c = r.cells[m][f][y]; return c ? [r4(c.price), r4(c.flat), c.hours, c.months] : why(r.why[m][f][y]); })),
+    t: both((m, f) => { const c = r.twelve[m][f]; return c ? [r4(c.price), r4(c.flat), c.hours, shortMonth(c.from), shortMonth(c.to)] as [number, number, number, string, string] : why(r.whyTwelve[m][f]); }),
+  }));
+  const generation = Object.fromEntries(Object.entries(CAPTURE.grids).map(([id, g]) => [id, `EIA-930's hourly generation by source (${g.workbook})${g.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}`]));
+  HUB_YEARS = { years: t.years, rows, whys, blank: t.blank.map((b) => ({ ...b, why: b.id === "miso" ? PAUSED.words : PJM_WHY })), generation };
+  return HUB_YEARS;
+}
 let SNAP: Snapshot | null = null;
 function snapshot(): Snapshot {
   if (!SNAP) SNAP = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "merchant_snapshot.json"), "utf8")) as Snapshot;
@@ -146,8 +196,9 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
     : !mine ? why(hub, fuel, mk)
     : "The model's output per MW of nameplate is not held for every one of these twelve months.";
 
-  // (c) a solar plant with a battery beside it: the battery's figure is the battery page's own, for that duration
-  const hybrid = x.asset === "solar";
+  // (c) a solar or a wind plant with a battery beside it (wind since session 162): the battery's figure in the kept
+  // row is the battery page's own, for that duration
+  const hybrid = fuel !== null;
   const bg = B.gridOf(iso);
   let batt: { perMw: number; total: number; from: string; to: string; plantPerMw: number | null; href: string } | null = null, battWhy = "";
   if (hybrid && BATTERY_GRIDS.includes(iso)) {
@@ -168,6 +219,19 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const plantTotal = batt && batt.plantPerMw !== null ? Math.round(batt.plantPerMw * x.mw) : null;
   const both = combined(plantTotal, batt ? batt.total : null);
   const COMBINED = "Two assets at one hub with their revenues added, over the same twelve months. No shared interconnection limit, no charging from the plant's own output, no clipped energy recovered: each is priced as if it stood alone.";
+  // session 162 (a): the pair co-optimized against the day-ahead prices, for the reader's sizes
+  const hg = HYBRID.grids[iso], hf = fuel && hg ? hg.fuels[fuel] : undefined;
+  const pair = fuel && BATTERY_GRIDS.includes(iso) ? pairOf(iso, fuel, x.mw, bmw, dur) : null;
+  const pairSpan = hf ? `${shortMonth(hf.months[0])} to ${shortMonth(hf.months[11])}` : "";
+  const fromPlant = pair && pair.charged > 0 ? Math.round((100 * pair.fromPlant) / pair.charged) : null;
+  const plantName = fuel === "wind" ? "wind" : "solar";
+  const RULES = "Round trip 86 percent, each local day from empty, at most one full cycle a day, no discharge in an hour priced below zero. Energy only: no ancillary service and no capacity payment.";
+  const DA_PLANT = pair && hf ? `A ${x.mw.toLocaleString("en-US")} MW ${plantName} plant selling every hour at the day-ahead price of ${g.at}, ${pairSpan}: ${hf.days} local days whose every hour holds a price and the fleet's output (${hf.left_out} left out, never filled). ${Math.round(pair.energy).toLocaleString("en-US")} MWh at a capture price of USD ${pair.capture === null ? "none" : two(pair.capture)} per MWh. Per MW: USD ${Math.round(pair.plant / x.mw).toLocaleString("en-US")}.` : "";
+  const DA_BATTERY = pair ? `A ${bmw.toLocaleString("en-US")} MW, ${dur}-hour battery on an interconnection of its own, with no plant, on the same days and day-ahead prices. Each day's schedule is the best one against that day's prices, all known in advance. ${RULES} Per MW of battery: USD ${Math.round(pair.battery / bmw).toLocaleString("en-US")}.` : "";
+  const DA_PAIR = pair ? `The plant and the battery behind one interconnection of ${two(pair.limit)} MW (the plant's capacity, or its highest hour when that is higher). Each local day the battery's schedule is the best one against that day's day-ahead prices, all known in advance: an upper bound for a schedule made the day before. The battery charges from the plant's own output or from the grid${fromPlant === null ? "" : ` (${fromPlant} percent of its charging came from the plant)`}, and the pair's export and its purchase stay inside the limit. ${RULES} Per MW of plant: USD ${Math.round(pair.pair / x.mw).toLocaleString("en-US")}.` : "";
+  const DA_ADDED = pair ? `The plant alone and the battery alone, added: two interconnections, no limit shared, the same days, prices and battery rules as the pair. The pair is the same two assets under one more limit, so it is never above this figure. The difference, USD ${Math.round(pair.added - pair.pair).toLocaleString("en-US")}, is what sharing the interconnection costs.` : "";
+  const above = pair !== null && both !== null && pair.pair > both;
+  const KEPT = `${COMBINED} The plant is this page's model at real-time prices and the battery is the figure of What a battery earns, energy and ancillary services together. It is on other prices than the row above and holds ancillary revenue the co-optimized pair does not, so the two rows are not one measure${pair && both !== null ? `: here the co-optimized pair, USD ${B.usdShort(Math.round(pair.pair))}, is ${above ? "above" : "below"} it` : ""}.`;
 
   const grids: FormGrid[] = ORDER.map((id) => {
     if (open.includes(id)) return { id, name: CAPTURE.grids[id].name, open: true, hubs: CAPTURE.grids[id].hubs.map((h) => ({ id: h.id, label: `${hubName(h.id)} (${h.id})` })) };
@@ -291,6 +355,10 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
               ) : null}
             </ToolSection>
 
+            <ToolSection title="Capture price by hub and year" id="hub-years">
+              <SellerHubYears table={hubYearsTable()} fuel0={fuel ?? "solar"} hub={hub.id} />
+            </ToolSection>
+
             {held.length ? (
               <>
                 <ChartFrame title={`${money} by year, USD per kW`} legend={[{ label: "A full year", color: "#8C1515" }, { label: "Incomplete year", color: "#8C1515", hatch: true }]}
@@ -318,22 +386,53 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
 
             <ToolSection title="With a battery beside it" id="hybrid">
               {!hybrid ? (
-                <p className="text-sm">A solar plant with a 2, 4 or 8 hour battery: <Link href={`/cost-of-power/seller?iso=${iso}&asset=solar&hub=${encodeURIComponent(hub.id)}#hybrid`} scroll={false}>open it for solar</Link>.</p>
-              ) : !batt ? (
-                <p className="text-sm" data-hybrid="none"><Missing why={battWhy} words={BATTERY_GRIDS.includes(iso) ? "not held yet" : "not modeled for this grid"} /></p>
+                <p className="text-sm">A solar or wind plant with a 2, 4 or 8 hour battery: <Link href={`/cost-of-power/seller?iso=${iso}&asset=solar&hub=${encodeURIComponent(hub.id)}#hybrid`} scroll={false}>open it for solar</Link>.</p>
+              ) : !BATTERY_GRIDS.includes(iso) ? (
+                <p className="text-sm" data-hybrid="none"><Missing why={battWhy} words="not modeled for this grid" /></p>
               ) : (
-                <ToolTable caption="A solar plant, a battery and the two together" minWidth={640}
-                  head={["", <span key="p">Per MW<span className="block text-xs font-normal opacity-80">USD per MW of that asset</span></span>, <span key="t">For your sizes, USD<span className="block text-xs font-normal opacity-80">{shortMonth(batt.from)} to {shortMonth(batt.to)}</span></span>]}
-                  rows={[
-                    { key: "plant", cells: [<>Solar plant alone, {x.mw.toLocaleString("en-US")} MW<div className="text-xs text-muted">priced at {g.at}</div></>,
-                      batt.plantPerMw === null ? <Missing key="m" why="The solar plant's months are not all held over the battery's twelve months." /> : Math.round(batt.plantPerMw).toLocaleString("en-US"),
-                      plantTotal === null ? "" : <span key="v" data-hybrid="plant" data-raw={plantTotal}>{B.usdShort(plantTotal)}</span>] },
-                    { key: "battery", cells: [<>Battery alone, {bmw.toLocaleString("en-US")} MW, {dur}-hour<div className="text-xs text-muted">{B.STRATEGIES[strat]}, energy and ancillary services: the figure of <Link href={batt.href}>What a battery earns</Link></div></>,
-                      Math.round(batt.perMw).toLocaleString("en-US"), <span key="v" data-hybrid="battery" data-raw={batt.total}>{B.usdShort(batt.total)}</span>] },
-                    { key: "combined", highlight: true, cells: [<Hint key="c" why={COMBINED}>Combined</Hint>,
-                      both === null ? "" : <Hint key="k" why="The combined revenue over the solar plant's MW.">{Math.round(both / x.mw).toLocaleString("en-US")}</Hint>,
-                      both === null ? <Missing key="m" why="The solar plant's months are not all held over the battery's twelve months." /> : <span key="v" data-hybrid="combined" data-raw={both}>{B.usdShort(both)}</span>] },
-                  ]} />
+                <>
+                  <ToolTable caption={`A ${plantName} plant, a battery, the co-optimized pair and the two added`} minWidth={620}
+                    head={["", "Plant alone", "Battery alone", <Hint key="p" why="One interconnection: the battery charges from the plant or the grid and sells when the pair earns most. Hover on the figure for its rules.">Co-optimized pair</Hint>,
+                      <Hint key="a" why="The two assets priced as if each stood alone, their revenues added. Hover on each figure for what it holds.">Added, not co-optimized: upper bound</Hint>]}
+                    rows={[
+                      { key: "dayahead", highlight: true, cells: [
+                        <>Energy at day-ahead prices<div className="text-xs font-normal text-muted">{pair ? <>{pairSpan}, {x.mw.toLocaleString("en-US")} MW and {bmw.toLocaleString("en-US")} MW, {dur}-hour</> : null}</div></>,
+                        ...(pair ? [
+                          <span key="p" className="cursor-help" data-hybrid2="plant" data-raw={Math.round(pair.plant)} title={DA_PLANT}>{B.usdShort(Math.round(pair.plant))}</span>,
+                          <span key="b" className="cursor-help" data-hybrid2="battery" data-raw={Math.round(pair.battery)} title={DA_BATTERY}>{B.usdShort(Math.round(pair.battery))}</span>,
+                          <span key="c" className="cursor-help" data-hybrid2="pair" data-raw={Math.round(pair.pair)} title={DA_PAIR}>{B.usdShort(Math.round(pair.pair))}</span>,
+                          <span key="a" className="cursor-help" data-hybrid2="added" data-raw={Math.round(pair.added)} title={DA_ADDED}>{B.usdShort(Math.round(pair.added))}</span>,
+                        ] : [<Missing key="m" why={`No twelve months in a row hold ${g.name}'s day-ahead price and its ${plantName} fleet's output on at least 90 percent of their days.`} />, "", "", ""]),
+                      ] },
+                      { key: "kept", cells: [
+                        <>Plant at real-time prices, battery with ancillary services<div className="text-xs font-normal text-muted">{batt ? <>{shortMonth(batt.from)} to {shortMonth(batt.to)}; {B.STRATEGIES[strat].toLowerCase()}: the figure of <Link href={batt.href}>What a battery earns</Link></> : null}</div></>,
+                        ...(batt ? [
+                          plantTotal === null ? <Missing key="m" why={`The ${plantName} plant's months are not all held over the battery's twelve months.`} /> : <span key="v" className="cursor-help" title={`${a.name} plant alone, ${x.mw.toLocaleString("en-US")} MW, this page's model priced at ${g.at} in real time. Per MW: USD ${Math.round(batt.plantPerMw!).toLocaleString("en-US")}.`}><span data-hybrid="plant" data-raw={plantTotal}>{B.usdShort(plantTotal)}</span></span>,
+                          <span key="b" className="cursor-help" title={`Battery alone, ${bmw.toLocaleString("en-US")} MW, ${dur}-hour, ${B.STRATEGIES[strat].toLowerCase()}, energy and ancillary services: the figure of What a battery earns. Per MW: USD ${Math.round(batt.perMw).toLocaleString("en-US")}.`}><span data-hybrid="battery" data-raw={batt.total}>{B.usdShort(batt.total)}</span></span>,
+                          <Missing key="n" why="No pair is solved with ancillary services: the co-optimized pair is energy at day-ahead prices, in the row above." words="not modeled" />,
+                          both === null ? <Missing key="m" why={`The ${plantName} plant's months are not all held over the battery's twelve months.`} /> : (
+                            <span key="v" className="cursor-help" title={KEPT}><span data-hybrid="combined" data-raw={both}>{B.usdShort(both)}</span>
+                              {above ? <span className="block text-xs font-normal text-muted" data-hybrid-above="1">below the co-optimized pair</span> : null}</span>
+                          ),
+                        ] : [<Missing key="m" why={battWhy} />, "", "", ""]),
+                      ] },
+                    ]} />
+                  {pair && hf ? (
+                    <p className="mt-1 text-xs text-muted" data-hybrid2-note="1">
+                      USD for your sizes. <Hint why={`Of the ${Math.round(pair.charged).toLocaleString("en-US")} MWh the battery took in over the twelve months, ${Math.round(pair.fromPlant).toLocaleString("en-US")} MWh were the plant's own output in the same hour; the rest was bought at the hub price. At one hub price the two cost the same: the split is an account of where the energy came from.`}>{fromPlant === null ? "The battery did not charge" : `${fromPlant} percent of the charging from the plant`}</Hint>;{" "}
+                      <Hint why={`A local day is solved only when every hour of its day-ahead price and of the fleet's output is held. ${hf.left_out} of the twelve months' days ${hf.left_out === 1 ? "is" : "are"} left out and counted, never filled.`}>{hf.days} days solved</Hint>.
+                    </p>
+                  ) : null}
+                </>
+              )}
+            </ToolSection>
+
+            <ToolSection title="Your plant's profile" id="profile">
+              {fuel ? (
+                <SellerProfile key={`${iso}|${bmw}|${dur}`} grid={iso} gridName={g.name} hub={hubName(cg.main)} zone={ZONES[String(STANDARD[iso])]} years={HYBRID.years[iso] ?? []}
+                  battery={{ mw: bmw, hours: dur }} hybridWhy={BATTERY_GRIDS.includes(iso) ? null : battWhy} />
+              ) : (
+                <p className="text-sm">A year of your own plant&apos;s hourly output, priced on this device: <Link href={`/cost-of-power/seller?iso=${iso}&asset=solar&hub=${encodeURIComponent(hub.id)}#profile`} scroll={false}>open it for solar</Link>.</p>
               )}
             </ToolSection>
 
