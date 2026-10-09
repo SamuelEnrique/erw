@@ -1,0 +1,128 @@
+event_id,field,cls,words
+federalregister:2026-01066,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+federalregister:2026-01066,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-19580,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-09895,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-09895,affected_sectors,supported,each sector named is in the summary or in a kept span
+federalregister:2026-09895,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+nrc:4cec785a9cad,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+nrc:4cec785a9cad,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+nrc:4cec785a9cad,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-08214,why,unsupported,"'Small' and 'incremental' are not in the text, which gives a 48-inch header 'capable of wheeling up to 5,000,000 dekatherms per day', 'a 2.5 billion cubic feet per day meter station' to the Golden Pass terminal and a cost of 'approximately $39,000,000'"
+federalregister:2026-08457,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-19441,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-06708,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-06708,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-07656,sector_tags,judgment,"the kind (hydropower) is read off FERC's project docket and the word license; the notice's held text names the project and not its kind. True of every FERC project licence, and not in the source's words: a judgment"
+federalregister:2026-07656,sector,judgment,"the kind (hydropower) is read off FERC's project docket and the word license; the notice's held text names the project and not its kind. True of every FERC project licence, and not in the source's words: a judgment"
+federalregister:2026-07656,why,judgment,"the kind (hydropower) is read off FERC's project docket and the word license; the notice's held text names the project and not its kind. True of every FERC project licence, and not in the source's words: a judgment"
+federalregister:2026-15100,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-12627,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-16173,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-16173,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-16633,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-18457,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-18457,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-18454,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-08276,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-08276,affected_sectors,supported,each sector named is in the summary or in a kept span
+federalregister:2026-08276,affected_isos,judgment,NYISO is inferred from New York; the notice names no grid operator (the audits classed such an inference a judgment)
+federalregister:2026-08276,affected_states,missing,"the read held NY and now holds none; its own kept span says 'NMP1 is located in Oswego County, New York.'"
+federalregister:2026-08276,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+federalregister:2026-08276,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2025-20618,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2025-20618,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-18359,sector_tags,judgment,"the kind (hydropower) is read off FERC's project docket and the word license; the notice's held text names the project and not its kind. True of every FERC project licence, and not in the source's words: a judgment"
+federalregister:2026-18359,sector,judgment,"the kind (hydropower) is read off FERC's project docket and the word license; the notice's held text names the project and not its kind. True of every FERC project licence, and not in the source's words: a judgment"
+federalregister:2026-18359,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-17632,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-07126,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-07126,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-16864,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-08354,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-08354,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-09301,why,judgment,'annual' and 'while relicensing proceeds' are what a notice of authorization for continued project operation does under the Federal Power Act; the one sentence of it the row holds says only when the license ended: a judgment
+federalregister:2026-13027,abstract,correct,set against the Register's own record saved by the audit: the row's summary now differs from it only by the subscript markup around the X of NOX; the 'NO X' fault is gone
+federalregister:2026-02920,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-02920,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+federalregister:2026-02920,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-18261,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-18261,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-18261,affected_sectors,supported,each sector named is in the summary or in a kept span
+federalregister:2026-18261,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+federalregister:2026-18261,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2025-19675,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2025-19675,affected_sectors,supported,each sector named is in the summary or in a kept span
+federalregister:2025-19675,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+federalregister:2025-19675,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-05426,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-05426,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-17646,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-03865,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-03865,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+federalregister:2026-03865,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2025-24084,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+doe:52f19d96fc84,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+doe:52f19d96fc84,affected_sectors,unsupported,'transmission' stands in the release only in a company's name (Tri-State Generation and Transmission Association); the order keeps a coal unit available to run. coal is supported
+doe:52f19d96fc84,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+doe:52f19d96fc84,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-05489,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-05489,affected_sectors,supported,each sector named is in the summary or in a kept span
+federalregister:2026-05489,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+federalregister:2026-05489,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-05427,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-05427,why,judgment,'annual' and 'while relicensing proceeds' are what a notice of authorization for continued project operation does under the Federal Power Act; the one sentence of it the row holds says only when the license ended: a judgment
+federalregister:2025-23224,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-00264,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-00264,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-18220,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2025-21945,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2025-21945,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+doe:c358b979285a,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+doe:c358b979285a,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+doe:c358b979285a,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2025-22120,sector_tags,supported,"Moomaws Dam Hydroelectric Project: renewables as before; power is added for a hydroelectric project, which generates power"
+federalregister:2025-22120,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2025-22120,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-16652,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-16652,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-17529,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-17529,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-17529,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+federalregister:2026-17529,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-06833,what_changes,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-06833,timeline,supported,read against the spans the reader kept for this field: each date and step of the line is in them
+federalregister:2026-06833,plain_read,supported,"read against the spans the reader kept for this field, each found word for word in the source text by the reader's code"
+federalregister:2026-07325,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-03937,abstract,correct,set against the Register's own record saved by the audit: the row's summary now differs from it only by the subscript markup around the X of NOX; the 'NO X' fault is gone
+federalregister:2026-17394,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-17394,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-16436,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-12333,sector_tags,judgment,"the kind (hydropower) is read off FERC's project docket and the word license; the notice's held text names the project and not its kind. True of every FERC project licence, and not in the source's words: a judgment"
+federalregister:2026-12333,sector,judgment,"the kind (hydropower) is read off FERC's project docket and the word license; the notice's held text names the project and not its kind. True of every FERC project licence, and not in the source's words: a judgment"
+federalregister:2026-12333,why,judgment,"the kind (hydropower) is read off FERC's project docket and the word license; the notice's held text names the project and not its kind. True of every FERC project licence, and not in the source's words: a judgment"
+federalregister:2025-21763,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-09919,sector_tags,supported,"R.J. Fortier Hydropower, Inc.: renewables as before; power is added for a hydropower project"
+federalregister:2026-09919,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-09919,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2025-24275,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-19446,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-19446,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2025-19422,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-15292,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-18037,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-17905,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-04954,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-04954,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-20107,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-05188,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-05188,why,unsupported,"'Maine' is in neither the title nor the first paragraph (the row holds no place); the rest (two hydro projects, 37.5 and 67.9 megawatts, a revised schedule) is in the text"
+federalregister:2026-12713,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-12713,why,judgment,'annual' and 'while relicensing proceeds' are what a notice of authorization for continued project operation does under the Federal Power Act; the one sentence of it the row holds says only when the license ended: a judgment
+federalregister:2026-05651,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-05651,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-13550,sector_tags,supported,"hydrogen (read off hydrogen chloride) is gone; emissions, which the audit found right, stays"
+federalregister:2026-02463,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-02463,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
+federalregister:2026-03343,sector,supported,"read against the title and the first paragraph or summary the row holds, which name the project's or the rule's kind"
+federalregister:2026-03343,why,supported,read against the title and the first paragraph or summary the row holds: every particular of the line is in them
