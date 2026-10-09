@@ -147,7 +147,7 @@ def write_card(card, rows, py_source_path, do_text, out_dir, finding_id, csv_nam
 def read_rows_csv(path):
     """The CSV download read back, numbers as numbers, blanks as None (for the reproduction test)."""
     d = pd.read_csv(path, comment="#", keep_default_na=True)
-    return d.where(pd.notna(d), None).to_dict("records")
+    return d.astype(object).where(pd.notna(d), None).to_dict("records")
 
 
 def do_file(lines):

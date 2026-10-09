@@ -4,6 +4,7 @@
 // from its cache (public/analysis-files/gallery/, recomputed every week).
 import { useEffect, useMemo, useState } from "react";
 import { EChartOption } from "./EChartOption";
+import { paramWords } from "@/lib/findingwords";  // session 170: human labels ("ERCOT North Hub", not HB_NORTH)
 
 type Combo = { params: Record<string, unknown>; file: string | null; reason?: string };
 type Entry = { template: string; title: string; default: string; combos: Record<string, Combo> };
@@ -70,11 +71,11 @@ export function AnalysisGallery({ gallery, templates }: { gallery: Entry[]; temp
         </label>
         {names.map((p) => (
           <label key={p} className="flex flex-col text-xs text-muted">
-            {p}
+            {paramWords(p)}
             <select value={params[p] ?? ""} onChange={(e) => set(p, e.target.value)} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink">
               {choices(p).map((v) => (
                 <option key={v} value={v}>
-                  {v}
+                  {paramWords(v)}
                 </option>
               ))}
             </select>
