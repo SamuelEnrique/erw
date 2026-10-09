@@ -56,6 +56,21 @@ ERCOT's status reports give megawatts by stage for the whole system and list no 
 
 License: internal. NYISO's legal notice confers no license (session 149): its requests, names and megawatts are in
 no tracked file. The Archive's terms, Grant County PUD's and ERCOT's are quoted in docs/accelerator/large_load_waits.md.
+
+SESSION 165 (the owner's words, 9 October 2026: "follow the next three by the same method (Internet Archive copies plus
+current, terms quoted, ceiling 1,500,000 rows), append to large_load_waits"). Two more publishers are read, by the
+same rules, and their rows are added; the rows of New York and Grant County PUD come out as they were, byte for byte.
+  Bonneville Power Administration: its Interconnection Request Queue workbook, the rows of Connection Type LL (line
+    and load interconnections), followed by Request Number; a copy is dated by the stamp printed at its top (read_bpa()).
+  Alberta Electric System Operator, CANADA: its monthly connection project list, the rows whose MW Type is a load,
+    followed by project number; one capture a month (aeso_sample()); a copy is dated by the day its workbook was saved,
+    and a file saved again long after its month is not used (aeso_day()); its stage numbers are placed on no class,
+    since no copy says what a number stands for (read_aeso()). Its entity says Canada on every row, and its figures
+    stand apart (canada_lines()).
+  ISO New England's posted queue lists generators, elective transmission upgrades and transmission service, and no
+    load: nothing of it is read. No queue of loads was found published by Pennsylvania's utilities.
+The method, the pull against its ceilings and each new publisher's terms word for word: docs/methods/large_load_waits.md.
+No request, name or megawatt of a request of the new publishers is in a tracked file either.
 """
 
 import argparse
@@ -81,7 +96,7 @@ CONTACT = "ERW research project, github.com/SamuelEnrique/erw"   # the owner's r
 UA = {"User-Agent": CONTACT}
 RAW_DEFAULT = os.path.join(ROOT, "warehouse", "raw")
 
-CEILING_ROWS = 2_000_000             # session 160: the owner's ceiling for this pull (session 155's was 3,000,000); counted across both
+CEILING_ROWS = 1_500_000             # session 165: the owner's ceiling for the third pull (155: 3,000,000; 160: 2,000,000); the lowest, counted across all three
 CEILING_REQUESTS = 1_500
 CEILING_BYTES = 3 * 1024 ** 3
 CEILING_LISTINGS_OTHER = 60          # CDX listings of queues that could be followed next (nothing of theirs is fetched)
@@ -382,6 +397,10 @@ WANTED = {
     "nyiso": re.compile(r"(?i)interconnection[-_ %20]*queue[^/]*\.xlsx?(/|\?|$)"),
     # Grant County PUD: the queue's own PDF, by its name (the drafts of tariffs in the folder Transmission-Queue are not the queue)
     "grantpud": re.compile(r"(?i)/[^/]*queue[^/]*\.pdf(\?|$)"),
+    # session 165. Bonneville: the interconnection queue workbook by its one name (not the pending queue of transmission service, not the reform papers)
+    "bpa": re.compile(r"(?i)/InterconnectionQueueOutput\.xlsx?(\?|$)"),
+    # Alberta (Canada): the monthly project list, a workbook whose name ends Project-List (not the guide to it, a PDF)
+    "aeso": re.compile(r"(?i)/[^/]*Project-List\.xlsx?(\?|$)"),
     # ERCOT: a document whose name says it is a status update of the large load queue, or the monthly report to TAC
     # (session 160: also the working group's monthly report, as a file or as the meeting's zip, which holds the status update since April 2026)
     "ercot": re.compile(r"(?i)/[^/]*(queue[-_ ]*status|lli[-_ ]*status|status[-_ %20]*update|interconnection(%20|[-_ ])*status|aggregate[-_ ]*data|"
@@ -394,12 +413,17 @@ NOT_WANTED = re.compile(r"(?i)staging\.grantpud\.org|(OATT|LGIA|SGIA|LGIP|SGIP|R
                         r"Voltage-Ride|Transmission-Upgrades|/EIR[-_]|RPG[-_]")
 
 
+# session 165: the listings session 155 saved of the queues to follow next (listings only, then) are the listings of
+# these publishers now: nothing is listed twice
+LISTED_AS = {"other-bpa2": "bpa", "other-bpa3": "bpa", "other-aeso": "aeso"}
+
+
 def wanted_captures(raw):
     """From the saved listings: the captures that are a copy of a queue by their address, as (publisher, capture)
     in the order of capture; and those listed and not wanted, counted by publisher."""
     want, rest = [], {}
     for lst in saved_listings(raw):
-        pub = lst["publisher"]
+        pub = LISTED_AS.get(lst["publisher"], lst["publisher"])
         if pub not in WANTED:
             continue
         for c in lst["captures"]:
@@ -409,6 +433,30 @@ def wanted_captures(raw):
                 rest[pub] = rest.get(pub, 0) + 1
     want.sort(key=lambda pc: (pc[0], pc[1]["timestamp"], pc[1]["original"]))
     return want, rest
+
+
+AESO_MONTH = re.compile(r"(?i)(" + MONTH_NAMES + r")-(?:\d{1,2}-)?(20\d\d)-Project-List\.xlsx?$")
+
+
+def aeso_month(original):
+    """(year, month) a file of Alberta's monthly project list is named for, or None."""
+    m = AESO_MONTH.search(original.split("?")[0])
+    return (int(m.group(2)), MONTH_NAMES.split("|").index(m.group(1).lower()) + 1) if m else None
+
+
+def aeso_sample(caps):
+    """session 165. Alberta posts one file a month, each under its own name, and the Archive holds many captures of
+    each: one capture a monthly file is asked for (its latest: the file as it last stood), the first month of each
+    quarter before the others, so that a pull stopped early still holds one copy a quarter."""
+    last = {}
+    for c in caps:
+        ym = aeso_month(c["original"])
+        if ym and (ym not in last or c["timestamp"] > last[ym]["timestamp"]):
+            last[ym] = c
+    return [last[ym] for ym in sorted(last, key=lambda ym: (ym[1] % 3 != 1, ym))]
+
+
+SAMPLE = {"aeso": aeso_sample}
 
 
 def save_answer(raw, publisher, capture_ts, original, content):
@@ -433,6 +481,9 @@ def do_pull_archive(raw, net, log, only=()):
     asked for again. Returns counts by publisher. only: the publishers this run may ask for (empty: all)."""
     want, rest = wanted_captures(raw)
     want = [(pub, c) for pub, c in want if not only or pub in only]
+    for pub, pick in SAMPLE.items():   # session 165: a dated sample of a queue posted as one file a month
+        mine = pick([c for p, c in want if p == pub])
+        want = [(p, c) for p, c in want if p != pub] + [(pub, c) for c in mine]
     have = {(r["publisher"], r["digest"]) for r in read_captures(raw) if r["digest"]}
     asked = {(r["publisher"], r["original"], r["capture"]) for r in read_captures(raw)}
     counts = {}
@@ -496,7 +547,19 @@ ENTITIES = {
     "grantpud": dict(entity="Grant County Public Utility District", group="Grant County Public Utility District",
                      source="grantpud:interconnection_queue_dated_copies", publisher="Public Utility District No. 2 of Grant County, Washington (Grant PUD)",
                      id_name="Queue Position with its Queue Date"),
+    # session 165. intervals: the milestone intervals this publisher's words can carry (none named: all). unclassed_stops: where the last
+    # copy shows words the publisher does not explain, whether the request still waits is not known, and no lower bound is made to a milestone.
+    "bpa": dict(entity="Bonneville Power Administration", group="Bonneville Power Administration", source="bpa:interconnection_queue_dated_copies",
+                publisher="Bonneville Power Administration (BPA)", id_name="Request Number (line and load interconnections: Connection Type LL)",
+                country="United States", unclassed_stops=True,
+                intervals=("request to study", "request to agreement", "request to energized", "study to agreement", "agreement to energized")),
+    # Canada, not the United States: the entity's name says so on every row, and its figures stand apart in the summary (canada_lines)
+    "aeso": dict(entity="Alberta Electric System Operator (Canada)", group="Alberta Electric System Operator (Canada)",
+                 source="aeso:connection_project_list_dated_copies", publisher="Alberta Electric System Operator (AESO), Canada",
+                 id_name="Project number (the P number its name begins with; Proj No in the lists of 2016 to 2018)",
+                 country="Canada", intervals=("request to energized",)),
 }
+CANADA = tuple(e["entity"] for e in ENTITIES.values() if e.get("country") == "Canada")
 # the five stages of large_load_statements (stage_vocabulary.csv), and the class each publisher's status words are placed on.
 # The words are always kept beside the class. NYISO: the classes stage_vocabulary.csv gives its words (Project Scoping 1; SIS Pending,
 # in Progress and Approved, Facilities Study Pending and in Progress 2; Under Construction 5); the words it does not hold are placed
@@ -512,9 +575,17 @@ CLASS_RULES = [
     (r"accepted cost allocation", STAGES[2], "cost allocation accepted, the agreement not yet complete: money committed short of an agreement"),
     (r"scoping", STAGES[0], "stage_vocabulary.csv: Project Scoping, class 1"),
     (r"\bfes\b|sris|\bsis\b|\bfs\b|study|cost allocation|cluster|phase", STAGES[1], "a study pending, in progress or done (stage_vocabulary.csv places SIS and Facilities Study words on class 2)"),
+    # session 165. Each is the whole of a publisher's status word, so that no word of an earlier publisher is placed anew. Bonneville's
+    # CONFIRMED, COMPLETED and BPA COMPLETED, and Alberta's stage numbers (Stage 0 to Stage 6), are explained in no copy: they are kept
+    # as printed and placed on no class. The readings are the collecting agent's, not a person's review.
+    (r"^recently cancelled$", NONE, "Alberta lists the project under Recently Cancelled"),
+    (r"^(recently )?energized$", STAGES[4], "the publisher says the request is energized"),
+    (r"^received$", STAGES[0], "Bonneville: the request is received and no copy shows a later step"),
+    (r"^e&p executed$", STAGES[2], "Bonneville: an engineering and procurement agreement is executed, money committed short of a construction agreement"),
+    (r"^const agrmt exe$", STAGES[3], "Bonneville: a construction agreement is executed (as Grant County PUD's 'construction agreement signed', class 4)"),
 ]
-IN_SERVICE = re.compile(r"(?i)in.service")
-LEFT = re.compile(r"(?i)withdrawn|removed from queue|no longer applicable")
+IN_SERVICE = re.compile(r"(?i)in.service|^(recently )?energized$")
+LEFT = re.compile(r"(?i)withdrawn|removed from queue|no longer applicable|^recently cancelled$")
 SIZE_CLASSES = [("under 20 MW", 0, 20), ("20 to under 100 MW", 20, 100), ("100 to under 300 MW", 100, 300), ("300 MW and over", 300, float("inf"))]
 
 
@@ -768,6 +839,169 @@ def read_grantpud(path):
     return out, notes, day
 
 
+BPA_STAMP = re.compile(r"^(\d{1,2})/(\d{1,2})/(\d{4})(?:\s+(\d{1,2}):(\d{2}))?")
+
+
+def read_bpa(path):
+    """Session 165. The line and load interconnection requests of one copy of Bonneville's Interconnection Request
+    Queue (one sheet): the rows whose Connection Type is LL, Bonneville's own mark (GI is a generator). A request is
+    its Request Number (L and a number), which the workbook prints in every copy. Megawatts are the cell Max Summer
+    MW (Max Outputs Summer in the copies of 2010 to 2013) as written, blank where it is blank. Returns (rows, notes,
+    the day printed at the top of the copy or "", the same with its time). An LL request is a line or a load of a
+    customer utility: not every one is a large load, and the copy does not say which is."""
+    out, notes, day, full = [], [], "", ""
+    for name, rows in workbook_grids(path):
+        hi = next((i for i, r in enumerate(rows[:15]) if r and squeeze(r[0] if r[0] is not None else "") == "Request Number"), None)
+        if hi is None:
+            continue
+        for r in rows[:hi]:   # the stamp the workbook prints above its header: a date cell, or text as 03/19/2013 09:06
+            for v in r:
+                if day:
+                    break
+                if isinstance(v, dt.datetime):
+                    day, full = v.strftime("%Y-%m-%d"), v.strftime("%Y-%m-%dT%H:%M:%S")
+                elif isinstance(v, str):
+                    m = BPA_STAMP.match(v.strip())
+                    if m:
+                        try:
+                            t = dt.datetime(int(m.group(3)), int(m.group(1)), int(m.group(2)), int(m.group(4) or 0), int(m.group(5) or 0))
+                        except ValueError:
+                            continue
+                        day, full = t.strftime("%Y-%m-%d"), t.strftime("%Y-%m-%dT%H:%M:%S")
+        head = [squeeze(v if v is not None else "").lower() for v in rows[hi]]
+        at = {}
+        for j, h in enumerate(head):
+            at.setdefault(h, j)
+        missing = [k for k in ("request number", "request date", "status", "connection type") if k not in at]
+        if missing:
+            notes.append(f"the sheet {name.strip()} has no column {missing}: not read")
+            continue
+        mw_col = next((j for j, h in enumerate(head) if h.startswith("max") and "summer" in h), None)
+        n_all = 0
+        for r in rows[hi + 1:]:
+            def cell(j):
+                return r[j] if j is not None and j < len(r) else None
+            idp = squeeze(cell(at["request number"]) or "")
+            if not idp:
+                continue
+            n_all += 1
+            if squeeze(cell(at["connection type"]) or "").upper() != "LL":
+                continue
+            qd = cell(at["request date"])
+            out.append(dict(id=idp.upper(), id_printed=idp, name=squeeze(cell(at.get("project name")) or ""), developer=squeeze(cell(at.get("requestor")) or ""),
+                            mw=num_text(cell(mw_col)), queue_date_printed=qd.strftime("%Y-%m-%d") if isinstance(qd, (dt.datetime, dt.date)) else num_text(qd),
+                            queue_date=iso_day(qd), status_code="", status_words=squeeze(cell(at["status"]) or ""), sheet=name.strip()))
+        notes.append(f"{n_all} requests in the sheet, {len(out)} of them of Connection Type LL")
+        break
+    return out, notes, day, full
+
+
+AESO_LOAD = re.compile(r"(?i)^(?:[a-z]+ )?load$")   # Load, Data Load, Distribution Load, Industrial Load
+AESO_ENDS = ("recently energized", "recently cancelled")
+
+
+def read_aeso(path):
+    """Session 165. CANADA. The load projects of one copy of the Alberta Electric System Operator's monthly
+    connection project list: the rows whose MW Type is Load, Data Load, Distribution Load or Industrial Load, the
+    publisher's own mark. Not taken: a generator listed with a load (Gas + Data Load), and the MW Types DTS and STS,
+    of which the list says "DTS and STS project types denote active contract change requests and are not governed by
+    the Connection Process". A project is its project number (the P number its name begins with; the column Proj No
+    in the lists of 2016 to 2018), leading zeros aside. Its status is the list's own: Recently Energized or Recently
+    Cancelled where the list files it so (a section's title from 2021, the column Status from 2025), else its stage
+    number as printed (Stage 0 to Stage 6). No copy says what a stage number stands for, so none is placed on a
+    class. Megawatts: the first load figure of the row as written (Load MW, DTS MW Change, DTS MW of the first
+    energization). The lists of 2016 to 2020 give a project one row a phase: where its rows show one stage, the
+    first is read; where they differ, every row is kept and follow() does not follow the project. Returns (rows,
+    notes)."""
+    out, notes = [], []
+    for name, rows in workbook_grids(path):
+        hi = next((i for i, r in enumerate(rows[:8]) if r and "mw type" in [squeeze(v if v is not None else "").lower() for v in r]), None)
+        if hi is None:
+            continue
+        head = [squeeze(v if v is not None else "").lower() for v in rows[hi]]
+        at = {}
+        for j, h in enumerate(head):
+            at.setdefault(h, j)
+        c_name, c_no = at.get("project name", at.get("project")), at.get("proj no")
+        c_stage, c_date, c_status = at.get("stage", at.get("process stage")), at.get("applied on", at.get("received")), at.get("status")
+        c_mw = next((at[h] for h in ("load mw", "dts mw change", "dts mw", "en1 dts mw") if h in at), None)
+        if c_name is None or c_stage is None:
+            notes.append(f"the sheet {name.strip()} has no project or stage column: not read")
+            continue
+        section, n_all, no_number, got = "", 0, 0, []
+        for r in rows[hi + 1:]:
+            filled = [v for v in r if v is not None and squeeze(v) != ""]
+            if not filled:
+                continue
+            if len(filled) == 1 and isinstance(filled[0], str):
+                if len(squeeze(filled[0])) <= 40:   # a section's title (Active, On Hold, Recently Energized); a longer line is a note under the list
+                    section = squeeze(filled[0])
+                continue
+
+            def cell(j):
+                return r[j] if j is not None and j < len(r) else None
+            nm = squeeze(cell(c_name) or "")
+            if c_no is not None:
+                m = re.match(r"^P?0*(\d+)$", num_text(cell(c_no)))
+                idp = num_text(cell(c_no))
+            else:
+                m = re.match(r"^P0*(\d+)\b\s*(.*)$", nm)
+                idp = nm.split(" ")[0] if m else ""
+                nm = m.group(2) if m else nm
+            n_all += 1
+            if not m:
+                no_number += 1
+                continue
+            if not AESO_LOAD.match(squeeze(cell(at["mw type"]) or "")):
+                continue
+            state = squeeze(cell(c_status) or "") if c_status is not None else section
+            stage = num_text(cell(c_stage))
+            words = state if state.lower() in AESO_ENDS else (f"Stage {stage}" if stage != "" else "")
+            qd = cell(c_date)
+            got.append(dict(id=m.group(1), id_printed=idp, name=nm, developer="", mw=num_text(cell(c_mw)),
+                            queue_date_printed=qd.strftime("%Y-%m-%d") if isinstance(qd, (dt.datetime, dt.date)) else num_text(qd), queue_date=iso_day(qd),
+                            status_code=stage, status_words=words, sheet=f"{name.strip()}: {state}" if state else name.strip(),
+                            mw_type=squeeze(cell(at["mw type"]) or "")))
+        by = {}
+        for g in got:
+            by.setdefault(g["id"], []).append(g)
+        merged = 0
+        for rid, rs in by.items():
+            if len(rs) > 1 and len({(x["status_code"], x["status_words"]) for x in rs}) == 1:
+                merged += 1
+                out.append(rs[0])
+            else:
+                out.extend(rs)
+        notes.append(f"{n_all} projects' rows in the sheet {name.strip()}, {len(got)} of them of a load MW Type")
+        if merged:
+            notes.append(f"{merged} load projects stand on several rows with one stage: the first row is read")
+        if no_number:
+            notes.append(f"{no_number} rows carry no project number and are not read")
+        break   # one sheet a copy: a second sheet (2025) repeats the list
+    return out, notes
+
+
+def aeso_day(path, last_modified, original):
+    """The day a copy of Alberta's list is dated by, its full stamp and the basis: the day the workbook was last
+    saved, by its own properties; for an .xls workbook, the Last-Modified the publisher gave the file. A day that is
+    not near the month the file is named for (20 days before its first day to 45 days after) is the day the file was
+    put on the server again, not the list's: the copy is then not used ("" and the reason)."""
+    day, full = workbook_saved(path)
+    basis = "the day the workbook was last saved, by its own properties (docProps/core.xml)"
+    if not day:
+        day, full = http_day(last_modified)
+        basis = "the Last-Modified the publisher gave the file, as the Archive kept it"
+    if not day:
+        return "", "", "the copy carries no date of its own"
+    ym = aeso_month(original)
+    if ym:
+        first = dt.date(ym[0], ym[1], 1)
+        if not first - dt.timedelta(days=20) <= dt.date.fromisoformat(day) <= first + dt.timedelta(days=45):
+            return "", "", (f"its own date ({day}) is not near the month its name gives ({ym[0]}-{ym[1]:02d}): the file was saved or posted again later, "
+                            "and the day the list stood so is not known")
+    return day, full, basis
+
+
 def http_day(text):
     """A Last-Modified header as (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SSZ), or ("", "")."""
     from email.utils import parsedate_to_datetime
@@ -820,6 +1054,14 @@ def read_copies(raw, log):
                 if not day:   # an .xls workbook: its properties are not read here
                     day, full = http_day(e["last_modified"])
                     basis = "the Last-Modified the publisher gave the file" + (", as the Archive kept it" if first["archive_url"] else "")
+            elif pub == "bpa":
+                rows, notes, day, full = read_bpa(path)
+                basis = "the day and time printed at the top of the copy"
+            elif pub == "aeso":
+                rows, notes = read_aeso(path)
+                day, full, basis = aeso_day(path, e["last_modified"], first["original"])
+                if not day:
+                    notes, rows = [basis], []
             else:
                 rows, notes, day = read_grantpud(path)
                 full, basis = day, "the day printed at the top of the copy"
@@ -1072,6 +1314,8 @@ def durations(pub, rid, obs, latest_date):
     rows = []
 
     def add(interval, S, E, stage_words="", stage_code="", end_words="", note=""):
+        if E and S[1] is not None and E[1] is not None and S[1]["date"] > E[1]["date"]:
+            return   # session 165: the start is first shown after the end (a status that went back): not an interval, no row
         got = measure(S, E, bound(last), n)
         if got is None:
             return
@@ -1105,11 +1349,17 @@ def durations(pub, rid, obs, latest_date):
     m_left, o_left = reach(obs, lambda o: bool(LEFT.search(o["status_words"])))
     top = max(rank(o) for o in obs)
     waiting = not left
+    if e.get("unclassed_stops") and last["status_words"] and stage_class(last["status_words"])[0] == "not classed":
+        waiting = False   # session 165: the last copy shows words the publisher does not explain: whether the request still waits is not known
+    allowed = e.get("intervals")
     gone_note = "no longer in the publisher's newest copy; the copy prints no reason" if gone else ""
 
     def close(name, S, m, o_end, still_before):
         """One interval: to the milestone where a copy shows it; a lower bound where the request is still waiting
-        and has shown nothing later than the stages before the milestone (still_before); otherwise no row."""
+        and has shown nothing later than the stages before the milestone (still_before); otherwise no row.
+        (Session 165: no row for a milestone the publisher's words cannot carry, by its entry in ENTITIES.)"""
+        if allowed and name not in allowed:
+            return
         if m:
             add(name, S, m, end_words=o_end["status_words"])
         elif waiting and still_before:
@@ -1269,6 +1519,10 @@ CURRENT = {
     # session 160: the task force that held the status updates from 2022 to 2024 (ERCOT lists it as inactive), and the service page
     "ercot_pages": ["https://www.ercot.com/committees/tac/llwg", "https://www.ercot.com/committees/tac",
                     "https://www.ercot.com/committees/inactive/lfltf", "https://www.ercot.com/services/rq/large-load-integration"],
+    # session 165
+    "bpa": "https://www.bpa.gov/-/media/Aep/transmission-media-documents/InterconnectionQueueOutput.xlsx",
+    "bpa_page": "https://www.bpa.gov/energy-and-services/transmission/interconnection",
+    "aeso_page": "https://www.aeso.ca/grid/transmission-projects/connection-project-reporting/",
 }
 ERCOT_MEETING = re.compile(r'(?:https://www\.ercot\.com)?(/calendar/(\d{2})(\d{2})(\d{4})-(?:Special-)?(?:LLWG|TAC|LFLTF)-Meeting[^"\s]*)"')
 # a committee page's own earlier years (session 160): /committees/tac/llwg/2025, /committees/inactive/lfltf/2022
@@ -1310,6 +1564,34 @@ TERMS = {
             "you maintain all copyright and other notices contained in the contents, including this Agreement.",
             "Notwithstanding the foregoing, raw data provided in public portions of this website may be used, reproduced, and redistributed in compilations, "
             "charts, and analyses without maintaining such notices.",
+        ]),
+    # session 165
+    "bpa": dict(
+        who="Bonneville Power Administration", url="https://www.bpa.gov/about/who-we-are/privacy", ask="https://www.bpa.gov/about/who-we-are/privacy",
+        note="the one legal page the footer of bpa.gov links (Privacy Program); the site states no terms of use for its documents, and Bonneville is an "
+             "agency of the United States government",
+        quotes=[
+            "When you visit our website to read pages or download information, we automatically collect and store the following information only:",
+            "We use this information to measure the number of visitors to the different sections of our site, and to help make our site more useful to visitors.",
+        ]),
+    "aeso": dict(
+        who="Alberta Electric System Operator (Canada)", url="https://www.aeso.ca/legal/", ask="https://www.aeso.ca/legal/",
+        note="the page the site's footer links as Legal: Terms and Conditions. It allows non-commercial, personal or educational use and says nothing of "
+             "automated requests; everything of Alberta's is held internal",
+        quotes=[
+            "All material on this Web site is protected by copyright.",
+            "The material may be used and copied for non-commercial, personal or educational purposes, provided that the material is not modified and that "
+            "copyright notices are not deleted.",
+            "Any other use of this material without the AESO's written permission is prohibited.",
+        ]),
+    "isone": dict(
+        who="ISO New England", url="https://www.iso-ne.com/legal-privacy", ask="https://www.iso-ne.com/legal-privacy",
+        note="read once in session 165 before its posted queue was looked at (the page is saved under look/ and entered in captures.csv); the queue holds "
+             "no load request and nothing of it is in the table",
+        quotes=[
+            "By using this website, you signify your assent to these Terms and Conditions.",
+            "You are also hereby put on notice that the Content is protected by copyright under United States laws.",
+            "Any duplication of the Content or non-personal use may violate copyright, trademark, and other laws.",
         ]),
 }
 
@@ -1357,6 +1639,28 @@ def do_pull_current(raw, net, log, ip=None, only=()):
                     log(f"current grantpud: {url} -> {st}, {len(body):,} bytes, {fname}")
             if not n:
                 log(f"current grantpud: the page answered {st} with {len(content):,} bytes and links no queue file: {page_text(content)[:160]!r}")
+        if on("bpa"):   # session 165: the workbook Bonneville's interconnection page links
+            if CURRENT["bpa"] in held:
+                log(f"current bpa: {CURRENT['bpa']} is already saved from the publisher; not asked for again")
+            else:
+                st, content, fname = do_fetch_current(raw, net, log, "bpa", CURRENT["bpa"])
+                log(f"current bpa: {st}, {len(content):,} bytes, {fname}")
+        if on("aeso"):   # session 165: the newest monthly file among those Alberta's project reporting page links, and no other
+            st, content, _ = do_fetch_current(raw, net, log, "aeso", CURRENT["aeso_page"], kind="page that links the current copy", rows_reserve=0)
+            links = {}
+            for href in set(re.findall(r'href="([^"]+)"', content.decode("utf-8", "replace"))):
+                url = (href if href.startswith("http") else "https://www.aeso.ca" + href).replace(" ", "%20")
+                if WANTED["aeso"].search(url) and aeso_month(url) and "aeso.ca/" in url:
+                    links[aeso_month(url)] = url
+            if not links:
+                log(f"current aeso: the page answered {st} with {len(content):,} bytes and links no monthly list: {page_text(content)[:160]!r}")
+            else:
+                url = links[max(links)]
+                if url in held:
+                    log(f"current aeso: {url} is already saved from the publisher; not asked for again")
+                else:
+                    st, body, fname = do_fetch_current(raw, net, log, "aeso", url)
+                    log(f"current aeso: {url} -> {st}, {len(body):,} bytes, {fname} (the newest of {len(links)} monthly files the page links)")
         if not on("ercot"):
             return
         if paused("ercot"):
@@ -1399,12 +1703,13 @@ def do_pull_current(raw, net, log, ip=None, only=()):
         log(f"current copies: REFUSED before the request: {e}")
 
 
-def do_terms(raw, net, log):
+def do_terms(raw, net, log, only=()):
     """One request a terms page; each saved under terms/ with its hash in captures.csv; each quoted sentence must
-    stand in the saved page word for word, or the stage says which does not."""
+    stand in the saved page word for word, or the stage says which does not. only (session 165): the publishers
+    whose terms page this run may ask for (empty: all)."""
     missing = []
     for name, t in TERMS.items():
-        if not t["ask"]:
+        if not t["ask"] or (only and name not in only):
             continue   # saved by an earlier session: read from its raw folder, not asked for again
         try:
             status, content, headers = net.get(t["ask"], "terms page")
@@ -1460,6 +1765,21 @@ def terms_saved(raw):
 # The table
 # ---------------------------------------------------------------------------
 
+# session 165: the registry lines of the two publishers added (source, report, the page that links the current copy)
+SOURCE_REPORTS = {
+    "bpa": ("Bonneville Power Administration Interconnection Request Queue workbook (InterconnectionQueueOutput), its line and load interconnection requests "
+            "(Connection Type LL) in each dated copy the Internet Archive holds and the current copy (session 165: followed across copies for large_load_waits) "
+            "[the publisher's site states no terms of use for its documents; its one legal page is a privacy policy: \"When you visit our website to read pages "
+            "or download information, we automatically collect and store the following information only:\" (https://www.bpa.gov/about/who-we-are/privacy); "
+            "held internal until a person rules]",
+            "https://www.bpa.gov/energy-and-services/transmission/interconnection"),
+    "aeso": ("CANADA. Alberta Electric System Operator monthly connection project list, its load projects (MW Type Load, Data Load, Distribution Load, "
+             "Industrial Load) in one dated copy a month the Internet Archive holds and the current copy (session 165: followed across copies for "
+             "large_load_waits) [terms: \"The material may be used and copied for non-commercial, personal or educational purposes, provided that the material "
+             "is not modified and that copyright notices are not deleted.\" \"Any other use of this material without the AESO's written permission is "
+             "prohibited.\" (https://www.aeso.ca/legal/); held internal]",
+             "https://www.aeso.ca/grid/transmission-projects/connection-project-reporting/"),
+}
 EVENTS = ["event_id", "event_date", "event_type", "parties", "entity_ids", "mw", "price", "currency", "status", "source", "source_url"]
 EXTRA = ["entity", "entity_group", "request_id", "request_id_as_printed", "followed_by", "request_name", "request_names_seen", "mw_first", "mw_last",
          "mw_as_written_changes", "size_class", "queue_date_printed", "interval", "stage_as_worded", "stage_code", "stage_class", "stage_class_basis",
@@ -1523,6 +1843,9 @@ def counts_of(b, comparison, no_expectation):
             "seen": len(b["seen"].get(pub, ())), "followed": len(fol), "not_followed": nf,
             "in_service_in_last_copy": sum(1 for o in last.values() if IN_SERVICE.search(o["status_words"])),
             "withdrawn_in_last_copy": sum(1 for o in last.values() if LEFT.search(o["status_words"])),
+            # session 165: followed requests that are not in the publisher's newest copy and whose last copy shows them neither in service nor withdrawn
+            "no_longer_listed_and_no_word_why": sum(1 for o in last.values() if o["date"] < b["latest"].get(pub, "") and not IN_SERVICE.search(o["status_words"])
+                                                    and not LEFT.search(o["status_words"])),
             "megawatts_changed": sum(1 for k in fol if len({o["mw"] for o in b["followed"][k] if o["mw"]}) > 1),
             "seen_in_two_copies_only": sum(1 for k in fol if len(b["followed"][k]) == 2)}
         out["rows_by_entity"][e["entity"]] = sum(1 for r in rows if r["publisher"] == pub)
@@ -1545,7 +1868,7 @@ def write_beside(d, b, figs, comparison, counts):
          [dict(u, date="", stamp="", date_basis="", url="", rows=0, captures=len(u["captures"]), notes="not read: " + u["why"]) for u in b["unread"]])
     obs = [dict(o, publisher=c["publisher"], copy_date=c["date"], copy_url=c["url"]) for c in b["copies"] for o in c["rows"]]
     dump(f"{NAME}_observations.csv", ["publisher", "copy_date", "copy_url", "sheet", "id", "id_printed", "name", "developer", "mw", "queue_date_printed",
-                                      "queue_date", "status_code", "status_words"], obs)
+                                      "queue_date", "status_code", "status_words", "mw_type"], obs)   # mw_type (session 165): Alberta's own mark of a load
     dump(f"{NAME}_not_followed.csv", ["publisher", "id", "copies_seen", "first_copy", "last_copy", "why"], b["not_followed"])
     dump(f"{NAME}_figures.csv", list(figs[0]) if figs else ["entity"], figs)
     dump(f"{NAME}_comparison.csv", list(comparison[0]) if comparison else ["entity_group"], comparison)
@@ -1579,8 +1902,26 @@ def count_rows(raw, log):
 
 def header_lines(run_id, b, counts):
     c = counts
-    per = "; ".join(f"{e}: {v['read']} copies read ({v['first']} to {v['last']}), {c['requests'][e]['seen']} requests seen, {c['requests'][e]['followed']} followed"
-                    for e, v in c["copies"].items())
+
+    def clause(names):
+        return "; ".join(f"{e}: {v['read']} copies read ({v['first']} to {v['last']}), {c['requests'][e]['seen']} requests seen, {c['requests'][e]['followed']} followed"
+                         for e, v in c["copies"].items() if e in names)
+    # session 165: the line "This run:" is read by warehouse/derived/how_soon.py (session 163). It keeps the wording and the order it
+    # had (New York, Grant County PUD, the rows, ERCOT); the publishers added since stand on a line of their own, after it.
+    first = [ENTITIES[p]["entity"] for p in HEADER_FIRST]
+    per = clause(first)
+    more = clause([e for e in c["copies"] if e not in first])
+    lines = _header_lines(run_id, b, c, per)
+    if more:
+        at = next(i for i, x in enumerate(lines) if x.startswith("This run:"))
+        lines.insert(at + 1, f"Added in session 165, the same run: {more}.")
+    return lines
+
+
+HEADER_FIRST = ("nyiso", "grantpud")
+
+
+def _header_lines(run_id, b, c, per):
     return [
         "Energy Research Warehouse (ERW): how long large loads waited, measured from successive dated copies of public queues (session 155)",
         "Shape: events (docs/datastandard.md v0), event_type large_load_wait. One row a request and stage interval: the entity, the request's identifier, "
@@ -1600,11 +1941,19 @@ def header_lines(run_id, b, counts):
         "nyiso:interconnection_queue_dated_copies: NYISO Interconnection Queue workbook, the sheet Load Projects and the rows of type L of the other sheets. "
         "grantpud:interconnection_queue_dated_copies: Grant PUD Interconnection Queue (PDF), the rows of type Load. ERCOT's large load status reports list no "
         "request (system totals by stage): no row comes from them.",
+        "Session 165. bpa:interconnection_queue_dated_copies: Bonneville Power Administration, Interconnection Request Queue workbook, the rows of Connection "
+        "Type LL (line and load interconnections; not every one is a large load), a copy dated by the day and time printed at its top. "
+        "aeso:connection_project_list_dated_copies: CANADA, not the United States: the Alberta Electric System Operator's monthly connection project list, the "
+        "rows whose MW Type is Load, Data Load, Distribution Load or Industrial Load, a copy dated by the day the workbook was last saved (its Last-Modified for "
+        "the .xls lists); its stage numbers are kept as printed (Stage 0 to Stage 6) and placed on no class, since no copy says what a number stands for. "
+        "ISO New England's posted queue lists generators, elective transmission upgrades and transmission service and no load: no row comes from it.",
         f"This run: {per}. {len(b['rows'])} rows: " + ", ".join(f"{k} {v}" for k, v in c["rows_by_label"].items()) + "."
         + (f" ERCOT (session 160): {c['ercot']['status_reports']} status reports read ({c['ercot']['first']} to {c['ercot']['last']}), "
            f"{c['ercot'].get('reports_naming_a_request', 0)} name a request, no row." if c.get("ercot") else ""),
         "License: internal. NYISO's legal notice confers no license in the content of its site and reserves all rights (session 149); Grant County PUD's site "
         "states no terms of use for its documents. Not on the site, not in a public Redivis dataset, not in the live set. A person can rule otherwise.",
+        "Session 165: Bonneville's site states no terms of use for its documents (a United States agency); Alberta's terms allow use \"for non-commercial, "
+        "personal or educational purposes\" and forbid any other without written permission. Both are held internal with the rest.",
     ]
 
 
@@ -1627,7 +1976,7 @@ def other_queues(raw):
     out = []
     for name, who, pattern, what in OTHER_QUEUES:
         lst = by.get(name)
-        if not lst:
+        if not lst or name in LISTED_AS:   # session 165: a queue followed since is no longer one to follow next
             continue
         caps = [c for c in lst["captures"] if re.search(pattern, c["original"].split("?")[0])]
         if not caps:
@@ -1645,19 +1994,49 @@ def day_range(f, n_key, range_key):
 def summary_lines(counts):
     """The lines of numbers the one-page summary carries, made from the table's counts and nothing else, so that a
     test can hold the page to the table. No request is named and no megawatt is given."""
+    return _summary(counts, canada=False)
+
+
+def canada_lines(counts):
+    """Session 165. The same lines for the entities of Canada (Alberta), which stand apart from the United States'
+    on the page: every line names the entity, and the entity's name says Canada."""
+    return _summary(counts, canada=True)
+
+
+def gone_lines(counts, canada=False):
+    """Session 165. For each entity, how many followed requests left its list with no word why: their lower bounds end
+    at the last copy that held them and are not waits still running."""
+    lines = []
+    for e, r in counts["requests"].items():
+        n = r.get("no_longer_listed_and_no_word_why", 0)
+        if n and (e in CANADA) == canada:
+            lines.append(f"- **{e}**: {n} of its {r['followed']} followed requests are in no later copy and no copy says why (not shown in service, not shown "
+                         "withdrawn): each lower bound of theirs ends at the last copy that held the request and is not a wait still running.")
+    return lines
+
+
+def _summary(counts, canada):
     c = counts
     lines = []
     for e, v in c["copies"].items():
+        if (e in CANADA) != canada:
+            continue
         r = c["requests"][e]
         nf = "; ".join(f"{k}: {n}" for k, n in r["not_followed"].items()) or "none"
         lines.append(f"- **{e}**: {v['read']} dated copies read, {v['first']} to {v['last']}" + (f" ({v['not_read']} more could not be read)" if v["not_read"] else "")
                      + f"; load requests: {r['seen']} seen, **{r['followed']} followed**, {r['seen'] - r['followed']} not ({nf}); "
                      f"{r['in_service_in_last_copy']} in service and {r['withdrawn_in_last_copy']} withdrawn in the last copy.")
-    lines.append(f"- **The table**: {c['rows']} rows, one a request and stage interval: " + ", ".join(f"{k} {n}" for k, n in c["rows_by_label"].items()) + ".")
+    if canada:
+        n = sum(c["rows_by_entity"].get(e, 0) for e in CANADA)
+        lines.append(f"- **Canada's rows in the table**: {n} of the {c['rows']}.")
+    else:
+        lines.append(f"- **The table**: {c['rows']} rows, one a request and stage interval: " + ", ".join(f"{k} {n}" for k, n in c["rows_by_label"].items()) + ".")
     lines.append("")
     lines.append("| Entity | Interval, or the stage as worded | Requests | Measured | Measured, days | Lower bounds, days at least | Two copies only | Upper bounds, days at most |")
     lines.append("|---|---|---|---|---|---|---|---|")
     for f in c["figures"]:
+        if (f["entity"] in CANADA) != canada:
+            continue
         what = f["interval"] if not f["stage_as_worded"] else f"{f['interval']}: {f['stage_as_worded']}"
         if f["measured_n"] >= MIN_FOR_MEDIAN:
             meas = f"median at least {f['measured_median_at_least']:g}, at most {f['measured_median_at_most']:g}; all within {f['measured_range']}"
@@ -1731,7 +2110,8 @@ def main(argv=None):
     if a.summary:
         with open(os.path.join(a.summary, f"{NAME}_counts.json"), encoding="utf-8") as f:
             counts = json.load(f)
-        print("\n".join(summary_lines(counts) + [""] + comparison_lines(counts) + [""] + texas_lines(counts)))
+        print("\n".join(summary_lines(counts) + [""] + gone_lines(counts) + [""] + comparison_lines(counts) + [""] + texas_lines(counts)
+                        + ["", "CANADA (apart):"] + canada_lines(counts) + [""] + gone_lines(counts, canada=True)))
         return 0
     if not (a.list or a.pull or a.terms or a.count or a.write):
         ap.error("name a stage: --list, --pull, --terms, --count or --write")
@@ -1754,8 +2134,8 @@ def main(argv=None):
             budget = Budget(raw)
             net = Net(budget, say)
             only = {p.strip() for p in a.publishers.split(",") if p.strip()}
-            if only - set(WANTED):
-                raise RuntimeError(f"--publishers names {sorted(only - set(WANTED))}; the publishers are {sorted(WANTED)}")
+            if only - set(WANTED) - set(TERMS):
+                raise RuntimeError(f"--publishers names {sorted(only - set(WANTED) - set(TERMS))}; the publishers are {sorted(set(WANTED) | set(TERMS))}")
             if a.list:
                 do_list(raw, net, say, [l for l in LISTINGS if not only or l[0] in only])
             if a.pull:
@@ -1763,7 +2143,7 @@ def main(argv=None):
                 do_pull_current(raw, net, say, ip, only)
                 count_rows(raw, say)
             if a.terms:
-                do_terms(raw, net, say)
+                do_terms(raw, net, say, only)
             say(f"requests {budget.requests:,} of {CEILING_REQUESTS:,}; bytes {budget.bytes:,} of {CEILING_BYTES:,}; rows {Budget(raw).rows:,} of {CEILING_ROWS:,}")
         if a.count:
             count_rows(raw, say)
@@ -1811,6 +2191,8 @@ def main(argv=None):
             import pandas as pd
             df = pd.DataFrame(b["rows"], columns=COLS).sort_values(["entity", "request_id", "interval", "start_later_date", "event_id"]).reset_index(drop=True)
             ip.write_snapshot(df, NAME, header_lines(run_id, b, counts), say, COLS)
+            ip.update_sources([dict(source=e["source"], publisher=e["publisher"], report=SOURCE_REPORTS[pub][0], report_url=SOURCE_REPORTS[pub][1],
+                                    document_list="https://web.archive.org/", license="internal", tables=[NAME]) for pub, e in ENTITIES.items() if pub in SOURCE_REPORTS])
             ip.update_sources([dict(source=e["source"], publisher=e["publisher"],
                                     report=("NYISO Interconnection Queue workbook, its load requests in each dated copy the Internet Archive holds and the current copy "
                                             "(session 155: followed across copies for large_load_waits) [terms: \"Access to this Web site does not confer any license or "
@@ -1820,7 +2202,7 @@ def main(argv=None):
                                             "(session 155: followed across copies for large_load_waits) [the publisher's site states no terms of use for its documents; "
                                             "held internal until a person rules]"),
                                     report_url="https://www.nyiso.com/interconnections" if pub == "nyiso" else "https://www.grantpud.org/transmission-information",
-                                    document_list="https://web.archive.org/", license="internal", tables=[NAME]) for pub, e in ENTITIES.items()])
+                                    document_list="https://web.archive.org/", license="internal", tables=[NAME]) for pub, e in ENTITIES.items() if pub not in SOURCE_REPORTS])
             write_beside(a.out_dir or raw, b, figs, comparison, counts)
             for e, v in counts["requests"].items():
                 say(f"  {e}: requests seen {v['seen']}, followed {v['followed']}, not followed {v['not_followed']}")
