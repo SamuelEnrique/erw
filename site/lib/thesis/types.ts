@@ -49,6 +49,9 @@ export type Report = {
   incumbents: { fact: Text; players: Player[] };
   risks: Risk[];
   policy: { fact: string; actions: PolicyAction[] };
+  /** Session 169: present when the run was started with "Run anyway" on a niche the gate refused (lib/thesis/niche.ts;
+   * thesis_runs.gate, migration 026, copied here by the runner). Absent on every other report. */
+  gate?: { forced?: boolean; why?: string; topic?: string | null; at?: string } | null;
 };
 
 export type RunStatus = "queued" | "running" | "done" | "failed";

@@ -33,6 +33,8 @@ import { fileURLToPath } from "node:url";
 import { env } from "./browser.mjs";
 
 export const DONE = "fixture-done", QUEUED = "fixture-queued", FAILED = "fixture-failed", THREE = "fixture-three";
+/** Session 169: a finished run started with "Run anyway", its report flagged (the runner copies thesis_runs.gate onto it). */
+export const FORCED = "fixture-forced";
 export const VENDOR_NOTE = "Fixture: this sentence is from a public page of a data vendor (Fixture Vendor), not from the company or the press.";
 // Session 160: one company of the fixture report carries reason_kept (its sentence is from a page's kept text, with
 // the day that text was retrieved) and also (its other names as written). Made up for the check, like the rest.
@@ -159,6 +161,9 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   } catch (e) {
     console.log(`thesis stub: the run "${THREE}" is not held (${String(e?.message ?? e).split(/[\r\n]/)[0].slice(0, 160)}); start the stand-in with --import ./scripts/alias-register.mjs to hold it`);
   }
+  // session 169: a finished run started with "Run anyway" on a niche the gate refused
+  runs.push({ ...runs[0], run_id: FORCED, niche: "oil & gas demand", stage: "", geography: "", requested_at: "2026-10-04T10:00:00+00:00", pitchbook_key: null,
+    report: { ...runs[0].report, niche: "oil & gas demand", gate: { forced: true, why: "sector_only", topic: "oil_gas", at: "2026-10-04T10:00:00.000Z" } } });
   const fns = {
     thesis_list: () => runs.map((r) => ({ run_id: r.run_id, niche: r.niche, stage: r.stage, geography: r.geography, status: r.status, note: r.note, requested_at: r.requested_at, started_at: r.started_at, finished_at: r.finished_at,
       companies: r.report?.landscape?.companies?.length ?? 0, pitchbook: r.pitchbook ? "received" : r.pitchbook_request ? "pending" : "none" })),
@@ -168,10 +173,10 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       // a run this stub queued moves on as it is read, so the page's own re-reading can be seen: running, then failed
       if (r.made) {
         r.gets += 1;
-        if (r.gets >= 4) { r.status = "failed"; r.note = "Fixture: a run queued on the stub stops here."; r.finished_at = new Date().toISOString(); }
+        if (r.gets >= 4) { r.status = "failed"; r.note = r.forced_note ?? "Fixture: a run queued on the stub stops here."; r.finished_at = new Date().toISOString(); }
         else if (r.gets >= 2) { r.status = "running"; r.started_at = r.started_at ?? new Date().toISOString(); }
       }
-      return Object.fromEntries(Object.entries(r).filter(([k]) => k !== "gets" && k !== "made"));
+      return Object.fromEntries(Object.entries(r).filter(([k]) => k !== "gets" && k !== "made" && k !== "forced_note"));
     },
     thesis_submit: (a) => {
       const niche = String(a.p_niche ?? "").trim();
@@ -181,6 +186,16 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       const run = { ...runs[1], run_id: `fixture-new-${made}`, niche, stage: String(a.p_stage ?? ""), geography: String(a.p_geography ?? ""), requested_at: new Date().toISOString(), gets: 0, made: true };
       runs.unshift(run);
       return { ok: true, run_id: run.run_id, dispatched: false };
+    },
+    // session 169, migration 026: a run started with "Run anyway" is queued by thesis_submit and its gate kept on the row
+    // (the real function does not hand the gate back; this stand-in says it in the note the queued run ends with)
+    thesis_submit_forced: (a) => {
+      const g = a.p_gate;
+      if (!g || typeof g !== "object" || Array.isArray(g) || g.forced !== true || JSON.stringify(g).length > 2000) return { ok: false, reason: "input" };
+      const r = fns.thesis_submit(a);
+      const run = r.ok ? runs.find((x) => x.run_id === r.run_id) : null;
+      if (run) run.forced_note = `Fixture: a run started with Run anyway (${String(g.why)}) and kept with its gate; it stops here.`;
+      return r;
     },
     // session 150, migration 025: the answers of the providers, kept beside the runs
     thesis_provider_accept: (a) => {

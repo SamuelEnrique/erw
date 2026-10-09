@@ -952,6 +952,38 @@ def spent_today(conn):
     return float(conn.execute("select coalesce(sum(usd), 0) from public.thesis_runs where (requested_at at time zone 'utc')::date = (now() at time zone 'utc')::date").fetchone()[0])
 
 
+GATE_WHY = ("few_words", "sector_only", "open", "command_line")
+
+
+def gate_of(conn, run_id):
+    """Session 169: what the gate on the niche stored with a run that was started with "Run anyway" (thesis_runs.gate,
+    migration 026; site/lib/thesis/niche.ts), as the report carries it: {"forced": True, "why", "topic", "at"}, or
+    None for a run that passed the gate. A database that does not hold the column yet answers with an error: the run
+    then has no flag, as every run before the migration."""
+    if conn is None:
+        return None
+    try:
+        row = conn.execute("select gate from public.thesis_runs where run_id = %s", (run_id,)).fetchone()
+    except Exception:
+        return None
+    return gate_flag(row[0] if row else None)
+
+
+def gate_flag(g):
+    """The stored gate as the report's flag, read as data: only a forced run has one, and only these four fields."""
+    if isinstance(g, str):
+        try:
+            g = json.loads(g)
+        except ValueError:
+            return None
+    if not isinstance(g, dict) or g.get("forced") is not True:
+        return None
+    why = g.get("why") if g.get("why") in GATE_WHY else "open"
+    topic = g.get("topic") if isinstance(g.get("topic"), str) and re.fullmatch(r"[a-z_]{1,40}", g["topic"]) else None
+    at = g.get("at") if isinstance(g.get("at"), str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}T[\d:.]{8,15}Z", g["at"]) else ""
+    return {"forced": True, "why": why, "topic": topic, "at": at}
+
+
 def finish(conn, run_id, report, request, key, usd):
     from psycopg.types.json import Jsonb
     conn.execute("update public.thesis_runs set status = 'done', finished_at = now(), usd = %s, report = %s, pitchbook_request = %s, "
@@ -1033,6 +1065,11 @@ def one(conn, run_id, niche, stage, geography, args, log):
         report, request, key, state = execute(r, run_id, niche, stage, geography, log, searches=args.searches, landscape_from=landscape_from, retrend=args.retrend, landscape_only=args.landscape_only,
                                               evidence_path=handle, fetch=fetch)
         usd = r.cost
+        # session 169: a run started with "Run anyway" on a niche the gate refused carries the flag on its report
+        flag = gate_flag({"forced": True, "why": "command_line"}) if getattr(args, "run_anyway", False) else gate_of(conn, run_id)
+        if flag:
+            report["gate"] = flag
+            log(f"  the gate: this run was started with Run anyway ({flag['why']}); its report is flagged")
         os.makedirs(state_dir, exist_ok=True)
         slug = re.sub(r"[^a-z0-9]+", "-", head_of(niche).lower()).strip("-")[:50]
         path = os.path.join(state_dir, f"{slug}_{run_id}.json")
@@ -1090,6 +1127,7 @@ def main(argv=None):
                                              "(a file, or bucket:<name> for a state kept in the private bucket)")
     ap.add_argument("--retrend", action="store_true", help="with --landscape-from: write the scope and trends again from the saved research")
     ap.add_argument("--landscape-only", action="store_true", help="scope, trends and the landscape only: no capital, incumbents, risks or policy")
+    ap.add_argument("--run-anyway", action="store_true", help="with --niche: flag the report as a run started with Run anyway (session 169)")
     ap.add_argument("--max-usd", type=float, default=RUN_USD)
     ap.add_argument("--searches", type=int, default=8)
     ap.add_argument("--spent-file", help="a file holding what a session has spent, raised by this run")

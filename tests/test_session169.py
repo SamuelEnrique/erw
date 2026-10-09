@@ -1,5 +1,9 @@
 """Session 169: Thesis Builder (warehouse/thesis), the owner's rulings of 8 October 2026.
 
+Part A, the gate on the niche: "A Run anyway box, stored with the run and flagged on its report." The site decides
+(site/lib/thesis/niche.ts, tested by site/scripts/test-thesis-niche.mjs); the runner reads what was stored
+(thesis_runs.gate, migration 026) and flags the report.
+
 Part B, the bug: "run.py:150-151 (words_of, [a-z][a-z-]{3,}) and :883 drop every word under four letters, so "oil"
 and "gas" are never searched. Keep short domain words: oil, gas, ev, ai, lng, smr, ccs, dac, pv, h2, co2."
 
@@ -172,6 +176,55 @@ class ShortWordsAgainstTables(unittest.TestCase):
         self.assertEqual(got(tb.policy_words("EV charging")), ["test:p3"])   # "ev" is not in "development"; "charging" is a long word
         self.assertEqual(got(["EV"]), ["test:p3"])
         self.assertEqual(got(["develop"]), ["test:p3", "test:p4"])           # a long word anywhere, as before
+
+
+class FakeConn:
+    """The internal table, as far as gate_of reads it: one select, answered from a dict (or an error)."""
+
+    def __init__(self, rows=None, error=None):
+        self.rows, self.error, self.asked = rows or {}, error, []
+
+    def execute(self, sql, params=()):
+        self.asked.append((sql, params))
+        if self.error:
+            raise self.error
+        row = self.rows.get(params[0])
+        return type("Cur", (), {"fetchone": lambda _self: None if row is None else (row,)})()
+
+
+class RunAnyway(unittest.TestCase):
+    """Part A on the runner's side: a forced run's report carries the flag, read as data; every other run has none."""
+
+    def test_a_forced_run_is_flagged(self):
+        stored = {"forced": True, "why": "sector_only", "topic": "oil_gas", "at": "2026-10-09T08:00:00.000Z"}
+        conn = FakeConn({"r1": stored})
+        self.assertEqual(R.gate_of(conn, "r1"), stored)
+        self.assertEqual(conn.asked, [("select gate from public.thesis_runs where run_id = %s", ("r1",))])
+        self.assertEqual(R.gate_of(FakeConn({"r1": '{"forced": true, "why": "few_words", "topic": null}'}), "r1"), {"forced": True, "why": "few_words", "topic": None, "at": ""})
+
+    def test_a_run_that_passed_has_no_flag(self):
+        self.assertIsNone(R.gate_of(FakeConn({"r1": None}), "r1"))
+        self.assertIsNone(R.gate_of(FakeConn({}), "r2"))
+        self.assertIsNone(R.gate_of(None, "r1"))                             # a run started on the command line, no table
+
+    def test_a_database_without_the_column_flags_nothing(self):
+        self.assertIsNone(R.gate_of(FakeConn(error=RuntimeError('column "gate" does not exist')), "r1"))
+
+    def test_the_stored_gate_is_read_as_data(self):
+        self.assertIsNone(R.gate_flag({"forced": "true"}))
+        self.assertIsNone(R.gate_flag({"forced": False, "why": "sector_only"}))
+        self.assertIsNone(R.gate_flag("not json"))
+        self.assertIsNone(R.gate_flag([1, 2]))
+        odd = R.gate_flag({"forced": True, "why": "<script>", "topic": "Oil & Gas", "at": "yesterday", "extra": "dropped"})
+        self.assertEqual(odd, {"forced": True, "why": "open", "topic": None, "at": ""})
+        self.assertEqual(R.gate_flag({"forced": True, "why": "command_line"}), {"forced": True, "why": "command_line", "topic": None, "at": ""})
+
+    def test_the_runner_writes_the_flag_on_the_report(self):
+        with open(os.path.join(ROOT, "warehouse", "thesis", "run.py"), encoding="utf-8") as f:
+            text = f.read()
+        self.assertIn('report["gate"] = flag', text)
+        self.assertIn('ap.add_argument("--run-anyway"', text)
+        self.assertEqual(R.main.__module__, R.__name__)
 
 
 if __name__ == "__main__":

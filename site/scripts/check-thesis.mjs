@@ -37,10 +37,19 @@
 //
 // Session 160: a "Why it is here" sentence read from a page's kept text carries the day that text was retrieved as a
 // short mark with its reason on hover, and a company written under several names shows the others under its name.
+//
+// Session 169, the gate on the niche (lib/thesis/niche.ts): the form holds the owner's label, placeholder, help line
+// and three example chips; POST /api/thesis/run refuses a sector or a market topic with 422, the refusal's sentence
+// and the curated table's chips, before the database or a model is asked (against any server: "oil & gas demand" and
+// "geothermal", the table's own inputs, cost nothing). Against the stand-in, in a browser: the refusal is shown with
+// its chips at once, a chip fills the box, "Run anyway" queues the run through thesis_submit_forced with its gate, and
+// a forced run's report carries the mark "run anyway" with its reason on hover. Start the server for this check with
+// THESIS_GATE_MODEL=0, so that no input of the check can reach the model.
 // Exit 1 on a failure.
 import { env, withBrowser } from "./browser.mjs";
 import { EMPTY_TAB, PB_PENDING, PB_PENDING_WHY, TABS } from "../lib/thesis/view.ts";
-import { ALSO, DONE, FAILED, KEPT_MARK, KEPT_NOTE, KEY, QUEUED, THREE, VENDOR_NOTE, fixtureAnswer } from "./thesis-stub.mjs";
+import { ALSO, DONE, FAILED, FORCED, KEPT_MARK, KEPT_NOTE, KEY, QUEUED, THREE, VENDOR_NOTE, fixtureAnswer } from "./thesis-stub.mjs";
+import * as niche from "../lib/thesis/niche.ts";
 import { crunchbaseAnswer, harmonicAnswer } from "./thesis-providers-fixtures.mjs";
 import { NOT_KEPT, PROVIDERS, TERMS } from "../lib/thesis/providers.ts";
 
@@ -93,6 +102,10 @@ const unread = html.includes('data-thesis-unread="1"');
   check(page.status === 200 && !!html && text.includes("Thesis Builder"), "with the internal cookie /thesis answers 200 and is the tool");
   check(html.includes('data-thesis-form="1"') && /<input[^>]*name="niche"/.test(html) && /<input[^>]*name="stage"/.test(html) && /<input[^>]*name="geography"/.test(html) && /<button[^>]*data-thesis-run="1"[^>]*>Run<\/button>/.test(html),
     "it holds the form: the niche, the optional stage and geography, and Run");
+  // session 169: the owner's words on the form, word for word (React writes a quotation mark in an attribute as &quot;)
+  const attr = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+  check(text.includes(niche.NICHE_LABEL) && html.includes(`placeholder="${attr(niche.NICHE_PLACEHOLDER)}"`) && text.includes(niche.NICHE_HELP)
+    && niche.NICHE_EXAMPLES.every((x) => html.includes(`data-thesis-example="${x}"`)), "the form holds the owner's label, placeholder, help line and three example chips");
   check(/no-store/.test(page.cache) && /<meta name="robots" content="[^"]*noindex/.test(page.html), `the page is never stored (Cache-Control: ${page.cache}) and never indexed`);
   check(unread ? text.includes("Runs could not be read.") : /data-thesis-runs="\d+"/.test(html), unread ? 'the runs could not be read here, and the page says "Runs could not be read."' : "the runs are listed");
   check(clean(text), `no "undefined", no NaN and no trace of an error on the page${clean(text) ? "" : ` ("${(/.{0,40}(undefined|NaN|Error:|HTTP \d{3}|node_modules).{0,40}/.exec(text) ?? [""])[0]}")`}`);
@@ -106,6 +119,14 @@ const unread = html.includes('data-thesis-unread="1"');
 {
   const short = await ask("/api/thesis/run", { method: "POST", body: { niche: "short" } });
   check(short.status === 400 && short.json?.ok === false && short.json.reason === "Describe the niche in a sentence." && /no-store/.test(short.cache), `a niche too short is refused in plain words (${short.status}: ${short.json?.reason})`);
+  // session 169: a sector or a market topic is refused with the table's chips; the table answers, so no model and no
+  // database is asked (test run 3 of the session: "oil & gas demand", at no run cost)
+  for (const [x, id] of [["oil & gas demand", "oil_gas"], ["geothermal", "geothermal"]]) {
+    const r = await ask("/api/thesis/run", { method: "POST", body: { niche: x, stage: "", geography: "" } });
+    const want = niche.TABLE.find((t) => t.id === id).suggestions;
+    check(r.status === 422 && r.json?.ok === false && r.json.refused === true && r.json.reason === niche.refusalWords(x) && JSON.stringify(r.json.suggestions) === JSON.stringify(want) && !r.json.run_id && /no-store/.test(r.cache),
+      `"${x}" is refused with the refusal's sentence and its ${want.length} chips, and nothing is queued (${r.status})`);
+  }
   const junk = await ask("/api/thesis/run", { method: "POST", body: "not json" });
   check(junk.status === 400 && junk.json?.ok === false, "and so is a body that is not JSON");
   const st = await ask("/api/thesis/run?id=no-such-run");
@@ -420,11 +441,42 @@ if (!fixture) {
 
     // a run asked for on the form: queued, then re-read every 15 seconds until it ends
     await go(`${base}/thesis`);
-    await evaluate(`(() => { const el = document.querySelector('input[name="niche"]'); Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, 'fixture: a niche typed by the check'); el.dispatchEvent(new Event('input', { bubbles: true })); document.querySelector('[data-thesis-run="1"]').click(); return true; })()`);
+    await evaluate(`(() => { const el = document.querySelector('input[name="niche"]'); Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, 'fixture: monitoring software typed by the check'); el.dispatchEvent(new Event('input', { bubbles: true })); document.querySelector('[data-thesis-run="1"]').click(); return true; })()`);
     await wait(`location.search.includes('run=fixture-new-1') && !!document.querySelector('[data-thesis-watch]')`, 20000, "the queued run");
     check(true, "Run queues a run, the address becomes /thesis?run=<its id>, and the page says it waits");
     await wait(`!!document.querySelector('[data-thesis-failed="1"]')`, 90000, "the run's end, read by the page itself");
     check((await evaluate(`document.querySelector('[data-thesis-failed="1"]').innerText`)).includes("Fixture: a run queued on the stub stops here."), "the page re-reads a waiting run by itself and shows how it ended, with the failed run's note");
+    // session 169: the gate on the form. A refusal the table answers is shown at once with its chips; a chip fills the box
+    const typeIn = (v) => `(() => { const el = document.querySelector('input[name="niche"]'); Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, ${JSON.stringify(v)}); el.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`;
+    const oilGas = niche.TABLE.find((t) => t.id === "oil_gas").suggestions;
+    await go(`${base}/thesis`);
+    await evaluate(typeIn("oil & gas demand"));
+    await evaluate(`document.querySelector('[data-thesis-run="1"]').click()`);
+    await wait(`!!document.querySelector('[data-thesis-refused="1"]')`, 10000, "the refusal");
+    const shown = await evaluate(`[document.querySelector('[data-thesis-refused="1"] p').innerText, [...document.querySelectorAll('[data-thesis-suggestion]')].map((b) => b.innerText), location.search]`);
+    check(shown[0] === niche.refusalWords("oil & gas demand") && JSON.stringify(shown[1]) === JSON.stringify(oilGas) && shown[2] === "",
+      "on the form the input oil & gas demand is refused with the owner's sentence and his four oil and gas chips, and nothing is queued");
+    await evaluate(`document.querySelector('[data-thesis-suggestion]').click()`);
+    await wait(`document.querySelector('input[name="niche"]').value === ${JSON.stringify(oilGas[0])} && !document.querySelector('[data-thesis-refused="1"]')`, 5000, "the chip in the box");
+    check(true, "a chip puts its niche in the box and the refusal goes");
+    // Run anyway: ticked on the refused input, the run is queued through thesis_submit_forced with its gate
+    await evaluate(typeIn("oil & gas demand"));
+    await evaluate(`document.querySelector('[data-thesis-run="1"]').click()`);
+    await wait(`!!document.querySelector('[data-thesis-anyway="1"]')`, 10000, "the Run anyway box");
+    await evaluate(`document.querySelector('[data-thesis-anyway="1"]').click()`);
+    await evaluate(`document.querySelector('[data-thesis-run="1"]').click()`);
+    await wait(`location.search.includes('run=fixture-new-2')`, 20000, "the forced run queued");
+    await go(`${base}/thesis?run=fixture-new-2`);      // read afresh: the page's own re-reading is proven above
+    await wait(`!!document.querySelector('[data-thesis-failed="1"]')`, 90000, "the forced run's end");
+    check((await evaluate(`document.querySelector('[data-thesis-failed="1"]').innerText`)).includes("Fixture: a run started with Run anyway (sector_only) and kept with its gate"),
+      "Run anyway queues the refused niche through thesis_submit_forced, with what the gate read of it");
+    await go(`${base}/thesis?run=${FORCED}`);
+    await wait(`!!document.querySelector('[data-thesis-report]')`, 20000, "the forced run's report");
+    const mark = await evaluate(`(() => { const m = document.querySelector('[data-thesis-forced="1"]'); return m ? [m.textContent, m.title] : null; })()`);
+    check(!!mark && mark[0].trim() === niche.FORCED_MARK && mark[1] === niche.FORCED_NOTE, "a forced run's report carries the mark run anyway with its reason on hover");
+    await go(`${base}/thesis?run=${DONE}`);
+    await wait(`!!document.querySelector('[data-thesis-report]')`, 20000, "the done run's report");
+    check(await evaluate(`!document.querySelector('[data-thesis-forced]')`), "a run that passed the gate carries no mark");
     check(errors.length === 0, `no script error on the page${errors.length ? `: ${errors[0].slice(0, 160)}` : ""}`);
     await sleep(100);
     return 0;
