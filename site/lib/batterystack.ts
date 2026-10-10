@@ -377,3 +377,23 @@ export const LEFT_OUT: Record<string, string> = {
   nyiso: "NYISO's 10-minute non-synchronous and 30-minute reserves are left out: in every hour held, 10-minute spinning reserve paid at least as much for the same megawatt. Regulation is one product in New York, up and down together, so an award takes the battery's power in both directions",
   spp: "SPP's ramp capability and uncertainty products are left out: what a battery must hold behind them was not read",
 };
+
+// Session 178: the model's day-ahead ancillary revenue beside what ERCOT's storage resources were really awarded, over
+// the months both hold whole, in USD per kW of power and month. The page reads it from data/battery_awards_beside.json
+// (warehouse/derived/battery_awards_compare.py --snapshot), never from the live set: one line, ERCOT only.
+// docs/methods/battery_earns_algorithm.md, "Beside ERCOT's real awards", has the caveats.
+export type AwardsCase = { first: string; last: string; months: number; model: number; fleet: number; ratio: number };
+export type AwardsSnapshot = { built: string; cases: Record<string, AwardsCase> };
+/** The comparison for one strategy and duration, or null when the snapshot holds none (or the grid is not ERCOT). */
+export function awardsBeside(snap: AwardsSnapshot, grid: string, strat: Strategy, dur: Duration): AwardsCase | null {
+  if (grid !== "ercot") return null;
+  const c = snap?.cases?.[`${strat}_${dur}h`];
+  const ok = c && [c.months, c.model, c.fleet, c.ratio].every((v) => typeof v === "number" && Number.isFinite(v)) && c.months > 0 && c.fleet > 0;
+  return ok ? c : null;
+}
+/** One number of a check key bsa|<strategy>_<N>h|<model, fleet, ratio or months>, from the snapshot. */
+export function awardsStat(snap: AwardsSnapshot, k: string, what: string): number | null {
+  const hit = /^(foresight|dayahead)_(2|4|8)h$/.exec(k);
+  const c = hit ? awardsBeside(snap, "ercot", hit[1] as Strategy, Number(hit[2]) as Duration) : null;
+  return c && ["model", "fleet", "ratio", "months"].includes(what) ? (c as unknown as Record<string, number>)[what] : null;
+}

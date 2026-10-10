@@ -2,6 +2,8 @@
 
 Energy Research Warehouse (ERW), session 67. Tables: `battery_stack_monthly` and `battery_stack_stress_daily` (series, derived, public). Code: `warehouse/derived/battery_stack.py`; the page's arithmetic is `site/lib/batterystack.ts`. Page: `/cost-of-power/battery`, "What a battery earns". Tests: `tests/test_session67.py`.
 
+Every number on the page, step by step, with the replication files and the independent check of the optimizer: [battery_earns_algorithm.md](battery_earns_algorithm.md) (session 178). Where that note and this one differ, it lists the difference and the code governs.
+
 **The question.** What does a grid battery of a given size and duration earn, from which streams, and does it cover its debt? The seller tab's battery (`merchant_revenue_monthly`, `docs/methods/cost_of_power.md`) is energy only. A real battery also earns from ancillary services and, in some markets, from capacity. This method adds the ancillary services, co-optimized with energy. It adds no capacity payment (see "Capacity").
 
 ## Scope
@@ -190,6 +192,8 @@ The model is extended to each grid whose energy and reserve prices are both publ
 | SPP | Regulation Up, Regulation Down, Spinning Reserve, Supplemental Reserve | 1 | SPP's current Integrated Marketplace protocols were not found at an address this machine could read. The copies found (versions 38a and 46a) date from before storage resources had rules of their own |
 
 A shorter requirement would raise the results and a longer one lower them, most of all for the 2-hour battery.
+
+**Superseded in part (session 102; noted here in session 178).** The table above is session 86's. Session 100 read the operators' own documents and session 102 put them in the code: SPP's 60 minutes for all four products is cited (Integrated Marketplace Protocols, Revision 119, section 4.2.2), and NYISO's one hour for 10-Minute Spinning Reserve is cited (Market Administration and Control Area Services Tariff, section 4.4.2.1). Only NYISO's Regulation Capacity is still assumed at one hour: the tariff states no time. The hours did not change, so no number moved. `docs/methods/reserve_quantities_nyiso_spp.md` has the reading.
 
 **Not built: ISO-NE and MISO.** Their reserve prices (`isone_as_prices`, `miso_as_prices`) are internal: the operators' terms forbid republishing. A result built on them would be internal too (Decision 23), so none is built, and the page shows "held, not shown: license needed". PJM's reserve prices are not held.
 

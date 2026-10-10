@@ -37,6 +37,11 @@ const LATEST_LAG_MIN = 45;
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
+// Session 178: CHECK_VALUES_PAGES=<prefix>[,<prefix>] reads only the pages whose address starts with one of them: one
+// tool's checks on their own (the weekly brief is then not parsed, and the summary says the run was restricted). The
+// gate of a landing is the full run, with the variable unset.
+const ONLY = (process.env.CHECK_VALUES_PAGES ?? "").split(",").map((v) => v.trim()).filter(Boolean);
+const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre));
 const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/consumption",
@@ -421,6 +426,14 @@ async function truth(check) {
     const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "merchant_snapshot.json"), "utf-8"));
     return M.stat(snap, M.parseKey(p[1]), p[2]);
   }
+  // session 178: the battery page's one line beside ERCOT's real awards, bsa|<strategy>_<N>h|<stat>: from the snapshot the
+  // page reads (data/battery_awards_beside.json, not Supabase), with lib/batterystack.ts; tests/test_session178.py checks
+  // the snapshot against the two warehouse tables
+  if (p[0] === "bsa") {
+    const B = await import("../lib/batterystack.ts");
+    const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "battery_awards_beside.json"), "utf-8"));
+    return B.awardsStat(snap, p[1], p[2]);
+  }
   // session 67: what a battery earns, bs|<inputs>|<stat>: recomputed by lib/batterystack.ts from this script's own read
   // of battery_stack_monthly and battery_stack_stress_daily in Supabase
   if (p[0] === "bs") {
@@ -668,8 +681,8 @@ async function main() {
     cookie = (u.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
   }
   if (!cookie) console.log(`no internal cookie from ${base}/internal/unlock: pages in review answer the in-review page and are counted as failures`);
-  const urls = PAGES.map((page) => ({ page, url: page }));
-  if (tok) urls.push(...INTERNAL.map((page) => ({ page, url: `${page}?token=${encodeURIComponent(tok)}`, internal: true })));
+  const urls = PAGES.filter(wanted).map((page) => ({ page, url: page }));
+  if (tok) urls.push(...INTERNAL.filter(wanted).map((page) => ({ page, url: `${page}?token=${encodeURIComponent(tok)}`, internal: true })));
   else console.log(`internal pages not checked (INTERNAL_COSTS_TOKEN not set here): ${INTERNAL.join(", ")}`);
   for (const { page, url, internal } of urls) {
     const res = await fetch(base + url, { headers: cookie ? { Cookie: cookie } : {} });
@@ -721,11 +734,12 @@ async function main() {
     pass ? ok++ : bad++;
     lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} | page shows "${text}" | page read ${raw} | Supabase ${t}`);
   }
-  const [wok, wbad] = await checkWeekly(lines);
+  const [wok, wbad] = ONLY.length ? [0, 0] : await checkWeekly(lines);
   ok += wok;
   bad += wbad;
   const n = found.size + wok + wbad;
   console.log(lines.join("\n"));
+  if (ONLY.length) console.log(`\nRESTRICTED RUN (CHECK_VALUES_PAGES): only the pages starting with ${ONLY.join(", ")}; not the gate of a landing`);
   console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);
   if (bad || n < 10) process.exit(1);
 }

@@ -8,7 +8,7 @@ prices the model used, its decisions and its revenue) and, day by day, asks thre
     1. Is the model's dispatch allowed? Every limit of the day is recomputed here from the hourly columns.
     2. Could any dispatch have earned more? The day's problem is written again from scratch, in another form (the state
        of charge is a variable of its own, tied to charging and discharging by an equation), and solved by another
-       algorithm (HiGHS interior point; the model leaves the choice to HiGHS, which takes the simplex).
+       algorithm named explicitly (HiGHS interior point; the model leaves the choice of method to HiGHS).
     3. Is that optimum itself right? Its dual prices give a ceiling that needs no trust in any solver: for ANY
        non-negative prices on the limits, the ceiling computed below in plain arithmetic is an upper bound on what any
        allowed dispatch can earn (weak duality). When the model's revenue reaches the ceiling, it is proven optimal.
