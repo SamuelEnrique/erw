@@ -24,6 +24,16 @@ import findings_common as common  # noqa: E402
 import run_finding  # noqa: E402
 
 
+def load_worker():
+    """The findings worker by its path, under its own module name: `import worker` in one process with the whole suite
+    returns scripts/worker.py (session 59's task worker, imported by its tests first). Session 173."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("findings_worker", os.path.join(FIND, "worker.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
 def src(*parts):
     with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
         return f.read()
@@ -178,7 +188,7 @@ class TheWorker(unittest.TestCase):
         shutil.rmtree(self.d, ignore_errors=True)
 
     def test_a_request_without_the_tables_fails_plainly_and_stays_recorded(self):
-        import worker
+        worker = load_worker()
         q = os.path.join(self.d, "queue")
         os.makedirs(q)
         row = {"id": "20261009T090000Z-abc123", "kind": "run", "finding": "queue_divorce", "params": {"first_year": "2000", "last_year": "2020"},
@@ -195,7 +205,7 @@ class TheWorker(unittest.TestCase):
         self.assertEqual(got["machine"], "test")
 
     def test_a_request_with_the_table_ends_done_with_its_card(self):
-        import worker
+        worker = load_worker()
         table = os.path.join(common.DEFAULT_IN_DIR, "lbnl_interconnection_queue.csv")
         if not os.path.exists(table):
             raise unittest.SkipTest("lbnl_interconnection_queue is not on this machine")
