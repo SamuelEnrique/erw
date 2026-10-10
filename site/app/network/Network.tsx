@@ -17,12 +17,22 @@
 // link; a Prices switch (off by default) draws a second, outer ring whose weight follows the hub price, for the grids
 // with a public price held for the moment shown; and "Trace the power" lists, in the panel, the selected grid's suppliers
 // over the period shown and their suppliers, two steps, with shares. The look is unchanged.
+// Session 180: a second shape of the same page, "Map" beside "Network" at the top (v3 only). The network is the default
+// and is drawn exactly as before; the map (NetworkMap.tsx) draws the same grids on the ground from this component's own
+// view, hour, selection and colors, and opens the same panel. The shape is kept in the address (lib/networkMap.ts): an
+// address without it is the network. The 3D scene is built only while the network is the shape shown.
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Num } from "@/components/Num";
 import { shown } from "@/lib/format";
 import { HEADLINE, MEASURES, SPREAD, type Measure, type Supply } from "@/lib/basupply";
 import { clampDay, dayFrame, easternHours, parseShared, priceWeight, sharedQuery, trace as tracePower, type Daily, type DailyIndex, type ViewKey, PAUSED_PRICE, PAUSED_WORDS, monthSpan, type Complete } from "@/lib/networkV3";
+import { parseShape, withShape, type Shape } from "@/lib/networkMap";
+
+// session 180: the map is loaded when it is first shown, so the network's own load is what it was
+const NetworkMap = dynamic(() => import("./NetworkMap").then((m) => m.NetworkMap), { ssr: false });
+const never = () => () => {};
 
 export type NetNode = { id: string; name: string; iso: string | null; demand_mw: number | null; demand_ts: string | null;
   intensity: number | null; intensity_ts: string | null; volume_mwh: number; x: number; y: number; z: number;
@@ -119,6 +129,12 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
   const dayAsk = useRef(0);  // session 124: the newest day asked for; an older year's file that arrives late is not shown over it
   const years = useRef<Record<string, Daily>>({});
   const isDayView = view.frame === "day";
+  // session 180 (v3 only): the page's shape. The address's until the reader chooses one; the network when it says nothing
+  const search = useSyncExternalStore(never, () => window.location.search, () => "");
+  const [ownShape, setOwnShape] = useState<Shape | null>(null);
+  const shape: Shape = v3 ? ownShape ?? parseShape(search) : "network";
+  const toggled = useRef(false);   // the reader has changed the shape: a network built after that is brought to the moment shown
+  const [graphAt, setGraphAt] = useState(0);
 
   const held = useMemo(() => {
     const vals: number[] = [];
@@ -186,6 +202,8 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
   useEffect(() => {
     let alive = true;
     const el = box.current;
+    // session 180: no scene, and nothing loaded for one, while the map is the shape shown
+    if (shape !== "network" || (v3 && (ownShape ?? parseShape(window.location.search)) !== "network")) return;
     if (!el) return;
     const fail = () => { queueMicrotask(() => setNoGl(true)); };  // not synchronously inside the effect
     try {
@@ -219,12 +237,13 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
       // session 68: the network fills its frame when the page opens
       setTimeout(() => { if (alive) g.zoomToFit(0, 10); }, 300);
       setTimeout(() => { if (alive) g.zoomToFit(400, 10); }, 1200);
+      if (toggled.current) setGraphAt((k) => k + 1);   // session 180: back from the map, the scene takes the hour, view and selection shown
     }).catch(() => setNoGl(true));
     const onResize = () => { if (graph.current && el) graph.current.width(el.clientWidth).height(el.clientHeight); };
     window.addEventListener("resize", onResize);
-    return () => { alive = false; window.removeEventListener("resize", onResize); graph.current?._destructor?.(); };
+    return () => { alive = false; window.removeEventListener("resize", onResize); graph.current?._destructor?.(); graph.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [shape]);
 
   // each hour, view, selection or switch: the links and the nodes' objects again
   useEffect(() => {
@@ -236,7 +255,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     g.linkOpacity(pick ? 0.6 : 0.45)
       .linkColor((l: object) => { const x = l as { a: string; b: string }; return pick && x.a !== pick.id && x.b !== pick.id ? "#D9D2C3" : "#6B665E"; })
       .linkDirectionalParticles((l: object) => { const x = l as { a: string; b: string; mw: number }; return pick && x.a !== pick.id && x.b !== pick.id ? 0 : (x.mw > 0 ? 2 : 0); });
-  }, [hour, view, pick, batteriesOn, pricesOn, linksAt, nodeObject]);
+  }, [hour, view, pick, batteriesOn, pricesOn, linksAt, nodeObject, graphAt]);
 
   // the panel opening or closing changes the frame's width: the canvas follows it
   useEffect(() => {
@@ -406,8 +425,12 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
     grid: pick?.id ?? null, batteries: batteriesOn, prices: pricesOn, trace: traceOn }) : "";
   useEffect(() => {
     if (!v3 || !restored || playing) return;  // while it plays the address would change five times a second
-    window.history.replaceState(null, "", `${window.location.pathname}${shared}`);
-  }, [v3, restored, playing, shared]);
+    window.history.replaceState(null, "", `${window.location.pathname}${withShape(shared, shape)}`);
+  }, [v3, restored, playing, shared, shape]);
+  // session 180: what the map draws, from the same view, hour and selection as the network
+  const mapFlows = useMemo(() => (shape === "map" ? linksAt(hour) : []), [shape, linksAt, hour]);
+  const mapNeighbours = useMemo(() => new Set(pick && shape === "map" ? view.links.filter((l) => l.a === pick.id || l.b === pick.id).map((l) => (l.a === pick.id ? l.b : l.a)) : []), [pick, view, shape]);
+  const choose = (to: Shape) => { if (to !== shape) { toggled.current = true; setOwnShape(to); } };
   const demandNow = pick ? view.demand(pick.id, hour) : null;
   const buttons = "border border-accent px-3 py-1 text-sm text-accent hover:bg-paper";
   // the live week's demand carries its check key: from the hourly refresh's snapshot in Storage, else eia930_all_demand
@@ -420,6 +443,14 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
 
   return (
     <div>
+      {v3 ? (
+        <div className="mb-3 flex items-center gap-1 text-sm" role="group" aria-label="Show as" data-shape-toggle={shape}>
+          {(["map", "network"] as const).map((k) => (
+            <button key={k} type="button" onClick={() => choose(k)} aria-pressed={shape === k} data-shape={k}
+              className={`border px-4 py-1.5 ${shape === k ? "border-ink bg-ink text-white" : "border-rule text-ink"}`}>{k === "map" ? "Map" : "Network"}</button>
+          ))}
+        </div>
+      ) : null}
       <div className="mb-2 flex flex-wrap items-center gap-2 text-sm" role="group" aria-label="Watch">
         <span className="mr-1 text-muted">Watch:</span>
         <button type="button" onClick={() => watchLive()} className={buttons} aria-pressed={view.key === "live"}>Live now</button>
@@ -466,7 +497,10 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
         ) : null}
       </div>
       <div className={`grid grid-cols-[minmax(0,1fr)] gap-3 ${pick ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
-        {noGl ? (
+        {shape === "map" ? (
+          <NetworkMap nodes={snap.nodes} flows={mapFlows} maxMw={maxMw} colorOf={(id) => colorOf(view.intensity(id, hour), lo, hi)} pick={pick?.id ?? null} neighbours={mapNeighbours}
+            onPick={(id) => setPick(snap.nodes.find((n) => n.id === id) ?? null)} />
+        ) : noGl ? (
           <p className="border border-rule bg-panel p-4 text-sm">
             This browser cannot draw 3D (WebGL is not available), so the network is not shown. The table of balancing authorities below, and{" "}
             <Link href="/grid">grid conditions</Link>, hold the same numbers.
@@ -575,13 +609,14 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
         ) : null}
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-muted">
-        <span>Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched.</span>
+        <span>{shape === "map" ? "Hover a region for its name, click it for its panel. A tie's dash runs from the exporter to the importer; it is wider as the flow is larger." : "Drag to rotate, scroll to zoom, click a grid; it turns slowly until touched."}</span>
         <span className="flex items-center gap-1">Carbon intensity of generation:
           <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, #175E54, #8C1515)" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>
-        <span>Sphere: demand (the seven ISOs) or interchange volume (the others)</span>
-        {batteriesOn ? <span>Ring: batteries reported for the hour, fuller as they discharge, emptier as they charge.</span> : null}
-        {pricesOn ? <span data-price-legend="1">Outer ring: the hub price, heavier as it is higher, on the grids with a public price held for the {unit} shown ({priceRings}); the heaviest is {priceMax.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, the highest of the period shown.</span> : null}
+        {shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s published boundary. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
+          : <span>Sphere: demand (the seven ISOs) or interchange volume (the others)</span>}
+        {batteriesOn && shape !== "map" ? <span>Ring: batteries reported for the hour, fuller as they discharge, emptier as they charge.</span> : null}
+        {pricesOn && shape !== "map" ? <span data-price-legend="1">Outer ring: the hub price, heavier as it is higher, on the grids with a public price held for the {unit} shown ({priceRings}); the heaviest is {priceMax.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, the highest of the period shown.</span> : null}
       </div>
       <label className="mt-3 block text-sm">Show a balancing authority:{" "}
         <select className="w-full max-w-md border border-rule bg-panel px-2 py-1 text-sm sm:w-auto" value={pick?.id ?? ""} onChange={(e) => setPick(snap.nodes.find((n) => n.id === e.target.value) ?? null)}>
