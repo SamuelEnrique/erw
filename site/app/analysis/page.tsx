@@ -3,6 +3,8 @@ import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every 
 import { AnalysisGallery } from "@/components/AnalysisGallery";
 import { FindingCard } from "@/components/analysis/FindingCard";
 import { RequestForm } from "@/components/analysis/RequestForm";
+import { ImpactForm } from "@/components/analysis/ImpactForm";
+import { ScannerFound } from "@/components/analysis/ScannerFound";
 import { Section } from "@/components/Section";
 import { DOCS, analysisWeeks } from "@/lib/markdown";
 import { METHOD, loadCards, loadCatalogue } from "@/lib/findings";
@@ -16,6 +18,10 @@ export const metadata: Metadata = { title: "Automated Analysis" };
 // and a method footnote, with its data, Python and Stata do-file to download. A person picks a finding and its inputs;
 // the request waits in a queue and runs on the data machine. The chart of the week the code disowned (W40, a count of
 // what the ERW had read) is no longer drawn here; each week's chart stays on its own page in the archive below.
+// Session 181: two additions, the page's layout otherwise as it was. "Found by the scanner": the drafts a person
+// approved at /internal/findings (public.scanner_drafts), read by the browser from /internal/findings/approved, which
+// answers only the internal view; nothing appears before approval and a dismissed draft never does. "Impact of an
+// event on a series": the impact study's own inputs (ImpactForm), a request like the others.
 export default function AnalysisPage() {
   const weeks = analysisWeeks();
   const a = DOCS.analysis;
@@ -23,6 +29,7 @@ export default function AnalysisPage() {
   const res = week ? a.results[week] : undefined;
   const cards = loadCards();
   const catalogue = loadCatalogue();
+  const impact = catalogue.find((c) => c.id === "impact_study");
   return (
     <>
       <h1 className="mb-1 text-3xl">Automated Analysis</h1>
@@ -41,9 +48,17 @@ export default function AnalysisPage() {
           </div>
         )}
       </Section>
+      <Section title="Found by the scanner">
+        <ScannerFound />
+      </Section>
       <Section title="Ask for a finding">
         <RequestForm catalogue={catalogue} />
       </Section>
+      {impact ? (
+        <Section title="Impact of an event on a series">
+          <ImpactForm entry={impact} />
+        </Section>
+      ) : null}
       {res ? (
         <Section title={`This week's results, ${week}`} aside={<Link href={`/analysis/${week}`}>This week&apos;s chart</Link>}>
           <div className="overflow-x-auto">

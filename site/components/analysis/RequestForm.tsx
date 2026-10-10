@@ -5,6 +5,7 @@
 // worker (warehouse/analysis/findings/worker.py) takes it when the machine wakes. No typed free text: inputs are chosen.
 import { useEffect, useState } from "react";
 import type { CatalogueEntry } from "@/lib/findings";
+import { RequestCard } from "./RequestCard";
 
 type Req = { id: string; finding: string; params: Record<string, string>; status: string; asked_at: string; done_at: string | null; note: string; card_id: string | null };
 
@@ -21,6 +22,7 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
   const [reqs, setReqs] = useState<Req[] | null>(null);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
+  const [shown, setShown] = useState("");      // session 181: the request whose card is drawn under the list
   const load = () => fetch("/api/analysis", { cache: "no-store" })
     .then(async (r) => setReqs(r.ok ? ((await r.json()) as { requests: Req[] }).requests : []))
     .catch(() => setReqs([]));
@@ -45,16 +47,16 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
   return (
     <div data-request-form="1">
       <div className="mb-3 flex flex-wrap items-end gap-3 text-sm">
-        <label className="flex flex-col text-xs text-muted">
+        <label className="flex min-w-0 max-w-full flex-col text-xs text-muted">
           Finding
-          <select value={name} onChange={(e) => { setName(e.target.value); setChosen({}); }} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" data-request-finding="1">
+          <select value={name} onChange={(e) => { setName(e.target.value); setChosen({}); }} className="mt-1 max-w-full border border-rule bg-panel px-2 py-1 text-sm text-ink" data-request-finding="1">
             {catalogue.map((c) => <option key={c.id} value={c.id}>{c.title} ({c.kind})</option>)}
           </select>
         </label>
         {entry ? Object.entries(entry.inputs).map(([k, inp]) => (
-          <label key={k} className="flex flex-col text-xs text-muted">
+          <label key={k} className="flex min-w-0 max-w-full flex-col text-xs text-muted">
             {inp.label}
-            <select value={params[k] ?? ""} onChange={(e) => setParams({ ...params, [k]: e.target.value })} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" data-request-input={k}>
+            <select value={params[k] ?? ""} onChange={(e) => setParams({ ...params, [k]: e.target.value })} className="mt-1 max-w-full border border-rule bg-panel px-2 py-1 text-sm text-ink" data-request-input={k}>
               {inp.choices.map((v) => <option key={String(v)} value={String(v)}>{inp.words?.[String(v)] ?? String(v)}</option>)}
             </select>
           </label>
@@ -72,16 +74,23 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
           <tbody>
             {reqs.map((r) => (
               <tr key={r.id} className="border-b border-rule" data-request-id={r.id} data-request-status={r.status}>
-                <td className="py-1 pr-3">{catalogue.find((c) => c.id === r.finding)?.title ?? r.finding}</td>
+                <td className="py-1 pr-3">{catalogue.find((c) => c.id === r.finding)?.title ?? (r.finding === "scanner_daily" ? "The scanner's daily scan" : r.finding)}</td>
                 <td className="py-1 pr-3">{Object.entries(r.params).map(([k, v]) => `${k}: ${catalogue.find((c) => c.id === r.finding)?.inputs[k]?.words?.[v] ?? v}`).join(", ")}</td>
                 <td className="py-1 pr-3 font-mono">{when(r.asked_at)}</td>
                 <td className="py-1 pr-3">{STATUS[r.status] ?? r.status}{r.note ? `: ${r.note}` : ""}</td>
-                <td className="py-1">{r.card_id ? <a href={`/analysis/card/${r.card_id}`}>{r.card_id}</a> : ""}</td>
+                <td className="py-1">
+                  {r.card_id ? (
+                    <button type="button" onClick={() => setShown(shown === r.id ? "" : r.id)} className="underline" data-request-show={r.id}>
+                      {shown === r.id ? "hide the card" : "show the card"}
+                    </button>
+                  ) : ""}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
+      {shown ? <RequestCard key={shown} requestId={shown} /> : null}
     </div>
   );
 }
