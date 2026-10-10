@@ -78,7 +78,10 @@ class TheRobotsFile(unittest.TestCase):
 
 class TheCitation(unittest.TestCase):
     def test_the_source_line_and_the_browse_address_are_freds_form(self):
-        import run as R
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("thesis_run_175", os.path.join(ROOT, "warehouse", "thesis", "run.py"))
+        R = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(R)      # by its path: `import run` in one process with the whole suite returns another run.py
         s = {"source": "FRED", "id": "fred:MHHNGSP", "title": "Henry Hub Natural Gas Spot Price", "url": SR.FRED_CSV + "MHHNGSP", "retrieved": "2026-10-10"}
         self.assertEqual(R.browse_url(s), "https://fred.stlouisfed.org/series/MHHNGSP")
         line = R.series_line(s)
