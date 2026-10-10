@@ -1,0 +1,224 @@
+{
+ "id": "who_rescues_whom",
+ "title": "WHO RESCUES WHOM",
+ "kind": "visual",
+ "subtitle": "6 authorities turned exporter during Winter Storm Uri, February 2021, 5 turned importer",
+ "params": {
+  "event": "uri_2021",
+  "min_mwh": 1000.0
+ },
+ "inputs_words": {
+  "event": "Winter Storm Uri, February 2021",
+  "min_mwh": "1,000 MWh a day"
+ },
+ "chart": {
+  "kind": "bars_free",
+  "x": [
+   "Arizona Public Service",
+   "SPP",
+   "PacifiCorp East",
+   "ERCOT",
+   "Duke Carolinas",
+   "BCHA",
+   "PNM",
+   "CENACE (Mexico)",
+   "WALC",
+   "TEC",
+   "FMPP"
+  ],
+  "x_label": "Balancing authorities that flipped, and the event's grid; Winter Storm Uri, February 2021",
+  "series": [
+   {
+    "name": "Baseline (same days, 1 and 2 years earlier)",
+    "type": "bar",
+    "unit": "MWh a day, net exports",
+    "values": [
+     34505.041666666664,
+     6238.611111111111,
+     -356.7083333333333,
+     512.0833333333334,
+     -6225.513888888889,
+     -2520.472222222222,
+     2365.3611111111113,
+     -4386.472222222223,
+     -1183.263888888889,
+     1469.7083333333333,
+     -1198.8055555555557
+    ]
+   },
+   {
+    "name": "The event, 2021-02-07 to 2021-02-24",
+    "type": "bar",
+    "unit": "MWh a day, net exports",
+    "values": [
+     -24611.36111111111,
+     -43416.333333333336,
+     11611.25,
+     -9651.638888888889,
+     2755.4444444444443,
+     4429.666666666667,
+     -3940.3055555555557,
+     337.77777777777777,
+     1820.5555555555557,
+     -443.69444444444446,
+     54.833333333333336
+    ]
+   }
+  ],
+  "y_left_label": "net exports, MWh a day (below zero: net imports)",
+  "decimals": 0,
+  "flip": [
+   "export_to_import",
+   "export_to_import",
+   "import_to_export",
+   "export_to_import",
+   "import_to_export",
+   "import_to_export",
+   "export_to_import",
+   "import_to_export",
+   "import_to_export",
+   "export_to_import",
+   "import_to_export"
+  ]
+ },
+ "callouts": [
+  {
+   "label": "Authorities that flipped",
+   "before": {
+    "period": "to exporting",
+    "text": "6"
+   },
+   "after": {
+    "period": "to importing",
+    "text": "5"
+   },
+   "unit": ""
+  },
+  {
+   "label": "ERCOT net flow, MWh a day",
+   "before": {
+    "period": "baseline",
+    "text": "512 exported"
+   },
+   "after": {
+    "period": "the event",
+    "text": "9,652 imported"
+   },
+   "unit": ""
+  },
+  {
+   "label": "Largest new exporter: PacifiCorp East",
+   "before": {
+    "period": "baseline",
+    "text": "357 imported"
+   },
+   "after": {
+    "period": "the event",
+    "text": "11,611 exported"
+   },
+   "unit": ""
+  }
+ ],
+ "why": "Of the 71 balancing authorities with flows on both the window and its baseline, 6 flipped from net importing to net exporting during Winter Storm Uri, February 2021 and 5 the other way; 58 kept their sign and 2 moved under 1,000 MWh a day both ways. ERCOT itself went from 512 MWh a day on the baseline to -9,652 in the window (a net importer during the event; positive is net export). The largest new exporter was PacifiCorp East: -357 MWh a day on the baseline, 11,611 in the window. The largest new importer was SPP: 6,239 on the baseline, -43,416 in the window. The biggest swing of all was PJM's, 175,325 MWh a day. A flip says who sent power the other way when it was scarce; it does not say why, and a tie-line's limit, a neighbour's own emergency or a scheduled outage can each move a sign.",
+ "footnote": "Data: eia930_daily_interchange, EIA-930's daily interchange by pair of balancing authorities (EIA's Eastern-time days; a positive value is power from the row's authority to its neighbour), 16,474 rows read; EIA's region rows (CAL, CAR, CENT, FLA, MIDA, MIDW, NE, NW, NY, SE, SW, TEN, TEX, US48) left out. A pair's flow on a day is the mean of its two sides' reports where both are held (8,604 pair-days, 7,870 with both sides, 1,459 of those with the sides more than a tenth apart); an authority's day is the sum over its pairs (exports minus imports). Window: 2021-02-07 to 2021-02-24 (18 days), from event_window_daily's header (docs/methods/events.md). Baseline: the same calendar days 364 and 728 days earlier, 36 days, averaged where held. Flip: the sign of the baseline mean against the sign of the window mean; an authority under 1,000 MWh a day on both is 'small'. Every authority with days on both sides is a row; the chart shows the flipped ones and the event's grid, largest swing first, at most 14.",
+ "numbers": {
+  "n_bas": 71,
+  "n_to_export": 6,
+  "n_to_import": 5,
+  "n_same": 58,
+  "n_small": 2,
+  "grid_ba": "erco",
+  "grid_name": "ERCOT",
+  "grid_baseline": 512.0833333333334,
+  "grid_event": -9651.638888888889,
+  "grid_event_days": 18,
+  "grid_baseline_days": 36,
+  "big_exp_name": "PacifiCorp East",
+  "big_exp_baseline": -356.7083333333333,
+  "big_exp_event": 11611.25,
+  "big_imp_name": "SPP",
+  "big_imp_baseline": 6238.611111111111,
+  "big_imp_event": -43416.333333333336,
+  "biggest_swing_name": "PJM",
+  "biggest_swing": 175325.34722222222,
+  "biggest_swing_baseline": 38600.375,
+  "biggest_swing_event": 213925.72222222222,
+  "grid_baseline_abs": 512.0833333333334,
+  "grid_event_abs": 9651.638888888889,
+  "big_exp_baseline_abs": 356.7083333333333,
+  "big_exp_event_abs": 11611.25,
+  "big_imp_baseline_abs": 6238.611111111111,
+  "big_imp_event_abs": 43416.333333333336
+ },
+ "source_line": "Source: EIA-930 (Hourly Electric Grid Monitor), daily interchange; ERW tables eia930_daily_interchange, event_window_daily.",
+ "tables": [
+  "eia930_daily_interchange",
+  "event_window_daily"
+ ],
+ "computed_at": "2026-10-10T03:09:01Z",
+ "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+ "csv_header": [
+  "Energy Research Warehouse (ERW): finding who_rescues_whom, WHO RESCUES WHOM",
+  "Computed 2026-10-10T03:09:01Z by warehouse/analysis/findings/who_rescues_whom.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Rows: one per balancing authority: mean net exports (MWh a day) over the baseline days and over the event's window, the swing, the days held, and the flip (import_to_export, export_to_import, same, small)",
+  "Sources: eia930_daily_interchange, event_window_daily"
+ ],
+ "card_id": "who_rescues_whom",
+ "meta": {
+  "event": "uri_2021",
+  "window": [
+   "2021-02-07",
+   "2021-02-24"
+  ],
+  "baseline_days": [
+   "2019-02-10",
+   "2019-02-11",
+   "2019-02-12",
+   "2019-02-13",
+   "2019-02-14",
+   "2019-02-15",
+   "2019-02-16",
+   "2019-02-17",
+   "2019-02-18",
+   "2019-02-19",
+   "2019-02-20",
+   "2019-02-21",
+   "2019-02-22",
+   "2019-02-23",
+   "2019-02-24",
+   "2019-02-25",
+   "2019-02-26",
+   "2019-02-27",
+   "2020-02-09",
+   "2020-02-10",
+   "2020-02-11",
+   "2020-02-12",
+   "2020-02-13",
+   "2020-02-14",
+   "2020-02-15",
+   "2020-02-16",
+   "2020-02-17",
+   "2020-02-18",
+   "2020-02-19",
+   "2020-02-20",
+   "2020-02-21",
+   "2020-02-22",
+   "2020-02-23",
+   "2020-02-24",
+   "2020-02-25",
+   "2020-02-26"
+  ],
+  "n_window_days": 18,
+  "min_mwh": 1000.0,
+  "n_rows_read": 16474,
+  "n_pair_days": 8604,
+  "n_pair_days_both_sides": 7870,
+  "n_pair_days_disagree": 1459
+ },
+ "downloads": {
+  "csv": "erw_2026_event_interchange_flips.csv",
+  "python": "who_rescues_whom.py",
+  "stata": "who_rescues_whom.do"
+ },
+ "csv_sha256": "95e12efd00ac9e2586928dda2f4f3a055786a0846af58c0049234acb717ee173"
+}

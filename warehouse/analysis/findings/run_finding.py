@@ -31,7 +31,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, HERE)
 import findings_common as common  # noqa: E402
 
-FINDINGS = ["batteries_lunch", "gas_sets_price", "queue_divorce"]
+FINDINGS = ["batteries_lunch", "gas_sets_price", "queue_divorce", "peak_hour_moved", "who_rescues_whom", "negative_prices_west", "batteries_curtailment"]  # session 174: four more
 CARD_DIR = os.path.join(ROOT, "site", "data", "findings")
 DOWNLOAD_DIR = os.path.join(ROOT, "site", "public", "findings")
 
