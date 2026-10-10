@@ -16,7 +16,9 @@ if (at > 0) {
     const r = F.resultOf(a, rev);
     return { debt: r.debt, coverage: r.coverage, npv: r.npv, irr: r.irr, toll: r.toll, tail_years: r.tail.years, tail_pv: r.tail.pv, flows: F.flows(a, rev) };
   });
-  console.log(JSON.stringify(out));
+  // Session 179, found by GitHub's runner at the landing: on Linux a pipe takes 64 KiB at a time, and process.exit()
+  // right after console.log cut the JSON at byte 65,536. The exit now waits until stdout has taken every byte.
+  await new Promise((done) => process.stdout.write(JSON.stringify(out) + "\n", done));
   process.exit(0);
 }
 
