@@ -94,7 +94,7 @@
 ## Pulls and spend
 
 - Outside hosts: 0 requests. None approved, none made.
-- Production: read only. One internal-view read of the battery page for the "before" text.
+- Production: read only. Two internal-view reads of the battery page: the "before" text, and one more to try the check's text-only mode after a fix. The two texts are identical.
 - Supabase: anon reads only, through the local build and `check-values`.
 - Model spend: USD 0 of USD 0. No model call.
 
@@ -126,6 +126,7 @@ Outputs under `runs/session179/`.
   - The scenario numbers carry no `data-check` key, so `check-values` does not cover them. The browser check recomputes them with the library, and the library is held to the Python mirror.
   - The "before" text is production and the "after" is the local build: two environments, the same live data.
   - Only headless Chrome. Not tried with JavaScript off.
+- The check's text-only mode left its browser profile in the temp directory on its first two runs (it exited before its cleanup). Fixed in `bd51722`, tried once (`text_only_recheck.out`: exit 0, nothing left), and the two leftover profiles removed. No process was left running. The full 68-assertion run predates that five-line fix, which sits in a branch the full run does not enter; it was not rerun.
 - One line in the suite's output, "FAILED request 1 of 30 ... HTTP 403", is printed by an older test, not mine. The suite passed. I did not trace it.
 
 ## Decisions made without you
