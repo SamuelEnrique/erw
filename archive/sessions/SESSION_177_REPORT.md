@@ -152,3 +152,46 @@ Run on 10 October 2026, 01:00 to about 03:25 local (08:00 to 10:25 UTC), unatten
 
 ## The landing
 
+
+- Landed by the chain's coordinator from `wip/177-land` (`wip/179-land`, `origin/main` and `wip/177-security` merged;
+  no conflict), after sessions 178 and 179, which were ready first and touch other files. Outputs under
+  `runs/session177/`.
+- In the main copy at the merged tree (`2ad56fb`), before anything touched Supabase or production: `npm ci` and
+  `npm run build` under the mutex, exit 0 (Next 16.3.8; `land_npm_ci.out`, `land_build.out`); tests 177, 128, 179, 178,
+  176: 131 tests OK; `test-usage.mjs` and `test-markdown-safe.mjs` exit 0; on the local build: `check-security` 46 of
+  46, `check-routes` 156 pages in review and 0 failed, **the whole `check-values`: 6,907 of 6,907** (the first whole
+  run that passes since session 166: this branch's reader for `/datacenters` and session 178's keys together),
+  `check-battery-scenarios` all passed (session 179's panel under the new headers), `check-csp` in a real browser: 83
+  pages, 0 enforced and 0 report-only violations; the whole suite in the clean worktree: 2,870 tests OK, 232 skipped.
+- No freeze. `177_before` at 10:37:46 UTC (25 pages, exit 0), its own command, before the migration.
+- **Migration 028 applied at 10:37:56 UTC**: `apply.py --only 028` exit 0, "applied 028_security_usage.sql (Postgres
+  connection)" (`apply_028.out`). `verify_rls.py --catalog` exit 0: "PASS: 0 mismatch(es)"; the eight public tables
+  read with the anon key, the internal ones refused; the asked proof, `GET site_api_calls?select=*&limit=1` with the
+  anon key: "HTTP 401, code 42501: REFUSED"; 23 tables, each "rls on" (`verify_rls_after.out`). `check-values` against
+  production after it and before the deploy: exit 0, 6,906 of 6,937 with 31 latest prices superseded by a newer
+  interval (`check_values_prod_before.out`). Recorded in `warehouse/supabase/README.md` (the 028 row).
+- Pushed as `task/177-security`; "code branch" run 38045823366 success; merge `9c22e3c`; Vercel production "Deployment
+  has completed" at 10:50:03 UTC; `177_after` at 10:50:19 UTC.
+- **The comparison: 50 differences, one kind, every one expected** (`compare_177.out`, exit 1 as there are
+  differences): on each of the 25 pages the footer's line "... Data and methods . Terms in review ." became "... Data
+  and methods . Terms in review . Privacy in review ." (25 lines before only, 25 after only). Numbers changed: 0.
+  Statuses changed: 0. Nothing else; nothing to revert.
+- On production after the deploy: `check-security --recorded` 47 of 47 (`check_security_prod.out`); `check-csp
+  --recorded`, a real browser: "the form at /internal/open opens the internal view in a real browser (landed on /, the
+  view's cookie set)", "/storage: the chart library loaded and drew", "the sign-up form, posted by the browser, is
+  taken as this site's own", "--recorded: opening /storage in this browser added to the counts on /internal/usage (84
+  to 85 events)", "83 pages: 0 enforced violation(s), 0 report-only violation(s), 0 page(s) not loaded"
+  (`check_csp_prod.out`); `check-values`: **6,937 of 6,937**, exit 0 (`check_values_prod_after.out`);
+  `check-battery-scenarios`: all passed; `check-routes`: 156 pages in review as a visitor, 0 failed (it opens the
+  internal view by the old link, so the old link works); `/internal/unlock` with no token: 404, as before.
+- So `ASK_VISITOR_SALT` is on Vercel: the counts are recorded. The checks themselves wrote the first counts (about 85
+  page views of one browser on 10 October, and two wrong-token tries); `/internal/usage` starts with those.
+- **Held for your ruling: the count "scenario compared".** Your paragraph for this session lists it as an event, and
+  `track("scenario compared")` exists (`site/lib/usage.ts`). No page calls it yet. The one place it belongs is the
+  Scenarios block of `/cost-of-power/battery` (`site/app/cost-of-power/battery/Scenarios.tsx`, the marked comment in
+  `update`, with the exact code). That page's contract box says "Computed on this device. Nothing you type here is sent
+  or stored.", and this session's own rule keeps every automatic count silent on a page that says so. The call would
+  send the event's name and the path only, never a value, from outside that box, but it would be the one request a
+  reader's action causes on that page. The coordinator left it out: adding it later is one line, and taking back a
+  request made on a page that promises none is not possible. Say "add it" and it goes in with the next landing.
+- After this landing each worktree that builds again needs `npm ci` under the mutex (Next 16.3.8).
