@@ -4,14 +4,19 @@
 // Each input has its default (the catalogue's, computed card on the page) and one Reset. The request is queued like
 // any other (POST /api/analysis, kind run, finding impact_study) and computed by the data machine's worker; the card
 // appears at /analysis/card/<id> when it is done. The form compares nothing itself and recommends nothing.
-import { useState } from "react";
+import { useContext, useState } from "react";
 import type { CatalogueEntry } from "@/lib/findings";
 import { RequestCard } from "./RequestCard";
+import { FlowHost } from "./FlowHost";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const when = (iso: string) => iso.replace("T", " ").slice(0, 16) + " UTC";
 
+// Session 182, part 4: the request flow hosts this form (FlowHost). The flow places step two, the picker of chart
+// forms, between the inputs and the Ask button, and is told which request was queued, so that the address keeps it.
+// Outside the flow the form is what it was.
 export function ImpactForm({ entry }: { entry: CatalogueEntry }) {
+  const host = useContext(FlowHost);
   const defaults = Object.fromEntries(Object.entries(entry.inputs).map(([k, v]) => [k, String(v.default)]));
   const [p, setP] = useState<Record<string, string>>(defaults);
   const [note, setNote] = useState("");
@@ -40,6 +45,7 @@ export function ImpactForm({ entry }: { entry: CatalogueEntry }) {
       const j = (await r.json()) as { ok: boolean; reason?: string; id?: string };
       setNote(j.ok ? `queued at ${when(new Date().toISOString())} (request ${j.id}): the card appears below in 1 to 5 minutes when the data machine is awake` : (j.reason ?? "not queued"));
       setAsked(j.ok && j.id ? j.id : "");
+      if (j.ok && j.id) host?.onAsked(j.id);
     } catch (e) { setNote((e as Error).message); }
     setBusy(false);
   };
@@ -59,11 +65,12 @@ export function ImpactForm({ entry }: { entry: CatalogueEntry }) {
         {select("window", "Window: days before and after")}
       </div>
       {same ? <p className="mt-2 text-xs text-accent" data-impact-same="1">The control is the series itself: the card would be refused. Pick another control.</p> : null}
+      {host?.between ?? null}
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <button type="button" onClick={submit} disabled={busy} className="border border-rule bg-panel px-3 py-1 text-sm text-ink hover:border-ink disabled:opacity-60" data-impact-submit="1">
+        <button type="button" onClick={submit} disabled={busy} className="min-h-[44px] border border-rule bg-panel px-3 py-1 text-sm text-ink hover:border-ink disabled:opacity-60" data-impact-submit="1">
           Ask the warehouse
         </button>
-        <button type="button" onClick={() => { setP(defaults); setNote(""); setAsked(""); }} className="border border-rule bg-panel px-3 py-1 text-sm text-ink hover:border-ink" data-impact-reset="1">
+        <button type="button" onClick={() => { setP(defaults); setNote(""); setAsked(""); }} className="min-h-[44px] border border-rule bg-panel px-3 py-1 text-sm text-ink hover:border-ink" data-impact-reset="1">
           Reset
         </button>
         <span className="text-xs text-muted">

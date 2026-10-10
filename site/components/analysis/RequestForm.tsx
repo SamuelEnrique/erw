@@ -12,7 +12,10 @@ type Req = { id: string; finding: string; params: Record<string, string>; status
 const when = (iso: string) => iso.replace("T", " ").slice(0, 16) + " UTC";
 const STATUS: Record<string, string> = { queued: "queued, waits for the data machine", running: "running on the data machine", done: "done", failed: "failed" };
 
-export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
+// Session 182, part 4: the request flow (RequestFlow) now holds the choosing; with `listOnly` this component is the
+// list of requests alone (state, time asked, "show the card"), read again the moment the flow queues a request. A card
+// shown from the list carries its own toggles of chart form.
+export function RequestForm({ catalogue, listOnly = false }: { catalogue: CatalogueEntry[]; listOnly?: boolean }) {
   const [name, setName] = useState(catalogue[0]?.id ?? "");
   const entry = catalogue.find((c) => c.id === name);
   // the chosen inputs over the finding's defaults; a new finding starts from its defaults (set with the name, not in an effect)
@@ -29,7 +32,8 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
   useEffect(() => {
     const t0 = setTimeout(load, 0);  // the first read after the mount, not in the effect's own body
     const t = setInterval(load, 20000);
-    return () => { clearTimeout(t0); clearInterval(t); };
+    window.addEventListener("erw-analysis-asked", load);
+    return () => { clearTimeout(t0); clearInterval(t); window.removeEventListener("erw-analysis-asked", load); };
   }, []);
   const submit = async () => {
     if (!entry) return;
@@ -45,8 +49,8 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
   };
   if (!catalogue.length) return <p className="text-sm text-muted">No finding is in the catalogue yet.</p>;
   return (
-    <div data-request-form="1">
-      <div className="mb-3 flex flex-wrap items-end gap-3 text-sm">
+    <div data-request-form="1" data-request-list={listOnly ? "1" : "0"}>
+      {listOnly ? null : <div className="mb-3 flex flex-wrap items-end gap-3 text-sm">
         <label className="flex min-w-0 max-w-full flex-col text-xs text-muted">
           Finding
           <select value={name} onChange={(e) => { setName(e.target.value); setChosen({}); }} className="mt-1 max-w-full border border-rule bg-panel px-2 py-1 text-sm text-ink" data-request-finding="1">
@@ -64,12 +68,12 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
         <button type="button" onClick={submit} disabled={busy} className="border border-rule bg-panel px-3 py-1 text-sm text-ink hover:border-ink disabled:opacity-60" data-request-submit="1">
           Ask the warehouse
         </button>
-      </div>
+      </div>}
       {note ? <p className="mb-2 text-xs text-muted" data-request-note="1">{note}</p> : null}
       {reqs === null ? <p className="text-xs text-muted">Reading the queue.</p> : reqs.length === 0 ? (
         <p className="text-xs text-muted" data-request-rows="0">No request waits. A request runs on the data machine; when it is off, the row stays queued here with the time it was asked.</p>
       ) : (
-        <table className="w-full max-w-3xl text-xs" data-request-rows={reqs.length}>
+        <div className="overflow-x-auto"><table className="w-full max-w-3xl text-xs" data-request-rows={reqs.length}>
           <thead><tr className="border-b border-rule text-left text-muted"><th className="py-1 pr-3">Finding</th><th className="py-1 pr-3">Inputs</th><th className="py-1 pr-3">Asked</th><th className="py-1 pr-3">State</th><th className="py-1">Card</th></tr></thead>
           <tbody>
             {reqs.map((r) => (
@@ -88,7 +92,7 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       )}
       {shown ? <RequestCard key={shown} requestId={shown} /> : null}
     </div>
