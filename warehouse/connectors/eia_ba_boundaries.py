@@ -12,13 +12,20 @@ Two steps, each its own command:
 
   get    one request to an outside host, logged in <pull-dir>/requests.csv (URL, status, bytes, time, sha256). The
          contact string is the ruled one. A paused publisher's host is refused (iso_prices.paused_host). No redirect is
-         followed: a redirect is a request, and it is counted like one. The command refuses to pass the ceilings it is
-         given (requests and bytes, the session's: 5 and 200 MB).
+         followed: a redirect is a request, and it is counted like one. The command refuses, before anything is sent,
+         to pass the ceilings it is given (requests and bytes, the session's: 5 and 200 MB), to ask for a path the
+         host's saved robots file disallows (--robots), and to ask the same host again sooner than the robots file's
+         Crawl-delay (--min-gap).
   build  the raw GeoJSON, read from disk, to the site file. No request. Matching is exact: a shape is given to a node
          only when the publisher's own code for it is the node's EIA-930 code; nothing is matched by name or by guess.
          Every node with no shape and every shape with no node is listed in the provenance record.
 
 Real data only: a shape that is not in the publisher's file is not drawn from anything else.
+
+10 October 2026: the session's five requests, all to EIA's U.S. Energy Atlas (atlas.eia.gov), reached no boundary file
+(docs/methods/grid_network.md, "The map", has each request and its answer). So no site file exists yet, the map says
+the boundary file is not yet held, and the source registry has no row for it. The file is named for EIA because the
+atlas was the publisher asked; --source names another publisher's file when a person rules which one is pulled.
 """
 import argparse
 import calendar

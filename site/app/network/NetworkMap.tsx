@@ -62,7 +62,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       <div className={`${frame} flex items-center justify-center bg-panel p-6`} style={style} data-map-state={held.state} data-map-regions="0" data-map-matched="0">
         <p className="max-w-md text-sm" role="status">
           {held.state === "loading" ? <>Reading the boundaries.</>
-            : held.state === "absent" ? <>The boundary file is not yet held: the warehouse has no published file of the balancing authorities&apos; boundaries, so no region is drawn here and none is
+            : held.state === "absent" ? <>The boundary file is not yet held: the warehouse does not yet hold a published file of the balancing authorities&apos; boundaries, so no region is drawn here and none is
               sketched in its place. The Network view shows the same grids, flows and numbers.</>
               : <>The boundary file could not be read ({held.why}), so no region is drawn. The Network view shows the same grids, flows and numbers.</>}
         </p>
