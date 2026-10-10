@@ -6,7 +6,7 @@ name: thesis builder
 # pick up a run whose dispatch did not arrive (leave run_id empty: every queued run is taken, oldest first).
 #
 # What this job never does: commit to git, write a public table, upload to Redivis, or touch a file the site reads.
-# Its spend is the model's: one run stops at USD 2, and the runs of a UTC day together at USD 8, both counted in
+# Its spend is the model's: one run stops at USD 1 (session 169; USD 2 before), and the runs of a UTC day together at USD 8, both counted in
 # warehouse/thesis/run.py from the internal table; the page queues at most six runs a day (the database counts).
 #
 # Session 158: a run can also be started by hand on the trends of a saved run, the like-for-like run sessions 142 and
@@ -68,6 +68,9 @@ jobs:
       - name: Run
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # session 169: the series a trend is drawn with come from the warehouse first, else the EIA's API (its key, the
+          # one the daily run uses). The runner holds none of the warehouse's tables, so on it every series is the EIA's
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}

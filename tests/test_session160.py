@@ -609,7 +609,7 @@ class NoThresholdChanged(unittest.TestCase):
         self.assertEqual(tie.TIER_ORDER, ["warehouse", "fetched", "web"])
         self.assertEqual((tie.STRONG_POINT, tie.STRONG_TERMS, tie.MIN_TERMS, tie.TIE_MIN, tie.MAX_ADDRESSES, tie.PAGE_SENTENCE_MAX), (1, 3, 2, 2, 3, 500))
         self.assertEqual((tie.NEAR_SAME, tie.NEAR_MIN_WORDS, tie.LIST_MIN), (0.90, 8, 3))
-        self.assertEqual((R.PIPELINE_MIN, R.PIPELINE_MAX, R.RUN_USD, R.DAY_USD), (60, 10, 2.0, 8.0))
+        self.assertEqual((R.PIPELINE_MIN, R.PIPELINE_MAX, R.RUN_USD, R.DAY_USD), (60, 10, 1.0, 8.0))      # session 169: the owner lowered RUN_USD to 1.00
         self.assertEqual(R.STAGE_USD, {"research a": 0.45, "structure a": 0.16, "landscape": 0.85, "risks": 0.12, "structure landscape": 0.34, "structure rest": 0.16})
 
     def test_the_lines_that_score_tie_and_order_are_as_they_were(self):

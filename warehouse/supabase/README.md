@@ -50,6 +50,17 @@ python warehouse/supabase/load.py       # load, reconcile, size check
 python warehouse/supabase/load.py --dry-run   # what would be loaded, no network
 ```
 
+### A record of the migrations applied by hand
+
+A migration beyond the live set's own (the site's tables and functions: the game, the subscribers, the ledger, the Thesis Builder, the analysis queue) is applied by a person with `apply.py --only <number>`, and the session that applies it records it here and in the session report. Two migrations with one number collide in `--only`, so a session that finds two renumbers the later one before applying either (session 172: `026_analysis_requests.sql` of session 170 became `027_analysis_requests.sql`; session 169's `026_thesis_gate.sql` kept its number).
+
+| Migration | What it adds | Applied | By |
+|---|---|---|---|
+| `024_thesis.sql` | `thesis_runs`, `thesis_submit`, `thesis_list`, `thesis_get`, `thesis_token_ok`, `thesis_pitchbook_accept` | before 10 October 2026 (the functions were in the project when session 172 read it) | the owner |
+| `025_thesis_providers.sql` | `thesis_provider_results`, `thesis_provider_accept`, `thesis_provider_results` | before 10 October 2026 (the same reading) | the owner |
+| `026_thesis_gate.sql` | `thesis_runs.gate`, `thesis_submit_forced`, the step `site_thesis_gate` in the ledger's check | 10 October 2026, about 02:05 UTC (`runs/session172/apply_026.out`) | session 172 (the chain prompt of 9 October, part B) |
+| `027_analysis_requests.sql` | `analysis_requests`, `analysis_request`, `analysis_requests_list` | 10 October 2026, about 02:05 UTC (`runs/session172/apply_027.out`), from branch `wip/170-analysis` before its landing | session 172 (the same) |
+
 In session 10, `.env` held neither of the two, so the migrations were not applied and nothing was loaded. In session 11, with `SUPABASE_DB_URL` in `.env`, all three migrations were applied and the live set loaded: 66 tables and the catalogue and sources, every count matching the filtered CSVs (`archive/sessions/SESSION_11_REPORT.md`).
 
 ## Reclaiming space (a human, once)

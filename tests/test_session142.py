@@ -458,8 +458,9 @@ class Spending(unittest.TestCase):
         def execute(r, *a, **k):
             r.partial = {"run_id": "run-y", "notes_b": "the notes this run paid for"}
             raise tb.Budget("structure landscape needs up to USD 0.34 and USD 0.2900 is left; not started")
-        real = R.Careful, R.execute
-        R.Careful, R.execute = Paid, execute
+        real = R.Careful, R.execute, R.COMPANY_SEARCH, R.RUN_USD
+        # session 169: the run with the company search, kept behind its switch; its stages need the old ceiling of USD 2
+        R.Careful, R.execute, R.COMPANY_SEARCH, R.RUN_USD = Paid, execute, True, 2.0
         lines = []
         try:
             with tempfile.TemporaryDirectory() as tmp:
@@ -468,7 +469,7 @@ class Spending(unittest.TestCase):
                 self.assertEqual(kept["notes_b"], "the notes this run paid for")
                 self.assertEqual(json.load(open(os.path.join(tmp, "spent.json")))["usd"], 0.71)
         finally:
-            R.Careful, R.execute = real
+            R.Careful, R.execute, R.COMPANY_SEARCH, R.RUN_USD = real
         self.assertEqual(usd, 0.71)
         self.assertTrue(any("is kept" in s for s in lines))
 

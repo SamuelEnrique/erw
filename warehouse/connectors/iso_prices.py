@@ -118,13 +118,28 @@ def pause_note(source, publisher):
     """The note a paused publisher's rows carry in the source registry's report column, or "" for any other row."""
     for r in paused_rows():
         if re.search(r["match"], source) or re.search(r["match"], publisher):
-            return f" [PAUSED {r['paused_on']}: {r['reason']}; pulls paused pending {r['until']} (docs/methods/miso_pause.md)]"
+            return (f" [PAUSED {r['paused_on']}: {r['reason']}; pulls paused pending {r['until']} "
+                    f"(docs/methods/{r['scope']}_pause.md)]")   # session 172: one note a paused publisher
     return ""
 
 
 def paused_outlets():
     """The news outlets of paused publishers: a story of theirs is never opened on their own site."""
     return {o for r in paused_rows() for o in r["outlets"].split(";") if o}
+
+
+def paused_host(host):
+    """The pause row whose outlets hold this host (or a parent domain of it), or None. Session 172: a connector that
+    takes an address checks the host as well as the scope, so a paused publisher's server is never asked by any path."""
+    h = (host or "").lower().strip()
+    if not h:
+        return None
+    for r in paused_rows():
+        for o in r["outlets"].split(";"):
+            o = o.lower().strip()
+            if o and (h == o or h.endswith("." + o)):
+                return r
+    return None
 
 
 def update_sources(entries):
