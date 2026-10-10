@@ -1,7 +1,7 @@
 """The Sunday Roundup's chosen finding (session 170).
 
 Energy Research Warehouse (ERW). "Use in Roundup" on /analysis writes a row of public.analysis_requests (kind roundup,
-params {card_id, week}; migration 026). The Roundup (warehouse/news/roundup.py) asks here for its week's choice: the
+params {card_id, week}; migration 027). The Roundup (warehouse/news/roundup.py) asks here for its week's choice: the
 latest such row for the week, read with the service role (SUPABASE_URL, SUPABASE_SERVICE_KEY, as warehouse/lock.py
 reads them). The card itself comes from the chosen request's row when the worker wrote one there, else from the
 committed card file site/data/findings/<card_id>.json. No choice, no credentials or no card: None, and the Roundup

@@ -1,4 +1,4 @@
--- Energy Research Warehouse (ERW), session 170: Automated Analysis findings, the queue (/analysis, in review).
+-- Energy Research Warehouse (ERW), session 170: Automated Analysis findings, the queue (/analysis, in review). Numbered 027 by session 172: session 169 wrote 026_thesis_gate.sql the same night.
 --
 -- One internal table, public.analysis_requests: a row per request a person makes on /analysis, of two kinds:
 --   run       a finding with chosen inputs (finding, params). The data machine's worker (warehouse/analysis/findings/

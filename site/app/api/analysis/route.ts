@@ -4,7 +4,7 @@
 //   GET  /api/analysis                                       the queue: the latest requests with their state
 // /api/* is not behind the release gate, so this route protects itself as the thesis route does: it answers only a
 // browser in the internal view (the cookie /internal/unlock sets); anything else gets 404 with an empty body. The
-// database function (migration 026) checks the internal token again, counts the day's requests and writes the row;
+// database function (migration 027) checks the internal token again, counts the day's requests and writes the row;
 // the data machine's worker (warehouse/analysis/findings/worker.py) takes queued rows when it is awake.
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";

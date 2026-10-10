@@ -292,7 +292,7 @@ class ThePageAndTheRoute(unittest.TestCase):
         self.assertIn("paramWords", src("site", "components", "AnalysisGallery.tsx"))
 
     def test_the_migration_is_internal_and_counts_the_day(self):
-        m = src("warehouse", "supabase", "migrations", "026_analysis_requests.sql")
+        m = src("warehouse", "supabase", "migrations", "027_analysis_requests.sql")
         self.assertIn("enable row level security", m)
         self.assertIn("revoke all on public.analysis_requests from public, anon, authenticated", m)
         self.assertIn("internal_costs_token", m)

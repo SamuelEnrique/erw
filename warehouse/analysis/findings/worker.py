@@ -8,7 +8,7 @@ Energy Research Warehouse (ERW).
     python warehouse/analysis/findings/worker.py --local-dir DIR   # the queue as JSON files in DIR (tests, a machine
                                                                    # without the migration): DIR/<id>.json is a row
 
-How a request waits: a row of public.analysis_requests (migration 026) with status queued and the time it was asked.
+How a request waits: a row of public.analysis_requests (migration 027) with status queued and the time it was asked.
 This machine is the data machine, the one that holds the full histories (ERW_DATA_DIR, else warehouse/output). When it
 is off the row stays queued and /analysis says so with the time; when it wakes, this worker takes the oldest queued row,
 marks it running with the machine's name, runs the finding (run_finding.run) against the histories here, and writes the
