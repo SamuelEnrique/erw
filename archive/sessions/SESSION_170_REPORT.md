@@ -106,3 +106,7 @@ Branch `wip/170-analysis` in `C:\Users\lossa\Documents\erw-142`, from `a2bd935`;
 ## Landing state (added by the chain's session 172 at 02:15 UTC on 10 October 2026)
 
 - **Not landed yet; two steps done by session 172.** The queue's migration was renumbered `027_analysis_requests.sql` on `wip/170-analysis` (session 169's `026_thesis_gate.sql` took 026 the same night) and applied at about 02:05 UTC on 10 October 2026 (`runs/session172/apply_027.out`; the table and its two functions are in the project, 0 rows). The branch is at `e182c22` on GitHub. Session 173 lands it (fonts, renders, the worker, the Roundup).
+
+## Landing state (added by the chain's session 173 at 03:00 UTC on 10 October 2026)
+
+- **Landed in full.** `wip/170-analysis` (`e182c22`) merged into `wip/173-land` with session 173's work (fonts, renders, the worker proven, the templates' restore, the module rename), pushed as `task/170-173-chain` at 02:44 UTC, checks run 38018066527 passed, merge `8513ba0`, production at 02:54:32 UTC. Snapshots `173_before` and `173_after`: 0 differences on the 25 pages. `check-analysis.mjs` against production: 79 of 79. A request queued on production at 02:55:07 UTC was done by the worker on this machine at 02:55:21. Details: `archive/sessions/SESSION_173_REPORT.md`.
