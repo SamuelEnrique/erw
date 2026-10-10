@@ -236,7 +236,7 @@ def model_spend(day, session=None, path=None, get=requests.get):
     return sum(mine), len(mine)
 
 
-def budget(step, day=None, rec=record, spend=model_spend, cap=None):
+def budget(step, day=None, rec=record, spend=model_spend, cap=None, instead=""):
     """Session 176: may a scheduled model step run? (exit code, line). 0: the day's spend is under DAILY_MODEL_USD.
     75: it has reached the cap; the step is not run, and a skipped row of erw_health, a warning and the same-day email
     say so. A budget that cannot be read is exit 0 with a failed row: it never switches a step off by itself."""
@@ -251,7 +251,7 @@ def budget(step, day=None, rec=record, spend=model_spend, cap=None):
         return 0, why
     if spent >= cap:
         why = (f"{CAP_MARK} reached: USD {spent:.2f} spent today ({day} UTC, {calls} calls of the scheduled model steps) "
-               f"of USD {cap:.2f} (DAILY_MODEL_USD); {step} not run")
+               f"of USD {cap:.2f} (DAILY_MODEL_USD); {step} " + (instead or "not run"))
         print(f"::warning title={step} skipped by the daily model cap::{why}")
         rec(step, "skipped", why, 0)
         return SKIP, why
@@ -385,7 +385,9 @@ def alert_line(day, rows, run_id=None, workflow=None):
         steps = ", ".join(dict.fromkeys(r["step"] for r in capped))
         m = [x for x in (r.get("reason") or "" for r in capped)][0]
         said = m[len(CAP_MARK):].split(";")[0].strip()  # "reached: USD 1.10 spent today (...) of USD 1.00 (DAILY_MODEL_USD)"
-        tail = f"The {CAP_MARK} {said}: {len(capped)} model step{'s' if len(capped) != 1 else ''} not run ({steps})."
+        plain = [r["step"] for r in capped if not (r.get("reason") or "").rstrip().endswith("not run")]  # written without the model
+        tail = (f"The {CAP_MARK} {said}: {len(capped)} model step{'s' if len(capped) != 1 else ''} not run ({steps})"
+                + (f"; written without the model: {', '.join(dict.fromkeys(plain))}" if plain else "") + ".")
         if not fails:
             return f"ERW: the daily model cap skipped {len(capped)} step{'s' if len(capped) != 1 else ''}", tail[:300]
         subject, line = alert_line(day, [r for r in mine if r not in capped], run_id, workflow)
@@ -442,9 +444,11 @@ def main(argv=None):
     b = sub.add_parser("budget")  # session 176
     b.add_argument("--step", required=True)
     b.add_argument("--day", default="today")
+    b.add_argument("--instead", default="", help="what the caller does at the cap in place of the step, for the row's "
+                   "reason (the digest: 'written without the model-written parts'); default 'not run'")
     a, rest_ = ap.parse_known_args(argv)
     if a.cmd == "budget":
-        code, _ = budget(a.step, None if a.day == "today" else a.day)
+        code, _ = budget(a.step, None if a.day == "today" else a.day, instead=a.instead)
         return code
     if a.cmd == "alert":  # session 119: never raises: an alert that cannot be sent must not fail the job it reports on
         try:

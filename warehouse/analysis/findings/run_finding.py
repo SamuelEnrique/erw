@@ -32,6 +32,7 @@ sys.path.insert(0, HERE)
 import findings_common as common  # noqa: E402
 
 FINDINGS = ["batteries_lunch", "gas_sets_price", "queue_divorce", "peak_hour_moved", "who_rescues_whom", "negative_prices_west", "batteries_curtailment"]  # session 174: four more
+FINDINGS += ["batteries_lunch_grids", "peak_hour_grids", "batteries_curtailment_hourly"]  # session 182: every grid with public prices; CAISO by the hour
 CARD_DIR = os.path.join(ROOT, "site", "data", "findings")
 DOWNLOAD_DIR = os.path.join(ROOT, "site", "public", "findings")
 
@@ -116,7 +117,11 @@ def main(argv=None):
         print(json.dumps(catalogue(), indent=1))
         return 0
     if a.tables:
-        names = sorted({t for m in load_all() for t in m.TABLES})
+        # Session 182's landing: a finding that says DATA_MACHINE_ONLY reads histories the Roundup's runner should not
+        # restore each Sunday (the three cards of session 182 would add about 500 MB: the zone histories, CAISO's
+        # curtailment by interval and its supply history). It is computed on the data machine, and its card and
+        # downloads are in git; on the runner it is "not computed, a table is missing", named, as any finding is.
+        names = sorted({t for m in load_all() if not getattr(m, "DATA_MACHINE_ONLY", False) for t in m.TABLES})
         print("^(" + "|".join(names) + ")$")
         return 0
     if not a.name:

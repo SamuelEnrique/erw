@@ -135,6 +135,20 @@ class TheGate(unittest.TestCase):
         self.assertEqual([(r[0], r[1]) for r in rows], [("deals", "skipped")] * 2)
         self.assertTrue(all(r[2].startswith(health.CAP_MARK) for r in rows))
 
+    def test_a_step_written_without_the_model_says_so_and_not_that_it_did_not_run(self):
+        rows = []
+        code, line = health.budget("news_brief", DAY, rec=lambda *a: rows.append(a), spend=lambda d: (1.07, 16), cap=1.0,
+                                   instead="written without the model-written parts (--no-model)")
+        self.assertEqual(code, health.SKIP)
+        self.assertTrue(line.endswith("news_brief written without the model-written parts (--no-model)"))
+        self.assertNotIn("not run", line)
+        skipped = {"workflow": "daily prices", "run_id": "9", "step": "deals", "status": "skipped",
+                   "reason": health.CAP_MARK + " reached: USD 1.07 spent today (x) of USD 1.00 (DAILY_MODEL_USD); deals not run"}
+        written = dict(skipped, step="news_brief", reason=rows[0][2])
+        _, mail = health.alert_line("2026-10-12", [skipped, written], run_id="9")
+        self.assertIn("written without the model: news_brief", mail)
+        self.assertLessEqual(len(mail), 300)
+
     def test_a_cap_of_zero_skips_every_step(self):
         code, _ = health.budget("news_score", DAY, rec=lambda *a: None, spend=lambda d: (0.0, 0), cap=0.0)
         self.assertEqual(code, health.SKIP)
@@ -150,9 +164,9 @@ class TheGate(unittest.TestCase):
         self.assertIn("could not be read", line)
 
     def test_the_command_exits_with_the_skip_code(self):
-        with mock.patch.object(health, "budget", lambda step, day: (health.SKIP, "x")):
+        with mock.patch.object(health, "budget", lambda step, day, instead="": (health.SKIP, "x")):
             self.assertEqual(health.main(["budget", "--step", "roundup"]), 75)
-        with mock.patch.object(health, "budget", lambda step, day: (0, "x")):
+        with mock.patch.object(health, "budget", lambda step, day, instead="": (0, "x")):
             self.assertEqual(health.main(["budget", "--step", "roundup", "--day", DAY]), 0)
 
 
@@ -217,10 +231,10 @@ class TheSchedule(unittest.TestCase):
 
     def test_the_roundup_asks_the_budget_and_writes_without_the_model_at_the_cap(self):
         y = self.read(".github", "workflows", "roundup.yml")
-        self.assertIn("if python warehouse/health.py budget --step analysis_note; then python warehouse/analysis/run.py; "
-                      "else python warehouse/analysis/run.py --no-model; fi;", y)
-        self.assertIn("if python warehouse/health.py budget --step roundup; then python warehouse/news/roundup.py; "
-                      "else python warehouse/news/roundup.py --no-model; fi;", y)
+        self.assertIn("if python warehouse/health.py budget --step analysis_note --instead 'written without the model (--no-model)'; "
+                      "then python warehouse/analysis/run.py; else python warehouse/analysis/run.py --no-model; fi;", y)
+        self.assertIn("if python warehouse/health.py budget --step roundup --instead 'written without the model-written parts (--no-model)'; "
+                      "then python warehouse/news/roundup.py; else python warehouse/news/roundup.py --no-model; fi;", y)
         for name in ("roundup.yml", "daily-prices.yml"):
             self.assertIn("DAILY_MODEL_USD: ${{ vars.DAILY_MODEL_USD }}", self.read(".github", "workflows", name))
 

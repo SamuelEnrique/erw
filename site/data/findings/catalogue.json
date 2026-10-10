@@ -241,5 +241,94 @@
     "words": {}
    }
   }
+ },
+ {
+  "id": "batteries_lunch_grids",
+  "title": "BATTERIES ATE THEIR OWN LUNCH? FIVE GRIDS",
+  "kind": "econometric",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "iso_rtm_hub_prices",
+   "iso_hub_prices_history",
+   "iso_zone_prices_history",
+   "storage_buildout_monthly",
+   "ercot_zone_load_hourly",
+   "eia930_daily_demand",
+   "eia_fuel_spot_prices"
+  ],
+  "inputs": {
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "peak_hour_grids",
+  "title": "THE PEAK HOUR MOVED: FIVE GRIDS",
+  "kind": "visual",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "iso_rtm_hub_prices",
+   "iso_hub_prices_history",
+   "iso_zone_prices_history",
+   "eia860m_operating_generators",
+   "eia860m_retired_generators_all"
+  ],
+  "inputs": {
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019
+    ],
+    "words": {}
+   },
+   "min_hours": {
+    "label": "Hours a day must hold",
+    "default": 20,
+    "choices": [
+     20,
+     24
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "batteries_curtailment_hourly",
+  "title": "BY HOW MUCH DO BATTERIES CUT CURTAILMENT, HOUR BY HOUR",
+  "kind": "econometric",
+  "tables": [
+   "caiso_curtailment_intervals",
+   "caiso_fuel_supply_history",
+   "caiso_fuel_supply",
+   "storage_buildout_monthly"
+  ],
+  "inputs": {
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019,
+     2021,
+     2023
+    ],
+    "words": {}
+   },
+   "ceiling_pct": {
+    "label": "At the ceiling from (percent of it)",
+    "default": 90,
+    "choices": [
+     90,
+     95
+    ],
+    "words": {}
+   }
+  }
  }
 ]

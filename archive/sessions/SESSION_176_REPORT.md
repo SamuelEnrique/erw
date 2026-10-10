@@ -193,3 +193,41 @@ of `CHAIN_OCT8_PROMPT.md` apply, deploys allowed). Built in the main copy on `wi
   UTC. With the key at its usage limit the budget reads USD 0.00 and each model step runs and fails as it did on 9
   October; the cap changes nothing until the limit is raised.
 - This note reaches main with session 177's landing.
+
+## After the first live day (added by the coordinator on 10 October 2026, about 17:00 UTC)
+
+- **The cap ran live at 14:56 UTC and did what this report said it would.** The key works again: news scoring made 16
+  calls for USD 1.07. Every later model step of the day was then skipped with its row of `erw_health` ("daily model cap
+  reached: USD 1.07 spent today (2026-10-10 UTC, 16 calls of the scheduled model steps) of USD 1.00
+  (DAILY_MODEL_USD); ... not run"): the shadow scorer, policy scoring, policy reads, deals, datacenters, the fun fact,
+  the digest and the shadow digest (a Saturday: no digest is written on a weekend either way). The day's scheduled
+  spend: USD 1.07 against about 1.45 on a day without the cap.
+- **A wording fault of mine, corrected:** the digest's row read "news_brief not run" although at the cap the digest is
+  written without the model. The row and the email now say "news_brief written without the model-written parts
+  (--no-model)" (`health.py budget --instead`, `run_daily.sh`, `roundup.yml`, one new test; 25 tests OK). It lands with
+  session 181.
+- **Found, not fixed: the daily run cannot load the cost ledger, and has not since 9 October.** The run's log
+  (`runs/session176/daily_20261010.log`): "FAILED api_cost_ledger: RuntimeError: refused, older than the live copy: it
+  has 2,457 rows here and 3,179 in Supabase". The cause: the runner restores the ledger from the Redivis draft (2,441
+  rows, its own calls only), and Supabase holds what this machine loaded on 9 October (session 166: 3,179 rows, the
+  sessions' calls included). The loader is right to refuse. What follows from it:
+  - the same-day email reports "supabase_load failed" every day (every other table loads: today 1 table of the live
+    set failed, the rest are current);
+  - `/internal/costs` stops at 8 October 10:21 UTC; it shows USD 44.64 of October's USD 68.19;
+  - Sunday's Roundup cannot see the day's spend in Supabase, so its budget counts only its own runner's rows.
+- **The whole ledger today, from the archive bucket and this machine together: 3,496 rows, USD 68.19 since 29
+  September** (`runs/ledger_union/dry.out`): the archive holds 3,482 rows, this machine 3,193; 303 rows (USD 10.50, the
+  daily run's calls of 5 to 10 October) are in the archive and not here; 14 rows (USD 0.70, session 169) are here and
+  not in the archive.
+- **Not done, because it writes to three stores and the prompt did not ask for it (the reversible choice): the repair.**
+  `scripts/ledger_union.py` is written and was run in its report-only form (exit 0, the figures above). To repair, from
+  the main copy, each its own command, not between 14:00 and 15:45 UTC:
+  1. `python warehouse/archive/restore.py api_cost_ledger --from-bucket --out runs/ledger_union/from_bucket.csv`
+  2. `python scripts/ledger_union.py runs/ledger_union/from_bucket.csv` (reports; expect "the union: 3,496 rows" or more)
+  3. `'C:\Users\lossa\Documents\erw\.venv\Scripts\python.exe' warehouse/lock.py run --task "ledger union" -- 'C:\Users\lossa\Documents\erw\.venv\Scripts\python.exe' scripts/ledger_union.py runs/ledger_union/from_bucket.csv --write`
+  4. under the lock in the same way, one at a time: `warehouse/metadata/build_coverage.py --only '^api_cost_ledger$'`;
+     `warehouse/archive/archive.py write --tables '^api_cost_ledger$'`;
+     `warehouse/supabase/load.py --only '^api_cost_ledger$' --no-vacuum`;
+     `warehouse/redivis/upload.py api_cost_ledger` (the draft only: the runner restores from it the next day).
+  5. The next daily run then loads the ledger; `/internal/costs` shows every day.
+  The union only adds rows by `event_id`; no row is removed or changed.

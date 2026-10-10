@@ -114,7 +114,7 @@ model_step() {
     echo "$1: skipped, MODEL_STEPS=0"
     return 0
   fi
-  "$PYTHON" warehouse/health.py budget --step "$1" > "runs/daily_${1}_budget.out" 2>&1
+  "$PYTHON" warehouse/health.py budget --step "$1" ${NO_MODEL_FLAG:+--instead "written without the model-written parts ($NO_MODEL_FLAG)"} > "runs/daily_${1}_budget.out" 2>&1
   local budget_rc=$?
   cat "runs/daily_${1}_budget.out"
   if [ "$budget_rc" -ne 75 ]; then
