@@ -1,0 +1,382 @@
+{
+ "type": "FeatureCollection",
+ "name": "session180 fixture: made-up squares, not boundaries",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "ERCO",
+    "NAME": "Square for ERCO, west half",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -101,
+       28
+      ],
+      [
+       -98.5,
+       28
+      ],
+      [
+       -98.5,
+       33
+      ],
+      [
+       -101,
+       33
+      ],
+      [
+       -101,
+       28
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "ERCO",
+    "NAME": "Square for ERCO, east half",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+     [
+      [
+       [
+        -98.5,
+        28
+       ],
+       [
+        -96,
+        28
+       ],
+       [
+        -96,
+        33
+       ],
+       [
+        -98.5,
+        33
+       ],
+       [
+        -98.5,
+        28
+       ]
+      ]
+     ],
+     [
+      [
+       [
+        -95.5,
+        28
+       ],
+       [
+        -95.499,
+        28
+       ],
+       [
+        -95.499,
+        28.001
+       ],
+       [
+        -95.5,
+        28.001
+       ],
+       [
+        -95.5,
+        28
+       ]
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "SWPP",
+    "NAME": "Square for SWPP",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -102,
+       34
+      ],
+      [
+       -95,
+       34
+      ],
+      [
+       -95,
+       40
+      ],
+      [
+       -102,
+       40
+      ],
+      [
+       -102,
+       34
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "MISO",
+    "NAME": "Square for MISO",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -94,
+       38
+      ],
+      [
+       -88,
+       38
+      ],
+      [
+       -88,
+       46
+      ],
+      [
+       -94,
+       46
+      ],
+      [
+       -94,
+       38
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "PJM",
+    "NAME": "Square for PJM",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -84,
+       37
+      ],
+      [
+       -76,
+       37
+      ],
+      [
+       -76,
+       41
+      ],
+      [
+       -84,
+       41
+      ],
+      [
+       -84,
+       37
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "CISO",
+    "NAME": "Square for CISO",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -123,
+       34
+      ],
+      [
+       -117,
+       34
+      ],
+      [
+       -117,
+       40
+      ],
+      [
+       -123,
+       40
+      ],
+      [
+       -123,
+       34
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "BANC",
+    "NAME": "Square for BANC, inside the square for CISO",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -121.5,
+       38
+      ],
+      [
+       -120.5,
+       38
+      ],
+      [
+       -120.5,
+       39
+      ],
+      [
+       -121.5,
+       39
+      ],
+      [
+       -121.5,
+       38
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "BPAT",
+    "NAME": "Square for BPAT",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -123,
+       43
+      ],
+      [
+       -115,
+       43
+      ],
+      [
+       -115,
+       48
+      ],
+      [
+       -123,
+       48
+      ],
+      [
+       -123,
+       43
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "ZZZZ",
+    "NAME": "Square with a code the network does not have",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -110,
+       40
+      ],
+      [
+       -108,
+       40
+      ],
+      [
+       -108,
+       42
+      ],
+      [
+       -110,
+       42
+      ],
+      [
+       -110,
+       40
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "BA_CODE": "",
+    "NAME": "ISO New England",
+    "fixture": "a made-up square, not a boundary"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -73,
+       42
+      ],
+      [
+       -70,
+       42
+      ],
+      [
+       -70,
+       45
+      ],
+      [
+       -73,
+       45
+      ],
+      [
+       -73,
+       42
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
