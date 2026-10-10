@@ -138,8 +138,39 @@ Two of CAISO's ties also disagree between their two sides: the Arizona ties (AZP
 
 The Batteries switch draws one thin ring around a grid whose batteries are reported for the hour shown: fuller as they discharge, emptier as they charge, against that grid's largest hour in the range shown. Which grids: EIA-930's battery series as the warehouse holds it (`eia930_all_storage`: ERCOT, ISO-NE, MISO and SPP, from November 2024), and CAISO's own data for CAISO (`caiso_battery_storage`, from August 2025), because CAISO reports no battery series to EIA-930. NYISO and PJM report none. The warehouse does not hold EIA-930's battery series for the balancing authorities outside the seven ISOs, so no ring is drawn for them; that is a limit of the warehouse, not a finding that they have no batteries. In the Uri window no grid's batteries are held; in the June 2025 window, ERCOT's, ISO-NE's and MISO's.
 
+## The map (session 180)
+
+The page has two shapes, chosen at its top: **Network**, the free-floating network described above, which is how the page opens and which session 180 did not change, and **Map**, the same grids on the ground. The shape is kept in the address as `shape=map`, written after the view's own query; an address without it is the network, so every address shared before session 180 opens as it did.
+
+**What the map draws, and from what.** Nothing of its own. The view, the hour or day the replay is on, the selected grid, the colors and the side panel are the network's (`site/app/network/Network.tsx`); the map (`NetworkMap.tsx`) draws them over each balancing authority's published boundary. A region has the color its sphere has: the carbon intensity of the grid's generation, on the same scale, with the same legend, grey where it is not held. A tie is a line between the two regions, as wide as the network draws it (0.4 plus 3 times the square root of its share of the period's largest flow), with an arrowhead at the importer and a dash that runs from the exporter to the importer, faster as the flow is larger. Hovering a region names the grid, as hovering a sphere does; clicking it opens the same panel. With a grid selected, it and its neighbours stay as they are and the rest is dimmed. The rings of the Batteries and Prices switches are drawn in the Network view only; on the map the panel holds their numbers. MISO's hub price reads "paused while terms are reviewed" and PJM's is not shown, in the same panel, on either shape.
+
+**The boundary file is not yet held (10 October 2026).** The map reads one file, `site/public/network/ba_boundaries.json`. Until that file exists the map's frame says that the boundary file is not yet held and draws no region; nothing is sketched in its place, and no boundary is drawn from memory or by approximation. Session 180 was allowed five requests to find one public file of the boundaries and used all five without reaching one:
+
+| # | Request (host `atlas.eia.gov`, EIA's U.S. Energy Atlas) | Answer |
+|---|---|---|
+| 1 | `/robots.txt` | 200, 190 bytes. `User-agent: *`, `Crawl-delay: 60`, and `Disallow:` for `/sites/`, `/admin/`, `/sessions/`, `/groups/`, `/people/`, `/workspace/`. The catalog and its files are not disallowed. |
+| 2 | `/api/feed/dcat-us/1.1.json` (the catalog) | 200, 641,294 bytes. It lists 101 datasets, not the whole atlas, and none of them is the balancing authorities or control areas. |
+| 3 | `/api/search/v1/collections/dataset/items?q=balancing&limit=50` | 404: `Collection with id "dataset" not found`. A wrong address; it cost one request. |
+| 4 | `/api/search/v1/collections/all/items?q=balancing&limit=50` | 200, 397 bytes: `numberMatched` 0. |
+| 5 | `/api/search/v1/collections/all/items?q=control&limit=50` | 200, 16,331 bytes: one match, "USA Current Wildfires" (Esri's), not a boundary layer. |
+
+Five requests and 658,303 bytes against a ceiling of five and 200 MB. Request 2 was sent 50 seconds after request 1, ten seconds short of the 60 the robots file asks; the connector has refused a request sent too soon since then (`--min-gap`). The requests, their times and the sha256 of each answer are in the session's `requests.csv`.
+
+**Why the license has to be read per file.** The atlas is not one license. Of the 101 datasets its catalog listed, 41 say "This work is licensed under the Esri Master License Agreement", 40 carry only EIA's liability statement, 10 say "None (public use)", 7 say nothing, and one quotes EIA's own rule: "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website". So a boundary layer on the atlas is used only after its own license statement has been read and says public domain or the equivalent, and the robots file of the host that serves the file (a feature service's host is not `atlas.eia.gov`) has been read as well.
+
+**When the file is held: how it is made.** `warehouse/connectors/eia_ba_boundaries.py build` reads the publisher's GeoJSON as it came and writes the site's file. It is reference geometry, not a table: nothing of it goes through the validator, into `warehouse/output` or into the live set.
+
+- **Matching is exact.** A shape is given to a grid only when the publisher's own code for it, in the property a person names after reading the file (`--code-field`), is the grid's EIA-930 code. No name is compared and nothing is guessed. The file records every grid with no shape (`nodes_without_shape`: Canada's and Mexico's operators at the least, which a file of US boundaries does not hold) and every shape with no grid (`shapes_without_node`). A grid with no shape is not on the map; its ties are not drawn there, and the Network view holds them.
+- **The date.** The boundaries are the publisher's as of the vintage its file gives (`provenance.vintage`), one date for every hour and every year the page can show. A balancing authority that changed its footprint, or did not exist, on a day of the replay is still drawn with that one boundary.
+- **Overlaps are real.** Some balancing authorities sit inside others. The file is ordered by area, largest first, and the page draws in that order, so a smaller one is on top of the larger one around it.
+- **What is simplified.** A grid's parts are joined, then simplified with the Douglas-Peucker rule, topology kept (0.02 degrees by default, about 2 km), coordinates kept to three decimals (about 100 m), and parts smaller than the tolerance squared are dropped. Each shape is simplified on its own, so two neighbours' shared border may open or overlap by up to the tolerance. The file's `provenance` holds the source, the address, the retrieval time, the sha256 and size of the raw file, the publisher's license words and the tolerance; the builder refuses a raw file whose sha256 is not in the request log, and a result over 400,000 bytes.
+- **The projection.** Albers for the lower 48 with Alaska and Hawaii inset (d3-geo's `geoAlbersUsa`, which the site's project map already uses).
+
+**What the colors are not.** A region's color is one number for the whole balancing authority: the carbon intensity of what was generated inside it in the period shown. It is not the intensity of the power used at any place inside the boundary (imports are not in it), it does not vary within the region, and a large region is not a large number: area on the map is land, not load or generation. A boundary is a planning footprint as its publisher drew it, not a service-territory survey and not a line any wire follows.
+
 ## Not here
 
+- The boundaries of the balancing authorities: not yet held (see "The map").
 - The demand of the BAs outside the seven ISOs.
 - Hourly interchange before 2026-09-13, except the two stories' windows (daily interchange is held from 2019).
 - Flows by transmission line: EIA-930 reports BA-to-BA totals only.
