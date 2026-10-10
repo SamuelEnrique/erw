@@ -139,8 +139,8 @@ registered. Model spend USD 0 (no model call). No pull from an outside host. Out
 - **Seen in the rows, not flagged by the final setting:** Lower Atlantic diesel at USD 6.096 per gallon on 14
   September and 6.139 on 21 September, above its June 2022 record (5.762). Real. The record was first broken 26 days
   before the scan, outside the 21 days a weekly point stays fresh, and the week after it broke a record that had stood
-  one week. A scan in the week of 14 September would have raised it; setting B raised it by an error in how it counted
-  a record's standing.
+  one week. A scan in the week of 14 September would have raised it. Setting B raised it because B counted a weekly
+  point by its week's last day, which kept 14 September inside the fresh window.
 
 ## The impact study: the cases, with their numbers
 
