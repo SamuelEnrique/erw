@@ -184,6 +184,10 @@ try {
     fs.mkdirSync(outDir, { recursive: true });
     fs.writeFileSync(path.join(outDir, `${process.env.TEXT_ONLY}.txt`), text.replace(/\r\n/g, "\n"));
     console.log(`${process.env.TEXT_ONLY}.txt: ${text.split("\n").length} lines of ${base}/cost-of-power/battery`);
+    // leave as the full run does: the browser stopped and its profile removed (an exit here would skip the finally below)
+    chrome.kill();
+    await sleep(300);
+    try { fs.rmSync(profile, { recursive: true, force: true }); } catch { /* the profile is in the temp directory */ }
     process.exit(0);
   }
 
