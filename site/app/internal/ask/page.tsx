@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import { COOKIE } from "@/lib/release";
+import { internalOk } from "@/lib/thesis/server";
 import { Section } from "@/components/Section";
 import { rpc } from "@/lib/supabase";
 import { readLimits, readSalt } from "@/lib/chat/limits";
@@ -21,11 +24,13 @@ export default async function AskSpend({ searchParams }: { searchParams: Promise
   const sp = await searchParams;
   const token = typeof sp.token === "string" ? sp.token : "";
   const want = process.env.INTERNAL_COSTS_TOKEN ?? "";
-  if (want.length < 24 || token !== want) notFound();
+  // session 177: the internal view's cookie opens the page as well, so the token need not travel in an address
+  // (/internal/open). The old address, with ?token=, works as it did.
+  if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();
 
   let s: Spend;
   try {
-    s = await rpc<Spend>("internal_ask_spend", { p_token: token });
+    s = await rpc<Spend>("internal_ask_spend", { p_token: want });
   } catch (e) {
     return <p className="text-sm">The spend could not be read: {(e as Error).message}</p>;
   }

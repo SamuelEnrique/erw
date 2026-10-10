@@ -37,7 +37,7 @@ const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
 const baseline = (process.argv[3] ?? env("SITE_URL") ?? "").replace(/\/$/, "");
 
 const PAGES = [
-  "/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/prices/caiso%3ATH_SP15_GEN-APND", "/prices/miso%3AINDIANA.HUB",
+  "/", "/privacy", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/prices/caiso%3ATH_SP15_GEN-APND", "/prices/miso%3AINDIANA.HUB",
   "/prices/spp%3ASPPSOUTH_HUB", "/prices/nyiso%3AN.Y.C.", "/board?s=ercot-hb-hubavg-da", "/grid", "/mix", "/mix?ba=erco&state=TX",
   "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium",
   "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/about", "/terms",

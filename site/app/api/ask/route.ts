@@ -9,6 +9,9 @@
 // database is asked whether the day's and the month's spend are under their ceilings and whether this visitor is under
 // the day's number of questions. When it says no, or cannot be asked, the answer is a plain message and no model is
 // called. Each admitted question is numbered, and every model call it makes carries the number into the cost ledger.
+// Session 177 (lib/guard.ts): before any of that, a request from another site's page, from a stock command-line client
+// or with a body that does not say it is JSON is refused; and the hourly limit is counted by the database as well
+// (site_rate_admit, migration 028), so it holds across instances. Without that migration the memory's count stands.
 import { NextResponse } from "next/server";
 import { ask } from "@/lib/chat/ask";
 import { cleanQuestion } from "@/lib/chat/plaintime";
@@ -16,6 +19,7 @@ import { scopeOf } from "@/lib/chat/tools";
 import { cleanContext, cleanHistory, ercotProfile } from "@/lib/chat/ercot";
 import { admit, questionId, readLimits, readSalt } from "@/lib/chat/limits";
 import { rpc } from "@/lib/supabase";
+import { limited, sameOrigin, scripted, typed } from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,6 +28,7 @@ export const maxDuration = 120;
 const LIMIT = 10;
 const WINDOW_MS = 3_600_000;
 const MAX_QUESTION = 500;
+const MAX_BODY = 60_000;   // session 177: a question, a view and a conversation's history; anything larger is not read
 const seen = new Map<string, number[]>();
 
 function clientIp(req: Request): string {
@@ -44,9 +49,16 @@ function allow(ip: string, now: number): { ok: boolean; retryAfter: number } {
 }
 
 export async function POST(req: Request) {
+  if (!sameOrigin(req)) return NextResponse.json({ error: "this route answers this site's own pages" }, { status: 403 });
+  if (scripted(req)) return NextResponse.json({ error: "this route answers a browser" }, { status: 403 });
+  if (!typed(req, "json")) return NextResponse.json({ error: "send JSON: {\"question\": \"...\"}" }, { status: 415 });
   let question: unknown, grid: unknown, profile: unknown, context: unknown, history: unknown, stream: unknown;
   try {
-    ({ question, grid, profile, context, history, stream } = (await req.json()) as { question?: unknown; grid?: unknown; profile?: unknown; context?: unknown; history?: unknown; stream?: unknown });
+    const raw = await req.text();
+    if (raw.length > MAX_BODY) return NextResponse.json({ error: "the request is too large" }, { status: 413 });
+    const body: unknown = JSON.parse(raw);
+    if (typeof body !== "object" || body === null || Array.isArray(body)) throw new Error("not an object");
+    ({ question, grid, profile, context, history, stream } = body as { question?: unknown; grid?: unknown; profile?: unknown; context?: unknown; history?: unknown; stream?: unknown });
   } catch {
     return NextResponse.json({ error: "send JSON: {\"question\": \"...\"}" }, { status: 400 });
   }
@@ -65,7 +77,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: `a question is at most ${MAX_QUESTION} characters` }, { status: 400 });
   }
   const now = Date.now();
-  const gate = allow(clientIp(req), now);
+  let gate = allow(clientIp(req), now);
+  if (gate.ok) {
+    const hour = await limited(req, "ask_hour", LIMIT, WINDOW_MS / 1000);   // session 177: the same limit, counted by the database
+    if (!hour.ok) gate = { ok: false, retryAfter: hour.retryAfter };
+  }
   if (!gate.ok) {
     return NextResponse.json(
       { error: `limit reached: ${LIMIT} questions per hour; try again in ${Math.ceil(gate.retryAfter / 60)} minutes` },

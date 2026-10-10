@@ -25,6 +25,7 @@ import { MAX_BODY } from "@/lib/thesis/pitchbook";
 import { PROVIDERS, checkPaste, isProviderId, notKept, sameJson, type ProviderPayload } from "@/lib/thesis/providers";
 import { NO_STORE, acceptProvider, getRun, internalOk } from "@/lib/thesis/server";
 import { RUN_ID } from "@/lib/thesis/view";
+import { sameOrigin } from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -33,6 +34,7 @@ const hidden = () => new NextResponse(null, { status: 404, headers: NO_STORE });
 const no = (reason: string, status: number) => NextResponse.json({ ok: false, reason }, { status, headers: NO_STORE });
 
 export async function POST(req: NextRequest) {
+  if (!sameOrigin(req)) return hidden();   // session 177: never from another site's page, whatever cookie comes with it
   if (!(await internalOk(req.cookies.get(COOKIE)?.value))) return hidden();
   if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY + 2000) return no("The answer is larger than 400 KB.", 413);
   let body: { run_id?: unknown; provider?: unknown; pasted?: unknown };

@@ -10,7 +10,8 @@ export async function GET(req: Request) {
   const u = new URL(req.url);
   const back = (state: string) => NextResponse.redirect(new URL(`/subscribe?state=${state}`, req.url), 303);
   const email = u.searchParams.get("e") ?? "", token = u.searchParams.get("t") ?? "";
-  if (!email || !/^[0-9a-f]{64}$/.test(token)) return back("badlink");
+  // session 177: an address is at most 254 characters and has the form the table's own check asks for
+  if (!email || email.length > 254 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !/^[0-9a-f]{64}$/.test(token)) return back("badlink");
   try {
     return back((await rpc<boolean>("subscribe_confirm", { p_email: email, p_token: token })) ? "confirmed" : "badlink");
   } catch (e) {

@@ -322,14 +322,24 @@ async function truth(check) {
     }
   }
   if (p[0] === "datacenters") {
+    // session 177: since session 166 (part F) the page's totals count only the rows in a named US state that are not
+    // cancelled (app/datacenters/Body.tsx, counted), and it shows three counts this check did not know (counted,
+    // no_us_state, cancelled): the whole run stopped at "unknown check datacenters|counted". The rule is the page's
+    // own (lib/largeload.ts); the rows are read here, from Supabase, as before.
     const [, what, key] = p;
-    const rows = await all("entities", { select: "operator,mw:capacity_mw,state:extra->>state", table_name: "eq.datacenter_facilities", order: "entity_id" });
-    const withMw = rows.filter((r) => r.mw !== null);
+    const { cancelled, countryOf } = await import("../lib/largeload.ts");
+    const rows = (await all("entities", { select: "operator,status,mw:capacity_mw,state:extra->>state,country:extra->>country", table_name: "eq.datacenter_facilities", order: "entity_id" }))
+      .map((r) => ({ ...r, us: countryOf(r.country, r.state) === "US" }));
+    const inTotals = rows.filter((r) => r.us && !cancelled(r.status));
+    const withMw = inTotals.filter((r) => r.mw !== null);
     if (what === "count") return rows.length;
+    if (what === "counted") return inTotals.length;
+    if (what === "no_us_state") return rows.filter((r) => !r.us).length;
+    if (what === "cancelled") return rows.filter((r) => r.us && cancelled(r.status)).length;
     if (what === "n_with_mw") return withMw.length;
     if (what === "mw_total") return withMw.reduce((a, r) => a + Number(r.mw), 0);
-    if (what === "state_mw") return withMw.filter((r) => r.state === key).reduce((a, r) => a + Number(r.mw), 0);
-    if (what === "operator_mw") return withMw.filter((r) => r.operator === key).reduce((a, r) => a + Number(r.mw), 0);
+    if (what === "state_mw") return withMw.filter((r) => (r.state ?? "") === key).reduce((a, r) => a + Number(r.mw), 0);
+    if (what === "operator_mw") return withMw.filter((r) => (r.operator ?? "") === key).reduce((a, r) => a + Number(r.mw), 0);
   }
   // session 31: /storage, sums of storage_capacity's nameplate MW (rounded to 0.1 MW, as the page rounds them);
   // session 34: and of its energy capacity, MWh (storage|mwh|<status>, storage|n_mwh|<status>)

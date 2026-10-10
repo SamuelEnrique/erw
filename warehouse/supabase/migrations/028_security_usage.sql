@@ -15,7 +15,7 @@
 --     window of time and per visitor, a count; site_rate_admit adds one and answers whether the count is within the
 --     limit the caller names. The visitor is a keyed hash the site's server makes from the address, the UTC day and a
 --     secret the database never sees (site/lib/guard.ts, as site_ask_admit's visitor is, migration 023): no address
---     is stored, and the hash is another value the next day. Rows older than a day are deleted.
+--     is stored, and the hash is another value the next day. Rows a day old are deleted by the next call.
 --
 --  C. Usage counts with no cookie and no personal data (/api/usage, /internal/usage).
 --       site_usage_events   today only: day, path, tool, event, visitor (a hash, below), n
@@ -195,9 +195,7 @@ begin
     return jsonb_build_object('ok', false, 'reason', 'config');
   end if;
   perform erw_private.usage_rollover();
-  if random() < 0.02 then
-    delete from public.site_rate_counts where win < now() - interval '1 day';
-  end if;
+  delete from public.site_rate_counts where win < now() - interval '1 day';   -- a count a day old is deleted
   w := to_timestamp(floor(extract(epoch from now()) / p_window_s) * p_window_s);
   insert into public.site_rate_counts (bucket, win, visitor, n) values (p_bucket, w, p_visitor, 1)
     on conflict (bucket, win, visitor) do update set n = public.site_rate_counts.n + 1

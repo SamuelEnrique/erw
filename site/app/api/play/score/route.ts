@@ -7,15 +7,20 @@ import { NextResponse } from "next/server";
 import { validNickname } from "@/lib/battery";
 import { allow, clientIp, fail, leaderboard, scorePlay, type PlayBody } from "@/lib/game";
 import { insertRow } from "@/lib/supabase";
+import { limited, sameOrigin } from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  if (!allow(clientIp(req))) return fail("limit reached: 30 game requests per hour; try again later", 429);
+  if (!sameOrigin(req)) return fail("this route answers this site's own pages", 403);   // session 177 (lib/guard.ts)
+  if (!allow(clientIp(req)) || !(await limited(req, "play", 30, 3600)).ok) return fail("limit reached: 30 game requests per hour; try again later", 429);
   let body: PlayBody & { nickname?: unknown };  // session 66: with the add-ons (Hard only), which the preset carries
   try {
-    body = await req.json();
+    const raw = await req.text();
+    if (raw.length > 20_000) return fail("the request is too large", 413);   // session 177: a day of actions is under 1 kB
+    body = JSON.parse(raw);
+    if (typeof body !== "object" || body === null || Array.isArray(body)) throw new Error("not an object");
   } catch {
     return fail("send JSON: {\"level\": \"YYYY-MM-DD\", \"actions\": [...], \"nickname\": \"...\"}");
   }
