@@ -21,7 +21,7 @@ export type CatalogueEntry = { id: string; title: string; kind: string; tables: 
 
 const DIR = path.join(process.cwd(), "data", "findings");
 export const METHOD = "/data/methods/automated_analysis_findings";
-export const ORDER = ["batteries_lunch", "gas_sets_price", "queue_divorce"];
+export const ORDER = ["batteries_lunch", "gas_sets_price", "queue_divorce", "peak_hour_moved", "who_rescues_whom", "negative_prices_west", "batteries_curtailment"]; // session 174: four more
 
 /** Every card file, the default cards first in the engine's order, then the cards with chosen inputs. */
 export function loadCards(): Card[] {

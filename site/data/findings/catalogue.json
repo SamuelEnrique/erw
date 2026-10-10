@@ -106,5 +106,140 @@
     "words": {}
    }
   }
+ },
+ {
+  "id": "peak_hour_moved",
+  "title": "THE PEAK HOUR MOVED",
+  "kind": "visual",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "iso_rtm_hub_prices",
+   "iso_hub_prices_history",
+   "eia860m_operating_generators",
+   "eia860m_retired_generators_all"
+  ],
+  "inputs": {
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019,
+     2020,
+     2021
+    ],
+    "words": {}
+   },
+   "min_hours": {
+    "label": "Hours a day must hold",
+    "default": 20,
+    "choices": [
+     20,
+     24
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "who_rescues_whom",
+  "title": "WHO RESCUES WHOM",
+  "kind": "visual",
+  "tables": [
+   "eia930_daily_interchange",
+   "event_window_daily"
+  ],
+  "inputs": {
+   "event": {
+    "label": "Event",
+    "default": "uri_2021",
+    "choices": [
+     "uri_2021",
+     "elliott_2022",
+     "ercot_heat_2023",
+     "caiso_heat_2020"
+    ],
+    "words": {
+     "uri_2021": "Winter Storm Uri, February 2021",
+     "elliott_2022": "Winter Storm Elliott, December 2022",
+     "ercot_heat_2023": "the summer 2023 heat in ERCOT",
+     "caiso_heat_2020": "the August 2020 heat wave in CAISO"
+    }
+   },
+   "min_mwh": {
+    "label": "Smallest daily flow counted (MWh a day)",
+    "default": 1000,
+    "choices": [
+     0,
+     1000,
+     5000
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "negative_prices_west",
+  "title": "NEGATIVE PRICES MARCH WEST",
+  "kind": "visual",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "iso_rtm_hub_prices",
+   "iso_hub_prices_history"
+  ],
+  "inputs": {
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019,
+     2020,
+     2021
+    ],
+    "words": {}
+   },
+   "threshold": {
+    "label": "Price counted as negative (USD/MWh, below)",
+    "default": 0,
+    "choices": [
+     0,
+     -10,
+     -20
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "batteries_curtailment",
+  "title": "BY HOW MUCH DO BATTERIES CUT CURTAILMENT",
+  "kind": "econometric",
+  "tables": [
+   "caiso_curtailment_daily",
+   "caiso_battery_storage",
+   "caiso_fuel_supply"
+  ],
+  "inputs": {
+   "curtailed": {
+    "label": "Curtailment counted",
+    "default": "solar_and_wind",
+    "choices": [
+     "solar_and_wind",
+     "solar_only"
+    ],
+    "words": {
+     "solar_and_wind": "solar and wind",
+     "solar_only": "solar only"
+    }
+   },
+   "first_month": {
+    "label": "First month",
+    "default": "2025-08",
+    "choices": [
+     "2025-08",
+     "2026-01"
+    ],
+    "words": {}
+   }
+  }
  }
 ]

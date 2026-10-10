@@ -47,8 +47,9 @@ export function FindingCard({ card, render = false, roundup = true }: { card: Ca
           <table className="w-full max-w-3xl text-xs">
             <thead>
               <tr className="border-b border-rule text-left text-muted">
-                <th className="py-1 pr-3">Measure (monthly)</th><th className="py-1 pr-3 text-right">Per GW of batteries</th><th className="py-1 pr-3 text-right">SE (HC1)</th>
-                <th className="py-1 pr-3 text-right">p</th><th className="py-1 pr-3 text-right">Months</th><th className="py-1 text-right">R2</th>
+                {(card.effect_table.columns?.length === 6 ? card.effect_table.columns : ["Measure (monthly)", "Per GW of batteries", "SE (HC1)", "p", "Months", "R2"]).map((h, i) => (
+                  <th key={h} className={i === 0 ? "py-1 pr-3" : i === 5 ? "py-1 text-right" : "py-1 pr-3 text-right"}>{h}</th>
+                ))}
               </tr>
             </thead>
             <tbody>

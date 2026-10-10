@@ -1,0 +1,322 @@
+{
+ "id": "peak_hour_moved",
+ "title": "THE PEAK HOUR MOVED",
+ "kind": "visual",
+ "subtitle": "In Texas the day's dearest hour walked into the evening as solar took the midday",
+ "params": {
+  "first_year": 2019,
+  "min_hours": 20
+ },
+ "inputs_words": {
+  "first_year": "2019",
+  "min_hours": "20 held hours a day"
+ },
+ "chart": {
+  "kind": "lines",
+  "x": [
+   "00",
+   "01",
+   "02",
+   "03",
+   "04",
+   "05",
+   "06",
+   "07",
+   "08",
+   "09",
+   "10",
+   "11",
+   "12",
+   "13",
+   "14",
+   "15",
+   "16",
+   "17",
+   "18",
+   "19",
+   "20",
+   "21",
+   "22",
+   "23"
+  ],
+  "x_label": "Hour of the day (local) in which the day's highest real-time price fell",
+  "series": [
+   {
+    "name": "ERCOT 2019",
+    "type": "line",
+    "unit": "percent of days",
+    "values": [
+     1.643835616438356,
+     0.0,
+     0.273972602739726,
+     0.273972602739726,
+     0.0,
+     0.273972602739726,
+     9.58904109589041,
+     3.5616438356164384,
+     1.9178082191780823,
+     6.301369863013699,
+     3.0136986301369864,
+     1.643835616438356,
+     4.657534246575342,
+     4.931506849315069,
+     4.657534246575342,
+     13.972602739726028,
+     15.342465753424658,
+     8.493150684931507,
+     6.8493150684931505,
+     4.657534246575342,
+     3.5616438356164384,
+     1.36986301369863,
+     1.643835616438356,
+     1.36986301369863
+    ],
+    "days": 365
+   },
+   {
+    "name": "ERCOT 2025",
+    "type": "line",
+    "unit": "percent of days",
+    "values": [
+     3.0136986301369864,
+     0.547945205479452,
+     0.821917808219178,
+     0.273972602739726,
+     0.273972602739726,
+     1.9178082191780823,
+     6.575342465753424,
+     3.8356164383561646,
+     1.36986301369863,
+     0.273972602739726,
+     0.0,
+     0.0,
+     0.273972602739726,
+     0.547945205479452,
+     1.095890410958904,
+     1.9178082191780823,
+     2.4657534246575343,
+     10.684931506849315,
+     13.424657534246576,
+     22.19178082191781,
+     15.342465753424658,
+     9.315068493150685,
+     3.287671232876712,
+     0.547945205479452
+    ],
+    "days": 365
+   },
+   {
+    "name": "CAISO 2025",
+    "type": "line",
+    "unit": "percent of days",
+    "values": [
+     14.560439560439562,
+     3.021978021978022,
+     0.27472527472527475,
+     0.5494505494505495,
+     1.098901098901099,
+     3.571428571428571,
+     14.835164835164836,
+     4.395604395604396,
+     1.3736263736263736,
+     0.8241758241758242,
+     0.0,
+     0.0,
+     0.27472527472527475,
+     0.0,
+     0.8241758241758242,
+     1.098901098901099,
+     3.021978021978022,
+     9.615384615384617,
+     5.4945054945054945,
+     7.142857142857142,
+     3.571428571428571,
+     8.516483516483516,
+     8.791208791208792,
+     7.142857142857142
+    ],
+    "days": 364
+   },
+   {
+    "name": "CAISO 2026 (to date)",
+    "type": "line",
+    "unit": "percent of days",
+    "values": [
+     13.571428571428571,
+     3.571428571428571,
+     1.0714285714285714,
+     1.4285714285714286,
+     2.142857142857143,
+     5.357142857142857,
+     11.785714285714285,
+     6.071428571428571,
+     0.7142857142857143,
+     0.0,
+     0.0,
+     0.0,
+     0.35714285714285715,
+     0.0,
+     0.7142857142857143,
+     1.0714285714285714,
+     1.7857142857142856,
+     5.357142857142857,
+     8.571428571428571,
+     12.5,
+     3.571428571428571,
+     3.9285714285714284,
+     7.142857142857142,
+     9.285714285714286
+    ],
+    "days": 280
+   }
+  ],
+  "y_left_label": "percent of the year's days",
+  "value_suffix": "%",
+  "decimals": 1
+ },
+ "callouts": [
+  {
+   "label": "ERCOT median peak hour (local)",
+   "before": {
+    "period": "2019",
+    "text": "hour 15"
+   },
+   "after": {
+    "period": "2025",
+    "text": "hour 19"
+   },
+   "unit": ""
+  },
+  {
+   "label": "ERCOT days peaking 17:00 to 21:59",
+   "before": {
+    "period": "2019",
+    "text": "24.9%"
+   },
+   "after": {
+    "period": "2025",
+    "text": "71.0%"
+   },
+   "unit": ""
+  },
+  {
+   "label": "ERCOT solar fleet, year end",
+   "before": {
+    "period": "2019",
+    "text": "2,592 MW"
+   },
+   "after": {
+    "period": "2025",
+    "text": "30,018 MW"
+   },
+   "unit": ""
+  }
+ ],
+ "why": "ERCOT's solar fleet went from 2,592 MW at the end of 2019 to 30,018 MW at the end of 2025 (EIA-860M, units operating today by their operating year). The hour of the day's highest real-time price moved with it: the median peak hour went from 15 to 19, the share of days whose dearest hour fell between 17:00 and 21:59 from 24.9 to 71.0 percent, and the share peaking at midday (10:00 to 15:59) from 32.9 to 3.8 percent (365 and 365 days). The most common peak hour was 16 in 2019 (15.3 percent of days) and 19 in 2025 (22.2 percent). CAISO's prices are held from 2024-09-01 only, so its first full year is 2025: the median peak hour is 17 and 34.3 percent of days peak in the evening, with 24,009 MW of solar in the balancing authority. A later peak is what a solar-heavy grid does to prices: the midday is cheap, the ramp after sunset is dear. The chart compares the years; it does not separate solar from gas prices, load growth or the batteries that now arbitrage the evening.",
+ "footnote": "Data: real-time prices, 15-minute, ERCOT: HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour, 2019-01-01 to 2026-10-07 (2,837 local days, America/Chicago); CAISO: TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour, 2024-09-01 to 2026-10-07 (765 local days, America/Los_Angeles). A day's peak hour is the local clock hour with the highest mean of its intervals (the first hour on a tie); a day needs at least 20 held hours. Per grid and year: the percent of days peaking in each hour, the median peak hour, the percent peaking 17:00 to 21:59 (evening) and 10:00 to 15:59 (midday). Solar: nameplate MW of Solar Photovoltaic generators with the grid's balancing authority code (ERCO, CISO) operating at the end of the year, from EIA-860M's inventory of August 2026 (eia860m_operating_generators by operating_year, plus eia860m_retired_generators_all by retirement year); units retired before the inventory's retired list begins are not counted. A year a grid's prices do not cover is not held and not filled.",
+ "numbers": {
+  "first_year": 2019,
+  "last_full_year": 2025,
+  "this_year": 2026,
+  "ercot_first_held_year": 2019,
+  "ercot_last_full_held_year": 2025,
+  "ercot_first_year": 2019,
+  "ercot_first_median_hour": 15.0,
+  "ercot_first_evening_pct": 24.93150684931507,
+  "ercot_first_midday_pct": 32.87671232876712,
+  "ercot_first_days": 365,
+  "ercot_first_solar_mw": 2592.2999999999997,
+  "ercot_first_modal_hour": 16,
+  "ercot_first_modal_pct": 15.342465753424658,
+  "ercot_last_year": 2025,
+  "ercot_last_median_hour": 19.0,
+  "ercot_last_evening_pct": 70.95890410958904,
+  "ercot_last_midday_pct": 3.8356164383561646,
+  "ercot_last_days": 365,
+  "ercot_last_solar_mw": 30017.699999999997,
+  "ercot_last_modal_hour": 19,
+  "ercot_last_modal_pct": 22.19178082191781,
+  "ercot_this_year": 2026,
+  "ercot_this_median_hour": 19.0,
+  "ercot_this_evening_pct": 69.28571428571428,
+  "ercot_this_midday_pct": 2.142857142857143,
+  "ercot_this_days": 280,
+  "ercot_this_solar_mw": 32759.800000000003,
+  "ercot_this_modal_hour": 20,
+  "ercot_this_modal_pct": 20.714285714285715,
+  "ercot_solar_mw_first_year": 2592.2999999999997,
+  "ercot_solar_mw_last_full_year": 30017.699999999997,
+  "caiso_first_held_year": 2024,
+  "caiso_last_full_held_year": 2025,
+  "caiso_first_year": 2024,
+  "caiso_first_median_hour": 16.0,
+  "caiso_first_evening_pct": 39.66942148760331,
+  "caiso_first_midday_pct": 0.0,
+  "caiso_first_days": 121,
+  "caiso_first_solar_mw": 22180.800000000003,
+  "caiso_first_modal_hour": 6,
+  "caiso_first_modal_pct": 28.09917355371901,
+  "caiso_last_year": 2025,
+  "caiso_last_median_hour": 17.0,
+  "caiso_last_evening_pct": 34.34065934065934,
+  "caiso_last_midday_pct": 2.197802197802198,
+  "caiso_last_days": 364,
+  "caiso_last_solar_mw": 24009.1,
+  "caiso_last_modal_hour": 6,
+  "caiso_last_modal_pct": 14.835164835164836,
+  "caiso_this_year": 2026,
+  "caiso_this_median_hour": 17.0,
+  "caiso_this_evening_pct": 33.92857142857143,
+  "caiso_this_midday_pct": 2.142857142857143,
+  "caiso_this_days": 280,
+  "caiso_this_solar_mw": 24874.300000000003,
+  "caiso_this_modal_hour": 0,
+  "caiso_this_modal_pct": 13.571428571428571,
+  "caiso_solar_mw_first_year": 11679.699999999999,
+  "caiso_solar_mw_last_full_year": 24009.1
+ },
+ "source_line": "Source: ERCOT and CAISO OASIS real-time prices; EIA-860M; ERW tables ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, eia860m_operating_generators, eia860m_retired_generators_all.",
+ "tables": [
+  "ercot_all_hub_prices_history",
+  "iso_rtm_hub_prices",
+  "iso_hub_prices_history",
+  "eia860m_operating_generators",
+  "eia860m_retired_generators_all"
+ ],
+ "computed_at": "2026-10-10T03:07:15Z",
+ "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+ "csv_header": [
+  "Energy Research Warehouse (ERW): finding peak_hour_moved, THE PEAK HOUR MOVED",
+  "Computed 2026-10-10T03:07:15Z by warehouse/analysis/findings/peak_hour_moved.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Rows: one per grid, local year and hour of the day: the percent of the year's days whose highest hourly real-time price fell in that hour; the year's days, median peak hour, percent of days peaking 17:00 to 21:59 and 10:00 to 15:59 (repeated on each hour row); solar MW at year end",
+  "A blank is a year the warehouse does not hold for that grid. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, eia860m_operating_generators, eia860m_retired_generators_all"
+ ],
+ "card_id": "peak_hour_moved",
+ "meta": {
+  "first_year": 2019,
+  "min_hours": 20,
+  "spans": {
+   "ercot": {
+    "first_day": "2019-01-01",
+    "last_day": "2026-10-07",
+    "n_days": 2837,
+    "how": "HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour",
+    "tz": "America/Chicago"
+   },
+   "caiso": {
+    "first_day": "2024-09-01",
+    "last_day": "2026-10-07",
+    "n_days": 765,
+    "how": "TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour",
+    "tz": "America/Los_Angeles"
+   }
+  },
+  "missing": []
+ },
+ "downloads": {
+  "csv": "erw_2026_peak_hour_solar.csv",
+  "python": "peak_hour_moved.py",
+  "stata": "peak_hour_moved.do"
+ },
+ "csv_sha256": "d098bdc19fa62dc24577114037c2582998de9cb55bc697340f71a26a15e2bdde"
+}
