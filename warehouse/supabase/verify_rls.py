@@ -72,6 +72,8 @@ EXPECTED = {
     "site_usage_events": "blocked",
     "site_usage_daily": "blocked",
     "site_usage_salt": "blocked",
+    # migration 029 (session 181): the scanner's review list, read only through scanner_drafts_list with the token
+    "scanner_drafts": "blocked",
 }
 NEW_IN_028 = ("site_rate_counts", "site_usage_events", "site_usage_daily", "site_usage_salt")
 LICENSED = ("series", "entities", "events", "latest_prices", "catalogue", "sources", "headers")
@@ -80,7 +82,8 @@ INTERNAL_BY_NAME = (("events", "api_cost_ledger"), ("events", "ferc_eqr_contract
                     ("series", "pjm_da_lmp"), ("entities", "ferc_eqr_contracts"))
 # read functions behind the internal token: a wrong token must be refused (none of these writes)
 TOKEN_FUNCTIONS = (("internal_costs", {}), ("internal_ask_spend", {}), ("internal_eqr_summary", {}),
-                   ("thesis_list", {}), ("analysis_requests_list", {}), ("internal_usage", {}))
+                   ("thesis_list", {}), ("analysis_requests_list", {}), ("internal_usage", {}),
+                   ("scanner_drafts_list", {}), ("analysis_request_card", {"p_id": "verify-rls-0000"}))
 PROOF_TABLE = "site_api_calls"
 WRONG_TOKEN = "verify-rls-wrong-token-0000000000000000"
 
