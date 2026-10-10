@@ -176,3 +176,45 @@ Run on 10 October 2026 (UTC), first request 08:04, last check 08:37, unattended,
   6. `node site/scripts/check-network-map.mjs https://erw-flame.vercel.app`.
 - If you would rather have the toggle on the internal page now, with its "not yet held" frame, steps 2 to 6 land it as
   it is.
+
+## The chain's closing note (176 to 180), added by the coordinator at about 11:00 UTC on 10 October 2026
+
+- **The chain in one table** (built side by side in worktrees, landed one at a time from the main copy; the order of
+  landing was the order of readiness: 176, 178, 179, 177; 180 is held):
+
+| Session | What landed | Merge | Production (UTC) | Snapshot differences | Model spend |
+|---|---|---|---|---|---|
+| 176 | the cost audit; `DAILY_MODEL_USD`, the daily cap for scheduled model steps | `d68c7cf` | 08:29 | 0 | USD 0 |
+| 177 | the security audit and its safe fixes; migration 028 applied; usage counts with no cookie; `/privacy`; Next 16.3.8 | `9c22e3c` | 10:50 | 50, all the footer's "Privacy in review" on the 25 pages (expected) | USD 0 |
+| 178 | the battery page's algorithm note, the replication, the optimizer check, the awards ratio | `c8f47b0` | 08:52 | 0 | USD 0 |
+| 179 | Scenarios A and B, the ten assumptions, the sensitivity chart | `dacb81d` | 09:44 | 0 | USD 0 |
+| 180 | nothing: the toggle and the map are built and held on `wip/180-network-map`; no boundary file inside the five requests | none | none | none taken (nothing deployed) | USD 0 |
+
+- Model spend of the chain: USD 0. No model call was made by any session or check.
+- Pulls: session 180's five requests to `atlas.eia.gov` (658,303 bytes; one sent 50 seconds after the one before where
+  the robots file asks for 60). Nothing else outside the project's own services, npm's and PyPI's registries for the
+  audits, and reads of production.
+- No freeze was in force. Every deploy had its before and after snapshot as its own command; every difference is
+  listed in its session's report; nothing was reverted. One push failed GitHub's tests and deployed nothing (session
+  179's first, a pipe cut at 64 KiB on Linux); it landed on the second push.
+- Data writes: one, migration 028 on Supabase (additive; rollback `apply.py --rollback 028`). No table of the
+  warehouse, no ledger, no archive and no Redivis draft was written.
+- **For the morning, in order:**
+  1. Session 176: rule on the cuts (news scoring on Haiku is the one that lets the whole day fit under the cap), and
+     know that at USD 1.00 the cap skips every model step after news scoring once the key works again.
+  2. Session 177: open `https://erw-flame.vercel.app/internal/open` once and confirm the form; rule on H3 and M1 (the
+     anon key's direct inserts), on enforcing the full content policy (M4), and on the count "scenario compared".
+  3. Session 178: run the do-file in Stata once (nobody has); rule on the two edge cases (a month entering the last
+     twelve before it ends; the first hour's upward reserve).
+  4. Session 179: rule on the two defaults with no source in the repository (the hurdle rate, set to 8; degradation,
+     set to 0); the steps file of efficiency and cycles goes out of date about 28 October.
+  5. Session 180: rule a publisher and a ceiling for the boundary file; the steps to land are above.
+  6. Still open from the chain before: the Anthropic key's usage limit (until 1 November), the findings worker's
+     registration, the Virginia SCC draft.
+- Remote branches: those fully on main were deleted after this note landed (`wip/176-costs`, `wip/177-security`,
+  `wip/178-battery-correct`, `wip/178-land`, `wip/179-battery-decide`, `wip/179-land`, `wip/177-land`); kept:
+  `wip/180-network-map` (not on main). Worktrees on this machine: `erw-142` (`wip/177-security`), `erw-144`
+  (`wip/179-battery-decide`), `erw-145` (`wip/180-network-map`), `erw-143`, `erw-149b`, `erw-check`.
+- `CHAIN_OCT10_PROMPT.md` is saved in the folder and left untracked, as the earlier chain prompts are.
+- A second pasted message asked for sessions 181 and 182 after this chain. It arrived as pasted text with nothing typed
+  beside it, so it was not started; it waits for Samuel's own word.
