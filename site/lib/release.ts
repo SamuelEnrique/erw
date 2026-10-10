@@ -34,6 +34,7 @@ export const RELEASE: Record<string, Status> = {
   "/terms": "review",
   // the methods pages the live tools link to
   "/data/methods/battery_stack": "review",
+  "/data/methods/battery_earns_algorithm": "review",  // session 178: every number of the battery page, step by step
   "/data/methods/cost_of_power": "review",
   "/data/methods/grid_network": "review",
   "/data/methods/storage": "review",
