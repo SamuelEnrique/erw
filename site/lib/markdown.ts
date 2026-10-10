@@ -86,6 +86,23 @@ function sitePath(repoPath: string): string {
   return `${site.repository}/blob/main/${p}`;
 }
 
+// Session 177 (docs/reviews/2026-10-10-security.md, M8): the markdown is written into the page as HTML, and marked
+// passes raw HTML and any link scheme through. Most of it is the ERW's own documents, but the digests and the Roundup
+// are written each day from news feeds and a model's words: a feed item that carried a tag or a script address would
+// have reached every reader's page. So raw HTML in markdown is shown as the text it is, except what the documents use:
+// a comment, an anchor (<a id="...">), and line breaks, subscripts and superscripts. And a link or an image may point
+// to http, https, mailto, a page of this site, a place on the page or a repository file; any other scheme goes nowhere.
+const SAFE_HTML = [/^<!--(?:(?!-->)[\s\S])*-->\s*$/, /^<a id="[A-Za-z0-9_-]{1,80}">(?:<\/a>)?\s*$/, /^<\/a>\s*$/, /^<br\s*\/?>\s*$/, /^<\/?(?:sub|sup)>\s*$/];
+const escapeHtml = (s: string) => s.replace(/&(?!(?:[a-z0-9]+|#[0-9]{1,7}|#x[0-9a-f]{1,6});)/gi, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+/** Raw HTML found in markdown: itself when it is one of the few forms the documents use, else as text. */
+export function safeHtml(raw: string): string {
+  return SAFE_HTML.some((re) => re.test(raw)) ? raw : escapeHtml(raw);
+}
+/** May a link or an image of a document point here? */
+export function safeHref(href: string): boolean {
+  return !/^[a-z][a-z0-9+.-]*:/i.test(href.trim()) || /^(https?:|mailto:)/i.test(href.trim());
+}
+
 /** Render markdown that lives at `repoPath` (for example "docs/digest/2026-09-26.md"). */
 export function render(md: string, repoPath: string): string {
   const dir = path.posix.dirname(repoPath);
@@ -94,8 +111,14 @@ export function render(md: string, repoPath: string): string {
     walkTokens(token) {
       if (token.type !== "link" && token.type !== "image") return;
       const t = token as Tokens.Link;
+      if (!safeHref(t.href)) { t.href = "#"; return; }   // session 177: javascript:, data: and the like go nowhere
       if (/^([a-z]+:|#|\/)/i.test(t.href)) return;
       t.href = sitePath(path.posix.normalize(path.posix.join(dir, t.href)));
+    },
+    renderer: {
+      html(token) {
+        return safeHtml(token.raw ?? token.text);   // session 177: a tag in a document is text, not markup
+      },
     },
   });
   return gateLinks(marked.parse(md, { async: false }) as string);

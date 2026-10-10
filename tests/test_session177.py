@@ -228,7 +228,9 @@ class Migration028(unittest.TestCase):
                       ("docs", "reviews", "2026-10-10-security.md"), ("site", "lib", "guard.ts"), ("site", "lib", "usage.ts"), ("site", "lib", "usagepath.ts"),
                       ("site", "components", "Usage.tsx"), ("site", "app", "api", "usage", "route.ts"), ("site", "app", "privacy", "page.tsx"),
                       ("site", "app", "internal", "usage", "page.tsx"), ("site", "app", "internal", "open", "page.tsx"), ("site", "app", "terms", "page.tsx"),
-                      ("site", "next.config.ts"), ("tests", "test_session177.py"), ("site", "scripts", "test-usage.mjs"), ("site", "scripts", "check-security.mjs")):
+                      ("site", "next.config.ts"), ("tests", "test_session177.py"), ("site", "scripts", "test-usage.mjs"), ("site", "scripts", "check-security.mjs"),
+                      ("site", "scripts", "check-csp.mjs"), ("site", "scripts", "test-markdown-safe.mjs"), ("site", "lib", "markdown.ts"), ("site", "components", "echarts.ts"),
+                      ("docs", "release-gate.md"), ("warehouse", "supabase", "README.md"), ("archive", "sessions", "SESSION_177_REPORT.md")):
             self.assertNotIn(chr(0x2014), src(*parts), "/".join(parts))
 
 
@@ -303,6 +305,21 @@ class Site(unittest.TestCase):
         self.assertIn("poweredByHeader: false", c)
         self.assertIn("async redirects()", c)                           # the redirects are as they were
         self.assertIn('{ source: "/markets", destination: "/board", permanent: true }', c)
+
+    def test_markdown_is_not_markup(self):
+        m = src("site", "lib", "markdown.ts")
+        for word in ("export function safeHtml(raw: string): string", "export function safeHref(href: string): boolean", "return safeHtml(token.raw ?? token.text);",
+                     'if (!safeHref(t.href)) { t.href = "#"; return; }', "^(https?:|mailto:)"):
+            self.assertIn(word, m)
+        self.assertLess(m.index("if (!safeHref(t.href))"), m.index("t.href = sitePath("))      # checked before a link is rewritten
+        self.assertEqual(m.count("new Marked("), 1)                                            # one renderer: nothing goes round it
+        # every page that writes markdown into the page does it through render()
+        for base, _, files in os.walk(os.path.join(ROOT, "site", "app")):
+            for f in files:
+                if f.endswith(".tsx"):
+                    text = open(os.path.join(base, f), encoding="utf-8").read()
+                    for use in re.findall(r"dangerouslySetInnerHTML=\{\{ __html: (\w+)", text):
+                        self.assertEqual(use, "render", os.path.join(base, f))
 
     def test_the_chart_library_is_pinned_by_its_hash(self):
         e = src("site", "components", "echarts.ts")
