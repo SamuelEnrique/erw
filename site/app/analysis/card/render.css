@@ -1,0 +1,44 @@
+/* Session 170: the finding card's render frame (scripts/render-cards.mjs photographs /analysis/card/<id>?render=1 at
+   1080 x 1350 and 1600 x 900). The two fonts are bundled under the SIL Open Font License from public/fonts/ (their
+   license files sit beside them); font-display: block, and the renderer fails when either face is not loaded from
+   these files, so no render ever goes out in a fallback font. */
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("/fonts/SourceSerif4-Variable.ttf") format("truetype");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("/fonts/SourceSerif4-Italic-Variable.ttf") format("truetype");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: block;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block;
+}
+.finding-render {
+  box-sizing: border-box;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 40px 48px;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: "Inter", sans-serif;
+}
+.finding-render .finding-title,
+.finding-render .finding-subtitle {
+  font-family: "Source Serif 4", serif;
+}
+.finding-render .finding-title { font-size: 20px; letter-spacing: 0.16em; color: #1a1a1a; }
+.finding-render .finding-subtitle { font-size: 30px; line-height: 1.2; margin-top: 6px; }
+.finding-render .finding-callouts { margin-top: 18px; }
+.finding-render .finding-why { font-size: 15px; line-height: 1.45; max-width: none; }
+.finding-render .finding-footnote { font-size: 11px; line-height: 1.35; max-width: none; }
+.finding-render .finding-render-foot { margin-top: 14px; font-size: 12px; color: #6b6b6b; }

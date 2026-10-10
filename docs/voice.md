@@ -42,3 +42,14 @@ From the digest of 2026-09-28 and the Roundup for 2026-W39, as the model wrote t
 - Invent a number, a name or a cause the source does not state.
 - Mention AI, datacenters or compute unless the source does (the news rubric's rule).
 - Tell the reader what to buy, sell or think.
+
+## The finding card (session 170)
+
+Automated Analysis writes its findings as cards modeled on the peak premium panel of the owner's thesis: a short section title in capitals ("PEAK PREMIUM"), the insight as an italic subtitle ("Wholesale spread widened, but the spikes shrank"), one interactive chart that compares, two or three callout boxes with a before and after number ("Daily spread: USD 8 in 2015, USD 34 in 2025"), one paragraph giving the why with the context numbers, and a method footnote as precise as his: the data, the years, the observations, how blocks or groups are cut, every statistic computed. The card's voice is the ERW's as above, rigorous and data-first, and also witty and fun:
+
+- **The title may joke; the numbers never do.** "BATTERIES ATE THEIR OWN LUNCH?" and "TILL QUEUE DO US PART" are titles. The subtitle under them says what the data found, and the joke bends to the data: if the honest comparison is weaker than the punchline, the headline changes, never the number.
+- **A question, not a known answer.** Each finding is asked of the warehouse. A flat result is reported flat ("the regression cannot pin it on batteries"); a result that goes the other way is reported the other way.
+- **Causal words only as far as the design allows.** A before-and-after with controls says "goes with", "association", never "caused". An event study or a fixed-effects regression says what it identifies and names what it cannot separate.
+- **Every number on the card is checked** against the code that computed it, and the card's data, Python and Stata do-file download with it.
+- **The footnote is where the method lives:** source tables, years, interval counts, time zone, how periods and groups are cut, every statistic and how it is computed, the standard errors' kind, what was left out and why. Nothing is filled: a year a grid's history does not cover reads "not held".
+- A placeholder keeps the site's greyed style: MISO "paused while terms are reviewed", PJM "licensed source needed".

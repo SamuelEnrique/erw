@@ -1,0 +1,265 @@
+{
+ "id": "queue_divorce",
+ "title": "TILL QUEUE DO US PART",
+ "kind": "visual",
+ "subtitle": "The queue walks away 1.9 times as often as the altar does, on the only comparison the CDC's figures allow",
+ "params": {
+  "first_year": 2000,
+  "last_year": 2020
+ },
+ "inputs_words": {
+  "first_year": "2000",
+  "last_year": "2020"
+ },
+ "chart": {
+  "kind": "stacked_bar_pct",
+  "x": [
+   "All technologies",
+   "Wind",
+   "Gas",
+   "Solar",
+   "Other",
+   "Solar and battery",
+   "Battery"
+  ],
+  "x_label": "Technology (requests of 2000 to 2020)",
+  "series": [
+   {
+    "name": "Withdrawn",
+    "type": "bar",
+    "unit": "percent of MW",
+    "values": [
+     75.1796387567233,
+     77.49642774468852,
+     79.51545371950155,
+     70.63283641632,
+     84.00875549962674,
+     51.54616194845809,
+     63.984693376941216
+    ],
+    "gw": [
+     2638.119047823634,
+     709.9611129269796,
+     661.7403605110321,
+     503.74090534385164,
+     533.0783199102701,
+     143.67157445913023,
+     85.92677467237061
+    ]
+   },
+   {
+    "name": "Operating",
+    "type": "bar",
+    "unit": "percent of MW",
+    "values": [
+     12.933980797014764,
+     14.831780248196747,
+     16.939367076415607,
+     10.69944367074241,
+     10.314816398774669,
+     9.178650597247074,
+     7.202960202215464
+    ],
+    "gw": [
+     453.8646589564555,
+     135.87706579700847,
+     140.97212996505604,
+     76.30654119009726,
+     65.45276100496613,
+     25.583110999327662,
+     9.67305
+    ]
+   },
+   {
+    "name": "Active",
+    "type": "bar",
+    "unit": "percent of MW",
+    "values": [
+     10.563623759650893,
+     6.071138962825016,
+     2.8167986267832035,
+     16.77587760039626,
+     4.9754252424850325,
+     37.54336733147724,
+     26.63534058206558
+    ],
+    "gw": [
+     370.68676459801543,
+     55.61898399990463,
+     23.441850000000002,
+     119.64259399908065,
+     31.571605999030112,
+     104.64241159999999,
+     35.769319
+    ]
+   },
+   {
+    "name": "Suspended",
+    "type": "bar",
+    "unit": "percent of MW",
+    "values": [
+     1.319336993834744,
+     1.5902832359978434,
+     0.7283805772996476,
+     1.8890379805656103,
+     0.7002149002680914,
+     1.7318201228175882,
+     2.1770058387777427
+    ],
+    "gw": [
+     46.296685,
+     14.56892,
+     6.0617,
+     13.472285,
+     4.44322,
+     4.827,
+     2.9235600000000006
+    ]
+   },
+   {
+    "name": "Unknown",
+    "type": "bar",
+    "unit": "percent of MW",
+    "values": [
+     0.003419692776279107,
+     0.010369808291884034,
+     0.0,
+     0.0028043319757051015,
+     0.000787958845463528,
+     0.0,
+     0.0
+    ],
+    "gw": [
+     0.12,
+     0.095,
+     0.0,
+     0.02,
+     0.005,
+     0.0,
+     0.0
+    ]
+   }
+  ],
+  "requested_gw": [
+   3509.087156378105,
+   916.1210827238925,
+   832.2160404760882,
+   713.1823255330296,
+   634.5509069142664,
+   278.7240970584579,
+   134.2927036723706
+  ],
+  "projects": [
+   21758,
+   5370,
+   2607,
+   8379,
+   2801,
+   1201,
+   1400
+  ],
+  "reference": {
+   "name": "US divorce rate over marriage rate (CDC, provisional 2023)",
+   "value": 39.34426229508197
+  },
+  "y_left_label": "percent of requested MW"
+ },
+ "callouts": [
+  {
+   "label": "Requested capacity withdrawn",
+   "before": {
+    "period": "2000 to 2020",
+    "text": "75% of 3,509 GW"
+   },
+   "after": {
+    "period": "operating",
+    "text": "13%"
+   },
+   "unit": ""
+  },
+  {
+   "label": "Withdrawn, worst and best technology",
+   "before": {
+    "period": "Other",
+    "text": "84%"
+   },
+   "after": {
+    "period": "Solar and battery",
+    "text": "52%"
+   },
+   "unit": ""
+  },
+  {
+   "label": "US divorce rate over marriage rate (CDC, 2023)",
+   "before": {
+    "period": "per 1,000",
+    "text": "2.4 / 6.1"
+   },
+   "after": {
+    "period": "ratio",
+    "text": "39%"
+   },
+   "unit": ""
+  }
+ ],
+ "why": "Of the 3,509 GW that asked to connect in 2000 to 2020 (21,758 requests in Berkeley Lab's Queued Up, 2026 edition), 75.2 percent was withdrawn, 12.9 percent is operating, 10.6 percent is still active and 1.3 percent suspended. Other fared worst (84.0 percent withdrawn) and Solar and battery best (51.5 percent). The CDC's FastStats give a marriage rate of 6.1 and a divorce rate of 2.4 per 1,000 population (provisional 2023; divorces from 45 reporting states and D.C.): the divorce rate is 39 percent of the marriage rate, a crude ratio of two rates in one year, not the share of marriages that end in divorce, which the CDC does not publish there. On that ratio the queue's 75 percent is 1.9 times the altar's.",
+ "footnote": "Data: Berkeley Lab, Queued Up, 2026 edition (through 2025) (ERW table lbnl_interconnection_queue, retrieved 2026-10-02): every request with a queue year 2000 to 2020 and a capacity in MW (21,758 requests; 0 without a MW figure left out). Shares are percent of requested MW by Berkeley Lab's status (withdrawn, operational, active, suspended; unknown kept as its own share) and by its type_clean, grouped: Solar, Wind, Battery, Solar and battery, Gas, and Other (hydro, coal, nuclear, offshore wind, geothermal, wind and battery, other). Marriage: CDC/NCHS FastStats, Marriage and Divorce, retrieved 2026-10-09, provisional 2023: 2,041,926 marriages, 6.1 per 1,000 total population; 672,502 divorces, 2.4 per 1,000 population, 45 reporting states and D.C. Definition: crude rates per 1,000 total population in the year, marriages for the U.S. and divorces for 45 reporting States and D.C.; not the share of marriages that end in divorce, which the CDC does not publish here. Source: CDC (public domain, attribution required).",
+ "numbers": {
+  "requested_gw": 3509.087156378105,
+  "projects": 21758,
+  "withdrawn_pct": 75.1796387567233,
+  "operational_pct": 12.933980797014764,
+  "active_pct": 10.563623759650893,
+  "suspended_pct": 1.319336993834744,
+  "withdrawn_gw": 2638.119047823634,
+  "operational_gw": 453.8646589564555,
+  "worst_tech": "Other",
+  "worst_withdrawn_pct": 84.00875549962674,
+  "best_tech": "Solar and battery",
+  "best_withdrawn_pct": 51.54616194845809,
+  "cdc_marriage_rate": 6.1,
+  "cdc_divorce_rate": 2.4,
+  "cdc_ratio_pct": 39.34426229508197,
+  "gas_withdrawn_pct": 79.51545371950155,
+  "solar_withdrawn_pct": 70.63283641632,
+  "wind_withdrawn_pct": 77.49642774468852,
+  "queue_over_cdc": 1.9108158184000508
+ },
+ "cdc": {
+  "source": "CDC/NCHS FastStats, Marriage and Divorce",
+  "url": "https://www.cdc.gov/nchs/fastats/marriage-divorce.htm",
+  "retrieved": "2026-10-09",
+  "year": "provisional 2023",
+  "marriages": 2041926,
+  "marriage_rate_per_1000": 6.1,
+  "divorces": 672502,
+  "divorce_rate_per_1000": 2.4,
+  "divorce_states": "45 reporting States and D.C.",
+  "definition": "crude rates per 1,000 total population in the year, marriages for the U.S. and divorces for 45 reporting States and D.C.; not the share of marriages that end in divorce, which the CDC does not publish here"
+ },
+ "source_line": "Source: Berkeley Lab Queued Up (2026 edition), ERW table lbnl_interconnection_queue; CDC/NCHS FastStats (public domain).",
+ "tables": [
+  "lbnl_interconnection_queue"
+ ],
+ "computed_at": "2026-10-09T07:55:43Z",
+ "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+ "csv_header": [
+  "Energy Research Warehouse (ERW): finding queue_divorce, TILL QUEUE DO US PART",
+  "Computed 2026-10-09T07:55:43Z by warehouse/analysis/findings/queue_divorce.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Rows: one per technology (and all), requests of 2000 to 2020 in Berkeley Lab's Queued Up: requested GW and the GW and percent of MW by status",
+  "CDC/NCHS FastStats marriage and divorce rates per 1,000 population (provisional 2023), https://www.cdc.gov/nchs/fastats/marriage-divorce.htm; sources: lbnl_interconnection_queue"
+ ],
+ "card_id": "queue_divorce",
+ "meta": {
+  "first_year": 2000,
+  "last_year": 2020,
+  "projects_without_mw": 0,
+  "edition": "2026 edition (through 2025)"
+ },
+ "downloads": {
+  "csv": "erw_2026_queue_outcomes_technology.csv",
+  "python": "queue_divorce.py",
+  "stata": "queue_divorce.do"
+ },
+ "csv_sha256": "c9fbaad6ecd9a433451ca086a89e2060a9da21abf397e69c8ea39b5911025a43"
+}
