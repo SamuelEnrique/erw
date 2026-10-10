@@ -6,17 +6,20 @@ import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  CAPACITY_WORDS, DEBT, DURATION_WORDS, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, awardsBeside, badMonth, coverage, debtPerMw, gridOf, inputsKey,
+  CAPACITY_WORDS, COSTS, DEBT, DURATION_WORDS, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, awardsBeside, badMonth, coverage, debtPerMw, gridOf, inputsKey,
   inputsOf, last36, lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type AwardsSnapshot, type Inputs, type Month, type Row,
   type StressRow, type Year,
 } from "@/lib/batterystack";
 import awardsData from "@/data/battery_awards_beside.json";
 import reviewData from "@/data/battery_stack_review.json";
+import stepsData from "@/data/battery_scenario_steps.json";
+import { isScenarioParam, type StepFile } from "@/lib/battery/finance";
 import { COOKIE, digest } from "@/lib/release";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
 import { BatteryForm } from "./BatteryForm";
 import { ContractInputs, ContractProvider, ContractResult } from "./Contract";
+import { Scenarios } from "./Scenarios";
 
 // Session 67: "What a battery earns". What a grid battery of the reader's size and duration earned from energy and
 // from ancillary services together, split hour by hour so nothing is counted twice, and whether that covers its debt,
@@ -37,6 +40,11 @@ import { ContractInputs, ContractProvider, ContractResult } from "./Contract";
 // new read of the live set, check keys bsa|<strategy>_<N>h|<stat>). The lead links the step-by-step note
 // (docs/methods/battery_earns_algorithm.md) and the source line offers the default case hour by hour, with its do-file.
 // No existing number changed.
+// Session 179: one section after the contract, "Scenarios A and B" (Scenarios.tsx): ten assumptions with their cited
+// defaults and Resets, two scenarios on the same seven rows, and a sensitivity chart, all computed in the browser from
+// the months above (lib/battery/finance.ts). The two assumptions inside the model, efficiency and cycles a day, take
+// the steps of data/battery_scenario_steps.json (warehouse/derived/battery_scenario_steps.py) and nothing between.
+// Both scenarios live in the address (two-letter parameters, defaults omitted). Nothing else on the page changed.
 export const metadata: Metadata = { title: "What a battery earns" };
 export const dynamic = "force-dynamic";
 
@@ -173,6 +181,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const events = stress(stressRows, x.strat, x.dur);
   const defaultDs = Math.round(debtPerMw(x.dur) * x.mw);
   const products = PRODUCTS[x.grid];
+  const steps = stepsData as unknown as StepFile;
+  const scenarioParams = Object.fromEntries(Object.entries(sp).filter(([k, v]) => isScenarioParam(k) && typeof v === "string")) as Record<string, string>;
   const beside = awardsBeside(awardsData as unknown as AwardsSnapshot, x.grid, x.strat, x.dur);
   const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const broken = (() => { const t = ys.map((r) => r.energy + r.ancillary).sort((a, b) => b - a); return t.length > 2 && t[0] > 2.5 * t[1] ? ys.find((r) => r.energy + r.ancillary === t[0])! : null; })();
@@ -283,6 +293,12 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
 
                 <ToolSection title="With your contract">
                   <ContractResult ms={ms} x={x} />
+                </ToolSection>
+
+                <ToolSection title="Scenarios A and B">
+                  <Scenarios key={`${x.grid}|${x.dur}|${x.strat}`} ms={ms} x={x} costs={COSTS[x.dur]} gridName={g.name}
+                    stepCase={steps.cases[`${x.grid}|${x.strat}|${x.dur}`] ?? null}
+                    stepMeta={{ built: steps.built, rte_steps: steps.rte_steps, cycle_steps: steps.cycle_steps }} initial={scenarioParams} />
                 </ToolSection>
               </>
             )}
