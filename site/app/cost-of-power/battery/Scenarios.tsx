@@ -159,7 +159,13 @@ export function Scenarios({ ms, x, costs, gridName, stepCase, stepMeta, initial 
 
   const update = (next: Both) => {
     // session 179: track("scenario compared") goes here once site/lib/usage.ts is on main
-    // (once, when B first differs from A: differing(s.a, s.b).length === 0 && differing(next.a, next.b).length > 0)
+    // Once a page view, when a change first makes B differ from A:
+    //   if (!compared.current && differing(next.a, next.b).length > 0) { compared.current = true; track("scenario compared"); }
+    // with `const compared = useRef(differing(s.a, s.b).length > 0);` beside the state, so that a shared link which
+    // already compares sends nothing when it is merely opened or edited. The count carries the event and the path only
+    // (lib/usage.ts). It is the one request a reader's action on this page would cause: the automatic counts are
+    // silent here because the contract box says nothing typed there is sent (components/Usage.tsx, PROMISE), and this
+    // block sits outside that box. scripts/check-battery-scenarios.mjs allows that one count and nothing else.
     setS(next);
   };
   const set = (k: Key, v: number) => update({ ...s, [s.view]: { ...s[s.view], [k]: bound(k, v, d, steps) } });

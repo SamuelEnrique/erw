@@ -393,10 +393,12 @@ class ThePage(unittest.TestCase):
         self.assertIn("--color-fuel-coal: #eb6834;", tokens)
 
     def test_the_place_for_the_usage_event_is_marked_once(self):
+        # the place is marked once; when the landing adds the call there, it is one call and no dynamic import
         line = '// session 179: track("scenario compared") goes here once site/lib/usage.ts is on main'
-        self.assertEqual(self.block.count(line), 1)
-        self.assertNotIn("lib/usage\"", self.block)
-        self.assertNotIn("import(", self.block)
+        code = re.sub(r"(?m)^\s*//.*$", "", self.block)
+        called = code.count('track("scenario compared")')
+        self.assertTrue(called == 1 or (called == 0 and self.block.count(line) == 1), f"{called} calls, {self.block.count(line)} marks")
+        self.assertNotIn("import(", code)
 
     def test_the_page_draws_the_block_once_after_the_contract(self):
         self.assertEqual(self.page.count("<Scenarios "), 1)

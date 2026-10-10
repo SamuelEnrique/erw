@@ -13,8 +13,10 @@
 //      to B"; at the bare address nothing is written into the address;
 //   2. the table: two columns, seven rows in order and the last row in words; at the defaults A's revenue, 10th-percentile
 //      month and coverage are the page's own headline numbers, and every other number is lib/battery/finance.ts's;
-//   3. a change computes in the browser: no request at all, the address gains the parameter, the header of each column
-//      shows only what differs and the last row says it in words;
+//   3. a change computes in the browser: no request, the address gains the parameter, the header of each column shows
+//      only what differs and the last row says it in words. The one request allowed after a scenario change is
+//      session 177's usage count (POST /api/usage, the event and the path, no value), at most once a page view, sent
+//      only once the call marked in Scenarios.tsx is added; typing the contract terms is held to no request at all;
 //   4. a step of efficiency is the model's own run in data/battery_scenario_steps.json;
 //   5. the address round trip: opening the address again gives the same inputs and the same numbers;
 //   6. "Copy A to B", a Reset and the Reset for all;
@@ -93,7 +95,7 @@ try {
   await page.send("Page.enable");
   await page.send("Network.enable");
   const requests = [];
-  page.on((m) => { if (m.method === "Network.requestWillBeSent" && !m.params.request.url.startsWith("data:")) requests.push({ url: m.params.request.url, body: m.params.request.postData ?? "", headers: JSON.stringify(m.params.request.headers ?? {}) }); });
+  page.on((m) => { if (m.method === "Network.requestWillBeSent" && !m.params.request.url.startsWith("data:")) requests.push({ url: m.params.request.url, method: m.params.request.method, body: m.params.request.postData ?? "", headers: JSON.stringify(m.params.request.headers ?? {}) }); });
   const ev = async (expression) => {
     const r = await page.send("Runtime.evaluate", { expression, returnByValue: true, awaitPromise: true });
     if (r.exceptionDetails) throw new Error(`${r.exceptionDetails.text}: ${expression.slice(0, 120)}`);
@@ -102,6 +104,7 @@ try {
   const go = async (route, width = 1280) => {
     await page.send("Emulation.setDeviceMetricsOverride", { width, height: 900, deviceScaleFactor: 1, mobile: width < 600 });
     const loaded = new Promise((res) => page.on((m) => m.method === "Page.loadEventFired" && res()));
+    countsThisView = 0;
     const nav = await page.send("Page.navigate", { url: route.startsWith("http") ? route : base + route });
     if (nav.errorText) throw new Error(`${route.split("?")[0]}: ${nav.errorText}`);
     await Promise.race([loaded, sleep(30000)]);
@@ -156,12 +159,22 @@ try {
       scrollW: document.documentElement.scrollWidth, clientW: document.documentElement.clientWidth,
     };
   })()`;
-  const noRequest = async (what, act) => {
+  // Session 177's usage count (lib/usage.ts: POST /api/usage, the event and the path, no value) is the one request a
+  // scenario change may cause, once a page view, when the call marked in Scenarios.tsx is added. Everything else is
+  // held to none; `strict` holds the usage count to none as well (the contract box's promise).
+  const isCount = (r) => r.method === "POST" && new URL(r.url).pathname === "/api/usage" && new URL(r.url).search === "";
+  const counts = [];
+  let countsThisView = 0;
+  const noRequest = async (what, act, strict = false) => {
     const mark = requests.length;
     await act();
     await sleep(700);
     const sent = requests.slice(mark);
-    check(sent.length === 0, `${what}: no request is sent`, sent.slice(0, 3).map((r) => r.url).join(" "));
+    const count = sent.filter(isCount), other = sent.filter((r) => !isCount(r));
+    counts.push(...count);
+    countsThisView += count.length;
+    check(other.length === 0 && (!strict || count.length === 0), `${what}: no request is sent${count.length && !strict ? " but the usage count" : ""}`, sent.slice(0, 3).map((r) => `${r.method} ${r.url}`).join(" "));
+    if (count.length) check(countsThisView <= 1, `${what}: at most one usage count a page view`, `${countsThisView} sent`);
   };
 
   await go(`/internal/unlock?token=${encodeURIComponent(tok)}`);
@@ -286,7 +299,7 @@ try {
   const hrefBefore = await ev("location.href");
   const term = (k, v) => ev(`(() => { const i = document.querySelector('input[data-contract="${k}"]'); const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set; set.call(i, ${JSON.stringify(v)}); i.dispatchEvent(new Event("input", { bubbles: true })); i.dispatchEvent(new Event("change", { bubbles: true })); i.blur(); return i.value; })()`);
   const CONTRACT = `(() => { const r = document.querySelector("[data-contract-result]"); return { state: r?.getAttribute("data-contract-result") ?? null, text: r?.textContent ?? "" }; })()`;
-  await noRequest("typing the contract terms", async () => { await term("share", "61.7"); await term("price", "7.3131"); await term("end", "2031-06"); await sleep(1200); });
+  await noRequest("typing the contract terms", async () => { await term("share", "61.7"); await term("price", "7.3131"); await term("end", "2031-06"); await sleep(1200); }, true);
   let con = await ev(CONTRACT);
   check((await ev("location.href")) === hrefBefore, "the contract terms leave the address unchanged");
   check((await ev(stored)) === storedBefore, "the contract terms write nothing to storage or cookies");
@@ -303,6 +316,16 @@ try {
   const sent = requests.slice(mark), leak = sent.filter((r) => /7\.3131|61\.7|2031-06/.test(r.url + r.body + r.headers));
   check(/dur=8/.test(await ev("location.href")) && con.state === "shown", "the contract terms survive a change of duration", (await ev("location.search")));
   check(sent.length > 0 && leak.length === 0, `the ${sent.length} request(s) of that change carry no contract term`, leak.map((r) => r.url).join(", "));
+
+  // the usage counts seen, if the call has been added: the event and the path, and no value typed on the page
+  {
+    const read = counts.filter((r) => r.body);
+    const plain = read.every((r) => { try { const b = JSON.parse(r.body); return Object.keys(b).sort().join() === "event,path" && b.path === "/cost-of-power/battery"; } catch { return false; } });
+    const leak = counts.filter((r) => /7\.3131|61\.7|2031-06/.test(r.url + r.body));
+    check(plain && leak.length === 0, counts.length
+      ? `${counts.length} usage count(s) were sent by scenario changes; the ${read.length} whose body could be read hold the event and the path only, and none carries a contract term`
+      : "no usage count was sent by a scenario change (the call marked in Scenarios.tsx is not added yet)");
+  }
 
   // other grids
   await go("/cost-of-power/battery?grid=caiso&dur=2&strat=foresight");
