@@ -102,3 +102,7 @@ Branch `wip/170-analysis` in `C:\Users\lossa\Documents\erw-142`, from `a2bd935`;
   passed with nothing of this session on production. Nothing was pushed to `main` or to a `task/` branch after the cutoff.
 - The branch is on GitHub: `wip/170-analysis` (`157bbb2`, from `a2bd935`, which holds 166 to 168). Not merged into the landing branch. Its agent was cut off by the same usage limit at about 09:40 UTC and finished its checks at 22:20 UTC; its hand-over by 12:00 was missed for that reason. To finish: the five steps under "To finish" above (`runs/session170/handover.sh`), after the 166 to 168 landing; the font files are not bundled (no pull was allowed for them) and migration 026_analysis_requests is not applied.
 - No em dash in this file (checked).
+
+## Landing state (added by the chain's session 172 at 02:15 UTC on 10 October 2026)
+
+- **Not landed yet; two steps done by session 172.** The queue's migration was renumbered `027_analysis_requests.sql` on `wip/170-analysis` (session 169's `026_thesis_gate.sql` took 026 the same night) and applied at about 02:05 UTC on 10 October 2026 (`runs/session172/apply_027.out`; the table and its two functions are in the project, 0 rows). The branch is at `e182c22` on GitHub. Session 173 lands it (fonts, renders, the worker, the Roundup).

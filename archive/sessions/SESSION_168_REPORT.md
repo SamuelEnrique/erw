@@ -197,3 +197,7 @@ each its own files, so any one can be left out:
   passed with nothing of this session on production. Nothing was pushed to `main` or to a `task/` branch after the cutoff.
 - The branch is on GitHub: `wip/168-network` (`7bf5050`). It is also merged into the landing branch `wip/166-health` (three hand merges: `release.ts`, `next.config.ts`, `audience.ts`; the ancillary note of `docs/methods/price_board.md` merged clean). The five suggested questions of part C were not asked (the production page still runs the old code; ask them after the landing, cap USD 0.50, of which USD 0.153 went to session 166's one check). To finish: the landing of `wip/166-health` in `SESSION_166_REPORT.md`, "To finish", then the five questions.
 - No em dash in this file (checked).
+
+## Landing state (added by the chain's session 172 at 02:15 UTC on 10 October 2026)
+
+- **Landed with sessions 166 and 167** (`task/166-168-chain`, merge `551ba12`, production at 01:49 UTC on 10 October 2026). On production `/network/v3?grid=ERCO` answers 308 to `/network?grid=ERCO`; `/network` answers the in-review page to a visitor. One Ask ERCOT question was asked on production by session 172 (USD 0.157, its own cap); the five suggested questions were not asked again. Details: `archive/sessions/SESSION_172_REPORT.md`.
