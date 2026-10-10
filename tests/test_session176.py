@@ -309,6 +309,8 @@ class WithoutTheModel(unittest.TestCase):
             log = "".join(open(os.path.join(d, f), encoding="utf-8").read() for f in os.listdir(d) if f.endswith(".log"))
             if "no scored stories in the window" in log:
                 self.skipTest("no scored story in the last 400 hours on this machine")
+            if "ERWDataNotFound" in log:  # a clean copy or GitHub's test job: the news tables are in git, the prices are not
+                self.skipTest("the price tables the digest's numbers read are not on this machine")
             self.fail(log[-1500:])
         text = open(out, encoding="utf-8").read()
         self.assertIn(self.brief.NO_MODEL_LINE, text)
