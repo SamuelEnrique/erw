@@ -178,17 +178,22 @@ def henry_hub():
     return pd.Series(s["value"].values, index=pd.to_datetime(day)).sort_index(), s
 
 
-def build_iso(iso, gens, hh, log, left):
+def build_iso(iso, gens, hh, log, left, price=None, table=None, fuel=None):
+    """The model of one ISO at its main hub. Session 183: the same model at another hub or zone (merchant_hubs.py) is
+    this function with `price` (that hub's hourly price by the hour's start, UTC), `table` (the tables it was read
+    from) and `fuel` (the fleet's hours, read once for the grid) given; with none of them given nothing here changed."""
     tz = pb.TZ[iso]
     hub = pb.MAIN[iso]
-    df, table = cp.prices_of(iso, "rtm", log)
-    price = cp.hourly(df)
+    if price is None:
+        df, table = cp.prices_of(iso, "rtm", log)
+        price = cp.hourly(df)
     if not len(price):
         raise RuntimeError(f"{iso}: no complete hourly real-time price")
     path, ex = workbook_of(BA[iso])
-    fuel = fuel_hours(path)
-    if iso == "caiso":
-        fuel = cj.true_hours(fuel)  # session 82: EIA's California values of 2023-11 to 2025-12-02 sit one hour late
+    if fuel is None:
+        fuel = fuel_hours(path)
+        if iso == "caiso":
+            fuel = cj.true_hours(fuel)  # session 82: EIA's California values of 2023-11 to 2025-12-02 sit one hour late
     log(f"  {iso}: {len(price)} hourly prices {price.index.min()} to {price.index.max()}; fuel hours {len(fuel)} from {os.path.relpath(path, ROOT)}")
     start = max(price.index.min(), pd.Timestamp(SHAPE_START, tz="UTC"))
     h = pd.DataFrame({"p": price}).loc[start:]

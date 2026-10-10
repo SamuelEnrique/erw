@@ -24,6 +24,7 @@
 import fs from "node:fs";
 import { env, withBrowser } from "./browser.mjs";
 import * as C from "../lib/capture.ts";
+import * as HB from "../lib/sellerhubs.ts";
 import { contractResult } from "../lib/datacenter.ts";
 import * as M from "../lib/merchant.ts";
 import * as S from "../lib/seller2.ts";
@@ -33,6 +34,14 @@ let bad = 0, n = 0;
 const check = (ok, what) => { n += 1; if (!ok) { bad += 1; console.log(`FAIL ${what}`); } else console.log(`ok   ${what}`); };
 const FILE = JSON.parse(fs.readFileSync(new URL("../data/seller/capture.json", import.meta.url), "utf-8"));
 const SNAP = JSON.parse(fs.readFileSync(new URL("../data/merchant_snapshot.json", import.meta.url), "utf-8"));
+// session 183: at a hub other than the grid's main one the model is that hub's own (data/seller/hubs), so the headline
+// revenue is checked against the hub's model, not the main hub's
+const HUBS = JSON.parse(fs.readFileSync(new URL("../data/seller/hubs/index.json", import.meta.url), "utf-8"));
+const hubFile = (rel) => JSON.parse(fs.readFileSync(new URL(`../data/seller/hubs/${rel}`, import.meta.url), "utf-8"));
+const pricedAt = (grid, hubId) => {
+  const e = hubId === FILE.grids[grid].main ? null : HUBS.grids[grid]?.hubs[hubId];
+  return e ? HB.withHub(SNAP, grid, HB.hubIso(SNAP.isos[grid], hubFile(HUBS.grids[grid].file), hubFile(e.file))) : SNAP;
+};
 const unlock = await fetch(`${base}/internal/unlock?token=${encodeURIComponent(env("INTERNAL_COSTS_TOKEN") ?? "")}`, { redirect: "manual" });
 const cookie = (unlock.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
 if (!cookie) { console.log(`FAILED: ${base}/internal/unlock gave no cookie (INTERNAL_COSTS_TOKEN missing or not the server's)`); process.exit(1); }
@@ -87,7 +96,7 @@ for (const [q, grid, hubId, asset] of [
   const hub = C.hubOf(FILE, grid, hubId);
   const market = C.twelve(hub.rt?.[asset], FILE.near) ? "rt" : "da";
   const c = C.twelve(hub[market][asset], FILE.near);
-  const s = S.spans(S.monthsOf(SNAP, { grid, asset }));
+  const s = S.spans(S.monthsOf(pricedAt(grid, hubId), { grid, asset }));
   const want = { cap_price: C.two(c.price), cap_premium: C.signed(c.premium), cap_pct: C.signed(c.pct, 1), cap_flat: C.two(c.flat), ...(s.twelve ? { l12_kw: S.usd(s.twelve.revenue_kw) } : {}) };
   const got = Object.fromEntries(Object.keys(want).map((k) => [k, stat(h, k)]));
   check(JSON.stringify(got) === JSON.stringify(want) && plain(face(h)).includes(`${C.MARKETS[market].toLowerCase()}, ${C.monthName(c.from)} to ${C.monthName(c.to)}`),
@@ -123,7 +132,7 @@ for (const [grid, q] of [["ercot", "/cost-of-power/seller"], ["caiso", "/cost-of
   for (const [grid, dur, strat, bmw] of [["ercot", 4, "foresight", 100], ["caiso", 8, "dayahead", 50]]) {
     const h = face((await get(`/cost-of-power/seller?iso=${grid}&asset=solar&bmw=${bmw}&dur=${dur}&strat=${strat}`)).html);
     const raw = (k) => { const v = new RegExp(`data-hybrid="${k}" data-raw="(-?[\\d.]+)"`).exec(h)?.[1]; return v === undefined ? null : Number(v); };
-    const bp = (await get(`/cost-of-power/battery?grid=${grid}&dur=${dur}&strat=${strat}&mw=${bmw}`, false)).html;
+    const bp = (await get(`/cost-of-power/battery?grid=${grid}&dur=${dur}&strat=${strat}&mw=${bmw}`)).html;  // session 183: in the internal view, the battery page is in review since session 166
     const theirs = Number(new RegExp(`data-check="bs\\|[^"]*\\|l12:total" data-raw="(-?[\\d.]+)"`).exec(bp)?.[1] ?? NaN);
     check(raw("battery") !== null && raw("battery") === theirs && raw("plant") !== null && raw("combined") === C.combined(raw("plant"), raw("battery")),
       `${grid}, ${bmw} MW ${dur}-hour battery, ${strat}: the battery's USD ${raw("battery")?.toLocaleString("en-US")} is the battery page's own figure, and with the solar plant's USD ${raw("plant")?.toLocaleString("en-US")} the combined figure is their sum, USD ${raw("combined")?.toLocaleString("en-US")}`);

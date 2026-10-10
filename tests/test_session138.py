@@ -273,7 +273,8 @@ class Page(unittest.TestCase):
             self.assertNotIn(chr(0x2014), src(*name), "/".join(name))
 
     def test_the_price_files_reach_the_server(self):
-        self.assertIn('outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"] }', src("site", "next.config.ts"))
+        # session 183: the seller page's hub files joined the same setting, so the line is no longer this entry alone
+        self.assertIn('outputFileTracingIncludes: { "/cost-of-power": ["./data/datacenter/*.json"]', src("site", "next.config.ts"))
         self.assertIn('export const dynamic = "force-dynamic"', self.page)
 
 
