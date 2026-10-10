@@ -481,3 +481,34 @@ Outputs under `runs/session182/`, every file prefixed `flow_`.
   the 18 buttons on a phone.
 
 ## The landing
+
+Written by the chain's coordinator, 10 October 2026. The session landed in two pushes: the three cards first (they
+were ready before session 181), then the request flow on top of session 181.
+
+### Parts (1) to (3): the three cards
+
+- From `wip/182-land` (`origin/main` and `wip/182-findings` merged, no conflict). Two things added at the landing:
+  - **Sunday's Roundup restores the same tables as before.** The three new modules say `DATA_MACHINE_ONLY = True` and
+    `run_finding.py --tables` leaves their histories out (16 tables, as on main, in place of 20 and about 500 MB more
+    on the runner). The cards are computed on this machine; their files are in git. If one of the three is chosen for
+    the Roundup, the runner says "not computed, a table is missing" and the Roundup falls back to the rule's pick,
+    labeled, as it does for any finding it cannot compute. The Python downloads follow their modules (one line each).
+  - `tests/test_session156.py` failed on main after the daily run of 16:18 UTC (a pinned figure the run moves): one
+    assertion unpinned (`a19f1b45`), as session 159 ruled for its neighbour.
+- In the main copy at the merged tree: tests 182, 170, 173, 174, 176, 156: 131 OK; `npm run build` exit 0;
+  `check-analysis` 233 of 233; `check-findings-grids` 163 of 163; `check-routes` 0 failed; `check-values`: first run
+  6,942 of 6,957 (the 15 were October so far on five battery addresses, the local build's stale cache after the day's
+  load), second run **6,957 of 6,957**; the whole suite in the clean worktree: 2,912 tests OK, 232 skipped.
+- No freeze. `182a_before` at 17:33:03 UTC; pushed as `task/182-findings`; run 38072208317 success; merge `6ba5bfcf`;
+  Vercel production completed 17:40:36 UTC; `182a_after` at 17:41:00 UTC; comparison: **0 differences on the 25 pages**
+  (`compare_182a.out`). On production: `check-findings-grids` 163 of 163.
+
+### Part (4): the request flow
+
+- From `wip/182b-land` (session 181's landing, `origin/main` and `wip/182-flow` merged, no conflict).
+- In the main copy at the merged tree: tests 182 flow, 170, 173, 174, 181, 181 worker, 182, 177: 212 OK;
+  `npm run build` exit 0; `test-analysis-flow.mjs` all passed; `check-analysis-flow` 225 of 225; `check-analysis` 282
+  of 282; `check-findings-grids` 163 of 163; `check-security` 48 of 48; `check-routes` 0 failed on the first run;
+  `check-values` 6,927 of 6,927; `check-csp` in a real browser: 84 pages, 0 violations; against the stand-in:
+  `check-internal-findings` 114 of 114 and `check-analysis-flow --stub` 233 of 233; the whole suite in the clean
+  worktree: 3,008 tests OK, 233 skipped.
