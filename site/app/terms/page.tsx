@@ -8,6 +8,8 @@ export const metadata: Metadata = { title: "Terms" };
 
 // Session 21, ruling 11: data licensing per source (warehouse/metadata/sources.csv), what the site stores
 // about subscribers, that Ask questions are logged without identity, and what the site is and is not.
+// Session 177: the daily count of questions per address (in place since session 128) is said, and a section on the
+// usage counts and cookies points to /privacy.
 export default function Terms() {
   const news = DOCS.sources.filter((s) => s.report.startsWith("news stories"));
   const data = DOCS.sources.filter((s) => !s.report.startsWith("news stories")).sort((a, b) => a.publisher.localeCompare(b.publisher) || a.source.localeCompare(b.source));
@@ -67,7 +69,20 @@ export default function Terms() {
         <p className="text-sm">
           Each question asked on <Link href="/ask">Ask</Link> is logged without identity: the time, the question and whether it was answered. The
           requester&apos;s IP address is held in the server&apos;s memory only to enforce the limit of questions per hour, and is never logged or stored.
+          To count the questions one address asks in a day, the database keeps a keyed code of the address for that day only: it cannot be
+          turned back into an address and is another value the next day.
           Questions are answered by a Claude model from Anthropic, which receives the question and the warehouse&apos;s data.
+        </p>
+      </Section>
+
+      <Section title="Usage counts and cookies" id="usage">
+        <p className="text-sm">
+          This site sets no tracking cookies. It counts how its tools are used with no cookie and no personal data: the page&apos;s path, the
+          tool, one of four events (a tool opened, an input changed, a scenario compared, a download), the day, and a code that stands for
+          one browser for that one day and cannot be matched with any other day. The IP address, the user agent, the referring page and
+          what you type are never recorded, and a browser that sends Do Not Track or Global Privacy Control is not counted. The two
+          cookies the site can set are for people reviewing it, after they open the internal view. All of it, exactly:{" "}
+          <Link href="/privacy">Privacy</Link>.
         </p>
       </Section>
 

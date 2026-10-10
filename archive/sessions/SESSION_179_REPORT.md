@@ -185,3 +185,27 @@ Outputs under `runs/session179/`.
 
 ## The landing
 
+
+- Landed by the chain's coordinator from `wip/179-land` (`wip/178-land`, `origin/main` and `wip/179-battery-decide`
+  merged; no conflict). Outputs under `runs/session179/`.
+- In the main copy at the merged tree (`4c93ecc`): tests 179 and 178: 66 tests OK, 0 skipped (`land_tests.out`);
+  `npm run build` exit 0 (`land_build.out`); the finance hand cases: all passed; `check-routes`: 155 pages in review,
+  0 failed; the battery pages' values: 1,808 of 1,808, twice; `check-battery-face` 20 of 20;
+  `check-battery-scenarios` 68 of 68; the whole suite in the clean worktree: 2,842 tests OK, 232 skipped.
+- **The first push failed GitHub's tests, and nothing deployed.** `179_before` at 09:29:41 UTC; pushed as
+  `task/179-battery-decide`; run 38041584650: "Tests (tests/)" failed, the merge step was skipped, production untouched.
+  The cause (the job's log, `gh_job.log`): `test-battery-finance.mjs --cases` printed 308 results with `console.log`
+  and called `process.exit(0)` at once; on Linux a pipe takes 64 KiB at a time, so the JSON arrived cut at byte 65,536
+  and the Python mirror could not read it. Windows does not cut it, which is why the clean-copy suite here passed. The
+  script now waits until stdout has taken every byte before it exits (`3fa27b5`); the page and the library are
+  unchanged by the fix.
+- **The second push landed.** No freeze. `179_before2` at 09:35:11 UTC, its own command; run 38041917785 success;
+  merge `dacb81d`; Vercel production "Deployment has completed" at 09:44:55 UTC; `179_after` at 09:45:07 UTC;
+  comparison with `179_before2` and with `179_before`: **0 differences on the 25 pages** both times (`compare_179.out`,
+  `compare_179_first.out`). Expected: the page is in review.
+- On production in the internal view: `check-battery-scenarios.mjs https://erw-flame.vercel.app`: 68 of 68, exit 0
+  (`prod_check_scen.out`): the ten inputs and Resets, the seven rows in order, "Copy A to B", the address round trip,
+  the chart's hover, 1280 and 390 px, no request on an input change.
+- **The usage count is not on the page.** `track("scenario compared")` was left out at this landing: session 177's
+  `site/lib/usage.ts` was not on main yet, and the call would be the one request a reader's action causes on a page
+  whose contract box says nothing typed there is sent. The coordinator's note on it is in session 177's report.

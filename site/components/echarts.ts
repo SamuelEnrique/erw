@@ -6,6 +6,11 @@
 import { useEffect, useRef } from "react";
 
 export const ECHARTS_SRC = "https://cdnjs.cloudflare.com/ajax/libs/echarts/5.6.0/echarts.min.js";
+// Session 177 (docs/reviews/2026-10-10-security.md, M5): the browser runs the file only if its bytes have this SHA-384,
+// so a file changed at the host is refused. Taken from the file as a page of this site received it on 10 October 2026
+// (1,034,102 bytes; runs/session177/sri_echarts.out). A new version of the library needs a new hash here, or no chart
+// draws: site/scripts/check-csp.mjs proves a chart still draws.
+export const ECHARTS_SRI = "sha384-pPi0zxBAoDu6+JXW/C68UZLvBUUtU+7zonhif43rqj7pxsGyqyqzcian2Rj37Rss";
 
 // A minimal view of the ECharts API the site uses (the library arrives as a global from the CDN).
 export type ECInstance = {
@@ -27,6 +32,8 @@ export function loadECharts(): Promise<ECLib> {
     loading = new Promise((resolve, reject) => {
       const s = document.createElement("script");
       s.src = ECHARTS_SRC;
+      s.integrity = ECHARTS_SRI;
+      s.crossOrigin = "anonymous";  // the integrity check needs the host's permission to read the file, which cdnjs gives
       s.async = true;
       s.onload = () => (w.echarts ? resolve(w.echarts) : reject(new Error("ECharts did not load")));
       s.onerror = () => {

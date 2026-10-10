@@ -5,6 +5,7 @@
 // points to Redivis. A windowed table (for example the last 35 days of prices) gives what the live set
 // holds; the full history is on Redivis.
 import site from "@/data/site.json";
+import { limited } from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,6 +45,9 @@ const text = (msg: string, status: number) => new Response(msg + "\n", { status,
 export async function GET(req: Request) {
   const table = new URL(req.url).searchParams.get("table") ?? "";
   if (!/^[a-z0-9_]{3,64}$/.test(table)) return text("table must be an ERW table name", 400);
+  // session 177 (lib/guard.ts): a download reads up to 200,000 rows from the database; sixty an hour a visitor
+  const lim = await limited(req, "download", 60, 3600);
+  if (!lim.ok) return new Response("limit reached: 60 downloads per hour; try again later\n", { status: 429, headers: { "Content-Type": "text/plain; charset=utf-8", "Retry-After": String(lim.retryAfter) } });
   try {
     const cat = (await (await get(`catalogue?select=table_name,in_live_set,columns,license&table_name=eq.${table}`)).json()) as {
       in_live_set: string; columns: string | null; license: string;

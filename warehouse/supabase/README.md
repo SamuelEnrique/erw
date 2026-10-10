@@ -60,6 +60,15 @@ A migration beyond the live set's own (the site's tables and functions: the game
 | `025_thesis_providers.sql` | `thesis_provider_results`, `thesis_provider_accept`, `thesis_provider_results` | before 10 October 2026 (the same reading) | the owner |
 | `026_thesis_gate.sql` | `thesis_runs.gate`, `thesis_submit_forced`, the step `site_thesis_gate` in the ledger's check | 10 October 2026, about 02:05 UTC (`runs/session172/apply_026.out`) | session 172 (the chain prompt of 9 October, part B) |
 | `027_analysis_requests.sql` | `analysis_requests`, `analysis_request`, `analysis_requests_list` | 10 October 2026, about 02:05 UTC (`runs/session172/apply_027.out`), from branch `wip/170-analysis` before its landing | session 172 (the same) |
+| `028_security_usage.sql` | row-level security asserted on every table (no change where it holds); `site_rate_counts` and `site_rate_admit` (limits per visitor across instances); `site_usage_events`, `site_usage_daily`, `site_usage_salt`, `site_usage_record`, `internal_usage` (the usage counts); three helpers in `erw_private`. Rollback: `rollbacks/028_security_usage.sql` (`apply.py --rollback 028`) | not applied by session 177, which wrote it and tried it in a transaction it rolled back (`runs/session177/sql_trial.out`); the coordinator applies it at the landing and writes the time here | |
+
+### Who reads what with the anon key (session 177)
+
+`verify_rls.py` holds the list and proves it: it asks one row of each table with the anon key, exactly as a visitor could, and fails on any difference. Public (the site, the `erw` package and `check-values` read them): `series`, `entities`, `events`, `latest_prices`, `catalogue`, `sources`, `headers` (rows whose license is public) and `game_scores`. Every other table is internal: no select policy and no select privilege. A table added by a later migration must be added to the list in `verify_rls.py`, as public or blocked, or `verify_rls.py --catalog` fails.
+
+```bash
+python warehouse/supabase/verify_rls.py --catalog      # exit 0: every table answers as the list says, and one internal read is refused
+```
 
 In session 10, `.env` held neither of the two, so the migrations were not applied and nothing was loaded. In session 11, with `SUPABASE_DB_URL` in `.env`, all three migrations were applied and the live set loaded: 66 tables and the catalogue and sources, every count matching the filtered CSVs (`archive/sessions/SESSION_11_REPORT.md`).
 

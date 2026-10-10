@@ -15,6 +15,7 @@ const STATES: Record<string, string> = {
   badlink: "That link is not valid (it may be incomplete). Nothing was changed.",
   notopic: "Choose at least one topic. Nothing was stored.",
   invalid: "That does not look like an email address. Nothing was stored.",
+  busy: "Too many sign-ups just now. Nothing was stored; please try again in an hour.",  // session 177: the limits of /api/subscribe
   error: "The address could not be stored just now. Nothing was stored; please try again later.",
   none: "Choose the daily digest, ERW's Roundup, or both. Nothing was stored.",
 };

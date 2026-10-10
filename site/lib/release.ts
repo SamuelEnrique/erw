@@ -9,6 +9,10 @@
 // visitors, not security: the API routes and the data are as they were (docs/release-gate.md). The internal view
 // (/internal/unlock?token=<INTERNAL_COSTS_TOKEN>) opens everything. No imports: the proxy, the pages, the menu and
 // scripts/check-routes.mjs all read this file as it is.
+// Session 177: the internal view also opens from a form, /internal/open, which sends the token in the request's body
+// (no token in an address); the link above works as it did. The internal pages (/internal/costs, /internal/ask,
+// /internal/usage, /internal/open) have no line below: every /internal address is exempt from the curtain and checks
+// the token or the internal cookie itself.
 
 export type Status = "live" | "review";
 
@@ -32,6 +36,7 @@ export const RELEASE: Record<string, Status> = {
   "/shoulder": "review",  // session 75  // session 72: without its own line it would take /storage's status
   "/about": "review",
   "/terms": "review",
+  "/privacy": "review",  // session 177: what the site records and what it does not (usage counts, cookies, storage)
   // the methods pages the live tools link to
   "/data/methods/battery_stack": "review",
   "/data/methods/battery_earns_algorithm": "review",  // session 178: every number of the battery page, step by step
