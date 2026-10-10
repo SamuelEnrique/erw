@@ -12,3 +12,5 @@ site/data/findings/*.json text eol=lf
 # and the comparison's snapshot is compared with its builder's output); no checkout may convert their line endings
 site/public/battery/* text eol=lf
 site/data/battery_awards_beside.json text eol=lf
+# Session 179: the model at the page's steps of efficiency and of the cycle limit; a test compares it with its builder
+site/data/battery_scenario_steps.json text eol=lf
