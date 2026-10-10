@@ -108,8 +108,9 @@ export const monthName = (m: string) => `${MONTHS[Number(m.slice(5, 7)) - 1]} ${
 export const usd = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 export const whole = (v: number) => Math.round(v).toLocaleString("en-US");
 
-/** The summary sentence. Null when the last twelve months are not held. */
-export function sentence(c: Choice, s: ReturnType<typeof spans>): string | null {
+/** The summary sentence. Null when the last twelve months are not held. `at` (session 183): the hub or zone the months
+ *  are priced at, in words, when it is not the grid's main hub. */
+export function sentence(c: Choice, s: ReturnType<typeof spans>, at?: string): string | null {
   if (!s.twelve) return null;
   const g = GRIDS.find((x) => x.id === c.grid)!, a = ASSETS.find((x) => x.id === c.asset)!;
   const what = c.asset === "peaker" ? "a margin over fuel of" : "";
@@ -120,5 +121,5 @@ export function sentence(c: Choice, s: ReturnType<typeof spans>): string | null 
         ? ` ${g.name} holds one full year, ${s.everyYears[0]}: USD ${usd(s.every.revenue_kw)}. There is no long-run average yet.`
         : ` ${g.name} holds ${s.everyYears.length} full years (${s.everyYears[0]} to ${s.everyYears.at(-1)}); their average was USD ${usd(s.every.revenue_kw)} a year. Three are needed for the three-year average.`
       : ` ${g.name} holds no full calendar year yet, so there is no long-run average.`;
-  return `Over the last twelve months, ${monthName(s.twelve.from)} to ${monthName(s.twelve.to)}, ${a.noun} in ${g.name} priced at ${g.at} earned ${what ? `${what} ` : ""}USD ${usd(s.twelve.revenue_kw)} per kW.${long}`;
+  return `Over the last twelve months, ${monthName(s.twelve.from)} to ${monthName(s.twelve.to)}, ${a.noun} in ${g.name} priced at ${at ?? g.at} earned ${what ? `${what} ` : ""}USD ${usd(s.twelve.revenue_kw)} per kW.${long}`;
 }

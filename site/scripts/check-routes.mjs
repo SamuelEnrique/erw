@@ -66,6 +66,7 @@ const PAGES = [
   "/cost-of-power/battery", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead", "/cost-of-power/battery?grid=ercot&dur=8&strat=foresight",
   "/data/methods/battery_stack", "/data/methods/grid_network", "/data/methods/storage",
   "/data/methods/battery_earns_algorithm",  // session 178: the battery page, every number step by step (in review)
+  "/data/methods/generator_earns_algorithm", "/cost-of-power/seller?iso=ercot&asset=solar&hub=HB_WEST",  // session 183: the seller page, every number step by step, and the page priced at another hub (in review)
   // session 72 (session 69's finish): the storage build-out, in review
   "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/data/methods/storage_buildout",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75
