@@ -304,6 +304,24 @@ class Site(unittest.TestCase):
         self.assertIn("async redirects()", c)                           # the redirects are as they were
         self.assertIn('{ source: "/markets", destination: "/board", permanent: true }', c)
 
+    def test_the_chart_library_is_pinned_by_its_hash(self):
+        e = src("site", "components", "echarts.ts")
+        self.assertRegex(e, r'export const ECHARTS_SRI = "sha384-[A-Za-z0-9+/]{64}";')
+        self.assertIn("s.integrity = ECHARTS_SRI;", e)
+        self.assertIn('s.crossOrigin = "anonymous";', e)
+        self.assertLess(e.index("s.integrity = ECHARTS_SRI;"), e.index("document.head.appendChild(s);"))
+        self.assertIn("/ajax/libs/echarts/5.6.0/echarts.min.js", e)       # the hash is of this version: a new version needs a new hash
+        self.assertIn("https://cdnjs.cloudflare.com", src("site", "next.config.ts"))
+
+    def test_next_is_the_patched_release(self):
+        import json
+        pkg = json.loads(src("site", "package.json"))
+        self.assertEqual(pkg["dependencies"]["next"], "16.3.8")
+        self.assertEqual(pkg["devDependencies"]["eslint-config-next"], "16.3.8")
+        lock = json.loads(src("site", "package-lock.json"))
+        self.assertEqual(lock["packages"]["node_modules/next"]["version"], "16.3.8")
+        self.assertEqual(pkg["dependencies"]["react"], "19.2.8")           # nothing else moved
+
     def test_the_usage_counts_send_no_identifier(self):
         u = src("site", "lib", "usage.ts")
         head = u.split("\n")[:3]
