@@ -117,7 +117,11 @@ def main(argv=None):
         print(json.dumps(catalogue(), indent=1))
         return 0
     if a.tables:
-        names = sorted({t for m in load_all() for t in m.TABLES})
+        # Session 182's landing: a finding that says DATA_MACHINE_ONLY reads histories the Roundup's runner should not
+        # restore each Sunday (the three cards of session 182 would add about 500 MB: the zone histories, CAISO's
+        # curtailment by interval and its supply history). It is computed on the data machine, and its card and
+        # downloads are in git; on the runner it is "not computed, a table is missing", named, as any finding is.
+        names = sorted({t for m in load_all() if not getattr(m, "DATA_MACHINE_ONLY", False) for t in m.TABLES})
         print("^(" + "|".join(names) + ")$")
         return 0
     if not a.name:

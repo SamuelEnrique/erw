@@ -27,6 +27,7 @@ import batteries_lunch as ercot_card
 from findings_common import METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, pct, read_table, to_utc
 
 NAME = "batteries_lunch_grids"
+DATA_MACHINE_ONLY = True  # its histories are not restored on the Roundup's runner (run_finding.py --tables)
 TITLE = "BATTERIES ATE THEIR OWN LUNCH? FIVE GRIDS"
 KIND = "econometric"
 INPUTS = {"first_year": {"label": "First year", "default": 2019, "choices": [2019]}}

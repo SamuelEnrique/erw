@@ -26,6 +26,7 @@ import peak_hour_moved as old_card
 from findings_common import METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, read_table
 
 NAME = "peak_hour_grids"
+DATA_MACHINE_ONLY = True  # its histories are not restored on the Roundup's runner (run_finding.py --tables)
 TITLE = "THE PEAK HOUR MOVED: FIVE GRIDS"
 KIND = "visual"
 INPUTS = {

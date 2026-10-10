@@ -36,6 +36,7 @@ import pandas as pd
 from findings_common import METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, read_table, to_utc
 
 NAME = "batteries_curtailment_hourly"
+DATA_MACHINE_ONLY = True  # its histories are not restored on the Roundup's runner (run_finding.py --tables)
 TITLE = "BY HOW MUCH DO BATTERIES CUT CURTAILMENT, HOUR BY HOUR"
 KIND = "econometric"
 INPUTS = {
