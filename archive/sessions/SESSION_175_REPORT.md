@@ -149,3 +149,19 @@ cd C:/Users/lossa/Documents/erw
    and open each run's Trends tab on `/thesis`; report the trends drawn of five and the cost each (`thesis_runs.usd`).
 3. Optional: a Census API key in `.env` as `CENSUS_API_KEY`; `series._cbp()` and `pull()`'s Census branch would then need
    the key added to the request (one line) and `LEFT` the entry removed.
+
+## The landing, and the chain's closing note (added at 04:00 UTC on 10 October 2026)
+
+- **Session 175 landed:** `task/175-thesis-trends` from `wip/173-land` (`5fdb4b0`) at 03:46 UTC, checks run 38021719583 passed, merge `232080a`, production at 03:54:55 UTC. Snapshots `175_before` (03:45:54) and `175_after` (03:55:07): 0 differences on the 25 pages (expected: no page changed). On production in the internal view `/thesis` lists the four failed runs of 03:33 to 03:36 UTC. The second whole-suite run in the clean worktree at `8d1790e`: 2,755 tests OK, 228 skipped, exit 0 (`suite_clean2.out`). This closing note is landed by its own small push (`task/175-closing`) with its own snapshots, read in the chain's final message.
+- **The chain, 172 to 175, in one table:**
+
+| Session | What landed | Merge | Production (UTC) | Snapshot differences | Model spend |
+|---|---|---|---|---|---|
+| 172 | sessions 166 to 168; then 169 with the Virginia pause; migrations 026 and 027 applied | `551ba12`, `e9023b1` | 01:49, 02:09 | 5,726 (every one the three pages leaving the visitor view, expected); 0 | USD 0.157 of 0.50 |
+| 173 | session 170 finished: fonts, renders, the queue proven on production, the Roundup's templates restored | `8513ba0` | 02:54 | 0 | USD 0 of 0 |
+| 174 | four more findings | `2476f6e` | 03:25 | 0 | USD 0 of 0 |
+| 175 | FRED through fredgraph.csv; Census stopped; the test runs stopped by the API's usage limit | `232080a` | 03:54 | 0 | USD 0 recorded, about 0.30 unrecorded (estimated) of 2.00 |
+
+- Chain spend: USD 0.157 recorded, about USD 0.46 with the estimate, of 2.50. Pulls: the fonts (9 requests, 3.95 MB), FRED and Census (8 requests); nothing else outside the project's own services. No freeze was in force; every deploy had its before and after snapshot; every difference is listed in the four reports; nothing was reverted.
+- **For the morning, in order:** (1) the Anthropic key's usage limit (session 175); (2) register the findings worker (session 173's PowerShell block); (3) send the Virginia SCC draft (session 172); (4) the two Thesis Builder test runs once the limit is raised (session 175's "To finish"); (5) choose a finding for Sunday's Roundup on `/analysis` if you want one printed first (otherwise the rule's pick, labeled); the Roundup's own model call needs the limit raised too.
+- The remote branches fully on main were deleted (`wip/166-health`, `wip/169-thesis`, `wip/170-analysis`, `wip/172-land`); `wip/173-land` is deleted after this note lands. Worktrees on this machine stay as they were (`erw-142` to `erw-145`, `erw-149b`, `erw-check`).
