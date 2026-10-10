@@ -59,6 +59,20 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, sleep }) => 
   }
   let charts = true;
   if (!phone) {
+    // the detector is proven first: a script the full policy does not allow (a data: address; no request leaves) must
+    // be reported, and must still run, since the full policy is report-only
+    await go(base + "/terms");
+    const probe = await evaluate(`(async () => {
+      const before = window.__csp.length;
+      const s = document.createElement("script");
+      s.src = "data:text/javascript,window.__probe=1";
+      document.head.appendChild(s);
+      await new Promise((r) => setTimeout(r, 700));
+      return { seen: window.__csp.slice(before), ran: window.__probe === 1 };
+    })()`);
+    const caught = probe.seen.some((v) => v.disposition === "report" && /script-src/.test(v.directive));
+    console.log(`${caught && probe.ran ? "ok  " : "FAIL"} the detector: a script from a data: address is reported by the full policy${probe.ran ? " and still runs (report-only)" : " and DID NOT RUN (the policy is enforced?)"}`);
+    if (!caught || !probe.ran) failed += 1;
     await go(base + "/storage");
     await sleep(3000);
     charts = await evaluate("typeof window.echarts === 'object' && document.querySelectorAll('canvas').length > 0");

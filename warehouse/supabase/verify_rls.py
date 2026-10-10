@@ -96,6 +96,22 @@ def env(name):
     return (v or "").strip()
 
 
+SMALL_LICENSED = ("latest_prices", "catalogue", "sources", "headers")
+
+
+def internal_tables(path=None):
+    """The ERW tables whose license is not public, from warehouse/metadata/coverage.csv (the names only). An absent
+    file gives none: the names written above are still asked."""
+    import csv
+    path = path or os.path.join(ROOT, "warehouse", "metadata", "coverage.csv")
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8", newline="") as f:
+        rows = csv.DictReader(line for line in f if not line.startswith("#"))
+        return sorted(r["table"] for r in rows if r.get("table") and (r.get("license") or "").strip() != "public"
+                      and all(c.isalnum() or c == "_" for c in r["table"]))
+
+
 def classify(status, body):
     """What one answer of PostgREST means: 'public', 'blocked', 'absent' or 'error'."""
     code = ""
@@ -162,7 +178,7 @@ def check_rest(rest, before_028=False, out=print):
         bad += 1
         out(f"   MISMATCH {table}: expected {want}, seen {got}")
     out("2. no internal row in a public table")
-    for table in LICENSED:
+    for table in SMALL_LICENSED:
         if seen.get(table) != "public":
             continue
         status, body = rest.call(f"{table}?select=license&license=neq.public&limit=1")
@@ -170,13 +186,23 @@ def check_rest(rest, before_028=False, out=print):
         ok = status == 200 and rows == []
         bad += 0 if ok else 1
         out(f"   {table:26s} rows whose license is not public: {'none' if ok else 'MISMATCH (HTTP %d)' % status}")
-    for shape, name in INTERNAL_BY_NAME:
+    # the three shapes hold millions of rows: a search for a row that is not public reads them all and the anon key's
+    # three seconds run out. They are asked by name instead (the key's first column): every internal table the
+    # coverage file names, in each shape, one name a request (a list of names in one request also ran out of time on
+    # events). A request cancelled by the time limit (HTTP 500, 57014) is asked once more, as the site's reader does.
+    names = sorted(set(internal_tables()) | {n for _, n in INTERNAL_BY_NAME})
+    for shape in ("series", "entities", "events"):
         if seen.get(shape) != "public":
             continue
-        status, body = rest.call(f"{shape}?select=table_name&table_name=eq.{name}&limit=1")
-        ok = status == 200 and json.loads(body) == []
-        bad += 0 if ok else 1
-        out(f"   {shape + ' / ' + name:36s} {'no row' if ok else 'MISMATCH (HTTP %d)' % status}")
+        leaks = []
+        for name in names:
+            status, body = rest.call(f"{shape}?select=table_name&table_name=eq.{name}&limit=1")
+            if status == 500 and "57014" in body:
+                status, body = rest.call(f"{shape}?select=table_name&table_name=eq.{name}&limit=1")
+            if not (status == 200 and json.loads(body) == []):
+                leaks.append(f"{name} (HTTP {status})")
+        bad += len(leaks)
+        out(f"   {shape:26s} rows of the {len(names)} internal tables, each asked by name: {'none' if not leaks else 'MISMATCH: ' + ', '.join(leaks)}")
     out("3. the proof: a direct read of an internal table with the anon key")
     status, body = rest.call(f"{PROOF_TABLE}?select=*&limit=1")
     refused = classify(status, body) == "blocked"
