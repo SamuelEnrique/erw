@@ -8,6 +8,10 @@ as an association in a before-and-after with controls, never as a cause: on a su
 rise, which is why solar output is held fixed; what the regression cannot separate is the batteries' own dispatch from
 the market conditions that call for it.
 
+Session 182: the Pearson correlation coefficient r of daily curtailment with daily charging is reported beside R2 (its
+square is the R2 of the charging-alone fit), in the numbers, the paragraph, the footnote, the CSV's header and the
+do-file; the do-file now reads the CSV past its four comment lines. The hourly card is batteries_curtailment_hourly.
+
 Tables: caiso_curtailment_daily (CAISO's production and curtailment report), caiso_battery_storage (CAISO Today's Outlook,
 batteries MW every five minutes; negative is charging), caiso_fuel_supply (Today's Outlook, solar MW by hour).
 """
@@ -101,6 +105,8 @@ def numbers_from_rows(rows, params=None):
         n[f"{k}_coef"], n[f"{k}_se"], n[f"{k}_p"], n[f"{k}_r2"], n[f"{k}_n"] = c["coef"], c["se"], c["p"], f[k]["r2"], f[k]["n"]
     s = f["charging_solar_month"]["coef"]["solar_gwh"]
     n["solar_coef"], n["solar_se"], n["solar_p"] = s["coef"], s["se"], s["p"]
+    r = float(np.corrcoef(cu, ch)[0, 1])   # session 182: Pearson's r, curtailment with charging, raw
+    n["corr_curtailed_charging"], n["corr_squared"] = r, r * r
     return n
 
 
@@ -133,7 +139,8 @@ def card(rows, params, meta):
                  "an estimate that spans zero once solar output and the month are held fixed")
     why = (f"Over {fmt(n['n_days'], 0)} days from {n['first_day']} to {n['last_day']}, CAISO curtailed {fmt(n['mean_curtailed_mwh'], 0)} MWh a day on average while its "
            f"batteries charged {fmt(n['mean_charging_mwh'], 0)} MWh a day. On the days with charging at or below the median ({fmt(n['median_charging_mwh'], 0)} MWh), "
-           f"curtailment averaged {fmt(n['curtailed_low_charging_days'], 0)} MWh; above it, {fmt(n['curtailed_high_charging_days'], 0)}. Charging alone goes with "
+           f"curtailment averaged {fmt(n['curtailed_low_charging_days'], 0)} MWh; above it, {fmt(n['curtailed_high_charging_days'], 0)}. Day by day the two correlate at "
+           f"r = {fmt(n['corr_curtailed_charging'], 2)} (R2 {fmt(n['charging_r2'], 2)}, charging alone). Charging alone goes with "
            f"{fmt(b0, 0)} MWh of curtailment per GWh charged; with solar output held fixed, {fmt(b1, 0)}; with the month too, {fmt(b, 0)} "
            f"(standard error {fmt(se, 0)}, p {fmt(p, 3)}, R2 {fmt(n['charging_solar_month_r2'], 2)}). Solar output itself goes with {fmt(n['solar_coef'], 0)} MWh of "
            f"curtailment per GWh (standard error {fmt(n['solar_se'], 0)}). The raw association and the controlled one can differ in sign: sunny spring days bring both "
@@ -144,7 +151,9 @@ def card(rows, params, meta):
             f"a day needs at least 276 of its 288 intervals), caiso_fuel_supply (Today's Outlook, solar MW by hour summed to MWh, at least 23 hours), all on "
             f"{TZ} days, {n['first_day']} to {n['last_day']}, {fmt(n['n_days'], 0)} days in {fmt(n['n_months'], 0)} calendar months (the battery series begins "
             "2025-08-24). Regressions: OLS of daily curtailment (MWh) on charging (GWh); on charging and solar (GWh); on both and month-of-sample dummies; "
-            "HC1 standard errors (Stata's vce(robust)), p from Student's t. The split at the median charging day is a plain comparison of means. No instrument, "
+            "HC1 standard errors (Stata's vce(robust)), p from Student's t. The split at the median charging day is a plain comparison of means. r is the Pearson correlation of daily curtailment "
+            f"with daily charging over these days, {fmt(n['corr_curtailed_charging'], 3)}; its square, {fmt(n['corr_squared'], 3)}, is the R2 of the charging-alone fit. "
+            "No instrument, "
             "no event window: an association.")
     table = {"columns": ["Specification", "Per GWh charged (MWh curtailed)", "SE (HC1)", "p", "Days", "R2"],
              "rows": [{"measure": "charging alone", "coef_per_gw": n["charging_coef"], "se": n["charging_se"], "p": n["charging_p"], "n": n["charging_n"], "r2": n["charging_r2"]},
@@ -166,21 +175,24 @@ def card(rows, params, meta):
         "tables": TABLES, "computed_at": now_iso(), "method": METHOD_URL,
         "csv_header": [f"Energy Research Warehouse (ERW): finding {NAME}, {TITLE}", f"Computed {now_iso()} by warehouse/analysis/findings/{NAME}.py; method {METHOD_URL}",
                        "Rows: one per Pacific day: curtailed MWh (as counted), solar and wind curtailed, battery charging and discharging MWh, solar generation MWh, intervals and hours held",
-                       "Sources: " + ", ".join(TABLES)],
+                       "Sources: " + ", ".join(TABLES) + f". Pearson r of curtailed_mwh with charging_mwh over these rows: {n['corr_curtailed_charging']:.6f} "
+                       f"(r squared {n['corr_squared']:.6f}, the R2 of the charging-alone fit)"],
     }
 
 
 def stata(params):
     V = ["curtailed_mwh", "curtailed_solar_mwh", "curtailed_wind_mwh", "charging_mwh", "discharging_mwh", "solar_mwh", "battery_intervals", "solar_hours"]
     return do_file([
-        f"* ERW finding {NAME}: {TITLE}. Reproduces the card's three regressions from {CSV_NAME}.",
+        f"* ERW finding {NAME}: {TITLE}. Reproduces the card's correlation and three regressions from {CSV_NAME}.",
+        "* The CSV begins with four comment lines: the names are on line 5 and the data begin on line 6 (session 182).",
         "clear all",
-        f'import delimited "{CSV_NAME}", varnames(1) stringcols(_all) clear',
+        f'import delimited "{CSV_NAME}", varnames(5) rowrange(6) stringcols(_all) clear',
         *do_destring(V),
         *do_sentinels(V),
         "gen charging_gwh = charging_mwh / 1000",
         "gen solar_gwh = solar_mwh / 1000",
         "encode month, gen(month_id)",
+        "correlate curtailed_mwh charging_mwh",
         "regress curtailed_mwh charging_gwh, vce(robust)",
         "regress curtailed_mwh charging_gwh solar_gwh, vce(robust)",
         "regress curtailed_mwh charging_gwh solar_gwh i.month_id, vce(robust)",

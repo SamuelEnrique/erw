@@ -2503,8 +2503,8 @@
    "unit": ""
   }
  ],
- "why": "Over 405 days from 2025-08-24 to 2026-10-06, CAISO curtailed 13,827 MWh a day on average while its batteries charged 48,649 MWh a day. On the days with charging at or below the median (50,752 MWh), curtailment averaged 8,281 MWh; above it, 19,401. Charging alone goes with 699 MWh of curtailment per GWh charged; with solar output held fixed, 951; with the month too, 1,081 (standard error 172, p 0.000, R2 0.65). Solar output itself goes with -284 MWh of curtailment per GWh (standard error 54). The raw association and the controlled one can differ in sign: sunny spring days bring both charging and curtailment, so the question is what charging adds on a day like any other, and that is the third estimate. What it cannot separate is the batteries' dispatch from the prices that call for it.",
- "footnote": "Data: caiso_curtailment_daily (CAISO production and curtailment report, MWh a day; 'solar and wind' is curtailed_solar_mwh plus curtailed_wind_mwh, 'solar only' the first), caiso_battery_storage (Today's Outlook, batteries MW every 5 minutes; charging is the negative values summed times 5/60, a day needs at least 276 of its 288 intervals), caiso_fuel_supply (Today's Outlook, solar MW by hour summed to MWh, at least 23 hours), all on America/Los_Angeles days, 2025-08-24 to 2026-10-06, 405 days in 15 calendar months (the battery series begins 2025-08-24). Regressions: OLS of daily curtailment (MWh) on charging (GWh); on charging and solar (GWh); on both and month-of-sample dummies; HC1 standard errors (Stata's vce(robust)), p from Student's t. The split at the median charging day is a plain comparison of means. No instrument, no event window: an association.",
+ "why": "Over 405 days from 2025-08-24 to 2026-10-06, CAISO curtailed 13,827 MWh a day on average while its batteries charged 48,649 MWh a day. On the days with charging at or below the median (50,752 MWh), curtailment averaged 8,281 MWh; above it, 19,401. Day by day the two correlate at r = 0.30 (R2 0.09, charging alone). Charging alone goes with 699 MWh of curtailment per GWh charged; with solar output held fixed, 951; with the month too, 1,081 (standard error 172, p 0.000, R2 0.65). Solar output itself goes with -284 MWh of curtailment per GWh (standard error 54). The raw association and the controlled one can differ in sign: sunny spring days bring both charging and curtailment, so the question is what charging adds on a day like any other, and that is the third estimate. What it cannot separate is the batteries' dispatch from the prices that call for it.",
+ "footnote": "Data: caiso_curtailment_daily (CAISO production and curtailment report, MWh a day; 'solar and wind' is curtailed_solar_mwh plus curtailed_wind_mwh, 'solar only' the first), caiso_battery_storage (Today's Outlook, batteries MW every 5 minutes; charging is the negative values summed times 5/60, a day needs at least 276 of its 288 intervals), caiso_fuel_supply (Today's Outlook, solar MW by hour summed to MWh, at least 23 hours), all on America/Los_Angeles days, 2025-08-24 to 2026-10-06, 405 days in 15 calendar months (the battery series begins 2025-08-24). Regressions: OLS of daily curtailment (MWh) on charging (GWh); on charging and solar (GWh); on both and month-of-sample dummies; HC1 standard errors (Stata's vce(robust)), p from Student's t. The split at the median charging day is a plain comparison of means. r is the Pearson correlation of daily curtailment with daily charging over these days, 0.304; its square, 0.093, is the R2 of the charging-alone fit. No instrument, no event window: an association.",
  "numbers": {
   "n_days": 405,
   "n_months": 15,
@@ -2537,7 +2537,9 @@
   "charging_solar_month_n": 405,
   "solar_coef": -283.90584803443204,
   "solar_se": 53.69517638573132,
-  "solar_p": 2.076676643443552e-07
+  "solar_p": 2.076676643443552e-07,
+  "corr_curtailed_charging": 0.3044853153187789,
+  "corr_squared": 0.09271130724477623
  },
  "effect_table": {
   "columns": [
@@ -2586,9 +2588,9 @@
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding batteries_curtailment, BY HOW MUCH DO BATTERIES CUT CURTAILMENT",
-  "Computed 2026-10-10T03:09:20Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-10T03:09:20Z by warehouse/analysis/findings/batteries_curtailment.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md; correlation coefficient added 2026-10-10 from these rows (session 182)",
   "Rows: one per Pacific day: curtailed MWh (as counted), solar and wind curtailed, battery charging and discharging MWh, solar generation MWh, intervals and hours held",
-  "Sources: caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply"
+  "Sources: caiso_curtailment_daily, caiso_battery_storage, caiso_fuel_supply. Pearson r of curtailed_mwh with charging_mwh over these rows: 0.304485 (r squared 0.092711, the R2 of the charging-alone fit)"
  ],
  "card_id": "batteries_curtailment",
  "meta": {
@@ -2603,5 +2605,5 @@
   "python": "batteries_curtailment.py",
   "stata": "batteries_curtailment.do"
  },
- "csv_sha256": "c3cfe5be31ee1b776a12bf7e9564d6da020cba5a424e00f29e68ed0e0ebb221c"
+ "csv_sha256": "21d62f1e672459e197ea2dbcf366ee1d00a80aeec2d3d7c77c3418738f73706b"
 }
