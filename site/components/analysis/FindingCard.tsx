@@ -3,13 +3,16 @@
 // before and after number, one paragraph giving the why with the context numbers, and a method footnote as precise as
 // his. Every number here is the card's JSON, which the engine computed and a test reproduces from the CSV download.
 import { CardChart } from "./CardChart";
+import { FormChart } from "./FormChart";   // session 182, part 4: the card's chart in a chosen form (the default: as before)
 import { RoundupButton } from "./RoundupButton";
 import type { Card } from "@/lib/findings";
 
 const fmtP = (p: number) => (p < 0.001 ? "< 0.001" : p.toFixed(3));
 const fmtN = (v: number, nd = 2) => v.toLocaleString("en-US", { maximumFractionDigits: nd, minimumFractionDigits: nd });
 
-export function FindingCard({ card, render = false, roundup = true, found, files = true }: { card: Card; render?: boolean; roundup?: boolean; found?: string; files?: boolean }) {
+// Session 182, part 4: `formKey` names where the chosen chart form is kept in the address ("form" on a card's own page;
+// by default form.<card id>, so that several cards on one page keep their own). The renderer's frame draws the default.
+export function FindingCard({ card, render = false, roundup = true, found, files = true, formKey }: { card: Card; render?: boolean; roundup?: boolean; found?: string; files?: boolean; formKey?: string }) {
   const dl = card.downloads ? `/findings/${card.downloads.csv}` : "";
   return (
     <article className={`finding-card ${render ? "finding-card-render" : ""}`} data-finding={card.id} data-card={card.card_id}>
@@ -21,7 +24,9 @@ export function FindingCard({ card, render = false, roundup = true, found, files
         <p className="text-xs text-muted">{Object.entries(card.inputs_words).map(([k, v]) => `${k.replace(/_/g, " ")}: ${v}`).join(" | ")}</p>
       </header>
       {card.refusal ? <p className="mt-3 max-w-3xl border border-rule bg-panel p-3 text-sm" data-refusal="1">{card.refusal}</p> : null}
-      {card.chart.kind !== "none" ? <CardChart spec={card.chart} label={card.title} height={render ? 420 : 340} /> : null}
+      {card.chart.kind === "none" ? null : render
+        ? <CardChart spec={card.chart} label={card.title} height={420} />   /* the renderer's frame: the card's own drawing, the markup the photographs were taken from */
+        : <FormChart spec={card.chart} label={card.title} height={340} addressKey={formKey ?? `form.${card.card_id}`} />}
       {card.placeholders?.length ? (
         <p className="mt-1 text-xs text-muted">
           {card.placeholders.map((p) => (
