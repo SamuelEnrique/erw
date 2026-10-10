@@ -198,8 +198,8 @@ def verdict(n):
     flat = [g for g in two if g not in up and g not in down]
     small = [g for g in up if n[f"{g}_full1_solar_mw"] < 5000]
     if up and small and not flat and not down:
-        return (f"The dearest hour walked into the evening in {words_list(up)}; {words_list(small)} did it on "
-                f"{fmt(max(n[f'{g}_full1_solar_mw'] for g in small), 0)} MW of counted solar, so panels are not the whole story")
+        return (f"The dearest hour walked into the evening in {words_list(up)}; {words_list(small)} counts "
+                f"{fmt(max(n[f'{g}_full1_solar_mw'] for g in small), 0)} MW of solar, rooftops not in the count")
     if up and flat:
         return f"In {words_list(up)} the dearest hour walked into the evening as solar grew; in {words_list(flat)} it did not move"
     if up and down:
@@ -255,7 +255,7 @@ def card(rows, params, meta):
     ny_d = n["nyiso_full1_evening_pct"] - n["nyiso_full0_evening_pct"]
     ny_way = "rose" if ny_d > 1 else "fell" if ny_d < -1 else "held"
     ny_share = 100.0 * n["nyiso_full1_solar_mw"] / n["ercot_full1_solar_mw"]
-    ny_read = (f" A grid with {fmt(ny_share, 0)} percent of Texas's counted solar moved the same way, which solar alone would not predict." if ny_d > 10 and ny_share < 25 else "")
+    ny_read = (f" A grid with {fmt(ny_share, 0)} percent of Texas's counted solar moved the same way; its rooftop solar is not in EIA-860M, so the card cannot say how much of that is panels." if ny_d > 10 and ny_share < 25 else "")
     short_bits = "; ".join(f"{GRID[g]['words']} {fmt(n[f'{g}_full1_evening_pct'], 1)} percent in {n[f'{g}_full1_year']} and {fmt(n[f'{g}_this_evening_pct'], 1)} in {n[f'{g}_this_year']} to date, "
                            f"median hour {fmt(n[f'{g}_full1_median_hour'], 0)} and {fmt(n[f'{g}_this_median_hour'], 0)}" for g in short if n[f"{g}_full1_year"] is not None)
     why = (f"A solar-heavy grid is cheap at midday and dear after sunset, so the day's highest price should walk into the evening as panels go up. In Texas it did: "

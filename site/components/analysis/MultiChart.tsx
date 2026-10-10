@@ -70,8 +70,9 @@ export function multiOption(spec: MultiSpec, measureKey: string, W: number, H: n
       axisLabel: { ...label, show: rows ? i === P.length - 1 : true, hideOverlap: true }, axisTick: { show: false }, axisLine: { lineStyle: { color: RULE } },
       name: rows ? (i === P.length - 1 ? spec.x_label : "") : (i === Math.floor(P.length / 2) ? spec.x_label : ""), nameLocation: "middle", nameGap: 20, nameTextStyle: label })),
     yAxis: P.flatMap((_, i) => [
-      { type: "value", gridIndex: i, position: "left", max: measMax, splitNumber: 2, axisLabel: label, splitLine: { lineStyle: { color: RULE } } },
-      { type: "value", gridIndex: i, position: "right", max: fleetMax, splitNumber: 2, axisLabel: { ...label, color: FLEET }, splitLine: { show: false } },
+      // a shared axis is cut in two at its middle, so that its three labels are 0, the middle and the top in every panel
+      { type: "value", gridIndex: i, position: "left", max: measMax, interval: measMax ? measMax / 2 : undefined, splitNumber: 2, axisLabel: label, splitLine: { lineStyle: { color: RULE } } },
+      { type: "value", gridIndex: i, position: "right", max: fleetMax, interval: fleetMax ? fleetMax / 2 : undefined, splitNumber: 2, axisLabel: { ...label, color: FLEET }, splitLine: { show: false } },
     ]),
     series: P.flatMap((p, i) => [
       { name: `${p.words}: ${m.label}`, type: "line", xAxisIndex: i, yAxisIndex: 2 * i, data: p.values[m.key] ?? [], showSymbol: spec.x.length <= 12, symbolSize: 5,

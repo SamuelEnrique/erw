@@ -2,7 +2,7 @@
  "id": "peak_hour_grids",
  "title": "THE PEAK HOUR MOVED: FIVE GRIDS",
  "kind": "visual",
- "subtitle": "The dearest hour walked into the evening in ERCOT and NYISO; NYISO did it on 2,886 MW of counted solar, so panels are not the whole story",
+ "subtitle": "The dearest hour walked into the evening in ERCOT and NYISO; NYISO counts 2,886 MW of solar, rooftops not in the count",
  "params": {
   "first_year": 2019,
   "min_hours": 20
@@ -1165,7 +1165,7 @@
    "unit": ""
   }
  ],
- "why": "A solar-heavy grid is cheap at midday and dear after sunset, so the day's highest price should walk into the evening as panels go up. In Texas it did: solar went from 2,592 MW at the end of 2019 to 30,018 MW at the end of 2025 (EIA-860M), the share of days peaking between 17:00 and 21:59 from 24.9 to 71.0 percent, and the median peak hour from 15 to 19. New York City's zone is the comparison with little utility solar behind it (525 MW in 2019, 2,886 MW in 2025, rooftops not counted): its evening share rose from 43.3 to 62.5 percent and its median peak hour went from 16 to 17. A grid with 10 percent of Texas's counted solar moved the same way, which solar alone would not predict. CAISO, ISO-NE and SPP have prices in the warehouse from September 2024 only, one full year each, so their panels are short and compare 2025 with the year to date: evening share CAISO 34.3 percent in 2025 and 33.9 in 2026 to date, median hour 17 and 17; ISO-NE 55.0 percent in 2025 and 41.3 in 2026 to date, median hour 17 and 16; SPP 36.4 percent in 2025 and 39.8 in 2026 to date, median hour 15 and 16. California, with 24,009 MW of solar, peaks most often at hour 6: the hour's place depends on the hub and the season as well as on the panels. The card compares years; it does not separate solar from gas prices, load growth, weather or the batteries that now work the evening.",
+ "why": "A solar-heavy grid is cheap at midday and dear after sunset, so the day's highest price should walk into the evening as panels go up. In Texas it did: solar went from 2,592 MW at the end of 2019 to 30,018 MW at the end of 2025 (EIA-860M), the share of days peaking between 17:00 and 21:59 from 24.9 to 71.0 percent, and the median peak hour from 15 to 19. New York City's zone is the comparison with little utility solar behind it (525 MW in 2019, 2,886 MW in 2025, rooftops not counted): its evening share rose from 43.3 to 62.5 percent and its median peak hour went from 16 to 17. A grid with 10 percent of Texas's counted solar moved the same way; its rooftop solar is not in EIA-860M, so the card cannot say how much of that is panels. CAISO, ISO-NE and SPP have prices in the warehouse from September 2024 only, one full year each, so their panels are short and compare 2025 with the year to date: evening share CAISO 34.3 percent in 2025 and 33.9 in 2026 to date, median hour 17 and 17; ISO-NE 55.0 percent in 2025 and 41.3 in 2026 to date, median hour 17 and 16; SPP 36.4 percent in 2025 and 39.8 in 2026 to date, median hour 15 and 16. California, with 24,009 MW of solar, peaks most often at hour 6: the hour's place depends on the hub and the season as well as on the panels. The card compares years; it does not separate solar from gas prices, load growth, weather or the batteries that now work the evening.",
  "footnote": "Data: real-time prices, ERCOT: HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour, 2019-01-01 to 2026-10-07 (2,837 local days, America/Chicago); CAISO: TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour, 2024-09-01 to 2026-10-07 (765 local days, America/Los_Angeles); NYISO: N.Y.C., NYISO's own integrated hourly real-time price, 2019-01-01 to 2026-10-08 (2,819 local days, America/New_York); ISO-NE: .H.INTERNAL_HUB, the mean of the 15-minute interval means in the local hour, 2024-09-01 to 2026-10-07 (707 local days, America/New_York); SPP: SPPNORTH_HUB, the mean of the 15-minute interval means in the local hour, 2024-09-01 to 2026-10-06 (766 local days, America/Chicago). Tables: ercot_all_hub_prices_history and iso_rtm_hub_prices (ERCOT); iso_hub_prices_history and iso_rtm_hub_prices (CAISO, ISO-NE, SPP); iso_zone_prices_history (NYISO). A day's peak hour is the local clock hour with the highest mean of its intervals (the first hour on a tie); a day needs at least 20 held hours; local time is the grid's own and daylight saving is handled by the time zone conversion (a 23-hour spring day and a 25-hour autumn day are days like any other). Per grid and year: the percent of days peaking in each hour, the median peak hour, the percent peaking 17:00 to 21:59 (evening) and 10:00 to 15:59 (midday). A year is full with at least 300 held days; a grid with one full year is compared with the year to date and labeled so. Solar: nameplate MW of Solar Photovoltaic generators with the grid's balancing authority code (ERCO, CISO, NYIS, ISNE, SWPP) operating at the end of the year, from EIA-860M's inventory of August 2026 (eia860m_operating_generators by operating_year, plus eia860m_retired_generators_all by retirement year); plants under 1 MW (rooftops) are not in EIA-860M, and units retired before the retired list begins are not counted. A year a grid's prices do not cover is not held and not filled. MISO is paused while its terms are reviewed and PJM needs a licensed source: neither is requested, neither is data here.",
  "numbers": {
   "first_year": 2019,
@@ -1450,11 +1450,11 @@
   "eia860m_operating_generators",
   "eia860m_retired_generators_all"
  ],
- "computed_at": "2026-10-10T16:44:00Z",
+ "computed_at": "2026-10-10T17:01:07Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding peak_hour_grids, THE PEAK HOUR MOVED: FIVE GRIDS",
-  "Computed 2026-10-10T16:44:00Z by warehouse/analysis/findings/peak_hour_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-10T17:01:07Z by warehouse/analysis/findings/peak_hour_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per grid, local year and hour of the day: the percent of the year's days whose highest hourly real-time price fell in that hour; the year's days, median peak hour, percent of days peaking 17:00 to 21:59 and 10:00 to 15:59 (repeated on each hour row); solar MW at year end",
   "A blank is a year the warehouse does not hold for that grid; MISO and PJM are not in the file (paused, and licensed). Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, iso_zone_prices_history, eia860m_operating_generators, eia860m_retired_generators_all"
  ],
@@ -1506,5 +1506,5 @@
   "python": "peak_hour_grids.py",
   "stata": "peak_hour_grids.do"
  },
- "csv_sha256": "cbdd15caa10718e8ea804bbb15a6364336dc3f003667ed61184d41b72bd8712c"
+ "csv_sha256": "c6a4cc63557f6b91381402bf818c31b5682b000d01e924d53d2d053cb5c56160"
 }

@@ -382,7 +382,7 @@ def card(rows, params, meta):
     why = (f"A battery that sells into a spike makes the spike smaller, so a big enough fleet should eat its own lunch. Texas has the fleet, "
            f"{fmt(n['ercot_fleet_first_mw'], 0)} MW in {n['ercot_fleet_first_month']} and {fmt(n['ercot_fleet_last_mw'], 0)} MW in {n['ercot_fleet_last_month']} (EIA-860M), "
            f"and its worst-interval multiple went from {fmt(n['ercot_multiple_first'], 1)}x in {y0} to {fmt(n['ercot_multiple_last'], 1)}x in {y1}, its hours at or above "
-           f"USD 1,000 from {fmt(n['ercot_hours1000_first'], 0)} to {fmt(n['ercot_hours1000_last'], 0)}. New York is the control nobody planned: "
+           f"USD 1,000 from {fmt(n['ercot_hours1000_first'], 0)} to {fmt(n['ercot_hours1000_last'], 0)}. New York is the comparison nobody planned: "
            f"{fmt(n['nyiso_fleet_last_mw'], 0)} MW of batteries in {n['nyiso_fleet_last_month']}, and a multiple that {ny_way} from {fmt(n['nyiso_multiple_first'], 1)}x in {ny0} to "
            f"{fmt(n['nyiso_multiple_last'], 1)}x in {ny1} (hourly prices), with {fmt(n['nyiso_hours1000_first'], 0)} and then {fmt(n['nyiso_hours1000_last'], 0)} hours at or above USD 1,000. "
            f"California spoils the story: its fleet grew from {fmt(n['caiso_fleet_first_mw'], 0)} MW in {n['caiso_fleet_first_month']} to {fmt(n['caiso_fleet_last_mw'], 0)} MW, "
