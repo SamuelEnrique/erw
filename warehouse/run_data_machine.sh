@@ -136,6 +136,11 @@ soft_step dm_capture_price "$PYTHON" warehouse/derived/capture_price.py --cache-
 soft_step dm_curtailment_shares "$PYTHON" warehouse/derived/curtailment_shares.py
 soft_step dm_free_energy "$PYTHON" warehouse/derived/free_energy.py
 soft_step dm_curtailment_worth "$PYTHON" warehouse/derived/curtailment_worth.py
+# Session 181, the scanner: after the sync this machine holds the day's tables and the full histories, so the daily
+# scan runs here (about four minutes; it reads tables and writes none). The run is kept under runs/scanner/<date>/ and
+# its drafts are added to the internal review list (public.scanner_drafts); a draft raised before is never raised
+# twice. No model call. A soft step: a failure is recorded in erw_health and never stops this run.
+soft_step dm_scanner "$PYTHON" warehouse/analysis/findings/findings_scanner.py --daily
 
 # a file whose builder failed, or whose own test fails, is put back as the last commit has it: never a half-built file
 put_back() {  # put_back <step> <path...>

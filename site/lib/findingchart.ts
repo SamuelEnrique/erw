@@ -2,12 +2,17 @@
 // (warehouse/analysis/findings/<name>.py, card["chart"]) to an ECharts option. Pure: no fs, no fetch, so the card page,
 // the render page and the tests share it. Every chart answers the mouse: the tooltip names every series at the point.
 
+import { discoveryOption } from "./discoverychart";   // session 181
+
 export type ChartSeries = {
   name: string; type: "line" | "bar"; unit: string; axis?: string; values: (number | null)[];
   sensitivity?: Record<string, (number | null)[]>; hours?: (number | null)[]; gw?: (number | null)[];
 };
 export type ChartSpec = {
-  kind: "line_with_fleet" | "grouped_bar" | "stacked_bar_pct" | "lines" | "bars_free" | "scatter"; x: string[]; x_label: string; series: ChartSeries[];
+  kind: "line_with_fleet" | "grouped_bar" | "stacked_bar_pct" | "lines" | "bars_free" | "scatter" | DiscoveryKind; x: string[]; x_label: string; series: ChartSeries[];
+  // session 181 (lib/discoverychart.ts): flag_line marks a point, reference lines and a band of days; none draws nothing
+  mark?: { x: string; value: number; label: string }; ref_lines?: { name: string; value: number }[];
+  mark_area?: { from: string; to: string; label: string }; band_words?: string;
   y_left_label?: string; y_right_label?: string; placeholders?: { grid: string; words: string; text: string }[];
   reference?: { name: string; value: number }; requested_gw?: number[]; projects?: number[];
   // session 174: lines (several series, one free axis), bars_free (grouped bars, negative values allowed), scatter (points
@@ -17,6 +22,7 @@ export type ChartSpec = {
   fit?: { name: string; intercept: number; slope: number; x_min: number; x_max: number };
 };
 
+export type DiscoveryKind = "flag_line" | "none";   // session 181
 const INK = "#1a1a1a", MUTED = "#6b6b6b", RULE = "#e5e5e5";
 const PALETTE = ["#1f5f8b", "#c4541c", "#2e7d4f", "#8a6d3b", "#6a4c93", "#9a9a9a"];
 const fmt = (v: number | null | undefined, nd = 1) => (v === null || v === undefined || Number.isNaN(v) ? "not held" : v.toLocaleString("en-US", { maximumFractionDigits: nd, minimumFractionDigits: nd }));
@@ -31,6 +37,7 @@ const base = (xLabel: string, x: string[]) => ({
 });
 
 export function optionFor(c: ChartSpec): Record<string, unknown> {
+  if (c.kind === "flag_line" || c.kind === "none") return discoveryOption(c);   // session 181
   if (c.kind === "line_with_fleet") {
     const [mult, hours, fleet] = c.series;
     return {
