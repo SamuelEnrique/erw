@@ -1,13 +1,13 @@
 # Session 177 report: the security audit, its safe fixes, and usage counts with no cookie
 
-Run on 10 October 2026, 01:00 to about 02:50 local (08:00 to 09:50 UTC), unattended, second of the chain 176 to 180 (`CHAIN_OCT10_PROMPT.md`). Built in the worktree `erw-142` on `wip/177-security`, never pushed. Outputs under `runs/session177/`. Model spend: USD 0, no model call.
+Run on 10 October 2026, 01:00 to about 03:25 local (08:00 to 10:25 UTC), unattended, second of the chain 176 to 180 (`CHAIN_OCT10_PROMPT.md`). Built in the worktree `erw-142` on `wip/177-security`, never pushed. Outputs under `runs/session177/`. Model spend: USD 0, no model call.
 
 ## Read these first
 
 - **24 findings: 3 high, 8 medium, 13 low. 12 are fixed in this branch, 9 are left for Samuel (and one step of a fixed one: rotating the token), 3 are noted or not applied.** The ranked list, each with what is exposed, the fix and the fix's risk: `docs/reviews/2026-10-10-security.md`.
-- **The database was already sound.** Row-level security was on for all 19 tables; the anon key reads 8 and is refused by the other 11 (HTTP 401, code 42501); no secret is in the git history (12 of this machine's values searched for exactly: 0 found) or in what a browser gets (0 hits in 2,121 files). Migration 028 changes no existing policy, grant or row.
-- **Nothing was applied to Supabase.** Migration 028 was tried four times inside a transaction that was rolled back (`sql_trial.out`). The coordinator applies it; the site works before and after (limits fall back to memory, usage records nothing until it is applied).
-- **Three things found broken on main, not made by this session.** (1) `check-values.mjs` stopped at "unknown check datacenters|counted" since session 166: fixed here, it runs again (6,9xx values match). (2) `/data/methods/thesis` showed nothing after the words "cites each as FRED's Cite tab does", footer included: a placeholder in angle brackets was read as a tag. Fixed by the markdown fix (M8). (3) `tests/test_session92.py` expects `/cost-of-power/battery` to be live; it is in review since session 166. Not touched: 1 failed, 2,579 passed in the whole suite.
+- **The database was already sound, and nothing was applied to it.** Row-level security was on for all 19 tables; the anon key reads 8 and is refused by the other 11 (HTTP 401, code 42501); no secret is in the git history (12 of this machine's values searched for exactly: 0 found) or in what a browser gets (0 hits in 2,121 files). Migration 028 changes no existing policy, grant or row; it was tried four times inside a transaction that was rolled back (`sql_trial.out`). The coordinator applies it; the site works before and after.
+- **The unlock form's first version would have failed in every real browser, and its 43 scripted checks passed.** A browser posts a form with `Origin: null` when the page's referrer policy is `no-referrer`; the route refused that as another site's form (404). Found by reading the Fetch standard, reproduced in a real browser (`form_in_browser_before.out`), fixed, and now proven by `check-csp.mjs`, which opens the internal view by the form in a real browser (`form_in_browser_after.out`). The old link was never affected. The same check now posts the sign-up form in the browser too.
+- **Three things found broken on main, not made by this session.** (1) `check-values.mjs` stopped at "unknown check datacenters|counted" since session 166: fixed here, it runs again (6,894 of 6,925 values match; the other 31 are latest prices a newer interval replaced, checked for staleness). (2) `/data/methods/thesis` showed nothing after the words "cites each as FRED's Cite tab does", footer included: a placeholder in angle brackets was read as a tag. Fixed by the markdown fix (M8). (3) `tests/test_session92.py` expects `/cost-of-power/battery` to be live; it is in review since session 166. Not touched: 1 failed, 2,580 passed in the whole suite on the final tree (the base commit holds the same line of `release.ts`, so it fails there too).
 - **This branch moves Next.js from 16.3.6 to 16.3.8** (six advisories). It is its own commit (`6bd10fc`) so it can be reverted alone. Every other worktree of the chain needs `npm ci` (under the build mutex) after it merges main with this in it.
 
 ## What to review
@@ -18,7 +18,8 @@ Run on 10 October 2026, 01:00 to about 02:50 local (08:00 to 09:50 UTC), unatten
   - The old link `.../internal/unlock?token=...` still works exactly as before. Say when the form is confirmed; the link is then retired and the token rotated (review, H1).
 - `https://erw-flame.vercel.app/internal/usage` (internal view; after migration 028 is applied)
   - Three tiles (events, browsers today, days) and three tables: by day, by page, by tool, each with the four events in columns.
-  - Open `/storage`, change one control on it, come back and reload: `/storage` and "Storage" each show 1 more "tool opened" and "input changed".
+  - Open `https://erw-flame.vercel.app/mix`, change one of its controls, come back and reload: the row `/mix` (by page) and "Energy mix" (by tool) each show 1 more "tool opened" and 1 more "input changed".
+  - A browser with Do Not Track or Global Privacy Control on adds nothing.
   - Before the migration it reads "The usage counts could not be read".
 - `https://erw-flame.vercel.app/internal/costs` and `https://erw-flame.vercel.app/internal/ask` (internal view): both open with no `?token=` in the address.
 - `https://erw-flame.vercel.app/privacy` (internal view; new, in review): five sections. Read "Usage counts" and "Cookies and browser storage": every sentence is checked against the code by `tests/test_session177.py`.
@@ -44,8 +45,8 @@ Run on 10 October 2026, 01:00 to about 02:50 local (08:00 to 09:50 UTC), unatten
 - **The chart library**: `ECHARTS_SRI` in `site/components/echarts.ts`.
 - **Markdown**: `safeHtml` and `safeHref` in `site/lib/markdown.ts`.
 - **Usage counts**: `site/lib/usage.ts` (`track`, for session 179), `site/components/Usage.tsx` (mounted once in `site/app/layout.tsx`), `site/app/api/usage/route.ts`, `site/lib/usagepath.ts`, `site/app/internal/usage/page.tsx`, `docs/methods/usage_counts.md`.
-- **Pages**: `site/app/privacy/page.tsx` (new, `review` in `site/lib/release.ts`, linked in the footer), `site/app/terms/page.tsx`, the state "busy" on `/subscribe`.
-- **Checks and tests**: `site/scripts/check-security.mjs` (43), `check-csp.mjs`, `test-usage.mjs` (14), `test-markdown-safe.mjs` (6), `tests/test_session177.py` (28); `check-values.mjs` and `check-routes.mjs` extended; `tests/test_session128.py` reads the internal ask page as it is now.
+- **Pages**: `site/app/privacy/page.tsx` (new, `review` in `site/lib/release.ts`, linked in the footer), `site/app/terms/page.tsx`, the state "busy" on `/subscribe`; `docs/tools.md`, `docs/release-gate.md` and `warehouse/supabase/README.md` say what changed.
+- **Checks and tests**: `site/scripts/check-security.mjs` (46 checks), `check-csp.mjs` (a real browser: every page under both policies, the unlock form, the sign-up form, a chart), `test-usage.mjs` (14), `test-markdown-safe.mjs` (6), `tests/test_session177.py` (28); `check-values.mjs` and `check-routes.mjs` extended; `tests/test_session128.py` reads the internal ask page as it is now.
 - **Dependencies**: `next` and `eslint-config-next` 16.3.8; `npm audit fix` (sharp 0.35.5, source-map-js). `requirements.txt` unchanged.
 - No file under `site/app/cost-of-power/battery/` or `site/app/network/` was edited.
 
@@ -68,29 +69,31 @@ Run on 10 October 2026, 01:00 to about 02:50 local (08:00 to 09:50 UTC), unatten
 ## Pulls and model spend
 
 - Model spend: USD 0.00 of USD 0. `check-ask-conversation.mjs` asks three paid questions and was not run.
+- Production in the internal view, by `check-routes.mjs` as it always does (its baseline is `SITE_URL`): 4 runs, each one unlock by the old link and 156 pages, 628 requests in all. Not a pull this session chose: the check's own design, named here because it puts the token in a production address (review H1).
 - Production as a visitor: 28 GET requests (11 pages, 9 routes, 7 static files, the plain-HTTP address), 0.9 MB; later 1 HEAD of the plain-HTTP address. `runs/session177/requests.csv`.
 - The chart library: read once more in a browser page of the local site to hash it (cdnjs, the file every chart page already loads).
 - npm's registry (`npm audit`, `npm view`, two installs) and PyPI (pip-audit into a throwaway environment in the scratch folder, deleted).
-- Supabase, read only: the catalog once (read-only transaction); `verify_rls.py` three times; the four rolled-back trials. The first two `verify_rls.py` runs each sent anon queries that ran to the role's 3 second limit and were cancelled (my check was too heavy; it now asks one name a request).
-- Written to production by the site's own routes, as that check always does: about 25 finished plays flagged `check = true` (five runs of `check-battery-game.mjs`, five plays each).
+- Supabase, read only: the catalog twice (read-only transactions, `catalog.json`, `catalog_read2.out`); `verify_rls.py` three times; the four rolled-back trials. The first two `verify_rls.py` runs each sent anon queries that ran to the role's 3 second limit and were cancelled (my check was too heavy; it now asks one name a request).
+- Written to production by the site's own routes, as that check always does: about 35 finished plays flagged `check = true` (seven runs of `check-battery-game.mjs`, five plays each), which the leaderboard and the research data leave out.
 
 ## Checks run (each its own command; exit code read; files in `runs/session177/`)
 
 | Check | Exit | File |
 |---|---|---|
-| `npm run build`, final (Next 16.3.8, all fixes), under the mutex | 0 | `build3.out` |
-| `check-security.mjs` (43 of 43) | 0 | `f_check_security.out` |
-| `check-routes.mjs` (1 live, 155 in review as a visitor; 0 failed) | 0 | `f_check_routes.out` |
-| `check-values.mjs`, twice | 0, 0 | `f_check_values_1.out`, `f_check_values_2.out` |
+| `npm run build`, final (Next 16.3.8, every fix), under the mutex | 0 | `build4.out` |
+| `check-security.mjs` (46 of 46) | 0 | `f_check_security.out` |
+| `check-routes.mjs` (as a visitor: 1 live and 155 in review; 0 failed) | 0 | `f_check_routes.out` |
+| `check-values.mjs`, twice (6,894 of 6,925 match, 31 superseded, both times) | 0, 0 | `f_check_values_1.out`, `f_check_values_2.out` |
 | `check-no-request.mjs` (`/battery/customer` still sends nothing after it loads) | 0 | `f_check_no_request.out` |
-| `check-csp.mjs` (82 pages in a real browser; a chart draws) | 0 | `f_check_csp.out` |
-| `check-csp.mjs --phone` (4 pages at 390 px) | 0 | `f_check_phone.out` |
+| `check-csp.mjs`, a real browser: 82 pages, 0 violations of either policy; the unlock form opens the internal view; the sign-up form is taken as the site's own; a chart draws | 0 | `f_check_csp.out` |
+| `check-csp.mjs --phone` (4 pages at 390 px, none wider than the screen) | 0 | `f_check_phone.out` |
 | `check-analysis.mjs`, `check-thesis.mjs` | 0, 0 | `f_check_analysis.out`, `f_check_thesis.out` |
 | `check-ask-ercot`, `-hours`, `-panel`, `-words` (no model call) | 0, 0, 0, 0 | `f_check_ask_*.out` |
 | `check-battery-game.mjs` phone and laptop (92 of 92 each) | 0, 0 | `f_check_battery_game_*.out` |
-| `test-usage.mjs` (14), `test-markdown-safe.mjs` (6) | 0, 0 | `f_test_usage.out`, `test_markdown_safe.out` |
+| `test-usage.mjs` (14), `test-markdown-safe.mjs` (6) | 0, 0 | `f_test_usage.out`, `f_test_markdown_safe.out` |
 | `pytest tests/test_session177.py` (28) | 0 | `test_session177.out` |
-| `pytest tests` (the whole suite): 1 failed (`test_session92`, on main already), 2,579 passed, 226 skipped | 1 | `suite_2.out` |
+| `pytest tests` (the whole suite, on the final tree): 1 failed (`test_session92`, on main already), 2,580 passed, 226 skipped | 1 | `suite_3.out` |
+| One well-formed question to the local `/api/ask`: refused at admission (503, "closed": the local server holds no visitor salt), so the guards let a real request through and no model was asked | | `ask_probe.out` |
 | Migration 028 and its rollback in one rolled-back transaction (27 checks) | 0 | `sql_trial.out` |
 | `verify_rls.py --before-028 --catalog` | 0 | `verify_rls_before.out` |
 | `scan_git_secrets.py` (4 hits, all stand-ins in test scripts) | 1 | `git_secrets.out` |
@@ -98,7 +101,8 @@ Run on 10 October 2026, 01:00 to about 02:50 local (08:00 to 09:50 UTC), unatten
 | `curl -I` of four local addresses; the plain-HTTP redirect (308) | | `curl_headers.out`, `curl_http_redirect.out` |
 | `npm audit` before (8 high) and after (5 high, all the linter's packages); `pip-audit` (4 packages) | 1, 1, 1 | `npm_audit_before.json`, `npm_audit_after.json`, `pip_audit.json` |
 
-- The same checks also passed on the build before the markdown fix (`first_run/`).
+- The whole list was run three times, on three builds: before the markdown fix (`first_run/`), before the form's fix (`second_run/`), and on the final build (the files above). Every run: every check exit 0. The second run is the one that did not see the form's fault: no script could.
+- The whole suite was run three times; the last, on the final tree, is the one in the table.
 
 ## Decisions made without you
 
@@ -127,8 +131,8 @@ Run on 10 October 2026, 01:00 to about 02:50 local (08:00 to 09:50 UTC), unatten
 4. `node site/scripts/check-values.mjs https://erw-flame.vercel.app > runs/session177/check_values_prod_before.out 2>&1; echo "exit=$?"`: exit 0 (no page lost a read). A first failure is run a second time.
 5. In the main copy after the merge: `npm ci` then `npm run build` under the build mutex (Next 16.3.8); `pytest tests/test_session177.py`.
 6. Deploy the usual way. Then `take after177` and `compare before177 after177`. Expected on all 25 pages: the footer gains "Privacy in review" after "Terms in review". No checked number moves. Anything else is not meant.
-7. After the deploy: `node site/scripts/check-security.mjs https://erw-flame.vercel.app --recorded > runs/session177/check_security_prod.out 2>&1; echo "exit=$?"`: exit 0, 44 of 44. It posts two wrong tokens and two real counts (`/terms`, `/privacy`). `--recorded` needs `ASK_VISITOR_SALT` on Vercel; if `/internal/ask` says the tools are closed for lack of it, run without `--recorded` and tell Samuel the counts need that variable.
-8. `node site/scripts/check-csp.mjs https://erw-flame.vercel.app > runs/session177/check_csp_prod.out 2>&1; echo "exit=$?"`: exit 0, "0 enforced violation(s)", and "/storage: the chart library loaded and drew" (the hash holds on production).
+7. After the deploy: `node site/scripts/check-security.mjs https://erw-flame.vercel.app --recorded > runs/session177/check_security_prod.out 2>&1; echo "exit=$?"`: exit 0, 47 of 47. It posts two wrong tokens and two real counts (`/terms`, `/privacy`). `--recorded` needs `ASK_VISITOR_SALT` on Vercel; if `/internal/ask` says the tools are closed for lack of it, run without `--recorded` and tell Samuel the counts need that variable.
+8. `node site/scripts/check-csp.mjs https://erw-flame.vercel.app --recorded > runs/session177/check_csp_prod.out 2>&1; echo "exit=$?"` (a real browser; about three minutes): exit 0, and these lines: "the form at /internal/open opens the internal view in a real browser", "0 enforced violation(s)", "/storage: the chart library loaded and drew" (the hash holds on production), "the sign-up form, posted by the browser, is taken as this site's own", and "--recorded: opening /storage in this browser added to the counts". It writes real counts for the pages it opens (about 85 page views, one browser). Without `ASK_VISITOR_SALT` on Vercel, drop `--recorded`.
 9. `node site/scripts/check-values.mjs https://erw-flame.vercel.app` once more: exit 0.
 10. Write the time of step 2 in `warehouse/supabase/README.md` (the 028 row of the record).
 11. After main holds this: each remaining worktree of the chain runs `npm ci` under the mutex before its final build.
@@ -137,6 +141,7 @@ Run on 10 October 2026, 01:00 to about 02:50 local (08:00 to 09:50 UTC), unatten
 
 ## To finish (Samuel)
 
+- The old link cannot be retired yet: 31 check scripts under `site/scripts/` and the workflow `code-branch.yml` open the internal view by it. Moving them to the form is one session's mechanical work (review H1).
 - Open `/internal/open` once and confirm it; then retire the old link and rotate `INTERNAL_COSTS_TOKEN` (review H1 gives the steps; rotation was not done here because it can lock you out).
 - Rule on H3 and M1 (the anon key's direct inserts) before the anon key is given to any reader of the package.
 - Rule on the default privileges (M6) and on enforcing the full policy (M4).
