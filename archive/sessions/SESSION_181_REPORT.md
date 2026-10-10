@@ -333,3 +333,58 @@ registered. Model spend USD 0 (no model call). No pull from an outside host. Out
 
 ## The landing
 
+
+## The landing (written by the chain's coordinator, 10 October 2026)
+
+- Landed from `wip/181b-land` (the three cards of session 182, landed an hour earlier, `origin/main` and
+  `wip/181-discovery` merged). Two conflicts, both resolved by keeping both sessions' entries:
+  `warehouse/analysis/findings/run_finding.py` (session 182's three findings, then `impact_study`) and
+  `site/data/findings/catalogue.json` (11 entries; equal to `run_finding.py --list`).
+- Before it, on the landing branch, two things this report names as not this session's:
+  - `tests/test_session156.py` failed on main since the daily run of 16:18 UTC (Texas's curtailment share: the question
+    file said 4.46, the file 4.45). One assertion of `site/scripts/test-ask-ready.mjs` no longer pins a figure the
+    daily run moves, as session 159 ruled for its neighbour (`a19f1b45`). It would have stopped every landing.
+  - `check-values` on `/learn/problems/networks-and-money`: by 17:30 UTC the two values matched again on the local
+    build (6,957 of 6,957) and on production (below): the page's cached hour had been behind the live rows.
+- In the main copy at the merged tree (`00782e99`): tests 181, 181 worker, 182, 170, 173, 174, 177, 176: 218 tests OK;
+  `npm run build` exit 0; `check-internal-findings` against the stand-in 114 of 114; `check-analysis` 255 of 255;
+  `check-findings-grids` 163 of 163; `check-security` 48 of 48; `check-routes`: first run exit 1
+  (`/prices/miso%3AINDIANA.HUB` answered 404 once on the cold build, as in the agent's run), second run exit 0, 156
+  pages in review and 0 failed; `check-values` 6,957 of 6,957, then 6,926 with 31 latest prices superseded; `check-csp`
+  in a real browser: 84 pages, 0 violations; the whole suite in the clean worktree: 2,989 tests OK, 233 skipped.
+- No freeze. `181_before` at 18:01:00 UTC (25 pages, exit 0), its own command, before the migration.
+- **Migration 029 applied at 18:01:09 UTC** (`apply_029.out`, exit 0). `verify_rls.py --catalog`: exit 0, "PASS: 0
+  mismatch(es)", `scanner_drafts` expected blocked and seen blocked (HTTP 401, 42501), `scanner_drafts_list` and
+  `analysis_request_card` refused to the anon key, 24 tables with row-level security on (`verify_rls_after.out`).
+- **The first run's drafts are in the review list:** the dry run named 8; the load answered "8 draft(s) added to
+  scanner_drafts; 0 already there or with an open draft"; run again: "0 draft(s) added ... 8 already there". All 8 are
+  in state `draft`; nothing was approved or dismissed (that is yours). Strongest first: the spike in `caiso_as_prices`
+  of 6 October 2026, then the record in `eia_state_generation_monthly` of July 2026.
+- Pushed as `task/181-discovery`; run 38074130505 success; merge `1885332c`; Vercel production "Deployment has
+  completed" at 18:09:44 UTC; `181_after` at 18:09:53 UTC; comparison: **0 differences on the 25 pages**
+  (`compare_181.out`, exit 0). Expected.
+- On production: `check-security` 48 of 48 ("/internal/findings: 404 without the cookie, 200 with it, no token in the
+  page"); `check-analysis` 255 of 255; `check-csp`: 84 pages, 0 enforced and 0 report-only violations;
+  `check-values`: exit 0, 6,926 of 6,957 with 31 latest prices superseded by a newer interval.
+- **The worker is registered and running, and one request completed.**
+  - `scripts\register_findings_worker.ps1 -DryRun`, then for real: "REGISTERED: 1 task named 'ERW findings worker',
+    state Running." The permission layer that refused session 173 let it through this time because the owner had
+    confirmed the service in this conversation.
+  - **It starts at log-on only.** This session's shell is not elevated, so the script left the startup trigger out and
+    said so. `schtasks /Query`: "Schedule Type: At logon time", "Logon Mode: Interactive only", "Status: Running"
+    (`task_query.out`). It restarts on failure and runs one instance. To have it start before anybody logs on, run the
+    same script once from an elevated PowerShell (right-click, "Run as administrator"):
+    `powershell -ExecutionPolicy Bypass -File C:\Users\lossa\Documents\erw\scripts\register_findings_worker.ps1`.
+    A restart of the machine was not made, so "survives a restart" is proven by the task's trigger and settings, not
+    by a restart.
+  - `worker.py --status` before: "process: alive, pid 3324 ... 0 done"; the request
+    `20261010T181100Z-44b6f4` (`queue_divorce`, 2010 to 2020) was queued at 18:11:01 UTC through the page's own
+    database function and was **done at 18:11:47 UTC** (46 seconds; `queue_watch.out`); `--status` after: "1 done, 0
+    failed", "last request: ... queue_divorce done" (`worker_status2.out`); the log `runs\findings_worker.log` holds it.
+  - The worker writes a requested card's file and downloads into the main copy's working tree
+    (`site/data/findings/queue_divorce__first_year-2010.json` and three files under `site/public/findings/`). They are
+    left untracked: the page reads a requested card from its queue row since migration 029, and committing each
+    requested card is a ruling for you.
+  - To remove it: `powershell -ExecutionPolicy Bypass -File scripts\unregister_findings_worker.ps1`.
+- The scanner's daily request: the daily run queues it (`scanner_request`), and the worker, now running, takes it on
+  this machine. The first scheduled one is the run of 11 October, 14:00 UTC.

@@ -10,7 +10,11 @@
 //   words      no model name or cost on the page; "ERCOT North Hub" words in the catalogue; the old rule's footnote gone
 //   downloads  each download answers 200 with its content type
 //   card page  /analysis/card/<id> draws the one card; ?render=1 draws the render frame alone
-//   queue      the request form is on the page; GET /api/analysis answers the internal view (200) and a visitor (404)
+//   queue      the request flow and the list of requests are on the page; GET /api/analysis answers the internal view
+//              (200) and a visitor (404)
+// Session 182, part 4: the two single-grid cards that a five-grid card supersedes left the list of /analysis. Each is
+// still checked, number by number, on its own address (/analysis/card/<id>), and /analysis must link it. The count of
+// the list is the count of the current cards. "Ask for a finding" is the request flow (scripts/check-analysis-flow.mjs).
 //   visitor    without the cookie /analysis is the in-review page
 // Exit 1 on a failure.
 import fs from "node:fs";
@@ -37,10 +41,22 @@ const { status, html } = await get("/analysis");
 check(status === 200 && !html.includes('data-in-review="1"'), "/analysis opens in the internal view");
 const t = text(html);
 check(cards.length >= 3, `${cards.length} committed cards (3 expected at least)`);
-check(html.includes(`data-finding-cards="${cards.length}"`), `the page draws ${cards.length} cards`);
+const SUPERSEDED = { batteries_lunch: "batteries_lunch_grids", peak_hour_moved: "peak_hour_grids" };   // lib/findings.ts
+const current = cards.filter((c) => !(c.id in SUPERSEDED));
+check(fs.readFileSync(path.join(here, "..", "lib", "findings.ts"), "utf-8").includes('SUPERSEDED: Record<string, string> = { batteries_lunch: "batteries_lunch_grids", peak_hour_moved: "peak_hour_grids" }'), "the superseded cards are the two lib/findings.ts names");
+check(cards.length - current.length === 2, `${cards.length - current.length} superseded cards among the ${cards.length} committed`);
+check(html.includes(`data-finding-cards="${current.length}"`), `the page draws the ${current.length} current cards`);
+const listHtml = html, listText = t;
 for (const c of cards) {
   const tag = `${c.card_id}:`;
-  check(html.includes(`data-card="${c.card_id}"`), `${tag} drawn`);
+  // a superseded card is read where it now stands, its own address; every check below is the same for it
+  const own = c.id in SUPERSEDED ? await get(`/analysis/card/${c.card_id}`) : null;
+  const html = own ? own.html : listHtml;
+  const t = own ? text(own.html) : listText;
+  // the link itself is drawn by the browser in the internal view (SiteLink), so its href is proven by check-analysis-flow.mjs; here, the line and the title
+  const at = listHtml.indexOf(`data-superseded="${c.card_id}"`);
+  if (own) check(at > 0 && listHtml.slice(at, at + 500).includes(esc(c.title)) && !listHtml.includes(`data-card="${c.card_id}"`), `${tag} left the list, and is named there under its five-grid card`);
+  check(html.includes(`data-card="${c.card_id}"`), `${tag} drawn${own ? " at its own address" : ""}`);
   check(t.includes(c.title), `${tag} title ${JSON.stringify(c.title)}`);
   check(t.includes(c.subtitle.replace(/\s+/g, " ")), `${tag} subtitle`);
   c.callouts.forEach((co, i) => {
@@ -69,7 +85,9 @@ check(wk.status === 200 && wk.html.includes("Chart of the Week"), "/analysis/202
 check(!/claude-[a-z]+-\d/.test(t) && !/USD 0\.\d{4}/.test(t), "no model name or cost on the page");
 check(!t.includes("robust z = |value minus the median"), "the old rule's footnote is gone");
 check(t.includes("ranked among the same measure"), "the current rule is stated");
-check(html.includes('data-request-form="1"') || html.includes("Ask for a finding"), "the request form is on the page");
+check(html.includes('data-flow="1"') && html.includes('data-flow-items="18"') && html.includes('data-request-form="1"') && html.includes('data-request-list="1"'), "the request flow (18 entries) and the list of requests are on the page");
+check(html.includes('data-form-picker="1"') && html.includes("Default for this analysis"), "step two's picker is on the page, its preselected form labeled the default");
+check(!t.includes("Template gallery") && !html.includes("data-request-finding"), "the template gallery and the old form are gone from the page");
 check(t.includes("ERCOT North Hub"), "human labels (ERCOT North Hub) are on the page");
 const api = await fetch(`${base}/api/analysis`, { headers: { Cookie: cookie } });
 check(api.status === 200 || api.status === 502, `GET /api/analysis answers the internal view (${api.status}; 502 when the migration is not applied)`);
