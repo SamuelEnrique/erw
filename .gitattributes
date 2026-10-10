@@ -8,3 +8,7 @@ site/public/findings/*.csv text eol=lf
 site/public/findings/*.py text eol=lf
 site/public/findings/*.do text eol=lf
 site/data/findings/*.json text eol=lf
+# Session 178: the battery page's replication files (the do-file reads its column names from a fixed line of the CSV,
+# and the comparison's snapshot is compared with its builder's output); no checkout may convert their line endings
+site/public/battery/* text eol=lf
+site/data/battery_awards_beside.json text eol=lf
