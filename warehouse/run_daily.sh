@@ -363,6 +363,14 @@ soft_step policy_monitor_refresh "$PYTHON" warehouse/connectors/policy_monitor_r
 # time is left as it is. No live page (/cost-of-power/battery, /network, /storage) reads any file under
 # site/data/policy. The commit step of the workflow adds site/data/policy.
 soft_step policy_monitor_site "$PYTHON" warehouse/derived/policy_monitor_site.py --daily
+# Session 181, the scanner (docs/methods/automated_analysis_scanner.md): a daily look over every public table with a
+# time axis for a record, a first negative price, a spike, a weekly change outside its five-year range and a break
+# between two series. Its rules compare with years of history, which only the data machine holds, so this run does not
+# scan: it queues the day's scan (a row of analysis_requests, finding scanner_daily) for the data machine's worker,
+# which scans there and adds the drafts to the internal review list. No model call (so not a model_step), no table
+# written, nothing a page reads. A soft step: where the queue cannot be reached from the machine (no service key) it
+# exits ERW_SKIP_EXIT with the reason, and a failure never stops the run.
+soft_step scanner_request "$PYTHON" warehouse/analysis/findings/findings_scanner.py --request
 # The other six (the hourly mix, the hub price comparison, demand growth, the curtailment profile, the project map and
 # ERCOT's large-load figures): the monthly job, warehouse/run_monthly.sh, with the first daily run on or after the third
 # day of each month (UTC: EIA-930's lag of a day or two is past, so the month before is whole; scheduled.py --monthly-due
