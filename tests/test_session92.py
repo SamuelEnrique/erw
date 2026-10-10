@@ -467,7 +467,10 @@ class TheSite(unittest.TestCase):
 
     def test_the_page_is_in_review_and_a_live_page_shows_a_visitor_nothing_new(self):
         d = node("import { statusOf } from './lib/release.ts'; console.log(JSON.stringify({ a: statusOf('/ask/ercot'), b: statusOf('/ask'), c: statusOf('/cost-of-power/battery') }));", alias=False)
-        self.assertEqual(d, {"a": "review", "b": "review", "c": "live"})
+        # session 178: the battery page was live when this was written; since session 166 (the owner's instruction of
+        # 8 October 2026) no page is live, and site/lib/release.ts holds it as review. The test failed on every machine
+        # with the site's packages from that landing on; the expectation follows the release list.
+        self.assertEqual(d, {"a": "review", "b": "review", "c": "review"})
         link = src("site", "components", "AskErcotLink.tsx")
         self.assertIn('if (!internal && statusOf("/ask/ercot") !== "live") return null;', link)
         self.assertIn("prefetch={false}", link)   # the battery page promises that nothing typed is sent

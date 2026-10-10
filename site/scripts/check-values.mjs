@@ -37,6 +37,11 @@ const LATEST_LAG_MIN = 45;
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3000";
+// Session 178: CHECK_VALUES_PAGES=<prefix>[,<prefix>] reads only the pages whose address starts with one of them: one
+// tool's checks on their own (the weekly brief is then not parsed, and the summary says the run was restricted). The
+// gate of a landing is the full run, with the variable unset.
+const ONLY = (process.env.CHECK_VALUES_PAGES ?? "").split(",").map((v) => v.trim()).filter(Boolean);
+const wanted = (page) => !ONLY.length || ONLY.some((pre) => page.startsWith(pre));
 const PAGES = ["/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/data", "/explorer/ercot-peak-premium", "/deals", "/grid", "/map", "/datacenters", "/roundup",
   // session 18
   "/mix", "/mix?ba=erco&state=TX", "/curtailment", "/consumption",
@@ -322,14 +327,24 @@ async function truth(check) {
     }
   }
   if (p[0] === "datacenters") {
+    // session 177: since session 166 (part F) the page's totals count only the rows in a named US state that are not
+    // cancelled (app/datacenters/Body.tsx, counted), and it shows three counts this check did not know (counted,
+    // no_us_state, cancelled): the whole run stopped at "unknown check datacenters|counted". The rule is the page's
+    // own (lib/largeload.ts); the rows are read here, from Supabase, as before.
     const [, what, key] = p;
-    const rows = await all("entities", { select: "operator,mw:capacity_mw,state:extra->>state", table_name: "eq.datacenter_facilities", order: "entity_id" });
-    const withMw = rows.filter((r) => r.mw !== null);
+    const { cancelled, countryOf } = await import("../lib/largeload.ts");
+    const rows = (await all("entities", { select: "operator,status,mw:capacity_mw,state:extra->>state,country:extra->>country", table_name: "eq.datacenter_facilities", order: "entity_id" }))
+      .map((r) => ({ ...r, us: countryOf(r.country, r.state) === "US" }));
+    const inTotals = rows.filter((r) => r.us && !cancelled(r.status));
+    const withMw = inTotals.filter((r) => r.mw !== null);
     if (what === "count") return rows.length;
+    if (what === "counted") return inTotals.length;
+    if (what === "no_us_state") return rows.filter((r) => !r.us).length;
+    if (what === "cancelled") return rows.filter((r) => r.us && cancelled(r.status)).length;
     if (what === "n_with_mw") return withMw.length;
     if (what === "mw_total") return withMw.reduce((a, r) => a + Number(r.mw), 0);
-    if (what === "state_mw") return withMw.filter((r) => r.state === key).reduce((a, r) => a + Number(r.mw), 0);
-    if (what === "operator_mw") return withMw.filter((r) => r.operator === key).reduce((a, r) => a + Number(r.mw), 0);
+    if (what === "state_mw") return withMw.filter((r) => (r.state ?? "") === key).reduce((a, r) => a + Number(r.mw), 0);
+    if (what === "operator_mw") return withMw.filter((r) => (r.operator ?? "") === key).reduce((a, r) => a + Number(r.mw), 0);
   }
   // session 31: /storage, sums of storage_capacity's nameplate MW (rounded to 0.1 MW, as the page rounds them);
   // session 34: and of its energy capacity, MWh (storage|mwh|<status>, storage|n_mwh|<status>)
@@ -420,6 +435,14 @@ async function truth(check) {
     const M = await import("../lib/merchant.ts");
     const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "merchant_snapshot.json"), "utf-8"));
     return M.stat(snap, M.parseKey(p[1]), p[2]);
+  }
+  // session 178: the battery page's one line beside ERCOT's real awards, bsa|<strategy>_<N>h|<stat>: from the snapshot the
+  // page reads (data/battery_awards_beside.json, not Supabase), with lib/batterystack.ts; tests/test_session178.py checks
+  // the snapshot against the two warehouse tables
+  if (p[0] === "bsa") {
+    const B = await import("../lib/batterystack.ts");
+    const snap = JSON.parse(fs.readFileSync(path.join(here, "..", "data", "battery_awards_beside.json"), "utf-8"));
+    return B.awardsStat(snap, p[1], p[2]);
   }
   // session 67: what a battery earns, bs|<inputs>|<stat>: recomputed by lib/batterystack.ts from this script's own read
   // of battery_stack_monthly and battery_stack_stress_daily in Supabase
@@ -668,8 +691,8 @@ async function main() {
     cookie = (u.headers.getSetCookie?.() ?? []).map((c) => c.split(";")[0]).join("; ");
   }
   if (!cookie) console.log(`no internal cookie from ${base}/internal/unlock: pages in review answer the in-review page and are counted as failures`);
-  const urls = PAGES.map((page) => ({ page, url: page }));
-  if (tok) urls.push(...INTERNAL.map((page) => ({ page, url: `${page}?token=${encodeURIComponent(tok)}`, internal: true })));
+  const urls = PAGES.filter(wanted).map((page) => ({ page, url: page }));
+  if (tok) urls.push(...INTERNAL.filter(wanted).map((page) => ({ page, url: `${page}?token=${encodeURIComponent(tok)}`, internal: true })));
   else console.log(`internal pages not checked (INTERNAL_COSTS_TOKEN not set here): ${INTERNAL.join(", ")}`);
   for (const { page, url, internal } of urls) {
     const res = await fetch(base + url, { headers: cookie ? { Cookie: cookie } : {} });
@@ -721,11 +744,12 @@ async function main() {
     pass ? ok++ : bad++;
     lines.push(`${pass ? "ok  " : "FAIL"} | ${page} | ${check} | page shows "${text}" | page read ${raw} | Supabase ${t}`);
   }
-  const [wok, wbad] = await checkWeekly(lines);
+  const [wok, wbad] = ONLY.length ? [0, 0] : await checkWeekly(lines);
   ok += wok;
   bad += wbad;
   const n = found.size + wok + wbad;
   console.log(lines.join("\n"));
+  if (ONLY.length) console.log(`\nRESTRICTED RUN (CHECK_VALUES_PAGES): only the pages starting with ${ONLY.join(", ")}; not the gate of a landing`);
   console.log(`\n${ok} of ${n} values match Supabase${superseded ? `; ${superseded} latest prices superseded by a newer interval within ${LATEST_LAG_MIN} minutes (checked for staleness, not comparable by value)` : ""}${bad ? `; ${bad} FAILED` : ""} (/roundup: ${wok} of ${wok + wbad})`);
   if (bad || n < 10) process.exit(1);
 }

@@ -2,6 +2,7 @@
 //   POST /api/analysis  { kind: "run", finding, params }     queues a finding with chosen inputs; answers { ok, id }
 //   POST /api/analysis  { kind: "roundup", card_id }         chooses a card for this week's Roundup; answers { ok, week }
 //   GET  /api/analysis                                       the queue: the latest requests with their state
+//   GET  /api/analysis?id=<request>                          one request with its card, once the worker has written it
 // /api/* is not behind the release gate, so this route protects itself as the thesis route does: it answers only a
 // browser in the internal view (the cookie /internal/unlock sets); anything else gets 404 with an empty body. The
 // database function (migration 027) checks the internal token again, counts the day's requests and writes the row;
@@ -12,6 +13,7 @@ import { COOKIE } from "@/lib/release";
 import { rpc } from "@/lib/supabase";
 import { internalOk } from "@/lib/thesis/server";
 import { loadCatalogue, roundupWeek } from "@/lib/findings";
+import { sameOrigin } from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,6 +24,7 @@ const json = (body: unknown, status = 200) => NextResponse.json(body, { status, 
 const token = () => process.env.INTERNAL_COSTS_TOKEN ?? "";
 
 export async function POST(req: NextRequest) {
+  if (!sameOrigin(req)) return hidden();   // session 177: never from another site's page, whatever cookie comes with it
   if (!(await internalOk(req.cookies.get(COOKIE)?.value))) return hidden();
   let body: { kind?: unknown; finding?: unknown; params?: unknown; card_id?: unknown };
   try {
@@ -64,6 +67,18 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   if (!(await internalOk(req.cookies.get(COOKIE)?.value))) return hidden();
+  // session 181: ?id=<request> answers that one request with its card (analysis_request_card, migration 029), so a
+  // card asked for here can be read here; the deployed site holds no file of it
+  const id = req.nextUrl.searchParams.get("id");
+  if (id !== null) {
+    if (!/^[A-Za-z0-9-]{6,60}$/.test(id)) return json({ request: null, reason: "no such request" }, 400);
+    try {
+      const row = await rpc<unknown | null>("analysis_request_card", { p_token: token(), p_id: id });
+      return row ? json({ request: row }) : json({ request: null, reason: "no such request" }, 404);
+    } catch (e) {
+      return json({ request: null, reason: (e as Error).message.slice(0, 120) }, 502);
+    }
+  }
   try {
     const rows = await rpc<unknown[] | null>("analysis_requests_list", { p_token: token() });
     return json({ requests: rows ?? [] });

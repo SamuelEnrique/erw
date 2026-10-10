@@ -5,13 +5,17 @@
 // worker (warehouse/analysis/findings/worker.py) takes it when the machine wakes. No typed free text: inputs are chosen.
 import { useEffect, useState } from "react";
 import type { CatalogueEntry } from "@/lib/findings";
+import { RequestCard } from "./RequestCard";
 
 type Req = { id: string; finding: string; params: Record<string, string>; status: string; asked_at: string; done_at: string | null; note: string; card_id: string | null };
 
 const when = (iso: string) => iso.replace("T", " ").slice(0, 16) + " UTC";
 const STATUS: Record<string, string> = { queued: "queued, waits for the data machine", running: "running on the data machine", done: "done", failed: "failed" };
 
-export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
+// Session 182, part 4: the request flow (RequestFlow) now holds the choosing; with `listOnly` this component is the
+// list of requests alone (state, time asked, "show the card"), read again the moment the flow queues a request. A card
+// shown from the list carries its own toggles of chart form.
+export function RequestForm({ catalogue, listOnly = false }: { catalogue: CatalogueEntry[]; listOnly?: boolean }) {
   const [name, setName] = useState(catalogue[0]?.id ?? "");
   const entry = catalogue.find((c) => c.id === name);
   // the chosen inputs over the finding's defaults; a new finding starts from its defaults (set with the name, not in an effect)
@@ -21,13 +25,15 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
   const [reqs, setReqs] = useState<Req[] | null>(null);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
+  const [shown, setShown] = useState("");      // session 181: the request whose card is drawn under the list
   const load = () => fetch("/api/analysis", { cache: "no-store" })
     .then(async (r) => setReqs(r.ok ? ((await r.json()) as { requests: Req[] }).requests : []))
     .catch(() => setReqs([]));
   useEffect(() => {
     const t0 = setTimeout(load, 0);  // the first read after the mount, not in the effect's own body
     const t = setInterval(load, 20000);
-    return () => { clearTimeout(t0); clearInterval(t); };
+    window.addEventListener("erw-analysis-asked", load);
+    return () => { clearTimeout(t0); clearInterval(t); window.removeEventListener("erw-analysis-asked", load); };
   }, []);
   const submit = async () => {
     if (!entry) return;
@@ -43,18 +49,18 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
   };
   if (!catalogue.length) return <p className="text-sm text-muted">No finding is in the catalogue yet.</p>;
   return (
-    <div data-request-form="1">
-      <div className="mb-3 flex flex-wrap items-end gap-3 text-sm">
-        <label className="flex flex-col text-xs text-muted">
+    <div data-request-form="1" data-request-list={listOnly ? "1" : "0"}>
+      {listOnly ? null : <div className="mb-3 flex flex-wrap items-end gap-3 text-sm">
+        <label className="flex min-w-0 max-w-full flex-col text-xs text-muted">
           Finding
-          <select value={name} onChange={(e) => { setName(e.target.value); setChosen({}); }} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" data-request-finding="1">
+          <select value={name} onChange={(e) => { setName(e.target.value); setChosen({}); }} className="mt-1 max-w-full border border-rule bg-panel px-2 py-1 text-sm text-ink" data-request-finding="1">
             {catalogue.map((c) => <option key={c.id} value={c.id}>{c.title} ({c.kind})</option>)}
           </select>
         </label>
         {entry ? Object.entries(entry.inputs).map(([k, inp]) => (
-          <label key={k} className="flex flex-col text-xs text-muted">
+          <label key={k} className="flex min-w-0 max-w-full flex-col text-xs text-muted">
             {inp.label}
-            <select value={params[k] ?? ""} onChange={(e) => setParams({ ...params, [k]: e.target.value })} className="mt-1 border border-rule bg-panel px-2 py-1 text-sm text-ink" data-request-input={k}>
+            <select value={params[k] ?? ""} onChange={(e) => setParams({ ...params, [k]: e.target.value })} className="mt-1 max-w-full border border-rule bg-panel px-2 py-1 text-sm text-ink" data-request-input={k}>
               {inp.choices.map((v) => <option key={String(v)} value={String(v)}>{inp.words?.[String(v)] ?? String(v)}</option>)}
             </select>
           </label>
@@ -62,26 +68,33 @@ export function RequestForm({ catalogue }: { catalogue: CatalogueEntry[] }) {
         <button type="button" onClick={submit} disabled={busy} className="border border-rule bg-panel px-3 py-1 text-sm text-ink hover:border-ink disabled:opacity-60" data-request-submit="1">
           Ask the warehouse
         </button>
-      </div>
+      </div>}
       {note ? <p className="mb-2 text-xs text-muted" data-request-note="1">{note}</p> : null}
       {reqs === null ? <p className="text-xs text-muted">Reading the queue.</p> : reqs.length === 0 ? (
         <p className="text-xs text-muted" data-request-rows="0">No request waits. A request runs on the data machine; when it is off, the row stays queued here with the time it was asked.</p>
       ) : (
-        <table className="w-full max-w-3xl text-xs" data-request-rows={reqs.length}>
+        <div className="overflow-x-auto"><table className="w-full max-w-3xl text-xs" data-request-rows={reqs.length}>
           <thead><tr className="border-b border-rule text-left text-muted"><th className="py-1 pr-3">Finding</th><th className="py-1 pr-3">Inputs</th><th className="py-1 pr-3">Asked</th><th className="py-1 pr-3">State</th><th className="py-1">Card</th></tr></thead>
           <tbody>
             {reqs.map((r) => (
               <tr key={r.id} className="border-b border-rule" data-request-id={r.id} data-request-status={r.status}>
-                <td className="py-1 pr-3">{catalogue.find((c) => c.id === r.finding)?.title ?? r.finding}</td>
+                <td className="py-1 pr-3">{catalogue.find((c) => c.id === r.finding)?.title ?? (r.finding === "scanner_daily" ? "The scanner's daily scan" : r.finding)}</td>
                 <td className="py-1 pr-3">{Object.entries(r.params).map(([k, v]) => `${k}: ${catalogue.find((c) => c.id === r.finding)?.inputs[k]?.words?.[v] ?? v}`).join(", ")}</td>
                 <td className="py-1 pr-3 font-mono">{when(r.asked_at)}</td>
                 <td className="py-1 pr-3">{STATUS[r.status] ?? r.status}{r.note ? `: ${r.note}` : ""}</td>
-                <td className="py-1">{r.card_id ? <a href={`/analysis/card/${r.card_id}`}>{r.card_id}</a> : ""}</td>
+                <td className="py-1">
+                  {r.card_id ? (
+                    <button type="button" onClick={() => setShown(shown === r.id ? "" : r.id)} className="underline" data-request-show={r.id}>
+                      {shown === r.id ? "hide the card" : "show the card"}
+                    </button>
+                  ) : ""}
+                </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       )}
+      {shown ? <RequestCard key={shown} requestId={shown} /> : null}
     </div>
   );
 }

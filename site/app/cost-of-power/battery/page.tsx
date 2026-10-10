@@ -6,16 +6,20 @@ import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  CAPACITY_WORDS, DEBT, DURATION_WORDS, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, badMonth, coverage, debtPerMw, gridOf, inputsKey,
-  inputsOf, last36, lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type Inputs, type Month, type Row,
+  CAPACITY_WORDS, COSTS, DEBT, DURATION_WORDS, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, awardsBeside, badMonth, coverage, debtPerMw, gridOf, inputsKey,
+  inputsOf, last36, lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type AwardsSnapshot, type Inputs, type Month, type Row,
   type StressRow, type Year,
 } from "@/lib/batterystack";
+import awardsData from "@/data/battery_awards_beside.json";
 import reviewData from "@/data/battery_stack_review.json";
+import stepsData from "@/data/battery_scenario_steps.json";
+import { isScenarioParam, type StepFile } from "@/lib/battery/finance";
 import { COOKIE, digest } from "@/lib/release";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
 import { BatteryForm } from "./BatteryForm";
 import { ContractInputs, ContractProvider, ContractResult } from "./Contract";
+import { Scenarios } from "./Scenarios";
 
 // Session 67: "What a battery earns". What a grid battery of the reader's size and duration earned from energy and
 // from ancillary services together, split hour by hour so nothing is counted twice, and whether that covers its debt,
@@ -31,6 +35,16 @@ import { ContractInputs, ContractProvider, ContractResult } from "./Contract";
 // they open, and their rows come from data/battery_stack_review.json (battery_stack_review_monthly, held out of the
 // live set so no live number moves), not from Supabase. ISO-NE and MISO are not built: their reserve prices are
 // internal, and the page says "held, not shown: license needed".
+// Session 178: one line under the income table sets the model's day-ahead ancillary revenue beside what ERCOT's storage
+// resources were really awarded, from data/battery_awards_beside.json (warehouse/derived/battery_awards_compare.py; no
+// new read of the live set, check keys bsa|<strategy>_<N>h|<stat>). The lead links the step-by-step note
+// (docs/methods/battery_earns_algorithm.md) and the source line offers the default case hour by hour, with its do-file.
+// No existing number changed.
+// Session 179: one section after the contract, "Scenarios A and B" (Scenarios.tsx): ten assumptions with their cited
+// defaults and Resets, two scenarios on the same seven rows, and a sensitivity chart, all computed in the browser from
+// the months above (lib/battery/finance.ts). The two assumptions inside the model, efficiency and cycles a day, take
+// the steps of data/battery_scenario_steps.json (warehouse/derived/battery_scenario_steps.py) and nothing between.
+// Both scenarios live in the address (two-letter parameters, defaults omitted). Nothing else on the page changed.
 export const metadata: Metadata = { title: "What a battery earns" };
 export const dynamic = "force-dynamic";
 
@@ -48,6 +62,8 @@ function reviewRows(grid: string, x: Inputs): Row[] {
 }
 
 const METHOD = "/data/methods/battery_stack";
+const ALGORITHM = "/data/methods/battery_earns_algorithm";
+const DISPATCH = "/battery/erw_2026_battery_dispatch.csv", DO_FILE = "/battery/erw_2026_battery_replication.do", MIRROR = "/battery/erw_2026_battery_replication.py";
 const shortMonth = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 const ENERGY = "#8C1515", ANCILLARY = "#2E2D29";  // cardinal and Stanford black (app/tokens.css: accent and ink)
 
@@ -165,6 +181,10 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
   const events = stress(stressRows, x.strat, x.dur);
   const defaultDs = Math.round(debtPerMw(x.dur) * x.mw);
   const products = PRODUCTS[x.grid];
+  const steps = stepsData as unknown as StepFile;
+  const scenarioParams = Object.fromEntries(Object.entries(sp).filter(([k, v]) => isScenarioParam(k) && typeof v === "string")) as Record<string, string>;
+  const beside = awardsBeside(awardsData as unknown as AwardsSnapshot, x.grid, x.strat, x.dur);
+  const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const broken = (() => { const t = ys.map((r) => r.energy + r.ancillary).sort((a, b) => b - a); return t.length > 2 && t[0] > 2.5 * t[1] ? ys.find((r) => r.energy + r.ancillary === t[0])! : null; })();
   const before2024 = ys.some((r) => r.y < "2024");
   const topName = top ? `${monthName(top.m)}${top.m === "2021-02" ? " (Winter Storm Uri)" : ""}` : "";
@@ -177,7 +197,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       <ToolHeader
         title="What a battery earns"
         crumb={<CostTabs active="battery" />}
-        lead={<>What a grid battery earned from energy and from ancillary services together, by year and by stream, and whether that covers its debt, with and without a contract. The battery is split hour by hour between the two, so nothing is counted twice. <Link href={METHOD}>Method</Link>.</>}
+        lead={<>What a grid battery earned from energy and from ancillary services together, by year and by stream, and whether that covers its debt, with and without a contract. The battery is split hour by hour between the two, so nothing is counted twice. <Link href={METHOD}>Method</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       {/* session 92: drawn only in the internal view while /ask/ercot is in review (components/AskErcotLink.tsx) */}
       {x.grid === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/battery", title: "What a battery earns", settings: { grid: "ERCOT", duration: `${x.dur} hours`, strategy: `${STRATEGIES[x.strat]} (${x.strat})`, size: `${x.mw} MW` } }} /> : null}
@@ -262,10 +282,23 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                         ]} />
                     );
                   })()}
+                  {beside ? (
+                    <p className="mt-3 max-w-3xl text-sm" data-awards-beside={`${x.strat}_${x.dur}h`}>
+                      Day-ahead ancillary services, {monthName(beside.first)} to {monthName(beside.last)}: this model takes USD <Num check={`bsa|${x.strat}_${x.dur}h|model`} raw={beside.model}>{two(beside.model)}</Num> per
+                      kW a month; ERCOT&apos;s storage resources were awarded USD <Num check={`bsa|${x.strat}_${x.dur}h|fleet`} raw={beside.fleet}>{two(beside.fleet)}</Num> per kW of their power a month;
+                      the model is <Num check={`bsa|${x.strat}_${x.dur}h|ratio`} raw={beside.ratio}>{two(beside.ratio)}</Num> times the awards. <Link href={ALGORITHM}>How this is counted</Link>.
+                    </p>
+                  ) : null}
                 </ToolSection>
 
                 <ToolSection title="With your contract">
                   <ContractResult ms={ms} x={x} />
+                </ToolSection>
+
+                <ToolSection title="Scenarios A and B">
+                  <Scenarios key={`${x.grid}|${x.dur}|${x.strat}`} ms={ms} x={x} costs={COSTS[x.dur]} gridName={g.name}
+                    stepCase={steps.cases[`${x.grid}|${x.strat}|${x.dur}`] ?? null}
+                    stepMeta={{ built: steps.built, rte_steps: steps.rte_steps, cycle_steps: steps.cycle_steps }} initial={scenarioParams} />
                 </ToolSection>
               </>
             )}
@@ -333,7 +366,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       <SourceLine tables={g.review
         ? [REVIEW_TABLE, "iso_hub_prices_history", ...(x.grid === "nyiso" ? ["nyiso_rtm_zone_prices", "nyiso_dam_zone_prices", "nyiso_as_prices"] : ["iso_rtm_hub_prices", "iso_dam_hub_prices", "spp_as_prices"])]
         : [TABLE, STRESS_TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"])]}
-        note={<>Derived by the ERW from {g.name}&apos;s public prices; {g.review ? "the first table is what this page reads, from the site's own copy of it" : "the first two tables are what this page reads"}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>.</>} />
+        note={<>Derived by the ERW from {g.name}&apos;s public prices; {g.review ? "the first table is what this page reads, from the site's own copy of it" : "the first two tables are what this page reads"}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>. The default case hour by hour: <a href={DISPATCH} download>CSV</a>, with a <a href={DO_FILE} download>Stata do-file</a> and its <a href={MIRROR} download>Python mirror</a> that rebuild the headline numbers from it.</>} />
     </ToolPage>
   );
 }

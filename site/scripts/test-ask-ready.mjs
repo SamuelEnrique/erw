@@ -552,7 +552,13 @@ await test("the briefing says which source holds Texas's curtailment share, in o
   for (const words of ["from 28 September 2026", "The page's file is `ercot.json`", "A day is the Central clock day and is whole when every one of its 23, 24 or 25 hours is held", "`ercot_wind_solar_hsl_daily` (session 18) reads the system-wide reports"]) assert.ok(note.includes(words), words);
   // the question that failed in session 153 expects the file's own figure
   const p14 = PAGES.questions.find((q) => q.id === "p14");
-  assert.deepEqual(p14.expect, [texas.window.both.share_pct]);
+  // 10 October 2026 (the chain of sessions 181 and 182): not pinned to today's file, as session 159 ruled for
+  // test-ask-tables.mjs. The daily run rebuilds the file, so its share moves each day (4.46 on 9 October, 4.45 on 10
+  // October, when this assertion failed on main and would have stopped every landing); the question file is written
+  // again by warehouse/chat/eval/ercot_pages_expected.py before an evaluation. What holds: one number, read from the
+  // file's own figure (the tool's read above equals the file's).
+  assert.ok(p14.expect.length === 1 && typeof p14.expect[0] === "number" && Math.abs(p14.expect[0] - texas.window.both.share_pct) < 2);
+  assert.equal(p14.read.at, "over_the_days_held.share_of_limit_pct");
 });
 
 // ================================================================== the closing words of a refusal

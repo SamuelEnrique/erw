@@ -299,7 +299,9 @@ class ThePageAndTheRoute(unittest.TestCase):
 
     def test_the_gallery_has_human_labels(self):
         self.assertIn("ERCOT North Hub", src("site", "lib", "findingwords.ts"))
-        self.assertIn("paramWords", src("site", "components", "AnalysisGallery.tsx"))
+        # session 182, part 4: the gallery retired into the request flow; its component moved, and the flow uses the same words
+        self.assertIn("paramWords", src("site", "app", "_retired", "analysis-gallery", "AnalysisGallery.tsx"))
+        self.assertIn("PARAM_WORDS", src("site", "lib", "analysisflow.ts"))
 
     def test_the_migration_is_internal_and_counts_the_day(self):
         m = src("warehouse", "supabase", "migrations", "027_analysis_requests.sql")

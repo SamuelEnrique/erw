@@ -3,22 +3,30 @@
 // before and after number, one paragraph giving the why with the context numbers, and a method footnote as precise as
 // his. Every number here is the card's JSON, which the engine computed and a test reproduces from the CSV download.
 import { CardChart } from "./CardChart";
+import { FormChart } from "./FormChart";   // session 182, part 4: the card's chart in a chosen form (the default: as before)
 import { RoundupButton } from "./RoundupButton";
 import type { Card } from "@/lib/findings";
 
 const fmtP = (p: number) => (p < 0.001 ? "< 0.001" : p.toFixed(3));
 const fmtN = (v: number, nd = 2) => v.toLocaleString("en-US", { maximumFractionDigits: nd, minimumFractionDigits: nd });
 
-export function FindingCard({ card, render = false, roundup = true }: { card: Card; render?: boolean; roundup?: boolean }) {
-  const dl = `/findings/${card.downloads.csv}`;
+// Session 182, part 4: `formKey` names where the chosen chart form is kept in the address ("form" on a card's own page;
+// by default form.<card id>, so that several cards on one page keep their own). The renderer's frame draws the default.
+export function FindingCard({ card, render = false, roundup = true, found, files = true, formKey }: { card: Card; render?: boolean; roundup?: boolean; found?: string; files?: boolean; formKey?: string }) {
+  const dl = card.downloads ? `/findings/${card.downloads.csv}` : "";
   return (
     <article className={`finding-card ${render ? "finding-card-render" : ""}`} data-finding={card.id} data-card={card.card_id}>
       <header>
         <div className="finding-title text-xs font-semibold tracking-[0.18em] text-muted" data-finding-title={card.id}>{card.title}</div>
-        <p className="finding-subtitle mt-1 text-lg italic" data-finding-subtitle="1">{card.subtitle}</p>
+        {found ? <p className="mt-1 text-xs font-semibold text-accent" data-found-by-scanner={card.card_id}>Found by the scanner, {found}</p> : null}
+        {card.draft && !found ? <p className="mt-1 text-xs font-semibold text-accent" data-draft-mark={card.card_id}>Draft: raised by the scanner, not reviewed</p> : null}
+        <p className="finding-subtitle mt-1 break-words text-lg italic" data-finding-subtitle="1">{card.subtitle}</p>
         <p className="text-xs text-muted">{Object.entries(card.inputs_words).map(([k, v]) => `${k.replace(/_/g, " ")}: ${v}`).join(" | ")}</p>
       </header>
-      <CardChart spec={card.chart} label={card.title} height={render ? 420 : 340} />
+      {card.refusal ? <p className="mt-3 max-w-3xl border border-rule bg-panel p-3 text-sm" data-refusal="1">{card.refusal}</p> : null}
+      {card.chart.kind === "none" ? null : render
+        ? <CardChart spec={card.chart} label={card.title} height={420} />   /* the renderer's frame: the card's own drawing, the markup the photographs were taken from */
+        : <FormChart spec={card.chart} label={card.title} height={340} addressKey={formKey ?? `form.${card.card_id}`} />}
       {card.placeholders?.length ? (
         <p className="mt-1 text-xs text-muted">
           {card.placeholders.map((p) => (
@@ -41,7 +49,7 @@ export function FindingCard({ card, render = false, roundup = true }: { card: Ca
           </div>
         ))}
       </div>
-      <p className="finding-why mt-3 max-w-3xl text-sm" data-finding-why="1">{card.why}</p>
+      {card.why ? <p className="finding-why mt-3 max-w-3xl text-sm" data-finding-why="1">{card.why}</p> : null}
       {card.effect_table ? (
         <div className="mt-3 overflow-x-auto" data-effect-table="1">
           <table className="w-full max-w-3xl text-xs">
@@ -64,8 +72,14 @@ export function FindingCard({ card, render = false, roundup = true }: { card: Ca
           </table>
         </div>
       ) : null}
-      <p className="finding-footnote mt-3 max-w-3xl text-[11px] leading-snug text-muted" data-finding-footnote="1">{card.footnote}</p>
-      {!render ? (
+      {(render ? [] : card.more_charts ?? []).map((m) => (
+        <figure key={m.title} className="mt-4" data-more-chart="1">
+          <figcaption className="text-xs font-semibold text-muted">{m.title}</figcaption>
+          <CardChart spec={m.spec} label={m.title} height={render ? 260 : 240} />
+        </figure>
+      ))}
+      <p className="finding-footnote mt-3 max-w-3xl break-words text-[11px] leading-snug text-muted" data-finding-footnote="1">{card.footnote}</p>
+      {!render && card.downloads && files ? (
         <p className="mt-2 flex flex-wrap items-center gap-3 text-xs">
           <span className="text-muted">Downloads:</span>
           <a href={dl} download data-download="csv">data (CSV)</a>
@@ -77,7 +91,7 @@ export function FindingCard({ card, render = false, roundup = true }: { card: Ca
           {roundup ? <RoundupButton cardId={card.card_id} /> : null}
         </p>
       ) : null}
-      <p className="mt-1 text-[11px] text-muted">{card.source_line} Computed {card.computed_at.replace("T", " ").replace("Z", " UTC")}.</p>
+      <p className="mt-1 break-words text-[11px] text-muted">{card.source_line} Computed {card.computed_at.replace("T", " ").replace("Z", " UTC")}.</p>
     </article>
   );
 }

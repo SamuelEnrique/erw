@@ -2,8 +2,11 @@
 // Session 23: the template gallery on /analysis. Each template's parameters are chosen here; the chart for that
 // choice was computed by warehouse/analysis/run.py from the public tables, on the warehouse's side, and is served
 // from its cache (public/analysis-files/gallery/, recomputed every week).
+// Session 182, part 4: retired. The gallery is folded into the request flow on /analysis
+// (components/analysis/RequestFlow.tsx): the same nine public templates, the same inputs, the same weekly files, now
+// with a choice of chart form. Nothing imports this file; it is kept as the record of what the gallery was.
 import { useEffect, useMemo, useState } from "react";
-import { EChartOption } from "./EChartOption";
+import { EChartOption } from "@/components/EChartOption";
 import { paramWords } from "@/lib/findingwords";  // session 170: human labels ("ERCOT North Hub", not HB_NORTH)
 
 type Combo = { params: Record<string, unknown>; file: string | null; reason?: string };

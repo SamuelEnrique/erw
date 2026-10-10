@@ -38,7 +38,7 @@ export default async function CardPage({ params, searchParams }: Props) {
   return (
     <>
       <p className="mb-4 text-sm"><Link href="/analysis">Automated Analysis</Link></p>
-      <FindingCard card={c} />
+      <FindingCard card={c} formKey="form" />
     </>
   );
 }

@@ -157,8 +157,10 @@ class TheRouteTheLedgerAndTheDatabase(unittest.TestCase):
 
     def test_the_internal_view_is_behind_the_token_and_in_no_menu(self):
         p = src("site", "app", "internal", "ask", "page.tsx")
-        self.assertIn("if (want.length < 24 || token !== want) notFound();", p)
-        self.assertIn('rpc<Spend>("internal_ask_spend", { p_token: token })', p)
+        # session 177: the internal view's cookie opens the page as well (so the token need not travel in an address);
+        # without the token and without the cookie it is still 404, and the database is still asked with the server's token
+        self.assertIn("if (want.length < 24 || (token !== want && !(await internalOk((await cookies()).get(COOKIE)?.value)))) notFound();", p)
+        self.assertIn('rpc<Spend>("internal_ask_spend", { p_token: want })', p)
         self.assertIn("robots: { index: false, follow: false }", p)
         self.assertNotIn("/internal/ask", src("site", "lib", "audience.ts"))
 

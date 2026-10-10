@@ -15,7 +15,8 @@ import { rpc } from "@/lib/supabase";
 export const runtime = "nodejs";
 
 async function run(email: string, token: string): Promise<string> {
-  if (!email || !/^[0-9a-f]{64}$/.test(token)) return "badlink";
+  // session 177: an address is at most 254 characters and has the form the table's own check asks for
+  if (!email || email.length > 254 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !/^[0-9a-f]{64}$/.test(token)) return "badlink";
   try {
     return (await rpc<boolean>("subscribe_unsubscribe", { p_email: email, p_token: token })) ? "unsubscribed" : "badlink";
   } catch (e) {
@@ -33,6 +34,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const u = new URL(req.url);
   const body = await req.text();
+  if (body.length > 4000) return new NextResponse("nothing changed: the request is too large", { status: 413 });   // session 177
   const form = new URLSearchParams(body);
   const email = u.searchParams.get("e") ?? form.get("e") ?? "", token = u.searchParams.get("t") ?? form.get("t") ?? "";
   if (form.get("List-Unsubscribe") === "One-Click") {

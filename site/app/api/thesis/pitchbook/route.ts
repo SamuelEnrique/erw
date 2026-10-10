@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { MAX_BODY, readSubmission, validatePitchbook } from "@/lib/thesis/pitchbook";
 import { NO_STORE, acceptPitchbook } from "@/lib/thesis/server";
+import { limited } from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,6 +39,9 @@ async function bodyText(req: Request): Promise<string | null> {
 }
 
 export async function POST(req: Request) {
+  // session 177 (lib/guard.ts): the key is the credential and cannot be guessed; the limit keeps the route from being
+  // used to make the database check keys without end
+  if (!(await limited(req, "pitchbook", 60, 3600)).ok) return no("Too many answers from this address in an hour; try again later.", 429);
   let raw: string | null;
   try {
     raw = await bodyText(req);

@@ -1,0 +1,158 @@
+# Energy Research Warehouse (ERW), session 181: the scanner's thresholds. ONE file: every number the scanner
+# (warehouse/analysis/findings/findings_scanner.py) compares against is here, and nowhere else. The Method note
+# docs/methods/automated_analysis_scanner.md explains each key in words. A change here changes what is flagged: raise
+# `version` with it (a flag stores the version that raised it).
+
+# The scanner's version. Stored in every flag and every draft. Raise it when a rule or a threshold changes.
+version: "1.0.0"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# What is scanned
+# ---------------------------------------------------------------------------------------------------------------------
+# The tables come from warehouse/metadata/coverage.csv (license public) and each table's own columns (shape series:
+# entity, variable, ts_utc, value). Nothing is listed by hand to be scanned. A series is one value of the key below.
+# Sub-daily series (freq PT5M, PT15M, PT1H) are scanned by UTC day: the day's mean, minimum and maximum.
+key_columns: [entity, variable, market, node, freq]
+# Columns that complete a key where a table has them (the interchange pair, the event of an event table, a strategy).
+key_extra_columns: [ba, x_to_ba, event, x_strategy, x_duration_hours, x_window, x_side, x_metric, year]
+
+# Tables left out, each for a stated reason (a pattern on the table's name). Not a list of what to scan.
+exclude_tables:
+  "forecast": "a forecast: its time axis is the future, not an observation"
+  "^price_board_": "the price board's presentation tables repeat rows of the source tables, which are scanned"
+  "^event_window_|^event_study_|^flex_alert_|^battery_stack_stress": "a table about past events: its days are chosen, not a running calendar"
+  "_hourly_profile$|_profile$": "an average shape by hour and month, not a time series of observations"
+  "^grid_network_": "a seven-day replay window, rewritten whole each day"
+  "^generation_mix_records$": "a table of records already"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Guards: what is never flagged
+# ---------------------------------------------------------------------------------------------------------------------
+# The newest days of a source can still be revised or partial. A point is evaluated only when it is at least this many
+# days older than the scan's date. `settle_days` gives more days to tables whose publisher revises (a pattern on the
+# table's name): EIA-930 hours are revised for days, so the tables built from them wait a week.
+settle_days_default: 2
+settle_days:
+  "^eia930_|^carbon_intensity|^clean_energy|^ba_supply|^storage_daily_cycle|^cost_of_power|^ai_power": 7
+# A sub-daily day is partial, and left out, when it holds fewer than this share of the series' usual intervals a day
+# (the median count over the series' days).
+partial_day_min_share: 0.95
+# A flag is raised only on a new point: its period ended at most this many days before the scan's date, by the
+# series' grain (a month of EIA's monthly tables is published two to three months after it ends). A month or a year
+# still open is never evaluated: a partial month is not a record low. A weekly point is a survey day (EIA's Monday
+# price, the CFTC's Tuesday positions) and is evaluated once the settle days have passed.
+fresh_days: {daily: 10, weekly: 21, monthly: 130, yearly: 120}
+# A series whose unit column changed over its history is not scanned (a unit change is not a finding).
+skip_on_unit_change: true
+# A series whose source column changed (the publisher's report was replaced) is compared only with its history since
+# the change: a change of definition is not a record.
+history_from_last_source_change: true
+# A series with fewer distinct values than this is not scanned (a flag, a constant, a count that never moves).
+min_distinct_values: 8
+# Tables under a known fault (warehouse/output/known_data_faults.csv): a flag whose dates fall inside a fault's dates
+# for its table is suppressed; a fault recorded without dates suppresses its tables whole. Suppressed flags are kept
+# in the run's output, named, and never become drafts.
+suppress_known_faults: true
+# Tables in warehouse/metadata/known_gaps.csv (a source the scheduled run cannot reach) are not flagged.
+skip_known_gaps: true
+# A series of a paused publisher (warehouse/metadata/paused_sources.csv: its `match` pattern on the entity or the
+# source) is never flagged.
+skip_paused: true
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Rule 1: a record high or low
+# ---------------------------------------------------------------------------------------------------------------------
+# The newest value is above (below) every earlier value of the series' whole held history. The series must hold at
+# least `record_min_points` earlier points (so a young series does not flag daily), and the record it breaks must have
+# stood for at least `record_stood_points` points (so a series that climbs every month, a fleet's capacity, a
+# cumulative count, does not flag every month).
+record_min_points: {daily: 1095, weekly: 156, monthly: 60, yearly: 10}
+record_stood_points: {daily: 365, weekly: 52, monthly: 24, yearly: 5}
+# The new record must pass the old one by at least this many robust standard deviations of the series' history
+# (1.4826 times the median absolute deviation of its values): a record by a hair is not raised.
+record_min_margin_sigmas: 0.5
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Rule 2: a negative price where there was none
+# ---------------------------------------------------------------------------------------------------------------------
+# A price series (unit matches `price_unit`, variable matches `price_variable` and not `price_variable_not`) whose
+# day's lowest interval is below zero, when no interval was below zero in the prior `negative_prior_days` days, of
+# which at least `negative_min_days_held` are held.
+price_unit: "^USD/MWh$"
+price_variable: "^(lmp|spp_|da_|rt_|price)"
+price_variable_not: "spread|basis|premium|volatility|hours_|_max$|_usd$"
+negative_prior_days: 365
+negative_min_days_held: 330
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Rule 3: a spike beyond a multiple of the series' own history
+# ---------------------------------------------------------------------------------------------------------------------
+# The statistic: the newest value against the 99th percentile of the series' values in the prior
+# `spike_history_years` years (at least `spike_min_points` of them held). Flagged when the newest value is more than
+# `spike_multiple` times that percentile. Only for series that are positive (the percentile and the median above
+# zero, and at most `spike_max_negative_share` of the prior values below zero): a multiple of a signed quantity, a net
+# flow or a spread, says nothing. Daily and weekly series.
+spike_history_years: 3
+spike_min_points: {daily: 730, weekly: 104}
+spike_percentile: 99
+spike_multiple: 2.0
+spike_max_negative_share: 0.05
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Rule 4: a weekly change outside its five-year range
+# ---------------------------------------------------------------------------------------------------------------------
+# Daily series: the mean of the newest 7 days minus the mean of the 7 days before (each with at least
+# `weekly_min_days` days held). Weekly series: the newest week minus the week before. Flagged when the change is above
+# the largest or below the smallest such change of the prior `weekly_range_years` years (every day's 7-day change in
+# those years; at least `weekly_min_years` years held).
+weekly_range_years: 5
+weekly_min_years: 3
+weekly_min_days: 6
+# The change must pass the range's end by at least this share of the range's width: at the edge is not outside.
+weekly_min_excess_share: 0.10
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Rule 5: a break between two series that normally move together
+# ---------------------------------------------------------------------------------------------------------------------
+# The pairs come from rules, not a list of pairs. `same_table`: within a table, the series that share a variable,
+# market and grain, two by two (hub against hub, zone against zone), within one grid (the entity's prefix); a group
+# larger than `pair_max_group` series is left out. `against_gas`: each price series named by pattern against the
+# Henry Hub spot price (price against gas).
+pairs:
+  same_table:
+    - {table: "^ercot_hub_prices_daily$", variable: "^(da_mean|rt_mean)$"}
+    - {table: "^iso_zone_prices_history$", variable: "^lmp_dam$"}
+    - {table: "^ercot_zone_prices_history$", variable: "^spp_dam$"}
+    - {table: "^iso_hub_prices_history$", variable: "^lmp_dam$"}
+  against_gas:
+    gas: {table: "eia_fuel_spot_prices", entity: "eia:henry_hub", variable: "spot_price"}
+    price:
+      - {table: "^ercot_hub_prices_daily$", variable: "^da_mean$"}
+      - {table: "^iso_zone_prices_history$", variable: "^lmp_dam$"}
+pair_max_group: 16
+# The measure: the residual of a regression. Over the `pair_fit_days` days before the newest 7 days, y is regressed on
+# x by least squares (daily values, days both hold; at least `pair_min_days`). The pair "normally moves together" when
+# that fit's R2 is at least `pair_min_r2`; otherwise it is not tested. The break: the mean residual of the newest 7
+# days, divided by the standard deviation of the 7-day mean residuals inside the fit window, is beyond
+# `pair_break_sigmas`, and beyond every 7-day mean residual of the fit window.
+pair_fit_days: 365
+pair_min_days: 250
+pair_min_r2: 0.60
+pair_break_sigmas: 5.0
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Volume
+# ---------------------------------------------------------------------------------------------------------------------
+# At most this many drafts a day reach the review list, the strongest first (strength: how far past its threshold a
+# flag is, in the units each rule states); at most `max_drafts_per_table` from one table and `max_drafts_per_rule` of
+# one rule, so that one noisy table or rule does not fill the day. A flag whose (rule, table, series) already has an
+# open draft is not raised again; a flag already raised for the same date (in any state) is never raised twice.
+max_drafts_per_day: 12
+max_drafts_per_table: 3
+max_drafts_per_rule: 5
+# At most this many drafts of one rule for one entity of a table: an entity's variables move together (the three
+# reserve products of one market spike in the same hours), and one event is one draft. Every flag stays in the run's
+# flags.json.
+max_drafts_per_entity_rule: 1
+# The chart of a draft shows at most this many of the series' newest points.
+chart_points: {daily: 730, weekly: 260, monthly: 180, yearly: 60}

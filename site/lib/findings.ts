@@ -15,6 +15,11 @@ export type Card = {
   placeholders?: { grid: string; words: string; text: string }[];
   source_line: string; tables: string[]; computed_at: string; method: string;
   downloads: { csv: string; python: string; stata: string }; csv_sha256: string;
+  // session 181: a scanner draft (no paragraph, no downloads until a full card is written), a refused request (the
+  // card says what is missing and draws nothing), and a second chart (the impact study's pre-period)
+  draft?: boolean; refusal?: string; more_charts?: { title: string; spec: ChartSpec }[];
+  rows?: Record<string, string | number | null>[]; csv_name?: string; do_file?: string; csv_header?: string[];
+  scanner?: { version: string; rule: string; date: string; flag_id: string; strength: number; full_card?: { finding: string; params: Record<string, string | number> } | null };
 };
 export type CatalogueInput = { label: string; default: string | number; choices: (string | number)[]; words: Record<string, string> };
 export type CatalogueEntry = { id: string; title: string; kind: string; tables: string[]; inputs: Record<string, CatalogueInput> };
@@ -22,6 +27,8 @@ export type CatalogueEntry = { id: string; title: string; kind: string; tables: 
 const DIR = path.join(process.cwd(), "data", "findings");
 export const METHOD = "/data/methods/automated_analysis_findings";
 export const ORDER = ["batteries_lunch", "gas_sets_price", "queue_divorce", "peak_hour_moved", "who_rescues_whom", "negative_prices_west", "batteries_curtailment"]; // session 174: four more
+
+ORDER.push("impact_study"); // session 181: impact of X on Y
 
 /** Every card file, the default cards first in the engine's order, then the cards with chosen inputs. */
 export function loadCards(): Card[] {
@@ -60,3 +67,11 @@ export function inputWords(card: Card): string {
 }
 
 export { PARAM_WORDS, paramWords } from "./findingwords";
+
+// Session 182: three cards more. The two five-grid cards take the place of the single-grid cards they supersede in the
+// list, the hourly curtailment card stands beside the daily one, and a superseded card moves to the end of the list:
+// it stays drawn and reachable at its own address (nothing a page shows is dropped). Added lines only.
+export const SUPERSEDED: Record<string, string> = { batteries_lunch: "batteries_lunch_grids", peak_hour_moved: "peak_hour_grids" };
+for (const [oldId, newId] of Object.entries(SUPERSEDED)) ORDER.splice(ORDER.indexOf(oldId), 1, newId);
+ORDER.splice(ORDER.indexOf("batteries_curtailment") + 1, 0, "batteries_curtailment_hourly");
+ORDER.push(...Object.keys(SUPERSEDED));

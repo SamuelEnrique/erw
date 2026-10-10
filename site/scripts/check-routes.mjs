@@ -37,7 +37,7 @@ const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
 const baseline = (process.argv[3] ?? env("SITE_URL") ?? "").replace(/\/$/, "");
 
 const PAGES = [
-  "/", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/prices/caiso%3ATH_SP15_GEN-APND", "/prices/miso%3AINDIANA.HUB",
+  "/", "/privacy", "/board", "/emissions", "/storage", "/prices", "/prices/ercot%3AHB_HUBAVG", "/prices/caiso%3ATH_SP15_GEN-APND", "/prices/miso%3AINDIANA.HUB",
   "/prices/spp%3ASPPSOUTH_HUB", "/prices/nyiso%3AN.Y.C.", "/board?s=ercot-hb-hubavg-da", "/grid", "/mix", "/mix?ba=erco&state=TX",
   "/mix?ba=ciso&state=CA", "/curtailment", "/consumption", "/data", "/data/standard", "/explorer/ercot-peak-premium",
   "/deals", "/map", "/datacenters", "/companies", "/policy", "/digest", "/roundup", "/analysis", "/about", "/terms",
@@ -65,6 +65,7 @@ const PAGES = [
   // session 67: what a battery earns, its two grids, and the methods pages the live tools link to
   "/cost-of-power/battery", "/cost-of-power/battery?grid=caiso&dur=2&strat=dayahead", "/cost-of-power/battery?grid=ercot&dur=8&strat=foresight",
   "/data/methods/battery_stack", "/data/methods/grid_network", "/data/methods/storage",
+  "/data/methods/battery_earns_algorithm",  // session 178: the battery page, every number step by step (in review)
   // session 72 (session 69's finish): the storage build-out, in review
   "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/data/methods/storage_buildout",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75

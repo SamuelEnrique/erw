@@ -241,5 +241,343 @@
     "words": {}
    }
   }
+ },
+ {
+  "id": "batteries_lunch_grids",
+  "title": "BATTERIES ATE THEIR OWN LUNCH? FIVE GRIDS",
+  "kind": "econometric",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "iso_rtm_hub_prices",
+   "iso_hub_prices_history",
+   "iso_zone_prices_history",
+   "storage_buildout_monthly",
+   "ercot_zone_load_hourly",
+   "eia930_daily_demand",
+   "eia_fuel_spot_prices"
+  ],
+  "inputs": {
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "peak_hour_grids",
+  "title": "THE PEAK HOUR MOVED: FIVE GRIDS",
+  "kind": "visual",
+  "tables": [
+   "ercot_all_hub_prices_history",
+   "iso_rtm_hub_prices",
+   "iso_hub_prices_history",
+   "iso_zone_prices_history",
+   "eia860m_operating_generators",
+   "eia860m_retired_generators_all"
+  ],
+  "inputs": {
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019
+    ],
+    "words": {}
+   },
+   "min_hours": {
+    "label": "Hours a day must hold",
+    "default": 20,
+    "choices": [
+     20,
+     24
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "batteries_curtailment_hourly",
+  "title": "BY HOW MUCH DO BATTERIES CUT CURTAILMENT, HOUR BY HOUR",
+  "kind": "econometric",
+  "tables": [
+   "caiso_curtailment_intervals",
+   "caiso_fuel_supply_history",
+   "caiso_fuel_supply",
+   "storage_buildout_monthly"
+  ],
+  "inputs": {
+   "first_year": {
+    "label": "First year",
+    "default": 2019,
+    "choices": [
+     2019,
+     2021,
+     2023
+    ],
+    "words": {}
+   },
+   "ceiling_pct": {
+    "label": "At the ceiling from (percent of it)",
+    "default": 90,
+    "choices": [
+     90,
+     95
+    ],
+    "words": {}
+   }
+  }
+ },
+ {
+  "id": "impact_study",
+  "title": "IMPACT OF AN EVENT ON A SERIES",
+  "kind": "econometric",
+  "tables": [
+   "event_window_daily"
+  ],
+  "inputs": {
+   "series": {
+    "label": "Series",
+    "default": "ercot_north_rt",
+    "choices": [
+     "ercot_north_rt",
+     "ercot_north_da",
+     "ercot_houston_rt",
+     "ercot_south_rt",
+     "ercot_west_rt",
+     "ercot_west_da",
+     "nyiso_nyc_rt",
+     "nyiso_nyc_da",
+     "nyiso_capital_da",
+     "nyiso_west_da",
+     "nyiso_longil_da",
+     "spp_south_da",
+     "caiso_zp26_da",
+     "henry_hub",
+     "wti",
+     "brent",
+     "demand_ercot",
+     "demand_caiso",
+     "demand_pjm",
+     "demand_miso",
+     "demand_nyiso",
+     "demand_isone",
+     "demand_spp"
+    ],
+    "words": {
+     "ercot_north_rt": "ERCOT North Hub real-time price",
+     "ercot_north_da": "ERCOT North Hub day-ahead price",
+     "ercot_houston_rt": "ERCOT Houston Hub real-time price",
+     "ercot_south_rt": "ERCOT South Hub real-time price",
+     "ercot_west_rt": "ERCOT West Hub real-time price",
+     "ercot_west_da": "ERCOT West Hub day-ahead price",
+     "nyiso_nyc_rt": "NYISO New York City real-time price",
+     "nyiso_nyc_da": "NYISO New York City day-ahead price",
+     "nyiso_capital_da": "NYISO Capital day-ahead price",
+     "nyiso_west_da": "NYISO West day-ahead price",
+     "nyiso_longil_da": "NYISO Long Island day-ahead price",
+     "spp_south_da": "SPP South Hub day-ahead price",
+     "caiso_zp26_da": "CAISO ZP26 day-ahead price",
+     "henry_hub": "Henry Hub natural gas spot price",
+     "wti": "WTI crude spot price at Cushing",
+     "brent": "Brent crude spot price",
+     "demand_ercot": "ERCOT daily demand",
+     "demand_caiso": "CAISO daily demand",
+     "demand_pjm": "PJM daily demand",
+     "demand_miso": "MISO daily demand (EIA-930)",
+     "demand_nyiso": "NYISO daily demand",
+     "demand_isone": "ISO-NE daily demand",
+     "demand_spp": "SPP daily demand"
+    }
+   },
+   "control": {
+    "label": "Control series",
+    "default": "nyiso_nyc_rt",
+    "choices": [
+     "ercot_north_rt",
+     "ercot_north_da",
+     "ercot_houston_rt",
+     "ercot_south_rt",
+     "ercot_west_rt",
+     "ercot_west_da",
+     "nyiso_nyc_rt",
+     "nyiso_nyc_da",
+     "nyiso_capital_da",
+     "nyiso_west_da",
+     "nyiso_longil_da",
+     "spp_south_da",
+     "caiso_zp26_da",
+     "henry_hub",
+     "wti",
+     "brent",
+     "demand_ercot",
+     "demand_caiso",
+     "demand_pjm",
+     "demand_miso",
+     "demand_nyiso",
+     "demand_isone",
+     "demand_spp"
+    ],
+    "words": {
+     "ercot_north_rt": "ERCOT North Hub real-time price",
+     "ercot_north_da": "ERCOT North Hub day-ahead price",
+     "ercot_houston_rt": "ERCOT Houston Hub real-time price",
+     "ercot_south_rt": "ERCOT South Hub real-time price",
+     "ercot_west_rt": "ERCOT West Hub real-time price",
+     "ercot_west_da": "ERCOT West Hub day-ahead price",
+     "nyiso_nyc_rt": "NYISO New York City real-time price",
+     "nyiso_nyc_da": "NYISO New York City day-ahead price",
+     "nyiso_capital_da": "NYISO Capital day-ahead price",
+     "nyiso_west_da": "NYISO West day-ahead price",
+     "nyiso_longil_da": "NYISO Long Island day-ahead price",
+     "spp_south_da": "SPP South Hub day-ahead price",
+     "caiso_zp26_da": "CAISO ZP26 day-ahead price",
+     "henry_hub": "Henry Hub natural gas spot price",
+     "wti": "WTI crude spot price at Cushing",
+     "brent": "Brent crude spot price",
+     "demand_ercot": "ERCOT daily demand",
+     "demand_caiso": "CAISO daily demand",
+     "demand_pjm": "PJM daily demand",
+     "demand_miso": "MISO daily demand (EIA-930)",
+     "demand_nyiso": "NYISO daily demand",
+     "demand_isone": "ISO-NE daily demand",
+     "demand_spp": "SPP daily demand"
+    }
+   },
+   "event": {
+    "label": "Event, or a date",
+    "default": "uri_2021",
+    "choices": [
+     "uri_2021",
+     "covid_2020",
+     "caiso_heat_2020",
+     "caiso_heat_2022",
+     "elliott_2022",
+     "ercot_heat_2023",
+     "cold_2025",
+     "east_heat_2025",
+     "date"
+    ],
+    "words": {
+     "uri_2021": "Winter Storm Uri (from 2021-02-07)",
+     "covid_2020": "the first COVID-19 spring (from 2020-03-01)",
+     "caiso_heat_2020": "the August 2020 heat wave in CAISO (from 2020-08-10)",
+     "caiso_heat_2022": "the September 2022 heat wave in CAISO (from 2022-08-31)",
+     "elliott_2022": "Winter Storm Elliott (from 2022-12-19)",
+     "ercot_heat_2023": "the summer 2023 heat in ERCOT (from 2023-08-01)",
+     "cold_2025": "the January 2025 cold (from 2025-01-17)",
+     "east_heat_2025": "the June 2025 heat in the east (from 2025-06-20)",
+     "date": "A date I pick (year, month, day)"
+    }
+   },
+   "year": {
+    "label": "Year (when a date is picked)",
+    "default": 2024,
+    "choices": [
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025,
+     2026
+    ],
+    "words": {}
+   },
+   "month": {
+    "label": "Month",
+    "default": 5,
+    "choices": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12
+    ],
+    "words": {
+     "1": "January",
+     "2": "February",
+     "3": "March",
+     "4": "April",
+     "5": "May",
+     "6": "June",
+     "7": "July",
+     "8": "August",
+     "9": "September",
+     "10": "October",
+     "11": "November",
+     "12": "December"
+    }
+   },
+   "day": {
+    "label": "Day",
+    "default": 15,
+    "choices": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31
+    ],
+    "words": {}
+   },
+   "window": {
+    "label": "Window: days before and after",
+    "default": 14,
+    "choices": [
+     7,
+     14,
+     28,
+     56
+    ],
+    "words": {
+     "7": "7 days",
+     "14": "14 days",
+     "28": "28 days",
+     "56": "56 days"
+    }
+   }
+  }
  }
 ]

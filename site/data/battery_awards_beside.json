@@ -1,0 +1,62 @@
+{
+ "built": "2026-10-10T08:12:08Z",
+ "cases": {
+  "dayahead_2h": {
+   "first": "2026-01",
+   "fleet": 0.3965,
+   "last": "2026-07",
+   "model": 2.2369,
+   "months": 7,
+   "ratio": 5.6411
+  },
+  "dayahead_4h": {
+   "first": "2026-01",
+   "fleet": 0.3965,
+   "last": "2026-07",
+   "model": 2.1733,
+   "months": 7,
+   "ratio": 5.4807
+  },
+  "dayahead_8h": {
+   "first": "2026-01",
+   "fleet": 0.3965,
+   "last": "2026-07",
+   "model": 1.8581,
+   "months": 7,
+   "ratio": 4.6857
+  },
+  "foresight_2h": {
+   "first": "2026-01",
+   "fleet": 0.3965,
+   "last": "2026-07",
+   "model": 2.2637,
+   "months": 7,
+   "ratio": 5.7086
+  },
+  "foresight_4h": {
+   "first": "2026-01",
+   "fleet": 0.3965,
+   "last": "2026-07",
+   "model": 2.245,
+   "months": 7,
+   "ratio": 5.6614
+  },
+  "foresight_8h": {
+   "first": "2026-01",
+   "fleet": 0.3965,
+   "last": "2026-07",
+   "model": 2.0632,
+   "months": 7,
+   "ratio": 5.2029
+  }
+ },
+ "fleet_entity": "ercot:esr_fleet",
+ "fleet_table": "ercot_storage_dam_awards_monthly",
+ "model_entity": "ercot:HB_HUBAVG",
+ "model_table": "battery_stack_monthly",
+ "retrieved": {
+  "battery_stack_monthly": "20261005T010314Z",
+  "ercot_storage_dam_awards_monthly": "20261005T032922Z"
+ },
+ "unit": "USD per kW of power and month"
+}

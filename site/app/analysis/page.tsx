@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
-import { AnalysisGallery } from "@/components/AnalysisGallery";
 import { FindingCard } from "@/components/analysis/FindingCard";
 import { RequestForm } from "@/components/analysis/RequestForm";
+import { ImpactForm } from "@/components/analysis/ImpactForm";
+import { ScannerFound } from "@/components/analysis/ScannerFound";
+import { RequestFlow } from "@/components/analysis/RequestFlow";
 import { Section } from "@/components/Section";
 import { DOCS, analysisWeeks } from "@/lib/markdown";
-import { METHOD, loadCards, loadCatalogue } from "@/lib/findings";
+import { METHOD, SUPERSEDED, loadCards, loadCatalogue } from "@/lib/findings";
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Automated Analysis" };
@@ -16,13 +18,29 @@ export const metadata: Metadata = { title: "Automated Analysis" };
 // and a method footnote, with its data, Python and Stata do-file to download. A person picks a finding and its inputs;
 // the request waits in a queue and runs on the data machine. The chart of the week the code disowned (W40, a count of
 // what the ERW had read) is no longer drawn here; each week's chart stays on its own page in the archive below.
+// Session 181: two additions, the page's layout otherwise as it was. "Found by the scanner": the drafts a person
+// approved at /internal/findings (public.scanner_drafts), read by the browser from /internal/findings/approved, which
+// answers only the internal view; nothing appears before approval and a dismissed draft never does. "Impact of an
+// event on a series": the impact study's own inputs (ImpactForm), a request like the others.
+// The request flow (10 October 2026, the session after the scanner's): "Ask for a finding", the impact study's section
+// and the template gallery are one flow in two steps (components/analysis/RequestFlow.tsx): what to analyze (the
+// findings, the impact study and the ten weekly templates as analyses), then how to show it (a picker of chart forms,
+// each drawn as an example, the analysis's own form preselected). The gallery's component is retired
+// (app/_retired/analysis-gallery/); its nine public templates, every input they offered and the weekly files they
+// read are in the flow, and the internal tenth is listed there. The two single-grid cards that the five-grid cards
+// supersede (SUPERSEDED) leave the list of findings: each is linked under its five-grid card, stays at its own
+// address, and is a choice of "Version" in the flow. The list of requests stands under the flow.
 export default function AnalysisPage() {
   const weeks = analysisWeeks();
   const a = DOCS.analysis;
   const week = weeks[0];
   const res = week ? a.results[week] : undefined;
-  const cards = loadCards();
+  const all = loadCards();
+  const cards = all.filter((c) => !(c.id in SUPERSEDED));                       // the current cards; a superseded one is linked under its successor
+  const earlier = (id: string) => all.filter((c) => SUPERSEDED[c.id] === id);
   const catalogue = loadCatalogue();
+  const impact = catalogue.find((c) => c.id === "impact_study");
+  const defaults = Object.fromEntries(all.filter((c) => c.card_id === c.id && catalogue.some((e) => e.id === c.id)).map((c) => [c.id, c]));
   return (
     <>
       <h1 className="mb-1 text-3xl">Automated Analysis</h1>
@@ -30,19 +48,36 @@ export default function AnalysisPage() {
         Findings from the warehouse, on demand: a question, one chart that compares, the before and after numbers, the why, and a method
         footnote. Every number on a card is checked against the code that computed it, and each card downloads its data, its Python and a
         Stata do-file. Ten chart templates still run every week; the chart of the week is the measure whose latest change ranks highest
-        against its own earlier changes. <Link href={METHOD}>Method note</Link>.
+        against its own earlier changes. To ask for an analysis, or to see one in another chart form, use the two steps
+        under <a href="#ask">Ask for an analysis</a>. <Link href={METHOD}>Method note</Link>.
       </p>
       <Section title="Findings" aside={cards.length ? `${cards.length} card${cards.length === 1 ? "" : "s"}` : undefined}>
         {cards.length === 0 ? (
           <p className="text-sm text-muted" data-finding-cards="0">no card yet: no finding has run (data/findings/ is empty).</p>
         ) : (
           <div className="flex flex-col gap-10" data-finding-cards={cards.length}>
-            {cards.map((c) => <FindingCard key={c.card_id} card={c} />)}
+            {cards.map((c) => (
+              <div key={c.card_id}>
+                <FindingCard card={c} />
+                {earlier(c.id).map((old) => (
+                  <p key={old.card_id} className="mt-1 text-xs text-muted" data-superseded={old.card_id}>
+                    The earlier single-grid card, kept at its own address: <Link href={`/analysis/card/${old.card_id}`}>{old.title}</Link>.
+                  </p>
+                ))}
+              </div>
+            ))}
           </div>
         )}
       </Section>
-      <Section title="Ask for a finding">
-        <RequestForm catalogue={catalogue} />
+      <Section title="Found by the scanner">
+        <ScannerFound />
+      </Section>
+      <Section title="Ask for an analysis" id="ask" aside="two steps: what to analyze, how to show it">
+        <RequestFlow catalogue={catalogue} templates={a.templates} gallery={a.gallery.templates} computedAt={a.gallery.computed_at} cards={defaults}
+          impactForm={impact ? <ImpactForm entry={impact} /> : null} />
+      </Section>
+      <Section title="Requests" id="requests">
+        <RequestForm catalogue={catalogue} listOnly />
       </Section>
       {res ? (
         <Section title={`This week's results, ${week}`} aside={<Link href={`/analysis/${week}`}>This week&apos;s chart</Link>}>
@@ -89,13 +124,6 @@ export default function AnalysisPage() {
           </p>
         </Section>
       ) : null}
-      <Section title="Template gallery">
-        <AnalysisGallery gallery={a.gallery.templates} templates={a.templates.filter((t) => t.public)} />
-        <p className="mt-3 text-xs text-muted">
-          Each chart is computed by the warehouse&apos;s template code from public tables only, for every choice of its parameters, and served from that
-          cache; the whole grid is recomputed every week{a.gallery.computed_at ? ` (last ${a.gallery.computed_at.slice(0, 10)})` : ""}.
-        </p>
-      </Section>
       <Section title="Archive: the chart of each week">
         {weeks.length === 0 ? (
           <p className="text-sm text-muted">no week has been analysed yet (docs/analysis/ is empty).</p>

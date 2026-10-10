@@ -105,11 +105,25 @@ done
 model_step() {
   # session 28: model_step <name> <command...>: a step that calls the Claude API. With MODEL_STEPS=0 (a local test
   # run that must spend nothing) it is skipped and recorded as skipped; CI never sets it
+  # Session 176: before each one, warehouse/health.py budget asks whether the day's spend of all scheduled model steps
+  # has reached DAILY_MODEL_USD (default 1.00). At the cap the step is not run: a skipped row of erw_health, a warning
+  # and the same-day email say so (exit 75). A step named with NO_MODEL_FLAG (the digest) runs with that flag instead
+  # and publishes without its model-written parts. A budget that cannot be read never switches a step off.
   if [ "${MODEL_STEPS:-1}" = "0" ]; then
     echo "$1 skipped: MODEL_STEPS=0 (no model calls in this run)" >> "$status"
     echo "$1: skipped, MODEL_STEPS=0"
-  else
+    return 0
+  fi
+  "$PYTHON" warehouse/health.py budget --step "$1" ${NO_MODEL_FLAG:+--instead "written without the model-written parts ($NO_MODEL_FLAG)"} > "runs/daily_${1}_budget.out" 2>&1
+  local budget_rc=$?
+  cat "runs/daily_${1}_budget.out"
+  if [ "$budget_rc" -ne 75 ]; then
     run_other "$@"
+  elif [ -n "${NO_MODEL_FLAG:-}" ]; then
+    echo "$1: the daily model cap is reached; written without the model-written parts ($NO_MODEL_FLAG)"
+    run_other "$@" "$NO_MODEL_FLAG"
+  else
+    echo "$1 skipped: $(grep -m1 -o 'daily model cap reached.*' "runs/daily_${1}_budget.out" | cut -c1-300)" >> "$status"
   fi
 }
 run_other() {
@@ -349,6 +363,14 @@ soft_step policy_monitor_refresh "$PYTHON" warehouse/connectors/policy_monitor_r
 # time is left as it is. No live page (/cost-of-power/battery, /network, /storage) reads any file under
 # site/data/policy. The commit step of the workflow adds site/data/policy.
 soft_step policy_monitor_site "$PYTHON" warehouse/derived/policy_monitor_site.py --daily
+# Session 181, the scanner (docs/methods/automated_analysis_scanner.md): a daily look over every public table with a
+# time axis for a record, a first negative price, a spike, a weekly change outside its five-year range and a break
+# between two series. Its rules compare with years of history, which only the data machine holds, so this run does not
+# scan: it queues the day's scan (a row of analysis_requests, finding scanner_daily) for the data machine's worker,
+# which scans there and adds the drafts to the internal review list. No model call (so not a model_step), no table
+# written, nothing a page reads. A soft step: where the queue cannot be reached from the machine (no service key) it
+# exits ERW_SKIP_EXIT with the reason, and a failure never stops the run.
+soft_step scanner_request "$PYTHON" warehouse/analysis/findings/findings_scanner.py --request
 # The other six (the hourly mix, the hub price comparison, demand growth, the curtailment profile, the project map and
 # ERCOT's large-load figures): the monthly job, warehouse/run_monthly.sh, with the first daily run on or after the third
 # day of each month (UTC: EIA-930's lag of a day or two is past, so the month before is whole; scheduled.py --monthly-due
@@ -410,7 +432,7 @@ echo "== Energy Digest (docs/digest/), Monday to Friday"
 # Session 23: the fun fact engine adds one verified fact to warehouse/news/facts/bank.csv and writes the day's
 # item (warehouse/news/facts/items/<date>.json); brief.py re-verifies it and prints it as the digest's last section
 model_step news_funfact "$PYTHON" warehouse/news/funfact.py
-model_step news_brief "$PYTHON" warehouse/news/brief.py
+NO_MODEL_FLAG=--no-model model_step news_brief "$PYTHON" warehouse/news/brief.py
 # Session 19: the digest by email (tool 25). Rendered to docs/digest/email/ always; sent through
 # Resend only when RESEND_API_KEY and DIGEST_RECIPIENTS are set
 if [ "${SEND_EMAIL:-1}" = "0" ]; then
