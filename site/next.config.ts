@@ -1,6 +1,56 @@
 import type { NextConfig } from "next";
 
+// Session 177 (docs/reviews/2026-10-10-security.md): the security headers of every answer.
+//   Strict-Transport-Security   Vercel sends it already; named here so the site does not depend on the host for it
+//   X-Content-Type-Options      a file is what its type says
+//   X-Frame-Options, frame-ancestors   no other site may frame a page (the site frames nothing of its own)
+//   Referrer-Policy             another site learns the origin, never the path or the query
+//   Permissions-Policy          the site uses no camera, microphone, location, payment or sensors
+// The Content-Security-Policy that is ENFORCED holds only the directives that cannot break a page: the site has no
+// <base>, no <object> or <embed>, no frame, and every form posts to the site itself. The full policy (where scripts,
+// styles, images and requests may come from) is sent as Content-Security-Policy-Report-Only: it has not been proven
+// against every page in a browser, so it blocks nothing yet and a violation shows in the browser's console. It allows
+// what the site is known to use: its own files, inline scripts and styles (Next writes both), the chart library from
+// cdnjs (components/echarts.ts), the database's storage for the network's hourly file, blob: for the map's worker
+// and the pages' own downloads, and data: images.
+const CSP_ENFORCED = "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'";
+const CSP_REPORT_ONLY = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data:",
+  "connect-src 'self' https://*.supabase.co",
+  "worker-src 'self' blob:",
+  "frame-src 'none'",
+  "base-uri 'self'", "object-src 'none'", "frame-ancestors 'none'", "form-action 'self'",
+].join("; ");
+const SECURITY_HEADERS = [
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=(), browsing-topics=()" },
+  { key: "Content-Security-Policy", value: CSP_ENFORCED },
+  { key: "Content-Security-Policy-Report-Only", value: CSP_REPORT_ONLY },
+];
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return [
+      { source: "/:path*", headers: SECURITY_HEADERS },
+      // every internal address: never indexed, never cached, and no referrer leaves it (a token may be in an old link)
+      { source: "/internal/:path*", headers: [
+        { key: "Referrer-Policy", value: "no-referrer" },
+        { key: "Cache-Control", value: "private, no-store" },
+        { key: "X-Robots-Tag", value: "noindex" },
+      ] },
+      // the form of the internal view holds no token in its address, and it must post to this site: under no-referrer a
+      // browser writes "Origin: null" on a posted form (the Fetch standard), which a same-origin check cannot tell from
+      // another site's. With same-origin the form's post names this site, and nothing is sent to any other site.
+      { source: "/internal/open", headers: [{ key: "Referrer-Policy", value: "same-origin" }] },
+    ];
+  },
   // the committed markdown under ../docs is bundled at build time by scripts/build-content.mjs
   // (content/docs.json, imported by lib/markdown.ts), so no page reads the file system at request time
   poweredByHeader: false,

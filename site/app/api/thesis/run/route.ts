@@ -18,6 +18,7 @@ import { forcedOf, judge } from "@/lib/thesis/niche";
 import { gateModel } from "@/lib/thesis/nicheModel";
 import { NO_STORE, getRun, internalOk, submitForced, submitRun } from "@/lib/thesis/server";
 import { RUN_ID } from "@/lib/thesis/view";
+import { sameOrigin } from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -28,6 +29,7 @@ const REASON: Record<string, string> = { day: "Today's runs are used up.", input
 const field = (v: unknown) => (typeof v === "string" ? v.replace(/\s+/g, " ").trim() : "");
 
 export async function POST(req: NextRequest) {
+  if (!sameOrigin(req)) return hidden();   // session 177: never from another site's page, whatever cookie comes with it
   if (!(await internalOk(req.cookies.get(COOKIE)?.value))) return hidden();
   let body: { niche?: unknown; stage?: unknown; geography?: unknown; run_anyway?: unknown };
   try {

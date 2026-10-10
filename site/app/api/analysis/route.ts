@@ -12,6 +12,7 @@ import { COOKIE } from "@/lib/release";
 import { rpc } from "@/lib/supabase";
 import { internalOk } from "@/lib/thesis/server";
 import { loadCatalogue, roundupWeek } from "@/lib/findings";
+import { sameOrigin } from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,6 +23,7 @@ const json = (body: unknown, status = 200) => NextResponse.json(body, { status, 
 const token = () => process.env.INTERNAL_COSTS_TOKEN ?? "";
 
 export async function POST(req: NextRequest) {
+  if (!sameOrigin(req)) return hidden();   // session 177: never from another site's page, whatever cookie comes with it
   if (!(await internalOk(req.cookies.get(COOKIE)?.value))) return hidden();
   let body: { kind?: unknown; finding?: unknown; params?: unknown; card_id?: unknown };
   try {

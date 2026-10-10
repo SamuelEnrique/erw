@@ -4,9 +4,13 @@
 // Session 23: double opt-in. The row is stored unconfirmed and the address gets a confirmation email with a
 // signed link (lib/emailtoken.ts); nothing is sent to it until it follows the link (/api/subscribe/confirm).
 // Answers with a redirect to /subscribe, which says what happened.
+// Session 177 (lib/guard.ts): the form of another site, or a stock command-line client, stores and sends nothing; one
+// visitor may ask five times an hour, and the site sends at most 200 confirmation emails a day, so the form cannot be
+// used to send mail to addresses that did not ask (state "busy").
 import { NextResponse } from "next/server";
 import { emailToken } from "@/lib/emailtoken";
 import { insertRow } from "@/lib/supabase";
+import { limited, sameOrigin, scripted } from "@/lib/guard";
 import { TOPICS, TOPIC_IDS } from "@/lib/topics";
 
 export const runtime = "nodejs";
@@ -41,6 +45,8 @@ async function sendConfirmation(email: string, origin: string, daily: boolean, w
 
 export async function POST(req: Request) {
   const back = (state: string) => NextResponse.redirect(new URL(`/subscribe?state=${state}`, req.url), 303);
+  if (!sameOrigin(req) || scripted(req)) return back("invalid");
+  if (!(await limited(req, "subscribe", 5, 3600)).ok) return back("busy");
   let form: FormData;
   try {
     form = await req.formData();
@@ -57,6 +63,7 @@ export async function POST(req: Request) {
   // session 23: the topics the email's top stories are filtered to (migration 007); at least one
   const topics = form.getAll("topic").map(String).filter((t) => TOPIC_IDS.includes(t));
   if (topics.length === 0) return back("notopic");
+  if (!(await limited(req, "subscribe_day", 200, 86400, { everybody: true })).ok) return back("busy");
   try {
     await insertRow("subscribers", { email, source: "site", daily, weekly, topics });
   } catch (e) {

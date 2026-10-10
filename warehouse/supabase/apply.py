@@ -29,6 +29,14 @@ Every migration is meant to be idempotent, but one no longer is: 014_game_v2.sql
 which the version 3 plays stored since break, so a run from the start stops there (session 71). --only applies the one
 migration named (its file name, or its number), and nothing else: not the migrations before it, and not the settings
 the full run writes at its end. A name that matches no file, or more than one, applies nothing and exits 2.
+
+Session 177: the rollback of one migration.
+
+    python warehouse/supabase/apply.py --rollback 028              # applies rollbacks/028_security_usage.sql
+
+A migration that adds tables or functions has its rollback beside this script in rollbacks/, under the same file name.
+The folder is never read by a full run or by --only: a rollback is applied only when a person names it. It says at
+its top what it deletes.
 """
 
 import argparse
@@ -67,11 +75,17 @@ def select(files, only):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Apply the ERW's Supabase migrations")
     ap.add_argument("--only", help="apply only this migration (its file name or its number, e.g. 019)")
+    ap.add_argument("--rollback", help="apply the rollback of this migration, from rollbacks/ (its file name or number)")
     args = ap.parse_args(argv)
-    files = sorted(glob.glob(os.path.join(HERE, "migrations", "*.sql")))
+    if args.only and args.rollback:
+        print("FAILED: --only and --rollback are not given together; nothing applied", file=sys.stderr)
+        return 2
+    files = sorted(glob.glob(os.path.join(HERE, "rollbacks" if args.rollback else "migrations", "*.sql")))
     if not files:
         print("no migrations found", file=sys.stderr)
         return 2
+    if args.rollback:
+        args.only = args.rollback      # one file, by name, and none of the full run's settings
     try:
         files = select(files, args.only)
     except ValueError as e:
