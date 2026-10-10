@@ -181,3 +181,15 @@ of `CHAIN_OCT8_PROMPT.md` apply, deploys allowed). Built in the main copy on `wi
 
 ## The landing
 
+- The whole suite in the clean worktree at `c0e1bf8`: 2,779 tests, 1 failure, 228 skipped (`suite_clean.out`). The
+  failure was this session's own whole-digest test: a clean copy holds the news tables (in git) and not the price
+  tables, so the digest's numbers could not be cited. The test now skips there (`c77edae`); tests 176 and 173 in the
+  clean worktree at `c77edae`: 33 tests OK, 1 skipped (`clean_176.out`). GitHub's run would have failed without it.
+- No freeze (`freeze.py status` exit 0). `176_before` at 08:22:01 UTC (25 pages, exit 0), as its own command; then the
+  push as `task/176-costs`; "code branch" run 38037637392 success; merge `d68c7cf`; Vercel production "Deployment has
+  completed" at 08:29:46 UTC; `176_after` at 08:30:06 UTC; comparison: **0 differences on the 25 pages**
+  (`compare_176.out`, exit 0). Expected: no page changed (Python, two workflows, a Method note in review, tests).
+- The first runs under the cap: the daily run of 10 October at 14:00 UTC and Sunday's Roundup of 11 October at 23:00
+  UTC. With the key at its usage limit the budget reads USD 0.00 and each model step runs and fails as it did on 9
+  October; the cap changes nothing until the limit is raised.
+- This note reaches main with session 177's landing.
