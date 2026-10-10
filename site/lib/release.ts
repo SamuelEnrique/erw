@@ -16,14 +16,15 @@ export const RELEASE: Record<string, Status> = {
   // Session 126 (the owner's instruction, 5 October 2026): the home page, About, Terms, the seller's tab and the four
   // methods notes are in review. Three pages are open: /cost-of-power/battery, /network and /storage.
   "/": "review",
-  "/cost-of-power/battery": "live",
+  "/cost-of-power/battery": "review",  // session 166 (the owner's instruction of 8 October 2026): no page is live
   "/cost-of-power/battery/awards": "review",  // session 115: what Texas's storage resources were awarded day-ahead; without its own line it would take the live battery page's status
   "/cost-of-power/seller": "review",
   // session 145: /cost-of-power/seller/v2 is retired and redirects to /cost-of-power/seller (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/cost-of-power/seller/v2": "review",  // session 107: version 2 of the seller's tab; without its own line it would take the live tab's status
-  "/network": "live",
-  "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace); without its own line it would take /network's status
-  "/storage": "live",
+  "/network": "review",  // session 166: in review
+  // session 168: version 3 is the network page now, at /network; /network/v3 is retired and redirects to it (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
+  "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace)
+  "/storage": "review",  // session 166: in review
   "/storage/buildout": "review",
   "/battery/customer": "review",  // session 88: what a battery saves a customer; the reader's own numbers, in the browser
   "/storage/owners": "review",  // session 87: without its own line it would take /storage's status
@@ -69,9 +70,9 @@ export const RELEASE: Record<string, Status> = {
   "/grid/isone": "review",
   "/grid/miso": "review",
   "/grid/spp": "review",
-  "/map": "review",
+  "/map": "review",  // session 167: the one project map (version 2's layout and data with version 1's card, state filter, kinds, table by technology and Reset)
   "/resources": "review",  // session 146: where the resources are (the natural resource layers on one map, with the plants, the queue and the datacenters over them); its layer files are read through /resources/layer and /resources/overlay, which take this line's status
-  "/map/v2": "review",  // session 105: the project map, version 2 (EIA-860M's operating and planned units, with the queue beside it)
+  "/map/v2": "review",  // session 105: the project map, version 2 (EIA-860M's operating and planned units, with the queue beside it); since session 167 it redirects to /map
   "/datacenters": "review",
   "/datacenters/v2": "review",  // session 106: the tracker, version 2 (ERCOT's large-load status beside the facilities held)
   "/companies": "review",

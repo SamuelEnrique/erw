@@ -294,7 +294,9 @@ class TheMonthsThePagesLeaveOut(unittest.TestCase):
         self.assertIn("data-carbon-left-out", g)
 
     def test_the_older_pages_do_not_draw_eias_california_mix(self):
-        self.assertIn('const withheld = ba.code === "ciso";', src("site", "app", "mix", "page.tsx"))
+        # session 168 (the owner's instruction of 8 October 2026, part B): the grid choice is on every view of /mix, so the
+        # opening view draws one block per chosen grid (`b`) and withholds California's inside that loop
+        self.assertIn('const withheld = b.code === "ciso";', src("site", "app", "mix", "page.tsx"))
         # session 133: the one mix page says it with a short placeholder and the reason on hover, not with the note
         self.assertEqual(src("site", "app", "mix", "page.tsx").count("withheld ? <Missing why={caiso}"), 2)
         self.assertIn('if (r.ba.code === "ciso") return <CaisoMixWithheld', src("site", "app", "grid", "page.tsx"))

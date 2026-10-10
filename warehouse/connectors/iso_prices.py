@@ -1540,7 +1540,9 @@ def pull_spp(ctx):
              title="SPP day-ahead market LMPs, trading hubs"),
         dict(name="RTM", describe="SPP RTBM-LMP-SL via SPP.get_lmp_real_time_5_min_by_location(Hub), "
              "aggregated to 15-minute means", fetch=rtm, nodes=SPP_HUBS, source="spp:RTBM-LMP-SL",
-             page=SPP_RTM_PAGE, step="15min", five_min=True, workers=8,
+             page=SPP_RTM_PAGE, step="15min", five_min=True, workers=8, per_day=True,
+             # session 166 (the owner's ruling of 8 October 2026): a day SPP did not publish whole is a gap day under
+             # the per-day rule of session 13, not a failure of the market (7 October 2026: one interval file missing)
              variable="lmp_rtm_15m_mean", freq="PT15M", market="spp_rtm",
              file="spp_rtm_hub_prices", notes=[FIVE_MIN_NOTE],
              title="SPP real-time balancing market LMPs, trading hubs, 15-minute means of 5-minute prices"),

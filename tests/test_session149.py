@@ -145,6 +145,58 @@ def src(*parts):
         return f.read()
 
 
+class TheNetworkBuildPassesOverAnAnswerThatIsNotAPage(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        for d in ("connectors", "derived"):
+            p = os.path.join(ROOT, "warehouse", d)
+            if p not in sys.path:
+                sys.path.insert(0, p)
+        try:
+            import grid_network
+        except ImportError as exc:  # a machine without pandas
+            raise unittest.SkipTest("grid_network cannot be imported here: %s" % exc)
+        cls.gn = grid_network
+
+    def raw(self, files):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        run = os.path.join(tmp.name, "eia930_interchange", "20261007T142035Z")
+        os.makedirs(run)
+        for name, text in files.items():
+            with open(os.path.join(run, name), "w", encoding="utf-8") as f:
+                f.write(text)
+        return tmp.name
+
+    def test_the_lock_check_saved_beside_the_pages_does_not_stop_the_build(self):
+        # the file the runner holds: 20261007T142059.123456Z_00009_erw_lock_check, four bytes
+        page = {"response": {"total": 1, "data": [
+            {"period": "2026-10-05T01", "fromba": "ERCO", "fromba-name": "Electric Reliability Council of Texas, Inc.",
+             "toba": "SWPP", "toba-name": "Southwest Power Pool", "value": "-55"}]}}
+        root = self.raw({
+            "20261007T142040.000001Z_00001_data_frequency_hourly": json.dumps(page),
+            "20261007T142059.000001Z_00009_erw_lock_check": "true",
+            "20261007T142059.000002Z_00010_erw_lock_renew": "false",
+            "20261007T142059.000003Z_00011_a_list": "[1, 2]",
+            "20261007T142059.000004Z_00012_a_number": "3",
+            "20261007T142059.000005Z_00013_response_true": json.dumps({"response": True}),
+            "20261007T142059.000006Z_00014_data_null": json.dumps({"response": {"data": None}}),
+            "20261007T142059.000007Z_00015_rows_not_rows": json.dumps({"response": {"data": [True, "x"]}}),
+            "20261007T142059.000008Z_00016_not_json": "<html>busy</html>",
+            "manifest.csv": "retrieved_at,status,bytes,sha256,last_modified,file,url\n",
+        })
+        with mock.patch.object(self.gn.ip, "RAW_DIR", root):
+            names = self.gn.ba_names()
+        self.assertEqual(names["SWPP"], "Southwest Power Pool")
+        self.assertEqual(names["ERCO"], "Electric Reliability Council of Texas, Inc.")
+
+    def test_the_fault_was_the_bool(self):
+        # what the builder did until session 149, on the same four bytes
+        with self.assertRaises(AttributeError) as c:
+            json.loads("true").get("response", {})
+        self.assertIn("'bool' object has no attribute 'get'", str(c.exception))
+
+
 class StatusListsAGapThatNamesNoDay(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

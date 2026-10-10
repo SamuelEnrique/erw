@@ -3512,7 +3512,7 @@ run_id,runner,connector,table,market,status,detail
 20261008T141227Z,github,nyiso,nyiso_dam_zone_prices,DAM,ok,
 20261008T141227Z,github,nyiso,nyiso_rtm_zone_prices,RTM,ok,
 20261008T141233Z,github,spp,spp_dam_hub_prices,DAM,ok,
-20261008T141233Z,github,spp,spp_rtm_hub_prices,RTM,failed,SourceGap: SPP has no daily RTBM file for 2026-10-07 and its interval file for 2026-10-07 23:10:00-05:00 is missing: SPP RTBM interval 2026-10-07 23:10:00-05:00 failed after 4 attempts: NoDataFoundException('No data found for https://portal.spp.org/file-browser-api/download/rtbm-lmp-by-location?path
+20261008T141233Z,github,spp,spp_rtm_hub_prices,RTM 2026-10-07,gap,"session 166 (the owner's ruling of 8 October 2026): a gap day under the per-day rule, not a failure; SPP did not publish one interval of 7 October: SourceGap: SPP has no daily RTBM file for 2026-10-07 and its interval file for 2026-10-07 23:10:00-05:00 is missing: SPP RTBM interval 2026-10-07 23:10:00-05:00 failed after 4 attempts: NoDataFoundExc"
 20261008T141949Z,github,isone,isone_dam_zone_prices,DAM,ok,
 20261008T141949Z,github,isone,isone_rtm_zone_prices,RTM,ok,
 20261008T141949Z,github,isone,isone_rtm_zone_prices_hourly,RTM_HOURLY,ok,"1 days not complete, not written"

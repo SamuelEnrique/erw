@@ -11,6 +11,7 @@
 // called. Each admitted question is numbered, and every model call it makes carries the number into the cost ledger.
 import { NextResponse } from "next/server";
 import { ask } from "@/lib/chat/ask";
+import { cleanQuestion } from "@/lib/chat/plaintime";
 import { scopeOf } from "@/lib/chat/tools";
 import { cleanContext, cleanHistory, ercotProfile } from "@/lib/chat/ercot";
 import { admit, questionId, readLimits, readSalt } from "@/lib/chat/limits";
@@ -80,7 +81,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: admitted.message, refused: admitted.reason }, { status: admitted.status, headers: { "Cache-Control": "no-store" } });
   }
   const qid = questionId();
-  const asked = question.trim();
+  // session 168: a question pasted with a quote mark at its end (or a pair around it) is asked, logged and shown without it
+  const asked = cleanQuestion(question);
   // session 143: the stages of an answer are counted from the request's arrival; the admission above is its first step
   const timing = { startedAt: now, before: [{ stage: "other" as const, what: "admit", ms: Date.now() - now }] };
   // session 121: the per-question line of the log also holds what the question cost and how long it took

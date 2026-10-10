@@ -194,6 +194,8 @@ function profile148(): Profile {
   const scope143 = { ...base, tables: [...spec.tables, ...MIX_TABLES], filters: { ...(spec.filters as Record<string, Record<string, string | string[]>>), ...mixFilters }, max_groups: spec.max_groups, dated_groups: spec.dated_groups };
   const scope: Scope = !offered ? scope143 : { ...scope143, tables: [...scope143.tables, ...more], filters: { ...scope143.filters, ...Object.fromEntries(more.map((t) => [t, {}])) }, rollup: { hourly: ROLLUP.hourly, tables: ROLLUP_TABLES } };
   const profile: Profile = {
+    // session 168: ERCOT's own zone: a time in an answer reads "4 pm Central, 3 October 2026" (lib/chat/plaintime.ts)
+    zone: "America/Chicago",
     // session 137: the answer panel. The system prompt carries the panel's rules and the page's written content; the
     // answer names its form; the board's and Supply and trade's rows are read by a tool of the profile's own
     system: spec.system + addendum(base.slug, base.iso),

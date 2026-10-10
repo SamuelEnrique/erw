@@ -224,7 +224,10 @@ console.log(JSON.stringify({
         form = src("site", "app", "cost-of-power", "battery", "BatteryForm.tsx")
         self.assertIn("const open = g.ready || (internal && !!g.review);", form)
         self.assertIn("disabled={!open}", form)
-        self.assertRegex(src("site", "lib", "release.ts"), r'"/cost-of-power/battery":\s*"live"')
+        # session 166 (the owner's instruction of 8 October 2026): the battery page is in review too; no page is live
+        release = src("site", "lib", "release.ts")
+        self.assertRegex(release, r'"/cost-of-power/battery":\s*"review"')
+        self.assertEqual(re.findall(r'"(/[^"]*)":\s*"live"', release), [])
 
     def test_held_out_of_the_live_catalogue(self):
         import load

@@ -8,7 +8,7 @@ import { caisoJoinDay } from "@/lib/caisoJoin";
 import { daysAgo, series } from "@/lib/data";
 import { GRIDS, calName, periodOf } from "@/lib/mix2";
 import { CLEAN, HISTORY, MIX, PLUS, STRESS } from "@/lib/mixdata";
-import { FACTORS, MAX_GRIDS, SEASON_NAMES, VIEWS, choiceOf, hrefOf, toggled, type Choice } from "@/lib/mixpage";
+import { ALL_GRIDS, FACTORS, MAX_GRIDS, NO_GRID_CHOICE, SEASON_NAMES, VIEWS, choiceOf, filtered, gridUse, hrefOf, toggled, type Choice } from "@/lib/mixpage";
 import { BAS, STATES } from "@/lib/regions";
 import { attempt } from "@/lib/supabase";
 
@@ -17,13 +17,17 @@ import { attempt } from "@/lib/supabase";
 // kept, unrouted, under app/_retired), and the views the session added. The original page is the first view, with its
 // filters and hover as they were. The whole state is in the address. No method stands on the page face: it is in
 // docs/methods/generation_mix_hourly.md.
+// Session 168: "Select grids" stands on every view (lib/mixpage.ts gridUse). The seven views that had it compare the
+// grids chosen as before; "Now and by state" and "Wind and solar forecasts" open with every grid, as they did, and draw
+// only the grids chosen once some are; "Since 2001" is by state, so its control is greyed and its hover says why.
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Energy mix", robots: { index: false, follow: false } };
 
 const METHOD = "/data/methods/generation_mix_hourly";
 
 function Controls({ c }: { c: Choice }) {
-  const perGrid = !["now", "forecast", "history"].includes(c.view);
+  const use = gridUse(c.view);
+  const every = c.shown.length === ALL_GRIDS.length;
   const first = c.grids[0];
   const years = (() => {
     if (c.view === "clean") return Object.keys(CLEAN[first].years).sort();
@@ -37,10 +41,15 @@ function Controls({ c }: { c: Choice }) {
   const allYears = Array.from({ length: Number(MIX[first].upto.slice(0, 4)) - 2018 }, (_, i) => String(2019 + i));
   return (
     <div className="mb-5 grid gap-1.5 border-y border-rule py-2" data-controls="1">
-      {perGrid ? (
+      {use === "compare" ? (
         <Chips label="Select grids" items={GRIDS.map((g) => { const on = c.grids.includes(g.slug); const full = !on && c.grids.length >= MAX_GRIDS;
           return { key: g.slug, label: g.name, on, off: full, title: full ? `Up to ${MAX_GRIDS} grids at once: take one off first.` : on && c.grids.length === 1 ? "The last grid stays." : undefined, href: hrefOf(c, { grids: toggled(c.grids, g.slug) }) }; })} />
-      ) : null}
+      ) : use === "filter" ? (
+        <Chips label="Select grids" items={GRIDS.map((g) => { const on = c.shown.includes(g.slug);
+          return { key: g.slug, label: g.name, on, title: every ? `Show ${g.name} alone.` : on && c.shown.length === 1 ? "Show every grid again." : undefined, href: hrefOf(c, { shown: filtered(c.shown, g.slug) }) }; })} />
+      ) : (
+        <Chips label="Select grids" items={GRIDS.map((g) => ({ key: g.slug, label: g.name, on: false, off: true, title: NO_GRID_CHOICE, href: "" }))} />
+      )}
       {c.view === "day" ? (
         <>
           <Chips label="Year" items={allYears.map((y) => ({ key: y, label: y, on: py === y, href: hrefOf(c, { period: period.length === 7 && periodOf(MIX[first], `${y}-${period.slice(5)}`) ? `${y}-${period.slice(5)}` : y }) }))} />
@@ -71,36 +80,55 @@ function Controls({ c }: { c: Choice }) {
   );
 }
 
+/** Session 168: the EIA-930 balancing authority of each grid of "Select grids" (lib/regions.ts BAS). */
+const GRID_BA: Record<string, string> = { ercot: "erco", caiso: "ciso", pjm: "pjm", miso: "miso", spp: "swpp", nyiso: "nyis", isone: "isne" };
+
 async function NowView({ c }: { c: Choice }) {
-  const ba = BAS.find((b) => b.code === c.ba) ?? BAS[0];
+  // session 168: with every grid on (as the view opens) the operator list chooses the one drawn, as before; once grids
+  // are chosen above, each of them is drawn, in the list's order, and the list gives way to the choice
+  const chosen = c.shown.length < ALL_GRIDS.length ? BAS.filter((b) => c.shown.some((g) => GRID_BA[g] === b.code)) : null;
+  const bas = chosen ?? [BAS.find((b) => b.code === c.ba) ?? BAS[0]];
+  const ba = bas[0];
   const st = c.state && c.state in STATES ? c.state : "US";
   const table = "eia930_all_generation";
-  const [latest, hourly, monthly] = await Promise.all([
-    attempt(() => series(LATEST, { entity: ba.entity })),
-    attempt(() => series(table, { entity: ba.entity, since: daysAgo(9) })),
+  const [reads, monthly] = await Promise.all([
+    Promise.all(bas.map((b) => Promise.all([attempt(() => series(LATEST, { entity: b.entity })), attempt(() => series(table, { entity: b.entity, since: daysAgo(9) }))]))),
     attempt(() => series(MONTHLY, { entity: `eia:${st}` })),
   ]);
   // session 118: EIA-930's generation for California is the series the faults register calls changed; it is not drawn
-  const withheld = ba.code === "ciso";
   const caiso = `EIA's hourly generation series for California changed on ${caisoJoinDay()} and is not drawn. California's mix from CAISO's own data is in the views beside this one.`;
   const failed = (reason: string) => <Missing why={`The table could not be read just now: ${reason}`} words="working on it" />;
   const h2 = "mb-2 border-b border-accent pb-0.5 font-serif text-lg text-accent";
   return (
     <>
       <form method="get" className="mb-6 flex flex-wrap items-end gap-4" data-now-form="1">
-        <AutoSubmitSelect name="ba" label="Grid operator (hourly)" value={ba.code} options={BAS.map((b) => ({ value: b.code, label: b.label }))} />
+        {chosen ? (
+          <>
+            <input type="hidden" name="grids" value={c.shown.join(",")} />
+            <span className="flex flex-col text-xs text-muted" data-now-grids={c.shown.join(",")}>Grid operator (hourly)
+              <span className="mt-1 cursor-help border border-rule/60 px-2 py-1 text-sm" title="The grids chosen above are drawn; choose every grid again to use this list.">{chosen.map((b) => b.label).join(", ")}</span></span>
+          </>
+        ) : <AutoSubmitSelect name="ba" label="Grid operator (hourly)" value={ba.code} options={BAS.map((b) => ({ value: b.code, label: b.label }))} />}
         <AutoSubmitSelect name="state" label="State (monthly)" value={st} options={Object.entries(STATES).map(([k, v]) => ({ value: k, label: v }))} />
         <button type="submit" className="border border-rule bg-panel px-3 py-1 text-sm">Show</button>
       </form>
-      <section id="today" className="mb-8">
-        <h2 className={h2}>{ba.label}: today so far</h2>
-        {withheld ? <Missing why={caiso} /> : latest.ok ? <Today rows={latest.data} label={ba.label} /> : failed(latest.reason)}
-      </section>
-      <section id="hourly" className="mb-8">
-        <h2 className={h2}>{ba.label}: hourly mix, last 7 days</h2>
-        <Legend items={HOURLY_FUELS.map((f) => ({ key: f.key, label: f.label, color: `var(--color-fuel-${f.key})` }))} />
-        {withheld ? <Missing why={caiso} /> : hourly.ok ? <Hourly rows={hourly.data} table={table} label={ba.label} /> : failed(hourly.reason)}
-      </section>
+      {bas.map((b, i) => {
+        const [latest, hourly] = reads[i];
+        const withheld = b.code === "ciso";
+        return (
+          <div key={b.code} data-now-ba={b.code}>
+            <section id={i ? `today-${b.code}` : "today"} className="mb-8">
+              <h2 className={h2}>{b.label}: today so far</h2>
+              {withheld ? <Missing why={caiso} /> : latest.ok ? <Today rows={latest.data} label={b.label} /> : failed(latest.reason)}
+            </section>
+            <section id={i ? `hourly-${b.code}` : "hourly"} className="mb-8">
+              <h2 className={h2}>{b.label}: hourly mix, last 7 days</h2>
+              <Legend items={HOURLY_FUELS.map((f) => ({ key: f.key, label: f.label, color: `var(--color-fuel-${f.key})` }))} />
+              {withheld ? <Missing why={caiso} /> : hourly.ok ? <Hourly rows={hourly.data} table={table} label={b.label} /> : failed(hourly.reason)}
+            </section>
+          </div>
+        );
+      })}
       <section id="monthly" className="mb-8">
         <h2 className={h2}>{STATES[st]}: monthly mix since 2001</h2>
         {monthly.ok ? <Monthly rows={monthly.data} st={st} /> : failed(monthly.reason)}
@@ -123,7 +151,7 @@ export default async function MixPage({ searchParams }: { searchParams: Promise<
             className={`border px-2 py-1 no-underline ${c.view === k ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{label}</a>
         ))}
       </nav>
-      {c.view === "now" ? null : <Controls c={c} />}
+      <Controls c={c} />
       {c.view === "now" ? <NowView c={c} /> : null}
       {c.view === "day" ? <DayView c={c} /> : null}
       {c.view === "duck" ? <DuckView c={c} /> : null}

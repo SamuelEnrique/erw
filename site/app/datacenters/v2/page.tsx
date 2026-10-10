@@ -5,7 +5,7 @@ import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, SourceLine, ToolHeader, 
 import loadJson from "@/data/large_load_status.json";
 import { datacenters } from "@/lib/data";
 import { attempt } from "@/lib/supabase";
-import { dayWords, facilityCounts, impossible, monthMismatch, span, summary, whole, type Facility, type LoadFile } from "@/lib/largeload";
+import { countryOf, dayWords, facilityCounts, impossible, monthMismatch, span, summary, whole, type Facility, type LoadFile } from "@/lib/largeload";
 
 // Session 106: the datacenter tracker, version 2, in the battery page's layout. Two sections, each with its source and
 // its date, never added together: what ERCOT's Large Load Interconnection Status Update states (load approved to
@@ -24,7 +24,7 @@ export default async function TrackerTwo() {
   const odd = impossible(f);
   const submissions = f.reports.filter((r) => r.new_count !== undefined);
   const read = await attempt(datacenters);
-  const facilities: Facility[] = read.ok ? read.data.map((r) => ({ name: r.name, operator: r.operator, status: r.status, capacity_mw: r.capacity_mw, state: r.extra?.state ?? "", kind: r.extra?.kind ?? "" })) : [];
+  const facilities: Facility[] = read.ok ? read.data.map((r) => ({ name: r.name, operator: r.operator, status: r.status, capacity_mw: r.capacity_mw, state: r.extra?.state ?? "", kind: r.extra?.kind ?? "", country: countryOf(r.extra?.country, r.extra?.state) })) : [];
   const c = facilityCounts(facilities);
   const vintage = read.ok ? read.data.map((r) => r.vintage ?? "").sort().at(-1) ?? "" : "";
   const texas = facilities.filter((r) => r.state === "TX").sort((a, b) => (b.capacity_mw ?? -1) - (a.capacity_mw ?? -1) || (a.name ?? "").localeCompare(b.name ?? ""));
@@ -81,7 +81,9 @@ export default async function TrackerTwo() {
         {read.ok ? (
           <>
             <p className="mb-3 max-w-3xl text-sm" data-facilities-summary="1">
-              The ERW holds <strong>{whole(c.all)}</strong> datacenter sites, <strong>{whole(c.texas)}</strong> of them in Texas. A size in MW is stated for {whole(c.withMw)} of them ({whole(c.mw)} MW in all), {whole(c.texasWithMw)} in Texas{c.texasWithMw ? <> ({whole(c.texasMw)} MW)</> : null}.
+              The ERW holds <strong>{whole(c.all)}</strong> datacenter sites: <strong>{whole(c.us)}</strong> in a named US state, <strong>{whole(c.texas)}</strong> of those in Texas, and{" "}
+              <span title="No source the ERW reads states a country. A site with no US state stated may be outside the US (Firmus's Tasmanian rows are among these) or a US site whose story or operator page names no state.">{whole(c.noCountry)} with no US state stated, sites outside the US among them</span>.
+              A size in MW is stated for {whole(c.withMw)} of them ({whole(c.mw)} MW in all), {whole(c.texasWithMw)} in Texas{c.texasWithMw ? <> ({whole(c.texasMw)} MW)</> : null}.
               By where each came from: {Object.entries(c.byKind).sort((a, b) => b[1] - a[1]).map(([k, n], i, a) => <span key={k}>{whole(n)} from {KIND[k] ?? k}{i < a.length - 1 ? ", " : ""}</span>)}.
             </p>
             <ToolTable caption="The Texas sites held" minWidth={640} words head={["Site in Texas", "Operator", "Status", "MW stated", "From"]}

@@ -10,6 +10,7 @@ export type Facility = {
   state: string;
   county: string;
   city: string;
+  country: string; // session 166: "US" when a US state is stated, else "" (no source records a country)
   mw: number | null;
   phase: string;
   status: string;
@@ -29,6 +30,9 @@ export type Facility = {
 };
 
 const KIND_LABEL: Record<string, string> = { news: "news", operator: "operator list", queue: "ISO queue" };
+// session 166: a row whose story or operator page states no US state: no source the ERW reads records a country
+const NO_COUNTRY = "country not stated";
+const NO_COUNTRY_WHY = "No source the ERW reads states a country. This row may be outside the US, or a US site whose story or operator page names no state. It is left out of the totals and the bars.";
 
 const uniq = (xs: string[]) => Array.from(new Set(xs.filter(Boolean))).sort();
 const label = (s: string) => s.replace("_", " ");
@@ -55,19 +59,23 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
   const [operator, setOperator] = useState("");
   const [minMw, setMinMw] = useState("");
   const [kind, setKind] = useState("");
+  const [country, setCountry] = useState("");
+  const countryKey = (f: Facility) => f.country || NO_COUNTRY;
   const shown = useMemo(
     () =>
       rows
         .filter((f) => (!state || f.state === state) && (!status || f.status === status) && (!operator || f.operator === operator))
         .filter((f) => !kind || f.kinds.includes(kind))
+        .filter((f) => !country || countryKey(f) === country)
         .filter((f) => !minMw || (f.mw !== null && f.mw >= Number(minMw)))
         .sort((a, b) => b.firstStory.localeCompare(a.firstStory) || a.operator.localeCompare(b.operator) || a.site.localeCompare(b.site)),
-    [rows, state, status, operator, minMw, kind],
+    [rows, state, status, operator, minMw, kind, country],
   );
   const blank = <span className="text-muted">not stated</span>;
   return (
     <section aria-label="Facilities">
       <div className="mb-2 flex flex-wrap items-end gap-3">
+        <Select name="Country" value={country} set={setCountry} options={uniq(rows.map(countryKey))} />
         <Select name="State" value={state} set={setState} options={uniq(rows.map((f) => f.state))} />
         <Select name="Status" value={status} set={setStatus} options={uniq(rows.map((f) => f.status))} />
         <Select name="Operator" value={operator} set={setOperator} options={uniq(rows.map((f) => f.operator))} />
@@ -114,6 +122,7 @@ export function DatacentersTable({ rows }: { rows: Facility[] }) {
                 </td>
                 <td className="py-1 pr-3">
                   {[f.city, f.county, f.state].filter(Boolean).join(", ") || blank}
+                  {f.country ? null : <div className="text-xs text-muted" title={NO_COUNTRY_WHY} data-no-country="1">{NO_COUNTRY}</div>}
                   {f.placed ? <div className="text-xs text-muted">on the map</div> : null}
                 </td>
                 <td className="py-1 pr-3 text-right tabular-nums">

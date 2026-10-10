@@ -73,7 +73,8 @@ try {
   check(first.view === "live", "it opens on the live week");
   await shot("network-open");
   const buttons = await ev(`[...document.querySelectorAll('[role="group"][aria-label="Watch"] button')].map((b) => b.textContent.trim())`);
-  check(buttons.join("|") === "Live now|California's evening|Texas during Uri|The June 2025 heat", "four Watch buttons, real buttons", buttons.join(", "));
+  // session 168: version 3 is the network page; its "Play the year" stands in the same group, after the four Watch buttons
+  check(buttons.join("|") === "Live now|California's evening|Texas during Uri|The June 2025 heat|Play the year", "four Watch buttons, real buttons, and version 3's Play the year", buttons.join(", "));
   check(await ev(`!!document.querySelector('button[role="switch"][aria-checked="false"]')`), "the Batteries switch is a real switch, off by default");
   const click = (label) => ev(`[...document.querySelectorAll('[role="group"][aria-label="Watch"] button')].find((b) => b.textContent.trim().startsWith(${JSON.stringify(label)})).click()`);
   const state = () => ev(`({ view: document.querySelector("[data-network-view]")?.getAttribute("data-network-view"), text: document.querySelector("[data-network-view]")?.textContent ?? "",

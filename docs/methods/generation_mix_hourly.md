@@ -236,3 +236,24 @@ License: public.
 ## The refresh
 
 `warehouse/refresh_mix.sh`: the daily pulls (CAISO's last days of forecast and actual, ERCOT's week of postings, the NRC's last 365 days), the validator and the builders, each under `warehouse/health.py`. Written, not scheduled. The two histories (CAISO's supply to May 2025, the retired generators) are not pulled again: one is closed, the other changes monthly with EIA's inventory and is read with it.
+
+## "Select grids" on every view (session 168, 9 October 2026)
+
+The owner's instruction of 8 October 2026: the control stands on every view; a view that can use the choice uses it; a
+view that cannot shows it greyed, with a hover that says why. What each view does (`site/lib/mixpage.ts`, `gridUse`):
+
+- **The seven views that always had it** (the average day, year after year, records, how clean, how hard, availability
+  by source): as before. They compare the grids chosen side by side, four at most, ERCOT alone as they open.
+- **Now and by state** and **Wind and solar forecasts**: they open with every grid, as they did, and every chip is on.
+  A click on a grid shows that grid alone; then a click adds or takes off a grid, and a click on the only grid left
+  shows every grid again. Now and by state draws each grid chosen (its "today so far" and its last seven days, EIA-930),
+  and its operator list gives way to the choice until every grid is on again; the state's monthly mix is by state and
+  stays as it is. The forecasts draw the forecast of each grid chosen that has one, and list the grids chosen that
+  have none.
+- **Since 2001**: it cannot use a grid. EIA's record since 2001 is kept by state, and a grid's area does not follow
+  state lines, so the control is greyed and its hover reads "This view is by state: EIA's record since 2001 is not kept
+  by grid." The states are chosen with "Select states", as before.
+
+The grids chosen go in the address (`grids=`) and are carried from view to view; nothing chosen writes nothing, so
+every opening address is as it was. With every grid on, each of the three views shows exactly what it showed before
+(compared as text before and after, 9 October 2026: only the control's row was added).

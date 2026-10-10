@@ -143,3 +143,174 @@ The Batteries switch draws one thin ring around a grid whose batteries are repor
 - The demand of the BAs outside the seven ISOs.
 - Hourly interchange before 2026-09-13, except the two stories' windows (daily interchange is held from 2019).
 - Flows by transmission line: EIA-930 reports BA-to-BA totals only.
+
+## What stood on the page face until session 168
+
+Session 168 (the owner's instruction of 8 October 2026): version 3 became the network page at `/network`, and
+`/network/v3` redirects to it. The page that stood at `/network` is kept, unrouted, in
+`site/app/_retired/network-original`. Method, limits and "what this is not" text no longer stands on the page face:
+the eight blocks below were moved here whole, each under a heading that says where it stood. The page keeps the line
+"Newest hour ... Demand of the seven ISOs" (carried over from the old page) and one source line at the bottom.
+
+Where a block held a figure the page computed at the moment it was read, the figure below is the one the page showed
+on 9 October 2026 at 06:37 UTC (the last build before the move; the live week refreshed 2026-10-09 06:05 UTC, the
+twelve months 2025-10 to 2026-09). Those figures are a dated copy, not a live read. The live ones are in the panel of
+the page (a grid's twelve months, the three measures' range), in the line under the network (the newest hours) and in
+the tables named in the source line. The method of the replay, the prices, the trace and MISO's pause is written at
+length in [`grid_network_v3.md`](grid_network_v3.md).
+
+### From the old page (`/network` until session 168), fold "Who supplies each ISO grid: three measures"
+
+A grid's net imports can be measured three ways from EIA-930: the sum of the ties it reports with each neighbour;
+EIA's own total interchange for it; and its demand less its net generation. They should agree. Over the last twelve
+months, as a share of demand, on each measure's own months:
+
+| Grid | Sum of its ties | EIA's total interchange | Demand less net generation | Largest supplier | Days held / left out |
+|---|---|---|---|---|---|
+| CAISO | 16.84 percent | 16.83 percent | 28.11 percent | NEVP, 4.03 percent | 311 / 54 |
+| ERCOT | 0.08 percent | 0.07 percent | 0.08 percent | SWPP, 0.11 percent | 311 / 54 |
+| ISO-NE | 4.67 percent | 5.36 percent | 4.67 percent | NYIS, 4.47 percent | 317 / 48 |
+| MISO | 2.66 percent | 2.52 percent | 0.31 percent | PJM, 3.37 percent | 311 / 54 |
+| NYISO | 11.69 percent | 11.62 percent | 11.68 percent | PJM, 14.44 percent | 313 / 52 |
+| PJM | -2.66 percent | -1.24 percent | -3.11 percent | TVA, 0.84 percent | 222 / 143 |
+| SPP | -1.70 percent | -1.23 percent | -1.24 percent | SPC, 0.04 percent | 204 / 161 |
+
+(The table as the page showed it on 9 October 2026, from `ba_supply_monthly`, 2025-10 to 2026-09. The page computed
+it with `site/lib/basupply.ts`; the panel of the page still shows each grid's own row when the grid is picked.)
+
+- **The headline is the sum of the ties** (the sum of its reported ties). It is complete on every day it counts, it
+  equals EIA's total interchange on the same days for CAISO, ERCOT, ISO-NE, MISO and NYISO, and the neighbours'
+  shares add up to it. Where the three measures differ by more than 1 point of demand, the panel shows the range.
+- **CAISO.** Its ties and EIA's total interchange agree to the MWh on every day; demand less net generation reads
+  about ten points higher. The gap opens in December 2025: through 2024 and most of 2025, CAISO's demand less net
+  generation less its interchange was within about 2 percent of demand; from January 2026 it runs at 70 to 93 GWh a
+  day, 10 to 15 percent of demand. The interchange did not change: CAISO's published net generation fell. Why EIA's
+  figure fell is not in the data the warehouse holds. Until it is explained, the balance overstates California's
+  imports.
+- **PJM**: the three disagree by about two points. **SPP**: its ties read about half a point below the other two.
+  Both leave out many days (a regular neighbour missing or a pair-day screened).
+- **MISO**: demand less net generation reads one to three points below its interchange on the same days, in every
+  year since 2019.
+
+Held days: every regular neighbour reported and no pair-day screened out (further than 10 median absolute
+deviations, at least 500 MWh, from the pair's own median: EIA's daily interchange holds days no tie can carry).
+Demand and net generation are held for the seven ISO grids only. EIA's Eastern day. Method: this note, "Who supplies
+a grid (session 68)" above.
+
+### From the old page, fold "What this is, and what it is not"
+
+- **Physical flows between balancing authorities**, as each reports them to EIA. Not contracts: who buys power from
+  whom can differ from the path it takes.
+- **EIA revises its data.** A day reported late or corrected changes these figures when the warehouse next pulls it.
+- **A neighbour's power may itself be imported.** A grid's supplier is the tie it arrives over, not where it was
+  generated.
+- **Each pair is counted once** on the network: its flow is read from the BA whose code sorts first, as that BA
+  reported it (positive = it exported to the other); in an hour it did not report, from the other BA's report with
+  the sign flipped.
+- A balancing authority keeps supply and demand matched in its own area and trades across the ties with its
+  neighbours. EIA: the power system of the Lower 48 "is made up of three main interconnections, which operate
+  largely independently from each other with limited transfers of power between them", and ERCOT is the one where
+  "the balancing authority, interconnection, and the regional transmission organization are all the same entity and
+  physical system" ([EIA, Today in Energy](https://www.eia.gov/todayinenergy/detail.php?id=27152)). That is why
+  ERCOT hangs on 2 thin ties while the eastern grids form one dense mesh.
+- Sphere size: demand for the 7 ISO balancing authorities the warehouse holds demand for, interchange volume over
+  the week for the others. Color: carbon intensity of generation, green to cardinal, grey where not held. Positions
+  are computed once, with a fixed seed, and never re-settle.
+
+### From the old page, fold "How fresh each layer is"
+
+- The flows of the live week: refreshed every hour; newest hour 2026-10-07 03:00 UTC (Oct 6, 23:00 Eastern) when the
+  page was read on 9 October 2026. EIA's interchange between pairs has run more than a day behind its demand.
+- Demand of the seven ISOs: newest hour 2026-10-09 04:00 UTC (Oct 9, 00:00 Eastern) when the page was read; EIA
+  publishes it one to two hours after the hour.
+- Carbon intensity, the sphere color: daily.
+- Batteries of the live week: EIA-930 for ERCOT, ISO-NE, MISO and SPP; CAISO's own data for CAISO; refreshed daily.
+  NYISO and PJM report no battery series.
+- Who supplies a grid, the last twelve months: EIA-930's daily interchange, refreshed with the warehouse; 2025-10 to
+  2026-09 when the page was read.
+- The two stories: fixed windows, pulled once (Uri: 2021-02-07 to 2021-02-24; the June 2025 heat: 2025-06-20 to
+  2025-06-28).
+
+The two newest hours are still on the page, live, in the line "Newest hour ... Demand of the seven ISOs".
+
+### From the old page, the California data-break note (above its source line)
+
+California's carbon intensity of generation is EIA's CO2 over EIA's generation before 16 December 2025 and over
+CAISO's own generation from that date, joined there and not blended: [the method note](eia930_caiso_break.md).
+
+(The date is written in one place, `site/lib/caisoJoin.ts`; the note is the component
+`site/components/CaisoBreakNote.tsx`, which other pages still show.)
+
+### From the old page, its source line
+
+The old page's source line also named `eia930_daily_total_interchange` (the table behind the second of the three
+measures above) and read "Built 2026-10-09 06:05 UTC, onto the daily build of 2026-10-09 05:05 UTC. Public domain
+(EIA) and CAISO." on the day it was read. The page's source line is version 3's; the hour of the hourly refresh is in
+the line under the network ("refreshed ...").
+
+### From version 3's page (`/network/v3` until session 168), fold "The replay: what a day is"
+
+- **A day is EIA's Eastern day**, from its daily interchange of every pair of balancing authorities, 2019 to
+  2026-10-06 (the replay's last day when the page was read). A flow is the day's MWh over the day's hours: its
+  average MW, so a day draws on the scale an hour draws on.
+- **Each pair is counted once**, by the network's own rule: read from the balancing authority whose code sorts
+  first, as it reported it; on a day it did not report, from the other's report with the sign flipped. A day neither
+  reported is left blank.
+- **704 pair-days are left out as days no tie can carry**: further than 10 median absolute deviations, and at least
+  500 MWh, from the pair's own median. It is the rule of the monthly supply table; one such day would set the scale
+  of a whole year.
+- **A share of demand, by day:** each supplier's flow over the grid's demand that day, both as the day's average MW.
+  Demand is EIA's daily figure, its own sum of the hours it holds; a day whose demand is not above zero, or outside
+  half to twice the median of the six days around it, is not used and shows no share.
+- **A day the record confirms is kept.** The rule above would leave out 2,740 pair-days in all. 1,918 of them are
+  kept because both balancing authorities reported the day and their figures agree within 5 percent: two operators,
+  one flow. 0 more are kept where only one side reports and EIA's hourly record shows no hour above what the same
+  tie carried on other days. Among them are the days of Winter Storm Uri on which MISO sent the most to SPP, and the
+  three days on which Texas's ties with Mexico ran at their highest level hour after hour.
+- **A day with few pairs or none says so.** Where EIA's file is blank for a day (47 days in all, most of them in
+  late 2025), the page says how many pairs the day holds and draws nothing in their place.
+- **Not held by day:** the batteries.
+- **Not drawn:** AEC, CFE, EEI, GLHB, GRIF, HGMA, NSB, SPC, WACM, which reported in those years and have no place in
+  today's network.
+
+(The counts are those of `site/public/network/daily_index.json` as built 2026-10-08 15:11 UTC: `pair_days_screened`
+summed over the years, `pair_days_rule`, `pair_days_confirmed_both_sides`, `pair_days_confirmed_by_hours`,
+`thin_days` and `left_out_bas`. The file holds the current ones.)
+
+### From version 3's page, fold "Prices, and what the ring does not say"
+
+- **The outer ring's weight follows the real-time price at the grid's main hub.** It is drawn only where a public
+  price is held for the moment shown: in the replay, for CISO, ERCO, ISNE, MISO, NYIS, SWPP, and for most of them
+  only from September 2024; ERCOT from 2019.
+- **PJM has no ring:** its prices are licensed and not shown.
+- **MISO has no ring: it is paused.** MISO's own files are paused since 4 October 2026 while a person reviews its
+  terms. Its flows, demand and carbon here are EIA's, which are not paused. So this page shows no figure of MISO's
+  price, in the live week, the stories or the replay. (Since session 168 the panel reads "paused while terms are
+  reviewed" where MISO's price would stand, and the first two sentences of this bullet are its hover.)
+- **A hub is not a site:** the price at one hub is not what power cost at every point of the grid.
+- **The weight is relative to the highest price of the period shown**, by its square root, so that one scarcity
+  hour does not turn every other ring into a hair. The panel gives the number.
+
+### From version 3's page, fold "Trace the power: what it is, and what it is not"
+
+- **Two steps.** For the grid selected, over the period shown: the neighbours that supplied it on net, largest
+  first, with each one's share of that inflow; and for each of those, the neighbours that supplied it over the same
+  period.
+- **Physical flows, not contracts.** Who buys power from whom can differ from the path it takes.
+- **Not where the power was generated.** A supplier generates most of what it sends; its own inflows are listed
+  beside it, and nothing says their power is the power passed on.
+- **Net, over the period.** A tie that carried power both ways counts by its balance; a neighbour that took power on
+  net is not a supplier.
+- **The period.** In the live week and the stories, the whole view. In the replay: the day shown, its month (as it
+  opens) or the year; the panel says which, and how many of its days hold a flow for the grid.
+- **Each tie is read once, by the network's rule** (the balancing authority whose code sorts first, as it reported
+  it). The two sides of a tie do not always agree, so a figure here can differ from the same tie as the grid itself
+  reported it, which is what the panel's twelve months use.
+- **Nothing is traced through Mexico.** Its operator is one name in EIA's file, but its tie to California and its
+  ties to Texas belong to systems that do not connect inside Mexico.
+
+### From version 3's page, the line under its folds
+
+"The three measures of each grid's imports, what the network is and is not, and how fresh each layer is: on the
+network page." It pointed at `/network`, the old page. Since the two pages are one, the line is off the page: the
+three things it named are the first three blocks of this section.

@@ -120,12 +120,13 @@ class ThePage(unittest.TestCase):
         self.assertNotIn("intensity: (id, h) => f.intensity[id]?.[h] ?? null, demand: () => null", comp)
         self.assertIn("isDayView && demandNow && Math.round(t.imp) !== 0", comp)       # a share only in the replay's day view: the live page is as it was
         self.assertIn("data-tie-share={t.other}", comp)
-        page = src("site", "app", "network", "v3", "page.tsx")
-        self.assertIn("A share of demand, by day:", page)
+        # session 168: version 3 is the network page (app/network/page.tsx); its fold on the replay is in the Method note
+        page = src("site", "app", "network", "page.tsx")
+        self.assertIn("A share of demand, by day:", src("docs", "methods", "grid_network.md"))
         self.assertNotIn("demand, so a share of demand is not given for a replayed day", page)
         self.assertIn('"eia930_daily_demand"', page)
-        live = src("site", "app", "network", "page.tsx")
-        self.assertNotIn("v3=", live)                                                   # the live page passes no version 3: no replay, no day view
+        live = src("site", "app", "_retired", "network-original", "page.tsx")
+        self.assertNotIn("v3=", live)                                                   # the page that stood at /network passed no version 3: no replay, no day view
         self.assertRegex(src("site", "lib", "release.ts"), r'"/network/v3":\s*"review"')
 
     def test_no_em_dash(self):

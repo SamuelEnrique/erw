@@ -324,7 +324,9 @@ class ThePageAndTheHolds(unittest.TestCase):
     def test_the_page_stays_in_review_and_the_live_battery_page_is_not_this_sessions(self):
         rel = src("site", "lib", "release.ts")
         self.assertIn('"/cost-of-power/battery/awards": "review"', rel)
-        self.assertIn('"/cost-of-power/battery": "live"', rel)
+        # session 166 (the owner's instruction of 8 October 2026): the battery page is in review too; no page is live
+        self.assertIn('"/cost-of-power/battery": "review"', rel)
+        self.assertEqual(re.findall(r'"(/[^"]*)":\s*"live"', rel), [])
         page = src("site", "app", "cost-of-power", "battery", "awards", "RealTime.tsx")
         self.assertIn("data-rt-not", page)
         self.assertLess(page.index("data-rt-not"), page.index("data-rt-table"), "what it leaves out is stated first")

@@ -17,7 +17,7 @@
 // phone's own figure. Exit 1 on a failure; "not proven" (exit 0) without a browser.
 import fs from "node:fs";
 import { withBrowser } from "./browser.mjs";
-import { PAUSED_PRICE, completeHour } from "../lib/networkV3.ts";
+import { PAUSED_PRICE, PAUSED_WORDS, completeHour } from "../lib/networkV3.ts";
 
 const base = (process.argv[2] ?? "http://localhost:3049").replace(/\/$/, "");
 const outFile = process.argv[3] ?? null;
@@ -42,12 +42,12 @@ const stats = (t) => { const s = [...t].sort((a, b) => a - b); const q = (p) => 
 const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, errors, send }) => {
   await unlock(base);
   const t0 = Date.now();
-  await go(`${base}/network/v3`);
+  await go(`${base}/network`);
   await wait(`document.querySelector('[data-network-view]')?.getAttribute('data-restored') === '1' && !!document.querySelector('[aria-label^="A 3D network"]')?.__erwGraph`, 30000, "the network");
   out.load.to_network_ms = Date.now() - t0;
 
   // 1. the newest complete hour
-  const snap = await evaluate(`fetch('/network/v3', { headers: { RSC: '0' } }).then(() => null)`).catch(() => null);
+  const snap = await evaluate(`fetch('/network', { headers: { RSC: '0' } }).then(() => null)`).catch(() => null);
   void snap;
   const said = await evaluate(`({ line: document.querySelector('[data-newest-complete]')?.getAttribute('data-newest-complete') ?? null, opens: document.querySelector('[data-complete-hour]')?.getAttribute('data-complete-hour') ?? null,
     t: document.querySelector('[data-network-view]').getAttribute('data-t'), text: document.querySelector('[data-newest-complete]')?.innerText ?? '', silent: document.querySelector('[data-silent-pairs]')?.innerText ?? '' })`);
@@ -129,13 +129,14 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   await evaluate(click(button("Pause")));
   await evaluate(pick("MISO"));
   await wait(`document.querySelector('[data-panel]')?.getAttribute('data-panel') === 'MISO'`);
-  const miso = await evaluate(`({ paused: document.querySelector('[data-price-paused]')?.innerText ?? null, panel: document.querySelector('[data-panel]').innerText })`);
-  check(miso.paused === PAUSED_PRICE.MISO && !/Hub price this hour\s+[\d,.]+ USD\/MWh/.test(miso.panel), `MISO's panel shows no price and says why: "${(miso.paused ?? "").slice(0, 70)}..."`);
-  check(await evaluate(`document.body.textContent.includes('MISO has no ring: it is paused.')`), "the page's fold says MISO is paused, in words");
+  // session 168: the panel reads the site's fixed words, greyed, and the reason is its hover; the fold that said so is in the Method note
+  const miso = await evaluate(`({ paused: document.querySelector('[data-price-paused]')?.innerText ?? null, why: document.querySelector('[data-price-paused]')?.getAttribute('title') ?? null, panel: document.querySelector('[data-panel]').innerText })`);
+  check(miso.paused === PAUSED_WORDS && miso.why === PAUSED_PRICE.MISO && !/Hub price this hour\s+[\d,.]+ USD\/MWh/.test(miso.panel), `MISO's panel shows no price, reads "${miso.paused}" and says why on hover: "${(miso.why ?? "").slice(0, 70)}..."`);
+  check(fs.readFileSync(new URL("../../docs/methods/grid_network.md", import.meta.url), "utf-8").includes("MISO has no ring: it is paused."), "the Method note says MISO is paused, in words");
 
   // 4a. a phone's width
   await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
-  await go(`${base}/network/v3?grid=CISO`);
+  await go(`${base}/network?grid=CISO`);
   await wait(`document.querySelector('[data-network-view]')?.getAttribute('data-restored') === '1' && !!document.querySelector('[data-panel]')`, 30000, "the page at a phone's width");
   await sleep(2500);
   const phone = await evaluate(`(() => { const c = document.querySelector('[aria-label^="A 3D network"]').getBoundingClientRect(), p = document.querySelector('[data-panel]').getBoundingClientRect(), d = document.querySelector('#replay-day').getBoundingClientRect();

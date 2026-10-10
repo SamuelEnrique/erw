@@ -258,7 +258,9 @@ class ThePage(unittest.TestCase):
             self.assertIn(part, page, part)
         rel = src("site", "lib", "release.ts")
         self.assertRegex(rel, r'"/cost-of-power/seller":\s*"review"')
-        self.assertRegex(rel, r'"/cost-of-power/battery":\s*"live"')
+        # session 166 (the owner's instruction of 8 October 2026): the battery page is in review too; no page is live
+        self.assertRegex(rel, r'"/cost-of-power/battery":\s*"review"')
+        self.assertEqual(re.findall(r'"(/[^"]*)":\s*"live"', rel), [])
 
     def test_the_profile_box_has_no_way_to_send_or_store(self):
         box = src("site", "app", "cost-of-power", "seller", "SellerProfile.tsx")

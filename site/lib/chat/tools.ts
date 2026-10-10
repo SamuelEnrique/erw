@@ -13,6 +13,7 @@ import { DOCS, type GridConfig } from "@/lib/markdown";
 import { LIFE_MS, keep, within, type Summary } from "./summaries";
 import { hourlyRefusal } from "./rollup";
 import { HOUR_OF_DAY, NEWEST, THIS_WEEK, NEWEST_READ, NEWEST_READ_DATED, dateColumns, dateLabel, hourFamily, newestWholeDay, stepsPerHour } from "./forms";
+import { addLocalTimes, zoneOfEntity } from "./plaintime";
 
 // Session 35: a scoped chat (/ask?grid=<slug>): one grid's tables (docs/grids/grids.json) and its rows only, as
 // warehouse/chat/tools.py set_scope does. null: the whole live set.
@@ -712,6 +713,10 @@ async function query(a: QueryArgs, scope: Scope = null): Promise<Json> {
       out.note = `no row of ${a.table} has a ${tcol}, so group_by ${g} finds no group. To group by another date of the table give date_column${dateColumns(columns).filter((x) => x !== tcol).length ? ` (its date columns: ${dateColumns(columns).filter((x) => x !== tcol).join(", ")})` : ""}`;
     }
   }
+  // session 168: each time the result gives, with the same moment in the grid's own local words beside it ("at_local":
+  // "4 pm Central, 3 October 2026"; a day's label as a date), so an answer can say the time in words that are in a tool
+  // result (lib/chat/plaintime.ts). The zone is the query's own, else the grid of the entity read; none, no words
+  if (shape === "series") addLocalTimes(out, dated, tz !== "UTC" ? tz : zoneOfEntity(a.entity ?? all.find((r) => r.entity)?.entity));
   Object.assign(out, await provenance(a.table));
   return out;
 }

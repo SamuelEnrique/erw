@@ -33,7 +33,10 @@ as ai_power marks that subset among the deals.
 Deduplication by site: each call carries a reference list of the facilities already
 extracted (id, operator, developer, site, place, MW); the model marks a facility that is one
 of them (same_as), and that story's links are added to it, with any field the facility
-still lacks filled from the new story.
+still lacks filled from the new story. Session 166: a same_as is accepted only when the two
+name the same operator or developer, the same site, or the same county or city in the same
+state (same_site); a state alone joins nothing. A facility the rule would have kept apart
+before session 166 stays joined in the table until --reextract (a model run) rebuilds it.
 
 Location for the map: a facility with a stated state and county is placed at the county's
 internal point (Census county gazetteer, geo_precision county); with a state and city only,
@@ -233,6 +236,32 @@ def facility_id(first_story, n):
     return "datacenter:" + hashlib.sha1(f"{first_story}#{n}".encode()).hexdigest()[:16]
 
 
+def _same_name(a, b):
+    """Two names as one company or site: equal after ep.plain, or one the other's whole words ("Meta" in "Meta Platforms")."""
+    a, b = ep.plain(a or ""), ep.plain(b or "")
+    if not a or not b:
+        return False
+    return a == b or bool(re.search(r"\b" + re.escape(a) + r"\b", b)) or bool(re.search(r"\b" + re.escape(b) + r"\b", a))
+
+
+def same_site(row, vals):
+    """Session 166: the merge rule. A model's same_as is accepted only when the two facilities name the same site in
+    their own stated words: the same operator or developer (either side's operator or developer), the same site name,
+    or the same county or city in the same state. A state alone joins nothing, and nothing at all joins nothing: the
+    2025 story of a USD 2B Utah datacenter (no operator, no county) was joined to the 2026 Valar Atomics 9.4 GW story on
+    the word "Utah" alone, and took its 9,400 MW. row is a facility already held; vals the new facility's checked fields."""
+    mine = [x for x in (row.get("operator"), row.get("developer")) if x]
+    theirs = [x for x in (vals.get("operator"), vals.get("developer")) if x]
+    if any(_same_name(a, b) for a in mine for b in theirs):
+        return True
+    if _same_name(row.get("site_name"), vals.get("site_name")):
+        return True
+    if row.get("state") and vals.get("state") and row["state"] == vals["state"]:
+        place = lambda s: re.sub(r"\b(county|parish|city of)\b", "", ep.plain(s)).strip()  # noqa: E731
+        return any(row.get(f) and vals.get(f) and place(row[f]) == place(vals[f]) for f in ("county", "city"))
+    return False
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW datacenter facility extraction")
     ap.add_argument("--max-calls", type=int, default=30)
@@ -346,6 +375,14 @@ def main(argv=None):
                     src_story = d.get("story_id") if d.get("story_id") in story_ids else story_ids[0]
                     same = d.get("same_as")
                     target = same if same in by_id else keys.get(same) if same else None
+                    if target and not same_site(by_id[target], vals):
+                        # session 166: the model's same_as is refused where the two share no operator, developer, site
+                        # name, county or city; the facility is kept on its own, and the log says so
+                        dropped.append(f"{cid}: same_as {target} refused (no operator, developer, site, county or city "
+                                       f"in common with {by_id[target].get('operator') or by_id[target].get('developer') or '-'}"
+                                       f", {by_id[target].get('city') or by_id[target].get('county') or '-'}, "
+                                       f"{by_id[target].get('state') or '-'}); kept as its own facility")
+                        target = None
                     here = news_by_id.loc[story_ids].sort_values("event_date")
                     if target:
                         row = by_id[target]

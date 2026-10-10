@@ -76,7 +76,14 @@ class TheQuestions(unittest.TestCase):
         # and that file's build stamp are left out of the comparison
         bare = lambda q: {k: v for k, v in q.items() if k != "table_read" and not (q.get("id") == "p14" and k == "expect")}
         self.assertEqual([bare(q) for q in new["questions"]], [bare(q) for q in old["questions"]])
-        self.assertEqual({k: v for k, v in new["built_from"].items() if k not in ("tables_read", "texas")}, {k: v for k, v in old["built_from"].items() if k not in ("tables_read", "texas")})
+        # session 166: the datacenter index (site/data/datacenter/index.json) is a file the daily run rebuilds too (Saturdays,
+        # and whenever the page's files are refreshed, as session 166 did on 9 October 2026); its stamp is left out of the
+        # comparison as Texas's is, and each of the two files on disk is a build no older than the one the questions were made from
+        rebuilt = ("texas", "datacenter")
+        self.assertEqual({k: v for k, v in new["built_from"].items() if k not in ("tables_read", *rebuilt)}, {k: v for k, v in old["built_from"].items() if k not in ("tables_read", *rebuilt)})
+        for k in rebuilt:
+            self.assertRegex(new["built_from"][k], r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", k)
+            self.assertGreaterEqual(new["built_from"][k], old["built_from"][k], k)
         # the two questions answered from a table hold a number whether or not the table is on this machine
         for qid in ("p04", "p11"):
             self.assertEqual(len(kept[qid]["expect"]), 1, qid)

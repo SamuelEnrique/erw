@@ -66,10 +66,12 @@ class Release(unittest.TestCase):
     def test_the_page_is_in_review(self):
         release = src("site", "lib", "release.ts")
         self.assertRegex(release, r'"/cost-of-power/battery/awards": "review"')
-        self.assertRegex(release, r'"/cost-of-power/battery": "live"')
+        # session 166 (the owner's instruction of 8 October 2026): the battery page is in review too; no page is live
+        self.assertRegex(release, r'"/cost-of-power/battery": "review"')
+        self.assertEqual(re.findall(r'"(/[^"]*)":\s*"live"', release), [])
         got = node("const r = await import('./lib/release.ts'); console.log(JSON.stringify({a: r.statusOf('/cost-of-power/battery/awards'), "
                    "b: r.statusOf('/cost-of-power/battery'), m: r.statusOf('/data/methods/ercot_storage_dam_awards')}));")
-        self.assertEqual(got, {"a": "review", "b": "live", "m": "review"})
+        self.assertEqual(got, {"a": "review", "b": "review", "m": "review"})
 
     def test_the_route_check_asks_for_it(self):
         self.assertIn('"/cost-of-power/battery/awards"', src("site", "scripts", "check-routes.mjs"))

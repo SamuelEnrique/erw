@@ -293,22 +293,32 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertIn("{v3 && view.key === \"live\" && v3.complete ? (", s)
         self.assertIn("{v3 && PAUSED_PRICE[pick.id] ? ", s)
         self.assertIn("const thin = isDayView && view.pairsHeld", s)    # the replay is v3's alone
-        live = src("site", "app", "network", "page.tsx")
+        # session 168: version 3 is the network page; the page that passed no version 3 is kept in app/_retired/network-original
+        live = src("site", "app", "_retired", "network-original", "page.tsx")
         self.assertNotIn("v3=", live)
         self.assertNotIn("completeHour", live)
         rel = src("site", "lib", "release.ts")
-        self.assertIn('"/network": "live"', rel)
-        self.assertIn('"/network/v3": "review"', rel)
+        # session 166 (the owner's instruction of 8 October 2026): the network page is in review; no page is live
+        self.assertIn('"/network": "review"', rel)
+        self.assertIn('"/network/v3": "review"', rel)   # its line stays: an address typed by hand never reads as a page with no status
+        self.assertEqual(re.findall(r'"(/[^"]*)":\s*"live"', rel), [])
+        self.assertIn('{ source: "/network/v3", destination: "/network", permanent: true }', src("site", "next.config.ts"))
 
     def test_the_new_page_says_which_hour_and_that_miso_is_paused(self):
-        page = src("site", "app", "network", "v3", "page.tsx")
-        for words in ("Newest hour complete for every reporting pair", "data-silent-pairs", "MISO has no ring: it is paused.", "A day the record confirms is kept.",
-                      "Nothing is traced through Mexico.", "A day with few pairs or none says so.", "v3={{ index, complete }}"):
+        # session 168: the page stands at /network; its folded sections are in the Method note, off the page face, and
+        # MISO's panel reads the site's fixed words with the reason on hover
+        page = src("site", "app", "network", "page.tsx")
+        for words in ("Newest hour complete for every reporting pair", "data-silent-pairs", "v3={{ index, complete }}"):
             self.assertIn(words, page)
+        note = src("docs", "methods", "grid_network.md")
+        for words in ("MISO has no ring: it is paused.", "A day the record confirms is kept.", "Nothing is traced through Mexico.", "A day with few pairs or none says so."):
+            self.assertIn(words, note)
+            self.assertNotIn(words, page)
+        self.assertIn('export const PAUSED_WORDS = "paused while terms are reviewed";', src("site", "lib", "networkV3.ts"))
         self.assertIn("miso", src("warehouse", "metadata", "paused_sources.csv").lower())
 
     def test_no_em_dash_in_what_the_session_wrote(self):
-        for parts in (("site", "lib", "networkV3.ts"), ("site", "app", "network", "Network.tsx"), ("site", "app", "network", "v3", "page.tsx"), ("warehouse", "derived", "network_daily.py"),
+        for parts in (("site", "lib", "networkV3.ts"), ("site", "app", "network", "Network.tsx"), ("site", "app", "network", "page.tsx"), ("warehouse", "derived", "network_daily.py"),
                       ("docs", "methods", "grid_network_v3.md"), ("tests", "test_session124.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts[-1])
 

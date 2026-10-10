@@ -439,10 +439,37 @@ def canon(r, shape):
     return k, body
 
 
-def existing_rows(client, shape, name):
-    """Every row Supabase holds for one ERW table, paged in key order."""
+def db_reader():
+    """Session 166: a direct Postgres connection (SUPABASE_DB_URL, the one the vacuum uses) for the three reads that
+    touch a whole table: what Supabase holds for one table, its newest retrieved_at, and its count. Through the API
+    every statement runs under the authenticator role's 8-second statement_timeout, and the paged read of a large
+    table (ercot_as_prices, 336,692 rows: 337 pages, each an ORDER BY with a growing OFFSET) or the unindexed sort for
+    the newest retrieved_at crossed it on the runner: the load failed on 5, 6, 7 and 8 October 2026 with the API's
+    "canceling statement due to statement timeout" and "JSON could not be generated". Returns None without the URL or
+    when the connection fails (the API path then runs as before, and says so)."""
+    url = db_url()
+    if url is None:
+        print("no SUPABASE_DB_URL: the whole-table reads go through the API (8-second statement timeout)")
+        return None
+    try:
+        import psycopg
+        from psycopg.rows import dict_row
+        conn = psycopg.connect(url, autocommit=True, connect_timeout=30, row_factory=dict_row)
+        conn.execute("set statement_timeout = '600s'")
+        return conn
+    except Exception as exc:
+        print(f"the direct connection could not be opened ({type(exc).__name__}: {str(exc)[:150]}); "
+              "the whole-table reads go through the API")
+        return None
+
+
+def existing_rows(client, shape, name, conn=None):
+    """Every row Supabase holds for one ERW table: one SELECT through the direct connection (session 166), else paged
+    in key order through the API."""
     cols, key = SHAPES[shape]
     fields = ",".join(["table_name"] + cols + ["license"] + (["extra"] if shape != "series" else SERIES_PARTITION))
+    if conn is not None:
+        return list(conn.execute(f"select {fields} from {shape} where table_name = %s", (name,)))
     rows, start = [], 0
     while True:
         q = client.table(shape).select(fields).eq("table_name", name)
@@ -455,7 +482,14 @@ def existing_rows(client, shape, name):
         start += BATCH
 
 
-def older_than_live(client, name, df, shape):
+def live_count(client, shape, name, conn=None):
+    """How many rows Supabase holds for one ERW table (session 166: through the direct connection where it is open)."""
+    if conn is not None:
+        return conn.execute(f"select count(*) as n from {shape} where table_name = %s", (name,)).fetchone()["n"]
+    return client.table(shape).select("table_name", count="exact", head=True).eq("table_name", name).execute().count or 0
+
+
+def older_than_live(client, name, df, shape, conn=None):
     """Session 60: a reason to refuse loading this table, or None. On 2026-10-02 a data machine whose working copies were
     days older than the daily run's loaded them over Supabase's newer rows (30 tables, repaired the same hour from the
     Redivis draft). A table is refused when its newest retrieved_at is older than the newest Supabase holds for it, or,
@@ -463,13 +497,17 @@ def older_than_live(client, name, df, shape):
     try:
         if "retrieved_at" in df.columns and shape != "events":
             mine = str(df["retrieved_at"].dropna().astype(str).max() or "")
-            got = client.table(shape).select("retrieved_at").eq("table_name", name).order("retrieved_at", desc=True).limit(1).execute().data
-            theirs = str(got[0]["retrieved_at"]) if got and got[0].get("retrieved_at") else ""
+            if conn is not None:  # session 166: max() over the table's rows, under the connection's own timeout
+                theirs = conn.execute(f"select max(retrieved_at) as t from {shape} where table_name = %s", (name,)).fetchone()["t"]
+                theirs = str(theirs) if theirs else ""
+            else:
+                got = client.table(shape).select("retrieved_at").eq("table_name", name).order("retrieved_at", desc=True).limit(1).execute().data
+                theirs = str(got[0]["retrieved_at"]) if got and got[0].get("retrieved_at") else ""
             mine_t, theirs_t = pd.to_datetime(mine, utc=True, errors="coerce"), pd.to_datetime(theirs, utc=True, errors="coerce")
             if pd.notna(mine_t) and pd.notna(theirs_t) and mine_t < theirs_t:
                 return f"its newest retrieved_at here is {mine}, Supabase holds rows retrieved {theirs}"
         else:
-            n = client.table(shape).select("table_name", count="exact", head=True).eq("table_name", name).execute().count or 0
+            n = live_count(client, shape, name, conn)
             if len(df) < n:
                 return f"it has {len(df):,} rows here and {n:,} in Supabase (no retrieved_at to compare)"
     except Exception as exc:  # the guard must not stop a load on its own failure: say so and go on
@@ -477,7 +515,7 @@ def older_than_live(client, name, df, shape):
     return None
 
 
-def sync_table(client, name, df, shape, license_, loaded_at, days, now):
+def sync_table(client, name, df, shape, license_, loaded_at, days, now, conn=None):
     """Make Supabase hold exactly the selected rows of one table, writing only the
     difference. Returns (written, deleted)."""
     cols, key = SHAPES[shape]
@@ -487,7 +525,7 @@ def sync_table(client, name, df, shape, license_, loaded_at, days, now):
         k, body = canon(r, shape)
         want[k] = (body, r)
     have = {}
-    for r in existing_rows(client, shape, name):
+    for r in existing_rows(client, shape, name, conn):
         k, body = canon(r, shape)
         have[k] = body
     write = [r for k, (body, r) in want.items() if have.get(k) != body]
@@ -652,6 +690,7 @@ def main(argv=None):
     hashes = {}
     failed = []
     recon = []
+    conn = db_reader()  # session 166: the whole-table reads, outside the API's 8-second statement timeout
     for name, (df, shape) in selected.items():
         days = dict((n, d) for n, _, d in plan)[name]
         try:
@@ -659,16 +698,15 @@ def main(argv=None):
                 raise RuntimeError("not in coverage.csv")
             digest = rows_sha256(df, lic[name])
             unchanged = prev.get(name) == digest
-            stale = None if unchanged or name in args.allow_older else older_than_live(client, name, df, shape)
+            stale = None if unchanged or name in args.allow_older else older_than_live(client, name, df, shape, conn)
             if stale:
                 raise RuntimeError(f"refused, older than the live copy: {stale}. Sync this machine from the cloud first "
                                    f"(python scripts/sync.py --refresh), or pass --allow-older {name} to roll it back on purpose")
             if unchanged:
                 written = deleted = 0
             else:
-                written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now)
-            n = client.table(shape).select("table_name", count="exact", head=True) \
-                .eq("table_name", name).execute().count
+                written, deleted = sync_table(client, name, df, shape, lic[name], loaded_at, days, now, conn)
+            n = live_count(client, shape, name, conn)
             ok = n == len(df)
             if ok and name == EQR:  # session 90: the page's summary, from the rows just reconciled (migration 021)
                 stored = client.rpc("eqr_summary_store", {"p_summary": eqr_summary(df)}).execute().data
@@ -684,6 +722,11 @@ def main(argv=None):
             failed.append(name)
             recon.append((name, shape, len(df), None, f"FAILED {type(exc).__name__}", None, None, False))
             print(f"FAILED {name}: {type(exc).__name__}: {str(exc)[:300]}")
+            if conn is not None and (conn.closed or conn.broken):  # session 166: a dropped connection fails one table, not the rest
+                print("the direct connection dropped; opening it again")
+                conn = db_reader()
+    if conn is not None:
+        conn.close()
 
     # provenance headers of every live-set table
     hdr = []

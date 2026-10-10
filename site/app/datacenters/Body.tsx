@@ -1,8 +1,13 @@
 // The /datacenters body (session 16; session 22: the combined table): the summary strip, the table and the citation.
+// Session 166 (accuracy): the Status column and filter show the cleaned status (the entities vocabulary: planned,
+// under_construction, operating, withdrawn), never a source's raw field; the totals and the two bars count only rows
+// in a named US state whose status is not withdrawn (cancelled); a row without a US state stays in the table and
+// reads "country not stated" (no source records a country).
 import { Cite } from "@/components/Cite";
 import { Num } from "@/components/Num";
 import type { EntityRow } from "@/lib/data";
 import { count } from "@/lib/format";
+import { cancelled, countryOf } from "@/lib/largeload";
 import { DatacentersTable, type Facility } from "./DatacentersTable";
 
 export function toFacility(r: EntityRow): Facility {
@@ -15,9 +20,10 @@ export function toFacility(r: EntityRow): Facility {
     state: x.state ?? "",
     county: x.county ?? "",
     city: x.city ?? "",
+    country: countryOf(x.country, x.state),
     mw: r.capacity_mw === null ? null : Number(r.capacity_mw),
     phase: x.phase ?? "",
-    status: x.project_status ?? "",
+    status: r.status ?? "",
     plannedYear: x.planned_year ?? "",
     power: x.power_source ?? "",
     utility: x.utility ?? "",
@@ -34,8 +40,14 @@ export function toFacility(r: EntityRow): Facility {
   };
 }
 
+/** Session 166: the rows the totals and bars count: in a named US state, and not cancelled. */
+export const counted = (rows: Facility[]): Facility[] => rows.filter((f) => f.country === "US" && !cancelled(f.status));
+
 export function Body({ rows }: { rows: Facility[] }) {
-  const withMw = rows.filter((f) => f.mw !== null);
+  const inTotals = counted(rows);
+  const noCountry = rows.filter((f) => f.country !== "US").length;
+  const dropped = rows.filter((f) => f.country === "US" && cancelled(f.status)).length;
+  const withMw = inTotals.filter((f) => f.mw !== null);
   const totalMw = withMw.reduce((a, f) => a + (f.mw ?? 0), 0);
   const sumBy = (key: (f: Facility) => string) => {
     const m = new Map<string, number>();
@@ -47,7 +59,7 @@ export function Body({ rows }: { rows: Facility[] }) {
   };
   const byState = sumBy((f) => f.state);
   const byOperator = sumBy((f) => f.operator).slice(0, 5);
-  const noMw = rows.length - withMw.length;
+  const noMw = inTotals.length - withMw.length;
   const bars = (list: [string, number][], key: string, max: number) =>
     list.length === 0 ? (
       <div className="text-sm text-muted">no data: no facility with a stated {key === "state" ? "state" : "operator"} states its MW</div>
@@ -70,27 +82,33 @@ export function Body({ rows }: { rows: Facility[] }) {
       <section aria-label="Summary" className="mb-6">
         <div className="grid gap-px border border-rule bg-rule md:grid-cols-3">
           <div className="bg-panel px-3 py-2">
-            <div className="text-xs text-muted">Facilities</div>
+            <div className="text-xs text-muted">Facilities held</div>
             <div className="text-lg tabular-nums">
               <Num check="datacenters|count" raw={rows.length}>{count(rows.length)}</Num>
             </div>
-            <div className="text-xs text-muted">
+            <div className="text-xs text-muted" data-counted="1">
+              <Num check="datacenters|counted" raw={inTotals.length}>{count(inTotals.length)}</Num> in a named US state and not cancelled:{" "}
               <Num check="datacenters|mw_total" raw={totalMw}>{count(totalMw)}</Num> MW stated, by{" "}
-              <Num check="datacenters|n_with_mw" raw={withMw.length}>{count(withMw.length)}</Num> of them; {noMw} state no MW
+              <Num check="datacenters|n_with_mw" raw={withMw.length}>{count(withMw.length)}</Num> of them; {noMw} state no MW.
+              Left out of the sums:{" "}
+              <span title="No source the ERW reads states a country. A row with no US state stated may be outside the US (Firmus's Tasmanian rows are among these) or a US site whose story or operator page names no state. Such rows stay in the table and read &quot;country not stated&quot;.">
+                <Num check="datacenters|no_us_state" raw={noCountry}>{count(noCountry)}</Num> with no US state stated
+              </span>
+              , <Num check="datacenters|cancelled" raw={dropped}>{count(dropped)}</Num> cancelled
             </div>
           </div>
           <div className="bg-panel px-3 py-2">
-            <div className="mb-1 text-xs text-muted">Stated MW by state (MW a story or the operator states, any status)</div>
+            <div className="mb-1 text-xs text-muted">Stated MW by state (MW a story or the operator states; US rows not cancelled)</div>
             {bars(byState, "state", maxMw)}
           </div>
           <div className="bg-panel px-3 py-2">
-            <div className="mb-1 text-xs text-muted">Top operators by MW</div>
+            <div className="mb-1 text-xs text-muted">Top operators by MW (US rows not cancelled)</div>
             {bars(byOperator, "operator", maxMw)}
           </div>
         </div>
         <p className="mt-1 text-xs text-muted">
-          Sums count only the facilities whose story or operator page states MW, and a state or operator. A queue position&apos;s MW is the generation
-          or storage it asks to connect, not the datacenter&apos;s load, so it is never summed.
+          Sums count only facilities in a named US state whose status is not withdrawn (cancelled), and whose story or operator page states MW, and a
+          state or operator. A queue position&apos;s MW is the generation or storage it asks to connect, not the datacenter&apos;s load, so it is never summed.
         </p>
       </section>
       <DatacentersTable rows={rows} />

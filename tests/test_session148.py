@@ -496,8 +496,11 @@ class PagesReadTogether(unittest.TestCase):
         self.assertIn("liveExtras(snap)", src("site", "app", "network", "page.tsx"))
         self.assertIn("supplyRows(ba)", src("site", "app", "network", "page.tsx"))
         release = src("site", "lib", "release.ts")
+        # session 166 (the owner's instruction of 8 October 2026): the three pages the comparison reads for are in review
+        # now; the comparison still reads what they read
         for path in ("/cost-of-power/battery", "/network", "/storage"):
-            self.assertIn(f'"{path}": "live"', release)
+            self.assertIn(f'"{path}": "review"', release)
+        self.assertEqual(re.findall(r'"(/[^"]*)":\s*"live"', release), [])
 
     def test_the_recorded_read_is_three_pages_of_real_rows(self):
         with open(os.path.join(ROOT, "tests", "fixtures", "session148", "paged_reads.json"), encoding="utf-8") as f:
@@ -567,7 +570,8 @@ class TheRuleAndTheSwitches(unittest.TestCase):
             self.assertNotRegex(src(*f), r"ASK_DAILY_USD|ASK_MONTHLY_USD|ASK_PER_VISITOR")
         release = src("site", "lib", "release.ts")
         self.assertIn('"/ask/ercot": "review"', release)
-        self.assertEqual(release.count('": "live"'), 3)                                  # three pages open, as before
+        # session 166 (the owner's instruction of 8 October 2026): no page is open; this session opened none either
+        self.assertEqual(release.count('": "live"'), 0)
 
     def test_the_method_note_says_what_was_added_and_that_two_are_off(self):
         note = src("docs", "methods", "ask_ercot.md")
