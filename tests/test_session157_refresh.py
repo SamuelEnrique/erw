@@ -7,7 +7,13 @@ on five saved real list pages (tests/fixtures/session157/lists, saved by the tri
 a list says so and its sentence is a literal substring of the saved list; nothing municipal passes; the only contact
 string is the ruled one. The state of "what is held" in the tests without tables is MADE UP and marked so; it lives in
 memory or a temporary folder. The test on the real tables skips on a machine without them. No request and no model
-call is made here; the environment is read, never set; no test compares a branch with another."""
+call is made here; the environment is read, never set; no test compares a branch with another.
+
+Session 172: the Virginia State Corporation Commission is paused (warehouse/metadata/paused_sources.csv, the owner's
+ruling of 9 October 2026 on its robots file), so the step sends it nothing. The ceiling tests, which used Virginia's
+address as their example of a request, use Texas's; the two parser tests read the saved Virginia list without an
+Asker (saved_list below); the step test now proves the pause end to end. tests/test_session172.py holds the pause's own
+tests."""
 import csv
 import datetime as dt
 import json
@@ -80,6 +86,19 @@ class Clock:
     def sleep(self, s):
         self.slept.append(s)
         self.t += s
+
+
+def saved_list(tmp, url, name):
+    """(page, record) of a saved list, as Asker.get returns them, with no Asker and no request: for the parser tests of
+    a paused publisher (session 172). The record's fields are the ones get() writes."""
+    content = fixture(name)
+    text = pm.as_text(content)
+    tpath = os.path.join(tmp, name + ".txt")
+    with open(tpath, "w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
+    import hashlib
+    return content.decode("utf-8", "replace"), {"url": url, "text": pm.norm(text), "text_file": tpath, "retrieved_at": "2026-10-08T00:00:00Z",
+                                                "text_sha256": hashlib.sha256(text.encode("utf-8", "replace")).hexdigest()}
 
 
 def asker(tmp, send=None, clock=None, **kw):
@@ -194,51 +213,51 @@ class NeverRequested(unittest.TestCase):
 class Ceilings(unittest.TestCase):
     def test_stops_before_the_ceiling_not_after(self):
         with tempfile.TemporaryDirectory() as tmp:
-            rec = Recorder({VA_URL: fixture("va_docs_PUR-2026-00131.json")})
+            rec = Recorder({TX_60332: fixture("tx_filings_60332.html")})   # session 172: Texas's list (Virginia is paused)
             ask = asker(tmp, rec, max_requests=3)
             for _ in range(3):
-                ask.get("vascc", VA_URL, "docs.json")
+                ask.get("txpuc", TX_60332, "filings.html")
             with self.assertRaises(pm.Stop):
-                ask.get("vascc", VA_URL, "docs.json")
+                ask.get("txpuc", TX_60332, "filings.html")
             self.assertEqual(len(rec.asked), 3, "the fourth request was never made")
 
     def test_the_day_s_count_carries_into_a_second_run(self):
         with tempfile.TemporaryDirectory() as tmp:
-            rec = Recorder({VA_URL: fixture("va_docs_PUR-2026-00131.json")})
+            rec = Recorder({TX_60332: fixture("tx_filings_60332.html")})
             ask = asker(tmp, rec, used=119)
-            ask.get("vascc", VA_URL, "docs.json")   # the 120th of the day
+            ask.get("txpuc", TX_60332, "filings.html")   # the 120th of the day
             with self.assertRaises(pm.Stop):
-                ask.get("vascc", VA_URL, "docs.json")
+                ask.get("txpuc", TX_60332, "filings.html")
             self.assertEqual(len(rec.asked), 1)
 
     def test_one_request_a_second_to_a_host(self):
         with tempfile.TemporaryDirectory() as tmp:
             clock = Clock()
-            rec = Recorder({VA_URL: fixture("va_docs_PUR-2026-00131.json"), CA_URL: fixture("ca_decisions_A2411007.html")})
+            rec = Recorder({TX_60332: fixture("tx_filings_60332.html"), CA_URL: fixture("ca_decisions_A2411007.html")})
             ask = asker(tmp, rec, clock)
-            ask.get("vascc", VA_URL, "a")
+            ask.get("txpuc", TX_60332, "a")
             ask.get("cpuc", CA_URL, "b")       # another host: no wait
             self.assertEqual(clock.slept, [])
-            ask.get("vascc", VA_URL, "c")      # the same host at once: waits the whole second
+            ask.get("txpuc", TX_60332, "c")    # the same host at once: waits the whole second
             self.assertEqual(len(clock.slept), 1)
             self.assertAlmostEqual(clock.slept[0], 1.0)
             clock.t += 5
-            ask.get("vascc", VA_URL, "d")      # five seconds later: no wait
+            ask.get("txpuc", TX_60332, "d")    # five seconds later: no wait
             self.assertEqual(len(clock.slept), 1)
 
     def test_a_redirect_is_followed_only_to_the_listed_host(self):
-        upper = "https://www.scc.virginia.gov/DocketSearchAPI/breeze/CaseDetails/GetDocuments?x=1"
-        lower = "https://www.scc.virginia.gov/docketsearchapi/breeze/casedetails/getdocuments?x=1"
+        upper = "https://interchange.puc.texas.gov/Search/Filings/?UtilityType=A&ControlNumber=60332"   # session 172: Texas (Virginia is paused)
+        lower = "https://interchange.puc.texas.gov/search/filings/?UtilityType=A&ControlNumber=60332"
         with tempfile.TemporaryDirectory() as tmp:
-            rec = Recorder({upper: (307, b"", {"Location": lower}), lower: fixture("va_docs_PUR-2026-00131.json")})
+            rec = Recorder({upper: (307, b"", {"Location": lower}), lower: fixture("tx_filings_60332.html")})
             ask = asker(tmp, rec)
-            ask.get("vascc", upper, "docs.json")
+            ask.get("txpuc", upper, "filings.html")
             self.assertEqual(rec.asked, [upper, lower])
             self.assertEqual(ask.n, 2, "each hop is a request")
             away = Recorder({upper: (302, b"", {"Location": "https://unblock.federalregister.gov/"})})
             ask2 = pm.Asker(os.path.join(tmp, "run2"), lambda m: None, send=away, clock=Clock().now, sleep=lambda s: None)
             with self.assertRaises(pm.Refused):
-                ask2.get("vascc", upper, "docs.json")
+                ask2.get("txpuc", upper, "filings.html")
             self.assertEqual(away.asked, [upper], "the other host was never asked")
 
     def test_a_robot_check_is_recorded_and_left(self):
@@ -350,7 +369,8 @@ class Rows(unittest.TestCase):
 
     def test_a_row_cut_from_a_list_says_so_and_is_proved(self):
         h = held("vascc", {"PUR-2026-00131": ("transmission cost allocation", "Ex Parte: In Re: Allocating transmission costs to large-load customers", "")})
-        lines = self.lines("vascc", VA_URL, "va_docs_PUR-2026-00131.json", pm.parse_va_docs, "PUR-2026-00131", None)
+        page, rec = saved_list(self.tmp.name, VA_URL, "va_docs_PUR-2026-00131.json")   # session 172: no Asker, Virginia is paused
+        lines = pm.parse_va_docs(page, "PUR-2026-00131", rec)
         rows, left = pm.to_rows("vascc", lines, h, "2026-08-01", self.terms, TODAY)
         self.assertEqual((len(rows), left), (1, []))
         r = rows[0]
@@ -373,7 +393,8 @@ class Rows(unittest.TestCase):
 
     def test_a_line_already_held_or_older_than_the_last_read_is_not_new(self):
         title = "Ex Parte: In Re: Allocating transmission costs to large-load customers"
-        lines = self.lines("vascc", VA_URL, "va_docs_PUR-2026-00131.json", pm.parse_va_docs, "PUR-2026-00131", None)
+        page, rec = saved_list(self.tmp.name, VA_URL, "va_docs_PUR-2026-00131.json")   # session 172: no Asker, Virginia is paused
+        lines = pm.parse_va_docs(page, "PUR-2026-00131", rec)
         h = held("vascc", {"PUR-2026-00131": ("transmission cost allocation", title, "")},
                  urls=["https://www.scc.virginia.gov/docketsearch/DOCS/8%237%2501!.PDF"])
         self.assertEqual(pm.to_rows("vascc", lines, h, "2026-08-01", self.terms, TODAY)[0], [], "its address is a row already")
@@ -465,7 +486,7 @@ class Step(unittest.TestCase):
         for t in pm.TABLES:
             self.assertRegex(hold, r"(?m)^\s*- " + t + r"\s*$")
 
-    def test_a_new_row_is_merged_into_the_table_held_and_the_table_still_validates(self):
+    def test_a_paused_regulator_adds_no_row_to_the_table_held_and_the_table_still_validates(self):
         """The whole step on saved real list pages, offline, into a temporary folder. The table it merges into is MADE
         UP (one row, marked so): the real tables are not on every machine."""
         title = "Ex Parte: In Re: Allocating transmission costs to large-load customers"
@@ -496,27 +517,27 @@ class Step(unittest.TestCase):
             path = os.path.join(out, "large_load_rules_internal.csv")
             got = pm.read_events(path)
             self.assertEqual(list(got.columns), llr.COLS)
-            self.assertEqual(len(got), 2, p.stdout)
-            new = got[got["event_id"] != row["event_id"]].iloc[0]
-            self.assertEqual((new["docket_number"], new["event_date"], new["row_kind"], new["sentence_kind"]),
-                             ("PUR-2026-00131", "2026-08-25", "order", "docket list"))
-            self.assertTrue(new["row_flag"].startswith("cut from the docket list"))
+            # session 172: Virginia is paused, so the saved list is not read and no row is added; the table held comes
+            # out as it went in (the one made-up row), the public table gains nothing, and the run says why
+            self.assertEqual(len(got), 1, p.stdout)
+            self.assertEqual(got.iloc[0]["event_id"], row["event_id"])
             self.assertFalse(os.path.exists(os.path.join(out, "large_load_rules.csv")), "Virginia's rows are internal: the public table gains none")
             with open(path, encoding="utf-8") as f:
                 header = "".join(next(f) for _ in range(ip.header_rows(path)))
             self.assertIn("License: internal", header)
-            self.assertIn("Daily refresh (session 157)", header)
             with open(os.path.join(out, "policy_monitor_refresh_last_run.json"), encoding="utf-8") as f:
                 last = json.load(f)
             self.assertEqual(set(last), {"at_utc", "requests", "bytes", "regulators", "tables_written"})
             self.assertEqual(last["requests"], 0, "offline: no request")
-            self.assertEqual(last["regulators"]["vascc"]["new_rows"], 1)
+            self.assertEqual(last["regulators"]["vascc"]["new_rows"], 0)
+            self.assertEqual(last["regulators"]["vascc"]["status"], "not requested")
+            self.assertIn("Paused since 2026-10-10", last["regulators"]["vascc"]["detail"])
             self.assertEqual(set(last["regulators"]["vascc"]), {"requests", "new_rows", "status", "detail"})
-            self.assertEqual(last["tables_written"], {"large_load_rules_internal": 1})
+            self.assertEqual(last["tables_written"], {})
             again = subprocess.run([sys.executable, CONNECTOR, "--offline", off, "--out-dir", out, "--only", "vascc"],
                                    capture_output=True, text=True, encoding="utf-8", errors="replace")
             self.assertEqual(again.returncode, 0, again.stdout + again.stderr)
-            self.assertEqual(len(pm.read_events(path)), 2, "a second run adds the row no second time")
+            self.assertEqual(len(pm.read_events(path)), 1, "a second run adds nothing either")
             v = subprocess.run([sys.executable, os.path.join(ROOT, "warehouse", "validate", "erw_validate.py"), path],
                                capture_output=True, text=True, encoding="utf-8", errors="replace")
             self.assertEqual(v.returncode, 0, v.stdout + v.stderr)

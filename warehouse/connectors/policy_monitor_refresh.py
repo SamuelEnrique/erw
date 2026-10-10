@@ -284,6 +284,9 @@ class Asker:
             return "no http address"
         if any(host == h or host.endswith("." + h) for h in NEVER):
             return f"{host} is a host this step never requests"
+        r = ip.paused(key) or ip.paused_host(host)   # session 172: a paused publisher's server is never asked, by any path
+        if r:
+            return f"{host} is paused since {r['paused_on']} (warehouse/metadata/paused_sources.csv): {r['reason']}"
         if host not in HOSTS.get(key, []):
             return f"{host} is not the listed host of {key}"
         if llr.EMAIL_IN_URL.search(url):
@@ -819,6 +822,13 @@ def run(feeds, table, ask, log, today, only=None, since=None, day=None, again=Fa
         if key not in LINES or key not in HOSTS:
             results[key] = {"requests": 0, "new_rows": 0, "status": "not requested", "detail": "no reader for this regulator's list"}
             continue
+        if ip.paused(key):   # session 172: a paused publisher (warehouse/metadata/paused_sources.csv) is sent nothing
+            p = ip.paused(key)
+            results[key] = {"requests": 0, "new_rows": 0, "status": "not requested",
+                            "detail": (f"Paused since {p['paused_on']}: {p['reason']}; pending {p['until']} "
+                                       "(warehouse/metadata/paused_sources.csv; the docket lists held stay as they are)")[:300]}
+            log(f"  {key}: {results[key]}")
+            continue
         if stopped:
             results[key] = {"requests": 0, "new_rows": 0, "status": "not requested", "detail": stopped}
             continue
@@ -882,6 +892,10 @@ def main(argv=None):
                 shutil.copyfile(src, dst)
     if ip.paused("miso"):
         log("MISO is paused (warehouse/metadata/paused_sources.csv): this step never requests misoenergy.org, paused or not")
+    for key in HOSTS:   # session 172: a regulator in the pause file is sent nothing (Virginia since 10 October 2026)
+        if ip.paused(key):
+            log(f"{key} is paused since {ip.paused(key)['paused_on']} (warehouse/metadata/paused_sources.csv): "
+                f"no request to {', '.join(HOSTS[key])} this run")
     if not a.out_dir and not ensure_tables(log):
         msg = (f"{NAME} SKIPPED: large_load_rules or large_load_rules_internal is not on this machine and could not be rebuilt "
                "from the archive, so nothing was requested and nothing was written")
