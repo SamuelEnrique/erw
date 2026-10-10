@@ -405,11 +405,11 @@
   "isone_zone_prices_history",
   "eia_fuel_spot_prices"
  ],
- "computed_at": "2026-10-09T07:55:59Z",
+ "computed_at": "2026-10-10T02:21:05Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding gas_sets_price, GAS SETS THE PRICE LESS OFTEN?",
-  "Computed 2026-10-09T07:55:59Z by warehouse/analysis/findings/gas_sets_price.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-10T02:21:05Z by warehouse/analysis/findings/gas_sets_price.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per grid and local year: held hours and the percent of them with the real-time price below heat rate x Henry Hub (6.5, 7.0, 8.0)",
   "A blank is a year the warehouse does not hold for that grid. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, nyiso_rtm_zone_prices, isone_zone_prices_history, eia_fuel_spot_prices"
  ],
@@ -460,5 +460,5 @@
   "python": "gas_sets_price.py",
   "stata": "gas_sets_price.do"
  },
- "csv_sha256": "50b1803f9651d3266bdb1af271ab8e024e654b79917be53f919afa3f261cd945"
+ "csv_sha256": "f55d46593655a83d311ae80d4e2970af52b9dbfc548db363e6d7edec24458bfd"
 }

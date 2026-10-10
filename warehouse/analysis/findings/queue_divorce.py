@@ -24,7 +24,7 @@ import os
 
 import pandas as pd
 
-from common import METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, read_table
+from findings_common import METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, read_table
 
 NAME = "queue_divorce"
 TITLE = "TILL QUEUE DO US PART"

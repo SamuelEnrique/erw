@@ -149,8 +149,12 @@ jobs:
         # the runner. The tables the findings read (warehouse/analysis/findings/run_finding.py --tables: the ERCOT and
         # ISO-NE histories, the fleet, the load, the fuel prices, Berkeley Lab's queue) are restored by the same step,
         # and a table that cannot be restored is said in the same way. It never stops the Roundup.
+        # Session 173: the templates' own tables are restored the same way (warehouse/analysis/run.py --tables prints
+        # them as one pattern): eight of them the Redivis restore brings, two are in git, and portwatch_chokepoint_transits
+        # was brought by neither, so its template was skipped on the runner. A table that cannot be restored is said and
+        # its template is skipped and named by the engine. It never stops the Roundup.
         run: |
-          python warehouse/health.py run --step "write the Roundup" --retries 0 -- bash -c "set -o pipefail; { python warehouse/redivis/upload.py --restore && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/watch.py --tables)\" || echo 'the watch list, not every table could be restored, so the lines that read a missing table are skipped and named'; } && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/findings/run_finding.py --tables)\" || echo 'the findings, not every table could be restored, so a finding that reads a missing table is not computed and named'; } && python warehouse/connectors/eia_fuels.py && python warehouse/analysis/run.py && python warehouse/news/roundup.py; } 2>&1 | tee roundup.log"
+          python warehouse/health.py run --step "write the Roundup" --retries 0 -- bash -c "set -o pipefail; { python warehouse/redivis/upload.py --restore && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/watch.py --tables)\" || echo 'the watch list, not every table could be restored, so the lines that read a missing table are skipped and named'; } && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/findings/run_finding.py --tables)\" || echo 'the findings, not every table could be restored, so a finding that reads a missing table is not computed and named'; } && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/run.py --tables)\" || echo 'the templates, not every table could be restored, so a template that reads a missing table is skipped and named'; } && python warehouse/connectors/eia_fuels.py && python warehouse/analysis/run.py && python warehouse/news/roundup.py; } 2>&1 | tee roundup.log"
 
       - name: Keep the log
         if: always()

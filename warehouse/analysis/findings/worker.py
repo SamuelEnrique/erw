@@ -35,7 +35,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(ROOT, "warehouse"))
-import common  # noqa: E402
+import findings_common as common  # noqa: E402
 import run_finding  # noqa: E402
 
 TABLE = "analysis_requests"

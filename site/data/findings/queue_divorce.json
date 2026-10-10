@@ -241,11 +241,11 @@
  "tables": [
   "lbnl_interconnection_queue"
  ],
- "computed_at": "2026-10-09T07:55:43Z",
+ "computed_at": "2026-10-10T02:26:44Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding queue_divorce, TILL QUEUE DO US PART",
-  "Computed 2026-10-09T07:55:43Z by warehouse/analysis/findings/queue_divorce.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-10T02:26:44Z by warehouse/analysis/findings/queue_divorce.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per technology (and all), requests of 2000 to 2020 in Berkeley Lab's Queued Up: requested GW and the GW and percent of MW by status",
   "CDC/NCHS FastStats marriage and divorce rates per 1,000 population (provisional 2023), https://www.cdc.gov/nchs/fastats/marriage-divorce.htm; sources: lbnl_interconnection_queue"
  ],
@@ -261,5 +261,5 @@
   "python": "queue_divorce.py",
   "stata": "queue_divorce.do"
  },
- "csv_sha256": "c9fbaad6ecd9a433451ca086a89e2060a9da21abf397e69c8ea39b5911025a43"
+ "csv_sha256": "ef4478539e29dd525651e07621b83c28c12914bc3e4d9c9217a8f7dc75d9f6f2"
 }

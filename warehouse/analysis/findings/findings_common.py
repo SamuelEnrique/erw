@@ -1,5 +1,8 @@
 """Automated Analysis findings (session 170): what every finding module shares.
 
+Named findings_common since session 173: as common.py it clashed with warehouse/analysis/templates/common.py when the whole
+test suite ran in one process (the templates' module was already imported under that name, and the findings read it).
+
 Energy Research Warehouse (ERW). A finding is a module in this folder that declares
 
     NAME      the finding's id (a slug)

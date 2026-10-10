@@ -16,7 +16,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from common import METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, read_table, to_utc
+from findings_common import METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, read_table, to_utc
 
 NAME = "gas_sets_price"
 TITLE = "GAS SETS THE PRICE LESS OFTEN?"

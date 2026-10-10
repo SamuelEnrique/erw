@@ -16,7 +16,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from common import (METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, ols_hc1, pct,
+from findings_common import (METHOD_URL, NoData, callout, do_destring, do_file, do_sentinels, fmt, now_iso, ols_hc1, pct,
                     read_table, to_utc)
 
 NAME = "batteries_lunch"

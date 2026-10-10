@@ -20,7 +20,7 @@ FIND = os.path.join(ROOT, "warehouse", "analysis", "findings")
 CARDS = os.path.join(ROOT, "site", "data", "findings")
 DOWNLOADS = os.path.join(ROOT, "site", "public", "findings")
 sys.path.insert(0, FIND)
-import common  # noqa: E402
+import findings_common as common  # noqa: E402
 import run_finding  # noqa: E402
 
 

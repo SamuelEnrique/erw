@@ -29,7 +29,7 @@ import traceback
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, HERE)
-import common  # noqa: E402
+import findings_common as common  # noqa: E402
 
 FINDINGS = ["batteries_lunch", "gas_sets_price", "queue_divorce"]
 CARD_DIR = os.path.join(ROOT, "site", "data", "findings")

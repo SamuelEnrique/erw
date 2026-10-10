@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): finding gas_sets_price, GAS SETS THE PRICE LESS OFTEN?
-# Computed 2026-10-09T07:55:59Z by warehouse/analysis/findings/gas_sets_price.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
+# Computed 2026-10-10T02:21:05Z by warehouse/analysis/findings/gas_sets_price.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
 # Rows: one per grid and local year: held hours and the percent of them with the real-time price below heat rate x Henry Hub (6.5, 7.0, 8.0)
 # A blank is a year the warehouse does not hold for that grid. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, nyiso_rtm_zone_prices, isone_zone_prices_history, eia_fuel_spot_prices
 grid,year,n_hours,first_hour,last_hour,share_below_hr6p5,share_below_hr7,share_below_hr8
