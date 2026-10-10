@@ -26,6 +26,14 @@ Real data only: a shape that is not in the publisher's file is not drawn from an
 (docs/methods/grid_network.md, "The map", has each request and its answer). So no site file exists yet, the map says
 the boundary file is not yet held, and the source registry has no row for it. The file is named for EIA because the
 atlas was the publisher asked; --source names another publisher's file when a person rules which one is pulled.
+
+10 October 2026, session 180b: the owner approved HIFLD's "Control Areas" layer (the Homeland Infrastructure
+Foundation-Level Data open catalog on ArcGIS Hub), ten requests and 300 MB. Six were sent and none reached the layer:
+the catalog's site answers "Item does not exist or is inaccessible" at hifld-geoplatform.hub.arcgis.com and "Site does
+not exist" at hifld-geoplatform.opendata.arcgis.com, and the host that used to serve its layers answers 403 to a
+request for its robots file, so nothing more was asked of it. Still no site file and no registry row. Since this
+session `get` also keeps each answer's headers beside it (<name>.headers.txt, cookies left out) and writes the content
+type into the log's note, so an answer that is not a file can be reported exactly as it came.
 """
 import argparse
 import calendar
@@ -78,6 +86,16 @@ def robots_allows(robots_path, url):
     return rp.can_fetch(CONTACT, url)
 
 
+def robots_status(pull_dir, robots_path):
+    """The status the saved robots file's own request answered, read from the request log ('' when the log has no
+    row for that file)."""
+    want = os.path.normcase(os.path.abspath(robots_path))
+    for r in read_log(pull_dir):
+        if r.get("saved_as") and os.path.normcase(os.path.abspath(os.path.join(pull_dir, r["saved_as"]))) == want:
+            return str(r["status"])
+    return ""
+
+
 def get(url, name, pull_dir, max_requests, max_bytes, robots=None, note="", min_gap=0):
     """One request. Returns the log row. Raises SystemExit before sending when a ceiling or a rule forbids it."""
     sys.path.insert(0, HERE)
@@ -85,6 +103,12 @@ def get(url, name, pull_dir, max_requests, max_bytes, robots=None, note="", min_
     host = urllib.parse.urlsplit(url).hostname or ""
     if iso_prices.paused_host(host):
         raise SystemExit(f"REFUSED: {host} belongs to a paused publisher (warehouse/metadata/paused_sources.csv). No request made.")
+    # session 180b: a host that answers 401 or 403 to the request for its robots file has given no file to read. The
+    # standard library's reader (urllib.robotparser.read) takes that as every path disallowed, and so does this step:
+    # what was saved is the refusal's body, not rules, and parsing it would allow everything.
+    if robots and robots_status(pull_dir, robots) in ("401", "403"):
+        raise SystemExit(f"REFUSED: the request for the robots file {robots} answered {robots_status(pull_dir, robots)}, "
+                         "which is read as every path disallowed until a person rules otherwise. No request made.")
     if robots and not robots_allows(robots, url):
         raise SystemExit(f"REFUSED: the robots file {robots} disallows {url} to this agent. No request made.")
     os.makedirs(pull_dir, exist_ok=True)
@@ -118,6 +142,16 @@ def get(url, name, pull_dir, max_requests, max_bytes, robots=None, note="", min_
         loc = resp.headers.get("Location")
         if loc:
             extra = (extra + " " if extra else "") + f"Location: {loc}"
+        # session 180b: the answer's own headers are kept beside it (the content type, the length, the date), so a
+        # request that reaches no file can be reported exactly as it answered. Cookies are not kept.
+        with open(out + ".headers.txt", "w", encoding="utf-8", newline="\n") as hf:
+            hf.write(f"status: {status}\n")
+            for k, v in resp.headers.items():
+                if k.lower() != "set-cookie":
+                    hf.write(f"{k}: {v}\n")
+        ctype = resp.headers.get("Content-Type")
+        if ctype:
+            extra = (extra + " " if extra else "") + f"Content-Type: {ctype}"
         with open(out, "wb") as f:
             while True:
                 chunk = resp.read(1 << 20)
@@ -129,6 +163,7 @@ def get(url, name, pull_dir, max_requests, max_bytes, robots=None, note="", min_
                     break
                 f.write(chunk)
                 h.update(chunk)
+        resp.close()
     except Exception as e:  # the exact error, logged; the request still counts
         status = status or "error"
         extra = (extra + " " if extra else "") + f"{type(e).__name__}: {e}"
