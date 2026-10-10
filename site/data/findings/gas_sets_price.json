@@ -1,0 +1,464 @@
+{
+ "id": "gas_sets_price",
+ "title": "GAS SETS THE PRICE LESS OFTEN?",
+ "kind": "visual",
+ "subtitle": "In ERCOT the share barely moved; the sensitivity moves it more than the years do",
+ "params": {
+  "heat_rate": 7.0,
+  "first_year": 2019
+ },
+ "inputs_words": {
+  "heat_rate": "7 MMBtu per MWh",
+  "first_year": "2019"
+ },
+ "chart": {
+  "kind": "grouped_bar",
+  "x": [
+   "2019",
+   "2020",
+   "2021",
+   "2022",
+   "2023",
+   "2024",
+   "2025",
+   "2026"
+  ],
+  "x_label": "Year (local)",
+  "series": [
+   {
+    "name": "ERCOT",
+    "type": "bar",
+    "unit": "percent of hours",
+    "values": [
+     38.75570776255708,
+     33.447176684881605,
+     51.95205479452055,
+     51.34703196347032,
+     33.15068493150685,
+     32.673041894353375,
+     40.89041095890411,
+     38.77065039440393
+    ],
+    "sensitivity": {
+     "6.5": [
+      27.11187214611872,
+      25.40983606557377,
+      43.63013698630137,
+      45.21689497716895,
+      28.51598173515982,
+      27.88023679417122,
+      35.3310502283105,
+      34.84149426998065
+     ],
+     "7": [
+      38.75570776255708,
+      33.447176684881605,
+      51.95205479452055,
+      51.34703196347032,
+      33.15068493150685,
+      32.673041894353375,
+      40.89041095890411,
+      38.77065039440393
+     ],
+     "8": [
+      58.94977168949772,
+      48.66803278688525,
+      64.01826484018265,
+      61.4041095890411,
+      43.04794520547945,
+      41.58697632058288,
+      52.84246575342466,
+      48.50424170263432
+     ]
+    },
+    "hours": [
+     8760,
+     8784,
+     8760,
+     8760,
+     8760,
+     8784,
+     8760,
+     6719
+    ]
+   },
+   {
+    "name": "CAISO",
+    "type": "bar",
+    "unit": "percent of hours",
+    "values": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     14.631782945736434
+    ],
+    "sensitivity": {
+     "6.5": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      13.85658914728682
+     ],
+     "7": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      14.631782945736434
+     ],
+     "8": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      17.635658914728683
+     ]
+    },
+    "hours": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     1032
+    ]
+   },
+   {
+    "name": "NYISO",
+    "type": "bar",
+    "unit": "percent of hours",
+    "values": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     1.937984496124031
+    ],
+    "sensitivity": {
+     "6.5": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      1.550387596899225
+     ],
+     "7": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      1.937984496124031
+     ],
+     "8": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      4.166666666666666
+     ]
+    },
+    "hours": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     1032
+    ]
+   },
+   {
+    "name": "ISO-NE",
+    "type": "bar",
+    "unit": "percent of hours",
+    "values": [
+     18.634391413564742,
+     16.647688453655203,
+     16.213747430920304,
+     19.091116693308972,
+     11.726421557433204,
+     2.163023679417122,
+     5.513698630136987,
+     4.373177842565598
+    ],
+    "sensitivity": {
+     "6.5": [
+      12.6969627768897,
+      11.831017991345934,
+      10.047956154373145,
+      12.01187485727335,
+      8.55218086321078,
+      1.707650273224044,
+      3.767123287671233,
+      3.63574001028983
+     ],
+     "7": [
+      18.634391413564742,
+      16.647688453655203,
+      16.213747430920304,
+      19.091116693308972,
+      11.726421557433204,
+      2.163023679417122,
+      5.513698630136987,
+      4.373177842565598
+     ],
+     "8": [
+      31.982187714089978,
+      28.558414939649285,
+      30.58917561087006,
+      34.448504224708834,
+      19.719113952957297,
+      3.7568306010928962,
+      11.883561643835616,
+      5.865203224146802
+     ]
+    },
+    "hours": [
+     8758,
+     8782,
+     8758,
+     8758,
+     8758,
+     8784,
+     8760,
+     5831
+    ]
+   },
+   {
+    "name": "SPP",
+    "type": "bar",
+    "unit": "percent of hours",
+    "values": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     32.05128205128205
+    ],
+    "sensitivity": {
+     "6.5": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      25.961538461538463
+     ],
+     "7": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      32.05128205128205
+     ],
+     "8": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      44.230769230769226
+     ]
+    },
+    "hours": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     312
+    ]
+   }
+  ],
+  "y_left_label": "percent of hours below 7 x Henry Hub",
+  "placeholders": [
+   {
+    "grid": "miso",
+    "words": "MISO",
+    "text": "paused while terms are reviewed"
+   },
+   {
+    "grid": "pjm",
+    "words": "PJM",
+    "text": "licensed source needed"
+   }
+  ]
+ },
+ "callouts": [
+  {
+   "label": "ERCOT hours below gas fuel cost",
+   "before": {
+    "period": "2019",
+    "text": "38.8%"
+   },
+   "after": {
+    "period": "2025",
+    "text": "40.9%"
+   },
+   "unit": ""
+  },
+  {
+   "label": "ISO-NE hours below gas fuel cost",
+   "before": {
+    "period": "2019",
+    "text": "18.6%"
+   },
+   "after": {
+    "period": "2025",
+    "text": "5.5%"
+   },
+   "unit": ""
+  },
+  {
+   "label": "ERCOT 2025, heat rate 6.5 to 8.0",
+   "before": {
+    "period": "6.5",
+    "text": "35.3%"
+   },
+   "after": {
+    "period": "8.0",
+    "text": "52.8%"
+   },
+   "unit": ""
+  }
+ ],
+ "why": "At 7 MMBtu per MWh, ERCOT's hub average sat below a gas plant's fuel cost in 38.8 percent of 2019's hours and 40.9 percent of 2025's (8,760 hours). ISO-NE's zones went from 18.6 to 5.5 percent. The heat rate matters: at 6.5 ERCOT's 2025 share is 35.3 percent and at 8.0 it is 52.8. CAISO, NYISO and SPP are held from CAISO 2026-08-26, NYISO 2026-08-26, SPP 2026-09-24 only, so their 2026 bars cover weeks, not a year, and their earlier years are not held: CAISO 14.6 percent, NYISO 1.9 percent, SPP 32.1 percent. An hour below fuel cost is an hour when something cheaper than gas set the price, or gas sold below its cost; the share says how often, not which. Henry Hub is the national benchmark; New England's gas is dearer at Algonquin, so ISO-NE's share reads low.",
+ "footnote": "Data: real-time prices by local hour, 2019 to 2026: ERCOT: HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour, 2019-01-01 00:00 to 2026-10-07 23:00 (68,087 hours, America/Chicago); CAISO: TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour, 2026-08-26 00:00 to 2026-10-07 23:00 (1,032 hours, America/Los_Angeles); NYISO: the simple mean of the eleven zones' 15-minute means in the local hour, 2026-08-26 00:00 to 2026-10-07 23:00 (1,032 hours, America/New_York); ISO-NE: the simple mean of the eight load zones' hourly real-time LMP, 2019-01-01 00:00 to 2026-08-31 23:00 (67,189 hours, America/New_York); SPP: SPPSOUTH_HUB, the mean of the four 15-minute interval means in the local hour, 2026-09-24 00:00 to 2026-10-06 23:00 (312 hours, America/Chicago). Gas: Henry Hub daily spot (EIA), the calendar month's mean applied to every hour of the month. An hour counts when its price is below heat rate x Henry Hub; shares are percent of the year's held hours; 7 MMBtu/MWh on the card, 6.5 and 8.0 in the hover. A year a grid's history does not cover is not held and not filled. ISO-NE's hourly history is an internal table: only these aggregates are published. MISO paused, PJM licensed: placeholders.",
+ "numbers": {
+  "heat_rate": 7.0,
+  "first_year": 2019,
+  "last_full_year": 2025,
+  "ercot_first": 38.75570776255708,
+  "ercot_last": 40.89041095890411,
+  "isone_first": 18.634391413564742,
+  "isone_last": 5.513698630136987,
+  "ercot_last_hr6p5": 35.3310502283105,
+  "ercot_last_hr8": 52.84246575342466,
+  "ercot_hours_last": 8760,
+  "isone_hours_last": 8760,
+  "n_cells_held": 19,
+  "n_cells": 40,
+  "this_year": 2026,
+  "caiso_this": 14.631782945736434,
+  "nyiso_this": 1.937984496124031,
+  "spp_this": 32.05128205128205,
+  "ercot_this": 38.77065039440393
+ },
+ "placeholders": [
+  {
+   "grid": "miso",
+   "words": "MISO",
+   "text": "paused while terms are reviewed"
+  },
+  {
+   "grid": "pjm",
+   "words": "PJM",
+   "text": "licensed source needed"
+  }
+ ],
+ "source_line": "Source: ERCOT, CAISO OASIS, NYISO, ISO-NE, SPP real-time prices; EIA Henry Hub spot; ERW tables ercot_all_hub_prices_history, iso_rtm_hub_prices, nyiso_rtm_zone_prices, isone_zone_prices_history, eia_fuel_spot_prices.",
+ "tables": [
+  "ercot_all_hub_prices_history",
+  "iso_rtm_hub_prices",
+  "nyiso_rtm_zone_prices",
+  "isone_zone_prices_history",
+  "eia_fuel_spot_prices"
+ ],
+ "computed_at": "2026-10-10T02:21:05Z",
+ "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+ "csv_header": [
+  "Energy Research Warehouse (ERW): finding gas_sets_price, GAS SETS THE PRICE LESS OFTEN?",
+  "Computed 2026-10-10T02:21:05Z by warehouse/analysis/findings/gas_sets_price.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Rows: one per grid and local year: held hours and the percent of them with the real-time price below heat rate x Henry Hub (6.5, 7.0, 8.0)",
+  "A blank is a year the warehouse does not hold for that grid. Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, nyiso_rtm_zone_prices, isone_zone_prices_history, eia_fuel_spot_prices"
+ ],
+ "card_id": "gas_sets_price",
+ "meta": {
+  "first_year": 2019,
+  "spans": {
+   "ercot": {
+    "first_hour": "2019-01-01 00:00",
+    "last_hour": "2026-10-07 23:00",
+    "n_hours": 68087,
+    "how": "HB_HUBAVG, the mean of the four 15-minute settlement point prices in the local hour",
+    "tz": "America/Chicago"
+   },
+   "caiso": {
+    "first_hour": "2026-08-26 00:00",
+    "last_hour": "2026-10-07 23:00",
+    "n_hours": 1032,
+    "how": "TH_SP15_GEN-APND, the mean of the four 15-minute interval means in the local hour",
+    "tz": "America/Los_Angeles"
+   },
+   "nyiso": {
+    "first_hour": "2026-08-26 00:00",
+    "last_hour": "2026-10-07 23:00",
+    "n_hours": 1032,
+    "how": "the simple mean of the eleven zones' 15-minute means in the local hour",
+    "tz": "America/New_York"
+   },
+   "isone": {
+    "first_hour": "2019-01-01 00:00",
+    "last_hour": "2026-08-31 23:00",
+    "n_hours": 67189,
+    "how": "the simple mean of the eight load zones' hourly real-time LMP",
+    "tz": "America/New_York"
+   },
+   "spp": {
+    "first_hour": "2026-09-24 00:00",
+    "last_hour": "2026-10-06 23:00",
+    "n_hours": 312,
+    "how": "SPPSOUTH_HUB, the mean of the four 15-minute interval means in the local hour",
+    "tz": "America/Chicago"
+   }
+  },
+  "missing": []
+ },
+ "downloads": {
+  "csv": "erw_2026_gas_share_hours.csv",
+  "python": "gas_sets_price.py",
+  "stata": "gas_sets_price.do"
+ },
+ "csv_sha256": "f55d46593655a83d311ae80d4e2970af52b9dbfc548db363e6d7edec24458bfd"
+}

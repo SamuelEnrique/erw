@@ -1,3 +1,10 @@
 *.sh text eol=lf
 *.yml text eol=lf
 scripts/githooks/* text eol=lf
+# Session 173: the finding cards pin the sha256 of their CSV and the fonts are byte for byte the repository's; no
+# checkout may convert their line endings
+site/public/fonts/* -text
+site/public/findings/*.csv text eol=lf
+site/public/findings/*.py text eol=lf
+site/public/findings/*.do text eol=lf
+site/data/findings/*.json text eol=lf

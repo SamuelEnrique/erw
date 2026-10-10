@@ -167,3 +167,7 @@ node site/scripts/snapshot-live.mjs compare 166_before 166_after
 Expected in the comparison: the three pages answer the in-review page to a visitor (every number of theirs leaves the
 visitor view); `/network` shows version 3; `/board` and `/supply` show 9 October's rows; the 42 checked numbers of the old
 network page are gone with its table. Anything else is unexpected and to be reverted.
+
+## Landing state (added by the chain's session 172 at 02:15 UTC on 10 October 2026)
+
+- **Landed.** `wip/166-health` (`4ab8587`) was pushed as `task/166-168-chain` at 01:40 UTC on 10 October 2026, checks run 38014071454 passed, main holds the merge `551ba12`, Vercel's production deployment completed at 01:49:20 UTC. Snapshots `166_before` and `166_after` (`runs/session172/compare_166.out`): 25 pages, 5,726 differences, every one expected (the three live pages now answer the in-review page to a visitor, 3,357 checked numbers left the visitor view, the menus read "in review"); 0 numbers changed, 0 statuses changed. `check-routes` against production: pass 2, 0 failed. Ask ERCOT on production at 01:58 UTC: correct for what the live set holds (the 9 October daily run's load failed on main's old code, so the live set is as this session loaded it at 08:10 UTC on 9 October). Details: `archive/sessions/SESSION_172_REPORT.md`.

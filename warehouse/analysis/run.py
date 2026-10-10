@@ -207,6 +207,13 @@ def seen_before(template, params, period, label):
     return bool((h["period"] == str(period)).any())
 
 
+def tables_pattern(mods):
+    """Session 173: every table a template reads, as one regular expression for scripts/sync.py --tables (the Roundup's
+    runner restores them before the templates run, as it does the watch list's and the findings' tables; a template
+    whose table the Redivis restore does not bring, portwatch_chokepoint_transits for one, was skipped there)."""
+    return "^(" + "|".join(sorted({t for m in mods for t in m.TABLES})) + ")$"
+
+
 def table_registry(mods):
     """Session 119: for every public table of coverage.csv, which template or watch line reads it, or why none does.
     Written to docs/analysis/tables.json on every run, so "the chooser draws on the public tables" is a list and a
@@ -496,7 +503,12 @@ def main(argv=None):
     ap.add_argument("--dry-run", action="store_true",
                     help="session 152: the choosing step only: print every candidate, its score and its reason, the pick and the "
                          "runner-up; call no model and write nothing")
+    ap.add_argument("--tables", action="store_true",
+                    help="session 173: print every template's tables as one regular expression (for scripts/sync.py --tables) and stop")
     args = ap.parse_args(argv)
+    if args.tables:
+        print(tables_pattern(templates.load_all()))
+        return 0
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     if args.dry_run:
         if args.gallery_only or args.tables_only:

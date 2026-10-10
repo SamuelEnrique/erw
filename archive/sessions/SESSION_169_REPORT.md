@@ -174,3 +174,7 @@ node site/scripts/snapshot-live.mjs take 169_after && node site/scripts/snapshot
 ```
 Spend: USD 0.70 of 4.00 (ledger 0.696).
 - No em dash in this file (checked).
+
+## Landing state (added by the chain's session 172 at 02:15 UTC on 10 October 2026)
+
+- **Landed in full** (`a7551f7`, merged into `wip/172-land` with session 172's part D, pushed as `task/169-172-chain` at 02:02 UTC on 10 October 2026, checks run 38015478252 passed, merge `e9023b1`, production at 02:09:31 UTC). Migration `026_thesis_gate.sql` applied at about 02:05 UTC (`runs/session172/apply_026.out`); `thesis_submit_forced` answers 'not authorized' to a wrong token and `{ok: false, reason: input}` to a gate that is not forced, with no run queued (`runs/session172/forced_probe.out`). The 14 ledger rows (USD 0.696) were merged into the main ledger under the data lock. On production in the internal view the form reads as written above and `POST /api/thesis/run` with "oil & gas demand" answers 422 with the refusal and the four chips, no model call, nothing queued. Snapshots `172_before` and `172_after`: 0 differences on the 25 pages. Details: `archive/sessions/SESSION_172_REPORT.md`.

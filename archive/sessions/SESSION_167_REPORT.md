@@ -210,3 +210,7 @@ Screenshots: `map_390_top.png`, `map_390_full.png`, `map_390_card.png`, `map_390
   passed with nothing of this session on production. Nothing was pushed to `main` or to a `task/` branch after the cutoff.
 - The branch is on GitHub: `wip/167-map` (`1a77521`). It is also merged into the landing branch `wip/166-health`, with `site/data/map.json` rebuilt from this machine's tables by `runs/session167/handover.sh` (exit 0, every step). To finish: the landing of `wip/166-health` in `SESSION_166_REPORT.md`, "To finish".
 - No em dash in this file (checked).
+
+## Landing state (added by the chain's session 172 at 02:15 UTC on 10 October 2026)
+
+- **Landed with sessions 166 and 168** (`task/166-168-chain`, merge `551ba12`, production at 01:49 UTC on 10 October 2026). On production `/map/v2?grid=ercot` answers 308 to `/map?grid=ercot`. The review steps above hold. Details: `archive/sessions/SESSION_172_REPORT.md`.

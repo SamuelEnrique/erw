@@ -191,3 +191,7 @@ bash runs/session171/handover.sh        # validator, how_soon.py (rebuilds the s
   passed with nothing of this session on production. Nothing was pushed to `main` or to a `task/` branch after the cutoff.
 - The branch is on GitHub: `wip/171-virginia` (`861be06`, from `a2bd935`). Not merged into the landing branch. No table write is needed (the SCC's robots file forbids the pull; 2,622 rows byte for byte). To finish: `bash runs/session171/handover.sh` from the main copy after merging, commit `site/data/datacenter/how_soon.json` if written, then the usual task push with snapshots. For the owner first: the daily policy monitor and sessions 151, 154 and 157 request the same host whose robots file says Disallow: /.
 - No em dash in this file (checked).
+
+## Landing state (added by the chain's session 172 at 02:15 UTC on 10 October 2026)
+
+- **Not landed yet.** The owner's ruling of 9 October 2026 on the robots file: the Virginia State Corporation Commission is paused (`warehouse/metadata/paused_sources.csv`, scope `vascc`; `docs/methods/vascc_pause.md`); the policy monitor's daily refresh consults the file and sends the commission nothing; `iso_prices.paused_host()` refuses the host whatever the caller; the draft asking for permission is `docs/reviews/scc-permission-email.md`. Landed by session 172 (`task/169-172-chain`, merge `e9023b1`). This session's branch `wip/171-virginia` (`861be06`: the Virginia stage of the waits connector, the page's PJM block) is still to land.
