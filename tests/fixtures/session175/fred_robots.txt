@@ -1,0 +1,37 @@
+#Restrict chatGPT and google Bard to one crawl per month.
+User-agent: GPTBot
+Crawl-delay: 2592000
+Disallow: /graph/graph-landing.php
+Disallow: /graph/image.php
+Disallow: /graph/fredgraph.png
+Disallow: /searchresults
+Disallow: /fred-glance-widget.php
+Disallow: /seriesBeta
+
+User-agent: ChatGPT-User
+Crawl-delay: 2592000
+Disallow: /graph/graph-landing.php
+Disallow: /graph/image.php
+Disallow: /graph/fredgraph.png
+Disallow: /searchresults
+Disallow: /fred-glance-widget.php
+Disallow: /seriesBeta
+
+User-agent: Google-Extended
+Crawl-delay: 2592000
+Disallow: /graph/graph-landing.php
+Disallow: /graph/image.php
+Disallow: /graph/fredgraph.png
+Disallow: /searchresults
+Disallow: /fred-glance-widget.php
+Disallow: /seriesBeta
+
+# Allows all robots to visit all files.
+User-agent: *
+Crawl-delay: 1
+Disallow: /graph/graph-landing.php
+Disallow: /graph/image.php
+Disallow: /graph/fredgraph.png
+Disallow: /searchresults
+Disallow: /fred-glance-widget.php
+Disallow: /seriesBeta

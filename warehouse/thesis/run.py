@@ -1015,6 +1015,8 @@ def browse_url(s):
         route = s["url"].split("?", 1)[0][len("https://api.eia.gov/v2/"):].rstrip("/")
         route = route[:-len("/data")] if route.endswith("/data") else route
         return "https://www.eia.gov/opendata/browser/" + route
+    if s["source"] == "FRED" and s["url"].startswith(sr.FRED_CSV):      # session 175: the series' own page, as FRED's citation names it
+        return "https://fred.stlouisfed.org/series/" + s["url"][len(sr.FRED_CSV):]
     return s["url"]
 
 
@@ -1234,6 +1236,10 @@ def series_line(s):
         return f"Source: ERW table {s['url'][4:]}" + (f", retrieved {day_words(s['retrieved'])}" if s.get("retrieved") else "") + "."
     if s["source"] == "EIA":
         return f"Source: U.S. Energy Information Administration ({day_words(s['retrieved'])}), {s['title']}."
+    if s["source"] == "FRED":        # session 175: the form FRED's "Cite" tab gives
+        sid = s["url"][len(sr.FRED_CSV):] if s["url"].startswith(sr.FRED_CSV) else s["id"].split(":", 1)[-1]
+        return (f"Source: {s['title']} [{sid}], retrieved from FRED, Federal Reserve Bank of St. Louis; "
+                f"https://fred.stlouisfed.org/series/{sid}, {day_words(s['retrieved'])}.")
     return f"Source: {s['source']}, {s['title']}, retrieved {day_words(s['retrieved'])}."
 
 

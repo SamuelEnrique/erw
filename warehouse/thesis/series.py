@@ -19,10 +19,23 @@ THE CATALOG, IN ORDER
        EIA     api.eia.gov, API v2, with EIA_API_KEY from the root .env (the key is never written anywhere)
        BLS     NOT REQUESTED: api.bls.gov's robots.txt reads "User-agent: *" and "Disallow: /" (read 9 October 2026),
                and www.bls.gov refused the request for its robots.txt and terms (HTTP 403). Recorded and left (LEFT).
-       Census  NOT REQUESTED: api.census.gov answered "Missing Key" to a request without one (9 October 2026) and the
-               .env holds none. Recorded and left (LEFT); _cbp() stays for the day a key is held.
-       FRED    NOT REQUESTED: its API needs a key and the .env holds none (the owner: "a source that needs a key the
-               .env lacks is recorded and left"). FRED series already in the warehouse are in tier 1.
+       Census  NOT REQUESTED: a key is required. On 10 October 2026 (session 175) api.census.gov answered a request
+               for its robots.txt with "Request Rejected" (HTML, HTTP 200) and a keyless County Business Patterns
+               request with HTTP 302 to https://api.census.gov/data/missing_key.html; the .env holds no Census key
+               (a free one is given at https://api.census.gov/data/key_signup.html). Recorded and left (LEFT); _cbp()
+               stays for the day a key is held.
+       FRED    through its public CSV endpoint, https://fred.stlouisfed.org/graph/fredgraph.csv?id=<series> (session
+               175, the owner's approval of 9 October 2026), not its API (which needs a key). Read 10 October 2026:
+               fred.stlouisfed.org/robots.txt allows every agent every path but six (graph-landing.php, image.php,
+               fredgraph.png, searchresults, the widget, seriesBeta; Crawl-delay 1), so fredgraph.csv is allowed; the
+               FRED Services Terms of Use (fred.stlouisfed.org/legal/) permit "non-commercial, educational, and
+               personal uses", to "Conduct research", to "View, download, and print FRED content" and to "Create
+               individual visualizations of FRED data", and forbid scripts or bots used "in any manner that is
+               excessive, disruptive, or adversely impacts the stability, performance, or availability of the FRED
+               Services" (the summary's "Don't do any data mining, scraping or extraction of FRED data" is that
+               clause, which the full terms qualify). A run asks for at most five small CSVs, one a second, and cites
+               each as FRED's "Cite" tab does. The CSV carries no title: the title is the catalog's, written from
+               FRED's own listing, and the CSV's header must name the series asked for or the pull is refused.
      The outside catalog is a fixed list (OUTSIDE below), each entry checked by hand against its publisher's own
      description when it was added; the title shown is the one the publisher's answer gives wherever the answer gives
      one, and a pull whose answer names another series than the one asked for is refused.
@@ -170,6 +183,11 @@ def _bls(sid, title, unit):
     return {"id": f"bls:{sid}", "source": "BLS", "title": title, "unit": unit, "freq": "monthly", "series": sid}
 
 
+def _fred(sid, title, unit, freq="monthly"):
+    """A FRED series by its id, read from fredgraph.csv. The title is FRED's own, as the catalog records it."""
+    return {"id": f"fred:{sid}", "source": "FRED", "title": title, "unit": unit, "freq": freq, "series": sid}
+
+
 def _cbp(naics, title):
     return {"id": f"census:cbp:{naics}", "source": "Census", "title": f"US establishments, NAICS {naics} ({title})", "unit": "establishments", "freq": "annual", "naics": naics}
 
@@ -189,13 +207,36 @@ OUTSIDE = [
      "params": {"frequency": "annual", "data[0]": "price", "facets[stateid][]": "US", "facets[sectorid][]": "IND"}, "field": "price", "check": {"stateid": "US", "sectorid": "IND"}, "title_from": None},
     {"id": "eia:retail-sales:COM", "source": "EIA", "title": "US retail sales of electricity, commercial sector", "unit": "million kWh", "freq": "annual", "route": EIA_RETAIL,
      "params": {"frequency": "annual", "data[0]": "sales", "facets[stateid][]": "US", "facets[sectorid][]": "COM"}, "field": "sales", "check": {"stateid": "US", "sectorid": "COM"}, "title_from": None},
+    # FRED (session 175): monthly series of the Federal Reserve Bank of St. Louis's database, each by its id, the title
+    # as FRED lists it (fredgraph.csv carries none)
+    _fred("MCOILWTICO", "Crude Oil Prices: West Texas Intermediate (WTI) - Cushing, Oklahoma", "dollars per barrel"),
+    _fred("MHHNGSP", "Henry Hub Natural Gas Spot Price", "dollars per million BTU"),
+    _fred("GASREGM", "US Regular All Formulations Gas Price", "dollars per gallon"),
+    _fred("PNRGINDEXM", "Global Price of Energy Index", "index 2016=100"),
+    _fred("IPG211S", "Industrial Production: Mining: Oil and Gas Extraction (NAICS = 211)", "index 2017=100"),
+    _fred("CAPUTLG211S", "Capacity Utilization: Mining: Oil and Gas Extraction (NAICS = 211)", "percent of capacity"),
+    _fred("IPUTIL", "Industrial Production: Utilities (NAICS = 2211,2)", "index 2017=100"),
+    _fred("IPG2211S", "Industrial Production: Utilities: Electric Power Generation, Transmission, and Distribution (NAICS = 2211)", "index 2017=100"),
+    _fred("CES1021100001", "All Employees, Oil and Gas Extraction", "thousands of persons"),
+    _fred("CES4422000001", "All Employees, Utilities", "thousands of persons"),
+    _fred("CES2023700001", "All Employees, Heavy and Civil Engineering Construction", "thousands of persons"),
+    _fred("PCU211211", "Producer Price Index by Industry: Oil and Gas Extraction", "index Dec 1985=100"),
+    _fred("PCU22112211", "Producer Price Index by Industry: Electric Power Generation, Transmission and Distribution", "index Dec 1990=100"),
+    _fred("PCU333611333611", "Producer Price Index by Industry: Turbine and Turbine Generator Set Units Manufacturing", "index Dec 1984=100"),
+    _fred("TLPWRCONS", "Total Construction Spending: Power in the United States", "millions of dollars, seasonally adjusted annual rate"),
+    _fred("CUSR0000SEHF01", "Consumer Price Index for All Urban Consumers: Electricity in U.S. City Average", "index 1982-1984=100"),
+    _fred("CUSR0000SEHF02", "Consumer Price Index for All Urban Consumers: Utility (Piped) Gas Service in U.S. City Average", "index 1982-1984=100"),
+    _fred("GS10", "Market Yield on U.S. Treasury Securities at 10-Year Constant Maturity, Quoted on an Investment Basis", "percent"),
 ]
 BY_ID = {e["id"]: e for e in OUTSIDE}
 # The publishers named by the owner that a run does not request, and why (session 169). _bls() stays for the day BLS's
 # robots.txt allows the API path.
-LEFT = {"FRED": "its API needs a key and the root .env holds none; FRED series the warehouse already holds are drawn from the warehouse",
-        "Census": "api.census.gov answered Missing Key to a request without one, and the root .env holds no Census key",
+LEFT = {"Census": "a Census API key is required: api.census.gov answers a keyless request with HTTP 302 to its missing_key.html page "
+                  "(10 October 2026), and the root .env holds no Census key (a free one is given at api.census.gov/data/key_signup.html)",
         "BLS": "api.bls.gov's robots.txt disallows every path to every agent, and www.bls.gov refused the request for its terms (HTTP 403)"}
+FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
+FRED_TERMS = ("FRED Services Terms of Use, fred.stlouisfed.org/legal/, read 10 October 2026: non-commercial, educational and personal use; "
+              "research, downloading and individual visualizations allowed; scripts or bots forbidden only when excessive or disruptive")
 # Census's terms: "This product uses the Census Bureau Data API but is not endorsed or certified by the Census Bureau."
 CENSUS_NOTICE = "This product uses the Census Bureau Data API but is not endorsed or certified by the Census Bureau."
 CBP_YEARS = (2019, 2020, 2021, 2022)
@@ -327,6 +368,15 @@ def pull(entry, count, table_dir=None, log=None, raw_dir=None):
             raise RuntimeError(f"BLS's answer is series {s.get('seriesID')}, not {entry['series']}")
         pts = sorted((f"{d['year']}-{d['period'][1:]}", _num(d["value"])) for d in s["data"] if re.fullmatch(r"M(0[1-9]|1[0-2])", d["period"]))
         retrieved, note = now, "BLS public data API v1"
+    elif src == "FRED":
+        url = FRED_CSV + urllib.parse.quote(entry["series"])
+        if not robots_ok(url, count, log):
+            raise RuntimeError("robots.txt of fred.stlouisfed.org does not allow it")
+        status, body = get(url, count, log, raw_dir)
+        if status != 200:
+            raise RuntimeError(f"FRED answered HTTP {status}: {body[:200]!r}")
+        pts = parse_fredgraph(body, entry["series"])
+        retrieved, note = now, "FRED, Federal Reserve Bank of St. Louis (fredgraph.csv)"
     elif src == "Census":
         pts, url = [], ""
         for year in CBP_YEARS:
@@ -354,6 +404,24 @@ def pull(entry, count, table_dir=None, log=None, raw_dir=None):
     pts = pts[-keep:]
     return {"id": entry["id"], "source": src, "title": entry["title"], "unit": entry.get("unit") or "", "freq": entry["freq"], "url": redact(url),
             "retrieved": retrieved, "points": pts, "cut": cut, "note": note}
+
+
+def parse_fredgraph(body, sid):
+    """The points of a fredgraph.csv answer: its header must be observation_date and the series asked for (an answer
+    naming another series is refused); a "." is a missing value and is left out; every other value as published."""
+    text = body.decode("utf-8", "replace").lstrip("\ufeff")
+    lines_ = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    if not lines_ or lines_[0].split(",") != ["observation_date", sid]:
+        raise RuntimeError(f"FRED's answer is headed {lines_[0][:80] if lines_ else 'nothing'!r}, not observation_date,{sid}")
+    pts = []
+    for ln in lines_[1:]:
+        parts = ln.split(",")
+        if len(parts) != 2 or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", parts[0]):
+            raise RuntimeError(f"FRED's answer holds a line that is not a date and a value: {ln[:60]!r}")
+        if parts[1] == ".":
+            continue
+        pts.append((parts[0], _num(parts[1])))
+    return pts
 
 
 def _env_key(name):

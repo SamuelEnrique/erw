@@ -419,9 +419,9 @@ class SeriesModule(unittest.TestCase):
         self.assertEqual(c.n["requests"], 1)
 
     def test_only_the_named_publishers_and_the_left_ones_are_said(self):
-        self.assertEqual({e["source"] for e in SR.OUTSIDE}, {"EIA"})
-        self.assertEqual(set(SR.LEFT), {"FRED", "BLS", "Census"})
-        self.assertTrue(all(e["route"].startswith("https://api.eia.gov/v2/") for e in SR.OUTSIDE))
+        self.assertEqual({e["source"] for e in SR.OUTSIDE}, {"EIA", "FRED"})      # session 175: FRED through fredgraph.csv
+        self.assertEqual(set(SR.LEFT), {"BLS", "Census"})      # session 175: FRED is read through fredgraph.csv
+        self.assertTrue(all(e["route"].startswith("https://api.eia.gov/v2/") for e in SR.OUTSIDE if e["source"] == "EIA"))      # session 175: FRED entries have no route
 
     def test_a_series_is_described_with_every_value(self):
         d = SR.describe(dict(SERIES))
