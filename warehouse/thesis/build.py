@@ -100,18 +100,21 @@ class Researcher:
         self.sources = {}      # url -> {id, url, title, page_age, cited: [texts]}
         self.erw = []          # [{id, tool, args, result}]
 
-    def charge(self, resp, what):
+    def charge(self, resp, what, model=None):
         u = resp.usage
         stu = getattr(u, "server_tool_use", None)
         n_search = (getattr(stu, "web_search_requests", 0) or 0) if stu else 0
         cache_r = getattr(u, "cache_read_input_tokens", 0) or 0
         cache_w = getattr(u, "cache_creation_input_tokens", 0) or 0
-        c = ((u.input_tokens + cache_w * 1.25 + cache_r * 0.1) * self.price[0] + u.output_tokens * self.price[1]) / 1e6 \
+        # session 169: a call may be made on another model than the run's (the small model classifies and extracts)
+        import llm
+        price = (llm.price_pair(model) or self.price) if model else self.price
+        c = ((u.input_tokens + cache_w * 1.25 + cache_r * 0.1) * price[0] + u.output_tokens * price[1]) / 1e6 \
             + n_search * SEARCH_USD
         self.cost += c
         self.calls += 1
         self.searches += n_search
-        self.log(f"  call {self.calls} ({what}): {self.model}, in {u.input_tokens} (cache read {cache_r}, write {cache_w}), "
+        self.log(f"  call {self.calls} ({what}): {model or self.model}, in {u.input_tokens} (cache read {cache_r}, write {cache_w}), "
                  f"out {u.output_tokens}, web searches {n_search}; USD {c:.4f}; run total USD {self.cost:.4f}")
         if self.cost > self.max_usd:
             raise Budget(f"the run passed USD {self.max_usd} (USD {self.cost:.4f}); stopping")
@@ -127,11 +130,14 @@ class Researcher:
             s["cited"].append(cited)
         return s["id"]
 
-    def research(self, what, system, prompt, max_searches, erw_tools=True, max_turns=24):
+    def research(self, what, system, prompt, max_searches, erw_tools=True, max_turns=24, model=None):
         """One agentic pass: web search and the warehouse's tools, until the model ends its turn. Returns the notes
-        (text, with each cited passage marked with its source id)."""
+        (text, with each cited passage marked with its source id). Session 169: `model` runs the pass on another
+        model than the run's; the small model (Haiku 4.5) takes the basic web search tool and no effort setting."""
         import tools as erw_tools_mod
-        tools = [{"type": "web_search_20260209", "name": "web_search", "max_uses": max_searches}]
+        m = model or self.model
+        small = "haiku" in m
+        tools = [{"type": "web_search_20250305" if small else "web_search_20260209", "name": "web_search", "max_uses": max_searches}]
         if erw_tools:
             tools = [dict(t) for t in erw_tools_mod.TOOLS] + tools
         msgs = [{"role": "user", "content": prompt}]
@@ -140,12 +146,12 @@ class Researcher:
             # the history grows every turn: cache it (the last block), so a turn pays for its new tokens only
             # session 30 (B5): the system prompt and tools carry their own breakpoint, so the next pass with the same
             # tools reads them from the cache too
-            resp = self.client.messages.create(model=self.model, max_tokens=16000, tools=tools,
+            resp = self.client.messages.create(model=m, max_tokens=16000, tools=tools,
                                                system=[{"type": "text", "text": system + VOICE_NOTE,
                                                         "cache_control": {"type": "ephemeral"}}],
-                                               messages=msgs, output_config={"effort": "medium"},
+                                               messages=msgs, **({} if small else {"output_config": {"effort": "medium"}}),
                                                cache_control={"type": "ephemeral"})
-            self.charge(resp, what)
+            self.charge(resp, what, model)
             results = []
             for b in resp.content:
                 if b.type == "web_search_tool_result":
@@ -178,19 +184,20 @@ class Researcher:
             break
         return "".join(notes)
 
-    def structure(self, what, system, notes, schema):
-        """One JSON call per sheet, from the notes and the numbered sources only."""
+    def structure(self, what, system, notes, schema, model=None):
+        """One JSON call per sheet, from the notes and the numbered sources only. Session 169: `model` as in research."""
         src = self.source_list()
         msg = (f"Research notes (bracketed ids are the sources each passage cites):\n{notes}\n\nNumbered web sources "
                f"(id, title, URL, the passages cited from each):\n{src}\n\nWarehouse sources (id, tool, table, result):\n"
                f"{self.erw_list()}")
         # not cached: each sheet's JSON schema is part of the prompt's prefix, so a cache written for one sheet never
         # matches the next (session 25, run 1: every structure call wrote the cache and read none)
+        m = model or self.model
         resp = self.client.messages.create(
-            model=self.model, max_tokens=16000, system=STRUCT_SYSTEM + VOICE_NOTE,
+            model=m, max_tokens=16000, system=STRUCT_SYSTEM + VOICE_NOTE,
             messages=[{"role": "user", "content": [{"type": "text", "text": msg}, {"type": "text", "text": system}]}],
-            output_config={"effort": "medium", "format": {"type": "json_schema", "schema": schema}})
-        self.charge(resp, what)
+            output_config={**({} if "haiku" in m else {"effort": "medium"}), "format": {"type": "json_schema", "schema": schema}})
+        self.charge(resp, what, model)
         if resp.stop_reason != "end_turn":
             raise RuntimeError(f"{what}: stop_reason {resp.stop_reason}")
         return json.loads(next(b.text for b in resp.content if b.type == "text"))
@@ -630,6 +637,26 @@ def merge_companies(rows, niche, run_id, log):
 TABLE_DIR = None        # session 147: run.py --in-dir reads the warehouse's tables from another folder
 
 
+# Session 169: the short words of the domain. The words a niche is looked for by were those of four letters or more
+# (run.words_of) or five (the policy candidates), so "oil", "gas", "EV", "AI" and "LNG" were never searched. These are
+# kept, each as a whole word only ("oil" is not in "soil"); every longer word is read as before.
+SHORT = ("oil", "gas", "ev", "ai", "lng", "smr", "ccs", "dac", "pv", "h2", "co2")
+_SHORT_WORD = re.compile(r"(?<![a-z0-9-])(?:" + "|".join(SHORT) + r")(?![a-z0-9-])")
+
+
+def short_in(text, w):
+    """Is the short domain word in the text as a whole word? (lower case text)"""
+    return re.search(rf"(?<![a-z0-9]){re.escape(w)}(?![a-z0-9])", text) is not None
+
+
+def policy_words(text, drop=()):
+    """The words the policy candidates are looked for by: the text's words of five letters or more that are not in
+    `drop` (as before session 169), then its short domain words (SHORT), each once, in the order written."""
+    low = text.lower()
+    words = [w for w in re.findall(r"[a-z]{5,}", low) if w not in drop]
+    return words + [w for w in dict.fromkeys(_SHORT_WORD.findall(low)) if w not in words]
+
+
 def policy_candidates(niche_words):
     path = os.path.join(TABLE_DIR or ip.OUT_DIR, "policy_actions.csv")
     if not os.path.exists(path):
@@ -637,7 +664,8 @@ def policy_candidates(niche_words):
     with open(path, encoding="utf-8") as f:
         skip = sum(1 for ln in f if ln.startswith("#"))
     a = pd.read_csv(path, skiprows=skip, dtype=str, keep_default_na=False)
-    pat = "|".join(re.escape(w) for w in niche_words)
+    # session 169: a short domain word matches as a whole word only; a longer word anywhere, as before
+    pat = "|".join(rf"(?<![a-z0-9]){re.escape(w)}(?![a-z0-9])" if w.lower() in SHORT else re.escape(w) for w in niche_words)
     m = a[(a["title"] + " " + a["abstract"] + " " + a["sector_tags"]).str.contains(pat, case=False, regex=True)]
     m = m.assign(sig=pd.to_numeric(m["significance"], errors="coerce").fillna(0)).sort_values("sig", ascending=False)
     return m.head(40)
@@ -707,7 +735,7 @@ def main(argv=None):
                            "sources": r.sources, "erw": r.erw, "notes": notes}, open(research_path, "w", encoding="utf-8"),
                           default=str)
                 log(f"research saved: {os.path.relpath(research_path, ROOT)}")
-            words = [w for w in re.findall(r"[a-z]{5,}", args.niche.lower()) if w not in {"merchant", "operators", "software", "mapping"}]
+            words = policy_words(args.niche, {"merchant", "operators", "software", "mapping"})      # session 169: the short domain words too
             pol = policy_candidates(words or [args.niche])
             # session 30 (B5): the sheets in one call (structure_all), the policy sheet with them when there are candidates
             keys = ["scope", "fundamentals", "trends", "landscape", "capital", "incumbents", "risks"]

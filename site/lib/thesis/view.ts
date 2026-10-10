@@ -3,10 +3,16 @@
 // answer is which company of the report. Pure functions, no I/O: scripts/test-thesis-pitchbook.mjs tests them.
 import type { Cell, Missing, PbCompany, PitchbookPayload, Trend } from "./types";
 
+// Session 169, the owner's ruling of 8 October 2026: the market research is the ERW's (scope, trends, capital, policy,
+// risks, incumbents, timing, references); companies come from a connector (landscape, deal funnel, pipeline, success
+// stories, investors), each tab a greyed placeholder until a provider's answer is pasted. Every address of a tab that
+// existed before still opens the same tab.
 export const TABS = [
-  { id: "scope", label: "Scope and definitions" }, { id: "trends", label: "Trends" }, { id: "landscape", label: "Company landscape" },
-  { id: "funnel", label: "Deal funnel" }, { id: "pipeline", label: "Pipeline map" }, { id: "capital", label: "Capital" },
-  { id: "incumbents", label: "Incumbents" }, { id: "risks", label: "Risks" }, { id: "policy", label: "Policy" },
+  { id: "scope", label: "Scope and definitions" }, { id: "trends", label: "Trends" }, { id: "capital", label: "Capital" },
+  { id: "policy", label: "Policy" }, { id: "risks", label: "Risks" }, { id: "incumbents", label: "Incumbents" },
+  { id: "timing", label: "Timing" }, { id: "references", label: "References" },
+  { id: "landscape", label: "Company landscape" }, { id: "funnel", label: "Deal funnel" }, { id: "pipeline", label: "Pipeline map" },
+  { id: "success", label: "Success stories" }, { id: "investors", label: "Investors" },
 ] as const;
 export type TabId = (typeof TABS)[number]["id"];
 export const METHOD = "/data/methods/thesis";
@@ -157,3 +163,74 @@ export function pbFigureFor(c: PbCompany | null | undefined, field: string): { l
 }
 /** A cell as plain text (for a chart's label or a title): its string, or its placeholder. */
 export const cellWords = (c: Cell | null | undefined): string => (isMissing(c) ? PLACEHOLDER[c.missing] ?? "not held" : str(c));
+
+// ------------------------------------------------------------------ session 169: the connector tabs
+
+export type ConnectorId = "landscape" | "funnel" | "pipeline" | "success" | "investors";
+export const CONNECTOR_IDS: ConnectorId[] = ["landscape", "funnel", "pipeline", "success", "investors"];
+export const CONNECTOR_NOTE = "Connect PitchBook or Harmonic to fill this";
+export const CONNECTOR_WHY = "The ERW does not search for companies. This tab is filled from a data provider's answer, pasted in the panel above.";
+const COMPANY_COLUMNS = ["Company", "What it sells", "Founders", "Stage", "Raised", "Investors", "Founded", "Location", "Signal", "Source"];
+/** The columns of each connector tab when a report does not name its own (a report written before session 169). The
+ * funnel's stand in for the MCJ workbook's columns until that workbook is read. */
+export const CONNECTOR_COLUMNS: Record<ConnectorId, string[]> = {
+  landscape: COMPANY_COLUMNS, pipeline: COMPANY_COLUMNS,
+  funnel: ["Company", "What it sells", "Stage", "Funnel stage", "Date sourced", "Sourced by", "Next step", "Status", "Notes", "Source"],
+  success: ["Company", "What it sells", "Outcome", "Date", "Raised before", "Investors", "Source"],
+  investors: ["Investor", "Companies backed in this niche", "Lead in", "Latest round seen", "Source"],
+};
+/** A report written since session 169: the market research, with the companies left to a connector. */
+export const isMarket = (r: { version?: unknown } | null | undefined): boolean => typeof r?.version === "number" && r.version >= 2;
+export function columnsOf(r: { connector_tabs?: { columns?: Record<string, string[]> } | null } | null | undefined, tab: ConnectorId): string[] {
+  const own = r?.connector_tabs?.columns?.[tab];
+  return Array.isArray(own) && own.length && own.every((c) => typeof c === "string") ? own : CONNECTOR_COLUMNS[tab];
+}
+
+const EARLY = /\b(pre-?seed|seed|angel|series [ab]\b|grant|accelerator|incubator|early stage)/i;
+const EXIT = /\b(acquired|acquisition|merger|merged|publicly (held|traded)|ipo|buyout|spac)\b/i;
+const roundWords = (c: PbCompany) => { const r = c.last_round; return r ? [str(r.type), r.date ? whenWords(r.date) : "", typeof r.size_usd_m === "number" ? usdM(r.size_usd_m) : ""].filter(Boolean).join(", ") : ""; };
+const join = (v: unknown) => arr(v as string[] | null).map(str).filter(Boolean).join(", ");
+
+/**
+ * What a connector tab holds from a PitchBook answer: its rows, every cell a string ("" where the answer holds nothing
+ * for it, which the page shows as a placeholder). Null when the run holds no answer, or the answer no company. Every
+ * row is labeled PitchBook's in its Source cell. Nothing is computed beyond grouping: the investors' tab counts the
+ * companies of the answer each investor is named on.
+ */
+export function connectorRows(pb: PitchbookPayload | null | undefined, tab: ConnectorId): string[][] | null {
+  if (!pb) return null;
+  const seen = new Set<string>();
+  const all = [...arr(pb.companies), ...arr(pb.additional_companies)].filter((c) => c && c.found).filter((c) => {
+    const k = nameKey(c.pitchbook_name || c.name);
+    if (!k || seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  }) as (PbCompany & { why?: string })[];
+  if (!all.length) return null;
+  const source = `PitchBook${pb.pulled_on ? `, pulled ${whenWords(str(pb.pulled_on))}` : ""}`;
+  const name = (c: PbCompany) => str(c.pitchbook_name) || str(c.name);
+  const stage = (c: PbCompany) => str(c.last_round?.type) || str(c.financing_status);
+  const raised = (c: PbCompany) => (typeof c.total_raised_usd_m === "number" ? usdM(c.total_raised_usd_m) : "");
+  const company = (c: PbCompany) => [name(c), str(c.description), join(c.founders), stage(c), raised(c), join(c.investors), typeof c.founded_year === "number" ? String(c.founded_year) : "", str(c.hq), roundWords(c), source];
+  const latest = (c: PbCompany) => str(c.last_round?.date);
+  if (tab === "landscape") return all.map(company);
+  if (tab === "pipeline") return all.filter((c) => EARLY.test(`${stage(c)} ${str(c.financing_status)}`) && !EXIT.test(`${stage(c)} ${str(c.financing_status)}`))
+    .sort((a, b) => latest(b).localeCompare(latest(a))).map(company);
+  if (tab === "funnel") return all.map((c) => [name(c), str(c.description), stage(c), "Sourced", str(pb.pulled_on), "PitchBook", "", "", str((c as { why?: string }).why), source]);
+  if (tab === "success") return all.filter((c) => EXIT.test(`${str(c.financing_status)} ${str(c.last_round?.type)}`))
+    .map((c) => [name(c), str(c.description), EXIT.test(str(c.last_round?.type)) ? str(c.last_round?.type) : str(c.financing_status), latest(c) ? whenWords(latest(c)) : "", raised(c), join(c.investors), source]);
+  const by = new Map<string, { names: string[]; lead: string[]; latest: string }>();
+  for (const c of all) {
+    const leads = new Set(arr(c.lead_investors).map(nameKey));
+    for (const inv of new Set([...arr(c.investors), ...arr(c.lead_investors)].map(str).filter(Boolean))) {
+      const k = nameKey(inv);
+      const e = by.get(k) ?? { names: [inv], lead: [], latest: "" };
+      if (!e.names.includes(name(c))) e.names.push(name(c));
+      if (leads.has(k) && !e.lead.includes(name(c))) e.lead.push(name(c));
+      if (latest(c) > e.latest) e.latest = latest(c);
+      by.set(k, e);
+    }
+  }
+  return [...by.values()].sort((a, b) => b.names.length - a.names.length || a.names[0].localeCompare(b.names[0]))
+    .map((e) => [e.names[0], `${e.names.length - 1}: ${e.names.slice(1).join(", ")}`, e.lead.join(", "), e.latest ? whenWords(e.latest) : "", source]);
+}

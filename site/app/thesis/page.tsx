@@ -8,6 +8,7 @@ import { ReportTabs } from "@/components/thesis/Report";
 import { RunForm } from "@/components/thesis/RunForm";
 import { RunWatch } from "@/components/thesis/RunWatch";
 import { COOKIE } from "@/lib/release";
+import { FORCED_MARK, FORCED_NOTE } from "@/lib/thesis/niche";
 import { heldOf, notMapped, notMappedOf, type ProviderPayload } from "@/lib/thesis/providers";
 import { getProviderResults, getRun, internalOk, listRuns } from "@/lib/thesis/server";
 import type { Run, RunRow } from "@/lib/thesis/types";
@@ -78,7 +79,10 @@ function Selected({ run, choice }: { run: Run; choice: ReturnType<typeof choiceO
   return (
     <section className="mt-7" aria-label="The selected run" data-thesis-run={run.run_id} data-status={status}>
       <header className="mb-3 border-b border-rule pb-2">
-        <h2 className="font-serif text-2xl text-accent">{str(run.niche)}</h2>
+        <h2 className="font-serif text-2xl text-accent">{str(run.niche)}
+          {/* session 169: a run started with "Run anyway" on a niche the gate refused is flagged on its report */}
+          {report?.gate?.forced === true ? <>{" "}<span className="cursor-help whitespace-nowrap rounded-sm border border-accent px-1 align-middle font-sans text-[10px] font-semibold uppercase tracking-wide text-accent" title={FORCED_NOTE} data-thesis-forced="1">{FORCED_MARK}</span></> : null}
+        </h2>
         <p className="mt-0.5 text-xs text-muted">
           {[str(run.stage), str(run.geography)].filter(Boolean).join(", ")}{str(run.stage) || str(run.geography) ? " | " : ""}
           {STATUS[status] ?? status} | requested {whenWords(str(run.requested_at))}

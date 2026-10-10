@@ -150,7 +150,9 @@ test("the address holds the run and the tab; what it cannot be is dropped", () =
   assert.equal(v.hrefOf(c, { tab: "trends" }, "trend-3"), `/thesis?run=${RUN}&tab=trends#trend-3`);
   assert.deepEqual(v.choiceOf({ run: "a b;drop", tab: "export" }), { run: null, tab: "scope" });
   assert.deepEqual(v.choiceOf({ run: [RUN, "x"], tab: ["policy"] }), { run: RUN, tab: "policy" });
-  assert.deepEqual(v.TABS.map((t) => t.label), ["Scope and definitions", "Trends", "Company landscape", "Deal funnel", "Pipeline map", "Capital", "Incumbents", "Risks", "Policy"]);
+  // session 169, the owner's ruling: the market research's tabs first, then the connector tabs
+  assert.deepEqual(v.TABS.map((t) => t.label), ["Scope and definitions", "Trends", "Capital", "Policy", "Risks", "Incumbents", "Timing", "References",
+    "Company landscape", "Deal funnel", "Pipeline map", "Success stories", "Investors"]);
 });
 test("a cell is a number only when it reads as one; anything else is not drawn", () => {
   assert.equal(v.numeric("1,234.5"), 1234.5);

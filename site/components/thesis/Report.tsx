@@ -30,7 +30,7 @@ import { ProviderBlock, ProviderCell, ProviderFound } from "@/components/thesis/
 import { FunnelChart, TrendChart } from "@/components/thesis/ThesisCharts";
 import { heldOf, hoverOf, type FactId, type Held } from "@/lib/thesis/providers";
 import type { Cell, PitchbookPayload, Report, Run, Source, Text } from "@/lib/thesis/types";
-import { EMPTY_TAB, PB_PENDING, PB_PENDING_WHY, PLACEHOLDER, TABS, arr, chartOf, hrefOf, isMissing, nameKey, num, pbFigureFor, pbFigures, pitchbookFor, safeUrl, str, whenWords, type Choice, type TabId } from "@/lib/thesis/view";
+import { CONNECTOR_NOTE, CONNECTOR_WHY, EMPTY_TAB, PB_PENDING, PB_PENDING_WHY, PLACEHOLDER, TABS, arr, chartOf, columnsOf, connectorRows, hrefOf, isMarket, isMissing, nameKey, num, pbFigureFor, pbFigures, pitchbookFor, safeUrl, str, whenWords, type Choice, type ConnectorId, type TabId } from "@/lib/thesis/view";
 
 type Ctx = {
   choice: Choice; sources: Map<string, Source>; pb: PitchbookPayload | null; asked: Set<string>; pbColumn: boolean; notes: Map<string, string>;
@@ -181,10 +181,16 @@ function Site({ url }: { url: unknown }) {
 function Scope({ r, ctx }: { r: Report; ctx: Ctx }) {
   const s = r.scope;
   const chain = arr(s?.value_chain), excluded = arr(s?.excluded), defs = arr(s?.definitions);
-  if (!asText(s?.definition).text && !chain.length && !excluded.length && !defs.length) return <Nothing />;
+  const inside = arr(s?.in_scope), segments = arr(s?.sub_segments);
+  if (!asText(s?.definition).text && !chain.length && !excluded.length && !defs.length && !inside.length && !segments.length) return <Nothing />;
   return (
     <>
       <Fact t={s?.definition} ctx={ctx} className="mb-4 max-w-4xl text-base" />
+      {inside.length ? <><H2>In scope</H2><ul className="mb-2 max-w-4xl list-disc pl-5 text-sm" data-in-scope="1">{inside.map((t, i) => <li key={i}><Fact t={t} ctx={ctx} className="" /></li>)}</ul></> : null}
+      {segments.length ? <><H2>Sub-segments</H2>
+        <Table min={520} head={<><th className={`${TH} pl-1`}>Sub-segment</th><th className={TH}>What it is</th></>}>
+          {segments.map((x, i) => { const t = asText(x?.what); return <tr key={i} className="border-b border-rule/70" data-sub-segment="1"><th scope="row" className={`${TD} whitespace-nowrap pl-1 text-left font-semibold`}>{str(x?.name)}</th><td className={TD}>{t.text}<Src ids={t.sources} ctx={ctx} /></td></tr>; })}
+        </Table></> : null}
       {chain.length ? <><H2>Value chain</H2>
         <Table min={520} head={<><th className={`${TH} pl-1`}>Stage</th><th className={TH}>What it is</th></>}>
           {chain.map((c, i) => { const t = asText(c?.what); return <tr key={i} className="border-b border-rule/70"><th scope="row" className={`${TD} whitespace-nowrap pl-1 text-left font-semibold`}>{str(c?.stage)}</th><td className={TD}>{t.text}<Src ids={t.sources} ctx={ctx} /></td></tr>; })}
@@ -193,7 +199,7 @@ function Scope({ r, ctx }: { r: Report; ctx: Ctx }) {
         <dl className="max-w-4xl text-sm">
           {defs.map((d, i) => { const t = asText(d?.meaning); return <div key={i} className="border-b border-rule/70 py-1.5 sm:grid sm:grid-cols-[14rem_minmax(0,1fr)] sm:gap-3"><dt className="font-semibold">{str(d?.term)}</dt><dd>{t.text}<Src ids={t.sources} ctx={ctx} /></dd></div>; })}
         </dl></> : null}
-      {excluded.length ? <><H2>Excluded</H2>
+      {excluded.length ? <><H2>{segments.length || inside.length ? "Out of scope" : "Excluded"}</H2>
         <Table min={520} head={<><th className={`${TH} pl-1`}>Niche</th><th className={TH}>Why</th></>}>
           {excluded.map((e, i) => <tr key={i} className="border-b border-rule/70"><th scope="row" className={`${TD} pl-1 text-left font-semibold`}>{str(e?.niche)}</th><td className={TD}>{str(e?.why)}</td></tr>)}
         </Table></> : null}
@@ -201,8 +207,42 @@ function Scope({ r, ctx }: { r: Report; ctx: Ctx }) {
   );
 }
 
+/** Session 169: a trend of a version 2 report. One sentence, its Fact; one chart of a real series with the publisher's
+ * source line, the values themselves folded under it; or, when no real series measures it, a short line that says so
+ * (the reason on hover) and no chart. */
+function MarketTrend({ t, n, ctx }: { t: Report["trends"][number]; n: number; ctx: Ctx }) {
+  const chart = chartOf(t);
+  const s = t?.series ?? null;
+  const fact = asText(t?.fact);
+  const rows = arr(t?.table?.rows).filter(Array.isArray), columns = arr(t?.table?.columns);
+  const link = safeUrl(s?.url);
+  return (
+    <section id={`trend-${n}`} className="mb-8 scroll-mt-4" data-trend={n} data-series={s ? str(s.id) : ""}>
+      <h3 className="mb-1 border-b border-accent pb-0.5 font-serif text-lg text-accent">{n}. {str(t?.title)}</h3>
+      {fact.text ? <p className="mb-3 max-w-4xl text-sm" data-fact="1"><span className="font-semibold">Fact:</span> {fact.text}<Src ids={fact.sources} ctx={ctx} /></p> : null}
+      {s && chart ? (
+        <figure className="mb-2">
+          <figcaption className="mb-1 text-xs text-muted">{chart.title}{chart.unit ? `, ${chart.unit}` : ""}</figcaption>
+          <TrendChart data={chart} />
+          <p className="mt-1 text-[11px] text-muted" data-source-line="1">{link ? <a href={link} target="_blank" rel="noopener noreferrer" className="underline decoration-rule underline-offset-2 hover:text-accent">{str(s.source_line)}</a> : str(s.source_line)}
+            {s.cut ? <>{" "}<Gap words="latest values" why={`The chart draws the latest ${num(s.points)} values the publisher gives.`} kind="cut" /></> : null}</p>
+          {rows.length ? (
+            <details className="mt-1 text-xs">
+              <summary className="cursor-pointer text-muted">The values</summary>
+              <Table min={320} head={columns.map((c, i) => <th key={i} className={`${TH} ${i ? "" : "pl-1"}`}>{str(c)}</th>)}>
+                {rows.map((row, i) => <tr key={i} className="border-b border-rule/70">{row.map((c, j) => <td key={j} className={`${TD} tabular-nums ${j ? "" : "pl-1"}`}><CellView cell={c} ctx={ctx} /></td>)}</tr>)}
+              </Table>
+            </details>
+          ) : null}
+        </figure>
+      ) : <p className="mb-3"><Gap words="no real series: not drawn" why={str(t?.no_series) || "No real series measures this trend, so it is not drawn."} kind="no_series" /></p>}
+    </section>
+  );
+}
+
 function Trends({ r, ctx }: { r: Report; ctx: Ctx }) {
   const trends = arr(r.trends);
+  const market = isMarket(r);
   if (!trends.length) return <Nothing />;
   return (
     <>
@@ -211,6 +251,7 @@ function Trends({ r, ctx }: { r: Report; ctx: Ctx }) {
         const kind = t?.chart?.kind;
         const columns = arr(t?.table?.columns), rows = arr(t?.table?.rows).filter(Array.isArray);
         const n = typeof t?.n === "number" ? t.n : k + 1;
+        if (market) return <MarketTrend key={k} t={t} n={n} ctx={ctx} />;
         return (
           <section key={k} id={`trend-${n}`} className="mb-8 scroll-mt-4" data-trend={n}>
             <h3 className="mb-1 border-b border-accent pb-0.5 font-serif text-lg text-accent">{n}. {str(t?.title)}<Src ids={t?.sources} ctx={ctx} /></h3>
@@ -434,6 +475,65 @@ function Policy({ r }: { r: Report }) {
   );
 }
 
+/** Session 169: is the market still being installed or already deploying, with the evidence. */
+function Timing({ r, ctx }: { r: Report; ctx: Ctx }) {
+  const t = r.timing;
+  if (!t) return <p className="text-sm text-muted" data-thesis-empty="1">This run was written before the Timing tab existed.</p>;
+  const ev = arr(t.evidence);
+  return (
+    <>
+      <p className="mb-2 text-sm" data-timing={str(t.stage)}><span className="border border-accent px-1.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-accent">{str(t.stage)}</span></p>
+      <Fact t={t.text} ctx={ctx} />
+      {ev.length ? <><H2>Evidence</H2><ul className="max-w-4xl list-disc pl-5 text-sm">{ev.map((e, i) => <li key={i}><Fact t={e} ctx={ctx} className="" /></li>)}</ul></> : null}
+    </>
+  );
+}
+
+/** Session 169: every source the report cites, in the order of their ids. */
+function References({ r }: { r: Report }) {
+  const ss = arr(r.sources).filter((s) => s && typeof s.id === "string");
+  if (!ss.length) return <Nothing />;
+  return (
+    <ol className="max-w-5xl space-y-1 text-sm" data-references={ss.length}>
+      {ss.map((s) => { const u = s.kind !== "erw" ? safeUrl(s.url) : null;
+        return (
+          <li key={s.id} className="grid grid-cols-[3rem_minmax(0,1fr)] gap-2" data-reference={s.id}>
+            <span className="font-mono text-xs text-muted">{s.id}</span>
+            <span>{u ? <a href={u} target="_blank" rel="noopener noreferrer" className="text-accent underline decoration-rule underline-offset-2">{str(s.title) || u}</a> : str(s.title)}
+              {s.retrieved ? <span className="ml-1.5 text-xs text-muted">read {whenWords(str(s.retrieved))}</span> : null}</span>
+          </li>
+        ); })}
+    </ol>
+  );
+}
+
+/** Session 169: a connector tab. With a provider's answer pasted, the companies of that answer, every row labeled; until
+ * then the greyed placeholder with the columns the tab will hold. */
+function Connector({ r, ctx, tab }: { r: Report; ctx: Ctx; tab: ConnectorId }) {
+  const columns = columnsOf(r, tab);
+  const rows = connectorRows(ctx.pb, tab);
+  if (rows && rows.length) {
+    return (
+      <Table min={Math.min(1400, 130 * columns.length)} head={columns.map((c, i) => <th key={i} className={`${TH} ${i ? "" : "pl-1"}`}>{c}</th>)}>
+        {rows.map((row, i) => (
+          <tr key={i} className="border-b border-rule/70" data-connector-row={tab}>
+            {row.map((c, j) => <td key={j} className={`${TD} ${j ? "max-w-[16rem] text-xs" : "pl-1 font-semibold"}`}>
+              {c ? <>{c}{j === row.length - 1 ? <PbTag ctx={ctx} /> : null}</> : <Gap words="not in the answer" why="The provider's answer holds nothing for this cell." kind="pitchbook_absent" />}</td>)}
+          </tr>
+        ))}
+      </Table>
+    );
+  }
+  return (
+    <div className="opacity-70" data-connector={tab}>
+      <p className="mb-2 text-sm italic text-muted"><span className={MISSING} title={rows ? "The provider's answer holds no company for this tab." : CONNECTOR_WHY}>{rows ? "No company of the provider's answer belongs here" : CONNECTOR_NOTE}</span></p>
+      <Table min={Math.min(1400, 130 * columns.length)} head={columns.map((c, i) => <th key={i} className={`${TH} ${i ? "" : "pl-1"}`}>{c}</th>)}>
+        <tr className="border-b border-rule/70">{columns.map((c, i) => <td key={i} className={`${TD} text-muted`}>&nbsp;</td>)}</tr>
+      </Table>
+    </div>
+  );
+}
+
 export function ReportTabs({ run, choice }: { run: Run; choice: Choice }) {
   const r = run.report as Report;
   const pb = run.pitchbook && typeof run.pitchbook === "object" ? run.pitchbook : null;
@@ -446,9 +546,17 @@ export function ReportTabs({ run, choice }: { run: Run; choice: Choice }) {
     pbColumn: !!pb || !!run.pitchbook_request || others,
     notes: new Map(arr(r.landscape?.companies).filter((c) => c && str(c.confidence_note)).map((c) => [nameKey(c.name), str(c.confidence_note)])),
   };
+  // session 169: a report written since holds no company of the ERW's own: its company tabs are connector tabs. A
+  // report written before keeps its landscape, funnel and pipeline exactly as they were drawn.
+  const market = isMarket(r);
   const body: Record<TabId, ReactNode> = {
-    scope: <Scope r={r} ctx={ctx} />, trends: <Trends r={r} ctx={ctx} />, landscape: <Landscape r={r} ctx={ctx} />, funnel: <Funnel r={r} ctx={ctx} />,
-    pipeline: <Pipeline r={r} ctx={ctx} />, capital: <Capital r={r} ctx={ctx} />, incumbents: <Incumbents r={r} ctx={ctx} />, risks: <Risks r={r} ctx={ctx} />, policy: <Policy r={r} />,
+    scope: <Scope r={r} ctx={ctx} />, trends: <Trends r={r} ctx={ctx} />,
+    landscape: market ? <Connector r={r} ctx={ctx} tab="landscape" /> : <Landscape r={r} ctx={ctx} />,
+    funnel: market ? <Connector r={r} ctx={ctx} tab="funnel" /> : <Funnel r={r} ctx={ctx} />,
+    pipeline: market ? <Connector r={r} ctx={ctx} tab="pipeline" /> : <Pipeline r={r} ctx={ctx} />,
+    capital: <Capital r={r} ctx={ctx} />, incumbents: <Incumbents r={r} ctx={ctx} />, risks: <Risks r={r} ctx={ctx} />, policy: <Policy r={r} />,
+    timing: <Timing r={r} ctx={ctx} />, references: <References r={r} />,
+    success: <Connector r={r} ctx={ctx} tab="success" />, investors: <Connector r={r} ctx={ctx} tab="investors" />,
   };
   return (
     <section aria-label="Report" data-thesis-report={run.run_id}>

@@ -9,6 +9,7 @@
 import "server-only";
 import { digest } from "@/lib/release";
 import { rpc } from "@/lib/supabase";
+import type { Forced } from "./niche";
 import type { ProviderId, ProviderPayload, ProviderRow } from "./providers";
 import type { PitchbookPayload, Run, RunRow } from "./types";
 
@@ -31,6 +32,10 @@ const token = () => process.env.INTERNAL_COSTS_TOKEN ?? "";
 export type Submitted = { ok: true; run_id: string; dispatched?: boolean } | { ok: false; reason: string; runs_today?: number };
 export const submitRun = (niche: string, stage: string, geography: string) =>
   rpc<Submitted>("thesis_submit", { p_token: token(), p_niche: niche, p_stage: stage, p_geography: geography });
+/** Session 169: a run started with "Run anyway" (lib/thesis/niche.ts), queued with what the gate read of its niche
+ * (migration 026: thesis_submit_forced calls thesis_submit, so the token, the limits and the dispatch are the same). */
+export const submitForced = (niche: string, stage: string, geography: string, gate: Forced) =>
+  rpc<Submitted>("thesis_submit_forced", { p_token: token(), p_niche: niche, p_stage: stage, p_geography: geography, p_gate: gate } as unknown as Record<string, string>);
 export const listRuns = () => rpc<RunRow[] | null>("thesis_list", { p_token: token() });
 export const getRun = (runId: string) => rpc<Run | null>("thesis_get", { p_token: token(), p_run_id: runId });
 /** The PitchBook answer, stored once under the run's one-time key. The payload goes as JSON, not as text: rpc() sends
