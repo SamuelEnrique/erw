@@ -21,6 +21,12 @@ await test("sameOrigin: no Origin passes; this site's passes; another site's, nu
   assert.equal(guard.sameOrigin(req({ host: "internal:3000", "x-forwarded-host": "erw.example", origin: "https://erw.example" }, "http://internal:3000/api/x")), true);
   assert.equal(guard.sameOrigin(req({ host: "erw.example", origin: "https://evil.example" })), false);
   assert.equal(guard.sameOrigin(req({ host: "erw.example", origin: "null" })), false);
+  // a browser writes "null" on a form posted from a page whose referrer policy is no-referrer: only its own word
+  // that the request is same-origin lets it through
+  assert.equal(guard.sameOrigin(req({ host: "erw.example", origin: "null", "sec-fetch-site": "same-origin" })), true);
+  assert.equal(guard.sameOrigin(req({ host: "erw.example", origin: "null", "sec-fetch-site": "same-site" })), false);
+  assert.equal(guard.sameOrigin(req({ host: "erw.example", origin: "null", "sec-fetch-site": "none" })), false);
+  assert.equal(guard.sameOrigin(req({ host: "erw.example", origin: "null", "sec-fetch-site": "cross-site" })), false);
   assert.equal(guard.sameOrigin(req({ host: "erw.example", "sec-fetch-site": "cross-site" })), false);
   assert.equal(guard.sameOrigin(req({ host: "erw.example", origin: "https://erw.example.evil.example" })), false);
 });

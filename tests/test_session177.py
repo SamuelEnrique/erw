@@ -285,6 +285,14 @@ class Site(unittest.TestCase):
         self.assertIn('method="post" action="/internal/unlock"', form)
         self.assertIn('name="token" type="password"', form)
         self.assertNotIn("INTERNAL_COSTS_TOKEN}", form)
+        # a browser posts a form with "Origin: null" from a page whose policy is no-referrer: the form's page is same-origin,
+        # the guard takes "null" only with the browser's own same-origin word, and a real browser submits the form in check-csp
+        self.assertIn('referrer: "same-origin"', form)
+        self.assertNotIn('referrer: "no-referrer"', form)
+        self.assertIn('if (origin === "null") return site === "same-origin";', src("site", "lib", "guard.ts"))
+        csp = src("site", "scripts", "check-csp.mjs")
+        self.assertIn("i.form.requestSubmit()", csp)
+        self.assertIn('base + "/internal/open"', csp)
         self.assertNotIn("process.env", form)
 
     def test_the_internal_pages_open_with_the_cookie(self):
@@ -300,7 +308,7 @@ class Site(unittest.TestCase):
                      '"X-Frame-Options", value: "DENY"', '"Referrer-Policy", value: "strict-origin-when-cross-origin"', '"Permissions-Policy"',
                      '"Content-Security-Policy", value: CSP_ENFORCED', '"Content-Security-Policy-Report-Only", value: CSP_REPORT_ONLY',
                      "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'", 'source: "/:path*", headers: SECURITY_HEADERS',
-                     'source: "/internal/:path*"'):
+                     'source: "/internal/:path*"', '{ source: "/internal/open", headers: [{ key: "Referrer-Policy", value: "same-origin" }] }'):
             self.assertIn(word, c)
         self.assertIn("poweredByHeader: false", c)
         self.assertIn("async redirects()", c)                           # the redirects are as they were

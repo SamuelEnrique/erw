@@ -3,9 +3,11 @@ import type { Metadata } from "next";
 // Session 177: the internal view's door without a token in any address (docs/release-gate.md). A form that POSTs the
 // token in the request's body to /internal/unlock, which sets the same two cookies the link sets. The old link,
 // /internal/unlock?token=<INTERNAL_COSTS_TOKEN>, works exactly as it did. This page holds no secret and says nothing
-// about what the internal view opens; it is not indexed, never cached, and sends no referrer (next.config.ts gives
-// every /internal address those headers).
-export const metadata: Metadata = { title: "Internal view", robots: { index: false, follow: false }, referrer: "no-referrer" };
+// about what the internal view opens; it is not indexed and never cached (next.config.ts gives every /internal address
+// those headers). Its referrer policy is same-origin, not no-referrer as the other internal addresses: under
+// no-referrer a browser posts a form with "Origin: null", which the route could not tell from another site's form.
+// Nothing is sent to any other site either way, and this page's address holds no token.
+export const metadata: Metadata = { title: "Internal view", robots: { index: false, follow: false }, referrer: "same-origin" };
 export const dynamic = "force-dynamic";
 
 const SAID: Record<string, string> = {

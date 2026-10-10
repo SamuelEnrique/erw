@@ -56,8 +56,12 @@ for (const p of ["/", "/terms", "/api/play/top", "/in-review", "/internal/open"]
 {
   const r = await ask("/internal/open");
   const html = await r.text();
-  ok(r.status === 200 && (r.headers.get("cache-control") ?? "").includes("no-store") && r.headers.get("referrer-policy") === "no-referrer" && (r.headers.get("x-robots-tag") ?? "").includes("noindex"),
-    "/internal/open: never cached, never indexed, no referrer", `${r.headers.get("cache-control")}; ${r.headers.get("referrer-policy")}`);
+  // the form's page sends its referrer to this site only (same-origin): under no-referrer a browser would post the
+  // form with "Origin: null" (scripts/check-csp.mjs submits the form in a real browser)
+  ok(r.status === 200 && (r.headers.get("cache-control") ?? "").includes("no-store") && r.headers.get("referrer-policy") === "same-origin" && (r.headers.get("x-robots-tag") ?? "").includes("noindex"),
+    "/internal/open: never cached, never indexed, its referrer for this site only", `${r.headers.get("cache-control")}; ${r.headers.get("referrer-policy")}`);
+  const costs = await ask("/internal/costs");
+  ok(costs.headers.get("referrer-policy") === "no-referrer" && (costs.headers.get("cache-control") ?? "").includes("no-store"), "every other /internal address: no referrer, never cached", `${costs.headers.get("referrer-policy")}`);
   const tag = (html.match(/<form[^>]*>/) ?? [""])[0];   // the attributes come in the order React writes them
   ok(tag.includes('method="post"') && tag.includes('action="/internal/unlock"') && /<input[^>]*type="password"[^>]*name="token"|<input[^>]*name="token"[^>]*type="password"/.test(html), "/internal/open: a form that posts the token");
   ok(!token || !html.includes(token), "/internal/open: the page holds no token");
@@ -78,6 +82,11 @@ if (!token || token.length < 24) {
   ok(right.status === 303 && new URL(right.headers.get("location") ?? "/x", base).pathname === "/" && set.some((c) => c.startsWith("erw_internal=")) && set.some((c) => c === "erw_view=internal"),
     "the form: the right token sets the two cookies and goes home", `HTTP ${right.status}, ${set.length} cookies`);
   ok(!(right.headers.get("location") ?? "").includes(token) && (right.headers.get("cache-control") ?? "").includes("no-store") && right.headers.get("referrer-policy") === "no-referrer", "the form: no token in the address it goes to; no-store; no referrer");
+  // what a browser sends when the page's policy hides the origin: accepted only with the browser's own word
+  const nulled = await ask("/internal/unlock", { method: "POST", headers: { ...FORM, Origin: "null", "Sec-Fetch-Site": "same-origin" }, body: form({ token }) });
+  ok(nulled.status === 303 && cookiesOf(nulled).length === 2, "the form: 'Origin: null' with the browser's same-origin word opens", `HTTP ${nulled.status}`);
+  const nullOnly = await ask("/internal/unlock", { method: "POST", headers: { ...FORM, Origin: "null" }, body: form({ token }) });
+  ok(nullOnly.status === 404 && cookiesOf(nullOnly).length === 0, "the form: 'Origin: null' alone gets 404", `HTTP ${nullOnly.status}`);
   const old = await ask(`/internal/unlock?token=${encodeURIComponent(token)}`);
   const oldSet = cookiesOf(old);
   ok(old.status === 303 && oldSet.some((c) => c.startsWith("erw_internal=")) && oldSet.join("|") === set.join("|"), "the old link works as it did, with the same two cookies");

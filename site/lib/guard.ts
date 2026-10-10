@@ -30,14 +30,19 @@ export function clientIp(req: Request): string {
 
 /** false when the request names an Origin (or a fetch site) that is not this site. */
 export function sameOrigin(req: Request): boolean {
-  if (req.headers.get("sec-fetch-site") === "cross-site") return false;
+  const site = req.headers.get("sec-fetch-site");
+  if (site === "cross-site") return false;
   const origin = req.headers.get("origin");
   if (origin === null || origin === "") return true;
+  // A browser writes "null" for a form posted from a page whose referrer policy is no-referrer (the Fetch standard's
+  // rule for the Origin header), and for a sandboxed page. Then only the browser's own word that the request comes
+  // from this origin lets it through: Sec-Fetch-Site is a header no page's script can set.
+  if (origin === "null") return site === "same-origin";
   let theirs: string;
   try {
     theirs = new URL(origin).host;
   } catch {
-    return false;                       // "null" (a sandboxed page) or anything that is not an address
+    return false;                       // anything that is not an address
   }
   const ours = [req.headers.get("x-forwarded-host"), req.headers.get("host")];
   try { ours.push(new URL(req.url).host); } catch { /* a relative address names no host */ }

@@ -45,6 +45,10 @@ const nextConfig: NextConfig = {
         { key: "Cache-Control", value: "private, no-store" },
         { key: "X-Robots-Tag", value: "noindex" },
       ] },
+      // the form of the internal view holds no token in its address, and it must post to this site: under no-referrer a
+      // browser writes "Origin: null" on a posted form (the Fetch standard), which a same-origin check cannot tell from
+      // another site's. With same-origin the form's post names this site, and nothing is sent to any other site.
+      { source: "/internal/open", headers: [{ key: "Referrer-Policy", value: "same-origin" }] },
     ];
   },
   // the committed markdown under ../docs is bundled at build time by scripts/build-content.mjs

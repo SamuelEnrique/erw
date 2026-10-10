@@ -93,11 +93,14 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | The event study notebook | `notebooks/event_study.ipynb` (GitHub), linked from `/data/methods/event_study` | Reproduce every event-study estimate from the `erw` package | researchers | `event_window_daily` |
 | Ask the ERW | `/ask` | Ask the warehouse a question; every number in the answer comes from a table it read | researchers; everyone | the live set, four read-only tools |
 | About, Terms | `/about`, `/terms` | What the ERW is, and what each source's license allows | everyone | `sources.csv` |
+| Privacy | `/privacy` (session 177; in the footer, not in the menu) | What does the site record about a visit, and what does it not? | everyone | none (`docs/methods/usage_counts.md`) |
 
 ## Internal (behind a token, not in the nav)
 
 | Page | Route | What it is |
 |---|---|---|
 | API costs | `/internal/costs` | the model spend ledger |
+| Usage | `/internal/usage` (session 177) | how the tools are used, as counts by day, page and tool: no cookie, no address (`docs/methods/usage_counts.md`) |
+| The internal view's door | `/internal/open` (session 177) | a form that opens the internal view with the token in the request's body, not in an address (`docs/release-gate.md`) |
 | The shape premium report (draft) | `/reports/draft/shape-premium` | deep-dive report 1, a draft |
 | Load a real lease | `/severance/lease/real` | the lease tool on the RRC's internal production data |
