@@ -99,11 +99,14 @@ class TheRoundupsTables(unittest.TestCase):
     def test_the_workflow_restores_the_templates_tables_before_the_roundup(self):
         y = src(".github", "workflows", "roundup.yml")
         line = next(l for l in y.splitlines() if "warehouse/news/roundup.py;" in l)
+        # session 176: the analysis and the Roundup each ask the daily model budget first (warehouse/health.py budget), so
+        # the two commands are no longer joined by one "&&"; the order is what this test holds: restore, analysis, Roundup
         for step in ("upload.py --restore", "watch.py --tables", "run_finding.py --tables", "run.py --tables", "eia_fuels.py",
-                     "warehouse/analysis/run.py && python warehouse/news/roundup.py"):
+                     "then python warehouse/analysis/run.py;", "then python warehouse/news/roundup.py;"):
             self.assertIn(step, line, step)
         self.assertLess(line.find("run_finding.py --tables"), line.find("analysis/run.py --tables"))
-        self.assertLess(line.find("analysis/run.py --tables"), line.find("warehouse/analysis/run.py && python warehouse/news/roundup.py"))
+        self.assertLess(line.find("analysis/run.py --tables"), line.find("then python warehouse/analysis/run.py;"))
+        self.assertLess(line.find("then python warehouse/analysis/run.py;"), line.find("then python warehouse/news/roundup.py;"))
         self.assertIn("|| echo 'the templates, not every table could be restored", line, "a failed restore never stops the Roundup")
         self.assertIn("Session 173", y)
 

@@ -137,6 +137,9 @@ jobs:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
+          # Session 176: the daily cap for all scheduled model steps together, in USD (warehouse/health.py budget). A
+          # repository variable; unset or empty means the default, 1.00.
+          DAILY_MODEL_USD: ${{ vars.DAILY_MODEL_USD }}
           REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
@@ -153,8 +156,12 @@ jobs:
         # them as one pattern): eight of them the Redivis restore brings, two are in git, and portwatch_chokepoint_transits
         # was brought by neither, so its template was skipped on the runner. A table that cannot be restored is said and
         # its template is skipped and named by the engine. It never stops the Roundup.
+        # Session 176: the daily cap for all scheduled model steps together (DAILY_MODEL_USD, default 1.00, a repository
+        # variable; warehouse/health.py budget). At the cap the chart's note and the Roundup are written with --no-model
+        # (the template's own sentences, the publishers' own titles, no written summary of the numbers) and still
+        # publish; the skip is a row of erw_health and a line of the same-day email.
         run: |
-          python warehouse/health.py run --step "write the Roundup" --retries 0 -- bash -c "set -o pipefail; { python warehouse/redivis/upload.py --restore && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/watch.py --tables)\" || echo 'the watch list, not every table could be restored, so the lines that read a missing table are skipped and named'; } && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/findings/run_finding.py --tables)\" || echo 'the findings, not every table could be restored, so a finding that reads a missing table is not computed and named'; } && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/run.py --tables)\" || echo 'the templates, not every table could be restored, so a template that reads a missing table is skipped and named'; } && python warehouse/connectors/eia_fuels.py && python warehouse/analysis/run.py && python warehouse/news/roundup.py; } 2>&1 | tee roundup.log"
+          python warehouse/health.py run --step "write the Roundup" --retries 0 -- bash -c "set -o pipefail; { python warehouse/redivis/upload.py --restore && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/watch.py --tables)\" || echo 'the watch list, not every table could be restored, so the lines that read a missing table are skipped and named'; } && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/findings/run_finding.py --tables)\" || echo 'the findings, not every table could be restored, so a finding that reads a missing table is not computed and named'; } && { python scripts/sync.py --no-git --tables \"$(python warehouse/analysis/run.py --tables)\" || echo 'the templates, not every table could be restored, so a template that reads a missing table is skipped and named'; } && python warehouse/connectors/eia_fuels.py && { if python warehouse/health.py budget --step analysis_note; then python warehouse/analysis/run.py; else python warehouse/analysis/run.py --no-model; fi; } && { if python warehouse/health.py budget --step roundup; then python warehouse/news/roundup.py; else python warehouse/news/roundup.py --no-model; fi; }; } 2>&1 | tee roundup.log"
 
       - name: Keep the log
         if: always()

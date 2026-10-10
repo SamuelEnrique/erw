@@ -217,6 +217,18 @@ def _headline_call(client, model, items, log):
         input_tokens=u.input_tokens, output_tokens=u.output_tokens), calls
 
 
+# Session 176: a digest or Roundup written with --no-model (the daily model cap, warehouse/health.py budget)
+NO_MODEL = "none (the daily model cap was reached)"
+NO_MODEL_LINE = ("Today's headlines are the publishers' own titles, and the written summary of the numbers is left out: "
+                 "the day's model budget was reached.")
+
+
+def own_titles(clusters):
+    """{cluster_id: the lead story's own title}, for an issue written without the model. Nothing is rewritten: the
+    title is the publisher's, with a dash of the kind the ERW never prints replaced as in a model headline."""
+    return {r["cluster_id"]: nodash(str(r["titles"][0]).strip()) for r in clusters.to_dict("records")}
+
+
 def norm_headline(h):
     return re.sub(r"[^a-z0-9 ]+", "", h.lower()).strip()
 
@@ -258,6 +270,24 @@ def assert_unique(lines):
     if dh or du:
         raise RuntimeError(f"duplicate items in the brief: headlines {dh[:3]}, source URLs {du[:3]}")
     return len(heads)
+
+
+def without_repeats(new, lines, log):
+    """Session 176: the lines of `new` whose headline and source URL are not already an item of `lines`. A policy
+    action that is also a scored story (an agency's release the feeds carry) was a repeat the hard check below
+    refused, so the whole digest was not written; the later line is dropped and named, as unique_items does."""
+    item = re.compile(r"^(?:\d+\. \*\*(.+?)\*\*|- (.+?) \()")
+    link = re.compile(r"\]\((https?://[^)]+)\)")
+    heads = {norm_headline(m.group(1) or m.group(2)) for m in map(item.match, lines) if m}
+    urls = {u for ln in lines for u in link.findall(ln)}
+    keep = []
+    for ln in new:
+        m = item.match(ln)
+        if m and (norm_headline(m.group(1) or m.group(2)) in heads or set(link.findall(ln)) & urls):
+            log(f"  dropped a repeat of an item above: {ln[:120]!r}")
+            continue
+        keep.append(ln)
+    return keep
 
 
 def link_text(links):
@@ -465,6 +495,9 @@ def main(argv=None):
     ap.add_argument("--weekend", action="store_true", help="write a digest for a Saturday or Sunday date anyway")
     ap.add_argument("--stories", help="read the scored stories from this file instead of news_stories (session 30: the "
                     "shadow scorer's view, warehouse/news/shadow.py)")
+    ap.add_argument("--no-model", action="store_true", help="session 176: no model call (the daily model cap is reached, "
+                    "warehouse/health.py budget): each headline is the lead story's own title as its publisher wrote it, "
+                    "and the model-written summary of the numbers is left out; the digest still publishes")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -501,10 +534,15 @@ def main(argv=None):
             used |= set(by_group[g]["cluster_id"])
         ai = clusters[(clusters["ai"] >= 7) & ~clusters["cluster_id"].isin(used)].head(5)
         shown = pd.concat([top10, *by_group.values(), ai]).drop_duplicates("cluster_id")
-        key = ip.load_key("ANTHROPIC_API_KEY", log)
-        client = llm.client("digest", log, api_key=key)
-        model = pick_model(client, log)
-        heads, u, calls = headlines(client, model, shown, log)
+        if args.no_model:
+            client, model = None, NO_MODEL
+            heads, u, calls = own_titles(shown), SimpleNamespace(input_tokens=0, output_tokens=0), 0
+            log(f"  --no-model: {len(heads)} headlines are the publishers' own titles; no model call")
+        else:
+            key = ip.load_key("ANTHROPIC_API_KEY", log)
+            client = llm.client("digest", log, api_key=key)
+            model = pick_model(client, log)
+            heads, u, calls = headlines(client, model, shown, log)
         missing = set(shown["cluster_id"]) - set(heads)
         if missing:
             raise RuntimeError(f"headlines missing for {len(missing)} clusters")
@@ -526,6 +564,7 @@ def main(argv=None):
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              f"ERW's weekday brief of energy news for the {args.hours} hours to {now:%Y-%m-%d %H:%M} UTC, "
              f"from {len(s)} scored stories.", "",
+             *([NO_MODEL_LINE, ""] if args.no_model else []),
              "## Top of the industry", ""]
         for i, r in enumerate(top10.to_dict("records"), 1):
             L.append(f"{i}. **{heads[r['cluster_id']]}** ({r['sector'].replace('_', ' ')})  ")
@@ -539,7 +578,7 @@ def main(argv=None):
             for r in c.to_dict("records"):
                 L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {r['why']} {link_text(r['links'][:1])}")
             if g == "Policy":
-                L += policy_actions_lines(now - pd.Timedelta(hours=args.hours), now, log)
+                L += without_repeats(policy_actions_lines(now - pd.Timedelta(hours=args.hours), now, log), L, log)
             L.append("")
         L += ["## AI and power", ""]
         if ai.empty:
@@ -548,7 +587,7 @@ def main(argv=None):
             L.append(f"- {heads[r['cluster_id']]} ({r['sector'].replace('_', ' ')}): {r['why']} "
                      f"{link_text(r['links'][:1])}")
         nums = numbers_today(digest_date, log)
-        summary, su = numbers_summary(client, model, nums, log)
+        summary, su = (None, []) if args.no_model else numbers_summary(client, model, nums, log)
         if model in PRICES:
             scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6
             log(f"  numbers summary: {len(su)} call(s), cost USD {scost:.4f}")

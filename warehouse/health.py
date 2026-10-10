@@ -24,9 +24,19 @@ else); SUPABASE_URL and SUPABASE_SERVICE_KEY from the environment or .env.
         recorded as failed; nothing when none is. No job fails on GitHub, so GitHub sends no email, and the summary
         above is written the day after: on 4 October 2026 the battery page's refresh failed at 14:45 UTC and a person
         learned of it from a document a session wrote that evening. Never raises and always exits 0.
+    python warehouse/health.py budget --step news_score
+        session 176: the daily cap for all scheduled model steps together, DAILY_MODEL_USD (default 1.00). Sums the
+        day's (UTC) spend of the scheduled model steps from the cost ledger (warehouse/output/api_cost_ledger.csv on
+        this machine, and Supabase's copy of it for the rows another runner wrote today). Under the cap: exit 0, and
+        the step runs. At or over it: the step is not run; a row of erw_health says so (status skipped, its reason
+        beginning "daily model cap"), a warning is printed, the same-day email (alert, above) carries it, and the exit
+        is 75. warehouse/run_daily.sh asks before each model step; the digest and the Roundup are then written with
+        --no-model (without the model-written parts) and still publish. A budget that cannot be read never switches a
+        step off: the step runs, and a failed row of erw_health says the budget could not be read.
 """
 
 import argparse
+import csv
 import datetime as dt
 import os
 import subprocess
@@ -44,6 +54,14 @@ EXPECTED = {  # runs a day, as migration 015 schedules them (the weekly jobs on 
     "latest prices": 96, "hourly network": 23, "daily prices": 1, "energy roundup": 0, "weekly vacuum": 0,
     "chain watch": 96,  # session 91: every 15 minutes, whether or not a chain is marked (migration 022)
 }
+# Session 176: the daily cap for all scheduled model steps together (docs/methods/api_cost_ledger.md, "The daily cap").
+MODEL_CAP_DEFAULT = 1.00  # USD a UTC day; DAILY_MODEL_USD in the environment replaces it
+CAP_MARK = "daily model cap"  # a capped step's reason begins with it: the summary and the same-day email read it
+LEDGER = "api_cost_ledger"
+# The ledger's step names of the model steps that run on a clock (warehouse/run_daily.sh and roundup.yml). A call of
+# any other step (a session's work, the Thesis Builder, the site's own ledger) is not counted and not capped here.
+SCHEDULED_MODEL_STEPS = ("news_score", "news_score_shadow", "policy_score", "policy_reads", "deals_extract",
+                         "datacenters_extract", "funfact", "digest", "roundup", "analysis_note")
 
 
 def env(name):
@@ -142,6 +160,104 @@ def run(step, cmd, retries=1, wait=60, strict=False, attempt=attempt, sleep=time
     rec(step, status, why, secs)
     output(status=status)
     return 1 if (strict and status == "failed") else 0, status
+
+
+def model_cap():
+    """DAILY_MODEL_USD as a number; unset, empty or unreadable gives the default (a value that cannot be read is said)."""
+    raw = env("DAILY_MODEL_USD")
+    if not raw:
+        return MODEL_CAP_DEFAULT
+    try:
+        v = float(raw)
+        if v < 0:
+            raise ValueError(raw)
+        return v
+    except ValueError:
+        print(f"::warning::DAILY_MODEL_USD={raw!r} is not a number of dollars; the default USD {MODEL_CAP_DEFAULT:.2f} is used")
+        return MODEL_CAP_DEFAULT
+
+
+def ledger_session():
+    """The session name warehouse/llm.py writes for this process: ERW_SESSION, else daily on GitHub and local elsewhere."""
+    s = os.environ.get("ERW_SESSION", "").strip()
+    return s or ("daily" if os.environ.get("GITHUB_ACTIONS") == "true" else "local")
+
+
+def ledger_local(day, path=None):
+    """{event_id: (step, session, usd)} of the day's rows of the ledger on this machine; an absent file is no rows."""
+    path = path or os.path.join(ROOT, "warehouse", "output", LEDGER + ".csv")
+    if not os.path.exists(path):
+        return {}
+    out = {}
+    with open(path, encoding="utf-8", newline="") as f:
+        for r in csv.DictReader(ln for ln in f if not ln.startswith("#")):
+            if (r.get("ts_utc") or r.get("event_date") or "")[:10] == day:
+                out[r["event_id"]] = (r.get("step", ""), r.get("session", ""), float(r.get("usd") or 0))
+    return out
+
+
+def ledger_remote(day, get=requests.get):
+    """The same from Supabase's copy (public.events, table_name api_cost_ledger): the rows another runner wrote today
+    and the loader carried. No keys or no answer is no rows, with a notice: the local file is then the whole count."""
+    u = urllib.parse.urlparse(env("SUPABASE_URL"))
+    key = env("SUPABASE_SERVICE_KEY")
+    if not u.netloc or not key:
+        return {}
+    d1 = (dt.date.fromisoformat(day) + dt.timedelta(days=1)).isoformat()
+    out, start = {}, 0
+    while True:
+        r = get(f"{u.scheme}://{u.netloc}/rest/v1/events", timeout=40,
+                headers={"apikey": key, "Authorization": f"Bearer {key}", "Range-Unit": "items", "Range": f"{start}-{start + 999}"},
+                params={"select": "event_id,extra", "table_name": f"eq.{LEDGER}",
+                        "and": f"(event_date.gte.{day}T00:00:00Z,event_date.lt.{d1}T00:00:00Z)"})
+        if r.status_code >= 300:
+            print(f"::notice::model budget: Supabase's copy of the ledger not read (HTTP {r.status_code}); this machine's file is the count")
+            return out
+        batch = r.json()
+        for row in batch:
+            x = row.get("extra") or {}
+            out[row["event_id"]] = (x.get("step", ""), x.get("session", ""), float(x.get("usd") or 0))
+        if len(batch) < 1000:
+            return out
+        start += 1000
+
+
+def model_spend(day, session=None, path=None, get=requests.get):
+    """(USD, calls) of the day's scheduled model steps: the union, by event_id, of the ledger on this machine and
+    Supabase's copy, for this process's ledger session and the steps of SCHEDULED_MODEL_STEPS."""
+    session = session or ledger_session()
+    rows = ledger_local(day, path)
+    try:
+        for k, v in ledger_remote(day, get).items():
+            rows.setdefault(k, v)
+    except (requests.RequestException, ValueError, KeyError, TypeError) as exc:
+        print(f"::notice::model budget: Supabase's copy of the ledger not read ({type(exc).__name__}); this machine's file is the count")
+    mine = [usd for step, ses, usd in rows.values() if ses == session and step in SCHEDULED_MODEL_STEPS]
+    return sum(mine), len(mine)
+
+
+def budget(step, day=None, rec=record, spend=model_spend, cap=None):
+    """Session 176: may a scheduled model step run? (exit code, line). 0: the day's spend is under DAILY_MODEL_USD.
+    75: it has reached the cap; the step is not run, and a skipped row of erw_health, a warning and the same-day email
+    say so. A budget that cannot be read is exit 0 with a failed row: it never switches a step off by itself."""
+    day = day or dt.datetime.now(dt.timezone.utc).date().isoformat()
+    cap = model_cap() if cap is None else cap
+    try:
+        spent, calls = spend(day)
+    except Exception as exc:  # an unreadable ledger must not stop the news; it is said, and the step runs
+        why = f"the model budget could not be read ({type(exc).__name__}: {str(exc)[:160]}); {step} runs uncapped"
+        print(f"::warning title=model budget not read::{why}")
+        rec("model budget", "failed", why, 0)
+        return 0, why
+    if spent >= cap:
+        why = (f"{CAP_MARK} reached: USD {spent:.2f} spent today ({day} UTC, {calls} calls of the scheduled model steps) "
+               f"of USD {cap:.2f} (DAILY_MODEL_USD); {step} not run")
+        print(f"::warning title={step} skipped by the daily model cap::{why}")
+        rec(step, "skipped", why, 0)
+        return SKIP, why
+    line = f"model budget: USD {spent:.2f} of {cap:.2f} spent today ({day} UTC, {calls} calls); {step} runs"
+    print(line)
+    return 0, line
 
 
 def dedupe(workflow_file, minutes, rec=record, get=requests.get, dispatch_minutes=5):
@@ -261,8 +377,19 @@ def summary(day, out_dir=None, rows=None):
 def alert_line(day, rows, run_id=None, workflow=None):
     """(subject, line) for the steps recorded as failed among `rows` (of one run when run_id is given), or None when
     none failed. The line names each step and the start of its reason, and stays within 300 characters."""
-    fails = [r for r in rows if r["status"] == "failed" and (not run_id or str(r.get("run_id") or "") == str(run_id))
-             and (not workflow or r["workflow"] == workflow)]
+    mine = [r for r in rows if (not run_id or str(r.get("run_id") or "") == str(run_id)) and (not workflow or r["workflow"] == workflow)]
+    fails = [r for r in mine if r["status"] == "failed"]
+    # session 176: the steps the daily model cap skipped are told the same day too, after any failure
+    capped = [r for r in mine if r["status"] == "skipped" and (r.get("reason") or "").startswith(CAP_MARK)]
+    if capped:
+        steps = ", ".join(dict.fromkeys(r["step"] for r in capped))
+        m = [x for x in (r.get("reason") or "" for r in capped)][0]
+        said = m[len(CAP_MARK):].split(";")[0].strip()  # "reached: USD 1.10 spent today (...) of USD 1.00 (DAILY_MODEL_USD)"
+        tail = f"The {CAP_MARK} {said}: {len(capped)} model step{'s' if len(capped) != 1 else ''} not run ({steps})."
+        if not fails:
+            return f"ERW: the daily model cap skipped {len(capped)} step{'s' if len(capped) != 1 else ''}", tail[:300]
+        subject, line = alert_line(day, [r for r in mine if r not in capped], run_id, workflow)
+        return subject + f", the model cap skipped {len(capped)}", (line[:150] + " " + tail)[:300]
     if not fails:
         return None
     what = sorted({r["workflow"] for r in fails})
@@ -312,7 +439,13 @@ def main(argv=None):
     al.add_argument("--day", default="today")
     al.add_argument("--run-id", default="")
     al.add_argument("--dry-run", action="store_true")
+    b = sub.add_parser("budget")  # session 176
+    b.add_argument("--step", required=True)
+    b.add_argument("--day", default="today")
     a, rest_ = ap.parse_known_args(argv)
+    if a.cmd == "budget":
+        code, _ = budget(a.step, None if a.day == "today" else a.day)
+        return code
     if a.cmd == "alert":  # session 119: never raises: an alert that cannot be sent must not fail the job it reports on
         try:
             day = a.day if a.day != "today" else dt.datetime.now(dt.timezone.utc).date().isoformat()
