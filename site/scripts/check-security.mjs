@@ -94,7 +94,7 @@ if (!token || token.length < 24) {
   const cookie = set.join("; ");
 
   // 3. the internal pages, by the cookie
-  for (const p of ["/internal/costs", "/internal/ask", "/internal/usage"]) {
+  for (const p of ["/internal/costs", "/internal/ask", "/internal/usage", "/internal/findings"]) {   // session 181: the scanner's review list
     const without = await ask(p);
     const withCookie = await ask(p, { headers: { Cookie: cookie } });
     const html = await withCookie.text();

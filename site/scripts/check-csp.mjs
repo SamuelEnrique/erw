@@ -23,8 +23,8 @@ const args = process.argv.slice(2);
 const strict = args.includes("--strict"), phone = args.includes("--phone");
 const base = (args.find((a) => !a.startsWith("--")) ?? "http://localhost:3000").replace(/\/$/, "");
 const { RELEASE } = await import("../lib/release.ts");
-const NEW = ["/privacy", "/terms", "/internal/open", "/internal/usage"];
-const PAGES = phone ? NEW : [...new Set([...Object.keys(RELEASE), "/internal/open", "/internal/usage", "/internal/costs", "/internal/ask", "/in-review"])];
+const NEW = ["/privacy", "/terms", "/internal/open", "/internal/usage", "/internal/findings"];   // session 181: the scanner's review list
+const PAGES = phone ? NEW : [...new Set([...Object.keys(RELEASE), "/internal/open", "/internal/usage", "/internal/costs", "/internal/ask", "/internal/findings", "/in-review"])];
 const HOOK = "window.__csp = []; document.addEventListener('securitypolicyviolation', (e) => window.__csp.push({ directive: e.effectiveDirective || e.violatedDirective, blocked: e.blockedURI, disposition: e.disposition, source: (e.sourceFile || '') + ':' + (e.lineNumber || 0) }));";
 
 const code = await withBrowser(async ({ go, evaluate, unlock, send, sleep }) => {

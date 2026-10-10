@@ -33,6 +33,7 @@ import findings_common as common  # noqa: E402
 
 FINDINGS = ["batteries_lunch", "gas_sets_price", "queue_divorce", "peak_hour_moved", "who_rescues_whom", "negative_prices_west", "batteries_curtailment"]  # session 174: four more
 FINDINGS += ["batteries_lunch_grids", "peak_hour_grids", "batteries_curtailment_hourly"]  # session 182: every grid with public prices; CAISO by the hour
+FINDINGS.append("impact_study")  # session 181: impact of X on Y (an event or a date, a window, a control series)
 CARD_DIR = os.path.join(ROOT, "site", "data", "findings")
 DOWNLOAD_DIR = os.path.join(ROOT, "site", "public", "findings")
 

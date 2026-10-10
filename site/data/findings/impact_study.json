@@ -1,0 +1,970 @@
+{
+ "id": "impact_study",
+ "title": "IMPACT OF AN EVENT ON A SERIES",
+ "kind": "econometric",
+ "params": {
+  "series": "ercot_north_rt",
+  "control": "nyiso_nyc_rt",
+  "event": "uri_2021",
+  "year": 2024,
+  "month": 5,
+  "day": 15,
+  "window": 14
+ },
+ "inputs_words": {
+  "series": "ERCOT North Hub real-time price",
+  "control": "NYISO New York City real-time price",
+  "date": "7 February 2021, the first day of Winter Storm Uri",
+  "window": "14 days before and after"
+ },
+ "tables": [
+  "ercot_hub_prices_daily",
+  "iso_zone_prices_history"
+ ],
+ "computed_at": "2026-10-10T17:07:18Z",
+ "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+ "csv_header": [
+  "Energy Research Warehouse (ERW): analysis impact_study: IMPACT OF AN EVENT ON A SERIES",
+  "Computed 2026-10-10T17:07:18Z by warehouse/analysis/findings/impact_study.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Rows: one per day from 3 windows before the date to the window's last day: t (days from the date); period (lead or before or after); after; in_window; series_value; control_value; diff (series minus control)",
+  "Series: ERCOT North Hub real-time price (ercot_hub_prices_daily); control: NYISO New York City real-time price (iso_zone_prices_history); date 2021-02-07; window 14 days"
+ ],
+ "source_line": "Source: ERW tables ercot_hub_prices_daily and iso_zone_prices_history.",
+ "subtitle": "ERCOT North Hub real-time price: a rise of USD 3,025.91 per MWh around 7 February 2021; the control: a rise of USD 9.51 per MWh",
+ "chart": {
+  "kind": "flag_line",
+  "x": [
+   "2021-01-24",
+   "2021-01-25",
+   "2021-01-26",
+   "2021-01-27",
+   "2021-01-28",
+   "2021-01-29",
+   "2021-01-30",
+   "2021-01-31",
+   "2021-02-01",
+   "2021-02-02",
+   "2021-02-03",
+   "2021-02-04",
+   "2021-02-05",
+   "2021-02-06",
+   "2021-02-07",
+   "2021-02-08",
+   "2021-02-09",
+   "2021-02-10",
+   "2021-02-11",
+   "2021-02-12",
+   "2021-02-13",
+   "2021-02-14",
+   "2021-02-15",
+   "2021-02-16",
+   "2021-02-17",
+   "2021-02-18",
+   "2021-02-19",
+   "2021-02-20"
+  ],
+  "x_label": "day; the 14 days from 7 February 2021 are marked",
+  "series": [
+   {
+    "name": "ERCOT North Hub real-time price",
+    "type": "line",
+    "unit": "USD/MWh",
+    "values": [
+     18.2329,
+     15.249,
+     26.4328,
+     18.5569,
+     18.6545,
+     15.8463,
+     9.4781,
+     18.6783,
+     21.3591,
+     18.5969,
+     21.4506,
+     16.5309,
+     19.4675,
+     61.9589,
+     18.2116,
+     18.4652,
+     73.2311,
+     82.8428,
+     473.6683,
+     383.8127,
+     1931.4656,
+     2435.5375,
+     6807.3285,
+     8993.5153,
+     9025.9716,
+     9000.4368,
+     3409.2944,
+     9.4069
+    ]
+   },
+   {
+    "name": "control: NYISO New York City real-time price",
+    "type": "line",
+    "unit": "USD/MWh",
+    "values": [
+     40.514583333333334,
+     42.4325,
+     32.32625,
+     30.3425,
+     41.07541666666667,
+     132.51541666666665,
+     117.23083333333334,
+     78.88958333333333,
+     55.12833333333333,
+     56.17625,
+     44.50666666666667,
+     53.51,
+     44.94291666666667,
+     26.25375,
+     51.80708333333333,
+     69.44375000000001,
+     42.81375,
+     50.20916666666667,
+     59.86041666666667,
+     73.12,
+     70.42166666666667,
+     52.372083333333336,
+     63.02791666666667,
+     72.57458333333334,
+     92.8125,
+     99.83666666666666,
+     73.95625,
+     56.67541666666667
+    ]
+   }
+  ],
+  "mark_area": {
+   "from": "2021-02-07",
+   "to": "2021-02-20",
+   "label": "after"
+  },
+  "y_left_label": "USD/MWh",
+  "decimals": 2
+ },
+ "more_charts": [
+  {
+   "title": "Before the date: did the two move in parallel?",
+   "spec": {
+    "kind": "flag_line",
+    "x": [
+     "2020-12-27",
+     "2020-12-28",
+     "2020-12-29",
+     "2020-12-30",
+     "2020-12-31",
+     "2021-01-01",
+     "2021-01-02",
+     "2021-01-03",
+     "2021-01-04",
+     "2021-01-05",
+     "2021-01-06",
+     "2021-01-07",
+     "2021-01-08",
+     "2021-01-09",
+     "2021-01-10",
+     "2021-01-11",
+     "2021-01-12",
+     "2021-01-13",
+     "2021-01-14",
+     "2021-01-15",
+     "2021-01-16",
+     "2021-01-17",
+     "2021-01-18",
+     "2021-01-19",
+     "2021-01-20",
+     "2021-01-21",
+     "2021-01-22",
+     "2021-01-23",
+     "2021-01-24",
+     "2021-01-25",
+     "2021-01-26",
+     "2021-01-27",
+     "2021-01-28",
+     "2021-01-29",
+     "2021-01-30",
+     "2021-01-31",
+     "2021-02-01",
+     "2021-02-02",
+     "2021-02-03",
+     "2021-02-04",
+     "2021-02-05",
+     "2021-02-06"
+    ],
+    "x_label": "the 42 days before 7 February 2021: the series minus the control",
+    "series": [
+     {
+      "name": "ERCOT North Hub real-time price minus NYISO New York City real-time price",
+      "type": "line",
+      "unit": "USD/MWh",
+      "values": [
+       -15.96425,
+       -17.95756666666667,
+       -11.063433333333334,
+       -12.179150000000003,
+       -13.540066666666666,
+       -19.363033333333334,
+       -11.555500000000004,
+       -8.779349999999999,
+       -12.030183333333332,
+       -13.252700000000003,
+       -22.34985,
+       -2.978033333333336,
+       -8.104433333333336,
+       1.1231499999999954,
+       -4.965450000000001,
+       -16.024399999999996,
+       -9.91055,
+       -5.673183333333331,
+       -10.34493333333333,
+       -1.3190166666666698,
+       17.50595,
+       -3.2630500000000033,
+       -8.368766666666666,
+       -9.181666666666668,
+       4.443933333333334,
+       4.647600000000004,
+       -7.014199999999999,
+       -7.688133333333337,
+       -22.281683333333334,
+       -27.183499999999995,
+       -5.893450000000001,
+       -11.785600000000002,
+       -22.42091666666667,
+       -116.66911666666665,
+       -107.75273333333334,
+       -60.211283333333334,
+       -33.76923333333333,
+       -37.579350000000005,
+       -23.056066666666666,
+       -36.9791,
+       -25.475416666666668,
+       35.70515
+      ]
+     }
+    ],
+    "ref_lines": [
+     {
+      "name": "mean of the 14 days before",
+      "value": -35.382307
+     }
+    ],
+    "y_left_label": "USD/MWh",
+    "decimals": 2
+   }
+  }
+ ],
+ "callouts": [
+  {
+   "label": "ERCOT North Hub real-time price, USD/MWh",
+   "before": {
+    "period": "14 days before",
+    "text": "21.46"
+   },
+   "after": {
+    "period": "14 days from 2021-02-07",
+    "text": "3,047.37"
+   },
+   "unit": ""
+  },
+  {
+   "label": "Control: NYISO New York City real-time price, USD/MWh",
+   "before": {
+    "period": "14 days before",
+    "text": "56.85"
+   },
+   "after": {
+    "period": "14 days from 2021-02-07",
+    "text": "66.35"
+   },
+   "unit": ""
+  },
+  {
+   "label": "Difference against the control, USD/MWh",
+   "before": {
+    "period": "difference in differences",
+    "text": "3,016.40 higher"
+   },
+   "after": {
+    "period": "standard error (Newey-West)",
+    "text": "1,598.93"
+   },
+   "unit": ""
+  }
+ ],
+ "why": "In the 14 days from 7 February 2021, ERCOT North Hub real-time price averaged USD 3,047.37 per MWh against USD 21.46 per MWh in the 14 days before, a rise of USD 3,025.91 per MWh. The control, NYISO New York City real-time price, went from USD 56.85 per MWh to USD 66.35 per MWh, a rise of USD 9.51 per MWh. The difference between the two changes is USD 3,016.40 per MWh, standard error USD 1,598.93 per MWh (Newey-West, 3 lags, 28 days). That difference is within 1.96 standard errors of zero: no difference beyond the error. This is the difference between two changes over these days and its error; it does not say what produced it.",
+ "effect_table": {
+  "columns": [
+   "Term",
+   "Coefficient, USD/MWh",
+   "SE (Newey-West)",
+   "p",
+   "Days",
+   "R2"
+  ],
+  "rows": [
+   {
+    "measure": "After the date: the difference in differences (b)",
+    "coef_per_gw": 3016.4006678571423,
+    "se": 1598.9275501089694,
+    "p": 0.07044162776704968,
+    "n": 28,
+    "r2": 0.2610984692189495
+   },
+   {
+    "measure": "Constant: series minus control before the date (a)",
+    "coef_per_gw": -35.382307142857144,
+    "se": 13.018576273964845,
+    "p": 0.011539287441858254,
+    "n": 28,
+    "r2": 0.2610984692189495
+   },
+   {
+    "measure": "Before the date only: the gap's slope per day over 42 days",
+    "coef_per_gw": -0.643696148340221,
+    "se": 0.49177579758978707,
+    "p": 0.19803101241016619,
+    "n": 42,
+    "r2": 0.08993280532162362
+   }
+  ],
+  "in_words": "In the 14 days from 7 February 2021, ERCOT North Hub real-time price averaged USD 3,047.37 per MWh against USD 21.46 per MWh in the 14 days before, a rise of USD 3,025.91 per MWh. The control, NYISO New York City real-time price, went from USD 56.85 per MWh to USD 66.35 per MWh, a rise of USD 9.51 per MWh. The difference between the two changes is USD 3,016.40 per MWh, standard error USD 1,598.93 per MWh (Newey-West, 3 lags, 28 days). That difference is within 1.96 standard errors of zero: no difference beyond the error. This is the difference between two changes over these days and its error; it does not say what produced it."
+ },
+ "footnote": "Data: ERCOT North Hub real-time price from ercot_hub_prices_daily and NYISO New York City real-time price from iso_zone_prices_history, daily (a daily table's own days; an hourly table's UTC days with at least 20 hours, as their mean). Window: the 14 days before 2021-02-07 and the 14 days from it; 14 and 14 days are held by both series. Before and after are means over those days. The difference against the control is a difference in differences: the series' change minus the control's. Regression, on the 28 days: (series minus control) = a + b * after + e, by least squares; b = 3,016.4007, standard error 1,598.9276, Newey-West (heteroskedasticity- and autocorrelation-consistent, Bartlett kernel) with L = floor(4 * (n / 100)^(2/9)) = 3 lags over the days in their order and the factor n / (n - 2), as Stata's newey; p = 0.0704 from Student's t on 26 degrees of freedom; 95 percent interval -117.50 to 6,150.30. Before the date, over the 42 days before it (the card's second chart on the site), the gap between the two moved by -0.6437 USD/MWh a day (Newey-West standard error 0.4918, 3 lags): the chart shows whether they moved in parallel, the card does not assert it. The design carries a difference and its error over these days, not a cause: anything else that changed for one series and not the other in the window is inside b.",
+ "numbers": {
+  "n_pre": 14,
+  "n_post": 14,
+  "n": 28,
+  "series_pre": 21.463764285714287,
+  "series_post": 3047.3705928571426,
+  "control_pre": 56.84607142857142,
+  "control_post": 66.35223214285715,
+  "series_change": 3025.9068285714284,
+  "control_change": 9.506160714285727,
+  "did": 3016.4006678571427,
+  "reg_const": -35.382307142857144,
+  "reg_const_se": 13.018576273964845,
+  "reg_const_p": 0.011539287441858254,
+  "reg_did": 3016.4006678571423,
+  "reg_did_se": 1598.9275501089694,
+  "reg_did_p": 0.07044162776704968,
+  "reg_n": 28,
+  "reg_lags": 3,
+  "reg_r2": 0.2610984692189495,
+  "did_low": -117.49733035643749,
+  "did_high": 6150.298666070722,
+  "n_lead": 42,
+  "pre_slope": -0.643696148340221,
+  "pre_slope_se": 0.49177579758978707,
+  "pre_slope_p": 0.19803101241016619,
+  "pre_lags": 3,
+  "pre_r2": 0.08993280532162362,
+  "series_pre_abs": 21.463764285714287,
+  "series_post_abs": 3047.3705928571426,
+  "control_pre_abs": 56.84607142857142,
+  "control_post_abs": 66.35223214285715,
+  "series_change_abs": 3025.9068285714284,
+  "control_change_abs": 9.506160714285727,
+  "did_abs": 3016.4006678571427,
+  "reg_did_abs": 3016.4006678571423,
+  "reg_const_abs": 35.382307142857144,
+  "pre_slope_abs": 0.643696148340221,
+  "did_low_abs": 117.49733035643749,
+  "did_high_abs": 6150.298666070722
+ },
+ "rows": [
+  {
+   "day": "2020-12-27",
+   "t": -42,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 14.617,
+   "control_value": 30.58125,
+   "diff": -15.96425
+  },
+  {
+   "day": "2020-12-28",
+   "t": -41,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 17.0566,
+   "control_value": 35.01416666666667,
+   "diff": -17.95756666666667
+  },
+  {
+   "day": "2020-12-29",
+   "t": -40,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 10.5874,
+   "control_value": 21.650833333333335,
+   "diff": -11.063433333333334
+  },
+  {
+   "day": "2020-12-30",
+   "t": -39,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 10.8446,
+   "control_value": 23.023750000000003,
+   "diff": -12.179150000000003
+  },
+  {
+   "day": "2020-12-31",
+   "t": -38,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 15.9441,
+   "control_value": 29.484166666666667,
+   "diff": -13.540066666666666
+  },
+  {
+   "day": "2021-01-01",
+   "t": -37,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 18.5278,
+   "control_value": 37.89083333333333,
+   "diff": -19.363033333333334
+  },
+  {
+   "day": "2021-01-02",
+   "t": -36,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 15.827,
+   "control_value": 27.382500000000004,
+   "diff": -11.555500000000004
+  },
+  {
+   "day": "2021-01-03",
+   "t": -35,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 15.8344,
+   "control_value": 24.61375,
+   "diff": -8.779349999999999
+  },
+  {
+   "day": "2021-01-04",
+   "t": -34,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 15.7219,
+   "control_value": 27.75208333333333,
+   "diff": -12.030183333333332
+  },
+  {
+   "day": "2021-01-05",
+   "t": -33,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 15.8698,
+   "control_value": 29.122500000000002,
+   "diff": -13.252700000000003
+  },
+  {
+   "day": "2021-01-06",
+   "t": -32,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 10.9389,
+   "control_value": 33.28875,
+   "diff": -22.34985
+  },
+  {
+   "day": "2021-01-07",
+   "t": -31,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 25.9528,
+   "control_value": 28.930833333333336,
+   "diff": -2.978033333333336
+  },
+  {
+   "day": "2021-01-08",
+   "t": -30,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 20.8589,
+   "control_value": 28.963333333333335,
+   "diff": -8.104433333333336
+  },
+  {
+   "day": "2021-01-09",
+   "t": -29,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 33.3144,
+   "control_value": 32.191250000000004,
+   "diff": 1.1231499999999954
+  },
+  {
+   "day": "2021-01-10",
+   "t": -28,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 24.4283,
+   "control_value": 29.39375,
+   "diff": -4.965450000000001
+  },
+  {
+   "day": "2021-01-11",
+   "t": -27,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 24.7356,
+   "control_value": 40.76,
+   "diff": -16.024399999999996
+  },
+  {
+   "day": "2021-01-12",
+   "t": -26,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 21.2257,
+   "control_value": 31.13625,
+   "diff": -9.91055
+  },
+  {
+   "day": "2021-01-13",
+   "t": -25,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 21.4114,
+   "control_value": 27.08458333333333,
+   "diff": -5.673183333333331
+  },
+  {
+   "day": "2021-01-14",
+   "t": -24,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 19.1784,
+   "control_value": 29.52333333333333,
+   "diff": -10.34493333333333
+  },
+  {
+   "day": "2021-01-15",
+   "t": -23,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 23.2214,
+   "control_value": 24.54041666666667,
+   "diff": -1.3190166666666698
+  },
+  {
+   "day": "2021-01-16",
+   "t": -22,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 39.6797,
+   "control_value": 22.17375,
+   "diff": 17.50595
+  },
+  {
+   "day": "2021-01-17",
+   "t": -21,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 26.4482,
+   "control_value": 29.711250000000003,
+   "diff": -3.2630500000000033
+  },
+  {
+   "day": "2021-01-18",
+   "t": -20,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 16.6304,
+   "control_value": 24.999166666666667,
+   "diff": -8.368766666666666
+  },
+  {
+   "day": "2021-01-19",
+   "t": -19,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 16.6575,
+   "control_value": 25.839166666666667,
+   "diff": -9.181666666666668
+  },
+  {
+   "day": "2021-01-20",
+   "t": -18,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 29.6206,
+   "control_value": 25.176666666666666,
+   "diff": 4.443933333333334
+  },
+  {
+   "day": "2021-01-21",
+   "t": -17,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 34.1176,
+   "control_value": 29.47,
+   "diff": 4.647600000000004
+  },
+  {
+   "day": "2021-01-22",
+   "t": -16,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 19.2108,
+   "control_value": 26.224999999999998,
+   "diff": -7.014199999999999
+  },
+  {
+   "day": "2021-01-23",
+   "t": -15,
+   "period": "lead",
+   "after": 0,
+   "in_window": 0,
+   "series_value": 19.5077,
+   "control_value": 27.195833333333336,
+   "diff": -7.688133333333337
+  },
+  {
+   "day": "2021-01-24",
+   "t": -14,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 18.2329,
+   "control_value": 40.514583333333334,
+   "diff": -22.281683333333334
+  },
+  {
+   "day": "2021-01-25",
+   "t": -13,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 15.249,
+   "control_value": 42.4325,
+   "diff": -27.183499999999995
+  },
+  {
+   "day": "2021-01-26",
+   "t": -12,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 26.4328,
+   "control_value": 32.32625,
+   "diff": -5.893450000000001
+  },
+  {
+   "day": "2021-01-27",
+   "t": -11,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 18.5569,
+   "control_value": 30.3425,
+   "diff": -11.785600000000002
+  },
+  {
+   "day": "2021-01-28",
+   "t": -10,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 18.6545,
+   "control_value": 41.07541666666667,
+   "diff": -22.42091666666667
+  },
+  {
+   "day": "2021-01-29",
+   "t": -9,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 15.8463,
+   "control_value": 132.51541666666665,
+   "diff": -116.66911666666665
+  },
+  {
+   "day": "2021-01-30",
+   "t": -8,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 9.4781,
+   "control_value": 117.23083333333334,
+   "diff": -107.75273333333334
+  },
+  {
+   "day": "2021-01-31",
+   "t": -7,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 18.6783,
+   "control_value": 78.88958333333333,
+   "diff": -60.211283333333334
+  },
+  {
+   "day": "2021-02-01",
+   "t": -6,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 21.3591,
+   "control_value": 55.12833333333333,
+   "diff": -33.76923333333333
+  },
+  {
+   "day": "2021-02-02",
+   "t": -5,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 18.5969,
+   "control_value": 56.17625,
+   "diff": -37.579350000000005
+  },
+  {
+   "day": "2021-02-03",
+   "t": -4,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 21.4506,
+   "control_value": 44.50666666666667,
+   "diff": -23.056066666666666
+  },
+  {
+   "day": "2021-02-04",
+   "t": -3,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 16.5309,
+   "control_value": 53.51,
+   "diff": -36.9791
+  },
+  {
+   "day": "2021-02-05",
+   "t": -2,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 19.4675,
+   "control_value": 44.94291666666667,
+   "diff": -25.475416666666668
+  },
+  {
+   "day": "2021-02-06",
+   "t": -1,
+   "period": "before",
+   "after": 0,
+   "in_window": 1,
+   "series_value": 61.9589,
+   "control_value": 26.25375,
+   "diff": 35.70515
+  },
+  {
+   "day": "2021-02-07",
+   "t": 0,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 18.2116,
+   "control_value": 51.80708333333333,
+   "diff": -33.595483333333334
+  },
+  {
+   "day": "2021-02-08",
+   "t": 1,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 18.4652,
+   "control_value": 69.44375000000001,
+   "diff": -50.97855000000001
+  },
+  {
+   "day": "2021-02-09",
+   "t": 2,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 73.2311,
+   "control_value": 42.81375,
+   "diff": 30.41735
+  },
+  {
+   "day": "2021-02-10",
+   "t": 3,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 82.8428,
+   "control_value": 50.20916666666667,
+   "diff": 32.63363333333333
+  },
+  {
+   "day": "2021-02-11",
+   "t": 4,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 473.6683,
+   "control_value": 59.86041666666667,
+   "diff": 413.80788333333334
+  },
+  {
+   "day": "2021-02-12",
+   "t": 5,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 383.8127,
+   "control_value": 73.12,
+   "diff": 310.6927
+  },
+  {
+   "day": "2021-02-13",
+   "t": 6,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 1931.4656,
+   "control_value": 70.42166666666667,
+   "diff": 1861.0439333333334
+  },
+  {
+   "day": "2021-02-14",
+   "t": 7,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 2435.5375,
+   "control_value": 52.372083333333336,
+   "diff": 2383.1654166666667
+  },
+  {
+   "day": "2021-02-15",
+   "t": 8,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 6807.3285,
+   "control_value": 63.02791666666667,
+   "diff": 6744.300583333333
+  },
+  {
+   "day": "2021-02-16",
+   "t": 9,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 8993.5153,
+   "control_value": 72.57458333333334,
+   "diff": 8920.940716666666
+  },
+  {
+   "day": "2021-02-17",
+   "t": 10,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 9025.9716,
+   "control_value": 92.8125,
+   "diff": 8933.1591
+  },
+  {
+   "day": "2021-02-18",
+   "t": 11,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 9000.4368,
+   "control_value": 99.83666666666666,
+   "diff": 8900.600133333333
+  },
+  {
+   "day": "2021-02-19",
+   "t": 12,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 3409.2944,
+   "control_value": 73.95625,
+   "diff": 3335.33815
+  },
+  {
+   "day": "2021-02-20",
+   "t": 13,
+   "period": "after",
+   "after": 1,
+   "in_window": 1,
+   "series_value": 9.4069,
+   "control_value": 56.67541666666667,
+   "diff": -47.26851666666667
+  }
+ ],
+ "csv_name": "erw_2026_impact_event_control.csv",
+ "do_file": "* ERW analysis impact_study: IMPACT OF AN EVENT ON A SERIES. Reproduces the card's means and its regression from the CSV.\n\n* The CSV begins with four comment lines: the names are read from line 5 and the data from line 6.\n\nclear all\n\nimport delimited \"erw_2026_impact_event_control.csv\", varnames(5) rowrange(6) stringcols(_all) clear\n\ndestring t, replace force\n\ndestring after, replace force\n\ndestring in_window, replace force\n\ndestring series_value, replace force\n\ndestring control_value, replace force\n\ndestring diff, replace force\n\nreplace t = . if t == -999\n\nreplace after = . if after == -999\n\nreplace in_window = . if in_window == -999\n\nreplace series_value = . if series_value == -999\n\nreplace control_value = . if control_value == -999\n\nreplace diff = . if diff == -999\n\nkeep if in_window == 1 & diff < .\n\ntabstat series_value control_value diff, by(after) statistics(mean n) format(%12.4f)\n\ngenerate obs = _n\n\ntsset obs\n\nlocal lags = floor(4 * (_N / 100)^(2 / 9))\n\nnewey diff after, lag(`lags')\n",
+ "card_id": "impact_study",
+ "meta": {
+  "series": "ercot_north_rt",
+  "control": "nyiso_nyc_rt",
+  "series_words": "ERCOT North Hub real-time price",
+  "control_words": "NYISO New York City real-time price",
+  "unit": "USD/MWh",
+  "control_unit": "USD/MWh",
+  "event": "uri_2021",
+  "date": "2021-02-07",
+  "date_words": "7 February 2021, the first day of Winter Storm Uri",
+  "window": 14,
+  "series_table": "ercot_hub_prices_daily",
+  "control_table": "iso_zone_prices_history",
+  "refusal": "",
+  "min_obs": 5,
+  "series_first": "2015-01-01",
+  "series_last": "2026-10-07",
+  "control_first": "2019-01-02",
+  "control_last": "2026-10-08",
+  "series_days_held": 4298,
+  "control_days_held": 2818
+ },
+ "downloads": {
+  "csv": "erw_2026_impact_event_control.csv",
+  "python": "impact_study.py",
+  "stata": "impact_study.do"
+ },
+ "csv_sha256": "6778239f4ef7964606396061ebd79efad61639d40f14075776255bab7539bc7a"
+}
