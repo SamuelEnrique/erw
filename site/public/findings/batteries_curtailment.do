@@ -1,8 +1,10 @@
-* ERW finding batteries_curtailment: BY HOW MUCH DO BATTERIES CUT CURTAILMENT. Reproduces the card's three regressions from erw_2026_caiso_curtailment_batteries.csv.
+* ERW finding batteries_curtailment: BY HOW MUCH DO BATTERIES CUT CURTAILMENT. Reproduces the card's correlation and three regressions from erw_2026_caiso_curtailment_batteries.csv.
+
+* The CSV begins with four comment lines: the names are on line 5 and the data begin on line 6 (session 182).
 
 clear all
 
-import delimited "erw_2026_caiso_curtailment_batteries.csv", varnames(1) stringcols(_all) clear
+import delimited "erw_2026_caiso_curtailment_batteries.csv", varnames(5) rowrange(6) stringcols(_all) clear
 
 destring curtailed_mwh, replace force
 
@@ -41,6 +43,8 @@ gen charging_gwh = charging_mwh / 1000
 gen solar_gwh = solar_mwh / 1000
 
 encode month, gen(month_id)
+
+correlate curtailed_mwh charging_mwh
 
 regress curtailed_mwh charging_gwh, vce(robust)
 
