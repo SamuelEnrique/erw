@@ -197,3 +197,26 @@
 
 ## The landing
 
+
+- Landed by the chain's coordinator from `wip/178-land` (`wip/176-costs` with its landing note, `origin/main` and
+  `wip/178-battery-correct` merged; no conflict). Before session 177, which was still building: the two do not touch
+  the same files.
+- In the main copy at the merged tree (`509de1e`), outputs under `runs/session178/`: tests 178, 92 and 176: 86 tests OK,
+  0 skipped (`land_tests.out`); `npm run build` exit 0 (`land_build.out`); `check-routes` on the local build: 155 pages
+  in review, 0 failed (`land_check_routes.out`); the battery pages' values: 1,793 of 1,808 on the first run (the 15 were
+  October so far on five addresses, the local build's stale fetch cache, as on 7 October) and **1,808 of 1,808 on the
+  second run of the same build** (`land_check_values.out`, `land_check_values2.out`); `check-battery-face` 20 of 20
+  (`land_check_face.out`); the whole suite in the clean worktree at `509de1e`: 2,810 tests OK, 231 skipped
+  (`suite_clean.out`).
+- No freeze. `178_before` at 08:42:44 UTC (25 pages, exit 0), its own command; pushed as `task/178-battery-correct`;
+  "code branch" run 38038838741 success; merge `c8f47b0`; Vercel production "Deployment has completed" at 08:52:23 UTC;
+  `178_after` at 08:52:42 UTC; comparison: **0 differences on the 25 pages** (`compare_178.out`, exit 0). Expected: the
+  page is in review, so a visitor sees the in-review page before and after.
+- On production in the internal view: `check-battery-face.mjs https://erw-flame.vercel.app`: 20 of 20, exit 0
+  (`prod_check_face.out`): the line, the second link, the three downloads, 1280 and 390 px.
+- **One thing the coordinator adds for your ruling:** the hour-by-hour CSV is a file in git, written once. When October
+  2026 enters the page's last twelve months (the note's edge case: at its 28th solved day), the page's headline moves
+  and the CSV and do-file still rebuild the old window. `tests.test_session178` then fails on this machine (it skips on
+  GitHub), which is the alarm. To keep the download current the exporter would join the daily run after
+  `battery_stack` (one line in `warehouse/run_daily.sh`, and `site/public/battery` added to the commit step); not done
+  tonight, because the prompt asked for an export, not a new scheduled step.

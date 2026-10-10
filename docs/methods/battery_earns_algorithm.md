@@ -299,6 +299,74 @@ One number: the round-trip efficiency, 86 percent. The list of required duration
 - **Cycles a day.** The limit of one full cycle is a constraint of the optimization, and it binds on most days (0.983 realized). A different limit is a different model run, with the same cost as above. The browser can show the realized cycles once `discharged_mwh_per_mw` is passed, and cannot change the limit.
 - The same holds for the required durations, the hourly resolution, the price-taker assumption and reserves never called.
 
+### 11.1 Scenarios A and B: what session 179 built on this
+
+The section "Scenarios A and B" of the page: ten assumptions, two scenarios on the same seven rows, and a sensitivity chart. It is computed in the browser by `site/lib/battery/finance.ts` (pure arithmetic, no request) from the months the page already holds. Nothing above this section changed: an address with none of the parameters below shows the page as it was, with this block at its defaults.
+
+#### The ten assumptions and their defaults
+
+| Assumption | Default | Source of the default | Bounds | Address (A, B) |
+|---|---|---|---|---|
+| Capital cost, USD per kW | 610, 1,110, 2,110 (2, 4, 8 hours) | Lazard, Levelized Cost of Energy+, June 2025, LCOS v10.0, midpoints; 8 hours a straight line through the other two (section 6) | 0 to 10,000 | `ac`, `bc` |
+| Debt share, percent | 60 | Lazard: "60% debt at an 8% interest rate" (`cost_of_power.md`) | 0 to 100 | `as`, `bs` |
+| Interest rate, percent a year | 8 | the same | 0 to 30 | `ar`, `br` |
+| Term of the debt, years | 20 | Lazard: "Economic life sets debt amortization schedule"; 20 years for storage | 1 to 40, whole | `at`, `bt` |
+| Fixed O&M, USD per kW a year | 11.2, 22, 43.6 | the same Lazard cases as the capital cost | 0 to 500 | `af`, `bf` |
+| Round-trip efficiency, percent | 86 | Lazard LCOS v10.0: 86 to 92 percent for utility-scale storage; the model runs at the low end | the steps 86, 89 and 92 | `ae`, `be` |
+| Cycles a day, at most | 1 | the model's rule (section 3.4) | the steps 0.5, 1, 1.5 and 2 | `ay`, `by` |
+| Degradation, percent a year | 0 | none held: the model has no capacity fade, and the repository cites no rate | 0 to 20 | `ad`, `bd` |
+| Project life, years | 20 | Lazard: 20 years for storage | 1 to 40, whole | `al`, `bl` |
+| Hurdle rate, percent a year | 8 | none held: set equal to the interest rate | 0 to 40 | `ah`, `bh` |
+
+- **Two defaults have no cited source, and the page says so beside each.** The repository holds no cited degradation rate and no cited hurdle rate (no cost of equity is quoted anywhere in it). Degradation defaults to none, which is what the model does. The hurdle rate defaults to the one rate the repository does cite, the interest rate. Both are to be confirmed by Samuel (session 179's report).
+- The steps of efficiency are the two ends and the midpoint of Lazard's range. The steps of the cycle limit other than 1 are the reader's, not a source's.
+- **The address.** Each scenario's assumptions are two-letter parameters, the scenario's letter then the assumption's (`c` capital cost, `s` debt share, `r` interest rate, `t` term, `f` fixed O&M, `e` efficiency, `y` cycles, `d` degradation, `l` life, `h` hurdle rate); `v=b` puts B in view. A parameter is written only when its value differs from the default, so no parameter means the defaults. The page's own six (`grid`, `dur`, `strat`, `mw`, `fom`, `ds`) work as before. A value outside its bounds is clipped; one that cannot be read, or a step that is not held, takes the default. The address is rewritten in place (`history.replaceState`): a change sends no request. The panel's Show and its duration links carry the scenarios; a change of duration drops a typed capital cost and fixed O&M, whose defaults scale with the duration.
+- **The scenarios do not read the "Your battery" panel's fixed O&M and annual debt payments.** Those two fields set the headline coverage, as before. A scenario's fixed O&M is its own, and its debt payment is computed from its capital cost, debt share, interest rate and term. At the defaults the two agree (0.88 times in the default case).
+
+#### The revenue a scenario reads
+
+`R` is the last twelve months' total revenue per kW (section 4.2's window and sum, divided by 1,000), and the 10th-percentile month is section 4.3's. Both are read:
+
+- at the model's own values (86 percent, one cycle): from the page's months, so the scenario shows the page's own figures (USD 81.40 per kW and USD 475,477 in the default case);
+- at another step: from `site/data/battery_scenario_steps.json`, the model's own run at that step.
+
+**The file of steps** is written by `warehouse/derived/battery_scenario_steps.py`. For ERCOT and CAISO, both strategies and the three durations, it solves every day of the page's 36-month window with the model's own `solve_day`, once for each of the twelve pairs of an efficiency (0.86, 0.89, 0.92) and a cycle limit (0.5, 1, 1.5, 2), and keeps each month's total. The efficiency is `solve_day`'s own argument. The cycle limit is the right-hand side of the model's one-cycle constraint (section 3.4: `sum of d_t / eta <= D`), multiplied by the step: `<= cycles x D`. Nothing else differs, and the model's file is not changed. Each solution passes the model's `check_day`. The script refuses to write unless its (0.86, 1) run equals `battery_stack_monthly` month by month to half a cent per MW with the same count of days.
+
+**Nothing is interpolated.** The two controls offer exactly the steps in the file. At a step, a month's total replaces the page's total for that month; the windows, the 90 percent rule and the nearest-rank percentile are unchanged.
+
+**The file is static and dated; it cannot go stale silently.** It is rebuilt by running the script, not by the daily run. The page uses a step only while the file still describes the live table: every held month of the page's 36-month window must be in the file, with the same count of solved days and, in the file's (0.86, 1) cell, the same total to within half a cent per MW (`stepState`). When the window has moved on (a new month is held, about the 28th of each month) or a month was revised, the two controls offer the default step alone and the panel says which happened and to which month the file reaches. `tests/test_session179.py` fails on a machine with the tables, with the command to rebuild. A grid in review (NYISO, SPP) has no case in the file and offers the default step alone.
+
+#### The formulas
+
+Per kW of rated power; the page multiplies by `1,000 x MW` for the reader's size. `share`, `rate`, `deg` and `hurdle` are fractions here (the reader types percent).
+
+- **Capital recovery factor.** `crf(i, n) = i / (1 - (1 + i)^-n)`; at `i = 0`, `1 / n`.
+- **The debt's years.** `n = min(term, life)`: a term longer than the project life is cut to the life.
+- **Annual debt payment.** `debt = capex x share x crf(rate, n)`. Default case: `1,110 x 0.6 x 0.101852 = 67.83` per kW, USD 6,783,357 for 100 MW.
+- **Revenue in year t.** `R_t = R x (1 - deg)^(t - 1)`: the last twelve months repeated every year of the life, falling by the degradation rate each year after the first. This is an assumption, not a forecast: the future is taken to repeat the last twelve months. Degradation is a haircut on revenue; the model itself has no fade (fade shortens duration, and revenue is not proportional to duration).
+- **Cash flows to equity.** `F_0 = -capex x (1 - share)`. For `t = 1 to life`: `F_t = R_t - fom - debt` while `t <= n`, and `F_t = R_t - fom` after. No tax, no tax credit, no augmentation, no residual value, no inflation: revenue and costs are flat in today's dollars apart from degradation.
+- **NPV at the hurdle rate.** `NPV = sum over t = 0 to life of F_t / (1 + hurdle)^t`. It is the value to equity, after debt payments, which is why the debt share, the interest rate and the term move it.
+- **IRR.** The rate at which that sum is zero, found by bisection between -99 percent and 1,000 percent a year, to 1e-10 of a percentage point. When the sum has the same sign at both ends of the bracket (for example no year's cash flow is positive, as in the default case), there is no such rate and the page says "none". Where the flows change sign more than once, several rates can exist; the page shows the one the bisection reaches.
+- **Debt coverage.** `(R - fom) / debt`: the last twelve months' revenue less fixed O&M, over the annual debt payment. With no debt (`share = 0` or `capex = 0`) the page says "no debt".
+- **Breakeven toll.** The price, in USD per kW-month, of a toll on the whole battery at which coverage is 1.25: solving `(12 x toll - fom) / debt = 1.25` gives `toll = (1.25 x debt + fom) / 12`. A battery under a toll on all of its power earns nothing from the market, so this row does not depend on revenue, efficiency, cycles or degradation. Default case: `(1.25 x 67.83 + 22) / 12 = 8.90`.
+- **Merchant tail after the contract.** The toll is taken to run as long as the debt (`n` years). The tail is the years after it, `t = n + 1 to life`, and its value is `sum of (R_t - fom) / (1 + hurdle)^t` over those years: what the market pays the battery after the contract, with no debt left, valued at year 0 at the hurdle rate. With the default term equal to the life there are no such years and the value is zero; a term of 10 years gives years 11 to 20. The contract panel's own end month is not read (it stays on the reader's device and is never in the address, so a shared link could not carry it).
+
+#### The rows, and what differs
+
+Seven rows, the same for A and B: revenue last twelve months (USD per kW); the 10th-percentile month (USD for the reader's size, with its month); debt coverage (with the annual debt payment); NPV at the hurdle rate (USD for the size, and per kW); IRR; the breakeven toll; the merchant tail. Each column's header lists only the assumptions whose values differ between A and B, and nothing when none does. The last row says it in words: "B: capex USD 1,100 per kW against 1,300; hurdle rate 8 percent against 10." "Copy A to B" sets B to A. The sentence under the table states the NPV of the scenario in view at its hurdle rate.
+
+#### The sensitivity chart
+
+For the scenario in view: each assumption is moved down and up by one stated step, the other nine held, and the NPV recomputed. The steps: capital cost USD 100 per kW; debt share 10 points; interest rate 1 point; term 5 years; fixed O&M USD 5 per kW a year; efficiency one step (3 points); cycles one step (0.5); degradation 1 point; life 5 years; hurdle rate 1 point. A move that leaves the assumption's bounds, or a step the file does not hold, is not drawn (degradation at 0 has no lower step). The rows are sorted by the larger of the two moves. The two bars start at the scenario's own NPV (the vertical line). The colours are the site's first two categorical colours and carry no verdict; the same figures are in the table under the chart.
+
+#### What this block is not
+
+It is not a forecast and not a valuation. It repeats one year of an upper-bound revenue (perfect foresight, a price taker, reserves never called: sections 5 and 6) over the project's life. It has no tax, no tax credit, no augmentation and no residual value. It states numbers for two sets of assumptions; it does not say which to choose.
+
+#### Checks
+
+`site/scripts/test-battery-finance.mjs` (hand cases); `tests/test_session179.py` (a Python mirror of every formula above against the library on 308 cases to 1e-6; the file of steps; the builder; the page's source); `site/scripts/check-battery-scenarios.mjs` (the page in a browser: the ten inputs and their Resets, the seven rows, the address round trip, no request on a change, the chart's bars and hover, 390 px).
+
 ## Checks
 
 `tests/test_session178.py`: the do-file's rules, parsed; the mirror against the CSV and against `battery_stack_monthly` through the page's own library (skipped without the tables or without node); the optimizer check on five days of the committed CSV; the awards snapshot against the two tables; the page's new line and links. `site/scripts/check-values.mjs` checks the new line's three numbers (`bsa|...`).
