@@ -262,6 +262,8 @@ def main(argv=None):
     # session 30: the shadow Roundup (warehouse/news/shadow.py) reads the shadow's view and writes only to --out
     ap.add_argument("--stories", help="read the scored stories from this file instead of news_stories")
     ap.add_argument("--out", help="write the Roundup to this path only (not docs/roundup/<week>.md, not latest.md)")
+    ap.add_argument("--no-model", action="store_true", help="session 176: no model call (the daily model cap is reached): "
+                    "the publishers' own titles as headlines, no written summary of the numbers; the Roundup still publishes")
     args = ap.parse_args(argv)
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -288,9 +290,14 @@ def main(argv=None):
         weekend = brief.build_clusters(wk_s).head(WEEKEND_N) if len(wk_s) else clusters.head(0)
         top5 = clusters[~clusters["cluster_id"].isin(set(weekend["cluster_id"]))].head(5)
         shown = pd.concat([weekend, top5]).drop_duplicates("cluster_id")
-        client = brief.llm.client("roundup", log)
-        model = pick_model(client, log)
-        heads, u, calls = brief.headlines(client, model, shown, log)
+        if args.no_model:
+            client, model = None, brief.NO_MODEL
+            heads, u, calls = brief.own_titles(shown), brief.SimpleNamespace(input_tokens=0, output_tokens=0), 0
+            log(f"  --no-model: {len(heads)} headlines are the publishers' own titles; no model call")
+        else:
+            client = brief.llm.client("roundup", log)
+            model = pick_model(client, log)
+            heads, u, calls = brief.headlines(client, model, shown, log)
         if set(shown["cluster_id"]) - set(heads):
             raise RuntimeError("headlines missing for some clusters")
         secs = brief.unique_items({"weekend": weekend, "top": top5}, heads, log)
@@ -304,6 +311,7 @@ def main(argv=None):
         L = [f"# ERW's Roundup, {label}", "",
              # session 21: one sentence (what, the period, the story count); the method is on /about#digest
              f"ERW's weekly roundup of energy news for {span}, from {len(s)} scored stories.", "",
+             *([brief.NO_MODEL_LINE.replace("Today's", "This week's"), ""] if args.no_model else []),
              "## Weekend", ""]
         if weekend.empty:
             L.append(f"- no scored story was published on {wk_start:%Y-%m-%d} or "
@@ -363,7 +371,7 @@ def main(argv=None):
 
         L += ["", "## ERW's Policy of the Week", ""] + policy_of_the_week(start, cut, log)
         nums = numbers(start, cut, log)
-        summary, su = brief.numbers_summary(client, model, nums, log)
+        summary, su = (None, []) if args.no_model else brief.numbers_summary(client, model, nums, log)
         if model in PRICES:
             scost = sum(x.input_tokens * PRICES[model][0] + x.output_tokens * PRICES[model][1] for x in su) / 1e6
             log(f"  numbers summary: {len(su)} call(s), cost USD {scost:.4f}")

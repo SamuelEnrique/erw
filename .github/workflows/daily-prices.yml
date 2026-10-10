@@ -207,6 +207,9 @@ jobs:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PJM_API_KEY: ${{ secrets.PJM_API_KEY }}
+          # Session 176: the daily cap for all scheduled model steps together, in USD (warehouse/health.py budget). A
+          # repository variable; unset or empty means the default, 1.00.
+          DAILY_MODEL_USD: ${{ vars.DAILY_MODEL_USD }}
           # Session 10: Redivis (store of record, draft only) and Supabase (live set)
           REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
           REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
