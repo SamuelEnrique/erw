@@ -1,5 +1,5 @@
 # Energy Research Warehouse (ERW): finding peak_hour_grids, THE PEAK HOUR MOVED: FIVE GRIDS
-# Computed 2026-10-10T16:35:05Z by warehouse/analysis/findings/peak_hour_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
+# Computed 2026-10-10T16:44:00Z by warehouse/analysis/findings/peak_hour_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md
 # Rows: one per grid, local year and hour of the day: the percent of the year's days whose highest hourly real-time price fell in that hour; the year's days, median peak hour, percent of days peaking 17:00 to 21:59 and 10:00 to 15:59 (repeated on each hour row); solar MW at year end
 # A blank is a year the warehouse does not hold for that grid; MISO and PJM are not in the file (paused, and licensed). Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, iso_zone_prices_history, eia860m_operating_generators, eia860m_retired_generators_all
 grid,year,hour,share_days_pct,n_days,median_peak_hour,share_evening_pct,share_midday_pct,solar_mw_yearend

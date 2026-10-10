@@ -230,7 +230,7 @@ def chart(rows, n, meta):
             seen.add(y)
             series.append({"name": f"{g['words']} {y}" + (" (to date)" if y == n["this_year"] else ""), "type": "line", "unit": "percent of days",
                            "values": [at[(grid, y, h)]["share_days_pct"] for h in range(24)], "days": n.get(f"{grid}_{tag}_days")})
-        single = {"kind": "lines", "x": hours, "x_label": f"Hour of the day ({g['tz']}) in which the day's highest real-time price fell",
+        single = {"kind": "lines", "x": hours, "x_label": f"Hour of the day's highest price ({g['tz']})",
                   "series": series, "y_left_label": "percent of the year's days", "value_suffix": "%", "decimals": 1}
         said, cav = grid_words(n, grid)
         panels.append({"grid": grid, "words": g["words"], "title": f"{g['words']}: {g['node_words']}, every {g['every']}, from {meta['spans'][grid]['first_day'][:7]}",

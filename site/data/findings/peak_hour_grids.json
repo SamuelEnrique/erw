@@ -138,7 +138,7 @@
       "22",
       "23"
      ],
-     "x_label": "Hour of the day (America/Chicago) in which the day's highest real-time price fell",
+     "x_label": "Hour of the day's highest price (America/Chicago)",
      "series": [
       {
        "name": "ERCOT 2019",
@@ -369,7 +369,7 @@
       "22",
       "23"
      ],
-     "x_label": "Hour of the day (America/Los_Angeles) in which the day's highest real-time price fell",
+     "x_label": "Hour of the day's highest price (America/Los_Angeles)",
      "series": [
       {
        "name": "CAISO 2025",
@@ -568,7 +568,7 @@
       "22",
       "23"
      ],
-     "x_label": "Hour of the day (America/New_York) in which the day's highest real-time price fell",
+     "x_label": "Hour of the day's highest price (America/New_York)",
      "series": [
       {
        "name": "NYISO 2019",
@@ -799,7 +799,7 @@
       "22",
       "23"
      ],
-     "x_label": "Hour of the day (America/New_York) in which the day's highest real-time price fell",
+     "x_label": "Hour of the day's highest price (America/New_York)",
      "series": [
       {
        "name": "ISO-NE 2025",
@@ -998,7 +998,7 @@
       "22",
       "23"
      ],
-     "x_label": "Hour of the day (America/Chicago) in which the day's highest real-time price fell",
+     "x_label": "Hour of the day's highest price (America/Chicago)",
      "series": [
       {
        "name": "SPP 2025",
@@ -1450,11 +1450,11 @@
   "eia860m_operating_generators",
   "eia860m_retired_generators_all"
  ],
- "computed_at": "2026-10-10T16:35:05Z",
+ "computed_at": "2026-10-10T16:44:00Z",
  "method": "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
  "csv_header": [
   "Energy Research Warehouse (ERW): finding peak_hour_grids, THE PEAK HOUR MOVED: FIVE GRIDS",
-  "Computed 2026-10-10T16:35:05Z by warehouse/analysis/findings/peak_hour_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
+  "Computed 2026-10-10T16:44:00Z by warehouse/analysis/findings/peak_hour_grids.py; method https://github.com/SamuelEnrique/erw/blob/main/docs/methods/automated_analysis_findings.md",
   "Rows: one per grid, local year and hour of the day: the percent of the year's days whose highest hourly real-time price fell in that hour; the year's days, median peak hour, percent of days peaking 17:00 to 21:59 and 10:00 to 15:59 (repeated on each hour row); solar MW at year end",
   "A blank is a year the warehouse does not hold for that grid; MISO and PJM are not in the file (paused, and licensed). Sources: ercot_all_hub_prices_history, iso_rtm_hub_prices, iso_hub_prices_history, iso_zone_prices_history, eia860m_operating_generators, eia860m_retired_generators_all"
  ],
@@ -1506,5 +1506,5 @@
   "python": "peak_hour_grids.py",
   "stata": "peak_hour_grids.do"
  },
- "csv_sha256": "71a3180f986bca8e69edca7a1f128110e353d47cbc9ad4f3caaef0fd7a8456ae"
+ "csv_sha256": "cbdd15caa10718e8ea804bbb15a6364336dc3f003667ed61184d41b72bd8712c"
 }

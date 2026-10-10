@@ -60,3 +60,11 @@ export function inputWords(card: Card): string {
 }
 
 export { PARAM_WORDS, paramWords } from "./findingwords";
+
+// Session 182: three cards more. The two five-grid cards take the place of the single-grid cards they supersede in the
+// list, the hourly curtailment card stands beside the daily one, and a superseded card moves to the end of the list:
+// it stays drawn and reachable at its own address (nothing a page shows is dropped). Added lines only.
+export const SUPERSEDED: Record<string, string> = { batteries_lunch: "batteries_lunch_grids", peak_hour_moved: "peak_hour_grids" };
+for (const [oldId, newId] of Object.entries(SUPERSEDED)) ORDER.splice(ORDER.indexOf(oldId), 1, newId);
+ORDER.splice(ORDER.indexOf("batteries_curtailment") + 1, 0, "batteries_curtailment_hourly");
+ORDER.push(...Object.keys(SUPERSEDED));
