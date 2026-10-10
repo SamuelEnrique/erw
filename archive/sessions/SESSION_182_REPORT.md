@@ -512,3 +512,24 @@ were ready before session 181), then the request flow on top of session 181.
   `check-values` 6,927 of 6,927; `check-csp` in a real browser: 84 pages, 0 violations; against the stand-in:
   `check-internal-findings` 114 of 114 and `check-analysis-flow --stub` 233 of 233; the whole suite in the clean
   worktree: 3,008 tests OK, 233 skipped.
+- No freeze. `182b_before` at 19:14:43 UTC; pushed as `task/182-flow`; run 38079034461 success; merge `d363ef26`;
+  Vercel production completed 19:22:54 UTC; `182b_after` at 19:23:18 UTC; comparison: **0 differences on the 25 pages**
+  (`compare_182b.out`).
+- On production: `check-analysis-flow` 225 of 225 and `check-analysis` 261 of 261 (`prod_flow2.out`,
+  `prod_analysis2.out`). The first run of the two failed 3 and 17 assertions, and the fault was on this machine, not
+  on production: the worker had written the card of the coordinator's proof request into `site/data/findings/` as an
+  untracked file, both checks count the cards in that folder, and production (what git holds) rightly drew one fewer.
+  With the four untracked files moved to `runs/session181/worker_card/`, both pass.
+- **One real request through production's own route, end to end** (`runs/session182/prod_request.mjs`,
+  `prod_request2.out`): the internal view opened by the form; `POST /api/analysis` for `queue_divorce`, 2005 to 2018,
+  answered `{"ok":true,"id":"20261010T192556Z-9eb252"}`; queued at 19:25:57 UTC; **done at 19:26:33 UTC** (37 seconds)
+  by the worker on this machine; the card ("TILL QUEUE DO US PART", three callouts) read back from the request's row
+  through the route. A first try with a year the form does not offer was refused by the route ("First request year:
+  not a choice"), as it should be.
+- **For your ruling: where the worker writes a requested card.** It writes the card's JSON and its three downloads into
+  `site/data/findings/` and `site/public/findings/` of the main copy, as untracked files. `/analysis` draws every card
+  file in that folder, so a build on this machine shows cards production does not have, and the two checks above then
+  disagree with production. Since migration 029 the page reads a requested card from its queue row, so the files are
+  not needed for the card to be seen. Options: the worker writes requested cards under `runs/` (one line, `--out-dir`),
+  or each requested card is committed by a person. Tonight the coordinator's two proof cards were moved to
+  `runs/session181/worker_card/` and `runs/session182/worker_card/`; nothing was committed.
