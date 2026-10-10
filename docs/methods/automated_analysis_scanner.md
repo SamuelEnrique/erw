@@ -23,7 +23,7 @@ flags five kinds of news. Each flag becomes a draft finding card computed by cod
 - `exclude_tables` leaves out, each with its reason: forecasts, the price board's presentation tables, the tables about
   past events, average shapes by hour and month, the network's seven-day replay window, and a table of records.
 - The first run (10 October 2026, the data machine's tables): 117 tables, 36,852 series seen, 6,797 scanned, 105 pairs
-  tested, in 198 seconds. Not scanned: 19 tables by `exclude_tables` or the known gaps; 28 public tables that are
+  tested, in about four minutes (198 to 251 seconds). Not scanned: 19 tables by `exclude_tables` or the known gaps; 28 public tables that are
   entities or events (no series of values); the series of four tables that fit no grain (`ai_power_regions`,
   `census_metro_population`, `noaa_grid_weather_stations`, `noaa_isd_hourly`). Of the series seen, 20,516 were too short
   or nearly constant, 7,300 held no fresh point, 139 belonged to a paused publisher.
