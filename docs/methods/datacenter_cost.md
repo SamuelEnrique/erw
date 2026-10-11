@@ -6,6 +6,11 @@ what the power will cost, whether it will be there, how clean it is, and how soo
 
 The page's face carries no method. Everything about how a figure is made, and what it leaves out, is here.
 
+**Every number, step by step** (session 190): [`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md) states
+each figure of the page in page order with its inputs, formula, edge cases and a worked example, and offers the default
+case hour by hour as CSV with a Stata do-file. Where that note and this one differ, that note is the newer and is
+written from the code; its section 9 lists the differences.
+
 ## The reader's load
 
 | Input | Choices | Default |
@@ -93,7 +98,7 @@ weeks of prices and had no year.
   26 June 2023, not 2019. Real time is the same 15-minute product the hub history holds for SP15, from September 2024.
 - **SPP South.** Day-ahead only. SPP serves a finished year as one archive and the current year day by day; the days
   held grow as the pull, which is slow, goes back (126 days of 2026 at this page's first build). Real time was not
-  asked for.
+  asked for. Since session 149 the pull is whole: day-ahead from 1 January 2019, every hour of 2019 to 2025.
 - **ISO-NE's eight load zones are pulled and held internal, and this page shows none of that history.** They come from
   ISO-NE's yearly workbook of hourly zonal information, the same file as the hourly demand the owner ruled internal,
   under the same notice ("Any duplication of the Content or non-personal use may violate copyright, trademark, and
@@ -152,7 +157,10 @@ bought in to its cheapest. It is the most the load could have saved. No operator
 **Why the budget.** The threshold alone sheds more hours than the reader names when prices rise through a season (at
 ERCOT's North load zone, real time, a load set for 100 hours would have been off in 256 hours of 2021 and 100 to 183
 in the other years since 2015). With the budget the load is never off in more hours than the reader asked for, so the
-figure "if perfectly foreseen" is never worse than the rule's, and the two compare like for like. The cost of the
+figure "if perfectly foreseen" is never worse than the rule's, and the two compare like for like. (Session 190: that
+holds for a whole year. In a year held in part the rule keeps the whole year's hours while the foreseen load takes a
+share of them, so the two do not compare like for like there:
+[`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md), section 11, finding 1, for the owner's ruling.) The cost of the
 budget is real: the rule spends its hours on the first dear days of a year and has none left for a later, dearer
 event. `site/scripts/rule-gap.mjs` prints the rule, the foreseen figure and the threshold alone, by grid and year.
 **Ruled on 7 October 2026 (the owner): the page keeps the budget of hours.** Session 140 added it without being
@@ -683,6 +691,9 @@ after `large_load_waits` or `large_load_statements` is written.
 Saturdays) runs it after the load connectors and, on a machine that holds the table, after the newest files of the
 zones' history. ERCOT's load zones are not refreshed on a schedule: each new copy of the current year's two workbooks
 counts against that pull's ceiling, which leaves room for two, so their hours stop at 3 October 2026 until a person
-rules on it. New York's load queue is refreshed with the interconnection queues on Mondays. A build is merged into the kept files: an hour the new build holds is
+rules on it. (Ruled on 7 October 2026 and written by session 149: a row counts once against the ceiling, and the
+refresh is a step of `warehouse/run_data_machine.sh`. That run is registered nowhere, so on 11 October 2026 the load
+zones' hours still stop at 3 October 2026. Since session 190 the same run exports the page's replication CSV again
+after it rebuilds these files.) New York's load queue is refreshed with the interconnection queues on Mondays. A build is merged into the kept files: an hour the new build holds is
 the new build's, an hour only the kept file holds is kept, so a machine with a shorter history (the scheduled runner
 holds no ERCOT price history) adds hours and never thins a file. A file is rewritten only when its content changes.
