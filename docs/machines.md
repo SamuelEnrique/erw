@@ -62,6 +62,15 @@ month; `python warehouse/archive/restore.py <table>` rebuilds a table Redivis la
 machine that downloaded them: they are too large for any copy the ERW pays nothing for, and every table records the URL
 it came from.
 
+**Handing the raw files to another machine (session 187).** When the data role moves to a machine that cannot reach
+the old one, `scripts/raw_handover.py` carries `warehouse/raw` through the same private bucket, under the prefix
+`_handover/187/`: each top folder cut into parts of at most 40 MiB (the bucket refuses an object over 50 MB), every part
+written once, with a manifest of every file's name, bytes and SHA-256. `runs/session187/handover.json` (in git) lists
+every part. On the receiving machine: `python scripts/raw_handover.py fetch`, then `verify`. A file already there with
+other bytes is never overwritten. Neither side takes the data lock, and the archive's own objects are not touched: its
+scripts read only `.csv.gz` objects at the third level, and the handover has none there. It is a copy for a move, not a
+standing backup: once the new data machine has verified its files, a person may delete the prefix.
+
 ### Cloud copies
 
 Measured 2026-10-02 (session 59):
@@ -75,6 +84,7 @@ Measured 2026-10-02 (session 59):
 | The append-only archive | object storage | Supabase Storage, private bucket `erw-archive` (547 files) | 507 MB | 100 GB included in Pro | included |
 | The network map's hourly file | object storage | Supabase Storage, public bucket `erw-public` | 191 kB | as above | included |
 | Raw source files | files | the data machine's disk only | several GB | the disk | USD 0 |
+| Raw source files, the handover of session 187 | object storage | Supabase Storage, `erw-archive`, prefix `_handover/187/` | see `runs/session187/handover.json` | 100 GB included in Pro, shared with the archive | included |
 
 No other service is used. The site (Vercel) reads Supabase; it holds no copy.
 
