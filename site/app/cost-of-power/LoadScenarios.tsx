@@ -12,13 +12,12 @@
 // share (components/decisions/ScenarioBlock.tsx); this file hands it the load's fields, rows and figures. The two
 // scenarios are held above the page's sections (LoadDecisions), and scenario A sets the headline: the three headline
 // numbers are A's rows, and the power per GPU-hour of the summary sentence and of "What will it cost" follows A's power
-// per GPU and overhead ratio (LoadHeadline, GpuHourOfA). "Your load" no longer holds those two fields; their names in
-// an older link are read as the scenarios' (lib/datacenter/finance.ts, parseScenarios). No usage count is sent from
-// here: the owner's ruling of 11 October 2026.
+// per GPU and overhead ratio (LoadHeadline.tsx). "Your load" no longer holds those two fields; their names in an older
+// link are read as the scenarios' (lib/datacenter/finance.ts, parseScenarios). No usage count is sent from here: the
+// owner's ruling of 11 October 2026.
 import { useCallback, useMemo, type ReactNode } from "react";
 import { ScenarioBlock, ScenarioState, useScenarios, type Cell, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
-import { HeadlineNumber, HeadlineRow } from "@/components/tool/ToolPage";
-import { gpuHour as gpuHourOf, monthName, two, usdShort, whole } from "@/lib/datacenter";
+import { monthName, two, usdShort, whole } from "@/lib/datacenter";
 import {
   FLAT, FLEX, KEYS, SPECS, against, bound, defaultsOf, differenceWords, differing, held, isOldParam, isScenarioParam, parseScenarios, resultOf, scenarioQuery, sensitivity, wayOf,
   type Assumptions, type Key, type Scenarios as Both, type Ways,
@@ -52,35 +51,6 @@ export function LoadDecisions({ load, open, initial, children }: { load: { run: 
   const d = useMemo(() => defaultsOf(load), [load]);
   const query = useCallback((s: { a: Values; b: Values; view: View }) => scenarioQuery(s as unknown as Both, d), [d]);
   return <ScenarioState start={parseScenarios(initial, d, open)} query={query} drop={drop}>{children}</ScenarioState>;
-}
-
-/** Power per GPU-hour at a price per MWh, at scenario A's power per GPU and overhead ratio: the figure of the summary
- * sentence and of "What will it cost", which price the load as "Your load" describes it. */
-export function GpuHourOfA({ per }: { per: number }) {
-  const { s } = useScenarios<Assumptions>();
-  return <>{gpuHourOf(per, s.a.gpu, s.a.pue).toFixed(4)}</>;
-}
-
-/** The three headline numbers: scenario A's rows "Market energy", "A bad month" and "Power per GPU-hour". `foreseen`
- * is the server's own note beside the first, for the way "Your load" describes; `missing` says why a figure is not held. */
-export function LoadHeadline({ facts: f, foreseen, missing }: { facts: Facts; foreseen: ReactNode; missing: ReactNode }) {
-  const { s } = useScenarios<Assumptions>();
-  const a = s.a, run = a.run === FLEX ? FLEX : FLAT;
-  const w = wayOf(a, f.ways), r = w ? resultOf(a, w) : null, bad = f.bads[run];
-  const own = run === (f.load.run === FLEX ? FLEX : FLAT);
-  return (
-    <HeadlineRow>
-      <HeadlineNumber label="Last twelve months, market energy"
-        value={w ? <>USD {two(w.per)}<span className="ml-1 font-sans text-sm text-muted">per MWh</span></> : missing}
-        note={w ? <>USD {usdShort(w.cost * f.mw)} for {whole(w.energy * f.mw)} MWh, {f.span}.{own ? foreseen : <span data-scenario-a-run="1"> Scenario A runs {run === FLEX ? `flexible (${f.words[FLEX]})` : "flat"}. The sections below are the load as &quot;Your load&quot; describes it.</span>}</> : null} />
-      <HeadlineNumber label="A bad month: the worst tenth of the last 36"
-        value={bad ? <>USD {two(bad.per)}<span className="ml-1 font-sans text-sm text-muted">per MWh</span></> : missing}
-        note={bad ? <>{monthName(bad.m)}. One month in ten of the {bad.of} held from {monthName(bad.first)} to {monthName(bad.to)} cost this or more.</> : null} />
-      <HeadlineNumber label="Power per GPU-hour"
-        value={r ? <>USD {r.gpuHour.toFixed(4)}</> : missing}
-        note={<>At {a.gpu} kW per GPU and an overhead ratio of {a.pue}: {f.size} powers {whole((f.mw * 1000) / (a.gpu * a.pue))} GPUs.{a.adder > 0 ? <span data-scenario-a-adder="1"> With USD {plain(a.adder)} per MWh of other charges, as scenario A has them.</span> : null}</>} />
-    </HeadlineRow>
-  );
 }
 
 export function LoadScenarios({ facts: f }: { facts: Facts }) {

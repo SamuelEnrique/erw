@@ -279,6 +279,7 @@ class ThePage(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.block = src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx")
+        cls.shared = src("site", "components", "decisions", "ScenarioBlock.tsx")   # session 195: the block the three pages share
         cls.lib = src("site", "lib", "seller", "finance.ts")
         cls.page = src("site", "app", "cost-of-power", "seller", "page.tsx")
 
@@ -310,35 +311,37 @@ class ThePage(unittest.TestCase):
         self.assertIn("No cited rate is held, so the default is none", self.lib)
 
     def test_a_reset_each_one_for_all_and_copy_a_to_b(self):
-        self.assertIn("data-reset={k}", self.block)
-        self.assertIn(">Reset</button>", self.block)
-        self.assertIn("data-reset-all", self.block)
-        self.assertIn(">Copy A to B</button>", self.block)
+        # session 195: the panel is the shared block's, which this page's file hands its fields
+        self.assertIn("data-reset={k}", self.shared)
+        self.assertIn(">Reset</button>", self.shared)
+        self.assertIn("data-reset-all", self.shared)
+        self.assertIn(">Copy A to B</button>", self.shared)
+        self.assertIn("<ScenarioBlock", self.block)
 
     def test_the_eight_rows_in_order_and_the_last_in_words(self):
-        keys = re.findall(r'\{ key: "(\w+)", label: ', self.block)
+        keys = re.findall(r'\n    row\("(\w+)", ', self.block)
         self.assertEqual(keys, ["revenue", "capture", "month", "coverage", "npv", "irr", "contract", "battery"])
-        self.assertLess(self.block.index('data-row={r.key}'), self.block.index('data-row="differs"'))
+        self.assertLess(self.shared.index('data-row={r.key}'), self.shared.index('data-row="differs"'))
         self.assertIn("differenceWords(s.a, s.b)", self.block)
-        self.assertIn('label: "The worst month"', self.block)
+        self.assertIn('row("month", "The worst month"', self.block)
 
     def test_it_computes_in_the_browser_and_asks_for_nothing(self):
         self.assertTrue(self.block.startswith('"use client";'))
-        code = re.sub(r"(?m)^\s*//.*$", "", self.block)
+        code = re.sub(r"(?m)^\s*//.*$", "", self.block + self.shared)
         for word in ("fetch(", "XMLHttpRequest", "sendBeacon", "localStorage", "sessionStorage", "document.cookie", "router.", "useRouter", "track(", "import("):
             self.assertNotIn(word, code, word)
-        self.assertIn("window.history.replaceState(", self.block)
+        self.assertIn("window.history.replaceState(", self.shared)
         self.assertNotRegex(self.lib, r"(?m)^import ")
         self.assertNotIn('from "react"', self.lib)
 
     def test_no_word_of_recommendation_and_no_colour_that_judges(self):
         # "The worst month" is the row the brief names: the lowest month, a rank and not a verdict
-        text = re.sub(r"(?m)^\s*//.*$", "", self.block).replace("The worst month", "")
+        text = re.sub(r"(?m)^\s*//.*$", "", self.block + self.shared).replace("The worst month", "")
         for word in ("better", "worse", "attractive", "should", "recommend", "best", "worst", "good", "poor", "prefer", "favou", "favor"):
             self.assertNotRegex(text.lower(), rf"\b{word}", word)
         for colour in ("color-up", "color-down", "#175E54", "green", "red-", "#8C1515"):
             self.assertNotIn(colour, text, colour)
-        self.assertIn('const DOWN = "#2a78d6", UP = "#eb6834";', self.block)
+        self.assertIn('const DOWN = "#2a78d6", UP = "#eb6834";', self.shared)
         tokens = src("site", "app", "tokens.css")
         self.assertIn("--color-fuel-gas: #2a78d6;", tokens)
         self.assertIn("--color-fuel-coal: #eb6834;", tokens)
@@ -352,7 +355,10 @@ class ThePage(unittest.TestCase):
     def test_the_form_carries_the_scenarios(self):
         form = src("site", "app", "cost-of-power", "seller", "SellerForm.tsx")
         self.assertEqual(form.count("carry("), 4)                                        # Show, the grid, the asset, "Reset the costs"
-        self.assertIn('const KEYS = ["iso", "hub", "asset", "mw", "mwh", "ds", "fom", "hr", "vom", "bmw", "dur", "strat"] as const;', form)   # the page's own, unchanged
+        # session 195: the debt payments and the fixed O&M are scenario A's; the other ten are the page's own
+        self.assertIn('const KEYS = ["iso", "hub", "asset", "mw", "mwh", "hr", "vom", "bmw", "dur", "strat"] as const;', form)
+        self.assertNotIn('name="fom"', form)
+        self.assertNotIn('name="ds"', form)
 
     def test_the_battery_pages_block_is_not_this_sessions(self):
         battery = src("site", "app", "cost-of-power", "battery", "Scenarios.tsx")
