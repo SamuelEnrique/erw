@@ -1,6 +1,6 @@
 # Session 188 report: the plumbing for continuous work
 
-11 October 2026, about 07:05 to 08:00 UTC, unattended, one agent of a chain, in the worktree `erw-188`. Branch `wip/188-plumbing`, not pushed: the orchestrating session lands it. Model spend USD 0, no model call. No pull: no request to any publisher. No e-mail sent, no table written, no migration.
+11 October 2026, about 07:05 to 07:55 UTC, unattended, one agent of a chain, in the worktree `erw-188`. Branch `wip/188-plumbing`, not pushed: the orchestrating session lands it. Model spend USD 0, no model call. No pull: no request to any publisher. No e-mail sent, no table written, no migration.
 
 ## Read these first
 
@@ -71,12 +71,13 @@ Outputs under `C:/Users/lossa/Documents/erw-188/runs/session188/`.
 | `precheck.py --dry-run` with `DAILY_MODEL_USD=abc` for that one command | 1, as meant | the line printed, the report written (`precheck_dry_run_failing.out`, `precheck_failing_report.md`) |
 | `chain_queue.py next --dry-run`, empty and with a stand-in file | 3, 0 | `chain_queue_next_dry_run_empty.out`, `_file.out` |
 | `duty.py check --dry-run`, `duty.py status` | 0, 0 | "no machine is on duty" |
-| Whole suite in the worktree | SUITE_EXIT | SUITE_RESULT |
+| Whole suite in the worktree, twice | 0, 0 | 3,161 tests, 220 skipped, while the work was still moving; then 3,162 tests, 220 skipped, at commit `a153f70d` (`suite.out`, 415 seconds) |
+| `eslint` on the five new site files | 0 | `eslint.out` |
 
 - **Visitor:** `/internal/waits` answers 404, title "ERW", none of the page's words; with `?token=` also 404.
 - **Internal view:** 200, `private, no-store`, noindex; 14 reports newest first; 81 items, each linked to its line; the counts equal the built file.
 - **Phone, 390 px, headless Chrome:** scroll width 390; no element past the edge; still 390 with a fold open.
-- **Not run:** `check-routes` and `check-values` (no page they read was changed); the whole suite in a clean copy of the commit (the landing's step); any live write, so the duty mark, the idle row and a real line by e-mail are proven on stand-ins only.
+- **Not run:** `check-routes` and `check-values` (no page they read was changed); the whole suite in a clean copy of the commit (the landing's step; the last commit after `a153f70d` changes this report only); any live write, so the duty mark, the idle row and a real line by e-mail are proven on stand-ins only.
 - **Not verified:** that Vercel's build sees `archive/sessions/` (it sees `docs/` and `warehouse/metadata/`, which stand beside it); the hooks on macOS or Linux beyond the tests.
 
 ## Decisions made without you
@@ -144,6 +145,7 @@ Outputs under `C:/Users/lossa/Documents/erw-188/runs/session188/`.
 
 - The other internal pages (`/internal/findings`, `/internal/usage`, `/internal/costs`) send their title to a visitor inside the 404 ("Scanner drafts (internal) | ERW"). The fix is the one made here: `generateMetadata` that names the page only to the internal view.
 - The test suite leaves an `.erw/worker/` folder in the checkout it runs in. That is how the precheck's first failing dry run here read no role file; `duty.state_dir` now looks for the folder that holds `machine.json`.
+- `tests/test_session85.py` leaves `warehouse/output/raw/madeup_as_prices/<time>/manifest.csv` (a header line only) in the checkout the suite runs in. Removed from this worktree after each run; the test should write to a temporary folder.
 - A heredoc in Git Bash on this machine turns two backslashes into one (the known trap, in a milder form than recorded).
 
 ## To finish
