@@ -4,7 +4,7 @@
 # `version` with it (a flag stores the version that raised it).
 
 # The scanner's version. Stored in every flag and every draft. Raise it when a rule or a threshold changes.
-version: "1.0.0"
+version: "1.1.0"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # What is scanned
@@ -58,6 +58,14 @@ skip_known_gaps: true
 # A series of a paused publisher (warehouse/metadata/paused_sources.csv: its `match` pattern on the entity or the
 # source) is never flagged.
 skip_paused: true
+# A derived table carries its source table's event. The same rule, date, direction and value in two tables is one
+# flag, kept in the source table. With this on (session 191), a flag is also a repeat when a table its own table is
+# derived from (the header line "# Derived from:" that a derived table carries, followed through the tables
+# between) has a flag of the same rule, date and direction in the same place (the geo column, where the series has
+# one place): a sum that holds the flagged series is the same event in another number. The first run raised
+# Indiana's other gases (the source table) and Indiana's oil and other gases (the derived sum) as two flags. The
+# repeats are kept, each named with the flag it repeats, in the run's scan_summary.json (repeats_by_lineage).
+repeat_follows_lineage: true
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Rule 1: a record high or low

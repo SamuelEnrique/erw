@@ -77,7 +77,11 @@ Every number below is a key of `scanner.yaml`.
   with its history since the change.
 - **A constant or a flag** (`min_distinct_values`).
 - **A repeat**: the same rule, date, direction and value in a derived table and in its source table is one flag, kept in
-  the source table.
+  the source table. Since version 1.1.0 (`repeat_follows_lineage`) a flag is also a repeat when a table its own table is
+  derived from has a flag of the same rule, date and direction in the same place: a derived sum that holds the flagged
+  series is the same event in another number. The lineage is the header line `# Derived from:` that a derived table
+  carries, followed through the tables between; the place is the series' `geo` value, and a series without one place
+  is never dropped this way. Each such repeat is kept, with the flag it repeats, in the run's `scan_summary.json`.
 
 ## A flag, and its draft card
 
@@ -98,6 +102,29 @@ Every number below is a key of `scanner.yaml`.
   entity's variables move together: one event is one draft). Every flag stays in the run's `flags.json`.
 - A flag already raised for the same date is never raised twice, whatever was ruled; a series with an open draft of the
   same rule is not raised again until that draft is ruled on.
+
+## The review of the first run (session 191)
+
+The 17 flags of the first run were read again against their rows on the data machine on 11 October 2026
+(`runs/session191/`). The 13 that session 181 judged real stand. The other four, each with what its rows say and
+whether a threshold of `scanner.yaml` raised it:
+
+| Flag of the first run | What the rows say | Raised by a threshold? | Change |
+|---|---|---|---|
+| District of Columbia, industrial retail price, record high (the artifact) | The class has one customer (`eia:customers:DC:IND` is 1 in every month held, 0 in a few). The price is one customer's bill over its sales: 38.4 to 321.5 USD per MWh inside 26 months, and a change of 159.4 in one month. The national industrial price never moved more than 14.3 in a month | No. The record passed the old one by 1.84 robust standard deviations of the levels and 3.2 of the yearly changes; a margin that drops it drops every record of the run but one | None. It is a draft to dismiss |
+| Utah, residential sales, record high (uncertain) | July 2026 is 11.7 percent above the old record (July 2024). Customers grew 0.8 percent between the two; use per customer was 1,292 kWh against 1,204 in the highest earlier July (2022). Colorado's residential sales set their own record the same month; Idaho, Wyoming and Montana had their highest July; Nevada, Arizona and New Mexico did not. Growth explains under a tenth of it. No temperature for Utah is held, so heat is not shown, only that the customers did not cause it | No | None |
+| Indiana, generation from other gases, record low (uncertain) | Not one low month: 269,327 MWh in March, 268,928 in April, 125,902 in May, 65,787 in June, 133,037 in July. June is the second month under 100,000 in the 25 years held (May 2009: 88,633). The table still holds June at that value after July was published | No. It passed the old record by 0.61 where 0.5 is asked; the real records of the run stand between 0.52 and 0.80 | None |
+| Indiana, oil and other gases, record low (uncertain) | The derived sum that holds the row above: the rest of the sum was 42,979 MWh that month, as in other months. One event, flagged twice | Yes. The repeat guard asked for the same value in the two tables, and a sum is another number | `repeat_follows_lineage`, version 1.1.0 |
+
+- **What changed:** version 1.1.0 adds one guard and changes no number. On the same tables and the same scan date the
+  run raises one flag fewer (Indiana's sum) and the same drafts. The week of Winter Storm Uri (`--date 2021-02-22`,
+  every table): 275 flags and 12 drafts under both versions.
+- **A one-customer class is not guarded against.** The customers table says which classes are one bill
+  (`eia_retail_sales_monthly`, variable `customers`): the District's industrial class is the only one under 200
+  customers. A guard for it would be a rule about one publisher's tables, and is left for a ruling.
+- **A flag depends on the day it is scanned.** The weekly rule looks at the newest settled week only. The first run
+  flagged the week to 29 September in `cftc_cot_positions`; a scan of the same date on tables that already hold the week
+  to 6 October does not. A daily scan sees each week once, when it is the newest.
 
 ## Where it runs
 

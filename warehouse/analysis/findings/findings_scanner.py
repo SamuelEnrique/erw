@@ -192,7 +192,7 @@ def public_time_tables(cfg, in_dir, meta_dir):
 # reading a table into daily series
 # ---------------------------------------------------------------------------------------------------------------------
 class Series:
-    __slots__ = ("table", "key", "key_str", "days", "v", "lo", "hi", "unit", "grain", "sub", "source", "note")
+    __slots__ = ("table", "key", "key_str", "days", "v", "lo", "hi", "unit", "grain", "sub", "source", "note", "geo")
 
     def label(self):
         k = self.key
@@ -204,8 +204,8 @@ class Series:
 def read_series(table, cols, in_dir, cfg, stats):
     """Every series of a table as daily arrays. stats counts what is left out and why."""
     key = [c for c in cfg["key_columns"] + cfg["key_extra_columns"] if c in cols]
-    use = key + ["ts_utc", "value"] + [c for c in ("unit", "source") if c in cols]
-    parts, units, srcs = [], [], []
+    use = key + ["ts_utc", "value"] + [c for c in ("unit", "source", "geo") if c in cols and c not in key]
+    parts, units, srcs, geos = [], [], [], []
     for ch in pd.read_csv(os.path.join(in_dir, table + ".csv"), comment="#", dtype=str, usecols=use, chunksize=common.CHUNK, keep_default_na=False):
         ch["value"] = pd.to_numeric(ch["value"], errors="coerce")
         ch = ch[ch["value"].notna() & (ch["ts_utc"].str.len() >= 10)]
@@ -217,10 +217,15 @@ def read_series(table, cols, in_dir, cfg, stats):
             units.append(ch[key + ["unit"]].drop_duplicates())
         if "source" in use:
             srcs.append(ch.groupby(key + ["source"], sort=False)["day"].min().reset_index())
+        if "geo" in use:
+            geos.append(ch[key + ["geo"]].drop_duplicates())
     if not parts:
         return []
     d = pd.concat(parts, ignore_index=True).groupby(key + ["day"], sort=False).agg(sum=("sum", "sum"), count=("count", "sum"), min=("min", "min"), max=("max", "max")).reset_index()
-    unit_n, unit_of, src_start = {}, {}, {}
+    unit_n, unit_of, src_start, geo_of = {}, {}, {}, {}
+    if geos:                                            # session 191: the place of a series, where it has one place
+        for k, g in pd.concat(geos, ignore_index=True).drop_duplicates().groupby(key, sort=False):
+            geo_of[k] = g["geo"].iloc[0] if len(g) == 1 else ""
     if units:
         u = pd.concat(units, ignore_index=True).drop_duplicates()
         for k, g in u.groupby(key, sort=False):
@@ -268,6 +273,7 @@ def read_series(table, cols, in_dir, cfg, stats):
         s.v = (g["sum"] / g["count"]).to_numpy(float)
         s.lo, s.hi = g["min"].to_numpy(float), g["max"].to_numpy(float)
         s.unit, s.grain, s.sub, s.source, s.note = unit_of.get(k, ""), grain, sub, src, note
+        s.geo = geo_of.get(k, "")
         out.append(s)
     return out
 
@@ -310,7 +316,7 @@ def base_flag(s, rule, i, value, cfg, scan_date, strength, threshold, compared, 
     key = f"{rule}|{s.table}|{s.key_str}"
     fid = "scan-" + rule + "-" + hashlib.sha1(f"{key}|{day}".encode("utf-8")).hexdigest()[:12]
     return {"id": fid, "flag_key": key, "rule": rule, "table": s.table, "series": s.key, "series_key": s.key_str, "label": s.label(),
-            "date": day, "value": float(value), "unit": s.unit, "statistic": stat_words(s), "direction": direction,
+            "date": day, "value": float(value), "unit": s.unit, "geo": s.geo, "statistic": stat_words(s), "direction": direction,
             "threshold": threshold, "compared": compared, "history": history, "strength": round(float(strength), 4),
             "source": s.source, "note": s.note, "scanner_version": str(cfg["version"]), "scan_date": scan_date, "window": [day, day]}
 
@@ -688,6 +694,51 @@ def drop_repeats(flags, tiers):
     return [f for f in flags if id(f) in kept], len(flags) - len(kept)
 
 
+def derived_from(table, in_dir):
+    """The tables a table says it is built from: the names of its header line "# Derived from: a; b" (the derived
+    builders write it). No file or no such line: none."""
+    out = set()
+    try:
+        with open(os.path.join(in_dir, table + ".csv"), encoding="utf-8") as f:
+            for ln in f:
+                if not ln.startswith("#"):
+                    break
+                m = re.match(r"#\s*derived from\s*:(.*)", ln, re.I)
+                if m:
+                    out |= {t.strip() for t in re.split(r"[;,]", m.group(1)) if re.fullmatch(r"[a-z0-9_]+", t.strip())}
+    except OSError:
+        pass
+    return out - {table}
+
+
+def ancestors(table, in_dir, cache):
+    """Every table a table is built from, through the tables between (the lineage lines, followed to their end)."""
+    if table not in cache:
+        cache[table] = set()                           # a table that names itself through another is not followed twice
+        up = derived_from(table, in_dir)
+        cache[table] = up | {a for t in up for a in ancestors(t, in_dir, cache)}
+    return cache[table]
+
+
+def drop_lineage_repeats(flags, in_dir):
+    """Session 191: a derived table carries its source table's event in another number (a sum that holds the flagged
+    series: Indiana's oil and other gases beside Indiana's other gases). A flag of a table is a repeat when a table
+    it is derived from has a flag of the same rule, date and direction in the same place (the geo column, where the
+    series has one). The flag of the table nearest the publisher is kept. Returns (kept, [the repeats, each with the
+    flag it repeats])."""
+    cache, kept, repeats = {}, [], []
+    for fl in flags:
+        up = ancestors(fl["table"], in_dir, cache) if fl["rule"] != "pair" and fl.get("geo") else set()
+        first = next((g for g in flags if g is not fl and g["table"] in up and g["rule"] == fl["rule"] and g["date"] == fl["date"]
+                      and g["direction"] == fl["direction"] and g.get("geo") == fl["geo"]), None) if up else None
+        if first is None:
+            kept.append(fl)
+        else:
+            repeats.append({"id": fl["id"], "table": fl["table"], "label": fl["label"], "date": fl["date"], "rule": fl["rule"], "value": fl["value"],
+                            "repeat_of": first["id"], "repeat_of_table": first["table"], "repeat_of_label": first["label"]})
+    return kept, repeats
+
+
 def scan(in_dir, cfg, scan_date=None, meta_dir=None, tables=None, log=print):
     """Scan every public time table. Returns (flags, suppressed, drafts, summary)."""
     t0 = time.time()
@@ -733,6 +784,7 @@ def scan(in_dir, cfg, scan_date=None, meta_dir=None, tables=None, log=print):
     tiers = {r["table"]: r.get("tier", "") for _, r in read_meta_csv(os.path.join(meta_dir, "coverage.csv")).iterrows()}
     flags, repeats = drop_repeats(flags, tiers)
     stats["repeats_of_a_source_table"] = repeats
+    flags, by_lineage = drop_lineage_repeats(flags, in_dir) if cfg.get("repeat_follows_lineage", True) else (flags, [])
     raised, suppressed = [], []
     for fl in flags:
         fid = fault_for(faults, fl["table"], fl["window"][0], fl["window"][1]) or (fault_for(faults, fl["compared"]["x_table"], fl["window"][0], fl["window"][1]) if fl["rule"] == "pair" else None)
@@ -753,6 +805,7 @@ def scan(in_dir, cfg, scan_date=None, meta_dir=None, tables=None, log=print):
         fl["draft"] = fl["id"] in chosen_ids
     summary = {"scanner_version": str(cfg["version"]), "scan_date": scan_date, "in_dir": in_dir, "tables_scanned": len(per_table), "tables": per_table,
                "not_scanned": [{"table": n, "reason": r} for n, r in skipped], "public_tables_not_series": not_series, **stats,
+               "repeats_by_lineage": by_lineage,
                "flags_raised": len(raised), "flags_suppressed_by_known_faults": len(suppressed), "drafts": len(drafts),
                "by_rule": {r: sum(1 for f in raised if f["rule"] == r) for r in RULES}, "seconds": round(time.time() - t0, 1), "computed_at": common.now_iso()}
     return [clean(f) for f in raised], [clean(f) for f in suppressed], drafts, summary
