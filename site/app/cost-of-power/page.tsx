@@ -8,9 +8,10 @@ import nyLoadJson from "@/data/nyiso_load_queue.json";
 import queuesJson from "@/data/queues.json";
 import * as clean from "@/lib/clean";
 import {
-  ASSUMED, BUYS, badMonth, cleanShare, expandSeries, gpuHour, gpus, hh, hrefOf, inputsOf, last36, lastTwelve, loadWords, monthName, monthsOf, monthsRuled, monthsWords,
+  ASSUMED, BUYS, DEFAULTS, badMonth, cleanShare, expandSeries, gpuHour, gpus, hh, hrefOf, inputsOf, last36, lastTwelve, loadWords, monthName, monthsOf, monthsRuled, monthsWords,
   ruleWords, shortMonth, span, two, usdShort, whenOf, whole, years, type Inputs, type Month, type Ruled, type Span,
 } from "@/lib/datacenter";
+import { FLAT, FLEX, type Way, type Ways } from "@/lib/datacenter/finance";
 import { DELIVERY, INDEX, yearFiles, type MatrixRow } from "@/lib/datacenterdata";
 import type { DemandFile } from "@/lib/demandgrowth";
 import { SLUGS } from "@/lib/demandgrowth";
@@ -23,6 +24,7 @@ import { GridsView } from "./GridsView";
 import { YearCost } from "./LoadCharts";
 import { ContractInputs, ContractProvider, ContractResult } from "./LoadContract";
 import { LoadForm } from "./LoadForm";
+import { LoadScenarios, type Facts } from "./LoadScenarios";
 import { LoadWaits, WaitsWord } from "./LoadWaits";
 import { RulesInMotion } from "./RulesInMotion";
 import { CostTabs } from "./Tabs";
@@ -44,6 +46,10 @@ const METHOD = "/data/methods/datacenter_cost";
 // offers the default case hour by hour as CSV with its Stata do-file and Python mirror (site/public/datacenter, written
 // by warehouse/derived/datacenter_hourly_export.py from this page's own files). No number of the page changed.
 const ALGORITHM = "/data/methods/datacenter_pays_algorithm";
+// Session 194: the decisions. One more section after "With your contract", "Scenarios A and B" (LoadScenarios.tsx on
+// lib/datacenter/finance.ts): eight assumptions with their defaults and Resets, two scenarios on the same rows, B set
+// against A, and a sensitivity chart, all computed in the browser from the two ways of running this function hands over
+// (the load run flat, and run flexible, over the same last twelve months). No number above it changed.
 const HOURLY_CSV = "/datacenter/erw_2026_datacenter_hourly.csv", DO_FILE = "/datacenter/erw_2026_datacenter_replication.do", MIRROR = "/datacenter/erw_2026_datacenter_replication.py";
 const DEMAND = demandJson as unknown as DemandFile;
 const QUEUES = queuesJson as unknown as QueueFile;
@@ -100,12 +106,25 @@ export default async function CostOfPower({ searchParams }: { searchParams: Prom
         lead={<>What a large load pays for power, whether the power is there when it is needed, how clean it is and how soon it can be had, for a load you describe. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       <ViewNav x={x} />
-      {x.view === "grids" ? <GridsView /> : <LoadView x={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined} />}
+      {x.view === "grids" ? <GridsView /> : <LoadView x={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined}
+        q={Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]))} />}
     </ToolPage>
   );
 }
 
-function LoadView({ x: asked, buyGiven, gridAsked }: { x: Inputs; buyGiven: boolean; gridAsked?: string }) {
+/** A flat load over the same months: each month's cost is the sum of its prices and its energy the hours held. */
+const flatMonths = (ms: Month[]): Month[] => ms.map((r) => ({ ...r, cost: r.flat, energy: r.held, down: 0, tightDown: 0 }));
+/** One way of running for the scenarios: its last twelve months and the bad month of its 36, per MW. Null when no
+ * twelve complete months in a row are held. */
+function wayOf(ms: Month[]): Way | null {
+  const l = lastTwelve(ms);
+  if (!l) return null;
+  const s = span(l), w = last36(ms), b = badMonth(w?.months ?? []);
+  if (s.per === null) return null;
+  return { per: s.per, cost: s.cost, energy: s.energy, held: s.held, flatCost: s.flatCost, down: s.down, bad: b ? { m: b.m, per: b.cost / b.energy, cost: b.cost } : null, of: w?.months.length ?? 0 };
+}
+
+function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: boolean; gridAsked?: string; q: Record<string, string | undefined> }) {
   let x = asked;
   const g = INDEX.grids[x.grid];
   let files: ReturnType<typeof yearFiles> = [], failed: string | null = null;
@@ -152,6 +171,22 @@ function LoadView({ x: asked, buyGiven, gridAsked }: { x: Inputs; buyGiven: bool
   const gh = s12?.per != null ? gpuHour(s12.per, x.gpu, x.pue) : null;
   const nGpu = gpus(x.mw, x.gpu, x.pue);
   const size = `${x.mw.toLocaleString("en-US")} MW`;
+
+  // session 194: the two ways of running the scenarios compare, over the same twelve months. The way under "Your load"
+  // is the page's own (`ms`); the other is a flat load over the same months, or, when "Your load" is flat, a load off in
+  // the form's default number of hours a year under the same rule (it needs the region's day-ahead prices).
+  const altFlex = { run: "hours" as const, n: DEFAULTS.n, pct: 0, shift: 0 };
+  const flexWords = (y: Pick<Inputs, "run" | "n" | "pct" | "shift">) => (y.run === "hours" ? `off in the ${y.n.toLocaleString("en-US")} most expensive hours of each year` : y.run === "share" ? `off in the most expensive ${y.pct} percent of hours`
+    : `${y.shift} percent of each day's energy moved to the day's cheapest hours`);
+  let ways: Ways = [null, null];
+  if (!failed && side) {
+    if (flex) ways = [wayOf(ms.length ? flatMonths(ms) : monthsOf(files, x.region, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 })), wayOf(ms)];
+    else ways = [wayOf(ms), region?.da ? wayOf(monthsRuled(files, x.region, x.buy, altFlex, "forecast").months) : null];
+  }
+  const noDa = `No day-ahead price is held for ${x.region}, and a flexible load decides from day-ahead prices.`;
+  const cited = (k: "gpu" | "pue") => (x[k] === ASSUMED[k].value ? ASSUMED[k].source : `The value under "Your load". The cited default is ${ASSUMED[k].value}: ${ASSUMED[k].source}`);
+  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: l12Span, load: { run: flex ? FLEX : FLAT, gpu: x.gpu, pue: x.pue }, gpuSource: cited("gpu"), pueSource: cited("pue"), ways,
+    words: ["the same in every hour", flexWords(flex ? x : altFlex)], why: [noYear, flex ? noYear : region?.da ? noYear : noDa] };
 
   // the form's lists: every grid held, each region with what is held of it
   const grids = Object.fromEntries(Object.entries(INDEX.grids).map(([id, v]) => [id, { name: v.name,
@@ -282,6 +317,10 @@ function LoadView({ x: asked, buyGiven, gridAsked }: { x: Inputs; buyGiven: bool
 
               <ToolSection title="With your contract">
                 <ContractResult l12={s12 ? { cost: s12.cost, energy: s12.energy } : null} mw={x.mw} bad={badPer} span={l12Span} />
+              </ToolSection>
+
+              <ToolSection title="Scenarios A and B" id="scenarios">
+                <LoadScenarios key={hrefOf(x)} facts={facts} initial={q} />
               </ToolSection>
             </>
           )}

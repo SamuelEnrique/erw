@@ -3,9 +3,11 @@
 // live in the URL. The form is a plain GET form (it works without JavaScript); with JavaScript the same address is
 // opened in place, so the contract terms typed in the other panel, which live only in this page's memory, are not lost
 // on Show. Choosing another grid opens that grid at once, so the list of regions is that grid's.
+// Session 194: the two scenarios live in the address too (LoadScenarios.tsx); Show and the choice of a grid carry them.
 import { useRouter } from "next/navigation";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ASSUMED, BUYS, DEFAULTS, LIMITS, ORDER, RUNS, hrefOf, type Buy, type Index, type Inputs, type Run } from "@/lib/datacenter";
+import { carry } from "@/lib/datacenter/finance";
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 const small = "w-20 border border-rule bg-white px-1.5 py-0.5 text-sm";
@@ -22,7 +24,7 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
         const f = new FormData(e.currentTarget);
         const q = new URLSearchParams();
         for (const k of KEYS) { const v = f.get(k); if (typeof v === "string" && v !== "") q.set(k, v); }
-        router.push(`/cost-of-power?${q.toString()}`, { scroll: false });
+        router.push(`/cost-of-power?${q.toString()}${carry(window.location.search)}`, { scroll: false });
       }}
     >
       <fieldset>
@@ -34,7 +36,7 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
               <li key={id}>
                 <label className={`flex items-baseline gap-2 ${open ? "" : "text-muted"}`} data-grid={id} data-open={open ? "1" : "0"}>
                   <input type="radio" name="grid" value={id} defaultChecked={x.grid === id} disabled={!open} className="accent-[var(--color-accent)]"
-                    onChange={() => router.push(hrefOf(x, { grid: id, region: "" }), { scroll: false })} />
+                    onChange={() => router.push(`${hrefOf(x, { grid: id, region: "" })}${carry(window.location.search)}`, { scroll: false })} />
                   <span>{open ? grids[id].name : blank[id]?.name ?? id.toUpperCase()}</span>
                   {open ? <span className="text-xs text-muted">{grids[id].regions.length} regions</span> : <span className="text-xs italic">{blank[id]?.words ?? "not held yet"}</span>}
                 </label>
