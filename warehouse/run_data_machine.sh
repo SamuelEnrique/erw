@@ -12,6 +12,13 @@
 #      count is in the step's log on every run, and the request that would pass the ceiling is refused before it is
 #      made (warehouse/connectors/ercot_zone_prices.py --refresh). When rows were added: the validator (a gate), the
 #      table's coverage row, the archive and the Redivis draft;
+#   2b. ERCOT's ancillary service quantities (ercot_as_quantities; session 198, the owner's ruling on session 178's
+#      recommendation): the DAM Ancillary Service Plan, NP4-33-CD, through warehouse/scheduled.py under
+#      warehouse/health.py. ERCOT's public reports site keeps about a month of it, so a day not pulled is a day not
+#      held. The list is asked each day, and a file only when this machine has not saved it (one a day). After
+#      ERCOT's price steps and never fatal to them or to what follows: a failure is tried once more, recorded in
+#      erw_health and in the status file, and the run goes on. When a delivery day was added: the validator (a gate
+#      for this table's stores only), the table's coverage row, the archive and the Redivis draft;
 #   3. the page files that are rebuilt whole from the price histories, each under warehouse/health.py (a failure is
 #      tried once more, recorded in erw_health and in the status file, and never stops the run):
 #        datacenter_page      site/data/datacenter/              /cost-of-power          (session 138)
@@ -85,6 +92,7 @@ fi
 if [ "$CHECK" = "1" ]; then
   echo "run_data_machine: a data machine with the three price histories. It would run, in this order:"
   echo "  sync (scripts/sync.py); ERCOT's load zones (ercot_zone_prices.py --refresh) and, when rows were added, the validator, coverage, the archive and the Redivis draft;"
+  echo "  ERCOT's ancillary service quantities (scheduled.py ercot_as_quantities) and, when a delivery day was added, the same four for that table;"
   echo "  datacenter_page, capture_price, curtailment_shares, free_energy, curtailment_worth, each under warehouse/health.py;"
   echo "  then a commit to main of: ${PAGE_PATHS[*]} ${META_PATHS[*]}"
   echo "  branch here: $(git rev-parse --abbrev-ref HEAD); COMMIT=${COMMIT:-1} PUSH=${PUSH:-1}"
@@ -129,6 +137,41 @@ else
     else
       soft_step dm_zone_archive "$PYTHON" warehouse/archive/archive.py write --tables "^${ZONES}\$"
       soft_step dm_zone_redivis "$PYTHON" warehouse/redivis/upload.py --tables "$ZONES"
+    fi
+  fi
+fi
+
+# ---- 2b. ERCOT's ancillary service quantities (session 198) -----------------------------------------------------------
+# After ERCOT's price steps. Nothing here stops the run or touches the load zone table: the step is a soft step, and
+# the validator and the coverage builder below gate this table's own stores and nothing else.
+AS_Q=ercot_as_quantities
+echo "== ERCOT's ancillary service quantities: the DAM Ancillary Service Plan (the count against the ceiling is in runs/daily_dm_ercot_as_quantities.out)"
+soft_step dm_ercot_as_quantities "$PYTHON" warehouse/scheduled.py ercot_as_quantities
+grep -E "counted against the ceiling" runs/daily_dm_ercot_as_quantities.out
+if ! grep -q "^dm_ercot_as_quantities ok" "$status"; then
+  echo "$AS_Q: the step did not finish; the table and its stores are left as they are"
+  echo "dm_as_quantities_stores skipped: dm_ercot_as_quantities did not finish" >> "$status"
+elif grep -q "${AS_Q}.csv: rows=[0-9]* (this run [0-9]*: 0 new, " runs/daily_dm_ercot_as_quantities.out; then
+  echo "$AS_Q: no new delivery day today; the stores are left as they are"
+  echo "dm_as_quantities_stores skipped: no new row in $AS_Q" >> "$status"
+else
+  echo "== $AS_Q gained rows: the validator (a gate for its stores), then its coverage row, the archive and the Redivis draft"
+  "$PYTHON" warehouse/validate/erw_validate.py "warehouse/output/$AS_Q.csv" > runs/data_machine_as_quantities_validate.out 2>&1
+  rc=$?
+  echo "validator exit=$rc (runs/data_machine_as_quantities_validate.out)"
+  if [ "$rc" -ne 0 ]; then
+    echo "dm_as_quantities_stores failed: the validator exited $rc on $AS_Q; coverage, the archive and the Redivis draft were not run" >> "$status"
+    "$PYTHON" warehouse/health.py record --step "dm_as_quantities_validate" --status failed --reason "erw_validate.py exit $rc on $AS_Q"
+  else
+    "$PYTHON" warehouse/metadata/build_coverage.py --only "^${AS_Q}\$" > runs/data_machine_as_quantities_coverage.out 2>&1
+    rc=$?
+    echo "coverage exit=$rc (runs/data_machine_as_quantities_coverage.out)"
+    if [ "$rc" -ne 0 ]; then
+      echo "dm_as_quantities_stores failed: build_coverage.py exited $rc; the archive and the Redivis draft were not run" >> "$status"
+      "$PYTHON" warehouse/health.py record --step "dm_as_quantities_coverage" --status failed --reason "build_coverage.py exit $rc"
+    else
+      soft_step dm_as_quantities_archive "$PYTHON" warehouse/archive/archive.py write --tables "^${AS_Q}\$"
+      soft_step dm_as_quantities_redivis "$PYTHON" warehouse/redivis/upload.py --tables "$AS_Q"
     fi
   fi
 fi

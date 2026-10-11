@@ -25,6 +25,15 @@ holds what the site holds, and grows by a day each run if the connector is sched
 Never fill. A (service, delivery day) is written only when every hour of the Central day is there exactly once (24, or
 23 and 25 at the clock changes). Ceiling: 400,000 rows (session 74's approved pull). License: public (ERCOT's terms,
 https://www.ercot.com/help/terms, item 5).
+
+Session 198: a step of the data machine's daily run (warehouse/scheduled.py ercot_as_quantities, in
+warehouse/run_data_machine.sh), so the table gains a delivery day each day and a whole month is held from October 2026.
+What that changed here, and nothing else: ERCOT's pause is asked first (warehouse/metadata/paused_sources.csv); a run
+that would download more than 60 files stops before the first of them (that session's approved ceiling; a file an
+earlier run saved is read from warehouse/raw and is not a download); the ceiling of 400,000 rows is held against the
+table as it will stand after the merge, each (service, hour) once, and the count is printed on every run; and a row's
+retrieved_at is the time its file was really downloaded, so a file read again from warehouse/raw leaves its rows as
+they were instead of stamping them with the day's date.
 """
 
 import argparse
@@ -48,6 +57,22 @@ REPORT = 12316  # NP4-33-CD
 SOURCE = "ercot:np4-33-cd"
 PAGE = eap.PAGE.format("NP4-33-CD")
 CEILING = 400_000
+MAX_FILES = 60  # session 198: the most files one run may download
+
+
+def held_keys(path=None):
+    """The (entity, ts_utc) pairs the table on this machine already holds: what a run's rows are counted with."""
+    path = path or os.path.join(ip.OUT_DIR, NAME + ".csv")
+    if not os.path.exists(path):
+        return set()
+    old = ip.read_series(path)
+    return set(zip(old["entity"], old["ts_utc"]))
+
+
+def requests_url(url):
+    """The address as ip.fetch_raw records it in a run's manifest (the form requests sends)."""
+    import requests
+    return requests.Request("GET", url).prepare().url
 
 
 def parse(raw):
@@ -73,6 +98,8 @@ def parse(raw):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: ERCOT DAM Ancillary Service Plan quantities")
     ap.parse_args(argv)
+    if ip.paused("ercot"):
+        raise SystemExit(ip.pause_line("ercot"))
     os.makedirs(ip.LOG_DIR, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log = ip.Log(os.path.join(ip.LOG_DIR, f"{CONNECTOR}_{run_id}.log"))
@@ -83,24 +110,31 @@ def main(argv=None):
         docs = [d["Document"] for d in json.loads(raw)["ListDocsByRptTypeRes"]["DocumentList"]]
         docs = [d for d in docs if d["FriendlyName"].endswith("_csv")]
         log(f"NP4-33-CD: {len(docs)} CSV files listed")
+        ask = [d for d in docs if not ip.raw_cached(CONNECTOR, requests_url(eap.DOWNLOAD.format(d["DocID"])))]
+        log(f"NP4-33-CD: {len(docs) - len(ask)} of them saved by an earlier run, {len(ask)} to download (at most {MAX_FILES} a run)")
+        if len(ask) > MAX_FILES:
+            raise RuntimeError(f"{len(ask)} files to download exceed the approved {MAX_FILES} a run; none was requested")
         frames, short = [], []
         for d in sorted(docs, key=lambda d: d["PublishDate"]):
             pub = pd.Timestamp(d["PublishDate"]).tz_convert(eap.TZ).date()
             want = (pub + dt.timedelta(days=1)).strftime("%m/%d/%Y")  # the plan for the next day, which its DAM used
-            body, _ = ip.fetch_raw(CONNECTOR, eap.DOWNLOAD.format(d["DocID"]), log, pause=eap.PAUSE)
+            body, rec = ip.fetch_raw(CONNECTOR, eap.DOWNLOAD.format(d["DocID"]), log, pause=0 if d not in ask else eap.PAUSE)
             rows = parse(body)
             rows = rows[rows["day"] == want]
             if rows.empty:
                 short.append(f"{want}: not in the file published {pub}")
                 continue
             rows = rows.assign(source=SOURCE, source_url=eap.DOWNLOAD.format(d["DocID"]),
-                               retrieved_at=ip.utc_iso(pd.Timestamp.now(tz="UTC")), vintage=ip.utc_iso(pd.Timestamp(d["PublishDate"])))
+                               retrieved_at=rec["retrieved_at"], vintage=ip.utc_iso(pd.Timestamp(d["PublishDate"])))
             frames.append(rows)
         if not frames:
             raise RuntimeError("no delivery day held")
         rows, gaps = eap.complete_days(pd.concat(frames, ignore_index=True), log)
         if len(rows) > CEILING:
             raise RuntimeError(f"{len(rows):,} rows exceed the approved ceiling of {CEILING:,}; nothing written")
+        counted = len(held_keys() | set(zip("ercot:" + rows["service"], rows["ts"].map(ip.utc_iso))))
+        if counted > CEILING:
+            raise RuntimeError(f"{counted:,} rows held after the merge would exceed the approved ceiling of {CEILING:,}; nothing written")
         s = pd.DataFrame({
             "entity": "ercot:" + rows["service"], "variable": "quantity_mw_plan", "ts_utc": rows["ts"].map(ip.utc_iso),
             "value": rows["value"], "unit": "MW", "freq": "PT1H", "geo": "US-TX", "market": "ercot_dam",
@@ -129,6 +163,8 @@ def main(argv=None):
                                 document_list=eap.DOC_LIST.format(REPORT), license="public", tables=[NAME])])
         results.append(dict(table=NAME, market="ancillary", status="ok", detail=f"{len(days)} days, {len(s):,} rows"))
         print(f"{NAME}: {len(days)} delivery days, {days[0]} to {days[-1]}, {len(s):,} rows; left out {len(short) + len(gaps)}")
+        print(f"{NAME}: {len(ask)} files downloaded of {len(docs)} listed (at most {MAX_FILES} a run); counted against the ceiling: "
+              f"{counted:,} of {CEILING:,} rows, each (service, hour) once")
     except Exception:
         tb = ip.redact(traceback.format_exc())
         last = tb.strip().splitlines()[-1]

@@ -26,7 +26,12 @@ What this script adds to the builder it starts:
 No step here asks a paused publisher for anything. The only steps that make a request are the two EIA-930 daily
 connectors (EIA's API; --days 5, merged into the table held), and they make none when the table is not on the machine;
 and, since session 116, ercot_storage_dam (ERCOT's file list and one zip of its 60-Day DAM Disclosure, the next
-operating day: a standing pull approved in that session's prompt), which makes none when its tables are not here.
+operating day: a standing pull approved in that session's prompt), which makes none when its tables are not here;
+and, since session 198, ercot_as_quantities (ERCOT's file list of NP4-33-CD, the DAM Ancillary Service Plan, and each
+file of it this machine has not saved: one a day once the month the site keeps is held; the owner's ruling in that
+session's prompt, on session 178's recommendation). It is a step of the data machine's run
+(warehouse/run_data_machine.sh), not of the runner's: the connector merges the day into the table held, so the table
+must be here first, and it is rebuilt from the ERW's archive when it is not.
 """
 
 import argparse
@@ -74,6 +79,15 @@ JOBS = {
         tables=["ercot_dam_esr_awards", "ercot_storage_dam_awards_monthly", "ercot_storage_dam_offers_daily", "ercot_storage_dam_offers_monthly"],
         restore=["ercot_dam_esr_awards", "ercot_storage_dam_awards_monthly", "ercot_storage_dam_offers_daily", "ercot_storage_dam_offers_monthly"],
         cmd=["warehouse/connectors/ercot_dam_esr.py", "--daily"]),
+    # session 198 (the owner's ruling, session 178's recommendation): ERCOT's DAM Ancillary Service Plan, so that the
+    # quantities a fleet-limited battery needs are held by the day. ERCOT's public reports site keeps about a month of
+    # it; a day not pulled within that month is not held at all. The connector merges into the table on the machine
+    # (never a month alone in place of the table), so the table is an input, rebuilt from the archive when absent.
+    # No page reads it. In warehouse/run_data_machine.sh, after ERCOT's price steps, as a soft step
+    "ercot_as_quantities": dict(
+        cadence="daily", page="no page (warehouse/analysis/battery_fleet_limited.py reads it)",
+        tables=["ercot_as_quantities"], restore=["ercot_as_quantities"],
+        cmd=["warehouse/connectors/ercot_as_quantities.py"]),
     "mix_profile": dict(
         cadence="monthly", page="/mix/v2", tables=["caiso_fuel_supply", "carbon_intensity_hourly"], workbooks=ISO_BAS,
         cmd=["warehouse/derived/mix_profile.py", "--snapshot"]),
