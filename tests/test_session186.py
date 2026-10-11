@@ -310,7 +310,7 @@ class ThePage(unittest.TestCase):
         self.assertIn('"60% debt at an 8% interest rate"', note)
         self.assertIn('"Economic life sets debt amortization schedule"', note)
         # the two defaults no source in the repository gives say so on the page, and are not dressed as cited
-        self.assertIn("No cited rate is held. The default is set equal to the interest rate", self.lib)
+        self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = ${HURDLE} percent', self.lib)
         self.assertIn("No cited rate is held, so the default is none", self.lib)
 
     def test_a_reset_each_one_for_all_and_copy_a_to_b(self):

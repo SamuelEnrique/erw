@@ -395,23 +395,26 @@ class TheDefaultPage(unittest.TestCase):
         if (p["from"], p["to"]) != ("2025-10", "2026-09"):
             raise unittest.SkipTest(f"the page's twelve months are now {p['from']} to {p['to']}: section 4.14's worked figures are a dated record")
         flat, flex = p["ways"]
-        a, b = DEFAULT, dict(DEFAULT, run=1, upfront=50)
+        # session 196: the hurdle rate's default is Lazard's weighted cost, 9.6 percent; the note's worked figures are at it
+        a = dict(DEFAULT, hurdle=9.6)
+        b = dict(a, run=1, upfront=50)
         self.assertEqual(f"{flat['per']:.4f}", "33.7289")
         self.assertEqual(round(bill(a, flat) * 100), 29546505)
         self.assertEqual(f"{flex['per']:.4f}", "31.4583")
         self.assertEqual(flex["down"], 100)
         self.assertEqual(f"{off_of(a, flex)['perMwh']:.2f}", "230.36")
         self.assertEqual(f"{off_of(a, flex)['perGpuHour']:.4f}", "0.4672")
-        self.assertEqual(round(present_value(a, flat) * 100 / 1e4), 29009)              # USD 290.09 million
-        self.assertEqual(f"{level_price(dict(a, growth=2), flat):.2f}", "39.00")
+        self.assertEqual(f"{annuity(9.6, 20):.6f}", "8.751270")
+        self.assertEqual(round(present_value(a, flat) * 100 / 1e4), 25857)              # USD 258.57 million
+        self.assertEqual(f"{level_price(dict(a, growth=2), flat):.2f}", "38.66")
         g = against(a, flat, b, flex)
-        self.assertEqual(f"{g['evenUpfront']:.2f}", "226.17")
+        self.assertEqual(f"{g['evenUpfront']:.2f}", "201.60")
         self.assertEqual(f"{g['rate']:.1f}", "46.0")
         self.assertEqual(round(-g["gpuHours"] * 100), 4930966)
-        self.assertEqual(round(-g["pv"] * 100 / 1e4), 1762)                             # USD 17.62 million
+        self.assertEqual(round(-g["pv"] * 100 / 1e4), 1516)                             # USD 15.16 million
         note = src("docs", "methods", "datacenter_pays_algorithm.md")
         part = note[note.index("### 4.14 Scenarios A and B"):note.index("## 5. A load that is not flat")]
-        for words in ("33.7289", "295,465.05", "31.4583", "272,428.84", "230.36", "0.4672", "290.09 million", "9.818147", "39.00", "226.17", "46.0 percent", "4,930,966", "17.62 million", "431,952,663"):
+        for words in ("33.7289", "295,465.05", "31.4583", "272,428.84", "230.36", "0.4672", "258.57 million", "8.751270", "38.66", "201.60", "46.0 percent", "4,930,966", "15.16 million", "431,952,663"):
             self.assertIn(words, part, words)
 
 
@@ -554,7 +557,7 @@ class TheNotes(unittest.TestCase):
             self.assertIn(words, part, words)
         for k in ("aw", "ag", "ap", "ad", "ae", "au", "al", "ah", "bw", "bh"):
             self.assertIn(f"`{k}`", part, k)
-        self.assertEqual(part.count("**none held**"), 4)
+        self.assertEqual(part.count("**none held**"), 3)                              # session 196: the hurdle rate is cited to Lazard
 
     def test_session_190s_two_findings_are_flagged_as_they_stood(self):
         n = self.note
