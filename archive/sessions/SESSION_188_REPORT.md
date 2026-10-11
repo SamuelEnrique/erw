@@ -43,7 +43,7 @@ On the machine, from the main copy after the merge (each prints, sends nothing):
 - **Idle alarm** (`scripts/duty.py`, `scripts/githooks/post-commit` and `pre-push`, `.github/workflows/chain-watch.yml`). The hooks renew the mark at each commit and push, from the main checkout and from a worktree of it. The check: quiet under 30 minutes, one line at 30, again at 90, 150 and so on; a lapsed mark said once; each machine by itself. The step runs under `warehouse/health.py` after the duplicate-start step; the job's timeout went from 5 to 8 minutes for the second step.
 - **Waits page** (`site/app/internal/waits/page.tsx`, `site/lib/waits.ts`, `site/scripts/build-waits.mjs`, `archive/sessions/LAST_ANSWERED`). Listed: every item of a section headed for the owner, and any item elsewhere that says so itself. The prompt section is not read. Table rows are said with the table's column names. No script in the page: the fold is the browser's own.
 - **Documents:** `docs/machines.md` ("Continuous work"), `docs/release-gate.md`, `docs/tools.md`.
-- **Tests:** `tests/test_session188_precheck.py` (20), `_queue.py` (17), `_idle.py` (28), `_waits.py` (12); `site/scripts/test-waits.mjs` (581 cases, 240 lines of the real reports compared with the items); `site/scripts/check-internal-waits.mjs` (25 checks on a built site).
+- **Tests:** `tests/test_session188_precheck.py` (20), `_queue.py` (17), `_idle.py` (28), `_waits.py` (12); `site/scripts/test-waits.mjs` (583 cases, 241 lines of the real reports compared with the items); `site/scripts/check-internal-waits.mjs` (25 checks on a built site).
 
 ## Pulls and spend
 
@@ -61,7 +61,7 @@ Outputs under `C:/Users/lossa/Documents/erw-188/runs/session188/`.
 | Check | Exit | Result |
 |---|---|---|
 | `tests.test_session188_precheck`, `_queue`, `_idle`, `_waits` | 1, then 0 | first run: 1 failed, mine (a test read the wrong printed line); then 77 of 77 (`tests_188.out`) |
-| `node site/scripts/test-waits.mjs` | 0 | 581 of 581 |
+| `node site/scripts/test-waits.mjs` | 0 | 583 of 583 |
 | Neighbours (91, 116 alerts, 59, 61, 53) | 0 | 81 tests |
 | `npm ci`, then `npm run build`, under the build mutex | 0, 0 | `npm_ci.out`, `build_1.out`; `/internal/waits` is in the route list as dynamic |
 | `npm run build` again after the page's change, and of the committed tree | 0, 0 | `build_2.out`, `build_3.out` |
