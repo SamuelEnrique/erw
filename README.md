@@ -83,6 +83,7 @@ The ERW is built as a Stanford independent study.
 | [`docs/datastandard.md`](docs/datastandard.md) | Table shapes, columns, units, names |
 | [`docs/OVERVIEW.md`](docs/OVERVIEW.md) | The platform on one page, for reviewers (`warehouse/metadata/build_overview.py`) |
 | [`docs/platform-tools.md`](docs/platform-tools.md) | The platform's 31 tools (the plan since session 24), their status and their audiences |
+| [`docs/positioning.md`](docs/positioning.md) | The ERW beside Grid Status and Electricity Maps: what each does, where the ERW overlaps on purpose, where they are ahead, with sources (read 11 October 2026) |
 | [`STATUS.md`](STATUS.md) | Tables, last runs and open gaps, regenerated daily |
 | [`PRIORITIES.md`](PRIORITIES.md) | What kind of work comes first |
 
