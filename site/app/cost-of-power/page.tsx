@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, Fold, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import demandJson from "@/data/demand_growth.json";
 import loadJson from "@/data/large_load_status.json";
 import nyLoadJson from "@/data/nyiso_load_queue.json";
 import queuesJson from "@/data/queues.json";
 import * as clean from "@/lib/clean";
 import {
-  ASSUMED, BUYS, DEFAULTS, badMonth, cleanShare, expandSeries, gpuHour, gpus, hh, hrefOf, inputsOf, last36, lastTwelve, loadWords, monthName, monthsOf, monthsRuled, monthsWords,
+  ASSUMED, BUYS, DEFAULTS, badMonth, cleanShare, expandSeries, hh, hrefOf, inputsOf, last36, lastTwelve, loadWords, monthName, monthsOf, monthsRuled, monthsWords,
   ruleWords, shortMonth, span, two, usdShort, whenOf, whole, years, type Inputs, type Month, type Ruled, type Span,
 } from "@/lib/datacenter";
-import { FLAT, FLEX, type Way, type Ways } from "@/lib/datacenter/finance";
+import { FLAT, FLEX, held as heldWays, isOldParam, isScenarioParam, type Way, type Ways } from "@/lib/datacenter/finance";
 import { DELIVERY, INDEX, yearFiles, type MatrixRow } from "@/lib/datacenterdata";
 import type { DemandFile } from "@/lib/demandgrowth";
 import { SLUGS } from "@/lib/demandgrowth";
@@ -24,7 +24,7 @@ import { GridsView } from "./GridsView";
 import { YearCost } from "./LoadCharts";
 import { ContractInputs, ContractProvider, ContractResult } from "./LoadContract";
 import { LoadForm } from "./LoadForm";
-import { LoadScenarios, type Facts } from "./LoadScenarios";
+import { GpuHourOfA, LoadDecisions, LoadHeadline, LoadScenarios, type Bad, type Facts } from "./LoadScenarios";
 import { LoadWaits, WaitsWord } from "./LoadWaits";
 import { RulesInMotion } from "./RulesInMotion";
 import { CostTabs } from "./Tabs";
@@ -97,7 +97,9 @@ function ViewNav({ x }: { x: Inputs }) {
 
 export default async function CostOfPower({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
-  const x = inputsOf(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined])), INDEX);
+  // session 195: "Your load" no longer holds a power per GPU and an overhead ratio. Scenario A does (LoadScenarios.tsx),
+  // so the page's inputs carry the cited defaults and no link of the page writes the two old names.
+  const x = { ...inputsOf(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined])), INDEX), gpu: DEFAULTS.gpu, pue: DEFAULTS.pue };
   return (
     <ToolPage>
       <ToolHeader
@@ -122,6 +124,12 @@ function wayOf(ms: Month[]): Way | null {
   const s = span(l), w = last36(ms), b = badMonth(w?.months ?? []);
   if (s.per === null) return null;
   return { per: s.per, cost: s.cost, energy: s.energy, held: s.held, flatCost: s.flatCost, down: s.down, bad: b ? { m: b.m, per: b.cost / b.energy, cost: b.cost } : null, of: w?.months.length ?? 0 };
+}
+/** The bad month of one way of running, with the window it was ranked in: the headline's second number (session 195:
+ * the headline is scenario A's, so both ways are handed over). Held wherever a month is, as the headline always was. */
+function badOf(ms: Month[] | null): Bad | null {
+  const w = ms ? last36(ms) : null, b = badMonth(w?.months ?? []);
+  return w && b ? { m: b.m, per: b.cost / b.energy, of: w.months.length, first: w.months[0].m, to: w.to } : null;
 }
 
 function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: boolean; gridAsked?: string; q: Record<string, string | undefined> }) {
@@ -150,8 +158,7 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
   const ysH = years(hind.months), msH = new Map(hind.months.map((r) => [r.m, r]));
   const rule = ruleWords(x);
   const s12: Span | null = l12 ? span(l12) : null;
-  const w36 = last36(ms);
-  const bad = badMonth(w36?.months ?? []);
+  const bad = badMonth(last36(ms)?.months ?? []);
   const badPer = bad ? bad.cost / bad.energy : null;
   const ys = years(ms);
   const place = `${x.region} in ${g?.name ?? x.grid}`;
@@ -168,8 +175,6 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
   const ref12 = refMonths.length === 12 ? span(refMonths) : null;
   const l12Span = l12 ? `${shortMonth(l12[0].m)} to ${shortMonth(l12[11].m)}` : null;
   const saved = s12 && s12.flat !== null && s12.per !== null ? s12.flat - s12.per : null;
-  const gh = s12?.per != null ? gpuHour(s12.per, x.gpu, x.pue) : null;
-  const nGpu = gpus(x.mw, x.gpu, x.pue);
   const size = `${x.mw.toLocaleString("en-US")} MW`;
 
   // session 194: the two ways of running the scenarios compare, over the same twelve months. The way under "Your load"
@@ -178,15 +183,17 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
   const altFlex = { run: "hours" as const, n: DEFAULTS.n, pct: 0, shift: 0 };
   const flexWords = (y: Pick<Inputs, "run" | "n" | "pct" | "shift">) => (y.run === "hours" ? `off in the ${y.n.toLocaleString("en-US")} most expensive hours of each year` : y.run === "share" ? `off in the most expensive ${y.pct} percent of hours`
     : `${y.shift} percent of each day's energy moved to the day's cheapest hours`);
-  let ways: Ways = [null, null];
+  let sets: [Month[] | null, Month[] | null] = [null, null];
   if (!failed && side) {
-    if (flex) ways = [wayOf(ms.length ? flatMonths(ms) : monthsOf(files, x.region, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 })), wayOf(ms)];
-    else ways = [wayOf(ms), region?.da ? wayOf(monthsRuled(files, x.region, x.buy, altFlex, "forecast").months) : null];
+    if (flex) sets = [ms.length ? flatMonths(ms) : monthsOf(files, x.region, x.buy, { run: "flat", n: 0, pct: 0, shift: 0 }), ms];
+    else sets = [ms, region?.da ? monthsRuled(files, x.region, x.buy, altFlex, "forecast").months : null];
   }
+  const ways: Ways = [sets[0] ? wayOf(sets[0]) : null, sets[1] ? wayOf(sets[1]) : null];
   const noDa = `No day-ahead price is held for ${x.region}, and a flexible load decides from day-ahead prices.`;
-  const cited = (k: "gpu" | "pue") => (x[k] === ASSUMED[k].value ? ASSUMED[k].source : `The value under "Your load". The cited default is ${ASSUMED[k].value}: ${ASSUMED[k].source}`);
-  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: l12Span, load: { run: flex ? FLEX : FLAT, gpu: x.gpu, pue: x.pue }, gpuSource: cited("gpu"), pueSource: cited("pue"), ways,
-    words: ["the same in every hour", flexWords(flex ? x : altFlex)], why: [noYear, flex ? noYear : region?.da ? noYear : noDa] };
+  // session 195: the power per GPU and the overhead ratio are scenario A's; their defaults are the two the page cites
+  const facts: Facts = { mw: x.mw, size, place: `${place}, ${market}`, span: l12Span, load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source, ways,
+    words: ["the same in every hour", flexWords(flex ? x : altFlex)], why: [noYear, flex ? noYear : region?.da ? noYear : noDa], bads: [badOf(sets[0]), badOf(sets[1])] };
+  const scenarioParams = Object.fromEntries(Object.entries(q).filter(([n, v]) => (isScenarioParam(n) || isOldParam(n)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
 
   // the form's lists: every grid held, each region with what is held of it
   const grids = Object.fromEntries(Object.entries(INDEX.grids).map(([id, v]) => [id, { name: v.name,
@@ -246,6 +253,7 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
 
   return (
     <ContractProvider>
+     <LoadDecisions key={`${hrefOf(x)}|${JSON.stringify(scenarioParams)}`} load={facts.load} open={heldWays(ways)} initial={scenarioParams}>
       <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
         <aside>
           <InputPanel title="Your load">
@@ -266,23 +274,15 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
               <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
                 {s12 && s12.per !== null ? (
                   <>{loadWords(x)} at {place}, buying {market}, paid USD <span data-stat="l12_per">{two(s12.per)}</span> per MWh over the last twelve months,
-                    USD <span data-stat="l12_cost">{usdShort(s12.cost * x.mw)}</span> in all{flex && saved !== null ? <>, USD <span data-stat="l12_saved">{two(saved)}</span> per MWh less than a flat load{savedH !== null ? <> (<Hover why={FORESEEN_WHY}>USD <span data-stat="l12_saved_foreseen">{two(savedH)}</span> {FORESEEN}</Hover>)</> : null}</> : null}: USD <span data-stat="gpu_hour">{gh!.toFixed(4)}</span> per GPU-hour for power alone.</>
+                    USD <span data-stat="l12_cost">{usdShort(s12.cost * x.mw)}</span> in all{flex && saved !== null ? <>, USD <span data-stat="l12_saved">{two(saved)}</span> per MWh less than a flat load{savedH !== null ? <> (<Hover why={FORESEEN_WHY}>USD <span data-stat="l12_saved_foreseen">{two(savedH)}</span> {FORESEEN}</Hover>)</> : null}</> : null}: USD <span data-stat="gpu_hour"><GpuHourOfA per={s12.per} /></span> per GPU-hour for power alone.</>
                 ) : (
                   <>{loadWords(x)} at {place}, buying {market}: last twelve months <Missing why={noYear} />.</>
                 )}
               </p>
 
-              <HeadlineRow>
-                <HeadlineNumber label="Last twelve months, market energy"
-                  value={s12 && s12.per !== null ? <>USD {two(s12.per)}<span className="ml-1 font-sans text-sm text-muted">per MWh</span></> : <Missing why={noYear} />}
-                  note={s12 ? <>USD {usdShort(s12.cost * x.mw)} for {whole(s12.energy * x.mw)} MWh, {l12Span}.{flex && sh12?.per != null ? <> <Hover why={FORESEEN_WHY}><span data-stat="l12_per_foreseen">USD {two(sh12.per)}</span> {FORESEEN}</Hover>.</> : null}</> : null} />
-                <HeadlineNumber label="A bad month: the worst tenth of the last 36"
-                  value={badPer !== null ? <>USD {two(badPer)}<span className="ml-1 font-sans text-sm text-muted">per MWh</span></> : <Missing why={noYear} />}
-                  note={bad && w36 ? <>{monthName(bad.m)}. One month in ten of the {w36.months.length} held from {monthName(w36.months[0].m)} to {monthName(w36.to)} cost this or more.</> : null} />
-                <HeadlineNumber label="Power per GPU-hour"
-                  value={gh !== null ? <>USD {gh.toFixed(4)}</> : <Missing why={noYear} />}
-                  note={<>At {x.gpu} kW per GPU and an overhead ratio of {x.pue}: {size} powers {whole(nGpu)} GPUs.</>} />
-              </HeadlineRow>
+              {/* session 195: the three headline numbers are scenario A's rows (LoadScenarios.tsx) */}
+              <LoadHeadline facts={facts} missing={<Missing why={noYear} />}
+                foreseen={flex && sh12?.per != null ? <> <Hover why={FORESEEN_WHY}><span data-stat="l12_per_foreseen">USD {two(sh12.per)}</span> {FORESEEN}</Hover>.</> : null} />
 
               <ChartFrame title={`Cost by year, USD per MWh, ${x.region}, ${market}`}
                 legend={flex ? [{ label: "Flat load", color: "#6B665E" }, { label: "This load", color: "#8C1515" }, { label: "If perfectly foreseen", color: "#2E2D29" }, { label: "Incomplete year", color: "#8C1515", hatch: true }] : [{ label: "Flat load", color: "#8C1515" }, { label: "Incomplete year", color: "#8C1515", hatch: true }]}>
@@ -304,7 +304,7 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
                     ...(region?.ref ? [{ key: "ref", cells: [<>The hub beside it, {region.ref}, a flat load</>, <span key="p" data-ref-hub="1">{perMwh(ref12?.flat ?? null, `Twelve complete months of ${market} prices are not held for ${region.ref} over the same months.`)}</span>, usd(ref12 ? ref12.flatCost * x.mw : null, noYear),
                       <span key="n" className="text-xs text-muted">{ref12?.flat != null && s12?.flat != null ? `the load zone is ${two(Math.abs(s12.flat - ref12.flat))} per MWh ${s12.flat >= ref12.flat ? "above" : "below"} its hub` : ""}</span>] }] : []),
                     { key: "bad", cells: ["A bad month", perMwh(badPer, noYear), usd(bad ? bad.cost * x.mw : null, noYear), <span key="n" className="text-xs text-muted">{bad ? monthName(bad.m) : ""}</span>] },
-                    { key: "gpu", cells: ["Power per GPU-hour", gh !== null ? gh.toFixed(4) : <Missing key="m" why={noYear} />, "", <span key="n" className="text-xs text-muted">USD per GPU-hour, not per MWh</span>] },
+                    { key: "gpu", cells: ["Power per GPU-hour", s12?.per != null ? <GpuHourOfA key="g" per={s12.per} /> : <Missing key="m" why={noYear} />, "", <span key="n" className="text-xs text-muted">USD per GPU-hour, not per MWh</span>] },
                     ...(x.grid === "ercot"
                       ? (utilities.length || DELIVERY.withheld.length
                         ? [...utilities.map((u) => ({ key: `d-${u}`, cells: [<>Delivery and transmission, {u}</>], wide: <DeliveryCell rows={delivery.filter((r) => r.utility === u)} /> })),
@@ -320,7 +320,7 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
               </ToolSection>
 
               <ToolSection title="Scenarios A and B" id="scenarios">
-                <LoadScenarios key={hrefOf(x)} facts={facts} initial={q} />
+                <LoadScenarios facts={facts} />
               </ToolSection>
             </>
           )}
@@ -426,6 +426,7 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
       </div>
       <SourceLine tables={[...INDEX.tables, "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(cFile?.clean ? ["clean_energy_hourly"] : [])]}
         note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. <Link href={METHOD}>Method note</Link>.</>} />
+     </LoadDecisions>
     </ContractProvider>
   );
 }

@@ -249,7 +249,9 @@ try {
   check(near(s.cells["b|npv"].raw, rb.npv) && near(s.cells["b|coverage"].raw, rb.coverage) && near(s.cells["b|contract"].raw, F.contractPrice(b1, tw.energyKw)) && (rb.irr === null ? s.cells["b|irr"].raw === null : near(s.cells["b|irr"].raw, rb.irr)),
     "B's coverage, NPV, IRR and contract price follow", `${s.cells["b|coverage"].text} | ${s.cells["b|npv"].text} | ${s.cells["b|irr"].text} | ${s.cells["b|contract"].text}`);
   check(s.headA.length === 4 && s.headB.length === 4 && s.words === "B: capex USD 1,375 per kW against 1,500; term 10 years against 35; degradation 0.5 percent a year against 0; hurdle rate 10 percent against 8.", "four differences, in the headers and in words", s.words);
-  check(s.chartView === "b" && /scenario B/.test(s.legend) && /^Scenario B/.test(s.sentence ?? ""), "the chart and the sentence follow the scenario in view");
+  check(s.chartView === "b" && /scenario B/.test(s.legend), "the chart follows the scenario in view");
+  check(/^Scenario A, 100 MW of solar: at a hurdle rate of 8 percent, NPV is USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`NPV is ${s.cells["a|npv"].text.match(/^USD -?[\d.,]+( million| billion)?/)[0]}.`),
+    "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
 
   // 6: the sensitivity chart
   check(s.bars.length === 8 && s.bars.every((b, i) => i === 0 || s.bars[i - 1].size >= b.size), "eight bars, sorted by size", s.bars.map((b) => b.key).join(", "));
@@ -290,6 +292,45 @@ try {
   await noRequest("the Reset for all", () => click("[data-reset-all]"));
   s = await ev(STATE);
   check(s.search === "?v=b" && s.fields.every((f) => Number(f.value) === d[f.key]), "Reset all of B returns every assumption of B to its default", s.search);
+
+  // 8b (session 195): scenario A sets the headline; "Your plant" holds no debt payments and no fixed O&M; an older
+  // link's `fom` and `ds` are read as scenario A's
+  {
+    const HEAD = `(() => {
+      const raw = (sel) => { const e = document.querySelector(sel); return e ? Number(e.getAttribute("data-raw")) : null; };
+      const all = (end) => [...document.querySelectorAll("[data-check]")].filter((x) => x.getAttribute("data-check").endsWith(end));
+      return { cover: raw('[data-stat="cover"] [data-check]'), key: document.querySelector('[data-stat="cover"] [data-check]')?.getAttribute("data-check") ?? "",
+        ds: all("|ds").map((e) => Number(e.getAttribute("data-raw"))), under1: all("|under1").map((e) => Number(e.getAttribute("data-raw")))[0] ?? null,
+        fields: [...document.querySelectorAll("form[data-seller-form] input[name]")].map((e) => e.name), where: document.querySelector("[data-costs-in-a]")?.textContent ?? "",
+        coverage: document.querySelector("#coverage")?.innerText ?? "" };
+    })()`;
+    await go("/cost-of-power/seller");
+    s = await ev(STATE);
+    let h = await ev(HEAD);
+    const ds0 = Math.round(M.debtPerMw("solar") * 100), cover0 = h.cover;
+    check(!h.fields.includes("fom") && !h.fields.includes("ds") && /scenario A gives the headline/.test(h.where), "\"Your plant\" holds no debt payments and no fixed O&M, and says scenario A gives the headline", [...new Set(h.fields)].join(", "));
+    check(h.ds.length >= 3 && h.ds.every((v) => v === ds0) && F.debtUsd(d, 100) === ds0 && near(h.cover, s.cells["a|coverage"].raw, 1e-6) && h.key.includes(`&ds=${ds0}&`),
+      "at the defaults the headline's coverage and the debt payments of every section are the page's own of before this session", `USD ${ds0}, ${h.cover}`);
+    await noRequest("typing a capital cost into A, for the headline", () => type("capex", "1500"));
+    h = await ev(HEAD); s = await ev(STATE);
+    const ds1 = F.debtUsd({ ...d, capex: 1500 }, 100);
+    check(h.ds.every((v) => v === ds1) && near(h.cover, s.cells["a|coverage"].raw, 1e-6) && h.cover < cover0 && h.key.includes(`&ds=${ds1}&`) && /debt payments of/.test(h.coverage),
+      "a change of A moves the headline's coverage, its check key, and the debt payments of the months and of \"Debt coverage\"", `${h.cover} on USD ${ds1}`);
+    await noRequest("typing a fixed O&M into A, for the headline", () => type("fom", "20"));
+    const h2 = await ev(HEAD); s = await ev(STATE);
+    check(h2.cover < h.cover && near(h2.cover, s.cells["a|coverage"].raw, 1e-6) && h2.key.endsWith("&fom=20|ttm_last") && /fixed O&M of 20 USD\/kW a year/.test(h2.coverage), "and A's fixed O&M moves them too", String(h2.cover));
+    await click('[data-view="b"]');
+    await noRequest("typing a capital cost into B", () => type("capex", "900"));
+    const h3 = await ev(HEAD); s = await ev(STATE);
+    check(h3.cover === h2.cover && h3.ds[0] === h2.ds[0] && /^Scenario A/.test(s.sentence ?? ""), "a change of B moves neither the headline nor the sentence under the table");
+    await go("/cost-of-power/seller?fom=20&ds=5000000");
+    h = await ev(HEAD); s = await ev(STATE);
+    check(h.ds.every((v) => v === 5000000) && Number(s.fields.find((f) => f.key === "fom").value) === 20 && /af=20/.test(s.search) && /ac=/.test(s.search) && !/[?&](fom|ds)=/.test(s.search) && near(h.cover, s.cells["a|coverage"].raw, 1e-6),
+      "an older link's fom and ds open the same headline (A's fixed O&M; the capital cost at which A's debt payments are that amount) and leave the address", `${s.search}: ${h.cover}`);
+    await go(`/cost-of-power/seller?ds=${ds0}&fom=${d.fom}`);
+    s = await ev(STATE);
+    check(s.search === "" && s.fields.every((f) => Number(f.value) === d[f.key]), "an older link that held the defaults opens the bare address", s.search);
+  }
 
   // 8: the page's own parameters, another hub, and the links
   await go("/cost-of-power/seller?iso=ercot&asset=solar&hub=HB_WEST&mw=50&ac=1500&bh=9");

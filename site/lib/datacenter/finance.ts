@@ -64,8 +64,9 @@ export const SPECS: Record<Key, Spec> = {
 };
 export const LIFE = 20, HURDLE = 8;
 
-/** The defaults: the way of running, the power per GPU and the overhead ratio as "Your load" has them (so that a
- * scenario at its defaults shows the page's own headline numbers), and the five the page does not otherwise hold. */
+/** The defaults: the way of running as "Your load" has it, the power per GPU and the overhead ratio as the page cites
+ * them (session 195: "Your load" no longer holds those two; scenario A does, and sets the headline), and the five the
+ * page does not otherwise hold. */
 export function defaultsOf(load: { run: number; gpu: number; pue: number }): Assumptions {
   return { run: load.run === FLEX ? FLEX : FLAT, gpu: load.gpu, pue: load.pue, adder: 0, growth: 0, upfront: 0, life: LIFE, hurdle: HURDLE };
 }
@@ -82,11 +83,20 @@ export const held = (ways: Ways): [boolean, boolean] => [ways[FLAT] !== null, wa
 
 export type View = "a" | "b";
 export type Scenarios = { a: Assumptions; b: Assumptions; view: View };
+/** The two names "Your load" held until session 195, and the assumption each is an old name of. Before that session
+ * they were the default of both scenarios, so an older link's `gpu` or `pue` is read as A's and as B's, unless the
+ * scenario's own parameter is there; they are then dropped from the address. */
+export const OLD: Record<string, Key> = { gpu: "gpu", pue: "pue" };
+export const isOldParam = (name: string) => name in OLD;
 /** Both scenarios from the address: <a or b><letter>, each defaulted and bounded; `v=b` puts B in view. A way of
  * running that is not held (`open`) falls back to the default. */
 export function parseScenarios(q: Record<string, string | undefined>, d: Assumptions, open: [boolean, boolean] = [true, true]): Scenarios {
   const one = (p: View): Assumptions => {
     const out = { ...d };
+    for (const [name, k] of Object.entries(OLD)) {
+      const raw = q[name];
+      if (raw !== undefined && raw !== "") out[k] = bound(k, Number(raw), d);
+    }
     for (const k of KEYS) {
       const raw = q[p + SPECS[k].letter];
       if (raw !== undefined && raw !== "") out[k] = bound(k, Number(raw), d);

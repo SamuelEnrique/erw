@@ -182,7 +182,9 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
   const g1 = F.against(a1, flat, b1, flex);
   check(near(Number(s.rate), g1.rate) && near(Number(s.even), g1.evenUpfront) && s.against.includes(`which returns ${g1.rate.toFixed(1)} percent a year in lower yearly cost; B's hurdle rate is 10 percent.`) && /each over its own years and at its own hurdle rate/.test(s.against) && /B runs [\d,]+ fewer GPU-hours a year/.test(s.against),
     "B against A: the year's cost, the GPU-hours, the present value, the upfront cost at which they are equal, and the rate the extra upfront cost returns beside B's hurdle rate", s.against);
-  check(s.chartView === "b" && /scenario B/.test(s.legend) && /^Scenario B/.test(s.sentence ?? ""), "the chart and the sentence follow the scenario in view");
+  check(s.chartView === "b" && /scenario B/.test(s.legend), "the chart follows the scenario in view");
+  check(/^Scenario A, 100 MW at LZ_NORTH in ERCOT, real time: at a hurdle rate of 8 percent, 20 years of power cost USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`USD ${s.cells["a|allin"].raw.toFixed(4)} per GPU-hour.`),
+    "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
 
   // 6: the sensitivity chart
   check(s.bars.length === 8 && s.bars.every((b, i) => i === 0 || s.bars[i - 1].size >= b.size), "eight bars, sorted by size", s.bars.map((b) => b.key).join(", "));
@@ -247,6 +249,40 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
   await sleep(5000);
   s = await evaluate(STATE);
   check(/grid=caiso/.test(s.search) && /au=50/.test(s.search) && /bh=9/.test(s.search) && !s.none && !s.bad && / in CAISO, /.test(s.headFor), "another grid keeps the scenarios", s.search);
+
+  // 8b (session 195): scenario A sets the headline; "Your load" holds no power per GPU and no overhead ratio; an older
+  // link's `gpu` and `pue` are read as the scenarios'
+  {
+    const HEAD = `(() => {
+      const sum = document.querySelector("[data-summary]");
+      return { row: sum?.nextElementSibling?.innerText ?? "", gpu: document.querySelector('[data-stat="gpu_hour"]')?.textContent ?? "",
+        fields: [...document.querySelectorAll("form[data-load-form] input[name]")].map((e) => e.name), where: document.querySelector("[data-costs-in-a]")?.textContent ?? "",
+        runNote: document.querySelector("[data-scenario-a-run]")?.textContent ?? "", adderNote: document.querySelector("[data-scenario-a-adder]")?.textContent ?? "" };
+    })()`;
+    s = await open("/cost-of-power");
+    let h = await evaluate(HEAD);
+    check(!h.fields.includes("gpu") && !h.fields.includes("pue") && /scenario A gives the headline/.test(h.where), "\"Your load\" holds no power per GPU and no overhead ratio, and says scenario A gives the headline", [...new Set(h.fields)].join(", "));
+    check(h.row.includes(`USD ${s.cells["a|gpu"].raw.toFixed(4)}`) && h.row.includes(`USD ${s.cells["a|price"].raw.toFixed(2)}`) && h.row.includes(`USD ${s.cells["a|bad"].raw.toFixed(2)}`) && h.gpu === s.cells["a|gpu"].raw.toFixed(4) && /At 1\.3 kW per GPU and an overhead ratio of 1\.56/.test(h.row),
+      "at the defaults the three headline numbers are scenario A's rows, and the page's own of before this session", h.row.replace(/\s+/g, " ").slice(0, 160));
+    await noRequest("typing an overhead ratio into A, for the headline", () => type("pue", "1.2"));
+    h = await evaluate(HEAD); s = await evaluate(STATE);
+    check(h.row.includes(`USD ${s.cells["a|gpu"].raw.toFixed(4)}`) && h.gpu === s.cells["a|gpu"].raw.toFixed(4) && /overhead ratio of 1\.2:/.test(h.row) && near(s.cells["a|gpu"].raw, F.gpuHour({ ...d, pue: 1.2 }, flat)),
+      "a change of A's overhead ratio moves the headline's power per GPU-hour, its GPUs, and the summary sentence's figure", h.row.replace(/\s+/g, " ").slice(-120));
+    await choose("1");
+    h = await evaluate(HEAD); s = await evaluate(STATE);
+    check(h.row.includes(`USD ${s.cells["a|price"].raw.toFixed(2)}`) && s.cells["a|price"].raw < flat.per && /Scenario A runs flexible/.test(h.runNote) && /Your load/.test(h.runNote),
+      "A set to flexible moves the headline's market energy, and the headline says the sections below are the load as \"Your load\" describes it", h.runNote);
+    await evaluate(`document.querySelector('[data-view="b"]').click()`);
+    await sleep(350);
+    await noRequest("typing an overhead ratio into B", () => type("pue", "1.9"));
+    const hb = await evaluate(HEAD); s = await evaluate(STATE);
+    check(hb.row === h.row && hb.gpu === h.gpu && /^Scenario A/.test(s.sentence ?? ""), "a change of B moves neither the headline nor the sentence under the table");
+    s = await open("/cost-of-power?gpu=1&pue=1.2");
+    h = await evaluate(HEAD);
+    check(Number(s.fields.find((f) => f.key === "gpu").value) === 1 && near(s.cells["a|gpu"].raw, F.gpuHour({ ...d, gpu: 1, pue: 1.2 }, flat)) && near(s.cells["b|gpu"].raw, s.cells["a|gpu"].raw) && h.gpu === s.cells["a|gpu"].raw.toFixed(4)
+      && /ag=1(&|$)/.test(s.search) && /bg=1(&|$)/.test(s.search) && /ap=1\.2/.test(s.search) && /bp=1\.2/.test(s.search) && !/[?&](gpu|pue)=/.test(s.search),
+      "an older link's gpu and pue open the same numbers in the headline and in both scenarios, and leave the address", s.search);
+  }
 
   // 9: the contract's promise, in the internal view
   await open("/cost-of-power");

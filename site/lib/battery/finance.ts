@@ -68,8 +68,13 @@ export function bound(key: Key, v: number, d: Assumptions, steps: Steps): number
 
 export type View = "a" | "b";
 export type Scenarios = { a: Assumptions; b: Assumptions; view: View };
-/** Both scenarios from the address: <a or b><letter>, each defaulted and bounded; `v=b` puts B in view. */
-export function parseScenarios(q: Record<string, string | undefined>, d: Assumptions, steps: Steps): Scenarios {
+/** Both scenarios from the address: <a or b><letter>, each defaulted and bounded; `v=b` puts B in view.
+ * Session 195: scenario A sets the page's headline, and the two fields "Your battery" held until then are gone. Their
+ * names still open the same headline in an older link, as old names of scenario A's own: `fom` is A's fixed O&M, and
+ * `ds`, the annual debt payments in USD for `mw` megawatts, is the capital cost at which A's debt share, interest rate
+ * and term give that payment. A's own parameter wins over an old name (`af` over `fom`, `ac` over `ds`). */
+export function parseScenarios(q: Record<string, string | undefined>, d: Assumptions, steps: Steps, mw = 0): Scenarios {
+  const given = (name: string) => q[name] !== undefined && q[name] !== "";
   const one = (p: View): Assumptions => {
     const out = { ...d };
     for (const k of KEYS) {
@@ -78,8 +83,16 @@ export function parseScenarios(q: Record<string, string | undefined>, d: Assumpt
     }
     return out;
   };
-  return { a: one("a"), b: one("b"), view: q.v === "b" ? "b" : "a" };
+  const a = one("a");
+  if (!given("af") && given("fom")) a.fom = bound("fom", Number(q.fom), d, steps);
+  if (!given("ac") && given("ds") && mw > 0) {
+    const ds = Math.round(Number(q.ds)), per = 1000 * (a.share / 100) * crf(a.rate / 100, debtYears(a)) * mw;
+    if (Number.isFinite(ds) && ds >= 0 && per > 0 && debtUsd(a, mw) !== ds) a.capex = bound("capex", ds / per, d, steps);
+  }
+  return { a, b: one("b"), view: q.v === "b" ? "b" : "a" };
 }
+/** The two names "Your battery" held until session 195: read once as scenario A's, then dropped from the address. */
+export const isOldParam = (name: string) => name === "fom" || name === "ds";
 /** The address parameters of both scenarios: only what differs from the defaults, so no parameter means the defaults. */
 export function scenarioQuery(s: Scenarios, d: Assumptions): [string, string][] {
   const out: [string, string][] = [];
@@ -118,6 +131,10 @@ export const crf = (rate: number, years: number) => (rate === 0 ? 1 / years : ra
 export const debtYears = (a: Assumptions) => Math.min(a.term, a.life);
 /** Annual debt payments, USD per kW: the capital cost times the debt share, level over the debt's years. */
 export const debtService = (a: Assumptions) => a.capex * (a.share / 100) * crf(a.rate / 100, debtYears(a));
+/** Annual debt payments in whole USD for `mw` megawatts: what the page's headline coverage divides by, and what its
+ * check keys carry. The order of the multiplication is the page's own (lib/batterystack.ts, debtPerMw, times the
+ * megawatts), so the defaults give the figure the page showed before session 195 to the last dollar. */
+export const debtUsd = (a: Assumptions, mw: number) => Math.round(a.capex * 1000 * (a.share / 100) * crf(a.rate / 100, debtYears(a)) * mw);
 /** Revenue in year t (1 is the first), USD per kW: the last twelve months' revenue, falling by the degradation rate
  * each year after the first. */
 export const revenueInYear = (a: Assumptions, revKw: number, t: number) => revKw * (1 - a.deg / 100) ** (t - 1);

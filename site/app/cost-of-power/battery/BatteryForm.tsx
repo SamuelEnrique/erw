@@ -2,9 +2,11 @@
 // Session 67: the "Your battery" panel of /cost-of-power/battery. These inputs live in the URL, as on the seller tab.
 // The form is a plain GET form (it works without JavaScript); with JavaScript the same address is opened in place, so
 // the contract terms typed in the other panel, which live only in this page's memory, are not lost on Show.
+// Session 195: the panel no longer holds a fixed O&M and annual debt payments. Scenario A does (Scenarios.tsx), and
+// sets the headline; the line under Show says where. An older link's `fom` and `ds` are read as scenario A's.
 import { useRouter, useSearchParams } from "next/navigation";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { COSTS, DURATIONS, GRIDS, STRATEGIES, hrefOf, type Inputs, type Strategy } from "@/lib/batterystack";
+import { COSTS, DURATIONS, GRIDS, STRATEGIES, debtPerMw, hrefOf, type Inputs, type Strategy } from "@/lib/batterystack";
 import { carry } from "@/lib/battery/finance";
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
@@ -13,6 +15,8 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
   const router = useRouter();
   // session 179: the two scenarios live in the address too (Scenarios.tsx); this panel's links and its Show carry them
   const search = useSearchParams().toString();
+  // the links name the grid, the duration, the strategy and the size; the costs travel as scenario A's parameters
+  const bare: Inputs = { ...x, fom: COSTS[x.dur].fom, ds: Math.round(debtPerMw(x.dur) * x.mw) };
   return (
     <form
       method="get" action="/cost-of-power/battery" className="space-y-4 text-sm"
@@ -20,7 +24,7 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
         e.preventDefault();
         const f = new FormData(e.currentTarget);
         const q = new URLSearchParams();
-        for (const k of ["grid", "dur", "strat", "mw", "fom", "ds"]) { const v = f.get(k); if (typeof v === "string" && v !== "") q.set(k, v); }
+        for (const k of ["grid", "dur", "strat", "mw"]) { const v = f.get(k); if (typeof v === "string" && v !== "") q.set(k, v); }
         router.push(`/cost-of-power/battery?${q.toString()}${carry(window.location.search, true)}`, { scroll: false });
       }}
     >
@@ -47,7 +51,7 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
         <div className="mb-1 font-semibold" id="dur-label">Duration</div>
         <div className="grid grid-cols-3 border border-accent" role="group" aria-labelledby="dur-label">
           {DURATIONS.map((d) => (
-            <Link key={d} href={`${hrefOf(x, { dur: d })}${carry(search, d === x.dur)}`} scroll={false} aria-current={x.dur === d ? "true" : undefined} data-duration={d}
+            <Link key={d} href={`${hrefOf(bare, { dur: d })}${carry(search, d === x.dur)}`} scroll={false} aria-current={x.dur === d ? "true" : undefined} data-duration={d}
               style={x.dur === d ? { color: "#fff" } : undefined}
               className={`px-2 py-1.5 text-center no-underline ${d !== DURATIONS[0] ? "border-l border-accent" : ""} ${x.dur === d ? "bg-accent font-semibold" : "bg-white text-accent"}`}>
               {d} hours
@@ -70,18 +74,12 @@ export function BatteryForm({ x, internal = false }: { x: Inputs; internal?: boo
       <label className="block"><span className="mb-1 block font-semibold">Size, MW</span>
         <input name="mw" type="number" min={1} max={5000} step="any" defaultValue={x.mw} className={field} />
       </label>
-      <label className="block"><span className="mb-1 block font-semibold">Fixed O&amp;M, USD per kW a year</span>
-        <input name="fom" type="number" min={0} max={500} step="any" defaultValue={x.fom} className={field} />
-      </label>
-      <label className="block"><span className="mb-1 block font-semibold">Annual debt payments, USD</span>
-        <input name="ds" type="number" min={0} step="any" defaultValue={x.ds} className={field} />
-      </label>
       <div className="flex items-baseline gap-3">
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>
-        <Link href={`/cost-of-power/battery?grid=${x.grid}&dur=${x.dur}&strat=${x.strat}${carry(search, true)}`} scroll={false} className="text-xs">Reset the costs</Link>
       </div>
-      <p className="text-xs leading-snug text-muted">
+      <p className="text-xs leading-snug text-muted" data-costs-in-a="1">
         Defaults for {x.dur} hours: capital {COSTS[x.dur].capex.toLocaleString("en-US")} USD/kW and fixed O&amp;M {COSTS[x.dur].fom} USD/kW a year ({COSTS[x.dur].note}).
+        The costs and the debt are set under <a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.
       </p>
     </form>
   );
