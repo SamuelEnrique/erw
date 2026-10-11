@@ -2,9 +2,11 @@
 
 Run on 10 October 2026 (UTC), on `lab-desktop` (host `SU-4QC3QR3`), unattended. Waited for `scripts\setup.ps1` from
 20:50 to 21:24:58 (checked every two minutes; nothing was written or run in the checkout before it was gone and
-`.venv\Scripts\python.exe` and `.erw\machine.json` existed); worked from 21:25 to about 21:55. Model spend USD 0, no
-model call. No deploy: nothing was pushed to `main` or to a `task/` branch. Docs and this report are on
-`wip/184-lab-desktop`. Outputs under `runs/session184/` of the data checkout (`C:\Users\Shared\Documents\erw`).
+`.venv\Scripts\python.exe` and `.erw\machine.json` existed). Every check ran from 21:25 to 21:34. The session then
+stood still until about 04:10 UTC on 11 October (I do not know why; the files' times show it), when the docs and this
+report were written. Model spend USD 0, no model call. No deploy, and no push of any kind: the commit is on
+`wip/184-lab-desktop` in `C:\Users\Shared\Documents\erw-184`, on this machine only (see the fifth bullet below).
+Outputs under `runs/session184/` of the data checkout (`C:\Users\Shared\Documents\erw`).
 
 ## Read these first
 
@@ -20,6 +22,10 @@ model call. No deploy: nothing was pushed to `main` or to a `task/` branch. Docs
   shown by the task's trigger and settings, not by a restart: none was made.
 - **`CHAIN_OCT8_PROMPT.md` is not on this machine** (it was never committed). I applied `CLAUDE.md` and the chain's
   rules as reports 166 to 183 state them: unattended, `wip/` branch, no force push, gates not piped, real data only.
+- **This machine cannot push to GitHub yet.** `git push origin wip/184-lab-desktop` waited on Git Credential
+  Manager's sign-in window for two minutes and I stopped it; `git ls-remote` shows no such branch. Nobody has signed in
+  to GitHub here. Until someone does, the data machine's daily run could not push its commit either. I did not use
+  the `GH_TOKEN` of `.env` for it: that token is the scheduler's.
 
 ## What works
 
@@ -42,6 +48,8 @@ model call. No deploy: nothing was pushed to `main` or to a `task/` branch. Docs
   - One request as `/analysis` sends it: `20261010T213043Z-8cdfa6`, `queue_divorce` from 2010, queued 21:30:43,
     started 21:30:52, done 21:30:53 UTC, by `SU-4QC3QR3` (`worker_request.out`, exit 0).
   - Restart on failure every minute, no time limit, one instance (`worker_task_query.out`).
+  - Still the same process at 04:13 UTC on 11 October: turn 403, heartbeat that minute, 1 done, 0 failed
+    (`worker_status_later.out`). The machine did not sleep in those hours.
 - **Part 5.** `docs/machines.md`: the table of machines, and a new section "The lab desktop (session 184)".
 - Tests on this machine's Python 3.14.7: `tests.test_session181_worker` and `tests.test_archive`, 38 tests, exit 0.
 
@@ -79,6 +87,9 @@ model call. No deploy: nothing was pushed to `main` or to a `task/` branch. Docs
 
 ## What Samuel must do by hand
 
+0. **Sign in to GitHub on this machine** (a terminal in `C:\Users\Shared\Documents\erw-184`:
+   `git push origin wip/184-lab-desktop`, then complete the sign-in window). It is the push of this report, and the
+   data machine's daily run needs the same sign-in.
 1. **Copy the home laptop's raw folders here**, `ercot_zone_prices` first, into
    `C:\Users\Shared\Documents\erw\warehouse\raw\`. Keep the laptop's copy until `run_data_machine.sh` has run once
    here and its log shows the count against the ceiling carried over.
@@ -124,13 +135,15 @@ model call. No deploy: nothing was pushed to `main` or to a `task/` branch. Docs
 
 ## To finish
 
-1. Land the docs (a push to `task/` deploys: rule 8). Docs only, so the comparison should list 0 differences.
+1. Land the docs (a push to `task/` deploys: rule 8), after the sign-in of item 0 above. Docs only, so the comparison
+   should list 0 differences. The branch lives in the second working copy until it is pushed.
 
    ```bash
    cd /c/Users/Shared/Documents/erw && git pull origin main
    .venv/Scripts/python.exe scripts/freeze.py status; echo "exit=$?"
    node site/scripts/snapshot-live.mjs take before184
-   git push origin wip/184-lab-desktop:task/184-lab-desktop
+   git -C ../erw-184 push origin wip/184-lab-desktop
+   git -C ../erw-184 push origin wip/184-lab-desktop:task/184-lab-desktop
    # after the workflow's merge and the deploy:
    node site/scripts/snapshot-live.mjs take after184
    node site/scripts/snapshot-live.mjs compare before184 after184
