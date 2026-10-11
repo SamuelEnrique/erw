@@ -60,7 +60,12 @@ check(["capture", "capture-years", "hub-years", "spans", "contract", "hybrid", "
   "the battery page's layout: the summary sentence, three headline numbers, and the sections capture, by year, spans, contract, hybrid, months and coverage");
 check(page.html.includes("/data/methods/cost_of_power") || text.includes("Method note"), "the page names its Method note");
 // session 162: the owner's words of 9 October 2026 keep the added figure "as a labeled upper bound": that one label stands on the face
-const faceText = text.split("Added, not co-optimized: upper bound").join(" ");
+// session 186: the block "Scenarios A and B" is the reader's own assumptions, asked for by name (the owner's rule of
+// 10 October 2026: every tool lets the user set the few assumptions that matter, each with its cited default). There
+// the word names the inputs and is not method prose, so the block is left out of this scan; the rest of the face is
+// held as before, and the block's own words by scripts/check-seller-scenarios.mjs.
+check(html.includes('<section id="scenarios"'), "the scenarios block is on the page, after the contract");
+const faceText = plain(html.replace(/<section id="scenarios"[\s\S]*?<\/section>/, " ")).split("Added, not co-optimized: upper bound").join(" ");
 check(!METHOD_WORDS.test(faceText), `no method prose on the page face${METHOD_WORDS.test(faceText) ? ` (found "${METHOD_WORDS.exec(faceText)[0]}")` : ""}`);
 check(["the median month earned", "10th-percentile month", "The worst three months", "Over trailing twelve months, coverage was", "Stress days: Uri, Elliott and the 2023 heat", "Winter Storm Uri", "Every month: revenue, energy, capture price and rate, coverage",
   "Hours above installed nameplate", "Hours EIA reports negative", "Annual debt payments, USD", "Fixed O&M, USD per kW a year"].every((w) => text.includes(w)) && /data-check="mr\|iso=ercot&amp;asset=solar[^"]*\|median"/.test(html) && /data-check="mr\|[^"]*\|stress_total:uri_2021"/.test(html),
