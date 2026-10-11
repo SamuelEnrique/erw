@@ -27,6 +27,26 @@ queue/CHAIN_TEMPLATE.md     the shape of a prompt file: copy it, fill it in, sav
   pushed. A second machine that has not pulled it would take the same file.
 - A prompt file's first rule is the precheck, `python scripts/precheck.py`, and its last is the queue step above.
 
+## The planner (session 197): the chain queue's next file, drafted from the roadmap
+
+```
+docs/roadmap.md                       the planner's only source of what to do; a person writes it
+queue/next/NNN-planned-<slug>.md      a chain the planner drafted; its first line says so
+```
+
+- **Off unless a person turns it on:** `planner: on` under "Status" of `docs/roadmap.md`. No model call: the planner
+  copies the roadmap's own words and the rules of `CHAIN_TEMPLATE.md` into a chain of one to three sessions.
+- **Looking:** `python scripts/planner.py check` (why it would or would not run), and
+  `python scripts/planner.py draft --dry-run` (prints the chain; writes nothing).
+- **When it runs:** `python scripts/chain_queue.py next`, with nothing waiting and the planner on, runs
+  `python scripts/planner.py draft`. A chain it writes is committed alone, pushed to `wip/<name>` and taken as the next
+  file. When it refuses, the machine idles as said above.
+- **It refuses** when the planner is off, the roadmap is older than 7 days, "This week" has no open item for the
+  machine's role that was not planned before, `queue/next/` already holds a file, the machine is at its budget of
+  sessions for the day, or the hour is outside the start hours.
+- **It never plans** a pull, a migration, a secret, a release-gate change, a change to `CLAUDE.md` or a deletion, nor
+  more than one session that lands. `docs/machines.md`, "The planner", has the whole account.
+
 ## The task queue (session 59): single tasks for the workers
 
 ```

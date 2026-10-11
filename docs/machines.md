@@ -617,3 +617,58 @@ python scripts/duty.py check --dry-run
   words: it can list a line that no longer waits and miss one worded another way. The report is the record.
 - The page checks the internal cookie as the other `/internal` pages do (open `/internal/open` first), is linked from
   nothing, and answers 404 to a visitor.
+
+### The planner: the next chain, drafted from the roadmap (session 197)
+
+When the chain queue is empty a machine idles until a person writes the next prompt file. The planner writes that file
+from what the owner has already written down, `docs/roadmap.md`. It is **off unless a person writes `planner: on`
+there**, and it is a prompt builder, not a writer of prompts: it makes no model call, and every sentence of a planned
+chain is copied from the roadmap or from `queue/CHAIN_TEMPLATE.md`, or is one of the planner's own fixed lines.
+
+```bash
+python scripts/planner.py check                      # why it would or would not run, for this machine; exit 3 when it would not
+python scripts/planner.py draft --dry-run            # print the chain it would write; write nothing
+python scripts/planner.py draft                      # write queue/next/NNN-planned-<slug>.md; its path is the last line
+python scripts/planner.py draft --dry-run --roadmap tests/fixtures/roadmap_sample.md --machine sample --role code   # a sample, to see one
+```
+
+- **`docs/roadmap.md` is its only source of what to do.** Six sections: "Status" (`planner: on` or `off`; `budget: N
+  sessions a day per machine`; `earliest start` and `latest start`, in UTC; `deploy cutoffs`), "This week" (numbered
+  items, `N. [ ] title` while open, each with `machine:`, `where:`, `done:`, its `rulings:`, and where wanted
+  `session:` lines, `cap:` and `lands:`), "Rulings" and "Holds" (pasted into every planned chain as they stand),
+  "Input from Ben and Khalid" and "Review log" (read by people only). The planner never edits the file.
+- **What it also reads:** the reports after `archive/sessions/LAST_ANSWERED` and the count of what waits
+  (`site/content/waits.json`), which it lists in the chain as not yet ruled; and the template, whose every rule it
+  copies.
+- **What it writes:** one file, `queue/next/NNN-planned-<slug>.md`, NNN being the chain's first session number. Its
+  first line is "PLANNED by scripts/planner.py from docs/roadmap.md as of <time>". It holds the first open item of "This
+  week" for the machine's role, as one to three sessions, with model spend USD 0 unless the item names a cap.
+- **It refuses, and says every reason,** when: the planner is off; the roadmap is older than 7 days (its last commit,
+  or the file's own time when it holds an edit not yet committed); "This week" has no open item for the machine that
+  was not planned before; `queue/next/` already holds a file; the machine is at its budget of sessions for the UTC
+  day; the hour is outside the start hours; "Status" does not state the budget, the start hours or the cutoffs.
+- **Hard stops,** in the code and in `tests/test_planner.py`:
+  - the budget and the start hours of "Status";
+  - the deploy cutoffs of "Status" are copied into every planned chain, with the start hours;
+  - a planned chain never names a pull, a migration, a secret, a release-gate change, a change to `CLAUDE.md` or to a
+    permission file, or a deletion. An item whose words do is refused, not skipped: it waits for a person's own prompt;
+  - a planned chain holds one to three sessions and at most one of them lands, the last;
+  - an item is planned once: an item already in a planned chain, waiting or taken, is not taken again. To plan it
+    again a person rewrites the item;
+  - a chain that fails its own checks (its name by the chain queue's rule, the precheck as its first rule, the queue
+    step as its last, no em dash, no unfilled blank) is not written.
+- **The budget's count is a floor.** It counts the sessions of the chain files the machine took from the queue that
+  day (each take is a commit that names the machine) and the reports first committed that day that name the machine,
+  whichever is larger. A chain pasted by hand whose reports do not name the machine is not seen.
+- **The session number** is one above the highest known: the reports of `archive/sessions/` in this checkout and on
+  every branch git holds on the machine, the sessions named in the queue's files, and the sessions named in the last 30
+  days' commit subjects. Two machines that plan at the same minute without a pull can still take one number: one
+  machine plans at a time, as one machine draws from the queue at a time.
+- **The closing step.** `python scripts/chain_queue.py next`, with nothing waiting and `planner: on`, runs the planner
+  for this machine. A chain it writes is committed alone ("Planner: <name> drafted for <machine> from
+  docs/roadmap.md"), pushed to the branch `wip/<name>` (a `wip/` branch does not deploy) and taken as the next file,
+  exit 0. When the planner is off, which is the default, or refuses, the command idles exactly as before: the health
+  row, the one line by email, the machine off duty, exit 3. `next --dry-run` prints what the planner would do and
+  writes nothing.
+- **To turn it on:** fill in "Status" and "This week" of `docs/roadmap.md`, write `planner: on`, commit and push. To
+  turn it off: `planner: off`, or delete the line.
