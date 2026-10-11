@@ -1,6 +1,6 @@
 # Session 190 report: What a datacenter pays, correctness
 
-11 October 2026, 07:05 to 08:25 UTC, unattended, one agent of a chain. Branch `wip/190-datacenter-correct` (worktree `erw-190`), not pushed: the orchestrating session lands it. Model spend USD 0, no model call. No pull: no request to any publisher. Follows session 183's shape (the later precedent) where 178 and 183 differ: two test modules, the note's sections, a face check on the shared browser helper.
+11 October 2026, 07:05 to 08:10 UTC, unattended, one agent of a chain. Branch `wip/190-datacenter-correct` (worktree `erw-190`), not pushed: the orchestrating session lands it. Model spend USD 0, no model call. No pull: no request to any publisher. Follows session 183's shape (the later precedent) where 178 and 183 differ: two test modules, the note's sections, a face check on the shared browser helper.
 
 ## Read these first
 
@@ -127,7 +127,7 @@ Rulings that wait for you: items 6, 12, 18, 20, 23, 26 to 29, 31 to 34.
 
 ## Checks run
 
-Outputs under `runs/session190/` in the worktree. The site was built three times under the build mutex (`npm ci` once).
+Outputs under `runs/session190/` in the worktree. The site was built five times under the build mutex (`npm ci` once): the unchanged tree, then after each round of changes; the last on commit `f3f00dd0`.
 
 | Check | Exit | Result |
 |---|---|---|
@@ -138,7 +138,8 @@ Outputs under `runs/session190/` in the worktree. The site was built three times
 | The same with `ERW_TABLES_DIR` on the main copy's tables (`tests_190_tables.out`) | 0 | 46 run, 0 skipped; the table test takes 18 seconds |
 | With sessions 138, 140, 149, 163, 178, 183 (`tests_neighbours.out`) | 0 | 247 run, 9 skipped |
 | Whole suite, worktree, `ERW_LOCK_EXEMPT=1` (`suite.out`) | 0 | 3,131 tests, 221 skipped, on commit `09961c4e` (this report's last lines were filled in after it) |
-| Site build: unchanged tree (after `npm ci`, exit 0); changed tree; final tree twice | 0, 0, 0, 0 | `build_before.out`, `build_after.out`, `build_final.out`, `build_final2.out` |
+| Site build: unchanged tree (after `npm ci`, exit 0); changed tree; final tree three times, the last on `f3f00dd0` | 0, 0, 0, 0, 0 | `build_before.out`, `build_after.out`, `build_final.out`, `build_final2.out`, `build_final3.out` |
+| On the last build (`f3f00dd0`): `check-datacenter-face`; `check-values`, pages under `/cost-of-power` | 0, 0 | 23 of 23; 3,289 of 3,289 |
 | **Before any change:** `check-datacenter` | 0 | 58 of 58 |
 | `check-how-soon` | 0 | 41 of 41 |
 | `check-values`, pages under `/cost-of-power`, twice | 0, 0 | 3,289 of 3,289 both times |
