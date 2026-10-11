@@ -102,6 +102,22 @@ def policy_of_the_week(start, cut, log):
     return L
 
 
+def policy_section(lines, above, log):
+    """Session 192: the policy section without a repeat of an item above. An agency's release the feeds carry is both
+    a scored story and a policy action; listed under "Also this week" beside the same story in the week's five, it
+    was a repeat the hard check (brief.assert_unique) refused, so the whole Roundup was not written (the dry run of
+    week 2026-W41). The later line is dropped and named, as the daily digest does since session 176
+    (brief.without_repeats). "Also this week:" goes with its last line."""
+    L = brief.without_repeats(lines, above, log)
+    if "Also this week:" in L:
+        i = L.index("Also this week:")
+        rest = L[i + 1:]
+        j = next((k for k, ln in enumerate(rest) if ln.strip()), len(rest))
+        if j == len(rest) or not rest[j].startswith("- "):
+            L = L[:i] + rest[j:]
+    return L
+
+
 def chart_of_the_week(label, log):
     """Session 23: the chart of the week from docs/analysis/<label>/ (warehouse/analysis/run.py): the
     email-size PNG, the title, the two-sentence note and the source line, as markdown. The note passed
@@ -369,7 +385,7 @@ def main(argv=None):
                 L.append(f"Table: `datacenter_projects` ({len(cw)} facilities; `warehouse/datacenters/extract.py`, "
                          "every field only as its story states it).")
 
-        L += ["", "## ERW's Policy of the Week", ""] + policy_of_the_week(start, cut, log)
+        L += ["", "## ERW's Policy of the Week", ""] + policy_section(policy_of_the_week(start, cut, log), L, log)
         nums = numbers(start, cut, log)
         summary, su = (None, []) if args.no_model else brief.numbers_summary(client, model, nums, log)
         if model in PRICES:
