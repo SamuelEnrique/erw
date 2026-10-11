@@ -85,6 +85,7 @@ Everything on a clock is a GitHub Action. There is no crontab on any machine. As
 | What a table held on an earlier day | The archive: `warehouse/archive/restore.py TABLE --as-of ...` (section 1a); a released Redivis version for what was cited |
 | How an AI assistant should read the warehouse | [`package/llms.txt`](package/llms.txt), which is also the chat's system briefing |
 | What each platform tool can do today | [`docs/platform-tools.md`](docs/platform-tools.md) |
+| How the ERW stands beside Grid Status and Electricity Maps, and what it takes from either | [`docs/positioning.md`](docs/positioning.md), a dated reading with its sources; `scripts/check_positioning.py` checks its pointers |
 
 `docs/datastandard.md` beats `CLAUDE.md` on output format. When a rule could plausibly belong to two documents, name its owner in this table.
 
