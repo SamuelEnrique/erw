@@ -205,8 +205,11 @@ generator page (session 186) do. Every formula is in
 
 **Eight assumptions**, each with its default, the default's source and a Reset: how the load runs (flat, or flexible
 under the rule above), power per GPU, the facility overhead ratio, delivery and other charges per MWh, the yearly
-change of prices, an upfront cost per kW of the load's size, the years counted and the hurdle rate. The first three
-default to "Your load", so a scenario at its defaults shows the page's own headline numbers. Four defaults have no
+change of prices, an upfront cost per kW of the load's size, the years counted and the hurdle rate. The first
+defaults to "Your load"; power per GPU and the overhead ratio default to the two the page cites, 1.3 kW and 1.56
+(session 195: "Your load" no longer holds those two fields, scenario A does, and scenario A sets the page's three
+headline numbers; an older link's `gpu` and `pue` are read as the scenarios'). A scenario at its defaults shows the
+page's own headline numbers. Four defaults have no
 source in the repository and the page says so beside each: no change of prices, no upfront cost, 20 years, and a
 hurdle rate of 8 percent set equal to the interest rate of Lazard's cost cases. They are the owner's to confirm.
 
