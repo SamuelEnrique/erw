@@ -730,9 +730,12 @@ class TheDataMachinesDailyRun(unittest.TestCase):
     def test_the_gate_is_not_piped_and_the_commit_names_its_paths(self):
         text = src("warehouse", "run_data_machine.sh")
         gate = [ln for ln in text.splitlines() if ln.lstrip().startswith('"$PYTHON" warehouse/validate/erw_validate.py')]
-        self.assertEqual(len(gate), 1)
-        self.assertNotIn("|", gate[0])
-        self.assertIn("rc=$?", text.split(gate[0], 1)[1].splitlines()[1])
+        # session 198: a second table has its own gate (ercot_as_quantities, tests/test_session198.py); the load zones' is the first
+        self.assertEqual(len(gate), 2)
+        self.assertIn("$ZONES", gate[0])
+        for g in gate:
+            self.assertNotIn("|", g)
+            self.assertIn("rc=$?", text.split(g, 1)[1].splitlines()[1])
         self.assertIn('if [ "$branch" != "main" ]; then', text)
         self.assertIn("site/data/datacenter site/data/seller/capture.json site/data/curtailment/shares.json", text)
         self.assertNotIn("git add -A", text)

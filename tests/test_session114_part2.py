@@ -39,6 +39,10 @@ DAILY = ["eia930_daily_interchange", "eia930_daily_demand", "network_replay"]
 # ERCOT's 60-Day DAM Disclosure, approved in that session's prompt (tests/test_session116.py holds its rules). These
 # tests pinned the list as session 114 left it; they now set that one step aside by name and pin the rest as before.
 STANDING_PULL = "ercot_storage_dam"
+# Session 198 added a second one, in the same way: ercot_as_quantities, ERCOT's DAM Ancillary Service Plan, a step of the
+# data machine's run by the owner's ruling in that session's prompt (tests/test_session198.py holds its rules). Both are
+# set aside by name; the rest is pinned as before.
+STANDING_PULLS = (STANDING_PULL, "ercot_as_quantities")
 MONTHLY = ["mix_profile", "price_compare", "demand_growth", "curtailment_profile", "project_map", "large_load_snapshot"]
 BASH = shutil.which("bash")
 
@@ -75,14 +79,14 @@ class Schedule(unittest.TestCase):
         loop = re.search(r"^for name in (.+); do$", sh, re.M).group(1).split()
         self.assertEqual(sorted(loop), sorted(MONTHLY))
         self.assertEqual(sorted(n for n, j in scheduled.JOBS.items() if j["cadence"] == "monthly"), sorted(MONTHLY))
-        self.assertEqual(sorted(n for n, j in scheduled.JOBS.items() if j["cadence"] == "daily" and n != STANDING_PULL), sorted(DAILY))
+        self.assertEqual(sorted(n for n, j in scheduled.JOBS.items() if j["cadence"] == "daily" and n not in STANDING_PULLS), sorted(DAILY))
 
     def test_every_step_names_a_script_that_exists_and_only_eia_is_asked(self):
         for name, j in scheduled.JOBS.items():
             self.assertTrue(os.path.exists(os.path.join(ROOT, j["cmd"][0])), name)
             self.assertLessEqual(set(j.get("restore", [])), set(j.get("tables", [])), name)
         self.assertEqual(scheduled.JOBS[STANDING_PULL]["cmd"], ["warehouse/connectors/ercot_dam_esr.py", "--daily"])
-        asks = sorted(n for n, j in scheduled.JOBS.items() if "/connectors/" in j["cmd"][0] and n != STANDING_PULL)
+        asks = sorted(n for n, j in scheduled.JOBS.items() if "/connectors/" in j["cmd"][0] and n not in STANDING_PULLS)
         self.assertEqual(asks, ["eia930_daily_demand", "eia930_daily_interchange"], "no other step runs a connector")
         for n in asks:
             self.assertEqual(scheduled.JOBS[n]["cmd"][1:], ["--days", scheduled.REPLAY_DAYS])
@@ -413,7 +417,7 @@ class BuiltDate(unittest.TestCase):
     }
 
     def test_each_page_prints_its_files_built_stamp(self):
-        self.assertEqual(sorted(self.PAGES), sorted({j["page"] for n, j in scheduled.JOBS.items() if n != STANDING_PULL}))
+        self.assertEqual(sorted(self.PAGES), sorted({j["page"] for n, j in scheduled.JOBS.items() if n not in STANDING_PULLS}))
         for page, (src, expr, files) in self.PAGES.items():
             self.assertIn(expr, text(*src.split("/")), page)
             for f in files:
