@@ -255,7 +255,8 @@ class ThePage(unittest.TestCase):
                      # what session 145 showed, still here
                      'id="capture"', 'id="capture-years"', 'id="spans"', 'id="contract"', 'id="months"', 'id="coverage"', 'data-hybrid="plant"', 'data-hybrid="battery"', 'data-hybrid="combined"',
                      "combined(plantTotal", "not modeled for this grid", "<PremiumYears", "<RevenueYears", "<MonthlyRevenue", "<CoverageLine", "<ContractResult", "freeEnergyHref(iso, hub.id)"):
-            self.assertIn(part, page, part)
+            # session 195: the months' chart and the coverage line follow scenario A, so they are drawn by SellerScenarios.tsx
+            self.assertIn(part, page + (src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx") if part in ("<MonthlyRevenue", "<CoverageLine") else ""), part)
         rel = src("site", "lib", "release.ts")
         self.assertRegex(rel, r'"/cost-of-power/seller":\s*"review"')
         # session 166 (the owner's instruction of 8 October 2026): the battery page is in review too; no page is live

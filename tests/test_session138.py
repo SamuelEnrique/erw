@@ -225,12 +225,19 @@ class Page(unittest.TestCase):
         self.assertEqual(re.findall(r'"(/[^"]*)": "live"', release), [])
 
     def test_the_inputs_the_owner_named(self):
-        for name in ('name="grid"', 'name="region"', 'name="mw"', 'name="run"', 'name="n"', 'name="pct"', 'name="shift"', 'name="buy"', 'name="gpu"', 'name="pue"'):
+        for name in ('name="grid"', 'name="region"', 'name="mw"', 'name="run"', 'name="n"', 'name="pct"', 'name="shift"', 'name="buy"'):
             self.assertIn(name, self.form)
+        # session 195: the power per GPU and the overhead ratio are scenario A's assumptions, with the same cited
+        # defaults; "Your load" no longer holds them, and says where they are set
+        for name in ('name="gpu"', 'name="pue"'):
+            self.assertNotIn(name, self.form)
+        self.assertIn("scenario A gives the headline", self.form)
+        page = src("site", "app", "cost-of-power", "page.tsx")
+        self.assertIn("gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source", page)
         for run in ("flat:", "hours:", "share:", "shift:"):
             self.assertIn(run, self.lib)
-        self.assertIn("title={ASSUMED.gpu.source}", self.form)
-        self.assertIn("title={ASSUMED.pue.source}", self.form)
+        self.assertIn("title={ASSUMED.gpu.source}", page)                          # the source line's two defaults, on hover
+        self.assertIn("title={ASSUMED.pue.source}", page)
         self.assertIn("NVIDIA DGX H100", self.lib)
         self.assertIn("Uptime Institute", self.lib)
 

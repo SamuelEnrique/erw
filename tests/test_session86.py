@@ -215,11 +215,13 @@ console.log(JSON.stringify({
     def test_the_page_opens_them_with_the_cookie_only_and_reads_the_snapshot(self):
         page = src("site", "app", "cost-of-power", "battery", "page.tsx")
         self.assertIn("have === (await digest(token))", page)                # the proxy's own test of the internal cookie
-        self.assertIn("inputsOf(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === \"string\" ? v : undefined])), internal)", page)
+        # session 195: the address is read once into `q`, which scenario A's parameters are read from as well
+        self.assertIn("const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === \"string\" ? v : undefined]));", page)
+        self.assertIn("const asked = inputsOf(q, internal);", page)
         self.assertIn('import reviewData from "@/data/battery_stack_review.json"', page)
         branch = page[page.index("const [read, readStress] = g.review"):]
         branch = branch[:branch.index(";\n")]
-        self.assertLess(branch.index("reviewRows(x.grid, x)"), branch.index("rowsOf(g.entity!, x)"))   # a review grid never asks Supabase
+        self.assertLess(branch.index("reviewRows(asked.grid, asked)"), branch.index("rowsOf(g.entity!, asked)"))   # a review grid never asks Supabase
         self.assertIn("is in review and shown in the internal view only", page)
         form = src("site", "app", "cost-of-power", "battery", "BatteryForm.tsx")
         self.assertIn("const open = g.ready || (internal && !!g.review);", form)
