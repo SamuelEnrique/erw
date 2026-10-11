@@ -160,3 +160,64 @@ Run on 10 October 2026 (UTC), first request 19:25, last request 19:29, unattende
 
 ## The landing
 
+
+Written by the chain's coordinator, 10 October 2026, about 19:50 UTC.
+
+- **Not landed: the Map stays held on `wip/180-network-map` (pushed to GitHub at `a3fed2ab`, now merged with main).**
+  The instruction's words for this case are "report exactly what answered and leave the frame as it is"; whether to
+  put the toggle with its "not yet held" frame on the internal page is not said, so the reversible choice was kept:
+  `/network` on production is as it was, with no Map button. No snapshot was needed because nothing of this session
+  deployed. Only this report reaches main, with the chain's closing push.
+- The branch is ready to land as it is, if you want the toggle and its frame on the internal page now. From the main
+  copy, each its own command:
+  1. `git checkout -b wip/180-land origin/main`, then `git merge --no-ff origin/wip/180-network-map`
+  2. `cd site && npm run build` (read `exit=0`); start it; `node scripts/check-network-map.mjs http://localhost:<port>`,
+     `node scripts/check-network-v3.mjs http://localhost:<port>`, `node scripts/check-network-v3-hard.mjs http://localhost:<port>`,
+     `node scripts/check-csp.mjs http://localhost:<port>`
+  3. `python -m unittest tests.test_session180 tests.test_session180b`; the whole suite in a clean worktree of the commit
+  4. `python scripts/freeze.py status`; `node site/scripts/snapshot-live.mjs take 180_before`;
+     `git push origin wip/180-land:task/180-network-map`; after the deploy `take 180_after` and
+     `compare 180_before 180_after` (expected: 0 differences, the page is in review)
+  5. `node site/scripts/check-network-map.mjs https://erw-flame.vercel.app`
+- **What a boundary file needs from you now:** a publisher that still serves one. Two pulls have failed to find it:
+  EIA's atlas does not list it (session 180), and HIFLD's open catalog no longer exists at its ArcGIS Hub address
+  (this session). The agent's reading that the layer may still sit on an ArcGIS Online feature server is from its
+  recollection, not from anything a host answered, and that host's robots file answered 403. A ruling could name: the
+  exact address of a file you have opened in a browser yourself, with its license page; or a file you download by
+  hand into `runs/<session>/pull/`, which the connector's `build` then reads with no request at all.
+- Request 4 (the robots file of a host no answer had named) is the agent's own account above. It was a robots file
+  only, inside the ceiling, and nothing else was asked of that host.
+
+## The closing note of the second and third prompts (sessions 181, 182 and 180b), by the coordinator
+
+| Session | What landed | Merge | Production (UTC) | Snapshot differences | Model spend |
+|---|---|---|---|---|---|
+| 181 | the scanner and its review list (`/internal/findings`, 8 drafts waiting), the impact study, migration 029, the worker registered at log-on | `1885332c` | 18:09 | 0 | USD 0 |
+| 182, parts 1 to 3 | the five-grid cards for spikes and for the peak hour, CAISO's curtailment by the hour, r on the daily card | `6ba5bfcf` | 17:40 | 0 | USD 0 |
+| 182, part 4 | one flow for requests: what to analyze, then how to show it; the gallery folded in | `d363ef26` | 19:22 | 0 | USD 0 |
+| 180b | nothing: HIFLD's open catalog is gone; the Map stays held on `wip/180-network-map` | none | none | none taken | USD 0 |
+
+- Also landed with them: session 176's follow-up (a capped digest says "written without the model", not "not run";
+  `scripts/ledger_union.py` and the ledger's diagnosis), and one assertion of session 161's test unpinned from a
+  figure the daily run moves.
+- Model spend: USD 0. No model call by any session or check. Pulls: session 180b's six requests (382 bytes).
+- Data writes: migration 029 (additive; rollback `apply.py --rollback 029`) and the 8 drafts in `scanner_drafts`. Two
+  analysis requests were queued and done as proofs (`queue_divorce`, 2010 to 2020 and 2005 to 2018). No table of the
+  warehouse, no ledger, no archive and no Redivis draft was written.
+- On this machine: the scheduled task "ERW findings worker" (log-on trigger; running). Nothing else was installed.
+- No freeze was in force; every deploy had its before and after snapshot as its own command; all were 0 differences.
+- **For you, in order:**
+  1. `https://erw-flame.vercel.app/internal/findings` (internal view): 8 drafts wait for Approve, Dismiss or Ask for a
+     full card. The agent judged 13 of the first run's 17 flags real, 1 an artifact and 3 uncertain (session 181's
+     report has each).
+  2. The cost ledger's load fails every day until the repair in session 176's report is run (five commands);
+     `/internal/costs` stops at 8 October until then.
+  3. The daily cap skipped six model steps on its first live day (news scoring alone is USD 1.07): rule on cut 1 of
+     session 176 or raise `DAILY_MODEL_USD`.
+  4. Run `scripts\register_findings_worker.ps1` once from an elevated PowerShell if the worker should start before
+     anybody logs on; rule where the worker writes requested cards (session 182's report).
+  5. The boundary file (above).
+  6. Still open from the first prompt: session 177's rulings (the form at `/internal/open`, H3 and M1, the count
+     "scenario compared"), session 178's Stata run and two edge cases, session 179's two defaults with no source.
+- Remote branches fully on main are deleted after this note lands; kept: `wip/180-network-map`, `wip/171-virginia`.
+  `CHAIN_OCT10B_PROMPT.md` and `CHAIN_OCT10C_PROMPT.md` are saved in the folder, untracked, as the others are.

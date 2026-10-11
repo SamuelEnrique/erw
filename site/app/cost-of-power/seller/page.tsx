@@ -8,6 +8,7 @@ import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import captureJson from "@/data/seller/capture.json";
 import hybridJson from "@/data/seller/hybrid.json";
+import hubsJson from "@/data/seller/hubs/index.json";
 import * as B from "@/lib/batterystack";
 import { caisoJoinDay } from "@/lib/caisoJoin";  // session 78: the join's date is written in one place
 import {
@@ -21,6 +22,7 @@ import {
 } from "@/lib/merchant";
 import { ASSETS, GRIDS, PAUSED, sentence, spans, usd, whole, years, type Span } from "@/lib/seller2";
 import * as H from "@/lib/sellerhybrid";
+import * as HB from "@/lib/sellerhubs";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
 import { CoverageLine, MonthlyRevenue, PremiumYears, RevenueYears, type PremiumRow } from "./SellerCharts";
@@ -28,6 +30,7 @@ import { ContractInputs, ContractProvider, ContractResult } from "./SellerContra
 import { SellerForm, type FormGrid } from "./SellerForm";
 import { SellerHubYears, type HyCell, type HyRow, type HyTable } from "./SellerHubYears";
 import { SellerProfile } from "./SellerProfile";
+import { SellerScenarios, type Facts } from "./SellerScenarios";
 
 // Session 145: "What a generator earns", one page at one address. It holds what the seller's tab (session 51) and its
 // version 2 (session 107, /cost-of-power/seller/v2, which redirects here) each showed, in the battery page's layout,
@@ -47,10 +50,35 @@ import { SellerProfile } from "./SellerProfile";
 // upper bound, for solar and now for wind; (b) the capture price by hub and year, one table for every public hub
 // (SellerHubYears.tsx on lib/capture.ts, hubYears); (c) "Your plant's profile", a year of hourly output pasted or
 // uploaded and computed in the browser, never sent or stored (SellerProfile.tsx). Nothing session 145 showed is gone.
+//
+// Session 183, correctness: (1) the hub or zone chosen now prices everything the model shows (revenue, the months and
+// the bad months, debt coverage, the spans, the stress days), not only the capture price and the contract: the model
+// solved again with that hub's own price (lib/sellerhubs.ts on data/seller/hubs, warehouse/derived/merchant_hubs.py),
+// in the market the hub's capture price is shown in, said beside each figure. The main hub keeps the page's snapshot,
+// so no number of a default page moved. The battery beside it and the pasted profile stay at the main hub, and say so.
+// (2) Every number, step by step, is docs/methods/generator_earns_algorithm.md, and the source line offers the default
+// case hour by hour with its do-file.
+//
+// Session 186, decisions, as session 179 built them for the battery: one section after the contract, "Scenarios A and
+// B" (SellerScenarios.tsx on lib/seller/finance.ts): eight assumptions with their cited defaults and Resets, two
+// scenarios on the same eight rows, and a sensitivity chart, computed in the browser from figures this page already
+// shows and kept in the address. Nothing above or below it changed. docs/methods/generator_earns_algorithm.md, section 11.
 export const metadata: Metadata = { title: "What a generator earns" };
 export const dynamic = "force-dynamic";
 
 const METHOD = "/data/methods/cost_of_power";
+const ALGORITHM = "/data/methods/generator_earns_algorithm";
+const HOURLY_CSV = "/seller/erw_2026_generator_hourly.csv", DO_FILE = "/seller/erw_2026_generator_replication.do", MIRROR = "/seller/erw_2026_generator_replication.py";
+const HUBS = hubsJson as unknown as HB.HubIndex;
+// session 183: one hub's model, read when it is asked for and kept while the server lives (a hub's file is about half a megabyte)
+const HUB_FILES = new Map<string, unknown>();
+function hubFile<T>(rel: string): T | null {
+  if (!HUB_FILES.has(rel)) {
+    if (HUB_FILES.size > 16) HUB_FILES.clear();
+    try { HUB_FILES.set(rel, JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "seller", "hubs", rel), "utf8"))); } catch { HUB_FILES.set(rel, null); }
+  }
+  return HUB_FILES.get(rel) as T | null;
+}
 const CAPTURE = captureJson as unknown as CaptureFile;
 const NEAR = CAPTURE.near;
 const BATTERY_GRIDS = ["ercot", "caiso"];  // the grids the battery page's model is open for
@@ -136,10 +164,19 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const open = GRIDS.map((g) => g.id).filter((id) => CAPTURE.grids[id] && snap.isos[id]);
   const iso = q.iso && open.includes(q.iso) ? q.iso : "ercot";
   const x = inputsOf({ ...q, iso });
-  const key = inputsKey(x);
   const g = GRIDS.find((k) => k.id === iso)!, a = ASSETS.find((k) => k.id === x.asset)!;
   const cg = CAPTURE.grids[iso];
   const hub = hubOf(CAPTURE, iso, q.hub)!;
+  // session 183: the model the page prices with. At the main hub, the page's snapshot; at another hub or zone, the same
+  // model solved with that hub's price. `at` is written beside every figure, so a figure never stands under a hub it
+  // was not priced at; a hub whose model is not held says so and shows the main hub's, named.
+  const mainHub = hub.id === cg.main;
+  const he = mainHub ? null : HUBS.grids[iso]?.hubs[hub.id] ?? null;
+  const hubGrid = he ? hubFile<HB.GridFile>(HUBS.grids[iso].file) : null, hubModel = he ? hubFile<HB.HubFile>(he.file) : null;
+  const priced: Snapshot = he && hubGrid && hubModel ? HB.withHub(snap, iso, HB.hubIso(snap.isos[iso], hubGrid, hubModel)) : snap;
+  const atHub = priced !== snap;
+  const at = atHub ? `${hubAt(hub.id)} (${HB.marketWords(he!.market)} prices)` : g.at;
+  const key = atHub ? HB.hubKey(inputsKey(x), hub.id, he!.market) : inputsKey(x);
   const k = keyOf(x);
   const D = DEFAULTS[k];
   const sizeLabel = x.asset === "battery" ? `${x.mw.toLocaleString("en-US")} MW / ${x.mwh.toLocaleString("en-US")} MWh` : `${x.mw.toLocaleString("en-US")} MW`;
@@ -152,18 +189,20 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
 
   // the seller's model: the reader's size (the months, the bad months, coverage, the stress days) and per MW of
   // nameplate (the last twelve months beside the long-run averages)
-  const ms = months(snap, x);
+  const ms = months(priced, x);
   const sm = summary(ms);
   const t = ttm(ms, x.ds);
-  const st = stress(snap, x);
+  const st = stress(priced, x);
   const held = ms.filter((r) => r.held);
   const dsMonth = x.ds / 12;
   const under1 = held.filter((r) => r.dscr !== null && r.dscr < 1), under125 = held.filter((r) => r.dscr !== null && r.dscr < 1.25);
   const annual = held.length ? (held.reduce((s, r) => s + r.revenue, 0) / held.length) * 12 : null;
-  const ms1 = months(snap, { ...x, mw: 1, mwh: x.asset === "battery" ? x.mwh / x.mw : 0, ds: 0, fom: 0 });
+  const perMw = { ...x, mw: 1, mwh: x.asset === "battery" ? x.mwh / x.mw : 0, ds: 0, fom: 0 };
+  const ms1 = months(priced, perMw);
+  const ms1Main = atHub ? months(snap, perMw) : ms1;  // the battery beside it is priced at the main hub, as the battery page is
   const s = spans(ms1);
   const ys = years(ms1);
-  const line = sentence({ grid: iso, asset: x.asset }, s);
+  const line = sentence({ grid: iso, asset: x.asset }, s, atHub ? at : undefined);
 
   // (a) the capture price: the market shown first is real time where the hub holds it, else day-ahead
   const cap = (h: Hub, f: Fuel, m: Market) => twelve(h[m]?.[f], NEAR);
@@ -208,7 +247,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
     if (!read.ok) battWhy = `The battery page's table could not be read, so no number is shown: ${read.reason}`;
     else if (!l12) battWhy = "The battery page holds no twelve consecutive months for this battery.";
     else {
-      const same = l12.map((r) => ms1.find((p) => p.m === r.m));
+      const same = l12.map((r) => ms1Main.find((p) => p.m === r.m));
       batt = { perMw: B.sumOf(l12, "total"), total: B.stat(read.data, [], bx, "l12:total")!, from: l12[0].m, to: l12[11].m,
         plantPerMw: same.every((p) => p && p.held) ? same.reduce((e, p) => e + p!.revenue, 0) : null, href: B.hrefOf(bx) };
     }
@@ -280,6 +319,25 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
     return { key: r.label, highlight: r.label === "Last 12 months", muted: r.partial,
       cells: [r.partial ? <Hint key="y" why={`${r.months} of 12 months counted: a partial year, its counted months only.`}>{r.label}, partial</Hint> : r.label, ...cells(r.solar, "solar"), ...cells(r.wind, "wind")] };
   });
+  // session 186: what the scenarios read. Every figure is one the page shows elsewhere, for the hub, asset and size chosen.
+  const assetWords = fuel ? plantName : x.asset === "battery" ? `a ${durationOf(x.mw, x.mwh)}-hour battery` : "a gas peaker";
+  const facts: Facts = {
+    mw: x.mw,
+    size: fuel ? `${sizeLabel} of ${plantName}` : x.asset === "battery" ? `a ${sizeLabel} battery` : `a ${sizeLabel} gas peaker`,
+    costs: { capex: D.capex, fom: D.fom, life: D.life, capexNote: `${D.capexRange} for ${assetWords}`, fomNote: `${D.fomRange} for ${assetWords}`, lifeNote: `${D.life} years for ${assetWords}` },
+    twelve: s.twelve ? { revenueKw: s.twelve.revenue_kw, energyKw: s.twelve.energy / 1000, span: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}`, at } : null,
+    twelveWhy, money,
+    capture: fuel
+      ? mine && mine.flat ? { price: mine.price, flat: mine.flat, ratio: (100 * mine.price) / mine.flat, words: `${MARKETS[mk].toLowerCase()}, ${shortMonth(mine.from)} to ${shortMonth(mine.to)}` } : null
+      : s.twelve && s.twelve.capture !== null && s.twelve.rate !== null ? { price: s.twelve.capture, flat: s.twelve.flat, ratio: s.twelve.rate, words: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}` } : null,
+    captureLabel: fuel ? "Capture price and ratio" : peaker ? "Price while running, and ratio" : "Price while selling, and ratio",
+    captureWhy: fuel ? why(hub, fuel, mk) : twelveWhy,
+    lowest: sm.worst[0] ? { month: longMonth(sm.worst[0].m), usd: sm.worst[0].revenue, months: sm.n } : null,
+    contract: fuel ? "energy" : "toll",
+    battery: pair ? { withIt: Math.round(pair.pair), without: Math.round(pair.plant), words: `${pairSpan}, a ${bmw.toLocaleString("en-US")} MW, ${dur}-hour battery, priced at ${g.at}` } : null,
+    batteryWhy: !fuel ? "A battery beside the plant is modeled for a solar or a wind plant." : !BATTERY_GRIDS.includes(iso) ? battWhy
+      : `No twelve months in a row hold ${g.name}'s day-ahead price and its ${plantName} fleet's output on at least 90 percent of their days.`,
+  };
   const yearHead = ["", "Solar, received", "Flat average", "Difference", "Percent", "Wind, received", "Flat average", "Difference", "Percent"];
 
   return (
@@ -287,9 +345,9 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
       <ToolHeader
         title="What a generator earns"
         crumb={<CostTabs active="sell" />}
-        lead={<>What a solar plant, a wind plant, a battery or a gas peaker earned selling at the hub price: by month and by year, the price it received against the flat average at every public hub, and whether that covers its debt, with and without a contract. <Link href={METHOD}>Method note</Link>.</>}
+        lead={<>What a solar plant, a wind plant, a battery or a gas peaker earned selling at the hub price: by month and by year, the price it received against the flat average at every public hub, and whether that covers its debt, with and without a contract. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
-      {x.iso === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/seller", title: "What a generator earns", settings: { grid: "ERCOT", asset: ASSET_NAMES[x.asset], size: sizeLabel } }} /> : null}
+      {x.iso === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/seller", title: "What a generator earns", settings: { grid: "ERCOT", hub: hubName(hub.id), asset: ASSET_NAMES[x.asset], size: sizeLabel } }} /> : null}
       <ContractProvider>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
@@ -301,10 +359,15 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
             </InputPanel>
           </aside>
 
-          <div className="min-w-0">
+          <div className="min-w-0" data-priced-hub={priced.isos[iso].hub} data-priced-market={atHub ? he!.market : "rt"}>
+            {!mainHub && !atHub ? (
+              <p className="mb-4 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-hub-model="none">
+                The model holds no month at {hubAt(hub.id)}: revenue, the months and debt coverage below are priced at {g.at}.
+              </p>
+            ) : null}
             {held.length === 0 ? (
               <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status" data-seller2-none="1">
-                No month of {a.name.toLowerCase()} is held for {g.name}, so no number is shown{x.asset === "solar" && iso === "nyiso" ? ": EIA-930 itemizes no solar generation for New York" : ""}.
+                No month of {a.name.toLowerCase()} is held for {g.name}{atHub ? ` at ${hubAt(hub.id)}` : ""}, so no number is shown{x.asset === "solar" && iso === "nyiso" ? ": EIA-930 itemizes no solar generation for New York" : ""}.
               </p>
             ) : (
               <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
@@ -316,7 +379,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
             <HeadlineRow>
               <HeadlineNumber label={`${money}, last twelve months`}
                 value={s.twelve ? <span data-stat="l12_kw">{usd(s.twelve.revenue_kw)}</span> : <Missing why={twelveWhy} />} unit={s.twelve ? "USD/kW" : undefined}
-                note={s.twelve ? <>{shortMonth(s.twelve.from)} to {shortMonth(s.twelve.to)}, priced at {g.at}</> : null} />
+                note={s.twelve ? <>{shortMonth(s.twelve.from)} to {shortMonth(s.twelve.to)}, priced at <span data-stat="priced_at">{at}</span></> : null} />
               {fuel ? (
                 <HeadlineNumber label={`Price received at ${hubAt(hub.id)}`}
                   value={mine ? <span data-stat="cap_price">{two(mine.price)}</span> : <Missing why={why(hub, fuel, mk)} />} unit={mine ? "USD/MWh" : undefined}
@@ -362,7 +425,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
             {held.length ? (
               <>
                 <ChartFrame title={`${money} by year, USD per kW`} legend={[{ label: "A full year", color: "#8C1515" }, { label: "Incomplete year", color: "#8C1515", hatch: true }]}
-                  note={<>Per kW of nameplate, priced at {g.at}. {g.name} is held from {shortMonth(held[0].m)}.</>}>
+                  note={<>Per kW of nameplate, priced at {at}. {atHub ? hubName(hub.id) : g.name} is held from {shortMonth(held[0].m)}.</>}>
                   <RevenueYears rows={ys.map((y) => ({ y: y.y, complete: y.complete, v: y.revenue / 1000, months: y.months }))} money={money} label={`${a.name} in ${g.name}: ${money.toLowerCase()} by year, USD per kW`} />
                 </ChartFrame>
 
@@ -384,6 +447,10 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
               <ContractResult plant={plant} mw={x.mw} hub={hubAt(hub.id)} span={mine ? `${shortMonth(mine.from)} to ${shortMonth(mine.to)}` : null} why={contractWhy} />
             </ToolSection>
 
+            <ToolSection title="Scenarios A and B" id="scenarios">
+              <SellerScenarios key={`${iso}|${hub.id}|${k}`} facts={facts} initial={q} />
+            </ToolSection>
+
             <ToolSection title="With a battery beside it" id="hybrid">
               {!hybrid ? (
                 <p className="text-sm">A solar or wind plant with a 2, 4 or 8 hour battery: <Link href={`/cost-of-power/seller?iso=${iso}&asset=solar&hub=${encodeURIComponent(hub.id)}#hybrid`} scroll={false}>open it for solar</Link>.</p>
@@ -391,6 +458,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                 <p className="text-sm" data-hybrid="none"><Missing why={battWhy} words="not modeled for this grid" /></p>
               ) : (
                 <>
+                  {!mainHub ? <p className="mb-2 text-xs text-muted" data-hybrid-at="1">Both rows are priced at {g.at}, {g.name}&apos;s main hub, whatever hub is chosen.</p> : null}
                   <ToolTable caption={`A ${plantName} plant, a battery, the co-optimized pair and the two added`} minWidth={620}
                     head={["", "Plant alone", "Battery alone", <Hint key="p" why="One interconnection: the battery charges from the plant or the grid and sells when the pair earns most. Hover on the figure for its rules.">Co-optimized pair</Hint>,
                       <Hint key="a" why="The two assets priced as if each stood alone, their revenues added. Hover on each figure for what it holds.">Added, not co-optimized: upper bound</Hint>]}
@@ -436,7 +504,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
               )}
             </ToolSection>
 
-            <ToolSection title={`Month by month: ${a.name.toLowerCase()}, ${sizeLabel}, at ${g.name} ${snap.isos[iso].hub}`} id="months">
+            <ToolSection title={`Month by month: ${a.name.toLowerCase()}, ${sizeLabel}, at ${g.name} ${priced.isos[iso].hub}${atHub ? `, ${HB.marketWords(he!.market)} prices` : ""}`} id="months">
               {sm.n ? (
                 <>
                   <p className="mb-2 max-w-3xl text-sm">
@@ -498,7 +566,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                     <p className="mt-2 text-xs text-muted">For {sizeLabel}, on the local days of each event.</p>
                   </>
                 ) : (
-                  <p className="text-sm"><Missing why={`The stress days are ERCOT's: ${g.name}'s hub prices are held from ${longMonth(Object.keys(snap.isos[iso].months).sort()[0])} only, after these events.`} words={iso === "ercot" ? "not held yet" : "ERCOT only"} /></p>
+                  <p className="text-sm"><Missing why={`The stress days are ERCOT's: ${g.name}'s hub prices are held from ${longMonth(Object.keys(priced.isos[iso].months).sort()[0])} only, after these events.`} words={iso === "ercot" ? "not held yet" : "ERCOT only"} /></p>
                 )}
               </Fold>
               <Fold title="The fleet's hours as EIA reports them">
@@ -513,7 +581,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
         </div>
       </ContractProvider>
       <SourceLine tables={["merchant_revenue_monthly", "eia_fuel_spot_prices", "eia860m_operating_generators", ...new Set(cg.hubs.flatMap((h) => [...(h.rt?.tables ?? []), ...(h.da?.tables ?? [])])), ...(batt ? [B.TABLE] : [])]}
-        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>.</>} />
+        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>.</>} />
     </ToolPage>
   );
 }

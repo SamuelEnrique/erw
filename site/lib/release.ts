@@ -41,6 +41,7 @@ export const RELEASE: Record<string, Status> = {
   "/data/methods/battery_stack": "review",
   "/data/methods/battery_earns_algorithm": "review",  // session 178: every number of the battery page, step by step
   "/data/methods/cost_of_power": "review",
+  "/data/methods/generator_earns_algorithm": "review",  // session 183: every number of the seller page, step by step
   "/data/methods/grid_network": "review",
   "/data/methods/storage": "review",
 
