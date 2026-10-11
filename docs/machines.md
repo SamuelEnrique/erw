@@ -378,3 +378,111 @@ Three limits, from the reference, to keep in mind:
   deny rules always apply. `.claude/settings.local.json` is the place for one machine's own rules; it is not in git.
 
 The rules reduce how often a session asks. They do not choose the mode a chain runs in (`defaultMode` is not set here).
+
+## Continuous work (session 188)
+
+Four pieces keep a machine working without a person at it, and tell a person when it is not: a precheck every session
+runs first, a queue of prompt files a chain draws its next work from, an alarm for a machine on duty that has run
+nothing, and one page of what waits for Samuel.
+
+### The precheck: what every session runs first
+
+```bash
+python scripts/precheck.py --what "session 188"             # the checks; on a pass the machine goes on duty
+python scripts/precheck.py --what "session 188" --dry-run   # the same checks; nothing is sent, and no duty mark
+```
+
+Every session runs it before anything else, and every chain file names it as its first rule
+(`queue/CHAIN_TEMPLATE.md`). Six lines, each a name, pass or fail, and a plain reason:
+
+| Check | Passes when |
+|---|---|
+| `github_credentials` | a way to sign in to GitHub is on the machine: `GH_TOKEN` (or `GITHUB_TOKEN`), a git credential helper, or an ssh address for origin. Names only |
+| `push_dry_run` | `git push --dry-run origin HEAD:refs/heads/wip/precheck-<machine>` answers. A dry run signs in and creates nothing; it cannot ask at the keyboard and stops at 90 seconds |
+| `claude_signed_in` | `claude auth status` says signed in. No session is started and no prompt is sent: no model call. A CLI too old for that command is read from its credentials file or the environment |
+| `role_file` | `.erw/machine.json` is there and names the machine and its role. A git worktree has no `.erw/` and reads the main checkout's |
+| `env_keys` | `.env` (or the environment) holds every key the role needs, the lists of `scripts/setup.sh`, and the two the alerts need (`RESEND_API_KEY`, `DIGEST_RECIPIENTS`). Names only: no value is printed |
+| `daily_cap` | the daily cap of the scheduled model steps can be read as `warehouse/health.py budget` reads it: `DAILY_MODEL_USD` is a number of dollars (or unset: the default), and the day's spend answers from the cost ledger on the machine or from Supabase's copy |
+
+- **All pass:** exit 0, and the machine is on duty (below).
+- **Any fails:** exit 1. The precheck writes a short report to `runs/precheck/<time>-<machine>.md` (every check with
+  its reason), sends one line to the fixed recipients through `scripts/alert.py`'s sender (the same-day address:
+  `DIGEST_RECIPIENTS`, never printed), and ends. It does not wait for a person, and the session starts no work. A line
+  that could not be sent (the key is one of the things missing) is said in the report and on the screen.
+- It makes no model call and writes nothing to the warehouse. Its one write is the duty mark, and only on a pass.
+
+### The chain queue: what a machine runs next
+
+```
+queue/next/NNN-<slug>.md    a whole prompt file (a chain, or one session), waiting; taken in name order
+queue/done/NNN-<slug>.md    taken: the file as it was run
+```
+
+```bash
+python scripts/chain_queue.py list
+python scripts/chain_queue.py next [--dry-run]
+```
+
+`python scripts/chain_queue.py next` is the last step of a chain's last session (the last rule of
+`queue/CHAIN_TEMPLATE.md`).
+
+- **A file waits:** it is moved to `queue/done/` in one commit that holds that move and nothing else, and its new path
+  is the last line printed (exit 0). The session reads that file and runs it. The commit is on the branch the session
+  is on and is not pushed by the command: a push to main deploys, and rule 8 of `CLAUDE.md` governs it.
+- **Nothing waits:** one row of `erw_health` through `warehouse/health.py`'s own writer (step `idle`, status `ok`,
+  workflow `local:<machine>`: the table's statuses are ok, skipped, retried and failed, so idle is the step), one line
+  by email to the fixed recipients, the machine off duty, and exit 3.
+- A name that is not `NNN-<slug>.md`, and a name of the task queue below (`NNN-code-`, `NNN-data-`), is left where it
+  is and never run.
+- This is not the task queue of "The queue and the worker" above: that one hands single tasks to whichever worker
+  claims them, by role, and its claim is a push. `queue/README.md` describes both.
+- One machine draws from `queue/next/` at a time. A second machine that has not pulled the move would take the same
+  file.
+
+### The idle alarm: a machine on duty that has run nothing
+
+```bash
+python scripts/duty.py status          # this machine's mark, and what the check would say of every machine on duty
+python scripts/duty.py beat            # a sign of work nothing else shows: before a long build or pull
+python scripts/duty.py off             # signing off: the machine is no longer watched
+python scripts/duty.py check --dry-run
+```
+
+- **On duty** is one row, `duty:<machine>`, of `erw_locks`, taken through the lock's own functions as the chain's mark
+  is (migration 016: no new table, no migration). It names the machine, what it is on duty for, since when, its last
+  sign of work, and when it lapses by itself (16 hours after the precheck). It is not the data lock and blocks nothing.
+  The token is in `.erw/duty.json` of the machine's main checkout.
+- **From the precheck until idle or sign-off.** A passing precheck writes the mark. `python scripts/chain_queue.py
+  next` with nothing waiting removes it, and so does `python scripts/duty.py off`.
+- **A sign of work** is a commit, a push or a beat made on that machine. The git hooks in `scripts/githooks/` renew the
+  mark at each commit and each push, from the main checkout and from any worktree of it (the hook finds the main
+  checkout's `.erw/`), so a chain whose sessions each work in a worktree is seen. GitHub cannot say which machine
+  pushed a commit, so this check reads the marks and not GitHub.
+- **The check** is the second step of `.github/workflows/chain-watch.yml`, every 15 minutes, on GitHub and not on the
+  machine: a machine on duty that has run nothing for 30 minutes gets one line, "The machine samueloldlaptop, on duty
+  for "session 188", has run nothing for 37 minutes: its last sign of work was a commit, a push or a beat at 06:48
+  UTC. On duty since 05:52 UTC." It says so once at 30 minutes and again every hour after (90, 150, ...). A mark that
+  lapsed without idle or sign-off is said once. Each machine on duty is judged by itself.
+- It runs under `warehouse/health.py` (step `idle alarm`) and never fails the job; it adds no secret and no schedule.
+- **A long step is a silence**, as for the chain: run `python scripts/duty.py beat` before a build or a pull of more
+  than half an hour.
+- **The chain's own mark** (`python scripts/alert.py chain start`, above) still works and asks a different question:
+  has anybody pushed anything to the repository. A chain written from the template uses the precheck and the duty
+  mark; one that also marks itself gets two lines for one silence.
+
+### What waits for Samuel: `/internal/waits`
+
+- The page lists, newest first, every session report after the last one he answered: the report's number, title and
+  date, each thing it leaves for his ruling in the report's own words with its line, and a link to the report on
+  GitHub. A report with nothing waiting is not listed. What a session decided without him is folded under the report.
+- **The last one he answered is a file a person edits:** `archive/sessions/LAST_ANSWERED`, two lines, `last_answered:
+  186` and `on: 2026-10-11` (a line beginning with `#` is a note). To mark reports as answered, write the newest
+  answered report's number there, commit and push: that report and every one before it leave the page. A file that
+  cannot be read hides nothing: every report is listed and the page says the file could not be read.
+- **Where it comes from.** `site/scripts/build-waits.mjs` reads `archive/sessions/` before every build of the site, as
+  `build-content.mjs` reads `docs/`, and writes `site/content/waits.json` (not in git). The rule of what counts as
+  waiting is in that script: every item of a section headed for him ("For Samuel's ruling", "To finish (Samuel)", "Open
+  questions"), and any item elsewhere that says so itself ("your ruling", "your approval", "Rule on ..."). It reads
+  words: it can list a line that no longer waits and miss one worded another way. The report is the record.
+- The page checks the internal cookie as the other `/internal` pages do (open `/internal/open` first), is linked from
+  nothing, and answers 404 to a visitor.
