@@ -108,7 +108,11 @@ const T = C.hubYears(FILE);
     'MISO is a row of words, "paused while terms are reviewed", PJM "licensed source needed", and no hub of either is in the table');
   check(["hub-years", "profile", "hybrid"].every((id) => html.includes(`<section id="${id}"`)) && text.includes("Capture price by hub and year") && text.includes("Your plant's profile")
     && text.includes("Computed on this device. Nothing you paste or upload is sent or stored."), "the three blocks are on the page, and the profile box says on its face that nothing is sent or stored");
-  const noLabel = text.split("Added, not co-optimized: upper bound").join(" ");
+  // session 186: the block "Scenarios A and B" is the reader's own assumptions, asked for by name (the owner's rule of
+  // 10 October 2026: every tool lets the user set the few assumptions that matter, each with its cited default). There
+  // the word names the inputs and is not method prose, so the block is left out of this scan; the rest of the face is
+  // held as before, and the block's own words by scripts/check-seller-scenarios.mjs.
+  const noLabel = plain(html.replace(/<section id="scenarios"[\s\S]*?<\/section>/, " ")).split("Added, not co-optimized: upper bound").join(" ");
   const words = /upper bound|merchant only|does not tell|how it is measured|how a lender|not a site|limitation|cannot see|assum/i;
   check(!words.test(noLabel) && !/\bundefined\b|NaN/.test(text) && !page.html.includes(String.fromCharCode(0x2014)), `no method prose on the face beyond the owner's label, no "undefined", no NaN, no em dash${words.test(noLabel) ? ` (found "${words.exec(noLabel)[0]}")` : ""}`);
 }
