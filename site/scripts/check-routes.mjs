@@ -67,6 +67,7 @@ const PAGES = [
   "/data/methods/battery_stack", "/data/methods/grid_network", "/data/methods/storage",
   "/data/methods/battery_earns_algorithm",  // session 178: the battery page, every number step by step (in review)
   "/data/methods/generator_earns_algorithm", "/cost-of-power/seller?iso=ercot&asset=solar&hub=HB_WEST",  // session 183: the seller page, every number step by step, and the page priced at another hub (in review)
+  "/data/methods/datacenter_pays_algorithm",  // session 190: "What a datacenter pays", every number step by step (in review)
   // session 72 (session 69's finish): the storage build-out, in review
   "/storage/buildout", "/storage/buildout?grid=ercot&measure=mwh", "/data/methods/storage_buildout",
   "/shoulder", "/shoulder?grid=caiso&month=2025-07", "/data/methods/shoulder_hours",  // session 75

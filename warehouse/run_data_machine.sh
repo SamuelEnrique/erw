@@ -20,6 +20,9 @@
 #        free_energy          site/data/curtailment/free_energy.json
 #        curtailment_worth    site/data/curtailment/worth.json
 #      and, where node is installed, each file's own test (a file whose test fails is put back as it was);
+#      then (session 190) the replication CSV of /cost-of-power's default case, written again from the datacenter
+#      files as they now stand (warehouse/derived/datacenter_hourly_export.py: it reads those files and no table, and
+#      leaves the CSV as it was when no hour of the default case moved or when its own check fails);
 #   4. the commit: the page files and the metadata the refresh changed, committed to main and pushed, as a data task
 #      is (docs/machines.md: "Data tasks do not use branches: they commit to main under the data lock").
 #
@@ -55,7 +58,8 @@ CHECK=0
 HISTORIES="ercot_all_hub_prices_history ercot_zone_prices_history iso_zone_prices_history"
 ZONES=ercot_zone_prices_history
 PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtailment/shares.json
-            site/data/curtailment/free_energy.json site/data/curtailment/worth.json)
+            site/data/curtailment/free_energy.json site/data/curtailment/worth.json
+            site/public/datacenter/erw_2026_datacenter_hourly.csv)
 META_PATHS=(warehouse/metadata/coverage.csv docs/coverage.md warehouse/metadata/sources.csv
             warehouse/metadata/archive_manifest.csv warehouse/metadata/redivis_uploads.csv)
 
@@ -176,6 +180,10 @@ if command -v node >/dev/null 2>&1 && [ -d site/node_modules ]; then
 else
   echo "node or site/node_modules is not here: the files' own tests were not run" | tee -a "$status"
 fi
+# Session 190: the hours of /cost-of-power's default case as the page's files now hold them, for the page's download
+# and its do-file (tests/test_session190_replication.py holds the CSV to those files). After the files are final:
+# a datacenter file put back above is the one exported. It reads no table and writes nothing but the CSV.
+soft_step dm_datacenter_export "$PYTHON" warehouse/derived/datacenter_hourly_export.py
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"
