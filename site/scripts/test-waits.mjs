@@ -8,7 +8,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { build, headKind, items, parseMarker, parseReport, reportDate, reportId, INLINE } from "./build-waits.mjs";
+import { build, headKind, items, own, parseMarker, parseReport, reportDate, reportId, INLINE } from "./build-waits.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, "..", "..");
@@ -44,13 +44,16 @@ for (const h of ["For Samuel's ruling", "For Samuel", "For Samuel: one list", "T
   eq(headKind(h), "wait", `the heading "${h}"`);
 }
 for (const h of ["To finish", "For the coordinator", "Your rulings, applied", "Rulings applied", "Thesis Builder: the four rulings as built", "Read these first",
-  "Verdict: ready to open, once two things are ruled", "What to review (internal view)", "The landing", "Checks run", "Found, not changed"]) {
+  "Verdict: ready to open, once two things are ruled", "The landing", "Checks run", "Found, not changed"]) {
   eq(headKind(h), "none", `the heading "${h}"`);
 }
 for (const h of ["Decisions made without you", "Decisions made without a human", "Decisions made alone", "Decisions I made without you", "Decisions made without you (part 4)", "9. Decisions made without a human"]) {
   eq(headKind(h), "decided", `the heading "${h}"`);
 }
 eq(headKind("The prompt"), "prompt", "the owner's own words");
+for (const h of ["What to review", "What to review (internal view)", "What to click on /analysis (internal view first)", "What to click"]) {
+  eq(headKind(h), "steps", `the heading "${h}"`);
+}
 
 // --- an item that says itself that it waits
 for (const t of ["They need your ruling (below).", "Open. Your ruling", "Open, your word. Recommend keeping both", "A NYISO pull: your approval, after your ruling on NYISO's terms",
@@ -62,6 +65,8 @@ for (const t of ["Closed: you ruled, 7 October", "Done per your ruling of 7 Octo
   "queued: it waits for the data machine", "The coordinator lands it.", "Nothing is held.", "The ruling of the commission is quoted."]) {
   ok(!says(t), `an item that does not wait: "${t}"`);
 }
+ok(!says(own('Heading "Waits for Samuel (internal)". Open /internal/waits.')), "the page's own name is not a wait");
+ok(says(own("The file waits for Samuel's word (see /internal/waits).")), "an item that waits and names the page");
 
 // --- a section's items
 const lines = (text) => text.split("\n").map((t, i) => ({ n: i + 10, text: t }));
@@ -82,6 +87,10 @@ const REPORT = `# Session 900 report: a tool, decisions
 
 - Built: one section.
 - Two defaults have no source. They need your ruling (below).
+
+## What to review
+
+1. Open the page. Heading "Waits for Samuel (internal)". The box says your ruling is recorded in a file.
 
 ## Decisions made without you
 
@@ -117,9 +126,10 @@ const REPORT = `# Session 900 report: a tool, decisions
 `;
 const r = parseReport("SESSION_900_REPORT.md", REPORT);
 eq([r.id, r.title, r.date, r.date_words], ["900", "a tool, decisions", "2026-10-11", "11 October 2026"], "the report's number, title and date");
-eq(r.waits.map((w) => [w.kind, w.line, w.section]), [["section", 17, "For Samuel's ruling"], ["section", 18, "For Samuel's ruling"], ["section", 23, "A part of it"],
-  ["inline", 8, "Read these first"], ["inline", 13, "Decisions made without you"], ["inline", 32, "To finish"]], "what waits, its own section first");
-eq(r.decided.map((d) => d.line), [12], "what was decided without the owner, less the item that waits");
+eq(r.waits.map((w) => [w.kind, w.line, w.section]), [["section", 21, "For Samuel's ruling"], ["section", 22, "For Samuel's ruling"], ["section", 27, "A part of it"],
+  ["inline", 8, "Read these first"], ["inline", 17, "Decisions made without you"], ["inline", 36, "To finish"]], "what waits, its own section first");
+eq(r.decided.map((d) => d.line), [16], "what was decided without the owner, less the item that waits");
+ok(r.waits.every((w) => w.section !== "What to review"), "the click steps are not read, whatever words they quote from a page");
 ok(r.waits.every((w) => !w.md.includes("Merge the branch") && !w.md.includes("Report for Samuel")), "the coordinator's list and the prompt are not read");
 ok(r.url.endsWith("/blob/main/archive/sessions/SESSION_900_REPORT.md"), "the report's address on GitHub");
 eq(parseReport("SESSION_901_REPORT.md", "# Session 901: nothing\n\nNo date here.\n\n## To finish\n\n- Nothing is held.\n").waits, [], "a report with nothing waiting");
@@ -173,7 +183,7 @@ for (const x of real.reports) {
       ? first.replace(/^\*\*[^*]*:\*\* /, "").replace(/ {2}$/, "") === src.trim().replace(/^\|/, "").split(/(?<!\\)\|/)[0].trim()
       : src === first;
     ok(same, `session ${x.id}, line ${it.line}: the item is not the report's line`);
-    ok(!it.md.includes("—"), `session ${x.id}, line ${it.line}: an em dash`);
+    ok(!it.md.includes(String.fromCharCode(0x2014)), `session ${x.id}, line ${it.line}: an em dash`);
   }
 }
 ok(real.reports.length === 0 || checked > 0, "items were compared with the reports");

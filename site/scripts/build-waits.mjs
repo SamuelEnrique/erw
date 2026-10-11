@@ -14,7 +14,7 @@
 //      "Held for your approval" and the like (WAIT_HEAD below);
 //   2. any item elsewhere in the report that says so itself: "your ruling", "you rule", "to be confirmed by Samuel",
 //      "Rule on items 3 and 16", "Samuel: fill ..." (INLINE below). The section "The prompt" is the owner's own
-//      words and is not read.
+//      words and is not read; neither are the click-by-click steps ("What to review"), which quote the pages.
 // What was decided without him ("Decisions made without you", "Decisions made alone") is kept beside it, folded: it
 // does not wait, and he may overrule it. A report with nothing waiting is not listed.
 //
@@ -41,7 +41,9 @@ export const WAIT_HEAD = [
   /\bneeds? (your|samuel's|the owner's) (ruling|approval|decision)\b/i,
 ];
 // a heading that speaks of rulings already given, or is not a list of anything
-export const NOT_WAIT_HEAD = /\b(applied|as built|settled|answered|closed)\b|^verdict\b|^what to (review|click)\b/i;
+export const NOT_WAIT_HEAD = /\b(applied|as built|settled|answered|closed)\b|^verdict\b/i;
+// the click-by-click steps quote the pages' own words ("Waits for Samuel", "your ruling"): they are not read
+export const STEPS_HEAD = /^what to (review|click)\b/i;
 export const DECIDED_HEAD = /^(\d+\.\s*)?decisions? (i )?made (without (you|a human)|alone)\b/i;
 export const PROMPT_HEAD = /^the prompt\b/i;
 
@@ -61,6 +63,11 @@ export const INLINE = [
 ];
 // an item of a section for the owner that says there is nothing
 const NOTHING = /^\W*(?:nothing|none|no item|not applicable)\b/i;
+
+/** An item's text without this page's own name and address, which hold the words "waits for Samuel". */
+export function own(text) {
+  return String(text).replace(/waits for samuel \(internal\)/gi, " ").replace(/\/internal\/waits\b/gi, " ").replace(/"waits for samuel"/gi, " ");
+}
 
 /** SESSION_180B_REPORT.md: { id: "180b", n: 180, suffix: "b", order: 18002 }; null for any other name. */
 export function reportId(file) {
@@ -101,6 +108,7 @@ export function parseMarker(text) {
 export function headKind(text) {
   const h = text.trim();
   if (PROMPT_HEAD.test(h)) return "prompt";
+  if (STEPS_HEAD.test(h)) return "steps";
   if (DECIDED_HEAD.test(h)) return "decided";
   if (!NOT_WAIT_HEAD.test(h) && WAIT_HEAD.some((re) => re.test(h))) return "wait";
   return "none";
@@ -195,10 +203,10 @@ export function parseReport(file, raw) {
   let buf = [];
   let fence = false;
   const close = () => {
-    if (sec.kind !== "prompt") {
+    if (sec.kind !== "prompt" && sec.kind !== "steps") {
       for (const it of items(buf)) {
-        const says = INLINE.some((re) => re.test(it.plain.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/[*_`]/g, "")));
         const bare = it.plain.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/[*_`]/g, "");
+        const says = INLINE.some((re) => re.test(own(bare)));
         if (sec.kind === "wait") {
           if (!(NOTHING.test(bare) && bare.length < 200 && !says)) waits.push({ section: sec.text, line: it.line, md: it.md, kind: "section" });
         } else if (says) {

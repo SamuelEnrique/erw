@@ -453,7 +453,12 @@ python scripts/duty.py check --dry-run
   sign of work, and when it lapses by itself (16 hours after the precheck). It is not the data lock and blocks nothing.
   The token is in `.erw/duty.json` of the machine's main checkout.
 - **From the precheck until idle or sign-off.** A passing precheck writes the mark. `python scripts/chain_queue.py
-  next` with nothing waiting removes it, and so does `python scripts/duty.py off`.
+  next` with nothing waiting removes it, and so does `python scripts/duty.py off`. A session that no other follows and
+  that does not end on the queue step signs off with `python scripts/duty.py off`, or the alarm reports the machine half
+  an hour later. A session with a person at the keyboard runs the precheck with `--no-duty`.
+- **The mark is the machine's, not a session's.** Several sessions on one machine (one worktree each) share it: each
+  precheck renames it for the newest work, any of their commits renews it, and one sign-off takes the whole machine off
+  duty. The last session to finish is the one that signs off.
 - **A sign of work** is a commit, a push or a beat made on that machine. The git hooks in `scripts/githooks/` renew the
   mark at each commit and each push, from the main checkout and from any worktree of it (the hook finds the main
   checkout's `.erw/`), so a chain whose sessions each work in a worktree is seen. GitHub cannot say which machine
