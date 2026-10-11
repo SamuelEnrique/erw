@@ -131,7 +131,13 @@ Outputs under `runs/session189/` (ignored by git).
 
 ## Landing
 
-LANDING: filled in by the orchestrating session
+- Landed first of the three: it was ready before sessions 188 and 190, and it changes no page.
+- Branch `wip/189-positioning`, commit `1e615f87`, pushed as `task/189-positioning` on 11 October 2026 at 07:35 UTC. GitHub's checks passed (run 38121843666). Merge on `main`: `9070c381`.
+- Before the push: `python scripts/freeze.py status` exit 0 (no freeze); the whole suite in a clean copy of the commit, exit 0.
+- Vercel: production deployment of `9070c381`, success (07:44 UTC).
+- Snapshots: `s189-before` (07:34 UTC) and `s189-after` (07:44 UTC), 25 pages each, 0 failed. Comparison: **0 differences on 25 pages.** Nothing to mark.
+- The remote branch `wip/189-positioning` was deleted after the merge.
+- These lines reached `main` with session 188's landing.
 
 ## The prompt
 
