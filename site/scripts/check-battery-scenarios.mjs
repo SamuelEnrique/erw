@@ -207,7 +207,7 @@ try {
   check(s.fields.every((f) => Number(f.value) === d[f.key] && Number(f.def) === d[f.key]), "each field holds its default", s.fields.map((f) => `${f.key} ${f.value}`).join(", "));
   check(s.fields.every((f) => f.reset && f.resetOff === true), "each has a Reset, idle at the default");
   check(s.fields.every((f) => /^Default [\d,.]+\. .{12,}\.$/.test(f.source)), "each states its default and where the default comes from", s.fields.find((f) => !/^Default [\d,.]+\. .{12,}\.$/.test(f.source))?.source ?? "");
-  check(s.fields.filter((f) => /Lazard, Levelized Cost of Energy\+, June 2025/.test(f.source)).length === 7, "seven defaults cite Lazard's June 2025 report", s.fields.filter((f) => !/Lazard/.test(f.source)).map((f) => f.key).join(", "));
+  check(s.fields.filter((f) => /Lazard, Levelized Cost of Energy\+, June 2025/.test(f.source)).length === 9, "nine defaults cite Lazard's June 2025 report (session 196: the degradation and the hurdle rate among them)", s.fields.filter((f) => !/Lazard/.test(f.source)).map((f) => f.key).join(", "));
   check(s.resetAll === "Reset all of A" && s.copy === "Copy A to B", "one Reset for all, and Copy A to B", `${s.resetAll}; ${s.copy}`);
   check(JSON.stringify(s.rows) === JSON.stringify(["revenue", "p10", "coverage", "npv", "irr", "toll", "tail", "differs"]), "seven rows in order, then the row in words", s.rows.join(", "));
   check(s.headA.length === 0 && s.headB.length === 0 && s.words === "A and B hold the same assumptions.", "equal scenarios: nothing in the headers", s.words);
@@ -217,7 +217,7 @@ try {
   const r0 = F.resultOf(d, s.l12kw);
   check(near(s.cells["a|npv"].raw, r0.npv) && near(s.cells["a|toll"].raw, r0.toll) && near(s.cells["a|tail"].raw, r0.tail.pv) && (r0.irr === null ? s.cells["a|irr"].raw === null : near(s.cells["a|irr"].raw, r0.irr)),
     "NPV, IRR, the toll and the tail are the library's on the page's revenue", `${s.cells["a|npv"].text} | ${s.cells["a|irr"].text} | ${s.cells["a|toll"].text} | ${s.cells["a|tail"].text}`);
-  check(/^Scenario A, 100 MW, 4-hour: at a hurdle rate of 8 percent, NPV is USD -?[\d,.]+( million| billion)?\.$/.test(s.sentence ?? ""), "the sentence states the number", s.sentence ?? "");
+  check(/^Scenario A, 100 MW, 4-hour: at a hurdle rate of 9.6 percent, NPV is USD -?[\d,.]+( million| billion)?\.$/.test(s.sentence ?? ""), "the sentence states the number", s.sentence ?? "");
   check(s.steps === "held" && JSON.stringify(s.fields.find((f) => f.key === "rte").options) === JSON.stringify(STEPS.rte_steps.map(String)) && JSON.stringify(s.fields.find((f) => f.key === "cycles").options) === JSON.stringify(STEPS.cycle_steps.map(String)),
     "efficiency and cycles offer exactly the steps the model was run at", `${s.steps}: ${s.stepsText}`);
   await shot("scenarios-default-desktop", 1280);
@@ -246,9 +246,9 @@ try {
   check(near(s.cells["b|revenue"].raw, rev92, 1e-9) && s.cells["b|revenue"].raw > s.cells["a|revenue"].raw, "B's revenue at 92 percent and two cycles is the model's own run in the file of steps", `${s.cells["b|revenue"].text} against ${s.cells["a|revenue"].text}`);
   const rb = F.resultOf(b1, rev92);
   check(near(s.cells["b|npv"].raw, rb.npv) && near(s.cells["b|tail"].raw, rb.tail.pv) && /years 11 to 20/.test(s.cells["b|tail"].text) && near(s.cells["b|toll"].raw, rb.toll), "B's NPV, toll and tail follow (a ten-year term leaves years 11 to 20)", `${s.cells["b|npv"].text} | ${s.cells["b|toll"].text} | ${s.cells["b|tail"].text}`);
-  check(s.headA.length === 5 && s.headB.length === 5 && s.words === "B: capex USD 1,110 per kW against 1,300; term 10 years against 20; round-trip efficiency 92 percent against 86; cycles a day 2 against 1; hurdle rate 10 percent against 8.", "five differences, in the headers and in words", s.words);
+  check(s.headA.length === 5 && s.headB.length === 5 && s.words === "B: capex USD 1,110 per kW against 1,300; term 10 years against 20; round-trip efficiency 92 percent against 86; cycles a day 2 against 1; hurdle rate 10 percent against 9.6.", "five differences, in the headers and in words", s.words);
   check(s.chartView === "b" && /scenario B/.test(s.legend), "the chart follows the scenario in view");
-  check(/^Scenario A, 100 MW, 4-hour: at a hurdle rate of 8 percent, NPV is USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`NPV is ${s.cells["a|npv"].text.match(/^USD -?[\d.,]+( million| billion)?/)[0]}.`),
+  check(/^Scenario A, 100 MW, 4-hour: at a hurdle rate of 9.6 percent, NPV is USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`NPV is ${s.cells["a|npv"].text.match(/^USD -?[\d.,]+( million| billion)?/)[0]}.`),
     "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
 
   // 7: the sensitivity chart

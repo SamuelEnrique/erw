@@ -206,7 +206,7 @@ try {
   check(s.fields.every((f) => Number(f.value) === d[f.key] && Number(f.def) === d[f.key]), "each field holds its default", s.fields.map((f) => `${f.key} ${f.value}`).join(", "));
   check(s.fields.every((f) => f.reset && f.resetOff === true), "each has a Reset, idle at the default");
   check(s.fields.every((f) => /^Default [\d,.]+\. .{12,}\.$/.test(f.source)), "each states its default and where the default comes from", s.fields.find((f) => !/^Default [\d,.]+\. .{12,}\.$/.test(f.source))?.source ?? "");
-  check(s.fields.filter((f) => /Lazard, Levelized Cost of Energy\+, June 2025/.test(f.source)).length === 6, "six defaults cite Lazard's June 2025 report", s.fields.filter((f) => !/Lazard/.test(f.source)).map((f) => f.key).join(", "));
+  check(s.fields.filter((f) => /Lazard, Levelized Cost of Energy\+, June 2025/.test(f.source)).length === 7, "seven defaults cite Lazard's June 2025 report (session 196: the hurdle rate among them)", s.fields.filter((f) => !/Lazard/.test(f.source)).map((f) => f.key).join(", "));
   check(/1,150 to 1,600 for solar/.test(s.fields[0].source) && /35 years for solar/.test(s.fields.find((f) => f.key === "life").source), "the capital cost and the life cite the asset's own range and life", s.fields[0].source);
   check(s.resetAll === "Reset all of A" && s.copy === "Copy A to B", "one Reset for all, and Copy A to B", `${s.resetAll}; ${s.copy}`);
   check(JSON.stringify(s.rows) === JSON.stringify(["revenue", "capture", "month", "coverage", "npv", "irr", "contract", "battery", "differs"]), "eight rows in order, then the row in words", s.rows.join(", "));
@@ -222,7 +222,7 @@ try {
   check(near(s.cells["a|npv"].raw, r0.npv) && (r0.irr === null ? s.cells["a|irr"].raw === null : near(s.cells["a|irr"].raw, r0.irr)) && near(s.cells["a|contract"].raw, F.contractPrice(d, tw.energyKw)),
     "NPV, IRR and the contract price are the library's on the page's revenue and energy", `${s.cells["a|npv"].text} | ${s.cells["a|irr"].text} | ${s.cells["a|contract"].text}`);
   check(near((s.cells["a|contract"].raw * tw.energyKw - d.fom) / F.debtService(d), 1.25, 1e-9), "at the contract price, coverage is 1.25", s.cells["a|contract"].text);
-  check(/^Scenario A, 100 MW of solar: at a hurdle rate of 8 percent, NPV is USD -?[\d,.]+( million| billion)?\.$/.test(s.sentence ?? ""), "the sentence states the number", s.sentence ?? "");
+  check(/^Scenario A, 100 MW of solar: at a hurdle rate of 9.6 percent, NPV is USD -?[\d,.]+( million| billion)?\.$/.test(s.sentence ?? ""), "the sentence states the number", s.sentence ?? "");
   const order = s.before.indexOf("Scenarios A and B");
   check(order > 0 && s.before[order - 1] === "With your contract" && s.before[order + 1] === "With a battery beside it", "the block stands after the contract and before the battery beside it", s.before.slice(order - 1, order + 2).join(" | "));
   await shot("seller-scenarios-default-desktop", 1280);
@@ -248,9 +248,9 @@ try {
   const rb = F.resultOf(b1, tw.revenueKw);
   check(near(s.cells["b|npv"].raw, rb.npv) && near(s.cells["b|coverage"].raw, rb.coverage) && near(s.cells["b|contract"].raw, F.contractPrice(b1, tw.energyKw)) && (rb.irr === null ? s.cells["b|irr"].raw === null : near(s.cells["b|irr"].raw, rb.irr)),
     "B's coverage, NPV, IRR and contract price follow", `${s.cells["b|coverage"].text} | ${s.cells["b|npv"].text} | ${s.cells["b|irr"].text} | ${s.cells["b|contract"].text}`);
-  check(s.headA.length === 4 && s.headB.length === 4 && s.words === "B: capex USD 1,375 per kW against 1,500; term 10 years against 35; degradation 0.5 percent a year against 0; hurdle rate 10 percent against 8.", "four differences, in the headers and in words", s.words);
+  check(s.headA.length === 4 && s.headB.length === 4 && s.words === "B: capex USD 1,375 per kW against 1,500; term 10 years against 35; degradation 0.5 percent a year against 0; hurdle rate 10 percent against 9.6.", "four differences, in the headers and in words", s.words);
   check(s.chartView === "b" && /scenario B/.test(s.legend), "the chart follows the scenario in view");
-  check(/^Scenario A, 100 MW of solar: at a hurdle rate of 8 percent, NPV is USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`NPV is ${s.cells["a|npv"].text.match(/^USD -?[\d.,]+( million| billion)?/)[0]}.`),
+  check(/^Scenario A, 100 MW of solar: at a hurdle rate of 9.6 percent, NPV is USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`NPV is ${s.cells["a|npv"].text.match(/^USD -?[\d.,]+( million| billion)?/)[0]}.`),
     "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
 
   // 6: the sensitivity chart
@@ -378,9 +378,9 @@ try {
     "wind: its own defaults (30 years), revenue, contract price, the pair with a battery, and the page's coverage", `${s.cells["a|revenue"].text} | ${s.cells["a|contract"].text}`);
   await go("/cost-of-power/seller?iso=ercot&asset=battery");
   s = await ev(STATE);
-  const db = F.defaultsOf(M.DEFAULTS.battery_4h), twb = twelveOf("ercot", "battery");
+  const db = F.defaultsOf({ ...M.DEFAULTS.battery_4h, deg: F.BATTERY_DEG }), twb = twelveOf("ercot", "battery");
   check(!s.bad && s.fields.every((f) => Number(f.value) === db[f.key]) && near(s.cells["a|revenue"].raw, twb.revenueKw) && near(s.cells["a|contract"].raw, F.breakevenToll(db)) && /toll/.test(s.labels.contract) && /kW-month/.test(s.labels.contract),
-    "a battery: the 4-hour defaults, and the contract row is a toll in USD per kW-month", `${s.cells["a|contract"].text}`);
+    "a battery: the 4-hour defaults (session 196: with Lazard's degradation of 2.6 percent a year), and the contract row is a toll in USD per kW-month", `${s.cells["a|contract"].text}`);
   check(s.cells["a|battery"].raw === null && /solar or a wind plant/.test(s.cells["a|battery"].missing ?? "") && /Price while selling/.test(s.labels.capture) && s.cells["a|capture"].raw !== null && near(s.cells["a|coverage"].raw, s.cover, 1e-6) && /^Scenario A, a 100 MW \/ 400 MWh battery:/.test(s.sentence ?? ""),
     "a battery: no pair (its reason on hover), the price while selling, the page's coverage", `${s.cells["a|battery"].text} | ${s.sentence}`);
   await go("/cost-of-power/seller?iso=ercot&asset=battery&mwh=200");

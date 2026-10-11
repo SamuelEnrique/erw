@@ -138,8 +138,8 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
   check(s.fields.every((f) => f.reset && f.resetOff === true), "each has a Reset, idle at the default");
   check(s.fields.every((f) => SOURCE.test(f.source)), "each states its default and where the default comes from", s.fields.find((f) => !SOURCE.test(f.source))?.source ?? "");
   check(/NVIDIA DGX H100/.test(s.fields[1].source) && /Uptime Institute, Global Data Center Survey 2024/.test(s.fields[2].source), "the power per GPU and the overhead ratio cite the page's two sources");
-  check(s.fields.filter((f) => /No cited/.test(f.source)).map((f) => f.key).join() === "growth,upfront,life,hurdle", "the four defaults with no source say so", s.fields.filter((f) => /No cited/.test(f.source)).map((f) => f.key).join());
-  check(/Lazard, Levelized Cost of Energy\+, June 2025: 60% debt at an 8% interest rate/.test(s.fields[7].source), "the hurdle rate names the rate it is set equal to", s.fields[7].source);
+  check(s.fields.filter((f) => /No cited/.test(f.source)).map((f) => f.key).join() === "growth,upfront,life", "the three defaults with no source say so", s.fields.filter((f) => /No cited/.test(f.source)).map((f) => f.key).join());
+  check(/Lazard, Levelized Cost of Energy\+, June 2025: "60% debt at an 8% interest rate and 40% equity at a 12% cost"\. The default is that weighted cost, 0\.6 x 8 \+ 0\.4 x 12 = 9\.6 percent/.test(s.fields[7].source) && Number(s.fields[7].value) === 9.6, "the hurdle rate is Lazard's weighted cost, with the sentence it comes from (session 196)", s.fields[7].source);
   check(s.fields[0].options.length === 2 && /^Flat: the same in every hour$/.test(s.fields[0].options[0].text) && /^Flexible: off in the 100 most expensive hours of each year$/.test(s.fields[0].options[1].text) && s.fields[0].options.every((o) => !o.off),
     "how the load runs offers the two ways the page computed", s.fields[0].options.map((o) => o.text).join(" | "));
   check(s.resetAll === "Reset all of A" && s.copy === "Copy A to B", "one Reset for all, and Copy A to B", `${s.resetAll}; ${s.copy}`);
@@ -153,7 +153,7 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
   check(near(s.cells["a|pv"].raw, r0.pv) && near(s.cells["a|level"].raw, r0.level) && near(s.cells["a|allin"].raw, r0.allIn) && s.cells["a|off"].raw === null && /^none/.test(s.cells["a|off"].text),
     "the present value, the fixed price and the all-in figure are the library's; a flat load has no hours off", `${s.cells["a|pv"].text} | ${s.cells["a|level"].text} | ${s.cells["a|allin"].text}`);
   check(near(s.cells["a|level"].raw, s.cells["a|price"].raw, 1e-12) && near(s.cells["a|allin"].raw, s.cells["a|gpu"].raw, 1e-12), "at the defaults the fixed price is the price and the all-in figure is the GPU-hour");
-  check(/^Scenario A, 100 MW at LZ_NORTH in ERCOT, real time: at a hurdle rate of 8 percent, 20 years of power cost USD [\d,.]+( million| billion)? today, USD 0\.\d{4} per GPU-hour\.$/.test(s.sentence ?? ""), "the sentence states the numbers", s.sentence ?? "");
+  check(/^Scenario A, 100 MW at LZ_NORTH in ERCOT, real time: at a hurdle rate of 9.6 percent, 20 years of power cost USD [\d,.]+( million| billion)? today, USD 0\.\d{4} per GPU-hour\.$/.test(s.sentence ?? ""), "the sentence states the numbers", s.sentence ?? "");
   const order = s.heads.indexOf("Scenarios A and B");
   check(order > 0 && s.heads[order - 1] === "With your contract" && s.heads[order + 1] === "Will the power be there", "the block stands after the contract and before the three other questions", s.heads.slice(order - 1, order + 2).join(" | "));
   await shot("datacenter-scenarios-default-desktop", 1280);
@@ -178,12 +178,12 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
   check(s.cells["b|price"].raw === flex.per && near(s.cells["b|bill"].raw, rb.bill) && near(s.cells["b|pv"].raw, rb.pv) && near(s.cells["b|allin"].raw, rb.allIn) && near(s.cells["b|off"].raw, rb.off.perGpuHour) && s.cells["b|bad"].raw === flex.bad.per,
     "B's price, year's cost, bad month, hours off, present value and all-in figure follow the flexible way", `${s.cells["b|price"].text} | ${s.cells["b|off"].text} | ${s.cells["b|pv"].text}`);
   check(new RegExp(`off in ${L.whole(flex.down)} hours; USD ${L.two(rb.off.perMwh).replace(".", "\\.")} per MWh not bought`).test(s.cells["b|off"].text), "the hours off and what the power not bought would have cost are stated", s.cells["b|off"].text);
-  check(s.headA.length === 4 && s.headB.length === 4 && s.words === "B: runs flexible against flat; overhead ratio 1.56 against 1.2; upfront cost USD 50 per kW against 0; hurdle rate 10 percent against 8.", "four differences, in the headers and in words", s.words);
+  check(s.headA.length === 4 && s.headB.length === 4 && s.words === "B: runs flexible against flat; overhead ratio 1.56 against 1.2; upfront cost USD 50 per kW against 0; hurdle rate 10 percent against 9.6.", "four differences, in the headers and in words", s.words);
   const g1 = F.against(a1, flat, b1, flex);
   check(near(Number(s.rate), g1.rate) && near(Number(s.even), g1.evenUpfront) && s.against.includes(`which returns ${g1.rate.toFixed(1)} percent a year in lower yearly cost; B's hurdle rate is 10 percent.`) && /each over its own years and at its own hurdle rate/.test(s.against) && /B runs [\d,]+ fewer GPU-hours a year/.test(s.against),
     "B against A: the year's cost, the GPU-hours, the present value, the upfront cost at which they are equal, and the rate the extra upfront cost returns beside B's hurdle rate", s.against);
   check(s.chartView === "b" && /scenario B/.test(s.legend), "the chart follows the scenario in view");
-  check(/^Scenario A, 100 MW at LZ_NORTH in ERCOT, real time: at a hurdle rate of 8 percent, 20 years of power cost USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`USD ${s.cells["a|allin"].raw.toFixed(4)} per GPU-hour.`),
+  check(/^Scenario A, 100 MW at LZ_NORTH in ERCOT, real time: at a hurdle rate of 9.6 percent, 20 years of power cost USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`USD ${s.cells["a|allin"].raw.toFixed(4)} per GPU-hour.`),
     "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
 
   // 6: the sensitivity chart

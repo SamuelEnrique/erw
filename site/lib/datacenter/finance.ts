@@ -60,9 +60,12 @@ export const SPECS: Record<Key, Spec> = {
     short: (v) => `${n(v)} years`, words: (v) => `${n(v)} years counted`, plain: n, source: "No cited term is held for a datacenter's power. The default is 20 years" },
   hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
     short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n,
-    source: `No cited rate is held. The default is set equal to the interest rate of ${LAZARD}: 60% debt at an 8% interest rate` },
+    source: `${LAZARD}: "60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = 9.6 percent. It is the cost of capital of a power plant's builder, not a datacenter's own, for which no cited rate is held` },
 };
-export const LIFE = 20, HURDLE = 8;
+/** Session 196, the owner's ruling of 11 October 2026: the hurdle rate's default is Lazard's weighted cost of capital,
+ * "60% debt at an 8% interest rate and 40% equity at a 12% cost" (its June 2025 report, read 11 October 2026):
+ * 0.6 x 8 + 0.4 x 12 = 9.6. Until then it was 8, set equal to the interest rate. */
+export const LIFE = 20, HURDLE = 9.6;
 
 /** The defaults: the way of running as "Your load" has it, the power per GPU and the overhead ratio as the page cites
  * them (session 195: "Your load" no longer holds those two; scenario A does, and sets the headline), and the five the

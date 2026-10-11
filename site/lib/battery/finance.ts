@@ -24,6 +24,15 @@ export type Spec = {
 };
 const n = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
 export const LAZARD = "Lazard, Levelized Cost of Energy+, June 2025";
+/** Session 196, the owner's ruling of 11 October 2026: the hurdle rate's default is Lazard's weighted cost of capital,
+ * as Lazard's June 2025 report states its financing: "60% debt at an 8% interest rate and 40% equity at a 12% cost"
+ * (read 11 October 2026; docs/methods/battery_earns_algorithm.md, "Cross-checks"). 0.6 x 8 + 0.4 x 12 = 9.6. Until then
+ * it was 8, set equal to the interest rate, with no source. */
+export const HURDLE = 9.6;
+/** Session 196, the same ruling: the degradation default is a cited one. Lazard's storage cases (LCOS v10.0, "Energy
+ * Storage Use Cases, Illustrative Operational Parameters") give "Battery Degradation (per annum)" of 2.6% for the
+ * utility-scale standalone battery of 100 MW, at 2 and at 4 hours. Until then it was 0, with no source. */
+export const DEG = 2.6;
 export const SPECS: Record<Key, Spec> = {
   capex: { key: "capex", letter: "c", label: "Capital cost", unit: "USD per kW", min: 0, max: 10000, whole: false, swing: 100, swingWords: "USD 100 per kW",
     short: (v) => `capex ${n(v)} USD/kW`, words: (v) => `capex USD ${n(v)} per kW`, plain: n, source: `${LAZARD} (LCOS v10.0)` },
@@ -40,11 +49,11 @@ export const SPECS: Record<Key, Spec> = {
   cycles: { key: "cycles", letter: "y", label: "Cycles a day, at most", unit: "full cycles", min: 0, max: 10, whole: false, swing: 0.5, swingWords: "one step, 0.5 cycles",
     short: (v) => `${n(v)} ${v === 1 ? "cycle" : "cycles"} a day`, words: (v) => `cycles a day ${n(v)}`, plain: n, source: "The model's rule: at most one full cycle a day. The other steps are the reader's, not a source's" },
   deg: { key: "deg", letter: "d", label: "Degradation", unit: "percent a year", min: 0, max: 20, whole: false, swing: 1, swingWords: "1 point",
-    short: (v) => `degradation ${n(v)}% a year`, words: (v) => `degradation ${n(v)} percent a year`, plain: n, source: "The model has no capacity fade. No cited rate is held, so the default is none" },
+    short: (v) => `degradation ${n(v)}% a year`, words: (v) => `degradation ${n(v)} percent a year`, plain: n, source: `${LAZARD} (LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases of 2 and 4 hours. The model itself has no capacity fade: here the rate is a yearly cut to revenue` },
   life: { key: "life", letter: "l", label: "Project life", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",
     short: (v) => `life ${n(v)} years`, words: (v) => `project life ${n(v)} years`, plain: n, source: `${LAZARD}: 20 years for storage` },
   hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
-    short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: "No cited rate is held. The default is set equal to the interest rate" },
+    short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: `${LAZARD}: "60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = ${HURDLE} percent` },
 };
 /** The model's own values of the two assumptions inside it, and the steps offered when no table of steps is held. */
 export const MODEL = { rte: 86, cycles: 1 };
@@ -53,7 +62,7 @@ export const ONLY_DEFAULT: Steps = { rte: [MODEL.rte], cycles: [MODEL.cycles] };
 
 /** The defaults for a duration: its Lazard capital cost and fixed O&M (lib/batterystack.ts, COSTS), and the rest. */
 export function defaultsOf(costs: { capex: number; fom: number }): Assumptions {
-  return { capex: costs.capex, share: 60, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: 0, life: 20, hurdle: 8 };
+  return { capex: costs.capex, share: 60, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read; the two stepped assumptions take the

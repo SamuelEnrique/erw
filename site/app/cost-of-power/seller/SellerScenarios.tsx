@@ -35,7 +35,8 @@ const usd = (v: number) => `USD ${usdShort(Math.round(v))}`;
 export type Facts = {
   /** `size` is the asset in words, with its size: "100 MW of solar", "a 100 MW gas peaker" */
   mw: number; size: string;
-  costs: { capex: number; fom: number; life: number; capexNote: string; fomNote: string; lifeNote: string };
+  /** `deg` and `degSource`: the cited degradation default of a battery (session 196); absent for the other assets */
+  costs: { capex: number; fom: number; life: number; capexNote: string; fomNote: string; lifeNote: string; deg?: number; degSource?: string };
   /** the last twelve months at the hub chosen: revenue in USD per kW (a peaker: its margin over fuel), energy in MWh per kW */
   twelve: { revenueKw: number; energyKw: number; span: string; at: string } | null; twelveWhy: string;
   money: string;
@@ -53,7 +54,7 @@ export type Facts = {
 const drop = (name: string) => isScenarioParam(name) || isOldParam(name);
 
 /** The two scenarios of the page, held above its sections: the block edits them, the headline reads scenario A. */
-export function SellerDecisions({ costs, mw, initial, children }: { costs: { capex: number; fom: number; life: number }; mw: number; initial: Record<string, string | undefined>; children: ReactNode }) {
+export function SellerDecisions({ costs, mw, initial, children }: { costs: { capex: number; fom: number; life: number; deg?: number }; mw: number; initial: Record<string, string | undefined>; children: ReactNode }) {
   const d = useMemo(() => defaultsOf(costs), [costs]);
   const query = useCallback((s: { a: Values; b: Values; view: View }) => scenarioQuery(s as unknown as Both, d), [d]);
   return <ScenarioState start={parseScenarios(initial, d, mw)} query={query} drop={drop}>{children}</ScenarioState>;
@@ -139,7 +140,7 @@ export function SellerScenarios({ facts: f }: { facts: Facts }) {
   const cols = { a: col("a"), b: col("b") };
   type Col = ReturnType<typeof col>;
   const bars = f.twelve ? sensitivity(a, f.twelve.revenueKw) : [];
-  const sourceOf = (k: Key) => (k === "capex" ? `${SPECS[k].source}, ${f.costs.capexNote}` : k === "fom" ? `${SPECS[k].source}, ${f.costs.fomNote}` : k === "life" || k === "term" ? `${SPECS[k].source}, ${f.costs.lifeNote}` : SPECS[k].source);
+  const sourceOf = (k: Key) => (k === "capex" ? `${SPECS[k].source}, ${f.costs.capexNote}` : k === "fom" ? `${SPECS[k].source}, ${f.costs.fomNote}` : k === "life" || k === "term" ? `${SPECS[k].source}, ${f.costs.lifeNote}` : k === "deg" && f.costs.degSource ? f.costs.degSource : SPECS[k].source);
 
   const fields: Field[] = KEYS.map((k) => {
     const sp = SPECS[k];
