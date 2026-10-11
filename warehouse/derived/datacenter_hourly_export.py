@@ -353,7 +353,7 @@ def head_lines(rows, facts, months, run_at):
         "https://github.com/SamuelEnrique/erw/blob/main/docs/methods/datacenter_pays_algorithm.md",
         "License: public. Derived by the ERW from ERCOT's public prices (https://www.ercot.com/help/terms). Wholesale energy only: no delivery; no "
         "ancillary or capacity charge; no retail margin; no tax. Not a forecast; not what any customer paid",
-        f"Stata: import delimited using {CSV_NAME}; varnames({HEADER_LINES + 1}) rowrange({HEADER_LINES + 2}) stringcols(_all). "
+        f"Stata: import delimited using {CSV_NAME}; delimiter(comma) varnames({HEADER_LINES + 1}) rowrange({HEADER_LINES + 2}) stringcols(_all). "
         "These comment lines hold no comma and no double quote",
     ]
     if len(head) != HEADER_LINES:

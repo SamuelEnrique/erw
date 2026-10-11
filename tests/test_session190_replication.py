@@ -210,9 +210,10 @@ class DoFileRules(unittest.TestCase):
     def test_it_reads_the_column_names_from_the_line_that_holds_them(self):
         n = len(self.comments)
         self.assertEqual(n, HEADER_LINES)
-        self.assertIn(f'import delimited using "{CSV_NAME}", varnames({n + 1}) rowrange({n + 2}) stringcols(_all) clear', self.text)
+        # the comment lines hold no comma, so the delimiter is named and not left for Stata to find
+        self.assertIn(f'import delimited using "{CSV_NAME}", delimiter(comma) varnames({n + 1}) rowrange({n + 2}) stringcols(_all) clear', self.text)
         self.assertNotIn("varnames(1)", self.text)
-        self.assertTrue(any(f"varnames({n + 1}) rowrange({n + 2})" in c for c in self.comments))
+        self.assertTrue(any(f"delimiter(comma) varnames({n + 1}) rowrange({n + 2})" in c for c in self.comments))
         self.assertIn(f"* The file has {n} comment lines; the column names are on line {n + 1} and the hours start on line {n + 2}.", self.text)
         for name in (CSV_NAME, DO_NAME):
             self.assertRegex(name, r"^[a-z]+_\d{4}_[a-z]+(_[a-z]+)+\.(csv|do)$")

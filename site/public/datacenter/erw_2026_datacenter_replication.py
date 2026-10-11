@@ -41,7 +41,7 @@ def month_before(m, k):
 
 
 def read(path):
-    """import delimited ..., varnames(16) rowrange(17) stringcols(_all); then destring and the sentinel recode."""
+    """import delimited ..., delimiter(comma) varnames(16) rowrange(17) stringcols(_all); then destring and the sentinel recode."""
     with open(path, encoding="utf-8", newline="") as f:
         lines = f.read().splitlines()
     rows = list(csv.DictReader(lines[HEADER_LINES:]))

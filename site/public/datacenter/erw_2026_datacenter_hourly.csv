@@ -10,9 +10,9 @@
 # Last run (UTC) of each table as warehouse/metadata/coverage.csv stated it at export: ercot_zone_prices_history 2026-10-07T09:49:43Z; ercot_all_hub_prices_history 2026-09-26T00:09:58Z; iso_rtm_hub_prices 2026-10-10T14:12:59Z
 # Read from the page's own files: site/data/datacenter/index.json (built 2026-10-10T15:03:08Z; sha256 2f880a04a1a010e6) and ercot_2015.json to ercot_2026.json; written by warehouse/derived/datacenter_page.py (sha256 ee535f07c7ffb15b). No table is read at export
 # Check at export; from these rows as written: every hour's three prices are the files' own; each of 142 months gives the hours held and the sum of prices the page computes (141 months counted); in_last_twelve marks the page's twelve months
-# Exported: 2026-10-11T07:36:15Z (UTC) by warehouse/derived/datacenter_hourly_export.py. Method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/datacenter_pays_algorithm.md
+# Exported: 2026-10-11T07:50:38Z (UTC) by warehouse/derived/datacenter_hourly_export.py. Method: https://github.com/SamuelEnrique/erw/blob/main/docs/methods/datacenter_pays_algorithm.md
 # License: public. Derived by the ERW from ERCOT's public prices (https://www.ercot.com/help/terms). Wholesale energy only: no delivery; no ancillary or capacity charge; no retail margin; no tax. Not a forecast; not what any customer paid
-# Stata: import delimited using erw_2026_datacenter_hourly.csv; varnames(16) rowrange(17) stringcols(_all). These comment lines hold no comma and no double quote
+# Stata: import delimited using erw_2026_datacenter_hourly.csv; delimiter(comma) varnames(16) rowrange(17) stringcols(_all). These comment lines hold no comma and no double quote
 hour_utc,std_month,rt_usd_mwh,da_usd_mwh,hub_rt_usd_mwh,in_last_twelve
 2015-01-01T06:00:00Z,2015-01,22.47,22.02,22.47,0
 2015-01-01T07:00:00Z,2015-01,22.3,21.44,22.3,0

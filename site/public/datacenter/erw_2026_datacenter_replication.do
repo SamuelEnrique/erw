@@ -8,7 +8,7 @@
 
 clear all
 
-import delimited using "erw_2026_datacenter_hourly.csv", varnames(16) rowrange(17) stringcols(_all) clear
+import delimited using "erw_2026_datacenter_hourly.csv", delimiter(comma) varnames(16) rowrange(17) stringcols(_all) clear
 
 destring rt_usd_mwh, replace force
 
