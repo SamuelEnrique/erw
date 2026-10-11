@@ -5,8 +5,8 @@
 ## Read these first
 
 - **No error found in the default case, and no number of the page moved.** Each of its 103,055 hours equals the price tables to half a cent; the page, the CSV, the Python mirror and a second implementation of the rule agree. The page gained one link and three downloads.
-- **Finding 1, for your ruling: in a year held in part, "if perfectly foreseen" gets fewer hours than the rule** (76 against 100 for 2026). On the page today, New York City, real time, 100 hours, the year 2026: the rule 63.93 against "if perfectly foreseen" 63.97. At the North load zone "the rule kept 57 percent" would read 51. Not changed: it moves numbers and there are two ways to align.
-- **Finding 2: New York's real-time "last twelve months" are stuck at July 2025 to June 2026**, and will stay there until August 2027, because July 2026 lacks 19 days and the window needs twelve months in a row. Day-ahead is whole.
+- **Finding 1, for your ruling: in a year held in part, "if perfectly foreseen" gets fewer hours than the rule** (at the North load zone 76 against 100 for 2026). On the page today, New York City, real time, 100 hours, the year 2026: the rule 63.93 against "if perfectly foreseen" 63.97. At the North load zone "the rule kept 57 percent" would read 51. Not changed: it moves numbers and there are two ways to align.
+- **Finding 2: New York's real-time "last twelve months" are stuck at July 2025 to June 2026**, and will stay there until July 2027 is held, because July 2026 lacks 19 days and the window needs twelve months in a row. Day-ahead is whole.
 - **The do-file has never been run.** Stata is not on this machine. A test enforces each rule on its text; a Python mirror follows it step for step and prints the same 30 lines.
 - **"What is left": 31 items of the three reports. 18 closed (2 of them in this session), 11 open, each with a recommendation, 1 your own step, 1 not this tool's**; and 6 new ones. The note for your sign-off: `docs/methods/datacenter_pays_algorithm.md`, sections 4 (every number), 6 (20 edge cases), 10 and 11.
 
@@ -115,6 +115,7 @@ Rulings that wait for you: items 6, 12, 18, 20, 23, 26 to 29, 31 to 34.
 - One incomplete month freezes a "last twelve months" for a year (finding 2).
 - "How clean" stands on 2024 for ERCOT; session 140's report quoted 2025.
 - The full value check passes today (6,937 of 6,937): the reader session 178 found missing is there.
+- The whole suite leaves `warehouse/output/raw/madeup_as_prices/` behind in the copy it runs in (`tests/test_session85.py` writes a manifest there). Untracked; removed from the worktree; the main copy shows the same folder.
 
 ## Pulls and spend
 
@@ -136,7 +137,7 @@ Outputs under `runs/session190/` in the worktree. The site was built three times
 | `tests.test_session190_replication`, `tests.test_session190`, worktree, no tables | 0 | 46 run, 1 skipped (the tables) |
 | The same with `ERW_TABLES_DIR` on the main copy's tables (`tests_190_tables.out`) | 0 | 46 run, 0 skipped; the table test takes 18 seconds |
 | With sessions 138, 140, 149, 163, 178, 183 (`tests_neighbours.out`) | 0 | 247 run, 9 skipped |
-| Whole suite, worktree, `ERW_LOCK_EXEMPT=1` (`suite.out`) | SUITE_EXIT | SUITE_RESULT |
+| Whole suite, worktree, `ERW_LOCK_EXEMPT=1` (`suite.out`) | 0 | 3,131 tests, 221 skipped, on commit `09961c4e` (this report's last lines were filled in after it) |
 | Site build: unchanged tree (after `npm ci`, exit 0); changed tree; final tree twice | 0, 0, 0, 0 | `build_before.out`, `build_after.out`, `build_final.out`, `build_final2.out` |
 | **Before any change:** `check-datacenter` | 0 | 58 of 58 |
 | `check-how-soon` | 0 | 41 of 41 |
