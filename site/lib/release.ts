@@ -18,7 +18,8 @@ export type Status = "live" | "review";
 
 export const RELEASE: Record<string, Status> = {
   // Session 126 (the owner's instruction, 5 October 2026): the home page, About, Terms, the seller's tab and the four
-  // methods notes are in review. Three pages are open: /cost-of-power/battery, /network and /storage.
+  // methods notes are in review. Three pages stayed open then: /cost-of-power/battery, /network and /storage. Since
+  // session 166 (8 October 2026) those three are in review too: no page is live.
   "/": "review",
   "/cost-of-power/battery": "review",  // session 166 (the owner's instruction of 8 October 2026): no page is live
   "/cost-of-power/battery/awards": "review",  // session 115: what Texas's storage resources were awarded day-ahead; without its own line it would take the live battery page's status
@@ -42,6 +43,7 @@ export const RELEASE: Record<string, Status> = {
   "/data/methods/battery_earns_algorithm": "review",  // session 178: every number of the battery page, step by step
   "/data/methods/cost_of_power": "review",
   "/data/methods/generator_earns_algorithm": "review",  // session 183: every number of the seller page, step by step
+  "/data/methods/datacenter_pays_algorithm": "review",  // session 190: every number of "What a datacenter pays", step by step
   "/data/methods/grid_network": "review",
   "/data/methods/storage": "review",
 

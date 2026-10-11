@@ -19,3 +19,8 @@ site/data/battery_scenario_steps.json text eol=lf
 site/public/seller/erw_2026_generator_hourly.csv text eol=lf
 site/public/seller/erw_2026_generator_replication.do text eol=lf
 site/public/seller/erw_2026_generator_replication.py text eol=lf
+# Session 190: the replication files of "What a datacenter pays" (the do-file reads its column names from a fixed line
+# of the CSV, and a test recomputes the page's numbers from the CSV's own text); no checkout may convert their line endings
+site/public/datacenter/erw_2026_datacenter_hourly.csv text eol=lf
+site/public/datacenter/erw_2026_datacenter_replication.do text eol=lf
+site/public/datacenter/erw_2026_datacenter_replication.py text eol=lf

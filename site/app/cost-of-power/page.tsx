@@ -40,6 +40,11 @@ export const metadata: Metadata = { title: "What a datacenter pays" };
 export const dynamic = "force-dynamic";
 
 const METHOD = "/data/methods/datacenter_cost";
+// Session 190: every number of the page, step by step, is docs/methods/datacenter_pays_algorithm.md, and the source line
+// offers the default case hour by hour as CSV with its Stata do-file and Python mirror (site/public/datacenter, written
+// by warehouse/derived/datacenter_hourly_export.py from this page's own files). No number of the page changed.
+const ALGORITHM = "/data/methods/datacenter_pays_algorithm";
+const HOURLY_CSV = "/datacenter/erw_2026_datacenter_hourly.csv", DO_FILE = "/datacenter/erw_2026_datacenter_replication.do", MIRROR = "/datacenter/erw_2026_datacenter_replication.py";
 const DEMAND = demandJson as unknown as DemandFile;
 const QUEUES = queuesJson as unknown as QueueFile;
 const LOADS = loadJson as unknown as LoadFile;
@@ -92,7 +97,7 @@ export default async function CostOfPower({ searchParams }: { searchParams: Prom
       <ToolHeader
         title="What a datacenter pays"
         crumb={<CostTabs active="buy" />}
-        lead={<>What a large load pays for power, whether the power is there when it is needed, how clean it is and how soon it can be had, for a load you describe. <Link href={METHOD}>Method note</Link>.</>}
+        lead={<>What a large load pays for power, whether the power is there when it is needed, how clean it is and how soon it can be had, for a load you describe. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       <ViewNav x={x} />
       {x.view === "grids" ? <GridsView /> : <LoadView x={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined} />}
@@ -381,7 +386,7 @@ function LoadView({ x: asked, buyGiven, gridAsked }: { x: Inputs; buyGiven: bool
         </div>
       </div>
       <SourceLine tables={[...INDEX.tables, "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(cFile?.clean ? ["clean_energy_hourly"] : [])]}
-        note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. <Link href={METHOD}>Method note</Link>.</>} />
+        note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. <Link href={METHOD}>Method note</Link>.</>} />
     </ContractProvider>
   );
 }
