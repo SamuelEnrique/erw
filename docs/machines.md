@@ -15,13 +15,121 @@ Every machine has one setting, its **role**, in `.erw/machine.json` (not in git)
 
 | Machine | Role | Notes |
 |---|---|---|
-| Home laptop | `data` (from session 59) | holds the raw files (`warehouse/raw/`, several GB) |
+| Home laptop | `code` (since 10 October 2026, switched by its owner before session 184; `data` from session 59 until then) | its raw files were handed to the lab desktop through the archive bucket (session 187) and verified there, every file (session 185); its own copy is the owner's to keep or delete |
 | Portable laptop | `code` | may close at any time: whatever task it holds survives (see "Interruption") |
-| Lab machine | `data` (from the week after session 59) | `scripts/setup.ps1 -Role data` |
+| Lab desktop, `lab-desktop` | `data` (since session 184, 10 October 2026) | the data machine: see "The lab desktop" below |
 | GitHub Actions | `data` | the daily job and the weekly vacuum take the lock like any machine, named `github:<workflow>#<run id>` |
 
 Switching a machine is one command: `python warehouse/lock.py role data` (or `code`). `python warehouse/lock.py role` shows
 the current setting. `ERW_ROLE=data` in the environment overrides the file for one command.
+
+### The lab desktop (session 184)
+
+Recorded on 10 October 2026, the day it took the data role from the home laptop. The home laptop's switch to `code` was
+made by its owner and was not checked from here.
+
+| | |
+|---|---|
+| Name and role | `lab-desktop`, `data` (`.erw/machine.json`). The data lock names it `lab-desktop/<session>` |
+| Host name | `SU-4QC3QR3`. The findings worker writes this name, not `lab-desktop`, in a request's `machine` |
+| System | Windows 11 Education; account `Shared`, not an administrator; Pacific time |
+| Checkout | `C:\Users\Shared\Documents\erw`, on `main`, with the repository's git hooks |
+| Python | 3.14.7 in `.venv` (`requirements-py314.txt`); pandas, psycopg and pyarrow all load |
+| Shell | Git Bash at `C:\Program Files\Git\bin\bash.exe`. `bash` is not on PowerShell's PATH: name it in full |
+| Disk | 398 GB free at setup; `warehouse/output` 9.4 GB, `warehouse/raw` 756 MB |
+| Sleep | never while plugged in (sleep and hibernate on AC power both 0) |
+| Set up by | `scripts\setup.ps1 -Role data -Name lab-desktop`, which restored all 198 tables from Redivis |
+
+**What it holds (checked in session 184).**
+
+- All 198 tables of `coverage.csv`, 37,002,032 rows: each with coverage's row count and newest timestamp, and each
+  `current` against Redivis (`scripts/sync.py --check`).
+- EIA's eight grid monitor workbooks and their extracts, `warehouse/raw/eia930_emissions/20261010T212712Z/`
+  (694,031,944 bytes, pulled as the daily run pulls them, no table written). `scheduled.py <step> --check` finds
+  every input of all ten scheduled steps.
+- No local archive month files: the bucket `erw-archive` is read directly (`restore.py --from-bucket`).
+
+**What it does not hold: the raw files that never left the home laptop.** The archive keeps table rows only, never a
+raw file, so none of these could be restored from it. Each has a reason it was not pulled again:
+
+| On the home laptop | Why it matters | Why not pulled again here |
+|---|---|---|
+| `warehouse/raw/ercot_zone_prices/` whole (`manifest.csv`, `counts.json`, `requests.csv`, `parsed/`, the workbooks) | it is the count against the ceiling of 3,000,000 rows of `ercot_zone_prices.py --refresh` | a pull here starts the count at zero and asks ERCOT again for rows already counted |
+| `warehouse/raw/zone_price_history/` and `warehouse/raw/isone_zone_load/` | the count against the ceiling of 3,000,000 rows of `zone_price_history.py`, and ISO-NE's saved workbooks | the same: the count would restart |
+| `warehouse/raw/ercot_wind_solar_history/` | the count against its ceiling of 2,000,000 rows | the same |
+| `warehouse/raw/ercot_60d_dam/` | the saved 60-day disclosure files and their manifest | not read by the data machine's run; the runner pulls its own each day |
+| `warehouse/raw/policy_monitor_refresh/` and the saved Virginia filings | the commission is paused (`paused_sources.csv`): its documents cannot be asked for again | paused publishers are never requested |
+| every other `manifest.csv` under `warehouse/raw/` | what was downloaded, when, from where, with which SHA-256 | a manifest cannot be pulled again |
+| untracked outputs outside `coverage.csv`: `warehouse/output/rrc_lease_production_statewide/`, `severance_screen_summary.json`, `analysis_internal/`, `thesis_state/`, `thesis_charts/`, `shadow/`, `logs/`; `private/`; `runs/` (the snapshots, the session outputs, the chain prompts) | on no cloud copy | not rebuildable without their own pulls or model calls |
+
+**Until `warehouse/raw/ercot_zone_prices/` is copied here, do not start `warehouse/run_data_machine.sh` for real on this
+machine** (its `--check` is safe). With that folder empty the refresh asks ERCOT for four workbooks it already gave,
+counts from zero, reads every row as replaced, and so sends the whole table to the archive and the Redivis draft.
+
+**Two things the cloud copies got wrong for a machine synced from them.**
+
+- Redivis's `erw_headers` holds header lines older than the rows for five tables (`caiso_`, `ercot_`, `isone_` and
+  `spp_interconnection_queue`, and `energy_projects`: rows of the run of 5 October, headers of 26 and 29 September).
+  The loader therefore refuses them here ("coverage describes the run ..., the file is from ..."). The archive holds
+  the same rows with the right header:
+
+  ```bash
+  cd /c/Users/Shared/Documents/erw
+  .venv/Scripts/python.exe warehouse/lock.py acquire --task "five tables from the archive" --minutes 30
+  for t in caiso_interconnection_queue energy_projects ercot_interconnection_queue isone_interconnection_queue spp_interconnection_queue; do
+    .venv/Scripts/python.exe warehouse/archive/restore.py $t --from-bucket --as-of 2026-10-09T00:00:00Z --out warehouse/output/$t.csv; echo "exit=$?"
+  done
+  .venv/Scripts/python.exe warehouse/supabase/load.py --dry-run > runs/load_dry_run.out 2>&1; echo "exit=$?"
+  .venv/Scripts/python.exe warehouse/lock.py release
+  ```
+
+  Session 184 rebuilt them to `runs/session184/archive_asof/` and compared: four are row for row the synced files, and
+  the SPP queue differs in nine values of `poi`, where the archive keeps a character Redivis's export turned into a space.
+- The archive's newest state of `iso_zone_prices_history` is the home laptop's of 9 October (1,664,445 rows, to
+  10 October 06:00 UTC), which was never uploaded: Redivis, coverage and this machine hold 1,663,123 rows to 8 October.
+  The rebuilt file is `runs/session184/archive_latest/iso_zone_prices_history.csv`. The archive's newest state of
+  `energy_projects` and `ercot_interconnection_queue` is the laptop's older copy (the pull of 26 September), archived
+  again on 9 October: it is not newer than Redivis.
+
+**Services on this machine.**
+
+| Task Scheduler task | State | Notes |
+|---|---|---|
+| `ERW findings worker` | registered; running since 11 October 2026, 07:10 UTC (session 185 found it stopped at 06:54 UTC and started it again; see below) | `scripts\register_findings_worker.ps1 -Root "C:\Users\Shared\Documents\erw"` (the script's default root is the home laptop's path). It starts at log-on of `Shared` only: the session's shell was not elevated, so the startup trigger was left out. Run the same command once from an elevated PowerShell to add it. Remove the task on the home laptop (`scripts\unregister_findings_worker.ps1` there), or two workers read one queue |
+| `ERW data machine daily` | registered on 11 October 2026 (session 185), every day at 10:00 Pacific, while `Shared` is logged on | `scripts\register_data_machine_daily.ps1 -Root "C:\Users\Shared\Documents\erw"`; no elevation needed. Remove it with `scripts\unregister_data_machine_daily.ps1` |
+| `ERW worker` (the task queue) | not registered | it runs Claude Code and spends on the model: `scripts\setup.ps1 -Role data -Name lab-desktop -Worker` when wanted |
+
+### The lab desktop, the handover finished (session 185)
+
+11 October 2026. What session 184 left open, and how each stands now.
+
+- **The raw files are here.** `scripts/raw_handover.py fetch` (session 187's script, run from its branch's file) read all
+  857 parts of `runs/session187/handover.json` from the bucket and wrote 33,630 files, 25.99 GB, into `warehouse/raw`:
+  0 parts with a wrong SHA-256, 0 files already here with other bytes. `verify` then hashed every file against the
+  manifest: 33,630 the same, 0 missing, 0 different. The folder this machine pulled itself
+  (`eia930_emissions/20261010T212712Z/`) stands beside the laptop's.
+- **ERCOT's count carried over.** `ercot_zone_prices.counted()` on the restored folder gives 2,473,320 of 3,000,000 rows
+  in 24 workbooks, the rows the table itself holds. (The laptop's log of 7 October says 2,524,608: a workbook just
+  saved is counted as a full year until it is read; the two 2026 workbooks then held 51,288 fewer rows than a year.)
+- **The five tables are the archive's.** `caiso_`, `ercot_`, `isone_` and `spp_interconnection_queue` and
+  `energy_projects` were rebuilt from the bucket as of 9 October 00:00 UTC under the data lock; the validator passes
+  and `load.py --dry-run` exits 0. Two things the rebuilt files carry that the synced ones did not:
+  - `energy_projects`: 30,921 of 39,784 rows have an older `retrieved_at` (26 September, where the synced file said
+    5 October). The archive keeps a row's `retrieved_at` from the run that first archived its values
+    (`warehouse/archive/README.md`); no other value differs. Session 184's "row for row" was the archive's own
+    comparison, which leaves that column out.
+  - `spp_interconnection_queue`: nine `poi` values hold the character Redivis's export had turned into a space.
+  - The synced files are kept in `runs/session185/synced_before/` with their hashes.
+- **`iso_zone_prices_history` took the archive's state**: 1,664,445 rows to 10 October 06:00 UTC (the two days the
+  home laptop archived and never uploaded). Validator exit 0; its coverage row rebuilt; the archive wrote 0 new
+  rows; the Redivis draft holds 1,664,445 (`count(*)`), nothing released.
+- **Still wrong at the source:** Redivis's `erw_headers` holds the older header lines for the five tables. Another
+  machine synced from the cloud will fail the loader's check on them as this one did.
+- **The findings worker had stopped.** Its log ends with an interrupt after 06:54 UTC on 11 October, minutes before
+  session 185's first command (why is not known), and the task did not restart it. It was
+  started again at 07:10 UTC and took a request at 07:55 UTC. It still starts at log-on only.
+- **This machine still cannot push to GitHub.** No sign-in is stored for `Shared`. Until one is, the daily run's
+  commits stay on `main` here, and every branch of this machine waits to be pushed by a person.
 
 ## Setting up a machine
 
@@ -223,6 +331,14 @@ machine, once a day, after the runner's daily run:
   `schtasks /Delete /TN "ERW data machine daily"` removes it. This is the one schedule that lives on a machine and not
   in GitHub Actions or the database; it is the owner's to register or not. A day the machine is closed is a day the
   files keep the copy they have: nothing is thinned.
+- **The script that registers it (session 185).** `scripts\register_data_machine_daily.ps1` registers the same command as a
+  Task Scheduler task and `scripts\unregister_data_machine_daily.ps1` removes it. It takes its root from the checkout it
+  is in (`-Root` names another), needs no elevation, and refuses two things: a machine whose role is not `data` or that
+  lacks a price history, and a machine without `warehouse\raw\ercot_zone_prices\manifest.csv`, where the refresh
+  would ask ERCOT for every workbook again and count from zero (`-Disabled` registers it switched off there). The task
+  sets `GCM_INTERACTIVE=never` and `GIT_TERMINAL_PROMPT=0`, so on a machine with no GitHub sign-in the run's push
+  fails at once and is recorded (`dm_commit` failed), and never waits for a sign-in window while it holds the data
+  lock. A missed run is not started late; the task is stopped after six hours.
 - **What it does not do.** It downloads no EIA-930 workbook: the capture price and SPP's shares advance only as far as
   the workbooks under `warehouse/raw/eia930_emissions` on the machine. It does not build
   `site/data/curtailment/ercot.json`, which the runner builds every day from a table that is newer there. A commit to
