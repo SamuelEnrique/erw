@@ -117,6 +117,7 @@ Outputs under `runs/session189/` (ignored by git).
 | the same, third run | 1 | 3: this report not yet written; two sentences quoted the document's own phrase. Both sentences reworded |
 | the same, final run, on the committed files | 0 | 0 failed. Every quotation (70) found in a saved copy or a cited file; 17 hashes equal their copies |
 | `python scripts/check_positioning.py` (without `--strict`) | 0 | the same, dated statements as notes |
+| the strict check in a copy of the commit's files without the saved pages (`git archive`, in the scratch folder) | 0 | 0 failed; quotations and hashes skipped, and the output says so |
 | Table shapes and characters of the document (`runs/session189/tools/mdcheck.py`) | 0 | 0 uneven tables, 0 characters outside ASCII |
 | `python -m unittest tests.test_session103` (it scans `scripts/*.py`) | 0 | 16 tests, 3 skipped |
 
