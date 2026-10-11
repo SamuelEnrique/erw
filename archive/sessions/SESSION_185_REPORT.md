@@ -123,7 +123,7 @@ git pull origin main                            # main here then holds its own d
 
 ## Night of Oct 11
 
-11 October 2026, 09:22 to about 10:50 UTC (02:22 to 03:50 Pacific), unattended, on `lab-desktop`. Model spend USD 0. Pulls: none; the handover fetch read 0 parts from the bucket. Outputs: `runs/session185/night/` and `runs/session19x/landing_*.out`, `snapshot_*.out`.
+11 October 2026, 09:22 to about 10:40 UTC (02:22 to 03:40 Pacific), unattended, on `lab-desktop`. Model spend USD 0. Pulls: none; the handover fetch read 0 parts from the bucket. Outputs: `runs/session185/night/` and `runs/session19x/landing_*.out`, `snapshot_*.out`.
 
 ### Read these first
 
