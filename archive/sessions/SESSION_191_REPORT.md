@@ -4,6 +4,7 @@
 
 ## Read these first
 
+- **Landed since this was written**: merge `330933e0` on `main`, 11 October 2026, 10:01 UTC, 0 differences on 25 pages. The scheduled scans run version 1.1.0 from then. See "Night of Oct 11" in `SESSION_185_REPORT.md`.
 - **NOT LANDED**: this machine cannot push to GitHub (session 185's report, first bullet). Until the branch lands, the scheduled scans run main's version 1.0.0. The difference is one flag and no draft.
 - **The scanner is on a schedule here, two ways, both proven today without waiting for the clock.**
   - The data machine's daily run (`ERW data machine daily`, registered by session 185, 10:00 Pacific, 17:00 UTC today) has the step `dm_scanner` after its sync.

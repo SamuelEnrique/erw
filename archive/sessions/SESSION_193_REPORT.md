@@ -4,6 +4,7 @@
 
 ## Read these first
 
+- **Landed since this was written**: merge `ad0307b1` on `main`, 11 October 2026, 10:13 UTC, 0 differences on 25 pages. The check against production passes, 31 of 31. See "Night of Oct 11" in `SESSION_185_REPORT.md`.
 - **NOT LANDED**: this machine cannot push to GitHub (session 185's report, first bullet). The Map is drawn and checked on a local build; production still has no Map button.
 - **No published boundary answered, a third time.** EIA's own site holds none: its list of map layers now redirects to the atlas (searched in session 180), and the Hourly Electric Grid Monitor draws thirteen regions with each balancing authority as a point. NREL's ReEDS publishes 134 model regions with no EIA-930 code: 0 of the page's 70 grids match.
 - **So the Map is the third option, a derived map, and says so inside its frame.** Each county is given to one balancing authority from EIA-861's 2025 files (released 7 October 2026). 44 of 70 grids have an area; 3,067 of 3,107 counties of the lower 48 are drawn.
