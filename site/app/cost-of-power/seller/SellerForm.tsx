@@ -4,8 +4,13 @@
 // is opened in place, so the contract terms typed in the other panel, which live only in this page's memory, are not
 // lost on Show. Choosing another grid or asset opens it at once: the hubs are that grid's and the cost defaults that
 // asset's.
-import { useRouter } from "next/navigation";
+// Session 186: the two scenarios live in the address too (SellerScenarios.tsx); Show, the grid, the asset and "Reset
+// the costs" carry them. A change of asset (or of a battery's duration) drops a typed capital cost, fixed O&M, term
+// and life, whose defaults are the asset's.
+import { useRouter, useSearchParams } from "next/navigation";
 import { SiteLink as Link } from "@/components/SiteLink";
+import { keyOf, type Asset } from "@/lib/merchant";
+import { carry } from "@/lib/seller/finance";
 
 export type FormGrid = { id: string; name: string; open: boolean; words?: string; why?: string; hubs: { id: string; label: string }[] };
 export type FormValues = { iso: string; hub: string; asset: string; mw: number; mwh: number; ds: number; fom: number; hr: number; vom: number; bmw: number; dur: number; strat: string };
@@ -17,7 +22,9 @@ const STRATEGIES: [string, string][] = [["foresight", "Perfect foresight"], ["da
 
 export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grids: FormGrid[]; hybrid: boolean; defaults: string }) {
   const router = useRouter();
+  const search = useSearchParams().toString();
   const g = grids.find((k) => k.id === x.iso);
+  const own = keyOf({ asset: x.asset as Asset, mw: x.mw, mwh: x.mwh });
   const open = (iso: string, asset: string, hub?: string) => `/cost-of-power/seller?iso=${iso}&asset=${asset}${hub ? `&hub=${encodeURIComponent(hub)}` : ""}`;
   return (
     <form
@@ -27,7 +34,9 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
         const f = new FormData(e.currentTarget);
         const q = new URLSearchParams();
         for (const k of KEYS) { const v = f.get(k); if (typeof v === "string" && v !== "") q.set(k, v); }
-        router.push(`/cost-of-power/seller?${q.toString()}`, { scroll: false });
+        const mw = Number(q.get("mw") ?? x.mw), mwh = Number(q.get("mwh") ?? x.mwh);
+        const same = keyOf({ asset: x.asset as Asset, mw: mw > 0 ? mw : x.mw, mwh: mwh > 0 ? mwh : x.mwh }) === own;
+        router.push(`/cost-of-power/seller?${q.toString()}${carry(window.location.search, same)}`, { scroll: false });
       }}
     >
       <fieldset>
@@ -37,7 +46,7 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
             <li key={k.id}>
               <label className={`flex items-baseline gap-2 ${k.open ? "" : "text-muted"}`} data-grid={k.id} data-open={k.open ? "1" : "0"}>
                 <input type="radio" name="iso" value={k.id} defaultChecked={x.iso === k.id} disabled={!k.open} className="accent-[var(--color-accent)]"
-                  onChange={() => router.push(open(k.id, x.asset), { scroll: false })} />
+                  onChange={() => router.push(`${open(k.id, x.asset)}${carry(window.location.search, true)}`, { scroll: false })} />
                 <span>{k.name}</span>
                 {k.open ? <span className="text-xs text-muted">{k.hubs.length} hubs and zones</span> : <span className="cursor-help text-xs italic" title={k.why}>{k.words}</span>}
               </label>
@@ -57,7 +66,7 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
         {ASSETS.map(([id, name]) => (
           <label key={id} className="flex items-baseline gap-2" data-asset={id}>
             <input type="radio" name="asset" value={id} defaultChecked={x.asset === id} className="accent-[var(--color-accent)]"
-              onChange={() => router.push(open(x.iso, id, x.hub), { scroll: false })} />
+              onChange={() => router.push(`${open(x.iso, id, x.hub)}${carry(window.location.search, id === x.asset)}`, { scroll: false })} />
             <span>{name}</span>
           </label>
         ))}
@@ -108,7 +117,7 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
       ) : null}
       <div className="flex items-baseline gap-3">
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>
-        <Link href={open(x.iso, x.asset, x.hub)} scroll={false} className="text-xs">Reset the costs</Link>
+        <Link href={`${open(x.iso, x.asset, x.hub)}${carry(search, x.asset !== "battery" || own === "battery_4h")}`} scroll={false} className="text-xs" data-reset-costs="1">Reset the costs</Link>
       </div>
       <p className="text-xs leading-snug text-muted">{defaults}</p>
     </form>

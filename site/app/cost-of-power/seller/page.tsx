@@ -30,6 +30,7 @@ import { ContractInputs, ContractProvider, ContractResult } from "./SellerContra
 import { SellerForm, type FormGrid } from "./SellerForm";
 import { SellerHubYears, type HyCell, type HyRow, type HyTable } from "./SellerHubYears";
 import { SellerProfile } from "./SellerProfile";
+import { SellerScenarios, type Facts } from "./SellerScenarios";
 
 // Session 145: "What a generator earns", one page at one address. It holds what the seller's tab (session 51) and its
 // version 2 (session 107, /cost-of-power/seller/v2, which redirects here) each showed, in the battery page's layout,
@@ -57,6 +58,11 @@ import { SellerProfile } from "./SellerProfile";
 // so no number of a default page moved. The battery beside it and the pasted profile stay at the main hub, and say so.
 // (2) Every number, step by step, is docs/methods/generator_earns_algorithm.md, and the source line offers the default
 // case hour by hour with its do-file.
+//
+// Session 186, decisions, as session 179 built them for the battery: one section after the contract, "Scenarios A and
+// B" (SellerScenarios.tsx on lib/seller/finance.ts): eight assumptions with their cited defaults and Resets, two
+// scenarios on the same eight rows, and a sensitivity chart, computed in the browser from figures this page already
+// shows and kept in the address. Nothing above or below it changed. docs/methods/generator_earns_algorithm.md, section 11.
 export const metadata: Metadata = { title: "What a generator earns" };
 export const dynamic = "force-dynamic";
 
@@ -313,6 +319,25 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
     return { key: r.label, highlight: r.label === "Last 12 months", muted: r.partial,
       cells: [r.partial ? <Hint key="y" why={`${r.months} of 12 months counted: a partial year, its counted months only.`}>{r.label}, partial</Hint> : r.label, ...cells(r.solar, "solar"), ...cells(r.wind, "wind")] };
   });
+  // session 186: what the scenarios read. Every figure is one the page shows elsewhere, for the hub, asset and size chosen.
+  const assetWords = fuel ? plantName : x.asset === "battery" ? `a ${durationOf(x.mw, x.mwh)}-hour battery` : "a gas peaker";
+  const facts: Facts = {
+    mw: x.mw,
+    size: fuel ? `${sizeLabel} of ${plantName}` : x.asset === "battery" ? `a ${sizeLabel} battery` : `a ${sizeLabel} gas peaker`,
+    costs: { capex: D.capex, fom: D.fom, life: D.life, capexNote: `${D.capexRange} for ${assetWords}`, fomNote: `${D.fomRange} for ${assetWords}`, lifeNote: `${D.life} years for ${assetWords}` },
+    twelve: s.twelve ? { revenueKw: s.twelve.revenue_kw, energyKw: s.twelve.energy / 1000, span: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}`, at } : null,
+    twelveWhy, money,
+    capture: fuel
+      ? mine && mine.flat ? { price: mine.price, flat: mine.flat, ratio: (100 * mine.price) / mine.flat, words: `${MARKETS[mk].toLowerCase()}, ${shortMonth(mine.from)} to ${shortMonth(mine.to)}` } : null
+      : s.twelve && s.twelve.capture !== null && s.twelve.rate !== null ? { price: s.twelve.capture, flat: s.twelve.flat, ratio: s.twelve.rate, words: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}` } : null,
+    captureLabel: fuel ? "Capture price and ratio" : peaker ? "Price while running, and ratio" : "Price while selling, and ratio",
+    captureWhy: fuel ? why(hub, fuel, mk) : twelveWhy,
+    lowest: sm.worst[0] ? { month: longMonth(sm.worst[0].m), usd: sm.worst[0].revenue, months: sm.n } : null,
+    contract: fuel ? "energy" : "toll",
+    battery: pair ? { withIt: Math.round(pair.pair), without: Math.round(pair.plant), words: `${pairSpan}, a ${bmw.toLocaleString("en-US")} MW, ${dur}-hour battery, priced at ${g.at}` } : null,
+    batteryWhy: !fuel ? "A battery beside the plant is modeled for a solar or a wind plant." : !BATTERY_GRIDS.includes(iso) ? battWhy
+      : `No twelve months in a row hold ${g.name}'s day-ahead price and its ${plantName} fleet's output on at least 90 percent of their days.`,
+  };
   const yearHead = ["", "Solar, received", "Flat average", "Difference", "Percent", "Wind, received", "Flat average", "Difference", "Percent"];
 
   return (
@@ -420,6 +445,10 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
 
             <ToolSection title="With your contract" id="contract">
               <ContractResult plant={plant} mw={x.mw} hub={hubAt(hub.id)} span={mine ? `${shortMonth(mine.from)} to ${shortMonth(mine.to)}` : null} why={contractWhy} />
+            </ToolSection>
+
+            <ToolSection title="Scenarios A and B" id="scenarios">
+              <SellerScenarios key={`${iso}|${hub.id}|${k}`} facts={facts} initial={q} />
             </ToolSection>
 
             <ToolSection title="With a battery beside it" id="hybrid">
