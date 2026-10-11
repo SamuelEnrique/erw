@@ -9,9 +9,12 @@
 // Real data only: the file is read when the map is first shown, and when it is not held the frame says so and draws
 // nothing. No shape is drawn from anything but the file. A grid of the network with no shape in the file (Canada's and
 // Mexico's operators, and any the publisher's file does not name) is not on the map, and the line under it says which.
+// Session 193: the file held is a DERIVED one (each county given to one balancing authority from EIA-861; no public
+// file of the boundaries was reached in three pulls). A derived file is never drawn without its label: the words stand
+// inside the frame, under the map, wherever the regions are.
 import { geoAlbersUsa } from "d3-geo";
 import { useEffect, useMemo, useState } from "react";
-import { flowWidth, readBoundaries, ringPath, type Held } from "@/lib/networkMap";
+import { derivedLabel, flowWidth, readBoundaries, ringPath, type Held } from "@/lib/networkMap";
 
 export const BOUNDARY_FILE = "/network/ba_boundaries.json";
 const W = 975, H = 610;
@@ -54,6 +57,7 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
   const drawnFlows = flows.filter((f) => at.has(f.source) && at.has(f.target));
   const noShape = nodes.filter((n) => !regions.some((r) => r.id === n.id));
 
+  const derived = held.state === "held" ? derivedLabel(held.file) : null;
   const frame = "w-full min-w-0 overflow-hidden border border-rule";
   // the frame has the map's own proportions, so a phone shows the whole country with no empty band above and below it
   const style = { aspectRatio: `${W} / ${H}`, maxHeight: "min(72vh, 620px)", minHeight: 200 };
@@ -70,8 +74,11 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
     );
   }
   return (
-    <div className={`${frame} relative bg-paper`} style={style} data-map-state="held" data-map-regions={regions.length} data-map-matched={held.file.matched}
-      data-map-flows={drawnFlows.length} data-map-flows-all={flows.length} data-map-no-shape={noShape.map((n) => n.id).join(",")} data-map-sha={held.file.provenance.raw_sha256}>
+    <div className={`${frame} self-start bg-paper`} data-map-state="held" data-map-regions={regions.length} data-map-matched={held.file.matched}
+      data-map-flows={drawnFlows.length} data-map-flows-all={flows.length} data-map-no-shape={noShape.map((n) => n.id).join(",")} data-map-sha={held.file.provenance.raw_sha256}
+      data-map-derived={derived ? "1" : "0"}>
+      {/* the map keeps its own proportions; a derived file's label stands under it, inside the frame, and covers no region */}
+      <div className="relative" style={style}>
       <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" preserveAspectRatio="xMidYMid meet"
         aria-label="A map of the US balancing authorities, each region colored by the carbon intensity of its generation, with the power they exchange; hover a region for its name, click it for its panel">
         <defs>
@@ -112,6 +119,12 @@ export function NetworkMap({ nodes, flows, maxMw, colorOf, pick, neighbours, onP
       ) : null}
       {/* the dash runs from the exporter to the importer, faster as the flow is larger; still where the reader asks for less motion */}
       <style>{`@keyframes erw-flow { to { stroke-dashoffset: -12; } } .erw-flow-dash { animation: erw-flow 1.2s linear infinite; } @media (prefers-reduced-motion: reduce) { .erw-flow-dash { animation: none; } }`}</style>
+      </div>
+      {derived ? (
+        <p className="border-t border-rule bg-panel px-2 py-1 text-[11px] leading-snug text-ink" data-map-derived-label="1">
+          {derived} {held.file.provenance.vintage ? <>Data year: {held.file.provenance.vintage}.</> : null}
+        </p>
+      ) : null}
     </div>
   );
 }

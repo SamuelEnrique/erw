@@ -26,7 +26,9 @@ export function withShape(query: string, shape: Shape): string {
 export type Region = { id: string; source_name: string; area_km2: number; point: [number, number]; rings: [number, number][][] };
 export type Boundaries = {
   provenance: { source: string; publisher: string; title: string; vintage: string; url: string; retrieved_utc: string; raw_sha256: string; license_quoted: string;
-    simplification: { tolerance_degrees: number } };
+    simplification: { tolerance_degrees: number };
+    /** session 193: true when the areas are the ERW's own derivation (counties given to a balancing authority), not a publisher's boundary; label says so in words */
+    derived?: boolean; label?: string };
   nodes: number; matched: number; nodes_without_shape: { id: string; name: string }[]; shapes_without_node: { code: string; name: string }[];
   /** largest first: drawn in this order, a smaller balancing authority is on top of a larger one it sits inside */
   regions: Region[];
@@ -45,6 +47,12 @@ export function readBoundaries(v: unknown): Held {
       return { state: "error", why: "a region of the file has no id, rings or point" };
   }
   return { state: "held", file: f as Boundaries };
+}
+
+/** Session 193: the words a derived file must be drawn with, or null for a publisher's own boundary. A derived file without its words still says it is derived. */
+export function derivedLabel(f: Boundaries): string | null {
+  if (!f.provenance.derived) return null;
+  return f.provenance.label || "Derived map: these areas were put together by the ERW and are not a published boundary.";
 }
 
 /** A projected ring as an SVG path; a point the projection does not hold (outside the United States) is left out. */

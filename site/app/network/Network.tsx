@@ -613,7 +613,7 @@ export function Network({ snap, supply, live, v3 }: { snap: Snapshot; supply: Re
         <span className="flex items-center gap-1">Carbon intensity of generation:
           <span className="inline-block h-2 w-24" style={{ background: "linear-gradient(90deg, #175E54, #8C1515)" }} /> {fmt(lo)} to {fmt(hi)} kg CO2/MWh; grey: not held.
           {view.kind === "live" ? <> The color updates daily (latest hour {ciTs.slice(0, 13).replace("T", " ")}:00 UTC); the links and demand, hourly.</> : <> In a story, each day&apos;s own.</>}</span>
-        {shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s published boundary. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
+        {shape === "map" ? <span data-map-key="1">Region: the balancing authority&apos;s area as the boundary file gives it; the line on the map says what that file is. The batteries&apos; and prices&apos; rings are drawn in the Network view; the panel holds their numbers here.</span>
           : <span>Sphere: demand (the seven ISOs) or interchange volume (the others)</span>}
         {batteriesOn && shape !== "map" ? <span>Ring: batteries reported for the hour, fuller as they discharge, emptier as they charge.</span> : null}
         {pricesOn && shape !== "map" ? <span data-price-legend="1">Outer ring: the hub price, heavier as it is higher, on the grids with a public price held for the {unit} shown ({priceRings}); the heaviest is {priceMax.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD/MWh, the highest of the period shown.</span> : null}

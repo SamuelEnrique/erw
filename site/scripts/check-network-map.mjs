@@ -16,7 +16,8 @@
 //             and its grid on the map; without it, on the network; a word it does not know is the network
 //   held      what the map draws is what the boundary file holds: when the site has no file
 //             (public/network/ba_boundaries.json) the frame says so and draws no region; when it has one, the regions
-//             drawn are the file's matched grids, one each
+//             drawn are the file's matched grids, one each; session 193: a file that is DERIVED (provenance.derived)
+//             carries its label inside the map's frame, and a file that is not carries none
 //   drawing   with the test's own file of made-up squares (tests/fixtures/session180, handed to the page in place of the
 //             boundary file; never shipped, never on a page a person opens): a region per matched grid and no other, the
 //             smaller on top of the larger it sits inside, each tie that has both ends drawn from its exporter to its
@@ -132,6 +133,12 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   } else {
     const want = heldFile.regions.filter((r) => snap.nodes.some((x) => x.id === r.id)).length;
     check(s.state === "held" && s.regions === want && s.said === want && want === heldFile.matched && s.matched === heldFile.matched, `the regions drawn (${s.regions}) are the boundary file's matched grids (${heldFile.matched}), one each`);
+    // session 193: a derived file is never drawn without its label
+    const lab = await evaluate(`(() => { const m = document.querySelector('[data-map-state]'); const p = document.querySelector('[data-map-derived-label]'); const b = p?.getBoundingClientRect(); const f = m?.getBoundingClientRect();
+      return { derived: m?.getAttribute('data-map-derived'), text: p?.innerText ?? '', inside: !!b && !!f && b.top >= f.top && b.bottom <= f.bottom + 1 && b.height > 0 }; })()`);
+    if (heldFile.provenance.derived) check(lab.derived === "1" && lab.inside && lab.text.includes(heldFile.provenance.label) && /not a boundary/.test(lab.text),
+      `the held file is a derived one and the map says so inside its frame: "${lab.text.slice(0, 80)}..."`);
+    else check(lab.derived === "0" && lab.text === "", "the held file is a publisher's own boundary: it carries no derived label");
   }
   check(await evaluate(`!!document.querySelector('[data-map-key]') && document.body.innerText.includes('Carbon intensity of generation:') && !document.body.innerText.includes('Drag to rotate')`), "the key keeps the carbon scale and reads for a map, not for a 3D scene");
   await evaluate(press("network"));
@@ -165,6 +172,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   const ids = fixture.regions.map((r) => r.id);
   const drawn = await evaluate(`[...document.querySelectorAll('[data-region]')].map((e) => e.getAttribute('data-region'))`);
   check(drawn.join(",") === ids.join(",") && s.said === ids.length && s.matched === fixture.matched, `a region for each matched grid of the file and no other, in the file's order (${drawn.length} drawn, ${fixture.matched} matched): ${drawn.join(" ")}`);
+  check(await evaluate(`document.querySelector('[data-map-state]')?.getAttribute('data-map-derived') === '0' && !document.querySelector('[data-map-derived-label]')`),
+    "a file that is not derived carries no derived label (the fixture's squares)");
   const i15 = y21.days.indexOf("2021-02-15");
   const moving = y21.links.filter((l) => l.mw[i15] !== null && l.mw[i15] !== 0 && ids.includes(l.a) && ids.includes(l.b));
   const wantFlows = moving.map((l) => (l.mw[i15] > 0 ? `${l.a}>${l.b}` : `${l.b}>${l.a}`)).sort();

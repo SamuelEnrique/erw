@@ -169,6 +169,55 @@ Five requests and 658,303 bytes against a ceiling of five and 200 MB. Request 2 
 
 Six requests and 382 bytes against a ceiling of ten and 300 MB; four requests were left unspent. The three requests after the first to `hifld-geoplatform.hub.arcgis.com` each waited the 60 seconds its robots file asks (the connector refused two that were sent early, before anything left the machine). What the answers say: the catalog's site is gone under both of its names, so its list of datasets, the layer's record and the layer's license statement cannot be read there. Request 4 went to the ArcGIS Online host that used to serve HIFLD's layers; that host's name came from the session's own recollection, not from an answer of the catalog, and only its robots file was asked for. The host answered 403, so there is no robots file to read: Python's standard reader, which is the connector's measure, treats a 403 on a robots file as "nothing may be asked", while RFC 9309 treats any 4xx as "no rule is stated". The stricter reading was kept: no layer, service list or item record was asked of that host, and no other host was tried. No license words are quoted for the layer because no statement of them was reached. Whether a layer of a retired catalog may be read from the host behind it, and under which words, is a ruling for the owner. The requests, their times, each answer's headers and the sha256 of each answer are in the session's `requests.csv` and beside it.
 
+**The third pull (session 193, 11 October 2026): no published boundary answered, so the map is derived from counties and says so.** The owner allowed thirty requests and 300 MB, terms read first, and named three places to look in order. Twelve requests were sent, 9,917,072 bytes:
+
+| # | Request | Answer |
+|---|---|---|
+| 1 | `https://www.eia.gov/robots.txt` | 200, 718 bytes. `Allow: /` for every agent, with a list of folders disallowed (among them `/global/`, `/scripts`, `/styles`, `/archive/`); none of the addresses below is in it. No delay is asked. |
+| 2 | `https://www.eia.gov/about/copyrights_reuse.php` (the terms) | 200, 52,528 bytes: "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website". It asks for an acknowledgment with the date. |
+| 3 | `https://www.eia.gov/maps/layer_info-m.php` (EIA's list of map layers and their shapefiles) | 301, 0 bytes, `Location: https://atlas.eia.gov/search`. The list is gone; it points at the atlas, whose catalog and search session 180 read (no balancing-authority layer). The redirect was not followed. |
+| 4 | `https://www.eia.gov/electricity/gridmonitor/dashboard/electric_overview/US48/US48` (the Hourly Electric Grid Monitor) | 200, 43,735 bytes: the page names its program, `main-62AHFAMH.js`. |
+| 5 | `https://www.eia.gov/electricity/gridmonitor/main-62AHFAMH.js` | 200, 4,903,073 bytes. The map's shapes are inside the program: the states, and thirteen regions (`REG-CAL`, `REG-CAR`, `REG-CENT`, `REG-FLA`, `REG-MIDA`, `REG-MIDW`, `REG-NE`, `REG-NY`, `REG-NW`, `REG-SE`, `REG-SW`, `REG-TEX`, `REG-TEN`). A balancing authority is drawn as a bubble at one latitude and longitude. No boundary of a balancing authority is in it. |
+| 6 | `https://api.github.com/repos/NREL/ReEDS-2.0/license` | 301, 206 bytes: the repository moved; the answer names `https://api.github.com/repositories/189060033/license`. |
+| 7 | that address | 200, 3,120 bytes: BSD 3-Clause, "Copyright (c) 2023, Alliance for Sustainable Energy, LLC". Redistribution is allowed with the notice kept; it is not public domain. |
+| 8 | `https://api.github.com/repositories/189060033/contents/inputs/shapefiles` | 200, 8,059 bytes: the folder `US_PCA` and five other files. |
+| 9 | `https://api.github.com/repositories/189060033/contents/inputs/shapefiles/US_PCA` | 200, 4,638 bytes: `US_PCA.dbf` (67,124 bytes) and the shapes themselves as a 131-byte pointer to a large-file store. |
+| 10 | `https://raw.githubusercontent.com/NatLabRockies/ReEDS-2.0/main/inputs/shapefiles/US_PCA/US_PCA.dbf` (the attribute table) | 200, 67,124 bytes: 134 regions, fields `rb` (`p1` to `p134`), `st`, `rto`, `interconne`, `country`, `custreg`. No field holds an EIA-930 code: 0 of the page's 70 grids match any value of any field. They are the model's own regions, not balancing authorities, so the shapes were not asked for. |
+| 11 | `https://www.eia.gov/electricity/data/eia861/` | 200, 77,055 bytes: "Release date: October 7, 2026 (final data)"; the newest file is `zip/f8612025.zip`. |
+| 12 | `https://www.eia.gov/electricity/data/eia861/zip/f8612025.zip` | 200, 4,756,816 bytes, sha256 `f59f6c732bf685fe0a1591b32227f5ce572dc0dfd26bb5caaeed128ac4e3a396`: Form EIA-861's detailed data files for 2025. |
+
+No request went to an ArcGIS Online services host (session 180b's reading of a 403 on a robots file stands until the owner rules), to HIFLD, MISO, PJM or the Virginia SCC. Eighteen requests were left unspent.
+
+**The derived map: counties (session 193).** The file the map now reads is the ERW's own derivation, not a boundary any balancing authority or agency published, and the map carries that sentence inside its frame whenever a region is drawn (`provenance.derived`, `provenance.label`; the page never draws a derived file without it). `warehouse/connectors/eia_ba_boundaries.py counties` makes it, with no request, from two things:
+
+- **EIA-861, 2025** (request 12). `Service_Territory_2025.xlsx` lists the counties each utility serves in each state (11,803 lines, 3,096 utility-states). `Sales_Ult_Cust_2025.xlsx`, `Delivery_Companies_2025.xlsx` (Texas's delivery utilities report there) and `Short_Form_2025.xlsx` give each utility's balancing authority code and customers in a state. The codes are EIA's own, the ones EIA-930 uses.
+- **County shapes** from the package the site already uses for its project map (`us-atlas` 3.0.1, `counties-10m.json`, sha256 `145aaf5d1433352a6a1d8e86b5f149c7c653f9171baf14aaf75ee66575def1b0`): the Census Bureau's cartographic boundary files, 2017 edition, as TopoJSON. Nothing was asked of the Census Bureau.
+
+The rule, whole:
+
+1. A utility's customers in a state under each of its codes are those of the wires: Parts A, C and D of `Sales_Ult_Cust` (bundled service and delivery), the delivery companies' file and the short form. Part B, energy sold by a marketer over another utility's wires, is left out: its customers are Part C's.
+2. Those customers are split evenly over the counties `Service_Territory` lists for the utility in that state. EIA-861 does not say how many customers a utility has in each county, so the even split is an assumption, and the only one.
+3. A county is given to the code with the most customers so allotted. Where no utility of a county reports a customer, to the code most of its utilities name. A tie is no assignment (there was none).
+4. A county's name is matched to its shape exactly, after accents, case, punctuation and the words county, parish, borough, census area and municipality are dropped and Saint is written St. Where a state has a county and an independent city of one name, the plain name is the county and "<name> City" is the city.
+5. A balancing authority's area is the counties given to it, joined, then simplified as a publisher's file would be (0.02 degrees). A code is drawn only when it is exactly the code of one of the page's grids.
+
+What came out (the file's `provenance.counts`):
+
+- 44 of the page's 70 grids have an area. 3,067 of the 3,107 counties of the lower 48 states and the District of Columbia are drawn.
+- 2,008 counties are served only by utilities of one code. 1,126 are served by utilities of several and were given to the largest; the smallest winning share of a county is 33 percent (in the Tennessee Valley Authority's area). `site/public/network/ba_counties.csv` holds every county with its code, the share and how many codes were named.
+- **40 counties of the lower 48 are blank.** 37 were given to `WACM`, a code of EIA-861's 2025 files that is not one of the page's grids (10 counties in Colorado, 9 in South Dakota, 8 in Wyoming, 6 in Nebraska, 3 in Utah, 1 in New Mexico). The page draws `SWPW`, Southwest Power Pool West, which EIA-861 does not name; nothing was moved from one code to the other. The other 3 are independent cities of Virginia that no utility's list names (Galax, Lynchburg and the city of Roanoke). A fourth, Falls Church, was given a code and has no shape in the county file, so it is not drawn either.
+- 25 utility-states have a territory and no code in the files (Wolverine Power Supply Coop's 33 counties in Michigan are the largest); their counties were given by the other utilities that serve them.
+- **26 grids have no area.** 17 are named by no utility in the files: seven operators of Canada and Mexico (`AESO`, `BCHA`, `CEN`, `HQT`, `IESO`, `MHEB`, `SPC`) and `AVRN`, `BHBA`, `CPLW`, `DEAA`, `GRID`, `GWA`, `SIKE`, `SWPW`, `WWA`, `YAD`. Nine are named and won no county against a larger neighbour in the same county: `GCPD`, `GVL`, `HST`, `IID`, `JEA`, `NBSO`, `SEPA`, `SPA`, `TIDC`. A grid with no area is not on the map and its ties are not drawn there; the Network view holds them.
+- Four county names of EIA-861 are not in the shapes, all in Alaska, which the page does not draw.
+- **A check that changed the rule.** The first build read `Sales_Ult_Cust` and the short form only, and left 8 counties blank. Looking them up showed why: Texas's delivery utilities (Oncor, CenterPoint and five more, 8.5 million customers) are in `Delivery_Companies`, so they had no weight, and 39 Texas counties had gone to a neighbour's code or to none (Harris County, which holds Houston, to `MISO`). The file was added to the rule before anything was drawn; a test holds Harris County to `ERCO`.
+
+What this map is not:
+
+- **Not a boundary.** A balancing authority's footprint follows transmission and generation, not county lines, and several overlap. Here a county has exactly one, so a small balancing authority inside a large one's counties disappears, and a county split between two is shown whole for the larger.
+- **Not customers by county.** The even split gives a rural county and a city of the same utility the same weight.
+- **Not the date of the replay.** It is EIA-861's year 2025, for every hour and year the page shows.
+- **Not a measure.** Area is land. Nothing on the page is computed from these areas: the colors, flows and numbers are the Network view's own.
+
 **Why the license has to be read per file.** The atlas is not one license. Of the 101 datasets its catalog listed, 41 say "This work is licensed under the Esri Master License Agreement", 40 carry only EIA's liability statement, 10 say "None (public use)", 7 say nothing, and one quotes EIA's own rule: "U.S. government publications are in the public domain and are not subject to copyright protection. You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website". So a boundary layer on the atlas is used only after its own license statement has been read and says public domain or the equivalent, and the robots file of the host that serves the file (a feature service's host is not `atlas.eia.gov`) has been read as well.
 
 **When the file is held: how it is made.** `warehouse/connectors/eia_ba_boundaries.py build` reads the publisher's GeoJSON as it came and writes the site's file. It is reference geometry, not a table: nothing of it goes through the validator, into `warehouse/output` or into the live set.
@@ -183,7 +232,7 @@ Six requests and 382 bytes against a ceiling of ten and 300 MB; four requests we
 
 ## Not here
 
-- The boundaries of the balancing authorities: not yet held (see "The map").
+- The published boundaries of the balancing authorities: not held after three pulls. The Map draws the ERW's own derivation from counties, labeled as derived (see "The map", "The derived map: counties").
 - The demand of the BAs outside the seven ISOs.
 - Hourly interchange before 2026-09-13, except the two stories' windows (daily interchange is held from 2019).
 - Flows by transmission line: EIA-930 reports BA-to-BA totals only.
