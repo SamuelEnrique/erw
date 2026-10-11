@@ -73,7 +73,7 @@ lab-desktop (data role), Sunday 11 October 2026, 19:40 to about 20:45 UTC. Unatt
   - `after198a` at 20:08:34 UTC, exit 0. `compare before198a after198a`: **0 differences on the 25 pages**, exit 0 (`runs/s198_compare_a.out`). Expected: no page changed, and every page is in review.
 - **The branch** `task/198-battery-data`: see the lines added below by the second push.
 
-BRANCH_LANDING
+- (The push, GitHub's run, the merge, the deployment and the comparison are added here by the second push, `task/198-report`.)
 
 ## Decisions made without you
 
