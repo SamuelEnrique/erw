@@ -181,7 +181,26 @@ Visible lines that changed, internal view only:
 
 ## Landing
 
-LANDING: filled in by the orchestrating session
+- Landed third, after sessions 189 (07:44 UTC) and 188 (08:08 UTC). The three were built side by side in their own worktrees and landed one at a time.
+- Branch `wip/190-datacenter-correct` with `origin/main` (sessions 187, 188 and 189) merged in: commit `d682629b`, pushed as `task/190-datacenter-correct` on 11 October 2026 at 08:33 UTC. GitHub's checks passed (run 38125181719). Merge on `main`: `e758b8f5`.
+- Before the push, on `d682629b`:
+  - `python scripts/freeze.py status`: exit 0 (no freeze).
+  - `npm run build` in the main copy: exit 0, twice (see the next line).
+  - **`check-routes.mjs` on the first build: exit 1, on a page this session does not touch.** `/grid` drew 4 "no data" blocks against 0 in production. The build's log holds two lines "Supabase series: HTTP 500 ... canceling statement due to statement timeout": two reads failed while the page was built, and the built page kept the gap. A second build had no such line and the route check on it exits 0 (160 pages, 0 failed). Not caused by this branch (no file of `/grid` or of the reader differs from `main`). It can happen to any build, Vercel's included: `/grid` rebuilds itself every hour (`revalidate = 3600`), so a gap of that kind would last an hour at most.
+  - `check-datacenter-face.mjs`: exit 0 on both builds (23 of 23). `check-datacenter.mjs`: exit 0. `check-values.mjs`: exit 0 three times (6,904 of 6,935 equal; 31 latest prices superseded by a newer interval, as the check allows).
+  - The whole suite in a clean copy: exit 0, 3,215 tests, 234 skipped.
+- Vercel: production deployment of `e758b8f5`, success (08:42 UTC).
+- Snapshots: `s190-before` (08:32 UTC) and `s190-after` (08:43 UTC), 25 pages each, 0 failed. Comparison: **0 differences on 25 pages.** Nothing to mark: every page is in review, so a visitor sees the in-review page before and after.
+- In production after the deploy: `check-datacenter-face.mjs https://erw-flame.vercel.app` exits 0 (23 of 23: the headline numbers, the note's link, the three downloads, the CSV byte for byte, the tab label); `check-routes.mjs` against production exits 0 (0 failed, `/grid` among them).
+- **One thing outside the tool, to know:** the first tab's label is in `site/app/cost-of-power/Tabs.tsx`, which the battery page and the seller page share. The battery page's first tab changed from "What power costs to buy" to "What a datacenter pays" (the seller page already read so). Nothing else of either page changed.
+- The remote branch `wip/190-datacenter-correct` was deleted after the merge.
+- This report's landing lines reach `main` as `task/190-report`, a change to report files only, with a snapshot pair of its own (`s190r-before`, `s190r-after`). Its comparison is in the chain's closing message and in `runs/session190/` on the old laptop.
+
+### The chain's closing step (session 188's convention, first live use)
+
+- `queue/next/` is empty. After the report lands, the chain runs `python scripts/chain_queue.py next`: one row of `erw_health` (step `idle`, status `ok`, workflow `local:samueloldlaptop`) and one line by e-mail to the fixed recipients, "ERW: a machine is idle". Expected exit 3. The dry run printed exactly that (`runs/session190/queue_next_dry.out`).
+- The precheck was not run live in this chain (it did not exist when the chain began), so the machine was never on duty and the idle alarm had nothing to watch.
+- To start the next chain: put `NNN-<slug>.md` in `queue/next/` (`queue/CHAIN_TEMPLATE.md`), or paste a prompt as before.
 
 ## The prompt
 
