@@ -7,6 +7,22 @@
 # always exits 0. It decides nothing about the push: rules 8 and 9 of CLAUDE.md do.
 cat >/dev/null 2>&1   # git writes the refs being pushed here; they are read and not used
 root="$(cd "$(dirname "$0")/../.." 2>/dev/null && pwd)" || exit 0
+# Session 188: a commit or a push on a machine on duty is a sign of work (docs/machines.md, "Continuous work"). The
+# mark is .erw/duty.json of the main checkout (python scripts/precheck.py writes it); a git worktree has no .erw/ of
+# its own, so the main checkout's is looked up. Not on duty: nothing. In the background, silent, never a failure.
+duty="$root/.erw/duty.json"
+if [ ! -f "$duty" ]; then
+  common="$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)" || common=""
+  [ -n "$common" ] && [ -f "$common/../.erw/duty.json" ] && duty="$common/../.erw/duty.json"
+fi
+if [ -f "$duty" ] && [ -f "$root/scripts/duty.py" ]; then
+  home="$(cd "$(dirname "$duty")/.." 2>/dev/null && pwd)"
+  dpy=python
+  [ -x "$home/.venv/Scripts/python.exe" ] && dpy="$home/.venv/Scripts/python.exe"
+  [ -x "$home/.venv/bin/python" ] && dpy="$home/.venv/bin/python"
+  command -v "$dpy" >/dev/null 2>&1 || dpy=python3
+  ( "$dpy" "$root/scripts/duty.py" beat --state "$home/.erw" </dev/null >/dev/null 2>&1 & ) >/dev/null 2>&1
+fi
 [ -f "$root/.erw/chain.json" ] || exit 0
 py=python
 [ -x "$root/.venv/Scripts/python.exe" ] && py="$root/.venv/Scripts/python.exe"

@@ -1,0 +1,9 @@
+# The last session report whose rulings Samuel has answered (session 188).
+# /internal/waits lists what waits for him in every report after this one, newest first.
+# When a report is answered: write its number below, set the day, commit and push. The page is rebuilt with the site.
+# Two lines, as REVIEW_FREEZE is written; a line beginning with # is a note. A report number may end in a letter (180b).
+#
+# 171 is where session 188 started it: the chain prompt of 9 October 2026 answers session 171 (the Virginia ruling) and
+# no later prompt answers a later report. Samuel corrects it if that is wrong.
+last_answered: 171
+on: 2026-10-09

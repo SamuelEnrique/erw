@@ -35,6 +35,8 @@ The unlock address carries the token in its query, as `/internal/costs` does. Op
 
 **Since session 177 there is a door with no token in any address: `/internal/open`.** It is a form: paste the token, press "Open the internal view". The token goes in the request's body to `POST /internal/unlock`, which sets the same two cookies and goes to the home page. Nothing of the token is put in an address, a log or the page. A wrong token returns to the form; after ten wrong tries in an hour from one address the form asks to wait (a right token is never refused, and the link above is not limited). `/internal/costs`, `/internal/ask` and `/internal/usage` open with the internal cookie, so they need no `?token=` either (the old addresses with `?token=` still work). Every `/internal` address is sent `Cache-Control: private, no-store`, `Referrer-Policy: no-referrer` and `X-Robots-Tag: noindex`; the form's own page is sent `Referrer-Policy: same-origin` instead (under `no-referrer` a browser posts a form with `Origin: null`, which the route refuses as it refuses another site's form). `site/scripts/check-csp.mjs` opens the internal view by the form in a real browser.
 
+Since session 188 `/internal/waits` lists what the session reports leave for the owner's ruling (`docs/machines.md`, "Continuous work"). It opens with the internal cookie only, as `/internal/findings` does: it takes no `?token=`, is linked from nothing, and answers 404 to a visitor.
+
 The link above works exactly as before until the owner confirms the form. Retiring it, and rotating the token afterwards, are the owner's steps (`docs/reviews/2026-10-10-security.md`, H1).
 
 ## Not behind the gate

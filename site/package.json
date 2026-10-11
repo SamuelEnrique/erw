@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "content": "node scripts/build-content.mjs",
-    "predev": "node scripts/build-content.mjs",
+    "content": "node scripts/build-content.mjs && node scripts/build-waits.mjs",
+    "predev": "node scripts/build-content.mjs && node scripts/build-waits.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/build-content.mjs",
+    "prebuild": "node scripts/build-content.mjs && node scripts/build-waits.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
