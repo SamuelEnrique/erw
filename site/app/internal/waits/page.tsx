@@ -14,8 +14,13 @@ import { lineUrl, WAITS, type WaitReport } from "@/lib/waits";
 // behind the internal view exactly as /internal/findings is: the page answers 404 unless the browser holds the
 // internal cookie (set by the form at /internal/open). It takes no token in its address. It reads no database and
 // writes nothing: "the last one he answered" is a file in the repository that a person edits.
-export const metadata: Metadata = { title: "Waits for Samuel (internal)", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
+
+/** The page's name is sent only to the internal view: a visitor's 404 carries none of this page's words. */
+export async function generateMetadata(): Promise<Metadata> {
+  const inside = (process.env.INTERNAL_COSTS_TOKEN ?? "").length >= 24 && (await internalOk((await cookies()).get(COOKIE)?.value));
+  return { ...(inside ? { title: "Waits for Samuel (internal)" } : {}), robots: { index: false, follow: false } };
+}
 
 const plural = (n: number, one: string, many: string) => `${n.toLocaleString("en-US")} ${n === 1 ? one : many}`;
 

@@ -89,6 +89,18 @@ class ThePage(unittest.TestCase):
         self.assertNotIn("searchParams", page, "no token in the address")
         self.assertNotIn("token=", page)
 
+    def test_a_visitors_404_does_not_carry_the_pages_name(self):
+        page = src(*PAGE)
+        self.assertNotIn("export const metadata", page, "a fixed title is sent with the 404 too")
+        meta = page.split("export async function generateMetadata()", 1)[1].split("\n}\n", 1)[0]
+        self.assertIn("internalOk((await cookies()).get(COOKIE)?.value)", meta)
+        self.assertIn('inside ? { title: "Waits for Samuel (internal)" } : {}', meta)
+        check = src("site", "scripts", "check-internal-waits.mjs")
+        for word in ("without the cookie /internal/waits is 404", "a visitor is sent none of the page's words", "a token in the address opens nothing",
+                     "at 390 px does not scroll sideways", "every waiting item links to its line of the report"):
+            self.assertIn(word, check, word)
+        self.assertNotIn(EM, check)
+
     def test_it_is_not_indexed_never_cached_and_reads_no_database(self):
         page = src(*PAGE)
         self.assertIn("robots: { index: false, follow: false }", page)

@@ -98,14 +98,14 @@ def send(subject, line, dry_run=False):
 
 
 def state_dir(root=ROOT, main=main_checkout):
-    """Where this machine keeps its role and its marks: .erw/ of this folder, or, in a git worktree (which has none),
-    .erw/ of the main checkout."""
+    """Where this machine keeps its role and its marks: the .erw/ that holds the role file machine.json. That is this
+    folder's own, or, in a git worktree (whose .erw/, if it has one at all, holds no role file), the main checkout's."""
     here = os.path.join(root, ".erw")
-    if os.path.isdir(here):
+    if os.path.exists(os.path.join(here, "machine.json")):
         return here
     m = main(root)
     there = os.path.join(m, ".erw") if m else None
-    return there if there and os.path.isdir(there) else here
+    return there if there and os.path.exists(os.path.join(there, "machine.json")) else here
 
 
 def machine(state=None):

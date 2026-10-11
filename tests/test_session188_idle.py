@@ -140,8 +140,14 @@ class OnDuty(unittest.TestCase):
         tree = os.path.join(self.tmp.name, "tree")
         os.makedirs(os.path.join(main, ".erw"))
         os.makedirs(tree)
+        with open(os.path.join(main, ".erw", "machine.json"), "w", encoding="utf-8") as f:
+            json.dump({"name": "old-laptop", "role": "code"}, f)
         self.assertEqual(duty.state_dir(tree, main=lambda root: main), os.path.join(main, ".erw"))
         self.assertEqual(duty.state_dir(main, main=lambda root: main), os.path.join(main, ".erw"))
+        # a worktree that has an .erw/ of its own without a role file (a hook's notes, a test's) still reads the main checkout's
+        os.makedirs(os.path.join(tree, ".erw", "alerts"))
+        self.assertEqual(duty.state_dir(tree, main=lambda root: main), os.path.join(main, ".erw"))
+        self.assertEqual(duty.machine(duty.state_dir(tree, main=lambda root: main)), {"name": "old-laptop", "role": "code"})
         self.assertEqual(duty.state_dir(tree, main=lambda root: None), os.path.join(tree, ".erw"), "git cannot say: this folder's own")
         self.assertIsNone(duty.machine(os.path.join(tree, ".erw")))
 
