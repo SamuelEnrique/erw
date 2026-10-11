@@ -154,7 +154,21 @@ Outputs under `C:/Users/lossa/Documents/erw-188/runs/session188/`.
 
 ## Landing
 
-LANDING: filled in by the orchestrating session
+- Landed second (session 189, a document, was ready first and landed at 07:44 UTC).
+- Branch `wip/188-plumbing` with `origin/main` (session 189) and `wip/187-raw-handover` (session 187's script, test, report and `handover.json`) merged in: commit `a64823fc`, pushed as `task/188-plumbing` on 11 October 2026 at 08:00 UTC. GitHub's checks passed (run 38123240880). Merge on `main`: `c542b316`.
+- Before the push, on `a64823fc`:
+  - `python scripts/freeze.py status`: exit 0 (no freeze).
+  - `npm run build` in the main copy: exit 0. The build's own line: "build-waits: 15 of 17 reports after session 171 hold 88 waiting items".
+  - `check-internal-waits.mjs` on the main copy's build, twice: exit 0, 0 (24 of 24).
+  - `check-routes.mjs` on the main copy's build: exit 0 (159 pages, 0 failed).
+  - The whole suite in a clean copy: exit 0, 3,169 tests, 233 skipped.
+- Vercel: production deployment of `c542b316`, success (08:08 UTC).
+- Snapshots: `s188-before` (07:59 UTC) and `s188-after` (08:09 UTC), 25 pages each, 0 failed. Comparison: **0 differences on 25 pages.** Nothing to mark.
+- In production after the deploy: `/internal/waits` answers 404 to a visitor; in the internal view `check-internal-waits.mjs https://erw-flame.vercel.app` exits 0 (24 of 24), so Vercel's build does read `archive/sessions/`.
+- **Not done by the orchestrating session either: `CLAUDE.md` and `.claude/settings.json`.** The prompt asks for a precheck every session runs first and every chain file names. `queue/CHAIN_TEMPLATE.md` and `docs/machines.md` name it. Writing it into `CLAUDE.md`, and allowing its three commands, changes what every later session is told and may do: that is left for Samuel. The patch is `runs/session188/claude_md.patch` in the worktree `erw-188` on the old laptop; its text is under "For the coordinator" above.
+- No live write was made before the landing: no duty mark, no `erw_health` row, no e-mail. The first ones are at the end of this chain (session 190's report says what was run).
+- The remote branches `wip/188-plumbing` and `wip/187-raw-handover` were deleted after the merge: `main` holds both.
+- These lines reached `main` with session 190's landing.
 
 ## The prompt
 

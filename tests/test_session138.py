@@ -1,8 +1,8 @@
 """Session 138: "What a datacenter pays" (/cost-of-power). The builder of the page's files on a real sample; the
 arithmetic in node on the saved real samples (a flat load pays the mean of the hourly prices, a flexible load never
 pays more, the contract matches the battery page's); the page's rules (one page, one address, the earlier tab kept
-as a view, the grids shown and blanked, no method on the face, locked for visitors, the live battery page's words
-unchanged). No request and no model call."""
+as a view, the grids shown and blanked, no method on the face, locked for visitors, the tab named alike on the three
+pages since session 190). No request and no model call."""
 import json
 import os
 import re
@@ -206,11 +206,14 @@ class Page(unittest.TestCase):
             self.assertIn(kept, self.grids)
         self.assertIn('"/cost-of-power?view=grids"', src("site", "scripts", "check-values.mjs"))
 
-    def test_the_tab_is_named_and_the_live_battery_page_keeps_its_words(self):
+    def test_the_tab_is_named_and_reads_alike_on_the_three_pages(self):
+        # session 190: until then the battery page, open to visitors and under the freeze through 7 October 2026, kept
+        # the words "What power costs to buy" on this tab; the freeze is over and that page is in review (session 166)
         tabs = src("site", "app", "cost-of-power", "Tabs.tsx")
         self.assertIn('LABEL = "What a datacenter pays"', tabs)
-        self.assertIn('active === "battery" ? FROZEN_LABEL : LABEL', tabs)
-        self.assertIn('FROZEN_LABEL = "What power costs to buy"', tabs)
+        self.assertIn('{tab("/cost-of-power", LABEL, active === "buy")}', tabs)
+        self.assertNotIn("FROZEN_LABEL =", tabs)
+        self.assertNotIn('"What power costs to buy"', tabs.split("const LABEL", 1)[1])
         self.assertIn('title="What a datacenter pays"', self.page)
 
     def test_the_page_is_locked_for_visitors(self):

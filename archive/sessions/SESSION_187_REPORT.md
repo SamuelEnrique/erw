@@ -12,7 +12,7 @@
 
 ## On lab-desktop
 
-1. `git fetch origin` then `git checkout wip/187-raw-handover` (or `main` once session 188 has landed: the script goes to main with it).
+1. `git checkout main` then `git pull` (session 188's landing, merge `c542b316` of 11 October 2026, put the script and `runs/session187/handover.json` on `main`; the branch `wip/187-raw-handover` was deleted after it).
 2. `python scripts/raw_handover.py fetch --folders ercot_zone_prices` (6 objects, 234 MB; a first try).
 3. `python scripts/raw_handover.py fetch` (everything: 857 objects, 22.07 GB down; it resumes where it stopped).
 4. `python scripts/raw_handover.py verify` (every file against the manifest; exit 0 when none is missing or different).
