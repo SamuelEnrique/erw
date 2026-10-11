@@ -21,7 +21,7 @@
 
 - **The choice.** `runs/session192/use_in_roundup.mjs`: opens the internal view, checks that the card's page holds the button, then sends what the button sends (`POST /api/analysis {kind: "roundup", card_id: "peak_hour_moved"}`). Answer: HTTP 200 `{"ok":true,"week":"2026-W41"}`. One row of `analysis_requests` was written by the site's function.
 - **Which card.** `/analysis` lists "THE PEAK HOUR MOVED: FIVE GRIDS" (`peak_hour_grids`). The ERCOT card is the earlier single-grid one, kept at its own address, with its own button and a committed image. The prompt says ERCOT, so that one was chosen.
-- **The fix.** `warehouse/news/roundup.py`: `policy_section` passes the policy lines through `brief.without_repeats` against everything above them; when every "Also this week" line was a repeat, the heading goes too. 16 lines added, 1 changed.
+- **The fix.** `warehouse/news/roundup.py`: `policy_section` passes the policy lines through `brief.without_repeats` against everything above them; when every "Also this week" line was a repeat, the heading goes too. 17 lines added, 1 changed.
 - **Tests.** `tests/test_session192.py`, 6 tests: the repeat is refused by the hard check with the publisher's title and with another headline; it is dropped and named; the heading goes with its last line; a section without a repeat is unchanged; `main` writes the section through it.
 
 ## The cap and Sunday's run
