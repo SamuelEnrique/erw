@@ -4,6 +4,7 @@
 
 ## Read these first
 
+- **Landed since this was written**: merge `e5af1750` on `main`, 11 October 2026, 09:37 UTC, 0 differences on 25 pages, before the 23:00 UTC run. On main's code the dry run of 2026-W41 exits 0. See "Night of Oct 11" in `SESSION_185_REPORT.md`.
 - **NOT LANDED, and it must land before 23:00 UTC today or the Roundup will most likely not be written.** This machine still cannot push to GitHub (no sign-in; session 184, item 0). The fix is one commit on a branch here. The commands are under "To finish".
 - **The finding is marked.** "The peak hour moved" (ERCOT; card `peak_hour_moved`) is chosen for week 2026-W41, through the site's own "Use in Roundup" route at 07:16:08 UTC. `roundup_pick.py 2026-W41` reads it back.
 - **The dry run found a fault that is not about the chart: this week's Roundup was not written at all.** `roundup.py --week 2026-W41 --no-model` stopped with "duplicate items in the brief". The Department of Energy's release of USD 4.2 billion for nuclear power is one of the week's stories and, as a policy action, a line under "Also this week"; the hard check refuses two items with one source address. It refuses them with the model too: the address is the same whatever the headline.
