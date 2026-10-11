@@ -197,6 +197,44 @@ months. This is the battery page's contract arithmetic (`site/lib/batterystack.t
 a buyer: a share at the typed price, the rest at the market's figure for the same twelve months. A real contract has a
 shape, a settlement point, collateral and a term that are not here.
 
+### Scenarios A and B (session 194)
+
+After "With your contract" the page sets two scenarios side by side, as the battery page (session 179) and the
+generator page (session 186) do. Every formula is in
+[`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md), section 4.14; this is what the block is.
+
+**Eight assumptions**, each with its default, the default's source and a Reset: how the load runs (flat, or flexible
+under the rule above), power per GPU, the facility overhead ratio, delivery and other charges per MWh, the yearly
+change of prices, an upfront cost per kW of the load's size, the years counted and the hurdle rate. The first three
+default to "Your load", so a scenario at its defaults shows the page's own headline numbers. Four defaults have no
+source in the repository and the page says so beside each: no change of prices, no upfront cost, 20 years, and a
+hurdle rate of 8 percent set equal to the interest rate of Lazard's cost cases. They are the owner's to confirm.
+
+**The rows.** Market energy over the last twelve months; a year's cost; power per GPU-hour; a bad month; the hours off
+with the breakeven value of a GPU-hour (what the power not bought would have cost, per GPU-hour not run); the present
+value of the cost at the hurdle rate; the fixed price with the same present value (the breakeven of a contract for the
+whole of the energy against the market); and the all-in power per GPU-hour over the years counted. A row "What
+differs" names the assumptions that differ, and a row "B against A" states the difference in numbers: the year's cost,
+the GPU-hours run, the present value, the upfront cost of B at which the two present values are equal, and, when one
+scenario costs more upfront, the rate that extra cost returns in lower yearly cost, beside that scenario's hurdle rate.
+A chart shows how far each assumption moves the all-in power per GPU-hour.
+
+**How the two ways are made.** The server computes the load flat and the load flexible over the same twelve months,
+with the functions the page already uses, and hands both to the browser. Nothing else is modeled: the seven other
+assumptions are arithmetic after the model. The address keeps both scenarios (`aw` to `ah`, `bw` to `bh`, `v`), so a
+comparison can be shared as a link; Show and the choice of a grid carry them.
+
+**What it does not do.** It recommends nothing: each sentence states a number. It puts no value on compute: a load
+that is off buys less energy and runs fewer GPU-hours, and the breakeven row is what the reader sets their own figure
+against. It does not read the contract typed beside it, whose terms never leave the device. It sends no request.
+
+**Two findings of session 190 stand as they were, for the owner's ruling**
+([`datacenter_pays_algorithm.md`](datacenter_pays_algorithm.md), section 11). Finding 1: in a year held in part, the
+load "if perfectly foreseen" is given fewer hours than the rule. The scenarios use the rule's figures only, so no figure
+of the block depends on it. Finding 2: New York's real-time last twelve months stay at July 2025 to June 2026 until the
+19 missing days of July 2026 are held. The scenarios stand on the page's own twelve months, so for New York bought in
+real time they stand on those months too, and each row says which months it is.
+
 ### Delivery and transmission charges, Texas
 
 Shown as rows of their own, never added to the market cost. The table is `texas_delivery_charges`

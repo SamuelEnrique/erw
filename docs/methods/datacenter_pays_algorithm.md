@@ -171,6 +171,64 @@ The tables the index names, the day the price files were built, the two stated d
 
 `/cost-of-power?view=grids` is what the tab showed before session 138: the ranking by ISO, ERCOT since 2018, the hours of the day, cost against carbon and a calculator, from the `cost_of_power_*` tables. Its method is [`cost_of_power.md`](cost_of_power.md); `check-values.mjs` checks its 83 values against the live set. It shares no number with the view above: it reads other tables, weighs by the grid's load and uses each grid's main trading hub.
 
+### 4.14 Scenarios A and B (session 194)
+
+On the page this block stands after "With your contract" (4.10) and before "Will the power be there" (4.7). It is computed in the browser by `site/lib/datacenter/finance.ts` from figures the server already computed for the page; a change sends no request and rewrites the address in place (`history.replaceState`). It adds no number to the page above it and changes none. Worked figures are the default case as the files stood on 11 October 2026.
+
+**What a scenario reads from the page.** Two ways of running the same load over the same last twelve months (4.1), per MW:
+
+- *flat*: `per` = sum of prices / hours held, `cost` = sum of prices, `energy` = hours held. Default: 33.7289, USD 295,465.05, 8,760 MWh.
+- *flexible*: the load under the rule of section 5.1, its own `cost`, `energy` and hours off. When "Your load" is flexible it is that load. When "Your load" is flat it is a load off in 100 hours of each calendar year (the form's default), computed by the same rule. Default: 31.4583, USD 272,428.84, 8,660 MWh, off in 100 hours. Not held where the region has no day-ahead price (the rule cannot decide).
+- each way's bad month (4.4), over its own 36 months. Flat: August 2026, 37.88. Flexible: August 2024, 35.43.
+- The way "Your load" describes is the page's own figure; the other is one more pass of the same functions (`monthsRuled`, `lastTwelve`, `span`, `badMonth`). A flat load over a flexible load's months is each month's `flat` and `held`, which is what `monthsOf` gives a flat load.
+
+**The eight assumptions.** Each has a Reset; "Reset all" returns a scenario to the defaults; "Copy A to B" makes B equal to A.
+
+| Assumption | Address | Default | Source of the default | Bounds | Chart step |
+|---|---|---|---|---|---|
+| How the load runs | `aw`, `bw` (0 flat, 1 flexible) | as "Your load" | the reader's own input | the ways held | the other way |
+| Power per GPU, kW | `ag`, `bg` | as "Your load": 1.3 | NVIDIA DGX H100 datasheet (section 7) | 0.05 to 20 | 0.1 |
+| Facility overhead ratio | `ap`, `bp` | as "Your load": 1.56 | Uptime Institute, Global Data Center Survey 2024 (section 7) | 1 to 3 | 0.1 |
+| Delivery and other charges, USD per MWh | `ad`, `bd` | 0 | the page's figure is market energy alone | 0 to 500 | 5 |
+| Change of prices, percent a year | `ae`, `be` | 0 | **none held**: the last twelve months are repeated | -20 to 20 | 1 point |
+| Upfront cost, USD per kW of the load's size | `au`, `bu` | 0 | **none held** | 0 to 20,000 | 100 |
+| Years counted | `al`, `bl` | 20 | **none held** | 1 to 40, whole | 5 |
+| Hurdle rate, percent a year | `ah`, `bh` | 8 | **none held**: set equal to the interest rate of Lazard's cost cases, "60% debt at an 8% interest rate" (`cost_of_power.md`) | 0 to 40 | 1 point |
+
+`v=b` puts B in view. Only what differs from the defaults is written, so the bare address is the defaults. The four defaults marked "none held" are to be confirmed by the owner; the page says "No cited ..." beside each.
+
+**The formulas.** For a scenario with way w (`per`, `cost`, `energy`, `held`, `flatCost`, `down`), per MW; the page multiplies by the megawatts. Rates are fractions here: g the change of prices, r the hurdle rate, N the years counted, U the upfront cost per kW, d the other charges.
+
+- price = cost / energy + d. Row 1 shows cost / energy alone (market energy).
+- bill = cost + d x energy. Default: USD 295,465.05 a MW, USD 29,546,505 for 100 MW, the page's first headline.
+- per GPU-hour = price x kW per GPU x overhead ratio / 1,000 (4.5). GPUs a MW = 1,000 / (kW per GPU x overhead ratio). GPU-hours a year a MW = energy x GPUs a MW. Default: 0.0684; 49,310 GPUs and 431,952,663 GPU-hours for 100 MW.
+- hours off = `down`; energy not bought = held - energy; **breakeven value of a GPU-hour** = ((flatCost - cost) / (held - energy) + d) x kW per GPU x overhead ratio / 1,000. `flatCost` is what a flat MW paid over the same hours, so flatCost - cost is what the hours off would have cost. Default flexible way: (295,465.05 - 272,428.84) / 100 = USD 230.36 per MWh not bought, USD 0.4672 per GPU-hour not run. An hour off saves more than it gives up when a GPU-hour earns less than that. "none" for a flat load and for a load that shifts within the day.
+- C_0 = 1,000 x U; C_t = bill x (1 + g)^(t - 1) for t = 1 to N. All costs, all positive.
+- **present value of the cost** = sum over t = 0 to N of C_t / (1 + r)^t. Default: 295,465.05 x 9.818147 = USD 2,900,919 a MW, USD 290.09 million for 100 MW. 9.818147 = sum of 1 / 1.08^t over 20 years.
+- **fixed price with the same present value** = (cost / energy) x [sum of (1 + g)^(t - 1) / (1 + r)^t] / [sum of 1 / (1 + r)^t], both sums over t = 1 to N. Market energy only: the other charges and the upfront cost are paid either way. With g = 0 it is the last twelve months' price, 33.73. With prices rising 2 percent a year it is 39.00.
+- **all-in power per GPU-hour** = present value of the cost / (GPU-hours a year x sum of 1 / (1 + r)^t). With U = 0 and g = 0 it is the page's power per GPU-hour.
+
+**B against A.** With pv_A, pv_B the two present values:
+
+- the year's cost: bill_B - bill_A; the GPU-hours a year: B's less A's; the present value: pv_B - pv_A, each scenario over its own years and at its own hurdle rate.
+- **the upfront cost of B at which the two present values are equal** = (pv_A - (pv_B - 1,000 x U_B)) / 1,000, USD per kW. Below zero: no upfront cost of B does, and the row says so.
+- **the rate the dearer upfront cost returns**, when one scenario costs more upfront and both count the same years: the rate that sets -1,000 x (U_more - U_other) + sum of (C_t of the other - C_t of the dearer) / (1 + rate)^t to zero, by bisection between -99 and 1,000 percent (the code of the generator page, section 11.3 of `generator_earns_algorithm.md`). The row states it beside that scenario's hurdle rate. Not stated when the two count different years; "no rate" when none in the bracket does.
+- Example, A the default and B flexible with USD 50 per kW upfront: B's year is USD 2.3 million lower (27.24 against 29.55 million); B runs 4,930,966 fewer GPU-hours a year; B's present value is USD 17.62 million lower over 20 years at 8 percent; the two are equal when B's upfront cost is USD 226.17 per kW; B's USD 50 per kW returns 46.0 percent a year.
+
+**The chart.** For the scenario in view, each assumption moved by its step down and up with the others held, and the all-in power per GPU-hour recomputed: two thin bars from the scenario's own figure, largest move first. The way of running has one step, the other way. A step that leaves the bounds is not drawn. Pointing at a row, or tabbing to it, states the two values; "The chart as a table" holds the same figures. A move smaller than one part in 10^12 of the figure counts as none: at the defaults the years counted and the hurdle rate move nothing, because the same rate discounts the cost and the GPU-hours.
+
+**What this block is not.**
+
+- Not a forecast: the last twelve months are repeated, changed only by the rate the reader types.
+- Not a value of compute. A scenario that runs fewer hours has a lower year's cost; what the GPU-hours not run would have earned is the reader's own figure, and the breakeven row is what to set it against.
+- A lower overhead ratio changes how many GPUs a MW powers, not the energy a MW buys: it moves the GPU-hour rows and no bill, so no rate of return is stated for it.
+- The contract typed in "Your contract" is not read: its terms stay on the device (4.10) and a shared link could not carry them.
+- The foreseen load (5.2) is not used. Finding 1 of section 11 (a year held in part gives the rule 100 hours and the foreseen load fewer) therefore moves no figure of this block; it stands as it was, for the owner's ruling.
+- Finding 2 of section 11 holds here as on the page: for New York bought in real time both ways stand on July 2025 to June 2026, and every row of the block says which months it is.
+- No usage count is sent from the block (as on the battery and generator pages, for the owner's ruling).
+
+**Checks.** `site/scripts/test-datacenter-finance.mjs` (hand cases; the generator page's library on 300 seeded cases; every grid's main region against the page's own figures). `tests/test_session194.py` (a Python mirror of every formula above, to 1e-6 on seeded cases; the page's source). `site/scripts/check-datacenter-scenarios.mjs` (the block in a browser at 1280 and 390 px).
+
 ## 5. A load that is not flat
 
 It is computed twice. The page's figure is a rule an operator could follow. Beside it stands the same load "if perfectly foreseen".
@@ -246,6 +304,9 @@ The same load with its hours chosen knowing every price of the market it buys in
 | A flat load's four-peak demand is its size | by construction | for the two transmission figures of 4.6 |
 | Wholesale energy only | by construction | no delivery, ancillary, uplift or capacity charge, no retail margin, no tax |
 | A hub or zone is not a site | by construction | the price at one substation differs by congestion and losses |
+| Scenarios: other charges, change of prices, upfront cost (session 194) | 0, 0, 0 | no source: the page's own figure with nothing added (4.14) |
+| Scenarios: years counted (session 194) | 20 | no cited term is held; to be confirmed by the owner (4.14) |
+| Scenarios: hurdle rate (session 194) | 8 percent | no cited rate is held; set equal to the interest rate of Lazard's cost cases, "60% debt at an 8% interest rate"; to be confirmed by the owner (4.14) |
 
 ## 8. The replication
 
@@ -335,4 +396,4 @@ Signing this note accepts, as the tool's rules: the 95 percent month; twelve cou
 
 ## Checks
 
-`tests/test_session190_replication.py`: the do-file's rules, parsed; the export (bytes, header, an unbroken run of hours, the twelve marked months); the CSV against the page's own files, hour by hour, and a planted error; the mirror against the page in Python and against node on `lib/datacenter.ts`; the rule and the foreseen load written a second time; where the tables are on the machine, every hour against them. `tests/test_session190.py`: this note's figures against the library; the page's links; the page's status unchanged; the tab. `site/scripts/check-datacenter-face.mjs`: the page in the internal view at 1280 and 390 px, the link, the three downloads. The earlier `tests/test_session138.py`, `test_session140.py`, `test_session163.py`, `site/scripts/check-datacenter.mjs`, `check-how-soon.mjs`, `test-datacenter.mjs`, `test-datacenter-rule.mjs` and `check-values.mjs`.
+`tests/test_session190_replication.py`: the do-file's rules, parsed; the export (bytes, header, an unbroken run of hours, the twelve marked months); the CSV against the page's own files, hour by hour, and a planted error; the mirror against the page in Python and against node on `lib/datacenter.ts`; the rule and the foreseen load written a second time; where the tables are on the machine, every hour against them. `tests/test_session190.py`: this note's figures against the library; the page's links; the page's status unchanged; the tab. `site/scripts/check-datacenter-face.mjs`: the page in the internal view at 1280 and 390 px, the link, the three downloads. The earlier `tests/test_session138.py`, `test_session140.py`, `test_session163.py`, `site/scripts/check-datacenter.mjs`, `check-how-soon.mjs`, `test-datacenter.mjs`, `test-datacenter-rule.mjs` and `check-values.mjs`. Since session 194, for the scenarios of 4.14: `site/scripts/test-datacenter-finance.mjs`, `tests/test_session194.py` and `site/scripts/check-datacenter-scenarios.mjs`.
