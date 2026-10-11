@@ -338,7 +338,7 @@ Elsewhere: CAISO solar earns USD 28.45 per kW at SP15 and 49.43 at NP15; SPP sol
 | A month held | 90 percent of its hours (model); 95 percent (capture price); 90 percent of its days (battery, pair) | the ERW's rules |
 | Merchant only | no contract, hedge, capacity payment or ancillary service; no tax, no degradation, no outage, no curtailment | by construction; the contract of 4.10 is the one exception |
 
-The reader can set the size, the debt payments, fixed O&M, the peaker's heat rate and variable O&M, the battery's size and duration, and the contract. The capital cost, debt share, rate and life are not inputs: they only set the default debt payment, which is an input.
+The reader can set the size, the debt payments, fixed O&M, the peaker's heat rate and variable O&M, the battery's size and duration, and the contract. In the "Your plant" panel the capital cost, debt share, rate and life are not inputs: they only set the default debt payment, which is an input. They are inputs of the two scenarios (section 11), which compute their own debt payment.
 
 ## 8. The replication
 
@@ -407,6 +407,74 @@ From this tool's reports (145, 149, 162) and from this session. Each with a reco
 | 19 | New York's real-time zone history holds 288 of the 744 hours of July 2026 | new | Open. New York's price received, at every zone and at New York City, therefore ends in June 2026, while New York City's revenue (the snapshot, another table) ends in September 2026; each figure says its months. Filling the 19 days is a pull from NYISO: your approval, after your ruling on NYISO's terms (session 149) |
 | 20 | `check-seller.mjs` read the battery page as a visitor, and expected the main hub's revenue at another hub | 166, 145 | Closed this session: it reads the battery page in the internal view (in review since session 166) and expects the hub's own model |
 
+## 11. Scenarios A and B (session 186)
+
+The section "Scenarios A and B" of the page, after "With your contract": eight assumptions, two scenarios on the same eight rows, and a sensitivity chart, as session 179 built them for the battery (`battery_earns_algorithm.md`, section 11.1). It is computed in the browser by `site/lib/seller/finance.ts` (pure arithmetic, no request) from figures the page already shows. Nothing above or below the section changed: an address with none of the parameters below shows the page as it was, with this block at its defaults.
+
+### 11.1 The eight assumptions and their defaults
+
+| Assumption | Default | Source of the default | Bounds | Address (A, B) |
+|---|---|---|---|---|
+| Capital cost, USD per kW | solar 1,375; wind 2,100; battery 610 (2 hours) and 1,110 (4 hours); peaker 1,300 | Lazard, Levelized Cost of Energy+, June 2025, the midpoint of each range (section 7) | 0 to 10,000 | `ac`, `bc` |
+| Debt share, percent | 60 | Lazard: "60% debt at an 8% interest rate" (`cost_of_power.md`) | 0 to 100 | `as`, `bs` |
+| Interest rate, percent a year | 8 | the same | 0 to 30 | `ar`, `br` |
+| Term of the debt, years | the asset's life: 35; 30; 20; 30 | Lazard: "Economic life sets debt amortization schedule" | 1 to 40, whole | `at`, `bt` |
+| Fixed O&M, USD per kW a year | 12.5; 32.25; 11.2 and 22; 13.5 | Lazard, the midpoint of each range (section 7) | 0 to 500 | `af`, `bf` |
+| Degradation, percent a year | 0 | none held: the model has no loss of output with age, and the repository cites no rate | 0 to 20 | `ad`, `bd` |
+| Project life, years | 35; 30; 20; 30 | Lazard's life of each asset (section 7) | 1 to 40, whole | `al`, `bl` |
+| Hurdle rate, percent a year | 8 | none held: set equal to the interest rate | 0 to 40 | `ah`, `bh` |
+
+- **Two defaults have no cited source, and the page says so beside each**, as on the battery page: the repository holds no cited degradation rate and no cited hurdle rate. Degradation defaults to none, which is what the model does. The hurdle rate defaults to the one rate the repository does cite, the interest rate. Both are to be confirmed by Samuel (sessions 179 and 186).
+- **The address.** Each scenario's assumptions are two-letter parameters, the scenario's letter then the assumption's (`c` capital cost, `s` debt share, `r` interest rate, `t` term, `f` fixed O&M, `d` degradation, `l` life, `h` hurdle rate); `v=b` puts B in view. A parameter is written only when its value differs from the default, so no parameter means the defaults. The page's own parameters (section 2) work as before. A value outside its bounds is clipped; one that cannot be read takes the default. The address is rewritten in place (`history.replaceState`): a change sends no request. Show, the grid, the asset and "Reset the costs" carry the scenarios; a change of asset, or of a battery's duration, drops a typed capital cost, fixed O&M, term and life, whose defaults are the asset's. The links of the capture table open a hub afresh, as before, without the scenarios.
+- **The scenarios do not read the "Your plant" panel's fixed O&M and annual debt payments.** Those two fields set the headline coverage and the months' coverage, as before. A scenario's fixed O&M is its own, and its debt payment is computed from its capital cost, debt share, interest rate and term. At the defaults the two agree (0.67 times in the default case).
+- **The scenarios do not read the contract typed in "Your contract".** Its terms stay on the reader's device and are never in the address, so a shared link could not carry them.
+
+### 11.2 What a scenario reads from the page
+
+None of the eight assumptions is inside the model, so what a scenario reads is the page's own and is the same in A and B (the four rows of revenue, the capture price, the worst month and the battery beside it, and the energy the contract price is computed on):
+
+- `R`: revenue of the last twelve months, USD per kW, at the hub and in the market the page is priced at (section 4.3, section 5). A gas peaker's is its margin over fuel, at the reader's heat rate and variable O&M.
+- `E`: the energy of the same twelve months, MWh per kW (section 4.9's "Energy sold, MWh per MW", divided by 1,000).
+- The capture price and its ratio. Solar and wind: the headline's price received at the hub chosen (section 4.3, from the capture file) over the flat average of the same hours, in percent. A battery and a peaker: the headline's price while selling or running, over the price of every hour (section 4.9's capture rate).
+- The worst month: the lowest month of every month held, for the reader's size (section 4.13's first of "the worst three months").
+- With and without the battery: the co-optimized pair and the plant alone, energy at day-ahead prices, for the reader's sizes (section 4.11's first row). Solar and wind in ERCOT and CAISO; elsewhere the row says "not modeled", with the reason on hover. It is priced at the grid's main hub whatever hub is chosen, as section 4.11 is.
+
+### 11.3 The formulas
+
+Per kW of nameplate; the page multiplies by `1,000 x MW` for the reader's size. `share`, `rate`, `deg` and `hurdle` are fractions here (the reader types percent). They are the battery page's formulas, and `site/scripts/test-seller-finance.mjs` holds the two libraries equal on 400 seeded cases.
+
+- **Capital recovery factor.** `crf(i, n) = i / (1 - (1 + i)^-n)`; at `i = 0`, `1 / n`.
+- **The debt's years.** `n = min(term, life)`: a term longer than the project life is cut to the life.
+- **Annual debt payment.** `debt = capex x share x crf(rate, n)`. Default case (ERCOT solar): `1,375 x 0.6 x 0.085803 = 70.79` per kW, USD 7,078,769 for 100 MW, the page's own default.
+- **Revenue in year t.** `R_t = R x (1 - deg)^(t - 1)`: the last twelve months repeated every year of the life, falling by the degradation rate each year after the first. An assumption, not a forecast.
+- **Cash flows to equity.** `F_0 = -capex x (1 - share)`. For `t = 1 to life`: `F_t = R_t - fom - debt` while `t <= n`, and `F_t = R_t - fom` after. No tax, no tax credit, no repowering, no residual value, no inflation.
+- **NPV at the hurdle rate.** `NPV = sum over t = 0 to life of F_t / (1 + hurdle)^t`, to equity, after debt payments.
+- **IRR.** The rate at which that sum is zero, by bisection between -99 percent and 1,000 percent a year. When the sum has the same sign at both ends there is no such rate and the page says "none".
+- **Debt coverage.** `(R - fom) / debt`. With no debt (`share = 0` or `capex = 0`) the page says "no debt".
+- **The worst month's coverage.** `(M - fom / 12) / (debt / 12)`, with `M` the month's revenue per kW: the page's own monthly coverage (section 4.14) under the scenario's fixed O&M and debt.
+- **The contract price at which coverage reaches 1.25.**
+  - Solar and wind, USD per MWh, a contract for the whole of the energy: solving `(price x E - fom) / debt = 1.25` gives `price = (1.25 x debt + fom) / E`. It does not depend on the market price. Default case: `(1.25 x 70.79 + 12.5) / 2.580 = 39.14`.
+  - A battery and a gas peaker, USD per kW-month, a toll on the whole of the capacity: `toll = (1.25 x debt + fom) / 12`, the battery page's breakeven toll. Their energy depends on the price, so a price per MWh for a fixed energy is not defined for them (section 4.10 says the same of the contract).
+
+### 11.4 The rows, and what differs
+
+Eight rows, the same for A and B: revenue last twelve months (USD per kW); the capture price and its ratio; the worst month (USD for the reader's size, with its month and its coverage under the scenario); debt coverage (with the annual debt payment); NPV at the hurdle rate (USD for the size, and per kW); IRR; the contract price at which coverage reaches 1.25; revenue with and without the battery beside it. Each column's header lists only the assumptions whose values differ between A and B, and nothing when none does. The last row says it in words: "B: capex USD 1,375 per kW against 1,500; hurdle rate 10 percent against 8." "Copy A to B" sets B to A. The sentence under the table states the NPV of the scenario in view at its hurdle rate.
+
+The default case as the page stood on 11 October 2026 (ERCOT, 100 MW of solar, the hub average, October 2025 to September 2026): revenue USD 59.85 per kW; capture price USD 23.27 per MWh, 72.3 percent of 32.17; the worst month USD 139,299 (February 2024, of 99 months), coverage that month 0.06 times; debt coverage 0.67 times; NPV USD -82.31 million at 8 percent; IRR none; contract price USD 39.14 per MWh on 2,580 MWh a year per MW; USD 11.64 million with a 100 MW, 4-hour battery and USD 6.33 million without.
+
+### 11.5 The sensitivity chart
+
+For the scenario in view: each assumption is moved down and up by one stated step, the other seven held, and the NPV recomputed. The steps: capital cost USD 100 per kW; debt share 10 points; interest rate 1 point; term 5 years; fixed O&M USD 5 per kW a year; degradation 1 point; life 5 years; hurdle rate 1 point. A move that leaves the assumption's bounds is not drawn (degradation at 0 has no lower step). A term raised past the life is cut to the life, so that side does not move NPV at the defaults. The rows are sorted by the larger of the two moves. The two bars start at the scenario's own NPV (the vertical line). The colours are the site's first two categorical colours and carry no verdict; the same figures are in the table under the chart.
+
+### 11.6 What this block is not
+
+It is not a forecast and not a valuation. It repeats one year of merchant revenue over the project's life: no tax, no tax credit, no repowering, no residual value, no capacity payment. The pair with a battery is revenue only: a scenario holds the plant's costs, not the battery's. It states numbers for two sets of assumptions; it does not say which to choose.
+
+### 11.7 Checks
+
+`site/scripts/test-seller-finance.mjs` (hand cases, and the battery page's library on 400 seeded cases); `tests/test_session186.py` (a Python mirror of every formula above against the library to 1e-6, and the page's source); `site/scripts/check-seller-scenarios.mjs` (the page in a browser: the eight inputs and their Resets, the eight rows against the page's own figures, the address round trip, no request on a change, the chart's bars and hover, the four assets, 390 px).
+
 ## Checks
 
+- Session 186: section 11.7.
 - `tests/test_session183.py`, `tests/test_session183_replication.py`, `site/scripts/test-seller-hubs.mjs`, `site/scripts/check-seller-face.mjs`; the earlier `tests/test_session51.py`, `test_session107.py`, `test_session145.py`, `test_session162.py`, `site/scripts/check-seller.mjs`, `check-seller-deeper.mjs`, `test-capture.mjs`, `test-hybrid.mjs` and `check-values.mjs`.
