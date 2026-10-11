@@ -1,6 +1,6 @@
 # Session 194 report: What a datacenter pays, decisions
 
-11 October 2026, from 10:04 UTC, unattended, on the old laptop (`samueloldlaptop`, a code machine). Branch `task/194-datacenter-decisions`. Model spend USD 0, no model call. No pull: no request to any publisher. No data lock taken.
+11 October 2026, 10:04 to about 11:00 UTC, unattended, on the old laptop (`samueloldlaptop`, a code machine). Branch `task/194-datacenter-decisions`, landed as merge `22f1ec64`. Model spend USD 0, no model call. No pull: no request to any publisher. No data lock taken.
 
 ## Read these first
 
@@ -174,7 +174,18 @@ Choices made without you, each reversible.
 
 ## Landing
 
-- Lines to be added by the landing itself: the push, GitHub's run, the merge, Vercel, the two snapshots and their comparison, the checks in production.
+- Landed as merge `22f1ec64` on `main`, 11 October 2026.
+- No freeze (`python scripts/freeze.py status`, exit 0).
+- `origin/main` moved twice while the session ran, and was merged in each time with no conflict:
+  - session 193 (`ad0307b1`, the `/network` map): merged as `76d60822`. On that commit: the whole suite in a clean copy, exit 0, 3,328 tests, 235 skipped (`suite_clean.out`); `npm run build` in the main copy, exit 0; `check-datacenter-scenarios` 77 of 77, `check-datacenter-face` 23 of 23, `check-routes` 0 failed, `check-values` on the cost-of-power pages 3,289 of 3,289.
+  - session 185's night report (`a8067cca`, four report files and nothing else): merged as `d74a4ec3`, the commit pushed. On it: `npm run build`, exit 0; the tests of sessions 185, 190 to 194, exit 0, 95 tests. **The whole suite was not run a second time in the clean copy for those four report files**; GitHub's run of the whole suite on the pushed commit passed.
+- `s194-before` at 10:38:25 UTC, its own command, exit 0, 25 pages, 0 failed.
+- Pushed `task/194-datacenter-decisions` (`d74a4ec3`) at 10:38:35 UTC. "code branch" run 38132675274: success. Merge `22f1ec64`.
+- Vercel production: "Deployment has completed", recorded 10:46:24 UTC.
+- `s194-after` at 10:46:49 UTC. Comparison: **0 differences on the 25 pages** (`compare_194.out`, exit 0). Expected: every page is in review, so a visitor sees the in-review page before and after.
+- On production, internal view: `check-datacenter-scenarios` 77 of 77, `check-datacenter-face` 23 of 23, `check-routes` 0 failed (`prod_check_*.out`).
+- The remote branch was removed by the merge; no `task/194` or `wip/194` branch is left on GitHub but the one that carries this report.
+- This report's landing lines reach `main` by a second push (`task/194-report`), a change to this file only, with a snapshot pair of its own (`s194r-before`, `s194r-after`). If that comparison shows any difference, a line is added at the very top of this report; no such line means 0 differences.
 
 ## The prompt
 
