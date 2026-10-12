@@ -415,6 +415,15 @@ sources_hold:
   - erw:demand_weather                 # session 126, the same page
   - census:popest_cbsa                 # session 129, the same page (the stations' weights)
 
+# Session 206 (the owner's ruling of 12 October 2026): tables loaded as a union by their key, not as a replacement. Each
+# machine appends to its own copy of the cost ledger (GitHub's runner, the data machine, a session's laptop), so no one
+# copy holds every row, and from 9 to 12 October 2026 the daily run's load refused the ledger every day as "older than
+# the live copy". For a table here the loader adds the rows the file holds and Supabase lacks (by event_id), rewrites a
+# row whose body changed, removes none, and the older-than-live guard does not apply. Supabase may then hold more rows
+# than the file: that is the union, and it is a match.
+union_by_key:
+  - '^api_cost_ledger$'
+
 # The catalogue (coverage.csv) and the source registry are loaded whole.
 catalogue: warehouse/metadata/coverage.csv
 sources: warehouse/metadata/sources.csv

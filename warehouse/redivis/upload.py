@@ -71,7 +71,8 @@ sys.path.insert(0, os.path.join(ROOT, "warehouse", "validate"))
 CONFIG = yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
 MANIFEST = os.path.join(ROOT, CONFIG["manifest"])
 MANIFEST_COLS = ["table", "data_sha256", "rows", "uploaded_at", "redivis_table", "dataset",
-                 "migrated_to"]  # session 29: the consolidated table an old one moved into (kept, never removed)
+                 "migrated_to",  # session 29: the consolidated table an old one moved into (kept, never removed)
+                 "newest_ts_utc"]  # session 206: the newest ts_utc of a table judged by it (config.yaml judge_by_newest)
 MIGRATIONS = os.path.join(ROOT, "warehouse", "metadata", "table_migrations.csv")
 PUBLIC, INTERNAL = CONFIG["dataset"], CONFIG["dataset_internal"]
 DESC_MAX = 2000  # Redivis's limit on a table description (HTTP 400 above it)
@@ -235,10 +236,38 @@ def table_meta(ds, name):
         return None
 
 
-def shrink_refusal(name, n_rows, man, allow):
+def judged_by_newest(name):
+    """Session 206: a rolling-window table rebuilt whole as a moving window (config.yaml judge_by_newest), judged by
+    its newest ts_utc instead of its row count."""
+    return any(re.match(p, name) for p in CONFIG.get("judge_by_newest") or [])
+
+
+def newest_ts(path):
+    """The newest ts_utc in a table's file (session 206), or "" when it has no ts_utc column or no row. Streamed past
+    the header lines; the one column only."""
+    import csv
+    with open(path, encoding="utf-8", newline="") as f:
+        rows = csv.reader(ln for ln in f if not ln.startswith("#"))
+        head = next(rows, None)
+        if not head or "ts_utc" not in head:
+            return ""
+        i = head.index("ts_utc")
+        return max((r[i] for r in rows if len(r) > i and r[i]), default="")
+
+
+def shrink_refusal(name, n_rows, man, allow, newest=None):
     """Why uploading n_rows would lose history (session 28), or None: a rolling-window table may not
-    go below the row count the manifest last recorded for it, unless --allow-shrink names it."""
+    go below the row count the manifest last recorded for it, unless --allow-shrink names it.
+    Session 206: a table judged by its newest timestamp (judge_by_newest) is refused only when `newest`, its newest
+    ts_utc, is older than the newest the manifest recorded for it; its row count is not judged."""
     if not rolling(name) or name in allow or name not in man.index:
+        return None
+    if judged_by_newest(name):
+        last = str(man.loc[name, "newest_ts_utc"] if "newest_ts_utc" in man.columns else "") or ""
+        if newest is not None and last and newest < last:
+            return (f"refused: the newest ts_utc here, {newest}, is older than the newest last uploaded, {last} "
+                    f"({man.loc[name, 'uploaded_at']}); a moving-window table is judged by its newest timestamp "
+                    f"(config.yaml judge_by_newest); if that is intended, --allow-shrink {name}")
         return None
     last = str(man.loc[name, "rows"] or "")
     if last.isdigit() and n_rows < int(last):
@@ -319,6 +348,8 @@ def read_manifest():
             m["dataset"] = PUBLIC
         if "migrated_to" not in m.columns:  # before session 29 no table had moved
             m["migrated_to"] = ""
+        if "newest_ts_utc" not in m.columns:  # before session 206 no table was judged by its newest timestamp
+            m["newest_ts_utc"] = ""
         return m
     return pd.DataFrame(columns=MANIFEST_COLS)
 
@@ -387,7 +418,8 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
             os.makedirs(TMP, exist_ok=True)
             tmp = os.path.join(TMP, f"{name}.csv")
             header, n_rows, digest, first = data_file(path, tmp)
-            why = shrink_refusal(name, n_rows, man, set(allow_shrink))
+            newest = newest_ts(path) if judged_by_newest(name) else ""  # session 206
+            why = shrink_refusal(name, n_rows, man, set(allow_shrink), newest=newest)
             if why:  # before push(), which deletes the draft table
                 os.remove(tmp)
                 raise RuntimeError(why)
@@ -397,8 +429,8 @@ def run_upload(names, include_metadata, allow_shrink=(), create_internal=False, 
             ok = expected == actual
             results.append((name, expected, actual, "" if ok else "row count mismatch"))
             if ok:
-                man.loc[name, ["data_sha256", "rows", "uploaded_at", "redivis_table", "dataset", "migrated_to"]] = [
-                    digest, str(expected), now, name, target, ""]
+                man.loc[name, ["data_sha256", "rows", "uploaded_at", "redivis_table", "dataset", "migrated_to", "newest_ts_utc"]] = [
+                    digest, str(expected), now, name, target, "", newest]
             log(f"{'ok  ' if ok else 'FAIL'} {name}: CSV {expected:,} rows, Redivis count(*) {actual:,}"
                 + ("" if target == PUBLIC else f" ({target})"))
         except Exception as exc:
@@ -837,7 +869,8 @@ def main(argv=None):
             import csv
             with open(os.path.join(OUT, n + ".csv"), encoding="utf-8", newline="") as f:
                 n_rows = sum(1 for _ in csv.reader(ln for ln in f if not ln.startswith("#"))) - 1
-            why = shrink_refusal(n, n_rows, man, set(args.allow_shrink))
+            newest = newest_ts(os.path.join(OUT, n + ".csv")) if judged_by_newest(n) else ""
+            why = shrink_refusal(n, n_rows, man, set(args.allow_shrink), newest=newest)
             if why:
                 log(f"would refuse {n}: {why}")
         log(f"dry run, nothing uploaded; would upload {len(names)} tables"
