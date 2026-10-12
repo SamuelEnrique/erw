@@ -27,7 +27,7 @@ for e in entries:
 print(f"entries: {len(entries)}; by group: {groups}")
 done = [e["id"] for e in entries if any(re.match(r"^- (Looks (done|answered|overtaken)|Still so)", b) and "Looks" in b for b in e["body"])]
 nothing = [e["id"] for e in entries if any(re.match(r"^- (Asked nothing|They ask nothing|A decision already described)", b) for b in e["body"])]
-part = [e["id"] for e in entries if any(re.match(r"^- (\(a\) looks answered|Half done)", b) for b in e["body"])]
+part = [e["id"] for e in entries if any(re.match(r"^- (\(a\) looks answered|Half done|Half answered)", b) for b in e["body"])]
 print(f"looks done or answered: {len(done)} {done}")
 print(f"ask nothing: {len(nothing)} {nothing}")
 print(f"answered in part: {len(part)} {part}")

@@ -155,7 +155,8 @@ above says otherwise, this section is the newer one.
 - **The quantities step** (`ercot_as_quantities`, session 198).
   - It is block 2b of `warehouse/run_data_machine.sh` on the branch `task/198-battery-data`.
   - It is not on `main`: GitHub's check of that branch failed on 11 October (run 38172045438), so the branch did not
-    merge. The daily run here does not run the step until it does.
+    merge. The daily run here does not run the step until it does. `main` passes the check again since 02:23 UTC on
+    12 October (session 199); the branch had not landed at 02:30 UTC.
   - Session 198 ran it once by hand: 4,800 rows, to 13 October 04:00 UTC.
 - **The worker's triggers.** Task `ERW findings worker`.
   - Two triggers: at log-on of `Shared` and at startup (`MSFT_TaskLogonTrigger`, `MSFT_TaskBootTrigger`). The startup
