@@ -1,0 +1,664 @@
+{
+ "about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
+ "written": "2026-10-12T17:52Z",
+ "green_days": 0,
+ "counted_to": "2026-10-11",
+ "days": {
+  "2026-10-02": {
+   "rows": 91,
+   "failed": 1,
+   "missing": [
+    "chain watch"
+   ],
+   "jobs": {
+    "daily prices": {
+     "ok": 0,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 3
+    },
+    "energy roundup": {
+     "ok": 0,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 15,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 21
+    },
+    "latest prices": {
+     "ok": 63,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 64
+    },
+    "local:SAMUEL": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "weekly vacuum": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 1,
+     "runs": 2
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-02T08:57",
+     "workflow": "weekly vacuum",
+     "step": "vacuum",
+     "reason": "PermissionError: [Errno 13] Permission denied: 'warehouse/supabase/vacuum.py'"
+    }
+   ]
+  },
+  "2026-10-03": {
+   "rows": 137,
+   "failed": 1,
+   "missing": [
+    "chain watch"
+   ],
+   "jobs": {
+    "daily prices": {
+     "ok": 5,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 28
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 102
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-03T15:26",
+     "workflow": "daily prices",
+     "step": "daily run",
+     "reason": "license check: 14 internal tables, 0 in the public dataset, 4 unknown tables there; FAILED"
+    }
+   ]
+  },
+  "2026-10-04": {
+   "rows": 167,
+   "failed": 1,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 22,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 0,
+     "runs": 23
+    },
+    "daily prices": {
+     "ok": 6,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 3,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 7,
+     "retried": 1,
+     "failed": 0,
+     "runs": 29
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 102
+    },
+    "weekly vacuum": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-04T14:45",
+     "workflow": "daily prices",
+     "step": "ercot_as_prices",
+     "reason": "ercot_as_prices ercot_as_prices FAILED, no output file written: RuntimeError: NP4-181-ER zip holds ['rpt.00013091.0000000000000000.20261004.080005.DAMASMCPC_2026.xlsx'], expected one CSV"
+    }
+   ]
+  },
+  "2026-10-05": {
+   "rows": 229,
+   "failed": 1,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 90,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 93
+    },
+    "daily prices": {
+     "ok": 10,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 1,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 3,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 20,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 24
+    },
+    "latest prices": {
+     "ok": 93,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 97
+    },
+    "local:SAMUELOLDLAPTOP": {
+     "ok": 7,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 7
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-05T16:27",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
+    }
+   ]
+  },
+  "2026-10-06": {
+   "rows": 242,
+   "failed": 2,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 96,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 10,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 2,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 28
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SAMUELOLDLAPTOP": {
+     "ok": 10,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 10
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-06T15:48",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "grid_network grid_network_nodes: failed the last 3 runs (20261004T141929Z, 20261005T142331Z, 20261006T142109Z); latest: AttributeError: 'bool' object has no attribute 'get'"
+    },
+    {
+     "at": "2026-10-06T15:53",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
+    }
+   ]
+  },
+  "2026-10-07": {
+   "rows": 244,
+   "failed": 5,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 94,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 98
+    },
+    "daily prices": {
+     "ok": 14,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 5,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 4,
+     "retried": 1,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 94,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 99
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-07T14:47",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs FAILED: RuntimeError: https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports failed after 4 attempts: RuntimeError('HTTP 202 for https://ww2.arb.ca.gov/resou"
+    },
+    {
+     "at": "2026-10-07T14:47",
+     "workflow": "daily prices",
+     "step": "board validate",
+     "reason": "ERW Data Standard v0, shape series: PASS (0 error(s), 0 warning(s))"
+    },
+    {
+     "at": "2026-10-07T14:48",
+     "workflow": "daily prices",
+     "step": "board_page",
+     "reason": "FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/erw/erw/warehouse/output/ercot_as_prices.csv'"
+    },
+    {
+     "at": "2026-10-07T15:58",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "grid_network grid_network_nodes: failed the last 3 runs (20261005T142331Z, 20261006T142109Z, 20261007T142059Z); latest: AttributeError: 'bool' object has no attribute 'get'"
+    },
+    {
+     "at": "2026-10-07T16:05",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
+    }
+   ]
+  },
+  "2026-10-08": {
+   "rows": 250,
+   "failed": 5,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 96,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "daily prices": {
+     "ok": 17,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 5,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 22,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 4,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-08T15:06",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs FAILED: RuntimeError: https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports failed after 4 attempts: RuntimeError('HTTP 202 for https://ww2.arb.ca.gov/resou"
+    },
+    {
+     "at": "2026-10-08T15:06",
+     "workflow": "daily prices",
+     "step": "board validate",
+     "reason": "ERW Data Standard v0, shape series: PASS (0 error(s), 0 warning(s))"
+    },
+    {
+     "at": "2026-10-08T15:07",
+     "workflow": "daily prices",
+     "step": "board_page",
+     "reason": "FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/erw/erw/warehouse/output/ercot_as_prices.csv'"
+    },
+    {
+     "at": "2026-10-08T16:27",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "grid_network grid_network_nodes: failed the last 3 runs (20261006T142109Z, 20261007T142059Z, 20261008T142708Z); latest: AttributeError: 'bool' object has no attribute 'get'"
+    },
+    {
+     "at": "2026-10-08T16:37",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
+    }
+   ]
+  },
+  "2026-10-09": {
+   "rows": 252,
+   "failed": 6,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 96,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 17,
+     "skipped": 1,
+     "retried": 0,
+     "failed": 6,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 97,
+     "skipped": 3,
+     "retried": 0,
+     "failed": 0,
+     "runs": 100
+    },
+    "local:SAMUELOLDLAPTOP": {
+     "ok": 22,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 1,
+     "runs": 23
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-09T14:58",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs FAILED: RuntimeError: https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports failed after 4 attempts: RuntimeError('HTTP 202 for https://ww2.arb.ca.gov/resou"
+    },
+    {
+     "at": "2026-10-09T14:58",
+     "workflow": "daily prices",
+     "step": "board validate",
+     "reason": "ERW Data Standard v0, shape series: PASS (0 error(s), 0 warning(s))"
+    },
+    {
+     "at": "2026-10-09T15:00",
+     "workflow": "daily prices",
+     "step": "board_page",
+     "reason": "FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/erw/erw/warehouse/output/ercot_as_prices.csv'"
+    },
+    {
+     "at": "2026-10-09T16:12",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "carb_lcfs carb_lcfs_credit_prices: failed the last 3 runs (20261007T144701Z, 20261008T150555Z, 20261009T145804Z); latest: RuntimeError: https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-tr"
+    },
+    {
+     "at": "2026-10-09T16:12",
+     "workflow": "daily prices",
+     "step": "3-run failure streak",
+     "reason": "grid_network grid_network_nodes: failed the last 3 runs (20261007T142059Z, 20261008T142708Z, 20261009T142703Z); latest: AttributeError: 'bool' object has no attribute 'get'"
+    },
+    {
+     "at": "2026-10-09T16:22",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
+    }
+   ]
+  },
+  "2026-10-10": {
+   "rows": 278,
+   "failed": 5,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 96,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 33,
+     "skipped": 9,
+     "retried": 0,
+     "failed": 5,
+     "runs": 2
+    },
+    "hourly network": {
+     "ok": 23,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 28
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 102
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-10T15:02",
+     "workflow": "daily prices",
+     "step": "ercot_zone_load",
+     "reason": "ercot_zone_load FAILED, no output file written: RuntimeError: the operator answered no hour; rows read 0"
+    },
+    {
+     "at": "2026-10-10T15:13",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs FAILED: RuntimeError: https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports failed after 4 attempts: RuntimeError('HTTP 202 for https://ww2.arb.ca.gov/resou"
+    },
+    {
+     "at": "2026-10-10T15:14",
+     "workflow": "daily prices",
+     "step": "board_page",
+     "reason": "FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/erw/erw/warehouse/output/carb_lcfs_credit_prices.csv'"
+    },
+    {
+     "at": "2026-10-10T15:44",
+     "workflow": "daily prices",
+     "step": "supabase_load",
+     "reason": "FAILED tables: ['api_cost_ledger']"
+    },
+    {
+     "at": "2026-10-10T16:28",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
+    }
+   ]
+  },
+  "2026-10-11": {
+   "rows": 345,
+   "failed": 6,
+   "missing": [],
+   "jobs": {
+    "chain watch": {
+     "ok": 159,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "daily prices": {
+     "ok": 18,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 5,
+     "runs": 2
+    },
+    "energy roundup": {
+     "ok": 8,
+     "skipped": 2,
+     "retried": 0,
+     "failed": 1,
+     "runs": 1
+    },
+    "hourly network": {
+     "ok": 21,
+     "skipped": 6,
+     "retried": 0,
+     "failed": 0,
+     "runs": 27
+    },
+    "latest prices": {
+     "ok": 96,
+     "skipped": 5,
+     "retried": 0,
+     "failed": 0,
+     "runs": 101
+    },
+    "local:SU-4QC3QR3": {
+     "ok": 13,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 1,
+     "runs": 14
+    },
+    "local:lab-desktop": {
+     "ok": 1,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 1
+    },
+    "local:samueloldlaptop": {
+     "ok": 3,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 3
+    },
+    "weekly vacuum": {
+     "ok": 2,
+     "skipped": 0,
+     "retried": 0,
+     "failed": 0,
+     "runs": 2
+    }
+   },
+   "failures": [
+    {
+     "at": "2026-10-11T15:39",
+     "workflow": "daily prices",
+     "step": "carb_lcfs",
+     "reason": "carb_lcfs FAILED: RuntimeError: https://ww2.arb.ca.gov/resources/documents/weekly-lcfs-credit-transfer-activity-reports failed after 4 attempts: RuntimeError('HTTP 202 for https://ww2.arb.ca.gov/resou"
+    },
+    {
+     "at": "2026-10-11T15:40",
+     "workflow": "daily prices",
+     "step": "board_page",
+     "reason": "FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/erw/erw/warehouse/output/carb_lcfs_credit_prices.csv'"
+    },
+    {
+     "at": "2026-10-11T15:47",
+     "workflow": "daily prices",
+     "step": "policy_monitor_refresh",
+     "reason": "policy_monitor_refresh: FAILED for txpuc, papuc, orpuc (recorded; the others ran): txpuc: not asked again today: HTTP 403; papuc: not asked again today: the request failed: ConnectTimeout(MaxRetryErro"
+    },
+    {
+     "at": "2026-10-11T16:10",
+     "workflow": "daily prices",
+     "step": "supabase_load",
+     "reason": "FAILED tables: ['api_cost_ledger']"
+    },
+    {
+     "at": "2026-10-11T16:52",
+     "workflow": "daily prices",
+     "step": "package tests",
+     "reason": "FAILED package/tests/test_erw.py::test_large_table_by_partition[ercot_dam_esr_awards] - assert (False)"
+    },
+    {
+     "at": "2026-10-11T23:24",
+     "workflow": "energy roundup",
+     "step": "ledger: live set",
+     "reason": "FAILED api_cost_ledger: RuntimeError: refused, older than the live copy: it has 2,478 rows here and 3,179 in Supabase (no retrieved_at to compare). Sync this machine from the cloud first (python scrip"
+    }
+   ]
+  }
+ }
+}

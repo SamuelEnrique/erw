@@ -102,6 +102,7 @@ The plan of record is `docs/platform-tools.md` (31 tools, some planned). This li
 | API costs | `/internal/costs` | the model spend ledger |
 | Usage | `/internal/usage` (session 177) | how the tools are used, as counts by day, page and tool: no cookie, no address (`docs/methods/usage_counts.md`) |
 | The internal view's door | `/internal/open` (session 177) | a form that opens the internal view with the token in the request's body, not in an address (`docs/release-gate.md`) |
+| Scheduled jobs | `/internal/health` (session 202) | "Scheduled jobs green for N days", the counter of the public day's gate; each job's runs and failed steps by UTC day, from `site/data/health_days.json`, which `warehouse/health.py` writes from `erw_health` with each day's summary (`docs/machines.md`, "One alert policy") |
 | Waits for Samuel | `/internal/waits` (session 188) | what the session reports leave for his ruling, newest first, since the last report marked as answered in `archive/sessions/LAST_ANSWERED` (`docs/machines.md`, "Continuous work") |
 | The shape premium report (draft) | `/reports/draft/shape-premium` | deep-dive report 1, a draft |
 | Load a real lease | `/severance/lease/real` | the lease tool on the RRC's internal production data |

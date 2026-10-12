@@ -258,7 +258,9 @@ class Ceiling(unittest.TestCase):
         old_fetch, old_cached = ip.fetch_raw, ip.raw_cached
         ip.fetch_raw, ip.raw_cached = fetch, lambda connector, url: None
         try:
-            first = pd.Timestamp.now(tz="UTC").tz_localize(None).normalize() - pd.Timedelta(days=5)
+            # session 202: a fixed day of 2026, the year the two pages above list. With the real clock less five days
+            # the only year asked from 6 January 2027 is 2027, which no page here names, and the test fails by the date.
+            first = pd.Timestamp("2026-10-07")
             for name, m in CONNECTORS.items():
                 pieces, notes = m.pull(lambda *_: None, first, zl.Counter(10))
                 self.assertEqual(pieces, [], name)

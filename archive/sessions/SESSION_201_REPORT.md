@@ -145,7 +145,11 @@ None piped; outputs under `runs/session201/`.
 - `main` merged into the branch first (16 commits: sessions 204 and 205 of the data machine, the daily run).
 - Before snapshot `s201-before`, its own command, then `git push origin task/201-tooling`.
 - Expected: 0 differences on the 25 pages (no file of the site is in the branch).
-- **The result (GitHub's check, the merge, the after snapshot and the comparison) is written into this report by session 202's branch**, under this heading, since this file is in the commit being landed.
+- **The result, added by session 202's branch:**
+  - `take s201-before`: exit 0, 25 pages, 0 failed, 16:58:29 UTC. Push of `8dfa2bfe`: exit 0.
+  - GitHub's check ("code branch", run 38281128182): success. Merged into `main` as `b582a777` at 17:05:14 UTC. The workflow removed the remote branch.
+  - `take s201-after`: exit 0, 25 pages, 0 failed, 17:34:51 UTC. `compare s201-before s201-after`: exit 0, **0 differences in all** on the 25 pages. Expected: 0. Nothing to mark.
+  - **Vercel recorded no deployment of the merge commit** in the 30 minutes after it (read from GitHub's deployment records at 17:34 UTC). It did deploy the two commits before it, at 17:05 and 17:14 UTC (`97096452`, `162bd812`, both "Deployment has completed"), after refusing three earlier in the day (session 205's report). Production therefore serves `162bd812`. The merge changes no file under `site/` against that commit (`git diff --name-only 162bd812 b582a777 -- site`: none), so every page is what this landing would serve. Why no deployment was started for the merge, I did not establish: there is no Vercel sign-in on this machine.
 
 ## Decisions made without you
 

@@ -9,6 +9,10 @@ address is ever printed or logged.
     python scripts/notify.py --session 82 --branch wip/082-land --line "the night's first session landed; two steps skipped"
     python scripts/notify.py --session 82 --branch wip/082-land --line "..." --dry-run     # prints the message, sends nothing
 
+Session 202, the one alert policy (docs/machines.md, "One alert policy"): successes send nothing. A session that
+finished is a success, and the morning summary lists its landing; so this script sends only with --failed, for a
+session that could not finish, and otherwise prints why it did not send and exits 0.
+
 The message is the one line and the report's address on GitHub, nothing else: no number that is not in the line, no
 attachment. Exit 0 when every fixed recipient was sent to; 1 when nothing could be sent (no key, no recipient, or
 Resend refused), with the reason on stderr; 2 on bad input. It makes no model call and writes no file.
@@ -69,7 +73,12 @@ def main(argv=None):
     ap.add_argument("--branch", required=True, help="the branch the report was pushed on")
     ap.add_argument("--line", required=True, help="the one line")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--failed", action="store_true", help="the session could not finish: the only case that is sent (session 202)")
     a = ap.parse_args(argv)
+    if not a.failed and not a.dry_run:
+        print(f"notify: session {a.session}: not sent. Successes send nothing (docs/machines.md, \"One alert policy\"); "
+              "the morning summary lists the landing. For a session that could not finish: --failed")
+        return 0
     try:
         n = send(a.session, a.branch, a.line, a.dry_run)
     except ValueError as exc:

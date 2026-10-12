@@ -22,10 +22,11 @@ for, since when, its last sign of work (the row's "renewed"), and when the mark 
 lock and blocks nothing. The token is kept in .erw/duty.json of the machine's main checkout; a git worktree has no
 .erw/ of its own and uses the main checkout's, so a session in a worktree is the machine too.
 
-The check emails once when the silence passes 30 minutes and again every hour after (at 90, 150, ... minutes), as the
-chain check does, through scripts/alert.py's sender: to the fixed recipients only, and no address is ever printed. A
-mark that lapsed without "off" is said once, in the first quarter of an hour after it lapsed. No model call. Needs
-only Python's standard library.
+The check emails once when the silence passes 30 minutes, and not again for that silence (session 202, the one alert
+policy: until then it said so again every hour), as the chain check does, through scripts/alert.py's sender: to the
+fixed recipients only, and no address is ever printed. A new commit, push or beat ends the silence; a later one is a new
+one. A mark that lapsed without "off" is said once. What was said is remembered in erw_health (scripts/alert.py, told
+and say). No model call. Needs only Python's standard library.
 
 Exit codes: 0 done (for check: nothing to say, or the lines were sent); 1 could not (no key, the database did not
 answer, Resend refused every line); 2 bad input.
@@ -222,44 +223,63 @@ def rows(get=http_get, env=None):
     return out
 
 
-def decide(now, row):
-    """What the check says of one machine on duty: (subject, line) to send, or (None, why it stays quiet)."""
+def last_sign(row):
+    """(when, what) of a machine's newest sign of work: its precheck, or a commit, a push or a beat since."""
+    if row.get("renewed") and row["renewed"] > row["acquired"]:
+        return row["renewed"], "a commit, a push or a beat"
+    return row["acquired"], "its precheck"
+
+
+def key_of(now, row):
+    """What the memory holds for the line decide() would send now: the lapse of this mark, or this silence (named by
+    the sign of work it began at, so that a later sign makes a later silence a new one)."""
+    name = str(row["name"])[len(PREFIX):]
+    if row["expires"] < now:
+        return f"lapsed|{name}|{row['expires']:%Y-%m-%dT%H:%M}"
+    return f"quiet|{name}|{last_sign(row)[0]:%Y-%m-%dT%H:%M}"
+
+
+def decide(now, row, memory=None):
+    """What the check says of one machine on duty: (subject, line) to send, or (None, why it stays quiet). `memory` is
+    the set of keys already said (alert.told), or None when it cannot be read: the line is then due only in the quarter
+    of an hour after the silence passed 30 minutes."""
     name = str(row["name"])[len(PREFIX):]
     what = alert.one_line(row.get("task") or "unnamed work", 80)
     hm = lambda t: t.strftime("%H:%M")  # noqa: E731
+    key = key_of(now, row)
     if row["expires"] < now:
         late = (now - row["expires"]).total_seconds() / 60
-        if late < alert.EVERY_MIN:
+        if late < alert.LAPSE_HOURS * 60 and alert.due(late, 0, key, memory):
             return ("ERW: a machine's duty mark lapsed", alert.one_line(
                 f"The machine {name} was on duty for \"{what}\" until {hm(row['expires'])} UTC and never declared idle or signed off: "
                 "it ran past its time or stopped without saying so."))
         return None, f"the mark of {name} lapsed {late:.0f} minutes ago; already said"
-    last, sign = row["acquired"], "its precheck"
-    if row.get("renewed") and row["renewed"] > row["acquired"]:
-        last, sign = row["renewed"], "a commit, a push or a beat"
+    last, sign = last_sign(row)
     quiet = (now - last).total_seconds() / 60
     if quiet < alert.QUIET_MIN:
         return None, f"{name} ran something {quiet:.0f} minutes ago ({sign}, {hm(last)} UTC)"
-    if (quiet - alert.QUIET_MIN) % alert.AGAIN_MIN >= alert.EVERY_MIN:
-        return None, f"{name} has run nothing for {quiet:.0f} minutes; said at {alert.QUIET_MIN} minutes and every {alert.AGAIN_MIN} after"
-    first = quiet < alert.QUIET_MIN + alert.EVERY_MIN
-    return ("ERW: a machine has run nothing for 30 minutes" if first else "ERW: a machine is still running nothing", alert.one_line(
+    if not alert.due(quiet, alert.QUIET_MIN, key, memory):
+        return None, f"{name} has run nothing for {quiet:.0f} minutes; said once, and not again for this silence"
+    return ("ERW: a machine has run nothing for 30 minutes", alert.one_line(
         f"The machine {name}, on duty for \"{what}\", has run nothing for {quiet:.0f} minutes: its last sign of work was {sign} at {hm(last)} UTC. "
-        f"On duty since {hm(row['acquired'])} UTC."))
+        f"On duty since {hm(row['acquired'])} UTC. Said once: no further email for this silence."))
 
 
-def check(dry_run=False, now=None, read=None, send=None, out=print):
-    """The scheduled check: one line for each machine on duty that has run nothing for 30 minutes. Returns 0 when there
-    was nothing to say or a line went out, 1 when every line that was due could not be sent."""
+def check(dry_run=False, now=None, read=None, send=None, out=print, told=None, say=None):
+    """The scheduled check: one line, once, for each machine on duty that has run nothing for 30 minutes. Returns 0
+    when there was nothing to say or a line went out, 1 when every line that was due could not be sent."""
     now = now or dt.datetime.now(UTC)
     read, send = read or rows, send or globals()["send"]
+    told = told or (lambda t: alert.told(t, env=env))
+    say = say or (lambda kind, key: alert.say(kind, key, env=env))
     marked = read()
     if not marked:
         out("quiet: no machine is on duty")
         return 0
+    memory = told(now)
     due = failed = 0
     for row in marked:
-        subject, line = decide(now, row)
+        subject, line = decide(now, row, memory)
         if subject is None:
             out(f"quiet: {line}")
             continue
@@ -267,6 +287,7 @@ def check(dry_run=False, now=None, read=None, send=None, out=print):
         try:
             n = send(subject, line, dry_run)
             if not dry_run:
+                say("idle alarm", key_of(now, row))
                 out(f"alert: {line} (sent to {n} fixed recipient{'s' if n != 1 else ''})")
         except Exception as exc:  # one machine's line must not cost another's
             failed += 1
@@ -305,7 +326,7 @@ def main(argv=None):
         print(f"this machine: on duty for \"{h.get('what')}\" since {h.get('started', '')[:16]} UTC" if h else "this machine: not on duty")
         now = dt.datetime.now(UTC)
         for row in rows():
-            made = decide(now, row)
+            made = decide(now, row, alert.told(now, env=env))
             print(("the check would send: " if made[0] else "the check would stay quiet: ") + made[1])
         return 0
     except Exception as exc:

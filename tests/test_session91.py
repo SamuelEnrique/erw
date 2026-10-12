@@ -160,14 +160,28 @@ class AChainSavesNothing(unittest.TestCase):
         subject, line = alert.decide(at(7, 25), a_mark(), (at(6, 48), "wip/090-fixes", "Session 90 report"))
         self.assertEqual(subject, "ERW: a chain has saved nothing for 30 minutes")
         self.assertEqual(line, "The chain \"night of 4 October\" (oldlaptop/f4e41419) has saved nothing for 37 minutes: its last save was a push to "
-                               "wip/090-fixes at 06:48 UTC. Marked as running since 05:52 UTC.")
+                               "wip/090-fixes at 06:48 UTC. Marked as running since 05:52 UTC. Said once: no further email for this silence.")
         self.assertEqual(len(line.splitlines()), 1)
 
-    def test_it_says_so_once_then_every_hour_not_every_quarter(self):
+    def test_it_says_so_once_and_not_again(self):
+        # session 202, the one alert policy: until then the line went out again every hour (at 97, 157, ... minutes)
         push = (at(6, 0), "wip/090-fixes", "x")
+        # without the memory of what was said: the one check that falls in the quarter of an hour after 30 minutes
         said = [m for m in range(0, 300, 15) if alert.decide(at(6, 0) + dt.timedelta(minutes=m + 7), a_mark(), push)[0]]
-        self.assertEqual(said, [30, 90, 150, 210, 270])   # the checks at 37, 97, 157, ... minutes of silence
-        self.assertEqual(alert.decide(at(7, 37), a_mark(), push)[0], "ERW: a chain is still saving nothing")
+        self.assertEqual(said, [30])   # the check at 37 minutes of silence, and no other
+        # with it: due at every check until it is said, then never again for this silence, even when the first check is late
+        for first in (30, 45, 120):
+            memory, said = set(), []
+            for m in range(first, 300, 15):
+                now = at(6, 0) + dt.timedelta(minutes=m + 7)
+                if alert.decide(now, a_mark(), push, memory)[0]:
+                    said.append(m)
+                    memory.add(alert.chain_key(now, a_mark(), push))
+            self.assertEqual(said, [first], first)
+        # a new save ends the silence: the next one is a new one, with a key of its own
+        later = (at(7, 30), "wip/090-fixes", "y")
+        self.assertNotEqual(alert.chain_key(at(8, 7), a_mark(), later), alert.chain_key(at(8, 7), a_mark(), push))
+        self.assertFalse(hasattr(alert, "AGAIN_MIN"))
 
     def test_a_beat_is_a_save_and_so_is_the_start(self):
         old = (at(4, 0), "wip/089-findings", "x")
@@ -332,7 +346,7 @@ class TheSettings(unittest.TestCase):
     def test_the_document_says_what_the_settings_do(self):
         doc = src("docs", "machines.md")
         for said in ("## Alerts: when an unattended session needs a person", "python scripts/alert.py chain start", "permission_prompt", "idle_prompt",
-                     "ERW_ALERTS=off", "chain-watch.yml", "once at 30 minutes and again every hour after", "### The permission allowlist",
+                     "ERW_ALERTS=off", "chain-watch.yml", "It says so **once**, and not again for", "### The permission allowlist",
                      "https://code.claude.com/docs/en/hooks", "https://code.claude.com/docs/en/permissions", "wip/x:task/x"):
             self.assertIn(said, doc)
 

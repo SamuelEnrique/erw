@@ -566,7 +566,8 @@ python scripts/alert.py chain check --dry-run
   the machine that runs the chain, because the usual reason a chain stops saving is that its machine stopped. No chain
   marked: it says so and ends. A marked chain with no save for 30 minutes: one line, "The chain "..." (machine/session)
   has saved nothing for 37 minutes: its last save was a push to wip/090-fixes at 06:48 UTC. Marked as running since
-  05:52 UTC." (or "a commit on main", "the landing of task/x on main", "a beat") It says so **once at 30 minutes and again every hour after** (90, 150, ...), not every quarter of an hour.
+  05:52 UTC." (or "a commit on main", "the landing of task/x on main", "a beat") It says so **once**, and not again for
+  that silence (session 202, "One alert policy"; until then it said so again every hour).
   A mark that lapsed without `done` is said once.
 - Like every scheduled job it runs under `warehouse/health.py` and never fails on GitHub; its 96 runs a day are in the
   daily health summary. The database's schedule starts it (migration 022, `erw-chain-watch`), and GitHub's own schedule
@@ -600,6 +601,55 @@ Three limits, from the reference, to keep in mind:
   deny rules always apply. `.claude/settings.local.json` is the place for one machine's own rules; it is not in git.
 
 The rules reduce how often a session asks. They do not choose the mode a chain runs in (`defaultMode` is not set here).
+
+### One alert policy (session 202)
+
+Every email the machinery sends to a person follows these rules. They are implemented in `scripts/alert.py`,
+`scripts/duty.py`, `scripts/notify.py` and `.github/workflows/chain-watch.yml`. The digest and the Roundup are the
+product, not alerts, and are not touched by this.
+
+| What happens | What is sent | When | By what |
+|---|---|---|---|
+| A machine declares idle (its queue is empty) | one email | once, when it declares | `scripts/chain_queue.py next` |
+| A machine on duty has run nothing for 30 minutes | one email | once for that silence; a new commit, push or beat ends it, and a later silence is a new one | `scripts/duty.py check` |
+| A marked chain has saved nothing for 30 minutes | one email | once for that silence | `scripts/alert.py chain check` |
+| A duty mark or a chain mark lapsed with nobody ending it | one email | once | the same two checks |
+| A step of a scheduled job is recorded as failed | one email for that failure | once: when the step's run before did not fail. While it keeps failing, nothing more | `scripts/alert.py failures` |
+| A step failed and passed at the second try | nothing | | it is recorded as `retried`, and the morning summary counts it |
+| More than five steps newly failed in one quarter of an hour | one email naming them all | once | `scripts/alert.py failures` |
+| The daily model cap skipped steps | one email | once a UTC day | `scripts/alert.py failures` |
+| A session waits for a permission or for input | one email | at most one per session and kind every 10 minutes (the hook, unchanged) | `scripts/alert.py hook` |
+| A precheck failed | one email | once, by the session that ran it | `scripts/precheck.py` |
+| A session finished, a job ran, a landing passed | nothing | | successes send nothing; `scripts/notify.py` sends only with `--failed` |
+| Every morning | the morning summary | 07:00 Pacific, once a day | `scripts/alert.py summary` |
+
+- **The morning summary** lists the runs since the last morning, one line each, the word `green` or `red` first (and
+  `open` for a check that has not finished): each scheduled job with its runs and its failed steps, each machine that
+  recorded a step, each branch whose checks ran (a `task/` branch whose checks passed was merged). A job that runs
+  every day and recorded no run is red. Its first line is the green streak: "Scheduled jobs green for N days".
+  `python scripts/alert.py summary --dry-run --html runs/summary.html` prints it and writes the email's body without
+  sending.
+- **One place sends failures, but for the Roundup.** The chain watch, every 15 minutes, reads `erw_health` for every
+  job. The daily workflow's own step ("Tell a person what failed in this run", session 119) is gone: it sent one line
+  for the whole run, every day the same steps failed. The Roundup's workflow keeps that step (session 202 was not to
+  touch that workflow), so a failed Roundup is told by its own run, once a run, and the chain watch leaves it alone;
+  the morning summary lists it like any other job.
+- **"Once" is remembered, not timed.** What was said is a row of `erw_health` with the workflow name `alerts` (the
+  step names the kind, the reason is the key: the machine and the minute its silence began, or the step and the minute
+  it failed). A check that runs late still sends its line; a check that runs twice does not send it twice. When the
+  memory cannot be read, a silence is said only by the check that falls in the quarter of an hour after 30 minutes, as
+  before, and a failure only when it is under a quarter of an hour old: never more than once. A test never reads or
+  writes the memory unless it hands in a stand-in.
+- **The green streak** is in `site/data/health_days.json`, which `python warehouse/health.py summary` writes with each
+  day's summary (the daily run commits both): per UTC day, each job's steps by outcome and the failures that count.
+  N is the number of days in a row, back from the newest day recorded, with no failed step; it is 0 whenever a job
+  failed on that day, and a day with no record ends the count, as does a day on which a job that runs every day
+  (latest prices, hourly network, daily prices, chain watch) recorded no run. A scheduled workflow's steps count, and a machine's own
+  daily run (steps named `dm_...`); a session's other rows do not. `/internal/health` shows the line and the days;
+  `node site/scripts/check-internal-health.mjs <address>` compares the page with the file. The line is the counter of
+  the public day's gate (`docs/roadmap.md`: seven green days of every scheduled job).
+- **What GitHub itself sends is outside this.** A failed "code branch" check emails the pusher from GitHub. No
+  scheduled job fails on GitHub (session 61), so those send nothing.
 
 ## Continuous work (session 188)
 
@@ -688,8 +738,9 @@ python scripts/duty.py check --dry-run
 - **The check** is the second step of `.github/workflows/chain-watch.yml`, every 15 minutes, on GitHub and not on the
   machine: a machine on duty that has run nothing for 30 minutes gets one line, "The machine samueloldlaptop, on duty
   for "session 188", has run nothing for 37 minutes: its last sign of work was a commit, a push or a beat at 06:48
-  UTC. On duty since 05:52 UTC." It says so once at 30 minutes and again every hour after (90, 150, ...). A mark that
-  lapsed without idle or sign-off is said once. Each machine on duty is judged by itself.
+  UTC. On duty since 05:52 UTC." It says so once, and not again for that silence (session 202, "One alert policy";
+  until then it said so again every hour). A new commit, push or beat ends the silence; a later one is a new one. A
+  mark that lapsed without idle or sign-off is said once. Each machine on duty is judged by itself.
 - It runs under `warehouse/health.py` (step `idle alarm`) and never fails the job; it adds no secret and no schedule.
 - **A long step is a silence**, as for the chain: run `python scripts/duty.py beat` before a build or a pull of more
   than half an hour.
