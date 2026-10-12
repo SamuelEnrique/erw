@@ -106,7 +106,7 @@ model_step() {
   # session 28: model_step <name> <command...>: a step that calls the Claude API. With MODEL_STEPS=0 (a local test
   # run that must spend nothing) it is skipped and recorded as skipped; CI never sets it
   # Session 176: before each one, warehouse/health.py budget asks whether the day's spend of all scheduled model steps
-  # has reached DAILY_MODEL_USD (default 1.00). At the cap the step is not run: a skipped row of erw_health, a warning
+  # has reached DAILY_MODEL_USD (1.50 since session 206, set in the workflows; 1.00 before). At the cap the step is not run: a skipped row of erw_health, a warning
   # and the same-day email say so (exit 75). A step named with NO_MODEL_FLAG (the digest) runs with that flag instead
   # and publishes without its model-written parts. A budget that cannot be read never switches a step off.
   if [ "${MODEL_STEPS:-1}" = "0" ]; then
@@ -136,6 +136,11 @@ run_other() {
   if [ "$rc" -eq 0 ] && grep -q "^${name} SKIPPED" "$out"; then
     # session 10 ruling 3: a derived script without its inputs in CI skips with a warning
     echo "$name skipped: $(grep -m1 "^${name} SKIPPED" "$out" | sed "s/^${name} SKIPPED: //")" >> "$status"
+  elif [ "$rc" -eq 75 ]; then
+    # session 206 (the owner's ruling of 12 October 2026): a connector whose every table is a known gap on this runner
+    # (warehouse/metadata/known_gaps.csv; iso_prices.gap_skip) exits 75, the skip exit warehouse/health.py uses, with a
+    # SKIPPED line naming the gap: recorded as skipped, not failed
+    echo "$name skipped: $(grep -m1 "SKIPPED" "$out" | sed -E "s/^[a-z0-9_]+ ([a-z0-9_]+ )?SKIPPED: //" | cut -c1-300)" >> "$status"
   elif [ "$rc" -eq 0 ]; then
     echo "$name ok" >> "$status"
   else

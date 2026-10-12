@@ -6,6 +6,11 @@
 #
 #   1. sync: main fast-forwarded, and every table that is behind the Redivis draft brought up to it (scripts/sync.py:
 #      a table that is ahead here, or has diverged, is reported and left), so the day's prices from the runner are in;
+#   1c. (session 206, the owner's ruling of 12 October 2026) the publishers that refuse GitHub's runner, asked from here
+#      once a day: CARB's auction summary (carb_auction_allowance_prices), CARB's LCFS credit prices
+#      (carb_lcfs_credit_prices) and Oregon's docket lists (policy_monitor_refresh.py --only orpuc, into the two
+#      large-load rule tables). On the runner each is a known gap recorded as skipped (warehouse/metadata/known_gaps.csv).
+#      A table that moved gets its stores, as the node prices do;
 #   1b. ERCOT's node prices (ercot_rtm_node_prices; session 204, the owner's ruling of 12 October 2026): the real-time
 #      Settlement Point Prices at the storage resources' points, the hubs and the Load Zones, NP6-905-CD, through
 #      warehouse/scheduled.py. ERCOT's list keeps seven days and no more, so a day not pulled within the week is not
@@ -115,6 +120,7 @@ if [ "$CHECK" = "1" ]; then
   echo "  sync (scripts/sync.py); ERCOT's load zones (ercot_zone_prices.py --refresh) and, when rows were added, the validator, coverage, the archive and the Redivis draft;"
   echo "  datacenter_page, capture_price, curtailment_shares, free_energy, curtailment_worth, each under warehouse/health.py;"
   echo "  (session 204) first of all after the sync, ERCOT's node prices (scheduled.py ercot_rtm_node_prices, 500,000 rows a day at most) and its stores when it moved;"
+  echo "  (session 206) then the runner's known gaps: carbon_auctions.py --table carb, carb_lcfs.py, policy_monitor_refresh.py --only orpuc, each table's stores when it moved;"
   echo "  (session 204) after the page files: battery_dispatch_export, battery_scenario_steps and seller_hybrid, each through scheduled.py, then each group's tests;"
   echo "  (session 204) switched off, GENERATOR=${GENERATOR:-0} (1 runs them): merchant_revenue (and its table's stores), merchant_hubs, generator_hourly_export;"
   echo "  then a commit to main of: ${PAGE_PATHS[*]} ${META_PATHS[*]}"
@@ -162,6 +168,31 @@ was="$(sha_of "$NODES")"
 soft_step dm_ercot_node_prices "$PYTHON" warehouse/scheduled.py "$NODES"
 grep -E "rows counted against the ceiling|STOPPED before" runs/daily_dm_ercot_node_prices.out
 table_stores dm_node_stores "$NODES" "$was"
+
+# ---- 1c. the publishers that refuse GitHub's runner (session 206, the owner's ruling of 12 October 2026) --------------
+# CARB's auction summary and its LCFS credit prices (ww2.arb.ca.gov answers the runner HTTP 202 with no body since
+# 27 September 2026) and Oregon's docket host (apps.puc.state.or.us, which did not answer the runner on 11 and 12
+# October): known gaps on the runner (warehouse/metadata/known_gaps.csv), where each is recorded as skipped. This
+# machine asks each once a day, and a table that moved gets its stores (table_stores, above). Each a soft step. Oregon
+# goes through the policy monitor's refresh (--only orpuc: its other regulators are the runner's), whose rows go into
+# the two large-load rule tables; the refresh needs the data lock, which this whole run holds.
+echo "== the known gaps of the runner: CARB's auction prices, CARB's LCFS credit prices, Oregon's dockets"
+CARB=carb_auction_allowance_prices
+LCFS=carb_lcfs_credit_prices
+RULES=large_load_rules
+RULES_HELD=large_load_rules_internal
+was="$(sha_of "$CARB")"
+soft_step dm_carb_auction "$PYTHON" warehouse/connectors/carbon_auctions.py --table carb
+table_stores dm_carb_auction_stores "$CARB" "$was"
+was="$(sha_of "$LCFS")"
+soft_step dm_carb_lcfs "$PYTHON" warehouse/connectors/carb_lcfs.py
+table_stores dm_carb_lcfs_stores "$LCFS" "$was"
+was_rules="$(sha_of "$RULES")"
+was_held="$(sha_of "$RULES_HELD")"
+soft_step dm_orpuc_dockets "$PYTHON" warehouse/connectors/policy_monitor_refresh.py --only orpuc
+grep -E "SKIPPED for|FAILED for|new rows" runs/daily_dm_orpuc_dockets.out
+table_stores dm_orpuc_rules_stores "$RULES" "$was_rules"
+table_stores dm_orpuc_held_stores "$RULES_HELD" "$was_held"
 
 # ---- 2. ERCOT's load zones --------------------------------------------------------------------------------------------
 echo "== ERCOT's load zone prices: the daily refresh (the count against the ceiling is in runs/daily_dm_ercot_zone_prices.out)"
