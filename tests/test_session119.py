@@ -556,13 +556,15 @@ class TheFailureAlert(unittest.TestCase):
             self.assertEqual(self.health.main(["alert", "--day", "2026-10-04"]), 0)
         finally:
             self.health.fetch = saved
-        for f in ("daily-prices.yml", "roundup.yml"):
-            w = yaml.safe_load(src(".github", "workflows", f))
-            job = w["jobs"]["refresh" if f.startswith("daily") else "roundup"]
-            last = job["steps"][-1]
-            self.assertEqual(last["name"], "Tell a person what failed in this run")
-            self.assertEqual((last["if"], last["continue-on-error"]), ("always()", True))
-            self.assertIn('python warehouse/health.py alert --run-id "${{ github.run_id }}"', last["run"])
+        # session 202, the one alert policy: the Roundup keeps its own last step (its workflow is not touched); the
+        # daily run's is gone, and the chain watch tells a new failure of every other job, once
+        last = yaml.safe_load(src(".github", "workflows", "roundup.yml"))["jobs"]["roundup"]["steps"][-1]
+        self.assertEqual(last["name"], "Tell a person what failed in this run")
+        self.assertEqual((last["if"], last["continue-on-error"]), ("always()", True))
+        self.assertIn('python warehouse/health.py alert --run-id "${{ github.run_id }}"', last["run"])
+        daily = yaml.safe_load(src(".github", "workflows", "daily-prices.yml"))["jobs"]["refresh"]["steps"]
+        self.assertNotIn("Tell a person what failed in this run", [s.get("name") for s in daily])
+        self.assertIn("python scripts/alert.py failures", src(".github", "workflows", "chain-watch.yml"))
 
 
 class WhatEarlierSessionsMended(unittest.TestCase):

@@ -78,3 +78,29 @@ jobs:
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
           DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
         run: python warehouse/health.py run --step "idle alarm" -- python scripts/duty.py check
+      # Session 202, the one alert policy (docs/machines.md, "One alert policy"). The two silences above are each said
+      # once, not again every hour. Below: a step of any scheduled job newly recorded as failed in erw_health is one
+      # email, once (a step that failed at its run before is the same failure; a retry that passed is not one); and the
+      # morning summary, sent by the first run at or after 07:00 Pacific, once a day: the runs since the last morning,
+      # one line each, green or red. A success sends nothing else. What was said is remembered as rows of erw_health
+      # (workflow "alerts"), so a late or a doubled run neither loses a line nor repeats one. Neither step is run a
+      # second time when it fails (--retries 0): a second run could send a second email.
+      - name: Tell a person of a new failure, once
+        if: steps.dedupe.outputs.skip != '1'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
+        run: python warehouse/health.py run --step "new failures" --retries 0 -- python scripts/alert.py failures
+      - name: The morning summary, 07:00 Pacific, once a day
+        if: steps.dedupe.outputs.skip != '1'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python warehouse/health.py run --step "morning summary" --retries 0 -- python scripts/alert.py summary

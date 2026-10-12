@@ -187,22 +187,35 @@ class TheCheck(unittest.TestCase):
             self.assertIsNone(subject, now)
             self.assertIn("ran something", why)
 
-    def test_30_minutes_is_said_once_and_then_every_hour(self):
+    def test_30_minutes_is_said_once_and_not_again(self):
+        # session 202, the one alert policy: until then the line went out again every hour
         row = a_row()
+        # without the memory of what was said: only in the quarter of an hour after 30 minutes
         said = [m for m in range(0, 331) if duty.decide(at(5, 0) + dt.timedelta(minutes=m), row)[0]]
-        self.assertEqual(said, [m for start in (30, 90, 150, 210, 270, 330) for m in range(start, start + 15) if m <= 330])
-        # the check runs every 15 minutes: whenever it starts, each window is met once
+        self.assertEqual(said, list(range(30, 45)))
+        # the check runs every 15 minutes: whenever it starts, that window is met once
         for offset in range(15):
             ticks = [m for m in range(offset, 331, 15) if duty.decide(at(5, 0) + dt.timedelta(minutes=m), row)[0]]
-            self.assertEqual(len(ticks), 6 if offset == 0 else 5, offset)
+            self.assertEqual(len(ticks), 1, offset)
+        # with the memory: due at every check from 30 minutes until it is said, then never again for this silence
+        for first in (30, 44, 75, 200):
+            memory, ticks = set(), []
+            for m in range(first, 331, 15):
+                now = at(5, 0) + dt.timedelta(minutes=m)
+                if duty.decide(now, row, memory)[0]:
+                    ticks.append(m)
+                    memory.add(duty.key_of(now, row))
+            self.assertEqual(ticks, [first], first)
         subject, line = duty.decide(at(5, 37), row)
         self.assertEqual(subject, "ERW: a machine has run nothing for 30 minutes")
         self.assertEqual(line, 'The machine old-laptop, on duty for "session 900", has run nothing for 37 minutes: its last sign of work was its precheck at 05:00 UTC. '
-                               "On duty since 05:00 UTC.")
-        subject, line = duty.decide(at(6, 32), row)
-        self.assertEqual(subject, "ERW: a machine is still running nothing")
-        self.assertIn("for 92 minutes", line)
-        self.assertEqual((alert.QUIET_MIN, alert.AGAIN_MIN, alert.EVERY_MIN), (30, 60, 15), "the chain check's own numbers")
+                               "On duty since 05:00 UTC. Said once: no further email for this silence.")
+        self.assertIsNone(duty.decide(at(6, 32), row)[0])                                   # 92 minutes: nothing more
+        self.assertIn("said once", duty.decide(at(6, 32), row)[1])
+        # a new sign of work makes a later silence a new one
+        self.assertNotEqual(duty.key_of(at(8, 0), a_row(renewed=at(7, 0))), duty.key_of(at(8, 0), row))
+        self.assertEqual((alert.QUIET_MIN, alert.EVERY_MIN), (30, 15), "the chain check's own numbers")
+        self.assertFalse(hasattr(alert, "AGAIN_MIN"))
 
     def test_a_commit_a_push_or_a_beat_is_a_sign_of_work(self):
         row = a_row(renewed=at(6, 50))
@@ -222,7 +235,7 @@ class TheCheck(unittest.TestCase):
     def test_every_line_is_one_line_within_300_characters_without_an_em_dash(self):
         row = a_row(name="m" * 40, task="a very long name of a chain " * 12)
         for now in (at(5, 37), at(6, 32), at(21, 5)):
-            subject, line = duty.decide(now, row)
+            subject, line = duty.decide(now, row, set())
             self.assertIsNotNone(subject)
             self.assertLessEqual(len(line), 300)
             self.assertNotIn("\n", line)
@@ -234,18 +247,27 @@ class TheCheck(unittest.TestCase):
         def default(subject, line, dry=False):
             sent.append((subject, line, dry))
             return 2
-        code = duty.check(dry_run, now=now, read=lambda: rows, send=send or default, out=printed.append)
+        self.kept = []
+        code = duty.check(dry_run, now=now, read=lambda: rows, send=send or default, out=printed.append,
+                          told=lambda t: getattr(self, "memory", None), say=lambda kind, key: self.kept.append((kind, key)) or True)
         return code, sent, printed
 
     def test_each_machine_is_judged_by_itself(self):
-        # at 07:05: one worked ten minutes ago, one is 35 minutes quiet (its first line), one 95 (its second), one 65 (between lines)
+        # at 07:05: one worked ten minutes ago, one is 35 minutes quiet (its line is due), one 95 and one 65 (theirs was due before)
         rows = [a_row("a", renewed=at(6, 55)), a_row("b", acquired=at(6, 30)), a_row("c", acquired=at(5, 30)), a_row("d", acquired=at(6, 0))]
-        code, sent, printed = self.run_check(rows, at(7, 5))
+        code, sent, printed = self.run_check(rows, at(7, 5))                                # the memory cannot be read: the window alone
         self.assertEqual(code, 0)
-        self.assertEqual([s[0] for s in sent], ["ERW: a machine has run nothing for 30 minutes", "ERW: a machine is still running nothing"])
+        self.assertEqual([s[0] for s in sent], ["ERW: a machine has run nothing for 30 minutes"])
         self.assertIn("The machine b,", sent[0][1])
-        self.assertIn("The machine c,", sent[1][1])
-        self.assertEqual(len([p for p in printed if p.startswith("quiet: ")]), 2)
+        self.assertEqual(len([p for p in printed if p.startswith("quiet: ")]), 3)
+        self.assertEqual(self.kept, [("idle alarm", "quiet|b|2026-10-11T06:30")])           # what was said is remembered
+        # with the memory, empty: b, c and d are each said once, whatever their minute; said, none is said again
+        self.memory = set()
+        code, sent, printed = self.run_check(rows, at(7, 5))
+        self.assertEqual([s[1].split(",")[0] for s in sent], ["The machine b", "The machine c", "The machine d"])
+        self.memory = {key for _, key in self.kept}
+        code, sent, printed = self.run_check(rows, at(7, 20))
+        self.assertEqual((code, sent), (0, []))
 
     def test_the_idle_machine_among_several_is_the_one_named(self):
         rows = [a_row("old-laptop", renewed=at(6, 55)), a_row("video-laptop", acquired=at(6, 30), task="the video chain")]
@@ -417,23 +439,25 @@ class TheWorkflow(unittest.TestCase):
         self.assertIn("if: steps.dedupe.outputs.skip != '1'", step)
         for secret in ("SUPABASE_URL", "SUPABASE_SERVICE_KEY", "RESEND_API_KEY", "DIGEST_RECIPIENTS", "DIGEST_FROM"):
             self.assertIn("${{ secrets." + secret + " }}", step)
-        self.assertEqual(wf.count("${{ secrets."), 12, "no secret the workflow did not already use")
+        self.assertEqual(wf.count("${{ secrets."), 22, "no secret the workflow did not already use (session 202: two more steps, the same five)")
+        self.assertEqual({w.split(" ")[0] for w in wf.split("${{ secrets.")[1:]}, {"SUPABASE_URL", "SUPABASE_SERVICE_KEY", "RESEND_API_KEY", "DIGEST_RECIPIENTS", "DIGEST_FROM"})
         self.assertIn('- cron: "*/15 * * * *"', wf)
         self.assertIn("contents: read", wf)
         for never in ("contents: write", "git push", "lock.py", "--strict", "continue-on-error"):
             self.assertNotIn(never, wf, never)
         self.assertNotIn(EM, wf)
 
-    def test_the_workflow_parses_and_its_steps_are_the_six(self):
+    def test_the_workflow_parses_and_its_steps_are_the_eight(self):
         try:
             import yaml
         except ImportError:
             self.skipTest("PyYAML is not installed here")
         d = yaml.safe_load(src(".github", "workflows", "chain-watch.yml"))
         job = d["jobs"]["watch"]
-        self.assertEqual(len(job["steps"]), 6)
+        self.assertEqual(len(job["steps"]), 8)   # session 202: a new failure told once, and the morning summary, after the two checks
         self.assertEqual([s.get("id") for s in job["steps"]].count("dedupe"), 1)
-        last, before = job["steps"][-1], job["steps"][-2]
+        self.assertEqual([s["name"] for s in job["steps"][-2:]], ["Tell a person of a new failure, once", "The morning summary, 07:00 Pacific, once a day"])
+        last, before = job["steps"][5], job["steps"][4]
         self.assertEqual(last["if"], before["if"])
         self.assertEqual(set(last["env"]), set(before["env"]) - {"GITHUB_TOKEN"}, "the idle check reads the marks, not GitHub")
         self.assertLessEqual(job["timeout-minutes"], 10)
@@ -455,7 +479,7 @@ class TheWorkflow(unittest.TestCase):
 
     def test_the_document_says_how_a_machine_goes_on_and_off_duty(self):
         doc = src("docs", "machines.md")
-        for word in ("python scripts/duty.py", "duty:<machine>", "once at 30 minutes and again every hour after", "idle alarm", "python scripts/duty.py off",
+        for word in ("python scripts/duty.py", "duty:<machine>", "It says so once, and not again for that silence", "idle alarm", "python scripts/duty.py off",
                      "python scripts/duty.py beat"):
             self.assertIn(word, doc, word)
         self.assertNotIn(EM, doc)

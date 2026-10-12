@@ -19,7 +19,16 @@ else); SUPABASE_URL and SUPABASE_SERVICE_KEY from the environment or .env.
     python warehouse/health.py summary [--day 2026-10-02 | yesterday]
         writes queue/summary/<day>-health.md from erw_health: per workflow, runs against the expected count, and every
         skip reason, retry and failure.
+        Session 202: the same command adds the day to site/data/health_days.json, the record the page /internal/health
+        and the morning summary read: per day, each job's counts and its failures, and the green streak: the number of
+        days in a row, back from the newest day recorded, on which no step of a scheduled job failed. It is 0 whenever
+        a job failed on that newest day. A day with no row at all ends the streak: nothing shows it was green.
+    python warehouse/health.py days --from 2026-09-28 --to 2026-10-11
+        writes those days into site/data/health_days.json (a first fill, or a repair); days already there are replaced.
     python warehouse/health.py alert [--run-id 37207629600] [--day today] [--dry-run]
+        session 202: the daily workflow no longer runs this. scripts/alert.py failures, every 15 minutes in
+        chain-watch.yml, tells a new failure of any job once (docs/machines.md, "One alert policy"); this command stays
+        for a person who wants a day's failures in one line.
         session 119: one line by email, to the fixed recipients only, when a step of this run (or of the day) is
         recorded as failed; nothing when none is. No job fails on GitHub, so GitHub sends no email, and the summary
         above is written the day after: on 4 October 2026 the battery page's refresh failed at 14:45 UTC and a person
@@ -38,6 +47,7 @@ else); SUPABASE_URL and SUPABASE_SERVICE_KEY from the environment or .env.
 import argparse
 import csv
 import datetime as dt
+import json
 import os
 import subprocess
 import sys
@@ -62,6 +72,82 @@ LEDGER = "api_cost_ledger"
 # any other step (a session's work, the Thesis Builder, the site's own ledger) is not counted and not capped here.
 SCHEDULED_MODEL_STEPS = ("news_score", "news_score_shadow", "policy_score", "policy_reads", "deals_extract",
                          "datacenters_extract", "funfact", "digest", "roundup", "analysis_note")
+
+
+# Session 202: the record of days (site/data/health_days.json) and the green streak.
+DAYS_FILE = os.path.join(ROOT, "site", "data", "health_days.json")
+DAYS_KEPT = 120          # days kept in the file, the newest
+MEMORY = "alerts"        # scripts/alert.py's memory of what it said: rows of erw_health that are no job's
+
+
+def counted(row):
+    """Whether a row counts toward the green streak: a step of a scheduled workflow, or of a machine's own daily run
+    (its steps are named dm_<step>, warehouse/run_data_machine.sh). A machine's other rows (a session's check, an idle
+    declaration) are shown on the page and do not count: they are a session's work, not a job on a clock."""
+    wf = str(row.get("workflow") or "")
+    if wf == MEMORY:
+        return False
+    return not wf.startswith("local:") or str(row.get("step") or "").startswith("dm_")
+
+
+def day_record(rows):
+    """One day of the record: every job's counts, and the failures that count."""
+    jobs, runs = {}, {}
+    for r in rows:
+        wf = r["workflow"]
+        if wf == MEMORY:
+            continue
+        j = jobs.setdefault(wf, {"ok": 0, "skipped": 0, "retried": 0, "failed": 0})
+        j[r["status"]] = j.get(r["status"], 0) + 1
+        if r.get("run_id"):
+            runs.setdefault(wf, set()).add(str(r["run_id"]))
+    for wf, j in jobs.items():
+        j["runs"] = len(runs.get(wf, ())) or sum(j[s] for s in ("ok", "skipped", "retried", "failed"))
+    failures = [{"at": str(r["at"])[:16], "workflow": r["workflow"], "step": r["step"], "reason": " ".join(str(r.get("reason") or "").split())[:200]}
+                for r in rows if r["status"] == "failed" and counted(r)]
+    return {"rows": sum(1 for r in rows if counted(r)), "failed": len(failures), "jobs": dict(sorted(jobs.items())), "failures": failures}
+
+
+def green_streak(days):
+    """(the number of days in a row without a failure, the newest day recorded). Counted back from the newest day in
+    the record; 0 when a job failed on it. A day that is missing, or that holds no row, ends the count."""
+    if not days:
+        return 0, None
+    newest = max(days)
+    n, d = 0, dt.date.fromisoformat(newest)
+    while True:
+        rec = days.get(d.isoformat())
+        if not rec or not rec.get("rows") or rec.get("failed"):
+            return n, newest
+        n += 1
+        d -= dt.timedelta(days=1)
+
+
+def write_days(by_day, path=None, now=None):
+    """Put these days ({day: rows of erw_health}) into the record, keep its newest DAYS_KEPT days, and write it with
+    the streak. Returns (path, green days, counted to)."""
+    path = path or DAYS_FILE
+    try:
+        with open(path, encoding="utf-8") as f:
+            days = json.load(f).get("days", {})
+    except (OSError, ValueError):
+        days = {}
+    for day, rows in by_day.items():
+        if rows:
+            days[day] = day_record(rows)
+        else:
+            days.pop(day, None)  # no row at all: the day is absent from the record, which ends a streak as a failure does
+    days = {d: days[d] for d in sorted(days)[-DAYS_KEPT:]}
+    n, to = green_streak(days)
+    now = now or dt.datetime.now(dt.timezone.utc)
+    out = {"about": "Written by warehouse/health.py from the table erw_health: per UTC day, each scheduled job's steps by outcome, and the "
+                    "failures that count. green_days is the number of days in a row, back from counted_to, without a failed step.",
+           "written": now.strftime("%Y-%m-%dT%H:%MZ"), "green_days": n, "counted_to": to, "days": days}
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(out, f, indent=1, ensure_ascii=True)
+        f.write("\n")
+    return path, n, to
 
 
 def env(name):
@@ -371,6 +457,11 @@ def summary(day, out_dir=None, rows=None):
     path = os.path.join(out_dir, f"{day}-health.md")
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write(render(day, rows))
+    if out_dir == os.path.join(ROOT, "queue", "summary"):  # the repository's own summary: the record of days follows it
+        try:
+            write_days({day: rows})
+        except Exception as exc:  # the summary is written whatever happens to the record
+            print(f"::warning::site/data/health_days.json not written: {type(exc).__name__}: {str(exc)[:160]}")
     return path, rows
 
 
@@ -437,6 +528,10 @@ def main(argv=None):
     s = sub.add_parser("summary")
     s.add_argument("--day", default="yesterday")
     s.add_argument("--out")
+    dy = sub.add_parser("days")  # session 202
+    dy.add_argument("--from", dest="first", required=True)
+    dy.add_argument("--to", dest="last", required=True)
+    dy.add_argument("--out", help="the file to write (default site/data/health_days.json)")
     al = sub.add_parser("alert")
     al.add_argument("--day", default="today")
     al.add_argument("--run-id", default="")
@@ -468,6 +563,14 @@ def main(argv=None):
         return 0
     if a.cmd == "dedupe":
         dedupe(a.workflow_file, a.minutes)
+        return 0
+    if a.cmd == "days":
+        d, last, by_day = dt.date.fromisoformat(a.first), dt.date.fromisoformat(a.last), {}
+        while d <= last:
+            by_day[d.isoformat()] = fetch(d.isoformat())
+            d += dt.timedelta(days=1)
+        path, n, to = write_days(by_day, a.out)
+        print(f"{os.path.relpath(path, ROOT)}: {len(by_day)} days written; green for {n} day{'s' if n != 1 else ''}, counted to {to}")
         return 0
     if a.cmd == "summary":
         day = a.day if a.day != "yesterday" else (dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=1)).isoformat()

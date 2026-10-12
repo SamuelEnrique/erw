@@ -381,6 +381,8 @@ jobs:
 
       # Session 61: the one daily health summary (warehouse/health.py summary): yesterday's (UTC) steps of every scheduled
       # job from erw_health, committed as queue/summary/<day>-health.md. It runs even when the rest of this job did not.
+      # Session 202: the same command adds the day to site/data/health_days.json (the record /internal/health and the
+      # morning summary read, with the green streak); the file is committed with the summary.
       - name: Write yesterday's health summary
         if: always()
         env:
@@ -397,6 +399,7 @@ jobs:
             git pull --quiet --rebase origin main || true
             git stash list | grep -q "health summary" && git stash pop --quiet || true
             git add -- "queue/summary/$day-health.md"
+            [ -e site/data/health_days.json ] && git add -- site/data/health_days.json
             git diff --cached --quiet && { echo "the health summary for $day is unchanged"; exit 0; }
             git commit --quiet -m "Health summary $day (warehouse/health.py)" -m "Automated run of .github/workflows/daily-prices.yml."
             git push --quiet origin HEAD:main && exit 0
@@ -406,16 +409,7 @@ jobs:
           done
           echo "::warning::the health summary for $day could not be pushed after three tries"
 
-      # Session 119: no job fails on GitHub (session 61), so GitHub emails nobody, and the health summary is written the
-      # day after. A failed step of this run is now one line by email the same day, to the fixed recipients only
-      # (warehouse/health.py alert); a run with no failed step sends nothing. It cannot fail the job.
-      - name: Tell a person what failed in this run
-        if: always()
-        continue-on-error: true
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
-          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
-        run: python warehouse/health.py alert --run-id "${{ github.run_id }}"
+      # Session 119 told a person the same day what failed in this run, in one line for the whole run, every day the
+      # same steps failed. Session 202, the one alert policy (docs/machines.md, "One alert policy"): that step is gone
+      # from here. The chain watch (chain-watch.yml, every 15 minutes) reads erw_health for every job and sends one
+      # email for each step newly failed, once; a step still failing is a red line of the morning summary.

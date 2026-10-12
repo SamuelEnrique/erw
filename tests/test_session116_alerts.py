@@ -146,7 +146,7 @@ class WhatCountsAsASave(unittest.TestCase):
         subject, line = alert.decide(at(5, 20), a_mark(), save)
         self.assertEqual(subject, "ERW: a chain has saved nothing for 30 minutes")
         self.assertEqual(line, "The chain \"session 116\" (oldlaptop/e4b617a1) has saved nothing for 35 minutes: its last save was a push to fix/a-typo at "
-                               "04:45 UTC. Marked as running since 02:00 UTC.")
+                               "04:45 UTC. Marked as running since 02:00 UTC. Said once: no further email for this silence.")
         self.assertIn("its last save was a commit on main at 04:45 UTC", alert.decide(at(5, 20), a_mark(), (at(4, 45), "main", "Session 116 report"))[1])
         self.assertIn("its last save was the landing of task/x on main at 04:45 UTC",
                       alert.decide(at(5, 20), a_mark(), (at(4, 45), "main", "Merge task/x: checks passed (run 2)"))[1])
