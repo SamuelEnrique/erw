@@ -57,6 +57,17 @@ def _is_entities(name):
     return False
 
 
+
+
+def own_first_line(header):
+    """True when the table's own first header line is the ERW's. Session 202: a table the runner rebuilds from the
+    archive carries one line above it ("Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run ...;
+    that run's own header of the table follows", restore.py), and header[0] alone failed four tests every day from 5
+    October 2026."""
+    own = [h for h in header if not h.startswith("Rebuilt from the ERW archive by warehouse/archive/restore.py")]
+    return bool(own) and own[0].startswith("Energy Research Warehouse (ERW):")
+
+
 EVENT_TABLES = [t for t in TABLES if _is_events(t)]
 ENTITY_TABLES = [t for t in TABLES if _is_entities(t)]
 SERIES_TABLES = [t for t in TABLES if t not in EVENT_TABLES and t not in ENTITY_TABLES]
@@ -106,7 +117,8 @@ def test_coverage_has_one_row_per_table_and_the_documented_columns():
     assert set(cov["license"]) <= {"public", "internal"}
     assert sorted(cov["table"]) == sorted(TABLES + CARRIED)  # session 45: CARRIED, absent from this machine
     assert str(cov["ts_min"].dtype).startswith("datetime64") and cov["ts_min"].dt.tz is not None
-    assert (cov["validator_status"] == "pass").all()
+    # session 202: "pass, 1 warnings" is a pass (the validator blocks on errors, exit 1; a warning is not one)
+    assert cov["validator_status"].str.match(r"^pass(, \d+ warnings?)?$").all()
 
 
 def test_coverage_md_lists_every_table():
@@ -134,7 +146,7 @@ def test_fetch_types_and_provenance(name):
     assert meta["title"] and meta["retrieved"] and (meta["run_log"] or derived)
     assert meta["sources"] and all(s["source"] in set(df["source"]) or s["report_url"]
                                    for s in meta["sources"])
-    assert meta["header"][0].startswith("Energy Research Warehouse (ERW):")
+    assert own_first_line(meta["header"])
 
 
 def test_fetch_list_returns_dict():
@@ -162,36 +174,47 @@ def test_filter_by_iso_market_variable_node_and_time():
     # so does every derived table (the peak premium, the cost of power, the event windows), which this test had missed
     board = lambda m: [t for t in cov["table"] if cov.set_index("table").loc[t, "derived"] == "yes"  # noqa: E731
                        and m in str(cov.set_index("table").loc[t, "market"]).split(";")]
-    assert held(iso="ERCOT", market="dam") == sorted(ERCOT_DAM + board("ercot_dam"))  # the live DAM table, history
+    # session 202: the source tables of a market are read from coverage as the derived ones are. The lists written by
+    # hand (ERCOT_DAM, ERCOT_RTM) fell behind each time a table of the market arrived (ercot_dam_esr_awards on 5 October
+    # 2026, then ercot_dam_cleared_energy) and failed this test every day; they stay as what must at least be there.
+    source = lambda m: [t for t in cov["table"] if cov.set_index("table").loc[t, "derived"] != "yes"  # noqa: E731
+                        and m in str(cov.set_index("table").loc[t, "market"]).split(";")]
+    assert set(ERCOT_DAM) <= set(source("ercot_dam")) and set(ERCOT_RTM) <= set(source("ercot_rtm"))
+    assert held(iso="ERCOT", market="dam") == sorted(source("ercot_dam") + board("ercot_dam"))  # the live DAM table, history
     # the live table, the history and the derived tables (the peak premium since session 9, the price board since 30)
-    assert held(market="ercot_rtm") == sorted(ERCOT_RTM + board("ercot_rtm"))
+    assert held(market="ercot_rtm") == sorted(source("ercot_rtm") + board("ercot_rtm"))
     assert set(held(market="rtm")) == set(cov.loc[has("market", lambda p: p.endswith("_rtm")), "table"])
-    assert held(variable="spp_rtm") == ERCOT_RTM
-    ercot_prices = sorted(cov.loc[has("market", lambda p: p.startswith("ercot_")), "table"])
-    # session 30: two price board tables hold each ISO's main hub only (HB_HUBAVG), not every hub
-    # session 67: ercot_as_prices holds services (ercot:REGUP, ...), not hubs; session 76: so does ercot_as_quantities (74)
-    ercot_prices = [t for t in ercot_prices
-                    if t not in ("price_board_peak_offpeak", "price_board_spreads", "ercot_as_prices", "ercot_as_quantities")]
-    # session 29: the price tables, and the derived tables computed from them per hub (the trader view)
+    # session 202: the real-time settlement point price is in the two hub tables, and since then in the zone and node
+    # tables too: the two written by hand must be there, and every table answered is a source table of ERCOT's
+    # real-time market (the assertion "== ERCOT_RTM" fails on any machine that holds a newer one)
+    spp = held(variable="spp_rtm")
+    assert set(ERCOT_RTM) <= set(spp) and set(spp) <= set(source("ercot_rtm"))
+    ercot_tables = set(cov.loc[has("market", lambda p: p.startswith("ercot_")), "table"])
     derived = set(cov.loc[cov["derived"] == "yes", "table"])
-    # session 45: a derived table may hold a hub or only a summary (the cost of power, the event windows): every source
-    # price table must hold the hub, and every other table that does must be derived
-    ercot_prices = [t for t in ercot_prices if t not in derived]
+    # session 29: the hub price tables hold the hub; session 45: a derived table may hold a hub or only a summary.
+    # session 202: until now every source table of an ERCOT market but four named by hand had to hold the hub, which
+    # each new table of zones, nodes, awards or load broke. What is held to: the hub price tables hold it, and every
+    # other table that does is one of ERCOT's markets or is derived.
+    hub_tables = {t for t in ("iso_dam_hub_prices", "iso_rtm_hub_prices", HISTORY) if t in TABLES}
     for n in ("HB_NORTH", "ercot:HB_NORTH"):
         got = held(node=n)
-        assert set(ercot_prices) <= set(got) and set(got) - set(ercot_prices) <= derived
+        assert hub_tables <= set(got) and set(got) <= ercot_tables | derived
     nyc = held(iso=["ERCOT", "NYISO"], node="N.Y.C.")
     want = set(cov.loc[has("market", lambda p: p.startswith("nyiso_")), "table"])
     want -= {"iso_all_capacity_prices"}  # session 67: its NYISO rows are capacity localities (nyiso:NYC), not the price zone N.Y.C.
     # session 65: as for ERCOT above, a derived table may hold only a summary of the hub (event_window_daily since the
-    # session 64 events): every source price table must hold the zone
-    assert want - derived <= set(nyc) and set(nyc) - want <= derived
+    # session 64 events). Session 202: as for ERCOT above, not every source table of a NYISO market holds the zone
+    # (nyiso_dam_cleared_energy holds none): the two zone price tables hold it, and every other table that does is one
+    # of NYISO's markets or is derived.
+    zone_tables = {t for t in ("nyiso_dam_zone_prices", "nyiso_rtm_zone_prices") if t in TABLES}
+    assert zone_tables <= set(nyc) and set(nyc) - want <= derived
     eia_ciso = sorted(t for t in ("eia930_all_demand", "eia930_all_generation") if t in TABLES)  # session 29
     got = set(held(node="eia930:CISO"))  # session 29: also the snapshot of every BA's latest hours
     # session 32: the CO2 estimates and the carbon intensity tables name each BA too
-    also = {"eia930_generation_latest"} | {t for t in TABLES if t.startswith(("eia930_all_", "carbon_intensity_"))}
+    # session 202: every table built from EIA-930 names each BA (the daily tables and demand growth among them): the
+    # prefix, where a list by hand named three and fell behind
+    also = {t for t in TABLES if t.startswith(("eia930_", "carbon_intensity_"))}
     also |= derived  # session 45: event_window_daily names each BA too
-    also |= {"eia930_daily_total_interchange", "eia930_event_hourly_interchange"}  # session 68: EIA's total interchange and demand name each BA
     assert set(eia_ciso) <= got and got - set(eia_ciso) <= also
     assert set(eia_ciso) <= set(held(iso="caiso"))
     spot = [t for t in ("eia_fuel_spot_prices", "eia_product_spot_prices", "fred_daily_spot_prices")
@@ -222,7 +245,11 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
     derived = erw.coverage().set_index("table").loc[name, "derived"] == "yes"
     members = sorted(o for o, (n, _) in erw.migrations().items() if n == name)
     org = members[0].split("_")[0] if members else org  # session 29: a consolidated table, its first member's publisher
+    # session 202: imf and cftc (KeyError in the daily run since 7 October 2026), census and noaa (on the machines that
+    # hold those tables)
     publisher = "Energy Research Warehouse (ERW), derived" if derived else {
+                 "imf": "International Monetary Fund", "cftc": "Commodity Futures Trading Commission",
+                 "census": "U.S. Census Bureau", "noaa": "NOAA National Centers for Environmental Information",
                  "ercot": "Electric Reliability Council of Texas", "caiso": "California",
                  "nyiso": "New York", "miso": "Midcontinent", "spp": "Southwest Power Pool",
                  "isone": "ISO New England", "pjm": "PJM",
@@ -235,7 +262,10 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
                  "weather": "National Weather Service",
                  "iso": "PJM"}[org]  # session 29: derived tables and weather; session 67: iso_all_capacity_prices (session
     # 65) names its four publishers, PJM among them
-    assert publisher in c and name in c and "Energy Research Warehouse (ERW)" in c
+    # a derived table's source line is worded one of two ways in sources.csv: "Energy Research Warehouse (ERW), derived."
+    # or "Energy Research Warehouse (ERW). <report>: ERW derived table, ..."
+    named = publisher in c or (derived and "Energy Research Warehouse (ERW). " in c and ": ERW derived table" in c)
+    assert named and name in c and "Energy Research Warehouse (ERW)" in c
     commit = erw.version()["data_commit"]
     assert commit and commit[:12] in c
 
@@ -364,7 +394,7 @@ def test_events_table_types_subset_and_provenance(name):
     assert df["event_id"].is_unique
     assert df["source_url"].str.startswith("http").all()
     meta = df.attrs["erw"]
-    assert meta["header"][0].startswith("Energy Research Warehouse (ERW):") and meta["run_log"]
+    assert own_first_line(meta["header"]) and meta["run_log"]
     t1 = df["event_date"].max()
     t0 = t1 - pd.Timedelta(hours=6)
     sub = erw.fetch(name, start=t0, end=t1 + pd.Timedelta(seconds=1))
@@ -472,7 +502,10 @@ def test_sector_filter():
     assert set(iso_prices) <= set(erw.filter(sector="power"))
     # session 29: the policy tables (session 24) are in the news sector too
     assert {t for t in TABLES if t.startswith("news_")} <= set(erw.filter(sector="news"))
-    assert erw.filter(sector="equities") == []  # no equities table yet (archive/sessions/SESSION_7_REPORT.md)
+    # session 202: until session 7 no table had the sector equities. Coverage now gives it to fred_treasury_yields on
+    # purpose (warehouse/metadata/build_coverage.py: the vocabulary has no sector for interest rates), and "== []"
+    # failed every day from 7 October 2026. What is held to is coverage's own tag.
+    assert erw.filter(sector="equities") == sorted(erw.coverage().loc[lambda c: c["sector"].map(lambda v: "equities" in v.split(";")), "table"])
     with pytest.raises(ValueError):
         erw.filter(sector="crypto")
 
@@ -504,7 +537,7 @@ def test_entities_table_types_provenance_and_rules(name):
     meta = df.attrs["erw"]
     row = erw.coverage().set_index("table").loc[name]
     # session 29: derived and model-extracted entities tables (datacenters, companies) have no connector run log
-    assert meta["header"][0].startswith("Energy Research Warehouse (ERW):") and (meta["run_log"] or row["tier"] != "source")
+    assert own_first_line(meta["header"]) and (meta["run_log"] or row["tier"] != "source")
     sectors = row["sector"].split(";")
     assert row["interval"] == "snapshot" and set(sectors) <= {"power", "datacenters", "deals"} and row["license"] == "public"
     assert name in erw.filter(sector=sectors[0])
@@ -690,7 +723,7 @@ def test_large_table_by_partition(name):
         assert df["value"].dtype == float
         assert not df.duplicated(["entity", "variable", "ts_utc"] + (["event"] if "event" in df.columns else [])).any()  # event: session 36C, p
         meta = df.attrs["erw"]
-        assert meta["header"][0].startswith("Energy Research Warehouse (ERW):") and meta["retrieved"]
+        assert own_first_line(meta["header"]) and meta["retrieved"]
         del df
 
 

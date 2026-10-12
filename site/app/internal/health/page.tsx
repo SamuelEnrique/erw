@@ -32,9 +32,7 @@ function Cell({ j }: { j: Job | undefined }) {
   if (!j) return <td className="pr-3 text-right text-muted">no run</td>;
   return (
     <td className="pr-3 text-right">
-      {n(j.runs)}
-      {j.failed ? <span className="ml-1 font-semibold text-accent">, {n(j.failed)} failed</span> : null}
-      {j.retried ? <span className="ml-1 text-muted">, {n(j.retried)} retried</span> : null}
+      {n(j.runs)}{j.failed ? <>, <span className="font-semibold text-accent">{n(j.failed)} failed</span></> : null}{j.retried ? <>, <span className="text-muted">{n(j.retried)} retried</span></> : null}
     </td>
   );
 }

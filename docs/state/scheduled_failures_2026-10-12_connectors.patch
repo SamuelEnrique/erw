@@ -1,0 +1,39 @@
+diff --git a/warehouse/connectors/ercot_zone_load.py b/warehouse/connectors/ercot_zone_load.py
+index b202f1ab..41a28f85 100644
+--- a/warehouse/connectors/ercot_zone_load.py
++++ b/warehouse/connectors/ercot_zone_load.py
+@@ -66,7 +66,9 @@ NAME = "ercot_zone_load_hourly"
+ CONNECTOR = "ercot_zone_load"
+ SOURCE = "ercot:load_hist"
+ PAGE = "https://www.ercot.com/gridinfo/load/load_hist"
+-LINK = re.compile(r'href="(https://www\.ercot\.com/files/docs/\d{4}/\d{2}/\d{2}/native_load_(\d{4})\.(?:zip|xlsx|xls))"', re.I)
++# session 202: ERCOT renamed the current year's file to Native_Load_2026-1-.zip (seen 9 October 2026); anything may now
++# stand between the year and the extension, and a year listed twice is taken once by the reader (zone_load.py)
++LINK = re.compile(r'href="(https://www\.ercot\.com/files/docs/\d{4}/\d{2}/\d{2}/native_load_(\d{4})[^"/]*\.(?:zip|xlsx|xls))"', re.I)
+ TZ = "America/Chicago"
+ ZONES = ["COAST", "EAST", "FWEST", "NORTH", "NCENT", "SOUTH", "SCENT", "WEST"]
+ TOTAL = "ERCOT"
+diff --git a/warehouse/connectors/iso_prices.py b/warehouse/connectors/iso_prices.py
+index 51278751..e4182c29 100644
+--- a/warehouse/connectors/iso_prices.py
++++ b/warehouse/connectors/iso_prices.py
+@@ -1608,8 +1608,17 @@ def pull_isone(ctx):
+         if r.status_code != 200 or "csv" not in r.headers.get("Content-Type", ""):
+             raise RuntimeError(f"ISO-NE final hourly LMP for {day.date()}: HTTP {r.status_code}, "
+                                f"{r.headers.get('Content-Type')}")
+-        data = pd.read_csv(io.StringIO(r.content.decode("utf8")), skiprows=[0, 1, 2, 3, 5],
+-                           skipfooter=1, engine="python")
++        try:
++            data = pd.read_csv(io.StringIO(r.content.decode("utf8")), skiprows=[0, 1, 2, 3, 5],
++                               skipfooter=1, engine="python")
++        except pd.errors.EmptyDataError:
++            data = None
++        if data is None or data.empty:
++            # session 202: since 4 October 2026 the final file of a day ISO-NE has not posted yet answers 200 with no
++            # table, where it answered 404. No final yet: the preliminary report, exactly as the 404 above
++            df = i.get_lmp(date=day, market=Markets.REAL_TIME_HOURLY)
++            df["_source"] = "isone:rt_lmp_hourly_prelim"
++            return df
+         data = data.rename(columns={"Location Name": "Location", "Locational Marginal Price": "LMP"})
+         data = i._create_interval_start_from_hour_start(data)
+         data["Interval Start"] = data.groupby("Location")["Interval Start"].transform(

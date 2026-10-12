@@ -398,6 +398,21 @@ def build_as(b, holidays, log):
     b.grey("as", "pjm|as", "PJM reserves and regulation", "licensed", PJM_NOTE, tags=dict(grid="PJM"), unit="USD/MW-hour")
 
 
+def build_lcfs(b, log):
+    """California's low-carbon fuel credit, two rows. Session 202: skipped when the table is not on the machine, as an
+    ancillary service table is (build_as): on the runner it never is (CARB answers the runner HTTP 202, a known gap; the
+    table is refreshed on a data machine), and reading it stopped the whole builder on every daily run from 7 to 12
+    October 2026 (FileNotFoundError), so the runner did not rebuild the board at all. page_keep.py keeps the held rows."""
+    if not os.path.exists(os.path.join(ip.OUT_DIR, "carb_lcfs_credit_prices.csv")):
+        log("  California low-carbon fuel credit: carb_lcfs_credit_prices not on this machine, skipped (page_keep.py keeps the held rows)")
+        return
+    s, meta = table_daily("carb_lcfs_credit_prices")
+    b.add("carbon", "carb:lcfs|avg", "California low-carbon fuel credit", "USD/t CO2e", "W", s.get(("carb:lcfs_credit", "credit_price_weekly_avg"), {}), at="all transfers, weekly average", code="LCFS",
+          source="California Air Resources Board, Weekly LCFS Credit Transfer Activity Report (carb_lcfs_credit_prices)")
+    b.add("carbon", "carb:lcfs|type1", "California low-carbon fuel credit", "USD/t CO2e", "W", s.get(("carb:lcfs_credit", "credit_price_type1_weekly_avg"), {}), at="Type 1 transfers, weekly average", code="LCFS Type 1",
+          source="California Air Resources Board, Weekly LCFS Credit Transfer Activity Report (carb_lcfs_credit_prices)")
+
+
 def build_fuels(b, log):
     """Gas, crude, products, retail fuel, retail electricity, plant fuel costs, metals, rates, credits. Returns the
     daily fuel series by EIA entity, and the US coal cost by month."""
@@ -486,11 +501,7 @@ def build_fuels(b, log):
         b.add("rates", f"fred:{sid}", f"US Treasury yield, {words}", "percent", "D", s.get((f"fred:{sid}", "yield"), {}), at="constant maturity", code=sid,
               source="Board of Governors of the Federal Reserve System, release H.15, through FRED (fred_treasury_yields)")
     # carbon and credits
-    s, meta = table_daily("carb_lcfs_credit_prices")
-    b.add("carbon", "carb:lcfs|avg", "California low-carbon fuel credit", "USD/t CO2e", "W", s.get(("carb:lcfs_credit", "credit_price_weekly_avg"), {}), at="all transfers, weekly average", code="LCFS",
-          source="California Air Resources Board, Weekly LCFS Credit Transfer Activity Report (carb_lcfs_credit_prices)")
-    b.add("carbon", "carb:lcfs|type1", "California low-carbon fuel credit", "USD/t CO2e", "W", s.get(("carb:lcfs_credit", "credit_price_type1_weekly_avg"), {}), at="Type 1 transfers, weekly average", code="LCFS Type 1",
-          source="California Air Resources Board, Weekly LCFS Credit Transfer Activity Report (carb_lcfs_credit_prices)")
+    build_lcfs(b, log)
     b.grey("carbon", "cca|auction", "California carbon allowance, quarterly auction", "not_held", "The auction results are held internal while the publisher's terms are reviewed; not shown.", unit="USD/t CO2e")
     b.grey("carbon", "rggi|auction", "RGGI carbon allowance, quarterly auction", "not_held", "The auction results are held internal while the publisher's terms are reviewed; not shown.", unit="USD/short ton CO2")
     b.grey("carbon", "eua", "European carbon allowance (EUA)", "licensed", "Source that would supply it: ICE Endex.", unit="EUR/t CO2e")

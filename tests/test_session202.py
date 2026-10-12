@@ -414,6 +414,55 @@ class TheRecordOfDays(unittest.TestCase):
         self.assertEqual(src("site", "data", "health_days.json"), before)
 
 
+class TheCausesThatWereCode(unittest.TestCase):
+    """runs/session202/failures.md: what failed in the scheduled jobs from 29 September to 12 October 2026 and was ours."""
+
+    def test_the_board_builder_skips_the_carbon_credit_rows_when_their_table_is_absent(self):
+        # row 1: FileNotFoundError on carb_lcfs_credit_prices.csv stopped the builder on the runner, 7 to 12 October
+        sys.path.insert(0, os.path.join(ROOT, "warehouse", "derived"))
+        import board_page  # noqa: E402
+        old = board_page.ip.OUT_DIR
+        board_page.ip.OUT_DIR = os.path.join(ROOT, "runs", "no_such_folder_session202")
+        try:
+            b, lines = board_page.Board(), []
+            board_page.build_lcfs(b, lines.append)
+            self.assertEqual(b.rows, [])                                                    # page_keep.py keeps the held rows
+            self.assertEqual(len(lines), 1)
+            self.assertIn("carb_lcfs_credit_prices not on this machine, skipped", lines[0])
+        finally:
+            board_page.ip.OUT_DIR = old
+        s = src("warehouse", "derived", "board_page.py")
+        self.assertEqual(s.count('table_daily("carb_lcfs_credit_prices")'), 1)              # read in one place, behind the check
+        self.assertIn("    build_lcfs(b, log)\n", s.replace("\r\n", "\n"))
+
+    def test_the_package_tests_hold_to_coverage_not_to_lists_written_by_hand(self):
+        # rows 2 to 6: five tests of the daily run's "package tests" step, failing since 5 to 8 October
+        s = src("package", "tests", "test_erw.py")
+        self.assertEqual(s.count('own_first_line(meta["header"])'), 4)
+        self.assertNotIn('meta["header"][0].startswith', s)
+        self.assertNotIn('(cov["validator_status"] == "pass").all()', s)
+        self.assertNotIn('held(variable="spp_rtm") == ERCOT_RTM', s)
+        self.assertNotIn('erw.filter(sector="equities") == []', s)
+        for org in ('"imf": "International Monetary Fund"', '"cftc": "Commodity Futures Trading Commission"'):
+            self.assertIn(org, s)
+
+    def test_a_restored_tables_first_header_line_is_read_past_the_note(self):
+        ns = {}
+        s = src("package", "tests", "test_erw.py").replace("\r\n", "\n")
+        exec(s[s.index("def own_first_line(header):"):s.index("EVENT_TABLES = ")], ns)
+        note = "Rebuilt from the ERW archive by warehouse/archive/restore.py, as of run 20261011T155107Z-github (2026-10-11T15:51:07Z); that run's own header of the table follows"
+        own = "Energy Research Warehouse (ERW): ercot_dam_esr_awards"
+        self.assertTrue(ns["own_first_line"]([own, "source: x"]))
+        self.assertTrue(ns["own_first_line"]([note, own, "source: x"]))
+        self.assertFalse(ns["own_first_line"]([note, "source: x"]))
+        self.assertFalse(ns["own_first_line"]([]))
+
+    def test_the_connectors_are_as_they_were(self):
+        # the chain's rule: a session does not touch the connectors. Rows 9 and 10 are a patch a person applies.
+        self.assertIn(r'native_load_(\d{4})\.(?:zip|xlsx|xls)', src("warehouse", "connectors", "ercot_zone_load.py"))
+        self.assertNotIn("EmptyDataError", src("warehouse", "connectors", "iso_prices.py").split("def rtm_hourly(day):")[1][:1500])
+
+
 class TheRepositorysOwn(unittest.TestCase):
     def test_the_record_agrees_with_its_own_days(self):
         d = json.loads(src("site", "data", "health_days.json"))
