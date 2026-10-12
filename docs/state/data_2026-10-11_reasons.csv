@@ -1,0 +1,9 @@
+table,reason,evidence
+spp_as_prices,Not in the daily run: it waits for the ruling on opening NYISO and SPP on the battery page,"`archive/sessions/SESSION_178_REPORT.md`, lines 111 and 114"
+nyiso_as_prices,Not in the daily run: it waits for the ruling on opening NYISO and SPP on the battery page,"`archive/sessions/SESSION_178_REPORT.md`, lines 111 and 114"
+spp_as_quantities,Not in the daily run: it waits for the ruling on opening NYISO and SPP on the battery page,"`archive/sessions/SESSION_178_REPORT.md`, lines 111 and 114"
+ercot_rtm_node_prices,"One week, pulled once on 5 October (session 120). ERCOT's public list keeps seven days of this report, so a day not pulled is gone. Pulling it from now on waits for approval","the file's own header; `archive/sessions/SESSION_178_REPORT.md`, line 126"
+ercot_storage_node_basis,Derived from `ercot_rtm_node_prices`: it moves only when that pull does,"the file's own header (Derived from); `archive/sessions/SESSION_178_REPORT.md`, line 126"
+ercot_sced_esr_hourly,"A session's pull of 5 October (session 120): 186 operating days, to 5 August. ERCOT discloses these files 60 days after the operating day, and no run script repeats the pull. The 57 further days wait for approval","the file's own header; `archive/sessions/SESSION_178_REPORT.md`, line 126"
+ercot_storage_rt_monthly,"Derived from `ercot_sced_esr_hourly`, a session's pull of 5 October that no run script repeats: it moves only when that pull does","the file's own header (Derived from); `archive/sessions/SESSION_178_REPORT.md`, line 126"
+eia_all_futures_prices,Complete as it will be: the table runs to the day EIA stopped publishing these prices,the file's own header

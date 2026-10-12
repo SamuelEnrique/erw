@@ -6,6 +6,8 @@ Downloads, the default case hour by hour: [erw_2026_datacenter_hourly.csv](/data
 
 **The default case**, used for every example below: ERCOT, the North load zone (`LZ_NORTH`), a flat load of 100 MW, bought in real time, 1.3 kW per GPU, an overhead ratio of 1.56. With the page's files built on 10 October 2026 the page shows: USD 33.73 per MWh over the last twelve months (October 2025 to September 2026), USD 29.55 million for 876,000 MWh; a bad month of USD 37.88 per MWh (August 2026, of 36 months); USD 0.0684 per GPU-hour, 49,310 GPUs; the hub beside the zone (`HB_NORTH`) at USD 32.51, so the zone is 1.22 above its hub.
 
+**The files these figures are of** (session 199). The page's files are rebuilt every day and the page shows the day's; the figures quoted in this note are those of the build of 10 October 2026 and stay so. What they need of that build is kept in `docs/methods/figures/2026-10-10/datacenter_pays_inputs.json` (the default case's months, and the hours of 2025 and 2026 that a flexible load's figures need), and `tests/test_session190.py` recomputes them from that file with the page's own library.
+
 **The flexible example**, used in section 5: the same load set to turn off in 100 hours a year. The page shows USD 31.46 per MWh, 2.27 less than a flat load, and USD 29.72 "if perfectly foreseen" (4.01 less).
 
 ## 1. The order of computation

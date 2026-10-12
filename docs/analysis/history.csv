@@ -1,20 +1,60 @@
-week,template,params,period,value,unit,history_n,notability_z,public,picked
-2026-W39,peak_premium_block,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-20 to 2026-09-26,28.08,USD/MWh,89,2.46,True,True
-2026-W39,da_rt_spread_by_hour,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-20 to 2026-09-26,6.19,USD/MWh,3,,True,False
-2026-W39,forecast_error,"{""ba"": ""erco"", ""window"": 30}",2026-09-21 to 2026-09-27,1.25,%,3,,True,False
-2026-W39,curtailment_midday,"{""hub"": ""TH_SP15_GEN-APND"", ""window"": 30}",2026-09-19 to 2026-09-25,28725.99,MWh,246,0.15,True,False
-2026-W39,implied_heat_rate,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-20 to 2026-09-26,14.68,MMBtu/MWh,3,,True,False
-2026-W39,storage_evening_peak,"{""window"": 30}",2026-09-21 to 2026-09-27,6195.87,MW,54,0.6,True,False
-2026-W39,negative_price_hours,"{""hub"": ""HB_WEST"", ""iso"": ""ercot"", ""months"": 24}",2026-08,6.0,hours,139,0.59,True,False
-2026-W39,deals_by_month,"{""ai_power"": ""all"", ""months"": 12}",2026-08,11.0,deals,10,1.08,True,False
-2026-W39,datacenters_by_state,"{""top"": 15}",2026-09-28,237.0,facilities,0,,True,False
-2026-W39,chokepoint_transits,"{""chokepoint"": ""chokepoint6"", ""vessels"": ""n_tanker"", ""window"": 90}",2026-09-14 to 2026-09-20,0.57,transits per day,401,4.19,False,False
-2026-W40,peak_premium_block,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-27 to 2026-10-03,13.42,USD/MWh,4,,True,False
-2026-W40,da_rt_spread_by_hour,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-27 to 2026-10-03,0.51,USD/MWh,4,,True,False
-2026-W40,forecast_error,"{""ba"": ""erco"", ""window"": 30}",2026-09-27 to 2026-10-03,1.68,%,5,,True,False
-2026-W40,curtailment_midday,"{""hub"": ""TH_SP15_GEN-APND"", ""window"": 30}",2026-09-26 to 2026-10-02,41107.8,MWh,247,0.18,True,False
-2026-W40,implied_heat_rate,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-27 to 2026-10-03,12.08,MMBtu/MWh,4,,True,False
-2026-W40,storage_evening_peak,"{""window"": 30}",2026-09-27 to 2026-10-03,6448.79,MW,55,0.91,True,False
-2026-W40,negative_price_hours,"{""hub"": ""HB_WEST"", ""iso"": ""ercot"", ""months"": 24}",2026-09,19.0,hours,1,,True,False
-2026-W40,deals_by_month,"{""ai_power"": ""all"", ""months"": 12}",2026-09,59.0,deals,20,2.73,True,True
-2026-W40,datacenters_by_state,"{""top"": 15}",2026-10-05,251.0,facilities,2,,True,False
+week,template,params,period,value,unit,history_n,notability_z,public,picked,about,compare,change,change_score,change_z,changes_n,new
+2026-W39,peak_premium_block,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-20 to 2026-09-26,28.08,USD/MWh,89,2.46,True,True,,,,,,,
+2026-W39,da_rt_spread_by_hour,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-20 to 2026-09-26,6.19,USD/MWh,3,,True,False,,,,,,,
+2026-W39,forecast_error,"{""ba"": ""erco"", ""window"": 30}",2026-09-21 to 2026-09-27,1.25,%,3,,True,False,,,,,,,
+2026-W39,curtailment_midday,"{""hub"": ""TH_SP15_GEN-APND"", ""window"": 30}",2026-09-19 to 2026-09-25,28725.99,MWh,246,0.15,True,False,,,,,,,
+2026-W39,implied_heat_rate,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-20 to 2026-09-26,14.68,MMBtu/MWh,3,,True,False,,,,,,,
+2026-W39,storage_evening_peak,"{""window"": 30}",2026-09-21 to 2026-09-27,6195.87,MW,54,0.6,True,False,,,,,,,
+2026-W39,negative_price_hours,"{""hub"": ""HB_WEST"", ""iso"": ""ercot"", ""months"": 24}",2026-08,6.0,hours,139,0.59,True,False,,,,,,,
+2026-W39,deals_by_month,"{""ai_power"": ""all"", ""months"": 12}",2026-08,11.0,deals,10,1.08,True,False,,,,,,,
+2026-W39,datacenters_by_state,"{""top"": 15}",2026-09-28,237.0,facilities,0,,True,False,,,,,,,
+2026-W39,chokepoint_transits,"{""chokepoint"": ""chokepoint6"", ""vessels"": ""n_tanker"", ""window"": 90}",2026-09-14 to 2026-09-20,0.57,transits per day,401,4.19,False,False,,,,,,,
+2026-W40,peak_premium_block,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-27 to 2026-10-03,13.42,USD/MWh,4,,True,False,,,,,,,
+2026-W40,da_rt_spread_by_hour,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-27 to 2026-10-03,0.51,USD/MWh,4,,True,False,,,,,,,
+2026-W40,forecast_error,"{""ba"": ""erco"", ""window"": 30}",2026-09-27 to 2026-10-03,1.68,%,5,,True,False,,,,,,,
+2026-W40,curtailment_midday,"{""hub"": ""TH_SP15_GEN-APND"", ""window"": 30}",2026-09-26 to 2026-10-02,41107.8,MWh,247,0.18,True,False,,,,,,,
+2026-W40,implied_heat_rate,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-09-27 to 2026-10-03,12.08,MMBtu/MWh,4,,True,False,,,,,,,
+2026-W40,storage_evening_peak,"{""window"": 30}",2026-09-27 to 2026-10-03,6448.79,MW,55,0.91,True,False,,,,,,,
+2026-W40,negative_price_hours,"{""hub"": ""HB_WEST"", ""iso"": ""ercot"", ""months"": 24}",2026-09,19.0,hours,1,,True,False,,,,,,,
+2026-W40,deals_by_month,"{""ai_power"": ""all"", ""months"": 12}",2026-09,59.0,deals,20,2.73,True,True,,,,,,,
+2026-W40,datacenters_by_state,"{""top"": 15}",2026-10-05,251.0,facilities,2,,True,False,,,,,,,
+2026-W41,peak_premium_block,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-10-04 to 2026-10-10,32.04,USD/MWh,91,2.98,True,False,system,previous,18.62,82.2,2.14,90,True
+2026-W41,da_rt_spread_by_hour,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-10-04 to 2026-10-10,-0.36,USD/MWh,5,,True,False,system,previous,-0.87,,,4,True
+2026-W41,forecast_error,"{""ba"": ""erco"", ""window"": 30}",2026-10-02 to 2026-10-10,1.36,%,6,,True,False,system,previous,-0.32,,,5,True
+2026-W41,curtailment_midday,"{""hub"": ""TH_SP15_GEN-APND"", ""window"": 30}",2026-10-03 to 2026-10-09,23155.08,MWh,248,0.3,True,False,system,previous,-17952.72,48.1,0.71,104,True
+2026-W41,implied_heat_rate,"{""hub"": ""HB_NORTH"", ""iso"": ""ercot"", ""window"": 30}",2026-10-04 to 2026-10-10,14.84,MMBtu/MWh,5,,True,False,system,previous,2.23,,,4,True
+2026-W41,storage_evening_peak,"{""window"": 30}",2026-10-04 to 2026-10-10,7335.93,MW,56,1.71,True,False,system,previous,887.33,69.1,1.21,55,True
+2026-W41,negative_price_hours,"{""hub"": ""HB_WEST"", ""iso"": ""ercot"", ""months"": 24}",2026-09,19.0,hours,140,0.29,True,False,system,year,19.0,38.9,0.29,36,False
+2026-W41,deals_by_month,"{""ai_power"": ""all"", ""months"": 12}",2026-09,59.0,deals,20,2.73,True,False,coverage,previous,48.0,100.0,6.48,19,False
+2026-W41,datacenters_by_state,"{""top"": 15}",2026-10-11,257.0,facilities,2,,True,False,coverage,previous,6.0,,,1,True
+2026-W41,chokepoint_transits,"{""chokepoint"": ""chokepoint6"", ""vessels"": ""n_tanker"", ""window"": 90}",2026-09-28 to 2026-10-04,0.86,transits per day,403,4.1,False,False,system,previous,-0.43,14.4,0.1,104,True
+2026-W41,watch_henry_hub,{},2026-09-28 to 2026-10-04,3.05,USD/MMBtu,1524,0.17,True,False,system,previous,0.03,8.7,0.16,104,True
+2026-W41,watch_wti,{},2026-09-28 to 2026-10-04,98.07,USD/bbl,2100,1.47,True,False,system,previous,4.5,80.8,1.64,104,True
+2026-W41,watch_brent,{},2026-09-28 to 2026-10-04,120.03,USD/bbl,2026,1.78,True,False,system,previous,2.95,62.5,0.98,104,True
+2026-W41,watch_gasoline_retail,{},2026-09-28 to 2026-10-04,4.46,USD/gal,1878,1.64,True,False,system,previous,-0.02,40.4,0.29,104,True
+2026-W41,watch_diesel_retail,{},2026-09-28 to 2026-10-04,6.38,USD/gal,1697,2.25,True,False,system,previous,-0.15,81.7,2.02,104,True
+2026-W41,watch_crude_stocks,{},2026-09-28 to 2026-10-04,424134.0,kbbl,2296,2.64,True,False,system,previous,-3186.0,48.1,0.55,104,True
+2026-W41,watch_crude_imports,{},2026-07,6224.0,kbbl/d,1278,1.11,True,False,system,year,-100.0,11.1,0.0,36,True
+2026-W41,watch_ulsd_ny,{},2026-09-28 to 2026-10-04,4.66,USD/gal,2078,2.86,True,False,system,previous,-0.09,59.6,1.06,104,True
+2026-W41,watch_crude_exports,{},2026-09-28 to 2026-10-04,4765.0,kbbl/d,1860,10.0,True,False,system,previous,1195.0,84.6,1.3,104,True
+2026-W41,watch_ercot_da_price,{},2026-09-28 to 2026-10-04,38.57,USD/MWh,612,1.65,True,False,system,previous,-5.59,57.7,0.78,104,True
+2026-W41,watch_ercot_cost_of_power,{},2026-09,39.5,USD/MWh,98,0.75,True,False,system,year,7.1,50.0,0.74,36,True
+2026-W41,watch_battery_model_ercot,{},2026-09,4889.06,USD/MW,104,0.83,True,False,system,year,1023.15,16.7,0.67,36,True
+2026-W41,watch_dam_awards,{},2026-07,681.53,USD/MW,6,,True,False,system,previous,197.81,,,5,True
+2026-W41,watch_retail_price,{},2026-07,149.9,USD/MWh,306,3.96,True,False,system,year,6.3,61.1,0.3,36,True
+2026-W41,watch_ercot_regup,{},2026-09-28 to 2026-10-04,2.21,USD/MW,456,0.88,True,False,system,previous,-0.21,22.1,0.25,104,True
+2026-W41,watch_caiso_regup,{},2026-09-28 to 2026-10-04,5.04,USD/MW,106,2.47,True,False,system,previous,1.73,93.3,4.79,104,True
+2026-W41,watch_nyiso_reg,{},2026-09-28 to 2026-10-04,19.46,USD/MW,108,1.85,True,False,system,previous,7.74,83.7,2.86,104,True
+2026-W41,watch_spp_regup,{},2026-09-21 to 2026-09-27,10.78,USD/MW,107,1.21,True,False,system,previous,-4.11,88.5,1.74,104,True
+2026-W41,watch_large_load_ercot,{},2026-03,9042.0,MW,7,,True,False,system,previous,166.0,,,6,True
+2026-W41,watch_retail_sales,{},2026-07,415276357.0,MWh,306,3.56,True,False,system,year,7646642.0,55.6,0.31,36,True
+2026-W41,watch_storage_buildout,{},2026-08,54488.9,MW,139,10.0,True,False,system,previous,743.4,27.8,0.42,36,True
+2026-W41,watch_storage_buildout_ercot,{},2026-08,18204.5,MW,139,10.0,True,False,system,previous,134.9,22.2,0.62,36,True
+2026-W41,watch_shoulder_caiso,{},2026-08,4.06,hours,14,0.53,True,False,system,previous,0.37,69.2,0.78,13,True
+2026-W41,watch_shoulder_ercot,{},2026-08,3.66,hours,91,0.65,True,False,system,year,-0.64,8.3,0.94,36,True
+2026-W41,watch_battery_discharge_us,{},2026-09-28 to 2026-10-04,45968.0,MWh a day,99,1.21,True,True,system,previous,-8790.43,96.9,3.08,98,True
+2026-W41,watch_curtailment_caiso,{},2026-09,166629.46,MWh,147,1.59,True,False,system,year,-13004.71,13.9,0.53,36,True
+2026-W41,watch_caiso_solar,{},2026-09-28 to 2026-10-04,7776.89,MW,65,0.05,True,False,system,previous,-662.94,64.1,1.0,64,True
+2026-W41,watch_curtailment_spp,{},2026-09-28 to 2026-10-04,80479.44,MWh,655,0.92,True,False,system,previous,52622.43,23.1,0.18,104,True
+2026-W41,watch_us_solar_share,{},2026-07,9.13,percent,306,10.0,True,False,system,year,1.64,80.6,0.69,36,True
+2026-W41,watch_us_gas_share,{},2026-07,45.24,percent,306,1.39,True,False,system,year,-0.02,0.0,0.26,36,True

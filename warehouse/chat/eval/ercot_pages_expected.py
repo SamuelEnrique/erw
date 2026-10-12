@@ -2,8 +2,10 @@
 """Energy Research Warehouse (ERW), session 153: the 20 test questions of Ask ERCOT about four pages, with every
 expected number made here, by code, from the file or table the question is answered from. No model, no request.
 
-    python warehouse/chat/eval/ercot_pages_expected.py --write          # writes warehouse/chat/eval_ercot_pages.json
-    python warehouse/chat/eval/ercot_pages_expected.py --check          # recomputes and compares; exit 1 on a difference
+    python warehouse/chat/eval/ercot_pages_expected.py --write          # writes warehouse/chat/eval_ercot_pages.json, and
+                                                                        # first the inputs it is computed from (session 199:
+                                                                        # docs/methods/figures/<day>/ask_ercot_pages_inputs.json)
+    python warehouse/chat/eval/ercot_pages_expected.py --check          # recomputes from the day's files and compares; exit 1 on a difference
     python warehouse/chat/eval/ercot_pages_expected.py --in-dir C:/.../warehouse/output --write
 
 The four pages: /cost-of-power (what a datacenter pays), /curtailment (with "Where free energy is"),
@@ -48,9 +50,77 @@ OUT = os.path.join(ROOT, "warehouse", "chat", "eval_ercot_pages.json")
 NEAR = 0.95
 
 
+# Session 199 (the owner's ruling of 11 October 2026): the questions are a dated problem set, and the page files they
+# are computed from are rebuilt by the data machine's run every day. So the few inputs the expected numbers need are
+# kept as one small dated file, docs/methods/figures/<the day of the newest file read>/ask_ercot_pages_inputs.json,
+# written by --write just before the questions and named in the questions' built_from.inputs. The questions are
+# computed from that file, and a test recomputes them from it (tests/test_session153.py): no committed number is
+# compared with the day's files. The resource layers are read in place: no scheduled run rebuilds them.
+FIGURES = os.path.join(ROOT, "docs", "methods", "figures")
+FROZEN_NAME = "ask_ercot_pages_inputs.json"
+FLAT = [("ercot", "LZ_NORTH", "rt"), ("ercot", "HB_WEST", "rt")]          # the flat loads the questions ask about
+FROZEN = None        # the frozen inputs, when build() is to read them and not the day's files (use_frozen)
+FROZEN_PATH = None   # their path from the repository's root, as built_from.inputs states it
+
+
 def load(*parts):
+    key = "/".join(parts)
+    if FROZEN is not None and parts[0] != "resources":
+        return FROZEN["files"][key]          # a KeyError here: a question reads a file the frozen inputs do not hold
     with open(os.path.join(DATA, *parts), encoding="utf-8") as f:
         return json.load(f)
+
+
+def use_frozen(path):
+    """build() reads the frozen inputs at `path` (from the repository's root, with forward slashes); None: the day's files."""
+    global FROZEN, FROZEN_PATH
+    if path is None:
+        FROZEN = FROZEN_PATH = None
+        return
+    with open(os.path.join(ROOT, *path.split("/")), encoding="utf-8") as f:
+        FROZEN = json.load(f)
+    FROZEN_PATH = path
+
+
+def freeze():
+    """The frozen inputs, from the day's page files: only what the questions read, in the page files' own shape, and
+    each flat load's months in place of its hours (the sum of the prices held, the hours held, the hours due)."""
+    if FROZEN is not None:
+        raise RuntimeError("freeze() reads the day's files: use_frozen(None) first")
+    cap, shares, free, texas, index = (load("seller", "capture.json"), load("curtailment", "shares.json"), load("curtailment", "free_energy.json"),
+                                       load("curtailment", "ercot.json"), load("datacenter", "index.json"))
+    hubs = {"ercot": [{"id": h["id"], "rt": {f: h["rt"][f] for f in (("solar", "wind") if h["id"] == "HB_HUBAVG" else ("solar",))}}
+                      for h in cap["grids"]["ercot"]["hubs"] if (h.get("rt") or {}).get("solar")],
+            "caiso": [{"id": h["id"], "rt": {"solar": h["rt"]["solar"]}} for h in cap["grids"]["caiso"]["hubs"] if h["id"] == "TH_SP15_GEN-APND"]}
+    of_2025 = lambda g: {m: {k: r[k] for k in ("share_pct", "curtailed_mwh", "output_mwh")} for m, r in shares["grids"][g]["months"].items() if m.startswith("2025-")}
+    files = {
+        "datacenter/index.json": {"built": index["built"], "grids": {"ercot": {"years": index["grids"]["ercot"]["years"]}}},
+        "seller/capture.json": {"built": cap["built"], "near": cap["near"], "grids": {g: {"hubs": v} for g, v in hubs.items()}},
+        "curtailment/shares.json": {"built": shares["built"], "grids": {g: {"months": of_2025(g)} for g in ("caiso", "spp")}},
+        "curtailment/free_energy.json": {"built": free["built"], "grids": {"ercot": {"locations": [
+            {"id": x["id"], "kind": x["kind"], "year": {k: x["year"][k] for k in ("basis", "under5") if k in x["year"]}} for x in free["grids"]["ercot"]["locations"]]}}},
+        "curtailment/ercot.json": {"built": texas["built"], "first_day": texas["first_day"], "window": {"both": {"share_pct": texas["window"]["both"]["share_pct"]}}},
+    }
+    return {
+        "_about": "Energy Research Warehouse (ERW), session 199. The inputs of the 20 test questions of Ask ERCOT about four pages (warehouse/chat/eval_ercot_pages.json), "
+                  "as the page files held them on the day the questions were written: only what the questions read, in the page files' own shape (files), and for each "
+                  "flat load its months in place of its hours (flat_months: month, then the sum of the hourly prices held in USD per MWh, the hours held, the hours due). "
+                  "Written by warehouse/chat/eval/ercot_pages_expected.py --write; not edited by hand. The pages read the day's files, not this one. The resource layers "
+                  "(site/data/resources) are not copied here: no scheduled run rebuilds them",
+        "built": {k: v["built"] for k, v in files.items()},
+        "files": files,
+        "flat_months": {"/".join(k): {m: list(r) for m, r in sorted(flat_months(*k).items())} for k in FLAT},
+    }
+
+
+def write_frozen(frozen, root=None):
+    """Writes the frozen inputs under docs/methods/figures/<the day of the newest file read>/; returns the path from the repository's root."""
+    day = max(frozen["built"].values())[:10]
+    out = os.path.join(root or FIGURES, day, FROZEN_NAME)
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with open(out, "w", encoding="utf-8", newline="\n") as f:
+        f.write("{\n" + ",\n".join(f" {json.dumps(k)}: {json.dumps(v, separators=(',', ':'), ensure_ascii=True)}" for k, v in frozen.items()) + "\n}\n")
+    return f"docs/methods/figures/{day}/{FROZEN_NAME}"
 
 
 def js_round(v, d):
@@ -75,6 +145,8 @@ def month_starts(y):
 
 def flat_months(grid, region, market):
     """Every month held of a region and market: {"YYYY-MM": (sum of prices, hours held, hours due)}."""
+    if FROZEN is not None:
+        return {m: tuple(r) for m, r in FROZEN["flat_months"][f"{grid}/{region}/{market}"].items()}
     index = load("datacenter", "index.json")
     months = {}
     for y in index["grids"][grid]["years"]:
@@ -351,7 +423,8 @@ def build(in_dir, kept=None):
         },
         "built_from": {"datacenter": load("datacenter", "index.json")["built"], "capture": load("seller", "capture.json")["built"], "shares": load("curtailment", "shares.json")["built"],
                        "free_energy": load("curtailment", "free_energy.json")["built"], "texas": texas["built"], "resources": load("resources", "manifest.json")["built_at_utc"],
-                       "tables_read": {"ercot_large_load_status": load_mw is not None, "iso_curtailment_monthly": ca_solar is not None}},
+                       "tables_read": {"ercot_large_load_status": load_mw is not None, "iso_curtailment_monthly": ca_solar is not None},
+                       **({"inputs": FROZEN_PATH} if FROZEN_PATH else {})},
         "facts": {"flat_load_last_twelve_months": [north["from"], north["to"]], "capture_last_twelve_months": [solar_west["from"], solar_west["to"]], "california_months_with_a_share_2025": ca_months,
                   "large_load_report_day": load_mw[1] if load_mw else kept.get("_facts", {}).get("large_load_report_day")},
         "questions": q,
@@ -370,6 +443,11 @@ def main():
             old = json.load(f)
     kept = {x["id"]: x for x in (old or {}).get("questions", [])}
     kept["_facts"] = (old or {}).get("facts", {})
+    if a.write:
+        # session 199: the day's inputs are frozen first, and the questions are computed from the frozen file
+        path = write_frozen(freeze())
+        use_frozen(path)
+        print(f"wrote {path}: the inputs the questions are computed from")
     new = build(a.in_dir, kept)
     if a.check:
         if old is None:

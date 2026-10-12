@@ -17,6 +17,11 @@ own writer), sends one line to the fixed recipients (scripts/alert.py's sender; 
 machine off duty (scripts/duty.py), so the idle alarm does not also report a machine that has said it is idle.
 --dry-run prints what would happen and moves, commits, writes and sends nothing.
 
+Session 197, the planner: with nothing waiting and "planner: on" in docs/roadmap.md, `next` first runs
+scripts/planner.py (`draft`). A chain it writes into queue/next/ is committed alone, pushed to a wip/ branch of its
+own name (no deploy) and taken as the next file, exit 0. When the planner is off, which is the default, or refuses,
+the machine idles as before.
+
 This is not session 59's task queue (queue/todo, doing, done as scripts/taskqueue.py and the worker use them): that
 one hands single tasks to whichever worker claims them, by role. A name beginning NNN-code- or NNN-data- is a task's
 and is refused here, so the two never read each other's files.
@@ -96,7 +101,39 @@ def health_row(step, status, reason, wf):
     return health.record(step, status, reason, 0, wf=wf)
 
 
-def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None, mover=move, now=None, out=print):
+def plan(who, root=ROOT, dry_run=False, out=print, git=git, role=None):
+    """Session 197. With nothing waiting: when docs/roadmap.md says "planner: on", run the planner for this machine.
+    Returns the name of the chain it wrote into queue/next/, committed alone and pushed to a wip/ branch of its own
+    name (a wip/ branch does not deploy), or None when the planner is off, cannot read the roadmap, or refuses. With
+    dry_run nothing is written: what the planner would do is printed, and None is returned."""
+    import planner
+    try:
+        text = planner.read(os.path.join(root, planner.ROADMAP))
+    except OSError:
+        return None
+    if not planner.status(text)["on"]:
+        return None
+    role = role or (duty.machine() or {}).get("role")
+    if dry_run:
+        out("the planner is on (docs/roadmap.md): python scripts/planner.py check says")
+        planner.run("check", who, role, root=root, out=out)
+        return None
+    out("queue/next/ is empty and the planner is on (docs/roadmap.md): python scripts/planner.py draft")
+    code, dest = planner.run("draft", who, role, root=root, out=out)
+    if code != 0 or not dest:
+        return None
+    name = os.path.basename(dest)
+    git("add", "--", f"queue/next/{name}", root=root)
+    git("commit", "-m", f"Planner: {name} drafted for {who} from docs/roadmap.md", "--", f"queue/next/{name}", root=root)
+    try:
+        git("push", "origin", f"HEAD:refs/heads/wip/{name[:-3]}", root=root)
+        out(f"planned chain committed and pushed to wip/{name[:-3]}")
+    except RuntimeError as exc:
+        out(f"planned chain committed; the push to wip/{name[:-3]} failed and is left for the chain's first save ({alert.one_line(exc, 160)})")
+    return name
+
+
+def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None, mover=move, now=None, out=print, planner=plan):
     """The `next` command. Returns the exit code."""
     send, off = send or duty.send, off or duty.off
     now = now or dt.datetime.now(UTC)
@@ -104,6 +141,13 @@ def take(dry_run=False, root=ROOT, who=None, rec=health_row, send=None, off=None
     good, odd = waiting(root)
     if odd:
         out("not prompt files of this queue (NNN-<slug>.md; NNN-code- and NNN-data- are the task queue's), left where they are: " + ", ".join(odd))
+    if not good and planner is not None:
+        # session 197: nothing waits. With "planner: on" the planner drafts the next chain; off (the default), nothing happens here
+        try:
+            if planner(who, root, dry_run, out):
+                good, odd = waiting(root)
+        except Exception as exc:
+            print(f"chain_queue: the planner could not run ({type(exc).__name__}: {alert.one_line(exc, 200)}); idle as without it", file=sys.stderr)
     if good:
         name = good[0]
         if dry_run:

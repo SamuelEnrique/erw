@@ -14,8 +14,11 @@ held here, with no model call and no request:
   - the Method note says what is read, what each is not and what is held;
   - the session's own tests in node (site/scripts/test-ask-tables.mjs), where node and the site's packages are.
 
-The two questions answered from tables are computed again where the tables are: ERW_TABLES when that is set (another
-copy's warehouse/output), else this copy's warehouse/output. Where they are not, those two are compared as committed.
+Session 199 (the owner's ruling of 11 October 2026: a test a landing must pass never compares a committed figure with
+the day's data files): the questions are recomputed from the dated inputs they name
+(docs/methods/figures/<day>/ask_ercot_pages_inputs.json, which the script writes with them), not from the day's page
+files, and the two questions answered from tables are compared as committed. Before an evaluation the script's own
+--check still says whether the day's files and tables give other numbers (on the data machine, where the tables are).
 
     python -m unittest tests.test_session153 -v
 """
@@ -52,11 +55,6 @@ def tearDownModule():
         sys.path.remove(EVAL)
 
 
-def tables_dir():
-    """Where the warehouse's tables are on this machine: ERW_TABLES, else this copy's warehouse/output."""
-    return os.environ.get("ERW_TABLES") or os.path.join(ROOT, "warehouse", "output")
-
-
 def src(*parts):
     with open(os.path.join(ROOT, *parts), encoding="utf-8") as f:
         return f.read()
@@ -66,27 +64,69 @@ def questions():
     return json.loads(src("warehouse", "chat", "eval_ercot_pages.json"))
 
 
+def frozen():
+    """The dated inputs the questions name (session 199): docs/methods/figures/<day>/ask_ercot_pages_inputs.json."""
+    return json.loads(src(*questions()["built_from"]["inputs"].split("/")))
+
+
 class TheQuestions(unittest.TestCase):
-    def test_the_committed_questions_are_what_the_script_writes_from_the_files(self):
+    def test_the_committed_questions_are_what_the_script_writes_from_the_frozen_inputs(self):
+        # session 199 (the owner's ruling of 11 October 2026): the questions are compared with what the script computes
+        # from the dated inputs they name (docs/methods/figures/<day>/ask_ercot_pages_inputs.json), never with the day's
+        # page files, which the data machine's run rebuilds every day (five of them moved on 11 October 2026 and this
+        # test failed on main). So nothing is left out of the comparison any more: p14's number and the build stamps of
+        # Texas's file and of the datacenter index (sessions 159 and 166) are compared like the rest. The two questions
+        # answered from a table are kept as committed here: the folder given holds no table
         old = questions()
         kept = {q["id"]: q for q in old["questions"]}
         kept["_facts"] = old.get("facts", {})
-        new = exp.build(tables_dir(), kept)
-        # session 159: p14 rests on a file the daily run rebuilds (site/data/curtailment/ercot.json): its expected number
-        # and that file's build stamp are left out of the comparison
-        bare = lambda q: {k: v for k, v in q.items() if k != "table_read" and not (q.get("id") == "p14" and k == "expect")}
+        path = old["built_from"]["inputs"]
+        self.assertRegex(path, r"^docs/methods/figures/\d{4}-\d{2}-\d{2}/ask_ercot_pages_inputs\.json$")
+        exp.use_frozen(path)
+        try:
+            new = exp.build(os.path.join(ROOT, "docs", "methods", "figures"), kept)
+        finally:
+            exp.use_frozen(None)
+        bare = lambda q: {k: v for k, v in q.items() if k != "table_read"}
         self.assertEqual([bare(q) for q in new["questions"]], [bare(q) for q in old["questions"]])
-        # session 166: the datacenter index (site/data/datacenter/index.json) is a file the daily run rebuilds too (Saturdays,
-        # and whenever the page's files are refreshed, as session 166 did on 9 October 2026); its stamp is left out of the
-        # comparison as Texas's is, and each of the two files on disk is a build no older than the one the questions were made from
-        rebuilt = ("texas", "datacenter")
-        self.assertEqual({k: v for k, v in new["built_from"].items() if k not in ("tables_read", *rebuilt)}, {k: v for k, v in old["built_from"].items() if k not in ("tables_read", *rebuilt)})
-        for k in rebuilt:
-            self.assertRegex(new["built_from"][k], r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", k)
-            self.assertGreaterEqual(new["built_from"][k], old["built_from"][k], k)
+        self.assertEqual({k: v for k, v in new["built_from"].items() if k != "tables_read"}, {k: v for k, v in old["built_from"].items() if k != "tables_read"})
+        self.assertEqual(new["built_from"]["tables_read"], {"ercot_large_load_status": False, "iso_curtailment_monthly": False})
+        self.assertEqual(new["facts"], old["facts"])
         # the two questions answered from a table hold a number whether or not the table is on this machine
         for qid in ("p04", "p11"):
             self.assertEqual(len(kept[qid]["expect"]), 1, qid)
+
+    def test_the_frozen_inputs_are_small_dated_and_what_the_script_freezes(self):
+        old = questions()
+        path = old["built_from"]["inputs"]
+        f = frozen()
+        # dated by the newest file read, and of the builds the questions state
+        self.assertEqual(path.split("/")[3], max(f["built"].values())[:10])
+        names = {"datacenter/index.json": "datacenter", "seller/capture.json": "capture", "curtailment/shares.json": "shares",
+                 "curtailment/free_energy.json": "free_energy", "curtailment/ercot.json": "texas"}
+        self.assertEqual({names[k]: v for k, v in f["built"].items()}, {k: old["built_from"][k] for k in names.values()})
+        self.assertEqual(sorted(f["files"]), sorted(names))
+        self.assertLess(os.path.getsize(os.path.join(ROOT, *path.split("/"))), 150000)   # kilobytes: the page files it stands for hold megabytes
+        self.assertNotIn(DASH, src(*path.split("/")))
+        # the hours of a flat load are kept as months: no hourly price is in the file
+        self.assertEqual(sorted(f["flat_months"]), ["ercot/HB_WEST/rt", "ercot/LZ_NORTH/rt"])
+        for months in f["flat_months"].values():
+            self.assertTrue(all(re.fullmatch(r"20\d\d-\d\d", m) and len(r) == 3 and r[1] <= r[2] for m, r in months.items()))
+        # what the script freezes from the day's files has the same shape, so the next --write gives a file this test reads
+        # (the shape alone: no number of the day's files is compared with a committed one)
+        day = exp.freeze()
+        shape = lambda v, depth=0: {k: shape(x, depth + 1) for k, x in v.items() if not re.fullmatch(r"20\d\d-\d\d", k)} if isinstance(v, dict) and depth < 4 else type(v).__name__
+        self.assertEqual(shape({k: day[k] for k in ("built", "files")}), shape({k: f[k] for k in ("built", "files")}))
+        self.assertEqual(sorted(day["flat_months"]), sorted(f["flat_months"]))
+        self.assertEqual(sorted(day), sorted(f))
+        with self.assertRaises(RuntimeError):                                             # freeze() never reads a frozen file
+            exp.use_frozen(path)
+            try:
+                exp.freeze()
+            finally:
+                exp.use_frozen(None)
+        text = src("warehouse", "chat", "eval", "ercot_pages_expected.py")
+        self.assertIn("path = write_frozen(freeze())\n        use_frozen(path)", text)   # --write freezes first, then computes from the frozen file
 
     def test_twenty_questions_four_pages_two_refusals_with_their_words(self):
         f = questions()
@@ -118,20 +158,22 @@ class TheQuestions(unittest.TestCase):
         self.assertEqual(sorted(f["rules_added"]), ["cite", "expect", "expect_all", "must", "series_has", "series_rows"])
 
     def test_a_number_a_question_expects_is_a_number_of_its_file(self):
-        """Read straight from the files, with no function of the script: the figures that need no arithmetic."""
+        """Read straight from the files, with no function of the script: the figures that need no arithmetic. Session
+        199: the files are the frozen inputs' copies of the day the questions were written (the resource layers, which no
+        scheduled run rebuilds, are read in place)."""
         qs = {q["id"]: q for q in questions()["questions"]}
-        free = json.loads(src("site", "data", "curtailment", "free_energy.json"))
+        files = frozen()["files"]
+        free = files["curtailment/free_energy.json"]
         west = next(x for x in free["grids"]["ercot"]["locations"] if x["id"] == "HB_WEST")
         self.assertEqual(qs["p12"]["expect"], [west["year"]["under5"]])
         self.assertEqual(qs["p13"]["series_has"]["value"], next(x for x in free["grids"]["ercot"]["locations"] if x["id"] == "LZ_WEST")["year"]["under5"])
-        texas = json.loads(src("site", "data", "curtailment", "ercot.json"))
-        # session 159: the daily run rebuilds this file, so the share moves each day; the question file is written again
-        # by the script before an evaluation (ercot_pages_expected.py); here only its shape is held
-        self.assertEqual(len(qs["p14"]["expect"]), 1)
+        texas = files["curtailment/ercot.json"]
+        # session 159: the daily run rebuilds Texas's file, so the share moves each day; the question file is written again
+        # by the script before an evaluation (ercot_pages_expected.py). Session 199: the share is the frozen copy's
+        self.assertEqual(qs["p14"]["expect"], [texas["window"]["both"]["share_pct"]])
         self.assertIsInstance(qs["p14"]["expect"][0], (int, float))
-        self.assertIsInstance(texas["window"]["both"]["share_pct"], (int, float))
         self.assertEqual(texas["first_day"], "2026-09-28")                               # the estimate's first day, as the guide says
-        shares = json.loads(src("site", "data", "curtailment", "shares.json"))
+        shares = files["curtailment/shares.json"]
         self.assertEqual(qs["p10"]["series_has"]["value"], round(shares["grids"]["spp"]["months"]["2025-04"]["share_pct"], 2))
         basins = json.loads(src("site", "data", "resources", "layers", "oil_gas_basins.json"))["features"]
         permian = next(b for b in basins if b["properties"]["name"] == "Permian")["properties"]["value"]
