@@ -41,6 +41,13 @@ export const IMPACT = "impact_study";
 /** The ten templates, in the order of warehouse/analysis/templates/__init__.py. */
 export const TEMPLATES = ["peak_premium_block", "da_rt_spread_by_hour", "forecast_error", "curtailment_midday", "implied_heat_rate", "storage_evening_peak", "negative_price_hours",
   "deals_by_month", "datacenters_by_state", "chokepoint_transits"];
+/** Session 199: the flow offers the ten templates above and nothing else of what the weekly run writes. Since the
+ *  Roundup of 11 October 2026 (the first weekly run after session 119), docs/analysis/templates.json and the gallery's
+ *  index also hold the lines of the weekly chooser's watch list (warehouse/analysis/watch.py: "watch_..." entries, 31 of
+ *  them that week). Those are measures the chooser watches, not analyses a reader asks for, and one of them holds no
+ *  chart at its default inputs. They are left out here, so the page is what it was the week before, until the owner
+ *  rules whether the gallery should hold them. */
+export const ofTheFlow = <T extends { template: string }>(rows: T[]): T[] => rows.filter((r) => TEMPLATES.includes(r.template));
 export const TEMPLATE_PREFIX = "template:";
 /** The form an internal template's own code declares (chokepoint_transits.py: chart kind "line"). It is never drawn on
  *  the site, so the flow states its form and draws no example. */
@@ -59,7 +66,7 @@ export function flowList(catalogue: CatalogueEntry[], templates: Tpl[]): FlowIte
   for (const c of catalogue) if (!named.has(c.id)) items.push({ id: c.id, group: "findings", name: c.title, versions: [{ id: c.id, label: "" }] });
   if (have.has(IMPACT)) items.push({ id: IMPACT, group: "impact", name: "Impact of an event on a series", versions: [{ id: IMPACT, label: "" }] });
   const order = (t: Tpl) => (TEMPLATES.indexOf(t.template) + 1) || 99;
-  for (const t of [...templates].sort((a, b) => order(a) - order(b))) {
+  for (const t of ofTheFlow(templates).sort((a, b) => order(a) - order(b))) {
     items.push({ id: `${TEMPLATE_PREFIX}${t.template}`, group: "templates", name: t.title, versions: [], template: t.template, internal: !t.public });
   }
   return items;

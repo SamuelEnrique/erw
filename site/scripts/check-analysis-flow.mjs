@@ -41,7 +41,9 @@ const catalogue = read(dir, "catalogue.json");
 const card = (id) => read(dir, `${id}.json`);
 const docs = path.join(site, "..", "docs", "analysis");
 const templates = read(docs, "templates.json").templates;
-const gallery = read(docs, "gallery", "index.json").templates;
+// session 199: the flow offers its ten templates alone (lib/analysisflow.ts ofTheFlow); the weekly files also hold the lines of
+// the chooser's watch list since 11 October 2026, and none of them is looked for on the page
+const gallery = A.ofTheFlow(read(docs, "gallery", "index.json").templates);
 const items = A.flowList(catalogue, templates);
 const allCards = fs.readdirSync(dir).filter((f) => f.endsWith(".json") && f !== "catalogue.json").map((f) => read(dir, f));
 

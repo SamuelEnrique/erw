@@ -21,8 +21,12 @@ const dir = path.join(site, "data", "findings");
 const catalogue = read(dir, "catalogue.json");
 const cards = fs.readdirSync(dir).filter((f) => f.endsWith(".json") && f !== "catalogue.json").map((f) => read(dir, f));
 const docs = path.join(site, "..", "docs", "analysis");
-const templates = read(docs, "templates.json").templates;
-const gallery = read(docs, "gallery", "index.json");
+// session 199: the flow offers its ten templates alone (lib/analysisflow.ts ofTheFlow). The weekly run also writes the lines
+// of its watch list into both files since 11 October 2026; they are counted below and are no part of the flow
+const written = { templates: read(docs, "templates.json").templates, gallery: read(docs, "gallery", "index.json") };
+const templates = A.ofTheFlow(written.templates);
+const gallery = { ...written.gallery, templates: A.ofTheFlow(written.gallery.templates) };
+const watched = written.gallery.templates.filter((g) => !A.TEMPLATES.includes(g.template)).map((g) => g.template);
 const items = A.flowList(catalogue, templates);
 
 const cardRows = cards.map((c) => ({ card_id: c.card_id, id: c.id, kind: c.chart.kind, shape: F.shapeOfSpec(c.chart), forms: F.formsOfSpec(c.chart) }));
@@ -39,7 +43,7 @@ const tplRows = gallery.templates.map((g) => {
     combos: all.length, held: all.filter((c) => c.file).length, form_sets: [...sets].sort(),
     choices: Object.fromEntries(names.map((n) => [n, [...new Set(all.map((c) => String(c.params[n])))].sort()])) };
 });
-const out = { items, groups: A.GROUPS, forms: F.FORMS, native: F.NATIVE, internal_form: A.INTERNAL_FORM, templates_order: A.TEMPLATES, cards: cardRows, templates: tplRows,
+const out = { items, watched, groups: A.GROUPS, forms: F.FORMS, native: F.NATIVE, internal_form: A.INTERNAL_FORM, templates_order: A.TEMPLATES, cards: cardRows, templates: tplRows,
   max_bar_positions: F.MAX_BAR_POSITIONS, max_panels: F.MAX_PANELS };
 
 if (process.argv.includes("--json")) {
@@ -59,6 +63,9 @@ const tItems = items.filter((i) => i.group === "templates");
 check(tItems.length === 10 && A.TEMPLATES.every((t, k) => tItems[k]?.template === t), "the ten templates, in the weekly run's order", tItems.map((i) => i.template).join(", "));
 check(tItems.filter((i) => i.internal).map((i) => i.template).join() === "chokepoint_transits", "one template is internal: chokepoint_transits");
 check(gallery.templates.length === 9 && gallery.templates.every((g) => tItems.some((i) => i.template === g.template && !i.internal)), "the nine templates of the gallery are the nine public entries");
+// session 199: whatever else the weekly run wrote is a line of its watch list, and the list of step one holds none of it
+check(watched.every((t) => t.startsWith("watch_")) && A.flowList(catalogue, written.templates).filter((i) => i.group === "templates").length === 10,
+  "the watch list's lines in the weekly files are no part of the flow", `${watched.length} lines`);
 
 // the default is the form the card's own kind declares, and it is always offered first
 for (const r of cardRows) {

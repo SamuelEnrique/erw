@@ -67,6 +67,8 @@ CSV_NAME = "erw_2026_generator_hourly.csv"
 OUT = os.path.join(ROOT, "site", "public", "seller", CSV_NAME)
 SNAPSHOT = os.path.join(ROOT, "site", "data", "merchant_snapshot.json")
 CAPTURE = os.path.join(ROOT, "site", "data", "seller", "capture.json")
+FIGURES = os.path.join(ROOT, "docs", "methods", "figures")   # session 199: the dated records a test compares a committed file with
+FROZEN_NAME = "generator_capture_months.json"
 GRID, ASSET, SIDE, MARKET = "ercot", "solar", "rtm", "rt"   # the page's defaults (lib/merchant.ts inputsOf; page.tsx mk)
 HUB = pb.MAIN[GRID]
 ENTITY = f"{GRID}:{HUB}"
@@ -217,10 +219,41 @@ def read_capture(in_dir, cache_dir, log):
     return price, gen[ASSET], dict(basis=basis, tables=used, workbook=workbook)
 
 
-def page_facts():
+def frozen_capture(capj, sha):
+    """The part of capture.json the CSV was checked against at export, as a small file of its own (session 199): the
+    months of the default case, with the build they are of. capture.json is rebuilt every day and the CSV is not, so a
+    test compares the CSV with this record of the same build, never with the day's file
+    (tests/test_session183_replication.py)."""
+    g = capj["grids"][GRID]
+    hub = next(x for x in g["hubs"] if x["id"] == HUB)
+    return {
+        "_about": "Energy Research Warehouse (ERW), session 199. The months of site/data/seller/capture.json that "
+                  f"site/public/seller/{CSV_NAME} was checked against when it was exported: {GRID}, {HUB}, real time, {ASSET}. Each month: "
+                  "[hours with a value, hours in the local month, sum of prices (USD per MWh), generation (MWh), sum of price x generation (USD)]. "
+                  "Written by warehouse/derived/generator_hourly_export.py at each export; not edited by hand. The page reads the day's "
+                  "capture.json, not this file",
+        "csv": f"site/public/seller/{CSV_NAME}", "capture_built": capj["built"], "capture_sha256": sha,
+        "capture": {"built": capj["built"], "near": capj["near"],
+                    "grids": {GRID: {"main": g["main"], "hubs": [{"id": HUB, MARKET: {ASSET: hub[MARKET][ASSET]}}]}}},
+    }
+
+
+def write_frozen(capj, sha, root=None):
+    """Writes frozen_capture() under docs/methods/figures/<the day capture.json was built>/ and returns the path."""
+    out = os.path.join(root or FIGURES, capj["built"][:10], FROZEN_NAME)
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with open(out + ".tmp", "w", encoding="utf-8", newline="\n") as f:
+        json.dump(frozen_capture(capj, sha), f, indent=1)
+        f.write("\n")
+    os.replace(out + ".tmp", out)
+    return out
+
+
+def page_facts(capj=None):
     """What the page's two committed files hold for the default case: the snapshot's ERCOT months and hours, the capture
-    file's months of the hub in real time, and each one's last twelve months by the page's rule. No table is read."""
-    snap, capj = read_json(SNAPSHOT), read_json(CAPTURE)
+    file's months of the hub in real time, and each one's last twelve months by the page's rule. No table is read.
+    `capj` (session 199): a capture file of another build than the day's, as frozen_capture() keeps its part."""
+    snap, capj = read_json(SNAPSHOT), capj or read_json(CAPTURE)
     s = snap["isos"][GRID]
     near = snap["defaults"]["near"]
     hub = next(x for x in capj["grids"][GRID]["hubs"] if x["id"] == HUB)
@@ -474,6 +507,8 @@ def main(argv=None):
             print("  " + line, file=sys.stderr)
         return 1
     size = write(head_lines(rows, facts, months, n_capture, run_at), lines, os.path.abspath(a.out))
+    if os.path.abspath(a.out) == os.path.abspath(OUT):   # a trial written elsewhere leaves the committed CSV's record as it is
+        print(f"the capture file's months of this build: {os.path.relpath(write_frozen(facts['capj'], sha_of(CAPTURE)[:16]), ROOT)}")
     print(f"{os.path.basename(a.out)}: rows={len(rows)} months={len(months)} bytes={size} window={rows[0]['hour_utc']}..{rows[-1]['hour_utc']} "
           f"last_twelve={facts['l12'][0]}..{facts['l12'][-1]} blank_solar_hours={facts['blank']} capture_hours={n_capture} "
           f"capture_hours_below_zero={n_negative} left_out_before_{FIRST_MONTH}={facts['early']} (with solar: {facts['early_solar']}) "
