@@ -1,0 +1,38 @@
+# Tooling: which tool a session uses for what
+
+Energy Research Warehouse (ERW), session 201 (12 October 2026). Six design and browser tools are installed on the code machine (`samueloldlaptop`), at the user level of Claude Code, outside this repository. This page says when a session uses which. It is not `docs/tools.md` (the site's own tools for visitors) and not `docs/platform-tools.md` (the plan of record).
+
+The proof run of each, on `/cost-of-power/battery`, is in session 201's report (`archive/sessions/SESSION_201_REPORT.md`).
+
+## When a session uses which tool
+
+One line each. "Page" means a page of `site/`, served from a local production build (`npm run build`, then `npx next start`), never `next dev`.
+
+| The job | The tool | How |
+|---|---|---|
+| Design critique of a page, before and after a restyle | Impeccable | the skill `impeccable`, command `critique <page>`: a design review and a detector run in two separate agents, ten heuristics scored 0 to 4, priority issues P0 to P3 |
+| A mechanical scan of changed UI files for known bad patterns | Impeccable | `~/.claude/skills/impeccable/scripts/impeccable detect --json <files>`: exit `0` clean, `2` findings |
+| Looking up a pattern (a chart type, a form rule, a font pairing) while writing `docs/brand.md` or a component | UI/UX Pro Max | the plugin skill `ui-ux-pro-max`: its search script over a local database, no network |
+| A new surface or a mockup with no direction yet | frontend-design | the skill `frontend-design`: one page of principles and the list of traits a generated page falls into; where the brand rules, the brand wins |
+| Review of a page's code against interface rules (focus, forms, labels, links, tables) | web-design-guidelines | the skill `web-design-guidelines <files>`: findings as `file:line`; it reads its rules from GitHub at each use, which is a pull |
+| Performance review of a page's React and Next.js code | react-best-practices | the skill `vercel-react-best-practices`: 70 rules by priority; read with the trace below, not instead of it |
+| Browser check: what the page looks like and does at a width, its console, its requests, its load | chrome-devtools-mcp | the MCP server `chrome-devtools`: `navigate_page`, `take_screenshot`, `list_console_messages`, `list_network_requests`, `performance_start_trace`, `lighthouse_audit` |
+| Accessibility of a rendered page, contrast included | AccessLint | the plugin `accesslint`: its MCP tool `audit_live <url>` (WCAG 2.2 A and AA; `include_aaa` for AAA, `wcag: ["1.4.3"]` for contrast alone), or its skills `accessibility-scan` and `accessibility-audit` |
+
+## Order of use on a page change
+
+1. Before: chrome-devtools-mcp screenshots at 1280 and 390 px, and every number read from the page's text.
+2. While writing: the brand (`docs/brand.md`) rules; UI/UX Pro Max and frontend-design are for looking things up, not for deciding.
+3. After, on a local production build: AccessLint `audit_live` (no new AA violation), chrome-devtools-mcp again (screenshots, console clean, layout shift not worse), Impeccable `detect` on the changed files, web-design-guidelines on the changed files.
+4. For a restyle or a new page: Impeccable `critique`, its report kept under `runs/session<N>/`.
+5. None of these is a gate of `CLAUDE.md`. The gates are the suite, the site build, the page's own check script and the snapshot.
+
+## What every session must know about them
+
+- **They are on one machine.** User level, on `samueloldlaptop`: `~/.claude/skills/` (impeccable, frontend-design, web-design-guidelines, vercel-react-best-practices), two plugins (`ui-ux-pro-max@ui-ux-pro-max-skill`, `accesslint@accesslint`), one MCP server (`chrome-devtools`, in `~/.claude.json`). Nothing of them is in this repository. Another machine has none until the installs of session 201's report are repeated there.
+- **A page in review answers the "in review" page.** Since session 166 no page is live, so a tool that opens a page as a visitor audits the curtain, not the page. Open the internal view first (`/internal/unlock` with `INTERNAL_COSTS_TOKEN` from `site/.env.local`) in the same browser, and never write the token into a file, a log or a report.
+- **Impeccable asks questions and writes files by design.** Its playbooks end with questions to the user and tell the model to treat "the user is not watching" as untrue. In an unattended session the chain's rule holds: no question is asked, and the report says "Questions skipped". Its `init` and `document` commands write `PRODUCT.md` and `DESIGN.md` into the repository root, and `critique` can write `.impeccable/`: none of these is written without the owner's ruling. Its edit hooks (after every edit, and at the end of every turn) are not installed.
+- **AccessLint leaves a browser running.** `audit_live` starts a headless Chrome on port 9222 with a temporary profile and does not stop it. Stop it when the audit is done (it holds the internal view's cookie).
+- **chrome-devtools-mcp is pinned and quiet.** Version 1.10.1, headless, a fresh profile each run, usage statistics off, no request to Google's field-data service. Its `resize_page` cannot go below about 500 px in headless Chrome: for 390 px use `emulate` with a viewport.
+- **Two of them fetch at use.** web-design-guidelines reads its rules from `raw.githubusercontent.com` each time; AccessLint's MCP server starts through `npx` and can download a newer version. In a session whose prompt says "Pulls: none", say so in the report or use the copy kept in `runs/session201/vercel-skills/guidelines_command.md`.
+- **A tool's finding is a reading, not a ruling.** Pages recommend nothing; a change of words or structure a tool asks for goes under "For Samuel's ruling".
