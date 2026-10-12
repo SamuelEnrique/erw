@@ -153,6 +153,41 @@ class TheCeiling(unittest.TestCase):
         self.assertFalse(os.path.exists(spp.ZIPS) and os.listdir(spp.ZIPS))
 
 
+class TheDailyCommand(unittest.TestCase):
+    """--daily: the pull under the day's ceiling, then the table when a file was saved."""
+
+    def daily(self, rc, files):
+        wrote, asked = [], []
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, True)
+
+        def pull(a, log, get=None, run_id=None, result=None):
+            asked.append(a.max_rows)
+            result.update(files=files, rows=files * 312, stopped=rc == 3)
+            return rc
+
+        def write(log, run_id):
+            wrote.append(run_id)
+            return 0
+        with mock.patch.object(spp, "RAW", tmp), mock.patch.object(spp, "pull", pull), mock.patch.object(spp, "write", write), \
+                mock.patch.object(spp.ip, "paused", lambda scope: None), mock.patch("builtins.print"):
+            code = spp.main(["--daily"])
+        return code, asked, len(wrote)
+
+    def test_a_day_with_new_files_writes_the_table_under_the_ceiling_named(self):
+        self.assertEqual(self.daily(0, 96), (0, [500000], 1))
+
+    def test_a_day_with_no_new_file_leaves_the_table_as_it_is(self):
+        self.assertEqual(self.daily(0, 0), (0, [500000], 0))
+
+    def test_a_run_stopped_at_the_ceiling_still_writes_what_it_saved(self):
+        self.assertEqual(self.daily(3, 40), (0, [500000], 1))
+        self.assertEqual(self.daily(3, 0), (0, [500000], 0))
+
+    def test_a_pull_that_failed_writes_nothing_and_says_so_by_its_exit(self):
+        self.assertEqual(self.daily(1, 5), (1, [500000], 0))
+
+
 class AnIntervalPostedTwice(unittest.TestCase):
     """ERCOT posted the interval ending 8 October 2026 11:45 twice, a second apart, with the same prices (found by this
     session's pull: the table refused both). Built here from one of ERCOT's own files, posted again under a later name."""
