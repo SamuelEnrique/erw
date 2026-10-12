@@ -5,6 +5,7 @@ import { RequestForm } from "@/components/analysis/RequestForm";
 import { ImpactForm } from "@/components/analysis/ImpactForm";
 import { ScannerFound } from "@/components/analysis/ScannerFound";
 import { RequestFlow } from "@/components/analysis/RequestFlow";
+import { ofTheFlow } from "@/lib/analysisflow";
 import { Section } from "@/components/Section";
 import { DOCS, analysisWeeks } from "@/lib/markdown";
 import { METHOD, SUPERSEDED, loadCards, loadCatalogue } from "@/lib/findings";
@@ -73,7 +74,7 @@ export default function AnalysisPage() {
         <ScannerFound />
       </Section>
       <Section title="Ask for an analysis" id="ask" aside="two steps: what to analyze, how to show it">
-        <RequestFlow catalogue={catalogue} templates={a.templates} gallery={a.gallery.templates} computedAt={a.gallery.computed_at} cards={defaults}
+        <RequestFlow catalogue={catalogue} templates={ofTheFlow(a.templates)} gallery={ofTheFlow(a.gallery.templates)} computedAt={a.gallery.computed_at} cards={defaults}
           impactForm={impact ? <ImpactForm entry={impact} /> : null} />
       </Section>
       <Section title="Requests" id="requests">

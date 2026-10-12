@@ -176,9 +176,18 @@ class NothingOfTheGalleryIsLost(unittest.TestCase):
     def test_every_template_every_input_and_every_weekly_file_is_reachable(self):
         r = rules_flow()
         index = json.loads(text_flow("docs", "analysis", "gallery", "index.json"))
-        self.assertEqual([g["template"] for g in index["templates"]], TEN[:9])
+        # session 199: the weekly file is rewritten every Sunday, and since the Roundup of 11 October 2026 it also holds the
+        # lines of the weekly chooser's watch list (warehouse/analysis/watch.py, session 119). The flow offers its ten
+        # templates alone (site/lib/analysisflow.ts ofTheFlow), so what is held here is the templates' part of the file:
+        # whatever else the run wrote is a watch line, and no part of the flow
+        mine = [g for g in index["templates"] if g["template"] in TEN]
+        self.assertEqual([g["template"] for g in mine], TEN[:9])
+        self.assertTrue(all(g["template"].startswith("watch_") for g in index["templates"] if g not in mine))
+        self.assertEqual(sorted(r["watched"]), sorted(g["template"] for g in index["templates"] if g not in mine))
+        self.assertIn("export const ofTheFlow = <T extends { template: string }>(rows: T[]): T[] => rows.filter((r) => TEMPLATES.includes(r.template));", text_flow("site", "lib", "analysisflow.ts"))
+        self.assertIn("templates={ofTheFlow(a.templates)} gallery={ofTheFlow(a.gallery.templates)}", text_flow("site", "app", "analysis", "page.tsx"))
         by = {t["template"]: t for t in r["templates"]}
-        for g in index["templates"]:
+        for g in mine:
             combos = list(g["combos"].values())
             t = by[g["template"]]
             self.assertEqual((t["combos"], t["held"]), (len(combos), sum(1 for c in combos if c["file"])), g["template"])
@@ -208,7 +217,7 @@ class NothingOfTheGalleryIsLost(unittest.TestCase):
         page = text_flow("site", "app", "analysis", "page.tsx")
         self.assertNotIn('<Section title="Template gallery">', page)
         self.assertNotIn('<Section title="Ask for a finding">', page)
-        for bit in ("<RequestFlow catalogue={catalogue} templates={a.templates} gallery={a.gallery.templates}", "impactForm={impact ? <ImpactForm entry={impact} /> : null}",
+        for bit in ("<RequestFlow catalogue={catalogue} templates={ofTheFlow(a.templates)} gallery={ofTheFlow(a.gallery.templates)}", "impactForm={impact ? <ImpactForm entry={impact} /> : null}",
                     "<RequestForm catalogue={catalogue} listOnly />", "<ScannerFound />", '<Section title="Archive: the chart of each week">', "This week&apos;s chart",
                     "!(c.id in SUPERSEDED)", "data-superseded={old.card_id}", "export const revalidate = 3600;"):
             self.assertIn(bit, page, bit)
