@@ -1,0 +1,11 @@
+﻿checked numbers (data-check): 381 before, 381 after
+  0 differences: every key, raw value and shown text is the same, in the same order
+numbers in the visible text: 1342 before, 1342 after
+  0 differences: the same numbers in the same order
+words in the visible text: 3571 before, 3571 after
+  words replace: before 'LAST TWELVE MONTHS, ALL STREAMS' -> after 'Last twelve months, all streams'
+  words replace: before 'BAD MONTH: THE 10TH PERCENTILE, LAST' -> after 'bad month: the 10th percentile, last'
+  words replace: before 'MONTHS' -> after 'months'
+  words replace: before 'DEBT COVERAGE, LAST TWELVE MONTHS' -> after 'Debt coverage, last twelve months'
+  words delete: before 'Energy Ancillary services Incomplete year' -> after ''
+  words insert: before '' -> after 'Energy Ancillary services Incomplete year'

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Source_Serif_4 } from "next/font/google";
 import { AskErcotLink } from "@/components/AskErcotLink";
 import { cookies } from "next/headers";
 import type { ReactNode } from "react";
@@ -21,6 +22,15 @@ import { BatteryForm } from "./BatteryForm";
 import { ContractInputs, ContractProvider } from "./Contract";
 import { U, V } from "./nums";
 import { BatteryDecisions, BatteryHeadline, ContractOfA, CoverOfA, Scenarios } from "./Scenarios";
+import "./brand.css";
+
+// Session 203, branch wip/203-brand-battery (not on main): the page restyled on the brand, version 0 (docs/brand.md,
+// direction A), for Samuel's review. The three families are loaded here, for this page alone, and every rule is in
+// brand.css, scoped to the class brand-a on the page's wrapper. Structure, sections, density and every number are as
+// they were; the year chart names its series on the chart (the legend's own three words) where it had a legend box.
+const brandSerif = Source_Serif_4({ variable: "--font-brand-serif", subsets: ["latin"], weight: ["600"] });
+const brandSans = IBM_Plex_Sans({ variable: "--font-brand-sans", subsets: ["latin"], weight: ["400", "500", "600"] });
+const brandMono = IBM_Plex_Mono({ variable: "--font-brand-mono", subsets: ["latin"], weight: ["400", "500"] });
 
 // Session 67: "What a battery earns". What a grid battery of the reader's size and duration earned from energy and
 // from ancillary services together, split hour by hour so nothing is counted twice, and whether that covers its debt,
@@ -111,6 +121,13 @@ function YearBars({ ys }: { ys: Year[] }) {
         </g>
       ))}
       <text x={L - 46} y={14} fontSize="11" fill="#6B665E">USD per kW</text>
+      {/* session 203 (docs/brand.md, section 6): the series are named on the chart, each in its own color; no legend box */}
+      <g data-direct-labels="1">
+        <text x={W - R - 252} y={14} textAnchor="end" fontSize="12" fill={ENERGY}>Energy</text>
+        <text x={W - R - 122} y={14} textAnchor="end" fontSize="12" fill={ANCILLARY}>Ancillary services</text>
+        <rect x={W - R - 108} y={5} width="10" height="10" fill="url(#hatch-a)" stroke={ANCILLARY} strokeWidth="0.75" />
+        <text x={W - R} y={14} textAnchor="end" fontSize="12" fill="#6B665E">Incomplete year</text>
+      </g>
       {ys.map((r, i) => {
         const e = r.energy / 1000, a = r.ancillary / 1000;
         const x0 = L + i * bw + bw * 0.18, w = bw * 0.64;
@@ -194,6 +211,9 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
     : "Day-ahead schedule: the battery is scheduled against day-ahead energy and ancillary prices and paid those prices, with no real-time trading. It assumes its offers clear at the day-ahead price.";
 
   return (
+    <div className={`brand-a ${brandSerif.variable} ${brandSans.variable} ${brandMono.variable}`} data-brand="a">
+    {/* the header and the footer are outside this wrapper: they take the text face by its name */}
+    <style>{`body:has(.brand-a) > header, body:has(.brand-a) > footer { font-family: ${brandSans.style.fontFamily}, system-ui, sans-serif; }`}</style>
     <ToolPage>
       <ToolHeader
         title="What a battery earns"
@@ -231,7 +251,6 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                 <BatteryHeadline ms={ms} x={x} gridName={g.name} gridFrom={g.from} />
 
                 <ChartFrame title="Revenue by year, USD per kW"
-                  legend={[{ label: "Energy", color: ENERGY }, { label: "Ancillary services", color: ANCILLARY }, { label: "Incomplete year", color: ANCILLARY, hatch: true }]}
                   note={<>
                     <span className="mb-1.5 block text-sm text-ink" data-upper-bound="1">
                       {before2024
@@ -355,5 +374,6 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
         : [TABLE, STRESS_TABLE, ...(x.grid === "ercot" ? ["ercot_all_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_as_prices"] : ["iso_hub_prices_history", "iso_rtm_hub_prices", "iso_dam_hub_prices", "caiso_as_prices"])]}
         note={<>Derived by the ERW from {g.name}&apos;s public prices; {g.review ? "the first table is what this page reads, from the site's own copy of it" : "the first two tables are what this page reads"}. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. Solar, wind and gas peakers are on <Link href="/cost-of-power/seller">the seller tab</Link>. The default case hour by hour: <a href={DISPATCH} download>CSV</a>, with a <a href={DO_FILE} download>Stata do-file</a> and its <a href={MIRROR} download>Python mirror</a> that rebuild the headline numbers from it. <span data-checked-against="9">Checked against: 9 published figures (Lazard, the Annual Technology Baseline, CAISO&apos;s market monitor, ERCOT&apos;s awards, EIA). <Link href="/data/methods/battery_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
     </ToolPage>
+    </div>
   );
 }
