@@ -7,7 +7,7 @@ lab-desktop (data role), 12 October 2026 from 01:43 UTC (11 October, 18:43 Pacif
 - **The two documents are written, every number from a command.**
   - `docs/state/data_2026-10-11.md`: 198 tables, 37,036,977 rows, all on this machine, each `current` against Redivis.
   - `docs/state/rulings_2026-10-11.md`: 186 items waiting for you in 26 reports after session 171, merged into 112 entries. (181 in 25 and 107 at the first push; session 199 landed ten minutes later and its five items were added.)
-- **NOT LANDED at the first push (02:13 UTC).** GitHub's check of `task/200-roadmap-inputs` failed at "Tests (tests/)" and the merge was skipped (run 38194934007), as it did for `task/198-battery-data` and as sessions 195 to 197 report: `main` itself fails that step since `483c412d`. The branch is on GitHub, complete. Nothing was deployed. What happened after is in "The landing".
+- **LANDED at the second push: merge `3b79fab4`, 12 October 02:37 UTC, 0 differences on the 25 pages.** The first push (02:13 UTC) did not land: GitHub's check failed at "Tests (tests/)", as it did for every branch while `main` itself failed that step. Session 199 repaired `main` at 02:23 UTC; this branch merged it, passed, and was merged. Both pushes, with their snapshots, are in "The landing".
 - **The storage offers mismatch is repaired, and it will come back tomorrow.**
   - Before: the daily offers table held 11 August days, the monthly offers and awards tables 10. `limit_mwh` of August 2026: 5,362,152.4 summed from the daily table, 4,873,801.6 in the monthly one. 76 of 693 month and variable sums differed.
   - After: 11 days in all three, 5,362,152.4 in both, 0 of 693 differ. `tests.test_session116` `Records.test_the_tables_on_this_machine_add_up`: exit 1 before, exit 0 after.
@@ -86,25 +86,20 @@ None piped; each long output is in `runs/session200/` on this machine.
 - **`main` moved at 02:23 UTC**: session 199, "a green main that stays green", landed (`a75cbac4`, run 38195029771). It repairs the tests that failed above.
   - `git merge --no-edit origin/main` in the branch's worktree: exit 0, no conflict (`71a111b0`). Session 199 and this branch both changed `docs/machines.md`, in different places.
   - Session 199's report leaves five items for you. They were added to the rulings document (entries A3, G8, C17, L8, M26), and its entries M1 and M25 now say what 199 answered.
-- **The second push** and its snapshots are added below by that push.
+- **Second push, 02:30 UTC. Landed.**
+  - The suite on the merged branch, in its worktree: exit 0, 3,340 tests, OK, 247 skipped.
+  - `scripts/freeze.py status`: exit 0, no freeze. `take before200b`: exit 0, 25 pages, 0 failed, 02:30:09 UTC.
+  - `git push origin task/200-roadmap-inputs` (`7819462d`): exit 0, 02:30:15 UTC.
+  - GitHub's check, run 38196037294: job "checks" success at 02:36:56 UTC, job "merge" success at 02:37:17 UTC. On `main`: `3b79fab4`, "Merge task/200-roadmap-inputs: checks passed".
+  - Vercel on `3b79fab4`: "Deployment has completed", 02:38:49 UTC.
+  - `take after200b`: exit 0, 25 pages, 0 failed, 02:38:57 UTC.
+  - `compare before200b after200b`: exit 0. **"0 differences in all" on the 25 pages.** Expected: the branch holds documents, three scripts and two lines of the source registry; no page reads any of them.
+- **Third push, this report's last lines** (`task/200-report`, from `main` at `49a62e1c`: session 197's branch landed two minutes after this one, so the rulings document's "on branches" was true of 197 until 02:39 UTC): a snapshot before and after it as well, `before200c` and `after200c`. Its comparison is taken after this file is written, so it is in the session's closing message and in `runs/session200/compare200c.out` on lab-desktop. Expected: 0 differences.
 
 ## To finish
 
-Only if the branch is still unmerged when you read this. Once `main` passes GitHub's check, from `C:\Users\Shared\Documents\erw-200` on lab-desktop, each its own command:
-
-```
-git fetch origin
-git merge --no-edit origin/main
-C:\Users\Shared\Documents\erw\.venv\Scripts\python.exe C:\Users\Shared\Documents\erw\scripts\freeze.py status
-node C:\Users\Shared\Documents\erw\site\scripts\snapshot-live.mjs take before200b
-git push origin task/200-roadmap-inputs
-node C:\Users\Shared\Documents\erw\site\scripts\snapshot-live.mjs take after200b
-node C:\Users\Shared\Documents\erw\site\scripts\snapshot-live.mjs compare before200b after200b
-```
-
-- The after snapshot is taken once GitHub's run has merged the branch and Vercel says the deployment has completed. Expected: 0 differences, no page changes.
-- If `warehouse/metadata/sources.csv` conflicts in the merge (the runner rewrites it each day), take `main`'s copy: this branch's two lines only move a `last_seen` date.
-- The same commits are on `wip/200-roadmap-inputs`.
+- Nothing of the landing is left: the branch is on `main`. (The commands that stood here were for a branch still unmerged.)
+- `wip/200-roadmap-inputs` on GitHub holds the first push's commits and can go when you like. The worktree `C:\Users\Shared\Documents\erw-200` stays, as the earlier ones do.
 
 ## Decisions made without you
 
@@ -128,7 +123,7 @@ node C:\Users\Shared\Documents\erw\site\scripts\snapshot-live.mjs compare before
 
 - The monthly storage tables fall a day behind on the data machine after every sync. Add the two rollup commands to `warehouse/run_data_machine.sh` after its sync, or have `scripts/sync.py` compare the hash both records already keep (`data_sha256`)?
 - The same blind spot is wider: 32 tables' archived file is not, byte for byte, the uploaded one, and the sync reads all as current. Is a hash comparison in the sync wanted?
-- `task/198-battery-data` did not land, so the quantities step is not in the daily run. `main` passes since 02:23 UTC (session 199): land it with 195 to 197, and before 17:00 UTC if the daily run of 12 October should hold the step?
+- `task/198-battery-data` had not landed at 02:39 UTC, so the quantities step is not in the daily run. `main` passes since 02:23 UTC (session 199): land it with 195 to 197, and before 17:00 UTC if the daily run of 12 October should hold the step?
 - The runner's run of 11 October ended with `supabase_load` and `redivis_upload` at exit 1. Have a session read that run's log?
 - `ercot_all_hub_prices_history` ends on 26 August 2026 and no run has rewritten it since 26 September; the data machine's page files read it. Is it meant to be refreshed, and by which run?
 - `ercot_rtm_node_prices` holds one week and stopped on 5 October; ERCOT lists seven days. Approve the node price pull now (entry B7 of the rulings document), or let the weeks go?
