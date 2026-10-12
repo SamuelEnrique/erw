@@ -103,15 +103,16 @@ class TheSpend(unittest.TestCase):
                                     get=no_remote)
         self.assertAlmostEqual(usd, 0.3)
 
-    def test_the_cap_reads_the_environment_and_falls_back_to_one_dollar(self):
+    def test_the_cap_reads_the_environment_and_falls_back_to_the_default(self):
+        # session 206 (the owner's ruling of 12 October 2026): the default is 1.50, was 1.00
         with mock.patch.object(health, "env", lambda k: ""):
-            self.assertEqual(health.model_cap(), 1.00)
+            self.assertEqual(health.model_cap(), 1.50)
         with mock.patch.object(health, "env", lambda k: "2.5" if k == "DAILY_MODEL_USD" else ""):
             self.assertEqual(health.model_cap(), 2.5)
         with mock.patch.object(health, "env", lambda k: "a lot" if k == "DAILY_MODEL_USD" else ""):
-            self.assertEqual(health.model_cap(), 1.00)
+            self.assertEqual(health.model_cap(), 1.50)
         with mock.patch.object(health, "env", lambda k: "-1" if k == "DAILY_MODEL_USD" else ""):
-            self.assertEqual(health.model_cap(), 1.00)
+            self.assertEqual(health.model_cap(), 1.50)
         with mock.patch.object(health, "env", lambda k: "0" if k == "DAILY_MODEL_USD" else ""):
             self.assertEqual(health.model_cap(), 0.0)  # zero is a cap: no scheduled model step runs
 
@@ -236,7 +237,9 @@ class TheSchedule(unittest.TestCase):
         self.assertIn("if python warehouse/health.py budget --step roundup --instead 'written without the model-written parts (--no-model)'; "
                       "then python warehouse/news/roundup.py; else python warehouse/news/roundup.py --no-model; fi;", y)
         for name in ("roundup.yml", "daily-prices.yml"):
-            self.assertIn("DAILY_MODEL_USD: ${{ vars.DAILY_MODEL_USD }}", self.read(".github", "workflows", name))
+            # session 206: the figure is written into the workflows (1.50), no longer read from a repository variable
+            self.assertIn('DAILY_MODEL_USD: "1.50"', self.read(".github", "workflows", name))
+            self.assertNotIn("vars.DAILY_MODEL_USD", self.read(".github", "workflows", name))
 
     def test_the_workflows_are_still_yaml(self):
         import yaml

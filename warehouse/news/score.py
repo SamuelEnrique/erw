@@ -2,8 +2,8 @@
 """Score and cluster ERW news stories with the Claude API.
 
 Energy Research Warehouse (ERW). For every unscored story in
-warehouse/output/news_stories.csv published in the last N days, asks a
-Sonnet-class Claude model for a JSON object per story (significance,
+warehouse/output/news_stories.csv published in the last N days, asks the
+fixed Claude model NEWS_SCORE_MODEL for a JSON object per story (significance,
 ai_power_relevance, sector, region, mw_mentioned, price_mentioned, parties,
 one_line_why, is_duplicate_of) under the rubric in warehouse/news/rubric.md,
 which is placed verbatim in the system prompt. Writes the scores into the same
@@ -13,9 +13,13 @@ is_duplicate_of chain.
     python warehouse/news/score.py              # unscored stories from the last 3 days
     python warehouse/news/score.py --days 2 --max-calls 24
 
-Model: chosen at run time from the API's models list (the newest model whose
-id contains "sonnet"); never hardcoded. Recorded in the run log and per row.
-Temperature 0 is requested; if the chosen model rejects sampling parameters
+Model: news scoring (this script, the step news_score) uses the fixed model NEWS_SCORE_MODEL,
+claude-haiku-4-5, wherever it runs (session 206, the owner's ruling of 12 October 2026, from
+docs/state/scheduled_failures_2026-10-12.md: scoring on the newest Sonnet alone cost about USD 1.07 a
+weekday and reached the daily cap by itself). pick_model, the newest Sonnet-class model from the API's
+models list, stays here for the other steps that import it (the digest, the Roundup, the fun fact, policy
+scoring and reads, deals and datacenters, the chart's note, the Thesis Builder). Recorded in the run log
+and per row. Temperature 0 is requested; if the chosen model rejects sampling parameters
 (Claude Sonnet 5 does, with HTTP 400), the run logs that and continues without
 it, relying on the JSON schema for consistent output.
 Batching: stories are split so one run makes at most --max-calls calls.
@@ -167,6 +171,11 @@ def apply_caps(todo, df, log, per_run=None, per_source=None):
     return kept.drop(columns="_prio").sort_values("_when"), cut
 
 
+# Session 206: the one model news scoring uses, wherever the step runs (the daily run, a trial, a backfill). Priced in
+# warehouse/config/model_prices.yaml. The other steps that import pick_model below are not changed by this.
+NEWS_SCORE_MODEL = "claude-haiku-4-5"
+
+
 def pick_model(client, log):
     models = list(client.models.list())
     log(f"models list: {len(models)} models: {', '.join(m.id for m in models)}")
@@ -201,7 +210,8 @@ def main(argv=None):
             header = [ln[2:].rstrip("\n") for ln in f if ln.startswith("# ")]
         header = [h for h in header if not h.startswith(("File holds", "Scored:"))]
         client = llm.client(os.environ.get("ERW_STEP") or "news_score", log, api_key=key)
-        model = pick_model(client, log)
+        model = NEWS_SCORE_MODEL  # session 206: fixed, not pick_model's newest Sonnet
+        log(f"chosen model: {model} (NEWS_SCORE_MODEL, fixed for news scoring since session 206)")
         cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=args.days)
         when = pd.to_datetime(df["event_date"], utc=True, format="ISO8601")
         todo = df[(df["scored_at"] == "") & (when >= cutoff)].copy()
@@ -223,16 +233,20 @@ def main(argv=None):
         log(f"batches: {len(batches)} of up to {size} stories")
         reference = df[(df["scored_at"] != "") & (when >= cutoff - pd.Timedelta(days=2))]
         ref_list = [f"{r.event_id} | {r.title[:120]}" for r in reference.sort_values("event_date").itertuples()]
-        use_temperature, known = True, set(df["event_id"])
+        use_temperature, use_effort, known = True, True, set(df["event_id"])
         results, usage_rows, failed_batches = {}, [], 0
         for bi, batch in enumerate(batches, 1):
             stories = [{"id": r.event_id, "published": r.event_date, "outlet": r.source,
                         "feed_beat": r.feed_sector, "title": r.title, "summary": r.summary}
                        for r in batch.itertuples()]
             seen = [f"{e} | {t[:120]}" for e, t in results.get("_seen", [])]
-            kwargs = dict(model=model, max_tokens=16000,
-                          output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}},
-                          **request_parts(ref_list, seen, stories))
+            # session 206: Haiku answers the effort parameter with HTTP 400 ("This model does not support the effort
+            # parameter", the trial of 12 October 2026), so it is sent only to a model that takes it, and a model that
+            # rejects it is asked again without it, as with temperature below
+            output_config = {"format": {"type": "json_schema", "schema": SCHEMA}}
+            if use_effort and "haiku" not in model.lower():
+                output_config["effort"] = "low"
+            kwargs = dict(model=model, max_tokens=16000, output_config=output_config, **request_parts(ref_list, seen, stories))
             try:
                 try:
                     # the 1.x SDK has no temperature argument, so it goes in the raw body
@@ -243,6 +257,12 @@ def main(argv=None):
                         log(f"  model {model} rejects temperature (HTTP 400: {ip.redact(str(exc))[:200]}); "
                             "continuing without it, output constrained by the JSON schema")
                         resp = client.messages.create(**kwargs)
+                    elif "effort" in output_config and "effort" in str(exc).lower():
+                        use_effort = False
+                        del output_config["effort"]
+                        log(f"  model {model} rejects the effort parameter (HTTP 400: {ip.redact(str(exc))[:200]}); "
+                            "continuing without it")
+                        resp = client.messages.create(extra_body={"temperature": 0}, **kwargs)                             if use_temperature else client.messages.create(**kwargs)
                     else:
                         raise
                 u = resp.usage

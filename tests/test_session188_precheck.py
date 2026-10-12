@@ -206,7 +206,7 @@ class TheChecks(unittest.TestCase):
 
     def test_the_cap_check_reads_what_health_py_names(self):
         h = src("warehouse", "health.py")
-        for name in ("MODEL_CAP_DEFAULT = 1.00", 'LEDGER = "api_cost_ledger"', "def model_spend(day, session=None, path=None, get=requests.get):", 'env("DAILY_MODEL_USD")'):
+        for name in ("MODEL_CAP_DEFAULT = 1.50", 'LEDGER = "api_cost_ledger"', "def model_spend(day, session=None, path=None, get=requests.get):", 'env("DAILY_MODEL_USD")'):
             self.assertIn(name, h)
 
 
