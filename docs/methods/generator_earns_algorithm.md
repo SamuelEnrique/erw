@@ -35,6 +35,8 @@ All are in the address, each bounded and defaulted (`inputsOf` in `lib/merchant.
 | `hr`, `vom` (peaker) | 10.725 MMBtu per MWh, 4.25 USD per MWh | 6 to 16; 0 to 50 | the peaker's hours and margin, computed again from the hourly prices |
 | `bmw`, `dur`, `strat` (solar and wind) | `mw`; 4 hours; perfect foresight | 1 to 5,000; 2, 4 or 8; `foresight` or `dayahead` | the battery beside the plant only |
 
+**Session 195: `ds` and `fom` are scenario A's.** "Your plant" no longer holds annual debt payments and a fixed O&M. Scenario A of "Scenarios A and B" (section 11) holds the fixed O&M, and its annual debt payment is computed from its capital cost, debt share, interest rate and term; every coverage figure of the page reads the two from scenario A. In an address written before the session the two names are still read, once, as old names of scenario A's own assumptions (`battery_earns_algorithm.md`, section 11.1, "The block the three pages share"). Everything this note says of `ds` and `fom` below holds with "scenario A's annual debt payment for the size, rounded to a dollar" and "scenario A's fixed O&M" in their place.
+
 Anything outside its bounds is clipped; anything unreadable takes the default. The contract's two terms (a share and a price) are not in the address: they live in the page's memory and are never sent.
 
 **The debt default.** Annual debt payment = capital cost x 1,000 x MW x 60 percent x r / (1 - (1 + r)^-n), with r = 8 percent and n the asset's life. This is Lazard's own financing ("60% debt at an 8% interest rate", debt amortized over the economic life), on the midpoint of Lazard's capital cost range. For the default case: 1,375 x 1,000 x 100 x 0.60 = USD 82,500,000 of debt; the factor at 8 percent over 35 years is 0.0858033; the payment is USD 7,078,769 a year. Section 7 has every asset's figures.
@@ -117,7 +119,7 @@ Lazard's capital cost, fixed O&M and life for the asset, the debt terms, and the
    - the difference in USD per MWh, and as a percent of the flat average.
    Default: 23.27 against 32.17: -8.90, -27.7 percent; real time, October 2025 to September 2026, 8,736 hours and 80,832,584 MWh of fleet generation.
    For a battery or a peaker this place shows the model's own "price while selling" (or "while running") against the price of every hour, from 4.9.
-3. **Debt coverage, last twelve months, times.** The newest held month whose eleven before it are held: (the twelve months' revenue for the reader's size, less twelve months of fixed O&M) over the annual debt payments. Fixed O&M for a year = `fom` x 1,000 x MW. Default: (5,985,226 - 1,250,000) / 7,078,769 = 0.67.
+3. **Debt coverage, last twelve months, times.** The newest held month whose eleven before it are held: (the twelve months' revenue for the reader's size, less twelve months of fixed O&M) over the annual debt payments. Fixed O&M for a year = `fom` x 1,000 x MW. Default: (5,985,226 - 1,250,000) / 7,078,769 = 0.67. Since session 195 `fom` and the debt payments are scenario A's, and the figure is computed in the browser as A is changed (`CoverHeadline` in `SellerScenarios.tsx`); at the defaults it is the same 0.67 on the same 7,078,769.
 
 **The capture price, exactly** (`capture_price.py`, `lib/capture.ts`):
 
@@ -338,7 +340,7 @@ Elsewhere: CAISO solar earns USD 28.45 per kW at SP15 and 49.43 at NP15; SPP sol
 | A month held | 90 percent of its hours (model); 95 percent (capture price); 90 percent of its days (battery, pair) | the ERW's rules |
 | Merchant only | no contract, hedge, capacity payment or ancillary service; no tax, no degradation, no outage, no curtailment | by construction; the contract of 4.10 is the one exception |
 
-The reader can set the size, the debt payments, fixed O&M, the peaker's heat rate and variable O&M, the battery's size and duration, and the contract. In the "Your plant" panel the capital cost, debt share, rate and life are not inputs: they only set the default debt payment, which is an input. They are inputs of the two scenarios (section 11), which compute their own debt payment.
+The reader can set the size, the debt payments, fixed O&M, the peaker's heat rate and variable O&M, the battery's size and duration, and the contract. In the "Your plant" panel the capital cost, debt share, rate and life are not inputs: they only set the default debt payment, which is an input. They are inputs of the two scenarios (section 11), which compute their own debt payment. Since session 195 the debt payments and fixed O&M are not inputs of "Your plant" either: scenario A holds them, and sets the headline.
 
 ## 8. The replication
 
@@ -411,6 +413,14 @@ From this tool's reports (145, 149, 162) and from this session. Each with a reco
 
 The section "Scenarios A and B" of the page, after "With your contract": eight assumptions, two scenarios on the same eight rows, and a sensitivity chart, as session 179 built them for the battery (`battery_earns_algorithm.md`, section 11.1). It is computed in the browser by `site/lib/seller/finance.ts` (pure arithmetic, no request) from figures the page already shows. Nothing above or below the section changed: an address with none of the parameters below shows the page as it was, with this block at its defaults.
 
+**Session 195: the block is the one the three decision pages share**, described once in `battery_earns_algorithm.md`, section 11.1, "The block the three pages share": the panel, the two columns, the row in words, the chart, where the scenarios are held, the old names, and that nothing is sent. What it means on this page:
+
+- **Scenario A sets the headline.** The third headline number, debt coverage over the last twelve months, is computed in the browser from scenario A's fixed O&M and A's annual debt payment for the size (`round(capex x 1000 x share x crf(rate, n) x MW)`, the page's own multiplication, so the default is 7,078,769 to the dollar). The first two headline numbers, revenue and the price received, do not depend on any of the eight assumptions, so they are scenario A's rows as they stand.
+- **The sections that used the two fields follow A as well**: the line of one month of debt payments in "Month by month" (4.13), the whole of "Debt coverage" (4.14) and the coverage column of "Every month" (4.15), each with the check key it always had, written with A's `ds` and `fom`.
+- **The sentence under the table states scenario A**, whichever scenario is in view.
+- **Default case, before and after:** revenue 59.85 USD per kW, price received 23.27 USD per MWh, coverage 0.67 times on debt payments of USD 7,078,769. No number moved.
+- **Checks.** `site/scripts/check-decisions-face.mjs`; `site/scripts/check-seller-scenarios.mjs`, part 8b; `tests/test_session195.py`.
+
 ### 11.1 The eight assumptions and their defaults
 
 | Assumption | Default | Source of the default | Bounds | Address (A, B) |
@@ -425,8 +435,8 @@ The section "Scenarios A and B" of the page, after "With your contract": eight a
 | Hurdle rate, percent a year | 8 | none held: set equal to the interest rate | 0 to 40 | `ah`, `bh` |
 
 - **Two defaults have no cited source, and the page says so beside each**, as on the battery page: the repository holds no cited degradation rate and no cited hurdle rate. Degradation defaults to none, which is what the model does. The hurdle rate defaults to the one rate the repository does cite, the interest rate. Both are to be confirmed by Samuel (sessions 179 and 186).
-- **The address.** Each scenario's assumptions are two-letter parameters, the scenario's letter then the assumption's (`c` capital cost, `s` debt share, `r` interest rate, `t` term, `f` fixed O&M, `d` degradation, `l` life, `h` hurdle rate); `v=b` puts B in view. A parameter is written only when its value differs from the default, so no parameter means the defaults. The page's own parameters (section 2) work as before. A value outside its bounds is clipped; one that cannot be read takes the default. The address is rewritten in place (`history.replaceState`): a change sends no request. Show, the grid, the asset and "Reset the costs" carry the scenarios; a change of asset, or of a battery's duration, drops a typed capital cost, fixed O&M, term and life, whose defaults are the asset's. The links of the capture table open a hub afresh, as before, without the scenarios.
-- **The scenarios do not read the "Your plant" panel's fixed O&M and annual debt payments.** Those two fields set the headline coverage and the months' coverage, as before. A scenario's fixed O&M is its own, and its debt payment is computed from its capital cost, debt share, interest rate and term. At the defaults the two agree (0.67 times in the default case).
+- **The address.** Each scenario's assumptions are two-letter parameters, the scenario's letter then the assumption's (`c` capital cost, `s` debt share, `r` interest rate, `t` term, `f` fixed O&M, `d` degradation, `l` life, `h` hurdle rate); `v=b` puts B in view. A parameter is written only when its value differs from the default, so no parameter means the defaults. The page's own parameters (section 2) work as before, but for `ds` and `fom`, which since session 195 are old names of scenario A's. A value outside its bounds is clipped; one that cannot be read takes the default. The address is rewritten in place (`history.replaceState`): a change sends no request. Show, the grid, the asset and "Reset the costs" carry the scenarios; a change of asset, or of a battery's duration, drops a typed capital cost, fixed O&M, term and life, whose defaults are the asset's. The links of the capture table open a hub afresh, as before, without the scenarios.
+- **Scenario A sets the headline (session 195).** Until session 195 the scenarios did not read the "Your plant" panel's fixed O&M and annual debt payments, which set the headline coverage and the months' coverage: one idea in two places. Those two fields are gone. A scenario's fixed O&M is its own, and its debt payment is computed from its capital cost, debt share, interest rate and term; the page's coverage figures are scenario A's (0.67 times in the default case, before and after).
 - **The scenarios do not read the contract typed in "Your contract".** Its terms stay on the reader's device and are never in the address, so a shared link could not carry them.
 
 ### 11.2 What a scenario reads from the page

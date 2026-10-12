@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import type { ReactNode } from "react";
 import { AskErcotLink } from "@/components/AskErcotLink";
-import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import captureJson from "@/data/seller/capture.json";
@@ -17,20 +16,22 @@ import {
 } from "@/lib/capture";
 import { shown } from "@/lib/format";
 import {
-  ASSET_NAMES, DEBT, DEFAULT_SIZE, DEFAULTS, durationOf, EVENTS, HEAT_RATE, inputsKey, inputsOf, keyOf, months, stress, summary, ttm, VOM,
-  type Asset, type Snapshot,
+  ASSET_NAMES, DEBT, DEFAULT_SIZE, DEFAULTS, durationOf, EVENTS, HEAT_RATE, inputsKey, inputsOf, keyOf, months, stress, summary, VOM,
+  type Asset, type Inputs, type Snapshot,
 } from "@/lib/merchant";
+import { debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios } from "@/lib/seller/finance";
 import { ASSETS, GRIDS, PAUSED, sentence, spans, usd, whole, years, type Span } from "@/lib/seller2";
 import * as H from "@/lib/sellerhybrid";
 import * as HB from "@/lib/sellerhubs";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
-import { CoverageLine, MonthlyRevenue, PremiumYears, RevenueYears, type PremiumRow } from "./SellerCharts";
+import { PremiumYears, RevenueYears, type PremiumRow } from "./SellerCharts";
 import { ContractInputs, ContractProvider, ContractResult } from "./SellerContract";
 import { SellerForm, type FormGrid } from "./SellerForm";
 import { SellerHubYears, type HyCell, type HyRow, type HyTable } from "./SellerHubYears";
 import { SellerProfile } from "./SellerProfile";
-import { SellerScenarios, type Facts } from "./SellerScenarios";
+import { CoverHeadline, CoverageOfA, DscrOfA, MonthsOfA, SellerDecisions, SellerScenarios, type Facts, type MonthRevenue } from "./SellerScenarios";
+import { Hint, Missing, U, V, count, longMonth } from "./nums";
 
 // Session 145: "What a generator earns", one page at one address. It holds what the seller's tab (session 51) and its
 // version 2 (session 107, /cost-of-power/seller/v2, which redirects here) each showed, in the battery page's layout,
@@ -63,6 +64,12 @@ import { SellerScenarios, type Facts } from "./SellerScenarios";
 // B" (SellerScenarios.tsx on lib/seller/finance.ts): eight assumptions with their cited defaults and Resets, two
 // scenarios on the same eight rows, and a sensitivity chart, computed in the browser from figures this page already
 // shows and kept in the address. Nothing above or below it changed. docs/methods/generator_earns_algorithm.md, section 11.
+//
+// Session 195: scenario A sets the headline. "Your plant" no longer holds a fixed O&M and annual debt payments of its
+// own: the page's inputs take both from scenario A as the address has it (an older link's `fom` and `ds` are read as
+// A's), and the headline's coverage, the line of one month of debt payments, the section "Debt coverage" and each
+// month's coverage follow A in the browser as it is changed (SellerScenarios.tsx). At the defaults every number is what
+// it was. The block itself is the one the three decision pages share (components/decisions/ScenarioBlock.tsx).
 export const metadata: Metadata = { title: "What a generator earns" };
 export const dynamic = "force-dynamic";
 
@@ -128,23 +135,6 @@ function snapshot(): Snapshot {
   return SNAP;
 }
 
-/** A short placeholder with its reason on hover. */
-function Missing({ why, words = "not held yet" }: { why: string; words?: string }) {
-  return <span className="cursor-help border-b border-dotted border-muted italic text-muted" title={why} data-missing="1">{words}</span>;
-}
-/** A label with its definition on hover. */
-function Hint({ children, why }: { children: ReactNode; why: string }) {
-  return <span className="cursor-help border-b border-dotted border-muted" title={why}>{children}</span>;
-}
-/** A number with its check key (mr|<inputs>|<stat>); a count, a ratio or USD as the page shows it. */
-function V({ pre, stat, v, d }: { pre: string; stat: string; v: number | null; d?: (v: number) => string }) {
-  return v === null ? <span className="text-muted">not held</span> : <Num check={`mr|${pre}|${stat}`} raw={v}>{d ? d(v) : shown(v)}</Num>;
-}
-function U({ pre, stat, v }: { pre: string; stat: string; v: number | null }) {
-  return v === null ? <span className="text-muted">not held</span> : <span data-format="usd"><Num check={`mr|${pre}|${stat}`} raw={v}>{B.usdShort(v)}</Num></span>;
-}
-const count = (v: number) => String(v);
-const longMonth = (m: string) => new Date(`${m}-15T12:00:00Z`).toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 const num = (v: string | undefined, d: number, lo: number, hi: number) => {
   const x = v === undefined || v === "" ? NaN : Number(v);
   return Number.isFinite(x) ? Math.min(hi, Math.max(lo, x)) : d;
@@ -163,7 +153,11 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   // another (MISO, PJM) opens the default grid.
   const open = GRIDS.map((g) => g.id).filter((id) => CAPTURE.grids[id] && snap.isos[id]);
   const iso = q.iso && open.includes(q.iso) ? q.iso : "ercot";
-  const x = inputsOf({ ...q, iso });
+  // session 195: scenario A, as the address has it, sets the page's fixed O&M and annual debt payments
+  const asked = inputsOf({ ...q, iso });
+  const A = parseScenarios(q, defaultsOf(DEFAULTS[keyOf(asked)]), asked.mw).a;
+  const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
+  const scenarioParams = Object.fromEntries(Object.entries(q).filter(([n, v]) => (isScenarioParam(n) || isOldParam(n)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
   const g = GRIDS.find((k) => k.id === iso)!, a = ASSETS.find((k) => k.id === x.asset)!;
   const cg = CAPTURE.grids[iso];
   const hub = hubOf(CAPTURE, iso, q.hub)!;
@@ -191,11 +185,9 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   // nameplate (the last twelve months beside the long-run averages)
   const ms = months(priced, x);
   const sm = summary(ms);
-  const t = ttm(ms, x.ds);
   const st = stress(priced, x);
   const held = ms.filter((r) => r.held);
-  const dsMonth = x.ds / 12;
-  const under1 = held.filter((r) => r.dscr !== null && r.dscr < 1), under125 = held.filter((r) => r.dscr !== null && r.dscr < 1.25);
+  const monthRows: MonthRevenue[] = ms.map((r) => ({ m: r.m, revenue: r.revenue, held: r.held, share: r.share }));
   const annual = held.length ? (held.reduce((s, r) => s + r.revenue, 0) / held.length) * 12 : null;
   const perMw = { ...x, mw: 1, mwh: x.asset === "battery" ? x.mwh / x.mw : 0, ds: 0, fom: 0 };
   const ms1 = months(priced, perMw);
@@ -349,10 +341,11 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
       />
       {x.iso === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/seller", title: "What a generator earns", settings: { grid: "ERCOT", hub: hubName(hub.id), asset: ASSET_NAMES[x.asset], size: sizeLabel } }} /> : null}
       <ContractProvider>
+       <SellerDecisions key={`${iso}|${hub.id}|${k}|${x.mw}|${JSON.stringify(scenarioParams)}`} costs={D} mw={x.mw} initial={scenarioParams}>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
             <InputPanel title="Your plant">
-              <SellerForm key={`${key}|${hub.id}|${bmw}|${dur}|${strat}`} x={{ iso, hub: hub.id, asset: x.asset, mw: x.mw, mwh: x.mwh, ds: x.ds, fom: x.fom, hr: x.hr, vom: x.vom, bmw, dur, strat }} grids={grids} hybrid={hybrid} defaults={defaults} />
+              <SellerForm key={`${key}|${hub.id}|${bmw}|${dur}|${strat}`} x={{ iso, hub: hub.id, asset: x.asset, mw: x.mw, mwh: x.mwh, hr: x.hr, vom: x.vom, bmw, dur, strat }} grids={grids} hybrid={hybrid} defaults={defaults} />
             </InputPanel>
             <InputPanel title="Your contract (optional)">
               <ContractInputs />
@@ -389,9 +382,8 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                   value={s.twelve && s.twelve.capture !== null ? usd(s.twelve.capture) : <Missing why={twelveWhy} />} unit={s.twelve && s.twelve.capture !== null ? "USD/MWh" : undefined}
                   note={s.twelve ? <>against {usd(s.twelve.flat)} for every hour{s.twelve.rate !== null ? <>: {whole(s.twelve.rate)} percent of it</> : null}</> : null} />
               )}
-              <HeadlineNumber label="Debt coverage, last twelve months"
-                value={t.length ? <span data-stat="cover"><V pre={key} stat="ttm_last" v={t.at(-1)!.dscr} /></span> : <Missing why="No twelve consecutive months are held, so there is no twelve-month coverage." />} unit={t.length ? "times" : undefined}
-                note={t.length ? <>The twelve months to {longMonth(t.at(-1)!.m)}: revenue less fixed O&amp;M, over debt payments of USD <U pre={key} stat="ds" v={x.ds} /> a year.</> : null} />
+              {/* session 195: coverage at scenario A's fixed O&M and debt payments (SellerScenarios.tsx) */}
+              <CoverHeadline rows={monthRows} mw={x.mw} pre={key} />
             </HeadlineRow>
 
             <ChartFrame title={`Premium or discount to the flat average at ${hubAt(hub.id)}, USD per MWh`}
@@ -448,7 +440,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
             </ToolSection>
 
             <ToolSection title="Scenarios A and B" id="scenarios">
-              <SellerScenarios key={`${iso}|${hub.id}|${k}`} facts={facts} initial={q} />
+              <SellerScenarios facts={facts} />
             </ToolSection>
 
             <ToolSection title="With a battery beside it" id="hybrid">
@@ -517,34 +509,14 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                     The worst three months:{" "}
                     {sm.worst.map((r, i) => <span key={r.m}>{i ? "; " : ""}{longMonth(r.m)}, <U pre={key} stat={`worst:${i}`} v={r.revenue} /> USD</span>)}.
                   </p>
-                  <MonthlyRevenue rows={ms.map((r) => ({ m: r.m, revenue: r.revenue, held: r.held, share: r.share }))} dsMonth={dsMonth} label="Revenue per month, USD; a dashed line marks one month of debt payments" />
-                  <p className="mb-2 flex flex-wrap gap-x-4 text-xs text-muted">
-                    <span><span aria-hidden="true" className="mr-1 inline-block h-2.5 w-2.5 bg-ink" />A month held</span>
-                    <span><span aria-hidden="true" className="mr-1 inline-block h-2.5 w-2.5 bg-accent" />Below a month of debt payments (USD <U pre={key} stat="ds" v={x.ds} /> a year over twelve)</span>
-                    <span><span aria-hidden="true" className="mr-1 inline-block h-2.5 w-2.5 bg-rule" /><Hint why="A month with less than 90 percent of its hours (a battery: days) priced is shown and not counted.">Under 90 percent held</Hint></span>
-                  </p>
+                  <MonthsOfA rows={monthRows} mw={x.mw} pre={key} />
                 </>
               ) : <p className="text-sm"><Missing why={`No month is held for ${a.name.toLowerCase()} at ${g.name}'s hub.`} /></p>}
             </ToolSection>
 
             <ToolSection title="Debt coverage" id="coverage">
-              {held.length ? (
-                <>
-                  <p className="mb-2 max-w-3xl text-sm">
-                    <Hint why="Cash flow available for debt payments is the month's revenue less fixed O&M; coverage is that over one month of the annual debt payments.">Coverage</Hint> with fixed O&amp;M of {x.fom} USD/kW a year and debt payments of{" "}
-                    <U pre={key} stat="ds" v={x.ds} /> USD a year: of the <V pre={key} stat="n" v={sm.n} d={count} /> months held,{" "}
-                    <strong><V pre={key} stat="under1" v={under1.length} d={count} /></strong> covered less than 1.0x and{" "}
-                    <strong><V pre={key} stat="under125" v={under125.length} d={count} /></strong> less than 1.25x.
-                    {t.length ? (
-                      <> Over trailing twelve months, coverage was <V pre={key} stat="ttm_last" v={t.at(-1)!.dscr} />x at {longMonth(t.at(-1)!.m)}, at its lowest{" "}
-                        <V pre={key} stat="ttm_min" v={Math.min(...t.map((r) => r.dscr))} />x; <V pre={key} stat="ttm_under1" v={t.filter((r) => r.dscr < 1).length} d={count} /> of {t.length} twelve-month
-                        windows fell under 1.0x and <V pre={key} stat="ttm_under125" v={t.filter((r) => r.dscr < 1.25).length} d={count} /> under 1.25x.</>
-                    ) : <> Twelve-month coverage: <Missing why="No twelve consecutive months are held here, so there is no trailing-twelve-month figure." />.</>}
-                  </p>
-                  {t.length >= 2 ? <CoverageLine rows={t.map((r) => ({ m: r.m, dscr: r.dscr }))} label="Trailing-twelve-month debt coverage; lines at 1.0 and 1.25 times" /> : null}
-                  {under1.length ? <p className="mt-1 text-xs text-muted">Months under 1.0x: {under1.map((r) => r.m).join(", ")}.</p> : null}
-                </>
-              ) : <p className="text-sm"><Missing why={`No month is held for ${a.name.toLowerCase()} at ${g.name}'s hub.`} /></p>}
+              {held.length ? <CoverageOfA rows={monthRows} mw={x.mw} pre={key} />
+                : <p className="text-sm"><Missing why={`No month is held for ${a.name.toLowerCase()} at ${g.name}'s hub.`} /></p>}
             </ToolSection>
 
             <div className="mb-8 border-t border-rule">
@@ -553,7 +525,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
                   rows={[...ms].reverse().map((r) => ({ key: r.m, muted: !r.held, cells: [r.m,
                     <U key="r" pre={key} stat={`month:${r.m}`} v={r.revenue} />, Math.round(r.energy).toLocaleString("en-US"),
                     r.capture === null ? "" : <V key="c" pre={key} stat={`capture:${r.m}`} v={r.capture} />, shown(r.flat),
-                    r.rate === null ? "" : <V key="p" pre={key} stat={`rate:${r.m}`} v={r.rate} />, r.dscr === null ? "" : <V key="d" pre={key} stat={`dscr:${r.m}`} v={r.dscr} />,
+                    r.rate === null ? "" : <V key="p" pre={key} stat={`rate:${r.m}`} v={r.rate} />, <DscrOfA key="d" m={r.m} revenue={r.revenue} mw={x.mw} pre={key} />,
                     `${Math.round(r.share * 100)} percent`] }))} />
               </Fold>
               <Fold title="Stress days: Uri, Elliott and the 2023 heat">
@@ -579,6 +551,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
             </div>
           </div>
         </div>
+       </SellerDecisions>
       </ContractProvider>
       <SourceLine tables={["merchant_revenue_monthly", "eia_fuel_spot_prices", "eia860m_operating_generators", ...new Set(cg.hubs.flatMap((h) => [...(h.rt?.tables ?? []), ...(h.da?.tables ?? [])])), ...(batt ? [B.TABLE] : [])]}
         note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>.</>} />

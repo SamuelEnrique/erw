@@ -258,10 +258,11 @@ class OnePage(unittest.TestCase):
         page = src("site", "app", "cost-of-power", "seller", "page.tsx")
         for piece in ("ToolPage", "ToolHeader", "InputPanel", "HeadlineRow", "ChartFrame", "ToolSection", "ToolTable", "Fold", "SourceLine", "ContractProvider", "ContractInputs", "ContractResult",
                       "PremiumYears", "RevenueYears", "MonthlyRevenue", "CoverageLine", "SellerForm", "CostTabs"):
-            self.assertIn(f"<{piece}", page, piece)
+            # session 195: the months' chart and the coverage line follow scenario A, so they are drawn by SellerScenarios.tsx
+            self.assertIn(f"<{piece}", page + (src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx") if piece in ("MonthlyRevenue", "CoverageLine") else ""), piece)
         for part in ('id="capture"', 'id="capture-years"', 'id="spans"', 'id="contract"', 'id="hybrid"', 'id="months"', 'id="coverage"', "freeEnergyHref(iso, hub.id)", "B.stat(read.data, [], bx, \"l12:total\")",
                      "combined(plantTotal", "stress_total", "ttm_under125", "over_nameplate", "data-seller2={`twelve|${id}`}"):
-            self.assertIn(part, page, part)
+            self.assertIn(part, page + (src("site", "app", "cost-of-power", "seller", "SellerScenarios.tsx") if part == "ttm_under125" else ""), part)   # session 195: "Debt coverage" follows scenario A
         charts = src("site", "app", "cost-of-power", "seller", "SellerCharts.tsx")
         self.assertEqual(charts.count("tooltip: {"), 4)                 # each of the four charts answers the mouse
         self.assertNotIn("<svg", page)                                   # no static drawing is left on the page

@@ -4,22 +4,23 @@ import { cookies } from "next/headers";
 import type { ReactNode } from "react";
 import { Num } from "@/components/Num";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
+import { ChartFrame, Fold, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
-  CAPACITY_WORDS, COSTS, DEBT, DURATION_WORDS, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, awardsBeside, badMonth, coverage, debtPerMw, gridOf, inputsKey,
+  CAPACITY_WORDS, COSTS, DEBT, DURATION_WORDS, EVENTS, LEFT_OUT, PRODUCTS, REQUIREMENTS, REVIEW_TABLE, RTE, STRATEGIES, STRESS_TABLE, TABLE, awardsBeside, debtPerMw, gridOf, inputsKey,
   inputsOf, last36, lastThreeYears, lastTwelve, monthName, monthsOf, outlier, stat, stress, usdShort, years, type AwardsSnapshot, type Inputs, type Month, type Row,
   type StressRow, type Year,
 } from "@/lib/batterystack";
 import awardsData from "@/data/battery_awards_beside.json";
 import reviewData from "@/data/battery_stack_review.json";
 import stepsData from "@/data/battery_scenario_steps.json";
-import { isScenarioParam, type StepFile } from "@/lib/battery/finance";
+import { debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios, stepState, stepsOffered, type StepFile } from "@/lib/battery/finance";
 import { COOKIE, digest } from "@/lib/release";
 import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { CostTabs } from "../Tabs";
 import { BatteryForm } from "./BatteryForm";
-import { ContractInputs, ContractProvider, ContractResult } from "./Contract";
-import { Scenarios } from "./Scenarios";
+import { ContractInputs, ContractProvider } from "./Contract";
+import { U, V } from "./nums";
+import { BatteryDecisions, BatteryHeadline, ContractOfA, CoverOfA, Scenarios } from "./Scenarios";
 
 // Session 67: "What a battery earns". What a grid battery of the reader's size and duration earned from energy and
 // from ancillary services together, split hour by hour so nothing is counted twice, and whether that covers its debt,
@@ -45,6 +46,13 @@ import { Scenarios } from "./Scenarios";
 // the months above (lib/battery/finance.ts). The two assumptions inside the model, efficiency and cycles a day, take
 // the steps of data/battery_scenario_steps.json (warehouse/derived/battery_scenario_steps.py) and nothing between.
 // Both scenarios live in the address (two-letter parameters, defaults omitted). Nothing else on the page changed.
+// Session 195: scenario A sets the headline. "Your battery" no longer holds a fixed O&M and annual debt payments of
+// its own: the page's inputs take both from scenario A as the address has it (an older link's `fom` and `ds` are read
+// as A's), and the summary sentence, the three headline numbers, each month's coverage and the contract's coverage
+// follow A in the browser as it is changed (Scenarios.tsx: BatteryHeadline, CoverOfA, ContractOfA). At the defaults
+// every number is what it was. The last twelve months now end with the last complete month in the table
+// (lib/batterystack.ts, lastTwelve). The block itself is the one the three decision pages share
+// (components/decisions/ScenarioBlock.tsx).
 export const metadata: Metadata = { title: "What a battery earns" };
 export const dynamic = "force-dynamic";
 
@@ -74,16 +82,6 @@ async function rowsOf(entity: string, x: Inputs): Promise<Row[]> {
 async function stressOf(entity: string, x: Inputs): Promise<StressRow[]> {
   return rest<StressRow>("series", { select: "variable,ts_utc,value,event", table_name: `eq.${STRESS_TABLE}`, entity: `eq.${entity}`,
     variable: `like.${x.strat}_${x.dur}h_*`, order: "variable,ts_utc" }, HOURLY);
-}
-
-/** A US dollar amount with its check key. */
-function U({ pre, s, v }: { pre: string; s: string; v: number | null }) {
-  return v === null ? <span className="text-muted">not held</span> : <span data-format="usd"><Num check={`bs|${pre}|${s}`} raw={v}>{usdShort(v)}</Num></span>;
-}
-/** A ratio, a count, a percent or USD per kW with its check key (a whole number, else two decimals). */
-function V({ pre, s, v }: { pre: string; s: string; v: number | null }) {
-  if (v === null) return <span className="text-muted">not held</span>;
-  return <Num check={`bs|${pre}|${s}`} raw={v}>{Number.isInteger(v) ? v.toLocaleString("en-US") : v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Num>;
 }
 
 /** Revenue by year, USD per kW, stacked by stream. A year far above the others (2021 in ERCOT) is drawn to the top of
@@ -156,33 +154,36 @@ const OTHER: { grid: string; energy: string; ancillary: string; capacity: string
 export default async function Battery({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
   const internal = await internalView();
-  const x = inputsOf(Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined])), internal);
-  const g = gridOf(x.grid);
-  const key = inputsKey(x);
+  const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
+  const asked = inputsOf(q, internal);
+  const g = gridOf(asked.grid);
   // a grid in review is read from the committed snapshot, never from Supabase; it has no stress day (the events are ERCOT's)
   const [read, readStress] = g.review
-    ? [{ ok: true as const, data: reviewRows(x.grid, x) }, { ok: true as const, data: [] as StressRow[] }]
-    : await Promise.all([attempt(() => rowsOf(g.entity!, x)), attempt(() => stressOf(g.entity!, x))]);
+    ? [{ ok: true as const, data: reviewRows(asked.grid, asked) }, { ok: true as const, data: [] as StressRow[] }]
+    : await Promise.all([attempt(() => rowsOf(g.entity!, asked)), attempt(() => stressOf(g.entity!, asked))]);
   const rows = read.ok ? read.data : [];
   const stressRows = readStress.ok ? readStress.data : [];
-  const ms: Month[] = monthsOf(rows, x.strat, x.dur);
+  const ms: Month[] = monthsOf(rows, asked.strat, asked.dur);
+  // session 195: scenario A, as the address has it, sets the page's fixed O&M and annual debt payments
+  const steps = stepsData as unknown as StepFile;
+  const stepCase = steps.cases[`${asked.grid}|${asked.strat}|${asked.dur}`] ?? null;
+  const offered = stepsOffered(steps, stepState(stepCase, ms, (last36(ms)?.months ?? []).map((r) => r.m)));
+  const A = parseScenarios(q, defaultsOf(COSTS[asked.dur]), offered, asked.mw).a;
+  const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
+  const key = inputsKey(x);
   const held = ms.filter((r) => r.held);
   const st = (s: string) => stat(rows, stressRows, x, s);
   const ys = years(ms);
   const l12 = lastTwelve(ms);
-  const w36 = last36(ms);
-  const bad = badMonth(w36?.months ?? []);
   const top = outlier(ms);
   const y3 = lastThreeYears(ms);
   const fullYears = ys.filter((r) => r.complete);
-  const cover = st("cover");
   const size = `${x.mw.toLocaleString("en-US")} MW, ${x.dur}-hour`;
   const leftOut = ms.reduce((a, r) => a + r.daysOut, 0), leftAnc = ms.reduce((a, r) => a + r.daysOutAncillary, 0);
   const events = stress(stressRows, x.strat, x.dur);
   const defaultDs = Math.round(debtPerMw(x.dur) * x.mw);
   const products = PRODUCTS[x.grid];
-  const steps = stepsData as unknown as StepFile;
-  const scenarioParams = Object.fromEntries(Object.entries(sp).filter(([k, v]) => isScenarioParam(k) && typeof v === "string")) as Record<string, string>;
+  const scenarioParams = Object.fromEntries(Object.entries(q).filter(([k, v]) => (isScenarioParam(k) || isOldParam(k)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
   const beside = awardsBeside(awardsData as unknown as AwardsSnapshot, x.grid, x.strat, x.dur);
   const two = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const broken = (() => { const t = ys.map((r) => r.energy + r.ancillary).sort((a, b) => b - a); return t.length > 2 && t[0] > 2.5 * t[1] ? ys.find((r) => r.energy + r.ancillary === t[0])! : null; })();
@@ -202,6 +203,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
       {/* session 92: drawn only in the internal view while /ask/ercot is in review (components/AskErcotLink.tsx) */}
       {x.grid === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/battery", title: "What a battery earns", settings: { grid: "ERCOT", duration: `${x.dur} hours`, strategy: `${STRATEGIES[x.strat]} (${x.strat})`, size: `${x.mw} MW` } }} /> : null}
       <ContractProvider>
+       <BatteryDecisions key={`${x.grid}|${x.dur}|${x.strat}|${x.mw}|${JSON.stringify(scenarioParams)}`} ms={ms} mw={x.mw} costs={COSTS[x.dur]} stepCase={stepCase}
+         stepMeta={{ built: steps.built, rte_steps: steps.rte_steps, cycle_steps: steps.cycle_steps }} initial={scenarioParams}>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
             <InputPanel title="Your battery" note={<>Debt payments default to {DEBT.share * 100} percent of the capital cost borrowed at {DEBT.rate * 100} percent over {DEBT.life} years: USD {usdShort(defaultDs)} a year for {size}. Costs are Lazard&apos;s Levelized Cost of Energy+ (June 2025), as on the seller tab, scaled to the duration.</>}>
@@ -224,23 +227,8 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
               <p className="mb-6 border border-rule bg-paper px-3 py-2 text-sm" role="status">No month is held for this battery in {g.name}.</p>
             ) : (
               <>
-                <p className="mb-6 max-w-3xl font-serif text-xl leading-snug" data-summary="1">
-                  {l12 ? (
-                    <>Over the last twelve months a {size} battery in {g.name} earned USD <V pre={key} s="l12_kw:total" v={st("l12_kw:total")} /> per kW, <V pre={key} s="l12_share:ancillary" v={st("l12_share:ancillary")} /> percent
-                      of it from ancillary services, and covered its debt <V pre={key} s="cover" v={cover} /> times.</>
-                  ) : (
-                    <>A {size} battery in {g.name}: no twelve consecutive months are held, so there is no last-twelve-months figure.</>
-                  )}
-                </p>
-
-                <HeadlineRow>
-                  <HeadlineNumber label="Last twelve months, all streams" value={<>USD <V pre={key} s="l12_kw:total" v={st("l12_kw:total")} /><span className="ml-1 font-sans text-sm text-muted">per kW</span></>}
-                    note={l12 ? <>USD <U pre={key} s="l12:total" v={st("l12:total")} /> for {size}, {monthName(l12[0].m)} to {monthName(l12[11].m)}.</> : <>No twelve consecutive months are held.</>} />
-                  <HeadlineNumber label="A bad month: the 10th percentile, last 36 months" value={<>USD <U pre={key} s="p10_36" v={st("p10_36")} /></>}
-                    note={bad && w36 ? <>{monthName(bad.m)}. One month in ten of the <V pre={key} s="n36" v={st("n36")} /> months held from {monthName(w36.months[0].m)} to {monthName(w36.to)} earned this or less{w36.months.length < 36 ? `: ${g.name} is held from ${g.from}` : ""}.</> : null} />
-                  <HeadlineNumber label="Debt coverage, last twelve months" value={<><V pre={key} s="cover" v={cover} /><span className="ml-1 font-sans text-sm text-muted">times</span></>}
-                    note={l12 ? <>{monthName(l12[0].m)} to {monthName(l12[11].m)}: revenue less fixed O&amp;M, over debt payments of USD <U pre={key} s="ds" v={x.ds} /> a year.</> : <>No twelve consecutive months are held.</>} />
-                </HeadlineRow>
+                {/* session 195: the summary sentence and the three headline numbers are scenario A's (Scenarios.tsx) */}
+                <BatteryHeadline ms={ms} x={x} gridName={g.name} gridFrom={g.from} />
 
                 <ChartFrame title="Revenue by year, USD per kW"
                   legend={[{ label: "Energy", color: ENERGY }, { label: "Ancillary services", color: ANCILLARY }, { label: "Incomplete year", color: ANCILLARY, hatch: true }]}
@@ -292,13 +280,11 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                 </ToolSection>
 
                 <ToolSection title="With your contract">
-                  <ContractResult ms={ms} x={x} />
+                  <ContractOfA ms={ms} x={x} />
                 </ToolSection>
 
-                <ToolSection title="Scenarios A and B">
-                  <Scenarios key={`${x.grid}|${x.dur}|${x.strat}`} ms={ms} x={x} costs={COSTS[x.dur]} gridName={g.name}
-                    stepCase={steps.cases[`${x.grid}|${x.strat}|${x.dur}`] ?? null}
-                    stepMeta={{ built: steps.built, rte_steps: steps.rte_steps, cycle_steps: steps.cycle_steps }} initial={scenarioParams} />
+                <ToolSection title="Scenarios A and B" id="scenarios">
+                  <Scenarios x={x} costs={COSTS[x.dur]} gridName={g.name} stepMeta={{ built: steps.built, rte_steps: steps.rte_steps, cycle_steps: steps.cycle_steps }} />
                 </ToolSection>
               </>
             )}
@@ -317,7 +303,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
                       r.total === null ? "" : <U key="e" pre={key} s={`month:${r.m}:energy`} v={st(`month:${r.m}:energy`)} />,
                       r.total === null ? "" : <U key="a" pre={key} s={`month:${r.m}:ancillary`} v={st(`month:${r.m}:ancillary`)} />,
                       r.total === null ? "no day held" : <U key="t" pre={key} s={`month:${r.m}:total`} v={st(`month:${r.m}:total`)} />,
-                      r.total === null || !r.held ? "" : (coverage(r.total * 12, x) ?? 0).toFixed(2),
+                      r.total === null || !r.held ? "" : <CoverOfA key="c" total={r.total} x={x} />,
                       `${r.daysHeld} of ${r.daysInMonth}`, String(r.daysOut)],
                   }))} />
                 <p className="mt-2 max-w-3xl text-xs text-muted">
@@ -362,6 +348,7 @@ export default async function Battery({ searchParams }: { searchParams: Promise<
             </div>
           </div>
         </div>
+       </BatteryDecisions>
       </ContractProvider>
       <SourceLine tables={g.review
         ? [REVIEW_TABLE, "iso_hub_prices_history", ...(x.grid === "nyiso" ? ["nyiso_rtm_zone_prices", "nyiso_dam_zone_prices", "nyiso_as_prices"] : ["iso_rtm_hub_prices", "iso_dam_hub_prices", "spp_as_prices"])]

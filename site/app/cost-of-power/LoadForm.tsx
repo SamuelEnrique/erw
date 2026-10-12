@@ -4,14 +4,16 @@
 // opened in place, so the contract terms typed in the other panel, which live only in this page's memory, are not lost
 // on Show. Choosing another grid opens that grid at once, so the list of regions is that grid's.
 // Session 194: the two scenarios live in the address too (LoadScenarios.tsx); Show and the choice of a grid carry them.
+// Session 195: the panel no longer holds a power per GPU and an overhead ratio. Scenario A does, and sets the headline;
+// the line under Show says where. An older link's `gpu` and `pue` are read as the scenarios'.
 import { useRouter } from "next/navigation";
 import { SiteLink as Link } from "@/components/SiteLink";
-import { ASSUMED, BUYS, DEFAULTS, LIMITS, ORDER, RUNS, hrefOf, type Buy, type Index, type Inputs, type Run } from "@/lib/datacenter";
+import { BUYS, DEFAULTS, LIMITS, ORDER, RUNS, hrefOf, type Buy, type Index, type Inputs, type Run } from "@/lib/datacenter";
 import { carry } from "@/lib/datacenter/finance";
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
 const small = "w-20 border border-rule bg-white px-1.5 py-0.5 text-sm";
-const KEYS = ["grid", "region", "mw", "run", "n", "pct", "shift", "buy", "gpu", "pue"] as const;
+const KEYS = ["grid", "region", "mw", "run", "n", "pct", "shift", "buy"] as const;
 
 export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string, { name: string; regions: { id: string; held: string; kind?: string | null; name?: string | null }[] }>; blank: Index["blank"] }) {
   const router = useRouter();
@@ -92,16 +94,11 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
         <p className="mt-1 text-xs text-muted">A contract for a share of the energy is the panel below.</p>
       </fieldset>
 
-      <label className="block"><span className="mb-1 block font-semibold"><span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>Power per GPU, kW</span></span>
-        <input name="gpu" type="number" min={LIMITS.gpu[0]} max={LIMITS.gpu[1]} step="any" defaultValue={x.gpu} className={field} />
-      </label>
-      <label className="block"><span className="mb-1 block font-semibold"><span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>Facility overhead ratio (PUE)</span></span>
-        <input name="pue" type="number" min={LIMITS.pue[0]} max={LIMITS.pue[1]} step="any" defaultValue={x.pue} className={field} />
-      </label>
       <div className="flex items-baseline gap-3">
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>
         <Link href={hrefOf(x, { mw: DEFAULTS.mw, run: "flat", buy: "rt", gpu: DEFAULTS.gpu, pue: DEFAULTS.pue })} scroll={false} className="text-xs">Reset</Link>
       </div>
+      <p className="text-xs leading-snug text-muted" data-costs-in-a="1">Power per GPU and the facility overhead ratio are set under <a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.</p>
     </form>
   );
 }

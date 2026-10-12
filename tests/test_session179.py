@@ -337,6 +337,7 @@ class ThePage(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.block = src("site", "app", "cost-of-power", "battery", "Scenarios.tsx")
+        cls.shared = src("site", "components", "decisions", "ScenarioBlock.tsx")   # session 195: the block the three pages share
         cls.lib = src("site", "lib", "battery", "finance.ts")
         cls.page = src("site", "app", "cost-of-power", "battery", "page.tsx")
 
@@ -362,54 +363,61 @@ class ThePage(unittest.TestCase):
         self.assertIn("The model has no capacity fade. No cited rate is held, so the default is none", self.lib)
 
     def test_a_reset_each_one_for_all_and_copy_a_to_b(self):
-        self.assertIn("data-reset={k}", self.block)
-        self.assertIn(">Reset</button>", self.block)
-        self.assertIn("data-reset-all", self.block)
-        self.assertIn(">Copy A to B</button>", self.block)
+        # session 195: the panel is the shared block's, which this page's file hands its fields
+        self.assertIn("data-reset={k}", self.shared)
+        self.assertIn(">Reset</button>", self.shared)
+        self.assertIn("data-reset-all", self.shared)
+        self.assertIn(">Copy A to B</button>", self.shared)
+        self.assertIn("<ScenarioBlock", self.block)
 
     def test_the_seven_rows_in_order_and_the_last_in_words(self):
-        keys = re.findall(r'\{ key: "(\w+)", label: "', self.block)
+        keys = re.findall(r'\n    row\("(\w+)", ', self.block)
         self.assertEqual(keys, ["revenue", "p10", "coverage", "npv", "irr", "toll", "tail"])
-        self.assertLess(self.block.index('data-row={r.key}'), self.block.index('data-row="differs"'))
+        self.assertLess(self.shared.index('data-row={r.key}'), self.shared.index('data-row="differs"'))
         self.assertIn("differenceWords(s.a, s.b)", self.block)
 
     def test_it_computes_in_the_browser_and_asks_for_nothing(self):
-        self.assertTrue(self.block.startswith('"use client";'))
-        for word in ("fetch(", "XMLHttpRequest", "sendBeacon", "localStorage", "sessionStorage", "document.cookie", "router.", "useRouter"):
-            self.assertNotIn(word, self.block, word)
-        self.assertIn("window.history.replaceState(", self.block)
+        for text in (self.block, self.shared):
+            self.assertTrue(text.startswith('"use client";'))
+            for word in ("fetch(", "XMLHttpRequest", "sendBeacon", "localStorage", "sessionStorage", "document.cookie", "router.", "useRouter"):
+                self.assertNotIn(word, text, word)
+        self.assertIn("window.history.replaceState(", self.shared)
         self.assertNotRegex(self.lib, r"(?m)^import ")
         self.assertNotIn('from "react"', self.lib)
 
     def test_no_word_of_recommendation_and_no_colour_that_judges(self):
-        text = re.sub(r"(?m)^\s*//.*$", "", self.block)
+        text = re.sub(r"(?m)^\s*//.*$", "", self.block + self.shared)
         for word in ("better", "worse", "attractive", "should", "recommend", "best", "worst", "good", "poor", "prefer", "favou", "favor"):
             self.assertNotRegex(text.lower(), rf"\b{word}", word)
         for colour in ("color-up", "color-down", "#175E54", "green", "red-", "#8C1515"):
             self.assertNotIn(colour, text, colour)
-        self.assertIn('const DOWN = "#2a78d6", UP = "#eb6834";', self.block)
+        self.assertIn('const DOWN = "#2a78d6", UP = "#eb6834";', self.shared)
         tokens = src("site", "app", "tokens.css")
         self.assertIn("--color-fuel-gas: #2a78d6;", tokens)
         self.assertIn("--color-fuel-coal: #eb6834;", tokens)
 
-    def test_the_place_for_the_usage_event_is_marked_once(self):
-        # the place is marked once; when the landing adds the call there, it is one call and no dynamic import
-        line = '// session 179: track("scenario compared") goes here once site/lib/usage.ts is on main'
-        code = re.sub(r"(?m)^\s*//.*$", "", self.block)
-        called = code.count('track("scenario compared")')
-        self.assertTrue(called == 1 or (called == 0 and self.block.count(line) == 1), f"{called} calls, {self.block.count(line)} marks")
-        self.assertNotIn("import(", code)
+    def test_no_usage_count_is_sent_from_the_block(self):
+        # session 195, the owner's ruling of 11 October 2026: no usage count on these pages. The place session 179
+        # marked for the call is gone, and neither this page's file nor the shared block calls or imports it.
+        self.assertNotIn('goes here once site/lib/usage.ts is on main', self.block)
+        for text in (self.block, self.shared):
+            code = re.sub(r"(?m)^\s*//.*$", "", text)
+            for word in ("track(", "lib/usage", "import("):
+                self.assertNotIn(word, code, word)
 
     def test_the_page_draws_the_block_once_after_the_contract(self):
         self.assertEqual(self.page.count("<Scenarios "), 1)
-        self.assertLess(self.page.index("<ContractResult "), self.page.index("<Scenarios "))
+        self.assertLess(self.page.index("<ContractOfA "), self.page.index("<Scenarios "))   # session 195: the contract at scenario A's costs
         self.assertLess(self.page.index("<Scenarios "), self.page.index('<ToolSection title="Other grids"'))
         self.assertIn('"/cost-of-power/battery": "review",', src("site", "lib", "release.ts"))
 
     def test_the_other_links_carry_the_scenarios(self):
         form = src("site", "app", "cost-of-power", "battery", "BatteryForm.tsx")
-        self.assertEqual(form.count("carry("), 3)
-        self.assertIn('for (const k of ["grid", "dur", "strat", "mw", "fom", "ds"])', form)   # the six the page had, unchanged
+        self.assertEqual(form.count("carry("), 2)                                        # Show and the duration links
+        # session 195: four of the page's own; the fixed O&M and the debt payments are scenario A's, and "Reset the costs" went with them
+        self.assertIn('for (const k of ["grid", "dur", "strat", "mw"])', form)
+        self.assertNotIn('name="fom"', form)
+        self.assertNotIn('name="ds"', form)
 
 
 class TheNote(unittest.TestCase):

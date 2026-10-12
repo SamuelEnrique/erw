@@ -38,6 +38,8 @@ All are in the address, each bounded and defaulted (`inputsOf`). The contract's 
 
 Anything outside its bounds is clipped; anything unreadable takes the default.
 
+**Session 195: `gpu` and `pue` are the scenarios'.** "Your load" no longer holds a power per GPU and an overhead ratio. Scenario A of "Scenarios A and B" (4.14) holds them, with the same defaults and bounds, and the page's GPU-hour figures read them from scenario A. In an address written before the session the two names are still read, once, as old names of both scenarios' assumptions (`battery_earns_algorithm.md`, section 11.1, "The block the three pages share"), because "Your load" was the default of both. Everything this note says of `gpu` and `pue` below holds with scenario A's values in their place.
+
 ## 3. The price of an hour
 
 **Tables read** (`TABLES` in the builder; all public in `coverage.csv`): `iso_hub_prices_history`, `ercot_all_hub_prices_history`, `ercot_zone_prices_history`, `iso_zone_prices_history`, then the daily tables `iso_dam_hub_prices`, `iso_rtm_hub_prices`, `isone_dam_zone_prices`, `isone_rtm_zone_prices`, `isone_rtm_zone_prices_hourly`, `nyiso_dam_zone_prices`, `nyiso_rtm_zone_prices`. Columns used: `entity`, `variable`, `ts_utc`, `value`, `freq`. Rows from 1 January 2015.
@@ -119,6 +121,8 @@ As 4.2. The note under it: the cost in USD, the energy in MWh (sum of `energy` x
 - **GPUs** = MW x 1,000 / (kW per GPU x overhead ratio). Default: 100,000 / 2.028 = 49,310.
 - Energy at the market price and nothing else: no delivery, no demand or capacity charge, no hardware. For a load that turns off it is the price of the hours it runs.
 
+**Session 195: the three headline numbers are scenario A's rows** (4.14), computed in the browser as A is changed (`site/app/cost-of-power/LoadHeadline.tsx`). Headline 1 is the market energy of the way scenario A runs; headline 2 is that way's bad month; headline 3 is A's row "Power per GPU-hour", at A's power per GPU and overhead ratio, with A's other charges when it has any. At the defaults A runs as "Your load" describes and has no other charge, so the three are what they were (33.73, 37.88, 0.0684). When A runs the other way, the first number's note says so, and that the sections below are the load as "Your load" describes it; when A has other charges, the third number's note states them. The power per GPU-hour of the summary sentence (4.2) and of "What will it cost" (4.6) prices the load as "Your load" describes it, at A's power per GPU and overhead ratio.
+
 ### 4.6 The chart and the table "What will it cost"
 
 - **The chart, cost by year.** For each calendar year, the span of its counted months (`years`): the flat price, and for a load that is not flat the load's price under the rule and the foreseen price. A year is complete when all twelve months count; otherwise it is hatched and holds its counted months only. Default: 24.04 (2015), 21.68, 23.88, 30.82, 36.35, 21.82, 150.61 (2021, Winter Storm Uri), 62.93, 48.69, 26.41, 32.66 (2025), and 34.02 for the nine months of 2026.
@@ -177,6 +181,8 @@ The tables the index names, the day the price files were built, the two stated d
 
 On the page this block stands after "With your contract" (4.10) and before "Will the power be there" (4.7). It is computed in the browser by `site/lib/datacenter/finance.ts` from figures the server already computed for the page; a change sends no request and rewrites the address in place (`history.replaceState`). It adds no number to the page above it and changes none. Worked figures are the default case as the files stood on 11 October 2026.
 
+**Session 195: the block is the one the three decision pages share**, described once in `battery_earns_algorithm.md`, section 11.1, "The block the three pages share": the panel, the two columns, the rows in words, the chart, where the scenarios are held, the old names, and that nothing is sent. On this page scenario A sets the three headline numbers (4.3 to 4.5); the power per GPU and the overhead ratio are scenario A's and no longer fields of "Your load", so their defaults are the two the page cites, 1.3 kW and 1.56, whatever an older link held; the sentence under the table states scenario A, whichever scenario is in view. Default case, before and after: 33.73 USD per MWh, 37.88 in a bad month, USD 0.0684 per GPU-hour. No number moved. Checks: `site/scripts/check-decisions-face.mjs`; `site/scripts/check-datacenter-scenarios.mjs`, part 8b; `tests/test_session195.py`.
+
 **What a scenario reads from the page.** Two ways of running the same load over the same last twelve months (4.1), per MW:
 
 - *flat*: `per` = sum of prices / hours held, `cost` = sum of prices, `energy` = hours held. Default: 33.7289, USD 295,465.05, 8,760 MWh.
@@ -189,8 +195,8 @@ On the page this block stands after "With your contract" (4.10) and before "Will
 | Assumption | Address | Default | Source of the default | Bounds | Chart step |
 |---|---|---|---|---|---|
 | How the load runs | `aw`, `bw` (0 flat, 1 flexible) | as "Your load" | the reader's own input | the ways held | the other way |
-| Power per GPU, kW | `ag`, `bg` | as "Your load": 1.3 | NVIDIA DGX H100 datasheet (section 7) | 0.05 to 20 | 0.1 |
-| Facility overhead ratio | `ap`, `bp` | as "Your load": 1.56 | Uptime Institute, Global Data Center Survey 2024 (section 7) | 1 to 3 | 0.1 |
+| Power per GPU, kW | `ag`, `bg` | 1.3 (until session 195: as "Your load") | NVIDIA DGX H100 datasheet (section 7) | 0.05 to 20 | 0.1 |
+| Facility overhead ratio | `ap`, `bp` | 1.56 (until session 195: as "Your load") | Uptime Institute, Global Data Center Survey 2024 (section 7) | 1 to 3 | 0.1 |
 | Delivery and other charges, USD per MWh | `ad`, `bd` | 0 | the page's figure is market energy alone | 0 to 500 | 5 |
 | Change of prices, percent a year | `ae`, `be` | 0 | **none held**: the last twelve months are repeated | -20 to 20 | 1 point |
 | Upfront cost, USD per kW of the load's size | `au`, `bu` | 0 | **none held** | 0 to 20,000 | 100 |
@@ -227,7 +233,7 @@ On the page this block stands after "With your contract" (4.10) and before "Will
 - The contract typed in "Your contract" is not read: its terms stay on the device (4.10) and a shared link could not carry them.
 - The foreseen load (5.2) is not used. Finding 1 of section 11 (a year held in part gives the rule 100 hours and the foreseen load fewer) therefore moves no figure of this block; it stands as it was, for the owner's ruling.
 - Finding 2 of section 11 holds here as on the page: for New York bought in real time both ways stand on July 2025 to June 2026, and every row of the block says which months it is.
-- No usage count is sent from the block (as on the battery and generator pages, for the owner's ruling).
+- No usage count is sent from the block, as on the battery and generator pages: the owner's ruling of 11 October 2026 (session 195) closes the question.
 
 **Checks.** `site/scripts/test-datacenter-finance.mjs` (hand cases; the generator page's library on 300 seeded cases; every grid's main region against the page's own figures). `tests/test_session194.py` (a Python mirror of every formula above, to 1e-6 on seeded cases; the page's source). `site/scripts/check-datacenter-scenarios.mjs` (the block in a browser at 1280 and 390 px).
 

@@ -7,16 +7,18 @@
 // Session 186: the two scenarios live in the address too (SellerScenarios.tsx); Show, the grid, the asset and "Reset
 // the costs" carry them. A change of asset (or of a battery's duration) drops a typed capital cost, fixed O&M, term
 // and life, whose defaults are the asset's.
+// Session 195: the panel no longer holds annual debt payments and a fixed O&M. Scenario A does (SellerScenarios.tsx),
+// and sets the headline; the line under Show says where. An older link's `ds` and `fom` are read as scenario A's.
 import { useRouter, useSearchParams } from "next/navigation";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { keyOf, type Asset } from "@/lib/merchant";
 import { carry } from "@/lib/seller/finance";
 
 export type FormGrid = { id: string; name: string; open: boolean; words?: string; why?: string; hubs: { id: string; label: string }[] };
-export type FormValues = { iso: string; hub: string; asset: string; mw: number; mwh: number; ds: number; fom: number; hr: number; vom: number; bmw: number; dur: number; strat: string };
+export type FormValues = { iso: string; hub: string; asset: string; mw: number; mwh: number; hr: number; vom: number; bmw: number; dur: number; strat: string };
 
 const field = "w-full border border-rule bg-white px-2 py-1 text-sm";
-const KEYS = ["iso", "hub", "asset", "mw", "mwh", "ds", "fom", "hr", "vom", "bmw", "dur", "strat"] as const;
+const KEYS = ["iso", "hub", "asset", "mw", "mwh", "hr", "vom", "bmw", "dur", "strat"] as const;
 const ASSETS: [string, string][] = [["solar", "Solar"], ["wind", "Wind"], ["battery", "Battery"], ["peaker", "Gas peaker"]];
 const STRATEGIES: [string, string][] = [["foresight", "Perfect foresight"], ["dayahead", "Day-ahead schedule"]];
 
@@ -80,12 +82,6 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
           <input name="mwh" type="number" min={x.mw} max={x.mw * 8} step="any" defaultValue={x.mwh} className={field} />
         </label>
       ) : null}
-      <label className="block"><span className="mb-1 block font-semibold">Annual debt payments, USD</span>
-        <input name="ds" type="number" min={0} step="any" defaultValue={x.ds} className={field} />
-      </label>
-      <label className="block"><span className="mb-1 block font-semibold">Fixed O&amp;M, USD per kW a year</span>
-        <input name="fom" type="number" min={0} max={200} step="any" defaultValue={x.fom} className={field} />
-      </label>
       {x.asset === "peaker" ? (
         <>
           <label className="block"><span className="mb-1 block font-semibold">Heat rate, MMBtu per MWh</span>
@@ -119,7 +115,7 @@ export function SellerForm({ x, grids, hybrid, defaults }: { x: FormValues; grid
         <button type="submit" className="border border-accent bg-accent px-4 py-1.5 text-white">Show</button>
         <Link href={`${open(x.iso, x.asset, x.hub)}${carry(search, x.asset !== "battery" || own === "battery_4h")}`} scroll={false} className="text-xs" data-reset-costs="1">Reset the costs</Link>
       </div>
-      <p className="text-xs leading-snug text-muted">{defaults}</p>
+      <p className="text-xs leading-snug text-muted" data-costs-in-a="1">{defaults} The costs and the debt are set under <a href="#scenarios">Scenarios A and B</a>: scenario A gives the headline.</p>
     </form>
   );
 }

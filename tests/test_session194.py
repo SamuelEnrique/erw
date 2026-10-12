@@ -420,6 +420,7 @@ class ThePage(unittest.TestCase):
     def setUpClass(cls):
         cls.lib = src("site", "lib", "datacenter", "finance.ts")
         cls.block = src("site", "app", "cost-of-power", "LoadScenarios.tsx")
+        cls.shared = src("site", "components", "decisions", "ScenarioBlock.tsx")   # session 195: the block the three pages share
         cls.page = src("site", "app", "cost-of-power", "page.tsx")
         cls.form = src("site", "app", "cost-of-power", "LoadForm.tsx")
 
@@ -440,8 +441,8 @@ class ThePage(unittest.TestCase):
         dc = src("site", "lib", "datacenter.ts")
         self.assertIn('gpu: { value: 1.3, unit: "kW per GPU", source: "NVIDIA DGX H100 system', dc)
         self.assertIn('pue: { value: 1.56, unit: "facility power over IT power", source: "Uptime Institute, Global Data Center Survey 2024', dc)
-        self.assertIn("load: { run: flex ? FLEX : FLAT, gpu: x.gpu, pue: x.pue }, gpuSource: cited(\"gpu\"), pueSource: cited(\"pue\")", self.page)
-        self.assertIn("ASSUMED[k].source", self.page)
+        # session 195: the two are scenario A's, and their defaults are the page's cited ones
+        self.assertIn("load: { run: flex ? FLEX : FLAT, gpu: DEFAULTS.gpu, pue: DEFAULTS.pue }, gpuSource: ASSUMED.gpu.source, pueSource: ASSUMED.pue.source", self.page)
         # the four no source in the repository gives say so on the page, and are not dressed as cited
         for words in ("No cited forecast is held, so the default is no change", "No cited cost is held, so the default is none", "No cited term is held for a datacenter's power. The default is 20 years",
                       "No cited rate is held. The default is set equal to the interest rate of ${LAZARD}: 60% debt at an 8% interest rate"):
@@ -450,46 +451,49 @@ class ThePage(unittest.TestCase):
         self.assertIn("Default {plain(d[k])}. {sourceOf(k)}.", self.block)
 
     def test_a_reset_each_one_for_all_and_copy_a_to_b(self):
-        self.assertIn("data-reset={k}", self.block)
-        self.assertIn(">Reset</button>", self.block)
-        self.assertIn("data-reset-all", self.block)
-        self.assertIn(">Copy A to B</button>", self.block)
+        # session 195: the panel is the shared block's, which this page's file hands its fields
+        self.assertIn("data-reset={k}", self.shared)
+        self.assertIn(">Reset</button>", self.shared)
+        self.assertIn("data-reset-all", self.shared)
+        self.assertIn(">Copy A to B</button>", self.shared)
+        self.assertIn("<ScenarioBlock", self.block)
 
     def test_the_eight_rows_in_order_then_the_words_and_b_against_a(self):
-        keys = re.findall(r'\{ key: "(\w+)", label: ', self.block)
+        keys = re.findall(r'\n    row\("(\w+)", ', self.block)
         self.assertEqual(keys, ["price", "bill", "gpu", "bad", "off", "pv", "level", "allin"])
-        self.assertLess(self.block.index("data-row={r.key}"), self.block.index('data-row="differs"'))
-        self.assertLess(self.block.index('data-row="differs"'), self.block.index('data-row="against"'))
+        self.assertLess(self.shared.index("data-row={r.key}"), self.shared.index('data-row="differs"'))
+        self.assertLess(self.shared.index('data-row="differs"'), self.shared.index('data-row="against"'))
         self.assertIn("differenceWords(s.a, s.b)", self.block)
+        self.assertIn("against={{ words: versus, rate: versusRate, even: versusEven }}", self.block)
         for label in ("Present value of the cost, at the hurdle rate", "Fixed price with the same present value", "Hours off, and the breakeven value of a GPU-hour", "All-in power per GPU-hour, over the years counted"):
-            self.assertIn(f'label: "{label}"', self.block)
+            self.assertIn(f'", "{label}", ', self.block)
         self.assertIn("hurdle rate is ${hurdle} percent.", self.block)                 # the rate of return is stated beside the hurdle rate
 
     def test_it_computes_in_the_browser_and_asks_for_nothing(self):
         self.assertTrue(self.block.startswith('"use client";'))
-        code = re.sub(r"(?m)^\s*//.*$", "", self.block)
+        code = re.sub(r"(?m)^\s*//.*$", "", self.block + self.shared)
         for word in ("fetch(", "XMLHttpRequest", "sendBeacon", "localStorage", "sessionStorage", "document.cookie", "router.", "useRouter", "track(", "import("):
             self.assertNotIn(word, code, word)
-        self.assertIn("window.history.replaceState(", self.block)
+        self.assertIn("window.history.replaceState(", self.shared)
         self.assertNotRegex(self.lib, r"(?m)^import ")
         self.assertNotIn('from "react"', self.lib)
         self.assertNotIn("useContext", self.block)                                      # the typed contract is not read
 
     def test_no_word_of_recommendation_and_no_colour_that_judges(self):
         # "A bad month" is the page's own headline since session 138: the top tenth of 36 months, a rank
-        text = re.sub(r"(?m)^\s*//.*$", "", self.block)
+        text = re.sub(r"(?m)^\s*//.*$", "", self.block + self.shared)
         for word in ("better", "worse", "attractive", "should", "recommend", "best", "worst", "good", "poor", "prefer", "favou", "favor"):
             self.assertNotRegex(text.lower(), rf"\b{word}", word)
         for colour in ("color-up", "color-down", "#175E54", "green", "red-", "#8C1515"):
             self.assertNotIn(colour, text, colour)
-        self.assertIn('const DOWN = "#2a78d6", UP = "#eb6834";', self.block)
+        self.assertIn('const DOWN = "#2a78d6", UP = "#eb6834";', self.shared)
         tokens = src("site", "app", "tokens.css")
         self.assertIn("--color-fuel-gas: #2a78d6;", tokens)
         self.assertIn("--color-fuel-coal: #eb6834;", tokens)
 
     def test_the_chart_answers_the_mouse_and_the_keyboard(self):
-        for words in ("onMouseEnter={() => setOn(b.key)}", "onFocus={() => setOn(b.key)}", "title={says(b)}", 'data-sensitivity-readout="1"', "The chart as a table"):
-            self.assertIn(words, self.block, words)
+        for words in ("onMouseEnter={() => setOn(b.key)}", "onFocus={() => setOn(b.key)}", "title={c.says(b)}", 'data-sensitivity-readout="1"', "The chart as a table"):
+            self.assertIn(words, self.shared, words)                                      # session 195: the chart is the shared block's
         self.assertIn("tooltip:", src("site", "app", "cost-of-power", "LoadCharts.tsx"))  # the page's other chart, as it was
 
     def test_one_tool_one_page_one_address(self):
@@ -507,14 +511,17 @@ class ThePage(unittest.TestCase):
     def test_the_two_ways_come_from_the_pages_own_functions(self):
         for words in ("const flatMonths = (ms: Month[]): Month[] => ms.map((r) => ({ ...r, cost: r.flat, energy: r.held, down: 0, tightDown: 0 }));",
                       'const altFlex = { run: "hours" as const, n: DEFAULTS.n, pct: 0, shift: 0 };',
-                      'wayOf(monthsRuled(files, x.region, x.buy, altFlex, "forecast").months)',
+                      'monthsRuled(files, x.region, x.buy, altFlex, "forecast").months',
                       "const s = span(l), w = last36(ms), b = badMonth(w?.months ?? []);"):
             self.assertIn(words, self.page, words)
         self.assertNotIn('"hindsight"', self.page.split("// session 194: the two ways of running", 1)[1].split("const facts: Facts", 1)[0])   # the foreseen load is not used
 
     def test_the_form_carries_the_scenarios(self):
         self.assertEqual(self.form.count("carry(window.location.search)"), 2)             # Show, and the choice of a grid
-        self.assertIn('const KEYS = ["grid", "region", "mw", "run", "n", "pct", "shift", "buy", "gpu", "pue"] as const;', self.form)   # the page's own, unchanged
+        # session 195: the power per GPU and the overhead ratio are scenario A's; the other eight are the page's own
+        self.assertIn('const KEYS = ["grid", "region", "mw", "run", "n", "pct", "shift", "buy"] as const;', self.form)
+        self.assertNotIn('name="gpu"', self.form)
+        self.assertNotIn('name="pue"', self.form)
         self.assertIn('name === "v" || /^[ab][wgpdeulh]$/.test(name)', self.lib)
         for own in ("view", "grid", "region", "mw", "run", "n", "pct", "shift", "buy", "gpu", "pue"):
             self.assertIsNone(re.fullmatch(r"v|[ab][wgpdeulh]", own), own)                # none of the page's own parameters is taken for a scenario's

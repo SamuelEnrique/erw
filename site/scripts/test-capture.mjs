@@ -112,7 +112,7 @@ for (const [name, price] of [["real time", rt], ["day-ahead", da]]) {
   const r = D.contractResult(C.contractSpan(energy, s.price), mw, { share, price });
   // the battery page's contract pays a price per kW-month on a share of the power: the same dollars when that price is
   // the energy's price times the energy of a kW-month
-  const ms = Array.from({ length: 12 }, (_, i) => ({ m: `2025-${String(i + 1).padStart(2, "0")}`, held: true, daysHeld: 30, daysOut: 0, daysOutAncillary: 0, daysOutEnergy: 0, daysInMonth: 30,
+  const ms = Array.from({ length: 12 }, (_, i) => ({ m: `2025-${String(i + 1).padStart(2, "0")}`, held: true, whole: true, daysHeld: 30, daysOut: 0, daysOutAncillary: 0, daysOutEnergy: 0, daysInMonth: 30,
     energy: (energy * s.price) / 12, ancillary: 0, total: (energy * s.price) / 12, products: {} }));
   const b = B.contractResult(ms, { grid: "ercot", dur: 4, strat: "foresight", mw, fom: 0, ds: 1 }, { share, price: (price * energy) / 12000, end: "" });
   ok(close(r.contracted, b.contracted) && close(r.market, b.market12) && close(r.without, b.after12) && close(r.total, b.contracted + b.market12) && close(r.total, b.coverageWith) && close(r.without, b.coverageWithout),

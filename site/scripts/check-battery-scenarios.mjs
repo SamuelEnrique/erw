@@ -24,6 +24,12 @@
 //   8. no word of recommendation in the block;
 //   9. the page's own six parameters still work, and its links and its Show carry the scenarios;
 //  10. at 390 px the page does not scroll sideways;
+//  12. (session 195) scenario A sets the headline: "Your battery" holds no fixed O&M and no debt payments; at the
+//      defaults the headline is the page's own of before; a change of A moves the headline's coverage, its debt
+//      payments, its check key and the summary sentence, and a change of B moves none of them; the sentence under the
+//      table states scenario A; A's efficiency step moves the headline's revenue and the page says so; an older link's
+//      `fom` and `ds` open the same headline and leave the address. Since the owner's ruling of 11 October 2026 no usage
+//      count is allowed at all: every change is held to no request (item 3's allowance is closed);
 //  11. the contract panel's promise, with the scenarios beside it: typing the terms sends no request, leaves the
 //      address unchanged and stores nothing; a scenario change after it sends no request and puts no contract term in
 //      the address; a change of duration keeps the terms and no request of it carries them.
@@ -165,7 +171,7 @@ try {
   const isCount = (r) => r.method === "POST" && new URL(r.url).pathname === "/api/usage" && new URL(r.url).search === "";
   const counts = [];
   let countsThisView = 0;
-  const noRequest = async (what, act, strict = false) => {
+  const noRequest = async (what, act, strict = true) => {
     const mark = requests.length;
     await act();
     await sleep(700);
@@ -241,7 +247,9 @@ try {
   const rb = F.resultOf(b1, rev92);
   check(near(s.cells["b|npv"].raw, rb.npv) && near(s.cells["b|tail"].raw, rb.tail.pv) && /years 11 to 20/.test(s.cells["b|tail"].text) && near(s.cells["b|toll"].raw, rb.toll), "B's NPV, toll and tail follow (a ten-year term leaves years 11 to 20)", `${s.cells["b|npv"].text} | ${s.cells["b|toll"].text} | ${s.cells["b|tail"].text}`);
   check(s.headA.length === 5 && s.headB.length === 5 && s.words === "B: capex USD 1,110 per kW against 1,300; term 10 years against 20; round-trip efficiency 92 percent against 86; cycles a day 2 against 1; hurdle rate 10 percent against 8.", "five differences, in the headers and in words", s.words);
-  check(s.chartView === "b" && /scenario B/.test(s.legend) && /^Scenario B/.test(s.sentence ?? ""), "the chart and the sentence follow the scenario in view");
+  check(s.chartView === "b" && /scenario B/.test(s.legend), "the chart follows the scenario in view");
+  check(/^Scenario A, 100 MW, 4-hour: at a hurdle rate of 8 percent, NPV is USD /.test(s.sentence ?? "") && (s.sentence ?? "").endsWith(`NPV is ${s.cells["a|npv"].text.match(/^USD -?[\d.,]+( million| billion)?/)[0]}.`),
+    "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
 
   // 7: the sensitivity chart
   check(s.bars.length === 10 && s.bars.every((b, i) => i === 0 || s.bars[i - 1].size >= b.size), "ten bars, sorted by size", s.bars.map((b) => b.key).join(", "));
@@ -285,8 +293,9 @@ try {
   // 9: the page's own parameters, and its links
   await go("/cost-of-power/battery?grid=ercot&dur=4&strat=dayahead&mw=50&fom=30&ds=4000000&ac=1300&bh=9");
   s = await ev(STATE);
-  check(/50 MW, 4-hour battery in ERCOT/.test(s.summary) && /^grid=ercot&dur=4&strat=dayahead&mw=50&fom=30&ds=4000000/.test(s.search.slice(1)), "the page's own six parameters are read as before", s.search);
-  check(/ac=1300/.test(s.search) && /bh=9/.test(s.search) && s.headA.length === 2, "and the scenarios beside them");
+  check(/50 MW, 4-hour battery in ERCOT/.test(s.summary) && /^grid=ercot&dur=4&strat=dayahead&mw=50&/.test(s.search.slice(1)), "the page's own four parameters are read as before", s.search);
+  check(/ac=1300/.test(s.search) && /af=30/.test(s.search) && /bh=9/.test(s.search) && !/[?&](fom|ds)=/.test(s.search) && s.headA.length === 3,
+    "and the scenarios beside them: the old fom is A's fixed O&M, A's own capital cost wins over the old ds, and the old names leave the address (session 195)", s.search);
   const links = await ev(`({ d8: document.querySelector('[data-duration="8"]').getAttribute("href"), d4: document.querySelector('[data-duration="4"]').getAttribute("href") })`);
   check(/dur=8/.test(links.d8) && /bh=9/.test(links.d8) && !/ac=/.test(links.d8) && /ac=1300/.test(links.d4), "a duration link carries the scenarios and drops a typed capital cost", links.d8);
   await ev(`(() => { const e = document.querySelector('input[name="mw"]'); e.focus(); e.select(); })()`);
@@ -321,15 +330,49 @@ try {
   check(/dur=8/.test(await ev("location.href")) && con.state === "shown", "the contract terms survive a change of duration", (await ev("location.search")));
   check(sent.length > 0 && leak.length === 0, `the ${sent.length} request(s) of that change carry no contract term`, leak.map((r) => r.url).join(", "));
 
-  // the usage counts seen, if the call has been added: the event and the path, and no value typed on the page
-  {
-    const read = counts.filter((r) => r.body);
-    const plain = read.every((r) => { try { const b = JSON.parse(r.body); return Object.keys(b).sort().join() === "event,path" && b.path === "/cost-of-power/battery"; } catch { return false; } });
-    const leak = counts.filter((r) => /7\.3131|61\.7|2031-06/.test(r.url + r.body));
-    check(plain && leak.length === 0, counts.length
-      ? `${counts.length} usage count(s) were sent by scenario changes; the ${read.length} whose body could be read hold the event and the path only, and none carries a contract term`
-      : "no usage count was sent by a scenario change (the call marked in Scenarios.tsx is not added yet)");
-  }
+  // session 195: no usage count is sent from the block (the owner's ruling of 11 October 2026)
+  check(counts.length === 0, "no usage count was sent by any change on the page", `${counts.length} sent`);
+
+  // 12 (session 195): scenario A sets the headline
+  const HEAD = `(() => {
+    const sum = document.querySelector("[data-summary]");
+    const checked = (end) => { const e = [...document.querySelectorAll("[data-check]")].find((x) => x.getAttribute("data-check").endsWith(end)); return e ? Number(e.getAttribute("data-raw")) : null; };
+    return { row: sum?.nextElementSibling?.innerText ?? "", summary: sum?.textContent ?? "", ds: checked("|ds"), cover: checked("|cover"),
+      key: [...document.querySelectorAll("[data-check]")].find((x) => x.getAttribute("data-check").endsWith("|cover"))?.getAttribute("data-check") ?? "",
+      fields: [...document.querySelectorAll("aside form input[name]")].map((e) => e.name), where: document.querySelector("[data-costs-in-a]")?.textContent ?? "",
+      stepsNote: document.querySelector("[data-scenario-a-steps]")?.textContent ?? "" };
+  })()`;
+  await go("/cost-of-power/battery");
+  s = await ev(STATE);
+  let h = await ev(HEAD);
+  const l12 = s.l12kw, cover0 = h.cover;
+  check(!h.fields.includes("fom") && !h.fields.includes("ds") && /scenario A gives the headline/.test(h.where), "\"Your battery\" holds no fixed O&M and no debt payments, and says scenario A gives the headline", h.fields.join(", "));
+  check(h.ds === F.debtUsd(d, 100) && h.ds === Math.round(B.debtPerMw(4) * 100) && near(h.cover, (l12 * 100000 - d.fom * 100000) / h.ds, 1e-12) && near(h.cover, s.cells["a|coverage"].raw, 1e-6),
+    "at the defaults the headline's debt payments and coverage are the page's own of before this session, and scenario A's row", `USD ${h.ds}, ${h.cover}`);
+  await noRequest("typing a capital cost into A, for the headline", () => type("capex", "1300"));
+  h = await ev(HEAD); s = await ev(STATE);
+  check(h.ds === F.debtUsd({ ...d, capex: 1300 }, 100) && near(h.cover, (l12 * 100000 - d.fom * 100000) / h.ds, 1e-12) && near(h.cover, s.cells["a|coverage"].raw, 1e-6) && h.cover < cover0
+    && h.summary.includes(`covered its debt ${h.cover.toFixed(2)} times`) && h.key.endsWith(`&ds=${h.ds}|cover`),
+    "a change of A moves the headline's coverage, its debt payments, its check key and the summary sentence", `${h.cover} on USD ${h.ds}`);
+  await noRequest("typing a fixed O&M into A, for the headline", () => type("fom", "30"));
+  h = await ev(HEAD);
+  check(near(h.cover, (l12 * 100000 - 30 * 100000) / h.ds, 1e-12) && h.key.includes("&fom=30&"), "and A's fixed O&M moves it too", String(h.cover));
+  await click('[data-view="b"]');
+  await noRequest("typing a capital cost into B", () => type("capex", "900"));
+  let hb = await ev(HEAD); s = await ev(STATE);
+  check(hb.cover === h.cover && hb.ds === h.ds && hb.row === h.row && /^Scenario A/.test(s.sentence ?? ""), "a change of B moves neither the headline nor the sentence under the table");
+  await click('[data-view="a"]');
+  await noRequest("choosing an efficiency step for A", () => choose("rte", 92));
+  h = await ev(HEAD); s = await ev(STATE);
+  check(h.row.includes(`USD ${s.cells["a|revenue"].raw.toFixed(2)}`) && s.cells["a|revenue"].raw > l12 && /Scenario A: round-trip efficiency 92 percent/.test(h.stepsNote) && /at a round-trip efficiency of 92 percent/.test(h.summary),
+    "A's efficiency step moves the headline's revenue, and the headline names the step and says the sections below are the model's own run", h.stepsNote);
+  await go("/cost-of-power/battery?fom=30&ds=4000000");
+  h = await ev(HEAD); s = await ev(STATE);
+  check(h.ds === 4000000 && near(h.cover, (l12 * 100000 - 3000000) / 4000000, 1e-12) && Number(s.fields.find((f) => f.key === "fom").value) === 30 && /af=30/.test(s.search) && /ac=/.test(s.search) && !/[?&](fom|ds)=/.test(s.search),
+    "an older link's fom and ds open the same headline (A's fixed O&M; the capital cost at which A's debt payments are that amount) and leave the address", `${s.search}: ${h.cover} on USD ${h.ds}`);
+  await go(`/cost-of-power/battery?fom=${d.fom}&ds=${Math.round(B.debtPerMw(4) * 100)}`);
+  s = await ev(STATE);
+  check(s.search === "" && s.fields.every((f) => Number(f.value) === d[f.key]), "an older link that held the defaults opens the bare address", s.search);
 
   // other grids
   await go("/cost-of-power/battery?grid=caiso&dur=2&strat=foresight");

@@ -68,7 +68,7 @@ for (const y of [2021, 2025]) for (const buy of ["rt", "da"]) {
   const mine = L.contractResult(s, mw, { share, price });
   // the same twelve months handed to the battery page's function: a month's "revenue per MW" is the load's cost per MW,
   // and its contract price per kW-month is the one that pays the same dollars for the contracted share
-  const months = ms.map((r) => ({ m: r.m, held: true, total: r.cost, energy: r.cost, ancillary: 0, daysHeld: 30, daysInMonth: 30, daysOut: 0, daysOutAncillary: 0 }));
+  const months = ms.map((r) => ({ m: r.m, held: true, whole: true, total: r.cost, energy: r.cost, ancillary: 0, daysHeld: 30, daysInMonth: 30, daysOut: 0, daysOutAncillary: 0 }));
   const kwMonth = (price * s.energy) / 12000;
   const theirs = B.contractResult(months, { mw, fom: 0, ds: 1, dur: 2, strat: "foresight", grid: "ercot" }, { share, price: kwMonth, end: "" });
   ok(close(mine.contracted, theirs.contracted) && close(mine.market, theirs.market12) && close(mine.without, theirs.after12),

@@ -68,8 +68,10 @@ check(html.includes('<section id="scenarios"'), "the scenarios block is on the p
 const faceText = plain(html.replace(/<section id="scenarios"[\s\S]*?<\/section>/, " ")).split("Added, not co-optimized: upper bound").join(" ");
 check(!METHOD_WORDS.test(faceText), `no method prose on the page face${METHOD_WORDS.test(faceText) ? ` (found "${METHOD_WORDS.exec(faceText)[0]}")` : ""}`);
 check(["the median month earned", "10th-percentile month", "The worst three months", "Over trailing twelve months, coverage was", "Stress days: Uri, Elliott and the 2023 heat", "Winter Storm Uri", "Every month: revenue, energy, capture price and rate, coverage",
-  "Hours above installed nameplate", "Hours EIA reports negative", "Annual debt payments, USD", "Fixed O&M, USD per kW a year"].every((w) => text.includes(w)) && /data-check="mr\|iso=ercot&amp;asset=solar[^"]*\|median"/.test(html) && /data-check="mr\|[^"]*\|stress_total:uri_2021"/.test(html),
+  "Hours above installed nameplate", "Hours EIA reports negative", "Fixed O&M, USD per kW a year"].every((w) => text.includes(w)) && /data-check="mr\|iso=ercot&amp;asset=solar[^"]*\|median"/.test(html) && /data-check="mr\|[^"]*\|stress_total:uri_2021"/.test(html),
   "what the seller's tab showed is here: the months held, the median and the bad months, debt coverage, the stress days, every month, the fleet's hours, with their check keys");
+// session 195: "Your plant" no longer holds annual debt payments and a fixed O&M of its own; scenario A does, and sets the headline
+check(!/<input[^>]*name="(ds|fom)"/.test(html) && !text.includes("Annual debt payments, USD") && text.includes("scenario A gives the headline"), "\"Your plant\" holds no debt payments and no fixed O&M: they are scenario A's");
 check((text.match(/Long-run average, a year/g) ?? []).length === 2 && text.includes("Last twelve months") && ["revenue", "energy", "capture", "flat", "rate"].every((k) => html.includes(`data-seller2="twelve|${k}"`)) && text.includes("Revenue by year, USD per kW") && text.includes("Incomplete year"),
   "what version 2 showed is here: the last twelve months beside the two long-run averages, row by row, and revenue by year");
 check(/data-grid="miso"[^>]*data-open="0"[\s\S]{0,500}?paused while terms are reviewed/.test(html) && /data-grid="pjm"[^>]*data-open="0"[\s\S]{0,500}?licensed source needed/.test(html)

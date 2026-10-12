@@ -14,6 +14,8 @@ export type Inputs = { grid: string; dur: Duration; strat: Strategy; mw: number;
 export type Month = {
   m: string; held: boolean; daysHeld: number; daysOut: number; daysOutAncillary: number; daysOutEnergy: number; daysInMonth: number;
   energy: number | null; ancillary: number | null; total: number | null; products: Record<string, number>;
+  /** session 195: every day of the month is in the table, solved or left out: the month has ended and is all there */
+  whole: boolean;
 };
 
 export const TABLE = "battery_stack_monthly";
@@ -138,6 +140,7 @@ export function monthsOf(rows: Row[], strat: Strategy, dur: Duration): Month[] {
     out.push({
       m, daysHeld, daysOut: v.days_left_out ?? 0, daysOutAncillary: v.days_left_out_ancillary ?? 0, daysOutEnergy: v.days_left_out_energy ?? 0, daysInMonth,
       held: has && daysInMonth > 0 && daysHeld / daysInMonth >= NEAR - 1e-9,
+      whole: daysInMonth > 0 && daysHeld + (v.days_left_out ?? 0) >= daysInMonth,
       energy: has ? v.revenue_energy_usd_per_mw : null, ancillary: has ? v.revenue_ancillary_usd_per_mw : null,
       total: has ? v.revenue_total_usd_per_mw : null, products,
     });
@@ -164,11 +167,15 @@ export function averageYear(ms: Month[], s: Stream): number | null {
 
 const prevMonth = (m: string, k: number) => new Date(Date.UTC(Number(m.slice(0, 4)), Number(m.slice(5, 7)) - 1 - k, 1)).toISOString().slice(0, 7);
 
-/** The last twelve months: the newest held month whose eleven months before it are all held. Null if there is none. */
+/** The last twelve months: the newest held month that is whole, and whose eleven months before it are all held. Null
+ * if there is none. Session 195 (the owner's ruling on session 178's finding): the window ends with the last complete
+ * month in the table. A month is held from 90 percent of its days, so until this session the running month entered the
+ * window about three days before it ended, with the revenue of its solved days only; it now enters when every one of
+ * its days is in the table, solved or left out. */
 export function lastTwelve(ms: Month[]): Month[] | null {
   const by = new Map(ms.map((r) => [r.m, r]));
   for (const r of [...ms].reverse()) {
-    if (!r.held) continue;
+    if (!r.held || !r.whole) continue;
     const twelve = Array.from({ length: 12 }, (_, k) => by.get(prevMonth(r.m, k)));
     if (twelve.every((t) => t && t.held)) return (twelve as Month[]).reverse();
   }
