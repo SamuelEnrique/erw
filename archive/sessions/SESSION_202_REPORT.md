@@ -118,10 +118,11 @@ None piped; outputs under `runs/session202/`.
 | `warehouse/health.py days --from 2026-10-02 --to 2026-10-11` | 0 | 10 days written; green for 0 days |
 | `scripts/alert.py summary --dry-run --html runs/session202/summary.html` | 0 | the text above |
 | `scripts/alert.py failures --dry-run` | 0 | "quiet: no step newly failed in the last 60 minutes" |
-| `npm run build` on the merged commit | BUILD_PLACEHOLDER |
-| `site/scripts/check-internal-health.mjs` on that build | HEALTHCHECK_PLACEHOLDER |
-| `site/scripts/check-security.mjs`, `site/scripts/check-routes.mjs` on that build | CHECKS_PLACEHOLDER |
-| Whole suite, clean copy of the commit pushed | SUITE_PLACEHOLDER |
+| `npm run build` on the merged commit `93e6a39c` (one comment of the new page was reworded after it) | 0 | no "statement timeout" line |
+| `site/scripts/check-internal-health.mjs` on that build | 0 | 19 checks: 404 for a visitor and for a token in the address; the line holds the file's number; every day a row; no sideways scroll at 390 px |
+| `site/scripts/check-security.mjs`, `site/scripts/check-routes.mjs` on that build | 0, 0 | 50 of 50; 160 pages asked as a visitor, 0 failed. A first run of the three answered from a server left over from the build before (the new one had not taken the port); they were run again on a fresh server |
+| Whole suite, clean copy, `93e6a39c` | 1 | 3,481 tests, 1 failure: a comment of the new page named another internal page's address, which a test of session 188 forbids |
+| Whole suite, clean copy, `cce4b9e4` (the comment reworded; this report's last edit follows it, and the tests that read reports were run again on it) | 0 | 3,481 tests, 237 skipped |
 | `git apply --check --ignore-whitespace` of the connectors patch | 0 | applies; not applied |
 
 - **Not verified, and cannot be here:** the six fixes on the runner. Tomorrow's daily run is the test: its "board_page" and "package tests" steps should be ok.
@@ -130,7 +131,10 @@ None piped; outputs under `runs/session202/`.
 
 ## The landing
 
-LANDING_PLACEHOLDER
+- Freeze status before the push: exit 0, no freeze. `main` merged into the branch first.
+- Before snapshot `s202-before`, its own command, then `git push origin task/202-reliability`.
+- Expected: 0 differences on the 25 pages. The branch adds one page (`/internal/health`, not among the 25, 404 for a visitor) and one data file only that page reads.
+- **The result (GitHub's check, the merge, Vercel's answer, the after snapshot and the comparison) is written into this report by session 203's branch**, under this heading.
 
 ## Decisions made without you
 
