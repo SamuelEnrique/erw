@@ -184,7 +184,11 @@ class TheCeilings(unittest.TestCase):
         for f in ("run_daily.sh", "run_monthly.sh", "scheduled.py"):
             text = src("warehouse", f)
             self.assertNotIn("ercot_sced_esr", text, f)
-            self.assertNotIn("ercot_rt_spp", text, f)
+            # session 204 (the owner's ruling of 12 October 2026): the node price pull is now a standing one, a step of
+            # the data machine's run that scheduled.py lists apart from the runner's (tests/test_session204.py holds its
+            # rules: the row ceiling, the refusal anywhere but on a data machine). The runner's two scripts still never name it
+            if f != "scheduled.py":
+                self.assertNotIn("ercot_rt_spp", text, f)
 
     def test_both_ask_whether_ercot_is_paused_before_a_request(self):
         self.assertIn('ip.paused("ercot")', src("warehouse", "connectors", "ercot_sced_esr.py"))

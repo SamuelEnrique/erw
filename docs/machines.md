@@ -408,6 +408,38 @@ machine, once a day, after the runner's daily run:
   `site/data/curtailment/ercot.json`, which the runner builds every day from a table that is newer there. A commit to
   main deploys, as the daily workflow's does; the files are read by pages in review only.
 
+### The data machine's daily run since session 204
+
+The owner's rulings of 12 October 2026 added these to the run above. Each is a soft step, started through
+`warehouse/scheduled.py`, which lists them (`--list`, after the runner's steps) and refuses each anywhere but on a data
+machine that holds the price histories.
+
+| Step | What | Recorded as |
+|---|---|---|
+| the monthly storage tables | `ercot_storage_dam_awards.py`, then `ercot_storage_dam_offers.py`, right after the sync: the sync leaves a table that was rewritten whole as it was, so the monthly offers stood a day behind the daily ones | `dm_storage_awards_rollup`, `dm_storage_offers_rollup` |
+| ERCOT's node prices | `ercot_rt_spp.py --daily --max-rows 500000`: ERCOT's list (it keeps seven days and no more), each listed 15-minute file not yet saved, then the table. At most 500,000 rows a UTC day, counted in `warehouse/raw/ercot_rtm_spp/rows_by_run.csv`; the request that could pass the ceiling is not made. Internal: no page reads the table and it is in no live set | `dm_ercot_node_prices` |
+| its stores, when the table moved | `warehouse/table_stores.py`: the validator and the coverage row (gates for this table's stores), the archive, the Redivis draft | `dm_node_stores` |
+| the battery page's downloads | `battery_dispatch_export.py --keep-same`, `battery_scenario_steps.py --keep-same` (about 13 minutes). A file whose hours, months and model are as held is left as it is: the page prints the steps file's build date, so that date moves only when a month did | `dm_battery_dispatch_export`, `dm_battery_scenario_steps` |
+| the generator page's builders | `merchant_revenue.py` (the snapshot and the table `merchant_revenue_monthly`, which gets its stores when it moved), then `merchant_hubs.py` (about 10 minutes) and `seller_hybrid.py` | `dm_merchant_revenue`, `dm_merchant_stores`, `dm_merchant_hubs`, `dm_seller_hybrid` |
+| the generator page's hourly CSV | `generator_hourly_export.py`, from the snapshot and the capture file as they now stand, with its dated record under `docs/methods/figures/` | `dm_generator_hourly_export` |
+| each group's own tests | `python -m unittest` on the modules that read the group's files (`tests.test_session178`; `tests.test_session179`; `tests.test_session51`, `183`, `183_replication`, `186` and `199`; `tests.test_session162`) | `dm_test_battery_dispatch`, `dm_test_battery_steps`, `dm_test_generator`, `dm_test_hybrid` |
+
+- **A group one of whose steps did not finish, or whose tests fail, is put back whole as the last commit has it,** and
+  recorded as failed. The snapshot, the hub files and the CSV are one group: the CSV is checked against the snapshot
+  and the hub files against it. So `main` never gets a file its own tests refuse. The table
+  `merchant_revenue_monthly` is not in git and stays as written; the next run writes both again.
+- **Three of the generator's steps are switched off: `merchant_revenue`, `merchant_hubs`, `generator_hourly_export`.**
+  `GENERATOR=1` in the run's environment runs them. Six tests that a landing must pass hold the CSV to its export of
+  7 October 2026 (four of `tests/test_session183_replication.py`: 72,384 rows, the last hour, the last local day, 72
+  blank hours; two of `tests/test_session199.py`: the capture build the header names, and the list of dated records).
+  A re-export fails them, and the snapshot cannot move without the CSV. Session 204 was told not to change a test's
+  logic, so the steps wait for a session that may. `seller_hybrid` is not of that group and runs every day.
+- **The node prices cannot be had later.** A week without the run loses the days that left ERCOT's list. The table
+  grows by about 30,000 rows a day (96 files, some 310 settlement points each).
+- **The daily commit will be larger once the three steps are on.** The hub files (14 MB), the snapshot (2 MB), the
+  generator's CSV (4 MB) and the record of the day (67 KB) would then move every day, beside the datacenter files that
+  already do. Today the hybrid's file and its yearly price files (1.3 MB together) are what this session added.
+
 ## Code work: branches, checks, merge
 
 A code task works on its own branch, `task/<NNN>-<slug>`. A push to `task/**` runs `.github/workflows/code-branch.yml`:

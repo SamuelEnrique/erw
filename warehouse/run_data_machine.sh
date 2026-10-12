@@ -6,6 +6,14 @@
 #
 #   1. sync: main fast-forwarded, and every table that is behind the Redivis draft brought up to it (scripts/sync.py:
 #      a table that is ahead here, or has diverged, is reported and left), so the day's prices from the runner are in;
+#   1b. ERCOT's node prices (ercot_rtm_node_prices; session 204, the owner's ruling of 12 October 2026): the real-time
+#      Settlement Point Prices at the storage resources' points, the hubs and the Load Zones, NP6-905-CD, through
+#      warehouse/scheduled.py. ERCOT's list keeps seven days and no more, so a day not pulled within the week is not
+#      held at all. The list is asked each day, and a file only when this machine has not saved it (96 a day). The
+#      ceiling is 500,000 rows a UTC day, counted as each file is saved; the request that could pass it is not made.
+#      The table is internal: no page reads it and it is in no live set. A soft step, before ERCOT's load zones and
+#      never fatal to them. When the table moved: its stores (warehouse/table_stores.py: the validator and the
+#      coverage row, each a gate for this table's stores only, then the archive and the Redivis draft);
 #   2. ERCOT's load zone prices (ercot_zone_prices_history): the daily refresh the owner approved on 7 October 2026.
 #      ERCOT's two lists are asked each day; a workbook only when the list names a document this machine does not
 #      hold (ERCOT posts the current year again on Sundays). A row counts once against the ceiling of 3,000,000; the
@@ -23,6 +31,20 @@
 #      then (session 190) the replication CSV of /cost-of-power's default case, written again from the datacenter
 #      files as they now stand (warehouse/derived/datacenter_hourly_export.py: it reads those files and no table, and
 #      leaves the CSV as it was when no hour of the default case moved or when its own check fails);
+#   3b. (session 204, the owner's rulings of 12 October 2026) the battery page's downloads, the generator page's
+#      builders and its hourly CSV, each through warehouse/scheduled.py as a soft step:
+#        battery_dispatch_export  site/public/battery/erw_2026_battery_dispatch.csv   /cost-of-power/battery (session 178)
+#        battery_scenario_steps   site/data/battery_scenario_steps.json                                      (session 179)
+#        merchant_revenue         site/data/merchant_snapshot.json, merchant_revenue_monthly  /cost-of-power/seller (session 51)
+#        merchant_hubs            site/data/seller/hubs/                                                     (session 183)
+#        seller_hybrid            site/data/seller/hybrid.json, site/public/seller/prices/                   (session 162)
+#        generator_hourly_export  site/public/seller/erw_2026_generator_hourly.csv                           (session 183)
+#      A battery file whose hours, months and model are as held is left as it is. merchant_revenue_monthly gets its
+#      stores when it moved. Then each group's own tests, as the files above have theirs: a group one of whose steps
+#      or tests failed is put back whole as the last commit has it (the snapshot, the hub files and the CSV are one
+#      group: the CSV is checked against the snapshot, and the hub files against it), recorded, and the run goes on.
+#      SWITCHED OFF, with GENERATOR=1 to run them: merchant_revenue, merchant_hubs and generator_hourly_export, until
+#      the six tests that hold the CSV to its export of 7 October 2026 are changed (the note above the steps says which);
 #   4. the commit: the page files and the metadata the refresh changed, committed to main and pushed, as a data task
 #      is (docs/machines.md: "Data tasks do not use branches: they commit to main under the data lock").
 #
@@ -59,7 +81,13 @@ HISTORIES="ercot_all_hub_prices_history ercot_zone_prices_history iso_zone_price
 ZONES=ercot_zone_prices_history
 PAGE_PATHS=(site/data/datacenter site/data/seller/capture.json site/data/curtailment/shares.json
             site/data/curtailment/free_energy.json site/data/curtailment/worth.json
-            site/public/datacenter/erw_2026_datacenter_hourly.csv)
+            site/public/datacenter/erw_2026_datacenter_hourly.csv
+            site/public/battery/erw_2026_battery_dispatch.csv site/data/battery_scenario_steps.json
+            site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv
+            site/data/seller/hybrid.json site/public/seller/prices)
+# session 204: the generator export's dated record of the capture file's build (docs/methods/figures/<day>/, session
+# 199), committed with the CSV whose header names it, and only when the generator's group was not put back
+RECORD_PATH=docs/methods/figures
 META_PATHS=(warehouse/metadata/coverage.csv docs/coverage.md warehouse/metadata/sources.csv
             warehouse/metadata/archive_manifest.csv warehouse/metadata/redivis_uploads.csv)
 
@@ -86,6 +114,9 @@ if [ "$CHECK" = "1" ]; then
   echo "run_data_machine: a data machine with the three price histories. It would run, in this order:"
   echo "  sync (scripts/sync.py); ERCOT's load zones (ercot_zone_prices.py --refresh) and, when rows were added, the validator, coverage, the archive and the Redivis draft;"
   echo "  datacenter_page, capture_price, curtailment_shares, free_energy, curtailment_worth, each under warehouse/health.py;"
+  echo "  (session 204) first of all after the sync, ERCOT's node prices (scheduled.py ercot_rtm_node_prices, 500,000 rows a day at most) and its stores when it moved;"
+  echo "  (session 204) after the page files: battery_dispatch_export, battery_scenario_steps and seller_hybrid, each through scheduled.py, then each group's tests;"
+  echo "  (session 204) switched off, GENERATOR=${GENERATOR:-0} (1 runs them): merchant_revenue (and its table's stores), merchant_hubs, generator_hourly_export;"
   echo "  then a commit to main of: ${PAGE_PATHS[*]} ${META_PATHS[*]}"
   echo "  branch here: $(git rev-parse --abbrev-ref HEAD); COMMIT=${COMMIT:-1} PUSH=${PUSH:-1}"
   exit 0
@@ -101,6 +132,36 @@ echo "== the data machine's daily run, $day (UTC), $(date -u +%H:%M) on $(hostna
 # ---- 1. the day's tables ----------------------------------------------------------------------------------------------
 echo "== sync: main, and the tables behind the Redivis draft"
 soft_step dm_sync "$PYTHON" scripts/sync.py
+# Session 204 (sessions 198 and 200 found it): the sync brings the day's storage awards and daily offers, and leaves the
+# two monthly tables as they were (a table rewritten whole has no more rows and no newer month for the sync to see), so
+# the daily and the monthly offers stood a day apart. Both monthly tables are added up again here from the tables just
+# synced, the awards first (the offers builder checks each month against them and refuses where they disagree). No
+# request; the stores hold the runner's. Two steps, each started as every other step here is: a `bash -c` under
+# warehouse/health.py would be looked for by Windows itself, which can find another bash than the one running this.
+soft_step dm_storage_awards_rollup "$PYTHON" warehouse/derived/ercot_storage_dam_awards.py
+soft_step dm_storage_offers_rollup "$PYTHON" warehouse/derived/ercot_storage_dam_offers.py
+
+# ---- 1b. ERCOT's node prices (session 204) ----------------------------------------------------------------------------
+# A table's stores when a step moved it (warehouse/table_stores.py: the validator and the coverage row, each a gate for
+# that table's stores only, then the archive and the Redivis draft). Nothing here stops the run.
+sha_of() { sha256sum "warehouse/output/$1.csv" 2>/dev/null | cut -d' ' -f1; }
+table_stores() {  # table_stores <step> <table> <its sha256 before the step that writes it>
+  local name="$1" table="$2" was="$3"
+  if [ "$(sha_of "$table")" = "$was" ]; then
+    echo "$table: as it was; its stores are left as they are"
+    echo "$name skipped: no change in $table" >> "$status"
+  else
+    echo "== $table moved: the validator and its coverage row (gates for its stores), the archive and the Redivis draft"
+    soft_step "$name" "$PYTHON" warehouse/table_stores.py "$table"
+    grep -E " exit=[0-9]+ " "runs/daily_${name}.out"
+  fi
+}
+NODES=ercot_rtm_node_prices
+echo "== ERCOT's node prices: the list's seven days, each file not yet saved (the count against the ceiling is in runs/daily_dm_ercot_node_prices.out)"
+was="$(sha_of "$NODES")"
+soft_step dm_ercot_node_prices "$PYTHON" warehouse/scheduled.py "$NODES"
+grep -E "rows counted against the ceiling|STOPPED before" runs/daily_dm_ercot_node_prices.out
+table_stores dm_node_stores "$NODES" "$was"
 
 # ---- 2. ERCOT's load zones --------------------------------------------------------------------------------------------
 echo "== ERCOT's load zone prices: the daily refresh (the count against the ceiling is in runs/daily_dm_ercot_zone_prices.out)"
@@ -185,6 +246,79 @@ fi
 # a datacenter file put back above is the one exported. It reads no table and writes nothing but the CSV.
 soft_step dm_datacenter_export "$PYTHON" warehouse/derived/datacenter_hourly_export.py
 
+# ---- 3b. the battery page's downloads, the generator page's builders and its hourly CSV (session 204) -----------------
+# Each through warehouse/scheduled.py (it skips with the reason where an input is not here), each a soft step. After
+# the page files above: the generator's builders read the capture file as it now stands (put back above if its builder
+# or its test failed). The seller's model writes a table as well as the snapshot, so it gets its stores when it moved.
+echo "== the battery page's downloads (a file whose hours and months are as held is left as it is)"
+soft_step dm_battery_dispatch_export "$PYTHON" warehouse/scheduled.py battery_dispatch_export
+soft_step dm_battery_scenario_steps "$PYTHON" warehouse/scheduled.py battery_scenario_steps
+echo "== the generator page's builders and its hourly CSV"
+# SWITCHED OFF UNTIL SIX TESTS ARE CHANGED: GENERATOR=1 runs the three steps of the snapshot's group. The snapshot, the
+# table merchant_revenue_monthly, the hub files and the CSV move together or not at all (the CSV is checked against the
+# snapshot, the hub files and the table against it). On 12 October 2026 six tests that a landing must pass still held
+# the CSV to its export of 7 October: four of tests/test_session183_replication.py (72,384 rows, the last hour
+# 2026-10-03T04:00:00Z, the last local day 2026-10-02, 72 blank hours) and two of tests/test_session199.py (the capture
+# build its header names, and the list of dated records, which a daily export lengthens by one a day). A re-export
+# fails them, so the group below would put the files back every day, after the table had already moved and could not
+# be put back (the archive keeps no return to an earlier value). Session 204 ran the three once, saw this, and left
+# them here for a session that may change those tests (archive/sessions/SESSION_204_REPORT.md). The hybrid's hours are
+# not of that group and run every day.
+MERCHANT=merchant_revenue_monthly
+GENERATOR_OK=0
+if [ "${GENERATOR:-0}" = "1" ]; then
+  was="$(sha_of "$MERCHANT")"
+  soft_step dm_merchant_revenue "$PYTHON" warehouse/scheduled.py merchant_revenue
+  table_stores dm_merchant_stores "$MERCHANT" "$was"
+  if grep -q "^dm_merchant_revenue ok" "$status"; then
+    soft_step dm_merchant_hubs "$PYTHON" warehouse/scheduled.py merchant_hubs
+    soft_step dm_generator_hourly_export "$PYTHON" warehouse/scheduled.py generator_hourly_export
+  else
+    # the hub files are checked against the snapshot and the CSV is written from it: without today's snapshot neither is built
+    echo "dm_merchant_hubs skipped: dm_merchant_revenue did not finish" >> "$status"
+    echo "dm_generator_hourly_export skipped: dm_merchant_revenue did not finish" >> "$status"
+  fi
+else
+  echo "the snapshot, the hub files and the hourly CSV: switched off (GENERATOR=1 runs them; six tests still hold the CSV to its export of 7 October 2026)"
+  for s in dm_merchant_revenue dm_merchant_hubs dm_generator_hourly_export; do
+    echo "$s skipped: switched off until the tests that hold the CSV to its export of 7 October 2026 are changed (GENERATOR=1)" >> "$status"
+  done
+fi
+soft_step dm_seller_hybrid "$PYTHON" warehouse/scheduled.py seller_hybrid
+
+# Each group's own tests, on the files as they now stand and the tables on this machine. A group one of whose steps
+# did not finish, or one of whose tests fails, is put back whole as the last commit has it: main never gets a file
+# its own tests refuse, or half of a group. (The table merchant_revenue_monthly is not in git and stays as written.)
+group() {  # group <name> <steps, spaced> <test modules, spaced> -- <path...>
+  local name="$1" steps="$2" tests="$3"; shift 4
+  local s rc=0 why=""
+  for s in $steps; do
+    grep -q "^$s ok" "$status" || { why="$s did not finish"; break; }
+  done
+  if [ -z "$why" ]; then
+    "$PYTHON" -m unittest $tests > "runs/data_machine_${name}.out" 2>&1
+    rc=$?
+    echo "$name: unittest $tests exit=$rc (runs/data_machine_${name}.out)"
+    [ "$rc" -ne 0 ] && why="its tests exited $rc ($tests)"
+  fi
+  if [ -n "$why" ]; then
+    echo "$name failed: $why; $* put back as committed" >> "$status"
+    "$PYTHON" warehouse/health.py record --step "$name" --status failed --reason "$why; the group was put back as committed"
+    git checkout -- "$@" 2>/dev/null || true
+    return 1
+  fi
+  echo "$name ok" >> "$status"
+}
+group dm_test_battery_dispatch "dm_battery_dispatch_export" "tests.test_session178" -- site/public/battery/erw_2026_battery_dispatch.csv
+group dm_test_battery_steps "dm_battery_scenario_steps" "tests.test_session179" -- site/data/battery_scenario_steps.json
+if [ "${GENERATOR:-0}" = "1" ]; then
+  GENERATOR_OK=1
+  group dm_test_generator "dm_merchant_revenue dm_merchant_hubs dm_generator_hourly_export" \
+    "tests.test_session51 tests.test_session183 tests.test_session183_replication tests.test_session186 tests.test_session199" -- \
+    site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv || GENERATOR_OK=0
+fi
+group dm_test_hybrid "dm_seller_hybrid" "tests.test_session162" -- site/data/seller/hybrid.json site/public/seller/prices
+
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
 echo "== status"
 cat "$status"
@@ -201,6 +335,8 @@ fi
 for p in "${PAGE_PATHS[@]}" "${META_PATHS[@]}"; do
   [ -e "$p" ] && git add -- "$p"
 done
+# session 204: the generator export's record of the day, with the CSV that names it
+[ "${GENERATOR_OK:-0}" = "1" ] && [ -e "$RECORD_PATH" ] && git add -- "$RECORD_PATH"
 if git diff --cached --quiet; then
   echo "nothing changed today: no commit"
   "$PYTHON" warehouse/health.py record --step "dm_commit" --status skipped --reason "no page file changed"

@@ -161,11 +161,23 @@ def build_case(grid, strat, energy, reserve, monthly, log):
     return out
 
 
+WHEN = ("built", "retrieved")   # the two entries of the file that say when; every other entry says what
+
+
+def same_but_when(held, doc):
+    """Whether a file held and a document just built say the same apart from when (session 204): every case, month,
+    cell, step and the model's sha256 equal. Through JSON, so that a number is compared as the file would hold it."""
+    a, b = json.loads(json.dumps(held)), json.loads(json.dumps(doc))
+    return {k: v for k, v in a.items() if k not in WHEN} == {k: v for k, v in b.items() if k not in WHEN}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="ERW: the battery model at the page's steps of efficiency and of the cycle limit")
     ap.add_argument("--in-dir", default=ip.OUT_DIR, help="read the tables from this directory; nothing is written there")
     ap.add_argument("--out", default=OUT, help="the JSON to write")
     ap.add_argument("--only", default="", help="grid:strategy:duration, for a trial (for example ercot:foresight:4)")
+    ap.add_argument("--keep-same", action="store_true", help="session 204, the daily run: when every case, step and model line equals the "
+                    "file held, leave it as it is (its built stamp, which the page prints, then names the run that last moved a month)")
     a = ap.parse_args(argv)
     in_dir = os.path.abspath(a.in_dir)
     only = a.only.split(":") if a.only else None
@@ -216,6 +228,15 @@ def main(argv=None):
     )
     out = os.path.abspath(a.out)
     os.makedirs(os.path.dirname(out), exist_ok=True)
+    if a.keep_same and os.path.exists(out):
+        try:
+            with open(out, encoding="utf-8") as f:
+                held = json.load(f)
+        except (OSError, ValueError):
+            held = None
+        if held is not None and same_but_when(held, doc):
+            print(f"{os.path.basename(out)}: unchanged (cases={len(cases)}, every month of every cell as held; built {held.get('built')}); left as it is")
+            return 0
     with open(out + ".tmp", "w", encoding="utf-8", newline="\n") as f:
         json.dump(doc, f, separators=(",", ":"))
         f.write("\n")
