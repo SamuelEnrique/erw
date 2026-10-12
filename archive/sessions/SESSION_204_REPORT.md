@@ -4,11 +4,12 @@ lab-desktop (data role), 12 October 2026 from 09:00 UTC (02:00 Pacific). Unatten
 
 ## Read these first
 
+- **Added after the landing: Vercel's deployment of this session's merge failed, and I could not read why.** GitHub's check passed and the branch is merged on `main` as `30dd910b`. Vercel reported "Deployment has failed" ten seconds after the merge (13:12:53 UTC), too soon to be the site build. The live site stayed on the deployment before it (of `9687ca26`): 0 page differences. This machine has no Vercel sign-in, so the log is unread. To read it: `npx vercel inspect dpl_UMxy7XZv7MQESf1mreTsxcZNzHwD --logs`. Until a deployment succeeds, the site serves yesterday's battery download and hybrid hours. Details under "The landing".
 - **Three of the generator page's steps are in the run and switched off: the snapshot, the hub files and the hourly CSV. That part of ruling 3 is not done.** Six tests on `main` hold the CSV to its export of 7 October 2026. A re-export fails them, the snapshot cannot move without the CSV, and rule 8 keeps this session off a test's logic. `GENERATOR=1` turns the three on once those tests are changed. Details under "The generator's group".
 - **No branch can pass GitHub's check between 05:00 and 13:00 UTC.** `tests/test_planner.py` (`TheQueueStep.test_with_the_planner_on_the_planned_chain_is_committed_pushed_and_taken`) reads the real clock and fails in those hours: "a session may start from 13:00 to 05:00 UTC". Found at 09:25 UTC on a clean copy of `main` plus this branch; it is the only failure of 3,427 tests. So this branch's push waited for 13:00 UTC. The code machine's landings of tonight meet the same wall.
 - **ERCOT's node prices: 213,900 rows before, 424,632 after; 28 September 04:45 UTC to 12 October 08:45 UTC, no gap.** 672 files pulled, 0 failed, 209,664 rows counted against the ceiling of 500,000. The pull came within hours of a gap: ERCOT's list began at the interval after the last one held.
 - **The pull is a soft step of the daily run from today (17:00 UTC), with the same ceiling a day.** So are the battery page's two downloads, the hybrid's hours, and the fix for the two storage offers tables. `scheduled.py --list` names all seven new steps.
-- **Landed: see "The landing".**
+- **Merged on `main`; not deployed: see "The landing".**
 
 ## What to review
 
@@ -143,6 +144,17 @@ None piped; outputs under `runs/s204/` on lab-desktop.
 - At 13:01 UTC: `tests.test_planner` exit 0 (30 tests); `origin/main` still at `9687ca26` (the code machine had landed nothing, so there was nothing to merge); `scripts/freeze.py status` exit 0, no freeze.
 - **Before snapshot:** `node site/scripts/snapshot-live.mjs take before204`, exit 0, 25 pages, 0 failed, at 2026-10-12T13:01:41Z. Every one of the 25 addresses is in review in `site/lib/release.ts` on main and is read as the in-review page. Against session 200's last snapshot (`compare after200c before204`): 0 differences.
 - **The after snapshot, the comparison and GitHub's check are in session 205's report,** under "The landing of session 204": this file is pushed with the branch, before its own result exists.
+
+Added with session 205's branch, after the landing:
+
+- **The suite on a clean copy of the final commit (`553d63ba`), 13:05 UTC:** exit 0, 3,431 tests, 253 skipped.
+- **Push** of `task/204-data-decisions` at 13:05:33 UTC, exit 0. **GitHub's check** "code branch", run 38253279086: success at about 13:13 UTC. **Merged** on `main` as `30dd910b` at 13:12:43 UTC ("Merge task/204-data-decisions: checks passed").
+- **Vercel's deployment of `30dd910b` failed.** Its status lines on the commit: "Vercel is deploying your app" at 13:12:49 UTC, "Deployment has failed" at 13:12:53 UTC, deployment `dpl_UMxy7XZv7MQESf1mreTsxcZNzHwD` (https://vercel.com/erw6/erw/UMxy7XZv7MQESf1mreTsxcZNzHwD). The deployment of `9687ca26` ten hours earlier took 92 seconds and completed.
+  - What I could check: Vercel's status page said "All Systems Operational"; GitHub lists 15 Vercel deployments in the 24 hours before, so no count of 100 a day was near; the site's build passed on this machine at this branch's site files (exit 0, 12 October); the landing changed 19 files under `site/`, all data (the battery download's header lines, `hybrid.json`, 17 price files), no code.
+  - What I could not check: the deployment's log. The machine has no Vercel sign-in, Vercel's interface asks for one, and the deployment's own address answers with Vercel's sign-in page.
+  - Not tried: a second deployment for its own sake. Session 205's landing makes the next one, and the daily run's push at 17:00 UTC the one after.
+- **After snapshot:** `take after204`, exit 0, 25 pages, 0 failed, at 2026-10-12T13:16:22Z. **`compare before204 after204`: exit 0, 0 differences on each of the 25 pages.** Expected in both cases: every address is in review, and the live site is still the deployment before this one.
+- The main checkout on lab-desktop is back on `main` at `30dd910b` (13:17 UTC), ahead of the daily run at 17:00 UTC.
 
 ## Decisions made without you
 
