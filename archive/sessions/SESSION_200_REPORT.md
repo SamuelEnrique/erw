@@ -7,7 +7,7 @@ lab-desktop (data role), 12 October 2026 from 01:43 UTC (11 October, 18:43 Pacif
 - **The two documents are written, every number from a command.**
   - `docs/state/data_2026-10-11.md`: 198 tables, 37,036,977 rows, all on this machine, each `current` against Redivis.
   - `docs/state/rulings_2026-10-11.md`: 181 items waiting for you in 25 reports after session 171, merged into 107 entries.
-- **The landing is in "The landing" below.** `main` failed GitHub's check all of 11 October (session 195, item 1), so whether this branch could merge is said there, at the top of that section.
+- **NOT LANDED at the first push (02:13 UTC).** GitHub's check of `task/200-roadmap-inputs` failed at "Tests (tests/)" and the merge was skipped (run 38194934007), as it did for `task/198-battery-data` and as sessions 195 to 197 report: `main` itself fails that step since `483c412d`. The branch is on GitHub, complete. Nothing was deployed. What happened after is in "The landing".
 - **The storage offers mismatch is repaired, and it will come back tomorrow.**
   - Before: the daily offers table held 11 August days, the monthly offers and awards tables 10. `limit_mwh` of August 2026: 5,362,152.4 summed from the daily table, 4,873,801.6 in the monthly one. 76 of 693 month and variable sums differed.
   - After: 11 days in all three, 5,362,152.4 in both, 0 of 693 differ. `tests.test_session116` `Records.test_the_tables_on_this_machine_add_up`: exit 1 before, exit 0 after.
@@ -74,8 +74,33 @@ None piped; each long output is in `runs/session200/` on this machine.
 
 ## The landing
 
-- No freeze (`scripts/freeze.py status`, exit 0). No force push.
-- (The push, the snapshots before and after, GitHub's run, and the comparison's lines are added here by the second push.)
+- No freeze (`scripts/freeze.py status`, exit 0, read at 02:13 UTC before the push). No force push. `main` had not moved (`fd079835`).
+- **First push, 12 October 02:13 UTC.**
+  - `node site/scripts/snapshot-live.mjs take before200`: exit 0, 25 pages, 0 failed, 02:13:07 UTC.
+  - `git push origin task/200-roadmap-inputs` (commits `847d7418`, `852d1292`): exit 0, 02:13:20 UTC.
+  - Vercel on `852d1292`: "Canceled by Ignored Build Step". No deployment was made for the push.
+  - GitHub's check, run 38194934007: step "Tests (tests/)" failed at 02:17 UTC; "Site build and check-routes" skipped; job "merge" skipped. The same step failed for `task/198-battery-data` (run 38172045438). The run's log needs a sign-in the machine does not use, so the failing tests' names are not read here. On this machine the suite fails 11 tests in the branch's worktree (above): the five of session 195's list among them, and none that names a file this branch changed.
+  - `take after200`: exit 0, 25 pages, 0 failed, 02:18:12 UTC.
+  - `compare before200 after200`: exit 0. **"0 differences in all" on the 25 pages.** Expected: no page changed and nothing was deployed.
+- **What came after the first push** is added below by later pushes.
+
+## To finish
+
+Only if the branch is still unmerged when you read this. Once `main` passes GitHub's check, from `C:\Users\Shared\Documents\erw-200` on lab-desktop, each its own command:
+
+```
+git fetch origin
+git merge --no-edit origin/main
+C:\Users\Shared\Documents\erw\.venv\Scripts\python.exe C:\Users\Shared\Documents\erw\scripts\freeze.py status
+node C:\Users\Shared\Documents\erw\site\scripts\snapshot-live.mjs take before200b
+git push origin task/200-roadmap-inputs
+node C:\Users\Shared\Documents\erw\site\scripts\snapshot-live.mjs take after200b
+node C:\Users\Shared\Documents\erw\site\scripts\snapshot-live.mjs compare before200b after200b
+```
+
+- The after snapshot is taken once GitHub's run has merged the branch and Vercel says the deployment has completed. Expected: 0 differences, no page changes.
+- If `warehouse/metadata/sources.csv` conflicts in the merge (the runner rewrites it each day), take `main`'s copy: this branch's two lines only move a `last_seen` date.
+- The same commits are on `wip/200-roadmap-inputs`.
 
 ## Decisions made without you
 
