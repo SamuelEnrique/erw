@@ -51,14 +51,17 @@ def route_exists(href):
 class Nav(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        code = "import { GROUPS } from './lib/pages.ts'; console.log(JSON.stringify(GROUPS.map((g) => ({ label: g.label, n: g.pages.length + (g.sub ? g.sub.links.length : 0), hrefs: [...g.pages.map((p) => p.href), ...(g.sub ? g.sub.links.map((l) => l.href) : [])] }))));"
+        code = "import { GROUPS } from './lib/pages.ts'; console.log(JSON.stringify(GROUPS.map((g) => ({ label: g.label, n: g.pages.length, sub: g.sub ? g.sub.pages.length : 0, hrefs: [...g.pages.map((p) => p.href), ...(g.sub ? g.sub.pages.map((l) => l.href) : [])] }))));"
         r = subprocess.run([NODE, "--input-type=module", "-e", code], cwd=SITE, capture_output=True, text=True, timeout=120)
         assert r.returncode == 0, r.stderr
         cls.groups = json.loads(r.stdout.strip().splitlines()[-1])
 
     def test_no_menu_over_eight(self):
+        # session 203 (the roadmap's ruling of 12 October 2026): a menu may end with a sub-group under its own name
+        # (Economics: Infrastructure Economics, five; Grid: the seven grid pages). Neither list holds more than eight.
         for g in self.groups:
             self.assertLessEqual(g["n"], 8, g["label"])
+            self.assertLessEqual(g["sub"], 8, g["label"])
 
     def test_nothing_removed(self):
         now = {h for g in self.groups for h in g["hrefs"]}

@@ -353,7 +353,7 @@ export default async function Home() {
     { href: "/cost-of-power", name: "Cost of power: buying", question: "What does a MWh cost to buy at each hub, weighted by when the grid uses it?", ...num("cop"), table: "cost_of_power_monthly" },
     { href: "/cost-of-power/seller", name: "Cost of power: selling", question: "What does a merchant solar, wind, battery or peaker asset earn, and does it cover its debt?", ...num("seller"), table: "merchant_revenue_monthly" },
     { href: "/deals", name: "Deals", question: "Which PPAs, acquisitions and financings happened, with their sources?", ...num("deals"), table: "energy_deals" },
-    { href: "/datacenters", name: "Datacenters", question: "Which datacenters are being built, by whom, where and how large?", ...num("dc"), table: "datacenter_facilities" },
+    { href: "/datacenters", name: "Datacenter tracker", question: "Which datacenters are being built, by whom, where and how large?", ...num("dc"), table: "datacenter_facilities" },
     { href: "/severance", name: "Severance tax and the lease tool", question: "What state production tax is due on oil and gas in Texas, Louisiana and New Mexico, well by well?", ...num("wti"), table: "eia_fuel_spot_prices" },
     { href: "/companies", name: "Companies (the Thesis Builder)", question: "Which energy companies has the Thesis Builder mapped, at what stage and with what funding?" },
   ];

@@ -76,7 +76,8 @@ export default function About() {
         {GROUPS.map((g) => (
           <div key={g.label} className="mb-3">
             <dt className="text-xs uppercase tracking-wide text-muted">{g.label}</dt>
-            {g.pages.map((p) => (
+            {/* session 203: a menu's sub-group (Economics: the five tools of Infrastructure Economics; Grid: the seven grid pages) follows its pages */}
+            {[...g.pages, ...(g.sub?.pages ?? [])].map((p) => (
               <dd key={p.href} className="ml-0">
                 <Link href={p.href}>{p.label}</Link>{nameOnly(p.href) ? null : <>: {p.line}</>}
               </dd>

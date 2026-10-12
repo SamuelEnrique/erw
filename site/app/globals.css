@@ -21,6 +21,17 @@ a {
   text-underline-offset: 2px;
 }
 
+/* Session 203: the three links at the right of the header (Energy Digest, Roundup, Email) are grey, and ink under
+   the pointer and on their own page. Written here and not as a color class on the link: the rule above stands outside
+   a cascade layer, so it wins over every color class a link carries (components/Nav.tsx, nav-aside). */
+.nav-aside a {
+  color: var(--color-muted);
+}
+.nav-aside a:hover,
+.nav-aside a[aria-current="page"] {
+  color: var(--color-ink);
+}
+
 /* rendered markdown (digests, the data standard, method documents) */
 .prose-erw { line-height: 1.6; max-width: 72ch; }
 .prose-erw h1 { font-size: 1.9rem; margin: 0 0 1rem; }

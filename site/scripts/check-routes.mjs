@@ -184,8 +184,10 @@ for (const page of PAGES) {
   const { PAGES: LISTED } = await import("../lib/pages.ts");
   const msgs = [];
   for (const p of LISTED) {
-    const label = p.label.replace(/&/g, "&amp;").replace(/'/g, "&#x27;");
-    if (!home.html.includes(label)) msgs.push(`the menu does not name "${p.label}"`);
+    // session 203: the menu shows a page's short menu name where it has one ("Batteries" for "What a battery earns")
+    const shown = p.menu ?? p.label;
+    const label = shown.replace(/&/g, "&amp;").replace(/'/g, "&#x27;");
+    if (!home.html.includes(label)) msgs.push(`the menu does not name "${shown}"`);
   }
   const greyed = (home.html.match(/class="[^"]*gate-review/g) ?? []).length;
   const inMenu = LISTED.filter((p) => statusOf(p.href) === "review").length;

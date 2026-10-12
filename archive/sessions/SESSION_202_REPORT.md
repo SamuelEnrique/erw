@@ -134,7 +134,10 @@ None piped; outputs under `runs/session202/`.
 - Freeze status before the push: exit 0, no freeze. `main` merged into the branch first.
 - Before snapshot `s202-before`, its own command, then `git push origin task/202-reliability`.
 - Expected: 0 differences on the 25 pages. The branch adds one page (`/internal/health`, not among the 25, 404 for a visitor) and one data file only that page reads.
-- **The result (GitHub's check, the merge, Vercel's answer, the after snapshot and the comparison) is written into this report by session 203's branch**, under this heading.
+- **The result, added by session 203's branches:**
+  - `take s202-before`: exit 0, 25 pages, 0 failed, 18:12:36 UTC. Push of `f1806159`: exit 0.
+  - GitHub's check ("code branch", run 38289389277): success. Merged into `main` as `5f944708`. The workflow removed the remote branch.
+  - Vercel had recorded no deployment of the merge 35 minutes after it (18:55 UTC): it deploys about an hour late today, one commit at a time (session 201's merge of 17:05 UTC was deployed at 18:01). The after snapshot and the comparison wait for it and are written here by the branch `task/203-report`.
 
 ## Decisions made without you
 
