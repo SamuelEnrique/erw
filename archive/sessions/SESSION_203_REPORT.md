@@ -8,7 +8,7 @@
 - **The ruling places 11 of the 52 pages by name. I placed the other 41.** The table under "The menu" shows where each went and where it came from. Ruling 1.
 - **`docs/brand.md` version 0 is on `main`**, direction A, marked as a proposal. A redrawn mark is beside the one in use, which is untouched.
 - **The restyled battery page is on `wip/203-brand-battery` with four screenshots.** Every number is the same before and after: 381 checked values and 1,342 numbers in the page's text, 0 differences. It is not landed. Your ruling decides it.
-- **Vercel deploys about an hour after a merge today**, one commit at a time (session 201's merge at 17:05 UTC was live at 18:01). Each after snapshot of this chain waited for it.
+- **Correction to all three reports of this chain: Vercel was not an hour late.** I read GitHub's deployment records, which appeared 45 to 60 minutes after each merge. The site itself served this session's merge 2.5 minutes after it. Sessions 201 and 202 said "an hour late" in their reports; both are corrected in place. Ruling 8.
 
 ## What to review
 
@@ -127,7 +127,24 @@ None piped; outputs under `runs/session203/`.
 - Freeze status before the push: exit 0, no freeze. `main` merged into the branch first (session 202's merge among it).
 - Before snapshot `s203-before`, its own command, then `git push origin task/203-navigation`.
 - Expected: every one of the 25 pages differs in its header (the menu's names), and nothing else.
-- **The result (GitHub's check, the merge, Vercel's deployment, the after snapshot and the comparison, each difference marked) is added by the branch `task/203-report`**, under this heading, with session 202's after snapshot, which was waiting for the same late deployment.
+- **The result, added by the branch `task/203-report`:**
+  - `take s203-before`: exit 0, 25 pages, 0 failed, 18:57:53 UTC. Push of `2c132a1c`: exit 0.
+  - GitHub's check ("code branch", run 38294470346): success. Merged into `main` as `b9c4c9b8` at 19:04:43 UTC.
+  - On production at 19:07:08 UTC: the home page names "Economics" and "Infrastructure"; `/brand/erw-mark-proposed.svg` answers 200; `/internal/health` answers 404 to a visitor.
+  - `take s203-after`: exit 0, 25 pages, 0 failed, 19:07:33 UTC. `compare s203-before s203-after`: exit 1, **800 differences in all: 32 on each of the 25 pages, the same 32 lines on every page, every one a line of the header's menu.** All expected; none that was not meant.
+  - The 32, as the comparison prints them (a visitor's header: every entry greyed "in review"):
+
+    | Before only (20 lines) | After only (12 lines) | |
+    |---|---|---|
+    | "ERW in review Prices", "Your grid", "Projects", "Events in review Learn", "Tools", "News", "Data" | "ERW in review Economics", "Infrastructure", "Analysis", "Games", "Events in review" | expected: the menus' names |
+    | "Cost of power in review", "What a generator earns in review", "What a battery earns in review" | "Infrastructure Economics", "Batteries in review", "Generators in review" | expected: the sub-group and its short names ("Datacenters in review" stood in both: it named `/datacenters` before and names `/cost-of-power` now) |
+    | "ERCOT in review", "CAISO in review", "PJM in review", "NYISO in review", "ISO-NE in review", "MISO in review", "SPP in review" (seven lines) | "Your grid", and the seven on one line | expected: the grid pages as a line of short links under Grid |
+    | (none) | "Datacenter tracker in review" | expected: the renamed page |
+    | "ERW's Energy Digest in review", "ERW's Roundup in review", "Email in review" | "Energy Digest in review Roundup in review Email in review" | expected: the three at the right, on one line |
+
+  - A page's body is the same before and after on all 25: every one is the "in review" page for a visitor, and the comparison lists no line outside the header.
+  - The remote branch `task/203-navigation` was removed by the workflow. `wip/203-brand-battery` stays: it holds commits that are not on `main`.
+  - **This file's own landing** (`task/203-report`, the three reports only): its snapshots and their comparison (0 differences expected) cannot be in the file they follow; they are in the chain's closing message and under `runs/session203/` on the old laptop.
 
 ## Decisions made without you
 
@@ -142,7 +159,7 @@ None piped; outputs under `runs/session203/`.
 - **The four screenshots are committed on the `wip/` branch** (6.6 MB), where you can open them on GitHub; `runs/` is not in git. They are not on `main`.
 - **Fonts through `next/font`**, as the site loads Inter: fetched at build, served from the site itself, no request from a reader's browser to another host.
 - **The proposed mark is under `site/public/brand/`** as the prompt says, so it has an address on the site (`/brand/erw-mark-proposed.svg`); no page links to it.
-- **This session's before snapshot was taken before Vercel had deployed session 202's merge.** Session 202 changes nothing a visitor is sent (its own comparison is in its report), so the comparison below still shows this landing's differences alone.
+- **This session's before snapshot is also session 202's after snapshot** (18:57 UTC, 36 minutes after that merge, before this session's push). Session 202 changes nothing a visitor is sent, and the two comparisons say so: 0 differences across session 202's landing, 800 header lines across this one.
 
 ## For Samuel's ruling
 
@@ -153,7 +170,7 @@ None piped; outputs under `runs/session203/`.
 5. On the mockup: the year chart on a phone scrolls sideways at a readable size. The alternative is a second drawing for narrow screens.
 6. The redrawn mark: take it, change it, or keep today's.
 7. The base link color (`site/app/globals.css`) wins over every color class a link carries. Moving it into the stylesheet's base layer is the first step of applying the brand anywhere; it changes link colors across the site (the three tabs would turn ink and grey as their code asks). Its own landing, with a snapshot.
-8. Vercel deploys about an hour late since about 17:00 UTC on 12 October, after refusing three deployments earlier that day. No session can read why: there is no Vercel sign-in on either machine.
+8. GitHub's deployment records cannot be trusted for timing: on 12 October each appeared 45 to 60 minutes after its merge, while the site served the merge within minutes (and three deployments were refused earlier that day, session 205). The landing helper waits on those records. Whether to change it to ask the site itself for a mark of the new commit, and whether someone signs a machine in to Vercel so a session can read a deployment's log.
 
 ## The prompt
 
