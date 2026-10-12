@@ -22,7 +22,8 @@
   "tables_read": {
    "ercot_large_load_status": true,
    "iso_curtailment_monthly": true
-  }
+  },
+  "inputs": "docs/methods/figures/2026-10-09/ask_ercot_pages_inputs.json"
  },
  "facts": {
   "flat_load_last_twelve_months": [

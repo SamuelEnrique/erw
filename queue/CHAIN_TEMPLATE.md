@@ -13,6 +13,8 @@ from waiting for a person. This file itself is never taken by the queue (its nam
 
 ## Rules for every session of this chain
 
+Every python command of this chain names the repository's interpreter, `.venv\Scripts\python.exe` on Windows (`.venv/bin/python` elsewhere), where a rule below says `python`: the bare `python` is the machine's global one and may hold no package (session 198 found this; session 199).
+
 1. **Precheck first.** Before anything else, each session runs `python scripts/precheck.py --what "session <N>"` and reads its exit code. Exit 0: the machine is on duty and the session starts. Exit 1: the precheck has written its report under `runs/precheck/` and sent one line by email; the session stops there, starts no work and does not wait for a person.
 2. **Unattended.** Do not stop to ask questions. Follow the rulings written here. Where this file is silent, choose the reversible option and say so in the report under "Decisions made without you".
 3. **A failed session does not stop the chain.** A session that cannot finish records what it did and what failed in its report, leaves its work on a `wip/` branch pushed to GitHub, and the next session starts.

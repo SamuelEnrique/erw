@@ -702,6 +702,12 @@ class TheDataMachinesDailyRun(unittest.TestCase):
         self.assertLess(text.index("REFUSED: this is the GitHub runner"), text.index("soft_step dm_sync"))
 
     def test_it_refuses_on_a_machine_that_is_not_a_data_machine_or_holds_no_history(self):
+        # session 199 (the owner's ruling of 11 October 2026): this is a test of a machine that has a role. A copy with
+        # no role file (.erw/machine.json: a clean copy made to run the suite, GitHub's runner) is not one; there the
+        # script may not even find an interpreter that can read the role, and says "not set". The refusal on the runner
+        # is the test above, which needs no role
+        if not os.path.exists(os.path.join(ROOT, ".erw", "machine.json")):
+            self.skipTest("this copy holds no role file (.erw/machine.json): the refusal by role is tested on a machine that has one")
         r = self.run_script("--check", GITHUB_ACTIONS="", ERW_ROLE="code")
         self.assertEqual(r.returncode, 0)
         self.assertIn("REFUSED: this machine's role is 'code', not data", r.stdout)

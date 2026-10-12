@@ -24,3 +24,5 @@ site/public/seller/erw_2026_generator_replication.py text eol=lf
 site/public/datacenter/erw_2026_datacenter_hourly.csv text eol=lf
 site/public/datacenter/erw_2026_datacenter_replication.do text eol=lf
 site/public/datacenter/erw_2026_datacenter_replication.py text eol=lf
+# Session 199: the dated inputs a test recomputes a committed figure from (docs/methods/figures/README.md); written with LF
+docs/methods/figures/** text eol=lf

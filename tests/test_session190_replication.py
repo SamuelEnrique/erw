@@ -19,7 +19,12 @@ zone, a flat load of 100 MW, bought in real time). What is held to:
   where the price tables are on the machine (ERW_TABLES_DIR or ERW_TABLES names another copy's warehouse/output, read
     only; else this copy's), every hour of the CSV against them. Skipped on a machine without them, as GitHub's runner.
 
-No figure is pinned here but under the window it was written for: the data machine's run exports the CSV again when
+Session 199 (the owner's ruling of 11 October 2026: a test a landing must pass never compares a committed figure with
+the day's data files): the note's example is computed from the inputs frozen for the note
+(docs/methods/figures/2026-10-10/datacenter_pays_inputs.json), no figure of the day's CSV is pinned on any window, and
+the CSV is set against the price tables on a data machine only.
+
+No figure of the day's files is pinned here: the data machine's run exports the CSV again when
 the page's files move, and what is held is that the CSV, the mirror, the page's files and the page's library agree.
 No request, no model call. The environment is read, never set."""
 import calendar
@@ -137,8 +142,9 @@ def js_short(v):
     return f"{js_round(v):,}"
 
 
-def on_the_window():
-    return tuple(facts()["l12"][i] for i in (0, -1)) == WINDOW
+# Session 199: the inputs frozen for the note (docs/methods/datacenter_pays_algorithm.md names this file): what its
+# figures need of the page's files built on 10 October 2026. Written by site/scripts/freeze-datacenter-note.mjs
+FROZEN = "docs/methods/figures/2026-10-10/datacenter_pays_inputs.json"
 
 
 class DoFileRules(unittest.TestCase):
@@ -486,11 +492,15 @@ class TheMirrorAndThePage(unittest.TestCase):
             self.assertEqual(y["months"], len(done), y["year"])
             self.assertAlmostEqual(y["usd_mwh"], sum(r["flat"] for r in done) / sum(r["held"] for r in done), delta=1e-9, msg=y["year"])
 
-    def test_the_lines_the_mirror_prints_on_the_window_it_was_written_for(self):
-        if not on_the_window():
-            raise unittest.SkipTest(f"the page's last twelve months are {facts()['l12'][0]} to {facts()['l12'][-1]}, no longer {WINDOW[0]} to {WINDOW[1]}: "
-                                    "the figures of 11 October 2026 are not pinned (the mirror is still held to the page above)")
+    def test_the_lines_the_mirror_prints(self):
+        # session 199 (the owner's ruling of 11 October 2026): the CSV is exported again by the data machine's run every
+        # day, so no figure of it is pinned here, on any window: a price ERCOT restates would move one. What is held is
+        # every line the mirror prints, with whatever figure the day's CSV gives in the place of each figure below (the
+        # lines as they read on 11 October 2026). The figures themselves are held twice elsewhere: to the page's files
+        # of the same build (the tests above), and, as the note quotes them, to the note's frozen inputs
+        # (tests/test_session190.py and TheNotesExampleOnItsOwnFiles below)
         out = self.mirror.report(self.n)
+        number = r"(?:\d[\d,.]*\d|\d)"
         for line in ("the last twelve months: 2025-10 to 2026-09", "months in the last twelve that count: 12", "hours held in the last twelve months: 8760",
                      "market energy, a flat load, last twelve months, USD per MWh: 33.73", "cost for 100 MW, USD: 29,546,505",
                      "energy for 100 MW, MWh: 876,000", "power per GPU-hour, USD: 0.0684", "GPUs that 100 MW powers: 49,310",
@@ -501,7 +511,8 @@ class TheMirrorAndThePage(unittest.TestCase):
                      "year 2025: months that count 12, a flat load, USD per MWh: 32.66", "year 2026: months that count 9, a flat load, USD per MWh: 34.02",
                      "months that count of the 36: 36, 2023-10 to 2026-09", "a bad month, nearest rank 4: 2026-08, USD per MWh: 37.88",
                      "the bad month's cost for 100 MW, USD: 2,818,474"):
-            self.assertIn(line, out)
+            shape = "".join(number if re.fullmatch(number, part) else re.escape(part) for part in re.split(f"({number})", line))
+            self.assertTrue(any(re.fullmatch(shape, got) for got in out), line)
         self.assertEqual(len(out), 30)
 
     def test_the_mirror_reads_nothing_but_the_csv_and_the_standard_library(self):
@@ -760,12 +771,48 @@ class TheFlexibleLoadASecondTime(unittest.TestCase):
                 off = sum(1 for i, v in enumerate(w[y]) if v == 0 and p[i] is not None)
                 self.assertLessEqual(off, js_round((c["n"] / 8760 if c["run"] == "hours" else c["pct"] / 100) * len(p)), (buy, c, y))
 
-    def test_the_example_of_the_note_on_the_window_it_was_written_for(self):
-        if not on_the_window():
-            raise unittest.SkipTest("the page's last twelve months moved: the note's example of 11 October 2026 is not pinned")
-        rule, seen = self.lib["cases"][0]["forecast"], self.lib["cases"][0]["hindsight"]
+
+def frozen_years():
+    """{year: (real-time prices, day-ahead prices)} of the inputs frozen for the note (session 199), by the hour of the
+    year in standard time, None where not held: the hours of 2025 and 2026 as the page's files held them in the build
+    the note quotes, and the day-ahead prices of the last 30 days of 2024."""
+    with open(os.path.join(ROOT, *FROZEN.split("/")), encoding="utf-8") as f:
+        z = json.load(f)
+    out = {}
+    for f in z["years"]:
+        sides = []
+        for k in ("rt", "da"):
+            a, s = [None] * f["hours"], f["regions"][z["case"]["region"]].get(k)
+            if s:
+                a[s["s"]:s["s"] + len(s["v"])] = s["v"]
+            sides.append(a)
+        out[f["year"]] = tuple(sides)
+    return z, out
+
+
+class TheNotesExampleOnItsOwnFiles(unittest.TestCase):
+    """Session 199 (the owner's ruling of 11 October 2026). The example of section 5.3 of the note, a load off in 100
+    hours a year: its figures are of the page's files built on 10 October 2026. They are computed here from the inputs
+    frozen for the note, by the second implementation of the rule and of the foreseen load, in Python alone. Never from
+    the day's CSV: on 11 October 2026 the day's files held eight more days of October 2026, the year's 100 dearest hours
+    were no longer the same hours, and "if perfectly foreseen" read 29.80 with 105 hours off where the note says 29.72
+    and 109. Both are right, each for its day."""
+    def test_the_example_of_the_note_on_the_files_it_quotes(self):
+        z, years = frozen_years()
+        self.assertEqual((z["built"][:10], tuple(z["case"]["last_twelve"]), sorted(years)), ("2026-10-10", WINDOW, [2024, 2025, 2026]))
+        pay, da = {y: v[0] for y, v in years.items()}, {y: v[1] for y, v in years.items()}
+        c = CASES[0][1]
+        self.assertEqual(c, dict(run="hours", n=100, pct=0, shift=0))
+        rule_twelve, seen_twelve = second_twelve(second_months(pay, second_rule(pay, da, c))), second_twelve(second_months(pay, second_foreseen(pay, c)))
+        for t in (rule_twelve, seen_twelve):
+            self.assertEqual((t[0]["m"], t[-1]["m"]), WINDOW)
+        rule, seen = second_span(rule_twelve), second_span(seen_twelve)
         self.assertEqual((js_two(rule["flat"]), js_two(rule["per"]), rule["down"], js_two(seen["per"]), seen["down"]), ("33.73", "31.46", 100, "29.72", 109))
         self.assertEqual(js_round(100 * (rule["flat"] - rule["per"]) / (seen["flat"] - seen["per"])), 57)
+        note = src("docs", "methods", "datacenter_pays_algorithm.md")
+        self.assertIn(f"The page shows USD {js_two(rule['per'])} per MWh, {js_two(rule['flat'] - rule['per'])} less than a flat load, and USD {js_two(seen['per'])} "
+                      f"\"if perfectly foreseen\" ({js_two(seen['flat'] - seen['per'])} less).", note)
+        self.assertIn(f"`{FROZEN}`", note)
 
 
 class TheTables(unittest.TestCase):
@@ -775,6 +822,18 @@ class TheTables(unittest.TestCase):
         missing = [t for t in need if not os.path.exists(os.path.join(TABLES, t + ".csv"))]
         if missing:
             raise unittest.SkipTest(f"the price tables are not on this machine ({', '.join(missing)}); ERW_TABLES_DIR names another copy's warehouse/output")
+        # session 199: the CSV is exported on the data machine from the day's files, and only that machine's tables are
+        # kept at the day's hours. A code machine's own tables stopped when it gave up the data role (the home laptop:
+        # 10 October 2026), and the day's CSV then holds hours they do not: that is no fault of the CSV. So this is a
+        # test of a data machine, or of tables named on purpose
+        named = os.environ.get("ERW_TABLES_DIR") or os.environ.get("ERW_TABLES")
+        role = ""
+        if os.path.exists(os.path.join(ROOT, ".erw", "machine.json")):
+            with open(os.path.join(ROOT, ".erw", "machine.json"), encoding="utf-8") as f:
+                role = json.load(f).get("role", "")
+        if not named and role != "data":
+            raise unittest.SkipTest(f"this machine's role is '{role or 'not set'}' (.erw/machine.json), not data: its own tables are not kept at the day's "
+                                    "hours; the CSV is held to the tables on the data machine, or where ERW_TABLES_DIR names a copy's warehouse/output")
         said = []
         wrong = exporter().check_tables(csv_text()[2], facts(), TABLES, said.append)
         self.assertEqual(wrong, 0, "\n".join(said))
