@@ -13,6 +13,8 @@ from waiting for a person. This file itself is never taken by the queue (its nam
 
 ## Rules for every session of this chain
 
+Every python command of this chain names the repository's interpreter, `.venv\Scripts\python.exe` on Windows (`.venv/bin/python` elsewhere), where a rule below says `python`: the bare `python` is the machine's global one and may hold no package (session 198 found this; session 199).
+
 1. **Precheck first.** Before anything else, each session runs `python scripts/precheck.py --what "session <N>"` and reads its exit code. Exit 0: the machine is on duty and the session starts. Exit 1: the precheck has written its report under `runs/precheck/` and sent one line by email; the session stops there, starts no work and does not wait for a person.
 2. **Unattended.** Do not stop to ask questions. Follow the rulings written here. Where this file is silent, choose the reversible option and say so in the report under "Decisions made without you".
 3. **A failed session does not stop the chain.** A session that cannot finish records what it did and what failed in its report, leaves its work on a `wip/` branch pushed to GitHub, and the next session starts.
@@ -24,7 +26,7 @@ from waiting for a person. This file itself is never taken by the queue (its nam
 9. **Writing:** no em dashes anywhere (pages, reports, documents, commit messages).
 10. **Reports:** `archive/sessions/SESSION_<N>_REPORT.md`, short bullet points, no prose paragraphs. "Read these first" (at most five bullets); "What to review" with the full address of each changed page and click-by-click steps; pulls and spend against their ceilings; checks run with their exit codes; the landing and its snapshot comparison; "Decisions made without you"; and what waits for the owner under the heading "For Samuel's ruling", one item a line, so that `/internal/waits` lists it.
 11. <Any rule of this chain alone: a deploy cutoff, a folder not to touch, a page not to change.>
-12. **Last step of the last session: the queue.** After its report is pushed, the chain's last session runs `python scripts/chain_queue.py next`. Exit 0: the last line printed is the path of the next prompt file, now in `queue/done/`; read that file and run it as this one was run, starting with its precheck. Exit 3: nothing waits; the command has recorded the machine as idle, sent one line by email and taken the machine off duty; say "CHAIN DONE" and stop.
+12. **Last step of the last session: the queue.** After its report is pushed, the chain's last session runs `python scripts/chain_queue.py next`. Exit 0: the last line printed is the path of the next prompt file, now in `queue/done/`; read that file and run it as this one was run, starting with its precheck. Exit 3: nothing waits; the command has recorded the machine as idle, sent one line by email and taken the machine off duty; say "CHAIN DONE" and stop. With `planner: on` in `docs/roadmap.md` (it is off unless a person turned it on), the same command first runs `python scripts/planner.py draft`: a chain the planner writes is committed, pushed to a `wip/` branch and taken as the next file (exit 0, its path printed as above); when the planner refuses, the command idles as said (exit 3).
 
 ---
 

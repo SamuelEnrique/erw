@@ -45,22 +45,33 @@ def node(js):
     return json.loads(r.stdout)
 
 
+# Session 199 (the owner's ruling of 11 October 2026): the note quotes the page's files built on 10 October 2026, and
+# those files are rebuilt every day. Its figures are recomputed here, by the page's own library, from the inputs frozen
+# for it (FROZEN, written by site/scripts/freeze-datacenter-note.mjs from that build): the months of a flat load as the
+# library made them, and the hours of 2025 and 2026 a flexible load's figures need. Never from the day's files: on 11
+# October the day's files gave USD 29.80 "if perfectly foreseen" where the note, rightly for its day, says 29.72. The
+# Texas delivery charges are read in place: a session writes that file from the tariffs, no scheduled run does.
+FROZEN = "docs/methods/figures/2026-10-10/datacenter_pays_inputs.json"
 LIB_JS = """
 import fs from "node:fs";
 const L = await import("./lib/datacenter.ts");
-const INDEX = JSON.parse(fs.readFileSync("./data/datacenter/index.json", "utf-8"));
+const Z = JSON.parse(fs.readFileSync("../" + FROZEN, "utf-8"));
+const INDEX = Z.index;
 const D = JSON.parse(fs.readFileSync("./data/datacenter/texas_delivery.json", "utf-8"));
 const x = L.inputsOf({}, INDEX);
-const F = INDEX.grids.ercot.years.map((y) => JSON.parse(fs.readFileSync(`./data/datacenter/ercot_${y}.json`, "utf-8")));
+const F = Z.years;
 const FLAT = { run: "flat", n: 0, pct: 0, shift: 0 }, two = (v) => v.toFixed(2);
-const ms = L.monthsOf(F, x.region, x.buy, FLAT), l12 = L.lastTwelve(ms), s = L.span(l12), w = L.last36(ms), bad = L.badMonth(w.months);
-const hub = L.monthsOf(F, "HB_NORTH", "rt", FLAT).filter((r) => r.m >= l12[0].m && r.m <= l12[11].m && r.complete), hs = L.span(hub);
+const ms = Z.months[`${x.region}/${x.buy}`], l12 = L.lastTwelve(ms), s = L.span(l12), w = L.last36(ms), bad = L.badMonth(w.months);
+const hub = Z.months["HB_NORTH/rt"].filter((r) => r.m >= l12[0].m && r.m <= l12[11].m && r.complete), hs = L.span(hub);
+const again = L.monthsOf(F, x.region, x.buy, FLAT).filter((r) => r.m >= `${F[1].year}-01`);
+const same = JSON.stringify(again) === JSON.stringify(ms.filter((r) => r.m >= `${F[1].year}-01`));
 const ranked = [...w.months].sort((a, b) => b.flat / b.held - a.flat / a.held || a.m.localeCompare(b.m));
 const flex = (c, buy) => { const a = L.span(L.lastTwelve(L.monthsRuled(F, x.region, buy, c, "forecast").months)), b = L.span(L.lastTwelve(L.monthsRuled(F, x.region, buy, c, "hindsight").months));
   return { flat: two(a.flat), rule: two(a.per), saved: two(a.flat - a.per), down: a.down, energy: a.energy, cost: two(a.cost), seen: two(b.per), seenSaved: two(b.flat - b.per), seenDown: b.down,
     kept: Math.round(100 * (a.flat - a.per) / (b.flat - b.per)) }; };
 const c = L.contractResult({ cost: s.cost, energy: s.energy }, x.mw, { share: 50, price: 30 });
-console.log(JSON.stringify({ window: [l12[0].m, l12[11].m], built: INDEX.built,
+console.log(JSON.stringify({ window: [l12[0].m, l12[11].m], built: INDEX.built, region: x.region, buy: x.buy, same, kept: again.length, frozen: [Z.built, Z.note, Z.case],
+  held_years: F.map((f) => [f.year, Object.keys(f.regions), Object.keys(f.regions[x.region])]),
   months: l12.map((r) => [r.m, r.held, two(r.flat), two(r.flat / r.held)]), held: s.held, cost: two(s.cost), per: two(s.per), costText: L.usdShort(s.cost * x.mw), mwh: L.whole(s.energy * x.mw),
   gpu: L.gpuHour(s.per, x.gpu, x.pue).toFixed(4), gpus: L.whole(L.gpus(x.mw, x.gpu, x.pue)), hub: two(hs.flat), hubCost: two(hs.cost), above: two(s.flat - hs.flat),
   bad: [bad.m, two(bad.cost / bad.energy), L.usdShort(bad.cost * x.mw)], n36: w.months.length, top: ranked.slice(0, 4).map((r) => two(r.flat / r.held)), low: [ranked.at(-1).m, two(ranked.at(-1).flat / ranked.at(-1).held)],
@@ -75,7 +86,7 @@ console.log(JSON.stringify({ window: [l12[0].m, l12[11].m], built: INDEX.built,
 
 def library():
     if "lib" not in _KEPT:
-        _KEPT["lib"] = node(LIB_JS)
+        _KEPT["lib"] = node(f"const FROZEN = {json.dumps(FROZEN)};" + LIB_JS)
     return _KEPT["lib"]
 
 
@@ -126,11 +137,37 @@ class TheNote(unittest.TestCase):
         self.assertIn(f"{usd / hours:.4f} x 1.3 x 1.56 / 1,000 = {usd / hours * 1.3 * 1.56 / 1000:.6f}", self.note)
         self.assertIn(f"100,000 / 2.028 = {100000 / 2.028:,.0f}", self.note)
 
-    def test_its_figures_are_the_librarys_while_the_window_stands(self):
+    def test_the_frozen_inputs_are_the_notes_and_small(self):
+        n = self.note
+        # the note says which day's files it quotes, and names the file that keeps what its figures need of them
+        self.assertIn("With the page's files built on 10 October 2026 the page shows:", n)
+        self.assertIn(f"`{FROZEN}`", n)
+        self.assertEqual(FROZEN.split("/")[3], "2026-10-10")
+        with open(os.path.join(ROOT, *FROZEN.split("/")), encoding="utf-8") as f:
+            text = f.read()
+        z = json.loads(text)
+        self.assertEqual((z["built"][:10], z["note"], z["index"]["built"]), ("2026-10-10", "docs/methods/datacenter_pays_algorithm.md", z["built"]))
+        self.assertEqual(z["case"], {"grid": "ercot", "region": "LZ_NORTH", "buy": "rt", "hub": "HB_NORTH", "last_twelve": WINDOW})
+        self.assertLess(len(text), 300000)                       # kilobytes: the twelve files of the grid hold 15 MB
+        self.assertNotIn(EM, text)
+        # the default case alone: one zone, its months, and the hours of the two calendar years the twelve months lie in
+        self.assertEqual(sorted(z["months"]), ["HB_NORTH/rt", "LZ_NORTH/rt"])
+        self.assertEqual([m["m"] for m in z["months"]["HB_NORTH/rt"]], [f"2025-{k:02d}" for k in (10, 11, 12)] + [f"2026-{k:02d}" for k in range(1, 10)])
+        self.assertEqual([(f["year"], list(f["regions"]), sorted(f["regions"]["LZ_NORTH"])) for f in z["years"]],
+                         [(2024, ["LZ_NORTH"], ["da"]), (2025, ["LZ_NORTH"], ["da", "rt"]), (2026, ["LZ_NORTH"], ["da", "rt"])])
+        tail = z["years"][0]["regions"]["LZ_NORTH"]["da"]
+        self.assertEqual((tail["s"], len(tail["v"])), (8784 - 720, 720))            # the 30 days before 2025, for the rule's first thresholds
+        script = src("site", "scripts", "freeze-datacenter-note.mjs")
+        self.assertIn("if (whole !== kept) throw new Error(", script)               # the kept hours gave the whole files' figures, or nothing was written
+        self.assertNotIn(EM, script)
+
+    def test_its_figures_are_the_librarys_on_the_files_it_quotes(self):
         lib = library()
-        if lib["window"] != WINDOW:
-            raise unittest.SkipTest(f"the page's last twelve months are {lib['window'][0]} to {lib['window'][1]}: the note's examples are of 11 October 2026 "
-                                    f"({WINDOW[0]} to {WINDOW[1]}) and are not held to the newer files")
+        # the frozen inputs are the note's own window, and their hours give their months (node; skipped where node is absent)
+        self.assertEqual(lib["window"], WINDOW)
+        self.assertEqual((lib["region"], lib["buy"], lib["built"][:10]), ("LZ_NORTH", "rt", "2026-10-10"))
+        self.assertTrue(lib["same"])
+        self.assertEqual(lib["kept"], 22)                         # January 2025 to October 2026
         n = self.note
         for m, held, flat, per in lib["months"]:
             self.assertIn(f"| {m} | {held} | {thousands(flat)} | {per} |", n)

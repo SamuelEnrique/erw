@@ -130,6 +130,68 @@ counts from zero, reads every row as replaced, and so sends the whole table to t
   started again at 07:10 UTC and took a request at 07:55 UTC. It still starts at log-on only.
 - **This machine still cannot push to GitHub.** No sign-in is stored for `Shared`. Until one is, the daily run's
   commits stay on `main` here, and every branch of this machine waits to be pushed by a person.
+  (No longer so: a sign-in is stored since 11 October 2026, 09:22 UTC. See the next section.)
+
+### The lab desktop, as it stands (session 200)
+
+Read on the machine at about 02:00 UTC on 12 October 2026. Each line names the command it is read from. Where a line
+above says otherwise, this section is the newer one.
+
+- **The GitHub sign-in is stored for `Shared`.**
+  - How: git's credential helper is `manager`, Git Credential Manager (`git config --get credential.helper`). It keeps
+    one entry, `git:https://github.com`, in the Windows credential store of the account `Shared` (`cmdkey /list`
+    names the entry; its value is never read or printed).
+  - Since: 11 October 2026, 09:22 UTC, when a person completed the sign-in window on a push (session 185's report).
+  - Proven each session: `scripts/precheck.py` makes a push dry run (`push_dry_run`).
+  - The `GH_TOKEN` in `.env` is the scheduler's, for workflow dispatch. No session pushes with it.
+- **The daily run.** Task `ERW data machine daily` (`Get-ScheduledTask`, `Get-ScheduledTaskInfo`).
+  - Time: every day at 10:00 Pacific (17:00 UTC in summer, 18:00 UTC in winter), after the runner's run.
+  - Trigger: the daily trigger alone, and only while `Shared` is logged on (logon type `Interactive`).
+  - The six-hour stop: the task is ended after six hours (`ExecutionTimeLimit` `PT6H`).
+  - What it runs: `warehouse/lock.py run --task 'data machine daily' --wait 60 -- bash warehouse/run_data_machine.sh`,
+    with `GCM_INTERACTIVE=never` and `GIT_TERMINAL_PROMPT=0`, its output added to `runs/data_machine_daily.out`.
+  - Last run: 11 October 2026, 17:00 UTC, result 0; 14 steps, all `ok` (`runs/data_machine_status.txt`); its commit
+    `483c412d` was pushed.
+- **The quantities step** (`ercot_as_quantities`, session 198).
+  - It is block 2b of `warehouse/run_data_machine.sh` on the branch `task/198-battery-data`.
+  - It is not on `main`: GitHub's check of that branch failed on 11 October (run 38172045438), so the branch did not
+    merge. The daily run here does not run the step until it does. `main` passes the check again since 02:23 UTC on
+    12 October (session 199); the branch had not landed at 02:30 UTC.
+  - Session 198 ran it once by hand: 4,800 rows, to 13 October 04:00 UTC.
+- **The worker's triggers.** Task `ERW findings worker`.
+  - Two triggers: at log-on of `Shared` and at startup (`MSFT_TaskLogonTrigger`, `MSFT_TaskBootTrigger`). The startup
+    trigger that sessions 184 and 185 could not add is there.
+  - Logon type `S4U`: it runs with nobody logged on. No time limit. Running since 11 October 2026, 07:10 UTC.
+  - It writes a requested card into the main checkout as untracked files (`site/data/findings/`,
+    `site/public/findings/`): four tonight (`git status`).
+  - `ERW worker` (the task queue) is still not registered.
+- **The raw folders.** `warehouse/raw`: 57 top folders, 33,690 files, 26,796,470,950 bytes, 26.8 GB
+  (`Get-ChildItem warehouse/raw -Recurse -File`). 33,630 of the files came by the handover.
+- **The tables.** `warehouse/output`: 198 tables, 37,036,977 rows, 10,022,364,641 bytes, each `current` against Redivis
+  (`scripts/sync.py --check --no-git`, exit 0). Every table's state: `docs/state/data_2026-10-11.md`.
+- **Disk.** 387 GB free on `C:` (`Get-PSDrive C`). Sleep on AC power: never (`powercfg`).
+- **The venv rule.** Every Python command on this machine names `.venv\Scripts\python.exe` (`.venv/Scripts/python.exe`
+  in Git Bash). The bare `python` is the global Python 3.14.7 and holds no package: a command started with it fails
+  on its first import (session 198's first precheck). The daily task and the worker name the venv's Python in full.
+- **A monthly table can stand a day behind its daily one here.** `scripts/sync.py` restores a table when Redivis holds
+  more rows or a newer timestamp. A monthly table rewritten whole keeps both, so the sync leaves the older file.
+  Session 200 found `ercot_storage_dam_offers_monthly` and `ercot_storage_dam_awards_monthly` so (10 August days
+  against the daily table's 11) and rebuilt them under the data lock:
+
+  ```
+  .venv\Scripts\python.exe warehouse/lock.py acquire --task "storage monthly rollup" --minutes 30
+  .venv\Scripts\python.exe warehouse/derived/ercot_storage_dam_awards.py
+  .venv\Scripts\python.exe warehouse/derived/ercot_storage_dam_offers.py
+  .venv\Scripts\python.exe warehouse/lock.py release
+  ```
+
+  The next sync brings a new daily table and leaves the monthly ones again: the two commands are needed after each.
+- **Other checkouts.** Seven worktrees beside the main one (`git worktree list`): `erw-184`, `erw-185`, `erw-185n`,
+  `erw-191`, `erw-192`, `erw-193` (all merged) and `erw-200`.
+- **A test's residue.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made on
+  11 October at 20:22 UTC, while session 198 ran the suite; session 200's run of the suite in a clean worktree made
+  the same folder there. `scripts/raw_handover.py` names `tests/test_session85.py` as the writer of a folder of that
+  name. It is not a source, and session 200 left it.
 
 ## Setting up a machine
 
@@ -152,6 +214,8 @@ Setup checks git, Python, Node and Claude Code; makes `.venv` and installs `requ
 (never printing a value); sets the role; runs the sync; and, on Windows, keeps the machine awake while plugged in (a data
 machine by default; a code machine with `-KeepAwake`), so a run started in the evening is not cut off by sleep. On battery
 the power plan is unchanged. `-Worker` also registers the worker to start at logon (Task Scheduler).
+
+**Every python command names `.venv`'s interpreter** (session 199): `.venv\Scripts\python.exe` on Windows, `.venv/bin/python` elsewhere, wherever this document or a chain prompt writes `python`. The bare `python` is the machine's global one and may hold no package: on the lab desktop it failed session 198's first precheck.
 
 ## Sync: the cloud is the source of truth
 
@@ -617,3 +681,58 @@ python scripts/duty.py check --dry-run
   words: it can list a line that no longer waits and miss one worded another way. The report is the record.
 - The page checks the internal cookie as the other `/internal` pages do (open `/internal/open` first), is linked from
   nothing, and answers 404 to a visitor.
+
+### The planner: the next chain, drafted from the roadmap (session 197)
+
+When the chain queue is empty a machine idles until a person writes the next prompt file. The planner writes that file
+from what the owner has already written down, `docs/roadmap.md`. It is **off unless a person writes `planner: on`
+there**, and it is a prompt builder, not a writer of prompts: it makes no model call, and every sentence of a planned
+chain is copied from the roadmap or from `queue/CHAIN_TEMPLATE.md`, or is one of the planner's own fixed lines.
+
+```bash
+python scripts/planner.py check                      # why it would or would not run, for this machine; exit 3 when it would not
+python scripts/planner.py draft --dry-run            # print the chain it would write; write nothing
+python scripts/planner.py draft                      # write queue/next/NNN-planned-<slug>.md; its path is the last line
+python scripts/planner.py draft --dry-run --roadmap tests/fixtures/roadmap_sample.md --machine sample --role code   # a sample, to see one
+```
+
+- **`docs/roadmap.md` is its only source of what to do.** Six sections: "Status" (`planner: on` or `off`; `budget: N
+  sessions a day per machine`; `earliest start` and `latest start`, in UTC; `deploy cutoffs`), "This week" (numbered
+  items, `N. [ ] title` while open, each with `machine:`, `where:`, `done:`, its `rulings:`, and where wanted
+  `session:` lines, `cap:` and `lands:`), "Rulings" and "Holds" (pasted into every planned chain as they stand),
+  "Input from Ben and Khalid" and "Review log" (read by people only). The planner never edits the file.
+- **What it also reads:** the reports after `archive/sessions/LAST_ANSWERED` and the count of what waits
+  (`site/content/waits.json`), which it lists in the chain as not yet ruled; and the template, whose every rule it
+  copies.
+- **What it writes:** one file, `queue/next/NNN-planned-<slug>.md`, NNN being the chain's first session number. Its
+  first line is "PLANNED by scripts/planner.py from docs/roadmap.md as of <time>". It holds the first open item of "This
+  week" for the machine's role, as one to three sessions, with model spend USD 0 unless the item names a cap.
+- **It refuses, and says every reason,** when: the planner is off; the roadmap is older than 7 days (its last commit,
+  or the file's own time when it holds an edit not yet committed); "This week" has no open item for the machine that
+  was not planned before; `queue/next/` already holds a file; the machine is at its budget of sessions for the UTC
+  day; the hour is outside the start hours; "Status" does not state the budget, the start hours or the cutoffs.
+- **Hard stops,** in the code and in `tests/test_planner.py`:
+  - the budget and the start hours of "Status";
+  - the deploy cutoffs of "Status" are copied into every planned chain, with the start hours;
+  - a planned chain never names a pull, a migration, a secret, a release-gate change, a change to `CLAUDE.md` or to a
+    permission file, or a deletion. An item whose words do is refused, not skipped: it waits for a person's own prompt;
+  - a planned chain holds one to three sessions and at most one of them lands, the last;
+  - an item is planned once: an item already in a planned chain, waiting or taken, is not taken again. To plan it
+    again a person rewrites the item;
+  - a chain that fails its own checks (its name by the chain queue's rule, the precheck as its first rule, the queue
+    step as its last, no em dash, no unfilled blank) is not written.
+- **The budget's count is a floor.** It counts the sessions of the chain files the machine took from the queue that
+  day (each take is a commit that names the machine) and the reports first committed that day that name the machine,
+  whichever is larger. A chain pasted by hand whose reports do not name the machine is not seen.
+- **The session number** is one above the highest known: the reports of `archive/sessions/` in this checkout and on
+  every branch git holds on the machine, the sessions named in the queue's files, and the sessions named in the last 30
+  days' commit subjects. Two machines that plan at the same minute without a pull can still take one number: one
+  machine plans at a time, as one machine draws from the queue at a time.
+- **The closing step.** `python scripts/chain_queue.py next`, with nothing waiting and `planner: on`, runs the planner
+  for this machine. A chain it writes is committed alone ("Planner: <name> drafted for <machine> from
+  docs/roadmap.md"), pushed to the branch `wip/<name>` (a `wip/` branch does not deploy) and taken as the next file,
+  exit 0. When the planner is off, which is the default, or refuses, the command idles exactly as before: the health
+  row, the one line by email, the machine off duty, exit 3. `next --dry-run` prints what the planner would do and
+  writes nothing.
+- **To turn it on:** fill in "Status" and "This week" of `docs/roadmap.md`, write `planner: on`, commit and push. To
+  turn it off: `planner: off`, or delete the line.

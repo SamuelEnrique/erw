@@ -82,7 +82,7 @@ ercot_all_hub_prices_history,ERCOT,ercot_dam;ercot_rtm,6,PT15M;PT1H,2015-01-01T0
 ercot_as_prices,ERCOT,ercot_dam,5,PT1H,2018-01-01T06:00:00Z,2026-10-12T04:00:00Z,337052,ercot:NP4-181-ER;ercot:NP4-188-CD,2026-10-11T15:32:51Z,pass,public,power,no,source
 ercot_as_prices_daily,ERCOT,ercot_dam,5,P1D,2018-01-01T00:00:00Z,2026-10-11T00:00:00Z,70220,erw:ercot_as_prices_rollup,2026-10-11T15:33:44Z,pass,public,power,yes,derived
 ercot_as_prices_monthly,ERCOT,ercot_dam,5,P1M,2018-01-01T00:00:00Z,2026-10-01T00:00:00Z,2325,erw:ercot_as_prices_rollup,2026-10-11T15:33:44Z,pass,public,power,yes,derived
-ercot_as_quantities,ERCOT,ercot_dam,5,PT1H,2026-09-03T05:00:00Z,2026-10-05T04:00:00Z,3840,ercot:np4-33-cd,,pass,public,power,no,source
+ercot_as_quantities,ERCOT,ercot_dam,5,PT1H,2026-09-03T05:00:00Z,2026-10-13T04:00:00Z,4800,ercot:np4-33-cd,2026-10-11T20:02:29Z,pass,public,power,no,source
 ercot_dam_cleared_energy,ERCOT,ercot_dam,1,PT1H,2026-09-23T05:00:00Z,2026-10-11T04:00:00Z,432,ercot:NP4-192-CD,2026-10-10T14:59:04Z,pass,public,power,no,source
 ercot_dam_esr_awards,ERCOT,ercot_dam,295,PT1H,2025-12-06T06:00:00Z,2026-08-12T04:00:00Z,1881405,ercot:NP3-966-ER,2026-10-11T15:43:36Z,pass,public,power,no,source
 ercot_hub_prices_daily,ERCOT,ercot_dam;ercot_rtm,6,P1D,2015-01-01T00:00:00Z,2026-10-11T00:00:00Z,345792,erw:ercot_hub_prices_daily,2026-10-11T15:32:44Z,pass,public,power,yes,derived

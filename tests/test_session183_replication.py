@@ -15,6 +15,11 @@ What is held to:
     formulas of site/lib/merchant.ts, site/lib/seller2.ts and site/lib/capture.ts (always run); and by node on those
     three files themselves, as tests/test_session107.py runs them (skipped where node is absent).
 
+Session 199: capture.json is rebuilt by the data machine's run every day and the CSV is not, so the CSV, the mirror
+and the page's library are held to the capture file of the build the CSV's own header names: its months of the default
+case, kept by the exporter at each export under docs/methods/figures/<the day of that build>/. No test here compares
+the CSV with the day's capture.json; where the day's file is still that build, the record is held to it.
+
 No request, no model call, no table of warehouse/output: everything here reads committed files. The environment is
 read, never set. The exporter's own run needs the tables and is not repeated here (runs/session183/export.out); its
 refusal to run without them is tested on an empty folder."""
@@ -39,6 +44,7 @@ CSV_NAME, DO_NAME, MIRROR_NAME = "erw_2026_generator_hourly.csv", "erw_2026_gene
 CSV_PATH, DO_PATH, MIRROR_PATH = (os.path.join(PUBLIC, f) for f in (CSV_NAME, DO_NAME, MIRROR_NAME))
 SNAPSHOT = os.path.join(ROOT, "site", "data", "merchant_snapshot.json")
 CAPTURE = os.path.join(ROOT, "site", "data", "seller", "capture.json")
+FIGURES = os.path.join(ROOT, "docs", "methods", "figures")
 EM = chr(0x2014)
 COLUMNS = ["hour_utc", "local_day", "local_month", "price_usd_mwh", "solar_mwh", "nameplate_mw", "in_last_twelve"]
 TEXT_COLUMNS = ["hour_utc", "local_day", "local_month"]
@@ -114,6 +120,35 @@ def prev_month(m, k):
     return f"{y + mo // 12:04d}-{mo % 12 + 1:02d}"
 
 
+def csv_capture_build():
+    """(built, the first 16 of the sha256) of capture.json, as the CSV's own header states the build it was checked against."""
+    m = re.search(r"site/data/seller/capture\.json \(built (\S+); sha256 ([0-9a-f]{16})\)", " ".join(csv_text()[0]))
+    if not m:
+        raise AssertionError("the CSV's header does not state capture.json's build")
+    return m.group(1), m.group(2)
+
+
+def frozen_path():
+    return os.path.join(FIGURES, csv_capture_build()[0][:10], "generator_capture_months.json")
+
+
+def frozen_record():
+    """The exporter's record of capture.json's months of the default case, of the build the CSV names (session 199)."""
+    if "frozen" not in _KEPT:
+        with open(frozen_path(), encoding="utf-8") as f:
+            _KEPT["frozen"] = json.load(f)
+    return _KEPT["frozen"]
+
+
+def capture_of_the_csvs_build():
+    """capture.json as far as the default case reads it, in the build the CSV was exported against: never the day's file."""
+    rec = frozen_record()
+    if (rec["capture_built"], rec["capture_sha256"]) != csv_capture_build():
+        raise AssertionError(f"{os.path.relpath(frozen_path(), ROOT)} is of the build {rec['capture_built']} ({rec['capture_sha256']}), the CSV names "
+                             f"{csv_capture_build()}: the exporter writes both together (warehouse/derived/generator_hourly_export.py)")
+    return rec["capture"]
+
+
 def page_numbers():
     """The default page's numbers in Python, directly from the two committed files, with the page's formulas:
     lib/merchant.ts (inputsOf, months, summary, ttm, stat), lib/seller2.ts (lastTwelve, years, lastThreeYears, spanOf)
@@ -122,8 +157,7 @@ def page_numbers():
         return _KEPT["page"]
     with open(SNAPSHOT, encoding="utf-8") as f:
         snap = json.load(f)
-    with open(CAPTURE, encoding="utf-8") as f:
-        cap = json.load(f)
+    cap = capture_of_the_csvs_build()                                     # session 199: the build the CSV names, not the day's file
     s, near = snap["isos"]["ercot"], snap["defaults"]["near"]
     ds = math.floor(CAPEX * 1000 * SHARE * (RATE / (1 - (1 + RATE) ** -LIFE)) * MW + 0.5)          # Math.round(debtPerMw(k) * mw)
     ms = []
@@ -421,13 +455,48 @@ class TheExport(unittest.TestCase):
             self.assertEqual(os.listdir(tmp), [])
 
 
+class TheCaptureFileOfTheCsvsBuild(unittest.TestCase):
+    """Session 199: what stands in for capture.json in every comparison below."""
+    def test_the_record_is_of_the_build_the_csv_names_and_holds_the_default_case_alone(self):
+        rec, cap = frozen_record(), capture_of_the_csvs_build()
+        self.assertEqual((rec["capture_built"], rec["capture_sha256"]), csv_capture_build())
+        self.assertEqual(rec["csv"], f"site/public/seller/{CSV_NAME}")
+        self.assertEqual(os.path.basename(os.path.dirname(frozen_path())), cap["built"][:10])
+        self.assertEqual(list(cap["grids"]), ["ercot"])
+        hubs = cap["grids"]["ercot"]["hubs"]
+        self.assertEqual(([h["id"] for h in hubs], cap["grids"]["ercot"]["main"]), (["HB_HUBAVG"], "HB_HUBAVG"))
+        self.assertEqual((list(hubs[0]), list(hubs[0]["rt"])), (["id", "rt"], ["solar"]))
+        months = hubs[0]["rt"]["solar"]
+        self.assertTrue(all(re.fullmatch(r"20\d\d-\d\d", m) and len(r) == 5 for m, r in months.items()))
+        self.assertLess(os.path.getsize(frozen_path()), 40000)                  # kilobytes: not the page's file
+        self.assertNotIn(EM, src("docs", "methods", "figures", cap["built"][:10], "generator_capture_months.json"))
+
+    def test_the_exporter_writes_this_record(self):
+        ex, rec = exporter(), frozen_record()
+        with tempfile.TemporaryDirectory() as tmp:
+            out = ex.write_frozen(rec["capture"], rec["capture_sha256"], root=tmp)
+            self.assertEqual(os.path.relpath(out, tmp).replace(os.sep, "/"), f"{rec['capture_built'][:10]}/generator_capture_months.json")
+            with open(out, encoding="utf-8") as f:
+                self.assertEqual(json.load(f), rec)
+        text = src("warehouse", "derived", "generator_hourly_export.py")
+        self.assertIn("if os.path.abspath(a.out) == os.path.abspath(OUT):", text)
+        self.assertIn("write_frozen(facts['capj'], sha_of(CAPTURE)[:16])", text)
+
+    def test_where_the_days_file_is_still_that_build_the_record_is_its_part(self):
+        ex = exporter()
+        if ex.sha_of(CAPTURE)[:16] != csv_capture_build()[1]:
+            raise unittest.SkipTest("capture.json has been rebuilt since the CSV was exported: the CSV is held to the record of its own build")
+        self.assertEqual(ex.frozen_capture(ex.read_json(CAPTURE), csv_capture_build()[1]), frozen_record())
+
+
 class TheCsvAndThePagesFilesAgree(unittest.TestCase):
-    """The exporter's own check, on the committed CSV and the page's two committed files: no table is needed."""
+    """The exporter's own check, on the committed CSV, the snapshot and the capture file of the build the CSV names
+    (session 199: the exporter's record of it, not the day's capture.json): no table is needed."""
     @classmethod
     def setUpClass(cls):
         cls.ex = exporter()
         cls.lines = csv_text()[2]
-        cls.facts = cls.ex.page_facts()
+        cls.facts = cls.ex.page_facts(capture_of_the_csvs_build())
 
     def test_every_month_and_every_hour_agrees(self):
         bad, months = self.ex.agree(self.lines, self.facts)
@@ -591,13 +660,14 @@ class ThePagesOwnLibrary(unittest.TestCase):
     """The same numbers from node on site/lib/merchant.ts, seller2.ts and capture.ts and the two committed files."""
     @classmethod
     def setUpClass(cls):
-        cls.lib = node("""
+        capture_of_the_csvs_build()
+        cls.lib = node(f"const FROZEN = {json.dumps(frozen_path())};" + """
 import fs from "node:fs";
 const M = await import("./lib/merchant.ts");
 const S = await import("./lib/seller2.ts");
 const C = await import("./lib/capture.ts");
 const snap = JSON.parse(fs.readFileSync("./data/merchant_snapshot.json", "utf-8"));
-const cap = JSON.parse(fs.readFileSync("./data/seller/capture.json", "utf-8"));
+const cap = JSON.parse(fs.readFileSync(FROZEN, "utf-8")).capture;  // session 199: the capture file of the build the CSV names
 const x = M.inputsOf({});
 const ms = M.months(snap, x), sm = M.summary(ms), t = M.ttm(ms, x.ds);
 const s = S.spans(M.months(snap, { ...x, mw: 1, mwh: 0, ds: 0, fom: 0 }));
