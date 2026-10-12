@@ -101,7 +101,7 @@ def health_row(step, status, reason, wf):
     return health.record(step, status, reason, 0, wf=wf)
 
 
-def plan(who, root=ROOT, dry_run=False, out=print, git=git, role=None):
+def plan(who, root=ROOT, dry_run=False, out=print, git=git, role=None, now=None):
     """Session 197. With nothing waiting: when docs/roadmap.md says "planner: on", run the planner for this machine.
     Returns the name of the chain it wrote into queue/next/, committed alone and pushed to a wip/ branch of its own
     name (a wip/ branch does not deploy), or None when the planner is off, cannot read the roadmap, or refuses. With
@@ -116,10 +116,10 @@ def plan(who, root=ROOT, dry_run=False, out=print, git=git, role=None):
     role = role or (duty.machine() or {}).get("role")
     if dry_run:
         out("the planner is on (docs/roadmap.md): python scripts/planner.py check says")
-        planner.run("check", who, role, root=root, out=out)
+        planner.run("check", who, role, root=root, out=out, now=now)
         return None
     out("queue/next/ is empty and the planner is on (docs/roadmap.md): python scripts/planner.py draft")
-    code, dest = planner.run("draft", who, role, root=root, out=out)
+    code, dest = planner.run("draft", who, role, root=root, out=out, now=now)
     if code != 0 or not dest:
         return None
     name = os.path.basename(dest)

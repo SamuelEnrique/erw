@@ -299,7 +299,7 @@ class TheQueueStep(Folder):
             return ""
 
         def plan(who, root, dry_run, out):
-            return chain_queue.plan(who, root, dry_run, out, git=git, role="code")
+            return chain_queue.plan(who, root, dry_run, out, git=git, role="code", now=NOW)        # the sample's start hours, not the clock's (session 201)
 
         def mover(name, who, root):
             shutil.move(os.path.join(root, "queue", "next", name), os.path.join(root, "queue", "done", name))
@@ -365,20 +365,22 @@ class TheQueueStep(Folder):
 
 
 class TheRepositorysOwn(unittest.TestCase):
-    def test_the_roadmap_is_the_empty_template_and_the_planner_is_off(self):
+    def test_the_roadmap_keeps_its_six_headings_and_the_planner_can_read_it(self):
+        # Session 201 filled the template of session 197 with Samuel's roadmap. A person turns the planner on and
+        # off and rewrites the items, so neither is pinned here: only what the planner needs to read the file.
         text = src("docs", "roadmap.md")
         self.assertEqual(tuple(planner.sections(text)), planner.SECTIONS)
         for name, lines in planner.sections(text).items():
             body = [x for x in lines if x.strip()]
-            self.assertEqual(len(body), 1, name)                                               # one line each, which says what goes there
-            self.assertTrue(body[0].startswith("What goes here"), name)
+            self.assertTrue(body and body[0].startswith("What goes here"), name)               # each still opens with the line that says what goes there
+        self.assertNotIn(EM, text)
         s = planner.status(text)
-        self.assertFalse(s["on"])
-        self.assertEqual(planner.items(text), [])
+        self.assertIsInstance(planner.items(text), list)
         said = []
         code, dest = planner.run("check", "samueloldlaptop", "code", now=NOW, out=said.append, sessions=lambda m, t: 0)
-        self.assertEqual((code, dest), (planner.REFUSED, None))
-        self.assertEqual(said[0], "planner: off")
+        self.assertIn(code, (0, planner.REFUSED))
+        self.assertIsNone(dest)                                                                # a check writes nothing
+        self.assertEqual(said[0], "planner: on" if s["on"] else "planner: off")
 
     def test_the_sample_is_not_the_roadmap(self):
         self.assertTrue(planner.status(src("tests", "fixtures", "roadmap_sample.md"))["on"])
