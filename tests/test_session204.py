@@ -153,6 +153,57 @@ class TheCeiling(unittest.TestCase):
         self.assertFalse(os.path.exists(spp.ZIPS) and os.listdir(spp.ZIPS))
 
 
+class AnIntervalPostedTwice(unittest.TestCase):
+    """ERCOT posted the interval ending 8 October 2026 11:45 twice, a second apart, with the same prices (found by this
+    session's pull: the table refused both). Built here from one of ERCOT's own files, posted again under a later name."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+        self.first = sorted(f for f in os.listdir(FIX) if f.endswith("_csv.zip"))[0]
+        shutil.copy(os.path.join(FIX, self.first), os.path.join(self.tmp, self.first))
+        self.second = self.first.replace(".000202403.", ".000203111.")   # the same interval, posted a second later
+        self.assertNotEqual(self.first, self.second)
+
+    def again(self, change=None):
+        import io
+        import zipfile
+        with open(os.path.join(FIX, self.first), "rb") as f:
+            z = zipfile.ZipFile(io.BytesIO(f.read()))
+        name = z.namelist()[0]
+        text = z.read(name).decode("utf-8")
+        if change:
+            text = change(text)
+        with zipfile.ZipFile(os.path.join(self.tmp, self.second), "w") as w:
+            w.writestr(name, text)
+
+    def test_the_same_prices_twice_are_one_interval(self):
+        self.again()
+        lines = []
+        out, n, bad = spp.table(set(), lines.append, zips=self.tmp)
+        self.assertEqual((n, bad), (1, []))
+        self.assertFalse(out.duplicated(["entity", "ts_utc"]).any())
+        alone, _, _ = spp.table(set(), lambda m: None, zips=FIX)
+        self.assertEqual(len(out), len(alone[alone["ts_utc"] == "2026-09-28T04:45:00Z"]))
+        self.assertTrue(any("posted twice with the same prices" in ln and self.second in ln for ln in lines))
+
+    def test_two_postings_whose_prices_differ_leave_the_interval_out(self):
+        def change(text):
+            head, row, rest = text.split("\n", 2)
+            cells = row.rstrip("\r").split(",")
+            at = head.rstrip("\r").split(",").index("SettlementPointPrice")
+            cells[at] = str(float(cells[at]) + 1)
+            return head + "\n" + ",".join(cells) + "\n" + rest
+        self.again(change)
+        third = sorted(f for f in os.listdir(FIX) if f.endswith("_csv.zip"))[1]
+        shutil.copy(os.path.join(FIX, third), os.path.join(self.tmp, third))     # another interval, so that the table is not empty
+        out, n, bad = spp.table(set(), lambda m: None, zips=self.tmp)
+        self.assertEqual(n, 1)
+        self.assertEqual(sorted(b[0] for b in bad), sorted([self.first, self.second]))
+        self.assertTrue(all("prices that differ" in b[1] for b in bad))
+        self.assertEqual(set(out["ts_utc"]), {"2026-09-28T05:00:00Z"})           # neither posting was chosen
+
+
 class TheSchedule(unittest.TestCase):
     def test_the_list_names_the_seven_and_the_runners_schedule_is_as_it_was(self):
         self.assertEqual(list(scheduled.DATA_MACHINE), STEPS)
@@ -269,8 +320,24 @@ class TheRun(unittest.TestCase):
         self.assertIn('soft_step "$name" "$PYTHON" warehouse/table_stores.py "$table"', fn)
         # each "was" is taken just before the step that writes the table
         for step in ("soft_step dm_ercot_node_prices", "soft_step dm_merchant_revenue"):
-            before = self.body[:self.body.index(step)].rstrip().splitlines()[-1]
+            before = self.body[:self.body.index(step)].rstrip().splitlines()[-1].strip()
             self.assertRegex(before, r'^was="\$\(sha_of "\$[A-Z]+"\)"$')
+
+    def test_the_snapshots_group_is_switched_off_and_one_word_turns_it_on(self):
+        # six tests on main hold the generator's CSV to its export of 7 October 2026; the snapshot, its table, the hub
+        # files and the CSV move together or not at all, so the three steps wait behind GENERATOR=1 (the note in the script)
+        on = self.body.split('if [ "${GENERATOR:-0}" = "1" ]; then', 1)[1].split("\nfi\n", 1)[0]
+        steps, off = on.split("\nelse\n", 1)
+        for name in ("dm_merchant_revenue", "dm_merchant_hubs", "dm_generator_hourly_export"):
+            self.assertIn(f"soft_step {name} ", steps)
+            self.assertNotIn(f"soft_step {name} ", off)
+        self.assertIn("table_stores dm_merchant_stores", steps)
+        self.assertIn('skipped: switched off until the tests that hold the CSV to its export of 7 October 2026 are changed (GENERATOR=1)', off)
+        self.assertNotIn("soft_step dm_seller_hybrid", on)          # the hybrid's hours are not of that group: every day
+        self.assertEqual(self.body.count('if [ "${GENERATOR:-0}" = "1" ]; then'), 2)   # the steps, and their group's tests
+        self.assertLess(self.body.index("GENERATOR_OK=0"), self.body.index('git add -- "$RECORD_PATH"'))
+        for words in ("tests/test_session183_replication.py", "tests/test_session199.py", "72,384 rows", "SESSION_204_REPORT.md"):
+            self.assertIn(words, self.body)
 
     def test_a_group_whose_step_or_test_failed_is_put_back_whole(self):
         fn = self.body.split("group() {", 1)[1].split("\n}\n", 1)[0]

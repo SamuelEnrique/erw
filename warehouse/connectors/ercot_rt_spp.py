@@ -294,24 +294,42 @@ def esr_points(out_dir=None):
 
 def table(points, log, zips=None):
     """The table's rows from the saved files: the storage resources' points, the hubs and the Load Zones."""
-    files = sorted(glob.glob(os.path.join(zips or ZIPS, "*.zip")))
+    files = sorted(glob.glob(os.path.join(zips or ZIPS, "*.zip")))   # by name: a later posting of an interval sorts after the earlier
     urls = {m["file"]: (m["url"], m["retrieved_at"]) for m in manifest()}
-    parts, bad = [], []
+    held, bad, differ = {}, [], set()   # held: interval -> (file, its prices by point and type, its rows of the table)
     for p in files:
+        name = os.path.basename(p)
         with open(p, "rb") as f:
             content = f.read()
         try:
             df, utc = read_interval(content)
         except (ValueError, zipfile.BadZipFile) as e:
-            bad.append((os.path.basename(p), str(e)[:120]))
+            bad.append((name, str(e)[:120]))
             continue
+        ts = utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+        prices = dict(zip(zip(df["SettlementPointName"], df["SettlementPointType"]), df["SettlementPointPrice"]))
+        # session 204: ERCOT posted the interval ending 8 October 2026 11:45 twice, a second apart, every price the same.
+        # Two files of one interval with the same prices are one interval (the later posting is read); two whose prices
+        # differ leave the interval out: which is right is ERCOT's to say, and nothing here chooses
+        if ts in differ:
+            bad.append((name, f"the interval {ts} was posted more than once with prices that differ"))
+            continue
+        if ts in held:
+            if held[ts][1] != prices:
+                differ.add(ts)
+                bad.append((held[ts][0], f"the interval {ts} was posted more than once with prices that differ"))
+                bad.append((name, f"the interval {ts} was posted more than once with prices that differ"))
+                del held[ts]
+                continue
+            log(f"  {ts}: posted twice with the same prices; {held[ts][0]} left out, {name} read")
         keep = df[(df["SettlementPointName"].isin(points) | df["SettlementPointType"].isin(KEEP_TYPES)) & ~df["SettlementPointType"].isin(TWICE)]
-        url, when = urls.get(os.path.basename(p), (PAGE, ""))
-        parts.append(pd.DataFrame({
-            "entity": "ercot:" + keep["SettlementPointName"], "variable": "spp_rtm", "ts_utc": utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        url, when = urls.get(name, (PAGE, ""))
+        held[ts] = (name, prices, pd.DataFrame({
+            "entity": "ercot:" + keep["SettlementPointName"], "variable": "spp_rtm", "ts_utc": ts,
             "value": keep["SettlementPointPrice"], "unit": "USD/MWh", "freq": "PT15M", "geo": "US-TX", "market": "ercot_rtm",
             "node": keep["SettlementPointName"], "source": SOURCE, "source_url": url, "retrieved_at": when, "vintage": "",
             "x_point_type": keep["SettlementPointType"]}))
+    parts = [v[2] for v in held.values()]
     for name, why in bad:
         log(f"  not written: {name}: {why}")
     if not parts:
@@ -319,7 +337,7 @@ def table(points, log, zips=None):
     out = pd.concat(parts, ignore_index=True)
     if out.duplicated(["entity", "ts_utc"]).any():
         raise RuntimeError("a settlement point and interval twice across files")
-    return out[COLS].sort_values(["entity", "ts_utc"]).reset_index(drop=True), len(files), bad
+    return out[COLS].sort_values(["entity", "ts_utc"]).reset_index(drop=True), len(parts), bad   # the intervals read: a second posting of one is not counted
 
 
 def write(log, run_id):

@@ -428,10 +428,17 @@ machine that holds the price histories.
   recorded as failed. The snapshot, the hub files and the CSV are one group: the CSV is checked against the snapshot
   and the hub files against it. So `main` never gets a file its own tests refuse. The table
   `merchant_revenue_monthly` is not in git and stays as written; the next run writes both again.
+- **Three of the generator's steps are switched off: `merchant_revenue`, `merchant_hubs`, `generator_hourly_export`.**
+  `GENERATOR=1` in the run's environment runs them. Six tests that a landing must pass hold the CSV to its export of
+  7 October 2026 (four of `tests/test_session183_replication.py`: 72,384 rows, the last hour, the last local day, 72
+  blank hours; two of `tests/test_session199.py`: the capture build the header names, and the list of dated records).
+  A re-export fails them, and the snapshot cannot move without the CSV. Session 204 was told not to change a test's
+  logic, so the steps wait for a session that may. `seller_hybrid` is not of that group and runs every day.
 - **The node prices cannot be had later.** A week without the run loses the days that left ERCOT's list. The table
   grows by about 30,000 rows a day (96 files, some 310 settlement points each).
-- **The daily commit is larger.** The hub files (14 MB), the snapshot (2 MB), the generator's CSV (4 MB) and the
-  record of the day (67 KB) now move every day, beside the datacenter files that already did.
+- **The daily commit will be larger once the three steps are on.** The hub files (14 MB), the snapshot (2 MB), the
+  generator's CSV (4 MB) and the record of the day (67 KB) would then move every day, beside the datacenter files that
+  already do. Today the hybrid's file and its yearly price files (1.3 MB together) are what this session added.
 
 ## Code work: branches, checks, merge
 

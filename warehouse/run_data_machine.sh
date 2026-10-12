@@ -42,7 +42,9 @@
 #      A battery file whose hours, months and model are as held is left as it is. merchant_revenue_monthly gets its
 #      stores when it moved. Then each group's own tests, as the files above have theirs: a group one of whose steps
 #      or tests failed is put back whole as the last commit has it (the snapshot, the hub files and the CSV are one
-#      group: the CSV is checked against the snapshot, and the hub files against it), recorded, and the run goes on;
+#      group: the CSV is checked against the snapshot, and the hub files against it), recorded, and the run goes on.
+#      SWITCHED OFF, with GENERATOR=1 to run them: merchant_revenue, merchant_hubs and generator_hourly_export, until
+#      the six tests that hold the CSV to its export of 7 October 2026 are changed (the note above the steps says which);
 #   4. the commit: the page files and the metadata the refresh changed, committed to main and pushed, as a data task
 #      is (docs/machines.md: "Data tasks do not use branches: they commit to main under the data lock").
 #
@@ -113,7 +115,8 @@ if [ "$CHECK" = "1" ]; then
   echo "  sync (scripts/sync.py); ERCOT's load zones (ercot_zone_prices.py --refresh) and, when rows were added, the validator, coverage, the archive and the Redivis draft;"
   echo "  datacenter_page, capture_price, curtailment_shares, free_energy, curtailment_worth, each under warehouse/health.py;"
   echo "  (session 204) first of all after the sync, ERCOT's node prices (scheduled.py ercot_rtm_node_prices, 500,000 rows a day at most) and its stores when it moved;"
-  echo "  (session 204) after the page files: battery_dispatch_export, battery_scenario_steps, merchant_revenue (and its table's stores), merchant_hubs, seller_hybrid, generator_hourly_export, each through scheduled.py, then each group's tests;"
+  echo "  (session 204) after the page files: battery_dispatch_export, battery_scenario_steps and seller_hybrid, each through scheduled.py, then each group's tests;"
+  echo "  (session 204) switched off, GENERATOR=${GENERATOR:-0} (1 runs them): merchant_revenue (and its table's stores), merchant_hubs, generator_hourly_export;"
   echo "  then a commit to main of: ${PAGE_PATHS[*]} ${META_PATHS[*]}"
   echo "  branch here: $(git rev-parse --abbrev-ref HEAD); COMMIT=${COMMIT:-1} PUSH=${PUSH:-1}"
   exit 0
@@ -248,17 +251,35 @@ echo "== the battery page's downloads (a file whose hours and months are as held
 soft_step dm_battery_dispatch_export "$PYTHON" warehouse/scheduled.py battery_dispatch_export
 soft_step dm_battery_scenario_steps "$PYTHON" warehouse/scheduled.py battery_scenario_steps
 echo "== the generator page's builders and its hourly CSV"
+# SWITCHED OFF UNTIL SIX TESTS ARE CHANGED: GENERATOR=1 runs the three steps of the snapshot's group. The snapshot, the
+# table merchant_revenue_monthly, the hub files and the CSV move together or not at all (the CSV is checked against the
+# snapshot, the hub files and the table against it). On 12 October 2026 six tests that a landing must pass still held
+# the CSV to its export of 7 October: four of tests/test_session183_replication.py (72,384 rows, the last hour
+# 2026-10-03T04:00:00Z, the last local day 2026-10-02, 72 blank hours) and two of tests/test_session199.py (the capture
+# build its header names, and the list of dated records, which a daily export lengthens by one a day). A re-export
+# fails them, so the group below would put the files back every day, after the table had already moved and could not
+# be put back (the archive keeps no return to an earlier value). Session 204 ran the three once, saw this, and left
+# them here for a session that may change those tests (archive/sessions/SESSION_204_REPORT.md). The hybrid's hours are
+# not of that group and run every day.
 MERCHANT=merchant_revenue_monthly
-was="$(sha_of "$MERCHANT")"
-soft_step dm_merchant_revenue "$PYTHON" warehouse/scheduled.py merchant_revenue
-table_stores dm_merchant_stores "$MERCHANT" "$was"
-if grep -q "^dm_merchant_revenue ok" "$status"; then
-  soft_step dm_merchant_hubs "$PYTHON" warehouse/scheduled.py merchant_hubs
-  soft_step dm_generator_hourly_export "$PYTHON" warehouse/scheduled.py generator_hourly_export
+GENERATOR_OK=0
+if [ "${GENERATOR:-0}" = "1" ]; then
+  was="$(sha_of "$MERCHANT")"
+  soft_step dm_merchant_revenue "$PYTHON" warehouse/scheduled.py merchant_revenue
+  table_stores dm_merchant_stores "$MERCHANT" "$was"
+  if grep -q "^dm_merchant_revenue ok" "$status"; then
+    soft_step dm_merchant_hubs "$PYTHON" warehouse/scheduled.py merchant_hubs
+    soft_step dm_generator_hourly_export "$PYTHON" warehouse/scheduled.py generator_hourly_export
+  else
+    # the hub files are checked against the snapshot and the CSV is written from it: without today's snapshot neither is built
+    echo "dm_merchant_hubs skipped: dm_merchant_revenue did not finish" >> "$status"
+    echo "dm_generator_hourly_export skipped: dm_merchant_revenue did not finish" >> "$status"
+  fi
 else
-  # the hub files are checked against the snapshot and the CSV is written from it: without today's snapshot neither is built
-  echo "dm_merchant_hubs skipped: dm_merchant_revenue did not finish" >> "$status"
-  echo "dm_generator_hourly_export skipped: dm_merchant_revenue did not finish" >> "$status"
+  echo "the snapshot, the hub files and the hourly CSV: switched off (GENERATOR=1 runs them; six tests still hold the CSV to its export of 7 October 2026)"
+  for s in dm_merchant_revenue dm_merchant_hubs dm_generator_hourly_export; do
+    echo "$s skipped: switched off until the tests that hold the CSV to its export of 7 October 2026 are changed (GENERATOR=1)" >> "$status"
+  done
 fi
 soft_step dm_seller_hybrid "$PYTHON" warehouse/scheduled.py seller_hybrid
 
@@ -287,10 +308,12 @@ group() {  # group <name> <steps, spaced> <test modules, spaced> -- <path...>
 }
 group dm_test_battery_dispatch "dm_battery_dispatch_export" "tests.test_session178" -- site/public/battery/erw_2026_battery_dispatch.csv
 group dm_test_battery_steps "dm_battery_scenario_steps" "tests.test_session179" -- site/data/battery_scenario_steps.json
-GENERATOR_OK=1
-group dm_test_generator "dm_merchant_revenue dm_merchant_hubs dm_generator_hourly_export" \
-  "tests.test_session51 tests.test_session183 tests.test_session183_replication tests.test_session186 tests.test_session199" -- \
-  site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv || GENERATOR_OK=0
+if [ "${GENERATOR:-0}" = "1" ]; then
+  GENERATOR_OK=1
+  group dm_test_generator "dm_merchant_revenue dm_merchant_hubs dm_generator_hourly_export" \
+    "tests.test_session51 tests.test_session183 tests.test_session183_replication tests.test_session186 tests.test_session199" -- \
+    site/data/merchant_snapshot.json site/data/seller/hubs site/public/seller/erw_2026_generator_hourly.csv || GENERATOR_OK=0
+fi
 group dm_test_hybrid "dm_seller_hybrid" "tests.test_session162" -- site/data/seller/hybrid.json site/public/seller/prices
 
 # ---- 4. the commit ----------------------------------------------------------------------------------------------------
