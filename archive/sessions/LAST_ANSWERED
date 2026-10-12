@@ -5,5 +5,8 @@
 #
 # 171 is where session 188 started it: the chain prompt of 9 October 2026 answers session 171 (the Virginia ruling) and
 # no later prompt answers a later report. Samuel corrects it if that is wrong.
-last_answered: 171
-on: 2026-10-09
+#
+# 200 since session 204: the chain prompt of 12 October 2026 (night) says so, "LAST_ANSWERED set to 200, dated 12 October
+# 2026", after Samuel's rulings of that night on the reports to session 200.
+last_answered: 200
+on: 2026-10-12
