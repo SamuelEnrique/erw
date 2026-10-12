@@ -187,9 +187,10 @@ above says otherwise, this section is the newer one.
   The next sync brings a new daily table and leaves the monthly ones again: the two commands are needed after each.
 - **Other checkouts.** Seven worktrees beside the main one (`git worktree list`): `erw-184`, `erw-185`, `erw-185n`,
   `erw-191`, `erw-192`, `erw-193` (all merged) and `erw-200`.
-- **A test's residue, it seems.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made
-  on 11 October at 20:22 UTC, while session 198 ran the suite. `scripts/raw_handover.py` says of a folder of that name
-  that `tests/test_session85.py` writes it with made-up documents. It is not a source, and session 200 left it.
+- **A test's residue.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made on
+  11 October at 20:22 UTC, while session 198 ran the suite; session 200's run of the suite in a clean worktree made
+  the same folder there. `scripts/raw_handover.py` names `tests/test_session85.py` as the writer of a folder of that
+  name. It is not a source, and session 200 left it.
 
 ## Setting up a machine
 
