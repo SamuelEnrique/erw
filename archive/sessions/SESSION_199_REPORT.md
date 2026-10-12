@@ -5,8 +5,8 @@ Old laptop (`samueloldlaptop`, a code machine), Sunday 11 October 2026 from abou
 ## Read these first
 
 - **`main` failed for six reasons, not five. All six are repaired.** The sixth is newer than the prompt: tonight's Roundup (`391a8a42`, the first weekly run since session 119) wrote 31 lines of the chooser's watch list into the weekly gallery files, and session 182's flow tests failed on it (4 failures and 1 error). The whole suite on a clean copy: 3,340 tests, exit 0.
-- **The ruling is applied as written, in three kinds.** Frozen files for the datacenter note and the Ask ERCOT questions; the seller's CSV held to the capture file of the build its own header names; session 149's role test skipped where no role file is.
-- **Three small dated files are new, under `docs/methods/figures/`:** 12 KB, 67 KB and 211 KB. The third is larger than "a few kilobytes": "if perfectly foreseen" cannot be recomputed without the hourly prices of 2025 and 2026 (decision 1).
+- **Everything landed: 199, then 197, 195 and 196, in that order.** GitHub's check passed each time; 0 differences on the 25 pages each time. The decision pages are in review, so their changes do not show to a visitor; their own checks passed on production ("The landings").
+- **The ruling is applied as written, in three kinds,** with three dated files under `docs/methods/figures/`: 12 KB, 67 KB and 211 KB. The third is larger than "a few kilobytes": "if perfectly foreseen" cannot be recomputed without the hourly prices of 2025 and 2026 (decision 1).
 - **One page changed in what it would show, and it is in review:** `/analysis` offers its ten templates again and not the 31 watch lines. The weekly run is not changed; whether the gallery should hold those lines is yours (ruling 1).
 - **Two things need the data machine** (rulings 2 and 3): the seller's CSV is exported by no scheduled run, and the weekly run writes the watch lines into the gallery.
 
@@ -76,7 +76,11 @@ Outputs under `runs/s199/` (not in git).
 
 ## The landing
 
-Added by the second push (the snapshot pair and GitHub's run are under "The landings").
+- `scripts/freeze.py status`: exit 0, no freeze.
+- Before: `snapshot-live.mjs take s199-before`, 02:14 UTC, 25 pages, 0 failed.
+- Pushed `task/199-green-main` at `328e0931`. GitHub's "code branch" run 38195029771: checks success, merge success. `main` at `a75cbac4`. Vercel: "Deployment has completed", 02:25 UTC.
+- After: `take s199-after`, 02:25 UTC. `compare s199-before s199-after`: **0 differences on the 25 pages. Expected: no page a visitor sees changed.**
+- **GitHub's check on `main` is green,** and stayed green for the three landings that followed and for the other machine's `task/200-report` (run 38196672423), which landed in between.
 
 ## Decisions made without you
 
@@ -96,3 +100,39 @@ Added by the second push (the snapshot pair and GitHub's run are under "The land
 3. For the data machine: `eval_ercot_pages.json` is of 9 October. Before the next Ask evaluation, run `ercot_pages_expected.py --write` there (it writes the new frozen file with the questions).
 4. `site/scripts/test-ask-tables.mjs` still sets the committed questions against the day's page files. It runs only where the site's packages are (not on GitHub's test step, not on a clean copy). It will fail there when November begins. Freeze it too?
 5. The note's frozen file at 211 KB: keep (decision 1), or months only?
+
+## The landings
+
+All three landed, in the order asked. Each: `origin/main` merged into the branch, the whole suite on a clean copy of the merged commit, the branch's own checks, `freeze.py status` (exit 0 each time), a snapshot before and after, each its own command.
+
+| | 197, the planner | 195, decisions as one system | 196, cross-checks |
+|---|---|---|---|
+| Merged commit pushed | `fe5d6e1f` | `13a3598c` | `850d9b15` |
+| Whole suite, clean copy | exit 0: 3,370 tests | exit 0: 3,388 tests | exit 0: 3,397 tests |
+| Site build of the merged commit | not run: no site file changed | exit 0, no "statement timeout" | exit 0, no "statement timeout" |
+| The branch's checks, local | `tests.test_planner` exit 0 (30); `planner.py check` exit 3, "planner: off" | 16 of 16 exit 0 on the local build | 17 of 17 exit 0 on the local build |
+| GitHub's run | 38196118260, success | 38197400207, success | 38199188824, success |
+| Merge commit on `main` | `49a62e1c` | `6ac2a345` | `76cc4b6f` |
+| Vercel, "Deployment has completed" | 02:40 UTC | 03:00 UTC | 03:28 UTC |
+| Snapshot pair | `s197-before`, `s197-after` | `s195-before`, `s195-after` | `s196-before`, `s196-after` |
+| Differences on the 25 pages | 0, expected | 0 (see below) | 0 (see below) |
+| Checks on production | `planner.py check` on this machine: "planner: off" | 8 of 8 exit 0 | 5 of 5 exit 0 |
+
+- **The differences the prompt expected on the three decision pages do not show in the snapshot, and that is right.** The snapshot reads as a visitor, and all three pages are in review: a visitor sees the in-review page before and after. 0 differences for 195 and for 196, each marked expected. The changes were looked for in the review view by the branches' own checks on https://erw-flame.vercel.app:
+  - 195: `check-battery-face`, `check-seller-face`, `check-datacenter-face` (23), `check-datacenter` (58), the three scenario checks (battery, seller, datacenter 86) and `check-decisions-face` (144): all passed.
+  - 196: `check-cross-checks` (18 of 18: the "Checked against" line read on each page, 9, 10 and 6 published figures), the three scenario checks, `check-decisions-face` (144): all passed.
+- **Not verified:** I did not read the hurdle rate (9.6 percent), the degradation (2.6 percent) or the NPV figures off the production pages myself; the scenario checks that pin the new defaults passed there. Nobody has looked at the pages by eye tonight.
+- `main` moved once during the landings (`8830320e`, the lab desktop's session 200 report, one file). It was merged into 195 before its push; the suite and the build of 195 were of the commit before that merge (`8a1ae796`), which differs by that report alone.
+- One check failed once for my own reason: `check-seller` run without the alias loader it needs (exit 1, a module not found); with it, 45 of 45.
+- Remote branches deleted, each after it was wholly on `main`: `wip/197-planner`, `wip/195-decisions-one-system`, `wip/196-cross-checks`. The `task/` branches were deleted by the workflow.
+
+What to look at, signed in to the review view:
+
+- 195 and 196, the battery: https://erw-flame.vercel.app/cost-of-power/battery
+- 195 and 196, the generator: https://erw-flame.vercel.app/cost-of-power/seller
+- 195 and 196, the datacenter: https://erw-flame.vercel.app/cost-of-power
+  - On each: the shared scenario block with scenario A in the headline (195); the hurdle rate default and the "Checked against" line at the foot (196). Their reports list the figures: https://github.com/SamuelEnrique/erw/blob/main/archive/sessions/SESSION_195_REPORT.md and https://github.com/SamuelEnrique/erw/blob/main/archive/sessions/SESSION_196_REPORT.md
+- 197: https://github.com/SamuelEnrique/erw/blob/main/docs/roadmap.md (the empty template; the planner stays off until a person writes `planner: on`) and https://github.com/SamuelEnrique/erw/blob/main/scripts/planner.py
+
+Left on this machine, not removed: four scratch worktrees beside the repository (`erw-clean199`, `erw-land197`, `erw-land195`, `erw-land196`); each holds untracked files a test run left, so git would only remove them by force. `task/198-battery-data` is still on GitHub: it is the lab desktop's, and its own report says how it lands.
+
