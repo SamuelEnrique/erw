@@ -361,6 +361,10 @@ class TheRecordOfDays(unittest.TestCase):
         rows = [row("latest prices", "ok", wf="latest prices", run_id=str(i)) for i in range(3)] + [row("x", "failed") for _ in range(n_failed)] + list(extra)
         return rows
 
+    def full(self, n_failed=0):
+        """A day on which each of the four jobs that run every day recorded a run."""
+        return self.day(n_failed) + [row("s", "ok", wf=w, run_id="1") for w in ("hourly network", "daily prices", "chain watch")]
+
     def test_a_day_counts_each_job_and_the_failures_that_count(self):
         rec = health.day_record(self.day(1, [row("network snapshot", "retried", wf="hourly network"), row("quiet|x", "ok", wf="alerts"),
                                              row("session198_check", "failed", wf="local:SU-4QC3QR3", run_id=None),
@@ -373,6 +377,9 @@ class TheRecordOfDays(unittest.TestCase):
         self.assertEqual([(f["workflow"], f["step"]) for f in rec["failures"]], [("daily prices", "x"), ("local:lab-desktop", "dm_sync")])
         self.assertEqual(rec["failures"][1]["reason"], "the lock was held")
         self.assertEqual(rec["jobs"]["local:SU-4QC3QR3"]["failed"], 1)
+        self.assertEqual(rec["missing"], ["chain watch"])                                   # of the four that run every day, the one with no row
+        every = [row("s", "ok", wf=w, run_id="1") for w in ("latest prices", "hourly network", "daily prices", "chain watch")]
+        self.assertEqual(health.day_record(every)["missing"], [])
 
     def test_the_streak_is_0_when_the_newest_day_failed_and_is_ended_by_a_failure_or_a_gap(self):
         g, r = {"rows": 5, "failed": 0}, {"rows": 5, "failed": 2}
@@ -381,6 +388,10 @@ class TheRecordOfDays(unittest.TestCase):
         self.assertEqual(health.green_streak({"2026-10-09": r, "2026-10-10": g, "2026-10-11": g}), (2, "2026-10-11"))
         self.assertEqual(health.green_streak({"2026-10-08": g, "2026-10-10": g, "2026-10-11": g}), (2, "2026-10-11"))     # 9 October is missing
         self.assertEqual(health.green_streak({"2026-10-10": {"rows": 0, "failed": 0}, "2026-10-11": g}), (1, "2026-10-11"))
+        # a job that runs every day and recorded no run: the day is not green
+        no_daily = {"rows": 5, "failed": 0, "missing": ["daily prices"]}
+        self.assertEqual(health.green_streak({"2026-10-09": g, "2026-10-10": no_daily, "2026-10-11": g}), (1, "2026-10-11"))
+        self.assertEqual(health.green_streak({"2026-10-10": g, "2026-10-11": no_daily}), (0, "2026-10-11"))
         week = {f"2026-10-{d:02d}": g for d in range(13, 20)}
         self.assertEqual(health.green_streak(week), (7, "2026-10-19"))                      # the public day's gate: seven
         self.assertEqual(health.green_streak({**week, "2026-10-20": r}), (0, "2026-10-20"))
@@ -388,20 +399,20 @@ class TheRecordOfDays(unittest.TestCase):
     def test_the_file_is_added_to_day_by_day_and_keeps_its_newest_days(self):
         with tempfile.TemporaryDirectory() as d:
             f = os.path.join(d, "site", "data", "health_days.json")
-            path, n, to = health.write_days({"2026-10-10": self.day(1), "2026-10-11": self.day()}, f, at(14, 0))
+            path, n, to = health.write_days({"2026-10-10": self.full(1), "2026-10-11": self.full()}, f, at(14, 0))
             self.assertEqual((n, to), (1, "2026-10-11"))
-            path, n, to = health.write_days({"2026-10-12": self.day()}, f, at(14, 0, 13))                              # the next day's summary adds a day
+            path, n, to = health.write_days({"2026-10-12": self.full()}, f, at(14, 0, 13))                              # the next day's summary adds a day
             self.assertEqual((n, to), (2, "2026-10-12"))
             got = json.load(open(f, encoding="utf-8"))
             self.assertEqual((got["green_days"], got["counted_to"], sorted(got["days"])), (2, "2026-10-12", ["2026-10-10", "2026-10-11", "2026-10-12"]))
             self.assertEqual(got["written"], "2026-10-13T14:00Z")
-            path, n, to = health.write_days({"2026-10-12": self.day(3)}, f)                                            # a day written again is replaced
+            path, n, to = health.write_days({"2026-10-12": self.full(3)}, f)                                            # a day written again is replaced
             self.assertEqual((n, to), (0, "2026-10-12"))
             path, n, to = health.write_days({"2026-10-13": []}, f)                                                     # a day with no row is not recorded
             self.assertEqual(sorted(json.load(open(f, encoding="utf-8"))["days"])[-1], "2026-10-12")
             keep, health.DAYS_KEPT = health.DAYS_KEPT, 2
             try:
-                health.write_days({"2026-10-13": self.day()}, f)
+                health.write_days({"2026-10-13": self.full()}, f)
                 self.assertEqual(sorted(json.load(open(f, encoding="utf-8"))["days"]), ["2026-10-12", "2026-10-13"])
             finally:
                 health.DAYS_KEPT = keep
@@ -471,6 +482,7 @@ class TheRepositorysOwn(unittest.TestCase):
             dt.date.fromisoformat(day)
             self.assertEqual(rec["failed"], len(rec["failures"]), day)
             self.assertGreater(rec["rows"], 0, day)
+            self.assertIsInstance(rec["missing"], list, day)
             self.assertNotIn("alerts", rec["jobs"], day)
 
     def test_the_page_shows_the_files_number_behind_the_cookie(self):

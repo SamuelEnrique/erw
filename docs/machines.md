@@ -643,7 +643,8 @@ product, not alerts, and are not touched by this.
 - **The green streak** is in `site/data/health_days.json`, which `python warehouse/health.py summary` writes with each
   day's summary (the daily run commits both): per UTC day, each job's steps by outcome and the failures that count.
   N is the number of days in a row, back from the newest day recorded, with no failed step; it is 0 whenever a job
-  failed on that day, and a day with no record ends the count. A scheduled workflow's steps count, and a machine's own
+  failed on that day, and a day with no record ends the count, as does a day on which a job that runs every day
+  (latest prices, hourly network, daily prices, chain watch) recorded no run. A scheduled workflow's steps count, and a machine's own
   daily run (steps named `dm_...`); a session's other rows do not. `/internal/health` shows the line and the days;
   `node site/scripts/check-internal-health.mjs <address>` compares the page with the file. The line is the counter of
   the public day's gate (`docs/roadmap.md`: seven green days of every scheduled job).

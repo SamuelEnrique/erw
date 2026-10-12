@@ -22,7 +22,8 @@ else); SUPABASE_URL and SUPABASE_SERVICE_KEY from the environment or .env.
         Session 202: the same command adds the day to site/data/health_days.json, the record the page /internal/health
         and the morning summary read: per day, each job's counts and its failures, and the green streak: the number of
         days in a row, back from the newest day recorded, on which no step of a scheduled job failed. It is 0 whenever
-        a job failed on that newest day. A day with no row at all ends the streak: nothing shows it was green.
+        a job failed on that newest day. A day with no row at all ends the streak: nothing shows it was green. So does
+        a day on which a job that runs every day (EXPECTED below) recorded no run.
     python warehouse/health.py days --from 2026-09-28 --to 2026-10-11
         writes those days into site/data/health_days.json (a first fill, or a repair); days already there are replaced.
     python warehouse/health.py alert [--run-id 37207629600] [--day today] [--dry-run]
@@ -105,19 +106,23 @@ def day_record(rows):
         j["runs"] = len(runs.get(wf, ())) or sum(j[s] for s in ("ok", "skipped", "retried", "failed"))
     failures = [{"at": str(r["at"])[:16], "workflow": r["workflow"], "step": r["step"], "reason": " ".join(str(r.get("reason") or "").split())[:200]}
                 for r in rows if r["status"] == "failed" and counted(r)]
-    return {"rows": sum(1 for r in rows if counted(r)), "failed": len(failures), "jobs": dict(sorted(jobs.items())), "failures": failures}
+    # a job that runs every day and recorded nothing that day did not run: the day is not green, whatever else passed
+    missing = sorted(w for w, n in EXPECTED.items() if n and w not in jobs)
+    return {"rows": sum(1 for r in rows if counted(r)), "failed": len(failures), "missing": missing, "jobs": dict(sorted(jobs.items())),
+            "failures": failures}
 
 
 def green_streak(days):
     """(the number of days in a row without a failure, the newest day recorded). Counted back from the newest day in
-    the record; 0 when a job failed on it. A day that is missing, or that holds no row, ends the count."""
+    the record; 0 when a job failed on it. A day that is missing, or that holds no row, ends the count; so does a day
+    on which a job that runs every day (EXPECTED) recorded no run."""
     if not days:
         return 0, None
     newest = max(days)
     n, d = 0, dt.date.fromisoformat(newest)
     while True:
         rec = days.get(d.isoformat())
-        if not rec or not rec.get("rows") or rec.get("failed"):
+        if not rec or not rec.get("rows") or rec.get("failed") or rec.get("missing"):
             return n, newest
         n += 1
         d -= dt.timedelta(days=1)

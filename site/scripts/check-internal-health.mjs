@@ -34,7 +34,7 @@ function streak(days) {
   let k = 0;
   for (let d = new Date(`${keys[keys.length - 1]}T00:00:00Z`); ; d = new Date(d.getTime() - 86400000)) {
     const rec = days[d.toISOString().slice(0, 10)];
-    if (!rec || !rec.rows || rec.failed) return k;
+    if (!rec || !rec.rows || rec.failed || (rec.missing ?? []).length) return k;
     k += 1;
   }
 }
@@ -73,7 +73,8 @@ try {
   const rows = [...html.matchAll(/data-health-day="([^"]+)" data-failed="(\d+)"/g)].map((m) => [m[1], Number(m[2])]);
   check(JSON.stringify(rows.map((x) => x[0])) === JSON.stringify(days), "every day of the file is a row, newest first", `(${rows.length} rows)`);
   check(rows.every(([d, k]) => k === f.days[d].failed), "each day's count of failed steps is the file's");
-  check(rows.every(([d, k]) => (k ? t.includes(`${d} red: ${k} failed`) : t.includes(`${d} green`))), "each day says green or red in words, not by color alone");
+  const said = (d, k) => (k ? t.includes(`${d} red: ${k} failed`) : (f.days[d].missing ?? []).length ? t.includes(`${d} red: no run of ${f.days[d].missing.join(", ")}`) : t.includes(`${d} green`));
+  check(rows.every(([d, k]) => said(d, k)), "each day says green or red in words, not by color alone");
   const fails = days.reduce((a, d) => a + f.days[d].failures.length, 0);
   const listed = (html.match(/data-health-failure="/g) ?? []).length;
   check(listed === fails, "every failed step of the file is listed", `(${listed} of ${fails})`);

@@ -15,14 +15,14 @@ import { internalOk } from "@/lib/thesis/server";
 // only, and the site holds none. So the page is as new as the last daily run, and says which day it is counted to.
 // N is computed there (health.py, green_streak) and written into the file: the days in a row, back from the newest day
 // recorded, on which no step of a scheduled job failed. It is 0 whenever a job failed on that newest day, and a day
-// with no row at all ends the count. A machine's own daily run counts (its steps are named dm_...); a session's other
+// with no row at all ends the count, as does a day on which a job that runs every day recorded no run. A machine's own daily run counts (its steps are named dm_...); a session's other
 // rows are shown and do not count. No sentence here judges: each states a count.
 export const metadata: Metadata = { title: "Scheduled jobs (internal)", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
 type Job = { ok: number; skipped: number; retried: number; failed: number; runs: number };
 type Failure = { at: string; workflow: string; step: string; reason: string };
-type Day = { rows: number; failed: number; jobs: Record<string, Job>; failures: Failure[] };
+type Day = { rows: number; failed: number; missing?: string[]; jobs: Record<string, Job>; failures: Failure[] };
 type Record_ = { written: string; green_days: number; counted_to: string | null; days: Record<string, Day> };
 
 const JOBS = ["daily prices", "latest prices", "hourly network", "chain watch", "energy roundup", "weekly vacuum"];
@@ -59,7 +59,8 @@ export default async function HealthPage() {
       </p>
       <p className="mb-5 max-w-3xl text-sm text-muted">
         Counted to {r.counted_to ?? "no day"} (UTC): the days in a row, back from that day, on which no step of a scheduled job was recorded as failed.
-        It is 0 whenever a job failed on that day; a day with no record ends the count. A step that failed once and passed at the second try is
+        It is 0 whenever a job failed on that day; a day with no record ends the count, and so does a day on which a job that runs every day
+        recorded no run. A step that failed once and passed at the second try is
         &quot;retried&quot;, not failed. Written {r.written} by <code>warehouse/health.py</code> from the table <code>erw_health</code>, with each
         day&apos;s summary; today&apos;s steps are counted tomorrow.
       </p>
@@ -80,7 +81,11 @@ export default async function HealthPage() {
             {days.map(([day, d]) => (
               <tr key={day} className="border-b border-rule" data-health-day={day} data-failed={d.failed}>
                 <th scope="row" className="py-1 pr-3 text-left font-mono text-xs font-normal">{day}</th>
-                <td className="pr-3">{d.failed ? <span className="font-semibold text-accent">red: {n(d.failed)} failed</span> : <span>green</span>}</td>
+                <td className="pr-3">
+                  {d.failed ? <span className="font-semibold text-accent">red: {n(d.failed)} failed</span>
+                    : d.missing?.length ? <span className="font-semibold text-accent">red: no run of {d.missing.join(", ")}</span> : <span>green</span>}
+                  {d.failed && d.missing?.length ? <span className="text-muted">; no run of {d.missing.join(", ")}</span> : null}
+                </td>
                 {JOBS.map((j) => <Cell key={j} j={d.jobs[j]} />)}
                 <Cell j={machines(d)} />
               </tr>
