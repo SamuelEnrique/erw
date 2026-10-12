@@ -322,7 +322,7 @@ class TheRun(unittest.TestCase):
 
     def test_the_order(self):
         sync, zones = self.at("soft_step dm_sync"), self.at("soft_step dm_ercot_zone_prices")
-        rollup, nodes = self.at("soft_step dm_storage_rollup"), self.at("soft_step dm_ercot_node_prices")
+        rollup, nodes = self.at("soft_step dm_storage_offers_rollup"), self.at("soft_step dm_ercot_node_prices")
         self.assertLess(sync, rollup)
         self.assertLess(rollup, nodes)
         self.assertLess(nodes, zones)                     # a listed day is lost for good after a week: the pull goes first
@@ -341,10 +341,10 @@ class TheRun(unittest.TestCase):
         self.assertLess(self.at("group dm_test_hybrid"), commit)
 
     def test_the_rollup_adds_the_awards_up_before_the_offers(self):
-        line = next(ln for ln in self.body.splitlines() if ln.startswith("soft_step dm_storage_rollup"))
-        self.assertLess(line.index("ercot_storage_dam_awards.py"), line.index("ercot_storage_dam_offers.py"))
-        self.assertIn("&&", line)
-        self.assertNotIn("|", line)
+        awards = self.at('soft_step dm_storage_awards_rollup "$PYTHON" warehouse/derived/ercot_storage_dam_awards.py\n')
+        offers = self.at('soft_step dm_storage_offers_rollup "$PYTHON" warehouse/derived/ercot_storage_dam_offers.py\n')
+        self.assertLess(awards, offers)
+        self.assertEqual([ln for ln in self.body.splitlines() if ln.startswith("soft_step") and "bash -c" in ln], [])   # every step is started the one way
 
     def test_a_table_gets_its_stores_when_it_moved_and_only_then(self):
         self.at('table_stores dm_node_stores "$NODES" "$was"')

@@ -135,8 +135,11 @@ soft_step dm_sync "$PYTHON" scripts/sync.py
 # Session 204 (sessions 198 and 200 found it): the sync brings the day's storage awards and daily offers, and leaves the
 # two monthly tables as they were (a table rewritten whole has no more rows and no newer month for the sync to see), so
 # the daily and the monthly offers stood a day apart. Both monthly tables are added up again here from the tables just
-# synced, the awards first (the offers builder checks each month against them). No request; the stores hold the runner's.
-soft_step dm_storage_rollup bash -c '"$PYTHON" warehouse/derived/ercot_storage_dam_awards.py && "$PYTHON" warehouse/derived/ercot_storage_dam_offers.py'
+# synced, the awards first (the offers builder checks each month against them and refuses where they disagree). No
+# request; the stores hold the runner's. Two steps, each started as every other step here is: a `bash -c` under
+# warehouse/health.py would be looked for by Windows itself, which can find another bash than the one running this.
+soft_step dm_storage_awards_rollup "$PYTHON" warehouse/derived/ercot_storage_dam_awards.py
+soft_step dm_storage_offers_rollup "$PYTHON" warehouse/derived/ercot_storage_dam_offers.py
 
 # ---- 1b. ERCOT's node prices (session 204) ----------------------------------------------------------------------------
 # A table's stores when a step moved it (warehouse/table_stores.py: the validator and the coverage row, each a gate for

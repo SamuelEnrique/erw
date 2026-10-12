@@ -416,7 +416,7 @@ machine that holds the price histories.
 
 | Step | What | Recorded as |
 |---|---|---|
-| the monthly storage tables | `ercot_storage_dam_awards.py`, then `ercot_storage_dam_offers.py`, right after the sync: the sync leaves a table that was rewritten whole as it was, so the monthly offers stood a day behind the daily ones | `dm_storage_rollup` |
+| the monthly storage tables | `ercot_storage_dam_awards.py`, then `ercot_storage_dam_offers.py`, right after the sync: the sync leaves a table that was rewritten whole as it was, so the monthly offers stood a day behind the daily ones | `dm_storage_awards_rollup`, `dm_storage_offers_rollup` |
 | ERCOT's node prices | `ercot_rt_spp.py --daily --max-rows 500000`: ERCOT's list (it keeps seven days and no more), each listed 15-minute file not yet saved, then the table. At most 500,000 rows a UTC day, counted in `warehouse/raw/ercot_rtm_spp/rows_by_run.csv`; the request that could pass the ceiling is not made. Internal: no page reads the table and it is in no live set | `dm_ercot_node_prices` |
 | its stores, when the table moved | `warehouse/table_stores.py`: the validator and the coverage row (gates for this table's stores), the archive, the Redivis draft | `dm_node_stores` |
 | the battery page's downloads | `battery_dispatch_export.py --keep-same`, `battery_scenario_steps.py --keep-same` (about 13 minutes). A file whose hours, months and model are as held is left as it is: the page prints the steps file's build date, so that date moves only when a month did | `dm_battery_dispatch_export`, `dm_battery_scenario_steps` |
