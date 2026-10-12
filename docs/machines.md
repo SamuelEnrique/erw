@@ -153,6 +153,8 @@ Setup checks git, Python, Node and Claude Code; makes `.venv` and installs `requ
 machine by default; a code machine with `-KeepAwake`), so a run started in the evening is not cut off by sleep. On battery
 the power plan is unchanged. `-Worker` also registers the worker to start at logon (Task Scheduler).
 
+**Every python command names `.venv`'s interpreter** (session 199): `.venv\Scripts\python.exe` on Windows, `.venv/bin/python` elsewhere, wherever this document or a chain prompt writes `python`. The bare `python` is the machine's global one and may hold no package: on the lab desktop it failed session 198's first precheck.
+
 ## Sync: the cloud is the source of truth
 
 `scripts/sync.py` (`sync.ps1`, `sync.sh`) starts every session on every machine:
