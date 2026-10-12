@@ -94,7 +94,7 @@ None piped; each long output is in `runs/session200/` on this machine.
   - Vercel on `3b79fab4`: "Deployment has completed", 02:38:49 UTC.
   - `take after200b`: exit 0, 25 pages, 0 failed, 02:38:57 UTC.
   - `compare before200b after200b`: exit 0. **"0 differences in all" on the 25 pages.** Expected: the branch holds documents, three scripts and two lines of the source registry; no page reads any of them.
-- **Third push, this report's last lines** (`task/200-report`, from `main` at `3b79fab4`): a snapshot before and after it as well, `before200c` and `after200c`. Its comparison is taken after this file is written, so it is in the session's closing message and in `runs/session200/compare200c.out` on lab-desktop. Expected: 0 differences.
+- **Third push, this report's last lines** (`task/200-report`, from `main` at `49a62e1c`: session 197's branch landed two minutes after this one, so the rulings document's "on branches" was true of 197 until 02:39 UTC): a snapshot before and after it as well, `before200c` and `after200c`. Its comparison is taken after this file is written, so it is in the session's closing message and in `runs/session200/compare200c.out` on lab-desktop. Expected: 0 differences.
 
 ## To finish
 
