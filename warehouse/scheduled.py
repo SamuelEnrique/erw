@@ -10,6 +10,14 @@ reads) or of the monthly job (warehouse/run_monthly.sh, the other six), each und
     python warehouse/scheduled.py mix_profile --check   # say whether its inputs are here; run nothing
     python warehouse/scheduled.py --monthly-due     # exit 0 when the monthly job has not yet run this month, else 1
 
+Session 204 (the owner's rulings of 12 October 2026): a second list, DATA_MACHINE, holds the steps of the data
+machine's daily run (warehouse/run_data_machine.sh) that are started through this script: ERCOT's node prices (a
+standing pull under a ceiling of 500,000 rows a day; the table is internal and is in no live set), the battery page's
+two downloads, and the generator page's three builders and its hourly CSV. --list names them after the runner's steps.
+They are not in JOBS, which stays the runner's schedule: a data machine's step reads the price histories, which the
+runner does not hold, so each refuses anywhere but on a data machine that holds them (the three refusals of
+run_data_machine.sh), as a skip with its reason, before any input is looked for or rebuilt.
+
 The monthly job is due from the third day of the month (UTC: EIA-930's lag of a day or two is past, so the month before
 is whole) until it has run: the first daily run on or after the third starts it, so a daily run that did not happen on
 the third does not cost the month. "Has run" is read from the built stamp of the site's copy of demand growth
@@ -100,8 +108,78 @@ JOBS = {
 }
 
 
+# Session 204: the steps of the data machine's daily run (warehouse/run_data_machine.sh) that this script starts. Each
+# is a soft step there. Not the runner's: where() below refuses them anywhere but on a data machine with the histories.
+HISTORIES = ["ercot_all_hub_prices_history", "ercot_zone_prices_history", "iso_zone_prices_history"]
+NODE_ROWS_A_DAY = "500000"   # the owner's ceiling for the node price pull, rows a UTC day (ercot_rt_spp.py holds the count)
+DATA_MACHINE = {
+    # the standing pull (the owner's ruling of 12 October 2026, on session 178's request and session 200's
+    # recommendation): ERCOT lists seven days of its 15-minute Settlement Point Prices and no more, so a day not pulled
+    # within the week cannot be had later. The list and each listed file not yet saved; then the table, merged into the
+    # table held (rebuilt from the ERW's archive when absent, as the storage awards it reads the settlement points from)
+    "ercot_rtm_node_prices": dict(
+        cadence="data machine, daily", page="no page (internal; not in the live set)",
+        tables=["ercot_rtm_node_prices", "ercot_dam_esr_awards"], restore=["ercot_rtm_node_prices", "ercot_dam_esr_awards"],
+        cmd=["warehouse/connectors/ercot_rt_spp.py", "--daily", "--max-rows", NODE_ROWS_A_DAY]),
+    # the battery page's downloads (sessions 178 and 179): the hour-by-hour CSV and the steps file, each solved again
+    # by the model from the tables as they stand; each refuses to write unless its default case is the table's
+    # (--keep-same: a file whose hours, months and model are as held is left as it is, so the build date the page
+    # prints moves only when a month did)
+    "battery_dispatch_export": dict(
+        cadence="data machine, daily", page="/cost-of-power/battery",
+        tables=["battery_stack_monthly", "ercot_as_prices", "iso_rtm_hub_prices", "ercot_all_hub_prices_history"],
+        cmd=["warehouse/derived/battery_dispatch_export.py", "--keep-same"]),
+    "battery_scenario_steps": dict(
+        cadence="data machine, daily", page="/cost-of-power/battery",
+        tables=["battery_stack_monthly", "ercot_as_prices", "caiso_as_prices", "iso_rtm_hub_prices", "iso_dam_hub_prices", "ercot_all_hub_prices_history"],
+        cmd=["warehouse/derived/battery_scenario_steps.py", "--keep-same"]),
+    # the generator page's builders (sessions 51, 162 and 183; session 183's item 3: none was on a schedule). The
+    # seller's model writes a table too (merchant_revenue_monthly: the run gives it its stores); the hub files and the
+    # hybrid's hours read the snapshot it writes and the capture file the run has just built
+    "merchant_revenue": dict(
+        cadence="data machine, daily", page="/cost-of-power/seller",
+        tables=["ercot_all_hub_prices_history", "iso_hub_prices_history", "iso_rtm_hub_prices", "eia860m_operating_generators",
+                "eia860m_retired_generators", "eia_fuel_spot_prices", "event_window_daily"],
+        workbooks=["ERCO", "CISO", "ISNE", "MISO", "NYIS", "SWPP"], cmd=["warehouse/derived/merchant_revenue.py"]),
+    "merchant_hubs": dict(
+        cadence="data machine, daily", page="/cost-of-power/seller",
+        tables=["ercot_all_hub_prices_history", "ercot_zone_prices_history", "iso_zone_prices_history", "eia860m_operating_generators",
+                "eia860m_retired_generators", "eia_fuel_spot_prices", "event_window_daily"],
+        files=["site/data/merchant_snapshot.json", "site/data/seller/capture.json"],
+        cmd=["warehouse/derived/merchant_hubs.py", "--cache-dir", "runs/hub_cache"]),
+    "seller_hybrid": dict(
+        cadence="data machine, daily", page="/cost-of-power/seller",
+        tables=["iso_dam_hub_prices", "iso_hub_prices_history", "ercot_all_hub_prices_history", "eia860m_operating_generators", "eia860m_retired_generators"],
+        workbooks=["ERCO", "CISO"], cmd=["warehouse/derived/seller_hybrid.py"]),
+    # the generator page's download (session 183; session 199's ruling 2): written again from the snapshot and the
+    # capture file as they now stand; it refuses to write when a month of either differs from the tables
+    "generator_hourly_export": dict(
+        cadence="data machine, daily", page="/cost-of-power/seller",
+        tables=["iso_rtm_hub_prices", "ercot_all_hub_prices_history", "eia860m_operating_generators", "eia860m_retired_generators"],
+        files=["site/data/merchant_snapshot.json", "site/data/seller/capture.json"],
+        cmd=["warehouse/derived/generator_hourly_export.py", "--cache-dir", "runs/generator_cache"]),
+}
+STEPS = {**JOBS, **DATA_MACHINE}
+
+
 def table_path(name):
     return os.path.join(ip.OUT_DIR, name + ".csv")
+
+
+def where(env=None, role=None, held=None):
+    """Why a data machine's step may not run here, or "": the three refusals of warehouse/run_data_machine.sh."""
+    env = os.environ if env is None else env
+    if env.get("GITHUB_ACTIONS") == "true":
+        return "this is the GitHub runner (GITHUB_ACTIONS is true): it holds no price history"
+    if role is None:
+        import lock  # warehouse/lock.py: the machine's role (.erw/machine.json, or ERW_ROLE)
+        role = lock.machine().get("role") or "not set"
+    if role != "data":
+        return f"this machine's role is '{role}', not data (python warehouse/lock.py role)"
+    lacking = [t for t in HISTORIES if not (held(t) if held else os.path.exists(table_path(t)))]
+    if lacking:
+        return f"this machine does not hold the price histories: {', '.join(lacking)} (warehouse/output)"
+    return ""
 
 
 def workbook_held(ba):
@@ -129,8 +207,12 @@ def skip(name, reason):
     return int(os.environ.get("ERW_SKIP_EXIT") or 0)
 
 
-def step(name, check=False, run=subprocess.run, restore=restore):
-    job = JOBS[name]
+def step(name, check=False, run=subprocess.run, restore=restore, where=where):
+    job = STEPS[name]
+    if name in DATA_MACHINE:
+        why = where()
+        if why:
+            return skip(name, f"{why}; a step of the data machine's run, so nothing was asked for or built")
     tables, books, files = missing(job)
     if not check:
         for t in [t for t in tables if t in job.get("restore", [])]:
@@ -167,7 +249,7 @@ def monthly_due(today=None, mark=None):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="A builder that used to be run by hand, as a step of a schedule (session 114)")
-    ap.add_argument("name", nargs="?", choices=sorted(JOBS))
+    ap.add_argument("name", nargs="?", choices=sorted(STEPS))
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--check", action="store_true", help="say whether the inputs are here; run and rebuild nothing")
     ap.add_argument("--monthly-due", action="store_true", help="exit 0 when the monthly job is due with today's daily run, 1 when not")
@@ -177,7 +259,7 @@ def main(argv=None):
         print(f"monthly builds: {why}")
         return 0 if due else 1
     if a.list or not a.name:
-        for name, j in JOBS.items():
+        for name, j in STEPS.items():
             print(f"{name} ({j['cadence']}, {j['page']}): {' '.join(j['cmd'])}; tables {j.get('tables', [])}; "
                   f"workbooks {j.get('workbooks', [])}; from the archive when absent {j.get('restore', [])}")
         return 0

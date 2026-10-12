@@ -34,6 +34,21 @@ LZ_DCEW), and the two prices can differ (in 4 of 12 such pairs in the first file
 LZ_DC rows and leaves the EW rows in the saved files, since one name cannot hold two prices of one interval. A value is
 written as ERCOT prints it. An interval ERCOT flags as a repeated hour (DSTFlag Y) is not
 written: the day of the autumn clock change is left out, not guessed at.
+
+Session 204 (the owner's ruling of 12 October 2026): the pull is a standing one, a soft step of the data machine's
+daily run (warehouse/run_data_machine.sh, through warehouse/scheduled.py ercot_rtm_node_prices), so that no listed day
+is lost: ERCOT's list forgets an interval after seven days and it cannot be had later.
+
+    python warehouse/connectors/ercot_rt_spp.py --daily         # the list, each listed interval not yet held, then the table (data lock)
+
+The row ceiling: 500,000 rows a UTC day (MAX_ROWS_DAY; --max-rows names another). A row counts once, on the day its
+file is saved: the rows of that file the table keeps (the storage resources' points, the hubs and the Load Zones).
+The count of every run is kept in warehouse/raw/ercot_rtm_spp/rows_by_run.csv, and the day's runs are added up. Before
+each request the run asks whether one more file could pass the ceiling (the most rows a file can keep: the storage
+points of ercot_dam_esr_awards and 64 more, or the most this run has met); if it could, the request is not made, the
+run says STOPPED, and the files saved so far are written. A file not asked for today is asked for tomorrow while
+ERCOT still lists it. The table is internal to the warehouse: no page reads it and it is not in the live set
+(warehouse/supabase).
 """
 import argparse
 import csv
@@ -71,6 +86,10 @@ MANIFEST = os.path.join(ZIPS, "manifest.csv")
 MANIFEST_COLS = ["interval", "file", "doc_id", "url", "bytes", "sha256", "published", "retrieved_at", "how"]
 MAX_FILE = 200_000          # a listed file larger than this is not what this report posts (they are about 9 kB): not requested
 MAX_BYTES = 200_000_000     # this connector's share of the session's download ceiling
+MAX_ROWS_DAY = 500_000      # session 204: the rows a UTC day's runs may add to the table, counted as each file is saved
+ROW_MARGIN = 64             # the hubs, Load Zones and DC ties a file can hold beside the storage points (20 on 5 October 2026)
+ROWS_LOG = os.path.join(RAW, "rows_by_run.csv")
+ROWS_COLS = ["run_id", "day_utc", "files_saved", "rows_counted", "ceiling", "stopped"]
 KEEP_TYPES = {"HU", "SH", "AH", "LZ", "LZ_DC"}   # hubs and Load Zones: kept whatever resource sits there
 TWICE = {"LZEW", "LZ_DCEW"}                     # a zone's second row in the file, under the same name: left in the saved file
 ESR_TABLE = "ercot_dam_esr_awards"
@@ -95,14 +114,59 @@ def manifest_add(row):
         w.writerow(row)
 
 
-def pull(a, log, get=requests.get):
+def rows_today(day, path=None):
+    """The rows the runs of one UTC day have counted against the ceiling so far (rows_by_run.csv)."""
+    path = path or ROWS_LOG
+    if not os.path.exists(path):
+        return 0
+    with open(path, encoding="utf-8", newline="") as f:
+        return sum(int(r["rows_counted"]) for r in csv.DictReader(f) if r["day_utc"] == day)
+
+
+def rows_add(row, path=None):
+    path = path or ROWS_LOG
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    new = not os.path.exists(path)
+    with open(path, "a", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=ROWS_COLS, lineterminator="\n")
+        if new:
+            w.writeheader()
+        w.writerow(row)
+
+
+def kept_rows(content, points):
+    """The rows of one interval's file the table keeps; 0 for a file the table will not read."""
+    try:
+        df, _ = read_interval(content)
+    except (ValueError, zipfile.BadZipFile):
+        return 0
+    return int(((df["SettlementPointName"].isin(points) | df["SettlementPointType"].isin(KEEP_TYPES)) & ~df["SettlementPointType"].isin(TWICE)).sum())
+
+
+def pull(a, log, get=requests.get, run_id=None, result=None):
+    """ERCOT's list, then each listed interval not yet held. With a.max_rows (session 204) the rows the table keeps of
+    each saved file are counted against that ceiling for the UTC day, and the request that could pass it is not made.
+    result, when given, receives files (saved by this run), rows (counted) and stopped."""
     saved = os.path.join(RAW, "doclist_latest.json")
     os.makedirs(ZIPS, exist_ok=True)
+    result = {} if result is None else result
+    result.update(files=0, rows=0, stopped=False)
     if a.offline:
         log("offline: no request")
         return 0
     if ip.paused("ercot"):
         raise RuntimeError("ERCOT is paused (warehouse/metadata/paused_sources.csv): nothing is requested")
+    ceiling = getattr(a, "max_rows", None)
+    day = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
+    points, counted, most = set(), 0, 0
+    if ceiling:
+        points = esr_points()
+        counted = rows_today(day)
+        most = len(points) + ROW_MARGIN
+        if counted + most > ceiling:
+            log(f"STOPPED before any request: {counted:,} rows are counted against the ceiling of {ceiling:,} for {day} (UTC) and one more file could keep {most}")
+            result["stopped"] = True
+            return 3
     r = None
     for attempt in range(4):
         try:
@@ -123,7 +187,15 @@ def pull(a, log, get=requests.get):
     done = sum(int(m["bytes"]) for m in manifest() if m["how"] == "requested")
     log(f"ERCOT lists {len(want)} intervals, {want[0]['FriendlyName'][13:26]} to {want[-1]['FriendlyName'][13:26]}; {len(todo)} not yet on this machine, "
         f"{sum(int(d['ContentSize']) for d in todo):,} bytes; downloaded so far {done:,}")
-    n = failed = 0
+    n = failed = rows = 0
+    rc = 0
+
+    def close():
+        if ceiling:
+            rows_add({"run_id": run_id or "", "day_utc": day, "files_saved": n, "rows_counted": rows, "ceiling": ceiling, "stopped": int(result["stopped"])})
+            log(f"rows counted against the ceiling: {counted + rows:,} of {ceiling:,} for {day} (UTC); this run {rows:,} in {n} files")
+        result.update(files=n, rows=rows)
+
     for d in todo:
         size = int(d["ContentSize"])
         if size > MAX_FILE:
@@ -131,7 +203,15 @@ def pull(a, log, get=requests.get):
             continue
         if done + size > MAX_BYTES:
             log(f"STOPPED at this connector's ceiling of {MAX_BYTES:,} bytes")
+            result["stopped"] = True
+            close()
             return 3
+        if ceiling and counted + rows + most > ceiling:
+            log(f"STOPPED before {d['FriendlyName']}: {counted + rows:,} rows are counted against the ceiling of {ceiling:,} for {day} (UTC) "
+                f"and one more file could keep {most}; {len(todo) - n - failed} listed files are left for a later day")
+            result["stopped"] = True
+            rc = 3
+            break
         url = FILE.format(doc=d["DocID"])
         time.sleep(PAUSE)
         g = None
@@ -158,10 +238,15 @@ def pull(a, log, get=requests.get):
                       "retrieved_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "how": "requested"})
         done += len(g.content)
         n += 1
+        if ceiling:
+            k = kept_rows(g.content, points)
+            rows += k
+            most = max(most, k)
         if n % 100 == 0:
             log(f"  {n} of {len(todo)} saved; {done:,} bytes downloaded")
     log(f"{n} files saved by this run, {failed} failed; {len(glob.glob(os.path.join(ZIPS, '*.zip')))} on this machine; {done:,} bytes downloaded in all")
-    return 0
+    close()
+    return rc
 
 
 def read_interval(content):
@@ -267,7 +352,16 @@ def main(argv=None):
     ap.add_argument("--pull", action="store_true")
     ap.add_argument("--offline", action="store_true")
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--daily", action="store_true", help="session 204: the pull under the day's row ceiling, then the table when a file was saved (data lock)")
+    ap.add_argument("--max-rows", type=int, help=f"the rows a UTC day's runs may add (--daily: {MAX_ROWS_DAY:,} unless named)")
     a = ap.parse_args(argv)
+    if a.daily:
+        if a.offline:
+            ap.error("--daily asks ERCOT's list; --offline does not go with it")
+        a.max_rows = a.max_rows or MAX_ROWS_DAY
+        if ip.paused("ercot"):   # asked before the log file is opened: a paused publisher is a skip with its reason, never a failure
+            print(f"{TABLE} SKIPPED: ERCOT is paused (warehouse/metadata/paused_sources.csv); nothing is requested and the table stays as it is")
+            return int(os.environ.get("ERW_SKIP_EXIT") or 0)
     os.makedirs(RAW, exist_ok=True)
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     logf = open(os.path.join(RAW, f"pull_{run_id}.log"), "a", encoding="utf-8")
@@ -277,11 +371,20 @@ def main(argv=None):
         logf.write(m + "\n")
         logf.flush()
     try:
+        if a.daily:
+            got = {}
+            rc = pull(a, log, run_id=run_id, result=got)
+            if rc not in (0, 3):
+                return rc
+            if not got["files"]:
+                log(f"{TABLE}: no file saved by this run; the table is left as it is")
+                return 0
+            return write(log, run_id)   # a run stopped at the ceiling still writes what it saved: the stop is the rule, not a failure
         if a.pull:
-            return pull(a, log)
+            return pull(a, log, run_id=run_id)
         if a.write:
             return write(log, run_id)
-        ap.error("--pull or --write")
+        ap.error("--pull, --write or --daily")
     finally:
         logf.close()
 
