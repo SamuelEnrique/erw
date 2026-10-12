@@ -7,7 +7,7 @@ import { attempt } from "@/lib/supabase";
 import { Body, toFacility } from "./Body";
 
 export const revalidate = 3600;
-export const metadata: Metadata = { title: "Datacenters" };
+export const metadata: Metadata = { title: "Datacenter tracker" };  // session 203: renamed (the roadmap's ruling of 12 October 2026); "Datacenters" is the cost-of-power page's name in the menu now
 
 export default async function DatacentersPage() {
   const res = await attempt(datacenters);

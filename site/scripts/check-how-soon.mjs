@@ -143,7 +143,7 @@ for (const g of ["nyiso", "ercot", "caiso"]) {
   const table = s.indexOf("<table"), waits = s.indexOf('data-waits="1"'), rules = s.indexOf('data-rules="1"');
   check(table >= 0 && table < waits && waits < rules && text.includes("Rules in motion"), `${NAMES[g]}: in "How soon", the section's table, then the waits, then "Rules in motion" beneath`);
   // the two links are drawn by the site's own link (a page in review is named and marked, not linked, for a visitor)
-  check(KEPT.every((k) => text.includes(k)) && text.includes("Interconnection queues") && text.includes("Datacenters") && /MW in [\d,]+ active requests/.test(text),
+  check(KEPT.every((k) => text.includes(k)) && text.includes("Interconnection queues") && text.includes("Datacenter tracker") && /MW in [\d,]+ active requests/.test(text),
     `${NAMES[g]}: nothing the section showed is missing (${KEPT.length} rows, the queue's figures, the words that lead to the queues and the datacenters)`);
 }
 check(/Large load approved to energize\s+[\d,]+ MW, of which [\d,]+ MW observed running \(ERCOT/.test(plain(sectionHtml(face(pages.ercot.html))))

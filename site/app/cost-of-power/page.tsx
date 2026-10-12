@@ -378,7 +378,7 @@ function LoadView({ x: asked, buyGiven, gridAsked, q }: { x: Inputs; buyGiven: b
                 { key: "ll", cells: ["Large load approved to energize",
                   ll ? <>{whole(ll.last.approved!)} MW, of which {whole(ll.last.nonsimultaneous!)} MW observed running (ERCOT, {dayWords(ll.last.day)})</>
                     : x.grid === "ercot" ? <Missing why="ERCOT's large load status table holds no report with these figures." /> : <Missing why={`${g?.name ?? x.grid} publishes no figure of large load approved or running that the warehouse holds.`} />,
-                  <Link key="l" href="/datacenters">Datacenters</Link>] },
+                  <Link key="l" href="/datacenters">Datacenter tracker</Link>] },
                 { key: "line", cells: ["Large load in line, by region",
                   x.grid === "nyiso" ? (NY_SHOWN ? <NyLoadCell key="ny" own={x.region} /> : <span key="ny" data-nyload-held="1"><Missing words={NY_HELD_WORDS} why={NY_HELD_WHY} /></span>)
                     : x.grid === "ercot" ? <Missing key="m" words={NOWHERE} why="ERCOT publishes the large load seeking interconnection as system totals in slide decks, with no table by zone or county. A search on 7 October 2026 found no public list by place." />
