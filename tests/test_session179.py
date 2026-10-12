@@ -350,7 +350,10 @@ class ThePage(unittest.TestCase):
         self.assertEqual(self.lib.count(", source: "), 10)
 
     def test_the_defaults_and_what_they_cite(self):
-        self.assertIn("return { capex: costs.capex, share: 60, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: 0, life: 20, hurdle: 8 };", self.lib)
+        # session 196 (the owner's ruling of 11 October 2026): the degradation and the hurdle rate are cited to Lazard
+        self.assertIn("return { capex: costs.capex, share: 60, rate: 8, term: 20, fom: costs.fom, rte: MODEL.rte, cycles: MODEL.cycles, deg: DEG, life: 20, hurdle: HURDLE };", self.lib)
+        self.assertIn("export const HURDLE = 9.6;", self.lib)
+        self.assertIn("export const DEG = 2.6;", self.lib)
         self.assertIn("export const MODEL = { rte: 86, cycles: 1 };", self.lib)
         stack = src("site", "lib", "batterystack.ts")
         self.assertIn("export const DEBT = { share: 0.6, rate: 0.08, life: 20 };", stack)   # the page's own, cited to Lazard
@@ -359,8 +362,9 @@ class ThePage(unittest.TestCase):
         self.assertIn("86 percent, the low end of Lazard's 92 to 86 percent", note)           # the efficiency steps' range
         self.assertIn('"60% debt at an 8% interest rate"', note)
         # the two defaults no source in the repository gives say so on the page, and are not dressed as cited
-        self.assertIn("No cited rate is held. The default is set equal to the interest rate", self.lib)
-        self.assertIn("The model has no capacity fade. No cited rate is held, so the default is none", self.lib)
+        self.assertIn('"60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = ${HURDLE} percent', self.lib)
+        self.assertIn("(LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases of 2 and 4 hours. The model itself has no capacity fade", self.lib)
+        self.assertNotIn("No cited rate is held", self.lib)
 
     def test_a_reset_each_one_for_all_and_copy_a_to_b(self):
         # session 195: the panel is the shared block's, which this page's file hands its fields

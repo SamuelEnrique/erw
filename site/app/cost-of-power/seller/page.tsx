@@ -19,7 +19,7 @@ import {
   ASSET_NAMES, DEBT, DEFAULT_SIZE, DEFAULTS, durationOf, EVENTS, HEAT_RATE, inputsKey, inputsOf, keyOf, months, stress, summary, VOM,
   type Asset, type Inputs, type Snapshot,
 } from "@/lib/merchant";
-import { debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios } from "@/lib/seller/finance";
+import { BATTERY_DEG, BATTERY_DEG_SOURCE, debtUsd, defaultsOf, isOldParam, isScenarioParam, parseScenarios } from "@/lib/seller/finance";
 import { ASSETS, GRIDS, PAUSED, sentence, spans, usd, whole, years, type Span } from "@/lib/seller2";
 import * as H from "@/lib/sellerhybrid";
 import * as HB from "@/lib/sellerhubs";
@@ -155,7 +155,9 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const iso = q.iso && open.includes(q.iso) ? q.iso : "ercot";
   // session 195: scenario A, as the address has it, sets the page's fixed O&M and annual debt payments
   const asked = inputsOf({ ...q, iso });
-  const A = parseScenarios(q, defaultsOf(DEFAULTS[keyOf(asked)]), asked.mw).a;
+  // session 196: a battery's degradation default is Lazard's cited rate; the other assets hold none
+  const costsOf = (key: keyof typeof DEFAULTS) => ({ ...DEFAULTS[key], ...(asked.asset === "battery" ? { deg: BATTERY_DEG, degSource: BATTERY_DEG_SOURCE } : {}) });
+  const A = parseScenarios(q, defaultsOf(costsOf(keyOf(asked))), asked.mw).a;
   const x: Inputs = { ...asked, fom: A.fom, ds: debtUsd(A, asked.mw) };
   const scenarioParams = Object.fromEntries(Object.entries(q).filter(([n, v]) => (isScenarioParam(n) || isOldParam(n)) && v !== undefined).sort(([a], [b]) => a.localeCompare(b))) as Record<string, string>;
   const g = GRIDS.find((k) => k.id === iso)!, a = ASSETS.find((k) => k.id === x.asset)!;
@@ -316,7 +318,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
   const facts: Facts = {
     mw: x.mw,
     size: fuel ? `${sizeLabel} of ${plantName}` : x.asset === "battery" ? `a ${sizeLabel} battery` : `a ${sizeLabel} gas peaker`,
-    costs: { capex: D.capex, fom: D.fom, life: D.life, capexNote: `${D.capexRange} for ${assetWords}`, fomNote: `${D.fomRange} for ${assetWords}`, lifeNote: `${D.life} years for ${assetWords}` },
+    costs: { ...costsOf(k), capex: D.capex, fom: D.fom, life: D.life, capexNote: `${D.capexRange} for ${assetWords}`, fomNote: `${D.fomRange} for ${assetWords}`, lifeNote: `${D.life} years for ${assetWords}` },
     twelve: s.twelve ? { revenueKw: s.twelve.revenue_kw, energyKw: s.twelve.energy / 1000, span: `${shortMonth(s.twelve.from)} to ${shortMonth(s.twelve.to)}`, at } : null,
     twelveWhy, money,
     capture: fuel
@@ -341,7 +343,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
       />
       {x.iso === "ercot" ? <AskErcotLink context={{ view: "/cost-of-power/seller", title: "What a generator earns", settings: { grid: "ERCOT", hub: hubName(hub.id), asset: ASSET_NAMES[x.asset], size: sizeLabel } }} /> : null}
       <ContractProvider>
-       <SellerDecisions key={`${iso}|${hub.id}|${k}|${x.mw}|${JSON.stringify(scenarioParams)}`} costs={D} mw={x.mw} initial={scenarioParams}>
+       <SellerDecisions key={`${iso}|${hub.id}|${k}|${x.mw}|${JSON.stringify(scenarioParams)}`} costs={costsOf(k)} mw={x.mw} initial={scenarioParams}>
         <div className="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
           <aside>
             <InputPanel title="Your plant">
@@ -554,7 +556,7 @@ export default async function Seller({ searchParams }: { searchParams: Promise<R
        </SellerDecisions>
       </ContractProvider>
       <SourceLine tables={["merchant_revenue_monthly", "eia_fuel_spot_prices", "eia860m_operating_generators", ...new Set(cg.hubs.flatMap((h) => [...(h.rt?.tables ?? []), ...(h.da?.tables ?? [])])), ...(batt ? [B.TABLE] : [])]}
-        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>.</>} />
+        note={<>Derived by the ERW from {g.name}&apos;s public prices and EIA-930&apos;s hourly generation by source ({cg.workbook}){cg.generation.includes("caiso") ? `, California from ${caisoJoinDay()} from CAISO's own supply by fuel` : ""}. The model&apos;s snapshot was built {snap.built.slice(0, 10)}, the capture prices {CAPTURE.built.slice(0, 10)}{atHub ? `, the model at ${hubAt(hub.id)} ${HUBS.built.slice(0, 10)}` : ""}. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. Cost defaults: Lazard, Levelized Cost of Energy+, June 2025. The buyer&apos;s side is <Link href="/cost-of-power">What a datacenter pays</Link>. <span data-checked-against="10">Checked against: 10 published figures (Lazard, the Annual Technology Baseline, EIA). <Link href="/data/methods/generator_earns_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
     </ToolPage>
   );
 }

@@ -25,6 +25,16 @@ export type Spec = {
 };
 const n = (v: number) => v.toLocaleString("en-US", { maximumFractionDigits: 2 });
 export const LAZARD = "Lazard, Levelized Cost of Energy+, June 2025";
+/** Session 196, the owner's ruling of 11 October 2026: the hurdle rate's default is Lazard's weighted cost of capital,
+ * as Lazard's June 2025 report states its financing: "60% debt at an 8% interest rate and 40% equity at a 12% cost"
+ * (read 11 October 2026; docs/methods/battery_earns_algorithm.md, "Cross-checks"). 0.6 x 8 + 0.4 x 12 = 9.6. Until then
+ * it was 8, set equal to the interest rate, with no source. */
+export const HURDLE = 9.6;
+/** Session 196, the same ruling, for the battery among this page's assets: Lazard's storage cases (LCOS v10.0) give a
+ * battery degradation of 2.6% a year (lib/battery/finance.ts, DEG). Solar, wind and a gas peaker keep a default of
+ * none: the ruling names the battery, and the page says no cited rate is held for them. */
+export const BATTERY_DEG = 2.6;
+export const BATTERY_DEG_SOURCE = `${LAZARD} (LCOS v10.0): battery degradation of 2.6 percent a year in its utility-scale cases of 2 and 4 hours. The model itself has no loss of output with age: here the rate is a yearly cut to revenue`;
 export const SPECS: Record<Key, Spec> = {
   capex: { key: "capex", letter: "c", label: "Capital cost", unit: "USD per kW", min: 0, max: 10000, whole: false, swing: 100, swingWords: "USD 100 per kW",
     short: (v) => `capex ${n(v)} USD/kW`, words: (v) => `capex USD ${n(v)} per kW`, plain: n, source: `${LAZARD}, the midpoint of its range` },
@@ -41,13 +51,13 @@ export const SPECS: Record<Key, Spec> = {
   life: { key: "life", letter: "l", label: "Project life", unit: "years", min: 1, max: 40, whole: true, swing: 5, swingWords: "5 years",
     short: (v) => `life ${n(v)} years`, words: (v) => `project life ${n(v)} years`, plain: n, source: `${LAZARD}: the life of this asset` },
   hurdle: { key: "hurdle", letter: "h", label: "Hurdle rate", unit: "percent a year", min: 0, max: 40, whole: false, swing: 1, swingWords: "1 point",
-    short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: "No cited rate is held. The default is set equal to the interest rate" },
+    short: (v) => `hurdle ${n(v)}%`, words: (v) => `hurdle rate ${n(v)} percent`, plain: n, source: `${LAZARD}: "60% debt at an 8% interest rate and 40% equity at a 12% cost". The default is that weighted cost, 0.6 x 8 + 0.4 x 12 = ${HURDLE} percent` },
 };
 
 /** The defaults for an asset: its Lazard capital cost, fixed O&M and life (lib/merchant.ts, DEFAULTS), Lazard's
  * financing (60 percent debt at 8 percent, repaid over the life), and the two that no source in the repository gives. */
-export function defaultsOf(costs: { capex: number; fom: number; life: number }): Assumptions {
-  return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: 0, life: costs.life, hurdle: 8 };
+export function defaultsOf(costs: { capex: number; fom: number; life: number; deg?: number }): Assumptions {
+  return { capex: costs.capex, share: 60, rate: 8, term: costs.life, fom: costs.fom, deg: costs.deg ?? 0, life: costs.life, hurdle: HURDLE };
 }
 
 /** One value brought inside its bounds, or to the default when it cannot be read. */

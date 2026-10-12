@@ -42,13 +42,16 @@ function check(ok, what, detail = "") {
 const near = (a, b, tol = 1e-9) => a !== null && b !== null && Math.abs(a - b) <= tol * Math.max(1, Math.abs(b));
 
 // the defaults: the page's two cited ones, and the five the page does not otherwise hold
-const d = F.defaultsOf({ run: 0, gpu: 1.3, pue: 1.56 });
-check(JSON.stringify(d) === JSON.stringify({ run: 0, gpu: 1.3, pue: 1.56, adder: 0, growth: 0, upfront: 0, life: 20, hurdle: 8 }), "the defaults", JSON.stringify(d));
+const dNow = F.defaultsOf({ run: 0, gpu: 1.3, pue: 1.56 });
+check(JSON.stringify(dNow) === JSON.stringify({ run: 0, gpu: 1.3, pue: 1.56, adder: 0, growth: 0, upfront: 0, life: 20, hurdle: 9.6 }), "the defaults (session 196: a hurdle rate of 9.6, cited to Lazard)", JSON.stringify(dNow));
+// the hand cases below were worked at session 194's default hurdle rate of 8, and stay on it
+const d = { ...dNow, hurdle: 8 };
 check(F.defaultsOf({ run: 1, gpu: 1, pue: 1.2 }).run === 1 && F.defaultsOf({ run: 1, gpu: 1, pue: 1.2 }).gpu === 1 && F.defaultsOf({ run: 1, gpu: 1, pue: 1.2 }).pue === 1.2, "the way of running, the power per GPU and the overhead ratio default to \"Your load\"");
 check(F.KEYS.length === 8 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 8, "eight assumptions, eight different letters");
 check(JSON.stringify(F.KEYS) === JSON.stringify(["run", "gpu", "pue", "adder", "growth", "upfront", "life", "hurdle"]), "in the page's order");
 check(F.KEYS.every((k) => k === "gpu" || k === "pue" || F.SPECS[k].source.length > 20), "every default the library holds states where it comes from");
-check(/No cited/.test(F.SPECS.hurdle.source) && /No cited/.test(F.SPECS.life.source) && /No cited/.test(F.SPECS.growth.source) && /No cited/.test(F.SPECS.upfront.source), "the four defaults with no source say so");
+check(/No cited/.test(F.SPECS.life.source) && /No cited/.test(F.SPECS.growth.source) && /No cited/.test(F.SPECS.upfront.source), "the three defaults with no source say so");
+check(/Lazard/.test(F.SPECS.hurdle.source) && /40% equity at a 12% cost/.test(F.SPECS.hurdle.source) && F.HURDLE === 9.6, "the hurdle rate cites Lazard's financing, and is its weighted cost (session 196)");
 
 // a flat MW at USD 40 in every hour of 8,760, and the same MW off in 100 hours that averaged USD 213.20
 const flat = { per: 40, cost: 350400, energy: 8760, held: 8760, flatCost: 350400, down: 0, bad: null, of: 0 };

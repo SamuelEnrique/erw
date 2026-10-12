@@ -33,8 +33,12 @@ function check(ok, what, detail = "") {
 const near = (a, b, tol = 1e-9) => a !== null && b !== null && Math.abs(a - b) <= tol;
 
 // the defaults: Lazard's solar (1,375 USD per kW, 12.5 USD per kW a year, 35 years), 60 percent debt at 8 percent over the life
-const solar = F.defaultsOf({ capex: 1375, fom: 12.5, life: 35 });
-check(JSON.stringify(solar) === JSON.stringify({ capex: 1375, share: 60, rate: 8, term: 35, fom: 12.5, deg: 0, life: 35, hurdle: 8 }), "the defaults of solar", JSON.stringify(solar));
+const solarNow = F.defaultsOf({ capex: 1375, fom: 12.5, life: 35 });
+check(JSON.stringify(solarNow) === JSON.stringify({ capex: 1375, share: 60, rate: 8, term: 35, fom: 12.5, deg: 0, life: 35, hurdle: 9.6 }), "the defaults of solar (session 196: a hurdle rate of 9.6, cited to Lazard)", JSON.stringify(solarNow));
+check(F.defaultsOf({ capex: 1110, fom: 22, life: 20, deg: F.BATTERY_DEG }).deg === 2.6 && /2\.6 percent a year/.test(F.BATTERY_DEG_SOURCE) && /40% equity at a 12% cost/.test(F.SPECS.hurdle.source) && Math.abs(F.HURDLE - (0.6 * 8 + 0.4 * 12)) < 1e-12,
+  "a battery's degradation default is Lazard's 2.6 percent a year, and the hurdle rate is the weighted cost 0.6 x 8 + 0.4 x 12");
+// the hand cases below were worked at session 186's default hurdle rate of 8, and stay on it
+const solar = { ...solarNow, hurdle: 8 };
 check(F.KEYS.length === 8 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 8, "eight assumptions, eight different letters");
 check(JSON.stringify(F.KEYS) === JSON.stringify(["capex", "share", "rate", "term", "fom", "deg", "life", "hurdle"]), "in the order asked");
 

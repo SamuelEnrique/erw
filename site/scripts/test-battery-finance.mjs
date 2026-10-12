@@ -29,8 +29,11 @@ function check(ok, what, detail = "") {
 }
 const near = (a, b, tol = 1e-9) => a !== null && b !== null && Math.abs(a - b) <= tol;
 
-const d4 = F.defaultsOf({ capex: 1110, fom: 22 });
-check(JSON.stringify(d4) === JSON.stringify({ capex: 1110, share: 60, rate: 8, term: 20, fom: 22, rte: 86, cycles: 1, deg: 0, life: 20, hurdle: 8 }), "the defaults of a 4-hour battery", JSON.stringify(d4));
+const now4 = F.defaultsOf({ capex: 1110, fom: 22 });
+check(JSON.stringify(now4) === JSON.stringify({ capex: 1110, share: 60, rate: 8, term: 20, fom: 22, rte: 86, cycles: 1, deg: 2.6, life: 20, hurdle: 9.6 }), "the defaults of a 4-hour battery (session 196: degradation 2.6 and a hurdle rate of 9.6, both cited to Lazard)", JSON.stringify(now4));
+check(/Lazard/.test(F.SPECS.hurdle.source) && /40% equity at a 12% cost/.test(F.SPECS.hurdle.source) && /Lazard/.test(F.SPECS.deg.source) && /2\.6 percent a year/.test(F.SPECS.deg.source) && Math.abs(F.HURDLE - (0.6 * 8 + 0.4 * 12)) < 1e-12 && F.DEG === 2.6, "both defaults state their source, and the hurdle rate is the weighted cost 0.6 x 8 + 0.4 x 12");
+// the hand cases below were worked at session 179's defaults, degradation 0 and a hurdle rate of 8, and stay on them
+const d4 = { ...now4, deg: 0, hurdle: 8 };
 check(F.KEYS.length === 10 && new Set(F.KEYS.map((k) => F.SPECS[k].letter)).size === 10, "ten assumptions, ten different letters");
 
 // the capital recovery factor and the debt payment: 0.08 / (1 - 1.08^-20) = 0.101852209; 1,110 x 0.6 x that = 67.8336 a kW
