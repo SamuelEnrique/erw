@@ -7,7 +7,7 @@ import { internalOk } from "@/lib/thesis/server";
 
 // Session 202: the health of the scheduled jobs, by day, and the green streak: "Scheduled jobs green for N days". That
 // line is the counter of the public day's gate (docs/roadmap.md: seven green days of every scheduled job). Internal: no
-// nav link, not indexed, and behind the internal view as /internal/waits is: the page answers 404 unless the browser
+// nav link, not indexed, and behind the internal view as the page of waits is: the page answers 404 unless the browser
 // holds the internal cookie. A token in the address opens nothing.
 //
 // The numbers come from one committed file, data/health_days.json, which warehouse/health.py writes from the Supabase
