@@ -4,7 +4,7 @@ lab-desktop (data role), 12 October 2026 from 09:49 UTC (02:49 Pacific). Unatten
 
 ## Read these first
 
-- **Vercel's deployment of session 204's merge failed, and the reason is unread.** GitHub's check passed and the merge is on `main` (`30dd910b`); Vercel said "Deployment has failed" ten seconds later. The live site stayed on the deployment before it: 0 page differences. This machine has no Vercel sign-in. To read the log: `npx vercel inspect dpl_UMxy7XZv7MQESf1mreTsxcZNzHwD --logs`. See "The landing of session 204" below.
+- **Vercel has failed both deployments of this chain, and the reason is unread.** Both branches passed GitHub's check and are merged on `main` (session 204 as `30dd910b`, this session as `28e880da`). Each time Vercel said "Deployment has failed" within eleven seconds of the merge, too soon to be the site build. The live site is still the deployment of 03:44 UTC (`9687ca26`): 0 page differences at both landings. This machine has no Vercel sign-in. To read the logs: `npx vercel inspect dpl_UMxy7XZv7MQESf1mreTsxcZNzHwD --logs` and `npx vercel inspect dpl_78gwF1oMczCxgD8mPj4vgDFfUM6T --logs`. **Until it is fixed, nothing pushed to `main` reaches the site,** the code machine's landings of tonight and the daily run's files included. See the two landing sections.
 - **`docs/licenses.md` holds a verdict for each of the 198 tables.** The flag in `coverage.csv` and the verdict agree on 132, disagree on 44, and 21 are not settled because a publisher was not read. One table is internal by the ERW's own choice.
 - **42 tables are flagged public where a publisher's sentence asks for permission.** Three operators decide most of them: NYISO 29, ISO-NE 25, MISO 21 (a table can be under several). The rest are the news tables, the datacenter operators' table and two tables taken through FRED.
 - **Most of the 42 are derived tables.** The ERW's own rule gives a derived table the strictest license of its inputs, so one zonal price of NYISO's in a comparison table makes the whole table NYISO's to permit.
@@ -120,6 +120,17 @@ Session 204's report was pushed with its branch, before its own result existed. 
 - This branch changes no file under `site/`. Its merge still starts a Vercel deployment of the whole of `main`, session 204's site files with it.
 - **The push, GitHub's check, Vercel's answer, the after snapshot and the comparison are added by the branch `task/205-report`,** below this line.
 
+Added by `task/205-report`:
+
+- **Push** of `task/205-licenses` (`10be5869`) at 13:20:53 UTC, exit 0. **GitHub's check** "code branch", run 38255054586: success. **Merged** on `main` as `28e880da` at 13:28:45 UTC.
+- **Vercel failed again:** "Vercel is deploying your app" at 13:28:50 UTC, "Deployment has failed" at 13:28:56 UTC, deployment `dpl_78gwF1oMczCxgD8mPj4vgDFfUM6T` (https://vercel.com/erw6/erw/78gwF1oMczCxgD8mPj4vgDFfUM6T). Two failures in a row, 16 minutes apart, each within seconds: a standing fault, not a passing one.
+  - What it is not, as far as this machine can tell: an incident Vercel has posted (status page "All Systems Operational" at 13:14 and 13:30 UTC); a known advisory on the site's packages (`npm audit --omit=dev` in `site/`: exit 0, 0 vulnerabilities; Next.js 16.3.8); a broken build of these files (the site build passed here on session 204's site files, and this session changed none).
+  - What it may be, not verified: something on Vercel's side of the project (the account, the plan, the project's settings) since 03:44 UTC, when the last deployment completed. Session 204's merge is the first deployment after that hour, so I cannot rule out that something in it is the cause; I found nothing in it that could fail before a build starts.
+  - Nothing was changed to get round it, and no deployment was tried for its own sake.
+- `take after205`: exit 0, 25 pages, 0 failed, at 2026-10-12T13:29:51Z. **`compare before205 after205`: exit 0, 0 differences on each of the 25 pages.** Expected: no page changes were meant, and none could arrive.
+- **This file's own push** (`task/205-report`): `take before205r` exit 0, 25 pages, 0 failed, at 13:30:30 UTC. Its check, Vercel's answer and the after comparison cannot be in the file they follow; they are in the chain's closing message and under `runs/s204/` on lab-desktop (`cmp_before205r_after205r.out`).
+- The scratch copy used for the clean runs of the suite was removed with `git worktree remove`. The worktree `erw-205` stays, on `task/205-report`.
+
 ## Decisions made without you
 
 - **This branch was pushed with Vercel's failure of session 204's deployment unexplained.** It changes nothing under `site/`, GitHub's check had passed, and the live pages had not moved. Its merge is also the next try at a deployment. Reversible: a failed deployment leaves the site where it was.
@@ -141,6 +152,7 @@ Session 204's report was pushed with its branch, before its own result existed. 
 
 ## For Samuel's ruling
 
+- Vercel has failed every deployment since 13:12 UTC on 12 October. Will you read the log (the two commands at the top) and say what it needs, or sign this machine in to Vercel so a session can read it?
 - 42 tables are flagged public where the publisher's sentence asks for permission (29 under NYISO, 25 under ISO-NE, 21 under MISO). Flag them internal until permission comes, or leave them while the letters are out?
 - Should a derived table still take the strictest license of its inputs when only a few rows come from that input, or may those rows be dropped to keep the table public?
 - FRED forbids keeping its content in a database without consent. Take the two series from EIA and the Federal Reserve Board directly, and retire the FRED route?
