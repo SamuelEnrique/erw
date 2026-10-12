@@ -214,6 +214,18 @@ def agree(rows, facts, tol=0.005):
     return bad
 
 
+MOVING = ("# Retrieved (UTC) as each table's own header states: ", "# Exported: ")   # the two header lines every export rewrites
+
+
+def same_but_stamps(a, b):
+    """Whether two exports are the same file apart from the two lines that say when (session 204): every hour, every
+    other header line and the column names equal, byte for byte."""
+    def rest(path):
+        with open(path, encoding="utf-8", newline="") as f:
+            return [ln for ln in f if not ln.startswith(MOVING)]
+    return os.path.exists(a) and os.path.exists(b) and rest(a) == rest(b)
+
+
 def write(rows, facts, in_dir, out, run_at):
     sha, commit = model_version()
 
@@ -277,6 +289,8 @@ def main(argv=None):
     ap.add_argument("--in-dir", default=ip.OUT_DIR, help="read the tables from this directory (another copy's warehouse/output); "
                     "nothing is written there")
     ap.add_argument("--out", default=OUT, help="the CSV to write")
+    ap.add_argument("--keep-same", action="store_true", help="session 204, the daily run: when no hour, window or model line differs from the "
+                    "CSV held, leave it as it is (its two dated header lines then name the export that last moved an hour)")
     a = ap.parse_args(argv)
     in_dir = os.path.abspath(a.in_dir)
     need = [bs.NAME, bs.MARKETS[GRID]["as_table"], pb.TABLES[(GRID, "rtm")][0]]
@@ -292,7 +306,16 @@ def main(argv=None):
         for line in bad[:40]:
             print("  " + line, file=sys.stderr)
         return 1
-    size = write(rows, facts, in_dir, os.path.abspath(a.out), run_at)
+    out = os.path.abspath(a.out)
+    if a.keep_same and os.path.exists(out):
+        trial = out + ".new"
+        write(rows, facts, in_dir, trial, run_at)
+        same = same_but_stamps(out, trial)
+        os.remove(trial)
+        if same:
+            print(f"{os.path.basename(out)}: unchanged (the model gives the same {len(rows)} hours over {facts['first']}..{facts['last']}); left as it is")
+            return 0
+    size = write(rows, facts, in_dir, out, run_at)
     print(f"{os.path.basename(a.out)}: rows={len(rows)} days={facts['days']} months={len(facts['held'])} bytes={size} "
           f"window={facts['first']}..{facts['last']} last_twelve={facts['l12'][0]}..{facts['l12'][-1]} "
           f"left_out={len(facts['left'])} switch_days={facts['n_switch']}")
