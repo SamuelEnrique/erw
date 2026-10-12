@@ -130,6 +130,68 @@ counts from zero, reads every row as replaced, and so sends the whole table to t
   started again at 07:10 UTC and took a request at 07:55 UTC. It still starts at log-on only.
 - **This machine still cannot push to GitHub.** No sign-in is stored for `Shared`. Until one is, the daily run's
   commits stay on `main` here, and every branch of this machine waits to be pushed by a person.
+  (No longer so: a sign-in is stored since 11 October 2026, 09:22 UTC. See the next section.)
+
+### The lab desktop, as it stands (session 200)
+
+Read on the machine at about 02:00 UTC on 12 October 2026. Each line names the command it is read from. Where a line
+above says otherwise, this section is the newer one.
+
+- **The GitHub sign-in is stored for `Shared`.**
+  - How: git's credential helper is `manager`, Git Credential Manager (`git config --get credential.helper`). It keeps
+    one entry, `git:https://github.com`, in the Windows credential store of the account `Shared` (`cmdkey /list`
+    names the entry; its value is never read or printed).
+  - Since: 11 October 2026, 09:22 UTC, when a person completed the sign-in window on a push (session 185's report).
+  - Proven each session: `scripts/precheck.py` makes a push dry run (`push_dry_run`).
+  - The `GH_TOKEN` in `.env` is the scheduler's, for workflow dispatch. No session pushes with it.
+- **The daily run.** Task `ERW data machine daily` (`Get-ScheduledTask`, `Get-ScheduledTaskInfo`).
+  - Time: every day at 10:00 Pacific (17:00 UTC in summer, 18:00 UTC in winter), after the runner's run.
+  - Trigger: the daily trigger alone, and only while `Shared` is logged on (logon type `Interactive`).
+  - The six-hour stop: the task is ended after six hours (`ExecutionTimeLimit` `PT6H`).
+  - What it runs: `warehouse/lock.py run --task 'data machine daily' --wait 60 -- bash warehouse/run_data_machine.sh`,
+    with `GCM_INTERACTIVE=never` and `GIT_TERMINAL_PROMPT=0`, its output added to `runs/data_machine_daily.out`.
+  - Last run: 11 October 2026, 17:00 UTC, result 0; 14 steps, all `ok` (`runs/data_machine_status.txt`); its commit
+    `483c412d` was pushed.
+- **The quantities step** (`ercot_as_quantities`, session 198).
+  - It is block 2b of `warehouse/run_data_machine.sh` on the branch `task/198-battery-data`.
+  - It is not on `main`: GitHub's check of that branch failed on 11 October (run 38172045438), so the branch did not
+    merge. The daily run here does not run the step until it does. `main` passes the check again since 02:23 UTC on
+    12 October (session 199); the branch had not landed at 02:30 UTC.
+  - Session 198 ran it once by hand: 4,800 rows, to 13 October 04:00 UTC.
+- **The worker's triggers.** Task `ERW findings worker`.
+  - Two triggers: at log-on of `Shared` and at startup (`MSFT_TaskLogonTrigger`, `MSFT_TaskBootTrigger`). The startup
+    trigger that sessions 184 and 185 could not add is there.
+  - Logon type `S4U`: it runs with nobody logged on. No time limit. Running since 11 October 2026, 07:10 UTC.
+  - It writes a requested card into the main checkout as untracked files (`site/data/findings/`,
+    `site/public/findings/`): four tonight (`git status`).
+  - `ERW worker` (the task queue) is still not registered.
+- **The raw folders.** `warehouse/raw`: 57 top folders, 33,690 files, 26,796,470,950 bytes, 26.8 GB
+  (`Get-ChildItem warehouse/raw -Recurse -File`). 33,630 of the files came by the handover.
+- **The tables.** `warehouse/output`: 198 tables, 37,036,977 rows, 10,022,364,641 bytes, each `current` against Redivis
+  (`scripts/sync.py --check --no-git`, exit 0). Every table's state: `docs/state/data_2026-10-11.md`.
+- **Disk.** 387 GB free on `C:` (`Get-PSDrive C`). Sleep on AC power: never (`powercfg`).
+- **The venv rule.** Every Python command on this machine names `.venv\Scripts\python.exe` (`.venv/Scripts/python.exe`
+  in Git Bash). The bare `python` is the global Python 3.14.7 and holds no package: a command started with it fails
+  on its first import (session 198's first precheck). The daily task and the worker name the venv's Python in full.
+- **A monthly table can stand a day behind its daily one here.** `scripts/sync.py` restores a table when Redivis holds
+  more rows or a newer timestamp. A monthly table rewritten whole keeps both, so the sync leaves the older file.
+  Session 200 found `ercot_storage_dam_offers_monthly` and `ercot_storage_dam_awards_monthly` so (10 August days
+  against the daily table's 11) and rebuilt them under the data lock:
+
+  ```
+  .venv\Scripts\python.exe warehouse/lock.py acquire --task "storage monthly rollup" --minutes 30
+  .venv\Scripts\python.exe warehouse/derived/ercot_storage_dam_awards.py
+  .venv\Scripts\python.exe warehouse/derived/ercot_storage_dam_offers.py
+  .venv\Scripts\python.exe warehouse/lock.py release
+  ```
+
+  The next sync brings a new daily table and leaves the monthly ones again: the two commands are needed after each.
+- **Other checkouts.** Seven worktrees beside the main one (`git worktree list`): `erw-184`, `erw-185`, `erw-185n`,
+  `erw-191`, `erw-192`, `erw-193` (all merged) and `erw-200`.
+- **A test's residue.** `warehouse/output/raw/madeup_as_prices/` (untracked, two files, 112 bytes) was made on
+  11 October at 20:22 UTC, while session 198 ran the suite; session 200's run of the suite in a clean worktree made
+  the same folder there. `scripts/raw_handover.py` names `tests/test_session85.py` as the writer of a folder of that
+  name. It is not a source, and session 200 left it.
 
 ## Setting up a machine
 
