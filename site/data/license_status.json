@@ -1,11 +1,11 @@
 {
- "from": "2026-10-20",
+ "from": "2026-10-21",
  "written": "2026-10-13",
- "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-20 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
+ "what": "Tables flagged public whose publisher's own page asks for permission or a license (docs/licenses.md). From 2026-10-21 a table with status 'license needed' shows 'license needed' on the site unless a permission is recorded (warehouse/metadata/license_status.csv).",
  "tables": {
   "ai_power_regions": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -14,14 +14,14 @@
   },
   "battery_stack_review_monthly": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "NYISO"
    ]
   },
   "clean_energy_hourly": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -30,7 +30,7 @@
   },
   "clean_energy_summary": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -39,7 +39,7 @@
   },
   "cost_of_power_carbon": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -48,7 +48,7 @@
   },
   "cost_of_power_hourly_profile": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -57,7 +57,7 @@
   },
   "cost_of_power_monthly": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -66,7 +66,7 @@
   },
   "datacenter_facilities": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "Amazon Web Services",
     "Bloomberg",
@@ -96,7 +96,7 @@
   },
   "datacenter_operator_sites": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "Amazon Web Services",
     "Digital Realty",
@@ -111,7 +111,7 @@
   },
   "datacenter_projects": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "Bloomberg",
     "Data Center Dynamics",
@@ -129,7 +129,7 @@
   },
   "datacenter_queue_positions": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -138,7 +138,7 @@
   },
   "energy_deals": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "Bloomberg",
     "Data Center Dynamics",
@@ -154,14 +154,14 @@
   },
   "energy_projects": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE"
    ]
   },
   "event_study_estimates": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -170,7 +170,7 @@
   },
   "event_window_daily": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -179,7 +179,7 @@
   },
   "hub_price_comparison": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -188,14 +188,14 @@
   },
   "iso_dam_hub_prices": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "MISO"
    ]
   },
   "iso_hub_prices_history": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -204,7 +204,7 @@
   },
   "iso_rt_top_intervals": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "NYISO"
@@ -212,14 +212,14 @@
   },
   "iso_rtm_hub_prices": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "MISO"
    ]
   },
   "iso_trader_daily": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -228,42 +228,42 @@
   },
   "iso_zone_prices_history": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "NYISO"
    ]
   },
   "isone_dam_zone_prices": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE"
    ]
   },
   "isone_interconnection_queue": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE"
    ]
   },
   "isone_rtm_zone_prices": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE"
    ]
   },
   "isone_rtm_zone_prices_hourly": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE"
    ]
   },
   "merchant_revenue_monthly": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -272,14 +272,14 @@
   },
   "miso_interconnection_queue": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "MISO"
    ]
   },
   "news_index": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "Bloomberg",
     "Data Center Dynamics",
@@ -300,56 +300,56 @@
   },
   "nyiso_as_prices": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "NYISO"
    ]
   },
   "nyiso_dam_cleared_energy": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "NYISO"
    ]
   },
   "nyiso_dam_zone_prices": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "NYISO"
    ]
   },
   "nyiso_interconnection_queue": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "NYISO"
    ]
   },
   "nyiso_load_queue": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "NYISO"
    ]
   },
   "nyiso_rtm_zone_prices": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "NYISO"
    ]
   },
   "nyiso_zone_load_hourly": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "NYISO"
    ]
   },
   "price_board_latest": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -358,7 +358,7 @@
   },
   "price_board_peak_offpeak": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -367,7 +367,7 @@
   },
   "price_board_spreads": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "MISO",
@@ -376,11 +376,1823 @@
   },
   "price_board_stats": {
    "status": "license needed",
-   "from": "2026-10-20",
+   "from": "2026-10-21",
    "publishers": [
     "ISO-NE",
     "NYISO"
    ]
   }
- }
+ },
+ "all": {
+  "ai_power_regions": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "ba_supply_monthly": {
+   "status": "public",
+   "pages": [
+    "/network"
+   ]
+  },
+  "battery_stack_monthly": {
+   "status": "public",
+   "pages": [
+    "/",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller"
+   ]
+  },
+  "battery_stack_review_monthly": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": [
+    "/",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller"
+   ]
+  },
+  "battery_stack_stress_daily": {
+   "status": "public",
+   "pages": [
+    "/",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller"
+   ]
+  },
+  "caiso_area_load_hourly": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power"
+   ]
+  },
+  "caiso_as_prices": {
+   "status": "public",
+   "pages": [
+    "/board",
+    "/cost-of-power/battery"
+   ]
+  },
+  "caiso_battery_storage": {
+   "status": "public",
+   "pages": [
+    "/curtailment",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/network",
+    "/shoulder",
+    "/storage"
+   ]
+  },
+  "caiso_curtailment_daily": {
+   "status": "public",
+   "pages": [
+    "/curtailment",
+    "/shoulder"
+   ]
+  },
+  "caiso_curtailment_intervals": {
+   "status": "public",
+   "pages": [
+    "/curtailment"
+   ]
+  },
+  "caiso_curtailment_profile": {
+   "status": "public",
+   "pages": [
+    "/curtailment"
+   ]
+  },
+  "caiso_dam_alert_day_hub_prices": {
+   "status": "public",
+   "pages": []
+  },
+  "caiso_dam_cleared_energy": {
+   "status": "public",
+   "pages": []
+  },
+  "caiso_fuel_supply": {
+   "status": "public",
+   "pages": [
+    "/curtailment",
+    "/shoulder"
+   ]
+  },
+  "caiso_fuel_supply_history": {
+   "status": "public",
+   "pages": [
+    "/curtailment"
+   ]
+  },
+  "caiso_grid_emergencies": {
+   "status": "public",
+   "pages": [
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp"
+   ]
+  },
+  "caiso_interconnection_queue": {
+   "status": "public",
+   "pages": []
+  },
+  "caiso_reliability_daily": {
+   "status": "public",
+   "pages": [
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp"
+   ]
+  },
+  "caiso_wind_solar_forecast": {
+   "status": "public",
+   "pages": []
+  },
+  "carb_lcfs_credit_prices": {
+   "status": "public",
+   "pages": [
+    "/board"
+   ]
+  },
+  "carbon_intensity_daily": {
+   "status": "public",
+   "pages": [
+    "/emissions",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/learn/problems/know-your-grid",
+    "/network"
+   ]
+  },
+  "carbon_intensity_hourly": {
+   "status": "public",
+   "pages": [
+    "/emissions",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/learn/problems/know-your-grid",
+    "/learn/problems/networks-and-money",
+    "/learn/problems/prices-and-your-bill",
+    "/learn/problems/when-the-grid-broke",
+    "/network"
+   ]
+  },
+  "carbon_intensity_monthly": {
+   "status": "public",
+   "pages": [
+    "/emissions",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp"
+   ]
+  },
+  "census_metro_population": {
+   "status": "public",
+   "pages": []
+  },
+  "cftc_cot_positions": {
+   "status": "public",
+   "pages": [
+    "/supply"
+   ]
+  },
+  "clean_energy_hourly": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/mix"
+   ]
+  },
+  "clean_energy_summary": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/mix"
+   ]
+  },
+  "cost_of_power_carbon": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power"
+   ]
+  },
+  "cost_of_power_hourly_profile": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/learn/problems/prices-and-your-bill"
+   ]
+  },
+  "cost_of_power_monthly": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/",
+    "/cost-of-power",
+    "/learn/bill",
+    "/learn/problems/prices-and-your-bill"
+   ]
+  },
+  "datacenter_facilities": {
+   "status": "license needed",
+   "hold": "whole",
+   "publishers": [
+    "Amazon Web Services",
+    "Bloomberg",
+    "Data Center Dynamics",
+    "Data Center Frontier",
+    "Data Center Knowledge",
+    "Digital Realty",
+    "Equinix",
+    "Financial Times",
+    "Google",
+    "Hart Energy",
+    "Heatmap News",
+    "ISO-NE",
+    "Latitude Media",
+    "MISO",
+    "Meta",
+    "Microsoft",
+    "NYISO",
+    "Natural Gas Intelligence",
+    "Oracle",
+    "POWER Magazine",
+    "Reuters",
+    "Switch",
+    "Vantage Data Centers",
+    "WSJ"
+   ],
+   "pages": [
+    "/",
+    "/datacenters",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/map",
+    "/resources"
+   ]
+  },
+  "datacenter_operator_sites": {
+   "status": "license needed",
+   "hold": "whole",
+   "publishers": [
+    "Amazon Web Services",
+    "Digital Realty",
+    "Equinix",
+    "Google",
+    "Meta",
+    "Microsoft",
+    "Oracle",
+    "Switch",
+    "Vantage Data Centers"
+   ],
+   "pages": [
+    "/datacenters"
+   ]
+  },
+  "datacenter_projects": {
+   "status": "license needed",
+   "hold": "whole",
+   "publishers": [
+    "Bloomberg",
+    "Data Center Dynamics",
+    "Data Center Frontier",
+    "Data Center Knowledge",
+    "Financial Times",
+    "Hart Energy",
+    "Heatmap News",
+    "Latitude Media",
+    "Natural Gas Intelligence",
+    "POWER Magazine",
+    "Reuters",
+    "WSJ"
+   ],
+   "pages": [
+    "/datacenters",
+    "/roundup"
+   ]
+  },
+  "datacenter_queue_positions": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "eia860m_operating_generators": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power/seller",
+    "/map",
+    "/resources"
+   ]
+  },
+  "eia860m_planned_generators": {
+   "status": "public",
+   "pages": [
+    "/map",
+    "/resources"
+   ]
+  },
+  "eia860m_retired_generators": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power/seller"
+   ]
+  },
+  "eia860m_retired_generators_all": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_all_demand": {
+   "status": "public",
+   "pages": [
+    "/",
+    "/grid",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/learn/problems/know-your-grid",
+    "/learn/problems/networks-and-money",
+    "/learn/problems/prices-and-your-bill",
+    "/learn/problems/when-the-grid-broke",
+    "/network"
+   ]
+  },
+  "eia930_all_emissions": {
+   "status": "public",
+   "pages": [
+    "/emissions"
+   ]
+  },
+  "eia930_all_generation": {
+   "status": "public",
+   "pages": [
+    "/curtailment",
+    "/grid",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/learn/problems/know-your-grid",
+    "/mix",
+    "/play/battery"
+   ]
+  },
+  "eia930_all_history": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_all_interchange": {
+   "status": "public",
+   "pages": [
+    "/learn/problems/know-your-grid",
+    "/learn/problems/networks-and-money",
+    "/learn/problems/prices-and-your-bill",
+    "/learn/problems/when-the-grid-broke",
+    "/network"
+   ]
+  },
+  "eia930_all_storage": {
+   "status": "public",
+   "pages": [
+    "/network",
+    "/storage"
+   ]
+  },
+  "eia930_daily_demand": {
+   "status": "public",
+   "pages": [
+    "/network"
+   ]
+  },
+  "eia930_daily_interchange": {
+   "status": "public",
+   "pages": [
+    "/network"
+   ]
+  },
+  "eia930_daily_total_interchange": {
+   "status": "public",
+   "pages": []
+  },
+  "eia930_demand_growth": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/demand"
+   ]
+  },
+  "eia930_demand_weather": {
+   "status": "public",
+   "pages": [
+    "/demand"
+   ]
+  },
+  "eia930_event_hourly_interchange": {
+   "status": "public",
+   "pages": [
+    "/network"
+   ]
+  },
+  "eia930_generation_latest": {
+   "status": "public",
+   "pages": [
+    "/mix"
+   ]
+  },
+  "eia_basin_production_monthly": {
+   "status": "public",
+   "pages": [
+    "/supply"
+   ]
+  },
+  "eia_crude_first_purchase_prices": {
+   "status": "public",
+   "pages": []
+  },
+  "eia_crude_imports_by_country": {
+   "status": "public",
+   "pages": []
+  },
+  "eia_crude_stream_prices": {
+   "status": "public",
+   "pages": [
+    "/board"
+   ]
+  },
+  "eia_fuel_spot_prices": {
+   "status": "public",
+   "pages": [
+    "/",
+    "/board",
+    "/cost-of-power/seller",
+    "/prices",
+    "/severance",
+    "/severance/lease"
+   ]
+  },
+  "eia_gas_storage_weekly": {
+   "status": "public",
+   "pages": [
+    "/supply"
+   ]
+  },
+  "eia_gas_trade_monthly": {
+   "status": "public",
+   "pages": [
+    "/supply"
+   ]
+  },
+  "eia_lng_exports_monthly": {
+   "status": "public",
+   "pages": []
+  },
+  "eia_padd_crude_pipeline_flows": {
+   "status": "public",
+   "pages": []
+  },
+  "eia_petroleum_stocks_weekly": {
+   "status": "public",
+   "pages": []
+  },
+  "eia_petroleum_supply_weekly": {
+   "status": "public",
+   "pages": [
+    "/supply"
+   ]
+  },
+  "eia_petroleum_trade_weekly": {
+   "status": "public",
+   "pages": []
+  },
+  "eia_power_plant_fuel_costs": {
+   "status": "public",
+   "pages": [
+    "/board"
+   ]
+  },
+  "eia_product_spot_prices": {
+   "status": "public",
+   "pages": [
+    "/board"
+   ]
+  },
+  "eia_regional_retail_fuel_prices": {
+   "status": "public",
+   "pages": [
+    "/board"
+   ]
+  },
+  "eia_retail_electricity_prices": {
+   "status": "public",
+   "pages": [
+    "/",
+    "/board",
+    "/learn/bill",
+    "/learn/problems/know-your-grid",
+    "/learn/problems/networks-and-money",
+    "/learn/problems/prices-and-your-bill",
+    "/learn/problems/when-the-grid-broke"
+   ]
+  },
+  "eia_retail_fuel_prices": {
+   "status": "public",
+   "pages": []
+  },
+  "eia_retail_sales_monthly": {
+   "status": "public",
+   "pages": [
+    "/consumption"
+   ]
+  },
+  "eia_sector_energy_consumption_monthly": {
+   "status": "public",
+   "pages": [
+    "/consumption"
+   ]
+  },
+  "eia_state_generation_monthly": {
+   "status": "public",
+   "pages": []
+  },
+  "energy_companies": {
+   "status": "public",
+   "pages": [
+    "/companies",
+    "/deals"
+   ]
+  },
+  "energy_deals": {
+   "status": "license needed",
+   "hold": "whole",
+   "publishers": [
+    "Bloomberg",
+    "Data Center Dynamics",
+    "Data Center Frontier",
+    "Financial Times",
+    "Hart Energy",
+    "Latitude Media",
+    "Natural Gas Intelligence",
+    "POWER Magazine",
+    "Reuters",
+    "WSJ"
+   ],
+   "pages": [
+    "/",
+    "/deals",
+    "/roundup"
+   ]
+  },
+  "energy_projects": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE"
+   ],
+   "pages": [
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/map",
+    "/resources"
+   ]
+  },
+  "ercot_all_hub_prices_history": {
+   "status": "public",
+   "pages": [
+    "/board",
+    "/cost-of-power",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller",
+    "/curtailment",
+    "/play/battery"
+   ]
+  },
+  "ercot_as_prices": {
+   "status": "public",
+   "pages": [
+    "/board",
+    "/cost-of-power/battery"
+   ]
+  },
+  "ercot_as_prices_daily": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_as_prices_monthly": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_as_quantities": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_dam_cleared_energy": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_dam_esr_awards": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_hub_prices_daily": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_interconnection_queue": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_large_load_status": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power"
+   ]
+  },
+  "ercot_peak_premium_annual": {
+   "status": "public",
+   "pages": [
+    "/explorer/ercot-peak-premium"
+   ]
+  },
+  "ercot_peak_premium_monthly": {
+   "status": "public",
+   "pages": [
+    "/explorer/ercot-peak-premium"
+   ]
+  },
+  "ercot_rtm_node_prices": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_rtm_price_adders": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_sced_esr_hourly": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_storage_dam_awards_monthly": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power/battery"
+   ]
+  },
+  "ercot_storage_dam_offers_daily": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_storage_dam_offers_monthly": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_storage_node_basis": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_storage_rt_monthly": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_wind_solar_forecast": {
+   "status": "public",
+   "pages": []
+  },
+  "ercot_wind_solar_hsl_daily": {
+   "status": "public",
+   "pages": [
+    "/curtailment"
+   ]
+  },
+  "ercot_wind_solar_hsl_hourly": {
+   "status": "public",
+   "pages": [
+    "/curtailment"
+   ]
+  },
+  "ercot_wind_solar_output_hourly": {
+   "status": "public",
+   "pages": [
+    "/curtailment"
+   ]
+  },
+  "ercot_zone_load_hourly": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power"
+   ]
+  },
+  "ercot_zone_prices_history": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/seller",
+    "/curtailment"
+   ]
+  },
+  "event_study_estimates": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "event_window_daily": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/",
+    "/events",
+    "/learn/problems/when-the-grid-broke"
+   ]
+  },
+  "flex_alert_effects": {
+   "status": "public",
+   "pages": []
+  },
+  "flex_alert_model": {
+   "status": "public",
+   "pages": []
+  },
+  "frb_treasury_yields": {
+   "status": "public",
+   "pages": []
+  },
+  "generation_mix_hourly_profile": {
+   "status": "public",
+   "pages": [
+    "/mix"
+   ]
+  },
+  "generation_mix_records": {
+   "status": "public",
+   "pages": [
+    "/mix"
+   ]
+  },
+  "grid_network_links": {
+   "status": "public",
+   "pages": [
+    "/network"
+   ]
+  },
+  "grid_network_nodes": {
+   "status": "public",
+   "pages": [
+    "/network"
+   ]
+  },
+  "grid_stress_yearly": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power",
+    "/mix"
+   ]
+  },
+  "hub_price_comparison": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "imf_commodity_prices": {
+   "status": "public",
+   "pages": [
+    "/board"
+   ]
+  },
+  "interconnection_queue_summary": {
+   "status": "public",
+   "pages": [
+    "/cost-of-power"
+   ]
+  },
+  "iso_curtailment_monthly": {
+   "status": "public",
+   "pages": [
+    "/curtailment"
+   ]
+  },
+  "iso_dam_hub_prices": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "MISO"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller",
+    "/curtailment",
+    "/prices"
+   ]
+  },
+  "iso_hub_prices_history": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/board",
+    "/cost-of-power",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller",
+    "/curtailment",
+    "/play/battery"
+   ]
+  },
+  "iso_rt_top_intervals": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "iso_rtm_hub_prices": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "MISO"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller",
+    "/curtailment",
+    "/play/battery",
+    "/prices"
+   ]
+  },
+  "iso_trader_daily": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "iso_zone_prices_history": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/seller",
+    "/curtailment"
+   ]
+  },
+  "isone_dam_zone_prices": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/seller",
+    "/curtailment",
+    "/prices"
+   ]
+  },
+  "isone_interconnection_queue": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE"
+   ],
+   "pages": []
+  },
+  "isone_rtm_zone_prices": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/seller",
+    "/curtailment"
+   ]
+  },
+  "isone_rtm_zone_prices_hourly": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/seller",
+    "/curtailment",
+    "/prices"
+   ]
+  },
+  "known_data_faults": {
+   "status": "public",
+   "pages": [
+    "/data/faults",
+    "/grid",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp"
+   ]
+  },
+  "large_load_rule_reads": {
+   "status": "public",
+   "pages": []
+  },
+  "large_load_rules": {
+   "status": "public",
+   "pages": []
+  },
+  "lbnl_interconnection_queue": {
+   "status": "public",
+   "pages": []
+  },
+  "merchant_revenue_monthly": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/",
+    "/cost-of-power/seller",
+    "/learn/problems/networks-and-money"
+   ]
+  },
+  "miso_interconnection_queue": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "MISO"
+   ],
+   "pages": []
+  },
+  "news_index": {
+   "status": "license needed",
+   "hold": "whole",
+   "publishers": [
+    "Bloomberg",
+    "Data Center Dynamics",
+    "Data Center Frontier",
+    "Data Center Knowledge",
+    "Financial Times",
+    "Hart Energy",
+    "Heatmap News",
+    "ISO-NE",
+    "Latitude Media",
+    "MISO",
+    "NYISO",
+    "Natural Gas Intelligence",
+    "POWER Magazine",
+    "Reuters",
+    "WSJ"
+   ],
+   "pages": [
+    "/digest",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/roundup"
+   ]
+  },
+  "noaa_grid_weather_daily": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_grid_weather_hourly": {
+   "status": "public",
+   "pages": [
+    "/demand"
+   ]
+  },
+  "noaa_grid_weather_stations": {
+   "status": "public",
+   "pages": [
+    "/demand"
+   ]
+  },
+  "noaa_isd_hourly": {
+   "status": "public",
+   "pages": []
+  },
+  "noaa_station_weather_hourly": {
+   "status": "public",
+   "pages": []
+  },
+  "nrc_reactor_status": {
+   "status": "public",
+   "pages": []
+  },
+  "nyiso_as_prices": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": [
+    "/board",
+    "/cost-of-power/battery"
+   ]
+  },
+  "nyiso_dam_cleared_energy": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "nyiso_dam_zone_prices": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller",
+    "/curtailment",
+    "/prices"
+   ]
+  },
+  "nyiso_interconnection_queue": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "nyiso_load_queue": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power"
+   ]
+  },
+  "nyiso_rtm_zone_prices": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power",
+    "/cost-of-power/battery",
+    "/cost-of-power/seller",
+    "/curtailment",
+    "/prices"
+   ]
+  },
+  "nyiso_zone_load_hourly": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "NYISO"
+   ],
+   "pages": [
+    "/cost-of-power"
+   ]
+  },
+  "policy_action_tags": {
+   "status": "public",
+   "pages": []
+  },
+  "policy_actions": {
+   "status": "public",
+   "pages": [
+    "/policy"
+   ]
+  },
+  "policy_reads": {
+   "status": "public",
+   "pages": [
+    "/policy"
+   ]
+  },
+  "price_board_latest": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp"
+   ]
+  },
+  "price_board_peak_offpeak": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": [
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp"
+   ]
+  },
+  "price_board_spreads": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "MISO",
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "price_board_stats": {
+   "status": "license needed",
+   "hold": "by grid",
+   "publishers": [
+    "ISO-NE",
+    "NYISO"
+   ],
+   "pages": []
+  },
+  "shoulder_hours_monthly": {
+   "status": "public",
+   "pages": [
+    "/shoulder"
+   ]
+  },
+  "spp_as_prices": {
+   "status": "public",
+   "pages": [
+    "/board",
+    "/cost-of-power/battery"
+   ]
+  },
+  "spp_as_quantities": {
+   "status": "public",
+   "pages": []
+  },
+  "spp_curtailment_daily": {
+   "status": "public",
+   "pages": [
+    "/curtailment"
+   ]
+  },
+  "spp_dam_cleared_energy": {
+   "status": "public",
+   "pages": []
+  },
+  "spp_interconnection_queue": {
+   "status": "public",
+   "pages": []
+  },
+  "state_generation_mix_monthly": {
+   "status": "public",
+   "pages": [
+    "/mix"
+   ]
+  },
+  "storage_buildout_monthly": {
+   "status": "public",
+   "pages": [
+    "/shoulder",
+    "/storage/buildout"
+   ]
+  },
+  "storage_capacity": {
+   "status": "public",
+   "pages": [
+    "/",
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/play/battery",
+    "/storage"
+   ]
+  },
+  "storage_daily_cycle": {
+   "status": "public",
+   "pages": [
+    "/grid/caiso",
+    "/grid/ercot",
+    "/grid/isone",
+    "/grid/miso",
+    "/grid/nyiso",
+    "/grid/pjm",
+    "/grid/spp",
+    "/learn/problems/know-your-grid",
+    "/storage"
+   ]
+  },
+  "storage_owners_monthly": {
+   "status": "public",
+   "pages": [
+    "/storage/owners"
+   ]
+  },
+  "weather_forecast_hourly": {
+   "status": "public",
+   "pages": []
+  },
+  "weather_obs_hourly": {
+   "status": "public",
+   "pages": [
+    "/grid"
+   ]
+  }
+ },
+ "pages": {
+  "/": {
+   "label": "Home",
+   "dark": "part",
+   "license_needed": [
+    "battery_stack_review_monthly",
+    "cost_of_power_monthly",
+    "datacenter_facilities",
+    "energy_deals",
+    "event_window_daily",
+    "merchant_revenue_monthly"
+   ],
+   "internal": 0,
+   "public": 6
+  },
+  "/data/faults": {
+   "label": "Known faults in source data",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 1
+  },
+  "/digest": {
+   "label": "ERW's Energy Digest",
+   "dark": "all",
+   "license_needed": [
+    "news_index"
+   ],
+   "internal": 0,
+   "public": 0
+  },
+  "/roundup": {
+   "label": "ERW's Roundup",
+   "dark": "all",
+   "license_needed": [
+    "datacenter_projects",
+    "energy_deals",
+    "news_index"
+   ],
+   "internal": 0,
+   "public": 0
+  },
+  "/board": {
+   "label": "Price board",
+   "dark": "part",
+   "license_needed": [
+    "iso_hub_prices_history",
+    "nyiso_as_prices"
+   ],
+   "internal": 0,
+   "public": 12
+  },
+  "/prices": {
+   "label": "Prices",
+   "dark": "part",
+   "license_needed": [
+    "iso_dam_hub_prices",
+    "iso_rtm_hub_prices",
+    "isone_dam_zone_prices",
+    "isone_rtm_zone_prices_hourly",
+    "nyiso_dam_zone_prices",
+    "nyiso_rtm_zone_prices"
+   ],
+   "internal": 0,
+   "public": 1
+  },
+  "/supply": {
+   "label": "Supply and trade",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 5
+  },
+  "/explorer/ercot-peak-premium": {
+   "label": "ERCOT peak premium",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 2
+  },
+  "/contracts": {
+   "label": "Power contracts",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 3,
+   "public": 0
+  },
+  "/severance": {
+   "label": "Severance tax",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 1
+  },
+  "/severance/lease": {
+   "label": "Lease tool",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 1
+  },
+  "/learn/bill": {
+   "label": "What is on a bill",
+   "dark": "part",
+   "license_needed": [
+    "cost_of_power_monthly"
+   ],
+   "internal": 0,
+   "public": 1
+  },
+  "/cost-of-power/battery": {
+   "label": "What a battery earns",
+   "dark": "part",
+   "license_needed": [
+    "battery_stack_review_monthly",
+    "iso_dam_hub_prices",
+    "iso_hub_prices_history",
+    "iso_rtm_hub_prices",
+    "nyiso_as_prices",
+    "nyiso_dam_zone_prices",
+    "nyiso_rtm_zone_prices"
+   ],
+   "internal": 0,
+   "public": 7
+  },
+  "/cost-of-power/seller": {
+   "label": "What a generator earns",
+   "dark": "part",
+   "license_needed": [
+    "battery_stack_review_monthly",
+    "iso_dam_hub_prices",
+    "iso_hub_prices_history",
+    "iso_rtm_hub_prices",
+    "iso_zone_prices_history",
+    "isone_dam_zone_prices",
+    "isone_rtm_zone_prices",
+    "isone_rtm_zone_prices_hourly",
+    "merchant_revenue_monthly",
+    "nyiso_dam_zone_prices",
+    "nyiso_rtm_zone_prices"
+   ],
+   "internal": 0,
+   "public": 7
+  },
+  "/cost-of-power": {
+   "label": "Cost of power",
+   "dark": "part",
+   "license_needed": [
+    "clean_energy_hourly",
+    "clean_energy_summary",
+    "cost_of_power_carbon",
+    "cost_of_power_hourly_profile",
+    "cost_of_power_monthly",
+    "iso_dam_hub_prices",
+    "iso_hub_prices_history",
+    "iso_rtm_hub_prices",
+    "iso_zone_prices_history",
+    "isone_dam_zone_prices",
+    "isone_rtm_zone_prices",
+    "isone_rtm_zone_prices_hourly",
+    "nyiso_dam_zone_prices",
+    "nyiso_load_queue",
+    "nyiso_rtm_zone_prices",
+    "nyiso_zone_load_hourly"
+   ],
+   "internal": 3,
+   "public": 8
+  },
+  "/shoulder": {
+   "label": "The shoulder hours",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 5
+  },
+  "/network": {
+   "label": "The network",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 12
+  },
+  "/grid": {
+   "label": "Grid conditions",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 4
+  },
+  "/mix": {
+   "label": "Energy mix",
+   "dark": "part",
+   "license_needed": [
+    "clean_energy_hourly",
+    "clean_energy_summary"
+   ],
+   "internal": 0,
+   "public": 6
+  },
+  "/demand": {
+   "label": "Demand growth",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 4
+  },
+  "/curtailment": {
+   "label": "Curtailment",
+   "dark": "part",
+   "license_needed": [
+    "iso_dam_hub_prices",
+    "iso_hub_prices_history",
+    "iso_rtm_hub_prices",
+    "iso_zone_prices_history",
+    "isone_dam_zone_prices",
+    "isone_rtm_zone_prices",
+    "isone_rtm_zone_prices_hourly",
+    "nyiso_dam_zone_prices",
+    "nyiso_rtm_zone_prices"
+   ],
+   "internal": 0,
+   "public": 14
+  },
+  "/emissions": {
+   "label": "Emissions",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 4
+  },
+  "/consumption": {
+   "label": "Consumption",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 2
+  },
+  "/map": {
+   "label": "Project map",
+   "dark": "part",
+   "license_needed": [
+    "datacenter_facilities",
+    "energy_projects"
+   ],
+   "internal": 0,
+   "public": 2
+  },
+  "/resources": {
+   "label": "Where the resources are",
+   "dark": "part",
+   "license_needed": [
+    "datacenter_facilities",
+    "energy_projects"
+   ],
+   "internal": 0,
+   "public": 2
+  },
+  "/datacenters": {
+   "label": "Datacenter tracker",
+   "dark": "all",
+   "license_needed": [
+    "datacenter_facilities",
+    "datacenter_operator_sites",
+    "datacenter_projects"
+   ],
+   "internal": 1,
+   "public": 0
+  },
+  "/storage": {
+   "label": "Storage",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 4
+  },
+  "/storage/buildout": {
+   "label": "Storage build-out",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 1
+  },
+  "/storage/owners": {
+   "label": "Who owns the batteries",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 1
+  },
+  "/companies": {
+   "label": "Companies",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 1
+  },
+  "/deals": {
+   "label": "Deals",
+   "dark": "part",
+   "license_needed": [
+    "energy_deals"
+   ],
+   "internal": 2,
+   "public": 1
+  },
+  "/events": {
+   "label": "Events",
+   "dark": "part",
+   "license_needed": [
+    "event_window_daily"
+   ],
+   "internal": 0,
+   "public": 0
+  },
+  "/policy": {
+   "label": "Policy",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 1,
+   "public": 2
+  },
+  "/play/battery": {
+   "label": "Home battery game",
+   "dark": "part",
+   "license_needed": [
+    "iso_hub_prices_history",
+    "iso_rtm_hub_prices"
+   ],
+   "internal": 0,
+   "public": 3
+  },
+  "/learn/problems/know-your-grid": {
+   "label": "Problems: know your grid",
+   "dark": "none",
+   "license_needed": [],
+   "internal": 0,
+   "public": 7
+  },
+  "/learn/problems/prices-and-your-bill": {
+   "label": "Problems: prices and your bill",
+   "dark": "part",
+   "license_needed": [
+    "cost_of_power_hourly_profile",
+    "cost_of_power_monthly"
+   ],
+   "internal": 0,
+   "public": 4
+  },
+  "/learn/problems/when-the-grid-broke": {
+   "label": "Problems: when the grid broke",
+   "dark": "part",
+   "license_needed": [
+    "event_window_daily"
+   ],
+   "internal": 0,
+   "public": 4
+  },
+  "/learn/problems/networks-and-money": {
+   "label": "Problems: networks and money",
+   "dark": "part",
+   "license_needed": [
+    "merchant_revenue_monthly"
+   ],
+   "internal": 0,
+   "public": 4
+  },
+  "/grid/ercot": {
+   "label": "Grid: ERCOT",
+   "dark": "part",
+   "license_needed": [
+    "datacenter_facilities",
+    "energy_projects",
+    "news_index",
+    "price_board_latest",
+    "price_board_peak_offpeak"
+   ],
+   "internal": 0,
+   "public": 11
+  },
+  "/grid/caiso": {
+   "label": "Grid: CAISO",
+   "dark": "part",
+   "license_needed": [
+    "datacenter_facilities",
+    "energy_projects",
+    "news_index",
+    "price_board_latest",
+    "price_board_peak_offpeak"
+   ],
+   "internal": 0,
+   "public": 11
+  },
+  "/grid/pjm": {
+   "label": "Grid: PJM",
+   "dark": "part",
+   "license_needed": [
+    "datacenter_facilities",
+    "energy_projects",
+    "news_index",
+    "price_board_latest",
+    "price_board_peak_offpeak"
+   ],
+   "internal": 0,
+   "public": 11
+  },
+  "/grid/nyiso": {
+   "label": "Grid: NYISO",
+   "dark": "part",
+   "license_needed": [
+    "datacenter_facilities",
+    "energy_projects",
+    "news_index",
+    "price_board_latest",
+    "price_board_peak_offpeak"
+   ],
+   "internal": 0,
+   "public": 11
+  },
+  "/grid/isone": {
+   "label": "Grid: ISONE",
+   "dark": "part",
+   "license_needed": [
+    "datacenter_facilities",
+    "energy_projects",
+    "news_index",
+    "price_board_latest",
+    "price_board_peak_offpeak"
+   ],
+   "internal": 0,
+   "public": 11
+  },
+  "/grid/miso": {
+   "label": "Grid: MISO",
+   "dark": "part",
+   "license_needed": [
+    "datacenter_facilities",
+    "energy_projects",
+    "news_index",
+    "price_board_latest",
+    "price_board_peak_offpeak"
+   ],
+   "internal": 0,
+   "public": 11
+  },
+  "/grid/spp": {
+   "label": "Grid: SPP",
+   "dark": "part",
+   "license_needed": [
+    "datacenter_facilities",
+    "energy_projects",
+    "news_index",
+    "price_board_latest",
+    "price_board_peak_offpeak"
+   ],
+   "internal": 0,
+   "public": 11
+  }
+ },
+ "internal_tables": 33
 }

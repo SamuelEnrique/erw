@@ -42,8 +42,9 @@ class TheHelper(unittest.TestCase):
     def test_the_status_file_switches_on_20_october(self):
         with open(os.path.join(ROOT, "site", "data", "license_status.json"), encoding="utf-8") as f:
             d = json.load(f)
-        self.assertEqual(d["from"], "2026-10-20")
-        self.assertTrue(all(v["from"] == "2026-10-20" and v["status"] == "license needed" for v in d["tables"].values()))
+        # session 248: the public day moved to 21 October 2026 (the ruling of 12 October, night); the file's day moved with it
+        self.assertEqual(d["from"], "2026-10-21")
+        self.assertTrue(all(v["from"] == "2026-10-21" and v["status"] == "license needed" for v in d["tables"].values()))
         # the grid-decided tables and the whole-held ones both exist, so both rules are exercised
         grids = {"ISO-NE", "MISO", "NYISO", "PJM", "SPP", "CAISO", "ERCOT"}
         by_grid = [t for t, v in d["tables"].items() if set(v["publishers"]) <= grids]

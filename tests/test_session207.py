@@ -157,21 +157,23 @@ class LicenseStatus(unittest.TestCase):
         rows = ls.rows()
         self.assertEqual(len(rows), 40)
         self.assertEqual({r["status"] for r in rows}, {"license needed"})
-        self.assertEqual({r["from"] for r in rows}, {"2026-10-20"})
+        # session 248: the public day moved to 21 October 2026 (the ruling of 12 October, night), and the file's day with it
+        self.assertEqual({r["from"] for r in rows}, {"2026-10-21"})
         self.assertEqual({r["permission"] for r in rows}, {""})
         names = {r["table"] for r in rows}
         for t in ("iso_hub_prices_history", "price_board_latest", "news_index", "nyiso_dam_zone_prices", "datacenter_projects"):
             self.assertIn(t, names)
         for t in ("fred_daily_spot_prices", "fred_treasury_yields", "frb_treasury_yields", "eia_fuel_spot_prices", "pjm_rpm_capacity_prices"):
             self.assertNotIn(t, names)
-        # today nothing is held: the rule begins on 20 October 2026
+        # today nothing is held: the rule begins on 21 October 2026 (20 October until session 248)
         self.assertEqual(ls.held_grids("2026-10-13"), set())
-        self.assertEqual(sorted(ls.held_grids("2026-10-20")), ["ISO-NE", "MISO", "NYISO"])
+        self.assertEqual(ls.held_grids("2026-10-20"), set())
+        self.assertEqual(sorted(ls.held_grids("2026-10-21")), ["ISO-NE", "MISO", "NYISO"])
 
     def test_the_sites_copy_says_the_same(self):
         with open(os.path.join(ROOT, "site", "data", "license_status.json"), encoding="utf-8") as f:
             d = json.load(f)
-        self.assertEqual(d["from"], "2026-10-20")
+        self.assertEqual(d["from"], "2026-10-21")   # session 248: the public day, moved from 20 October
         self.assertEqual(set(d["tables"]), {r["table"] for r in ls.rows()})
         self.assertEqual({v["status"] for v in d["tables"].values()}, {"license needed"})
         self.assertEqual(d["tables"]["iso_hub_prices_history"]["publishers"], ["ISO-NE", "MISO", "NYISO"])

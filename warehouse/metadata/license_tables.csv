@@ -4,7 +4,7 @@ api_cost_ledger,Anthropic,the source registry
 ba_supply_monthly,EIA,"the source registry and the tables its header derives it from: eia930_daily_interchange, eia930_daily_total_interchange"
 battery_stack_monthly,CAISO; ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
 battery_stack_review_monthly,NYISO; SPP,"the source registry and the tables its header derives it from: iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices, nyiso_as_prices, nyiso_dam_zone_prices, nyiso_rtm_zone_prices, spp_as_prices"
-battery_stack_stress_daily,ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
+battery_stack_stress_daily,CAISO; ERCOT,"the source registry and the tables its header derives it from: caiso_as_prices, ercot_all_hub_prices_history, ercot_as_prices, iso_dam_hub_prices, iso_hub_prices_history, iso_rtm_hub_prices"
 caiso_area_load_hourly,CAISO,the source registry
 caiso_as_prices,CAISO,the source registry
 caiso_battery_storage,CAISO,the source registry
@@ -91,6 +91,7 @@ ercot_large_load_status,ERCOT,the source registry
 ercot_peak_premium_annual,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)
 ercot_peak_premium_monthly,ERCOT,by hand: its header: derived from ERCOT's hub prices (reports NP6-785-ER and NP6-905-CD)
 ercot_rtm_node_prices,ERCOT,the source registry
+ercot_rtm_price_adders,ERCOT,the source registry
 ercot_sced_esr_hourly,ERCOT,the source registry
 ercot_storage_dam_awards_monthly,ERCOT,the source registry and the tables its header derives it from: ercot_dam_esr_awards
 ercot_storage_dam_offers_daily,ERCOT,the source registry and the tables its header derives it from: ercot_dam_esr_awards

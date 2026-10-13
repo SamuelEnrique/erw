@@ -2,14 +2,15 @@
 
 Energy Research Warehouse (ERW). warehouse/metadata/license_status.csv is written by `python scripts/licenses.py
 status` from the licensing sweep's verdicts (docs/licenses.md): one row per table flagged public whose publisher's own
-sentence asks for written permission or a paid license. The owner's ruling of 12 October 2026: from `from` (2026-10-20)
-such a table shows "license needed" on the site, as PJM's prices do, unless a permission is recorded in its row (the
-columns permission and permission_ref, filled by a person). Nothing changes before that day.
+sentence asks for written permission or a paid license. The owner's ruling of 12 October 2026: from `from` (2026-10-21
+since session 248: the public day moved from 20 October by the ruling of that night, docs/roadmap.md) such a table
+shows "license needed" on the site, as PJM's prices do, unless a permission is recorded in its row (the columns
+permission and permission_ref, filled by a person). Nothing changes before that day.
 
 This module is the one reader of the file for the builders (the price board, warehouse/derived/board_page.py); the
 site reads site/data/license_status.json through site/lib/license.ts, written by the same command.
 
-    needed("iso_hub_prices_history")          True from 2026-10-20 while no permission is recorded
+    needed("iso_hub_prices_history")          True from the day in its row while no permission is recorded
     held_grids()                              {"ISO-NE", "MISO", "NYISO"}: the grids among the deciding publishers
 """
 import csv
