@@ -338,7 +338,7 @@ async function truth(check) {
     // own (lib/largeload.ts); the rows are read here, from Supabase, as before.
     const [, what, key] = p;
     const { cancelled, countryOf } = await import("../lib/largeload.ts");
-    const rows = (await all("entities", { select: "operator,status,mw:capacity_mw,state:extra->>state,country:extra->>country", table_name: "eq.datacenter_facilities", order: "entity_id" }))
+    const rows = (await all("entities", { select: "operator,status,mw:capacity_mw,state:extra->>state,country:extra->>country,first:extra->>first_story_at", table_name: "eq.datacenter_facilities", order: "entity_id" }))
       .map((r) => ({ ...r, us: countryOf(r.country, r.state) === "US" }));
     const inTotals = rows.filter((r) => r.us && !cancelled(r.status));
     const withMw = inTotals.filter((r) => r.mw !== null);
@@ -350,6 +350,13 @@ async function truth(check) {
     if (what === "mw_total") return withMw.reduce((a, r) => a + Number(r.mw), 0);
     if (what === "state_mw") return withMw.filter((r) => (r.state ?? "") === key).reduce((a, r) => a + Number(r.mw), 0);
     if (what === "operator_mw") return withMw.filter((r) => (r.operator ?? "") === key).reduce((a, r) => a + Number(r.mw), 0);
+    // session 240: the top block and the list grouped by operator. The megawatts by status (a blank status is its own
+    // line), the facilities whose first story is dated on or after the day in the key (the page's "this week"), the
+    // facilities that carry a first story at all, and an operator's rows in the table (all of them, as the list shows)
+    if (what === "status_mw") return withMw.filter((r) => (r.status ?? "") === (key ?? "")).reduce((a, r) => a + Number(r.mw), 0);
+    if (what === "first_week") return rows.filter((r) => r.first && r.first.slice(0, 10) >= key).length;
+    if (what === "n_first_story") return rows.filter((r) => r.first).length;
+    if (what === "operator_count") return rows.filter((r) => (r.operator ?? "") === (key ?? "")).length;
   }
   // session 31: /storage, sums of storage_capacity's nameplate MW (rounded to 0.1 MW, as the page rounds them);
   // session 34: and of its energy capacity, MWh (storage|mwh|<status>, storage|n_mwh|<status>)
@@ -775,7 +782,7 @@ async function main() {
     const same = isTime ? new Date(t).getTime() === new Date(raw).getTime() : Math.abs(Number(t) - Number(raw)) < 1e-9 * Math.max(1, Math.abs(Number(t)));
     // session 16: MW sums are written as whole MW (lib/format.ts count)
     // session 90: /storage/buildout writes its MW and MWh whole too (lib/buildout.ts WHOLE; the ratios keep two decimals)
-    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw))|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
+    const whole = /(^projects\|mw\|)|(^datacenters\|(mw_total|state_mw|operator_mw|status_mw))|(^series\|storage_buildout_monthly\|[^|]+\|(battery|solar)_(operating|planned)_(mw|mwh)(?!_per_)(_|\|))/.test(check);
     // session 76: an hour of the day (a variable named ..._hour, a whole number 0 to 23) may be written "09:00" (/shoulder):
     // "16:00" passed the rule below by accident, "09:00" could not
     const hourText = /\|[a-z0-9_]*_hour\|/.test(check) && /^\d{1,2}$/.test(raw) && text.startsWith(`${raw.padStart(2, "0")}:00`);
