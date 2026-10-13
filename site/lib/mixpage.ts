@@ -104,8 +104,10 @@ export const peakOf = (v: (number | null)[] | undefined) => { const s = (v ?? []
 export const n0 = (v: number) => Math.round(v).toLocaleString("en-US");
 export const n1 = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 export const n2 = (v: number) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-/** A line's shade for one of n years: from the rule grey of the first to the accent of the last. */
-export const yearShade = (i: number, n: number) => (n <= 1 ? "#8C1515" : ["#C9C2B4", "#B5AC9C", "#A19785", "#8E836F", "#7A6E5A", "#665945", "#52442F", "#8C1515"][Math.min(7, Math.round((7 * i) / (n - 1)))]);
+/** A line's shade for one of n years: from the rule grey of the first to the accent of the last. Session 241: each
+ * shade is a token (app/tokens.css, --color-year-1 to 7, then the accent), which the chart reads (components/mix/Charts.tsx, col). */
+export const YEAR_SHADES = ["--color-year-1", "--color-year-2", "--color-year-3", "--color-year-4", "--color-year-5", "--color-year-6", "--color-year-7", "--color-accent"];
+export const yearShade = (i: number, n: number) => `var(${n <= 1 ? "--color-accent" : YEAR_SHADES[Math.min(7, Math.round((7 * i) / (n - 1)))]})`;
 export const FUEL_COLOR: Record<string, string> = {
   natural_gas: "var(--color-fuel-gas)", coal: "var(--color-fuel-coal)", nuclear: "var(--color-fuel-nuclear)", wind: "var(--color-fuel-wind)", solar: "var(--color-fuel-solar)",
   hydro: "var(--color-fuel-hydro)", hydro_storage: "var(--color-fuel-hydro)", storage: "var(--color-fuel-storage)", other: "var(--color-fuel-other)",

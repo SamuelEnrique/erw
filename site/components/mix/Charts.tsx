@@ -89,8 +89,8 @@ export function Heat({ rows, cols, cells, unit, label, height, name, marks }: { 
       xAxis: { type: "category", data: cols, ...st.axis, splitArea: { show: false }, splitLine: { show: false } },
       yAxis: { type: "category", data: rows, inverse: true, ...st.axis, splitLine: { show: false } },
       visualMap: { min: Number.isFinite(lo) ? lo : 0, max: Number.isFinite(hi) ? hi : 1, calculable: false, orient: "horizontal", left: "center", bottom: 0, itemHeight: 120, itemWidth: 10,
-        textStyle: { fontSize: 10, color: token("muted") }, inRange: { color: ["#FBF8F2", token("accent")] }, formatter: (v: number) => num(v, 0) },
-      series: [{ type: "heatmap", data, itemStyle: { borderColor: "#fff", borderWidth: 1 },
+        textStyle: { fontSize: 10, color: token("muted") }, inRange: { color: [token("panel"), token("accent")] }, formatter: (v: number) => num(v, 0) },
+      series: [{ type: "heatmap", data, itemStyle: { borderColor: token("surface"), borderWidth: 1 },
         markPoint: marks && marks.length ? { symbol: "rect", symbolSize: 6, silent: true, itemStyle: { color: token("ink") }, data: marks.map(([r, c]) => ({ coord: [c, r] })) } : undefined }],
     }, true);
   }, [rows, cols, cells, unit, label, name, marks]);

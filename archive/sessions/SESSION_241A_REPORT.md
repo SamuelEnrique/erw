@@ -124,7 +124,13 @@ Tests whose pins moved: none. No existing test pinned a line this session change
 
 ## The landing
 
-Filled by the orchestrator.
+- Landed in one push with batch B and the two home page mockups (`docs/brand/home-mockups/`), on `task/241-brand` (`c2144c8e`). `tokens.css` keeps every session's block, each identical to its own branch's (checked block by block after the merge).
+- The whole suite in a clean worktree at `8d9ce33e`: exit 0, 3,894 tests OK, 237 skipped; after a merge of `main` (session 252, documents and one test) the modules it changed were run on the clean copy: exit 0.
+- `npm run build`: exit 0, no "statement timeout" line. `check-values` on every page: exit 0, 4,530 of 4,530. `check-routes`: exit 0, 203 pages as a visitor, 0 failed. Exit 0 each: `check-no-request`, `check-supply` (27 of 27), `check-policy` (46 of 46), `check-queues` (55 of 55), `check-curtailment` (118 of 118), `check-analysis` (279 of 279), `check-battery-scenarios`.
+- **Seen at this landing, not this batch's:** the first `check-values` run found 16 checked values on `/cost-of-power` where the run before had found 76, and passed: on a cold cache one read of the datacenter page's answers had failed and the page drew its answers' "no data" state, which carries no key, so the check had nothing to compare. A second run on the same build found 76 of 76, and production 76 of 76. The check cannot see a page that silently shows fewer numbers: for your ruling (a floor of keys a page, read from the last passing run).
+- `python scripts/freeze.py status`: exit 0, no freeze. Before snapshot `s241-before` (11:23:36 UTC, 25 pages, 0 failed), then the push.
+- Check run 38389922595: success at 11:34 UTC; merged into `main`. Production served the new build from 11:35:48 UTC. After snapshot `s241-after` (11:36:09 UTC, 25 pages, 0 failed); `compare s241-before s241-after`: exit 0, "0 differences in all". Expected: the page a visitor is shown for a page in review was restyled and its words did not change.
+- The remote branches `wip/241a-brand` and `wip/241b-brand` are deleted: all of each is on `main`.
 
 ## The prompt
 

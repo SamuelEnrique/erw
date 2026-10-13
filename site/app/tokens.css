@@ -926,3 +926,23 @@ body:has(.brand-a) header :focus-visible {
 .brand-a thead tr.sticky {
   background: var(--color-panel);
 }
+
+/* ---- session 241c: the last color literals of the tools' charts, as tokens. Two ramps of warm grey for a chart that
+   lays several years over each other, the newest in the accent: seven steps from the rule grey to near ink (a year's
+   line, earliest to latest but one), and five steps for the seasons of a price (the earlier years). The values are the
+   ones the charts drew before; a chart reads them at the page's root (components/echarts.ts, token), so they are
+   written there and not under the brand's wrapper. */
+:root {
+  --color-year-1: #C9C2B4;
+  --color-year-2: #B5AC9C;
+  --color-year-3: #A19785;
+  --color-year-4: #8E836F;
+  --color-year-5: #7A6E5A;
+  --color-year-6: #665945;
+  --color-year-7: #52442F;
+  --color-season-1: #B8B2A7;
+  --color-season-2: #A39C90;
+  --color-season-3: #8E877B;
+  --color-season-4: #797266;
+  --color-season-5: #645E53;
+}

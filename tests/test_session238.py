@@ -273,7 +273,8 @@ class TheBrand(unittest.TestCase):
 
     def test_the_new_rules_are_generic_and_scoped_to_the_brand(self):
         css = src("site", "app", "tokens.css")
-        block = css[css.index("/* ---- session 238 (/research)"):]
+        # session 241: the block ends where another session's begins (three batches of session 241 append their own after it)
+        block = "/* ---- session 238 (/research)" + css.split("/* ---- session 238 (/research)", 1)[1].split("/* ---- session", 1)[0]
         for line in block.splitlines():
             if line.startswith(".") or line.startswith("@media"):
                 self.assertTrue(line.startswith(".brand-a ") or line.startswith("@media"), line)

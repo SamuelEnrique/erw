@@ -409,7 +409,7 @@ class BuiltDate(unittest.TestCase):
         "/demand": ("site/app/demand/page.tsx", "built {file.built.slice(0, 10)}", ["site/data/demand_growth.json"]),
         "/curtailment": ("site/app/curtailment/page.tsx", "Built {profile.built.slice(0, 10)}", ["site/data/curtailment_profile.json"]),  # session 144: version 2 is part of the one page
         "/map": ("site/app/map/page.tsx", "built {f.built.slice(0, 10)}", ["site/data/map.json", "site/data/map_v2.json"]),  # session 167: /map is one page (/map/v2 redirects to it)
-        "/datacenters/v2": ("site/app/datacenters/v2/page.tsx", "built {f.built.slice(0, 10)}", ["site/data/large_load_status.json"]),
+        "/datacenters/v2": ("site/app/datacenters/LargeLoad.tsx", "built {f.built.slice(0, 10)}", ["site/data/large_load_status.json"]),  # session 241: version 2 is folded into /datacenters (its address redirects there); the stamp is printed by the file that draws its blocks
     }
 
     def test_each_page_prints_its_files_built_stamp(self):
