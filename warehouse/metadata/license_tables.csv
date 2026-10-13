@@ -115,9 +115,7 @@ ferc_eqr_party_totals,FERC,the source registry and the tables its header derives
 ferc_eqr_quarter_changes,EIA; FERC,"the source registry and the tables its header derives it from: eia860m_operating_generators, ferc_eqr_buyer_names, ferc_eqr_contracts, ferc_eqr_contracts_history"
 flex_alert_effects,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
 flex_alert_model,CAISO; EIA; NOAA NCEI,"the source registry and the tables its header derives it from: caiso_dam_alert_day_hub_prices, caiso_grid_emergencies, eia930_all_demand, noaa_isd_hourly"
-fred_daily_spot_prices,FRED,the source registry
-fred_imf_commodity_prices,FRED,the source registry
-fred_treasury_yields,FRED,the source registry
+frb_treasury_yields,FRB,the source registry
 generation_mix_hourly_profile,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 generation_mix_records,CAISO; EIA,"the source registry and the tables its header derives it from: caiso_fuel_supply, caiso_fuel_supply_history, carbon_intensity_hourly"
 grid_network_links,EIA,"the source registry and the tables its header derives it from: carbon_intensity_hourly, eia930_all_demand, eia930_all_interchange"

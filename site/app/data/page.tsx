@@ -11,6 +11,7 @@ import { attempt } from "@/lib/supabase";
 import site from "@/data/site.json";
 import { PAGES } from "@/lib/pages";
 import { TIER_LABEL, TIER_TITLE, isModelExtracted } from "@/lib/tiers";
+import { LICENSE_NEEDED, licenseNeeded, licensePublishers } from "@/lib/license";  // session 207: "license needed" from 20 October 2026
 
 export const revalidate = 3600;
 export const metadata: Metadata = { title: "Data" };
@@ -74,12 +75,20 @@ export default async function Data() {
                       </Num>
                     </td>
                     <td className="py-1 pr-3 font-mono text-xs break-all">{r.source_report}</td>
-                    <td className="py-1 pr-3 text-xs">{r.license}</td>
+                    <td className="py-1 pr-3 text-xs">
+                      {licenseNeeded(r.table_name) ? (
+                        <span title={`${licensePublishers(r.table_name).join("; ")}: the publisher's own page asks for permission; none is recorded yet`}>{LICENSE_NEEDED}</span>
+                      ) : (
+                        r.license
+                      )}
+                    </td>
                     <td className="py-1 pr-3 text-xs whitespace-nowrap" title={r.tier ? TIER_TITLE[r.tier] : undefined}>
                       {r.tier ? (isModelExtracted(r.tier) ? <strong className="font-normal text-accent">{TIER_LABEL[r.tier]}</strong> : TIER_LABEL[r.tier] ?? r.tier) : ""}
                     </td>
                     <td className="py-1 pr-3 text-xs whitespace-nowrap">
-                      {r.in_live_set === "yes" ? (
+                      {licenseNeeded(r.table_name) ? (
+                        <span className="text-muted">Held: license needed</span>
+                      ) : r.in_live_set === "yes" ? (
                         <a href={`/api/download?table=${r.table_name}`}>Download CSV</a>
                       ) : (
                         <a href={site.redivis.url} title="On Redivis; version 1 is pending release">

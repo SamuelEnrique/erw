@@ -258,6 +258,7 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
                  "carb": "California Air Resources Board",
                  "rggi": "Regional Greenhouse Gas Initiative",
                  "fred": "Federal Reserve Bank of St. Louis",
+                 "frb": "Board of Governors of the Federal Reserve System",  # session 207: frb_treasury_yields
                  "portwatch": "International Monetary Fund",
                  "weather": "National Weather Service",
                  "iso": "PJM"}[org]  # session 29: derived tables and weather; session 67: iso_all_capacity_prices (session
@@ -441,9 +442,7 @@ PRICE_BOARD = {
     "pjm_rpm_capacity_prices": ({"USD/MW-day"}, {"P1Y"}, "internal", "capacity", "pjm:"),
     "carb_auction_allowance_prices": ({"USD/tCO2", "count"}, {"P3M"}, "internal", "carbon", "carb:"),
     "rggi_auction_allowance_prices": ({"USD/short_ton", "count"}, {"P3M"}, "internal", "carbon", "rggi:"),
-    "fred_daily_spot_prices": ({"USD/bbl", "USD/MMBtu"}, {"P1D"}, "public", "oil;gas", "fred:"),
-    "fred_imf_commodity_prices": ({"USD/MMBtu", "USD/t", "USD/lb"}, {"P1M"}, "internal",
-                                  "gas;lng;coal;uranium;metals", "fred:"),
+    # session 207: the two FRED tables are retired (warehouse/metadata/retired_tables.csv)
     # session 8
     "eia_crude_first_purchase_prices": ({"USD/bbl"}, {"P1M"}, "public", "oil", "eia:F00"),
     "eia_crude_imports_by_country": ({"kbbl/d"}, {"P1M"}, "public", "oil", "eia:"),

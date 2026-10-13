@@ -196,10 +196,11 @@ run_other eia_series "$PYTHON" warehouse/connectors/eia_series.py
 run_other generation_mix "$PYTHON" warehouse/derived/generation_mix.py
 
 # Session 7 price board: PJM RPM capacity prices (internal), CARB and RGGI carbon
-# auctions (internal), FRED series without a key (public domain daily; IMF monthly internal)
+# auctions (internal). Session 207 (the owner's ruling of 12 October 2026): the FRED series are no longer pulled or
+# stored (fred_series.py; warehouse/metadata/retired_tables.csv): the spot prices are EIA's own (eia_fuels.py, above),
+# the Treasury yields the Board's own (frb_treasury.py, in warehouse/refresh_board.sh)
 run_other capacity_prices "$PYTHON" warehouse/connectors/capacity_prices.py
 run_other carbon_auctions "$PYTHON" warehouse/connectors/carbon_auctions.py
-run_other fred_series "$PYTHON" warehouse/connectors/fred_series.py
 # IMF PortWatch daily chokepoint transits (session 8; internal until terms are confirmed)
 run_other portwatch "$PYTHON" warehouse/connectors/portwatch.py
 # Session 18: the curtailment tracker (tool 22): CAISO and SPP curtailment, ERCOT output below HSL,
