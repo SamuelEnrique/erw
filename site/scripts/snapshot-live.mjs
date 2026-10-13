@@ -42,6 +42,30 @@ const SELLER = ["/cost-of-power/seller?iso=caiso&asset=solar", "/cost-of-power/s
 const WORDS = ["/terms", "/data/methods/battery_stack", "/data/methods/cost_of_power", "/data/methods/grid_network", "/data/methods/storage"];
 export const LIVE_PAGES = ["/", "/about", "/storage", "/cost-of-power/seller", "/network", "/cost-of-power/battery", ...BATTERY, ...SELLER, ...WORDS];
 
+// Session 237 (13 October 2026): a listed page may redirect inside the site (/network is a view of the Grid tool at
+// /grid since that session). A visitor's browser follows the redirect, so the snapshot and the warm-up do too: the
+// page is asked with redirect "manual", and while the answer is a redirect to an address of the same site the target
+// is asked the same way, three hops at most. What is kept and compared is the page the visitor ends on; `via` names
+// each hop ("308 /grid?view=network"), so a comparison also shows a page that began or stopped redirecting.
+export async function visit(base, page, init = {}) {
+  let url = base + page;
+  const via = [];
+  for (let hop = 0; ; hop++) {
+    const res = await fetch(url, { ...init, redirect: "manual" });
+    const to = res.headers.get("location");
+    if (hop < 3 && [301, 302, 303, 307, 308].includes(res.status) && to) {
+      const next = new URL(to, url);
+      if (next.origin === new URL(base).origin) {
+        await res.arrayBuffer();
+        via.push(`${res.status} ${next.pathname}${next.search}`);
+        url = next.href;
+        continue;
+      }
+    }
+    return { res, via };
+  }
+}
+
 /** The paths release.ts marks live, read from the file as text (it has no imports, by design). */
 function liveInRelease() {
   const src = fs.readFileSync(path.join(here, "..", "lib", "release.ts"), "utf8");
@@ -81,16 +105,17 @@ async function take(name, base) {
   for (const [i, page] of LIVE_PAGES.entries()) {
     const entry = { page, file: fileOf(i) };
     try {
-      const res = await fetch(base + page, { redirect: "manual", signal: AbortSignal.timeout(REQUEST_MS), headers: { "cache-control": "no-cache" } });
+      const { res, via } = await visit(base, page, { signal: AbortSignal.timeout(REQUEST_MS), headers: { "cache-control": "no-cache" } });
       const html = await res.text();
       const nums = numbers(html), text = visibleText(html);
-      Object.assign(entry, { status: res.status, bytes: html.length, numbers: nums.length, lines: text.length });
+      if (via.length) text.unshift(`[redirected: ${via.join(", then ")}]`);   // session 237: the hops are a line of the page's text, so a comparison lists a change of them
+      Object.assign(entry, { status: res.status, bytes: html.length, numbers: nums.length, lines: text.length, ...(via.length ? { via } : {}) });
       fs.writeFileSync(path.join(dir, `${entry.file}.html`), html);
       fs.writeFileSync(path.join(dir, `${entry.file}.numbers.json`), JSON.stringify(nums, null, 1));
       fs.writeFileSync(path.join(dir, `${entry.file}.text.txt`), text.join("\n") + "\n");
       if (res.status !== 200) failed++;
       n += nums.length;
-      console.log(`${res.status} ${page}: ${nums.length} checked numbers, ${text.length} lines of text`);
+      console.log(`${res.status} ${page}${via.length ? ` (${via.join(", then ")})` : ""}: ${nums.length} checked numbers, ${text.length} lines of text`);
     } catch (e) {
       failed++;
       entry.error = String(e?.message ?? e);
