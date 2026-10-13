@@ -72,7 +72,7 @@ const [ownHeld, ownOn] = await Promise.all([
 | `python -m unittest tests.test_session254` | 0 | 12 tests |
 | `python -m unittest discover -s tests`, first run | 1 | 3,985 tests, 4 failures: this machine's usual three and one of mine (decision 6) |
 | `tests.test_session254 tests.test_session103` after the fix | 0 | 28 tests |
-| `python -m unittest discover -s tests`, final | see "The landing" | |
+| `python -m unittest discover -s tests`, final | 1 | 3,985 tests, 3 failures, 44 skipped, 465 s in the foreground: the three this machine always has (`test_session51`, `test_session125`, `test_session165`); none in what this session wrote |
 | `python scripts/freeze.py status` | 0 | no freeze |
 
 ## Decisions made without you
