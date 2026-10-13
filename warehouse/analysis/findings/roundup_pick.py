@@ -111,11 +111,11 @@ def lines(card, label):
                  + (f" {c['unit']}" if c.get("unit") else ""))
     if DRAFT_ID.match(cid):
         # session 231: an approved draft has no paragraph and no page of its own: its footnote says how it was found,
-        # and it is shown on /analysis in the scanner's group
+        # and it is shown on /research in the scanner's group
         foot = card.get("footnote", "").replace("A draft raised by", "Raised by").replace("; not reviewed.", "; approved by a person at the review list.")
-        L += ["", foot, "", f"{card['source_line']} Shown on [/analysis](/analysis)."]
+        L += ["", foot, "", f"{card['source_line']} Shown on [/research](/research)."]
         return L
-    L += ["", card["why"], "", f"{card['source_line']} The card, its data, Python and Stata do-file are on [/analysis/card/{cid}](/analysis/card/{cid})."]
+    L += ["", card["why"], "", f"{card['source_line']} The card, its data, Python and Stata do-file are on [/research/card/{cid}](/research/card/{cid})."]
     return L
 
 

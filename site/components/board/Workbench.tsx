@@ -42,7 +42,7 @@ function monthly(p: Point[]): Point[] {
 }
 
 function Btn({ on, onClick, children, title }: { on?: boolean; onClick: () => void; children: React.ReactNode; title?: string }) {
-  return <button type="button" aria-pressed={on} title={title} onClick={onClick} className={`border px-1.5 py-0.5 text-[11px] ${on ? "border-accent bg-accent text-white" : "border-rule bg-white text-ink hover:border-accent"}`}>{children}</button>;
+  return <button type="button" aria-pressed={on} title={title} onClick={onClick} className={`border px-1.5 py-0.5 text-xs ${on ? "border-accent bg-accent text-white" : "border-rule bg-white text-ink hover:border-accent"}`}>{children}</button>;
 }
 
 type Lines = { hourly: boolean; freq: "D" | "W" | "M" | "H"; a: Point[]; b: Point[] | null; nameA: string; nameB: string; unitA: string; unitB: string; fileA: HourlyFile | null; fileB: HourlyFile | null; note: string };
@@ -141,9 +141,9 @@ function HistChart({ p, name, unit }: { p: Point[]; name: string; unit: string }
 }
 
 function Stat({ label, value, title }: { label: string; value: React.ReactNode; title?: string }) {
-  return <div className="bg-white px-2 py-1" title={title}><div className="text-[10px] uppercase tracking-wide text-muted">{label}</div><div className="text-sm tabular-nums">{value}</div></div>;
+  return <div className="bg-white px-2 py-1" title={title}><div className="text-xs uppercase tracking-wide text-muted">{label}</div><div className="text-sm tabular-nums">{value}</div></div>;
 }
-const NOT = <span className="text-[11px] text-muted">not held yet</span>;
+const NOT = <span className="text-xs text-muted">not held yet</span>;
 
 export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: Bench; row: Row; set: (patch: Partial<Bench>) => void }) {
   const over = bench.o ? file.rows.find((r) => r.id === bench.o && r.status === "ok") ?? null : null;
@@ -237,7 +237,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
     <div className="border border-accent bg-paper/40 p-3 text-sm" data-workbench={row.id}>
       <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
-          <div className="text-[10px] uppercase tracking-wide text-muted">Markets workbench</div>
+          <div className="text-xs uppercase tracking-wide text-muted">Markets workbench</div>
           <h2 className="font-serif text-xl leading-tight text-accent" title={row.code ? `Code: ${row.code}` : undefined}>{row.label}</h2>
           <div className="text-xs text-muted">{row.at}{row.at ? " · " : ""}{row.last ? <>{fmt(row.last.v, row.unit)} {row.unit} on {dateWords(row.last.t, row.freq)}</> : null}{row.formula ? <span className="ml-1 cursor-help border-b border-dotted border-muted" title={row.formula}>formula</span> : null}</div>
         </div>
@@ -249,7 +249,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
         </div>
       </div>
 
-      <div className="mb-2 grid gap-2 border-y border-rule py-2 text-[11px]">
+      <div className="mb-2 grid gap-2 border-y border-rule py-2 text-xs">
         <div className="flex flex-wrap items-center gap-1">
           <span className="w-16 text-muted">View</span>
           <Btn on={bench.v === "price"} onClick={() => set({ v: "price" })}>Prices</Btn>
@@ -295,7 +295,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
 
           <div className="mt-2 overflow-x-auto">
             <table className="w-full border-collapse text-xs tabular-nums" data-stats="1">
-              <thead><tr className="border-b border-rule text-[10px] uppercase tracking-wide text-muted">
+              <thead><tr className="border-b border-rule text-xs uppercase tracking-wide text-muted">
                 <th className="py-0.5 text-left font-normal">In the window</th><th className="px-2 text-right font-normal">Mean</th><th className="px-2 text-right font-normal">Low</th><th className="px-2 text-right font-normal">High</th>
                 {hourly ? <><th className="px-2 text-right font-normal">On-peak</th><th className="px-2 text-right font-normal">Off-peak</th><th className="px-2 text-right font-normal">Hours below 0</th></> : null}
                 <th className="px-2 text-right font-normal">{hourly ? "Hours" : "Values"}</th>
@@ -320,14 +320,14 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
 
           {bench.v === "dist" && dist && active ? (
             <div className="mt-3" data-dist="1">
-              <div className="mb-1 flex flex-wrap items-center gap-2 text-[11px]">
+              <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
                 <label className="flex items-center gap-1 text-muted">Threshold <input type="number" value={Number.isFinite(th) ? th : 0} step="any" onChange={(e) => set({ th: Number(e.target.value) })} className="w-24 border border-rule bg-white px-1 py-0.5 text-ink" /> {active.unit}</label>
               </div>
               <div className="grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
                 <Stat label={`${hourly ? "Hours" : "Values"} above ${fmt(th, active.unit)}`} value={`${dist.above.toLocaleString("en-US")} of ${dist.n.toLocaleString("en-US")}`} />
                 <Stat label={`${hourly ? "Hours" : "Values"} below zero`} value={dist.negative.toLocaleString("en-US")} />
-                <Stat label="On-peak mean" value={hourly && distA ? n2(distA.peakMean) : <span className="text-[11px] text-muted" title="On-peak and off-peak means are computed from hourly prices: choose the hourly step on a power hub.">hourly step only</span>} />
-                <Stat label="Off-peak mean" value={hourly && distA ? n2(distA.offMean) : <span className="text-[11px] text-muted" title="On-peak and off-peak means are computed from hourly prices: choose the hourly step on a power hub.">hourly step only</span>} />
+                <Stat label="On-peak mean" value={hourly && distA ? n2(distA.peakMean) : <span className="text-xs text-muted" title="On-peak and off-peak means are computed from hourly prices: choose the hourly step on a power hub.">hourly step only</span>} />
+                <Stat label="Off-peak mean" value={hourly && distA ? n2(distA.offMean) : <span className="text-xs text-muted" title="On-peak and off-peak means are computed from hourly prices: choose the hourly step on a power hub.">hourly step only</span>} />
                 <Stat label="Median" value={n2(summary(active.p)?.median)} />
                 <Stat label="30-day volatility" value={vol === null ? NOT : vol.toFixed(2)} title="The standard deviation of the last 30 changes between consecutive values of the series at its own step." />
               </div>
@@ -336,7 +336,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
 
           {(bench.v === "dist" || hourly) && (top || dist) ? (
             <div className="mt-3" data-spikes="1">
-              <h3 className="mb-1 text-[10px] uppercase tracking-wide text-muted">The ten highest {hourly ? "hours" : "values"} in the window{rtLine && hourly ? `, ${rtLine.name}` : ""}</h3>
+              <h3 className="mb-1 text-xs uppercase tracking-wide text-muted">The ten highest {hourly ? "hours" : "values"} in the window{rtLine && hourly ? `, ${rtLine.name}` : ""}</h3>
               <ol className="grid gap-x-6 text-xs tabular-nums sm:grid-cols-2">
                 {(hourly && top ? top : dist!.top).map((p) => <li key={p.t} className="flex justify-between border-b border-rule/60 py-0.5"><span className="text-muted">{when(p.t)}</span><span>{p.v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></li>)}
               </ol>
@@ -350,7 +350,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
                   {([["da_mean_usd", "Day-ahead, week"], ["da_onpeak_mean_usd", "On-peak DA, week"], ["da_offpeak_mean_usd", "Off-peak DA, week"], ["da_rt_spread_mean_usd", "RT minus DA, week"], ["implied_heat_rate", "Heat rate, week"]] as const).map(([k, label]) => {
                     const m = week.means[k];
                     return <Stat key={k} label={label} title={m ? `the 7 days to ${dateWords(m.end)}; the change is on the 7 days before` : "A week's mean needs the measure on all 7 days."}
-                      value={m ? <>{m.v.toFixed(2)}{m.ch !== null ? <span className={`ml-1 text-[10px] ${m.ch > 0 ? "text-up" : m.ch < 0 ? "text-down" : "text-muted"}`}>{m.ch > 0 ? "+" : m.ch < 0 ? "−" : ""}{Math.abs(m.ch).toFixed(2)}</span> : null}</> : NOT} />;
+                      value={m ? <>{m.v.toFixed(2)}{m.ch !== null ? <span className={`ml-1 text-xs ${m.ch > 0 ? "text-up" : m.ch < 0 ? "text-down" : "text-muted"}`}>{m.ch > 0 ? "+" : m.ch < 0 ? "−" : ""}{Math.abs(m.ch).toFixed(2)}</span> : null}</> : NOT} />;
                   })}
                   <Stat label="Largest RT minus DA" value={week.max_spread ? week.max_spread.v.toFixed(2) : NOT} title={week.max_spread ? `${dateWords(week.max_spread.start)} to ${dateWords(week.max_spread.end)}` : undefined} />
                   <Stat label="Hours RT over DA + 50" value={week.hours50 ? week.hours50.v.toLocaleString("en-US") : NOT} title={week.hours50 ? `${dateWords(week.hours50.start)} to ${dateWords(week.hours50.end)}` : undefined} />
@@ -359,7 +359,7 @@ export function Workbench({ file, bench, row, set }: { file: BoardFile; bench: B
               ) : null}
               {spikes.length ? (
                 <>
-                  <h3 className="mb-1 mt-2 text-[10px] uppercase tracking-wide text-muted">The week&apos;s highest real-time intervals at this hub</h3>
+                  <h3 className="mb-1 mt-2 text-xs uppercase tracking-wide text-muted">The week&apos;s highest real-time intervals at this hub</h3>
                   <ol className="grid gap-x-6 text-xs tabular-nums sm:grid-cols-2">
                     {spikes.map((s) => <li key={s.t} className="flex justify-between border-b border-rule/60 py-0.5"><span className="text-muted">{localHour(Date.parse(s.t), s.tz)} local</span><span>{s.v.toFixed(2)}</span></li>)}
                   </ol>

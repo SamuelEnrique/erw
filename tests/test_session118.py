@@ -285,22 +285,22 @@ class TheMonthsThePagesLeaveOut(unittest.TestCase):
             self.assertTrue(r["why"])
 
     def test_the_pages_leave_them_out_and_say_so(self):
-        e = src("site", "app", "emissions", "page.tsx")
+        e = src("site", "components", "grid", "Emissions.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("!carbonLeftOut(r.entity, r.variable, r.ts_utc)", e)
         self.assertIn("data-carbon-left-out", e)
         self.assertIn("/data/faults", e)
-        g = src("site", "app", "grid", "[iso]", "page.tsx")
+        g = src("site", "components", "grid", "YourGrid.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("!carbonLeftOut(r.entity, r.variable, r.ts_utc)", g)
         self.assertIn("data-carbon-left-out", g)
 
     def test_the_older_pages_do_not_draw_eias_california_mix(self):
         # session 168 (the owner's instruction of 8 October 2026, part B): the grid choice is on every view of /mix, so the
         # opening view draws one block per chosen grid (`b`) and withholds California's inside that loop
-        self.assertIn('const withheld = b.code === "ciso";', src("site", "app", "mix", "page.tsx"))
+        self.assertIn('const withheld = b.code === "ciso";', src("site", "components", "grid", "MixView.tsx"))  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         # session 133: the one mix page says it with a short placeholder and the reason on hover, not with the note
-        self.assertEqual(src("site", "app", "mix", "page.tsx").count("withheld ? <Missing why={caiso}"), 2)
-        self.assertIn('if (r.ba.code === "ciso") return <CaisoMixWithheld', src("site", "app", "grid", "page.tsx"))
-        self.assertIn('if (g.iso === "CAISO") return <CaisoMixWithheld />;', src("site", "app", "grid", "[iso]", "page.tsx"))
+        self.assertEqual(src("site", "components", "grid", "MixView.tsx").count("withheld ? <Missing why={caiso}"), 2)  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
+        self.assertIn('if (r.ba.code === "ciso") return <CaisoMixWithheld', src("site", "components", "grid", "Conditions.tsx"))  # session 237: what stood at /grid is drawn from components/grid/Conditions.tsx by the Grid tool
+        self.assertIn('if (g.iso === "CAISO") return <CaisoMixWithheld />;', src("site", "components", "grid", "YourGrid.tsx"))  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         c = src("site", "components", "CaisoMixWithheld.tsx")
         self.assertIn("eia930_ciso_generation_break", c)
         self.assertIsNone(re.search(r"\d{2,}\.\d", c), "the component states no figure of its own: it reads the register's evidence")

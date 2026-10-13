@@ -1,6 +1,6 @@
 # Bundled fonts for the finding cards' renders (session 170)
 
-The render frame (`site/app/analysis/card/render.css`) sets the card's title and subtitle in Source Serif 4 and the rest in Inter, both under the SIL Open Font License 1.1, from the files named here. The renderer (`site/scripts/render-cards.mjs`) refuses to make a render when any of these files is missing or when the browser laid the card out in a fallback face.
+The render frame (`site/app/research/card/render.css`) sets the card's title and subtitle in Source Serif 4 and the rest in Inter, both under the SIL Open Font License 1.1, from the files named here. The renderer (`site/scripts/render-cards.mjs`) refuses to make a render when any of these files is missing or when the browser laid the card out in a fallback face.
 
 | File | Font | License |
 |---|---|---|

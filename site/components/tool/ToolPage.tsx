@@ -127,3 +127,81 @@ export function SourceLine({ tables, note }: { tables: string[]; note?: ReactNod
     </p>
   );
 }
+
+// ---- Session 240: the pieces of a top block and of a list that folds, for any page (first used by /board and /datacenters).
+
+export type TileMove = { label: string; dir: number; text: ReactNode; title?: string };
+/** One number of a top block: what it is, the number with its unit, its time, its moves (each signed, with an arrow and
+ *  the up or down color of the tokens; the sign is written, so color is never the only cue) and a small trend.
+ *  `blank` takes the number's place when it is not shown (paused, licensed, not held). `onOpen` makes the label a button. */
+export function NumberTile({ id, label, sub, value, unit, time, moves, trend, blank, onOpen, openTitle }: {
+  id?: string; label: string; sub?: string; value?: ReactNode; unit?: string; time?: ReactNode; moves?: TileMove[]; trend?: ReactNode; blank?: ReactNode;
+  onOpen?: () => void; openTitle?: string;
+}) {
+  const name = <>{label}{sub ? <span className="block text-muted">{sub}</span> : null}</>;
+  return (
+    <div className="min-w-0 border-t border-rule pt-3" data-number-tile={id ?? "1"}>
+      {onOpen
+        ? <button type="button" onClick={onOpen} title={openTitle} className="block w-full text-left text-xs">{name}</button>
+        : <div className="text-xs">{name}</div>}
+      {blank !== undefined ? <div className="mt-1 text-sm italic text-muted">{blank}</div> : (
+        <>
+          <div className="mt-1 whitespace-nowrap font-serif text-3xl tabular-nums text-ink">{value}{unit ? <span className="ml-1 font-sans text-xs text-muted">{unit}</span> : null}</div>
+          {time ? <div className="text-xs text-muted">{time}</div> : null}
+          {moves?.length ? (
+            <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-2 text-xs">
+              {moves.map((m) => (
+                <div key={m.label} className="contents">
+                  <dt className="text-muted">{m.label}</dt>
+                  <dd className={`whitespace-nowrap font-mono tabular-nums ${m.dir > 0 ? "text-up" : m.dir < 0 ? "text-down" : "text-muted"}`} title={m.title}>
+                    {m.dir > 0 ? <span aria-hidden="true">▲ </span> : m.dir < 0 ? <span aria-hidden="true">▼ </span> : null}{m.text}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+          {trend ? <div className="mt-2">{trend}</div> : null}
+        </>
+      )}
+    </div>
+  );
+}
+/** The tiles of a top block: two across on a phone, six on a wide screen. */
+export function NumberTileGrid({ children, label }: { children: ReactNode; label?: string }) {
+  return <div className="mb-10 grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6" role="group" aria-label={label}>{children}</div>;
+}
+
+/** A group of a long page that opens and closes: its title and one line about it (a count, a sum, its first number)
+ *  stay in view when it is closed. `open` with `onToggle` lets the page hold the state; without them it starts closed. */
+export function GroupFold({ title, meta, open, onToggle, children }: { title: ReactNode; meta?: ReactNode; open?: boolean; onToggle?: (open: boolean) => void; children: ReactNode }) {
+  return (
+    <details className="border-t border-rule" data-group-fold="1" open={open} onToggle={onToggle ? (e) => onToggle((e.currentTarget as HTMLDetailsElement).open) : undefined}>
+      <summary className="flex cursor-pointer flex-wrap items-baseline gap-x-4 gap-y-1 py-3">
+        <h2 className="font-serif text-lg text-accent">{title}</h2>
+        {meta ? <span className="text-xs text-muted">{meta}</span> : null}
+      </summary>
+      <div className="pb-8">{children}</div>
+    </details>
+  );
+}
+
+/** A group of rows inside one table that opens and closes, so every group shares the table's columns: a head row (the
+ *  group's name and one line about it) and the rows in their own tbody, hidden when the group is closed. */
+export function FoldRows({ id, cols, title, meta, open, onToggle, children }: { id: string; cols: number; title: ReactNode; meta?: ReactNode; open: boolean; onToggle: () => void; children: ReactNode }) {
+  return (
+    <>
+      <tbody data-fold-head={id}>
+        <tr className="border-b border-rule bg-paper">
+          <th colSpan={cols} scope="rowgroup" className="px-2 py-2 text-left font-normal">
+            <button type="button" aria-expanded={open} onClick={onToggle} className="flex w-full flex-wrap items-baseline gap-x-4 gap-y-1 text-left">
+              <span aria-hidden="true" className="font-mono text-xs text-muted">{open ? "−" : "+"}</span>
+              <span className="font-semibold">{title}</span>
+              {meta ? <span className="text-xs text-muted">{meta}</span> : null}
+            </button>
+          </th>
+        </tr>
+      </tbody>
+      <tbody hidden={!open} data-fold-rows={id}>{children}</tbody>
+    </>
+  );
+}

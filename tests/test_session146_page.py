@@ -29,7 +29,8 @@ SITE = os.path.join(ROOT, "site")
 NODE = shutil.which("node")
 MANIFEST = os.path.join(SITE, "data", "resources", "manifest.json")
 PAGE_FILES = (
-    ("site", "app", "resources", "page.tsx"), ("site", "app", "resources", "ResourceMap.tsx"), ("site", "app", "resources", "grid.worker.ts"),
+    # session 239: the page file is the view of the Resources tab of /map (app/resources/view.tsx)
+    ("site", "app", "resources", "view.tsx"), ("site", "app", "resources", "ResourceMap.tsx"), ("site", "app", "resources", "grid.worker.ts"),
     ("site", "app", "resources", "layer", "[name]", "route.ts"), ("site", "app", "resources", "overlay", "plants", "route.ts"),
     ("site", "app", "resources", "overlay", "queue", "route.ts"), ("site", "app", "resources", "overlay", "datacenters", "route.ts"),
     ("site", "lib", "resources.ts"), ("site", "lib", "resourcesdata.ts"),
@@ -66,8 +67,10 @@ class ThePage(unittest.TestCase):
         pages = src("site", "lib", "pages.ts")
         # session 203: the Projects menu is Infrastructure now, and Thesis Builder went from Tools to Analysis
         projects = pages[pages.index('label: "Infrastructure"'):pages.index('label: "Analysis"')]
-        self.assertIn('{ href: "/resources", label: "Where the resources are"', projects)
-        self.assertLess(projects.index('href: "/map"'), projects.index('href: "/resources"'))
+        # session 239: "Where the resources are" is the Resources tab of the project map; the menu names it on /map's line
+        self.assertNotIn('{ href: "/resources"', projects)
+        self.assertIn("on the Resources tab, the natural resource itself", projects)
+        self.assertIn('{ source: "/resources", destination: "/map?tab=resources", permanent: true }', src("site", "next.config.ts"))
         self.assertLessEqual(len(re.findall(r'\{ href: "/', projects)), 8)                    # no menu holds more than eight
         tools = pages[pages.index('label: "Analysis"'):pages.index('label: "Games"')]
         self.assertIn('href: "/thesis"', tools)                                                 # moved, not dropped
@@ -92,7 +95,7 @@ class ThePage(unittest.TestCase):
         self.assertEqual(worker.count("fetch("), 1)               # and the one of the grid reader, of the address it is handed
         self.assertIn('fetch(url, { credentials: "same-origin" })', worker)
         self.assertIn("url: new URL(R.layerHref(file), window.location.origin).href", comp)
-        for rel in (("site", "app", "resources", "ResourceMap.tsx"), ("site", "app", "resources", "page.tsx")):
+        for rel in (("site", "app", "resources", "ResourceMap.tsx"), ("site", "app", "resources", "view.tsx")):
             self.assertNotRegex(src(*rel), r"https?://(?!www\.w3\.org)", "/".join(rel))    # no address of another site in the page
             self.assertNotIn("resources-data", src(*rel), "/".join(rel))
         for name in ("plants", "queue", "datacenters"):
@@ -100,9 +103,9 @@ class ThePage(unittest.TestCase):
         self.assertIn("generateStaticParams", src("site", "app", "resources", "layer", "[name]", "route.ts"))
 
     def test_the_face_holds_no_method_and_the_note_is_closed(self):
-        page = src("site", "app", "resources", "page.tsx")
+        page = src("site", "app", "resources", "view.tsx")
         at = page.index("<details")
-        note, face = page[at:page.index("</details>")], page[page.index("export default function"):at]
+        note, face = page[at:page.index("</details>")], page[page.index("export function ResourcesView"):at]   # session 239: the view of the Resources tab
         self.assertRegex(note, r'<details className="[^"]*" data-method-note="1">')
         self.assertNotRegex(note[:200], r"<details[^>]*\sopen")
         self.assertIn("Method note", note)

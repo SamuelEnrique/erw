@@ -1,4 +1,4 @@
-// Energy Research Warehouse (ERW) site, session 182, part 4: the request flow of /analysis in a real browser.
+// Energy Research Warehouse (ERW) site, session 182, part 4: the request flow of /research in a real browser.
 //
 //   npm run build && npx next start -p 3183
 //   node scripts/check-analysis-flow.mjs [base-url]                    (default http://localhost:3183)
@@ -84,7 +84,7 @@ try {
 
     await unlock(base);
     await size(1280, 900);
-    await go(`${base}/analysis`);
+    await go(`${base}/research`);
     await wait(`!!document.querySelector("[data-flow] [data-form-picker]")`, 20000, "the flow");
 
     // ---- step one ----
@@ -131,7 +131,7 @@ try {
     await click("[data-form-next]");
     let p = await picker();
     check(p.chosen === "lines" && p.count.startsWith("2 of 3"), "Next flips to the second form", `(${p.count})`);
-    check(/analysis=gas_sets_price/.test(await address()) && /[?&]form=lines/.test(await address()), "the choice lands in the address", `(${await address()})`);
+    check(/[?&]analysis=gas_sets_price/.test(await address()) && /[?&]form=lines/.test(await address()), "the choice lands in the address", `(${await address()})`);
     await click("[data-form-prev]");
     p = await picker();
     check(p.chosen === "bars" && !/[?&]form=/.test(await address()), "Previous flips back to the default, which the address does not carry", `(${await address()})`);
@@ -143,7 +143,7 @@ try {
     await choose(`[data-flow-inputs] [data-request-input="heat_rate"]`, String(catalogue.find((c) => c.id === "gas_sets_price").inputs.heat_rate.choices.find((v) => String(v) !== String(catalogue.find((c) => c.id === "gas_sets_price").inputs.heat_rate.default))));
     const kept = await address();
     check(/form=lines/.test(kept) && /i\.heat_rate=/.test(kept), "a pressed tile and a changed input are in the address", `(${kept})`);
-    await go(`${base}/analysis${kept}`);
+    await go(`${base}/research${kept}`);
     await drawnAll("gas_sets_price");
     p = await picker();
     const hr = await js(`document.querySelector('[data-flow-inputs] [data-request-input="heat_rate"]').value`);
@@ -183,9 +183,9 @@ try {
     {
       const c = card("gas_sets_price");
       const want = c.chart.series.map((s) => s.values);
-      await go(`${base}/analysis/card/gas_sets_price?form=lines`);
+      await go(`${base}/research/card/gas_sets_price?form=lines`);
       await wait(`!!document.querySelector('[data-form="lines"] [data-form-drawn="lines"] canvas')`, 20000, "the card page as lines");
-      check(same(await dataOf(`[data-form-drawn="lines"]`), want), "/analysis/card/gas_sets_price?form=lines draws the card as lines, the same numbers");
+      check(same(await dataOf(`[data-form-drawn="lines"]`), want), "/research/card/gas_sets_price?form=lines draws the card as lines, the same numbers");
       const tg = await js(`document.querySelector("[data-form-toggles]").dataset.formToggles`);
       check(tg === "bars,lines,multiples", "the card page carries the toggles of its forms", `(${tg})`);
       await click(`[data-form-pick="multiples"]`);
@@ -197,22 +197,22 @@ try {
       check(!/form=/.test(await address()) && same(await dataOf(`[data-finding-chart="grouped_bar"]`), want), "the default form is the card's own drawing, and leaves the address");
       // a card of many grids as lines: one series a grid, the first measure
       const g = card("peak_hour_grids");
-      await go(`${base}/analysis/card/peak_hour_grids?form=lines`);
+      await go(`${base}/research/card/peak_hour_grids?form=lines`);
       await wait(`!!document.querySelector('[data-form-drawn="lines"] canvas')`, 20000, "the five-grid card as lines");
       check(same(await dataOf(`[data-form-drawn="lines"]`), g.chart.panels.map((x) => x.values[g.chart.measures[0].key])), "the five-grid card as lines holds each grid's values of the first measure");
       await click(`[data-form-measure=${q(g.chart.measures[1].key)}]`);
       await sleep(400);
       check(same(await dataOf(`[data-form-drawn="lines"]`), g.chart.panels.map((x) => x.values[g.chart.measures[1].key])), "its measure toggle shows the second measure's values");
-      await go(`${base}/analysis/card/batteries_curtailment`);
+      await go(`${base}/research/card/batteries_curtailment`);
       await wait(`!!document.querySelector('[data-finding-chart="scatter"] canvas')`, 20000, "the scatter card");
       check(await js(`!document.querySelector("[data-form-toggles]")`), "a card of points offers no other form: no toggle is drawn");
-      await go(`${base}/analysis/card/gas_sets_price?render=1&form=lines`);
+      await go(`${base}/research/card/gas_sets_price?render=1&form=lines`);
       await wait(`!!document.querySelector('[data-finding-chart="grouped_bar"] canvas')`, 20000, "the render frame");
       check(await js(`!document.querySelector("[data-form-toggles]") && !document.querySelector("[data-form-drawn]")`), "the renderer's frame draws the default form and no toggle");
     }
 
     // ---- the ten templates ----
-    await go(`${base}/analysis`);
+    await go(`${base}/research`);
     await wait(`!!document.querySelector("[data-flow] [data-form-picker]")`, 20000, "the flow");
     for (const g of gallery) {
       const id = `${A.TEMPLATE_PREFIX}${g.template}`;
@@ -263,14 +263,17 @@ try {
       "the tenth template (chokepoint transits) is listed with its three inputs and its method, and is not drawn: internal", `(${inner.inputs} inputs, ${inner.canvas} canvases)`);
 
     // ---- the page around the flow ----
-    const pg = await js(`({ heads: [...document.querySelectorAll("main h2, h2")].map((h) => h.textContent), n: Number(document.querySelector("[data-finding-cards]").dataset.findingCards), drawn: [...document.querySelectorAll("[data-finding-cards] [data-card]")].map((e) => e.dataset.card),
+    const pg = await js(`({ heads: [...document.querySelectorAll("main h2, h2, h3, summary")].map((h) => h.textContent), n: Number(document.querySelector("[data-finding-cards]").dataset.findingCards), drawn: [...document.querySelectorAll("[data-finding-cards] [data-card]")].map((e) => e.dataset.card),
       links: [...document.querySelectorAll("[data-superseded]")].map((e) => e.dataset.superseded + "|" + (e.querySelector("a")?.getAttribute("href") ?? "")), text: document.body.innerText, list: !!document.querySelector('[data-request-form][data-request-list="1"]'),
       oldRow: !!document.querySelector("[data-request-finding]"), roundup: document.querySelectorAll("[data-finding-cards] [data-roundup-button]").length, toggles: document.querySelectorAll("[data-finding-cards] [data-form-toggles]").length })`);
     const sup = ["batteries_lunch", "peak_hour_moved"];
     const current = allCards.filter((c) => !sup.includes(c.id));
     check(pg.n === current.length && same([...pg.drawn].sort(), current.map((c) => c.card_id).sort()), `the list of findings draws the ${current.length} current cards; the two superseded ones left it`, `(${pg.drawn.length})`);
-    check(same(pg.links.sort(), sup.map((s) => `${s}|/analysis/card/${s}`).sort()), "each superseded card is linked under its five-grid card", `(${pg.links.join(", ")})`);
-    for (const h of ["Findings", "Found by the scanner", "Ask for an analysis", "Requests", "Archive: the chart of each week"]) check(pg.heads.includes(h), `the section "${h}" is on the page`);
+    check(same(pg.links.sort(), sup.map((s) => `${s}|/research/card/${s}`).sort()), "each superseded card is linked under its five-grid card", `(${pg.links.join(", ")})`);
+    // session 238: the page is Research, in the order of the owner: the form, the chart of today, the chart of the week, the library, the archive.
+    // The scanner's group is a title inside the library and the results of the week are folded under the chart of the week, so the titles read are h2, h3 and summary
+    for (const h of ["Findings library", "Found by the scanner", "Ask for an analysis", "Requests", "Today's chart", "Chart archive"]) check(pg.heads.includes(h), `the section "${h}" is on the page`);
+    check(pg.heads.some((h) => h.startsWith("This week's chart")), "the chart of the week is on the page");
     check(pg.heads.some((h) => h.startsWith("This week's results")), "the week's results table is on the page");
     check(!pg.heads.includes("Template gallery") && !pg.heads.includes("Ask for a finding") && !pg.heads.includes("Impact of an event on a series") && !pg.oldRow, "the three old sections are gone: one flow holds them");
     check(pg.list && pg.roundup === current.length, `the list of requests stands under the flow; Use in Roundup is on each of the ${current.length} cards`, `(${pg.roundup})`);
@@ -279,14 +282,14 @@ try {
     check(!/recommend|you should|we suggest|best form|better form/i.test(pg.text), "no word of advice on the page");
     check(!/claude-[a-z]+-\d/.test(pg.text) && !pg.text.includes(String.fromCharCode(0x2014)), "no model name and no em dash on the page");
     for (const s of sup) {
-      await go(`${base}/analysis/card/${s}`);
+      await go(`${base}/research/card/${s}`);
       check(await js(`!!document.querySelector("[data-card='${s}']")`), `the superseded card ${s} is drawn at its own address`);
     }
 
     // ---- a phone ----
     await size(390, 844);
-    for (const [addr, sel] of [["/analysis", "[data-flow] [data-form-picker]"], ["/analysis?analysis=gas_sets_price&form=lines", "[data-flow] [data-form-picker]"], ["/analysis?analysis=template:deals_by_month", "[data-template-chart] canvas"],
-      ["/analysis?analysis=impact_study", "[data-flow-impact='shown'] [data-form-picker]"], ["/analysis/card/peak_hour_grids?form=bars", "[data-form-drawn='bars'] canvas"]]) {
+    for (const [addr, sel] of [["/research", "[data-flow] [data-form-picker]"], ["/research?analysis=gas_sets_price&form=lines", "[data-flow] [data-form-picker]"], ["/research?analysis=template:deals_by_month", "[data-template-chart] canvas"],
+      ["/research?analysis=impact_study", "[data-flow-impact='shown'] [data-form-picker]"], ["/research/card/peak_hour_grids?form=bars", "[data-form-drawn='bars'] canvas"]]) {
       await go(`${base}${addr}`);
       await wait(`!!document.querySelector(${q(sel)})`, 20000, `${addr} at 390 px`);
       await sleep(600);
@@ -305,7 +308,7 @@ try {
 
     // ---- the queue, against the stand-in only ----
     if (stub) {
-      await go(`${base}/analysis?analysis=queue_divorce&form=bars`);
+      await go(`${base}/research?analysis=queue_divorce&form=bars`);
       await drawnAll("queue_divorce");
       const qd = catalogue.find((c) => c.id === "queue_divorce");
       const fy = String(qd.inputs.first_year.choices.find((v) => String(v) !== String(qd.inputs.first_year.default)));
@@ -325,7 +328,7 @@ try {
       check(await js(`document.querySelector("[data-request-id='${asked.id}']").dataset.requestStatus === "queued"`), "the list of requests holds it, queued, at once");
       // a done request opened by its address, in a chosen form
       const done = card("impact_study");
-      await go(`${base}/analysis?analysis=impact_study&form=bars&request=${stub.DONE_ID}`);
+      await go(`${base}/research?analysis=impact_study&form=bars&request=${stub.DONE_ID}`);
       await wait(`!!document.querySelector('[data-request-card="done"] [data-form-drawn="bars"] canvas')`, 25000, "the done request as paired bars");
       check(same(await dataOf(`[data-request-card="done"] [data-form-drawn="bars"]`), done.chart.series.map((s) => s.values)), "a done request opened by its address is drawn in the address's form, with the committed card's numbers");
       const f2 = (v) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });

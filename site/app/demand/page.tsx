@@ -11,7 +11,11 @@ import {
   RANKS, TABLE, byHour, byMonth, cells, choices, extremes, hourName, href, localHour, monthName, ranking, signed, slugOf, whole, wholeYears, yearToDate,
   type Area, type DemandFile,
 } from "@/lib/demandgrowth";
-import { METHODS, VIEWS, viewHref, viewOf } from "@/lib/demandpage";
+import { METHODS, viewHref, viewOf } from "@/lib/demandpage";
+import { Brand } from "@/components/Brand";
+import { Related } from "@/components/Related";
+import { Tabs } from "@/components/tool/Tabs";
+import { ConsumptionView } from "../consumption/view";
 
 // Demand growth, one page at one address (session 152), in review (lib/release.ts). Two views, both in the address
 // (lib/demandpage.ts):
@@ -238,25 +242,35 @@ export default async function Demand({ searchParams }: { searchParams: Promise<R
   const sp = await searchParams;
   const q = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, typeof v === "string" ? v : undefined]));
   const view = viewOf(q);
+  // session 239: the page is on the brand, its views are the shared tabs (components/tool/Tabs.tsx), and consumption
+  // (what /consumption showed) is the third of them
+  if (view === "consumption") {
+    return (
+      <Brand>
+        <ToolPage>
+          <div data-demand={view}>
+            <Tabs page="/demand" active={view} />
+            <ConsumptionView />
+            <Related href="/demand" />
+          </div>
+        </ToolPage>
+      </Brand>
+    );
+  }
   return (
+    <Brand>
     <ToolPage>
       <div data-demand={view}>
+        <Tabs page="/demand" active={view} />
         <ToolHeader title="Demand growth"
           lead={view === "weather"
             ? <>For the seven grid operators and each year since {FIT_YEARS.to}: how much demand rose against the average of {FIT_YEARS.from} to {FIT_YEARS.to}, how much of that the year&apos;s weather explains, and how much it does not. Weather from NOAA&apos;s stations, demand from EIA&apos;s hourly record.</>
             : <>How much more power each grid uses than it did in {file.base}: the average over the year, the highest hour of the year, and in which months and hours of the day the growth sits. The seven grid operators and the Lower 48, from EIA&apos;s hourly record.
               See also <SiteLink href="/queues">the interconnection queue</SiteLink> and <SiteLink href="/prices/compare">where power is cheap</SiteLink>.</>} />
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
-          <nav aria-label="Views" className="flex flex-wrap gap-1 text-xs" data-views="1">
-            {VIEWS.map(([k, label]) => (
-              <a key={k} href={viewHref(k)} aria-current={view === k ? "page" : undefined} data-view={k} style={{ color: view === k ? "#fff" : "var(--color-ink)" }}
-                className={`border px-2 py-1 no-underline ${view === k ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{label}</a>
-            ))}
-          </nav>
-          <p className="text-xs text-muted" data-method="1"><SiteLink href={METHODS[view].href}>Method, sources and gaps</SiteLink></p>
-        </div>
+        <p className="mb-6 text-xs text-muted" data-method="1"><SiteLink href={METHODS[view].href}>Method, sources and gaps</SiteLink></p>
         {view === "weather" ? <WeatherView q={q} /> : <MeteredView q={q} />}
       </div>
     </ToolPage>
+    </Brand>
   );
 }

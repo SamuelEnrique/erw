@@ -403,7 +403,7 @@ class Replay(unittest.TestCase):
 class BuiltDate(unittest.TestCase):
     """Each of the seven pages prints the built stamp of the file it reads (never the time the page was drawn)."""
     PAGES = {  # page: (its source, the expression that prints the stamp, the files that carry it)
-        "/network": ("site/app/network/page.tsx", "built {utc(index.built)}", ["site/public/network/daily_index.json"]),  # session 168: version 3 is the network page
+        "/network": ("site/components/grid/NetworkView.tsx", "built {utc(index.built)}", ["site/public/network/daily_index.json"]),  # session 168: version 3 is the network page  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         "/mix/v2": ("site/app/_retired/mix-v2/page.tsx", "built {file.built.slice(0, 10)}", [f"site/data/mix/{g}.json" for g in ("caiso", "ercot", "isone", "miso", "nyiso", "pjm", "spp")]),
         "/prices/compare": ("site/app/prices/compare/page.tsx", "Built {file.built.slice(0, 10)}", ["site/data/price_compare.json"]),
         "/demand": ("site/app/demand/page.tsx", "built {file.built.slice(0, 10)}", ["site/data/demand_growth.json"]),

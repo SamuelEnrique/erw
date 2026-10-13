@@ -80,7 +80,7 @@ class OnePageOneAddress(unittest.TestCase):
                  "console.log(JSON.stringify({ views: p.VIEWS.map((v) => v[0]), none: p.viewOf({}), odd: p.viewOf({ view: 'mars' }), weather: p.viewOf({ view: 'weather' }),"
                  " hrefs: [p.viewHref('metered'), p.viewHref('weather')], fig: w.href('night', 2026), area: g.href('caiso', 'peak'),"
                  " methods: [p.METHODS.metered.href, p.METHODS.weather.href] }));")
-        self.assertEqual(d["views"], ["metered", "weather"])
+        self.assertEqual(d["views"], ["metered", "weather", "consumption"])   # session 239: consumption (what /consumption showed) is the third view
         self.assertEqual([d["none"], d["odd"], d["weather"]], ["metered", "metered", "weather"])     # what it does not understand is the page as metered
         self.assertEqual(d["hrefs"], ["/demand", "/demand?view=weather"])
         self.assertEqual(d["fig"], "/demand?view=weather&figure=night&year=2026")                    # the whole state is in the address

@@ -32,7 +32,7 @@ GRIDS182 = ["ercot", "caiso", "nyiso", "isone", "spp"]
 NEW182 = ["batteries_lunch_grids", "peak_hour_grids", "batteries_curtailment_hourly"]
 FILES182 = [f"warehouse/analysis/findings/{n}.py" for n in NEW182] + [
     "warehouse/analysis/findings/batteries_curtailment.py", "tests/test_session182.py", "site/components/analysis/MultiChart.tsx",
-    "site/components/analysis/CardChart.tsx", "site/app/analysis/card/render.css", "site/lib/findings.ts",
+    "site/components/analysis/CardChart.tsx", "site/app/research/card/render.css", "site/lib/findings.ts",
     "docs/methods/automated_analysis_findings.md", "archive/sessions/SESSION_182_REPORT.md"]
 # numbers a sentence may hold that are definitions, not results: thresholds, clock hours, the form's number, the count of parameters
 CONSTANTS182 = {"0.001", "2021", "1,000", "1000", "250", "17", "00", "21", "59", "10", "15", "860", "930", "99.9", "99", "1", "90", "2024", "20", "300", "9", "5", "24"}
@@ -403,12 +403,12 @@ class TheSite182(unittest.TestCase):
             self.assertIn(bit, mc, bit)
         self.assertEqual(card182("batteries_lunch_grids")["chart"]["param"], "lunch_grid")
         self.assertEqual(card182("peak_hour_grids")["chart"]["param"], "peak_grid")
-        css = src182("site", "app", "analysis", "card", "render.css")
+        css = src182("site", "app", "research", "card", "render.css")  # session 238: the page moved to site/app/research (Research, /research)
         self.assertIn('[data-finding-chart="multiples"]', css)
 
     def test_the_files_another_session_is_changing_were_not_touched(self):
         # note A of the session: the worker, /analysis's page and view, the request route, the daily run
-        ts = src182("site", "app", "analysis", "page.tsx")
+        ts = src182("site", "app", "research", "page.tsx")  # session 238: the page moved to site/app/research (Research, /research)
         self.assertNotIn("182", ts)
         self.assertNotIn("182", src182("warehouse", "analysis", "findings", "worker.py"))
 

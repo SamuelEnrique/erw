@@ -121,7 +121,7 @@ class ThePage(unittest.TestCase):
         self.assertIn("isDayView && demandNow && Math.round(t.imp) !== 0", comp)       # a share only in the replay's day view: the live page is as it was
         self.assertIn("data-tie-share={t.other}", comp)
         # session 168: version 3 is the network page (app/network/page.tsx); its fold on the replay is in the Method note
-        page = src("site", "app", "network", "page.tsx")
+        page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("A share of demand, by day:", src("docs", "methods", "grid_network.md"))
         self.assertNotIn("demand, so a share of demand is not given for a replayed day", page)
         self.assertIn('"eia930_daily_demand"', page)

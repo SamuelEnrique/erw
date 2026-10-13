@@ -67,6 +67,11 @@ export async function GET(req: Request) {
     for (const r of sc.byMonth) { put(S, `month_${r.m}`, "hours", String(r.hours)); put(S, `month_${r.m}`, "flat_load_usd", String(Math.round(r.usd * x.mw))); }
     sc.byHour.forEach((n, h) => { if (n) put(S, `clock_${String(h).padStart(2, "0")}`, "hours", String(n), `${M.answerFacts.stdName}, the hour starting ${String(h).padStart(2, "0")}:00`); });
     if (A.notices) { put(S, "operator_notices", "count", String(A.notices.count), A.notices.held ? `caiso_grid_emergencies, the notices dated in the twelve months; the table runs to ${A.notices.last}` : "no notice held"); for (const [t, n] of Object.entries(A.notices.byType)) put(S, "operator_notices", t, String(n)); }
+    if (A.adders) {
+      put(S, "operator_reserve_adder", "hours", String(A.adders.hours), `ercot_rtm_price_adders, rtorpa_mean (the operating reserve demand curve's on-line adder, the hour's mean) at or above USD ${A.adders.level} per MWh, over the ${A.adders.held} hours of the twelve months the adder was published in, ${A.adders.first} to ${A.adders.last}; check key dc|${M.answersKey}|adders:hours`);
+      put(S, "operator_reserve_adder", "hours_published_in_the_months", String(A.adders.held), `dc|${M.answersKey}|adders:held`);
+      put(S, "operator_reserve_adder", "hours_last_year_published", String(A.adders.own.hours), `the same level over the 8,760 hours to the adder's last hour held, ${A.adders.own.from} to ${A.adders.own.to}; dc|${M.answersKey}|adders:own:hours`);
+    }
     const C = "carbon", c = A.carbon;
     for (const k of ["flat", "flex", "shift"] as const) {
       put(C, `last_twelve_months_${k}`, "kg_co2_per_mwh", f2(c.l12[k].kgPerMwh), c.l12[k].kgPerMwh === null ? (A.held[k] ? "no month of the twelve has an intensity" : "not held here") : `${words[k]}; the grid's monthly intensity of consumed electricity weighted by the load's energy in each month, over the ${c.l12[k].months} of ${c.l12[k].of} months with an intensity; dc|${M.answersKey}|co2:l12:kg:${k}`);

@@ -31,6 +31,11 @@ import { withBrowser } from "./browser.mjs";
 import { parseShape, withShape } from "../lib/networkMap.ts";
 import { parseShared, sharedQuery } from "../lib/networkV3.ts";
 
+// Session 237: /network redirects to the Network view of the Grid tool (/grid?grid=<grid>&view=network), where the
+// network's own words are written under the tool's (lib/gridtool.ts: its view as net, its grid as node). The checks
+// below still open the old addresses, so each one also proves its redirect; OWN reads the address back as the
+// network's own query, the form these checks have always compared.
+const OWN = `((s) => { const o = []; for (const [k, v] of new URLSearchParams(s)) { if (k === 'grid' || k === 'view') continue; o.push((k === 'net' ? 'view' : k === 'node' ? 'grid' : k) + '=' + encodeURIComponent(v)); } return o.length ? '?' + o.join('&') : ''; })`;
 const args = process.argv.slice(2);
 const READY = `!!document.querySelector('[data-network-view][data-restored="1"]')`;
 
@@ -102,7 +107,7 @@ const MAP = `(() => { const m = document.querySelector('[data-map-state]'); cons
   return { shape: t?.getAttribute('data-shape-toggle') ?? null, pressed: [...(t?.querySelectorAll('button[aria-pressed="true"]') ?? [])].map((b) => b.innerText.trim()).join(','),
     buttons: [...(t?.querySelectorAll('button') ?? [])].map((b) => b.innerText.trim()).join(','), state: m?.getAttribute('data-map-state') ?? null, regions: document.querySelectorAll('[data-region]').length,
     said: Number(m?.getAttribute('data-map-regions') ?? -1), matched: Number(m?.getAttribute('data-map-matched') ?? -1), flows: document.querySelectorAll('[data-flow]').length, canvas: !!document.querySelector('canvas'),
-    view: d?.getAttribute('data-network-view'), t: d?.getAttribute('data-t'), panel: document.querySelector('[data-panel]')?.getAttribute('data-panel') ?? null, search: window.location.search,
+    view: d?.getAttribute('data-network-view'), t: d?.getAttribute('data-t'), panel: document.querySelector('[data-panel]')?.getAttribute('data-panel') ?? null, search: ${OWN}(window.location.search),
     text: m?.innerText ?? '' }; })()`;
 const press = (k) => `(() => { const b = document.querySelector('[data-shape-toggle] button[data-shape="${k}"]'); if (!b) return false; b.click(); return true; })()`;
 const setDate = (v) => `(() => { const el = document.querySelector('#replay-day'); Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, '${v}');

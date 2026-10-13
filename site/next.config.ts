@@ -64,14 +64,63 @@ const nextConfig: NextConfig = {
   // session 23: Energy Week became the Energy Roundup; the old addresses keep working
   async redirects() {
     return [
+      // session 239 (the owner's instruction of 12 October 2026; docs/reviews/erw-review-2026-10-12.md, section B): six
+      // pages hold what thirteen held, each as tabs of one address (lib/tabs.ts). Every old address redirects to the tab
+      // it became (a query is carried over, so /storage/buildout?grid=ercot opens the build-out tab on ERCOT). Only the
+      // address itself is redirected: /resources/layer and /resources/overlay (the resource map's files),
+      // /severance/lease/real and /severance/finder answer as before.
+      { source: "/storage/buildout", destination: "/storage?tab=buildout", permanent: true },
+      { source: "/storage/owners", destination: "/storage?tab=owners", permanent: true },
+      { source: "/severance/lease", destination: "/severance?tab=lease", permanent: true },
+      { source: "/consumption", destination: "/demand?view=consumption", permanent: true },
+      { source: "/deals/v2", destination: "/deals?tab=tracker", permanent: true },
+      { source: "/companies", destination: "/deals?tab=companies", permanent: true },
+      { source: "/resources", destination: "/map?tab=resources", permanent: true },
+      // session 239: the versioned addresses. /board/v3, /board/v4, /map/v2, /network/v3, /curtailment/v2 and
+      // /cost-of-power/seller/v2 redirect already (below); /deals/v2 is the tracker tab (above). /seller/v2 never was
+      // an address of the site (the page was /cost-of-power/seller/v2); it redirects with it, so a link written short
+      // answers. /datacenters/v2 (session 106: ERCOT's large-load status beside the facilities held) is NOT redirected
+      // yet: /datacenters does not draw its blocks (that page is session 240's in this chain), and a redirect now would
+      // drop what it shows and fail scripts/check-datacenters.mjs. The line to add once /datacenters draws them:
+      //   { source: "/datacenters/v2", destination: "/datacenters", permanent: true },
+      { source: "/seller/v2", destination: "/cost-of-power/seller", permanent: true },
+      { source: "/explorer/ercot-peak-premium", destination: "/prices?tab=ercot", permanent: true },
+      // session 237 (the roadmap's item 2): one tool, one page, one address. The Grid tool is /grid; the network, the
+      // energy mix, the emissions page and the seven grid pages are views of that page now, and their addresses redirect
+      // to the view each became. A query is carried over; where an old page's own word is one of the tool's two (view,
+      // grid), it is read by the tool (lib/gridtool.ts): the network's view is written as net, the mix's as mix, and a
+      // grid named by its EIA-930 code (grid=ERCO) chooses that grid. The finishing pass of sessions 237 and 238: /network/v3,
+      // /mix/v2, /mix/clean and /mix/stress (below) go to their view in one step, no longer through /network and /mix.
+      { source: "/network", has: [{ type: "query", key: "view", value: "(?<net>[a-z0-9_]+)" }], destination: "/grid?view=network&net=:net", permanent: true },
+      { source: "/network", destination: "/grid?view=network", permanent: true },
+      { source: "/mix", has: [{ type: "query", key: "view", value: "clean" }], destination: "/grid?view=clean", permanent: true },
+      { source: "/mix", has: [{ type: "query", key: "view", value: "(?<mix>[a-z]+)" }], destination: "/grid?view=mix&mix=:mix", permanent: true },
+      { source: "/mix", destination: "/grid?view=mix", permanent: true },
+      { source: "/emissions", destination: "/grid?view=clean", permanent: true },
+      // the seven grid pages, each by its own line (tests/test_session53.py reads a folded page's line here); a longer
+      // address under one of them (/grid/caiso/alerts, the Flex Alert scorecard) is its own page and is not redirected
+      { source: "/grid/ercot", destination: "/grid?grid=ercot", permanent: true },
+      { source: "/grid/caiso", destination: "/grid?grid=caiso", permanent: true },
+      { source: "/grid/pjm", destination: "/grid?grid=pjm", permanent: true },
+      { source: "/grid/nyiso", destination: "/grid?grid=nyiso", permanent: true },
+      { source: "/grid/isone", destination: "/grid?grid=isone", permanent: true },
+      { source: "/grid/miso", destination: "/grid?grid=miso", permanent: true },
+      { source: "/grid/spp", destination: "/grid?grid=spp", permanent: true },
+      // session 238 (the owner's task of 12 October 2026): Automated Analysis is Research, at /research. The old address and
+      // the addresses under it (a week's chart, a finding's card) redirect to the same place under /research (a query is
+      // carried over, so a card's chart form or a request's link opens as it did)
+      { source: "/analysis", destination: "/research", permanent: true },
+      { source: "/analysis/:path*", destination: "/research/:path*", permanent: true },
       // session 145: one tool, one page, one address. What a generator earns is /cost-of-power/seller; its second version
       // is folded into it and its address redirects there (a query is carried over)
       { source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true },
       // session 133: one tool, one page, one address. The energy mix is /mix; its second version and the two pages beside
       // it are views of that page now, and their addresses redirect to the view each became (a query is carried over)
-      { source: "/mix/v2", destination: "/mix?view=day", permanent: true },
-      { source: "/mix/clean", destination: "/mix?view=clean", permanent: true },
-      { source: "/mix/stress", destination: "/mix?view=stress", permanent: true },
+      // session 237, the finishing pass: /mix is the Mix view of /grid, so each goes there in one step (it went to
+      // /mix?view=day, /mix?view=clean and /mix?view=stress, and from there to /grid)
+      { source: "/mix/v2", destination: "/grid?view=mix&mix=day", permanent: true },
+      { source: "/mix/clean", destination: "/grid?view=clean", permanent: true },
+      { source: "/mix/stress", destination: "/grid?view=mix&mix=stress", permanent: true },
       // session 144: one tool, one page, one address. Curtailment is /curtailment; its second version (California by the
       // hour, against battery charging) is part of that page now, and its address redirects to it (a query is carried over)
       { source: "/curtailment/v2", destination: "/curtailment", permanent: true },
@@ -84,7 +133,10 @@ const nextConfig: NextConfig = {
       { source: "/map/v2", destination: "/map", permanent: true },
       // session 168: one tool, one page, one address. The grid network is /network; version 3 is that page now, and its
       // address redirects to it (a query is carried over, so a view shared from /network/v3 opens the same view)
-      { source: "/network/v3", destination: "/network", permanent: true },
+      // session 237, the finishing pass: /network is the Network view of /grid, so version 3's address goes there in one
+      // step, its view written as net as /network's is (it went to /network, and from there to /grid)
+      { source: "/network/v3", has: [{ type: "query", key: "view", value: "(?<net>[a-z0-9_]+)" }], destination: "/grid?view=network&net=:net", permanent: true },
+      { source: "/network/v3", destination: "/grid?view=network", permanent: true },
       { source: "/weekly", destination: "/roundup", permanent: true },
       { source: "/weekly/:week", destination: "/roundup/:week", permanent: true },
       // session 132: one tool, one page, one address. The price board is /board; its earlier versions and the markets

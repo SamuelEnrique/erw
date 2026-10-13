@@ -499,7 +499,7 @@ class TheQueueGridByGrid(unittest.TestCase):
             self.assertNotIn(words, self.map, "the words are written once, in lib/resources.ts")
 
     def test_the_method_note_states_it_grid_by_grid(self):
-        page = read("site", "app", "resources", "page.tsx")
+        page = read("site", "app", "resources", "view.tsx")   # session 239: the view of the Resources tab of /map
         self.assertIn("QUEUE_GRIDS.filter((g) => !g.shown).map(", page)
         self.assertIn("data-method-queue-grid", page)
         doc = read("docs", "methods", "resources.md")
@@ -515,7 +515,7 @@ class ThePage(unittest.TestCase):
         self.assertNotRegex(release, r'"/resources[^"]*":\s*"live"')
 
     def test_the_hover_lists_the_fields_the_manifest_names(self):
-        lib, comp, page = read("site", "lib", "resources.ts"), read("site", "app", "resources", "ResourceMap.tsx"), read("site", "app", "resources", "page.tsx")
+        lib, comp, page = read("site", "lib", "resources.ts"), read("site", "app", "resources", "ResourceMap.tsx"), read("site", "app", "resources", "view.tsx")
         self.assertIn("hover_fields?: [string, string][]", lib)
         self.assertIn("hover_fields:", page)
         self.assertIn("function listed(l: R.Layer", comp)
@@ -548,7 +548,7 @@ class TestNoEmDash(unittest.TestCase):
     def test_none_in_the_files_of_this_session(self):
         files = [("warehouse", "connectors", "resource_layers.py"), ("docs", "methods", "resources.md"),
                  ("site", "data", "resources", "manifest.json"), ("site", "lib", "resources.ts"), ("site", "lib", "resourcesdata.ts"),
-                 ("site", "app", "resources", "page.tsx"), ("site", "app", "resources", "ResourceMap.tsx"),
+                 ("site", "app", "resources", "view.tsx"), ("site", "app", "resources", "ResourceMap.tsx"),
                  ("site", "scripts", "check-resources.mjs"), ("site", "scripts", "frametime-resources.mjs"),
                  ("site", "scripts", "test-resources.mjs"), ("tests", "test_session159.py"),
                  ("site", "data", "resources", "layers", "hydropower_npd.json"), ("site", "data", "resources", "layers", "hydropower_nsd.json")]

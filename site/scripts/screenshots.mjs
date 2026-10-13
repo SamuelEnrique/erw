@@ -37,7 +37,7 @@ const PAGES = [
   ["data", "/data"],
   ["data-standard", "/data/standard"],
   ["data-method", "/data/methods/ercot_peak_premium"],
-  ["explorer-ercot-peak-premium", "/explorer/ercot-peak-premium"],
+  ["explorer-ercot-peak-premium", "/prices?tab=ercot"],
   ["about", "/about"],
   ["ask", "/ask"],
   ["deals", "/deals"],
@@ -48,7 +48,7 @@ const PAGES = [
   // session 18
   ["mix", "/mix?ba=erco&state=TX"],
   ["curtailment", "/curtailment"],
-  ["consumption", "/consumption"],
+  ["consumption", "/demand?view=consumption"],
   // session 19
   ["markets", "/board?s=ercot-hb-hubavg-da&x=1"],  // session 132: the markets page is the board's workbench
   ["subscribe", "/subscribe"],
@@ -57,14 +57,14 @@ const PAGES = [
   // session 23
   ["roundup-week", "/roundup/2026-W39"],
   ["digest-weekend", "/digest/2026-10-03"],
-  ["analysis", "/analysis"],
-  ["analysis-week", "/analysis/2026-W39"],
+  ["analysis", "/research"],
+  ["analysis-week", "/research/2026-W39"],
   // session 24
   ["policy", "/policy"],
   // session 26
   // the row first: loading /companies#... right after /companies is a same-document jump, with no load event
-  ["companies-row", "/companies#co-fervo-energy"],
-  ["companies", "/companies"],
+  ["companies-row", "/deals?tab=companies#co-fervo-energy"],
+  ["companies", "/deals?tab=companies"],
 ];
 const WIDTHS = [
   ["desktop", 1280, 1],

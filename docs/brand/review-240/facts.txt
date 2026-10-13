@@ -1,0 +1,4 @@
+after /board 1280: {"scrollW":1265,"clientW":1265,"h":2637,"tiles":12,"folds":18,"open":1,"rows":211}
+after /datacenters 1280: {"scrollW":1265,"clientW":1265,"h":6069,"heads":52,"shownRows":27,"rows":380}
+after /board 390: {"scrollW":390,"clientW":390,"h":5305,"tiles":12,"folds":18,"open":1,"rows":211}
+after /datacenters 390: {"scrollW":390,"clientW":390,"h":8604,"heads":52,"shownRows":27,"rows":380}

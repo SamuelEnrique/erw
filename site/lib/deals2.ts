@@ -124,7 +124,7 @@ export function hrefOf(x: Inputs, patch: Partial<Inputs> = {}): string {
   const q = new URLSearchParams();
   for (const k of ["view", "type", "tech", "grid", "party", "year"] as const) if (y[k]) q.set(k, y[k]);
   const s = q.toString();
-  return s ? `/deals/v2?${s}` : "/deals/v2";
+  return s ? `/deals?tab=tracker&${s}` : "/deals?tab=tracker";  // session 239: the tracker is a tab of /deals (lib/tabs.ts); /deals/v2 redirects to it
 }
 
 export function select(deals: Deal[], x: Inputs): Deal[] {

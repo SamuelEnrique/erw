@@ -18,7 +18,7 @@ EM_FLOW = chr(0x2014)
 FILES_FLOW = [
     "site/lib/analysisflow.ts", "site/lib/chartforms.ts", "site/components/analysis/RequestFlow.tsx", "site/components/analysis/FormPicker.tsx",
     "site/components/analysis/FormChart.tsx", "site/components/analysis/FlowHost.tsx", "site/components/analysis/RequestForm.tsx", "site/components/analysis/ImpactForm.tsx",
-    "site/components/analysis/FindingCard.tsx", "site/app/analysis/page.tsx", "site/app/analysis/card/[id]/page.tsx",
+    "site/components/analysis/FindingCard.tsx", "site/app/research/page.tsx", "site/app/research/card/[id]/page.tsx",   # session 238: the page moved to site/app/research
     "site/app/_retired/analysis-gallery/AnalysisGallery.tsx", "site/scripts/test-analysis-flow.mjs", "site/scripts/check-analysis-flow.mjs",
     "site/scripts/check-analysis.mjs", "docs/methods/automated_analysis_findings.md", "tests/test_session182_flow.py",
 ]
@@ -185,7 +185,7 @@ class NothingOfTheGalleryIsLost(unittest.TestCase):
         self.assertTrue(all(g["template"].startswith("watch_") for g in index["templates"] if g not in mine))
         self.assertEqual(sorted(r["watched"]), sorted(g["template"] for g in index["templates"] if g not in mine))
         self.assertIn("export const ofTheFlow = <T extends { template: string }>(rows: T[]): T[] => rows.filter((r) => TEMPLATES.includes(r.template));", text_flow("site", "lib", "analysisflow.ts"))
-        self.assertIn("templates={ofTheFlow(a.templates)} gallery={ofTheFlow(a.gallery.templates)}", text_flow("site", "app", "analysis", "page.tsx"))
+        self.assertIn("templates={ofTheFlow(a.templates)} gallery={ofTheFlow(a.gallery.templates)}", text_flow("site", "app", "research", "page.tsx"))  # session 238: the page moved to site/app/research (Research, /research)
         by = {t["template"]: t for t in r["templates"]}
         for g in mine:
             combos = list(g["combos"].values())
@@ -214,11 +214,12 @@ class NothingOfTheGalleryIsLost(unittest.TestCase):
                         self.assertNotIn("AnalysisGallery }", h.read(), os.path.join(base, f))
 
     def test_the_page_holds_the_flow_and_drops_nothing_else(self):
-        page = text_flow("site", "app", "analysis", "page.tsx")
+        page = text_flow("site", "app", "research", "page.tsx")  # session 238: the page moved to site/app/research (Research, /research)
         self.assertNotIn('<Section title="Template gallery">', page)
         self.assertNotIn('<Section title="Ask for a finding">', page)
         for bit in ("<RequestFlow catalogue={catalogue} templates={ofTheFlow(a.templates)} gallery={ofTheFlow(a.gallery.templates)}", "impactForm={impact ? <ImpactForm entry={impact} /> : null}",
-                    "<RequestForm catalogue={catalogue} listOnly />", "<ScannerFound />", '<Section title="Archive: the chart of each week">', "This week&apos;s chart",
+                    "<RequestForm catalogue={catalogue} listOnly />", "<ScannerFound />", '<ToolSection title="Chart archive" id="archive"', "This week&apos;s chart",   # session 238: the archive is the page's last section, of the daily and the weekly charts
+                   
                     "!(c.id in SUPERSEDED)", "data-superseded={old.card_id}", "export const revalidate = 3600;"):
             self.assertIn(bit, page, bit)
         # the gallery was a section of /analysis, never an address of its own: no redirect, and the page stays in review
@@ -245,7 +246,7 @@ class WhatARequestCarries(unittest.TestCase):
         chart = text_flow("site", "components", "analysis", "FormChart.tsx")
         self.assertIn("u.searchParams.set(addressKey, f)", chart)
         self.assertIn("form === def ? <CardChart spec={spec} label={label} height={height} />", chart)   # the default form is the drawing it was
-        self.assertIn('<FindingCard card={c} formKey="form" />', text_flow("site", "app", "analysis", "card", "[id]", "page.tsx"))
+        self.assertIn('<FindingCard card={c} formKey="form" />', text_flow("site", "app", "research", "card", "[id]", "page.tsx"))  # session 238: the page moved to site/app/research (Research, /research)
         card = text_flow("site", "components", "analysis", "FindingCard.tsx")
         self.assertIn("addressKey={formKey ?? `form.${card.card_id}`}", card)
         # the renderer's frame keeps the card's own drawing and markup (render.css reads the chart's siblings): the photographs do not change
@@ -278,7 +279,7 @@ class TheWordsAndThePhone(unittest.TestCase):
     def test_the_preselected_form_is_called_a_default_and_nothing_is_advised(self):
         self.assertIn("Default for this analysis", text_flow("site", "components", "analysis", "FormPicker.tsx"))
         for rel in ("site/components/analysis/RequestFlow.tsx", "site/components/analysis/FormPicker.tsx", "site/components/analysis/FormChart.tsx",
-                    "site/lib/analysisflow.ts", "site/app/analysis/page.tsx"):
+                    "site/lib/analysisflow.ts", "site/app/research/page.tsx"):  # session 238: the page moved to site/app/research (Research, /research)
             src = text_flow(*rel.split("/"))
             for word in ("ecommended", "you should", "we suggest", "best form", "better form", "ought to"):
                 self.assertNotIn(word, src, (rel, word))

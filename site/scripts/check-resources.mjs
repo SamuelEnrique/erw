@@ -95,7 +95,7 @@ const plain = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace
 
 // ---------------------------------------------------------------------------------------------------------------------
 // As HTML
-const page = await get("/resources");
+const page = await get("/map?tab=resources");   // session 239: the resources are a tab of /map; /resources redirects to it
 const html = page.buf.toString("utf-8");
 const from = html.indexOf("<h1"), noteAt = html.search(/<details[^>]*data-method-note="1"/), noteEnd = html.lastIndexOf("</details>");   // the menu has details of its own, above the page
 const noteHtml = noteAt >= 0 && noteEnd > noteAt ? html.slice(noteAt, noteEnd) : "";
@@ -157,7 +157,7 @@ check(!/MISO/.test(face) && /MISO: paused while terms are reviewed/.test(note) &
   check(files > 0 && same === files, `each of the ${files} files of the layers, as the site serves it in the internal view, is the file on the disk byte for byte${first ? ` (${first})` : ""}`);
 }
 {
-  const v = await get("/resources", false), vh = v.buf.toString("utf-8");
+  const v = await get("/map?tab=resources", false), vh = v.buf.toString("utf-8");
   check(v.status === 200 && vh.includes('data-in-review="1"') && !vh.includes('data-map="1"') && !/data-toggle=/.test(vh), "without the cookie a visitor gets the in-review page, and nothing of the map");
   const f0 = filesOf(LAYERS[0])[0];
   const lf = await get(`/resources/layer/${stem(f0)}`, false), ov = await get("/resources/overlay/plants", false), oq = await get("/resources/overlay/queue", false);
@@ -204,18 +204,18 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
   const click = (sel) => evaluate(`(() => { const el = document.querySelector(${JSON.stringify(sel)}); if (!el) return false; el.click(); return true; })()`);
 
   // the bare address
-  await go(`${base}/resources`);
+  await go(`${base}/map?tab=resources`);
   await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
   const firstWant = (LAYERS.find((l) => /wind/.test(l.group) && !/offshore/.test(l.group) && /speed/i.test(`${l.id} ${l.title}`)) ?? LAYERS[0]).id;
   await ready([firstWant]);
   {
     const m = await mapData(), onNow = await evaluate(`[...document.querySelectorAll('[data-toggle]')].filter((e) => e.checked).map((e) => e.dataset.toggle)`);
-    check(m.z === 1 && m.lon === -95.75 && m.lat === 37.25 && onNow.length === 1 && onNow[0] === firstWant && (await evaluate("location.search")) === "" && (m.drawn[firstWant] ?? 0) > 0,
+    check(m.z === 1 && m.lon === -95.75 && m.lat === 37.25 && onNow.length === 1 && onNow[0] === firstWant && (await evaluate("location.search")) === "?tab=resources" && (m.drawn[firstWant] ?? 0) > 0,
       `/resources alone opens the contiguous states with one layer on (${onNow.join(", ")}), and leaves the address as it was`);
   }
 
   // every toggle, alone
-  await go(`${base}/resources?on=`);
+  await go(`${base}/map?tab=resources&on=`);
   await wait(`Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map with every layer off");
   await sleep(500);
   // reading a canvas's pixels a few times moves it to the browser's other way of drawing, whose edges differ by a
@@ -266,7 +266,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       if (d < bestD && d > 1.5 && levels.every((v) => storedAt(gridOf(v.file), lon, lat) === null && storedAt(gridOf(v.file), lon + 0.21, lat) === null && storedAt(gridOf(v.file), lon - 0.21, lat - 0.21) === null)) { bestD = d; hole = { lon, lat }; }
     }
     const view0 = { z: 1, lon: Number((target.lon + 4.3).toFixed(4)), lat: Number((target.lat - 2.1).toFixed(4)) };
-    await go(`${base}/resources?on=${l.id}&z=${view0.z}&c=${view0.lon},${view0.lat}`);
+    await go(`${base}/map?tab=resources&on=${l.id}&z=${view0.z}&c=${view0.lon},${view0.lat}`);
     await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
     await ready([l.id]);
     const probe = async (label, place, wantEmpty) => {
@@ -316,7 +316,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       const m3 = await mapData(), search = await evaluate("location.search"), q = new URLSearchParams(search);
       check(q.get("on") === l.id && Math.abs(Number(q.get("z")) - m3.z) < 0.001 && Math.abs(Number((q.get("c") ?? "").split(",")[0]) - m3.lon) < 0.0001 && Math.abs(Number((q.get("c") ?? "").split(",")[1]) - m3.lat) < 0.0001, `${l.id}: the address holds the view after the zoom (${search})`);
       // zoomed out, by the address: the coarsest level, and still the cell under the pointer
-      await go(`${base}/resources?on=${l.id}&z=0.5&c=${view0.lon},${view0.lat}`);
+      await go(`${base}/map?tab=resources&on=${l.id}&z=0.5&c=${view0.lon},${view0.lat}`);
       await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
       await ready([l.id]);
       await probe("zoomed out, by the address", target, false);
@@ -336,7 +336,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       if (d < bestD && levels.every((v) => storedAt(gridOf(v.file), lon, lat) !== null)) { bestD = d; target = { lon, lat }; }
     }
     if (!target) { console.log(`note: ${l.id}, ${part.extent}: no cell holds a value at every level; it was not probed`); continue; }
-    await go(`${base}/resources?on=${l.id}&z=6&c=${(target.lon + 0.7).toFixed(4)},${(target.lat - 0.4).toFixed(4)}`);
+    await go(`${base}/map?tab=resources&on=${l.id}&z=6&c=${(target.lon + 0.7).toFixed(4)},${(target.lat - 0.4).toFixed(4)}`);
     await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
     const m0 = await mapData(), k = scaleOf(m0.box, m0.z), want = levelAt(levels, k), key = `${l.id}:${part.extent}`;
     await wait(`JSON.parse(document.querySelector('[data-map]').dataset.levels || '{}')[${JSON.stringify(key)}] === ${want.cell_deg}`, 60000, `${key} to draw its ${want.cell_deg} degree level`).catch(() => {});
@@ -360,7 +360,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     const pick = cands[Math.floor(cands.length / 2)];   // a feature of middling size, not the easiest
     const z = Math.min(40, Math.max(2, 6 / pick.at.w));
     const view = { z: Number(z.toFixed(3)), lon: Number((pick.at.lon + 0.6 / z).toFixed(4)), lat: Number((pick.at.lat - 0.4 / z).toFixed(4)) };
-    await go(`${base}/resources?on=${l.id}&z=${view.z}&c=${view.lon},${view.lat}`);
+    await go(`${base}/map?tab=resources&on=${l.id}&z=${view.z}&c=${view.lon},${view.lat}`);
     await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
     await ready([l.id]);
     const m = await mapData(), [x, y] = pixelOf(m.box, m, pick.at.lon, pick.at.lat);
@@ -376,7 +376,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     const f = JSON.parse(fs.readFileSync(diskPath(filesOf(l)[0]), "utf-8"));
     const iName = Math.max(0, (f.columns ?? []).findIndex((c) => /^name$/i.test(c))) || 2;
     const r = f.rows[Math.floor(f.rows.length / 2)];
-    await go(`${base}/resources?on=${l.id}&z=24&c=${(r[0] + 0.05).toFixed(4)},${(r[1] - 0.03).toFixed(4)}`);
+    await go(`${base}/map?tab=resources&on=${l.id}&z=24&c=${(r[0] + 0.05).toFixed(4)},${(r[1] - 0.03).toFixed(4)}`);
     await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
     await ready([l.id]);
     const m = await mapData(), [x, y] = pixelOf(m.box, m, r[0], r[1]);
@@ -396,7 +396,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       // the largest dam of the file, and one of middling size: neither is chosen by hand
       const byCap = [...f.rows].sort((a, b) => b[col("value")] - a[col("value")]);
       for (const [label, r] of [["the largest", byCap[0]], ["a middling one", byCap[Math.floor(byCap.length / 2)]]]) {
-        await go(`${base}/resources?on=hydropower_npd&z=60&c=${(r[0] + 0.02).toFixed(4)},${(r[1] - 0.012).toFixed(4)}`);
+        await go(`${base}/map?tab=resources&on=hydropower_npd&z=60&c=${(r[0] + 0.02).toFixed(4)},${(r[1] - 0.012).toFixed(4)}`);
         await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
         await ready(["hydropower_npd"]);
         const m = await mapData(), [x, y] = pixelOf(m.box, m, r[0], r[1]), k = scaleOf(m.box, m.z);
@@ -415,7 +415,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       const cands = fc.features.map((f) => ({ f, at: placeIn(f.geometry) })).filter((x) => x.at && x.at.w > 0.05).sort((a, b) => b.f.properties.value - a.f.properties.value);
       for (const [label, pick] of [["the largest total", cands[0]], ["a middling one", cands[Math.floor(cands.length / 2)]]]) {
         const z = Math.min(40, Math.max(4, 6 / pick.at.w));
-        await go(`${base}/resources?on=hydropower_nsd&z=${z.toFixed(3)}&c=${(pick.at.lon + 0.6 / z).toFixed(4)},${(pick.at.lat - 0.4 / z).toFixed(4)}`);
+        await go(`${base}/map?tab=resources&on=hydropower_nsd&z=${z.toFixed(3)}&c=${(pick.at.lon + 0.6 / z).toFixed(4)},${(pick.at.lat - 0.4 / z).toFixed(4)}`);
         await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
         await ready(["hydropower_nsd"]);
         const m = await mapData(), [x, y] = pixelOf(m.box, m, pick.at.lon, pick.at.lat);
@@ -448,7 +448,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     const big = 0;   // the file's first unit is its largest
     const plantAt = { lon: MAPFILE.lo[big], lat: MAPFILE.la[big] };
     const county = queue.ok ? queue.shapes.features.map((f) => ({ f, at: placeIn(f.geometry) })).filter((x) => x.at).sort((a, b) => b.f.properties.mw - a.f.properties.mw)[0] : null;
-    await go(`${base}/resources?on=plants_operating,plants_planned&z=20&c=${(plantAt.lon + 0.1).toFixed(4)},${(plantAt.lat - 0.05).toFixed(4)}`);
+    await go(`${base}/map?tab=resources&on=plants_operating,plants_planned&z=20&c=${(plantAt.lon + 0.1).toFixed(4)},${(plantAt.lat - 0.05).toFixed(4)}`);
     await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
     await ready(["plants_operating"]);
     const counts = await evaluate(`Object.fromEntries([...document.querySelectorAll('[data-count-value]')].map((e) => [e.dataset.countValue, Number(e.innerText.replace(/,/g, ''))]))`);
@@ -470,7 +470,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     }
     if (queue.ok && county) {
       const z = Math.min(40, Math.max(3, 5 / county.at.w));
-      await go(`${base}/resources?on=queue&z=${z.toFixed(3)}&c=${(county.at.lon + 0.5 / z).toFixed(4)},${(county.at.lat - 0.3 / z).toFixed(4)}`);
+      await go(`${base}/map?tab=resources&on=queue&z=${z.toFixed(3)}&c=${(county.at.lon + 0.5 / z).toFixed(4)},${(county.at.lat - 0.3 / z).toFixed(4)}`);
       await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
       await ready(["queue"]);
       const c = await evaluate(`Object.fromEntries([...document.querySelectorAll('[data-count-value]')].map((e) => [e.dataset.countValue, Number(e.innerText.replace(/,/g, ''))]))`);
@@ -502,7 +502,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
     } else check(false, `the queue overlay was not read: ${queue.reason ?? "no county"}`);
     if (centers.ok && centers.points.length) {
       const d = centers.points[Math.floor(centers.points.length / 2)];
-      await go(`${base}/resources?on=datacenters&z=30&c=${(d.lon + 0.05).toFixed(4)},${(d.lat - 0.03).toFixed(4)}`);
+      await go(`${base}/map?tab=resources&on=datacenters&z=30&c=${(d.lon + 0.05).toFixed(4)},${(d.lat - 0.03).toFixed(4)}`);
       await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
       await ready(["datacenters"]);
       const c = await evaluate(`Object.fromEntries([...document.querySelectorAll('[data-count-value]')].map((e) => [e.dataset.countValue, Number(e.innerText.replace(/,/g, ''))]))`);
@@ -517,8 +517,8 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
   {
     const two = LAYERS.filter((l) => l.kind === "shapes").slice(0, 1).concat(LAYERS.filter((l) => l.kind === "grid").slice(0, 1));
     const ids = [...two.map((l) => l.id), "plants_operating"];
-    const addr = `?on=${ids.join(",")}&z=3.5&c=-101.25,31.5&fuel=solar,wind`;
-    await go(`${base}/resources${addr}`);
+    const addr = `?tab=resources&on=${ids.join(",")}&z=3.5&c=-101.25,31.5&fuel=solar,wind`;
+    await go(`${base}/map${addr}`);
     await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
     await ready(ids);
     const m = await mapData();
@@ -531,7 +531,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open, send, 
       const grid = two[1], levels = (grid.levels ?? []).filter((v) => diskPath(v.file));
       const spot = fc.features.map((f) => placeIn(f.geometry)).filter((at) => at && at.w > 0.3 && levels.every((v) => storedAt(gridOf(v.file), at.lon, at.lat) !== null))[0];
       if (spot) {
-        await go(`${base}/resources?on=${two.map((l) => l.id).join(",")}&z=5&c=${(spot.lon + 0.4).toFixed(4)},${(spot.lat + 0.2).toFixed(4)}`);
+        await go(`${base}/map?tab=resources&on=${two.map((l) => l.id).join(",")}&z=5&c=${(spot.lon + 0.4).toFixed(4)},${(spot.lat + 0.2).toFixed(4)}`);
         await wait(`!!document.querySelector('[data-map] canvas') && Number(document.querySelector('[data-map]').dataset.settled || 0) > 0`, 30000, "the map");
         await ready(two.map((l) => l.id));
         const m2 = await mapData(), [x, y] = pixelOf(m2.box, m2, spot.lon, spot.lat), h = await hoverAt(x, y);

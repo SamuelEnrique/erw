@@ -56,6 +56,29 @@ for (const g of file.groups) {
   }
 }
 check(wrong.length === 0, `every marked number of the ${shown} rows shown is the file's (${Object.keys(got).length} marked)${wrong.length ? `: ${wrong.slice(0, 6).join("; ")}` : ""}`);
+// session 240: the top block. Twelve tiles, each a row of the wall: its latest value, its day and week moves and its
+// trend are the file's, by the wall's own code; none is a row of a grid that is licensed, paused or held from 20 October
+{
+  const top = b.topRows(file), badTop = [];
+  for (const r of top) {
+    if (r.status !== "ok") { if (`top|${r.id}|last` in got) badTop.push(`${r.id}: not shown on the wall, a number in the top block`); continue; }
+    if (got[`top|${r.id}|last`] !== b.fmt(r.last.v, r.unit)) badTop.push(`top|${r.id}|last: page ${got[`top|${r.id}|last`]}, file ${b.fmt(r.last.v, r.unit)}`);
+    if (got[`top|${r.id}|last`] !== got[`${r.id}|last`]) badTop.push(`${r.id}: the top block and the wall differ`);
+    for (const k of ["d", "w"]) { const mv = r.moves[k]; if (mv ? got[`top|${r.id}|${k}`] !== b.signed(mv.ch, r.unit) : `top|${r.id}|${k}` in got) badTop.push(`top|${r.id}|${k}: page ${got[`top|${r.id}|${k}`]}, file ${mv ? b.signed(mv.ch, r.unit) : "no move"}`); }
+    if (!html.includes(`data-top-spark="${r.id}"`)) badTop.push(`${r.id}: no trend line`);
+  }
+  const tiles = [...html.matchAll(/data-number-tile="([^"]+)"/g)].map((m) => m[1]);
+  check(top.length === 12 && b.TOP_TWELVE.length === 12 && tiles.join() === b.TOP_TWELVE.join() && badTop.length === 0 && !b.TOP_TWELVE.some((id) => b.TOP_NEVER.test(id)),
+    `the top block: ${tiles.length} tiles in the list's order, each number the file's and the wall's, with its day and week moves and a trend line${badTop.length ? `: ${badTop.slice(0, 5).join("; ")}` : ""}`);
+  check(html.indexOf("data-top-twelve=") > 0 && html.indexOf("data-top-twelve=") < html.indexOf('data-group="power"'), "the top block stands above the wall");
+  // the wall folded by group: every group is a fold, the first open and the others closed, each closed one with its first number in view
+  const folds = [...html.matchAll(/<details[^>]*data-group-fold="1"[^>]*>/g)].map((m) => m[0]);
+  const leads = file.groups.filter((g) => b.leadRow(file, g));
+  const badLead = leads.filter((g) => { const r = b.leadRow(file, g); return got[`fold|${g.id}|last`] !== b.fmt(r.last.v, r.unit); }).map((g) => g.id);
+  check(folds.length === file.groups.length + 1 && / open=""/.test(folds[0]) && folds.slice(1).every((f) => !/ open=""/.test(f)) && badLead.length === 0,
+    `the wall is folded by group: ${folds.length} groups, the first open, and ${leads.length} carry their first number in their head${badLead.length ? ` (wrong: ${badLead.join(", ")})` : ""}`);
+  check(html.includes('data-brand="a"'), "the page carries the brand's wrapper");
+}
 check([...html.matchAll(/data-spark="/g)].length === sparks + [...new Set(file.rows.filter((r) => r.also).map((r) => r.id))].length, `${sparks} trend lines drawn, one for each row shown that holds two points`);
 check([...html.matchAll(/data-range="/g)].length >= ranges, `${ranges} one-year range bars drawn`);
 const t = text(html);
@@ -112,6 +135,13 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock: open }) => {
   // a trend line answers the mouse
   await go(`${base}/board`);
   await wait(`!!document.querySelector('[data-board][data-ready="1"] [data-spark="eia-henry-hub-spot"] svg')`, 15000, "a trend line");
+  // session 240: the wall is folded by group and Henry Hub's row is in a closed one (natural gas): its group is opened first, by its title
+  check(await evaluate(`!document.querySelector('[data-group="gas"] details').open && document.querySelector('[data-group="power"] details').open && !document.querySelector('[data-spark="eia-henry-hub-spot"] svg').checkVisibility()`), "as the page opens the first group is open and the others are closed");
+  await evaluate(`document.querySelector('[data-group="gas"] summary').click()`);
+  await wait(`document.querySelector('[data-group="gas"] details').open && document.querySelector('[data-spark="eia-henry-hub-spot"] svg').checkVisibility()`, 5000, "the natural gas group, opened");
+  check(true, "a click on a group's title opens it");
+  const tile = await evaluate(`(() => { const t = document.querySelector('[data-number-tile="eia-henry-hub-spot"]'); return t ? t.innerText.replace(/\\s+/g, ' ') : ''; })()`);
+  check(/Henry Hub/.test(tile) && /USD\/MMBtu/.test(tile) && /Day/.test(tile) && /Week/.test(tile) && /20\d\d/.test(tile), `a tile of the top block reads its series, value, unit, date and its day and week moves ("${tile}")`);
   const tip = await evaluate(`(() => { const s = document.querySelector('[data-spark="eia-henry-hub-spot"] svg'); const r = s.getBoundingClientRect(); s.dispatchEvent(new MouseEvent('mousemove', { bubbles: true, clientX: r.left + r.width / 2, clientY: r.top + 5 })); return new Promise((ok) => setTimeout(() => ok(document.querySelector('[data-spark="eia-henry-hub-spot"] [role=tooltip]')?.innerText ?? ''), 200)); })()`);
   check(/Henry Hub/.test(tip) && /\d+\.\d\d/.test(tip) && /20\d\d/.test(tip), `a trend line answers the mouse with the series, a value and a date ("${tip.replace(/\s+/g, " ")}")`);
   await evaluate(`document.querySelector('[data-filter="power.scope.all"]').click()`);

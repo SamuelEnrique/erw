@@ -24,22 +24,25 @@ MOVED = ["Who supplies each ISO grid: three measures", "What this is, and what i
 
 class OneAddress(unittest.TestCase):
     def test_version_3_stands_at_network_and_the_old_page_is_retired(self):
-        page = src("site", "app", "network", "page.tsx")
+        page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("v3={{ index, complete }}", page)
-        self.assertIn('export const metadata: Metadata = { title: "The grid network" };', page)
+        # session 237: the title "The grid network" was the page's own; the page is the Network view of the Grid tool now,
+        # whose title names the grid in view (site/app/grid/page.tsx generateMetadata)
+        self.assertIn("export async function NetworkView(", page)
+        self.assertIn('{view === "network" ? <NetworkView keep={keep} node={p.node} /> : null}', src("site", "app", "grid", "page.tsx"))
         self.assertFalse(os.path.exists(os.path.join(ROOT, "site", "app", "network", "v3", "page.tsx")))
         old = src("site", "app", "_retired", "network-original", "page.tsx")
         self.assertIn("<Network snap={snap} supply={supply} live={extras} />", old)
         self.assertIn('from "@/app/network/Network"', old)
 
     def test_the_old_address_redirects_and_keeps_its_status_line(self):
-        self.assertIn('{ source: "/network/v3", destination: "/network", permanent: true }', src("site", "next.config.ts"))
+        self.assertIn('{ source: "/network/v3", destination: "/grid?view=network", permanent: true }', src("site", "next.config.ts"))   # session 237, the finishing pass: in one step to the Network view of /grid (it went to /network, which redirects there)
         self.assertRegex(src("site", "lib", "release.ts"), r'"/network/v3":\s*"review"')
         self.assertNotIn('"/network/v3"', src("site", "lib", "audience.ts"))
         self.assertNotIn('page="/network/v3"', src("warehouse", "scheduled.py"))
 
     def test_the_line_carried_over_and_the_one_source_line(self):
-        page = src("site", "app", "network", "page.tsx")
+        page = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("Newest hour: {both(newest)}, refreshed {utc(snap.built)}", page)
         self.assertIn("Demand of the seven ISOs: newest hour {both(demandTs)}.", page)
         self.assertEqual(page.count("<SourceLine "), 1)
@@ -67,7 +70,7 @@ class OneAddress(unittest.TestCase):
             self.assertIn(words, note)
 
     def test_no_em_dash(self):
-        for parts in (("site", "app", "network", "page.tsx"), ("site", "app", "_retired", "network-original", "page.tsx"), ("site", "app", "network", "Network.tsx"),
+        for parts in (("site", "components", "grid", "NetworkView.tsx"), ("site", "app", "_retired", "network-original", "page.tsx"), ("site", "app", "network", "Network.tsx"),  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
                       ("docs", "methods", "grid_network.md"), ("docs", "methods", "grid_network_v3.md"), ("site", "scripts", "check-network-v3.mjs"),
                       ("site", "scripts", "check-network-v3-hard.mjs"), ("tests", "test_session168_network.py")):
             self.assertNotIn(chr(0x2014), src(*parts), parts[-1])

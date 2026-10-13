@@ -13,6 +13,7 @@
 // its status, its time and how many "no data" blocks it shows; exits 1 if a page never answered 200. It judges
 // nothing else: the route check and the snapshot comparison do that.
 import { LIVE_PAGES } from "./snapshot-live.mjs";
+import { visit } from "./snapshot-live.mjs";   // session 237: a listed page that redirects inside the site is followed, as a visitor's browser follows it
 
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
 const REQUEST_MS = Number(process.env.WARM_REQUEST_S ?? 60) * 1000;
@@ -26,12 +27,12 @@ for (const page of LIVE_PAGES) {
   for (let attempt = 1; attempt <= 3 && !ok; attempt++) {
     const t = Date.now();
     try {
-      const res = await fetch(base + page, { redirect: "manual", signal: AbortSignal.timeout(REQUEST_MS) });
+      const { res, via } = await visit(base, page, { signal: AbortSignal.timeout(REQUEST_MS) });
       const html = await res.text();
       const noData = (html.match(/<span class="font-semibold[^"]*">no data<\/span>/g) ?? []).length;
       const notHeld = (html.match(/>not held</g) ?? []).length;
       ok = res.status === 200;
-      line = `${res.status} ${page}: ${((Date.now() - t) / 1000).toFixed(1)} s, ${noData} "no data", ${notHeld} "not held"${attempt > 1 ? `, try ${attempt}` : ""}`;
+      line = `${res.status} ${page}${via.length ? ` (${via.join(", then ")})` : ""}: ${((Date.now() - t) / 1000).toFixed(1)} s, ${noData} "no data", ${notHeld} "not held"${attempt > 1 ? `, try ${attempt}` : ""}`;
     } catch (e) {
       line = `FAILED ${page}: ${String(e?.message ?? e)}${attempt > 1 ? `, try ${attempt}` : ""}`;
     }

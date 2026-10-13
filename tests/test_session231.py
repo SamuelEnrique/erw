@@ -95,6 +95,7 @@ class TheChoice(unittest.TestCase):
         self.assertNotIn("not reviewed", text)
         self.assertIn("approved by a person at the review list", text)
         self.assertNotIn("/analysis/card/", text)
+        self.assertNotIn("/research/card/", text)   # session 238: the card pages are under /research
         self.assertIn(d["card"]["source_line"], text)
         for c in d["card"]["callouts"]:
             self.assertIn(c["after"]["text"], text)

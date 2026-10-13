@@ -30,6 +30,11 @@ export const RELEASE: Record<string, Status> = {
   // session 168: version 3 is the network page now, at /network; /network/v3 is retired and redirects to it (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/network/v3": "review",  // session 93: version 3 (replay, a shareable address, prices, trace)
   "/storage": "review",  // session 166: in review
+  // session 239: six pages hold what thirteen held, each as tabs of one address (lib/tabs.ts). /storage/buildout,
+  // /storage/owners, /severance/lease, /explorer/ercot-peak-premium, /consumption, /deals/v2, /companies and /resources
+  // redirect to the tab each became (next.config.ts); their lines stay so that an address typed by hand never reads as
+  // a page with no status, and so that what answers under them (/resources/layer, /resources/overlay,
+  // /severance/lease/real) keeps the status it had. Every surviving page is in review, as each folded page was.
   "/storage/buildout": "review",
   "/battery/customer": "review",  // session 88: what a battery saves a customer; the reader's own numbers, in the browser
   "/storage/owners": "review",  // session 87: without its own line it would take /storage's status
@@ -103,7 +108,9 @@ export const RELEASE: Record<string, Status> = {
   "/data/standard": "review",
   "/data/methods": "review",
   "/data/faults": "review",  // session 103: known faults in source data
+  // session 238: Automated Analysis is Research, at /research; /analysis and the addresses under it are retired and redirect there (next.config.ts); its line stays so that an address typed by hand never reads as a page with no status
   "/analysis": "review",
+  "/research": "review",
   "/ask": "review",
   "/ask/ercot": "review",  // session 92: Ask ERCOT, the reference version
   "/reports": "review",
