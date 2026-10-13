@@ -75,6 +75,37 @@ export function baseStyle() {
   };
 }
 
+// Session 238 (the brand rule: a chart takes its colors from the tokens). The finding cards' charts and the weekly
+// templates' options were written with color literals (lib/findingchart.ts, lib/chartforms.ts, lib/discoverychart.ts,
+// components/analysis/MultiChart.tsx; warehouse/analysis/style.py), and the renderer's photographs and three tests hold
+// those in place. Inside an element marked data-chart-tokens a chart is therefore drawn through this: each literal of
+// the old palettes is replaced by the value of a token of app/tokens.css, read from the element when the chart draws,
+// and the font by the element's own. The brand has five series colors (docs/brand.md, section 2); a sixth series falls
+// to the fifth's, and is told by its name in the legend and the hover card. Outside such an element nothing changes.
+const LITERAL_TOKENS: Record<string, string> = {
+  "#1a1a1a": "--chart-ink", "#2e2d29": "--chart-ink", "#6b6b6b": "--color-muted", "#6b665e": "--color-muted", "#e5e5e5": "--color-rule", "#d9d2c3": "--color-rule",
+  "#fbf8f2": "--color-panel",
+  "#1f5f8b": "--chart-ink", "#c4541c": "--color-accent", "#2e7d4f": "--chart-blue", "#8a6d3b": "--chart-grey", "#6a4c93": "--chart-light", "#9a9a9a": "--chart-light",
+  "#8c1515": "--color-accent", "#007c92": "--chart-ink", "#e98300": "--chart-blue", "#175e54": "--chart-grey", "#620059": "--chart-light",
+};
+function inTokens(chart: ECInstance, scope: HTMLElement): ECInstance {
+  const cs = getComputedStyle(scope);
+  const swap = (v: unknown, key?: string): unknown => {
+    if (typeof v === "string") {
+      if (key === "fontFamily") return cs.fontFamily || v;
+      const t = LITERAL_TOKENS[v.toLowerCase()];
+      return t ? cs.getPropertyValue(t).trim() || v : v;
+    }
+    if (Array.isArray(v)) return v.map((x) => swap(x, key));
+    if (v && typeof v === "object" && Object.getPrototypeOf(v) === Object.prototype) return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, swap(x, k)]));
+    return v;
+  };
+  return {
+    setOption: (o, notMerge) => chart.setOption(swap(o), notMerge), resize: () => chart.resize(), dispose: () => chart.dispose(),
+    on: (ev, cb) => chart.on(ev, cb), off: (ev) => chart.off(ev), dispatchAction: (a) => chart.dispatchAction(a),
+  };
+}
+
 /** Mount a chart: build(lib, el) returns the option (and may register handlers); redrawn when deps change. */
 export function useEChart(build: (chart: ECInstance, lib: ECLib) => void, deps: unknown[]) {
   const box = useRef<HTMLDivElement>(null);
@@ -86,7 +117,8 @@ export function useEChart(build: (chart: ECInstance, lib: ECLib) => void, deps: 
       .then((lib) => {
         if (!alive || !box.current) return;
         if (!chart.current) chart.current = lib.init(box.current, undefined, { renderer: "canvas" });
-        build(chart.current, lib);
+        const scope = box.current.closest<HTMLElement>("[data-chart-tokens]");   // session 238: the tokens, where a page asks for them
+        build(scope ? inTokens(chart.current, scope) : chart.current, lib);
         ro = new ResizeObserver(() => chart.current?.resize());
         ro.observe(box.current);
       })

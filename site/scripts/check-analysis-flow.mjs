@@ -263,14 +263,17 @@ try {
       "the tenth template (chokepoint transits) is listed with its three inputs and its method, and is not drawn: internal", `(${inner.inputs} inputs, ${inner.canvas} canvases)`);
 
     // ---- the page around the flow ----
-    const pg = await js(`({ heads: [...document.querySelectorAll("main h2, h2")].map((h) => h.textContent), n: Number(document.querySelector("[data-finding-cards]").dataset.findingCards), drawn: [...document.querySelectorAll("[data-finding-cards] [data-card]")].map((e) => e.dataset.card),
+    const pg = await js(`({ heads: [...document.querySelectorAll("main h2, h2, h3, summary")].map((h) => h.textContent), n: Number(document.querySelector("[data-finding-cards]").dataset.findingCards), drawn: [...document.querySelectorAll("[data-finding-cards] [data-card]")].map((e) => e.dataset.card),
       links: [...document.querySelectorAll("[data-superseded]")].map((e) => e.dataset.superseded + "|" + (e.querySelector("a")?.getAttribute("href") ?? "")), text: document.body.innerText, list: !!document.querySelector('[data-request-form][data-request-list="1"]'),
       oldRow: !!document.querySelector("[data-request-finding]"), roundup: document.querySelectorAll("[data-finding-cards] [data-roundup-button]").length, toggles: document.querySelectorAll("[data-finding-cards] [data-form-toggles]").length })`);
     const sup = ["batteries_lunch", "peak_hour_moved"];
     const current = allCards.filter((c) => !sup.includes(c.id));
     check(pg.n === current.length && same([...pg.drawn].sort(), current.map((c) => c.card_id).sort()), `the list of findings draws the ${current.length} current cards; the two superseded ones left it`, `(${pg.drawn.length})`);
     check(same(pg.links.sort(), sup.map((s) => `${s}|/research/card/${s}`).sort()), "each superseded card is linked under its five-grid card", `(${pg.links.join(", ")})`);
-    for (const h of ["Findings", "Found by the scanner", "Ask for an analysis", "Requests", "Archive: the chart of each week"]) check(pg.heads.includes(h), `the section "${h}" is on the page`);
+    // session 238: the page is Research, in the order of the owner: the form, the chart of today, the chart of the week, the library, the archive.
+    // The scanner's group is a title inside the library and the results of the week are folded under the chart of the week, so the titles read are h2, h3 and summary
+    for (const h of ["Findings library", "Found by the scanner", "Ask for an analysis", "Requests", "Today's chart", "Chart archive"]) check(pg.heads.includes(h), `the section "${h}" is on the page`);
+    check(pg.heads.some((h) => h.startsWith("This week's chart")), "the chart of the week is on the page");
     check(pg.heads.some((h) => h.startsWith("This week's results")), "the week's results table is on the page");
     check(!pg.heads.includes("Template gallery") && !pg.heads.includes("Ask for a finding") && !pg.heads.includes("Impact of an event on a series") && !pg.oldRow, "the three old sections are gone: one flow holds them");
     check(pg.list && pg.roundup === current.length, `the list of requests stands under the flow; Use in Roundup is on each of the ${current.length} cards`, `(${pg.roundup})`);

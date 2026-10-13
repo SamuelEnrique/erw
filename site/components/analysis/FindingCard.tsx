@@ -12,7 +12,10 @@ const fmtN = (v: number, nd = 2) => v.toLocaleString("en-US", { maximumFractionD
 
 // Session 182, part 4: `formKey` names where the chosen chart form is kept in the address ("form" on a card's own page;
 // by default form.<card id>, so that several cards on one page keep their own). The renderer's frame draws the default.
-export function FindingCard({ card, render = false, roundup = true, found, files = true, formKey }: { card: Card; render?: boolean; roundup?: boolean; found?: string; files?: boolean; formKey?: string }) {
+// Session 238 (/research, the findings library): `held` says which of the card's three files the site holds
+// (lib/research.ts, filesHeld). A file that is not held is named "not held" and is never a link; without `held` the
+// row is as it was.
+export function FindingCard({ card, render = false, roundup = true, found, files = true, formKey, held }: { card: Card; render?: boolean; roundup?: boolean; found?: string; files?: boolean; formKey?: string; held?: { csv: boolean; python: boolean; stata: boolean } }) {
   const dl = card.downloads ? `/findings/${card.downloads.csv}` : "";
   return (
     <article className={`finding-card ${render ? "finding-card-render" : ""}`} data-finding={card.id} data-card={card.card_id}>
@@ -82,15 +85,16 @@ export function FindingCard({ card, render = false, roundup = true, found, files
       {!render && card.downloads && files ? (
         <p className="mt-2 flex flex-wrap items-center gap-3 text-xs">
           <span className="text-muted">Downloads:</span>
-          <a href={dl} download data-download="csv">data (CSV)</a>
-          <a href={`/findings/${card.downloads.python}`} download data-download="python">Python</a>
-          <a href={`/findings/${card.downloads.stata}`} download data-download="stata">Stata do-file</a>
+          {held && !held.csv ? <span className="text-muted" data-not-held="csv">data (CSV): not held</span> : <a href={dl} download data-download="csv">data (CSV)</a>}
+          {held && !held.python ? <span className="text-muted" data-not-held="python">Python: not held</span> : <a href={`/findings/${card.downloads.python}`} download data-download="python">Python</a>}
+          {held && !held.stata ? <span className="text-muted" data-not-held="stata">Stata do-file: not held</span> : <a href={`/findings/${card.downloads.stata}`} download data-download="stata">Stata do-file</a>}
           <span className="text-muted">Renders:</span>
           <a href={`/findings/${card.card_id}_1080x1350.png`} data-download="png-linkedin">1080 x 1350</a>
           <a href={`/findings/${card.card_id}_1600x900.png`} data-download="png-x">1600 x 900</a>
           {roundup ? <RoundupButton cardId={card.card_id} /> : null}
         </p>
       ) : null}
+      {!render && held && !card.downloads && files ? <p className="mt-2 text-xs text-muted" data-not-held="all">Downloads: data (CSV), Python and Stata do-file: not held.</p> : null}
       <p className="mt-1 break-words text-[11px] text-muted">{card.source_line} Computed {card.computed_at.replace("T", " ").replace("Z", " UTC")}.</p>
     </article>
   );

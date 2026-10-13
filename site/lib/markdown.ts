@@ -25,6 +25,8 @@ export type Docs = {
   // session 238: the Digest's chart of each day (docs/digest/charts/<date>.json, session 232): its one fact, its table
   // and source, for /research. Absent in a bundle built before session 238
   digest_charts?: Record<string, DigestChart>;
+  // session 238: the names of the finding cards' downloads the site holds (site/public/findings/: csv, py, do)
+  findings_files?: string[];
   // session 24: the tool counts by status, from docs/platform-tools.md
   platform: { total: number; yes: number; partial: number; no: number; planned: number };
   // session 21: warehouse/metadata/sources.csv, for /terms

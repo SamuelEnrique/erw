@@ -79,7 +79,28 @@ for (const c of cards) {
   const rend = await get(`/research/card/${c.card_id}?render=1`);
   check(rend.status === 200 && rend.html.includes('data-render="1"') && !rend.html.includes("data-download="), `${tag} ?render=1 is the frame alone`);
 }
-check(!html.includes("data-finding=\"1\"") && !t.includes("ERW's Chart of the Week, 2026-W40"), "the W40 chart of the week is not drawn on /research");
+// session 238: the page now draws this week's chart (the newest Roundup's), so "no chart of the week on the page" became
+// "the chart of the week on the page is the newest Roundup's, never W40's" (the chart the code disowned in session 170)
+const weekShown = (html.match(/data-week-chart="([^"]+)"/) ?? [])[1] ?? "";
+check(/^\d{4}-W\d{2}$/.test(weekShown) && weekShown > "2026-W40" && !t.includes("ERW's Chart of the Week, 2026-W40"), `the W40 chart of the week is not drawn on /research (this week's chart is ${weekShown || "none"})`);
+// session 238: the page's order, the owner's: the request form, today's chart, this week's chart, the library, the archive
+const order = ['id="ask"', 'id="today"', 'id="week"', 'id="library"', 'id="archive"'].map((s) => html.indexOf(s));
+check(order.every((v, i) => v > 0 && (i === 0 || v > order[i - 1])), `the page's order: the request form, today's chart, this week's chart, the library, the archive (${order.join(", ")})`);
+check(html.includes('data-brand="a"') && html.includes('data-chart-tokens="1"'), "the page carries the brand, and its charts are drawn in the tokens");
+check(/data-today-chart="\d{4}-\d{2}-\d{2}"/.test(html) && html.includes('data-today-fact="1"') && html.includes('data-today-source="1"'), "today's chart has its date, its one fact and its source line");
+check(html.includes('data-library="1"') && /data-library-index="\d+"/.test(html) && html.includes('data-library-filter="grid"') && html.includes('data-library-filter="topic"'), "the library has its card index and its two filters");
+for (const c of current) {
+  check(html.includes(`id="card-${c.card_id}"`) && html.includes(`data-library-link="${c.card_id}"`) && new RegExp(`data-library-card="${c.card_id}" data-grids="[a-z ]+" data-topics="[a-z -]+"`).test(html), `${c.card_id}: a screen of its own, in the index, filed under a grid and a topic`);
+}
+check(!html.includes("data-not-held="), "no file of a card is missing: none is named not held");
+check(/data-archive-daily="\d+"/.test(html) && /data-archive-weekly="\d+"/.test(html) && html.indexOf("data-archive-daily") > html.indexOf('id="archive"'), "the archive lists the daily and the weekly charts");
+// session 238: the old address answers with the new page
+const old = await fetch(`${base}/analysis`, { redirect: "manual" });
+check(old.status === 308 && (old.headers.get("location") ?? "").endsWith("/research"), `/analysis redirects to /research (${old.status} ${old.headers.get("location")})`);
+const oldCard = await fetch(`${base}/analysis/card/gas_sets_price?form=lines`, { redirect: "manual" });
+check(oldCard.status === 308 && (oldCard.headers.get("location") ?? "").endsWith("/research/card/gas_sets_price?form=lines"), `/analysis/card/<id> redirects to /research/card/<id>, its query kept (${oldCard.status} ${oldCard.headers.get("location")})`);
+const oldWeek = await fetch(`${base}/analysis/2026-W40`, { redirect: "manual" });
+check(oldWeek.status === 308 && (oldWeek.headers.get("location") ?? "").endsWith("/research/2026-W40"), `/analysis/<week> redirects to /research/<week> (${oldWeek.status} ${oldWeek.headers.get("location")})`);
 const wk = await get("/research/2026-W40");
 check(wk.status === 200 && wk.html.includes("Chart of the Week"), "/research/2026-W40 keeps its chart");
 check(!/claude-[a-z]+-\d/.test(t) && !/USD 0\.\d{4}/.test(t), "no model name or cost on the page");

@@ -172,6 +172,12 @@ if (fs.existsSync(digestCharts)) {
   }
 }
 
+// Session 238: the downloads the finding cards may link (site/public/findings/: each card's CSV, Python file and Stata
+// do-file), by name, so that /research names a file "not held" instead of linking one that is not there. Listed here,
+// at build, because a page drawn again later is drawn by a server function, which does not hold the public folder.
+const findingsPublic = path.join(here, "..", "public", "findings");
+const findingsFiles = fs.existsSync(findingsPublic) ? fs.readdirSync(findingsPublic).filter((f) => /\.(csv|py|do)$/.test(f)).sort() : [];
+
 // Session 24: the platform's tool counts by status, from docs/platform-tools.md (for /about)
 const platform = { total: 0, yes: 0, partial: 0, no: 0, planned: 0 };
 for (const line of read(path.join(docs, "platform-tools.md")).split("\n")) {
@@ -195,6 +201,7 @@ const out = {
   platform,
   analysis,
   digest_charts: digestChartRecords,
+  findings_files: findingsFiles,
   sources: sources(),
   run_status_eia930: runStatus(),
   digests,
