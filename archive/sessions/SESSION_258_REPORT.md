@@ -4,6 +4,9 @@
 
 ## Read these first
 
+- **NOT LANDED. It is on `wip/258-source-lines`, checked on three modules only, and waits for one word from you** (under "The landing"). Two things met at 18:47 UTC. The data machine landed session 251 three minutes after this session's push, with its own change to the same builder (`hunt.py`), so GitHub could not merge the pushed commit. And Claude Code stopped this chain's two background jobs for low memory, with the note not to start them again unattended: the whole suite on a clean copy, which every landing here rests on, is one of the heavy runs it means, and I did not run it again.
+- **Session 251 and this session solved the same fault two ways, and the merge keeps both.** Session 251's engine names a finding's own tables by grid from a list (`hunt.OWN_TABLES`) and gives its 13 new measures their own region's tables. This session decides from the rows the finding read. Merged: where the reads are known (every real hunt), the rows decide; where they are not, session 251's list does; a measure's draft keeps session 251's words. The two disagree on one thing you should know: for an ERCOT draft session 251's list names `ercot_all_hub_prices_history` and `iso_rtm_hub_prices`; this session names the first alone, because the second brings ERCOT's rows only to the year under way (it is said in the CSV instead). Ruling 5.
+- **The review list holds 28 drafts now, not 16** (session 251 raised 12 at 18:18 UTC, all measures). The command under "To finish" rewrites the eight older ones and leaves the twelve as they are (a test holds it).
 - **The fault is fixed in the builder, and the eight drafts on the review list still carry the old line until the data machine runs one command** (under "To finish"). A code machine writes no data, and the site prints the stored line as it is: it cannot be put right on the page from the stored fields without guessing which table brought which grid's rows.
 - **The rule is now decided from what the finding read, not from a list.** The hunt records every read of its finding (`findings_common.record_reads`: the rows kept and, for a table of prices by market, the timestamps kept for each market and node), and `hunt.tables_used` names a table only when it brought rows of the draft's grid in the claim's years that no earlier read had brought.
 - **On this machine's real tables (read only), the whole hunt as a dry run raises the same eight drafts as the review list holds, by id, and each now names one table: `ercot_all_hub_prices_history`.** No draft names `iso_rtm_hub_prices`, `iso_hub_prices_history` or `iso_zone_prices_history` in its card, its caption or its pictures. ERCOT's history holds HB_NORTH to 2026-08-26 04:45 UTC and the live table's ERCOT rows begin at 05:00 that day: the live table brings rows to 2026 only, the year under way, which is in the CSV (`full_year` 0) and not in the claim.
@@ -93,6 +96,7 @@ git pull origin main
 2. `batteries_lunch` (ERCOT alone) names `iso_rtm_hub_prices`, truly: ERCOT's rows after 26 August 2026 come from it, and the table is "license needed" from 21 October for MISO's rows. Should a full card of one grid say "ERCOT's rows of" before such a table, as the drafts do?
 3. The words of the new line: "Source: ERCOT's rows of the ERW table ercot_all_hub_prices_history; computed by the finding peak_hour_grids (warehouse/analysis/findings/). Found by the weekly hunt." (singular "table" when there is one; ", with the ERW table eia_fuel_spot_prices" for the gas pattern).
 4. Session 252's ruling 7 (EIA's own sentence in the scanner's source line) is untouched.
+5. One rule or two for a finding's draft? Session 251's list (`hunt.OWN_TABLES`) and this session's record of the reads both stand in the merged builder; the reads win where they are known. If you want one: the reads need no list to be kept as findings are added, and the list needs no run. For an ERCOT draft they differ by `iso_rtm_hub_prices` (named by the list; said only in the CSV by the reads).
 
 ## The landing of session 259
 
@@ -104,8 +108,25 @@ git pull origin main
 - `compare s259-before s259-after`: exit 0, **0 differences in all**, on each of the 25 pages. Expected.
 - The remote branch `wip/259-tidy` was deleted after the merge (all of it is on main); GitHub's workflow had deleted `task/259-tidy`.
 
-## The landing
+## The landing: not made
 
-- Session 258 lands alone, as `task/258-source-lines`: main (with session 259) merged into the branch as `8528f5ce`, no conflict.
-- Freeze: exit 0, no freeze. Nothing under `site/` changed, so no build is owed. The whole suite on a clean copy of the pushed commit, the before and after snapshots, the check run, the merge and the comparison are in session 257's report, under "The landing of session 258". Expected: 0 differences on the 25 pages (the findings' builder, a method note's bullet, a test and this report; no page, no table, no load).
-- Not done by the orchestrator: the data machine's command under "To finish" was not put on the task queue. Its first real run rewrites the eight drafts' stored cards and pictures, `/internal/findings` is on tonight's demo path, and the command has only been run against a made-up list: it waits for you (the reversible choice).
+- **What went out:** main (with session 259) merged into the branch as `8528f5ce`; the whole suite on a clean copy of `53c48e7b`: exit 0, 3,964 tests, OK, 237 skipped; freeze exit 0; before snapshot `s258-before` at 18:43:34 UTC (25 pages, 0 failed); pushed 18:43:45 UTC as `task/258-source-lines` (`53c48e7b`); check run 38449106332.
+- **What stopped it:** the data machine merged session 251 into main at 18:47:10 UTC (`ceac3a77`). It changes `warehouse/analysis/findings/hunt.py` in the places this session changes: the pushed commit cannot be merged into main (tried here with `git merge-tree`: a conflict in that file), so GitHub's workflow cannot land it, and nothing of this session was deployed. At about the same time Claude Code stopped the wait on that run for low memory.
+- **No after snapshot was taken,** because no deploy of this session happened: production serves main as sessions 259 and 251 left it.
+- **What stands now:** `wip/258-source-lines` holds main (with session 251) merged in as `e6c897d9`, the conflict resolved by hand as "Read these first" says. On it: `tests.test_session258 tests.test_session251 tests.test_session233`, exit 0, 71 tests; `tests.test_session252 tests.test_session238 tests.test_session188_waits`, exit 0, 42 tests. **The whole suite has not been run on it.**
+- **To land it** (say "land 258" to this session, or run on the old laptop, with nothing else heavy running):
+
+```
+cd C:\Users\lossa\Documents\erw
+git fetch origin
+git -C ..\erw-143 merge --no-edit origin/main
+bash runs/chain_oct13/suite.sh land258b <the branch's last commit>      (read runs/chain_oct13/land258b/suite_result.txt: "suite exit=0")
+.venv\Scripts\python.exe scripts\freeze.py status
+node site/scripts/snapshot-live.mjs take s258b-before
+git -C ..\erw-143 push origin HEAD:refs/heads/task/258-source-lines
+(after the merge commit is on main, and three minutes more)
+node site/scripts/snapshot-live.mjs take s258b-after
+node site/scripts/snapshot-live.mjs compare s258b-before s258b-after     (expected: 0 differences on the 25 pages)
+```
+
+- Then the data machine's three commands under "To finish". They were not put on the task queue: their first real run rewrites eight drafts' stored cards and pictures, `/internal/findings` is on tonight's demo path, and the command has only been run against a made-up list. It waits for you (the reversible choice).
