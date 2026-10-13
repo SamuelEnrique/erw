@@ -230,7 +230,20 @@ class KnownGapsOnTheRunner(unittest.TestCase):
         self.assertIn("run_data_machine.sh", why)
         self.assertIsNone(ip.gap_skip("eia930_all_demand", "HTTP 500"))
         self.assertIsNotNone(ip.gap_skip("policy_monitor_refresh:orpuc", "ReadTimeout"))
+        self.assertIsNotNone(ip.gap_skip("policy_monitor_refresh:orpuc", "ConnectionError(MaxRetryError('HTTPSConnectionPool(host=...)'))"))
+        self.assertIsNotNone(ip.gap_skip("nyiso_load_queue", "RuntimeError: the answer is not the workbook (HTTP 202, first bytes b'')"))
         self.assertIsNone(ip.gap_skip("policy_monitor_refresh:txpuc", "HTTP 403"))
+
+    def test_a_connectors_own_refusal_is_a_failure_even_on_the_runner(self):
+        # the gap is the publisher's answer: a ceiling, a parse or a validator of a document that did arrive is ours
+        os.environ["GITHUB_ACTIONS"] = "true"
+        for own in ("RuntimeError: 20 rows would pass this run's ceiling of 19; nothing is written",
+                    "KeyError: 'Load Projects'", "ValueError: no auction table in the PDF",
+                    "RuntimeError: carb_auction_allowance_prices: newest auction 2026-05-01 is 160 days old; not writing"):
+            self.assertIsNone(ip.gap_skip("nyiso_load_queue", own), own)
+            self.assertIsNone(ip.gap_skip("carb_auction_allowance_prices", own), own)
+        self.assertIsNotNone(ip.gap_skip("carb_auction_allowance_prices",
+                                         "RuntimeError: CARB auction summary PDF failed after 4 attempts: RuntimeError('CARB auction summary PDF HTTP 202')"))
 
     def test_the_skip_exit_is_75_or_the_environment(self):
         os.environ.pop("ERW_SKIP_EXIT", None)

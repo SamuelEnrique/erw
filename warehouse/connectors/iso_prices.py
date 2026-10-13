@@ -122,11 +122,20 @@ def on_runner():
     return os.environ.get("GITHUB_ACTIONS") == "true"
 
 
+# What a publisher's refusal looks like in a connector's last error line: an HTTP status, a timeout or a connection that
+# did not open, the retries' own words, an answer that is not the document asked for. A connector's own refusal (a row
+# ceiling, a validator, a parse of a document that did arrive) names none of these and stays a failure on the runner too.
+PUBLISHER_REFUSAL = re.compile(r"HTTP \d{3}|Timeout|Timed out|timed out|ConnectionError|Connection refused|Connection reset|"
+                               r"Max retries|failed after \d+ attempts|is not the workbook|answered no|RemoteDisconnected|"
+                               r"NameResolutionError|SSLError", re.I)
+
+
 def gap_skip(table, error):
-    """Why a failed pull of this table is a skip (session 206), or None: on GitHub's runner, a table of known_gaps.csv.
-    Anywhere else, and for any other table, None: the failure stands."""
+    """Why a failed pull of this table is a skip (session 206), or None: on GitHub's runner, a table of known_gaps.csv
+    whose error is the publisher's answer (PUBLISHER_REFUSAL). Anywhere else, for any other table, and for a connector's
+    own refusal (a ceiling, a parse), None: the failure stands."""
     g = known_gap(table) if on_runner() else None
-    if not g:
+    if not g or not PUBLISHER_REFUSAL.search(str(error)):
         return None
     return (f"a known gap on the GitHub runner since {g['since']} ({g['decided']}): {str(error)[:160]}; refreshed by the "
             "data machine's daily run (warehouse/run_data_machine.sh); warehouse/metadata/known_gaps.csv")
