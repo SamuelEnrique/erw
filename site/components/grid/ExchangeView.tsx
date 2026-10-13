@@ -16,13 +16,14 @@ import { shown } from "@/lib/format";
 import { GRID_CHOICES, gridHref, type GridChoice } from "@/lib/gridtool";
 import { fetchHourly, netExports, pickSnapshot, tiesAt, topExporter } from "@/lib/network";
 import { completeHour } from "@/lib/networkV3";
-import { HOURLY, attempt } from "@/lib/supabase";
+import { attempt } from "@/lib/supabase";
 
 const committed = snapJson as unknown as Snapshot;
 const hourName = (t: string) => `${t.slice(0, 10)} ${t.slice(11, 13)}:00 UTC`;
 
 export async function ExchangeView({ grid }: { grid: GridChoice }) {
-  const { snap } = pickSnapshot(await fetchHourly(HOURLY), committed);
+  // read on each request: the hourly refresh may revise an hour, and a number shown must be the object's own
+  const { snap } = pickSnapshot(await fetchHourly(0), committed);
   const complete = completeHour(snap.hours, snap.links);
   const hour = complete.hour ?? snap.hours[snap.hours.length - 1];
   const nameOf = (id: string) => snap.nodes.find((n) => n.id === id)?.name ?? id;
@@ -56,8 +57,11 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
   }
 
   const ba = grid.ba;
-  const ties = tiesAt(snap, ba, hour).sort((a, b) => Math.abs(b.mw) - Math.abs(a.mw));
-  const net = ties.reduce((a, t) => a + t.mw, 0);
+  const ties = tiesAt(snap, ba, hour).map((t) => ({ ...t, mw: t.mw || 0 })).sort((a, b) => Math.abs(b.mw) - Math.abs(a.mw));
+  const net = ties.reduce((a, t) => a + t.mw, 0) || 0;
+  // a net import is written as one: the same sum from the other side, with its own key
+  const out = net >= 0;
+  const netNum = <Num check={`net|${out ? "export" : "import"}|${ba}|${hour}`} raw={out ? net : -net}>{shown(out ? net : -net)}</Num>;
   const maxFlow = ties.length ? Math.max(...ties.map((t) => Math.abs(t.mw))) : null;
   // the week: the grid's net export in each hour that holds a tie
   const mine = snap.links.filter((l) => l.a === ba || l.b === ba);
@@ -74,12 +78,12 @@ export async function ExchangeView({ grid }: { grid: GridChoice }) {
       <p className="mb-6 max-w-3xl text-base leading-relaxed">
         {ties.length ? (
           <>In the hour starting {hourName(hour)}, {grid.label} {net > 0 ? "sent out more power than it took in" : net < 0 ? "took in more power than it sent out" : "sent out as much power as it took in"} over
-            its {ties.length} reporting ties: a net export of <Num check={`net|export|${ba}|${hour}`} raw={net}>{shown(net)}</Num> MW.</>
+            its {ties.length} reporting ties: a net {out ? "export" : "import"} of {netNum} MW.</>
         ) : <>No tie of {grid.label} reported a flow in the hour starting {hourName(hour)}.</>}
       </p>
       {ties.length ? (
         <HeadlineRow>
-          <HeadlineNumber label="Net export" unit="MW" value={<Num check={`net|export|${ba}|${hour}`} raw={net}>{shown(net)}</Num>} note="The sum of its reporting ties; a negative number is a net import." />
+          <HeadlineNumber label={out ? "Net export" : "Net import"} unit="MW" value={netNum} note="The sum of its reporting ties in the hour." />
           <HeadlineNumber label="Ties reporting" value={<Num check={`net|ties|${ba}|${hour}`} raw={ties.length}>{shown(ties.length)}</Num>} note={`Neighbours with a flow in the hour starting ${hourName(hour)}.`} />
           <HeadlineNumber label="Largest flow" unit="MW" value={maxFlow !== null ? <Num check={`net|maxflow|${ba}|${hour}`} raw={maxFlow}>{shown(maxFlow)}</Num> : null} note={`Either way, with ${nameOf(ties[0].other)}.`} />
         </HeadlineRow>

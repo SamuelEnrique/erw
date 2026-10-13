@@ -76,13 +76,14 @@ export function topExporter(snap: Snapshot, hour: string): { id: string; mw: num
  * largest flow on them, MW, either way), net|topexport|<hour> (the largest net export, MW). Undefined when the
  * snapshot does not hold the hour.
  * Session 237 (the Grid tool's Exchange view): net|export|<BA>|<hour>, the BA's net export over its reporting ties, MW
- * (negative: a net import), and net|tie|<BA>|<other>|<hour>, one tie's flow signed from the BA's side. */
+ * (negative: a net import), net|import|<BA>|<hour>, the same sum from the other side (a net import, MW), and
+ * net|tie|<BA>|<other>|<hour>, one tie's flow signed from the BA's side (a tie that reports zero is 0, never -0). */
 export function netValue(snap: Snapshot, key: string): number | undefined {
   const p = key.split("|");
   const hour = p[0] === "net" && p[1] === "topexport" ? p[2] : p[1] === "tie" ? p[4] : p[3];
   if (!snap.hours.includes(hour)) return undefined;
-  if (p[1] === "export") { const t = tiesAt(snap, p[2], hour); return t.length ? t.reduce((a, x) => a + x.mw, 0) : undefined; }
-  if (p[1] === "tie") return tiesAt(snap, p[2], hour).find((x) => x.other === p[3])?.mw;
+  if (p[1] === "export" || p[1] === "import") { const t = tiesAt(snap, p[2], hour); if (!t.length) return undefined; const sum = t.reduce((a, x) => a + x.mw, 0); return (p[1] === "export" ? sum : -sum) || 0; }
+  if (p[1] === "tie") { const v = tiesAt(snap, p[2], hour).find((x) => x.other === p[3])?.mw; return v === undefined ? undefined : v || 0; }
   if (p[1] === "ties") return tiesAt(snap, p[2], hour).length;
   if (p[1] === "maxflow") { const t = tiesAt(snap, p[2], hour); return t.length ? Math.max(...t.map((x) => Math.abs(x.mw))) : undefined; }
   if (p[1] === "topexport") return topExporter(snap, hour)?.mw;

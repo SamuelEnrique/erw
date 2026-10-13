@@ -20,12 +20,14 @@ import { gridHref, type GridChoice } from "@/lib/gridtool";
 import type { GridConfig } from "@/lib/markdown";
 import { fetchHourly, pickSnapshot, tiesAt } from "@/lib/network";
 import { completeHour } from "@/lib/networkV3";
-import { HOURLY, attempt } from "@/lib/supabase";
+import { attempt } from "@/lib/supabase";
 import { GridYesterday } from "./Conditions";
 import { GridNowParts } from "./YourGrid";
 
 const DEMAND = "eia930_all_demand", GEN = "eia930_all_generation", CARBON = "carbon_intensity_hourly";
 const H = 3_600_000;
+/** The snapshot is read on each request: the hourly refresh may revise an hour, and a number shown must be the object's own. */
+const FRESH = 0;
 const committed = snapJson as unknown as Snapshot;
 /** The EIA-930 code of each choice as "Grid conditions" names it (components/grid/Conditions.tsx BAS). */
 const CONDITIONS_CODE: Record<string, string> = { ercot: "erco", caiso: "ciso", pjm: "pjm", miso: "miso", spp: "swpp", nyiso: "nyis", isone: "isne", us48: "us48" };
@@ -44,7 +46,7 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
     attempt(() => series(DEMAND, { entity, variable: "demand_mw", since: daysAgo(9) })),
     attempt(() => series(GEN, { entity, since: daysAgo(34) })),
     attempt(() => series(CARBON, { entity, since: daysAgo(7) })),
-    fetchHourly(HOURLY),
+    fetchHourly(FRESH),
   ]);
   // demand: the latest hour held, and the same hour a week earlier
   const demand = dem.ok ? [...dem.data].sort(byTime) : [];
@@ -61,7 +63,10 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
   const complete = completeHour(snap.hours, snap.links);
   const xHour = complete.hour ?? snap.hours[snap.hours.length - 1];
   const ties = grid.slug === "us48" ? [] : tiesAt(snap, grid.ba, xHour);
-  const net = ties.reduce((a, t) => a + t.mw, 0);
+  const net = ties.reduce((a, t) => a + t.mw, 0) || 0;
+  // a net import is written as one: the same sum from the other side, with its own key
+  const out = net >= 0;
+  const netNum = <Num check={`net|${out ? "export" : "import"}|${grid.ba}|${xHour}`} raw={out ? net : -net}>{shown(out ? net : -net)}</Num>;
   // carbon: the latest hour EIA has estimated
   const cg = ci.ok ? ci.data.filter((r) => r.variable === "intensity_generation").sort(byTime).at(-1) : undefined;
   const cd = cg && ci.ok ? ci.data.find((r) => r.variable === "intensity_demand" && r.ts_utc === cg.ts_utc) : undefined;
@@ -79,8 +84,8 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
           <> {fuelName(top.variable).replace(/^./, (c) => c.toUpperCase())} was its largest source: <N t={GEN} r={top} /> MW of the <N t={GEN} r={total} /> MW generated in the hour starting {hourOf(total.ts_utc, tz)}.</>
         ) : null}
         {ties.length ? (
-          <> Over its {ties.length} reporting ties it {net > 0 ? "sent out more than it took in" : net < 0 ? "took in more than it sent out" : "sent out as much as it took in"}: a net export of{" "}
-            <Num check={`net|export|${grid.ba}|${xHour}`} raw={net}>{shown(net)}</Num> MW in the hour starting {hourOf(xHour, tz)}.</>
+          <> Over its {ties.length} reporting ties it {net > 0 ? "sent out more than it took in" : net < 0 ? "took in more than it sent out" : "sent out as much as it took in"}: a net {out ? "export" : "import"} of{" "}
+            {netNum} MW in the hour starting {hourOf(xHour, tz)}.</>
         ) : null}
         {cg ? <> Each MWh it generated carried <N t={CARBON} r={cg} /> kg of CO2 in the hour starting {hourOf(cg.ts_utc, tz)}, the latest EIA has estimated.</> : null}
       </p>
@@ -88,9 +93,9 @@ export async function NowView({ grid, cfg, data }: { grid: GridChoice; /** the g
       <HeadlineRow>
         <HeadlineNumber label="Demand" unit="MW" value={d ? <N t={DEMAND} r={d} /> : <span className="text-muted">not read</span>}
           note={d ? <>Hour starting {hourOf(d.ts_utc, tz)}.{dWeek ? <> A week earlier: <N t={DEMAND} r={dWeek} /> MW.</> : null}</> : dem.ok ? "No hour of demand in the last nine days." : dem.reason} />
-        <HeadlineNumber label="Net export" unit="MW" value={ties.length ? <Num check={`net|export|${grid.ba}|${xHour}`} raw={net}>{shown(net)}</Num> : <span className="text-muted">by grid</span>}
+        <HeadlineNumber label={ties.length && !out ? "Net import" : "Net export"} unit="MW" value={ties.length ? netNum : <span className="text-muted">by grid</span>}
           note={ties.length
-            ? <>Hour starting {hourOf(xHour, tz)}, over <Num check={`net|ties|${grid.ba}|${xHour}`} raw={ties.length}>{shown(ties.length)}</Num> ties; a negative number is a net import. <Link href={gridHref(grid.slug, "exchange")}>Each neighbour</Link>.</>
+            ? <>Hour starting {hourOf(xHour, tz)}, over <Num check={`net|ties|${grid.ba}|${xHour}`} raw={ties.length}>{shown(ties.length)}</Num> ties. <Link href={gridHref(grid.slug, "exchange")}>Each neighbour</Link>.</>
             : <>The Lower 48 is the sum of its grids: <Link href={gridHref(grid.slug, "exchange")}>the exchange of each</Link>.</>} />
         <HeadlineNumber label="Carbon intensity" unit="kg CO2/MWh" value={cg ? <N t={CARBON} r={cg} /> : <span className="text-muted">not read</span>}
           note={cg ? <>Of generation, hour starting {hourOf(cg.ts_utc, tz)}.{cd ? <> Of the power used here, imports counted: <N t={CARBON} r={cd} />.</> : null}</> : ci.ok ? "No hour in the last seven days." : ci.reason} />

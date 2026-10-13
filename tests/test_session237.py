@@ -161,7 +161,7 @@ class ThePage(unittest.TestCase):
     def test_the_four_numbers_of_now_read_the_public_eia930_tables(self):
         now = src("site", "components", "grid", "NowView.tsx")
         self.assertIn('const DEMAND = "eia930_all_demand", GEN = "eia930_all_generation", CARBON = "carbon_intensity_hourly";', now)
-        for key in ("`series|${t}|${r.entity}|${r.variable}|${r.ts_utc}`", "`net|export|${grid.ba}|${xHour}`", "`net|ties|${grid.ba}|${xHour}`"):
+        for key in ("`series|${t}|${r.entity}|${r.variable}|${r.ts_utc}`", "`net|${out ? \"export\" : \"import\"}|${grid.ba}|${xHour}`", "`net|ties|${grid.ba}|${xHour}`"):
             self.assertIn(key, now)
         self.assertIn("data-now-sentence={grid.slug}", now)
         self.assertIn('const withheld = grid.slug === "caiso";', now)               # session 118's rule holds here too
@@ -228,9 +228,9 @@ class TheMenuAndTheKeys(unittest.TestCase):
                  "const snap = { built: 'x', window: ['a', 'b'], hours: ['2026-10-10T00:00:00Z', '2026-10-10T01:00:00Z'], rule: '', nodes: [], "
                  "links: [{ a: 'ERCO', b: 'SWPP', mw: [120, null] }, { a: 'CEN', b: 'ERCO', mw: [30, 5] }] }; "
                  "const h = '2026-10-10T00:00:00Z'; console.log(JSON.stringify([netValue(snap, `net|export|ERCO|${h}`), netValue(snap, `net|tie|ERCO|SWPP|${h}`), netValue(snap, `net|tie|ERCO|CEN|${h}`), "
-                 "netValue(snap, `net|ties|ERCO|${h}`), netValue(snap, `net|maxflow|ERCO|${h}`), netValue(snap, 'net|export|ERCO|2026-10-10T01:00:00Z'), netValue(snap, 'net|export|PJM|' + h) ?? null, "
+                 "netValue(snap, `net|ties|ERCO|${h}`), netValue(snap, `net|maxflow|ERCO|${h}`), netValue(snap, 'net|export|ERCO|2026-10-10T01:00:00Z'), netValue(snap, 'net|import|ERCO|2026-10-10T01:00:00Z'), netValue(snap, 'net|export|PJM|' + h) ?? null, "
                  "netValue(snap, 'net|export|ERCO|2026-10-11T00:00:00Z') ?? null]));")
-        self.assertEqual(d, [90, 120, -30, 2, 120, -5, None, None])
+        self.assertEqual(d, [90, 120, -30, 2, 120, -5, 5, None, None])
         self.assertIn('if (p[0] === "net") {', src("site", "scripts", "check-values.mjs"))
 
 

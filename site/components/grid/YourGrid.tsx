@@ -50,7 +50,7 @@ function Chip({ tier }: { tier: "source" | "derived" | "model_extracted" | "writ
 function NotYet({ what, where, href }: { what: string; where: string; href: string }) {
   return (
     <p className="border border-dashed border-rule bg-panel px-3 py-2 text-sm text-muted" role="status">
-      <span className="font-semibold text-ink">Not in the warehouse yet:</span> {what}. {where}: <a href={href}>{href}</a>.
+      <span className="font-semibold text-ink">Not in the warehouse yet:</span> {what}. {where}: <a href={href} className="break-all">{href}</a>.
     </p>
   );
 }
