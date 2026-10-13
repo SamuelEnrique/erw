@@ -60,7 +60,7 @@ Today the block "How long a large load waits" shows stated figures for two grids
 | `lock.py run -- table_stores.py large_load_public large_load_document_verdicts` | 0 | the validator, the coverage rows (both `internal`), the archive, the draft of the internal Redivis dataset; nothing released |
 | every public row against its statement | | 341 of 341: the entity, megawatts, date, title and address equal |
 | `python -m unittest tests.test_session255` | 0 | 14 tests |
-| `python -m unittest discover -s tests` | see "The landing" | |
+| `python -m unittest discover -s tests` | 1 | 3,999 tests, 3 failures, 44 skipped, 462 s in the foreground: the three this machine always has (`test_session51`, `test_session125`, `test_session165`); none in what this session wrote |
 | `python scripts/freeze.py status` | 0 | no freeze |
 
 ## Decisions made without you
