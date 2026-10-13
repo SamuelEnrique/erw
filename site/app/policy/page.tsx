@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { Cite } from "@/components/Cite";
 import { NoData } from "@/components/NoData";
 import { Related } from "@/components/Related";
@@ -24,7 +25,7 @@ function Views({ view }: { view: View }) {
     <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
       <nav aria-label="Views" className="flex flex-wrap gap-1 text-xs" data-views="1">
         {VIEWS.map(([k, label]) => (
-          <a key={k} href={viewHref(k)} aria-current={view === k ? "page" : undefined} data-view={k} style={{ color: view === k ? "#fff" : "var(--color-ink)" }}
+          <a key={k} href={viewHref(k)} aria-current={view === k ? "page" : undefined} data-view={k} style={{ color: view === k ? "var(--color-surface)" : "var(--color-ink)" }}
             className={`border px-2 py-1 no-underline ${view === k ? "border-accent bg-accent" : "border-rule bg-white hover:border-accent"}`}>{label}</a>
         ))}
       </nav>
@@ -59,16 +60,18 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
   const view = viewOf(q);
   if (view === "week") {
     return (
+      <Brand>
       <div data-policy="week">
         <h1 className="mb-1 text-3xl">Policy</h1>
         <Views view={view} />
         <Week q={q} />
       </div>
+      </Brand>
     );
   }
   const [a, r] = await Promise.all([attempt(policyActions), attempt(policyReads)]);
   const now = renderTime();
-  if (!a.ok) return <NoData what="policy actions" reason={a.reason} />;
+  if (!a.ok) return <Brand><NoData what="policy actions" reason={a.reason} /></Brand>;
   const reads = new Map((r.ok ? r.data : []).map((x) => [x.action_event_id, x]));
   // Session 164: the rule's tags of every action, so that a reader reaches each tagged action whatever its date.
   const tagged = allTags(a.data);
@@ -77,6 +80,7 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
   const since = new Date(now - 7 * 86_400_000).toISOString().slice(0, 10);
   const week = rows.filter((x) => x.event_date >= since && Number(x.significance) >= 5).sort((p, q) => Number(q.significance) - Number(p.significance)).slice(0, 6);
   return (
+    <Brand>
     <div data-policy="all">
       <h1 className="mb-1 text-3xl">Policy</h1>
       <Views view={view} />
@@ -110,5 +114,6 @@ export default async function PolicyPage({ searchParams }: { searchParams: Promi
       </Section>
       <Related href="/policy" />
     </div>
+    </Brand>
   );
 }

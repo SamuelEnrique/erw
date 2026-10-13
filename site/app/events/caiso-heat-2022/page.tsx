@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";  // session 67: every link passes the release gate
 import { EventStudy } from "@/components/EventStudy";
 import { gridNotices } from "@/lib/reliability";
@@ -28,7 +29,8 @@ export default async function CaisoHeat2022() {
   const byDay = new Map<string, string[]>();
   for (const n of notices) byDay.set(n.event_date.slice(0, 10), [...new Set([...(byDay.get(n.event_date.slice(0, 10)) ?? []), n.event_type])]);
   return (
-    <>
+    <Brand>
+    <div>
       <EventWindow
         event={EV}
         title="The September 2022 heat wave: CAISO"
@@ -79,6 +81,7 @@ export default async function CaisoHeat2022() {
         </p>
       </section>
       <EventStudy event={EV} grids={[E]} primary={E} />
-    </>
+    </div>
+    </Brand>
   );
 }

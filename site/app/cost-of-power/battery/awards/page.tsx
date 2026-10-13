@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink as Link } from "@/components/SiteLink";
 import { ChartFrame, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import {
@@ -29,7 +30,8 @@ export const metadata: Metadata = { title: "What Texas's batteries were awarded 
 export const dynamic = "force-dynamic";
 
 const METHOD = "/data/methods/ercot_storage_dam_awards";
-const ENERGY = "#8C1515", ANCILLARY = "#2E2D29";  // cardinal and Stanford black, as on the battery page
+const ENERGY = "var(--color-accent)", ANCILLARY = "var(--color-ink)";  // cardinal and ink, as on the battery page; session 241: by token, so the brand names them
+const SHEET = "var(--color-surface)", RULE = "var(--color-rule)", MUTED = "var(--color-muted)";
 
 async function fleetRows(): Promise<Row[]> {
   return rest<Row>("series", { select: "variable,ts_utc,value", table_name: `eq.${TABLE}`, entity: `eq.${ENTITY}`,
@@ -73,16 +75,16 @@ function MonthBars({ ms }: { ms: Month[] }) {
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Day-ahead awards by month, USD per kW, stacked: energy net of charging and ancillary services">
       <defs>
-        <pattern id="aw-hatch-e" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#fff" /><rect width="2.2" height="5" fill={ENERGY} /></pattern>
-        <pattern id="aw-hatch-a" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#fff" /><rect width="2.2" height="5" fill={ANCILLARY} /></pattern>
+        <pattern id="aw-hatch-e" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill={SHEET} /><rect width="2.2" height="5" fill={ENERGY} /></pattern>
+        <pattern id="aw-hatch-a" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill={SHEET} /><rect width="2.2" height="5" fill={ANCILLARY} /></pattern>
       </defs>
       {ticks.map((t) => (
         <g key={t}>
-          <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#2E2D29" : "#D9D2C3"} strokeWidth={t === 0 ? 1 : 0.75} />
-          <text x={L - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="#6B665E">{t}</text>
+          <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke={t === 0 ? ANCILLARY : RULE} strokeWidth={t === 0 ? 1 : 0.75} />
+          <text x={L - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill={MUTED}>{t}</text>
         </g>
       ))}
-      <text x={L - 46} y={14} fontSize="11" fill="#6B665E">USD per kW</text>
+      <text x={L - 46} y={14} fontSize="11" fill={MUTED}>USD per kW</text>
       {ms.map((r, i) => {
         const e = perKw(r.energy), a = perKw(r.ancillary);
         const x0 = L + i * bw + bw * 0.18, w = bw * 0.64;
@@ -96,9 +98,9 @@ function MonthBars({ ms }: { ms: Month[] }) {
           <g key={r.m} data-awards-bar={r.m}>
             {segs.map((s, k) => (s.v1 === s.v0 ? null
               : <rect key={k} x={x0} width={w} y={y(s.v1)} height={Math.max(0.5, y(s.v0) - y(s.v1))} fill={s.fill} stroke={r.complete ? "none" : s.line} strokeWidth={r.complete ? 0 : 0.75} />))}
-            <text x={x0 + w / 2} y={y(u) - 6} textAnchor="middle" fontSize="11" fill="#2E2D29">{kw(r.total)}</text>
-            <text x={x0 + w / 2} y={H - bot + 16} textAnchor="middle" fontSize="11" fill="#2E2D29">{shortMonth(r.m)}</text>
-            {!r.complete ? <text x={x0 + w / 2} y={H - bot + 30} textAnchor="middle" fontSize="10" fill="#6B665E">{r.daysHeld} of {r.daysInMonth} days</text> : null}
+            <text x={x0 + w / 2} y={y(u) - 6} textAnchor="middle" fontSize="11" fill={ANCILLARY}>{kw(r.total)}</text>
+            <text x={x0 + w / 2} y={H - bot + 16} textAnchor="middle" fontSize="11" fill={ANCILLARY}>{shortMonth(r.m)}</text>
+            {!r.complete ? <text x={x0 + w / 2} y={H - bot + 30} textAnchor="middle" fontSize="10" fill={MUTED}>{r.daysHeld} of {r.daysInMonth} days</text> : null}
             <title>{`${monthName(r.m)}: energy ${kw(r.energy)}, ancillary services ${kw(r.ancillary)} USD per kW awarded day-ahead${r.complete ? "" : ` (${r.daysHeld} of ${r.daysInMonth} days held)`}`}</title>
           </g>
         );
@@ -124,6 +126,7 @@ export default async function Awards() {
   const share = energyAwardShare(ms);
 
   return (
+    <Brand>
     <ToolPage>
       <ToolHeader
         title="What Texas's batteries were awarded day-ahead"
@@ -232,5 +235,6 @@ export default async function Awards() {
           The fourth and fifth are derived from ERCOT&apos;s 60-Day SCED Disclosure Reports (NP3-965-ER), the file 60d_ESR_Data_in_SCED, and from its real-time Settlement Point Prices at Resource Nodes, Hubs
           and Load Zones (NP6-905-CD). <Link href={RT_METHOD}>Method</Link>.</>} />
     </ToolPage>
+    </Brand>
   );
 }

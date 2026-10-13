@@ -719,3 +719,18 @@ body:has(.brand-a) header :focus-visible {
   line-height: 1.5;
   color: var(--color-muted);
 }
+
+/* ---- session 241a: plain markup that came to the brand with a look of its own. Corners are square and nothing casts
+   a shadow (docs/brand.md, section 3): a hover card (role="tooltip") loses its shadow, and a small label drawn as a
+   box around a link (the source line's tier label) its rounded corner. Nothing here moves a number */
+.brand-a [role="tooltip"],
+.brand-a a.rounded {
+  border-radius: 0;
+  box-shadow: none;
+}
+/* a cell of figures that the page set small keeps the scale's small size (12): a dense table then stays inside its
+   frame at a desk's width, where at 14 its last columns scrolled out of view */
+.brand-a tbody td.text-right.text-xs,
+.brand-a tbody td.text-right.text-xs span {
+  font-size: 12px;
+}

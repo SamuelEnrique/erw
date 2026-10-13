@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { ChartFrame, Fold, HeadlineNumber, HeadlineRow, InputPanel, SourceLine, ToolHeader, ToolPage, ToolSection, ToolTable } from "@/components/tool/ToolPage";
 import fileJson from "@/data/queues.json";
@@ -129,6 +130,7 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
   const kinds = TECHS.filter((t) => t.slug !== "all").map((t) => ({ t, v: viewOf(file, grid.slug, t.slug) }));
 
   return (
+    <Brand>
     <ToolPage>
       <ToolHeader title="The interconnection queue"
         lead={<>Before a power plant or a battery can connect to the grid it waits in a queue for a study and an agreement. Choose a grid and a technology: how much capacity is waiting and since when,
@@ -229,5 +231,6 @@ export default async function Queues({ searchParams }: { searchParams: Promise<R
         </div>
       </div>
     </ToolPage>
+    </Brand>
   );
 }

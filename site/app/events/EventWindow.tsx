@@ -21,7 +21,7 @@ export type Grid = { entity: string; name: string; slug?: string; tz: string };
 
 export function Tier() {
   return (
-    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 rounded border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
+    <Link href="/data/standard" title={TIER_TITLE.derived} className="ml-1 border border-rule px-1 text-[10px] uppercase tracking-wide text-muted no-underline">
       {TIER_LABEL.derived}
     </Link>
   );

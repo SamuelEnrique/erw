@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Brand } from "@/components/Brand";
 import { Num } from "@/components/Num";
 import { Related } from "@/components/Related";
 import { SiteLink } from "@/components/SiteLink";
@@ -207,6 +208,7 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
   const cheap = top ? <>Its place with the most hours under USD {free.threshold_usd_per_mwh} {fc.win === "year" ? "in the last twelve months" : `in ${monthName(free.end_month)}`} is {placeName(top.id)}, with <N k="sum|cheap">{whole(top.win.under5)}</N>.</> : null;
 
   return (
+    <Brand>
     <ToolPage>
       <ToolHeader title="Curtailment"
         lead={<>When there is more wind and sun than the grid can take, the operator turns plants down: curtailment. Wind and solar output that could have been produced and was not, by day, month and hour, at <Term t="CAISO" first /> and <Term t="SPP" first /> since 2014
@@ -356,5 +358,6 @@ export default async function CurtailmentPage({ searchParams }: { searchParams: 
         </div>
       </div>
     </ToolPage>
+    </Brand>
   );
 }

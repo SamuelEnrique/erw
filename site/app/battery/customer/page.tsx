@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Brand } from "@/components/Brand";
 import { SiteLink } from "@/components/SiteLink";
 import { Fold, ToolHeader, ToolPage } from "@/components/tool/ToolPage";
 import { Calc } from "./Calc";
@@ -13,6 +14,7 @@ export const dynamic = "force-static";
 
 export default function CustomerBattery() {
   return (
+    <Brand noUsage>
     <ToolPage>
       <ToolHeader title="What a battery saves a customer"
         lead={<>A business that pays a demand charge can lower its bill with a battery in two ways: by discharging through its peak, so the highest demand on the meter is
@@ -48,5 +50,6 @@ export default function CustomerBattery() {
         percent) are starting values, not data; change them to yours.
       </p>
     </ToolPage>
+    </Brand>
   );
 }
