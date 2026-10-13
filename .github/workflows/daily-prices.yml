@@ -207,9 +207,10 @@ jobs:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PJM_API_KEY: ${{ secrets.PJM_API_KEY }}
-          # Session 176: the daily cap for all scheduled model steps together, in USD (warehouse/health.py budget). A
-          # repository variable; unset or empty means the default, 1.00.
-          DAILY_MODEL_USD: ${{ vars.DAILY_MODEL_USD }}
+          # Session 176: the daily cap for all scheduled model steps together, in USD (warehouse/health.py budget).
+          # Session 206 (the owner's ruling of 12 October 2026): 1.50, set here; the same figure is the default in
+          # warehouse/health.py (MODEL_CAP_DEFAULT). To change it, change both.
+          DAILY_MODEL_USD: "1.50"
           # Session 10: Redivis (store of record, draft only) and Supabase (live set)
           REDIVIS_API_TOKEN: ${{ secrets.REDIVIS_API_TOKEN }}
           REDIVIS_OWNER: ${{ secrets.REDIVIS_OWNER }}
@@ -227,11 +228,9 @@ jobs:
           # unsubscribe link; without EMAIL_TOKEN_SECRET the subscribers are left out and only DIGEST_RECIPIENTS get it
           EMAIL_SUBSCRIBERS: "1"
           EMAIL_TOKEN_SECRET: ${{ secrets.EMAIL_TOKEN_SECRET }}
-          # Session 30 (B4): the Haiku shadow scorer and its shadow Digest (warehouse/news/shadow.py). Delete this line
-          # (unset SHADOW_MODEL) to stop it at once; it also stops by itself on the expiry in warehouse/config/shadow.yaml.
-          # The shadow issues go to SHADOW_RECIPIENT if that secret exists, else to DIGEST_RECIPIENTS; never subscribers.
-          SHADOW_MODEL: claude-haiku-4-5
-          SHADOW_RECIPIENT: ${{ secrets.SHADOW_RECIPIENT }}
+          # Session 30 (B4) set SHADOW_MODEL here for the Haiku shadow scorer and its shadow Digest (warehouse/news/shadow.py).
+          # Session 206 removed it (the owner's ruling of 12 October 2026): news scoring itself runs on Haiku now, so
+          # the shadow's steps in warehouse/run_daily.sh skip with "SHADOW_MODEL is not set" and spend nothing.
           # the runner has no tables (not in git): restore the rolling windows first
           RESTORE_FROM_REDIVIS: "1"
           # session 16: set on a manual run (input queues, default 1); empty on the schedule

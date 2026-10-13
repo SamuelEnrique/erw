@@ -92,6 +92,16 @@ restore_before_run:
   # that a period the hourly table on a machine holds no hour of keeps its rows
   - '^ercot_as_prices_(daily|monthly)$'
 
+# Session 206 (the owner's ruling of 12 October 2026): a rolling-window table rebuilt whole as a moving window is judged
+# by its newest timestamp, not its row count. price_board_spreads holds the last 365 days (warehouse/derived/price_board.py):
+# each day the oldest Henry Hub and Brent minus WTI rows leave it, and on a weekend, a holiday or before EIA posts no
+# new fuel row arrives, so the count falls by two and the row-count guard refused it (7, 11 and 12 October 2026). The
+# guard refuses such a table only when its newest ts_utc is older than the newest last uploaded (the manifest's
+# newest_ts_utc column); the row count is not judged.
+judge_by_newest:
+  - '^price_board_spreads$'
+
 # Record of the last upload of each table (sha256 of its data rows), used to upload
-# only the tables a run changed. Tracked in git with the other metadata.
+# only the tables a run changed. Tracked in git with the other metadata. Session 206: newest_ts_utc, the newest ts_utc
+# of a table judged by its newest timestamp (judge_by_newest); blank for every other table.
 manifest: warehouse/metadata/redivis_uploads.csv
