@@ -4,7 +4,7 @@
 - Status: in review, as every page of the site is (`site/lib/release.ts`). A visitor sees the short "in review" page; the tool opens in the internal view only.
 - Written by session 249 from the branch `origin/wip/236-datacenter`, commit `d4eaec68` (session 236), and checked again by session 260 against `main` at `34b468fa`. The page landed on 13 October 2026 as `aa3addbc` (09:14 UTC, sessions 235 and 236 together).
 - What changed on the page after `d4eaec68`, all of it on `main`: the hourly carbon sentence names no length of window (`bba5d091`); and ERCOT's reserve adder is counted on the page (session 236's follow-up, landed as `01161064` at 10:57 UTC), where the page first said the count was "coming". Questions 7 and 9 and the demo give the page as it is now.
-- Date: 2026-10-13. Every figure below is the default case as the repository's files state it on 10 to 13 October 2026. The page's price files are rebuilt daily (on `main` they were built 2026-10-13T17:37:23Z), so the screen can differ from this page; the screen is then the newer.
+- Date: 2026-10-13. Every figure below is the default case as the repository's files state it on 10 to 13 October 2026. The page's price files are rebuilt daily (on `main` they were built 2026-10-13T17:37:23Z; session 260 summed the default case's 8,760 hours from them and the headline is unchanged, 295,465.05 / 8,760 = USD 33.73), so the screen can differ from this page; the screen is then the newer.
 
 ## 1. What it is for, and for whom
 
@@ -293,6 +293,7 @@ The page is in review. On the machine you will show it from, open the internal v
 | 68.49 and 73.10 (New York City); 19 days; 289 of 744 | `docs/methods/datacenter_pays_algorithm.md` (branch) | section 6, item 3; "Cross-checks" |
 | The adders' dates, 1 June 2014 to 4 December 2025 | `docs/methods/ercot_rt_price_adders.md` (main) | "What it is" |
 | The adder count: USD 100; 1,558 hours, 0 at or above; 1 hour in the year to 4 December 2025, USD 412.74 | `docs/methods/datacenter_pays_algorithm.md`; `site/lib/datacenter/answers.ts`; `site/app/cost-of-power/LoadAnswers.tsx` | section 4.15, "ERCOT: its reserve adder"; `ADDER_USD`; the rows of "The two counts" |
+| The price files' date; the default headline summed again (295,465.05 over 8,760 hours) | `site/data/datacenter/index.json`, `site/data/datacenter/ercot_2025.json`, `site/data/datacenter/ercot_2026.json` | `built`; `regions.LZ_NORTH.rt`, October 2025 to September 2026 in Central standard time |
 | 4,249 of 4,249; 4,590 of 4,590; 119 of 119; 23 of 23 | `archive/sessions/SESSION_236_REPORT.md`; `archive/sessions/SESSION_237_REPORT.md` | "The landing" |
 | Every default, bound and step of section 3 | `site/lib/datacenter.ts`, `site/lib/datacenter/finance.ts`, `answers.ts`, `delivery.ts`, `site/app/cost-of-power/model.ts` (branch) | `DEFAULTS`, `LIMITS`, `ASSUMED`, `SPECS`, `HURDLE`, `SCARCITY_USD`, `YEAR_HOURS` |
 | Control labels and address parameters of section 7 | `LoadForm.tsx`, `LoadHeadline.tsx`, `LoadAnswers.tsx`, `LoadScenarios.tsx`, `LoadSiteB.tsx`, `page.tsx`, `site/components/decisions/ScenarioBlock.tsx` (branch) | the labels as written in the code |
