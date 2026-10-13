@@ -500,6 +500,7 @@
   "caiso_grid_emergencies": {
    "status": "public",
    "pages": [
+    "/cost-of-power",
     "/grid/caiso",
     "/grid/ercot",
     "/grid/isone",
@@ -553,6 +554,7 @@
   "carbon_intensity_hourly": {
    "status": "public",
    "pages": [
+    "/cost-of-power",
     "/emissions",
     "/grid/caiso",
     "/grid/ercot",
@@ -571,6 +573,7 @@
   "carbon_intensity_monthly": {
    "status": "public",
    "pages": [
+    "/cost-of-power",
     "/emissions",
     "/grid/caiso",
     "/grid/ercot",
@@ -1412,7 +1415,9 @@
   },
   "large_load_rules": {
    "status": "public",
-   "pages": []
+   "pages": [
+    "/cost-of-power"
+   ]
   },
   "lbnl_interconnection_queue": {
    "status": "public",
@@ -1902,7 +1907,7 @@
     "nyiso_zone_load_hourly"
    ],
    "internal": 3,
-   "public": 8
+   "public": 12
   },
   "/shoulder": {
    "label": "The shoulder hours",

@@ -1,0 +1,41 @@
+# Retrieved: 20261013T081028Z (UTC) by warehouse/derived/battery_stack.py
+ercot 2h foresight | l12 2025-10..2026-09 | kw 58.63 | share_anc 46 | usd 5863441 | bad 364767 2024-12 n36 36 | ds 1242597 | cover 3.82 | y3 212.77 | avg 585.44 | without 241.81 | top 59 | out 0 | npv/kW -287.45 irr -0.9 toll 2.23
+ercot 2h dayahead | l12 2025-10..2026-09 | kw 51.07 | share_anc 51 | usd 5106714 | bad 287431 2026-07 n36 36 | ds 1242597 | cover 3.21 | y3 192.73 | avg 559.55 | without 215.56 | top 62 | out 0 | npv/kW -336.11 irr -4.2 toll 2.23
+ercot 4h foresight | l12 2025-10..2026-09 | kw 81.40 | share_anc 33 | usd 8140219 | bad 475477 2024-12 n36 36 | ds 2261119 | cover 2.63 | y3 255.08 | avg 614.58 | without 269.68 | top 57 | out 0 | npv/kW -697.80 irr -8.8 toll 4.19
+   years 2018:244=45.16+198.53 2019:402=110.74+291.45 2020:187=34.10+153.38 2021:3431=23.02+3407.54 2022:393=126.12+266.99 2023:530=152.00+378.14 2024:148=62.70+84.98 2025:87=57.39+30.05 2026(9m):60=40.77+19.42
+   l12 streams energy 5459858 ancillary 2680361 regup 664224 regdn 998971 rrs 402471 ecrs 194068 nspin 420627
+ercot 4h dayahead | l12 2025-10..2026-09 | kw 73.00 | share_anc 35 | usd 7300002 | bad 411520 2024-02 n36 36 | ds 2261119 | cover 2.26 | y3 221.83 | avg 573.61 | without 229.19 | top 61 | out 0 | npv/kW -751.83 irr none toll 4.19
+   years 2018:209=8.62+200.76 2019:323=2.44+320.99 2020:163=3.93+159.17 2021:3390=-37.74+3427.87 2022:315=58.87+255.98 2023:460=100.44+359.18 2024:127=48.75+78.39 2025:79=52.30+26.42 2026(9m):54=35.54+18.59
+   l12 streams energy 4732869 ancillary 2567133 regup 634328 regdn 1009471 rrs 351136 ecrs 148585 nspin 423613
+ercot 8h foresight | l12 2025-10..2026-09 | kw 98.94 | share_anc 25 | usd 9894197 | bad 557753 2024-12 n36 36 | ds 4298163 | cover 1.29 | y3 271.50 | avg 626.55 | without 281.13 | top 56 | out 0 | npv/kW -1698.51 irr none toll 8.11
+ercot 8h dayahead | l12 2025-10..2026-09 | kw 90.36 | share_anc 25 | usd 9036167 | bad 478464 2024-12 n36 36 | ds 4298163 | cover 1.09 | y3 233.06 | avg 579.90 | without 235.52 | top 60 | out 0 | npv/kW -1753.68 irr none toll 8.11
+caiso 2h foresight | l12 2025-10..2026-09 | kw 61.11 | share_anc 60 | usd 6111065 | bad 349842 2026-01 n36 25 | ds 1242597 | cover 4.02 | y3 null | avg 69.24 | without null | top null | out 5 | npv/kW -271.53 irr 0.0 toll 2.23
+caiso 2h dayahead | l12 2025-10..2026-09 | kw 50.08 | share_anc 74 | usd 5007574 | bad 301035 2026-02 n36 25 | ds 1242597 | cover 3.13 | y3 null | avg 61.05 | without null | top null | out 5 | npv/kW -342.48 irr -4.7 toll 2.23
+caiso 4h foresight | l12 2025-10..2026-09 | kw 79.05 | share_anc 43 | usd 7904601 | bad 457317 2026-01 n36 25 | ds 2261119 | cover 2.52 | y3 null | avg 89.23 | without null | top null | out 5 | npv/kW -712.95 irr -9.9 toll 4.19
+   years 2024(4m):31=14.68+15.94 2025:92=48.08+43.65 2026(9m):64=35.56+28.07
+   l12 streams energy 4478724 ancillary 3425878 regup 1268878 regdn 2055865 spin 9196 nonspin 91938
+caiso 4h dayahead | l12 2025-10..2026-09 | kw 64.96 | share_anc 51 | usd 6496276 | bad 398095 2026-02 n36 25 | ds 2261119 | cover 1.90 | y3 null | avg 79.40 | without null | top null | out 5 | npv/kW -803.51 irr none toll 4.19
+   years 2024(4m):30=15.81+13.81 2025:85=42.31+43.02 2026(9m):51=23.92+27.12
+   l12 streams energy 3177131 ancillary 3319145 regup 1171901 regdn 2033221 spin 15540 nonspin 98482
+caiso 8h foresight | l12 2025-10..2026-09 | kw 97.42 | share_anc 30 | usd 9741622 | bad 584444 2025-11 n36 25 | ds 4298163 | cover 1.25 | y3 null | avg 110.77 | without null | top null | out 5 | npv/kW -1708.32 irr none toll 8.11
+caiso 8h dayahead | l12 2025-10..2026-09 | kw 86.03 | share_anc 33 | usd 8602650 | bad 553335 2026-02 n36 25 | ds 4298163 | cover 0.99 | y3 null | avg 105.32 | without null | top null | out 5 | npv/kW -1781.56 irr none toll 8.11
+sensitivity, ERCOT 4h foresight, 100 MW, USD million:
+   Cycles a day, at most (one step, 0.5 cycles): size 11.14 down -80.92@0.5 up -68.38@1.5 base -69.78
+   Capital cost (USD 100 per kW): size 9.52 down -60.26@1010 up -79.30@1210 base -69.78
+   Fixed O&M (USD 5 per kW a year): size 3.73 down -66.05@17 up -73.51@27 base -69.78
+   Degradation (1 point): size 3.02 down -66.76@1.6 up -72.54@3.6 base -69.78
+   Project life (5 years): size 2.78 down -72.55@15 up -68.89@25 base -69.78
+   Debt share (10 points): size 2.66 down -72.44@10 up -67.12@30 base -69.78
+   Interest rate (1 point): size 1.28 down -68.54@7 up -71.06@9 base -69.78
+   Round-trip efficiency (one step, 3 points): size 1.06 down none up -68.72@89 base -69.78
+   Hurdle rate (1 point): size 0.93 down -68.85@11 up -70.63@13 base -69.78
+   Term of the debt (5 years): size 0.78 down -70.56@15 up -69.78@25 base -69.78
+demo, revenue 81.4021896
+   defaults: debt 2261119 cover 2.63 npv -69.78m (-697.80/kW) irr -8.8 toll 4.19 tail 0.00m years 0
+   capex 620: debt 1262967 cover 4.70 npv -23.12m (-231.24/kW) irr 2.1 toll 3.15 tail 0.00m years 0
+   contract 50% at 10: debt 2261119 cover 3.48 npv -51.13m (-511.34/kW) irr 0.7 toll 4.19 tail 0.00m years 0
+   B: rte 92, cycles 2: debt 2261119 cover 2.93 npv -65.38m (-653.81/kW) irr -6.2 toll 4.19 tail 0.00m years 0
+   B: capex 1300: debt 2648157 cover 2.24 npv -87.87m (-878.71/kW) irr -13.0 toll 4.59 tail 0.00m years 0
+   old defaults 60/9.6: debt 6783357 cover 0.88 npv -62.59m (-625.91/kW) irr none toll 8.90 tail 0.00m years 0
+   term 10: debt 3308455 cover 1.80 npv -71.58m (-715.84/kW) irr -4.4 toll 5.28 tail 6.38m years 10
+   revenue at 92|2 88.2428144; 89|1 83.0562978; 86|0.5 64.08015780000001; 86|1.5 83.57257040000002
