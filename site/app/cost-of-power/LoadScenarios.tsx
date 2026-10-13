@@ -15,8 +15,15 @@
 // per GPU and overhead ratio (LoadHeadline.tsx). "Your load" no longer holds those two fields; their names in an older
 // link are read as the scenarios' (lib/datacenter/finance.ts, parseScenarios). No usage count is sent from here: the
 // owner's ruling of 11 October 2026.
+//
+// Session 213 (the owner's chain prompt of 12 October 2026, the battery page's layout): the page asks three questions.
+// The block answers the second, "Which option is better?", with ten assumptions now: the contract's share of the energy
+// and its price per MWh are scenario assumptions, 0 by default, so the default is fully merchant and every figure at a
+// share of 0 is what it was. The standalone contract panel and "With your contract" are gone. The sensitivity chart
+// answers the third question, "What matters most", in a section of its own (LoadSensitivity), so the block is handed
+// no chart.
 import { useCallback, useMemo, type ReactNode } from "react";
-import { ScenarioBlock, ScenarioState, useScenarios, type Cell, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
+import { ScenarioBlock, ScenarioState, Sensitivity, useScenarios, type Cell, type Chart, type Field, type Row, type Side, type Values, type View } from "@/components/decisions/ScenarioBlock";
 import { monthName, two, usdShort, whole } from "@/lib/datacenter";
 import {
   FLAT, FLEX, KEYS, SPECS, against, bound, defaultsOf, differenceWords, differing, held, isOldParam, isScenarioParam, parseScenarios, resultOf, scenarioQuery, sensitivity, wayOf,
@@ -53,19 +60,40 @@ export function LoadDecisions({ load, open, initial, children }: { load: { run: 
   return <ScenarioState start={parseScenarios(initial, d, open)} query={query} drop={drop}>{children}</ScenarioState>;
 }
 
-export function LoadScenarios({ facts: f }: { facts: Facts }) {
+/** What the block and the chart both read: the scenarios, the defaults, the two columns and the chart of the scenario
+ * in view (session 213, as the battery's Scenarios.tsx holds them). */
+function useBlock(f: Facts) {
   const { s } = useScenarios<Assumptions>();
   const d = useMemo(() => defaultsOf(f.load), [f.load]);
-  const open = useMemo(() => held(f.ways), [f.ways]);
   const a = s[s.view];
-  const diff = differing(s.a, s.b);
   const col = (p: View) => { const w = wayOf(s[p], f.ways); return { p, y: s[p], w, r: w ? resultOf(s[p], w) : null }; };
   const cols = { a: col("a"), b: col("b") };
-  type Col = ReturnType<typeof col>;
   const bars = sensitivity(a, f.ways);
+  const side = (t: Side | null) => (t ? `${four(t.v)} at ${plain(t.value)}` : "no step inside its bounds");
+  const chart: Chart | null = bars.length ? { bars: bars.map((b) => ({ ...b, down: b.down ? { value: b.down.value, v: b.down.v } : null, up: b.up ? { value: b.up.value, v: b.up.v } : null })),
+    moves: "all-in power per GPU-hour", axis: "per GPU-hour", fmt: four, pad: 0.0001, wide: true,
+    says: (b) => {
+      if (b.key === "run") {
+        const t = b.down ?? b.up;
+        return t ? `How the load runs, the other way (${f.words[t.value]}): ${four(t.v)} per GPU-hour; ${four(b.base)} as it is (${f.words[a.run]}).` : "How the load runs: the other way is not held here, so it has no step.";
+      }
+      return `${b.label}, moved by ${b.step}: all-in power per GPU-hour is ${side(b.down)} and ${side(b.up)}; ${four(b.base)} at ${plain(a[b.key as Key])}.`;
+    },
+    sizeWords: (b) => four(b.size), stepWords: (b) => (b.key === "run" ? b.step : `by ${b.step}`),
+    heads: ["Per GPU-hour, lowered", "Per GPU-hour, raised"],
+    side: (b, t) => (t ? `${four(t.v)} at ${b.key === "run" ? f.words[t.value] : plain(t.value)}` : b.key === "run" ? "" : "no step inside its bounds") } : null;
+  return { s, d, a, cols, chart };
+}
+
+export function LoadScenarios({ facts: f }: { facts: Facts }) {
+  const { s, d, cols } = useBlock(f);
+  const open = useMemo(() => held(f.ways), [f.ways]);
+  const diff = differing(s.a, s.b);
+  type Col = (typeof cols)["a"];
   const sourceOf = (k: Key) => (k === "gpu" || k === "pue" ? (k === "gpu" ? f.gpuSource : f.pueSource).replace(/\.$/, "") : SPECS[k].source);
   const rising = (g: number) => `${g > 0 ? "rising" : "falling"} ${plain(Math.abs(g))} percent a year`;
   const wayLabel = (v: number) => (v === FLEX ? `Flexible: ${f.words[FLEX]}` : "Flat: the same in every hour");
+  const contractNote = (c: Col) => (c.y.cshare > 0 ? `${plain(c.y.cshare)} percent of the energy contracted at USD ${plain(c.y.cprice)} per MWh; ` : "");
 
   const fields: Field[] = KEYS.map((k) => {
     const sp = SPECS[k];
@@ -77,10 +105,15 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
   const none = (c: Col): Cell => ({ v: "not held", raw: null, why: f.why[c.y.run === FLEX ? FLEX : FLAT] });
   const row = (key: string, label: string, note: string, cell: (c: Col) => Cell): Row => ({ key, label, note, cell: (p) => cell(cols[p]) });
   const rows: Row[] = [
-    row("price", "Market energy, last twelve months", "USD per MWh consumed",
-      (c) => (c.w ? { v: `USD ${two(c.w.per)}`, raw: c.w.per, note: `${f.span ? `${f.span}; ` : ""}${f.words[c.y.run]}` } : none(c))),
+    row("price", "Market energy, last twelve months", "USD per MWh consumed; a contracted share at its price, the rest at the market's",
+      (c) => {
+        if (!c.w) return none(c);
+        // with a contract the price of the energy consumed; at a share of 0 the market's own figure, to the bit
+        const per = c.y.cshare > 0 && c.r ? c.r.price - c.y.adder : c.w.per;
+        return { v: `USD ${two(per)}`, raw: per, note: `${f.span ? `${f.span}; ` : ""}${f.words[c.y.run]}${c.y.cshare > 0 ? `; ${contractNote(c).replace(/; $/, "")}, the rest at the market's USD ${two(c.w.per)}` : ""}` };
+      }),
     row("bill", "A year's energy", `for ${f.size}, the last twelve months`,
-      (c) => (c.r && c.w ? { v: usd(c.r.bill * f.mw), raw: c.r.bill, note: `${whole(c.w.energy * f.mw)} MWh${c.y.adder > 0 ? `, with USD ${plain(c.y.adder)} per MWh of other charges` : ""}` } : none(c))),
+      (c) => (c.r && c.w ? { v: usd(c.r.bill * f.mw), raw: c.r.bill, note: `${whole(c.w.energy * f.mw)} MWh${c.y.cshare > 0 ? `, ${contractNote(c).replace(/; $/, "")}` : ""}${c.y.adder > 0 ? `, with USD ${plain(c.y.adder)} per MWh of other charges` : ""}` } : none(c))),
     row("gpu", "Power per GPU-hour", "USD, for power alone",
       (c) => (c.r ? { v: four(c.r.gpuHour), raw: c.r.gpuHour, note: `${whole(c.r.gpus * f.mw)} GPUs at ${plain(c.y.gpu)} kW and an overhead ratio of ${plain(c.y.pue)}` } : none(c))),
     row("bad", "A bad month", "market energy, USD per MWh: one month in ten of the last 36 cost this or more",
@@ -92,9 +125,9 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
         return { v: four(c.r.off.perGpuHour), raw: c.r.off.perGpuHour, note: `off in ${whole(c.r.off.hours)} hours; USD ${two(c.r.off.perMwh)} per MWh not bought; an hour off saves more than it gives up when a GPU-hour earns less than this` };
       }),
     row("pv", "Present value of the cost, at the hurdle rate", `the upfront cost and every year counted, for ${f.size}`,
-      (c) => (c.r ? { v: usd(c.r.pv * f.mw), raw: c.r.pv, note: `${plain(c.y.life)} years at ${plain(c.y.hurdle)} percent${c.y.upfront > 0 ? `; USD ${plain(c.y.upfront)} per kW upfront` : ""}${c.y.growth !== 0 ? `; prices ${rising(c.y.growth)}` : ""}` } : none(c))),
+      (c) => (c.r ? { v: usd(c.r.pv * f.mw), raw: c.r.pv, note: `${plain(c.y.life)} years at ${plain(c.y.hurdle)} percent${c.y.upfront > 0 ? `; USD ${plain(c.y.upfront)} per kW upfront` : ""}${c.y.growth !== 0 ? `; prices ${rising(c.y.growth)}` : ""}${c.y.cshare > 0 ? `; ${contractNote(c).replace(/; $/, "")}` : ""}` } : none(c))),
     row("level", "Fixed price with the same present value", "a contract for the whole of the energy, USD per MWh: its breakeven against the market",
-      (c) => (c.r && c.w ? { v: `USD ${two(c.r.level)}`, raw: c.r.level, note: c.y.growth === 0 ? "the last twelve months' price, repeated every year" : `the market's USD ${two(c.w.per)}, ${rising(c.y.growth)} for ${plain(c.y.life)} years` } : none(c))),
+      (c) => (c.r && c.w ? { v: `USD ${two(c.r.level)}`, raw: c.r.level, note: c.y.growth === 0 ? "the last twelve months' market price, repeated every year" : `the market's USD ${two(c.w.per)}, ${rising(c.y.growth)} for ${plain(c.y.life)} years` } : none(c))),
     row("allin", "All-in power per GPU-hour, over the years counted", "the upfront cost and the energy, over the GPU-hours run, both at the hurdle rate",
       (c) => (c.r ? { v: four(c.r.allIn), raw: c.r.allIn, note: `${whole(c.r.gpuHours * f.mw)} GPU-hours a year` } : none(c))),
   ];
@@ -125,7 +158,6 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
   const versusRate = (() => { if (!ca.w || !cb.w || !diff.length) return ""; const g = against(ca.y, ca.w, cb.y, cb.w); return g.rate === null ? "" : String(g.rate); })();
   const versusEven = (() => { if (!ca.w || !cb.w || !diff.length) return ""; return String(against(ca.y, ca.w, cb.y, cb.w).evenUpfront); })();
 
-  const side = (t: Side | null) => (t ? `${four(t.v)} at ${plain(t.value)}` : "no step inside its bounds");
   return (
     <ScenarioBlock
       fields={fields} defaults={d} bound={(k, v) => bound(k as Key, v, d)} head={`For ${f.size} at ${f.place}`} rows={rows}
@@ -136,18 +168,23 @@ export function LoadScenarios({ facts: f }: { facts: Facts }) {
           Scenario A, {f.size} at {f.place}: at a hurdle rate of {plain(s.a.hurdle)} percent, {plain(s.a.life)} years of power cost {usd(ca.r.pv * f.mw)} today, {four(ca.r.allIn)} per GPU-hour.
         </p>
       ) : null}
-      chart={bars.length ? { bars: bars.map((b) => ({ ...b, down: b.down ? { value: b.down.value, v: b.down.v } : null, up: b.up ? { value: b.up.value, v: b.up.v } : null })),
-        moves: "all-in power per GPU-hour", axis: "per GPU-hour", fmt: four, pad: 0.0001, wide: true,
-        says: (b) => {
-          if (b.key === "run") {
-            const t = b.down ?? b.up;
-            return t ? `How the load runs, the other way (${f.words[t.value]}): ${four(t.v)} per GPU-hour; ${four(b.base)} as it is (${f.words[a.run]}).` : "How the load runs: the other way is not held here, so it has no step.";
-          }
-          return `${b.label}, moved by ${b.step}: all-in power per GPU-hour is ${side(b.down)} and ${side(b.up)}; ${four(b.base)} at ${plain(a[b.key as Key])}.`;
-        },
-        sizeWords: (b) => four(b.size), stepWords: (b) => (b.key === "run" ? b.step : `by ${b.step}`),
-        heads: ["Per GPU-hour, lowered", "Per GPU-hour, raised"],
-        side: (b, t) => (t ? `${four(t.v)} at ${b.key === "run" ? f.words[t.value] : plain(t.value)}` : b.key === "run" ? "" : "no step inside its bounds") } : null}
+      chart={null}
     />
+  );
+}
+
+/** Session 213: the sensitivity chart of the scenario in view, in the page's third section, with one line on how to
+ * read it (the battery page's BatterySensitivity). Drawn only when the scenario's way is held. */
+export function LoadSensitivity({ facts: f }: { facts: Facts }) {
+  const { s, chart } = useBlock(f);
+  if (!chart) return <p className="max-w-3xl text-sm text-muted" data-sensitivity-none="1">Twelve complete months are not held for this way of running, so there is no figure to move.</p>;
+  return (
+    <>
+      <p className="mb-2 max-w-3xl text-sm" data-how-to-read="1">
+        Each row moves one assumption of scenario {s.view.toUpperCase()} down and up by the step named, holds the other nine, and draws where the all-in power per
+        GPU-hour lands from the scenario&apos;s own figure (the line); the longest bars are the assumptions that matter most.
+      </p>
+      <Sensitivity c={chart} view={s.view} />
+    </>
   );
 }

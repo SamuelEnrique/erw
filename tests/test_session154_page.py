@@ -76,16 +76,18 @@ class ThePage(unittest.TestCase):
         self.assertRegex(src("site", "lib", "release.ts"), r'"/cost-of-power": "review"')
 
     def test_the_block_stands_in_how_soon_after_its_table(self):
+        # session 213 (the owner's chain prompt of 12 October 2026): "How soon" is the page's download, tables.csv, with the rules
+        # in motion after the section's own rows, written by lib/rules.ts as the block wrote them; the block stays on disk
         page = src("site", "app", "cost-of-power", "page.tsx")
-        start = page.index('<ToolSection title="How soon" id="soon">')
-        end = page.index("</ToolSection>", start)
-        section = page[start:end]
-        self.assertEqual(page.count("<RulesInMotion "), 1)
-        self.assertIn("<RulesInMotion ", section)
-        self.assertLess(section.index("<ToolTable "), section.index("<RulesInMotion "))
-        self.assertLess(section.rindex('key: "waitload"'), section.index("<RulesInMotion "))   # the table's last row is still its last
-        for key in ("q", "wait", "done", "ll", "line", "waitload"):                               # nothing the section showed is dropped
-            self.assertIn('{ key: "%s", cells:' % key, section)
+        tables = src("site", "app", "cost-of-power", "tables.csv", "route.ts")
+        self.assertNotIn("<RulesInMotion ", page)
+        self.assertIn("export function RulesInMotion", src("site", "app", "cost-of-power", "RulesInMotion.tsx"))
+        section = tables[tables.index("// 3. how soon"):tables.index("// 6. every region")]
+        self.assertLess(section.index('"how_soon"'), section.index("// 5. the rules in motion"))
+        for row in ("generation_waiting_to_connect", "request_to_operation_median", "requests_entered_", "large_load_approved_to_energize", "large_load_in_line"):   # nothing the section showed is dropped
+            self.assertIn(row, section, row)
+        for fn in ("rulesBlockOf(rf, rgrid)", "docketWords(r)", "docketTip(r)", "readOf(r)", "ruleStatus(r)", "linkOf(r)"):
+            self.assertIn(fn, section, fn)
 
     def test_one_site_file_and_nothing_else(self):
         comp, data, lib = src("site", "app", "cost-of-power", "RulesInMotion.tsx"), src("site", "lib", "rulesdata.ts"), src("site", "lib", "rules.ts")

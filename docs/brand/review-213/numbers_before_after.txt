@@ -1,0 +1,17 @@
+Session 213: every number of /cost-of-power (Your load), ERCOT, LZ_NORTH, a flat 100 MW load, real time, in the internal view, at the defaults (hurdle rate 9.6; no contract).
+before: the page as the branch held it before this session (the layout of sessions 138 to 195: four questions, the contract panel, four folds).
+after: the page on the three questions.
+
+checked numbers (data-check): 0 before, 0 after; identical: 0 of 0
+the three headline numbers, the summary sentence and the cost table carry data-stat marks, not check keys; the browser check (check-datacenter-scenarios.mjs, 96 of 96) holds them to the library's figures and to the page's own files
+
+the results table and the chart (data-cell key = raw = text; bars key = size = lowered = raised): 25 lines before, 25 after; every raw value identical; one note's words changed (the fixed-price row says 'market price'):
+
+  before: a|level = 33.72888698630137 = USD 33.73the last twelve months' price, repeated every year
+  after:  a|level = 33.72888698630137 = USD 33.73the last twelve months' market price, repeated every year
+  before: b|level = 33.72888698630137 = USD 33.73the last twelve months' price, repeated every year
+  after:  b|level = 33.72888698630137 = USD 33.73the last twelve months' market price, repeated every year
+
+what left the page (into months.csv and tables.csv): 'Will the power be there', 'How clean', 'How soon' with the waits by stage and the rules in motion; the folds 'Every year', 'Every month', the transmission charge matrix, 'Every region'; the contract panel and 'With your contract' (now two scenario assumptions). The visible text held 1,437 numbers before and 258 after; the only new ones are the two contract fields' 'Default 0.'
+
+the checked keys, after:

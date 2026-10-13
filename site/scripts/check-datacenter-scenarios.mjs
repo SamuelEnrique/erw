@@ -66,9 +66,11 @@ const STATE = `(() => {
     headA: head("a"), headB: head("b"), headFor: root.querySelector("[data-scenario-table] thead th").textContent, words: root.querySelector("[data-differs-words]").textContent,
     against: root.querySelector("[data-against-words]").textContent, rate: root.querySelector("[data-against-words]").getAttribute("data-rate"), even: root.querySelector("[data-against-words]").getAttribute("data-even"),
     sentence: root.querySelector("[data-pv-sentence]")?.textContent ?? null,
-    bars: [...root.querySelectorAll("[data-bar]")].map((b) => ({ key: b.getAttribute("data-bar"), size: Number(b.getAttribute("data-size")), title: b.getAttribute("title") })),
-    chartView: root.querySelector("[data-sensitivity]")?.getAttribute("data-sensitivity") ?? null,
-    legend: root.querySelector("[data-sensitivity] figcaption")?.textContent ?? "", readout: root.querySelector("[data-sensitivity-readout]")?.textContent ?? "",
+    // session 213: the chart is the page's third section, outside the block
+    bars: [...document.querySelectorAll("[data-bar]")].map((b) => ({ key: b.getAttribute("data-bar"), size: Number(b.getAttribute("data-size")), title: b.getAttribute("title") })),
+    chartView: document.querySelector("[data-sensitivity]")?.getAttribute("data-sensitivity") ?? null,
+    legend: document.querySelector("[data-sensitivity] figcaption")?.textContent ?? "", readout: document.querySelector("[data-sensitivity-readout]")?.textContent ?? "",
+    howToRead: document.querySelector("[data-how-to-read]")?.textContent ?? "",
     text: root.innerText, search: location.search, href: location.href,
     per: t('[data-stat="l12_per"]'), cost: t('[data-stat="l12_cost"]'), gpu: t('[data-stat="gpu_hour"]'), saved: t('[data-stat="l12_saved"]'),
     heads: [...document.querySelectorAll("h2")].map((h) => h.textContent),
@@ -79,6 +81,38 @@ const STATE = `(() => {
 
 const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sleep }) => {
   const size = (width) => send("Emulation.setDeviceMetricsOverride", { width, height: 900, deviceScaleFactor: 1, mobile: width < 600 });
+  /** Session 213: the page's two CSV downloads, fetched by the browser (so with the internal view's cookie) for the
+   * address in view, parsed: the tables the long-form file holds, and the newest twelve complete months' flat price. */
+  const parseCsv = (txt) => {
+    const rows = [];
+    let row = [], cellText = "", quoted = false;
+    for (let i = 0; i < txt.length; i++) {
+      const ch = txt[i];
+      if (quoted) {
+        if (ch === '"' && txt[i + 1] === '"') { cellText += '"'; i++; } else if (ch === '"') quoted = false; else cellText += ch;
+      } else if (ch === '"') quoted = true;
+      else if (ch === ",") { row.push(cellText); cellText = ""; }
+      else if (ch === "\n") { row.push(cellText); rows.push(row); row = []; cellText = ""; }
+      else if (ch !== "\r") cellText += ch;
+    }
+    if (cellText !== "" || row.length) { row.push(cellText); rows.push(row); }
+    return rows.filter((r) => r.length && !r[0].startsWith("#"));
+  };
+  const fetchText = (route) => evaluate(`fetch(${JSON.stringify(route)}).then(async (r) => r.status + "\\n" + await r.text())`);
+  const downloads = async (search) => {
+    const [ms, ts] = await Promise.all([fetchText(`/cost-of-power/months.csv${search}`), fetchText(`/cost-of-power/tables.csv${search}`)]);
+    const status = (t) => Number(t.split("\n")[0]);
+    const body = (t) => t.slice(t.indexOf("\n") + 1);
+    const mRows = parseCsv(body(ms)), tRows = parseCsv(body(ts));
+    const mh = mRows[0] ?? [];
+    const col = (name) => mh.indexOf(name);
+    const months = mRows.slice(1).filter((r) => r[col("kind")] === "month" && r[col("complete")] === "yes");
+    // a flat 100 MW load: the newest twelve complete months' cost over their hours (the file rounds each month to a dollar)
+    const twelve = months.slice(0, 12);
+    const flatPrice = twelve.length === 12 ? twelve.reduce((a, r) => a + Number(r[col("usd")]), 0) / (100 * twelve.reduce((a, r) => a + Number(r[col("held")].split(" ")[0]), 0)) : null;
+    return { status: [status(ms), status(ts)], months: mRows.length - 1, tables: tRows.length - 1, yearRows: mRows.slice(1).filter((r) => r[col("kind")] === "year").length,
+      tablesOf: [...new Set(tRows.slice(1).map((r) => r[0]))], flatPrice, heads: `${body(ms).split("\n")[0]} | ${body(ts).split("\n")[0]}` };
+  };
   const open = async (route, width = 1280) => { await size(width); await go(route.startsWith("http") ? route : base + route); await sleep(1500); return evaluate(STATE); };
   const shot = async (name, width) => {
     if (!outDir) return;
@@ -133,7 +167,7 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
   let s = await open("/cost-of-power");
   check(!s.none && !s.bad, "the bare address: the block is on the page");
   check(s.search === "", "the bare address stays bare: nothing is written into it", s.search);
-  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "eight assumptions, in the page's order", s.fields.map((f) => f.key).join(", "));
+  check(JSON.stringify(s.fields.map((f) => f.key)) === JSON.stringify(F.KEYS), "ten assumptions, in the page's order (session 213: the contract's share and price last)", s.fields.map((f) => f.key).join(", "));
   check(s.fields.every((f) => Number(f.value) === d[f.key] && Number(f.def) === d[f.key]), "each field holds its default", s.fields.map((f) => `${f.key} ${f.value}`).join(", "));
   check(s.fields.every((f) => f.reset && f.resetOff === true), "each has a Reset, idle at the default");
   check(s.fields.every((f) => SOURCE.test(f.source)), "each states its default and where the default comes from", s.fields.find((f) => !SOURCE.test(f.source))?.source ?? "");
@@ -154,8 +188,12 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
     "the present value, the fixed price and the all-in figure are the library's; a flat load has no hours off", `${s.cells["a|pv"].text} | ${s.cells["a|level"].text} | ${s.cells["a|allin"].text}`);
   check(near(s.cells["a|level"].raw, s.cells["a|price"].raw, 1e-12) && near(s.cells["a|allin"].raw, s.cells["a|gpu"].raw, 1e-12), "at the defaults the fixed price is the price and the all-in figure is the GPU-hour");
   check(/^Scenario A, 100 MW at LZ_NORTH in ERCOT, real time: at a hurdle rate of 9.6 percent, 20 years of power cost USD [\d,.]+( million| billion)? today, USD 0\.\d{4} per GPU-hour\.$/.test(s.sentence ?? ""), "the sentence states the numbers", s.sentence ?? "");
-  const order = s.heads.indexOf("Scenarios A and B");
-  check(order > 0 && s.heads[order - 1] === "With your contract" && s.heads[order + 1] === "Will the power be there", "the block stands after the contract and before the three other questions", s.heads.slice(order - 1, order + 2).join(" | "));
+  check(JSON.stringify(s.heads) === JSON.stringify(["Your load", "What will it pay?", "Which option is better?", "What matters most"]), "the page asks three questions, in the battery page's order, after the panel (session 213)", s.heads.join(" | "));
+  check(/^Each row moves one assumption of scenario A down and up by the step named, holds the other nine/.test(s.howToRead), "one line says how to read the chart", s.howToRead);
+  const dl = await downloads("");
+  check(dl.status[0] === 200 && dl.status[1] === 200 && dl.months > 24 && dl.tables > 40 && /^# Energy Research Warehouse/.test(dl.heads), "the two CSV downloads answer the internal view with their provenance lines", `${dl.status}; ${dl.months} rows, ${dl.tables} cells`);
+  check(dl.tablesOf.every((t) => ["power_there", "how_clean", "how_soon", "waits", "waits_stated", "rules", "regions", "matrix", "ny_load"].includes(t)) && ["power_there", "how_clean", "how_soon", "waits", "rules", "regions", "matrix"].every((t) => dl.tablesOf.includes(t)), "the download holds the grid's three questions, the waits, the rules, every region and the matrix", dl.tablesOf.join(", "));
+  check(near(dl.flatPrice, flat.per, 1e-4) && dl.yearRows > 0, "the months download's newest twelve complete months give the page's flat price (to the dollar a month)", `${dl.flatPrice} against ${flat.per}`);
   await shot("datacenter-scenarios-default-desktop", 1280);
 
   // 3: a change computes in the browser
@@ -187,7 +225,7 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
     "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
 
   // 6: the sensitivity chart
-  check(s.bars.length === 8 && s.bars.every((b, i) => i === 0 || s.bars[i - 1].size >= b.size), "eight bars, sorted by size", s.bars.map((b) => b.key).join(", "));
+  check(s.bars.length === 8 && s.bars.every((b, i) => i === 0 || s.bars[i - 1].size >= b.size) && !s.bars.some((b) => b.key === "cshare" || b.key === "cprice"), "eight bars at the default, sorted by size, no contract row (session 213)", s.bars.map((b) => b.key).join(", "));
   const lib = F.sensitivity(b1, P.ways);
   check(JSON.stringify(s.bars.map((b) => b.key)) === JSON.stringify(lib.map((b) => b.key)) && s.bars.every((b, i) => near(b.size, lib[i].size, 1e-9)), "each bar is the library's");
   check(/Lowered by the step/.test(s.legend) && /Raised by the step/.test(s.legend), "a legend names the two directions");
@@ -284,25 +322,36 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
       "an older link's gpu and pue open the same numbers in the headline and in both scenarios, and leave the address", s.search);
   }
 
-  // 9: the contract's promise, in the internal view
+  // 9 (session 213): the contract as two scenario assumptions of A. Typed into the block it goes into the address and
+  // nowhere else; A's price, its year's cost and the headline read it; the chart gains its two rows; a Reset returns
+  // the market's figure. The fixed price with the same present value does not read it.
   await open("/cost-of-power");
   const stored = `JSON.stringify([localStorage.length, sessionStorage.length, document.cookie])`;
   const storedBefore = await evaluate(stored);
-  const hrefBefore = await evaluate("location.href");
-  const term = (k, v) => evaluate(`(() => { const i = document.querySelector('input[data-contract="${k}"]'); const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set; set.call(i, ${JSON.stringify(v)}); i.dispatchEvent(new Event("input", { bubbles: true })); i.dispatchEvent(new Event("change", { bubbles: true })); i.blur(); return i.value; })()`);
-  const CONTRACT = `(() => { const r = document.querySelector("[data-contract-result]"); return { state: r?.getAttribute("data-contract-result") ?? null, text: r?.textContent ?? "" }; })()`;
-  await noRequest("typing the contract terms", async () => { await term("share", "61.7"); await term("price", "47.3131"); await sleep(1200); });
-  check((await evaluate("location.href")) === hrefBefore, "the contract terms leave the address unchanged");
-  check((await evaluate(stored)) === storedBefore, "the contract terms write nothing to storage or cookies");
-  check((await evaluate(CONTRACT)).state === "shown", "the contract result is shown, computed in the browser");
-  await noRequest("a scenario change beside a typed contract", () => type("adder", "7.5"));
-  const hrefAfter = await evaluate("location.href");
-  check(/ad=7\.5/.test(hrefAfter) && !/47\.3131|61\.7/.test(hrefAfter) && (await evaluate(stored)) === storedBefore, "the address gains the scenario and no contract term; nothing is stored", hrefAfter.replace(base, ""));
-  check((await evaluate(CONTRACT)).state === "shown", "the contract result stays as typed");
+  const CONTRACT = `(() => { const c = document.querySelector('[data-headline-contract="2"]'); const v = document.querySelector('[data-headline-contract="1"]'); return { words: c?.textContent ?? "", value: v?.textContent ?? "" }; })()`;
+  check((await evaluate(CONTRACT)).words === "" && s.cells["a|price"].raw === flat.per, "at the defaults no contract is named and the headline's energy is the market's");
+  const r00 = F.resultOf(d, flat);
+  await noRequest("typing a contract price into A, with no share", () => type("cprice", "30"));
   s = await evaluate(STATE);
-  const ad = { ...d, adder: 7.5 };
-  check(near(s.cells["a|bill"].raw, F.bill(ad, flat)) && near(s.cells["a|gpu"].raw, F.gpuHour(ad, flat)) && s.cells["a|price"].raw === flat.per && near(s.cells["a|level"].raw, flat.per, 1e-12) && /with USD 7\.5 per MWh of other charges/.test(s.cells["a|bill"].text),
-    "the scenarios do not read the typed contract; other charges join the year's cost and the GPU-hour, and leave the market price and the fixed price alone", `${s.cells["a|bill"].text} | ${s.cells["a|gpu"].text}`);
+  check(/[?&]ac=30$/.test(s.search) && !/an=/.test(s.search) && s.cells["a|price"].raw === flat.per && near(s.cells["a|bill"].raw, r00.bill) && near(s.cells["a|pv"].raw, r00.pv) && (await evaluate(CONTRACT)).words === "" && s.bars.length === 8, "a price with no share goes into the address and moves nothing; no contract row in the chart", s.search);
+  await noRequest("typing a contract share into A", () => type("cshare", "50"));
+  s = await evaluate(STATE);
+  const ac = { ...d, cshare: 50, cprice: 30 }, rc = F.resultOf(ac, flat), con = await evaluate(CONTRACT);
+  check(/[?&]an=50&ac=30$/.test(s.search) && near(s.cells["a|price"].raw, rc.price) && near(s.cells["a|bill"].raw, rc.bill) && near(s.cells["a|pv"].raw, rc.pv) && near(s.cells["a|gpu"].raw, rc.gpuHour) && rc.bill !== r00.bill, "the share goes into the address; A's price, year's cost, GPU-hour and present value read the contract", `${s.search}: ${s.cells["a|price"].text}`);
+  check(near(s.cells["a|price"].raw, 0.5 * flat.per + 0.5 * 30) && near(s.cells["a|level"].raw, r00.level, 1e-12), "the price is half the market's and half the contract's; the fixed price with the same present value stays the market's", s.cells["a|level"].text);
+  check(s.bars.length === 10 && s.bars.some((b) => b.key === "cshare") && s.bars.some((b) => b.key === "cprice"), "with a contract in A the chart draws its share and price as two more rows", s.bars.map((b) => b.key).join(", "));
+  check(/50 percent of the energy at USD 30 per MWh/.test(con.words) && con.value === `USD ${L.two(rc.price)}`, "the headline names the contract and shows the price of the energy with it", `${con.words.trim()} ${con.value}`);
+  check(JSON.stringify(s.headA) === JSON.stringify(["contract 50%", "contract USD 30/MWh"]) && s.words === "B: contract share 0 percent against 50; contract price USD 0 per MWh against 30.", "the headers and the row in words name the contract", s.words);
+  check(/50 percent of the energy contracted at USD 30 per MWh/.test(s.cells["a|bill"].text), "the year's cost says what the contract is", s.cells["a|bill"].text);
+  check((await evaluate(stored)) === storedBefore, "the contract writes nothing to storage or cookies");
+  s = await open("/cost-of-power?an=50&ac=30");
+  check(near(s.cells["a|price"].raw, rc.price) && Number(s.fields.find((f) => f.key === "cshare").value) === 50, "the address with the contract opens with it");
+  await evaluate(`document.querySelector('[data-reset="cshare"]').click()`);
+  await sleep(400);
+  s = await evaluate(STATE);
+  check(s.search === "?ac=30" && s.cells["a|price"].raw === flat.per && (await evaluate(CONTRACT)).words === "" && s.bars.length === 8, "a Reset of the share returns the headline to the market's figure and the chart to eight rows", s.search);
+  const visitor = await fetch(`${base}/cost-of-power/months.csv`).then((r) => r.status).catch(() => 0);
+  check(visitor === 404, "a visitor (no internal cookie) is answered 404 for the download while the page is in review", String(visitor));
 
   // 10: the other grids, a region with no twelve months, a region whose flexible way is not held
   for (const grid of Object.keys(W.INDEX.grids).filter((g) => g !== "ercot")) {
@@ -323,7 +372,7 @@ const code = await withBrowser(async ({ go, evaluate, unlock, send, requests, sl
   }
   if (empty) {
     s = await open(`/cost-of-power?grid=${empty.grid}&region=${encodeURIComponent(empty.region)}`);
-    check(!s.none && !s.bad && s.cells["a|price"].raw === null && s.cells["a|pv"].raw === null && (s.cells["a|price"].missing ?? "").length > 20 && s.bars.length === 0 && s.sentence === null && s.fields.length === 8 && s.against === "Not held for both scenarios.",
+    check(!s.none && !s.bad && s.cells["a|price"].raw === null && s.cells["a|pv"].raw === null && (s.cells["a|price"].missing ?? "").length > 20 && s.bars.length === 0 && s.sentence === null && s.fields.length === 10 && s.against === "Not held for both scenarios.",
       `${empty.region} in ${empty.grid}, no twelve months: the rows say not held with the reason on hover, with no chart and no sentence (nothing is filled)`, s.none ? "no block" : s.cells["a|price"].missing ?? "");
   } else console.log("note every region with a price holds twelve months: the empty case is not on this build's files");
   if (half) {

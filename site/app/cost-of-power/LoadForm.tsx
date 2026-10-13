@@ -91,7 +91,7 @@ export function LoadForm({ x, grids, blank }: { x: Inputs; grids: Record<string,
             <span>{BUYS[b]}</span>
           </label>
         ))}
-        <p className="mt-1 text-xs text-muted">A contract for a share of the energy is the panel below.</p>
+        <p className="mt-1 text-xs text-muted">A contract for a share of the energy is two of the assumptions under <a href="#scenarios">Which option is better?</a>.</p>
       </fieldset>
 
       <div className="flex items-baseline gap-3">

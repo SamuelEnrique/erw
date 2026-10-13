@@ -56,6 +56,18 @@ Anything outside its bounds is clipped; anything unreadable takes the default.
 
 ## 4. Every number on the page, in the order the page shows it
 
+**Session 213 (the owner's chain prompt of 12 October 2026): the page asks the battery page's three questions**, and this section's order is the page's order until then. What the page draws now: (1) "What will it pay?": the summary sentence (4.2), the three headline numbers (4.3 to 4.5), the cost chart by year and the table "What will it cost" (4.6, its delivery rows among them), one sentence of what the model cannot see (below), the links to the grid's own pages, and the two CSV downloads. (2) "Which option is better?": scenarios A and B (4.14), with the contract's share of the energy and its price as two of their assumptions (4.10 is how the contract was computed until this session). (3) "What matters most": the sensitivity chart (4.14) with one line on how to read it. Into the CSV downloads, computed as this section says, by `site/app/cost-of-power/model.ts`, which the page and the downloads share: `/cost-of-power/months.csv` holds every year and every month (4.11's first two folds: the flat price, this load's, the foreseen price, the hours off, the cost for the size, the hours held); `/cost-of-power/tables.csv` holds, in long form (table, row, column, value, note), "Will the power be there" (4.7), "How clean" (4.8), "How soon" (4.9) with the waits of a large load by stage and the rules in motion (`datacenter_cost.md`), every region of the grid over its own last twelve months, the Commission's transmission charge matrix (4.11), and New York's load in line request by request where NYISO's terms allow it (4.9). Gone outright: the standalone contract panel and "With your contract" (4.10). The view "Grid by grid" (4.13) and the source line (4.12) are as they were. Each download takes the page's status: in review, a visitor is answered 404. Nothing in the arithmetic changed: at a contract share of 0 every number is what it was, to the bit.
+
+<a id="cannot-see"></a>
+
+**What the model cannot see** (the one sentence under the cost table says the first of these; the page's hover reasons and `datacenter_cost.md` say the rest):
+
+- Market energy at the region's hub or zone price alone: no delivery, transmission, capacity, ancillary or retail charge is added (Texas's tariff charges stand in their own rows of the table, never added; the scenarios' "delivery and other charges" is the reader's own figure).
+- The load buys every hour at the hour's price, with no hedge, no block purchase and no basis to its own node; a flexible load follows a rule decided before each hour (section 5.1), and the foreseen figure beside it is a bound, not a plan.
+- A contract (4.14) is a share of the energy at a fixed price for every year counted: no shape, no settlement point, no collateral, no term shorter or longer than the years counted.
+- The years counted repeat the last twelve months, changing by one rate (4.14): not a forecast and not a valuation; no tax, no outage, no growth of the load itself.
+- The grid's own figures (4.7 to 4.9) are the other tools' and the operators' as published, for the grid as a whole, not for the load's point of connection.
+
 "The months" below are the months of the region and market for the load (section 4.1). Every sum is per MW; `MW` is the reader's size.
 
 ### 4.1 Months, and which count
@@ -155,6 +167,8 @@ Figures of the queue tool (`interconnection_queue_summary`), of ERCOT's large lo
 
 ### 4.10 With your contract (computed in the browser, never sent)
 
+**Session 213: this panel and section are gone.** The contract is two assumptions of a scenario (4.14, the battery page's form since session 208): a share of the energy and a price per MWh, both 0 by default, in the address with the other assumptions, read by the scenario's price, year's cost, GPU-hour, present value, all-in figure and sensitivity chart, and by the headline's first number. `LoadContract.tsx` stays on disk, undrawn. What follows is how the panel computed until then.
+
 The reader types a share s of the energy (percent, held between 0 and 100) and a price c (USD per MWh). Over the load's last twelve months, with E = sum of `energy` x MW and K = sum of `cost` x MW (`contractResult`):
 
 - contracted energy costs s x E x c; the rest pays the market, (1 - s) x K; the total is their sum, and per MWh the total / E;
@@ -191,6 +205,8 @@ On the page this block stands after "With your contract" (4.10) and before "Will
 - The way "Your load" describes is the page's own figure; the other is one more pass of the same functions (`monthsRuled`, `lastTwelve`, `span`, `badMonth`). A flat load over a flexible load's months is each month's `flat` and `held`, which is what `monthsOf` gives a flat load.
 
 **The eight assumptions.** Each has a Reset; "Reset all" returns a scenario to the defaults; "Copy A to B" makes B equal to A.
+
+**Session 213: ten.** The contract's share of the energy (`an`, `bn`; percent, 0 to 100, chart step 10 points) and its price (`ac`, `bc`; USD per MWh, 0 to 1,000, step USD 1) are the ninth and tenth, both 0 by default (no contract: fully merchant). The contracted share s of the energy is bought at the contract price c in every year counted and pays nothing to the market; the rest pays the market, changing by the yearly rate. With `K` the market's cost of the last twelve months and `E` their energy, per MW: the market's cost a year is `(1 - s) x K`, the contract's `s x E x c`; the price is `((1 - s) x K + s x E x c) / E + adder`; the year's cost `(1 - s) x K + s x E x c + adder x E`; the cost of year t `((1 - s) x K + adder x E) x (1 + g)^(t - 1) + s x E x c` (the market's cost and the other charges change by the rate, as before; the contract's price is fixed); the present value, the GPU-hour and the all-in figure follow from these as 4.14 says. The fixed price with the same present value does not read the contract: it is the market's breakeven for the whole of the energy. The sensitivity chart draws the two contract rows only when the scenario holds a contract. At s = 0 every expression is the old one in the old order, to the bit (`site/scripts/test-datacenter-finance.mjs`, the session 213 block; `tests/test_session194.py`, the Python mirror on the same cases).
 
 | Assumption | Address | Default | Source of the default | Bounds | Chart step |
 |---|---|---|---|---|---|

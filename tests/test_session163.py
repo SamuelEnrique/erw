@@ -499,16 +499,19 @@ class ThePage(unittest.TestCase):
         self.assertRegex(src("site", "lib", "release.ts"), r'"/cost-of-power": "review"')
 
     def test_the_block_stands_between_the_sections_table_and_the_rules(self):
+        # session 213 (the owner's chain prompt of 12 October 2026): "How soon" is the page's download, tables.csv: the section's
+        # rows, then the waits by stage (lib/howsoon.ts writes the words the block wrote), then the rules; the block stays on disk
         page = src("site", "app", "cost-of-power", "page.tsx")
-        start = page.index('<ToolSection title="How soon" id="soon">')
-        section = page[start:page.index("</ToolSection>", start)]
-        self.assertEqual(page.count("<LoadWaits "), 1)
-        self.assertLess(section.index("<ToolTable "), section.index("<LoadWaits "))
-        self.assertLess(section.index("<LoadWaits "), section.index("<RulesInMotion "))        # the rules block sits beneath
-        for key in ("q", "wait", "done", "ll", "line", "waitload"):                               # nothing the section showed is dropped
-            self.assertIn('{ key: "%s", cells:' % key, section)
-        for said in ("Generation waiting to connect", "From request to operation, the median", "Large load approved to energize", "Large load in line, by region", "How long a new large load waits"):
-            self.assertIn(said, section)
+        tables = src("site", "app", "cost-of-power", "tables.csv", "route.ts")
+        self.assertNotIn("<LoadWaits ", page)
+        self.assertIn("export function LoadWaits", src("site", "app", "cost-of-power", "LoadWaits.tsx"))
+        section = tables[tables.index("// 3. how soon"):tables.index("// 6. every region")]
+        self.assertLess(section.index('"how_soon"'), section.index("// 4. how long a large load waits"))
+        self.assertLess(section.index("// 4. how long a large load waits"), section.index("// 5. the rules in motion"))   # the rules sit beneath
+        for row in ("generation_waiting_to_connect", "request_to_operation_median", "requests_entered_", "large_load_approved_to_energize", "large_load_in_line"):   # nothing the section showed is dropped
+            self.assertIn(row, section, row)
+        for fn in ("sentenceOf(wf, waitsFor, wname)", "measuredWords(st)", "waitingWords(st)", "measuredTip(st, wg.copies!, wf!)", "waitingTip(st, wg.copies!, wf!)", "statedTip(s)", "sourceWords(wg.copies)", "notHereWhy(wg)", "notYetWhy(wname)"):
+            self.assertIn(fn, section, fn)
 
     def test_one_site_file_of_aggregates_and_nothing_else(self):
         comp, data, lib = src("site", "app", "cost-of-power", "LoadWaits.tsx"), src("site", "lib", "howsoondata.ts"), src("site", "lib", "howsoon.ts")
