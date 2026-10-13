@@ -68,8 +68,8 @@ const nextConfig: NextConfig = {
       // energy mix, the emissions page and the seven grid pages are views of that page now, and their addresses redirect
       // to the view each became. A query is carried over; where an old page's own word is one of the tool's two (view,
       // grid), it is read by the tool (lib/gridtool.ts): the network's view is written as net, the mix's as mix, and a
-      // grid named by its EIA-930 code (grid=ERCO) chooses that grid. /network/v3 and /mix/v2 (below) arrive here in
-      // two steps, through the page each redirected to before.
+      // grid named by its EIA-930 code (grid=ERCO) chooses that grid. The finishing pass of sessions 237 and 238: /network/v3,
+      // /mix/v2, /mix/clean and /mix/stress (below) go to their view in one step, no longer through /network and /mix.
       { source: "/network", has: [{ type: "query", key: "view", value: "(?<net>[a-z0-9_]+)" }], destination: "/grid?view=network&net=:net", permanent: true },
       { source: "/network", destination: "/grid?view=network", permanent: true },
       { source: "/mix", has: [{ type: "query", key: "view", value: "clean" }], destination: "/grid?view=clean", permanent: true },
@@ -95,9 +95,11 @@ const nextConfig: NextConfig = {
       { source: "/cost-of-power/seller/v2", destination: "/cost-of-power/seller", permanent: true },
       // session 133: one tool, one page, one address. The energy mix is /mix; its second version and the two pages beside
       // it are views of that page now, and their addresses redirect to the view each became (a query is carried over)
-      { source: "/mix/v2", destination: "/mix?view=day", permanent: true },
-      { source: "/mix/clean", destination: "/mix?view=clean", permanent: true },
-      { source: "/mix/stress", destination: "/mix?view=stress", permanent: true },
+      // session 237, the finishing pass: /mix is the Mix view of /grid, so each goes there in one step (it went to
+      // /mix?view=day, /mix?view=clean and /mix?view=stress, and from there to /grid)
+      { source: "/mix/v2", destination: "/grid?view=mix&mix=day", permanent: true },
+      { source: "/mix/clean", destination: "/grid?view=clean", permanent: true },
+      { source: "/mix/stress", destination: "/grid?view=mix&mix=stress", permanent: true },
       // session 144: one tool, one page, one address. Curtailment is /curtailment; its second version (California by the
       // hour, against battery charging) is part of that page now, and its address redirects to it (a query is carried over)
       { source: "/curtailment/v2", destination: "/curtailment", permanent: true },
@@ -110,7 +112,10 @@ const nextConfig: NextConfig = {
       { source: "/map/v2", destination: "/map", permanent: true },
       // session 168: one tool, one page, one address. The grid network is /network; version 3 is that page now, and its
       // address redirects to it (a query is carried over, so a view shared from /network/v3 opens the same view)
-      { source: "/network/v3", destination: "/network", permanent: true },
+      // session 237, the finishing pass: /network is the Network view of /grid, so version 3's address goes there in one
+      // step, its view written as net as /network's is (it went to /network, and from there to /grid)
+      { source: "/network/v3", has: [{ type: "query", key: "view", value: "(?<net>[a-z0-9_]+)" }], destination: "/grid?view=network&net=:net", permanent: true },
+      { source: "/network/v3", destination: "/grid?view=network", permanent: true },
       { source: "/weekly", destination: "/roundup", permanent: true },
       { source: "/weekly/:week", destination: "/roundup/:week", permanent: true },
       // session 132: one tool, one page, one address. The price board is /board; its earlier versions and the markets

@@ -184,7 +184,7 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         v3 = src("site", "components", "grid", "NetworkView.tsx")  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         self.assertIn("<Network snap={snap} supply={supply} live={extras} v3={{ index, complete }} page={{ keep, node }} />", v3)   # session 124; session 237: page, the tool's own query kept at the head of the address
         self.assertFalse(os.path.exists(os.path.join(SITE, "app", "network", "v3", "page.tsx")))
-        self.assertIn('{ source: "/network/v3", destination: "/network", permanent: true }', src("site", "next.config.ts"))
+        self.assertIn('{ source: "/network/v3", destination: "/grid?view=network", permanent: true }', src("site", "next.config.ts"))   # session 237, the finishing pass: in one step to the Network view of /grid (it went to /network, which redirects there)
         d = node("import { statusOf } from './lib/release.ts'; console.log(JSON.stringify([statusOf('/network'), statusOf('/network/v3')]));")
         # session 166 (the owner's instruction of 8 October 2026): the network page is in review; no page is live
         self.assertEqual(d, ["review", "review"])

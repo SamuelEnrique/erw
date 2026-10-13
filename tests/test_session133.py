@@ -373,8 +373,11 @@ class TheSiteFiles(unittest.TestCase):
 class ThePage(unittest.TestCase):
     def test_one_tool_one_page_one_address(self):
         cfg = src("site", "next.config.ts")
-        for old, view in (("/mix/v2", "day"), ("/mix/clean", "clean"), ("/mix/stress", "stress")):
-            self.assertIn(f'{{ source: "{old}", destination: "/mix?view={view}", permanent: true }}', cfg)
+        # session 237, the finishing pass: /mix is the Mix view of the Grid tool, and each old address goes to its view in
+        # one step (it went to /mix?view=day, /mix?view=clean and /mix?view=stress, then on to /grid)
+        for old, to in (("/mix/v2", "/grid?view=mix&mix=day"), ("/mix/clean", "/grid?view=clean"), ("/mix/stress", "/grid?view=mix&mix=stress")):
+            self.assertIn(f'{{ source: "{old}", destination: "{to}", permanent: true }}', cfg)
+            self.assertNotIn(f'{{ source: "{old}", destination: "/mix', cfg)
         self.assertTrue(os.path.exists(os.path.join(SITE, "components", "grid", "MixView.tsx")))  # session 237: the page is a view of the Grid tool (/grid); its file moved to site/components/grid
         for gone in ("v2", "clean", "stress"):
             self.assertFalse(os.path.exists(os.path.join(SITE, "app", "mix", gone)), gone)

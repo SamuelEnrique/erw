@@ -169,7 +169,7 @@ const code = await withBrowser(async ({ go, evaluate, wait, unlock, sleep, error
   // page face holds the line carried over from the page it replaced and none of the folded sections moved to the note
   await go(`${base}/network/v3?view=uri_2021&t=2021-02-15T12:00:00Z&grid=ERCO&batteries=1`);
   const redirected = await wait(`(() => { const s = ${STATE}; return s && s.restored === '1' && s.view === 'uri_2021' && s.panel === 'ERCO' && /[?&]node=/.test(window.location.search) ? { ...s, path: window.location.pathname } : null; })()`, 30000, "the view shared from /network/v3");
-  check(redirected.path === "/grid" && redirected.t === "2021-02-15T12:00:00Z" && new URLSearchParams(redirected.search).get("grid") === "ERCO", `/network/v3 redirects to the Network view of /grid (through /network; session 237) and the shared view opens there (${redirected.path}${redirected.search})`);
+  check(redirected.path === "/grid" && redirected.t === "2021-02-15T12:00:00Z" && new URLSearchParams(redirected.search).get("grid") === "ERCO", `/network/v3 redirects to the Network view of /grid (in one step; session 237) and the shared view opens there (${redirected.path}${redirected.search})`);
   await go(`${base}/network`);
   await wait(`!!document.querySelector('[data-network-view][data-restored="1"]')`, 20000, "the page to be ready");
   const face = await evaluate(`({ line: document.querySelector('[data-newest-hour]')?.innerText ?? '', folds: [...document.querySelectorAll('summary')].map((x) => x.innerText.trim()), source: [...document.querySelectorAll('p')].filter((x) => x.innerText.startsWith('Source: ERW tables')).length,

@@ -36,7 +36,7 @@ class OneAddress(unittest.TestCase):
         self.assertIn('from "@/app/network/Network"', old)
 
     def test_the_old_address_redirects_and_keeps_its_status_line(self):
-        self.assertIn('{ source: "/network/v3", destination: "/network", permanent: true }', src("site", "next.config.ts"))
+        self.assertIn('{ source: "/network/v3", destination: "/grid?view=network", permanent: true }', src("site", "next.config.ts"))   # session 237, the finishing pass: in one step to the Network view of /grid (it went to /network, which redirects there)
         self.assertRegex(src("site", "lib", "release.ts"), r'"/network/v3":\s*"review"')
         self.assertNotIn('"/network/v3"', src("site", "lib", "audience.ts"))
         self.assertNotIn('page="/network/v3"', src("warehouse", "scheduled.py"))

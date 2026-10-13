@@ -83,7 +83,7 @@ export function AskForm({ grid = null, initial = "", placeholder }: { grid?: str
                     {c.table.startsWith("docs/grids/") ? (
                       <>
                         Written layer{" "}
-                        <Link href={`/grid/${c.table.slice(11, -3)}`} className="font-mono">
+                        <Link href={`/grid?grid=${c.table.slice(11, -3)}`} className="font-mono">
                           {c.table}
                         </Link>
                       </>

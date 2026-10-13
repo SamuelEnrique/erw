@@ -120,13 +120,21 @@ class TheRedirects(unittest.TestCase):
                      '{ source: "/mix", has: [{ type: "query", key: "view", value: "(?<mix>[a-z]+)" }], destination: "/grid?view=mix&mix=:mix", permanent: true }',
                      '{ source: "/mix", destination: "/grid?view=mix", permanent: true }',
                      '{ source: "/emissions", destination: "/grid?view=clean", permanent: true }',
-                     '{ source: "/mix/clean", destination: "/mix?view=clean", permanent: true }',      # session 133's, kept: it arrives in two steps
-                     '{ source: "/mix/stress", destination: "/mix?view=stress", permanent: true }'):
+                     # the finishing pass of session 237: the four that arrived in two steps (through /mix and /network) go in one
+                     '{ source: "/mix/v2", destination: "/grid?view=mix&mix=day", permanent: true }',
+                     '{ source: "/mix/clean", destination: "/grid?view=clean", permanent: true }',
+                     '{ source: "/mix/stress", destination: "/grid?view=mix&mix=stress", permanent: true }',
+                     '{ source: "/network/v3", has: [{ type: "query", key: "view", value: "(?<net>[a-z0-9_]+)" }], destination: "/grid?view=network&net=:net", permanent: true }',
+                     '{ source: "/network/v3", destination: "/grid?view=network", permanent: true }'):
             self.assertIn(line, cfg)
         for g in ("ercot", "caiso", "pjm", "nyiso", "isone", "miso", "spp"):
             self.assertIn(f'{{ source: "/grid/{g}", destination: "/grid?grid={g}", permanent: true }}', cfg)
         # a rule with a condition stands before the rule without one, or it would never be reached
         self.assertLess(cfg.index('source: "/network", has:'), cfg.index('{ source: "/network", destination: "/grid?view=network"'))
+        self.assertLess(cfg.index('source: "/network/v3", has:'), cfg.index('{ source: "/network/v3", destination: "/grid?view=network"'))
+        # the finishing pass: no folded address goes to another folded address, so every one arrives in one step
+        for dest in re.findall(r'destination: "([^"]+)"', cfg):
+            self.assertFalse(re.match(r"/(network|mix|emissions|analysis)([/?]|$)", dest) or re.match(r"/grid/[a-z]+$", dest), dest)
         self.assertLess(cfg.index('key: "view", value: "clean" }], destination: "/grid?view=clean"'), cfg.index('value: "(?<mix>[a-z]+)"'))
         self.assertLess(cfg.index('value: "(?<mix>[a-z]+)"'), cfg.index('{ source: "/mix", destination: "/grid?view=mix"'))
 

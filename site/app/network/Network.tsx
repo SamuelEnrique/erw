@@ -541,7 +541,7 @@ export function Network({ snap, supply, live, v3, page }: { snap: Snapshot; supp
             <div className="mb-2 flex items-start justify-between gap-2">
               <div>
                 <div className="font-serif text-lg text-accent">{pick.name}</div>
-                <div className="font-mono text-xs text-muted">{pick.id}{pick.iso ? <> &middot; <Link href={`/grid/${GRID_SLUG[pick.iso]}`}>{pick.iso}&apos;s grid page</Link></> : null}</div>
+                <div className="font-mono text-xs text-muted">{pick.id}{pick.iso ? <> &middot; <Link href={`/grid?grid=${GRID_SLUG[pick.iso]}`}>{pick.iso}&apos;s grid page</Link></> : null}</div>
               </div>
               <button type="button" onClick={() => setPick(null)} className="border border-rule px-2 py-0.5 text-xs" aria-label="Close the panel">Close</button>
             </div>

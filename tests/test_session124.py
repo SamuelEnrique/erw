@@ -302,7 +302,7 @@ class TheLivePageIsAsItWas(unittest.TestCase):
         self.assertIn('"/network": "review"', rel)
         self.assertIn('"/network/v3": "review"', rel)   # its line stays: an address typed by hand never reads as a page with no status
         self.assertEqual(re.findall(r'"(/[^"]*)":\s*"live"', rel), [])
-        self.assertIn('{ source: "/network/v3", destination: "/network", permanent: true }', src("site", "next.config.ts"))
+        self.assertIn('{ source: "/network/v3", destination: "/grid?view=network", permanent: true }', src("site", "next.config.ts"))   # session 237, the finishing pass: in one step to the Network view of /grid (it went to /network, which redirects there)
 
     def test_the_new_page_says_which_hour_and_that_miso_is_paused(self):
         # session 168: the page stands at /network; its folded sections are in the Method note, off the page face, and
