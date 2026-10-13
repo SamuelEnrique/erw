@@ -109,6 +109,38 @@ class ErcotsSignal(unittest.TestCase):
             self.assertEqual(sh.ercot_signal(a, b, d), [("own_signal", "2025-12-05T04:00:00Z", 0, "rtorpa_mean=0.0"), ("own_signal", "2025-12-05T05:00:00Z", 1, "rtorpa_mean=0.0312")])
 
 
+class ARowThatComesOutAsItWas(unittest.TestCase):
+    def test_keeps_its_retrieved_at_and_a_new_or_changed_row_takes_this_runs(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "old.csv")
+            write(d, "old", "entity,variable,ts_utc,value,x_detail,retrieved_at",
+                  ["iso:ercot,own_signal,2025-01-01T06:00:00Z,0,rtorpa_mean=0.0,2026-10-13T18:42:41Z", "iso:ercot,own_signal,2025-01-01T07:00:00Z,0,rtorpa_mean=0.0,2026-10-13T18:42:41Z",
+                   "iso:ercot,rt_intervals_ge_1000,2025-01-01T06:00:00Z,0,held=4,2026-10-13T18:42:41Z"])
+            s = pd.DataFrame({"entity": ["iso:ercot"] * 4, "variable": ["own_signal", "own_signal", "rt_intervals_ge_1000", "rt_hour_ge_1000"],
+                              "ts_utc": ["2025-01-01T06:00:00Z", "2025-01-01T07:00:00Z", "2025-01-01T06:00:00Z", "2025-01-01T06:00:00Z"],
+                              "value": [0, 1, 0, 0], "x_detail": ["rtorpa_mean=0.0", "rtorpa_mean=0.5", "held=3", ""]})
+            self.assertEqual(sh.kept_retrieved(s, path, "2026-11-03T12:00:00Z"),
+                             ["2026-10-13T18:42:41Z",      # as it was
+                              "2026-11-03T12:00:00Z",      # its value changed
+                              "2026-11-03T12:00:00Z",      # its detail changed
+                              "2026-11-03T12:00:00Z"])     # a new row
+
+
+class TheSchedule(unittest.TestCase):
+    def test_a_monthly_step_of_the_data_machines_run_and_a_rule_of_the_live_set_under_both_holds(self):
+        import yaml
+        with open(os.path.join(ROOT, "warehouse", "run_data_machine_tables.sh"), encoding="utf-8") as f:
+            block = f.read()
+        self.assertIn('"dm_scarcity_hours|scarcity_hours_by_grid|monthly|warehouse/derived/scarcity_hours_by_grid.py"', block)
+        # after the notices it reads, which the same block refreshes every day
+        self.assertLess(block.index('"dm_caiso_emergencies|'), block.index('"dm_scarcity_hours|'))
+        with open(os.path.join(ROOT, "warehouse", "supabase", "live_set.yaml"), encoding="utf-8") as f:
+            live = yaml.safe_load(f)
+        self.assertIn("^scarcity_hours_by_grid$", live["full"])
+        self.assertIn("scarcity_hours_by_grid", live["review_hold"])                 # loaded, and in no count a visitor sees
+        self.assertIn("erw:scarcity_hours_by_grid", live["sources_hold"])
+
+
 class TheWords(unittest.TestCase):
     def test_the_rule_names_the_table_the_level_and_what_is_not_in_it_and_no_forbidden_dash(self):
         with open(os.path.join(ROOT, "docs", "methods", "scarcity_hours_by_grid.md"), encoding="utf-8") as f:

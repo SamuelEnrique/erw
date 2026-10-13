@@ -25,7 +25,7 @@ The connector is `warehouse/connectors/caiso_emergencies.py`. It reads every tab
 - One row per notice type, region and local (Pacific) day covered. A notice spanning several days is one row per day, because CAISO's own counts are "the total number of days that the event lasted".
 - `event_type` is CAISO's type: `flex_alert`, `rmo`, `eea_watch`, `eea1` to `eea3`, `alert`, `warning`, `stage1` to `stage3`, `transmission_emergency`, `vlrp`, `load_interruption`.
 - Two older names are filed under the newer ones CAISO's summary counts them as: Power Watch (to 2006) is a Flex Alert, and No Touch (to 2001) is RMO. The printed name is kept in `x_label`.
-- Data standard decision 35. **1,900 rows**, 1998-05-30 to 2025-04-30 (the latest notice), against a ceiling of 20,000.
+- Data standard decision 35. **1,900 rows**, 1998-05-30 to 2025-04-30 (the latest notice), against a ceiling of 20,000. That was the report as session 58 read it. On 13 October 2026 (session 254; the report's revision of 9 October 2026): **1,906 rows**, to 2026-10-08. The six new rows are restricted maintenance notices of 9 and 10 September and 5 to 8 October 2026; CAISO printed no notice between 30 April 2025 and 9 September 2026.
 
 **The check against CAISO's own counts.** The report's pages 1 and 3 give the days per year and type. 2022 is split across the two: January to April on page 3, May onward on page 1.
 - **214 of the 232 year-type counts match** the table's distinct days.
