@@ -258,6 +258,7 @@ def test_cite_names_the_iso_the_table_and_the_commit(name):
                  "carb": "California Air Resources Board",
                  "rggi": "Regional Greenhouse Gas Initiative",
                  "fred": "Federal Reserve Bank of St. Louis",
+                 "frb": "Board of Governors of the Federal Reserve System",  # session 207: frb_treasury_yields
                  "portwatch": "International Monetary Fund",
                  "weather": "National Weather Service",
                  "iso": "PJM"}[org]  # session 29: derived tables and weather; session 67: iso_all_capacity_prices (session
