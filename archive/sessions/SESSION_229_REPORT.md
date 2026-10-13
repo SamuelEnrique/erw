@@ -27,8 +27,10 @@
 | `scripts/check-values.mjs https://erw-flame.vercel.app` (every page) | 0 | 6,928 of 6,959 values match; 31 latest prices superseded within 45 minutes |
 | `runs/session229/probe_pages.py` | 0 | one table behind each of fifteen pages without a check key |
 | `runs/session229/write_review.py` | 0 | 60 blocks, 67 screenshots, 25 MB |
-| `node site/scripts/snapshot-live.mjs take s229-before`, `git push`, the check, `take s229-after`, `compare` | see below | |
-| `scripts/freeze.py status` | see below | |
+| `scripts/freeze.py status` | 0 | no freeze |
+| `node site/scripts/snapshot-live.mjs take s229-before` (04:09 UTC, its own command) | 0 | 25 pages, 0 failed |
+| `git push -u origin task/229-review` (`3fc31a93`); `runs/session208/wait_check.py` | 0 | run 38345099917 success; merged as `19c86f31` |
+| `take s229-after` (04:19 UTC), `compare s229-before s229-after` | 0, 0 | 0 differences in all on the 25 pages (expected: docs only) |
 
 ## Decisions made without you
 
@@ -47,4 +49,5 @@
 
 ## The landing
 
-Filled in below by the session after the push.
+- `task/229-review` (`3fc31a93`) merged into `main` as `19c86f31` (run 38345099917). The comparison's lines, each expected (a docs-only change): every one of the 25 pages "0 differences"; "0 differences in all; 0 checked number keys in the before snapshot".
+- This report's landing lines are a second docs-only push, `task/229-report`, with its own snapshot before and after; the session's last message carries that comparison.
