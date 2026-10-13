@@ -96,7 +96,10 @@ check(["grid", "dur", "strat", "mw", "fom", "ds"].every((k) => !F.isScenarioPara
 // the sensitivity
 const rev = (rte, cycles) => ({ "86|1": 81.4, "89|1": 83.06, "86|0.5": 64.08, "86|1.5": 83.57 })[`${rte}|${cycles}`] ?? null;
 const bars = F.sensitivity(d4, rev, steps);
-check(bars.length === 12 && bars.every((b, i) => i === 0 || bars[i - 1].size >= b.size), "twelve bars, sorted by size (session 208: the contract's two among them)");
+check(bars.length === 10 && bars.every((b, i) => i === 0 || bars[i - 1].size >= b.size) && !bars.some((b) => b.key === "cshare" || b.key === "cprice"), "ten bars at the default, sorted by size (session 211: no contract, no contract rows)", bars.map((b) => b.key).join(", "));
+const withContract = F.sensitivity({ ...d4, cshare: 50, cprice: 10 }, rev, steps);
+check(withContract.length === 12 && withContract.some((b) => b.key === "cshare") && withContract.some((b) => b.key === "cprice"), "with a contract in the scenario, twelve bars: the contract's share and price among them");
+check(F.sensitivity({ ...d4, cprice: 10 }, rev, steps).length === 10, "a price with no share draws no contract row");
 const by = Object.fromEntries(bars.map((b) => [b.key, b]));
 check(near(by.capex.down.npv, F.npv(8, F.flows({ ...d4, capex: 1010 }, 81.4))) && by.capex.down.value === 1010 && by.capex.up.value === 1210, "capital cost moves by USD 100 per kW each way");
 check(by.deg.down === null && by.deg.up.value === 1, "degradation at 0 has no lower step");
@@ -135,8 +138,9 @@ check(F.cellTotals(c, 92, 2).get("2026-02") === 24 && F.cellTotals(c, 89, 1) ===
   check(near(F.breakevenToll(c), F.breakevenToll({ ...c, cshare: 0, cprice: 0 })) && near(F.merchantTail(c, rev).pv, F.merchantTail({ ...c, cshare: 0, cprice: 0 }, rev).pv), "the breakeven toll and the merchant tail do not read the contract");
   const bars = F.sensitivity(c, () => rev, F.ONLY_DEFAULT);
   check(bars.length === 12 && bars.some((b) => b.key === "cshare") && bars.some((b) => b.key === "cprice"), "twelve bars, the contract's two among them");
-  const at0 = F.sensitivity(d4, () => rev, F.ONLY_DEFAULT).find((b) => b.key === "cshare");
-  check(at0.down === null && at0.up !== null && at0.up.value === 10, "at a share of 0 the lower step is not drawn and the upper is 10 points", JSON.stringify(at0));
+  check(F.sensitivity(d4, () => rev, F.ONLY_DEFAULT).find((b) => b.key === "cshare") === undefined, "at a share of 0 the contract's rows are not drawn at all (session 211)");
+  const at50 = bars.find((b) => b.key === "cshare");
+  check(at50.down !== null && at50.down.value === 40 && at50.up !== null && at50.up.value === 60, "at a share of 50 the share's row moves 10 points each way", JSON.stringify(at50));
 }
 
 console.log(failed ? `${failed} FAILED` : "all passed");

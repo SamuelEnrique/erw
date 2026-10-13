@@ -239,7 +239,8 @@ export function resultOf(a: Assumptions, revKw: number): Result {
 
 export type Side = { value: number; npv: number };
 export type Bar = { key: Key; label: string; step: string; base: number; down: Side | null; up: Side | null; size: number };
-/** The sensitivity of the net present value: each assumption moved by its stated step down and up, the others held.
+/** The sensitivity of the net present value: each assumption moved by its stated step down and up, the others held
+ * (the contract's two rows only when the scenario holds a contract, session 211).
  * `revOf` gives the last twelve months' revenue per kW at an efficiency and a cycle limit, or null when that step is
  * not held. A side is null when the moved value leaves the assumption's bounds or its step is not held. Sorted by the
  * larger of the two moves, largest first; ties keep the page's order. */
@@ -250,7 +251,10 @@ export function sensitivity(a: Assumptions, revOf: (rte: number, cycles: number)
   };
   const base = at(a);
   if (base === null) return [];
-  const bars = KEYS.map((k): Bar => {
+  // session 211 (the owner's ruling of 12 October 2026): the contract's share and price are rows only when the
+  // scenario holds a contract (a share above 0); at the default, fully merchant, the chart draws the ten others
+  const keys = (a.cshare ?? 0) > 0 ? KEYS : KEYS.filter((k) => k !== "cshare" && k !== "cprice");
+  const bars = keys.map((k): Bar => {
     const s = SPECS[k];
     const side = (dir: -1 | 1): Side | null => {
       let v: number;

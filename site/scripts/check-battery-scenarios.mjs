@@ -20,7 +20,7 @@
 //   4. a step of efficiency is the model's own run in data/battery_scenario_steps.json;
 //   5. the address round trip: opening the address again gives the same inputs and the same numbers;
 //   6. "Copy A to B", a Reset and the Reset for all;
-//   7. the sensitivity chart: ten bars sorted by size, a legend, and a hover that states the two values and the step;
+//   7. the sensitivity chart: ten bars sorted by size (twelve with a contract, session 211), a legend, and a hover that states the two values and the step;
 //   8. no word of recommendation in the block;
 //   9. the page's own six parameters still work, and its links and its Show carry the scenarios;
 //  10. at 390 px the page does not scroll sideways;
@@ -257,7 +257,7 @@ try {
     "the sentence under the table states scenario A, the headline's scenario, with B in view (session 195)", s.sentence ?? "");
 
   // 7: the sensitivity chart
-  check(s.bars.length === 12 && s.bars.every((b, i) => i === 0 || s.bars[i - 1].size >= b.size), "twelve bars, sorted by size", s.bars.map((b) => b.key).join(", "));
+  check(s.bars.length === 10 && s.bars.every((b, i) => i === 0 || s.bars[i - 1].size >= b.size) && !s.bars.some((b) => b.key === "cshare" || b.key === "cprice"), "ten bars at the default, sorted by size, no contract row (session 211)", s.bars.map((b) => b.key).join(", "));
   check(/Lowered by the step/.test(s.legend) && /Raised by the step/.test(s.legend), "a legend names the two directions");
   const box = await ev(`(() => { const e = document.querySelector('[data-bar="${s.bars[0].key}"]'); e.scrollIntoView({ block: "center" }); const r = e.getBoundingClientRect(); return { x: r.x + r.width * 0.75, y: r.y + r.height / 2 }; })()`);
   await noRequest("pointing at a bar", () => page.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: box.x, y: box.y }));
@@ -327,6 +327,7 @@ try {
   s = await ev(STATE);
   const rc = F.resultOf({ ...d, cshare: 50, cprice: 10 }, s.l12kw), con = await ev(CONTRACT);
   check(/[?&]an=50&ap=10$/.test(s.search) && near(s.cells["a|coverage"].raw, rc.coverage) && near(s.cells["a|npv"].raw, rc.npv) && rc.coverage !== r00.coverage, "the share goes into the address; A's coverage and NPV read the contract", `${s.search}: ${s.cells["a|coverage"].text}`);
+  check(s.bars.length === 12 && s.bars.some((b) => b.key === "cshare") && s.bars.some((b) => b.key === "cprice"), "with a contract in A the chart draws its share and price as two more rows (session 211)", s.bars.map((b) => b.key).join(", "));
   check(/50 percent of its power contracted at USD 10 per kW-month/.test(con.words) && !con.keyed && near(con.cover, Number(rc.coverage.toFixed(2)), 1e-9), "the headline names the contract, reads its coverage and drops the key", `${con.words.trim()} ${con.cover}`);
   check(JSON.stringify(s.headA) === JSON.stringify(["contract 50%", "contract USD 10/kW-month"]) && s.words === "B: contract share 0 percent against 50; contract price USD 0 per kW-month against 10.", "the headers and the row in words name the contract", s.words);
   check(/contract 50 percent at USD 10 per kW-month; debt payments/.test(s.cells["a|coverage"].text), "the coverage cell says what the contract is", s.cells["a|coverage"].text);
@@ -396,7 +397,7 @@ try {
     await go(`/cost-of-power/battery${q}`, 390);
     s = await ev(STATE);
     check(s.clientW === 390 && s.scrollW <= s.clientW + 1, `390 px${q ? ", two scenarios" : ""}: the page does not scroll sideways`, `scroll width ${s.scrollW}, width ${s.clientW}`);
-    check(s.bars.length === 12 && s.rows.length === 8, `390 px${q ? ", two scenarios" : ""}: the table and the chart are drawn`);
+    check(s.bars.length === 10 && s.rows.length === 8, `390 px${q ? ", two scenarios" : ""}: the table and the chart are drawn`);
     await shot(q ? "scenarios-compared-phone" : "scenarios-default-phone", 390);
   }
 } finally {
