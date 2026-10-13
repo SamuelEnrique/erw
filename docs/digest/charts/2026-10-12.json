@@ -1,0 +1,81 @@
+{
+ "date": "2026-10-12",
+ "source": "scanner",
+ "key": "scan-record-7abe48d6b46b",
+ "fact": "Retail electricity price in Iowa, industrial: USD 99.90 per MWh in July 2026, the highest monthly value held since January 2001. The record until now was USD 91.70 per MWh, in July 2022.",
+ "table": "eia_retail_electricity_prices",
+ "series_key": "entity=eia:retail_price:IA:IND|variable=retail_price|market=|node=|freq=P1M",
+ "why": "the strongest of the scanner's 15 flag(s) of the day that no Digest has shown (rank 4; rule record, strength 0.8016)",
+ "candidates_from": "given",
+ "title": "RECORD HIGH",
+ "numbers": {
+  "value": 99.9,
+  "threshold": 91.7,
+  "history_points": 305,
+  "history_years": 25.33,
+  "strength": 0.8016,
+  "old_record": 91.7,
+  "stood_points": 48,
+  "margin": 8.200000000000003,
+  "margin_sigmas": 0.8016,
+  "sigma": 10.229939999999997
+ },
+ "image": "2026-10-12.png",
+ "rendered_at": "2026-10-13T04:50:17Z",
+ "method": "docs/methods/automated_analysis_scanner.md",
+ "flag": {
+  "id": "scan-record-7abe48d6b46b",
+  "flag_key": "record|eia_retail_electricity_prices|entity=eia:retail_price:IA:IND|variable=retail_price|market=|node=|freq=P1M",
+  "rule": "record",
+  "table": "eia_retail_electricity_prices",
+  "series": {
+   "entity": "eia:retail_price:IA:IND",
+   "variable": "retail_price",
+   "market": "",
+   "node": "",
+   "freq": "P1M"
+  },
+  "series_key": "entity=eia:retail_price:IA:IND|variable=retail_price|market=|node=|freq=P1M",
+  "label": "eia:retail_price:IA:IND retail_price",
+  "date": "2026-07-01",
+  "value": 99.9,
+  "unit": "USD/MWh",
+  "geo": "US-IA",
+  "statistic": "monthly value",
+  "direction": "high",
+  "threshold": {
+   "name": "record high",
+   "value": 91.7,
+   "statistic": "the highest monthly value of the held history",
+   "config": {
+    "record_min_points": 60,
+    "record_stood_points": 24,
+    "record_min_margin_sigmas": 0.5
+   }
+  },
+  "compared": {
+   "old_record": 91.7,
+   "old_record_date": "2022-07-01",
+   "stood_points": 48,
+   "margin": 8.200000000000003,
+   "margin_sigmas": 0.8016,
+   "sigma": 10.229939999999997
+  },
+  "history": {
+   "first": "2001-01-01",
+   "last": "2026-05-01",
+   "points": 305,
+   "years": 25.33
+  },
+  "strength": 0.8016,
+  "source": "eia:electricity/retail-sales",
+  "note": "",
+  "scanner_version": "1.1.0",
+  "scan_date": "2026-10-12",
+  "window": [
+   "2026-07-01",
+   "2026-07-01"
+  ]
+ },
+ "proof": true
+}
