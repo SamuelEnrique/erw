@@ -67,7 +67,12 @@ PAUSE = 1.0
 ENTITY = "ercot:large_load"
 EXTRA = ["x_month_as_written", "x_document"]
 MEETING = re.compile(r'(?:https://www\.ercot\.com)?(/calendar/(\d{2})(\d{2})(\d{4})-(?:Special-)?(?:LLWG|TAC)-Meeting[^"\s]*)"')
-DOC = re.compile(r"(?i)TAC[-_ .]*Report|Status[-_ .]*Update|Large[-_ .]*Load[-_ .]*Interconnection|LLI[-_ .]*Status")
+# Session 217: since April 2026 the Large Load Integration team's deck is posted on the LLWG meeting page as
+# "<Month> <day> LLWG Report" (April-24-LLWG-Report_042426.pptx, May-21-LLWG-Report.pptx, June-19-LLWG-Report.pptx),
+# no longer as "<Month> TAC Report" on TAC's page; the pattern names both. A deck is still read only if its first page
+# says "Large Load Interconnection Status Update" (is_status_update), so the LLWG chair's own "LLWG Report" zips on
+# TAC's pages, which hold the chair's update, give no row.
+DOC = re.compile(r"(?i)TAC[-_ .]*Report|LLWG[-_ .]*Report|Status[-_ .]*Update|Large[-_ .]*Load[-_ .]*Interconnection|LLI[-_ .]*Status")
 ZIP = re.compile(r"(?i)large[-_ .]*load|LLWG|LLI")
 MONTHS = {m: i for i, m in enumerate(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], 1)}
 NUM = r"([\d,]+(?:\.\d+)?)"
