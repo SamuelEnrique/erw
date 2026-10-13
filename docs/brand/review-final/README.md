@@ -124,6 +124,9 @@ One file each, but session 241c holds the file tonight, or the fix needs a rulin
 | The tracker's and the owners' literals | `site/app/deals/v2/view.tsx`, `site/app/storage/owners/view.tsx` | session 241c holds them |
 | The consumption view's two tables at 390 px | the consumption view of `/demand` | session 241c holds it |
 | `/datacenters/v2` beside `/datacenters` | `site/app/datacenters/v2/page.tsx` | session 241c is folding it in |
+| A finding's own page has no `h1` (its title is the card's), and the swatch words beside a finding's chart are `#1F5F8B` and `#2E7D4F` | `site/app/research/card/[id]/page.tsx`, `site/lib/findingchart.ts` | session 241c holds Research |
+| The network view's hint line is the 3D library's own (`#708090`, the browser's sans-serif) | `site/app/network/Network.tsx` | session 241c holds it |
+| `/prices`: 28 day-ahead cells say "no data: hour not in iso_dam_hub_prices" | `site/app/prices/page.tsx`, or the table | not the brand: data, or the hour the page asks for; session 241c holds the file; for a ruling |
 | The findings' and the discovery charts' own palettes, written as literals and mapped to tokens when drawn (`site/components/echarts.ts`, lines 89 to 92) | `site/lib/findingchart.ts`, `site/lib/discoverychart.ts` | Research's files, session 241c's; the map in `echarts.ts` already draws them in the brand's colors |
 | The sensitivity bars' two colors as literals (`DOWN = "#2a78d6", UP = "#eb6834"`), which a rule of `tokens.css` recolors by matching the literal | `site/components/decisions/ScenarioBlock.tsx`, line 48 | shared with the approved battery page: a change there wants the battery proof and a second file (`tokens.css`, which session 241c is editing) |
 | The year chart's eight color literals | `site/app/cost-of-power/battery/page.tsx` | the approved reference: session 235's ruling 4 |
