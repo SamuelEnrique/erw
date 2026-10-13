@@ -220,18 +220,17 @@ class TheBlock(unittest.TestCase):
 class TheWordsStay(unittest.TestCase):
     def test_the_page_in_review_says_what_it_said(self):
         page = src(*APP, "in-review", "page.tsx")
-        self.assertIn('title={path ? nameOf(path) : "This tool"}', page)
-        self.assertIn('lead="This tool is in review and will open when it is approved."', page)
+        self.assertIn('<h1 className="mb-2 font-serif text-3xl text-accent">{path ? nameOf(path) : "This tool"}</h1>', page)
+        self.assertIn('<p className="mb-6 text-base">This tool is in review and will open when it is approved.</p>', page)
+        self.assertLess(page.index("This tool is in review"), page.index('<ToolSection title="Open now">'))
         self.assertIn('<ToolSection title="Open now">', page)
         self.assertIn('<li><Link href="/">Home</Link></li>', page)
         self.assertIn('<li key={p.href}><Link href={p.href}>{p.label}</Link><span className="text-muted">: {p.line}</span></li>', page)
         self.assertIn('data-in-review="1"', page)
         self.assertIn('robots: { index: false, follow: false }', page)
 
-    def test_the_shared_frame_draws_those_words_in_the_same_order(self):
+    def test_the_shared_section_draws_its_title_before_its_list(self):
         tool = src("site", "components", "tool", "ToolPage.tsx")
-        header = tool[tool.index("export function ToolHeader"):tool.index("export function ToolSection")]
-        self.assertLess(header.index("{title}</h1>"), header.index("{lead}</p>"))
         section = tool[tool.index("export function ToolSection"):tool.index("export function HeadlineNumber")]
         self.assertLess(section.index("{title}</h2>"), section.index("{children}"))
 

@@ -439,6 +439,10 @@ body:has(.brand-a) header :focus-visible {
 .brand-a .prose-erw > pre {
   max-width: 100%;
 }
+.brand-a .prose-erw > h1,
+.brand-a .prose-erw > h2 {
+  max-width: none;                           /* a title and its rule span the page, as a table under it does */
+}
 .brand-a .prose-erw h1 {
   font-size: 24px;
   line-height: 1.25;
