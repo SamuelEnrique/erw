@@ -137,16 +137,53 @@ class AFailureIsToldOnce(unittest.TestCase):
         t = Table([row("isone", "ok", when=at(14, 45, 11)), row("isone", when=at(14, 45), reason="RTM_HOURLY: HTTP 500 from the publisher")])
         code, mails, said = self.run_check(t, at(14, 50))
         self.assertEqual(code, 0)
+        # session 243, the email rule: a step of the daily run that newly failed makes the daily run red: one email
         self.assertEqual(len(mails), 2)                                                     # one message to each of the two fixed recipients
-        self.assertEqual(mails[0]["subject"], "ERW: isone failed (daily prices)")
-        self.assertIn("isone of daily prices failed at 14:45 UTC (run 900): RTM_HOURLY: HTTP 500 from the publisher.", mails[0]["text"])
-        self.assertIn("Said once", mails[0]["text"])
+        self.assertEqual(mails[0]["subject"], "ERW: the daily run is red")
+        self.assertIn("The daily run is red on 2026-10-12 UTC: 1 step newly failed: isone (daily prices). First: RTM_HOURLY: HTTP 500 from the publisher.", mails[0]["text"])
+        self.assertIn("One email a day", mails[0]["text"])
         self.assertLessEqual(len(mails[0]["text"].strip()), 300)
         self.assertNotIn(EM, mails[0]["text"])
-        self.assertEqual([r["reason"] for r in t.rows if r["workflow"] == "alerts"], ["failed|daily prices|isone|2026-10-12T14:45"])
+        self.assertIn("recorded, not emailed (the email rule, session 243): isone of daily prices failed at 14:45 UTC (run 900)", said)
+        self.assertEqual([r["reason"] for r in t.rows if r["workflow"] == "alerts"], ["daily red|2026-10-12", "failed|daily prices|isone|2026-10-12T14:45"])
         code, mails, said = self.run_check(t, at(15, 5))                                    # the next check, the same hour
         self.assertEqual((code, len(mails)), (0, 2))
         self.assertIn("quiet: no step newly failed", said)
+        # another step of the daily run fails later that day: recorded, and no second email
+        t.rows.append(row("caiso", when=at(15, 30)))
+        code, mails, said = self.run_check(t, at(15, 35))
+        self.assertEqual((code, len(mails)), (0, 2))
+        self.assertIn("the daily run's one email of 2026-10-12 was sent", said)
+        self.assertIn("recorded, not emailed (the email rule, session 243): caiso of daily prices failed", said)
+
+    def test_a_failure_of_any_other_job_is_recorded_and_not_emailed(self):
+        # session 243: the hourly network, the latest prices, the chain watch, the Roundup's vacuum: rows and a line of the log
+        t = Table([row("network snapshot", wf="hourly network", when=at(14, 45), reason="EIA HTTP 503")])
+        code, mails, said = self.run_check(t, at(14, 50))
+        self.assertEqual((code, mails), (0, []))
+        self.assertIn("recorded, not emailed (the email rule, session 243): network snapshot of hourly network failed at 14:45 UTC", said)
+        self.assertEqual([r["reason"] for r in t.rows if r["workflow"] == "alerts"], ["failed|hourly network|network snapshot|2026-10-12T14:45"])
+        self.assertEqual(self.run_check(t, at(15, 5))[1], [])                               # and it is not looked at again
+
+    def test_a_data_machines_daily_run_is_the_daily_run_and_its_sessions_rows_are_not(self):
+        self.assertTrue(alert.daily_run(row("isone")))
+        self.assertTrue(alert.daily_run(row("dm_capture_price", wf="local:lab-desktop")))
+        self.assertFalse(alert.daily_run(row("precheck", wf="local:lab-desktop")))
+        self.assertFalse(alert.daily_run(row("send the Roundup", wf="energy roundup")))
+        t = Table([row("dm_capture_price", wf="local:lab-desktop", when=at(17, 30), run_id=None, reason="exit 1")])
+        code, mails, said = self.run_check(t, at(17, 35))
+        self.assertEqual(len(mails), 2)
+        self.assertIn("1 step newly failed: dm_capture_price (local:lab-desktop). First: exit 1.", mails[0]["text"])
+
+    def test_a_daily_run_that_recorded_no_step_by_18_utc_is_red_once(self):
+        t = Table([row("latest prices", "ok", wf="latest prices", when=at(17, 0))])
+        self.assertEqual(self.run_check(t, at(17, 50))[1], [])                              # before 18:00: it may still start
+        code, mails, said = self.run_check(t, at(18, 5))
+        self.assertEqual(len(mails), 2)
+        self.assertIn('the workflow "daily prices" recorded no step by 18:00 UTC, so it did not start.', mails[0]["text"])
+        self.assertEqual(len(self.run_check(t, at(18, 20))[1]), 2)                          # once that day
+        t = Table([row("gate", "skipped", when=at(14, 2)), row("latest prices", "ok", wf="latest prices", when=at(17, 0))])
+        self.assertEqual(self.run_check(t, at(18, 5))[1], [])                               # a run that recorded a step, a skip included, started
 
     def test_a_step_that_failed_at_its_run_before_is_the_same_failure(self):
         t = Table([row("isone", when=at(14, 45, 11)), row("isone", when=at(14, 45))])     # yesterday and today
@@ -168,23 +205,29 @@ class AFailureIsToldOnce(unittest.TestCase):
         t = Table([row(f"step{i}", when=at(14, 40 + i)) for i in range(7)])
         code, mails, said = self.run_check(t, at(14, 50))
         self.assertEqual(len(mails), 2)                                                     # one email, two recipients
-        self.assertEqual(mails[0]["subject"], "ERW: 7 scheduled steps failed")
-        self.assertIn("step0 (daily prices), step1 (daily prices)", mails[0]["text"])
-        self.assertEqual(len([r for r in t.rows if r["workflow"] == "alerts"]), 7)          # each is remembered
+        self.assertEqual(mails[0]["subject"], "ERW: the daily run is red")                  # session 243: the one email of a red daily run
+        self.assertIn("7 steps newly failed: step0 (daily prices), step1 (daily prices), step2 (daily prices) and 4 more", mails[0]["text"])
+        self.assertLessEqual(len(mails[0]["text"].strip()), 300)
+        self.assertEqual(len([r for r in t.rows if r["workflow"] == "alerts"]), 8)          # each is remembered, and the day's email
         self.assertEqual(len(self.run_check(t, at(15, 5))[1]), 2)                           # and none is said again
 
     def test_five_are_five_emails(self):
+        # session 243, the email rule: five failed steps of the daily run are one email, as seven are (it was five emails)
         t = Table([row(f"step{i}", when=at(14, 40 + i)) for i in range(5)])
-        self.assertEqual(len(self.run_check(t, at(14, 50))[1]), 10)
+        self.assertEqual(len(self.run_check(t, at(14, 50))[1]), 2)
 
     def test_the_model_cap_is_said_once_a_day(self):
+        # session 243, the email rule: recorded once a day, in the memory and the job's log, and not emailed
         why = "daily model cap reached: USD 1.10 spent today of USD 1.00 (DAILY_MODEL_USD); not run"
         t = Table([row("news_score", "skipped", when=at(14, 20), reason=why), row("digest", "skipped", when=at(14, 30), reason=why)])
         code, mails, said = self.run_check(t, at(14, 50))
-        self.assertEqual(mails[0]["subject"], "ERW: the daily model cap skipped 2 steps")
-        self.assertIn("not run today: news_score, digest.", mails[0]["text"])
+        self.assertEqual((code, mails), (0, []))
+        self.assertIn("recorded, not emailed (the email rule, session 243): The daily model cap reached: USD 1.10 spent today of USD 1.00 (DAILY_MODEL_USD): "
+                      "not run today: news_score, digest.", said)
+        self.assertEqual([r["reason"] for r in t.rows if r["workflow"] == "alerts"], ["cap|2026-10-12"])
         t.rows.append(row("funfact", "skipped", when=at(15, 10), reason=why))
-        self.assertEqual(len(self.run_check(t, at(15, 20))[1]), 2)                          # not again that day
+        code, mails, said = self.run_check(t, at(15, 20))                                   # not again that day
+        self.assertEqual((mails, said.count("recorded, not emailed")), ([], 0))
 
     def test_without_the_memory_only_the_last_quarter_of_an_hour_is_read(self):
         t = Table([row("isone", when=at(14, 20)), row("caiso", when=at(14, 45))])
@@ -216,10 +259,13 @@ class SuccessesSendNothing(unittest.TestCase):
             with redirect_stdout(out):
                 code = notify.main(["--session", "202", "--branch", "task/202-reliability", "--line", "landed"])
             self.assertEqual((code, sent), (0, []))
-            self.assertIn("Successes send nothing", out.getvalue())
-            with redirect_stdout(io.StringIO()):
+            self.assertIn("A session sends no email", out.getvalue())
+            # session 243, the email rule: a session that could not finish sends nothing either
+            out = io.StringIO()
+            with redirect_stdout(out):
                 code = notify.main(["--session", "202", "--branch", "wip/202-reliability", "--line", "could not finish", "--failed"])
-            self.assertEqual((code, len(sent)), (0, 1))
+            self.assertEqual((code, sent), (0, []))
+            self.assertIn("not sent (it could not finish)", out.getvalue())
         finally:
             notify.send = keep
 
@@ -311,16 +357,19 @@ class TheMorningSummary(unittest.TestCase):
         code, mails, said = self.summary(at(13, 50), t)                                     # 06:50 Pacific
         self.assertEqual((code, mails), (0, []))
         self.assertIn("quiet: it is 06:50 Pacific", said)
-        code, mails, said = self.summary(at(14, 20), t)                                     # the 07:00 run was late: still sent
-        self.assertEqual((code, len(mails)), (0, 2))
-        self.assertIn("ERW morning summary, 12 October 2026", mails[0]["subject"])
-        self.assertIn("html", mails[0])
+        # session 243, the email rule: the summary is written into the job's log once a day and is not emailed
+        code, mails, said = self.summary(at(14, 20), t)                                     # the 07:00 run was late: still written
+        self.assertEqual((code, mails), (0, []))
+        self.assertIn("Subject: ERW morning summary, 12 October 2026", said)
+        self.assertIn("summary: recorded, not emailed (the email rule, session 243)", said)
         self.assertEqual([r["reason"] for r in t.rows if r["workflow"] == "alerts"], ["summary|2026-10-12"])
         code, mails, said = self.summary(at(14, 35), t)
-        self.assertEqual(len(mails), 2)                                                     # not again that day
-        self.assertIn("was sent", said)
+        self.assertEqual(mails, [])                                                         # not again that day
+        self.assertIn("was written", said)
+        self.assertNotIn("Subject:", said)
         code, mails, said = self.summary(at(14, 5, 13), t)                                  # the next morning
-        self.assertEqual(len(mails), 4)
+        self.assertEqual(mails, [])
+        self.assertIn("Subject: ERW morning summary, 13 October 2026", said)
 
     def test_without_the_memory_only_the_first_quarter_of_an_hour_sends(self):
         class NoMemory(Table):
@@ -329,7 +378,9 @@ class TheMorningSummary(unittest.TestCase):
                     raise OSError("no answer")
                 return super().get(url, headers, timeout)
         t = NoMemory([row("latest prices", "ok", wf="latest prices", when=at(13, 0))])
-        self.assertEqual(len(self.summary(at(14, 10), t)[1]), 2)
+        code, mails, said = self.summary(at(14, 10), t)
+        self.assertEqual(mails, [])
+        self.assertIn("summary: recorded, not emailed", said)                               # written (session 243: and not emailed)
         t = NoMemory([row("latest prices", "ok", wf="latest prices", when=at(13, 0))])
         code, mails, said = self.summary(at(14, 20), t)
         self.assertEqual((code, mails), (0, []))
@@ -516,10 +567,11 @@ class TheRepositorysOwn(unittest.TestCase):
         r = {"name": "duty:laptop", "holder": "laptop", "task": "session 202", "acquired": at(5, 0), "renewed": at(5, 0), "expires": at(21, 0)}
         code = duty.check(False, now=at(6, 10), read=lambda: [r], send=lambda s, line, dry: sent.append(s) or 1, out=lambda s: None,
                           told=lambda t: set(), say=lambda kind, key: kept.append((kind, key)) or True)
-        self.assertEqual((code, sent, kept), (0, ["ERW: a machine has run nothing for 30 minutes"], [("idle alarm", "quiet|laptop|2026-10-12T05:00")]))
+        # session 243, the email rule: the silence is remembered as before and no sender is called
+        self.assertEqual((code, sent, kept), (0, [], [("idle alarm", "quiet|laptop|2026-10-12T05:00")]))
         code = duty.check(False, now=at(7, 10), read=lambda: [r], send=lambda s, line, dry: sent.append(s) or 1, out=lambda s: None,
                           told=lambda t: {k for _, k in kept}, say=lambda kind, key: kept.append((kind, key)) or True)
-        self.assertEqual(len(sent), 1)                                                       # an hour later: nothing more
+        self.assertEqual((sent, len(kept)), ([], 1))                                         # an hour later: nothing more
 
 
 if __name__ == "__main__":

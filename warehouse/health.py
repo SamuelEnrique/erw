@@ -27,6 +27,8 @@ else); SUPABASE_URL and SUPABASE_SERVICE_KEY from the environment or .env.
     python warehouse/health.py days --from 2026-09-28 --to 2026-10-11
         writes those days into site/data/health_days.json (a first fill, or a repair); days already there are replaced.
     python warehouse/health.py alert [--run-id 37207629600] [--day today] [--dry-run]
+        session 243, the email rule: this command prints the line and sends no email (the Roundup's workflow still
+        runs it as its last step, so a failed Roundup is a line of its own log and rows of erw_health).
         session 202: the daily workflow no longer runs this. scripts/alert.py failures, every 15 minutes in
         chain-watch.yml, tells a new failure of any job once (docs/machines.md, "One alert policy"); this command stays
         for a person who wants a day's failures in one line.
@@ -507,12 +509,12 @@ def alert(day, run_id=None, dry_run=False, rows=None, send=None):
         print(f"health alert: no failed step recorded{' for run ' + str(run_id) if run_id else ''} on {day}; nothing sent")
         return 0
     subject, line = got
-    if send is None:
-        sys.path.insert(0, os.path.join(ROOT, "scripts"))
-        import alert as alert_mail  # the sender the digest uses: Resend, the fixed recipients only
-        send = alert_mail.send
-    send(subject, line, dry_run)
-    print(f"health alert: {'would send' if dry_run else 'sent'}: {line}")
+    # Session 243, the email rule (the owner's ruling of 12 October 2026): the line is printed into the run's log and
+    # is not emailed. The failed steps are rows of erw_health already; scripts/alert.py failures sends the one email a
+    # day for a red daily run. `send` is kept for a caller that hands one in; nothing in the repository does.
+    if send is not None:
+        send(subject, line, dry_run)
+    print(f"health alert: recorded, not emailed (the email rule, session 243): {line}")
     return line.count(";") + 1
 
 

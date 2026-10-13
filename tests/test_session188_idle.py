@@ -209,7 +209,7 @@ class TheCheck(unittest.TestCase):
         subject, line = duty.decide(at(5, 37), row)
         self.assertEqual(subject, "ERW: a machine has run nothing for 30 minutes")
         self.assertEqual(line, 'The machine old-laptop, on duty for "session 900", has run nothing for 37 minutes: its last sign of work was its precheck at 05:00 UTC. '
-                               "On duty since 05:00 UTC. Said once: no further email for this silence.")
+                               "On duty since 05:00 UTC. Recorded once for this silence.")
         self.assertIsNone(duty.decide(at(6, 32), row)[0])                                   # 92 minutes: nothing more
         self.assertIn("said once", duty.decide(at(6, 32), row)[1])
         # a new sign of work makes a later silence a new one
@@ -255,27 +255,27 @@ class TheCheck(unittest.TestCase):
     def test_each_machine_is_judged_by_itself(self):
         # at 07:05: one worked ten minutes ago, one is 35 minutes quiet (its line is due), one 95 and one 65 (theirs was due before)
         rows = [a_row("a", renewed=at(6, 55)), a_row("b", acquired=at(6, 30)), a_row("c", acquired=at(5, 30)), a_row("d", acquired=at(6, 0))]
+        # session 243, the email rule: each line is recorded (the memory and the job's log) and none is emailed
+        mark = "recorded, not emailed (the email rule, session 243): "
         code, sent, printed = self.run_check(rows, at(7, 5))                                # the memory cannot be read: the window alone
-        self.assertEqual(code, 0)
-        self.assertEqual([s[0] for s in sent], ["ERW: a machine has run nothing for 30 minutes"])
-        self.assertIn("The machine b,", sent[0][1])
+        self.assertEqual((code, sent), (0, []))
+        self.assertEqual([p[len(mark):].split(",")[0] for p in printed if p.startswith(mark)], ["The machine b"])
         self.assertEqual(len([p for p in printed if p.startswith("quiet: ")]), 3)
-        self.assertEqual(self.kept, [("idle alarm", "quiet|b|2026-10-11T06:30")])           # what was said is remembered
-        # with the memory, empty: b, c and d are each said once, whatever their minute; said, none is said again
+        self.assertEqual(self.kept, [("idle alarm", "quiet|b|2026-10-11T06:30")])           # what was recorded is remembered
+        # with the memory, empty: b, c and d are each recorded once, whatever their minute; recorded, none is again
         self.memory = set()
         code, sent, printed = self.run_check(rows, at(7, 5))
-        self.assertEqual([s[1].split(",")[0] for s in sent], ["The machine b", "The machine c", "The machine d"])
+        self.assertEqual([p[len(mark):].split(",")[0] for p in printed if p.startswith(mark)], ["The machine b", "The machine c", "The machine d"])
+        self.assertEqual(sent, [])
         self.memory = {key for _, key in self.kept}
         code, sent, printed = self.run_check(rows, at(7, 20))
-        self.assertEqual((code, sent), (0, []))
+        self.assertEqual((code, sent, [p for p in printed if p.startswith(mark)]), (0, [], []))
 
     def test_the_idle_machine_among_several_is_the_one_named(self):
         rows = [a_row("old-laptop", renewed=at(6, 55)), a_row("video-laptop", acquired=at(6, 30), task="the video chain")]
         code, sent, printed = self.run_check(rows, at(7, 5))
-        self.assertEqual((code, len(sent)), (0, 1))
-        self.assertIn('The machine video-laptop, on duty for "the video chain", has run nothing for 35 minutes', sent[0][1])
-        self.assertFalse(sent[0][2])
-        self.assertIn("sent to 2 fixed recipients", printed[-1])
+        self.assertEqual((code, sent), (0, []))
+        self.assertIn('recorded, not emailed (the email rule, session 243): The machine video-laptop, on duty for "the video chain", has run nothing for 35 minutes', printed[-1])
         self.assertIn("quiet: old-laptop ran something 10 minutes ago", printed[0])
 
     def test_no_machine_on_duty_says_so_and_sends_nothing(self):
@@ -283,26 +283,23 @@ class TheCheck(unittest.TestCase):
         self.assertEqual((code, sent, printed), (0, [], ["quiet: no machine is on duty"]))
 
     def test_a_dry_run_asks_the_sender_to_print(self):
-        code, sent, _ = self.run_check([a_row()], at(5, 40), dry_run=True)
-        self.assertEqual((code, [s[2] for s in sent]), (0, [True]))
+        # session 243: a dry run says what it would record, and neither sends nor remembers
+        code, sent, printed = self.run_check([a_row()], at(5, 40), dry_run=True)
+        self.assertEqual((code, sent, self.kept), (0, [], []))
+        self.assertTrue(printed[-1].startswith("would record, not email (the email rule, session 243): The machine old-laptop"), printed[-1])
 
     def test_one_line_that_fails_does_not_cost_another_and_all_failing_is_exit_1(self):
+        # session 243: no sender is called, so a sender that would refuse changes nothing: both machines are recorded, exit 0
         rows = [a_row("a"), a_row("b")]
         tried = []
 
-        def one_fails(subject, line, dry=False):
-            tried.append(line)
-            if "machine a," in line:
-                raise RuntimeError("Resend HTTP 500 after 0 of 2 sent")
-            return 2
-        code, _, printed = self.run_check(rows, at(5, 40), send=one_fails)
-        self.assertEqual((code, len(tried)), (0, 2))
-        self.assertTrue(any(p.startswith("alert: not sent (RuntimeError") for p in printed))
-
         def all_fail(subject, line, dry=False):
+            tried.append(line)
             raise RuntimeError("not sent: RESEND_API_KEY not set")
-        code, _, _ = self.run_check(rows, at(5, 40), send=all_fail)
-        self.assertEqual(code, 1, "health.py records it as failed; the job itself still passes")
+        code, _, printed = self.run_check(rows, at(5, 40), send=all_fail)
+        self.assertEqual((code, tried), (0, []))
+        self.assertEqual(len([p for p in printed if p.startswith("recorded, not emailed")]), 2)
+        self.assertEqual([k for _, k in self.kept], ["quiet|a|2026-10-11T05:00", "quiet|b|2026-10-11T05:00"])
 
 
 STAND_IN = ("import os, sys\nopen(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'asked.txt'), 'a').write(' '.join(sys.argv[1:]) + '\\n')\n"
@@ -435,11 +432,15 @@ class TheWorkflow(unittest.TestCase):
         self.assertIn(idle, wf)
         self.assertLess(wf.index("python warehouse/health.py dedupe --workflow-file chain-watch.yml --minutes 15"), wf.index(chain))
         self.assertLess(wf.index(chain), wf.index(idle))
-        step = wf.split("- name: Has a machine on duty run anything in 30 minutes", 1)[1]
+        step = wf.split("- name: Has a machine on duty run anything in 30 minutes", 1)[1].split("- name:", 1)[0]
         self.assertIn("if: steps.dedupe.outputs.skip != '1'", step)
-        for secret in ("SUPABASE_URL", "SUPABASE_SERVICE_KEY", "RESEND_API_KEY", "DIGEST_RECIPIENTS", "DIGEST_FROM"):
+        for secret in ("SUPABASE_URL", "SUPABASE_SERVICE_KEY"):
             self.assertIn("${{ secrets." + secret + " }}", step)
-        self.assertEqual(wf.count("${{ secrets."), 22, "no secret the workflow did not already use (session 202: two more steps, the same five)")
+        # session 243, the email rule: the idle alarm records and cannot email, so it is not given the keys that send
+        for secret in ("RESEND_API_KEY", "DIGEST_RECIPIENTS", "DIGEST_FROM"):
+            self.assertNotIn(secret, step)
+        self.assertEqual(wf.count("${{ secrets."), 18, "no secret the workflow did not already use (session 243: the sending keys only where an email may go)")
+        self.assertEqual(wf.count("${{ secrets.RESEND_API_KEY }}"), 2, "the two steps that may email: ready for review, and the daily run's red")
         self.assertEqual({w.split(" ")[0] for w in wf.split("${{ secrets.")[1:]}, {"SUPABASE_URL", "SUPABASE_SERVICE_KEY", "RESEND_API_KEY", "DIGEST_RECIPIENTS", "DIGEST_FROM"})
         self.assertIn('- cron: "*/15 * * * *"', wf)
         self.assertIn("contents: read", wf)
@@ -454,12 +455,16 @@ class TheWorkflow(unittest.TestCase):
             self.skipTest("PyYAML is not installed here")
         d = yaml.safe_load(src(".github", "workflows", "chain-watch.yml"))
         job = d["jobs"]["watch"]
-        self.assertEqual(len(job["steps"]), 8)   # session 202: a new failure told once, and the morning summary, after the two checks
+        self.assertEqual(len(job["steps"]), 9)   # session 243: the eight of session 202, and the step that says a machine is ready for review
         self.assertEqual([s.get("id") for s in job["steps"]].count("dedupe"), 1)
-        self.assertEqual([s["name"] for s in job["steps"][-2:]], ["Tell a person of a new failure, once", "The morning summary, 07:00 Pacific, once a day"])
+        self.assertEqual([s["name"] for s in job["steps"][-3:]], ["A machine that went idle 15 minutes ago is ready for review",
+                                                                  "Record new failures; one email a day when the daily run is red",
+                                                                  "The morning summary, 07:00 Pacific, once a day, into this log"])
         last, before = job["steps"][5], job["steps"][4]
         self.assertEqual(last["if"], before["if"])
         self.assertEqual(set(last["env"]), set(before["env"]) - {"GITHUB_TOKEN"}, "the idle check reads the marks, not GitHub")
+        sends = [s["name"] for s in job["steps"] if "RESEND_API_KEY" in (s.get("env") or {})]
+        self.assertEqual(sends, [s["name"] for s in job["steps"][-3:-1]], "only the two steps of the email rule hold the key that sends")
         self.assertLessEqual(job["timeout-minutes"], 10)
 
     def test_the_check_runs_on_what_the_workflow_installs(self):

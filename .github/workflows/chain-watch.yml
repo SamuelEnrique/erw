@@ -22,6 +22,13 @@
 # minutes and again every hour after, as the chain does. No machine on duty: the step says so and ends. It is a second
 # step of this job, not a workflow of its own, so the schedule in the database (migration 022) and the duplicate-start
 # rule are the ones already here; it runs under warehouse/health.py and never fails the job.
+#
+# Session 243, the email rule (the owner's ruling of 12 October 2026; docs/machines.md, "The email rule"). It replaces
+# what is said above and below about what is emailed. This job sends two emails and no other: one for a machine, 15
+# minutes after it went idle, saying it is ready for review (the step "ready for review", python scripts/alert.py
+# ready); and one a UTC day when the daily run is red (the step "new failures", python scripts/alert.py failures).
+# The chain watch, the idle alarm and the morning summary still run and still record in erw_health and in this job's
+# log; they are no longer given the key that sends (RESEND_API_KEY), so they cannot email.
 name: chain watch
 
 on:
@@ -64,9 +71,6 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
-          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
           GITHUB_TOKEN: ${{ github.token }}
         run: python warehouse/health.py run --step "chain watch" -- python scripts/alert.py chain check
       - name: Has a machine on duty run anything in 30 minutes
@@ -74,10 +78,20 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python warehouse/health.py run --step "idle alarm" -- python scripts/duty.py check
+      # Session 243, the email rule: a machine's one email. 15 minutes after a machine went idle (the row "idle" of
+      # erw_health that python scripts/chain_queue.py next writes with nothing waiting, or a failed precheck), one line
+      # says it is ready for review; not when the machine is on duty again by then. Not run a second time when it
+      # fails (--retries 0): a second run could send a second email.
+      - name: A machine that went idle 15 minutes ago is ready for review
+        if: steps.dedupe.outputs.skip != '1'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
           DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
-        run: python warehouse/health.py run --step "idle alarm" -- python scripts/duty.py check
+        run: python warehouse/health.py run --step "ready for review" --retries 0 -- python scripts/alert.py ready
       # Session 202, the one alert policy (docs/machines.md, "One alert policy"). The two silences above are each said
       # once, not again every hour. Below: a step of any scheduled job newly recorded as failed in erw_health is one
       # email, once (a step that failed at its run before is the same failure; a retry that passed is not one); and the
@@ -85,7 +99,9 @@ jobs:
       # one line each, green or red. A success sends nothing else. What was said is remembered as rows of erw_health
       # (workflow "alerts"), so a late or a doubled run neither loses a line nor repeats one. Neither step is run a
       # second time when it fails (--retries 0): a second run could send a second email.
-      - name: Tell a person of a new failure, once
+      # Session 243: "new failures" records every newly failed step and emails once a UTC day, only when the daily run
+      # is red; "morning summary" writes the summary into this log and emails nothing.
+      - name: Record new failures; one email a day when the daily run is red
         if: steps.dedupe.outputs.skip != '1'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -94,13 +110,10 @@ jobs:
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
           DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
         run: python warehouse/health.py run --step "new failures" --retries 0 -- python scripts/alert.py failures
-      - name: The morning summary, 07:00 Pacific, once a day
+      - name: The morning summary, 07:00 Pacific, once a day, into this log
         if: steps.dedupe.outputs.skip != '1'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
-          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
           GITHUB_TOKEN: ${{ github.token }}
         run: python warehouse/health.py run --step "morning summary" --retries 0 -- python scripts/alert.py summary

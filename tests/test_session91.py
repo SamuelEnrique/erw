@@ -15,6 +15,7 @@ import sys
 import tempfile
 import types
 import unittest
+from unittest import mock
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -46,8 +47,15 @@ class Sender:
 
 class TheLine(unittest.TestCase):
     def test_one_message_to_each_fixed_recipient_and_nothing_but_the_line(self):
+        # session 243, the email rule: only a line of one of the two kinds is sent; without a kind nothing goes out
         post = Sender()
-        n = alert.send("ERW: x", "  a line\n over two   rows ", post=post, env=envs(**KEYS))
+        with mock.patch("builtins.print"):
+            self.assertEqual(alert.send("ERW: x", "a line", post=post, env=envs(**KEYS)), 0)
+            self.assertEqual(alert.send("ERW: x", "a line", post=post, env=envs(**KEYS), kind="chain watch"), 0)
+        self.assertEqual(alert.deliver("ERW: x", "a line\n", post=post, env=envs(**KEYS)), 0)
+        self.assertEqual(post.calls, [])
+        self.assertEqual(alert.MAILED, ("ready", "daily red"))
+        n = alert.send("ERW: x", "  a line\n over two   rows ", post=post, env=envs(**KEYS), kind=alert.READY)
         self.assertEqual(n, 2)
         self.assertEqual([c[2]["to"] for c in post.calls], [["a@example.invalid"], ["b@example.invalid"]])
         self.assertTrue(all(c[0] == "https://api.resend.com/emails" and set(c[2]) == {"from", "to", "subject", "text"} for c in post.calls))
@@ -56,17 +64,18 @@ class TheLine(unittest.TestCase):
     def test_nothing_is_sent_without_a_key_or_a_recipient_or_on_a_dry_run(self):
         post = Sender()
         with self.assertRaises(RuntimeError):
-            alert.send("s", "l", post=post, env=envs(DIGEST_RECIPIENTS="a@example.invalid"))
+            alert.send("s", "l", post=post, env=envs(DIGEST_RECIPIENTS="a@example.invalid"), kind=alert.READY)
         with self.assertRaises(RuntimeError):
-            alert.send("s", "l", post=post, env=envs(RESEND_API_KEY="k"))
+            alert.send("s", "l", post=post, env=envs(RESEND_API_KEY="k"), kind=alert.DAILY_RED)
         with self.assertRaises(ValueError):
-            alert.send("s", "   ", post=post, env=envs(**KEYS))
-        self.assertEqual(alert.send("s", "l", dry_run=True, post=post, env=envs(**KEYS)), 0)
+            alert.send("s", "   ", post=post, env=envs(**KEYS), kind=alert.READY)
+        with mock.patch("builtins.print"):
+            self.assertEqual(alert.send("s", "l", dry_run=True, post=post, env=envs(**KEYS), kind=alert.READY), 0)
         self.assertEqual(post.calls, [])
 
     def test_a_refusal_names_no_address_and_a_long_line_is_cut(self):
         with self.assertRaises(RuntimeError) as c:
-            alert.send("s", "l", post=Sender(403), env=envs(**KEYS))
+            alert.send("s", "l", post=Sender(403), env=envs(**KEYS), kind=alert.READY)
         self.assertNotIn("example.invalid", str(c.exception))
         self.assertEqual(len(alert.one_line("x" * 900)), 300)
         self.assertNotIn(chr(0x2014), alert.one_line("a " + chr(0x2014) + " b"))
@@ -102,22 +111,33 @@ class ASessionWaits(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             post = Sender()
             run = lambda e, now: alert.hook(json.dumps(e), post=post, env=envs(**KEYS), state_dir=d, now=now)  # noqa: E731
-            self.assertIn("sent to 2", run(EVENT, 1000.0))
+            # session 243, the email rule: a wait is one row of erw_health, the machine's own, at most one per session
+            # and kind every 10 minutes, and is never emailed
+            base = {**KEYS, "SUPABASE_URL": "https://db.example.invalid", "SUPABASE_SERVICE_KEY": "service"}
+            run = lambda e, now: alert.hook(json.dumps(e), post=post, env=envs(**base), state_dir=d, now=now)  # noqa: E731
+            said = run(EVENT, 1000.0)
+            self.assertTrue(said.startswith("recorded, not emailed (the email rule, session 243): A Claude Code session waits for a permission"), said)
             self.assertIn("less than 10 minutes", run(EVENT, 1300.0))
-            self.assertEqual(len(post.calls), 2)
+            self.assertEqual(len(post.calls), 1)
+            url, _, row = post.calls[0]
+            self.assertEqual(url, "https://db.example.invalid/rest/v1/erw_health")
+            self.assertEqual((row["step"], row["status"]), ("session waits", "ok"))
+            self.assertTrue(row["workflow"].startswith("local:"))
+            self.assertIn("waits for a permission", row["reason"])
             # another kind, and another session, are not held back by the first
-            self.assertIn("sent to 2", run({**EVENT, "notification_type": "idle_prompt"}, 1300.0))
-            self.assertIn("sent to 2", run({**EVENT, "session_id": "another"}, 1300.0))
-            self.assertIn("sent to 2", run(EVENT, 1000.0 + 601))
-            self.assertEqual(len(post.calls), 8)
+            self.assertIn("not emailed", run({**EVENT, "notification_type": "idle_prompt"}, 1300.0))
+            self.assertIn("not emailed", run({**EVENT, "session_id": "another"}, 1300.0))
+            self.assertIn("not emailed", run(EVENT, 1000.0 + 601))
+            self.assertEqual(len(post.calls), 4)
+            self.assertFalse([c for c in post.calls if "resend" in c[0]], "nothing goes to the sender")
 
     def test_the_hook_never_raises_and_never_blocks_a_session(self):
         with tempfile.TemporaryDirectory() as d:
-            self.assertIn("not sent", alert.hook("not json at all", post=Sender(), env=envs(**KEYS), state_dir=d))
-            self.assertIn("not sent", alert.hook(json.dumps(EVENT), post=Sender(500), env=envs(**KEYS), state_dir=d, now=1.0))
-            # a send that failed does not silence the next try
-            self.assertIn("sent to 2", alert.hook(json.dumps(EVENT), post=Sender(), env=envs(**KEYS), state_dir=d, now=2.0))
-            self.assertIn("not sent", alert.hook(json.dumps({**EVENT, "session_id": "s2"}), post=Sender(), env=envs(), state_dir=d, now=1.0))
+            self.assertIn("not recorded", alert.hook("not json at all", post=Sender(), env=envs(**KEYS), state_dir=d))
+            # a table that refuses the row, and no key for it at all: the wait is still noted on the machine
+            base = {**KEYS, "SUPABASE_URL": "https://db.example.invalid", "SUPABASE_SERVICE_KEY": "service"}
+            self.assertIn("recorded on this machine only, not emailed", alert.hook(json.dumps(EVENT), post=Sender(500), env=envs(**base), state_dir=d, now=1.0))
+            self.assertIn("recorded on this machine only, not emailed", alert.hook(json.dumps({**EVENT, "session_id": "s2"}), post=Sender(), env=envs(), state_dir=d, now=1.0))
             self.assertEqual(alert.hook("", post=Sender(), env=envs(**KEYS), state_dir=d), "nothing to send")
         # as a process: bad input on stdin, and no key in the environment: exit 0 and nothing printed
         e = {k: v for k, v in os.environ.items() if k not in ("RESEND_API_KEY", "DIGEST_RECIPIENTS")}
@@ -160,7 +180,7 @@ class AChainSavesNothing(unittest.TestCase):
         subject, line = alert.decide(at(7, 25), a_mark(), (at(6, 48), "wip/090-fixes", "Session 90 report"))
         self.assertEqual(subject, "ERW: a chain has saved nothing for 30 minutes")
         self.assertEqual(line, "The chain \"night of 4 October\" (oldlaptop/f4e41419) has saved nothing for 37 minutes: its last save was a push to "
-                               "wip/090-fixes at 06:48 UTC. Marked as running since 05:52 UTC. Said once: no further email for this silence.")
+                               "wip/090-fixes at 06:48 UTC. Marked as running since 05:52 UTC. Recorded once for this silence.")
         self.assertEqual(len(line.splitlines()), 1)
 
     def test_it_says_so_once_and_not_again(self):

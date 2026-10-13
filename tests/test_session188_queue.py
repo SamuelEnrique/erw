@@ -84,6 +84,7 @@ class Folder(unittest.TestCase):
         kw.setdefault("rec", rec)
         kw.setdefault("send", send)
         kw.setdefault("off", off)
+        kw.setdefault("held", lambda: {"token": "t", "what": "session 188"})   # session 243: the machine was on duty
         kw.setdefault("mover", lambda name, who, root: (shutil.move(os.path.join(root, "queue", "next", name), os.path.join(root, "queue", "done", name)), f"queue/done/{name}")[1])
         return cq.take(root=self.root, who="test-laptop", now=NOW, out=self.printed.append, **kw)
 
@@ -135,13 +136,17 @@ class TheNextStep(Folder):
         code = self.take()
         self.assertEqual(code, cq.IDLE_EXIT)
         self.assertEqual(cq.IDLE_EXIT, 3)
-        self.assertEqual(self.rows, [("idle", "ok", "queue/next/ is empty: test-laptop has nothing left to run", "local:test-laptop")])
-        self.assertEqual(len(self.sent), 1)
-        subject, line, dry = self.sent[0]
-        self.assertEqual((subject, dry), ("ERW: a machine is idle", False))
-        self.assertEqual(line, "The machine test-laptop is idle since 06:12 UTC: queue/next/ is empty. Put the next prompt file there (NNN-<slug>.md) and start a session.")
-        self.assertLessEqual(len(line), 300)
+        # session 243, the email rule: the row is what the chain watch reads 15 minutes later; nothing is emailed here
+        self.assertEqual(self.rows, [("idle", "ok", 'ready for review: queue/next/ is empty: test-laptop has nothing left to run after "session 188"', "local:test-laptop")])
+        self.assertEqual(self.sent, [], "the idle step emails nothing: the machine's one line goes 15 minutes later, from the chain watch")
+        self.assertIn("the one email follows 15 minutes from now", self.printed[-2])
         self.assertEqual(self.offs, [1], "a machine that declared idle is off duty: the idle alarm does not also report it")
+        # asked again, off duty: idle already. The row does not begin with the mark, so no second line follows
+        self.rows.clear()
+        self.assertEqual(self.take(held=lambda: None), 3)
+        self.assertEqual(self.rows, [("idle", "ok", "queue/next/ is empty: test-laptop has nothing left to run (it was not on duty: idle already, no line follows)", "local:test-laptop")])
+        self.assertFalse(self.rows[0][2].startswith(cq.alert.READY_MARK))
+        self.assertEqual(self.sent, [])
 
     def test_only_odd_names_waiting_is_idle_and_the_line_counts_them(self):
         self.put("004-code-fix-x.md")
@@ -149,7 +154,7 @@ class TheNextStep(Folder):
         code = self.take()
         self.assertEqual(code, 3)
         self.assertIn("left where they are: 004-code-fix-x.md, notes.md", self.printed[0])
-        self.assertIn("queue/next/ is empty (2 files there with a name this queue does not take)", self.sent[0][1])
+        self.assertIn("queue/next/ is empty (2 files there with a name this queue does not take)", self.rows[0][2])
         self.assertTrue(os.path.exists(os.path.join(self.root, "queue", "next", "notes.md")))
 
     def test_a_dry_run_moves_writes_and_sends_nothing(self):
@@ -162,15 +167,16 @@ class TheNextStep(Folder):
         code = self.take(dry_run=True)
         self.assertEqual(code, 3)
         self.assertEqual((self.rows, self.offs), ([], []))
-        self.assertEqual([s[2] for s in self.sent], [True], "the sender is asked to print, not to send")
+        self.assertEqual(self.sent, [], "session 243: no sender is asked for anything")
         self.assertIn("would write to erw_health: step idle, status ok, workflow local:test-laptop", self.printed[1])
+        self.assertIn("would send nothing here (the email rule, session 243)", self.printed[2])
 
     def test_a_row_or_a_line_that_fails_is_said_and_the_rest_still_happens(self):
         def no_line(subject, line, dry_run=False):
             raise RuntimeError("Resend HTTP 500 after 0 of 2 sent")
         with mock.patch("sys.stderr"):
             code = self.take(rec=lambda *a: False, send=no_line)
-        self.assertEqual(code, 1)
+        self.assertEqual(code, 1, "a row that was not written is the failure now: without it no line follows")
         self.assertEqual(self.offs, [1])
 
     def test_the_idle_row_goes_through_health_pys_own_writer_with_a_status_the_table_accepts(self):

@@ -30,6 +30,11 @@ and say). No model call. Needs only Python's standard library.
 
 Exit codes: 0 done (for check: nothing to say, or the lines were sent); 1 could not (no key, the database did not
 answer, Resend refused every line); 2 bad input.
+
+Session 243, the email rule (the owner's ruling of 12 October 2026; docs/machines.md, "The email rule"): the check
+still runs every 15 minutes and still records a silence or a lapsed mark once, in erw_health and in the job's log. It
+emails nothing. A machine's one email says it is ready for review, 15 minutes after it went idle
+(python scripts/alert.py ready).
 """
 
 import argparse
@@ -93,9 +98,11 @@ def rpc(fn, **args):
     return r.json()
 
 
-def send(subject, line, dry_run=False):
-    """scripts/alert.py's sender (one line, the fixed recipients only), with the keys as env() above finds them."""
-    return alert.send(subject, line, dry_run, env=env)
+def send(subject, line, dry_run=False, kind=None):
+    """scripts/alert.py's sender (one line, the fixed recipients only), with the keys as env() above finds them.
+    Session 243, the email rule: no script on a machine calls it any more; a line without one of alert.py's two kinds
+    is printed and not sent."""
+    return alert.send(subject, line, dry_run, env=env, kind=kind)
 
 
 def state_dir(root=ROOT, main=main_checkout):
@@ -262,14 +269,16 @@ def decide(now, row, memory=None):
         return None, f"{name} has run nothing for {quiet:.0f} minutes; said once, and not again for this silence"
     return ("ERW: a machine has run nothing for 30 minutes", alert.one_line(
         f"The machine {name}, on duty for \"{what}\", has run nothing for {quiet:.0f} minutes: its last sign of work was {sign} at {hm(last)} UTC. "
-        f"On duty since {hm(row['acquired'])} UTC. Said once: no further email for this silence."))
+        f"On duty since {hm(row['acquired'])} UTC. Recorded once for this silence."))
 
 
 def check(dry_run=False, now=None, read=None, send=None, out=print, told=None, say=None):
-    """The scheduled check: one line, once, for each machine on duty that has run nothing for 30 minutes. Returns 0
-    when there was nothing to say or a line went out, 1 when every line that was due could not be sent."""
+    """The scheduled check: one line, once, for each machine on duty that has run nothing for 30 minutes. Session 243,
+    the email rule: the line is recorded (the memory in erw_health, and the job's log) and is not emailed; a machine's
+    one email is the one that says it is ready for review (scripts/alert.py ready). `send` is accepted for a caller
+    that still hands one in and is never called. Returns 0."""
     now = now or dt.datetime.now(UTC)
-    read, send = read or rows, send or globals()["send"]
+    read = read or rows
     told = told or (lambda t: alert.told(t, env=env))
     say = say or (lambda kind, key: alert.say(kind, key, env=env))
     marked = read()
@@ -277,22 +286,17 @@ def check(dry_run=False, now=None, read=None, send=None, out=print, told=None, s
         out("quiet: no machine is on duty")
         return 0
     memory = told(now)
-    due = failed = 0
     for row in marked:
         subject, line = decide(now, row, memory)
         if subject is None:
             out(f"quiet: {line}")
             continue
-        due += 1
-        try:
-            n = send(subject, line, dry_run)
-            if not dry_run:
-                say("idle alarm", key_of(now, row))
-                out(f"alert: {line} (sent to {n} fixed recipient{'s' if n != 1 else ''})")
-        except Exception as exc:  # one machine's line must not cost another's
-            failed += 1
-            out(f"alert: not sent ({type(exc).__name__}: {str(exc)[:160]}): {line}")
-    return 1 if due and failed == due else 0
+        if dry_run:
+            out(f"would record, not email ({alert.RULE}): {line}")
+            continue
+        say("idle alarm", key_of(now, row))
+        out(f"recorded, not emailed ({alert.RULE}): {line}")
+    return 0
 
 
 def main(argv=None):
