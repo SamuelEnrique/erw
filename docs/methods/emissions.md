@@ -95,6 +95,8 @@ These are the Grid Monitor's "download data by balancing authority" files. The a
 
 **Reach.** From 2018-07-02, like the emissions (session 34; before it, about 30 days). Session 34's rebuild: 1,119,244 hourly rows, 46,624 daily and 1,264 monthly.
 
+**In the site's database (the live set).** The daily and the monthly table are there as `warehouse/supabase/live_set.yaml` says (the last 100 days; every month). The hourly table is there for the last 430 days, hour by hour, both variables, all eight balancing authorities (session 245, the owner's ruling of 12 October 2026: at least 13 months; it was 35 days). 430 days hold 13 whole calendar months and the month under way, whatever the day and EIA's lag of a few days. The whole history from 2018 is in the CSV, the archive and the Redivis draft.
+
 **The check against session 32's version.** Each run also computes the intensity with the warehouse's `eia930_all_generation` and `eia930_all_demand` as denominators, over the hours those tables hold. It writes the difference in the tables' header and the run log, not as rows. Session 34's run covered 2026-08-26 to 2026-09-27:
 
 - **Identical** for CAISO, MISO, PJM and SPP, both variables.

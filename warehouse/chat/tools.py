@@ -22,7 +22,8 @@ the model can cite every number it states.
 
 The backend is the erw package's: local files by default, or Supabase or Redivis
 when ERW_BACKEND is set (erw.set_backend()). The Supabase live set holds the last
-35 days of power prices, demand, generation and hourly emissions (session 36C), not the full history.
+35 days of power prices, demand, generation and hourly emissions (session 36C), not the full history. Since
+session 245 the hourly carbon intensity (carbon_intensity_hourly) is held for 430 days there, hour by hour.
 
     python warehouse/chat/tools.py query '{"table": "eia_fuel_spot_prices", "entity": "eia:henry_hub", "aggregation": "latest"}'
 """
