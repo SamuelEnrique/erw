@@ -4,6 +4,9 @@
 
 ## Read these first
 
+- **NOT LANDED: the notes are on the branch `wip/257-260-landing`, not on main.** Read them there tonight: https://github.com/SamuelEnrique/erw/tree/wip/257-260-landing/docs/howitworks (the links under "What to review" answer with main's older notes until the landing). Why, and the commands to land: session 257's report, "The landing: not made".
+- **If you demo from these notes before session 257 lands, California on the battery and generator pages is not on production yet.** The nine sentences under "California, and what depends on session 257" describe pages that are still on the branch: on production CAISO's battery page has no stress-days sentence and no market monitor's line, and the generator page still says "10 published figures". Everything else in the five notes describes main as it is.
+- **Added by the orchestrator at 19:00 UTC, in `research.md`:** the data machine's session 251 landed at 18:47 UTC, after the note was written. The hunt holds 20 patterns, not 7, and the review list 28 drafts, not 16. The note says so in its header and tells the reader to read the screen; its body still describes the list before that landing. And one line under "If something goes wrong": the eight older hunt drafts still carry the old source line (session 258).
 - **Done:** `docs/howitworks/grid.md` and `docs/howitworks/research.md` are rewritten from the pages as they stand on `main` (both landed this morning as `01161064`). Same seven parts as the other three, each number with the file it was read in, each assumption with its source and, for a constant, its file and line.
 - **Done:** `battery.md`, `generator.md` and `datacenter.md` read against today's pages. What was stale is corrected (the list is below). The largest: the datacenter note said the page did not yet count ERCOT's reserve adder. It does since 10:57 UTC.
 - **California:** the battery and generator notes say what session 257 put on the pages, and no more. The sentences are listed one by one under "California, and what depends on session 257".
@@ -90,6 +93,7 @@ For the demo at 23:00 UTC, section 7 of each is the path. Open the internal view
 4. Not run since the landing, by any report read: `check-network-v3-hard.mjs`, `check-network-map.mjs`, `check-ask-panel.mjs`. Run them before 21 October?
 5. The five demo paths have still never been clicked through. One pass in a browser before 23:00 UTC is worth more than another reading of the code.
 
-## The landing
+## The landing: not made
 
-filled by the orchestrator
+- Sessions 257 and 260 land together, from `wip/257-260-landing`. Claude Code stopped the landing's build and checks for low memory at about 18:49 UTC and they were not started again unattended. What was done, what was not, and the exact commands are in session 257's report, "The landing: not made".
+- On the branch as it stands: `tests.test_session260 tests.test_session249 tests.test_session253`, exit 0, 33 tests, after the orchestrator's two additions to `research.md`.

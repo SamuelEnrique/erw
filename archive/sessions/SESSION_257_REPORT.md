@@ -4,6 +4,7 @@
 
 ## Read these first
 
+- **NOT LANDED: production does not show any of this. It is on `wip/257-260-landing` and waits for one word from you** (under "The landing"). Claude Code stopped the landing's build and page checks for low memory at about 18:49 UTC, with the note not to start them again unattended. The session's own build and checks passed (below); what is missing is the fresh build of the merged commit in the main copy with `check-values` and `check-routes` on it. Every address under "What to review" shows the pages as they were until it lands.
 - **A reader who picks CAISO on the battery page now gets the two things ERCOT had and CAISO lacked** (session 246's list): the stress days named in the sentence with the table's download, and one line under "Income by stream" that sets the model beside what real batteries earned.
 - **The line, as the page shows it today:** "In 2025, for a 4-hour battery on the day-ahead schedule, this model takes USD 42.31 per kW from energy and USD 42.25 from regulation; CAISO's market monitor reports that real batteries in its area with a full year of operation earned about USD 35 per kW from energy and USD 9 from regulation", with the report cited and linked.
 - **Where each figure comes from:** 42.31 and 42.25 are computed by the page from `battery_stack_monthly` and carry check keys (`check-values` recomputes them from its own read: both match). 35 and 9 are the market monitor's, typed once in `site/lib/batterystack.ts` and held by a test to the sentence `docs/methods/battery_stack.md` quotes from the report.
@@ -103,6 +104,34 @@ All under the build mutex (18:23 to 18:31 and 18:34 to 18:36 UTC), port 3257, a 
 - Changed: `site/lib/batterystack.ts`, `site/app/cost-of-power/battery/page.tsx`, `site/app/cost-of-power/battery/read.ts`, `site/app/cost-of-power/seller/page.tsx`, `site/scripts/check-values.mjs`, `docs/methods/battery_stack.md`, `docs/methods/battery_earns_algorithm.md`, `docs/methods/generator_earns_algorithm.md`, `docs/howitworks/generator.md`, and the four tests above.
 - Not in git: `runs/session257/` in the main copy (the edit scripts, each check's output, the captures, `notes.md`).
 
-## The landing
+## The landing of session 258: not made
 
-filled by the orchestrator
+- Pushed 18:43:45 UTC as `task/258-source-lines` (`53c48e7b`) after the whole suite on a clean copy (exit 0, 3,964 tests) and the before snapshot `s258-before` (18:43:34 UTC, 25 pages, 0 failed).
+- Check run 38449106332: its job "checks" passed; its job "merge" failed at the step "Open the pull request and merge it". The data machine had merged session 251 into main at 18:47:10 UTC (`ceac3a77`), which changes the same file (`warehouse/analysis/findings/hunt.py`). Nothing of session 258 was deployed, so there is no after snapshot to compare.
+- The conflict is resolved on `wip/258-source-lines` (`e6c897d9`, then its report); session 258's report says how, and how to land it.
+
+## The landing: not made
+
+- **Sessions 257 and 260 land together** (session 260's notes describe session 257's pages). The landing branch is `wip/257-260-landing`: sessions 257, 260 and 258 (resolved), with main as it stood at 18:55 UTC (`ceac3a77`: sessions 259 and 251) merged in. Everything under `site/` on it is byte for byte what session 257 built and checked (`git diff 8ab14916 HEAD -- site`: nothing).
+- **What was done at the landing:** the whole suite on a clean copy of `e1019d04` (sessions 257, 260, 258 and 259 before session 251 landed): exit 0, 3,991 tests, OK, 237 skipped. Then the build in the main copy began.
+- **What stopped it:** at about 18:49 UTC Claude Code stopped the job for low memory while the build was at "Running TypeScript" (the laptop has 8 GB), with the note that a stopped job is not to be started again without you. The build, the local server, `check-values`, `check-routes`, `check-cross-checks.mjs` and `check-battery-scenarios.mjs` on the merged commit were not run. No before snapshot was taken and nothing was pushed to a `task/` branch: production is as sessions 259 and 251 left it.
+- **On the branch as it stands** (`wip/257-260-landing`): nine modules, three at a time, all exit 0 (`260 249 253`: 33 tests; `257 196 258`: 47; `251 233 188_waits`: 60). The whole suite has not been run on it since session 251 was merged in.
+- **To land it before 21:00 UTC** (about 35 minutes in all; say "land 257 and 260" to this session, or run on the old laptop with nothing else heavy running, each gate read before the next):
+
+```
+cd C:\Users\lossa\Documents\erw
+git fetch origin
+git -C ..\erw-142 merge --no-edit origin/main
+git checkout --detach <the last commit of ..\erw-142>
+bash runs/chain_oct13/land_checks.sh land257b 3260 check-cross-checks.mjs check-battery-scenarios.mjs
+    (read runs/chain_oct13/land257b/result.txt: suite, build, check-values, check-routes and the two checks each "exit=0")
+git switch main
+.venv\Scripts\python.exe scripts\freeze.py status
+node site/scripts/snapshot-live.mjs take s257-before
+git -C ..\erw-142 push origin HEAD:refs/heads/task/257-260-california-howitworks
+bash runs/chain_oct13/land_wait.sh land257b <that commit> task/257-260-california-howitworks s257-before s257-after
+    (read runs/chain_oct13/land257b/wait_result.txt: expected 0 differences on the 25 pages; both pages are in review)
+```
+
+- That push lands session 258 too (the branch holds it). To land session 258 by itself first, its report has the commands.
+- After 21:00 UTC nothing lands today (your instruction): the same commands hold tomorrow, after `git fetch` and the merge of main.
