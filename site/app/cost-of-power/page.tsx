@@ -8,6 +8,7 @@ import { DELIVERY, INDEX, type MatrixRow } from "@/lib/datacenterdata";
 import { GridsView } from "./GridsView";
 import { YearCost } from "./LoadCharts";
 import { LoadForm } from "./LoadForm";
+import { HowClean, HowSoon, PowerThere } from "./LoadAnswers";
 import { GpuHourOfA, LoadHeadline } from "./LoadHeadline";
 import { LoadDecisions, LoadScenarios, LoadSensitivity } from "./LoadScenarios";
 import { FORESEEN, FORESEEN_WHY, NY_SHOWN, NYLOAD, day, inputsFrom, loadModel } from "./model";
@@ -82,7 +83,7 @@ export default async function CostOfPower({ searchParams }: { searchParams: Prom
       <ToolHeader
         title="What a datacenter pays"
         crumb={<CostTabs active="buy" />}
-        lead={<>What a large load pays for power, for a load you describe, whether a contract or a different way of running pays, and what moves the figure most; the grid&apos;s own figures (whether the power is there, how clean it is and how soon it can be had) are in the downloads and on their own pages. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
+        lead={<>What a large load pays for power, whether the power is there when it is needed, how clean it is and how soon it can be had, each computed for a load you describe; then whether a contract or a different way of running pays, and what moves the figure most. <Link href={METHOD}>Method note</Link>. <Link href={ALGORITHM}>Every number, step by step</Link>.</>}
       />
       <ViewNav x={x} />
       {x.view === "grids" ? <GridsView /> : <LoadView asked={x} buyGiven={typeof sp.buy === "string"} gridAsked={typeof sp.grid === "string" ? sp.grid : undefined} q={q} />}
@@ -90,8 +91,8 @@ export default async function CostOfPower({ searchParams }: { searchParams: Prom
   );
 }
 
-function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyGiven: boolean; gridAsked?: string; q: Record<string, string | undefined> }) {
-  const M = loadModel(asked, buyGiven, gridAsked, q);
+async function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyGiven: boolean; gridAsked?: string; q: Record<string, string | undefined> }) {
+  const M = await loadModel(asked, buyGiven, gridAsked, q);
   const { x, g, failed, side, flex, off, s12, sh12, ysH, rule, bad, badPer, ys, place, market, noYear, savedH, saved, ref12, l12Span, size, facts, scenarioParams, delivery, matrix, utilities } = M;
   const region = M.region;
   // the two downloads take the page's own parameters and the scenarios', as this request has them
@@ -171,9 +172,27 @@ function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyGiven: 
                   The grid&apos;s own figures, on their pages: <Link href={`/demand?area=${x.grid}`}>demand growth</Link>, <Link href={`/mix?view=stress&grid=${x.grid}`}>how hard the grid works</Link>, <Link href={`/mix?view=clean&grid=${x.grid}`}>how clean, and when</Link>, <Link href={`/queues?grid=${x.grid}&tech=all`}>interconnection queues</Link>, <Link href="/datacenters">the datacenter tracker</Link>.
                 </p>
                 <p className="mt-2 max-w-3xl text-xs text-muted" data-months-csv="1">
-                  <a href={`${MONTHS_CSV}${suffix}`} download>Every month, CSV</a>: a flat load&apos;s price, this load&apos;s, the foreseen price, the hours off and the cost for {size}, each month and each year held.
-                  {" "}<a href={`${TABLES_CSV}${suffix}`} download>The other tables, CSV</a>: will the power be there, how clean, how soon (the queue, the large load, how long a large load waits by stage, the rules in motion), every region of {g.name} over its own last twelve months, the Commission&apos;s transmission charge matrix{x.grid === "nyiso" && NY_SHOWN ? `, and New York's load in line, request by request (${whole(NYLOAD.total.requests)})` : ""}.
+                  <a href={`${MONTHS_CSV}${suffix}`} download>Every month, CSV</a>: a flat load&apos;s price, this load&apos;s, the foreseen price, the hours off and the cost for {size}, each month and each year held, and the hours at or above the scarcity level and the grid&apos;s carbon intensity in each.
+                  {" "}<a href={`${TABLES_CSV}${suffix}`} download>The other tables, CSV</a>: the three answers below (the scarce hours by month and clock hour, the carbon by way and by year, the large load reports), the grid&apos;s own figures as the page drew them until session 213 (the queue, the large load, how long a large load waits by stage, the rules in motion), every region of {g.name} over its own last twelve months, the Commission&apos;s transmission charge matrix{x.grid === "nyiso" && NY_SHOWN ? `, and New York's load in line, request by request (${whole(NYLOAD.total.requests)})` : ""}.
                 </p>
+              </ToolSection>
+              </div>
+
+              {/* session 228: the three answers beside "What will it pay?", computed for this load from the live set and the
+                  page's own files (lib/datacenter/answers.ts); each number carries its check key */}
+              <div data-question="power">
+              <ToolSection title="Will the power be there?" id="there">
+                {M.answers?.ok ? <PowerThere a={M.answers.data} f={M.answerFacts} /> : <p className="max-w-3xl text-sm" role="status" data-answer="power" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : `Twelve complete months are not held for ${x.region}, so the hours short in them cannot be counted.`}</p>}
+              </ToolSection>
+              </div>
+              <div data-question="clean">
+              <ToolSection title="How clean?" id="clean">
+                {M.answers?.ok ? <HowClean a={M.answers.data} f={M.answerFacts} /> : <p className="max-w-3xl text-sm" role="status" data-answer="clean" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : `Twelve complete months are not held for ${x.region}, so the load's carbon over them cannot be counted.`}</p>}
+              </ToolSection>
+              </div>
+              <div data-question="soon">
+              <ToolSection title="How soon?" id="soon">
+                {M.answers?.ok ? <HowSoon a={M.answers.data} f={M.answerFacts} rules={M.rules} /> : <p className="max-w-3xl text-sm" role="status" data-answer="soon" data-answer-none="1">{M.answers ? `The live set could not be read, so no figure is shown: ${M.answers.reason}` : M.rules.words}</p>}
               </ToolSection>
               </div>
 
@@ -192,7 +211,7 @@ function LoadView({ asked, buyGiven, gridAsked, q }: { asked: Inputs; buyGiven: 
           )}
         </div>
       </div>
-      <SourceLine tables={[...INDEX.tables, "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !M.withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(M.cFile?.clean ? ["clean_energy_hourly"] : [])]}
+      <SourceLine tables={[...INDEX.tables, "carbon_intensity_monthly", "carbon_intensity_hourly", ...(x.grid === "caiso" ? ["caiso_grid_emergencies"] : []), ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), "large_load_rules", "clean_energy_summary", "grid_stress_yearly", "eia930_demand_growth", "interconnection_queue_summary", ...(x.grid === "ercot" ? ["ercot_large_load_status"] : []), ...(g?.demand_source && !M.withheld ? [g.demand_source.split(" ")[0]] : []), ...(DELIVERY.table && x.grid === "ercot" ? [DELIVERY.table, ...(DELIVERY.matrix_table ? [DELIVERY.matrix_table] : [])] : []), ...(x.grid === "nyiso" ? ["nyiso_load_queue"] : []), ...(M.cFile?.clean ? ["clean_energy_hourly"] : [])]}
         note={<>The price files were built {day(INDEX.built)}. Defaults: <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.gpu.source}>power per GPU</span>, <span className="cursor-help border-b border-dotted border-muted" title={ASSUMED.pue.source}>overhead ratio</span>. The default case hour by hour: <a href={HOURLY_CSV} download data-download="csv">CSV</a>, <a href={DO_FILE} download data-download="do">Stata do-file</a>, <a href={MIRROR} download data-download="py">Python mirror</a>. <Link href={METHOD}>Method note</Link>. <span data-checked-against="6">Checked against: 6 published figures (EIA). <Link href="/data/methods/datacenter_pays_algorithm#cross-checks">Each comparison, with its gap and the reason</Link>.</span></>} />
      </LoadDecisions>
   );

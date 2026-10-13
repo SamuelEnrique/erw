@@ -30,7 +30,7 @@ export async function GET(req: Request) {
   if (!(await internalView()) && statusOf("/cost-of-power") === "review") return text("in review: this download opens with the page it belongs to", 404);
   let M;
   try {
-    M = loadModel(inputsFrom(q), typeof q.buy === "string", q.grid, q);
+    M = await loadModel(inputsFrom(q), typeof q.buy === "string", q.grid, q);
   } catch (e) {
     return text(`the price files could not be read: ${e instanceof Error ? e.message : String(e)}`, 503);
   }
@@ -46,6 +46,42 @@ export async function GET(req: Request) {
   ];
   const put = (table: string, row: string, column: string, value: unknown, note = "") => lines.push([table, row, column, value, note].map(cell).join(","));
   const f2 = (v: number | null | undefined) => (v === null || v === undefined || !Number.isFinite(v) ? "" : v.toFixed(2));
+
+  // 0. session 228: the three answers, as the page states them (lib/datacenter/answers.ts), each figure with its check key's name
+  const A = M.answers?.ok ? M.answers.data : null;
+  if (A) {
+    const words = M.answerFacts.words;
+    const S = "scarce_hours", sc = A.scarcity;
+    put(S, "last_twelve_months", "hours", String(sc.hours), `at or above USD ${sc.level} per MWh at ${M.answerFacts.place}; ${sc.months[0]} to ${sc.months.at(-1)}; check key dc|${M.answersKey}|scarce:hours`);
+    put(S, "last_twelve_months", "flat_load_usd", String(Math.round(sc.flatUsd * x.mw)), `what a flat load of ${size} paid in them; dc|${M.answersKey}|scarce:flat_usd`);
+    for (const k of ["flat", "flex", "shift"] as const) {
+      put(S, `way_${k}`, "words", words[k], A.held[k] ? "" : "not held here");
+      if (A.held[k]) { put(S, `way_${k}`, "hours_off", String(sc.ways[k].off), `dc|${M.answersKey}|scarce:off:${k}`); put(S, `way_${k}`, "paid_usd", String(Math.round(sc.ways[k].paidUsd * x.mw))); put(S, `way_${k}`, "avoided_usd", String(Math.round(sc.ways[k].avoidedUsd * x.mw)), `dc|${M.answersKey}|scarce:avoided_usd:${k}`); }
+    }
+    for (const r of sc.byMonth) { put(S, `month_${r.m}`, "hours", String(r.hours)); put(S, `month_${r.m}`, "flat_load_usd", String(Math.round(r.usd * x.mw))); }
+    sc.byHour.forEach((n, h) => { if (n) put(S, `clock_${String(h).padStart(2, "0")}`, "hours", String(n), `${M.answerFacts.stdName}, the hour starting ${String(h).padStart(2, "0")}:00`); });
+    if (A.notices) { put(S, "operator_notices", "count", String(A.notices.count), A.notices.held ? `caiso_grid_emergencies, the notices dated in the twelve months; the table runs to ${A.notices.last}` : "no notice held"); for (const [t, n] of Object.entries(A.notices.byType)) put(S, "operator_notices", t, String(n)); }
+    const C = "carbon", c = A.carbon;
+    for (const k of ["flat", "flex", "shift"] as const) {
+      put(C, `last_twelve_months_${k}`, "kg_co2_per_mwh", f2(c.l12[k].kgPerMwh), c.l12[k].kgPerMwh === null ? (A.held[k] ? "no month of the twelve has an intensity" : "not held here") : `${words[k]}; the grid's monthly intensity of consumed electricity weighted by the load's energy in each month, over the ${c.l12[k].months} of ${c.l12[k].of} months with an intensity; dc|${M.answersKey}|co2:l12:kg:${k}`);
+      put(C, `last_twelve_months_${k}`, "tonnes_co2_a_year", c.l12[k].tonnesPerMw === null ? "" : String(Math.round(c.l12[k].tonnesPerMw! * x.mw)), `for ${size}; dc|${M.answersKey}|co2:l12:tonnes:${k}`);
+      put(C, `hourly_window_${k}`, "kg_co2_per_mwh", f2(c.window.ways[k]), c.window.ways[k] === null ? "not held" : `${words[k]}; the load's own hours over ${c.window.hours} hours, ${c.window.from} to ${c.window.to}; dc|${M.answersKey}|co2:window:${k}`);
+    }
+    put(C, "hourly_window_grid", "kg_co2_per_mwh", f2(c.window.grid), `the grid's mean over the same ${c.window.hours} hours; dc|${M.answersKey}|co2:window:grid`);
+    for (const r of c.years) put(C, `year_${r.y}`, "kg_co2_per_mwh", f2(r.kg), `the mean of ${r.months} months held; dc|${M.answersKey}|co2:year:${r.y}`);
+    for (const r of c.monthly) put(C, `month_${r.m}`, "kg_co2_per_mwh", f2(r.kg), "carbon_intensity_monthly, intensity_demand");
+    const L = "large_load";
+    if (A.largeLoad) {
+      for (const r of A.largeLoad.reports) {
+        put(L, `report_${r.day}`, "approved_to_energize_mw", r.approved === null ? "" : String(r.approved), `ercot_large_load_status; dc|${M.answersKey}|ll:report:${r.day}:approved`);
+        put(L, `report_${r.day}`, "observed_nonsimultaneous_peak_mw", r.running === null ? "" : String(r.running));
+        put(L, `report_${r.day}`, "observed_simultaneous_peak_mw", r.simultaneous === null ? "" : String(r.simultaneous));
+        if (r.submissions !== null) { put(L, `report_${r.day}`, "new_submissions_count", String(r.submissions)); put(L, `report_${r.day}`, "new_submissions_mw", r.submissionsMw === null ? "" : String(r.submissionsMw)); }
+      }
+      if (A.largeLoad.approvedChange !== null) put(L, "change", "approved_to_energize_mw", String(A.largeLoad.approvedChange), `${A.largeLoad.yearAgo?.day} to ${A.largeLoad.latest?.day}; dc|${M.answersKey}|ll:approved_change (the absolute change)`);
+    } else put(L, "none", "approved_to_energize_mw", "", `${name} publishes no figure of large load waiting or energized that the warehouse holds as a public table.`);
+    put(L, "rules_in_motion", "count", String(M.rules.count), M.rules.words);
+  }
 
   // 1. will the power be there
   const T = "power_there";

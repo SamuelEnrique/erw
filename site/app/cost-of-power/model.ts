@@ -12,6 +12,10 @@ import {
   whenOf, years, type Inputs, type Month, type Ruled, type Span,
 } from "@/lib/datacenter";
 import { FLAT, FLEX, isOldParam, isScenarioParam, type Way, type Ways } from "@/lib/datacenter/finance";
+import { ownWay, readAnswers, waysOf, type Ruled as AnswerRuled } from "@/lib/datacenter/answers";
+import { blockOf as rulesBlockOf, docketWords, rulesGrid } from "@/lib/rules";
+import { rulesFile } from "@/lib/rulesdata";
+import { HOURLY, attempt, rest } from "@/lib/supabase";
 import { DELIVERY, INDEX, yearFiles } from "@/lib/datacenterdata";
 import type { DemandFile } from "@/lib/demandgrowth";
 import { SLUGS } from "@/lib/demandgrowth";
@@ -71,8 +75,9 @@ function badOf(ms: Month[] | null): Bad | null {
   return w && b ? { m: b.m, per: b.cost / b.energy, of: w.months.length, first: w.months[0].m, to: w.to } : null;
 }
 
-/** Everything "Your load" computes for one address, in the order page.tsx computed it until session 213. */
-export function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: string | undefined, q: Record<string, string | undefined>) {
+/** Everything "Your load" computes for one address, in the order page.tsx computed it until session 213. Session 228:
+ * and the three answers beside "What will it pay?" (lib/datacenter/reads.ts), read from the live set. */
+export async function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: string | undefined, q: Record<string, string | undefined>) {
   let x = asked;
   const g = INDEX.grids[x.grid];
   let files: ReturnType<typeof yearFiles> = [], failed: string | null = null;
@@ -189,10 +194,31 @@ export function loadModel(asked: Inputs, buyGiven: boolean, gridAsked: string | 
   const utilities = [...new Set(delivery.map((r) => r.utility))];
   const waitsFor = waitsGrid(gridAsked, x.grid);
 
+  // session 228: the three answers. Their check key names the address the figures are for (the inputs in force, so a
+  // day-ahead fallback is in it) and the size; check-values recomputes each from its own read of the same tables
+  const answersKey = `grid=${x.grid}&region=${encodeURIComponent(x.region)}&buy=${x.buy}&run=${x.run}&n=${x.n}&pct=${x.pct}&shift=${x.shift}&mw=${x.mw}`;
+  const l12Labels = l12 ? l12.map((r) => r.m) : [];
+  const waySpecs = waysOf(x, { n: DEFAULTS.n, shift: DEFAULTS.shift });
+  const ruled = {} as Record<"flat" | "flex" | "shift", AnswerRuled>;
+  if (!failed && side) for (const k of ["flat", "flex", "shift"] as const) ruled[k] = monthsRuled(files, x.region, x.buy, waySpecs[k], "forecast");
+  const answers = !failed && side && l12 ? await attempt(() => readAnswers({ grid: x.grid, mw: x.mw, l12: l12Labels, behind: g?.std_hours_behind_utc ?? 0, ruled,
+    rows: (t, p) => rest<Record<string, unknown>>(t, p, HOURLY) })) : null;
+  const answerFacts = { pre: answersKey, place: `${x.region} in ${g?.name ?? x.grid}`, size, span: l12Span, gridName: g?.name ?? x.grid, own: ownWay(x),
+    words: { flat: "the same in every hour", flex: flexWords(waySpecs.flex), shift: flexWords(waySpecs.shift) } as Record<"flat" | "flex" | "shift", string>, stdName: g?.std_name ?? "standard time" };
+  // the rules in motion for the grid, from the site's own file (lib/rules.ts), counted; the rows are in the download
+  const rgrid = rulesGrid(gridAsked, x.grid);
+  const rb = rulesBlockOf(rulesFile().file, rgrid);
+  const rulesNewest = rb.state === "shown" && rb.rows.length ? rb.rows[0] : null;
+  const rules = { count: rb.state === "shown" ? rb.rows.length : 0, newest: rulesNewest ? rulesNewest.date : null,
+    words: rb.state === "paused" ? `${rb.words ?? "paused while terms are reviewed"}.`
+      : rb.state === "shown" ? `${rb.rows.length} proceedings and orders on large loads are in motion for ${gridNames[rgrid] ?? rgrid.toUpperCase()} in the public dockets held${rulesNewest ? `, the newest ${docketWords(rulesNewest)} (${rulesNewest.date})` : ""}; each is in the download, with its document.`
+      : `No proceeding or order on large loads is held for ${gridNames[rgrid] ?? rgrid.toUpperCase()} in the public dockets read.` };
+
   return {
+    answers, answersKey, answerFacts, rules,
     x, g, files, failed, region, side, flex, off, fore, ms, l12, noRule, hind, h12, sh12, ysH, msH, rule, s12, bad, badPer, ys, place, market, heldFrom, noYear, savedH, refId, ref12,
     l12Span, saved, size, ways, facts, scenarioParams, grids, regionRows, slug, sf, sy, peak, peakAt, fuels, growth, tightRows, lastTight, zones, withheld, cf, cy, cv, cFile, own, qv, ll,
     gridNames, delivery, matrix, utilities, waitsFor, href: hrefOf(x),
   };
 }
-export type LoadModel = ReturnType<typeof loadModel>;
+export type LoadModel = Awaited<ReturnType<typeof loadModel>>;

@@ -46,3 +46,13 @@ export function pageOf(q = {}) {
   }
   return { x, files, region, flex, ms, l12, s12, bad, ways, load: { run: flex ? FLEX : FLAT, gpu: x.gpu, pue: x.pue } };
 }
+
+/** Session 228: the three ways of running the answers hold (lib/datacenter/reads.ts, waysOf), each with its months,
+ * weights and prices under the rule, from the page's own files. */
+export async function ruledWays(page) {
+  const R = await import("../lib/datacenter/answers.ts");
+  const specs = R.waysOf(page.x, { n: L.DEFAULTS.n, shift: L.DEFAULTS.shift });
+  const out = {};
+  for (const k of ["flat", "flex", "shift"]) out[k] = L.monthsRuled(page.files, page.x.region, page.x.buy, specs[k], "forecast");
+  return out;
+}

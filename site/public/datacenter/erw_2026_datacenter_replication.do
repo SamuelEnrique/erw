@@ -173,3 +173,103 @@ display "a bad month, nearest rank " s_bad_rank ": " %tmCCYY-NN ym[s_bad_rank] "
 display "the bad month's cost for 100 MW, USD: " %15.0fc rt_usd_per_mw[s_bad_rank] * s_mw
 
 * Not in this file: a flexible load (the rule, and the same load if perfectly foreseen; both are rebuilt from da_usd_mwh and rt_usd_mwh by the test), the contract, the delivery and transmission charges, the tight hours, the carbon-free share and the queue figures.
+
+* Session 228, "Will the power be there": the hours of the last twelve months at or above the scarcity level (USD 1,000 per MWh, the page's one level for every grid), what a flat load of 100 MW paid in them, and when they fell. The hourly rows are re-read, since the collapse above left one row a month.
+
+clear
+
+import delimited using "erw_2026_datacenter_hourly.csv", delimiter(comma) varnames(16) rowrange(17) stringcols(_all) clear
+
+destring rt_usd_mwh, replace force
+
+destring in_last_twelve, replace force
+
+replace rt_usd_mwh = . if rt_usd_mwh == -99999
+
+gen scarce = in_last_twelve == 1 & rt_usd_mwh != . & rt_usd_mwh >= 1000
+
+gen clock_std = mod(real(substr(hour_utc, 12, 2)) - 6 + 24, 24)
+
+quietly count if scarce
+
+display "hours of the last twelve months at or above USD 1000 per MWh: " r(N)
+
+quietly summarize rt_usd_mwh if scarce
+
+display "what a flat load of 100 MW paid in them, USD: " r(sum) * s_mw
+
+quietly levelsof std_month if scarce, local(scarce_months) clean
+
+display "the months they fell in: " "`scarce_months'"
+
+quietly summarize clock_std if scarce
+
+display "the clock hours they fell in, standard time: " r(min) ":00 to " r(max) + 1 ":00"
+
+* Session 228, "How clean": the load's carbon from erw_2026_datacenter_carbon.csv (7 comment lines; the names on line 8), the grid's intensity of consumed electricity by month and by hour. A flat MW's energy in a month is its hours held, so the twelve months' figure is the hours-weighted mean of the months' intensities, over the months of the twelve whose intensity is held; the tonnes a year apply that rate to the year's whole energy. The months' hours come from the hourly file, collapsed again.
+
+preserve
+
+keep if in_last_twelve == 1 & rt_usd_mwh != .
+
+gen hours = 1
+
+collapse (sum) hours, by(std_month)
+
+rename std_month ym_s
+
+tempfile l12hours
+
+save `l12hours'
+
+restore
+
+import delimited using "erw_2026_datacenter_carbon.csv", delimiter(comma) varnames(8) rowrange(9) stringcols(_all) clear
+
+destring kg_co2_per_mwh, replace force
+
+gen ym_s = substr(ts_utc, 1, 7) if kind == "month"
+
+merge m:1 ym_s using `l12hours', keep(match master) nogenerate
+
+gen year = real(substr(ts_utc, 1, 4))
+
+gen kg_hours = kg_co2_per_mwh * hours if kind == "month" & hours != .
+
+quietly summarize kg_hours if kind == "month" & hours != .
+
+scalar s_kg = r(sum)
+
+quietly summarize hours if kind == "month" & hours != .
+
+scalar s_energy = r(sum)
+
+display "months of the twelve with an intensity: " r(N)
+
+display "this load's carbon, last twelve months at the grid's monthly average, kg CO2 per MWh: " s_kg / s_energy
+
+display "tonnes of CO2 a year for 100 MW: " (s_kg / s_energy) * (s_l12_hours) * s_mw / 1000
+
+* the hourly window: the hours the hourly file holds. A flat load weighs every hour held alike, so its own hours' intensity is the grid's mean over the hours the price and the intensity are both held; the mirror checks each hour against the hourly file of prices, which this do-file takes as held throughout the window (the window lies inside the price file's span).
+
+quietly summarize kg_co2_per_mwh if kind == "hour"
+
+display "hours of the hourly window: " r(N)
+
+display "a flat load's own hours over them, kg CO2 per MWh (the grid's mean): " r(mean)
+
+* by calendar year: the mean of the months held
+
+bysort year: egen kg_year = mean(kg_co2_per_mwh) if kind == "month"
+
+bysort year: egen months_held = count(kg_co2_per_mwh) if kind == "month"
+
+quietly levelsof year if kind == "month", local(years)
+
+foreach y of local years {
+    quietly summarize kg_year if year == `y' & kind == "month"
+    local kg = r(mean)
+    quietly summarize months_held if year == `y' & kind == "month"
+    display "year `y': months held " r(mean) ", kg CO2 per MWh: " `kg'
+}
+

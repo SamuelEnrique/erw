@@ -1,0 +1,64 @@
+Session 228: the numbers of /cost-of-power (Your load), ERCOT, LZ_NORTH, a flat 100 MW load, real time, at the defaults, in the internal view.
+before: the page as session 213 left it. after: the page with its four questions answered.
+
+'What will it pay?': 105 numbers in its visible text before, 106 after; identical in order: no, by one: the line of the downloads names session 213 (words, not a figure); every other number is the same, in the same order
+the results table and the chart (Which option is better?, What matters most): 25 lines before, 25 after; raw values identical: 25 of 25
+checked numbers (data-check) on the page: 0 before (the page carried none), 57 distinct after, every one a dc| key of the three new answers; check-values 461 of 461 across the three cost-of-power pages
+the new numbers, by check key (key = raw = text as shown):
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:hours = 4 = 4
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:flat_usd = 446175 = 446,175
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:month:2026-01:hours = 4 = 4
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|scarce:month:2026-01:usd = 446175 = 446,175
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:l12:kg:flat = 303.13753383233535 = 303.14
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:l12:tonnes:flat = 265548 = 265,548
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:window:hours = 776 = 776
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:window:flat = 346.7068149484538 = 346.71
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:window:grid = 346.7068149484538 = 346.71
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2019 = 414.0386699999999 = 414.04
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2025 = 314.25602727272724 = 314.26
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2018 = 468.5746 = 468.57
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2020 = 375.4481916666667 = 375.45
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2021 = 363.43838 = 363.44
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2022 = 353.75624999999997 = 353.76
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2023 = 339.46076666666664 = 339.46
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2024 = 325.7208181818182 = 325.72
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|co2:year:2026 = 300.95112222222224 = 300.95
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-06-19:approved = 8927 = 8,927
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-06-19:running = 3900 = 3,900
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:approved_change = 2053 = 2,053
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-13:submissions = 137 = 137
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-13:submissionsMw = 140000 = 140,000
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-06-19:simultaneous = 3675 = 3,675
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-05-21:approved = 9062 = 9,062
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-05-21:running = 3900 = 3,900
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-05-21:simultaneous = 3701 = 3,701
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-04-24:approved = 9042 = 9,042
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-04-24:running = 4008 = 4,008
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-04-24:simultaneous = 3701 = 3,701
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-26:approved = 9042 = 9,042
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-26:running = 4004 = 4,004
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-26:simultaneous = 3522 = 3,522
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-13:approved = 9042 = 9,042
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-13:running = 3883 = 3,883
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-03-13:simultaneous = 3801 = 3,801
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-02-25:approved = 8876 = 8,876
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-02-25:running = 3998 = 3,998
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-02-25:simultaneous = 3846 = 3,846
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-01-21:approved = 8786 = 8,786
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-01-21:running = 3977 = 3,977
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2026-01-21:simultaneous = 3765 = 3,765
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-11-19:approved = 7502 = 7,502
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-11-19:running = 4185 = 4,185
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-11-19:simultaneous = 3795 = 3,795
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-10-17:approved = 7502 = 7,502
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-10-17:running = 4126 = 4,126
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-10-17:simultaneous = 3800 = 3,800
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-08-27:approved = 7502 = 7,502
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-08-27:running = 3694 = 3,694
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-08-27:simultaneous = 3733 = 3,733
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-07-30:approved = 7150 = 7,150
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-07-30:running = 3820 = 3,820
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-07-30:simultaneous = 3632 = 3,632
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-05-28:approved = 6874 = 6,874
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-05-28:running = 3489 = 3,489
+  dc|grid=ercot&region=LZ_NORTH&buy=rt&run=flat&n=100&pct=5&shift=20&mw=100|ll:report:2025-05-28:simultaneous = 3441 = 3,441
