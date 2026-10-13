@@ -23,13 +23,11 @@ pytestmark = pytest.mark.remote  # session 34: network tests, run only when aske
 FIVE = ["ercot_peak_premium_annual",     # derived
         "eia860m_retired_generators",    # entities
         "news_index",                    # events
-        "eia_fuel_spot_prices",          # series
-        "fred_daily_spot_prices"]        # series
+        "eia_fuel_spot_prices"]          # series (session 207: fred_daily_spot_prices, the FRED copy, is retired)
 KEYS = {"ercot_peak_premium_annual": ["entity", "variable", "ts_utc"],
         "eia860m_retired_generators": ["entity_id"],
         "news_index": ["event_id"],
-        "eia_fuel_spot_prices": ["entity", "variable", "ts_utc"],
-        "fred_daily_spot_prices": ["entity", "variable", "ts_utc"]}
+        "eia_fuel_spot_prices": ["entity", "variable", "ts_utc"]}
 
 
 def _remote(kind):

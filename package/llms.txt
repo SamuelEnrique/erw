@@ -245,9 +245,11 @@ day-ahead tables running into tomorrow:
     publishes no curtailment: "below HSL" is the ERW's estimate; call it that.
   iso_curtailment_monthly (derived): the same entities and variables summed over
     complete months. MISO publishes no curtailment series.
-**FRED**: fred_daily_spot_prices (public; DCOILWTICO, DCOILBRENTEU, DHHNGSP,
-  the same EIA spot prices as republished by FRED); fred_imf_commodity_prices
-  (INTERNAL; IMF monthly coal, European and Japanese gas, nickel, uranium).
+**Federal Reserve Board**: frb_treasury_yields (public; US Treasury yields at 2, 10 and
+  30 years, constant maturity, daily from 2019, the Board's H.15 release). The FRED
+  tables (fred_daily_spot_prices, fred_treasury_yields, fred_imf_commodity_prices) are
+  retired since session 207: FRED's terms forbid storing its content. Use
+  eia_fuel_spot_prices, frb_treasury_yields and imf_commodity_prices.
 **Capacity, carbon and shipping, all INTERNAL**: pjm_rpm_capacity_prices (PJM
   capacity auction clearing prices by zone and delivery year, USD/MW-day, ts =
   June 1 of the delivery year), carb_auction_allowance_prices (California),
@@ -389,7 +391,7 @@ day-ahead tables running into tomorrow:
 | ERCOT price before the live window, or a year | `ercot_all_hub_prices_history` (market, year) |
 | ERCOT distribution: percentiles, IQR, scarcity or negative counts by year or month | `ercot_peak_premium_annual` / `_monthly` |
 | Demand, generation mix | `eia930_all_demand` / `eia930_all_generation` (ba) |
-| Henry Hub, WTI, Brent | `eia_fuel_spot_prices` (FRED copy: `fred_daily_spot_prices`) |
+| Henry Hub, WTI, Brent | `eia_fuel_spot_prices` |
 | Gasoline, diesel, jet, propane wholesale | `eia_product_spot_prices`; retail pump prices `eia_retail_fuel_prices` |
 | Crude and product stocks, trade | `eia_petroleum_stocks_weekly`, `eia_petroleum_trade_weekly`, `eia_crude_imports_by_country` |
 | LNG exports | `eia_lng_exports_monthly` |

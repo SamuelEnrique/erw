@@ -198,7 +198,7 @@ def main(argv=None):
     v = hh[hh["ts_utc"] == pd.Timestamp("2026-09-15", tz="UTC")]["value"]
     assert len(v) == 1
     add("q16", "gas", "series", "What was the Henry Hub natural gas spot price on 2026-09-15?",
-        [v.iloc[0]], tables=["eia_fuel_spot_prices", "fred_daily_spot_prices"])
+        [v.iloc[0]], tables=["eia_fuel_spot_prices"])
 
     br = between(one(fu, entity="eia:brent"), "2026-08-01", "2026-09-01")
     add("q17", "oil", "series", "What was the average Brent crude spot price in August 2026, according to EIA?",
@@ -207,7 +207,7 @@ def main(argv=None):
     mx = hh.loc[hh["value"].idxmax()]
     add("q18", "gas", "series",
         "What is the highest Henry Hub spot price in the warehouse, and on what date was it?",
-        [mx["value"]], text=[mx["ts_utc"].strftime("%Y")], tables=["eia_fuel_spot_prices", "fred_daily_spot_prices"],
+        [mx["value"]], text=[mx["ts_utc"].strftime("%Y")], tables=["eia_fuel_spot_prices"],
         note=f"on {mx['ts_utc']:%Y-%m-%d}")
 
     ps = one(csv("eia_product_spot_prices"), entity="eia:EER_EPMRU_PF4_Y35NY_DPG")
@@ -238,7 +238,7 @@ def main(argv=None):
     wv = between(wti, "2026-09-01", "2026-09-25")
     add("q23", "oil", "series",
         "What was the lowest WTI Cushing spot price between 2026-09-01 and 2026-09-24?",
-        [wv["value"].min()], tables=["eia_fuel_spot_prices", "fred_daily_spot_prices"])
+        [wv["value"].min()], tables=["eia_fuel_spot_prices"])
 
     # ---- entities ------------------------------------------------------------------------
     op = csv("eia860m_operating_generators")

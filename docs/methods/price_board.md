@@ -146,7 +146,7 @@ Day-ahead prices by the hour for the four grids held: ERCOT (`ercot_as_prices`, 
 | Retail electricity | `eia_retail_electricity_prices` | EIA, Form EIA-861M, monthly, by state and sector | 2019 on this page |
 | Coal and gas delivered to power plants | `eia_power_plant_fuel_costs` | EIA, Form EIA-923, monthly, by state | 2019 |
 | Uranium, lithium, cobalt, nickel, copper | `imf_commodity_prices` | IMF, Primary Commodity Price System, monthly averages | 2019 |
-| Treasury yields, 2, 10 and 30 years | `fred_treasury_yields` | Federal Reserve Board, release H.15, through FRED, daily | 2019 |
+| Treasury yields, 2, 10 and 30 years | `frb_treasury_yields` | Federal Reserve Board, release H.15, the Board's own Data Download Program, daily (session 207; `fred_treasury_yields`, the same series through FRED, is retired) | 2019 |
 | California low-carbon fuel credit | `carb_lcfs_credit_prices` | California Air Resources Board, weekly average of credit transfers | 2019 |
 
 - **Fuel dates:** EIA publishes spot prices by trading day about a week behind, so gas and oil carry their own dates, older than the power prices.
@@ -226,13 +226,13 @@ These terms forbid republishing, so no coal spot price is pulled or shown: the r
 
 **EIA on NYMEX futures** (the API's own route name, read 6 October 2026): "NYMEX Futures Prices (Futures prices after April 5, 2024, are not available)". The newest day of contract 1 for crude oil and natural gas is 2024-04-05.
 
-**Federal Reserve Board, through FRED** (Treasury yields): release H.15 is a work of a U.S. government agency. FRED marks these series "Public Domain: Citation Requested". Cite: Board of Governors of the Federal Reserve System (US), retrieved from FRED, Federal Reserve Bank of St. Louis. License: public. FRED's series page did not answer this machine on 6 October 2026 (the connection was reset), so the notice is quoted as the site's other FRED connector records it (`fred_series.py`, session 7), not from a fresh reading.
+**Federal Reserve Board** (Treasury yields): release H.15 is a work of a U.S. government agency, public domain. Since session 207 (the owner's ruling of 12 October 2026) the three series are read from the Board's own Data Download Program (`frb_treasury.py`, the package "Treasury Constant Maturities"), not through FRED, whose terms forbid storing FRED content without the Bank's written consent (`docs/licenses.md`). Cite: Board of Governors of the Federal Reserve System (US), H.15 Selected Interest Rates. License: public. The check of 13 October 2026: every value of the FRED copy equals the Board's for the same day and maturity (1,944 days of each). The FRED copy (`fred_treasury_yields`) and the FRED spot prices (`fred_daily_spot_prices`, EIA's series, held from EIA's API as `eia_fuel_spot_prices`) are retired: `warehouse/metadata/retired_tables.csv`.
 
 **International Monetary Fund** (commodity prices), "Copyright and Usage" (imf.org/en/about/copyright-and-terms). The page answered this machine HTTP 403 on 6 October 2026, so its words were read through a web search's quotation of the page, not on the page:
 
 > You may download, extract, copy, create derivative works, publish, distribute, and use Data obtained from IMF Sites
 
-subject to conditions that include citing the source, saying so when the data are materially transformed, and not altering the data in a way that affects their nature or accuracy. The search result also notes that a revision of October 2024 removed the word "sell" from an earlier wording. License: public with attribution, by this reading. **A person should read the page before the table is opened to visitors.** The same five commodities' cousins on FRED (`fred_imf_commodity_prices`, session 7) stay internal, as FRED's own notice on them requires.
+subject to conditions that include citing the source, saying so when the data are materially transformed, and not altering the data in a way that affects their nature or accuracy. The search result also notes that a revision of October 2024 removed the word "sell" from an earlier wording. License: public with attribution, by this reading. **A person should read the page before the table is opened to visitors.** The same five commodities' cousins on FRED (`fred_imf_commodity_prices`, session 7) were held internal, as FRED's own notice on them required, and are retired since session 207 (`warehouse/metadata/retired_tables.csv`: FRED is no longer stored).
 
 **California Air Resources Board** (LCFS credit price), California's Conditions of Use (www.ca.gov/use, read 6 October 2026):
 

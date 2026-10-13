@@ -166,7 +166,7 @@ What was chosen, and why:
     - `USD/MW-day`: US dollars per megawatt of capacity per day (capacity auction clearing prices). `pjm_rpm_capacity_prices`.
     - `USD/tCO2`: US dollars per metric ton of CO2 or CO2e (California allowances). `carb_auction_allowance_prices`.
     - `USD/short_ton`: US dollars per short ton (2,000 lb). RGGI allowances cover one short ton of CO2. `rggi_auction_allowance_prices`.
-    - `USD/t`: US dollars per metric ton (IMF coal and nickel on FRED). `USD/lb`: US dollars per pound (uranium U3O8). `fred_imf_commodity_prices`.
+    - `USD/t`: US dollars per metric ton (IMF coal and nickel). `USD/lb`: US dollars per pound (uranium U3O8). `imf_commodity_prices` (session 207: `fred_imf_commodity_prices`, the FRED copy, is retired).
     - `count`: a number of things, named by the variable (allowances offered and sold; later rig counts). Carbon auction tables.
     - `bcf` and `bcf/d`: billion cubic feet, and per day. In the vocabulary for gas storage and flow series; no table uses them yet.
     Reason: the price board brings units the power tables never needed; the vocabulary grows with named tables and never admits a unit spelled two ways (`MMBtu` stays `USD/MMBtu`, never `$/MMBTU`). Values keep the publisher's unit: nothing is converted.

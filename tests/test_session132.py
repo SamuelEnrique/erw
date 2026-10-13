@@ -414,7 +414,7 @@ class ThePage(unittest.TestCase):
         # 6 October 2026: the owner had it scheduled (the chain prompt of that day). Until then this test asserted
         # that nothing called the script; it now asserts the one call, under health.py, and the guard on the builder
         sh = src("warehouse", "refresh_board.sh")
-        for step in ('--step "eia_board"', '--step "fred_treasury"', '--step "imf_pcps"', '--step "carb_lcfs"', '--step "board_page"'):
+        for step in ('--step "eia_board"', '--step "frb_treasury"', '--step "imf_pcps"', '--step "carb_lcfs"', '--step "board_page"'):  # session 207: frb_treasury, was fred_treasury
             self.assertIn("health.py run " + step, sh)
         self.assertIn('--step "board_page" -- "$PY" warehouse/derived/page_keep.py board', sh)
         for wf in os.listdir(os.path.join(ROOT, ".github", "workflows")):
@@ -429,9 +429,10 @@ class ThePage(unittest.TestCase):
     def test_the_new_tables_are_held_out_of_the_live_set(self):
         sys.path.insert(0, os.path.join(ROOT, "warehouse", "supabase"))
         import load
-        for t in ("eia_regional_retail_fuel_prices", "eia_crude_stream_prices", "eia_power_plant_fuel_costs", "fred_treasury_yields", "imf_commodity_prices", "carb_lcfs_credit_prices"):
+        # session 207: frb_treasury_yields (the Board's own H.15 download) in place of fred_treasury_yields, retired
+        for t in ("eia_regional_retail_fuel_prices", "eia_crude_stream_prices", "eia_power_plant_fuel_costs", "frb_treasury_yields", "imf_commodity_prices", "carb_lcfs_credit_prices"):
             self.assertIn(t, load.LIVE["catalogue_hold"])
-        for s in ("eia:petroleum/pri/gnd:regional", "fred:h15_treasury_yields", "imf:pcps", "carb:lcfs_weekly_credit_price"):
+        for s in ("eia:petroleum/pri/gnd:regional", "frb:h15_treasury_yields", "imf:pcps", "carb:lcfs_weekly_credit_price"):
             self.assertIn(s, load.LIVE["sources_hold"])
         reg = pd.read_csv(os.path.join(ROOT, "warehouse", "metadata", "sources.csv"), dtype=str, keep_default_na=False)
         self.assertIn("eia:petroleum/pri/gnd", set(reg["source"]))                 # the older tables' rows are as they were

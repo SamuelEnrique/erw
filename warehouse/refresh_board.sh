@@ -22,9 +22,10 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 PY="${PYTHON:-python}"
-NEW="eia_regional_retail_fuel_prices eia_crude_stream_prices eia_power_plant_fuel_costs fred_treasury_yields imf_commodity_prices carb_lcfs_credit_prices"
+NEW="eia_regional_retail_fuel_prices eia_crude_stream_prices eia_power_plant_fuel_costs frb_treasury_yields imf_commodity_prices carb_lcfs_credit_prices"
 "$PY" warehouse/health.py run --step "eia_board" -- "$PY" warehouse/connectors/eia_board.py
-"$PY" warehouse/health.py run --step "fred_treasury" -- "$PY" warehouse/connectors/fred_treasury.py
+# session 207: the Treasury yields from the Board's own H.15 download (frb_treasury.py), no longer through FRED
+"$PY" warehouse/health.py run --step "frb_treasury" -- "$PY" warehouse/connectors/frb_treasury.py
 "$PY" warehouse/health.py run --step "imf_pcps" -- "$PY" warehouse/connectors/imf_pcps.py
 "$PY" warehouse/health.py run --step "carb_lcfs" -- "$PY" warehouse/connectors/carb_lcfs.py
 FILES=""

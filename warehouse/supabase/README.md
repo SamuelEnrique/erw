@@ -18,7 +18,7 @@ Schema: `migrations/001_shapes.sql`, `migrations/003_columns.sql` and `migration
 ## The live set
 
 `live_set.yaml` decides what goes in:
-- **Whole:** the two derived peak-premium tables, `news_index`, the EIA-860M and interconnection-queue entities tables, `eia_fuel_spot_prices` and `fred_daily_spot_prices`.
+- **Whole:** the two derived peak-premium tables, `news_index`, the EIA-860M and interconnection-queue entities tables, `eia_fuel_spot_prices` (session 207: `fred_daily_spot_prices`, the FRED copy, is retired; its rows stay in Supabase until a person runs `load.py --prune`).
 - **Last 90 days only:** every ISO price table (including the ERCOT yearly history, which contributes its last 90 days) and every EIA-930 table.
 
 `load.py` reads the rows Supabase already holds for each table, compares them column by column with the selected CSV rows, and writes only the difference: it upserts rows that are new or changed, and deletes rows the selection no longer has, so the window rolls and a generator that left EIA's inventory leaves here too. It then reconciles `count(*)` per table against the filtered CSV and reads `pg_database_size` (function `erw_db_size`). It fails if the database is over `max_mb` in `live_set.yaml` (300 MB until session 19, 400 MB since).
