@@ -1,0 +1,55 @@
+ERW's Energy Digest, 2026-10-13
+
+Top 5 of the day
+
+1. NTT in final talks to build $6.3bn data center for Anthropic in Japan, report says
+   Massive AI data center capex; major power demand commitment in final negotiation stages. $6.3bn; parties: NTT; Anthropic.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/ntt-to-build-63bn-data-center-for-anthropic-in-japan-report/
+2. About 30% of US Gulf oil production shut in response to Isaias
+   Major US oil production outage from hurricane impacts market supply and prices.
+   Reuters: https://news.google.com/rss/articles/CBMipwFBVV95cUxOSkZwYlVMOFA1RXZIZ2NOZEp3eUktY2NnZTQwME5wdEk3czA0ZGIzdGU0S05sVmJfa2UzVjFscjZIczk0a1Rqa0dDWnY5YTJwN1FNejlhVlpfdDRYdVp2eDlSNkRyTGNLVmlOc01IUTJKSHBxZkZYUENmeHc3RS1kQktWbU5uV0tsMV94Wi1Ba3dIRkVzM3E3T1cwRDFRM1RCbmtMa1BVTQ?oc=5
+3. DayOne secures $3.67bn in funding for Malaysia expansion
+   Major AI data center financing; significant power infrastructure capex commitment. $3.67bn; parties: DayOne.
+   Data Center Dynamics: https://www.datacenterdynamics.com/en/news/dayone-secures-367bn-in-funding-for-malaysia-expansion/
+4. Land & Expand tracks North America's data center pipeline as power, infrastructure and community demands grow
+   Gigawatt-scale AI campuses across Texas, Canada, and US require massive new power and grid infrastructure.
+   Data Center Frontier: https://www.datacenterfrontier.com/hyperscale/article/55408812/land-expand-north-americas-data-center-pipeline-expands-under-pressure
+5. Brookfield's Teskey sees no slowdown in AI infrastructure build
+   Major infrastructure investor signals continued massive capex for AI power demand. parties: Brookfield.
+   Bloomberg.com: https://news.google.com/rss/articles/CBMitAFBVV95cUxQQXRBZ2RJU0Z2SkJYNWZOcHk3NmZURkhRT1NxVm54S01QNUJtUTFqc2hJRnJTUkttblBWU2JSbWkteWxHZFpvZ1ZIY2c3S3dMajhyNFdGcklvRlJvS3hSYU5kTXl3VUNCWV8yamJmYW8yX2Uwc1NfT1ZzTWhwM2J0RzVfYzhVdDgybnJ0UTNIbEwzWjRpdmFSbGJKVGpicXhwWV9jWmw2cmVTanEwRVRRSGZtWjE?oc=5
+
+ERW's Numbers Today
+
+Day-ahead power on 2026-10-12 was dearest at NYISO's N.Y.C., 53.30 USD/MWh, and cheapest at SPP's SPPSOUTH_HUB, 4.12. The highest real-time price was 129.57 USD/MWh at LONGIL (NYISO) in the interval starting 2026-10-12 17:30 local. MISO has no day-ahead data in the warehouse for the day and PJM has no price table; the latest fuel closes, on 2026-10-06, were 3.03 USD/MMBtu for Henry Hub, 96.24 USD/bbl for WTI and 125.44 USD/bbl for Brent.
+Day-ahead average, yesterday, main hub (mean of the 24 hourly prices of the operating day):
+  ISO: ERCOT; Hub or zone: HB_NORTH; Operating day: 2026-10-12; Average USD/MWh: 30.10; Table: [1]
+  ISO: CAISO; Hub or zone: TH_SP15_GEN-APND; Operating day: 2026-10-12; Average USD/MWh: 42.17; Table: [1]
+  ISO: NYISO; Hub or zone: N.Y.C.; Operating day: 2026-10-12; Average USD/MWh: 53.30; Table: [2]
+  ISO: MISO; Hub or zone: INDIANA.HUB; Operating day: 2026-10-12; Average USD/MWh: not in the warehouse (0 of 24 hours); Table: [1]
+  ISO: SPP; Hub or zone: SPPSOUTH_HUB; Operating day: 2026-10-12; Average USD/MWh: 4.12; Table: [1]
+  ISO: ISO-NE; Hub or zone: .H.INTERNAL_HUB; Operating day: 2026-10-12; Average USD/MWh: 46.62; Table: [3]
+  ISO: PJM; Average USD/MWh: no PJM price table (no API key)
+Highest real-time price, yesterday: 129.57 USD/MWh at LONGIL (NYISO), interval starting 2026-10-12 17:30 local (2026-10-12 21:30 UTC), PT15M lmp_rtm_15m_mean (a 15-minute mean of 5-minute prices) [4].
+Latest fuel spot closes (EIA, trading dates):
+- Henry Hub natural gas: 3.03 USD/MMBtu on 2026-10-06 [5]
+- WTI Cushing crude: 96.24 USD/bbl on 2026-10-06 [5]
+- Brent crude: 125.44 USD/bbl on 2026-10-06 [5]
+Tables: [1] iso_dam_hub_prices (caiso:PRC_LMP, ercot:NP4-190-CD, miso:da_expost_lmp, spp:DA-LMP-SL); [2] nyiso_dam_zone_prices (nyiso:damlbmp); [3] isone_dam_zone_prices (isone:da_lmp_hourly); [4] nyiso_rtm_zone_prices (nyiso:realtime); real-time tables read: iso_rtm_hub_prices, isone_rtm_zone_prices, isone_rtm_zone_prices_hourly, nyiso_rtm_zone_prices; [5] eia_fuel_spot_prices (eia:natural-gas/pri/fut, eia:petroleum/pri/spt).
+
+ERW's Chart of the Day
+
+[chart: Net generation from natural gas in Wyoming: 1,028,747 MWh in July 2026, the highest monthly value held since January 2001. The record until now was 765,381 MWh, in July 2024.] https://raw.githubusercontent.com/SamuelEnrique/erw/main/docs/digest/charts/2026-10-13.png
+Net generation from natural gas in Wyoming: 1,028,747 MWh in July 2026, the highest monthly value held since January 2001. The record until now was 765,381 MWh, in July 2024.
+Table eia_state_generation_monthly, series entity=eia:generation:WY:NG, variable=net_generation, freq=P1M: the table and its download (https://erw-flame.vercel.app/data#eia_state_generation_monthly). Chosen by rule, not by a person or a model: the strongest flag of the day's scan that no Digest has shown (rule: record; 9.86 robust standard deviations past its threshold). How the chart is chosen (https://erw-flame.vercel.app/data/methods/automated_analysis_scanner).
+
+ERW's Fun Fact
+
+The lowest daily Henry Hub natural gas spot price in EIA's series, which starts on 1997-01-07, was 1.05 USD/MMBtu on 1998-12-04. The latest close, 3.03 on 2026-10-06, is about 2.9 times it.
+Sources: eia_fuel_spot_prices (U.S. Energy Information Administration (EIA)).
+
+ERW
+
+All of ERW's Energy Digest: https://erw-flame.vercel.app/digest/2026-10-13
+How this is made: https://erw-flame.vercel.app/about#digest
+ERW, the live, citable record of the US energy system. Every number names the table it came from.
+Stop these emails: Each recipient's email carries its own signed unsubscribe link.

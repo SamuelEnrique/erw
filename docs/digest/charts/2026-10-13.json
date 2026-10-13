@@ -6,7 +6,7 @@
  "table": "eia_state_generation_monthly",
  "series_key": "entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
  "why": "the strongest of the scanner's 15 flag(s) of the day that no Digest has shown (rank 1; rule record, strength 9.8644)",
- "candidates_from": "given",
+ "candidates_from": "the scan of 2026-10-13 (computed 2026-10-13T15:19:01+00:00)",
  "title": "RECORD HIGH",
  "numbers": {
   "sigma": 26698.67562599999,
@@ -21,7 +21,7 @@
   "history_points": 305
  },
  "image": "2026-10-13.png",
- "rendered_at": "2026-10-13T04:50:19Z",
+ "rendered_at": "2026-10-13T15:37:15Z",
  "method": "docs/methods/automated_analysis_scanner.md",
  "flag": {
   "id": "scan-record-483f592bf064",
@@ -76,6 +76,5 @@
   },
   "series_key": "entity=eia:generation:WY:NG|variable=net_generation|market=|node=|freq=P1M",
   "scanner_version": "1.1.0"
- },
- "proof": true
+ }
 }
