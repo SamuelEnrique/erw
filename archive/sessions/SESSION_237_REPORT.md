@@ -156,8 +156,8 @@ All on a local production build of the branch's last site commit, port 3237, in 
 | `check-mix.mjs` (unchanged, through the redirects) | 36 of 36 | 0 |
 | `check-network-map.mjs` (reads the address through the tool's words) | 31 of 31 | 0 |
 | `check-ask-panel.mjs` (recorded replies, no model call; opens the Ask view) | 13 of 13 | 0 |
-| `check-network-v3.mjs` | not run again after its two waits were corrected | not run |
-| `check-network-v3-hard.mjs`, `check-mix-v2.mjs`, `check-ask-ercot.mjs` (no model call: the route is stubbed in the page) | not run | not run |
+| `check-network-v3.mjs` | 32 of 33, then 31 of 33; its two waits were then corrected and NOT rerun (see "To finish") | 1 |
+| `check-network-v3-hard.mjs`, `check-mix-v2.mjs`, `check-ask-ercot.mjs` (no model call: the route is stubbed in the page) | NOT run (see "To finish") | not run |
 | The battery page is unchanged (`runs/session208/capture.mjs` at 1280) | `_nums.txt` differs from session 211's in 0 lines; `h` is 5016 | 0 |
 | The python tests that touch what changed: 84 modules, 1,466 tests (104 skipped, as they skip on this machine) | OK | 0 |
 | `tests/test_session237.py` (18 tests) | OK | 0 |
@@ -205,6 +205,20 @@ All on a local production build of the branch's last site commit, port 3237, in 
 - No method note, replication or cross-check for the Grid tool (the review's section A names them as missing; not in this session's task).
 - `docs/tools.md`, `docs/platform-tools.md` and the other documents that name `/network`, `/mix`, `/emissions` and `/grid/<iso>` as pages are not updated.
 - `site/app/page.tsx` (the home page), the tour and `lib/audience.ts` still link the old addresses (they redirect); not touched by this chain's rule.
+
+## To finish
+
+Four browser checks are owed. The last cycle waited 14 minutes for the build lock (sessions 238 and then the orchestrator's landing of 235 held it) and gave up; the session was past its time. On a build of this branch (`cd site && npm run build && npx next start -p 3237`), under the lock:
+
+```bash
+node scripts/check-network-v3.mjs http://localhost:3237 > runs/session237/f_net.out 2>&1; echo "exit=$?"
+node scripts/check-network-v3-hard.mjs http://localhost:3237 > runs/session237/f_hard.out 2>&1; echo "exit=$?"
+node scripts/check-mix-v2.mjs http://localhost:3237 > runs/session237/f_mixv2.out 2>&1; echo "exit=$?"
+node scripts/check-ask-ercot.mjs http://localhost:3237 > runs/session237/f_askercot.out 2>&1; echo "exit=$?"
+```
+
+- `check-network-v3.mjs`: 32 of 33 on its first run and 31 of 33 on its second (`runs/session237/c5_netcheck.out`). The failures are two assertions that read the address back. On `/grid` the component writes the address in the tool's words after the view is restored, and the check read it before that (it printed the redirect's own address, `?t=2021-02-15&prices=1&trace=1&view=day`). The two waits now also wait for `node=` in the address. That correction is committed and NOT yet run: if it still fails there, the fault is in the check's wait or in `Network.tsx`'s address effect, not in a number.
+- `check-network-v3-hard.mjs`, `check-mix-v2.mjs`, `check-ask-ercot.mjs`: never run this session. `check-network-v3-hard.mjs` has no address reader to change and opens `/network`, which redirects; `check-mix-v2.mjs` opens `/mix/v2`, two redirects; `check-ask-ercot.mjs` expects the link "Ask ERCOT about this view" at `/grid/ercot`, which the Now view of ERCOT draws. Each may need a pin moved.
 
 ## The landing
 
